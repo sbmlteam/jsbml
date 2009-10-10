@@ -369,10 +369,13 @@ public class LibSBMLReader extends AbstractSBMLReader {
 		KineticLaw kinlaw = new KineticLaw((int) kl.getLevel(), (int) kl
 				.getVersion());
 		copySBaseProperties(kinlaw, kl);
-		if (kl.isSetMath())
-			kinlaw.setMath(convert(kl.getMath(), kinlaw));
 		for (int i = 0; i < kl.getNumParameters(); i++)
 			kinlaw.addParameter(readParameter(kl.getParameter(i)));
+		if (kl.getNumParameters() > 0)
+			model.getReaction(model.getNumReactions() - 1)
+					.setKineticLaw(kinlaw);
+		if (kl.isSetMath())
+			kinlaw.setMath(convert(kl.getMath(), kinlaw));
 		addAllSBaseChangeListenersTo(kinlaw);
 		return kinlaw;
 	}
@@ -451,9 +454,13 @@ public class LibSBMLReader extends AbstractSBMLReader {
 			for (i = 0; i < originalModel.getNumConstraints(); i++)
 				this.model.addConstraint(readConstraint(originalModel
 						.getConstraint(i)));
-			for (i = 0; i < originalModel.getNumReactions(); i++)
-				this.model.addReaction(readReaction(originalModel
-						.getReaction(i)));
+			for (i = 0; i < originalModel.getNumReactions(); i++) {
+				org.sbml.libsbml.Reaction rOrig = originalModel.getReaction(i);
+				Reaction r = readReaction(rOrig);
+				this.model.addReaction(r);
+				if (rOrig.isSetKineticLaw())
+					r.setKineticLaw(readKineticLaw(rOrig.getKineticLaw()));
+			}
 			for (i = 0; i < originalModel.getNumEvents(); i++)
 				this.model.addEvent(readEvent(originalModel.getEvent(i)));
 			addAllSBaseChangeListenersTo(this.model);

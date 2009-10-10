@@ -776,7 +776,24 @@ public class Model extends AbstractNamedSBase {
 		for (UnitDefinition ud : listOfUnitDefinitions)
 			if (ud.getId().equals(id))
 				return ud;
-		return null;
+		UnitDefinition ud = null;
+		if (id.equals(UnitDefinition.AREA.getId())) {
+			ud = UnitDefinition.AREA.clone();
+			addUnitDefinition(ud);
+		} else if (id.equals(UnitDefinition.LENGTH.getId())) {
+			ud = UnitDefinition.LENGTH.clone();
+			addUnitDefinition(ud);
+		} else if (id.equals(UnitDefinition.SUBSTANCE.getId())) {
+			ud = UnitDefinition.SUBSTANCE.clone();
+			addUnitDefinition(ud);
+		} else if (id.equals(UnitDefinition.TIME.getId())) {
+			ud = UnitDefinition.TIME.clone();
+			addUnitDefinition(ud);
+		} else if (id.equals(UnitDefinition.VOLUME.getId())) {
+			ud = UnitDefinition.VOLUME.clone();
+			addUnitDefinition(ud);
+		}
+		return ud;
 	}
 
 	/**
