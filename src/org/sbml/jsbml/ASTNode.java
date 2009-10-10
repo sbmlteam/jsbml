@@ -298,7 +298,7 @@ public class ASTNode implements TreeNode {
 		 */
 		UNKNOWN
 	}
-
+	
 	/**
 	 * 
 	 * @param operator
@@ -332,7 +332,7 @@ public class ASTNode implements TreeNode {
 					new IllegalArgumentException(
 							"The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER."));
 	}
-
+	
 	/**
 	 * Creates a new ASTNode of type MINUS and adds the given nodes as children
 	 * 
@@ -842,7 +842,9 @@ public class ASTNode implements TreeNode {
 			 * Names of identifiers: parameters, functions, species etc.
 			 */
 		case NAME:
-			return compiler.compile(variable);
+			if (variable != null)
+				return compiler.compile(variable);
+			return compiler.compile(getName());
 			/*
 			 * Type: pi, e, true, false
 			 */
@@ -970,6 +972,15 @@ public class ASTNode implements TreeNode {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param namedSBase
+	 * @return
+	 */
+	public ASTNode divideBy(NamedSBase namedSBase) {
+		return divideBy(new ASTNode(namedSBase, getParentSBMLObject()));	
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -998,6 +1009,25 @@ public class ASTNode implements TreeNode {
 			return equal;
 		}
 		return false;
+	}
+
+	/**
+	 * Goes through the formula and identifies all global parameters that are
+	 * referenced by this rate equation.
+	 * 
+	 * @param math
+	 * @return
+	 */
+	public List<Parameter> findReferencedGlobalParameters() {
+		LinkedList<Parameter> pList = new LinkedList<Parameter>();
+		if (getType().equals(ASTNode.Type.NAME)
+				&& (getVariable() instanceof Parameter)
+				&& (getParentSBMLObject().getModel().getParameter(
+						getVariable().getId()) != null))
+			pList.add((Parameter) getVariable());
+		for (ASTNode child : getListOfNodes())
+			pList.addAll(child.findReferencedGlobalParameters());
+		return pList;
 	}
 
 	/*

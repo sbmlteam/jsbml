@@ -152,6 +152,13 @@ public interface ASTNodeCompiler {
 	 * @return
 	 */
 	public Object compile(NamedSBase variable);
+	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public Object compile(String name);
 
 	/**
 	 * 
