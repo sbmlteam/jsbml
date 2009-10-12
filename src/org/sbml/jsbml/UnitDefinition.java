@@ -177,6 +177,16 @@ public class UnitDefinition extends AbstractNamedSBase {
 		listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
 		setThisAsParentSBMLObject(listOfUnits);
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isVariantOfArea() {
+		if (listOfUnits.size() == 1)
+			return listOfUnits.getFirst().isVariantOfArea();
+		return false;
+	}
 
 	/**
 	 * Convenience function for testing if a given unit definition is a variant
