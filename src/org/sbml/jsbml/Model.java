@@ -827,10 +827,25 @@ public class Model extends AbstractNamedSBase {
 	 * removes a species from the model
 	 * 
 	 * @param spec
+	 * @return success
 	 */
-	public void removeSpecies(Species spec) {
-		listOfSpecies.remove(spec);
-		spec.sbaseRemoved();
+	public boolean removeSpecies(Species spec) {
+		boolean success = listOfSpecies.remove(spec);
+		if (success)
+			spec.sbaseRemoved();
+		return success;
+	}
+
+	/**
+	 * 
+	 * @param unitDefininition
+	 * @return success
+	 */
+	public boolean removeUnitDefinition(UnitDefinition unitDefininition) {
+		boolean success = listOfUnitDefinitions.remove(unitDefininition);
+		if (success)
+			unitDefininition.sbaseRemoved();
+		return success;
 	}
 
 	/**

@@ -473,6 +473,17 @@ public class Unit extends AbstractSBase {
 	private boolean isSetOffset() {
 		return offset != 0d;
 	}
+	
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isVariantOfArea() {
+		Kind kind = getKind();
+		return kind == Kind.METER || kind == Kind.METRE && getOffset() == 0
+				&& getExponent() == 2;
+	}
 
 	/**
 	 * 
