@@ -61,7 +61,7 @@ public class Species extends Symbol {
 		super(species);
 		this.boundaryCondition = species.getBoundaryCondition();
 		this.charge = species.getCharge();
-		this.compartment = species.getCompartmentInstance().clone();
+		this.compartment = species.getCompartmentInstance();
 		this.hasOnlySubstanceUnits = species.getHasOnlySubstanceUnits();
 		if (species.isSetInitialAmount())
 			setInitialAmount(species.getInitialAmount());

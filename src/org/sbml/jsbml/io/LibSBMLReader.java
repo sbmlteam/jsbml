@@ -507,8 +507,13 @@ public class LibSBMLReader extends AbstractSBMLReader {
 		if (p.isSetValue())
 			para.setValue(p.getValue());
 		para.setConstant(p.getConstant());
-		if (p.isSetUnits())
-			para.setUnits(this.model.getUnitDefinition(p.getUnits()));
+		if (p.isSetUnits()) {
+			UnitDefinition ud = this.model.getUnitDefinition(p.getUnits());
+			if (ud != null)
+				para.setUnits(ud);
+			else
+				para.setUnits(Unit.Kind.valueOf(p.getUnits().toUpperCase()));
+		}
 		addAllSBaseChangeListenersTo(para);
 		return para;
 	}

@@ -78,8 +78,11 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 	 * 
 	 * @param listOf
 	 */
-	public ListOf(ListOf<? extends E> listOf) {
-		super(listOf);
+	@SuppressWarnings("unchecked")
+	public ListOf(ListOf<? extends SBase> listOf) {
+		super();
+		for (SBase base : listOf)
+			add((E) base.clone());
 		if (listOf.isSetSBOTerm())
 			this.sboTerm = listOf.getSBOTerm();
 		if (listOf.isSetMetaId())
@@ -106,7 +109,7 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 		if (e instanceof NamedSBase) {
 			NamedSBase nsb = (NamedSBase) e;
 			if (nsb.isSetId())
-				for (E element : this) {
+				for (SBase element : this) {
 					NamedSBase elem = ((NamedSBase) element);
 					if (elem.isSetId() && elem.getId().equals(nsb.getId()))
 						return false;
@@ -524,6 +527,20 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 	 */
 	public void unsetSBOTerm() {
 		sboTerm = -1;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.SBase#equals(org.sbml.jsbml.SBase)
+	 */
+	// @Override
+	public boolean equals(SBase sbase) {
+		if (sbase instanceof ListOf) {
+			ListOf<?> listOf = (ListOf<?>) sbase;
+			return listOf.containsAll(this) && this.containsAll(listOf);
+		}
+		return false;
 	}
 
 }
