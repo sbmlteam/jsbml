@@ -21,9 +21,11 @@ package org.sbml.jsbml.io;
 import java.util.LinkedList;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.SBaseChangedListener;
@@ -125,11 +127,19 @@ public abstract class AbstractSBMLReader implements SBMLReader {
 			break;
 		case libsbmlConstants.AST_NAME:
 			ast = new ASTNode(ASTNode.Type.NAME, parent);
-			NamedSBase nsb = model.findNamedSBase(math.getName());
-			if (nsb == null)
-				ast.setName(math.getName());
-			else
-				ast.setVariable(nsb);
+			if (parent instanceof KineticLaw)
+				for (Parameter p : ((KineticLaw) parent).getListOfParameters())
+					if (p.getId().equals(math.getName())) {
+						ast.setVariable(p);
+						break;
+					}
+			if (ast.getVariable() == null) {
+				NamedSBase nsb = model.findNamedSBase(math.getName());
+				if (nsb == null)
+					ast.setName(math.getName());
+				else
+					ast.setVariable(nsb);
+			}
 			break;
 		case libsbmlConstants.AST_CONSTANT_PI:
 			ast = new ASTNode(ASTNode.Type.CONSTANT_PI, parent);

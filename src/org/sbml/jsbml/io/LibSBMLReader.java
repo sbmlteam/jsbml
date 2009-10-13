@@ -371,9 +371,6 @@ public class LibSBMLReader extends AbstractSBMLReader {
 		copySBaseProperties(kinlaw, kl);
 		for (int i = 0; i < kl.getNumParameters(); i++)
 			kinlaw.addParameter(readParameter(kl.getParameter(i)));
-		if (kl.getNumParameters() > 0)
-			model.getReaction(model.getNumReactions() - 1)
-					.setKineticLaw(kinlaw);
 		if (kl.isSetMath())
 			kinlaw.setMath(convert(kl.getMath(), kinlaw));
 		addAllSBaseChangeListenersTo(kinlaw);
