@@ -86,7 +86,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		ud.addUnit(u);
 		return ud;
 	}
-
+	
 	/**
 	 * 
 	 */
@@ -143,6 +143,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * Devides this unit definition by the second unit definition.
+	 * 
 	 * @param definition
 	 */
 	public UnitDefinition divideBy(UnitDefinition definition) {
@@ -170,14 +171,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return listOfUnits.size();
 	}
 
-	/**
-	 * 
-	 */
-	private void initDefaults() {
-		listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
-		setThisAsParentSBMLObject(listOfUnits);
-	}
-	
 	/**
 	 * 
 	 * @return
@@ -280,6 +273,32 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Multiplies this unit with the given unit definition, i.e., adds a clone
+	 * of each unit object in the list of units of the given definition to the
+	 * list of this unit.
+	 * 
+	 * @param definition
+	 * @return
+	 */
+	public UnitDefinition multiplyWith(UnitDefinition definition) {
+		for (Unit u : definition.getListOfUnits())
+			addUnit(u.clone());
+		return this;
+	}
+
+	/**
+	 * Raises this unit definition by the power of the given exponent, i.e., the
+	 * exponents of every unit contained by this unit definition are multiplied
+	 * with the given exponent.
+	 * 
+	 * @param exponent
+	 */
+	public void raiseByThePowerOf(int exponent) {
+		for (Unit u : listOfUnits)
+			u.setExponent(u.getExponent() * exponent);
+	}
+
+	/**
 	 * 
 	 * @param listOfUnits
 	 */
@@ -287,6 +306,14 @@ public class UnitDefinition extends AbstractNamedSBase {
 		this.listOfUnits = listOfUnits;
 		setThisAsParentSBMLObject(listOfUnits);
 		stateChanged();
+	}
+
+	/**
+	 * 
+	 */
+	private void initDefaults() {
+		listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
+		setThisAsParentSBMLObject(listOfUnits);
 	}
 
 }

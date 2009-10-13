@@ -51,6 +51,23 @@ public interface SBase {
 	public void appendNotes(String notes);
 
 	/**
+	 * Creates a copy of this object, i.e., e new SBase with the same properties
+	 * like this one and returns a pointer to it.
+	 * 
+	 * @return
+	 */
+	public SBase clone();
+
+	/**
+	 * Returns true if and only if the given SBase has exactly the same
+	 * properties like this SBase instance.
+	 * 
+	 * @param sbase
+	 * @return
+	 */
+	public boolean equals(Object sbase);
+
+	/**
 	 * Returns the content of the 'annotation' subelement of this object as a
 	 * character string.
 	 * 

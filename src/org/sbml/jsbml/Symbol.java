@@ -67,7 +67,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	public Symbol(Symbol nsb) {
 		super(nsb);
-		this.units = nsb.isSetUnits() ? nsb.getUnitsInstance().clone() : null;
+		this.units = nsb.isSetUnits() ? nsb.getUnitsInstance() : null;
 		this.value = nsb.getValue();
 		this.constant = nsb.getConstant();
 	}
@@ -166,7 +166,6 @@ public abstract class Symbol extends AbstractNamedSBase {
 		UnitDefinition ud = new UnitDefinition(unit.getKind().toString(),
 				getLevel(), getVersion());
 		ud.addUnit(unit);
-		setUnits(ud);
 		if (unit.getExponent() != 1 || unit.getScale() != 0
 				|| unit.getMultiplier() != 1d || unit.getOffset() != 0d) {
 			StringBuilder sb = new StringBuilder();
@@ -180,6 +179,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 			ud.setId(sb.toString());
 			getModel().addUnitDefinition(ud);
 		}
+		setUnits(ud);
 	}
 
 	/**
