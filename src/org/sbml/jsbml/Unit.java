@@ -283,6 +283,34 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
+	 * Merges two Unit objects with the same 'kind' attribute value into a
+	 * single Unit.
+	 * 
+	 * @param unit1
+	 *            the first Unit object; the result of the operation is left as
+	 *            a new version of this unit, modified in-place.
+	 * @param unit2
+	 *            the second Unit object to merge with the first
+	 */
+	public static void merge(Unit unit1, Unit unit2) {
+		// let' get rid of this offset if there is any...
+		double m1 = unit1.getOffset() / Math.pow(10, unit1.getScale())
+				+ unit1.getMultiplier();
+		double m2 = unit2.getOffset() / Math.pow(10, unit2.getScale())
+				+ unit2.getMultiplier();
+		int s1 = unit1.getScale(), s2 = unit2.getScale();
+		int e1 = unit1.getExponent(), e2 = unit2.getExponent();
+		unit1.setOffset(0);
+		unit1.setMultiplier(Math.pow(m1, e1) * Math.pow(m2, e2));
+		unit1.setScale(s1 * e1 + s2 * e2);
+		unit1.setExponent(e1 + e2);
+		if (unit1.getKind() == Kind.METER)
+			unit1.setKind(Kind.METRE);
+		else if (unit1.getKind() == Kind.LITER)
+			unit1.setKind(Kind.LITRE);
+	}
+
+	/**
 	 * 
 	 */
 	private int exponent;
@@ -432,6 +460,56 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
+	 * This method returns the prefix of this unit, for instance, "m" for milli,
+	 * if the scale is -3.
+	 * 
+	 * @return
+	 */
+	public String getPrefix() {
+		if (!isDimensionless()) {
+			switch (getScale()) {
+			case 18:
+				return Character.valueOf('E').toString();
+			case 15:
+				return Character.valueOf('P').toString();
+			case 12:
+				return Character.valueOf('T').toString();
+			case 9:
+				return Character.valueOf('G').toString();
+			case 6:
+				return Character.valueOf('M').toString();
+			case 3:
+				return Character.valueOf('k').toString();
+			case 2:
+				return Character.valueOf('h').toString();
+			case 1:
+				return "da";
+			case 0:
+				break;
+			case -1:
+				return Character.valueOf('d').toString();
+			case -2:
+				return Character.valueOf('c').toString();
+			case -3:
+				return Character.valueOf('m').toString();
+			case -6:
+				return Character.valueOf('\u03BC').toString();
+			case -9:
+				return Character.valueOf('n').toString();
+			case -12:
+				return Character.valueOf('p').toString();
+			case -15:
+				return Character.valueOf('f').toString();
+			case -18:
+				return Character.valueOf('a').toString();
+			default:
+				break;
+			}
+		}
+		return "";
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
@@ -470,10 +548,9 @@ public class Unit extends AbstractSBase {
 	 * 
 	 * @return
 	 */
-	private boolean isSetOffset() {
+	public boolean isSetOffset() {
 		return offset != 0d;
 	}
-	
 
 	/**
 	 * 
@@ -503,7 +580,7 @@ public class Unit extends AbstractSBase {
 		Kind kind = getKind();
 		if (kind == Kind.MOLE
 				|| kind == Kind.ITEM
-				|| (((level == 2 && version > 1) || level > 2) && (kind == Kind.GRAM || kind == Kind.KILOGRAM)))
+				|| (((level == 2 && version > 1) || level > 2) && (kind == Kind.GRAM || isKilogram())))
 			return getOffset() == 0 && getExponent() == 1;
 		return false;
 	}
@@ -579,68 +656,15 @@ public class Unit extends AbstractSBase {
 		StringBuffer times = mult.equals("1") ? new StringBuffer()
 				: new StringBuffer(mult);
 		StringBuffer pow = new StringBuffer(kind.getSymbol());
-		if (!isDimensionless()) {
-			switch (getScale()) {
-			case 18:
-				pow.insert(0, 'E');
-				break;
-			case 15:
-				pow.insert(0, 'P');
-				break;
-			case 12:
-				pow.insert(0, 'T');
-				break;
-			case 9:
-				pow.insert(0, 'G');
-				break;
-			case 6:
-				pow.insert(0, 'M');
-				break;
-			case 3:
-				pow.insert(0, 'k');
-				break;
-			case 2:
-				pow.insert(0, 'h');
-				break;
-			case 1:
-				pow.insert(0, "da");
-				break;
-			case 0:
-				break;
-			case -1:
-				pow.insert(0, 'd');
-				break;
-			case -2:
-				pow.insert(0, 'c');
-				break;
-			case -3:
-				pow.insert(0, 'm');
-				break;
-			case -6:
-				pow.insert(0, "\u03BC");
-				break;
-			case -9:
-				pow.insert(0, 'n');
-				break;
-			case -12:
-				pow.insert(0, 'p');
-				break;
-			case -15:
-				pow.insert(0, 'f');
-				break;
-			case -18:
-				pow.insert(0, 'a');
-				break;
-			default:
-				pow = TextFormula.times(TextFormula.pow(Integer.valueOf(10),
-						Integer.valueOf(scale)), pow);
-				break;
-			}
-		}
+		String prefix = getPrefix();
+		if (prefix.length() > 0)
+			pow.insert(0, prefix);
+		else
+			pow = TextFormula.times(TextFormula.pow(Integer.valueOf(10),
+					Integer.valueOf(scale)), pow);
 		times = TextFormula.times(times, pow);
 		if (isSetOffset())
 			times = TextFormula.sum(Double.toString(offset), times);
 		return TextFormula.pow(times, Integer.valueOf(exponent)).toString();
 	}
-
 }

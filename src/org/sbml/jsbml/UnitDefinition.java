@@ -425,30 +425,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 		reorder(this);
 		for (int i = getNumUnits() - 2; i >= 0; i--) {
 			Unit u = getUnit(i); // current unit
-			Unit s = getUnit(i + 1); // successor
-			if (u.getKind() == s.getKind()
-					|| (u.getKind() == Kind.METER && s.getKind() == Kind.METRE)
-					|| (u.getKind() == Kind.LITER && s.getKind() == Kind.LITRE)) {
-				removeUnit(i + 1);
-				// let' get rid of this offset if there is any...
-				double m1 = u.getOffset() / Math.pow(10, u.getScale())
-						+ u.getMultiplier();
-				double m2 = s.getOffset() / Math.pow(10, s.getScale())
-						+ s.getMultiplier();
-				int s1 = u.getScale(), s2 = s.getScale();
-				int e1 = u.getExponent(), e2 = s.getExponent();
-				u.setOffset(0);
-				u.setMultiplier(Math.pow(m1, e1) * Math.pow(m2, e2));
-				u.setScale(s1 * e1 + s2 * e2);
-				u.setExponent(1);
-				if (u.getMultiplier() == 0)
+			Unit.Kind s = getUnit(i + 1).getKind(); // successor
+			if (u.getKind() == s
+					|| (u.getKind() == Kind.METER && s == Kind.METRE)
+					|| (u.getKind() == Kind.LITER && s == Kind.LITRE)) {
+				Unit.merge(u, removeUnit(i + 1));
+				if (u.getExponent() == 0)
 					removeUnit(i);
-				else {
-					if (u.getKind() == Kind.METER)
-						u.setKind(Kind.METRE);
-					else if (u.getKind() == Kind.LITER)
-						u.setKind(Kind.LITRE);
-				}
 			}
 		}
 		return this;
