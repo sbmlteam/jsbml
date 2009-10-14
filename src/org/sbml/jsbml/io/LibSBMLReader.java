@@ -67,13 +67,15 @@ import org.sbml.libsbml.libsbmlConstants;
 public class LibSBMLReader extends AbstractSBMLReader {
 
 	private Set<org.sbml.libsbml.SBMLDocument> setOfDocuments;
+
 	private static final String error = " must be an instance of ";
+
 	private org.sbml.libsbml.Model originalModel;
 
 	public LibSBMLReader() {
 		setOfDocuments = new HashSet<org.sbml.libsbml.SBMLDocument>();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -482,10 +484,12 @@ public class LibSBMLReader extends AbstractSBMLReader {
 		copyNamedSBaseProperties(mod, msr);
 		if (msr.isSetSBOTerm()) {
 			mod.setSBOTerm(msr.getSBOTerm());
-/*			if (!SBO.isEnzymaticCatalysis(mod.getSBOTerm())
-					&& possibleEnzymes.contains(Integer.valueOf(mod
-							.getSpeciesInstance().getSBOTerm())))
-				mod.setSBOTerm(SBO.getEnzymaticCatalysis());*/
+			/*
+			 * if (!SBO.isEnzymaticCatalysis(mod.getSBOTerm()) &&
+			 * possibleEnzymes.contains(Integer.valueOf(mod
+			 * .getSpeciesInstance().getSBOTerm())))
+			 * mod.setSBOTerm(SBO.getEnzymaticCatalysis());
+			 */
 		}
 		addAllSBaseChangeListenersTo(mod);
 		return mod;
@@ -538,8 +542,6 @@ public class LibSBMLReader extends AbstractSBMLReader {
 		for (int i = 0; i < r.getNumModifiers(); i++)
 			reaction
 					.addModifier(readModifierSpeciesReference(r.getModifier(i)));
-		if (r.isSetKineticLaw())
-			reaction.setKineticLaw(readKineticLaw(r.getKineticLaw()));
 		reaction.setFast(r.getFast());
 		reaction.setReversible(r.getReversible());
 		addAllSBaseChangeListenersTo(reaction);

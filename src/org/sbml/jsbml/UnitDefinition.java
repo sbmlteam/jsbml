@@ -18,6 +18,8 @@
  */
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.Unit.Kind;
+
 /**
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
@@ -52,6 +54,72 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public static final UnitDefinition VOLUME = getPredefinedUnit("volume");
 
 	/**
+	 * Returns a string that expresses the unit definition represented by this
+	 * UnitDefinition object.
+	 * 
+	 * @param ud
+	 *            the UnitDefinition object
+	 * @return a string expressing the unit definition
+	 */
+	public static String printUnits(UnitDefinition ud) {
+		return printUnits(ud, false);
+	}
+
+	/**
+	 * Returns a string that expresses the unit definition represented by this
+	 * UnitDefinition object.
+	 * 
+	 * @param ud
+	 *            the UnitDefinition object
+	 * @param compact
+	 *            boolean indicating whether the compact form should be used
+	 *            (defaults to false)
+	 * @return a string expressing the unit definition
+	 */
+	public static String printUnits(UnitDefinition ud, boolean compact) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < ud.getNumUnits(); i++) {
+			Unit unit = ud.getUnit(i);
+			if (i > 0)
+				sb.append(' ');
+			if (compact) {
+				sb.append(unit.toString());
+			} else {
+				sb.append(unit.getKind().getName().toLowerCase());
+				sb.append(" (exponent = ");
+				sb.append(unit.getExponent());
+				sb.append(", multiplier = ");
+				sb.append(unit.getMultiplier());
+				sb.append(", scale = ");
+				sb.append(unit.getScale());
+				sb.append(')');
+			}
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Orders alphabetically the Unit objects within the ListOfUnits of a
+	 * UnitDefinition.
+	 * 
+	 * @param ud
+	 *            the UnitDefinition object whose units are to be reordered.
+	 */
+	public static void reorder(UnitDefinition ud) {
+		ListOf<Unit> units = new ListOf<Unit>(ud.getLevel(), ud.getVersion());
+		ListOf<Unit> orig = ud.getListOfUnits();
+		int i, j;
+		for (i = orig.size() - 1; i >= 0; i--) {
+			Unit u = orig.remove(i);
+			for (j = 0; j < units.size()
+					&& u.getKind().compareTo(units.get(j).getKind()) > 0; j++)
+				;
+			units.add(j, u);
+		}
+		ud.setListOfUnits(units);
+	}
+
+	/**
 	 * 
 	 * @param id
 	 * @return
@@ -60,33 +128,27 @@ public class UnitDefinition extends AbstractNamedSBase {
 		id = id.toLowerCase();
 		Unit u = new Unit(2, 4);
 		UnitDefinition ud = new UnitDefinition(id, 2, 4);
-		String name = "Predefined unit ";
 		if (id.equals("substance")) {
 			u.setKind(Unit.Kind.MOLE);
-			name += "mole";
 		} else if (id.equals("volume")) {
 			u.setKind(Unit.Kind.LITRE);
-			name += "litre";
 		} else if (id.equals("area")) {
 			u.setKind(Unit.Kind.METRE);
 			u.setExponent(2);
-			name += "square metre";
 		} else if (id.equals("length")) {
 			u.setKind(Unit.Kind.METRE);
-			name += "metre";
 		} else if (id.equals("time")) {
 			u.setKind(Unit.Kind.SECOND);
 			u.setSBOTerm(345);
 			ud.setSBOTerm(345);
-			name += "second";
 		} else
 			throw new IllegalArgumentException(
 					"no predefined unit available for " + id);
-		ud.setName(name);
+		ud.setName("Predefined unit " + id);
 		ud.addUnit(u);
 		return ud;
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -172,6 +234,17 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns a specific Unit instance belonging to this UnitDefinition.
+	 * 
+	 * @param i
+	 *            an integer, the index of the Unit to be returned.
+	 * @return the ith Unit of this UnitDefinition
+	 */
+	public Unit getUnit(int i) {
+		return listOfUnits.get(i);
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
@@ -216,7 +289,17 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isVariantOfSubstancePerArea() {
-		// TODO Auto-generated method stub
+		if (listOfUnits.size() == 2) {
+			if (getUnit(0).isVariantOfSubstance()) {
+				Unit two = getUnit(1).clone();
+				two.setExponent(two.getExponent() * -1);
+				return two.isVariantOfArea();
+			} else if (getUnit(1).isVariantOfSubstance()) {
+				Unit one = getUnit(0).clone();
+				one.setExponent(one.getExponent() * -1);
+				return one.isVariantOfArea();
+			}
+		}
 		return false;
 	}
 
@@ -294,8 +377,32 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @param exponent
 	 */
 	public void raiseByThePowerOf(int exponent) {
-		for (Unit u : listOfUnits)
-			u.setExponent(u.getExponent() * exponent);
+		Unit u;
+		for (int i = listOfUnits.size() - 1; i >= 0; i--) {
+			u = listOfUnits.get(i);
+			u.setExponent(u.getExponent() + exponent);
+			if (u.getExponent() == 0)
+				listOfUnits.remove(i);
+		}
+	}
+
+	/**
+	 * Removes the nth Unit object from this UnitDefinition object and returns a
+	 * pointer to it.
+	 * 
+	 * The caller owns the returned object and is responsible for deleting it.
+	 * 
+	 * @param i
+	 *            the index of the Unit object to remove
+	 * @return the Unit object removed. As mentioned above, the caller owns the
+	 *         returned item. NULL is returned if the given index is out of
+	 *         range.
+	 */
+	public Unit removeUnit(int i) {
+		Unit u = listOfUnits.remove(i);
+		if (u != null)
+			u.sbaseRemoved();
+		return u;
 	}
 
 	/**
@@ -309,11 +416,49 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Simplifies the UnitDefinition so that any Unit objects occurring within
+	 * the ListOfUnits occurs only once.
+	 * 
+	 * @return a pointer to the simplified unit definition.
+	 */
+	public UnitDefinition simplify() {
+		reorder(this);
+		for (int i = getNumUnits() - 2; i >= 0; i--) {
+			Unit u = getUnit(i); // current unit
+			Unit s = getUnit(i + 1); // successor
+			if (u.getKind() == s.getKind()
+					|| (u.getKind() == Kind.METER && s.getKind() == Kind.METRE)
+					|| (u.getKind() == Kind.LITER && s.getKind() == Kind.LITRE)) {
+				removeUnit(i + 1);
+				// let' get rid of this offset if there is any...
+				double m1 = u.getOffset() / Math.pow(10, u.getScale())
+						+ u.getMultiplier();
+				double m2 = s.getOffset() / Math.pow(10, s.getScale())
+						+ s.getMultiplier();
+				int s1 = u.getScale(), s2 = s.getScale();
+				int e1 = u.getExponent(), e2 = s.getExponent();
+				u.setOffset(0);
+				u.setMultiplier(Math.pow(m1, e1) * Math.pow(m2, e2));
+				u.setScale(s1 * e1 + s2 * e2);
+				u.setExponent(1);
+				if (u.getMultiplier() == 0)
+					removeUnit(i);
+				else {
+					if (u.getKind() == Kind.METER)
+						u.setKind(Kind.METRE);
+					else if (u.getKind() == Kind.LITER)
+						u.setKind(Kind.LITRE);
+				}
+			}
+		}
+		return this;
+	}
+
+	/**
 	 * 
 	 */
 	private void initDefaults() {
 		listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
 		setThisAsParentSBMLObject(listOfUnits);
 	}
-
 }
