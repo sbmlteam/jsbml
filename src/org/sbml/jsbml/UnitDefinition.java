@@ -19,6 +19,7 @@
 package org.sbml.jsbml;
 
 import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * @author Andreas Dr&auml;ger <a
@@ -31,27 +32,16 @@ public class UnitDefinition extends AbstractNamedSBase {
 	/**
 	 * Predefined unit for area.
 	 */
-	public static final UnitDefinition AREA = getPredefinedUnit("area");
+	public static final UnitDefinition area(int level, int version) {
+		return getPredefinedUnit("area", level, version);
+	}
 
 	/**
 	 * Predefined unit for length.
 	 */
-	public static final UnitDefinition LENGTH = getPredefinedUnit("length");
-
-	/**
-	 * Predefined unit for substance.
-	 */
-	public static final UnitDefinition SUBSTANCE = getPredefinedUnit("substance");
-
-	/**
-	 * Predefined unit for time.
-	 */
-	public static final UnitDefinition TIME = getPredefinedUnit("time");
-
-	/**
-	 * Predefined unit for volume.
-	 */
-	public static final UnitDefinition VOLUME = getPredefinedUnit("volume");
+	public static final UnitDefinition length(int level, int version) {
+		return getPredefinedUnit("length", level, version);
+	}
 
 	/**
 	 * Returns a string that expresses the unit definition represented by this
@@ -89,7 +79,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				sb.append(" (exponent = ");
 				sb.append(unit.getExponent());
 				sb.append(", multiplier = ");
-				sb.append(unit.getMultiplier());
+				sb.append(StringTools.toString(unit.getMultiplier()));
 				sb.append(", scale = ");
 				sb.append(unit.getScale());
 				sb.append(')');
@@ -120,14 +110,38 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Predefined unit for substance.
+	 */
+	public static final UnitDefinition substance(int level, int version) {
+		return getPredefinedUnit("substance", level, version);
+	}
+
+	/**
+	 * Predefined unit for time.
+	 */
+	public static final UnitDefinition time(int level, int version) {
+		return getPredefinedUnit("time", level, version);
+	}
+
+	/**
+	 * Predefined unit for volume.
+	 */
+	public static final UnitDefinition volume(int level, int version) {
+		return getPredefinedUnit("volume", level, version);
+	}
+
+	/**
 	 * 
 	 * @param id
+	 * @param level
+	 * @param version
 	 * @return
 	 */
-	private static final UnitDefinition getPredefinedUnit(String id) {
+	private static final UnitDefinition getPredefinedUnit(String id, int level,
+			int version) {
 		id = id.toLowerCase();
-		Unit u = new Unit(2, 4);
-		UnitDefinition ud = new UnitDefinition(id, 2, 4);
+		Unit u = new Unit(level, version);
+		UnitDefinition ud = new UnitDefinition(id, level, version);
 		if (id.equals("substance")) {
 			u.setKind(Unit.Kind.MOLE);
 		} else if (id.equals("volume")) {
@@ -380,7 +394,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		Unit u;
 		for (int i = listOfUnits.size() - 1; i >= 0; i--) {
 			u = listOfUnits.get(i);
-			u.setExponent(u.getExponent() + exponent);
+			u.setExponent(u.getExponent() * exponent);
 			if (u.getExponent() == 0)
 				listOfUnits.remove(i);
 		}
@@ -425,13 +439,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 		reorder(this);
 		for (int i = getNumUnits() - 2; i >= 0; i--) {
 			Unit u = getUnit(i); // current unit
-			Unit.Kind s = getUnit(i + 1).getKind(); // successor
-			if (u.getKind() == s
-					|| (u.getKind() == Kind.METER && s == Kind.METRE)
-					|| (u.getKind() == Kind.LITER && s == Kind.LITRE)) {
+			Unit s = getUnit(i + 1); // successor unit
+			if (Unit.Kind.areEquivalent(u.getKind(), s.getKind())
+					|| u.getKind() == Kind.DIMENSIONLESS
+					|| s.getKind() == Kind.DIMENSIONLESS) {
 				Unit.merge(u, removeUnit(i + 1));
-				if (u.getExponent() == 0)
-					removeUnit(i);
+				if (u.isDimensionless() && i == 0 && getNumUnits() > 1)
+					Unit.merge(getUnit(i + 1), removeUnit(i));
 			}
 		}
 		return this;

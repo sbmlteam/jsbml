@@ -298,7 +298,7 @@ public class ASTNode implements TreeNode {
 		 */
 		UNKNOWN
 	}
-	
+
 	/**
 	 * 
 	 * @param operator
@@ -332,7 +332,7 @@ public class ASTNode implements TreeNode {
 					new IllegalArgumentException(
 							"The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER."));
 	}
-	
+
 	/**
 	 * Creates a new ASTNode of type MINUS and adds the given nodes as children
 	 * 
@@ -364,9 +364,7 @@ public class ASTNode implements TreeNode {
 	 * @return
 	 */
 	public static ASTNode frac(ASTNode numerator, ASTNode denominator) {
-		setParentSBMLObject(denominator, numerator.getParentSBMLObject(), 0);
-		numerator.divideBy(denominator);
-		return numerator;
+		return numerator.divideBy(denominator);
 	}
 
 	/**
@@ -931,9 +929,10 @@ public class ASTNode implements TreeNode {
 		case FUNCTION_TANH:
 			return compiler.tanh(getLeftChild());
 		case FUNCTION:
-			return compiler.function(getName(), listOfNodes.toArray(new ASTNode[]{}));
+			return compiler.function(getName(), listOfNodes
+					.toArray(new ASTNode[] {}));
 		case LAMBDA:
-			return compiler.lambda(listOfNodes.toArray(new ASTNode[]{}));
+			return compiler.lambda(listOfNodes.toArray(new ASTNode[] {}));
 		case LOGICAL_AND:
 			return compiler.logicalOperation(this);
 		case LOGICAL_XOR:
@@ -978,7 +977,7 @@ public class ASTNode implements TreeNode {
 	 * @return
 	 */
 	public ASTNode divideBy(NamedSBase namedSBase) {
-		return divideBy(new ASTNode(namedSBase, getParentSBMLObject()));	
+		return divideBy(new ASTNode(namedSBase, getParentSBMLObject()));
 	}
 
 	/*
@@ -2069,5 +2068,4 @@ public class ASTNode implements TreeNode {
 			}
 		return isName() ? getName() : getType().toString();
 	}
-
 }

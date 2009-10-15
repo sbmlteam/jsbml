@@ -60,25 +60,30 @@ public abstract class AbstractSBMLReader implements SBMLReader {
 	 * 
 	 * @param model
 	 */
-	public AbstractSBMLReader(Object model) {
-		this.model = readModel(model);
+	public static final void addPredefinedUnitDefinitions(Model model) {
+		if (model.getUnitDefinition("substance") == null)
+			model.addUnitDefinition(UnitDefinition.substance(model.getLevel(),
+					model.getVersion()));
+		if (model.getUnitDefinition("volume") == null)
+			model.addUnitDefinition(UnitDefinition.volume(model.getLevel(),
+					model.getVersion()));
+		if (model.getUnitDefinition("area") == null)
+			model.addUnitDefinition(UnitDefinition.area(model.getLevel(), model
+					.getVersion()));
+		if (model.getUnitDefinition("length") == null)
+			model.addUnitDefinition(UnitDefinition.length(model.getLevel(),
+					model.getVersion()));
+		if (model.getUnitDefinition("time") == null)
+			model.addUnitDefinition(UnitDefinition.time(model.getLevel(), model
+					.getVersion()));
 	}
 
 	/**
 	 * 
 	 * @param model
 	 */
-	public static final void addPredefinedUnitDefinitions(Model model) {
-		if (model.getUnitDefinition("substance") == null)
-			model.addUnitDefinition(UnitDefinition.SUBSTANCE);
-		if (model.getUnitDefinition("volume") == null)
-			model.addUnitDefinition(UnitDefinition.VOLUME);
-		if (model.getUnitDefinition("area") == null)
-			model.addUnitDefinition(UnitDefinition.AREA);
-		if (model.getUnitDefinition("length") == null)
-			model.addUnitDefinition(UnitDefinition.LENGTH);
-		if (model.getUnitDefinition("time") == null)
-			model.addUnitDefinition(UnitDefinition.TIME);
+	public AbstractSBMLReader(Object model) {
+		this.model = readModel(model);
 	}
 
 	/**

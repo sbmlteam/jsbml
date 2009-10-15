@@ -83,7 +83,7 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.squeezer.io.AbstractSBMLWriter#saveChanges(org.sbml.Model,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
 	// @Override
 	public void saveChanges(Model model, Object orig) throws SBMLException {
@@ -110,11 +110,16 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 
 		// Unit definitions
 		for (UnitDefinition ud : model.getListOfUnitDefinitions())
-			if (!ud.equals(UnitDefinition.SUBSTANCE)
-					&& !ud.equals(UnitDefinition.VOLUME)
-					&& !ud.equals(UnitDefinition.AREA)
-					&& !ud.equals(UnitDefinition.LENGTH)
-					&& !ud.equals(UnitDefinition.TIME)) {
+			if (!ud.equals(UnitDefinition.substance(ud.getLevel(), ud
+					.getVersion()))
+					&& !ud.equals(UnitDefinition.volume(ud.getLevel(), ud
+							.getVersion()))
+					&& !ud.equals(UnitDefinition.area(ud.getLevel(), ud
+							.getVersion()))
+					&& !ud.equals(UnitDefinition.length(ud.getLevel(), ud
+							.getVersion()))
+					&& !ud.equals(UnitDefinition.time(ud.getLevel(), ud
+							.getVersion()))) {
 				org.sbml.libsbml.UnitDefinition libU = mo.getUnitDefinition(ud
 						.getId());
 				if (libU != null) {
@@ -352,8 +357,9 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBMLWriter#saveCompartmentProperties(org.sbml.jlibsbml
-	 *      .Compartment, java.lang.Object)
+	 * @see
+	 * org.sbml.jlibsbml.SBMLWriter#saveCompartmentProperties(org.sbml.jlibsbml
+	 * .Compartment, java.lang.Object)
 	 */
 	public void saveCompartmentProperties(Compartment c, Object compartment) {
 		if (!(compartment instanceof org.sbml.libsbml.Compartment))
@@ -379,8 +385,9 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBMLWriter#saveCVTermProperties(org.sbml.jlibsbml.CVTerm ,
-	 *      java.lang.Object)
+	 * @see
+	 * org.sbml.jlibsbml.SBMLWriter#saveCVTermProperties(org.sbml.jlibsbml.CVTerm
+	 * , java.lang.Object)
 	 */
 	public void saveCVTermProperties(CVTerm cvt, Object term) {
 		if (!(term instanceof org.sbml.libsbml.CVTerm))
@@ -419,8 +426,9 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBMLWriter#saveEventProperties(org.sbml.jlibsbml.Event,
-	 *      java.lang.Object)
+	 * @see
+	 * org.sbml.jlibsbml.SBMLWriter#saveEventProperties(org.sbml.jlibsbml.Event,
+	 * java.lang.Object)
 	 */
 	public void saveEventProperties(Event ev, Object event)
 			throws SBMLException {
@@ -481,8 +489,9 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBMLWriter#saveKineticLawProperties(org.sbml.jlibsbml
-	 *      .KineticLaw, java.lang.Object)
+	 * @see
+	 * org.sbml.jlibsbml.SBMLWriter#saveKineticLawProperties(org.sbml.jlibsbml
+	 * .KineticLaw, java.lang.Object)
 	 */
 	public void saveKineticLawProperties(KineticLaw kl, Object kineticLaw)
 			throws SBMLException {
@@ -511,8 +520,9 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBMLWriter#saveMathContainerProperties(org.sbml.jlibsbml
-	 *      .MathContainer, java.lang.Object)
+	 * @see
+	 * org.sbml.jlibsbml.SBMLWriter#saveMathContainerProperties(org.sbml.jlibsbml
+	 * .MathContainer, java.lang.Object)
 	 */
 	public void saveMathContainerProperties(MathContainer mc, Object sbase)
 			throws SBMLException {
@@ -616,8 +626,9 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBMLWriter#saveModelHistoryProperties(org.sbml.jlibsbml
-	 *      .Model, java.lang.Object)
+	 * @see
+	 * org.sbml.jlibsbml.SBMLWriter#saveModelHistoryProperties(org.sbml.jlibsbml
+	 * .Model, java.lang.Object)
 	 */
 	public void saveModelHistoryProperties(ModelHistory m, Object modelHistory) {
 		if (!(modelHistory instanceof org.sbml.libsbml.ModelHistory))
@@ -741,7 +752,7 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.SBMLWriter#saveNamedSBaseProperties(org.sbml.NamedSBase,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
 	// @Override
 	public void saveNamedSBaseProperties(NamedSBase nsb, Object sb) {
@@ -822,8 +833,9 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBMLWriter#saveParameterProperties(org.sbml.jlibsbml
-	 *      .Parameter, java.lang.Object)
+	 * @see
+	 * org.sbml.jlibsbml.SBMLWriter#saveParameterProperties(org.sbml.jlibsbml
+	 * .Parameter, java.lang.Object)
 	 */
 	public void saveParameterProperties(Parameter p, Object parameter) {
 		if (!(parameter instanceof org.sbml.libsbml.Parameter))
@@ -842,8 +854,9 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBMLWriter#saveReactionProperties(org.sbml.jlibsbml
-	 *      .Reaction, java.lang.Object)
+	 * @see
+	 * org.sbml.jlibsbml.SBMLWriter#saveReactionProperties(org.sbml.jlibsbml
+	 * .Reaction, java.lang.Object)
 	 */
 	public void saveReactionProperties(Reaction r, Object reaction)
 			throws SBMLException {
@@ -935,7 +948,7 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.SBMLWriter#saveSBaseProperties(org.sbml.SBase,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
 	// @Override
 	public void saveSBaseProperties(SBase s, Object sb) {
@@ -989,8 +1002,9 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBMLWriter#saveSpeciesProperties(org.sbml.jlibsbml.
-	 *      Species, java.lang.Object)
+	 * @see
+	 * org.sbml.jlibsbml.SBMLWriter#saveSpeciesProperties(org.sbml.jlibsbml.
+	 * Species, java.lang.Object)
 	 */
 	public void saveSpeciesProperties(Species s, Object species) {
 		if (!(species instanceof org.sbml.libsbml.Species))
@@ -1028,8 +1042,9 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.squeezer.io.AbstractSBMLWriter#saveSpeciesReferenceProperties
-	 *      (org.sbml.SpeciesReference, java.lang.Object)
+	 * @see
+	 * org.sbml.squeezer.io.AbstractSBMLWriter#saveSpeciesReferenceProperties
+	 * (org.sbml.SpeciesReference, java.lang.Object)
 	 */
 	// @Override
 	public void saveSpeciesReferenceProperties(SpeciesReference sr,
@@ -1250,7 +1265,8 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBMLWriter#writeFunctionDefinition(org.sbml.FunctionDefinition)
+	 * @see
+	 * org.sbml.SBMLWriter#writeFunctionDefinition(org.sbml.FunctionDefinition)
 	 */
 	// @Override
 	public org.sbml.libsbml.FunctionDefinition writeFunctionDefinition(
@@ -1264,7 +1280,8 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBMLWriter#writeInitialAssignment(org.sbml.InitialAssignment)
+	 * @see
+	 * org.sbml.SBMLWriter#writeInitialAssignment(org.sbml.InitialAssignment)
 	 */
 	// @Override
 	public org.sbml.libsbml.InitialAssignment writeInitialAssignment(
@@ -1280,7 +1297,9 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBMLWriter#writeKineticLaw(org.sbml.jlibsbml.KineticLaw )
+	 * @see
+	 * org.sbml.jlibsbml.SBMLWriter#writeKineticLaw(org.sbml.jlibsbml.KineticLaw
+	 * )
 	 */
 	public org.sbml.libsbml.KineticLaw writeKineticLaw(KineticLaw kinteicLaw,
 			Object... args) throws SBMLException {
@@ -1543,7 +1562,8 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBMLWriter#writeStoichoimetryMath(org.sbml.StoichiometryMath)
+	 * @see
+	 * org.sbml.SBMLWriter#writeStoichoimetryMath(org.sbml.StoichiometryMath)
 	 */
 	// @Override
 	public org.sbml.libsbml.StoichiometryMath writeStoichoimetryMath(
@@ -1709,8 +1729,33 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 		org.sbml.libsbml.UnitDefinition ud = new org.sbml.libsbml.UnitDefinition(
 				unitDefinition.getLevel(), unitDefinition.getVersion());
 		saveNamedSBaseProperties(unitDefinition, ud);
-		for (Unit u : unitDefinition.getListOfUnits())
-			ud.addUnit(writeUnit(u));
+		for (Unit u : unitDefinition.getListOfUnits()) {
+			org.sbml.libsbml.Unit unit = writeUnit(u);
+			int code = ud.addUnit(unit);
+			switch (code) {
+			case libsbmlConstants.LIBSBML_OPERATION_SUCCESS:
+				break;
+			case libsbmlConstants.LIBSBML_LEVEL_MISMATCH:
+				System.err.println("level mismatch");
+				break;
+			case libsbmlConstants.LIBSBML_VERSION_MISMATCH:
+				System.err.println("version mismatch");
+				System.err.println("unit L" + unit.getLevel() + "\tV"
+						+ unit.getVersion());
+				System.err.println("udef L" + ud.getLevel() + "\tV"
+						+ ud.getVersion());
+				break;
+			case libsbmlConstants.LIBSBML_DUPLICATE_OBJECT_ID:
+				System.err.println("duplicate object id");
+				break;
+			case libsbmlConstants.LIBSBML_OPERATION_FAILED:
+				System.err.println("operation failed");
+				break;
+			default:
+				System.err.println("error code:\t" + code);
+				break;
+			}
+		}
 		return ud;
 	}
 

@@ -34,12 +34,12 @@ public class StringTools {
 	 */
 	public static final String fileSeparator = System
 			.getProperty("file.separator");
-	
+
 	/**
 	 * New line separator of this operating system
 	 */
 	public static final String newLine = System.getProperty("line.separator");
-	
+
 	/**
 	 * Takes the given StringBuffer as input and appends every further Object to
 	 * it.
@@ -53,7 +53,7 @@ public class StringTools {
 			k.append(t);
 		return k;
 	}
-	
+
 	/**
 	 * This method concatenates two or more object strings into a new
 	 * stringbuffer.
@@ -67,7 +67,7 @@ public class StringTools {
 			res.append(buffer.toString());
 		return res;
 	}
-	
+
 	/**
 	 * This method introduces left and right quotation marks where we normally
 	 * have straight quotation marks.
@@ -77,8 +77,8 @@ public class StringTools {
 	 * @param rightQuotationMark
 	 * @return
 	 */
-	public static String correctQuotationMarks(String text, String leftQuotationMark,
-			String rightQuotationMark) {
+	public static String correctQuotationMarks(String text,
+			String leftQuotationMark, String rightQuotationMark) {
 		boolean opening = true;
 		for (int i = 0; i < text.length(); i++)
 			if (text.charAt(i) == '"')
@@ -127,7 +127,6 @@ public class StringTools {
 			return Character.toString(c);
 		return name;
 	}
-
 
 	/**
 	 * Returns the name of a given month.
@@ -219,6 +218,19 @@ public class StringTools {
 		c = Character.toLowerCase(c);
 		return (c == 'a') || (c == 'e') || (c == 'i') || (c == 'o')
 				|| (c == 'u');
+	}
+
+	/**
+	 * Returns a String from the given value that does not contain a point zero
+	 * at the end.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static String toString(double value) {
+		if (((int) value) - value == 0)
+			return Integer.toString((int) value);
+		return Double.toString(value);
 	}
 
 }
