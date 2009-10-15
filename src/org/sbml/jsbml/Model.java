@@ -18,7 +18,6 @@
  */
 package org.sbml.jsbml;
 
-
 /**
  * 
  * @author Andreas Dr&auml;ger <a
@@ -28,19 +27,31 @@ package org.sbml.jsbml;
  */
 public class Model extends AbstractNamedSBase {
 
-	private ListOf<FunctionDefinition> listOfFunctionDefinitions;
-	private ListOf<UnitDefinition> listOfUnitDefinitions;
-	private ListOf<CompartmentType> listOfCompartmentTypes;
-	private ListOf<SpeciesType> listOfSpeciesTypes;
-	private ListOf<Compartment> listOfCompartments;
-	private ListOf<Species> listOfSpecies;
-	private ListOf<Parameter> listOfParameters;
-	private ListOf<InitialAssignment> listOfInitialAssignments;
-	private ListOf<Rule> listOfRules;
-	private ListOf<Constraint> listOfConstraints;
-	private ListOf<Reaction> listOfReactions;
-	private ListOf<Event> listOfEvents;
 	private ModelHistory history;
+
+	private ListOf<Compartment> listOfCompartments;
+
+	private ListOf<CompartmentType> listOfCompartmentTypes;
+
+	private ListOf<Constraint> listOfConstraints;
+
+	private ListOf<Event> listOfEvents;
+
+	private ListOf<FunctionDefinition> listOfFunctionDefinitions;
+
+	private ListOf<InitialAssignment> listOfInitialAssignments;
+
+	private ListOf<Parameter> listOfParameters;
+
+	private ListOf<Reaction> listOfReactions;
+
+	private ListOf<Rule> listOfRules;
+
+	private ListOf<Species> listOfSpecies;
+
+	private ListOf<SpeciesType> listOfSpeciesTypes;
+
+	private ListOf<UnitDefinition> listOfUnitDefinitions;
 
 	/**
 	 * 
@@ -777,20 +788,20 @@ public class Model extends AbstractNamedSBase {
 			if (ud.getId().equals(id))
 				return ud;
 		UnitDefinition ud = null;
-		if (id.equals(UnitDefinition.AREA.getId())) {
-			ud = UnitDefinition.AREA.clone();
+		if (id.equals("area")) {
+			ud = UnitDefinition.area(getLevel(), getVersion());
 			addUnitDefinition(ud);
-		} else if (id.equals(UnitDefinition.LENGTH.getId())) {
-			ud = UnitDefinition.LENGTH.clone();
+		} else if (id.equals("length")) {
+			ud = UnitDefinition.length(getLevel(), getVersion());
 			addUnitDefinition(ud);
-		} else if (id.equals(UnitDefinition.SUBSTANCE.getId())) {
-			ud = UnitDefinition.SUBSTANCE.clone();
+		} else if (id.equals("substance")) {
+			ud = UnitDefinition.substance(getLevel(), getVersion());
 			addUnitDefinition(ud);
-		} else if (id.equals(UnitDefinition.TIME.getId())) {
-			ud = UnitDefinition.TIME.clone();
+		} else if (id.equals("time")) {
+			ud = UnitDefinition.time(getLevel(), getVersion());
 			addUnitDefinition(ud);
-		} else if (id.equals(UnitDefinition.VOLUME.getId())) {
-			ud = UnitDefinition.VOLUME.clone();
+		} else if (id.equals("volume")) {
+			ud = UnitDefinition.volume(getLevel(), getVersion());
 			addUnitDefinition(ud);
 		}
 		return ud;

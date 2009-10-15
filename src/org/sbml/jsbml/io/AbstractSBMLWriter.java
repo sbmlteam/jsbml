@@ -33,25 +33,11 @@ import org.sbml.libsbml.libsbmlConstants;
  */
 public abstract class AbstractSBMLWriter implements SBMLWriter {
 
+	/**
+	 * 
+	 */
 	public AbstractSBMLWriter() {
 	}
-
-	/**
-	 * Save the changes in the model.
-	 * 
-	 * @param model
-	 * @param object
-	 * @throws SBMLException 
-	 */
-	public abstract void saveChanges(Model model, Object object) throws SBMLException;
-
-	/**
-	 * 
-	 * @param sr
-	 * @throws SBMLException 
-	 */
-	public abstract void saveSpeciesReferenceProperties(SpeciesReference sr,
-			Object specRef) throws SBMLException;
 
 	/**
 	 * 
@@ -517,4 +503,21 @@ public abstract class AbstractSBMLWriter implements SBMLWriter {
 				equal &= equal(math.getChild(i), libMath.getChild(i));
 		return equal;
 	}
+
+	/**
+	 * Save the changes in the model.
+	 * 
+	 * @param model
+	 * @param object
+	 * @throws SBMLException 
+	 */
+	public abstract void saveChanges(Model model, Object object) throws SBMLException;
+
+	/**
+	 * 
+	 * @param sr
+	 * @throws SBMLException 
+	 */
+	public abstract void saveSpeciesReferenceProperties(SpeciesReference sr,
+			Object specRef) throws SBMLException;
 }

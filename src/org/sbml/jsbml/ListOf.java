@@ -81,8 +81,6 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 	@SuppressWarnings("unchecked")
 	public ListOf(ListOf<? extends SBase> listOf) {
 		super();
-		for (SBase base : listOf)
-			add((E) base.clone());
 		if (listOf.isSetSBOTerm())
 			this.sboTerm = listOf.getSBOTerm();
 		if (listOf.isSetMetaId())
@@ -97,6 +95,8 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 		this.listOfCVTerms = new LinkedList<CVTerm>();
 		for (CVTerm cvt : listOf.getCVTerms())
 			this.listOfCVTerms.add(cvt.clone());
+		for (SBase base : listOf)
+			add((E) base.clone());
 	}
 
 	/*
@@ -106,6 +106,16 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 	 */
 	// @Override
 	public boolean add(E e) {
+		if (e.getLevel() != getLevel())
+			throw new IllegalArgumentException("Level mismatch between "
+					+ getParentSBMLObject().getClass().getSimpleName()
+					+ " in V " + getLevel() + " and "
+					+ e.getClass().getSimpleName() + " in L" + e.getLevel());
+		else if (e.getVersion() != getVersion())
+			throw new IllegalArgumentException("Version mismatch between "
+					+ getParentSBMLObject().getClass().getSimpleName() + "in V"
+					+ getVersion() + " and " + e.getClass().getSimpleName()
+					+ " in V" + e.getVersion());
 		if (e instanceof NamedSBase) {
 			NamedSBase nsb = (NamedSBase) e;
 			if (nsb.isSetId())

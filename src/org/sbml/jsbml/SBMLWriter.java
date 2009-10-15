@@ -262,6 +262,18 @@ public interface SBMLWriter {
 
 	/**
 	 * 
+	 * @param object
+	 * @param filename
+	 * @param programName
+	 * @param versionNumber
+	 * @return
+	 * @throws SBMLException 
+	 */
+	public boolean writeSBML(Object object, String filename, String programName,
+			String versionNumber) throws SBMLException;
+
+	/**
+	 * 
 	 * @param species
 	 * @return
 	 */
@@ -301,7 +313,7 @@ public interface SBMLWriter {
 	 * @return
 	 */
 	public Object writeUnit(Unit unit,Object...args);
-
+	
 	/**
 	 * 
 	 * @param unitDefinition

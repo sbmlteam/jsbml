@@ -280,6 +280,159 @@ public class Unit extends AbstractSBase {
 				return toString().toLowerCase();
 			}
 		}
+
+		/**
+		 * Tests whether this kind of unit is defined in the given level and
+		 * version of SBML.
+		 * 
+		 * @param level
+		 * @param version
+		 * @return
+		 */
+		public boolean isDefinedIn(int level, int version) {
+			if (level == 1) {
+				if (version == 1) {
+					// TODO
+				} else if (version == 2) {
+					return this == AMPERE || this == BECQUEREL
+							|| this == CANDELA || this == CELSIUS
+							|| this == COULOMB || this == DIMENSIONLESS
+							|| this == FARAD || this == GRAM || this == GRAY
+							|| this == HENRY || this == HERTZ || this == ITEM
+							|| this == JOULE || this == KATAL || this == KELVIN
+							|| this == KILOGRAM || this == LITER
+							|| this == LITRE || this == LUMEN || this == LUX
+							|| this == METER || this == METRE || this == MOLE
+							|| this == NEWTON || this == OHM || this == PASCAL
+							|| this == RADIAN || this == SECOND
+							|| this == SIEMENS || this == SIEVERT
+							|| this == STERADIAN || this == TESLA
+							|| this == VOLT || this == WATT || this == WEBER;
+				}
+			} else if (level == 2) {
+				switch (version) {
+				case 1:
+					// TODO
+					break;
+				case 2:
+					// TODO
+					break;
+				case 3:
+					// TODO
+					break;
+				case 4:
+					// TODO
+					break;
+				default:
+					break;
+				}
+			} else if (level == 3) {
+				if (version == 1) {
+					// TODO
+				}
+			}
+			return false;
+		}
+
+		/**
+		 * Tests whether the both given unit kinds are equivalent, i.e., it also
+		 * considers METRE and METER and LITRE and LITER.
+		 * 
+		 * @param kind1
+		 * @param kind2
+		 * @return
+		 */
+		public static boolean areEquivalent(Kind kind1, Kind kind2) {
+			return kind1 == kind2 || (kind1 == METER && kind2 == METRE)
+					|| (kind2 == METER && kind1 == METRE)
+					|| (kind1 == LITER && kind2 == LITRE)
+					|| (kind2 == LITER && kind1 == LITRE);
+		}
+	}
+
+	/**
+	 * <p>
+	 * Predicate returning true or false depending on whether Unit objects are
+	 * equivalent.
+	 * </p>
+	 * <p>
+	 * Two Unit objects are considered to be equivalent if their 'kind' and
+	 * 'exponent' attributes are equal. (Contrast this to the method
+	 * areIdentical(Unit unit1, Unit unit2), which compares Unit objects with
+	 * respect to all attributes, not just the kind and exponent.)
+	 * </p>
+	 * 
+	 * @param unit1
+	 *            the first Unit object to compare
+	 * @param unit2
+	 *            the second Unit object to compare
+	 * @return if the 'kind' and 'exponent' attributes of unit1 are identical to
+	 *         the kind and exponent attributes of unit2, false otherwise.
+	 */
+	public static boolean areEquivalent(Unit unit1, Unit unit2) {
+		return Kind.areEquivalent(unit1.getKind(), unit2.getKind())
+				&& unit1.getExponent() == unit2.getExponent();
+	}
+
+	/**
+	 * <p>
+	 * Predicate returning true or false depending on whether two Unit objects
+	 * are identical.
+	 * </p>
+	 * <p>
+	 * Two Unit objects are considered to be identical if they match in all
+	 * attributes. (Contrast this to the method areEquivalent(Unit unit1, Unit
+	 * unit2), which compares Unit objects only with respect to certain
+	 * attributes.)
+	 * </p>
+	 * 
+	 * @param unit1
+	 *            the first Unit object to compare
+	 * @param unit2
+	 *            the second Unit object to compare
+	 * @return true if all the attributes of unit1 are identical to the
+	 *         attributes of unit2, false otherwise.
+	 * @see areEquivalent
+	 */
+	public static boolean areIdentical(Unit unit1, Unit unit2) {
+		boolean identical = areEquivalent(unit1, unit2);
+		identical &= unit1.getOffset() == unit2.getOffset();
+		identical &= unit1.getMultiplier() == unit2.getMultiplier();
+		return identical && unit1.getScale() == unit2.getScale();
+	}
+
+	/**
+	 * <p>
+	 * Predicate to test whether a given string is the name of a valid base unit
+	 * in SBML (such as 'gram' or 'mole').
+	 * </p>
+	 * <p>
+	 * This method exists because prior to SBML Level 2 Version 3, an
+	 * enumeration called UnitKind was defined by SBML. This enumeration was
+	 * removed in SBML Level 2 Version 3 and its values were folded into the
+	 * space of values of a type called UnitSId. This method therefore has less
+	 * significance in SBML Level 2 Version 3 and Level 2 Version 4, but remains
+	 * for backward compatibility and support for reading models in older
+	 * Versions of Level 2.
+	 * </p>
+	 * 
+	 * @param name
+	 *            a string to be tested
+	 * @param level
+	 *            an integer representing the SBML specification Level
+	 * @param version
+	 *            an integer representing the SBML specification Version
+	 * @return true if name is a valid UnitKind, false otherwise
+	 * @note The allowed unit names differ between SBML Levels 1 and 2 and again
+	 *       slightly between Level 2 Versions 1 and 2.
+	 */
+	public static boolean isUnitKind(String name, int level, int version) {
+		try {
+			Kind kind = Kind.valueOf(name.toUpperCase());
+			return kind.isDefinedIn(level, version);
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**
@@ -293,21 +446,33 @@ public class Unit extends AbstractSBase {
 	 *            the second Unit object to merge with the first
 	 */
 	public static void merge(Unit unit1, Unit unit2) {
-		// let' get rid of this offset if there is any...
-		double m1 = unit1.getOffset() / Math.pow(10, unit1.getScale())
-				+ unit1.getMultiplier();
-		double m2 = unit2.getOffset() / Math.pow(10, unit2.getScale())
-				+ unit2.getMultiplier();
-		int s1 = unit1.getScale(), s2 = unit2.getScale();
-		int e1 = unit1.getExponent(), e2 = unit2.getExponent();
-		unit1.setOffset(0);
-		unit1.setMultiplier(Math.pow(m1, e1) * Math.pow(m2, e2));
-		unit1.setScale(s1 * e1 + s2 * e2);
-		unit1.setExponent(e1 + e2);
-		if (unit1.getKind() == Kind.METER)
-			unit1.setKind(Kind.METRE);
-		else if (unit1.getKind() == Kind.LITER)
-			unit1.setKind(Kind.LITRE);
+		if (Kind.areEquivalent(unit1.getKind(), unit2.getKind())
+				|| unit1.getKind() == Kind.DIMENSIONLESS
+				|| unit2.getKind() == Kind.DIMENSIONLESS) {
+			// let' get rid of this offset if there is any...
+			double m1 = unit1.getOffset() / Math.pow(10, unit1.getScale())
+					+ unit1.getMultiplier();
+			double m2 = unit2.getOffset() / Math.pow(10, unit2.getScale())
+					+ unit2.getMultiplier();
+			int s1 = unit1.getScale(), s2 = unit2.getScale();
+			int e1 = unit1.getExponent(), e2 = unit2.getExponent();
+			unit1.setOffset(0);
+			unit1.setMultiplier(Math.pow(m1, e1) * Math.pow(m2, e2));
+			unit1.setScale(s1 * e1 + s2 * e2);
+			if (Kind.areEquivalent(unit1.getKind(), unit2.getKind())) {
+				unit1.setExponent(e1 + e2);
+				if (unit1.getExponent() == 0) {
+					unit1.setExponent(1);
+					unit1.setKind(Kind.DIMENSIONLESS);
+				}
+			}
+			if (unit1.getKind() == Kind.METER)
+				unit1.setKind(Kind.METRE);
+			else if (unit1.getKind() == Kind.LITER)
+				unit1.setKind(Kind.LITRE);
+		} else
+			throw new IllegalArgumentException(
+					"Units can only be merged if both have the same kind attribute or if one of them is dimensionless.");
 	}
 
 	/**
