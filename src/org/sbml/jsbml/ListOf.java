@@ -113,7 +113,7 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 					+ e.getClass().getSimpleName() + " in L" + e.getLevel());
 		else if (e.getVersion() != getVersion())
 			throw new IllegalArgumentException("Version mismatch between "
-					+ getParentSBMLObject().getClass().getSimpleName() + "in V"
+					+ getParentSBMLObject().getClass().getSimpleName() + " in V"
 					+ getVersion() + " and " + e.getClass().getSimpleName()
 					+ " in V" + e.getVersion());
 		if (e instanceof NamedSBase) {

@@ -187,7 +187,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * @param unitKind
 	 */
 	void setUnits(Unit.Kind unitKind) {
-		setUnits(new Unit(unitKind, getLevel(), getLevel()));
+		setUnits(new Unit(unitKind, getLevel(), getVersion()));
 	}
 
 	/**
@@ -219,6 +219,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	public void unsetValue() {
 		value = Double.NaN;
+		stateChanged();
 	}
 
 }

@@ -19,6 +19,7 @@
 package org.sbml.jsbml;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Andreas Dr&auml;ger <a
@@ -34,21 +35,27 @@ public interface SBMLReader {
 	 * @return
 	 */
 	public Date convertDate(Object d);
-	
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumErrors();
+
 	/**
 	 * 
 	 * @param sbmlDocument
 	 * @return
 	 */
-	public String getWarnings();
-	
+	public List<SBMLException> getWarnings();
+
 	/**
 	 * 
 	 * @param compartment
 	 * @return
 	 */
 	public Compartment readCompartment(Object compartment);
-	
+
 	/**
 	 * 
 	 * @param term
@@ -62,7 +69,7 @@ public interface SBMLReader {
 	 * @return
 	 */
 	public EventAssignment readEventAssignment(Object eventAssignment);
-	
+
 	/**
 	 * 
 	 * @param functionDefinition
@@ -90,7 +97,7 @@ public interface SBMLReader {
 	 * @return
 	 */
 	public Model readModel(Object model);
-	
+
 	/**
 	 * 
 	 * @param plumod
@@ -105,21 +112,21 @@ public interface SBMLReader {
 	 * @return
 	 */
 	public Parameter readParameter(Object parameter);
-	
+
 	/**
 	 * 
 	 * @param reaction
 	 * @return
 	 */
 	public Reaction readReaction(Object reaction);
-	
+
 	/**
 	 * 
 	 * @param rule
 	 * @return
 	 */
 	public Rule readRule(Object rule);
-	
+
 	/**
 	 * 
 	 * @param species
@@ -154,18 +161,11 @@ public interface SBMLReader {
 	 * @return
 	 */
 	public Unit readUnit(Object unit);
-	
+
 	/**
 	 * 
 	 * @param unitDefinition
 	 * @return
 	 */
 	public UnitDefinition readUnitDefinition(Object unitDefinition);
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public int getNumErrors();
-
 }

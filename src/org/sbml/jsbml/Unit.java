@@ -184,6 +184,21 @@ public class Unit extends AbstractSBase {
 		WEBER;
 
 		/**
+		 * Tests whether the both given unit kinds are equivalent, i.e., it also
+		 * considers METRE and METER and LITRE and LITER.
+		 * 
+		 * @param kind1
+		 * @param kind2
+		 * @return
+		 */
+		public static boolean areEquivalent(Kind kind1, Kind kind2) {
+			return kind1 == kind2 || (kind1 == METER && kind2 == METRE)
+					|| (kind2 == METER && kind1 == METRE)
+					|| (kind1 == LITER && kind2 == LITRE)
+					|| (kind2 == LITER && kind1 == LITRE);
+		}
+
+		/**
 		 * Returns the name of this unit kind.
 		 * 
 		 * @return
@@ -332,21 +347,6 @@ public class Unit extends AbstractSBase {
 				}
 			}
 			return false;
-		}
-
-		/**
-		 * Tests whether the both given unit kinds are equivalent, i.e., it also
-		 * considers METRE and METER and LITRE and LITER.
-		 * 
-		 * @param kind1
-		 * @param kind2
-		 * @return
-		 */
-		public static boolean areEquivalent(Kind kind1, Kind kind2) {
-			return kind1 == kind2 || (kind1 == METER && kind2 == METRE)
-					|| (kind2 == METER && kind1 == METRE)
-					|| (kind1 == LITER && kind2 == LITRE)
-					|| (kind2 == LITER && kind1 == LITRE);
 		}
 	}
 
@@ -707,6 +707,25 @@ public class Unit extends AbstractSBase {
 	 */
 	public boolean isKilogram() {
 		return kind == Kind.KILOGRAM;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind litre.
+	 * 
+	 * @return true if the kind of this Unit is litre or 'liter', false
+	 *         otherwise.
+	 */
+	public boolean isLitre() {
+		return kind == Kind.LITRE || kind == Kind.LITER;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind mole.
+	 * 
+	 * @return true if the kind of this Unit is mole, false otherwise.
+	 */
+	public boolean isMole() {
+		return kind == Kind.MOLE;
 	}
 
 	/**
