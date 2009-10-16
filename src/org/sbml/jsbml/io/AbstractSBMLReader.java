@@ -14,7 +14,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.sbml.jsbml.io;
 
@@ -42,22 +42,6 @@ public abstract class AbstractSBMLReader implements SBMLReader {
 
 	/**
 	 * 
-	 */
-	protected Model model;
-	/**
-	 * 
-	 */
-	protected LinkedList<SBaseChangedListener> listOfSBaseChangeListeners;
-
-	/**
-	 * 
-	 */
-	public AbstractSBMLReader() {
-		listOfSBaseChangeListeners = new LinkedList<SBaseChangedListener>();
-	}
-
-	/**
-	 * 
 	 * @param model
 	 */
 	public static final void addPredefinedUnitDefinitions(Model model) {
@@ -77,13 +61,48 @@ public abstract class AbstractSBMLReader implements SBMLReader {
 			model.addUnitDefinition(UnitDefinition.time(model.getLevel(), model
 					.getVersion()));
 	}
+	/**
+	 * 
+	 */
+	protected LinkedList<SBaseChangedListener> listOfSBaseChangeListeners;
+
+	/**
+	 * 
+	 */
+	protected Model model;
+
+	/**
+	 * 
+	 */
+	public AbstractSBMLReader() {
+		listOfSBaseChangeListeners = new LinkedList<SBaseChangedListener>();
+	}
 
 	/**
 	 * 
 	 * @param model
 	 */
 	public AbstractSBMLReader(Object model) {
+		this();
 		this.model = readModel(model);
+	}
+
+	/**
+	 * 
+	 * @param sb
+	 */
+	public void addAllSBaseChangeListenersTo(SBase sb) {
+		for (SBaseChangedListener listener : listOfSBaseChangeListeners)
+			sb.addChangeListener(listener);
+	}
+
+	/**
+	 * 
+	 * @param sbcl
+	 */
+	public void addSBaseChangeListener(SBaseChangedListener sbcl) {
+		if (!listOfSBaseChangeListeners.contains(sbcl))
+			listOfSBaseChangeListeners.add(sbcl);
 	}
 
 	/**
@@ -309,24 +328,6 @@ public abstract class AbstractSBMLReader implements SBMLReader {
 
 	public Model getModel() {
 		return model;
-	}
-
-	/**
-	 * 
-	 * @param sbcl
-	 */
-	public void addSBaseChangeListener(SBaseChangedListener sbcl) {
-		if (!listOfSBaseChangeListeners.contains(sbcl))
-			listOfSBaseChangeListeners.add(sbcl);
-	}
-
-	/**
-	 * 
-	 * @param sb
-	 */
-	public void addAllSBaseChangeListenersTo(SBase sb) {
-		for (SBaseChangedListener listener : listOfSBaseChangeListeners)
-			sb.addChangeListener(listener);
 	}
 
 	/**

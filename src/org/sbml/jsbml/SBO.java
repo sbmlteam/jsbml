@@ -121,7 +121,8 @@ public class SBO {
 	 * @return
 	 */
 	public static int convertAlias2SBO(String aliasType) {
-		return Integer.parseInt(alias2sbo.get(aliasType).toString());
+		Object value = alias2sbo.get(aliasType);
+		return value != null ? Integer.parseInt(value.toString()) : -1;
 	}
 
 	/**
@@ -130,7 +131,8 @@ public class SBO {
 	 * @return
 	 */
 	public static String convertSBO2Alias(int sboterm) {
-		return (String) sbo2alias.get(Integer.toString(sboterm));
+		Object value = sbo2alias.get(Integer.toString(sboterm));
+		return value != null ? value.toString() : "";
 	}
 
 	/**
@@ -143,17 +145,9 @@ public class SBO {
 
 	/**
 	 * Creates and returns a list of molecule types accepted as an enzyme by
-	 * default. These are:
-	 * <ul type="disk">
-	 * <li>ANTISENSE_RNA</li>
-	 * <li> SIMPLE_MOLECULE</li>
-	 * <li>UNKNOWN</li>
-	 * <li>COMPLEX</li>
-	 * <li>TRUNCATED</li>
-	 * <li>GENERIC</li>
-	 * <li>RNA</li>
-	 * <li>RECEPTOR</li>
-	 * </ul>
+	 * default. These are: <ul type="disk"> <li>ANTISENSE_RNA</li> <li>
+	 * SIMPLE_MOLECULE</li> <li>UNKNOWN</li> <li>COMPLEX</li> <li>TRUNCATED</li>
+	 * <li>GENERIC</li> <li>RNA</li> <li>RECEPTOR</li> </ul>
 	 * 
 	 * @return
 	 */
