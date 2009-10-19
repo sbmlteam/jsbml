@@ -20,6 +20,8 @@ package org.sbml.jsbml.io;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.sbml.jsbml.AlgebraicRule;
 import org.sbml.jsbml.AssignmentRule;
@@ -77,6 +79,40 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 				.get(Calendar.SECOND), (int) Math.signum(c.getTimeZone()
 				.getRawOffset()), c.getTimeZone().getRawOffset() / 3600000, c
 				.getTimeZone().getRawOffset() / 60000);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jlibsbml.SBMLWriter#getNumErrors(java.lang.Object)
+	 */
+	public int getNumErrors(Object sbase) {
+		if (!(sbase instanceof org.sbml.libsbml.SBase))
+			throw new IllegalArgumentException(
+					"sbase must be an instance of org.sbml.libsbml.SBase.");
+		org.sbml.libsbml.SBMLDocument doc = ((org.sbml.libsbml.SBase) sbase)
+				.getSBMLDocument();
+		doc.checkConsistency();
+		return (int) doc.getNumErrors();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.SBMLWriter#getWriteWarnings()
+	 */
+	// @Override
+	public List<SBMLException> getWriteWarnings(Object sbase) {
+		if (!(sbase instanceof org.sbml.libsbml.SBase))
+			throw new IllegalArgumentException(
+					"sbmlDocument must be an instance of org.sbml.libsbml.SBase.");
+		org.sbml.libsbml.SBMLDocument doc = ((org.sbml.libsbml.SBase) sbase)
+				.getSBMLDocument();
+		doc.checkConsistency();
+		List<SBMLException> sb = new LinkedList<SBMLException>();
+		for (int i = 0; i < doc.getNumErrors(); i++)
+			sb.add(LibSBMLReader.convert(doc.getError(i)));
+		return sb;
 	}
 
 	/*
@@ -1885,46 +1921,6 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 		equal &= u.getScale() == unit.getScale();
 		equal &= u.getOffset() == unit.getOffset();
 		return equal;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jlibsbml.SBMLWriter#getWarnings(java.lang.Object)
-	 */
-	public String getWarnings(Object sbmlDocument) {
-		if (!(sbmlDocument instanceof org.sbml.libsbml.SBMLDocument)
-				&& !(sbmlDocument instanceof org.sbml.libsbml.SBase))
-			throw new IllegalArgumentException(
-					"sbmlDocument must be an instance of org.sbml.libsbml.SBMLDocument.");
-		org.sbml.libsbml.SBMLDocument doc;
-		if (sbmlDocument instanceof org.sbml.libsbml.SBMLDocument)
-			doc = (org.sbml.libsbml.SBMLDocument) sbmlDocument;
-		else
-			doc = ((org.sbml.libsbml.SBase) sbmlDocument).getSBMLDocument();
-		doc.checkConsistency();
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < doc.getNumErrors(); i++) {
-			org.sbml.libsbml.SBMLError e = doc.getError(i);
-			sb.append(e.getMessage());
-			sb.append(System.getProperty("line.separator"));
-		}
-		return sb.toString();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jlibsbml.SBMLWriter#getNumErrors(java.lang.Object)
-	 */
-	public int getNumErrors(Object sbase) {
-		if (!(sbase instanceof org.sbml.libsbml.SBase))
-			throw new IllegalArgumentException(
-					"sbase must be an instance of org.sbml.libsbml.SBase.");
-		org.sbml.libsbml.SBMLDocument doc = ((org.sbml.libsbml.SBase) sbase)
-				.getSBMLDocument();
-		doc.checkConsistency();
-		return (int) doc.getNumErrors();
 	}
 
 }

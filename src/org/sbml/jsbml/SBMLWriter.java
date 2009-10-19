@@ -14,11 +14,13 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.sbml.jsbml;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -44,10 +46,10 @@ public interface SBMLWriter {
 
 	/**
 	 * 
-	 * @param sbmlDocument
+	 * @param sbase
 	 * @return
 	 */
-	public String getWarnings(Object sbmlDocument);
+	public List<SBMLException> getWriteWarnings(Object sbase);
 	
 	/**
 	 * 
@@ -257,8 +259,9 @@ public interface SBMLWriter {
 	 * @param filename
 	 * @return
 	 * @throws SBMLException 
+	 * @throws IOException 
 	 */
-	public boolean writeSBML(Object sbmlDocument, String filename) throws SBMLException;
+	public boolean writeSBML(Object sbmlDocument, String filename) throws SBMLException, IOException;
 
 	/**
 	 * 
@@ -268,9 +271,10 @@ public interface SBMLWriter {
 	 * @param versionNumber
 	 * @return
 	 * @throws SBMLException 
+	 * @throws IOException 
 	 */
 	public boolean writeSBML(Object object, String filename, String programName,
-			String versionNumber) throws SBMLException;
+			String versionNumber) throws SBMLException, IOException;
 
 	/**
 	 * 
@@ -283,8 +287,9 @@ public interface SBMLWriter {
 	 * 
 	 * @param speciesReference
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public Object writeSpeciesReference(SpeciesReference speciesReference,Object...args);
+	public Object writeSpeciesReference(SpeciesReference speciesReference,Object...args) throws SBMLException;
 
 	/**
 	 * 
