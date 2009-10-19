@@ -16,6 +16,26 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+/*
+ *     JSBML - The SBML Java Library - development code
+ *
+ * This code may be freely distributed and modified under the
+ * terms of the GNU Lesser General Public License. This should
+ * be distributed with the code. If you do not have a copy,
+ * see:
+ *
+ *      http://www.gnu.org/copyleft/lesser.html
+ *
+ * Copyright for this code is held jointly by the individual
+ * authors. These should be listed in @author doc comments.
+ *
+ * For more information on the JSBML project and its aims,
+ * or to join the jsbml-development mailing list, visit the 
+ * home page at:
+ *
+ *      http://sbml.org
+ *
+ */
 package org.sbml.jsbml;
 
 /**
