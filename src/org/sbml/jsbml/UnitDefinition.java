@@ -37,6 +37,74 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
+	 * <p>
+	 * Predicate returning true or false depending on whether two UnitDefinition
+	 * objects are equivalent.
+	 * </p>
+	 * <p>
+	 * For the purposes of performing this comparison, two UnitDefinition
+	 * objects are considered equivalent when they contain equivalent list of
+	 * Unit objects. Unit objects are in turn considered equivalent if they
+	 * satisfy the predicate Unit.areEquivalent(). The predicate tests a subset
+	 * of the objects's attributes.
+	 * </p>
+	 * 
+	 * @param ud1
+	 *            the first UnitDefinition object to compare
+	 * @param ud2
+	 *            the second UnitDefinition object to compare
+	 * @return true if all the Unit objects in ud1 are equivalent to the Unit
+	 *         objects in ud2, false otherwise.
+	 * @see areIdentical
+	 * @see Unit.areEquivalent
+	 */
+	public static boolean areEquivalent(UnitDefinition ud1, UnitDefinition ud2) {
+		UnitDefinition ud1clone = ud1.clone().simplify();
+		UnitDefinition ud2clone = ud2.clone().simplify();
+		if (ud1clone.getNumUnits() == ud2clone.getNumUnits()) {
+			boolean equivalent = true;
+			for (int i = 0; i < ud1clone.getNumUnits(); i++)
+				equivalent &= Unit.areEquivalent(ud1clone.getUnit(i), ud2clone
+						.getUnit(i));
+			return equivalent;
+		}
+		return false;
+	}
+
+	/**
+	 * <p>
+	 * Predicate returning true or false depending on whether two UnitDefinition
+	 * objects are identical.
+	 * </p>
+	 * <p>
+	 * For the purposes of performing this comparison, two UnitDefinition
+	 * objects are considered identical when they contain identical lists of
+	 * Unit objects. Pairs of Unit objects in the lists are in turn considered
+	 * identical if they satisfy the predicate Unit.areIdentical(). The
+	 * predicate compares every attribute of the Unit objects.
+	 * </p>
+	 * 
+	 * @param ud1
+	 *            the first UnitDefinition object to compare
+	 * @param ud2
+	 *            the second UnitDefinition object to compare
+	 * @return true if all the Unit objects in ud1 are identical to the Unit
+	 *         objects of ud2, false otherwise.
+	 */
+	public static boolean areIdentical(UnitDefinition ud1, UnitDefinition ud2) {
+		UnitDefinition ud1clone = ud1.clone().simplify();
+		UnitDefinition ud2clone = ud2.clone().simplify();
+		if (ud1clone.getNumUnits() == ud2clone.getNumUnits()) {
+			boolean identical = true;
+			for (int i = 0; i < ud1clone.getNumUnits(); i++)
+				identical &= Unit.areIdentical(ud1clone.getUnit(i), ud2clone
+						.getUnit(i));
+			return identical;
+		}
+		return false;
+	}
+
+	/**
 	 * Predefined unit for length.
 	 */
 	public static final UnitDefinition length(int level, int version) {
