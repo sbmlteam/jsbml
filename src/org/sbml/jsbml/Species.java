@@ -271,18 +271,19 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return
+	 * @return Returns true if an initial amount has been set for this species.
 	 */
 	public boolean isSetInitialAmount() {
-		return amountOrConcentration;
+		return amountOrConcentration && !Double.isNaN(getValue());
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return Returns true if an initial concentration has been set for this
+	 *         species.
 	 */
 	public boolean isSetInitialConcentration() {
-		return !isSetInitialAmount();
+		return !amountOrConcentration && !Double.isNaN(getValue());
 	}
 
 	/**
@@ -364,7 +365,7 @@ public class Species extends Symbol {
 		this.speciesType.parentSBMLObject = this;
 		stateChanged();
 	}
-	
+
 	/**
 	 * 
 	 * @param unit
@@ -372,7 +373,7 @@ public class Species extends Symbol {
 	public void setSubstanceUnits(Unit unit) {
 		super.setUnits(unit);
 	}
-	
+
 	/**
 	 * 
 	 * @param unitKind

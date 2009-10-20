@@ -146,16 +146,21 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 
 		// Unit definitions
 		for (UnitDefinition ud : model.getListOfUnitDefinitions())
-			if (!ud.equals(UnitDefinition.substance(ud.getLevel(), ud
-					.getVersion()))
-					&& !ud.equals(UnitDefinition.volume(ud.getLevel(), ud
-							.getVersion()))
-					&& !ud.equals(UnitDefinition.area(ud.getLevel(), ud
-							.getVersion()))
-					&& !ud.equals(UnitDefinition.length(ud.getLevel(), ud
-							.getVersion()))
-					&& !ud.equals(UnitDefinition.time(ud.getLevel(), ud
-							.getVersion()))) {
+			if (!(UnitDefinition.areIdentical(ud, UnitDefinition.substance(ud
+					.getLevel(), ud.getVersion())) && ud.getId().equals(
+					"substance"))
+					&& !(UnitDefinition.areIdentical(ud, UnitDefinition.volume(
+							ud.getLevel(), ud.getVersion())) && ud.getId()
+							.equals("volume"))
+					&& !(UnitDefinition.areIdentical(ud, UnitDefinition.area(ud
+							.getLevel(), ud.getVersion())) && ud.getId()
+							.equals("area"))
+					&& !(UnitDefinition.areIdentical(ud, UnitDefinition.length(
+							ud.getLevel(), ud.getVersion())) && ud.getId()
+							.equals("length"))
+					&& !(UnitDefinition.areIdentical(ud, UnitDefinition.time(ud
+							.getLevel(), ud.getVersion())) && ud.getId()
+							.equals("time"))) {
 				org.sbml.libsbml.UnitDefinition libU = mo.getUnitDefinition(ud
 						.getId());
 				if (libU != null) {

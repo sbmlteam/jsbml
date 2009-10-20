@@ -300,40 +300,6 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * 
-	 * @param operator
-	 * @param ast
-	 * @return
-	 */
-	private static ASTNode arithmethicOperation(Type operator, ASTNode... ast) {
-		LinkedList<ASTNode> astList = new LinkedList<ASTNode>();
-		if (ast != null)
-			for (ASTNode node : ast) {
-				if (node != null
-						&& !(operator == Type.TIMES && node.isOne() && ast.length > 1))
-					astList.add(node);
-			}
-		if (astList.size() == 0)
-			return null;
-		if (astList.size() == 1)
-			return astList.getFirst().clone();
-		if (operator == Type.PLUS || operator == Type.MINUS
-				|| operator == Type.TIMES || operator == Type.DIVIDE
-				|| operator == Type.POWER) {
-			MathContainer mc = astList.getFirst().parentSBMLObject;
-			ASTNode arithmetic = new ASTNode(operator, mc);
-			for (ASTNode nodes : astList) {
-				arithmetic.addChild(nodes);
-				setParentSBMLObject(nodes, mc, 0);
-			}
-			return arithmetic;
-		} else
-			throw new RuntimeException(
-					new IllegalArgumentException(
-							"The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER."));
-	}
-
-	/**
 	 * Creates a new ASTNode of type MINUS and adds the given nodes as children
 	 * 
 	 * @param parent
@@ -489,19 +455,6 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * set the Parent of the node and its children to the given value
-	 * 
-	 * @param node
-	 * @param parent
-	 */
-	private static void setParentSBMLObject(ASTNode node, MathContainer parent,
-			int depth) {
-		node.parentSBMLObject = parent;
-		for (ASTNode child : node.listOfNodes)
-			setParentSBMLObject(child, parent, depth + 1);
-	}
-
-	/**
 	 * 
 	 * @param radicand
 	 * @return
@@ -559,6 +512,53 @@ public class ASTNode implements TreeNode {
 		return times(elements);
 	}
 
+	/**
+	 * 
+	 * @param operator
+	 * @param ast
+	 * @return
+	 */
+	private static ASTNode arithmethicOperation(Type operator, ASTNode... ast) {
+		LinkedList<ASTNode> astList = new LinkedList<ASTNode>();
+		if (ast != null)
+			for (ASTNode node : ast) {
+				if (node != null
+						&& !(operator == Type.TIMES && node.isOne() && ast.length > 1))
+					astList.add(node);
+			}
+		if (astList.size() == 0)
+			return null;
+		if (astList.size() == 1)
+			return astList.getFirst().clone();
+		if (operator == Type.PLUS || operator == Type.MINUS
+				|| operator == Type.TIMES || operator == Type.DIVIDE
+				|| operator == Type.POWER) {
+			MathContainer mc = astList.getFirst().parentSBMLObject;
+			ASTNode arithmetic = new ASTNode(operator, mc);
+			for (ASTNode nodes : astList) {
+				arithmetic.addChild(nodes);
+				setParentSBMLObject(nodes, mc, 0);
+			}
+			return arithmetic;
+		} else
+			throw new RuntimeException(
+					new IllegalArgumentException(
+							"The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER."));
+	}
+
+	/**
+	 * set the Parent of the node and its children to the given value
+	 * 
+	 * @param node
+	 * @param parent
+	 */
+	private static void setParentSBMLObject(ASTNode node, MathContainer parent,
+			int depth) {
+		node.parentSBMLObject = parent;
+		for (ASTNode child : node.listOfNodes)
+			setParentSBMLObject(child, parent, depth + 1);
+	}
+
 	private int denominator;
 
 	private int exponent;
@@ -588,16 +588,16 @@ public class ASTNode implements TreeNode {
 	private ASTNode parent;
 
 	/**
-	 * The container that holds this ASTNode.
-	 */
-	MathContainer parentSBMLObject;
-
-	/**
 	 * The type of this ASTNode.
 	 */
 	private Type type;
 
 	private NamedSBase variable;
+
+	/**
+	 * The container that holds this ASTNode.
+	 */
+	MathContainer parentSBMLObject;
 
 	/**
 	 * Copy constructor; Creates a deep copy of the given ASTNode.
@@ -698,52 +698,6 @@ public class ASTNode implements TreeNode {
 	public void addChild(ASTNode child) {
 		listOfNodes.add(child);
 		child.parent = this;
-	}
-
-	/**
-	 * Creates a new node with the type of this node, moves all children of this
-	 * node to this new node, sets the type of this node to the given operator,
-	 * adds the new node as left child of this node and the given astnode as the
-	 * right child of this node. The parentSBMLObject of the whole resulting
-	 * ASTNode is then set to the parent of this node.
-	 * 
-	 * @param operator
-	 *            The new type of this node. This has to be one of the
-	 *            following: PLUS, MINUS, TIMES, DIVIDE, or POWER. Otherwise a
-	 *            runtime error is thrown.
-	 * @param astnode
-	 *            The new right child of this node
-	 */
-	private void arithmeticOperation(Type operator, ASTNode astnode) {
-		if (operator == Type.PLUS || operator == Type.MINUS
-				|| operator == Type.TIMES || operator == Type.DIVIDE
-				|| operator == Type.POWER || operator == Type.FUNCTION_ROOT) {
-			if (astnode.isZero() && operator == Type.DIVIDE)
-				throw new RuntimeException(new IllegalArgumentException(
-						"Cannot divide by zero."));
-			if (!(astnode.isOne() && (operator == Type.TIMES || operator == Type.DIVIDE))) {
-				ASTNode swap = new ASTNode(type, getParentSBMLObject());
-				swap.denominator = denominator;
-				swap.exponent = exponent;
-				swap.mantissa = mantissa;
-				swap.name = name;
-				swap.numerator = numerator;
-				swap.variable = variable;
-				swapChildren(swap);
-				setType(operator);
-				if (operator == Type.FUNCTION_ROOT) {
-					addChild(astnode);
-					addChild(swap);
-				} else {
-					addChild(swap);
-					addChild(astnode);
-				}
-				setParentSBMLObject(astnode, getParentSBMLObject(), 0);
-			}
-		} else
-			throw new RuntimeException(
-					new IllegalArgumentException(
-							"The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER."));
 	}
 
 	/*
@@ -1316,19 +1270,6 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * 
-	 */
-	private void initDefaults() {
-		type = Type.UNKNOWN;
-		if (listOfNodes == null)
-			listOfNodes = new LinkedList<ASTNode>();
-		else
-			listOfNodes.clear();
-		variable = null;
-		mantissa = Double.NaN;
-	}
-
-	/**
 	 * Insert the given ASTNode at point n in the list of children of this
 	 * ASTNode. Inserting a child within an ASTNode may result in an inaccurate
 	 * representation.
@@ -1742,6 +1683,16 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Raises this ASTNode by the power of the value of this named SBase object.
+	 * 
+	 * @param nsb
+	 * @return
+	 */
+	public ASTNode raiseByThePowerOf(NamedSBase nsb) {
+		return raiseByThePowerOf(new ASTNode(nsb, getParentSBMLObject()));
+	}
+
+	/**
 	 * Reduces this ASTNode to a binary tree, e.g., if the formula in this
 	 * ASTNode is and(x, y, z) then the formula of the reduced node would be
 	 * and(and(x, y), z)
@@ -2067,5 +2018,64 @@ public class ASTNode implements TreeNode {
 				break;
 			}
 		return isName() ? getName() : getType().toString();
+	}
+
+	/**
+	 * Creates a new node with the type of this node, moves all children of this
+	 * node to this new node, sets the type of this node to the given operator,
+	 * adds the new node as left child of this node and the given astnode as the
+	 * right child of this node. The parentSBMLObject of the whole resulting
+	 * ASTNode is then set to the parent of this node.
+	 * 
+	 * @param operator
+	 *            The new type of this node. This has to be one of the
+	 *            following: PLUS, MINUS, TIMES, DIVIDE, or POWER. Otherwise a
+	 *            runtime error is thrown.
+	 * @param astnode
+	 *            The new right child of this node
+	 */
+	private void arithmeticOperation(Type operator, ASTNode astnode) {
+		if (operator == Type.PLUS || operator == Type.MINUS
+				|| operator == Type.TIMES || operator == Type.DIVIDE
+				|| operator == Type.POWER || operator == Type.FUNCTION_ROOT) {
+			if (astnode.isZero() && operator == Type.DIVIDE)
+				throw new RuntimeException(new IllegalArgumentException(
+						"Cannot divide by zero."));
+			if (!(astnode.isOne() && (operator == Type.TIMES || operator == Type.DIVIDE))) {
+				ASTNode swap = new ASTNode(type, getParentSBMLObject());
+				swap.denominator = denominator;
+				swap.exponent = exponent;
+				swap.mantissa = mantissa;
+				swap.name = name;
+				swap.numerator = numerator;
+				swap.variable = variable;
+				swapChildren(swap);
+				setType(operator);
+				if (operator == Type.FUNCTION_ROOT) {
+					addChild(astnode);
+					addChild(swap);
+				} else {
+					addChild(swap);
+					addChild(astnode);
+				}
+				setParentSBMLObject(astnode, getParentSBMLObject(), 0);
+			}
+		} else
+			throw new RuntimeException(
+					new IllegalArgumentException(
+							"The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER."));
+	}
+
+	/**
+	 * 
+	 */
+	private void initDefaults() {
+		type = Type.UNKNOWN;
+		if (listOfNodes == null)
+			listOfNodes = new LinkedList<ASTNode>();
+		else
+			listOfNodes.clear();
+		variable = null;
+		mantissa = Double.NaN;
 	}
 }
