@@ -28,21 +28,21 @@ public class AlgebraicRule extends Rule {
 
 	/**
 	 * 
-	 * @param level
-	 * @param version
-	 */
-	public AlgebraicRule(int level, int version) {
-		super(level, version);
-	}
-
-	/**
-	 * 
 	 * @param math
 	 * @param level
 	 * @param version
 	 */
 	public AlgebraicRule(ASTNode math, int level, int version) {
 		super(math, level, version);
+	}
+
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public AlgebraicRule(int level, int version) {
+		super(level, version);
 	}
 
 	/**
@@ -60,6 +60,42 @@ public class AlgebraicRule extends Rule {
 	// @Override
 	public AlgebraicRule clone() {
 		return new AlgebraicRule(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Rule#isCompartmentVolume()
+	 */
+	@Override
+	public boolean isCompartmentVolume() {
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Rule#isParameter()
+	 */
+	@Override
+	public boolean isParameter() {
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Rule#isScalar()
+	 */
+	@Override
+	public boolean isScalar() {
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Rule#isSpeciesConcentration()
+	 */
+	@Override
+	public boolean isSpeciesConcentration() {
+		return false;
 	}
 
 }

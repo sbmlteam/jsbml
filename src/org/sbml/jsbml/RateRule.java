@@ -41,6 +41,7 @@ public class RateRule extends Rule {
 
 	/**
 	 * Takes level and version from the variable.
+	 * 
 	 * @param variable
 	 */
 	public RateRule(Symbol variable) {
@@ -50,6 +51,7 @@ public class RateRule extends Rule {
 
 	/**
 	 * Takes level and version from the variable.
+	 * 
 	 * @param variable
 	 * @param math
 	 */
@@ -84,12 +86,52 @@ public class RateRule extends Rule {
 		return variable;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Rule#isCompartmentVolume()
+	 */
+	@Override
+	public boolean isCompartmentVolume() {
+		return isSetVariable() && (variable instanceof Compartment);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Rule#isParameter()
+	 */
+	@Override
+	public boolean isParameter() {
+		return isSetVariable() && (variable instanceof Parameter);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Rule#isScalar()
+	 */
+	@Override
+	public boolean isScalar() {
+		return false;
+	}
+
 	/**
 	 * 
 	 * @return
 	 */
 	public boolean isSetVariable() {
 		return variable != null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Rule#isSpeciesConcentration()
+	 */
+	@Override
+	public boolean isSpeciesConcentration() {
+		return isSetVariable() && (variable instanceof Species);
 	}
 
 	/**
@@ -103,7 +145,7 @@ public class RateRule extends Rule {
 					"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
 		setVariable(nsb);
 	}
-	
+
 	/**
 	 * 
 	 * @param variable
@@ -112,5 +154,4 @@ public class RateRule extends Rule {
 		this.variable = variable;
 		stateChanged();
 	}
-
 }
