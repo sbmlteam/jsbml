@@ -83,12 +83,53 @@ public class AssignmentRule extends Rule {
 		return variable;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Rule#isCompartmentVolume()
+	 */
+	@Override
+	public boolean isCompartmentVolume() {
+		return isSetVariable() && (variable instanceof Compartment);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Rule#isParameter()
+	 */
+	@Override
+	public boolean isParameter() {
+		return isSetVariable() && (variable instanceof Parameter);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Rule#isScalar()
+	 */
+	@Override
+	public boolean isScalar() {
+		// TODO
+		return true;
+	}
+
 	/**
 	 * 
 	 * @return
 	 */
 	public boolean isSetVariable() {
 		return variable != null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Rule#isSpeciesConcentration()
+	 */
+	@Override
+	public boolean isSpeciesConcentration() {
+		return isSetVariable() && (variable instanceof Species);
 	}
 
 	/**

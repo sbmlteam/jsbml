@@ -75,7 +75,7 @@ public class Compartment extends Symbol {
 	public Compartment clone() {
 		return new Compartment(this);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -99,7 +99,7 @@ public class Compartment extends Symbol {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -107,6 +107,7 @@ public class Compartment extends Symbol {
 	public String getCompartmentType() {
 		return isSetCompartmentType() ? compartmentType.getId() : "";
 	}
+
 	/**
 	 * 
 	 * @return
@@ -114,6 +115,7 @@ public class Compartment extends Symbol {
 	public CompartmentType getCompartmentTypeInstance() {
 		return compartmentType;
 	}
+
 	/**
 	 * 
 	 * @return
@@ -156,14 +158,16 @@ public class Compartment extends Symbol {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.Symbol#getUnits()
 	 */
 	public String getUnits() {
 		return super.getUnits();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.Symbol#getUnitsInstance()
 	 */
 	public UnitDefinition getUnitsInstance() {
@@ -204,7 +208,7 @@ public class Compartment extends Symbol {
 	public boolean isConstant() {
 		return constant;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -231,10 +235,49 @@ public class Compartment extends Symbol {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.Symbol#isSetUnits()
 	 */
 	public boolean isSetUnits() {
 		return super.isSetUnits();
+	}
+
+	/**
+	 * <p>
+	 * (For SBML Level 1) Predicate returning true or false depending on whether
+	 * this Compartment's 'volume' attribute has been set.
+	 * </p>
+	 * <p>
+	 * Some words of explanation about the set/unset/isSet methods: SBML Levels
+	 * 1 and 2 define certain attributes on some classes of objects as optional.
+	 * This requires an application to be careful about the distinction between
+	 * two cases: (1) a given attribute has never been set to a value, and
+	 * therefore should be assumed to have the SBML-defined default value, and
+	 * (2) a given attribute has been set to a value, but the value happens to
+	 * be an empty string. LibSBML supports these distinctions by providing
+	 * methods to set, unset, and query the status of attributes that are
+	 * optional. The methods have names of the form setAttribute(...),
+	 * unsetAttribute(), and isSetAttribute(), where Attribute is the the name
+	 * of the optional attribute in question.
+	 * </p>
+	 * <p>
+	 * This method is similar but not identical to isSetSize(). The latter
+	 * should not be used in the context of SBML Level 1 models because this
+	 * method (isSetVolume()) performs extra processing to take into account the
+	 * difference in default values between SBML Levels 1 and 2.
+	 * </p>
+	 * 
+	 * @return true if the 'volume' attribute ('size' in L2) of this Compartment
+	 *         has been set, false otherwise.
+	 * @see isSetSize
+	 * @note In SBML Level 1, a compartment's volume has a default value ( 1.0)
+	 *       and therefore this method will always return true. In Level 2, a
+	 *       compartment's size (the equivalent of SBML Level 1's 'volume') is
+	 *       optional and has no default value, and therefore may or may not be
+	 *       set.
+	 */
+	public boolean isSetVolume() {
+		return isSetSize();
 	}
 
 	/**
@@ -283,6 +326,7 @@ public class Compartment extends Symbol {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.Symbol#setUnits(org.sbml.jsbml.Unit)
 	 */
 	public void setUnits(Unit unit) {
@@ -291,6 +335,7 @@ public class Compartment extends Symbol {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.Symbol#setUnits(org.sbml.jsbml.Unit.Kind)
 	 */
 	public void setUnits(Unit.Kind unitKind) {
@@ -299,9 +344,91 @@ public class Compartment extends Symbol {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.Symbol#setUnits(org.sbml.jsbml.UnitDefinition)
 	 */
 	public void setUnits(UnitDefinition units) {
 		super.setUnits(units);
+	}
+
+	/**
+	 * <p>
+	 * Sets the 'volume' attribute (or 'size' in SBML Level 2) of this
+	 * Compartment.
+	 * </p>
+	 * <p>
+	 * Some words of explanation about the set/unset/isSet methods: SBML Levels
+	 * 1 and 2 define certain attributes on some classes of objects as optional.
+	 * This requires an application to be careful about the distinction between
+	 * two cases: (1) a given attribute has never been set to a value, and
+	 * therefore should be assumed to have the SBML-defined default value, and
+	 * (2) a given attribute has been set to a value, but the value happens to
+	 * be an empty string. LibSBML supports these distinctions by providing
+	 * methods to set, unset, and query the status of attributes that are
+	 * optional. The methods have names of the form setAttribute(...),
+	 * unsetAttribute(), and isSetAttribute(), where Attribute is the the name
+	 * of the optional attribute in question.
+	 * </p>
+	 * <p>
+	 * This method is identical to setVolume() and is provided for compatibility
+	 * between SBML Level 1 and Level 2.
+	 * </p>
+	 * 
+	 * @param value
+	 *            a double representing the volume of this compartment instance
+	 *            in whatever units are in effect for the compartment.
+	 */
+	public void setVolume(double value) {
+		setSize(value);
+	}
+
+	/**
+	 * <p>
+	 * Unsets the value of the 'size' attribute of this Compartment.
+	 * </p>
+	 * <p>
+	 * Some words of explanation about the set/unset/isSet methods: SBML Levels
+	 * 1 and 2 define certain attributes on some classes of objects as optional.
+	 * This requires an application to be careful about the distinction between
+	 * two cases: (1) a given attribute has never been set to a value, and
+	 * therefore should be assumed to have the SBML-defined default value, and
+	 * (2) a given attribute has been set to a value, but the value happens to
+	 * be an empty string. LibSBML supports these distinctions by providing
+	 * methods to set, unset, and query the status of attributes that are
+	 * optional. The methods have names of the form setAttribute(...),
+	 * unsetAttribute(), and isSetAttribute(), where Attribute is the the name
+	 * of the optional attribute in question.
+	 * </p>
+	 */
+	public void unsetSize() {
+		unsetValue();
+	}
+
+	/**
+	 * <p>
+	 * (For SBML Level 1) Unsets the value of the 'volume' attribute of this
+	 * Compartment.
+	 * </p>
+	 * <p>
+	 * Some words of explanation about the set/unset/isSet methods: SBML Levels
+	 * 1 and 2 define certain attributes on some classes of objects as optional.
+	 * This requires an application to be careful about the distinction between
+	 * two cases: (1) a given attribute has never been set to a value, and
+	 * therefore should be assumed to have the SBML-defined default value, and
+	 * (2) a given attribute has been set to a value, but the value happens to
+	 * be an empty string. LibSBML supports these distinctions by providing
+	 * methods to set, unset, and query the status of attributes that are
+	 * optional. The methods have names of the form setAttribute(...),
+	 * unsetAttribute(), and isSetAttribute(), where Attribute is the the name
+	 * of the optional attribute in question.
+	 * </p>
+	 * <p>
+	 * In SBML Level 1, a Compartment volume has a default value (1.0) and
+	 * therefore should always be set. In Level 2, 'size' is optional with no
+	 * default value and as such may or may not be set.
+	 * </p>
+	 */
+	public void unsetVolume() {
+		unsetSize();
 	}
 }

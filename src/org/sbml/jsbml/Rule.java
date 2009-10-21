@@ -51,7 +51,7 @@ public abstract class Rule extends MathContainer {
 	public Rule(MathContainer sb) {
 		super(sb);
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -59,7 +59,7 @@ public abstract class Rule extends MathContainer {
 	public boolean isAlgebraic() {
 		return this instanceof AlgebraicRule;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -67,7 +67,7 @@ public abstract class Rule extends MathContainer {
 	public boolean isAssignment() {
 		return this instanceof AssignmentRule;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -75,4 +75,39 @@ public abstract class Rule extends MathContainer {
 	public boolean isRate() {
 		return this instanceof RateRule;
 	}
+
+	/**
+	 * Predicate returning true or false depending on whether this Rule is an
+	 * AssignmentRule (SBML Level 2) or has a 'type' attribute value of 'scalar'
+	 * (SBML Level 1).
+	 * 
+	 * @return true if this Rule is an AssignmentRule (Level 2) or has type
+	 *         'scalar' (Level 1), false otherwise.
+	 */
+	public abstract boolean isScalar();
+
+	/**
+	 * (SBML Level 1 only) Predicate returning true or false depending on
+	 * whether this Rule is an CompartmentVolumeRule.
+	 * 
+	 * @return true if this Rule is a CompartmentVolumeRule, false otherwise.
+	 */
+	public abstract boolean isCompartmentVolume();
+
+	/**
+	 * (SBML Level 1 only) Predicate returning true or false depending on
+	 * whether this Rule is an ParameterRule.
+	 * 
+	 * @return true if this Rule is a ParameterRule, false otherwise.
+	 */
+	public abstract boolean isParameter();
+
+	/**
+	 * (SBML Level 1 only) Predicate returning true or false depending on
+	 * whether this Rule is an SpeciesConcentrationRule.
+	 * 
+	 * @return true if this Rule is a SpeciesConcentrationRule, false otherwise.
+	 */
+	public abstract boolean isSpeciesConcentration();
+
 }
