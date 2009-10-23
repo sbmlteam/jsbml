@@ -61,6 +61,7 @@ public abstract class AbstractSBMLReader implements SBMLReader {
 			model.addUnitDefinition(UnitDefinition.time(model.getLevel(), model
 					.getVersion()));
 	}
+
 	/**
 	 * 
 	 */
@@ -326,6 +327,10 @@ public abstract class AbstractSBMLReader implements SBMLReader {
 		return ast;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Model getModel() {
 		return model;
 	}
@@ -335,5 +340,4 @@ public abstract class AbstractSBMLReader implements SBMLReader {
 	 * @return
 	 */
 	public abstract Object getOriginalModel();
-
 }
