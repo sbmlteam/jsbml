@@ -331,28 +331,25 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public NamedSBase findNamedSBase(String id) {
 		NamedSBase namedSBase = null;
-		if (parentSBMLObject != null && parentSBMLObject.getModel() != null) {
-			Model m = parentSBMLObject.getModel();
-			namedSBase = m.getCompartment(id);
-			if (namedSBase == null)
-				namedSBase = m.getSpecies(id);
-			if (namedSBase == null)
-				namedSBase = m.getParameter(id);
-			if (namedSBase == null)
-				namedSBase = m.getReaction(id);
-			if (namedSBase == null)
-				namedSBase = m.getFunctionDefinition(id);
-			if (namedSBase == null)
-				namedSBase = m.getUnitDefinition(id);
-			// check all local parameters
-			if (namedSBase == null)
-				for (Reaction r : m.getListOfReactions()) {
-					if (r.isSetKineticLaw())
-						namedSBase = r.getKineticLaw().getParameter(id);
-					if (namedSBase != null)
-						break;
-				}
-		}
+		namedSBase = getCompartment(id);
+		if (namedSBase == null)
+			namedSBase = getSpecies(id);
+		if (namedSBase == null)
+			namedSBase = getParameter(id);
+		if (namedSBase == null)
+			namedSBase = getReaction(id);
+		if (namedSBase == null)
+			namedSBase = getFunctionDefinition(id);
+		if (namedSBase == null)
+			namedSBase = getUnitDefinition(id);
+		// check all local parameters
+		if (namedSBase == null)
+			for (Reaction r : getListOfReactions()) {
+				if (r.isSetKineticLaw())
+					namedSBase = r.getKineticLaw().getParameter(id);
+				if (namedSBase != null)
+					break;
+			}
 		return namedSBase;
 	}
 
