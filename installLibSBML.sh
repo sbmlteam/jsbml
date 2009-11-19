@@ -16,7 +16,7 @@
 echo "installLibSBML.sh Copyright (C) 2009 Andreas Dräger"
 echo "This program comes with ABSOLUTELY NO WARRANTY."
 echo "This is free software, and you are welcome to redistribute it"
-echo "under certain conditions. See GNU GPL for details."
+echo "under certain conditions. See GNU LGPL for details."
 
 
 #########################################
