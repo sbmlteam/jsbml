@@ -167,6 +167,8 @@ public class SBMLCoreParser implements SBMLParser{
 					SBase sbase = (SBase) contextObject;
 					Annotation annotation = (Annotation) newContextObject;
 					sbase.setAnnotation(annotation);
+					
+					return annotation;
 				}
 				else if (contextObject instanceof SBMLDocument){
 					SBMLDocument sbmlDocument = (SBMLDocument) contextObject;

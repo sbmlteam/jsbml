@@ -8,6 +8,7 @@ import org.sbml.jsbml.element.CVTerm;
 import org.sbml.jsbml.element.Event;
 import org.sbml.jsbml.element.KineticLaw;
 import org.sbml.jsbml.element.Model;
+import org.sbml.jsbml.element.ModelAnnotation;
 import org.sbml.jsbml.element.ModelCreator;
 import org.sbml.jsbml.element.ModelHistory;
 import org.sbml.jsbml.element.Reaction;
@@ -23,8 +24,12 @@ public class RDFAnnotationParser implements SBMLParser{
 			Object contextObject) {
 		
 		boolean isReadAttribute = false;
-		
-		if (contextObject instanceof ModelHistory){
+
+		if (contextObject instanceof Annotation){
+			Annotation modelAnnotation = (Annotation) contextObject;
+			isReadAttribute = modelAnnotation.readAttribute(attributeName, prefix, value);
+		}
+		else if (contextObject instanceof ModelHistory){
 			ModelHistory modelHistory = (ModelHistory) contextObject;
 			isReadAttribute = modelHistory.readAttribute(elementName, attributeName, prefix, value);
 		}
@@ -71,7 +76,6 @@ public class RDFAnnotationParser implements SBMLParser{
 
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, Object contextObject) {
-		
 		if (contextObject instanceof Annotation){
 			
 			if (elementName.equals("RDF")){
