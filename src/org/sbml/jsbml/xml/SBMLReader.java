@@ -285,7 +285,7 @@ public class SBMLReader {
 	
 	public static void main(String[] args){		
 		SBMLDocument testDocument = readSBMLFile("/home/compneur/Desktop/LibSBML-Project/BIOMD0000000001.xml");
-		
+		System.out.println(testDocument.getModel().getAnnotation().getAbout());
 	}
 
 }

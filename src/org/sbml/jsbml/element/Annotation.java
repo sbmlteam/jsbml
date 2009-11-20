@@ -425,7 +425,11 @@ public class Annotation {
 	}
 	
 	public boolean readAttribute(String attributeName, String prefix, String value){
-	
+		
+		if (attributeName.equals("about")){
+			setAbout(value);
+			return true;
+		}
 		this.annotationAttributes.put(prefix+":"+attributeName, value);
 		return true;
 	}

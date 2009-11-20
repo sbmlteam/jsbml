@@ -41,7 +41,7 @@ public class ModelQualifierParser implements SBMLParser{
 			if (modelQualifierMap.containsKey(elementName)){
 				CVTerm cvTerm = new CVTerm();
 				cvTerm.setQualifierType(Qualifier.MODEL_QUALIFIER);
-				cvTerm.setBiologicalQualifierType(modelQualifierMap.get(elementName));
+				cvTerm.setModelQualifierType(modelQualifierMap.get(elementName));
 				
 				annotation.addCVTerm(cvTerm);
 				return cvTerm;
