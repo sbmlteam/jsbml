@@ -58,7 +58,7 @@ public class SBO {
 	/**
 	 * 
 	 */
-	private static Ontolog sbo;
+	private static Ontology sbo;
 
 	/**
 	 * 
