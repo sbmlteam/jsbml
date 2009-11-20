@@ -318,40 +318,83 @@ public class Unit extends AbstractSBase {
 		 */
 		public boolean isDefinedIn(int level, int version) {
 			if (level == 1) {
-				if (version == 1) {
-					// TODO
-				} else if (version == 2) {
+				return version == 1 || version == 2 ? this == AMPERE
+						|| this == BECQUEREL || this == CANDELA
+						|| this == CELSIUS || this == COULOMB
+						|| this == DIMENSIONLESS || this == FARAD
+						|| this == GRAM || this == GRAY || this == HENRY
+						|| this == HERTZ || this == ITEM || this == JOULE
+						|| this == KATAL || this == KELVIN || this == KILOGRAM
+						|| this == LITER || this == LITRE || this == LUMEN
+						|| this == LUX || this == METER || this == METRE
+						|| this == MOLE || this == NEWTON || this == OHM
+						|| this == PASCAL || this == RADIAN || this == SECOND
+						|| this == SIEMENS || this == SIEVERT
+						|| this == STERADIAN || this == TESLA || this == VOLT
+						|| this == WATT || this == WEBER : false;
+			} else if (level == 2) {
+				switch (version) {
+				case 1:
 					return this == AMPERE || this == BECQUEREL
 							|| this == CANDELA || this == CELSIUS
 							|| this == COULOMB || this == DIMENSIONLESS
 							|| this == FARAD || this == GRAM || this == GRAY
 							|| this == HENRY || this == HERTZ || this == ITEM
 							|| this == JOULE || this == KATAL || this == KELVIN
-							|| this == KILOGRAM || this == LITER
-							|| this == LITRE || this == LUMEN || this == LUX
-							|| this == METER || this == METRE || this == MOLE
+							|| this == KILOGRAM || this == LITRE || this == LUMEN || this == LUX
+							|| this == METRE || this == MOLE
 							|| this == NEWTON || this == OHM || this == PASCAL
 							|| this == RADIAN || this == SECOND
 							|| this == SIEMENS || this == SIEVERT
 							|| this == STERADIAN || this == TESLA
 							|| this == VOLT || this == WATT || this == WEBER;
-				}
-			} else if (level == 2) {
-				switch (version) {
-				case 1:
-					// TODO
-					break;
 				case 2:
-					// TODO
-					break;
+					return this == AMPERE || this == BECQUEREL
+							|| this == CANDELA || this == COULOMB
+							|| this == DIMENSIONLESS || this == FARAD
+							|| this == GRAM || this == GRAY || this == HENRY
+							|| this == HERTZ || this == ITEM || this == JOULE
+							|| this == KATAL || this == KELVIN
+							|| this == KILOGRAM || this == LITRE
+							|| this == LUMEN || this == LUX || this == METRE
+							|| this == MOLE || this == NEWTON || this == OHM
+							|| this == PASCAL || this == RADIAN
+							|| this == SECOND || this == SIEMENS
+							|| this == SIEVERT || this == STERADIAN
+							|| this == TESLA || this == VOLT || this == WATT
+							|| this == WEBER;
 				case 3:
-					// TODO
-					break;
+					return this == AMPERE || this == BECQUEREL
+							|| this == CANDELA || this == COULOMB
+							|| this == DIMENSIONLESS || this == FARAD
+							|| this == GRAM || this == GRAY || this == HENRY
+							|| this == HERTZ || this == ITEM || this == JOULE
+							|| this == KATAL || this == KELVIN
+							|| this == KILOGRAM || this == LITRE
+							|| this == LUMEN || this == LUX || this == METRE
+							|| this == MOLE || this == NEWTON || this == OHM
+							|| this == PASCAL || this == RADIAN
+							|| this == SECOND || this == SIEMENS
+							|| this == SIEVERT || this == STERADIAN
+							|| this == TESLA || this == VOLT || this == WATT
+							|| this == WEBER;
 				case 4:
-					// TODO
-					break;
+					return this == AMPERE || this == BECQUEREL
+							|| this == CANDELA || this == COULOMB
+							|| this == DIMENSIONLESS || this == FARAD
+							|| this == GRAM || this == GRAY || this == HENRY
+							|| this == HERTZ || this == ITEM || this == JOULE
+							|| this == KATAL || this == KELVIN
+							|| this == KILOGRAM || this == LITRE
+							|| this == LUMEN || this == LUX || this == METRE
+							|| this == MOLE || this == NEWTON || this == OHM
+							|| this == PASCAL || this == RADIAN
+							|| this == SECOND || this == SIEMENS
+							|| this == SIEVERT || this == STERADIAN
+							|| this == TESLA || this == VOLT || this == WATT
+							|| this == WEBER;
 				default:
-					break;
+					return false;
 				}
 			} else if (level == 3) {
 				if (version == 1) {

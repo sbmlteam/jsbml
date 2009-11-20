@@ -31,6 +31,7 @@ package org.sbml.jsbml.io;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.SpeciesReference;
@@ -63,7 +64,8 @@ public abstract class AbstractSBMLWriter implements SBMLWriter {
 			libAstNode.setValue(astnode.getReal());
 			break;
 		case INTEGER:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_INTEGER);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_INTEGER);
 			libAstNode.setValue(astnode.getInteger());
 			break;
 		case FUNCTION_LOG:
@@ -71,25 +73,31 @@ public abstract class AbstractSBMLWriter implements SBMLWriter {
 					libsbmlConstants.AST_FUNCTION_LOG);
 			break;
 		case POWER:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_POWER);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_POWER);
 			break;
 		case PLUS:
 			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_PLUS);
 			break;
 		case MINUS:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_MINUS);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_MINUS);
 			break;
 		case TIMES:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_TIMES);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_TIMES);
 			break;
 		case DIVIDE:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_DIVIDE);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_DIVIDE);
 			break;
 		case RATIONAL:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_RATIONAL);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_RATIONAL);
 			break;
 		case NAME_TIME:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_NAME_TIME);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_NAME_TIME);
 			break;
 		case FUNCTION_DELAY:
 			libAstNode = new org.sbml.libsbml.ASTNode(
@@ -100,10 +108,12 @@ public abstract class AbstractSBMLWriter implements SBMLWriter {
 			libAstNode.setName(astnode.getName());
 			break;
 		case CONSTANT_PI:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_CONSTANT_PI);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_CONSTANT_PI);
 			break;
 		case CONSTANT_E:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_CONSTANT_E);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_CONSTANT_E);
 			break;
 		case CONSTANT_TRUE:
 			libAstNode = new org.sbml.libsbml.ASTNode(
@@ -114,7 +124,8 @@ public abstract class AbstractSBMLWriter implements SBMLWriter {
 					libsbmlConstants.AST_CONSTANT_FALSE);
 			break;
 		case REAL_E:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_REAL_E);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_REAL_E);
 			libAstNode.setValue(astnode.getMantissa(), astnode.getExponent());
 			break;
 		case FUNCTION_ABS:
@@ -210,7 +221,8 @@ public abstract class AbstractSBMLWriter implements SBMLWriter {
 					libsbmlConstants.AST_FUNCTION_FLOOR);
 			break;
 		case FUNCTION_LN:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_FUNCTION_LN);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_LN);
 			break;
 		case FUNCTION_POWER:
 			libAstNode = new org.sbml.libsbml.ASTNode(
@@ -245,23 +257,29 @@ public abstract class AbstractSBMLWriter implements SBMLWriter {
 					libsbmlConstants.AST_FUNCTION_TANH);
 			break;
 		case FUNCTION:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_FUNCTION);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION);
 			libAstNode.setName(astnode.getName());
 			break;
 		case LAMBDA:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_LAMBDA);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_LAMBDA);
 			break;
 		case LOGICAL_AND:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_LOGICAL_AND);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_LOGICAL_AND);
 			break;
 		case LOGICAL_XOR:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_LOGICAL_XOR);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_LOGICAL_XOR);
 			break;
 		case LOGICAL_OR:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_LOGICAL_OR);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_LOGICAL_OR);
 			break;
 		case LOGICAL_NOT:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_LOGICAL_NOT);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_LOGICAL_NOT);
 			break;
 		case FUNCTION_PIECEWISE:
 			libAstNode = new org.sbml.libsbml.ASTNode(
@@ -292,7 +310,8 @@ public abstract class AbstractSBMLWriter implements SBMLWriter {
 					libsbmlConstants.AST_RELATIONAL_LT);
 			break;
 		default:
-			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_UNKNOWN);
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_UNKNOWN);
 			break;
 		}
 		for (ASTNode child : astnode.getListOfNodes())
@@ -516,18 +535,38 @@ public abstract class AbstractSBMLWriter implements SBMLWriter {
 	}
 
 	/**
+	 * Deletes those elements that are not referenced or not needed within the
+	 * model.
+	 * 
+	 * @param model
+	 * @param orig
+	 */
+	public abstract void removeUnneccessaryElements(Model model, Object orig);
+
+	/**
 	 * Save the changes in the model.
 	 * 
 	 * @param model
 	 * @param object
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 */
-	public abstract void saveChanges(Model model, Object object) throws SBMLException;
+	public abstract void saveChanges(Model model, Object object)
+			throws SBMLException;
+
+	/**
+	 * Save all changes that belong to one particular reaction in the model.
+	 * 
+	 * @param reaction
+	 * @param model
+	 * @throws SBMLException
+	 */
+	public abstract void saveChanges(Reaction reaction, Object model)
+			throws SBMLException;
 
 	/**
 	 * 
 	 * @param sr
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 */
 	public abstract void saveSpeciesReferenceProperties(SpeciesReference sr,
 			Object specRef) throws SBMLException;
