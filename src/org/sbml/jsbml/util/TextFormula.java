@@ -34,7 +34,7 @@ import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Vector;
 
-import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.element.SpeciesReference;
 
 /**
  * @author Andreas Dr&auml;ger <a
