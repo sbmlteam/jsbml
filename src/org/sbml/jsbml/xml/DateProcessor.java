@@ -77,7 +77,7 @@ public class DateProcessor {
      */
     public final String formatToW3CDTF(String datetime) {
         
-        if ( datetime == null || datetime.equals("") )
+        if ( datetime == null || datetime.trim().length() == 0 )
             throw new NullPointerException("Datetime can not be NULL.");
 
         if ( datePattern.matcher(datetime).matches() ) {
@@ -98,6 +98,9 @@ public class DateProcessor {
         }
 
         try {
+        	
+        	System.out.println("DateProcessor : formatToW3CDTF(String) : date to parse : " + datetime);
+        	
             Date date = ISO_8601_DATE_FORMAT.parse(datetime);
             return formatToW3CDTF(date);
         } catch (ParseException e) {
@@ -127,6 +130,9 @@ public class DateProcessor {
      *
      */
     public final String formatToW3CDTF(Date datetime) {
+    	
+    	System.out.println("DateProcessor : formatToW3CDTF(Date) : date to parse : " + datetime);
+    	
         String datetimeStr = ISO_8601_DATE_FORMAT.format(datetime);
         return datetimeStr.substring(0, datetimeStr.lastIndexOf("00")) + ":00";
     }
