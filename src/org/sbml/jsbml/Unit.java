@@ -341,13 +341,14 @@ public class Unit extends AbstractSBase {
 							|| this == FARAD || this == GRAM || this == GRAY
 							|| this == HENRY || this == HERTZ || this == ITEM
 							|| this == JOULE || this == KATAL || this == KELVIN
-							|| this == KILOGRAM || this == LITRE || this == LUMEN || this == LUX
-							|| this == METRE || this == MOLE
-							|| this == NEWTON || this == OHM || this == PASCAL
-							|| this == RADIAN || this == SECOND
-							|| this == SIEMENS || this == SIEVERT
-							|| this == STERADIAN || this == TESLA
-							|| this == VOLT || this == WATT || this == WEBER;
+							|| this == KILOGRAM || this == LITRE
+							|| this == LUMEN || this == LUX || this == METRE
+							|| this == MOLE || this == NEWTON || this == OHM
+							|| this == PASCAL || this == RADIAN
+							|| this == SECOND || this == SIEMENS
+							|| this == SIEVERT || this == STERADIAN
+							|| this == TESLA || this == VOLT || this == WATT
+							|| this == WEBER;
 				case 2:
 					return this == AMPERE || this == BECQUEREL
 							|| this == CANDELA || this == COULOMB
@@ -519,6 +520,10 @@ public class Unit extends AbstractSBase {
 				if (unit1.getExponent() == 0) {
 					unit1.setExponent(1);
 					unit1.setKind(Kind.DIMENSIONLESS);
+				} else {
+					unit1.setMultiplier(Math.pow(unit1.getMultiplier(),
+							1 / unit1.getExponent()));
+					unit1.setScale(unit1.getScale() / unit1.getExponent());
 				}
 			}
 			if (unit1.getKind() == Kind.METER)
@@ -688,6 +693,10 @@ public class Unit extends AbstractSBase {
 	public String getPrefix() {
 		if (!isDimensionless()) {
 			switch (getScale()) {
+			case 24:
+				return Character.valueOf('Y').toString();
+			case 21:
+				return Character.valueOf('Z').toString();
 			case 18:
 				return Character.valueOf('E').toString();
 			case 15:
@@ -722,6 +731,68 @@ public class Unit extends AbstractSBase {
 				return Character.valueOf('f').toString();
 			case -18:
 				return Character.valueOf('a').toString();
+			case -21:
+				return Character.valueOf('z').toString();
+			case -24:
+				return Character.valueOf('y').toString();
+			default:
+				break;
+			}
+		}
+		return "";
+	}
+
+	/**
+	 * This method returns the prefix of this unit, for instance, "m" for milli,
+	 * if the scale is -3.
+	 * 
+	 * @return
+	 */
+	public String getPrefixAsWord() {
+		if (!isDimensionless()) {
+			switch (getScale()) {
+			case 24:
+				return "yotta";
+			case 21:
+				return "zetta";
+			case 18:
+				return "exa";
+			case 15:
+				return "peta";
+			case 12:
+				return "tera";
+			case 9:
+				return "giga";
+			case 6:
+				return "mega";
+			case 3:
+				return "kilo";
+			case 2:
+				return "hecto";
+			case 1:
+				return "deca";
+			case 0:
+				break;
+			case -1:
+				return "deci";
+			case -2:
+				return "centi";
+			case -3:
+				return "milli";
+			case -6:
+				return "micro";
+			case -9:
+				return "nano";
+			case -12:
+				return "pico";
+			case -15:
+				return "femto";
+			case -18:
+				return "atto";
+			case -21:
+				return "zepto";
+			case -24:
+				return "yocto";
 			default:
 				break;
 			}
@@ -749,6 +820,52 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
+	 * Predicate for testing whether this Unit is of the kind ampere.
+	 * 
+	 * @return
+	 */
+	public boolean isAmpere() {
+		return kind == Kind.AMPERE;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind becquerel.
+	 * 
+	 * @return
+	 */
+	public boolean isBecquerel() {
+		return kind == Kind.BECQUEREL;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind candela
+	 * 
+	 * @return
+	 */
+	public boolean isCandela() {
+		return kind == Kind.CANDELA;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind Celsius
+	 * 
+	 * @return
+	 */
+	public boolean isCelsius() {
+		return kind == Kind.CELSIUS;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind coulomb.
+	 * 
+	 * @return
+	 */
+	public boolean isCoulomb() {
+		return kind == Kind.COULOMB;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind dimensionless
 	 * 
 	 * @return
 	 */
@@ -757,6 +874,88 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
+	 * Predicate for testing whether this Unit is of the kind farad
+	 * 
+	 * @return
+	 */
+	public boolean isFarad() {
+		return kind == Kind.FARAD;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind gram
+	 * 
+	 * @return
+	 */
+	public boolean isGram() {
+		return kind == Kind.GRAM;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind gray
+	 * 
+	 * @return
+	 */
+	public boolean isGray() {
+		return kind == Kind.GRAY;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind henry
+	 * 
+	 * @return
+	 */
+	public boolean isHenry() {
+		return kind == Kind.HENRY;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind hertz
+	 * 
+	 * @return
+	 */
+	public boolean isHertz() {
+		return kind == Kind.HERTZ;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind item
+	 * 
+	 * @return
+	 */
+	public boolean isItem() {
+		return kind == Kind.ITEM;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind joule
+	 * 
+	 * @return
+	 */
+	public boolean isJoule() {
+		return kind == Kind.JOULE;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind katal
+	 * 
+	 * @return
+	 */
+	public boolean isKatal() {
+		return kind == Kind.KATAL;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind kelvin
+	 * 
+	 * @return
+	 */
+	public boolean isKelvin() {
+		return kind == Kind.KELVIN;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind kilogram
 	 * 
 	 * @return
 	 */
@@ -775,6 +974,33 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
+	 * Predicate for testing whether this Unit is of the kind lumen
+	 * 
+	 * @return
+	 */
+	public boolean isLumen() {
+		return kind == Kind.LUMEN;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind lux
+	 * 
+	 * @return
+	 */
+	public boolean isLux() {
+		return kind == Kind.LUX;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind metre
+	 * 
+	 * @return
+	 */
+	public boolean isMetre() {
+		return kind == Kind.METRE || kind == Kind.METER;
+	}
+
+	/**
 	 * Predicate for testing whether this Unit is of the kind mole.
 	 * 
 	 * @return true if the kind of this Unit is mole, false otherwise.
@@ -784,11 +1010,101 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
+	 * Predicate for testing whether this Unit is of the kind newton
+	 * 
+	 * @return
+	 */
+	public boolean isNewton() {
+		return kind == Kind.NEWTON;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind ohm
+	 * 
+	 * @return
+	 */
+	public boolean isOhm() {
+		return kind == Kind.OHM;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind pascal
+	 * 
+	 * @return
+	 */
+	public boolean isPascal() {
+		return kind == Kind.PASCAL;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind radian
+	 * 
+	 * @return
+	 */
+	public boolean isRadian() {
+		return kind == Kind.RADIAN;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind second
+	 * 
+	 * @return
+	 */
+	public boolean isSecond() {
+		return kind == Kind.SECOND;
+	}
+
+	/**
+	 * Predicate to test whether the 'kind' attribute of this Unit has been set.
+	 * 
+	 * @return
+	 */
+	public boolean isSetKind() {
+		return kind != null;
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
 	public boolean isSetOffset() {
 		return offset != 0d;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind siemens
+	 * 
+	 * @return
+	 */
+	public boolean isSiemens() {
+		return kind == Kind.SIEMENS;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind sievert
+	 * 
+	 * @return
+	 */
+	public boolean isSievert() {
+		return kind == Kind.SIEVERT;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind steradian
+	 * 
+	 * @return
+	 */
+	public boolean isSteradian() {
+		return kind == Kind.STERADIAN;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind tesla
+	 * 
+	 * @return
+	 */
+	public boolean isTesla() {
+		return kind == Kind.TESLA;
 	}
 
 	/**
@@ -835,6 +1151,33 @@ public class Unit extends AbstractSBase {
 		if (kind == Unit.Kind.METER || kind == Unit.Kind.METRE)
 			return getOffset() == 0 && getExponent() == 3;
 		return false;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind volt
+	 * 
+	 * @return
+	 */
+	public boolean isVolt() {
+		return kind == Kind.VOLT;
+	}
+
+	/**
+	 *Predicate for testing whether this Unit is of the kind watt
+	 * 
+	 * @return
+	 */
+	public boolean isWatt() {
+		return kind == Kind.WATT;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind weber
+	 * 
+	 * @return
+	 */
+	public boolean isWeber() {
+		return kind == Kind.WEBER;
 	}
 
 	/**
