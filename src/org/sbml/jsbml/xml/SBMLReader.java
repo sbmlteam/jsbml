@@ -19,7 +19,6 @@ import javax.xml.stream.events.StartElement;
 import org.codehaus.stax2.XMLEventReader2;
 import org.codehaus.stax2.evt.XMLEvent2;
 import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.multiTest.MultiSpecies;
 import org.sbml.jsbml.xml.sbmlParsers.AnnotationParser;
 import org.sbml.jsbml.xml.sbmlParsers.BiologicalQualifierParser;
 import org.sbml.jsbml.xml.sbmlParsers.CreatorParser;

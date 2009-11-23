@@ -104,6 +104,9 @@ public class KineticLaw extends MathContainer {
 	 * @param p
 	 */
 	public void addParameter(Parameter parameter) {
+		if (!isSetListOfParameters()){
+			this.listOfParameters = new ListOf<Parameter>();
+		}
 		if (!getListOfParameters().contains(parameter)) {
 			listOfParameters.add(parameter);
 			parameter.parentSBMLObject = this;
@@ -167,7 +170,10 @@ public class KineticLaw extends MathContainer {
 	 * @return
 	 */
 	public int getNumParameters() {
-		return listOfParameters.size();
+		if (isSetListOfParameters()){
+			return listOfParameters.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -178,7 +184,10 @@ public class KineticLaw extends MathContainer {
 	 * @return
 	 */
 	public Parameter getParameter(int i) {
-		return listOfParameters.get(i);
+		if (isSetListOfParameters()){
+			return listOfParameters.get(i);
+		}
+		return null;
 	}
 
 	/**
@@ -188,9 +197,11 @@ public class KineticLaw extends MathContainer {
 	 * @return
 	 */
 	public Parameter getParameter(String id) {
-		for (Parameter p : listOfParameters){
-			if (p.getId().equals(id)) {
-				return p;
+		if (isSetListOfParameters()){
+			for (Parameter p : listOfParameters){
+				if (p.getId().equals(id)) {
+					return p;
+				}
 			}
 		}
 		return null;
@@ -214,7 +225,9 @@ public class KineticLaw extends MathContainer {
 	 * @param i
 	 */
 	public void removeParameter(int i) {
-		listOfParameters.remove(i).sbaseRemoved();
+		if (isSetListOfParameters()){
+			listOfParameters.remove(i).sbaseRemoved();
+		}
 	}
 
 	/**
@@ -222,7 +235,10 @@ public class KineticLaw extends MathContainer {
 	 * @param p
 	 */
 	public void removeParameter(Parameter p) {
-		listOfParameters.remove(p);
+		if (isSetListOfParameters()){
+			listOfParameters.remove(p);
+
+		}
 	}
 
 	/**
@@ -231,24 +247,23 @@ public class KineticLaw extends MathContainer {
 	 * @param i
 	 */
 	public void removeParameter(String id) {
-		int i = 0;
-		List<Parameter> listOfParameters = this.listOfParameters;
-		while (i < listOfParameters.size()){
-			if (listOfParameters.get(i) instanceof Parameter){
-				Parameter parameter = listOfParameters.get(i);
-				if (! parameter.getId().equals(id)){
-					i++;
+		if (isSetListOfParameters()){
+			int i = 0;
+			List<Parameter> listOfParameters = this.listOfParameters;
+			while (i < listOfParameters.size()){
+				if (listOfParameters.get(i) instanceof Parameter){
+					Parameter parameter = listOfParameters.get(i);
+					if (! parameter.getId().equals(id)){
+						i++;
+					}
 				}
 				else {
 					break;
 				}
 			}
-			else {
-				break;
-			}
+			if (i < listOfParameters.size())
+				listOfParameters.remove(i).sbaseRemoved();
 		}
-		if (i < listOfParameters.size())
-			listOfParameters.remove(i).sbaseRemoved();
 	}
 	
 	/*

@@ -30,6 +30,7 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,6 +52,7 @@ public abstract class AbstractSBase implements SBase {
 	private String notes;
 	private Annotation annotation;
 	private StringBuffer notesBuffer;
+	private HashMap<String, SBase> extensions;
 
 	/**
 	 * 
@@ -63,6 +65,7 @@ public abstract class AbstractSBase implements SBase {
 		setOfListeners = new HashSet<SBaseChangedListener>();
 		annotation = null;
 		this.notesBuffer = null;
+		this.extensions = new HashMap<String, SBase>();
 	}
 	
 	/**
@@ -77,6 +80,7 @@ public abstract class AbstractSBase implements SBase {
 		this.level = level;
 		this.version = version;
 		this.annotation = null;
+		this.extensions = new HashMap<String, SBase>();
 	}
 	
 	/**
@@ -100,6 +104,7 @@ public abstract class AbstractSBase implements SBase {
 		this.level = sb.getLevel();
 		this.version = sb.getVersion();
 		this.annotation = sb.getAnnotation();
+		this.extensions = new HashMap<String, SBase>();
 	}
 
 	/**
@@ -578,4 +583,11 @@ public abstract class AbstractSBase implements SBase {
 		return annotation.getModelHistory();
 	}
 	
+	public SBase getExtension(String namespace){
+		return this.extensions.get(namespace);
+	}
+	
+	public void addExtension(String namespace, SBase sbase){
+		this.extensions.put(namespace, sbase);
+	}
 }
