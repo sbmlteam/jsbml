@@ -327,6 +327,14 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public ListOf getListOfUnits() {
 		return this.listOfUnit;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetListOfUnits() {
+		return this.listOfUnit != null;
+	}
 
 	/**
 	 * 

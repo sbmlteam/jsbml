@@ -1,10 +1,6 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
 import java.util.HashMap;
-import java.util.Iterator;
-
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.StartElement;
 
 import org.sbml.jsbml.element.AlgebraicRule;
 import org.sbml.jsbml.element.Annotation;
@@ -98,32 +94,6 @@ public class SBMLCoreParser implements SBMLParser{
 		SBMLCoreElements.put("notes", StringBuffer.class);
 		SBMLCoreElements.put("message", StringBuffer.class);
 	}
-	
-	public SBMLDocument createSBMLDocumentFrom(StartElement sbml){
-		SBMLDocument sbmlDocument = new SBMLDocument();
-		int level = 0;
-		int version = 0;
-		
-		Iterator<Object> att = sbml.getAttributes();
-		while(att.hasNext()){
-			Attribute attribute = (Attribute) att.next();
-			
-			if (attribute.getName().getLocalPart().equals("metaid")){
-				sbmlDocument.setMetaId(attribute.getValue());
-			}
-			else if (attribute.getName().getLocalPart().equals("level")){
-				level = Integer.parseInt(attribute.getValue());
-			}
-			else if (attribute.getName().getLocalPart().equals("version")){
-				version = Integer.parseInt(attribute.getValue());
-			}
-		}
-		
-		if (level > 0 && version >= 0){
-			sbmlDocument.setLevelAndVersion(level, version);
-		}
-		return sbmlDocument;
-	}
 
 	public void processAttribute(String elementName, String attributeName, String value,  String prefix,
 			boolean isLastAttribute, Object contextObject) {
@@ -142,12 +112,13 @@ public class SBMLCoreParser implements SBMLParser{
 		}
 		
 		if (!isAttributeRead){
-			// throw new SBMLException ("The attribute " + attributeName + " on the element " + elementName + "is not part of the SBML specifications");
+			// TODO : throw new SBMLException ("The attribute " + attributeName + " on the element " + elementName + "is not part of the SBML specifications");
 		}
 	}
 
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {	
+		// TODO : the basic SBML elements don't have any text. SBML syntax error, throw an exception?
 	}
 
 	public Object processStartElement(String elementName, String prefix,
@@ -256,6 +227,12 @@ public class SBMLCoreParser implements SBMLParser{
 							
 							return listOfSpeciesTypes;
 						}
+						else {
+							// TODO : SBML syntax error, throw an exception?
+						}
+					}
+					else {
+						// TODO : SBML syntax error, throw an exception?
 					}
 				}		
 				else if (contextObject instanceof ListOf){
@@ -346,7 +323,10 @@ public class SBMLCoreParser implements SBMLParser{
 							model.addSpeciesType(speciesType);
 						
 							return speciesType;
-						}	
+						}
+						else {
+							// TODO : SBML syntax error, throw an exception?
+						}
 					} 
 					else if (list.getParentSBMLObject() instanceof UnitDefinition){
 						UnitDefinition unitDefinition = (UnitDefinition) list.getParentSBMLObject();
@@ -356,6 +336,9 @@ public class SBMLCoreParser implements SBMLParser{
 							unitDefinition.addUnit(unit);
 							
 							return unit;
+						}
+						else {
+							// TODO : SBML syntax error, throw an exception?
 						}
 					}
 					else if (list.getParentSBMLObject() instanceof Reaction){
@@ -374,12 +357,18 @@ public class SBMLCoreParser implements SBMLParser{
 								
 								return speciesReference;
 							}
+							else {
+								// TODO : SBML syntax error, throw an exception?
+							}
 						}
 						else if (elementName.equals("modifierSpeciesReference") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfModifiers)){
 							ModifierSpeciesReference modifierSpeciesReference = (ModifierSpeciesReference) newContextObject;
 							reaction.addModifier(modifierSpeciesReference);
 								
 							return modifierSpeciesReference;
+						}
+						else {
+							// TODO : SBML syntax error, throw an exception?
 						}
 					}
 					else if (list.getParentSBMLObject() instanceof KineticLaw){
@@ -391,6 +380,9 @@ public class SBMLCoreParser implements SBMLParser{
 							
 							return localParameter;
 						}
+						else {
+							// TODO : SBML syntax error, throw an exception?
+						}
 					}
 					else if (list.getParentSBMLObject() instanceof Event){
 						Event event = (Event) list.getParentSBMLObject();
@@ -401,6 +393,12 @@ public class SBMLCoreParser implements SBMLParser{
 							
 							return eventAssignment;
 						}
+						else {
+							// TODO : SBML syntax error, throw an exception?
+						}
+					}
+					else {
+						// TODO : SBML syntax error, throw an exception?
 					}
 				}
 				else if (contextObject instanceof Event){
@@ -423,6 +421,9 @@ public class SBMLCoreParser implements SBMLParser{
 						event.setDelay(delay);
 						
 						return delay;
+					}
+					else {
+						// TODO : SBML syntax error, throw an exception?
 					}
 				}
 				else if (contextObject instanceof Reaction){
@@ -452,6 +453,9 @@ public class SBMLCoreParser implements SBMLParser{
 						
 						return kineticLaw;
 					}
+					else {
+						// TODO : SBML syntax error, throw an exception?
+					}
 				}
 				else if (contextObject instanceof KineticLaw){
 					KineticLaw kineticLaw = (KineticLaw) contextObject;
@@ -462,6 +466,9 @@ public class SBMLCoreParser implements SBMLParser{
 						
 						return listOfLocalParameters;
 					}
+					else {
+						// TODO : SBML syntax error, throw an exception?
+					}
 				}
 				else if (contextObject instanceof Constraint){
 					Constraint constraint = (Constraint) contextObject;
@@ -471,10 +478,18 @@ public class SBMLCoreParser implements SBMLParser{
 						constraint.setMessageBuffer(message);
 						return constraint;
 					}
+					else {
+						// TODO : SBML syntax error, throw an exception?
+					}
+				}
+				else {
+					// TODO : SBML syntax error, throw an exception?
 				}
 			} catch (InstantiationException e) {
+				// TODO : SBML object can't be instantiated, throw an exception?
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
+				// TODO : SBML object can't be instantiated, throw an exception?
 				e.printStackTrace();
 			}
 		}
@@ -525,6 +540,9 @@ public class SBMLCoreParser implements SBMLParser{
 							
 							if (speciesReference != null){
 								rule.setVariable(speciesReference);
+							}
+							else {
+								// TODO : the variable ID doesn't match a SBML component, throw an exception?
 							}
 						}
 					}
@@ -580,6 +598,9 @@ public class SBMLCoreParser implements SBMLParser{
 							if (speciesReference != null){
 								rule.setVariable(speciesReference);
 							}
+							else {
+								// TODO : the variable ID doesn't match a SBML component, throw an exception?
+							}
 						}
 					}
 					else {
@@ -605,6 +626,9 @@ public class SBMLCoreParser implements SBMLParser{
 			if (compartmentType != null){
 				compartment.setCompartmentType(compartmentType);
 			}
+			else {
+				// TODO : the compartmentType ID doesn't match a compartment, throw an exception?
+			}
 		}
 	}
 	
@@ -617,6 +641,9 @@ public class SBMLCoreParser implements SBMLParser{
 			
 			if (outside != null){
 				compartment.setOutside(outside);
+			}
+			else {
+				// TODO : the compartment ID doesn't match a compartment, throw an exception?
 			}
 		}
 	}
@@ -631,6 +658,9 @@ public class SBMLCoreParser implements SBMLParser{
 			if (unitDefinition != null){
 				compartment.setUnits(unitDefinition);
 			}
+			else {
+				// TODO : the unitDefinition ID doesn't match a unitDefinition, throw an exception?
+			}
 		}
 	}
 	
@@ -643,6 +673,9 @@ public class SBMLCoreParser implements SBMLParser{
 			
 			if (unitDefinition != null){
 				event.setTimeUnits(unitDefinition);
+			}
+			else {
+				// TODO : the unitDefinition ID doesn't match a unitDefinition, throw an exception?
 			}
 		}
 	}
@@ -684,6 +717,9 @@ public class SBMLCoreParser implements SBMLParser{
 							
 							if (speciesReference != null){
 								eventAssignment.setVariable(speciesReference);
+							}
+							else {
+								// TODO : the variable ID doesn't match a SBML component, throw an exception?
 							}
 						}
 					}
@@ -739,6 +775,9 @@ public class SBMLCoreParser implements SBMLParser{
 							if (speciesReference != null){
 								initialAssignment.setSymbol(speciesReference);
 							}
+							else {
+								// TODO : the variable ID doesn't match a SBML component, throw an exception?
+							}
 						}
 					}
 					else {
@@ -765,6 +804,9 @@ public class SBMLCoreParser implements SBMLParser{
 			if (compartment != null){
 				reaction.setCompartment(compartment);
 			}
+			else {
+				// TODO : the compartment ID doesn't match a compartment, throw an exception?
+			}
 		}
 	}
 	
@@ -777,6 +819,9 @@ public class SBMLCoreParser implements SBMLParser{
 			
 			if (species != null){
 				speciesReference.setSpecies(species);
+			}
+			else {
+				// TODO : the species ID doesn't match a species, throw an exception?
 			}
 		}
 	}
@@ -804,6 +849,9 @@ public class SBMLCoreParser implements SBMLParser{
 			if (parameter != null){
 				species.setConversionFactor(parameter);
 			}
+			else {
+				// TODO : the parameter ID doesn't match a parameter, throw an exception?
+			}
 		}
 	}
 	
@@ -816,6 +864,9 @@ public class SBMLCoreParser implements SBMLParser{
 			
 			if (speciesType != null){
 				species.setSpeciesType(speciesType);
+			}
+			else {
+				// TODO : the speciesType ID doesn't match a speciesType, throw an exception?
 			}
 		}
 	}
@@ -830,6 +881,9 @@ public class SBMLCoreParser implements SBMLParser{
 			if (compartment != null){
 				species.setCompartment(compartment);
 			}
+			else {
+				// TODO : the compartment ID doesn't match a compartment, throw an exception?
+			}
 		}
 	}
 	
@@ -842,6 +896,9 @@ public class SBMLCoreParser implements SBMLParser{
 			
 			if (unitDefinition != null){
 				parameter.setUnits(unitDefinition);
+			}
+			else {
+				// TODO : the unitDefinition ID doesn't match an unitDefinition, throw an exception?
 			}
 		}
 	}
@@ -969,7 +1026,7 @@ public class SBMLCoreParser implements SBMLParser{
 
 		}
 		else {
-			//error
+			// TODO : SBML syntax error, what to do?
 		}
 	}
 }

@@ -8,11 +8,11 @@ import org.sbml.jsbml.element.CVTerm;
 import org.sbml.jsbml.element.Event;
 import org.sbml.jsbml.element.KineticLaw;
 import org.sbml.jsbml.element.Model;
-import org.sbml.jsbml.element.ModelAnnotation;
 import org.sbml.jsbml.element.ModelCreator;
 import org.sbml.jsbml.element.ModelHistory;
 import org.sbml.jsbml.element.Reaction;
 import org.sbml.jsbml.element.SBMLDocument;
+import org.sbml.jsbml.element.UnitDefinition;
 import org.sbml.jsbml.xml.SBMLParser;
 
 public class RDFAnnotationParser implements SBMLParser{
@@ -47,13 +47,15 @@ public class RDFAnnotationParser implements SBMLParser{
 		}
 		
 		if (!isReadAttribute){
-			// error?
+			// the attribute is not read, throw an error?
 		}
 		
 	}
 
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
+		// TODO : there is no text for element with the namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#".
+		// There is a syntax error, throw an exception?
 	}
 
 	public void processEndElement(String elementName, String prefix,
@@ -69,6 +71,7 @@ public class RDFAnnotationParser implements SBMLParser{
 				previousElements.remove("CVTerm");
 			}
 		}
+		
 		if (elementName.equals("RDF")){
 			this.previousElements.clear();
 		}
@@ -87,7 +90,11 @@ public class RDFAnnotationParser implements SBMLParser{
 				}
 				else {
 					this.previousElements.put("RDF", "error");
+					// TODO : a description is the unique child of RDF node, SBML syntax error, what to do?
 				}
+			}
+			else {
+				// TODO : SBML syntax error, what to do?
 			}
 		}
 		else if (this.previousElements.containsKey("RDF")){
@@ -101,6 +108,12 @@ public class RDFAnnotationParser implements SBMLParser{
 							if (this.previousElements.get("CVTerm").equals("Bag")){
 								this.previousElements.put("CVTerm", "li");
 							}
+							else {
+								// TODO : sbml syntax error, what to do?
+							}
+						}
+						else {
+							// TODO : sbml syntax error, what to do?
 						}
 					}
 					else if (contextObject instanceof ModelHistory){
@@ -115,9 +128,24 @@ public class RDFAnnotationParser implements SBMLParser{
 								modelHistory.addCreator(modelCreator);	
 								return modelCreator;
 							}
+							else {
+								// TODO : sbml syntax error, what to do?
+							}
+						}
+						else {
+							// TODO : sbml syntax error, what to do?
 						}
 					}
+					else {
+						// TODO : sbml syntax error, what to do?
+					}
 				}
+				else {
+					// TODO : sbml syntax error, what to do?
+				}
+			}
+			else {
+				// TODO : the RDF element doesn't contain a unique Description child node. SBML syntax error, throw an exception?
 			}
 		}
 		return contextObject;
@@ -131,14 +159,14 @@ public class RDFAnnotationParser implements SBMLParser{
 				if (model.isSetListOfCompartments()){
 					for (int i = 0; i < model.getNumCompartments(); i++){
 						if (!model.getCompartment(i).hasValidAnnotation()){
-							//error
+							// TODO : change the about value of the annotation.
 						}
 					}
 				}
 				if (model.isSetListOfCompartmentTypes()){
 					for (int i = 0; i < model.getNumCompartmentTypes(); i++){
 						if (!model.getCompartmentType(i).hasValidAnnotation()){
-							//error
+							// TODO : change the about value of the annotation.
 						}
 					}
 				}
@@ -148,38 +176,38 @@ public class RDFAnnotationParser implements SBMLParser{
 							Event event = model.getEvent(i);
 							if (event.isSetDelay()){
 								if (! event.getDelay().hasValidAnnotation()){
-									// error
+									// TODO : change the about value of the annotation.
 								}
 							}
 							if (event.isSetListOfEventAssignments()){
 								for (int j = 0; j < event.getNumEventAssignments(); j++){
 									if (!event.getEventAssignment(j).hasValidAnnotation()){
-										// error
+										// TODO : change the about value of the annotation.
 									}
 								}
 							}
 							if (event.isSetTrigger()){
 								if (! event.getTrigger().hasValidAnnotation()){
-									// error
+									// TODO : change the about value of the annotation.
 								}
 							}
 						}
 						else {
-							// error
+							// TODO : change the about value of the annotation.
 						}
 					}
 				}
 				if (model.isSetListOfInitialAssignemnts()){
 					for (int i = 0; i < model.getNumInitialAssignments(); i++){
 						if (!model.getInitialAssignment(i).hasValidAnnotation()){
-							//error
+							// TODO : change the about value of the annotation.
 						}
 					}
 				}
 				if (model.isSetListOfParameters()){
 					for (int i = 0; i < model.getNumParameters(); i++){
 						if (!model.getParameter(i).hasValidAnnotation()){
-							//error
+							// TODO : change the about value of the annotation.
 						}
 					}
 				}
@@ -194,73 +222,87 @@ public class RDFAnnotationParser implements SBMLParser{
 									if (kineticLaw.isSetListOfParameters()){
 										for (int j = 0; j < model.getNumParameters(); i++){
 											if (!kineticLaw.getParameter(j).hasValidAnnotation()){
-												//error
+												// TODO : change the about value of the annotation.
 											}
 										}
 									}
 								}
 								else {
-									//error
+									// TODO : change the about value of the annotation.
 								}
 							}
 							if (reaction.isSetListOfReactants()){
 								for (int j = 0; j < reaction.getNumReactants(); j++){
 									if (!reaction.getReactant(j).hasValidAnnotation()){
-										//error
+										// TODO : change the about value of the annotation.
 									}
 								}
 							}
 							if (reaction.isSetListOfProducts()){
 								for (int j = 0; j < reaction.getNumProducts(); j++){
 									if (!reaction.getProduct(j).hasValidAnnotation()){
-										//error
+										// TODO : change the about value of the annotation.
 									}
 								}
 							}
 							if (reaction.isSetListOfModifiers()){
 								for (int j = 0; j < reaction.getNumModifiers(); j++){
 									if (!reaction.getModifier(j).hasValidAnnotation()){
-										//error
+										// TODO : change the about value of the annotation.
 									}
 								}
 							}
 						}
 						else {
-							//error
+							// TODO : change the about value of the annotation.
 						}
 					}
 				}
 				if (model.isSetListOfRules()){
 					for (int i = 0; i < model.getNumRules(); i++){
 						if (!model.getRule(i).hasValidAnnotation()){
-							//error
+							// TODO : change the about value of the annotation.
 						}
 					}
 				}
 				if (model.isSetListOfSpecies()){
 					for (int i = 0; i < model.getNumSpecies(); i++){
 						if (!model.getSpecies(i).hasValidAnnotation()){
-							//error
+							// TODO : change the about value of the annotation.
 						}
 					}
 				}
 				if (model.isSetListOfSpeciesTypes()){
 					for (int i = 0; i < model.getNumSpeciesTypes(); i++){
 						if (!model.getSpeciesType(i).hasValidAnnotation()){
-							//error
+							// TODO : change the about value of the annotation.
 						}
 					}
 				}
 				if (model.isSetListOfUnitDefinitions()){
-					
+					for (int i = 0; i < model.getNumUnitDefinitions(); i++){
+						UnitDefinition unitDefinition = model.getUnitDefinition(i);
+						if (unitDefinition.hasValidAnnotation()){
+							if (unitDefinition.isSetListOfUnits()){
+								for (int j = 0; j < model.getNumSpeciesTypes(); j++){
+									if (!unitDefinition.getUnit(j).hasValidAnnotation()){
+										// TODO : change the about value of the annotation.
+									}
+								}
+							}
+						}
+						else {
+							// TODO : change the about value of the annotation.
+						}
+					}
 				}
 			}
 			else {
-				// error
+				// TODO : change the about value of the annotation.
 			}
 		}
 		else {
-			// error
+			// TODO : change the about value of the annotation.
 		}
 	}
 

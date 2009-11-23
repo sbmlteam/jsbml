@@ -12,7 +12,6 @@ public class ModelQualifierParser implements SBMLParser{
 
 	private HashMap<String, Qualifier> modelQualifierMap = new HashMap<String, Qualifier>();
 
-	
 	private void initialisesModelQualifierMap(){
 		modelQualifierMap.put("is", Qualifier.BQM_IS);
 		modelQualifierMap.put("isDescribedBy", Qualifier.BQM_IS_DESCRIBED_BY);
@@ -21,10 +20,14 @@ public class ModelQualifierParser implements SBMLParser{
 	public void processAttribute(String ElementName, String AttributeName,
 			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) {		
+		// TODO : a node with the namespace "http://biomodels.net/model-qualifiers/" can't have attributes.
+		// Throw an error?
 	}
 
 	public void processCharactersOf(String elementName, String characters,
-			Object contextObject) {		
+			Object contextObject) {	
+		// TODO : a node with the namespace "http://biomodels.net/model-qualifiers/" can't have text.
+		// Throw an error?
 	}
 
 	public void processEndElement(String ElementName, String prefix,
@@ -46,6 +49,12 @@ public class ModelQualifierParser implements SBMLParser{
 				annotation.addCVTerm(cvTerm);
 				return cvTerm;
 			}
+			else {
+				// TODO : SBML syntax error, throw an exception?
+			}
+		}
+		else {
+			// TODO : SBML syntax error, throw an exception?
 		}
 		return contextObject;
 	}

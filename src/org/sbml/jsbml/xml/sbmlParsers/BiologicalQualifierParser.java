@@ -28,10 +28,12 @@ public class BiologicalQualifierParser implements SBMLParser{
 	public void processAttribute(String ElementName, String AttributeName,
 			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) {
+		// TODO : a node with a biological qualifier can't have attributes, there is a SBML syntax error, throw an exception?
 	}
 
 	public void processCharactersOf(String elementName, String characters,
-			Object contextObject) {		
+			Object contextObject) {
+		// TODO : a node with a biological qualifier can't have text, there is a SBML syntax error, throw an exception?
 	}
 
 	public void processEndElement(String ElementName, String prefix,
@@ -53,6 +55,13 @@ public class BiologicalQualifierParser implements SBMLParser{
 				annotation.addCVTerm(cvTerm);
 				return cvTerm;
 			}
+			else {
+				// TODO : SBML syntax error, throw an error?
+			}
+		}
+		else {
+			// TODO the context object of a biological qualifier node should be an annotation instance, there is
+			// a SBML syntax error, throw an exception?
 		}
 		return contextObject;
 	}

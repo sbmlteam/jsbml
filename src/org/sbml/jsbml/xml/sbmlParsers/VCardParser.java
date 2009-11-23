@@ -16,6 +16,8 @@ public class VCardParser implements SBMLParser{
 	public void processAttribute(String elementName, String attributeName,
 			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) {
+		// TODO : There is no attribute with a namespace "http://www.w3.org/2001/vcard-rdf/3.0#", SBML syntax error.
+		// Throw an exception?
 	}
 
 	public void processCharactersOf(String elementName, String characters,
@@ -36,6 +38,12 @@ public class VCardParser implements SBMLParser{
 			else if (elementName.equals("Orgname") && hasReadOrgName){
 				modelCreator.setOrganization(characters);
 			}
+			else {
+				// TODO : SBML syntax error, throw an exception?
+			}
+		}
+		else {
+			// TODO : SBML syntax error, throw an exception?
 		}
 	}
 
@@ -65,6 +73,12 @@ public class VCardParser implements SBMLParser{
 			else if (elementName.equals("Orgname") && hasReadORGNode && !hasReadOrgName){
 				hasReadOrgName = true;
 			}
+			else {
+				// TODO : SBML syntax error, throw an exception?
+			}
+		}
+		else {
+			// TODO : SBML syntax error, throw an exception?
 		}
 		return contextObject;
 	}

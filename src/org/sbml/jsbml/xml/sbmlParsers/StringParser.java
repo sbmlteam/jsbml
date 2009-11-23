@@ -34,6 +34,9 @@ public class StringParser implements SBMLParser{
 			MathContainer mathContainer = (MathContainer) contextObject;
 			buffer = mathContainer.getMathBuffer();
 		}
+		else {
+			// TODO : SBML syntax error, throw an exception?
+		}
 		
 		return buffer;
 	}
@@ -56,6 +59,9 @@ public class StringParser implements SBMLParser{
 				buffer.append("> \n");
 			}
 		}
+		else {
+			// TODO : SBML syntax error, throw an exception?
+		}
 	}
 
 	public void processCharactersOf(String elementName, String characters,
@@ -65,6 +71,9 @@ public class StringParser implements SBMLParser{
 		
 		if (buffer != null){
 			buffer.append(characters + " \n");
+		}
+		else {
+			// TODO : SBML syntax error, throw an exception?
 		}
 	}
 
@@ -85,6 +94,9 @@ public class StringParser implements SBMLParser{
 					buffer.append("</"+elementName+"> \n");
 				}
 			}
+		}
+		else {
+			// TODO : SBML syntax error, throw an exception?
 		}
 	}
 
@@ -113,6 +125,9 @@ public class StringParser implements SBMLParser{
 			if (!hasAttributes){
 				buffer.append("> \n");
 			}
+		}
+		else {
+			// TODO : SBML syntax error, throw an exception?
 		}
 		return contextObject;
 	}

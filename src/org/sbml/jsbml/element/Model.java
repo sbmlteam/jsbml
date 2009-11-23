@@ -594,6 +594,15 @@ public class Model extends AbstractNamedSBase {
 	public Event getEvent(int i) {
 		return (Event) listOfEvents.getListOf().get(i);
 	}
+	
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public UnitDefinition getUnitDefinition(int i) {
+		return (UnitDefinition) listOfUnitDefinitions.getListOf().get(i);
+	}
 
 	/**
 	 * 
