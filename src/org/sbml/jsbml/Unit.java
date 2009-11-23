@@ -525,6 +525,9 @@ public class Unit extends AbstractSBase {
 							1 / unit1.getExponent()));
 					unit1.setScale(unit1.getScale() / unit1.getExponent());
 				}
+			} else if (e1 != 0) {
+				unit1.setMultiplier(Math.pow(unit1.getMultiplier(), 1 / e1));
+				unit1.setScale(unit1.getScale() / e1);
 			}
 			if (unit1.getKind() == Kind.METER)
 				unit1.setKind(Kind.METRE);
