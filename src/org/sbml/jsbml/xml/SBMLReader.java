@@ -19,6 +19,7 @@ import javax.xml.stream.events.StartElement;
 import org.codehaus.stax2.XMLEventReader2;
 import org.codehaus.stax2.evt.XMLEvent2;
 import org.sbml.jsbml.element.SBMLDocument;
+import org.sbml.jsbml.multiTest.MultiSpecies;
 import org.sbml.jsbml.xml.sbmlParsers.AnnotationParser;
 import org.sbml.jsbml.xml.sbmlParsers.BiologicalQualifierParser;
 import org.sbml.jsbml.xml.sbmlParsers.CreatorParser;
@@ -225,7 +226,7 @@ public class SBMLReader {
 				else if (event.isCharacters()){
 					Characters characters = event.asCharacters();
 
-					if (parser != null && !SBMLElements.isEmpty() && currentNode != null){
+					if (parser != null && !SBMLElements.isEmpty() && currentNode != null && !characters.isWhiteSpace()){
 						parser.processCharactersOf(currentNode.getLocalPart(), characters.getData(), SBMLElements.peek());
 					}
 					else {
@@ -287,7 +288,7 @@ public class SBMLReader {
 						// TODO The initialized parsers map should be initialized as soon as there is a sbml node.
 						// if it is null, there is an syntax error in the SBML file. Throw an error?
 					}
-					element = null;
+					currentNode = null;
 				}
 			}
 			return null;
@@ -305,7 +306,8 @@ public class SBMLReader {
 	}
 	
 	public static void main(String[] args){		
-		SBMLDocument testDocument = readSBMLFile("/home/compneur/Desktop/LibSBML-Project/BIOMD0000000001.xml");
+		//SBMLDocument testDocument = readSBMLFile("/home/compneur/Desktop/LibSBML-Project/MultiExamples/glutamateReceptor.xml");
+		SBMLDocument testDocument = readSBMLFile("/home/compneur/Desktop/LibSBML-Project/BIOMD0000000002.xml");		
 	}
 
 }

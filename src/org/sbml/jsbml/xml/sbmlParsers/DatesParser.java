@@ -42,19 +42,19 @@ public class DatesParser implements SBMLParser{
 						e.printStackTrace();
 					}
 				}
+				else if (previousElement.equals("modified")){
+					String stringDate = dateProcessor.formatToW3CDTF(characters);
+
+					try {
+						Date modifiedDate = DateParser.parse(stringDate);
+						modelHistory.setModifiedDate(modifiedDate);
+					} catch (InvalidDateException e) {
+						// TODO : can't create a Date, what to do?
+						e.printStackTrace();
+					}
+				}
 				else {
 					// TODO : SBML syntax error, what to do?
-				}
-			}
-			else if (previousElement.equals("modified")){
-				String stringDate = dateProcessor.formatToW3CDTF(characters);
-
-				try {
-					Date modifiedDate = DateParser.parse(stringDate);
-					modelHistory.setModifiedDate(modifiedDate);
-				} catch (InvalidDateException e) {
-					// TODO : can't create a Date, what to do?
-					e.printStackTrace();
 				}
 			}
 			else {
@@ -88,10 +88,10 @@ public class DatesParser implements SBMLParser{
 
 		if (contextObject instanceof Annotation){
 			Annotation modelAnnotation = (Annotation) contextObject;
-			
+
 			if (modelAnnotation.isSetModelHistory()){
 				ModelHistory modelHistory = modelAnnotation.getModelHistory();
-				
+
 				if (elementName.equals("created") && !hasReadCreated){
 					hasReadCreated = true;
 					this.previousElement = elementName;
@@ -103,15 +103,18 @@ public class DatesParser implements SBMLParser{
 					
 					return modelHistory;
 				}
-				else if (elementName.equals("W3CDTF") && (previousElement.equals("created") || previousElement.equals("modified"))){
-					hasReadW3CDTF = true;
-				}
 				else {
 					// TODO : SBML syntax error, what to do?
 				}
 			}
 			else {
 				// TODO : create a modelHistory instance? throw an exception?
+			}
+		}
+		else if (contextObject instanceof ModelHistory){
+			
+			if (elementName.equals("W3CDTF") && (previousElement.equals("created") || previousElement.equals("modified"))){
+				hasReadW3CDTF = true;
 			}
 		}
 		else {
