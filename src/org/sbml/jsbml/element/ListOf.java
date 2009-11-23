@@ -29,8 +29,12 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
 
@@ -45,17 +49,17 @@ import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
  *         andreas.draeger@uni-tuebingen.de</a>
  * 
  */
-public class ListOf extends AbstractSBase {
+public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	private CurrentListOfSBMLElements currentList = CurrentListOfSBMLElements.none;
-	private LinkedList<SBase> listOf = null;
+	private LinkedList<T> listOf = null;
 
 	/**
 	 * 
 	 */
 	public ListOf() {
 		super();
-		this.setListOf(new LinkedList<SBase>());
+		this.setListOf(new LinkedList<T>());
 	}
 	
 	/**
@@ -72,7 +76,7 @@ public class ListOf extends AbstractSBase {
 	 * 
 	 * @param listOf
 	 */
-	public ListOf(ListOf listOf) {
+	public ListOf(ListOf<T> listOf) {
 		super();
 		if (listOf.isSetSBOTerm())
 			setSBOTerm(listOf.getSBOTerm());
@@ -85,7 +89,7 @@ public class ListOf extends AbstractSBase {
 		this.setOfListeners.addAll(listOf.setOfListeners);
 		this.level = listOf.getLevel();
 		this.version = listOf.getVersion();
-		this.listOf = listOf.getListOf();
+		this.listOf = listOf.listOf;
 	}
 
 	/*
@@ -96,8 +100,8 @@ public class ListOf extends AbstractSBase {
 	 */
 	public void addChangeListener(SBaseChangedListener l) {
 		setOfListeners.add(l);
-		for (int i = 0; i < this.getListOf().size(); i++)
-			((SBase) this.getListOf().get(i)).addChangeListener(l);
+		for (int i = 0; i < size(); i++)
+			get(i).addChangeListener(l);
 	}
 
 	/*
@@ -107,7 +111,7 @@ public class ListOf extends AbstractSBase {
 	 */
 	// @Override
 	public boolean equals(Object o) {
-		if (o instanceof ListOf) {
+		if (o instanceof ListOf<?>) {
 			boolean equals = super.equals(o);
 			SBase sbase = (SBase) o;
 			equals &= sbase.isSetMetaId() == isSetMetaId();
@@ -285,20 +289,137 @@ public class ListOf extends AbstractSBase {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return listOf.toString();
 	}
 
-	public void setListOf(LinkedList<SBase> listOf) {
+	public void setListOf(LinkedList<T> listOf) {
 		this.listOf = listOf;
-	}
-
-	public LinkedList<SBase> getListOf() {
-		return listOf;
 	}
 
 	@Override
 	public SBase clone() {
-		return new ListOf(this);
+		return new ListOf<T>(this);
 	}
+
+	@Override
+	public void clear() {
+		listOf.clear();
+		
+	}
+
+	@Override
+	public boolean contains(Object o) {
+		return listOf.contains(o);
+	}
+
+
+	@Override
+	public int indexOf(Object o) {
+		return listOf.indexOf(o);
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return listOf.isEmpty();
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		return listOf.iterator();
+	}
+
+	@Override
+	public int lastIndexOf(Object o) {
+		return listOf.lastIndexOf(o);
+	}
+
+	@Override
+	public ListIterator<T> listIterator() {
+		return listOf.listIterator();
+	}
+
+	@Override
+	public ListIterator<T> listIterator(int index) {
+		return listOf.listIterator(index);
+	}
+
+	@Override
+	public boolean remove(Object o) {
+		return listOf.remove(o);
+	}
+
+	@Override
+	public int size() {		
+		return listOf.size();
+	}
+
+	@Override
+	public List<T> subList(int fromIndex, int toIndex) {
+		return listOf.subList(fromIndex, toIndex);
+	}
+
+	@Override
+	public Object[] toArray() {
+		return listOf.toArray();
+	}
+
+	@Override
+	public boolean add(T e) {
+		return listOf.add(e);
+	}
+
+	@Override
+	public void add(int index, T element) {
+		listOf.add(index, element);
+	}
+
+
+	@Override
+	public boolean containsAll(Collection<?> c) {
+		return listOf.containsAll(c);
+	}
+
+	@Override
+	public boolean removeAll(Collection<?> c) {
+		return listOf.removeAll(c);
+	}
+
+	@Override
+	public boolean retainAll(Collection<?> c) {
+		return listOf.retainAll(c);
+	}
+
+	@Override
+	public T set(int index, T element) {
+		return listOf.set(index, element);
+	}
+
+
+	@Override
+	public T get(int index) {
+		return listOf.get(index);
+	}
+
+	@Override
+	public T remove(int index) {
+		return listOf.remove(index);
+	}
+
+	@Override
+	public boolean addAll(Collection<? extends T> c) {
+		return listOf.addAll(c);
+	}
+
+	@Override
+	public boolean addAll(int index, Collection<? extends T> c) {
+		return listOf.addAll(index, c);
+	}
+
+	@SuppressWarnings("hiding")
+	@Override
+	public <T> T[] toArray(T[] a) {
+		return listOf.toArray(a);
+	}
+
+
 }

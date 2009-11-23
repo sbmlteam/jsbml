@@ -1,6 +1,6 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
-import org.sbml.jsbml.element.ModelAnnotation;
+import org.sbml.jsbml.element.Annotation;
 import org.sbml.jsbml.element.ModelHistory;
 import org.sbml.jsbml.element.SBMLDocument;
 import org.sbml.jsbml.xml.SBMLParser;
@@ -27,8 +27,8 @@ public class CreatorParser implements SBMLParser{
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, Object contextObject) {
 
-		if (elementName.equals("creator") && contextObject instanceof ModelAnnotation){
-			ModelAnnotation annotation = (ModelAnnotation) contextObject;
+		if (elementName.equals("creator") && contextObject instanceof Annotation){
+			Annotation annotation = (Annotation) contextObject;
 			ModelHistory modelHistory = new ModelHistory();
 			annotation.setModelHistory(modelHistory);
 			
