@@ -301,122 +301,99 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return new ListOf<T>(this);
 	}
 
-	@Override
 	public void clear() {
 		listOf.clear();
 		
 	}
 
-	@Override
 	public boolean contains(Object o) {
 		return listOf.contains(o);
 	}
 
 
-	@Override
 	public int indexOf(Object o) {
 		return listOf.indexOf(o);
 	}
 
-	@Override
 	public boolean isEmpty() {
 		return listOf.isEmpty();
 	}
 
-	@Override
 	public Iterator<T> iterator() {
 		return listOf.iterator();
 	}
 
-	@Override
 	public int lastIndexOf(Object o) {
 		return listOf.lastIndexOf(o);
 	}
 
-	@Override
 	public ListIterator<T> listIterator() {
 		return listOf.listIterator();
 	}
 
-	@Override
 	public ListIterator<T> listIterator(int index) {
 		return listOf.listIterator(index);
 	}
 
-	@Override
 	public boolean remove(Object o) {
 		return listOf.remove(o);
 	}
 
-	@Override
 	public int size() {		
 		return listOf.size();
 	}
 
-	@Override
 	public List<T> subList(int fromIndex, int toIndex) {
 		return listOf.subList(fromIndex, toIndex);
 	}
 
-	@Override
 	public Object[] toArray() {
 		return listOf.toArray();
 	}
 
-	@Override
 	public boolean add(T e) {
 		return listOf.add(e);
 	}
 
-	@Override
 	public void add(int index, T element) {
 		listOf.add(index, element);
 	}
 
 
-	@Override
 	public boolean containsAll(Collection<?> c) {
 		return listOf.containsAll(c);
 	}
 
-	@Override
 	public boolean removeAll(Collection<?> c) {
 		return listOf.removeAll(c);
 	}
 
-	@Override
 	public boolean retainAll(Collection<?> c) {
 		return listOf.retainAll(c);
 	}
 
-	@Override
 	public T set(int index, T element) {
 		return listOf.set(index, element);
 	}
 
 
-	@Override
 	public T get(int index) {
 		return listOf.get(index);
 	}
 
-	@Override
 	public T remove(int index) {
 		return listOf.remove(index);
 	}
 
-	@Override
 	public boolean addAll(Collection<? extends T> c) {
 		return listOf.addAll(c);
 	}
 
-	@Override
 	public boolean addAll(int index, Collection<? extends T> c) {
 		return listOf.addAll(index, c);
 	}
 
 	@SuppressWarnings("hiding")
-	@Override
 	public <T> T[] toArray(T[] a) {
 		return listOf.toArray(a);
 	}

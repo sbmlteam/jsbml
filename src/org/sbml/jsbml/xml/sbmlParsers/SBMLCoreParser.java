@@ -102,10 +102,6 @@ public class SBMLCoreParser implements SBMLParser{
 			SBase sbase = (SBase) contextObject;
 			isAttributeRead = sbase.readAttribute(attributeName, prefix, value);
 		}
-		else if (contextObject instanceof ListOf){
-			ListOf listOf = (ListOf) contextObject;
-			isAttributeRead = listOf.readAttribute(attributeName, prefix, value);
-		}
 		else if (contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
 			isAttributeRead = annotation.readAttribute(attributeName, prefix, value);

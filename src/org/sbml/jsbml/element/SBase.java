@@ -305,5 +305,9 @@ public interface SBase {
 	public boolean isSetModelHistory();
 	
 	public ModelHistory getModelHistory();
+	
+	public SBase getExtension(String namespace);
+	
+	public void addExtension(String namespace, SBase sbase);
 
 }

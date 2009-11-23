@@ -1,37 +1,90 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
+import org.sbml.jsbml.element.Annotation;
+import org.sbml.jsbml.element.ListOf;
 import org.sbml.jsbml.element.SBMLDocument;
+import org.sbml.jsbml.element.SBase;
+import org.sbml.jsbml.element.Species;
+import org.sbml.jsbml.multiTest.InitialSpeciesInstance;
+import org.sbml.jsbml.multiTest.MultiList;
+import org.sbml.jsbml.multiTest.MultiSpecies;
+import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
 import org.sbml.jsbml.xml.SBMLParser;
 
 public class MultiParser implements SBMLParser{
+	
+	private final String namespace = "http://www.sbml.org/sbml/level3/version1/multi/version1";
+	
+	private MultiList multiList = MultiList.none;
 
-	public void processAttribute(String elementName, String AttributeName, String value, String prefix,
+	public void processAttribute(String elementName, String attributeName, String value, String prefix,
 			boolean isLastAttribute, Object contextObject) {
-		// TODO Auto-generated method stub
 		
+		boolean isAttributeRead = false;
+		if (contextObject instanceof SBase){
+			SBase sbase = (SBase) contextObject;
+			isAttributeRead = sbase.readAttribute(attributeName, prefix, value);
+		}
+		else if (contextObject instanceof Annotation){
+			Annotation annotation = (Annotation) contextObject;
+			isAttributeRead = annotation.readAttribute(attributeName, prefix, value);
+		}
+		
+		if (!isAttributeRead){
+			// TODO : throw new SBMLException ("The attribute " + attributeName + " on the element " + elementName + "is not part of the SBML specifications");
+		}
 	}
 
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
-		// TODO Auto-generated method stub
-		
 	}
 
-	public Object processStartElement(String ElementName, String prefix,
+	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, Object contextObject) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if (contextObject instanceof Species){
+			Species species = (Species) contextObject;
+			if (elementName.equals("listOfInitialSpeciesInstances")){
+				ListOf<InitialSpeciesInstance> listOfInitialSpeciesInstances = new ListOf<InitialSpeciesInstance>();
+				listOfInitialSpeciesInstances.setCurrentList(CurrentListOfSBMLElements.other);
+				this.multiList = MultiList.listOfInitialSpeciesInstances;
+				
+				MultiSpecies multiSpecies = new MultiSpecies(species);
+				multiSpecies.setListOfInitialSpeciesInstance(listOfInitialSpeciesInstances);
+				species.addExtension(this.namespace, multiSpecies);
+				
+				return listOfInitialSpeciesInstances;
+			}
+		}
+		else if (contextObject instanceof ListOf){
+			ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
+			
+			if (elementName.equals("initialSpeciesInstance") && this.multiList.equals(MultiList.listOfInitialSpeciesInstances)){
+				InitialSpeciesInstance initialSpeciesInstance = new InitialSpeciesInstance();
+				listOf.add(initialSpeciesInstance);
+				
+				return initialSpeciesInstance;
+			}
+			
+		}
+		return contextObject;
 	}
 
-	public void processEndElement(String ElementName, String prefix,
+	public void processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
-		// TODO Auto-generated method stub
 		
+		if (elementName.equals("listOfSpeciesInstances")){
+			this.multiList = MultiList.none;
+		}
 	}
 
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public String getNamespace() {
+		return namespace;
 	}
 
 
