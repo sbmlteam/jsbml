@@ -131,6 +131,9 @@ public class Event extends AbstractNamedSBase {
 	 * @param eventass
 	 */
 	public void addEventAssignement(EventAssignment eventass) {
+		if (!isSetListOfEventAssignments()){
+			this.listOfEventAssignments = new ListOf<EventAssignment>();
+		}
 		listOfEventAssignments.add(eventass);
 	}
 
@@ -191,7 +194,10 @@ public class Event extends AbstractNamedSBase {
 	 * @return
 	 */
 	public EventAssignment getEventAssignment(int n) {
-		return listOfEventAssignments.get(n);
+		if (isSetListOfEventAssignments()){
+			return listOfEventAssignments.get(n);
+		}
+		return null;
 	}
 
 	/**
@@ -207,7 +213,10 @@ public class Event extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumEventAssignments() {
-		return listOfEventAssignments.size();
+		if (isSetListOfEventAssignments()){
+			return listOfEventAssignments.size();
+		}
+		return 0;
 	}
 
 	/**

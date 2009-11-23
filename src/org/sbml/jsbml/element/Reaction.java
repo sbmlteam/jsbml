@@ -121,6 +121,9 @@ public class Reaction extends AbstractNamedSBase {
 	 * @param modspecref
 	 */
 	public void addModifier(ModifierSpeciesReference modspecref) {
+		if (!isSetListOfModifiers()){
+			this.listOfModifiers = new ListOf<ModifierSpeciesReference>();
+		}
 		if (!listOfModifiers.contains(modspecref)) {
 			modspecref.parentSBMLObject = this;
 			listOfModifiers.add(modspecref);
@@ -132,6 +135,9 @@ public class Reaction extends AbstractNamedSBase {
 	 * @param specref
 	 */
 	public void addProduct(SpeciesReference specref) {
+		if (!isSetListOfProducts()){
+			this.listOfProducts = new ListOf<SpeciesReference>();
+		}
 		if (!listOfProducts.contains(specref)) {
 			specref.parentSBMLObject = this;
 			listOfProducts.add(specref);
@@ -143,6 +149,9 @@ public class Reaction extends AbstractNamedSBase {
 	 * @param specref
 	 */
 	public void addReactant(SpeciesReference specref) {
+		if (!isSetListOfReactants()){
+			this.listOfReactants = new ListOf<SpeciesReference>();
+		}
 		if (!listOfReactants.contains(specref)) {
 			specref.parentSBMLObject = this;
 			listOfReactants.add(specref);
@@ -233,7 +242,10 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public ModifierSpeciesReference getModifier(int i) {
-		return listOfModifiers.get(i);
+		if (isSetListOfModifiers()){
+			return listOfModifiers.get(i);
+		}
+		return null;
 	}
 	
 	/**
@@ -242,9 +254,11 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public ModifierSpeciesReference getModifier(String id) {
-		for (ModifierSpeciesReference msp : listOfModifiers) {
-			if (msp.getId().equals(id)){
-				return msp;
+		if (isSetListOfModifiers()){
+			for (ModifierSpeciesReference msp : listOfModifiers) {
+				if (msp.getId().equals(id)){
+					return msp;
+				}
 			}
 		}
 		return null;
@@ -255,7 +269,10 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumModifiers() {
-		return listOfModifiers.size();
+		if (isSetListOfModifiers()){
+			return listOfModifiers.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -263,7 +280,10 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumProducts() {
-		return listOfProducts.size();
+		if (isSetListOfProducts()){
+			return listOfProducts.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -271,7 +291,10 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumReactants() {
-		return listOfReactants.size();
+		if (isSetListOfReactants()){
+			return listOfReactants.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -280,7 +303,10 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public SpeciesReference getProduct(int i) {
-		return listOfProducts.get(i);
+		if (isSetListOfProducts()){
+			return listOfProducts.get(i);
+		}
+		return null;
 	}
 
 	/**
@@ -289,7 +315,10 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public SpeciesReference getReactant(int i) {
-		return listOfReactants.get(i);
+		if (isSetListOfReactants()){
+			return listOfReactants.get(i);
+		}
+		return null;
 	}
 	
 	/**
@@ -298,9 +327,11 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public SpeciesReference getProduct(String id) {
-		for (SpeciesReference sp : listOfProducts) {
-			if (sp.getId().equals(id)){
-				return sp;
+		if (isSetListOfProducts()){
+			for (SpeciesReference sp : listOfProducts) {
+				if (sp.getId().equals(id)){
+					return sp;
+				}
 			}
 		}
 		return null;
@@ -312,9 +343,11 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public SpeciesReference getReactant(String id) {
-		for (SpeciesReference sp : listOfReactants) {
-			if (sp.getId().equals(id)){
-				return sp;
+		if (isSetListOfReactants()){
+			for (SpeciesReference sp : listOfReactants) {
+				if (sp.getId().equals(id)){
+					return sp;
+				}
 			}
 		}
 		return null;
@@ -381,8 +414,10 @@ public class Reaction extends AbstractNamedSBase {
 	 * @param modspecref
 	 */
 	public void removeModifier(ModifierSpeciesReference modspecref) {
-		if (listOfModifiers.remove(modspecref))
-			modspecref.sbaseRemoved();
+		if (isSetListOfModifiers()){
+			if (listOfModifiers.remove(modspecref))
+				modspecref.sbaseRemoved();
+		}
 	}
 
 	/**
@@ -390,8 +425,10 @@ public class Reaction extends AbstractNamedSBase {
 	 * @param specref
 	 */
 	public void removeProduct(SpeciesReference specref) {
-		if (listOfProducts.remove(specref))
-			specref.sbaseRemoved();
+		if (isSetListOfProducts()){
+			if (listOfProducts.remove(specref))
+				specref.sbaseRemoved();
+		}
 	}
 
 	/**
@@ -399,8 +436,10 @@ public class Reaction extends AbstractNamedSBase {
 	 * @param specref
 	 */
 	public void removeReactant(SpeciesReference specref) {
-		if (listOfReactants.remove(specref))
-			specref.sbaseRemoved();
+		if (isSetListOfReactants()){
+			if (listOfReactants.remove(specref))
+				specref.sbaseRemoved();
+		}
 	}
 
 	/**

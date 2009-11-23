@@ -186,7 +186,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		ListOf<Unit> orig = ud.getListOfUnits();
 		int i, j;
 		for (i = orig.size() - 1; i >= 0; i--) {
-			Unit u = (Unit) orig.remove(i);
+			Unit u = orig.remove(i);
 			for (j = 0; j < units.size(); j++){
 				Unit unit = units.get(j);
 				if (u.getKind().compareTo(unit.getKind()) > 0){
@@ -289,6 +289,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @param u
 	 */
 	public void addUnit(Unit u) {
+		if (!isSetListOfUnits()){
+			this.listOfUnit = new ListOf<Unit>();
+		}
 		listOfUnit.add(u);
 		u.parentSBMLObject = this;
 		stateChanged();
@@ -339,7 +342,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumUnits() {
-		return listOfUnit.size();
+		if (isSetListOfUnits()){
+			return listOfUnit.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -350,7 +356,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return the ith Unit of this UnitDefinition
 	 */
 	public Unit getUnit(int i) {
-		return listOfUnit.get(i);
+		if (isSetListOfUnits()){
+			return listOfUnit.get(i);
+		}
+		return null;
 	}
 
 	/**
@@ -358,9 +367,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isVariantOfArea() {
-		if (listOfUnit.size() == 1){
-			Unit unit = listOfUnit.get(0);
-			return unit.isVariantOfArea();
+		if (isSetListOfUnits()){
+			if (listOfUnit.size() == 1){
+				Unit unit = listOfUnit.get(0);
+				return unit.isVariantOfArea();
+			}
 		}
 		return false;
 	}
@@ -375,9 +386,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 *         multiplier values; false otherwise.
 	 */
 	public boolean isVariantOfLength() {
-		if (listOfUnit.size() == 1){
-			Unit unit = listOfUnit.get(0);
-			return unit.isVariantOfLength();
+		if (isSetListOfUnits()){
+			if (listOfUnit.size() == 1){
+				Unit unit = listOfUnit.get(0);
+				return unit.isVariantOfLength();
+			}
 		}
 		return false;
 	}
@@ -392,9 +405,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 *         scale or multiplier values; false otherwise.
 	 */
 	public boolean isVariantOfSubstance() {
-		if (listOfUnit.size() == 1){
-			Unit unit = listOfUnit.get(0);
-			return unit.isVariantOfSubstance();
+		if (isSetListOfUnits()){
+			if (listOfUnit.size() == 1){
+				Unit unit = listOfUnit.get(0);
+				return unit.isVariantOfSubstance();
+			}
 		}
 		return false;
 	}
@@ -404,7 +419,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isVariantOfSubstancePerArea() {
-		if (listOfUnit.size() == 2) {;
+		if (isSetListOfUnits()){
+			if (listOfUnit.size() == 2) {;
 			if (getUnit(0).isVariantOfSubstance()) {
 				Unit two = getUnit(1).clone();
 				two.setExponent(two.getExponent() * -1);
@@ -415,6 +431,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				return one.isVariantOfArea();
 			}
 		}
+		}
 		return false;
 	}
 
@@ -423,17 +440,19 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isVariantOfSubstancePerLength() {
-		if (listOfUnit.size() == 2) {
-			Unit unit = listOfUnit.get(0);
-			Unit unit2 = listOfUnit.get(1);
-			if (unit.isVariantOfSubstance()) {
-				Unit two = (Unit) listOfUnit.get(1).clone();
-				two.setExponent(two.getExponent() * -1);
-				return two.isVariantOfLength();
-			} else if (unit2.isVariantOfSubstance()) {
-				Unit one = (Unit) listOfUnit.get(0).clone();
-				one.setExponent(one.getExponent() * -1);
-				return one.isVariantOfLength();
+		if (isSetListOfUnits()){
+			if (listOfUnit.size() == 2) {
+				Unit unit = listOfUnit.get(0);
+				Unit unit2 = listOfUnit.get(1);
+				if (unit.isVariantOfSubstance()) {
+					Unit two = listOfUnit.get(1).clone();
+					two.setExponent(two.getExponent() * -1);
+					return two.isVariantOfLength();
+				} else if (unit2.isVariantOfSubstance()) {
+					Unit one = listOfUnit.get(0).clone();
+					one.setExponent(one.getExponent() * -1);
+					return one.isVariantOfLength();
+				}
 			}
 		}
 		return false;
@@ -444,17 +463,19 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isVariantOfSubstancePerVolume() {
-		if (listOfUnit.size() == 2) {
-			Unit unit = listOfUnit.get(0);
-			Unit unit2 = listOfUnit.get(1);
-			if (unit.isVariantOfSubstance()) {
-				Unit two = (Unit) listOfUnit.get(1).clone();
-				two.setExponent(two.getExponent() * -1);
-				return two.isVariantOfVolume();
-			} else if (unit2.isVariantOfSubstance()) {
-				Unit one = (Unit) listOfUnit.get(0).clone();
-				one.setExponent(one.getExponent() * -1);
-				return one.isVariantOfVolume();
+		if (isSetListOfUnits()){
+			if (listOfUnit.size() == 2) {
+				Unit unit = listOfUnit.get(0);
+				Unit unit2 = listOfUnit.get(1);
+				if (unit.isVariantOfSubstance()) {
+					Unit two = listOfUnit.get(1).clone();
+					two.setExponent(two.getExponent() * -1);
+					return two.isVariantOfVolume();
+				} else if (unit2.isVariantOfSubstance()) {
+					Unit one = listOfUnit.get(0).clone();
+					one.setExponent(one.getExponent() * -1);
+					return one.isVariantOfVolume();
+				}
 			}
 		}
 		return false;
@@ -469,9 +490,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 *         variations in scale or multiplier values; false otherwise.
 	 */
 	public boolean isVariantOfVolume() {
-		if (listOfUnit.size() == 1){
-			Unit unit = listOfUnit.get(0);
-			return unit.isVariantOfVolume();
+		if (isSetListOfUnits()){
+			if (listOfUnit.size() == 1){
+				Unit unit = listOfUnit.get(0);
+				return unit.isVariantOfVolume();
+			}
 		}
 		return false;
 	}
@@ -485,8 +508,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return
 	 */
 	public UnitDefinition multiplyWith(UnitDefinition definition) {
-		for (Unit unit : definition.getListOfUnits()){
-			addUnit(unit.clone());
+		if (isSetListOfUnits()){
+			for (Unit unit : definition.getListOfUnits()){
+				addUnit(unit.clone());
+			}
 		}
 		return this;
 	}
@@ -499,12 +524,14 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @param exponent
 	 */
 	public void raiseByThePowerOf(int exponent) {
-		Unit u;
-		for (int i = listOfUnit.size() - 1; i >= 0; i--) {
-			u = listOfUnit.get(i);
-			u.setExponent(u.getExponent() * exponent);
-			if (u.getExponent() == 0)
-				listOfUnit.remove(i);
+		if (isSetListOfUnits()){
+			Unit u;
+			for (int i = listOfUnit.size() - 1; i >= 0; i--) {
+				u = listOfUnit.get(i);
+				u.setExponent(u.getExponent() * exponent);
+				if (u.getExponent() == 0)
+					listOfUnit.remove(i);
+			}
 		}
 	}
 
@@ -521,10 +548,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 *         range.
 	 */
 	public Unit removeUnit(int i) {
-		Unit u = listOfUnit.remove(i);
-		if (u != null)
-			u.sbaseRemoved();
-		return u;
+		if (isSetListOfUnits()){
+			Unit u = listOfUnit.remove(i);
+			if (u != null)
+				u.sbaseRemoved();
+			return u;
+		}
+		return null;
 	}
 
 	/**
@@ -545,19 +575,22 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return a pointer to the simplified unit definition.
 	 */
 	public UnitDefinition simplify() {
-		reorder(this);
-		for (int i = getNumUnits() - 2; i >= 0; i--) {
-			Unit u = getUnit(i); // current unit
-			Unit s = getUnit(i + 1); // successor unit
-			if (Unit.Kind.areEquivalent(u.getKind(), s.getKind())
-					|| u.getKind() == Kind.DIMENSIONLESS
-					|| s.getKind() == Kind.DIMENSIONLESS) {
-				Unit.merge(u, removeUnit(i + 1));
-				if (u.isDimensionless() && i == 0 && getNumUnits() > 1)
-					Unit.merge(getUnit(i + 1), removeUnit(i));
+		if (isSetListOfUnits()){
+			reorder(this);
+			for (int i = getNumUnits() - 2; i >= 0; i--) {
+				Unit u = getUnit(i); // current unit
+				Unit s = getUnit(i + 1); // successor unit
+				if (Unit.Kind.areEquivalent(u.getKind(), s.getKind())
+						|| u.getKind() == Kind.DIMENSIONLESS
+						|| s.getKind() == Kind.DIMENSIONLESS) {
+					Unit.merge(u, removeUnit(i + 1));
+					if (u.isDimensionless() && i == 0 && getNumUnits() > 1)
+						Unit.merge(getUnit(i + 1), removeUnit(i));
+				}
 			}
+			return this;
 		}
-		return this;
+		return null;
 	}
 
 	/**

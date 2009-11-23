@@ -312,6 +312,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param compartment
 	 */
 	public void addCompartment(Compartment compartment) {
+		if (!isSetListOfCompartments()){
+			this.listOfCompartments = new ListOf<Compartment>();
+		}
 		if (!listOfCompartments.contains(compartment)) {
 			compartment.parentSBMLObject = this;
 			listOfCompartments.add(compartment);
@@ -323,6 +326,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param compartmentType
 	 */
 	public void addCompartmentType(CompartmentType compartmentType) {
+		if (!isSetListOfCompartmentTypes()){
+			this.listOfCompartmentTypes = new ListOf<CompartmentType>();
+		}
 		if (!listOfCompartmentTypes.contains(compartmentType)) {
 			compartmentType.parentSBMLObject = this;
 			listOfCompartmentTypes.add(compartmentType);
@@ -334,6 +340,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param constraint
 	 */
 	public void addConstraint(Constraint constraint) {
+		if (!isSetListOfConstraints()){
+			this.listOfConstraints = new ListOf<Constraint>();
+		}
 		if (!listOfConstraints.contains(constraint)) {
 			constraint.parentSBMLObject = this;
 			listOfConstraints.add(constraint);
@@ -345,6 +354,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param event
 	 */
 	public void addEvent(Event event) {
+		if (!isSetListOfEvents()){
+			this.listOfEvents = new ListOf<Event>();
+		}
 		if (!listOfEvents.contains(event)) {
 			event.parentSBMLObject = this;
 			listOfEvents.add(event);
@@ -356,6 +368,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param
 	 */
 	public void addFunctionDefinition(FunctionDefinition functionDefinition) {
+		if (!isSetListOfFunctionDefinitions()){
+			this.listOfFunctionDefinitions = new ListOf<FunctionDefinition>();
+		}
 		if (!listOfFunctionDefinitions.contains(functionDefinition)) {
 			functionDefinition.parentSBMLObject = this;
 			listOfFunctionDefinitions.add(functionDefinition);
@@ -367,6 +382,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param initialAssignment
 	 */
 	public void addInitialAssignment(InitialAssignment initialAssignment) {
+		if (!isSetListOfInitialAssignemnts()){
+			this.listOfInitialAssignments = new ListOf<InitialAssignment>();
+		}
 		if (!listOfInitialAssignments.contains(initialAssignment)) {
 			initialAssignment.parentSBMLObject = this;
 			listOfInitialAssignments.add(initialAssignment);
@@ -378,6 +396,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param parameter
 	 */
 	public void addParameter(Parameter parameter) {
+		if (!isSetListOfParameters()){
+			this.listOfParameters = new ListOf<Parameter>();
+		}
 		if (!listOfParameters.contains(parameter)) {
 			parameter.parentSBMLObject = this;
 			listOfParameters.add(parameter);
@@ -390,6 +411,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param reaction
 	 */
 	public void addReaction(Reaction reaction) {
+		if (!isSetListOfReactions()){
+			this.listOfReactions = new ListOf<Reaction>();
+		}
 		if (!listOfReactions.contains(reaction)) {
 			reaction.parentSBMLObject = this;
 			listOfReactions.add(reaction);
@@ -401,6 +425,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param rule
 	 */
 	public void addRule(Rule rule) {
+		if (!isSetListOfRules()){
+			this.listOfRules = new ListOf<Rule>();
+		}
 		if (!listOfRules.contains(rule)) {
 			rule.parentSBMLObject = this;
 			listOfRules.add(rule);
@@ -413,6 +440,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param spec
 	 */
 	public void addSpecies(Species spec) {
+		if (!isSetListOfSpecies()){
+			this.listOfSpecies = new ListOf<Species>();
+		}
 		if (!listOfSpecies.contains(spec)) {
 			spec.parentSBMLObject = this;
 			listOfSpecies.add(spec);
@@ -424,6 +454,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param speciesType
 	 */
 	public void addSpeciesType(SpeciesType speciesType) {
+		if (!isSetListOfSpeciesTypes()){
+			this.listOfSpeciesTypes = new ListOf<SpeciesType>();
+		}
 		if (!listOfSpeciesTypes.contains(speciesType)) {
 			speciesType.parentSBMLObject = this;
 			listOfSpeciesTypes.add(speciesType);
@@ -435,6 +468,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param unitDefinition
 	 */
 	public void addUnitDefinition(UnitDefinition unitDefinition) {
+		if (!isSetListOfUnitDefinitions()){
+			this.listOfUnitDefinitions = new ListOf<UnitDefinition>();
+		}
 		if (!listOfUnitDefinitions.contains(unitDefinition)) {
 			unitDefinition.parentSBMLObject = this;
 			listOfUnitDefinitions.add(unitDefinition);
@@ -533,7 +569,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Compartment getCompartment(int n) {
-		return listOfCompartments.get(n);
+		if (isSetListOfCompartments()){
+			return listOfCompartments.get(n);
+		}
+		return null;
 	}
 
 	/**
@@ -542,9 +581,11 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Compartment getCompartment(String id) {
-		for (Compartment comp : listOfCompartments) {
-			if (comp.getId().equals(id)){
-				return comp;
+		if (isSetListOfCompartments()){
+			for (Compartment comp : listOfCompartments) {
+				if (comp.getId().equals(id)){
+					return comp;
+				}
 			}
 		}
 		return null;
@@ -556,20 +597,32 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public CompartmentType getCompartmentType(String id) {
-		for (CompartmentType ct : listOfCompartmentTypes){
-			if (ct.getId().equals(id)){
-				return ct;
+		if (isSetListOfCompartmentTypes()){
+			for (CompartmentType ct : listOfCompartmentTypes){
+				if (ct.getId().equals(id)){
+					return ct;
+				}
 			}
 		}
 		return null;
 	}
 	
 	public CompartmentType getCompartmentType(int n) {
-		return listOfCompartmentTypes.get(n);
+		if (isSetListOfCompartmentTypes()){
+			return listOfCompartmentTypes.get(n);
+		}
+		return null;
 	}
 	
 	public SpeciesType getSpeciesType(int n) {
-		return listOfSpeciesTypes.get(n);
+		if (isSetListOfSpeciesTypes()){
+			return listOfSpeciesTypes.get(n);
+		}
+		return null;
+	}
+	
+	public boolean isSetListOfConstraints(){
+		return this.listOfConstraints != null;
 	}
 
 	/**
@@ -579,7 +632,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return the nth Constraint of this Model.
 	 */
 	public Constraint getConstraint(int n) {
-		return listOfConstraints.get(n);
+		if (isSetListOfConstraints()){
+			return listOfConstraints.get(n);
+		}
+		return null;
 	}
 
 	/**
@@ -588,7 +644,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Event getEvent(int i) {
-		return listOfEvents.get(i);
+		if (isSetListOfEvents()){
+			return listOfEvents.get(i);
+		}
+		return null;
 	}
 	
 	/**
@@ -597,7 +656,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public UnitDefinition getUnitDefinition(int i) {
-		return (UnitDefinition) listOfUnitDefinitions.get(i);
+		if (isSetListOfUnitDefinitions()){
+			return listOfUnitDefinitions.get(i);
+		}
+		return null;
 	}
 
 	/**
@@ -606,12 +668,18 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Event getEvent(String id) {
-		for (Event ev : listOfEvents){
-			if (ev.getId().equals(id)){
-				return ev;
+		if (isSetListOfEvents()){
+			for (Event ev : listOfEvents){
+				if (ev.getId().equals(id)){
+					return ev;
+				}
 			}
 		}
 		return null;
+	}
+	
+	public boolean isSetListOfFunctionDefinitions(){
+		return this.listOfFunctionDefinitions != null;
 	}
 
 	/**
@@ -620,7 +688,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public FunctionDefinition getFunctionDefinition(int n) {
-		return listOfFunctionDefinitions.get(n);
+		if (isSetListOfFunctionDefinitions()){
+			return listOfFunctionDefinitions.get(n);
+		}
+		return null;
 	}
 
 	/**
@@ -629,9 +700,11 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public FunctionDefinition getFunctionDefinition(String id) {
-		for (FunctionDefinition f : listOfFunctionDefinitions) {
-			if (f.getId().equals(id)){
-				return f;
+		if (isSetListOfFunctionDefinitions()){
+			for (FunctionDefinition f : listOfFunctionDefinitions) {
+				if (f.getId().equals(id)){
+					return f;
+				}
 			}
 		}
 		return null;
@@ -644,7 +717,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return the nth InitialAssignment of this Model.
 	 */
 	public InitialAssignment getInitialAssignment(int n) {
-		return listOfInitialAssignments.get(n);
+		if (isSetListOfInitialAssignemnts()){
+			return listOfInitialAssignments.get(n);
+		}
+		return null;
 	}
 
 	/**
@@ -746,7 +822,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumCompartments() {
-		return listOfCompartments.size();
+		if (isSetListOfCompartments()){
+			return listOfCompartments.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -754,7 +833,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumCompartmentTypes() {
-		return listOfCompartmentTypes.size();
+		if (isSetListOfCompartmentTypes()){
+			return listOfCompartmentTypes.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -762,7 +844,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumConstraints() {
-		return listOfConstraints.size();
+		if (isSetListOfConstraints()){
+			return listOfConstraints.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -770,7 +855,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumEvents() {
-		return listOfEvents.size();
+		if (isSetListOfEvents()){
+			return listOfEvents.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -778,7 +866,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumFunctionDefinitions() {
-		return listOfFunctionDefinitions.size();
+		if (isSetListOfFunctionDefinitions()){
+			return listOfFunctionDefinitions.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -786,7 +877,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumInitialAssignments() {
-		return listOfInitialAssignments.size();
+		if (isSetListOfInitialAssignemnts()){
+			return listOfInitialAssignments.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -810,7 +904,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumParameters() {
-		return listOfParameters.size();
+		if (isSetListOfParameters()){
+			return listOfParameters.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -818,7 +915,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumReactions() {
-		return listOfReactions.size();
+		if (isSetListOfReactions()){
+			return listOfReactions.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -826,7 +926,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumRules() {
-		return listOfRules.size();
+		if (isSetListOfRules()){
+			return listOfRules.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -834,7 +937,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumSpecies() {
-		return listOfSpecies.size();
+		if (isSetListOfSpecies()){
+			return listOfSpecies.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -842,7 +948,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumSpeciesTypes() {
-		return listOfSpeciesTypes.size();
+		if (isSetListOfSpeciesTypes()){
+			return listOfSpeciesTypes.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -850,7 +959,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumUnitDefinitions() {
-		return listOfUnitDefinitions.size();
+		if (isSetListOfUnitDefinitions()){
+			return listOfUnitDefinitions.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -859,7 +971,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Parameter getParameter(int n) {
-		return listOfParameters.get(n);
+		if (isSetListOfParameters()){
+			return listOfParameters.get(n);
+		}
+		return null;
 	}
 
 	/**
@@ -868,9 +983,11 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Parameter getParameter(String id) {
-		for (Parameter parameter : listOfParameters) {
-			if (parameter.getId().equals(id))
-				return parameter;
+		if (isSetListOfParameters()){
+			for (Parameter parameter : listOfParameters) {
+				if (parameter.getId().equals(id))
+					return parameter;
+			}
 		}
 		return null;
 	}
@@ -892,7 +1009,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return the n-th Reaction of this Model.
 	 */
 	public Reaction getReaction(int n) {
-		return listOfReactions.get(n);
+		if (isSetListOfReactions()){
+			return listOfReactions.get(n);
+		}
+		return null;
 	}
 
 	/**
@@ -901,10 +1021,11 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Reaction getReaction(String id) {
-		for (Reaction reaction : listOfReactions) {
-			if (reaction.getId().equals(id)){
-				return reaction;
-
+		if (isSetListOfReactions()){
+			for (Reaction reaction : listOfReactions) {
+				if (reaction.getId().equals(id)){
+					return reaction;
+				}
 			}
 		}
 		return null;
@@ -916,7 +1037,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Rule getRule(int n) {
-		return listOfRules.get(n);
+		if (isSetListOfRules()){
+			return listOfRules.get(n);
+		}
+		return null;
 	}
 
 	/**
@@ -927,7 +1051,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Species getSpecies(int n) {
-		return listOfSpecies.get(n);
+		if (isSetListOfSpecies()){
+			return listOfSpecies.get(n);
+		}
+		return null;
 	}
 
 	/**
@@ -936,9 +1063,11 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Species getSpecies(String id) {
-		for (Species species : listOfSpecies) {
-			if (species.getId().equals(id)){
-				return species;
+		if (isSetListOfSpecies()){
+			for (Species species : listOfSpecies) {
+				if (species.getId().equals(id)){
+					return species;
+				}
 			}
 		}
 		return null;
@@ -950,9 +1079,11 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public SpeciesType getSpeciesType(String id) {
-		for (SpeciesType st : listOfSpeciesTypes){
-			if (st.getId().equals(id)){
-				return st;
+		if (isSetListOfSpeciesTypes()){
+			for (SpeciesType st : listOfSpeciesTypes){
+				if (st.getId().equals(id)){
+					return st;
+				}
 			}
 		}
 		return null;
@@ -964,11 +1095,14 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public UnitDefinition getUnitDefinition(String id) {
-		for (UnitDefinition unitdef : listOfUnitDefinitions){
-			if (unitdef.getId().equals(id)){
-				return unitdef;
+		if (isSetListOfUnitDefinitions()){
+			for (UnitDefinition unitdef : listOfUnitDefinitions){
+				if (unitdef.getId().equals(id)){
+					return unitdef;
+				}
 			}
 		}
+		
 		UnitDefinition ud = null;
 		if (id.equals("area")) {
 			ud = UnitDefinition.area(getLevel(), getVersion());
@@ -994,8 +1128,13 @@ public class Model extends AbstractNamedSBase {
 	 * @param parameter
 	 */
 	public void removeParameter(Parameter parameter) {
-		listOfParameters.remove(parameter);
-		parameter.sbaseRemoved();
+		if (isSetListOfParameters()){
+			listOfParameters.remove(parameter);
+			parameter.sbaseRemoved();
+		}
+	/*for (UnitDefinition unitdef : listOfUnitDefinitions){
+		if (unitdef.getId().equals(id)){
+			return unitdef;*/
 	}
 
 	/**
@@ -1004,8 +1143,10 @@ public class Model extends AbstractNamedSBase {
 	 * @param reac
 	 */
 	public void removeReaction(Reaction reac) {
-		listOfReactions.remove(reac);
-		reac.sbaseRemoved();
+		if (isSetListOfReactions()){
+			listOfReactions.remove(reac);
+			reac.sbaseRemoved();
+		}
 	}
 
 	/**
@@ -1015,7 +1156,12 @@ public class Model extends AbstractNamedSBase {
 	 * @return success
 	 */
 	public boolean removeSpecies(Species spec) {
-		boolean success = listOfSpecies.remove(spec);
+		boolean success = false;
+
+		if (isSetListOfSpecies()){
+			success = listOfSpecies.remove(spec);
+
+		}
 		if (success)
 			spec.sbaseRemoved();
 		return success;
@@ -1027,7 +1173,12 @@ public class Model extends AbstractNamedSBase {
 	 * @return success
 	 */
 	public boolean removeUnitDefinition(UnitDefinition unitDefininition) {
-		boolean success = listOfUnitDefinitions.remove(unitDefininition);
+		boolean success = false;
+		if (isSetListOfUnitDefinitions()){
+			success = listOfUnitDefinitions.remove(unitDefininition);
+
+		}
+
 		if (success)
 			unitDefininition.sbaseRemoved();
 		return success;
