@@ -168,7 +168,6 @@ public class SBMLDocument extends AbstractSBase {
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
 		if (!isAttributeRead){
 			this.getSBMLDocumentAttributes().put(prefix+":"+attributeName, value);
 			return true;

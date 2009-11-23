@@ -23,6 +23,10 @@ public class AnnotationParser implements SBMLParser{
 				annotation.setAnnotation("> \n");
 			}
 		}
+		else {
+			// TODO : the other annotations which will be stored into a string should be included into
+			// an annotation node. There is a synthax error? Throw an exception?, the attribute can't be read?
+		}
 	}
 
 	public void processCharactersOf(String elementName, String characters,
@@ -31,6 +35,10 @@ public class AnnotationParser implements SBMLParser{
 			Annotation annotation = (Annotation) contextObject;
 			annotation.setAnnotation(characters + " \n");
 			
+		}
+		else {
+			// TODO : the other annotations which will be stored into a string should be included into
+			// an annotation node. There is a synthax error? Throw an exception?, the text can't be read?
 		}
 	}
 
@@ -52,6 +60,10 @@ public class AnnotationParser implements SBMLParser{
 			}
 			return annotation;
 		}
+		else {
+			// TODO : the other annotations which will be stored into a string should be included into
+			// an annotation node. There is a synthax error? Throw an exception?, the node can't be read?
+		}
 		return contextObject;
 	}
 	
@@ -72,10 +84,12 @@ public class AnnotationParser implements SBMLParser{
 				}
 			}
 		}
+		else {
+			// TODO : the other annotations which will be stored into a string should be included into
+			// an annotation node. There is a synthax error? Throw an exception?, the node can't be read?
+		}
 	}
 
 	public void processEndDocument(SBMLDocument sbmlDocument) {
-		// TODO Auto-generated method stub
-		
 	}
 }
