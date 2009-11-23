@@ -29,7 +29,7 @@
 
 package org.sbml.jsbml.element;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
 
@@ -45,7 +45,7 @@ public class KineticLaw extends MathContainer {
 	/**
 	 * local parameters
 	 */
-	private ListOf listOfParameters;
+	private ListOf<Parameter> listOfParameters;
 
 	/**
 	 * 
@@ -60,7 +60,7 @@ public class KineticLaw extends MathContainer {
 	 */
 	public KineticLaw(int level, int version) {
 		super(level, version);
-		listOfParameters = new ListOf(level, version);
+		listOfParameters = new ListOf<Parameter>(level, version);
 		listOfParameters.parentSBMLObject = this;
 	}
 
@@ -68,9 +68,10 @@ public class KineticLaw extends MathContainer {
 	 * 
 	 * @param kineticLaw
 	 */
+	@SuppressWarnings("unchecked")
 	public KineticLaw(KineticLaw kineticLaw) {
 		super(kineticLaw);
-		listOfParameters = (ListOf) kineticLaw.getListOfParameters().clone();
+		listOfParameters = (ListOf<Parameter>) kineticLaw.getListOfParameters().clone();
 		listOfParameters.parentSBMLObject = this;
 	}
 
@@ -103,8 +104,8 @@ public class KineticLaw extends MathContainer {
 	 * @param p
 	 */
 	public void addParameter(Parameter parameter) {
-		if (!getListOfParameters().getListOf().contains(parameter)) {
-			listOfParameters.getListOf().add(parameter);
+		if (!getListOfParameters().contains(parameter)) {
+			listOfParameters.add(parameter);
 			parameter.parentSBMLObject = this;
 			stateChanged();
 		}
@@ -140,7 +141,7 @@ public class KineticLaw extends MathContainer {
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfParameters() {
+	public ListOf<Parameter> getListOfParameters() {
 		return listOfParameters;
 	}
 	
@@ -155,7 +156,7 @@ public class KineticLaw extends MathContainer {
 	/**
 	 * 
 	 */
-	public void setListOfLocalParameters(ListOf list){
+	public void setListOfLocalParameters(ListOf<Parameter> list){
 		this.listOfParameters = list;
 		this.listOfParameters.setCurrentList(CurrentListOfSBMLElements.listOfLocalParameters);
 	}
@@ -166,7 +167,7 @@ public class KineticLaw extends MathContainer {
 	 * @return
 	 */
 	public int getNumParameters() {
-		return listOfParameters.getListOf().size();
+		return listOfParameters.size();
 	}
 
 	/**
@@ -177,7 +178,7 @@ public class KineticLaw extends MathContainer {
 	 * @return
 	 */
 	public Parameter getParameter(int i) {
-		return (Parameter) listOfParameters.getListOf().get(i);
+		return listOfParameters.get(i);
 	}
 
 	/**
@@ -187,10 +188,10 @@ public class KineticLaw extends MathContainer {
 	 * @return
 	 */
 	public Parameter getParameter(String id) {
-		for (SBase p : listOfParameters.getListOf()){
-			Parameter parameter = (Parameter) p;
-			if (parameter.getId().equals(id))
-				return parameter;
+		for (Parameter p : listOfParameters){
+			if (p.getId().equals(id)) {
+				return p;
+			}
 		}
 		return null;
 	}
@@ -213,7 +214,7 @@ public class KineticLaw extends MathContainer {
 	 * @param i
 	 */
 	public void removeParameter(int i) {
-		listOfParameters.getListOf().remove(i).sbaseRemoved();
+		listOfParameters.remove(i).sbaseRemoved();
 	}
 
 	/**
@@ -221,7 +222,7 @@ public class KineticLaw extends MathContainer {
 	 * @param p
 	 */
 	public void removeParameter(Parameter p) {
-		listOfParameters.getListOf().remove(p);
+		listOfParameters.remove(p);
 	}
 
 	/**
@@ -231,10 +232,10 @@ public class KineticLaw extends MathContainer {
 	 */
 	public void removeParameter(String id) {
 		int i = 0;
-		LinkedList<SBase> listOfParameters = this.listOfParameters.getListOf();
+		List<Parameter> listOfParameters = this.listOfParameters;
 		while (i < listOfParameters.size()){
 			if (listOfParameters.get(i) instanceof Parameter){
-				Parameter parameter = (Parameter) listOfParameters.get(i);
+				Parameter parameter = listOfParameters.get(i);
 				if (! parameter.getId().equals(id)){
 					i++;
 				}

@@ -62,6 +62,15 @@ public class SpeciesReference extends SimpleSpeciesReference {
 		else setStoichiometry(speciesReference.getStoichiometry());
 	}
 
+	/**
+	 * 
+	 * @param speciesReference
+	 */
+	public SpeciesReference(Species species) {
+		super(species);
+	}
+
+	
 	/*
 	 * (non-Javadoc)
 	 * 

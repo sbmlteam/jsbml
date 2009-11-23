@@ -2,7 +2,7 @@ package org.sbml.jsbml.xml.sbmlParsers;
 
 import java.util.Date;
 
-import org.sbml.jsbml.element.ModelAnnotation;
+import org.sbml.jsbml.element.Annotation;
 import org.sbml.jsbml.element.ModelHistory;
 import org.sbml.jsbml.element.SBMLDocument;
 import org.sbml.jsbml.xml.DateProcessor;
@@ -86,8 +86,8 @@ public class DatesParser implements SBMLParser{
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, Object contextObject) {
 
-		if (contextObject instanceof ModelAnnotation){
-			ModelAnnotation modelAnnotation = (ModelAnnotation) contextObject;
+		if (contextObject instanceof Annotation){
+			Annotation modelAnnotation = (Annotation) contextObject;
 			
 			if (modelAnnotation.isSetModelHistory()){
 				ModelHistory modelHistory = modelAnnotation.getModelHistory();

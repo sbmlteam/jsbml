@@ -54,6 +54,14 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 		super(modifierSpeciesReference);
 	}
 
+	/**
+	 * 
+	 * @param modifierSpeciesReference
+	 */
+	public ModifierSpeciesReference(Species species) {
+		super(species);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

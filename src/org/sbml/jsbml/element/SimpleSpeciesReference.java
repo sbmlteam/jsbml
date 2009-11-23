@@ -70,6 +70,16 @@ public abstract class SimpleSpeciesReference extends Symbol {
 			this.species = null;
 	}
 
+	/**
+	 * 
+	 * @param ssr
+	 */
+	public SimpleSpeciesReference(Species s) {
+		super(s);
+		
+		this.species = s;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

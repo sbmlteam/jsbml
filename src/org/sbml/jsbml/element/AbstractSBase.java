@@ -31,14 +31,14 @@
 package org.sbml.jsbml.element;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * 
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
- * @date 2009-08-31
+ * @author Andreas Dr&auml;ger
+ * @author rodrigue
+ * @author marine
  */
 public abstract class AbstractSBase implements SBase {
 
@@ -95,8 +95,8 @@ public abstract class AbstractSBase implements SBase {
 		this.setOfListeners = new HashSet<SBaseChangedListener>();
 		if (sb instanceof AbstractSBase)
 			this.setOfListeners.addAll(((AbstractSBase) sb).setOfListeners);
-		else if (sb instanceof ListOf)
-			this.setOfListeners.addAll(((ListOf) sb).setOfListeners);
+		else if (sb instanceof ListOf<?>)
+			this.setOfListeners.addAll(((ListOf<?>) sb).setOfListeners);
 		this.level = sb.getLevel();
 		this.version = sb.getVersion();
 		this.annotation = sb.getAnnotation();
@@ -508,11 +508,11 @@ public abstract class AbstractSBase implements SBase {
 	 * 
 	 * @param list
 	 */
-	void setThisAsParentSBMLObject(ListOf list) {
+	void setThisAsParentSBMLObject(ListOf<?> list) {
 		list.parentSBMLObject = this;
-		for (SBase base : list.getListOf()){
+		for (SBase base : list){
 			AbstractSBase sbase = (AbstractSBase) base;
-			sbase.parentSBMLObject = this;
+			sbase.setParentSBML(this);
 		}
 	}
 	
@@ -549,4 +549,33 @@ public abstract class AbstractSBase implements SBase {
 		}
 		return false;
 	}
+	
+	public List<CVTerm> getCVTerms() {
+		return annotation.getListOfCVTerms();
+	}
+	
+	public boolean addCVTerm(CVTerm term) {
+		return annotation.addCVTerm(term);
+	}
+	
+	public void unsetCVTerms(){
+		annotation.unsetCVTerms();
+	}
+	
+	public int getNumCVTerms() {
+		return annotation.getListOfCVTerms().size();
+	}
+	
+	public CVTerm getCVTerm(int index) {
+		return annotation.getCVTerm(index);
+	}
+	
+	public boolean isSetModelHistory() {
+		return annotation.isSetModelHistory();
+	}
+	
+	public ModelHistory getModelHistory() {
+		return annotation.getModelHistory();
+	}
+	
 }

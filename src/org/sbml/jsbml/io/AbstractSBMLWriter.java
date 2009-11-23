@@ -29,11 +29,10 @@
 
 package org.sbml.jsbml.io;
 
-import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.SBMLWriter;
-import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.element.ASTNode;
+import org.sbml.jsbml.element.Model;
+import org.sbml.jsbml.element.SBMLException;
+import org.sbml.jsbml.element.SpeciesReference;
 import org.sbml.libsbml.libsbmlConstants;
 
 /**

@@ -30,6 +30,8 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.List;
+
 
 /**
  * @author Andreas Dr&auml;ger <a
@@ -289,5 +291,19 @@ public interface SBase {
 	 * @return
 	 */
 	public boolean readAttribute(String attributeName, String prefix, String value);
+	
+	public List<CVTerm> getCVTerms();
+	
+	public int getNumCVTerms();
+	
+	public CVTerm getCVTerm(int index);
+	
+	public boolean addCVTerm(CVTerm term);
+	
+	public void unsetCVTerms();
+	
+	public boolean isSetModelHistory();
+	
+	public ModelHistory getModelHistory();
 
 }

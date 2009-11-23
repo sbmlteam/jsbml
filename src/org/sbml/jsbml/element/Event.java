@@ -49,7 +49,7 @@ public class Event extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
-	private ListOf listOfEventAssignments;
+	private ListOf<EventAssignment> listOfEventAssignments;
 	/**
 	 * 
 	 */
@@ -80,6 +80,7 @@ public class Event extends AbstractNamedSBase {
 	 * 
 	 * @param event
 	 */
+	@SuppressWarnings("unchecked")
 	public Event(Event event) {
 		super(event);
 		if (event.isSetTrigger())
@@ -91,7 +92,7 @@ public class Event extends AbstractNamedSBase {
 			setDelay(event.getDelay().clone());
 		} else
 			this.delay = null;
-		setListOfEventAssignments((ListOf) event.getListOfEventAssignments().clone());
+		setListOfEventAssignments((ListOf<EventAssignment>) event.getListOfEventAssignments().clone());
 		this.timeUnits = event.isSetTimeUnits() ? event.getTimeUnitsInstance()
 				.clone() : null;
 	}
@@ -130,7 +131,7 @@ public class Event extends AbstractNamedSBase {
 	 * @param eventass
 	 */
 	public void addEventAssignement(EventAssignment eventass) {
-		listOfEventAssignments.getListOf().add(eventass);
+		listOfEventAssignments.add(eventass);
 	}
 
 	/*
@@ -190,14 +191,14 @@ public class Event extends AbstractNamedSBase {
 	 * @return
 	 */
 	public EventAssignment getEventAssignment(int n) {
-		return (EventAssignment) listOfEventAssignments.getListOf().get(n);
+		return listOfEventAssignments.get(n);
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfEventAssignments() {
+	public ListOf<EventAssignment> getListOfEventAssignments() {
 		return listOfEventAssignments;
 	}
 
@@ -206,7 +207,7 @@ public class Event extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumEventAssignments() {
-		return listOfEventAssignments.getListOf().size();
+		return listOfEventAssignments.size();
 	}
 
 	/**
@@ -247,7 +248,7 @@ public class Event extends AbstractNamedSBase {
 	public void initDefaults() {
 		useValuesFromTriggerTime = true;
 		setTrigger(new Trigger(getLevel(), getVersion()));
-		setListOfEventAssignments(new ListOf(getLevel(), getVersion()));
+		setListOfEventAssignments(new ListOf<EventAssignment>(getLevel(), getVersion()));
 		timeUnits = null;
 		delay = null;
 	}
@@ -315,7 +316,7 @@ public class Event extends AbstractNamedSBase {
 	 * @param listOfEventAssignments
 	 */
 	public void setListOfEventAssignments(
-			ListOf listOfEventAssignments) {
+			ListOf<EventAssignment> listOfEventAssignments) {
 		this.listOfEventAssignments = listOfEventAssignments;
 		this.listOfEventAssignments.setCurrentList(CurrentListOfSBMLElements.listOfEventAssignments);
 		setThisAsParentSBMLObject(this.listOfEventAssignments);

@@ -32,16 +32,15 @@ package org.sbml.jsbml.io;
 
 import java.util.LinkedList;
 
-import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.KineticLaw;
-import org.sbml.jsbml.MathContainer;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.NamedSBase;
-import org.sbml.jsbml.Parameter;
-import org.sbml.jsbml.SBMLReader;
-import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.SBaseChangedListener;
-import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.element.ASTNode;
+import org.sbml.jsbml.element.KineticLaw;
+import org.sbml.jsbml.element.MathContainer;
+import org.sbml.jsbml.element.Model;
+import org.sbml.jsbml.element.NamedSBase;
+import org.sbml.jsbml.element.Parameter;
+import org.sbml.jsbml.element.SBase;
+import org.sbml.jsbml.element.SBaseChangedListener;
+import org.sbml.jsbml.element.UnitDefinition;
 import org.sbml.libsbml.libsbmlConstants;
 
 /**
@@ -165,11 +164,12 @@ public abstract class AbstractSBMLReader implements SBMLReader {
 		case libsbmlConstants.AST_NAME:
 			ast = new ASTNode(ASTNode.Type.NAME, parent);
 			if (parent instanceof KineticLaw)
-				for (Parameter p : ((KineticLaw) parent).getListOfParameters())
+				for (Parameter p : ((KineticLaw) parent).getListOfParameters()) {
 					if (p.getId().equals(math.getName())) {
 						ast.setVariable(p);
 						break;
 					}
+				}
 			if (ast.getVariable() == null) {
 				NamedSBase nsb = model.findNamedSBase(math.getName());
 				if (nsb == null)

@@ -34,9 +34,9 @@ import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
 
 /**
  * 
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
+ * @author rodrigue
+ * @author marine
  * 
  */
 public class Reaction extends AbstractNamedSBase {
@@ -46,9 +46,9 @@ public class Reaction extends AbstractNamedSBase {
 	private Compartment compartment;
 	private String compartmentID;
 
-	private ListOf listOfReactants;
-	private ListOf listOfProducts;
-	private ListOf listOfModifiers;
+	private ListOf<SpeciesReference> listOfReactants;
+	private ListOf<SpeciesReference> listOfProducts;
+	private ListOf<ModifierSpeciesReference> listOfModifiers;
 	private KineticLaw kineticLaw;
 
 	/**
@@ -69,17 +69,18 @@ public class Reaction extends AbstractNamedSBase {
 	 * 
 	 * @param reaction
 	 */
+	@SuppressWarnings("unchecked")
 	public Reaction(Reaction reaction) {
 		super(reaction);
 		this.fast = reaction.getFast();
 		if (reaction.isSetKineticLaw()){
 			setKineticLaw(reaction.getKineticLaw().clone());
 		}
-		this.listOfReactants = (ListOf) reaction.getListOfReactants().clone();
+		this.listOfReactants = (ListOf<SpeciesReference>) reaction.getListOfReactants().clone();
 		setThisAsParentSBMLObject(listOfReactants);
-		this.listOfProducts = (ListOf) reaction.getListOfProducts().clone();
+		this.listOfProducts = (ListOf<SpeciesReference>) reaction.getListOfProducts().clone();
 		setThisAsParentSBMLObject(listOfProducts);
-		this.listOfModifiers = (ListOf) reaction.getListOfModifiers().clone();
+		this.listOfModifiers = (ListOf<ModifierSpeciesReference>) reaction.getListOfModifiers().clone();
 		setThisAsParentSBMLObject(listOfModifiers);
 		this.reversible = reaction.getReversible();
 	}
@@ -90,11 +91,11 @@ public class Reaction extends AbstractNamedSBase {
 	 */
 	public Reaction(String id, int level, int version) {
 		super(id, level, version);
-		listOfReactants = new ListOf(level, version);
+		listOfReactants = new ListOf<SpeciesReference>(level, version);
 		listOfReactants.parentSBMLObject = this;
-		listOfProducts = new ListOf(level, version);
+		listOfProducts = new ListOf<SpeciesReference>(level, version);
 		listOfProducts.parentSBMLObject = this;
-		listOfModifiers = new ListOf(level, version);
+		listOfModifiers = new ListOf<ModifierSpeciesReference>(level, version);
 		listOfModifiers.parentSBMLObject = this;
 		kineticLaw = null;
 		reversible = true;
@@ -120,9 +121,9 @@ public class Reaction extends AbstractNamedSBase {
 	 * @param modspecref
 	 */
 	public void addModifier(ModifierSpeciesReference modspecref) {
-		if (!listOfModifiers.getListOf().contains(modspecref)) {
+		if (!listOfModifiers.contains(modspecref)) {
 			modspecref.parentSBMLObject = this;
-			listOfModifiers.getListOf().add(modspecref);
+			listOfModifiers.add(modspecref);
 		}
 	}
 
@@ -131,9 +132,9 @@ public class Reaction extends AbstractNamedSBase {
 	 * @param specref
 	 */
 	public void addProduct(SpeciesReference specref) {
-		if (!listOfProducts.getListOf().contains(specref)) {
+		if (!listOfProducts.contains(specref)) {
 			specref.parentSBMLObject = this;
-			listOfProducts.getListOf().add(specref);
+			listOfProducts.add(specref);
 		}
 	}
 
@@ -142,9 +143,9 @@ public class Reaction extends AbstractNamedSBase {
 	 * @param specref
 	 */
 	public void addReactant(SpeciesReference specref) {
-		if (!listOfReactants.getListOf().contains(specref)) {
+		if (!listOfReactants.contains(specref)) {
 			specref.parentSBMLObject = this;
-			listOfReactants.getListOf().add(specref);
+			listOfReactants.add(specref);
 		}
 	}
 
@@ -206,7 +207,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfModifiers() {
+	public ListOf<ModifierSpeciesReference> getListOfModifiers() {
 		return listOfModifiers;
 	}
 
@@ -214,7 +215,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfProducts() {
+	public ListOf<SpeciesReference> getListOfProducts() {
 		return listOfProducts;
 	}
 
@@ -222,7 +223,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfReactants() {
+	public ListOf<SpeciesReference> getListOfReactants() {
 		return listOfReactants;
 	}
 
@@ -232,7 +233,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public ModifierSpeciesReference getModifier(int i) {
-		return (ModifierSpeciesReference) listOfModifiers.getListOf().get(i);
+		return listOfModifiers.get(i);
 	}
 	
 	/**
@@ -241,8 +242,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public ModifierSpeciesReference getModifier(String id) {
-		for (SBase c : listOfModifiers.getListOf()) {
-			ModifierSpeciesReference msp = (ModifierSpeciesReference) c;
+		for (ModifierSpeciesReference msp : listOfModifiers) {
 			if (msp.getId().equals(id)){
 				return msp;
 			}
@@ -255,7 +255,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumModifiers() {
-		return listOfModifiers.getListOf().size();
+		return listOfModifiers.size();
 	}
 
 	/**
@@ -263,7 +263,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumProducts() {
-		return listOfProducts.getListOf().size();
+		return listOfProducts.size();
 	}
 
 	/**
@@ -271,7 +271,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumReactants() {
-		return listOfReactants.getListOf().size();
+		return listOfReactants.size();
 	}
 
 	/**
@@ -280,7 +280,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public SpeciesReference getProduct(int i) {
-		return (SpeciesReference) listOfProducts.getListOf().get(i);
+		return listOfProducts.get(i);
 	}
 
 	/**
@@ -289,7 +289,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public SpeciesReference getReactant(int i) {
-		return (SpeciesReference) listOfReactants.getListOf().get(i);
+		return listOfReactants.get(i);
 	}
 	
 	/**
@@ -298,8 +298,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public SpeciesReference getProduct(String id) {
-		for (SBase c : listOfProducts.getListOf()) {
-			SpeciesReference sp = (SpeciesReference) c;
+		for (SpeciesReference sp : listOfProducts) {
 			if (sp.getId().equals(id)){
 				return sp;
 			}
@@ -313,8 +312,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public SpeciesReference getReactant(String id) {
-		for (SBase c : listOfReactants.getListOf()) {
-			SpeciesReference sp = (SpeciesReference) c;
+		for (SpeciesReference sp : listOfReactants) {
 			if (sp.getId().equals(id)){
 				return sp;
 			}
@@ -383,7 +381,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @param modspecref
 	 */
 	public void removeModifier(ModifierSpeciesReference modspecref) {
-		if (listOfModifiers.getListOf().remove(modspecref))
+		if (listOfModifiers.remove(modspecref))
 			modspecref.sbaseRemoved();
 	}
 
@@ -392,7 +390,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @param specref
 	 */
 	public void removeProduct(SpeciesReference specref) {
-		if (listOfProducts.getListOf().remove(specref))
+		if (listOfProducts.remove(specref))
 			specref.sbaseRemoved();
 	}
 
@@ -401,7 +399,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @param specref
 	 */
 	public void removeReactant(SpeciesReference specref) {
-		if (listOfReactants.getListOf().remove(specref))
+		if (listOfReactants.remove(specref))
 			specref.sbaseRemoved();
 	}
 
@@ -438,7 +436,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * 
 	 * @param list
 	 */
-	public void setListOfReactants(ListOf list) {
+	public void setListOfReactants(ListOf<SpeciesReference> list) {
 		this.listOfReactants = list;
 		this.listOfReactants.setCurrentList(CurrentListOfSBMLElements.listOfReactants);
 
@@ -449,7 +447,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * 
 	 * @param list
 	 */
-	public void setListOfProducts(ListOf list) {
+	public void setListOfProducts(ListOf<SpeciesReference> list) {
 		this.listOfProducts = list;
 		this.listOfProducts.setCurrentList(CurrentListOfSBMLElements.listOfProducts);
 
@@ -460,7 +458,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * 
 	 * @param list
 	 */
-	public void setListOfModifiers(ListOf list) {
+	public void setListOfModifiers(ListOf<ModifierSpeciesReference> list) {
 		this.listOfModifiers = list;
 		this.listOfModifiers.setCurrentList(CurrentListOfSBMLElements.listOfModifiers);
 		stateChanged();

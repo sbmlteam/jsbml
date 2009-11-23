@@ -38,6 +38,11 @@ public class Annotation {
 	private String about;
 	
 	/**
+	 * The ModelHistory which represents the history section of a RDF annotation
+	 */
+	private ModelHistory modelHistory;
+
+	/**
 	 * 
 	 * @param annotation
 	 * @param cvTerms
@@ -131,9 +136,34 @@ public class Annotation {
 	}
 	
 	/**
-	 * check if the Annotation is initialised. An Annotation is initialised
-	 * if at less one of the following variables is not null : the annotation String
-	 * one CVTerm object of the list of CVTerms.
+	 * changes the modelHistory variable
+	 * @param modelHistory
+	 */
+	public void setModelHistory(ModelHistory modelHistory) {
+		this.modelHistory = modelHistory;
+	}
+
+	/**
+	 * 
+	 * @return the modelHistory of the ModelAnnotation
+	 */
+	public ModelHistory getModelHistory() {
+		return modelHistory;
+	}
+	
+	/**
+	 * check if the modelHistory is initialised
+	 * @return true if the modelHistory is initialised
+	 */
+	public boolean isSetModelHistory() {
+		return modelHistory != null;
+	}
+
+	
+	/**
+	 * Checks if the Annotation is initialised. An Annotation is initialised
+	 * if at less one of the following variables is not null : the annotation String,
+	 * one CVTerm object of the list of CVTerms or the ModelHistory.
 	 * @return true if the Annotation is initialised
 	 */
 	public boolean isSetAnnotation() {
@@ -153,6 +183,9 @@ public class Annotation {
 			if (getAnnotation().length() == 0){
 				return false;
 			}
+			return true;
+		}
+		else if (isSetModelHistory()) {
 			return true;
 		}
 		else {
@@ -284,7 +317,7 @@ public class Annotation {
 	}
 	
 	/**
-	 * writes the CV term elements in 'buffer'
+	 * Writes the CV term elements in 'buffer'
 	 * @param indent
 	 * @param buffer
 	 */
@@ -323,7 +356,8 @@ public class Annotation {
 	}
 	
 	/**
-	 * write the RDF annotation element in 'buffer'
+	 * Writes the RDF annotation element in 'buffer'
+	 * 
 	 * @param indent
 	 * @param buffer
 	 * @param parentElement
@@ -332,13 +366,15 @@ public class Annotation {
 		
 		beginRDFAnnotationElement(indent, buffer, parentElement);
 		
+		modelHistoryToXML(indent + "    ", buffer);
 		createCVTermsElements(indent + "    ", buffer);
 		
 		endRDFAnnotationElement(indent, buffer, parentElement);
 	}
 	
 	/**
-	 * write the other annotation elements in 'buffer'
+	 * Writes the other annotation elements in 'buffer'
+	 * 
 	 * @param indent
 	 * @param buffer
 	 */
@@ -347,6 +383,18 @@ public class Annotation {
 		String [] lines = getAnnotation().split("\n");
 		for (int i = 0; i < lines.length; i++){
 			buffer.append(indent).append(lines[i]).append(" \n");
+		}
+	}
+	
+	/**
+	 * Writes the history section of the RDF annotation in 'buffer'
+	 * 
+	 * @param indent
+	 * @param buffer
+	 */
+	private void modelHistoryToXML(String indent, StringBuffer buffer){
+		if (isSetModelHistory()){
+			getModelHistory().toXML(indent, buffer);
 		}
 	}
 	

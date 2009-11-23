@@ -35,37 +35,37 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.sbml.jsbml.AlgebraicRule;
-import org.sbml.jsbml.AssignmentRule;
-import org.sbml.jsbml.CVTerm;
-import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.CompartmentType;
-import org.sbml.jsbml.Constraint;
-import org.sbml.jsbml.Delay;
-import org.sbml.jsbml.Event;
-import org.sbml.jsbml.EventAssignment;
-import org.sbml.jsbml.FunctionDefinition;
-import org.sbml.jsbml.InitialAssignment;
-import org.sbml.jsbml.KineticLaw;
-import org.sbml.jsbml.MathContainer;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.ModelCreator;
-import org.sbml.jsbml.ModelHistory;
-import org.sbml.jsbml.ModifierSpeciesReference;
-import org.sbml.jsbml.NamedSBase;
-import org.sbml.jsbml.Parameter;
-import org.sbml.jsbml.RateRule;
-import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.Rule;
-import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.Species;
-import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.SpeciesType;
-import org.sbml.jsbml.StoichiometryMath;
-import org.sbml.jsbml.Trigger;
-import org.sbml.jsbml.Unit;
-import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.element.AlgebraicRule;
+import org.sbml.jsbml.element.AssignmentRule;
+import org.sbml.jsbml.element.CVTerm;
+import org.sbml.jsbml.element.Compartment;
+import org.sbml.jsbml.element.CompartmentType;
+import org.sbml.jsbml.element.Constraint;
+import org.sbml.jsbml.element.Delay;
+import org.sbml.jsbml.element.Event;
+import org.sbml.jsbml.element.EventAssignment;
+import org.sbml.jsbml.element.FunctionDefinition;
+import org.sbml.jsbml.element.InitialAssignment;
+import org.sbml.jsbml.element.KineticLaw;
+import org.sbml.jsbml.element.MathContainer;
+import org.sbml.jsbml.element.Model;
+import org.sbml.jsbml.element.ModelCreator;
+import org.sbml.jsbml.element.ModelHistory;
+import org.sbml.jsbml.element.ModifierSpeciesReference;
+import org.sbml.jsbml.element.NamedSBase;
+import org.sbml.jsbml.element.Parameter;
+import org.sbml.jsbml.element.RateRule;
+import org.sbml.jsbml.element.Reaction;
+import org.sbml.jsbml.element.Rule;
+import org.sbml.jsbml.element.SBMLException;
+import org.sbml.jsbml.element.SBase;
+import org.sbml.jsbml.element.Species;
+import org.sbml.jsbml.element.SpeciesReference;
+import org.sbml.jsbml.element.SpeciesType;
+import org.sbml.jsbml.element.StoichiometryMath;
+import org.sbml.jsbml.element.Trigger;
+import org.sbml.jsbml.element.Unit;
+import org.sbml.jsbml.element.UnitDefinition;
 import org.sbml.libsbml.SBMLWriter;
 import org.sbml.libsbml.libsbmlConstants;
 
@@ -422,9 +422,9 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 		saveNamedSBaseProperties(c, comp);
 		if (c.isSetSize())
 			comp.setSize(c.getSize());
-		if (c.isSetCompartmentType()
-				&& !c.getCompartmentType().equals(comp.getCompartmentType()))
-			comp.setCompartmentType(c.getCompartmentType());
+		if (c.isSetCompartmentType() && !c.getCompartmentType().equals(comp.getCompartmentType())){
+			comp.setCompartmentType(c.getCompartmentType().getId());
+		}
 		if (c.getSpatialDimensions() != comp.getSpatialDimensions())
 			comp.setSpatialDimensions(c.getSpatialDimensions());
 		if (c.isSetUnits() && !c.getUnits().equals(comp.getUnits()))
@@ -1033,6 +1033,7 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 			else
 				saveCVTermProperties(cvt, po.getCVTerm(contains));
 		}
+		
 		// remove CVTerms that are not needed anymore.
 		for (long i = po.getNumCVTerms() - 1; i >= 0; i--) {
 			long contains = -1;
@@ -1135,7 +1136,7 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 		if (compartment.isSetCompartmentType()
 				&& !c.getCompartmentType().equals(
 						compartment.getCompartmentType()))
-			c.setCompartmentType(compartment.getCompartmentType());
+			c.setCompartmentType(compartment.getCompartmentType().getId());
 		if (compartment.isSetOutside() && !c.equals(compartment.getOutside()))
 			c.setOutside(compartment.getOutside());
 		if (compartment.isSetSize() && compartment.getSize() != c.getSize())

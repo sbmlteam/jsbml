@@ -37,39 +37,39 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
-import org.sbml.jsbml.AlgebraicRule;
-import org.sbml.jsbml.AssignmentRule;
-import org.sbml.jsbml.CVTerm;
-import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.CompartmentType;
-import org.sbml.jsbml.Constraint;
-import org.sbml.jsbml.Delay;
-import org.sbml.jsbml.Event;
-import org.sbml.jsbml.EventAssignment;
-import org.sbml.jsbml.FunctionDefinition;
-import org.sbml.jsbml.InitialAssignment;
-import org.sbml.jsbml.KineticLaw;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.ModelCreator;
-import org.sbml.jsbml.ModelHistory;
-import org.sbml.jsbml.ModifierSpeciesReference;
-import org.sbml.jsbml.NamedSBase;
-import org.sbml.jsbml.Parameter;
-import org.sbml.jsbml.RateRule;
-import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.Rule;
-import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.Species;
-import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.SpeciesType;
-import org.sbml.jsbml.StoichiometryMath;
-import org.sbml.jsbml.Symbol;
-import org.sbml.jsbml.Trigger;
-import org.sbml.jsbml.Unit;
-import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.CVTerm.Qualifier;
+import org.sbml.jsbml.element.AlgebraicRule;
+import org.sbml.jsbml.element.AssignmentRule;
+import org.sbml.jsbml.element.CVTerm;
+import org.sbml.jsbml.element.Compartment;
+import org.sbml.jsbml.element.CompartmentType;
+import org.sbml.jsbml.element.Constraint;
+import org.sbml.jsbml.element.Delay;
+import org.sbml.jsbml.element.Event;
+import org.sbml.jsbml.element.EventAssignment;
+import org.sbml.jsbml.element.FunctionDefinition;
+import org.sbml.jsbml.element.InitialAssignment;
+import org.sbml.jsbml.element.KineticLaw;
+import org.sbml.jsbml.element.Model;
+import org.sbml.jsbml.element.ModelCreator;
+import org.sbml.jsbml.element.ModelHistory;
+import org.sbml.jsbml.element.ModifierSpeciesReference;
+import org.sbml.jsbml.element.NamedSBase;
+import org.sbml.jsbml.element.Parameter;
+import org.sbml.jsbml.element.RateRule;
+import org.sbml.jsbml.element.Reaction;
+import org.sbml.jsbml.element.Rule;
+import org.sbml.jsbml.element.SBMLDocument;
+import org.sbml.jsbml.element.SBMLException;
+import org.sbml.jsbml.element.SBase;
+import org.sbml.jsbml.element.Species;
+import org.sbml.jsbml.element.SpeciesReference;
+import org.sbml.jsbml.element.SpeciesType;
+import org.sbml.jsbml.element.StoichiometryMath;
+import org.sbml.jsbml.element.Symbol;
+import org.sbml.jsbml.element.Trigger;
+import org.sbml.jsbml.element.Unit;
+import org.sbml.jsbml.element.UnitDefinition;
+import org.sbml.jsbml.element.CVTerm.Qualifier;
 import org.sbml.libsbml.SBMLError;
 import org.sbml.libsbml.libsbmlConstants;
 
@@ -1014,7 +1014,7 @@ public class LibSBMLReader extends AbstractSBMLReader {
 					mh.setModifiedDate(convertDate(libHist.getModifiedDate()));
 				for (i = 0; i < libHist.getNumModifiedDates(); i++)
 					mh.addModifiedDate(convertDate(libHist.getModifiedDate(i)));
-				this.model.setModelHistory(mh);
+				(this.model.getAnnotation()).setModelHistory(mh);
 			}
 			for (i = 0; i < originalModel.getNumFunctionDefinitions(); i++)
 				this.model
@@ -1074,8 +1074,7 @@ public class LibSBMLReader extends AbstractSBMLReader {
 			throw new IllegalArgumentException("modifierSpeciesReference"
 					+ error + "org.sbml.libsbml.ModifierSpeciesReference.");
 		org.sbml.libsbml.ModifierSpeciesReference msr = (org.sbml.libsbml.ModifierSpeciesReference) modifierSpeciesReference;
-		ModifierSpeciesReference mod = new ModifierSpeciesReference(model
-				.getSpecies(msr.getSpecies()));
+		ModifierSpeciesReference mod = new ModifierSpeciesReference(model.getSpecies(msr.getSpecies()));
 		copyNamedSBaseProperties(mod, msr);
 		if (msr.isSetSBOTerm()) {
 			mod.setSBOTerm(msr.getSBOTerm());
@@ -1208,13 +1207,17 @@ public class LibSBMLReader extends AbstractSBMLReader {
 	 * @see org.sbml.SBMLReader#readSpeciesReference(java.lang.Object)
 	 */
 	public SpeciesReference readSpeciesReference(Object speciesReference) {
-		if (!(speciesReference instanceof org.sbml.libsbml.SpeciesReference))
+		if (!(speciesReference instanceof org.sbml.libsbml.SpeciesReference)) {
 			throw new IllegalArgumentException("speciesReference" + error
 					+ "org.sbml.libsbml.SpeciesReference.");
+		}
+		
 		org.sbml.libsbml.SpeciesReference specref = (org.sbml.libsbml.SpeciesReference) speciesReference;
-		SpeciesReference spec = new SpeciesReference(model.getSpecies(specref
-				.getSpecies()));
+		
+		SpeciesReference spec = new SpeciesReference(model.getSpecies(specref.getSpecies()));
+		
 		copyNamedSBaseProperties(spec, specref);
+		
 		if (specref.isSetStoichiometryMath())
 			spec.setStoichiometryMath(readStoichiometricMath(specref
 					.getStoichiometryMath()));
@@ -1512,6 +1515,6 @@ public class LibSBMLReader extends AbstractSBMLReader {
 		if (libSBase.isSetNotes())
 			sbase.setNotes(libSBase.getNotesString());
 		for (int i = 0; i < libSBase.getNumCVTerms(); i++)
-			sbase.addCVTerm(readCVTerm(libSBase.getCVTerm(i)));
+			sbase.getAnnotation().addCVTerm(readCVTerm(libSBase.getCVTerm(i)));
 	}
 }

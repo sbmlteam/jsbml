@@ -69,29 +69,29 @@ public class Model extends AbstractNamedSBase {
 	
 	private String conversionFactorID;
 
-	private ListOf listOfCompartments;
+	private ListOf<Compartment> listOfCompartments;
 
-	private ListOf listOfCompartmentTypes;
+	private ListOf<CompartmentType> listOfCompartmentTypes;
 
-	private ListOf listOfConstraints;
+	private ListOf<Constraint> listOfConstraints;
 
-	private ListOf listOfEvents;
+	private ListOf<Event> listOfEvents;
 
-	private ListOf listOfFunctionDefinitions;
+	private ListOf<FunctionDefinition> listOfFunctionDefinitions;
 
-	private ListOf listOfInitialAssignments;
+	private ListOf<InitialAssignment> listOfInitialAssignments;
 
-	private ListOf listOfParameters;
+	private ListOf<Parameter> listOfParameters;
 
-	private ListOf listOfReactions;
+	private ListOf<Reaction> listOfReactions;
 
-	private ListOf listOfRules;
+	private ListOf<Rule> listOfRules;
 
-	private ListOf listOfSpecies;
+	private ListOf<Species> listOfSpecies;
 
-	private ListOf listOfSpeciesTypes;
+	private ListOf<SpeciesType> listOfSpeciesTypes;
 
-	private ListOf listOfUnitDefinitions;
+	private ListOf<UnitDefinition> listOfUnitDefinitions;
 
 	public Model() {
 		super();
@@ -127,32 +127,32 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @param model
 	 */
+	@SuppressWarnings("unchecked")
 	public Model(Model model) {
 		super(model);
-		listOfFunctionDefinitions = (ListOf) model.getListOfFunctionDefinitions()
-				.clone();
+		listOfFunctionDefinitions = (ListOf<FunctionDefinition>) model.getListOfFunctionDefinitions().clone();
 		setThisAsParentSBMLObject(listOfFunctionDefinitions);
-		listOfUnitDefinitions = (ListOf) model.getListOfUnitDefinitions();
+		listOfUnitDefinitions = (ListOf<UnitDefinition>) model.getListOfUnitDefinitions().clone();
 		setThisAsParentSBMLObject(listOfUnitDefinitions);
-		listOfCompartmentTypes = (ListOf) model.getListOfCompartmentTypes().clone();
+		listOfCompartmentTypes = (ListOf<CompartmentType>) model.getListOfCompartmentTypes().clone();
 		setThisAsParentSBMLObject(listOfCompartmentTypes);
-		listOfSpeciesTypes = (ListOf) model.getListOfSpeciesTypes().clone();
+		listOfSpeciesTypes = (ListOf<SpeciesType>) model.getListOfSpeciesTypes().clone();
 		setThisAsParentSBMLObject(listOfSpeciesTypes);
-		listOfCompartments = (ListOf) model.getListOfCompartments().clone();
+		listOfCompartments = (ListOf<Compartment>) model.getListOfCompartments().clone();
 		setThisAsParentSBMLObject(listOfCompartments);
-		listOfSpecies = (ListOf) model.getListOfSpecies().clone();
+		listOfSpecies = (ListOf<Species>) model.getListOfSpecies().clone();
 		setThisAsParentSBMLObject(listOfSpecies);
-		listOfParameters = (ListOf) model.getListOfParameters().clone();
+		listOfParameters = (ListOf<Parameter>) model.getListOfParameters().clone();
 		setThisAsParentSBMLObject(listOfParameters);
-		listOfInitialAssignments = (ListOf) model.getListOfInitialAssignments().clone();
+		listOfInitialAssignments = (ListOf<InitialAssignment>) model.getListOfInitialAssignments().clone();
 		setThisAsParentSBMLObject(listOfInitialAssignments);
-		listOfRules = (ListOf) model.getListOfRules().clone();
+		listOfRules = (ListOf<Rule>) model.getListOfRules().clone();
 		setThisAsParentSBMLObject(listOfRules);
-		listOfConstraints = (ListOf) model.getListOfConstraints().clone();
+		listOfConstraints = (ListOf<Constraint>) model.getListOfConstraints().clone();
 		setThisAsParentSBMLObject(listOfConstraints);
-		listOfReactions = (ListOf) model.getListOfReactions().clone();
+		listOfReactions = (ListOf<Reaction>) model.getListOfReactions().clone();
 		setThisAsParentSBMLObject(listOfReactions);
-		listOfEvents = (ListOf) model.getListOfEvents().clone();
+		listOfEvents = (ListOf<Event>) model.getListOfEvents().clone();
 		setThisAsParentSBMLObject(listOfEvents);
 	}
 
@@ -162,30 +162,29 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public Model(String id, int level, int version) {
 		super(id, level, version);
-		listOfFunctionDefinitions = new ListOf(level,
-				version);
+		listOfFunctionDefinitions = new ListOf<FunctionDefinition>(level, version);
 		setThisAsParentSBMLObject(listOfFunctionDefinitions);
-		listOfUnitDefinitions = new ListOf(level, version);
+		listOfUnitDefinitions = new ListOf<UnitDefinition>(level, version);
 		setThisAsParentSBMLObject(listOfUnitDefinitions);
-		listOfCompartmentTypes = new ListOf(level, version);
+		listOfCompartmentTypes = new ListOf<CompartmentType>(level, version);
 		setThisAsParentSBMLObject(listOfCompartmentTypes);
-		listOfSpeciesTypes = new ListOf(level, version);
+		listOfSpeciesTypes = new ListOf<SpeciesType>(level, version);
 		setThisAsParentSBMLObject(listOfSpeciesTypes);
-		listOfCompartments = new ListOf(level, version);
+		listOfCompartments = new ListOf<Compartment>(level, version);
 		setThisAsParentSBMLObject(listOfCompartments);
-		listOfSpecies = new ListOf(level, version);
+		listOfSpecies = new ListOf<Species>(level, version);
 		setThisAsParentSBMLObject(listOfSpecies);
-		listOfParameters = new ListOf(level, version);
+		listOfParameters = new ListOf<Parameter>(level, version);
 		setThisAsParentSBMLObject(listOfParameters);
-		listOfInitialAssignments = new ListOf(level, version);
+		listOfInitialAssignments = new ListOf<InitialAssignment>(level, version);
 		setThisAsParentSBMLObject(listOfInitialAssignments);
-		listOfRules = new ListOf(level, version);
+		listOfRules = new ListOf<Rule>(level, version);
 		setThisAsParentSBMLObject(listOfRules);
-		listOfConstraints = new ListOf(level, version);
+		listOfConstraints = new ListOf<Constraint>(level, version);
 		setThisAsParentSBMLObject(listOfRules);
-		listOfReactions = new ListOf(level, version);
+		listOfReactions = new ListOf<Reaction>(level, version);
 		setThisAsParentSBMLObject(listOfReactions);
-		listOfEvents = new ListOf(level, version);
+		listOfEvents = new ListOf<Event>(level, version);
 		setThisAsParentSBMLObject(listOfEvents);
 	}
 	
@@ -313,9 +312,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param compartment
 	 */
 	public void addCompartment(Compartment compartment) {
-		if (!listOfCompartments.getListOf().contains(compartment)) {
+		if (!listOfCompartments.contains(compartment)) {
 			compartment.parentSBMLObject = this;
-			listOfCompartments.getListOf().add(compartment);
+			listOfCompartments.add(compartment);
 		}
 	}
 
@@ -324,9 +323,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param compartmentType
 	 */
 	public void addCompartmentType(CompartmentType compartmentType) {
-		if (!listOfCompartmentTypes.getListOf().contains(compartmentType)) {
+		if (!listOfCompartmentTypes.contains(compartmentType)) {
 			compartmentType.parentSBMLObject = this;
-			listOfCompartmentTypes.getListOf().add(compartmentType);
+			listOfCompartmentTypes.add(compartmentType);
 		}
 	}
 
@@ -335,9 +334,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param constraint
 	 */
 	public void addConstraint(Constraint constraint) {
-		if (!listOfConstraints.getListOf().contains(constraint)) {
+		if (!listOfConstraints.contains(constraint)) {
 			constraint.parentSBMLObject = this;
-			listOfConstraints.getListOf().add(constraint);
+			listOfConstraints.add(constraint);
 		}
 	}
 
@@ -346,9 +345,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param event
 	 */
 	public void addEvent(Event event) {
-		if (!listOfEvents.getListOf().contains(event)) {
+		if (!listOfEvents.contains(event)) {
 			event.parentSBMLObject = this;
-			listOfEvents.getListOf().add(event);
+			listOfEvents.add(event);
 		}
 	}
 
@@ -357,9 +356,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param
 	 */
 	public void addFunctionDefinition(FunctionDefinition functionDefinition) {
-		if (!listOfFunctionDefinitions.getListOf().contains(functionDefinition)) {
+		if (!listOfFunctionDefinitions.contains(functionDefinition)) {
 			functionDefinition.parentSBMLObject = this;
-			listOfFunctionDefinitions.getListOf().add(functionDefinition);
+			listOfFunctionDefinitions.add(functionDefinition);
 		}
 	}
 
@@ -368,9 +367,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param initialAssignment
 	 */
 	public void addInitialAssignment(InitialAssignment initialAssignment) {
-		if (!listOfInitialAssignments.getListOf().contains(initialAssignment)) {
+		if (!listOfInitialAssignments.contains(initialAssignment)) {
 			initialAssignment.parentSBMLObject = this;
-			listOfInitialAssignments.getListOf().add(initialAssignment);
+			listOfInitialAssignments.add(initialAssignment);
 		}
 	}
 
@@ -379,9 +378,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param parameter
 	 */
 	public void addParameter(Parameter parameter) {
-		if (!listOfParameters.getListOf().contains(parameter)) {
+		if (!listOfParameters.contains(parameter)) {
 			parameter.parentSBMLObject = this;
-			listOfParameters.getListOf().add(parameter);
+			listOfParameters.add(parameter);
 		}
 	}
 
@@ -391,9 +390,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param reaction
 	 */
 	public void addReaction(Reaction reaction) {
-		if (!listOfReactions.getListOf().contains(reaction)) {
+		if (!listOfReactions.contains(reaction)) {
 			reaction.parentSBMLObject = this;
-			listOfReactions.getListOf().add(reaction);
+			listOfReactions.add(reaction);
 		}
 	}
 
@@ -402,9 +401,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param rule
 	 */
 	public void addRule(Rule rule) {
-		if (!listOfRules.getListOf().contains(rule)) {
+		if (!listOfRules.contains(rule)) {
 			rule.parentSBMLObject = this;
-			listOfRules.getListOf().add(rule);
+			listOfRules.add(rule);
 		}
 	}
 
@@ -414,9 +413,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param spec
 	 */
 	public void addSpecies(Species spec) {
-		if (!listOfSpecies.getListOf().contains(spec)) {
+		if (!listOfSpecies.contains(spec)) {
 			spec.parentSBMLObject = this;
-			listOfSpecies.getListOf().add(spec);
+			listOfSpecies.add(spec);
 		}
 	}
 
@@ -425,9 +424,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param speciesType
 	 */
 	public void addSpeciesType(SpeciesType speciesType) {
-		if (!listOfSpeciesTypes.getListOf().contains(speciesType)) {
+		if (!listOfSpeciesTypes.contains(speciesType)) {
 			speciesType.parentSBMLObject = this;
-			listOfSpeciesTypes.getListOf().add(speciesType);
+			listOfSpeciesTypes.add(speciesType);
 		}
 	}
 
@@ -436,9 +435,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param unitDefinition
 	 */
 	public void addUnitDefinition(UnitDefinition unitDefinition) {
-		if (!listOfUnitDefinitions.getListOf().contains(unitDefinition)) {
+		if (!listOfUnitDefinitions.contains(unitDefinition)) {
 			unitDefinition.parentSBMLObject = this;
-			listOfUnitDefinitions.getListOf().add(unitDefinition);
+			listOfUnitDefinitions.add(unitDefinition);
 		}
 	}
 
@@ -505,8 +504,7 @@ public class Model extends AbstractNamedSBase {
 			namedSBase = getUnitDefinition(id);
 		// check all local parameters
 		if (namedSBase == null)
-			for (SBase r : getListOfReactions().getListOf()) {
-				Reaction reaction = (Reaction) r;
+			for (Reaction reaction : getListOfReactions()) {
 				if (reaction.isSetKineticLaw())
 					namedSBase = reaction.getKineticLaw().getParameter(id);
 				if (namedSBase != null)
@@ -535,7 +533,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Compartment getCompartment(int n) {
-		return (Compartment) listOfCompartments.getListOf().get(n);
+		return listOfCompartments.get(n);
 	}
 
 	/**
@@ -544,8 +542,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Compartment getCompartment(String id) {
-		for (SBase c : listOfCompartments.getListOf()) {
-			Compartment comp = (Compartment) c;
+		for (Compartment comp : listOfCompartments) {
 			if (comp.getId().equals(id)){
 				return comp;
 			}
@@ -559,8 +556,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public CompartmentType getCompartmentType(String id) {
-		for (SBase c : listOfCompartmentTypes.getListOf()){
-			CompartmentType ct = (CompartmentType) c;
+		for (CompartmentType ct : listOfCompartmentTypes){
 			if (ct.getId().equals(id)){
 				return ct;
 			}
@@ -569,11 +565,11 @@ public class Model extends AbstractNamedSBase {
 	}
 	
 	public CompartmentType getCompartmentType(int n) {
-		return (CompartmentType) listOfCompartmentTypes.getListOf().get(n);
+		return listOfCompartmentTypes.get(n);
 	}
 	
 	public SpeciesType getSpeciesType(int n) {
-		return (SpeciesType) listOfSpeciesTypes.getListOf().get(n);
+		return listOfSpeciesTypes.get(n);
 	}
 
 	/**
@@ -583,7 +579,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the nth Constraint of this Model.
 	 */
 	public Constraint getConstraint(int n) {
-		return (Constraint) listOfConstraints.getListOf().get(n);
+		return listOfConstraints.get(n);
 	}
 
 	/**
@@ -592,7 +588,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Event getEvent(int i) {
-		return (Event) listOfEvents.getListOf().get(i);
+		return listOfEvents.get(i);
 	}
 	
 	/**
@@ -601,7 +597,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public UnitDefinition getUnitDefinition(int i) {
-		return (UnitDefinition) listOfUnitDefinitions.getListOf().get(i);
+		return (UnitDefinition) listOfUnitDefinitions.get(i);
 	}
 
 	/**
@@ -610,8 +606,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Event getEvent(String id) {
-		for (SBase e : listOfEvents.getListOf()){
-			Event ev = (Event) e;
+		for (Event ev : listOfEvents){
 			if (ev.getId().equals(id)){
 				return ev;
 			}
@@ -625,7 +620,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public FunctionDefinition getFunctionDefinition(int n) {
-		return (FunctionDefinition) listOfFunctionDefinitions.getListOf().get(n);
+		return listOfFunctionDefinitions.get(n);
 	}
 
 	/**
@@ -634,8 +629,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public FunctionDefinition getFunctionDefinition(String id) {
-		for (SBase fd : listOfFunctionDefinitions.getListOf()){
-			FunctionDefinition f = (FunctionDefinition) fd;
+		for (FunctionDefinition f : listOfFunctionDefinitions) {
 			if (f.getId().equals(id)){
 				return f;
 			}
@@ -650,14 +644,14 @@ public class Model extends AbstractNamedSBase {
 	 * @return the nth InitialAssignment of this Model.
 	 */
 	public InitialAssignment getInitialAssignment(int n) {
-		return (InitialAssignment) listOfInitialAssignments.getListOf().get(n);
+		return listOfInitialAssignments.get(n);
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfCompartments() {
+	public ListOf<Compartment> getListOfCompartments() {
 		return listOfCompartments;
 	}
 
@@ -665,14 +659,14 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfCompartmentTypes() {
+	public ListOf<CompartmentType> getListOfCompartmentTypes() {
 		return listOfCompartmentTypes;
 	}
 
 	/**
 	 * @return the listOfConstraints
 	 */
-	public ListOf getListOfConstraints() {
+	public ListOf<Constraint> getListOfConstraints() {
 		return listOfConstraints;
 	}
 
@@ -680,7 +674,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfEvents() {
+	public ListOf<Event> getListOfEvents() {
 		return listOfEvents;
 	}
 
@@ -688,14 +682,14 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfFunctionDefinitions() {
+	public ListOf<FunctionDefinition> getListOfFunctionDefinitions() {
 		return listOfFunctionDefinitions;
 	}
 
 	/**
 	 * @return the listOfInitialAssignments
 	 */
-	public ListOf getListOfInitialAssignments() {
+	public ListOf<InitialAssignment> getListOfInitialAssignments() {
 		return listOfInitialAssignments;
 	}
 
@@ -703,7 +697,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfParameters() {
+	public ListOf<Parameter> getListOfParameters() {
 		return listOfParameters;
 	}
 
@@ -711,7 +705,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfReactions() {
+	public ListOf<Reaction> getListOfReactions() {
 		return listOfReactions;
 	}
 
@@ -719,7 +713,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfRules() {
+	public ListOf<Rule> getListOfRules() {
 		return listOfRules;
 	}
 
@@ -727,7 +721,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfSpecies() {
+	public ListOf<Species> getListOfSpecies() {
 		return listOfSpecies;
 	}
 
@@ -735,7 +729,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfSpeciesTypes() {
+	public ListOf<SpeciesType> getListOfSpeciesTypes() {
 		return listOfSpeciesTypes;
 	}
 
@@ -743,7 +737,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public ListOf getListOfUnitDefinitions() {
+	public ListOf<UnitDefinition> getListOfUnitDefinitions() {
 		return listOfUnitDefinitions;
 	}
 
@@ -752,7 +746,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumCompartments() {
-		return listOfCompartments.getListOf().size();
+		return listOfCompartments.size();
 	}
 
 	/**
@@ -760,7 +754,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumCompartmentTypes() {
-		return listOfCompartmentTypes.getListOf().size();
+		return listOfCompartmentTypes.size();
 	}
 
 	/**
@@ -768,7 +762,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumConstraints() {
-		return listOfConstraints.getListOf().size();
+		return listOfConstraints.size();
 	}
 
 	/**
@@ -776,7 +770,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumEvents() {
-		return listOfEvents.getListOf().size();
+		return listOfEvents.size();
 	}
 
 	/**
@@ -784,7 +778,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumFunctionDefinitions() {
-		return listOfFunctionDefinitions.getListOf().size();
+		return listOfFunctionDefinitions.size();
 	}
 
 	/**
@@ -792,7 +786,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumInitialAssignments() {
-		return listOfInitialAssignments.getListOf().size();
+		return listOfInitialAssignments.size();
 	}
 
 	/**
@@ -803,8 +797,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public int getNumLocalParameters() {
 		int count = 0;
-		for (SBase r : listOfReactions.getListOf()){
-			Reaction reaction = (Reaction) r;
+		for (Reaction reaction : listOfReactions){
 			if (reaction.isSetKineticLaw()){
 				count += reaction.getKineticLaw().getNumParameters();
 			}
@@ -817,7 +810,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumParameters() {
-		return listOfParameters.getListOf().size();
+		return listOfParameters.size();
 	}
 
 	/**
@@ -825,7 +818,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumReactions() {
-		return listOfReactions.getListOf().size();
+		return listOfReactions.size();
 	}
 
 	/**
@@ -833,7 +826,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumRules() {
-		return listOfRules.getListOf().size();
+		return listOfRules.size();
 	}
 
 	/**
@@ -841,7 +834,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumSpecies() {
-		return listOfSpecies.getListOf().size();
+		return listOfSpecies.size();
 	}
 
 	/**
@@ -849,7 +842,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumSpeciesTypes() {
-		return listOfSpeciesTypes.getListOf().size();
+		return listOfSpeciesTypes.size();
 	}
 
 	/**
@@ -857,7 +850,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumUnitDefinitions() {
-		return listOfUnitDefinitions.getListOf().size();
+		return listOfUnitDefinitions.size();
 	}
 
 	/**
@@ -866,7 +859,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Parameter getParameter(int n) {
-		return (Parameter) listOfParameters.getListOf().get(n);
+		return listOfParameters.get(n);
 	}
 
 	/**
@@ -875,8 +868,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Parameter getParameter(String id) {
-		for (SBase p : listOfParameters.getListOf()) {
-			Parameter parameter = (Parameter) p;
+		for (Parameter parameter : listOfParameters) {
 			if (parameter.getId().equals(id))
 				return parameter;
 		}
@@ -894,13 +886,13 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Get the n-th Reaction object in this Model.
+	 * Gets the n-th Reaction object in this Model.
 	 * 
 	 * @param reactionIndex
 	 * @return the n-th Reaction of this Model.
 	 */
 	public Reaction getReaction(int n) {
-		return (Reaction) listOfReactions.getListOf().get(n);
+		return listOfReactions.get(n);
 	}
 
 	/**
@@ -909,8 +901,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Reaction getReaction(String id) {
-		for (SBase r : listOfReactions.getListOf()) {
-			Reaction reaction = (Reaction) r;
+		for (Reaction reaction : listOfReactions) {
 			if (reaction.getId().equals(id)){
 				return reaction;
 
@@ -925,7 +916,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Rule getRule(int n) {
-		return (Rule) listOfRules.getListOf().get(n);
+		return listOfRules.get(n);
 	}
 
 	/**
@@ -936,7 +927,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Species getSpecies(int n) {
-		return (Species) listOfSpecies.getListOf().get(n);
+		return listOfSpecies.get(n);
 	}
 
 	/**
@@ -945,8 +936,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Species getSpecies(String id) {
-		for (SBase s : listOfSpecies.getListOf()) {
-			Species species = (Species) s;
+		for (Species species : listOfSpecies) {
 			if (species.getId().equals(id)){
 				return species;
 			}
@@ -960,8 +950,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public SpeciesType getSpeciesType(String id) {
-		for (SBase s : listOfSpeciesTypes.getListOf()){
-			SpeciesType st = (SpeciesType) s;
+		for (SpeciesType st : listOfSpeciesTypes){
 			if (st.getId().equals(id)){
 				return st;
 			}
@@ -975,8 +964,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public UnitDefinition getUnitDefinition(String id) {
-		for (SBase ud : listOfUnitDefinitions.getListOf()){
-			UnitDefinition unitdef = (UnitDefinition) ud;
+		for (UnitDefinition unitdef : listOfUnitDefinitions){
 			if (unitdef.getId().equals(id)){
 				return unitdef;
 			}
@@ -1006,7 +994,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param parameter
 	 */
 	public void removeParameter(Parameter parameter) {
-		listOfParameters.getListOf().remove(parameter);
+		listOfParameters.remove(parameter);
 		parameter.sbaseRemoved();
 	}
 
@@ -1016,7 +1004,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param reac
 	 */
 	public void removeReaction(Reaction reac) {
-		listOfReactions.getListOf().remove(reac);
+		listOfReactions.remove(reac);
 		reac.sbaseRemoved();
 	}
 
@@ -1027,7 +1015,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return success
 	 */
 	public boolean removeSpecies(Species spec) {
-		boolean success = listOfSpecies.getListOf().remove(spec);
+		boolean success = listOfSpecies.remove(spec);
 		if (success)
 			spec.sbaseRemoved();
 		return success;
@@ -1039,7 +1027,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return success
 	 */
 	public boolean removeUnitDefinition(UnitDefinition unitDefininition) {
-		boolean success = listOfUnitDefinitions.getListOf().remove(unitDefininition);
+		boolean success = listOfUnitDefinitions.remove(unitDefininition);
 		if (success)
 			unitDefininition.sbaseRemoved();
 		return success;
@@ -1049,7 +1037,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @param listOfCompartments
 	 */
-	public void setListOfCompartments(ListOf listOfCompartments) {
+	public void setListOfCompartments(ListOf<Compartment> listOfCompartments) {
 		this.listOfCompartments = listOfCompartments;
 		setThisAsParentSBMLObject(listOfCompartments);
 		this.listOfCompartments.setCurrentList(CurrentListOfSBMLElements.listOfCompartments);
@@ -1062,7 +1050,7 @@ public class Model extends AbstractNamedSBase {
 	 *            the listOfCompartmentTypes to set
 	 */
 	public void setListOfCompartmentTypes(
-			ListOf listOfCompartmentTypes) {
+			ListOf<CompartmentType> listOfCompartmentTypes) {
 		this.listOfCompartmentTypes = listOfCompartmentTypes;
 		setThisAsParentSBMLObject(listOfCompartmentTypes);
 		this.listOfCompartmentTypes.setCurrentList(CurrentListOfSBMLElements.listOfCompartmentTypes);
@@ -1073,7 +1061,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfConstraints
 	 *            the listOfConstraints to set
 	 */
-	public void setListOfConstraints(ListOf listOfConstraints) {
+	public void setListOfConstraints(ListOf<Constraint> listOfConstraints) {
 		this.listOfConstraints = listOfConstraints;
 		setThisAsParentSBMLObject(listOfConstraints);
 		this.listOfConstraints.setCurrentList(CurrentListOfSBMLElements.listOfConstraints);
@@ -1084,7 +1072,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @param listOfEvents
 	 */
-	public void setListOfEvents(ListOf listOfEvents) {
+	public void setListOfEvents(ListOf<Event> listOfEvents) {
 		this.listOfEvents = listOfEvents;
 		setThisAsParentSBMLObject(listOfEvents);
 		this.listOfEvents.setCurrentList(CurrentListOfSBMLElements.listOfEvents);
@@ -1096,7 +1084,7 @@ public class Model extends AbstractNamedSBase {
 	 *            the listOfFunctionDefinitions to set
 	 */
 	public void setListOfFunctionDefinitions(
-			ListOf listOfFunctionDefinitions) {
+			ListOf<FunctionDefinition> listOfFunctionDefinitions) {
 		this.listOfFunctionDefinitions = listOfFunctionDefinitions;
 		setThisAsParentSBMLObject(listOfFunctionDefinitions);
 		this.listOfFunctionDefinitions.setCurrentList(CurrentListOfSBMLElements.listOfFunctionDefinitions);
@@ -1109,7 +1097,7 @@ public class Model extends AbstractNamedSBase {
 	 *            the listOfInitialAssignments to set
 	 */
 	public void setListOfInitialAssignments(
-			ListOf listOfInitialAssignments) {
+			ListOf<InitialAssignment> listOfInitialAssignments) {
 		this.listOfInitialAssignments = listOfInitialAssignments;
 		setThisAsParentSBMLObject(listOfInitialAssignments);
 		this.listOfInitialAssignments.setCurrentList(CurrentListOfSBMLElements.listOfInitialAssignments);
@@ -1120,7 +1108,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @param listOfParameters
 	 */
-	public void setListOfParameters(ListOf listOfParameters) {
+	public void setListOfParameters(ListOf<Parameter> listOfParameters) {
 		this.listOfParameters = listOfParameters;
 		setThisAsParentSBMLObject(listOfParameters);
 		this.listOfParameters.setCurrentList(CurrentListOfSBMLElements.listOfParameters);
@@ -1132,7 +1120,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @param listOfReactions
 	 */
-	public void setListOfReactions(ListOf listOfReactions) {
+	public void setListOfReactions(ListOf<Reaction> listOfReactions) {
 		this.listOfReactions = listOfReactions;
 		setThisAsParentSBMLObject(listOfReactions);
 		this.listOfReactions.setCurrentList(CurrentListOfSBMLElements.listOfReactions);
@@ -1144,7 +1132,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public void setListOfRules(ListOf listOfRules) {
+	public void setListOfRules(ListOf<Rule> listOfRules) {
 		this.listOfRules = listOfRules;
 		setThisAsParentSBMLObject(listOfRules);
 		this.listOfRules.setCurrentList(CurrentListOfSBMLElements.listOfRules);
@@ -1156,7 +1144,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @param listOfSpecies
 	 */
-	public void setListOfSpecies(ListOf listOfSpecies) {
+	public void setListOfSpecies(ListOf<Species> listOfSpecies) {
 		this.listOfSpecies = listOfSpecies;
 		setThisAsParentSBMLObject(listOfSpecies);
 		this.listOfSpecies.setCurrentList(CurrentListOfSBMLElements.listOfSpecies);
@@ -1168,7 +1156,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfSpeciesTypes
 	 *            the listOfSpeciesTypes to set
 	 */
-	public void setListOfSpeciesTypes(ListOf listOfSpeciesTypes) {
+	public void setListOfSpeciesTypes(ListOf<SpeciesType> listOfSpeciesTypes) {
 		this.listOfSpeciesTypes = listOfSpeciesTypes;
 		setThisAsParentSBMLObject(listOfSpeciesTypes);
 		this.listOfSpeciesTypes.setCurrentList(CurrentListOfSBMLElements.listOfSpeciesTypes);
@@ -1181,7 +1169,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfUnitDefinitions
 	 */
 	public void setListOfUnitDefinitions(
-			ListOf listOfUnitDefinitions) {
+			ListOf<UnitDefinition> listOfUnitDefinitions) {
 		this.listOfUnitDefinitions = listOfUnitDefinitions;
 		setThisAsParentSBMLObject(listOfUnitDefinitions);
 		this.listOfUnitDefinitions.setCurrentList(CurrentListOfSBMLElements.listOfUnitDefinitions);
