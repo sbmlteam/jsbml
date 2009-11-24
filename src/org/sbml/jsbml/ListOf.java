@@ -86,6 +86,30 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 	}
 
 	/**
+	 * Specialized method to remove a named SBase according to its unique id.
+	 * 
+	 * @param nsb
+	 *            the object to be removed.
+	 * @return success or failure.
+	 */
+	public boolean remove(NamedSBase nsb) {
+		if (!super.remove(nsb) && nsb.isSetId()) {
+			int pos = -1;
+			for (int i = 0; i < size() && pos < 0; i++) {
+				NamedSBase sb = (NamedSBase) get(i);
+				if (sb.isSetId() && nsb.isSetId()
+						&& sb.getId().equals(nsb.getId()))
+					pos = i;
+			}
+			if (pos >= 0) {
+				remove(pos);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * 
 	 * @param listOf
 	 */
@@ -124,9 +148,9 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 					+ e.getClass().getSimpleName() + " in L" + e.getLevel());
 		else if (e.getVersion() != getVersion())
 			throw new IllegalArgumentException("Version mismatch between "
-					+ getParentSBMLObject().getClass().getSimpleName() + " in V"
-					+ getVersion() + " and " + e.getClass().getSimpleName()
-					+ " in V" + e.getVersion());
+					+ getParentSBMLObject().getClass().getSimpleName()
+					+ " in V" + getVersion() + " and "
+					+ e.getClass().getSimpleName() + " in V" + e.getVersion());
 		if (e instanceof NamedSBase) {
 			NamedSBase nsb = (NamedSBase) e;
 			if (nsb.isSetId())
