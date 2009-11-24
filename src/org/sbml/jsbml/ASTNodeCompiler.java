@@ -27,7 +27,6 @@
  *===================================================================================
  *
  */
-
 package org.sbml.jsbml;
 
 /**
@@ -142,7 +141,7 @@ public interface ASTNodeCompiler {
 	 * @param c
 	 * @return
 	 */
-	public StringBuffer compile(Compartment c);
+	public Object compile(Compartment c);
 
 	/**
 	 * 
