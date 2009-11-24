@@ -27,7 +27,6 @@
  *===================================================================================
  *
  */
-
 package org.sbml.jsbml;
 
 import org.sbml.jsbml.util.StringTools;
@@ -49,7 +48,7 @@ public class Unit extends AbstractSBase {
 	 */
 	public static enum Kind {
 		/**
-		 * The ampere unit
+		 * The ampere unit.
 		 */
 		AMPERE,
 		/**
@@ -317,92 +316,22 @@ public class Unit extends AbstractSBase {
 		 * @return
 		 */
 		public boolean isDefinedIn(int level, int version) {
-			if (level == 1) {
-				return version == 1 || version == 2 ? this == AMPERE
-						|| this == BECQUEREL || this == CANDELA
-						|| this == CELSIUS || this == COULOMB
-						|| this == DIMENSIONLESS || this == FARAD
-						|| this == GRAM || this == GRAY || this == HENRY
-						|| this == HERTZ || this == ITEM || this == JOULE
-						|| this == KATAL || this == KELVIN || this == KILOGRAM
-						|| this == LITER || this == LITRE || this == LUMEN
-						|| this == LUX || this == METER || this == METRE
-						|| this == MOLE || this == NEWTON || this == OHM
-						|| this == PASCAL || this == RADIAN || this == SECOND
-						|| this == SIEMENS || this == SIEVERT
-						|| this == STERADIAN || this == TESLA || this == VOLT
-						|| this == WATT || this == WEBER : false;
-			} else if (level == 2) {
-				switch (version) {
-				case 1:
-					return this == AMPERE || this == BECQUEREL
-							|| this == CANDELA || this == CELSIUS
-							|| this == COULOMB || this == DIMENSIONLESS
-							|| this == FARAD || this == GRAM || this == GRAY
-							|| this == HENRY || this == HERTZ || this == ITEM
-							|| this == JOULE || this == KATAL || this == KELVIN
-							|| this == KILOGRAM || this == LITRE
-							|| this == LUMEN || this == LUX || this == METRE
-							|| this == MOLE || this == NEWTON || this == OHM
-							|| this == PASCAL || this == RADIAN
-							|| this == SECOND || this == SIEMENS
-							|| this == SIEVERT || this == STERADIAN
-							|| this == TESLA || this == VOLT || this == WATT
-							|| this == WEBER;
-				case 2:
-					return this == AMPERE || this == BECQUEREL
-							|| this == CANDELA || this == COULOMB
-							|| this == DIMENSIONLESS || this == FARAD
-							|| this == GRAM || this == GRAY || this == HENRY
-							|| this == HERTZ || this == ITEM || this == JOULE
-							|| this == KATAL || this == KELVIN
-							|| this == KILOGRAM || this == LITRE
-							|| this == LUMEN || this == LUX || this == METRE
-							|| this == MOLE || this == NEWTON || this == OHM
-							|| this == PASCAL || this == RADIAN
-							|| this == SECOND || this == SIEMENS
-							|| this == SIEVERT || this == STERADIAN
-							|| this == TESLA || this == VOLT || this == WATT
-							|| this == WEBER;
-				case 3:
-					return this == AMPERE || this == BECQUEREL
-							|| this == CANDELA || this == COULOMB
-							|| this == DIMENSIONLESS || this == FARAD
-							|| this == GRAM || this == GRAY || this == HENRY
-							|| this == HERTZ || this == ITEM || this == JOULE
-							|| this == KATAL || this == KELVIN
-							|| this == KILOGRAM || this == LITRE
-							|| this == LUMEN || this == LUX || this == METRE
-							|| this == MOLE || this == NEWTON || this == OHM
-							|| this == PASCAL || this == RADIAN
-							|| this == SECOND || this == SIEMENS
-							|| this == SIEVERT || this == STERADIAN
-							|| this == TESLA || this == VOLT || this == WATT
-							|| this == WEBER;
-				case 4:
-					return this == AMPERE || this == BECQUEREL
-							|| this == CANDELA || this == COULOMB
-							|| this == DIMENSIONLESS || this == FARAD
-							|| this == GRAM || this == GRAY || this == HENRY
-							|| this == HERTZ || this == ITEM || this == JOULE
-							|| this == KATAL || this == KELVIN
-							|| this == KILOGRAM || this == LITRE
-							|| this == LUMEN || this == LUX || this == METRE
-							|| this == MOLE || this == NEWTON || this == OHM
-							|| this == PASCAL || this == RADIAN
-							|| this == SECOND || this == SIEMENS
-							|| this == SIEVERT || this == STERADIAN
-							|| this == TESLA || this == VOLT || this == WATT
-							|| this == WEBER;
-				default:
-					return false;
-				}
-			} else if (level == 3) {
-				if (version == 1) {
-					// TODO
-				}
-			}
-			return false;
+			return (((level == 1 && (version == 1 || version == 2))
+					|| (level == 2 && (1 <= version && version <= 4)) || level == 3
+					&& version == 1) && ((this == AMPERE || this == BECQUEREL
+					|| this == CANDELA || this == COULOMB
+					|| this == DIMENSIONLESS || this == FARAD || this == GRAM
+					|| this == GRAY || this == HENRY || this == HERTZ
+					|| this == ITEM || this == JOULE || this == KATAL
+					|| this == KELVIN || this == KILOGRAM || this == LITRE
+					|| this == LUMEN || this == LUX || this == METRE
+					|| this == MOLE || this == NEWTON || this == OHM
+					|| this == PASCAL || this == RADIAN || this == SECOND
+					|| this == SIEMENS || this == SIEVERT || this == STERADIAN
+					|| this == TESLA || this == VOLT || this == WATT || this == WEBER)
+					|| (level == 1 && (version == 1 || version == 2)
+							&& this == CELSIUS || this == LITER || this == METER) || (level == 2
+					&& version == 1 && this == CELSIUS)));
 		}
 	}
 
@@ -455,6 +384,43 @@ public class Unit extends AbstractSBase {
 		identical &= unit1.getOffset() == unit2.getOffset();
 		identical &= unit1.getMultiplier() == unit2.getMultiplier();
 		return identical && unit1.getScale() == unit2.getScale();
+	}
+
+	/**
+	 * Returns a UnitDefinition object which contains the argument Unit
+	 * converted to the appropriate SI unit.
+	 * 
+	 * @param unit
+	 *            the Unit object to convert to SI
+	 * @return a UnitDefinition object containing the SI unit.
+	 */
+	public static UnitDefinition convertToSI(Unit unit) {
+		// TODO
+		throw new RuntimeException("not yet implemented!");
+	}
+
+	/**
+	 * Predicate to test whether a given string is the name of a predefined SBML
+	 * unit.
+	 * 
+	 * @param name
+	 *            a string to be tested against the predefined unit names
+	 * @param level
+	 *            the Level of SBML for which the determination should be made.
+	 *            This is necessary because there are a few small differences in
+	 *            allowed units between SBML Level 1 and Level 2.
+	 * @return if name is one of the five SBML predefined unit identifiers
+	 *         ('substance', 'volume', 'area', 'length' or 'time'), false
+	 *         otherwise. The predefined unit identifiers 'length' and 'area'
+	 *         were added in Level 2 Version 1
+	 */
+	public static boolean isBuiltIn(String name, long level) {
+		if ((level < 3)
+				&& (name.equals("substance") || name.equals("volume")
+						|| name.equals("time") || (level == 2 && (name
+						.equals("length") || name.equals("area")))))
+			return true;
+		return false;
 	}
 
 	/**
@@ -517,10 +483,7 @@ public class Unit extends AbstractSBase {
 			unit1.setScale(s1 * e1 + s2 * e2);
 			if (Kind.areEquivalent(unit1.getKind(), unit2.getKind())) {
 				unit1.setExponent(e1 + e2);
-				if (unit1.getExponent() == 0) {
-					unit1.setExponent(1);
-					unit1.setKind(Kind.DIMENSIONLESS);
-				} else {
+				if (unit1.getExponent() != 0) {
 					unit1.setMultiplier(Math.pow(unit1.getMultiplier(),
 							1 / unit1.getExponent()));
 					unit1.setScale(unit1.getScale() / unit1.getExponent());
@@ -529,6 +492,10 @@ public class Unit extends AbstractSBase {
 				unit1.setMultiplier(Math.pow(unit1.getMultiplier(), 1 / e1));
 				unit1.setScale(unit1.getScale() / e1);
 			}
+			if (unit1.getExponent() == 0) {
+				unit1.setExponent(1);
+				unit1.setKind(Kind.DIMENSIONLESS);
+			}
 			if (unit1.getKind() == Kind.METER)
 				unit1.setKind(Kind.METRE);
 			else if (unit1.getKind() == Kind.LITER)
@@ -536,6 +503,23 @@ public class Unit extends AbstractSBase {
 		} else
 			throw new IllegalArgumentException(
 					"Units can only be merged if both have the same kind attribute or if one of them is dimensionless.");
+	}
+
+	/**
+	 * Manipulates the attributes of the Unit to express the unit with the value
+	 * of the scale attribute reduced to zero.
+	 * 
+	 * For example, 1 millimetre can be expressed as a Unit with kind= 'metre'
+	 * multiplier='1' scale='-3' exponent='1'. It can also be expressed as a
+	 * Unit with kind='metre' multiplier='0.001' scale='0' exponent='1'.
+	 * 
+	 * @param unit
+	 *            the Unit object to manipulate.
+	 */
+	public static void removeScale(Unit unit) {
+		double m = unit.getMultiplier() * Math.pow(10, unit.getScale());
+		unit.setMultiplier(m);
+		unit.setScale(0);
 	}
 
 	/**
@@ -812,7 +796,27 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
+	 * Predicate returning true or false depending on whether all the required
+	 * attributes for this Unit object have been set.
 	 * 
+	 * @return a boolean value indicating whether all the required elements for
+	 *         this object have been defined.
+	 */
+	public boolean hasRequiredAttributes() {
+		return isSetKind();
+	}
+
+	/**
+	 * Initializes the attributes of this Unit (except for 'kind') to their
+	 * defaults values.
+	 * 
+	 * The default values are as follows:
+	 * <ul>
+	 * <li>exponent = 1</li>
+	 * <li>scale = 0</li>
+	 * <li>multiplier = 1.0</li>
+	 * </ul>
+	 * The 'kind' attribute is left unchanged.
 	 */
 	public void initDefaults() {
 		exponent = 1;
