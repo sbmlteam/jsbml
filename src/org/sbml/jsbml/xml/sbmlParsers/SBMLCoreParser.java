@@ -230,7 +230,7 @@ public class SBMLCoreParser implements SBMLParser{
 					else {
 						// TODO : SBML syntax error, throw an exception?
 					}
-				}		
+				}	
 				else if (contextObject instanceof ListOf){
 					ListOf list = (ListOf) contextObject;
 					if (list.getParentSBMLObject() instanceof Model){
@@ -428,18 +428,21 @@ public class SBMLCoreParser implements SBMLParser{
 					if (elementName.equals("listOfReactants")){
 						ListOf listOfReactants = (ListOf) newContextObject;
 						reaction.setListOfReactants(listOfReactants);
+						listOfReactants.setCurrentList(CurrentListOfSBMLElements.listOfReactants);
 						
 						return listOfReactants;
 					}
 					else if (elementName.equals("listOfProducts")){
 						ListOf listOfProducts = (ListOf) newContextObject;
 						reaction.setListOfProducts(listOfProducts);
-						
+						listOfProducts.setCurrentList(CurrentListOfSBMLElements.listOfProducts);
+
 						return listOfProducts;
 					}
 					else if (elementName.equals("listOfModifiers")){
 						ListOf listOfModifiers = (ListOf) newContextObject;
 						reaction.setListOfModifiers(listOfModifiers);
+						listOfModifiers.setCurrentList(CurrentListOfSBMLElements.listOfModifiers);
 						
 						return listOfModifiers;
 					}
@@ -949,7 +952,7 @@ public class SBMLCoreParser implements SBMLParser{
 					if (event.isSetListOfEventAssignments()){
 						
 						for (int j = 0; j < event.getNumEventAssignments(); j++){
-							EventAssignment eventAssignment = event.getEventAssignment(i);
+							EventAssignment eventAssignment = event.getEventAssignment(j);
 						
 							setEventAssignmentVariable(eventAssignment, model);
 						}
@@ -971,21 +974,21 @@ public class SBMLCoreParser implements SBMLParser{
 					
 					if (reaction.isSetListOfReactants()){
 						for (int j = 0; j < reaction.getNumReactants(); j++){
-							SpeciesReference speciesReference = reaction.getReactant(i);
+							SpeciesReference speciesReference = reaction.getReactant(j);
 							
 							setSpeciesReferenceSpecies(speciesReference, model);
 						}
 					}
 					if (reaction.isSetListOfProducts()){
 						for (int j = 0; j < reaction.getNumProducts(); j++){
-							SpeciesReference speciesReference = reaction.getProduct(i);
+							SpeciesReference speciesReference = reaction.getProduct(j);
 							
 							setSpeciesReferenceSpecies(speciesReference, model);
 						}
 					}
 					if (reaction.isSetListOfModifiers()){
 						for (int j = 0; j < reaction.getNumModifiers(); j++){
-							ModifierSpeciesReference modifierSpeciesReference = reaction.getModifier(i);
+							ModifierSpeciesReference modifierSpeciesReference = reaction.getModifier(j);
 							
 							setSpeciesReferenceSpecies(modifierSpeciesReference, model);
 						}

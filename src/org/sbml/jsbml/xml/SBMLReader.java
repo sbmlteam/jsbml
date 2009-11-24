@@ -36,7 +36,11 @@ public class SBMLReader {
 	
 	private static HashMap <String, Class<? extends SBMLParser>> packageParsers = new HashMap<String, Class<? extends SBMLParser>>();
 	
-	private static void initializePackageParserNamespaces(){
+	public static Class<? extends SBMLParser> getPackageParsers(String namespace){
+		return SBMLReader.packageParsers.get(namespace);
+	}
+	
+	public static void initializePackageParserNamespaces(){
 		//TODO Load the map from a configuration file
 		packageParsers.put("http://www.sbml.org/sbml/level3/version1/multi/version1", MultiParser.class);
 		packageParsers.put("http://www.sbml.org/sbml/level3/version1/core", SBMLCoreParser.class);
