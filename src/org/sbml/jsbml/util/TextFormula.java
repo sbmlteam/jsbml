@@ -650,10 +650,17 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#times(org.sbml.jsbml.ASTNode[])
+	 */
 	@Override
 	public String times(ASTNode... nodes) {
-		// TODO Auto-generated method stub
-		return null;
+		Object n[] = new Object[nodes.length];
+		for (int i = 0; i < nodes.length; i++)
+			n[i] = nodes[i].compile(this).toString();
+		return times(n).toString();
 	}
 
 	@Override

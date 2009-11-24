@@ -31,6 +31,15 @@
 package org.sbml.jsbml;
 
 /**
+ * <p>
+ * JSBML implementation of SBML's Model construct.
+ * </p>
+ * <p>
+ * In an SBML model definition, a single object of class Model serves as the
+ * overall container for the lists of the various model components. All of the
+ * lists are optional, but if a given list container is present within the
+ * model, the list must not be empty; that is, it must have length one or more.
+ * </p>
  * 
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
@@ -39,30 +48,69 @@ package org.sbml.jsbml;
  */
 public class Model extends AbstractNamedSBase {
 
+	/**
+	 * 
+	 */
 	private ModelHistory history;
 
+	/**
+	 * 
+	 */
 	private ListOf<Compartment> listOfCompartments;
 
+	/**
+	 * 
+	 */
 	private ListOf<CompartmentType> listOfCompartmentTypes;
 
+	/**
+	 * 
+	 */
 	private ListOf<Constraint> listOfConstraints;
 
+	/**
+	 * 
+	 */
 	private ListOf<Event> listOfEvents;
 
+	/**
+	 * 
+	 */
 	private ListOf<FunctionDefinition> listOfFunctionDefinitions;
 
+	/**
+	 * 
+	 */
 	private ListOf<InitialAssignment> listOfInitialAssignments;
 
+	/**
+	 * 
+	 */
 	private ListOf<Parameter> listOfParameters;
 
+	/**
+	 * 
+	 */
 	private ListOf<Reaction> listOfReactions;
 
+	/**
+	 * 
+	 */
 	private ListOf<Rule> listOfRules;
 
+	/**
+	 * 
+	 */
 	private ListOf<Species> listOfSpecies;
 
+	/**
+	 * 
+	 */
 	private ListOf<SpeciesType> listOfSpeciesTypes;
 
+	/**
+	 * 
+	 */
 	private ListOf<UnitDefinition> listOfUnitDefinitions;
 
 	/**
@@ -402,6 +450,17 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Get the nth CompartmentType object in this Model.
+	 * 
+	 * @param n
+	 *            index
+	 * @return the nth CompartmentType of this Model.
+	 */
+	public CompartmentType getCompartmentType(int n) {
+		return listOfCompartmentTypes.get(n);
+	}
+
+	/**
 	 * 
 	 * @param id
 	 * @return
@@ -688,9 +747,11 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Get the nth Parameter object in this Model.
 	 * 
 	 * @param n
-	 * @return
+	 *            index
+	 * @return the nth Parameter of this Model.
 	 */
 	public Parameter getParameter(int n) {
 		return listOfParameters.get(n);
@@ -776,6 +837,17 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Get the nth SpeciesType object in this Model.
+	 * 
+	 * @param n
+	 *            index
+	 * @return the nth SpeciesType of this Model.
+	 */
+	public SpeciesType getSpeciesType(int n) {
+		return listOfSpeciesTypes.get(n);
+	}
+
+	/**
 	 * 
 	 * @param id
 	 * @return
@@ -785,6 +857,17 @@ public class Model extends AbstractNamedSBase {
 			if (s.getId().equals(id))
 				return s;
 		return null;
+	}
+
+	/**
+	 * Get the nth UnitDefinition object in this Model.
+	 * 
+	 * @param n
+	 *            index.
+	 * @return the nth UnitDefinition of this Model.
+	 */
+	public UnitDefinition getUnitDefinition(int n) {
+		return listOfUnitDefinitions.get(n);
 	}
 
 	/**
