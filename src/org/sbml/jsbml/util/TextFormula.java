@@ -34,6 +34,10 @@ import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Vector;
 
+import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.ASTNodeCompiler;
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SpeciesReference;
 
 /**
@@ -42,7 +46,7 @@ import org.sbml.jsbml.SpeciesReference;
  *         andreas.draeger@uni-tuebingen.de</a>
  * 
  */
-public class TextFormula extends StringTools {
+public class TextFormula extends StringTools implements ASTNodeCompiler {
 
 	/**
 	 * 
@@ -221,5 +225,446 @@ public class TextFormula extends StringTools {
 	protected static final double getStoichiometry(SpeciesReference ref) {
 		double stoich = ref.getStoichiometry();
 		return stoich;
+	}
+
+	@Override
+	public String abs(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String arccos(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String arccosh(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String arccot(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String arccoth(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String arccsc(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String arccsch(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String arcsec(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String arcsech(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String arcsin(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String arcsinh(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String arctan(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String arctanh(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String ceiling(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StringBuffer compile(Compartment c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double)
+	 */
+	@Override
+	public String compile(double real) {
+		return toString(real);
+	}
+
+	@Override
+	public String compile(int integer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String compile(NamedSBase variable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String compile(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String cos(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String cosh(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String cot(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String coth(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String csc(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String csch(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String exp(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String factorial(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String floor(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String frac(ASTNode left, ASTNode right) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String frac(int numerator, int denominator) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String function(String name, ASTNode... args) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String functionDelay(String delay) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getConstantE() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getConstantFalse() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getConstantPi() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getConstantTrue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getNegativeInfinity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getPositiveInfinity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String lambda(ASTNode... nodes) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String ln(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String log(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String log(ASTNode left, ASTNode right) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String logicalNot(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String logicalOperation(ASTNode ast) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String minus(ASTNode... nodes) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String piecewise(ASTNode... nodes) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String plus(ASTNode... nodes) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String pow(ASTNode left, ASTNode right) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#relationEqual(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
+	 */
+	@Override
+	public String relationEqual(ASTNode left, ASTNode right) {
+		return concat(left.compile(this), " == ", right.compile(this))
+				.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.ASTNodeCompiler#relationGraterThan(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
+	 */
+	@Override
+	public String relationGraterThan(ASTNode left, ASTNode right) {
+		return concat(left.compile(this), " > ", right.compile(this))
+				.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.ASTNodeCompiler#relationGreaterEqual(org.sbml.jsbml.ASTNode
+	 * , org.sbml.jsbml.ASTNode)
+	 */
+	@Override
+	public String relationGreaterEqual(ASTNode left, ASTNode right) {
+		return concat(left.compile(this), " >= ", right.compile(this))
+				.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.ASTNodeCompiler#relationLessEqual(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
+	 */
+	@Override
+	public String relationLessEqual(ASTNode left, ASTNode right) {
+		return concat(left.compile(this), " <= ", right.compile(this))
+				.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.ASTNodeCompiler#relationLessThan(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
+	 */
+	@Override
+	public String relationLessThan(ASTNode left, ASTNode right) {
+		return concat(left.compile(this), " < ", right.compile(this))
+				.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.ASTNodeCompiler#relationNotEqual(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
+	 */
+	@Override
+	public String relationNotEqual(ASTNode left, ASTNode right) {
+		return concat(left.compile(this), " != ", right.compile(this))
+				.toString();
+	}
+
+	@Override
+	public String root(ASTNode rootExponent, ASTNode radiant) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String sec(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String sech(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String sin(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String sinh(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String sqrt(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String symbolTime(String time) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String tan(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String tanh(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String times(ASTNode... nodes) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String uiMinus(ASTNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String unknownASTNode() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

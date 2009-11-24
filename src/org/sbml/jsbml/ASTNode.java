@@ -37,6 +37,8 @@ import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.util.TextFormula;
+
 /**
  * A node in the Abstract Syntax Tree (AST) representation of a mathematical
  * expression.
@@ -49,6 +51,8 @@ import javax.swing.tree.TreeNode;
 public class ASTNode implements TreeNode {
 
 	/**
+	 * An enumeration of all possible types that can be represented by an
+	 * abstract syntax tree node.
 	 * 
 	 * @author Andreas Dr&auml;ger <a
 	 *         href="mailto:andreas.draeger@uni-tuebingen.de"
@@ -331,6 +335,20 @@ public class ASTNode implements TreeNode {
 	public static ASTNode exp(ASTNode exponent) {
 		ASTNode e = new ASTNode(Type.CONSTANT_E, exponent.getParentSBMLObject());
 		return e.raiseByThePowerOf(exponent);
+	}
+
+	/**
+	 * @see toFormula()
+	 * 
+	 * @param tree
+	 *            the root of the ASTNode formula expression tree
+	 * @return the formula from the given AST as an SBML Level 1 text-string
+	 *         mathematical formula. The caller owns the returned string and is
+	 *         responsible for freeing it when it is no longer needed. NULL is
+	 *         returned if the given argument is NULL.
+	 */
+	public static String formulaToString(ASTNode tree) {
+		return tree.toFormula();
 	}
 
 	/**
@@ -1988,6 +2006,30 @@ public class ASTNode implements TreeNode {
 		LinkedList<ASTNode> swap = that.listOfNodes;
 		that.listOfNodes = listOfNodes;
 		listOfNodes = swap;
+	}
+
+	/**
+	 * <p>
+	 * Converts this ASTNode to a text string using a specific syntax for
+	 * mathematical formulas.
+	 * </p>
+	 * <p>
+	 * The text-string form of mathematical formulas produced by
+	 * formulaToString() and read by parseFormula() are simple C-inspired infix
+	 * notation taken from SBML Level 1. A formula in this text-string form
+	 * therefore can be handed to a program that understands SBML Level 1
+	 * mathematical expressions, or used as part of a formula translation
+	 * system. The syntax is described in detail in the documentation for
+	 * ASTNode.
+	 * </p>
+	 * 
+	 * @return the formula from the given AST as an SBML Level 1 text-string
+	 *         mathematical formula. The caller owns the returned string and is
+	 *         responsible for freeing it when it is no longer needed. NULL is
+	 *         returned if the given argument is NULL.
+	 */
+	public String toFormula() {
+		return compile(new TextFormula()).toString();
 	}
 
 	/*
