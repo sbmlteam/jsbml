@@ -31,9 +31,14 @@ public class Annotation {
 	private List<CVTerm> listOfCVTerms;
 	
 	/**
-	 * contains all the attributes of the matching XML annotation node
+	 * contains all the namespaces of the matching XML annotation node
 	 */
-	private HashMap<String, String> annotationAttributes = new HashMap<String, String>();
+	private HashMap<String, String> annotationNamespaces = new HashMap<String, String>();
+	
+	/**
+	 * contains all the namespaces of the matching XML RDF annotation node
+	 */
+	private HashMap<String, String> rdfAnnotationNamespaces = new HashMap<String, String>();
 	
 	private String about;
 	
@@ -50,6 +55,7 @@ public class Annotation {
 	public Annotation(String annotation, List<CVTerm> cvTerms){
 		this.annotation = annotation;
 		this.listOfCVTerms = cvTerms;
+		this.modelHistory = null;
 	}
 	
 	/**
@@ -59,6 +65,7 @@ public class Annotation {
 	public Annotation(String annotation){
 		this.annotation = annotation;
 		this.listOfCVTerms = new LinkedList<CVTerm>();
+		this.modelHistory = null;
 	}
 	
 	/**
@@ -68,6 +75,7 @@ public class Annotation {
 	public Annotation(List<CVTerm> cvTerms){
 		this.annotation = null;
 		this.listOfCVTerms = cvTerms;
+		this.modelHistory = null;
 	}
 	
 	/**
@@ -76,6 +84,7 @@ public class Annotation {
 	public Annotation(){
 		this.annotation = null;
 		this.listOfCVTerms = new LinkedList<CVTerm>();
+		this.modelHistory = null;
 	}
 	
 	/**
@@ -85,7 +94,8 @@ public class Annotation {
 	public Annotation(HashMap<String, String> attributes){
 		this.annotation = null;
 		this.listOfCVTerms = new LinkedList<CVTerm>();
-		this.annotationAttributes = attributes;
+		this.annotationNamespaces = attributes;
+		this.modelHistory = null;
 	}
 	
 	/**
@@ -441,16 +451,16 @@ public class Annotation {
 	}
 
 	/**
-	 * changes the annotation attributes with 'annotationAttributes'
-	 * @param annotationAttributes
+	 * changes the annotation attributes with 'annotationNamespaces'
+	 * @param annotationNamespaces
 	 */
 	public void setAnnotationAttributes(HashMap<String, String> annotationAttributes) {
-		this.annotationAttributes = annotationAttributes;
+		this.annotationNamespaces = annotationAttributes;
 	}
 	
 	/**
-	 * changes the annotation attributes with 'annotationAttributes'
-	 * @param annotationAttributes
+	 * changes the annotation attributes with 'annotationNamespaces'
+	 * @param annotationNamespaces
 	 */
 	public void setAnnotationAttributes(NamedNodeMap annotationAttributes) {
 		
@@ -469,7 +479,7 @@ public class Annotation {
 	 * @return the map containing the annotation attributes of this Annotation
 	 */
 	public HashMap<String, String> getAnnotationAttributes() {
-		return annotationAttributes;
+		return annotationNamespaces;
 	}
 	
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -478,8 +488,16 @@ public class Annotation {
 			setAbout(value);
 			return true;
 		}
-		this.annotationAttributes.put(prefix+":"+attributeName, value);
-		return true;
+		return false;
+	}
+	
+	public void addAnnotationNamespace(String namespaceName, String prefix, String URI){
+		if (!prefix.equals("")){
+			this.annotationNamespaces.put(prefix+":"+namespaceName, URI);
+		}
+		else {
+			this.annotationNamespaces.put(namespaceName, URI);
+		}
 	}
 
 	public void setAbout(String about) {
@@ -488,5 +506,26 @@ public class Annotation {
 
 	public String getAbout() {
 		return about;
+	}
+
+	public void setRdfAnnotationNamespaces(HashMap<String, String> rdfAnnotationNamespaces) {
+		this.rdfAnnotationNamespaces = rdfAnnotationNamespaces;
+	}
+
+	public HashMap<String, String> getRdfAnnotationNamespaces() {
+		return rdfAnnotationNamespaces;
+	}
+	
+	public HashMap<String, String> getAnnotationNamespaces() {
+		return annotationNamespaces;
+	}
+
+	public void addRDFAnnotationNamespace(String namespaceName, String prefix, String URI){
+		if (!prefix.equals("")){
+			this.annotationNamespaces.put(prefix+":"+namespaceName, URI);
+		}
+		else {
+			this.annotationNamespaces.put(namespaceName, URI);
+		}
 	}
 }

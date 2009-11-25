@@ -1,11 +1,13 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.sbml.jsbml.element.CVTerm.Qualifier;
 import org.sbml.jsbml.element.Annotation;
 import org.sbml.jsbml.element.CVTerm;
 import org.sbml.jsbml.element.SBMLDocument;
+import org.sbml.jsbml.element.SBase;
 import org.sbml.jsbml.xml.SBMLParser;
 
 public class BiologicalQualifierParser implements SBMLParser{
@@ -67,6 +69,21 @@ public class BiologicalQualifierParser implements SBMLParser{
 	}
 
 	public void processEndDocument(SBMLDocument sbmlDocument) {
+	}
+
+	public void processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
+		
+		if (elementName.equals("RDF") && contextObject instanceof Annotation){
+			Annotation annotation = (Annotation) contextObject;
+			
+			annotation.addRDFAnnotationNamespace(localName, prefix, URI);
+		}
+	}
+
+	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

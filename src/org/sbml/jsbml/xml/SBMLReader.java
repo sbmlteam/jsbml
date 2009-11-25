@@ -44,6 +44,7 @@ public class SBMLReader {
 		//TODO Load the map from a configuration file
 		packageParsers.put("http://www.sbml.org/sbml/level3/version1/multi/version1", MultiParser.class);
 		packageParsers.put("http://www.sbml.org/sbml/level3/version1/core", SBMLCoreParser.class);
+		packageParsers.put("http://www.sbml.org/sbml/level2", SBMLCoreParser.class);
 		packageParsers.put("http://www.w3.org/1999/xhtml", StringParser.class);
 		packageParsers.put("http://www.w3.org/1999/02/22-rdf-syntax-ns#", RDFAnnotationParser.class);
 		packageParsers.put("http://purl.org/dc/elements/1.1/", CreatorParser.class);
@@ -105,6 +106,34 @@ public class SBMLReader {
 		return initializedParsers;
 	}
 	
+	private static void addNamespaceToInitializedPackages(String elementName, StartElement element, HashMap<String, SBMLParser> initializedParsers){
+		Iterator<Namespace> nam = element.getNamespaces();
+
+		while (nam.hasNext()){
+			Namespace namespace = (Namespace) nam.next();
+
+			if (elementName.equals("annotation") && !packageParsers.containsKey(namespace)){
+				packageParsers.put(namespace.getNamespaceURI(), AnnotationParser.class);
+			}
+			if (packageParsers.containsKey(namespace.getNamespaceURI()) && !initializedParsers.containsKey(namespace.getNamespaceURI())){
+				SBMLParser newParser;
+				try {
+					newParser = packageParsers.get(namespace.getNamespaceURI()).newInstance();
+					initializedParsers.put(namespace.getNamespaceURI(), newParser);
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else if (!packageParsers.containsKey(namespace.getNamespaceURI()) && !initializedParsers.containsKey(namespace.getNamespaceURI())){
+				// TODO what to do if we have namespaces but no parsers for this namespaces?
+			}
+		}
+	}
+	
 	public static SBMLDocument readSBMLFile(String fileName){
 		WstxInputFactory inputFactory = new WstxInputFactory();
 		HashMap<String, SBMLParser> initializedParsers = null;
@@ -141,30 +170,9 @@ public class SBMLReader {
 					}
 						
 					if (!SBMLElements.isEmpty() && initializedParsers != null){
-						Iterator<Object> nam = element.getNamespaces();
 						
-						if (currentNode.getLocalPart().equals("annotation")){
-							
-							AnnotationParser annotationParser = new AnnotationParser();
-							while (nam.hasNext()){
-								Namespace namespace = (Namespace) nam.next();
-								
-								initializedParsers.put(namespace.getNamespaceURI(), annotationParser);
-							}
-						}
 						if (elementNamespace != null){
-							
-							while (nam.hasNext()){
-								Namespace namespace = (Namespace) nam.next();
-								
-								if (packageParsers.containsKey(namespace.getNamespaceURI()) && !initializedParsers.containsKey(namespace.getNamespaceURI())){
-									SBMLParser newParser = packageParsers.get(namespace.getNamespaceURI()).newInstance();
-									initializedParsers.put(namespace.getNamespaceURI(), newParser);
-								}
-								else if (!packageParsers.containsKey(namespace.getNamespaceURI()) && !initializedParsers.containsKey(namespace.getNamespaceURI())){
-									// TODO what to do if we have namespaces but no parsers for this namespaces?
-								}
-							}
+							addNamespaceToInitializedPackages(currentNode.getLocalPart(), element, initializedParsers);
 							
 							parser = initializedParsers.get(elementNamespace);
 							
@@ -178,15 +186,30 @@ public class SBMLReader {
 							}
 							
 							if (parser != null){
-								Iterator<Object> att = element.getAttributes();
+								
+								Iterator<Namespace> nam = element.getNamespaces();
+								Iterator<Attribute> att = element.getAttributes();
 								boolean hasAttributes = att.hasNext();
 								
-								if (event.isEndElement()){
-									hasAttributes = true;
+								if (!hasAttributes){
+									hasAttributes = nam.hasNext();
 								}
+
 								Object processedElement = parser.processStartElement(currentNode.getLocalPart(), currentNode.getPrefix(), hasAttributes, SBMLElements.peek());
 								SBMLElements.push(processedElement);
-					
+								
+								while (nam.hasNext()){
+									Namespace namespace = (Namespace) nam.next();
+									boolean isLastNamespace = !nam.hasNext();
+									parser = initializedParsers.get(namespace.getNamespaceURI());
+
+									if (parser != null){
+										parser.processNamespace(currentNode.getLocalPart(), namespace.getNamespaceURI(), namespace.getName().getPrefix(), namespace.getName().getLocalPart(), isLastNamespace, hasAttributes, SBMLElements.peek());
+									}
+									else {
+										// TODO what to do if we have namespaces but no parsers for this namespaces?
+									}
+								}
 								while(att.hasNext()){
 									
 									Attribute attribute = (Attribute) att.next();
@@ -198,15 +221,6 @@ public class SBMLReader {
 									}
 									else {
 										attributeParser = parser;
-									}
-									
-									if (currentNode.getLocalPart().equals("notes") || currentNode.getLocalPart().equals("message")){
-										SBMLParser sbmlparser = initializedParsers.get("http://www.w3.org/1999/xhtml");
-										
-										if (sbmlparser instanceof StringParser){
-											StringParser notesParser = (StringParser) sbmlparser;
-											notesParser.setTypeOfNotes(currentNode.getLocalPart());
-										}
 									}
 									
 									if (attributeParser != null){
@@ -297,12 +311,6 @@ public class SBMLReader {
 			return null;
 			
 		} catch (XMLStreamException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

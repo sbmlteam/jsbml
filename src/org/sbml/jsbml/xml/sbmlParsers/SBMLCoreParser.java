@@ -1,5 +1,6 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.sbml.jsbml.element.AlgebraicRule;
@@ -370,7 +371,14 @@ public class SBMLCoreParser implements SBMLParser{
 					else if (list.getParentSBMLObject() instanceof KineticLaw){
 						KineticLaw kineticLaw = (KineticLaw) list.getParentSBMLObject();
 						
+						// Level 3 : parameter and listOfParameters => localParameter and listOfLocalParameter
 						if (elementName.equals("localParameter") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfLocalParameters)){
+							Parameter localParameter = (Parameter) newContextObject;
+							kineticLaw.addParameter(localParameter);
+							
+							return localParameter;
+						}
+						else if (elementName.equals("parameter") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfParameters)){
 							Parameter localParameter = (Parameter) newContextObject;
 							kineticLaw.addParameter(localParameter);
 							
@@ -462,6 +470,14 @@ public class SBMLCoreParser implements SBMLParser{
 					if (elementName.equals("listOfLocalParameters")){
 						ListOf listOfLocalParameters = (ListOf) newContextObject;
 						kineticLaw.setListOfLocalParameters(listOfLocalParameters);
+						listOfLocalParameters.setCurrentList(CurrentListOfSBMLElements.listOfLocalParameters);
+						
+						return listOfLocalParameters;
+					}
+					else if (elementName.equals("listOfParameters")){
+						ListOf listOfLocalParameters = (ListOf) newContextObject;
+						kineticLaw.setListOfLocalParameters(listOfLocalParameters);
+						listOfLocalParameters.setCurrentList(CurrentListOfSBMLElements.listOfParameters);
 						
 						return listOfLocalParameters;
 					}
@@ -997,7 +1013,7 @@ public class SBMLCoreParser implements SBMLParser{
 						KineticLaw kineticLaw = reaction.getKineticLaw();
 						if (kineticLaw.isSetListOfParameters()){
 							for (int j = 0; j < kineticLaw.getNumParameters(); j++){
-								Parameter parameter = kineticLaw.getParameter(i);
+								Parameter parameter = kineticLaw.getParameter(j);
 								
 								setParameterUnits(parameter, model);
 							}
@@ -1027,5 +1043,19 @@ public class SBMLCoreParser implements SBMLParser{
 		else {
 			// TODO : SBML syntax error, what to do?
 		}
+	}
+
+	public void processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
+		
+		if (contextObject instanceof SBMLDocument){
+			SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
+			sbmlDocument.addNamespace(localName, prefix, URI);
+		}
+	}
+
+	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,10 +1,12 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.sbml.jsbml.element.Annotation;
 import org.sbml.jsbml.element.ModelHistory;
 import org.sbml.jsbml.element.SBMLDocument;
+import org.sbml.jsbml.element.SBase;
 import org.sbml.jsbml.xml.DateProcessor;
 import org.sbml.jsbml.xml.SBMLParser;
 import org.w3c.util.DateParser;
@@ -73,6 +75,9 @@ public class DatesParser implements SBMLParser{
 			if (elementName.equals("created") || elementName.equals("modified")){
 				this.previousElement = "";
 				hasReadW3CDTF = false;
+				if (elementName.equals("created")){
+					hasReadCreated = false;
+				}
 			}
 			else {
 				// TODO : the date instances are only created for the created and/or modified nodes in the annotation. Throw an error?
@@ -126,6 +131,20 @@ public class DatesParser implements SBMLParser{
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 		previousElement = "";
 		hasReadCreated = false;
+	}
+
+	public void processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
+		if (elementName.equals("RDF") && contextObject instanceof Annotation){
+			Annotation annotation = (Annotation) contextObject;
+			
+			annotation.addRDFAnnotationNamespace(localName, prefix, URI);
+		}
+	}
+
+	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

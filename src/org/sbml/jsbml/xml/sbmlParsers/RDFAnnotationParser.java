@@ -1,6 +1,7 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.sbml.jsbml.element.Annotation;
@@ -12,6 +13,7 @@ import org.sbml.jsbml.element.ModelCreator;
 import org.sbml.jsbml.element.ModelHistory;
 import org.sbml.jsbml.element.Reaction;
 import org.sbml.jsbml.element.SBMLDocument;
+import org.sbml.jsbml.element.SBase;
 import org.sbml.jsbml.element.UnitDefinition;
 import org.sbml.jsbml.xml.SBMLParser;
 
@@ -121,7 +123,7 @@ public class RDFAnnotationParser implements SBMLParser{
 						if (elementName.equals("Bag")){
 							this.previousElements.put("creator", "Bag");
 						}
-						else if (elementName.equals("Li") && previousElements.containsKey("creator")){
+						else if (elementName.equals("li") && previousElements.containsKey("creator")){
 							if (previousElements.get("creator").equals("Bag")){
 								this.previousElements.put("creator", "li");
 								ModelCreator modelCreator = new ModelCreator();
@@ -304,6 +306,20 @@ public class RDFAnnotationParser implements SBMLParser{
 		else {
 			// TODO : change the about value of the annotation.
 		}
+	}
+
+	public void processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
+
+		if (elementName.equals("RDF") && contextObject instanceof Annotation){
+			Annotation annotation = (Annotation) contextObject;
+			annotation.addRDFAnnotationNamespace(localName, prefix, URI);;
+		}
+	}
+
+	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

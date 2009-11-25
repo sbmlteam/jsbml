@@ -533,7 +533,6 @@ public abstract class AbstractSBase implements SBase {
 		return this.notesBuffer != null;
 	}
 	
-	
 	public boolean readAttribute(String attributeName, String prefix, String value){
 		
 		if (attributeName.equals("level")){
@@ -589,5 +588,9 @@ public abstract class AbstractSBase implements SBase {
 	
 	public void addExtension(String namespace, SBase sbase){
 		this.extensions.put(namespace, sbase);
+	}
+	
+	public Set<String> getNamespaces(){
+		return this.extensions.keySet();
 	}
 }

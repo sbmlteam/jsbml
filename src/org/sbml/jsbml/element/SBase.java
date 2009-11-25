@@ -31,7 +31,7 @@
 package org.sbml.jsbml.element;
 
 import java.util.List;
-
+import java.util.Set;
 
 /**
  * @author Andreas Dr&auml;ger <a
@@ -309,5 +309,6 @@ public interface SBase {
 	public SBase getExtension(String namespace);
 	
 	public void addExtension(String namespace, SBase sbase);
-
+	
+	public Set<String> getNamespaces();
 }
