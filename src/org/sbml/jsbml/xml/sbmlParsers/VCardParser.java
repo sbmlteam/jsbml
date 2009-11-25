@@ -1,7 +1,11 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
+import java.util.ArrayList;
+
+import org.sbml.jsbml.element.Annotation;
 import org.sbml.jsbml.element.ModelCreator;
 import org.sbml.jsbml.element.SBMLDocument;
+import org.sbml.jsbml.element.SBase;
 import org.sbml.jsbml.xml.SBMLParser;
 
 public class VCardParser implements SBMLParser{
@@ -47,8 +51,35 @@ public class VCardParser implements SBMLParser{
 		}
 	}
 
-	public void processEndElement(String ElementName, String prefix,
-			boolean isNested, Object contextObject) {		
+	public void processEndElement(String elementName, String prefix,
+			boolean isNested, Object contextObject) {	
+		
+		if (contextObject instanceof ModelCreator){
+			if (elementName.equals("N")){
+				hasReadNNode = false;
+			}
+			else if (elementName.equals("Family")){
+				hasReadFamilyName = false;
+			}
+			else if (elementName.equals("Given")){
+				hasReadGivenName = false;
+			}
+			else if (elementName.equals("EMAIL")){
+				hasReadEMAIL = false;
+			}
+			else if (elementName.equals("ORG")){
+				hasReadORGNode = false;
+			}
+			else if (elementName.equals("Orgname")){
+				hasReadOrgName = false;
+			}
+			else {
+				// TODO : SBML syntax error, throw an exception?
+			}
+		}
+		else {
+			// TODO : SBML syntax error, throw an exception?
+		}
 	}
 
 	public Object processStartElement(String elementName, String prefix,
@@ -90,6 +121,21 @@ public class VCardParser implements SBMLParser{
 		hasReadNNode = false;
 		hasReadORGNode = false;
 		hasReadOrgName = false;
+	}
+
+	public void processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
+		
+		if (elementName.equals("RDF") && contextObject instanceof Annotation){
+			Annotation annotation = (Annotation) contextObject;
+			
+			annotation.addRDFAnnotationNamespace(localName, prefix, URI);
+		}
+	}
+
+	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

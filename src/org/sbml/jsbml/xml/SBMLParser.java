@@ -1,6 +1,9 @@
 package org.sbml.jsbml.xml;
 
+import java.util.ArrayList;
+
 import org.sbml.jsbml.element.SBMLDocument;
+import org.sbml.jsbml.element.SBase;
 
 public interface SBMLParser {
 
@@ -14,6 +17,7 @@ public interface SBMLParser {
 	
 	public void processEndDocument(SBMLDocument sbmlDocument);
 	
-	//public ArrayList<SBase> getListOfSBMLElementsToWrite();
-
+	public void processNamespace(String elementName, String URI, String prefix, String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject);
+	
+	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase);
 }

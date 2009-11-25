@@ -43,6 +43,7 @@ public class SBMLDocument extends AbstractSBase {
 
 	private Model model;
 	private HashMap<String, String> SBMLDocumentAttributes = new HashMap<String, String>();
+	private HashMap<String, String> SBMLDocumentNamespaces = new HashMap<String, String>();
 
 	/**
 	 * @param sb
@@ -161,6 +162,19 @@ public class SBMLDocument extends AbstractSBase {
 		return SBMLDocumentAttributes;
 	}
 	
+	public HashMap<String, String> getSBMLDocumentNamespaces() {
+		return SBMLDocumentNamespaces;
+	}
+	
+	public void addNamespace(String namespaceName, String prefix, String URI){
+		if (!prefix.equals("")){
+			this.SBMLDocumentNamespaces.put(prefix+":"+namespaceName, URI);
+		}
+		else {
+			this.SBMLDocumentNamespaces.put(namespaceName, URI);
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -169,7 +183,12 @@ public class SBMLDocument extends AbstractSBase {
 	public boolean readAttribute(String attributeName, String prefix, String value){
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 		if (!isAttributeRead){
-			this.getSBMLDocumentAttributes().put(prefix+":"+attributeName, value);
+			if (!prefix.equals("")){
+				this.getSBMLDocumentAttributes().put(prefix+":"+attributeName, value);
+			}
+			else {
+				this.getSBMLDocumentAttributes().put(attributeName, value);
+			}
 			return true;
 		}
 		return isAttributeRead;

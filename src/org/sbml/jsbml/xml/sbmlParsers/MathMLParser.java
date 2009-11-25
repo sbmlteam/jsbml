@@ -1,6 +1,9 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
+import java.util.ArrayList;
+
 import org.sbml.jsbml.element.SBMLDocument;
+import org.sbml.jsbml.element.SBase;
 import org.sbml.jsbml.xml.SBMLParser;
 
 public class MathMLParser implements SBMLParser{
@@ -32,6 +35,17 @@ public class MathMLParser implements SBMLParser{
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

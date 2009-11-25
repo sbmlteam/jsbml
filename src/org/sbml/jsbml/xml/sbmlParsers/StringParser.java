@@ -1,5 +1,7 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
+import java.util.ArrayList;
+
 import org.sbml.jsbml.element.Constraint;
 import org.sbml.jsbml.element.MathContainer;
 import org.sbml.jsbml.element.SBMLDocument;
@@ -134,7 +136,33 @@ public class StringParser implements SBMLParser{
 
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 		// TODO Auto-generated method stub
+	}
+
+	public void processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
 		
+		StringBuffer buffer = getStringBufferFor(contextObject);
+
+		if (buffer != null){
+			if (!prefix.equals("")){
+				buffer.append(" "+prefix+":"+localName+"=\""+URI);
+			}
+			else {
+				buffer.append(" "+localName+"=\""+URI);
+			}
+			
+			if (isLastNamespace && !hasOtherAttributes){
+				buffer.append("> \n");
+			}
+		}
+		else {
+			// TODO : SBML syntax error, throw an exception?
+		}
+	}
+
+	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
