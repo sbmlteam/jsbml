@@ -2,21 +2,31 @@ package org.sbml.jsbml.xml.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.sbml.jsbml.element.Compartment;
+import org.sbml.jsbml.element.Event;
+import org.sbml.jsbml.element.KineticLaw;
 import org.sbml.jsbml.element.Model;
+import org.sbml.jsbml.element.Parameter;
 import org.sbml.jsbml.element.Reaction;
 import org.sbml.jsbml.element.SBMLDocument;
 import org.sbml.jsbml.element.Species;
 import org.sbml.jsbml.xml.SBMLReader;
 
 public class SBML_L2V1Test {
-
-	public static String DATA_FOLDER = "/home/compneur/workspace/jsbmlStax/src/org/sbml/jsbml/xml/test/data/";
 	
-	@Test public void read_noanno() {
-		String fileName = DATA_FOLDER + "l2v1/BIOMD0000000227-noanno.xml";
-		
-		SBMLReader.readSBMLFile(fileName);
+	
+//	static {
+//		System.loadLibrary("sbmlj");
+//	}
+
+	public static String DATA_FOLDER = System.getenv("DATA_FOLDER");
+	
+
+	@Before public void setUp() { 
 	}
 	
 	@Test public void read1() {
@@ -28,7 +38,7 @@ public class SBML_L2V1Test {
 		
 		assertTrue(doc.getLevel() == 2 && doc.getVersion() == 1);
 		
-		//assertTrue(model.getLevel() == 2 && model.getVersion() == 1);
+		// TODO : assertTrue(model.getLevel() == 2 && model.getVersion() == 1);
 		
 		assertTrue(model.getId().equals("Smolen2002"));
 		assertTrue(model.getName().equals("Smolen2002_CircClock"));
@@ -39,8 +49,8 @@ public class SBML_L2V1Test {
 		
 		assertTrue(dClk != null);
 		
-		//assertTrue(dClk.getName() == null);
-		//assertTrue(dClk.getNumCVTerms() == 2);
+		assertTrue(dClk.getName().length() == 0);
+		assertTrue(dClk.getNumCVTerms() == 1);
 		
 		assertTrue(dClk.getInitialAmount() == Double.parseDouble("1e-16"));
 		
@@ -55,10 +65,30 @@ public class SBML_L2V1Test {
 		assertTrue(rdClk != null);
 		
 		assertTrue(rdClk.getName().equals("dClk production"));
+		assertTrue(rdClk.getMetaId().equals("metaid_0000012"));
 		assertTrue(rdClk.getListOfReactants().size() == 1);
 		assertTrue(rdClk.getListOfProducts().size() == 1);
 		assertTrue(rdClk.getListOfModifiers().size() == 1);
 		
+		assertTrue(rdClk.getListOfReactants().get(0).getSpecies().equals("EmptySet"));
+		assertTrue(rdClk.getListOfProducts().get(0).getSpecies().equals("dClk"));
+		assertTrue(rdClk.getListOfModifiers().get(0).getSpecies().equals("dClkF"));
+		
+		KineticLaw rdClkKL = rdClk.getKineticLaw();
+		
+		assertTrue(rdClkKL.getListOfParameters().size() == 3);
+		assertTrue(rdClkKL.getListOfParameters().get(2).getId().equals("parameter_0000009"));
+		assertTrue(rdClkKL.getListOfParameters().get(2).getName().equals("tau2"));
+		assertTrue(rdClkKL.getListOfParameters().get(2).getValue() == 10);
+		
+		Event event = model.getEvent(0);
+		
+		assertTrue(event.getMetaId().equals("metaid_0000015"));
+		assertTrue(event.getNumEventAssignments() == 1);
+		assertTrue(event.getEventAssignment(0).getVariable().equals("dClkF"));
+		
+		System.out.println("First Trigger = " + event.getTrigger().getMathBufferToString());
+		assertTrue(event.getTrigger().getMathBufferToString().startsWith("<math"));
 		
 	}
 	
@@ -71,14 +101,96 @@ public class SBML_L2V1Test {
 	@Test public void read3() {
 		String fileName = DATA_FOLDER + "l2v4/BIOMD0000000228.xml"; // l2v4
 		
-		SBMLReader.readSBMLFile(fileName);
+		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
+		Model model = doc.getModel();
+		
+		assertTrue(doc.getLevel() == 2 && doc.getVersion() == 4);
+		
+		assertTrue(model.getId().equals(""));
+		assertTrue(model.getName().equals("Swat2004_Mammalian_G1_S_Transition"));
+
+		Compartment cell = model.getCompartment(0);
+		
+		assertTrue(cell.getSize() == 1);
+		
+		assertTrue(model.getListOfUnitDefinitions().size() == 3);		
+		assertTrue(model.getListOfUnitDefinitions().get(1).getMetaId().equals("metaid_0000004"));
+		
+		Species pRBp = model.getSpecies("pRBp");
+		
+		assertTrue(pRBp != null);
+		System.out.println("pRBp notes : " + pRBp.getNotesString()); // namespace lost, should probably here.
+		assertTrue(pRBp.getNotesString().contains("http://www.w3.org/1999/xhtml"));
+		
+		System.out.println("pRBp annotation : " + pRBp.getAnnotation().getAnnotation());
+		System.out.println("pRBp annotation : " + pRBp.getCVTerm(0).toString());
+		
+		assertTrue(model.getListOfParameters().size() == 40);
+		
+		//org.sbml.libsbml.SBMLReader libSBMlReader = new org.sbml.libsbml.SBMLReader();
+		//org.sbml.libsbml.SBMLDocument libsbmlDoc = libSBMlReader.readSBML(fileName);
+		//org.sbml.jsbml.io.SBMLReader libSBMLAdapterReader = new	org.sbml.jsbml.io.LibSBMLReader();
+		
+		//Model libsbmlAdapterModel = libSBMLAdapterReader.readModel(libsbmlDoc.getModel());
+		
+		// System.out.println("nb global parameters = " + libsbmlDoc.getModel().getNumParameters());
+		
+		Parameter J18 = model.getParameter("J18");
+		
+		assertTrue(J18 != null);
+		assertTrue(J18.getValue() == 0.6);
+		
+		Reaction pRB_synthesis = model.getReaction("pRB_synthesis");
+		
+		assertTrue(pRB_synthesis != null);
+		System.out.println("pRB_synthesis additional annotation : " + pRB_synthesis.getAnnotation().getAnnotation());
+
+		assertTrue(pRB_synthesis.getAnnotation().getAnnotation().equals("<jigcell:ratelaw jigcell:name=\"Local\"/>"));
+		
+		assertTrue(pRB_synthesis.getCVTerm(0).getResourceURI(0).equals("urn:miriam:obo.go:GO%3A0006412"));
+		// GO:3A0006412
+		
 	}
 	
 	@Test public void read4() {
 		String fileName = DATA_FOLDER + "l2v4/BIOMD0000000229.xml"; // l2v4
 		
-		SBMLReader.readSBMLFile(fileName);
+		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
+		Model model = doc.getModel();
+		
+		assertTrue(doc.getLevel() == 2 && doc.getVersion() == 4);
+		
+		assertTrue(model.getId().equals("Ma2002_cAMP_oscillations"));
+		assertTrue(model.getName().equals("Ma2202_cAMP_oscillations"));
+		
+		System.out.println(" Create date, read : " + model.getModelHistory().getCreatedDate() + ", from file : 2009-08-18T15:45:28Z");
+		System.out.println(" Create date, read : " + model.getModelHistory().getModifiedDate() + ", from file : 2009-08-25T14:48:18Z");
+		
+		assertTrue(model.getModelHistory().getCreator(0).getGivenName().equals("Vijayalakshmi"));
+		assertTrue(model.getModelHistory().getCreator(1).getGivenName().equals("Lan"));
+		assertTrue(model.getModelHistory().getCreator(1).getEmail().equals("lma@jhu.edu"));
+		assertTrue(model.getModelHistory().getCreator(0).getOrganization().equals("EMBL_EBI"));
+		assertTrue(model.getNumCVTerms() == 5);
+		
+		Species erk2 = model.getSpecies("ERK2");
+		
+		assertTrue(erk2 != null);
+		assertTrue(erk2.getSBOTermID().equals("SBO:0000014"));
+		assertTrue(erk2.getSBOTerm() == 14);
+		assertTrue(erk2.isSetInitialAmount() == false);
+		assertTrue(erk2.isSetInitialConcentration() == true);
+		assertTrue(erk2.getInitialConcentration() == 1.13);
+		assertTrue(erk2.getCVTerm(0).getNumResources() == 2);
+		assertTrue(erk2.getCompartment().equals("compartment"));
+		assertTrue(erk2.getCompartmentInstance().getId().equals("compartment"));
+		
+		
 	}
 	
-	
+	/**
+	 *  Example that check that an exception is correctly launched.
+	 */
+	@Test(expected= IndexOutOfBoundsException.class) public void empty() { 
+	    new ArrayList<Object>().get(0); 
+	}
 }
