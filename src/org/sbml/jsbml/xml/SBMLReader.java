@@ -55,8 +55,9 @@ public class SBMLReader {
 		packageParsers.put("http://www.w3.org/1998/Math/MathML", StringParser.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private static boolean isPackageRequired(String namespaceURI, StartElement sbml){
-		Iterator<Object> att = sbml.getAttributes();
+		Iterator att = sbml.getAttributes();
 		
 		while(att.hasNext()){
 			Attribute attribute = (Attribute) att.next();
@@ -70,6 +71,7 @@ public class SBMLReader {
 		return false; // By default, a package is not required?
 	}
 	
+	@SuppressWarnings("unchecked")
 	private static HashMap<String, SBMLParser> getInitializedPackageParsers(StartElement sbml){
 		initializePackageParserNamespaces();
 		
@@ -150,6 +152,7 @@ public class SBMLReader {
 
 			while (xmlEventReader.hasNext()){
 				event = (XMLEvent2) xmlEventReader.nextEvent();
+				
 				if (event.isStartDocument()){
 					StartDocument startDocument = (StartDocument) event;
 					// TODO check/store the XML version, etc?
