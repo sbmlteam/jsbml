@@ -1,6 +1,6 @@
 /*
- * $Id: MathContainer.java 38 2009-11-05 15:50:38Z niko-rodrigue $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/MathContainer.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -112,7 +112,7 @@ public abstract class MathContainer extends AbstractSBase {
 	 * @return
 	 */
 	public String getFormula() {
-		return isSetMath() ? getMath().toString() : "";
+		return isSetMath() ? getMath().toFormula() : "";
 	}
 
 	/**

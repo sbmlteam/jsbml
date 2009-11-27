@@ -1,6 +1,6 @@
 /*
- * $Id: ListOf.java 38 2009-11-05 15:50:38Z niko-rodrigue $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/ListOf.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -73,10 +73,35 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	}
 
 	/**
+	 * Specialized method to remove a named SBase according to its unique id.
+	 * 
+	 * @param nsb
+	 *            the object to be removed.
+	 * @return success or failure.
+	 */
+	public boolean remove(NamedSBase nsb) {
+		if (!listOf.remove(nsb) && nsb.isSetId()) {
+			int pos = -1;
+			for (int i = 0; i < size() && pos < 0; i++) {
+				NamedSBase sb = (NamedSBase) get(i);
+				if (sb.isSetId() && nsb.isSetId()
+						&& sb.getId().equals(nsb.getId()))
+					pos = i;
+			}
+			if (pos >= 0) {
+				listOf.remove(pos);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * 
 	 * @param listOf
 	 */
-	public ListOf(ListOf<T> listOf) {
+	@SuppressWarnings("unchecked")
+	public ListOf(ListOf<? extends SBase> listOf) {
 		super();
 		if (listOf.isSetSBOTerm())
 			setSBOTerm(listOf.getSBOTerm());
@@ -89,7 +114,38 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		this.setOfListeners.addAll(listOf.setOfListeners);
 		this.level = listOf.getLevel();
 		this.version = listOf.getVersion();
-		this.listOf = listOf.listOf;
+		this.listOf = new LinkedList<T>();
+		for (SBase base : listOf)
+			add((T) base.clone());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#add(java.lang.Object)
+	 */
+	// @Override
+	public boolean add(T e) {
+		if (e.getLevel() != getLevel())
+			throw new IllegalArgumentException("Level mismatch between "
+					+ getParentSBMLObject().getClass().getSimpleName()
+					+ " in V " + getLevel() + " and "
+					+ e.getClass().getSimpleName() + " in L" + e.getLevel());
+		else if (e.getVersion() != getVersion())
+			throw new IllegalArgumentException("Version mismatch between "
+					+ getParentSBMLObject().getClass().getSimpleName()
+					+ " in V" + getVersion() + " and "
+					+ e.getClass().getSimpleName() + " in V" + e.getVersion());
+		if (e instanceof NamedSBase) {
+			NamedSBase nsb = (NamedSBase) e;
+			if (nsb.isSetId())
+				for (SBase element : this) {
+					NamedSBase elem = ((NamedSBase) element);
+					if (elem.isSetId() && elem.getId().equals(nsb.getId()))
+						return false;
+				}
+		}
+		return listOf.add(e);
 	}
 
 	/*
@@ -126,7 +182,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 			equals &= sbase.getLevel() == getLevel();
 			equals &= sbase.getVersion() == getVersion();
 			equals &= sbase.getAnnotation().equals(getAnnotation());
-			return equals;
+
+			ListOf<?> listOf = (ListOf<?>) sbase;
+			return listOf.containsAll(this) && equals;			
 		}
 		return false;
 	}
@@ -351,9 +409,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return listOf.toArray();
 	}
 
-	public boolean add(T e) {
-		return listOf.add(e);
-	}
 
 	public void add(int index, T element) {
 		listOf.add(index, element);
