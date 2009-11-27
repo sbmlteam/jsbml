@@ -49,12 +49,56 @@ import org.sbml.jsbml.SpeciesReference;
 public class TextFormula extends StringTools implements ASTNodeCompiler {
 
 	/**
+	 * Basic method which links several elements with a mathematical operator.
+	 * All empty StringBuffer object are excluded.
+	 * 
+	 * @param operator
+	 * @param elements
+	 * @return
+	 */
+	private static final StringBuffer arith(char operator, Object... elements) {
+		List<Object> vsb = new Vector<Object>();
+		for (Object sb : elements)
+			if (sb.toString().length() > 0)
+				vsb.add(sb);
+		StringBuffer equation = new StringBuffer();
+		if (vsb.size() > 0)
+			equation.append(vsb.get(0));
+		Character op = Character.valueOf(operator);
+		for (int count = 1; count < vsb.size(); count++)
+			append(equation, op, vsb.get(count));
+		return equation;
+	}
+
+	/**
 	 * 
 	 * @param sb
 	 * @return
 	 */
 	public static final StringBuffer brackets(Object sb) {
 		return concat(Character.valueOf('('), sb, Character.valueOf(')'));
+	}
+
+	/**
+	 * Tests whether the String representation of the given object contains any
+	 * arithmetic symbols and if the given object is already sorrounded by
+	 * brackets.
+	 * 
+	 * @param something
+	 * @return True if either brackets are set around the given object or the
+	 *         object does not contain any symbols such as +, -, *, /.
+	 */
+	private static boolean containsArith(Object something) {
+		boolean arith = false;
+		String d = something.toString();
+		if (d.length() > 0) {
+			char c;
+			for (int i = 0; (i < d.length()) && !arith; i++) {
+				c = d.charAt(i);
+				arith = ((c == '+') || (c == '-') || (c == '*') || (c == '/'));
+			}
+		}
+		return arith;
 	}
 
 	/**
@@ -81,6 +125,30 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 				(containsArith(numerator) ? brackets(numerator) : numerator),
 				containsArith(denominator) ? brackets(denominator)
 						: denominator));
+	}
+
+	/**
+	 * Returns the id of a PluginSpeciesReference object's belonging species as
+	 * an object of type StringBuffer.
+	 * 
+	 * @param ref
+	 * @return
+	 */
+	protected static final StringBuffer getSpecies(SpeciesReference ref) {
+		return new StringBuffer(ref.getSpecies());
+	}
+
+	/**
+	 * Returns the value of a PluginSpeciesReference object's stoichiometry
+	 * either as a double or, if the stoichiometry has an integer value, as an
+	 * int object.
+	 * 
+	 * @param ref
+	 * @return
+	 */
+	protected static final double getStoichiometry(SpeciesReference ref) {
+		double stoich = ref.getStoichiometry();
+		return stoich;
 	}
 
 	/**
@@ -159,162 +227,155 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 		return arith('*', factors);
 	}
 
-	/**
-	 * Basic method which links several elements with a mathematical operator.
-	 * All empty StringBuffer object are excluded.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param operator
-	 * @param elements
-	 * @return
+	 * @see org.sbml.jsbml.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNode)
 	 */
-	private static final StringBuffer arith(char operator, Object... elements) {
-		List<Object> vsb = new Vector<Object>();
-		for (Object sb : elements)
-			if (sb.toString().length() > 0)
-				vsb.add(sb);
-		StringBuffer equation = new StringBuffer();
-		if (vsb.size() > 0)
-			equation.append(vsb.get(0));
-		Character op = Character.valueOf(operator);
-		for (int count = 1; count < vsb.size(); count++)
-			append(equation, op, vsb.get(count));
-		return equation;
-	}
-
-	/**
-	 * Tests whether the String representation of the given object contains any
-	 * arithmetic symbols and if the given object is already sorrounded by
-	 * brackets.
-	 * 
-	 * @param something
-	 * @return True if either brackets are set around the given object or the
-	 *         object does not contain any symbols such as +, -, *, /.
-	 */
-	private static boolean containsArith(Object something) {
-		boolean arith = false;
-		String d = something.toString();
-		if (d.length() > 0) {
-			char c;
-			for (int i = 0; (i < d.length()) && !arith; i++) {
-				c = d.charAt(i);
-				arith = ((c == '+') || (c == '-') || (c == '*') || (c == '/'));
-			}
-		}
-		return arith;
-	}
-
-	/**
-	 * Returns the id of a PluginSpeciesReference object's belonging species as
-	 * an object of type StringBuffer.
-	 * 
-	 * @param ref
-	 * @return
-	 */
-	protected static final StringBuffer getSpecies(SpeciesReference ref) {
-		return new StringBuffer(ref.getSpecies());
-	}
-
-	/**
-	 * Returns the value of a PluginSpeciesReference object's stoichiometry
-	 * either as a double or, if the stoichiometry has an integer value, as an
-	 * int object.
-	 * 
-	 * @param ref
-	 * @return
-	 */
-	protected static final double getStoichiometry(SpeciesReference ref) {
-		double stoich = ref.getStoichiometry();
-		return stoich;
-	}
-
-	@Override
 	public String abs(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("abs", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arccos(org.sbml.jsbml.ASTNode)
+	 */
 	public String arccos(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("arccos", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arccosh(org.sbml.jsbml.ASTNode)
+	 */
 	public String arccosh(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("arccos", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arccot(org.sbml.jsbml.ASTNode)
+	 */
 	public String arccot(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("arccot", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arccoth(org.sbml.jsbml.ASTNode)
+	 */
 	public String arccoth(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("arccoth", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arccsc(org.sbml.jsbml.ASTNode)
+	 */
 	public String arccsc(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("arccsc", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arccsch(org.sbml.jsbml.ASTNode)
+	 */
 	public String arccsch(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("arccsch", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsec(org.sbml.jsbml.ASTNode)
+	 */
 	public String arcsec(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("arcsec", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsech(org.sbml.jsbml.ASTNode)
+	 */
 	public String arcsech(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("arcsech", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsin(org.sbml.jsbml.ASTNode)
+	 */
 	public String arcsin(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("arcsin", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsinh(org.sbml.jsbml.ASTNode)
+	 */
 	public String arcsinh(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("arcsinh", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arctan(org.sbml.jsbml.ASTNode)
+	 */
 	public String arctan(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("arctan", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arctanh(org.sbml.jsbml.ASTNode)
+	 */
 	public String arctanh(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("arctanh", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#ceiling(org.sbml.jsbml.ASTNode)
+	 */
 	public String ceiling(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("ceil", node);
 	}
 
-	@Override
-	public StringBuffer compile(Compartment c) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Creates brackets if needed.
+	 * 
+	 * @param nodes
+	 * @return
+	 */
+	private String checkBrackets(ASTNode nodes) {
+		String term = nodes.compile(this).toString();
+		nodes.compile(this).toString();
+		if ((nodes.isOperator() && (nodes.getCharacter() == '+' || nodes
+				.getCharacter() == '-'))
+				|| nodes.isUMinus())
+			term = brackets(term).toString();
+		return term;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(org.sbml.jsbml.Compartment)
+	 */
+	public String compile(Compartment c) {
+		return c.getId();
 	}
 
 	/*
@@ -322,201 +383,351 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double)
 	 */
-	@Override
 	public String compile(double real) {
 		return toString(real);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(int)
+	 */
 	public String compile(int integer) {
-		// TODO Auto-generated method stub
-		return null;
+		return Integer.toString(integer);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(org.sbml.jsbml.NamedSBase)
+	 */
 	public String compile(NamedSBase variable) {
-		// TODO Auto-generated method stub
-		return null;
+		return variable.getId();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(java.lang.String)
+	 */
 	public String compile(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#cos(org.sbml.jsbml.ASTNode)
+	 */
 	public String cos(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("cos", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#cosh(org.sbml.jsbml.ASTNode)
+	 */
 	public String cosh(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("cosh", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#cot(org.sbml.jsbml.ASTNode)
+	 */
 	public String cot(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("cot", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#coth(org.sbml.jsbml.ASTNode)
+	 */
 	public String coth(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("coth", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#csc(org.sbml.jsbml.ASTNode)
+	 */
 	public String csc(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("csc", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#csch(org.sbml.jsbml.ASTNode)
+	 */
 	public String csch(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("csch", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#exp(org.sbml.jsbml.ASTNode)
+	 */
 	public String exp(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("exp", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#factorial(org.sbml.jsbml.ASTNode)
+	 */
 	public String factorial(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return append(brackets(node.compile(this)), Character.valueOf('!'))
+				.toString();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#floor(org.sbml.jsbml.ASTNode)
+	 */
 	public String floor(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("floor", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#frac(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
+	 */
 	public String frac(ASTNode left, ASTNode right) {
-		// TODO Auto-generated method stub
-		return null;
+		String numerator = checkBrackets(left);
+		String denominator = checkBrackets(right);
+		return concat(numerator, Character.valueOf('/'), denominator)
+				.toString();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#frac(int, int)
+	 */
 	public String frac(int numerator, int denominator) {
-		// TODO Auto-generated method stub
-		return null;
+		return concat(
+				numerator < 0 ? brackets(compile(numerator))
+						: compile(numerator),
+				Character.valueOf('/'),
+				denominator < 0 ? brackets(compile(denominator))
+						: compile(denominator)).toString();
 	}
 
-	@Override
-	public String function(String name, ASTNode... args) {
-		// TODO Auto-generated method stub
-		return null;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#function(java.lang.String,
+	 * org.sbml.jsbml.ASTNode[])
+	 */
+	public String function(String name, ASTNode... nodes) {
+		return concat(name, lambda(nodes)).toString();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#functionDelay(java.lang.String)
+	 */
 	public String functionDelay(String delay) {
-		// TODO Auto-generated method stub
-		return null;
+		return delay;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantE()
+	 */
 	public String getConstantE() {
-		// TODO Auto-generated method stub
-		return null;
+		return Character.toString('e');
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantFalse()
+	 */
 	public String getConstantFalse() {
-		// TODO Auto-generated method stub
-		return null;
+		return Boolean.toString(false);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantPi()
+	 */
 	public String getConstantPi() {
-		// TODO Auto-generated method stub
-		return null;
+		return "pi";
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantTrue()
+	 */
 	public String getConstantTrue() {
-		// TODO Auto-generated method stub
-		return null;
+		return Boolean.toString(true);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#getNegativeInfinity()
+	 */
 	public String getNegativeInfinity() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(Double.NEGATIVE_INFINITY);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#getPositiveInfinity()
+	 */
 	public String getPositiveInfinity() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(Double.POSITIVE_INFINITY);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#lambda(org.sbml.jsbml.ASTNode[])
+	 */
 	public String lambda(ASTNode... nodes) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuffer lambda = new StringBuffer();
+		for (int i = 0; i < nodes.length; i++) {
+			if (i > 0)
+				lambda.append(", ");
+			lambda.append(nodes[i].compile(this));
+		}
+		return brackets(lambda).toString();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#ln(org.sbml.jsbml.ASTNode)
+	 */
 	public String ln(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("log", node);
 	}
 
-	@Override
-	public String log(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode)
+	 */
+	public Object log(ASTNode node) {
+		return function("log", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
+	 */
 	public String log(ASTNode left, ASTNode right) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("log", left, right);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#logicalNot(org.sbml.jsbml.ASTNode)
+	 */
 	public String logicalNot(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("not", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.ASTNodeCompiler#logicalOperation(org.sbml.jsbml.ASTNode)
+	 */
 	public String logicalOperation(ASTNode ast) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuffer value = new StringBuffer();
+		if (1 < ast.getLeftChild().getNumChildren())
+			value.append('(');
+		value.append(ast.getLeftChild().compile(this));
+		if (1 < ast.getLeftChild().getNumChildren())
+			value.append(')');
+		switch (ast.getType()) {
+		case LOGICAL_AND:
+			value.append(" and ");
+			break;
+		case LOGICAL_XOR:
+			value.append(" xor ");
+			break;
+		case LOGICAL_OR:
+			value.append(" or ");
+			break;
+		default:
+			break;
+		}
+		if (1 < ast.getRightChild().getNumChildren())
+			value.append('(');
+		value.append(ast.getRightChild().compile(this));
+		if (1 < ast.getRightChild().getNumChildren())
+			value.append(')');
+		return value.toString();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#minus(org.sbml.jsbml.ASTNode[])
+	 */
 	public String minus(ASTNode... nodes) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuffer minus = new StringBuffer();
+		for (int i = 0; i < nodes.length; i++) {
+			if (i > 0)
+				minus.append('-');
+			minus.append(checkBrackets(nodes[i]));
+		}
+		return minus.toString();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#piecewise(org.sbml.jsbml.ASTNode[])
+	 */
 	public String piecewise(ASTNode... nodes) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("piecewise", nodes);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#plus(org.sbml.jsbml.ASTNode[])
+	 */
 	public String plus(ASTNode... nodes) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuffer plus = new StringBuffer();
+		for (int i=0; i<nodes.length; i++) {
+			if (i>0)
+				plus.append('+');
+			plus.append(nodes[i].compile(this));
+		}
+		return plus.toString();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#pow(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
+	 */
 	public String pow(ASTNode left, ASTNode right) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("pow", left, right);
 	}
 
 	/*
@@ -525,7 +736,6 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#relationEqual(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
-	@Override
 	public String relationEqual(ASTNode left, ASTNode right) {
 		return concat(left.compile(this), " == ", right.compile(this))
 				.toString();
@@ -538,9 +748,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#relationGraterThan(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
-	@Override
 	public String relationGraterThan(ASTNode left, ASTNode right) {
-		return concat(left.compile(this), " > ", right.compile(this))
+		return concat(left.compile(this), Character.valueOf('>'), right.compile(this))
 				.toString();
 	}
 
@@ -551,9 +760,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#relationGreaterEqual(org.sbml.jsbml.ASTNode
 	 * , org.sbml.jsbml.ASTNode)
 	 */
-	@Override
 	public String relationGreaterEqual(ASTNode left, ASTNode right) {
-		return concat(left.compile(this), " >= ", right.compile(this))
+		return concat(left.compile(this), ">=", right.compile(this))
 				.toString();
 	}
 
@@ -564,9 +772,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#relationLessEqual(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
-	@Override
 	public String relationLessEqual(ASTNode left, ASTNode right) {
-		return concat(left.compile(this), " <= ", right.compile(this))
+		return concat(left.compile(this), "<=", right.compile(this))
 				.toString();
 	}
 
@@ -577,9 +784,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#relationLessThan(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
-	@Override
 	public String relationLessThan(ASTNode left, ASTNode right) {
-		return concat(left.compile(this), " < ", right.compile(this))
+		return concat(left.compile(this), Character.valueOf('<'), right.compile(this))
 				.toString();
 	}
 
@@ -590,64 +796,91 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#relationNotEqual(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
-	@Override
 	public String relationNotEqual(ASTNode left, ASTNode right) {
-		return concat(left.compile(this), " != ", right.compile(this))
+		return concat(left.compile(this), "!=", right.compile(this))
 				.toString();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#root(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
+	 */
 	public String root(ASTNode rootExponent, ASTNode radiant) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("root", rootExponent, radiant);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#sec(org.sbml.jsbml.ASTNode)
+	 */
 	public String sec(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("sec", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#sech(org.sbml.jsbml.ASTNode)
+	 */
 	public String sech(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("sech", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#sin(org.sbml.jsbml.ASTNode)
+	 */
 	public String sin(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("sin", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#sinh(org.sbml.jsbml.ASTNode)
+	 */
 	public String sinh(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("sin", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#sqrt(org.sbml.jsbml.ASTNode)
+	 */
 	public String sqrt(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("sqrt", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#symbolTime(java.lang.String)
+	 */
 	public String symbolTime(String time) {
-		// TODO Auto-generated method stub
-		return null;
+		return time;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#tan(org.sbml.jsbml.ASTNode)
+	 */
 	public String tan(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("tan", node);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#tanh(org.sbml.jsbml.ASTNode)
+	 */
 	public String tanh(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return function("tanh", node);
 	}
 
 	/*
@@ -655,7 +888,6 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#times(org.sbml.jsbml.ASTNode[])
 	 */
-	@Override
 	public String times(ASTNode... nodes) {
 		Object n[] = new Object[nodes.length];
 		for (int i = 0; i < nodes.length; i++)
@@ -663,15 +895,21 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 		return times(n).toString();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNode)
+	 */
 	public String uiMinus(ASTNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		return concat(Character.valueOf('-'), checkBrackets(node)).toString();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#unknownASTNode()
+	 */
 	public String unknownASTNode() {
-		// TODO Auto-generated method stub
-		return null;
+		return Character.toString('?');
 	}
 }

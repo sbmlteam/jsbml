@@ -101,7 +101,7 @@ public abstract class MathContainer extends AbstractSBase {
 	 * @return
 	 */
 	public String getFormula() {
-		return isSetMath() ? getMath().toString() : "";
+		return isSetMath() ? getMath().toFormula() : "";
 	}
 
 	/**
