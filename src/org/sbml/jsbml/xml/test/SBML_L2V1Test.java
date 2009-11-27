@@ -169,7 +169,7 @@ public class SBML_L2V1Test {
 		assertTrue(model.getModelHistory().getCreator(0).getGivenName().equals("Vijayalakshmi"));
 		assertTrue(model.getModelHistory().getCreator(1).getGivenName().equals("Lan"));
 		assertTrue(model.getModelHistory().getCreator(1).getEmail().equals("lma@jhu.edu"));
-		assertTrue(model.getModelHistory().getCreator(0).getOrganization().equals("EMBL_EBI"));
+		assertTrue(model.getModelHistory().getCreator(0).getOrganization().equals("EMBL-EBI"));
 		assertTrue(model.getNumCVTerms() == 5);
 		
 		Species erk2 = model.getSpecies("ERK2");

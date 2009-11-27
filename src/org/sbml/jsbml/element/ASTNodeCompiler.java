@@ -1,6 +1,6 @@
 /*
- * $Id: ASTNodeCompiler.java 38 2009-11-05 15:50:38Z niko-rodrigue $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/ASTNodeCompiler.java $
+ * $Id$
+ * $URL$
  *
  *
  *==================================================================================
@@ -142,7 +142,7 @@ public interface ASTNodeCompiler {
 	 * @param c
 	 * @return
 	 */
-	public StringBuffer compile(Compartment c);
+	public Object compile(Compartment c);
 
 	/**
 	 * 
