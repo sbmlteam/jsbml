@@ -3,13 +3,12 @@ package org.sbml.jsbml.xml;
 import java.util.ArrayList;
 
 import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.element.SBase;
 
 public interface SBMLParser {
 
-	public Object processStartElement(String ElementName, String prefix, boolean hasAttributes, Object contextObject);
+	public Object processStartElement(String ElementName, String prefix, Object contextObject);
 	
-	public void processAttribute(String ElementName, String AttributeName, String value, String prefix, boolean isLastAttribute, Object contextObject);
+	public void processAttribute(String ElementName, String AttributeName, String value, String prefix, Object contextObject);
 
 	public void processCharactersOf(String elementName, String characters, Object contextObject);
 	
@@ -17,7 +16,15 @@ public interface SBMLParser {
 	
 	public void processEndDocument(SBMLDocument sbmlDocument);
 	
-	public void processNamespace(String elementName, String URI, String prefix, String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject);
+	public void processNamespace(String elementName, String URI, String prefix, String localName, Object contextObject);
 	
-	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase);
+	public ArrayList<Object> getListOfSBMLElementsToWrite(Object objectToWrite);
+	
+	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite); 
+	
+	public void writeNamespaces(SBMLObjectForXML xmlObject, Object sbmlElementToWrite);
+	
+	public void writeAttributes(SBMLObjectForXML xmlObject, Object sbmlElementToWrite);
+	
+	public void writeCharacters(SBMLObjectForXML xmlObject, Object sbmlElementToWrite);
 }

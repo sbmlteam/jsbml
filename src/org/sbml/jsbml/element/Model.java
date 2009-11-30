@@ -30,6 +30,8 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
+
 import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
 
 /**
@@ -583,8 +585,15 @@ public class Model extends AbstractNamedSBase {
 	public Compartment getCompartment(String id) {
 		if (isSetListOfCompartments()){
 			for (Compartment comp : listOfCompartments) {
-				if (comp.getId().equals(id)){
-					return comp;
+				if (comp.isSetId()){
+					if (comp.getId().equals(id)){
+						return comp;
+					}
+				}
+				else if (comp.isSetName()){
+					if (comp.getName().equals(id)){
+						return comp;
+					}
 				}
 			}
 		}
@@ -599,8 +608,15 @@ public class Model extends AbstractNamedSBase {
 	public CompartmentType getCompartmentType(String id) {
 		if (isSetListOfCompartmentTypes()){
 			for (CompartmentType ct : listOfCompartmentTypes){
-				if (ct.getId().equals(id)){
-					return ct;
+				if (ct.isSetId()){
+					if (ct.getId().equals(id)){
+						return ct;
+					}
+				}
+				else if (ct.isSetName()){
+					if (ct.getName().equals(id)){
+						return ct;
+					}
 				}
 			}
 		}
@@ -624,6 +640,14 @@ public class Model extends AbstractNamedSBase {
 	public boolean isSetListOfConstraints(){
 		return this.listOfConstraints != null;
 	}
+	
+	public boolean isSetSubstanceUnitsID(){
+		return this.substanceUnitsID != null;
+	}
+	
+	public boolean isSetSubstanceUnits(){
+		return this.substanceUnits != null;
+	}
 
 	/**
 	 * Get the nth Constraint object in this Model.
@@ -637,6 +661,7 @@ public class Model extends AbstractNamedSBase {
 		}
 		return null;
 	}
+	
 
 	/**
 	 * 
@@ -670,8 +695,15 @@ public class Model extends AbstractNamedSBase {
 	public Event getEvent(String id) {
 		if (isSetListOfEvents()){
 			for (Event ev : listOfEvents){
-				if (ev.getId().equals(id)){
-					return ev;
+				if (ev.isSetId()){
+					if (ev.getId().equals(id)){
+						return ev;
+					}
+				}
+				else if (ev.isSetName()){
+					if (ev.getName().equals(id)){
+						return ev;
+					}
 				}
 			}
 		}
@@ -680,6 +712,14 @@ public class Model extends AbstractNamedSBase {
 	
 	public boolean isSetListOfFunctionDefinitions(){
 		return this.listOfFunctionDefinitions != null;
+	}
+	
+	public boolean isSetTimeUnitsID(){
+		return this.timeUnitsID != null;
+	}
+	
+	public boolean isSetTimeUnits(){
+		return this.timeUnits != null;
 	}
 
 	/**
@@ -702,8 +742,15 @@ public class Model extends AbstractNamedSBase {
 	public FunctionDefinition getFunctionDefinition(String id) {
 		if (isSetListOfFunctionDefinitions()){
 			for (FunctionDefinition f : listOfFunctionDefinitions) {
-				if (f.getId().equals(id)){
-					return f;
+				if (f.isSetId()){
+					if (f.getId().equals(id)){
+						return f;
+					}
+				}
+				else if (f.isSetName()){
+					if (f.getName().equals(id)){
+						return f;
+					}
 				}
 			}
 		}
@@ -985,8 +1032,16 @@ public class Model extends AbstractNamedSBase {
 	public Parameter getParameter(String id) {
 		if (isSetListOfParameters()){
 			for (Parameter parameter : listOfParameters) {
-				if (parameter.getId().equals(id))
-					return parameter;
+				if (parameter.isSetId()){
+					if (parameter.getId().equals(id)){
+						return parameter;
+					}
+				}
+				else if (parameter.isSetName()){
+					if (parameter.getName().equals(id)){
+						return parameter;
+					}
+				}
 			}
 		}
 		return null;
@@ -1023,8 +1078,15 @@ public class Model extends AbstractNamedSBase {
 	public Reaction getReaction(String id) {
 		if (isSetListOfReactions()){
 			for (Reaction reaction : listOfReactions) {
-				if (reaction.getId().equals(id)){
-					return reaction;
+				if (reaction.isSetId()){
+					if (reaction.getId().equals(id)){
+						return reaction;
+					}
+				}
+				else if (reaction.isSetName()){
+					if (reaction.getName().equals(id)){
+						return reaction;
+					}
 				}
 			}
 		}
@@ -1065,8 +1127,15 @@ public class Model extends AbstractNamedSBase {
 	public Species getSpecies(String id) {
 		if (isSetListOfSpecies()){
 			for (Species species : listOfSpecies) {
-				if (species.getId().equals(id)){
-					return species;
+				if (species.isSetId()){
+					if (species.getId().equals(id)){
+						return species;
+					}
+				}
+				else if (species.isSetName()){
+					if (species.getName().equals(id)){
+						return species;
+					}
 				}
 			}
 		}
@@ -1081,8 +1150,15 @@ public class Model extends AbstractNamedSBase {
 	public SpeciesType getSpeciesType(String id) {
 		if (isSetListOfSpeciesTypes()){
 			for (SpeciesType st : listOfSpeciesTypes){
-				if (st.getId().equals(id)){
-					return st;
+				if (st.isSetId()){
+					if (st.getId().equals(id)){
+						return st;
+					}
+				}
+				else if (st.isSetName()){
+					if (st.getName().equals(id)){
+						return st;
+					}
 				}
 			}
 		}
@@ -1097,8 +1173,15 @@ public class Model extends AbstractNamedSBase {
 	public UnitDefinition getUnitDefinition(String id) {
 		if (isSetListOfUnitDefinitions()){
 			for (UnitDefinition unitdef : listOfUnitDefinitions){
-				if (unitdef.getId().equals(id)){
-					return unitdef;
+				if (unitdef.isSetId()){
+					if (unitdef.getId().equals(id)){
+						return unitdef;
+					}
+				}
+				else if (unitdef.isSetName()){
+					if (unitdef.getName().equals(id)){
+						return unitdef;
+					}
 				}
 			}
 		}
@@ -1415,5 +1498,74 @@ public class Model extends AbstractNamedSBase {
 			}
 		}
 		return isAttributeRead;
+	}
+	
+	public boolean isSetVolumeUnitsID(){
+		return this.volumeUnitsID != null;
+	}
+	
+	public boolean isSetVolumeUnits(){
+		return this.volumeUnits != null;
+	}
+	
+	public boolean isSetAreaUnitsID(){
+		return this.areaUnitsID != null;
+	}
+	
+	public boolean isSetAreaUnits(){
+		return this.areaUnits != null;
+	}
+	
+	public boolean isSetLengthUnitsID(){
+		return this.lengthUnitsID != null;
+	}
+	
+	public boolean isSetLengthUnits(){
+		return this.lengthUnits != null;
+	}
+	
+	public boolean isSetExtentUnitsID(){
+		return this.extentUnitsID != null;
+	}
+	
+	public boolean isSetExtentUnits(){
+		return this.extentUnits != null;
+	}
+	
+	public boolean isSetConversionFactorID(){
+		return this.conversionFactorID != null;
+	}
+	
+	public boolean isSetConversionFactor(){
+		return this.conversionFactor != null;
+	}
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetSubstanceUnitsID()){
+			attributes.put("substanceUnitsID", getSubstanceUnitsID());
+		}
+		if (isSetTimeUnitsID()){
+			attributes.put("timeUnits", getTimeUnitsID());
+		}
+		else if (isSetVolumeUnitsID()){
+			attributes.put("volumeUnits", getVolumeUnitsID());
+		}
+		else if (isSetAreaUnitsID()){
+			attributes.put("areaUnits", getAreaUnitsID());
+		}
+		else if (isSetLengthUnitsID()){
+			attributes.put("lengthUnits", getLengthUnitsID());
+		}
+		else if (isSetExtentUnitsID()){
+			attributes.put("extentUnits", getExtentUnitsID());
+		}
+		else if (isSetConversionFactorID()){
+			attributes.put("conversionFactor", getConversionFactorID());
+		}
+		
+		return attributes;
 	}
 }

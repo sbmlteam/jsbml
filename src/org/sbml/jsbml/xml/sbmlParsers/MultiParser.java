@@ -11,6 +11,7 @@ import org.sbml.jsbml.multiTest.InitialSpeciesInstance;
 import org.sbml.jsbml.multiTest.MultiList;
 import org.sbml.jsbml.multiTest.MultiSpecies;
 import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
+import org.sbml.jsbml.xml.SBMLObjectForXML;
 import org.sbml.jsbml.xml.SBMLParser;
 
 public class MultiParser implements SBMLParser{
@@ -19,8 +20,7 @@ public class MultiParser implements SBMLParser{
 	
 	private MultiList multiList = MultiList.none;
 
-	public void processAttribute(String elementName, String attributeName, String value, String prefix,
-			boolean isLastAttribute, Object contextObject) {
+	public void processAttribute(String elementName, String attributeName, String value, String prefix, Object contextObject) {
 		
 		boolean isAttributeRead = false;
 		if (contextObject instanceof SBase){
@@ -41,8 +41,7 @@ public class MultiParser implements SBMLParser{
 			Object contextObject) {
 	}
 
-	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix, Object contextObject) {
 		
 		if (contextObject instanceof Species){
 			Species species = (Species) contextObject;
@@ -90,14 +89,37 @@ public class MultiParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
+			String localName, Object contextObject) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
+	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeAttributes(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeCharacters(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeNamespaces(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

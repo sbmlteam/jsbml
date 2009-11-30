@@ -193,7 +193,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#getElementName()
 	 */
 	public String getElementName() {
-		String name = getClass().getCanonicalName();
+		String name = getClass().getSimpleName();
 		char c = Character.toLowerCase(name.charAt(0));
 		return Character.toString(c) + name.substring(1);
 	}
@@ -555,19 +555,30 @@ public abstract class AbstractSBase implements SBase {
 	}
 	
 	public List<CVTerm> getCVTerms() {
-		return annotation.getListOfCVTerms();
+		if (isSetAnnotation()){
+			return annotation.getListOfCVTerms();
+		}
+		return null;
 	}
 	
 	public boolean addCVTerm(CVTerm term) {
+		if (!isSetAnnotation()){
+			this.annotation = new Annotation();
+		}
 		return annotation.addCVTerm(term);
 	}
 	
 	public void unsetCVTerms(){
-		annotation.unsetCVTerms();
+		if (isSetAnnotation()){
+			annotation.unsetCVTerms();
+		}
 	}
 	
 	public int getNumCVTerms() {
-		return annotation.getListOfCVTerms().size();
+		if (isSetAnnotation()){
+			return annotation.getListOfCVTerms().size();
+		}
+		return 0;
 	}
 	
 	public CVTerm getCVTerm(int index) {
@@ -592,5 +603,17 @@ public abstract class AbstractSBase implements SBase {
 	
 	public Set<String> getNamespaces(){
 		return this.extensions.keySet();
+	}
+	
+	public HashMap<String, String> writeXMLAttributes(){
+		HashMap<String, String> attributes = new HashMap<String, String>();
+		
+		if (isSetMetaId()){
+			attributes.put("metaid", getMetaId());
+		}
+		if (isSetSBOTerm()){
+			attributes.put("sboTerm", getSBOTermID());
+		}
+		return attributes;
 	}
 }

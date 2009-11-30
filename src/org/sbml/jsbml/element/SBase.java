@@ -30,6 +30,7 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -311,4 +312,6 @@ public interface SBase {
 	public void addExtension(String namespace, SBase sbase);
 	
 	public Set<String> getNamespaces();
+	
+	public HashMap<String, String> writeXMLAttributes();
 }

@@ -29,6 +29,7 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
@@ -47,12 +48,15 @@ public class KineticLaw extends MathContainer {
 	 */
 	private ListOf<Parameter> listOfParameters;
 
+	private String formula;
+
 	/**
 	 * 
 	 */
 	public KineticLaw() {
 		super();
 		listOfParameters = null;
+		this.formula = null;
 	}
 	
 	/**
@@ -200,8 +204,15 @@ public class KineticLaw extends MathContainer {
 	public Parameter getParameter(String id) {
 		if (isSetListOfParameters()){
 			for (Parameter p : listOfParameters){
-				if (p.getId().equals(id)) {
-					return p;
+				if (p.isSetId()){
+					if (p.getId().equals(id)) {
+						return p;
+					}
+				}
+				else if (p.isSetName()){
+					if (p.getName().equals(id)){
+						return p;
+					}
 				}
 			}
 		}
@@ -254,8 +265,18 @@ public class KineticLaw extends MathContainer {
 			while (i < listOfParameters.size()){
 				if (listOfParameters.get(i) instanceof Parameter){
 					Parameter parameter = listOfParameters.get(i);
-					if (! parameter.getId().equals(id)){
-						i++;
+					if (parameter.isSetId()){
+						if (! parameter.getId().equals(id)){
+							i++;
+						}
+					}
+					else if (parameter.isSetName()){
+						if (! parameter.getName().equals(id)){
+							i++;
+						}
+					}
+					else {
+						break;
 					}
 				}
 				else {
@@ -267,6 +288,18 @@ public class KineticLaw extends MathContainer {
 		}
 	}
 	
+	public String getFormula() {
+		return formula;
+	}
+
+	public void setFormula(String formula) {
+		this.formula = formula;
+	}
+	
+	public boolean isSetFormula(){
+		return this.formula != null;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.Rule#isSpeciesConcentration()
@@ -275,6 +308,21 @@ public class KineticLaw extends MathContainer {
 	public boolean readAttribute(String attributeName, String prefix, String value){
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 	
+		if (!isAttributeRead){
+			if (attributeName.equals("formula")){
+				setFormula(value);
+			}
+		}
 		return isAttributeRead;
+	}
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetFormula()){
+			attributes.put("formula", getFormula());
+		}
+		return attributes;
 	}
 }

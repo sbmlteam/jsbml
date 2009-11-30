@@ -29,6 +29,8 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
+
 /**
  * 
  * @author Andreas Dr&auml;ger <a
@@ -563,7 +565,64 @@ public class Species extends Symbol {
 				this.setSpeciesTypeID(value);
 				return true;
 			}
+			else if (attributeName.equals("constant")){
+				if (value.equals("true")){
+					this.setConstant(true);
+					return true;
+				}
+				else if (value.equals("false")){
+					this.setConstant(false);
+					return true;
+				}
+			}
 		}
 		return isAttributeRead;
+	}
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetCompartmentID()){
+			attributes.put("compartment", getCompartment());
+		}
+		if (isSetInitialAmount()){
+			attributes.put("initialAmount", Double.toString(getInitialAmount()));
+		}
+		if (isSetInitialConcentration()){
+			attributes.put("initialConcentration", Double.toString(getInitialConcentration()));
+		}
+		if (isSetSubstanceUnitsID()){
+			attributes.put("substanceUnits", getSubstanceUnits());
+		}
+		if (hasOnlySubstanceUnits){
+			attributes.put("hasOnlySubstanceUnits", "true");
+		}
+		else {
+			attributes.put("hasOnlySubstanceUnits", "false");
+		}
+		if (getConstant()){
+			attributes.put("constant", "true");
+		}
+		else {
+			attributes.put("constant", "false");
+		}
+		if (boundaryCondition){
+			attributes.put("boundaryCondition", "true");
+		}
+		else {
+			attributes.put("boundaryCondition", "false");
+		}
+		if (isSetConversionFactorID()){
+			attributes.put("conversionFactor", getConversionFactorID());
+		}
+		if (isSetCharge()){
+			attributes.put("charge", Integer.toString(getCharge()));
+		}
+		if (isSetSpeciesTypeID()){
+			attributes.put("speciesType", getSpeciesType());
+		}
+		
+		return attributes;
 	}
 }

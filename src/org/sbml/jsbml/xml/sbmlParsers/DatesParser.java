@@ -6,8 +6,8 @@ import java.util.Date;
 import org.sbml.jsbml.element.Annotation;
 import org.sbml.jsbml.element.ModelHistory;
 import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.element.SBase;
 import org.sbml.jsbml.xml.DateProcessor;
+import org.sbml.jsbml.xml.SBMLObjectForXML;
 import org.sbml.jsbml.xml.SBMLParser;
 import org.w3c.util.DateParser;
 import org.w3c.util.InvalidDateException;
@@ -17,10 +17,10 @@ public class DatesParser implements SBMLParser{
 	private String previousElement = "";
 	private boolean hasReadCreated = false;
 	boolean hasReadW3CDTF = false;
+	boolean hasReadModified = false;
 
 	public void processAttribute(String ElementName, String AttributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
+			String value, String prefix, Object contextObject) {
 		// TODO : There is no attributes with the namespace "http://purl.org/dc/terms/". There is a SBML
 		// syntax error, throw an exception?
 	}
@@ -88,8 +88,7 @@ public class DatesParser implements SBMLParser{
 		}
 	}
 
-	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix, Object contextObject) {
 
 		if (contextObject instanceof Annotation){
 			Annotation modelAnnotation = (Annotation) contextObject;
@@ -134,7 +133,7 @@ public class DatesParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
+			String localName, Object contextObject) {
 		if (elementName.equals("RDF") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
 			
@@ -142,9 +141,30 @@ public class DatesParser implements SBMLParser{
 		}
 	}
 
-	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
-		// TODO Auto-generated method stub
+	public ArrayList<Object> getListOfSBMLElementsToWrite(Object objectToWrite) {
 		return null;
+	}
+
+	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
+		
+	}
+
+	public void writeAttributes(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeCharacters(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeNamespaces(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

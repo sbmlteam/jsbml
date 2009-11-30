@@ -30,6 +30,8 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
+
 /**
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
@@ -160,5 +162,16 @@ public class InitialAssignment extends MathContainer {
 			}
 		}
 		return isAttributeRead;
+	}
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetSymbolID()){
+			attributes.put("symbol", getSymbol());
+		}
+		
+		return attributes;
 	}
 }

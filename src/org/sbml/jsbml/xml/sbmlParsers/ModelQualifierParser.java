@@ -7,21 +7,24 @@ import org.sbml.jsbml.element.CVTerm.Qualifier;
 import org.sbml.jsbml.element.Annotation;
 import org.sbml.jsbml.element.CVTerm;
 import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.element.SBase;
+import org.sbml.jsbml.xml.SBMLObjectForXML;
 import org.sbml.jsbml.xml.SBMLParser;
 
 public class ModelQualifierParser implements SBMLParser{
 
 	private HashMap<String, Qualifier> modelQualifierMap = new HashMap<String, Qualifier>();
 
+	public ModelQualifierParser(){
+		initialisesModelQualifierMap();
+	}
+	
 	private void initialisesModelQualifierMap(){
 		modelQualifierMap.put("is", Qualifier.BQM_IS);
 		modelQualifierMap.put("isDescribedBy", Qualifier.BQM_IS_DESCRIBED_BY);
 	}
 	
 	public void processAttribute(String ElementName, String AttributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {		
+			String value, String prefix, Object contextObject) {		
 		// TODO : a node with the namespace "http://biomodels.net/model-qualifiers/" can't have attributes.
 		// Throw an error?
 	}
@@ -36,9 +39,7 @@ public class ModelQualifierParser implements SBMLParser{
 			boolean isNested, Object contextObject) {		
 	}
 
-	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, Object contextObject) {
-		initialisesModelQualifierMap();
+	public Object processStartElement(String elementName, String prefix, Object contextObject) {
 
 		if (contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
@@ -65,7 +66,7 @@ public class ModelQualifierParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
+			String localName, Object contextObject) {
 		
 		if (elementName.equals("RDF") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
@@ -74,9 +75,29 @@ public class ModelQualifierParser implements SBMLParser{
 		}
 	}
 
-	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
-		// TODO Auto-generated method stub
+	public ArrayList<Object> getListOfSBMLElementsToWrite(Object objectToWrite) {
 		return null;
+	}
+
+	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
+	}
+
+	public void writeAttributes(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeCharacters(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeNamespaces(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

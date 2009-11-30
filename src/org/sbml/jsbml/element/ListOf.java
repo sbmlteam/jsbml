@@ -30,6 +30,7 @@
 package org.sbml.jsbml.element;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -195,9 +196,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see org.sbml.jlibsbml.SBase#getElementName()
 	 */
 	public String getElementName() {
-		String name = getClass().getCanonicalName();
-		char c = Character.toLowerCase(name.charAt(0));
-		return Character.toString(c) + name.substring(1);
+		String name = getCurrentList().toString();
+		return name;
 	}
 
 	/*
@@ -452,6 +452,12 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public <T> T[] toArray(T[] a) {
 		return listOf.toArray(a);
 	}
-
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+	
+		return attributes;
+	}
 
 }

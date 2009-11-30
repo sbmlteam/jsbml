@@ -29,6 +29,8 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
+
 /**
  * 
  * @author Andreas Dr&auml;ger <a
@@ -113,6 +115,10 @@ public class SpeciesReference extends SimpleSpeciesReference {
 	public boolean isSetStoichiometryMath() {
 		return stoichiometryMath != null;
 	}
+	
+	public boolean isSetStoichiometry(){
+		return this.stoichiometry != Double.NaN;
+	}
 
 	/**
 	 * 
@@ -191,5 +197,22 @@ public class SpeciesReference extends SimpleSpeciesReference {
 			}
 		}
 		return isAttributeRead;
+	}
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetStoichiometry()){
+			attributes.put("stoichiometry", Double.toString(getStoichiometry()));
+		}
+		if (constant){
+			attributes.put("constant", "true");
+		}
+		else {
+			attributes.put("constant", "false");
+		}
+
+		return attributes;
 	}
 }

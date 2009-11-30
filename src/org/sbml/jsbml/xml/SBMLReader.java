@@ -61,6 +61,7 @@ public class SBMLReader {
 		
 		while(att.hasNext()){
 			Attribute attribute = (Attribute) att.next();
+
 			if (attribute.getName().getNamespaceURI().equals(namespaceURI)){
 				if (attribute.getValue().toLowerCase().equals("true")){
 					return true;
@@ -69,6 +70,20 @@ public class SBMLReader {
 			}
 		}
 		return false; // By default, a package is not required?
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static boolean hasNoRequiredAttributeFor(String namespaceURI, StartElement sbml){
+		Iterator att = sbml.getAttributes();
+		
+		while(att.hasNext()){
+			Attribute attribute = (Attribute) att.next();
+
+			if (attribute.getName().getNamespaceURI().equals(namespaceURI)){
+				return false;
+			}
+		}
+		return true; 
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -100,8 +115,14 @@ public class SBMLReader {
 				}
 			}
 			else {
-				if (isPackageRequired(namespaceURI, sbml)){
-					// TODO throw an Exception : package required for the parsing?
+				if (hasNoRequiredAttributeFor(namespaceURI, sbml)){
+					packageParsers.put(namespaceURI, AnnotationParser.class);
+					initializedParsers.put(namespaceURI, new AnnotationParser());
+				}
+				else {
+					if (isPackageRequired(namespaceURI, sbml)){
+						// TODO throw an Exception : package required for the parsing?
+					}
 				}
 			}
 		}
@@ -113,11 +134,12 @@ public class SBMLReader {
 
 		while (nam.hasNext()){
 			Namespace namespace = (Namespace) nam.next();
-
-			if (elementName.equals("annotation") && !packageParsers.containsKey(namespace)){
+			
+			if (elementName.equals("annotation") && !packageParsers.containsKey(namespace.getNamespaceURI())){
 				packageParsers.put(namespace.getNamespaceURI(), AnnotationParser.class);
 			}
 			if (packageParsers.containsKey(namespace.getNamespaceURI()) && !initializedParsers.containsKey(namespace.getNamespaceURI())){
+
 				SBMLParser newParser;
 				try {
 					newParser = packageParsers.get(namespace.getNamespaceURI()).newInstance();
@@ -147,11 +169,14 @@ public class SBMLReader {
 			StartElement element = null;
 			SBMLParser parser = null;
 			SBMLParser attributeParser = null;
+			SBMLParser namespaceParser = null;
 			Stack<Object> SBMLElements = new Stack<Object>();
 			QName currentNode = null;
 
 			while (xmlEventReader.hasNext()){
 				event = (XMLEvent2) xmlEventReader.nextEvent();
+				boolean isNested = false;
+				boolean isText = false;
 				
 				if (event.isStartDocument()){
 					StartDocument startDocument = (StartDocument) event;
@@ -164,8 +189,8 @@ public class SBMLReader {
 				else if (event.isStartElement()){
 					element = event.asStartElement();
 					currentNode = element.getName();
-					String elementNamespace = currentNode.getNamespaceURI();
 
+					String elementNamespace = currentNode.getNamespaceURI();
 					if (currentNode.getLocalPart().equals("sbml")){
 						initializedParsers = getInitializedPackageParsers(element);
 						SBMLDocument sbmlDocument = new SBMLDocument();
@@ -173,12 +198,10 @@ public class SBMLReader {
 					}
 						
 					if (!SBMLElements.isEmpty() && initializedParsers != null){
-						
+
 						if (elementNamespace != null){
 							addNamespaceToInitializedPackages(currentNode.getLocalPart(), element, initializedParsers);
-							
 							parser = initializedParsers.get(elementNamespace);
-							
 							if (currentNode.getLocalPart().equals("notes") || currentNode.getLocalPart().equals("message")){
 								SBMLParser sbmlparser = initializedParsers.get("http://www.w3.org/1999/xhtml");
 								
@@ -192,22 +215,17 @@ public class SBMLReader {
 								
 								Iterator<Namespace> nam = element.getNamespaces();
 								Iterator<Attribute> att = element.getAttributes();
-								boolean hasAttributes = att.hasNext();
 								
-								if (!hasAttributes){
-									hasAttributes = nam.hasNext();
+								if (!currentNode.getLocalPart().equals("sbml")){
+									Object processedElement = parser.processStartElement(currentNode.getLocalPart(), currentNode.getPrefix(), SBMLElements.peek());
+									SBMLElements.push(processedElement);
 								}
-
-								Object processedElement = parser.processStartElement(currentNode.getLocalPart(), currentNode.getPrefix(), hasAttributes, SBMLElements.peek());
-								SBMLElements.push(processedElement);
 								
 								while (nam.hasNext()){
 									Namespace namespace = (Namespace) nam.next();
-									boolean isLastNamespace = !nam.hasNext();
-									parser = initializedParsers.get(namespace.getNamespaceURI());
-
-									if (parser != null){
-										parser.processNamespace(currentNode.getLocalPart(), namespace.getNamespaceURI(), namespace.getName().getPrefix(), namespace.getName().getLocalPart(), isLastNamespace, hasAttributes, SBMLElements.peek());
+									namespaceParser = initializedParsers.get(namespace.getNamespaceURI());
+									if (namespaceParser != null){
+										namespaceParser.processNamespace(currentNode.getLocalPart(), namespace.getNamespaceURI(), namespace.getName().getPrefix(), namespace.getName().getLocalPart(), SBMLElements.peek());
 									}
 									else {
 										// TODO what to do if we have namespaces but no parsers for this namespaces?
@@ -216,7 +234,6 @@ public class SBMLReader {
 								while(att.hasNext()){
 									
 									Attribute attribute = (Attribute) att.next();
-									boolean isLastAttribute = !att.hasNext();
 									QName attributeName = attribute.getName();
 									
 									if (!attribute.getName().getNamespaceURI().equals("")){
@@ -227,7 +244,7 @@ public class SBMLReader {
 									}
 									
 									if (attributeParser != null){
-										attributeParser.processAttribute(currentNode.getLocalPart(), attributeName.getLocalPart(), attribute.getValue(), attributeName.getPrefix(), isLastAttribute, SBMLElements.peek());
+										attributeParser.processAttribute(currentNode.getLocalPart(), attributeName.getLocalPart(), attribute.getValue(), attributeName.getPrefix(), SBMLElements.peek());
 									}
 									else {
 										// TODO there is no parser for the namespace of this attribute, what to do?
@@ -245,7 +262,7 @@ public class SBMLReader {
 				}
 				else if (event.isCharacters()){
 					Characters characters = event.asCharacters();
-
+					isText = true;
 					if (parser != null && !SBMLElements.isEmpty() && currentNode != null && !characters.isWhiteSpace()){
 						parser.processCharactersOf(currentNode.getLocalPart(), characters.getData(), SBMLElements.peek());
 					}
@@ -257,9 +274,8 @@ public class SBMLReader {
 				}
 				else if (event.isEndElement()){
 					EndElement endElement = event.asEndElement();
-					boolean isNested = false;
 					
-					if (event.isStartElement()){
+					if (!isText){
 						isNested = true;
 					}
 					
@@ -309,6 +325,8 @@ public class SBMLReader {
 						// if it is null, there is an syntax error in the SBML file. Throw an error?
 					}
 					currentNode = null;
+					isNested = false;
+					isText = false;
 				}
 			}
 			return null;
@@ -321,7 +339,9 @@ public class SBMLReader {
 	
 	public static void main(String[] args){		
 		//SBMLDocument testDocument = readSBMLFile("/home/compneur/Desktop/LibSBML-Project/MultiExamples/glutamateReceptor.xml");
-		SBMLDocument testDocument = readSBMLFile("/home/compneur/Desktop/LibSBML-Project/BIOMD0000000002.xml");		
+		//SBMLDocument testDocument = readSBMLFile("/home/compneur/Desktop/LibSBML-Project/BIOMD0000000002.xml");	
+		//SBMLDocument testDocument = readSBMLFile("/home/compneur/workspace/jsbmlStax/src/org/sbml/jsbml/xml/test/data/l2v1/BIOMD0000000227.xml");
+		SBMLDocument testDocument = readSBMLFile("/home/compneur/workspace/jsbmlStax/src/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
 	}
 
 }

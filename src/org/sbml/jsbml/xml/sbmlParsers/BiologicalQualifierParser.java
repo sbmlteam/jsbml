@@ -7,13 +7,17 @@ import org.sbml.jsbml.element.CVTerm.Qualifier;
 import org.sbml.jsbml.element.Annotation;
 import org.sbml.jsbml.element.CVTerm;
 import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.element.SBase;
+import org.sbml.jsbml.xml.SBMLObjectForXML;
 import org.sbml.jsbml.xml.SBMLParser;
 
 public class BiologicalQualifierParser implements SBMLParser{
 	
 	private HashMap<String, Qualifier> biologicalQualifierMap = new HashMap<String, Qualifier>();
 
+	public BiologicalQualifierParser(){
+		initialisesBiologicalQualifierMap();
+	}
+	
 	private void initialisesBiologicalQualifierMap(){
 		biologicalQualifierMap.put("encodes", Qualifier.BQB_ENCODES);
 		biologicalQualifierMap.put("hasPart", Qualifier.BQB_HAS_PART);
@@ -28,8 +32,7 @@ public class BiologicalQualifierParser implements SBMLParser{
 	}
 	
 	public void processAttribute(String ElementName, String AttributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
+			String value, String prefix, Object contextObject) {
 		// TODO : a node with a biological qualifier can't have attributes, there is a SBML syntax error, throw an exception?
 	}
 
@@ -42,10 +45,8 @@ public class BiologicalQualifierParser implements SBMLParser{
 			boolean isNested, Object contextObject) {		
 	}
 
-	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, Object contextObject) {
-		initialisesBiologicalQualifierMap();
-
+	public Object processStartElement(String elementName, String prefix, Object contextObject) {
+		
 		if (contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
 			
@@ -72,7 +73,7 @@ public class BiologicalQualifierParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
+			String localName,Object contextObject) {
 		
 		if (elementName.equals("RDF") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
@@ -81,9 +82,29 @@ public class BiologicalQualifierParser implements SBMLParser{
 		}
 	}
 
-	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
-		// TODO Auto-generated method stub
+	public ArrayList<Object> getListOfSBMLElementsToWrite(Object objectToWrite) {
 		return null;
+	}
+
+	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
+	}
+
+	public void writeAttributes(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeCharacters(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeNamespaces(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

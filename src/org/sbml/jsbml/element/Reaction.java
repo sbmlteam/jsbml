@@ -29,6 +29,8 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
+
 import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
 
 
@@ -256,8 +258,15 @@ public class Reaction extends AbstractNamedSBase {
 	public ModifierSpeciesReference getModifier(String id) {
 		if (isSetListOfModifiers()){
 			for (ModifierSpeciesReference msp : listOfModifiers) {
-				if (msp.getId().equals(id)){
-					return msp;
+				if (msp.isSetId()){
+					if (msp.getId().equals(id)){
+						return msp;
+					}
+				}
+				else if (msp.isSetName()){
+					if (msp.getName().equals(id)){
+						return msp;
+					}
 				}
 			}
 		}
@@ -329,8 +338,15 @@ public class Reaction extends AbstractNamedSBase {
 	public SpeciesReference getProduct(String id) {
 		if (isSetListOfProducts()){
 			for (SpeciesReference sp : listOfProducts) {
-				if (sp.getId().equals(id)){
-					return sp;
+				if (sp.isSetId()){
+					if (sp.getId().equals(id)){
+						return sp;
+					}
+				}
+				else if (sp.isSetName()){
+					if (sp.getName().equals(id)){
+						return sp;
+					}
 				}
 			}
 		}
@@ -345,8 +361,15 @@ public class Reaction extends AbstractNamedSBase {
 	public SpeciesReference getReactant(String id) {
 		if (isSetListOfReactants()){
 			for (SpeciesReference sp : listOfReactants) {
-				if (sp.getId().equals(id)){
-					return sp;
+				if (sp.isSetId()){
+					if (sp.getId().equals(id)){
+						return sp;
+					}
+				}
+				else if (sp.isSetName()){
+					if (sp.getName().equals(id)){
+						return sp;
+					}
 				}
 			}
 		}
@@ -581,5 +604,30 @@ public class Reaction extends AbstractNamedSBase {
 			}
 		}
 		return isAttributeRead;
+	}
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		if (reversible){
+			attributes.put("reversible", "true");
+		}
+		else {
+			attributes.put("reversible", "false");
+		}
+		
+		if (fast){
+			attributes.put("fast", "true");
+		}
+		else {
+			attributes.put("fast", "false");
+		}
+		
+		if (isSetCompartmentID()){
+			attributes.put("compartment", getCompartmentID());
+		}
+		
+		return attributes;
 	}
 }

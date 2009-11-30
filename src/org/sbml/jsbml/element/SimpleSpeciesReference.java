@@ -29,6 +29,8 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
+
 /**
  * @author <a href="mailto:simon.schaefer@uni-tuebingen.de">Simon
  *         Sch&auml;fer</a>
@@ -191,5 +193,16 @@ public abstract class SimpleSpeciesReference extends Symbol {
 			}
 		}
 		return isAttributeRead;
+	}
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetSpeciesID()){
+			attributes.put("species", getSpecies());
+		}
+		
+		return attributes;
 	}
 }
