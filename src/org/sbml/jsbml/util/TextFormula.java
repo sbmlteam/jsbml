@@ -361,7 +361,6 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	private String checkBrackets(ASTNode nodes) {
 		String term = nodes.compile(this).toString();
-		nodes.compile(this).toString();
 		if ((nodes.isOperator() && (nodes.getCharacter() == '+' || nodes
 				.getCharacter() == '-'))
 				|| nodes.isUMinus())
@@ -622,6 +621,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode)
 	 */
 	public Object log(ASTNode node) {
@@ -712,8 +712,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	public String plus(ASTNode... nodes) {
 		StringBuffer plus = new StringBuffer();
-		for (int i=0; i<nodes.length; i++) {
-			if (i>0)
+		for (int i = 0; i < nodes.length; i++) {
+			if (i > 0)
 				plus.append('+');
 			plus.append(nodes[i].compile(this));
 		}
@@ -749,8 +749,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNode)
 	 */
 	public String relationGraterThan(ASTNode left, ASTNode right) {
-		return concat(left.compile(this), Character.valueOf('>'), right.compile(this))
-				.toString();
+		return concat(left.compile(this), Character.valueOf('>'),
+				right.compile(this)).toString();
 	}
 
 	/*
@@ -761,8 +761,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * , org.sbml.jsbml.ASTNode)
 	 */
 	public String relationGreaterEqual(ASTNode left, ASTNode right) {
-		return concat(left.compile(this), ">=", right.compile(this))
-				.toString();
+		return concat(left.compile(this), ">=", right.compile(this)).toString();
 	}
 
 	/*
@@ -773,8 +772,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNode)
 	 */
 	public String relationLessEqual(ASTNode left, ASTNode right) {
-		return concat(left.compile(this), "<=", right.compile(this))
-				.toString();
+		return concat(left.compile(this), "<=", right.compile(this)).toString();
 	}
 
 	/*
@@ -785,8 +783,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNode)
 	 */
 	public String relationLessThan(ASTNode left, ASTNode right) {
-		return concat(left.compile(this), Character.valueOf('<'), right.compile(this))
-				.toString();
+		return concat(left.compile(this), Character.valueOf('<'),
+				right.compile(this)).toString();
 	}
 
 	/*
@@ -797,8 +795,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNode)
 	 */
 	public String relationNotEqual(ASTNode left, ASTNode right) {
-		return concat(left.compile(this), "!=", right.compile(this))
-				.toString();
+		return concat(left.compile(this), "!=", right.compile(this)).toString();
 	}
 
 	/*
@@ -901,7 +898,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNode)
 	 */
 	public String uiMinus(ASTNode node) {
-		return concat(Character.valueOf('-'), checkBrackets(node)).toString();
+		return concat(Character.valueOf('-'),
+				checkBrackets(node.getLeftChild())).toString();
 	}
 
 	/*
