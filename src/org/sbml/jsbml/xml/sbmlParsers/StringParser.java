@@ -2,10 +2,12 @@ package org.sbml.jsbml.xml.sbmlParsers;
 
 import java.util.ArrayList;
 
+import org.sbml.jsbml.element.Annotation;
 import org.sbml.jsbml.element.Constraint;
 import org.sbml.jsbml.element.MathContainer;
 import org.sbml.jsbml.element.SBMLDocument;
 import org.sbml.jsbml.element.SBase;
+import org.sbml.jsbml.xml.SBMLObjectForXML;
 import org.sbml.jsbml.xml.SBMLParser;
 
 public class StringParser implements SBMLParser{
@@ -44,8 +46,7 @@ public class StringParser implements SBMLParser{
 	}
 
 	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
+			String value, String prefix, Object contextObject) {
 		
 		StringBuffer buffer = getStringBufferFor(contextObject);
 		
@@ -56,13 +57,18 @@ public class StringParser implements SBMLParser{
 			else {
 				buffer.append(" "+attributeName+"=\""+value+"\"");
 			}
-			
-			if (isLastAttribute){
-				buffer.append("> \n");
-			}
 		}
 		else {
-			// TODO : SBML syntax error, throw an exception?
+			if (contextObject instanceof Annotation){
+				Annotation annotation = (Annotation) contextObject;
+				
+				if (!prefix.equals("")){
+					annotation.setAnnotation(" "+prefix+":"+attributeName+"=\""+value+"\"");
+				}
+				else {
+					annotation.setAnnotation(" "+attributeName+"=\""+value+"\"");
+				}
+			}
 		}
 	}
 
@@ -72,10 +78,13 @@ public class StringParser implements SBMLParser{
 		StringBuffer buffer = getStringBufferFor(contextObject);
 		
 		if (buffer != null){
-			buffer.append(characters + " \n");
+			buffer.append("> \n"+characters + " \n");
 		}
 		else {
-			// TODO : SBML syntax error, throw an exception?
+			if (contextObject instanceof Annotation){
+				Annotation annotation = (Annotation) contextObject;
+				annotation.setAnnotation("> \n"+characters + " \n");
+			}
 		}
 	}
 
@@ -98,23 +107,36 @@ public class StringParser implements SBMLParser{
 			}
 		}
 		else {
-			// TODO : SBML syntax error, throw an exception?
+			if (contextObject instanceof Annotation){
+				Annotation annotation = (Annotation) contextObject;
+				
+				if (isNested){
+					annotation.setAnnotation("/> \n");
+				}
+				else {
+					if (!prefix.equals("")){
+						annotation.setAnnotation("</"+prefix+":"+elementName+"> \n");
+					}
+					else {
+						annotation.setAnnotation("</"+elementName+"> \n");
+					}
+				}
+			}
 		}
 	}
 
-	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix, Object contextObject) {
+		StringBuffer buffer = null;
 		
 		if (elementName.equals("math") && contextObject instanceof MathContainer){
 			MathContainer mathContainer = (MathContainer) contextObject;
-			StringBuffer mathBuffer = new StringBuffer();
-			mathContainer.setMathBuffer(mathBuffer);
+			buffer = new StringBuffer();
+			mathContainer.setMathBuffer(buffer);
 			this.typeOfNotes = elementName;
-			
-			return mathContainer;
 		}
-		
-		StringBuffer buffer = getStringBufferFor(contextObject);
+		else {
+			buffer = getStringBufferFor(contextObject);
+		}
 		
 		if (buffer != null){
 			if (!prefix.equals("")){
@@ -123,13 +145,18 @@ public class StringParser implements SBMLParser{
 			else {
 				buffer.append("<"+elementName);
 			}
-			
-			if (!hasAttributes){
-				buffer.append("> \n");
-			}
 		}
 		else {
-			// TODO : SBML syntax error, throw an exception?
+			if (contextObject instanceof Annotation){
+				Annotation annotation = (Annotation) contextObject;
+
+				if (!prefix.equals("")){
+					annotation.setAnnotation("<"+prefix+":"+elementName);
+				}
+				else {
+					annotation.setAnnotation("<"+elementName);
+				}
+			}
 		}
 		return contextObject;
 	}
@@ -139,7 +166,7 @@ public class StringParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
+			String localName, Object contextObject) {
 		
 		StringBuffer buffer = getStringBufferFor(contextObject);
 
@@ -150,19 +177,45 @@ public class StringParser implements SBMLParser{
 			else {
 				buffer.append(" "+localName+"=\""+URI);
 			}
-			
-			if (isLastNamespace && !hasOtherAttributes){
-				buffer.append("> \n");
-			}
 		}
 		else {
-			// TODO : SBML syntax error, throw an exception?
+			if (contextObject instanceof Annotation){
+				Annotation annotation = (Annotation) contextObject;
+				if (!prefix.equals("")){
+					annotation.setAnnotation(" "+prefix+":"+localName+"=\""+URI);
+				}
+				else {
+					annotation.setAnnotation(" "+localName+"=\""+URI);
+				}
+			}
 		}
 	}
 
-	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
-		// TODO Auto-generated method stub
+	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
 		return null;
+	}
+
+	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeAttributes(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeCharacters(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeNamespaces(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

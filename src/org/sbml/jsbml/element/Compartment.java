@@ -29,6 +29,8 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
+
 /**
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
@@ -524,6 +526,10 @@ public class Compartment extends Symbol {
 				this.setSpatialDimensions(Short.parseShort(value));
 				return true;
 			}
+			else if (attributeName.equals("units")){
+				this.setUnitsID(value);
+				return true;
+			}
 			else if (attributeName.equals("size")){
 				this.setSize(Double.parseDouble(value));
 				return true;
@@ -535,7 +541,44 @@ public class Compartment extends Symbol {
 			else if (attributeName.equals("outside")){
 				this.setOutsideID(value);
 			}
+			else if (attributeName.equals("constant")){
+				if (value.equals("true")){
+					this.setConstant(true);
+					return true;
+				}
+				else if (value.equals("false")){
+					this.setConstant(false);
+					return true;
+				}
+			}
 		}
 		return isAttributeRead;
+	}
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		attributes.put("spatialDimension", Short.toString(getSpatialDimensions()));
+
+		if (isSetSize()){
+			attributes.put("size", Double.toString(getSize()));
+		}
+		if (isSetCompartmentTypeID()){
+			attributes.put("compartmentType", getCompartmentTypeID());
+		}
+		if (isSetOutsideID()){
+			attributes.put("outside", outsideID);
+		}
+		if (constant){
+			attributes.put("constant", "true");
+		}
+		else {
+			attributes.put("constant", "false");
+		}
+		if (isSetUnitsID()){
+			attributes.put("units", getUnits());
+		}
+		return attributes;
 	}
 }

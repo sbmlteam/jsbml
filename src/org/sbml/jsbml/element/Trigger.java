@@ -29,6 +29,8 @@
  */
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
+
 /**
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
@@ -80,5 +82,12 @@ public class Trigger extends MathContainer {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 		
 		return isAttributeRead;
+	}
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		return attributes;
 	}
 }

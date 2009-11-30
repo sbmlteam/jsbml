@@ -23,7 +23,7 @@ public class Annotation {
 	/**
 	 * contains all the annotation information which are not RDF annotation information
 	 */
-	private String annotation;
+	private StringBuilder annotation;
 	
 	/**
 	 * contains all the CVTerm of the RDF annotation 
@@ -53,7 +53,7 @@ public class Annotation {
 	 * @param cvTerms
 	 */
 	public Annotation(String annotation, List<CVTerm> cvTerms){
-		this.annotation = annotation;
+		this.annotation = new StringBuilder(annotation);
 		this.listOfCVTerms = cvTerms;
 		this.modelHistory = null;
 	}
@@ -63,7 +63,7 @@ public class Annotation {
 	 * @param annotation
 	 */
 	public Annotation(String annotation){
-		this.annotation = annotation;
+		this.annotation = new StringBuilder(annotation);
 		this.listOfCVTerms = new LinkedList<CVTerm>();
 		this.modelHistory = null;
 	}
@@ -104,10 +104,10 @@ public class Annotation {
 	 */
 	public void setAnnotation(String annotation) {
 		if (this.annotation == null){
-			this.annotation = annotation;
+			this.annotation = new StringBuilder(annotation);
 		}
 		else{
-			this.annotation += annotation;
+			this.annotation.append(annotation);
 		}
 	}
 	
@@ -116,7 +116,10 @@ public class Annotation {
 	 * @return the annotation String containing other annotations than RDF annotations
 	 */
 	public String getAnnotation() {
-		return annotation;
+		if (annotation != null){
+			return annotation.toString();
+		}
+		return null;
 	}
 	
 	/**
@@ -522,10 +525,10 @@ public class Annotation {
 
 	public void addRDFAnnotationNamespace(String namespaceName, String prefix, String URI){
 		if (!prefix.equals("")){
-			this.annotationNamespaces.put(prefix+":"+namespaceName, URI);
+			this.rdfAnnotationNamespaces.put(prefix+":"+namespaceName, URI);
 		}
 		else {
-			this.annotationNamespaces.put(namespaceName, URI);
+			this.rdfAnnotationNamespaces.put(namespaceName, URI);
 		}
 	}
 }

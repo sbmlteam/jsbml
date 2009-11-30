@@ -193,4 +193,13 @@ public class SBMLDocument extends AbstractSBase {
 		}
 		return isAttributeRead;
 	}
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		attributes.putAll(SBMLDocumentAttributes);
+		
+		return attributes;
+	}
 }

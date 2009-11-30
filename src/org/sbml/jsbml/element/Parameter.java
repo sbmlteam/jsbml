@@ -29,6 +29,8 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
+
 /**
  * 
  * @author Andreas Dr&auml;ger <a
@@ -198,7 +200,40 @@ public class Parameter extends Symbol {
 			this.setValue(Double.parseDouble(value));
 			return true;
 		}
-		
+		else if (attributeName.equals("units")){
+			this.setUnitsID(value);
+			return true;
+		}
+		else if (attributeName.equals("constant")){
+			if (value.equals("true")){
+				this.setConstant(true);
+				return true;
+			}
+			else if (value.equals("false")){
+				this.setConstant(false);
+				return true;
+			}
+		}
 		return isAttributeRead;
+	}
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetValue()){
+			attributes.put("value", Double.toString(getValue()));
+		}
+		if (isSetUnitsID()){
+			attributes.put("units", getUnits());
+		}
+		if (getConstant()){
+			attributes.put("constant", "true");
+		}
+		else {
+			attributes.put("constant", "false");
+		}
+		
+		return attributes;
 	}
 }

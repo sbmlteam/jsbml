@@ -5,14 +5,13 @@ import java.util.ArrayList;
 import org.sbml.jsbml.element.Annotation;
 import org.sbml.jsbml.element.ModelHistory;
 import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.element.SBase;
+import org.sbml.jsbml.xml.SBMLObjectForXML;
 import org.sbml.jsbml.xml.SBMLParser;
 
 public class CreatorParser implements SBMLParser{
 
 	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
+			String value, String prefix, Object contextObject) {
 		// TODO : there is no attributes with the namespace "http://purl.org/dc/elements/1.1/", there
 		// is a SBML syntax error, throw an exception?
 	}
@@ -27,8 +26,7 @@ public class CreatorParser implements SBMLParser{
 			boolean isNested, Object contextObject) {
 	}
 
-	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix, Object contextObject) {
 
 		if (elementName.equals("creator") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
@@ -49,7 +47,7 @@ public class CreatorParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
+			String localName, Object contextObject) {
 		
 		if (elementName.equals("RDF") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
@@ -58,9 +56,29 @@ public class CreatorParser implements SBMLParser{
 		}
 	}
 
-	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
-		// TODO Auto-generated method stub
+	public ArrayList<Object> getListOfSBMLElementsToWrite(Object objectToWrite) {
 		return null;
+	}
+
+	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
+	}
+
+	public void writeAttributes(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeCharacters(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeNamespaces(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

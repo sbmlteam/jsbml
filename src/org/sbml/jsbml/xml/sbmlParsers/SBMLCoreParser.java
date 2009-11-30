@@ -32,6 +32,7 @@ import org.sbml.jsbml.element.Trigger;
 import org.sbml.jsbml.element.Unit;
 import org.sbml.jsbml.element.UnitDefinition;
 import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
+import org.sbml.jsbml.xml.SBMLObjectForXML;
 import org.sbml.jsbml.xml.SBMLParser;
 
 public class SBMLCoreParser implements SBMLParser{
@@ -70,6 +71,7 @@ public class SBMLCoreParser implements SBMLParser{
 		SBMLCoreElements.put("unitDefinition", UnitDefinition.class);
 		SBMLCoreElements.put("compartment", Compartment.class);
 		SBMLCoreElements.put("species", Species.class);
+		SBMLCoreElements.put("specie", Species.class);
 		SBMLCoreElements.put("parameter", Parameter.class);
 		SBMLCoreElements.put("initialAssignment", InitialAssignment.class);
 		SBMLCoreElements.put("algebraicRule", AlgebraicRule.class);
@@ -94,10 +96,11 @@ public class SBMLCoreParser implements SBMLParser{
 		SBMLCoreElements.put("localParameter", Parameter.class);
 		SBMLCoreElements.put("notes", StringBuffer.class);
 		SBMLCoreElements.put("message", StringBuffer.class);
+		SBMLCoreElements.put("math", StringBuffer.class);
 	}
 
 	public void processAttribute(String elementName, String attributeName, String value,  String prefix,
-			boolean isLastAttribute, Object contextObject) {
+			Object contextObject) {
 		boolean isAttributeRead = false;
 		if (contextObject instanceof SBase){
 			SBase sbase = (SBase) contextObject;
@@ -118,13 +121,10 @@ public class SBMLCoreParser implements SBMLParser{
 		// TODO : the basic SBML elements don't have any text. SBML syntax error, throw an exception?
 	}
 
-	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, Object contextObject) {
-
+	public Object processStartElement(String elementName, String prefix, Object contextObject) {
 		if (SBMLCoreElements.containsKey(elementName)){
 			try {
 				Object newContextObject = SBMLCoreElements.get(elementName).newInstance();
-				//System.out.println(elementName);
 				
 				if (elementName.equals("notes") && contextObject instanceof SBase){
 					SBase sbase = (SBase) contextObject;
@@ -256,6 +256,13 @@ public class SBMLCoreParser implements SBMLParser{
 							return compartment;
 						}
 						else if (elementName.equals("species") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfSpecies)){
+							Species species = (Species) newContextObject;
+							model.addSpecies(species);
+
+							return species;
+						}
+						// level 1 : species => specie
+						else if (elementName.equals("specie") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfSpecies)){
 							Species species = (Species) newContextObject;
 							model.addSpecies(species);
 
@@ -403,6 +410,16 @@ public class SBMLCoreParser implements SBMLParser{
 					}
 					else {
 						// TODO : SBML syntax error, throw an exception?
+					}
+				}
+				else if (contextObject instanceof UnitDefinition){
+					UnitDefinition unitDefinition = (UnitDefinition) contextObject;
+					
+					if (elementName.equals("listOfUnits")){
+						ListOf<Unit> listOfUnits = (ListOf<Unit>) newContextObject;
+						unitDefinition.setListOfUnits(listOfUnits);
+						
+						return listOfUnits;
 					}
 				}
 				else if (contextObject instanceof Event){
@@ -1046,16 +1063,182 @@ public class SBMLCoreParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
+			String localName, Object contextObject) {
 		
 		if (contextObject instanceof SBMLDocument){
 			SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
-			sbmlDocument.addNamespace(localName, prefix, URI);
+			if (!URI.equals(parserNamespace)){
+				sbmlDocument.addNamespace(localName, prefix, URI);
+			}
 		}
 	}
 
-	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
+		ArrayList<Object> listOfElementsToWrite = null;
+		if (sbase instanceof SBase){
+			if (sbase instanceof SBMLDocument){
+				SBMLDocument sbmlDocument = (SBMLDocument) sbase;
+				if (sbmlDocument.isSetModel()){
+					listOfElementsToWrite = new ArrayList<Object>();
+					listOfElementsToWrite.add(sbmlDocument.getModel());
+				}
+			}
+			else if (sbase instanceof Model){
+				Model model = (Model) sbase;
+				listOfElementsToWrite = new ArrayList<Object>();
+				if (model.isSetListOfFunctionDefinitions()){
+					listOfElementsToWrite.add(model.getListOfFunctionDefinitions());
+				}
+				if (model.isSetListOfUnitDefinitions()){
+					listOfElementsToWrite.add(model.getListOfUnitDefinitions());
+				}
+				if (model.isSetListOfCompartmentTypes()){
+					listOfElementsToWrite.add(model.getListOfCompartmentTypes());
+				}
+				if (model.isSetListOfSpeciesTypes()){
+					listOfElementsToWrite.add(model.getListOfSpeciesTypes());
+				}
+				if (model.isSetListOfCompartments()){
+					listOfElementsToWrite.add(model.getListOfCompartments());
+				}
+				if (model.isSetListOfSpecies()){
+					listOfElementsToWrite.add(model.getListOfSpecies());
+				}
+				if (model.isSetListOfParameters()){
+					listOfElementsToWrite.add(model.getListOfParameters());
+				}
+				if (model.isSetListOfInitialAssignemnts()){
+					listOfElementsToWrite.add(model.getListOfInitialAssignments());
+				}
+				if (model.isSetListOfRules()){
+					listOfElementsToWrite.add(model.getListOfRules());
+				}
+				if (model.isSetListOfConstraints()){
+					listOfElementsToWrite.add(model.getListOfConstraints());
+				}
+				if (model.isSetListOfReactions()){
+					listOfElementsToWrite.add(model.getListOfReactions());
+				}
+				if (model.isSetListOfEvents()){
+					listOfElementsToWrite.add(model.getListOfEvents());
+				}
+				
+				if (listOfElementsToWrite.isEmpty()){
+					listOfElementsToWrite = null;
+				}
+			}
+			else if (sbase instanceof ListOf){
+				ListOf<SBase> listOf = (ListOf<SBase>) sbase;
+				
+				if (!listOf.isEmpty()){
+					listOfElementsToWrite = new ArrayList<Object>();
+					for (int i = 0; i < listOf.size(); i++){
+						SBase element = listOf.get(i);
+						if (element != null){
+							listOfElementsToWrite.add(element);
+						}
+					}
+					if (listOfElementsToWrite.isEmpty()){
+						listOfElementsToWrite = null;
+					}
+				}
+			}
+			else if (sbase instanceof UnitDefinition){
+				UnitDefinition unitDefinition = (UnitDefinition) sbase;
+				
+				if (unitDefinition.isSetListOfUnits()){
+					listOfElementsToWrite = new ArrayList<Object>();
+					listOfElementsToWrite.add(unitDefinition.getListOfUnits());
+				}
+			}
+			else if (sbase instanceof Reaction){
+				Reaction reaction = (Reaction) sbase;
+				listOfElementsToWrite = new ArrayList<Object>();
+				
+				if (reaction.isSetListOfReactants()){
+					listOfElementsToWrite.add(reaction.getListOfReactants());
+				}
+				if (reaction.isSetListOfProducts()){
+					listOfElementsToWrite.add(reaction.getListOfProducts());
+				}
+				if (reaction.isSetListOfModifiers()){
+					listOfElementsToWrite.add(reaction.getListOfModifiers());
+				}
+				if (reaction.isSetKineticLaw()){
+					listOfElementsToWrite.add(reaction.getKineticLaw());
+				}
+				
+				if (listOfElementsToWrite.isEmpty()){
+					listOfElementsToWrite = null;
+				}
+			}
+			else if (sbase instanceof KineticLaw){
+				KineticLaw kineticLaw = (KineticLaw) sbase;
+				
+				if (kineticLaw.isSetListOfParameters()){
+					listOfElementsToWrite = new ArrayList<Object>();
+					listOfElementsToWrite.add(kineticLaw.getListOfParameters());					
+				}
+			}
+			else if (sbase instanceof Event){
+				Event event = (Event) sbase;
+				listOfElementsToWrite = new ArrayList<Object>();
+				
+				if (event.isSetListOfEventAssignments()){
+					listOfElementsToWrite.add(event.getListOfEventAssignments());			
+				}
+				if (event.isSetTrigger()){
+					listOfElementsToWrite.add(event.getTrigger());
+				}
+				if (event.isSetDelay()){
+					listOfElementsToWrite.add(event.getDelay());
+				}
+				
+				if (listOfElementsToWrite.isEmpty()){
+					listOfElementsToWrite = null;
+				}
+			}
+		}
+		return listOfElementsToWrite;
+	}
+
+	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
+		
+		if (sbmlElementToWrite instanceof SBase){
+			SBase sbase = (SBase) sbmlElementToWrite;
+			
+			if (!xmlObject.isSetName()){
+				xmlObject.setName(sbase.getElementName());
+			}
+		}
+	}
+
+	public void writeAttributes(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		if (sbmlElementToWrite instanceof SBase){
+			SBase sbase = (SBase) sbmlElementToWrite;
+			
+			xmlObject.addAttributes(sbase.writeXMLAttributes());
+		}
+	}
+
+	public void writeCharacters(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO SBML components don't have any characters in the XML file. what to do?
+	}
+
+	public void writeNamespaces(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		if (sbmlElementToWrite instanceof SBase){
+			SBase sbase = (SBase) sbmlElementToWrite;
+			
+			if (sbase instanceof SBMLDocument){
+				SBMLDocument sbmlDocument = (SBMLDocument) sbmlElementToWrite;
+				
+				xmlObject.addAttributes(sbmlDocument.getSBMLDocumentNamespaces());
+			}
+			
+			xmlObject.setPrefix("");
+		}
 	}
 }

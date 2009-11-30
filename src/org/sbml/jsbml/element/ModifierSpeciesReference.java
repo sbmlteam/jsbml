@@ -29,6 +29,8 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
+
 /**
  * 
  * @author Andreas Dr&auml;ger <a
@@ -81,5 +83,12 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 		
 		return isAttributeRead;
+	}
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		return attributes;
 	}
 }

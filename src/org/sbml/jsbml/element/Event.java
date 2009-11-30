@@ -29,6 +29,8 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
+
 import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
 
 /**
@@ -393,4 +395,21 @@ public class Event extends AbstractNamedSBase {
 		return isAttributeRead;
 	}
 
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		if (useValuesFromTriggerTime){
+			attributes.put("useValuesFromTriggerTime", "true");
+		}
+		else {
+			attributes.put("useValuesFromTriggerTime", "false");
+		}
+		
+		if (isSetTimeUnitsID()){
+			attributes.put("timeUnits", getTimeUnits());
+		}
+		
+		return attributes;
+	}
 }

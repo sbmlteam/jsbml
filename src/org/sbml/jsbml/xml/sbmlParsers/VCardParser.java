@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.sbml.jsbml.element.Annotation;
 import org.sbml.jsbml.element.ModelCreator;
 import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.element.SBase;
+import org.sbml.jsbml.xml.SBMLObjectForXML;
 import org.sbml.jsbml.xml.SBMLParser;
 
 public class VCardParser implements SBMLParser{
@@ -18,8 +18,7 @@ public class VCardParser implements SBMLParser{
 	private boolean hasReadORGNode = false;
 	
 	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
+			String value, String prefix, Object contextObject) {
 		// TODO : There is no attribute with a namespace "http://www.w3.org/2001/vcard-rdf/3.0#", SBML syntax error.
 		// Throw an exception?
 	}
@@ -57,11 +56,7 @@ public class VCardParser implements SBMLParser{
 		if (contextObject instanceof ModelCreator){
 			if (elementName.equals("N")){
 				hasReadNNode = false;
-			}
-			else if (elementName.equals("Family")){
 				hasReadFamilyName = false;
-			}
-			else if (elementName.equals("Given")){
 				hasReadGivenName = false;
 			}
 			else if (elementName.equals("EMAIL")){
@@ -69,9 +64,8 @@ public class VCardParser implements SBMLParser{
 			}
 			else if (elementName.equals("ORG")){
 				hasReadORGNode = false;
-			}
-			else if (elementName.equals("Orgname")){
 				hasReadOrgName = false;
+
 			}
 			else {
 				// TODO : SBML syntax error, throw an exception?
@@ -82,8 +76,7 @@ public class VCardParser implements SBMLParser{
 		}
 	}
 
-	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix, Object contextObject) {
 
 		if (contextObject instanceof ModelCreator){
 			if (elementName.equals("N") && !hasReadNNode){
@@ -124,7 +117,7 @@ public class VCardParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean isLastNamespace, boolean hasOtherAttributes, Object contextObject) {
+			String localName, Object contextObject) {
 		
 		if (elementName.equals("RDF") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
@@ -133,9 +126,31 @@ public class VCardParser implements SBMLParser{
 		}
 	}
 
-	public ArrayList<SBase> getListOfSBMLElementsToWrite(SBase sbase) {
-		// TODO Auto-generated method stub
+	public ArrayList<Object> getListOfSBMLElementsToWrite(Object objectToWrite) { 
 		return null;
+	}
+
+	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeAttributes(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeCharacters(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void writeNamespaces(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

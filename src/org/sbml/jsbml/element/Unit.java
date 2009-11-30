@@ -30,6 +30,8 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
+
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TextFormula;
 
@@ -1294,6 +1296,20 @@ public class Unit extends AbstractSBase {
 			}
 		}
 		return isAttributeRead;
+	}
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetKind()){
+			attributes.put("kind", getKind().toString().toLowerCase());
+		}
+		
+		attributes.put("exponent", Integer.toString(getExponent()));
+		attributes.put("scale", Integer.toString(getScale()));
+		attributes.put("multiplier", Double.toString(getMultiplier()));
+		return attributes;
 	}
 
 }
