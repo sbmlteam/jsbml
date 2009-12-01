@@ -1,6 +1,6 @@
 /*
- * $Id: SBMLWriter.java 38 2009-11-05 15:50:38Z niko-rodrigue $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/SBMLWriter.java $
+ * $Id$
+ * $URL$
  *
  *
  *==================================================================================
@@ -28,9 +28,11 @@
  *
  */
 
+
 package org.sbml.jsbml.io;
 
 import java.io.IOException;
+
 import java.util.Date;
 import java.util.List;
 
@@ -92,6 +94,35 @@ public interface SBMLWriter {
 	public List<SBMLException> getWriteWarnings(Object sbase);
 	
 	/**
+	 * Deletes those elements that are not referenced or not needed within the
+	 * model.
+	 * 
+	 * @param model
+	 * @param orig
+	 */
+	public void removeUnneccessaryElements(Model model, Object orig);
+
+	/**
+	 * Save the changes in the model.
+	 * 
+	 * @param model
+	 * @param object
+	 * @throws SBMLException
+	 */
+	public void saveChanges(Model model, Object object)
+			throws SBMLException;
+	
+	/**
+	 * Save all changes that belong to one particular reaction in the model.
+	 * 
+	 * @param reaction
+	 * @param model
+	 * @throws SBMLException
+	 */
+	public void saveChanges(Reaction reaction, Object model)
+			throws SBMLException;
+	
+	/**
 	 * 
 	 * @param c
 	 * @param comp
@@ -104,7 +135,7 @@ public interface SBMLWriter {
 	 * @param term
 	 */
 	public void saveCVTermProperties(CVTerm cvt, Object term);
-	
+
 	/**
 	 * 
 	 * @param r
@@ -112,7 +143,7 @@ public interface SBMLWriter {
 	 * @throws SBMLException 
 	 */
 	public void saveEventProperties(Event r, Object event) throws SBMLException;
-	
+
 	/**
 	 * 
 	 * @param kl
@@ -179,6 +210,14 @@ public interface SBMLWriter {
 	 * @param species
 	 */
 	public void saveSpeciesProperties(Species s, Object species);
+
+	/**
+	 * 
+	 * @param sr
+	 * @throws SBMLException
+	 */
+	public void saveSpeciesReferenceProperties(SpeciesReference sr,
+			Object specRef) throws SBMLException;
 
 	/**
 	 * 
@@ -330,14 +369,14 @@ public interface SBMLWriter {
 	 * @throws SBMLException 
 	 */
 	public Object writeSpeciesReference(SpeciesReference speciesReference,Object...args) throws SBMLException;
-
+	
 	/**
 	 * 
 	 * @param speciesType
 	 * @return
 	 */
 	public Object writeSpeciesType(SpeciesType speciesType);
-
+	
 	/**
 	 * 
 	 * @param stoichiometryMath

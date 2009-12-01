@@ -11,6 +11,7 @@ import org.sbml.jsbml.element.Reaction;
 import org.sbml.jsbml.element.SBMLDocument;
 import org.sbml.jsbml.element.Species;
 import org.sbml.jsbml.element.UnitDefinition;
+import org.sbml.jsbml.element.Unit.Kind;
 import org.sbml.jsbml.xml.SBMLReader;
 
 public class SBML_L1VxTests {
@@ -52,8 +53,8 @@ public class SBML_L1VxTests {
 		assertTrue(x1 != null);
 		
 		assertTrue(x1.getName().equals("X1"));
-		assertTrue(s1.getInitialAmount() == 0);
-		assertTrue(s1.getBoundaryCondition() == true);
+		assertTrue(x1.getInitialAmount() == 0);
+		assertTrue(x1.getBoundaryCondition() == true);
 		
 		
 		Reaction r1 = model.getReaction(0);
@@ -63,7 +64,7 @@ public class SBML_L1VxTests {
 		assertTrue(r1.getName().equals("reaction_1"));
 		assertTrue(r1.getListOfReactants().size() == 1);
 		assertTrue(r1.getListOfProducts().size() == 1);
-		assertTrue(r1.getListOfModifiers().size() == 0);
+		assertTrue(r1.getNumModifiers() == 0);
 		assertTrue(r1.getReversible() == false);
 		
 		assertTrue(r1.getListOfReactants().get(0).getSpecies().equals("X0"));
@@ -75,7 +76,7 @@ public class SBML_L1VxTests {
 		assertTrue(rdClkKL.getListOfParameters().size() == 1);
 		assertTrue(rdClkKL.getListOfParameters().get(0).getName().equals("k1"));
 		
-		System.out.println("L1V2 formula = " + rdClkKL.getMathBufferToString());
+		System.out.println("L1V2 formula = " + rdClkKL.getFormula());
 	}
 
 	
@@ -114,10 +115,11 @@ public class SBML_L1VxTests {
 		assertTrue(mls.getNumUnits() == 3);
 		assertTrue(mls.getName().equals("mls"));
 		assertTrue(mls.getUnit(0).getScale() == -3);
-		assertTrue(mls.getUnit(0).getKind().equals("mole"));
+		assertTrue(mls.getUnit(0).getKind().getName().equals("mole"));
 		
-		assertTrue(mls.getUnit(2).getScale() == -1);
-		assertTrue(mls.getUnit(2).getKind().equals("second"));
+		assertTrue(mls.getUnit(2).getExponent() == -1);
+		assertTrue(mls.getUnit(2).getKind().getName().equals("second"));
+		assertTrue(mls.getUnit(2).getKind().equals(Kind.SECOND));
 		
 	}
 

@@ -714,9 +714,11 @@ public class LibSBMLReader extends AbstractSBMLReader {
 				(int) comp.getVersion());
 		copyNamedSBaseProperties(c, comp);
 		if (comp.isSetOutside()) {
+			Model m = getModel();
+			if (m.getCompartment(comp.getOutside()) == null)
+				m.addCompartment(readCompartment(comp.getModel()
+						.getCompartment(comp.getOutside())));
 			Compartment outside = getModel().getCompartment(comp.getOutside());
-			if (outside == null)
-				getModel().addCompartment(readCompartment(compartment));
 			c.setOutside(outside);
 		}
 		if (comp.isSetCompartmentType())

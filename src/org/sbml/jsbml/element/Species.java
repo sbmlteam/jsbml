@@ -107,6 +107,7 @@ public class Species extends Symbol {
 		this.boundaryCondition = species.getBoundaryCondition();
 		this.charge = species.getCharge();
 		this.compartment = species.getCompartmentInstance();
+		this.compartmentID = compartment.getId();
 		this.hasOnlySubstanceUnits = species.getHasOnlySubstanceUnits();
 		if (species.isSetInitialAmount())
 			setInitialAmount(species.getInitialAmount());
@@ -412,6 +413,7 @@ public class Species extends Symbol {
 	 */
 	public void setCompartment(Compartment compartment) {
 		this.compartment = compartment;
+		this.compartmentID = compartment != null ? compartment.getId() : null;
 		stateChanged();
 	}
 	
@@ -421,6 +423,8 @@ public class Species extends Symbol {
 	 */
 	public void setCompartmentID(String compartment) {
 		this.compartmentID = compartment;
+		this.compartment = getSBMLDocument().getModel().getCompartment(compartmentID); // Could be null when reading the document but should be set at the end of the reading ?
+		
 		stateChanged();
 	}
 
@@ -457,6 +461,7 @@ public class Species extends Symbol {
 	 */
 	public void setSpeciesType(SpeciesType speciesType) {
 		this.speciesType = speciesType;
+		this.speciesTypeID = speciesType != null ? speciesType.getId() : null;
 		this.speciesType.parentSBMLObject = this;
 		stateChanged();
 	}
@@ -467,6 +472,8 @@ public class Species extends Symbol {
 	 */
 	public void setSpeciesTypeID(String speciesType) {
 		this.speciesTypeID = speciesType;
+		
+		this.speciesType = getSBMLDocument().getModel().getSpeciesType(speciesType); // Could be null when reading the document but should be set at the end of the reading ?
 	}
 
 	/**
@@ -495,6 +502,7 @@ public class Species extends Symbol {
 	
 	public void setConversionFactor(Parameter conversionFactor) {
 		this.conversionFactor = conversionFactor;
+		this.conversionFactorID = conversionFactor.getId();
 	}
 
 
@@ -505,6 +513,8 @@ public class Species extends Symbol {
 
 	public void setConversionFactorID(String conversionFactorID) {
 		this.conversionFactorID = conversionFactorID;
+		
+		this.conversionFactor = getSBMLDocument().getModel().getParameter(conversionFactorID); // Could be null when reading the document but should be set at the end of the reading ?
 	}
 
 

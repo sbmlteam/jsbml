@@ -1,6 +1,6 @@
 /*
- * $Id: Model.java 38 2009-11-05 15:50:38Z niko-rodrigue $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/Model.java $
+ * $Id$
+ * $URL$
  *
  *
  *==================================================================================
@@ -30,15 +30,24 @@
 
 package org.sbml.jsbml.element;
 
+
 import java.util.HashMap;
 
 import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
 
 /**
+ * <p>
+ * JSBML implementation of SBML's Model construct.
+ * </p>
+ * <p>
+ * In an SBML model definition, a single object of class Model serves as the
+ * overall container for the lists of the various model components. All of the
+ * lists are optional, but if a given list container is present within the
+ * model, the list must not be empty; that is, it must have length one or more.
+ * </p>
  * 
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger 
+ * @author Marine
  * 
  */
 public class Model extends AbstractNamedSBase {
@@ -71,30 +80,68 @@ public class Model extends AbstractNamedSBase {
 	
 	private String conversionFactorID;
 
+	/**
+	 * 
+	 */
 	private ListOf<Compartment> listOfCompartments;
 
+	/**
+	 * 
+	 */
 	private ListOf<CompartmentType> listOfCompartmentTypes;
+
+	/**
+	 * 
+	 */
 
 	private ListOf<Constraint> listOfConstraints;
 
+	/**
+	 * 
+	 */
 	private ListOf<Event> listOfEvents;
 
+	/**
+	 * 
+	 */
 	private ListOf<FunctionDefinition> listOfFunctionDefinitions;
 
+	/**
+	 * 
+	 */
 	private ListOf<InitialAssignment> listOfInitialAssignments;
 
+	/**
+	 * 
+	 */
 	private ListOf<Parameter> listOfParameters;
 
+	/**
+	 * 
+	 */
 	private ListOf<Reaction> listOfReactions;
 
+	/**
+	 * 
+	 */
 	private ListOf<Rule> listOfRules;
 
+	/**
+	 * 
+	 */
 	private ListOf<Species> listOfSpecies;
 
+	/**
+	 * 
+	 */
 	private ListOf<SpeciesType> listOfSpeciesTypes;
 
+	/**
+	 * 
+	 */
 	private ListOf<UnitDefinition> listOfUnitDefinitions;
 
+	
 	public Model() {
 		super();
 		listOfCompartments = null;
@@ -125,6 +172,7 @@ public class Model extends AbstractNamedSBase {
 		conversionFactorID = null;
 	}
 	
+
 	/**
 	 * 
 	 * @param model
@@ -529,6 +577,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public NamedSBase findNamedSBase(String id) {
 		NamedSBase namedSBase = null;
+
 		namedSBase = getCompartment(id);
 		if (namedSBase == null)
 			namedSBase = getSpecies(id);
@@ -548,6 +597,7 @@ public class Model extends AbstractNamedSBase {
 				if (namedSBase != null)
 					break;
 			}
+
 		return namedSBase;
 	}
 
@@ -583,7 +633,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Compartment getCompartment(String id) {
-		if (isSetListOfCompartments()){
+		if (isSetListOfCompartments() && id != null){
 			for (Compartment comp : listOfCompartments) {
 				if (comp.isSetId()){
 					if (comp.getId().equals(id)){
@@ -601,12 +651,28 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Gets the nth CompartmentType object in this Model.
+	 * 
+	 * @param n
+	 *            index
+	 * @return the nth CompartmentType of this Model. Returns null if there are no compartmentType defined
+	 * or if the index n is too big or lower than zero.
+	 */
+	public CompartmentType getCompartmentType(int n) {
+		if (isSetListOfCompartmentTypes() && n < listOfCompartmentTypes.size() && n >= 0){
+			return listOfCompartmentTypes.get(n);
+		}
+		
+		return null;
+	}
+
+	/**
 	 * 
 	 * @param id
 	 * @return
 	 */
 	public CompartmentType getCompartmentType(String id) {
-		if (isSetListOfCompartmentTypes()){
+		if (isSetListOfCompartmentTypes() && id != null){
 			for (CompartmentType ct : listOfCompartmentTypes){
 				if (ct.isSetId()){
 					if (ct.getId().equals(id)){
@@ -623,15 +689,16 @@ public class Model extends AbstractNamedSBase {
 		return null;
 	}
 	
-	public CompartmentType getCompartmentType(int n) {
-		if (isSetListOfCompartmentTypes()){
-			return listOfCompartmentTypes.get(n);
-		}
-		return null;
-	}
-	
+	/**
+	 * Gets the nth SpeciesType object in this Model.
+	 * 
+	 * @param n
+	 *            index
+	 * @return the nth SpeciesType of this Model. Returns null if there are no speciesType defined
+	 * or if the index n is too big or lower than zero.
+	 */
 	public SpeciesType getSpeciesType(int n) {
-		if (isSetListOfSpeciesTypes()){
+		if (isSetListOfSpeciesTypes() && n < listOfSpeciesTypes.size() && n >= 0){
 			return listOfSpeciesTypes.get(n);
 		}
 		return null;
@@ -653,10 +720,11 @@ public class Model extends AbstractNamedSBase {
 	 * Get the nth Constraint object in this Model.
 	 * 
 	 * @param n
-	 * @return the nth Constraint of this Model.
+	 * @return the nth Constraint of this Model. Returns null if there are no constraint defined
+	 * or if the index n is too big or lower than zero.
 	 */
 	public Constraint getConstraint(int n) {
-		if (isSetListOfConstraints()){
+		if (isSetListOfConstraints() && n < listOfConstraints.size() && n >= 0){
 			return listOfConstraints.get(n);
 		}
 		return null;
@@ -664,24 +732,28 @@ public class Model extends AbstractNamedSBase {
 	
 
 	/**
+	 * Gets the nth Event object in this Model.
 	 * 
 	 * @param i
-	 * @return
+	 * @return the nth Event of this Model. Returns null if there are no event defined
+	 * or if the index n is too big or lower than zero.
 	 */
 	public Event getEvent(int i) {
-		if (isSetListOfEvents()){
+		if (isSetListOfEvents() && i < listOfEvents.size() && i >= 0){
 			return listOfEvents.get(i);
 		}
 		return null;
 	}
 	
 	/**
+	 * Gets the nth UnitDefinition object in this Model.
 	 * 
 	 * @param i
-	 * @return
+	 * @return the nth UnitDefinition of this Model. Returns null if there are no UnitDefinition defined
+	 * or if the index n is too big or lower than zero.
 	 */
 	public UnitDefinition getUnitDefinition(int i) {
-		if (isSetListOfUnitDefinitions()){
+		if (isSetListOfUnitDefinitions() && i < listOfUnitDefinitions.size() && i >= 0){
 			return listOfUnitDefinitions.get(i);
 		}
 		return null;
@@ -693,7 +765,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Event getEvent(String id) {
-		if (isSetListOfEvents()){
+		if (isSetListOfEvents() && id != null){
 			for (Event ev : listOfEvents){
 				if (ev.isSetId()){
 					if (ev.getId().equals(id)){
@@ -728,7 +800,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public FunctionDefinition getFunctionDefinition(int n) {
-		if (isSetListOfFunctionDefinitions()){
+		if (isSetListOfFunctionDefinitions() && n < listOfFunctionDefinitions.size() && n >= 0){
 			return listOfFunctionDefinitions.get(n);
 		}
 		return null;
@@ -740,7 +812,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public FunctionDefinition getFunctionDefinition(String id) {
-		if (isSetListOfFunctionDefinitions()){
+		if (isSetListOfFunctionDefinitions() && id != null){
 			for (FunctionDefinition f : listOfFunctionDefinitions) {
 				if (f.isSetId()){
 					if (f.getId().equals(id)){
@@ -764,7 +836,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the nth InitialAssignment of this Model.
 	 */
 	public InitialAssignment getInitialAssignment(int n) {
-		if (isSetListOfInitialAssignemnts()){
+		if (isSetListOfInitialAssignemnts() && n < listOfInitialAssignments.size() && n >= 0){
 			return listOfInitialAssignments.get(n);
 		}
 		return null;
@@ -1013,12 +1085,13 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Gets the nth Parameter object in this Model.
 	 * 
-	 * @param n
-	 * @return
+	 * @param n index
+	 * @return the nth Parameter of this Model.
 	 */
 	public Parameter getParameter(int n) {
-		if (isSetListOfParameters()){
+		if (isSetListOfParameters() && n < listOfParameters.size() && n >= 0){
 			return listOfParameters.get(n);
 		}
 		return null;
@@ -1030,7 +1103,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Parameter getParameter(String id) {
-		if (isSetListOfParameters()){
+		if (isSetListOfParameters() && id != null){
 			for (Parameter parameter : listOfParameters) {
 				if (parameter.isSetId()){
 					if (parameter.getId().equals(id)){
@@ -1064,7 +1137,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the n-th Reaction of this Model.
 	 */
 	public Reaction getReaction(int n) {
-		if (isSetListOfReactions()){
+		if (isSetListOfReactions() && n < listOfReactions.size() && n >= 0){
 			return listOfReactions.get(n);
 		}
 		return null;
@@ -1076,7 +1149,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Reaction getReaction(String id) {
-		if (isSetListOfReactions()){
+		if (isSetListOfReactions() && id != null){
 			for (Reaction reaction : listOfReactions) {
 				if (reaction.isSetId()){
 					if (reaction.getId().equals(id)){
@@ -1099,21 +1172,21 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Rule getRule(int n) {
-		if (isSetListOfRules()){
+		if (isSetListOfRules() && n < listOfRules.size() && n >= 0){
 			return listOfRules.get(n);
 		}
 		return null;
 	}
 
 	/**
-	 * Get the n-th Species object in this Model.
+	 * Gets the n-th Species object in this Model.
 	 * 
 	 * @param n
 	 *            the nth Species of this Model.
 	 * @return
 	 */
 	public Species getSpecies(int n) {
-		if (isSetListOfSpecies()){
+		if (isSetListOfSpecies() && n < listOfSpecies.size() && n >= 0){
 			return listOfSpecies.get(n);
 		}
 		return null;
@@ -1125,7 +1198,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Species getSpecies(String id) {
-		if (isSetListOfSpecies()){
+		if (isSetListOfSpecies() && id != null){
 			for (Species species : listOfSpecies) {
 				if (species.isSetId()){
 					if (species.getId().equals(id)){
@@ -1142,13 +1215,14 @@ public class Model extends AbstractNamedSBase {
 		return null;
 	}
 
+
 	/**
 	 * 
 	 * @param id
 	 * @return
 	 */
 	public SpeciesType getSpeciesType(String id) {
-		if (isSetListOfSpeciesTypes()){
+		if (isSetListOfSpeciesTypes() && id != null){
 			for (SpeciesType st : listOfSpeciesTypes){
 				if (st.isSetId()){
 					if (st.getId().equals(id)){
@@ -1171,7 +1245,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public UnitDefinition getUnitDefinition(String id) {
-		if (isSetListOfUnitDefinitions()){
+		if (isSetListOfUnitDefinitions() && id != null){
 			for (UnitDefinition unitdef : listOfUnitDefinitions){
 				if (unitdef.isSetId()){
 					if (unitdef.getId().equals(id)){
@@ -1245,8 +1319,10 @@ public class Model extends AbstractNamedSBase {
 			success = listOfSpecies.remove(spec);
 
 		}
-		if (success)
+		if (success){
 			spec.sbaseRemoved();
+		}
+
 		return success;
 	}
 
@@ -1262,8 +1338,10 @@ public class Model extends AbstractNamedSBase {
 
 		}
 
-		if (success)
-			unitDefininition.sbaseRemoved();
+		if (success) {
+		    unitDefininition.sbaseRemoved();
+		}
+
 		return success;
 	}
 
