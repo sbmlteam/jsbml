@@ -59,7 +59,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	private static final StringBuffer arith(char operator, Object... elements) {
 		List<Object> vsb = new Vector<Object>();
 		for (Object sb : elements)
-			if (sb.toString().length() > 0)
+			if (sb != null && sb.toString().length() > 0)
 				vsb.add(sb);
 		StringBuffer equation = new StringBuffer();
 		if (vsb.size() > 0)
@@ -888,7 +888,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	public String times(ASTNode... nodes) {
 		Object n[] = new Object[nodes.length];
 		for (int i = 0; i < nodes.length; i++)
-			n[i] = nodes[i].compile(this).toString();
+			n[i] = nodes[i].compile(this);
 		return times(n).toString();
 	}
 

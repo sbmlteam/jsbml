@@ -156,7 +156,7 @@ public class Species extends Symbol {
 	 * @return
 	 */
 	public String getCompartment() {
-		return compartment.getId();
+		return isSetCompartment() ? compartment.getId() : "";
 	}
 
 	/**
