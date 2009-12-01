@@ -2067,9 +2067,11 @@ public class ASTNode implements TreeNode {
 			case RELATIONAL_NEQ:
 				return "!=";
 			}
-		else if (type.toString().startsWith("FUNCTION"))
-			return type.toString().substring(9).toLowerCase();
-		else
+		else if (type.toString().startsWith("FUNCTION")) {
+			String name = type.toString();
+			return name.length() > 8 ? type.toString().substring(9)
+					.toLowerCase() : getName();
+		} else
 			switch (type) {
 			case NAME_TIME:
 				return type.toString().substring(4).toLowerCase();

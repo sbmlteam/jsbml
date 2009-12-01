@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.sbml.jsbml.element.ASTNode;
 import org.sbml.jsbml.element.AlgebraicRule;
 import org.sbml.jsbml.element.AssignmentRule;
 import org.sbml.jsbml.element.CVTerm;
@@ -66,7 +67,6 @@ import org.sbml.jsbml.element.StoichiometryMath;
 import org.sbml.jsbml.element.Trigger;
 import org.sbml.jsbml.element.Unit;
 import org.sbml.jsbml.element.UnitDefinition;
-import org.sbml.libsbml.SBMLWriter;
 import org.sbml.libsbml.libsbmlConstants;
 
 /**
@@ -75,8 +75,279 @@ import org.sbml.libsbml.libsbmlConstants;
  *         andreas.draeger@uni-tuebingen.de</a>
  * 
  */
-public class LibSBMLWriter extends AbstractSBMLWriter {
+public class LibSBMLWriter implements SBMLWriter {
 
+	private static final String error = " must be an instance of org.sbml.libsbml.";
+
+	/**
+	 * 
+	 * @param ast
+	 * @return
+	 */
+	public org.sbml.libsbml.ASTNode convert(ASTNode astnode) {
+		org.sbml.libsbml.ASTNode libAstNode;
+		switch (astnode.getType()) {
+		case REAL:
+			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_REAL);
+			libAstNode.setValue(astnode.getReal());
+			break;
+		case INTEGER:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_INTEGER);
+			libAstNode.setValue(astnode.getInteger());
+			break;
+		case FUNCTION_LOG:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_LOG);
+			break;
+		case POWER:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_POWER);
+			break;
+		case PLUS:
+			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_PLUS);
+			break;
+		case MINUS:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_MINUS);
+			break;
+		case TIMES:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_TIMES);
+			break;
+		case DIVIDE:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_DIVIDE);
+			break;
+		case RATIONAL:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_RATIONAL);
+			break;
+		case NAME_TIME:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_NAME_TIME);
+			break;
+		case FUNCTION_DELAY:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_DELAY);
+			break;
+		case NAME:
+			libAstNode = new org.sbml.libsbml.ASTNode(libsbmlConstants.AST_NAME);
+			libAstNode.setName(astnode.getName());
+			break;
+		case CONSTANT_PI:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_CONSTANT_PI);
+			break;
+		case CONSTANT_E:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_CONSTANT_E);
+			break;
+		case CONSTANT_TRUE:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_CONSTANT_TRUE);
+			break;
+		case CONSTANT_FALSE:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_CONSTANT_FALSE);
+			break;
+		case REAL_E:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_REAL_E);
+			libAstNode.setValue(astnode.getMantissa(), astnode.getExponent());
+			break;
+		case FUNCTION_ABS:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_ABS);
+			break;
+		case FUNCTION_ARCCOS:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_ARCCOS);
+			break;
+		case FUNCTION_ARCCOSH:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_ARCCOSH);
+			break;
+		case FUNCTION_ARCCOT:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_ARCCOT);
+			break;
+		case FUNCTION_ARCCOTH:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_ARCCOTH);
+			break;
+		case FUNCTION_ARCCSC:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_ARCCSC);
+			break;
+		case FUNCTION_ARCCSCH:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_ARCCSCH);
+			break;
+		case FUNCTION_ARCSEC:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_ARCSEC);
+			break;
+		case FUNCTION_ARCSECH:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_ARCSECH);
+			break;
+		case FUNCTION_ARCSIN:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_ARCSIN);
+			break;
+		case FUNCTION_ARCSINH:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_ARCSINH);
+			break;
+		case FUNCTION_ARCTAN:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_ARCTAN);
+			break;
+		case FUNCTION_ARCTANH:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_ARCTANH);
+			break;
+		case FUNCTION_CEILING:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_CEILING);
+			break;
+		case FUNCTION_COS:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_COS);
+			break;
+		case FUNCTION_COSH:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_COSH);
+			break;
+		case FUNCTION_COT:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_COT);
+			break;
+		case FUNCTION_COTH:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_COTH);
+			break;
+		case FUNCTION_CSC:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_CSC);
+			break;
+		case FUNCTION_CSCH:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_CSCH);
+			break;
+		case FUNCTION_EXP:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_EXP);
+			break;
+		case FUNCTION_FACTORIAL:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_FACTORIAL);
+			break;
+		case FUNCTION_FLOOR:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_FLOOR);
+			break;
+		case FUNCTION_LN:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_LN);
+			break;
+		case FUNCTION_POWER:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_POWER);
+			break;
+		case FUNCTION_ROOT:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_ROOT);
+			break;
+		case FUNCTION_SEC:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_SEC);
+			break;
+		case FUNCTION_SECH:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_SECH);
+			break;
+		case FUNCTION_SIN:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_SIN);
+			break;
+		case FUNCTION_SINH:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_SINH);
+			break;
+		case FUNCTION_TAN:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_TAN);
+			break;
+		case FUNCTION_TANH:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_TANH);
+			break;
+		case FUNCTION:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION);
+			libAstNode.setName(astnode.getName());
+			break;
+		case LAMBDA:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_LAMBDA);
+			break;
+		case LOGICAL_AND:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_LOGICAL_AND);
+			break;
+		case LOGICAL_XOR:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_LOGICAL_XOR);
+			break;
+		case LOGICAL_OR:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_LOGICAL_OR);
+			break;
+		case LOGICAL_NOT:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_LOGICAL_NOT);
+			break;
+		case FUNCTION_PIECEWISE:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_FUNCTION_PIECEWISE);
+			break;
+		case RELATIONAL_EQ:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_RELATIONAL_EQ);
+			break;
+		case RELATIONAL_GEQ:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_RELATIONAL_GEQ);
+			break;
+		case RELATIONAL_GT:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_RELATIONAL_GT);
+			break;
+		case RELATIONAL_NEQ:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_RELATIONAL_NEQ);
+			break;
+		case RELATIONAL_LEQ:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_RELATIONAL_LEQ);
+			break;
+		case RELATIONAL_LT:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_RELATIONAL_LT);
+			break;
+		default:
+			libAstNode = new org.sbml.libsbml.ASTNode(
+					libsbmlConstants.AST_UNKNOWN);
+			break;
+		}
+		for (ASTNode child : astnode.getListOfNodes())
+			libAstNode.addChild(convert(child));
+		return libAstNode;
+	}
+
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -93,6 +364,221 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 				.getTimeZone().getRawOffset() / 60000);
 	}
 
+	/**
+	 * Determins whether the two ASTNode objects are equal.
+	 * 
+	 * @param math
+	 * @param libMath
+	 * @return
+	 */
+	public boolean equal(ASTNode math, org.sbml.libsbml.ASTNode libMath) {
+		if (math == null || libMath == null)
+			return false;
+		boolean equal = true;
+		switch (math.getType()) {
+		case REAL:
+			equal &= libMath.getType() == libsbmlConstants.AST_REAL;
+			equal &= libMath.getReal() == math.getReal();
+			break;
+		case INTEGER:
+			equal &= libMath.getType() == libsbmlConstants.AST_INTEGER;
+			equal &= libMath.getInteger() == math.getInteger();
+			break;
+		case FUNCTION_LOG:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_LOG;
+			break;
+		case POWER:
+			equal &= libMath.getType() == libsbmlConstants.AST_POWER;
+			break;
+		case PLUS:
+			equal &= libMath.getType() == libsbmlConstants.AST_PLUS;
+			break;
+		case MINUS:
+			equal &= libMath.getType() == libsbmlConstants.AST_MINUS;
+			break;
+		case TIMES:
+			equal &= libMath.getType() == libsbmlConstants.AST_TIMES;
+			break;
+		case DIVIDE:
+			equal &= libMath.getType() == libsbmlConstants.AST_DIVIDE;
+			break;
+		case RATIONAL:
+			equal &= libMath.getType() == libsbmlConstants.AST_RATIONAL;
+			break;
+		case NAME_TIME:
+			equal &= libMath.getType() == libsbmlConstants.AST_NAME_TIME;
+			break;
+		case FUNCTION_DELAY:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_DELAY;
+			break;
+		case NAME:
+			equal &= libMath.getType() == libsbmlConstants.AST_NAME;
+			equal &= math.getName().equals(libMath.getName());
+			break;
+		case CONSTANT_PI:
+			equal &= libMath.getType() == libsbmlConstants.AST_CONSTANT_PI;
+			break;
+		case CONSTANT_E:
+			equal &= libMath.getType() == libsbmlConstants.AST_CONSTANT_E;
+			break;
+		case CONSTANT_TRUE:
+			equal &= libMath.getType() == libsbmlConstants.AST_CONSTANT_TRUE;
+			break;
+		case CONSTANT_FALSE:
+			equal &= libMath.getType() == libsbmlConstants.AST_CONSTANT_FALSE;
+			break;
+		case REAL_E:
+			equal &= libMath.getType() == libsbmlConstants.AST_REAL_E;
+			equal &= libMath.getMantissa() == math.getMantissa();
+			equal &= libMath.getExponent() == math.getExponent();
+			break;
+		case FUNCTION_ABS:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_ABS;
+			break;
+		case FUNCTION_ARCCOS:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_ARCCOS;
+			break;
+		case FUNCTION_ARCCOSH:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_ARCCOSH;
+			break;
+		case FUNCTION_ARCCOT:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_ARCCOT;
+			break;
+		case FUNCTION_ARCCOTH:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_ARCCOTH;
+			break;
+		case FUNCTION_ARCCSC:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_ARCCSC;
+			break;
+		case FUNCTION_ARCCSCH:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_ARCCSCH;
+			break;
+		case FUNCTION_ARCSEC:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_ARCSEC;
+			break;
+		case FUNCTION_ARCSECH:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_ARCSECH;
+			break;
+		case FUNCTION_ARCSIN:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_ARCSIN;
+			break;
+		case FUNCTION_ARCSINH:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_ARCSINH;
+			break;
+		case FUNCTION_ARCTAN:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_ARCTAN;
+			break;
+		case FUNCTION_ARCTANH:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_ARCTANH;
+			break;
+		case FUNCTION_CEILING:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_CEILING;
+			break;
+		case FUNCTION_COS:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_COS;
+			break;
+		case FUNCTION_COSH:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_COSH;
+			break;
+		case FUNCTION_COT:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_COT;
+			break;
+		case FUNCTION_COTH:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_COTH;
+			break;
+		case FUNCTION_CSC:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_CSC;
+			break;
+		case FUNCTION_CSCH:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_CSCH;
+			break;
+		case FUNCTION_EXP:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_EXP;
+			break;
+		case FUNCTION_FACTORIAL:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_FACTORIAL;
+			break;
+		case FUNCTION_FLOOR:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_FLOOR;
+			break;
+		case FUNCTION_LN:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_LN;
+			break;
+		case FUNCTION_POWER:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_POWER;
+			break;
+		case FUNCTION_ROOT:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_ROOT;
+			break;
+		case FUNCTION_SEC:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_SEC;
+			break;
+		case FUNCTION_SECH:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_SECH;
+			break;
+		case FUNCTION_SIN:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_SIN;
+			break;
+		case FUNCTION_SINH:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_SINH;
+			break;
+		case FUNCTION_TAN:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_TAN;
+			break;
+		case FUNCTION_TANH:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_TANH;
+			break;
+		case FUNCTION:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION;
+			equal &= libMath.getName().equals(math.getName());
+			break;
+		case LAMBDA:
+			equal &= libMath.getType() == libsbmlConstants.AST_LAMBDA;
+			break;
+		case LOGICAL_AND:
+			equal &= libMath.getType() == libsbmlConstants.AST_LOGICAL_AND;
+			break;
+		case LOGICAL_XOR:
+			equal &= libMath.getType() == libsbmlConstants.AST_LOGICAL_XOR;
+			break;
+		case LOGICAL_OR:
+			equal &= libMath.getType() == libsbmlConstants.AST_LOGICAL_OR;
+			break;
+		case LOGICAL_NOT:
+			equal &= libMath.getType() == libsbmlConstants.AST_LOGICAL_NOT;
+			break;
+		case FUNCTION_PIECEWISE:
+			equal &= libMath.getType() == libsbmlConstants.AST_FUNCTION_PIECEWISE;
+			break;
+		case RELATIONAL_EQ:
+			equal &= libMath.getType() == libsbmlConstants.AST_RELATIONAL_EQ;
+			break;
+		case RELATIONAL_GEQ:
+			equal &= libMath.getType() == libsbmlConstants.AST_RELATIONAL_GEQ;
+			break;
+		case RELATIONAL_GT:
+			equal &= libMath.getType() == libsbmlConstants.AST_RELATIONAL_GT;
+			break;
+		case RELATIONAL_NEQ:
+			equal &= libMath.getType() == libsbmlConstants.AST_RELATIONAL_NEQ;
+			break;
+		case RELATIONAL_LEQ:
+			equal &= libMath.getType() == libsbmlConstants.AST_RELATIONAL_LEQ;
+			break;
+		case RELATIONAL_LT:
+			equal &= libMath.getType() == libsbmlConstants.AST_RELATIONAL_LT;
+			break;
+		default:
+			equal &= libMath.getType() == libsbmlConstants.AST_UNKNOWN;
+			break;
+		}
+		equal &= math.getNumChildren() == libMath.getNumChildren();
+		if (equal && math.getNumChildren() > 0)
+			for (int i = 0; i < math.getNumChildren(); i++)
+				equal &= equal(math.getChild(i), libMath.getChild(i));
+		return equal;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -100,8 +586,7 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	 */
 	public int getNumErrors(Object sbase) {
 		if (!(sbase instanceof org.sbml.libsbml.SBase))
-			throw new IllegalArgumentException(
-					"sbase must be an instance of org.sbml.libsbml.SBase.");
+			throw new IllegalArgumentException("sbase" + error + "SBase.");
 		org.sbml.libsbml.SBMLDocument doc = ((org.sbml.libsbml.SBase) sbase)
 				.getSBMLDocument();
 		doc.checkConsistency();
@@ -130,6 +615,133 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.sbml.jsbml.io.AbstractSBMLWriter#removeUnneccessaryElements(org.sbml
+	 * .jsbml.Model, java.lang.Object)
+	 */
+	public void removeUnneccessaryElements(Model model, Object orig) {
+		if (!(orig instanceof org.sbml.libsbml.Model))
+			throw new IllegalArgumentException(
+					"only instances of org.sbml.libsbml.Model can be considered.");
+		org.sbml.libsbml.Model mo = (org.sbml.libsbml.Model) orig;
+		long i;
+
+		// remove unnecessary function definitions
+		for (i = mo.getNumFunctionDefinitions() - 1; i >= 0; i--) {
+			org.sbml.libsbml.FunctionDefinition c = mo.getFunctionDefinition(i);
+			if (model.getFunctionDefinition(c.getId()) == null)
+				mo.getListOfFunctionDefinitions().remove(i);
+		}
+
+		// remove unnecessary units
+		for (i = mo.getNumUnitDefinitions() - 1; i >= 0; i--) {
+			org.sbml.libsbml.UnitDefinition ud = mo.getUnitDefinition(i);
+			if (model.getUnitDefinition(ud.getId()) == null)
+				mo.getListOfUnitDefinitions().remove(i);
+		}
+
+		// remove unnecessary compartmentTypes
+		for (i = mo.getNumCompartmentTypes() - 1; i >= 0; i--) {
+			org.sbml.libsbml.CompartmentType c = mo.getCompartmentType(i);
+			if (model.getCompartmentType(c.getId()) == null)
+				mo.getListOfCompartmentTypes().remove(i);
+		}
+
+		// remove unnecessary speciesTypes
+		for (i = mo.getNumSpeciesTypes() - 1; i >= 0; i--) {
+			org.sbml.libsbml.SpeciesType c = mo.getSpeciesType(i);
+			if (model.getSpeciesType(c.getId()) == null)
+				mo.getListOfSpeciesTypes().remove(i);
+		}
+
+		// remove unnecessary compartments
+		for (i = mo.getNumCompartments() - 1; i >= 0; i--) {
+			org.sbml.libsbml.Compartment c = mo.getCompartment(i);
+			if (model.getCompartment(c.getId()) == null)
+				mo.getListOfCompartments().remove(i);
+		}
+
+		// remove unnecessary species
+		for (i = mo.getNumSpecies() - 1; i >= 0; i--) {
+			org.sbml.libsbml.Species s = mo.getSpecies(i);
+			if (model.getSpecies(s.getId()) == null)
+				mo.getListOfSpecies().remove(i);
+		}
+
+		// remove parameters
+		for (i = mo.getNumParameters() - 1; i >= 0; i--) {
+			org.sbml.libsbml.Parameter p = mo.getParameter(i);
+			if (model.getParameter(p.getId()) == null)
+				mo.getListOfParameters().remove(i);
+		}
+
+		// remove unnecessary initial assignments
+		for (i = mo.getNumInitialAssignments() - 1; i >= 0; i--) {
+			org.sbml.libsbml.InitialAssignment c = mo.getInitialAssignment(i);
+			boolean contains = false;
+			for (int j = 0; j < model.getNumInitialAssignments() && !contains; j++) {
+				InitialAssignment ia = model.getInitialAssignment(j);
+				if (ia.getSymbol().equals(c.getSymbol())
+						&& equal(ia.getMath(), c.getMath()))
+					contains = true;
+			}
+			if (!contains)
+				mo.getListOfInitialAssignments().remove(i);
+		}
+
+		// remove unnecessary rules
+		for (i = mo.getNumRules() - 1; i >= 0; i--) {
+			org.sbml.libsbml.Rule c = mo.getRule(i);
+			boolean contains = false;
+			for (int j = 0; j < model.getNumRules() && !contains; j++) {
+				Rule r = model.getRule(j);
+				if ((c instanceof org.sbml.libsbml.RateRule
+						&& r instanceof RateRule && ((org.sbml.libsbml.RateRule) c)
+						.getVariable().equals(((RateRule) r).getVariable()))
+						|| (c instanceof org.sbml.libsbml.AssignmentRule
+								&& r instanceof AssignmentRule && ((AssignmentRule) r)
+								.getVariable().equals(
+										((org.sbml.libsbml.AssignmentRule) c)
+												.getVariable()))
+						|| (c instanceof org.sbml.libsbml.AlgebraicRule && r instanceof AlgebraicRule))
+					if (equal(r.getMath(), c.getMath()))
+						contains = true;
+			}
+			if (!contains)
+				mo.getListOfRules().remove(i);
+		}
+
+		// remove unnecessary constraints
+		for (i = mo.getNumConstraints() - 1; i >= 0; i--) {
+			org.sbml.libsbml.Constraint c = mo.getConstraint(i);
+			boolean contains = false;
+			for (int j = 0; j < model.getNumConstraints() && !contains; j++) {
+				Constraint ia = model.getConstraint(j);
+				if (equal(ia.getMath(), c.getMath()))
+					contains = true;
+			}
+			if (!contains)
+				mo.getListOfConstraints().remove(i);
+		}
+
+		// remove reactions
+		for (i = mo.getNumReactions() - 1; i >= 0; i--) {
+			org.sbml.libsbml.Reaction r = mo.getReaction(i);
+			if (model.getReaction(r.getId()) == null)
+				mo.getListOfReactions().remove(i);
+		}
+
+		// remove events
+		for (i = mo.getNumEvents() - 1; i >= 0; i--) {
+			org.sbml.libsbml.Event eventOrig = mo.getEvent(i);
+			if (model.getEvent(eventOrig.getId()) == null)
+				mo.getListOfEvents().remove(i);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.squeezer.io.AbstractSBMLWriter#saveChanges(org.sbml.Model,
 	 * java.lang.Object)
 	 */
@@ -148,12 +760,6 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 			else
 				saveMathContainerProperties(c, mo.getFunctionDefinition(c
 						.getId()));
-		}
-		// remove unnecessary function definitions
-		for (i = mo.getNumFunctionDefinitions() - 1; i >= 0; i--) {
-			org.sbml.libsbml.FunctionDefinition c = mo.getFunctionDefinition(i);
-			if (model.getFunctionDefinition(c.getId()) == null)
-				mo.getListOfFunctionDefinitions().remove(i);
 		}
 
 		// Unit definitions
@@ -175,26 +781,11 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 							.equals("time"))) {
 				org.sbml.libsbml.UnitDefinition libU = mo.getUnitDefinition(ud
 						.getId());
-				if (libU != null) {
-					saveNamedSBaseProperties(ud, libU);
-					for (Unit u : ud.getListOfUnits()) {
-						boolean contains = false;
-						for (int j = 0; j < libU.getNumUnits() && !contains; j++) {
-							if (equal(u, libU.getUnit(j)))
-								contains = true;
-						}
-						if (!contains)
-							libU.addUnit(writeUnit(u));
-					}
-				} else
+				if (libU != null)
+					saveUnitDefinitionProperties(ud, libU);
+				else
 					mo.addUnitDefinition(writeUnitDefinition(ud));
 			}
-		// remove unnecessary units
-		for (i = mo.getNumUnitDefinitions() - 1; i >= 0; i--) {
-			org.sbml.libsbml.UnitDefinition ud = mo.getUnitDefinition(i);
-			if (model.getUnitDefinition(ud.getId()) == null)
-				mo.getListOfUnitDefinitions().remove(i);
-		}
 
 		// Compartment types
 		for (CompartmentType c : model.getListOfCompartmentTypes()) {
@@ -202,12 +793,6 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 				mo.addCompartmentType(writeCompartmentType(c));
 			else
 				saveNamedSBaseProperties(c, mo.getCompartmentType(c.getId()));
-		}
-		// remove unnecessary compartmentTypes
-		for (i = mo.getNumCompartmentTypes() - 1; i >= 0; i--) {
-			org.sbml.libsbml.CompartmentType c = mo.getCompartmentType(i);
-			if (model.getCompartmentType(c.getId()) == null)
-				mo.getListOfCompartmentTypes().remove(i);
 		}
 
 		// Species types
@@ -217,12 +802,6 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 			else
 				saveNamedSBaseProperties(c, mo.getSpeciesType(c.getId()));
 		}
-		// remove unnecessary speciesTypes
-		for (i = mo.getNumSpeciesTypes() - 1; i >= 0; i--) {
-			org.sbml.libsbml.SpeciesType c = mo.getSpeciesType(i);
-			if (model.getSpeciesType(c.getId()) == null)
-				mo.getListOfSpeciesTypes().remove(i);
-		}
 
 		// Compartments
 		for (Compartment c : model.getListOfCompartments()) {
@@ -230,12 +809,6 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 				mo.addCompartment(writeCompartment(c));
 			else
 				saveCompartmentProperties(c, mo.getCompartment(c.getId()));
-		}
-		// remove unnecessary compartments
-		for (i = mo.getNumCompartments() - 1; i >= 0; i--) {
-			org.sbml.libsbml.Compartment c = mo.getCompartment(i);
-			if (model.getCompartment(c.getId()) == null)
-				mo.getListOfCompartments().remove(i);
 		}
 
 		// Species
@@ -245,12 +818,6 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 			else
 				saveSpeciesProperties(s, mo.getSpecies(s.getId()));
 		}
-		// remove unnecessary species
-		for (i = mo.getNumSpecies() - 1; i >= 0; i--) {
-			org.sbml.libsbml.Species s = mo.getSpecies(i);
-			if (model.getSpecies(s.getId()) == null)
-				mo.getListOfSpecies().remove(i);
-		}
 
 		// add or change parameters
 		for (Parameter p : model.getListOfParameters()) {
@@ -258,12 +825,6 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 				mo.addParameter(writeParameter(p));
 			else
 				saveParameterProperties(p, mo.getParameter(p.getId()));
-		}
-		// remove parameters
-		for (i = mo.getNumParameters() - 1; i >= 0; i--) {
-			org.sbml.libsbml.Parameter p = mo.getParameter(i);
-			if (model.getParameter(p.getId()) == null)
-				mo.getListOfParameters().remove(i);
 		}
 
 		// initial assignments
@@ -282,19 +843,6 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 			else
 				saveMathContainerProperties(ia, mo
 						.getInitialAssignment(contains));
-		}
-		// remove unnecessary initial assignments
-		for (i = mo.getNumInitialAssignments() - 1; i >= 0; i--) {
-			org.sbml.libsbml.InitialAssignment c = mo.getInitialAssignment(i);
-			boolean contains = false;
-			for (int j = 0; j < model.getNumInitialAssignments() && !contains; j++) {
-				InitialAssignment ia = model.getInitialAssignment(j);
-				if (ia.getSymbol().equals(c.getSymbol())
-						&& equal(ia.getMath(), c.getMath()))
-					contains = true;
-			}
-			if (!contains)
-				mo.getListOfInitialAssignments().remove(i);
 		}
 
 		// rules
@@ -329,27 +877,6 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 				// math is equal anyway...
 				saveSBaseProperties(rule, mo.getRule(contains));
 		}
-		// remove unnecessary rules
-		for (i = mo.getNumRules() - 1; i >= 0; i--) {
-			org.sbml.libsbml.Rule c = mo.getRule(i);
-			boolean contains = false;
-			for (int j = 0; j < model.getNumRules() && !contains; j++) {
-				Rule r = model.getRule(j);
-				if ((c instanceof org.sbml.libsbml.RateRule
-						&& r instanceof RateRule && ((org.sbml.libsbml.RateRule) c)
-						.getVariable().equals(((RateRule) r).getVariable()))
-						|| (c instanceof org.sbml.libsbml.AssignmentRule
-								&& r instanceof AssignmentRule && ((AssignmentRule) r)
-								.getVariable().equals(
-										((org.sbml.libsbml.AssignmentRule) c)
-												.getVariable()))
-						|| (c instanceof org.sbml.libsbml.AlgebraicRule && r instanceof AlgebraicRule))
-					if (equal(r.getMath(), c.getMath()))
-						contains = true;
-			}
-			if (!contains)
-				mo.getListOfRules().remove(i);
-		}
 
 		// constraints
 		for (i = 0; i < model.getNumConstraints(); i++) {
@@ -365,18 +892,6 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 			else
 				saveMathContainerProperties(ia, mo.getConstraint(contains));
 		}
-		// remove unnecessary constraints
-		for (i = mo.getNumConstraints() - 1; i >= 0; i--) {
-			org.sbml.libsbml.Constraint c = mo.getConstraint(i);
-			boolean contains = false;
-			for (int j = 0; j < model.getNumConstraints() && !contains; j++) {
-				Constraint ia = model.getConstraint(j);
-				if (equal(ia.getMath(), c.getMath()))
-					contains = true;
-			}
-			if (!contains)
-				mo.getListOfConstraints().remove(i);
-		}
 
 		// add or change reactions
 		for (Reaction r : model.getListOfReactions()) {
@@ -384,12 +899,6 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 				mo.addReaction(writeReaction(r));
 			else
 				saveReactionProperties(r, mo.getReaction(r.getId()));
-		}
-		// remove reactions
-		for (i = mo.getNumReactions() - 1; i >= 0; i--) {
-			org.sbml.libsbml.Reaction r = mo.getReaction(i);
-			if (model.getReaction(r.getId()) == null)
-				mo.getListOfReactions().remove(i);
 		}
 
 		// events
@@ -399,12 +908,79 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 			else
 				saveEventProperties(event, mo.getEvent(event.getId()));
 		}
-		// remove events
-		for (i = mo.getNumEvents() - 1; i >= 0; i--) {
-			org.sbml.libsbml.Event eventOrig = mo.getEvent(i);
-			if (model.getEvent(eventOrig.getId()) == null)
-				mo.getListOfEvents().remove(i);
+
+		removeUnneccessaryElements(model, orig);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.io.AbstractSBMLWriter#saveChanges(org.sbml.jsbml.Reaction,
+	 * java.lang.Object)
+	 */
+	public void saveChanges(Reaction reaction, Object model)
+			throws SBMLException {
+		if (!(model instanceof org.sbml.libsbml.Model))
+			throw new IllegalArgumentException("model" + error
+					+ "org.sbml.libsbml.Model");
+		org.sbml.libsbml.Model pluMo = (org.sbml.libsbml.Model) model;
+		for (SpeciesReference specRef : reaction.getListOfReactants())
+			saveChanges(specRef.getSpeciesInstance(), pluMo);
+		for (SpeciesReference specRef : reaction.getListOfProducts())
+			saveChanges(specRef.getSpeciesInstance(), pluMo);
+		for (ModifierSpeciesReference modSpecRef : reaction
+				.getListOfModifiers())
+			saveChanges(modSpecRef.getSpeciesInstance(), pluMo);
+		if (reaction.isSetKineticLaw() && reaction.getKineticLaw().isSetMath()) {
+			ASTNode math = reaction.getKineticLaw().getMath();
+			Model m = reaction.getModel();
+			for (FunctionDefinition fd : m.getListOfFunctionDefinitions())
+				if (math.refersTo(fd.getId())) {
+					if (pluMo.getFunctionDefinition(fd.getId()) == null)
+						pluMo
+								.addFunctionDefinition(writeFunctionDefinition(fd));
+					else
+						saveMathContainerProperties(fd, pluMo
+								.getFunctionDefinition(fd.getId()));
+				}
+			for (Compartment c : m.getListOfCompartments())
+				if (math.refersTo(c.getId())) {
+					if (c.isSetUnits()
+							&& !Unit.isUnitKind(c.getUnits(), c.getLevel(), c
+									.getVersion()))
+						pluMo.addUnitDefinition(writeUnitDefinition(c
+								.getUnitsInstance()));
+					if (c.isSetCompartmentType()
+							&& pluMo.getCompartmentType(c.getCompartmentType().getId()) == null)
+						pluMo.addCompartmentType(writeCompartmentType(c
+								.getCompartmentTypeInstance()));
+					if (pluMo.getCompartment(c.getId()) == null)
+						pluMo.addCompartment(writeCompartment(c));
+					else
+						saveCompartmentProperties(c, pluMo.getCompartment(c
+								.getId()));
+				}
+			for (Parameter p : m.getListOfParameters())
+				if (math.refersTo(p.getId())) {
+					if (p.isSetUnits()) {
+						if (!Unit.isUnitKind(p.getUnits(), p.getLevel(), p
+								.getVersion()))
+							pluMo.addUnitDefinition(writeUnitDefinition(p
+									.getUnitsInstance()));
+						else
+							saveUnitDefinitionProperties(p.getUnitsInstance(),
+									pluMo.getUnitDefinition(p.getUnits()));
+					}
+					if (pluMo.getParameter(p.getId()) == null)
+						pluMo.addParameter(writeParameter(p, pluMo));
+					else
+						saveParameterProperties(p, pluMo
+								.getParameter(p.getId()));
+				}
 		}
+		saveReactionProperties(reaction, pluMo.getReaction(reaction.getId()));
+		removeUnneccessaryElements(reaction.getModel(), pluMo);
 	}
 
 	/*
@@ -556,6 +1132,12 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 		for (Parameter p : kl.getListOfParameters()) {
 			org.sbml.libsbml.Parameter libParam = libKinLaw.getParameter(p
 					.getId());
+			if (p.isSetUnits()
+					&& !Unit.isUnitKind(p.getUnits(), p.getLevel(), p
+							.getVersion())
+					&& libKinLaw.getModel().getUnitDefinition(p.getUnits()) == null)
+				libKinLaw.getModel().addUnitDefinition(
+						writeUnitDefinition(p.getUnitsInstance()));
 			if (libParam == null)
 				libKinLaw.addParameter(writeParameter(p));
 			else
@@ -1360,8 +1942,15 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 		org.sbml.libsbml.KineticLaw k = new org.sbml.libsbml.KineticLaw(
 				kinteicLaw.getLevel(), kinteicLaw.getVersion());
 		saveMathContainerProperties(kinteicLaw, k);
-		for (Parameter p : kinteicLaw.getListOfParameters())
+		for (Parameter p : kinteicLaw.getListOfParameters()) {
+			if (p.isSetUnits()
+					&& !Unit.isUnitKind(p.getUnits(), p.getLevel(), p
+							.getVersion())
+					&& k.getModel().getUnitDefinition(p.getUnits()) == null)
+				k.getModel().addUnitDefinition(
+						writeUnitDefinition(p.getUnitsInstance()));
 			k.addParameter(writeParameter(p));
+		}
 		return k;
 	}
 
@@ -1528,7 +2117,7 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 			d = (org.sbml.libsbml.SBMLDocument) sbmlDocument;
 		else
 			d = ((org.sbml.libsbml.Model) sbmlDocument).getSBMLDocument();
-		org.sbml.libsbml.SBMLWriter writer = new SBMLWriter();
+		org.sbml.libsbml.SBMLWriter writer = new org.sbml.libsbml.SBMLWriter();
 		if (programName != null)
 			writer.setProgramName(programName);
 		if (programVersionNumber != null)
@@ -1941,4 +2530,75 @@ public class LibSBMLWriter extends AbstractSBMLWriter {
 		return equal;
 	}
 
+	/**
+	 * 
+	 * @param speciesInstance
+	 * @param pluMo
+	 */
+	private void saveChanges(Species species, org.sbml.libsbml.Model pluMo) {
+		org.sbml.libsbml.Species pluSpec = pluMo.getSpecies(species.getId());
+		if (species.isSetSubstanceUnits()
+				&& !Unit.isUnitKind(species.getSubstanceUnits(), species
+						.getLevel(), species.getVersion())) {
+			if (pluMo.getUnitDefinition(species.getSubstanceUnits()) == null)
+				pluMo.addUnitDefinition(writeUnitDefinition(species
+						.getSubstanceUnitsInstance()));
+			else
+				saveUnitDefinitionProperties(species
+						.getSubstanceUnitsInstance(), pluMo
+						.getUnitDefinition(species.getSubstanceUnits()));
+		}
+		if (species.isSetCompartment()
+				&& pluMo.getCompartment(species.getCompartment()) == null) {
+			Compartment c = species.getCompartmentInstance();
+			if (c.isSetCompartmentType()) {
+				if (pluMo.getCompartmentType(c.getCompartmentType().getId()) == null)
+					pluMo.addCompartmentType(writeCompartmentType(c
+							.getCompartmentTypeInstance()));
+				else
+					saveNamedSBaseProperties(c.getCompartmentTypeInstance(),
+							pluMo.getCompartmentType(c.getCompartmentType().getId()));
+			}
+			if (c.isSetUnits()
+					&& !Unit.isUnitKind(c.getUnits(), c.getLevel(), c
+							.getVersion())) {
+				if (pluMo.getUnitDefinition(c.getUnits()) == null)
+					pluMo.addUnitDefinition(writeUnitDefinition(c
+							.getUnitsInstance()));
+				else
+					saveUnitDefinitionProperties(c.getUnitsInstance(), pluMo
+							.getUnitDefinition(c.getUnits()));
+			}
+			pluMo.addCompartment(writeCompartment(species
+					.getCompartmentInstance()));
+		}
+		if (species.isSetSpeciesType()) {
+			if (pluMo.getSpeciesType(species.getSpeciesType()) == null)
+				pluMo.addSpeciesType(writeSpeciesType(species
+						.getSpeciesTypeInstance()));
+			else
+				saveNamedSBaseProperties(species.getSpeciesTypeInstance(),
+						pluMo.getSpeciesType(species.getSpeciesType()));
+		}
+		saveSpeciesProperties(species, pluSpec);
+	}
+
+	/**
+	 * 
+	 * @param ud
+	 * @param libU
+	 */
+	private void saveUnitDefinitionProperties(UnitDefinition ud,
+			org.sbml.libsbml.UnitDefinition libU) {
+		saveNamedSBaseProperties(ud, libU);
+		for (Unit u : ud.getListOfUnits()) {
+			boolean contains = false;
+			for (int j = 0; j < libU.getNumUnits() && !contains; j++) {
+				if (equal(u, libU.getUnit(j)))
+					contains = true;
+			}
+			if (!contains)
+				libU.addUnit(writeUnit(u));
+		}
+	}
 }
