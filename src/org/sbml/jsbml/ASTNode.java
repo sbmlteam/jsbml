@@ -1786,7 +1786,7 @@ public class ASTNode implements TreeNode {
 	 * @return
 	 */
 	public boolean refersTo(String id) {
-		if (isName() && getName().equals(id))
+		if (isName() && getName() != null && getName().equals(id))
 			return true;
 		boolean childContains = false;
 		for (ASTNode child : listOfNodes)

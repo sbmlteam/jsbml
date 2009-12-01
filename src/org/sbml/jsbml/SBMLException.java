@@ -29,6 +29,7 @@
 
 package org.sbml.jsbml;
 
+
 /**
  * This class roughly corresponds to libSBML's SBMLError class.
  * 
@@ -1208,6 +1209,44 @@ public class SBMLException extends Exception {
 	}
 
 	/**
+	 * 
+	 * @author Andreas Dr&auml;ger <a
+	 *         href="mailto:andreas.draeger@uni-tuebingen.de"
+	 *         >andreas.draeger@uni-tuebingen.de</a>
+	 * 
+	 */
+	private enum Type {
+		/**
+		 * 
+		 */
+		ERROR,
+		/**
+		 * 
+		 */
+		FATAL,
+		/**
+		 * 
+		 */
+		INFO,
+		/**
+		 * 
+		 */
+		INTERNAL,
+		/**
+		 * 
+		 */
+		SYSTEM,
+		/**
+		 * 
+		 */
+		WARNING,
+		/**
+		 * 
+		 */
+		XML
+	}
+
+	/**
 	 * Generated serial version id.
 	 */
 	private static final long serialVersionUID = 7680394947436628860L;
@@ -1216,7 +1255,7 @@ public class SBMLException extends Exception {
 	 * The category of this exception.
 	 */
 	private Category category;
-	
+
 	/**
 	 * 
 	 */
@@ -1226,6 +1265,11 @@ public class SBMLException extends Exception {
 	 * 
 	 */
 	private String shortMessage;
+
+	/**
+	 * 
+	 */
+	private Type type;
 
 	/**
 	 * 
@@ -1282,6 +1326,68 @@ public class SBMLException extends Exception {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public Type getType() {
+		return type;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isError() {
+		return type == Type.ERROR;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isFatal() {
+		return type == Type.FATAL;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isInfo(){return type == Type.INFO;}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isInternal() {
+		return type == Type.INTERNAL;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSystem() {
+		return type == Type.SYSTEM;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isWarning() {
+		return type == Type.WARNING;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isXML() {
+		return type == Type.XML;
+	}
+
+	/**
+	 * 
 	 * @param category
 	 */
 	public void setCategory(Category category) {
@@ -1298,10 +1404,72 @@ public class SBMLException extends Exception {
 
 	/**
 	 * 
+	 * @param error
+	 */
+	public void setError(boolean error) {
+		if (error)
+			type = Type.ERROR;
+	}
+
+	/**
+	 * 
+	 * @param fatal
+	 */
+	public void setFatal(boolean fatal) {
+		if (fatal)
+			type = Type.FATAL;
+	}
+
+	/**
+	 * 
+	 * @param info
+	 */
+	public void setInfo(boolean info) {
+		if (info)
+			type = Type.INFO;
+	}
+
+	/**
+	 * 
+	 * @param internal
+	 */
+	public void setInternal(boolean internal) {
+		if (internal)
+			type = Type.INTERNAL;
+	}
+
+	/**
+	 * 
 	 * @param shortMessage
 	 */
 	public void setShortMessage(String shortMessage) {
 		this.shortMessage = shortMessage;
 	}
 
+	/**
+	 * 
+	 * @param system
+	 */
+	public void setSystem(boolean system) {
+		if (system)
+			type = Type.SYSTEM;
+	}
+
+	/**
+	 * 
+	 * @param warning
+	 */
+	public void setWarning(boolean warning) {
+		if (warning)
+			type = Type.WARNING;
+	}
+
+	/**
+	 * 
+	 * @param xml
+	 */
+	public void setXML(boolean xml) {
+		if (xml)
+			type = Type.XML;
+	}
 }
