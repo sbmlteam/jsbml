@@ -348,7 +348,6 @@ public class LibSBMLWriter implements SBMLWriter {
 		return libAstNode;
 	}
 
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -964,9 +963,10 @@ public class LibSBMLWriter implements SBMLWriter {
 				}
 			for (Parameter p : m.getListOfParameters())
 				if (math.refersTo(p.getId())) {
-					if (p.isSetUnits()) {
-						if (!Unit.isUnitKind(p.getUnits(), p.getLevel(), p
-								.getVersion()))
+					if (p.isSetUnits()
+							&& !Unit.isUnitKind(p.getUnits(), p.getLevel(), p
+									.getVersion())) {
+						if (pluMo.getUnitDefinition(p.getUnits()) == null)
 							pluMo.addUnitDefinition(writeUnitDefinition(p
 									.getUnitsInstance()));
 						else
