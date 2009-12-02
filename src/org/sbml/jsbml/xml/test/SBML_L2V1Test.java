@@ -1,3 +1,33 @@
+/*
+ * $Id$
+ * $URL$
+ *
+ *
+ *==================================================================================
+ * Copyright (c) 2009 the copyright is held jointly by the individual
+ * authors. See the file AUTHORS for the list of authors.
+ *
+ * This file is part of jsbml, the pure java SBML library. Please visit
+ * http://sbml.org for more information about SBML, and http://jsbml.sourceforge.net/
+ * to get the latest version of jsbml.
+ *
+ * jsbml is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * jsbml is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with jsbml.  If not, see <http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>.
+ *
+ *===================================================================================
+ *
+ */
+
 package org.sbml.jsbml.xml.test;
 
 import static org.junit.Assert.assertTrue;
@@ -5,6 +35,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sbml.jsbml.element.Compartment;
 import org.sbml.jsbml.element.Event;
@@ -23,15 +54,34 @@ public class SBML_L2V1Test {
 //		System.loadLibrary("sbmlj");
 //	}
 
-	public static String DATA_FOLDER = System.getenv("DATA_FOLDER");
+	public static String DATA_FOLDER = null;
 	
-
+	static {
+		
+		if (DATA_FOLDER == null) {
+			DATA_FOLDER = System.getenv("DATA_FOLDER"); 
+		}
+		if (DATA_FOLDER == null) {
+			DATA_FOLDER = System.getProperty("DATA_FOLDER"); 
+		}
+		
+	}
+	
+	@BeforeClass public static void initialSetUp() {
+		
+		// System.out.println("BeforeClass code : DATA_FOLDER = " + DATA_FOLDER);
+		
+		// TODO : read the files there and extend the class with the initialSetup using libSBML to test the libSBMLReader/Writer also
+	
+	}
+	
 	@Before public void setUp() { 
+		
 	}
 	
 	@Test public void read1() {
 		// URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
-		String fileName = DATA_FOLDER + "l2v1/BIOMD0000000025.xml";
+		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
 		
 		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
 		Model model = doc.getModel();
@@ -89,17 +139,18 @@ public class SBML_L2V1Test {
 		
 		System.out.println("First Trigger = " + event.getTrigger().getMathBufferToString());
 		assertTrue(event.getTrigger().getMathBufferToString().startsWith("<math"));
+		assertTrue(!event.getTrigger().getMathBufferToString().contains("athML<apply"));
 		
 	}
 	
 	@Test public void read2() {
-		String fileName = DATA_FOLDER + "l2v1/BIOMD0000000227.xml";
+		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000227.xml";
 		
 		SBMLReader.readSBMLFile(fileName);
 	}
 	
 	@Test public void read3() {
-		String fileName = DATA_FOLDER + "l2v4/BIOMD0000000228.xml"; // l2v4
+		String fileName = DATA_FOLDER + "/l2v4/BIOMD0000000228.xml"; // l2v4
 		
 		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
 		Model model = doc.getModel();
@@ -153,7 +204,7 @@ public class SBML_L2V1Test {
 	}
 	
 	@Test public void read4() {
-		String fileName = DATA_FOLDER + "l2v4/BIOMD0000000229.xml"; // l2v4
+		String fileName = DATA_FOLDER + "/l2v4/BIOMD0000000229.xml"; // l2v4
 		
 		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
 		Model model = doc.getModel();
