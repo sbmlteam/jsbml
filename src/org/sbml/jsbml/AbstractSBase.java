@@ -84,7 +84,7 @@ public abstract class AbstractSBase implements SBase {
 		this.setOfListeners = new HashSet<SBaseChangedListener>();
 		if (sb instanceof AbstractSBase)
 			this.setOfListeners.addAll(((AbstractSBase) sb).setOfListeners);
-		else if (sb instanceof ListOf)
+		else if (sb instanceof ListOf<?>)
 			this.setOfListeners.addAll(((ListOf<?>) sb).setOfListeners);
 		this.level = sb.getLevel();
 		this.version = sb.getVersion();
