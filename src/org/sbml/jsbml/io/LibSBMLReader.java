@@ -635,6 +635,15 @@ public class LibSBMLReader extends AbstractSBMLReader {
 			exc.setCode(SBMLException.Code.MultiplierNotValidAttribute);
 		else if (error.getErrorId() == libsbmlConstants.OffsetNotValidAttribute)
 			exc.setCode(SBMLException.Code.OffsetNotValidAttribute);
+
+		exc.setFatal(error.isFatal());
+		exc.setError(error.isError());
+		exc.setInfo(error.isInfo());
+		exc.setInternal(error.isInternal());
+		exc.setSystem(error.isSystem());
+		exc.setWarning(error.isWarning());
+		exc.setXML(error.isXML());
+
 		return exc;
 	}
 

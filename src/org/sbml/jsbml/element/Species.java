@@ -1,6 +1,6 @@
 /*
- * $Id: Species.java 38 2009-11-05 15:50:38Z niko-rodrigue $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/Species.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -190,8 +190,10 @@ public class Species extends Symbol {
 	 * 
 	 * @return
 	 */
+// TODO : decide which way to go with
 	public String getCompartment() {
 		return compartmentID;
+		// return isSetCompartment() ? compartment.getId() : "";
 	}
 
 	/**
@@ -317,7 +319,7 @@ public class Species extends Symbol {
 	
 	/**
 	 * 
-	 * @return
+	 * @return Returns true if an initial amount has been set for this species.
 	 */
 	public boolean isSetCompartmentID() {
 		return compartmentID != null;
@@ -465,7 +467,7 @@ public class Species extends Symbol {
 		this.speciesType.parentSBMLObject = this;
 		stateChanged();
 	}
-	
+
 	/**
 	 * 
 	 * @param speciesType
