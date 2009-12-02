@@ -581,7 +581,7 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 	 */
 	// @Override
 	public boolean equals(SBase sbase) {
-		if (sbase instanceof ListOf) {
+		if (sbase instanceof ListOf<?>) {
 			ListOf<?> listOf = (ListOf<?>) sbase;
 			return listOf.containsAll(this) && this.containsAll(listOf);
 		}
