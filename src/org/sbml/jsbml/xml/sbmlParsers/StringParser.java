@@ -1,5 +1,7 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.sbml.jsbml.element.Annotation;
@@ -46,7 +48,8 @@ public class StringParser implements SBMLParser{
 	}
 
 	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, Object contextObject) {
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject) {
 		
 		StringBuffer buffer = getStringBufferFor(contextObject);
 		
@@ -56,6 +59,10 @@ public class StringParser implements SBMLParser{
 			}
 			else {
 				buffer.append(" "+attributeName+"=\""+value+"\"");
+			}
+			
+			if (isLastAttribute){
+				buffer.append("> \n");
 			}
 		}
 		else {
@@ -68,6 +75,10 @@ public class StringParser implements SBMLParser{
 				else {
 					annotation.setAnnotation(" "+attributeName+"=\""+value+"\"");
 				}
+				
+				if (isLastAttribute){
+					annotation.setAnnotation("> \n");
+				}
 			}
 		}
 	}
@@ -76,14 +87,16 @@ public class StringParser implements SBMLParser{
 			Object contextObject) {
 		
 		StringBuffer buffer = getStringBufferFor(contextObject);
+		characters = characters.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+
 		
 		if (buffer != null){
-			buffer.append("> \n"+characters + " \n");
+			buffer.append(characters + " \n");
 		}
 		else {
 			if (contextObject instanceof Annotation){
 				Annotation annotation = (Annotation) contextObject;
-				annotation.setAnnotation("> \n"+characters + " \n");
+				annotation.setAnnotation(characters + " \n");
 			}
 		}
 	}
@@ -94,6 +107,11 @@ public class StringParser implements SBMLParser{
 		StringBuffer buffer = getStringBufferFor(contextObject);
 		
 		if (buffer != null){
+			if (isNested && buffer.toString().endsWith("> \n")){
+				int bufferLength = buffer.length();
+				buffer.delete(bufferLength - 3, bufferLength);
+			}
+			
 			if (isNested){
 				buffer.append("/> \n");
 			}
@@ -109,6 +127,12 @@ public class StringParser implements SBMLParser{
 		else {
 			if (contextObject instanceof Annotation){
 				Annotation annotation = (Annotation) contextObject;
+				StringBuilder builder = annotation.getAnnotationBuilder();
+
+				if (isNested && annotation.getAnnotation().endsWith("> \n")){
+					int builderLength = builder.length();
+					builder.delete(builderLength - 4, builderLength - 1);
+				}
 				
 				if (isNested){
 					annotation.setAnnotation("/> \n");
@@ -125,7 +149,9 @@ public class StringParser implements SBMLParser{
 		}
 	}
 
-	public Object processStartElement(String elementName, String prefix, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix,
+			boolean hasAttributes, boolean hasNamespaces,
+			Object contextObject) {
 		StringBuffer buffer = null;
 		
 		if (elementName.equals("math") && contextObject instanceof MathContainer){
@@ -139,11 +165,16 @@ public class StringParser implements SBMLParser{
 		}
 		
 		if (buffer != null){
+
 			if (!prefix.equals("")){
 				buffer.append("<"+prefix+":"+elementName);
 			}
 			else {
 				buffer.append("<"+elementName);
+			}
+			
+			if (!hasAttributes && !hasNamespaces){
+				buffer.append("> \n");
 			}
 		}
 		else {
@@ -156,6 +187,10 @@ public class StringParser implements SBMLParser{
 				else {
 					annotation.setAnnotation("<"+elementName);
 				}
+				
+				if (!hasAttributes && !hasNamespaces){
+					annotation.setAnnotation("> \n");
+				}
 			}
 		}
 		return contextObject;
@@ -166,26 +201,40 @@ public class StringParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, Object contextObject) {
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
 		
 		StringBuffer buffer = getStringBufferFor(contextObject);
+		try {
+			String U = URLEncoder.encode(URI, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		if (buffer != null){
 			if (!prefix.equals("")){
-				buffer.append(" "+prefix+":"+localName+"=\""+URI);
+				buffer.append(" "+prefix+":"+localName+"=\""+URI+"\"");
 			}
 			else {
-				buffer.append(" "+localName+"=\""+URI);
+				buffer.append(" "+localName+"=\""+URI+"\"");
+			}
+			if (!hasAttributes && isLastNamespace){
+				buffer.append("> \n");
 			}
 		}
 		else {
 			if (contextObject instanceof Annotation){
 				Annotation annotation = (Annotation) contextObject;
 				if (!prefix.equals("")){
-					annotation.setAnnotation(" "+prefix+":"+localName+"=\""+URI);
+					annotation.setAnnotation(" "+prefix+":"+localName+"=\""+URI+"\"");
 				}
 				else {
-					annotation.setAnnotation(" "+localName+"=\""+URI);
+					annotation.setAnnotation(" "+localName+"=\""+URI+"\"");
+				}
+				
+				if (!hasAttributes && isLastNamespace){
+					annotation.setAnnotation("> \n");
 				}
 			}
 		}
@@ -217,5 +266,4 @@ public class StringParser implements SBMLParser{
 		// TODO Auto-generated method stub
 		
 	}
-
 }

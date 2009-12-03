@@ -18,7 +18,7 @@ public class VCardParser implements SBMLParser{
 	private boolean hasReadORGNode = false;
 	
 	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, Object contextObject) {
+			String value, String prefix, boolean isLastAttribute, Object contextObject) {
 		// TODO : There is no attribute with a namespace "http://www.w3.org/2001/vcard-rdf/3.0#", SBML syntax error.
 		// Throw an exception?
 	}
@@ -26,27 +26,29 @@ public class VCardParser implements SBMLParser{
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		
-		if (contextObject instanceof ModelCreator){
-			ModelCreator modelCreator = (ModelCreator) contextObject;
-			
-			if (elementName.equals("Family") && hasReadFamilyName){
-				modelCreator.setFamilyName(characters);
-			}
-			else if (elementName.equals("Given") && hasReadGivenName){
-				modelCreator.setGivenName(characters);
-			}
-			else if (elementName.equals("EMAIL") && hasReadEMAIL){
-				modelCreator.setEmail(characters);
-			}
-			else if (elementName.equals("Orgname") && hasReadOrgName){
-				modelCreator.setOrganization(characters);
+		if (elementName != null){
+			if (contextObject instanceof ModelCreator){
+				ModelCreator modelCreator = (ModelCreator) contextObject;
+				
+				if (elementName.equals("Family") && hasReadFamilyName){
+					modelCreator.setFamilyName(characters);
+				}
+				else if (elementName.equals("Given") && hasReadGivenName){
+					modelCreator.setGivenName(characters);
+				}
+				else if (elementName.equals("EMAIL") && hasReadEMAIL){
+					modelCreator.setEmail(characters);
+				}
+				else if (elementName.equals("Orgname") && hasReadOrgName){
+					modelCreator.setOrganization(characters);
+				}
+				else {
+					// TODO : SBML syntax error, throw an exception?
+				}
 			}
 			else {
 				// TODO : SBML syntax error, throw an exception?
 			}
-		}
-		else {
-			// TODO : SBML syntax error, throw an exception?
 		}
 	}
 
@@ -76,7 +78,7 @@ public class VCardParser implements SBMLParser{
 		}
 	}
 
-	public Object processStartElement(String elementName, String prefix, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix, boolean hasAttribute, boolean hasNamespaces, Object contextObject) {
 
 		if (contextObject instanceof ModelCreator){
 			if (elementName.equals("N") && !hasReadNNode){
@@ -117,7 +119,7 @@ public class VCardParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, Object contextObject) {
+			String localName, boolean hasAttributes, boolean isLastNamespace, Object contextObject) {
 		
 		if (elementName.equals("RDF") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;

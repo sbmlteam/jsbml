@@ -99,7 +99,8 @@ public class SBMLCoreParser implements SBMLParser{
 		SBMLCoreElements.put("math", StringBuffer.class);
 	}
 
-	public void processAttribute(String elementName, String attributeName, String value,  String prefix,
+	public void processAttribute(String elementName, String attributeName,
+			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) {
 		boolean isAttributeRead = false;
 		if (contextObject instanceof SBase){
@@ -121,7 +122,9 @@ public class SBMLCoreParser implements SBMLParser{
 		// TODO : the basic SBML elements don't have any text. SBML syntax error, throw an exception?
 	}
 
-	public Object processStartElement(String elementName, String prefix, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix,
+			boolean hasAttributes, boolean hasNamespaces,
+			Object contextObject) {
 		if (SBMLCoreElements.containsKey(elementName)){
 			try {
 				Object newContextObject = SBMLCoreElements.get(elementName).newInstance();
@@ -906,7 +909,7 @@ public class SBMLCoreParser implements SBMLParser{
 	private void setSpeciesCompartment(Species species, Model model){
 		
 		if (species.isSetCompartmentID()){
-			String compartmentID = species.getSpeciesType();
+			String compartmentID = species.getCompartment();
 			
 			Compartment compartment = model.getCompartment(compartmentID);
 			
@@ -1063,7 +1066,8 @@ public class SBMLCoreParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, Object contextObject) {
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
 		
 		if (contextObject instanceof SBMLDocument){
 			SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
@@ -1084,6 +1088,7 @@ public class SBMLCoreParser implements SBMLParser{
 				}
 			}
 			else if (sbase instanceof Model){
+				
 				Model model = (Model) sbase;
 				listOfElementsToWrite = new ArrayList<Object>();
 				if (model.isSetListOfFunctionDefinitions()){
@@ -1134,6 +1139,7 @@ public class SBMLCoreParser implements SBMLParser{
 					listOfElementsToWrite = new ArrayList<Object>();
 					for (int i = 0; i < listOf.size(); i++){
 						SBase element = listOf.get(i);
+						
 						if (element != null){
 							listOfElementsToWrite.add(element);
 						}
@@ -1206,7 +1212,6 @@ public class SBMLCoreParser implements SBMLParser{
 		
 		if (sbmlElementToWrite instanceof SBase){
 			SBase sbase = (SBase) sbmlElementToWrite;
-			
 			if (!xmlObject.isSetName()){
 				xmlObject.setName(sbase.getElementName());
 			}

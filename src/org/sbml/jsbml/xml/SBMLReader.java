@@ -172,11 +172,11 @@ public class SBMLReader {
 			SBMLParser namespaceParser = null;
 			Stack<Object> SBMLElements = new Stack<Object>();
 			QName currentNode = null;
+			boolean isNested = false;
+			boolean isText = false;
 
 			while (xmlEventReader.hasNext()){
 				event = (XMLEvent2) xmlEventReader.nextEvent();
-				boolean isNested = false;
-				boolean isText = false;
 				
 				if (event.isStartDocument()){
 					StartDocument startDocument = (StartDocument) event;
@@ -189,6 +189,8 @@ public class SBMLReader {
 				else if (event.isStartElement()){
 					element = event.asStartElement();
 					currentNode = element.getName();
+					isNested = false;
+					isText = false;
 
 					String elementNamespace = currentNode.getNamespaceURI();
 					if (currentNode.getLocalPart().equals("sbml")){
@@ -215,17 +217,20 @@ public class SBMLReader {
 								
 								Iterator<Namespace> nam = element.getNamespaces();
 								Iterator<Attribute> att = element.getAttributes();
-								
+								boolean hasAttributes = att.hasNext();
+								boolean hasNamespace = nam.hasNext();
+	
 								if (!currentNode.getLocalPart().equals("sbml")){
-									Object processedElement = parser.processStartElement(currentNode.getLocalPart(), currentNode.getPrefix(), SBMLElements.peek());
+									Object processedElement = parser.processStartElement(currentNode.getLocalPart(), currentNode.getPrefix(), hasAttributes, hasNamespace, SBMLElements.peek());
 									SBMLElements.push(processedElement);
 								}
 								
 								while (nam.hasNext()){
 									Namespace namespace = (Namespace) nam.next();
+									boolean isLastNamespace = !nam.hasNext();
 									namespaceParser = initializedParsers.get(namespace.getNamespaceURI());
 									if (namespaceParser != null){
-										namespaceParser.processNamespace(currentNode.getLocalPart(), namespace.getNamespaceURI(), namespace.getName().getPrefix(), namespace.getName().getLocalPart(), SBMLElements.peek());
+										namespaceParser.processNamespace(currentNode.getLocalPart(), namespace.getNamespaceURI(), namespace.getName().getPrefix(), namespace.getName().getLocalPart(), hasAttributes, isLastNamespace, SBMLElements.peek());
 									}
 									else {
 										// TODO what to do if we have namespaces but no parsers for this namespaces?
@@ -234,6 +239,7 @@ public class SBMLReader {
 								while(att.hasNext()){
 									
 									Attribute attribute = (Attribute) att.next();
+									boolean isLastAttribute = !att.hasNext();
 									QName attributeName = attribute.getName();
 									
 									if (!attribute.getName().getNamespaceURI().equals("")){
@@ -244,7 +250,7 @@ public class SBMLReader {
 									}
 									
 									if (attributeParser != null){
-										attributeParser.processAttribute(currentNode.getLocalPart(), attributeName.getLocalPart(), attribute.getValue(), attributeName.getPrefix(), SBMLElements.peek());
+										attributeParser.processAttribute(currentNode.getLocalPart(), attributeName.getLocalPart(), attribute.getValue(), attributeName.getPrefix(), isLastAttribute, SBMLElements.peek());
 									}
 									else {
 										// TODO there is no parser for the namespace of this attribute, what to do?
@@ -262,9 +268,18 @@ public class SBMLReader {
 				}
 				else if (event.isCharacters()){
 					Characters characters = event.asCharacters();
-					isText = true;
-					if (parser != null && !SBMLElements.isEmpty() && currentNode != null && !characters.isWhiteSpace()){
-						parser.processCharactersOf(currentNode.getLocalPart(), characters.getData(), SBMLElements.peek());
+					
+					if (!characters.isWhiteSpace()){
+						isText = true;	
+					}
+
+					if (parser != null && !SBMLElements.isEmpty() && !characters.isWhiteSpace()){
+						if (currentNode != null){
+							parser.processCharactersOf(currentNode.getLocalPart(), characters.getData(), SBMLElements.peek());
+						}
+						else {
+							parser.processCharactersOf(null, characters.getData(), SBMLElements.peek());
+						}
 					}
 					else {
 						// TODO if parser == null => the text of this node can be read, there is no parser for the namespace URI of the element. Throw an exception?
@@ -274,9 +289,11 @@ public class SBMLReader {
 				}
 				else if (event.isEndElement()){
 					EndElement endElement = event.asEndElement();
-					
-					if (!isText){
-						isNested = true;
+
+					if (!isText && currentNode != null){
+						if (currentNode.getLocalPart().equals(endElement.getName().getLocalPart())){
+							isNested = true;
+						}
 					}
 					
 					if (initializedParsers != null){

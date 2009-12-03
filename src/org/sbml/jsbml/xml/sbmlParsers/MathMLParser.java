@@ -8,21 +8,10 @@ import org.sbml.jsbml.xml.SBMLParser;
 
 public class MathMLParser implements SBMLParser{
 
-	public void processAttribute(String ElementName, String AttributeName,
-			String value, String prefix, Object contextObject) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	public Object processStartElement(String ElementName, String prefix, Object contextObject) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public void processEndElement(String ElementName, String prefix,
@@ -32,12 +21,6 @@ public class MathMLParser implements SBMLParser{
 	}
 
 	public void processEndDocument(SBMLDocument sbmlDocument) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, Object contextObject) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -68,6 +51,27 @@ public class MathMLParser implements SBMLParser{
 			Object sbmlElementToWrite) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void processAttribute(String ElementName, String AttributeName,
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Object processStartElement(String ElementName, String prefix,
+			boolean hasAttributes, boolean hasNamespaces,
+			Object contextObject) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -31,11 +31,6 @@ public class BiologicalQualifierParser implements SBMLParser{
 		biologicalQualifierMap.put("occursIn", Qualifier.BQB_OCCURS_IN);
 	}
 	
-	public void processAttribute(String ElementName, String AttributeName,
-			String value, String prefix, Object contextObject) {
-		// TODO : a node with a biological qualifier can't have attributes, there is a SBML syntax error, throw an exception?
-	}
-
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		// TODO : a node with a biological qualifier can't have text, there is a SBML syntax error, throw an exception?
@@ -45,7 +40,9 @@ public class BiologicalQualifierParser implements SBMLParser{
 			boolean isNested, Object contextObject) {		
 	}
 
-	public Object processStartElement(String elementName, String prefix, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix,
+			boolean hasAttributes, boolean hasNamespaces,
+			Object contextObject) {
 		
 		if (contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
@@ -73,7 +70,8 @@ public class BiologicalQualifierParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName,Object contextObject) {
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
 		
 		if (elementName.equals("RDF") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
@@ -107,4 +105,10 @@ public class BiologicalQualifierParser implements SBMLParser{
 		
 	}
 
+	public void processAttribute(String ElementName, String AttributeName,
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject) {
+		// TODO : a node with a biological qualifier can't have attributes, there is a SBML syntax error, throw an exception?
+		
+	}
 }

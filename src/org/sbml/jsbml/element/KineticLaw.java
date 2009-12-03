@@ -48,15 +48,12 @@ public class KineticLaw extends MathContainer {
 	 */
 	private ListOf<Parameter> listOfParameters;
 
-	private String formula;
-
 	/**
 	 * 
 	 */
 	public KineticLaw() {
 		super();
 		listOfParameters = null;
-		this.formula = null;
 	}
 	
 	/**
@@ -288,18 +285,6 @@ public class KineticLaw extends MathContainer {
 		}
 	}
 	
-	public String getFormula() {
-		return formula;
-	}
-
-	public void setFormula(String formula) {
-		this.formula = formula;
-	}
-	
-	public boolean isSetFormula(){
-		return this.formula != null;
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.Rule#isSpeciesConcentration()
@@ -307,12 +292,7 @@ public class KineticLaw extends MathContainer {
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-	
-		if (!isAttributeRead){
-			if (attributeName.equals("formula")){
-				setFormula(value);
-			}
-		}
+
 		return isAttributeRead;
 	}
 	
@@ -320,9 +300,6 @@ public class KineticLaw extends MathContainer {
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 		
-		if (isSetFormula()){
-			attributes.put("formula", getFormula());
-		}
 		return attributes;
 	}
 }

@@ -20,7 +20,9 @@ public class MultiParser implements SBMLParser{
 	
 	private MultiList multiList = MultiList.none;
 
-	public void processAttribute(String elementName, String attributeName, String value, String prefix, Object contextObject) {
+	public void processAttribute(String elementName, String attributeName,
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject) {
 		
 		boolean isAttributeRead = false;
 		if (contextObject instanceof SBase){
@@ -41,7 +43,9 @@ public class MultiParser implements SBMLParser{
 			Object contextObject) {
 	}
 
-	public Object processStartElement(String elementName, String prefix, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix,
+			boolean hasAttributes, boolean hasNamespaces,
+			Object contextObject) {
 		
 		if (contextObject instanceof Species){
 			Species species = (Species) contextObject;
@@ -88,12 +92,6 @@ public class MultiParser implements SBMLParser{
 		return namespace;
 	}
 
-	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, Object contextObject) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
 		// TODO Auto-generated method stub
 		return null;
@@ -122,5 +120,11 @@ public class MultiParser implements SBMLParser{
 		
 	}
 
+	public void processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

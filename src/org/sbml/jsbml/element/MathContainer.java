@@ -29,6 +29,8 @@
 
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
+
 /**
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
@@ -43,6 +45,8 @@ public abstract class MathContainer extends AbstractSBase {
 	private ASTNode math;
 	
 	private StringBuffer mathBuffer;
+	
+	private String formula;
 
 	/**
 	 * 
@@ -51,6 +55,7 @@ public abstract class MathContainer extends AbstractSBase {
 		super();
 		math = null;
 		this.setMathBuffer(null);
+		this.formula = null;
 	}
 	
 	/**
@@ -170,6 +175,11 @@ public abstract class MathContainer extends AbstractSBase {
 	public boolean readAttribute(String attributeName, String prefix, String value){
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 	
+		if (!isAttributeRead){
+			if (attributeName.equals("formula")){
+				setFormulaString(value);
+			}
+		}
 		return isAttributeRead;
 	}
 
@@ -187,5 +197,27 @@ public abstract class MathContainer extends AbstractSBase {
 	
 	public String getMathBufferToString(){
 		return mathBuffer.toString();
+	}
+	
+	public String getFormulaString() {
+		return formula;
+	}
+
+	public void setFormulaString(String formula) {
+		this.formula = formula;
+	}
+	
+	public boolean isSetFormulaString(){
+		return this.formula != null;
+	}
+	
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetFormulaString()){
+			attributes.put("formula", getFormulaString());
+		}
+		return attributes;
 	}
 }

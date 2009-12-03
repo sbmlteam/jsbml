@@ -22,7 +22,8 @@ public class RDFAnnotationParser implements SBMLParser{
 	private HashMap<String, String> previousElements = new HashMap<String, String>();
 
 	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, Object contextObject) {
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject) {
 		
 		boolean isReadAttribute = false;
 
@@ -84,7 +85,9 @@ public class RDFAnnotationParser implements SBMLParser{
 		}
 	}
 
-	public Object processStartElement(String elementName, String prefix, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix,
+			boolean hasAttributes, boolean hasNamespaces,
+			Object contextObject) {
 		if (contextObject instanceof Annotation){
 			
 			if (elementName.equals("RDF")){
@@ -313,7 +316,8 @@ public class RDFAnnotationParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, Object contextObject) {
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
 
 		if (elementName.equals("RDF") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
@@ -345,5 +349,4 @@ public class RDFAnnotationParser implements SBMLParser{
 		// TODO Auto-generated method stub
 		
 	}
-
 }

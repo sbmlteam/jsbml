@@ -10,7 +10,8 @@ import org.sbml.jsbml.xml.SBMLParser;
 public class AnnotationParser implements SBMLParser{
 			
 	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, Object contextObject) {
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject) {
 		
 		if (contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
@@ -21,6 +22,10 @@ public class AnnotationParser implements SBMLParser{
 			else {
 				annotation.setAnnotation(" "+attributeName+"=\""+value+"\"");
 			}
+			
+			if (isLastAttribute){
+				annotation.setAnnotation("> \n");
+			}
 		}
 		else {
 			// TODO : the other annotations which will be stored into a string should be included into
@@ -30,9 +35,11 @@ public class AnnotationParser implements SBMLParser{
 
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
+		characters = characters.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+
 		if (contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
-			annotation.setAnnotation("> \n"+characters + " \n");
+			annotation.setAnnotation(characters + " \n");
 			
 		}
 		else {
@@ -41,7 +48,9 @@ public class AnnotationParser implements SBMLParser{
 		}
 	}
 
-	public Object processStartElement(String elementName, String prefix, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix,
+			boolean hasAttributes, boolean hasNamespaces,
+			Object contextObject) {
 		
 		if (contextObject instanceof Annotation){
 			
@@ -52,6 +61,10 @@ public class AnnotationParser implements SBMLParser{
 			}
 			else {
 				annotation.setAnnotation("<"+elementName);
+			}
+			
+			if (!hasAttributes && !hasNamespaces){
+				annotation.setAnnotation("> \n");
 			}
 			return annotation;
 		}
@@ -66,6 +79,12 @@ public class AnnotationParser implements SBMLParser{
 		
 		if (contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
+			StringBuilder builder = annotation.getAnnotationBuilder();
+
+			if (isNested && annotation.getAnnotation().endsWith("> \n")){
+				int builderLength = builder.length();
+				builder.delete(builderLength - 3, builderLength);
+			}
 			
 			if (isNested){
 				annotation.setAnnotation("/> \n");
@@ -89,7 +108,8 @@ public class AnnotationParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, Object contextObject) {
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
 		
 		if (elementName.equals("annotation") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
