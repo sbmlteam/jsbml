@@ -50,6 +50,8 @@
  */
 package org.sbml.jsbml.element;
 
+import java.util.HashMap;
+
 /**
  * 
  * @author Andreas Dr&auml;ger <a
@@ -223,12 +225,16 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		return isAttributeRead;
 	}
 	
-	public StringBuffer writeAttribute(StringBuffer buffer){
+	public HashMap<String, String> writeXMLAttributes(){
+		HashMap<String, String> attributes = super.writeXMLAttributes();
 		
 		if (isSetId()){
-			
+			attributes.put("id", getId());
+		}
+		if (isSetName()){
+			attributes.put("name", getName());
 		}
 		
-		return buffer;
+		return attributes;
 	}
 }
