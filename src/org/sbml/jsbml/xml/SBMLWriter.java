@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
 import java.util.Map.Entry;
 
 import javax.xml.stream.XMLStreamException;
@@ -36,7 +35,7 @@ import com.ctc.wstx.stax.WstxOutputFactory;
 
 public class SBMLWriter {
 	
-	private static HashMap<String, SBMLParser> instantiatedSBMLParsers = new HashMap<String, SBMLParser>();
+	private static HashMap<String, WritingParser> instantiatedSBMLParsers = new HashMap<String, WritingParser>();
 	
 	private static String getNamespaceFrom(int level, int version){
 		
@@ -61,7 +60,7 @@ public class SBMLWriter {
 		return null;
 	}
 	
-	private static void writeNotes(SBase sbase, SMOutputElement element, XMLStreamWriter2 writer, SBMLParser notesParser, String sbmlNamespace){
+	private static void writeNotes(SBase sbase, SMOutputElement element, XMLStreamWriter2 writer, ReadingParser notesParser, String sbmlNamespace){
 		
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
@@ -80,7 +79,7 @@ public class SBMLWriter {
 		} 
 	}
 	
-	private static void writeMathML(MathContainer m, SMOutputElement element, XMLStreamWriter2 writer, SBMLParser mathParser){
+	private static void writeMathML(MathContainer m, SMOutputElement element, XMLStreamWriter2 writer, ReadingParser mathParser){
 		
 		try {
 			DOMConverter converter = new DOMConverter();
@@ -308,12 +307,12 @@ public class SBMLWriter {
 		}
 	}
 	
-	private static void writeSBMLElements(SBMLObjectForXML xmlObject, SMOutputElement parentElement, XMLStreamWriter2 streamWriter, Object objectToWrite, SBMLParser notesParser, SBMLParser MathMLParser){
-		ArrayList<SBMLParser> listOfPackages = getInitializedParsers(objectToWrite, parentElement.getNamespace().getURI());
+	private static void writeSBMLElements(SBMLObjectForXML xmlObject, SMOutputElement parentElement, XMLStreamWriter2 streamWriter, Object objectToWrite, ReadingParser notesParser, ReadingParser MathMLParser){
+		ArrayList<WritingParser> listOfPackages = getInitializedParsers(objectToWrite, parentElement.getNamespace().getURI());
 
-		Iterator<SBMLParser> iterator = listOfPackages.iterator();
+		Iterator<WritingParser> iterator = listOfPackages.iterator();
 		while(iterator.hasNext()){
-			SBMLParser parser = iterator.next();
+			WritingParser parser = iterator.next();
 			ArrayList<Object> SBMLElementsToWrite = parser.getListOfSBMLElementsToWrite(objectToWrite);
 			if (SBMLElementsToWrite == null){
 				// TODO test if there are some characters to write.
@@ -373,7 +372,7 @@ public class SBMLWriter {
 		}
 	}
 	
-	private static ArrayList<SBMLParser> getInitializedParsers(Object object, String SBMLNamespace){
+	private static ArrayList<WritingParser> getInitializedParsers(Object object, String SBMLNamespace){
 		Collection<String> packageNamespaces = null;
 
 		if (object instanceof SBase){
@@ -384,19 +383,22 @@ public class SBMLWriter {
 			Annotation annotation = (Annotation) object;
 			packageNamespaces = annotation.getNamespaces();
 		}
-		ArrayList<SBMLParser> SBMLParsers = new ArrayList<SBMLParser>();
+		ArrayList<WritingParser> SBMLParsers = new ArrayList<WritingParser>();
 		
 		if (packageNamespaces != null){
 			if (!packageNamespaces.contains(SBMLNamespace)){
 				try {
 					if (SBMLWriter.instantiatedSBMLParsers.containsKey(SBMLNamespace)){
-						SBMLParser sbmlParser = SBMLWriter.instantiatedSBMLParsers.get(SBMLNamespace);
+						WritingParser sbmlParser = SBMLWriter.instantiatedSBMLParsers.get(SBMLNamespace);
 						SBMLParsers.add(sbmlParser);
 					}
 					else {
-						SBMLParser sbmlParser = SBMLReader.getPackageParsers(SBMLNamespace).newInstance();
-						SBMLWriter.instantiatedSBMLParsers.put(SBMLNamespace, sbmlParser);
-						SBMLParsers.add(sbmlParser);
+						ReadingParser sbmlParser = SBMLReader.getPackageParsers(SBMLNamespace).newInstance();
+						
+						if (sbmlParser instanceof WritingParser){
+							SBMLWriter.instantiatedSBMLParsers.put(SBMLNamespace, (WritingParser) sbmlParser);
+							SBMLParsers.add((WritingParser) sbmlParser);
+						}
 					}
 				} catch (InstantiationException e) {
 					// TODO Auto-generated catch block
@@ -412,11 +414,11 @@ public class SBMLWriter {
 				String namespace = iterator.next();
 				try {
 					if (SBMLWriter.instantiatedSBMLParsers.containsKey(namespace)){
-						SBMLParser parser = SBMLWriter.instantiatedSBMLParsers.get(namespace);
+						WritingParser parser = SBMLWriter.instantiatedSBMLParsers.get(namespace);
 						SBMLParsers.add(parser);
 					}
-					else {
-						SBMLParser parser = SBMLReader.getPackageParsers(namespace).newInstance();
+					else if (!SBMLWriter.instantiatedSBMLParsers.containsKey(namespace) && SBMLWriter.instantiatedSBMLParsers.get(namespace) instanceof WritingParser){
+						WritingParser parser = (WritingParser) SBMLReader.getPackageParsers(namespace).newInstance();
 						SBMLWriter.instantiatedSBMLParsers.put(SBMLNamespace, parser);
 						SBMLParsers.add(parser);
 					}
@@ -437,7 +439,6 @@ public class SBMLWriter {
 		sbmlDocument.getSBMLDocumentAttributes();
 		
 		SMOutputFactory smFactory = new SMOutputFactory(WstxOutputFactory.newInstance());
-		Stack<Object> SBMLElements = new Stack<Object>();
 		SMOutputDocument outputDocument;
 		try {
 			XMLStreamWriter2 streamWriter = smFactory.createStax2Writer(new File("test.xml"));
@@ -450,7 +451,6 @@ public class SBMLWriter {
 			namespace.setPreferredPrefix("");
 			SMOutputElement sbmlElement = outputDocument.addElement(namespace, "sbml");
 			
-			ArrayList<SBMLParser> SBMLParsers = getInitializedParsers(sbmlDocument, SBMLNamespace);
 			SBMLObjectForXML xmlObject = new SBMLObjectForXML();
 			xmlObject.setName("sbml");
 			xmlObject.setNamespace(SBMLNamespace);
@@ -460,8 +460,8 @@ public class SBMLWriter {
 				Entry<String, String> entry = it.next();
 				sbmlElement.addAttribute(entry.getKey(), entry.getValue());
 			}
-			SBMLParser notesParser = SBMLReader.getPackageParsers("http://www.w3.org/1999/xhtml").newInstance();
-			SBMLParser MathMLParser = SBMLReader.getPackageParsers("http://www.w3.org/1998/Math/MathML").newInstance();
+			ReadingParser notesParser = SBMLReader.getPackageParsers("http://www.w3.org/1999/xhtml").newInstance();
+			ReadingParser MathMLParser = SBMLReader.getPackageParsers("http://www.w3.org/1998/Math/MathML").newInstance();
 			if (sbmlDocument.isSetNotes()){
 				writeNotes(sbmlDocument, sbmlElement, streamWriter, notesParser, SBMLNamespace);
 			}

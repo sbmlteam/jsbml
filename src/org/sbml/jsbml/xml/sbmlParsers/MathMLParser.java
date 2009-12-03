@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import org.sbml.jsbml.element.SBMLDocument;
 import org.sbml.jsbml.xml.SBMLObjectForXML;
-import org.sbml.jsbml.xml.SBMLParser;
+import org.sbml.jsbml.xml.ReadingParser;
+import org.sbml.jsbml.xml.WritingParser;
 
-public class MathMLParser implements SBMLParser{
+public class MathMLParser implements ReadingParser, WritingParser{
 
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {

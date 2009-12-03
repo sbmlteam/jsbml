@@ -1,18 +1,13 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-
 import org.sbml.jsbml.element.Annotation;
 import org.sbml.jsbml.element.Constraint;
 import org.sbml.jsbml.element.MathContainer;
 import org.sbml.jsbml.element.SBMLDocument;
 import org.sbml.jsbml.element.SBase;
-import org.sbml.jsbml.xml.SBMLObjectForXML;
-import org.sbml.jsbml.xml.SBMLParser;
+import org.sbml.jsbml.xml.ReadingParser;
 
-public class StringParser implements SBMLParser{
+public class StringParser implements ReadingParser{
 	
 	private String typeOfNotes = "";
 
@@ -205,12 +200,6 @@ public class StringParser implements SBMLParser{
 			Object contextObject) {
 		
 		StringBuffer buffer = getStringBufferFor(contextObject);
-		try {
-			String U = URLEncoder.encode(URI, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		if (buffer != null){
 			if (!prefix.equals("")){
@@ -238,32 +227,5 @@ public class StringParser implements SBMLParser{
 				}
 			}
 		}
-	}
-
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
-		return null;
-	}
-
-	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-		
 	}
 }

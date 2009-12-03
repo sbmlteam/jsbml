@@ -1,10 +1,8 @@
 package org.sbml.jsbml.xml;
 
-import java.util.ArrayList;
-
 import org.sbml.jsbml.element.SBMLDocument;
 
-public interface SBMLParser {
+public interface ReadingParser {
 
 	public Object processStartElement(String ElementName, String prefix, boolean hasAttributes, boolean hasNamespaces, Object contextObject);
 	
@@ -17,14 +15,4 @@ public interface SBMLParser {
 	public void processEndDocument(SBMLDocument sbmlDocument);
 	
 	public void processNamespace(String elementName, String URI, String prefix, String localName, boolean hasAttributes, boolean isLastNamespace, Object contextObject);
-	
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object objectToWrite);
-	
-	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite); 
-	
-	public void writeNamespaces(SBMLObjectForXML xmlObject, Object sbmlElementToWrite);
-	
-	public void writeAttributes(SBMLObjectForXML xmlObject, Object sbmlElementToWrite);
-	
-	public void writeCharacters(SBMLObjectForXML xmlObject, Object sbmlElementToWrite);
 }

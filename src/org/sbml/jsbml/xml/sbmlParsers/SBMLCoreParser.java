@@ -33,9 +33,10 @@ import org.sbml.jsbml.element.Unit;
 import org.sbml.jsbml.element.UnitDefinition;
 import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
 import org.sbml.jsbml.xml.SBMLObjectForXML;
-import org.sbml.jsbml.xml.SBMLParser;
+import org.sbml.jsbml.xml.ReadingParser;
+import org.sbml.jsbml.xml.WritingParser;
 
-public class SBMLCoreParser implements SBMLParser{
+public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private String parserNamespace = "http://www.sbml.org/sbml/level3/version1/core";
 	

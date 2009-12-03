@@ -1,18 +1,16 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.sbml.jsbml.element.Annotation;
 import org.sbml.jsbml.element.ModelHistory;
 import org.sbml.jsbml.element.SBMLDocument;
 import org.sbml.jsbml.xml.DateProcessor;
-import org.sbml.jsbml.xml.SBMLObjectForXML;
-import org.sbml.jsbml.xml.SBMLParser;
+import org.sbml.jsbml.xml.ReadingParser;
 import org.w3c.util.DateParser;
 import org.w3c.util.InvalidDateException;
 
-public class DatesParser implements SBMLParser{
+public class DatesParser implements ReadingParser{
 	
 	private String previousElement = "";
 	private boolean hasReadCreated = false;
@@ -138,32 +136,6 @@ public class DatesParser implements SBMLParser{
 			
 			annotation.addRDFAnnotationNamespace(localName, prefix, URI);
 		}
-	}
-
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object objectToWrite) {
-		return null;
-	}
-
-	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
-		
-	}
-
-	public void writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void processAttribute(String ElementName, String AttributeName,

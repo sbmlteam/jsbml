@@ -34,9 +34,9 @@ import com.ctc.wstx.stax.WstxInputFactory;
 
 public class SBMLReader {
 	
-	private static HashMap <String, Class<? extends SBMLParser>> packageParsers = new HashMap<String, Class<? extends SBMLParser>>();
+	private static HashMap <String, Class<? extends ReadingParser>> packageParsers = new HashMap<String, Class<? extends ReadingParser>>();
 	
-	public static Class<? extends SBMLParser> getPackageParsers(String namespace){
+	public static Class<? extends ReadingParser> getPackageParsers(String namespace){
 		return SBMLReader.packageParsers.get(namespace);
 	}
 	
@@ -87,10 +87,10 @@ public class SBMLReader {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static HashMap<String, SBMLParser> getInitializedPackageParsers(StartElement sbml){
+	private static HashMap<String, ReadingParser> getInitializedPackageParsers(StartElement sbml){
 		initializePackageParserNamespaces();
 		
-		HashMap<String, SBMLParser> initializedParsers = new HashMap<String, SBMLParser>();
+		HashMap<String, ReadingParser> initializedParsers = new HashMap<String, ReadingParser>();
 		
 		Iterator<Namespace> nam = sbml.getNamespaces();
 		while(nam.hasNext()){
@@ -129,7 +129,7 @@ public class SBMLReader {
 		return initializedParsers;
 	}
 	
-	private static void addNamespaceToInitializedPackages(String elementName, StartElement element, HashMap<String, SBMLParser> initializedParsers){
+	private static void addNamespaceToInitializedPackages(String elementName, StartElement element, HashMap<String, ReadingParser> initializedParsers){
 		Iterator<Namespace> nam = element.getNamespaces();
 
 		while (nam.hasNext()){
@@ -140,7 +140,7 @@ public class SBMLReader {
 			}
 			if (packageParsers.containsKey(namespace.getNamespaceURI()) && !initializedParsers.containsKey(namespace.getNamespaceURI())){
 
-				SBMLParser newParser;
+				ReadingParser newParser;
 				try {
 					newParser = packageParsers.get(namespace.getNamespaceURI()).newInstance();
 					initializedParsers.put(namespace.getNamespaceURI(), newParser);
@@ -160,16 +160,16 @@ public class SBMLReader {
 	
 	public static SBMLDocument readSBMLFile(String fileName){
 		WstxInputFactory inputFactory = new WstxInputFactory();
-		HashMap<String, SBMLParser> initializedParsers = null;
+		HashMap<String, ReadingParser> initializedParsers = null;
 				
 		try {
 
 			XMLEventReader2 xmlEventReader = inputFactory.createXMLEventReader(new File(fileName));
 			XMLEvent2 event;
 			StartElement element = null;
-			SBMLParser parser = null;
-			SBMLParser attributeParser = null;
-			SBMLParser namespaceParser = null;
+			ReadingParser parser = null;
+			ReadingParser attributeParser = null;
+			ReadingParser namespaceParser = null;
 			Stack<Object> SBMLElements = new Stack<Object>();
 			QName currentNode = null;
 			boolean isNested = false;
@@ -205,7 +205,7 @@ public class SBMLReader {
 							addNamespaceToInitializedPackages(currentNode.getLocalPart(), element, initializedParsers);
 							parser = initializedParsers.get(elementNamespace);
 							if (currentNode.getLocalPart().equals("notes") || currentNode.getLocalPart().equals("message")){
-								SBMLParser sbmlparser = initializedParsers.get("http://www.w3.org/1999/xhtml");
+								ReadingParser sbmlparser = initializedParsers.get("http://www.w3.org/1999/xhtml");
 								
 								if (sbmlparser instanceof StringParser){
 									StringParser notesParser = (StringParser) sbmlparser;
@@ -300,7 +300,7 @@ public class SBMLReader {
 						parser = initializedParsers.get(endElement.getName().getNamespaceURI());
 						
 						if (endElement.getName().getLocalPart().equals("notes") || endElement.getName().getLocalPart().equals("message")){
-							SBMLParser sbmlparser = initializedParsers.get("http://www.w3.org/1999/xhtml");
+							ReadingParser sbmlparser = initializedParsers.get("http://www.w3.org/1999/xhtml");
 							if (sbmlparser instanceof StringParser){
 								StringParser notesParser = (StringParser) sbmlparser;
 								notesParser.setTypeOfNotes(endElement.getName().getLocalPart());
@@ -316,12 +316,12 @@ public class SBMLReader {
 							else {
 								if (SBMLElements.peek() instanceof SBMLDocument){
 									SBMLDocument sbmlDocument = (SBMLDocument) SBMLElements.peek();
-									Iterator<Entry<String, SBMLParser>> iterator = initializedParsers.entrySet().iterator();
+									Iterator<Entry<String, ReadingParser>> iterator = initializedParsers.entrySet().iterator();
 									
 									while (iterator.hasNext()){
-										Entry<String, SBMLParser> entry = iterator.next();
+										Entry<String, ReadingParser> entry = iterator.next();
 										
-										SBMLParser sbmlParser = entry.getValue();
+										ReadingParser sbmlParser = entry.getValue();
 										sbmlParser.processEndDocument(sbmlDocument);
 									}
 									return (SBMLDocument) SBMLElements.peek();
