@@ -27,9 +27,8 @@ import org.sbml.jsbml.element.ModelHistory;
 import org.sbml.jsbml.element.SBMLDocument;
 import org.sbml.jsbml.element.SBase;
 import org.sbml.jsbml.element.CVTerm.Qualifier;
+import org.sbml.jsbml.util.JAXPFacade;
 import org.w3c.dom.Document;
-
-import uk.ac.ebi.compneur.xml.JAXPFacade;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
 
