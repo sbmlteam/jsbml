@@ -37,13 +37,12 @@ import java.util.Vector;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNodeCompiler;
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SpeciesReference;
 
 /**
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class TextFormula extends StringTools implements ASTNodeCompiler {
@@ -524,11 +523,19 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#function(java.lang.String,
-	 * org.sbml.jsbml.ASTNode[])
+	 * @see org.sbml.jsbml.ASTNodeCompiler#function(org.sbml.jsbml.NamedSBase, org.sbml.jsbml.ASTNode[])
 	 */
-	public String function(String name, ASTNode... nodes) {
+	public String function(FunctionDefinition func, ASTNode... nodes) {
+		return function(func.getName(), nodes);
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param nodes
+	 * @return
+	 */
+	private String function(String name, ASTNode... nodes) {
 		return concat(name, lambda(nodes)).toString();
 	}
 
@@ -748,7 +755,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#relationGraterThan(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
-	public String relationGraterThan(ASTNode left, ASTNode right) {
+	public String relationGreaterThan(ASTNode left, ASTNode right) {
 		return concat(left.compile(this), Character.valueOf('>'),
 				right.compile(this)).toString();
 	}

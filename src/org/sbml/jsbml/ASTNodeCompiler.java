@@ -252,11 +252,11 @@ public interface ASTNodeCompiler {
 
 	/**
 	 * 
-	 * @param name
+	 * @param namedSBase
 	 * @param args
 	 * @return
 	 */
-	public Object function(String name, ASTNode... args);
+	public Object function(FunctionDefinition namedSBase, ASTNode... args);
 
 	/**
 	 * 
@@ -387,7 +387,7 @@ public interface ASTNodeCompiler {
 	 * @param rightChild
 	 * @return
 	 */
-	public Object relationGraterThan(ASTNode left, ASTNode right);
+	public Object relationGreaterThan(ASTNode left, ASTNode right);
 
 	/**
 	 * 
