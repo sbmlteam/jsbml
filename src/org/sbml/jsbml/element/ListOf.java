@@ -53,14 +53,13 @@ import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
 public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	private CurrentListOfSBMLElements currentList = CurrentListOfSBMLElements.none;
-	private LinkedList<T> listOf = null;
+	private LinkedList<T> listOf = new LinkedList<T>();
 
 	/**
 	 * 
 	 */
 	public ListOf() {
 		super();
-		this.setListOf(new LinkedList<T>());
 	}
 	
 	/**

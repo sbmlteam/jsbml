@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.sbml.jsbml.element.CVTerm.Qualifier;
 //import org.sbml.jsbml.xml.helper.RDFElement;
@@ -34,6 +35,8 @@ public class Annotation {
 	 * contains all the namespaces of the matching XML annotation node
 	 */
 	private HashMap<String, String> annotationNamespaces = new HashMap<String, String>();
+	
+	private HashMap<String, Annotation> extensions = new HashMap<String, Annotation>();
 	
 	/**
 	 * contains all the namespaces of the matching XML RDF annotation node
@@ -120,6 +123,10 @@ public class Annotation {
 			return annotation.toString();
 		}
 		return null;
+	}
+	
+	public StringBuilder getAnnotationBuilder(){
+		return this.annotation;
 	}
 	
 	/**
@@ -282,7 +289,7 @@ public class Annotation {
 	 * @param qualifier
 	 * @return String which represents the Qualifier qualifier in a XML node
 	 */
-	protected String getElementNameEquivalentToQualifier(Qualifier qualifier){
+	public static String getElementNameEquivalentToQualifier(Qualifier qualifier){
 		String stringQualifier = null;
 		
 		switch (qualifier) {
@@ -530,5 +537,17 @@ public class Annotation {
 		else {
 			this.rdfAnnotationNamespaces.put(namespaceName, URI);
 		}
+	}
+	
+	public Annotation getExtension(String namespace){
+		return this.extensions.get(namespace);
+	}
+	
+	public void addExtension(String namespace, Annotation annotation){
+		this.extensions.put(namespace, annotation);
+	}
+	
+	public Set<String> getNamespaces(){
+		return this.extensions.keySet();
 	}
 }

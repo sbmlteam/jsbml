@@ -6,9 +6,9 @@ import org.sbml.jsbml.element.SBMLDocument;
 
 public interface SBMLParser {
 
-	public Object processStartElement(String ElementName, String prefix, Object contextObject);
+	public Object processStartElement(String ElementName, String prefix, boolean hasAttributes, boolean hasNamespaces, Object contextObject);
 	
-	public void processAttribute(String ElementName, String AttributeName, String value, String prefix, Object contextObject);
+	public void processAttribute(String ElementName, String AttributeName, String value, String prefix, boolean isLastAttribute, Object contextObject);
 
 	public void processCharactersOf(String elementName, String characters, Object contextObject);
 	
@@ -16,7 +16,7 @@ public interface SBMLParser {
 	
 	public void processEndDocument(SBMLDocument sbmlDocument);
 	
-	public void processNamespace(String elementName, String URI, String prefix, String localName, Object contextObject);
+	public void processNamespace(String elementName, String URI, String prefix, String localName, boolean hasAttributes, boolean isLastNamespace, Object contextObject);
 	
 	public ArrayList<Object> getListOfSBMLElementsToWrite(Object objectToWrite);
 	

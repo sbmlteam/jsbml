@@ -19,40 +19,39 @@ public class DatesParser implements SBMLParser{
 	boolean hasReadW3CDTF = false;
 	boolean hasReadModified = false;
 
-	public void processAttribute(String ElementName, String AttributeName,
-			String value, String prefix, Object contextObject) {
-		// TODO : There is no attributes with the namespace "http://purl.org/dc/terms/". There is a SBML
-		// syntax error, throw an exception?
-	}
-
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		
-		if (contextObject instanceof ModelHistory){
-			ModelHistory modelHistory = (ModelHistory) contextObject;
-			DateProcessor dateProcessor = new DateProcessor();
-			
-			if (elementName.equals("W3CDTF") && hasReadW3CDTF){
-				if (hasReadCreated && previousElement.equals("created")){
-					String stringDate = dateProcessor.formatToW3CDTF(characters);
+		if (elementName != null){
+			if (contextObject instanceof ModelHistory){
+				ModelHistory modelHistory = (ModelHistory) contextObject;
+				DateProcessor dateProcessor = new DateProcessor();
+				
+				if (elementName.equals("W3CDTF") && hasReadW3CDTF){
+					if (hasReadCreated && previousElement.equals("created")){
+						String stringDate = dateProcessor.formatToW3CDTF(characters);
 
-					try {
-						Date createdDate = DateParser.parse(stringDate);
-						modelHistory.setCreatedDate(createdDate);
-					} catch (InvalidDateException e) {
-						// TODO : can't create a Date, what to do?
-						e.printStackTrace();
+						try {
+							Date createdDate = DateParser.parse(stringDate);
+							modelHistory.setCreatedDate(createdDate);
+						} catch (InvalidDateException e) {
+							// TODO : can't create a Date, what to do?
+							e.printStackTrace();
+						}
 					}
-				}
-				else if (previousElement.equals("modified")){
-					String stringDate = dateProcessor.formatToW3CDTF(characters);
+					else if (previousElement.equals("modified")){
+						String stringDate = dateProcessor.formatToW3CDTF(characters);
 
-					try {
-						Date modifiedDate = DateParser.parse(stringDate);
-						modelHistory.setModifiedDate(modifiedDate);
-					} catch (InvalidDateException e) {
-						// TODO : can't create a Date, what to do?
-						e.printStackTrace();
+						try {
+							Date modifiedDate = DateParser.parse(stringDate);
+							modelHistory.setModifiedDate(modifiedDate);
+						} catch (InvalidDateException e) {
+							// TODO : can't create a Date, what to do?
+							e.printStackTrace();
+						}
+					}
+					else {
+						// TODO : SBML syntax error, what to do?
 					}
 				}
 				else {
@@ -60,11 +59,8 @@ public class DatesParser implements SBMLParser{
 				}
 			}
 			else {
-				// TODO : SBML syntax error, what to do?
+				// TODO : the date instances are only created for the model history object in the annotation. Throw an error?
 			}
-		}
-		else {
-			// TODO : the date instances are only created for the model history object in the annotation. Throw an error?
 		}
 	}
 
@@ -88,7 +84,9 @@ public class DatesParser implements SBMLParser{
 		}
 	}
 
-	public Object processStartElement(String elementName, String prefix, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix,
+			boolean hasAttributes, boolean hasNamespaces,
+			Object contextObject) {
 
 		if (contextObject instanceof Annotation){
 			Annotation modelAnnotation = (Annotation) contextObject;
@@ -133,7 +131,8 @@ public class DatesParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, Object contextObject) {
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
 		if (elementName.equals("RDF") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
 			
@@ -167,4 +166,10 @@ public class DatesParser implements SBMLParser{
 		
 	}
 
+	public void processAttribute(String ElementName, String AttributeName,
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject) {
+		// TODO : There is no attributes with the namespace "http://purl.org/dc/terms/". There is a SBML
+		// syntax error, throw an exception?
+	}
 }

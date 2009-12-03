@@ -10,12 +10,6 @@ import org.sbml.jsbml.xml.SBMLParser;
 
 public class CreatorParser implements SBMLParser{
 
-	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, Object contextObject) {
-		// TODO : there is no attributes with the namespace "http://purl.org/dc/elements/1.1/", there
-		// is a SBML syntax error, throw an exception?
-	}
-
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		// TODO : there is no text for the element with the namespace "http://purl.org/dc/elements/1.1/", there
@@ -26,7 +20,9 @@ public class CreatorParser implements SBMLParser{
 			boolean isNested, Object contextObject) {
 	}
 
-	public Object processStartElement(String elementName, String prefix, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix,
+			boolean hasAttributes, boolean hasNamespaces,
+			Object contextObject) {
 
 		if (elementName.equals("creator") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
@@ -47,7 +43,8 @@ public class CreatorParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, Object contextObject) {
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
 		
 		if (elementName.equals("RDF") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
@@ -79,6 +76,13 @@ public class CreatorParser implements SBMLParser{
 			Object sbmlElementToWrite) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void processAttribute(String ElementName, String AttributeName,
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject) {
+		// TODO : there is no attributes with the namespace "http://purl.org/dc/elements/1.1/", there
+		// is a SBML syntax error, throw an exception?
 	}
 
 }

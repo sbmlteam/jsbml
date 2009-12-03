@@ -22,12 +22,6 @@ public class ModelQualifierParser implements SBMLParser{
 		modelQualifierMap.put("is", Qualifier.BQM_IS);
 		modelQualifierMap.put("isDescribedBy", Qualifier.BQM_IS_DESCRIBED_BY);
 	}
-	
-	public void processAttribute(String ElementName, String AttributeName,
-			String value, String prefix, Object contextObject) {		
-		// TODO : a node with the namespace "http://biomodels.net/model-qualifiers/" can't have attributes.
-		// Throw an error?
-	}
 
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {	
@@ -39,7 +33,9 @@ public class ModelQualifierParser implements SBMLParser{
 			boolean isNested, Object contextObject) {		
 	}
 
-	public Object processStartElement(String elementName, String prefix, Object contextObject) {
+	public Object processStartElement(String elementName, String prefix,
+			boolean hasAttributes, boolean hasNamespaces,
+			Object contextObject) {
 
 		if (contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
@@ -66,7 +62,8 @@ public class ModelQualifierParser implements SBMLParser{
 	}
 
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, Object contextObject) {
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
 		
 		if (elementName.equals("RDF") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
@@ -100,4 +97,10 @@ public class ModelQualifierParser implements SBMLParser{
 		
 	}
 
+	public void processAttribute(String ElementName, String AttributeName,
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject) {
+		// TODO : a node with the namespace "http://biomodels.net/model-qualifiers/" can't have attributes.
+		// Throw an error?
+	}
 }
