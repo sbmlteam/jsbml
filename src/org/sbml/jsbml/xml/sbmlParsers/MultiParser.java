@@ -12,9 +12,10 @@ import org.sbml.jsbml.multiTest.MultiList;
 import org.sbml.jsbml.multiTest.MultiSpecies;
 import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
 import org.sbml.jsbml.xml.SBMLObjectForXML;
-import org.sbml.jsbml.xml.SBMLParser;
+import org.sbml.jsbml.xml.ReadingParser;
+import org.sbml.jsbml.xml.WritingParser;
 
-public class MultiParser implements SBMLParser{
+public class MultiParser implements ReadingParser, WritingParser{
 	
 	private final String namespace = "http://www.sbml.org/sbml/level3/version1/multi/version1";
 	

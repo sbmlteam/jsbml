@@ -1,7 +1,6 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.sbml.jsbml.element.Annotation;
@@ -14,10 +13,9 @@ import org.sbml.jsbml.element.ModelHistory;
 import org.sbml.jsbml.element.Reaction;
 import org.sbml.jsbml.element.SBMLDocument;
 import org.sbml.jsbml.element.UnitDefinition;
-import org.sbml.jsbml.xml.SBMLObjectForXML;
-import org.sbml.jsbml.xml.SBMLParser;
+import org.sbml.jsbml.xml.ReadingParser;
 
-public class RDFAnnotationParser implements SBMLParser{
+public class RDFAnnotationParser implements ReadingParser{
 	
 	private HashMap<String, String> previousElements = new HashMap<String, String>();
 
@@ -323,30 +321,5 @@ public class RDFAnnotationParser implements SBMLParser{
 			Annotation annotation = (Annotation) contextObject;
 			annotation.addRDFAnnotationNamespace(localName, prefix, URI);;
 		}
-	}
-
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object objectToWrite) {
-		return null;
-	}
-
-	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
-	}
-
-	public void writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-		
 	}
 }
