@@ -195,6 +195,7 @@ public class AssignmentRule extends Rule {
 	 */
 	public void setVariable(Symbol variable) {
 		this.variable = variable;
+		setThisAsParentSBMLObject(this.variable);
 		stateChanged();
 	}
 	

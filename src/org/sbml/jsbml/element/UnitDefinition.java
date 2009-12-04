@@ -293,7 +293,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public void addUnit(Unit u) {
 		if (!isSetListOfUnits()){
 			this.listOfUnit = new ListOf<Unit>();
+			setThisAsParentSBMLObject(this.listOfUnit);
 		}
+		setThisAsParentSBMLObject(u);
 		listOfUnit.add(u);
 		u.parentSBMLObject = this;
 		stateChanged();

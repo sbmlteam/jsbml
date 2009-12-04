@@ -314,4 +314,14 @@ public interface SBase {
 	public Set<String> getNamespaces();
 	
 	public HashMap<String, String> writeXMLAttributes();
+	
+	public void setLevel(int level);
+	
+	public void setVersion(int version);
+	
+	public boolean isSetLevel();
+	
+	public boolean isSetVersion();
+	
+	public void setThisAsParentSBMLObject(AbstractSBase sbase);
 }

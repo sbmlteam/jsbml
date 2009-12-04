@@ -60,7 +60,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		SBMLCoreElements.put("listOfReactions", ListOf.class);
 		SBMLCoreElements.put("listOfEvents", ListOf.class);
 		SBMLCoreElements.put("listOfUnits", ListOf.class);
-		SBMLCoreElements.put("listOfReactions", ListOf.class);
 		SBMLCoreElements.put("listOfReactants", ListOf.class);
 		SBMLCoreElements.put("listOfProducts", ListOf.class);
 		SBMLCoreElements.put("listOfEventAssignments", ListOf.class);
@@ -84,10 +83,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		SBMLCoreElements.put("annotation", Annotation.class);
 		SBMLCoreElements.put("event", Event.class);
 		SBMLCoreElements.put("unit", Unit.class);
-		SBMLCoreElements.put("algebraicRule", AlgebraicRule.class);
-		SBMLCoreElements.put("assignmentRule", AssignmentRule.class);
-		SBMLCoreElements.put("rateRule", RateRule.class);
-		SBMLCoreElements.put("reaction", Reaction.class);
 		SBMLCoreElements.put("speciesReference", SpeciesReference.class);
 		SBMLCoreElements.put("modifierSpeciesReference", ModifierSpeciesReference.class);
 		SBMLCoreElements.put("trigger", Trigger.class);

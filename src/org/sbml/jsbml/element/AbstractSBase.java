@@ -515,10 +515,80 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	void setThisAsParentSBMLObject(ListOf<?> list) {
 		list.parentSBMLObject = this;
+		
+		if (list.isSetLevel()){
+			if (list.getLevel() != getLevel()){
+				try {
+					throw new SBMLException();
+				} catch (SBMLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		else {
+			list.setLevel(getLevel());
+		}
+		
+		if (list.isSetVersion()){
+			if (list.getVersion() != getVersion()){
+				try {
+					throw new SBMLException();
+				} catch (SBMLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		else {
+			list.setVersion(getVersion());
+		}
+		
 		for (SBase base : list){
 			AbstractSBase sbase = (AbstractSBase) base;
-			sbase.setParentSBML(this);
+			setThisAsParentSBMLObject(sbase);
 		}
+	}
+	
+	/**
+	 * Sets the parent SBML object of the given SBase element. If the level and versions
+	 * of the sbase element are different with the level and version of the SBMLDocument
+	 * an exception is thrown.
+	 * If the level and version of the sbase element are not set, it will automatically set
+	 * them with the level and version of the SBMLDocument
+	 * 
+	 * @param list
+	 */
+	public void setThisAsParentSBMLObject(AbstractSBase sbase) {
+		sbase.parentSBMLObject = this;
+		
+		if (sbase.isSetLevel()){
+			if (sbase.getLevel() != getLevel()){
+				try {
+					throw new SBMLException();
+				} catch (SBMLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		else {
+			sbase.setLevel(getLevel());
+		}
+		
+		if (sbase.isSetVersion()){
+			if (sbase.getVersion() != getVersion()){
+				try {
+					throw new SBMLException();
+				} catch (SBMLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		else {
+			sbase.setVersion(getVersion());
+		}			
 	}
 	
 	public void setNotesBuffer(StringBuffer notesBuffer) {
@@ -603,6 +673,22 @@ public abstract class AbstractSBase implements SBase {
 	
 	public Set<String> getNamespaces(){
 		return this.extensions.keySet();
+	}
+	
+	public void setLevel(int level){
+		this.level = level;
+	}
+	
+	public void setVersion(int version){
+		this.version = version;
+	}
+	
+	public boolean isSetLevel(){
+		return level != 0;
+	}
+	
+	public boolean isSetVersion(){
+		return version != 0;
 	}
 	
 	public HashMap<String, String> writeXMLAttributes(){

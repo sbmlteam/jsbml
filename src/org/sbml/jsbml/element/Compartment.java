@@ -351,6 +351,7 @@ public class Compartment extends Symbol {
 	 */
 	public void setCompartmentType(CompartmentType compartmentType) {
 		this.compartmentType = compartmentType;
+		setThisAsParentSBMLObject(this.compartmentType);
 	}
 	
 	/**
@@ -375,6 +376,7 @@ public class Compartment extends Symbol {
 	 */
 	public void setOutside(Compartment outside) {
 		this.outside = outside;
+		setThisAsParentSBMLObject(this.outside);
 	}
 	
 	/**

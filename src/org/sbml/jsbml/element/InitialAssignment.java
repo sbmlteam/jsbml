@@ -145,6 +145,7 @@ public class InitialAssignment extends MathContainer {
 	 */
 	public void setSymbol(Symbol symbol) {
 		this.symbol = symbol;
+		setThisAsParentSBMLObject(this.symbol);
 	}
 
 	/*

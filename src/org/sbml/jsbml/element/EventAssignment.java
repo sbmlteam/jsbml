@@ -144,8 +144,10 @@ public class EventAssignment extends MathContainer {
 	 */
 	public void setVariable(Symbol variable) {
 		if ((variable instanceof Species) || variable instanceof Compartment
-				|| (variable instanceof Parameter))
+				|| (variable instanceof Parameter) || (variable instanceof SpeciesReference)){
 			this.variable = variable;
+			setThisAsParentSBMLObject(this.variable);
+		}
 		else
 			throw new IllegalArgumentException(
 					"Only Species, Compartments, or Parameters allowed as variables");
