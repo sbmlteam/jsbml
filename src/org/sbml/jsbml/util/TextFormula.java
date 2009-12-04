@@ -750,7 +750,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#relationGraterThan(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
-	public String relationGraterThan(ASTNode left, ASTNode right) {
+	public String relationGreaterThan(ASTNode left, ASTNode right) {
 		return concat(left.compile(this), Character.valueOf('>'),
 				right.compile(this)).toString();
 	}
