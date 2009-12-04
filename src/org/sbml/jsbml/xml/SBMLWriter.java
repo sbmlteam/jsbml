@@ -98,52 +98,48 @@ public class SBMLWriter {
 		} 
 	}
 	
-	private static void writeModelHistory(ModelHistory modelHistory, SMOutputElement rdfElement, SMOutputElement descriptionElement){
+	private static void writeModelHistory(ModelHistory modelHistory, HashMap<String, String> rdfNamespaces, SMOutputElement descriptionElement){
 		try {
-			SMNamespace rdfNamespace = rdfElement.getNamespace();
-
+			SMNamespace rdfNamespace = descriptionElement.getNamespace();
 			if (modelHistory.getNumCreators() > 0){
-				SMNamespace creatorNamespace = rdfElement.getNamespace("http://purl.org/dc/elements/1.1/");
-				SMOutputElement creatorElement = descriptionElement.addElement(creatorNamespace, "creator");
-				creatorElement.addCharacters(" \n");
-				
-				SMOutputElement bagElement = creatorElement.addElement(creatorNamespace, "Bag");
+				String creatorPrefix = rdfNamespaces.get("http://purl.org/dc/elements/1.1/");
+				SMOutputElement creatorElement = descriptionElement.addElementWithCharacters(null, creatorPrefix+":creator", " \n");
+				SMOutputElement bagElement = creatorElement.addElementWithCharacters(descriptionElement.getNamespace(), "Bag", " \n");
 				
 				for (int i = 0; i < modelHistory.getNumCreators(); i++){
-					bagElement.addCharacters("\n");
-					
+
 					ModelCreator modelCreator = modelHistory.getCreator(i);
-					SMOutputElement liElement = bagElement.addElement(rdfNamespace, "li");
-					liElement.addAttribute(rdfNamespace, "parseType", "Resource");
-					SMNamespace vCardNamespace = rdfElement.getNamespace("http://www.w3.org/2001/vcard-rdf/3.0#");
+					SMOutputElement liElement = bagElement.addElement(rdfNamespace,"li");
+					liElement.addAttribute(rdfNamespace,"parseType", "Resource");
+					String vCardPrefix = rdfNamespaces.get("http://www.w3.org/2001/vcard-rdf/3.0#");
 
 					if (modelCreator.isSetFamilyName() || modelCreator.isSetGivenName()){
 						liElement.addCharacters(" \n");
-						SMOutputElement NElement = liElement.addElement(vCardNamespace, "N");
-						NElement.addAttribute(rdfNamespace, "parseType", "Resource");
+						SMOutputElement NElement = liElement.addElement(vCardPrefix+":N");
+						NElement.addAttribute(rdfNamespace,"parseType", "Resource");
 						
 						if (modelCreator.isSetFamilyName()){
 							NElement.addCharacters(" \n");
-							NElement.addElementWithCharacters(vCardNamespace, "Family", modelCreator.getFamilyName());
+							NElement.addElementWithCharacters(null, vCardPrefix+":Family", modelCreator.getFamilyName());
 						}
 						if (modelCreator.isSetGivenName()){
 							NElement.addCharacters(" \n");
-							NElement.addElementWithCharacters(vCardNamespace, "Given", modelCreator.getGivenName());
+							NElement.addElementWithCharacters(null, vCardPrefix+":Given", modelCreator.getGivenName());
 						}
 						NElement.addCharacters(" \n");
 					}
 					
 					if (modelCreator.isSetEmail()){
 						liElement.addCharacters(" \n");
-						liElement.addElementWithCharacters(vCardNamespace, "EMAIL", modelCreator.getEmail());
+						liElement.addElementWithCharacters(null, vCardPrefix+":EMAIL", modelCreator.getEmail());
 					}
 					if (modelCreator.isSetOrganization()){
 						liElement.addCharacters(" \n");
-						SMOutputElement orgElement = liElement.addElement(vCardNamespace, "ORG");
-						orgElement.addAttribute(rdfNamespace, "parseType", "Resource");
+						SMOutputElement orgElement = liElement.addElement(vCardPrefix+":ORG");
+						orgElement.addAttribute(rdfNamespace,"parseType", "Resource");
 						
 						orgElement.addCharacters(" \n");
-						orgElement.addElementWithCharacters(vCardNamespace, "Orgname", modelCreator.getOrganization());
+						orgElement.addElementWithCharacters(null, vCardPrefix+":Orgname", modelCreator.getOrganization());
 						orgElement.addCharacters(" \n");
 					}
 					liElement.addCharacters(" \n");
@@ -151,26 +147,26 @@ public class SBMLWriter {
 				bagElement.addCharacters(" \n");
 				creatorElement.addCharacters(" \n");
 			}
-			SMNamespace dateNamespace = rdfElement.getNamespace("http://purl.org/dc/terms/");
+			String datePrefix = rdfNamespaces.get("http://purl.org/dc/terms/");
 
 			if (modelHistory.isSetCreatedDate()){
 				descriptionElement.addCharacters(" \n");
-				SMOutputElement createdElement = descriptionElement.addElement(dateNamespace, "created");
-				createdElement.addAttribute(rdfNamespace, "parseType", "Resource");
+				SMOutputElement createdElement = descriptionElement.addElement(datePrefix+":created");
+				createdElement.addAttribute(rdfNamespace,"parseType", "Resource");
 				
 				createdElement.addCharacters(" \n");
-				createdElement.addElementWithCharacters(dateNamespace, "W3CDTF", modelHistory.getCreatedDate().toString());
+				createdElement.addElementWithCharacters(null, datePrefix+":W3CDTF", modelHistory.getCreatedDate().toString());
 				createdElement.addCharacters(" \n");
 			}
 			if (modelHistory.isSetModifiedDate()){
 				for (int i = 0; i < modelHistory.getNumModifiedDates(); i++){
 					descriptionElement.addCharacters(" \n");
 					
-					SMOutputElement modifiedElement = descriptionElement.addElement(dateNamespace, "modified");
+					SMOutputElement modifiedElement = descriptionElement.addElement(datePrefix+":modified");
 					modifiedElement.addAttribute(rdfNamespace, "parseType", "Resource");
 					
 					modifiedElement.addCharacters(" \n");
-					modifiedElement.addElementWithCharacters(dateNamespace, "W3CDTF", modelHistory.getModifiedDate(i).toString());
+					modifiedElement.addElementWithCharacters(null, datePrefix+":W3CDTF", modelHistory.getModifiedDate(i).toString());
 					modifiedElement.addCharacters(" \n");
 				}
 			}
@@ -180,31 +176,31 @@ public class SBMLWriter {
 	}
 	}
 	
-	private static void writeCVTerms(List<CVTerm> listOfCVTerms,  SMOutputElement rdfElement, SMOutputElement descriptionElement){
+	private static void writeCVTerms(List<CVTerm> listOfCVTerms,  HashMap<String, String> rdfNamespaces, SMOutputElement descriptionElement){
 		try {
-			SMNamespace rdfNamespace = rdfElement.getNamespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+			SMNamespace rdfNamespace = descriptionElement.getNamespace();
 			if (listOfCVTerms.size() > 0){
 				
 				for (int i = 0; i < listOfCVTerms.size(); i++){
 					CVTerm cvTerm = listOfCVTerms.get(i);
-					SMNamespace namespaceURI = null;
+					String namespaceURI = null;
 					String elementName = null;
 					if (cvTerm.getQualifierType().equals(Qualifier.BIOLOGICAL_QUALIFIER)){
-						namespaceURI = rdfElement.getNamespace("http://biomodels.net/biology-qualifiers/");
+						namespaceURI = rdfNamespaces.get("http://biomodels.net/biology-qualifiers/");
 						elementName = Annotation.getElementNameEquivalentToQualifier(cvTerm.getBiologicalQualifierType());
 					}
 					else if (cvTerm.getQualifierType().equals(Qualifier.MODEL_QUALIFIER)){
-						namespaceURI = rdfElement.getNamespace("http://biomodels.net/model-qualifiers/");
+						namespaceURI = rdfNamespaces.get("http://biomodels.net/model-qualifiers/");
 						elementName = Annotation.getElementNameEquivalentToQualifier(cvTerm.getModelQualifierType());
 					}
 					
 					if (namespaceURI != null && elementName != null){
 						descriptionElement.addCharacters(" \n");
 						
-						SMOutputElement cvTermElement = descriptionElement.addElement(namespaceURI, elementName);
+						SMOutputElement cvTermElement = descriptionElement.addElement(namespaceURI+":"+elementName);
 						cvTermElement.addCharacters(" \n");
 						if (cvTerm.getNumResources() > 0){
-							SMOutputElement bagElement = cvTermElement.addElement(rdfNamespace, "Bag");
+							SMOutputElement bagElement = cvTermElement.addElement(rdfNamespace,"Bag");
 							for (int j = 0; j < cvTerm.getNumResources(); j++){
 								bagElement.addCharacters(" \n");
 
@@ -223,35 +219,31 @@ public class SBMLWriter {
 	}
 	}
 	
-	private static void writeRDFAnnotation(Annotation annotation, SMOutputElement annotationElement){
+	private static void writeRDFAnnotation(Annotation annotation, SMOutputElement annotationElement, XMLStreamWriter2 writer){
 		try {
 			SMNamespace namespace = annotationElement.getNamespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#", "rdf");
 			SMOutputElement rdfElement = annotationElement.addElement(namespace, "RDF");
-			rdfElement.addCharacters(" \n");
 			
 			HashMap<String, String> rdfNamespaces = annotation.getRdfAnnotationNamespaces();
 			Iterator<Entry<String, String>> it = rdfNamespaces.entrySet().iterator();
 			while(it.hasNext()){
 				Entry<String, String> entry = it.next();
 				
-				if (entry.getKey().contains(":")){
-					String [] key = entry.getKey().split(":");
-					SMNamespace nam = rdfElement.getNamespace(entry.getValue(), key[1]);
-				}
-				else {
-					SMNamespace nam = rdfElement.getNamespace(entry.getValue(), "");
+				if (!entry.getKey().equals(namespace.getURI())){
+						writer.writeNamespace(entry.getValue(), entry.getKey());					
 				}
 			}
+			rdfElement.addCharacters(" \n");
 			
 			SMOutputElement descriptionElement = rdfElement.addElement(namespace, "Description");
 			descriptionElement.addAttribute(namespace, "about", annotation.getAbout());
 			descriptionElement.addCharacters(" \n");
 			
 			if (annotation.isSetModelHistory()){
-				writeModelHistory(annotation.getModelHistory(), rdfElement, descriptionElement);
+				writeModelHistory(annotation.getModelHistory(), rdfNamespaces, descriptionElement);
 			}
 			if (annotation.getListOfCVTerms().size() > 0){
-				writeCVTerms(annotation.getListOfCVTerms(), rdfElement, descriptionElement);
+				writeCVTerms(annotation.getListOfCVTerms(), rdfNamespaces, descriptionElement);
 			}
 			descriptionElement.addCharacters("\n");
 			rdfElement.addCharacters(" \n");
@@ -296,7 +288,7 @@ public class SBMLWriter {
 			}
 			
 			if (annotation.isSetModelHistory() || annotation.getListOfCVTerms().size() > 0){
-				writeRDFAnnotation(annotation, annotationElement);
+				writeRDFAnnotation(annotation, annotationElement, writer);
 			}
 			SBMLObjectForXML xmlObject = new SBMLObjectForXML();
 			writeSBMLElements(xmlObject, annotationElement, writer, annotation, null, null);

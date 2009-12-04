@@ -531,12 +531,7 @@ public class Annotation {
 	}
 
 	public void addRDFAnnotationNamespace(String namespaceName, String prefix, String URI){
-		if (!prefix.equals("")){
-			this.rdfAnnotationNamespaces.put(prefix+":"+namespaceName, URI);
-		}
-		else {
-			this.rdfAnnotationNamespaces.put(namespaceName, URI);
-		}
+		this.rdfAnnotationNamespaces.put(URI, namespaceName);
 	}
 	
 	public Annotation getExtension(String namespace){

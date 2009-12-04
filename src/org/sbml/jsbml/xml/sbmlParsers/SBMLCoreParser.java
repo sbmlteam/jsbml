@@ -591,61 +591,12 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		}
 	}
 	
-	private void setAssignmentRuleVariable(AssignmentRule rule, Model model){
+	private boolean setAssignmentRuleVariable(AssignmentRule rule, Model model){
 		
-		if (rule.isSetVariableID()){
-			String variableID = rule.getVariable();
-			
-			Compartment compartment = model.getCompartment(variableID);
-			Species species = null;
-			SpeciesReference speciesReference = null;
-			Parameter parameter = null;
-			
-			if (compartment == null){
-				species = model.getSpecies(variableID);
-				
-				if (species == null){
-					parameter = model.getParameter(variableID);
-					
-					if (parameter == null){
-						if (model.isSetListOfReactions()){
-							
-							int i = 0;
-							SpeciesReference sr = null;
-							
-							while (i <= model.getNumReactions() - 1 && sr == null){
-								Reaction reaction = model.getReaction(i);
-								
-								if (reaction != null){
-									sr = reaction.getReactant(variableID);
-									if (sr == null){
-										sr = reaction.getProduct(variableID);
-									}
-								}
-							}
-							
-							speciesReference = sr;
-							
-							if (speciesReference != null){
-								rule.setVariable(speciesReference);
-							}
-							else {
-								// TODO : the variable ID doesn't match a SBML component, throw an exception?
-							}
-						}
-					}
-					else {
-						rule.setVariable(parameter);
-					}
-				}
-				else {
-					rule.setVariable(species);
-				}
-			}
-			else {
-				rule.setVariable(compartment);
-			}
+		if (rule.isSetVariableID() && rule.isSetVariable()){
+			return true;
 		}
+		return false;
 	}
 	
 	private void setCompartmentCompartmentType(Compartment compartment, Model model){
@@ -969,12 +920,37 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		if (sbmlDocument.isSetModel()){
 			Model model = sbmlDocument.getModel();
 			
+			if (model.isSetAreaUnitsID() && !model.isSetAreaUnits()){
+				// TODO : throw an exception : No unitDefinition matches the areaUnitsID of Model.
+			}
+			if (model.isSetConversionFactorID() && !model.isSetConversionFactor()){
+				// TODO : throw an exception : No parameter matches the conversionFactorID of Model.
+			}
+			if (model.isSetExtentUnitsID() && !model.isSetExtentUnits()){
+				// TODO : throw an exception : No unitDefinition matches the extentUnitsID of Model.
+			}
+			if (model.isSetLengthUnitsID() && !model.isSetLengthUnits()){
+				// TODO : throw an exception : No unitDefinition matches the lengthUnitsID of Model.
+			}
+			if (model.isSetSubstanceUnitsID() && !model.isSetSubstanceUnits()){
+				// TODO : throw an exception : No unitDefinition matches the substanceUnitsID of Model.
+			}
+			if (model.isSetTimeUnitsID() && !model.isSetTimeUnits()){
+				// TODO : throw an exception : No unitDefinition matches the timeUnitsID of Model.
+			}
+			if (model.isSetVolumeUnitsID() && !model.isSetVolumeUnits()){
+				// TODO : throw an exception : No unitDefinition matches the volumeUnitsID of Model.
+			}
+			
 			if (model.isSetListOfRules()){
 				for (int i = 0; i < model.getNumRules(); i++){
 					Rule rule = model.getRule(i);
 					if (rule instanceof AssignmentRule){
 						AssignmentRule assignmentRule = (AssignmentRule) rule;
-						setAssignmentRuleVariable(assignmentRule, model);
+						boolean isSetAssignmentRuleVariable = setAssignmentRuleVariable(assignmentRule, model);
+						if (!isSetAssignmentRuleVariable){
+							// TODO : throw an exception : No Symbol matches the variableID of AssignmentRule.
+						}
 					}
 					else if (rule instanceof RateRule){
 						RateRule rateRule = (RateRule) rule;
