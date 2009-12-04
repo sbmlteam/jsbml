@@ -45,7 +45,6 @@ public class Reaction extends AbstractNamedSBase {
 
 	private boolean reversible;
 	private boolean fast;
-	private Compartment compartment;
 	private String compartmentID;
 
 	private ListOf<SpeciesReference> listOfReactants;
@@ -62,7 +61,6 @@ public class Reaction extends AbstractNamedSBase {
 		this.listOfReactants = null;
 		this.listOfProducts = null;
 		this.listOfModifiers = null;
-		this.compartment = null;
 		this.compartmentID = null;
 	}
 
@@ -424,7 +422,10 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isSetCompartment() {
-		return compartment != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getCompartment(this.compartmentID) != null;
 	}
 	
 	/**
@@ -432,7 +433,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isSetCompartmentID() {
-		return compartmentID != null;
+		return this.compartmentID != null;
 	}
 
 	/**
@@ -542,19 +543,22 @@ public class Reaction extends AbstractNamedSBase {
 		return (Model) super.getParentSBMLObject();
 	}
 	
-	public Compartment getCompartment() {
-		return compartment;
+	public Compartment getCompartmentInstance() {
+		if (getModel() == null){
+			return null;
+		}
+		return getModel().getCompartment(this.compartmentID);
 	}
 
 
 	public void setCompartment(Compartment compartment) {
-		this.compartment = compartment;
-		setThisAsParentSBMLObject(this.compartment);
+		this.compartmentID = compartment != null ? compartment.getId() : null;
+		stateChanged();
 	}
 
 
-	public String getCompartmentID() {
-		return compartmentID;
+	public String getCompartment() {
+		return this.compartmentID;
 	}
 
 
@@ -629,7 +633,7 @@ public class Reaction extends AbstractNamedSBase {
 		}
 		
 		if (isSetCompartmentID()){
-			attributes.put("compartment", getCompartmentID());
+			attributes.put("compartment", getCompartment());
 		}
 		
 		return attributes;

@@ -46,15 +46,7 @@ public class Compartment extends Symbol {
 	/**
 	 * 
 	 */
-	private CompartmentType compartmentType;
-	/**
-	 * 
-	 */
 	private boolean constant;
-	/**
-	 * 
-	 */
-	private Compartment outside;
 	/**
 	 * 
 	 */
@@ -69,8 +61,6 @@ public class Compartment extends Symbol {
 	 */
 	public Compartment() {
 		super();
-		this.compartmentType = null;
-		this.outside = null;
 		this.compartmentTypeID = null;
 		this.outsideID = null;
 	}
@@ -81,9 +71,9 @@ public class Compartment extends Symbol {
 	 */
 	public Compartment(Compartment compartment) {
 		super(compartment);
-		this.compartmentType = compartment.getCompartmentTypeInstance();
+		this.compartmentTypeID = compartment.getCompartmentType();
 		this.spatialDimensions = compartment.getSpatialDimensions();
-		this.outside = compartment.getOutsideInstance();
+		this.outsideID = compartment.getOutside();
 		this.constant = compartment.getConstant();
 		setValue(compartment.getSize());
 	}
@@ -136,16 +126,8 @@ public class Compartment extends Symbol {
 	 * 
 	 * @return
 	 */
-	public CompartmentType getCompartmentType() {
-		return isSetCompartmentType() ? compartmentType : null;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getCompartmentTypeID() {
-		return isSetCompartmentTypeID() ? compartmentTypeID : null;
+	public String getCompartmentType() {
+		return this.compartmentTypeID;
 	}
 
 	/**
@@ -153,7 +135,10 @@ public class Compartment extends Symbol {
 	 * @return
 	 */
 	public CompartmentType getCompartmentTypeInstance() {
-		return compartmentType;
+		if (getModel() != null){
+			return getModel().getCompartmentType(this.compartmentTypeID);
+		}
+		return null;
 	}
 
 	/**
@@ -169,7 +154,7 @@ public class Compartment extends Symbol {
 	 * @return
 	 */
 	public String getOutside() {
-		return isSetOutsideID() ? outsideID : "";
+		return this.outsideID;
 	}
 
 	/**
@@ -177,7 +162,10 @@ public class Compartment extends Symbol {
 	 * @return
 	 */
 	public Compartment getOutsideInstance() {
-		return outside;
+		if (getModel() != null){
+			return getModel().getCompartment(this.outsideID);
+		}
+		return null;
 	}
 
 	/**
@@ -234,10 +222,10 @@ public class Compartment extends Symbol {
 	 * 
 	 */
 	public void initDefaults() {
-		compartmentType = null;
+		compartmentTypeID = null;
 		spatialDimensions = 3;
 		constant = true;
-		outside = null;
+		outsideID = null;
 		setSize(Double.NaN);
 	}
 
@@ -254,7 +242,10 @@ public class Compartment extends Symbol {
 	 * @return
 	 */
 	public boolean isSetCompartmentType() {
-		return compartmentType != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getCompartmentType(this.compartmentTypeID) != null;
 	}
 	
 	/**
@@ -270,7 +261,10 @@ public class Compartment extends Symbol {
 	 * @return
 	 */
 	public boolean isSetOutside() {
-		return outside != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getCompartment(this.outsideID) != null;
 	}
 	
 	/**
@@ -350,8 +344,8 @@ public class Compartment extends Symbol {
 	 * @param compartmentType
 	 */
 	public void setCompartmentType(CompartmentType compartmentType) {
-		this.compartmentType = compartmentType;
-		setThisAsParentSBMLObject(this.compartmentType);
+		this.compartmentTypeID = compartmentType != null ? compartmentType.getId() : null;
+		stateChanged();
 	}
 	
 	/**
@@ -360,6 +354,7 @@ public class Compartment extends Symbol {
 	 */
 	public void setCompartmentTypeID(String compartmentTypeID) {
 		this.compartmentTypeID = compartmentTypeID;
+		stateChanged();
 	}
 
 	/**
@@ -368,6 +363,7 @@ public class Compartment extends Symbol {
 	 */
 	public void setConstant(boolean constant) {
 		this.constant = constant;
+		stateChanged();
 	}
 
 	/**
@@ -375,8 +371,8 @@ public class Compartment extends Symbol {
 	 * @param outside
 	 */
 	public void setOutside(Compartment outside) {
-		this.outside = outside;
-		setThisAsParentSBMLObject(this.outside);
+		this.outsideID = outside != null ? outside.getId() : null;
+		stateChanged();
 	}
 	
 	/**
@@ -385,6 +381,7 @@ public class Compartment extends Symbol {
 	 */
 	public void setOutsideID(String outside) {
 		this.outsideID = outside;
+		stateChanged();
 	}
 
 	/**
@@ -393,6 +390,7 @@ public class Compartment extends Symbol {
 	 */
 	public void setSize(double size) {
 		setValue(size);
+		stateChanged();
 	}
 
 	/**
@@ -567,7 +565,7 @@ public class Compartment extends Symbol {
 			attributes.put("size", Double.toString(getSize()));
 		}
 		if (isSetCompartmentTypeID()){
-			attributes.put("compartmentType", getCompartmentTypeID());
+			attributes.put("compartmentType", getCompartmentType());
 		}
 		if (isSetOutsideID()){
 			attributes.put("outside", outsideID);

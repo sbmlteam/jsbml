@@ -951,7 +951,7 @@ public class LibSBMLWriter implements SBMLWriter {
 						pluMo.addUnitDefinition(writeUnitDefinition(c
 								.getUnitsInstance()));
 					if (c.isSetCompartmentType()
-							&& pluMo.getCompartmentType(c.getCompartmentType().getId()) == null)
+							&& pluMo.getCompartmentType(c.getCompartmentType()) == null)
 						pluMo.addCompartmentType(writeCompartmentType(c
 								.getCompartmentTypeInstance()));
 					if (pluMo.getCompartment(c.getId()) == null)
@@ -999,7 +999,7 @@ public class LibSBMLWriter implements SBMLWriter {
 		if (c.isSetSize())
 			comp.setSize(c.getSize());
 		if (c.isSetCompartmentType() && !c.getCompartmentType().equals(comp.getCompartmentType())){
-			comp.setCompartmentType(c.getCompartmentType().getId());
+			comp.setCompartmentType(c.getCompartmentType());
 		}
 		if (c.getSpatialDimensions() != comp.getSpatialDimensions())
 			comp.setSpatialDimensions(c.getSpatialDimensions());
@@ -1718,7 +1718,7 @@ public class LibSBMLWriter implements SBMLWriter {
 		if (compartment.isSetCompartmentType()
 				&& !c.getCompartmentType().equals(
 						compartment.getCompartmentType()))
-			c.setCompartmentType(compartment.getCompartmentType().getId());
+			c.setCompartmentType(compartment.getCompartmentType());
 		if (compartment.isSetOutside() && !c.equals(compartment.getOutside()))
 			c.setOutside(compartment.getOutside());
 		if (compartment.isSetSize() && compartment.getSize() != c.getSize())
@@ -2552,12 +2552,12 @@ public class LibSBMLWriter implements SBMLWriter {
 				&& pluMo.getCompartment(species.getCompartment()) == null) {
 			Compartment c = species.getCompartmentInstance();
 			if (c.isSetCompartmentType()) {
-				if (pluMo.getCompartmentType(c.getCompartmentType().getId()) == null)
+				if (pluMo.getCompartmentType(c.getCompartmentType()) == null)
 					pluMo.addCompartmentType(writeCompartmentType(c
 							.getCompartmentTypeInstance()));
 				else
 					saveNamedSBaseProperties(c.getCompartmentTypeInstance(),
-							pluMo.getCompartmentType(c.getCompartmentType().getId()));
+							pluMo.getCompartmentType(c.getCompartmentType()));
 			}
 			if (c.isSetUnits()
 					&& !Unit.isUnitKind(c.getUnits(), c.getLevel(), c

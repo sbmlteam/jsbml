@@ -650,7 +650,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private void setCompartmentCompartmentType(Compartment compartment, Model model){
 		if (compartment.isSetCompartmentTypeID()){
-			String compartmentTypeID = compartment.getCompartmentTypeID();
+			String compartmentTypeID = compartment.getCompartmentType();
 			
 			CompartmentType compartmentType = model.getCompartmentType(compartmentTypeID);
 			
@@ -688,6 +688,22 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 			
 			if (unitDefinition != null){
 				compartment.setUnits(unitDefinition);
+			}
+			else {
+				// TODO : the unitDefinition ID doesn't match a unitDefinition, throw an exception?
+			}
+		}
+	}
+	
+	private void setModelUnits(Model model){
+		
+		if (model.isSetAreaUnitsID()){
+			String unitsID = model.getAreaUnits();
+			
+			UnitDefinition unitDefinition = model.getUnitDefinition(unitsID);
+			
+			if (unitDefinition != null){
+				model.setAreaUnits(unitDefinition);
 			}
 			else {
 				// TODO : the unitDefinition ID doesn't match a unitDefinition, throw an exception?
@@ -828,7 +844,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	private void setReactionCompartment(Reaction reaction, Model model){
 		
 		if (reaction.isSetCompartmentID()){
-			String compartmentID = reaction.getCompartmentID();
+			String compartmentID = reaction.getCompartment();
 			
 			Compartment compartment = model.getCompartment(compartmentID);
 			
@@ -873,7 +889,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	private void setSpeciesConversionFactor(Species species, Model model){
 		
 		if (species.isSetConversionFactorID()){
-			String conversionFactorID = species.getConversionFactorID();
+			String conversionFactorID = species.getConversionFactor();
 			
 			Parameter parameter = model.getParameter(conversionFactorID);
 			

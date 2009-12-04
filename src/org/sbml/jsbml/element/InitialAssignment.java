@@ -42,14 +42,11 @@ public class InitialAssignment extends MathContainer {
 
 	private String symbolID;
 	
-	private Symbol symbol;
-
 	/**
 	 * 
 	 */
 	public InitialAssignment() {
 		super();
-		this.symbol = null;
 		this.symbolID = null;
 	}
 
@@ -59,7 +56,7 @@ public class InitialAssignment extends MathContainer {
 	 */
 	public InitialAssignment(InitialAssignment sb) {
 		super(sb);
-		this.symbol = sb.getSymbolInstance();
+		this.symbolID = sb.getSymbol();
 	}
 
 	/**
@@ -68,7 +65,7 @@ public class InitialAssignment extends MathContainer {
 	 */
 	public InitialAssignment(Symbol symbol) {
 		super(symbol.getLevel(), symbol.getVersion());
-		this.symbol = symbol;
+		this.symbolID = symbol.getId();
 	}
 
 	/**
@@ -76,7 +73,7 @@ public class InitialAssignment extends MathContainer {
 	 */
 	public InitialAssignment(Symbol symbol, ASTNode math, int level, int version) {
 		super(math, level, version);
-		this.symbol = symbol;
+		this.symbolID = symbol.getId();
 	}
 
 	/*
@@ -100,7 +97,10 @@ public class InitialAssignment extends MathContainer {
 	 * @return the symbol
 	 */
 	public Symbol getSymbolInstance() {
-		return symbol;
+		if (getModel() == null){
+			return null;
+		}
+		return getModel().findSymbol(this.symbolID);
 	}
 
 	/**
@@ -108,7 +108,10 @@ public class InitialAssignment extends MathContainer {
 	 * @return
 	 */
 	public boolean isSetSymbol() {
-		return symbol != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().findSymbol(this.symbolID) != null;
 	}
 	
 	/**
@@ -124,7 +127,11 @@ public class InitialAssignment extends MathContainer {
 	 *            the symbol to set
 	 */
 	public void setSymbol(String symbol) {
-		Symbol nsb = getModel().findSymbol(symbol);
+		Symbol nsb = null;
+		if (getModel() != null){
+			nsb = getModel().findSymbol(symbol);
+		}
+
 		if (nsb == null)
 			throw new IllegalArgumentException(
 					"Only the id of an existing Species, Compartments, or Parameters allowed as symbols");
@@ -137,6 +144,7 @@ public class InitialAssignment extends MathContainer {
 	 */
 	public void setSymbolID(String symbol) {
 		this.symbolID = symbol;
+		stateChanged();
 	}
 
 	/**
@@ -144,8 +152,8 @@ public class InitialAssignment extends MathContainer {
 	 *            the symbol to set
 	 */
 	public void setSymbol(Symbol symbol) {
-		this.symbol = symbol;
-		setThisAsParentSBMLObject(this.symbol);
+		this.symbolID = symbol != null ? symbol.getId() : null;
+		stateChanged();
 	}
 
 	/*

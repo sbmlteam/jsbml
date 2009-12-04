@@ -44,18 +44,12 @@ public class RateRule extends Rule {
 	 * 
 	 */
 	private String variableID;
-	
-	/**
-	 * 
-	 */
-	private Symbol variable;
 
 	/**
 	 * @param sb
 	 */
 	public RateRule() {
 		super();
-		this.variable = null;
 		this.variableID = null;
 	}
 	
@@ -64,7 +58,7 @@ public class RateRule extends Rule {
 	 */
 	public RateRule(RateRule sb) {
 		super(sb);
-		this.variable = sb.getVariableInstance();
+		this.variableID = sb.getVariable();
 	}
 
 	/**
@@ -74,7 +68,7 @@ public class RateRule extends Rule {
 	 */
 	public RateRule(Symbol variable) {
 		super(variable.getLevel(), variable.getVersion());
-		this.variable = variable;
+		this.variableID = variable.getId();
 	}
 
 	/**
@@ -85,7 +79,7 @@ public class RateRule extends Rule {
 	 */
 	public RateRule(Symbol variable, ASTNode math) {
 		super(math, variable.getLevel(), variable.getVersion());
-		this.variable = variable;
+		this.variableID = variable.getId();
 	}
 
 	/*
@@ -103,7 +97,7 @@ public class RateRule extends Rule {
 	 * @return
 	 */
 	public String getVariable() {
-		return variableID;
+		return this.variableID;
 	}
 
 	/**
@@ -111,7 +105,10 @@ public class RateRule extends Rule {
 	 * @return
 	 */
 	public Symbol getVariableInstance() {
-		return variable;
+		if (getModel() != null){
+			return getModel().findSymbol(this.variableID);
+		}
+		return null;
 	}
 
 	/*
@@ -121,7 +118,7 @@ public class RateRule extends Rule {
 	 */
 	@Override
 	public boolean isCompartmentVolume() {
-		return isSetVariable() && (variable instanceof Compartment);
+		return isSetVariable() && (getVariableInstance() instanceof Compartment);
 	}
 
 	/*
@@ -131,7 +128,7 @@ public class RateRule extends Rule {
 	 */
 	@Override
 	public boolean isParameter() {
-		return isSetVariable() && (variable instanceof Parameter);
+		return isSetVariable() && (getVariableInstance() instanceof Parameter);
 	}
 
 	/*
@@ -149,7 +146,10 @@ public class RateRule extends Rule {
 	 * @return
 	 */
 	public boolean isSetVariable() {
-		return variable != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().findSymbol(this.variableID) != null;
 	}
 	
 	/**
@@ -167,7 +167,7 @@ public class RateRule extends Rule {
 	 */
 	@Override
 	public boolean isSpeciesConcentration() {
-		return isSetVariable() && (variable instanceof Species);
+		return isSetVariable() && (getVariableInstance() instanceof Species);
 	}
 
 	/**
@@ -175,7 +175,10 @@ public class RateRule extends Rule {
 	 * @param variable
 	 */
 	public void setVariable(String variable) {
-		Symbol nsb = getModel().findSymbol(variable);
+		Symbol nsb = null;
+		if (getModel() != null){
+			nsb = getModel().findSymbol(variable);
+		}
 		if (nsb == null)
 			throw new IllegalArgumentException(
 					"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
@@ -188,6 +191,7 @@ public class RateRule extends Rule {
 	 */
 	public void setVariableID(String variable) {
 		this.variableID = variable;
+		stateChanged();
 	}
 
 	/**
@@ -195,8 +199,7 @@ public class RateRule extends Rule {
 	 * @param variable
 	 */
 	public void setVariable(Symbol variable) {
-		this.variable = variable;
-		setThisAsParentSBMLObject(this.variable);
+		this.variableID = variable != null ? variable.getId() : null;
 		stateChanged();
 	}
 	

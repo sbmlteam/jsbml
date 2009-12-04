@@ -40,12 +40,12 @@ public class SpeciesExtension extends Species{
 		return species.getCompartmentInstance();
 	}
 
-	public Parameter getConversionFactor() {
-		return species.getConversionFactor();
+	public Parameter getConversionFactorInstance() {
+		return species.getConversionFactorInstance();
 	}
 
-	public String getConversionFactorID() {
-		return species.getConversionFactorID();
+	public String getConversionFactor() {
+		return species.getConversionFactor();
 	}
 
 	public boolean getHasOnlySubstanceUnits() {

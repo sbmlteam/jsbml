@@ -43,24 +43,12 @@ public class Species extends Symbol {
 	/**
 	 * 
 	 */
-	private Parameter conversionFactor;
-	/**
-	 * 
-	 */
 	private String conversionFactorID;
 	
 	/**
 	 * 
 	 */
-	private SpeciesType speciesType;
-	/**
-	 * 
-	 */
 	private String speciesTypeID;
-	/**
-	 * 
-	 */
-	private Compartment compartment;
 	/**
 	 * 
 	 */
@@ -89,11 +77,8 @@ public class Species extends Symbol {
 	public Species() {
 		super();
 		this.charge = 0;
-		this.compartment = null;
 		this.compartmentID = null;
-		this.speciesType = null;
 		this.speciesTypeID = null;
-		this.conversionFactor = null;
 		this.conversionFactorID = null;
 	}
 
@@ -106,8 +91,7 @@ public class Species extends Symbol {
 		super(species);
 		this.boundaryCondition = species.getBoundaryCondition();
 		this.charge = species.getCharge();
-		this.compartment = species.getCompartmentInstance();
-		this.compartmentID = compartment.getId();
+		this.compartmentID = species.getCompartment();
 		this.hasOnlySubstanceUnits = species.getHasOnlySubstanceUnits();
 		if (species.isSetInitialAmount())
 			setInitialAmount(species.getInitialAmount());
@@ -154,6 +138,7 @@ public class Species extends Symbol {
 			equal &= s.getCharge() == getCharge();
 			equal &= s.isSetCompartment() == isSetCompartment();
 			equal &= s.isSetSpeciesType() == isSetSpeciesType();
+
 			if (s.isSetSpeciesType() && isSetSpeciesType())
 				equal &= s.getSpeciesType().equals(getSpeciesType());
 			if (s.isSetCompartment() && isSetCompartment())
@@ -201,7 +186,10 @@ public class Species extends Symbol {
 	 * @return
 	 */
 	public Compartment getCompartmentInstance() {
-		return compartment;
+		if (getModel() == null){
+			return null;
+		}
+		return getModel().getCompartment(this.compartmentID);
 	}
 
 	/**
@@ -247,7 +235,7 @@ public class Species extends Symbol {
 	 * @return
 	 */
 	public String getSpeciesType() {
-		return isSetSpeciesTypeID() ? speciesTypeID : null;
+		return this.speciesTypeID;
 	}
 
 	/**
@@ -255,7 +243,10 @@ public class Species extends Symbol {
 	 * @return
 	 */
 	public SpeciesType getSpeciesTypeInstance() {
-		return speciesType;
+		if (getModel() == null){
+			return null;
+		}
+		return getModel().getSpeciesType(this.speciesTypeID);
 	}
 
 	/**
@@ -314,7 +305,10 @@ public class Species extends Symbol {
 	 * @return
 	 */
 	public boolean isSetCompartment() {
-		return compartment != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getCompartment(this.compartmentID) != null;
 	}
 	
 	/**
@@ -347,7 +341,10 @@ public class Species extends Symbol {
 	 * @return
 	 */
 	public boolean isSetSpeciesType() {
-		return speciesType != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getSpeciesType(this.speciesTypeID) != null;
 	}
 	
 	/**
@@ -387,7 +384,10 @@ public class Species extends Symbol {
 	 * @return
 	 */
 	public boolean isSetConversionFactor() {
-		return conversionFactor != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getParameter(this.conversionFactorID) != null;
 	}
 
 
@@ -414,8 +414,6 @@ public class Species extends Symbol {
 	 * @param compartment
 	 */
 	public void setCompartment(Compartment compartment) {
-		this.compartment = compartment;
-		setThisAsParentSBMLObject(this.compartment);
 		this.compartmentID = compartment != null ? compartment.getId() : null;
 		stateChanged();
 	}
@@ -426,8 +424,6 @@ public class Species extends Symbol {
 	 */
 	public void setCompartmentID(String compartment) {
 		this.compartmentID = compartment;
-		this.compartment = getSBMLDocument().getModel().getCompartment(compartmentID); // Could be null when reading the document but should be set at the end of the reading ?
-		
 		stateChanged();
 	}
 
@@ -463,10 +459,7 @@ public class Species extends Symbol {
 	 * @param speciesType
 	 */
 	public void setSpeciesType(SpeciesType speciesType) {
-		this.speciesType = speciesType;
-		setThisAsParentSBMLObject(this.speciesType);
 		this.speciesTypeID = speciesType != null ? speciesType.getId() : null;
-		this.speciesType.parentSBMLObject = this;
 		stateChanged();
 	}
 
@@ -476,8 +469,7 @@ public class Species extends Symbol {
 	 */
 	public void setSpeciesTypeID(String speciesType) {
 		this.speciesTypeID = speciesType;
-		
-		this.speciesType = getSBMLDocument().getModel().getSpeciesType(speciesType); // Could be null when reading the document but should be set at the end of the reading ?
+		stateChanged();
 	}
 
 	/**
@@ -505,25 +497,26 @@ public class Species extends Symbol {
 	}
 	
 	public void setConversionFactor(Parameter conversionFactor) {
-		this.conversionFactor = conversionFactor;
-		setThisAsParentSBMLObject(this.conversionFactor);
-		this.conversionFactorID = conversionFactor.getId();
+		this.conversionFactorID = conversionFactor != null ? conversionFactor.getId() : null;
+		stateChanged();
 	}
 
 
-	public Parameter getConversionFactor() {
-		return conversionFactor;
+	public Parameter getConversionFactorInstance() {
+		if (getModel() == null){
+			return null;
+		}
+		return getModel().getParameter(this.conversionFactorID);
 	}
 
 
 	public void setConversionFactorID(String conversionFactorID) {
 		this.conversionFactorID = conversionFactorID;
-		
-		this.conversionFactor = getSBMLDocument().getModel().getParameter(conversionFactorID); // Could be null when reading the document but should be set at the end of the reading ?
+		stateChanged();
 	}
 
 
-	public String getConversionFactorID() {
+	public String getConversionFactor() {
 		return conversionFactorID;
 	}
 	
@@ -629,7 +622,7 @@ public class Species extends Symbol {
 			attributes.put("boundaryCondition", "false");
 		}
 		if (isSetConversionFactorID()){
-			attributes.put("conversionFactor", getConversionFactorID());
+			attributes.put("conversionFactor", getConversionFactor());
 		}
 		if (isSetCharge()){
 			attributes.put("charge", Integer.toString(getCharge()));
