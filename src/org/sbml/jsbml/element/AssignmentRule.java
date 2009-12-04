@@ -45,18 +45,11 @@ public class AssignmentRule extends Rule {
 	 */
 	private String variableID;
 
-	
-	/**
-	 * 
-	 */
-	private Symbol variable;
-
 	/**
 	 * 
 	 */
 	public AssignmentRule() {
 		super();
-		this.variable = null;
 		this.variableID = null;
 	}
 	
@@ -65,7 +58,7 @@ public class AssignmentRule extends Rule {
 	 */
 	public AssignmentRule(AssignmentRule sb) {
 		super(sb);
-		this.variable = sb.getVariableInstance();
+		this.variableID = sb.getVariable();
 	}
 
 	/**
@@ -73,7 +66,7 @@ public class AssignmentRule extends Rule {
 	 */
 	public AssignmentRule(Symbol variable) {
 		super(variable.getLevel(), variable.getVersion());
-		this.variable = variable;
+		this.variableID = variable.getId();
 	}
 
 	/**
@@ -83,7 +76,7 @@ public class AssignmentRule extends Rule {
 	 */
 	public AssignmentRule(Symbol variable, ASTNode math) {
 		super(math, variable.getLevel(), variable.getVersion());
-		this.variable = variable;
+		this.variableID = variable.getId();
 	}
 
 	/*
@@ -109,6 +102,10 @@ public class AssignmentRule extends Rule {
 	 * @return
 	 */
 	public Symbol getVariableInstance() {
+		Symbol variable = null;
+		if (getModel() != null){
+			variable = getModel().findSymbol(this.variableID);
+		}
 		return variable;
 	}
 
@@ -119,7 +116,7 @@ public class AssignmentRule extends Rule {
 	 */
 	@Override
 	public boolean isCompartmentVolume() {
-		return isSetVariable() && (variable instanceof Compartment);
+		return isSetVariable() && (getVariableInstance() instanceof Compartment);
 	}
 
 	/*
@@ -129,7 +126,7 @@ public class AssignmentRule extends Rule {
 	 */
 	@Override
 	public boolean isParameter() {
-		return isSetVariable() && (variable instanceof Parameter);
+		return isSetVariable() && (getVariableInstance() instanceof Parameter);
 	}
 
 	/*
@@ -148,7 +145,10 @@ public class AssignmentRule extends Rule {
 	 * @return
 	 */
 	public boolean isSetVariable() {
-		return variable != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().findSymbol(this.variableID) != null;
 	}
 	
 	/**
@@ -166,7 +166,7 @@ public class AssignmentRule extends Rule {
 	 */
 	@Override
 	public boolean isSpeciesConcentration() {
-		return isSetVariable() && (variable instanceof Species);
+		return isSetVariable() && (getVariableInstance() instanceof Species);
 	}
 
 	/**
@@ -174,7 +174,10 @@ public class AssignmentRule extends Rule {
 	 * @param variable
 	 */
 	public void setVariable(String variable) {
-		Symbol nsb = getModel().findSymbol(variable);
+		Symbol nsb = null;
+		if (getModel() != null){
+			nsb = getModel().findSymbol(variable);
+		}
 		if (nsb == null)
 			throw new IllegalArgumentException(
 					"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
@@ -187,6 +190,7 @@ public class AssignmentRule extends Rule {
 	 */
 	public void setVariableID(String variableID) {
 		this.variableID = variableID;
+		stateChanged();
 	}
 
 	/**
@@ -194,8 +198,7 @@ public class AssignmentRule extends Rule {
 	 * @param variable
 	 */
 	public void setVariable(Symbol variable) {
-		this.variable = variable;
-		setThisAsParentSBMLObject(this.variable);
+		this.variableID = variable != null ? variable.getId() : null;
 		stateChanged();
 	}
 	

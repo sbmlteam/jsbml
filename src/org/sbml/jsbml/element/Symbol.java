@@ -47,10 +47,6 @@ public abstract class Symbol extends AbstractNamedSBase {
 	/**
 	 * The unit attribute of this variable.
 	 */
-	private UnitDefinition units;
-	/**
-	 * The unit attribute of this variable.
-	 */
 	private String unitsID;
 	/**
 	 * The size, initial amount or concentration, or the actual value of this
@@ -63,9 +59,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	public Symbol() {
 		super();
-		this.units = null;
 		this.value = Double.NaN;
-		this.units = null;
 		this.unitsID = null;
 	}
 
@@ -78,7 +72,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	public Symbol(String id, int level, int version) {
 		super(id, level, version);
-		this.units = null;
+		this.unitsID = null;
 		this.value = Double.NaN;
 	}
 
@@ -88,7 +82,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	public Symbol(String id, String name, int level, int version) {
 		super(id, name, level, version);
-		this.units = null;
+		this.unitsID = null;
 		this.value = Double.NaN;
 	}
 
@@ -97,7 +91,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	public Symbol(Symbol nsb) {
 		super(nsb);
-		this.units = nsb.isSetUnits() ? nsb.getUnitsInstance() : null;
+		this.unitsID = nsb.getUnits();
 		this.value = nsb.getValue();
 		this.constant = nsb.getConstant();
 	}
@@ -133,7 +127,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * @return
 	 */
 	String getUnits() {
-		return isSetUnitsID() ? unitsID : null;
+		return this.unitsID;
 	}
 
 	/**
@@ -141,7 +135,10 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * @return
 	 */
 	UnitDefinition getUnitsInstance() {
-		return units;
+		if (getModel() == null){
+			return null;
+		}
+		return getModel().getUnitDefinition(this.unitsID);
 	}
 
 	/**
@@ -168,7 +165,10 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * @return
 	 */
 	boolean isSetUnits() {
-		return units != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getUnitDefinition(this.unitsID) != null;
 	}
 	
 	/**
@@ -234,8 +234,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * @param units
 	 */
 	void setUnits(UnitDefinition units) {
-		this.units = units;
-		setThisAsParentSBMLObject(this.units);
+		this.unitsID = units != null ? units.getId() : null;
 		stateChanged();
 	}
 	

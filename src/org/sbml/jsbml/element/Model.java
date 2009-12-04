@@ -52,20 +52,6 @@ import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
  */
 public class Model extends AbstractNamedSBase {
 	
-	private Unit substanceUnits;
-	
-	private Unit timeUnits;
-	
-	private Unit volumeUnits;
-	
-	private Unit areaUnits;
-	
-	private Unit lengthUnits;
-	
-	private Unit extentUnits;
-	
-	private Parameter conversionFactor;
-	
 	private String substanceUnitsID;
 	
 	private String timeUnitsID;
@@ -156,13 +142,6 @@ public class Model extends AbstractNamedSBase {
 		listOfSpecies = null;
 		listOfSpeciesTypes = null;
 		listOfUnitDefinitions = null;
-		substanceUnits = null;
-		timeUnits = null;
-		volumeUnits = null;
-		areaUnits = null;
-		lengthUnits = null;
-		extentUnits = null;
-		conversionFactor = null;
 		substanceUnitsID = null;
 		timeUnitsID = null;
 		volumeUnitsID = null;
@@ -238,61 +217,79 @@ public class Model extends AbstractNamedSBase {
 		setThisAsParentSBMLObject(listOfEvents);
 	}
 	
-	public Unit getTimeUnits() {
-		return timeUnits;
+	public UnitDefinition getTimeUnitsInstance() {
+		if (getModel() != null){
+			return getModel().getUnitDefinition(this.timeUnitsID);
+		}
+		return null;
 	}
 
-	public void setTimeUnits(Unit timeUnits) {
-		this.timeUnits = timeUnits;
-		setThisAsParentSBMLObject(this.timeUnits);
+	public void setTimeUnits(UnitDefinition timeUnits) {
+		this.timeUnitsID = timeUnits != null ? timeUnits.getId() : null;
+		stateChanged();
 	}
 
-	public Unit getVolumeUnits() {
-		return volumeUnits;
+	public UnitDefinition getVolumeUnitsInstance() {
+		if (getModel() != null){
+			return getModel().getUnitDefinition(this.volumeUnitsID);
+		}
+		return null;
 	}
 
-	public void setVolumeUnits(Unit volumeUnits) {
-		this.volumeUnits = volumeUnits;
-		setThisAsParentSBMLObject(this.volumeUnits);
+	public void setVolumeUnits(UnitDefinition volumeUnits) {
+		this.volumeUnitsID = volumeUnits != null ? volumeUnits.getId() : null;
+		stateChanged();
 	}
 
-	public Unit getAreaUnits() {
-		return areaUnits;
+	public UnitDefinition getAreaUnitsInstance() {
+		if (getModel() != null){
+			return getModel().getUnitDefinition(this.areaUnitsID);
+		}
+		return null;
 	}
 
-	public void setAreaUnits(Unit areaUnits) {
-		this.areaUnits = areaUnits;
-		setThisAsParentSBMLObject(this.areaUnits);
+	public void setAreaUnits(UnitDefinition areaUnits) {
+		this.areaUnitsID = areaUnits != null ? areaUnits.getId() : null;
+		stateChanged();
 	}
 
-	public Unit getLengthUnits() {
-		return lengthUnits;
+	public UnitDefinition getLengthUnitsInstance() {
+		if (getModel() != null){
+			return getModel().getUnitDefinition(this.lengthUnitsID);
+		}
+		return null;
 	}
 
-	public void setLengthUnits(Unit lengthUnits) {
-		this.lengthUnits = lengthUnits;
-		setThisAsParentSBMLObject(this.lengthUnits);
+	public void setLengthUnits(UnitDefinition lengthUnits) {
+		this.lengthUnitsID = lengthUnits != null ? lengthUnits.getId() : null;
+		stateChanged();
 	}
 
-	public Unit getExtentUnits() {
-		return extentUnits;
+	public UnitDefinition getExtentUnitsInstance() {
+		if (getModel() != null){
+			return getModel().getUnitDefinition(this.extentUnitsID);
+		}
+		return null;
 	}
 
-	public void setExtentUnits(Unit extentUnits) {
-		this.extentUnits = extentUnits;
-		setThisAsParentSBMLObject(this.extentUnits);
+	public void setExtentUnits(UnitDefinition extentUnits) {
+		this.extentUnitsID = extentUnits != null ? extentUnits.getId() : null;
+		stateChanged();
 	}
 
-	public Parameter getConversionFactor() {
-		return conversionFactor;
+	public Parameter getConversionFactorInstance() {
+		if (getModel() != null){
+			return getModel().getParameter(this.conversionFactorID);
+		}
+		return null;
 	}
 
 	public void setConversionFactor(Parameter conversionFactor) {
-		this.conversionFactor = conversionFactor;
-		setThisAsParentSBMLObject(this.conversionFactor);
+		this.conversionFactorID = conversionFactor != null ? conversionFactor.getId() : null;
+		stateChanged();
 	}
 
-	public String getTimeUnitsID() {
+	public String getTimeUnits() {
 		return timeUnitsID;
 	}
 
@@ -300,7 +297,7 @@ public class Model extends AbstractNamedSBase {
 		this.timeUnitsID = timeUnitsID;
 	}
 
-	public String getVolumeUnitsID() {
+	public String getVolumeUnits() {
 		return volumeUnitsID;
 	}
 
@@ -308,7 +305,7 @@ public class Model extends AbstractNamedSBase {
 		this.volumeUnitsID = volumeUnitsID;
 	}
 
-	public String getAreaUnitsID() {
+	public String getAreaUnits() {
 		return areaUnitsID;
 	}
 
@@ -316,7 +313,7 @@ public class Model extends AbstractNamedSBase {
 		this.areaUnitsID = areaUnitsID;
 	}
 
-	public String getLengthUnitsID() {
+	public String getLengthUnits() {
 		return lengthUnitsID;
 	}
 
@@ -324,7 +321,7 @@ public class Model extends AbstractNamedSBase {
 		this.lengthUnitsID = lengthUnitsID;
 	}
 
-	public String getExtentUnitsID() {
+	public String getExtentUnits() {
 		return extentUnitsID;
 	}
 
@@ -332,7 +329,7 @@ public class Model extends AbstractNamedSBase {
 		this.extentUnitsID = extentUnitsID;
 	}
 
-	public String getConversionFactorID() {
+	public String getConversionFactor() {
 		return conversionFactorID;
 	}
 
@@ -630,6 +627,22 @@ public class Model extends AbstractNamedSBase {
 			nsb = getParameter(symbol);
 		if (nsb == null)
 			nsb = getCompartment(symbol);
+		if (nsb == null && isSetListOfReactions()){
+			for (int i = 0; i < getNumReactions(); i++){
+				Reaction reaction = getReaction(i);
+				nsb = reaction.getReactant(symbol);
+				if (nsb != null){
+					break;
+				}
+				else {
+					nsb = reaction.getProduct(symbol);
+					if (nsb != null){
+						break;
+					}
+				}
+			}
+			
+		}
 		return nsb;
 	}
 
@@ -731,7 +744,10 @@ public class Model extends AbstractNamedSBase {
 	}
 	
 	public boolean isSetSubstanceUnits(){
-		return this.substanceUnits != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getUnitDefinition(this.substanceUnitsID) != null;
 	}
 
 	/**
@@ -809,7 +825,10 @@ public class Model extends AbstractNamedSBase {
 	}
 	
 	public boolean isSetTimeUnits(){
-		return this.timeUnits != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getUnitDefinition(this.timeUnitsID) != null;
 	}
 
 	/**
@@ -1277,23 +1296,25 @@ public class Model extends AbstractNamedSBase {
 				}
 			}
 		}
-		
+
 		UnitDefinition ud = null;
-		if (id.equals("area")) {
-			ud = UnitDefinition.area(getLevel(), getVersion());
-			addUnitDefinition(ud);
-		} else if (id.equals("length")) {
-			ud = UnitDefinition.length(getLevel(), getVersion());
-			addUnitDefinition(ud);
-		} else if (id.equals("substance")) {
-			ud = UnitDefinition.substance(getLevel(), getVersion());
-			addUnitDefinition(ud);
-		} else if (id.equals("time")) {
-			ud = UnitDefinition.time(getLevel(), getVersion());
-			addUnitDefinition(ud);
-		} else if (id.equals("volume")) {
-			ud = UnitDefinition.volume(getLevel(), getVersion());
-			addUnitDefinition(ud);
+		if (id != null){
+			if (id.equals("area")) {
+				ud = UnitDefinition.area(getLevel(), getVersion());
+				addUnitDefinition(ud);
+			} else if (id.equals("length")) {
+				ud = UnitDefinition.length(getLevel(), getVersion());
+				addUnitDefinition(ud);
+			} else if (id.equals("substance")) {
+				ud = UnitDefinition.substance(getLevel(), getVersion());
+				addUnitDefinition(ud);
+			} else if (id.equals("time")) {
+				ud = UnitDefinition.time(getLevel(), getVersion());
+				addUnitDefinition(ud);
+			} else if (id.equals("volume")) {
+				ud = UnitDefinition.volume(getLevel(), getVersion());
+				addUnitDefinition(ud);
+			}
 		}
 		return ud;
 	}
@@ -1506,17 +1527,19 @@ public class Model extends AbstractNamedSBase {
 		stateChanged();
 	}
 	
-	public Unit getSubstanceUnits() {
-		return substanceUnits;
+	public UnitDefinition getSubstanceUnitsInstance() {
+		if (getModel() == null){
+			return null;
+		}
+		return getModel().getUnitDefinition(this.substanceUnitsID);
 	}
 
-	public void setSubstanceUnits(Unit substanceUnits) {
-		this.substanceUnits = substanceUnits;
-		setThisAsParentSBMLObject(this.substanceUnits);
+	public void setSubstanceUnits(UnitDefinition substanceUnits) {
+		this.substanceUnitsID = substanceUnits != null ? substanceUnits.getId() : null;
 	}
 
-	public String getSubstanceUnitsID() {
-		return substanceUnitsID;
+	public String getSubstanceUnits() {
+		return this.substanceUnitsID;
 	}
 
 	public void setSubstanceUnitsID(String substanceUnitsID) {
@@ -1602,7 +1625,10 @@ public class Model extends AbstractNamedSBase {
 	}
 	
 	public boolean isSetVolumeUnits(){
-		return this.volumeUnits != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getUnitDefinition(this.volumeUnitsID) != null;
 	}
 	
 	public boolean isSetAreaUnitsID(){
@@ -1610,7 +1636,10 @@ public class Model extends AbstractNamedSBase {
 	}
 	
 	public boolean isSetAreaUnits(){
-		return this.areaUnits != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getUnitDefinition(this.areaUnitsID) != null;
 	}
 	
 	public boolean isSetLengthUnitsID(){
@@ -1618,7 +1647,10 @@ public class Model extends AbstractNamedSBase {
 	}
 	
 	public boolean isSetLengthUnits(){
-		return this.lengthUnits != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getUnitDefinition(this.lengthUnitsID) != null;
 	}
 	
 	public boolean isSetExtentUnitsID(){
@@ -1626,7 +1658,10 @@ public class Model extends AbstractNamedSBase {
 	}
 	
 	public boolean isSetExtentUnits(){
-		return this.extentUnits != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getUnitDefinition(this.extentUnitsID) != null;
 	}
 	
 	public boolean isSetConversionFactorID(){
@@ -1634,7 +1669,10 @@ public class Model extends AbstractNamedSBase {
 	}
 	
 	public boolean isSetConversionFactor(){
-		return this.conversionFactor != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getUnitDefinition(this.conversionFactorID) != null;
 	}
 	
 	@Override
@@ -1642,25 +1680,25 @@ public class Model extends AbstractNamedSBase {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 		
 		if (isSetSubstanceUnitsID()){
-			attributes.put("substanceUnitsID", getSubstanceUnitsID());
+			attributes.put("substanceUnitsID", getSubstanceUnits());
 		}
 		if (isSetTimeUnitsID()){
-			attributes.put("timeUnits", getTimeUnitsID());
+			attributes.put("timeUnits", getTimeUnits());
 		}
 		else if (isSetVolumeUnitsID()){
-			attributes.put("volumeUnits", getVolumeUnitsID());
+			attributes.put("volumeUnits", getVolumeUnits());
 		}
 		else if (isSetAreaUnitsID()){
-			attributes.put("areaUnits", getAreaUnitsID());
+			attributes.put("areaUnits", getAreaUnits());
 		}
 		else if (isSetLengthUnitsID()){
-			attributes.put("lengthUnits", getLengthUnitsID());
+			attributes.put("lengthUnits", getLengthUnits());
 		}
 		else if (isSetExtentUnitsID()){
-			attributes.put("extentUnits", getExtentUnitsID());
+			attributes.put("extentUnits", getExtentUnits());
 		}
 		else if (isSetConversionFactorID()){
-			attributes.put("conversionFactor", getConversionFactorID());
+			attributes.put("conversionFactor", getConversionFactor());
 		}
 		
 		return attributes;

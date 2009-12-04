@@ -56,10 +56,6 @@ public class Event extends AbstractNamedSBase {
 	 * 
 	 */
 	private Delay delay;
-	/**
-	 * 
-	 */
-	private UnitDefinition timeUnits;
 	
 	/**
 	 * 
@@ -74,7 +70,6 @@ public class Event extends AbstractNamedSBase {
 		this.trigger = null;
 		this.delay = null;
 		this.listOfEventAssignments = null;
-		this.timeUnits = null;
 		this.timeUnitsID = null;
 	}
 	
@@ -95,8 +90,7 @@ public class Event extends AbstractNamedSBase {
 		} else
 			this.delay = null;
 		setListOfEventAssignments((ListOf<EventAssignment>) event.getListOfEventAssignments().clone());
-		this.timeUnits = event.isSetTimeUnits() ? event.getTimeUnitsInstance()
-				.clone() : null;
+		this.timeUnitsID = event.getTimeUnits();
 	}
 
 	/**
@@ -228,7 +222,7 @@ public class Event extends AbstractNamedSBase {
 	 * @return
 	 */
 	public String getTimeUnits() {
-		return isSetTimeUnitsID() ? timeUnitsID : null;
+		return this.timeUnitsID;
 	}
 
 	/**
@@ -236,7 +230,10 @@ public class Event extends AbstractNamedSBase {
 	 * @return
 	 */
 	public UnitDefinition getTimeUnitsInstance() {
-		return timeUnits;
+		if (getModel() != null){
+			return getModel().getUnitDefinition(this.timeUnitsID);
+		}
+		return null;
 	}
 	
 	/**
@@ -262,7 +259,7 @@ public class Event extends AbstractNamedSBase {
 		useValuesFromTriggerTime = true;
 		setTrigger(new Trigger(getLevel(), getVersion()));
 		setListOfEventAssignments(new ListOf<EventAssignment>(getLevel(), getVersion()));
-		timeUnits = null;
+		timeUnitsID = null;
 		delay = null;
 	}
 
@@ -279,7 +276,10 @@ public class Event extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isSetTimeUnits() {
-		return timeUnits != null;
+		if (getModel() != null){
+			return getModel().getUnitDefinition(this.timeUnitsID) != null;
+		}
+		return false;
 	}
 	
 	/**
@@ -342,14 +342,7 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void setTimeUnitsID(String timeUnits) {
 		this.timeUnitsID = timeUnits;
-	}
-	
-	/**
-	 * 
-	 * @param timeUnits
-	 */
-	public void setTimeUnits(String timeUnits) {
-		this.timeUnits = (UnitDefinition) getModel().findNamedSBase(timeUnits);
+		stateChanged();
 	}
 
 	/**
@@ -357,8 +350,7 @@ public class Event extends AbstractNamedSBase {
 	 * @param timeUnits
 	 */
 	public void setTimeUnits(UnitDefinition timeUnits) {
-		this.timeUnits = timeUnits;
-		setThisAsParentSBMLObject(this.timeUnits);
+		this.timeUnitsID = timeUnits != null ? timeUnits.getId() : null;
 		stateChanged();
 	}
 

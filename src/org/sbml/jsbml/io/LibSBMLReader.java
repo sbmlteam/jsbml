@@ -894,7 +894,7 @@ public class LibSBMLReader extends AbstractSBMLReader {
 					.getEventAssignment(i)));
 		}
 		if (eve.isSetTimeUnits())
-			ev.setTimeUnits(eve.getTimeUnits());
+			ev.setTimeUnitsID(eve.getTimeUnits());
 		ev.setUseValuesFromTriggerTime(eve.getUseValuesFromTriggerTime());
 		return ev;
 

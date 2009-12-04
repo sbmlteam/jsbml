@@ -37,11 +37,6 @@ import java.util.HashMap;
  * 
  */
 public abstract class SimpleSpeciesReference extends Symbol {
-
-	/**
-	 * 
-	 */
-	private Species species;
 	
 	/**
 	 * 
@@ -54,7 +49,6 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	 */
 	public SimpleSpeciesReference() {
 		super();
-		this.species = null;
 		this.speciesID = null;
 		
 	}
@@ -67,9 +61,9 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	public SimpleSpeciesReference(SimpleSpeciesReference ssr) {
 		super(ssr);
 		if (ssr.isSetSpecies())
-			this.species = ssr.getSpeciesInstance();
+			this.speciesID = ssr.getSpecies();
 		else
-			this.species = null;
+			this.speciesID = null;
 	}
 
 	/**
@@ -79,7 +73,7 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	public SimpleSpeciesReference(Species s) {
 		super(s);
 		
-		this.species = s;
+		this.speciesID = s.getId();
 	}
 	
 	/*
@@ -96,7 +90,7 @@ public abstract class SimpleSpeciesReference extends Symbol {
 					|| (isSetSpecies() && !ssr.isSetSpecies()))
 				return false;
 			else if (isSetSpecies() && ssr.isSetSpecies())
-				equal &= ssr.getSpeciesInstance().equals(species);
+				equal &= ssr.getSpecies().equals(speciesID);
 			return equal;
 		} else
 			equal = false;
@@ -126,7 +120,10 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	 * @return
 	 */
 	public Species getSpeciesInstance() {
-		return species;
+		if (getModel() == null){
+			return null;
+		}
+		return getModel().getSpecies(this.speciesID);
 	}
 
 	/**
@@ -134,7 +131,10 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	 * @return
 	 */
 	public boolean isSetSpecies() {
-		return species != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getSpecies(this.speciesID) != null;
 	}
 	
 	/**
@@ -150,8 +150,7 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	 * @param spec
 	 */
 	public void setSpecies(Species spec) {
-		this.species = spec;
-		setThisAsParentSBMLObject(this.species);
+		this.speciesID = spec != null ? spec.getId() : null;
 		stateChanged();
 	}
 	

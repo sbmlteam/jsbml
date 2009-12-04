@@ -43,18 +43,12 @@ public class EventAssignment extends MathContainer {
 	 * 
 	 */
 	private String variableID;
-	
-	/**
-	 * 
-	 */
-	private Symbol variable;
 
 	/**
 	 * 
 	 */
 	public EventAssignment() {
 		super();
-		variable = null;
 		this.variableID = null;
 	}
 	
@@ -63,7 +57,6 @@ public class EventAssignment extends MathContainer {
 	 */
 	public EventAssignment(int level, int version) {
 		super(level, version);
-		variable = null;
 		this.variableID = null;
 	}
 
@@ -111,7 +104,10 @@ public class EventAssignment extends MathContainer {
 	 * @return
 	 */
 	public boolean isSetVariable() {
-		return variable != null;
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().findSymbol(this.variableID) != null;
 	}
 	
 	/**
@@ -127,7 +123,7 @@ public class EventAssignment extends MathContainer {
 	 * @return
 	 */
 	public String getVariable() {
-		return variableID;
+		return this.variableID;
 	}
 
 	/**
@@ -135,7 +131,10 @@ public class EventAssignment extends MathContainer {
 	 * @return
 	 */
 	public Symbol getVariableInstance() {
-		return variable;
+		if (getModel() == null){
+			return null;
+		}
+		return getModel().findSymbol(this.variableID);
 	}
 
 	/**
@@ -145,12 +144,11 @@ public class EventAssignment extends MathContainer {
 	public void setVariable(Symbol variable) {
 		if ((variable instanceof Species) || variable instanceof Compartment
 				|| (variable instanceof Parameter) || (variable instanceof SpeciesReference)){
-			this.variable = variable;
-			setThisAsParentSBMLObject(this.variable);
+			this.variableID = variable.getId();
 		}
 		else
 			throw new IllegalArgumentException(
-					"Only Species, Compartments, or Parameters allowed as variables");
+					"Only Species, Compartments, SpeciesReferences or Parameters allowed as variables");
 	}
 
 	/**
