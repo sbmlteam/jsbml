@@ -425,14 +425,14 @@ public class SBMLWriter {
 		return SBMLParsers;
 	}
 	
-	public static void write(SBMLDocument sbmlDocument){
+	public static void write(SBMLDocument sbmlDocument, String fileName){
 		SBMLReader.initializePackageParserNamespaces();
 		sbmlDocument.getSBMLDocumentAttributes();
 		
 		SMOutputFactory smFactory = new SMOutputFactory(WstxOutputFactory.newInstance());
 		SMOutputDocument outputDocument;
 		try {
-			XMLStreamWriter2 streamWriter = smFactory.createStax2Writer(new File("test.xml"));
+			XMLStreamWriter2 streamWriter = smFactory.createStax2Writer(new File(fileName));
 			outputDocument = SMOutputFactory.createOutputDocument(streamWriter, "1.0", "UTF-8", false);
 			outputDocument.setIndentation("\n ", 1, 4);
 
@@ -481,7 +481,7 @@ public class SBMLWriter {
 		//SBMLDocument testDocument = readSBMLFile("/home/compneur/Desktop/LibSBML-Project/MultiExamples/glutamateReceptor.xml");
 		SBMLDocument testDocument = SBMLReader.readSBMLFile("/home/compneur/Desktop/LibSBML-Project/BIOMD0000000002.xml");		
 		//System.out.println(testDocument.getModel().getNotesString());
-		write(testDocument);
+		write(testDocument, "test.xml");
 	}
 
 

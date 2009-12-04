@@ -938,7 +938,7 @@ public class ASTNode implements TreeNode {
 			return compiler.relationGreaterEqual(getLeftChild(),
 					getRightChild());
 		case RELATIONAL_GT:
-			return compiler.relationGraterThan(getLeftChild(), getRightChild());
+			return compiler.relationGreaterThan(getLeftChild(), getRightChild());
 		case RELATIONAL_NEQ:
 			return compiler.relationNotEqual(getLeftChild(), getRightChild());
 		case RELATIONAL_LEQ:

@@ -78,6 +78,7 @@ import org.sbml.libsbml.libsbmlConstants;
 public class LibSBMLWriter implements SBMLWriter {
 
 	private static final String error = " must be an instance of org.sbml.libsbml.";
+	private org.sbml.libsbml.Model modelOrig;
 
 	/**
 	 * 
@@ -749,15 +750,15 @@ public class LibSBMLWriter implements SBMLWriter {
 		if (!(orig instanceof org.sbml.libsbml.Model))
 			throw new IllegalArgumentException(
 					"only instances of org.sbml.libsbml.Model can be considered.");
-		org.sbml.libsbml.Model mo = (org.sbml.libsbml.Model) orig;
+		modelOrig = (org.sbml.libsbml.Model) orig;
 		long i;
 
 		// Function definitions
 		for (FunctionDefinition c : model.getListOfFunctionDefinitions()) {
-			if (mo.getFunctionDefinition(c.getId()) == null)
-				mo.addFunctionDefinition(writeFunctionDefinition(c));
+			if (modelOrig.getFunctionDefinition(c.getId()) == null)
+				modelOrig.addFunctionDefinition(writeFunctionDefinition(c));
 			else
-				saveMathContainerProperties(c, mo.getFunctionDefinition(c
+				saveMathContainerProperties(c, modelOrig.getFunctionDefinition(c
 						.getId()));
 		}
 
@@ -778,69 +779,69 @@ public class LibSBMLWriter implements SBMLWriter {
 					&& !(UnitDefinition.areIdentical(ud, UnitDefinition.time(ud
 							.getLevel(), ud.getVersion())) && ud.getId()
 							.equals("time"))) {
-				org.sbml.libsbml.UnitDefinition libU = mo.getUnitDefinition(ud
+				org.sbml.libsbml.UnitDefinition libU = modelOrig.getUnitDefinition(ud
 						.getId());
 				if (libU != null)
 					saveUnitDefinitionProperties(ud, libU);
 				else
-					mo.addUnitDefinition(writeUnitDefinition(ud));
+					modelOrig.addUnitDefinition(writeUnitDefinition(ud));
 			}
 
 		// Compartment types
 		for (CompartmentType c : model.getListOfCompartmentTypes()) {
-			if (mo.getCompartmentType(c.getId()) == null)
-				mo.addCompartmentType(writeCompartmentType(c));
+			if (modelOrig.getCompartmentType(c.getId()) == null)
+				modelOrig.addCompartmentType(writeCompartmentType(c));
 			else
-				saveNamedSBaseProperties(c, mo.getCompartmentType(c.getId()));
+				saveNamedSBaseProperties(c, modelOrig.getCompartmentType(c.getId()));
 		}
 
 		// Species types
 		for (SpeciesType c : model.getListOfSpeciesTypes()) {
-			if (mo.getSpeciesType(c.getId()) == null)
-				mo.addSpeciesType(writeSpeciesType(c));
+			if (modelOrig.getSpeciesType(c.getId()) == null)
+				modelOrig.addSpeciesType(writeSpeciesType(c));
 			else
-				saveNamedSBaseProperties(c, mo.getSpeciesType(c.getId()));
+				saveNamedSBaseProperties(c, modelOrig.getSpeciesType(c.getId()));
 		}
 
 		// Compartments
 		for (Compartment c : model.getListOfCompartments()) {
-			if (mo.getCompartment(c.getId()) == null)
-				mo.addCompartment(writeCompartment(c));
+			if (modelOrig.getCompartment(c.getId()) == null)
+				modelOrig.addCompartment(writeCompartment(c));
 			else
-				saveCompartmentProperties(c, mo.getCompartment(c.getId()));
+				saveCompartmentProperties(c, modelOrig.getCompartment(c.getId()));
 		}
 
 		// Species
 		for (Species s : model.getListOfSpecies()) {
-			if (mo.getSpecies(s.getId()) == null)
-				mo.addSpecies(writeSpecies(s));
+			if (modelOrig.getSpecies(s.getId()) == null)
+				modelOrig.addSpecies(writeSpecies(s));
 			else
-				saveSpeciesProperties(s, mo.getSpecies(s.getId()));
+				saveSpeciesProperties(s, modelOrig.getSpecies(s.getId()));
 		}
 
 		// add or change parameters
 		for (Parameter p : model.getListOfParameters()) {
-			if (mo.getParameter(p.getId()) == null)
-				mo.addParameter(writeParameter(p));
+			if (modelOrig.getParameter(p.getId()) == null)
+				modelOrig.addParameter(writeParameter(p));
 			else
-				saveParameterProperties(p, mo.getParameter(p.getId()));
+				saveParameterProperties(p, modelOrig.getParameter(p.getId()));
 		}
 
 		// initial assignments
 		for (i = 0; i < model.getNumInitialAssignments(); i++) {
 			InitialAssignment ia = model.getInitialAssignment((int) i);
 			long contains = -1;
-			for (long j = 0; j < mo.getNumInitialAssignments() && contains < 0; j++) {
-				org.sbml.libsbml.InitialAssignment libIA = mo
+			for (long j = 0; j < modelOrig.getNumInitialAssignments() && contains < 0; j++) {
+				org.sbml.libsbml.InitialAssignment libIA = modelOrig
 						.getInitialAssignment(j);
 				if (libIA.getSymbol().equals(ia.getSymbol())
 						&& equal(ia.getMath(), libIA.getMath()))
 					contains = j;
 			}
 			if (contains < 0)
-				mo.addInitialAssignment(writeInitialAssignment(ia));
+				modelOrig.addInitialAssignment(writeInitialAssignment(ia));
 			else
-				saveMathContainerProperties(ia, mo
+				saveMathContainerProperties(ia, modelOrig
 						.getInitialAssignment(contains));
 		}
 
@@ -848,9 +849,9 @@ public class LibSBMLWriter implements SBMLWriter {
 		for (i = 0; i < model.getNumRules(); i++) {
 			Rule rule = model.getRule((int) i);
 			long contains = -1;
-			for (long j = 0; j < mo.getNumRules() && contains < 0; j++) {
+			for (long j = 0; j < modelOrig.getNumRules() && contains < 0; j++) {
 				boolean equal = false;
-				org.sbml.libsbml.Rule ruleOrig = mo.getRule(j);
+				org.sbml.libsbml.Rule ruleOrig = modelOrig.getRule(j);
 				if (rule instanceof RateRule
 						&& ruleOrig instanceof org.sbml.libsbml.RateRule) {
 					equal = ((RateRule) rule).getVariable().equals(
@@ -871,41 +872,41 @@ public class LibSBMLWriter implements SBMLWriter {
 					contains = j;
 			}
 			if (contains < 0)
-				mo.addRule(writeRule(rule));
+				modelOrig.addRule(writeRule(rule));
 			else
 				// math is equal anyway...
-				saveSBaseProperties(rule, mo.getRule(contains));
+				saveSBaseProperties(rule, modelOrig.getRule(contains));
 		}
 
 		// constraints
 		for (i = 0; i < model.getNumConstraints(); i++) {
 			Constraint ia = model.getConstraint((int) i);
 			long contains = -1;
-			for (long j = 0; j < mo.getNumConstraints() && contains < 0; j++) {
-				org.sbml.libsbml.Constraint c = mo.getConstraint(j);
+			for (long j = 0; j < modelOrig.getNumConstraints() && contains < 0; j++) {
+				org.sbml.libsbml.Constraint c = modelOrig.getConstraint(j);
 				if (equal(ia.getMath(), c.getMath()))
 					contains = j;
 			}
 			if (contains < 0)
-				mo.addConstraint(writeConstraint(ia));
+				modelOrig.addConstraint(writeConstraint(ia));
 			else
-				saveMathContainerProperties(ia, mo.getConstraint(contains));
+				saveMathContainerProperties(ia, modelOrig.getConstraint(contains));
 		}
 
 		// add or change reactions
 		for (Reaction r : model.getListOfReactions()) {
-			if (mo.getReaction(r.getId()) == null)
-				mo.addReaction(writeReaction(r));
+			if (modelOrig.getReaction(r.getId()) == null)
+				modelOrig.addReaction(writeReaction(r));
 			else
-				saveReactionProperties(r, mo.getReaction(r.getId()));
+				saveReactionProperties(r, modelOrig.getReaction(r.getId()));
 		}
 
 		// events
 		for (Event event : model.getListOfEvents()) {
-			if (mo.getEvent(event.getId()) == null)
-				mo.addEvent(writeEvent(event));
+			if (modelOrig.getEvent(event.getId()) == null)
+				modelOrig.addEvent(writeEvent(event));
 			else
-				saveEventProperties(event, mo.getEvent(event.getId()));
+				saveEventProperties(event, modelOrig.getEvent(event.getId()));
 		}
 
 		removeUnneccessaryElements(model, orig);
@@ -1499,6 +1500,7 @@ public class LibSBMLWriter implements SBMLWriter {
 			throw new IllegalArgumentException(
 					"reaction must be an instance of org.sbml.libsbml.Reaction.");
 		org.sbml.libsbml.Reaction ro = (org.sbml.libsbml.Reaction) reaction;
+		this.modelOrig = ro.getModel();
 		long i;
 		saveNamedSBaseProperties(r, ro);
 		if (r.getFast() != ro.getFast())
@@ -1943,12 +1945,15 @@ public class LibSBMLWriter implements SBMLWriter {
 				kinteicLaw.getLevel(), kinteicLaw.getVersion());
 		saveMathContainerProperties(kinteicLaw, k);
 		for (Parameter p : kinteicLaw.getListOfParameters()) {
-			if (p.isSetUnits()
-					&& !Unit.isUnitKind(p.getUnits(), p.getLevel(), p
-							.getVersion())
-					&& k.getModel().getUnitDefinition(p.getUnits()) == null)
-				k.getModel().addUnitDefinition(
-						writeUnitDefinition(p.getUnitsInstance()));
+			if (p.isSetUnits()) {
+				if (!Unit
+						.isUnitKind(p.getUnits(), p.getLevel(), p.getVersion())) {
+					if (modelOrig.getUnitDefinition(p.getUnits()) == null) {
+						modelOrig.addUnitDefinition(
+								writeUnitDefinition(p.getUnitsInstance()));
+					}
+				}
+			}
 			k.addParameter(writeParameter(p));
 		}
 		return k;

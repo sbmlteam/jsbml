@@ -46,6 +46,7 @@ import org.sbml.jsbml.element.Reaction;
 import org.sbml.jsbml.element.SBMLDocument;
 import org.sbml.jsbml.element.Species;
 import org.sbml.jsbml.xml.SBMLReader;
+import org.sbml.jsbml.xml.SBMLWriter;
 
 public class SBML_L2V1Test {
 	
@@ -243,5 +244,15 @@ public class SBML_L2V1Test {
 	 */
 	@Test(expected= IndexOutOfBoundsException.class) public void empty() { 
 	    new ArrayList<Object>().get(0); 
+	}
+
+	@Test public void write1(){
+		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
+	
+		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
+		
+		String resultFileName = "biomd-025.xml";
+		
+		SBMLWriter.write(doc, resultFileName);
 	}
 }
