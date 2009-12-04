@@ -388,7 +388,7 @@ public interface ASTNodeCompiler {
 	 * @param rightChild
 	 * @return
 	 */
-	public Object relationGraterThan(ASTNode left, ASTNode right);
+	public Object relationGreaterThan(ASTNode left, ASTNode right);
 
 	/**
 	 * 
