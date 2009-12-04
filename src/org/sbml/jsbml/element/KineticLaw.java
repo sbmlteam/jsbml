@@ -107,10 +107,11 @@ public class KineticLaw extends MathContainer {
 	public void addParameter(Parameter parameter) {
 		if (!isSetListOfParameters()){
 			this.listOfParameters = new ListOf<Parameter>();
+			setThisAsParentSBMLObject(this.listOfParameters);
 		}
 		if (!getListOfParameters().contains(parameter)) {
+			setThisAsParentSBMLObject(parameter);
 			listOfParameters.add(parameter);
-			parameter.parentSBMLObject = this;
 			stateChanged();
 		}
 	}
@@ -162,7 +163,7 @@ public class KineticLaw extends MathContainer {
 	 */
 	public void setListOfLocalParameters(ListOf<Parameter> list){
 		this.listOfParameters = list;
-		setThisAsParentSBMLObject(list);
+		setThisAsParentSBMLObject(this.listOfParameters);
 		this.listOfParameters.setCurrentList(CurrentListOfSBMLElements.listOfLocalParameters);
 	}
 

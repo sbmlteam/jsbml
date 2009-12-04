@@ -244,6 +244,7 @@ public class Model extends AbstractNamedSBase {
 
 	public void setTimeUnits(Unit timeUnits) {
 		this.timeUnits = timeUnits;
+		setThisAsParentSBMLObject(this.timeUnits);
 	}
 
 	public Unit getVolumeUnits() {
@@ -252,6 +253,7 @@ public class Model extends AbstractNamedSBase {
 
 	public void setVolumeUnits(Unit volumeUnits) {
 		this.volumeUnits = volumeUnits;
+		setThisAsParentSBMLObject(this.volumeUnits);
 	}
 
 	public Unit getAreaUnits() {
@@ -260,6 +262,7 @@ public class Model extends AbstractNamedSBase {
 
 	public void setAreaUnits(Unit areaUnits) {
 		this.areaUnits = areaUnits;
+		setThisAsParentSBMLObject(this.areaUnits);
 	}
 
 	public Unit getLengthUnits() {
@@ -268,6 +271,7 @@ public class Model extends AbstractNamedSBase {
 
 	public void setLengthUnits(Unit lengthUnits) {
 		this.lengthUnits = lengthUnits;
+		setThisAsParentSBMLObject(this.lengthUnits);
 	}
 
 	public Unit getExtentUnits() {
@@ -276,6 +280,7 @@ public class Model extends AbstractNamedSBase {
 
 	public void setExtentUnits(Unit extentUnits) {
 		this.extentUnits = extentUnits;
+		setThisAsParentSBMLObject(this.extentUnits);
 	}
 
 	public Parameter getConversionFactor() {
@@ -284,6 +289,7 @@ public class Model extends AbstractNamedSBase {
 
 	public void setConversionFactor(Parameter conversionFactor) {
 		this.conversionFactor = conversionFactor;
+		setThisAsParentSBMLObject(this.conversionFactor);
 	}
 
 	public String getTimeUnitsID() {
@@ -364,9 +370,10 @@ public class Model extends AbstractNamedSBase {
 	public void addCompartment(Compartment compartment) {
 		if (!isSetListOfCompartments()){
 			this.listOfCompartments = new ListOf<Compartment>();
+			setThisAsParentSBMLObject(this.listOfCompartments);
 		}
 		if (!listOfCompartments.contains(compartment)) {
-			compartment.parentSBMLObject = this;
+			setThisAsParentSBMLObject(compartment);
 			listOfCompartments.add(compartment);
 		}
 	}
@@ -378,9 +385,10 @@ public class Model extends AbstractNamedSBase {
 	public void addCompartmentType(CompartmentType compartmentType) {
 		if (!isSetListOfCompartmentTypes()){
 			this.listOfCompartmentTypes = new ListOf<CompartmentType>();
+			setThisAsParentSBMLObject(this.listOfCompartmentTypes);
 		}
 		if (!listOfCompartmentTypes.contains(compartmentType)) {
-			compartmentType.parentSBMLObject = this;
+			setThisAsParentSBMLObject(compartmentType);
 			listOfCompartmentTypes.add(compartmentType);
 		}
 	}
@@ -392,9 +400,10 @@ public class Model extends AbstractNamedSBase {
 	public void addConstraint(Constraint constraint) {
 		if (!isSetListOfConstraints()){
 			this.listOfConstraints = new ListOf<Constraint>();
+			setThisAsParentSBMLObject(this.listOfConstraints);
 		}
 		if (!listOfConstraints.contains(constraint)) {
-			constraint.parentSBMLObject = this;
+			setThisAsParentSBMLObject(constraint);
 			listOfConstraints.add(constraint);
 		}
 	}
@@ -406,9 +415,10 @@ public class Model extends AbstractNamedSBase {
 	public void addEvent(Event event) {
 		if (!isSetListOfEvents()){
 			this.listOfEvents = new ListOf<Event>();
+			setThisAsParentSBMLObject(this.listOfEvents);
 		}
 		if (!listOfEvents.contains(event)) {
-			event.parentSBMLObject = this;
+			setThisAsParentSBMLObject(event);
 			listOfEvents.add(event);
 		}
 	}
@@ -420,9 +430,10 @@ public class Model extends AbstractNamedSBase {
 	public void addFunctionDefinition(FunctionDefinition functionDefinition) {
 		if (!isSetListOfFunctionDefinitions()){
 			this.listOfFunctionDefinitions = new ListOf<FunctionDefinition>();
+			setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
 		}
 		if (!listOfFunctionDefinitions.contains(functionDefinition)) {
-			functionDefinition.parentSBMLObject = this;
+			setThisAsParentSBMLObject(functionDefinition);
 			listOfFunctionDefinitions.add(functionDefinition);
 		}
 	}
@@ -434,9 +445,10 @@ public class Model extends AbstractNamedSBase {
 	public void addInitialAssignment(InitialAssignment initialAssignment) {
 		if (!isSetListOfInitialAssignemnts()){
 			this.listOfInitialAssignments = new ListOf<InitialAssignment>();
+			setThisAsParentSBMLObject(this.listOfInitialAssignments);
 		}
 		if (!listOfInitialAssignments.contains(initialAssignment)) {
-			initialAssignment.parentSBMLObject = this;
+			setThisAsParentSBMLObject(initialAssignment);
 			listOfInitialAssignments.add(initialAssignment);
 		}
 	}
@@ -448,9 +460,10 @@ public class Model extends AbstractNamedSBase {
 	public void addParameter(Parameter parameter) {
 		if (!isSetListOfParameters()){
 			this.listOfParameters = new ListOf<Parameter>();
+			setThisAsParentSBMLObject(this.listOfParameters);
 		}
 		if (!listOfParameters.contains(parameter)) {
-			parameter.parentSBMLObject = this;
+			setThisAsParentSBMLObject(parameter);
 			listOfParameters.add(parameter);
 		}
 	}
@@ -463,9 +476,10 @@ public class Model extends AbstractNamedSBase {
 	public void addReaction(Reaction reaction) {
 		if (!isSetListOfReactions()){
 			this.listOfReactions = new ListOf<Reaction>();
+			setThisAsParentSBMLObject(this.listOfReactions);
 		}
 		if (!listOfReactions.contains(reaction)) {
-			reaction.parentSBMLObject = this;
+			setThisAsParentSBMLObject(reaction);
 			listOfReactions.add(reaction);
 		}
 	}
@@ -477,9 +491,10 @@ public class Model extends AbstractNamedSBase {
 	public void addRule(Rule rule) {
 		if (!isSetListOfRules()){
 			this.listOfRules = new ListOf<Rule>();
+			setThisAsParentSBMLObject(this.listOfRules);
 		}
 		if (!listOfRules.contains(rule)) {
-			rule.parentSBMLObject = this;
+			setThisAsParentSBMLObject(rule);
 			listOfRules.add(rule);
 		}
 	}
@@ -492,9 +507,10 @@ public class Model extends AbstractNamedSBase {
 	public void addSpecies(Species spec) {
 		if (!isSetListOfSpecies()){
 			this.listOfSpecies = new ListOf<Species>();
+			setThisAsParentSBMLObject(this.listOfSpecies);
 		}
 		if (!listOfSpecies.contains(spec)) {
-			spec.parentSBMLObject = this;
+			setThisAsParentSBMLObject(spec);
 			listOfSpecies.add(spec);
 		}
 	}
@@ -506,9 +522,10 @@ public class Model extends AbstractNamedSBase {
 	public void addSpeciesType(SpeciesType speciesType) {
 		if (!isSetListOfSpeciesTypes()){
 			this.listOfSpeciesTypes = new ListOf<SpeciesType>();
+			setThisAsParentSBMLObject(this.listOfSpeciesTypes);
 		}
 		if (!listOfSpeciesTypes.contains(speciesType)) {
-			speciesType.parentSBMLObject = this;
+			setThisAsParentSBMLObject(speciesType);
 			listOfSpeciesTypes.add(speciesType);
 		}
 	}
@@ -520,9 +537,10 @@ public class Model extends AbstractNamedSBase {
 	public void addUnitDefinition(UnitDefinition unitDefinition) {
 		if (!isSetListOfUnitDefinitions()){
 			this.listOfUnitDefinitions = new ListOf<UnitDefinition>();
+			setThisAsParentSBMLObject(this.listOfUnitDefinitions);
 		}
 		if (!listOfUnitDefinitions.contains(unitDefinition)) {
-			unitDefinition.parentSBMLObject = this;
+			setThisAsParentSBMLObject(unitDefinition);
 			listOfUnitDefinitions.add(unitDefinition);
 		}
 	}
@@ -1434,7 +1452,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfReactions(ListOf<Reaction> listOfReactions) {
 		this.listOfReactions = listOfReactions;
-		setThisAsParentSBMLObject(listOfReactions);
+		setThisAsParentSBMLObject(this.listOfReactions);
 		this.listOfReactions.setCurrentList(CurrentListOfSBMLElements.listOfReactions);
 
 		stateChanged();
@@ -1494,6 +1512,7 @@ public class Model extends AbstractNamedSBase {
 
 	public void setSubstanceUnits(Unit substanceUnits) {
 		this.substanceUnits = substanceUnits;
+		setThisAsParentSBMLObject(this.substanceUnits);
 	}
 
 	public String getSubstanceUnitsID() {

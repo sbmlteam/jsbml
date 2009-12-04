@@ -135,7 +135,9 @@ public class Event extends AbstractNamedSBase {
 	public void addEventAssignement(EventAssignment eventass) {
 		if (!isSetListOfEventAssignments()){
 			this.listOfEventAssignments = new ListOf<EventAssignment>();
+			setThisAsParentSBMLObject(this.listOfEventAssignments);
 		}
+		setThisAsParentSBMLObject(eventass);
 		listOfEventAssignments.add(eventass);
 	}
 
@@ -318,7 +320,7 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void setDelay(Delay delay) {
 		this.delay = delay;
-		this.delay.parentSBMLObject = this;
+		setThisAsParentSBMLObject(this.delay);
 		this.delay.sbaseAdded();
 	}
 
@@ -338,6 +340,14 @@ public class Event extends AbstractNamedSBase {
 	 * 
 	 * @param timeUnits
 	 */
+	public void setTimeUnitsID(String timeUnits) {
+		this.timeUnitsID = timeUnits;
+	}
+	
+	/**
+	 * 
+	 * @param timeUnits
+	 */
 	public void setTimeUnits(String timeUnits) {
 		this.timeUnits = (UnitDefinition) getModel().findNamedSBase(timeUnits);
 	}
@@ -348,6 +358,7 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void setTimeUnits(UnitDefinition timeUnits) {
 		this.timeUnits = timeUnits;
+		setThisAsParentSBMLObject(this.timeUnits);
 		stateChanged();
 	}
 
@@ -357,7 +368,7 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void setTrigger(Trigger trigger) {
 		this.trigger = trigger;
-		this.trigger.parentSBMLObject = this;
+		setThisAsParentSBMLObject(this.trigger);
 		this.trigger.sbaseAdded();
 	}
 
@@ -389,7 +400,7 @@ public class Event extends AbstractNamedSBase {
 				}
 			}
 			else if (attributeName.equals("timeUnits")){
-				this.setTimeUnits(value);
+				this.setTimeUnitsID(value);
 			}
 		}
 		return isAttributeRead;

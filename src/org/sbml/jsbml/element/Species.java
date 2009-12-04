@@ -415,6 +415,7 @@ public class Species extends Symbol {
 	 */
 	public void setCompartment(Compartment compartment) {
 		this.compartment = compartment;
+		setThisAsParentSBMLObject(this.compartment);
 		this.compartmentID = compartment != null ? compartment.getId() : null;
 		stateChanged();
 	}
@@ -463,6 +464,7 @@ public class Species extends Symbol {
 	 */
 	public void setSpeciesType(SpeciesType speciesType) {
 		this.speciesType = speciesType;
+		setThisAsParentSBMLObject(this.speciesType);
 		this.speciesTypeID = speciesType != null ? speciesType.getId() : null;
 		this.speciesType.parentSBMLObject = this;
 		stateChanged();
@@ -504,6 +506,7 @@ public class Species extends Symbol {
 	
 	public void setConversionFactor(Parameter conversionFactor) {
 		this.conversionFactor = conversionFactor;
+		setThisAsParentSBMLObject(this.conversionFactor);
 		this.conversionFactorID = conversionFactor.getId();
 	}
 

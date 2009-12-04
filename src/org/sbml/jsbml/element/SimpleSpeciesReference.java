@@ -151,6 +151,7 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	 */
 	public void setSpecies(Species spec) {
 		this.species = spec;
+		setThisAsParentSBMLObject(this.species);
 		stateChanged();
 	}
 	

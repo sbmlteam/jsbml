@@ -235,6 +235,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	void setUnits(UnitDefinition units) {
 		this.units = units;
+		setThisAsParentSBMLObject(this.units);
 		stateChanged();
 	}
 	

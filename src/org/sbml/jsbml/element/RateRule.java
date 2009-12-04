@@ -196,6 +196,7 @@ public class RateRule extends Rule {
 	 */
 	public void setVariable(Symbol variable) {
 		this.variable = variable;
+		setThisAsParentSBMLObject(this.variable);
 		stateChanged();
 	}
 	

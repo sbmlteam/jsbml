@@ -51,6 +51,7 @@ public class SBMLDocument extends AbstractSBase {
 	public SBMLDocument() {
 		super();
 		this.model = null;
+		setParentSBML(this);
 	}
 	
 	/**
@@ -87,7 +88,7 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	public void setModel(Model model) {
 		this.model = model;
-		this.model.parentSBMLObject = this;
+		setThisAsParentSBMLObject(this.model);
 	}
 
 	/**
