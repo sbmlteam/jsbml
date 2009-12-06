@@ -41,10 +41,6 @@ import java.util.List;
  */
 public class CVTerm {
 
-	private Qualifier type;
-	private Qualifier typeQualifier;
-	private List<String> resourceURIs;
-
 	/**
 	 * @author Andreas Dr&auml;ger <a
 	 *         href="mailto:andreas.draeger@uni-tuebingen.de"
@@ -52,15 +48,10 @@ public class CVTerm {
 	 * 
 	 */
 	public static enum Qualifier {
+		/**
+		 * 
+		 */
 		BIOLOGICAL_QUALIFIER,
-		/**
-		 * 
-		 */
-		MODEL_QUALIFIER,
-		/**
-		 * 
-		 */
-		UNKNOWN_QUALIFIER,
 		/**
 		 * 
 		 */
@@ -116,8 +107,29 @@ public class CVTerm {
 		/**
 		 * 
 		 */
-		BQM_UNKNOWN
+		BQM_UNKNOWN,
+		/**
+		 * 
+		 */
+		MODEL_QUALIFIER,
+		/**
+		 * 
+		 */
+		UNKNOWN_QUALIFIER
 	}
+
+	/**
+	 * 
+	 */
+	private List<String> resourceURIs;
+	/**
+	 * 
+	 */
+	private Qualifier type;
+	/**
+	 * 
+	 */
+	private Qualifier typeQualifier;
 
 	/**
 	 * 
@@ -127,7 +139,7 @@ public class CVTerm {
 		typeQualifier = Qualifier.UNKNOWN_QUALIFIER;
 		resourceURIs = new LinkedList<String>();
 	}
-
+	
 	/**
 	 * 
 	 * @param term
@@ -148,6 +160,55 @@ public class CVTerm {
 		resourceURIs = new LinkedList<String>();
 		for (int i = 0; i < term.getNumResources(); i++)
 			resourceURIs.add(new String(term.getResourceURI(i)));
+	}
+	
+	/**
+	 * Adds a resource to the CVTerm.
+	 * 
+	 * @param urn
+	 *            string representing the resource; e.g.,
+	 *            'http://www.geneontology.org/#GO:0005892'
+	 * @return true as specified in {@link Collection.add}
+	 */
+	public boolean addResource(String urn) {
+		return resourceURIs.add(urn);
+	}
+
+	/**
+	 * 
+	 * @param uri
+	 * @return
+	 */
+	public boolean addResourceURI(String uri) {
+		return resourceURIs.add(uri);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+	public CVTerm clone() {
+		return new CVTerm(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals(Object o) {
+		if (o instanceof CVTerm) {
+			CVTerm t = (CVTerm) o;
+			boolean eq = true;
+			eq &= t.getQualifierType() == getQualifierType();
+			eq &= t.getBiologicalQualifierType() == typeQualifier
+					|| t.getModelQualifierType() == typeQualifier;
+			eq &= t.getNumResources() == getNumResources();
+			eq &= t.resourceURIs.equals(resourceURIs);
+			return eq;
+		}
+		return false;
 	}
 
 	/**
@@ -191,6 +252,15 @@ public class CVTerm {
 	}
 
 	/**
+	 * Returns the resources for this CVTerm.
+	 * 
+	 * @return the list of urns that store the resources of this CVTerm.
+	 */
+	public List<String> getResources() {
+		return resourceURIs;
+	}
+
+	/**
 	 * Returns the value of the nth resource for this CVTerm.
 	 * 
 	 * @param n
@@ -202,17 +272,42 @@ public class CVTerm {
 
 	/**
 	 * 
-	 * @param uri
 	 * @return
 	 */
-	public boolean addResourceURI(String uri) {
-		return resourceURIs.add(uri);
+	public boolean isBiologicalQualifier() {
+		return type == Qualifier.BIOLOGICAL_QUALIFIER;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isModelQualifier() {
+		return type == Qualifier.MODEL_QUALIFIER;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetQualifier() {
+		return type != Qualifier.UNKNOWN_QUALIFIER;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetTypeQualifier() {
+		return typeQualifier != Qualifier.UNKNOWN_QUALIFIER;
+	}
+	
 	/**
 	 * Removes a resource from the CVTerm.
 	 * 
 	 * @param resource
+	 *            string representing the resource; e.g.,
+	 *            'http://www.geneontology.org/#GO:0005892'
 	 */
 	public void removeResource(String resource) {
 		for (int i = resourceURIs.size(); i >= 0; i--) {
@@ -220,7 +315,7 @@ public class CVTerm {
 				resourceURIs.remove(i);
 		}
 	}
-
+	
 	/**
 	 * Sets the #BiolQualifierType_t of this CVTerm.
 	 * 
@@ -232,7 +327,7 @@ public class CVTerm {
 				this.typeQualifier = type;
 			else
 				throw new IllegalArgumentException(
-						"Biological qualifiers can only be applyed if the type is set to Biological Qualifier.");
+						"Biological qualifier types can only be applyed if the type is set to Biological Qualifier.");
 		} else
 			throw new IllegalArgumentException(type.toString()
 					+ " is not a valid Biological Qualifier.");
@@ -244,9 +339,13 @@ public class CVTerm {
 	 * @param type
 	 */
 	public void setModelQualifierType(Qualifier type) {
-		if (type.toString().startsWith("BQM"))
-			typeQualifier = type;
-		else
+		if (type.toString().startsWith("BQM")) {
+			if (this.type == Qualifier.MODEL_QUALIFIER)
+				typeQualifier = type;
+			else
+				throw new IllegalArgumentException(
+						"Model qualifier types can only be applyed if the type is set to Model Qualifier.");
+		} else
 			throw new IllegalArgumentException(type.toString()
 					+ " is not a valid model qualifier.");
 	}
@@ -270,33 +369,8 @@ public class CVTerm {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.lang.Object#clone()
+	 * @see java.lang.Object#toString()
 	 */
-	// @Override
-	public CVTerm clone() {
-		return new CVTerm(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	// @Override
-	public boolean equals(Object o) {
-		if (o instanceof CVTerm) {
-			CVTerm t = (CVTerm) o;
-			boolean eq = true;
-			eq &= t.getQualifierType() == getQualifierType();
-			eq &= t.getBiologicalQualifierType() == typeQualifier
-					|| t.getModelQualifierType() == typeQualifier;
-			eq &= t.getNumResources() == getNumResources();
-			eq &= t.resourceURIs.equals(resourceURIs);
-			return eq;
-		}
-		return false;
-	}
-
 	public String toString() {
 		StringBuilder buffer = new StringBuilder();
 		switch (getQualifierType()) {
