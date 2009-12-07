@@ -96,20 +96,20 @@ public class SpeciesExtension extends Species{
 		return species.isSetCharge();
 	}
 
-	public boolean isSetCompartment() {
-		return species.isSetCompartment();
+	public boolean isSetCompartmentInstance() {
+		return species.isSetCompartmentInstance();
 	}
 
-	public boolean isSetCompartmentID() {
-		return species.isSetCompartmentID();
+	public boolean isSetCompartment() {
+		return species.isSetCompartment();
 	}
 
 	public boolean isSetConversionFactor() {
 		return species.isSetConversionFactor();
 	}
 
-	public boolean isSetConversionFactorID() {
-		return species.isSetConversionFactorID();
+	public boolean isSetConversionFactorInstance() {
+		return species.isSetConversionFactorInstance();
 	}
 
 	public boolean isSetInitialAmount() {
@@ -124,8 +124,8 @@ public class SpeciesExtension extends Species{
 		return species.isSetSpeciesType();
 	}
 
-	public boolean isSetSpeciesTypeID() {
-		return species.isSetSpeciesTypeID();
+	public boolean isSetSpeciesTypeInstance() {
+		return species.isSetSpeciesTypeInstance();
 	}
 
 	public boolean isSetSubstanceUnits() {
@@ -153,16 +153,16 @@ public class SpeciesExtension extends Species{
 		species.setCompartment(compartment);
 	}
 
-	public void setCompartmentID(String compartment) {
-		species.setCompartmentID(compartment);
+	public void setCompartment(String compartment) {
+		species.setCompartment(compartment);
 	}
 
 	public void setConversionFactor(Parameter conversionFactor) {
 		species.setConversionFactor(conversionFactor);
 	}
 
-	public void setConversionFactorID(String conversionFactorID) {
-		species.setConversionFactorID(conversionFactorID);
+	public void setConversionFactor(String conversionFactorID) {
+		species.setConversionFactor(conversionFactorID);
 	}
 
 	public void setHasOnlySubstanceUnits(boolean hasOnlySubstanceUnits) {
@@ -181,8 +181,8 @@ public class SpeciesExtension extends Species{
 		species.setSpeciesType(speciesType);
 	}
 
-	public void setSpeciesTypeID(String speciesType) {
-		species.setSpeciesTypeID(speciesType);
+	public void setSpeciesType(String speciesType) {
+		species.setSpeciesType(speciesType);
 	}
 
 	public void setSubstanceUnits(Unit unit) {

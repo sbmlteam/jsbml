@@ -33,9 +33,7 @@ import java.util.HashMap;
 
 /**
  * 
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class Species extends Symbol {
@@ -104,13 +102,26 @@ public class Species extends Symbol {
 
 	/**
 	 * 
+	 * @param level
+	 * @param version
+	 */
+	public Species(int level, int version) {
+		super(level, version);
+		if (level < 3) {
+			initDefaults();
+		}
+	}
+	/**
+	 * 
 	 * @param id
 	 * @param level
 	 * @param version
 	 */
 	public Species(String id, int level, int version) {
 		super(id, level, version);
-		initDefaults();
+		if (level < 3) {
+			initDefaults();
+		}
 	}
 
 	/*
@@ -136,12 +147,12 @@ public class Species extends Symbol {
 			equal &= s.getBoundaryCondition() == getBoundaryCondition();
 			equal &= s.getHasOnlySubstanceUnits() == getHasOnlySubstanceUnits();
 			equal &= s.getCharge() == getCharge();
-			equal &= s.isSetCompartment() == isSetCompartment();
+			equal &= s.isSetCompartmentInstance() == isSetCompartmentInstance();
 			equal &= s.isSetSpeciesType() == isSetSpeciesType();
 
 			if (s.isSetSpeciesType() && isSetSpeciesType())
 				equal &= s.getSpeciesType().equals(getSpeciesType());
-			if (s.isSetCompartment() && isSetCompartment())
+			if (s.isSetCompartmentInstance() && isSetCompartmentInstance())
 				equal &= s.getCompartmentInstance().equals(
 						getCompartmentInstance());
 			equal &= s.isSetInitialAmount() == isSetInitialAmount();
@@ -175,10 +186,8 @@ public class Species extends Symbol {
 	 * 
 	 * @return
 	 */
-// TODO : decide which way to go with
 	public String getCompartment() {
-		return compartmentID;
-		// return isSetCompartment() ? compartment.getId() : "";
+		return isSetCompartment() ? compartmentID : "";
 	}
 
 	/**
@@ -205,9 +214,10 @@ public class Species extends Symbol {
 	 * @return
 	 */
 	public double getInitialAmount() {
-		if (isSetInitialAmount())
+		if (isSetInitialAmount()) {
 			return getValue();
-		return Double.NaN;
+		}
+		return 0;
 	}
 
 	/**
@@ -215,9 +225,11 @@ public class Species extends Symbol {
 	 * @return
 	 */
 	public double getInitialConcentration() {
-		if (isSetInitialConcentration())
+		if (isSetInitialConcentration()) {
 			return getValue();
-		return Double.NaN;
+		}
+		
+		return 0;
 	}
 
 	/*
@@ -304,7 +316,7 @@ public class Species extends Symbol {
 	 * 
 	 * @return
 	 */
-	public boolean isSetCompartment() {
+	public boolean isSetCompartmentInstance() {
 		if (getModel() == null){
 			return false;
 		}
@@ -315,7 +327,7 @@ public class Species extends Symbol {
 	 * 
 	 * @return Returns true if an initial amount has been set for this species.
 	 */
-	public boolean isSetCompartmentID() {
+	public boolean isSetCompartment() {
 		return compartmentID != null;
 	}
 
@@ -340,7 +352,7 @@ public class Species extends Symbol {
 	 * 
 	 * @return
 	 */
-	public boolean isSetSpeciesType() {
+	public boolean isSetSpeciesTypeInstance() {
 		if (getModel() == null){
 			return false;
 		}
@@ -351,7 +363,7 @@ public class Species extends Symbol {
 	 * 
 	 * @return
 	 */
-	public boolean isSetSpeciesTypeID() {
+	public boolean isSetSpeciesType() {
 		return speciesTypeID != null;
 	}
 
@@ -375,7 +387,7 @@ public class Species extends Symbol {
 	 * 
 	 * @return
 	 */
-	public boolean isSetConversionFactorID() {
+	public boolean isSetConversionFactor() {
 		return conversionFactorID != null;
 	}
 	
@@ -383,7 +395,7 @@ public class Species extends Symbol {
 	 * 
 	 * @return
 	 */
-	public boolean isSetConversionFactor() {
+	public boolean isSetConversionFactorInstance() {
 		if (getModel() == null){
 			return false;
 		}
@@ -422,8 +434,12 @@ public class Species extends Symbol {
 	 * 
 	 * @param compartment
 	 */
-	public void setCompartmentID(String compartment) {
-		this.compartmentID = compartment;
+	public void setCompartment(String compartment) {
+		if (compartment != null && compartment.trim().length() == 0) {
+			this.compartmentID = null;
+		} else {
+			this.compartmentID = compartment;
+		}
 		stateChanged();
 	}
 
@@ -467,9 +483,21 @@ public class Species extends Symbol {
 	 * 
 	 * @param speciesType
 	 */
-	public void setSpeciesTypeID(String speciesType) {
-		this.speciesTypeID = speciesType;
+	public void setSpeciesType(String speciesType) {
+		if (speciesType != null && speciesType.trim().length() == 0) {
+			speciesType = null;
+		} else {
+			this.speciesTypeID = speciesType;
+		}
 		stateChanged();
+	}
+
+	/**
+	 * 
+	 * @param unit
+	 */
+	public void setSubstanceUnits(String unit) {
+		super.setUnits(unit);
 	}
 
 	/**
@@ -510,8 +538,12 @@ public class Species extends Symbol {
 	}
 
 
-	public void setConversionFactorID(String conversionFactorID) {
-		this.conversionFactorID = conversionFactorID;
+	public void setConversionFactor(String conversionFactorID) {
+		if (conversionFactorID != null && conversionFactorID.trim().length() == 0) {
+			this.conversionFactorID = null;
+		} else {
+			this.conversionFactorID = conversionFactorID;
+		}
 		stateChanged();
 	}
 
@@ -530,7 +562,7 @@ public class Species extends Symbol {
 		
 		if (!isAttributeRead){
 			if (attributeName.equals("compartment")){
-				this.setCompartmentID(value);
+				this.setCompartment(value);
 			}
 			else if (attributeName.equals("initialAmount")){
 				this.setInitialAmount(Double.parseDouble(value));
@@ -562,7 +594,7 @@ public class Species extends Symbol {
 				}
 			}
 			else if (attributeName.equals("conversionFactor")){
-				this.setConversionFactorID(value);
+				this.setConversionFactor(value);
 				return true;
 			}
 			else if (attributeName.equals("charge")){
@@ -570,7 +602,7 @@ public class Species extends Symbol {
 				return true;
 			}
 			else if (attributeName.equals("speciesType")){
-				this.setSpeciesTypeID(value);
+				this.setSpeciesType(value);
 				return true;
 			}
 			else if (attributeName.equals("constant")){
@@ -591,7 +623,7 @@ public class Species extends Symbol {
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 		
-		if (isSetCompartmentID()){
+		if (isSetCompartment()){
 			attributes.put("compartment", getCompartment());
 		}
 		if (isSetInitialAmount()){
@@ -621,16 +653,22 @@ public class Species extends Symbol {
 		else {
 			attributes.put("boundaryCondition", "false");
 		}
-		if (isSetConversionFactorID()){
+		if (isSetConversionFactor()){
 			attributes.put("conversionFactor", getConversionFactor());
 		}
 		if (isSetCharge()){
 			attributes.put("charge", Integer.toString(getCharge()));
 		}
-		if (isSetSpeciesTypeID()){
+		if (isSetSpeciesType()){
 			attributes.put("speciesType", getSpeciesType());
 		}
 		
 		return attributes;
+	}
+
+
+	// TODO : implement
+	public boolean isSetSpatialSizeUnits() {
+		return false;
 	}
 }

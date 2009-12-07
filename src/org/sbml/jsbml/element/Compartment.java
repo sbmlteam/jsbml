@@ -537,6 +537,6 @@ public class Compartment extends Symbol {
 	}
 
 	public void setSpatialDimensions(int i) {
-		setSpatialDimensions((short) spatialDimensions);
+		setSpatialDimensions((short) i);
 	}
 }
