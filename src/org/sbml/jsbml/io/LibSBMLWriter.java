@@ -1006,7 +1006,7 @@ public class LibSBMLWriter implements SBMLWriter {
 			comp.setSpatialDimensions(c.getSpatialDimensions());
 		if (c.isSetUnits() && !c.getUnits().equals(comp.getUnits()))
 			comp.setUnits(c.getUnits());
-		if (c.isSetOutside() && !c.getOutside().equals(comp.getOutside()))
+		if (c.isSetOutsideInstance() && !c.getOutside().equals(comp.getOutside()))
 			comp.setOutside(c.getOutside());
 		if (c.getConstant() != comp.getConstant())
 			comp.setConstant(c.getConstant());
@@ -1721,7 +1721,7 @@ public class LibSBMLWriter implements SBMLWriter {
 				&& !c.getCompartmentType().equals(
 						compartment.getCompartmentType()))
 			c.setCompartmentType(compartment.getCompartmentType());
-		if (compartment.isSetOutside() && !c.equals(compartment.getOutside()))
+		if (compartment.isSetOutsideInstance() && !c.equals(compartment.getOutside()))
 			c.setOutside(compartment.getOutside());
 		if (compartment.isSetSize() && compartment.getSize() != c.getSize())
 			c.setSize(compartment.getSize());
@@ -2075,7 +2075,7 @@ public class LibSBMLWriter implements SBMLWriter {
 			if (rule.isAssignment()) {
 				r = new org.sbml.libsbml.AssignmentRule(rule.getLevel(), rule
 						.getVersion());
-				if (((AssignmentRule) rule).isSetVariable())
+				if (((AssignmentRule) rule).isSetVariableInstance())
 					r.setVariable(((AssignmentRule) rule).getVariable());
 			} else {
 				r = new org.sbml.libsbml.RateRule(rule.getLevel(), rule
