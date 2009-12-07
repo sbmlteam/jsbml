@@ -34,9 +34,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.sbml.jsbml.test.sbml.TestCompartment;
+import org.sbml.jsbml.test.sbml.TestSpecies;
 
 @RunWith(value=Suite.class)
-@SuiteClasses(value={TestCompartment.class})
+@SuiteClasses(value={TestCompartment.class, TestSpecies.class})
 public class LibsbmlCompatibilityTests {
 
 }

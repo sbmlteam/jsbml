@@ -111,7 +111,7 @@
   	<copy todir="${build.src}" overwrite="yes">
   	        <fileset 
   	            dir="${test.src.dir}"
-  	        	includes="**/TestCompartment.java"
+  	        	includes="org/sbml/jsbml/test/sbml/**"
   	            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
   	        </fileset>
   	    </copy>
@@ -185,11 +185,14 @@
   <target name="test" depends="init">
       
     <junit printsummary="yes" showoutput="yes">
-    	<!-- <jvmarg value="-DDATA_FOLDER=${build.dest}/org/sbml/jsbml/xml/test/data/"/> -->
+    	<jvmarg value="-DDATA_FOLDER=${build.dest}/org/sbml/jsbml/xml/test/data/"/>
         <sysproperty key="DATA_FOLDER" value="${build.dest}/org/sbml/jsbml/xml/test/data"/>
 
     	<formatter type="plain"/>
-    	<test name="org.sbml.jsbml.xml.test.SBML_L2V1Test" outfile="jsbmlTestResults">
+    	<test name="org.sbml.jsbml.xml.test.Tests" outfile="jsbmlTestResults">
+    		<formatter type="plain"/>
+    	</test>
+    	<test name="org.sbml.jsbml.xml.test.LibsbmlCompatibilityTests" outfile="libsbmlCompatibilityTestResults">
     		<formatter type="plain"/>
     	</test>
          <classpath>

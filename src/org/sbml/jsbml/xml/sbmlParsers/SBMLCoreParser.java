@@ -839,7 +839,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private void setSpeciesConversionFactor(Species species, Model model){
 		
-		if (species.isSetConversionFactorID()){
+		if (species.isSetConversionFactor()){
 			String conversionFactorID = species.getConversionFactor();
 			
 			Parameter parameter = model.getParameter(conversionFactorID);
@@ -855,7 +855,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private void setSpeciesSpeciesType(Species species, Model model){
 		
-		if (species.isSetSpeciesTypeID()){
+		if (species.isSetSpeciesType()){
 			String speciesTypeID = species.getSpeciesType();
 			
 			SpeciesType speciesType = model.getSpeciesType(speciesTypeID);
@@ -871,7 +871,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private void setSpeciesCompartment(Species species, Model model){
 		
-		if (species.isSetCompartmentID()){
+		if (species.isSetCompartment()){
 			String compartmentID = species.getCompartment();
 			
 			Compartment compartment = model.getCompartment(compartmentID);
