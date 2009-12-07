@@ -69,7 +69,7 @@ public interface NamedSBase extends SBase {
 	public void setId(String id);
 
 	/**
-	 * sets the name value with 'name'
+	 * sets the name value with 'name'. If level is 1, sets automatically the id to 'name'
 	 * @param name
 	 */
 	public void setName(String name);

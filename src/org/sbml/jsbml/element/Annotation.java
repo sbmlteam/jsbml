@@ -1,3 +1,33 @@
+/*
+ * $Id: AlgebraicRule.java 38 2009-11-05 15:50:38Z niko-rodrigue $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/AlgebraicRule.java $
+ *
+ *
+ *==================================================================================
+ * Copyright (c) 2009 the copyright is held jointly by the individual
+ * authors. See the file AUTHORS for the list of authors.
+ *
+ * This file is part of jsbml, the pure java SBML library. Please visit
+ * http://sbml.org for more information about SBML, and http://jsbml.sourceforge.net/
+ * to get the latest version of jsbml.
+ *
+ * jsbml is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * jsbml is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with jsbml.  If not, see <http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>.
+ *
+ *===================================================================================
+ *
+ */
+
 package org.sbml.jsbml.element;
 
 import java.util.HashMap;
@@ -13,125 +43,183 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 /**
- * An Annotation represents the annotation of a SBase element. It contains the list of CVTerm
- * objects, the map containing the attribute of a XML annotation node and a String containing all the
- * other annotation elements of the XML annotation node.
- * @author compneur
+ * An Annotation represents the otherAnnotation of a SBase element. It contains the list of CVTerm
+ * objects, the map containing the attribute of a XML otherAnnotation node and a String containing all the
+ * other otherAnnotation elements of the XML otherAnnotation node.
+ * @author marine
  *
  */
 public class Annotation {
 	
 	/**
-	 * contains all the annotation information which are not RDF annotation information
+	 * contains all the otherAnnotation information which are not RDF otherAnnotation information
 	 */
-	private StringBuilder annotation;
+	private StringBuilder otherAnnotation;
 	
 	/**
-	 * contains all the CVTerm of the RDF annotation 
+	 * contains all the CVTerm of the RDF otherAnnotation 
 	 */
 	private List<CVTerm> listOfCVTerms;
 	
 	/**
-	 * contains all the namespaces of the matching XML annotation node
+	 * contains all the namespaces of the matching XML otherAnnotation node
 	 */
 	private HashMap<String, String> annotationNamespaces = new HashMap<String, String>();
 	
+	/**
+	 * contains all the otherAnnotation extension objects with the namespace of their package.
+	 */
 	private HashMap<String, Annotation> extensions = new HashMap<String, Annotation>();
 	
 	/**
-	 * contains all the namespaces of the matching XML RDF annotation node
+	 * contains all the namespaces of the matching XML RDF otherAnnotation node
 	 */
 	private HashMap<String, String> rdfAnnotationNamespaces = new HashMap<String, String>();
 	
+	/**
+	 * matches the about XML attribute of an otherAnnotation element in a SBML file.
+	 */
 	private String about;
 	
 	/**
-	 * The ModelHistory which represents the history section of a RDF annotation
+	 * The ModelHistory which represents the history section of a RDF otherAnnotation
 	 */
 	private ModelHistory modelHistory;
 
 	/**
-	 * 
-	 * @param annotation
+	 * Creates an Annotation instance from otherAnnotation and cvTerms. By default, the modelHistory is null. The HashMaps
+	 * annotationNamespaces, rdfAnnotationNamespaces and extensions are empty.
+	 * @param otherAnnotation
 	 * @param cvTerms
 	 */
 	public Annotation(String annotation, List<CVTerm> cvTerms){
-		this.annotation = new StringBuilder(annotation);
+		this.otherAnnotation = new StringBuilder(annotation);
+		this.annotationNamespaces = new HashMap<String, String>();
+		this.rdfAnnotationNamespaces = new HashMap<String, String>();
+		this.extensions = new HashMap<String, Annotation>();
 		this.listOfCVTerms = cvTerms;
 		this.modelHistory = null;
 	}
 	
 	/**
-	 * 
-	 * @param annotation
+	 * Creates an Annotation instance from otherAnnotation. By default, the modelHistory is null, the list of CVTerms is empty. The HashMaps
+	 * annotationNamespaces, rdfAnnotationNamespaces and extensions are empty.
+	 * @param otherAnnotation
 	 */
 	public Annotation(String annotation){
-		this.annotation = new StringBuilder(annotation);
+		this.annotationNamespaces = new HashMap<String, String>();
+		this.rdfAnnotationNamespaces = new HashMap<String, String>();
+		this.extensions = new HashMap<String, Annotation>();
+		this.otherAnnotation = new StringBuilder(annotation);
 		this.listOfCVTerms = new LinkedList<CVTerm>();
 		this.modelHistory = null;
 	}
 	
 	/**
-	 * 
+	 * Creates an Annotation instance from cvTerms. By default, the modelHistory and otherAnnotation Strings are null. The HashMaps
+	 * annotationNamespaces, rdfAnnotationNamespaces and extensions are empty.
 	 * @param cvTerms
 	 */
 	public Annotation(List<CVTerm> cvTerms){
-		this.annotation = null;
+		this.annotationNamespaces = new HashMap<String, String>();
+		this.rdfAnnotationNamespaces = new HashMap<String, String>();
+		this.extensions = new HashMap<String, Annotation>();
+		this.otherAnnotation = null;
 		this.listOfCVTerms = cvTerms;
 		this.modelHistory = null;
 	}
 	
 	/**
-	 * 
+	 * Creates an Annotation instance. By default, the modelHistory and otherAnnotation Strings are null. The list of CVTerms is empty. The HashMaps
+	 * annotationNamespaces, rdfAnnotationNamespaces and extensions are empty.
+	 * @param cvTerms
 	 */
 	public Annotation(){
-		this.annotation = null;
+		this.annotationNamespaces = new HashMap<String, String>();
+		this.rdfAnnotationNamespaces = new HashMap<String, String>();
+		this.extensions = new HashMap<String, Annotation>();
+		this.otherAnnotation = null;
 		this.listOfCVTerms = new LinkedList<CVTerm>();
 		this.modelHistory = null;
 	}
 	
 	/**
-	 * 
+	 * Creates an Annotation instance from attributes. By default, the modelHistory and otherAnnotation Strings are null. The list of CVTerms is empty. The HashMaps
+	 * annotationNamespaces, rdfAnnotationNamespaces and extensions are empty.
 	 * @param attributes
 	 */
 	public Annotation(HashMap<String, String> attributes){
-		this.annotation = null;
+		this.annotationNamespaces = new HashMap<String, String>();
+		this.rdfAnnotationNamespaces = new HashMap<String, String>();
+		this.extensions = new HashMap<String, Annotation>();
+		this.otherAnnotation = null;
 		this.listOfCVTerms = new LinkedList<CVTerm>();
 		this.annotationNamespaces = attributes;
 		this.modelHistory = null;
 	}
 	
 	/**
-	 * 
-	 * @param annotation
+	 * Appends 'annotation' to the otherAnnotation StringBuilder of this object.
+	 * @param otherAnnotation
 	 */
-	public void setAnnotation(String annotation) {
-		if (this.annotation == null){
-			this.annotation = new StringBuilder(annotation);
+	public void appendNoRDFAnnotation(String annotation) {
+		if (this.otherAnnotation == null){
+			this.otherAnnotation = new StringBuilder(annotation);
 		}
 		else{
-			this.annotation.append(annotation);
+			this.otherAnnotation.append(annotation);
 		}
 	}
 	
 	/**
-	 * 
-	 * @return the annotation String containing other annotations than RDF annotations
+	 * Checks if this object is equal to 'annotation'
+	 * @param annotation
+	 * @return true if this object entirely matches 'annotation'
 	 */
-	public String getAnnotation() {
-		if (annotation != null){
-			return annotation.toString();
+	public boolean equals(Annotation annotation){
+		boolean equals = false;
+		if (isSetOtherAnnotationThanRDF()){
+			equals = otherAnnotation.equals(annotation.getNoRDFAnnotation());
+		}
+		if (equals && isSetModelHistory()){
+			equals = this.modelHistory.equals(annotation.getModelHistory());
+		}
+		if (equals && !getListOfCVTerms().isEmpty() && !annotation.getListOfCVTerms().isEmpty()){
+			if (listOfCVTerms.size() == annotation.getListOfCVTerms().size()){
+				for (int i = 0; i < listOfCVTerms.size(); i++){
+					CVTerm cvTerm1 = listOfCVTerms.get(i);
+					CVTerm cvTerm2 = annotation.getListOfCVTerms().get(i);
+					
+					equals = cvTerm1.equals(cvTerm2);
+					if (!cvTerm1.equals(cvTerm2)){
+						break;
+					}
+				}
+			}
+		}
+		
+		return equals;
+	}
+	
+	/**
+	 * 
+	 * @return the otherAnnotation String containing annotations other than RDF annotation. Return null
+	 * if otherAnnotation is null.
+	 */
+	public String getNoRDFAnnotation() {
+		if (otherAnnotation != null){
+			return otherAnnotation.toString();
 		}
 		return null;
 	}
 	
 	public StringBuilder getAnnotationBuilder(){
-		return this.annotation;
+		return this.otherAnnotation;
 	}
 	
 	/**
 	 * 
-	 * @return the list of CVTerms
+	 * @return the list of CVTerms.
 	 */
 	public List<CVTerm> getListOfCVTerms() {
 		return listOfCVTerms;
@@ -149,14 +237,14 @@ public class Annotation {
 	/**
 	 * 
 	 * @param i
-	 * @return the CVTerm at the ith position in the list of CVTerms
+	 * @return the CVTerm at the ith position in the list of CVTerms.
 	 */
 	public CVTerm getCVTerm(int i) {
 		return listOfCVTerms.get(i);
 	}
 	
 	/**
-	 * changes the modelHistory variable
+	 * changes the modelHistory instance to 'modelHistory'
 	 * @param modelHistory
 	 */
 	public void setModelHistory(ModelHistory modelHistory) {
@@ -178,19 +266,27 @@ public class Annotation {
 	public boolean isSetModelHistory() {
 		return modelHistory != null;
 	}
+	
+	/**
+	 * 
+	 * @return true if the otherAnnotation String is not null.
+	 */
+	public boolean isSetOtherAnnotationThanRDF(){
+		return this.otherAnnotation != null;
+	}
 
 	
 	/**
 	 * Checks if the Annotation is initialised. An Annotation is initialised
-	 * if at less one of the following variables is not null : the annotation String,
+	 * if at less one of the following variables is not null : the otherAnnotation String,
 	 * one CVTerm object of the list of CVTerms or the ModelHistory.
 	 * @return true if the Annotation is initialised
 	 */
 	public boolean isSetAnnotation() {
-		if (getAnnotation() == null && getListOfCVTerms() == null){
+		if (getNoRDFAnnotation() == null && getListOfCVTerms().isEmpty() && getModelHistory() == null){
 			return false;
 		}
-		else if (getAnnotation() == null && getListOfCVTerms() != null){
+		else if (getNoRDFAnnotation() == null && getModelHistory() == null && !getListOfCVTerms().isEmpty()){
 			
 			for (int i = 0; i < getListOfCVTerms().size(); i++){
 				if (getCVTerm(i) != null){
@@ -199,37 +295,17 @@ public class Annotation {
 			}
 			return false;
 		}
-		else if (getAnnotation() != null && getListOfCVTerms() == null){
-			if (getAnnotation().length() == 0){
-				return false;
-			}
-			return true;
-		}
-		else if (isSetModelHistory()) {
-			return true;
-		}
 		else {
-			boolean isOneCVTermNotNull = false;
-
-			for (int i = 0; i < getListOfCVTerms().size(); i++){
-				if (getCVTerm(i) != null){
-					isOneCVTermNotNull = true;
-				}
-			}
-			
-			if (!isOneCVTermNotNull && getAnnotation().length() == 0){
-				return false;
-			}
-			return false;
+			return true;
 		}
 	}
 	
 	/**
-	 * set the annotation String to null
+	 * set the otherAnnotation String to null
 	 */
 	public void unsetAnnotation() {
 		if (isSetAnnotation())
-			annotation = null;
+			otherAnnotation = null;
 	}
 
 	/**
@@ -240,7 +316,7 @@ public class Annotation {
 	}
 	
 	/**
-	 * writes the beginning of the RDF annotation element in 'buffer'
+	 * writes the beginning of the RDF otherAnnotation element in 'buffer'
 	 * @param indent
 	 * @param buffer
 	 * @param parentElement
@@ -267,7 +343,7 @@ public class Annotation {
 	}
 	
 	/**
-	 * writes the end of the RDF annotation element in 'buffer'
+	 * writes the end of the RDF otherAnnotation element in 'buffer'
 	 * @param indent
 	 * @param buffer
 	 * @param parentElement
@@ -376,7 +452,7 @@ public class Annotation {
 	}
 	
 	/**
-	 * Writes the RDF annotation element in 'buffer'
+	 * Writes the RDF otherAnnotation element in 'buffer'
 	 * 
 	 * @param indent
 	 * @param buffer
@@ -393,21 +469,21 @@ public class Annotation {
 	}
 	
 	/**
-	 * Writes the other annotation elements in 'buffer'
+	 * Writes the other otherAnnotation elements in 'buffer'
 	 * 
 	 * @param indent
 	 * @param buffer
 	 */
 	protected void otherAnnotationToXML(String indent, StringBuffer buffer){
 		
-		String [] lines = getAnnotation().split("\n");
+		String [] lines = getNoRDFAnnotation().split("\n");
 		for (int i = 0; i < lines.length; i++){
 			buffer.append(indent).append(lines[i]).append(" \n");
 		}
 	}
 	
 	/**
-	 * Writes the history section of the RDF annotation in 'buffer'
+	 * Writes the history section of the RDF otherAnnotation in 'buffer'
 	 * 
 	 * @param indent
 	 * @param buffer
@@ -420,7 +496,7 @@ public class Annotation {
 	
 	/**
 	 * 
-	 * @return String containing the attributes of the annotation node
+	 * @return String containing the attributes of the otherAnnotation node
 	 */
 	private String attributesToXML(){
 		StringBuffer attributes = new StringBuffer();
@@ -437,7 +513,7 @@ public class Annotation {
 	}
 	
 	/**
-	 * converts the Annotation into an XML annotation element
+	 * converts the Annotation into an XML otherAnnotation element
 	 * @param indent
 	 * @param parentElement
 	 * @return
@@ -447,21 +523,21 @@ public class Annotation {
 		StringBuffer buffer = new StringBuffer();
 		
 		if (isSetAnnotation()){
-			buffer.append(indent).append("<annotation").append(attributesToXML()).append("> \n");
+			buffer.append(indent).append("<otherAnnotation").append(attributesToXML()).append("> \n");
 			
 			if (getListOfCVTerms() != null){
 				RDFAnnotationToXML(indent + "  ", buffer, parentElement);
 			}
-			if (getAnnotation() != null){
+			if (getNoRDFAnnotation() != null){
 				otherAnnotationToXML(indent + "  ", buffer);
 			}
-			buffer.append(indent).append("</annotation> \n");
+			buffer.append(indent).append("</otherAnnotation> \n");
 		}
 		return buffer.toString();
 	}
 
 	/**
-	 * changes the annotation attributes with 'annotationNamespaces'
+	 * changes the otherAnnotation attributes with 'annotationNamespaces'
 	 * @param annotationNamespaces
 	 */
 	public void setAnnotationAttributes(HashMap<String, String> annotationAttributes) {
@@ -469,7 +545,7 @@ public class Annotation {
 	}
 	
 	/**
-	 * changes the annotation attributes with 'annotationNamespaces'
+	 * changes the otherAnnotation attributes with 'annotationNamespaces'
 	 * @param annotationNamespaces
 	 */
 	public void setAnnotationAttributes(NamedNodeMap annotationAttributes) {
@@ -486,12 +562,19 @@ public class Annotation {
 
 	/**
 	 * 
-	 * @return the map containing the annotation attributes of this Annotation
+	 * @return the map containing the otherAnnotation attributes of this Annotation
 	 */
 	public HashMap<String, String> getAnnotationAttributes() {
 		return annotationNamespaces;
 	}
 	
+	/**
+	 * sets the about instance of this object if the attributeName is equal to 'about'.
+	 * @param attributeName
+	 * @param prefix
+	 * @param value
+	 * @return true if an about XML attribute has been read
+	 */
 	public boolean readAttribute(String attributeName, String prefix, String value){
 		
 		if (attributeName.equals("about")){
@@ -501,6 +584,12 @@ public class Annotation {
 		return false;
 	}
 	
+	/**
+	 * adds a namespace to the map annotationNamespace of this object.
+	 * @param namespaceName
+	 * @param prefix
+	 * @param URI
+	 */
 	public void addAnnotationNamespace(String namespaceName, String prefix, String URI){
 		if (!prefix.equals("")){
 			this.annotationNamespaces.put(prefix+":"+namespaceName, URI);
@@ -510,39 +599,86 @@ public class Annotation {
 		}
 	}
 
+	/**
+	 * sets the value of the about String of this object.
+	 * @param about
+	 */
 	public void setAbout(String about) {
 		this.about = about;
 	}
 
+	/**
+	 * 
+	 * @return The about String of this object.
+	 */
 	public String getAbout() {
 		return about;
 	}
 
+	/**
+	 * Sets the rdfAnnotationNamespace map to 'rdfAnnotationNamespaces'.
+	 * @param rdfAnnotationNamespaces
+	 */
 	public void setRdfAnnotationNamespaces(HashMap<String, String> rdfAnnotationNamespaces) {
 		this.rdfAnnotationNamespaces = rdfAnnotationNamespaces;
 	}
 
+	/**
+	 * 
+	 * @return the rdfAnnotationNamespaces map of this object.
+	 */
 	public HashMap<String, String> getRdfAnnotationNamespaces() {
 		return rdfAnnotationNamespaces;
 	}
 	
+	/**
+	 * 
+	 * @return the annotationNamespace map of this object.
+	 */
 	public HashMap<String, String> getAnnotationNamespaces() {
 		return annotationNamespaces;
 	}
 
+	/**
+	 * adds a namespace to the rdfAnnotationNamespaces map of this object.
+	 * @param namespaceName
+	 * @param prefix
+	 * @param URI
+	 */
 	public void addRDFAnnotationNamespace(String namespaceName, String prefix, String URI){
 		this.rdfAnnotationNamespaces.put(URI, namespaceName);
 	}
 	
+	/**
+	 * 
+	 * @param namespace
+	 * @return the Annotation extension object matching 'namespace'. Return null if there is no matching object.
+	 */
 	public Annotation getExtension(String namespace){
 		return this.extensions.get(namespace);
 	}
 	
+	/**
+	 * Adds an Annotation extension object to the extensions map of this object.
+	 * @param namespace
+	 * @param annotation
+	 */
 	public void addExtension(String namespace, Annotation annotation){
 		this.extensions.put(namespace, annotation);
 	}
 	
+	/**
+	 * 
+	 * @return the list of all the namespaces of all the packages which extend this object.
+	 */
 	public Set<String> getNamespaces(){
 		return this.extensions.keySet();
+	}
+	
+	/**
+	 * Unsets the modelHistory instance of this object.
+	 */
+	public void unsetModelHistory(){
+		this.modelHistory = null;
 	}
 }

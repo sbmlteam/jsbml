@@ -338,6 +338,11 @@ public interface SBase {
 	public void unsetCVTerms();
 	
 	/**
+	 * Unsets the model History of this object.
+	 */
+	public void unsetModelHistory();
+	
+	/**
 	 * 
 	 * @return true if the Annotation instance of this object 
 	 */

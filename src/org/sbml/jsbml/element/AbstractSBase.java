@@ -758,6 +758,7 @@ public abstract class AbstractSBase implements SBase {
 		if (!isSetAnnotation()){
 			this.annotation = new Annotation();
 		}
+		stateChanged();
 		return annotation.addCVTerm(term);
 	}
 	
@@ -770,6 +771,7 @@ public abstract class AbstractSBase implements SBase {
 		if (isSetAnnotation()){
 			annotation.unsetCVTerms();
 		}
+		stateChanged();
 	}
 	
 	/*
@@ -790,7 +792,10 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#getCVTerm(int index)
 	 */
 	public CVTerm getCVTerm(int index) {
-		return annotation.getCVTerm(index);
+		if (isSetAnnotation()){
+			return annotation.getCVTerm(index);
+		}
+		return null;
 	}
 	
 	/*
@@ -799,7 +804,10 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#isSetModelHistory()
 	 */
 	public boolean isSetModelHistory() {
-		return annotation.isSetModelHistory();
+		if (isSetAnnotation()){
+			return annotation.isSetModelHistory();
+		}
+		return false;
 	}
 	
 	/*
@@ -808,7 +816,10 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#getModelHistory()
 	 */
 	public ModelHistory getModelHistory() {
-		return annotation.getModelHistory();
+		if (isSetAnnotation()){
+			return annotation.getModelHistory();
+		}
+		return null;
 	}
 	
 	/*
@@ -827,6 +838,7 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void addExtension(String namespace, SBase sbase){
 		this.extensions.put(namespace, sbase);
+		stateChanged();
 	}
 	
 	/*
@@ -855,6 +867,7 @@ public abstract class AbstractSBase implements SBase {
 			}
 		}
 		this.level = level;
+		stateChanged();
 	}
 	
 	/*
@@ -874,6 +887,7 @@ public abstract class AbstractSBase implements SBase {
 			}
 		}
 		this.version = version;
+		stateChanged();
 	}
 	
 	/*
@@ -909,5 +923,17 @@ public abstract class AbstractSBase implements SBase {
 			attributes.put("sboTerm", getSBOTermID());
 		}
 		return attributes;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#unsetModelHistory()
+	 */
+	public void unsetModelHistory(){
+		if (isSetAnnotation()){
+			this.annotation.unsetModelHistory();
+			stateChanged();
+		}
 	}
 }
