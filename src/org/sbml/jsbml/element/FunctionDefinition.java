@@ -230,4 +230,12 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 		
 		return attributes;
 	}
+
+	public void unsetId() {
+		this.id = null;
+	}
+
+	public void unsetName() {
+		this.name = null;
+	}
 }

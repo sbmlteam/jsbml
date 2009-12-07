@@ -36,31 +36,64 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 
+ * The base class for each SBase component.
  * @author Andreas Dr&auml;ger
  * @author rodrigue
  * @author marine
  */
 public abstract class AbstractSBase implements SBase {
 
+	/**
+	 * parent sbml component
+	 */
 	SBase parentSBMLObject;
+	/**
+	 * set of listeners for this component
+	 */
 	Set<SBaseChangedListener> setOfListeners;
-	int level;
-	int version;
+	/**
+	 * level of the SBML component. Matches the level XML attribute of a sbml node.
+	 */
+	Integer level;
+	/**
+	 * version of the SBML component. Matches the version XML attribute of a sbml node.
+	 */
+	Integer version;
+	/**
+	 * metaid of the SBML component. Matches the metaid XML attribute of an element in a SBML file.
+	 */
 	private String metaId;
+	/**
+	 * sbo term of the SBML component. Matches the sboTerm XML attribute of an element in a SBML file.
+	 */
 	private int sboTerm;
+	/**
+	 * notes of the SBML component. Matches the notes XML node in a SBML file.
+	 */
 	private String notes;
+	/**
+	 * annotations of the SBML component. Matches the annotation XML node in a SBML file.
+	 */
 	private Annotation annotation;
+	/**
+	 * buffer containing the notes when parsing the notes XML node in a SBML file.
+	 */
 	private StringBuffer notesBuffer;
+	/**
+	 * map containing the SBML extension object of additional packages with the appropriate namespace of the package.
+	 */
 	private HashMap<String, SBase> extensions;
 
 	/**
-	 * 
+	 * Creates an AbstractSBase instance. By default, the sboTerm is -1, the metaid, notes, parentSBMLObject, annotation,
+	 * level, version and notesBuffer are null. The setOfListeners list and the extensions hashmap are empty.
 	 */
 	public AbstractSBase() {
 		sboTerm = -1;
 		metaId = null;
 		notes = null;
+		level = null;
+		version = null;
 		parentSBMLObject = null;
 		setOfListeners = new HashSet<SBaseChangedListener>();
 		annotation = null;
@@ -69,7 +102,10 @@ public abstract class AbstractSBase implements SBase {
 	}
 	
 	/**
-	 * 
+	 * Creates an AbstractSBase instance from an id and name. By default, the sboTerm is -1, the metaid, notes, parentSBMLObject, annotation,
+	 * level, version and notesBuffer are null. The setOfListeners list and the extensions hashmap are empty.
+	 * @param level
+	 * @param version
 	 */
 	public AbstractSBase(int level, int version) {
 		sboTerm = -1;
@@ -84,26 +120,34 @@ public abstract class AbstractSBase implements SBase {
 	}
 	
 	/**
-	 * 
+	 * Creates an AbstractSBase instance from a given AbstractSBase. 
 	 * @param sb
 	 */
 	public AbstractSBase(SBase sb) {
 		this(sb.getLevel(), sb.getVersion());
-		if (sb.isSetSBOTerm())
+		if (sb.isSetSBOTerm()){
 			this.sboTerm = sb.getSBOTerm();
-		if (sb.isSetMetaId())
+		}
+		if (sb.isSetMetaId()){
 			this.metaId = new String(sb.getMetaId());
-		if (sb.isSetNotes())
+		}
+		if (sb.isSetNotes()){
 			this.notes = new String(sb.getNotesString());
+		}
 		this.parentSBMLObject = sb.getParentSBMLObject();
 		this.setOfListeners = new HashSet<SBaseChangedListener>();
-		if (sb instanceof AbstractSBase)
+		if (sb instanceof AbstractSBase){
 			this.setOfListeners.addAll(((AbstractSBase) sb).setOfListeners);
-		else if (sb instanceof ListOf<?>)
+		}
+		else if (sb instanceof ListOf<?>){
 			this.setOfListeners.addAll(((ListOf<?>) sb).setOfListeners);
+		}
 		this.level = sb.getLevel();
 		this.version = sb.getVersion();
-		this.annotation = sb.getAnnotation();
+		if (sb.isSetAnnotation()){
+			this.annotation = sb.getAnnotation();
+		}
+		this.notesBuffer = sb.getNotesBuffer();
 		this.extensions = new HashMap<String, SBase>();
 	}
 
@@ -125,17 +169,20 @@ public abstract class AbstractSBase implements SBase {
 		if (isSetNotes()) {
 			this.notes = this.notes.trim();
 			boolean body = false;
-			if (this.notes.endsWith("\n"))
+			if (this.notes.endsWith("\n")){
 				this.notes = this.notes.substring(0, this.notes.length() - 2);
-			if (this.notes.endsWith("</notes>"))
+			}
+			if (this.notes.endsWith("</notes>")){
 				this.notes = this.notes.substring(0, this.notes.length() - 9);
+			}
 			if (this.notes.endsWith("</body>")) {
 				body = true;
 				this.notes = this.notes.substring(0, this.notes.length() - 8);
 			}
 			this.notes += notes;
-			if (body)
+			if (body){
 				this.notes += "</body>";
+			}
 			this.notes += "</notes>";
 			
 		} else
@@ -160,18 +207,24 @@ public abstract class AbstractSBase implements SBase {
 			SBase sbase = (SBase) o;
 			boolean equals = true;
 			equals &= sbase.isSetMetaId() == isSetMetaId();
-			if (sbase.isSetMetaId() && isSetMetaId())
+			if (sbase.isSetMetaId() && isSetMetaId()){
 				equals &= sbase.getMetaId().equals(getMetaId());
+			}
 			equals &= sbase.isSetNotes() == isSetNotes();
-			if (sbase.isSetNotes() && isSetNotes())
+			if (sbase.isSetNotes() && isSetNotes()){
 				equals &= sbase.getNotesString().equals(getNotesString());
+			}
 			equals &= sbase.isSetSBOTerm() == isSetSBOTerm();
-			if (sbase.isSetSBOTerm() && isSetSBOTerm())
+			if (sbase.isSetSBOTerm() && isSetSBOTerm()){
 				equals &= sbase.getSBOTerm() == getSBOTerm();
+			}
 			equals &= sbase.getLevel() == getLevel();
 			equals &= sbase.getVersion() == getVersion();
 			if (sbase.isSetAnnotation() && isSetAnnotation()){
 				equals &= sbase.getAnnotation().equals(getAnnotation());
+			}
+			if (sbase.getNotesBuffer() != null){
+				equals &= sbase.getNotesBuffer().equals(getNotesBuffer());
 			}
 			return equals;
 		}
@@ -181,7 +234,7 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBase#getAnnotationString()
+	 * @see org.sbml.jsbml.element.SBase#getAnnotation()
 	 */
 	public Annotation getAnnotation() {
 		return isSetAnnotation() ? annotation : null;
@@ -204,13 +257,13 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#getLevel()
 	 */
 	public int getLevel() {
-		return level;
+		return isSetLevel() ? this.level : -1;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#getMetaId()
+	 * @see org.sbml.jsbml.element.SBase#getMetaid()
 	 */
 	public String getMetaId() {
 		return metaId;
@@ -219,20 +272,22 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#getModel()
+	 * @see org.sbml.jsbml.element.SBase#getModel()
 	 */
 	public Model getModel() {
-		if (this instanceof Model)
+		if (this instanceof Model){
 			return (Model) this;
-		if (getParentSBMLObject() != null)
+		}
+		if (getParentSBMLObject() != null){
 			return getParentSBMLObject().getModel();
+		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#getNotesString()
+	 * @see org.sbml.jsbml.element.SBase#getNotesString()
 	 */
 	public String getNotesString() {
 		return notes != null ? notes : null;
@@ -241,7 +296,7 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#getParentSBMLObject()
+	 * @see org.sbml.jsbml.element.SBase#getParentSBMLObject()
 	 */
 	public SBase getParentSBMLObject() {
 		return parentSBMLObject;
@@ -252,18 +307,20 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#getSBMLDocument()
 	 */
 	public SBMLDocument getSBMLDocument() {
-		if (this instanceof SBMLDocument)
+		if (this instanceof SBMLDocument){
 			return (SBMLDocument) this;
+		}
 		Model m = getModel();
-		if (m != null)
+		if (m != null){
 			return m.getParentSBMLObject();
+		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#getSBOTerm()
+	 * @see org.sbml.jsbml.element.SBase#getSBOTerm()
 	 */
 	public int getSBOTerm() {
 		return sboTerm;
@@ -272,7 +329,7 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#getSBOTermID()
+	 * @see org.sbml.jsbml.element.SBase#getSBOTermID()
 	 */
 	public String getSBOTermID() {
 		return SBO.intToString(sboTerm);
@@ -284,7 +341,8 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#getVersion()
 	 */
 	public int getVersion() {
-		return version;
+		return isSetVersion() ? this.version : -1;
+
 	}
 
 	/*
@@ -295,20 +353,30 @@ public abstract class AbstractSBase implements SBase {
 	public boolean hasValidLevelVersionNamespaceCombination() {
 		boolean has = true;
 		if (level == 1) {
-			if (1 <= version && version <= 2)
+			if (1 <= version && version <= 2){
 				has = true;
-			else
+			}
+			else{
 				has = false;
+			}
 		} else if (level == 2) {
-			if (1 <= version && version <= 4)
+			if (1 <= version && version <= 4){
 				has = true;
-			else
+			}
+			else {
 				has = false;
-		} else
+			}
+		} else{
 			has = false;
+		}
 		return has;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#hasValidAnnotation()
+	 */
 	public boolean hasValidAnnotation(){
 		if (isSetAnnotation()){
 			if (isSetMetaId()){
@@ -324,16 +392,19 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBase#isSetAnnotation()
+	 * @see org.sbml.jsbml.element.SBase#isSetAnnotation()
 	 */
 	public boolean isSetAnnotation() {
-		return annotation != null;
+		if (annotation == null){
+			return false;
+		}
+		return annotation.isSetAnnotation();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#isSetMetaId()
+	 * @see org.sbml.jsbml.element.SBase#isSetMetaId()
 	 */
 	public boolean isSetMetaId() {
 		return metaId != null;
@@ -342,7 +413,7 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#isSetNotes()
+	 * @see org.sbml.jsbml.element.SBasee#isSetNotes()
 	 */
 	public boolean isSetNotes() {
 		return notes != null;
@@ -351,10 +422,19 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#isSetSBOTerm()
+	 * @see org.sbml.jsbml.element.SBase#isSetSBOTerm()
 	 */
 	public boolean isSetSBOTerm() {
 		return sboTerm != -1;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#isSetNotesBuffer()
+	 */
+	public boolean isSetNotesBuffer() {
+		return notesBuffer != null;
 	}
 
 	/**
@@ -368,21 +448,23 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#sbaseAdded()
+	 * @see org.sbml.jsbml.element.SBase#sbaseAdded()
 	 */
 	public void sbaseAdded() {
-		for (SBaseChangedListener listener : setOfListeners)
+		for (SBaseChangedListener listener : setOfListeners){
 			listener.sbaseAdded(this);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#sbaseRemoved()
+	 * @see org.sbml.jsbml.element.SBase#sbaseRemoved()
 	 */
 	public void sbaseRemoved() {
-		for (SBaseChangedListener listener : setOfListeners)
+		for (SBaseChangedListener listener : setOfListeners){
 			listener.stateChanged(this);
+		}
 	}
 
 	/*
@@ -392,6 +474,7 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void setParentSBML(SBase parent) {
 		this.parentSBMLObject = parent;
+		stateChanged();
 	}
 	
 	/*
@@ -401,12 +484,13 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void setAnnotation(Annotation annotation) {
 		this.annotation = annotation;
+		stateChanged();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#setMetaId(java.lang.String)
+	 * @see org.sbml.jsbml.element.SBase#setMetaId(java.lang.String)
 	 */
 	public void setMetaId(String metaid) {
 		this.metaId = metaid;
@@ -416,7 +500,7 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#setNotes(java.lang.String)
+	 * @see org.sbml.jsbml.element.SBase#setNotes(java.lang.String)
 	 */
 	public void setNotes(String notes) {
 		if (isSetNotes()){
@@ -431,12 +515,13 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#setSBOTerm(int)
+	 * @see org.sbml.jsbml.element.SBase#setSBOTerm(int)
 	 */
 	public void setSBOTerm(int term) {
-		if (!SBO.checkTerm(term))
+		if (!SBO.checkTerm(term)){
 			throw new IllegalArgumentException(
-					"SBO terms must not be smaller than zero or larger than 9999999.");
+			"SBO terms must not be smaller than zero or larger than 9999999.");
+		}
 		sboTerm = term;
 		stateChanged();
 	}
@@ -448,16 +533,18 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void setSBOTerm(String sboid) {
 		setSBOTerm(SBO.stringToInt(sboid));
+		stateChanged();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#stateChanged()
+	 * @see org.sbml.jsbml.element.SBase#stateChanged()
 	 */
 	public void stateChanged() {
-		for (SBaseChangedListener listener : setOfListeners)
+		for (SBaseChangedListener listener : setOfListeners){
 			listener.stateChanged(this);
+		}
 	}
 
 	/*
@@ -471,11 +558,13 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBase#unsetAnnotation()
+	 * @see org.sbml.jsbml.element.SBase#unsetAnnotation()
 	 */
 	public void unsetAnnotation() {
-		if (isSetAnnotation())
+		if (isSetAnnotation()){
 			annotation = null;
+		}
+		stateChanged();
 	}
 
 	/*
@@ -484,8 +573,10 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#unsetMetaId()
 	 */
 	public void unsetMetaId() {
-		if (isSetMetaId())
+		if (isSetMetaId()){
 			metaId = null;
+		}
+		stateChanged();
 	}
 
 	/*
@@ -494,8 +585,10 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#unsetNotes()
 	 */
 	public void unsetNotes() {
-		if (isSetNotes())
+		if (isSetNotes()){
 			notes = null;
+		}
+		stateChanged();
 	}
 
 	/*
@@ -505,13 +598,23 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void unsetSBOTerm() {
 		sboTerm = -1;
+		stateChanged();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jlibsbml.SBase#unsetNotesBuffer()
+	 */
+	public void unsetNotesBuffer() {
+		notesBuffer = null;
+		stateChanged();
 	}
 
-	/**
-	 * Sets the parent SBML object of the given list and all of its elements to
-	 * this object.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param list
+	 * @see org.sbml.jsbml.element.SBase#setThisAsParentSBMLObject(ListOf<?> list)
 	 */
 	void setThisAsParentSBMLObject(ListOf<?> list) {
 		list.parentSBMLObject = this;
@@ -521,7 +624,7 @@ public abstract class AbstractSBase implements SBase {
 				try {
 					throw new SBMLException();
 				} catch (SBMLException e) {
-					// TODO Auto-generated catch block
+					// TODO Level different, what to do?
 					e.printStackTrace();
 				}
 			}
@@ -535,7 +638,7 @@ public abstract class AbstractSBase implements SBase {
 				try {
 					throw new SBMLException();
 				} catch (SBMLException e) {
-					// TODO Auto-generated catch block
+					// TODO Version different : what to do?
 					e.printStackTrace();
 				}
 			}
@@ -545,19 +648,17 @@ public abstract class AbstractSBase implements SBase {
 		}
 		
 		for (SBase base : list){
-			AbstractSBase sbase = (AbstractSBase) base;
-			setThisAsParentSBMLObject(sbase);
+			if (base instanceof AbstractSBase){
+				AbstractSBase sbase = (AbstractSBase) base;
+				setThisAsParentSBMLObject(sbase);
+			}
 		}
 	}
 	
-	/**
-	 * Sets the parent SBML object of the given SBase element. If the level and versions
-	 * of the sbase element are different with the level and version of the SBMLDocument
-	 * an exception is thrown.
-	 * If the level and version of the sbase element are not set, it will automatically set
-	 * them with the level and version of the SBMLDocument
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param list
+	 * @see org.sbml.jsbml.element.SBase#setThisAsParentSBMLObject(AbstractSBase sbase)
 	 */
 	public void setThisAsParentSBMLObject(AbstractSBase sbase) {
 		sbase.parentSBMLObject = this;
@@ -567,7 +668,7 @@ public abstract class AbstractSBase implements SBase {
 				try {
 					throw new SBMLException();
 				} catch (SBMLException e) {
-					// TODO Auto-generated catch block
+					// TODO Level different, what to do?
 					e.printStackTrace();
 				}
 			}
@@ -581,7 +682,7 @@ public abstract class AbstractSBase implements SBase {
 				try {
 					throw new SBMLException();
 				} catch (SBMLException e) {
-					// TODO Auto-generated catch block
+					// TODO Version different, what to do?
 					e.printStackTrace();
 				}
 			}
@@ -591,25 +692,37 @@ public abstract class AbstractSBase implements SBase {
 		}			
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#setNotesBuffer(StringBuffer notesBuffer)
+	 */
 	public void setNotesBuffer(StringBuffer notesBuffer) {
 		this.notesBuffer = notesBuffer;
+		stateChanged();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#getNotesBuffer()
+	 */
 	public StringBuffer getNotesBuffer() {
 		return notesBuffer;
 	}
 	
-	public boolean isSetNotesStringBuffer(){
-		return this.notesBuffer != null;
-	}
-	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+	 */
 	public boolean readAttribute(String attributeName, String prefix, String value){
 		
-		if (attributeName.equals("level")){
+		if (attributeName.equals("level") && this instanceof SBMLDocument){
 			this.level = Integer.parseInt(value);
 			return true;
 		}
-		else if (attributeName.equals("version")){
+		else if (attributeName.equals("version") && this instanceof SBMLDocument){
 			this.version = Integer.parseInt(value);
 			return true;
 		}
@@ -624,6 +737,11 @@ public abstract class AbstractSBase implements SBase {
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#getCVTerms()
+	 */
 	public List<CVTerm> getCVTerms() {
 		if (isSetAnnotation()){
 			return annotation.getListOfCVTerms();
@@ -631,6 +749,11 @@ public abstract class AbstractSBase implements SBase {
 		return null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#addCVTerm(CVTerm term)
+	 */
 	public boolean addCVTerm(CVTerm term) {
 		if (!isSetAnnotation()){
 			this.annotation = new Annotation();
@@ -638,12 +761,22 @@ public abstract class AbstractSBase implements SBase {
 		return annotation.addCVTerm(term);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#unsetCVTerms()
+	 */
 	public void unsetCVTerms(){
 		if (isSetAnnotation()){
 			annotation.unsetCVTerms();
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#getNumCVTerms()
+	 */
 	public int getNumCVTerms() {
 		if (isSetAnnotation()){
 			return annotation.getListOfCVTerms().size();
@@ -651,46 +784,121 @@ public abstract class AbstractSBase implements SBase {
 		return 0;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#getCVTerm(int index)
+	 */
 	public CVTerm getCVTerm(int index) {
 		return annotation.getCVTerm(index);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#isSetModelHistory()
+	 */
 	public boolean isSetModelHistory() {
 		return annotation.isSetModelHistory();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#getModelHistory()
+	 */
 	public ModelHistory getModelHistory() {
 		return annotation.getModelHistory();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#getExtension(String namespace)
+	 */
 	public SBase getExtension(String namespace){
 		return this.extensions.get(namespace);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#addExtension(String namespace, SBase sbase)
+	 */
 	public void addExtension(String namespace, SBase sbase){
 		this.extensions.put(namespace, sbase);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#addExtension(String namespace, SBase sbase)
+	 */
 	public Set<String> getNamespaces(){
 		return this.extensions.keySet();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#setLevel(int Level)
+	 */
 	public void setLevel(int level){
+		if (this.parentSBMLObject.isSetLevel()){
+			if (level != parentSBMLObject.getLevel()){
+				try {
+					throw new SBMLException("This " + getElementName() + " can't have a different level from " + parentSBMLObject.getLevel());
+				} catch (SBMLException e) {
+					// TODO Different level, what to do?
+					e.printStackTrace();
+				}
+			}
+		}
 		this.level = level;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#setVersion(int version)
+	 */
 	public void setVersion(int version){
+		if (this.parentSBMLObject.isSetVersion()){
+			if (version != parentSBMLObject.getVersion()){
+				try {
+					throw new SBMLException("This " + getElementName() + " can't have a different version from " + parentSBMLObject.getLevel());
+				} catch (SBMLException e) {
+					// TODO Different level, what to do?
+					e.printStackTrace();
+				}
+			}
+		}
 		this.version = version;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#isSetLevel()
+	 */
 	public boolean isSetLevel(){
-		return level != 0;
+		return level != null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#isSetVersion(int version)
+	 */
 	public boolean isSetVersion(){
-		return version != 0;
+		return version != null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 */
 	public HashMap<String, String> writeXMLAttributes(){
 		HashMap<String, String> attributes = new HashMap<String, String>();
 		
