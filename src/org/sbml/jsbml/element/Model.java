@@ -1390,7 +1390,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfCompartments(ListOf<Compartment> listOfCompartments) {
 		this.listOfCompartments = listOfCompartments;
-		setThisAsParentSBMLObject(listOfCompartments);
+		setThisAsParentSBMLObject(this.listOfCompartments);
 		this.listOfCompartments.setCurrentList(CurrentListOfSBMLElements.listOfCompartments);
 
 		stateChanged();
@@ -1403,7 +1403,7 @@ public class Model extends AbstractNamedSBase {
 	public void setListOfCompartmentTypes(
 			ListOf<CompartmentType> listOfCompartmentTypes) {
 		this.listOfCompartmentTypes = listOfCompartmentTypes;
-		setThisAsParentSBMLObject(listOfCompartmentTypes);
+		setThisAsParentSBMLObject(this.listOfCompartmentTypes);
 		this.listOfCompartmentTypes.setCurrentList(CurrentListOfSBMLElements.listOfCompartmentTypes);
 		stateChanged();
 	}
@@ -1414,7 +1414,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfConstraints(ListOf<Constraint> listOfConstraints) {
 		this.listOfConstraints = listOfConstraints;
-		setThisAsParentSBMLObject(listOfConstraints);
+		setThisAsParentSBMLObject(this.listOfConstraints);
 		this.listOfConstraints.setCurrentList(CurrentListOfSBMLElements.listOfConstraints);
 
 	}
@@ -1425,7 +1425,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfEvents(ListOf<Event> listOfEvents) {
 		this.listOfEvents = listOfEvents;
-		setThisAsParentSBMLObject(listOfEvents);
+		setThisAsParentSBMLObject(this.listOfEvents);
 		this.listOfEvents.setCurrentList(CurrentListOfSBMLElements.listOfEvents);
 		stateChanged();
 	}
@@ -1437,7 +1437,7 @@ public class Model extends AbstractNamedSBase {
 	public void setListOfFunctionDefinitions(
 			ListOf<FunctionDefinition> listOfFunctionDefinitions) {
 		this.listOfFunctionDefinitions = listOfFunctionDefinitions;
-		setThisAsParentSBMLObject(listOfFunctionDefinitions);
+		setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
 		this.listOfFunctionDefinitions.setCurrentList(CurrentListOfSBMLElements.listOfFunctionDefinitions);
 
 		stateChanged();
@@ -1450,7 +1450,7 @@ public class Model extends AbstractNamedSBase {
 	public void setListOfInitialAssignments(
 			ListOf<InitialAssignment> listOfInitialAssignments) {
 		this.listOfInitialAssignments = listOfInitialAssignments;
-		setThisAsParentSBMLObject(listOfInitialAssignments);
+		setThisAsParentSBMLObject(this.listOfInitialAssignments);
 		this.listOfInitialAssignments.setCurrentList(CurrentListOfSBMLElements.listOfInitialAssignments);
 
 	}
@@ -1461,7 +1461,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfParameters(ListOf<Parameter> listOfParameters) {
 		this.listOfParameters = listOfParameters;
-		setThisAsParentSBMLObject(listOfParameters);
+		setThisAsParentSBMLObject(this.listOfParameters);
 		this.listOfParameters.setCurrentList(CurrentListOfSBMLElements.listOfParameters);
 
 		stateChanged();
@@ -1485,7 +1485,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfRules(ListOf<Rule> listOfRules) {
 		this.listOfRules = listOfRules;
-		setThisAsParentSBMLObject(listOfRules);
+		setThisAsParentSBMLObject(this.listOfRules);
 		this.listOfRules.setCurrentList(CurrentListOfSBMLElements.listOfRules);
 
 		stateChanged();
@@ -1497,7 +1497,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfSpecies(ListOf<Species> listOfSpecies) {
 		this.listOfSpecies = listOfSpecies;
-		setThisAsParentSBMLObject(listOfSpecies);
+		setThisAsParentSBMLObject(this.listOfSpecies);
 		this.listOfSpecies.setCurrentList(CurrentListOfSBMLElements.listOfSpecies);
 
 		stateChanged();
@@ -1509,7 +1509,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfSpeciesTypes(ListOf<SpeciesType> listOfSpeciesTypes) {
 		this.listOfSpeciesTypes = listOfSpeciesTypes;
-		setThisAsParentSBMLObject(listOfSpeciesTypes);
+		setThisAsParentSBMLObject(this.listOfSpeciesTypes);
 		this.listOfSpeciesTypes.setCurrentList(CurrentListOfSBMLElements.listOfSpeciesTypes);
 
 		stateChanged();
@@ -1522,7 +1522,7 @@ public class Model extends AbstractNamedSBase {
 	public void setListOfUnitDefinitions(
 			ListOf<UnitDefinition> listOfUnitDefinitions) {
 		this.listOfUnitDefinitions = listOfUnitDefinitions;
-		setThisAsParentSBMLObject(listOfUnitDefinitions);
+		setThisAsParentSBMLObject(this.listOfUnitDefinitions);
 		this.listOfUnitDefinitions.setCurrentList(CurrentListOfSBMLElements.listOfUnitDefinitions);
 		stateChanged();
 	}

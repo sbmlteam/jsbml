@@ -504,7 +504,7 @@ public class Reaction extends AbstractNamedSBase {
 	 */
 	public void setListOfReactants(ListOf<SpeciesReference> list) {
 		this.listOfReactants = list;
-		this.listOfReactants.setThisAsParentSBMLObject(this.listOfReactants);
+		setThisAsParentSBMLObject(this.listOfReactants);
 		this.listOfReactants.setCurrentList(CurrentListOfSBMLElements.listOfReactants);
 
 		stateChanged();
@@ -516,7 +516,7 @@ public class Reaction extends AbstractNamedSBase {
 	 */
 	public void setListOfProducts(ListOf<SpeciesReference> list) {
 		this.listOfProducts = list;
-		this.listOfProducts.setThisAsParentSBMLObject(this.listOfProducts);
+		setThisAsParentSBMLObject(this.listOfProducts);
 		this.listOfProducts.setCurrentList(CurrentListOfSBMLElements.listOfProducts);
 
 		stateChanged();
@@ -528,7 +528,7 @@ public class Reaction extends AbstractNamedSBase {
 	 */
 	public void setListOfModifiers(ListOf<ModifierSpeciesReference> list) {
 		this.listOfModifiers = list;
-		this.listOfModifiers.setThisAsParentSBMLObject(this.listOfModifiers);
+		listOfModifiers.setThisAsParentSBMLObject(this.listOfModifiers);
 		this.listOfModifiers.setCurrentList(CurrentListOfSBMLElements.listOfModifiers);
 		stateChanged();
 	}

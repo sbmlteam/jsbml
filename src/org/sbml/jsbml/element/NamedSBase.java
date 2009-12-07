@@ -33,43 +33,54 @@ package org.sbml.jsbml.element;
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
+ * @author marine
  * 
  */
 public interface NamedSBase extends SBase {
 
 	/**
 	 * 
-	 * @return
+	 * @return the id of the element if it is set, an empty string otherwise.
 	 */
 	public String getId();
 
 	/**
 	 * 
-	 * @return
+	 * @return the name of the element if it is set, an empty string otherwise.
 	 */
 	public String getName();
 
 	/**
 	 * 
-	 * @return
+	 * @return true if the id is not null.
 	 */
 	public boolean isSetId();
 
 	/**
 	 * 
-	 * @return
+	 * @return true if the name is not null.
 	 */
 	public boolean isSetName();
 
 	/**
-	 * 
+	 * sets the id value with 'id'
 	 * @param id
 	 */
 	public void setId(String id);
 
 	/**
-	 * 
+	 * sets the name value with 'name'
 	 * @param name
 	 */
 	public void setName(String name);
+	
+	/**
+	 * sets the name value to null.
+	 */
+	public void unsetName();
+	
+	/**
+	 * sets the id value to null.
+	 */
+	public void unsetId();
 }
