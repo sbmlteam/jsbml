@@ -539,7 +539,7 @@ public class Species extends Symbol {
 				this.setInitialConcentration(Double.parseDouble(value));
 			}
 			else if (attributeName.equals("substanceUnits")){
-				this.setUnitsID(value);
+				this.setUnits(value);
 			}
 			else if (attributeName.equals("hasOnlySubstanceUnits")){
 				if (value.equals("true")){

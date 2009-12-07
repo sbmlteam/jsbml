@@ -32,9 +32,9 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger 
+ * @author rodrigue
+ * @author marine
  * 
  */
 public class Compartment extends Symbol {
@@ -78,14 +78,25 @@ public class Compartment extends Symbol {
 		setValue(compartment.getSize());
 	}
 
+	public Compartment(int level, int version) {
+		super(level, version);
+		if (getLevel() < 3) {
+			initDefaults();
+		}
+	}
+	
 	public Compartment(String id, int level, int version) {
 		super(id, level, version);
-		initDefaults();
+		if (getLevel() < 3) {
+			initDefaults();
+		}
 	}
 
 	public Compartment(String id, String name, int level, int version) {
 		super(id, name, level, version);
-		initDefaults();
+		if (getLevel() < 3) {
+			initDefaults();
+		}
 	}
 
 	/*
@@ -154,7 +165,7 @@ public class Compartment extends Symbol {
 	 * @return
 	 */
 	public String getOutside() {
-		return this.outsideID;
+		return isSetOutside() ? outsideID : "";
 	}
 
 	/**
@@ -184,23 +195,6 @@ public class Compartment extends Symbol {
 		return spatialDimensions;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.Symbol#getUnits()
-	 */
-	public String getUnits() {
-		return super.getUnits();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.Symbol#getUnitsInstance()
-	 */
-	public UnitDefinition getUnitsInstance() {
-		return super.getUnitsInstance();
-	}
 
 	/**
 	 *(For SBML Level 1) Get the volume of this Compartment
@@ -226,7 +220,7 @@ public class Compartment extends Symbol {
 		spatialDimensions = 3;
 		constant = true;
 		outsideID = null;
-		setSize(Double.NaN);
+		value = 1.0;
 	}
 
 	/**
@@ -242,10 +236,7 @@ public class Compartment extends Symbol {
 	 * @return
 	 */
 	public boolean isSetCompartmentType() {
-		if (getModel() == null){
-			return false;
-		}
-		return getModel().getCompartmentType(this.compartmentTypeID) != null;
+		return this.compartmentTypeID != null;
 	}
 	
 	/**
@@ -261,10 +252,7 @@ public class Compartment extends Symbol {
 	 * @return
 	 */
 	public boolean isSetOutside() {
-		if (getModel() == null){
-			return false;
-		}
-		return getModel().getCompartment(this.outsideID) != null;
+		return this.outsideID != null;
 	}
 	
 	/**
@@ -280,26 +268,9 @@ public class Compartment extends Symbol {
 	 * @return
 	 */
 	public boolean isSetSize() {
-		return !Double.isNaN(getSize());
+		return isSetValue();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.Symbol#isSetUnits()
-	 */
-	public boolean isSetUnits() {
-		return super.isSetUnits();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.Symbol#isSetUnits()
-	 */
-	public boolean isSetUnitsID() {
-		return super.isSetUnitsID();
-	}
 
 	/**
 	 * <p>
@@ -352,7 +323,7 @@ public class Compartment extends Symbol {
 	 * 
 	 * @param compartmentTypeID
 	 */
-	public void setCompartmentTypeID(String compartmentTypeID) {
+	public void setCompartmentType(String compartmentTypeID) {
 		this.compartmentTypeID = compartmentTypeID;
 		stateChanged();
 	}
@@ -379,8 +350,13 @@ public class Compartment extends Symbol {
 	 * 
 	 * @param outside
 	 */
-	public void setOutsideID(String outside) {
-		this.outsideID = outside;
+	public void setOutside(String outside) {
+		if (outside != null && outside.trim().length() == 0) {
+			this.outsideID = null;
+		} else {
+			this.outsideID = outside;
+		}
+		
 		stateChanged();
 	}
 
@@ -405,32 +381,6 @@ public class Compartment extends Symbol {
 					"Spatial dimensions must be between [0, 3].");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.Symbol#setUnits(org.sbml.jsbml.Unit)
-	 */
-	public void setUnits(Unit unit) {
-		super.setUnits(unit);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.Symbol#setUnits(org.sbml.jsbml.Unit.Kind)
-	 */
-	public void setUnits(Unit.Kind unitKind) {
-		super.setUnits(unitKind);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.Symbol#setUnits(org.sbml.jsbml.UnitDefinition)
-	 */
-	public void setUnits(UnitDefinition units) {
-		super.setUnits(units);
-	}
 
 	/**
 	 * <p>
@@ -527,7 +477,7 @@ public class Compartment extends Symbol {
 				return true;
 			}
 			else if (attributeName.equals("units")){
-				this.setUnitsID(value);
+				this.setUnits(value);
 				return true;
 			}
 			else if (attributeName.equals("size")){
@@ -535,11 +485,11 @@ public class Compartment extends Symbol {
 				return true;
 			}
 			else if (attributeName.equals("compartmentType")){
-				this.setCompartmentTypeID(value);
+				this.setCompartmentType(value);
 				return true;
 			}
 			else if (attributeName.equals("outside")){
-				this.setOutsideID(value);
+				this.setOutside(value);
 			}
 			else if (attributeName.equals("constant")){
 				if (value.equals("true")){
@@ -580,5 +530,13 @@ public class Compartment extends Symbol {
 			attributes.put("units", getUnits());
 		}
 		return attributes;
+	}
+
+	public void unsetCompartmentType() {
+		compartmentTypeID = null;
+	}
+
+	public void setSpatialDimensions(int i) {
+		setSpatialDimensions((short) spatialDimensions);
 	}
 }

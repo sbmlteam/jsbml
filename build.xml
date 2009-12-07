@@ -34,6 +34,7 @@
     <property name="build.name" value="${version} (build ${build.number})"/>
 
     <property name="src.dir" value="${basedir}/src"/>
+  	<property name="test.src.dir" value="${basedir}/test"/>
     <property name="build.dir" value="${basedir}/build"/>
     <property name="build.src" value="${basedir}/build/src"/>
     <property name="build.dest" value="${basedir}/build/classes"/>
@@ -106,6 +107,14 @@
             excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
         </fileset>
     </copy>
+  	
+  	<copy todir="${build.src}" overwrite="yes">
+  	        <fileset 
+  	            dir="${test.src.dir}"
+  	        	includes="**/TestCompartment.java"
+  	            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
+  	        </fileset>
+  	    </copy>
   	
   </target>
 

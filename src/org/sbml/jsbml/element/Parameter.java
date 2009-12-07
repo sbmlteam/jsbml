@@ -201,7 +201,7 @@ public class Parameter extends Symbol {
 			return true;
 		}
 		else if (attributeName.equals("units")){
-			this.setUnitsID(value);
+			this.setUnits(value);
 			return true;
 		}
 		else if (attributeName.equals("constant")){

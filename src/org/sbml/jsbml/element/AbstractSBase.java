@@ -266,7 +266,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#getMetaid()
 	 */
 	public String getMetaId() {
-		return metaId;
+		return isSetMetaId() ? metaId : "";
 	}
 
 	/*
