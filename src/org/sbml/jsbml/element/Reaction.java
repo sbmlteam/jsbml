@@ -528,7 +528,7 @@ public class Reaction extends AbstractNamedSBase {
 	 */
 	public void setListOfModifiers(ListOf<ModifierSpeciesReference> list) {
 		this.listOfModifiers = list;
-		listOfModifiers.setThisAsParentSBMLObject(this.listOfModifiers);
+		setThisAsParentSBMLObject(this.listOfModifiers);
 		this.listOfModifiers.setCurrentList(CurrentListOfSBMLElements.listOfModifiers);
 		stateChanged();
 	}

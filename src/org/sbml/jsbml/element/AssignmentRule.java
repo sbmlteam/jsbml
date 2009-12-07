@@ -33,20 +33,23 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
+ * Represents the assignmentRule XML element of a SBML file.
+ * 
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
- * 
+ * @author marine
  */
 public class AssignmentRule extends Rule {
 
 	/**
-	 * 
+	 * represents the id of a compartment, species, speciesReference or parameter. Matches the variable XML
+	 * attribute of an assignmentRule element.
 	 */
 	private String variableID;
 
 	/**
-	 * 
+	 * Creates an AssignmentRule instance. By default, the variableID is null.
 	 */
 	public AssignmentRule() {
 		super();
@@ -54,6 +57,7 @@ public class AssignmentRule extends Rule {
 	}
 	
 	/**
+	 * Creates an AssignmentRule instance from a given AssignmentRule.
 	 * @param sb
 	 */
 	public AssignmentRule(AssignmentRule sb) {
@@ -62,6 +66,7 @@ public class AssignmentRule extends Rule {
 	}
 
 	/**
+	 * Creates an AssignmentRule instance from a given variable.
 	 * Takes level and version from the variable.
 	 */
 	public AssignmentRule(Symbol variable) {
@@ -70,8 +75,8 @@ public class AssignmentRule extends Rule {
 	}
 
 	/**
+	 * Creates an AssignmentRule instance from a given variable and math.
 	 * Takes level and version from the variable.
-	 * 
 	 * @param math
 	 */
 	public AssignmentRule(Symbol variable, ASTNode math) {
@@ -82,7 +87,7 @@ public class AssignmentRule extends Rule {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.MathContainer#clone()
+	 * @see org.sbml.jsbml.element.MathContainer#clone()
 	 */
 	// @Override
 	public AssignmentRule clone() {
@@ -91,7 +96,7 @@ public class AssignmentRule extends Rule {
 
 	/**
 	 * 
-	 * @return
+	 * @return the variableID of this object.
 	 */
 	public String getVariable() {
 		return variableID;
@@ -99,7 +104,7 @@ public class AssignmentRule extends Rule {
 
 	/**
 	 * 
-	 * @return
+	 * @return the variable instance which matches the variableID of this object.
 	 */
 	public Symbol getVariableInstance() {
 		Symbol variable = null;
@@ -112,7 +117,7 @@ public class AssignmentRule extends Rule {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.Rule#isCompartmentVolume()
+	 * @see org.sbml.jsbml.element.Rule#isCompartmentVolume()
 	 */
 	@Override
 	public boolean isCompartmentVolume() {
@@ -122,7 +127,7 @@ public class AssignmentRule extends Rule {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.Rule#isParameter()
+	 * @see org.sbml.jsbml.element.Rule#isParameter()
 	 */
 	@Override
 	public boolean isParameter() {
@@ -132,7 +137,7 @@ public class AssignmentRule extends Rule {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.Rule#isScalar()
+	 * @see org.sbml.jsbml.element.Rule#isScalar()
 	 */
 	@Override
 	public boolean isScalar() {
@@ -142,7 +147,8 @@ public class AssignmentRule extends Rule {
 
 	/**
 	 * 
-	 * @return
+	 * @return true if the variableID of this object matches a no null compartment, parameter, species or speciesReference
+	 * of the model instance.
 	 */
 	public boolean isSetVariable() {
 		if (getModel() == null){
@@ -153,7 +159,7 @@ public class AssignmentRule extends Rule {
 	
 	/**
 	 * 
-	 * @return
+	 * @return true if the variableID of this object is not null.
 	 */
 	public boolean isSetVariableID() {
 		return variableID != null;
@@ -162,7 +168,7 @@ public class AssignmentRule extends Rule {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.Rule#isSpeciesConcentration()
+	 * @see org.sbml.jsbml.element.Rule#isSpeciesConcentration()
 	 */
 	@Override
 	public boolean isSpeciesConcentration() {
@@ -170,7 +176,10 @@ public class AssignmentRule extends Rule {
 	}
 
 	/**
-	 * 
+	 * Sets the variableID of this object with 'variable'. It looks first for an existing instance of
+	 * compartment, species, speciesReference or parameter with 'variable' as is value, and then initialises
+	 * the variableID of this object with the id of the variable instance. If no variable instance matches the
+	 * 'variable' String, an exception is thrown.
 	 * @param variable
 	 */
 	public void setVariable(String variable) {
@@ -178,14 +187,15 @@ public class AssignmentRule extends Rule {
 		if (getModel() != null){
 			nsb = getModel().findSymbol(variable);
 		}
-		if (nsb == null)
+		if (nsb == null){
 			throw new IllegalArgumentException(
-					"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
+			"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
+		}
 		setVariable(nsb);
 	}
 	
 	/**
-	 * 
+	 * Sets the variableID to 'variableID'.
 	 * @param variableID
 	 */
 	public void setVariableID(String variableID) {
@@ -194,7 +204,7 @@ public class AssignmentRule extends Rule {
 	}
 
 	/**
-	 * 
+	 * Sets the variableID to the id of 'variable'.
 	 * @param variable
 	 */
 	public void setVariable(Symbol variable) {
@@ -204,7 +214,7 @@ public class AssignmentRule extends Rule {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Rule#isSpeciesConcentration()
+	 * @see org.sbml.jsbml.element.Rule#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -219,6 +229,10 @@ public class AssignmentRule extends Rule {
 		return isAttributeRead;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.element.Rule#writeXMLAttributes()
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();

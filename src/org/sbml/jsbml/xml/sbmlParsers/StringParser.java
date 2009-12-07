@@ -65,14 +65,14 @@ public class StringParser implements ReadingParser{
 				Annotation annotation = (Annotation) contextObject;
 				
 				if (!prefix.equals("")){
-					annotation.setAnnotation(" "+prefix+":"+attributeName+"=\""+value+"\"");
+					annotation.appendNoRDFAnnotation(" "+prefix+":"+attributeName+"=\""+value+"\"");
 				}
 				else {
-					annotation.setAnnotation(" "+attributeName+"=\""+value+"\"");
+					annotation.appendNoRDFAnnotation(" "+attributeName+"=\""+value+"\"");
 				}
 				
 				if (isLastAttribute){
-					annotation.setAnnotation("> \n");
+					annotation.appendNoRDFAnnotation("> \n");
 				}
 			}
 		}
@@ -91,7 +91,7 @@ public class StringParser implements ReadingParser{
 		else {
 			if (contextObject instanceof Annotation){
 				Annotation annotation = (Annotation) contextObject;
-				annotation.setAnnotation(characters + " \n");
+				annotation.appendNoRDFAnnotation(characters + " \n");
 			}
 		}
 	}
@@ -124,20 +124,20 @@ public class StringParser implements ReadingParser{
 				Annotation annotation = (Annotation) contextObject;
 				StringBuilder builder = annotation.getAnnotationBuilder();
 
-				if (isNested && annotation.getAnnotation().endsWith("> \n")){
+				if (isNested && annotation.getNoRDFAnnotation().endsWith("> \n")){
 					int builderLength = builder.length();
 					builder.delete(builderLength - 4, builderLength - 1);
 				}
 				
 				if (isNested){
-					annotation.setAnnotation("/> \n");
+					annotation.appendNoRDFAnnotation("/> \n");
 				}
 				else {
 					if (!prefix.equals("")){
-						annotation.setAnnotation("</"+prefix+":"+elementName+"> \n");
+						annotation.appendNoRDFAnnotation("</"+prefix+":"+elementName+"> \n");
 					}
 					else {
-						annotation.setAnnotation("</"+elementName+"> \n");
+						annotation.appendNoRDFAnnotation("</"+elementName+"> \n");
 					}
 				}
 			}
@@ -177,14 +177,14 @@ public class StringParser implements ReadingParser{
 				Annotation annotation = (Annotation) contextObject;
 
 				if (!prefix.equals("")){
-					annotation.setAnnotation("<"+prefix+":"+elementName);
+					annotation.appendNoRDFAnnotation("<"+prefix+":"+elementName);
 				}
 				else {
-					annotation.setAnnotation("<"+elementName);
+					annotation.appendNoRDFAnnotation("<"+elementName);
 				}
 				
 				if (!hasAttributes && !hasNamespaces){
-					annotation.setAnnotation("> \n");
+					annotation.appendNoRDFAnnotation("> \n");
 				}
 			}
 		}
@@ -216,14 +216,14 @@ public class StringParser implements ReadingParser{
 			if (contextObject instanceof Annotation){
 				Annotation annotation = (Annotation) contextObject;
 				if (!prefix.equals("")){
-					annotation.setAnnotation(" "+prefix+":"+localName+"=\""+URI+"\"");
+					annotation.appendNoRDFAnnotation(" "+prefix+":"+localName+"=\""+URI+"\"");
 				}
 				else {
-					annotation.setAnnotation(" "+localName+"=\""+URI+"\"");
+					annotation.appendNoRDFAnnotation(" "+localName+"=\""+URI+"\"");
 				}
 				
 				if (!hasAttributes && isLastNamespace){
-					annotation.setAnnotation("> \n");
+					annotation.appendNoRDFAnnotation("> \n");
 				}
 			}
 		}

@@ -263,7 +263,7 @@ public class SBMLWriter {
 			element.addCharacters(" \n");
 			annotationElement = element.addElement(namespace, "annotation");
 
-			if (annotation.getAnnotation() != null){
+			if (annotation.getNoRDFAnnotation() != null){
 				StringBuffer annotationBeginning = new StringBuffer("<annotation");
 				
 				HashMap<String, String> otherNamespaces = annotation.getAnnotationNamespaces();
@@ -279,7 +279,7 @@ public class SBMLWriter {
 						annotationElement.getNamespace("", entry.getValue());
 					}
 				}
-				annotationBeginning.append("> \n").append(annotation.getAnnotation()).append("</annotation> \n");
+				annotationBeginning.append("> \n").append(annotation.getNoRDFAnnotation()).append("</annotation> \n");
 				
 				DOMConverter converter = new DOMConverter();
 				String annotationString = annotationBeginning.toString().replaceAll("&", "&amp;");

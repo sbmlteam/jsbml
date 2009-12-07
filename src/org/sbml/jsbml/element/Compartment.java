@@ -32,6 +32,7 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
+ * Represents the compartment XML element of a SBML file.
  * @author Andreas Dr&auml;ger 
  * @author rodrigue
  * @author marine
@@ -40,7 +41,7 @@ import java.util.HashMap;
 public class Compartment extends Symbol {
 
 	/**
-	 * 
+	 * Represents the Id of a 
 	 */
 	private String compartmentTypeID;
 	/**

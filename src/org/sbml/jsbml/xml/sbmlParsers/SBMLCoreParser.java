@@ -346,7 +346,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 					}
 					else if (list.getParentSBMLObject() instanceof Reaction){
 						Reaction reaction = (Reaction) list.getParentSBMLObject();
-						
 						if (elementName.equals("speciesReference")){
 							SpeciesReference speciesReference = (SpeciesReference) newContextObject;
 							
@@ -452,21 +451,18 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 					if (elementName.equals("listOfReactants")){
 						ListOf listOfReactants = (ListOf) newContextObject;
 						reaction.setListOfReactants(listOfReactants);
-						listOfReactants.setCurrentList(CurrentListOfSBMLElements.listOfReactants);
 						
 						return listOfReactants;
 					}
 					else if (elementName.equals("listOfProducts")){
 						ListOf listOfProducts = (ListOf) newContextObject;
 						reaction.setListOfProducts(listOfProducts);
-						listOfProducts.setCurrentList(CurrentListOfSBMLElements.listOfProducts);
 
 						return listOfProducts;
 					}
 					else if (elementName.equals("listOfModifiers")){
 						ListOf listOfModifiers = (ListOf) newContextObject;
 						reaction.setListOfModifiers(listOfModifiers);
-						listOfModifiers.setCurrentList(CurrentListOfSBMLElements.listOfModifiers);
 						
 						return listOfModifiers;
 					}

@@ -202,15 +202,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBase#getLevel()
-	 */
-	public int getLevel() {
-		return level;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.SBase#getModel()
 	 */
 	public Model getModel() {
@@ -238,15 +229,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		if (m != null)
 			return m.getParentSBMLObject();
 		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jlibsbml.SBase#getVersion()
-	 */
-	public int getVersion() {
-		return version;
 	}
 
 	/*

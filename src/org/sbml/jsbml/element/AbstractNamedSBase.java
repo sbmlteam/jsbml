@@ -238,6 +238,10 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 			this.name = name;
 		}
 		
+		
+		if (!isSetId() && level == 1){
+			this.id = name;
+		}
 		stateChanged();
 	}
 
