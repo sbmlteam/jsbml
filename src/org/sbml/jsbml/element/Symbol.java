@@ -52,7 +52,12 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * The size, initial amount or concentration, or the actual value of this
 	 * variable.
 	 */
-	private double value;
+	protected double value;
+	
+	/**
+	 * a boolean to help knowing is the value as been set by the user or is the default one.
+	 */
+	private boolean isSetValue = false;
 
 	/**
 	 * 
@@ -61,6 +66,18 @@ public abstract class Symbol extends AbstractNamedSBase {
 		super();
 		this.value = Double.NaN;
 		this.unitsID = null;
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public Symbol(int level, int version) {
+		super(level, version);
+		this.unitsID = null;
+		this.value = Double.NaN;
 	}
 
 	
@@ -126,15 +143,15 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	String getUnits() {
-		return this.unitsID;
+	public String getUnits() {
+		return isSetUnits() ? unitsID : "";
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	UnitDefinition getUnitsInstance() {
+	public UnitDefinition getUnitsInstance() {
 		if (getModel() == null){
 			return null;
 		}
@@ -164,18 +181,15 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	boolean isSetUnits() {
-		if (getModel() == null){
-			return false;
-		}
-		return getModel().getUnitDefinition(this.unitsID) != null;
+	public boolean isSetUnits() {
+		return this.unitsID != null;
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	boolean isSetUnitsID() {
+	public boolean isSetUnitsID() {
 		return unitsID != null;
 	}
 
@@ -183,8 +197,8 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	boolean isSetValue() {
-		return !Double.isNaN(value);
+	public boolean isSetValue() {
+		return isSetValue;
 	}
 
 	/**
@@ -200,7 +214,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * 
 	 * @param unit
 	 */
-	void setUnits(Unit unit) {
+	public void setUnits(Unit unit) {
 		UnitDefinition ud = new UnitDefinition(unit.getKind().toString(),
 				getLevel(), getVersion());
 		ud.addUnit(unit);
@@ -224,7 +238,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * 
 	 * @param unitKind
 	 */
-	void setUnits(Unit.Kind unitKind) {
+	public void setUnits(Unit.Kind unitKind) {
 		setUnits(new Unit(unitKind, getLevel(), getVersion()));
 	}
 
@@ -233,7 +247,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * 
 	 * @param units
 	 */
-	void setUnits(UnitDefinition units) {
+	public void setUnits(UnitDefinition units) {
 		this.unitsID = units != null ? units.getId() : null;
 		stateChanged();
 	}
@@ -242,8 +256,12 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * 
 	 * @param units
 	 */
-	void setUnitsID(String units) {
-		this.unitsID = units;
+	public void setUnits(String units) {
+		if (units != null && units.trim().length() == 0) {
+			this.unitsID = null;
+		} else {
+			this.unitsID = units;
+		}
 		stateChanged();
 	}
 
@@ -256,8 +274,13 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * @param value
 	 *            the value to set
 	 */
-	void setValue(double value) {
+	public void setValue(double value) {
 		this.value = value;
+		
+		if (!Double.isNaN(value)) {
+			isSetValue = true;
+		}
+		
 		stateChanged();
 	}
 
@@ -266,6 +289,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	public void unsetValue() {
 		value = Double.NaN;
+		isSetValue = false;
 		stateChanged();
 	}
 	

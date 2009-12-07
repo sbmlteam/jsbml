@@ -197,7 +197,12 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.element.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
-		this.id = id;
+		if (id != null && id.trim().length() == 0) {
+			this.id = null;
+		} else {
+			this.id = id;
+		}
+		
 		stateChanged();
 	}
 	
@@ -227,7 +232,12 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.element.NamedSBase#setName(java.lang.String)
 	 */
 	public void setName(String name) {
-		this.name = name;
+		if (name != null && name.trim().length() == 0) {
+			this.name = null;
+		} else {
+			this.name = name;
+		}
+		
 		stateChanged();
 	}
 
