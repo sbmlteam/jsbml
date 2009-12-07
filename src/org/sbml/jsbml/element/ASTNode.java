@@ -315,12 +315,6 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * 
-	 */
-	public ASTNode(){
-	}
-	
-	/**
 	 * Creates a new ASTNode of type MINUS and adds the given nodes as children
 	 * 
 	 * @param parent
@@ -918,8 +912,8 @@ public class ASTNode implements TreeNode {
 		case FUNCTION_TANH:
 			return compiler.tanh(getLeftChild());
 		case FUNCTION:
-			return compiler.function(getName(), listOfNodes
-					.toArray(new ASTNode[] {}));
+			return compiler.function((FunctionDefinition) getVariable(),
+					listOfNodes.toArray(new ASTNode[] {}));
 		case LAMBDA:
 			return compiler.lambda(listOfNodes.toArray(new ASTNode[] {}));
 		case LOGICAL_AND:
@@ -938,7 +932,8 @@ public class ASTNode implements TreeNode {
 			return compiler.relationGreaterEqual(getLeftChild(),
 					getRightChild());
 		case RELATIONAL_GT:
-			return compiler.relationGreaterThan(getLeftChild(), getRightChild());
+			return compiler
+					.relationGreaterThan(getLeftChild(), getRightChild());
 		case RELATIONAL_NEQ:
 			return compiler.relationNotEqual(getLeftChild(), getRightChild());
 		case RELATIONAL_LEQ:

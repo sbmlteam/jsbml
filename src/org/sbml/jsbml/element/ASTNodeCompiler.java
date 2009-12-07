@@ -27,7 +27,6 @@
  *===================================================================================
  *
  */
-
 package org.sbml.jsbml.element;
 
 /**
@@ -253,11 +252,11 @@ public interface ASTNodeCompiler {
 
 	/**
 	 * 
-	 * @param name
+	 * @param namedSBase
 	 * @param args
 	 * @return
 	 */
-	public Object function(String name, ASTNode... args);
+	public Object function(FunctionDefinition namedSBase, ASTNode... args);
 
 	/**
 	 * 

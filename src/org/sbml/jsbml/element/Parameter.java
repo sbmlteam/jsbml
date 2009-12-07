@@ -90,7 +90,7 @@ public class Parameter extends Symbol {
 	 * 
 	 * @return
 	 */
-	public boolean getConstant() {
+	public Boolean getConstant() {
 		return isConstant();
 	}
 

@@ -121,7 +121,7 @@ public class AssignmentRule extends Rule {
 	 */
 	@Override
 	public boolean isCompartmentVolume() {
-		return isSetVariable() && (getVariableInstance() instanceof Compartment);
+		return isSetVariableInstance() && (getVariableInstance() instanceof Compartment);
 	}
 
 	/*
@@ -131,7 +131,7 @@ public class AssignmentRule extends Rule {
 	 */
 	@Override
 	public boolean isParameter() {
-		return isSetVariable() && (getVariableInstance() instanceof Parameter);
+		return isSetVariableInstance() && (getVariableInstance() instanceof Parameter);
 	}
 
 	/*
@@ -150,7 +150,7 @@ public class AssignmentRule extends Rule {
 	 * @return true if the variableID of this object matches a no null compartment, parameter, species or speciesReference
 	 * of the model instance.
 	 */
-	public boolean isSetVariable() {
+	public boolean isSetVariableInstance() {
 		if (getModel() == null){
 			return false;
 		}
@@ -161,7 +161,7 @@ public class AssignmentRule extends Rule {
 	 * 
 	 * @return true if the variableID of this object is not null.
 	 */
-	public boolean isSetVariableID() {
+	public boolean isSetVariable() {
 		return variableID != null;
 	}
 
@@ -172,7 +172,7 @@ public class AssignmentRule extends Rule {
 	 */
 	@Override
 	public boolean isSpeciesConcentration() {
-		return isSetVariable() && (getVariableInstance() instanceof Species);
+		return isSetVariableInstance() && (getVariableInstance() instanceof Species);
 	}
 
 	/**
@@ -212,6 +212,13 @@ public class AssignmentRule extends Rule {
 		stateChanged();
 	}
 	
+	/**
+	 * sets the VariableID to null.
+	 */
+	public void unsetVariable(){
+		this.variableID = null;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.element.Rule#readAttribute(String attributeName, String prefix, String value)
@@ -237,7 +244,7 @@ public class AssignmentRule extends Rule {
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 		
-		if (isSetVariableID()){
+		if (isSetVariable()){
 			attributes.put("variable", getVariable());
 		}
 

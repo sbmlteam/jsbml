@@ -589,14 +589,14 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private boolean setAssignmentRuleVariable(AssignmentRule rule, Model model){
 		
-		if (rule.isSetVariableID() && rule.isSetVariable()){
+		if (rule.isSetVariable() && rule.isSetVariableInstance()){
 			return true;
 		}
 		return false;
 	}
 	
 	private void setCompartmentCompartmentType(Compartment compartment, Model model){
-		if (compartment.isSetCompartmentTypeID()){
+		if (compartment.isSetCompartmentType()){
 			String compartmentTypeID = compartment.getCompartmentType();
 			
 			CompartmentType compartmentType = model.getCompartmentType(compartmentTypeID);
@@ -612,7 +612,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private void setCompartmentOutside(Compartment compartment, Model model){
 		
-		if (compartment.isSetOutsideID()){
+		if (compartment.isSetOutside()){
 			String outsideID = compartment.getOutside();
 			
 			Compartment outside = model.getCompartment(outsideID);

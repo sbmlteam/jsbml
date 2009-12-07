@@ -33,9 +33,7 @@ package org.sbml.jsbml.util;
  * This class provides a collection of convenient methods for manipulating
  * Strings.
  * 
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class StringTools {

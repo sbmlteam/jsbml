@@ -34,18 +34,15 @@ import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Vector;
 
-
-import org.sbml.jsbml.element.SpeciesReference;
 import org.sbml.jsbml.element.ASTNode;
 import org.sbml.jsbml.element.ASTNodeCompiler;
 import org.sbml.jsbml.element.Compartment;
+import org.sbml.jsbml.element.FunctionDefinition;
 import org.sbml.jsbml.element.NamedSBase;
-
+import org.sbml.jsbml.element.SpeciesReference;
 
 /**
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class TextFormula extends StringTools implements ASTNodeCompiler {
@@ -526,11 +523,19 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#function(java.lang.String,
-	 * org.sbml.jsbml.ASTNode[])
+	 * @see org.sbml.jsbml.ASTNodeCompiler#function(org.sbml.jsbml.NamedSBase, org.sbml.jsbml.ASTNode[])
 	 */
-	public String function(String name, ASTNode... nodes) {
+	public String function(FunctionDefinition func, ASTNode... nodes) {
+		return function(func.getName(), nodes);
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param nodes
+	 * @return
+	 */
+	private String function(String name, ASTNode... nodes) {
 		return concat(name, lambda(nodes)).toString();
 	}
 

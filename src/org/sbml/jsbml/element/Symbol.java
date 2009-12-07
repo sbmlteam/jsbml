@@ -43,7 +43,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	/**
 	 * The constant attribute of this variable.
 	 */
-	private boolean constant;
+	private Boolean constant;
 	/**
 	 * The unit attribute of this variable.
 	 */
@@ -135,8 +135,8 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public boolean getConstant() {
-		return isConstant();
+	public Boolean getConstant() {
+		return this.constant;
 	}
 
 	/**
