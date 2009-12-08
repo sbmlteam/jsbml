@@ -412,4 +412,16 @@ public interface SBase {
 	 * If the level and version of sbase are set but not valid, an exception is thrown.
 	 */
 	public void setThisAsParentSBMLObject(AbstractSBase sbase);
+	
+	/**
+	 * 
+	 * @return true if this object is extended by other packages.
+	 */
+	public boolean isExtendedByOtherPackages();
+	
+	/**
+	 * 
+	 * @return the map containing all the extension objects of this object.
+	 */
+	public HashMap<String, SBase> getExtensionPackages();
 }

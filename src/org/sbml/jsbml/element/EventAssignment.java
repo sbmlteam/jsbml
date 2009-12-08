@@ -32,20 +32,21 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
+ * Represents the eventAssignment XML element of a SBML file.
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
- * 
+ * @author marine
  */
 public class EventAssignment extends MathContainer {
 
 	/**
-	 * 
+	 * Represents the 'variable' XML attribute of an eventAssignment element.
 	 */
 	private String variableID;
 
 	/**
-	 * 
+	 * Creates an EventAssignment instance. By default, the variableID is null.
 	 */
 	public EventAssignment() {
 		super();
@@ -53,7 +54,7 @@ public class EventAssignment extends MathContainer {
 	}
 	
 	/**
-	 * 
+	 * Creates an EventAssignment instance from a level and version. By default, the variableID is null.
 	 */
 	public EventAssignment(int level, int version) {
 		super(level, version);
@@ -61,18 +62,23 @@ public class EventAssignment extends MathContainer {
 	}
 
 	/**
-	 * 
+	 * Creates an EventAssignment instance from a given EventAssignment.
 	 * @param eventAssignment
 	 */
 	public EventAssignment(EventAssignment eventAssignment) {
 		super(eventAssignment);
-		setVariable(eventAssignment.getVariable());
+		if (isSetVariable()){
+			this.variableID = new String(eventAssignment.getVariable());
+		}
+		else {
+			this.variableID = null;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.MathElement#clone()
+	 * @see org.sbml.jsbml.element.MathContainer#clone()
 	 */
 	// @Override
 	public EventAssignment clone() {
@@ -82,7 +88,7 @@ public class EventAssignment extends MathContainer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.MathElement#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
 	 */
 	// @Override
 	public boolean equals(Object o) {
@@ -101,9 +107,9 @@ public class EventAssignment extends MathContainer {
 
 	/**
 	 * 
-	 * @return
+	 * @return true if the id of the Symbol which matches the variableID of this Event is not null.
 	 */
-	public boolean isSetVariable() {
+	public boolean isSetVariableInstance() {
 		if (getModel() == null){
 			return false;
 		}
@@ -112,23 +118,24 @@ public class EventAssignment extends MathContainer {
 	
 	/**
 	 * 
-	 * @return
+	 * @return true if the variableID of this Event is not null.
 	 */
-	public boolean isSetVariableID() {
+	public boolean isSetVariable() {
 		return variableID != null;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the variableID of this Event. Return an empty String if it is not set.
 	 */
 	public String getVariable() {
-		return this.variableID;
+		return isSetVariable() ? this.variableID : "";
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the Symbol instance (Compartment, Species, SpeciesReference or Parameter) which
+	 * has the variableID of this EventAssignment as id. Return null if it doesn't exist.
 	 */
 	public Symbol getVariableInstance() {
 		if (getModel() == null){
@@ -138,61 +145,74 @@ public class EventAssignment extends MathContainer {
 	}
 
 	/**
-	 * 
+	 * Sets the variableID of this EventAssignment to the id of the Symbol variable only if the Symbol is
+	 * a Species, Compartment, SpeciesReference or Parameter.
 	 * @param variable
 	 */
 	public void setVariable(Symbol variable) {
 		if ((variable instanceof Species) || variable instanceof Compartment
 				|| (variable instanceof Parameter) || (variable instanceof SpeciesReference)){
 			this.variableID = variable.getId();
+			stateChanged();
 		}
-		else
+		else {
 			throw new IllegalArgumentException(
-					"Only Species, Compartments, SpeciesReferences or Parameters allowed as variables");
+			"Only Species, Compartments, SpeciesReferences or Parameters allowed as variables");
+		}
 	}
 
 	/**
-	 * 
+	 * Sets the variableID of this EventAssignment to 'variable'. If 'variable' doesn't match any id of Compartment
+	 * , Species, SpeciesReference or Parameter in Model, an IllegalArgumentException is thrown.
 	 * @param variable
 	 */
-	public void setVariable(String variable) {
+	public void checkAndSetVariable(String variable) {
 		Symbol nsb = getModel().findSymbol(variable);
-		if (nsb == null)
+		if (nsb == null){
 			throw new IllegalArgumentException(
-					"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
+			"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
+		}
 		setVariable(nsb);
+		stateChanged();
 	}
 	
 	/**
-	 * 
+	 * Sets the variableID of this EventAssignment to 'variable'.
 	 * @param variable
 	 */
 	public void setVariableID(String variable) {
 		this.variableID = variable;
 	}
+	
+	/**
+	 * Sets the variableID of this EventAssignment to null.
+	 */
+	public void unsetVariable(){
+		this.variableID = null;
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#toString()
+	 * @see org.sbml.jsbml.element.SBase#toString()
 	 */
 	// @Override
 	public String toString() {
 		if (getMath() != null && getVariable() != null){
 			return getVariable() + " = " + getMath().toString();
 		}
-		else if (getMath() != null){
+		else if (isSetMath()){
 			return getMath().toString();
 		}
-		else if (getVariable() != null){
-			return getVariable().toString() + " = 0";
+		else if (isSetVariable()){
+			return getVariable() + " = 0";
 		}
 		return "";
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * 
+	 * @see readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -207,11 +227,15 @@ public class EventAssignment extends MathContainer {
 		return isAttributeRead;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see writeXMLAttributes()
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 		
-		if (isSetVariableID()){
+		if (isSetVariable()){
 			attributes.put("variable", getVariable());
 		}
 		

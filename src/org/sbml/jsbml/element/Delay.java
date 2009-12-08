@@ -32,6 +32,7 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
+ * Represents the delay subnode of an event element.
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
@@ -40,14 +41,14 @@ import java.util.HashMap;
 public class Delay extends MathContainer {
 
 	/**
-	 * 
+	 * Creates a Delay instance.
 	 */
 	public Delay() {
 		super();
 	}
 	
 	/**
-	 * 
+	 * Creates a Delay instance from a level and version.
 	 * @param level
 	 * @param version
 	 */
@@ -56,6 +57,7 @@ public class Delay extends MathContainer {
 	}
 
 	/**
+	 * Creates a Delay instance from an ASTNode, level and version.
 	 * @param math
 	 */
 	public Delay(ASTNode math, int level, int version) {
@@ -63,6 +65,7 @@ public class Delay extends MathContainer {
 	}
 
 	/**
+	 * Creates a Delay instance from a given Delay.
 	 * @param sb
 	 */
 	public Delay(Delay sb) {
@@ -72,7 +75,7 @@ public class Delay extends MathContainer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.MathElement#clone()
+	 * @see org.sbml.jsbml.element.MathContainer#clone()
 	 */
 	// @Override
 	public Delay clone() {
@@ -81,7 +84,7 @@ public class Delay extends MathContainer {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Rule#isSpeciesConcentration()
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -90,6 +93,10 @@ public class Delay extends MathContainer {
 		return isAttributeRead;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();

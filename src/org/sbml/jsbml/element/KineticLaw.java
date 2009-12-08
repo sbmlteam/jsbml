@@ -36,20 +36,21 @@ import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
 
 
 /**
+ * Represents the kineticLaw XML element of a SBML file.
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
- * 
+ * @author marine
  */
 public class KineticLaw extends MathContainer {
 
 	/**
-	 * local parameters
+	 * Represents the listOfLocalParameters or listOfParameters subelement of a kineticLaw element.
 	 */
 	private ListOf<Parameter> listOfParameters;
 
 	/**
-	 * 
+	 * Creates a KineticLaw instance. By default, this listOfParameters is null.
 	 */
 	public KineticLaw() {
 		super();
@@ -57,27 +58,32 @@ public class KineticLaw extends MathContainer {
 	}
 	
 	/**
-	 * 
+	 * Creates a KineticLaw instance from a level and version. By default, this listOfParameters is null.
+	 * @param level
+	 * @param version
 	 */
 	public KineticLaw(int level, int version) {
 		super(level, version);
-		listOfParameters = new ListOf<Parameter>(level, version);
-		listOfParameters.parentSBMLObject = this;
+		listOfParameters = null;
 	}
 
 	/**
-	 * 
+	 * Creates a KineticLaw instance from a given KineticLaw.
 	 * @param kineticLaw
 	 */
 	@SuppressWarnings("unchecked")
 	public KineticLaw(KineticLaw kineticLaw) {
 		super(kineticLaw);
-		listOfParameters = (ListOf<Parameter>) kineticLaw.getListOfParameters().clone();
-		listOfParameters.parentSBMLObject = this;
+		if (kineticLaw.isSetListOfParameters()){
+			setListOfLocalParameters((ListOf<Parameter>) kineticLaw.getListOfParameters().clone());
+		}
+		else {
+			listOfParameters = null;
+		}
 	}
 
 	/**
-	 * 
+	 * Creates a KineticLaw instance from a given Reaction.
 	 * @param parentReaction
 	 */
 	public KineticLaw(Reaction parentReaction) {
@@ -89,13 +95,15 @@ public class KineticLaw extends MathContainer {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.sbml.SBase#addChangeListener(org.sbml.squeezer.io.SBaseChangedListener
+	 * org.sbml.jsbml.element.SBase#addChangeListener(org.sbml.squeezer.io.SBaseChangedListener
 	 * )
 	 */
 	// @Override
 	public void addChangeListener(SBaseChangedListener l) {
 		super.addChangeListener(l);
-		listOfParameters.addChangeListener(l);
+		if (isSetListOfParameters()){
+			listOfParameters.addChangeListener(l);
+		}
 	}
 
 	/**
@@ -128,7 +136,7 @@ public class KineticLaw extends MathContainer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.MathContainer#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
 	 */
 	// @Override
 	public boolean equals(Object o) {
@@ -144,7 +152,7 @@ public class KineticLaw extends MathContainer {
 
 	/**
 	 * 
-	 * @return
+	 * @return the listOfParameters of this KineticLaw. Return null if it is not set.
 	 */
 	public ListOf<Parameter> getListOfParameters() {
 		return listOfParameters;
@@ -152,14 +160,16 @@ public class KineticLaw extends MathContainer {
 	
 	/**
 	 * 
-	 * @return
+	 * @return true if the listOfParameters of this KineticLaw is not null.
 	 */
 	public boolean isSetListOfParameters() {
 		return listOfParameters != null;
 	}
 	
 	/**
-	 * 
+	 * Sets the listOfParameters of this KineticLaw to 'list'. It automatically sets this as
+	 * parentSBML object of the listOfParameters as well as the Parameter instances in the list.
+	 * @param list
 	 */
 	public void setListOfLocalParameters(ListOf<Parameter> list){
 		this.listOfParameters = list;
@@ -168,9 +178,8 @@ public class KineticLaw extends MathContainer {
 	}
 
 	/**
-	 * Returns the number of local parameters in this KineticLaw instance.
 	 * 
-	 * @return
+	 * @return the number of local parameters in this KineticLaw instance.
 	 */
 	public int getNumParameters() {
 		if (isSetListOfParameters()){
@@ -180,11 +189,10 @@ public class KineticLaw extends MathContainer {
 	}
 
 	/**
-	 * Returns the ith Parameter object in the list of local parameters in this
-	 * KineticLaw instance.
 	 * 
 	 * @param i
-	 * @return
+	 * @return the ith Parameter object in the list of local parameters in this
+	 * KineticLaw instance.
 	 */
 	public Parameter getParameter(int i) {
 		if (isSetListOfParameters()){
@@ -194,10 +202,9 @@ public class KineticLaw extends MathContainer {
 	}
 
 	/**
-	 * Returns a local parameter based on its identifier.
 	 * 
 	 * @param id
-	 * @return
+	 * @return a local parameter based on its identifier.
 	 */
 	public Parameter getParameter(String id) {
 		if (isSetListOfParameters()){
@@ -241,7 +248,7 @@ public class KineticLaw extends MathContainer {
 	}
 
 	/**
-	 * 
+	 * Removes the parameter 'p' from the listOfParameters of this KineticLaw.
 	 * @param p
 	 */
 	public void removeParameter(Parameter p) {
@@ -281,14 +288,28 @@ public class KineticLaw extends MathContainer {
 					break;
 				}
 			}
-			if (i < listOfParameters.size())
+			if (i < listOfParameters.size()){
 				listOfParameters.remove(i).sbaseRemoved();
+			}
 		}
+	}
+	
+	/**
+	 * Sets the listOfParameters of this KineticLaw to null.
+	 */
+	public void unsetListOfEventAssignments(){
+		this.listOfParameters = null;
+	}
+	/**
+	 * Remove all the Parameter instances of the listOfParameters of this Event.
+	 */
+	public void clearListOfEventAssignments(){
+		this.listOfParameters.clear();
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Rule#isSpeciesConcentration()
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -297,6 +318,10 @@ public class KineticLaw extends MathContainer {
 		return isAttributeRead;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();

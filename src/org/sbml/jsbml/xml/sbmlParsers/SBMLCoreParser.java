@@ -660,7 +660,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private void setEventTimeUnits(Event event, Model model){
 		
-		if (event.isSetTimeUnitsID()){
+		if (event.isSetTimeUnits()){
 			String timeUnitsID = event.getTimeUnits();
 			
 			UnitDefinition unitDefinition = model.getUnitDefinition(timeUnitsID);
@@ -676,7 +676,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private void setEventAssignmentVariable(EventAssignment eventAssignment, Model model){
 		
-		if (eventAssignment.isSetVariableID()){
+		if (eventAssignment.isSetVariable()){
 			String variableID = eventAssignment.getVariable();
 			
 			Compartment compartment = model.getCompartment(variableID);
@@ -733,7 +733,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private void setInitialAssignmentSymbol(InitialAssignment initialAssignment, Model model){
 		
-		if (initialAssignment.isSetSymbolID()){
+		if (initialAssignment.isSetSymbol()){
 			String variableID = initialAssignment.getSymbol();
 			
 			Compartment compartment = model.getCompartment(variableID);

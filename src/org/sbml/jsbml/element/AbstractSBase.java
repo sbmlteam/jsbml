@@ -113,8 +113,8 @@ public abstract class AbstractSBase implements SBase {
 		notes = null;
 		parentSBMLObject = null;
 		setOfListeners = new HashSet<SBaseChangedListener>();
-		this.level = level;
-		this.version = version;
+		this.level = new Integer(level);
+		this.version = new Integer(version);
 		this.annotation = null;
 		this.extensions = new HashMap<String, SBase>();
 	}
@@ -128,11 +128,20 @@ public abstract class AbstractSBase implements SBase {
 		if (sb.isSetSBOTerm()){
 			this.sboTerm = sb.getSBOTerm();
 		}
+		else {
+			this.sboTerm = -1;
+		}
 		if (sb.isSetMetaId()){
 			this.metaId = new String(sb.getMetaId());
 		}
+		else {
+			this.metaId = null;
+		}
 		if (sb.isSetNotes()){
 			this.notes = new String(sb.getNotesString());
+		}
+		else {
+			this.notes = null;
 		}
 		this.parentSBMLObject = sb.getParentSBMLObject();
 		this.setOfListeners = new HashSet<SBaseChangedListener>();
@@ -142,13 +151,34 @@ public abstract class AbstractSBase implements SBase {
 		else if (sb instanceof ListOf<?>){
 			this.setOfListeners.addAll(((ListOf<?>) sb).setOfListeners);
 		}
-		this.level = sb.getLevel();
-		this.version = sb.getVersion();
+		if (sb.isSetLevel()){
+			this.level = new Integer(sb.getLevel());
+		}
+		else {
+			this.level = null;
+		}
+		if (sb.isSetVersion()){
+			this.version = new Integer(sb.getVersion());
+		}
+		else {
+			this.version = null;
+		}
 		if (sb.isSetAnnotation()){
 			this.annotation = sb.getAnnotation();
 		}
-		this.notesBuffer = sb.getNotesBuffer();
+		else {
+			this.annotation = null;
+		}
+		if (sb.isSetNotesBuffer()){
+			this.notesBuffer = new StringBuffer(sb.getNotesBuffer());
+		}
+		else {
+			this.notesBuffer = null;
+		}
 		this.extensions = new HashMap<String, SBase>();
+		if (sb.isExtendedByOtherPackages()){
+			this.extensions.putAll(sb.getExtensionPackages());
+		}
 	}
 
 	/**
@@ -935,5 +965,23 @@ public abstract class AbstractSBase implements SBase {
 			this.annotation.unsetModelHistory();
 			stateChanged();
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#isExtendedByOtherPackages()
+	 */
+	public boolean isExtendedByOtherPackages(){
+		return !this.extensions.isEmpty();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#getExtensionPackages()
+	 */
+	public HashMap<String, SBase> getExtensionPackages(){
+		return this.getExtensionPackages();
 	}
 }

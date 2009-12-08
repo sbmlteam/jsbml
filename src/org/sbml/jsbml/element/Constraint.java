@@ -33,27 +33,28 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
+ * Represents the constraint XML element of a SBML file.
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
  * 
- * @date 2009-08-31
+ * @author marine
  * 
  */
 public class Constraint extends MathContainer {
 
 	/**
-	 * 
+	 * Represents the subnode message of a constraint element.
 	 */
 	private String message;
 	
 	/**
-	 * 
+	 * contains the message of this Constraint as a StringBuffer.
 	 */
 	private StringBuffer messageBuffer;
 
 	/**
-	 * 
+	 * Creates a Constraint instance. By default, the message and messageBuffer are null.
 	 */
 	public Constraint() {
 		super();
@@ -62,50 +63,83 @@ public class Constraint extends MathContainer {
 	}
 	
 	/**
-	 * 
+	 * Creates a Constraint instance from a level and a version. By default, the message and messageBuffer are null.
 	 * @param level
 	 * @param version
 	 */
 	public Constraint(int level, int version) {
 		super(level, version);
+		this.message = null;
+		this.messageBuffer = null;
 	}
 
 	/**
+	 * Creates a Constraint instance from an ASTNode, a level and a version. By default, the message and messageBuffer are null.
 	 * @param math
+	 * @param level
+	 * @param version
 	 */
 	public Constraint(ASTNode math, int level, int version) {
 		super(math, level, version);
 		message = null;
+		this.messageBuffer = null;
 	}
 
 	/**
+	 * Creates a Constraint instance from a given Constraint.
 	 * @param sb
 	 */
 	public Constraint(Constraint sb) {
 		super(sb);
-		this.message = new String(sb.getMessage());
+		if (sb.isSetMessage()){
+			this.message = new String(sb.getMessage());
+		}
+		if (sb.isSetMessageBuffer()){
+			this.messageBuffer = new StringBuffer(sb.getMessageBuffer());
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.MathContainer#clone()
+	 * @see org.sbml.jsbml.element.MathContainer#clone()
 	 */
 	// @Override
 	public Constraint clone() {
 		return new Constraint(this);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.NamedSBase#equals(java.lang.Object)
+	 */
+	// @Override
+	public boolean equals(Object o) {
+		if (o instanceof Constraint) {
+			boolean equal = super.equals(o);
+			Constraint c = (Constraint) o;
+			if (c.isSetMessage() && isSetMessage()){
+				equal &= c.getMessage().equals(getMessage());
+			}
+			if (c.isSetMessageBuffer() && isSetMessageBuffer()){
+				equal &= c.getMessageBuffer().equals(getMessageBuffer());
+			}
+			return equal;
+		}
+		return false;
+	}
 
 	/**
-	 * @return the message
+	 * @return the message of this Constraint. Return an empty String if the message is not set.
 	 */
 	public String getMessage() {
 		return isSetMessage() ? message : "";
 	}
 
 	/**
-	 * @param message
-	 *            the message to set
+	 * Sets the message of this Constraint to 'message'.
+	 * @param message : the message to set
 	 */
 	public void setMessage(String message) {
 		this.message = message;
@@ -114,27 +148,54 @@ public class Constraint extends MathContainer {
 
 	/**
 	 * 
-	 * @return
+	 * @return true if the message of this Constraint is not null.
 	 */
 	public boolean isSetMessage() {
 		return message != null;
 	}
 	
+	/**
+	 * Sets the messageBuffer of this Constraint to 'messageBuffer'.
+	 * @param messageBuffer
+	 */
 	public void setMessageBuffer(StringBuffer messageBuffer) {
 		this.messageBuffer = messageBuffer;
+		stateChanged();
 	}
 
+	/**
+	 * 
+	 * @return ths messageBuffer of this Constraint.
+	 */
 	public StringBuffer getMessageBuffer() {
 		return messageBuffer;
 	}
 	
-	public boolean isSEtMessageBuffer(){
+	/**
+	 * 
+	 * @return true if the messageBuffer of this Constraint is not null.
+	 */
+	public boolean isSetMessageBuffer(){
 		return this.messageBuffer != null;
+	}
+	
+	/**
+	 * Sets the message of this Constraint to null.
+	 */
+	public void unsetMessage(){
+		this.message = null;
+	}
+	
+	/**
+	 * sets the messageBuffer of this Constraint to null.
+	 */
+	public void unsetMessageBuffer(){
+		this.messageBuffer = null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Rule#isSpeciesConcentration()
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -143,6 +204,10 @@ public class Constraint extends MathContainer {
 		return isAttributeRead;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();

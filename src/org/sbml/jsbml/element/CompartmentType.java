@@ -33,6 +33,7 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
+ * Represents the compartmentType XML element of a SBML file. It is @deprecated.
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
@@ -41,49 +42,58 @@ import java.util.HashMap;
 public class CompartmentType extends AbstractNamedSBase {
 
 	/**
-	 * 
+	 * Creates a CompartmentType instance.
 	 */
+	@Deprecated
 	public CompartmentType() {
 		super();
 	}
 	
 	/**
+	 * Creates a CompartmentType instance from a given CompartmentType.
 	 * @param nsb
 	 */
+	@Deprecated
 	public CompartmentType(CompartmentType nsb) {
 		super(nsb);
 	}
 
 	/**
+	 * Creates a CompartmentType instance from an id, level and version.
 	 * @param id
+	 * @param level
+	 * @param version
 	 */
+	@Deprecated
 	public CompartmentType(String id, int level, int version) {
 		super(id, level, version);
 	}
 
 	/**
-	 * 
+	 * Creates a CompartmentType instance from an id, name, level and version.
 	 * @param id
 	 * @param name
 	 * @param level
 	 * @param version
 	 */
+	@Deprecated
 	public CompartmentType(String id, String name, int level, int version) {
 		super(id, name, level, version);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.AbstractSBase#clone()
+	 * @see org.sbml.jsbml.element.AbstractSBase#clone()
 	 */
 	// @Override
+	@Deprecated
 	public CompartmentType clone() {
 		return new CompartmentType(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Rule#isSpeciesConcentration()
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -92,6 +102,10 @@ public class CompartmentType extends AbstractNamedSBase {
 		return isAttributeRead;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();

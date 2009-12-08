@@ -894,7 +894,7 @@ public class LibSBMLReader extends AbstractSBMLReader {
 					.getEventAssignment(i)));
 		}
 		if (eve.isSetTimeUnits())
-			ev.setTimeUnitsID(eve.getTimeUnits());
+			ev.setTimeUnits(eve.getTimeUnits());
 		ev.setUseValuesFromTriggerTime(eve.getUseValuesFromTriggerTime());
 		return ev;
 
@@ -916,7 +916,7 @@ public class LibSBMLReader extends AbstractSBMLReader {
 		if (eve.isSetVariable()) {
 			Symbol variable = model.findSymbol(eve.getVariable());
 			if (variable == null)
-				ev.setVariable(eve.getVariable());
+				ev.checkAndSetVariable(eve.getVariable());
 			else
 				ev.setVariable(variable);
 		}
