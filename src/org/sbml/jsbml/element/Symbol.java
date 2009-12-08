@@ -174,7 +174,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isConstant() {
-		return constant;
+		return isSetConstant() ? constant : false;
 	}
 
 	/**
@@ -199,6 +199,10 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	public boolean isSetValue() {
 		return isSetValue;
+	}
+	
+	public boolean isSetConstant(){
+		return this.constant != null;
 	}
 
 	/**

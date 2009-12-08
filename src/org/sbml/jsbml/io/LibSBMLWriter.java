@@ -1069,7 +1069,7 @@ public class LibSBMLWriter implements SBMLWriter {
 		saveNamedSBaseProperties(ev, e);
 		if (ev.getUseValuesFromTriggerTime() != e.getUseValuesFromTriggerTime())
 			e.setUseValuesFromTriggerTime(ev.getUseValuesFromTriggerTime());
-		if (ev.isSetTimeUnits() && ev.getTimeUnits() != e.getTimeUnits())
+		if (ev.isSetTimeUnitsInstance() && ev.getTimeUnits() != e.getTimeUnits())
 			e.setTimeUnits(ev.getTimeUnits());
 		if (ev.isSetDelay()) {
 			if (!e.isSetDelay())
@@ -1106,7 +1106,7 @@ public class LibSBMLWriter implements SBMLWriter {
 			boolean contains = false;
 			for (int j = 0; j < ev.getNumEventAssignments() && !contains; j++) {
 				EventAssignment eventA = ev.getEventAssignment(j);
-				if (eventA.isSetVariable()
+				if (eventA.isSetVariableInstance()
 						&& eventA.getVariable().equals(ea.getVariable())
 						&& equal(eventA.getMath(), ea.getMath()))
 					contains = true;
@@ -1875,7 +1875,7 @@ public class LibSBMLWriter implements SBMLWriter {
 			e.setDelay(writeDelay(event.getDelay()));
 		for (EventAssignment ea : event.getListOfEventAssignments())
 			e.addEventAssignment(writeEventAssignment(ea));
-		if (event.isSetTimeUnits())
+		if (event.isSetTimeUnitsInstance())
 			e.setTimeUnits(event.getTimeUnits());
 		if (e.isSetTrigger())
 			e.setTrigger(writeTrigger(event.getTrigger()));
@@ -1895,7 +1895,7 @@ public class LibSBMLWriter implements SBMLWriter {
 		org.sbml.libsbml.EventAssignment ea = new org.sbml.libsbml.EventAssignment(
 				eventAssignment.getLevel(), eventAssignment.getVersion());
 		saveMathContainerProperties(eventAssignment, ea);
-		if (eventAssignment.isSetVariable())
+		if (eventAssignment.isSetVariableInstance())
 			ea.setVariable(eventAssignment.getVariable());
 		return ea;
 	}
@@ -1927,7 +1927,7 @@ public class LibSBMLWriter implements SBMLWriter {
 		org.sbml.libsbml.InitialAssignment ia = new org.sbml.libsbml.InitialAssignment(
 				initialAssignment.getLevel(), initialAssignment.getVersion());
 		saveMathContainerProperties(initialAssignment, ia);
-		if (initialAssignment.isSetSymbol())
+		if (initialAssignment.isSetSymbolInstance())
 			ia.setSymbol(initialAssignment.getSymbol());
 		return ia;
 	}

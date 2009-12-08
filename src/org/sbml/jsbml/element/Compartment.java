@@ -56,13 +56,16 @@ public class Compartment extends Symbol {
 	private Short spatialDimensions;
 
 	/**
-	 * Creates a Compartment instance. By default, sets the compartmentType, outsideID and spatialDimension to null.
+	 * Creates a Compartment instance. By default, if the level is set and is superior or equal to 3, sets the compartmentType, outsideID and spatialDimension to null.
 	 */
 	public Compartment() {
 		super();
 		this.compartmentTypeID = null;
 		this.outsideID = null;
 		this.spatialDimensions = null;
+		if (isSetLevel() && getLevel() < 3) {
+			initDefaults();
+		}
 	}
 	
 	/**
@@ -71,14 +74,22 @@ public class Compartment extends Symbol {
 	 */
 	public Compartment(Compartment compartment) {
 		super(compartment);
-		this.compartmentTypeID = compartment.getCompartmentType();
-		this.spatialDimensions = compartment.getSpatialDimensions();
-		this.outsideID = compartment.getOutside();
-		setValue(compartment.getSize());
+		if (compartment.isSetCompartmentType()){
+			this.compartmentTypeID = new String(compartment.getCompartmentType());
+		}
+		if (compartment.isSetSpatialDimensions()){
+			this.spatialDimensions = new Short(compartment.getSpatialDimensions());
+		}
+		if (compartment.isSetOutside()){
+			this.outsideID = new String(compartment.getOutside());
+		}
+		if (compartment.isSetSize()){
+			setValue(compartment.getSize());
+		}
 	}
 
 	/**
-	 * Creates a Compartment instance from a level and version. By default, sets the compartmentType, outsideID and spatialDimension to null.
+	 * Creates a Compartment instance from a level and version. By default, if the level is set and is superior or equal to 3, sets the compartmentType, outsideID and spatialDimension to null.
 	 * @param level
 	 * @param version
 	 */
@@ -87,7 +98,7 @@ public class Compartment extends Symbol {
 		this.compartmentTypeID = null;
 		this.outsideID = null;
 		this.spatialDimensions = null;
-		if (getLevel() < 3) {
+		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
 	}
@@ -103,13 +114,13 @@ public class Compartment extends Symbol {
 		this.compartmentTypeID = null;
 		this.outsideID = null;
 		this.spatialDimensions = null;
-		if (getLevel() < 3) {
+		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
 	}
 
 	/**
-	 * Creates a Compartment instance from an id, name, level and version. By default, sets the compartmentType, outsideID and spatialDimension to null.
+	 * Creates a Compartment instance from an id, name, level and version. By default, if the level is set and is superior or equal to 3, sets the compartmentType, outsideID and spatialDimension to null.
 	 * @param id
 	 * @param name
 	 * @param level
@@ -120,7 +131,7 @@ public class Compartment extends Symbol {
 		this.compartmentTypeID = null;
 		this.outsideID = null;
 		this.spatialDimensions = null;
-		if (getLevel() < 3) {
+		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
 	}
@@ -146,12 +157,14 @@ public class Compartment extends Symbol {
 			boolean equal = super.equals(o);
 			Compartment c = (Compartment) o;
 			equal &= c.getConstant() == getConstant();
-			equal &= c.isSetOutsideInstance() == isSetOutsideInstance();
-			if (c.isSetOutsideInstance() && isSetOutsideInstance())
+			equal &= c.isSetOutside() == isSetOutside();
+			if (c.isSetOutside() && isSetOutside()){
 				equal &= c.getOutside().equals(getOutside());
+			}
 			equal &= c.isSetCompartmentType() == isSetCompartmentType();
-			if (c.isSetCompartmentType() && isSetCompartmentType())
+			if (c.isSetCompartmentType() && isSetCompartmentType()){
 				equal &= c.getCompartmentType().equals(getCompartmentType());
+			}
 			equal &= c.getSize() == getSize();
 			equal &= c.getSpatialDimensions() == getSpatialDimensions();
 			return equal;
@@ -161,10 +174,10 @@ public class Compartment extends Symbol {
 
 	/**
 	 * 
-	 * @return the compartmentType id of this compartment.
+	 * @return the compartmentType id of this compartment. Return an empty String if it is not set.
 	 */
 	public String getCompartmentType() {
-		return this.compartmentTypeID;
+		return isSetCompartmentType() ? this.compartmentTypeID : "";
 	}
 
 	/**
@@ -184,7 +197,7 @@ public class Compartment extends Symbol {
 	 * @return the outsideID of this compartment. Return "" if it is not set. 
 	 */
 	public String getOutside() {
-		return isSetOutsideInstance() ? outsideID : "";
+		return isSetOutside() ? outsideID : "";
 	}
 
 	/**
@@ -211,7 +224,7 @@ public class Compartment extends Symbol {
 	 * @return the spatialDimensions of this compartment.
 	 */
 	public short getSpatialDimensions() {
-		return spatialDimensions;
+		return isSetSpatialDimensions() ? spatialDimensions : 0;
 	}
 
 
@@ -237,9 +250,9 @@ public class Compartment extends Symbol {
 	public void initDefaults() {
 		compartmentTypeID = null;
 		spatialDimensions = 3;
-		setConstant(true);
+		setConstant(new Boolean(true));
 		outsideID = null;
-		value = 1.0;
+		value = new Double(1.0);
 	}
 
 	/**
@@ -325,6 +338,14 @@ public class Compartment extends Symbol {
 	 */
 	public boolean isSetVolume() {
 		return isSetSize();
+	}
+	
+	/**
+	 * 
+	 * @return true if the spatialDimensions of this compartment is not null.
+	 */
+	public boolean isSetSpatialDimensions(){
+		return this.spatialDimensions != null;
 	}
 
 	/**
@@ -480,6 +501,13 @@ public class Compartment extends Symbol {
 		this.outsideID = null;
 	}
 	
+	/**
+	 * sets the spatialDimensions of this compartment to null.
+	 */
+	public void unsetSpatialDimensions(){
+		this.spatialDimensions = null;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
@@ -541,11 +569,8 @@ public class Compartment extends Symbol {
 		if (isSetOutside()){
 			attributes.put("outside", outsideID);
 		}
-		if (isConstant()){
-			attributes.put("constant", "true");
-		}
-		else {
-			attributes.put("constant", "false");
+		if (isSetConstant()){
+			attributes.put("constant", getConstant().toString());
 		}
 		if (isSetUnitsID()){
 			attributes.put("units", getUnits());

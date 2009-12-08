@@ -103,8 +103,14 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		if (nsb.isSetId()){
 			this.id = new String(nsb.getId());
 		}
+		else {
+			this.id = null;
+		}
 		if (nsb.isSetName()){
 			this.name = new String(nsb.getName());
+		}
+		else {
+			this.name = null;
 		}
 	}
 
@@ -116,7 +122,12 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 */
 	public AbstractNamedSBase(String id, int level, int version) {
 		super(level, version);
-		this.id = new String(id);
+		if (id != null){
+			this.id = new String(id);
+		}
+		else {
+			this.id = null;
+		}
 		this.name = null;
 	}
 
@@ -129,8 +140,18 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 */
 	public AbstractNamedSBase(String id, String name, int level, int version) {
 		super(level, version);
-		this.id = new String(id);
-		this.name = new String(name);
+		if (id != null){
+			this.id = new String(id);
+		}
+		else {
+			this.id = null;
+		}
+		if (name != null){
+			this.name = new String(name);
+		}
+		else {
+			this.name = null;
+		}
 	}
 
 	/*

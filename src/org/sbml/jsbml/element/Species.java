@@ -641,11 +641,8 @@ public class Species extends Symbol {
 		else {
 			attributes.put("hasOnlySubstanceUnits", "false");
 		}
-		if (getConstant()){
-			attributes.put("constant", "true");
-		}
-		else {
-			attributes.put("constant", "false");
+		if (isSetConstant()){
+			attributes.put("constant", getConstant().toString());
 		}
 		if (boundaryCondition){
 			attributes.put("boundaryCondition", "true");

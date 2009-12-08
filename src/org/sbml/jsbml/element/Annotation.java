@@ -1,6 +1,6 @@
 /*
- * $Id: AlgebraicRule.java 38 2009-11-05 15:50:38Z niko-rodrigue $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/AlgebraicRule.java $
+ * $Id: Annotation.java 38 2009-11-05 15:50:38Z marine3 $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/element/Annotation.java $
  *
  *
  *==================================================================================

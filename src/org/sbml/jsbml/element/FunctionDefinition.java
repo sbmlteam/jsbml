@@ -33,24 +33,25 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
+ * Represents the functionDefinition XML element of a SBML file.
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
- * 
+ * @author marine
  */
 public class FunctionDefinition extends MathContainer implements NamedSBase {
 
 	/**
-	 * 
+	 * Represents the "id" attribute of a functionDefinition element.
 	 */
 	private String id;
 	/**
-	 * optional
+	 * Represents the "name" attribute of a functionDefinition element.
 	 */
 	private String name;
 
 	/**
-	 * 
+	 * Creates a FunctionDefinition instance. By default, id and name are null.
 	 */
 	public FunctionDefinition() {
 		super();
@@ -59,38 +60,69 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	}
 	
 	/**
+	 * Creates a FunctionDefinition instance from a given FunctionDefinition.
 	 * @param sb
 	 */
 	public FunctionDefinition(FunctionDefinition sb) {
 		super(sb);
+		if (sb.isSetId()){
+			this.id = new String(sb.getId());
+		}
+		else {
+			this.id = null;
+		}
+		if (isSetName()){
+			this.name = new String(sb.getName());
+		}
+		else {
+			this.name = null;
+		}
 	}
 
 	/**
-	 * 
+	 * Creates a FunctionDefinition instance from an id, level and version. By default, name is null.
 	 * @param id
+	 * @param level
+	 * @param version
 	 */
 	public FunctionDefinition(String id, int level, int version) {
 		super(level, version);
-		this.id = id;
+		if (id != null){
+			this.id = new String(id);
+		}
+		else {
+			this.id = null;
+		}
+		this.name = null;
 	}
 
 	/**
-	 * 
+	 * Creates a FunctionDefinition instance from an id, ASTNode, level and version. By default, name is null.
+	 * If the ASTNode is not of type lambda, an IllegalArgumentException is thrown.
 	 * @param id
 	 * @param lambda
+	 * @param level
+	 * @param version
 	 */
 	public FunctionDefinition(String id, ASTNode lambda, int level, int version) {
 		super(lambda, level, version);
-		if (!lambda.isLambda())
+		if (!lambda.isLambda()){
 			throw new IllegalArgumentException(
-					"Math element must be of type Lambda.");
-		this.id = id;
+			"Math element must be of type Lambda.");
+		}
+		if (id != null){
+			this.id = new String(id);
+		}
+		else {
+			this.id = null;
+		}
+		this.name = null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.MathContainer#clone()
+	 * @see org.sbml.jsbml.element.MathContainer#clone()
 	 */
 	// @Override
 	public FunctionDefinition clone() {
@@ -100,7 +132,7 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.MathContainer#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
 	 */
 	// @Override
 	public boolean equals(Object o) {
@@ -118,16 +150,16 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.NamedSBase#getId()
+	 * @see org.sbml.jsbml.element.NamedSBase#getId()
 	 */
 	public String getId() {
-		return id;
+		return isSetId() ? this.id : "";
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.NamedSBase#getName()
+	 * @see org.sbml.jsbml.element.NamedSBase#getName()
 	 */
 	public String getName() {
 		return isSetName() ? name : "";
@@ -136,7 +168,7 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.NamedSBase#isSetId()
+	 * @see org.sbml.jsbml.element.NamedSBase#isSetId()
 	 */
 	public boolean isSetId() {
 		return id != null;
@@ -145,7 +177,7 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.NamedSBase#isSetName()
+	 * @see org.sbml.jsbml.element.NamedSBase#isSetName()
 	 */
 	public boolean isSetName() {
 		return name != null;
@@ -154,21 +186,22 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.MathContainer#setFormula(java.lang.String)
+	 * @see org.sbml.jsbml.element.MathContainer#setFormula(java.lang.String)
 	 */
 	// @Override
 	public void setFormula(String formula) {
 		ASTNode math = ASTNode.parseFormula(formula);
-		if (!math.isLambda())
+		if (!math.isLambda()){
 			throw new IllegalArgumentException(
-					"Math element must be of type Lambda.");
+			"Math element must be of type Lambda.");
+		}
 		setMath(math);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.NamedSBase#setId(java.lang.String)
+	 * @see org.sbml.jsbml.element.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
 		this.id = id;
@@ -178,27 +211,30 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.MathContainer#setMath(org.sbml.ASTNode)
+	 * @see org.sbml.jsbml.element.MathContainer#setMath(org.sbml.ASTNode)
 	 */
 	// @Override
 	public void setMath(ASTNode math) {
-		if (!math.isLambda())
+		if (!math.isLambda()){
 			throw new IllegalArgumentException(
 					"Math element must be of type Lambda.");
+		}
 		super.setMath(math.clone());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#toString()
+	 * @see org.sbml.jsbml.element.SBase#toString()
 	 */
 	// @Override
 	public String toString() {
-		if (isSetName() && getName().length() > 0)
+		if (isSetName() && getName().length() > 0){
 			return name;
-		if (isSetId())
+		}
+		if (isSetId()){
 			return id;
+		}
 		String name = getClass().getName();
 		return name.substring(name.lastIndexOf('.') + 1);
 	}
@@ -206,7 +242,7 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.NamedSBase#setName(java.lang.String)
+	 * @see org.sbml.jsbml.element.NamedSBase#setName(java.lang.String)
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -215,7 +251,7 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Rule#isSpeciesConcentration()
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -224,6 +260,10 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 		return isAttributeRead;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
@@ -231,10 +271,17 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 		return attributes;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.element.NamedSBase#unsetId()
+	 */
 	public void unsetId() {
 		this.id = null;
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.element.NamedSBase#unsetName()
+	 */
 	public void unsetName() {
 		this.name = null;
 	}

@@ -62,7 +62,9 @@ public class AssignmentRule extends Rule {
 	 */
 	public AssignmentRule(AssignmentRule sb) {
 		super(sb);
-		this.variableID = sb.getVariable();
+		if (sb.isSetVariable()){
+			this.variableID = new String(sb.getVariable());
+		}
 	}
 
 	/**
@@ -71,7 +73,9 @@ public class AssignmentRule extends Rule {
 	 */
 	public AssignmentRule(Symbol variable) {
 		super(variable.getLevel(), variable.getVersion());
-		this.variableID = variable.getId();
+		if (variable.isSetId()){
+			this.variableID = new String(variable.getId());
+		}
 	}
 
 	/**
@@ -81,7 +85,9 @@ public class AssignmentRule extends Rule {
 	 */
 	public AssignmentRule(Symbol variable, ASTNode math) {
 		super(math, variable.getLevel(), variable.getVersion());
-		this.variableID = variable.getId();
+		if (variable.isSetId()){
+			this.variableID = new String(variable.getId());
+		}
 	}
 
 	/*
