@@ -29,7 +29,6 @@
 
 package org.sbml.jsbml;
 
-
 /**
  * 
  * @author Andreas Dr&auml;ger <a
@@ -39,13 +38,13 @@ package org.sbml.jsbml;
  */
 public class Reaction extends AbstractNamedSBase {
 
-	private boolean reversible;
 	private boolean fast;
-
-	private ListOf<SpeciesReference> listOfReactants;
-	private ListOf<SpeciesReference> listOfProducts;
-	private ListOf<ModifierSpeciesReference> listOfModifiers;
 	private KineticLaw kineticLaw;
+
+	private ListOf<ModifierSpeciesReference> listOfModifiers;
+	private ListOf<SpeciesReference> listOfProducts;
+	private ListOf<SpeciesReference> listOfReactants;
+	private boolean reversible;
 
 	/**
 	 * 
@@ -234,6 +233,16 @@ public class Reaction extends AbstractNamedSBase {
 		return listOfReactants.size();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.SBase#getParentSBMLObject()
+	 */
+	// @Override
+	public Model getParentSBMLObject() {
+		return (Model) super.getParentSBMLObject();
+	}
+
 	/**
 	 * 
 	 * @param i
@@ -258,6 +267,62 @@ public class Reaction extends AbstractNamedSBase {
 	 */
 	public Boolean getReversible() {
 		return reversible;
+	}
+
+	/**
+	 * Checks whether the given species takes part in this reaction as a
+	 * reactant, product or modifier.
+	 * 
+	 * @param species
+	 *            a species whose reference should be searched in the list of
+	 *            reactants, products, or modifiers.
+	 * @return True if at least one reference exists from this reaction to the
+	 *         given species.
+	 */
+	public boolean involves(Species species) {
+		return isReactant(species) || isProduct(species) || isModifier(species);
+	}
+
+	/**
+	 * Checks whether the given species takes part in this reaction as a
+	 * modifier.
+	 * 
+	 * @param species
+	 *            a species whose reference should be searched in the list of
+	 *            modifiers.
+	 * @return True if at least one modifier species reference in the list of
+	 *         modifiers points to this species. False otherwise.
+	 */
+	public boolean isModifier(Species species) {
+		return references(listOfModifiers, species);
+	}
+
+	/**
+	 * Checks whether the given species takes part in this reaction as a
+	 * product.
+	 * 
+	 * @param species
+	 *            a species whose reference should be searched in the list of
+	 *            products.
+	 * @return True if at least one species reference in the list of products
+	 *         points to this species. False otherwise.
+	 */
+	public boolean isProduct(Species species) {
+		return references(listOfProducts, species);
+	}
+
+	/**
+	 * Checks whether the given species takes part in this reaction as a
+	 * reactant.
+	 * 
+	 * @param species
+	 *            a species whose reference should be searched in the list of
+	 *            reactants.
+	 * @return True if at least one species reference in the list of reactants
+	 *         points to this species. False otherwise.
+	 */
+	public boolean isReactant(Species species) {
+		return references(listOfReactants, species);
 	}
 
 	/**
@@ -324,13 +389,23 @@ public class Reaction extends AbstractNamedSBase {
 		stateChanged();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * This method searches in a given list of simple species references if
+	 * there is at least one element that points to the given species.
 	 * 
-	 * @see org.sbml.SBase#getParentSBMLObject()
+	 * @param l
+	 *            the list to be queried.
+	 * @param species
+	 *            a species for which it is to be checked if the given list
+	 *            contains any reference to it.
+	 * @return True if at least one reference to the given species exists in
+	 *         this list, false otherwise.
 	 */
-	// @Override
-	public Model getParentSBMLObject() {
-		return (Model) super.getParentSBMLObject();
+	private boolean references(ListOf<? extends SimpleSpeciesReference> l,
+			Species species) {
+		for (SimpleSpeciesReference specRef : l)
+			if (specRef.getSpecies().equals(species.getId()))
+				return true;
+		return false;
 	}
 }

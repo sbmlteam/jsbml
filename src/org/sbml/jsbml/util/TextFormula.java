@@ -48,56 +48,12 @@ import org.sbml.jsbml.SpeciesReference;
 public class TextFormula extends StringTools implements ASTNodeCompiler {
 
 	/**
-	 * Basic method which links several elements with a mathematical operator.
-	 * All empty StringBuffer object are excluded.
-	 * 
-	 * @param operator
-	 * @param elements
-	 * @return
-	 */
-	private static final StringBuffer arith(char operator, Object... elements) {
-		List<Object> vsb = new Vector<Object>();
-		for (Object sb : elements)
-			if (sb != null && sb.toString().length() > 0)
-				vsb.add(sb);
-		StringBuffer equation = new StringBuffer();
-		if (vsb.size() > 0)
-			equation.append(vsb.get(0));
-		Character op = Character.valueOf(operator);
-		for (int count = 1; count < vsb.size(); count++)
-			append(equation, op, vsb.get(count));
-		return equation;
-	}
-
-	/**
 	 * 
 	 * @param sb
 	 * @return
 	 */
 	public static final StringBuffer brackets(Object sb) {
 		return concat(Character.valueOf('('), sb, Character.valueOf(')'));
-	}
-
-	/**
-	 * Tests whether the String representation of the given object contains any
-	 * arithmetic symbols and if the given object is already sorrounded by
-	 * brackets.
-	 * 
-	 * @param something
-	 * @return True if either brackets are set around the given object or the
-	 *         object does not contain any symbols such as +, -, *, /.
-	 */
-	private static boolean containsArith(Object something) {
-		boolean arith = false;
-		String d = something.toString();
-		if (d.length() > 0) {
-			char c;
-			for (int i = 0; (i < d.length()) && !arith; i++) {
-				c = d.charAt(i);
-				arith = ((c == '+') || (c == '-') || (c == '*') || (c == '/'));
-			}
-		}
-		return arith;
 	}
 
 	/**
@@ -124,30 +80,6 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 				(containsArith(numerator) ? brackets(numerator) : numerator),
 				containsArith(denominator) ? brackets(denominator)
 						: denominator));
-	}
-
-	/**
-	 * Returns the id of a PluginSpeciesReference object's belonging species as
-	 * an object of type StringBuffer.
-	 * 
-	 * @param ref
-	 * @return
-	 */
-	protected static final StringBuffer getSpecies(SpeciesReference ref) {
-		return new StringBuffer(ref.getSpecies());
-	}
-
-	/**
-	 * Returns the value of a PluginSpeciesReference object's stoichiometry
-	 * either as a double or, if the stoichiometry has an integer value, as an
-	 * int object.
-	 * 
-	 * @param ref
-	 * @return
-	 */
-	protected static final double getStoichiometry(SpeciesReference ref) {
-		double stoich = ref.getStoichiometry();
-		return stoich;
 	}
 
 	/**
@@ -224,6 +156,74 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	public static final StringBuffer times(Object... factors) {
 		return arith('*', factors);
+	}
+
+	/**
+	 * Basic method which links several elements with a mathematical operator.
+	 * All empty StringBuffer object are excluded.
+	 * 
+	 * @param operator
+	 * @param elements
+	 * @return
+	 */
+	private static final StringBuffer arith(char operator, Object... elements) {
+		List<Object> vsb = new Vector<Object>();
+		for (Object sb : elements)
+			if (sb != null && sb.toString().length() > 0)
+				vsb.add(sb);
+		StringBuffer equation = new StringBuffer();
+		if (vsb.size() > 0)
+			equation.append(vsb.get(0));
+		Character op = Character.valueOf(operator);
+		for (int count = 1; count < vsb.size(); count++)
+			append(equation, op, vsb.get(count));
+		return equation;
+	}
+
+	/**
+	 * Tests whether the String representation of the given object contains any
+	 * arithmetic symbols and if the given object is already sorrounded by
+	 * brackets.
+	 * 
+	 * @param something
+	 * @return True if either brackets are set around the given object or the
+	 *         object does not contain any symbols such as +, -, *, /.
+	 */
+	private static boolean containsArith(Object something) {
+		boolean arith = false;
+		String d = something.toString();
+		if (d.length() > 0) {
+			char c;
+			for (int i = 0; (i < d.length()) && !arith; i++) {
+				c = d.charAt(i);
+				arith = ((c == '+') || (c == '-') || (c == '*') || (c == '/'));
+			}
+		}
+		return arith;
+	}
+
+	/**
+	 * Returns the id of a PluginSpeciesReference object's belonging species as
+	 * an object of type StringBuffer.
+	 * 
+	 * @param ref
+	 * @return
+	 */
+	protected static final StringBuffer getSpecies(SpeciesReference ref) {
+		return new StringBuffer(ref.getSpecies());
+	}
+
+	/**
+	 * Returns the value of a PluginSpeciesReference object's stoichiometry
+	 * either as a double or, if the stoichiometry has an integer value, as an
+	 * int object.
+	 * 
+	 * @param ref
+	 * @return
+	 */
+	protected static final double getStoichiometry(SpeciesReference ref) {
+		double stoich = ref.getStoichiometry();
+		return stoich;
 	}
 
 	/*
@@ -350,21 +350,6 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	public String ceiling(ASTNode node) {
 		return function("ceil", node);
-	}
-
-	/**
-	 * Creates brackets if needed.
-	 * 
-	 * @param nodes
-	 * @return
-	 */
-	private String checkBrackets(ASTNode nodes) {
-		String term = nodes.compile(this).toString();
-		if ((nodes.isOperator() && (nodes.getCharacter() == '+' || nodes
-				.getCharacter() == '-'))
-				|| nodes.isUMinus())
-			term = brackets(term).toString();
-		return term;
 	}
 
 	/*
@@ -523,20 +508,12 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.ASTNodeCompiler#function(org.sbml.jsbml.NamedSBase, org.sbml.jsbml.ASTNode[])
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#function(org.sbml.jsbml.NamedSBase,
+	 * org.sbml.jsbml.ASTNode[])
 	 */
 	public String function(FunctionDefinition func, ASTNode... nodes) {
 		return function(func.getName(), nodes);
-	}
-	
-	/**
-	 * 
-	 * @param name
-	 * @param nodes
-	 * @return
-	 */
-	private String function(String name, ASTNode... nodes) {
-		return concat(name, lambda(nodes)).toString();
 	}
 
 	/*
@@ -648,6 +625,15 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#logicalAND(org.sbml.jsbml.ASTNode[])
+	 */
+	public String logicalAND(ASTNode... nodes) {
+		return logicalOperation(" and ", nodes);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#logicalNot(org.sbml.jsbml.ASTNode)
 	 */
 	public String logicalNot(ASTNode node) {
@@ -657,35 +643,19 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#logicalOperation(org.sbml.jsbml.ASTNode)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#logicalOR(org.sbml.jsbml.ASTNode[])
 	 */
-	public String logicalOperation(ASTNode ast) {
-		StringBuffer value = new StringBuffer();
-		if (1 < ast.getLeftChild().getNumChildren())
-			value.append('(');
-		value.append(ast.getLeftChild().compile(this));
-		if (1 < ast.getLeftChild().getNumChildren())
-			value.append(')');
-		switch (ast.getType()) {
-		case LOGICAL_AND:
-			value.append(" and ");
-			break;
-		case LOGICAL_XOR:
-			value.append(" xor ");
-			break;
-		case LOGICAL_OR:
-			value.append(" or ");
-			break;
-		default:
-			break;
-		}
-		if (1 < ast.getRightChild().getNumChildren())
-			value.append('(');
-		value.append(ast.getRightChild().compile(this));
-		if (1 < ast.getRightChild().getNumChildren())
-			value.append(')');
-		return value.toString();
+	public String logicalOR(ASTNode... nodes) {
+		return logicalOperation(" or ", nodes);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#logicalXOR(org.sbml.jsbml.ASTNode[])
+	 */
+	public String logicalXOR(ASTNode... nodes) {
+		return logicalOperation(" xor ", nodes);
 	}
 
 	/*
@@ -752,23 +722,23 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#relationGraterThan(org.sbml.jsbml.ASTNode,
-	 * org.sbml.jsbml.ASTNode)
+	 * org.sbml.jsbml.ASTNodeCompiler#relationGreaterEqual(org.sbml.jsbml.ASTNode
+	 * , org.sbml.jsbml.ASTNode)
 	 */
-	public String relationGreaterThan(ASTNode left, ASTNode right) {
-		return concat(left.compile(this), Character.valueOf('>'),
-				right.compile(this)).toString();
+	public String relationGreaterEqual(ASTNode left, ASTNode right) {
+		return concat(left.compile(this), ">=", right.compile(this)).toString();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#relationGreaterEqual(org.sbml.jsbml.ASTNode
-	 * , org.sbml.jsbml.ASTNode)
+	 * org.sbml.jsbml.ASTNodeCompiler#relationGraterThan(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
 	 */
-	public String relationGreaterEqual(ASTNode left, ASTNode right) {
-		return concat(left.compile(this), ">=", right.compile(this)).toString();
+	public String relationGreaterThan(ASTNode left, ASTNode right) {
+		return concat(left.compile(this), Character.valueOf('>'),
+				right.compile(this)).toString();
 	}
 
 	/*
@@ -916,5 +886,53 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	public String unknownASTNode() {
 		return Character.toString('?');
+	}
+
+	/**
+	 * Creates brackets if needed.
+	 * 
+	 * @param nodes
+	 * @return
+	 */
+	private String checkBrackets(ASTNode nodes) {
+		String term = nodes.compile(this).toString();
+		if ((nodes.isOperator() && (nodes.getCharacter() == '+' || nodes
+				.getCharacter() == '-'))
+				|| nodes.isUMinus())
+			term = brackets(term).toString();
+		return term;
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @param nodes
+	 * @return
+	 */
+	private String function(String name, ASTNode... nodes) {
+		return concat(name, lambda(nodes)).toString();
+	}
+
+	/**
+	 * 
+	 * @param operator
+	 * @param nodes
+	 * @return
+	 */
+	private String logicalOperation(String operator, ASTNode... nodes) {
+		StringBuffer value = new StringBuffer();
+		boolean first = true;
+		for (ASTNode node : nodes) {
+			if (!first)
+				value.append(operator);
+			else
+				first = true;
+			if (1 < node.getNumChildren())
+				append(value, Character.valueOf('('), node.compile(this),
+						Character.valueOf(')'));
+			else
+				value.append(node.compile(this));
+		}
+		return value.toString();
 	}
 }
