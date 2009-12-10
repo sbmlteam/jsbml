@@ -34,6 +34,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.sbml.jsbml.CVTerm.Qualifier;
+
 /**
  * This list implementation is a java LinkedList that is however restricted to
  * generic types that implement the SBase interface and conatains all methods
@@ -51,24 +53,24 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 	 * 
 	 */
 	private static final long serialVersionUID = -5588467260915307797L;
-
-	SBase parentSBMLObject;
-
-	Set<SBaseChangedListener> setOfListeners;
+	
+	private String annotation;
 
 	private int level;
 
-	private int version;
-
-	private int sboTerm;
+	private LinkedList<CVTerm> listOfCVTerms;
 
 	private String metaId;
 
 	private String notes;
 
-	private LinkedList<CVTerm> listOfCVTerms;
+	private int sboTerm;
 
-	private String annotation;
+	private int version;
+
+	SBase parentSBMLObject;
+
+	Set<SBaseChangedListener> setOfListeners;
 
 	/**
 	 * 
@@ -83,30 +85,6 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 		this.level = level;
 		this.version = version;
 		this.listOfCVTerms = new LinkedList<CVTerm>();
-	}
-
-	/**
-	 * Specialized method to remove a named SBase according to its unique id.
-	 * 
-	 * @param nsb
-	 *            the object to be removed.
-	 * @return success or failure.
-	 */
-	public boolean remove(NamedSBase nsb) {
-		if (!super.remove(nsb) && nsb.isSetId()) {
-			int pos = -1;
-			for (int i = 0; i < size() && pos < 0; i++) {
-				NamedSBase sb = (NamedSBase) get(i);
-				if (sb.isSetId() && nsb.isSetId()
-						&& sb.getId().equals(nsb.getId()))
-					pos = i;
-			}
-			if (pos >= 0) {
-				remove(pos);
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -244,6 +222,38 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 			return equals;
 		}
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.SBase#equals(org.sbml.jsbml.SBase)
+	 */
+	// @Override
+	public boolean equals(SBase sbase) {
+		if (sbase instanceof ListOf<?>) {
+			ListOf<?> listOf = (ListOf<?>) sbase;
+			return listOf.containsAll(this) && this.containsAll(listOf);
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier)
+	 */
+	public List<CVTerm> filterCVTerms(Qualifier qualifier) {
+		LinkedList<CVTerm> l = new LinkedList<CVTerm>();
+		for (CVTerm term : listOfCVTerms) {
+			if (term.isBiologicalQualifier()
+					&& term.getBiologicalQualifierType() == qualifier)
+				l.add(term);
+			else if (term.isModelQualifier()
+					&& term.getModelQualifierType() == qualifier)
+				l.add(term);
+		}
+		return l;
 	}
 
 	/*
@@ -438,6 +448,30 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 	}
 
 	/**
+	 * Specialized method to remove a named SBase according to its unique id.
+	 * 
+	 * @param nsb
+	 *            the object to be removed.
+	 * @return success or failure.
+	 */
+	public boolean remove(NamedSBase nsb) {
+		if (!super.remove(nsb) && nsb.isSetId()) {
+			int pos = -1;
+			for (int i = 0; i < size() && pos < 0; i++) {
+				NamedSBase sb = (NamedSBase) get(i);
+				if (sb.isSetId() && nsb.isSetId()
+						&& sb.getId().equals(nsb.getId()))
+					pos = i;
+			}
+			if (pos >= 0) {
+				remove(pos);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * 
 	 * @param l
 	 */
@@ -572,20 +606,6 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 	 */
 	public void unsetSBOTerm() {
 		sboTerm = -1;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.SBase#equals(org.sbml.jsbml.SBase)
-	 */
-	// @Override
-	public boolean equals(SBase sbase) {
-		if (sbase instanceof ListOf<?>) {
-			ListOf<?> listOf = (ListOf<?>) sbase;
-			return listOf.containsAll(this) && this.containsAll(listOf);
-		}
-		return false;
 	}
 
 }

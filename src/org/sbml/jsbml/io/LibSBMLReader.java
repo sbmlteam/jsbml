@@ -792,7 +792,7 @@ public class LibSBMLReader extends AbstractSBMLReader {
 		CVTerm t = new CVTerm();
 		switch (libCVt.getQualifierType()) {
 		case libsbmlConstants.MODEL_QUALIFIER:
-			t.setQualifierType(CVTerm.Qualifier.MODEL_QUALIFIER);
+			t.setQualifierType(CVTerm.Type.MODEL_QUALIFIER);
 			switch (libCVt.getModelQualifierType()) {
 			case libsbmlConstants.BQM_IS:
 				t.setModelQualifierType(Qualifier.BQM_IS);
@@ -808,7 +808,7 @@ public class LibSBMLReader extends AbstractSBMLReader {
 			}
 			break;
 		case libsbmlConstants.BIOLOGICAL_QUALIFIER:
-			t.setQualifierType(CVTerm.Qualifier.BIOLOGICAL_QUALIFIER);
+			t.setQualifierType(CVTerm.Type.BIOLOGICAL_QUALIFIER);
 			switch (libCVt.getBiologicalQualifierType()) {
 			case libsbmlConstants.BQB_ENCODES:
 				t.setBiologicalQualifierType(Qualifier.BQB_ENCODES);

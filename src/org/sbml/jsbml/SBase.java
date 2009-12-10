@@ -32,6 +32,8 @@ package org.sbml.jsbml;
 
 import java.util.List;
 
+import org.sbml.jsbml.CVTerm.Qualifier;
+
 /**
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
@@ -78,6 +80,14 @@ public interface SBase {
 	 * @return
 	 */
 	public boolean equals(Object sbase);
+
+	/**
+	 * This method returns a list of all qualifiers of the given type.
+	 * 
+	 * @param qualifier
+	 * @return
+	 */
+	public List<CVTerm> filterCVTerms(Qualifier qualifier);
 
 	/**
 	 * Returns the content of the 'annotation' subelement of this object as a

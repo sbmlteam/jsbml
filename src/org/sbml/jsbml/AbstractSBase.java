@@ -35,6 +35,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.sbml.jsbml.CVTerm.Qualifier;
+
 /**
  * 
  * @author Andreas Dr&auml;ger <a
@@ -44,15 +46,15 @@ import java.util.Set;
  */
 public abstract class AbstractSBase implements SBase {
 
+	private String annotation;
+	private List<CVTerm> listOfCVTerms;
+	private String metaId;
+	private String notes;
+	private int sboTerm;
+	int level;
 	SBase parentSBMLObject;
 	Set<SBaseChangedListener> setOfListeners;
-	int level;
 	int version;
-	private String metaId;
-	private int sboTerm;
-	private String notes;
-	private List<CVTerm> listOfCVTerms;
-	private String annotation;
 
 	/**
 	 * 
@@ -67,7 +69,7 @@ public abstract class AbstractSBase implements SBase {
 		this.version = version;
 		this.listOfCVTerms = new LinkedList<CVTerm>();
 	}
-	
+
 	/**
 	 * 
 	 * @param sb
@@ -173,6 +175,24 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier)
+	 */
+	public List<CVTerm> filterCVTerms(Qualifier qualifier) {
+		LinkedList<CVTerm> l = new LinkedList<CVTerm>();
+		for (CVTerm term : listOfCVTerms) {
+			if (term.isBiologicalQualifier()
+					&& term.getBiologicalQualifierType() == qualifier)
+				l.add(term);
+			else if (term.isModelQualifier()
+					&& term.getModelQualifierType() == qualifier)
+				l.add(term);
+		}
+		return l;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jlibsbml.SBase#getAnnotationString()
 	 */
 	public String getAnnotationString() {
@@ -268,6 +288,7 @@ public abstract class AbstractSBase implements SBase {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jlibsbml.SBase#getSBMLDocument()
 	 */
 	public SBMLDocument getSBMLDocument() {
