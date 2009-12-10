@@ -332,6 +332,13 @@ public interface ASTNodeCompiler {
 
 	/**
 	 * 
+	 * @param nodes
+	 * @return
+	 */
+	public Object logicalAND(ASTNode... nodes);
+
+	/**
+	 * 
 	 * @param node
 	 * @return
 	 */
@@ -339,10 +346,17 @@ public interface ASTNodeCompiler {
 
 	/**
 	 * 
-	 * @param ast
+	 * @param nodes
 	 * @return
 	 */
-	public Object logicalOperation(ASTNode ast);
+	public Object logicalOR(ASTNode... nodes);
+
+	/**
+	 * 
+	 * @param nodes
+	 * @return
+	 */
+	public Object logicalXOR(ASTNode... nodes);
 
 	/**
 	 * 
@@ -383,19 +397,19 @@ public interface ASTNodeCompiler {
 
 	/**
 	 * 
-	 * @param leftChild
-	 * @param rightChild
-	 * @return
-	 */
-	public Object relationGreaterThan(ASTNode left, ASTNode right);
-
-	/**
-	 * 
 	 * @param left
 	 * @param right
 	 * @return
 	 */
 	public Object relationGreaterEqual(ASTNode left, ASTNode right);
+
+	/**
+	 * 
+	 * @param leftChild
+	 * @param rightChild
+	 * @return
+	 */
+	public Object relationGreaterThan(ASTNode left, ASTNode right);
 
 	/**
 	 * 

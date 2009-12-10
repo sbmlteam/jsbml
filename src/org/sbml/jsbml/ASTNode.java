@@ -917,11 +917,11 @@ public class ASTNode implements TreeNode {
 		case LAMBDA:
 			return compiler.lambda(listOfNodes.toArray(new ASTNode[] {}));
 		case LOGICAL_AND:
-			return compiler.logicalOperation(this);
+			return compiler.logicalAND(listOfNodes.toArray(new ASTNode[]{}));
 		case LOGICAL_XOR:
-			return compiler.logicalOperation(this);
+			return compiler.logicalXOR(listOfNodes.toArray(new ASTNode[]{}));
 		case LOGICAL_OR:
-			return compiler.logicalOperation(this);
+			return compiler.logicalOR(listOfNodes.toArray(new ASTNode[]{}));
 		case LOGICAL_NOT:
 			return compiler.logicalNot(getLeftChild());
 		case FUNCTION_PIECEWISE:
@@ -1283,14 +1283,26 @@ public class ASTNode implements TreeNode {
 		return l;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public ASTNode getRightChild() {
 		return listOfNodes.getLast();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Type getType() {
 		return type;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public NamedSBase getVariable() {
 		if (isName())
 			return variable;
