@@ -55,7 +55,7 @@ public abstract class AbstractSBase implements SBase {
 	SBase parentSBMLObject;
 	Set<SBaseChangedListener> setOfListeners;
 	int version;
-
+	
 	/**
 	 * 
 	 */
@@ -187,6 +187,17 @@ public abstract class AbstractSBase implements SBase {
 					&& term.getModelQualifierType() == qualifier)
 				l.add(term);
 		}
+		return l;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier, java.lang.String)
+	 */
+	public List<String> filterCVTerms(Qualifier qualifier, String pattern) {
+		List<String> l = new LinkedList<String>();
+		for (CVTerm c : filterCVTerms(qualifier))
+			l.addAll(c.filterResources(pattern));
 		return l;
 	}
 

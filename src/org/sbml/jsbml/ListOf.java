@@ -55,7 +55,7 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 	private static final long serialVersionUID = -5588467260915307797L;
 	
 	private String annotation;
-
+	
 	private int level;
 
 	private LinkedList<CVTerm> listOfCVTerms;
@@ -253,6 +253,17 @@ public class ListOf<E extends SBase> extends LinkedList<E> implements SBase {
 					&& term.getModelQualifierType() == qualifier)
 				l.add(term);
 		}
+		return l;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier, java.lang.String)
+	 */
+	public List<String> filterCVTerms(Qualifier qualifier, String pattern) {
+		List<String> l = new LinkedList<String>();
+		for (CVTerm c : filterCVTerms(qualifier))
+			l.addAll(c.filterResources(pattern));
 		return l;
 	}
 

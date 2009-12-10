@@ -90,6 +90,18 @@ public interface SBase {
 	public List<CVTerm> filterCVTerms(Qualifier qualifier);
 
 	/**
+	 * Queries the list of controlled vocabulary terms for those terms whose
+	 * qualifier is of the given type and selects only those resources from
+	 * these terms that contain the given pattern.
+	 * 
+	 * @param qualifier
+	 * @param pattern
+	 *            for instance, kegg or chebi.
+	 * @return
+	 */
+	public List<String> filterCVTerms(Qualifier qualifier, String pattern);
+
+	/**
 	 * Returns the content of the 'annotation' subelement of this object as a
 	 * character string.
 	 * 
