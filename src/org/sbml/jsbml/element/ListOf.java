@@ -31,20 +31,19 @@ package org.sbml.jsbml.element;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
+import org.sbml.jsbml.xml.SBaseListType;
 
 /**
- * This list implementation is a java LinkedList that is however restricted to
- * generic types that implement the SBase interface and conatains all methods
- * from AbstractSBase. Unfortunately, there is no way for multiple inheritance
+ * This list implementation is a java List that extends AbstractSBase. It represents the listOfxxx
+ * XML elements in a SBML file. Unfortunately, there is no way for multiple inheritance
  * in Java.
- * 
+ * @author rodrigue
+ * @author marine
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
@@ -52,31 +51,33 @@ import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
  */
 public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
-	private CurrentListOfSBMLElements currentList = CurrentListOfSBMLElements.none;
+	/**
+	 * name of the list at it appears in the SBMLFile. By default, it is SBaseListType.none.
+	 */
+	private SBaseListType currentList = SBaseListType.none;
+	/**
+	 * list containing all the SBase elements of this object.
+	 */
 	private LinkedList<T> listOf = new LinkedList<T>();
 
 	/**
-	 * 
+	 * Creates a ListOf instance. By default, the list containing the SBase elements is empty.
 	 */
 	public ListOf() {
 		super();
 	}
 	
 	/**
-	 * 
+	 * Creates a ListOf instance from a level and version. By default, the list containing the SBase elements is empty.
 	 */
 	public ListOf(int level, int version) {
 		super(level, version);
-		this.setOfListeners = new HashSet<SBaseChangedListener>();
-		this.level = level;
-		this.version = version;
 	}
 
 	/**
 	 * Specialized method to remove a named SBase according to its unique id.
 	 * 
-	 * @param nsb
-	 *            the object to be removed.
+	 * @param nsb the object to be removed.
 	 * @return success or failure.
 	 */
 	public boolean remove(NamedSBase nsb) {
@@ -85,8 +86,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 			for (int i = 0; i < size() && pos < 0; i++) {
 				NamedSBase sb = (NamedSBase) get(i);
 				if (sb.isSetId() && nsb.isSetId()
-						&& sb.getId().equals(nsb.getId()))
+						&& sb.getId().equals(nsb.getId())){
 					pos = i;
+				}
 			}
 			if (pos >= 0) {
 				listOf.remove(pos);
@@ -97,26 +99,17 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	}
 
 	/**
-	 * 
+	 * creates a ListOf instance from a given ListOf.
 	 * @param listOf
 	 */
 	@SuppressWarnings("unchecked")
 	public ListOf(ListOf<? extends SBase> listOf) {
-		super();
-		if (listOf.isSetSBOTerm())
-			setSBOTerm(listOf.getSBOTerm());
-		if (listOf.isSetMetaId())
-			setMetaId(new String(listOf.getMetaId()));
-		if (listOf.isSetNotes())
-			setNotes(new String(listOf.getNotesString()));
-		setParentSBML(listOf.getParentSBMLObject());
-		this.setOfListeners = new HashSet<SBaseChangedListener>();
-		this.setOfListeners.addAll(listOf.setOfListeners);
-		this.level = listOf.getLevel();
-		this.version = listOf.getVersion();
-		this.listOf = new LinkedList<T>();
-		for (SBase base : listOf)
-			add((T) base.clone());
+		super(listOf);
+		for (SBase base : listOf){
+			if (base != null){
+				add((T) base.clone());
+			}
+		}
 	}
 
 	/*
@@ -126,24 +119,28 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	// @Override
 	public boolean add(T e) {
-		if (e.getLevel() != getLevel())
+		if (e.getLevel() != getLevel()){
 			throw new IllegalArgumentException("Level mismatch between "
 					+ getParentSBMLObject().getClass().getSimpleName()
 					+ " in V " + getLevel() + " and "
 					+ e.getClass().getSimpleName() + " in L" + e.getLevel());
-		else if (e.getVersion() != getVersion())
+		}
+		else if (e.getVersion() != getVersion()){
 			throw new IllegalArgumentException("Version mismatch between "
 					+ getParentSBMLObject().getClass().getSimpleName()
 					+ " in V" + getVersion() + " and "
 					+ e.getClass().getSimpleName() + " in V" + e.getVersion());
+		}
 		if (e instanceof NamedSBase) {
 			NamedSBase nsb = (NamedSBase) e;
-			if (nsb.isSetId())
+			if (nsb.isSetId()){
 				for (SBase element : this) {
 					NamedSBase elem = ((NamedSBase) element);
-					if (elem.isSetId() && elem.getId().equals(nsb.getId()))
+					if (elem.isSetId() && elem.getId().equals(nsb.getId())){
 						return false;
+					}
 				}
+			}
 		}
 		return listOf.add(e);
 	}
@@ -151,13 +148,14 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seeorg.sbml.jlibsbml.SBase#addChangeListener(org.sbml.squeezer.io.
+	 * @see org.sbml.jsbml.element.SBase#addChangeListener(org.sbml.squeezer.io.
 	 * SBaseChangedListener)
 	 */
 	public void addChangeListener(SBaseChangedListener l) {
 		setOfListeners.add(l);
-		for (int i = 0; i < size(); i++)
+		for (int i = 0; i < size(); i++){
 			get(i).addChangeListener(l);
+		}
 	}
 
 	/*
@@ -169,21 +167,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public boolean equals(Object o) {
 		if (o instanceof ListOf<?>) {
 			boolean equals = super.equals(o);
-			SBase sbase = (SBase) o;
-			equals &= sbase.isSetMetaId() == isSetMetaId();
-			if (sbase.isSetMetaId() && isSetMetaId())
-				equals &= sbase.getMetaId().equals(getMetaId());
-			equals &= sbase.isSetNotes() == isSetNotes();
-			if (sbase.isSetNotes() && isSetNotes())
-				equals &= sbase.getNotesString().equals(getNotesString());
-			equals &= sbase.isSetSBOTerm() == isSetSBOTerm();
-			if (sbase.isSetSBOTerm() && isSetSBOTerm())
-				equals &= sbase.getSBOTerm() == getSBOTerm();
-			equals &= sbase.getLevel() == getLevel();
-			equals &= sbase.getVersion() == getVersion();
-			equals &= sbase.getAnnotation().equals(getAnnotation());
-
-			ListOf<?> listOf = (ListOf<?>) sbase;
+			ListOf<?> listOf = (ListOf<?>) o;
+			equals &= getSBaseListType() == listOf.getSBaseListType();
 			return listOf.containsAll(this) && equals;			
 		}
 		return false;
@@ -192,248 +177,264 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBase#getElementName()
+	 * @see org.sbml.jsbml.element.SBase#getElementName()
 	 */
 	public String getElementName() {
-		String name = getCurrentList().toString();
+		String name = getSBaseListType().toString();
 		return name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.SBase#getModel()
+	/**
+	 * Sets the SBaseListType of this ListOf instance to 'currentList'.
+	 * @param currentList
 	 */
-	public Model getModel() {
-		if (getParentSBMLObject() != null)
-			return getParentSBMLObject().getModel();
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.SBase#getParentSBMLObject()
-	 */
-	public SBase getParentSBMLObject() {
-		return parentSBMLObject;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jlibsbml.SBase#getSBMLDocument()
-	 */
-	public SBMLDocument getSBMLDocument() {
-		Model m = getModel();
-		if (m != null)
-			return m.getParentSBMLObject();
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jlibsbml.SBase#hasValidLevelVersionNamespaceCombination()
-	 */
-	public boolean hasValidLevelVersionNamespaceCombination() {
-		boolean has = true;
-		if (level == 1) {
-			if (1 <= version && version <= 2)
-				has = true;
-			else
-				has = false;
-		} else if (level == 2) {
-			if (1 <= version && version <= 4)
-				has = true;
-			else
-				has = false;
-		} else
-			has = false;
-		return has;
+	public void setSBaseListType(SBaseListType currentList) {
+		this.currentList = currentList;
+		stateChanged();
 	}
 
 	/**
 	 * 
-	 * @param l
+	 * @return the SBaseListType of this ListOf instance
 	 */
-	public void removeChangeListener(SBaseChangedListener l) {
-		setOfListeners.remove(l);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.SBase#sbaseAdded()
-	 */
-	public void sbaseAdded() {
-		for (SBaseChangedListener listener : setOfListeners)
-			listener.sbaseAdded(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.SBase#sbaseRemoved()
-	 */
-	public void sbaseRemoved() {
-		for (SBaseChangedListener listener : setOfListeners)
-			listener.stateChanged(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jlibsbml.SBase#setSBOTerm(java.lang.String)
-	 */
-	public void setSBOTerm(String sboid) {
-		setSBOTerm(SBO.stringToInt(sboid));
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jlibsbml.SBase#setAnnotation(java.lang.String)
-	 */
-	public void setParentSBML(SBase parent) {
-		this.parentSBMLObject = parent;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.SBase#stateChanged()
-	 */
-	public void stateChanged() {
-		for (SBaseChangedListener listener : setOfListeners)
-			listener.stateChanged(this);
-	}
-
-	public void setCurrentList(CurrentListOfSBMLElements currentList) {
-		this.currentList = currentList;
-	}
-
-	public CurrentListOfSBMLElements getCurrentList() {
+	public SBaseListType getSBaseListType() {
 		return currentList;
 	}
 	
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	public boolean readAttribute(String attributeName, String prefix, String value){
 	
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#toString()
+	 */
 	@Override
 	public String toString() {
 		return listOf.toString();
 	}
 
+	/**
+	 * Sets the listOf of this Object to 'listOf'.
+	 * @param listOf
+	 */
 	public void setListOf(LinkedList<T> listOf) {
 		this.listOf = listOf;
+		stateChanged();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#clone()
+	 */
 	@Override
 	public SBase clone() {
 		return new ListOf<T>(this);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#clear()
+	 */
 	public void clear() {
 		listOf.clear();
 		
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#contains(Object o)
+	 */
 	public boolean contains(Object o) {
 		return listOf.contains(o);
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#indexOf(Object o)
+	 */
 	public int indexOf(Object o) {
 		return listOf.indexOf(o);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#isEmpty()
+	 */
 	public boolean isEmpty() {
 		return listOf.isEmpty();
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#iterator()
+	 */
 	public Iterator<T> iterator() {
 		return listOf.iterator();
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#lastIndexOf(Object o)
+	 */
 	public int lastIndexOf(Object o) {
 		return listOf.lastIndexOf(o);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#listIterator()
+	 */
 	public ListIterator<T> listIterator() {
 		return listOf.listIterator();
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#listIterator(int index)
+	 */
 	public ListIterator<T> listIterator(int index) {
 		return listOf.listIterator(index);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#remove(Object o)
+	 */
 	public boolean remove(Object o) {
 		return listOf.remove(o);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#size()
+	 */
 	public int size() {		
 		return listOf.size();
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#subList(int fromIndex, int toIndex)
+	 */
 	public List<T> subList(int fromIndex, int toIndex) {
 		return listOf.subList(fromIndex, toIndex);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#toArray()
+	 */
 	public Object[] toArray() {
 		return listOf.toArray();
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#add(int index, T element)
+	 */
 	public void add(int index, T element) {
 		listOf.add(index, element);
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.containsAll(Collection<?> c)
+	 */
 	public boolean containsAll(Collection<?> c) {
 		return listOf.containsAll(c);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#removeAll(Collection<?> c)
+	 */
 	public boolean removeAll(Collection<?> c) {
 		return listOf.removeAll(c);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#retainAll(Collection<?> c)
+	 */
 	public boolean retainAll(Collection<?> c) {
 		return listOf.retainAll(c);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#set(int index, T element)
+	 */
 	public T set(int index, T element) {
 		return listOf.set(index, element);
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#get(int index)
+	 */
 	public T get(int index) {
 		return listOf.get(index);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#remove(int index)
+	 */
 	public T remove(int index) {
 		return listOf.remove(index);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#addAll(Collection<? extends T> c)
+	 */
 	public boolean addAll(Collection<? extends T> c) {
 		return listOf.addAll(c);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#addAll(int index, Collection<? extends T> c)
+	 */
 	public boolean addAll(int index, Collection<? extends T> c) {
 		return listOf.addAll(index, c);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#toArray(T[] a)
+	 */
 	@SuppressWarnings("hiding")
 	public <T> T[] toArray(T[] a) {
 		return listOf.toArray(a);
 	}
 	
+	/**
+	 * Sets the SBaseListType of this ListOf to SBaseListType.none.
+	 */
+	public void unsetSBaseListType(){
+		this.currentList = SBaseListType.none;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();

@@ -31,6 +31,7 @@
 package org.sbml.jsbml.element;
 
 /**
+ * The base class for the {@link AlgebraicRule}, {@link RateRule}, {@link AssignmentRule}.
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
@@ -39,14 +40,14 @@ package org.sbml.jsbml.element;
 public abstract class Rule extends MathContainer {
 
 	/**
-	 * 
+	 * Creates a Rule instance.
 	 */
 	public Rule() {
 		super();
 	}
 	
 	/**
-	 * 
+	 * Creates a Rule instance from a level and version.
 	 * @param level
 	 * @param version
 	 */
@@ -55,7 +56,7 @@ public abstract class Rule extends MathContainer {
 	}
 
 	/**
-	 * 
+	 * Creates a Rule instance from an id, level and version.
 	 * @param math
 	 * @param level
 	 * @param version
@@ -65,6 +66,7 @@ public abstract class Rule extends MathContainer {
 	}
 
 	/**
+	 * Creates a Rule instance from a given MathContainer.
 	 * @param sb
 	 */
 	public Rule(MathContainer sb) {
@@ -73,7 +75,7 @@ public abstract class Rule extends MathContainer {
 
 	/**
 	 * 
-	 * @return
+	 * @return true if this Rule is an AlgebraicRule instance.
 	 */
 	public boolean isAlgebraic() {
 		return this instanceof AlgebraicRule;
@@ -81,7 +83,7 @@ public abstract class Rule extends MathContainer {
 
 	/**
 	 * 
-	 * @return
+	 * @return true if this Rule is an AssignmentRule instance.
 	 */
 	public boolean isAssignment() {
 		return this instanceof AssignmentRule;
@@ -89,7 +91,7 @@ public abstract class Rule extends MathContainer {
 
 	/**
 	 * 
-	 * @return
+	 * @return true if this Rule is a RateRule instance.
 	 */
 	public boolean isRate() {
 		return this instanceof RateRule;

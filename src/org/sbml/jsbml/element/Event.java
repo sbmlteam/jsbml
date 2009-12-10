@@ -31,7 +31,7 @@ package org.sbml.jsbml.element;
 
 import java.util.HashMap;
 
-import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
+import org.sbml.jsbml.xml.SBaseListType;
 
 /**
  * Represents the event XML element of a SBML file.
@@ -197,8 +197,10 @@ public class Event extends AbstractNamedSBase {
 		if (o instanceof Event) {
 			Event e = (Event) o;
 			equal &= e.getUseValuesFromTriggerTime() == getUseValuesFromTriggerTime();
-			equal &= e.getListOfEventAssignments().equals(
-					getListOfEventAssignments());
+			equal &= e.isSetListOfEventAssignments() == isSetListOfEventAssignments();
+			if (equal && isSetListOfEventAssignments()){
+				equal &= e.getListOfEventAssignments().equals(getListOfEventAssignments());
+			}
 			if ((e.isSetDelay() && !isSetDelay())
 					|| (!e.isSetDelay() && isSetDelay())){
 				return false;
@@ -398,7 +400,7 @@ public class Event extends AbstractNamedSBase {
 	public void setListOfEventAssignments(
 			ListOf<EventAssignment> listOfEventAssignments) {
 		this.listOfEventAssignments = listOfEventAssignments;
-		this.listOfEventAssignments.setCurrentList(CurrentListOfSBMLElements.listOfEventAssignments);
+		this.listOfEventAssignments.setSBaseListType(SBaseListType.listOfEventAssignments);
 		setThisAsParentSBMLObject(this.listOfEventAssignments);
 		stateChanged();
 	}

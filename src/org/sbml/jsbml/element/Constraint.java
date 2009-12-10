@@ -119,10 +119,12 @@ public class Constraint extends MathContainer {
 		if (o instanceof Constraint) {
 			boolean equal = super.equals(o);
 			Constraint c = (Constraint) o;
-			if (c.isSetMessage() && isSetMessage()){
+			equal &= c.isSetMessage() == isSetMessage();
+			if (equal && isSetMessage()){
 				equal &= c.getMessage().equals(getMessage());
 			}
-			if (c.isSetMessageBuffer() && isSetMessageBuffer()){
+			equal &= c.isSetMessageBuffer() == isSetMessageBuffer();
+			if (equal && isSetMessageBuffer()){
 				equal &= c.getMessageBuffer().equals(getMessageBuffer());
 			}
 			return equal;

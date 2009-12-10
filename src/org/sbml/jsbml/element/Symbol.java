@@ -33,17 +33,18 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
+ * The base class for {@link SimpleSpeciesReference}, {@link Compartment}, {@link Species}, {@link Parameter}
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
- * @date 2009-08-31
+ * @author marine
  */
 public abstract class Symbol extends AbstractNamedSBase {
 
 	/**
 	 * The constant attribute of this variable.
 	 */
-	private Boolean constant;
+	protected Boolean constant;
 	/**
 	 * The unit attribute of this variable.
 	 */
@@ -52,7 +53,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * The size, initial amount or concentration, or the actual value of this
 	 * variable.
 	 */
-	protected double value;
+	protected Double value;
 	
 	/**
 	 * a boolean to help knowing is the value as been set by the user or is the default one.
@@ -60,63 +61,88 @@ public abstract class Symbol extends AbstractNamedSBase {
 	private boolean isSetValue = false;
 
 	/**
-	 * 
+	 * Creates a Symbol instance. By default, value, unitsID, constant are null.
 	 */
 	public Symbol() {
 		super();
-		this.value = Double.NaN;
+		this.value = null;
 		this.unitsID = null;
+		this.constant = null;
 	}
 
 	/**
-	 * 
+	 * Creates a Symbol instance from a level and version. By default, value, unitsID, constant are null.
 	 * @param id
 	 * @param level
 	 * @param version
 	 */
 	public Symbol(int level, int version) {
 		super(level, version);
+		this.value = null;
 		this.unitsID = null;
-		this.value = Double.NaN;
+		this.constant = null;
 	}
 
 	
 	/**
-	 * 
+	 * Creates a Symbol instance from an id, level and version. By default, value, unitsID, constant are null.
 	 * @param id
 	 * @param level
 	 * @param version
 	 */
 	public Symbol(String id, int level, int version) {
 		super(id, level, version);
+		this.value = null;
 		this.unitsID = null;
-		this.value = Double.NaN;
+		this.constant = null;
 	}
 
 	/**
+	 * Creates a Symbol instance from an id, name, level and version. By default, value, unitsID, constant are null.
 	 * @param id
 	 * @param name
+	 * @param level
+	 * @param version
 	 */
 	public Symbol(String id, String name, int level, int version) {
 		super(id, name, level, version);
+		this.value = null;
 		this.unitsID = null;
-		this.value = Double.NaN;
+		this.constant = null;
 	}
 
 	/**
+	 * Creates a Symbol instance from a given Symbol.
 	 * @param nsb
 	 */
 	public Symbol(Symbol nsb) {
 		super(nsb);
-		this.unitsID = nsb.getUnits();
-		this.value = nsb.getValue();
-		this.constant = nsb.getConstant();
+
+		if (nsb.isSetUnits()){
+			this.unitsID = new String(nsb.getUnits());
+		}
+		else {
+			this.unitsID = null;
+		}
+		if (nsb.isSetValue()){
+			this.value = new Double(nsb.getValue());
+			isSetValue = true;
+		}
+		else {
+			this.value = null;
+		}
+		if (nsb.isSetConstant()){
+			this.constant = new Boolean(nsb.getConstant());
+		}
+		else {
+			this.constant = null;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.AbstractNamedSBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.element.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	// @Override
 	public boolean equals(Object o) {
@@ -125,23 +151,26 @@ public abstract class Symbol extends AbstractNamedSBase {
 			Symbol v = (Symbol) o;
 			equal &= v.getConstant() == getConstant();
 			equal &= v.isSetUnits() == isSetUnits();
-			if (v.isSetUnits() && isSetUnits())
+			if (equal && isSetUnits()){
 				equal &= v.getUnits().equals(getUnits());
+			}
+			equal &= v.getValue() == getValue();
+			return equal;
 		}
 		return false;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the constant Boolean of this symbol.
 	 */
-	public Boolean getConstant() {
-		return this.constant;
+	public boolean getConstant() {
+		return isSetConstant() ? this.constant : false;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the unitsID of this Symbol. The empty String if it is not set.
 	 */
 	public String getUnits() {
 		return isSetUnits() ? unitsID : "";
@@ -149,7 +178,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return
+	 * @return The UnitDefinition instance which has the unitsID of this Symbol as id. Null if it doesn't exist.
 	 */
 	public UnitDefinition getUnitsInstance() {
 		if (getModel() == null){
@@ -166,12 +195,12 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * @return the value
 	 */
 	double getValue() {
-		return value;
+		return value != null ? value : 0;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the constant value if it is set, false otherwise.
 	 */
 	public boolean isConstant() {
 		return isSetConstant() ? constant : false;
@@ -179,43 +208,50 @@ public abstract class Symbol extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return
+	 * @return true if the UnitDefinition which has the unitsID of this Symbol as id is not null.
 	 */
-	public boolean isSetUnits() {
-		return this.unitsID != null;
+	public boolean isSetUnitsInstance() {
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getUnitDefinition(this.unitsID) != null;
 	}
 	
 	/**
 	 * 
-	 * @return
+	 * @return true if the unitsID of this Symbol is not null.
 	 */
-	public boolean isSetUnitsID() {
+	public boolean isSetUnits() {
 		return unitsID != null;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return true if the value of this Symbol is set.
 	 */
 	public boolean isSetValue() {
 		return isSetValue;
 	}
 	
+	/**
+	 * 
+	 * @return true if the constant Boolean of this Symbol is not null.
+	 */
 	public boolean isSetConstant(){
 		return this.constant != null;
 	}
 
 	/**
-	 * 
+	 * Sets the constant Boolean of this Symbol.
 	 * @param constant
 	 */
-	public void setConstant(boolean constant) {
+	public void setConstant(Boolean constant) {
 		this.constant = constant;
 		stateChanged();
 	}
 
 	/**
-	 * 
+	 * Sets the Unit of this Symbol.
 	 * @param unit
 	 */
 	public void setUnits(Unit unit) {
@@ -239,7 +275,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Sets the unit of this Symbol.
 	 * @param unitKind
 	 */
 	public void setUnits(Unit.Kind unitKind) {
@@ -257,7 +293,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	}
 	
 	/**
-	 * 
+	 * Sets the unitsID of this Symbol.
 	 * @param units
 	 */
 	public void setUnits(String units) {
@@ -280,19 +316,25 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	public void setValue(double value) {
 		this.value = value;
-		
 		if (!Double.isNaN(value)) {
 			isSetValue = true;
 		}
 		
 		stateChanged();
 	}
+	
+	/**
+	 * Sets the unitsID of this Symbol to null.
+	 */
+	public void unsetUnits(){
+		this.unitsID = null;
+	}
 
 	/**
-	 * 
+	 * Unsets the value of this Symbol.
 	 */
 	public void unsetValue() {
-		value = Double.NaN;
+		value = null;
 		isSetValue = false;
 		stateChanged();
 	}
@@ -300,6 +342,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -308,6 +351,11 @@ public abstract class Symbol extends AbstractNamedSBase {
 		return isAttributeRead;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();

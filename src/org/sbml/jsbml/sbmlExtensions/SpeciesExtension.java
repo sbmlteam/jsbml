@@ -128,12 +128,12 @@ public class SpeciesExtension extends Species{
 		return species.isSetSpeciesTypeInstance();
 	}
 
-	public boolean isSetSubstanceUnits() {
-		return species.isSetSubstanceUnits();
+	public boolean isSetSubstanceUnitsInstance() {
+		return species.isSetSubstanceUnitsInstance();
 	}
 
-	public boolean isSetSubstanceUnitsID() {
-		return species.isSetSubstanceUnitsID();
+	public boolean isSetSubstanceUnits() {
+		return species.isSetSubstanceUnits();
 	}
 
 	public boolean readAttribute(String attributeName, String prefix,

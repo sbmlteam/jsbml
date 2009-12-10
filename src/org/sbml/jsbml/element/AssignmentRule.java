@@ -99,6 +99,27 @@ public class AssignmentRule extends Rule {
 	public AssignmentRule clone() {
 		return new AssignmentRule(this);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
+	 */
+	public boolean equals(Object o){
+		if (o instanceof AssignmentRule){
+			AssignmentRule rule = (AssignmentRule) o;
+			boolean equals = super.equals(rule);
+			
+			if (equals){
+				equals &= isSetVariable() == rule.isSetVariable();
+				if (equals && isSetVariable()){
+					equals &= getVariable().equals(rule.getVariable());
+				}
+			}
+			return equals;
+		}
+		return false;
+	}
 
 	/**
 	 * 
@@ -216,13 +237,6 @@ public class AssignmentRule extends Rule {
 	public void setVariable(Symbol variable) {
 		this.variableID = variable != null ? variable.getId() : null;
 		stateChanged();
-	}
-	
-	/**
-	 * sets the VariableID to null.
-	 */
-	public void unsetVariable(){
-		this.variableID = null;
 	}
 	
 	/*

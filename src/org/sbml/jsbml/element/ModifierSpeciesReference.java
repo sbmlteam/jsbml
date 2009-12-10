@@ -32,7 +32,7 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
- * 
+ * Represents the modifierSpeciesReference XML element of a SBML file.
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
@@ -41,14 +41,14 @@ import java.util.HashMap;
 public class ModifierSpeciesReference extends SimpleSpeciesReference {
 
 	/**
-	 * 
+	 * Creates a ModifierSpeciesReference instance.
 	 */
 	public ModifierSpeciesReference() {
 		super();
 	}
 	
 	/**
-	 * 
+	 * Creates a ModifierSpeciesReference instance from a given ModifierSpeciesReference.
 	 * @param modifierSpeciesReference
 	 */
 	public ModifierSpeciesReference(
@@ -57,7 +57,7 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 	}
 
 	/**
-	 * 
+	 * Creates a ModifierSpeciesReference instance from a given Species.
 	 * @param modifierSpeciesReference
 	 */
 	public ModifierSpeciesReference(Species species) {
@@ -67,7 +67,7 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#clone()
+	 * @see org.sbml.jsbml.element.SBase#clone()
 	 */
 	// @Override
 	public ModifierSpeciesReference clone() {
@@ -76,7 +76,7 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 	
 	/*
 	 * (non-Javadoc)
-	 * 
+	 * org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -84,7 +84,10 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 		
 		return isAttributeRead;
 	}
-	
+	/*
+	 * (non-Javadoc)
+	 * org.sbml.jsbml.element.SBase#writeXMLAttributes() 
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();

@@ -177,24 +177,34 @@ public class Annotation {
 	 * @return true if this object entirely matches 'annotation'
 	 */
 	public boolean equals(Annotation annotation){
-		boolean equals = false;
-		if (isSetOtherAnnotationThanRDF()){
+		boolean equals = isSetAnnotation() == annotation.isSetAnnotation(); 
+		if (equals && isSetOtherAnnotationThanRDF()){
 			equals = otherAnnotation.equals(annotation.getNoRDFAnnotation());
 		}
+		equals &= isSetModelHistory() == annotation.isSetModelHistory();
 		if (equals && isSetModelHistory()){
 			equals = this.modelHistory.equals(annotation.getModelHistory());
 		}
-		if (equals && !getListOfCVTerms().isEmpty() && !annotation.getListOfCVTerms().isEmpty()){
+		equals &= getListOfCVTerms().isEmpty() == annotation.getListOfCVTerms().isEmpty();
+		if (equals && !getListOfCVTerms().isEmpty()){
 			if (listOfCVTerms.size() == annotation.getListOfCVTerms().size()){
 				for (int i = 0; i < listOfCVTerms.size(); i++){
 					CVTerm cvTerm1 = listOfCVTerms.get(i);
 					CVTerm cvTerm2 = annotation.getListOfCVTerms().get(i);
 					
-					equals = cvTerm1.equals(cvTerm2);
-					if (!cvTerm1.equals(cvTerm2)){
-						break;
+					if (cvTerm1 != null && cvTerm2 != null){
+						equals &= cvTerm1.equals(cvTerm2);
+						if (!equals){
+							return false;
+						}
+					}
+					else if ((cvTerm1 == null && cvTerm2 != null) || (cvTerm2 == null && cvTerm1 != null)) {
+						return false;
 					}
 				}
+			}
+			else {
+				return false;
 			}
 		}
 		

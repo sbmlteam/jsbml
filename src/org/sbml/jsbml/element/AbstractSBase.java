@@ -237,23 +237,25 @@ public abstract class AbstractSBase implements SBase {
 			SBase sbase = (SBase) o;
 			boolean equals = true;
 			equals &= sbase.isSetMetaId() == isSetMetaId();
-			if (sbase.isSetMetaId() && isSetMetaId()){
+			if (equals && sbase.isSetMetaId()){
 				equals &= sbase.getMetaId().equals(getMetaId());
 			}
 			equals &= sbase.isSetNotes() == isSetNotes();
-			if (sbase.isSetNotes() && isSetNotes()){
+			if (equals && sbase.isSetNotes()){
 				equals &= sbase.getNotesString().equals(getNotesString());
 			}
 			equals &= sbase.isSetSBOTerm() == isSetSBOTerm();
-			if (sbase.isSetSBOTerm() && isSetSBOTerm()){
+			if (equals && sbase.isSetSBOTerm()){
 				equals &= sbase.getSBOTerm() == getSBOTerm();
 			}
 			equals &= sbase.getLevel() == getLevel();
 			equals &= sbase.getVersion() == getVersion();
-			if (sbase.isSetAnnotation() && isSetAnnotation()){
+			equals &= sbase.isSetAnnotation() == isSetAnnotation();
+			if (equals && sbase.isSetAnnotation() ){
 				equals &= sbase.getAnnotation().equals(getAnnotation());
 			}
-			if (sbase.getNotesBuffer() != null){
+			equals &= sbase.isSetNotesBuffer() == isSetNotesBuffer();
+			if (equals && sbase.isSetNotesBuffer()){
 				equals &= sbase.getNotesBuffer().equals(getNotesBuffer());
 			}
 			return equals;

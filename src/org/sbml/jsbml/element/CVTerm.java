@@ -170,6 +170,42 @@ public class CVTerm {
 			}
 		}
 	}
+	
+	/**
+	 * 
+	 * @param o
+	 * @return true if the CVTerm 'o' is equal to this CVterm.
+	 */
+	public boolean equals(CVTerm o){
+		boolean equal = getQualifierType() == o.getQualifierType();
+		
+		if (equal){
+			equal &= getBiologicalQualifierType() == o.getBiologicalQualifierType();
+			if (equal){
+				equal &= getModelQualifierType() == o.getModelQualifierType();
+				if (equal){
+					equal &= getNumResources() == o.getNumResources();
+					if (equal){
+						for (int i = 0; i < getNumResources(); i++){
+							String resource1 = getResourceURI(i);
+							String resource2 = o.getResourceURI(i);
+							
+							if (resource1 != null && resource2 != null){
+								equal &= resource1.equals(resource2);
+								if (!equal){
+									return false;
+								}
+							}
+							else if ((resource1 == null && resource2 != null) || (resource2 == null && resource1 != null)) {
+								return false;
+							}
+						}
+					}
+				}
+			}
+		}
+		return equal;
+	}
 
 	/**
 	 * 

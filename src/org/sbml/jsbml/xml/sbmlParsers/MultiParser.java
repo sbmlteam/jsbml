@@ -10,7 +10,7 @@ import org.sbml.jsbml.element.Species;
 import org.sbml.jsbml.multiTest.InitialSpeciesInstance;
 import org.sbml.jsbml.multiTest.MultiList;
 import org.sbml.jsbml.multiTest.MultiSpecies;
-import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
+import org.sbml.jsbml.xml.SBaseListType;
 import org.sbml.jsbml.xml.SBMLObjectForXML;
 import org.sbml.jsbml.xml.ReadingParser;
 import org.sbml.jsbml.xml.WritingParser;
@@ -52,7 +52,7 @@ public class MultiParser implements ReadingParser, WritingParser{
 			Species species = (Species) contextObject;
 			if (elementName.equals("listOfInitialSpeciesInstances")){
 				ListOf<InitialSpeciesInstance> listOfInitialSpeciesInstances = new ListOf<InitialSpeciesInstance>();
-				listOfInitialSpeciesInstances.setCurrentList(CurrentListOfSBMLElements.other);
+				listOfInitialSpeciesInstances.setSBaseListType(SBaseListType.other);
 				this.multiList = MultiList.listOfInitialSpeciesInstances;
 				
 				MultiSpecies multiSpecies = new MultiSpecies(species);

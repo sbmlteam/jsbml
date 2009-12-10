@@ -32,23 +32,24 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
- * 
+ * Represents the species XML element of a SBML file.
  * @author Andreas Dr&auml;ger
- * 
+ * @author marine 
  */
 public class Species extends Symbol {
 
 	/**
-	 * 
+	 * Represents the 'conversionFactor' attribute of a Species element.
 	 */
 	private String conversionFactorID;
 	
 	/**
-	 * 
+	 * Represents the 'speciesType' attribute of a Species element.
 	 */
+	@Deprecated
 	private String speciesTypeID;
 	/**
-	 * 
+	 * Represents the 'compartment' attribute of a Species element.
 	 */
 	private String compartmentID;
 	/**
@@ -57,68 +58,118 @@ public class Species extends Symbol {
 	 */
 	private boolean amountOrConcentration;
 	/**
-	 * 
+	 * Represents the 'hasOnlySubstanceUnits' attribute of a Species element.
 	 */
-	private boolean hasOnlySubstanceUnits;
+	private Boolean hasOnlySubstanceUnits;
 	/**
-	 * 
+	 * Represents the 'boundaryCondition' attribute of a Species element.
 	 */
-	private boolean boundaryCondition;
+	private Boolean boundaryCondition;
 	/**
-	 * 
+	 * Represents the 'charge' attribute of a Species element.
 	 */
-	private int charge;
+	@Deprecated
+	private Integer charge;
 
 	/**
-	 * 
+	 * Creates a Species instance. By default, the charge, compartmentID, speciesTypeID, conversionFactorID,
+	 * hasOnlySubstanceUnits, boundaryCondition are null.
 	 */
 	public Species() {
 		super();
-		this.charge = 0;
+		this.charge = null;
 		this.compartmentID = null;
 		this.speciesTypeID = null;
 		this.conversionFactorID = null;
+		this.hasOnlySubstanceUnits = null;
+		this.boundaryCondition = null;
+		
+		if (isSetLevel() && getLevel() < 3) {
+			initDefaults();
+		}
 	}
 
 	
 	/**
-	 * 
+	 * Creates a Species instance from a Species.
 	 * @param species
 	 */
 	public Species(Species species) {
 		super(species);
-		this.boundaryCondition = species.getBoundaryCondition();
-		this.charge = species.getCharge();
-		this.compartmentID = species.getCompartment();
-		this.hasOnlySubstanceUnits = species.getHasOnlySubstanceUnits();
-		if (species.isSetInitialAmount())
-			setInitialAmount(species.getInitialAmount());
-		else if (species.isSetInitialConcentration())
-			setInitialConcentration(species.getInitialConcentration());
-		else
+		if (species.isSetBoundaryCondition()){
+			this.boundaryCondition = species.getBoundaryCondition();
+		}
+		else {
+			this.boundaryCondition = null;
+		}
+		if (species.isSetCharge()){
+			this.charge = new Integer(species.getCharge());
+		}
+		else {
+			this.charge = null;
+		}
+		if (species.isSetCompartment()){
+			this.compartmentID = new String(species.getCompartment());
+		}
+		else {
+			this.compartmentID = null;
+		}
+		if (species.isSetSubstanceUnits()){
+			setSubstanceUnits(new String(species.getCompartment()));
+		}
+		if (species.isSetHasOnlySubstanceUnits()){
+			this.hasOnlySubstanceUnits = new Boolean(species.getHasOnlySubstanceUnits());
+		}
+		else {
+			this.hasOnlySubstanceUnits = null;
+		}
+		if (species.isSetInitialAmount()){
+			setInitialAmount(new Double(species.getInitialAmount()));
+		}
+		else if (species.isSetInitialConcentration()){
+			setInitialConcentration(new Double(species.getInitialConcentration()));
+		}
+		else {
 			setValue(Double.NaN);
-		setConstant(species.getConstant());
+		}
+		if (species.isSetConstant()){
+			setConstant(new Boolean(species.getConstant()));
+		}
 	}
 
 	/**
-	 * 
+	 * Creates a Species instance from a level and verison. By default, the charge, compartmentID, speciesTypeID, conversionFactorID,
+	 * hasOnlySubstanceUnits, boundaryCondition are null.
 	 * @param level
 	 * @param version
 	 */
 	public Species(int level, int version) {
 		super(level, version);
-		if (level < 3) {
+		this.charge = null;
+		this.compartmentID = null;
+		this.speciesTypeID = null;
+		this.conversionFactorID = null;
+		this.hasOnlySubstanceUnits = null;
+		this.boundaryCondition = null;
+		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
 	}
 	/**
-	 * 
+	 * Creates a Species instance from a level and verison. By default, the charge, compartmentID, speciesTypeID, conversionFactorID,
+	 * hasOnlySubstanceUnits, boundaryCondition are null. 
 	 * @param id
 	 * @param level
 	 * @param version
 	 */
 	public Species(String id, int level, int version) {
 		super(id, level, version);
+		this.charge = null;
+		this.compartmentID = null;
+		this.speciesTypeID = null;
+		this.conversionFactorID = null;
+		this.hasOnlySubstanceUnits = null;
+		this.boundaryCondition = null;
 		if (level < 3) {
 			initDefaults();
 		}
@@ -127,17 +178,33 @@ public class Species extends Symbol {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#clone()
+	 * @see org.sbml.jsbml.element.SBase#clone()
 	 */
 	// @Override
 	public Species clone() {
 		return new Species(this);
 	}
+	
+	/**
+	 * 
+	 * @return true if the boundaryCondition of this Species is not null.
+	 */
+	public boolean isSetBoundaryCondition(){
+		return this.boundaryCondition != null;
+	}
+	
+	/**
+	 * 
+	 * @return true if the hasOnlySubstanceUnits of this Species is not null.
+	 */
+	public boolean isSetHasOnlySubstanceUnits(){
+		return this.hasOnlySubstanceUnits != null;
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.NamedSBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.element.NamedSBase#equals(java.lang.Object)
 	 */
 	// @Override
 	public boolean equals(Object o) {
@@ -150,17 +217,21 @@ public class Species extends Symbol {
 			equal &= s.isSetCompartmentInstance() == isSetCompartmentInstance();
 			equal &= s.isSetSpeciesType() == isSetSpeciesType();
 
-			if (s.isSetSpeciesType() && isSetSpeciesType())
+			if (equal && isSetSpeciesType()){
 				equal &= s.getSpeciesType().equals(getSpeciesType());
-			if (s.isSetCompartmentInstance() && isSetCompartmentInstance())
+			}
+			if (equal && isSetCompartmentInstance()){
 				equal &= s.getCompartmentInstance().equals(
 						getCompartmentInstance());
+			}
 			equal &= s.isSetInitialAmount() == isSetInitialAmount();
-			if (s.isSetInitialAmount() && isSetInitialAmount())
+			if (equal && isSetInitialAmount()){
 				equal &= s.getInitialAmount() == getInitialAmount();
-			else if (s.isSetInitialConcentration()
-					&& isSetInitialConcentration())
+			}
+			else if (equal
+					&& isSetInitialConcentration()){
 				equal &= s.getInitialConcentration() == getInitialConcentration();
+			}
 			return equal;
 		}
 		return false;
@@ -168,23 +239,24 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return
+	 * @return the boundaryCondition Boolean of this Species.
 	 */
 	public boolean getBoundaryCondition() {
-		return isBoundaryCondition();
+		return isSetBoundaryCondition() ? boundaryCondition : false;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the charge value of this Species if it is set, 0 otherwise.
 	 */
+	@Deprecated
 	public int getCharge() {
-		return charge != Integer.MIN_VALUE ? charge : 0;
+		return isSetCharge() ? this.charge : 0;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the compartmentID of this Species. The empty String if it is not set.
 	 */
 	public String getCompartment() {
 		return isSetCompartment() ? compartmentID : "";
@@ -192,7 +264,7 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return
+	 * @return The Compartment instance which as the compartmentID of this Species as id. Null if it doesn't exist.
 	 */
 	public Compartment getCompartmentInstance() {
 		if (getModel() == null){
@@ -203,15 +275,15 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return
+	 * @return the hasOnlySubstanceUnits Boolean of this Species.
 	 */
 	public boolean getHasOnlySubstanceUnits() {
-		return isHasOnlySubstanceUnits();
+		return isSetHasOnlySubstanceUnits() ? this.hasOnlySubstanceUnits : false;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the initialAmount of this Species if it has been set, o otherwise.
 	 */
 	public double getInitialAmount() {
 		if (isSetInitialAmount()) {
@@ -222,7 +294,7 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return
+	 * @return the initialConcentration of this Species if it has been set, o otherwise.
 	 */
 	public double getInitialConcentration() {
 		if (isSetInitialConcentration()) {
@@ -235,7 +307,7 @@ public class Species extends Symbol {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#getParentSBMLObject()
+	 * @see org.sbml.jsbml.element.SBase#getParentSBMLObject()
 	 */
 	// @Override
 	public Model getParentSBMLObject() {
@@ -244,16 +316,18 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return
+	 * @return the speciesTypeID of this Species. The empty String if it is not set.
 	 */
+	@Deprecated
 	public String getSpeciesType() {
-		return this.speciesTypeID;
+		return isSetSpeciesType() ? this.speciesTypeID : "";
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the SpeciesType instance which has the speciesTypeID of this Species as id. Null if it doesn't exist.
 	 */
+	@Deprecated
 	public SpeciesType getSpeciesTypeInstance() {
 		if (getModel() == null){
 			return null;
@@ -263,7 +337,7 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return
+	 * @return the substanceUnitsID of this Species.
 	 */
 	public String getSubstanceUnits() {
 		return getUnits();
@@ -271,50 +345,50 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return
+	 * @return The UnitsDefinition instance which has the substanceUnistID of this Species as id. 
 	 */
 	public UnitDefinition getSubstanceUnitsInstance() {
 		return getUnitsInstance();
 	}
 
 	/**
-	 * 
+	 * Initialises the default values of this Species.
 	 */
 	public void initDefaults() {
-		charge = Integer.MIN_VALUE;
-		amountOrConcentration = true;
-		hasOnlySubstanceUnits = false;
-		boundaryCondition = false;
-		setConstant(false);
+		charge = new Integer(0);
+		amountOrConcentration = new Boolean(true);
+		hasOnlySubstanceUnits = new Boolean(false);
+		boundaryCondition = new Boolean(false);
+		setConstant(new Boolean(false));
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the value of the boundaryCondition Boolean if it is set, false otherwise.
 	 */
 	public boolean isBoundaryCondition() {
-		return boundaryCondition;
+		return isSetBoundaryCondition() ? boundaryCondition : false;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the value of the hasOnlySubstanceUnits Boolean if it is set, false otherwise.
 	 */
 	public boolean isHasOnlySubstanceUnits() {
-		return hasOnlySubstanceUnits;
+		return isSetHasOnlySubstanceUnits() ? hasOnlySubstanceUnits : false;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return true if the charge of this Species if not null.
 	 */
 	public boolean isSetCharge() {
-		return charge != Integer.MIN_VALUE;
+		return charge != null;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return true if the Compartment instance which has the compartmentID of this Species as id is not null.
 	 */
 	public boolean isSetCompartmentInstance() {
 		if (getModel() == null){
@@ -325,7 +399,7 @@ public class Species extends Symbol {
 	
 	/**
 	 * 
-	 * @return Returns true if an initial amount has been set for this species.
+	 * @return true if the compartmentID of this Species is not null.
 	 */
 	public boolean isSetCompartment() {
 		return compartmentID != null;
@@ -336,7 +410,7 @@ public class Species extends Symbol {
 	 * @return Returns true if an initial amount has been set for this species.
 	 */
 	public boolean isSetInitialAmount() {
-		return amountOrConcentration && !Double.isNaN(getValue());
+		return amountOrConcentration && isSetValue();
 	}
 
 	/**
@@ -345,13 +419,14 @@ public class Species extends Symbol {
 	 *         species.
 	 */
 	public boolean isSetInitialConcentration() {
-		return !amountOrConcentration && !Double.isNaN(getValue());
+		return !amountOrConcentration && isSetValue();
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return true if the SpeciesType instance which has the speciesTypeID of this Species as id is not null.
 	 */
+	@Deprecated
 	public boolean isSetSpeciesTypeInstance() {
 		if (getModel() == null){
 			return false;
@@ -361,7 +436,7 @@ public class Species extends Symbol {
 	
 	/**
 	 * 
-	 * @return
+	 * @return true if the speciesTypeID of this Species is not null.
 	 */
 	public boolean isSetSpeciesType() {
 		return speciesTypeID != null;
@@ -369,7 +444,15 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return
+	 * @return true if the UnitDefinition which has the substanceUnitsID of this Species as id is not null.
+	 */
+	public boolean isSetSubstanceUnitsInstance() {
+		return isSetUnitsInstance();
+	}
+	
+	/**
+	 * 
+	 * @return true if the substanceUnitsID of this species is not null.
 	 */
 	public boolean isSetSubstanceUnits() {
 		return isSetUnits();
@@ -377,15 +460,7 @@ public class Species extends Symbol {
 	
 	/**
 	 * 
-	 * @return
-	 */
-	public boolean isSetSubstanceUnitsID() {
-		return isSetUnitsID();
-	}
-	
-	/**
-	 * 
-	 * @return
+	 * @return true if the conversionFactorID of this Species is not null.
 	 */
 	public boolean isSetConversionFactor() {
 		return conversionFactorID != null;
@@ -393,7 +468,7 @@ public class Species extends Symbol {
 	
 	/**
 	 * 
-	 * @return
+	 * @return true if the Parameter which has the conversionFactorID of this Species as id is not null.
 	 */
 	public boolean isSetConversionFactorInstance() {
 		if (getModel() == null){
@@ -404,25 +479,25 @@ public class Species extends Symbol {
 
 
 	/**
-	 * 
+	 * Sets the boundaryCondition Boolean.
 	 * @param boundaryCondition
 	 */
-	public void setBoundaryCondition(boolean boundaryCondition) {
+	public void setBoundaryCondition(Boolean boundaryCondition) {
 		this.boundaryCondition = boundaryCondition;
 		stateChanged();
 	}
 
 	/**
-	 * 
+	 * Sets the charge of this Species.
 	 * @param charge
 	 */
-	public void setCharge(int charge) {
+	public void setCharge(Integer charge) {
 		this.charge = charge;
 		stateChanged();
 	}
 
 	/**
-	 * 
+	 * Sets the compartmentID of this Species to the id of 'compartment'.
 	 * @param compartment
 	 */
 	public void setCompartment(Compartment compartment) {
@@ -431,7 +506,7 @@ public class Species extends Symbol {
 	}
 	
 	/**
-	 * 
+	 * Sets the compartmentID of this Species to 'compartment'.
 	 * @param compartment
 	 */
 	public void setCompartment(String compartment) {
@@ -444,43 +519,44 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * 
+	 * Sets hasOnlySubstanceUnits Boolean
 	 * @param hasOnlySubstanceUnits
 	 */
-	public void setHasOnlySubstanceUnits(boolean hasOnlySubstanceUnits) {
+	public void setHasOnlySubstanceUnits(Boolean hasOnlySubstanceUnits) {
 		this.hasOnlySubstanceUnits = hasOnlySubstanceUnits;
 		stateChanged();
 	}
 
 	/**
-	 * 
+	 * Sets the initialAmount of this Species.
 	 * @param initialAmount
 	 */
-	public void setInitialAmount(double initialAmount) {
+	public void setInitialAmount(Double initialAmount) {
 		setValue(initialAmount);
 		amountOrConcentration = true;
 	}
 
 	/**
-	 * 
+	 * Sets the initialConcentration of this Species.
 	 * @param initialConcentration
 	 */
-	public void setInitialConcentration(double initialConcentration) {
+	public void setInitialConcentration(Double initialConcentration) {
 		setValue(initialConcentration);
 		amountOrConcentration = false;
 	}
 
 	/**
-	 * 
+	 * Sets the speciesTypeID of this Species to the id of 'speciesType'.
 	 * @param speciesType
 	 */
+	@Deprecated
 	public void setSpeciesType(SpeciesType speciesType) {
 		this.speciesTypeID = speciesType != null ? speciesType.getId() : null;
 		stateChanged();
 	}
 
 	/**
-	 * 
+	 * Sets the speciesTypeID of this Species to 'speciesType'.
 	 * @param speciesType
 	 */
 	public void setSpeciesType(String speciesType) {
@@ -493,7 +569,7 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * 
+	 * Sets the substanceUnitsID to 'unit'.
 	 * @param unit
 	 */
 	public void setSubstanceUnits(String unit) {
@@ -501,7 +577,7 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * 
+	 * Sets the substanceUnits.
 	 * @param unit
 	 */
 	public void setSubstanceUnits(Unit unit) {
@@ -509,7 +585,7 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * 
+	 * Sets the substanceUnits.
 	 * @param unitKind
 	 */
 	public void setSubstanceUnits(Unit.Kind unitKind) {
@@ -517,27 +593,37 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * 
+	 * Sets the substanceUnitsID to the id of 'units'.
 	 * @param units
 	 */
 	public void setSubstanceUnits(UnitDefinition units) {
 		super.setUnits(units);
 	}
 	
+	/**
+	 * Sets the conversionFactorID of this Species to the id of 'conversionFactor'.
+	 * @param conversionFactor
+	 */
 	public void setConversionFactor(Parameter conversionFactor) {
 		this.conversionFactorID = conversionFactor != null ? conversionFactor.getId() : null;
 		stateChanged();
 	}
 
-
+	/**
+	 * 
+	 * @return the Parameter instance which has the conversionFactorID of this Species as id, null if it doesn't exist.
+	 */
 	public Parameter getConversionFactorInstance() {
 		if (getModel() == null){
 			return null;
 		}
 		return getModel().getParameter(this.conversionFactorID);
 	}
-
-
+	
+	/**
+	 * Sets the conversionFactorID of this Species to 'conversionFactorID'.
+	 * @param conversionFactorID
+	 */
 	public void setConversionFactor(String conversionFactorID) {
 		if (conversionFactorID != null && conversionFactorID.trim().length() == 0) {
 			this.conversionFactorID = null;
@@ -547,14 +633,48 @@ public class Species extends Symbol {
 		stateChanged();
 	}
 
-
+	/**
+	 * 
+	 * @return the conversionFactorID of this Species.
+	 */
 	public String getConversionFactor() {
 		return conversionFactorID;
+	}
+	
+	/**
+	 * Unsets the initialAmount of this Species.
+	 */
+	public void unsetInitialAmount(){
+		unsetValue();
+		amountOrConcentration = false;
+	}
+	
+	/**
+	 * Unsets the initialConcentration of this Species.
+	 */
+	public void unsetInitialConcentration(){
+		unsetValue();
+		amountOrConcentration = true;
+	}
+	
+	/**
+	 * Unsets the substanceUnits of this Species.
+	 */
+	public void unsetSubstanceUnits(){
+		super.unsetUnits();
+	}
+	
+	/**
+	 * Unsets the conversionFactorID of this Species.
+	 */
+	public void unsetConversionFactor(){
+		this.conversionFactorID = null;
 	}
 	
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)(
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -619,6 +739,11 @@ public class Species extends Symbol {
 		return isAttributeRead;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes(
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
@@ -632,23 +757,17 @@ public class Species extends Symbol {
 		if (isSetInitialConcentration()){
 			attributes.put("initialConcentration", Double.toString(getInitialConcentration()));
 		}
-		if (isSetSubstanceUnitsID()){
+		if (isSetSubstanceUnits()){
 			attributes.put("substanceUnits", getSubstanceUnits());
 		}
-		if (hasOnlySubstanceUnits){
-			attributes.put("hasOnlySubstanceUnits", "true");
-		}
-		else {
-			attributes.put("hasOnlySubstanceUnits", "false");
+		if (isSetHasOnlySubstanceUnits()){
+			attributes.put("hasOnlySubstanceUnits", Boolean.toString(getHasOnlySubstanceUnits()));
 		}
 		if (isSetConstant()){
-			attributes.put("constant", getConstant().toString());
+			attributes.put("constant", Boolean.toString(getConstant()));
 		}
-		if (boundaryCondition){
-			attributes.put("boundaryCondition", "true");
-		}
-		else {
-			attributes.put("boundaryCondition", "false");
+		if (isSetBoundaryCondition()){
+			attributes.put("boundaryCondition", Boolean.toString(getBoundaryCondition()));
 		}
 		if (isSetConversionFactor()){
 			attributes.put("conversionFactor", getConversionFactor());
@@ -664,8 +783,11 @@ public class Species extends Symbol {
 	}
 
 
-	// TODO : implement
+	/**
+	 * 
+	 * @return true if the spatialSizeUnits is not null.
+	 */
 	public boolean isSetSpatialSizeUnits() {
-		return false;
+		return isSetSpatialSizeUnits();
 	}
 }

@@ -33,6 +33,7 @@ import java.util.HashMap;
 
 
 /**
+ * Contains the MathMl expression of the Stoichiometry.
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
@@ -41,14 +42,14 @@ import java.util.HashMap;
 public class StoichiometryMath extends MathContainer {
 
 	/**
-	 * 
+	 * Creates a StoichiometryMath instance.
 	 */
 	public StoichiometryMath() {
 		super();
 	}
 	
 	/**
-	 * 
+	 * Creates a StoichiometryMath instance from a level and version.
 	 * @param level
 	 * @param version
 	 */
@@ -57,7 +58,7 @@ public class StoichiometryMath extends MathContainer {
 	}
 
 	/**
-	 * 
+	 * Creates a StoichiometryMath instance from a given StoichiometryMath.
 	 * @param stoichiometryMath
 	 */
 	public StoichiometryMath(StoichiometryMath stoichiometryMath) {
@@ -67,7 +68,7 @@ public class StoichiometryMath extends MathContainer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.MathElement#clone()
+	 * @see org.sbml.jsbml.element.MathContainer#clone()
 	 */
 	// @Override
 	public StoichiometryMath clone() {
@@ -77,6 +78,7 @@ public class StoichiometryMath extends MathContainer {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -85,6 +87,11 @@ public class StoichiometryMath extends MathContainer {
 		return isAttributeRead;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes() 
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();

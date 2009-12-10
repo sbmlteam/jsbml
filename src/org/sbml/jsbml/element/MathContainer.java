@@ -32,63 +32,98 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
+ * Base class for all the SBML components which contain MathML nodes.
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
- * 
+ * @author marine
  */
 public abstract class MathContainer extends AbstractSBase {
 
 	/**
-	 * 
+	 * The math formula as a Tree.
 	 */
 	private ASTNode math;
-	
+	/**
+	 * The MathMl subnodes as a StringBuffer.
+	 */
 	private StringBuffer mathBuffer;
-	
+	/**
+	 * Represents the 'formula' XML attribute of this object.
+	 */
+	@Deprecated
 	private String formula;
 
 	/**
-	 * 
+	 * Creates a MathContainer instance. By default, the formula, math and mathBuffer are null.
 	 */
 	public MathContainer() {
 		super();
 		math = null;
-		this.setMathBuffer(null);
+		this.mathBuffer = null;
 		this.formula = null;
 	}
 	
 	/**
-	 * 
+	 * Creates a MathContainer instance from a level and version. By default, the formula, math and mathBuffer are null.
+	 * @param level
+	 * @param version
 	 */
 	public MathContainer(int level, int version) {
 		super(level, version);
 		math = null;
+		this.mathBuffer = null;
+		this.formula = null;
 	}
 
 	/**
-	 * 
+	 * Creates a MathContainer instance from an ASTNode, level and version. By default, the formula and mathBuffer are null.
 	 * @param math
 	 * @param level
 	 * @param version
 	 */
 	public MathContainer(ASTNode math, int level, int version) {
 		super(level, version);
-		setMath(math.clone());
+		if (math != null){
+			setMath(math.clone());
+		}
+		else {
+			this.math = null;
+		}
+		this.formula = null;
+		this.mathBuffer = null;
 	}
 
 	/**
+	 * Creates a MathContainer instance from a given MathContainer.
 	 * @param sb
 	 */
 	public MathContainer(MathContainer sb) {
 		super(sb);
-		setMath(sb.getMath().clone());
+		if (sb.isSetMath()){
+			setMath(sb.getMath().clone());
+		}
+		else {
+			this.math = null;
+		}
+		if (sb.isSetMathBuffer()){
+			this.mathBuffer = new StringBuffer(sb.getMathBufferToString());
+		}
+		else {
+			this.mathBuffer = null;
+		}
+		if (sb.isSetFormulaString()){
+			this.formula = new String(sb.getFormulaString());
+		}
+		else {
+			this.formula = null;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#clone()
+	 * @see org.sbml.jsbml.element.SBase#clone()
 	 */
 	// @Override
 	public abstract MathContainer clone();
@@ -96,17 +131,31 @@ public abstract class MathContainer extends AbstractSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
 	 */
 	// @Override
 	public boolean equals(Object o) {
 		boolean equal = super.equals(o);
 		if (o.getClass().getName().equals(this.getClass().getName())) {
 			MathContainer c = (MathContainer) o;
-			if ((c.isSetMath() && !isSetMath()) || (!c.isSetMath() && isSetMath()))
+			if ((c.isSetMath() && !isSetMath()) || (!c.isSetMath() && isSetMath())){
 				return false;
-			if (c.isSetMath() && isSetMath())
+			}
+			if (c.isSetMath() && isSetMath()){
 				equal &= getMath().equals(c.getMath());
+			}
+			if ((c.isSetMathBuffer() && !isSetMathBuffer()) || (!c.isSetMathBuffer() && isSetMathBuffer())){
+				return false;
+			}
+			if (c.isSetMathBuffer() && isSetMathBuffer()){
+				equal &= getMathBuffer().equals(c.getMathBuffer());
+			}
+			if ((c.isSetFormulaString() && !isSetFormulaString()) || (!c.isSetFormulaString() && isSetFormulaString())){
+				return false;
+			}
+			if (c.isSetFormulaString() && isSetFormulaString()){
+				equal &= getFormulaString().equals(c.getFormulaString());
+			}
 			return equal;
 		}
 		return false;
@@ -114,7 +163,8 @@ public abstract class MathContainer extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return
+	 * @return the math ASTNode of this object as a String. It returns the empty String if the math
+	 * ASTNode is not set.
 	 */
 	public String getFormula() {
 		return isSetMath() ? getMath().toFormula() : "";
@@ -122,7 +172,7 @@ public abstract class MathContainer extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return
+	 * @return the math ASTNode of this object. It return null if the math ASTNode is not set.
 	 */
 	public ASTNode getMath() {
 		return math;
@@ -130,7 +180,7 @@ public abstract class MathContainer extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return
+	 * @return true if the math ASTNode of this object is not null.
 	 */
 	public boolean isSetMath() {
 		return math != null;
@@ -148,7 +198,7 @@ public abstract class MathContainer extends AbstractSBase {
 	}
 
 	/**
-	 * 
+	 * Sets the math ASTNode of this object to 'math'.
 	 * @param math
 	 */
 	public void setMath(ASTNode math) {
@@ -160,7 +210,7 @@ public abstract class MathContainer extends AbstractSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#toString()
+	 * @see org.sbml.jsbml.element.SBase#toString()
 	 */
 	// @Override
 	public String toString() {
@@ -169,7 +219,7 @@ public abstract class MathContainer extends AbstractSBase {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Rule#isSpeciesConcentration()
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -183,34 +233,72 @@ public abstract class MathContainer extends AbstractSBase {
 		return isAttributeRead;
 	}
 
+	/**
+	 * Sets the mathBuffer of this object to 'mathBuffer'.
+	 * @param mathBuffer
+	 */
 	public void setMathBuffer(StringBuffer mathBuffer) {
 		this.mathBuffer = mathBuffer;
+		stateChanged();
 	}
 
+	/**
+	 * 
+	 * @return the mathBuffer of this object. Null if it is not set.
+	 */
 	public StringBuffer getMathBuffer() {
 		return mathBuffer;
 	}
 	
+	/**
+	 * 
+	 * @return true if the mathBuffer of this object is not null.
+	 */
 	public boolean isSetMathBuffer(){
 		return this.mathBuffer != null;
 	}
-	
+	/**
+	 * 
+	 * @return the mathBuffer of this object as a String.
+	 */
 	public String getMathBufferToString(){
-		return mathBuffer.toString();
+		if (isSetMathBuffer()){
+			return mathBuffer.toString();
+		}
+		return "";
 	}
 	
+	/**
+	 * 
+	 * @return the formula of this object. If the formula is not set, it returns the empty String.
+	 */
 	public String getFormulaString() {
-		return formula;
+		return isSetFormulaString() ? formula : "";
 	}
 
+	/**
+	 * Sets the formula of this object to 'formula'.
+	 * @param formula
+	 */
+	@Deprecated
 	public void setFormulaString(String formula) {
 		this.formula = formula;
+		stateChanged();
 	}
 	
+	/**
+	 * 
+	 * @return true if the formula of this Object is not null.
+	 */
+	@Deprecated
 	public boolean isSetFormulaString(){
 		return this.formula != null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
