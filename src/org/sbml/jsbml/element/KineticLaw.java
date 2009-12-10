@@ -32,7 +32,7 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 import java.util.List;
 
-import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
+import org.sbml.jsbml.xml.SBaseListType;
 
 
 /**
@@ -143,7 +143,13 @@ public class KineticLaw extends MathContainer {
 		boolean equal = super.equals(o);
 		if (o instanceof KineticLaw) {
 			KineticLaw kl = (KineticLaw) o;
-			equal &= kl.getListOfParameters().equals(getListOfParameters());
+			if ((!kl.isSetListOfParameters() && isSetListOfParameters())
+					|| (kl.isSetListOfParameters() && !isSetListOfParameters())){
+				return false;
+			}
+			if (kl.isSetListOfParameters() && isSetListOfParameters()){
+				equal &= kl.getListOfParameters().equals(getListOfParameters());
+			}
 			return equal;
 		} else
 			equal = false;
@@ -174,7 +180,7 @@ public class KineticLaw extends MathContainer {
 	public void setListOfLocalParameters(ListOf<Parameter> list){
 		this.listOfParameters = list;
 		setThisAsParentSBMLObject(this.listOfParameters);
-		this.listOfParameters.setCurrentList(CurrentListOfSBMLElements.listOfLocalParameters);
+		this.listOfParameters.setSBaseListType(SBaseListType.listOfLocalParameters);
 	}
 
 	/**
@@ -292,19 +298,6 @@ public class KineticLaw extends MathContainer {
 				listOfParameters.remove(i).sbaseRemoved();
 			}
 		}
-	}
-	
-	/**
-	 * Sets the listOfParameters of this KineticLaw to null.
-	 */
-	public void unsetListOfEventAssignments(){
-		this.listOfParameters = null;
-	}
-	/**
-	 * Remove all the Parameter instances of the listOfParameters of this Event.
-	 */
-	public void clearListOfEventAssignments(){
-		this.listOfParameters.clear();
 	}
 	
 	/*

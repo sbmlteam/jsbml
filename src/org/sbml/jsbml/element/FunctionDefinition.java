@@ -139,10 +139,21 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 		if (o instanceof FunctionDefinition) {
 			boolean equal = super.equals(o);
 			FunctionDefinition fd = (FunctionDefinition) o;
-			equal &= fd.getId().equals(getId());
-			equal &= fd.isSetName() == isSetName();
-			if (fd.isSetName() && isSetName())
+			if ((!fd.isSetId() && isSetId())
+					|| (fd.isSetId() && !isSetId())){
+				return false;
+			}
+			if (fd.isSetId() && isSetId()){
+				equal &= fd.getId().equals(getId());
+			}
+			
+			if ((!fd.isSetName() && isSetName())
+					|| (fd.isSetName() && !isSetName())){
+				return false;
+			}
+			if (fd.isSetName() && isSetName()){
 				equal &= fd.getName().equals(getName());
+			}
 		}
 		return false;
 	}

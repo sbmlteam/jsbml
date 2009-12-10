@@ -122,8 +122,13 @@ public class InitialAssignment extends MathContainer {
 			InitialAssignment in = (InitialAssignment) o;
 			
 			boolean equals = super.equals(in);
-			if (equals && in.isSetSymbol()){
-				equals = getSymbol().equals(in.getSymbol());
+			
+			if ((!in.isSetSymbol() && isSetSymbol())
+					|| (in.isSetSymbol() && !isSetSymbol())){
+				return false;
+			}
+			if (in.isSetSymbol() && isSetSymbol()){
+				equals &= in.getSymbol().equals(getSymbol());
 			}
 		}
 		return false;

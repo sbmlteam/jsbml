@@ -96,10 +96,12 @@ public class EventAssignment extends MathContainer {
 		if (o instanceof EventAssignment) {
 			EventAssignment ea = (EventAssignment) o;
 			if ((!ea.isSetVariable() && isSetVariable())
-					|| (ea.isSetVariable() && !isSetVariable()))
+					|| (ea.isSetVariable() && !isSetVariable())){
 				return false;
-			if (ea.isSetVariable() && isSetVariable())
+			}
+			if (ea.isSetVariable() && isSetVariable()){
 				equal &= ea.getVariable().equals(getVariable());
+			}
 			return equal;
 		}
 		return false;
@@ -182,13 +184,6 @@ public class EventAssignment extends MathContainer {
 	 */
 	public void setVariableID(String variable) {
 		this.variableID = variable;
-	}
-	
-	/**
-	 * Sets the variableID of this EventAssignment to null.
-	 */
-	public void unsetVariable(){
-		this.variableID = null;
 	}
 
 	/*

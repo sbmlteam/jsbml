@@ -165,11 +165,11 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 			boolean equals = super.equals(o);
 			NamedSBase nsb = (NamedSBase) o;
 			equals &= nsb.isSetId() == isSetId();
-			if (nsb.isSetId() && isSetId()){
+			if (equals && nsb.isSetId()){
 				equals &= nsb.getId().equals(getId());
 			}
 			equals &= nsb.isSetName() == isSetName();
-			if (nsb.isSetName() && isSetName()){
+			if (equals && nsb.isSetName()){
 				equals &= nsb.getName().equals(getName());
 			}
 		}

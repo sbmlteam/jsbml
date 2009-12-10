@@ -570,9 +570,9 @@ public class Compartment extends Symbol {
 			attributes.put("outside", outsideID);
 		}
 		if (isSetConstant()){
-			attributes.put("constant", getConstant().toString());
+			attributes.put("constant", Boolean.toString(getConstant()));
 		}
-		if (isSetUnitsID()){
+		if (isSetUnits()){
 			attributes.put("units", getUnits());
 		}
 		return attributes;

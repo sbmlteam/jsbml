@@ -31,7 +31,7 @@ import org.sbml.jsbml.element.SpeciesType;
 import org.sbml.jsbml.element.Trigger;
 import org.sbml.jsbml.element.Unit;
 import org.sbml.jsbml.element.UnitDefinition;
-import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
+import org.sbml.jsbml.xml.SBaseListType;
 import org.sbml.jsbml.xml.SBMLObjectForXML;
 import org.sbml.jsbml.xml.ReadingParser;
 import org.sbml.jsbml.xml.WritingParser;
@@ -236,92 +236,92 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 					if (list.getParentSBMLObject() instanceof Model){
 						
 						Model model = (Model) list.getParentSBMLObject();
-						if (elementName.equals("functionDefinition") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfFunctionDefinitions)){
+						if (elementName.equals("functionDefinition") && list.getSBaseListType().equals(SBaseListType.listOfFunctionDefinitions)){
 							FunctionDefinition functionDefinition = (FunctionDefinition) newContextObject;
 							model.addFunctionDefinition(functionDefinition);
 						
 							return functionDefinition;
 						}
-						else if (elementName.equals("unitDefinition") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfUnitDefinitions)){
+						else if (elementName.equals("unitDefinition") && list.getSBaseListType().equals(SBaseListType.listOfUnitDefinitions)){
 							UnitDefinition unitDefinition = (UnitDefinition) newContextObject;
 							model.addUnitDefinition(unitDefinition);
 						
 							return unitDefinition;
 						}
-						else if (elementName.equals("compartment") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfCompartments)){
+						else if (elementName.equals("compartment") && list.getSBaseListType().equals(SBaseListType.listOfCompartments)){
 							Compartment compartment = (Compartment) newContextObject;
 							model.addCompartment(compartment);
 						
 							return compartment;
 						}
-						else if (elementName.equals("species") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfSpecies)){
+						else if (elementName.equals("species") && list.getSBaseListType().equals(SBaseListType.listOfSpecies)){
 							Species species = (Species) newContextObject;
 							model.addSpecies(species);
 
 							return species;
 						}
 						// level 1 : species => specie
-						else if (elementName.equals("specie") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfSpecies)){
+						else if (elementName.equals("specie") && list.getSBaseListType().equals(SBaseListType.listOfSpecies)){
 							Species species = (Species) newContextObject;
 							model.addSpecies(species);
 
 							return species;
 						}
-						else if (elementName.equals("parameter") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfParameters)){
+						else if (elementName.equals("parameter") && list.getSBaseListType().equals(SBaseListType.listOfParameters)){
 							Parameter parameter = (Parameter) newContextObject;
 							model.addParameter(parameter);
 						
 							return parameter;
 						}
-						else if (elementName.equals("initialAssignment") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfInitialAssignments)){
+						else if (elementName.equals("initialAssignment") && list.getSBaseListType().equals(SBaseListType.listOfInitialAssignments)){
 							InitialAssignment initialAssignment = (InitialAssignment) newContextObject;
 							model.addInitialAssignment(initialAssignment);
 						
 							return initialAssignment;
 						}
-						else if (elementName.equals("algebraicRule") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfRules)){
+						else if (elementName.equals("algebraicRule") && list.getSBaseListType().equals(SBaseListType.listOfRules)){
 							AlgebraicRule rule = (AlgebraicRule) newContextObject;
 							model.addRule(rule);
 						
 							return rule;
 						}
-						else if (elementName.equals("assignmentRule") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfRules)){
+						else if (elementName.equals("assignmentRule") && list.getSBaseListType().equals(SBaseListType.listOfRules)){
 							AssignmentRule rule = (AssignmentRule) newContextObject;
 							model.addRule(rule);
 						
 							return rule;
 						}
-						else if (elementName.equals("rateRule") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfRules)){
+						else if (elementName.equals("rateRule") && list.getSBaseListType().equals(SBaseListType.listOfRules)){
 							RateRule rule = (RateRule) newContextObject;
 							model.addRule(rule);
 						
 							return rule;
 						}
-						else if (elementName.equals("constraint") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfConstraints)){
+						else if (elementName.equals("constraint") && list.getSBaseListType().equals(SBaseListType.listOfConstraints)){
 							Constraint constraint = (Constraint) newContextObject;
 							model.addConstraint(constraint);
 						
 							return constraint;
 						}
-						else if (elementName.equals("reaction") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfReactions)){
+						else if (elementName.equals("reaction") && list.getSBaseListType().equals(SBaseListType.listOfReactions)){
 							Reaction reaction = (Reaction) newContextObject;
 							model.addReaction(reaction);
 						
 							return reaction;
 						}
-						else if (elementName.equals("event") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfEvents)){
+						else if (elementName.equals("event") && list.getSBaseListType().equals(SBaseListType.listOfEvents)){
 							Event event = (Event) newContextObject;
 							model.addEvent(event);
 						
 							return event;
 						}
-						else if (elementName.equals("compartmentType") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfCompartmentTypes)){
+						else if (elementName.equals("compartmentType") && list.getSBaseListType().equals(SBaseListType.listOfCompartmentTypes)){
 							CompartmentType compartmentType = (CompartmentType) newContextObject;
 							model.addCompartmentType(compartmentType);
 						
 							return compartmentType;
 						}
-						else if (elementName.equals("speciesType") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfSpeciesTypes)){
+						else if (elementName.equals("speciesType") && list.getSBaseListType().equals(SBaseListType.listOfSpeciesTypes)){
 							SpeciesType speciesType = (SpeciesType) newContextObject;
 							model.addSpeciesType(speciesType);
 						
@@ -334,7 +334,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 					else if (list.getParentSBMLObject() instanceof UnitDefinition){
 						UnitDefinition unitDefinition = (UnitDefinition) list.getParentSBMLObject();
 						
-						if (elementName.equals("unit") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfUnits)){
+						if (elementName.equals("unit") && list.getSBaseListType().equals(SBaseListType.listOfUnits)){
 							Unit unit = (Unit) newContextObject;
 							unitDefinition.addUnit(unit);
 							
@@ -349,12 +349,12 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 						if (elementName.equals("speciesReference")){
 							SpeciesReference speciesReference = (SpeciesReference) newContextObject;
 							
-							if (list.getCurrentList().equals(CurrentListOfSBMLElements.listOfReactants)){
+							if (list.getSBaseListType().equals(SBaseListType.listOfReactants)){
 								reaction.addReactant(speciesReference);
 								
 								return speciesReference;
 							}
-							else if (list.getCurrentList().equals(CurrentListOfSBMLElements.listOfProducts)){
+							else if (list.getSBaseListType().equals(SBaseListType.listOfProducts)){
 								reaction.addProduct(speciesReference);
 								
 								return speciesReference;
@@ -363,7 +363,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 								// TODO : SBML syntax error, throw an exception?
 							}
 						}
-						else if (elementName.equals("modifierSpeciesReference") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfModifiers)){
+						else if (elementName.equals("modifierSpeciesReference") && list.getSBaseListType().equals(SBaseListType.listOfModifiers)){
 							ModifierSpeciesReference modifierSpeciesReference = (ModifierSpeciesReference) newContextObject;
 							reaction.addModifier(modifierSpeciesReference);
 								
@@ -377,13 +377,13 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 						KineticLaw kineticLaw = (KineticLaw) list.getParentSBMLObject();
 						
 						// Level 3 : parameter and listOfParameters => localParameter and listOfLocalParameter
-						if (elementName.equals("localParameter") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfLocalParameters)){
+						if (elementName.equals("localParameter") && list.getSBaseListType().equals(SBaseListType.listOfLocalParameters)){
 							Parameter localParameter = (Parameter) newContextObject;
 							kineticLaw.addParameter(localParameter);
 							
 							return localParameter;
 						}
-						else if (elementName.equals("parameter") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfParameters)){
+						else if (elementName.equals("parameter") && list.getSBaseListType().equals(SBaseListType.listOfParameters)){
 							Parameter localParameter = (Parameter) newContextObject;
 							kineticLaw.addParameter(localParameter);
 							
@@ -396,7 +396,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 					else if (list.getParentSBMLObject() instanceof Event){
 						Event event = (Event) list.getParentSBMLObject();
 						
-						if (elementName.equals("eventAssignment") && list.getCurrentList().equals(CurrentListOfSBMLElements.listOfEventAssignments)){
+						if (elementName.equals("eventAssignment") && list.getSBaseListType().equals(SBaseListType.listOfEventAssignments)){
 							EventAssignment eventAssignment = (EventAssignment) newContextObject;
 							event.addEventAssignement(eventAssignment);
 							
@@ -482,14 +482,14 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 					if (elementName.equals("listOfLocalParameters")){
 						ListOf listOfLocalParameters = (ListOf) newContextObject;
 						kineticLaw.setListOfLocalParameters(listOfLocalParameters);
-						listOfLocalParameters.setCurrentList(CurrentListOfSBMLElements.listOfLocalParameters);
+						listOfLocalParameters.setSBaseListType(SBaseListType.listOfLocalParameters);
 						
 						return listOfLocalParameters;
 					}
 					else if (elementName.equals("listOfParameters")){
 						ListOf listOfLocalParameters = (ListOf) newContextObject;
 						kineticLaw.setListOfLocalParameters(listOfLocalParameters);
-						listOfLocalParameters.setCurrentList(CurrentListOfSBMLElements.listOfParameters);
+						listOfLocalParameters.setSBaseListType(SBaseListType.listOfParameters);
 						
 						return listOfLocalParameters;
 					}
@@ -532,7 +532,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	}
 	
 	private void setRateRuleVariable(RateRule rule, Model model){
-		if (rule.isSetVariableID()){
+		if (rule.isSetVariable()){
 			String variableID = rule.getVariable();
 			
 			Compartment compartment = model.getCompartment(variableID);
@@ -628,7 +628,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private void setCompartmentUnits(Compartment compartment, Model model){
 		
-		if (compartment.isSetUnitsID()){
+		if (compartment.isSetUnits()){
 			String unitsID = compartment.getUnits();
 			
 			UnitDefinition unitDefinition = model.getUnitDefinition(unitsID);
@@ -644,7 +644,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private void setModelUnits(Model model){
 		
-		if (model.isSetAreaUnitsID()){
+		if (model.isSetAreaUnits()){
 			String unitsID = model.getAreaUnits();
 			
 			UnitDefinition unitDefinition = model.getUnitDefinition(unitsID);
@@ -790,7 +790,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private void setReactionCompartment(Reaction reaction, Model model){
 		
-		if (reaction.isSetCompartmentID()){
+		if (reaction.isSetCompartment()){
 			String compartmentID = reaction.getCompartment();
 			
 			Compartment compartment = model.getCompartment(compartmentID);
@@ -806,7 +806,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private void setSpeciesReferenceSpecies(SimpleSpeciesReference speciesReference, Model model){
 		
-		if (speciesReference.isSetSpeciesID()){
+		if (speciesReference.isSetSpecies()){
 			String speciesID = speciesReference.getSpecies();
 			
 			Species species = model.getSpecies(speciesID);
@@ -822,7 +822,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private void setSpeciesSubstanceUnits(Species species, Model model){
 		
-		if (species.isSetSubstanceUnitsID()){
+		if (species.isSetSubstanceUnits()){
 			String substanceUnitsID = species.getSubstanceUnits();
 			
 			UnitDefinition unitDefinition = model.getUnitDefinition(substanceUnitsID);
@@ -883,7 +883,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
 	private void setParameterUnits(Parameter parameter, Model model){
 		
-		if (parameter.isSetUnitsID()){
+		if (parameter.isSetUnits()){
 			String unitsID = parameter.getUnits();
 			
 			UnitDefinition unitDefinition = model.getUnitDefinition(unitsID);
@@ -916,25 +916,25 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		if (sbmlDocument.isSetModel()){
 			Model model = sbmlDocument.getModel();
 			
-			if (model.isSetAreaUnitsID() && !model.isSetAreaUnits()){
+			if (model.isSetAreaUnits() && !model.isSetAreaUnitsInstance()){
 				// TODO : throw an exception : No unitDefinition matches the areaUnitsID of Model.
 			}
-			if (model.isSetConversionFactorID() && !model.isSetConversionFactor()){
+			if (model.isSetConversionFactor() && !model.isSetConversionFactorInstance()){
 				// TODO : throw an exception : No parameter matches the conversionFactorID of Model.
 			}
-			if (model.isSetExtentUnitsID() && !model.isSetExtentUnits()){
+			if (model.isSetExtentUnits() && !model.isSetExtentUnitsInstance()){
 				// TODO : throw an exception : No unitDefinition matches the extentUnitsID of Model.
 			}
-			if (model.isSetLengthUnitsID() && !model.isSetLengthUnits()){
+			if (model.isSetLengthUnits() && !model.isSetLengthUnitsInstance()){
 				// TODO : throw an exception : No unitDefinition matches the lengthUnitsID of Model.
 			}
-			if (model.isSetSubstanceUnitsID() && !model.isSetSubstanceUnits()){
+			if (model.isSetSubstanceUnits() && !model.isSetSubstanceUnitsInstance()){
 				// TODO : throw an exception : No unitDefinition matches the substanceUnitsID of Model.
 			}
-			if (model.isSetTimeUnitsID() && !model.isSetTimeUnits()){
+			if (model.isSetTimeUnits() && !model.isSetTimeUnitsInstance()){
 				// TODO : throw an exception : No unitDefinition matches the timeUnitsID of Model.
 			}
-			if (model.isSetVolumeUnitsID() && !model.isSetVolumeUnits()){
+			if (model.isSetVolumeUnits() && !model.isSetVolumeUnitsInstance()){
 				// TODO : throw an exception : No unitDefinition matches the volumeUnitsID of Model.
 			}
 			
@@ -979,7 +979,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 					}
 				}
 			}
-			if (model.isSetListOfInitialAssignemnts()){
+			if (model.isSetListOfInitialAssignments()){
 				for (int i = 0; i < model.getNumInitialAssignments(); i++){
 					InitialAssignment initialAssignment = model.getInitialAssignment(i);
 					
@@ -1096,7 +1096,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 				if (model.isSetListOfParameters()){
 					listOfElementsToWrite.add(model.getListOfParameters());
 				}
-				if (model.isSetListOfInitialAssignemnts()){
+				if (model.isSetListOfInitialAssignments()){
 					listOfElementsToWrite.add(model.getListOfInitialAssignments());
 				}
 				if (model.isSetListOfRules()){

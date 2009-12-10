@@ -32,23 +32,26 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
- * 
+ * Represents the 'parameter' XML element of a SBML file.
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
- * 
+ * @author marine
  */
 public class Parameter extends Symbol {
 
 	/**
-	 * 
+	 * Creates a Parameter instance.
 	 */
 	public Parameter() {
 		super();
+		if (isSetLevel() && getLevel() < 3){
+			initDefaults();
+		}
 	}
 	
 	/**
-	 * 
+	 * Creates a Parameter instance from a given Parameter.
 	 * @param p
 	 */
 	public Parameter(Parameter p) {
@@ -56,18 +59,22 @@ public class Parameter extends Symbol {
 	}
 
 	/**
-	 * 
+	 * Creates a Parameter instance from an id, level and version.
 	 * @param id
+	 * @param level
+	 * @param version
 	 */
 	public Parameter(String id, int level, int version) {
 		super(id, level, version);
-		initDefaults();
+		if (isSetLevel() && getLevel() < 3){
+			initDefaults();
+		}
 	}
 	
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#clone()
+	 * @see org.sbml.jsbml.element.SBase#clone()
 	 */
 	// @Override
 	public Parameter clone() {
@@ -77,7 +84,7 @@ public class Parameter extends Symbol {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.SBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
 	 */
 	// @Override
 	public boolean equals(Object o) {
@@ -88,15 +95,15 @@ public class Parameter extends Symbol {
 
 	/**
 	 * 
-	 * @return
+	 * @return the constant Boolean of this Parameter. Can be null if it is not set.
 	 */
-	public Boolean getConstant() {
+	public boolean getConstant() {
 		return isConstant();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Symbol#getUnits()
+	 * @see org.sbml.jsbml.element.Symbol#getUnits()
 	 */
 	public String getUnits() {
 		return super.getUnits();
@@ -104,7 +111,7 @@ public class Parameter extends Symbol {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Symbol#getUnitsInstance()
+	 * @see org.sbml.jsbml.element.Symbol#getUnitsInstance()
 	 */
 	public UnitDefinition getUnitsInstance() {
 		return super.getUnitsInstance();
@@ -113,7 +120,7 @@ public class Parameter extends Symbol {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.Symbol#getValue()
+	 * @see org.sbml.jsbml.element.Symbol#getValue()
 	 */
 	// @Override
 	public double getValue() {
@@ -121,16 +128,24 @@ public class Parameter extends Symbol {
 	}
 
 	/**
-	 * 
+	 * Initialises the default values of this Parameter.
 	 */
 	public void initDefaults() {
-		setValue(Double.NaN);
-		setConstant(true);
+		setValue(null);
+		setConstant(new Boolean(true));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Symbol#isSetUnits()
+	 * @see org.sbml.jsbml.element.Symbol#isSetUnits()
+	 */
+	public boolean isSetUnitsInstance() {
+		return super.isSetUnitsInstance();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.element.Symbol#isSetUnits()
 	 */
 	public boolean isSetUnits() {
 		return super.isSetUnits();
@@ -138,16 +153,8 @@ public class Parameter extends Symbol {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Symbol#isSetUnits()
-	 */
-	public boolean isSetUnitsID() {
-		return super.isSetUnitsID();
-	}
-	
-	/*
-	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.Symbol#isSetValue()
+	 * @see org.sbml.jsbml.element.Symbol#isSetValue()
 	 */
 	// @Override
 	public boolean isSetValue() {
@@ -156,7 +163,7 @@ public class Parameter extends Symbol {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Symbol#setUnits(org.sbml.jsbml.Unit)
+	 * @see org.sbml.jsbml.element.Symbol#setUnits(org.sbml.jsbml.Unit)
 	 */
 	public void setUnits(Unit unit) {
 		super.setUnits(unit);
@@ -164,7 +171,7 @@ public class Parameter extends Symbol {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Symbol#setUnits(org.sbml.jsbml.Unit.Kind)
+	 * @see org.sbml.jsbml.element.Symbol#setUnits(org.sbml.jsbml.Unit.Kind)
 	 */
 	public void setUnits(Unit.Kind unitKind) {
 		super.setUnits(unitKind);
@@ -172,7 +179,7 @@ public class Parameter extends Symbol {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Symbol#setUnits(org.sbml.jsbml.UnitDefinition)
+	 * @see org.sbml.jsbml.element.Symbol#setUnits(org.sbml.jsbml.UnitDefinition)
 	 */
 	public void setUnits(UnitDefinition units) {
 		super.setUnits(units);
@@ -181,16 +188,16 @@ public class Parameter extends Symbol {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.Symbol#setValue(double)
+	 * @see org.sbml.jsbml.element.Symbol#setValue(double)
 	 */
 	// @Override
-	public void setValue(double value) {
+	public void setValue(Double value) {
 		super.setValue(value);
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -217,6 +224,10 @@ public class Parameter extends Symbol {
 		return isAttributeRead;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
@@ -224,14 +235,11 @@ public class Parameter extends Symbol {
 		if (isSetValue()){
 			attributes.put("value", Double.toString(getValue()));
 		}
-		if (isSetUnitsID()){
+		if (isSetUnits()){
 			attributes.put("units", getUnits());
 		}
-		if (getConstant()){
-			attributes.put("constant", "true");
-		}
-		else {
-			attributes.put("constant", "false");
+		if (isSetConstant()){
+			attributes.put("constant", Boolean.toString(getConstant()));
 		}
 		
 		return attributes;

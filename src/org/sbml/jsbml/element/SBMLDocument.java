@@ -33,19 +33,31 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
+ * Represents the 'sbml' root node of a SBML file.
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
- * @date 2009-09-07
+ * @author marine
  * 
  */
 public class SBMLDocument extends AbstractSBase {
 
+	/**
+	 * Represents the 'model' XML subnode of a SBML file.
+	 */
 	private Model model;
+	/**
+	 * Contains all the XML attributes of the sbml XML node.
+	 */
 	private HashMap<String, String> SBMLDocumentAttributes = new HashMap<String, String>();
+	/**
+	 * Contains all the namespaces of the sbml XML node and their prefixes.
+	 */
 	private HashMap<String, String> SBMLDocumentNamespaces = new HashMap<String, String>();
 
 	/**
+	 * Creates a SBMLDocument instance. By default, the parent SBML object of this object is itself. The model
+	 * is null. The SBMLDocumentAttributes and the SBMLDocumentNamespaces are empty.
 	 * @param sb
 	 */
 	public SBMLDocument() {
@@ -55,26 +67,36 @@ public class SBMLDocument extends AbstractSBase {
 	}
 	
 	/**
+	 * Creates a SBMLDocument instance from a given SBMLDocument.
 	 * @param sb
 	 */
 	public SBMLDocument(SBMLDocument sb) {
 		super(sb);
-		setModel(sb.getModel());
+		if (sb.isSetModel()){
+			setModel(sb.getModel().clone());
+		}
+		else {
+			this.model = null;
+		}
+		setParentSBML(this);
 	}
 
 	/**
+	 * Creates a SBMLDocument instance from a level and version. By default, the parent SBML object of this object is itself. The model
+	 * is null. The SBMLDocumentAttributes and the SBMLDocumentNamespaces are empty. 
 	 * @param level
 	 * @param version
 	 */
 	public SBMLDocument(int level, int version) {
 		super(level, version);
 		this.model = null;
+		setParentSBML(this);
 	}
 
 	/**
-	 * 
+	 * Creates a new instance of Model from id and the level and version of this SBMLDocument.
 	 * @param id
-	 * @return
+	 * @return the new Model instance.
 	 */
 	public Model createModel(String id) {
 		this.setModel(new Model(id, getLevel(), getVersion()));
@@ -94,7 +116,7 @@ public class SBMLDocument extends AbstractSBase {
 	/**
 	 * The default SBML Level of new SBMLDocument objects.
 	 * 
-	 * @return
+	 * @return 2
 	 */
 	public int getDefaultLevel() {
 		return 2;
@@ -103,21 +125,21 @@ public class SBMLDocument extends AbstractSBase {
 	/**
 	 * The default Version of new SBMLDocument objects.
 	 * 
-	 * @return
+	 * @return 4
 	 */
 	public int getDefaultVersion() {
 		return 4;
 	}
 
 	/**
-	 * 
+	 * @return the model of this SBMLDocument. Can be null if it is not set.
 	 */
 	public Model getModel() {
 		return model;
 	}
 	
 	/**
-	 * 
+	 * @return true if the model of this SBMLDocument is not null.
 	 */
 	public boolean isSetModel() {
 		return model != null;
@@ -127,7 +149,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * 
 	 * @param level
 	 * @param version
-	 * @return
+	 * @return true if 'level' and 'version' are valid.
 	 */
 	public boolean setLevelAndVersion(int level, int version) {
 		this.level = level;
@@ -138,35 +160,73 @@ public class SBMLDocument extends AbstractSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.AbstractSBase#clone()
+	 * @see org.sbml.jsbml.element.AbstractSBase#clone()
 	 */
 	// @Override
 	public SBMLDocument clone() {
 		return new SBMLDocument(this);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.AbstractSBase#equals(Object o)
+	 */
+	public boolean equals(Object o){
+		if (o instanceof SBMLDocument){
+			SBMLDocument d = (SBMLDocument) o;
+			boolean equals = super.equals(o);
+			
+			if (!getSBMLDocumentAttributes().equals(d.getSBMLDocumentAttributes())){
+				return false;
+			}
+			if (!getSBMLDocumentNamespaces().equals(d.getSBMLDocumentNamespaces())){
+				return false;
+			}
+			return equals;
+		}
+		return false;
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.AbstractSBase#toString()
+	 * @see org.sbml.jsbml.element.AbstractSBase#toString()
 	 */
 	// @Override
 	public String toString() {
 		return "SBML Level " + level + " Version " + version;
 	}
 
+	/**
+	 * Sets the SBMLDocumentAttributes.
+	 * @param sBMLDocumentAttributes
+	 */
 	public void setSBMLDocumentAttributes(HashMap<String, String> sBMLDocumentAttributes) {
 		SBMLDocumentAttributes = sBMLDocumentAttributes;
 	}
 
+	/**
+	 * 
+	 * @return the map SBMLDocumentAttributes of this SBMLDocument.
+	 */
 	public HashMap<String, String> getSBMLDocumentAttributes() {
 		return SBMLDocumentAttributes;
 	}
-	
+	/**
+	 * 
+	 * @return the map SBMLDocumentNamespaces of this SBMLDocument.
+	 */
 	public HashMap<String, String> getSBMLDocumentNamespaces() {
 		return SBMLDocumentNamespaces;
 	}
 	
+	/**
+	 * Adds a namespace to the SBMLNamespaces of this SBMLDocument.
+	 * @param namespaceName
+	 * @param prefix
+	 * @param URI
+	 */
 	public void addNamespace(String namespaceName, String prefix, String URI){
 		if (!prefix.equals("")){
 			this.SBMLDocumentNamespaces.put(prefix+":"+namespaceName, URI);
@@ -179,6 +239,7 @@ public class SBMLDocument extends AbstractSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -194,7 +255,11 @@ public class SBMLDocument extends AbstractSBase {
 		}
 		return isAttributeRead;
 	}
-	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();

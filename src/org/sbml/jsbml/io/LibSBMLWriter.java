@@ -946,7 +946,7 @@ public class LibSBMLWriter implements SBMLWriter {
 				}
 			for (Compartment c : m.getListOfCompartments())
 				if (math.refersTo(c.getId())) {
-					if (c.isSetUnits()
+					if (c.isSetUnitsInstance()
 							&& !Unit.isUnitKind(c.getUnits(), c.getLevel(), c
 									.getVersion()))
 						pluMo.addUnitDefinition(writeUnitDefinition(c
@@ -963,7 +963,7 @@ public class LibSBMLWriter implements SBMLWriter {
 				}
 			for (Parameter p : m.getListOfParameters())
 				if (math.refersTo(p.getId())) {
-					if (p.isSetUnits()
+					if (p.isSetUnitsInstance()
 							&& !Unit.isUnitKind(p.getUnits(), p.getLevel(), p
 									.getVersion())) {
 						if (pluMo.getUnitDefinition(p.getUnits()) == null)
@@ -1004,7 +1004,7 @@ public class LibSBMLWriter implements SBMLWriter {
 		}
 		if (c.getSpatialDimensions() != comp.getSpatialDimensions())
 			comp.setSpatialDimensions(c.getSpatialDimensions());
-		if (c.isSetUnits() && !c.getUnits().equals(comp.getUnits()))
+		if (c.isSetUnitsInstance() && !c.getUnits().equals(comp.getUnits()))
 			comp.setUnits(c.getUnits());
 		if (c.isSetOutsideInstance() && !c.getOutside().equals(comp.getOutside()))
 			comp.setOutside(c.getOutside());
@@ -1133,7 +1133,7 @@ public class LibSBMLWriter implements SBMLWriter {
 		for (Parameter p : kl.getListOfParameters()) {
 			org.sbml.libsbml.Parameter libParam = libKinLaw.getParameter(p
 					.getId());
-			if (p.isSetUnits()
+			if (p.isSetUnitsInstance()
 					&& !Unit.isUnitKind(p.getUnits(), p.getLevel(), p
 							.getVersion())
 					&& libKinLaw.getModel().getUnitDefinition(p.getUnits()) == null)
@@ -1296,9 +1296,9 @@ public class LibSBMLWriter implements SBMLWriter {
 					equal &= moc.getGivenName().equals(mc.getGivenName());
 					nothingSet = false;
 				}
-				equal &= moc.isSetOrganization() == mc.isSetOrganization();
-				if (moc.isSetOrganization() && mc.isSetOrganization()) {
-					equal &= moc.getOrganization().equals(mc.getOrganization());
+				equal &= moc.isSetOrganization() == mc.isSetOrganisation();
+				if (moc.isSetOrganization() && mc.isSetOrganisation()) {
+					equal &= moc.getOrganization().equals(mc.getOrganisation());
 					nothingSet = false;
 				}
 			}
@@ -1307,7 +1307,7 @@ public class LibSBMLWriter implements SBMLWriter {
 				moc.setEmail(mc.getEmail());
 				moc.setFamilyName(mc.getFamilyName());
 				moc.setGivenName(mc.getGivenName());
-				moc.setOrganization(mc.getOrganization());
+				moc.setOrganization(mc.getOrganisation());
 				mo.addCreator(moc);
 			}
 		}
@@ -1333,10 +1333,10 @@ public class LibSBMLWriter implements SBMLWriter {
 					contains &= moc.getGivenName().equals(mc.getGivenName());
 					nothingSet = false;
 				}
-				contains &= moc.isSetOrganization() == mc.isSetOrganization();
-				if (moc.isSetOrganization() && mc.isSetOrganization()) {
+				contains &= moc.isSetOrganization() == mc.isSetOrganisation();
+				if (moc.isSetOrganization() && mc.isSetOrganisation()) {
 					contains &= moc.getOrganization().equals(
-							mc.getOrganization());
+							mc.getOrganisation());
 					nothingSet = false;
 				}
 				if (nothingSet)
@@ -1483,7 +1483,7 @@ public class LibSBMLWriter implements SBMLWriter {
 			po.setValue(p.getValue());
 		if (p.getConstant() != po.getConstant())
 			po.setConstant(p.getConstant());
-		if (p.isSetUnits() && !p.getUnits().equals(po.getUnits()))
+		if (p.isSetUnitsInstance() && !p.getUnits().equals(po.getUnits()))
 			po.setUnits(p.getUnits());
 	}
 
@@ -1665,7 +1665,7 @@ public class LibSBMLWriter implements SBMLWriter {
 					|| s.getInitialConcentration() != spec
 							.getInitialConcentration())
 				spec.setInitialConcentration(s.getInitialConcentration());
-		if (s.isSetSubstanceUnits())
+		if (s.isSetSubstanceUnitsInstance())
 			spec.setSubstanceUnits(s.getSubstanceUnits());
 		if (s.getHasOnlySubstanceUnits() != spec.getHasOnlySubstanceUnits())
 			spec.setHasOnlySubstanceUnits(s.getHasOnlySubstanceUnits());
@@ -1692,7 +1692,7 @@ public class LibSBMLWriter implements SBMLWriter {
 					"specRef must be an instance of org.sbml.libsbml.SpeciesReference.");
 		org.sbml.libsbml.SpeciesReference sp = (org.sbml.libsbml.SpeciesReference) specRef;
 		saveNamedSBaseProperties(sr, sp);
-		if (sr.isSetSpecies() && !sr.getSpecies().equals(sp.getSpecies()))
+		if (sr.isSetSpeciesInstance() && !sr.getSpecies().equals(sp.getSpecies()))
 			sp.setSpecies(sr.getSpecies());
 		if (sr.isSetStoichiometryMath()) {
 			if (sp.isSetStoichiometryMath()
@@ -1725,7 +1725,7 @@ public class LibSBMLWriter implements SBMLWriter {
 			c.setOutside(compartment.getOutside());
 		if (compartment.isSetSize() && compartment.getSize() != c.getSize())
 			c.setSize(compartment.getSize());
-		if (compartment.isSetUnits())
+		if (compartment.isSetUnitsInstance())
 			c.setUnits(compartment.getUnits());
 		c.setConstant(compartment.getConstant());
 		c.setSpatialDimensions(compartment.getSpatialDimensions());
@@ -1945,7 +1945,7 @@ public class LibSBMLWriter implements SBMLWriter {
 				kinteicLaw.getLevel(), kinteicLaw.getVersion());
 		saveMathContainerProperties(kinteicLaw, k);
 		for (Parameter p : kinteicLaw.getListOfParameters()) {
-			if (p.isSetUnits()) {
+			if (p.isSetUnitsInstance()) {
 				if (!Unit
 						.isUnitKind(p.getUnits(), p.getLevel(), p.getVersion())) {
 					if (modelOrig.getUnitDefinition(p.getUnits()) == null) {
@@ -2014,7 +2014,7 @@ public class LibSBMLWriter implements SBMLWriter {
 				modifierSpeciesReference.getLevel(), modifierSpeciesReference
 						.getVersion());
 		saveNamedSBaseProperties(modifierSpeciesReference, m);
-		if (modifierSpeciesReference.isSetSpecies())
+		if (modifierSpeciesReference.isSetSpeciesInstance())
 			m.setSpecies(modifierSpeciesReference.getSpecies());
 		return m;
 	}
@@ -2031,7 +2031,7 @@ public class LibSBMLWriter implements SBMLWriter {
 				.getLevel(), parameter.getVersion());
 		saveNamedSBaseProperties(parameter, p);
 		p.setConstant(parameter.getConstant());
-		if (parameter.isSetUnits())
+		if (parameter.isSetUnitsInstance())
 			p.setUnits(parameter.getUnits());
 		if (parameter.isSetValue())
 			p.setValue(parameter.getValue());
@@ -2080,7 +2080,7 @@ public class LibSBMLWriter implements SBMLWriter {
 			} else {
 				r = new org.sbml.libsbml.RateRule(rule.getLevel(), rule
 						.getVersion());
-				if (((RateRule) rule).isSetVariable())
+				if (((RateRule) rule).isSetVariableInstance())
 					r.setVariable(((RateRule) rule).getVariable());
 			}
 		}
@@ -2168,7 +2168,7 @@ public class LibSBMLWriter implements SBMLWriter {
 			s.setInitialConcentration(species.getInitialConcentration());
 		if (species.isSetSpeciesType())
 			s.setSpeciesType(species.getSpeciesType());
-		if (species.isSetSubstanceUnits())
+		if (species.isSetSubstanceUnitsInstance())
 			species.getSubstanceUnits();
 		return s;
 	}
@@ -2184,7 +2184,7 @@ public class LibSBMLWriter implements SBMLWriter {
 		org.sbml.libsbml.SpeciesReference sr = new org.sbml.libsbml.SpeciesReference(
 				speciesReference.getLevel(), speciesReference.getVersion());
 		saveNamedSBaseProperties(speciesReference, sr);
-		if (speciesReference.isSetSpecies())
+		if (speciesReference.isSetSpeciesInstance())
 			sr.setSpecies(speciesReference.getSpecies());
 		if (speciesReference.isSetStoichiometryMath())
 			sr.setStoichiometryMath(writeStoichoimetryMath(speciesReference
@@ -2542,7 +2542,7 @@ public class LibSBMLWriter implements SBMLWriter {
 	 */
 	private void saveChanges(Species species, org.sbml.libsbml.Model pluMo) {
 		org.sbml.libsbml.Species pluSpec = pluMo.getSpecies(species.getId());
-		if (species.isSetSubstanceUnits()
+		if (species.isSetSubstanceUnitsInstance()
 				&& !Unit.isUnitKind(species.getSubstanceUnits(), species
 						.getLevel(), species.getVersion())) {
 			if (pluMo.getUnitDefinition(species.getSubstanceUnits()) == null)
@@ -2564,7 +2564,7 @@ public class LibSBMLWriter implements SBMLWriter {
 					saveNamedSBaseProperties(c.getCompartmentTypeInstance(),
 							pluMo.getCompartmentType(c.getCompartmentType()));
 			}
-			if (c.isSetUnits()
+			if (c.isSetUnitsInstance()
 					&& !Unit.isUnitKind(c.getUnits(), c.getLevel(), c
 							.getVersion())) {
 				if (pluMo.getUnitDefinition(c.getUnits()) == null)

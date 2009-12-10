@@ -34,19 +34,29 @@ import java.util.HashMap;
 
 import org.sbml.jsbml.element.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.CurrentListOfSBMLElements;
+import org.sbml.jsbml.xml.SBaseListType;
 
 /**
+ * Represents the unitDefinition XML element of a SBML file.
  * @author Andreas Dr&auml;ger
- * 
+ * @author marine
  */
 public class UnitDefinition extends AbstractNamedSBase {
 
+	/**
+	 * Represents the 'listOfUnit' XML subelement of a UnitDefinition.
+	 */
 	private ListOf<Unit> listOfUnit;
 	
+	/**
+	 * Creates an UnitDefinition instance. By default, the listOfUnit is null.
+	 */
 	public UnitDefinition(){
 		super();
 		this.listOfUnit = null;
+		if (isSetLevel() && getLevel() < 3){
+			initDefaults();
+		}
 	}
 	
 	/**
@@ -116,9 +126,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 		UnitDefinition ud2clone = ud2.clone().simplify();
 		if (ud1clone.getNumUnits() == ud2clone.getNumUnits()) {
 			boolean identical = true;
-			for (int i = 0; i < ud1clone.getNumUnits(); i++)
+			for (int i = 0; i < ud1clone.getNumUnits(); i++){
 				identical &= Unit.areIdentical(ud1clone.getUnit(i), ud2clone
 						.getUnit(i));
+			}
 			return identical;
 		}
 		return false;
@@ -158,8 +169,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < ud.getNumUnits(); i++) {
 			Unit unit = ud.getUnit(i);
-			if (i > 0)
+			if (i > 0){
 				sb.append(' ');
+			}
 			if (compact) {
 				sb.append(unit.toString());
 			} else {
@@ -248,46 +260,61 @@ public class UnitDefinition extends AbstractNamedSBase {
 			u.setKind(Unit.Kind.SECOND);
 			u.setSBOTerm(345);
 			ud.setSBOTerm(345);
-		} else
+		} else{
 			throw new IllegalArgumentException(
 					"no predefined unit available for " + id);
+		}
 		ud.setName("Predefined unit " + id);
 		ud.addUnit(u);
 		return ud;
 	}
 
 	/**
-	 * 
+	 * Creates an UnitDefinition instance from an id, level and version. By default, the listOfUnit is null.
 	 * @param id
+	 * @param level
+	 * @param version
 	 */
 	public UnitDefinition(String id, int level, int version) {
 		super(id, level, version);
-		initDefaults();
+		listOfUnit = null;
+		if (isSetLevel() && getLevel() < 3){
+			initDefaults();
+		}
 	}
 
 	/**
-	 * 
+	 * Creates an UnitDefinition instance from an id, level and version. By default, the listOfUnit is null.
 	 * @param id
 	 * @param name
+	 * @param level
+	 * @param version
 	 */
 	public UnitDefinition(String id, String name, int level, int version) {
 		super(id, name, level, version);
-		initDefaults();
+		listOfUnit = null;
+		if (isSetLevel() && getLevel() < 3){
+			initDefaults();
+		}
 	}
 
 	/**
-	 * 
+	 * Creates an UnitDefinition instance from a given UnitDefinition.
 	 * @param nsb
 	 */
 	@SuppressWarnings("unchecked")
 	public UnitDefinition(UnitDefinition nsb) {
 		super(nsb);
-		listOfUnit = (ListOf<Unit>) nsb.getListOfUnits().clone();
-		setThisAsParentSBMLObject(listOfUnit);
+		if (nsb.isSetListOfUnits()){
+			setListOfUnits((ListOf<Unit>) nsb.getListOfUnits().clone());
+		}
+		else {
+			listOfUnit = null;
+		}
 	}
 
 	/**
-	 * 
+	 * Adds an Unit to this UnitDefinition.
 	 * @param u
 	 */
 	public void addUnit(Unit u) {
@@ -304,7 +331,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.AbstractSBase#clone()
+	 * @see org.sbml.jsbml.element.AbstractSBase#clone()
 	 */
 	// @Override
 	public UnitDefinition clone() {
@@ -317,17 +344,19 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @param definition
 	 */
 	public UnitDefinition divideBy(UnitDefinition definition) {
-		for (Unit unit1 : definition.getListOfUnits()) {
-			Unit unit = unit1.clone();
-			unit.setExponent(unit1.getExponent() * -1);
-			addUnit(unit);
+		if (definition.isSetListOfUnits()){
+			for (Unit unit1 : definition.getListOfUnits()) {
+				Unit unit = unit1.clone();
+				unit.setExponent(unit1.getExponent() * -1);
+				addUnit(unit);
+			}
 		}
 		return this;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the listOfUnits of this UnitDefinition. Can be null if it is not set.
 	 */
 	public ListOf<Unit> getListOfUnits() {
 		return this.listOfUnit;
@@ -335,7 +364,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	
 	/**
 	 * 
-	 * @return
+	 * @return true if the listOfUnits is not null.
 	 */
 	public boolean isSetListOfUnits() {
 		return this.listOfUnit != null;
@@ -343,7 +372,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return
+	 * @return the number of Unit.
 	 */
 	public int getNumUnits() {
 		if (isSetListOfUnits()){
@@ -368,7 +397,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return
+	 * @return true if this UnitDefinition is a variant of Area
 	 */
 	public boolean isVariantOfArea() {
 		if (isSetListOfUnits()){
@@ -441,7 +470,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return
+	 * @return true if this UnitDefinition is a variant of substance per length.
 	 */
 	public boolean isVariantOfSubstancePerLength() {
 		if (isSetListOfUnits()){
@@ -464,7 +493,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return
+	 * @return true if this UnitDefinition is a variant of substance per volume.
 	 */
 	public boolean isVariantOfSubstancePerVolume() {
 		if (isSetListOfUnits()){
@@ -533,8 +562,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 			for (int i = listOfUnit.size() - 1; i >= 0; i--) {
 				u = listOfUnit.get(i);
 				u.setExponent(u.getExponent() * exponent);
-				if (u.getExponent() == 0)
+				if (u.getExponent() == 0){
 					listOfUnit.remove(i);
+				}
 			}
 		}
 	}
@@ -554,21 +584,23 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public Unit removeUnit(int i) {
 		if (isSetListOfUnits()){
 			Unit u = listOfUnit.remove(i);
-			if (u != null)
+			if (u != null){
 				u.sbaseRemoved();
+			}
 			return u;
 		}
 		return null;
 	}
 
 	/**
-	 * 
+	 * Sets the listOfUnits of this UnitDefinition. Automatically sets the parentSBML object of the list
+	 * to this UnitDefinition instance.
 	 * @param listOfUnits
 	 */
 	public void setListOfUnits(ListOf<Unit> listOfUnits) {
 		this.listOfUnit = listOfUnits;
 		setThisAsParentSBMLObject(listOfUnits);
-		this.listOfUnit.setCurrentList(CurrentListOfSBMLElements.listOfUnits);
+		this.listOfUnit.setSBaseListType(SBaseListType.listOfUnits);
 		stateChanged();
 	}
 
@@ -588,8 +620,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 						|| u.getKind() == Kind.DIMENSIONLESS
 						|| s.getKind() == Kind.DIMENSIONLESS) {
 					Unit.merge(u, removeUnit(i + 1));
-					if (u.isDimensionless() && i == 0 && getNumUnits() > 1)
+					if (u.isDimensionless() && i == 0 && getNumUnits() > 1){
 						Unit.merge(getUnit(i + 1), removeUnit(i));
+					}
 				}
 			}
 			return this;
@@ -598,7 +631,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Initialises the default values of this UnitDefinition.
 	 */
 	private void initDefaults() {
 		this.listOfUnit = new ListOf<Unit>(getLevel(), getVersion());
@@ -608,6 +641,25 @@ public class UnitDefinition extends AbstractNamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.element.SBase#equals(Object o)
+	 */
+	public boolean equals(Object o){
+		if (o instanceof UnitDefinition){
+			UnitDefinition u = (UnitDefinition) o;
+			boolean equal = super.equals(o);
+			equal &= isSetListOfUnits() == u.isSetListOfUnits();
+			if (equal && isSetListOfUnits()){
+				equal &= getListOfUnits().equals(u.getListOfUnits());
+			}
+			return equal;
+		}
+		return false;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -616,6 +668,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return isAttributeRead;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();

@@ -204,7 +204,7 @@ public class RDFAnnotationParser implements ReadingParser{
 						}
 					}
 				}
-				if (model.isSetListOfInitialAssignemnts()){
+				if (model.isSetListOfInitialAssignments()){
 					for (int i = 0; i < model.getNumInitialAssignments(); i++){
 						if (!model.getInitialAssignment(i).hasValidAnnotation()){
 							// TODO : change the about value of the annotation.

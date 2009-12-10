@@ -133,13 +133,13 @@ public class SBMLWriter {
 						liElement.addCharacters(" \n");
 						liElement.addElementWithCharacters(null, vCardPrefix+":EMAIL", modelCreator.getEmail());
 					}
-					if (modelCreator.isSetOrganization()){
+					if (modelCreator.isSetOrganisation()){
 						liElement.addCharacters(" \n");
 						SMOutputElement orgElement = liElement.addElement(vCardPrefix+":ORG");
 						orgElement.addAttribute(rdfNamespace,"parseType", "Resource");
 						
 						orgElement.addCharacters(" \n");
-						orgElement.addElementWithCharacters(null, vCardPrefix+":Orgname", modelCreator.getOrganization());
+						orgElement.addElementWithCharacters(null, vCardPrefix+":Orgname", modelCreator.getOrganisation());
 						orgElement.addCharacters(" \n");
 					}
 					liElement.addCharacters(" \n");
