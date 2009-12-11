@@ -59,6 +59,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 	}
 	
+	public UnitDefinition(int level, int version){
+		super(level, version);		
+	}
+	
 	/**
 	 * Predefined unit for area.
 	 */
@@ -678,5 +682,12 @@ public class UnitDefinition extends AbstractNamedSBase {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 		
 		return attributes;
+	}
+
+	public Unit createUnit() {
+		Unit unit = new Unit(level, version);
+		addUnit(unit);
+		
+		return unit;		
 	}
 }

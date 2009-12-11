@@ -184,7 +184,7 @@
   <!-- =================================================================== -->
   <target name="test" depends="init">
       
-    <junit printsummary="yes" showoutput="yes">
+    <junit printsummary="yes" > <!-- showoutput="yes" -->
     	<jvmarg value="-DDATA_FOLDER=${build.dest}/org/sbml/jsbml/xml/test/data/"/>
         <sysproperty key="DATA_FOLDER" value="${build.dest}/org/sbml/jsbml/xml/test/data"/>
 

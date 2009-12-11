@@ -52,6 +52,9 @@ public class SpeciesReference extends SimpleSpeciesReference {
 	 * Represents the 'constant' XML attribute of this SpeciesReference.
 	 */
 	private Boolean constant;
+	
+	private int denominator = 1;
+	private boolean isSetDenominator = false;
 
 	/**
 	 * Creates a SpeciesReference instance. By default, if the level is superior or equal to 3, the constant, stoichiometryMath and stoichiometry are null.
@@ -106,6 +109,10 @@ public class SpeciesReference extends SimpleSpeciesReference {
 	}
 
 	
+	public SpeciesReference(int level, int version) {
+		super(level, version);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -247,15 +254,19 @@ public class SpeciesReference extends SimpleSpeciesReference {
 			}
 			else if (attributeName.equals("constant")){
 				if (value.equals("true")){
-					this.setConstant(true);
+					setConstant(true);
 					return true;
 				}
 				else if (value.equals("false")){
-					this.setConstant(false);
+					setConstant(false);
 					return true;
 				}
+			} else if (attributeName.equals("denominator")) {
+				setDenominator(denominator);
+				return true;
 			}
 		}
+		
 		return isAttributeRead;
 	}
 	
@@ -274,7 +285,23 @@ public class SpeciesReference extends SimpleSpeciesReference {
 		if (isSetConstant()){
 			attributes.put("constant", Boolean.toString(getConstant()));
 		}
+		if (isSetDenominator() && level == 1) {
+			attributes.put("denominator", Integer.toString(getDenominator()));
+		}
 
 		return attributes;
+	}
+
+	private boolean isSetDenominator() {
+		return isSetDenominator;
+	}
+
+	public int getDenominator() {
+		return denominator;
+	}
+	
+	public void setDenominator(int denominator) {
+		this.denominator = denominator;
+		isSetDenominator = true;
 	}
 }

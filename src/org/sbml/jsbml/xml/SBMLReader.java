@@ -361,4 +361,8 @@ public class SBMLReader {
 		SBMLDocument testDocument = readSBMLFile("/home/compneur/workspace/jsbmlStax/src/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
 	}
 
+	public static SBMLDocument readSBML(String fileName) {
+		return SBMLReader.readSBMLFile(fileName);
+	}
+
 }

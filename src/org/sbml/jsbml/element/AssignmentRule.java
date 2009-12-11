@@ -33,11 +33,10 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
+ *
  * Represents the assignmentRule XML element of a SBML file.
  * 
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger 
  * @author marine
  */
 public class AssignmentRule extends Rule {
@@ -56,6 +55,16 @@ public class AssignmentRule extends Rule {
 		this.variableID = null;
 	}
 	
+	/**
+	 * Creates an AssignmentRule instance with the given level and version.
+	 * @param level the SBML level
+	 * @param version the SBML version
+	 */
+	public AssignmentRule(int level, int version) {
+		super(level, version);
+		this.variableID = null;
+	}
+
 	/**
 	 * Creates an AssignmentRule instance from a given AssignmentRule.
 	 * @param sb
@@ -209,6 +218,9 @@ public class AssignmentRule extends Rule {
 	 * 'variable' String, an exception is thrown.
 	 * @param variable
 	 */
+	/*
+	 // Not compatible with libsbml api behavior, you can set the variable id of an object not yet created !!
+	  
 	public void setVariable(String variable) {
 		Symbol nsb = null;
 		if (getModel() != null){
@@ -220,12 +232,13 @@ public class AssignmentRule extends Rule {
 		}
 		setVariable(nsb);
 	}
+	*/
 	
 	/**
 	 * Sets the variableID to 'variableID'.
 	 * @param variableID
 	 */
-	public void setVariableID(String variableID) {
+	public void setVariable(String variableID) {
 		this.variableID = variableID;
 		stateChanged();
 	}

@@ -34,10 +34,9 @@ import java.util.HashMap;
 
 /**
  * Represents the speciesType XML element of a SBML file. It is @deprecated since level 3.
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
- * @date 2009-08-31
+ * 
+ * @author Andreas Dr&auml;ger
+ * 
  */
 public class SpeciesType extends AbstractNamedSBase {
 
@@ -51,6 +50,7 @@ public class SpeciesType extends AbstractNamedSBase {
 	
 	/**
 	 * Creates a SpeciesType instance from a given SpeciesType.
+	 * 
 	 * @param nsb
 	 */
 	@Deprecated
@@ -60,6 +60,7 @@ public class SpeciesType extends AbstractNamedSBase {
 
 	/**
 	 * Creates a SpeciesType instance from an id, level and version.
+	 * 
 	 * @param id
 	 * @param level
 	 * @param version
@@ -71,6 +72,7 @@ public class SpeciesType extends AbstractNamedSBase {
 
 	/**
 	 * Creates a SpeciesType instance from an id, name, level and version.
+	 * 
 	 * @param id
 	 * @param name
 	 * @param level
@@ -79,6 +81,17 @@ public class SpeciesType extends AbstractNamedSBase {
 	@Deprecated
 	public SpeciesType(String id, String name, int level, int version) {
 		super(id, name, level, version);
+	}
+
+	/**
+	 * Creates a SpeciesType instance from a level and version.
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	@Deprecated
+	public SpeciesType(int level, int version) {
+		super(level, version);
 	}
 
 	/*

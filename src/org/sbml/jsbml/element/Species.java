@@ -71,6 +71,8 @@ public class Species extends Symbol {
 	@Deprecated
 	private Integer charge;
 
+	private boolean isSetCharge;
+
 	/**
 	 * Creates a Species instance. By default, the charge, compartmentID, speciesTypeID, conversionFactorID,
 	 * hasOnlySubstanceUnits, boundaryCondition are null.
@@ -383,7 +385,7 @@ public class Species extends Symbol {
 	 * @return true if the charge of this Species if not null.
 	 */
 	public boolean isSetCharge() {
-		return charge != null;
+		return isSetCharge;
 	}
 
 	/**
@@ -493,6 +495,7 @@ public class Species extends Symbol {
 	 */
 	public void setCharge(Integer charge) {
 		this.charge = charge;
+		isSetCharge = true;
 		stateChanged();
 	}
 
@@ -671,6 +674,11 @@ public class Species extends Symbol {
 		this.conversionFactorID = null;
 	}
 	
+	public void unsetCharge() {
+		charge = null;
+		isSetCharge = false;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -788,6 +796,7 @@ public class Species extends Symbol {
 	 * @return true if the spatialSizeUnits is not null.
 	 */
 	public boolean isSetSpatialSizeUnits() {
-		return isSetSpatialSizeUnits();
+		// TODO : implement
+		return false;
 	}
 }

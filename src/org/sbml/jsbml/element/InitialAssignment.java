@@ -34,10 +34,10 @@ import java.util.HashMap;
 
 /**
  * Represents the initialAssignment XML element of a SBML file.
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * 
+ * @author Andreas Dr&auml;ger 
  * @author marine
+ * 
  */
 public class InitialAssignment extends MathContainer {
 
@@ -57,6 +57,7 @@ public class InitialAssignment extends MathContainer {
 	
 	/**
 	 * Creates an InitialAssignment instance from a given InitialAssignment.
+	 * 
 	 * @param sb
 	 */
 	public InitialAssignment(InitialAssignment sb) {
@@ -72,6 +73,7 @@ public class InitialAssignment extends MathContainer {
 	/**
 	 * Creates an InitialAssignment instance from a Symbol.
 	 * Takes level and version from the given symbol.
+	 * 
 	 * @param symbol
 	 */
 	public InitialAssignment(Symbol symbol) {
@@ -86,6 +88,7 @@ public class InitialAssignment extends MathContainer {
 
 	/**
 	 * Creates an InitialAssignment from a Symbol, ASTNode, level and version.
+	 * 
 	 * @param symbol
 	 * @param math
 	 * @param level
@@ -100,6 +103,18 @@ public class InitialAssignment extends MathContainer {
 			this.symbolID = null;
 		}
 	}
+
+	/**
+	 * Creates an InitialAssignment from a Symbol, ASTNode, level and version.
+	 * 
+	 * @param symbol
+	 * @param math
+	 * @param level
+	 * @param version
+	 */	public InitialAssignment(int level, int version) {
+		super(level, version);
+	}
+
 
 	/*
 	 * (non-Javadoc)

@@ -398,7 +398,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 						
 						if (elementName.equals("eventAssignment") && list.getSBaseListType().equals(SBaseListType.listOfEventAssignments)){
 							EventAssignment eventAssignment = (EventAssignment) newContextObject;
-							event.addEventAssignement(eventAssignment);
+							event.addEventAssignment(eventAssignment);
 							
 							return eventAssignment;
 						}

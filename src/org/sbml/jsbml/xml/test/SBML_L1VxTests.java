@@ -70,9 +70,10 @@ public class SBML_L1VxTests {
 		
 		assertTrue(doc.getLevel() == 1 && doc.getVersion() == 2);
 		
-		// TODO : assertTrue(model.getLevel() == 1 && model.getVersion() == 2);
+		assertTrue(model.getLevel() == 1 && model.getVersion() == 2);
 		
-		assertTrue(model.getId().equals(""));
+		// assertTrue(model.getId().equals("")); // TODO : document. Different behavior than libsbml, we set the id as the name for SBML level 1 models.
+		assertTrue(model.getId().equals("Branch"));
 		assertTrue(model.getName().equals("Branch"));
 		
 		Species s1 = model.getSpecies("S1");
@@ -80,7 +81,7 @@ public class SBML_L1VxTests {
 		assertTrue(s1 != null);
 		
 		assertTrue(s1.getName().equals("S1"));
-		assertTrue(s1.getId().equals(""));
+		assertTrue(s1.getId().equals("S1")); // changed, was assertTrue(s1.getId().equals("")); cf comment above.
 		assertTrue(s1.getNumCVTerms() == 0);
 		
 		assertTrue(s1.getInitialAmount() == 0);
@@ -127,7 +128,7 @@ public class SBML_L1VxTests {
 		
 		assertTrue(doc.getLevel() == 1 && doc.getVersion() == 1);
 		
-		// TODO : assertTrue(model.getLevel() == 1 && model.getVersion() == 1);
+		assertTrue(model.getLevel() == 1 && model.getVersion() == 1);
 		
 		assertTrue(model.getId().equals(""));
 		assertTrue(model.getName().equals(""));
@@ -137,7 +138,7 @@ public class SBML_L1VxTests {
 		assertTrue(s1 != null);
 		
 		assertTrue(s1.getName().equals("s1"));
-		assertTrue(s1.getId().equals(""));
+		assertTrue(s1.getId().equals("s1")); // changed, was :  assertTrue(s1.getId().equals(""));
 		assertTrue(s1.getNumCVTerms() == 0);
 		
 		assertTrue(s1.getInitialAmount() == 1);

@@ -83,6 +83,11 @@ public abstract class SimpleSpeciesReference extends Symbol {
 		}
 	}
 	
+	public SimpleSpeciesReference(int level, int version) {
+		super(level, version);
+	}
+
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -91,19 +96,26 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	// @Override
 	public boolean equals(Object o) {
 		boolean equal = super.equals(o);
+		
+		// System.out.println("SimplespeciesReference : equals : super.equals = " + equal);
+		
 		if (o.getClass().getName().equals(getClass().getName())) {
 			SimpleSpeciesReference ssr = (SimpleSpeciesReference) o;
+		
 			if ((!isSetSpecies() && ssr.isSetSpecies())
 					|| (isSetSpecies() && !ssr.isSetSpecies())){
 				return false;
+				
 			}
 			else if (isSetSpecies() && ssr.isSetSpecies()){
 				equal &= ssr.getSpecies().equals(speciesID);
-			}
-			return equal;
-		} else{
+				// System.out.println("SimplespeciesReference : speciesRef =  " + ssr.getSpecies() + ", " + speciesID);
+		}
+
+		} else {
 			equal = false;
 		}
+		
 		return equal;
 	}
 
@@ -169,7 +181,12 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	 * @param spec
 	 */
 	public void setSpecies(String spec) {
-		this.speciesID = spec;
+		if (spec != null && spec.trim().length() == 0) {
+			speciesID = null;
+		} else {
+			speciesID = spec;	
+		}
+		
 		stateChanged();
 	}
 

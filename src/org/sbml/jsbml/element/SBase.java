@@ -356,6 +356,12 @@ public interface SBase {
 	
 	/**
 	 * 
+	 * @return the ModelHistory instance of this object.
+	 */
+	public void setModelHistory(ModelHistory modelHistory);
+	
+	/**
+	 * 
 	 * @param namespace
 	 * @return the SBase extension object which matches this namespace.
 	 */

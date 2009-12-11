@@ -33,9 +33,8 @@ import java.util.HashMap;
 
 /**
  * Represents the 'parameter' XML element of a SBML file.
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * 
+ * @author Andreas Dr&auml;ger
  * @author marine
  */
 public class Parameter extends Symbol {
@@ -64,9 +63,21 @@ public class Parameter extends Symbol {
 	 * @param level
 	 * @param version
 	 */
+	public Parameter(int level, int version) {
+		super(level, version);
+		if (level < 3) {
+			initDefaults();
+		}
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
 	public Parameter(String id, int level, int version) {
 		super(id, level, version);
-		if (isSetLevel() && getLevel() < 3){
+
+		if (level < 3){
 			initDefaults();
 		}
 	}
@@ -131,69 +142,11 @@ public class Parameter extends Symbol {
 	 * Initialises the default values of this Parameter.
 	 */
 	public void initDefaults() {
-		setValue(null);
-		setConstant(new Boolean(true));
+		value = Double.NaN;
+		constant = Boolean.TRUE;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.element.Symbol#isSetUnits()
-	 */
-	public boolean isSetUnitsInstance() {
-		return super.isSetUnitsInstance();
-	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.element.Symbol#isSetUnits()
-	 */
-	public boolean isSetUnits() {
-		return super.isSetUnits();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Symbol#isSetValue()
-	 */
-	// @Override
-	public boolean isSetValue() {
-		return super.isSetValue();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.element.Symbol#setUnits(org.sbml.jsbml.Unit)
-	 */
-	public void setUnits(Unit unit) {
-		super.setUnits(unit);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.element.Symbol#setUnits(org.sbml.jsbml.Unit.Kind)
-	 */
-	public void setUnits(Unit.Kind unitKind) {
-		super.setUnits(unitKind);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.element.Symbol#setUnits(org.sbml.jsbml.UnitDefinition)
-	 */
-	public void setUnits(UnitDefinition units) {
-		super.setUnits(units);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Symbol#setValue(double)
-	 */
-	// @Override
-	public void setValue(Double value) {
-		super.setValue(value);
-	}
 	
 	/*
 	 * (non-Javadoc)
@@ -243,5 +196,9 @@ public class Parameter extends Symbol {
 		}
 		
 		return attributes;
+	}
+
+	public void unsetUnits() {
+		setUnits("");
 	}
 }

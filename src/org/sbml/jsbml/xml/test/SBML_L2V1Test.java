@@ -174,7 +174,7 @@ public class SBML_L2V1Test {
 		System.out.println("pRBp notes : " + pRBp.getNotesString()); // namespace lost, should probably here.
 		assertTrue(pRBp.getNotesString().contains("http://www.w3.org/1999/xhtml"));
 		
-		System.out.println("pRBp annotation : " + pRBp.getAnnotation().getAnnotation());
+		System.out.println("pRBp annotation : " + pRBp.getAnnotation().getNoRDFAnnotation());
 		System.out.println("pRBp annotation : " + pRBp.getCVTerm(0).toString());
 		
 		assertTrue(model.getListOfParameters().size() == 40);
@@ -195,9 +195,9 @@ public class SBML_L2V1Test {
 		Reaction pRB_synthesis = model.getReaction("pRB_synthesis");
 		
 		assertTrue(pRB_synthesis != null);
-		System.out.println("pRB_synthesis additional annotation : " + pRB_synthesis.getAnnotation().getAnnotation());
+		System.out.println("pRB_synthesis additional annotation : " + pRB_synthesis.getAnnotation().getNoRDFAnnotation());
 
-		assertTrue(pRB_synthesis.getAnnotation().getAnnotation().trim().equals("<jigcell:ratelaw jigcell:name=\"Local\"/>"));
+		assertTrue(pRB_synthesis.getAnnotation().getNoRDFAnnotation().trim().equals("<jigcell:ratelaw jigcell:name=\"Local\"/>"));
 		
 		assertTrue(pRB_synthesis.getCVTerm(0).getResourceURI(0).equals("urn:miriam:obo.go:GO%3A0006412"));
 		// GO:3A0006412
@@ -221,7 +221,7 @@ public class SBML_L2V1Test {
 		assertTrue(model.getModelHistory().getCreator(0).getGivenName().equals("Vijayalakshmi"));
 		assertTrue(model.getModelHistory().getCreator(1).getGivenName().equals("Lan"));
 		assertTrue(model.getModelHistory().getCreator(1).getEmail().equals("lma@jhu.edu"));
-		assertTrue(model.getModelHistory().getCreator(0).getOrganization().equals("EMBL-EBI"));
+		assertTrue(model.getModelHistory().getCreator(0).getOrganisation().equals("EMBL-EBI"));
 		assertTrue(model.getNumCVTerms() == 5);
 		
 		Species erk2 = model.getSpecies("ERK2");

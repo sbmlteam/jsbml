@@ -166,6 +166,23 @@ public class Reaction extends AbstractNamedSBase {
 		fast = new Boolean(false);
 	}
 
+	/**
+	 * 
+	 * @param id
+	 */
+	public Reaction(int level, int version) {
+		super(level, version);
+		listOfReactants = new ListOf<SpeciesReference>(level, version);
+		listOfReactants.parentSBMLObject = this;
+		listOfProducts = new ListOf<SpeciesReference>(level, version);
+		listOfProducts.parentSBMLObject = this;
+		listOfModifiers = new ListOf<ModifierSpeciesReference>(level, version);
+		listOfModifiers.parentSBMLObject = this;
+		kineticLaw = null;
+		reversible = true;
+		fast = false;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -189,10 +206,10 @@ public class Reaction extends AbstractNamedSBase {
 			this.listOfModifiers = new ListOf<ModifierSpeciesReference>();
 			setThisAsParentSBMLObject(this.listOfModifiers);
 		}
-		if (!listOfModifiers.contains(modspecref)) {
-			setThisAsParentSBMLObject(modspecref);
-			listOfModifiers.add(modspecref);
-		}
+
+
+		setThisAsParentSBMLObject(modspecref);
+		listOfModifiers.add(modspecref);		
 	}
 
 	/**
@@ -204,10 +221,9 @@ public class Reaction extends AbstractNamedSBase {
 			this.listOfProducts = new ListOf<SpeciesReference>();
 			setThisAsParentSBMLObject(this.listOfProducts);
 		}
-		if (!listOfProducts.contains(specref)) {
-			setThisAsParentSBMLObject(specref);
-			listOfProducts.add(specref);
-		}
+
+		setThisAsParentSBMLObject(specref);
+		listOfProducts.add(specref);		
 	}
 
 	/**
@@ -219,10 +235,10 @@ public class Reaction extends AbstractNamedSBase {
 			this.listOfReactants = new ListOf<SpeciesReference>();
 			setThisAsParentSBMLObject(this.listOfReactants);
 		}
-		if (!listOfReactants.contains(specref)) {
-			setThisAsParentSBMLObject(specref);
-			listOfReactants.add(specref);
-		}
+
+		setThisAsParentSBMLObject(specref);
+		listOfReactants.add(specref);
+		
 	}
 
 	/*
@@ -759,5 +775,184 @@ public class Reaction extends AbstractNamedSBase {
 		}
 		
 		return attributes;
+	}
+
+
+	/**
+	 * Creates a new <code>ModifierSpeciesReference</code>, adds it to this Reaction's list of modifiers and returns it.
+	 * 
+	 * @return a new ModifierSpeciesReference object.
+	 */
+	public ModifierSpeciesReference createModifier() {
+		ModifierSpeciesReference modifier = new ModifierSpeciesReference(level, version);
+		addModifier(modifier);
+		
+		return modifier;
+	}
+
+
+	/**
+	 * Removes the nth modifier species (ModifierSpeciesReference object) in the list of modifiers in this Reaction and returns it.
+	 * 
+	 * @param i  the index of the ModifierSpeciesReference object to remove.
+	 * @return the removed ModifierSpeciesReference object, or null if the given index is out of range.
+	 */
+	public ModifierSpeciesReference removeModifier(int i) {
+		
+		if (i >= listOfModifiers.size()) {
+			System.out.println("removeModifier : index out of bound.");
+			return null;
+		}
+		
+		ModifierSpeciesReference modifier = listOfModifiers.get(i);
+		listOfModifiers.remove(i);
+		
+		return modifier;
+	}
+
+
+	/**
+	 * Removes the modifier species (ModifierSpeciesReference object) having the given 'species' attribute in the list of modifiers in this Reaction and returns it.
+	 *
+	 * @param id  the 'species' attribute of the ModifierSpeciesReference object (which correspond to a species id).
+	 * @return
+	 */
+	public ModifierSpeciesReference removeModifier(String id) {
+
+		ModifierSpeciesReference deletedModifier = null;
+		int index = 0;
+		
+		for (ModifierSpeciesReference modifier : listOfModifiers) {
+			if (modifier.getSpecies().equals(id)) {
+				deletedModifier = modifier;
+				break;
+			}
+			index++;
+		}
+		
+		if (deletedModifier != null) {
+			listOfModifiers.remove(index);
+		}
+		
+		return deletedModifier;
+	}
+
+
+	/**
+	 * Creates a new <code>SpeciesReference</code>, adds it to this Reaction's list of products and returns it.
+	 * 
+	 * @return a new SpeciesReference object.
+	 * 
+	 * @return
+	 */
+	public SpeciesReference createProduct() {
+		SpeciesReference product = new SpeciesReference(level, version);
+		addProduct(product);
+		
+		return product;
+	}
+
+	/**
+	 * Removes the nth product species (SpeciesReference object) in the list of products in this Reaction and returns it.
+	 * 
+	 * @param i  the index of the SpeciesReference object to remove.
+	 * @return the removed SpeciesReference object, or null if the given index is out of range.
+	 */
+	public SpeciesReference removeProduct(int i) {
+
+		if (i >= listOfProducts.size()) {
+			return null;
+		}
+		
+		SpeciesReference product = listOfProducts.get(i);
+		listOfProducts.remove(i);
+		
+		return product;
+	}
+
+	/**
+	 * Removes the product species (SpeciesReference object) having the given 'species' attribute in the list of products in this Reaction and returns it.
+	 *
+	 * @param id  the 'species' attribute of the SpeciesReference object (which correspond to a species id).
+	 * @return
+	 */
+	public Object removeProduct(String id) {
+
+		SpeciesReference deletedProduct = null;
+		int index = 0;
+		
+		for (SpeciesReference product : listOfProducts) {
+			if (product.getSpecies().equals(id)) {
+				deletedProduct = product;
+				break;
+			}
+			index++;
+		}
+		
+		if (deletedProduct != null) {
+			listOfProducts.remove(index);
+		}
+		
+		return deletedProduct;
+	}
+
+	/**
+	 * Creates a new <code>SpeciesReference</code>, adds it to this Reaction's list of reactants and returns it.
+	 * 
+	 * @return a new SpeciesReference object.
+	 * 
+	 * @return
+	 */
+	public SpeciesReference createReactant() {
+		SpeciesReference reactant = new SpeciesReference(level, version);
+		addReactant(reactant);
+		
+		return reactant;
+	}
+
+
+	/**
+	 * Removes the nth reactant species (SpeciesReference object) in the list of reactants in this Reaction and returns it.
+	 * 
+	 * @param i  the index of the SpeciesReference object to remove.
+	 * @return the removed SpeciesReference object, or null if the given index is out of range.
+	 */
+	public Object removeReactant(int i) {
+
+		if (i >= listOfReactants.size()) {
+			return null;
+		}
+		
+		SpeciesReference reactant = listOfReactants.get(i);
+		listOfReactants.remove(i);
+		
+		return reactant;
+	}
+
+
+	/**
+	 * Removes the reactant species (SpeciesReference object) having the given 'species' attribute in the list of reactants in this Reaction and returns it.
+	 *
+	 * @param id  the 'species' attribute of the SpeciesReference object (which correspond to a species id).
+	 * @return
+	 */
+	public Object removeReactant(String id) {
+
+		SpeciesReference deletedReactant = null;
+		int index = 0;
+		
+		for (SpeciesReference reactant : listOfReactants) {
+			if (reactant.getSpecies().equals(id)) {
+				deletedReactant = reactant;
+				break;
+			}
+			index++;
+		}
+		
+		if (deletedReactant != null) {
+			listOfReactants.remove(index);
+		}
+		
+		return deletedReactant;
 	}
 }

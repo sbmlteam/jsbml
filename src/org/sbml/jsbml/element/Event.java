@@ -167,7 +167,7 @@ public class Event extends AbstractNamedSBase {
 	 * Adds an EventAssignment instance to the list of EventAssignments of this Event.
 	 * @param eventass
 	 */
-	public void addEventAssignement(EventAssignment eventass) {
+	public void addEventAssignment(EventAssignment eventass) {
 		if (!isSetListOfEventAssignments()){
 			this.listOfEventAssignments = new ListOf<EventAssignment>();
 			setThisAsParentSBMLObject(this.listOfEventAssignments);
@@ -525,4 +525,21 @@ public class Event extends AbstractNamedSBase {
 		
 		return attributes;
 	}
+
+	public EventAssignment createEventAssignment() {
+		EventAssignment ea = new EventAssignment(level, version);
+		addEventAssignment(ea);
+		
+		return ea;
+	}
+
+	public EventAssignment removeEventAssignment(int i) {
+		return listOfEventAssignments.remove(i);
+	}
+
+	public EventAssignment removeEventAssignment(String id) {
+		return listOfEventAssignments.remove(id);
+	}
+
+
 }

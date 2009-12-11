@@ -48,12 +48,14 @@ public class ModelCreator {
 	 * Given name of the creator
 	 */
 	private String givenName;
+
 	/**
 	 * Organisation name of the creator.
 	 */
 	private String organisation;
 	
 	//private String otherXMLInformation;
+
 
 	/**
 	 * Creates a ModelCreator instance. By default, the email, familyName, givenName, organisation are null.
@@ -250,8 +252,8 @@ public class ModelCreator {
 	 * 
 	 * @param  organisation
 	 */
-	public void setOrganization(String organization) {
-		this.organisation = organization;
+	public void setOrganisation(String organisation) {
+		this.organisation = organisation;
 	}
 
 	/**
@@ -399,6 +401,7 @@ public class ModelCreator {
 		if (isSetOrganisation()){
 			sb.append(getOrganisation());
 		}
+
 		return sb.toString();
 	}
 	

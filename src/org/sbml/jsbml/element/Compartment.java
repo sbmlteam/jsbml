@@ -194,7 +194,7 @@ public class Compartment extends Symbol {
 
 	/**
 	 * 
-	 * @return the outsideID of this compartment. Return "" if it is not set. 
+	 * @return the outside id of this compartment. Return "" if it is not set. 
 	 */
 	public String getOutside() {
 		return isSetOutside() ? outsideID : "";
@@ -202,7 +202,7 @@ public class Compartment extends Symbol {
 
 	/**
 	 * 
-	 * @return the compartment instance which matches the outsideID in Model. Return null if no compartment instance matches outsideID.
+	 * @return the compartment instance which matches the outside id in Model. Return null if no compartment instance matches the outside id.
 	 */
 	public Compartment getOutsideInstance() {
 		if (getModel() != null){
@@ -376,7 +376,7 @@ public class Compartment extends Symbol {
 	}
 	
 	/**
-	 * Sets the outsideID of this compartment to 'outsideID'.
+	 * Sets the outsideID of this compartment to 'outside'.
 	 * @param outside
 	 */
 	public void setOutside(String outside) {

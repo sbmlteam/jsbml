@@ -854,6 +854,10 @@ public abstract class AbstractSBase implements SBase {
 		return null;
 	}
 	
+	public void setModelHistory(ModelHistory modelHistory) {
+		annotation.setModelHistory(modelHistory);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -37,7 +37,7 @@ public class VCardParser implements ReadingParser{
 					modelCreator.setEmail(characters);
 				}
 				else if (elementName.equals("Orgname") && hasReadOrgName){
-					modelCreator.setOrganization(characters);
+					modelCreator.setOrganisation(characters);
 				}
 				else {
 					// TODO : SBML syntax error, throw an exception?

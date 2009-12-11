@@ -890,7 +890,7 @@ public class LibSBMLReader extends AbstractSBMLReader {
 		if (eve.isSetDelay())
 			ev.setDelay(readDelay(eve.getDelay()));
 		for (int i = 0; i < eve.getNumEventAssignments(); i++) {
-			ev.addEventAssignement(readEventAssignment(eve
+			ev.addEventAssignment(readEventAssignment(eve
 					.getEventAssignment(i)));
 		}
 		if (eve.isSetTimeUnits())
@@ -1016,7 +1016,7 @@ public class LibSBMLReader extends AbstractSBMLReader {
 					mc.setGivenName(creator.getGivenName());
 					mc.setFamilyName(creator.getFamilyName());
 					mc.setEmail(creator.getEmail());
-					mc.setOrganization(creator.getOrganization());
+					mc.setOrganisation(creator.getOrganization());
 					mh.addCreator(mc);
 				}
 				if (libHist.isSetCreatedDate())
