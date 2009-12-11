@@ -85,6 +85,14 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	 * @param level
 	 * @param version
 	 */
+	public FunctionDefinition(int level, int version) {
+		super(level, version);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 */
 	public FunctionDefinition(String id, int level, int version) {
 		super(level, version);
 		if (id != null){

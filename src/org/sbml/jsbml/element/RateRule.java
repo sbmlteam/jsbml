@@ -33,11 +33,12 @@ package org.sbml.jsbml.element;
 import java.util.HashMap;
 
 /**
+ *
  * Represents the rateRule XML element of a SBML file.
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ *
+ * @author Andreas Dr&auml;ger 
  * @author marine
+ *
  */
 public class RateRule extends Rule {
 
@@ -53,9 +54,17 @@ public class RateRule extends Rule {
 		super();
 		this.variableID = null;
 	}
-	
+
 	/**
 	 * Creates a RateRule instance from a given RateRule.
+	 * @param sb
+	 */
+	public RateRule(int level, int version) {
+		super(level, version);
+		this.variableID = null;
+	}
+
+	/**
 	 * @param sb
 	 */
 	public RateRule(RateRule sb) {

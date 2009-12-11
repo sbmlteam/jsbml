@@ -28,39 +28,17 @@
  *
  */
 
-/*
- *     JSBML - The SBML Java Library - development code
- *
- * This code may be freely distributed and modified under the
- * terms of the GNU Lesser General Public License. This should
- * be distributed with the code. If you do not have a copy,
- * see:
- *
- *      http://www.gnu.org/copyleft/lesser.html
- *
- * Copyright for this code is held jointly by the individual
- * authors. These should be listed in @author doc comments.
- *
- * For more information on the JSBML project and its aims,
- * or to join the jsbml-development mailing list, visit the 
- * home page at:
- *
- *      http://sbml.org
- *
- */
 package org.sbml.jsbml.element;
 
 import java.util.HashMap;
 
 /**
  * The base class for each SBML element with an optional id and name.
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
- *         @author Andreas Dr&auml;ger
+ * 
+ * @author Andreas Dr&auml;ger 
  * @author rodrigue
  * @author marine
- * @date 2009-08-31
+ * 
  */
 public abstract class AbstractNamedSBase extends AbstractSBase implements
 		NamedSBase {
@@ -161,11 +139,16 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 */
 	// @Override
 	public boolean equals(Object o) {
+		boolean equals = super.equals(o);
+
 		if (o instanceof NamedSBase) {
-			boolean equals = super.equals(o);
+			
+			// System.out.println("AbstractNamedSBase : equals : super.equals = " + equals);
+			
 			NamedSBase nsb = (NamedSBase) o;
 			equals &= nsb.isSetId() == isSetId();
-			if (equals && nsb.isSetId()){
+			
+			if (nsb.isSetId() && isSetId()){
 				equals &= nsb.getId().equals(getId());
 			}
 			equals &= nsb.isSetName() == isSetName();
@@ -173,7 +156,8 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 				equals &= nsb.getName().equals(getName());
 			}
 		}
-		return false;
+		
+		return equals;
 	}
 
 	/*

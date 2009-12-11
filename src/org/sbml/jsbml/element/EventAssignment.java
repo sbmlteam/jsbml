@@ -182,7 +182,7 @@ public class EventAssignment extends MathContainer {
 	 * Sets the variableID of this EventAssignment to 'variable'.
 	 * @param variable
 	 */
-	public void setVariableID(String variable) {
+	public void setVariable(String variable) {
 		this.variableID = variable;
 	}
 
@@ -215,7 +215,7 @@ public class EventAssignment extends MathContainer {
 		
 		if (!isAttributeRead){
 			if (attributeName.equals("variable")){
-				this.setVariableID(value);
+				this.setVariable(value);
 				return true;
 			}
 		}

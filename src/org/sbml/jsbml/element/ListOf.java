@@ -97,6 +97,33 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		}
 		return false;
 	}
+	
+	/**
+	 * Specialized method to remove a named SBase according to its unique id.
+	 * 
+	 * @param id the id of the object to be removed.
+	 * @return success or failure.
+	 */
+	public T remove(String removeId) {
+		
+		if (removeId != null && removeId.trim().length() == 0) {
+			int pos = -1;
+			SBase sbase = null; 
+			for (int i = 0; i < size() && pos < 0; i++) {
+				NamedSBase sb = (NamedSBase) get(i);
+				if (sb.isSetId() && sb.getId().equals(removeId)) {
+					pos = i;
+					sbase = sb;
+					break;
+				}
+			}
+			if (pos >= 0) {
+				listOf.remove(pos);
+				return (T) sbase;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * creates a ListOf instance from a given ListOf.

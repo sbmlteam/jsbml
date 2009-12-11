@@ -51,6 +51,7 @@ public class CompartmentType extends AbstractNamedSBase {
 	
 	/**
 	 * Creates a CompartmentType instance from a given CompartmentType.
+	 * 
 	 * @param nsb
 	 */
 	@Deprecated
@@ -60,6 +61,7 @@ public class CompartmentType extends AbstractNamedSBase {
 
 	/**
 	 * Creates a CompartmentType instance from an id, level and version.
+	 * 
 	 * @param id
 	 * @param level
 	 * @param version
@@ -71,6 +73,7 @@ public class CompartmentType extends AbstractNamedSBase {
 
 	/**
 	 * Creates a CompartmentType instance from an id, name, level and version.
+	 * 
 	 * @param id
 	 * @param name
 	 * @param level
@@ -79,6 +82,17 @@ public class CompartmentType extends AbstractNamedSBase {
 	@Deprecated
 	public CompartmentType(String id, String name, int level, int version) {
 		super(id, name, level, version);
+	}
+
+	/**
+	 * Creates a CompartmentType instance from a level and version.
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	@Deprecated
+	public CompartmentType(int level, int version) {
+		super(level, version);
 	}
 
 	/*

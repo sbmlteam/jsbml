@@ -64,6 +64,10 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 		super(species);
 	}
 	
+	public ModifierSpeciesReference(int level, int version) {
+		super(level, version);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

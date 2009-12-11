@@ -53,7 +53,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * The size, initial amount or concentration, or the actual value of this
 	 * variable.
 	 */
-	protected Double value;
+	protected Double value = Double.NaN;
 	
 	/**
 	 * a boolean to help knowing is the value as been set by the user or is the default one.
@@ -65,20 +65,19 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	public Symbol() {
 		super();
-		this.value = null;
 		this.unitsID = null;
 		this.constant = null;
 	}
 
 	/**
 	 * Creates a Symbol instance from a level and version. By default, value, unitsID, constant are null.
+	 * 
 	 * @param id
 	 * @param level
 	 * @param version
 	 */
 	public Symbol(int level, int version) {
 		super(level, version);
-		this.value = null;
 		this.unitsID = null;
 		this.constant = null;
 	}
@@ -86,19 +85,20 @@ public abstract class Symbol extends AbstractNamedSBase {
 	
 	/**
 	 * Creates a Symbol instance from an id, level and version. By default, value, unitsID, constant are null.
+	 * 
 	 * @param id
 	 * @param level
 	 * @param version
 	 */
 	public Symbol(String id, int level, int version) {
 		super(id, level, version);
-		this.value = null;
 		this.unitsID = null;
 		this.constant = null;
 	}
 
 	/**
 	 * Creates a Symbol instance from an id, name, level and version. By default, value, unitsID, constant are null.
+	 * 
 	 * @param id
 	 * @param name
 	 * @param level
@@ -106,7 +106,6 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	public Symbol(String id, String name, int level, int version) {
 		super(id, name, level, version);
-		this.value = null;
 		this.unitsID = null;
 		this.constant = null;
 	}
@@ -146,18 +145,23 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	// @Override
 	public boolean equals(Object o) {
+		boolean equal = super.equals(o);
+
 		if (o instanceof Symbol) {
-			boolean equal = super.equals(o);
+			
+			// System.out.println("Symbol : equals : super.equals = " + equal);
+			
 			Symbol v = (Symbol) o;
 			equal &= v.getConstant() == getConstant();
 			equal &= v.isSetUnits() == isSetUnits();
-			if (equal && isSetUnits()){
+			
+			if (v.isSetUnits() && isSetUnits()) {
 				equal &= v.getUnits().equals(getUnits());
 			}
 			equal &= v.getValue() == getValue();
-			return equal;
 		}
-		return false;
+		
+		return equal;
 	}
 
 	/**
@@ -180,11 +184,17 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * 
 	 * @return The UnitDefinition instance which has the unitsID of this Symbol as id. Null if it doesn't exist.
 	 */
+	// TODO : we probably need to support the case where unitsID is one of the predefined kind ?
 	public UnitDefinition getUnitsInstance() {
 		if (getModel() == null){
 			return null;
 		}
 		return getModel().getUnitDefinition(this.unitsID);
+	}
+	
+	// TODO : check that it is correct in case the unit is one of the supported kind directly.
+	public UnitDefinition getDerivedUnitDefinition() {
+		return getUnitsInstance();
 	}
 
 	/**
@@ -194,7 +204,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * 
 	 * @return the value
 	 */
-	double getValue() {
+	public double getValue() {
 		return value != null ? value : 0;
 	}
 
@@ -334,7 +344,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * Unsets the value of this Symbol.
 	 */
 	public void unsetValue() {
-		value = null;
+		value = Double.NaN;
 		isSetValue = false;
 		stateChanged();
 	}

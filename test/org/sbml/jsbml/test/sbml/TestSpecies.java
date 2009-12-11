@@ -3,6 +3,7 @@
  * @file    TestSpecies.java
  * @brief   Species unit tests
  *
+ * @author rodrigue (jsbml conversion)
  * @author  Akiya Jouraku (Java conversion)
  * @author  Ben Bornstein 
  *
@@ -63,7 +64,8 @@ public class TestSpecies {
     S = null;
   }
 
-  @Test public void test_Species_create()
+  @SuppressWarnings("deprecation")
+@Test public void test_Species_create()
   {
 //    assertTrue( S.getTypeCode() == libsbml.SBML_SPECIES );
     assertTrue( S.getMetaId().equals("") == true );

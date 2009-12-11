@@ -283,6 +283,15 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return the UnitDefinition instance which has the timeUnitsID of this Model as id. Null if it doesn't exist
 	 */
+	/**
+	 * 
+	 * @param id
+	 */
+	public Model(int level, int version) {
+		super(null, level, version);
+	}
+	
+	
 	public UnitDefinition getTimeUnitsInstance() {
 		if (getModel() != null){
 			return getModel().getUnitDefinition(this.timeUnitsID);
@@ -2154,7 +2163,616 @@ public class Model extends AbstractNamedSBase {
 		else if (isSetConversionFactor()){
 			attributes.put("conversionFactor", getConversionFactor());
 		}
-		
+
 		return attributes;
 	}
+
+
+	/**
+	 * Creates a new {@link AlgebraicRule} inside this {@link Model} and returns it.
+	 * <p>
+	 * @return the {@link AlgebraicRule} object created
+	 * <p>
+	 * @see #addRule(Rule  r)
+	 */
+	public Rule createAlgebraicRule() {
+		AlgebraicRule rule = new AlgebraicRule(level, version);
+		addRule(rule);
+
+		return rule;
+	}
+
+
+	/**
+	 * Creates a new {@link AssignmentRule} inside this {@link Model} and returns it.
+	 * <p>
+	 * @return the {@link AssignmentRule} object created
+	 * <p>
+	 * @see #addRule(Rule  r)
+	 */
+	public Rule createAssignmentRule() {
+		AssignmentRule rule = new AssignmentRule(level, version);
+		addRule(rule);
+
+		return rule;
+	}
+
+	/**
+	 * Creates a new {@link RateRule} inside this {@link Model} and returns it.
+	 * <p>
+	 * @return the {@link RateRule} object created
+	 * <p>
+	 * @see #addRule(Rule  r)
+	 */
+	public RateRule createRateRule() {
+		RateRule rule = new RateRule(level, version);
+		addRule(rule);
+
+		return rule;
+	}
+
+
+	/**
+	 * Creates a new {@link Compartment} inside this {@link Model} and returns it.
+	 * <p>
+	 * @return the {@link Compartment} object created
+	 * <p>
+	 * @see #addCompartment(Compartment c)
+	 */
+	public Compartment createCompartment() {
+		Compartment compartment = new Compartment(level, version);
+		addCompartment(compartment);
+
+		return compartment;
+	}
+
+
+	/**
+	 * Creates a new {@link CompartmentType} inside this {@link Model} and returns it.
+	 * <p>
+	 * @return the {@link CompartmentType} object created
+	 * <p>
+	 * @see #addCompartmentType(CompartmentType  ct)
+	 */
+	@SuppressWarnings("deprecation")
+	public CompartmentType createCompartmentType() {
+		CompartmentType compartmentType = new CompartmentType(level, version);
+		addCompartmentType(compartmentType);
+
+		return compartmentType;
+	}
+
+
+	/**
+	 * Creates a new {@link Constraint} inside this {@link Model} and returns it.
+	 * <p>
+	 * @return the {@link Constraint} object created
+	 * <p>
+	 * @see #addConstraint(Constraint c)
+	 */
+	public Constraint createConstraint() {
+		Constraint constraint = new Constraint(level, version);
+		addConstraint(constraint);
+
+		return constraint;
+	}
+
+
+	/**
+	 * Creates a new {@link Event} inside this {@link Model} and returns it.
+	 * <p>
+	 * @return the {@link Event} object created
+	 */
+	public Event createEvent() {
+		Event event = new Event(level, version);
+		addEvent(event);
+
+		return event;
+	}
+
+
+	/**
+	 * Creates a new {@link EventAssignment} inside the last {@link Event} object created in
+	 * this {@link Model}, and returns a pointer to it.
+	 * <p>
+	 * The mechanism by which the last {@link Event} object in this model was created
+	 * is not significant.  It could have been created in a variety of ways,
+	 * for example by using createEvent().  If no {@link Event} object exists in this
+	 * {@link Model} object, a new {@link EventAssignment} is <em>not</em> created and NULL is
+	 * returned instead.
+	 * <p>
+	 * @return the {@link EventAssignment} object created
+	 */
+	public EventAssignment createEventAssignment() {
+
+		int numEvent = getNumEvents();
+		Event lastEvent = null;
+
+		if (numEvent == 0) {
+			return null;
+		} else {
+			lastEvent = getEvent(numEvent - 1);
+		}
+
+		EventAssignment eventAssgnt = new EventAssignment(level, version);
+		lastEvent.addEventAssignment(eventAssgnt);
+
+		return eventAssgnt;
+
+	}
+
+	/**
+	 * Creates a new {@link Trigger} inside the last {@link Event} object created in
+	 * this {@link Model}, and returns a pointer to it.
+	 * <p>
+	 * The mechanism by which the last {@link Event} object in this model was created
+	 * is not significant.  It could have been created in a variety of ways,
+	 * for example by using createEvent().  If no {@link Event} object exists in this
+	 * {@link Model} object, a new {@link Trigger} is <em>not</em> created and NULL is
+	 * returned instead.
+	 * <p>
+	 * @return the {@link Trigger} object created
+	 */
+	public Trigger createTrigger() {
+		return null; // TODO : implement
+	}
+
+	/**
+	 * Creates a new {@link Delay} inside the last {@link Event} object created in
+	 * this {@link Model}, and returns a pointer to it.
+	 * <p>
+	 * The mechanism by which the last {@link Event} object in this model was created
+	 * is not significant.  It could have been created in a variety of ways,
+	 * for example by using createEvent().  If no {@link Event} object exists in this
+	 * {@link Model} object, a new {@link Delay} is <em>not</em> created and NULL is
+	 * returned instead.
+	 * <p>
+	 * @return the {@link Delay} object created
+	 */
+	public Delay createDelay() {
+		return null; // TODO : implement
+	}
+
+
+	/**
+	 * Creates a new {@link FunctionDefinition} inside this {@link Model} and returns it.
+	 * <p>
+	 * @return the {@link FunctionDefinition} object created
+	 * <p>
+	 * @see #addFunctionDefinition(FunctionDefinition  fd)
+	 */
+	public FunctionDefinition createFunctionDefinition() {
+		FunctionDefinition functionDef = new FunctionDefinition(level, version);
+		addFunctionDefinition(functionDef);
+
+		return functionDef;
+	}
+
+
+	/**
+	 * Creates a new {@link InitialAssignment} inside this {@link Model} and returns it.
+	 * <p>
+	 * @return the {@link InitialAssignment} object created
+	 * <p>
+	 * @see #addInitialAssignment(InitialAssignment  ia)
+	 */
+	public InitialAssignment createInitialAssignment() {
+		InitialAssignment initAssgmt = new InitialAssignment(level, version);
+		addInitialAssignment(initAssgmt);
+
+		return initAssgmt;
+	}
+
+
+	/**
+	 * Creates a new {@link Reaction} inside this {@link Model} and returns it.
+	 * <p>
+	 * @return the {@link Reaction} object created
+	 * <p>
+	 * @see #addReaction(Reaction r)
+	 */
+	public Reaction createReaction() {
+		Reaction reaction = new Reaction(level, version);
+		addReaction(reaction);
+
+		return reaction;
+	}
+
+
+	/**
+	 * Returns the last reaction added in the model, corresponding to the last element of the list of reactions
+	 * 
+	 * @return the last reaction added in the model, corresponding to the last element of the list of reactions, or null is no reaction exist.
+	 */
+	private Reaction getLastReactionAdded() {
+		int numReaction = getNumReactions();
+		Reaction lastReaction = null;
+
+		if (numReaction == 0) {
+			return null;
+		} else {
+			lastReaction = getReaction(numReaction - 1);
+		}
+
+		return lastReaction;
+	}
+
+	/**
+	 * Creates a new {@link KineticLaw} inside the last {@link Reaction} object created in
+	 * this {@link Model}, and returns a pointer to it.
+	 * <p>
+	 * The mechanism by which the last {@link Reaction} object was created and added
+	 * to this {@link Model} is not significant.  It could have been created in a
+	 * variety of ways, for example using createReaction().  If a {@link Reaction}
+	 * does not exist for this model, or a {@link Reaction} exists but already has a
+	 * {@link KineticLaw}, a new {@link KineticLaw} is <em>not</em> created and NULL is returned
+	 * instead.
+	 * <p>
+	 * @return the {@link KineticLaw} object created
+	 */
+	public KineticLaw createKineticLaw() {
+
+		Reaction lastReaction = getLastReactionAdded();
+
+		if (lastReaction == null) {
+			return null;
+		} 
+
+		KineticLaw kineticLaw = new KineticLaw(level, version);
+		lastReaction.setKineticLaw(kineticLaw);
+
+		return kineticLaw;
+	}
+
+
+	/**
+	 * Creates a new local {@link Parameter} inside the {@link KineticLaw} object of the last
+	 * {@link Reaction} created inside this {@link Model}, and returns a pointer to it.
+	 * <p>
+	 * The last {@link KineticLaw} object in this {@link Model} could have been created in a
+	 * variety of ways.  For example, it could have been added using
+	 * createKineticLaw(), or it could be the result of using
+	 * Reaction.createKineticLaw() on the {@link Reaction} object created by a
+	 * createReaction().  If a {@link Reaction} does not exist for this model, or the
+	 * last {@link Reaction} does not contain a {@link KineticLaw} object, a new {@link Parameter} is
+	 * <em>not</em> created and NULL is returned instead.
+	 * <p>
+	 * @return the {@link Parameter} object created
+	 */
+	public Parameter createKineticLawParameter() {
+
+		Reaction lastReaction = null;
+		KineticLaw lastKineticLaw = null;
+
+		if (lastReaction == null) {
+			return null;
+		} else {
+			lastKineticLaw = lastReaction.getKineticLaw();
+			if (lastKineticLaw == null) {
+				return null;
+			}
+		}
+
+		Parameter parameter = new Parameter(); 
+		// TODO : should we use localParameter ??? createKineticLawLocalParameter exist in libsbml-5. 
+		// Difference exist between global parameter and local parameter in SBML level 3
+		lastKineticLaw.addParameter(parameter);
+
+		return parameter;
+	}
+
+	/**
+	 * Creates a new {@link ModifierSpeciesReference} object for a modifier species
+	 * inside the last {@link Reaction} object in this {@link Model}, and returns a pointer
+	 * to it.
+	 * <p>
+	 * The mechanism by which the last {@link Reaction} object was created and added
+	 * to this {@link Model} is not significant.  It could have been created in a
+	 * variety of ways, for example using createReaction().  If a {@link Reaction}
+	 * does not exist for this model, a new {@link ModifierSpeciesReference} is 
+	 * <em>not</em> created and NULL is returned instead.
+	 * <p>
+	 * @return the {@link SpeciesReference} object created
+	 */
+	public ModifierSpeciesReference createModifier() {
+
+		Reaction lastReaction = getLastReactionAdded();
+
+		if (lastReaction == null) {
+			return null;
+		}
+
+		ModifierSpeciesReference modifier = lastReaction.createModifier();
+
+		return modifier;
+	}
+
+
+	/**
+	 * Creates a new {@link Parameter} inside this {@link Model} and returns it.
+	 * <p>
+	 * @return the {@link Parameter} object created
+	 * <p>
+	 * @see #addParameter(Parameter p)
+	 */
+	public Parameter createParameter() {
+
+		Parameter parameter = new Parameter(level, version);
+		addParameter(parameter);
+
+		return parameter;
+	}
+
+
+	/**
+	 * Creates a new {@link SpeciesReference} object for a product inside the last
+	 * {@link Reaction} object in this {@link Model}, and returns a pointer to it.
+	 * <p>
+	 * The mechanism by which the last {@link Reaction} object was created and added
+	 * to this {@link Model} is not significant.  It could have been created in a
+	 * variety of ways, for example using createReaction().  If a {@link Reaction}
+	 * does not exist for this model, a new {@link SpeciesReference} is <em>not</em>
+	 * created and NULL is returned instead.
+	 * <p>
+	 * @return the {@link SpeciesReference} object created
+	 */
+	public SpeciesReference createProduct() {
+		Reaction lastReaction = getLastReactionAdded();
+
+		if (lastReaction == null) {
+			return null;
+		} 
+
+		SpeciesReference product = lastReaction.createProduct();
+
+		return product;
+	}
+
+
+	/**
+	 * Creates a new {@link SpeciesReference} object for a reactant inside the last
+	 * {@link Reaction} object in this {@link Model}, and returns a pointer to it.
+	 * <p>
+	 * The mechanism by which the last {@link Reaction} object was created and added
+	 * to this {@link Model} is not significant.  It could have been created in a
+	 * variety of ways, for example using createReaction().  If a {@link Reaction}
+	 * does not exist for this model, a new {@link SpeciesReference} is <em>not</em>
+	 * created and NULL is returned instead.
+	 * <p>
+	 * @return the {@link SpeciesReference} object created
+	 */
+	public SpeciesReference createReactant() {
+		Reaction lastReaction = getLastReactionAdded();
+
+		if (lastReaction == null) {
+			return null;
+		} 
+
+		SpeciesReference reactant = lastReaction.createReactant();
+
+		return reactant;
+	}
+
+
+	/**
+	 * Creates a new {@link Species} inside this {@link Model} and returns it.
+	 * <p>
+	 * @return the {@link Species} object created
+	 * <p>
+	 * @see #addSpecies(Species s)
+	 */
+	public Species createSpecies() {
+
+		Species species = new Species(level, version);
+		addSpecies(species);
+
+		return species;
+	}
+
+
+	/**
+	 * Creates a new {@link SpeciesType} inside this {@link Model} and returns it.
+	 * <p>
+	 * @return the {@link SpeciesType} object created
+	 * <p>
+	 * @see #addSpeciesType(SpeciesType  st)
+	 */
+	@SuppressWarnings("deprecation")
+	public SpeciesType createSpeciesType() {
+
+		SpeciesType speciesType = new SpeciesType(level, version);
+		addSpeciesType(speciesType);
+
+		return speciesType;
+	}
+
+
+	/**
+	 * Creates a new {@link UnitDefinition} inside this {@link Model} and returns it.
+	 * <p>
+	 * @return the {@link UnitDefinition} object created
+	 * <p>
+	 * @see #addUnitDefinition(UnitDefinition  ud)
+	 */
+	public UnitDefinition createUnitDefinition() {
+
+		UnitDefinition unitDefinition = new UnitDefinition(level, version);
+		addUnitDefinition(unitDefinition);
+
+		return unitDefinition;
+	}
+
+
+	/**
+	 * Creates a new {@link Unit} object within the last {@link UnitDefinition} object
+	 * created in this model and returns a pointer to it.
+	 * <p>
+	 * The mechanism by which the {@link UnitDefinition} was created is not
+	 * significant.  If a {@link UnitDefinition} object does not exist in this model,
+	 * a new {@link Unit} is <em>not</em> created and NULL is returned instead.
+	 * <p>
+	 * @return the {@link Unit} object created
+	 * <p>
+	 * @see #addUnitDefinition(UnitDefinition  ud)
+	 */
+	public Unit createUnit() {
+
+		int numUnitDef = getNumUnitDefinitions();
+		UnitDefinition lastUnitDef = null;
+
+		if (numUnitDef == 0) {
+			return null;
+		} else {
+			lastUnitDef = getUnitDefinition(numUnitDef - 1);
+		}
+
+		Unit unit = lastUnitDef.createUnit();
+
+		return unit;
+	}
+
+
+	public int getNumSpeciesWithBoundaryCondition() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	public Compartment removeCompartment(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Compartment removeCompartment(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public CompartmentType removeCompartmentType(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public CompartmentType removeCompartmentType(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Constraint removeConstraint(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Event removeEvent(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Event removeEvent(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public FunctionDefinition removeFunctionDefinition(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public FunctionDefinition removeFunctionDefinition(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public InitialAssignment removeInitialAssignment(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public InitialAssignment removeInitialAssignment(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Parameter removeParameter(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Parameter removeParameter(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Reaction removeReaction(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Reaction removeReaction(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Rule removeRule(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Rule removeRule(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Species removeSpecies(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Species removeSpecies(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public SpeciesType removeSpeciesType(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public SpeciesType removeSpeciesType(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public UnitDefinition removeUnitDefinition(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public UnitDefinition removeUnitDefinition(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
