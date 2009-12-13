@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import org.sbml.jsbml.io.IOProgressListener;
 
 /**
  * @author Andreas Dr&auml;ger <a
@@ -42,14 +43,14 @@ import java.util.List;
  * 
  */
 public interface SBMLWriter {
-	
+
 	/**
 	 * 
 	 * @param date
 	 * @return
 	 */
 	public Object convertDate(Date date);
-	
+
 	/**
 	 * 
 	 * @return
@@ -62,7 +63,7 @@ public interface SBMLWriter {
 	 * @return
 	 */
 	public List<SBMLException> getWriteWarnings(Object sbase);
-	
+
 	/**
 	 * Deletes those elements that are not referenced or not needed within the
 	 * model.
@@ -79,9 +80,8 @@ public interface SBMLWriter {
 	 * @param object
 	 * @throws SBMLException
 	 */
-	public void saveChanges(Model model, Object object)
-			throws SBMLException;
-	
+	public void saveChanges(Model model, Object object) throws SBMLException;
+
 	/**
 	 * Save all changes that belong to one particular reaction in the model.
 	 * 
@@ -91,7 +91,7 @@ public interface SBMLWriter {
 	 */
 	public void saveChanges(Reaction reaction, Object model)
 			throws SBMLException;
-	
+
 	/**
 	 * 
 	 * @param c
@@ -110,7 +110,7 @@ public interface SBMLWriter {
 	 * 
 	 * @param r
 	 * @param event
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 */
 	public void saveEventProperties(Event r, Object event) throws SBMLException;
 
@@ -118,17 +118,19 @@ public interface SBMLWriter {
 	 * 
 	 * @param kl
 	 * @param kineticLaw
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 */
-	public void saveKineticLawProperties(KineticLaw kl, Object kineticLaw) throws SBMLException;
+	public void saveKineticLawProperties(KineticLaw kl, Object kineticLaw)
+			throws SBMLException;
 
 	/**
 	 * 
 	 * @param mc
 	 * @param sbase
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 */
-	public void saveMathContainerProperties(MathContainer mc, Object sbase) throws SBMLException;
+	public void saveMathContainerProperties(MathContainer mc, Object sbase)
+			throws SBMLException;
 
 	/**
 	 * 
@@ -163,9 +165,10 @@ public interface SBMLWriter {
 	 * 
 	 * @param r
 	 * @param reaction
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 */
-	public void saveReactionProperties(Reaction r, Object reaction) throws SBMLException;
+	public void saveReactionProperties(Reaction r, Object reaction)
+			throws SBMLException;
 
 	/**
 	 * 
@@ -228,7 +231,7 @@ public interface SBMLWriter {
 	 * 
 	 * @param event
 	 * @return
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 */
 	public Object writeEvent(Event event) throws SBMLException;
 
@@ -236,39 +239,43 @@ public interface SBMLWriter {
 	 * 
 	 * @param ea
 	 * @return
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 */
-	public Object writeEventAssignment(EventAssignment eventAssignment, Object...args) throws SBMLException;
+	public Object writeEventAssignment(EventAssignment eventAssignment,
+			Object... args) throws SBMLException;
 
 	/**
 	 * 
 	 * @param functionDefinition
 	 * @return
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 */
-	public Object writeFunctionDefinition(FunctionDefinition functionDefinition) throws SBMLException;
+	public Object writeFunctionDefinition(FunctionDefinition functionDefinition)
+			throws SBMLException;
 
 	/**
 	 * 
 	 * @param initialAssignment
 	 * @return
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 */
-	public Object writeInitialAssignment(InitialAssignment initialAssignment) throws SBMLException;
+	public Object writeInitialAssignment(InitialAssignment initialAssignment)
+			throws SBMLException;
 
 	/**
 	 * 
 	 * @param kineticLaw
 	 * @return
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 */
-	public Object writeKineticLaw(KineticLaw kineticLaw, Object...args) throws SBMLException;
+	public Object writeKineticLaw(KineticLaw kineticLaw, Object... args)
+			throws SBMLException;
 
 	/**
 	 * 
 	 * @param model
 	 * @return
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 */
 	public Object writeModel(Model model) throws SBMLException;
 
@@ -278,20 +285,20 @@ public interface SBMLWriter {
 	 * @return
 	 */
 	public Object writeModifierSpeciesReference(
-			ModifierSpeciesReference modifierSpeciesReference, Object...args);
+			ModifierSpeciesReference modifierSpeciesReference, Object... args);
 
 	/**
 	 * 
 	 * @param parameter
 	 * @return
 	 */
-	public Object writeParameter(Parameter parameter,Object...args);
+	public Object writeParameter(Parameter parameter, Object... args);
 
 	/**
 	 * 
 	 * @param reaction
 	 * @return
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 */
 	public Object writeReaction(Reaction reaction) throws SBMLException;
 
@@ -300,17 +307,18 @@ public interface SBMLWriter {
 	 * @param rule
 	 * @return
 	 */
-	public Object writeRule(Rule rule,Object...args);
+	public Object writeRule(Rule rule, Object... args);
 
 	/**
 	 * 
 	 * @param sbmlDocument
 	 * @param filename
 	 * @return
-	 * @throws SBMLException 
-	 * @throws IOException 
+	 * @throws SBMLException
+	 * @throws IOException
 	 */
-	public boolean writeSBML(Object sbmlDocument, String filename) throws SBMLException, IOException;
+	public boolean writeSBML(Object sbmlDocument, String filename)
+			throws SBMLException, IOException;
 
 	/**
 	 * 
@@ -319,11 +327,12 @@ public interface SBMLWriter {
 	 * @param programName
 	 * @param versionNumber
 	 * @return
-	 * @throws SBMLException 
-	 * @throws IOException 
+	 * @throws SBMLException
+	 * @throws IOException
 	 */
-	public boolean writeSBML(Object object, String filename, String programName,
-			String versionNumber) throws SBMLException, IOException;
+	public boolean writeSBML(Object object, String filename,
+			String programName, String versionNumber) throws SBMLException,
+			IOException;
 
 	/**
 	 * 
@@ -336,17 +345,18 @@ public interface SBMLWriter {
 	 * 
 	 * @param speciesReference
 	 * @return
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 */
-	public Object writeSpeciesReference(SpeciesReference speciesReference,Object...args) throws SBMLException;
-	
+	public Object writeSpeciesReference(SpeciesReference speciesReference,
+			Object... args) throws SBMLException;
+
 	/**
 	 * 
 	 * @param speciesType
 	 * @return
 	 */
 	public Object writeSpeciesType(SpeciesType speciesType);
-	
+
 	/**
 	 * 
 	 * @param stoichiometryMath
@@ -366,7 +376,7 @@ public interface SBMLWriter {
 	 * @param unit
 	 * @return
 	 */
-	public Object writeUnit(Unit unit,Object...args);
+	public Object writeUnit(Unit unit, Object... args);
 
 	/**
 	 * 
@@ -374,4 +384,11 @@ public interface SBMLWriter {
 	 * @return
 	 */
 	public Object writeUnitDefinition(UnitDefinition unitDefinition);
+
+	/**
+	 * Allows this class to fire events through this event Listener.
+	 * 
+	 * @param listener
+	 */
+	public void addIOProgressListener(IOProgressListener listener);
 }

@@ -32,6 +32,8 @@ package org.sbml.jsbml;
 import java.util.Date;
 import java.util.List;
 
+import org.sbml.jsbml.io.IOProgressListener;
+
 /**
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
@@ -179,4 +181,16 @@ public interface SBMLReader {
 	 * @return
 	 */
 	public UnitDefinition readUnitDefinition(Object unitDefinition);
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Object getOriginalModel();
+
+	/**
+	 * 
+	 * @param listener
+	 */
+	public void addIOProgressListener(IOProgressListener listener);
 }
