@@ -32,8 +32,10 @@ package org.sbml.jsbml.io;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AlgebraicRule;
@@ -59,6 +61,7 @@ import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
@@ -67,7 +70,6 @@ import org.sbml.jsbml.StoichiometryMath;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.SBMLWriter;
 import org.sbml.libsbml.libsbmlConstants;
 
 /**
@@ -79,7 +81,17 @@ import org.sbml.libsbml.libsbmlConstants;
 public class LibSBMLWriter implements SBMLWriter {
 
 	private static final String error = " must be an instance of org.sbml.libsbml.";
+	private Set<IOProgressListener> setIOListeners = new HashSet<IOProgressListener>();
 	private org.sbml.libsbml.Model modelOrig;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.SBMLWriter#addEventListener(java.util.EventListener)
+	 */
+	public void addIOProgressListener(IOProgressListener listener) {
+		setIOListeners.add(listener);
+	}
 
 	/**
 	 * 
@@ -580,6 +592,134 @@ public class LibSBMLWriter implements SBMLWriter {
 		return equal;
 	}
 
+	/**
+	 * Checks wheter these two units are identical.
+	 * 
+	 * @param u
+	 * @param unit
+	 * @return
+	 */
+	private boolean equal(Unit u, org.sbml.libsbml.Unit unit) {
+		if (u == null || unit == null)
+			return false;
+		boolean equal = true;
+		switch (unit.getKind()) {
+		case libsbmlConstants.UNIT_KIND_AMPERE:
+			equal &= u.getKind() == Unit.Kind.AMPERE;
+			break;
+		case libsbmlConstants.UNIT_KIND_BECQUEREL:
+			equal &= u.getKind() == Unit.Kind.BECQUEREL;
+			break;
+		case libsbmlConstants.UNIT_KIND_CANDELA:
+			equal &= u.getKind() == Unit.Kind.CANDELA;
+			break;
+		case libsbmlConstants.UNIT_KIND_CELSIUS:
+			equal &= u.getKind() == Unit.Kind.CELSIUS;
+			break;
+		case libsbmlConstants.UNIT_KIND_COULOMB:
+			equal &= u.getKind() == Unit.Kind.COULOMB;
+			break;
+		case libsbmlConstants.UNIT_KIND_DIMENSIONLESS:
+			equal &= u.getKind() == Unit.Kind.DIMENSIONLESS;
+			break;
+		case libsbmlConstants.UNIT_KIND_FARAD:
+			equal &= u.getKind() == Unit.Kind.FARAD;
+			break;
+		case libsbmlConstants.UNIT_KIND_GRAM:
+			equal &= u.getKind() == Unit.Kind.GRAM;
+			break;
+		case libsbmlConstants.UNIT_KIND_GRAY:
+			equal &= u.getKind() == Unit.Kind.GRAY;
+			break;
+		case libsbmlConstants.UNIT_KIND_HENRY:
+			equal &= u.getKind() == Unit.Kind.HENRY;
+			break;
+		case libsbmlConstants.UNIT_KIND_HERTZ:
+			equal &= u.getKind() == Unit.Kind.HERTZ;
+			break;
+		case libsbmlConstants.UNIT_KIND_INVALID:
+			equal &= u.getKind() == Unit.Kind.INVALID;
+			break;
+		case libsbmlConstants.UNIT_KIND_ITEM:
+			equal &= u.getKind() == Unit.Kind.ITEM;
+			break;
+		case libsbmlConstants.UNIT_KIND_JOULE:
+			equal &= u.getKind() == Unit.Kind.JOULE;
+			break;
+		case libsbmlConstants.UNIT_KIND_KATAL:
+			equal &= u.getKind() == Unit.Kind.KATAL;
+			break;
+		case libsbmlConstants.UNIT_KIND_KELVIN:
+			equal &= u.getKind() == Unit.Kind.KELVIN;
+			break;
+		case libsbmlConstants.UNIT_KIND_KILOGRAM:
+			equal &= u.getKind() == Unit.Kind.KILOGRAM;
+			break;
+		case libsbmlConstants.UNIT_KIND_LITER:
+			equal &= u.getKind() == Unit.Kind.LITER;
+			break;
+		case libsbmlConstants.UNIT_KIND_LITRE:
+			equal &= u.getKind() == Unit.Kind.LITRE;
+			break;
+		case libsbmlConstants.UNIT_KIND_LUMEN:
+			equal &= u.getKind() == Unit.Kind.LUMEN;
+			break;
+		case libsbmlConstants.UNIT_KIND_LUX:
+			equal &= u.getKind() == Unit.Kind.LUX;
+			break;
+		case libsbmlConstants.UNIT_KIND_METER:
+			equal &= u.getKind() == Unit.Kind.METER;
+			break;
+		case libsbmlConstants.UNIT_KIND_METRE:
+			equal &= u.getKind() == Unit.Kind.METRE;
+			break;
+		case libsbmlConstants.UNIT_KIND_MOLE:
+			equal &= u.getKind() == Unit.Kind.MOLE;
+			break;
+		case libsbmlConstants.UNIT_KIND_NEWTON:
+			equal &= u.getKind() == Unit.Kind.NEWTON;
+			break;
+		case libsbmlConstants.UNIT_KIND_OHM:
+			equal &= u.getKind() == Unit.Kind.OHM;
+			break;
+		case libsbmlConstants.UNIT_KIND_PASCAL:
+			equal &= u.getKind() == Unit.Kind.PASCAL;
+			break;
+		case libsbmlConstants.UNIT_KIND_RADIAN:
+			equal &= u.getKind() == Unit.Kind.RADIAN;
+			break;
+		case libsbmlConstants.UNIT_KIND_SECOND:
+			equal &= u.getKind() == Unit.Kind.SECOND;
+			break;
+		case libsbmlConstants.UNIT_KIND_SIEMENS:
+			equal &= u.getKind() == Unit.Kind.SIEMENS;
+			break;
+		case libsbmlConstants.UNIT_KIND_SIEVERT:
+			equal &= u.getKind() == Unit.Kind.SIEVERT;
+			break;
+		case libsbmlConstants.UNIT_KIND_STERADIAN:
+			equal &= u.getKind() == Unit.Kind.STERADIAN;
+			break;
+		case libsbmlConstants.UNIT_KIND_TESLA:
+			equal &= u.getKind() == Unit.Kind.TESLA;
+			break;
+		case libsbmlConstants.UNIT_KIND_VOLT:
+			equal &= u.getKind() == Unit.Kind.VOLT;
+			break;
+		case libsbmlConstants.UNIT_KIND_WATT:
+			equal &= u.getKind() == Unit.Kind.WATT;
+			break;
+		case libsbmlConstants.UNIT_KIND_WEBER:
+			equal &= u.getKind() == Unit.Kind.WEBER;
+			break;
+		}
+		equal &= u.getExponent() == unit.getExponent();
+		equal &= u.getMultiplier() == unit.getMultiplier();
+		equal &= u.getScale() == unit.getScale();
+		equal &= u.getOffset() == unit.getOffset();
+		return equal;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -630,50 +770,58 @@ public class LibSBMLWriter implements SBMLWriter {
 		// remove unnecessary function definitions
 		for (i = mo.getNumFunctionDefinitions() - 1; i >= 0; i--) {
 			org.sbml.libsbml.FunctionDefinition c = mo.getFunctionDefinition(i);
-			if (model.getFunctionDefinition(c.getId()) == null)
-				mo.getListOfFunctionDefinitions().remove(i);
+			if (model.getFunctionDefinition(c.getId()) == null) {
+				fireIOEvent(mo.getListOfFunctionDefinitions().remove(i)
+				);
+			}
 		}
 
 		// remove unnecessary units
 		for (i = mo.getNumUnitDefinitions() - 1; i >= 0; i--) {
 			org.sbml.libsbml.UnitDefinition ud = mo.getUnitDefinition(i);
-			if (model.getUnitDefinition(ud.getId()) == null)
-				mo.getListOfUnitDefinitions().remove(i);
+			if (model.getUnitDefinition(ud.getId()) == null) {
+				fireIOEvent(mo.getListOfUnitDefinitions().remove(i));
+			}
 		}
 
 		// remove unnecessary compartmentTypes
 		for (i = mo.getNumCompartmentTypes() - 1; i >= 0; i--) {
 			org.sbml.libsbml.CompartmentType c = mo.getCompartmentType(i);
-			if (model.getCompartmentType(c.getId()) == null)
-				mo.getListOfCompartmentTypes().remove(i);
+			if (model.getCompartmentType(c.getId()) == null) {
+				fireIOEvent(mo.getListOfCompartmentTypes().remove(i));
+			}
 		}
 
 		// remove unnecessary speciesTypes
 		for (i = mo.getNumSpeciesTypes() - 1; i >= 0; i--) {
 			org.sbml.libsbml.SpeciesType c = mo.getSpeciesType(i);
-			if (model.getSpeciesType(c.getId()) == null)
-				mo.getListOfSpeciesTypes().remove(i);
+			if (model.getSpeciesType(c.getId()) == null) {
+				fireIOEvent(mo.getListOfSpeciesTypes().remove(i));
+			}
 		}
 
 		// remove unnecessary compartments
 		for (i = mo.getNumCompartments() - 1; i >= 0; i--) {
 			org.sbml.libsbml.Compartment c = mo.getCompartment(i);
-			if (model.getCompartment(c.getId()) == null)
-				mo.getListOfCompartments().remove(i);
+			if (model.getCompartment(c.getId()) == null) {
+				fireIOEvent(mo.getListOfCompartments().remove(i));
+			}
 		}
 
 		// remove unnecessary species
 		for (i = mo.getNumSpecies() - 1; i >= 0; i--) {
 			org.sbml.libsbml.Species s = mo.getSpecies(i);
-			if (model.getSpecies(s.getId()) == null)
-				mo.getListOfSpecies().remove(i);
+			if (model.getSpecies(s.getId()) == null) {
+				fireIOEvent(mo.getListOfSpecies().remove(i));
+			}
 		}
 
 		// remove parameters
 		for (i = mo.getNumParameters() - 1; i >= 0; i--) {
 			org.sbml.libsbml.Parameter p = mo.getParameter(i);
-			if (model.getParameter(p.getId()) == null)
-				mo.getListOfParameters().remove(i);
+			if (model.getParameter(p.getId()) == null) {
+				fireIOEvent(mo.getListOfParameters().remove(i));
+			}
 		}
 
 		// remove unnecessary initial assignments
@@ -686,8 +834,9 @@ public class LibSBMLWriter implements SBMLWriter {
 						&& equal(ia.getMath(), c.getMath()))
 					contains = true;
 			}
-			if (!contains)
-				mo.getListOfInitialAssignments().remove(i);
+			if (!contains) {
+				fireIOEvent(mo.getListOfInitialAssignments().remove(i));
+			}
 		}
 
 		// remove unnecessary rules
@@ -709,7 +858,7 @@ public class LibSBMLWriter implements SBMLWriter {
 						contains = true;
 			}
 			if (!contains)
-				mo.getListOfRules().remove(i);
+				fireIOEvent(mo.getListOfRules().remove(i));
 		}
 
 		// remove unnecessary constraints
@@ -722,22 +871,31 @@ public class LibSBMLWriter implements SBMLWriter {
 					contains = true;
 			}
 			if (!contains)
-				mo.getListOfConstraints().remove(i);
+				fireIOEvent(mo.getListOfConstraints().remove(i));
 		}
 
 		// remove reactions
 		for (i = mo.getNumReactions() - 1; i >= 0; i--) {
 			org.sbml.libsbml.Reaction r = mo.getReaction(i);
 			if (model.getReaction(r.getId()) == null)
-				mo.getListOfReactions().remove(i);
+				fireIOEvent(mo.getListOfReactions().remove(i));
 		}
 
 		// remove events
 		for (i = mo.getNumEvents() - 1; i >= 0; i--) {
 			org.sbml.libsbml.Event eventOrig = mo.getEvent(i);
 			if (model.getEvent(eventOrig.getId()) == null)
-				mo.getListOfEvents().remove(i);
+				fireIOEvent(mo.getListOfEvents().remove(i));
 		}
+	}
+
+	/**
+	 * 
+	 * @param currObject
+	 */
+	private void fireIOEvent(Object currObject) {
+		for (IOProgressListener iopl : setIOListeners)
+			iopl.ioProgressOn(currObject);
 	}
 
 	/*
@@ -759,8 +917,9 @@ public class LibSBMLWriter implements SBMLWriter {
 			if (modelOrig.getFunctionDefinition(c.getId()) == null)
 				modelOrig.addFunctionDefinition(writeFunctionDefinition(c));
 			else
-				saveMathContainerProperties(c, modelOrig.getFunctionDefinition(c
-						.getId()));
+				saveMathContainerProperties(c, modelOrig
+						.getFunctionDefinition(c.getId()));
+			fireIOEvent(c);
 		}
 
 		// Unit definitions
@@ -780,12 +939,13 @@ public class LibSBMLWriter implements SBMLWriter {
 					&& !(UnitDefinition.areIdentical(ud, UnitDefinition.time(ud
 							.getLevel(), ud.getVersion())) && ud.getId()
 							.equals("time"))) {
-				org.sbml.libsbml.UnitDefinition libU = modelOrig.getUnitDefinition(ud
-						.getId());
+				org.sbml.libsbml.UnitDefinition libU = modelOrig
+						.getUnitDefinition(ud.getId());
 				if (libU != null)
 					saveUnitDefinitionProperties(ud, libU);
 				else
 					modelOrig.addUnitDefinition(writeUnitDefinition(ud));
+				fireIOEvent(ud);
 			}
 
 		// Compartment types
@@ -793,7 +953,9 @@ public class LibSBMLWriter implements SBMLWriter {
 			if (modelOrig.getCompartmentType(c.getId()) == null)
 				modelOrig.addCompartmentType(writeCompartmentType(c));
 			else
-				saveNamedSBaseProperties(c, modelOrig.getCompartmentType(c.getId()));
+				saveNamedSBaseProperties(c, modelOrig.getCompartmentType(c
+						.getId()));
+			fireIOEvent(c);
 		}
 
 		// Species types
@@ -802,6 +964,7 @@ public class LibSBMLWriter implements SBMLWriter {
 				modelOrig.addSpeciesType(writeSpeciesType(c));
 			else
 				saveNamedSBaseProperties(c, modelOrig.getSpeciesType(c.getId()));
+			fireIOEvent(c);
 		}
 
 		// Compartments
@@ -809,7 +972,9 @@ public class LibSBMLWriter implements SBMLWriter {
 			if (modelOrig.getCompartment(c.getId()) == null)
 				modelOrig.addCompartment(writeCompartment(c));
 			else
-				saveCompartmentProperties(c, modelOrig.getCompartment(c.getId()));
+				saveCompartmentProperties(c, modelOrig
+						.getCompartment(c.getId()));
+			fireIOEvent(c);
 		}
 
 		// Species
@@ -818,6 +983,7 @@ public class LibSBMLWriter implements SBMLWriter {
 				modelOrig.addSpecies(writeSpecies(s));
 			else
 				saveSpeciesProperties(s, modelOrig.getSpecies(s.getId()));
+			fireIOEvent(s);
 		}
 
 		// add or change parameters
@@ -826,13 +992,15 @@ public class LibSBMLWriter implements SBMLWriter {
 				modelOrig.addParameter(writeParameter(p));
 			else
 				saveParameterProperties(p, modelOrig.getParameter(p.getId()));
+			fireIOEvent(p);
 		}
 
 		// initial assignments
 		for (i = 0; i < model.getNumInitialAssignments(); i++) {
 			InitialAssignment ia = model.getInitialAssignment((int) i);
 			long contains = -1;
-			for (long j = 0; j < modelOrig.getNumInitialAssignments() && contains < 0; j++) {
+			for (long j = 0; j < modelOrig.getNumInitialAssignments()
+					&& contains < 0; j++) {
 				org.sbml.libsbml.InitialAssignment libIA = modelOrig
 						.getInitialAssignment(j);
 				if (libIA.getSymbol().equals(ia.getSymbol())
@@ -844,6 +1012,7 @@ public class LibSBMLWriter implements SBMLWriter {
 			else
 				saveMathContainerProperties(ia, modelOrig
 						.getInitialAssignment(contains));
+			fireIOEvent(ia);
 		}
 
 		// rules
@@ -877,6 +1046,7 @@ public class LibSBMLWriter implements SBMLWriter {
 			else
 				// math is equal anyway...
 				saveSBaseProperties(rule, modelOrig.getRule(contains));
+			fireIOEvent(rule);
 		}
 
 		// constraints
@@ -891,7 +1061,9 @@ public class LibSBMLWriter implements SBMLWriter {
 			if (contains < 0)
 				modelOrig.addConstraint(writeConstraint(ia));
 			else
-				saveMathContainerProperties(ia, modelOrig.getConstraint(contains));
+				saveMathContainerProperties(ia, modelOrig
+						.getConstraint(contains));
+			fireIOEvent(ia);
 		}
 
 		// add or change reactions
@@ -900,6 +1072,7 @@ public class LibSBMLWriter implements SBMLWriter {
 				modelOrig.addReaction(writeReaction(r));
 			else
 				saveReactionProperties(r, modelOrig.getReaction(r.getId()));
+			fireIOEvent(r);
 		}
 
 		// events
@@ -908,8 +1081,8 @@ public class LibSBMLWriter implements SBMLWriter {
 				modelOrig.addEvent(writeEvent(event));
 			else
 				saveEventProperties(event, modelOrig.getEvent(event.getId()));
+			fireIOEvent(event);
 		}
-
 		removeUnneccessaryElements(model, orig);
 	}
 
@@ -983,6 +1156,59 @@ public class LibSBMLWriter implements SBMLWriter {
 		}
 		saveReactionProperties(reaction, pluMo.getReaction(reaction.getId()));
 		removeUnneccessaryElements(reaction.getModel(), pluMo);
+	}
+
+	/**
+	 * 
+	 * @param speciesInstance
+	 * @param pluMo
+	 */
+	private void saveChanges(Species species, org.sbml.libsbml.Model pluMo) {
+		org.sbml.libsbml.Species pluSpec = pluMo.getSpecies(species.getId());
+		if (species.isSetSubstanceUnits()
+				&& !Unit.isUnitKind(species.getSubstanceUnits(), species
+						.getLevel(), species.getVersion())) {
+			if (pluMo.getUnitDefinition(species.getSubstanceUnits()) == null)
+				pluMo.addUnitDefinition(writeUnitDefinition(species
+						.getSubstanceUnitsInstance()));
+			else
+				saveUnitDefinitionProperties(species
+						.getSubstanceUnitsInstance(), pluMo
+						.getUnitDefinition(species.getSubstanceUnits()));
+		}
+		if (species.isSetCompartment()
+				&& pluMo.getCompartment(species.getCompartment()) == null) {
+			Compartment c = species.getCompartmentInstance();
+			if (c.isSetCompartmentType()) {
+				if (pluMo.getCompartmentType(c.getCompartmentType()) == null)
+					pluMo.addCompartmentType(writeCompartmentType(c
+							.getCompartmentTypeInstance()));
+				else
+					saveNamedSBaseProperties(c.getCompartmentTypeInstance(),
+							pluMo.getCompartmentType(c.getCompartmentType()));
+			}
+			if (c.isSetUnits()
+					&& !Unit.isUnitKind(c.getUnits(), c.getLevel(), c
+							.getVersion())) {
+				if (pluMo.getUnitDefinition(c.getUnits()) == null)
+					pluMo.addUnitDefinition(writeUnitDefinition(c
+							.getUnitsInstance()));
+				else
+					saveUnitDefinitionProperties(c.getUnitsInstance(), pluMo
+							.getUnitDefinition(c.getUnits()));
+			}
+			pluMo.addCompartment(writeCompartment(species
+					.getCompartmentInstance()));
+		}
+		if (species.isSetSpeciesType()) {
+			if (pluMo.getSpeciesType(species.getSpeciesType()) == null)
+				pluMo.addSpeciesType(writeSpeciesType(species
+						.getSpeciesTypeInstance()));
+			else
+				saveNamedSBaseProperties(species.getSpeciesTypeInstance(),
+						pluMo.getSpeciesType(species.getSpeciesType()));
+		}
+		saveSpeciesProperties(species, pluSpec);
 	}
 
 	/*
@@ -1707,6 +1933,25 @@ public class LibSBMLWriter implements SBMLWriter {
 			sp.setStoichiometry(sr.getStoichiometry());
 	}
 
+	/**
+	 * 
+	 * @param ud
+	 * @param libU
+	 */
+	private void saveUnitDefinitionProperties(UnitDefinition ud,
+			org.sbml.libsbml.UnitDefinition libU) {
+		saveNamedSBaseProperties(ud, libU);
+		for (Unit u : ud.getListOfUnits()) {
+			boolean contains = false;
+			for (int j = 0; j < libU.getNumUnits() && !contains; j++) {
+				if (equal(u, libU.getUnit(j)))
+					contains = true;
+			}
+			if (!contains)
+				libU.addUnit(writeUnit(u));
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1949,8 +2194,8 @@ public class LibSBMLWriter implements SBMLWriter {
 				if (!Unit
 						.isUnitKind(p.getUnits(), p.getLevel(), p.getVersion())) {
 					if (modelOrig.getUnitDefinition(p.getUnits()) == null) {
-						modelOrig.addUnitDefinition(
-								writeUnitDefinition(p.getUnitsInstance()));
+						modelOrig.addUnitDefinition(writeUnitDefinition(p
+								.getUnitsInstance()));
 					}
 				}
 			}
@@ -2405,205 +2650,5 @@ public class LibSBMLWriter implements SBMLWriter {
 			}
 		}
 		return ud;
-	}
-
-	/**
-	 * Checks wheter these two units are identical.
-	 * 
-	 * @param u
-	 * @param unit
-	 * @return
-	 */
-	private boolean equal(Unit u, org.sbml.libsbml.Unit unit) {
-		if (u == null || unit == null)
-			return false;
-		boolean equal = true;
-		switch (unit.getKind()) {
-		case libsbmlConstants.UNIT_KIND_AMPERE:
-			equal &= u.getKind() == Unit.Kind.AMPERE;
-			break;
-		case libsbmlConstants.UNIT_KIND_BECQUEREL:
-			equal &= u.getKind() == Unit.Kind.BECQUEREL;
-			break;
-		case libsbmlConstants.UNIT_KIND_CANDELA:
-			equal &= u.getKind() == Unit.Kind.CANDELA;
-			break;
-		case libsbmlConstants.UNIT_KIND_CELSIUS:
-			equal &= u.getKind() == Unit.Kind.CELSIUS;
-			break;
-		case libsbmlConstants.UNIT_KIND_COULOMB:
-			equal &= u.getKind() == Unit.Kind.COULOMB;
-			break;
-		case libsbmlConstants.UNIT_KIND_DIMENSIONLESS:
-			equal &= u.getKind() == Unit.Kind.DIMENSIONLESS;
-			break;
-		case libsbmlConstants.UNIT_KIND_FARAD:
-			equal &= u.getKind() == Unit.Kind.FARAD;
-			break;
-		case libsbmlConstants.UNIT_KIND_GRAM:
-			equal &= u.getKind() == Unit.Kind.GRAM;
-			break;
-		case libsbmlConstants.UNIT_KIND_GRAY:
-			equal &= u.getKind() == Unit.Kind.GRAY;
-			break;
-		case libsbmlConstants.UNIT_KIND_HENRY:
-			equal &= u.getKind() == Unit.Kind.HENRY;
-			break;
-		case libsbmlConstants.UNIT_KIND_HERTZ:
-			equal &= u.getKind() == Unit.Kind.HERTZ;
-			break;
-		case libsbmlConstants.UNIT_KIND_INVALID:
-			equal &= u.getKind() == Unit.Kind.INVALID;
-			break;
-		case libsbmlConstants.UNIT_KIND_ITEM:
-			equal &= u.getKind() == Unit.Kind.ITEM;
-			break;
-		case libsbmlConstants.UNIT_KIND_JOULE:
-			equal &= u.getKind() == Unit.Kind.JOULE;
-			break;
-		case libsbmlConstants.UNIT_KIND_KATAL:
-			equal &= u.getKind() == Unit.Kind.KATAL;
-			break;
-		case libsbmlConstants.UNIT_KIND_KELVIN:
-			equal &= u.getKind() == Unit.Kind.KELVIN;
-			break;
-		case libsbmlConstants.UNIT_KIND_KILOGRAM:
-			equal &= u.getKind() == Unit.Kind.KILOGRAM;
-			break;
-		case libsbmlConstants.UNIT_KIND_LITER:
-			equal &= u.getKind() == Unit.Kind.LITER;
-			break;
-		case libsbmlConstants.UNIT_KIND_LITRE:
-			equal &= u.getKind() == Unit.Kind.LITRE;
-			break;
-		case libsbmlConstants.UNIT_KIND_LUMEN:
-			equal &= u.getKind() == Unit.Kind.LUMEN;
-			break;
-		case libsbmlConstants.UNIT_KIND_LUX:
-			equal &= u.getKind() == Unit.Kind.LUX;
-			break;
-		case libsbmlConstants.UNIT_KIND_METER:
-			equal &= u.getKind() == Unit.Kind.METER;
-			break;
-		case libsbmlConstants.UNIT_KIND_METRE:
-			equal &= u.getKind() == Unit.Kind.METRE;
-			break;
-		case libsbmlConstants.UNIT_KIND_MOLE:
-			equal &= u.getKind() == Unit.Kind.MOLE;
-			break;
-		case libsbmlConstants.UNIT_KIND_NEWTON:
-			equal &= u.getKind() == Unit.Kind.NEWTON;
-			break;
-		case libsbmlConstants.UNIT_KIND_OHM:
-			equal &= u.getKind() == Unit.Kind.OHM;
-			break;
-		case libsbmlConstants.UNIT_KIND_PASCAL:
-			equal &= u.getKind() == Unit.Kind.PASCAL;
-			break;
-		case libsbmlConstants.UNIT_KIND_RADIAN:
-			equal &= u.getKind() == Unit.Kind.RADIAN;
-			break;
-		case libsbmlConstants.UNIT_KIND_SECOND:
-			equal &= u.getKind() == Unit.Kind.SECOND;
-			break;
-		case libsbmlConstants.UNIT_KIND_SIEMENS:
-			equal &= u.getKind() == Unit.Kind.SIEMENS;
-			break;
-		case libsbmlConstants.UNIT_KIND_SIEVERT:
-			equal &= u.getKind() == Unit.Kind.SIEVERT;
-			break;
-		case libsbmlConstants.UNIT_KIND_STERADIAN:
-			equal &= u.getKind() == Unit.Kind.STERADIAN;
-			break;
-		case libsbmlConstants.UNIT_KIND_TESLA:
-			equal &= u.getKind() == Unit.Kind.TESLA;
-			break;
-		case libsbmlConstants.UNIT_KIND_VOLT:
-			equal &= u.getKind() == Unit.Kind.VOLT;
-			break;
-		case libsbmlConstants.UNIT_KIND_WATT:
-			equal &= u.getKind() == Unit.Kind.WATT;
-			break;
-		case libsbmlConstants.UNIT_KIND_WEBER:
-			equal &= u.getKind() == Unit.Kind.WEBER;
-			break;
-		}
-		equal &= u.getExponent() == unit.getExponent();
-		equal &= u.getMultiplier() == unit.getMultiplier();
-		equal &= u.getScale() == unit.getScale();
-		equal &= u.getOffset() == unit.getOffset();
-		return equal;
-	}
-
-	/**
-	 * 
-	 * @param speciesInstance
-	 * @param pluMo
-	 */
-	private void saveChanges(Species species, org.sbml.libsbml.Model pluMo) {
-		org.sbml.libsbml.Species pluSpec = pluMo.getSpecies(species.getId());
-		if (species.isSetSubstanceUnits()
-				&& !Unit.isUnitKind(species.getSubstanceUnits(), species
-						.getLevel(), species.getVersion())) {
-			if (pluMo.getUnitDefinition(species.getSubstanceUnits()) == null)
-				pluMo.addUnitDefinition(writeUnitDefinition(species
-						.getSubstanceUnitsInstance()));
-			else
-				saveUnitDefinitionProperties(species
-						.getSubstanceUnitsInstance(), pluMo
-						.getUnitDefinition(species.getSubstanceUnits()));
-		}
-		if (species.isSetCompartment()
-				&& pluMo.getCompartment(species.getCompartment()) == null) {
-			Compartment c = species.getCompartmentInstance();
-			if (c.isSetCompartmentType()) {
-				if (pluMo.getCompartmentType(c.getCompartmentType()) == null)
-					pluMo.addCompartmentType(writeCompartmentType(c
-							.getCompartmentTypeInstance()));
-				else
-					saveNamedSBaseProperties(c.getCompartmentTypeInstance(),
-							pluMo.getCompartmentType(c.getCompartmentType()));
-			}
-			if (c.isSetUnits()
-					&& !Unit.isUnitKind(c.getUnits(), c.getLevel(), c
-							.getVersion())) {
-				if (pluMo.getUnitDefinition(c.getUnits()) == null)
-					pluMo.addUnitDefinition(writeUnitDefinition(c
-							.getUnitsInstance()));
-				else
-					saveUnitDefinitionProperties(c.getUnitsInstance(), pluMo
-							.getUnitDefinition(c.getUnits()));
-			}
-			pluMo.addCompartment(writeCompartment(species
-					.getCompartmentInstance()));
-		}
-		if (species.isSetSpeciesType()) {
-			if (pluMo.getSpeciesType(species.getSpeciesType()) == null)
-				pluMo.addSpeciesType(writeSpeciesType(species
-						.getSpeciesTypeInstance()));
-			else
-				saveNamedSBaseProperties(species.getSpeciesTypeInstance(),
-						pluMo.getSpeciesType(species.getSpeciesType()));
-		}
-		saveSpeciesProperties(species, pluSpec);
-	}
-
-	/**
-	 * 
-	 * @param ud
-	 * @param libU
-	 */
-	private void saveUnitDefinitionProperties(UnitDefinition ud,
-			org.sbml.libsbml.UnitDefinition libU) {
-		saveNamedSBaseProperties(ud, libU);
-		for (Unit u : ud.getListOfUnits()) {
-			boolean contains = false;
-			for (int j = 0; j < libU.getNumUnits() && !contains; j++) {
-				if (equal(u, libU.getUnit(j)))
-					contains = true;
-			}
-			if (!contains)
-				libU.addUnit(writeUnit(u));
-		}
 	}
 }
