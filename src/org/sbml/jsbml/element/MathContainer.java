@@ -226,7 +226,7 @@ public abstract class MathContainer extends AbstractSBase {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 	
 		if (!isAttributeRead){
-			if (attributeName.equals("formula")){
+			if (attributeName.equals("formula") && isSetLevel() && getLevel() < 2){
 				setFormulaString(value);
 			}
 		}
@@ -303,7 +303,7 @@ public abstract class MathContainer extends AbstractSBase {
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 		
-		if (isSetFormulaString()){
+		if (isSetFormulaString() && isSetLevel() && getLevel() < 2){
 			attributes.put("formula", getFormulaString());
 		}
 		return attributes;

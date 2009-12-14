@@ -149,7 +149,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 
 		if (o instanceof Symbol) {
 			
-			// System.out.println("Symbol : equals : super.equals = " + equal);
+			//System.out.println("Symbol : equals : super.equals = " + equal);
 			
 			Symbol v = (Symbol) o;
 			equal &= v.getConstant() == getConstant();
@@ -158,7 +158,16 @@ public abstract class Symbol extends AbstractNamedSBase {
 			if (v.isSetUnits() && isSetUnits()) {
 				equal &= v.getUnits().equals(getUnits());
 			}
-			equal &= v.getValue() == getValue();
+
+			if (!(Double.isNaN(v.getValue()) && Double.isNaN(getValue()))){
+				equal &= v.getValue() == getValue();
+			}
+			else if (Double.isNaN(v.getValue()) && Double.isNaN(getValue())){
+					return true;
+			}
+			else {
+				return false;
+			}
 		}
 		
 		return equal;

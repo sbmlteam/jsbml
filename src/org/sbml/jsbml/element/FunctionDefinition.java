@@ -275,6 +275,15 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value){
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+		
+		if (! isAttributeRead){
+			if (attributeName.equals("id") && getLevel() > 1){
+				setId(value);
+			}
+			else if (attributeName.equals("name") && getLevel() > 1){
+				setName(value);
+			}
+		}
 	
 		return isAttributeRead;
 	}
@@ -286,6 +295,13 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetId() && getLevel() > 1){
+			attributes.put("id", getId());
+		}
+		if (isSetName() && getLevel() > 1){
+			attributes.put("name", getName());
+		}
 		
 		return attributes;
 	}

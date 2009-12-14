@@ -637,7 +637,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	/**
 	 * Initialises the default values of this UnitDefinition.
 	 */
-	private void initDefaults() {
+	public void initDefaults() {
 		this.listOfUnit = new ListOf<Unit>(getLevel(), getVersion());
 		setThisAsParentSBMLObject(listOfUnit);
 	}

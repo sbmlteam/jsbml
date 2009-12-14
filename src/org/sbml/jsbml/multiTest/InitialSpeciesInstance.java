@@ -1,25 +1,23 @@
 package org.sbml.jsbml.multiTest;
 
+import java.util.HashMap;
+
 import org.sbml.jsbml.element.AbstractNamedSBase;
 import org.sbml.jsbml.element.SBase;
 
 public class InitialSpeciesInstance extends AbstractNamedSBase {
 	
-	private double initialProportion;
-	
-	private Selector selector;
-	
+	private Double initialProportion;
+		
 	private String selectorID;
 	
 	public InitialSpeciesInstance(){
-		this.setSelector(null);
-		this.setSelectorID(null);
-		this.setInitialProportion(0);
+		this.selectorID = null;
+		this.initialProportion = null;
 	}
 	
 	public InitialSpeciesInstance(InitialSpeciesInstance in){
 		this.setSelector(in.getSelector());
-		this.setSelectorID(in.getSelectorID());
 		this.setInitialProportion(in.getInitialProportion());
 	}
 	
@@ -39,35 +37,38 @@ public class InitialSpeciesInstance extends AbstractNamedSBase {
 	}
 
 	public double getInitialProportion() {
-		return initialProportion;
+		return isSetInitialProportion() ? initialProportion : 0;
 	}
 
 	public void setSelector(Selector selector) {
-		this.selector = selector;
+		this.selectorID = selector.isSetId() ? selector.getId() : "";
 	}
 
-	public Selector getSelector() {
-		return selector;
-	}
-
-	public void setSelectorID(String selectorID) {
-		selectorID = selectorID;
-	}
-
-	public String getSelectorID() {
-		return selectorID;
+	public Selector getSelectorInstance() {
+		// TODO extend model to have the listOfSelector and the appropriate methods
+		return null;
+		
 	}
 	
-	public boolean isSetSelectorID(){
-		return this.selectorID != null;
+	public String getSelector(){
+		return isSetSelector() ? this.selectorID : "";
+	}
+
+	public void setSelector(String selectorID) {
+		this.selectorID = selectorID;
 	}
 	
 	public boolean isSetSelector(){
-		return this.selector != null;
+		return this.selectorID != null;
+	}
+	
+	public boolean isSetSelectorInstance(){
+		// TODO extend Model to add the listOfSelector and the appropriate methods
+		return false;
 	}
 	
 	public boolean isSetInitialProportion(){
-		return this.initialProportion != 0;
+		return this.initialProportion != null;
 	}
 	
 	public boolean readAttribute(String attributeName, String prefix, String value){
@@ -87,6 +88,19 @@ public class InitialSpeciesInstance extends AbstractNamedSBase {
 		}
 		
 		return isReadAttribute;
+	}
+	
+	public HashMap<String, String> writeXMLAttributes(){
+		HashMap<String, String> attributes = new HashMap<String, String>();
+		
+		if (isSetInitialProportion()){
+			attributes.put("initialProportion", Double.toString(getInitialProportion()));
+		}
+		if (isSetSelector()){
+			attributes.put("selector", getSelector());
+		}
+		
+		return attributes;
 	}
 
 }

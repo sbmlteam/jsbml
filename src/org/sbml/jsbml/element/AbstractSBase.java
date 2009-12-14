@@ -758,7 +758,7 @@ public abstract class AbstractSBase implements SBase {
 			this.version = Integer.parseInt(value);
 			return true;
 		}
-		else if (attributeName.equals("sboTerm")){
+		else if (attributeName.equals("sboTerm") && ((getLevel() == 2 && getVersion() >= 2) || getLevel() == 3 )){
 			this.setSBOTerm(value);
 			return true;
 		}
@@ -955,7 +955,7 @@ public abstract class AbstractSBase implements SBase {
 		if (isSetMetaId()){
 			attributes.put("metaid", getMetaId());
 		}
-		if (isSetSBOTerm()){
+		if (isSetSBOTerm() && ((getLevel() == 2 && getVersion() >= 2) || getLevel() == 3 )){
 			attributes.put("sboTerm", getSBOTermID());
 		}
 		return attributes;

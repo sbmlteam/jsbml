@@ -1414,10 +1414,10 @@ public class Unit extends AbstractSBase {
 			else if (attributeName.equals("scale")){
 				this.setScale(Integer.parseInt(value));
 			}
-			else if (attributeName.equals("multiplier")){
+			else if (attributeName.equals("multiplier") && getLevel() > 1){
 				this.setMultiplier(Double.parseDouble(value));
 			}
-			else if (attributeName.equals("offset")){
+			else if (attributeName.equals("offset")  && getLevel() > 1){
 				this.setOffset(Double.parseDouble(value));
 			}
 		}
@@ -1441,10 +1441,10 @@ public class Unit extends AbstractSBase {
 		if (isSetScale()){
 			attributes.put("scale", Integer.toString(getScale()));
 		}
-		if (isSetMultiplier()){
+		if (isSetMultiplier()  && getLevel() > 1){
 			attributes.put("multiplier", Double.toString(getMultiplier()));
 		}
-		if (isSetOffset()){
+		if (isSetOffset()  && getLevel() > 1){
 			attributes.put("offset", Double.toString(getOffset()));
 		}
 		return attributes;

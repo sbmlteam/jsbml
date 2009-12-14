@@ -164,7 +164,7 @@ public class Parameter extends Symbol {
 			this.setUnits(value);
 			return true;
 		}
-		else if (attributeName.equals("constant")){
+		else if (attributeName.equals("constant") && getLevel() > 1){
 			if (value.equals("true")){
 				this.setConstant(true);
 				return true;
@@ -191,7 +191,7 @@ public class Parameter extends Symbol {
 		if (isSetUnits()){
 			attributes.put("units", getUnits());
 		}
-		if (isSetConstant()){
+		if (isSetConstant()  && getLevel() > 1){
 			attributes.put("constant", Boolean.toString(getConstant()));
 		}
 		

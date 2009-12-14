@@ -1,3 +1,33 @@
+/*
+ * $Id: SBMLCoreParser.java 38 2009-12-11 15:50:38Z marine3 $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/xml/sbmlParsers/SBMLCoreParser.java $
+ *
+ *
+ *==================================================================================
+ * Copyright (c) 2009 the copyright is held jointly by the individual
+ * authors. See the file AUTHORS for the list of authors.
+ *
+ * This file is part of jsbml, the pure java SBML library. Please visit
+ * http://sbml.org for more information about SBML, and http://jsbml.sourceforge.net/
+ * to get the latest version of jsbml.
+ *
+ * jsbml is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * jsbml is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with jsbml.  If not, see <http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>.
+ *
+ *===================================================================================
+ *
+ */
+
 package org.sbml.jsbml.xml.sbmlParsers;
 
 import java.util.ArrayList;
@@ -35,19 +65,47 @@ import org.sbml.jsbml.xml.SBaseListType;
 import org.sbml.jsbml.xml.SBMLObjectForXML;
 import org.sbml.jsbml.xml.ReadingParser;
 import org.sbml.jsbml.xml.WritingParser;
+import org.sbml.jsbml.xml.XMLLogger;
 
+/**
+ * A SBMLCoreParser is used to parse the SBML core elements of a SBML file. It can read and 
+ * write SBML core elements (implements ReadingParser and WritingParser).
+ * It would be better to have one parser per level and version rather than one SBMLCoreParser which
+ * parses everything. To change ?
+ * @author marine
+ *
+ */
 public class SBMLCoreParser implements ReadingParser, WritingParser{
 	
-	private String parserNamespace = "http://www.sbml.org/sbml/level3/version1/core";
+	/**
+	 * The namespace URI of this parser is by default the namespaceURI of SBML level 3 version 1.
+	 */
+	private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/core";
 	
+	/**
+	 * This map contains all the relationships XML element name <=> matching java class.
+	 */
 	private HashMap<String, Class<? extends Object>> SBMLCoreElements;
 	
+	/**
+	 * The logger of this parser
+	 */
+	private XMLLogger logger;
+	
+	/**
+	 * Creates a SBMLCoreParser instance. Initialises the SBMLCoreElements of this Parser.
+	 */
 	public SBMLCoreParser(){
 		SBMLCoreElements = new HashMap<String, Class<? extends Object>>();
 		initializeCoreElements();
 	}
 	
+	/**
+	 * Initialises the SBMLCoreElements of this parser.
+	 */
 	private void initializeCoreElements(){
+		// TODO : loading from a file would be better.
+		
 		SBMLCoreElements.put("model", Model.class);
 		SBMLCoreElements.put("listOfFunctionDefinitions", ListOf.class);
 		SBMLCoreElements.put("listOfUnitDefinitions", ListOf.class);
@@ -76,6 +134,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		SBMLCoreElements.put("initialAssignment", InitialAssignment.class);
 		SBMLCoreElements.put("algebraicRule", AlgebraicRule.class);
 		SBMLCoreElements.put("assignmentRule", AssignmentRule.class);
+		SBMLCoreElements.put("specieConcentrationRule", AssignmentRule.class);
+		SBMLCoreElements.put("speciesConcentrationRule", AssignmentRule.class);
+		SBMLCoreElements.put("compartmentVolumeRule", AssignmentRule.class);
+		SBMLCoreElements.put("parameterRule", AssignmentRule.class);
 		SBMLCoreElements.put("rateRule", RateRule.class);
 		SBMLCoreElements.put("constraint", Constraint.class);
 		SBMLCoreElements.put("reaction", Reaction.class);
@@ -84,6 +146,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		SBMLCoreElements.put("event", Event.class);
 		SBMLCoreElements.put("unit", Unit.class);
 		SBMLCoreElements.put("speciesReference", SpeciesReference.class);
+		SBMLCoreElements.put("specieReference", SpeciesReference.class);
 		SBMLCoreElements.put("modifierSpeciesReference", ModifierSpeciesReference.class);
 		SBMLCoreElements.put("trigger", Trigger.class);
 		SBMLCoreElements.put("delay", Delay.class);
@@ -95,14 +158,26 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		SBMLCoreElements.put("math", StringBuffer.class);
 	}
 
+	/* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String elementName, String attributeName,
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject)
+	 */
 	public void processAttribute(String elementName, String attributeName,
 			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) {
+		
 		boolean isAttributeRead = false;
+		
+		// A SBMLCoreParser can modify a contextObject which is an instance of SBase.
+		// Try to read the attributes.
 		if (contextObject instanceof SBase){
 			SBase sbase = (SBase) contextObject;
 			isAttributeRead = sbase.readAttribute(attributeName, prefix, value);
 		}
+		// A SBMLCoreParser can modify a contextObject which is an instance of Annotation.
+		// Try to read the attributes.
 		else if (contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
 			isAttributeRead = annotation.readAttribute(attributeName, prefix, value);
@@ -113,11 +188,22 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		}
 	}
 
+	/* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String elementName, String characters,
+			Object contextObject)
+	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {	
 		// TODO : the basic SBML elements don't have any text. SBML syntax error, throw an exception?
 	}
 
+	/* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix,
+			boolean hasAttributes, boolean hasNamespaces,
+			Object contextObject)
+	 */
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces,
 			Object contextObject) {
@@ -523,12 +609,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		return contextObject;
 	}
 
-	public void setParserNamespace(String parserNamespace) {
-		this.parserNamespace = parserNamespace;
-	}
-
-	public String getParserNamespace() {
-		return parserNamespace;
+	public String getNamespaceURI() {
+		return namespaceURI;
 	}
 	
 	private void setRateRuleVariable(RateRule rule, Model model){
@@ -897,7 +979,11 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		}
 	}
 
-
+	/* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String elementName, String prefix, boolean isNested,
+			Object contextObject)
+	 */
 	public void processEndElement(String elementName, String prefix, boolean isNested,
 			Object contextObject) {
 	
@@ -911,6 +997,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 			}
 	}
 
+	/* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
+	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 		
 		if (sbmlDocument.isSetModel()){
@@ -1049,18 +1139,28 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		}
 	}
 
+	/* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject)
+	 */
 	public void processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
 			Object contextObject) {
 		
 		if (contextObject instanceof SBMLDocument){
 			SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
-			if (!URI.equals(parserNamespace)){
+			if (!URI.equals(namespaceURI)){
 				sbmlDocument.addNamespace(localName, prefix, URI);
 			}
 		}
 	}
 
+	/* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
+	 */
 	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
 		ArrayList<Object> listOfElementsToWrite = null;
 		if (sbase instanceof SBase){
@@ -1192,6 +1292,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		return listOfElementsToWrite;
 	}
 
+	/* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite)
+	 */
 	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
 		
 		if (sbmlElementToWrite instanceof SBase){
@@ -1202,6 +1306,11 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		}
 	}
 
+	/* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.WritingParser#writeAttributes(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite)
+	 */
 	public void writeAttributes(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
 		if (sbmlElementToWrite instanceof SBase){
@@ -1211,11 +1320,21 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 		}
 	}
 
+	/* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.WritingParser#writeCharacters(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite)
+	 */
 	public void writeCharacters(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
 		// TODO SBML components don't have any characters in the XML file. what to do?
 	}
 
+	/* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite)
+	 */
 	public void writeNamespaces(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
 		if (sbmlElementToWrite instanceof SBase){
@@ -1229,5 +1348,19 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 			
 			xmlObject.setPrefix("");
 		}
+	}
+
+	/**
+	 * @param logger the logger to set
+	 */
+	public void setLogger(XMLLogger logger) {
+		this.logger = logger;
+	}
+
+	/**
+	 * @return the logger
+	 */
+	public XMLLogger getLogger() {
+		return logger;
 	}
 }

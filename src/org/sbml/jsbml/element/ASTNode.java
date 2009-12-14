@@ -2125,12 +2125,14 @@ public class ASTNode implements TreeNode {
 	/**
 	 * 
 	 */
-	private void initDefaults() {
+	public void initDefaults() {
 		type = Type.UNKNOWN;
-		if (listOfNodes == null)
+		if (listOfNodes == null){
 			listOfNodes = new LinkedList<ASTNode>();
-		else
+		}
+		else{
 			listOfNodes.clear();
+		}
 		variable = null;
 		mantissa = Double.NaN;
 	}

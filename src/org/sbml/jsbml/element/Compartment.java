@@ -517,26 +517,30 @@ public class Compartment extends Symbol {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 		
 		if (!isAttributeRead){
-			if (attributeName.equals("spatialDimensions")){
+			if (attributeName.equals("spatialDimensions") && getLevel() > 1){
 				this.setSpatialDimensions(Short.parseShort(value));
 				return true;
 			}
-			else if (attributeName.equals("units")){
+			else if (attributeName.equals("units") ){
 				this.setUnits(value);
 				return true;
 			}
-			else if (attributeName.equals("size")){
+			else if (attributeName.equals("size") && getLevel() > 1){
 				this.setSize(Double.parseDouble(value));
 				return true;
 			}
-			else if (attributeName.equals("compartmentType")){
+			else if (attributeName.equals("volume") && getLevel() == 1){
+				this.setSize(Double.parseDouble(value));
+				return true;
+			}
+			else if (attributeName.equals("compartmentType") && getLevel() == 2){
 				this.setCompartmentType(value);
 				return true;
 			}
-			else if (attributeName.equals("outside")){
+			else if (attributeName.equals("outside") && getLevel() < 3){
 				this.setOutside(value);
 			}
-			else if (attributeName.equals("constant")){
+			else if (attributeName.equals("constant") && getLevel() > 1){
 				if (value.equals("true")){
 					this.setConstant(true);
 					return true;
@@ -558,21 +562,26 @@ public class Compartment extends Symbol {
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 		
-		attributes.put("spatialDimension", Short.toString(getSpatialDimensions()));
+		if (isSetSpatialDimensions() && getLevel() > 1){
+			attributes.put("spatialDimension", Short.toString(getSpatialDimensions()));
+		}
 
-		if (isSetSize()){
+		if (isSetSize() && getLevel() > 1){
 			attributes.put("size", Double.toString(getSize()));
 		}
-		if (isSetCompartmentType()){
+		if (isSetCompartmentType()  && getLevel() == 2){
 			attributes.put("compartmentType", getCompartmentType());
 		}
-		if (isSetOutside()){
+		if (isSetOutside() && getLevel() < 3){
 			attributes.put("outside", outsideID);
 		}
-		if (isSetConstant()){
+		if (isSetVolume() && getLevel() == 1){
+			attributes.put("volume", Double.toString(getVolume()));
+		}
+		if (isSetConstant() && getLevel() > 1){
 			attributes.put("constant", Boolean.toString(getConstant()));
 		}
-		if (isSetUnits()){
+		if (isSetUnits() && getLevel() > 1){
 			attributes.put("units", getUnits());
 		}
 		return attributes;
