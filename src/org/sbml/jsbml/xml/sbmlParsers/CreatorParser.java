@@ -77,11 +77,13 @@ public class CreatorParser implements ReadingParser{
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces,
 			Object contextObject) {
+		System.out.println("coucou");
+		System.out.println(hasAttributes);
 
-		// A CreatorParser can only modify a contextObject which is an Annotation instance. This element should not have attributes or namespace declarations.
+		// A CreatorParser can only modify a contextObject which is an Annotation instance.
 		// The namespace of this parser should be associated with the creator subnode of an annotation.
 		// Creates a ModelHistory instance and set the modelHistory of annotation.
-		if (elementName.equals("creator") && contextObject instanceof Annotation && !hasAttributes && !hasNamespaces){
+		if (elementName.equals("creator") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
 			ModelHistory modelHistory = new ModelHistory();
 			annotation.setModelHistory(modelHistory);

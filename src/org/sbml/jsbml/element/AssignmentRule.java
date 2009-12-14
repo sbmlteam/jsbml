@@ -402,8 +402,11 @@ public class AssignmentRule extends Rule {
 				attributes.put("variable", getVariable());
 			}
 			else if (getLevel() == 1){
-				if (isSpeciesConcentration()){
+				if (isSpeciesConcentration() && getVersion() == 1){
 					attributes.put("specie", getVariable());
+				}
+				else if (isSpeciesConcentration() && getVersion() == 2){
+					attributes.put("species", getVariable());
 				}
 				else if (getLevel() == 1 && isCompartmentVolume()){
 					attributes.put("compartment", getVariable());
