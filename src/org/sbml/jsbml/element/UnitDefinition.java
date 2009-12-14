@@ -638,8 +638,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * Initialises the default values of this UnitDefinition.
 	 */
 	public void initDefaults() {
-		this.listOfUnit = new ListOf<Unit>(getLevel(), getVersion());
-		setThisAsParentSBMLObject(listOfUnit);
+		if (!isSetListOfUnits()){
+			this.listOfUnit = new ListOf<Unit>(getLevel(), getVersion());
+			setThisAsParentSBMLObject(listOfUnit);
+		}
 	}
 	
 	/*

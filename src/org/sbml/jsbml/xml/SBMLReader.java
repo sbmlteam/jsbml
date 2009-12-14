@@ -1,3 +1,33 @@
+/*
+ * $Id: SBMLReader.java 38 2009-12-14 15:50:38Z marine3 $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/xml/SBMLReader.java $
+ *
+ *
+ *==================================================================================
+ * Copyright (c) 2009 the copyright is held jointly by the individual
+ * authors. See the file AUTHORS for the list of authors.
+ *
+ * This file is part of jsbml, the pure java SBML library. Please visit
+ * http://sbml.org for more information about SBML, and http://jsbml.sourceforge.net/
+ * to get the latest version of jsbml.
+ *
+ * jsbml is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * jsbml is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with jsbml.  If not, see <http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>.
+ *
+ *===================================================================================
+ *
+ */
+
 package org.sbml.jsbml.xml;
 
 import java.io.File;
@@ -32,14 +62,30 @@ import org.sbml.jsbml.xml.sbmlParsers.VCardParser;
 
 import com.ctc.wstx.stax.WstxInputFactory;
 
+/**
+ * A SBMLReader provides all the methods to read a SBML file.
+ * @author marine
+ *
+ */
 public class SBMLReader {
 	
+	/**
+	 * contains all the relationships namespace URI <=> ReadingParser class.
+	 */
 	private static HashMap <String, Class<? extends ReadingParser>> packageParsers = new HashMap<String, Class<? extends ReadingParser>>();
 	
+	/**
+	 * 
+	 * @param namespace
+	 * @return the ReadingParser class associated with 'namespace'. Null if there is not matching ReadingParser class.
+	 */
 	public static Class<? extends ReadingParser> getPackageParsers(String namespace){
 		return SBMLReader.packageParsers.get(namespace);
 	}
 	
+	/**
+	 * Initialises the packageParser HasMap of this class.
+	 */
 	public static void initializePackageParserNamespaces(){
 		//TODO Load the map from a configuration file
 		packageParsers.put("http://www.sbml.org/sbml/level3/version1/multi/version1", MultiParser.class);
@@ -55,6 +101,13 @@ public class SBMLReader {
 		packageParsers.put("http://www.w3.org/1998/Math/MathML", StringParser.class);
 	}
 	
+	/**
+	 * 
+	 * @param namespaceURI
+	 * @param sbml : the StartElement instance
+	 * @return true if the package represented by the namespace URI is required to read the SBML file.
+	 * If there is no 'required' attribute for this namespace URI, return false.
+	 */
 	@SuppressWarnings("unchecked")
 	private static boolean isPackageRequired(String namespaceURI, StartElement sbml){
 		Iterator att = sbml.getAttributes();
@@ -72,6 +125,12 @@ public class SBMLReader {
 		return false; // By default, a package is not required?
 	}
 	
+	/**
+	 * 
+	 * @param namespaceURI
+	 * @param sbml : the StartElement instance
+	 * @return true if there is no 'required' attribute whith this namespace URI.
+	 */
 	@SuppressWarnings("unchecked")
 	private static boolean hasNoRequiredAttributeFor(String namespaceURI, StartElement sbml){
 		Iterator att = sbml.getAttributes();
@@ -86,6 +145,11 @@ public class SBMLReader {
 		return true; 
 	}
 	
+	/**
+	 * Creates the necessary ReadingParser instances and stores them in a HashMap.
+	 * @param sbml : the StartElement instance
+	 * @return the map containing the ReadingParser instances for this StartElement.
+	 */
 	@SuppressWarnings("unchecked")
 	private static HashMap<String, ReadingParser> getInitializedPackageParsers(StartElement sbml){
 		initializePackageParserNamespaces();
@@ -97,10 +161,12 @@ public class SBMLReader {
 			Namespace namespace = nam.next();
 			String namespaceURI = namespace.getNamespaceURI();
 
+			// If the prefix is an empty String, it means that the namespace is the namespace of the current element (which is the sbml element normally).
 			if (namespace.getPrefix().length() == 0){
 				packageParsers.put(namespaceURI, SBMLCoreParser.class);
 				initializedParsers.put(namespaceURI, new SBMLCoreParser());
 			}
+			// If there is a ReadingParser associated with this namespace URI.
 			else if (packageParsers.containsKey(namespaceURI)){
 				try {
 					initializedParsers.put(namespaceURI, packageParsers.get(namespaceURI).newInstance());
@@ -114,6 +180,8 @@ public class SBMLReader {
 					}
 				}
 			}
+			// If there is no ReadingParser associated with this namespaceURI and there is no 'required' attribute with this namespace, the declared namespace
+			// can be for the annotation and it associates this namespace URI to an AnnotationParser instance.
 			else {
 				if (hasNoRequiredAttributeFor(namespaceURI, sbml)){
 					packageParsers.put(namespaceURI, AnnotationParser.class);
@@ -129,6 +197,12 @@ public class SBMLReader {
 		return initializedParsers;
 	}
 	
+	/**
+	 * Adds a new ReadingParser instance to the initializedParsers if it doesn't contain a ReadingParser instance for this namespace URI.
+	 * @param elementName : localName of the XML element
+	 * @param element : StartElement instance
+	 * @param initializedParsers : the map containing all the ReadingParser instance.
+	 */
 	private static void addNamespaceToInitializedPackages(String elementName, StartElement element, HashMap<String, ReadingParser> initializedParsers){
 		Iterator<Namespace> nam = element.getNamespaces();
 
@@ -158,6 +232,11 @@ public class SBMLReader {
 		}
 	}
 	
+	/**
+	 * Reads the SBML file 'fileName' and creates/initialises a SBMLDocument instance.
+	 * @param fileName : name of the SBML file to read.
+	 * @return the initialised SBMLDocument.
+	 */
 	public static SBMLDocument readSBMLFile(String fileName){
 		WstxInputFactory inputFactory = new WstxInputFactory();
 		HashMap<String, ReadingParser> initializedParsers = null;
@@ -175,17 +254,21 @@ public class SBMLReader {
 			boolean isNested = false;
 			boolean isText = false;
 
+			// Read all the elements of the file
 			while (xmlEventReader.hasNext()){
 				event = (XMLEvent2) xmlEventReader.nextEvent();
 				
+				// StartDocument
 				if (event.isStartDocument()){
 					StartDocument startDocument = (StartDocument) event;
 					// TODO check/store the XML version, etc?
 				}
+				// EndDocument
 				else if (event.isEndDocument()){
 					EndDocument endDocument = (EndDocument) event;
 					// TODO End of the document, something to do?
 				}
+				// StartElement
 				else if (event.isStartElement()){
 					element = event.asStartElement();
 					currentNode = element.getName();
@@ -193,17 +276,23 @@ public class SBMLReader {
 					isText = false;
 
 					String elementNamespace = currentNode.getNamespaceURI();
+					// If the XML element is a sbml element, creates the necessary ReadingParser instances.
+					// Creates an empty SBMLDocument instance and pushes it on the SBMLElements stack.
 					if (currentNode.getLocalPart().equals("sbml")){
 						initializedParsers = getInitializedPackageParsers(element);
 						SBMLDocument sbmlDocument = new SBMLDocument();
 						SBMLElements.push(sbmlDocument);
 					}
 						
+					// To be able to parse all the SBML file, the sbml node should have been read first.
 					if (!SBMLElements.isEmpty() && initializedParsers != null){
 
+						// All the element should have a namespace.
 						if (elementNamespace != null){
 							addNamespaceToInitializedPackages(currentNode.getLocalPart(), element, initializedParsers);
 							parser = initializedParsers.get(elementNamespace);
+							// if the current node is a notes or message element and the matching ReadingParser is a StringParser, we need to set the typeOfNotes variable of the
+							// StringParser instance.
 							if (currentNode.getLocalPart().equals("notes") || currentNode.getLocalPart().equals("message")){
 								ReadingParser sbmlparser = initializedParsers.get("http://www.w3.org/1999/xhtml");
 								
@@ -220,11 +309,13 @@ public class SBMLReader {
 								boolean hasAttributes = att.hasNext();
 								boolean hasNamespace = nam.hasNext();
 	
+								// All the subNodes of SBML are processed.
 								if (!currentNode.getLocalPart().equals("sbml")){
 									Object processedElement = parser.processStartElement(currentNode.getLocalPart(), currentNode.getPrefix(), hasAttributes, hasNamespace, SBMLElements.peek());
 									SBMLElements.push(processedElement);
 								}
 								
+								// process the namespaces
 								while (nam.hasNext()){
 									Namespace namespace = (Namespace) nam.next();
 									boolean isLastNamespace = !nam.hasNext();
@@ -236,6 +327,7 @@ public class SBMLReader {
 										// TODO what to do if we have namespaces but no parsers for this namespaces?
 									}
 								}
+								// Process the attributes
 								while(att.hasNext()){
 									
 									Attribute attribute = (Attribute) att.next();
@@ -266,13 +358,16 @@ public class SBMLReader {
 						}
 					}
 				}
+				// Characters
 				else if (event.isCharacters()){
 					Characters characters = event.asCharacters();
 					
+					// If there is some white space after, before or into an element, the element contains text.
 					if (!characters.isWhiteSpace()){
 						isText = true;	
 					}
 
+					// process the text of a XML element.
 					if (parser != null && !SBMLElements.isEmpty() && !characters.isWhiteSpace()){
 						if (currentNode != null){
 							parser.processCharactersOf(currentNode.getLocalPart(), characters.getData(), SBMLElements.peek());
@@ -287,9 +382,11 @@ public class SBMLReader {
 						// TODO if currentNode == null => syntax error in the SBML document. The nodes with child nodes can't have text elements. Throw an exception?
 					}
 				}
+				// EndElement
 				else if (event.isEndElement()){
 					EndElement endElement = event.asEndElement();
 
+					// If this element contains no text and doesn't have any subNodes, this element is nested.
 					if (!isText && currentNode != null){
 						if (currentNode.getLocalPart().equals(endElement.getName().getLocalPart())){
 							isNested = true;
@@ -299,6 +396,8 @@ public class SBMLReader {
 					if (initializedParsers != null){
 						parser = initializedParsers.get(endElement.getName().getNamespaceURI());
 						
+						// if the current node is a notes or message element and the matching ReadingParser is a StringParser, we need to set the typeOfNotes variable of the
+						// StringParser instance.
 						if (endElement.getName().getLocalPart().equals("notes") || endElement.getName().getLocalPart().equals("message")){
 							ReadingParser sbmlparser = initializedParsers.get("http://www.w3.org/1999/xhtml");
 							if (sbmlparser instanceof StringParser){
@@ -306,14 +405,16 @@ public class SBMLReader {
 								notesParser.setTypeOfNotes(endElement.getName().getLocalPart());
 							}
 						}
-						
+						// process the end of the element.
 						if (!SBMLElements.isEmpty() && parser != null){
 							parser.processEndElement(endElement.getName().getLocalPart(), endElement.getName().getPrefix(), isNested, SBMLElements.peek());
+							// remove the top of the SBMLEements stack at the end of an element if this element is not the sbml element.
 							if (!endElement.getName().getLocalPart().equals("sbml")){
 								
 								SBMLElements.pop();
 							}
 							else {
+								// process the end of the document and return the final SBMLDocument
 								if (SBMLElements.peek() instanceof SBMLDocument){
 									SBMLDocument sbmlDocument = (SBMLDocument) SBMLElements.peek();
 									Iterator<Entry<String, ReadingParser>> iterator = initializedParsers.entrySet().iterator();
@@ -361,6 +462,11 @@ public class SBMLReader {
 		SBMLDocument testDocument = readSBMLFile("/home/compneur/workspace/jsbmlStax/src/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
 	}
 
+	/**
+	 * Reads a SBML String 'fileName' 
+	 * @param fileName
+	 * @return the matching SBMLDocument instance.
+	 */
 	public static SBMLDocument readSBML(String fileName) {
 		return SBMLReader.readSBMLFile(fileName);
 	}

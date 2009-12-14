@@ -1,8 +1,39 @@
+/*
+ * $Id: SBMLWriter.java 38 2009-12-14 15:50:38Z marine3 $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/xml/SBMLWriter.java $
+ *
+ *
+ *==================================================================================
+ * Copyright (c) 2009 the copyright is held jointly by the individual
+ * authors. See the file AUTHORS for the list of authors.
+ *
+ * This file is part of jsbml, the pure java SBML library. Please visit
+ * http://sbml.org for more information about SBML, and http://jsbml.sourceforge.net/
+ * to get the latest version of jsbml.
+ *
+ * jsbml is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * jsbml is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with jsbml.  If not, see <http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>.
+ *
+ *===================================================================================
+ *
+ */
+
 package org.sbml.jsbml.xml;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.StringReader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,6 +52,7 @@ import org.codehaus.staxmate.out.SMOutputDocument;
 import org.codehaus.staxmate.out.SMOutputElement;
 import org.sbml.jsbml.element.Annotation;
 import org.sbml.jsbml.element.CVTerm;
+import org.sbml.jsbml.element.Constraint;
 import org.sbml.jsbml.element.MathContainer;
 import org.sbml.jsbml.element.ModelCreator;
 import org.sbml.jsbml.element.ModelHistory;
@@ -32,10 +64,24 @@ import org.w3c.dom.Document;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
 
+/**
+ * A SBMLWriter provides the methods to write a SBML file.
+ * @author marine
+ *
+ */
 public class SBMLWriter {
 	
+	/**
+	 * contains the WritingParser instances of this class.
+	 */
 	private static HashMap<String, WritingParser> instantiatedSBMLParsers = new HashMap<String, WritingParser>();
 	
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 * @return the namespace matching the level and version.
+	 */
 	private static String getNamespaceFrom(int level, int version){
 		
 		if (level == 3 && version == 1){
@@ -59,7 +105,14 @@ public class SBMLWriter {
 		return null;
 	}
 	
-	private static void writeNotes(SBase sbase, SMOutputElement element, XMLStreamWriter2 writer, ReadingParser notesParser, String sbmlNamespace){
+	/**
+	 * Writes the notes of this sbase component.
+	 * @param sbase : the SBase component
+	 * @param element : the matching SMOUtputElement
+	 * @param writer : the XMLStreamWriter2
+	 * @param sbmlNamespace : the SBML namespace
+	 */
+	private static void writeNotes(SBase sbase, SMOutputElement element, XMLStreamWriter2 writer, String sbmlNamespace){
 		
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
@@ -78,7 +131,39 @@ public class SBMLWriter {
 		} 
 	}
 	
-	private static void writeMathML(MathContainer m, SMOutputElement element, XMLStreamWriter2 writer, ReadingParser mathParser){
+	/**
+	 * Writes the message of this Constraint.
+	 * @param sbase : the Constraint component
+	 * @param element : the matching SMOUtputElement
+	 * @param writer : the XMLStreamWriter2
+	 * @param sbmlNamespace : the SBML namespace
+	 */
+	private static void writeMessage(Constraint sbase, SMOutputElement element, XMLStreamWriter2 writer, String sbmlNamespace){
+		
+		SMNamespace namespace = element.getNamespace(sbmlNamespace);
+		namespace.setPreferredPrefix("");
+		try {
+			element.addCharacters(" \n");
+
+			DOMConverter converter = new DOMConverter();
+			SMOutputElement note = element.addElementWithCharacters(namespace, "message", " \n");
+			String messageString = sbase.getMessage().replaceAll("&", "&amp;");
+			Document domDocument = JAXPFacade.getInstance().create(new BufferedReader(new StringReader(messageString)), true);
+			converter.writeFragment(domDocument.getChildNodes(), writer);
+			note.addCharacters("\n");
+		} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+	
+	/**
+	 * Writes the MathML expression for the math element of this sbase component.
+	 * @param m : the sbase component
+	 * @param element : the matching SMOutputElement
+	 * @param writer : the XMLStreamWriter2
+	 */
+	private static void writeMathML(MathContainer m, SMOutputElement element, XMLStreamWriter2 writer){
 		
 		try {
 			DOMConverter converter = new DOMConverter();
@@ -98,76 +183,107 @@ public class SBMLWriter {
 		} 
 	}
 	
-	private static void writeModelHistory(ModelHistory modelHistory, HashMap<String, String> rdfNamespaces, SMOutputElement descriptionElement){
+	/**
+	 * Writes the model history represented by this ModelHistory instance.
+	 * @param modelHistory : the model history to write
+	 * @param rdfNamespaces : contains the RDF namespaces and their prefixes.
+	 * @param writer : the XMLStreamWriter2
+	 */
+	private static void writeModelHistory(ModelHistory modelHistory, HashMap<String, String> rdfNamespaces, XMLStreamWriter2 writer){
 		try {
-			SMNamespace rdfNamespace = descriptionElement.getNamespace();
+			String rdfPrefix = rdfNamespaces.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 			if (modelHistory.getNumCreators() > 0){
 				String creatorPrefix = rdfNamespaces.get("http://purl.org/dc/elements/1.1/");
-				SMOutputElement creatorElement = descriptionElement.addElementWithCharacters(null, creatorPrefix+":creator", " \n");
-				SMOutputElement bagElement = creatorElement.addElementWithCharacters(descriptionElement.getNamespace(), "Bag", " \n");
+				
+				writer.writeStartElement(creatorPrefix, "creator", "http://purl.org/dc/elements/1.1/");
+				writer.writeCharacters(" \n");
+				writer.writeStartElement(rdfPrefix, "Bag", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+				writer.writeCharacters(" \n");
 				
 				for (int i = 0; i < modelHistory.getNumCreators(); i++){
 
 					ModelCreator modelCreator = modelHistory.getCreator(i);
-					SMOutputElement liElement = bagElement.addElement(rdfNamespace,"li");
-					liElement.addAttribute(rdfNamespace,"parseType", "Resource");
+					writer.writeStartElement(rdfPrefix, "li", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+					writer.writeAttribute(rdfPrefix, "http://www.w3.org/1999/02/22-rdf-syntax-ns#", "parseType", "Resource");
+					writer.writeCharacters(" \n");
 					String vCardPrefix = rdfNamespaces.get("http://www.w3.org/2001/vcard-rdf/3.0#");
 
 					if (modelCreator.isSetFamilyName() || modelCreator.isSetGivenName()){
-						liElement.addCharacters(" \n");
-						SMOutputElement NElement = liElement.addElement(vCardPrefix+":N");
-						NElement.addAttribute(rdfNamespace,"parseType", "Resource");
+						writer.writeCharacters(" \n");
+						writer.writeStartElement(vCardPrefix, "N", "http://www.w3.org/2001/vcard-rdf/3.0#");
+						writer.writeAttribute("http://www.w3.org/1999/02/22-rdf-syntax-ns#", "parseType", "Resource");
+						writer.writeCharacters(" \n");
 						
 						if (modelCreator.isSetFamilyName()){
-							NElement.addCharacters(" \n");
-							NElement.addElementWithCharacters(null, vCardPrefix+":Family", modelCreator.getFamilyName());
+							writer.writeStartElement(vCardPrefix, "Family", "http://www.w3.org/2001/vcard-rdf/3.0#");
+							writer.writeCharacters(modelCreator.getFamilyName());
+							writer.writeEndElement();
+							writer.writeCharacters(" \n");
 						}
 						if (modelCreator.isSetGivenName()){
-							NElement.addCharacters(" \n");
-							NElement.addElementWithCharacters(null, vCardPrefix+":Given", modelCreator.getGivenName());
+							writer.writeStartElement(vCardPrefix, "Given", "http://www.w3.org/2001/vcard-rdf/3.0#");
+							writer.writeCharacters(modelCreator.getGivenName());
+							writer.writeEndElement();
+							writer.writeCharacters(" \n");
 						}
-						NElement.addCharacters(" \n");
+						writer.writeEndElement();
+						writer.writeCharacters(" \n");
 					}
 					
 					if (modelCreator.isSetEmail()){
-						liElement.addCharacters(" \n");
-						liElement.addElementWithCharacters(null, vCardPrefix+":EMAIL", modelCreator.getEmail());
+						writer.writeStartElement(vCardPrefix, "EMAIL", "http://www.w3.org/2001/vcard-rdf/3.0#");
+						writer.writeCharacters(modelCreator.getEmail());
+						writer.writeEndElement();
+						writer.writeCharacters(" \n");
 					}
 					if (modelCreator.isSetOrganisation()){
-						liElement.addCharacters(" \n");
-						SMOutputElement orgElement = liElement.addElement(vCardPrefix+":ORG");
-						orgElement.addAttribute(rdfNamespace,"parseType", "Resource");
+						writer.writeStartElement(vCardPrefix, "ORG", "http://www.w3.org/2001/vcard-rdf/3.0#");
+						writer.writeAttribute(rdfPrefix, "http://www.w3.org/1999/02/22-rdf-syntax-ns#", "parseType", "Resource");
 						
-						orgElement.addCharacters(" \n");
-						orgElement.addElementWithCharacters(null, vCardPrefix+":Orgname", modelCreator.getOrganisation());
-						orgElement.addCharacters(" \n");
+						writer.writeStartElement(vCardPrefix, "Orgname", "http://www.w3.org/2001/vcard-rdf/3.0#");
+						writer.writeCharacters(modelCreator.getOrganisation());
+						writer.writeEndElement();
+						writer.writeCharacters(" \n");
+						
+						writer.writeEndElement();
+						writer.writeCharacters(" \n");
 					}
-					liElement.addCharacters(" \n");
+					writer.writeEndElement();
+					writer.writeCharacters(" \n");
 				}
-				bagElement.addCharacters(" \n");
-				creatorElement.addCharacters(" \n");
+				writer.writeEndElement();
+				writer.writeCharacters(" \n");
+				writer.writeEndElement();
+				writer.writeCharacters(" \n");
 			}
 			String datePrefix = rdfNamespaces.get("http://purl.org/dc/terms/");
 
 			if (modelHistory.isSetCreatedDate()){
-				descriptionElement.addCharacters(" \n");
-				SMOutputElement createdElement = descriptionElement.addElement(datePrefix+":created");
-				createdElement.addAttribute(rdfNamespace,"parseType", "Resource");
+				writer.writeStartElement(datePrefix, "created", "http://purl.org/dc/terms/");
+				writer.writeAttribute(rdfPrefix, "http://www.w3.org/1999/02/22-rdf-syntax-ns#", "parseType", "Resource");
+				writer.writeCharacters(" \n");
 				
-				createdElement.addCharacters(" \n");
-				createdElement.addElementWithCharacters(null, datePrefix+":W3CDTF", modelHistory.getCreatedDate().toString());
-				createdElement.addCharacters(" \n");
+				writer.writeStartElement(datePrefix, "W3CDTF", "http://purl.org/dc/terms/");
+				writer.writeCharacters(modelHistory.getCreatedDate().toString());
+				writer.writeEndElement();
+				writer.writeCharacters(" \n");
+				
+				writer.writeEndElement();
+				writer.writeCharacters(" \n");
 			}
 			if (modelHistory.isSetModifiedDate()){
 				for (int i = 0; i < modelHistory.getNumModifiedDates(); i++){
-					descriptionElement.addCharacters(" \n");
+					writer.writeStartElement(datePrefix, "modified", "http://purl.org/dc/terms/");
+					writer.writeAttribute(rdfPrefix, "http://www.w3.org/1999/02/22-rdf-syntax-ns#", "parseType", "Resource");
+					writer.writeCharacters(" \n");
 					
-					SMOutputElement modifiedElement = descriptionElement.addElement(datePrefix+":modified");
-					modifiedElement.addAttribute(rdfNamespace, "parseType", "Resource");
+					writer.writeStartElement(datePrefix, "W3CDTF", "http://purl.org/dc/terms/");
+					writer.writeCharacters(modelHistory.getModifiedDate(i).toString());
+					writer.writeEndElement();
+					writer.writeCharacters(" \n");
 					
-					modifiedElement.addCharacters(" \n");
-					modifiedElement.addElementWithCharacters(null, datePrefix+":W3CDTF", modelHistory.getModifiedDate(i).toString());
-					modifiedElement.addCharacters(" \n");
+					writer.writeEndElement();
+					writer.writeCharacters(" \n");
 				}
 			}
 		} catch (XMLStreamException e) {
@@ -175,40 +291,49 @@ public class SBMLWriter {
 			e.printStackTrace();
 	}
 	}
-	
-	private static void writeCVTerms(List<CVTerm> listOfCVTerms,  HashMap<String, String> rdfNamespaces, SMOutputElement descriptionElement){
+	/**
+	 * Writes the listOfCVTerms.
+	 * @param listOfCVTerms : the list of CVTerms to write
+	 * @param rdfNamespaces : the RDF namespaces and prefixes
+	 * @param writer : the XMLStreamWriter2
+	 */
+	private static void writeCVTerms(List<CVTerm> listOfCVTerms,  HashMap<String, String> rdfNamespaces, XMLStreamWriter2 writer){
 		try {
-			SMNamespace rdfNamespace = descriptionElement.getNamespace();
+			String rdfPrefix = rdfNamespaces.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 			if (listOfCVTerms.size() > 0){
 				
 				for (int i = 0; i < listOfCVTerms.size(); i++){
 					CVTerm cvTerm = listOfCVTerms.get(i);
 					String namespaceURI = null;
+					String prefix = null;
 					String elementName = null;
 					if (cvTerm.getQualifierType().equals(Qualifier.BIOLOGICAL_QUALIFIER)){
-						namespaceURI = rdfNamespaces.get("http://biomodels.net/biology-qualifiers/");
+						namespaceURI = "http://biomodels.net/biology-qualifiers/";
+						prefix = rdfNamespaces.get("http://biomodels.net/biology-qualifiers/");
 						elementName = Annotation.getElementNameEquivalentToQualifier(cvTerm.getBiologicalQualifierType());
 					}
 					else if (cvTerm.getQualifierType().equals(Qualifier.MODEL_QUALIFIER)){
-						namespaceURI = rdfNamespaces.get("http://biomodels.net/model-qualifiers/");
+						namespaceURI = "http://biomodels.net/model-qualifiers/";
+						prefix = rdfNamespaces.get("http://biomodels.net/model-qualifiers/");
 						elementName = Annotation.getElementNameEquivalentToQualifier(cvTerm.getModelQualifierType());
 					}
 					
-					if (namespaceURI != null && elementName != null){
-						descriptionElement.addCharacters(" \n");
-						
-						SMOutputElement cvTermElement = descriptionElement.addElement(namespaceURI+":"+elementName);
-						cvTermElement.addCharacters(" \n");
+					if (namespaceURI != null && elementName != null && prefix != null){
+						writer.writeStartElement(prefix, elementName, namespaceURI);
+						writer.writeCharacters(" \n");
 						if (cvTerm.getNumResources() > 0){
-							SMOutputElement bagElement = cvTermElement.addElement(rdfNamespace,"Bag");
+							writer.writeStartElement(rdfPrefix, "Bag", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+							writer.writeCharacters(" \n");
 							for (int j = 0; j < cvTerm.getNumResources(); j++){
-								bagElement.addCharacters(" \n");
-
-								SMOutputElement liElement = bagElement.addElement(rdfNamespace, "li");
-								liElement.addAttribute(rdfNamespace, "resource", cvTerm.getResourceURI(j));
+								writer.writeStartElement(rdfPrefix, "li", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+								writer.writeAttribute(rdfPrefix, "http://www.w3.org/1999/02/22-rdf-syntax-ns#", "resource", cvTerm.getResourceURI(j));
+								writer.writeEndElement();
+								writer.writeCharacters(" \n");
 							}
-							bagElement.addCharacters(" \n");
-							cvTermElement.addCharacters(" \n");
+							writer.writeEndElement();
+							writer.writeCharacters(" \n");
+							writer.writeEndElement();
+							writer.writeCharacters(" \n");
 						}
 					}
 				}
@@ -219,6 +344,12 @@ public class SBMLWriter {
 	}
 	}
 	
+	/**
+	 * Writes the RDF annotation contained in 'annotation'.
+	 * @param annotation : the annotation to write
+	 * @param annotationElement : the matching SMOutputElement
+	 * @param writer : the XMLStreamWriter.
+	 */
 	private static void writeRDFAnnotation(Annotation annotation, SMOutputElement annotationElement, XMLStreamWriter2 writer){
 		try {
 			SMNamespace namespace = annotationElement.getNamespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#", "rdf");
@@ -238,12 +369,11 @@ public class SBMLWriter {
 			SMOutputElement descriptionElement = rdfElement.addElement(namespace, "Description");
 			descriptionElement.addAttribute(namespace, "about", annotation.getAbout());
 			descriptionElement.addCharacters(" \n");
-			
 			if (annotation.isSetModelHistory()){
-				writeModelHistory(annotation.getModelHistory(), rdfNamespaces, descriptionElement);
+				writeModelHistory(annotation.getModelHistory(), rdfNamespaces, writer);
 			}
 			if (annotation.getListOfCVTerms().size() > 0){
-				writeCVTerms(annotation.getListOfCVTerms(), rdfNamespaces, descriptionElement);
+				writeCVTerms(annotation.getListOfCVTerms(), rdfNamespaces, writer);
 			}
 			descriptionElement.addCharacters("\n");
 			rdfElement.addCharacters(" \n");
@@ -254,6 +384,13 @@ public class SBMLWriter {
 		}
 	}
 	
+	/**
+	 * Writes the annotation of this sbase component.
+	 * @param sbase : the sbase component
+	 * @param element : the matching SMOutputElement
+	 * @param writer : the XMLStreamWriter2
+	 * @param sbmlNamespace : the SBML namespace.
+	 */
 	private static void writeAnnotation(SBase sbase, SMOutputElement element, XMLStreamWriter2 writer, String sbmlNamespace){
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
@@ -298,6 +435,15 @@ public class SBMLWriter {
 		}
 	}
 	
+	/**
+	 * Writes the SBML components.
+	 * @param xmlObject : contains the XML information of the parentElement.
+	 * @param parentElement : SMOutputElement of the parentElement.
+	 * @param streamWriter
+	 * @param objectToWrite : the Object to write.
+	 * @param notesParser : the WritingParser to parse the notes.
+	 * @param MathMLParser : the WritingParser to parse the MathML expressions.
+	 */
 	private static void writeSBMLElements(SBMLObjectForXML xmlObject, SMOutputElement parentElement, XMLStreamWriter2 streamWriter, Object objectToWrite, ReadingParser notesParser, ReadingParser MathMLParser){
 		ArrayList<WritingParser> listOfPackages = getInitializedParsers(objectToWrite, parentElement.getNamespace().getURI());
 
@@ -337,17 +483,22 @@ public class SBMLWriter {
 							if (nextObjectToWrite instanceof SBase){
 								SBase s = (SBase) nextObjectToWrite;
 								if (s.isSetNotes() && notesParser != null){
-									writeNotes(s, newOutPutElement, streamWriter, notesParser, newOutPutElement.getNamespace().getURI());
+									writeNotes(s, newOutPutElement, streamWriter, newOutPutElement.getNamespace().getURI());
 								}
 								if (s.isSetAnnotation()){
 									writeAnnotation(s, newOutPutElement, streamWriter, newOutPutElement.getNamespace().getURI());
 								}
 							}
-							
+							if (nextObjectToWrite instanceof Constraint && notesParser != null){
+								Constraint constraint = (Constraint) nextObjectToWrite;
+								if (!constraint.isSetMessage()){
+									writeMathML(constraint, newOutPutElement, streamWriter);
+								}
+							}
 							if (nextObjectToWrite instanceof MathContainer && MathMLParser != null){
 								MathContainer mathContainer = (MathContainer) nextObjectToWrite;
 								if (!mathContainer.isSetMath() && mathContainer.isSetMathBuffer()){
-									writeMathML(mathContainer, newOutPutElement, streamWriter, MathMLParser);
+									writeMathML(mathContainer, newOutPutElement, streamWriter);
 								}
 							}
 							newOutPutElement.addCharacters(" \n");
@@ -363,6 +514,12 @@ public class SBMLWriter {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param object : object to write
+	 * @param SBMLNamespace
+	 * @return the list of the WritingParser instances necessary to write this object.
+	 */
 	private static ArrayList<WritingParser> getInitializedParsers(Object object, String SBMLNamespace){
 		Collection<String> packageNamespaces = null;
 
@@ -425,6 +582,11 @@ public class SBMLWriter {
 		return SBMLParsers;
 	}
 	
+	/**
+	 * Writes the SBMLDocument in a SBML file.
+	 * @param sbmlDocument : the SBMLDocument to write
+	 * @param fileName : the name of the file where to write the SBMLDocument.
+	 */
 	public static void write(SBMLDocument sbmlDocument, String fileName){
 		SBMLReader.initializePackageParserNamespaces();
 		sbmlDocument.getSBMLDocumentAttributes();
@@ -454,7 +616,7 @@ public class SBMLWriter {
 			ReadingParser notesParser = SBMLReader.getPackageParsers("http://www.w3.org/1999/xhtml").newInstance();
 			ReadingParser MathMLParser = SBMLReader.getPackageParsers("http://www.w3.org/1998/Math/MathML").newInstance();
 			if (sbmlDocument.isSetNotes()){
-				writeNotes(sbmlDocument, sbmlElement, streamWriter, notesParser, SBMLNamespace);
+				writeNotes(sbmlDocument, sbmlElement, streamWriter, SBMLNamespace);
 			}
 			if (sbmlDocument.isSetAnnotation()){
 				writeAnnotation(sbmlDocument, sbmlElement, streamWriter, SBMLNamespace);
