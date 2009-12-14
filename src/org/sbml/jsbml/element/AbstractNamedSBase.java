@@ -143,7 +143,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 
 		if (o instanceof NamedSBase) {
 			
-			// System.out.println("AbstractNamedSBase : equals : super.equals = " + equals);
+			System.out.println("AbstractNamedSBase : equals : super.equals = " + equals);
 			
 			NamedSBase nsb = (NamedSBase) o;
 			equals &= nsb.isSetId() == isSetId();
@@ -276,12 +276,15 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 		
 		if (!isAttributeRead){
-			if (attributeName.equals("id")){
+			if (attributeName.equals("id") && getLevel() > 1){
 				this.setId(value);
 				return true;
 			}
 			else if (attributeName.equals("name")){
 				this.setName(value);
+				if (isSetLevel() && getLevel() == 1){
+					this.setId(value);
+				}
 				return true;
 			}
 			return false;
@@ -298,7 +301,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	public HashMap<String, String> writeXMLAttributes(){
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 		
-		if (isSetId()){
+		if (isSetId() && getLevel() > 1){
 			attributes.put("id", getId());
 		}
 		if (isSetName()){

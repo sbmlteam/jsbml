@@ -53,7 +53,13 @@ public class SpeciesReference extends SimpleSpeciesReference {
 	 */
 	private Boolean constant;
 	
-	private int denominator = 1;
+	/**
+	 * Represents the 'denominator' XML attribute of this SpeciesReference.
+	 */
+	private Integer denominator = 1;
+	/**
+	 * Boolean value to know if the SpeciesReference denominator has been set.
+	 */
 	private boolean isSetDenominator = false;
 
 	/**
@@ -65,7 +71,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
 		this.constant = null;
 		this.stoichiometry = null;
 		this.stoichiometryMath = null;
-		
+		this.denominator = null;
 		if (isSetLevel() && getLevel() < 3){
 			initDefaults();
 		}
@@ -95,6 +101,12 @@ public class SpeciesReference extends SimpleSpeciesReference {
 		else {
 			this.constant = null;
 		}
+		if (speciesReference.isSetDenominator){
+			this.denominator = new Integer(speciesReference.getDenominator());
+		}
+		else {
+			this.denominator = null;
+		}
 	}
 
 	/**
@@ -106,6 +118,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
 		this.constant = null;
 		this.stoichiometry = null;
 		this.stoichiometryMath = null;
+		this.denominator = null;
 	}
 
 	
@@ -146,6 +159,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
 	public void initDefaults() {
 		stoichiometry = new Double(1);
 		stoichiometryMath = null;
+		denominator = 1;
 	}
 
 	/**
@@ -216,6 +230,13 @@ public class SpeciesReference extends SimpleSpeciesReference {
 			}
 			else if (sr.isSetConstant() && isSetConstant()){
 				equal &= sr.getConstant() == constant;
+			}
+			if ((sr.isSetDenominator() && !isSetDenominator())
+					|| (!sr.isSetDenominator() && isSetDenominator())){
+				return false;
+			}
+			else if (sr.isSetDenominator() && isSetDenominator()){
+				equal &= sr.getDenominator() == denominator;
 			}
 			return equal;
 		} else
@@ -292,16 +313,29 @@ public class SpeciesReference extends SimpleSpeciesReference {
 		return attributes;
 	}
 
+	/**
+	 * 
+	 * @return true if the denominator is not null.
+	 */
 	private boolean isSetDenominator() {
-		return isSetDenominator;
+		return this.denominator != null;
 	}
 
+	/**
+	 * 
+	 * @return the denominator value if it is set, 1 otherwise
+	 */
 	public int getDenominator() {
-		return denominator;
+		return isSetDenominator ? denominator : 1;
 	}
 	
+	/**
+	 * Sets the denominator of this SpeciesReference.
+	 * @param denominator
+	 */
 	public void setDenominator(int denominator) {
 		this.denominator = denominator;
 		isSetDenominator = true;
+		stateChanged();
 	}
 }

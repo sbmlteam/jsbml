@@ -213,7 +213,7 @@ public class EventAssignment extends MathContainer {
 	public boolean readAttribute(String attributeName, String prefix, String value){
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 		
-		if (!isAttributeRead){
+		if (!isAttributeRead && getLevel() >= 2){
 			if (attributeName.equals("variable")){
 				this.setVariable(value);
 				return true;
@@ -230,7 +230,7 @@ public class EventAssignment extends MathContainer {
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 		
-		if (isSetVariable()){
+		if (isSetVariable() && getLevel() >= 2){
 			attributes.put("variable", getVariable());
 		}
 		

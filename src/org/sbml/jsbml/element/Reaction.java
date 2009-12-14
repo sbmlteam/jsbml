@@ -745,7 +745,7 @@ public class Reaction extends AbstractNamedSBase {
 					return true;
 				}
 			}
-			if (attributeName.equals("compartment")){
+			if (attributeName.equals("compartment") && getLevel() == 3){
 				this.setCompartment(value);
 				return true;
 			}
@@ -770,7 +770,7 @@ public class Reaction extends AbstractNamedSBase {
 			attributes.put("fast", Boolean.toString(getFast()));
 		}
 		
-		if (isSetCompartment()){
+		if (isSetCompartment() && getLevel() == 3){
 			attributes.put("compartment", getCompartment());
 		}
 		
@@ -799,7 +799,7 @@ public class Reaction extends AbstractNamedSBase {
 	 */
 	public ModifierSpeciesReference removeModifier(int i) {
 		
-		if (i >= listOfModifiers.size()) {
+		if (i >= listOfModifiers.size() || i < 0) {
 			System.out.println("removeModifier : index out of bound.");
 			return null;
 		}
@@ -860,7 +860,7 @@ public class Reaction extends AbstractNamedSBase {
 	 */
 	public SpeciesReference removeProduct(int i) {
 
-		if (i >= listOfProducts.size()) {
+		if (i >= listOfProducts.size() || i < 0) {
 			return null;
 		}
 		
@@ -919,7 +919,7 @@ public class Reaction extends AbstractNamedSBase {
 	 */
 	public Object removeReactant(int i) {
 
-		if (i >= listOfReactants.size()) {
+		if (i >= listOfReactants.size() || i < 0) {
 			return null;
 		}
 		

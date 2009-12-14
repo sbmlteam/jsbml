@@ -97,7 +97,7 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	public boolean equals(Object o) {
 		boolean equal = super.equals(o);
 		
-		// System.out.println("SimplespeciesReference : equals : super.equals = " + equal);
+		//System.out.println("SimplespeciesReference : equals : super.equals = " + equal);
 		
 		if (o.getClass().getName().equals(getClass().getName())) {
 			SimpleSpeciesReference ssr = (SimpleSpeciesReference) o;
@@ -216,7 +216,10 @@ public abstract class SimpleSpeciesReference extends Symbol {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 		
 		if (!isAttributeRead){
-			if (attributeName.equals("species")){
+			if (attributeName.equals("species") && ((getLevel() == 1 && getVersion() == 2) || getLevel() > 1)){
+				this.setSpecies(value);
+			}
+			else if (attributeName.equals("specie") && getLevel() == 1 && getVersion() == 1){
 				this.setSpecies(value);
 			}
 		}
@@ -233,7 +236,12 @@ public abstract class SimpleSpeciesReference extends Symbol {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 		
 		if (isSetSpecies()){
-			attributes.put("species", getSpecies());
+			if ((getLevel() == 1 && getVersion() == 2) || getLevel() > 1){
+				attributes.put("species", getSpecies());
+			}
+			else if (getLevel() == 1 && getVersion() == 1){
+				attributes.put("specie", getSpecies());
+			}
 		}
 		
 		return attributes;

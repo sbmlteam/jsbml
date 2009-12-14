@@ -197,6 +197,7 @@ public class Event extends AbstractNamedSBase {
 		if (o instanceof Event) {
 			Event e = (Event) o;
 			equal &= e.getUseValuesFromTriggerTime() == getUseValuesFromTriggerTime();
+			System.out.println("useValuseFromTriggerTime : " + equal);
 			equal &= e.isSetListOfEventAssignments() == isSetListOfEventAssignments();
 			if (equal && isSetListOfEventAssignments()){
 				equal &= e.getListOfEventAssignments().equals(getListOfEventAssignments());
@@ -208,6 +209,8 @@ public class Event extends AbstractNamedSBase {
 			else if (e.isSetDelay() && isSetDelay()){
 				equal &= e.getDelay().equals(getDelay());
 			}
+			System.out.println("Delay : " + equal);
+
 			if ((!e.isSetTrigger() && isSetTrigger())
 					|| (e.isSetTrigger() && !isSetTrigger())){
 				return false;
@@ -215,6 +218,8 @@ public class Event extends AbstractNamedSBase {
 			else if (e.isSetTrigger() && isSetTrigger()){
 				equal &= e.getTrigger().equals(getTrigger());
 			}
+			System.out.println("Trigger : " + equal);
+
 			if ((!e.isSetTimeUnits() && isSetTimeUnits())
 					|| (e.isSetTimeUnits() && !isSetTimeUnits())){
 				return false;
@@ -222,6 +227,8 @@ public class Event extends AbstractNamedSBase {
 			else if (e.isSetTimeUnits() && isSetTimeUnits()){
 				equal &= e.getTimeUnits().equals(getTimeUnits());
 			}
+			System.out.println("TimeUnist : " + equal);
+
 			return equal;
 		}
 		return false;
@@ -299,8 +306,8 @@ public class Event extends AbstractNamedSBase {
 	 * 
 	 * @return the useValuesFromTriggerTime instance of this Event. it is null if it has not been set.
 	 */
-	public Boolean getUseValuesFromTriggerTime() {
-		return useValuesFromTriggerTime;
+	public boolean getUseValuesFromTriggerTime() {
+		return isSetUseValuesFromTriggerTime() ? useValuesFromTriggerTime : false;
 	}
 
 	/**
@@ -308,7 +315,6 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void initDefaults() {
 		useValuesFromTriggerTime = new Boolean(true);
-		setTrigger(new Trigger(getLevel(), getVersion()));
 		setListOfEventAssignments(new ListOf<EventAssignment>(getLevel(), getVersion()));
 		timeUnitsID = null;
 		delay = null;
@@ -411,6 +417,10 @@ public class Event extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public void setTimeUnits(String timeUnits) {
+		if (timeUnits.equals("")){
+			unsetTimeUnits();
+			return;
+		}
 		this.timeUnitsID = timeUnits;
 		stateChanged();
 	}
@@ -490,7 +500,7 @@ public class Event extends AbstractNamedSBase {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 		
 		if (!isAttributeRead){
-			if (attributeName.equals("useValuesFromTriggerTime")){
+			if (attributeName.equals("useValuesFromTriggerTime") && ((getLevel() == 2 && getVersion() == 4) || getLevel() >= 3)){
 				if (value.equals("true")){
 					this.setUseValuesFromTriggerTime(true);
 					return true;
@@ -500,7 +510,7 @@ public class Event extends AbstractNamedSBase {
 					return true;
 				}
 			}
-			else if (attributeName.equals("timeUnits")){
+			else if (attributeName.equals("timeUnits") && (getLevel() == 1 || (getLevel() == 2 && (getVersion() == 1 || getVersion() == 2)))){
 				this.setTimeUnits(value);
 			}
 		}
@@ -515,17 +525,21 @@ public class Event extends AbstractNamedSBase {
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 		
-		if (isSetUseValuesFromTriggerTime()){
-			attributes.put("useValuesFromTriggerTime", getUseValuesFromTriggerTime().toString());
+		if (isSetUseValuesFromTriggerTime() && ((getLevel() == 2 && getVersion() == 4) || getLevel() >= 3)){
+			attributes.put("useValuesFromTriggerTime", Boolean.toString(getUseValuesFromTriggerTime()));
 		}
 		
-		if (isSetTimeUnits()){
+		if (isSetTimeUnits() && (getLevel() == 1 || (getLevel() == 2 && (getVersion() == 1 || getVersion() == 2)))){
 			attributes.put("timeUnits", getTimeUnits());
 		}
 		
 		return attributes;
 	}
 
+	/**
+	 * 
+	 * @return the new EventAssignment instance.
+	 */
 	public EventAssignment createEventAssignment() {
 		EventAssignment ea = new EventAssignment(level, version);
 		addEventAssignment(ea);
@@ -533,12 +547,42 @@ public class Event extends AbstractNamedSBase {
 		return ea;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return the removed ith EventAssignment instance.
+	 */
 	public EventAssignment removeEventAssignment(int i) {
+		
+		if (i >= listOfEventAssignments.size() || i < 0) {
+			return null;
+		}
 		return listOfEventAssignments.remove(i);
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return the removed EventAssignment instance which has 'id' as id.
+	 */
 	public EventAssignment removeEventAssignment(String id) {
-		return listOfEventAssignments.remove(id);
+		EventAssignment deletedEventAssignment = null;
+		int index = 0;
+		
+		for (EventAssignment reactant : listOfEventAssignments) {
+			if (reactant.getVariable().equals(id)) {
+				deletedEventAssignment = reactant;
+				break;
+			}
+			index++;
+		}
+		
+		if (deletedEventAssignment != null) {
+			listOfEventAssignments.remove(index);
+		}
+		
+		return deletedEventAssignment;
+		//return listOfEventAssignments.remove(id);
 	}
 
 

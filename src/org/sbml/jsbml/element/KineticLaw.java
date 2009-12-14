@@ -48,23 +48,37 @@ public class KineticLaw extends MathContainer {
 	 * Represents the listOfLocalParameters or listOfParameters subelement of a kineticLaw element.
 	 */
 	private ListOf<Parameter> listOfParameters;
+	/**
+	 * Represents the 'timeUnits' XML attribute of this KineticLaw.
+	 */
+	@Deprecated
+	private String timeUnitsID;
+	/**
+	 * Represents the 'substanceUnits' XML attribute of this KineticLaw.
+	 */
+	@Deprecated
+	private String substanceUnitsID;
 
 	/**
-	 * Creates a KineticLaw instance. By default, this listOfParameters is null.
+	 * Creates a KineticLaw instance. By default, this listOfParameters, the timeUnitsID and substanceUnitsID are null.
 	 */
 	public KineticLaw() {
 		super();
 		listOfParameters = null;
+		this.timeUnitsID = null;
+		this.substanceUnitsID = null;
 	}
 	
 	/**
-	 * Creates a KineticLaw instance from a level and version. By default, this listOfParameters is null.
+	 * Creates a KineticLaw instance from a level and version. By default, this listOfParameters, the timeUnitsID and substanceUnitsID are null.
 	 * @param level
 	 * @param version
 	 */
 	public KineticLaw(int level, int version) {
 		super(level, version);
 		listOfParameters = null;
+		this.timeUnitsID = null;
+		this.substanceUnitsID = null;
 	}
 
 	/**
@@ -79,6 +93,18 @@ public class KineticLaw extends MathContainer {
 		}
 		else {
 			listOfParameters = null;
+		}
+		if (kineticLaw.isSetTimeUnits()){
+			this.timeUnitsID = new String(kineticLaw.getTimeUnits());
+		}
+		else {
+			timeUnitsID = null;
+		}
+		if (kineticLaw.isSetSubstanceUnits()){
+			this.substanceUnitsID = new String(kineticLaw.getSubstanceUnits());
+		}
+		else {
+			substanceUnitsID = null;
 		}
 	}
 
@@ -150,6 +176,20 @@ public class KineticLaw extends MathContainer {
 			if (kl.isSetListOfParameters() && isSetListOfParameters()){
 				equal &= kl.getListOfParameters().equals(getListOfParameters());
 			}
+			if ((!kl.isSetTimeUnits() && isSetTimeUnits())
+					|| (kl.isSetTimeUnits() && !isSetTimeUnits())){
+				return false;
+			}
+			if (kl.isSetTimeUnits() && isSetTimeUnits()){
+				equal &= kl.getTimeUnits().equals(getTimeUnits());
+			}
+			if ((!kl.isSetSubstanceUnits() && isSetSubstanceUnits())
+					|| (kl.isSetSubstanceUnits() && !isSetSubstanceUnits())){
+				return false;
+			}
+			if (kl.isSetSubstanceUnits() && isSetSubstanceUnits()){
+				equal &= kl.getSubstanceUnits().equals(getSubstanceUnits());
+			}
 			return equal;
 		} else
 			equal = false;
@@ -162,6 +202,106 @@ public class KineticLaw extends MathContainer {
 	 */
 	public ListOf<Parameter> getListOfParameters() {
 		return listOfParameters;
+	}
+	
+	/**
+	 * 
+	 * @return the timeUnitsID of this KineticLaw. Return the empty String if it is not set.
+	 */
+	@Deprecated
+	public String getTimeUnits() {
+		return isSetTimeUnits() ? this.timeUnitsID : "";
+	}
+	
+	/**
+	 * 
+	 * @return true if the timeUnitsID of this KineticLaw is not null.
+	 */
+	@Deprecated
+	public boolean isSetTimeUnits() {
+		return this.timeUnitsID != null;
+	}
+	
+	/**
+	 * 
+	 * @return the UnitDefinition instance which has the timeUnistID of this KineticLaw as id. Return null if it doesn't exist.
+	 */
+	@Deprecated
+	public UnitDefinition getTimeUnitsInstance() {
+		if (getModel() == null){
+			return null;
+		}
+		return getModel().getUnitDefinition(this.timeUnitsID);
+	}
+	
+	/**
+	 * 
+	 * @return true if the UnistDefinition instance which has the timeUnitsID of this KineticLaw as id is not null.
+	 */
+	@Deprecated
+	public boolean isSetTimeUnitsInstance() {
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getUnitDefinition(this.timeUnitsID) != null;
+	}
+	
+	/**
+	 * 
+	 * @return the substanceUnitsID of this KineticLaw. Return the empty String if it is not set.
+	 */
+	@Deprecated
+	public String getSubstanceUnits() {
+		return isSetSubstanceUnits() ? this.substanceUnitsID : "";
+	}
+	
+	/**
+	 * 
+	 * @return true if the substanceUnitsID of this KineticLaw is not null.
+	 */
+	@Deprecated
+	public boolean isSetSubstanceUnits() {
+		return this.substanceUnitsID != null;
+	}
+	
+	/**
+	 * 
+	 * @return the UnitDefinition instance which has the substanceUnistID of this KineticLaw as id. Return null if it doesn't exist.
+	 */
+	@Deprecated
+	public UnitDefinition getSubstanceUnitsInstance() {
+		if (getModel() == null){
+			return null;
+		}
+		return getModel().getUnitDefinition(this.substanceUnitsID);
+	}
+	
+	/**
+	 * 
+	 * @return true if the UnistDefinition instance which has the substanceUnitsID of this KineticLaw as id is not null.
+	 */
+	@Deprecated
+	public boolean isSetSubstanceUnitsInstance() {
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getUnitDefinition(this.substanceUnitsID) != null;
+	}
+	
+	/**
+	 * Unsets the timeUnitsID of this KineticLaw.
+	 */
+	@Deprecated
+	public void unsetTimeUnits(){
+		this.timeUnitsID = null;
+	}
+	
+	/**
+	 * Unsets the sunbstanceUnistID of this KineticLaw.
+	 */
+	@Deprecated
+	public void unsetSubstanceUnits(){
+		this.substanceUnitsID = null;
 	}
 	
 	/**
@@ -181,6 +321,42 @@ public class KineticLaw extends MathContainer {
 		this.listOfParameters = list;
 		setThisAsParentSBMLObject(this.listOfParameters);
 		this.listOfParameters.setSBaseListType(SBaseListType.listOfLocalParameters);
+	}
+	
+	/**
+	 * Sets the timeUnitsID of this KineticLaw.
+	 * @param timeUnits
+	 */
+	@Deprecated
+	public void setTimeUnits(String timeUnits){
+		this.timeUnitsID = timeUnits;
+	}
+	
+	/**
+	 * Sets the substanceUnitsID of this KineticLaw.
+	 * @param substanceUnits
+	 */
+	@Deprecated
+	public void setSubstanceUnits(String substanceUnits){
+		this.substanceUnitsID = substanceUnits;
+	}
+	
+	/**
+	 * Sets the timeUnitsID of this KineticLaw.
+	 * @param timeUnits
+	 */
+	@Deprecated
+	public void setTimeUnitsInstance(UnitDefinition timeUnits){
+		this.timeUnitsID = timeUnits.isSetId() ? timeUnits.getId() : null;
+	}
+	
+	/**
+	 * Sets the substanceUnitsID of this KineticLaw.
+	 * @param substanceUnits
+	 */
+	@Deprecated
+	public void setSubstanceUnitsInstance(UnitDefinition substanceUnits){
+		this.substanceUnitsID = substanceUnits.isSetId() ? substanceUnits.getId() : null;
 	}
 
 	/**
@@ -308,6 +484,14 @@ public class KineticLaw extends MathContainer {
 	public boolean readAttribute(String attributeName, String prefix, String value){
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
+		if (!isAttributeRead){
+			if (attributeName.equals("timeUnits") && ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)){
+				setTimeUnits(value);
+			}
+			else if (attributeName.equals("substanceUnits") && ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)){
+				setSubstanceUnits(value);
+			}
+		}
 		return isAttributeRead;
 	}
 	
@@ -318,6 +502,13 @@ public class KineticLaw extends MathContainer {
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetTimeUnits() && ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)){
+			attributes.put("timeUnits", getTimeUnits());
+		}
+		else if (isSetSubstanceUnits() && ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)){
+			attributes.put("substanceUnits", getSubstanceUnits());
+		}
 		
 		return attributes;
 	}

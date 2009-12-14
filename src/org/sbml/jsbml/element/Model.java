@@ -1972,25 +1972,25 @@ public class Model extends AbstractNamedSBase {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 	
 		if (!isAttributeRead){
-			if (attributeName.equals("substanceUnits")){
+			if (attributeName.equals("substanceUnits") && getLevel() > 2){
 				this.setSubstanceUnits(value);
 			}
-			else if (attributeName.equals("timeUnits")){
+			else if (attributeName.equals("timeUnits") && getLevel() > 2){
 				this.setTimeUnits(value);
 			}
-			else if (attributeName.equals("volumeUnits")){
+			else if (attributeName.equals("volumeUnits") && getLevel() > 2){
 				this.setVolumeUnits(value);
 			}
-			else if (attributeName.equals("areaUnits")){
+			else if (attributeName.equals("areaUnits") && getLevel() > 2){
 				this.setAreaUnits(value);
 			}
-			else if (attributeName.equals("lengthUnits")){
+			else if (attributeName.equals("lengthUnits") && getLevel() > 2){
 				this.setLengthUnits(value);
 			}
-			else if (attributeName.equals("extentUnits")){
+			else if (attributeName.equals("extentUnits") && getLevel() > 2){
 				this.setExtentUnits(value);
 			}
-			else if (attributeName.equals("conversionFactor")){
+			else if (attributeName.equals("conversionFactor") && getLevel() > 2){
 				this.setConversionFactor(value);
 			}
 		}
@@ -2142,25 +2142,25 @@ public class Model extends AbstractNamedSBase {
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 		
-		if (isSetSubstanceUnits()){
+		if (isSetSubstanceUnits() && getLevel() > 2){
 			attributes.put("substanceUnitsID", getSubstanceUnits());
 		}
-		if (isSetTimeUnits()){
+		if (isSetTimeUnits() && getLevel() > 2){
 			attributes.put("timeUnits", getTimeUnits());
 		}
-		else if (isSetVolumeUnits()){
+		else if (isSetVolumeUnits() && getLevel() > 2){
 			attributes.put("volumeUnits", getVolumeUnits());
 		}
-		else if (isSetAreaUnits()){
+		else if (isSetAreaUnits() && getLevel() > 2){
 			attributes.put("areaUnits", getAreaUnits());
 		}
-		else if (isSetLengthUnits()){
+		else if (isSetLengthUnits() && getLevel() > 2){
 			attributes.put("lengthUnits", getLengthUnits());
 		}
-		else if (isSetExtentUnits()){
+		else if (isSetExtentUnits() && getLevel() > 2){
 			attributes.put("extentUnits", getExtentUnits());
 		}
-		else if (isSetConversionFactor()){
+		else if (isSetConversionFactor() && getLevel() > 2){
 			attributes.put("conversionFactor", getConversionFactor());
 		}
 

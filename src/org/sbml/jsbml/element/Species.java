@@ -44,6 +44,12 @@ public class Species extends Symbol {
 	private String conversionFactorID;
 	
 	/**
+	 * Represents the 'spatialSizeUnits' attribute of a Species element.
+	 */
+	@Deprecated
+	private String spatialSizeUnitsID;
+	
+	/**
 	 * Represents the 'speciesType' attribute of a Species element.
 	 */
 	@Deprecated
@@ -71,6 +77,9 @@ public class Species extends Symbol {
 	@Deprecated
 	private Integer charge;
 
+	/**
+	 * Boolean value to test if the charge has been set.
+	 */
 	private boolean isSetCharge;
 
 	/**
@@ -85,6 +94,7 @@ public class Species extends Symbol {
 		this.conversionFactorID = null;
 		this.hasOnlySubstanceUnits = null;
 		this.boundaryCondition = null;
+		this.spatialSizeUnitsID = null;
 		
 		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
@@ -137,6 +147,12 @@ public class Species extends Symbol {
 		if (species.isSetConstant()){
 			setConstant(new Boolean(species.getConstant()));
 		}
+		if (species.isSetSpatialSizeUnits()){
+			this.spatialSizeUnitsID = new String(species.getSpatialSizeUnits());
+		}
+		else {
+			this.spatialSizeUnitsID = null;
+		}
 	}
 
 	/**
@@ -153,6 +169,7 @@ public class Species extends Symbol {
 		this.conversionFactorID = null;
 		this.hasOnlySubstanceUnits = null;
 		this.boundaryCondition = null;
+		this.spatialSizeUnitsID = null;
 		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
@@ -172,6 +189,7 @@ public class Species extends Symbol {
 		this.conversionFactorID = null;
 		this.hasOnlySubstanceUnits = null;
 		this.boundaryCondition = null;
+		this.spatialSizeUnitsID = null;
 		if (level < 3) {
 			initDefaults();
 		}
@@ -197,6 +215,15 @@ public class Species extends Symbol {
 	
 	/**
 	 * 
+	 * @return true if the spatialSizeUnits of this Species is not null.
+	 */
+	@Deprecated
+	public boolean isSetSpatialSizeUnits(){
+		return this.spatialSizeUnitsID != null;
+	}
+	
+	/**
+	 * 
 	 * @return true if the hasOnlySubstanceUnits of this Species is not null.
 	 */
 	public boolean isSetHasOnlySubstanceUnits(){
@@ -216,15 +243,15 @@ public class Species extends Symbol {
 			equal &= s.getBoundaryCondition() == getBoundaryCondition();
 			equal &= s.getHasOnlySubstanceUnits() == getHasOnlySubstanceUnits();
 			equal &= s.getCharge() == getCharge();
-			equal &= s.isSetCompartmentInstance() == isSetCompartmentInstance();
+			equal &= s.isSetCompartment() == isSetCompartment();
 			equal &= s.isSetSpeciesType() == isSetSpeciesType();
 
 			if (equal && isSetSpeciesType()){
 				equal &= s.getSpeciesType().equals(getSpeciesType());
 			}
-			if (equal && isSetCompartmentInstance()){
-				equal &= s.getCompartmentInstance().equals(
-						getCompartmentInstance());
+			if (equal && isSetCompartment()){
+				equal &= s.getCompartment().equals(
+						getCompartment());
 			}
 			equal &= s.isSetInitialAmount() == isSetInitialAmount();
 			if (equal && isSetInitialAmount()){
@@ -233,6 +260,11 @@ public class Species extends Symbol {
 			else if (equal
 					&& isSetInitialConcentration()){
 				equal &= s.getInitialConcentration() == getInitialConcentration();
+			}
+			equal &= s.isSetSpatialSizeUnits() == isSetSpatialSizeUnits();
+
+			if (equal && isSetSpatialSizeUnits()){
+				equal &= s.getSpatialSizeUnits().equals(getSpatialSizeUnits());
 			}
 			return equal;
 		}
@@ -245,6 +277,15 @@ public class Species extends Symbol {
 	 */
 	public boolean getBoundaryCondition() {
 		return isSetBoundaryCondition() ? boundaryCondition : false;
+	}
+	
+	/**
+	 * 
+	 * @return the spatialSizeUnits of this Species.
+	 */
+	@Deprecated
+	public String getSpatialSizeUnits() {
+		return isSetSpatialSizeUnits() ? spatialSizeUnitsID : "";
 	}
 
 	/**
@@ -273,6 +314,17 @@ public class Species extends Symbol {
 			return null;
 		}
 		return getModel().getCompartment(this.compartmentID);
+	}
+	
+	/**
+	 * 
+	 * @return The UnitDefinition instance which as the spatialSizeUnitsID of this Species as id. Null if it doesn't exist.
+	 */
+	public UnitDefinition getSpatialSizeUnitsInstance() {
+		if (getModel() == null){
+			return null;
+		}
+		return getModel().getUnitDefinition(this.spatialSizeUnitsID);
 	}
 
 	/**
@@ -454,6 +506,17 @@ public class Species extends Symbol {
 	
 	/**
 	 * 
+	 * @return true if the UnitDefinition which has the spatialSizeUnitsID of this Species as id is not null.
+	 */
+	public boolean isSetSpatialSizeUnitsInstance() {
+		if (getModel() == null){
+			return false;
+		}
+		return getModel().getUnitDefinition(this.spatialSizeUnitsID) != null;
+	}
+	
+	/**
+	 * 
 	 * @return true if the substanceUnitsID of this species is not null.
 	 */
 	public boolean isSetSubstanceUnits() {
@@ -517,6 +580,28 @@ public class Species extends Symbol {
 			this.compartmentID = null;
 		} else {
 			this.compartmentID = compartment;
+		}
+		stateChanged();
+	}
+	
+	/**
+	 * Sets the spatialSizeUnitsID of this Species to the id of 'spatialSizeUnits'.
+	 * @param spatialSizeUnits
+	 */
+	public void setSpatialSizeUnits(UnitDefinition spatialSizeUnits) {
+		this.spatialSizeUnitsID = spatialSizeUnits != null ? spatialSizeUnits.getId() : null;
+		stateChanged();
+	}
+	
+	/**
+	 * Sets the spatialSizeUnitsID of this Species to 'spatialSizeUnits'.
+	 * @param spatialSizeUnits
+	 */
+	public void setSpatialSizeUnits(String spatialSizeUnits) {
+		if (spatialSizeUnits != null && spatialSizeUnits.trim().length() == 0) {
+			this.spatialSizeUnitsID = null;
+		} else {
+			this.spatialSizeUnitsID = spatialSizeUnits;
 		}
 		stateChanged();
 	}
@@ -674,9 +759,19 @@ public class Species extends Symbol {
 		this.conversionFactorID = null;
 	}
 	
+	/**
+	 * Unsets the charge of this Species
+	 */
 	public void unsetCharge() {
 		charge = null;
 		isSetCharge = false;
+	}
+	
+	/**
+	 * Unsets the spatialSizeUnits of this Species
+	 */
+	public void unsetSpatialSizeUnits() {
+		spatialSizeUnitsID = null;
 	}
 	
 	/*
@@ -692,16 +787,24 @@ public class Species extends Symbol {
 			if (attributeName.equals("compartment")){
 				this.setCompartment(value);
 			}
+			else if (attributeName.equals("units") ){
+				this.setUnits(value);
+				return true;
+			}
+			else if (attributeName.equals("spatialDimensions") && getLevel() == 2 && (getVersion() == 1 || getVersion() == 2)){
+				this.setSpatialSizeUnits(value);
+				return true;
+			}
 			else if (attributeName.equals("initialAmount")){
 				this.setInitialAmount(Double.parseDouble(value));
 			}
-			else if (attributeName.equals("initialConcentration")){
+			else if (attributeName.equals("initialConcentration") && getLevel() > 1){
 				this.setInitialConcentration(Double.parseDouble(value));
 			}
-			else if (attributeName.equals("substanceUnits")){
+			else if (attributeName.equals("substanceUnits") && getLevel() > 1){
 				this.setUnits(value);
 			}
-			else if (attributeName.equals("hasOnlySubstanceUnits")){
+			else if (attributeName.equals("hasOnlySubstanceUnits") && getLevel() > 1){
 				if (value.equals("true")){
 					this.setHasOnlySubstanceUnits(true);
 					return true;
@@ -721,19 +824,19 @@ public class Species extends Symbol {
 					return true;
 				}
 			}
-			else if (attributeName.equals("conversionFactor")){
+			else if (attributeName.equals("conversionFactor")  && getLevel() == 3){
 				this.setConversionFactor(value);
 				return true;
 			}
-			else if (attributeName.equals("charge")){
+			else if (attributeName.equals("charge") && isSetLevel() && getLevel() < 3){
 				this.setCharge(Integer.parseInt(value));
 				return true;
 			}
-			else if (attributeName.equals("speciesType")){
+			else if (attributeName.equals("speciesType") && ((getLevel() == 2 && getVersion() >= 2) || getLevel() == 3)){
 				this.setSpeciesType(value);
 				return true;
 			}
-			else if (attributeName.equals("constant")){
+			else if (attributeName.equals("constant")  && getLevel() > 1){
 				if (value.equals("true")){
 					this.setConstant(true);
 					return true;
@@ -759,44 +862,37 @@ public class Species extends Symbol {
 		if (isSetCompartment()){
 			attributes.put("compartment", getCompartment());
 		}
+		if (isSetSpatialSizeUnits() && getLevel() == 2 && (getVersion() == 1 || getVersion() == 2)){
+			attributes.put("spatialSizeUnits", getSpatialSizeUnits());
+		}
 		if (isSetInitialAmount()){
 			attributes.put("initialAmount", Double.toString(getInitialAmount()));
 		}
-		if (isSetInitialConcentration()){
+		if (isSetInitialConcentration()  && getLevel() > 1){
 			attributes.put("initialConcentration", Double.toString(getInitialConcentration()));
 		}
-		if (isSetSubstanceUnits()){
+		if (isSetSubstanceUnits()  && getLevel() > 1){
 			attributes.put("substanceUnits", getSubstanceUnits());
 		}
-		if (isSetHasOnlySubstanceUnits()){
+		if (isSetHasOnlySubstanceUnits()  && getLevel() > 1){
 			attributes.put("hasOnlySubstanceUnits", Boolean.toString(getHasOnlySubstanceUnits()));
 		}
-		if (isSetConstant()){
+		if (isSetConstant()  && getLevel() > 1){
 			attributes.put("constant", Boolean.toString(getConstant()));
 		}
 		if (isSetBoundaryCondition()){
 			attributes.put("boundaryCondition", Boolean.toString(getBoundaryCondition()));
 		}
-		if (isSetConversionFactor()){
+		if (isSetConversionFactor()  && getLevel() == 3){
 			attributes.put("conversionFactor", getConversionFactor());
 		}
-		if (isSetCharge()){
+		if (isSetCharge()  && isSetLevel() && getLevel() < 3){
 			attributes.put("charge", Integer.toString(getCharge()));
 		}
-		if (isSetSpeciesType()){
+		if (isSetSpeciesType() && ((getLevel() == 2 && getVersion() >= 2) || getLevel() == 3)){
 			attributes.put("speciesType", getSpeciesType());
 		}
 		
 		return attributes;
-	}
-
-
-	/**
-	 * 
-	 * @return true if the spatialSizeUnits is not null.
-	 */
-	public boolean isSetSpatialSizeUnits() {
-		// TODO : implement
-		return false;
 	}
 }
