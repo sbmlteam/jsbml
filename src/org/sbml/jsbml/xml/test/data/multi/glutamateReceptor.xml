@@ -1,0 +1,802 @@
+<?xml version="1.0" encoding="UTF8"?>
+
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1"
+  xmlns:l3m="http://www.sbml.org/sbml/level3/version1/multi/version1" l3m:required="false">
+  <model id="glur" name="glutamate receptor">
+    
+    <listOfSpeciesTypes>
+      
+      <!-- This defines the subunit of the glutamate receptor, 
+           with one state feature, the serine 845, that can be 
+           phosphorylated or not, and three binding sites, for 
+           two neighbour subunits and for glutamate -->
+      <speciesType id="st_subunit" name="glur subunit">
+        <l3m:listOfStateFeatures>
+          <l3m:stateFeature id="ser845">
+            <l3m:listOfPossibleValues>
+              <l3m:possibleValue id="phosphorylated" />
+              <l3m:possibleValue id="nonphosphorylated" />
+            </l3m:listOfPossibleValues>
+          </l3m:stateFeature>  
+        </l3m:listOfStateFeatures>
+        <l3m:listOfBindingSites>
+          <l3m:bindingSite id="left" name="left neighbor binding site" />
+          <l3m:bindingSite id="right" name="right neighbor binding site" />
+          <l3m:bindingSite id="agonist" name="glutamate binding site" />
+        </l3m:listOfBindingSites>
+      </speciesType>
+      
+      <!-- This defines the glutamate receptors, with on state feature, 
+           representing the conformation of the channel pore - closed, 
+           open or desensitized and one binding site for cytoskeletton scaffold -->
+      <speciesType id="st_receptor" name="glutamate receptor">
+        <l3m:listOfStateFeatures>
+          <l3m:stateFeature id="pore">
+            <l3m:listOfPossibleValues>
+              <l3m:possibleValue id="closed" />
+              <l3m:possibleValue id="open" />
+              <l3m:possibleValue id="desensitized" />
+            </l3m:listOfPossibleValues>
+          </l3m:stateFeature>
+        </l3m:listOfStateFeatures>
+        <l3m:listOfBindingSites>
+          <l3m:bindingSite id="anchor" name="scaffolding binding site" />
+        </l3m:listOfBindingSites>
+      </speciesType>
+      
+      <!-- This defines the cytoskeletton scaffold, that carries a 
+           variable number of binding sites for glutamate receptors -->
+      <speciesType id="st_scaffold" name="cytoskeletton scaffolding protein">
+        <l3m:listOfBindingSites>
+          <l3m:bindingSite id="slot" name="receptor binding site" minOccur="3" maxOccur="10" />
+        </l3m:listOfBindingSites>        
+      </speciesType>
+      
+      <!-- This defines the protein kinase A, that can be active or inactive -->
+      <speciesType id="st_PKA" name="protein kinase A">
+        <l3m:listOfStateFeatures>
+          <l3m:stateFeature id="activity">
+            <l3m:listOfPossibleValues>
+              <l3m:possibleValue id="active" />
+              <l3m:possibleValue id="inactive" />
+            </l3m:listOfPossibleValues>
+          </l3m:stateFeature>
+        </l3m:listOfStateFeatures>
+      </speciesType>
+    
+      <!-- This defines glutamate, that carries a binding site for glutamate receptors -->
+      <speciesType id="st_glutamate" name="glutamate">
+        <l3m:listOfBindingSites>
+          <l3m:bindingSite id="pocket" name="receptor binding site" />
+        </l3m:listOfBindingSites>        
+      </speciesType>
+    
+    
+    </listOfSpeciesTypes>
+      
+    <listOfCompartments>
+      <compartment id="cell" />
+    </listOfCompartments>
+    
+    <l3m:listOfSelectors>
+      
+      <!-- This selects inactive instances of protein kinase A -->
+      <selector id="sel_inactivePKA">
+        <l3m:listOfSpeciesTypeStates>
+          <l3m:speciesTypeState id="PKA" speciesType="st_PKA">
+            <l3m:listOfStateFeatureInstances>
+              <l3m:featureStateInstance stateFeature="activity">
+                <l3m:listOfStateFeatureValues>
+                  <l3m:stateFeatureValue possibleValue="inactive" />
+                </l3m:listOfStateFeatureValues>
+              </l3m:featureStateInstance>
+            </l3m:listOfStateFeatureInstances>
+          </l3m:speciesTypeState>
+        </l3m:listOfSpeciesTypeStates>
+      </selector>
+      
+      <!-- This selects active instances of protein kinase A -->
+      <selector id="sel_activePKA">
+        <l3m:listOfSpeciesTypeStates>
+          <l3m:speciesTypeState id="PKA" speciesType="st_PKA">
+            <l3m:listOfStateFeatureInstances>
+              <l3m:featureStateInstance stateFeature="activity">
+                <l3m:listOfStateFeatureValues>
+                  <l3m:stateFeatureValue possibleValue="active" />
+                </l3m:listOfStateFeatureValues>
+              </l3m:featureStateInstance>
+            </l3m:listOfStateFeatureInstances>
+          </l3m:speciesTypeState>
+        </l3m:listOfSpeciesTypeStates>
+      </selector>
+
+      <!-- This selects isolated subunits of glutamate receptor, 
+           that are not bound to glutamate and not phosphorylated -->
+      <selector id="sel_freeMonomerNonGNonP">
+        <l3m:listOfSpeciesTypeStates>
+          <l3m:speciesTypeState id="monomer" speciesType="st_subunit">
+            <l3m:listOfStateFeatureInstances>
+              <l3m:featureStateInstance stateFeature="ser845">
+                <l3m:listOfStateFeatureValues>
+                  <l3m:stateFeatureValue possibleValue="nonphosphorylated" />
+                </l3m:listOfStateFeatureValues>
+              </l3m:featureStateInstance>
+            </l3m:listOfStateFeatureInstances>
+          </l3m:speciesTypeState> 
+        </l3m:listOfSpeciesTypeStates>       
+        <l3m:listOfUnboundBindingSites>
+          <l3m:bindingSiteReference speciesTypeState="monomer" bindingSite="left" />
+          <l3m:bindingSiteReference speciesTypeState="monomer" bindingSite="right" />
+          <l3m:bindingSiteReference speciesTypeState="monomer" bindingSite="agonist" />
+        </l3m:listOfUnboundBindingSites>
+      </selector>      
+      
+      <!-- This selects isolated subunits of glutamate receptor, 
+           that are not bound to glutamate. They can be phosphorylated or not-->
+      <selector id="sel_freeMonomerNonG">
+        <l3m:listOfSpeciesTypeStates>
+          <l3m:speciesTypeState id="monomer" speciesType="st_subunit" />
+        </l3m:listOfSpeciesTypeStates>       
+        <l3m:listOfUnboundBindingSites>
+          <l3m:bindingSiteReference speciesTypeState="monomer" bindingSite="left" />
+          <l3m:bindingSiteReference speciesTypeState="monomer" bindingSite="right" />
+          <l3m:bindingSiteReference speciesTypeState="monomer" bindingSite="agonist" />
+        </l3m:listOfUnboundBindingSites>
+      </selector>      
+      
+      <!-- This selects subunits of glutamate receptor, either isolated or not 
+           that are not phosphorylated. They can be bound to glutamate or not -->
+      <selector id="sel_subunitNonP">
+        <l3m:listOfSpeciesTypeStates>
+          <l3m:speciesTypeState id="subunit" speciesType="st_subunit">
+            <l3m:listOfStateFeatureInstances>
+              <l3m:featureStateInstance stateFeature="ser845">
+                <l3m:listOfStateFeatureValues>
+                  <l3m:stateFeatureValue possibleValue="nonphosphorylated" />
+                </l3m:listOfStateFeatureValues>
+              </l3m:featureStateInstance>
+            </l3m:listOfStateFeatureInstances> 
+          </l3m:speciesTypeState>
+        </l3m:listOfSpeciesTypeStates>
+      </selector>  
+      
+        <!-- This selects subunits of glutamate receptor, either isolated or not 
+             that are phosphorylated. They can be bound to glutamate or not -->
+      <selector id="sel_subunitP">
+        <l3m:listOfSpeciesTypeStates>
+          <l3m:speciesTypeState id="subunit" speciesType="st_subunit">
+            <l3m:listOfStateFeatureInstances>
+              <l3m:featureStateInstance stateFeature="ser845">
+                <l3m:listOfStateFeatureValues>
+                  <l3m:stateFeatureValue possibleValue="phosphorylated" />
+                </l3m:listOfStateFeatureValues>
+              </l3m:featureStateInstance>
+            </l3m:listOfStateFeatureInstances>  
+          </l3m:speciesTypeState>
+        </l3m:listOfSpeciesTypeStates>       
+      </selector>      
+      
+      <!-- This select tetrameric receptors of glutamate that are not bound to scaffold -->
+      <selector id="sel_receptor">
+        <l3m:listOfSpeciesTypeStates>
+          <l3m:speciesTypeState id="monomer" speciesType="st_subunit">
+            <l3m:listOfStateFeatureInstances>
+              <l3m:featureStateInstance stateFeature="ser845">
+                <l3m:listOfStateFeatureValues>
+                  <l3m:stateFeatureValue possibleValue="nonphosphorylated" />
+                </l3m:listOfStateFeatureValues>
+              </l3m:featureStateInstance>
+            </l3m:listOfStateFeatureInstances>
+          </l3m:speciesTypeState>          
+          <l3m:speciesTypeState id="receptor" speciesType="st_receptor">
+            <l3m:listOfStateFeatureInstances>
+              <l3m:featureStateInstance stateFeature="pore">
+                <l3m:listOfStateFeatureValues>
+                  <l3m:stateFeatureValue possibleValue="closed" />
+                </l3m:listOfStateFeatureValues>
+              </l3m:featureStateInstance>
+            </l3m:listOfStateFeatureInstances>
+            <l3m:listOfContainedSpeciesTypes>
+              <l3m:containedSpeciesType selector="monomer" minOccur="4" maxOccur="4" connex="true" saturated="true" />
+            </l3m:listOfContainedSpeciesTypes>
+          </l3m:speciesTypeState>
+        </l3m:listOfSpeciesTypeStates>
+        <l3m:listOfBonds>
+          <l3m:bond>
+          <!-- Because of the rule that prohibits the formation on intra-speciesType bonds, 
+               the following rule does not request the creation of instances -->
+            <l3m:bindingSiteReference speciesTypeState="monomer" bindingSite="right" />
+            <l3m:bindingSiteReference speciesTypeState="monomer" bindingSite="left" />
+          </l3m:bond>
+        </l3m:listOfBonds>
+        <l3m:listOfUnboundBindingSites>
+          <l3m:bindingSiteReference speciesTypeState="receptor" bindingSite="anchor" />
+          <l3m:bindingSiteReference speciesTypeState="monomer" bindingSite="agonist" />
+        </l3m:listOfUnboundBindingSites>
+      </selector>
+      
+      <!-- This select subunits that belong to receptors and that are not bound to glutamate -->
+      <selector id="sel_subunitNonG">
+        <l3m:listOfSpeciesTypeStates>
+          <l3m:speciesTypeState id="subunit" speciesType="st_subunit" />
+          <l3m:speciesTypeState id="receptor" speciesType="st_receptor" />
+        </l3m:listOfSpeciesTypeStates>
+        <l3m:listOfUnboundBindingSites>
+          <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="agonist" />
+        </l3m:listOfUnboundBindingSites>
+        <l3m:listOfBonds>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="right" />
+          </l3m:bond>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="left" />
+          </l3m:bond>
+        </l3m:listOfBonds>
+      </selector>
+      
+      <!-- This select subunits that belong to closed receptors and that are not bound to glutamate -->
+      <selector id="sel_subunitNonG_closed">
+        <l3m:listOfSpeciesTypeStates>
+          <l3m:speciesTypeState id="subunit" speciesType="st_subunit" />
+          <l3m:speciesTypeState id="receptor" speciesType="st_receptor">
+            <l3m:listOfStateFeatureInstances>
+              <l3m:featureStateInstance stateFeature="pore">
+                <l3m:listOfStateFeatureValues>
+                  <l3m:stateFeatureValue possibleValue="closed" />
+                </l3m:listOfStateFeatureValues>
+              </l3m:featureStateInstance>
+            </l3m:listOfStateFeatureInstances>
+          </l3m:speciesTypeState>
+        </l3m:listOfSpeciesTypeStates>
+        <l3m:listOfBonds>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="right" />
+          </l3m:bond>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="left" />
+          </l3m:bond>
+        </l3m:listOfBonds>
+        <l3m:listOfUnboundBindingSites>
+          <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="agonist" />
+        </l3m:listOfUnboundBindingSites>
+      </selector>
+      
+      <!-- This select subunits that belong to open receptors and that are not bound to glutamate -->
+      <selector id="sel_subunitNonG_open">
+        <l3m:listOfSpeciesTypeStates>
+          <l3m:speciesTypeState id="subunit" speciesType="st_subunit" />
+          <l3m:speciesTypeState id="receptor" speciesType="st_receptor">
+            <l3m:listOfStateFeatureInstances>
+              <l3m:featureStateInstance stateFeature="pore">
+                <l3m:listOfStateFeatureValues>
+                  <l3m:stateFeatureValue possibleValue="open" />
+                </l3m:listOfStateFeatureValues>
+              </l3m:featureStateInstance>
+            </l3m:listOfStateFeatureInstances>
+          </l3m:speciesTypeState>
+        </l3m:listOfSpeciesTypeStates>
+        <l3m:listOfBonds>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="right" />
+          </l3m:bond>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="left" />
+          </l3m:bond>
+        </l3m:listOfBonds>
+        <l3m:listOfUnboundBindingSites>
+          <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="agonist" />
+        </l3m:listOfUnboundBindingSites>
+      </selector>
+      
+      <!-- This select subunits that belong to desensitized receptors and that are not bound to glutamate -->
+      <selector id="sel_subunitNonG_desensitised">
+        <l3m:listOfSpeciesTypeStates>
+          <l3m:speciesTypeState id="subunit" speciesType="st_subunit" />
+          <l3m:speciesTypeState id="receptor" speciesType="st_receptor">
+            <l3m:listOfStateFeatureInstances>
+              <l3m:featureStateInstance stateFeature="pore">
+                <l3m:listOfStateFeatureValues>
+                  <l3m:stateFeatureValue possibleValue="desensitised" />
+                </l3m:listOfStateFeatureValues>
+              </l3m:featureStateInstance>
+            </l3m:listOfStateFeatureInstances>
+          </l3m:speciesTypeState>
+        </l3m:listOfSpeciesTypeStates>
+        <l3m:listOfBonds>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="right" />
+          </l3m:bond>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="left" />
+          </l3m:bond>
+        </l3m:listOfBonds>
+        <l3m:listOfUnboundBindingSites>
+          <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="agonist" />
+        </l3m:listOfUnboundBindingSites>
+      </selector>
+      
+      <!-- This select subunits that belong to closed receptors and that are bound to glutamate -->
+      <selector id="sel_subunitG_closed">
+        <l3m:listOfSpeciesTypeStates>
+          <l3m:speciesTypeState id="subunit" speciesType="st_subunit" />
+          <l3m:speciesTypeState id="glutamate" speciesType="st_glutamate" />          
+          <l3m:speciesTypeState id="receptor" speciesType="st_receptor">
+            <l3m:listOfStateFeatureInstances>
+              <l3m:featureStateInstance stateFeature="pore">
+                <l3m:listOfStateFeatureValues>
+                  <l3m:stateFeatureValue possibleValue="closed" />
+                </l3m:listOfStateFeatureValues>
+              </l3m:featureStateInstance>
+            </l3m:listOfStateFeatureInstances>
+          </l3m:speciesTypeState>
+        </l3m:listOfSpeciesTypeStates>
+        <l3m:listOfBonds>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="agonist" />
+            <l3m:bindingSiteReference speciesTypeState="glutamate" bindingSite="pocket" />
+          </l3m:bond>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="right" />
+          </l3m:bond>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="left" />
+          </l3m:bond>
+        </l3m:listOfBonds>
+      </selector>
+      
+      <!-- This select subunits that belong to open receptors and that are bound to glutamate -->
+      <selector id="sel_subunitG_open">
+        <l3m:listOfSpeciesTypeStates>
+          <l3m:speciesTypeState id="subunit" speciesType="st_subunit" />
+          <l3m:speciesTypeState id="glutamate" speciesType="st_glutamate" />          
+          <l3m:speciesTypeState id="receptor" speciesType="st_receptor">
+            <l3m:listOfStateFeatureInstances>
+              <l3m:featureStateInstance stateFeature="pore">
+                <l3m:listOfStateFeatureValues>
+                  <l3m:stateFeatureValue possibleValue="open" />
+                </l3m:listOfStateFeatureValues>
+              </l3m:featureStateInstance>
+            </l3m:listOfStateFeatureInstances>
+          </l3m:speciesTypeState>
+        </l3m:listOfSpeciesTypeStates>
+        <l3m:listOfBonds>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="agonist" />
+            <l3m:bindingSiteReference speciesTypeState="glutamate" bindingSite="pocket" />
+          </l3m:bond>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="right" />
+          </l3m:bond>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="left" />
+          </l3m:bond>
+        </l3m:listOfBonds>
+      </selector>
+      
+      <!-- This select subunits that belong to desensitized receptors and that are bound to glutamate -->
+      <selector id="sel_subunitG_desensitised">
+        <l3m:listOfSpeciesTypeStates>
+          <l3m:speciesTypeState id="subunit" speciesType="st_subunit" />
+          <l3m:speciesTypeState id="glutamate" speciesType="st_glutamate" />          
+          <l3m:speciesTypeState id="receptor" speciesType="st_receptor">
+            <l3m:listOfStateFeatureInstances>
+              <l3m:featureStateInstance stateFeature="pore">
+                <l3m:listOfStateFeatureValues>
+                  <l3m:stateFeatureValue possibleValue="desensitised" />
+                </l3m:listOfStateFeatureValues>
+              </l3m:featureStateInstance>
+            </l3m:listOfStateFeatureInstances>
+          </l3m:speciesTypeState>
+        </l3m:listOfSpeciesTypeStates>
+        <l3m:listOfBonds>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="agonist" />
+            <l3m:bindingSiteReference speciesTypeState="glutamate" bindingSite="pocket" />
+          </l3m:bond>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="right" />
+          </l3m:bond>
+          <l3m:bond>
+            <l3m:bindingSiteReference speciesTypeState="subunit" bindingSite="left" />
+          </l3m:bond>
+        </l3m:listOfBonds>
+      </selector>
+    
+    </l3m:listOfSelectors>
+    
+    <listOfSpecies>
+      
+      <species id="cAMP" compartment="cell" initialAmount="10" />
+      
+      <species id="PKA" speciesType="st_PKA" compartment="cell" initialAmount="1000" >
+        <l3m:listOfInitialSpeciesInstances>
+          <l3m:initialSpeciesInstance id="initialPKA" initialProportion="1" selector="sel_inactivePKA"/>
+        </l3m:listOfInitialSpeciesInstances>
+      </species>
+      
+      <species id="freeSubunit" speciesType="st_subunit" compartment="cell" initialAmount="100" >
+        <l3m:listOfInitialSpeciesInstances>
+          <l3m:initialSpeciesInstance id="initialSubunit" initialProportion="1" selector="sel_freeMonomerNonGNonP"/>
+        </l3m:listOfInitialSpeciesInstances>
+      </species>
+      
+      <!-- init receptors at closed OR desensitized -->
+      
+    </listOfSpecies>
+    
+    <!-- assignmentRules: fraction open depends on glutamate bound 
+         fraction receptor bound: minOccur="1", maxOccur="4" for subunit bound to glu -->
+    
+    <listOfReactions>
+      
+      <reaction id="PKAactivation">
+      <!-- PKAi + 2cAMP => PKAa -->  
+        <listOfReactants>
+          <speciesReference species="PKA" stoichiometry="1">
+            <listOfSpeciesTypeRestrictions>
+              <speciesTypeRestriction id="res_inactivePKA" selector="sel_inactivePKA" />
+            </listOfSpeciesTypeRestrictions>
+          </speciesReference>
+	  <speciesReference species="cAMP" stoichiometry="2" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PKA">
+            <listOfSpeciesTypeRestrictions>
+              <speciesTypeRestriction id="res_activePKA" selector="sel_activePKA" />
+            </listOfSpeciesTypeRestrictions>
+          </speciesReference>
+        </listOfProducts>
+        <kineticLaw>
+        <!-- No reaction if we do not understand states -->
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn>0</cn>
+          </math>
+        </kineticLaw>
+        <listOfReactionRules>
+          <reactionRule id="activationRule">
+            <listOfConditions>
+              <condition speciesTypeRestriction="res_inactivePKA" />
+            </listOfConditions>
+            <listOfResults>
+              <result speciesTypeRestriction="res_activePKA" />
+            </listOfResults>            
+            <kineticLaw>
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <apply>
+                  <times />
+                  <ci>kon</ci>
+                  <ci>res_inactivePKA</ci>
+                  <apply>
+                    <power/>
+                    <ci>cAMP</ci>
+                    <cn type="integer">2</cn>
+                  </apply>
+                </apply>
+              </math>
+              <listOfParameters>
+                <parameter id="kon" value="1" />
+              </listOfParameters>
+            </kineticLaw>
+          </reactionRule>
+        </listOfReactionRules>
+      </reaction>
+      
+      <reaction id="PKAdeactivation">
+        <!-- PKAa => PKAi + 2cAMP -->  
+        <listOfReactants>
+          <speciesReference species="PKA" stoichiometry="1">
+            <listOfSpeciesTypeRestrictions>
+              <speciesTypeRestriction id="res_activePKA" selector="sel_activePKA" />
+            </listOfSpeciesTypeRestrictions>
+          </speciesReference>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PKA">
+            <listOfSpeciesTypeRestrictions>
+              <speciesTypeRestriction id="res_inactivePKA" selector="sel_inactivePKA" />
+            </listOfSpeciesTypeRestrictions>
+          </speciesReference>
+          <speciesReference species="cAMP" stoichiometry="2" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn>0</cn>
+          </math>
+        </kineticLaw>
+        <listOfReactionRules>
+          <reactionRule id="deactivationRule">
+            <listOfConditions>
+              <condition speciesTypeRestriction="res_activePKA" />
+            </listOfConditions>
+            <listOfResults>
+              <result speciesTypeRestriction="res_inactivePKA" />
+            </listOfResults>            
+            <kineticLaw>
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <apply>
+                  <times />
+                  <ci>koff</ci>
+                  <ci>res_activePKA</ci>
+                </apply>
+              </math>
+              <listOfParameters>
+                <parameter id="koff" value="1e-6" />
+              </listOfParameters>
+            </kineticLaw>
+          </reactionRule>
+        </listOfReactionRules>
+      </reaction>
+
+      <reaction id="assembly">
+      <!-- 4 monomer => receptor -->
+        <listOfReactants>
+          <speciesReference species="st_subunit" stoichiometry="4">
+            <listOfSpeciesTypeRestrictions>
+              <speciesTypeRestriction id="res_freeMonomerNonG" selector="sel_freeMonomerNonG" />
+            </listOfSpeciesTypeRestrictions>
+          </speciesReference>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="receptor">
+            <listOfSpeciesTypeRestrictions>
+              <speciesTypeRestriction id="res_receptor" selector="sel_receptor" />
+            </listOfSpeciesTypeRestrictions>
+          </speciesReference>
+        </listOfProducts>
+        <kineticLaw>
+        <!-- Note that the default here is react, even if you do not understand the states
+             It is a generalised reaction, unsing a speciesType id instead of a species -->
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times />
+              <ci>kon</ci>
+              <apply>
+                <power/>
+                <ci>st_subunit</ci>
+                <cn type="integer">4</cn>
+              </apply>
+            </apply>
+           </math>
+          <listOfParameters>
+            <parameter id="kon" value="1" />
+          </listOfParameters>
+        </kineticLaw>       
+        <listOfReactionRules>
+          <reactionRule id="assemblyRule">
+            <listOfConditions>
+              <condition speciesTypeRestriction="res_freeMonomerNonG" />
+            </listOfConditions>
+            <!-- NB: If a stateFeatureState is not specified in the result, it is not affected 
+                 by the reactionRule. Here, the subunits stays or not phosphorylated -->
+            <listOfResults>
+              <result speciesTypeRestriction="res_receptor" />
+            </listOfResults>            
+            <kineticLaw>
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <apply>
+                  <times />
+                  <ci>kon</ci>
+                  <apply>
+                    <power/>
+                    <ci>res_freeMonomerNonG</ci>
+                    <cn type="integer">4</cn>
+                  </apply>
+                </apply>
+              </math>
+              <listOfParameters>
+                <parameter id="kon" value="1" />
+              </listOfParameters>
+            </kineticLaw>
+          </reactionRule>
+        </listOfReactionRules>
+      </reaction>
+      
+      <reaction id="phosphorylation">
+      <!-- subunit => subunit-P -->  
+        <listOfReactants>
+          <speciesReference species="st_subunit">
+            <listOfSpeciesTypeRestrictions>
+              <speciesTypeRestriction id="res_subunitNonP" selector="sel_subunitNonP" />
+            </listOfSpeciesTypeRestrictions>
+          </speciesReference>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="st_subunit">
+            <listOfSpeciesTypeRestrictions>
+              <speciesTypeRestriction id="res_subunitP" selector="sel_subunitP" />
+            </listOfSpeciesTypeRestrictions>
+          </speciesReference>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="st_PKA" >
+            <listOfSpeciesTypeRestrictions>
+              <speciesTypeRestriction id="res_activePKA" selector="sel_activePKA" />
+            </listOfSpeciesTypeRestrictions>
+          </modifierSpeciesReference>
+        </listOfModifiers>  
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn>0</cn>
+          </math>
+        </kineticLaw>       
+        <listOfReactionRules>
+          <reactionRule id="phosphorylationRule">
+            <listOfConditions>
+              <condition speciesTypeRestriction="res_subunitNonP" />
+              <condition speciesTypeRestriction="res_activePKA" />
+            </listOfConditions>
+           <listOfResults>
+              <result speciesTypeRestriction="res_subunitP" />
+            </listOfResults>            
+            <kineticLaw>
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times />
+                    <ci>kcat</ci>
+                    <ci>res_activePKA</ci>
+                    <ci>res_subunitNonP</ci>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci>Km</ci>
+                    <ci>res_subunitNonP</ci>
+                  </apply>
+                </apply>
+              </math>
+              <listOfParameters>
+                <parameter id="kcat" value="1" />
+                <parameter id="Km" value="1" />
+              </listOfParameters>
+            </kineticLaw>
+          </reactionRule>
+        </listOfReactionRules>
+      </reaction>      
+      
+      <reaction>
+        <!-- association of glutamate. Does not depends on state -->
+        <listOfReactants>
+          <speciesReference species="st_subunit">
+            <listOfSpeciesTypeRestrictions>
+              <speciesTypeRestriction id="res_subunitNonG" selector="sel_subunitNonG" />
+            </listOfSpeciesTypeRestrictions>
+          </speciesReference>
+          <speciesReference species="glutamate"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="st_subunit">
+            <listOfSpeciesTypeRestrictions>
+              <speciesTypeRestriction id="res_subunitG" selector="sel_subunitG" />
+            </listOfSpeciesTypeRestrictions>
+          </speciesReference>
+        </listOfProducts>
+        <kineticLaw>
+          <!-- No reaction if we do not understand states -->
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn>0</cn>
+          </math>
+        </kineticLaw>
+        <listOfReactionRules>
+          <reactionRule id="associationRule">
+            <listOfConditions>
+              <condition speciesTypeRestriction="res_subunitNonG" />
+            </listOfConditions>
+            <listOfResults>
+              <result speciesTypeRestriction="res_subunitG" />
+            </listOfResults>            
+            <kineticLaw>
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <apply>
+                  <times />
+                  <ci>kon</ci>
+                  <ci>res_subunitNonG</ci>
+                </apply>
+              </math>
+              <listOfParameters>
+                <parameter id="kon" value="1" />
+              </listOfParameters>
+            </kineticLaw>
+          </reactionRule>
+        </listOfReactionRules>
+      </reaction>
+
+      
+      <reaction>
+      <!-- dissociation of glutamate. Depends on state -->
+        <listOfReactants>
+          <speciesReference species="st_subunit">
+            <listOfSpeciesTypeRestrictions>
+              <speciesTypeRestriction id="res_subunitG_closed" selector="sel_subunitG_closed" />
+              <speciesTypeRestriction id="res_subunitG_open" selector="sel_subunitG_open" />
+              <speciesTypeRestriction id="res_subunitG_desensitised" selector="sel_subunitG_desensitised" />
+            </listOfSpeciesTypeRestrictions>
+          </speciesReference>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="st_subunit">
+            <listOfSpeciesTypeRestrictions>
+              <speciesTypeRestriction id="res_subunitNonG_closed" selector="sel_subunitNonG_closed" />
+              <speciesTypeRestriction id="res_subunitNonG_open" selector="sel_subunitNonG_open" />
+              <speciesTypeRestriction id="res_subunitNonG_desensitised" selector="sel_subunitNonG_desensitised" />
+            </listOfSpeciesTypeRestrictions>
+          </speciesReference>
+          <speciesReference species="glutamate"/>
+        </listOfProducts>
+        <kineticLaw>
+        <!-- No reaction if we do not understand states -->
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn>0</cn>
+          </math>
+        </kineticLaw>
+        <listOfReactionRules>
+          <reactionRule id="dissociationFromClosed">
+            <listOfConditions>
+              <condition speciesTypeRestriction="res_subunitG_closed" />
+            </listOfConditions>
+            <listOfResults>
+              <result speciesTypeRestriction="res_subunitNonG_closed" />
+            </listOfResults>            
+            <kineticLaw>
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <apply>
+                  <times />
+                  <ci>koff_closed</ci>
+                  <ci>res_subunitG_closed</ci>
+                </apply>
+              </math>
+              <listOfParameters>
+                <parameter id="koff_closed" value="1" />
+              </listOfParameters>
+            </kineticLaw>
+          </reactionRule>
+          <reactionRule id="dissociationFromOpen">
+            <listOfConditions>
+              <condition speciesTypeRestriction="res_subunitG_open" />
+            </listOfConditions>
+            <listOfResults>
+              <result speciesTypeRestriction="res_subunitNonG_open" />
+            </listOfResults>            
+            <kineticLaw>
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <apply>
+                  <times />
+                  <ci>koff_open</ci>
+                  <ci>res_subunitG_open</ci>
+                </apply>
+              </math>
+              <listOfParameters>
+                <parameter id="koff_open" value="0.1" />
+              </listOfParameters>
+            </kineticLaw>
+          </reactionRule>
+          <reactionRule id="dissociationFromDesensitised">
+            <listOfConditions>
+              <condition speciesTypeRestriction="res_subunitG_desensitised" />
+            </listOfConditions>
+            <listOfResults>
+              <result speciesTypeRestriction="res_subunitNonG_desensitised" />
+            </listOfResults>            
+            <kineticLaw>
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <apply>
+                  <times />
+                  <ci>koff_closed</ci>
+                  <ci>res_subunitG_desensitised</ci>
+                </apply>
+              </math>
+              <listOfParameters>
+                <parameter id="koff_desensistised" value="0.01" />
+              </listOfParameters>
+            </kineticLaw>
+          </reactionRule>        
+        </listOfReactionRules>
+      </reaction>
+      
+      <!-- binding scaffold -->>
+      
+    </listOfReactions>
+    
+  </model>
+</sbml>
+  
