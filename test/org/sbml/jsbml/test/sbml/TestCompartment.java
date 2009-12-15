@@ -44,7 +44,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.sbml.jsbml.element.Compartment;
+import org.sbml.jsbml.Compartment;
 
 
 // TODO : test what libsbml is returning with getValue(), when the value is not set, probably not NaN ?

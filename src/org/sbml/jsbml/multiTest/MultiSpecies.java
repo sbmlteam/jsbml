@@ -1,7 +1,7 @@
 package org.sbml.jsbml.multiTest;
 
-import org.sbml.jsbml.element.ListOf;
-import org.sbml.jsbml.element.Species;
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.sbmlExtensions.SpeciesExtension;
 
 public class MultiSpecies extends SpeciesExtension{

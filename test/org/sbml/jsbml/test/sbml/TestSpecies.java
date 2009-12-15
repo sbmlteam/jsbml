@@ -45,7 +45,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.sbml.jsbml.element.Species;
+import org.sbml.jsbml.Species;
 
 public class TestSpecies {
 

@@ -34,12 +34,12 @@ import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Vector;
 
-import org.sbml.jsbml.element.ASTNode;
-import org.sbml.jsbml.element.ASTNodeCompiler;
-import org.sbml.jsbml.element.Compartment;
-import org.sbml.jsbml.element.FunctionDefinition;
-import org.sbml.jsbml.element.NamedSBase;
-import org.sbml.jsbml.element.SpeciesReference;
+import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.ASTNodeCompiler;
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.SpeciesReference;
 
 /**
  * @author Andreas Dr&auml;ger

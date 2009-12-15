@@ -41,17 +41,17 @@ package org.sbml.jsbml.test.sbml;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.sbml.jsbml.element.Compartment;
-import org.sbml.jsbml.element.KineticLaw;
-import org.sbml.jsbml.element.Model;
-import org.sbml.jsbml.element.Parameter;
-import org.sbml.jsbml.element.Reaction;
-import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.element.Species;
-import org.sbml.jsbml.element.SpeciesReference;
-import org.sbml.jsbml.element.Unit;
-import org.sbml.jsbml.element.UnitDefinition;
-import org.sbml.jsbml.xml.SBMLReader;
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.xml.stax.SBMLReader;
 
 public class TestReadFromFile1 {
 

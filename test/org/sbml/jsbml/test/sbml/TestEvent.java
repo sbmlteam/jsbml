@@ -46,11 +46,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.sbml.jsbml.element.ASTNode;
-import org.sbml.jsbml.element.Delay;
-import org.sbml.jsbml.element.Event;
-import org.sbml.jsbml.element.EventAssignment;
-import org.sbml.jsbml.element.Trigger;
+import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.Delay;
+import org.sbml.jsbml.Event;
+import org.sbml.jsbml.EventAssignment;
+import org.sbml.jsbml.Trigger;
 
 
 public class TestEvent {

@@ -45,9 +45,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.sbml.jsbml.element.ModifierSpeciesReference;
-import org.sbml.jsbml.element.Reaction;
-import org.sbml.jsbml.element.SpeciesReference;
+import org.sbml.jsbml.ModifierSpeciesReference;
+import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.SpeciesReference;
 
 
 

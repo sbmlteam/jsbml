@@ -32,10 +32,10 @@ package org.sbml.jsbml.xml.sbmlParsers;
 
 import java.util.ArrayList;
 
-import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.xml.SBMLObjectForXML;
-import org.sbml.jsbml.xml.ReadingParser;
-import org.sbml.jsbml.xml.WritingParser;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.xml.stax.ReadingParser;
+import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
+import org.sbml.jsbml.xml.stax.WritingParser;
 
 /**
  * A MathMLParser is used to parse the MathML expressions injected into a SBML file. The

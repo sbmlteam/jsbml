@@ -32,11 +32,11 @@ package org.sbml.jsbml.xml.sbmlParsers;
 
 import java.util.Date;
 
-import org.sbml.jsbml.element.Annotation;
-import org.sbml.jsbml.element.ModelHistory;
-import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.xml.DateProcessor;
-import org.sbml.jsbml.xml.ReadingParser;
+import org.sbml.jsbml.Annotation;
+import org.sbml.jsbml.ModelHistory;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.xml.stax.DateProcessor;
+import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.w3c.util.DateParser;
 import org.w3c.util.InvalidDateException;
 
