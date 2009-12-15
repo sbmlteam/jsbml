@@ -32,17 +32,17 @@ package org.sbml.jsbml.xml.sbmlParsers;
 
 import java.util.HashMap;
 
-import org.sbml.jsbml.element.Annotation;
-import org.sbml.jsbml.element.CVTerm;
-import org.sbml.jsbml.element.Event;
-import org.sbml.jsbml.element.KineticLaw;
-import org.sbml.jsbml.element.Model;
-import org.sbml.jsbml.element.ModelCreator;
-import org.sbml.jsbml.element.ModelHistory;
-import org.sbml.jsbml.element.Reaction;
-import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.element.UnitDefinition;
-import org.sbml.jsbml.xml.ReadingParser;
+import org.sbml.jsbml.Annotation;
+import org.sbml.jsbml.CVTerm;
+import org.sbml.jsbml.Event;
+import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.ModelCreator;
+import org.sbml.jsbml.ModelHistory;
+import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
  * A RDFAnnotationParser is used to parser the subNodes of an annotation which have the namespace URI :

@@ -1,16 +1,16 @@
 package org.sbml.jsbml.sbmlExtensions;
 
-import org.sbml.jsbml.element.Annotation;
-import org.sbml.jsbml.element.Compartment;
-import org.sbml.jsbml.element.Model;
-import org.sbml.jsbml.element.Parameter;
-import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.element.SBaseChangedListener;
-import org.sbml.jsbml.element.Species;
-import org.sbml.jsbml.element.SpeciesType;
-import org.sbml.jsbml.element.Unit;
-import org.sbml.jsbml.element.UnitDefinition;
-import org.sbml.jsbml.element.Unit.Kind;
+import org.sbml.jsbml.Annotation;
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBaseChangedListener;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.SpeciesType;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.Unit.Kind;
 
 public class SpeciesExtension extends Species{
 
@@ -20,7 +20,7 @@ public class SpeciesExtension extends Species{
 		this.species = species;
 	}
 	
-	public org.sbml.jsbml.element.Species clone(){
+	public org.sbml.jsbml.Species clone(){
 		return species.clone();
 	}
 

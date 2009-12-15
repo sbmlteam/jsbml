@@ -37,16 +37,16 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.sbml.jsbml.element.Compartment;
-import org.sbml.jsbml.element.Event;
-import org.sbml.jsbml.element.KineticLaw;
-import org.sbml.jsbml.element.Model;
-import org.sbml.jsbml.element.Parameter;
-import org.sbml.jsbml.element.Reaction;
-import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.element.Species;
-import org.sbml.jsbml.xml.SBMLReader;
-import org.sbml.jsbml.xml.SBMLWriter;
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.Event;
+import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.xml.stax.SBMLReader;
+import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 public class SBML_L2V1Test {
 	
@@ -181,7 +181,7 @@ public class SBML_L2V1Test {
 		
 		//org.sbml.libsbml.SBMLReader libSBMlReader = new org.sbml.libsbml.SBMLReader();
 		//org.sbml.libsbml.SBMLDocument libsbmlDoc = libSBMlReader.readSBML(fileName);
-		//org.sbml.jsbml.io.SBMLReader libSBMLAdapterReader = new	org.sbml.jsbml.io.LibSBMLReader();
+		//org.sbml.jsbml.xml.libsbml.SBMLReader libSBMLAdapterReader = new	org.sbml.jsbml.xml.libsbml.LibSBMLReader();
 		
 		//Model libsbmlAdapterModel = libSBMLAdapterReader.readModel(libsbmlDoc.getModel());
 		

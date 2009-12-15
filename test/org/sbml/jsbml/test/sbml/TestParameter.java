@@ -47,7 +47,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.sbml.jsbml.element.Parameter;
+import org.sbml.jsbml.Parameter;
 
 public class TestParameter {
 

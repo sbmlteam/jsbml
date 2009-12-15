@@ -2,8 +2,8 @@ package org.sbml.jsbml.multiTest;
 
 import java.util.HashMap;
 
-import org.sbml.jsbml.element.AbstractNamedSBase;
-import org.sbml.jsbml.element.SBase;
+import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.SBase;
 
 public class InitialSpeciesInstance extends AbstractNamedSBase {
 	

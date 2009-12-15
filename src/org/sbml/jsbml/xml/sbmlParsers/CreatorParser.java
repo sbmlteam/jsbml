@@ -30,10 +30,10 @@
 
 package org.sbml.jsbml.xml.sbmlParsers;
 
-import org.sbml.jsbml.element.Annotation;
-import org.sbml.jsbml.element.ModelHistory;
-import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.xml.ReadingParser;
+import org.sbml.jsbml.Annotation;
+import org.sbml.jsbml.ModelHistory;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
  * A CreatorParser is used to parser the subelements of an annotation element which have this namespaceURI :

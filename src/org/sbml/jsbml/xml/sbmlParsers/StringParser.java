@@ -30,12 +30,12 @@
 
 package org.sbml.jsbml.xml.sbmlParsers;
 
-import org.sbml.jsbml.element.Annotation;
-import org.sbml.jsbml.element.Constraint;
-import org.sbml.jsbml.element.MathContainer;
-import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.element.SBase;
-import org.sbml.jsbml.xml.ReadingParser;
+import org.sbml.jsbml.Annotation;
+import org.sbml.jsbml.Constraint;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
  * A StringParser can be used to store the MathML expressions and/or the html expressions into a String or StringBuffer in the

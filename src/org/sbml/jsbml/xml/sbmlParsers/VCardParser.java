@@ -30,10 +30,10 @@
 
 package org.sbml.jsbml.xml.sbmlParsers;
 
-import org.sbml.jsbml.element.Annotation;
-import org.sbml.jsbml.element.ModelCreator;
-import org.sbml.jsbml.element.SBMLDocument;
-import org.sbml.jsbml.xml.ReadingParser;
+import org.sbml.jsbml.Annotation;
+import org.sbml.jsbml.ModelCreator;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
  * A VCardParser is used to parser the subNodes of an annotation which have this namespace URI :
