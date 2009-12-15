@@ -1,6 +1,6 @@
 /*
- * $Id: ModelCreator.java 91 2009-12-07 13:12:30Z marine3 $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/branches/jsbmlStax/src/org/sbml/jsbml/element/ModelCreator.java $
+ * $Id$
+ * $URL$
  *
  *
  *==================================================================================

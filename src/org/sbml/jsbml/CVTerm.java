@@ -1,6 +1,6 @@
 /*
- * $Id: CVTerm.java 38 2009-11-05 15:50:38Z marine3 $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/element/CVTerm.java $
+ * $Id$
+ * $URL$
  *
  *
  *==================================================================================

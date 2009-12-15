@@ -1,6 +1,6 @@
 /*
- * $Id: SBaseChangedListener.java 38 2009-11-05 15:50:38Z niko-rodrigue $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/SBaseChangedListener.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
