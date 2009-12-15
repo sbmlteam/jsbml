@@ -1,6 +1,6 @@
 /*
- * $Id: DatesParser.java 38 2009-12-11 15:50:38Z marine3 $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/xml/sbmlParsers/DatesParser.java $
+ * $Id$
+ * $URL$
  *
  *
  *==================================================================================
