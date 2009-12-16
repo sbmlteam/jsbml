@@ -48,9 +48,7 @@ import org.sbml.jsbml.resources.Resource;
 /**
  * Methods for interacting with Systems Biology Ontology (SBO) terms.
  * 
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class SBO {

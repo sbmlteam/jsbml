@@ -34,9 +34,7 @@ import java.util.HashMap;
 
 /**
  * Represents the compartmentType XML element of a SBML file. It is @deprecated.
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * @date 2009-08-31
  */
 public class CompartmentType extends AbstractNamedSBase {

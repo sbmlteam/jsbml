@@ -31,9 +31,7 @@ package org.sbml.jsbml;
 
 /**
  * Base class for all the SBML components with an id and a name (optional or not).
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * @author marine
  * 
  */

@@ -30,7 +30,6 @@
 
 package org.sbml.jsbml.resources;
 
-
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -44,9 +43,8 @@ import java.util.Properties;
  * Dummy class that just loads resource files if required. Created at
  * 2009-02-05.
  * 
- * @author <a href="mailto:hannes.borch@googlemail.com">Hannes Borch</a>
- * @author <a href="mailto:andreas.draeger@uni-tuebingen.de">Andreas
- *         Dr&auml;ger</a>
+ * @author Hannes Borch
+ * @author Andreas Dr&auml;ger
  * 
  */
 public final class Resource {

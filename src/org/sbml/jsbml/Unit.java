@@ -37,9 +37,8 @@ import org.sbml.jsbml.util.TextFormula;
 
 /**
  * Represents the unit XML element of a SBML file.
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * 
+ * @author Andreas Dr&auml;ger
  * @date 2009-08-31
  */
 public class Unit extends AbstractSBase {
@@ -70,7 +69,9 @@ public class Unit extends AbstractSBase {
 	private Integer scale;
 
 	/**
-	 * Creates an Unit instance from a multiplier, scale, kind and exponent. The offset is null.
+	 * Creates an Unit instance from a multiplier, scale, kind and exponent. The
+	 * offset is null.
+	 * 
 	 * @param multiplier
 	 * @param scale
 	 * @param kind
@@ -89,8 +90,10 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Creates an Unit instance from a level and version. If the level is set and is superior or equal to 3
-	 * the multiplier, scale, kind, offset and exponent are null.
+	 * Creates an Unit instance from a level and version. If the level is set
+	 * and is superior or equal to 3 the multiplier, scale, kind, offset and
+	 * exponent are null.
+	 * 
 	 * @param level
 	 * @param version
 	 */
@@ -102,13 +105,14 @@ public class Unit extends AbstractSBase {
 		this.exponent = null;
 		this.offset = null;
 
-		if (isSetLevel() && getLevel() < 3){
+		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
 	}
 
 	/**
 	 * Creates an Unit instance from a scale, kind, level and version.
+	 * 
 	 * @param scale
 	 * @param kind
 	 * @param level
@@ -120,6 +124,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * Creates an Unit instance from a scale, kind, exponent, level and version.
+	 * 
 	 * @param scale
 	 * @param kind
 	 * @param exponent
@@ -131,8 +136,10 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Creates an Unit instance from a kind, level and version. If the level is set and is superior or equal to 3
-	 * the multiplier, scale, offset and exponent are null.
+	 * Creates an Unit instance from a kind, level and version. If the level is
+	 * set and is superior or equal to 3 the multiplier, scale, offset and
+	 * exponent are null.
+	 * 
 	 * @param kind
 	 */
 	public Unit(Kind kind, int level, int version) {
@@ -142,7 +149,7 @@ public class Unit extends AbstractSBase {
 		this.exponent = null;
 		this.offset = null;
 
-		if (isSetLevel() && getLevel() < 3){
+		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
 		this.kind = kind;
@@ -150,6 +157,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * Creates an Unit instance from a kind, exponent, level and verison.
+	 * 
 	 * @param kind
 	 * @param exponent
 	 * @param level
@@ -161,82 +169,79 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * Creates an Unit instance from a given Unit.
+	 * 
 	 * @param unit
 	 */
 	public Unit(Unit unit) {
 		super(unit);
-		if (unit.isSetExponent()){
+		if (unit.isSetExponent()) {
 			this.exponent = new Integer(unit.getExponent());
-		}
-		else {
+		} else {
 			this.exponent = null;
 		}
-		if (unit.isSetKind()){
+		if (unit.isSetKind()) {
 			this.kind = unit.getKind();
-		}
-		else {
+		} else {
 			this.kind = null;
 		}
-		if (unit.isSetMultiplier()){
+		if (unit.isSetMultiplier()) {
 			this.multiplier = new Double(unit.getMultiplier());
-		}
-		else {
+		} else {
 			this.multiplier = null;
 		}
-		if (unit.isSetOffset()){
+		if (unit.isSetOffset()) {
 			this.offset = new Double(unit.getOffset());
-		}
-		else {
+		} else {
 			this.offset = null;
 		}
-		if (unit.isSetScale()){
+		if (unit.isSetScale()) {
 			this.scale = new Integer(unit.getScale());
-		}
-		else {
+		} else {
 			this.scale = null;
 		}
 	}
+
 	/**
-	 * Creates an Unit instance. If the level is set and is superior or equal to 3
-	 * the multiplier, scale, kind and exponent are null.
+	 * Creates an Unit instance. If the level is set and is superior or equal to
+	 * 3 the multiplier, scale, kind and exponent are null.
 	 */
-	public Unit(){
+	public Unit() {
 		super();
 		this.multiplier = null;
 		this.scale = null;
 		this.kind = null;
 		this.exponent = null;
 		this.offset = null;
-		
-		if (isSetLevel() && getLevel() < 3){
+
+		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the exponent of this Unit is not null.
 	 */
-	public boolean isSetExponent(){
+	public boolean isSetExponent() {
 		return this.exponent != null;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the scale of this Unit is not null.
 	 */
-	public boolean isSetScale(){
+	public boolean isSetScale() {
 		return this.scale != null;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the multiplier of this Unit is not null.
 	 */
-	public boolean isSetMultiplier(){
+	public boolean isSetMultiplier() {
 		return this.multiplier != null;
 	}
-	
+
 	/**
 	 * @author Andreas Dr&auml;ger <a
 	 *         href="mailto:andreas.draeger@uni-tuebingen.de">
@@ -412,19 +417,18 @@ public class Unit extends AbstractSBase {
 		 * @return
 		 */
 		public String getName() {
-			if (this == CELSIUS){
+			if (this == CELSIUS) {
 				return "degree "
-				+ StringTools.firstLetterUpperCase(toString()
-						.toLowerCase());
+						+ StringTools.firstLetterUpperCase(toString()
+								.toLowerCase());
 			}
-				
+
 			if (this == DIMENSIONLESS || this == GRAM || this == ITEM
 					|| this == INVALID || this == KILOGRAM || this == LUX
 					|| this == METER || this == METRE || this == MOLE
-					|| this == SECOND){
+					|| this == SECOND) {
 				return toString().toLowerCase();
-			}
-			else{
+			} else {
 				return StringTools.firstLetterUpperCase(toString()
 						.toLowerCase());
 			}
@@ -507,14 +511,13 @@ public class Unit extends AbstractSBase {
 			}
 		}
 
-
 		/**
 		 * Tests whether this kind of unit is defined in the given level and
 		 * version of SBML.
 		 * 
 		 * @param level
 		 * @param version
-		 * @return 
+		 * @return
 		 */
 		public boolean isDefinedIn(int level, int version) {
 			return (((level == 1 && (version == 1 || version == 2))
@@ -620,7 +623,7 @@ public class Unit extends AbstractSBase {
 		if ((level < 3)
 				&& (name.equals("substance") || name.equals("volume")
 						|| name.equals("time") || (level == 2 && (name
-						.equals("length") || name.equals("area"))))){
+						.equals("length") || name.equals("area"))))) {
 			return true;
 		}
 		return false;
@@ -699,17 +702,16 @@ public class Unit extends AbstractSBase {
 				unit1.setExponent(1);
 				unit1.setKind(Kind.DIMENSIONLESS);
 			}
-			if (unit1.getKind() == Kind.METER){
+			if (unit1.getKind() == Kind.METER) {
 				unit1.setKind(Kind.METRE);
-			}
-			else if (unit1.getKind() == Kind.LITER){
+			} else if (unit1.getKind() == Kind.LITER) {
 				unit1.setKind(Kind.LITRE);
 			}
-		} else{
+		} else {
 			throw new IllegalArgumentException(
 					"Units can only be merged if both have the same kind attribute or if one of them is dimensionless.");
-			}
 		}
+	}
 
 	/**
 	 * Manipulates the attributes of the Unit to express the unit with the value
@@ -728,8 +730,6 @@ public class Unit extends AbstractSBase {
 		unit.setScale(0);
 	}
 
-	
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -739,7 +739,7 @@ public class Unit extends AbstractSBase {
 	public Unit clone() {
 		return new Unit(this);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -747,7 +747,7 @@ public class Unit extends AbstractSBase {
 	 */
 	// @Override
 	public boolean equals(Object o) {
-		if (o instanceof Unit){
+		if (o instanceof Unit) {
 			Unit u = (Unit) o;
 			boolean equal = super.equals(o);
 			equal &= getMultiplier() == u.getMultiplier();
@@ -755,12 +755,11 @@ public class Unit extends AbstractSBase {
 			equal &= getExponent() == u.getExponent();
 			equal &= getOffset() == u.getOffset();
 			equal &= getKind() == u.getKind();
-			
+
 			return equal;
 		}
 		return false;
 	}
-
 
 	/**
 	 * 
@@ -796,8 +795,8 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return This method returns the prefix of this unit, for instance, "m" for milli,
-	 * if the scale is -3.
+	 * @return This method returns the prefix of this unit, for instance, "m"
+	 *         for milli, if the scale is -3.
 	 */
 
 	public String getPrefix() {
@@ -854,8 +853,8 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return the prefix of this unit, for instance, "m" for milli,
-	 * if the scale is -3.
+	 * @return the prefix of this unit, for instance, "m" for milli, if the
+	 *         scale is -3.
 	 */
 	public String getPrefixAsWord() {
 		if (!isDimensionless()) {
@@ -1264,7 +1263,7 @@ public class Unit extends AbstractSBase {
 		Kind kind = getKind();
 		if (kind == Kind.MOLE
 				|| kind == Kind.ITEM
-				|| (((level == 2 && version > 1) || level > 2) && (kind == Kind.GRAM || isKilogram()))){
+				|| (((level == 2 && version > 1) || level > 2) && (kind == Kind.GRAM || isKilogram()))) {
 			return getOffset() == 0 && getExponent() == 1;
 		}
 		return false;
@@ -1276,10 +1275,10 @@ public class Unit extends AbstractSBase {
 	 */
 	public boolean isVariantOfVolume() {
 		Kind kind = getKind();
-		if (kind == Unit.Kind.LITER || kind == Unit.Kind.LITRE){
+		if (kind == Unit.Kind.LITER || kind == Unit.Kind.LITRE) {
 			return getOffset() == 0 && getExponent() == 1;
 		}
-		if (kind == Unit.Kind.METER || kind == Unit.Kind.METRE){
+		if (kind == Unit.Kind.METER || kind == Unit.Kind.METRE) {
 			return getOffset() == 0 && getExponent() == 3;
 		}
 		return false;
@@ -1314,6 +1313,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * Sets the exponent of this Unit
+	 * 
 	 * @param exponent
 	 */
 	public void setExponent(int exponent) {
@@ -1323,6 +1323,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * Sets the kind of this Unit
+	 * 
 	 * @param kind
 	 */
 	public void setKind(Kind kind) {
@@ -1332,6 +1333,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * Sets the multiplier of this Unit
+	 * 
 	 * @param multiplier
 	 */
 	public void setMultiplier(double multiplier) {
@@ -1341,6 +1343,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * Sets the offset of this Unit
+	 * 
 	 * @param offset
 	 */
 	public void setOffset(double offset) {
@@ -1350,6 +1353,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * Sets the scale of this Unit
+	 * 
 	 * @param scale
 	 */
 	public void setScale(int scale) {
@@ -1365,41 +1369,42 @@ public class Unit extends AbstractSBase {
 	// @Override
 	public String toString() {
 		String mult;
-		if (multiplier - ((int)multiplier.doubleValue()) == 0){
+		if (multiplier - ((int) multiplier.doubleValue()) == 0) {
 			mult = Integer.toString((int) multiplier.doubleValue());
-		}
-		else{
+		} else {
 			mult = Double.toString(multiplier);
 		}
 		StringBuffer times = mult.equals("1") ? new StringBuffer()
 				: new StringBuffer(mult);
 		StringBuffer pow = new StringBuffer(kind.getSymbol());
 		String prefix = getPrefix();
-		if (prefix.length() > 0){
+		if (prefix.length() > 0) {
 			pow.insert(0, prefix);
-		}
-		else{
+		} else {
 			pow = TextFormula.times(TextFormula.pow(Integer.valueOf(10),
 					Integer.valueOf(scale)), pow);
-		times = TextFormula.times(times, pow);
+			times = TextFormula.times(times, pow);
 		}
-		if (isSetOffset()){
+		if (isSetOffset()) {
 			times = TextFormula.sum(Double.toString(offset), times);
 		}
 		return TextFormula.pow(times, Integer.valueOf(exponent)).toString();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
-		if (!isAttributeRead){
-			if (attributeName.equals("kind")){
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("kind")) {
 				try {
 					Kind kind = Kind.valueOf(value.toUpperCase());
 					this.setKind(kind);
@@ -1407,44 +1412,42 @@ public class Unit extends AbstractSBase {
 				} catch (Exception e) {
 					return false;
 				}
-			}
-			else if (attributeName.equals("exponent")){
+			} else if (attributeName.equals("exponent")) {
 				this.setExponent(Integer.parseInt(value));
-			}
-			else if (attributeName.equals("scale")){
+			} else if (attributeName.equals("scale")) {
 				this.setScale(Integer.parseInt(value));
-			}
-			else if (attributeName.equals("multiplier") && getLevel() > 1){
+			} else if (attributeName.equals("multiplier") && getLevel() > 1) {
 				this.setMultiplier(Double.parseDouble(value));
-			}
-			else if (attributeName.equals("offset")  && getLevel() > 1){
+			} else if (attributeName.equals("offset") && getLevel() > 1) {
 				this.setOffset(Double.parseDouble(value));
 			}
 		}
 		return isAttributeRead;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
-		if (isSetKind()){
+
+		if (isSetKind()) {
 			attributes.put("kind", getKind().toString().toLowerCase());
 		}
-		if (isSetExponent()){
+		if (isSetExponent()) {
 			attributes.put("exponent", Integer.toString(getExponent()));
 		}
-		if (isSetScale()){
+		if (isSetScale()) {
 			attributes.put("scale", Integer.toString(getScale()));
 		}
-		if (isSetMultiplier()  && getLevel() > 1){
+		if (isSetMultiplier() && getLevel() > 1) {
 			attributes.put("multiplier", Double.toString(getMultiplier()));
 		}
-		if (isSetOffset()  && getLevel() > 1){
+		if (isSetOffset() && getLevel() > 1) {
 			attributes.put("offset", Double.toString(getOffset()));
 		}
 		return attributes;

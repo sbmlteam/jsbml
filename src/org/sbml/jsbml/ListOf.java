@@ -44,9 +44,7 @@ import org.sbml.jsbml.xml.stax.SBaseListType;
  * in Java.
  * @author rodrigue
  * @author marine
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {

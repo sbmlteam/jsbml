@@ -32,9 +32,7 @@ package org.sbml.jsbml;
 /**
  * This class roughly corresponds to libSBML's SBMLError class.
  * 
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class SBMLException extends Exception {
@@ -42,8 +40,8 @@ public class SBMLException extends Exception {
 	/**
 	 * Category of this exception.
 	 * 
-	 * @author Andreas Dr&auml;ger 
-	 *
+	 * @author Andreas Dr&auml;ger
+	 * 
 	 */
 	public enum Category {
 		/**
@@ -1252,7 +1250,7 @@ public class SBMLException extends Exception {
 	 * The category of this exception.
 	 */
 	private Category category;
-	
+
 	/**
 	 * 
 	 */
@@ -1349,7 +1347,9 @@ public class SBMLException extends Exception {
 	 * 
 	 * @return
 	 */
-	public boolean isInfo(){return type == Type.INFO;}
+	public boolean isInfo() {
+		return type == Type.INFO;
+	}
 
 	/**
 	 * 
@@ -1366,7 +1366,7 @@ public class SBMLException extends Exception {
 	public boolean isSystem() {
 		return type == Type.SYSTEM;
 	}
-	
+
 	/**
 	 * 
 	 * @return

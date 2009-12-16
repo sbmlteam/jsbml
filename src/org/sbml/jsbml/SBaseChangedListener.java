@@ -29,11 +29,8 @@
 
 package org.sbml.jsbml;
 
-
 /**
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * 
  */
 public interface SBaseChangedListener {

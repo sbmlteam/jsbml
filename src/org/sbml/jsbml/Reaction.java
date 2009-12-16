@@ -33,9 +33,9 @@ import java.util.HashMap;
 
 import org.sbml.jsbml.xml.stax.SBaseListType;
 
-
 /**
  * Represents the reaction XML element of a SBML file.
+ * 
  * @author Andreas Dr&auml;ger
  * @author rodrigue
  * @author marine
@@ -44,36 +44,37 @@ import org.sbml.jsbml.xml.stax.SBaseListType;
 public class Reaction extends AbstractNamedSBase {
 
 	/**
-	 * Represents the 'reversible' XML attribute of a reaction element.
+	 * Represents the 'compartment' XML attribute of a reaction element.
 	 */
-	private Boolean reversible;
+	private String compartmentID;
 	/**
 	 * Represents the 'fast' XML attribute of a reaction element.
 	 */
 	private Boolean fast;
 	/**
-	 * Represents the 'compartment' XML attribute of a reaction element.
+	 * Represents the 'kineticLaw' XML subNode of a reaction element.
 	 */
-	private String compartmentID;
-	/**
-	 * Represents the 'listOfReactants' XML subNode of a reaction element.
-	 */
-	private ListOf<SpeciesReference> listOfReactants;
-	/**
-	 * Represents the 'listOfProducts' XML subNode of a reaction element.
-	 */
-	private ListOf<SpeciesReference> listOfProducts;
+	private KineticLaw kineticLaw;
 	/**
 	 * Represents the 'listOfModifiers' XML subNode of a reaction element.
 	 */
 	private ListOf<ModifierSpeciesReference> listOfModifiers;
 	/**
-	 * Represents the 'kineticLaw' XML subNode of a reaction element.
+	 * Represents the 'listOfProducts' XML subNode of a reaction element.
 	 */
-	private KineticLaw kineticLaw;
+	private ListOf<SpeciesReference> listOfProducts;
+	/**
+	 * Represents the 'listOfReactants' XML subNode of a reaction element.
+	 */
+	private ListOf<SpeciesReference> listOfReactants;
+	/**
+	 * Represents the 'reversible' XML attribute of a reaction element.
+	 */
+	private Boolean reversible;
 
 	/**
-	 * Creates a Reaction instance. By default, the compartmentID, kineticLaw, listOfReactants, listOfProducts and listOfModifiers are null.
+	 * Creates a Reaction instance. By default, the compartmentID, kineticLaw,
+	 * listOfReactants, listOfProducts and listOfModifiers are null.
 	 */
 	public Reaction() {
 		super();
@@ -82,88 +83,10 @@ public class Reaction extends AbstractNamedSBase {
 		this.listOfProducts = null;
 		this.listOfModifiers = null;
 		this.compartmentID = null;
-		
-		if (isSetLevel() && getLevel() < 3){
+
+		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
-	}
-
-	
-	/**
-	 * Creates a Reaction instance from a given reaction.
-	 * @param reaction
-	 */
-	@SuppressWarnings("unchecked")
-	public Reaction(Reaction reaction) {
-		super(reaction);
-		if (reaction.isSetFast()){
-			this.fast = new Boolean(reaction.getFast());
-		}
-		else {
-			this.fast = null;
-		}
-		if (reaction.isSetKineticLaw()){
-			setKineticLaw(reaction.getKineticLaw().clone());
-		}
-		else {
-			this.kineticLaw = null;
-		}
-		if (reaction.isSetListOfReactants()){
-			this.listOfReactants = (ListOf<SpeciesReference>) reaction.getListOfReactants().clone();
-			setThisAsParentSBMLObject(listOfReactants);
-		}
-		else {
-			this.listOfReactants = null;
-		}
-		if (reaction.isSetListOfProducts()){
-			this.listOfProducts = (ListOf<SpeciesReference>) reaction.getListOfProducts().clone();
-			setThisAsParentSBMLObject(listOfProducts);
-		}
-		else {
-			this.listOfReactants = null;
-		}
-		if (reaction.isSetListOfModifiers()){
-			this.listOfModifiers = (ListOf<ModifierSpeciesReference>) reaction.getListOfModifiers().clone();
-			setThisAsParentSBMLObject(listOfModifiers);
-		}
-		else {
-			this.listOfReactants = null;
-		}
-		if (isSetReversible()){
-			this.reversible = new Boolean(reaction.getReversible());
-		}
-		else {
-			this.reversible = null;
-		}
-	}
-
-	/**
-	 * Creates a Reaction instance from an id, level and version. By default, the compartmentID, kineticLaw, listOfReactants, listOfProducts and listOfModifiers are null.
-	 * @param id
-	 * @param level
-	 * @param version
-	 */
-	public Reaction(String id, int level, int version) {
-		super(id, level, version);
-		this.kineticLaw = null;
-		this.listOfReactants = null;
-		this.listOfProducts = null;
-		this.listOfModifiers = null;
-		this.compartmentID = null;
-		reversible = null;
-		fast = null;
-		
-		if (isSetLevel() && getLevel() < 3){
-			initDefaults();
-		}
-	}
-	
-	/**
-	 * Initialises the default variables of this Reaction.
-	 */
-	public void initDefaults(){
-		reversible = new Boolean(true);
-		fast = new Boolean(false);
 	}
 
 	/**
@@ -183,12 +106,81 @@ public class Reaction extends AbstractNamedSBase {
 		fast = false;
 	}
 
+	/**
+	 * Creates a Reaction instance from a given reaction.
+	 * 
+	 * @param reaction
+	 */
+	@SuppressWarnings("unchecked")
+	public Reaction(Reaction reaction) {
+		super(reaction);
+		if (reaction.isSetFast()) {
+			this.fast = new Boolean(reaction.getFast());
+		} else {
+			this.fast = null;
+		}
+		if (reaction.isSetKineticLaw()) {
+			setKineticLaw(reaction.getKineticLaw().clone());
+		} else {
+			this.kineticLaw = null;
+		}
+		if (reaction.isSetListOfReactants()) {
+			this.listOfReactants = (ListOf<SpeciesReference>) reaction
+					.getListOfReactants().clone();
+			setThisAsParentSBMLObject(listOfReactants);
+		} else {
+			this.listOfReactants = null;
+		}
+		if (reaction.isSetListOfProducts()) {
+			this.listOfProducts = (ListOf<SpeciesReference>) reaction
+					.getListOfProducts().clone();
+			setThisAsParentSBMLObject(listOfProducts);
+		} else {
+			this.listOfReactants = null;
+		}
+		if (reaction.isSetListOfModifiers()) {
+			this.listOfModifiers = (ListOf<ModifierSpeciesReference>) reaction
+					.getListOfModifiers().clone();
+			setThisAsParentSBMLObject(listOfModifiers);
+		} else {
+			this.listOfReactants = null;
+		}
+		if (isSetReversible()) {
+			this.reversible = new Boolean(reaction.getReversible());
+		} else {
+			this.reversible = null;
+		}
+	}
+
+	/**
+	 * Creates a Reaction instance from an id, level and version. By default,
+	 * the compartmentID, kineticLaw, listOfReactants, listOfProducts and
+	 * listOfModifiers are null.
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public Reaction(String id, int level, int version) {
+		super(id, level, version);
+		this.kineticLaw = null;
+		this.listOfReactants = null;
+		this.listOfProducts = null;
+		this.listOfModifiers = null;
+		this.compartmentID = null;
+		reversible = null;
+		fast = null;
+
+		if (isSetLevel() && getLevel() < 3) {
+			initDefaults();
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.sbml.jsbml.element.SBase#addChangeListener(org.sbml.squeezer.io.SBaseChangedListener
-	 * )
+	 * @seeorg.sbml.jsbml.element.SBase#addChangeListener(org.sbml.squeezer.io.
+	 * SBaseChangedListener )
 	 */
 	public void addChangeListener(SBaseChangedListener l) {
 		super.addChangeListener(l);
@@ -199,46 +191,48 @@ public class Reaction extends AbstractNamedSBase {
 
 	/**
 	 * Adds a ModifierSpeciesReference instance to this Reaction.
+	 * 
 	 * @param modspecref
 	 */
 	public void addModifier(ModifierSpeciesReference modspecref) {
-		if (!isSetListOfModifiers()){
+		if (!isSetListOfModifiers()) {
 			this.listOfModifiers = new ListOf<ModifierSpeciesReference>();
 			setThisAsParentSBMLObject(this.listOfModifiers);
 		}
 
-
 		setThisAsParentSBMLObject(modspecref);
-		listOfModifiers.add(modspecref);		
+		listOfModifiers.add(modspecref);
 	}
 
 	/**
 	 * Adds a SpeciesReference instance to the listOfProducts of this Reaction.
+	 * 
 	 * @param specref
 	 */
 	public void addProduct(SpeciesReference specref) {
-		if (!isSetListOfProducts()){
+		if (!isSetListOfProducts()) {
 			this.listOfProducts = new ListOf<SpeciesReference>();
 			setThisAsParentSBMLObject(this.listOfProducts);
 		}
 
 		setThisAsParentSBMLObject(specref);
-		listOfProducts.add(specref);		
+		listOfProducts.add(specref);
 	}
 
 	/**
 	 * Adds a SpeciesReference instance to the listOfReactants of this Reaction.
+	 * 
 	 * @param specref
 	 */
 	public void addReactant(SpeciesReference specref) {
-		if (!isSetListOfReactants()){
+		if (!isSetListOfReactants()) {
 			this.listOfReactants = new ListOf<SpeciesReference>();
 			setThisAsParentSBMLObject(this.listOfReactants);
 		}
 
 		setThisAsParentSBMLObject(specref);
 		listOfReactants.add(specref);
-		
+
 	}
 
 	/*
@@ -249,6 +243,50 @@ public class Reaction extends AbstractNamedSBase {
 	// @Override
 	public Reaction clone() {
 		return new Reaction(this);
+	}
+
+	/**
+	 * Creates a new <code>ModifierSpeciesReference</code>, adds it to this
+	 * Reaction's list of modifiers and returns it.
+	 * 
+	 * @return a new ModifierSpeciesReference object.
+	 */
+	public ModifierSpeciesReference createModifier() {
+		ModifierSpeciesReference modifier = new ModifierSpeciesReference(level,
+				version);
+		addModifier(modifier);
+
+		return modifier;
+	}
+
+	/**
+	 * Creates a new <code>SpeciesReference</code>, adds it to this Reaction's
+	 * list of products and returns it.
+	 * 
+	 * @return a new SpeciesReference object.
+	 * 
+	 * @return
+	 */
+	public SpeciesReference createProduct() {
+		SpeciesReference product = new SpeciesReference(level, version);
+		addProduct(product);
+
+		return product;
+	}
+
+	/**
+	 * Creates a new <code>SpeciesReference</code>, adds it to this Reaction's
+	 * list of reactants and returns it.
+	 * 
+	 * @return a new SpeciesReference object.
+	 * 
+	 * @return
+	 */
+	public SpeciesReference createReactant() {
+		SpeciesReference reactant = new SpeciesReference(level, version);
+		addReactant(reactant);
+
+		return reactant;
 	}
 
 	/*
@@ -263,41 +301,46 @@ public class Reaction extends AbstractNamedSBase {
 			Reaction r = (Reaction) o;
 			equal &= r.getFast() == getFast();
 			equal &= r.isSetKineticLaw() == isSetKineticLaw();
-			if (equal && isSetKineticLaw()){
+			if (equal && isSetKineticLaw()) {
 				equal &= r.getKineticLaw().equals(kineticLaw);
 			}
 			equal &= r.getReversible() == getReversible();
 			equal &= r.isSetListOfReactants() == isSetListOfReactants();
-			if (equal && isSetListOfReactants()){
+			if (equal && isSetListOfReactants()) {
 				equal &= r.getListOfReactants().equals(listOfReactants);
 			}
 			equal &= r.isSetListOfProducts() == isSetListOfProducts();
-			if (equal && isSetListOfProducts()){
+			if (equal && isSetListOfProducts()) {
 				equal &= r.getListOfProducts().equals(listOfProducts);
 			}
 			equal &= r.isSetListOfModifiers() == isSetListOfModifiers();
-			if (equal && isSetListOfModifiers()){
+			if (equal && isSetListOfModifiers()) {
 				equal &= r.getListOfModifiers().equals(listOfModifiers);
 			}
 			return equal;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 
-	 * @return true if reversible is not null.
+	 * @return the compartmentID of this Reaction. The empty String if it is not
+	 *         set.
 	 */
-	public boolean isSetReversible(){
-		return this.reversible != null;
+	public String getCompartment() {
+		return isSetCompartment() ? this.compartmentID : "";
 	}
-	
+
 	/**
 	 * 
-	 * @return true if fast is not null.
+	 * @return the Compartment instance which has the compartmentID of this
+	 *         Reaction as id. Can be null if it doesn't exist.
 	 */
-	public boolean isSetFast(){
-		return this.fast != null;
+	public Compartment getCompartmentInstance() {
+		if (getModel() == null) {
+			return null;
+		}
+		return getModel().getCompartment(this.compartmentID);
 	}
 
 	/**
@@ -305,14 +348,6 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return the fast Boolean of this Reaction.
 	 */
 	public boolean getFast() {
-		return isSetFast() ? fast : false;
-	}
-	
-	/**
-	 * 
-	 * @return the boolean value of fast if it is set, false otherwise.
-	 */
-	public boolean isFast(){
 		return isSetFast() ? fast : false;
 	}
 
@@ -351,30 +386,32 @@ public class Reaction extends AbstractNamedSBase {
 	/**
 	 * 
 	 * @param i
-	 * @return the ith ModifierSpeciesReference of the listOfModifiers. Can be null if it doesn't exist.
+	 * @return the ith ModifierSpeciesReference of the listOfModifiers. Can be
+	 *         null if it doesn't exist.
 	 */
 	public ModifierSpeciesReference getModifier(int i) {
-		if (isSetListOfModifiers()){
+		if (isSetListOfModifiers()) {
 			return listOfModifiers.get(i);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @param id
-	 * @return the ModifierSpeciesReference of the listOfModifiers which has 'id' as id (or name depending on the level and version). Can be null if it doesn't exist.
+	 * @return the ModifierSpeciesReference of the listOfModifiers which has
+	 *         'id' as id (or name depending on the level and version). Can be
+	 *         null if it doesn't exist.
 	 */
 	public ModifierSpeciesReference getModifier(String id) {
-		if (isSetListOfModifiers()){
+		if (isSetListOfModifiers()) {
 			for (ModifierSpeciesReference msp : listOfModifiers) {
-				if (msp.isSetId()){
-					if (msp.getId().equals(id)){
+				if (msp.isSetId()) {
+					if (msp.getId().equals(id)) {
 						return msp;
 					}
-				}
-				else if (msp.isSetName()){
-					if (msp.getName().equals(id)){
+				} else if (msp.isSetName()) {
+					if (msp.getName().equals(id)) {
 						return msp;
 					}
 				}
@@ -388,7 +425,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return the number of ModifierSpeciesReferences of this Reaction.
 	 */
 	public int getNumModifiers() {
-		if (isSetListOfModifiers()){
+		if (isSetListOfModifiers()) {
 			return listOfModifiers.size();
 		}
 		return 0;
@@ -399,7 +436,7 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return the number of products SpeciesReference.
 	 */
 	public int getNumProducts() {
-		if (isSetListOfProducts()){
+		if (isSetListOfProducts()) {
 			return listOfProducts.size();
 		}
 		return 0;
@@ -410,19 +447,30 @@ public class Reaction extends AbstractNamedSBase {
 	 * @return the number of reactants SpeciesReference.
 	 */
 	public int getNumReactants() {
-		if (isSetListOfReactants()){
+		if (isSetListOfReactants()) {
 			return listOfReactants.size();
 		}
 		return 0;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#getParentSBMLObject()
+	 */
+	// @Override
+	public Model getParentSBMLObject() {
+		return (Model) super.getParentSBMLObject();
+	}
+
 	/**
 	 * 
 	 * @param i
-	 * @return the ith product SpeciesReference of the listOfProducts. Can be null if it doesn't exist.
+	 * @return the ith product SpeciesReference of the listOfProducts. Can be
+	 *         null if it doesn't exist.
 	 */
 	public SpeciesReference getProduct(int i) {
-		if (isSetListOfProducts()){
+		if (isSetListOfProducts()) {
 			return listOfProducts.get(i);
 		}
 		return null;
@@ -430,31 +478,20 @@ public class Reaction extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @param i
-	 * @return the ith reactant SpeciesReference of the listOfReactants. Can be null if it doesn't exist.
-	 */
-	public SpeciesReference getReactant(int i) {
-		if (isSetListOfReactants()){
-			return listOfReactants.get(i);
-		}
-		return null;
-	}
-	
-	/**
-	 * 
 	 * @param id
-	 * @return the SpeciesReference of the listOfProducts which has 'id' as id (or name depending on the level and version). Can be null if it doesn't exist.
+	 * @return the SpeciesReference of the listOfProducts which has 'id' as id
+	 *         (or name depending on the level and version). Can be null if it
+	 *         doesn't exist.
 	 */
 	public SpeciesReference getProduct(String id) {
-		if (isSetListOfProducts()){
+		if (isSetListOfProducts()) {
 			for (SpeciesReference sp : listOfProducts) {
-				if (sp.isSetId()){
-					if (sp.getId().equals(id)){
+				if (sp.isSetId()) {
+					if (sp.getId().equals(id)) {
 						return sp;
 					}
-				}
-				else if (sp.isSetName()){
-					if (sp.getName().equals(id)){
+				} else if (sp.isSetName()) {
+					if (sp.getName().equals(id)) {
 						return sp;
 					}
 				}
@@ -465,19 +502,33 @@ public class Reaction extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @param i
+	 * @return the ith reactant SpeciesReference of the listOfReactants. Can be
+	 *         null if it doesn't exist.
+	 */
+	public SpeciesReference getReactant(int i) {
+		if (isSetListOfReactants()) {
+			return listOfReactants.get(i);
+		}
+		return null;
+	}
+
+	/**
+	 * 
 	 * @param id
-	 * @return the SpeciesReference of the listOfReactants which has 'id' as id (or name depending on the level and version). Can be null if it doesn't exist.
+	 * @return the SpeciesReference of the listOfReactants which has 'id' as id
+	 *         (or name depending on the level and version). Can be null if it
+	 *         doesn't exist.
 	 */
 	public SpeciesReference getReactant(String id) {
-		if (isSetListOfReactants()){
+		if (isSetListOfReactants()) {
 			for (SpeciesReference sp : listOfReactants) {
-				if (sp.isSetId()){
-					if (sp.getId().equals(id)){
+				if (sp.isSetId()) {
+					if (sp.getId().equals(id)) {
 						return sp;
 					}
-				}
-				else if (sp.isSetName()){
-					if (sp.getName().equals(id)){
+				} else if (sp.isSetName()) {
+					if (sp.getName().equals(id)) {
 						return sp;
 					}
 				}
@@ -493,58 +544,64 @@ public class Reaction extends AbstractNamedSBase {
 	public boolean getReversible() {
 		return isSetReversible() ? reversible : false;
 	}
-	
-	/**
-	 * 
-	 * @return the value of reversible if it is set, false otherwise.
-	 */
-	public boolean isReversible(){
-		return isSetReversible() ? reversible : false;
+
+	public boolean hasModifier(Species s) {
+		return references(listOfModifiers, s);
 	}
 
 	/**
 	 * 
-	 * @return true if the kineticLaw of this Reaction is not null.
+	 * @param s
+	 * @return
 	 */
-	public boolean isSetKineticLaw() {
-		return kineticLaw != null;
+	public boolean hasProduct(Species s) {
+		return references(listOfProducts, s);
 	}
-	
+
 	/**
 	 * 
-	 * @return true if the listOfReactants of this Reaction is not null.
+	 * @param s
+	 * @return
 	 */
-	public boolean isSetListOfReactants() {
-		return listOfReactants != null;
+	public boolean hasReactant(Species s) {
+		return references(listOfReactants, s);
 	}
-	
+
+	/**
+	 * Initialises the default variables of this Reaction.
+	 */
+	public void initDefaults() {
+		reversible = new Boolean(true);
+		fast = new Boolean(false);
+	}
+
+	/**
+	 * Convenient test if the given species takes part in this reaction as a
+	 * reactant, product, or modifier.
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public boolean involves(Species s) {
+		return hasReactant(s) || hasProduct(s) || hasModifier(s);
+	}
+
 	/**
 	 * 
-	 * @return true if the listOfProducts of this reaction is not null.
+	 * @return the boolean value of fast if it is set, false otherwise.
 	 */
-	public boolean isSetListOfProducts() {
-		return listOfProducts != null;
+	public boolean isFast() {
+		return isSetFast() ? fast : false;
 	}
-	
+
 	/**
 	 * 
-	 * @return true if the listOfModifiers of this Reaction is not null.
+	 * @return the value of reversible if it is set, false otherwise.
 	 */
-	public boolean isSetListOfModifiers() {
-		return listOfModifiers != null;
+	public boolean isReversible() {
+		return isSetReversible() ? reversible : false;
 	}
-	
-	/**
-	 * 
-	 * @return true if the Compartment which has the compartmentID of this Reaction as id is not null;
-	 */
-	public boolean isSetCompartmentInstance() {
-		if (getModel() == null){
-			return false;
-		}
-		return getModel().getCompartment(this.compartmentID) != null;
-	}
-	
+
 	/**
 	 * 
 	 * @return true if the compartmentID of this Reaction is not null;
@@ -554,43 +611,321 @@ public class Reaction extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * @return true if the Compartment which has the compartmentID of this
+	 *         Reaction as id is not null;
+	 */
+	public boolean isSetCompartmentInstance() {
+		if (getModel() == null) {
+			return false;
+		}
+		return getModel().getCompartment(this.compartmentID) != null;
+	}
+
+	/**
+	 * 
+	 * @return true if fast is not null.
+	 */
+	public boolean isSetFast() {
+		return this.fast != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the kineticLaw of this Reaction is not null.
+	 */
+	public boolean isSetKineticLaw() {
+		return kineticLaw != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfModifiers of this Reaction is not null.
+	 */
+	public boolean isSetListOfModifiers() {
+		return listOfModifiers != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfProducts of this reaction is not null.
+	 */
+	public boolean isSetListOfProducts() {
+		return listOfProducts != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfReactants of this Reaction is not null.
+	 */
+	public boolean isSetListOfReactants() {
+		return listOfReactants != null;
+	}
+
+	/**
+	 * 
+	 * @return true if reversible is not null.
+	 */
+	public boolean isSetReversible() {
+		return this.reversible != null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("reversible")) {
+				if (value.equals("true")) {
+					this.setReversible(true);
+					return true;
+				} else if (value.equals("false")) {
+					this.setReversible(false);
+					return true;
+				}
+			} else if (attributeName.equals("fast")) {
+				if (value.equals("true")) {
+					this.setFast(true);
+					return true;
+				} else if (value.equals("false")) {
+					this.setFast(false);
+					return true;
+				}
+			}
+			if (attributeName.equals("compartment") && getLevel() == 3) {
+				this.setCompartment(value);
+				return true;
+			}
+		}
+		return isAttributeRead;
+	}
+
+	/**
+	 * Removes the nth modifier species (ModifierSpeciesReference object) in the
+	 * list of modifiers in this Reaction and returns it.
+	 * 
+	 * @param i
+	 *            the index of the ModifierSpeciesReference object to remove.
+	 * @return the removed ModifierSpeciesReference object, or null if the given
+	 *         index is out of range.
+	 */
+	public ModifierSpeciesReference removeModifier(int i) {
+
+		if (i >= listOfModifiers.size() || i < 0) {
+			System.out.println("removeModifier : index out of bound.");
+			return null;
+		}
+
+		ModifierSpeciesReference modifier = listOfModifiers.get(i);
+		listOfModifiers.remove(i);
+
+		return modifier;
+	}
+
+	/**
 	 * Removes the ModifierSpeciesReference 'modspecref' from this Reaction.
+	 * 
 	 * @param modspecref
 	 */
 	public void removeModifier(ModifierSpeciesReference modspecref) {
-		if (isSetListOfModifiers()){
-			if (listOfModifiers.remove(modspecref)){
+		if (isSetListOfModifiers()) {
+			if (listOfModifiers.remove(modspecref)) {
 				modspecref.sbaseRemoved();
 			}
 		}
 	}
 
 	/**
-	 * Removes the SpeciesReference 'modspecref' from the listOfProducts of this Reaction.
+	 * Removes the modifier species (ModifierSpeciesReference object) having the
+	 * given 'species' attribute in the list of modifiers in this Reaction and
+	 * returns it.
+	 * 
+	 * @param id
+	 *            the 'species' attribute of the ModifierSpeciesReference object
+	 *            (which correspond to a species id).
+	 * @return
+	 */
+	public ModifierSpeciesReference removeModifier(String id) {
+
+		ModifierSpeciesReference deletedModifier = null;
+		int index = 0;
+
+		for (ModifierSpeciesReference modifier : listOfModifiers) {
+			if (modifier.getSpecies().equals(id)) {
+				deletedModifier = modifier;
+				break;
+			}
+			index++;
+		}
+
+		if (deletedModifier != null) {
+			listOfModifiers.remove(index);
+		}
+
+		return deletedModifier;
+	}
+
+	/**
+	 * Removes the nth product species (SpeciesReference object) in the list of
+	 * products in this Reaction and returns it.
+	 * 
+	 * @param i
+	 *            the index of the SpeciesReference object to remove.
+	 * @return the removed SpeciesReference object, or null if the given index
+	 *         is out of range.
+	 */
+	public SpeciesReference removeProduct(int i) {
+
+		if (i >= listOfProducts.size() || i < 0) {
+			return null;
+		}
+
+		SpeciesReference product = listOfProducts.get(i);
+		listOfProducts.remove(i);
+
+		return product;
+	}
+
+	/**
+	 * Removes the SpeciesReference 'modspecref' from the listOfProducts of this
+	 * Reaction.
+	 * 
 	 * @param specref
 	 */
 	public void removeProduct(SpeciesReference specref) {
-		if (isSetListOfProducts()){
-			if (listOfProducts.remove(specref)){
+		if (isSetListOfProducts()) {
+			if (listOfProducts.remove(specref)) {
 				specref.sbaseRemoved();
 			}
 		}
 	}
 
 	/**
-	 * Removes the SpeciesReference 'modspecref' from the listOfReactants of this Reaction.
+	 * Removes the product species (SpeciesReference object) having the given
+	 * 'species' attribute in the list of products in this Reaction and returns
+	 * it.
+	 * 
+	 * @param id
+	 *            the 'species' attribute of the SpeciesReference object (which
+	 *            correspond to a species id).
+	 * @return
+	 */
+	public Object removeProduct(String id) {
+
+		SpeciesReference deletedProduct = null;
+		int index = 0;
+
+		for (SpeciesReference product : listOfProducts) {
+			if (product.getSpecies().equals(id)) {
+				deletedProduct = product;
+				break;
+			}
+			index++;
+		}
+
+		if (deletedProduct != null) {
+			listOfProducts.remove(index);
+		}
+
+		return deletedProduct;
+	}
+
+	/**
+	 * Removes the nth reactant species (SpeciesReference object) in the list of
+	 * reactants in this Reaction and returns it.
+	 * 
+	 * @param i
+	 *            the index of the SpeciesReference object to remove.
+	 * @return the removed SpeciesReference object, or null if the given index
+	 *         is out of range.
+	 */
+	public Object removeReactant(int i) {
+
+		if (i >= listOfReactants.size() || i < 0) {
+			return null;
+		}
+
+		SpeciesReference reactant = listOfReactants.get(i);
+		listOfReactants.remove(i);
+
+		return reactant;
+	}
+
+	/**
+	 * Removes the SpeciesReference 'modspecref' from the listOfReactants of
+	 * this Reaction.
+	 * 
 	 * @param specref
 	 */
 	public void removeReactant(SpeciesReference specref) {
-		if (isSetListOfReactants()){
-			if (listOfReactants.remove(specref)){
+		if (isSetListOfReactants()) {
+			if (listOfReactants.remove(specref)) {
 				specref.sbaseRemoved();
 			}
 		}
+	}
+
+	/**
+	 * Removes the reactant species (SpeciesReference object) having the given
+	 * 'species' attribute in the list of reactants in this Reaction and returns
+	 * it.
+	 * 
+	 * @param id
+	 *            the 'species' attribute of the SpeciesReference object (which
+	 *            correspond to a species id).
+	 * @return
+	 */
+	public Object removeReactant(String id) {
+
+		SpeciesReference deletedReactant = null;
+		int index = 0;
+
+		for (SpeciesReference reactant : listOfReactants) {
+			if (reactant.getSpecies().equals(id)) {
+				deletedReactant = reactant;
+				break;
+			}
+			index++;
+		}
+
+		if (deletedReactant != null) {
+			listOfReactants.remove(index);
+		}
+
+		return deletedReactant;
+	}
+
+	/**
+	 * Sets the compartmentID of this Reaction to the id of the Compartment
+	 * 'compartment'.
+	 * 
+	 * @param compartment
+	 */
+	public void setCompartment(Compartment compartment) {
+		this.compartmentID = compartment != null ? compartment.getId() : null;
+		stateChanged();
+	}
+
+	/**
+	 * Sets the compartmentID of this Reaction to 'compartmentID'.
+	 * 
+	 * @param compartmentID
+	 */
+	public void setCompartment(String compartmentID) {
+		this.compartmentID = compartmentID;
 	}
 
 	/**
 	 * Sets the fast Boolean of this Reaction.
+	 * 
 	 * @param fast
 	 */
 	public void setFast(Boolean fast) {
@@ -600,6 +935,7 @@ public class Reaction extends AbstractNamedSBase {
 
 	/**
 	 * Sets the kineticLaw of this Reaction.
+	 * 
 	 * @param kineticLaw
 	 */
 	public void setKineticLaw(KineticLaw kineticLaw) {
@@ -610,43 +946,9 @@ public class Reaction extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the reversible Boolean of this Reaction.
-	 * @param reversible
-	 */
-	public void setReversible(Boolean reversible) {
-		this.reversible = reversible;
-		stateChanged();
-	}
-	
-	/**
-	 * Sets the listOfReactants of this Reaction. Automatically sets the parentSBML object of the list
-	 * to this Reaction instance.
-	 * @param list
-	 */
-	public void setListOfReactants(ListOf<SpeciesReference> list) {
-		this.listOfReactants = list;
-		setThisAsParentSBMLObject(this.listOfReactants);
-		this.listOfReactants.setSBaseListType(SBaseListType.listOfReactants);
-
-		stateChanged();
-	}
-	
-	/**
-	 * Sets the listOfProducts of this Reaction. Automatically sets the parentSBML object of the list
-	 * to this Reaction instance.
-	 * @param list
-	 */
-	public void setListOfProducts(ListOf<SpeciesReference> list) {
-		this.listOfProducts = list;
-		setThisAsParentSBMLObject(this.listOfProducts);
-		this.listOfProducts.setSBaseListType(SBaseListType.listOfProducts);
-
-		stateChanged();
-	}
-	
-	/**
-	 * Sets the listOfModifiers of this Reaction. Automatically sets the parentSBML object of the list
-	 * to this Reaction instance. 
+	 * Sets the listOfModifiers of this Reaction. Automatically sets the
+	 * parentSBML object of the list to this Reaction instance.
+	 * 
 	 * @param list
 	 */
 	public void setListOfModifiers(ListOf<ModifierSpeciesReference> list) {
@@ -656,103 +958,58 @@ public class Reaction extends AbstractNamedSBase {
 		stateChanged();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#getParentSBMLObject()
-	 */
-	// @Override
-	public Model getParentSBMLObject() {
-		return (Model) super.getParentSBMLObject();
-	}
 	/**
+	 * Sets the listOfProducts of this Reaction. Automatically sets the
+	 * parentSBML object of the list to this Reaction instance.
 	 * 
-	 * @return the Compartment instance which has the compartmentID of this Reaction as id. Can be null if it doesn't exist.
+	 * @param list
 	 */
-	public Compartment getCompartmentInstance() {
-		if (getModel() == null){
-			return null;
-		}
-		return getModel().getCompartment(this.compartmentID);
-	}
-	
-	/**
-	 * Sets the compartmentID of this Reaction to the id of the Compartment 'compartment'.
-	 * @param compartment
-	 */
-	public void setCompartment(Compartment compartment) {
-		this.compartmentID = compartment != null ? compartment.getId() : null;
+	public void setListOfProducts(ListOf<SpeciesReference> list) {
+		this.listOfProducts = list;
+		setThisAsParentSBMLObject(this.listOfProducts);
+		this.listOfProducts.setSBaseListType(SBaseListType.listOfProducts);
+
 		stateChanged();
 	}
 
 	/**
+	 * Sets the listOfReactants of this Reaction. Automatically sets the
+	 * parentSBML object of the list to this Reaction instance.
 	 * 
-	 * @return the compartmentID of this Reaction. The empty String if it is not set.
+	 * @param list
 	 */
-	public String getCompartment() {
-		return isSetCompartment() ? this.compartmentID : "";
+	public void setListOfReactants(ListOf<SpeciesReference> list) {
+		this.listOfReactants = list;
+		setThisAsParentSBMLObject(this.listOfReactants);
+		this.listOfReactants.setSBaseListType(SBaseListType.listOfReactants);
+
+		stateChanged();
 	}
 
 	/**
-	 * Sets the compartmentID of this Reaction to 'compartmentID'.
-	 * @param compartmentID
+	 * Sets the reversible Boolean of this Reaction.
+	 * 
+	 * @param reversible
 	 */
-	public void setCompartment(String compartmentID) {
-		this.compartmentID = compartmentID;
+	public void setReversible(Boolean reversible) {
+		this.reversible = reversible;
+		stateChanged();
 	}
-	
+
 	/**
 	 * Sets the fast Boolean of this Reaction to null.
 	 */
-	public void unsetFast(){
+	public void unsetFast() {
 		this.fast = null;
 	}
-	
+
 	/**
 	 * Sets the reversible Boolean of this Reaction to null.
 	 */
-	public void unsetReversible(){
+	public void unsetReversible() {
 		this.reversible = null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
-		if (!isAttributeRead){
-			if (attributeName.equals("reversible")){
-				if (value.equals("true")){
-					this.setReversible(true);
-					return true;
-				}
-				else if (value.equals("false")){
-					this.setReversible(false);
-					return true;
-				}
-			}
-			else if (attributeName.equals("fast")){
-				if (value.equals("true")){
-					this.setFast(true);
-					return true;
-				}
-				else if (value.equals("false")){
-					this.setFast(false);
-					return true;
-				}
-			}
-			if (attributeName.equals("compartment") && getLevel() == 3){
-				this.setCompartment(value);
-				return true;
-			}
-		}
-		return isAttributeRead;
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -761,198 +1018,34 @@ public class Reaction extends AbstractNamedSBase {
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
-		if (isSetReversible()){
+
+		if (isSetReversible()) {
 			attributes.put("reversible", Boolean.toString(getReversible()));
 		}
-		
-		if (isSetFast()){
+
+		if (isSetFast()) {
 			attributes.put("fast", Boolean.toString(getFast()));
 		}
-		
-		if (isSetCompartment() && getLevel() == 3){
+
+		if (isSetCompartment() && getLevel() == 3) {
 			attributes.put("compartment", getCompartment());
 		}
-		
+
 		return attributes;
 	}
 
-
 	/**
-	 * Creates a new <code>ModifierSpeciesReference</code>, adds it to this Reaction's list of modifiers and returns it.
+	 * Checks whether the given list references the given species.
 	 * 
-	 * @return a new ModifierSpeciesReference object.
-	 */
-	public ModifierSpeciesReference createModifier() {
-		ModifierSpeciesReference modifier = new ModifierSpeciesReference(level, version);
-		addModifier(modifier);
-		
-		return modifier;
-	}
-
-
-	/**
-	 * Removes the nth modifier species (ModifierSpeciesReference object) in the list of modifiers in this Reaction and returns it.
-	 * 
-	 * @param i  the index of the ModifierSpeciesReference object to remove.
-	 * @return the removed ModifierSpeciesReference object, or null if the given index is out of range.
-	 */
-	public ModifierSpeciesReference removeModifier(int i) {
-		
-		if (i >= listOfModifiers.size() || i < 0) {
-			System.out.println("removeModifier : index out of bound.");
-			return null;
-		}
-		
-		ModifierSpeciesReference modifier = listOfModifiers.get(i);
-		listOfModifiers.remove(i);
-		
-		return modifier;
-	}
-
-
-	/**
-	 * Removes the modifier species (ModifierSpeciesReference object) having the given 'species' attribute in the list of modifiers in this Reaction and returns it.
-	 *
-	 * @param id  the 'species' attribute of the ModifierSpeciesReference object (which correspond to a species id).
+	 * @param list
+	 * @param s
 	 * @return
 	 */
-	public ModifierSpeciesReference removeModifier(String id) {
-
-		ModifierSpeciesReference deletedModifier = null;
-		int index = 0;
-		
-		for (ModifierSpeciesReference modifier : listOfModifiers) {
-			if (modifier.getSpecies().equals(id)) {
-				deletedModifier = modifier;
-				break;
-			}
-			index++;
-		}
-		
-		if (deletedModifier != null) {
-			listOfModifiers.remove(index);
-		}
-		
-		return deletedModifier;
-	}
-
-
-	/**
-	 * Creates a new <code>SpeciesReference</code>, adds it to this Reaction's list of products and returns it.
-	 * 
-	 * @return a new SpeciesReference object.
-	 * 
-	 * @return
-	 */
-	public SpeciesReference createProduct() {
-		SpeciesReference product = new SpeciesReference(level, version);
-		addProduct(product);
-		
-		return product;
-	}
-
-	/**
-	 * Removes the nth product species (SpeciesReference object) in the list of products in this Reaction and returns it.
-	 * 
-	 * @param i  the index of the SpeciesReference object to remove.
-	 * @return the removed SpeciesReference object, or null if the given index is out of range.
-	 */
-	public SpeciesReference removeProduct(int i) {
-
-		if (i >= listOfProducts.size() || i < 0) {
-			return null;
-		}
-		
-		SpeciesReference product = listOfProducts.get(i);
-		listOfProducts.remove(i);
-		
-		return product;
-	}
-
-	/**
-	 * Removes the product species (SpeciesReference object) having the given 'species' attribute in the list of products in this Reaction and returns it.
-	 *
-	 * @param id  the 'species' attribute of the SpeciesReference object (which correspond to a species id).
-	 * @return
-	 */
-	public Object removeProduct(String id) {
-
-		SpeciesReference deletedProduct = null;
-		int index = 0;
-		
-		for (SpeciesReference product : listOfProducts) {
-			if (product.getSpecies().equals(id)) {
-				deletedProduct = product;
-				break;
-			}
-			index++;
-		}
-		
-		if (deletedProduct != null) {
-			listOfProducts.remove(index);
-		}
-		
-		return deletedProduct;
-	}
-
-	/**
-	 * Creates a new <code>SpeciesReference</code>, adds it to this Reaction's list of reactants and returns it.
-	 * 
-	 * @return a new SpeciesReference object.
-	 * 
-	 * @return
-	 */
-	public SpeciesReference createReactant() {
-		SpeciesReference reactant = new SpeciesReference(level, version);
-		addReactant(reactant);
-		
-		return reactant;
-	}
-
-
-	/**
-	 * Removes the nth reactant species (SpeciesReference object) in the list of reactants in this Reaction and returns it.
-	 * 
-	 * @param i  the index of the SpeciesReference object to remove.
-	 * @return the removed SpeciesReference object, or null if the given index is out of range.
-	 */
-	public Object removeReactant(int i) {
-
-		if (i >= listOfReactants.size() || i < 0) {
-			return null;
-		}
-		
-		SpeciesReference reactant = listOfReactants.get(i);
-		listOfReactants.remove(i);
-		
-		return reactant;
-	}
-
-
-	/**
-	 * Removes the reactant species (SpeciesReference object) having the given 'species' attribute in the list of reactants in this Reaction and returns it.
-	 *
-	 * @param id  the 'species' attribute of the SpeciesReference object (which correspond to a species id).
-	 * @return
-	 */
-	public Object removeReactant(String id) {
-
-		SpeciesReference deletedReactant = null;
-		int index = 0;
-		
-		for (SpeciesReference reactant : listOfReactants) {
-			if (reactant.getSpecies().equals(id)) {
-				deletedReactant = reactant;
-				break;
-			}
-			index++;
-		}
-		
-		if (deletedReactant != null) {
-			listOfReactants.remove(index);
-		}
-		
-		return deletedReactant;
+	private boolean references(ListOf<? extends SimpleSpeciesReference> list,
+			Species s) {
+		for (SimpleSpeciesReference specRef : list)
+			if (specRef.getSpecies().equals(s.getId()))
+				return true;
+		return false;
 	}
 }
