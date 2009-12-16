@@ -37,7 +37,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.sbml.jsbml.CVTerm.Qualifier; //import org.sbml.jsbml.xml.helper.RDFElement;
+import org.sbml.jsbml.CVTerm.Qualifier;
+import org.sbml.jsbml.CVTerm.Type;
+
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -499,14 +501,15 @@ public class Annotation {
 
 			for (int i = 0; i < getListOfCVTerms().size(); i++) {
 				CVTerm cvTerm = getCVTerm(i);
-				Qualifier qualifierType = cvTerm.getQualifierType();
-				Qualifier qualifier = Qualifier.UNKNOWN_QUALIFIER;
+				Type qualifierType = cvTerm.getQualifierType();
+				Qualifier qualifier = null;
 				String prefix = null;
-
-				if (qualifierType.equals(Qualifier.BIOLOGICAL_QUALIFIER)) {
+				
+				if (qualifierType.equals(Type.BIOLOGICAL_QUALIFIER)){
 					qualifier = cvTerm.getBiologicalQualifierType();
 					prefix = "bqbiol";
-				} else if (qualifierType.equals(Qualifier.MODEL_QUALIFIER)) {
+				}
+				else if (qualifierType.equals(Type.MODEL_QUALIFIER)){
 					qualifier = cvTerm.getModelQualifierType();
 					prefix = "bqmodel";
 				}

@@ -34,11 +34,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.sbml.jsbml.CVTerm.Qualifier;
+
 /**
  * The interface to implement for each SBML component.
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * 
  */
 public interface SBase {
 
@@ -57,20 +60,44 @@ public interface SBase {
 	public void appendNotes(String notes);
 
 	/**
+	 *
 	 * Creates a copy of this object, i.e., e new SBase with the same properties
 	 * like this one and returns a pointer to it.
 	 * 
-	 * @return the clone of this object.
+	 * @return
 	 */
 	public SBase clone();
 
 	/**
+	 * Returns true if and only if the given SBase has exactly the same
+	 * properties like this SBase instance.
 	 * 
 	 * @param sbase
 	 * @return true if and only if the given SBase has exactly the same
 	 *         properties like this SBase instance.
 	 */
 	public boolean equals(Object sbase);
+
+	/**
+	 * This method returns a list of all qualifiers of the given type.
+	 * 
+	 * @param qualifier
+	 * @return
+	 */
+	public List<CVTerm> filterCVTerms(Qualifier qualifier);
+
+	/**
+	 * Queries the list of controlled vocabulary terms for those terms whose
+	 * qualifier is of the given type and selects only those resources from
+	 * these terms that contain the given pattern.
+	 * 
+	 * @param qualifier
+	 * @param pattern
+	 *            for instance, kegg or chebi.
+	 * @return
+	 */
+	public List<String> filterCVTerms(Qualifier qualifier, String pattern);
+
 
 	/**
 	 * @return the content of the 'annotation' subelement of this object as an

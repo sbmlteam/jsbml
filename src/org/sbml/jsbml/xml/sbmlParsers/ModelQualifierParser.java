@@ -36,6 +36,7 @@ import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.CVTerm.Qualifier;
+import org.sbml.jsbml.CVTerm.Type;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
@@ -115,7 +116,7 @@ public class ModelQualifierParser implements ReadingParser{
 			// initialised CVTerm to annotation.
 			if (modelQualifierMap.containsKey(elementName) && !hasNamespaces && !hasAttributes){
 				CVTerm cvTerm = new CVTerm();
-				cvTerm.setQualifierType(Qualifier.MODEL_QUALIFIER);
+				cvTerm.setQualifierType(Type.MODEL_QUALIFIER);
 				cvTerm.setModelQualifierType(modelQualifierMap.get(elementName));
 				
 				annotation.addCVTerm(cvTerm);

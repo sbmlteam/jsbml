@@ -111,7 +111,7 @@
   	<copy todir="${build.src}" overwrite="yes">
   	        <fileset 
   	            dir="${test.src.dir}"
-  	        	includes="org/sbml/jsbml/test/sbml/**"
+  	        	includes="org/sbml/jsbml/**"
   	            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
   	        </fileset>
   	    </copy>

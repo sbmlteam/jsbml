@@ -32,7 +32,9 @@ package org.sbml.jsbml;
 
 /**
  * The base class for the {@link AlgebraicRule}, {@link RateRule}, {@link AssignmentRule}.
- * @author Andreas Dr&auml;ger
+ * 
+ * @author Andreas Dr&auml;ger 
+ *
  * 
  */
 public abstract class Rule extends MathContainer {

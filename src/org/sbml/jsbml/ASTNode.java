@@ -1281,14 +1281,26 @@ public class ASTNode implements TreeNode {
 		return l;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public ASTNode getRightChild() {
 		return listOfNodes.getLast();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Type getType() {
 		return type;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public NamedSBase getVariable() {
 		if (isName())
 			return variable;
