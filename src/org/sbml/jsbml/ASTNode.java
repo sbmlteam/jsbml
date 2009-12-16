@@ -917,11 +917,11 @@ public class ASTNode implements TreeNode {
 		case LAMBDA:
 			return compiler.lambda(listOfNodes.toArray(new ASTNode[] {}));
 		case LOGICAL_AND:
-			return compiler.logicalOperation(this);
+			return compiler.and(listOfNodes.toArray(new ASTNode[] {}));
 		case LOGICAL_XOR:
-			return compiler.logicalOperation(this);
+			return compiler.xor(listOfNodes.toArray(new ASTNode[] {}));
 		case LOGICAL_OR:
-			return compiler.logicalOperation(this);
+			return compiler.or(listOfNodes.toArray(new ASTNode[] {}));
 		case LOGICAL_NOT:
 			return compiler.logicalNot(getLeftChild());
 		case FUNCTION_PIECEWISE:
