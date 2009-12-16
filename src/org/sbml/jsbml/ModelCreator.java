@@ -30,9 +30,11 @@
 package org.sbml.jsbml;
 
 /**
- * Contains all the information about a creator of a Model (or other in level 3).
+ * Contains all the information about a creator of a Model (or other in level
+ * 3).
+ * 
  * @author marine3
- *
+ * 
  */
 public class ModelCreator {
 
@@ -53,55 +55,51 @@ public class ModelCreator {
 	 * Organisation name of the creator.
 	 */
 	private String organisation;
-	
-	//private String otherXMLInformation;
 
+	// private String otherXMLInformation;
 
 	/**
-	 * Creates a ModelCreator instance. By default, the email, familyName, givenName, organisation are null.
+	 * Creates a ModelCreator instance. By default, the email, familyName,
+	 * givenName, organisation are null.
 	 */
 	public ModelCreator() {
 		this.email = null;
 		this.familyName = null;
 		this.givenName = null;
 		this.organisation = null;
-		//this.otherXMLInformation = null;
+		// this.otherXMLInformation = null;
 	}
 
 	/**
 	 * Creates a ModelCreator instance from a given ModelCreator.
-	 * @param  modelCreator
+	 * 
+	 * @param modelCreator
 	 */
 	public ModelCreator(ModelCreator modelCreator) {
-		if (modelCreator.isSetEmail()){
+		if (modelCreator.isSetEmail()) {
 			this.email = new String(modelCreator.getEmail());
-		}
-		else {
+		} else {
 			this.email = null;
 		}
-		if (modelCreator.isSetFamilyName()){
+		if (modelCreator.isSetFamilyName()) {
 			this.familyName = new String(modelCreator.getFamilyName());
-		}
-		else {
+		} else {
 			this.familyName = null;
 		}
-		if (modelCreator.isSetGivenName()){
+		if (modelCreator.isSetGivenName()) {
 			this.givenName = new String(modelCreator.getGivenName());
-		}
-		else {
+		} else {
 			this.givenName = null;
 		}
-		if (modelCreator.isSetOrganisation()){
+		if (modelCreator.isSetOrganisation()) {
 			this.organisation = new String(modelCreator.getOrganisation());
-		}
-		else {
+		} else {
 			this.organisation = null;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	public ModelCreator clone() {
@@ -114,22 +112,22 @@ public class ModelCreator {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object sb) {
-		if (sb instanceof ModelCreator){
+		if (sb instanceof ModelCreator) {
 			ModelCreator m = (ModelCreator) sb;
 			boolean equal = isSetEmail() == m.isSetEmail();
-			if (equal && isSetEmail()){
+			if (equal && isSetEmail()) {
 				equal &= getEmail().equals(m.getEmail());
 			}
 			equal &= isSetFamilyName() == m.isSetFamilyName();
-			if (equal && isSetFamilyName()){
-				equal &= getFamilyName().equals(m.getFamilyName());	
+			if (equal && isSetFamilyName()) {
+				equal &= getFamilyName().equals(m.getFamilyName());
 			}
 			equal &= isSetGivenName() == m.isSetGivenName();
-			if (equal && isSetGivenName()){
+			if (equal && isSetGivenName()) {
 				equal &= getGivenName().equals(m.getGivenName());
 			}
 			equal &= isSetOrganisation() == m.isSetOrganisation();
-			if (equal && isSetOrganisation()){
+			if (equal && isSetOrganisation()) {
 				equal &= getOrganisation().equals(m.getOrganisation());
 			}
 			return equal;
@@ -139,7 +137,8 @@ public class ModelCreator {
 
 	/**
 	 * 
-	 * @return the email from the ModelCreator. Returns an empty String if it is not set.
+	 * @return the email from the ModelCreator. Returns an empty String if it is
+	 *         not set.
 	 */
 	public String getEmail() {
 		return isSetEmail() ? email : "";
@@ -147,14 +146,16 @@ public class ModelCreator {
 
 	/**
 	 * 
-	 * @return the familyName from the ModelCreator. Returns an empty String if it is not set.
+	 * @return the familyName from the ModelCreator. Returns an empty String if
+	 *         it is not set.
 	 */
 	public String getFamilyName() {
 		return isSetFamilyName() ? familyName : "";
 	}
 
 	/**
-	 * Returns the givenName from the ModelCreator. Returns an empty String if it is not set.
+	 * Returns the givenName from the ModelCreator. Returns an empty String if
+	 * it is not set.
 	 * 
 	 * @return
 	 */
@@ -163,12 +164,22 @@ public class ModelCreator {
 	}
 
 	/**
-	 * Returns the organisation from the ModelCreator. Returns an empty String if it is not set.
+	 * Returns the organisation from the ModelCreator. Returns an empty String
+	 * if it is not set.
 	 * 
 	 * @return
 	 */
 	public String getOrganisation() {
 		return isSetOrganisation() ? organisation : "";
+	}
+
+	/**
+	 * Equivalent to {@link getOrganisation()}
+	 * 
+	 * @return
+	 */
+	public String getOrganization() {
+		return getOrganisation();
 	}
 
 	/**
@@ -212,9 +223,33 @@ public class ModelCreator {
 	}
 
 	/**
+	 * Equivalent to {@link isSetOrganisation()}
+	 * 
+	 * @return
+	 */
+	public boolean isSetOrganization() {
+		return isSetOrganisation();
+	}
+
+	/**
+	 * @return true if the XML attribute is known by this ModelCreator.
+	 */
+	public boolean readAttribute(String elementName, String attributeName,
+			String prefix, String value) {
+
+		if (elementName.equals("li") || elementName.equals("N")
+				|| elementName.equals("ORG")) {
+			if (attributeName.equals("parseType") && value.equals("Resource")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Sets the email
 	 * 
-	 * @param  email
+	 * @param email
 	 * @return 0
 	 */
 	public int setEmail(String email) {
@@ -226,7 +261,7 @@ public class ModelCreator {
 	/**
 	 * Sets the family name
 	 * 
-	 * @param  familyName
+	 * @param familyName
 	 * @return 0
 	 */
 	public int setFamilyName(String familyName) {
@@ -238,7 +273,7 @@ public class ModelCreator {
 	/**
 	 * Sets the given name
 	 * 
-	 * @param  givenName
+	 * @param givenName
 	 * @return 0
 	 */
 	public int setGivenName(String givenName) {
@@ -248,12 +283,71 @@ public class ModelCreator {
 	}
 
 	/**
+	 * Is equivalent to setOrganisation.
+	 * 
+	 * @param organization
+	 */
+	public void setOranization(String organization) {
+		setOrganisation(organization);
+	}
+
+	/**
 	 * Sets the organisation
 	 * 
-	 * @param  organisation
+	 * @param organisation
 	 */
 	public void setOrganisation(String organisation) {
 		this.organisation = organisation;
+	}
+
+	/**
+	 * @return the information about the creator as a String.
+	 */
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		if (isSetGivenName()) {
+			sb.append(getGivenName());
+			if (isSetFamilyName() || isSetEmail() || isSetOrganisation()) {
+				sb.append(' ');
+			}
+		}
+		if (isSetFamilyName()) {
+			sb.append(getFamilyName());
+			if (isSetEmail() || isSetOrganisation()) {
+				sb.append(", ");
+			}
+		}
+		if (isSetEmail()) {
+			sb.append(getEmail());
+			if (isSetOrganisation()) {
+				sb.append(", ");
+			}
+		}
+		if (isSetOrganisation()) {
+			sb.append(getOrganisation());
+		}
+
+		return sb.toString();
+	}
+
+	/**
+	 * converts the ModelCreator into XML
+	 * 
+	 * @param indent
+	 * @param buffer
+	 */
+	public void toXML(String indent, StringBuffer buffer) {
+
+		buffer.append(indent).append("<rdf:li rdf:parseType=").append('"')
+				.append("Resource").append('"').append("> \n");
+
+		createNElement(indent + "  ", buffer);
+		createEMAILElement(indent + "  ", buffer);
+		createOrGElement(indent + "  ", buffer);
+		// createOtherElement(indent, buffer);
+
+		buffer.append(indent).append("</rdf:li> \n");
+
 	}
 
 	/**
@@ -278,6 +372,19 @@ public class ModelCreator {
 		return 0;
 	}
 
+	// /**
+	// * write the other elements of the ModelCreator in 'buffer'
+	// * @param indent
+	// * @param buffer
+	// */
+	/*
+	 * private void createOtherElement(String indent, StringBuffer buffer){
+	 * 
+	 * if (getOtherXMLInformation() != null){ String [] lines =
+	 * getOtherXMLInformation().split("\n"); for (int i = 0; i < lines.length;
+	 * i++){ buffer.append(indent).append(lines[i]).append(" \n"); } } }
+	 */
+
 	/**
 	 * Unsets the givenName of this ModelCreator.
 	 * 
@@ -296,146 +403,76 @@ public class ModelCreator {
 	public void unsetOrganization() {
 		organisation = null;
 	}
-	
+
+	// /**
+	// * changes the other information about the creator
+	// * @param otherXMLInformation
+	// */
+	/*
+	 * public void setOtherXMLInformation(String otherXMLInformation) { if
+	 * (getOtherXMLInformation() == null){ this.otherXMLInformation =
+	 * otherXMLInformation; } else{ this.otherXMLInformation +=
+	 * otherXMLInformation; } }
+	 */
+
+	// /**
+	// *
+	// * @return the otherXMLInformation String of ModelCreator
+	// */
+	/*
+	 * public String getOtherXMLInformation() { return otherXMLInformation; }
+	 */
+
 	/**
-	 * writes the N element of the ModelCreator in 'buffer'
+	 * writes the EMAIL element of the ModelCreator in 'buffer'
+	 * 
 	 * @param indent
 	 * @param buffer
 	 */
-	private void createNElement(String indent, StringBuffer buffer){
-		
-		if (isSetFamilyName() || isSetGivenName()){
-			buffer.append(indent).append("<vCard:N rdf:parseType=").append('"').append("Resource").append('"').append("> \n");
-			if (isSetFamilyName()){
-				buffer.append(indent).append("  <vCard:Family>").append(getFamilyName()).append("</vCard:Family> \n");
+	private void createEMAILElement(String indent, StringBuffer buffer) {
+		if (isSetEmail()) {
+			buffer.append(indent).append("<vCard:EMAIL>").append(getEmail())
+					.append("</vCard:EMAIL> \n");
+		}
+	}
+
+	/**
+	 * writes the N element of the ModelCreator in 'buffer'
+	 * 
+	 * @param indent
+	 * @param buffer
+	 */
+	private void createNElement(String indent, StringBuffer buffer) {
+
+		if (isSetFamilyName() || isSetGivenName()) {
+			buffer.append(indent).append("<vCard:N rdf:parseType=").append('"')
+					.append("Resource").append('"').append("> \n");
+			if (isSetFamilyName()) {
+				buffer.append(indent).append("  <vCard:Family>").append(
+						getFamilyName()).append("</vCard:Family> \n");
 			}
-			
-			if (isSetGivenName()){
-				buffer.append(indent).append("  <vCard:Given>").append(getGivenName()).append("</vCard:Given> \n");
+
+			if (isSetGivenName()) {
+				buffer.append(indent).append("  <vCard:Given>").append(
+						getGivenName()).append("</vCard:Given> \n");
 			}
 			buffer.append(indent).append("</vCard:N> \n");
 		}
 
 	}
-	
-	/**
-	 * writes the EMAIL element of the ModelCreator in 'buffer'
-	 * @param indent
-	 * @param buffer
-	 */
-	private void createEMAILElement(String indent, StringBuffer buffer){
-		if (isSetEmail()){
-			buffer.append(indent).append("<vCard:EMAIL>").append(getEmail()).append("</vCard:EMAIL> \n");
-		}
-	}
-	
+
 	/**
 	 * writes the ORG element of the ModelCreator in 'buffer'
+	 * 
 	 * @param indent
 	 * @param buffer
 	 */
-	private void createOrGElement(String indent, StringBuffer buffer){
-		if (isSetOrganisation()){
+	private void createOrGElement(String indent, StringBuffer buffer) {
+		if (isSetOrganisation()) {
 			buffer.append(indent).append("<vCard:OrG> \n");
-			buffer.append(indent).append("  <vCard:Orgname>").append(getOrganisation()).append("</vCard:Orgname> \n");
+			buffer.append(indent).append("  <vCard:Orgname>").append(
+					getOrganisation()).append("</vCard:Orgname> \n");
 			buffer.append(indent).append("</vCard:OrG> \n");
 		}
-	}
-	
-	// /**
-	 // * write the other elements of the ModelCreator in 'buffer'
-	 // * @param indent
-	 // * @param buffer
-	 // */
-	/*private void createOtherElement(String indent, StringBuffer buffer){
-		
-		if (getOtherXMLInformation() != null){
-			String [] lines = getOtherXMLInformation().split("\n");
-			for (int i = 0; i < lines.length; i++){
-				buffer.append(indent).append(lines[i]).append(" \n");
-			}
-		}
-	}*/
-	
-	/**
-	 * converts the ModelCreator into XML
-	 * @param indent
-	 * @param buffer
-	 */
-	public void toXML(String indent, StringBuffer buffer){
-		
-		buffer.append(indent).append("<rdf:li rdf:parseType=").append('"').append("Resource").append('"').append("> \n");
-		
-		createNElement(indent + "  ", buffer);
-		createEMAILElement(indent + "  ", buffer);
-		createOrGElement(indent + "  ", buffer);
-		//createOtherElement(indent, buffer);
-		
-		buffer.append(indent).append("</rdf:li> \n");
-			
-	}
-
-	/**
-	 * @return the information about the creator as a String.
-	 */
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		if (isSetGivenName()) {
-			sb.append(getGivenName());
-			if (isSetFamilyName() || isSetEmail() || isSetOrganisation()){
-				sb.append(' ');
-			}
-		}
-		if (isSetFamilyName()) {
-			sb.append(getFamilyName());
-			if (isSetEmail() || isSetOrganisation()){
-				sb.append(", ");
-			}
-		}
-		if (isSetEmail()) {
-			sb.append(getEmail());
-			if (isSetOrganisation()){
-				sb.append(", ");
-			}
-		}
-		if (isSetOrganisation()){
-			sb.append(getOrganisation());
-		}
-
-		return sb.toString();
-	}
-	
-	///**
-	// * changes the other information about the creator
-	// * @param otherXMLInformation
-	// */
-	/*public void setOtherXMLInformation(String otherXMLInformation) {
-		if (getOtherXMLInformation() == null){
-			this.otherXMLInformation = otherXMLInformation;
-		}
-		else{
-			this.otherXMLInformation += otherXMLInformation;
-		}
-	}*/
-
-	// /**
-	// * 
-	// * @return the otherXMLInformation String of ModelCreator
-	// */
-	/*public String getOtherXMLInformation() {
-		return otherXMLInformation;
-	}*/
-
-	/**
-	 * @return true if the XML attribute is known by this ModelCreator.
-	 */
-	public boolean readAttribute(String elementName, String attributeName, String prefix, String value){
-	
-		if (elementName.equals("li") || elementName.equals("N") || elementName.equals("ORG")){
-			if (attributeName.equals("parseType") && value.equals("Resource")){
-				return true;
-			}
-		}
-		return false;
 	}
 }
