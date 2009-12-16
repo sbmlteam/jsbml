@@ -31,6 +31,7 @@ package org.sbml.jsbml;
 
 /**
  * A compiler for abstract syntax trees.
+ * 
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
@@ -44,6 +45,13 @@ public interface ASTNodeCompiler {
 	 * @return
 	 */
 	public Object abs(ASTNode node);
+
+	/**
+	 * 
+	 * @param nodes
+	 * @return
+	 */
+	public Object and(ASTNode... nodes);
 
 	/**
 	 * 
@@ -65,14 +73,14 @@ public interface ASTNodeCompiler {
 	 * @return
 	 */
 	public Object arccot(ASTNode node);
-	
+
 	/**
 	 * 
 	 * @param node
 	 * @return
 	 */
 	public Object arccoth(ASTNode node);
-	
+
 	/**
 	 * 
 	 * @param node
@@ -114,7 +122,7 @@ public interface ASTNodeCompiler {
 	 * @return
 	 */
 	public Object arcsinh(ASTNode node);
-	
+
 	/**
 	 * 
 	 * @param node
@@ -163,7 +171,7 @@ public interface ASTNodeCompiler {
 	 * @return
 	 */
 	public Object compile(NamedSBase variable);
-	
+
 	/**
 	 * 
 	 * @param name
@@ -339,17 +347,17 @@ public interface ASTNodeCompiler {
 
 	/**
 	 * 
-	 * @param ast
+	 * @param nodes
 	 * @return
 	 */
-	public Object logicalOperation(ASTNode ast);
+	public Object minus(ASTNode... nodes);
 
 	/**
 	 * 
 	 * @param nodes
 	 * @return
 	 */
-	public Object minus(ASTNode... nodes);
+	public Object or(ASTNode... nodes);
 
 	/**
 	 * 
@@ -383,19 +391,19 @@ public interface ASTNodeCompiler {
 
 	/**
 	 * 
-	 * @param leftChild
-	 * @param rightChild
-	 * @return
-	 */
-	public Object relationGreaterThan(ASTNode left, ASTNode right);
-
-	/**
-	 * 
 	 * @param left
 	 * @param right
 	 * @return
 	 */
 	public Object relationGreaterEqual(ASTNode left, ASTNode right);
+
+	/**
+	 * 
+	 * @param leftChild
+	 * @param rightChild
+	 * @return
+	 */
+	public Object relationGreaterThan(ASTNode left, ASTNode right);
 
 	/**
 	 * 
@@ -504,5 +512,12 @@ public interface ASTNodeCompiler {
 	 * @return
 	 */
 	public Object unknownASTNode();
+
+	/**
+	 * 
+	 * @param nodes
+	 * @return
+	 */
+	public Object xor(ASTNode... nodes);
 
 }
