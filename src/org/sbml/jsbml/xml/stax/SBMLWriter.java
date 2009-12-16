@@ -33,7 +33,6 @@ package org.sbml.jsbml.xml.stax;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.StringReader;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -58,7 +57,6 @@ import org.sbml.jsbml.ModelCreator;
 import org.sbml.jsbml.ModelHistory;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.w3c.dom.Document;
 
@@ -307,12 +305,12 @@ public class SBMLWriter {
 					String namespaceURI = null;
 					String prefix = null;
 					String elementName = null;
-					if (cvTerm.getQualifierType().equals(Qualifier.BIOLOGICAL_QUALIFIER)){
+					if (cvTerm.getQualifierType().equals(CVTerm.Type.BIOLOGICAL_QUALIFIER)){
 						namespaceURI = "http://biomodels.net/biology-qualifiers/";
 						prefix = rdfNamespaces.get("http://biomodels.net/biology-qualifiers/");
 						elementName = Annotation.getElementNameEquivalentToQualifier(cvTerm.getBiologicalQualifierType());
 					}
-					else if (cvTerm.getQualifierType().equals(Qualifier.MODEL_QUALIFIER)){
+					else if (cvTerm.getQualifierType().equals(CVTerm.Type.MODEL_QUALIFIER)){
 						namespaceURI = "http://biomodels.net/model-qualifiers/";
 						prefix = rdfNamespaces.get("http://biomodels.net/model-qualifiers/");
 						elementName = Annotation.getElementNameEquivalentToQualifier(cvTerm.getModelQualifierType());

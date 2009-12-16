@@ -516,12 +516,14 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.ASTNodeCompiler#function(org.sbml.jsbml.NamedSBase, org.sbml.jsbml.ASTNode[])
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#function(org.sbml.jsbml.NamedSBase,
+	 * org.sbml.jsbml.ASTNode[])
 	 */
 	public String function(FunctionDefinition func, ASTNode... nodes) {
 		return function(func.getName(), nodes);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -631,6 +633,15 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#logicalAND(org.sbml.jsbml.ASTNode[])
+	 */
+	public String logicalAND(ASTNode... nodes) {
+		return logicalOperation(" and ", nodes);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#logicalNot(org.sbml.jsbml.ASTNode)
 	 */
 	public String logicalNot(ASTNode node) {
@@ -640,35 +651,19 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#logicalOperation(org.sbml.jsbml.ASTNode)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#logicalOR(org.sbml.jsbml.ASTNode[])
 	 */
-	public String logicalOperation(ASTNode ast) {
-		StringBuffer value = new StringBuffer();
-		if (1 < ast.getLeftChild().getNumChildren())
-			value.append('(');
-		value.append(ast.getLeftChild().compile(this));
-		if (1 < ast.getLeftChild().getNumChildren())
-			value.append(')');
-		switch (ast.getType()) {
-		case LOGICAL_AND:
-			value.append(" and ");
-			break;
-		case LOGICAL_XOR:
-			value.append(" xor ");
-			break;
-		case LOGICAL_OR:
-			value.append(" or ");
-			break;
-		default:
-			break;
-		}
-		if (1 < ast.getRightChild().getNumChildren())
-			value.append('(');
-		value.append(ast.getRightChild().compile(this));
-		if (1 < ast.getRightChild().getNumChildren())
-			value.append(')');
-		return value.toString();
+	public String logicalOR(ASTNode... nodes) {
+		return logicalOperation(" or ", nodes);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#logicalXOR(org.sbml.jsbml.ASTNode[])
+	 */
+	public String logicalXOR(ASTNode... nodes) {
+		return logicalOperation(" xor ", nodes);
 	}
 
 	/*
@@ -941,6 +936,42 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	private String function(String name, ASTNode... nodes) {
 		return concat(name, lambda(nodes)).toString();
 	}
+	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.ASTNodeCompiler#logicalOperation(org.sbml.jsbml.ASTNode)
+	 */
+	public String logicalOperation(ASTNode ast) {
+		StringBuffer value = new StringBuffer();
+		if (1 < ast.getLeftChild().getNumChildren())
+			value.append('(');
+		value.append(ast.getLeftChild().compile(this));
+		if (1 < ast.getLeftChild().getNumChildren())
+			value.append(')');
+		switch (ast.getType()) {
+		case LOGICAL_AND:
+			value.append(" and ");
+			break;
+		case LOGICAL_XOR:
+			value.append(" xor ");
+			break;
+		case LOGICAL_OR:
+			value.append(" or ");
+			break;
+		default:
+			break;
+		}
+		if (1 < ast.getRightChild().getNumChildren())
+			value.append('(');
+		value.append(ast.getRightChild().compile(this));
+		if (1 < ast.getRightChild().getNumChildren())
+			value.append(')');
+		return value.toString();
+	}
+
 	
 	/**
 	 * 

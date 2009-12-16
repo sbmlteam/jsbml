@@ -32,6 +32,7 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -263,6 +264,36 @@ public abstract class AbstractSBase implements SBase {
 		return false;
 	}
 
+ 	/**
+ 	 * (non-Javadoc)
+ 	 * 
+	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier)
+	 */
+	public List<CVTerm> filterCVTerms(CVTerm.Qualifier qualifier) {
+		LinkedList<CVTerm> l = new LinkedList<CVTerm>();
+		for (CVTerm term : annotation.getListOfCVTerms()) {
+			if (term.isBiologicalQualifier()
+					&& term.getBiologicalQualifierType() == qualifier)
+				l.add(term);
+			else if (term.isModelQualifier()
+					&& term.getModelQualifierType() == qualifier)
+				l.add(term);
+		}
+		return l;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier, java.lang.String)
+	 */
+	public List<String> filterCVTerms(CVTerm.Qualifier qualifier, String pattern) {
+		List<String> l = new LinkedList<String>();
+		for (CVTerm c : filterCVTerms(qualifier))
+			l.addAll(c.filterResources(pattern));
+		return l;
+	}
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -989,4 +1020,6 @@ public abstract class AbstractSBase implements SBase {
 	public HashMap<String, SBase> getExtensionPackages(){
 		return this.getExtensionPackages();
 	}
+	
+
 }

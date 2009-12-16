@@ -38,6 +38,8 @@ import java.util.ListIterator;
 
 import org.sbml.jsbml.xml.stax.SBaseListType;
 
+import org.sbml.jsbml.CVTerm.Qualifier;
+
 /**
  * This list implementation is a java List that extends AbstractSBase. It represents the listOfxxx
  * XML elements in a SBML file. Unfortunately, there is no way for multiple inheritance
@@ -58,6 +60,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	private LinkedList<T> listOf = new LinkedList<T>();
 
+
 	/**
 	 * Creates a ListOf instance. By default, the list containing the SBase elements is empty.
 	 */
@@ -72,8 +75,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		super(level, version);
 	}
 
+
 	/**
-	 * Specialized method to remove a named SBase according to its unique id.
+	 * Removes a named SBase according to its unique id.
 	 * 
 	 * @param nsb the object to be removed.
 	 * @return success or failure.
@@ -102,6 +106,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @param id the id of the object to be removed.
 	 * @return success or failure.
 	 */
+	@SuppressWarnings("unchecked")
 	public T remove(String removeId) {
 		
 		if (removeId != null && removeId.trim().length() == 0) {
@@ -202,7 +207,50 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#getElementName()
+	 * @see org.sbml.jsbml.SBase#equals(org.sbml.jsbml.SBase)
+	 */
+	// @Override
+	public boolean equals(SBase sbase) {
+		if (sbase instanceof ListOf<?>) {
+			ListOf<?> listOf = (ListOf<?>) sbase;
+			return listOf.containsAll(this) && this.containsAll(listOf);
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier)
+	 */
+	public List<CVTerm> filterCVTerms(Qualifier qualifier) {
+		LinkedList<CVTerm> l = new LinkedList<CVTerm>();
+		for (CVTerm term : getAnnotation().getListOfCVTerms()) {
+			if (term.isBiologicalQualifier()
+					&& term.getBiologicalQualifierType() == qualifier)
+				l.add(term);
+			else if (term.isModelQualifier()
+					&& term.getModelQualifierType() == qualifier)
+				l.add(term);
+		}
+		return l;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier, java.lang.String)
+	 */
+	public List<String> filterCVTerms(Qualifier qualifier, String pattern) {
+		List<String> l = new LinkedList<String>();
+		for (CVTerm c : filterCVTerms(qualifier))
+			l.addAll(c.filterResources(pattern));
+		return l;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jlibsbml.SBase#getAnnotationString()
 	 */
 	public String getElementName() {
 		String name = getSBaseListType().toString();
@@ -362,6 +410,15 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public Object[] toArray() {
 		return listOf.toArray();
+	}
+
+
+	/**
+	 * 
+	 * @param l
+	 */
+	public void removeChangeListener(SBaseChangedListener l) {
+		setOfListeners.remove(l);
 	}
 
 	/*

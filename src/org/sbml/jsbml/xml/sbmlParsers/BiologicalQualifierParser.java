@@ -36,6 +36,7 @@ import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.CVTerm.Qualifier;
+import org.sbml.jsbml.CVTerm.Type;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
@@ -122,7 +123,7 @@ public class BiologicalQualifierParser implements ReadingParser{
 			// initialised CVTerm to annotation.
 			if (biologicalQualifierMap.containsKey(elementName) && !hasAttributes && !hasNamespaces){
 				CVTerm cvTerm = new CVTerm();
-				cvTerm.setQualifierType(Qualifier.BIOLOGICAL_QUALIFIER);
+				cvTerm.setQualifierType(Type.BIOLOGICAL_QUALIFIER);
 				cvTerm.setBiologicalQualifierType(biologicalQualifierMap.get(elementName));
 				
 				annotation.addCVTerm(cvTerm);
