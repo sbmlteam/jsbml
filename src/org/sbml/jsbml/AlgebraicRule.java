@@ -34,9 +34,8 @@ import java.util.HashMap;
 
 /**
  * Represents the algebraicRule XML element of a SBML file.
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * 
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class AlgebraicRule extends Rule {
@@ -47,9 +46,10 @@ public class AlgebraicRule extends Rule {
 	public AlgebraicRule() {
 		super();
 	}
-	
+
 	/**
 	 * Creates an AlgebraicRule instance from math, level and version.
+	 * 
 	 * @param math
 	 * @param level
 	 * @param version
@@ -60,6 +60,7 @@ public class AlgebraicRule extends Rule {
 
 	/**
 	 * Creates an AlgebraicRule instance from level and version.
+	 * 
 	 * @param level
 	 * @param version
 	 */
@@ -69,6 +70,7 @@ public class AlgebraicRule extends Rule {
 
 	/**
 	 * Creates an AlgebraicRule instance from a given MathContainer instance.
+	 * 
 	 * @param sb
 	 */
 	public AlgebraicRule(MathContainer sb) {
@@ -87,6 +89,7 @@ public class AlgebraicRule extends Rule {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.Rule#isCompartmentVolume()
 	 */
 	@Override
@@ -96,6 +99,7 @@ public class AlgebraicRule extends Rule {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.Rule#isParameter()
 	 */
 	@Override
@@ -105,6 +109,7 @@ public class AlgebraicRule extends Rule {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.Rule#isScalar()
 	 */
 	@Override
@@ -114,6 +119,7 @@ public class AlgebraicRule extends Rule {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.Rule#isSpeciesConcentration()
 	 */
 	@Override
@@ -123,17 +129,22 @@ public class AlgebraicRule extends Rule {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.element.Rule#readAttribute(String attributeName, String prefix, String value)
+	 * 
+	 * @see org.sbml.jsbml.element.Rule#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
 		return isAttributeRead;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.Rule#writeXMLAttributes()
 	 */
 	@Override

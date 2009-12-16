@@ -43,9 +43,7 @@ import org.sbml.jsbml.util.TextFormula;
  * A node in the Abstract Syntax Tree (AST) representation of a mathematical
  * expression.
  * 
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class ASTNode implements TreeNode {
@@ -2127,10 +2125,9 @@ public class ASTNode implements TreeNode {
 	 */
 	public void initDefaults() {
 		type = Type.UNKNOWN;
-		if (listOfNodes == null){
+		if (listOfNodes == null) {
 			listOfNodes = new LinkedList<ASTNode>();
-		}
-		else{
+		} else {
 			listOfNodes.clear();
 		}
 		variable = null;

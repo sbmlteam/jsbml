@@ -32,9 +32,7 @@ package org.sbml.jsbml;
 /**
  * A compiler for abstract syntax trees.
  * 
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * @date 2009-09-27
  */
 public interface ASTNodeCompiler {

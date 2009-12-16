@@ -33,9 +33,8 @@ import java.util.HashMap;
 
 /**
  * Represents the trigger XML element of a SBML file.
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * 
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class Trigger extends MathContainer {
@@ -46,9 +45,10 @@ public class Trigger extends MathContainer {
 	public Trigger() {
 		super();
 	}
-	
+
 	/**
 	 * Creates a Trigger instance from a level and version.
+	 * 
 	 * @param level
 	 * @param version
 	 */
@@ -58,6 +58,7 @@ public class Trigger extends MathContainer {
 
 	/**
 	 * Creates a Trigger instance from a given Trigger.
+	 * 
 	 * @param trigger
 	 */
 	public Trigger(Trigger trigger) {
@@ -73,19 +74,22 @@ public class Trigger extends MathContainer {
 	public Trigger clone() {
 		return new Trigger(this);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#readAttribute(String attributeName, String prefix, String value)
+	 * @see org.sbml.jsbml.element.MathContainer#readAttribute(String
+	 * attributeName, String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
 		return isAttributeRead;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -94,7 +98,7 @@ public class Trigger extends MathContainer {
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
+
 		return attributes;
 	}
 }

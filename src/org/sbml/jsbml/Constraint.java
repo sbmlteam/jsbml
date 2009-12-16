@@ -34,9 +34,7 @@ import java.util.HashMap;
 
 /**
  * Represents the constraint XML element of a SBML file.
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * 
  * @author marine
  * 

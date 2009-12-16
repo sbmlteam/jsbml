@@ -775,9 +775,8 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#getCVTerms()
 	 */
 	public List<CVTerm> getCVTerms() {
-		if (isSetAnnotation()){
+		if (isSetAnnotation())
 			return annotation.getListOfCVTerms();
-		}
 		return null;
 	}
 	

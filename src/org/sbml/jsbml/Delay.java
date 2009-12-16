@@ -33,9 +33,7 @@ import java.util.HashMap;
 
 /**
  * Represents the delay subnode of an event element.
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class Delay extends MathContainer {

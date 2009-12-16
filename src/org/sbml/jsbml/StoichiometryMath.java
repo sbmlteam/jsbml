@@ -31,12 +31,10 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
-
 /**
  * Contains the MathMl expression of the Stoichiometry.
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * 
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class StoichiometryMath extends MathContainer {
@@ -47,9 +45,10 @@ public class StoichiometryMath extends MathContainer {
 	public StoichiometryMath() {
 		super();
 	}
-	
+
 	/**
 	 * Creates a StoichiometryMath instance from a level and version.
+	 * 
 	 * @param level
 	 * @param version
 	 */
@@ -59,6 +58,7 @@ public class StoichiometryMath extends MathContainer {
 
 	/**
 	 * Creates a StoichiometryMath instance from a given StoichiometryMath.
+	 * 
 	 * @param stoichiometryMath
 	 */
 	public StoichiometryMath(StoichiometryMath stoichiometryMath) {
@@ -74,28 +74,31 @@ public class StoichiometryMath extends MathContainer {
 	public StoichiometryMath clone() {
 		return new StoichiometryMath(this);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
 		return isAttributeRead;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes() 
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
+
 		return attributes;
 	}
 }

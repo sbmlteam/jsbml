@@ -32,61 +32,61 @@ package org.sbml.jsbml;
 import java.util.HashMap;
 
 /**
- * The base class of {@link SpeciesReference} and {@link ModifierSpeciesReference}.
- * @author <a href="mailto:simon.schaefer@uni-tuebingen.de">Simon
- *         Sch&auml;fer</a>
- * @author marine 
+ * The base class of {@link SpeciesReference} and
+ * {@link ModifierSpeciesReference}.
+ * 
+ * @author Simon Sch&auml;fer
+ * @author marine
  */
 public abstract class SimpleSpeciesReference extends Symbol {
-	
+
 	/**
 	 * Represents the 'species' XML attribute.
 	 */
 	private String speciesID;
 
-
 	/**
-	 * Creates a SimpleSpeciesReference instance. By default, the speciesId is null.
+	 * Creates a SimpleSpeciesReference instance. By default, the speciesId is
+	 * null.
 	 */
 	public SimpleSpeciesReference() {
 		super();
 		this.speciesID = null;
-		
+
 	}
 
-	
 	/**
-	 * Creates a SimpleSpeciesReference instance from a given SimpleSpeciesReference.
+	 * Creates a SimpleSpeciesReference instance from a given
+	 * SimpleSpeciesReference.
+	 * 
 	 * @param ssr
 	 */
 	public SimpleSpeciesReference(SimpleSpeciesReference ssr) {
 		super(ssr);
-		if (ssr.isSetSpeciesInstance()){
+		if (ssr.isSetSpeciesInstance()) {
 			this.speciesID = new String(ssr.getSpecies());
-		}
-		else{
+		} else {
 			this.speciesID = null;
 		}
 	}
 
 	/**
 	 * Creates a SimpleSpeciesReference instance from a given Species.
+	 * 
 	 * @param ssr
 	 */
 	public SimpleSpeciesReference(Species s) {
 		super(s);
-		if (s.isSetId()){
+		if (s.isSetId()) {
 			this.speciesID = new String(s.getId());
-		}
-		else {
+		} else {
 			this.speciesID = null;
 		}
 	}
-	
+
 	public SimpleSpeciesReference(int level, int version) {
 		super(level, version);
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -96,26 +96,27 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	// @Override
 	public boolean equals(Object o) {
 		boolean equal = super.equals(o);
-		
-		//System.out.println("SimplespeciesReference : equals : super.equals = " + equal);
-		
+
+		//System.out.println("SimplespeciesReference : equals : super.equals = "
+		// + equal);
+
 		if (o.getClass().getName().equals(getClass().getName())) {
 			SimpleSpeciesReference ssr = (SimpleSpeciesReference) o;
-		
+
 			if ((!isSetSpecies() && ssr.isSetSpecies())
-					|| (isSetSpecies() && !ssr.isSetSpecies())){
+					|| (isSetSpecies() && !ssr.isSetSpecies())) {
 				return false;
-				
-			}
-			else if (isSetSpecies() && ssr.isSetSpecies()){
+
+			} else if (isSetSpecies() && ssr.isSetSpecies()) {
 				equal &= ssr.getSpecies().equals(speciesID);
-				// System.out.println("SimplespeciesReference : speciesRef =  " + ssr.getSpecies() + ", " + speciesID);
-		}
+				// System.out.println("SimplespeciesReference : speciesRef =  "
+				// + ssr.getSpecies() + ", " + speciesID);
+			}
 
 		} else {
 			equal = false;
 		}
-		
+
 		return equal;
 	}
 
@@ -139,10 +140,11 @@ public abstract class SimpleSpeciesReference extends Symbol {
 
 	/**
 	 * 
-	 * @return The Species instance which has the speciesID of this SimpleSpeciesReference as id. Can be null if it doesn't exist.
+	 * @return The Species instance which has the speciesID of this
+	 *         SimpleSpeciesReference as id. Can be null if it doesn't exist.
 	 */
 	public Species getSpeciesInstance() {
-		if (getModel() == null){
+		if (getModel() == null) {
 			return null;
 		}
 		return getModel().getSpecies(this.speciesID);
@@ -150,15 +152,16 @@ public abstract class SimpleSpeciesReference extends Symbol {
 
 	/**
 	 * 
-	 * @return true if the Species instance which has the speciesID of this SimpleSpeciesReference as id is not null.
+	 * @return true if the Species instance which has the speciesID of this
+	 *         SimpleSpeciesReference as id is not null.
 	 */
 	public boolean isSetSpeciesInstance() {
-		if (getModel() == null){
+		if (getModel() == null) {
 			return false;
 		}
 		return getModel().getSpecies(this.speciesID) != null;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if ths speciesID of this SimpleSpeciesReference is not null.
@@ -169,24 +172,26 @@ public abstract class SimpleSpeciesReference extends Symbol {
 
 	/**
 	 * Sets the speciesID to the id of the Species 'species'.
+	 * 
 	 * @param spec
 	 */
 	public void setSpecies(Species spec) {
 		this.speciesID = spec != null ? spec.getId() : null;
 		stateChanged();
 	}
-	
+
 	/**
 	 * Sets the speciesID to 'spec'.
+	 * 
 	 * @param spec
 	 */
 	public void setSpecies(String spec) {
 		if (spec != null && spec.trim().length() == 0) {
 			speciesID = null;
 		} else {
-			speciesID = spec;	
+			speciesID = spec;
 		}
-		
+
 		stateChanged();
 	}
 
@@ -200,32 +205,36 @@ public abstract class SimpleSpeciesReference extends Symbol {
 			return getName();
 		if (isSetId())
 			return getId();
-		if (isSetSpeciesInstance()){
+		if (isSetSpeciesInstance()) {
 			return getSpeciesInstance().toString();
 		}
 		return null;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
-		if (!isAttributeRead){
-			if (attributeName.equals("species") && ((getLevel() == 1 && getVersion() == 2) || getLevel() > 1)){
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("species")
+					&& ((getLevel() == 1 && getVersion() == 2) || getLevel() > 1)) {
 				this.setSpecies(value);
-			}
-			else if (attributeName.equals("specie") && getLevel() == 1 && getVersion() == 1){
+			} else if (attributeName.equals("specie") && getLevel() == 1
+					&& getVersion() == 1) {
 				this.setSpecies(value);
 			}
 		}
 		return isAttributeRead;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -234,16 +243,15 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
-		if (isSetSpecies()){
-			if ((getLevel() == 1 && getVersion() == 2) || getLevel() > 1){
+
+		if (isSetSpecies()) {
+			if ((getLevel() == 1 && getVersion() == 2) || getLevel() > 1) {
 				attributes.put("species", getSpecies());
-			}
-			else if (getLevel() == 1 && getVersion() == 1){
+			} else if (getLevel() == 1 && getVersion() == 1) {
 				attributes.put("specie", getSpecies());
 			}
 		}
-		
+
 		return attributes;
 	}
 }
