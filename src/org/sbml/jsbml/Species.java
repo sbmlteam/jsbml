@@ -115,7 +115,7 @@ public class Species extends Symbol {
 			this.boundaryCondition = null;
 		}
 		if (species.isSetCharge()){
-			this.charge = new Integer(species.getCharge());
+			this.charge = Integer.valueOf(species.getCharge());
 		}
 		else {
 			this.charge = null;
@@ -409,7 +409,7 @@ public class Species extends Symbol {
 	 * Initialises the default values of this Species.
 	 */
 	public void initDefaults() {
-		charge = new Integer(0);
+		charge = Integer.valueOf(0);
 		amountOrConcentration = new Boolean(true);
 		hasOnlySubstanceUnits = new Boolean(false);
 		boundaryCondition = new Boolean(false);
@@ -619,7 +619,7 @@ public class Species extends Symbol {
 	 * Sets the initialAmount of this Species.
 	 * @param initialAmount
 	 */
-	public void setInitialAmount(Double initialAmount) {
+	public void setInitialAmount(double initialAmount) {
 		setValue(initialAmount);
 		amountOrConcentration = true;
 	}
@@ -628,7 +628,7 @@ public class Species extends Symbol {
 	 * Sets the initialConcentration of this Species.
 	 * @param initialConcentration
 	 */
-	public void setInitialConcentration(Double initialConcentration) {
+	public void setInitialConcentration(double initialConcentration) {
 		setValue(initialConcentration);
 		amountOrConcentration = false;
 	}

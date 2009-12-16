@@ -100,7 +100,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
 			this.constant = null;
 		}
 		if (speciesReference.isSetDenominator){
-			this.denominator = new Integer(speciesReference.getDenominator());
+			this.denominator = Integer.valueOf(speciesReference.getDenominator());
 		}
 		else {
 			this.denominator = null;
@@ -180,7 +180,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
 	 * Sets the stoichiometry of this SpeciesReference.
 	 * @param stoichiometry
 	 */
-	public void setStoichiometry(Double stoichiometry) {
+	public void setStoichiometry(double stoichiometry) {
 		this.stoichiometry = stoichiometry;
 		if (isSetStoichiometryMath()){
 			stoichiometryMath = null;
