@@ -32,8 +32,12 @@ package org.sbml.jsbml;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.sbml.jsbml.util.StringTools;
+
 /**
- * Contains all the miriam URIs for a miriam qualifier in the annotation element of a SBML component.
+ * Contains all the miriam URIs for a miriam qualifier in the annotation element
+ * of a SBML component.
+ * 
  * @author Andreas Dr&auml;ger <a
  *         href="mailto:andreas.draeger@uni-tuebingen.de">
  *         andreas.draeger@uni-tuebingen.de</a>
@@ -44,21 +48,25 @@ import java.util.List;
 public class CVTerm {
 
 	/**
-	 * Represents the type of Miriam qualifier for this CVTerm. It depends on the namespace in the SBML file,
-	 * it can be a model qualifier or a biological qualifier.
+	 * Represents the type of Miriam qualifier for this CVTerm. It depends on
+	 * the namespace in the SBML file, it can be a model qualifier or a
+	 * biological qualifier.
 	 */
 	private Qualifier type;
 	/**
-	 * Represents the Miriam qualifier node in the annotation node of a SBML component.
+	 * Represents the Miriam qualifier node in the annotation node of a SBML
+	 * component.
 	 */
 	private Qualifier typeQualifier;
 	/**
-	 * Contains all the Miriam URI associated with the typeQualifier of this CVTerm instance.
+	 * Contains all the Miriam URI associated with the typeQualifier of this
+	 * CVTerm instance.
 	 */
 	private List<String> resourceURIs;
 
 	/**
 	 * This enum list all the possible Miriam qualifiers.
+	 * 
 	 * @author Andreas Dr&auml;ger <a
 	 *         href="mailto:andreas.draeger@uni-tuebingen.de"
 	 *         >andreas.draeger@uni-tuebingen.de</a>
@@ -136,8 +144,8 @@ public class CVTerm {
 	}
 
 	/**
-	 * Creates a CVTerm instance. By default, the type and typeQualifier of this CVTerm are null.
-	 * The list of resourceURIS is empty.
+	 * Creates a CVTerm instance. By default, the type and typeQualifier of this
+	 * CVTerm are null. The list of resourceURIS is empty.
 	 */
 	public CVTerm() {
 		type = null;
@@ -146,8 +154,9 @@ public class CVTerm {
 	}
 
 	/**
-	 * Creates a CVTerm instance from a given CVTerm. 
-	 * @param  term
+	 * Creates a CVTerm instance from a given CVTerm.
+	 * 
+	 * @param term
 	 */
 	public CVTerm(CVTerm term) {
 		this.type = term.getQualifierType();
@@ -163,40 +172,41 @@ public class CVTerm {
 			break;
 		}
 		resourceURIs = new LinkedList<String>();
-		for (int i = 0; i < term.getNumResources(); i++){
+		for (int i = 0; i < term.getNumResources(); i++) {
 			String resource = term.getResourceURI(i);
-			if (resource != null){
+			if (resource != null) {
 				resourceURIs.add(new String(term.getResourceURI(i)));
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param o
 	 * @return true if the CVTerm 'o' is equal to this CVterm.
 	 */
-	public boolean equals(CVTerm o){
+	public boolean equals(CVTerm o) {
 		boolean equal = getQualifierType() == o.getQualifierType();
-		
-		if (equal){
-			equal &= getBiologicalQualifierType() == o.getBiologicalQualifierType();
-			if (equal){
+
+		if (equal) {
+			equal &= getBiologicalQualifierType() == o
+					.getBiologicalQualifierType();
+			if (equal) {
 				equal &= getModelQualifierType() == o.getModelQualifierType();
-				if (equal){
+				if (equal) {
 					equal &= getNumResources() == o.getNumResources();
-					if (equal){
-						for (int i = 0; i < getNumResources(); i++){
+					if (equal) {
+						for (int i = 0; i < getNumResources(); i++) {
 							String resource1 = getResourceURI(i);
 							String resource2 = o.getResourceURI(i);
-							
-							if (resource1 != null && resource2 != null){
+
+							if (resource1 != null && resource2 != null) {
 								equal &= resource1.equals(resource2);
-								if (!equal){
+								if (!equal) {
 									return false;
 								}
-							}
-							else if ((resource1 == null && resource2 != null) || (resource2 == null && resource1 != null)) {
+							} else if ((resource1 == null && resource2 != null)
+									|| (resource2 == null && resource1 != null)) {
 								return false;
 							}
 						}
@@ -212,7 +222,7 @@ public class CVTerm {
 	 * @return the Biological QualifierType code for this CVTerm.
 	 */
 	public Qualifier getBiologicalQualifierType() {
-		if (type == Qualifier.BIOLOGICAL_QUALIFIER){
+		if (type == Qualifier.BIOLOGICAL_QUALIFIER) {
 			return typeQualifier;
 		}
 		return null;
@@ -223,7 +233,7 @@ public class CVTerm {
 	 * @return the Model QualifierType code for this CVTerm.
 	 */
 	public Qualifier getModelQualifierType() {
-		if (type == Qualifier.MODEL_QUALIFIER){
+		if (type == Qualifier.MODEL_QUALIFIER) {
 			return typeQualifier;
 		}
 		return null;
@@ -247,7 +257,8 @@ public class CVTerm {
 
 	/**
 	 * 
-	 * @param  n : index of the resourceURI in the list of the resourceURI.
+	 * @param n
+	 *            : index of the resourceURI in the list of the resourceURI.
 	 * @return the value of the nth resource for this CVTerm.
 	 */
 	public String getResourceURI(int i) {
@@ -256,8 +267,9 @@ public class CVTerm {
 
 	/**
 	 * 
-	 * @param  uri
-	 * @return true if 'uri' has been added to the list of resourceURI of this CVTerm.
+	 * @param uri
+	 * @return true if 'uri' has been added to the list of resourceURI of this
+	 *         CVTerm.
 	 */
 	public boolean addResourceURI(String uri) {
 		return resourceURIs.add(uri);
@@ -266,11 +278,11 @@ public class CVTerm {
 	/**
 	 * Removes a resource from the CVTerm.
 	 * 
-	 * @param  resource
+	 * @param resource
 	 */
 	public void removeResource(String resource) {
 		for (int i = resourceURIs.size(); i >= 0; i--) {
-			if (resourceURIs.get(i).equals(resource)){
+			if (resourceURIs.get(i).equals(resource)) {
 				resourceURIs.remove(i);
 			}
 		}
@@ -279,17 +291,16 @@ public class CVTerm {
 	/**
 	 * Sets the #BiolQualifierType_t of this CVTerm.
 	 * 
-	 * @param  type
+	 * @param type
 	 */
 	public void setBiologicalQualifierType(Qualifier type) {
-		if (type != null){
+		if (type != null) {
 			if (type.toString().startsWith("BQB")) {
-				if (this.type == Qualifier.BIOLOGICAL_QUALIFIER){
+				if (this.type == Qualifier.BIOLOGICAL_QUALIFIER) {
 					this.typeQualifier = type;
-				}
-				else {
+				} else {
 					throw new IllegalArgumentException(
-					"Biological qualifiers can only be applyed if the type is set to Biological Qualifier.");
+							"Biological qualifiers can only be applyed if the type is set to Biological Qualifier.");
 				}
 			} else {
 				throw new IllegalArgumentException(type.toString()
@@ -301,14 +312,13 @@ public class CVTerm {
 	/**
 	 * Sets the ModelQualifierType_t value of this CVTerm.
 	 * 
-	 * @param  type
+	 * @param type
 	 */
 	public void setModelQualifierType(Qualifier type) {
-		if (type != null){
-			if (type.toString().startsWith("BQM")){
+		if (type != null) {
+			if (type.toString().startsWith("BQM")) {
 				typeQualifier = type;
-			}
-			else{
+			} else {
 				throw new IllegalArgumentException(type.toString()
 						+ " is not a valid model qualifier.");
 			}
@@ -317,7 +327,8 @@ public class CVTerm {
 
 	/**
 	 * sets the type of this CVTerm to 'type'
-	 * @param  type
+	 * 
+	 * @param type
 	 */
 	public void setQualifierType(Qualifier type) {
 		if (type == Qualifier.MODEL_QUALIFIER
@@ -326,7 +337,7 @@ public class CVTerm {
 			this.type = type;
 			this.typeQualifier = type == Qualifier.MODEL_QUALIFIER ? Qualifier.BQM_UNKNOWN
 					: Qualifier.BQB_UNKNOWN;
-		} else{
+		} else {
 			throw new IllegalArgumentException(type.toString()
 					+ " is not a valid qualifier.");
 		}
@@ -356,12 +367,12 @@ public class CVTerm {
 			eq &= t.getBiologicalQualifierType() == typeQualifier
 					|| t.getModelQualifierType() == typeQualifier;
 			eq &= t.getNumResources() == getNumResources();
-			
-			if (eq){
-				for (int i = 0; i < t.getNumResources(); i++){
+
+			if (eq) {
+				for (int i = 0; i < t.getNumResources(); i++) {
 					String resource1 = getResourceURI(i);
 					String resource2 = t.getResourceURI(i);
-					if (!resource1.equals(resource2)){
+					if (!resource1.equals(resource2)) {
 						eq = false;
 						break;
 					}
@@ -371,25 +382,27 @@ public class CVTerm {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * writes all the MIRIAM annotations of the CVTerm in 'buffer'
+	 * 
 	 * @param indent
 	 * @param buffer
 	 */
-	public void toXML(String indent, StringBuffer buffer){
-		
-		if (resourceURIs != null){
-			
-			for (int i = 0; i < getNumResources(); i++){
+	public void toXML(String indent, StringBuffer buffer) {
+		if (resourceURIs != null) {
+			for (int i = 0; i < getNumResources(); i++) {
 				String resourceURI = getResourceURI(i);
-				buffer.append(indent).append("<rdf:li rdf:resource=").append('"').append(resourceURI).append('"').append("/> \n");
+				StringTools.append(buffer, "<rdf:li rdf:resource=\"",
+						resourceURI, "\"/>");
+				buffer.append(StringTools.newLine());
 			}
 		}
 	}
 
 	/**
-	 * @return a String containing the qualifier and all the resource URIs of this CVTerm.
+	 * @return a String containing the qualifier and all the resource URIs of
+	 *         this CVTerm.
 	 */
 	public String toString() {
 		StringBuilder buffer = new StringBuilder();
@@ -452,11 +465,11 @@ public class CVTerm {
 			break;
 		}
 		int i = 0;
-		if (resourceURIs.size() > 0){
+		if (resourceURIs.size() > 0) {
 			buffer.append(' ');
 		}
 		for (String uri : resourceURIs) {
-			if (i > 0){
+			if (i > 0) {
 				buffer.append(", ");
 			}
 			buffer.append(uri);
@@ -464,15 +477,18 @@ public class CVTerm {
 		buffer.append('.');
 		return buffer.toString();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String elementName, String attributeName, String prefix, String value)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String elementName,
+	 * String attributeName, String prefix, String value)
 	 */
-	public boolean readAttribute(String elementName, String attributeName, String prefix, String value){
-	
-		if (elementName.equals("li")){
-			if (attributeName.equals("resource")){
+	public boolean readAttribute(String elementName, String attributeName,
+			String prefix, String value) {
+
+		if (elementName.equals("li")) {
+			if (attributeName.equals("resource")) {
 				addResourceURI(value);
 				return true;
 			}
