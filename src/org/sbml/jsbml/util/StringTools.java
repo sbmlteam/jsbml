@@ -96,4 +96,8 @@ public class StringTools {
 		return Double.toString(value);
 	}
 
+	public static String newLine() {
+		return System.getProperty("line.separator");
+	}
+
 }
