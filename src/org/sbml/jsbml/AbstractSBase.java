@@ -114,8 +114,8 @@ public abstract class AbstractSBase implements SBase {
 		notes = null;
 		parentSBMLObject = null;
 		setOfListeners = new HashSet<SBaseChangedListener>();
-		this.level = new Integer(level);
-		this.version = new Integer(version);
+		this.level = Integer.valueOf(level);
+		this.version = Integer.valueOf(version);
 		this.annotation = null;
 		this.extensions = new HashMap<String, SBase>();
 	}
@@ -153,13 +153,13 @@ public abstract class AbstractSBase implements SBase {
 			this.setOfListeners.addAll(((ListOf<?>) sb).setOfListeners);
 		}
 		if (sb.isSetLevel()){
-			this.level = new Integer(sb.getLevel());
+			this.level = Integer.valueOf(sb.getLevel());
 		}
 		else {
 			this.level = null;
 		}
 		if (sb.isSetVersion()){
-			this.version = new Integer(sb.getVersion());
+			this.version = Integer.valueOf(sb.getVersion());
 		}
 		else {
 			this.version = null;

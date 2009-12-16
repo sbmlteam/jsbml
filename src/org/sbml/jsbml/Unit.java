@@ -83,9 +83,9 @@ public class Unit extends AbstractSBase {
 			int level, int version) {
 		super(level, version);
 		this.multiplier = new Double(multiplier);
-		this.scale = new Integer(scale);
+		this.scale = Integer.valueOf(scale);
 		this.kind = kind;
-		this.exponent = new Integer(exponent);
+		this.exponent = Integer.valueOf(exponent);
 		this.offset = null;
 	}
 
@@ -175,7 +175,7 @@ public class Unit extends AbstractSBase {
 	public Unit(Unit unit) {
 		super(unit);
 		if (unit.isSetExponent()) {
-			this.exponent = new Integer(unit.getExponent());
+			this.exponent = Integer.valueOf(unit.getExponent());
 		} else {
 			this.exponent = null;
 		}
@@ -195,7 +195,7 @@ public class Unit extends AbstractSBase {
 			this.offset = null;
 		}
 		if (unit.isSetScale()) {
-			this.scale = new Integer(unit.getScale());
+			this.scale = Integer.valueOf(unit.getScale());
 		} else {
 			this.scale = null;
 		}
@@ -940,8 +940,8 @@ public class Unit extends AbstractSBase {
 	 * The 'kind' attribute is left unchanged.
 	 */
 	public void initDefaults() {
-		exponent = new Integer(1);
-		scale = new Integer(0);
+		exponent = Integer.valueOf(1);
+		scale = Integer.valueOf(0);
 		multiplier = new Double(1);
 		offset = new Double(0);
 		kind = null;
