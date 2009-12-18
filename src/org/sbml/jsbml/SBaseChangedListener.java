@@ -30,6 +30,9 @@
 package org.sbml.jsbml;
 
 /**
+ * A listener interface that allows applications to get notified if the state of
+ * any SBase object changes.
+ * 
  * @author Andreas Dr&auml;ger
  * 
  */

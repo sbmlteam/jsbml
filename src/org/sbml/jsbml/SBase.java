@@ -60,7 +60,7 @@ public interface SBase {
 	public void appendNotes(String notes);
 
 	/**
-	 *
+	 * 
 	 * Creates a copy of this object, i.e., e new SBase with the same properties
 	 * like this one and returns a pointer to it.
 	 * 
@@ -97,7 +97,6 @@ public interface SBase {
 	 * @return
 	 */
 	public List<String> filterCVTerms(Qualifier qualifier, String pattern);
-
 
 	/**
 	 * @return the content of the 'annotation' subelement of this object as an

@@ -111,7 +111,6 @@ public class Reaction extends AbstractNamedSBase {
 	 * 
 	 * @param reaction
 	 */
-	@SuppressWarnings("unchecked")
 	public Reaction(Reaction reaction) {
 		super(reaction);
 		if (reaction.isSetFast()) {

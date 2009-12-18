@@ -34,16 +34,17 @@ import java.util.List;
 
 import org.sbml.jsbml.xml.stax.SBaseListType;
 
-
 /**
  * Represents the kineticLaw XML element of a SBML file.
+ * 
  * @author Andreas Dr&auml;ger
  * @author marine
  */
 public class KineticLaw extends MathContainer {
 
 	/**
-	 * Represents the listOfLocalParameters or listOfParameters subelement of a kineticLaw element.
+	 * Represents the listOfLocalParameters or listOfParameters subelement of a
+	 * kineticLaw element.
 	 */
 	private ListOf<Parameter> listOfParameters;
 	/**
@@ -58,7 +59,8 @@ public class KineticLaw extends MathContainer {
 	private String substanceUnitsID;
 
 	/**
-	 * Creates a KineticLaw instance. By default, this listOfParameters, the timeUnitsID and substanceUnitsID are null.
+	 * Creates a KineticLaw instance. By default, this listOfParameters, the
+	 * timeUnitsID and substanceUnitsID are null.
 	 */
 	public KineticLaw() {
 		super();
@@ -66,9 +68,11 @@ public class KineticLaw extends MathContainer {
 		this.timeUnitsID = null;
 		this.substanceUnitsID = null;
 	}
-	
+
 	/**
-	 * Creates a KineticLaw instance from a level and version. By default, this listOfParameters, the timeUnitsID and substanceUnitsID are null.
+	 * Creates a KineticLaw instance from a level and version. By default, this
+	 * listOfParameters, the timeUnitsID and substanceUnitsID are null.
+	 * 
 	 * @param level
 	 * @param version
 	 */
@@ -81,33 +85,32 @@ public class KineticLaw extends MathContainer {
 
 	/**
 	 * Creates a KineticLaw instance from a given KineticLaw.
+	 * 
 	 * @param kineticLaw
 	 */
-	@SuppressWarnings("unchecked")
 	public KineticLaw(KineticLaw kineticLaw) {
 		super(kineticLaw);
-		if (kineticLaw.isSetListOfParameters()){
-			setListOfLocalParameters((ListOf<Parameter>) kineticLaw.getListOfParameters().clone());
-		}
-		else {
+		if (kineticLaw.isSetListOfParameters()) {
+			setListOfLocalParameters((ListOf<Parameter>) kineticLaw
+					.getListOfParameters().clone());
+		} else {
 			listOfParameters = null;
 		}
-		if (kineticLaw.isSetTimeUnits()){
+		if (kineticLaw.isSetTimeUnits()) {
 			this.timeUnitsID = new String(kineticLaw.getTimeUnits());
-		}
-		else {
+		} else {
 			timeUnitsID = null;
 		}
-		if (kineticLaw.isSetSubstanceUnits()){
+		if (kineticLaw.isSetSubstanceUnits()) {
 			this.substanceUnitsID = new String(kineticLaw.getSubstanceUnits());
-		}
-		else {
+		} else {
 			substanceUnitsID = null;
 		}
 	}
 
 	/**
 	 * Creates a KineticLaw instance from a given Reaction.
+	 * 
 	 * @param parentReaction
 	 */
 	public KineticLaw(Reaction parentReaction) {
@@ -118,14 +121,13 @@ public class KineticLaw extends MathContainer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.sbml.jsbml.element.SBase#addChangeListener(org.sbml.squeezer.io.SBaseChangedListener
-	 * )
+	 * @seeorg.sbml.jsbml.element.SBase#addChangeListener(org.sbml.squeezer.io.
+	 * SBaseChangedListener )
 	 */
 	// @Override
 	public void addChangeListener(SBaseChangedListener l) {
 		super.addChangeListener(l);
-		if (isSetListOfParameters()){
+		if (isSetListOfParameters()) {
 			listOfParameters.addChangeListener(l);
 		}
 	}
@@ -137,7 +139,7 @@ public class KineticLaw extends MathContainer {
 	 * @param p
 	 */
 	public void addParameter(Parameter parameter) {
-		if (!isSetListOfParameters()){
+		if (!isSetListOfParameters()) {
 			this.listOfParameters = new ListOf<Parameter>();
 			setThisAsParentSBMLObject(this.listOfParameters);
 		}
@@ -168,24 +170,24 @@ public class KineticLaw extends MathContainer {
 		if (o instanceof KineticLaw) {
 			KineticLaw kl = (KineticLaw) o;
 			if ((!kl.isSetListOfParameters() && isSetListOfParameters())
-					|| (kl.isSetListOfParameters() && !isSetListOfParameters())){
+					|| (kl.isSetListOfParameters() && !isSetListOfParameters())) {
 				return false;
 			}
-			if (kl.isSetListOfParameters() && isSetListOfParameters()){
+			if (kl.isSetListOfParameters() && isSetListOfParameters()) {
 				equal &= kl.getListOfParameters().equals(getListOfParameters());
 			}
 			if ((!kl.isSetTimeUnits() && isSetTimeUnits())
-					|| (kl.isSetTimeUnits() && !isSetTimeUnits())){
+					|| (kl.isSetTimeUnits() && !isSetTimeUnits())) {
 				return false;
 			}
-			if (kl.isSetTimeUnits() && isSetTimeUnits()){
+			if (kl.isSetTimeUnits() && isSetTimeUnits()) {
 				equal &= kl.getTimeUnits().equals(getTimeUnits());
 			}
 			if ((!kl.isSetSubstanceUnits() && isSetSubstanceUnits())
-					|| (kl.isSetSubstanceUnits() && !isSetSubstanceUnits())){
+					|| (kl.isSetSubstanceUnits() && !isSetSubstanceUnits())) {
 				return false;
 			}
-			if (kl.isSetSubstanceUnits() && isSetSubstanceUnits()){
+			if (kl.isSetSubstanceUnits() && isSetSubstanceUnits()) {
 				equal &= kl.getSubstanceUnits().equals(getSubstanceUnits());
 			}
 			return equal;
@@ -196,21 +198,23 @@ public class KineticLaw extends MathContainer {
 
 	/**
 	 * 
-	 * @return the listOfParameters of this KineticLaw. Return null if it is not set.
+	 * @return the listOfParameters of this KineticLaw. Return null if it is not
+	 *         set.
 	 */
 	public ListOf<Parameter> getListOfParameters() {
 		return listOfParameters;
 	}
-	
+
 	/**
 	 * 
-	 * @return the timeUnitsID of this KineticLaw. Return the empty String if it is not set.
+	 * @return the timeUnitsID of this KineticLaw. Return the empty String if it
+	 *         is not set.
 	 */
 	@Deprecated
 	public String getTimeUnits() {
 		return isSetTimeUnits() ? this.timeUnitsID : "";
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the timeUnitsID of this KineticLaw is not null.
@@ -219,40 +223,43 @@ public class KineticLaw extends MathContainer {
 	public boolean isSetTimeUnits() {
 		return this.timeUnitsID != null;
 	}
-	
+
 	/**
 	 * 
-	 * @return the UnitDefinition instance which has the timeUnistID of this KineticLaw as id. Return null if it doesn't exist.
+	 * @return the UnitDefinition instance which has the timeUnistID of this
+	 *         KineticLaw as id. Return null if it doesn't exist.
 	 */
 	@Deprecated
 	public UnitDefinition getTimeUnitsInstance() {
-		if (getModel() == null){
+		if (getModel() == null) {
 			return null;
 		}
 		return getModel().getUnitDefinition(this.timeUnitsID);
 	}
-	
+
 	/**
 	 * 
-	 * @return true if the UnistDefinition instance which has the timeUnitsID of this KineticLaw as id is not null.
+	 * @return true if the UnistDefinition instance which has the timeUnitsID of
+	 *         this KineticLaw as id is not null.
 	 */
 	@Deprecated
 	public boolean isSetTimeUnitsInstance() {
-		if (getModel() == null){
+		if (getModel() == null) {
 			return false;
 		}
 		return getModel().getUnitDefinition(this.timeUnitsID) != null;
 	}
-	
+
 	/**
 	 * 
-	 * @return the substanceUnitsID of this KineticLaw. Return the empty String if it is not set.
+	 * @return the substanceUnitsID of this KineticLaw. Return the empty String
+	 *         if it is not set.
 	 */
 	@Deprecated
 	public String getSubstanceUnits() {
 		return isSetSubstanceUnits() ? this.substanceUnitsID : "";
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the substanceUnitsID of this KineticLaw is not null.
@@ -261,47 +268,49 @@ public class KineticLaw extends MathContainer {
 	public boolean isSetSubstanceUnits() {
 		return this.substanceUnitsID != null;
 	}
-	
+
 	/**
 	 * 
-	 * @return the UnitDefinition instance which has the substanceUnistID of this KineticLaw as id. Return null if it doesn't exist.
+	 * @return the UnitDefinition instance which has the substanceUnistID of
+	 *         this KineticLaw as id. Return null if it doesn't exist.
 	 */
 	@Deprecated
 	public UnitDefinition getSubstanceUnitsInstance() {
-		if (getModel() == null){
+		if (getModel() == null) {
 			return null;
 		}
 		return getModel().getUnitDefinition(this.substanceUnitsID);
 	}
-	
+
 	/**
 	 * 
-	 * @return true if the UnistDefinition instance which has the substanceUnitsID of this KineticLaw as id is not null.
+	 * @return true if the UnistDefinition instance which has the
+	 *         substanceUnitsID of this KineticLaw as id is not null.
 	 */
 	@Deprecated
 	public boolean isSetSubstanceUnitsInstance() {
-		if (getModel() == null){
+		if (getModel() == null) {
 			return false;
 		}
 		return getModel().getUnitDefinition(this.substanceUnitsID) != null;
 	}
-	
+
 	/**
 	 * Unsets the timeUnitsID of this KineticLaw.
 	 */
 	@Deprecated
-	public void unsetTimeUnits(){
+	public void unsetTimeUnits() {
 		this.timeUnitsID = null;
 	}
-	
+
 	/**
 	 * Unsets the sunbstanceUnistID of this KineticLaw.
 	 */
 	@Deprecated
-	public void unsetSubstanceUnits(){
+	public void unsetSubstanceUnits() {
 		this.substanceUnitsID = null;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the listOfParameters of this KineticLaw is not null.
@@ -309,52 +318,60 @@ public class KineticLaw extends MathContainer {
 	public boolean isSetListOfParameters() {
 		return listOfParameters != null;
 	}
-	
+
 	/**
-	 * Sets the listOfParameters of this KineticLaw to 'list'. It automatically sets this as
-	 * parentSBML object of the listOfParameters as well as the Parameter instances in the list.
+	 * Sets the listOfParameters of this KineticLaw to 'list'. It automatically
+	 * sets this as parentSBML object of the listOfParameters as well as the
+	 * Parameter instances in the list.
+	 * 
 	 * @param list
 	 */
-	public void setListOfLocalParameters(ListOf<Parameter> list){
+	public void setListOfLocalParameters(ListOf<Parameter> list) {
 		this.listOfParameters = list;
 		setThisAsParentSBMLObject(this.listOfParameters);
-		this.listOfParameters.setSBaseListType(SBaseListType.listOfLocalParameters);
+		this.listOfParameters
+				.setSBaseListType(SBaseListType.listOfLocalParameters);
 	}
-	
+
 	/**
 	 * Sets the timeUnitsID of this KineticLaw.
+	 * 
 	 * @param timeUnits
 	 */
 	@Deprecated
-	public void setTimeUnits(String timeUnits){
+	public void setTimeUnits(String timeUnits) {
 		this.timeUnitsID = timeUnits;
 	}
-	
+
 	/**
 	 * Sets the substanceUnitsID of this KineticLaw.
+	 * 
 	 * @param substanceUnits
 	 */
 	@Deprecated
-	public void setSubstanceUnits(String substanceUnits){
+	public void setSubstanceUnits(String substanceUnits) {
 		this.substanceUnitsID = substanceUnits;
 	}
-	
+
 	/**
 	 * Sets the timeUnitsID of this KineticLaw.
+	 * 
 	 * @param timeUnits
 	 */
 	@Deprecated
-	public void setTimeUnitsInstance(UnitDefinition timeUnits){
+	public void setTimeUnitsInstance(UnitDefinition timeUnits) {
 		this.timeUnitsID = timeUnits.isSetId() ? timeUnits.getId() : null;
 	}
-	
+
 	/**
 	 * Sets the substanceUnitsID of this KineticLaw.
+	 * 
 	 * @param substanceUnits
 	 */
 	@Deprecated
-	public void setSubstanceUnitsInstance(UnitDefinition substanceUnits){
-		this.substanceUnitsID = substanceUnits.isSetId() ? substanceUnits.getId() : null;
+	public void setSubstanceUnitsInstance(UnitDefinition substanceUnits) {
+		this.substanceUnitsID = substanceUnits.isSetId() ? substanceUnits
+				.getId() : null;
 	}
 
 	/**
@@ -362,7 +379,7 @@ public class KineticLaw extends MathContainer {
 	 * @return the number of local parameters in this KineticLaw instance.
 	 */
 	public int getNumParameters() {
-		if (isSetListOfParameters()){
+		if (isSetListOfParameters()) {
 			return listOfParameters.size();
 		}
 		return 0;
@@ -372,10 +389,10 @@ public class KineticLaw extends MathContainer {
 	 * 
 	 * @param i
 	 * @return the ith Parameter object in the list of local parameters in this
-	 * KineticLaw instance.
+	 *         KineticLaw instance.
 	 */
 	public Parameter getParameter(int i) {
-		if (isSetListOfParameters()){
+		if (isSetListOfParameters()) {
 			return listOfParameters.get(i);
 		}
 		return null;
@@ -387,15 +404,14 @@ public class KineticLaw extends MathContainer {
 	 * @return a local parameter based on its identifier.
 	 */
 	public Parameter getParameter(String id) {
-		if (isSetListOfParameters()){
-			for (Parameter p : listOfParameters){
-				if (p.isSetId()){
+		if (isSetListOfParameters()) {
+			for (Parameter p : listOfParameters) {
+				if (p.isSetId()) {
 					if (p.getId().equals(id)) {
 						return p;
 					}
-				}
-				else if (p.isSetName()){
-					if (p.getName().equals(id)){
+				} else if (p.isSetName()) {
+					if (p.getName().equals(id)) {
 						return p;
 					}
 				}
@@ -422,17 +438,18 @@ public class KineticLaw extends MathContainer {
 	 * @param i
 	 */
 	public void removeParameter(int i) {
-		if (isSetListOfParameters()){
+		if (isSetListOfParameters()) {
 			listOfParameters.remove(i).sbaseRemoved();
 		}
 	}
 
 	/**
 	 * Removes the parameter 'p' from the listOfParameters of this KineticLaw.
+	 * 
 	 * @param p
 	 */
 	public void removeParameter(Parameter p) {
-		if (isSetListOfParameters()){
+		if (isSetListOfParameters()) {
 			listOfParameters.remove(p);
 
 		}
@@ -444,90 +461,103 @@ public class KineticLaw extends MathContainer {
 	 * @param i
 	 */
 	public void removeParameter(String id) {
-		if (isSetListOfParameters()){
+		if (isSetListOfParameters()) {
 			int i = 0;
 			List<Parameter> listOfParameters = this.listOfParameters;
-			while (i < listOfParameters.size()){
-				if (listOfParameters.get(i) instanceof Parameter){
+			while (i < listOfParameters.size()) {
+				if (listOfParameters.get(i) instanceof Parameter) {
 					Parameter parameter = listOfParameters.get(i);
-					if (parameter.isSetId()){
-						if (! parameter.getId().equals(id)){
+					if (parameter.isSetId()) {
+						if (!parameter.getId().equals(id)) {
 							i++;
 						}
-					}
-					else if (parameter.isSetName()){
-						if (! parameter.getName().equals(id)){
+					} else if (parameter.isSetName()) {
+						if (!parameter.getName().equals(id)) {
 							i++;
 						}
-					}
-					else {
+					} else {
 						break;
 					}
-				}
-				else {
+				} else {
 					break;
 				}
 			}
-			if (i < listOfParameters.size()){
+			if (i < listOfParameters.size()) {
 				listOfParameters.remove(i).sbaseRemoved();
 			}
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
 
-		if (!isAttributeRead){
-			if (attributeName.equals("timeUnits") && ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)){
+		if (!isAttributeRead) {
+			if (attributeName.equals("timeUnits")
+					&& ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)) {
 				setTimeUnits(value);
-			}
-			else if (attributeName.equals("substanceUnits") && ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)){
+			} else if (attributeName.equals("substanceUnits")
+					&& ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)) {
 				setSubstanceUnits(value);
 			}
 		}
 		return isAttributeRead;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
-		if (isSetTimeUnits() && ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)){
+
+		if (isSetTimeUnits()
+				&& ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)) {
 			attributes.put("timeUnits", getTimeUnits());
-		}
-		else if (isSetSubstanceUnits() && ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)){
+		} else if (isSetSubstanceUnits()
+				&& ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)) {
 			attributes.put("substanceUnits", getSubstanceUnits());
 		}
-		
+
 		return attributes;
 	}
 
 	/**
-	 * Calculates and returns a <code>UnitDefinition</code> that expresses the units of measurement assumed for the 'math' expression of this <code>KineticLaw</code>.
+	 * Calculates and returns a <code>UnitDefinition</code> that expresses the
+	 * units of measurement assumed for the 'math' expression of this
+	 * <code>KineticLaw</code>.
 	 * 
-	 * The units are calculated based on the mathematical expression in the KineticLaw and the model quantities referenced by <ci> elements used within that expression.
-	 *  The getDerivedUnitDefinition() method returns the calculated units. 
-	 * <br/>
-	 * Note that the functionality that facilitates unit analysis depends on the model as a whole. Thus, in cases where the object has not been added to a model 
-	 * or the model itself is incomplete, unit analysis is not possible and this method will return NULL.
+	 * The units are calculated based on the mathematical expression in the
+	 * KineticLaw and the model quantities referenced by <ci> elements used
+	 * within that expression. The getDerivedUnitDefinition() method returns the
+	 * calculated units. <br/> Note that the functionality that facilitates unit
+	 * analysis depends on the model as a whole. Thus, in cases where the object
+	 * has not been added to a model or the model itself is incomplete, unit
+	 * analysis is not possible and this method will return NULL.
 	 * 
 	 * 
-	 * @return
-	 * 
-	 * <b>Warning</b>:Note that it is possible the 'math' expression in the KineticLaw contains pure numbers or parameters with undeclared units. In those cases, 
-	 * it is not possible to calculate the units of the overall expression without making assumptions. LibSBML does not make assumptions about the units, and 
-	 * getDerivedUnitDefinition() only returns the units as far as it is able to determine them. For example, in an expression X + Y, if X has unambiguously-defined 
-	 * units and Y does not, it will return the units of X. <b>It is important that callers also invoke the method</b> <code>containsUndeclaredUnits()</code> <b>to determine whether this 
-	 * situation holds</b>. Callers may wish to take suitable actions in those scenarios.
+	 * @return <b>Warning</b>:Note that it is possible the 'math' expression in
+	 *         the KineticLaw contains pure numbers or parameters with
+	 *         undeclared units. In those cases, it is not possible to calculate
+	 *         the units of the overall expression without making assumptions.
+	 *         LibSBML does not make assumptions about the units, and
+	 *         getDerivedUnitDefinition() only returns the units as far as it is
+	 *         able to determine them. For example, in an expression X + Y, if X
+	 *         has unambiguously-defined units and Y does not, it will return
+	 *         the units of X. <b>It is important that callers also invoke the
+	 *         method</b> <code>containsUndeclaredUnits()</code> <b>to determine
+	 *         whether this situation holds</b>. Callers may wish to take
+	 *         suitable actions in those scenarios.
 	 * 
 	 * @see containsUndeclaredUnits
 	 */
@@ -537,11 +567,17 @@ public class KineticLaw extends MathContainer {
 	}
 
 	/**
-	 *  Returns <code>true</code> or <code>false</code> depending on whether the math expression of this KineticLaw contains parameters/numbers with undeclared units.
+	 * Returns <code>true</code> or <code>false</code> depending on whether the
+	 * math expression of this KineticLaw contains parameters/numbers with
+	 * undeclared units.
 	 * 
-	 * A return value of true indicates that the <code>UnitDefinition</code> returned by getDerivedUnitDefinition() may not accurately represent the units of the expression.
+	 * A return value of true indicates that the <code>UnitDefinition</code>
+	 * returned by getDerivedUnitDefinition() may not accurately represent the
+	 * units of the expression.
 	 * 
-	 * @return <code>true</code> if the math expression of this KineticLaw includes parameters/numbers with undeclared units, <code>false</code> otherwise.
+	 * @return <code>true</code> if the math expression of this KineticLaw
+	 *         includes parameters/numbers with undeclared units,
+	 *         <code>false</code> otherwise.
 	 */
 	public boolean containsUndeclaredUnits() {
 		// TODO Auto-generated method stub

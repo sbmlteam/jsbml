@@ -174,7 +174,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @param model
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("deprecation")
 	public Model(Model model) {
 		super(model);
 		if (model.isSetListOfFunctionDefinitions()) {
@@ -2790,121 +2790,247 @@ public class Model extends AbstractNamedSBase {
 		return unit;
 	}
 
+	/**
+	 * Counts the number of species whose boundary condition is set to true.
+	 * 
+	 * @return
+	 */
 	public int getNumSpeciesWithBoundaryCondition() {
-		// TODO Auto-generated method stub
-		return 0;
+		int count = 0;
+		for (Species s : listOfSpecies) {
+			if (s.isSetBoundaryCondition())
+				count++;
+		}
+		return count;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public Compartment removeCompartment(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
 	public Compartment removeCompartment(String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	@Deprecated
 	public CompartmentType removeCompartmentType(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
+	@Deprecated
 	public CompartmentType removeCompartmentType(String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public Constraint removeConstraint(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public Event removeEvent(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
 	public Event removeEvent(String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public FunctionDefinition removeFunctionDefinition(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
 	public FunctionDefinition removeFunctionDefinition(String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public InitialAssignment removeInitialAssignment(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
 	public InitialAssignment removeInitialAssignment(String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public Parameter removeParameter(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
 	public Parameter removeParameter(String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public Reaction removeReaction(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
 	public Reaction removeReaction(String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public Rule removeRule(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
 	public Rule removeRule(String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public Species removeSpecies(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
 	public Species removeSpecies(String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public SpeciesType removeSpeciesType(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
 	public SpeciesType removeSpeciesType(String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public UnitDefinition removeUnitDefinition(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
 	public UnitDefinition removeUnitDefinition(String string) {
 		// TODO Auto-generated method stub
 		return null;

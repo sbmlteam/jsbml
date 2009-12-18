@@ -203,6 +203,7 @@ public class Compartment extends Symbol {
 	 *         compartmentTypeID. Return null if there is no compartmentType
 	 *         instance which matches this id.
 	 */
+	@Deprecated
 	public CompartmentType getCompartmentTypeInstance() {
 		if (getModel() != null) {
 			return getModel().getCompartmentType(this.compartmentTypeID);
@@ -278,6 +279,7 @@ public class Compartment extends Symbol {
 	 * @return true if the compartmentType instance which matches the
 	 *         compartmentTypeID of this compartment is not null.
 	 */
+	@Deprecated
 	public boolean isSetCompartmentTypeInstance() {
 		if (getModel() == null) {
 			return false;
@@ -373,6 +375,7 @@ public class Compartment extends Symbol {
 	 * 
 	 * @param compartmentType
 	 */
+	@Deprecated
 	public void setCompartmentType(CompartmentType compartmentType) {
 		this.compartmentTypeID = compartmentType != null ? compartmentType
 				.getId() : null;
