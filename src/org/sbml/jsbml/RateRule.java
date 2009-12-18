@@ -33,12 +33,12 @@ package org.sbml.jsbml;
 import java.util.HashMap;
 
 /**
- *
+ * 
  * Represents the rateRule XML element of a SBML file.
- *
- * @author Andreas Dr&auml;ger 
+ * 
+ * @author Andreas Dr&auml;ger
  * @author marine
- *
+ * 
  */
 public class RateRule extends Rule {
 
@@ -57,6 +57,7 @@ public class RateRule extends Rule {
 
 	/**
 	 * Creates a RateRule instance from a given RateRule.
+	 * 
 	 * @param sb
 	 */
 	public RateRule(int level, int version) {
@@ -69,43 +70,40 @@ public class RateRule extends Rule {
 	 */
 	public RateRule(RateRule sb) {
 		super(sb);
-		if (sb.isSetVariable()){
+		if (sb.isSetVariable()) {
 			this.variableID = new String(sb.getVariable());
-		}
-		else {
+		} else {
 			this.variableID = null;
 		}
 	}
 
 	/**
-	 * Creates a RateRule instance from a given Symbol.
-	 * Takes level and version from the variable.
+	 * Creates a RateRule instance from a given Symbol. Takes level and version
+	 * from the variable.
 	 * 
 	 * @param variable
 	 */
 	public RateRule(Symbol variable) {
 		super(variable.getLevel(), variable.getVersion());
-		if (variable.isSetId()){
+		if (variable.isSetId()) {
 			this.variableID = new String(variable.getId());
-		}
-		else {
+		} else {
 			this.variableID = null;
 		}
 	}
 
 	/**
-	 * Creates a RateRule instance from a given Symbol and ASTNode.
-	 * Takes level and version from the variable.
+	 * Creates a RateRule instance from a given Symbol and ASTNode. Takes level
+	 * and version from the variable.
 	 * 
 	 * @param variable
 	 * @param math
 	 */
 	public RateRule(Symbol variable, ASTNode math) {
 		super(math, variable.getLevel(), variable.getVersion());
-		if (variable.isSetId()){
+		if (variable.isSetId()) {
 			this.variableID = new String(variable.getId());
-		}
-		else {
+		} else {
 			this.variableID = null;
 		}
 	}
@@ -119,17 +117,18 @@ public class RateRule extends Rule {
 	public RateRule clone() {
 		return new RateRule(this);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
 	 */
-	public boolean equals(Object o){
-		if (o instanceof RateRule){
+	public boolean equals(Object o) {
+		if (o instanceof RateRule) {
 			RateRule r = (RateRule) o;
 			boolean equal = super.equals(o);
 			equal &= isSetVariable() == r.isSetVariable();
-			if (equal && isSetVariable()){
+			if (equal && isSetVariable()) {
 				equal &= getVariable().equals(r.getVariable());
 			}
 			return equal;
@@ -139,7 +138,8 @@ public class RateRule extends Rule {
 
 	/**
 	 * 
-	 * @return the variableID of this RateRule. Returns an empty String if variableID is not set.
+	 * @return the variableID of this RateRule. Returns an empty String if
+	 *         variableID is not set.
 	 */
 	public String getVariable() {
 		return isSetVariable() ? this.variableID : "";
@@ -147,10 +147,11 @@ public class RateRule extends Rule {
 
 	/**
 	 * 
-	 * @return the Symbol instance which has the variableID of this RateRule as id. Null if it doesn't exist.
+	 * @return the Symbol instance which has the variableID of this RateRule as
+	 *         id. Null if it doesn't exist.
 	 */
 	public Symbol getVariableInstance() {
-		if (getModel() != null){
+		if (getModel() != null) {
 			return getModel().findSymbol(this.variableID);
 		}
 		return null;
@@ -163,7 +164,8 @@ public class RateRule extends Rule {
 	 */
 	@Override
 	public boolean isCompartmentVolume() {
-		return isSetVariableInstance() && (getVariableInstance() instanceof Compartment);
+		return isSetVariableInstance()
+				&& (getVariableInstance() instanceof Compartment);
 	}
 
 	/*
@@ -173,7 +175,8 @@ public class RateRule extends Rule {
 	 */
 	@Override
 	public boolean isParameter() {
-		return isSetVariableInstance() && (getVariableInstance() instanceof Parameter);
+		return isSetVariableInstance()
+				&& (getVariableInstance() instanceof Parameter);
 	}
 
 	/*
@@ -188,15 +191,16 @@ public class RateRule extends Rule {
 
 	/**
 	 * 
-	 * @return true if the Symbol instance which has the variableID of this RateRule as id is not null.
+	 * @return true if the Symbol instance which has the variableID of this
+	 *         RateRule as id is not null.
 	 */
 	public boolean isSetVariableInstance() {
-		if (getModel() == null){
+		if (getModel() == null) {
 			return false;
 		}
 		return getModel().findSymbol(this.variableID) != null;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the variableID of this RateRule is not null.
@@ -212,16 +216,19 @@ public class RateRule extends Rule {
 	 */
 	@Override
 	public boolean isSpeciesConcentration() {
-		return isSetVariableInstance() && (getVariableInstance() instanceof Species);
+		return isSetVariableInstance()
+				&& (getVariableInstance() instanceof Species);
 	}
 
 	/**
-	 * Sets the variableID of this RateRule to 'variable'. If no Symbol instance has 'variable'as id, an IllegalArgumentException is thrown.
+	 * Sets the variableID of this RateRule to 'variable'. If no Symbol instance
+	 * has 'variable'as id, an IllegalArgumentException is thrown.
+	 * 
 	 * @param variable
 	 */
 	public void checkAndSetVariable(String variable) {
 		Symbol nsb = null;
-		if (getModel() != null){
+		if (getModel() != null) {
 			nsb = getModel().findSymbol(variable);
 		}
 		if (nsb == null)
@@ -230,9 +237,10 @@ public class RateRule extends Rule {
 		setVariable(nsb);
 		stateChanged();
 	}
-	
+
 	/**
 	 * Sets the variableID of this RateRule to 'variable'.
+	 * 
 	 * @param variable
 	 */
 	public void setVariable(String variable) {
@@ -242,30 +250,34 @@ public class RateRule extends Rule {
 
 	/**
 	 * Sets the variableID of this RateRule to the id of the Symbol 'variable'.
+	 * 
 	 * @param variable
 	 */
 	public void setVariable(Symbol variable) {
 		this.variableID = variable != null ? variable.getId() : null;
 		stateChanged();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
-		if (attributeName.equals("variable")){
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (attributeName.equals("variable")) {
 			this.checkAndSetVariable(value);
 			return true;
 		}
-		
+
 		return isAttributeRead;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -274,11 +286,11 @@ public class RateRule extends Rule {
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
-		if (isSetVariable()){
+
+		if (isSetVariable()) {
 			attributes.put("variable", getVariable());
 		}
-		
+
 		return attributes;
 	}
 }

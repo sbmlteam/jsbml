@@ -61,6 +61,7 @@ public class Unit extends AbstractSBase {
 	/**
 	 * Represents the 'offset' XML attribute of an unit element.
 	 */
+	@Deprecated
 	private Double offset;
 
 	/**
@@ -243,9 +244,7 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * @author Andreas Dr&auml;ger <a
-	 *         href="mailto:andreas.draeger@uni-tuebingen.de">
-	 *         andreas.draeger@uni-tuebingen.de</a>
+	 * @author Andreas Dr&auml;ger
 	 * @date 2009-08-31
 	 */
 	public static enum Kind {
@@ -782,15 +781,16 @@ public class Unit extends AbstractSBase {
 	 * @return the multiplier of this Unit if it is set, 1 otherwise.
 	 */
 	public double getMultiplier() {
-		return isSetMultiplier() ? multiplier : 1;
+		return isSetMultiplier() ? multiplier.doubleValue() : 1;
 	}
 
 	/**
 	 * 
 	 * @return the offset of this Unit if it is set, 0 otherwise.
 	 */
+	@Deprecated
 	public double getOffset() {
-		return isSetOffset() ? offset : 0;
+		return isSetOffset() ? offset.doubleValue() : 0;
 	}
 
 	/**
@@ -848,7 +848,7 @@ public class Unit extends AbstractSBase {
 				break;
 			}
 		}
-		return "";
+		return String.format("10^(%d)", getScale());
 	}
 
 	/**
@@ -913,7 +913,7 @@ public class Unit extends AbstractSBase {
 	 * @return the scale of this Unit if it is set, 0 otherwise.
 	 */
 	public int getScale() {
-		return isSetScale() ? scale : 0;
+		return isSetScale() ? scale.intValue() : 0;
 	}
 
 	/**
@@ -1195,6 +1195,7 @@ public class Unit extends AbstractSBase {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public boolean isSetOffset() {
 		return offset != null;
 	}
@@ -1346,8 +1347,9 @@ public class Unit extends AbstractSBase {
 	 * 
 	 * @param offset
 	 */
+	@Deprecated
 	public void setOffset(double offset) {
-		this.offset = offset;
+		this.offset = Double.valueOf(offset);
 		stateChanged();
 	}
 
@@ -1386,7 +1388,7 @@ public class Unit extends AbstractSBase {
 			times = TextFormula.times(times, pow);
 		}
 		if (isSetOffset()) {
-			times = TextFormula.sum(Double.toString(offset), times);
+			times = TextFormula.sum(StringTools.toString(offset.doubleValue()), times);
 		}
 		return TextFormula.pow(times, Integer.valueOf(exponent)).toString();
 	}

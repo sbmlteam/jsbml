@@ -31,10 +31,11 @@
 package org.sbml.jsbml;
 
 /**
- * The base class for the {@link AlgebraicRule}, {@link RateRule}, {@link AssignmentRule}.
+ * The base class for the {@link AlgebraicRule}, {@link RateRule},
+ * {@link AssignmentRule}.
  * 
- * @author Andreas Dr&auml;ger 
- *
+ * @author Andreas Dr&auml;ger
+ * 
  * 
  */
 public abstract class Rule extends MathContainer {
@@ -45,9 +46,10 @@ public abstract class Rule extends MathContainer {
 	public Rule() {
 		super();
 	}
-	
+
 	/**
 	 * Creates a Rule instance from a level and version.
+	 * 
 	 * @param level
 	 * @param version
 	 */
@@ -57,6 +59,7 @@ public abstract class Rule extends MathContainer {
 
 	/**
 	 * Creates a Rule instance from an id, level and version.
+	 * 
 	 * @param math
 	 * @param level
 	 * @param version
@@ -67,6 +70,7 @@ public abstract class Rule extends MathContainer {
 
 	/**
 	 * Creates a Rule instance from a given MathContainer.
+	 * 
 	 * @param sb
 	 */
 	public Rule(MathContainer sb) {

@@ -278,6 +278,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * 
 	 * @param unit
 	 */
+	@SuppressWarnings("deprecation")
 	public void setUnits(Unit unit) {
 		UnitDefinition ud = new UnitDefinition(unit.getKind().toString(),
 				getLevel(), getVersion());

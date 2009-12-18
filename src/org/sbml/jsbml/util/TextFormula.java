@@ -633,37 +633,10 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#logicalAND(org.sbml.jsbml.ASTNode[])
-	 */
-	public String logicalAND(ASTNode... nodes) {
-		return logicalOperation(" and ", nodes);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#logicalNot(org.sbml.jsbml.ASTNode)
 	 */
-	public String logicalNot(ASTNode node) {
+	public String not(ASTNode node) {
 		return function("not", node);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#logicalOR(org.sbml.jsbml.ASTNode[])
-	 */
-	public String logicalOR(ASTNode... nodes) {
-		return logicalOperation(" or ", nodes);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#logicalXOR(org.sbml.jsbml.ASTNode[])
-	 */
-	public String logicalXOR(ASTNode... nodes) {
-		return logicalOperation(" xor ", nodes);
 	}
 
 	/*

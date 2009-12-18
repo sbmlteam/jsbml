@@ -34,6 +34,7 @@ package org.sbml.jsbml;
  * 3).
  * 
  * @author marine3
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class ModelCreator {
@@ -100,6 +101,7 @@ public class ModelCreator {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	public ModelCreator clone() {

@@ -30,7 +30,9 @@
 package org.sbml.jsbml;
 
 /**
- * Base class for all the SBML components with an id and a name (optional or not).
+ * Base class for all the SBML components with an id and a name (optional or
+ * not).
+ * 
  * @author Andreas Dr&auml;ger
  * @author marine
  * 
@@ -63,21 +65,24 @@ public interface NamedSBase extends SBase {
 
 	/**
 	 * sets the id value with 'id'
+	 * 
 	 * @param id
 	 */
 	public void setId(String id);
 
 	/**
-	 * sets the name value with 'name'. If level is 1, sets automatically the id to 'name'
+	 * sets the name value with 'name'. If level is 1, sets automatically the id
+	 * to 'name'
+	 * 
 	 * @param name
 	 */
 	public void setName(String name);
-	
+
 	/**
 	 * sets the name value to null.
 	 */
 	public void unsetName();
-	
+
 	/**
 	 * sets the id value to null.
 	 */

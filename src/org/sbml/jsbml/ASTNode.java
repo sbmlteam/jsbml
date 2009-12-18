@@ -919,7 +919,7 @@ public class ASTNode implements TreeNode {
 		case LOGICAL_OR:
 			return compiler.or(listOfNodes.toArray(new ASTNode[] {}));
 		case LOGICAL_NOT:
-			return compiler.logicalNot(getLeftChild());
+			return compiler.not(getLeftChild());
 		case FUNCTION_PIECEWISE:
 			return compiler.piecewise(listOfNodes.toArray(new ASTNode[] {}));
 		case RELATIONAL_EQ:

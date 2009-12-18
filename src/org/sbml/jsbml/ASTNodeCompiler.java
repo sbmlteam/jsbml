@@ -341,21 +341,14 @@ public interface ASTNodeCompiler {
 	 * @param nodes
 	 * @return
 	 */
-	public Object logicalAND(ASTNode... nodes);
+	public Object minus(ASTNode... nodes);
 
 	/**
 	 * 
 	 * @param node
 	 * @return
 	 */
-	public Object logicalNot(ASTNode node);
-
-	/**
-	 * 
-	 * @param nodes
-	 * @return
-	 */
-	public Object minus(ASTNode... nodes);
+	public Object not(ASTNode node);
 
 	/**
 	 * 

@@ -44,13 +44,14 @@ public class Parameter extends Symbol {
 	 */
 	public Parameter() {
 		super();
-		if (isSetLevel() && getLevel() < 3){
+		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
 	}
-	
+
 	/**
 	 * Creates a Parameter instance from a given Parameter.
+	 * 
 	 * @param p
 	 */
 	public Parameter(Parameter p) {
@@ -59,6 +60,7 @@ public class Parameter extends Symbol {
 
 	/**
 	 * Creates a Parameter instance from an id, level and version.
+	 * 
 	 * @param id
 	 * @param level
 	 * @param version
@@ -69,7 +71,7 @@ public class Parameter extends Symbol {
 			initDefaults();
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -77,11 +79,11 @@ public class Parameter extends Symbol {
 	public Parameter(String id, int level, int version) {
 		super(id, level, version);
 
-		if (level < 3){
+		if (level < 3) {
 			initDefaults();
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -106,7 +108,8 @@ public class Parameter extends Symbol {
 
 	/**
 	 * 
-	 * @return the constant Boolean of this Parameter. Can be null if it is not set.
+	 * @return the constant Boolean of this Parameter. Can be null if it is not
+	 *         set.
 	 */
 	public boolean getConstant() {
 		return isConstant();
@@ -114,6 +117,7 @@ public class Parameter extends Symbol {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.Symbol#getUnits()
 	 */
 	public String getUnits() {
@@ -122,6 +126,7 @@ public class Parameter extends Symbol {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.Symbol#getUnitsInstance()
 	 */
 	public UnitDefinition getUnitsInstance() {
@@ -146,55 +151,57 @@ public class Parameter extends Symbol {
 		constant = Boolean.TRUE;
 	}
 
-	
-	
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
-		if (attributeName.equals("value")){
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (attributeName.equals("value")) {
 			this.setValue(Double.parseDouble(value));
 			return true;
-		}
-		else if (attributeName.equals("units")){
+		} else if (attributeName.equals("units")) {
 			this.setUnits(value);
 			return true;
-		}
-		else if (attributeName.equals("constant") && getLevel() > 1){
-			if (value.equals("true")){
+		} else if (attributeName.equals("constant") && getLevel() > 1) {
+			if (Boolean.parseBoolean(value)) {
 				this.setConstant(true);
 				return true;
-			}
-			else if (value.equals("false")){
+			} else if (value.equals("false")) {
 				this.setConstant(false);
 				return true;
+			} else {
+				// TODO: should an exception be thrown?
 			}
 		}
 		return isAttributeRead;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
-		if (isSetValue()){
+
+		if (isSetValue()) {
 			attributes.put("value", Double.toString(getValue()));
 		}
-		if (isSetUnits()){
+		if (isSetUnits()) {
 			attributes.put("units", getUnits());
 		}
-		if (isSetConstant()  && getLevel() > 1){
+		if (isSetConstant() && getLevel() > 1) {
 			attributes.put("constant", Boolean.toString(getConstant()));
 		}
-		
+
 		return attributes;
 	}
 

@@ -48,7 +48,7 @@ public class SBMLDocument extends AbstractSBase {
 	/**
 	 * Contains all the XML attributes of the sbml XML node.
 	 */
-	private HashMap<String, String> SBMLDocumentAttributes = new HashMap<String, String>();
+	private HashMap<String, String> SBMLDocumentAttributes;
 	/**
 	 * Contains all the namespaces of the sbml XML node and their prefixes.
 	 */
@@ -64,6 +64,7 @@ public class SBMLDocument extends AbstractSBase {
 	public SBMLDocument() {
 		super();
 		this.model = null;
+		SBMLDocumentAttributes = new HashMap<String, String>();
 		setParentSBML(this);
 	}
 
@@ -202,7 +203,7 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	// @Override
 	public String toString() {
-		return "SBML Level " + level + " Version " + version;
+		return String.format("SBML Level %d Version %d", level, version);
 	}
 
 	/**
