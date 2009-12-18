@@ -52,9 +52,7 @@ public class ASTNode implements TreeNode {
 	 * An enumeration of all possible types that can be represented by an
 	 * abstract syntax tree node.
 	 * 
-	 * @author Andreas Dr&auml;ger <a
-	 *         href="mailto:andreas.draeger@uni-tuebingen.de"
-	 *         >andreas.draeger@uni-tuebingen.de</a>
+	 * @author Andreas Dr&auml;ger
 	 * 
 	 */
 	public static enum Type {

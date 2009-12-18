@@ -41,9 +41,10 @@ import org.sbml.jsbml.xml.stax.SBaseListType;
 import org.sbml.jsbml.CVTerm.Qualifier;
 
 /**
- * This list implementation is a java List that extends AbstractSBase. It represents the listOfxxx
- * XML elements in a SBML file. Unfortunately, there is no way for multiple inheritance
- * in Java.
+ * This list implementation is a java List that extends AbstractSBase. It
+ * represents the listOfxxx XML elements in a SBML file. Unfortunately, there is
+ * no way for multiple inheritance in Java.
+ * 
  * @author rodrigue
  * @author marine
  * @author Andreas Dr&auml;ger
@@ -52,7 +53,8 @@ import org.sbml.jsbml.CVTerm.Qualifier;
 public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/**
-	 * name of the list at it appears in the SBMLFile. By default, it is SBaseListType.none.
+	 * name of the list at it appears in the SBMLFile. By default, it is
+	 * SBaseListType.none.
 	 */
 	private SBaseListType currentList = SBaseListType.none;
 	/**
@@ -62,14 +64,16 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 
 	/**
-	 * Creates a ListOf instance. By default, the list containing the SBase elements is empty.
+	 * Creates a ListOf instance. By default, the list containing the SBase
+	 * elements is empty.
 	 */
 	public ListOf() {
 		super();
 	}
-	
+
 	/**
-	 * Creates a ListOf instance from a level and version. By default, the list containing the SBase elements is empty.
+	 * Creates a ListOf instance from a level and version. By default, the list
+	 * containing the SBase elements is empty.
 	 */
 	public ListOf(int level, int version) {
 		super(level, version);
@@ -79,7 +83,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	/**
 	 * Removes a named SBase according to its unique id.
 	 * 
-	 * @param nsb the object to be removed.
+	 * @param nsb
+	 *            the object to be removed.
 	 * @return success or failure.
 	 */
 	public boolean remove(NamedSBase nsb) {
@@ -88,7 +93,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 			for (int i = 0; i < size() && pos < 0; i++) {
 				NamedSBase sb = (NamedSBase) get(i);
 				if (sb.isSetId() && nsb.isSetId()
-						&& sb.getId().equals(nsb.getId())){
+						&& sb.getId().equals(nsb.getId())) {
 					pos = i;
 				}
 			}
@@ -99,19 +104,20 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Specialized method to remove a named SBase according to its unique id.
 	 * 
-	 * @param id the id of the object to be removed.
+	 * @param id
+	 *            the id of the object to be removed.
 	 * @return success or failure.
 	 */
 	@SuppressWarnings("unchecked")
 	public T remove(String removeId) {
-		
+
 		if (removeId != null && removeId.trim().length() == 0) {
 			int pos = -1;
-			SBase sbase = null; 
+			SBase sbase = null;
 			for (int i = 0; i < size() && pos < 0; i++) {
 				NamedSBase sb = (NamedSBase) get(i);
 				if (sb.isSetId() && sb.getId().equals(removeId)) {
@@ -130,13 +136,14 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/**
 	 * creates a ListOf instance from a given ListOf.
+	 * 
 	 * @param listOf
 	 */
 	@SuppressWarnings("unchecked")
 	public ListOf(ListOf<? extends SBase> listOf) {
 		super(listOf);
-		for (SBase base : listOf){
-			if (base != null){
+		for (SBase base : listOf) {
+			if (base != null) {
 				add((T) base.clone());
 			}
 		}
@@ -149,13 +156,12 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	// @Override
 	public boolean add(T e) {
-		if (e.getLevel() != getLevel()){
+		if (e.getLevel() != getLevel()) {
 			throw new IllegalArgumentException("Level mismatch between "
 					+ getParentSBMLObject().getClass().getSimpleName()
 					+ " in V " + getLevel() + " and "
 					+ e.getClass().getSimpleName() + " in L" + e.getLevel());
-		}
-		else if (e.getVersion() != getVersion()){
+		} else if (e.getVersion() != getVersion()) {
 			throw new IllegalArgumentException("Version mismatch between "
 					+ getParentSBMLObject().getClass().getSimpleName()
 					+ " in V" + getVersion() + " and "
@@ -163,10 +169,10 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		}
 		if (e instanceof NamedSBase) {
 			NamedSBase nsb = (NamedSBase) e;
-			if (nsb.isSetId()){
+			if (nsb.isSetId()) {
 				for (SBase element : this) {
 					NamedSBase elem = ((NamedSBase) element);
-					if (elem.isSetId() && elem.getId().equals(nsb.getId())){
+					if (elem.isSetId() && elem.getId().equals(nsb.getId())) {
 						return false;
 					}
 				}
@@ -183,7 +189,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public void addChangeListener(SBaseChangedListener l) {
 		setOfListeners.add(l);
-		for (int i = 0; i < size(); i++){
+		for (int i = 0; i < size(); i++) {
 			get(i).addChangeListener(l);
 		}
 	}
@@ -199,7 +205,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 			boolean equals = super.equals(o);
 			ListOf<?> listOf = (ListOf<?>) o;
 			equals &= getSBaseListType() == listOf.getSBaseListType();
-			return listOf.containsAll(this) && equals;			
+			return listOf.containsAll(this) && equals;
 		}
 		return false;
 	}
@@ -259,6 +265,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/**
 	 * Sets the SBaseListType of this ListOf instance to 'currentList'.
+	 * 
 	 * @param currentList
 	 */
 	public void setSBaseListType(SBaseListType currentList) {
@@ -273,14 +280,16 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public SBaseListType getSBaseListType() {
 		return currentList;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
-	public boolean readAttribute(String attributeName, String prefix, String value){
-	
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+
 		return false;
 	}
 
@@ -296,6 +305,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/**
 	 * Sets the listOf of this Object to 'listOf'.
+	 * 
 	 * @param listOf
 	 */
 	public void setListOf(LinkedList<T> listOf) {
@@ -309,7 +319,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see org.sbml.jsbml.element.SBase#clone()
 	 */
 	@Override
-	public SBase clone() {
+	public ListOf<T> clone() {
 		return new ListOf<T>(this);
 	}
 
@@ -320,8 +330,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public void clear() {
 		listOf.clear();
-		
+
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -339,6 +350,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public int indexOf(Object o) {
 		return listOf.indexOf(o);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -347,6 +359,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public boolean isEmpty() {
 		return listOf.isEmpty();
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -355,6 +368,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public Iterator<T> iterator() {
 		return listOf.iterator();
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -363,6 +377,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public int lastIndexOf(Object o) {
 		return listOf.lastIndexOf(o);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -371,6 +386,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public ListIterator<T> listIterator() {
 		return listOf.listIterator();
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -379,6 +395,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public ListIterator<T> listIterator(int index) {
 		return listOf.listIterator(index);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -387,14 +404,16 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public boolean remove(Object o) {
 		return listOf.remove(o);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.util.LinkedList#size()
 	 */
-	public int size() {		
+	public int size() {
 		return listOf.size();
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -403,6 +422,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public List<T> subList(int fromIndex, int toIndex) {
 		return listOf.subList(fromIndex, toIndex);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -438,6 +458,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public boolean containsAll(Collection<?> c) {
 		return listOf.containsAll(c);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -446,6 +467,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public boolean removeAll(Collection<?> c) {
 		return listOf.removeAll(c);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -454,6 +476,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public boolean retainAll(Collection<?> c) {
 		return listOf.retainAll(c);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -471,6 +494,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public T get(int index) {
 		return listOf.get(index);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -479,6 +503,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public T remove(int index) {
 		return listOf.remove(index);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -487,6 +512,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public boolean addAll(Collection<? extends T> c) {
 		return listOf.addAll(c);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -495,6 +521,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public boolean addAll(int index, Collection<? extends T> c) {
 		return listOf.addAll(index, c);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -504,14 +531,14 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public <T> T[] toArray(T[] a) {
 		return listOf.toArray(a);
 	}
-	
+
 	/**
 	 * Sets the SBaseListType of this ListOf to SBaseListType.none.
 	 */
-	public void unsetSBaseListType(){
+	public void unsetSBaseListType() {
 		this.currentList = SBaseListType.none;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -520,8 +547,25 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-	
+
 		return attributes;
 	}
 
+	/**
+	 * The first element in this list.
+	 * 
+	 * @return
+	 */
+	public T getFirst() {
+		return listOf.getFirst();
+	}
+
+	/**
+	 * Returns the last element in this list.
+	 * 
+	 * @return
+	 */
+	public T getLast() {
+		return listOf.getLast();
+	}
 }

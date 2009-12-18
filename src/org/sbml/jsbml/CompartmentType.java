@@ -33,9 +33,11 @@ package org.sbml.jsbml;
 import java.util.HashMap;
 
 /**
- * Represents the compartmentType XML element of a SBML file. It is @deprecated.
+ * Represents the compartmentType XML element of a SBML file.
+ * 
  * @author Andreas Dr&auml;ger
  * @date 2009-08-31
+ * @deprecated
  */
 public class CompartmentType extends AbstractNamedSBase {
 
@@ -46,7 +48,7 @@ public class CompartmentType extends AbstractNamedSBase {
 	public CompartmentType() {
 		super();
 	}
-	
+
 	/**
 	 * Creates a CompartmentType instance from a given CompartmentType.
 	 * 
@@ -95,6 +97,7 @@ public class CompartmentType extends AbstractNamedSBase {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.AbstractSBase#clone()
 	 */
 	// @Override
@@ -105,23 +108,28 @@ public class CompartmentType extends AbstractNamedSBase {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
 		return isAttributeRead;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
+
 		return attributes;
 	}
 }
