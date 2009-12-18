@@ -36,115 +36,120 @@ import java.util.List;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * Contains all the miriam URIs for a miriam qualifier in the annotation element of a SBML component.
+ * Contains all the miriam URIs for a miriam qualifier in the annotation element
+ * of a SBML component.
  * 
- * @author Andreas Dr&auml;ger 
+ * @author Andreas Dr&auml;ger
  * @author marine
  * 
  */
 public class CVTerm {
 
 	/**
-	 * Represents the type of Miriam qualifier for this CVTerm. It depends on the namespace in the SBML file,
-	 * it can be a model qualifier or a biological qualifier.
+	 * This enum list all the possible MIRIAM qualifiers.
+	 * 
 	 */
-	private Type type;
+	public static enum Qualifier {
+		/**
+		 * Represents the MIRIAM biological qualifier 'encodes'.
+		 */
+		BQB_ENCODES,
+		/**
+		 * Represents the MIRIAM biological qualifier 'hasPart'.
+		 */
+		BQB_HAS_PART,
+		/**
+		 * Represents the MIRIAM biological qualifier 'hasVersion'.
+		 */
+		BQB_HAS_VERSION,
+		/**
+		 * Represents the MIRIAM biological qualifier 'is'.
+		 */
+		BQB_IS,
+		/**
+		 * Represents the MIRIAM biological qualifier 'isDescribedBy'.
+		 */
+		BQB_IS_DESCRIBED_BY,
+		/**
+		 * Represents the MIRIAM biological qualifier 'isEncodedBy'.
+		 */
+		BQB_IS_ENCODED_BY,
+		/**
+		 * Represents the MIRIAM biological qualifier 'isHomologTo'.
+		 */
+		BQB_IS_HOMOLOG_TO,
+		/**
+		 * Represents the MIRIAM biological qualifier 'isPartOf'.
+		 */
+		BQB_IS_PART_OF,
+		/**
+		 * Represents the MIRIAM biological qualifier 'isVersionOf'.
+		 */
+		BQB_IS_VERSION_OF,
+		/**
+		 * Represents the MIRIAM biological qualifier 'occursIn'.
+		 */
+		BQB_OCCURS_IN,
+		/**
+		 * Represents an unknown MIRIAM biological qualifier.
+		 */
+		BQB_UNKNOWN,
+		/**
+		 * Represents the MIRIAM model qualifier 'is'.
+		 */
+		BQM_IS,
+		/**
+		 * Represents the MIRIAM model qualifier 'isDescribedBy'.
+		 */
+		BQM_IS_DESCRIBED_BY,
+		/**
+		 * Represents an unknown MIRIAM model qualifier.
+		 */
+		BQM_UNKNOWN
+	}
 	/**
-	 * Represents the Miriam qualifier node in the annotation node of a SBML component.
-	 */
-	private Qualifier qualifier;
-	/**
-	 * Contains all the Miriam URI associated with the qualifier of this CVTerm instance.
-	 */
-	private List<String> resourceURIs;
-
-	
-	/**
-	 * This enum list all the possible Miriam qualifiers type.
+	 * This enum list all the possible MIRIAM qualifiers type.
 	 * 
 	 */
 	public static enum Type {
 		/**
-		 * If the Miriam qualifier is a biological qualifier.
+		 * If the MIRIAM qualifier is a biological qualifier.
 		 */
 		BIOLOGICAL_QUALIFIER,
 		/**
-		 * If the Miriam qualifier is a model qualifier.
+		 * If the MIRIAM qualifier is a model qualifier.
 		 */
 		MODEL_QUALIFIER,
 		/**
-		 * If the Miriam qualifier is unknown.
+		 * If the MIRIAM qualifier is unknown.
 		 */
 		UNKNOWN_QUALIFIER,
 		/**
-		 * Represents the Miriam biological qualifier 'encodes'.
+		 * Represents the MIRIAM biological qualifier 'encodes'.
 		 */
 	}
-	
-	
 	/**
-	 * This enum list all the possible Miriam qualifiers.
-	 * 
+	 * Represents the MIRIAM qualifier node in the annotation node of a SBML
+	 * component.
 	 */
-	public static enum Qualifier {
-		BQB_ENCODES,
-		/**
-		 * Represents the Miriam biological qualifier 'hasPart'.
-		 */
-		BQB_HAS_PART,
-		/**
-		 * Represents the Miriam biological qualifier 'hasVersion'.
-		 */
-		BQB_HAS_VERSION,
-		/**
-		 * Represents the Miriam biological qualifier 'is'.
-		 */
-		BQB_IS,
-		/**
-		 * Represents the Miriam biological qualifier 'isDescribedBy'.
-		 */
-		BQB_IS_DESCRIBED_BY,
-		/**
-		 * Represents the Miriam biological qualifier 'isEncodedBy'.
-		 */
-		BQB_IS_ENCODED_BY,
-		/**
-		 * Represents the Miriam biological qualifier 'isHomologTo'.
-		 */
-		BQB_IS_HOMOLOG_TO,
-		/**
-		 * Represents the Miriam biological qualifier 'isPartOf'.
-		 */
-		BQB_IS_PART_OF,
-		/**
-		 * Represents the Miriam biological qualifier 'isVersionOf'.
-		 */
-		BQB_IS_VERSION_OF,
-		/**
-		 * Represents the Miriam biological qualifier 'occursIn'.
-		 */
-		BQB_OCCURS_IN,
-		/**
-		 * Represents an unknown Miriam biological qualifier.
-		 */
-		BQB_UNKNOWN,
-		/**
-		 * Represents the Miriam model qualifier 'is'.
-		 */
-		BQM_IS,
-		/**
-		 * Represents the Miriam model qualifier 'isDescribedBy'.
-		 */
-		BQM_IS_DESCRIBED_BY,
-		/**
-		 * Represents an unknown Miriam model qualifier.
-		 */
-		BQM_UNKNOWN
-	}
+	private Qualifier qualifier;
 
 	/**
-	 * Creates a CVTerm instance. By default, the type and qualifier of this CVTerm are null.
-	 * The list of resourceURIS is empty.
+	 * Contains all the MIRIAM URI associated with the qualifier of this CVTerm
+	 * instance.
+	 */
+	private List<String> resourceURIs;
+
+	/**
+	 * Represents the type of MIRIAM qualifier for this CVTerm. It depends on
+	 * the namespace in the SBML file, it can be a model qualifier or a
+	 * biological qualifier.
+	 */
+	private Type type;
+
+	/**
+	 * Creates a CVTerm instance. By default, the type and qualifier of this
+	 * CVTerm are null. The list of resourceURIS is empty.
 	 */
 	public CVTerm() {
 		type = Type.UNKNOWN_QUALIFIER;
@@ -153,8 +158,9 @@ public class CVTerm {
 	}
 
 	/**
-	 * Creates a CVTerm instance from a given CVTerm. 
-	 * @param  term
+	 * Creates a CVTerm instance from a given CVTerm.
+	 * 
+	 * @param term
 	 */
 	public CVTerm(CVTerm term) {
 		this.type = term.getQualifierType();
@@ -170,15 +176,14 @@ public class CVTerm {
 			break;
 		}
 		resourceURIs = new LinkedList<String>();
-		for (int i = 0; i < term.getNumResources(); i++){
+		for (int i = 0; i < term.getNumResources(); i++) {
 			String resource = term.getResourceURI(i);
-			if (resource != null){
+			if (resource != null) {
 				resourceURIs.add(new String(term.getResourceURI(i)));
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * Adds a resource to the CVTerm.
 	 * 
@@ -191,35 +196,53 @@ public class CVTerm {
 		return resourceURIs.add(urn);
 	}
 
+	/**
+	 * 
+	 * @param uri
+	 * @return true if 'uri' has been added to the list of resourceURI of this
+	 *         CVTerm.
+	 */
+	public boolean addResourceURI(String uri) {
+		return resourceURIs.add(uri);
+	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+	// @Override
+	public CVTerm clone() {
+		return new CVTerm(this);
+	}
 
-	
 	/**
 	 * 
 	 * @param o
 	 * @return true if the CVTerm 'o' is equal to this CVterm.
 	 */
-	public boolean equals(CVTerm o){
+	public boolean equals(CVTerm o) {
 		boolean equal = getQualifierType() == o.getQualifierType();
-		
-		if (equal){
-			equal &= getBiologicalQualifierType() == o.getBiologicalQualifierType();
-			if (equal){
+
+		if (equal) {
+			equal &= getBiologicalQualifierType() == o
+					.getBiologicalQualifierType();
+			if (equal) {
 				equal &= getModelQualifierType() == o.getModelQualifierType();
-				if (equal){
+				if (equal) {
 					equal &= getNumResources() == o.getNumResources();
-					if (equal){
-						for (int i = 0; i < getNumResources(); i++){
+					if (equal) {
+						for (int i = 0; i < getNumResources(); i++) {
 							String resource1 = getResourceURI(i);
 							String resource2 = o.getResourceURI(i);
-							
-							if (resource1 != null && resource2 != null){
+
+							if (resource1 != null && resource2 != null) {
 								equal &= resource1.equals(resource2);
-								if (!equal){
+								if (!equal) {
 									return false;
 								}
-							}
-							else if ((resource1 == null && resource2 != null) || (resource2 == null && resource1 != null)) {
+							} else if ((resource1 == null && resource2 != null)
+									|| (resource2 == null && resource1 != null)) {
 								return false;
 							}
 						}
@@ -228,6 +251,36 @@ public class CVTerm {
 			}
 		}
 		return equal;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	// @Override
+	public boolean equals(Object o) {
+		if (o instanceof CVTerm) {
+			CVTerm t = (CVTerm) o;
+			boolean eq = true;
+			eq &= t.getQualifierType() == getQualifierType();
+			eq &= t.getBiologicalQualifierType() == qualifier
+					|| t.getModelQualifierType() == qualifier;
+			eq &= t.getNumResources() == getNumResources();
+
+			if (eq) {
+				for (int i = 0; i < t.getNumResources(); i++) {
+					String resource1 = getResourceURI(i);
+					String resource2 = t.getResourceURI(i);
+					if (!resource1.equals(resource2)) {
+						eq = false;
+						break;
+					}
+				}
+			}
+			return eq;
+		}
+		return false;
 	}
 
 	/**
@@ -247,27 +300,25 @@ public class CVTerm {
 		return l;
 	}
 
-
-	
 	/**
 	 * Returns the Biological QualifierType code for this CVTerm.
 	 * 
 	 * @return the Biological QualifierType code for this CVTerm.
 	 */
 	public Qualifier getBiologicalQualifierType() {
-		if (type == Type.BIOLOGICAL_QUALIFIER){
+		if (type == Type.BIOLOGICAL_QUALIFIER) {
 			return qualifier;
 		}
 		return null;
 	}
 
 	/**
-	 *  Returns the Model QualifierType code for this CVTerm.
-	 *
+	 * Returns the Model QualifierType code for this CVTerm.
+	 * 
 	 * @return the Model QualifierType code for this CVTerm.
 	 */
 	public Qualifier getModelQualifierType() {
-		if (type == Type.MODEL_QUALIFIER){
+		if (type == Type.MODEL_QUALIFIER) {
 			return qualifier;
 		}
 		return null;
@@ -298,39 +349,16 @@ public class CVTerm {
 		return resourceURIs;
 	}
 
-
 	/**
 	 * Returns the value of the nth resource for this CVTerm.
 	 * 
-	 * @param  n : index of the resourceURI in the list of the resourceURI.
+	 * @param n
+	 *            : index of the resourceURI in the list of the resourceURI.
 	 * @return the value of the nth resource for this CVTerm.
 	 */
 	public String getResourceURI(int i) {
 		return resourceURIs.get(i);
 	}
-
-	/**
-	 * 
-	 * @param  uri
-	 * @return true if 'uri' has been added to the list of resourceURI of this CVTerm.
-	 */
-	public boolean addResourceURI(String uri) {
-		return resourceURIs.add(uri);
-	}
-
-	/**
-	 * Removes a resource from the CVTerm.
-	 * 
-	 * @param  resource
-	 */
-	public void removeResource(String resource) {
-		for (int i = resourceURIs.size(); i >= 0; i--) {
-			if (resourceURIs.get(i).equals(resource)){
-				resourceURIs.remove(i);
-			}
-		}
-	}
-
 
 	/**
 	 * 
@@ -364,21 +392,50 @@ public class CVTerm {
 		return qualifier != null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String elementName,
+	 * String attributeName, String prefix, String value)
+	 */
+	public boolean readAttribute(String elementName, String attributeName,
+			String prefix, String value) {
+
+		if (elementName.equals("li")) {
+			if (attributeName.equals("resource")) {
+				addResourceURI(value);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Removes a resource from the CVTerm.
+	 * 
+	 * @param resource
+	 */
+	public void removeResource(String resource) {
+		for (int i = resourceURIs.size(); i >= 0; i--) {
+			if (resourceURIs.get(i).equals(resource)) {
+				resourceURIs.remove(i);
+			}
+		}
+	}
 
 	/**
 	 * Sets the #BiolQualifierType_t of this CVTerm.
 	 * 
-	 * @param  qualifier
+	 * @param qualifier
 	 */
 	public void setBiologicalQualifierType(Qualifier qualifier) {
-		if (qualifier != null){
+		if (qualifier != null) {
 			if (qualifier.toString().startsWith("BQB")) {
-				if (this.type == Type.BIOLOGICAL_QUALIFIER){
+				if (this.type == Type.BIOLOGICAL_QUALIFIER) {
 					this.qualifier = qualifier;
-				}
-				else {
+				} else {
 					throw new IllegalArgumentException(
-					"Biological qualifiers can only be applyed if the type is set to Biological Qualifier.");
+							"Biological qualifiers can only be applyed if the type is set to Biological Qualifier.");
 				}
 			} else {
 				throw new IllegalArgumentException(qualifier.toString()
@@ -390,11 +447,11 @@ public class CVTerm {
 	/**
 	 * Sets the ModelQualifierType_t value of this CVTerm.
 	 * 
-	 * @param  qualifier
+	 * @param qualifier
 	 */
 	public void setModelQualifierType(Qualifier qualifier) {
-		if (qualifier != null){
-			if (qualifier.toString().startsWith("BQM")){
+		if (qualifier != null) {
+			if (qualifier.toString().startsWith("BQM")) {
 				if (this.type == Type.MODEL_QUALIFIER)
 					this.qualifier = qualifier;
 				else
@@ -410,80 +467,23 @@ public class CVTerm {
 	/**
 	 * Sets the type of this CVTerm to 'type'
 	 * 
-	 * @param  type
+	 * @param type
 	 */
 	public void setQualifierType(Type type) {
-		if (type == Type.MODEL_QUALIFIER
-				|| type == Type.BIOLOGICAL_QUALIFIER
+		if (type == Type.MODEL_QUALIFIER || type == Type.BIOLOGICAL_QUALIFIER
 				|| type == Type.UNKNOWN_QUALIFIER) {
 			this.type = type;
 			this.qualifier = type == Type.MODEL_QUALIFIER ? Qualifier.BQM_UNKNOWN
 					: Qualifier.BQB_UNKNOWN;
-		} else{
+		} else {
 			throw new IllegalArgumentException(type.toString()
 					+ " is not a valid qualifier.");
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	// @Override
-	public CVTerm clone() {
-		return new CVTerm(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	// @Override
-	public boolean equals(Object o) {
-		if (o instanceof CVTerm) {
-			CVTerm t = (CVTerm) o;
-			boolean eq = true;
-			eq &= t.getQualifierType() == getQualifierType();
-			eq &= t.getBiologicalQualifierType() == qualifier
-					|| t.getModelQualifierType() == qualifier;
-			eq &= t.getNumResources() == getNumResources();
-			
-			if (eq){
-				for (int i = 0; i < t.getNumResources(); i++){
-					String resource1 = getResourceURI(i);
-					String resource2 = t.getResourceURI(i);
-					if (!resource1.equals(resource2)){
-						eq = false;
-						break;
-					}
-				}
-			}
-			return eq;
-		}
-		return false;
-	}
-	
 	/**
-	 * writes all the MIRIAM annotations of the CVTerm in 'buffer'
-	 * @param indent
-	 * @param buffer
-	 */
-	public void toXML(String indent, StringBuffer buffer){
-		
-		if (resourceURIs != null){
-			
-			for (int i = 0; i < getNumResources(); i++){
-				String resourceURI = getResourceURI(i);
-				StringTools.append(buffer, "<rdf:li rdf:resource=\"", resourceURI, "\"/>");
-				buffer.append(StringTools.newLine());
-			}
-		}
-	}
-
-	/**
-	 * @return a String containing the qualifier and all the resource URIs of this CVTerm.
+	 * @return a String containing the qualifier and all the resource URIs of
+	 *         this CVTerm.
 	 */
 	public String toString() {
 		StringBuilder buffer = new StringBuilder();
@@ -546,11 +546,11 @@ public class CVTerm {
 			break;
 		}
 		int i = 0;
-		if (resourceURIs.size() > 0){
+		if (resourceURIs.size() > 0) {
 			buffer.append(' ');
 		}
 		for (String uri : resourceURIs) {
-			if (i > 0){
+			if (i > 0) {
 				buffer.append(", ");
 			}
 			buffer.append(uri);
@@ -558,20 +558,24 @@ public class CVTerm {
 		buffer.append('.');
 		return buffer.toString();
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String elementName, String attributeName, String prefix, String value)
+
+	/**
+	 * writes all the MIRIAM annotations of the CVTerm in 'buffer'
+	 * 
+	 * @param indent
+	 * @param buffer
 	 */
-	public boolean readAttribute(String elementName, String attributeName, String prefix, String value){
-	
-		if (elementName.equals("li")){
-			if (attributeName.equals("resource")){
-				addResourceURI(value);
-				return true;
+	public void toXML(String indent, StringBuffer buffer) {
+
+		if (resourceURIs != null) {
+
+			for (int i = 0; i < getNumResources(); i++) {
+				String resourceURI = getResourceURI(i);
+				StringTools.append(buffer, "<rdf:li rdf:resource=\"",
+						resourceURI, "\"/>");
+				buffer.append(StringTools.newLine());
 			}
 		}
-		return false;
 	}
 
 }

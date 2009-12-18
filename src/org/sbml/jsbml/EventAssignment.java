@@ -33,6 +33,7 @@ import java.util.HashMap;
 
 /**
  * Represents the eventAssignment XML element of a SBML file.
+ * 
  * @author Andreas Dr&auml;ger
  * @author marine
  */
@@ -50,9 +51,10 @@ public class EventAssignment extends MathContainer {
 		super();
 		this.variableID = null;
 	}
-	
+
 	/**
-	 * Creates an EventAssignment instance from a level and version. By default, the variableID is null.
+	 * Creates an EventAssignment instance from a level and version. By default,
+	 * the variableID is null.
 	 */
 	public EventAssignment(int level, int version) {
 		super(level, version);
@@ -61,14 +63,14 @@ public class EventAssignment extends MathContainer {
 
 	/**
 	 * Creates an EventAssignment instance from a given EventAssignment.
+	 * 
 	 * @param eventAssignment
 	 */
 	public EventAssignment(EventAssignment eventAssignment) {
 		super(eventAssignment);
-		if (isSetVariable()){
+		if (isSetVariable()) {
 			this.variableID = new String(eventAssignment.getVariable());
-		}
-		else {
+		} else {
 			this.variableID = null;
 		}
 	}
@@ -94,10 +96,10 @@ public class EventAssignment extends MathContainer {
 		if (o instanceof EventAssignment) {
 			EventAssignment ea = (EventAssignment) o;
 			if ((!ea.isSetVariable() && isSetVariable())
-					|| (ea.isSetVariable() && !isSetVariable())){
+					|| (ea.isSetVariable() && !isSetVariable())) {
 				return false;
 			}
-			if (ea.isSetVariable() && isSetVariable()){
+			if (ea.isSetVariable() && isSetVariable()) {
 				equal &= ea.getVariable().equals(getVariable());
 			}
 			return equal;
@@ -107,15 +109,16 @@ public class EventAssignment extends MathContainer {
 
 	/**
 	 * 
-	 * @return true if the id of the Symbol which matches the variableID of this Event is not null.
+	 * @return true if the id of the Symbol which matches the variableID of this
+	 *         Event is not null.
 	 */
 	public boolean isSetVariableInstance() {
-		if (getModel() == null){
+		if (getModel() == null) {
 			return false;
 		}
 		return getModel().findSymbol(this.variableID) != null;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the variableID of this Event is not null.
@@ -126,7 +129,8 @@ public class EventAssignment extends MathContainer {
 
 	/**
 	 * 
-	 * @return the variableID of this Event. Return an empty String if it is not set.
+	 * @return the variableID of this Event. Return an empty String if it is not
+	 *         set.
 	 */
 	public String getVariable() {
 		return isSetVariable() ? this.variableID : "";
@@ -134,50 +138,56 @@ public class EventAssignment extends MathContainer {
 
 	/**
 	 * 
-	 * @return the Symbol instance (Compartment, Species, SpeciesReference or Parameter) which
-	 * has the variableID of this EventAssignment as id. Return null if it doesn't exist.
+	 * @return the Symbol instance (Compartment, Species, SpeciesReference or
+	 *         Parameter) which has the variableID of this EventAssignment as
+	 *         id. Return null if it doesn't exist.
 	 */
 	public Symbol getVariableInstance() {
-		if (getModel() == null){
+		if (getModel() == null) {
 			return null;
 		}
 		return getModel().findSymbol(this.variableID);
 	}
 
 	/**
-	 * Sets the variableID of this EventAssignment to the id of the Symbol variable only if the Symbol is
-	 * a Species, Compartment, SpeciesReference or Parameter.
+	 * Sets the variableID of this EventAssignment to the id of the Symbol
+	 * variable only if the Symbol is a Species, Compartment, SpeciesReference
+	 * or Parameter.
+	 * 
 	 * @param variable
 	 */
 	public void setVariable(Symbol variable) {
 		if ((variable instanceof Species) || variable instanceof Compartment
-				|| (variable instanceof Parameter) || (variable instanceof SpeciesReference)){
+				|| (variable instanceof Parameter)
+				|| (variable instanceof SpeciesReference)) {
 			this.variableID = variable.getId();
 			stateChanged();
-		}
-		else {
+		} else {
 			throw new IllegalArgumentException(
-			"Only Species, Compartments, SpeciesReferences or Parameters allowed as variables");
+					"Only Species, Compartments, SpeciesReferences or Parameters allowed as variables");
 		}
 	}
 
 	/**
-	 * Sets the variableID of this EventAssignment to 'variable'. If 'variable' doesn't match any id of Compartment
-	 * , Species, SpeciesReference or Parameter in Model, an IllegalArgumentException is thrown.
+	 * Sets the variableID of this EventAssignment to 'variable'. If 'variable'
+	 * doesn't match any id of Compartment , Species, SpeciesReference or
+	 * Parameter in Model, an IllegalArgumentException is thrown.
+	 * 
 	 * @param variable
 	 */
 	public void checkAndSetVariable(String variable) {
 		Symbol nsb = getModel().findSymbol(variable);
-		if (nsb == null){
+		if (nsb == null) {
 			throw new IllegalArgumentException(
-			"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
+					"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
 		}
 		setVariable(nsb);
 		stateChanged();
 	}
-	
+
 	/**
 	 * Sets the variableID of this EventAssignment to 'variable'.
+	 * 
 	 * @param variable
 	 */
 	public void setVariable(String variable) {
@@ -191,28 +201,29 @@ public class EventAssignment extends MathContainer {
 	 */
 	// @Override
 	public String toString() {
-		if (getMath() != null && getVariable() != null){
+		if (getMath() != null && getVariable() != null) {
 			return getVariable() + " = " + getMath().toString();
-		}
-		else if (isSetMath()){
+		} else if (isSetMath()) {
 			return getMath().toString();
-		}
-		else if (isSetVariable()){
+		} else if (isSetVariable()) {
 			return getVariable() + " = 0";
 		}
 		return "";
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
-		if (!isAttributeRead && getLevel() >= 2){
-			if (attributeName.equals("variable")){
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead && getLevel() >= 2) {
+			if (attributeName.equals("variable")) {
 				this.setVariable(value);
 				return true;
 			}
@@ -222,16 +233,17 @@ public class EventAssignment extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see writeXMLAttributes()
 	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
-		if (isSetVariable() && getLevel() >= 2){
+
+		if (isSetVariable() && getLevel() >= 2) {
 			attributes.put("variable", getVariable());
 		}
-		
+
 		return attributes;
 	}
 }

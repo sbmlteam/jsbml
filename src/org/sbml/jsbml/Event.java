@@ -35,13 +35,15 @@ import org.sbml.jsbml.xml.stax.SBaseListType;
 
 /**
  * Represents the event XML element of a SBML file.
+ * 
  * @author Andreas Dr&auml;ger
  * @author marine
  * 
  */
 public class Event extends AbstractNamedSBase {
 	/**
-	 * Represents the 'useValuesFromTriggerTime' XML attribute of an event element.
+	 * Represents the 'useValuesFromTriggerTime' XML attribute of an event
+	 * element.
 	 */
 	private Boolean useValuesFromTriggerTime;
 	/**
@@ -56,15 +58,17 @@ public class Event extends AbstractNamedSBase {
 	 * Represents the delay subelement of an event element.
 	 */
 	private Delay delay;
-	
+
 	/**
 	 * Represents the 'timeUnits' XML attribute of an event element.
 	 */
 	@Deprecated
 	private String timeUnitsID;
-	
+
 	/**
-	 * Creates an Event instance. By default, if the level is set and is superior or equal to 3, the trigger, delay, listOfEventAssignemnts and timeUnitsID are null.
+	 * Creates an Event instance. By default, if the level is set and is
+	 * superior or equal to 3, the trigger, delay, listOfEventAssignemnts and
+	 * timeUnitsID are null.
 	 */
 	public Event() {
 		super();
@@ -72,46 +76,49 @@ public class Event extends AbstractNamedSBase {
 		this.delay = null;
 		this.listOfEventAssignments = null;
 		this.timeUnitsID = null;
-		
-		if (isSetLevel() && getLevel() < 3){
+
+		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
 	}
-	
+
 	/**
 	 * Creates an Event instance from a given event.
+	 * 
 	 * @param event
 	 */
-	@SuppressWarnings("unchecked")
 	public Event(Event event) {
 		super(event);
-		if (event.isSetTrigger()){
+		if (event.isSetTrigger()) {
 			setTrigger(event.getTrigger().clone());
-		}
-		else {
+		} else {
 			trigger = null;
 		}
-		if (isSetUseValuesFromTriggerTime()){
-			this.useValuesFromTriggerTime = new Boolean(event.isUseValuesFromTriggerTime());
+		if (isSetUseValuesFromTriggerTime()) {
+			this.useValuesFromTriggerTime = new Boolean(event
+					.isUseValuesFromTriggerTime());
 		}
 		if (event.isSetDelay()) {
 			setDelay(event.getDelay().clone());
-		} else{
+		} else {
 			this.delay = null;
 		}
-		if (isSetListOfEventAssignments()){
-			setListOfEventAssignments((ListOf<EventAssignment>) event.getListOfEventAssignments().clone());	
-		}
-		else {
+		if (isSetListOfEventAssignments()) {
+			setListOfEventAssignments((ListOf<EventAssignment>) event
+					.getListOfEventAssignments().clone());
+		} else {
 			this.listOfEventAssignments = null;
 		}
-		if (event.isSetTimeUnits()){
+		if (event.isSetTimeUnits()) {
 			this.timeUnitsID = new String(event.getTimeUnits());
 		}
 	}
 
 	/**
-	 * Creates an Event from a level and version. By default, if the level is set and is superior or equal to 3, the trigger, delay, listOfEventAssignemnts and timeUnitsID are null.
+	 * Creates an Event from a level and version. By default, if the level is
+	 * set and is superior or equal to 3, the trigger, delay,
+	 * listOfEventAssignemnts and timeUnitsID are null.
+	 * 
 	 * @param level
 	 * @param version
 	 */
@@ -121,13 +128,16 @@ public class Event extends AbstractNamedSBase {
 		this.delay = null;
 		this.listOfEventAssignments = null;
 		this.timeUnitsID = null;
-		if (isSetLevel() && getLevel() < 3){
+		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
 	}
 
 	/**
-	 * Creates an Event instance from an id, level and version. By default, if the level is set and is superior or equal to 3, the trigger, delay, listOfEventAssignemnts and timeUnitsID are null.
+	 * Creates an Event instance from an id, level and version. By default, if
+	 * the level is set and is superior or equal to 3, the trigger, delay,
+	 * listOfEventAssignemnts and timeUnitsID are null.
+	 * 
 	 * @param id
 	 * @param level
 	 * @param version
@@ -138,13 +148,16 @@ public class Event extends AbstractNamedSBase {
 		this.delay = null;
 		this.listOfEventAssignments = null;
 		this.timeUnitsID = null;
-		if (isSetLevel() && getLevel() < 3){
+		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
 	}
 
 	/**
-	 * Creates an Event instance from an id, name, level and version. By default, if the level is set and is superior or equal to 3, the trigger, delay, listOfEventAssignemnts and timeUnitsID are null.
+	 * Creates an Event instance from an id, name, level and version. By
+	 * default, if the level is set and is superior or equal to 3, the trigger,
+	 * delay, listOfEventAssignemnts and timeUnitsID are null.
+	 * 
 	 * @param id
 	 * @param name
 	 * @param level
@@ -156,17 +169,19 @@ public class Event extends AbstractNamedSBase {
 		this.delay = null;
 		this.listOfEventAssignments = null;
 		this.timeUnitsID = null;
-		if (isSetLevel() && getLevel() < 3){
+		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
 	}
 
 	/**
-	 * Adds an EventAssignment instance to the list of EventAssignments of this Event.
+	 * Adds an EventAssignment instance to the list of EventAssignments of this
+	 * Event.
+	 * 
 	 * @param eventass
 	 */
 	public void addEventAssignment(EventAssignment eventass) {
-		if (!isSetListOfEventAssignments()){
+		if (!isSetListOfEventAssignments()) {
 			this.listOfEventAssignments = new ListOf<EventAssignment>();
 			setThisAsParentSBMLObject(this.listOfEventAssignments);
 		}
@@ -197,32 +212,30 @@ public class Event extends AbstractNamedSBase {
 			equal &= e.getUseValuesFromTriggerTime() == getUseValuesFromTriggerTime();
 			System.out.println("useValuseFromTriggerTime : " + equal);
 			equal &= e.isSetListOfEventAssignments() == isSetListOfEventAssignments();
-			if (equal && isSetListOfEventAssignments()){
-				equal &= e.getListOfEventAssignments().equals(getListOfEventAssignments());
+			if (equal && isSetListOfEventAssignments()) {
+				equal &= e.getListOfEventAssignments().equals(
+						getListOfEventAssignments());
 			}
 			if ((e.isSetDelay() && !isSetDelay())
-					|| (!e.isSetDelay() && isSetDelay())){
+					|| (!e.isSetDelay() && isSetDelay())) {
 				return false;
-			}
-			else if (e.isSetDelay() && isSetDelay()){
+			} else if (e.isSetDelay() && isSetDelay()) {
 				equal &= e.getDelay().equals(getDelay());
 			}
 			System.out.println("Delay : " + equal);
 
 			if ((!e.isSetTrigger() && isSetTrigger())
-					|| (e.isSetTrigger() && !isSetTrigger())){
+					|| (e.isSetTrigger() && !isSetTrigger())) {
 				return false;
-			}
-			else if (e.isSetTrigger() && isSetTrigger()){
+			} else if (e.isSetTrigger() && isSetTrigger()) {
 				equal &= e.getTrigger().equals(getTrigger());
 			}
 			System.out.println("Trigger : " + equal);
 
 			if ((!e.isSetTimeUnits() && isSetTimeUnits())
-					|| (e.isSetTimeUnits() && !isSetTimeUnits())){
+					|| (e.isSetTimeUnits() && !isSetTimeUnits())) {
 				return false;
-			}
-			else if (e.isSetTimeUnits() && isSetTimeUnits()){
+			} else if (e.isSetTimeUnits() && isSetTimeUnits()) {
 				equal &= e.getTimeUnits().equals(getTimeUnits());
 			}
 			System.out.println("TimeUnist : " + equal);
@@ -243,10 +256,11 @@ public class Event extends AbstractNamedSBase {
 	/**
 	 * 
 	 * @param n
-	 * @return the nth EventAssignment instance of the list of EventAssignments for this Event.
+	 * @return the nth EventAssignment instance of the list of EventAssignments
+	 *         for this Event.
 	 */
 	public EventAssignment getEventAssignment(int n) {
-		if (isSetListOfEventAssignments()){
+		if (isSetListOfEventAssignments()) {
 			return listOfEventAssignments.get(n);
 		}
 		return null;
@@ -262,10 +276,11 @@ public class Event extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the number of EventAssignments in the list of EventAssignements of this Event.
+	 * @return the number of EventAssignments in the list of EventAssignements
+	 *         of this Event.
 	 */
 	public int getNumEventAssignments() {
-		if (isSetListOfEventAssignments()){
+		if (isSetListOfEventAssignments()) {
 			return listOfEventAssignments.size();
 		}
 		return 0;
@@ -273,7 +288,8 @@ public class Event extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return The timeUnitsID of this Event. Return an empty String if it is not set.
+	 * @return The timeUnitsID of this Event. Return an empty String if it is
+	 *         not set.
 	 */
 	@Deprecated
 	public String getTimeUnits() {
@@ -282,16 +298,17 @@ public class Event extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the UnitDefinition instance of the model which matches the timesUnitsID of this Event.
-	 * Return null if there is no UnitDefinition id which matches the timeUnitsID of this Event.
+	 * @return the UnitDefinition instance of the model which matches the
+	 *         timesUnitsID of this Event. Return null if there is no
+	 *         UnitDefinition id which matches the timeUnitsID of this Event.
 	 */
 	public UnitDefinition getTimeUnitsInstance() {
-		if (getModel() != null){
+		if (getModel() != null) {
 			return getModel().getUnitDefinition(this.timeUnitsID);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @return the Trigger instance of this Event.
@@ -299,13 +316,15 @@ public class Event extends AbstractNamedSBase {
 	public Trigger getTrigger() {
 		return trigger;
 	}
-	
+
 	/**
 	 * 
-	 * @return the useValuesFromTriggerTime instance of this Event. it is null if it has not been set.
+	 * @return the useValuesFromTriggerTime instance of this Event. it is null
+	 *         if it has not been set.
 	 */
 	public boolean getUseValuesFromTriggerTime() {
-		return isSetUseValuesFromTriggerTime() ? useValuesFromTriggerTime : false;
+		return isSetUseValuesFromTriggerTime() ? useValuesFromTriggerTime
+				: false;
 	}
 
 	/**
@@ -313,7 +332,8 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void initDefaults() {
 		useValuesFromTriggerTime = new Boolean(true);
-		setListOfEventAssignments(new ListOf<EventAssignment>(getLevel(), getVersion()));
+		setListOfEventAssignments(new ListOf<EventAssignment>(getLevel(),
+				getVersion()));
 		timeUnitsID = null;
 		delay = null;
 	}
@@ -328,16 +348,17 @@ public class Event extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return true if the UnitDefinition which has the timeUnitsID of this Event as id is not null.
+	 * @return true if the UnitDefinition which has the timeUnitsID of this
+	 *         Event as id is not null.
 	 */
 	@Deprecated
 	public boolean isSetTimeUnitsInstance() {
-		if (getModel() != null){
+		if (getModel() != null) {
 			return getModel().getUnitDefinition(this.timeUnitsID) != null;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the timeUnitsID of this Event is not null.
@@ -357,16 +378,16 @@ public class Event extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the boolean value of the useValuesFromTriggerTime of this Event if it has been set,
-	 * false otherwise. 
+	 * @return the boolean value of the useValuesFromTriggerTime of this Event
+	 *         if it has been set, false otherwise.
 	 */
 	public boolean isUseValuesFromTriggerTime() {
-		if (isSetUseValuesFromTriggerTime()){
+		if (isSetUseValuesFromTriggerTime()) {
 			return useValuesFromTriggerTime;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the listOfEventAssignments of this Event is not null;
@@ -374,18 +395,19 @@ public class Event extends AbstractNamedSBase {
 	public boolean isSetListOfEventAssignments() {
 		return listOfEventAssignments != null;
 	}
-	
+
 	/**
 	 * 
 	 * @return true is the useValuesFromTriggerTime of this Event is not null.
 	 */
-	public boolean isSetUseValuesFromTriggerTime(){
+	public boolean isSetUseValuesFromTriggerTime() {
 		return this.useValuesFromTriggerTime != null;
 	}
 
 	/**
-	 * Sets the delay of this Event to 'delay'. It automatically sets the Delay parentSBML object to
-	 * this Event instance.
+	 * Sets the delay of this Event to 'delay'. It automatically sets the Delay
+	 * parentSBML object to this Event instance.
+	 * 
 	 * @param delay
 	 */
 	public void setDelay(Delay delay) {
@@ -396,26 +418,30 @@ public class Event extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the listofEventAssignments of this Event to 'listOfEventAssignments'.
-	 * It automatically sets the SBMLParent object of the listOfEventAssignments and all the
-	 * EventAssignments in this list to this Event instance.
+	 * Sets the listofEventAssignments of this Event to
+	 * 'listOfEventAssignments'. It automatically sets the SBMLParent object of
+	 * the listOfEventAssignments and all the EventAssignments in this list to
+	 * this Event instance.
+	 * 
 	 * @param listOfEventAssignments
 	 */
 	public void setListOfEventAssignments(
 			ListOf<EventAssignment> listOfEventAssignments) {
 		this.listOfEventAssignments = listOfEventAssignments;
-		this.listOfEventAssignments.setSBaseListType(SBaseListType.listOfEventAssignments);
+		this.listOfEventAssignments
+				.setSBaseListType(SBaseListType.listOfEventAssignments);
 		setThisAsParentSBMLObject(this.listOfEventAssignments);
 		stateChanged();
 	}
 
 	/**
 	 * Sets the timeUnitsID of this Event to 'timeUnits'.
+	 * 
 	 * @param timeUnits
 	 */
 	@Deprecated
 	public void setTimeUnits(String timeUnits) {
-		if (timeUnits.equals("")){
+		if (timeUnits.equals("")) {
 			unsetTimeUnits();
 			return;
 		}
@@ -424,7 +450,9 @@ public class Event extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the timeUnitsID of this Event to the id of the UnitDefinition 'timeUnits'.
+	 * Sets the timeUnitsID of this Event to the id of the UnitDefinition
+	 * 'timeUnits'.
+	 * 
 	 * @param timeUnits
 	 */
 	@Deprecated
@@ -434,8 +462,9 @@ public class Event extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the trigger of this Event to 'trigger'. It automatically sets the Trigger parentSBML object to
-	 * this Event instance.
+	 * Sets the trigger of this Event to 'trigger'. It automatically sets the
+	 * Trigger parentSBML object to this Event instance.
+	 * 
 	 * @param trigger
 	 */
 	public void setTrigger(Trigger trigger) {
@@ -445,70 +474,82 @@ public class Event extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the useValuesFromTriggerTime of this Event to 'useValuesFromTriggerTime'.
+	 * Sets the useValuesFromTriggerTime of this Event to
+	 * 'useValuesFromTriggerTime'.
+	 * 
 	 * @param useValuesFromTriggerTime
 	 */
 	public void setUseValuesFromTriggerTime(boolean useValuesFromTriggerTime) {
 		this.useValuesFromTriggerTime = useValuesFromTriggerTime;
 	}
-	
+
 	/**
 	 * Sets the trigger of this Event to null.
 	 */
-	public void unsetTrigger(){
+	public void unsetTrigger() {
 		this.trigger = null;
 	}
+
 	/**
 	 * Sets the delay of this Event to null.
 	 */
-	public void unsetDelay(){
+	public void unsetDelay() {
 		this.delay = null;
 	}
+
 	/**
 	 * Sets the listOfEventAssignments of this Event to null.
 	 */
-	public void unsetListOfEventAssignments(){
+	public void unsetListOfEventAssignments() {
 		this.listOfEventAssignments = null;
 	}
+
 	/**
-	 * Remove all the EventAssignments of the listOfEventAssignments of this Event.
+	 * Remove all the EventAssignments of the listOfEventAssignments of this
+	 * Event.
 	 */
-	public void clearListOfEventAssignments(){
+	public void clearListOfEventAssignments() {
 		this.listOfEventAssignments.clear();
 	}
+
 	/**
 	 * Sets the timeUnitsID of this Event to null.
 	 */
-	public void unsetTimeUnits(){
+	public void unsetTimeUnits() {
 		this.timeUnitsID = null;
 	}
+
 	/**
 	 * Sets the useValuesFromTriggerTime of this Event to null.
 	 */
-	public void unsetUseValuesFromTriggerTime(){
+	public void unsetUseValuesFromTriggerTime() {
 		this.useValuesFromTriggerTime = null;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
-		if (!isAttributeRead){
-			if (attributeName.equals("useValuesFromTriggerTime") && ((getLevel() == 2 && getVersion() == 4) || getLevel() >= 3)){
-				if (value.equals("true")){
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("useValuesFromTriggerTime")
+					&& ((getLevel() == 2 && getVersion() == 4) || getLevel() >= 3)) {
+				if (value.equals("true")) {
 					this.setUseValuesFromTriggerTime(true);
 					return true;
-				}
-				else if (value.equals("false")){
+				} else if (value.equals("false")) {
 					this.setUseValuesFromTriggerTime(false);
 					return true;
 				}
-			}
-			else if (attributeName.equals("timeUnits") && (getLevel() == 1 || (getLevel() == 2 && (getVersion() == 1 || getVersion() == 2)))){
+			} else if (attributeName.equals("timeUnits")
+					&& (getLevel() == 1 || (getLevel() == 2 && (getVersion() == 1 || getVersion() == 2)))) {
 				this.setTimeUnits(value);
 			}
 		}
@@ -517,20 +558,24 @@ public class Event extends AbstractNamedSBase {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
-		if (isSetUseValuesFromTriggerTime() && ((getLevel() == 2 && getVersion() == 4) || getLevel() >= 3)){
-			attributes.put("useValuesFromTriggerTime", Boolean.toString(getUseValuesFromTriggerTime()));
+
+		if (isSetUseValuesFromTriggerTime()
+				&& ((getLevel() == 2 && getVersion() == 4) || getLevel() >= 3)) {
+			attributes.put("useValuesFromTriggerTime", Boolean
+					.toString(getUseValuesFromTriggerTime()));
 		}
-		
-		if (isSetTimeUnits() && (getLevel() == 1 || (getLevel() == 2 && (getVersion() == 1 || getVersion() == 2)))){
+
+		if (isSetTimeUnits()
+				&& (getLevel() == 1 || (getLevel() == 2 && (getVersion() == 1 || getVersion() == 2)))) {
 			attributes.put("timeUnits", getTimeUnits());
 		}
-		
+
 		return attributes;
 	}
 
@@ -541,7 +586,7 @@ public class Event extends AbstractNamedSBase {
 	public EventAssignment createEventAssignment() {
 		EventAssignment ea = new EventAssignment(level, version);
 		addEventAssignment(ea);
-		
+
 		return ea;
 	}
 
@@ -551,7 +596,7 @@ public class Event extends AbstractNamedSBase {
 	 * @return the removed ith EventAssignment instance.
 	 */
 	public EventAssignment removeEventAssignment(int i) {
-		
+
 		if (i >= listOfEventAssignments.size() || i < 0) {
 			return null;
 		}
@@ -566,7 +611,7 @@ public class Event extends AbstractNamedSBase {
 	public EventAssignment removeEventAssignment(String id) {
 		EventAssignment deletedEventAssignment = null;
 		int index = 0;
-		
+
 		for (EventAssignment reactant : listOfEventAssignments) {
 			if (reactant.getVariable().equals(id)) {
 				deletedEventAssignment = reactant;
@@ -574,14 +619,13 @@ public class Event extends AbstractNamedSBase {
 			}
 			index++;
 		}
-		
+
 		if (deletedEventAssignment != null) {
 			listOfEventAssignments.remove(index);
 		}
-		
-		return deletedEventAssignment;
-		//return listOfEventAssignments.remove(id);
-	}
 
+		return deletedEventAssignment;
+		// return listOfEventAssignments.remove(id);
+	}
 
 }

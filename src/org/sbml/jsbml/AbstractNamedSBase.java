@@ -35,7 +35,7 @@ import java.util.HashMap;
 /**
  * The base class for each SBML element with an optional id and name.
  * 
- * @author Andreas Dr&auml;ger 
+ * @author Andreas Dr&auml;ger
  * @author rodrigue
  * @author marine
  * 
@@ -44,11 +44,13 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		NamedSBase {
 
 	/**
-	 * id of the SBML component (can be optional depending on the level and version). Matches the id attribute of an element in a SBML file.
+	 * id of the SBML component (can be optional depending on the level and
+	 * version). Matches the id attribute of an element in a SBML file.
 	 */
 	private String id;
 	/**
-	 * name of the SBML component (can be optional depending on the level and version). Matches the name attribute of an element in a SBML file.
+	 * name of the SBML component (can be optional depending on the level and
+	 * version). Matches the name attribute of an element in a SBML file.
 	 */
 	private String name;
 
@@ -60,9 +62,11 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		id = null;
 		name = null;
 	}
-	
+
 	/**
-	 * Creates an AbctractNamedSBase from a level and version. By default, id and name are null.
+	 * Creates an AbctractNamedSBase from a level and version. By default, id
+	 * and name are null.
+	 * 
 	 * @param level
 	 * @param version
 	 */
@@ -74,36 +78,35 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 
 	/**
 	 * Creates an AbctractNamedSBase from a given AbstractNamedSBase.
+	 * 
 	 * @param nsb
 	 */
 	public AbstractNamedSBase(AbstractNamedSBase nsb) {
 		super(nsb);
-		if (nsb.isSetId()){
+		if (nsb.isSetId()) {
 			this.id = new String(nsb.getId());
-		}
-		else {
+		} else {
 			this.id = null;
 		}
-		if (nsb.isSetName()){
+		if (nsb.isSetName()) {
 			this.name = new String(nsb.getName());
-		}
-		else {
+		} else {
 			this.name = null;
 		}
 	}
 
 	/**
 	 * Creates an AbctractNamedSBase from an id, level and version.
+	 * 
 	 * @param id
 	 * @param level
 	 * @param version
 	 */
 	public AbstractNamedSBase(String id, int level, int version) {
 		super(level, version);
-		if (id != null){
+		if (id != null) {
 			this.id = new String(id);
-		}
-		else {
+		} else {
 			this.id = null;
 		}
 		this.name = null;
@@ -111,6 +114,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 
 	/**
 	 * Creates an AbctractNamedSBase from an id, name, level and version.
+	 * 
 	 * @param id
 	 * @param name
 	 * @param level
@@ -118,16 +122,14 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 */
 	public AbstractNamedSBase(String id, String name, int level, int version) {
 		super(level, version);
-		if (id != null){
+		if (id != null) {
 			this.id = new String(id);
-		}
-		else {
+		} else {
 			this.id = null;
 		}
-		if (name != null){
+		if (name != null) {
 			this.name = new String(name);
-		}
-		else {
+		} else {
 			this.name = null;
 		}
 	}
@@ -140,23 +142,17 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	// @Override
 	public boolean equals(Object o) {
 		boolean equals = super.equals(o);
-
-		if (o instanceof NamedSBase) {
-			
-			System.out.println("AbstractNamedSBase : equals : super.equals = " + equals);
-			
+		if (equals && o instanceof NamedSBase) {
 			NamedSBase nsb = (NamedSBase) o;
 			equals &= nsb.isSetId() == isSetId();
-			
-			if (nsb.isSetId() && isSetId()){
+			if (nsb.isSetId() && isSetId()) {
 				equals &= nsb.getId().equals(getId());
 			}
 			equals &= nsb.isSetName() == isSetName();
-			if (equals && nsb.isSetName()){
+			if (equals && nsb.isSetName()) {
 				equals &= nsb.getName().equals(getName());
 			}
 		}
-		
 		return equals;
 	}
 
@@ -207,26 +203,26 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		} else {
 			this.id = id;
 		}
-		
+
 		stateChanged();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.element.NamedSBase#unsetName()
 	 */
-	public void unsetName(){
+	public void unsetName() {
 		this.name = null;
 		stateChanged();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.element.NamedSBase#unsetId()
 	 */
-	public void unsetId(){
+	public void unsetId() {
 		this.id = null;
 		stateChanged();
 	}
@@ -242,9 +238,8 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		} else {
 			this.name = name;
 		}
-		
-		
-		if (!isSetId() && level == 1){
+
+		if (!isSetId() && level == 1) {
 			this.id = name;
 		}
 		stateChanged();
@@ -257,57 +252,59 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 */
 	// @Override
 	public String toString() {
-		if (isSetName() && getName().length() > 0){
+		if (isSetName() && getName().length() > 0) {
 			return name;
 		}
-		if (isSetId()){
+		if (isSetId()) {
 			return id;
 		}
 		String name = getClass().getName();
 		return name.substring(name.lastIndexOf('.') + 1);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
-		if (!isAttributeRead){
-			if (attributeName.equals("id") && getLevel() > 1){
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("id") && getLevel() > 1) {
 				this.setId(value);
 				return true;
-			}
-			else if (attributeName.equals("name")){
+			} else if (attributeName.equals("name")) {
 				this.setName(value);
-				if (isSetLevel() && getLevel() == 1){
+				if (isSetLevel() && getLevel() == 1) {
 					this.setId(value);
 				}
 				return true;
 			}
 			return false;
 		}
-		
+
 		return isAttributeRead;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#writeAttributes()
 	 */
-	public HashMap<String, String> writeXMLAttributes(){
+	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
-		if (isSetId() && getLevel() > 1){
+
+		if (isSetId() && getLevel() > 1) {
 			attributes.put("id", getId());
 		}
-		if (isSetName()){
+		if (isSetName()) {
 			attributes.put("name", getName());
 		}
-		
+
 		return attributes;
 	}
 }
