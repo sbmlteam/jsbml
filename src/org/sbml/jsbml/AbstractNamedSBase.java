@@ -39,6 +39,9 @@ import java.util.HashMap;
  * @author rodrigue
  * @author marine
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public abstract class AbstractNamedSBase extends AbstractSBase implements
 		NamedSBase {

@@ -36,6 +36,9 @@ package org.sbml.jsbml;
  * @author marine3
  * @author Andreas Dr&auml;ger
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class ModelCreator {
 

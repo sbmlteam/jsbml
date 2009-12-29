@@ -37,6 +37,10 @@ import java.util.HashMap;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class FunctionDefinition extends MathContainer implements NamedSBase {
 

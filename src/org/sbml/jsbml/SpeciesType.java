@@ -33,10 +33,15 @@ package org.sbml.jsbml;
 import java.util.HashMap;
 
 /**
- * Represents the speciesType XML element of a SBML file. It is @deprecated since level 3.
+ * Represents the speciesType XML element of a SBML file. It is @deprecated
+ * since level 3.
  * 
  * @author Andreas Dr&auml;ger
+ * @deprecated
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class SpeciesType extends AbstractNamedSBase {
 
@@ -47,7 +52,7 @@ public class SpeciesType extends AbstractNamedSBase {
 	public SpeciesType() {
 		super();
 	}
-	
+
 	/**
 	 * Creates a SpeciesType instance from a given SpeciesType.
 	 * 
@@ -104,16 +109,19 @@ public class SpeciesType extends AbstractNamedSBase {
 	public SpeciesType clone() {
 		return new SpeciesType(this);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
 		return isAttributeRead;
 	}
 
@@ -125,7 +133,7 @@ public class SpeciesType extends AbstractNamedSBase {
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
+
 		return attributes;
 	}
 }

@@ -9,7 +9,10 @@ import org.xml.sax.helpers.*;
  *
  * @author Marco Donizelli
  * @since 1.1
- *
+ * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public interface SAX2Parser {
 

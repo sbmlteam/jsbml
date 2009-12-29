@@ -38,6 +38,9 @@ import java.util.HashMap;
  * @author rodrigue
  * @author marine
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class Compartment extends Symbol {
 

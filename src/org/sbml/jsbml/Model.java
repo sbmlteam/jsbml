@@ -48,6 +48,23 @@ import org.sbml.jsbml.xml.stax.SBaseListType;
  * @author Andreas Dr&auml;ger
  * @author Marine
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
+ * 
+ * @composed 0..* ListOf 1 FunctionDefinition
+ * @composed 0..* ListOf 1 UnitDefinition
+ * @composed 0..* ListOf 1 CompartmentType
+ * @composed 0..* ListOf 1 SpeciesType
+ * @composed 0..* ListOf 1 Compartment
+ * @composed 0..* ListOf 1 Species
+ * @composed 0..* ListOf 1 Parameter
+ * @composed 0..* ListOf 1 InitialAssignment
+ * @composed 0..* ListOf 1 Rule
+ * @composed 0..* ListOf 1 Constraint
+ * @composed 0..* ListOf 1 Reaction
+ * @composed 0..* ListOf 1 Event
+ * 
  */
 public class Model extends AbstractNamedSBase {
 
@@ -281,15 +298,10 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the UnitDefinition instance which has the timeUnitsID of this
-	 *         Model as id. Null if it doesn't exist
-	 */
-	/**
-	 * 
 	 * @param id
 	 */
 	public Model(int level, int version) {
-		super(null, level, version);
+		this(null, level, version);
 	}
 
 	public UnitDefinition getTimeUnitsInstance() {
@@ -546,19 +558,44 @@ public class Model extends AbstractNamedSBase {
 	 * @seeorg.sbml.jsbml.element.SBase#addChangeListener(org.sbml.squeezer.io.
 	 * SBaseChangedListener )
 	 */
+	@SuppressWarnings("deprecation")
 	public void addChangeListener(SBaseChangedListener l) {
 		super.addChangeListener(l);
+		if (listOfFunctionDefinitions == null)
+			listOfFunctionDefinitions = new ListOf<FunctionDefinition>();
 		listOfFunctionDefinitions.addChangeListener(l);
+		if (listOfUnitDefinitions == null)
+			listOfUnitDefinitions = new ListOf<UnitDefinition>();
 		listOfUnitDefinitions.addChangeListener(l);
+		if (listOfCompartmentTypes == null)
+			listOfCompartmentTypes = new ListOf<CompartmentType>();
 		listOfCompartmentTypes.addChangeListener(l);
+		if (listOfSpeciesTypes == null)
+			listOfSpeciesTypes = new ListOf<SpeciesType>();
 		listOfSpeciesTypes.addChangeListener(l);
+		if (listOfCompartments == null)
+			listOfCompartments = new ListOf<Compartment>();
 		listOfCompartments.addChangeListener(l);
+		if (listOfSpecies == null)
+			listOfSpecies = new ListOf<Species>();
 		listOfSpecies.addChangeListener(l);
+		if (listOfParameters == null)
+			listOfParameters = new ListOf<Parameter>();
 		listOfParameters.addChangeListener(l);
+		if (listOfInitialAssignments == null)
+			listOfInitialAssignments = new ListOf<InitialAssignment>();
 		listOfInitialAssignments.addChangeListener(l);
+		if (listOfRules == null)
+			listOfRules = new ListOf<Rule>();
 		listOfRules.addChangeListener(l);
+		if (listOfConstraints == null)
+			listOfConstraints = new ListOf<Constraint>();
 		listOfConstraints.addChangeListener(l);
+		if (listOfReactions == null)
+			listOfReactions = new ListOf<Reaction>();
 		listOfReactions.addChangeListener(l);
+		if (listOfEvents == null)
+			listOfEvents = new ListOf<Event>();
 		listOfEvents.addChangeListener(l);
 	}
 
@@ -959,12 +996,12 @@ public class Model extends AbstractNamedSBase {
 	 *         'symbol' as id.
 	 */
 	public Symbol findSymbol(String symbol) {
-		Symbol nsb = getSpecies(symbol);
+		Symbol nsb = getCompartment(symbol);
 		if (nsb == null) {
-			nsb = getParameter(symbol);
+			nsb = getSpecies(symbol);
 		}
 		if (nsb == null) {
-			nsb = getCompartment(symbol);
+			nsb = getParameter(symbol);
 		}
 		if (nsb == null && isSetListOfReactions()) {
 			for (int i = 0; i < getNumReactions(); i++) {
@@ -976,10 +1013,14 @@ public class Model extends AbstractNamedSBase {
 					nsb = reaction.getProduct(symbol);
 					if (nsb != null) {
 						break;
+					} else if (reaction.isSetKineticLaw()) {
+						nsb = reaction.getKineticLaw().getParameter(symbol);
+						if (nsb != null) {
+							break;
+						}
 					}
 				}
 			}
-
 		}
 		return nsb;
 	}
@@ -1617,7 +1658,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @param n
 	 *            the nth Species of this Model.
-	 * @return
+	 * @return the species with the given index if it exists.
 	 */
 	public Species getSpecies(int n) {
 		if (isSetListOfSpecies() && n < listOfSpecies.size() && n >= 0) {

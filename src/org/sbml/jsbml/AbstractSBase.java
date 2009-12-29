@@ -42,6 +42,11 @@ import java.util.Set;
  * @author Andreas Dr&auml;ger
  * @author rodrigue
  * @author marine
+ * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
+ * @composed 0..1 notes 1 String
  */
 public abstract class AbstractSBase implements SBase {
 

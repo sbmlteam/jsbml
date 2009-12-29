@@ -49,6 +49,9 @@ import org.sbml.jsbml.CVTerm.Qualifier;
  * @author marine
  * @author Andreas Dr&auml;ger
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 

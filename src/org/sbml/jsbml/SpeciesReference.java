@@ -33,8 +33,13 @@ import java.util.HashMap;
 
 /**
  * Represents the speciesReference XML element of a SBML file.
+ * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class SpeciesReference extends SimpleSpeciesReference {
 
@@ -43,14 +48,15 @@ public class SpeciesReference extends SimpleSpeciesReference {
 	 */
 	private Double stoichiometry;
 	/**
-	 * Contains the MathML expression for the stoichiometry of this SpeciesReference.
+	 * Contains the MathML expression for the stoichiometry of this
+	 * SpeciesReference.
 	 */
 	private StoichiometryMath stoichiometryMath;
 	/**
 	 * Represents the 'constant' XML attribute of this SpeciesReference.
 	 */
 	private Boolean constant;
-	
+
 	/**
 	 * Represents the 'denominator' XML attribute of this SpeciesReference.
 	 */
@@ -61,7 +67,10 @@ public class SpeciesReference extends SimpleSpeciesReference {
 	private boolean isSetDenominator = false;
 
 	/**
-	 * Creates a SpeciesReference instance. By default, if the level is superior or equal to 3, the constant, stoichiometryMath and stoichiometry are null.
+	 * Creates a SpeciesReference instance. By default, if the level is superior
+	 * or equal to 3, the constant, stoichiometryMath and stoichiometry are
+	 * null.
+	 * 
 	 * @param spec
 	 */
 	public SpeciesReference() {
@@ -70,45 +79,47 @@ public class SpeciesReference extends SimpleSpeciesReference {
 		this.stoichiometry = null;
 		this.stoichiometryMath = null;
 		this.denominator = null;
-		if (isSetLevel() && getLevel() < 3){
+		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
 	}
 
 	/**
 	 * Creates a SpeciesReference instance from a given SpeciesReference.
+	 * 
 	 * @param speciesReference
 	 */
 	public SpeciesReference(SpeciesReference speciesReference) {
 		super(speciesReference);
-		if (speciesReference.isSetStoichiometryMath()){
-			setStoichiometryMath(speciesReference.getStoichiometryMath().clone());
-		}
-		else {
+		if (speciesReference.isSetStoichiometryMath()) {
+			setStoichiometryMath(speciesReference.getStoichiometryMath()
+					.clone());
+		} else {
 			this.stoichiometryMath = null;
 		}
-		if (speciesReference.isSetStoichiometry()){
+		if (speciesReference.isSetStoichiometry()) {
 			this.stoichiometry = new Double(speciesReference.getStoichiometry());
-		}
-		else {
+		} else {
 			this.stoichiometry = null;
 		}
-		if (speciesReference.isSetConstant()){
+		if (speciesReference.isSetConstant()) {
 			this.constant = new Boolean(speciesReference.getConstant());
-		}
-		else {
+		} else {
 			this.constant = null;
 		}
-		if (speciesReference.isSetDenominator){
-			this.denominator = Integer.valueOf(speciesReference.getDenominator());
-		}
-		else {
+		if (speciesReference.isSetDenominator) {
+			this.denominator = Integer.valueOf(speciesReference
+					.getDenominator());
+		} else {
 			this.denominator = null;
 		}
 	}
 
 	/**
-	 * Creates a SpeciesReference instance from a Species. By default, if the level is superior or equal to 3, the constant, stoichiometryMath and stoichiometry are null.
+	 * Creates a SpeciesReference instance from a Species. By default, if the
+	 * level is superior or equal to 3, the constant, stoichiometryMath and
+	 * stoichiometry are null.
+	 * 
 	 * @param speciesReference
 	 */
 	public SpeciesReference(Species species) {
@@ -119,7 +130,6 @@ public class SpeciesReference extends SimpleSpeciesReference {
 		this.denominator = null;
 	}
 
-	
 	public SpeciesReference(int level, int version) {
 		super(level, version);
 	}
@@ -136,7 +146,8 @@ public class SpeciesReference extends SimpleSpeciesReference {
 
 	/**
 	 * 
-	 * @return the stoichiometry value of this SpeciesReference if it is set, 0 otherwise.
+	 * @return the stoichiometry value of this SpeciesReference if it is set, 0
+	 *         otherwise.
 	 */
 	public double getStoichiometry() {
 		return isSetStoichiometry() ? stoichiometry : 0;
@@ -144,7 +155,8 @@ public class SpeciesReference extends SimpleSpeciesReference {
 
 	/**
 	 * 
-	 * @return the stoichiometryMath of this SpeciesReference. Can be null if oit is not set.
+	 * @return the stoichiometryMath of this SpeciesReference. Can be null if
+	 *         oit is not set.
 	 */
 	public StoichiometryMath getStoichiometryMath() {
 		return stoichiometryMath;
@@ -162,27 +174,29 @@ public class SpeciesReference extends SimpleSpeciesReference {
 
 	/**
 	 * 
-	 * @return true if the stoichiometryMath of this SpeciesReference is not null.
+	 * @return true if the stoichiometryMath of this SpeciesReference is not
+	 *         null.
 	 */
 	public boolean isSetStoichiometryMath() {
 		return stoichiometryMath != null;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the stoichiometry of this SpeciesReference is not null.
 	 */
-	public boolean isSetStoichiometry(){
+	public boolean isSetStoichiometry() {
 		return this.stoichiometry != null && this.stoichiometry != Double.NaN;
 	}
 
 	/**
 	 * Sets the stoichiometry of this SpeciesReference.
+	 * 
 	 * @param stoichiometry
 	 */
 	public void setStoichiometry(double stoichiometry) {
 		this.stoichiometry = stoichiometry;
-		if (isSetStoichiometryMath()){
+		if (isSetStoichiometryMath()) {
 			stoichiometryMath = null;
 		}
 		stateChanged();
@@ -190,6 +204,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
 
 	/**
 	 * Sets the stoichiometryMath of this SpeciesReference.
+	 * 
 	 * @param math
 	 */
 	public void setStoichiometryMath(StoichiometryMath math) {
@@ -209,31 +224,27 @@ public class SpeciesReference extends SimpleSpeciesReference {
 		if (o instanceof SpeciesReference) {
 			SpeciesReference sr = (SpeciesReference) o;
 			if ((sr.isSetStoichiometryMath() && !isSetStoichiometryMath())
-					|| (!sr.isSetStoichiometryMath() && isSetStoichiometryMath())){
+					|| (!sr.isSetStoichiometryMath() && isSetStoichiometryMath())) {
 				return false;
-			}
-			else if (sr.isSetStoichiometryMath() && isSetStoichiometryMath()){
+			} else if (sr.isSetStoichiometryMath() && isSetStoichiometryMath()) {
 				equal &= sr.getStoichiometryMath().equals(stoichiometryMath);
 			}
 			if ((sr.isSetStoichiometry() && !isSetStoichiometry())
-					|| (!sr.isSetStoichiometry() && isSetStoichiometry())){
+					|| (!sr.isSetStoichiometry() && isSetStoichiometry())) {
 				return false;
-			}
-			else if (sr.isSetStoichiometry() && isSetStoichiometry()){
+			} else if (sr.isSetStoichiometry() && isSetStoichiometry()) {
 				equal &= sr.getStoichiometry() == stoichiometry;
 			}
 			if ((sr.isSetConstant() && !isSetConstant())
-					|| (!sr.isSetConstant() && isSetConstant())){
+					|| (!sr.isSetConstant() && isSetConstant())) {
 				return false;
-			}
-			else if (sr.isSetConstant() && isSetConstant()){
+			} else if (sr.isSetConstant() && isSetConstant()) {
 				equal &= sr.getConstant() == constant;
 			}
 			if ((sr.isSetDenominator() && !isSetDenominator())
-					|| (!sr.isSetDenominator() && isSetDenominator())){
+					|| (!sr.isSetDenominator() && isSetDenominator())) {
 				return false;
-			}
-			else if (sr.isSetDenominator() && isSetDenominator()){
+			} else if (sr.isSetDenominator() && isSetDenominator()) {
 				equal &= sr.getDenominator() == denominator;
 			}
 			return equal;
@@ -241,15 +252,16 @@ public class SpeciesReference extends SimpleSpeciesReference {
 			equal = false;
 		return equal;
 	}
-	
+
 	/**
 	 * Sets the constant boolean of this SpeciesReference.
+	 * 
 	 * @param constant
 	 */
 	public void setConstant(boolean constant) {
 		this.constant = constant;
 	}
-	
+
 	/**
 	 * @return the value of the constant Boolean if it is set, false otherwise.
 	 */
@@ -260,23 +272,24 @@ public class SpeciesReference extends SimpleSpeciesReference {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
-		if (!isAttributeRead){
-			if (attributeName.equals("stochiometry")){
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("stochiometry")) {
 				this.setStoichiometry(Double.parseDouble(value));
 				return true;
-			}
-			else if (attributeName.equals("constant")){
-				if (value.equals("true")){
+			} else if (attributeName.equals("constant")) {
+				if (value.equals("true")) {
 					setConstant(true);
 					return true;
-				}
-				else if (value.equals("false")){
+				} else if (value.equals("false")) {
 					setConstant(false);
 					return true;
 				}
@@ -285,10 +298,10 @@ public class SpeciesReference extends SimpleSpeciesReference {
 				return true;
 			}
 		}
-		
+
 		return isAttributeRead;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -297,11 +310,12 @@ public class SpeciesReference extends SimpleSpeciesReference {
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
-		if (isSetStoichiometry()){
-			attributes.put("stoichiometry", Double.toString(getStoichiometry()));
+
+		if (isSetStoichiometry()) {
+			attributes
+					.put("stoichiometry", Double.toString(getStoichiometry()));
 		}
-		if (isSetConstant()){
+		if (isSetConstant()) {
 			attributes.put("constant", Boolean.toString(getConstant()));
 		}
 		if (isSetDenominator() && level == 1) {
@@ -326,9 +340,10 @@ public class SpeciesReference extends SimpleSpeciesReference {
 	public int getDenominator() {
 		return isSetDenominator ? denominator : 1;
 	}
-	
+
 	/**
 	 * Sets the denominator of this SpeciesReference.
+	 * 
 	 * @param denominator
 	 */
 	public void setDenominator(int denominator) {

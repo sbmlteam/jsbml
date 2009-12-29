@@ -40,6 +40,10 @@ import org.sbml.jsbml.util.TextFormula;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2009-08-31
+ * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class Unit extends AbstractSBase {
 

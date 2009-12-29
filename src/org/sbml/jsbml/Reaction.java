@@ -40,6 +40,14 @@ import org.sbml.jsbml.xml.stax.SBaseListType;
  * @author rodrigue
  * @author marine
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
+ * 
+ * @composed 0..* reactant 1 SpeciesReference
+ * @composed 0..* product 1 SpeciesReference
+ * @composed 0..* modifier 1 ModifierSpeciesReference
+ * @composed 0..1 kineticLaw 1 KineticLaw
  */
 public class Reaction extends AbstractNamedSBase {
 

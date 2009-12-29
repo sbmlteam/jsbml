@@ -41,6 +41,11 @@ import org.sbml.jsbml.xml.stax.SBaseListType;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
+ * @composed 1..* ListOf 1 Unit
  */
 public class UnitDefinition extends AbstractNamedSBase {
 

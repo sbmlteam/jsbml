@@ -38,6 +38,10 @@ import java.util.HashMap;
  * @author Andreas Dr&auml;ger
  * @date 2009-08-31
  * @deprecated
+ * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class CompartmentType extends AbstractNamedSBase {
 

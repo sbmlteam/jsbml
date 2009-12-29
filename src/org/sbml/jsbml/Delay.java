@@ -35,6 +35,9 @@ import java.util.HashMap;
  * Represents the delay subnode of an event element.
  * @author Andreas Dr&auml;ger
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class Delay extends MathContainer {
 

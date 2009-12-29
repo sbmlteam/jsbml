@@ -42,6 +42,10 @@ import org.sbml.jsbml.util.StringTools;
  * @author Andreas Dr&auml;ger
  * @author marine
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
+ * 
  */
 public class CVTerm {
 

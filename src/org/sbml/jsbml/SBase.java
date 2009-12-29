@@ -42,6 +42,12 @@ import org.sbml.jsbml.CVTerm.Qualifier;
  * @author Andreas Dr&auml;ger
  * @author marine
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
+ * 
+ * @composed 0..1 annotation 1 Annotation
+ * @has 0..* listener 1 SBaseChangeListener
  */
 public interface SBase {
 
