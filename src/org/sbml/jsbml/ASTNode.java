@@ -908,8 +908,14 @@ public class ASTNode implements TreeNode {
 		case FUNCTION_TANH:
 			return compiler.tanh(getLeftChild());
 		case FUNCTION:
-			return compiler.function((FunctionDefinition) getVariable(),
-					listOfNodes.toArray(new ASTNode[] {}));
+			NamedSBase nsb = getVariable();
+			if (nsb == null) {
+				nsb = getParentSBMLObject().getModel()
+						.findNamedSBase(getName());
+				setVariable(nsb);
+			}
+			return compiler.function((FunctionDefinition) nsb, listOfNodes
+					.toArray(new ASTNode[] {}));
 		case LAMBDA:
 			return compiler.lambda(listOfNodes.toArray(new ASTNode[] {}));
 		case LOGICAL_AND:
@@ -1428,7 +1434,7 @@ public class ASTNode implements TreeNode {
 	 *         L2 (MathML) or the special symbols delay or time.
 	 */
 	public boolean isName() {
-		return type == Type.NAME;
+		return type == Type.NAME || type == Type.FUNCTION;
 	}
 
 	/**
