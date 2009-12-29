@@ -36,6 +36,11 @@ import java.util.HashMap;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
+ * @composed 0..1 math 1 ASTNode
  */
 public abstract class MathContainer extends AbstractSBase {
 

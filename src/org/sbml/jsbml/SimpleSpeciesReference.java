@@ -37,6 +37,11 @@ import java.util.HashMap;
  * 
  * @author Simon Sch&auml;fer
  * @author marine
+ * @author Andreas Dr&auml;ger
+ * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public abstract class SimpleSpeciesReference extends Symbol {
 

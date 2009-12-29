@@ -11,6 +11,9 @@ import org.xml.sax.*;
  * @author Marco Donizelli
  * @since 1.0alpha
  *
+ * @opt attributes
+ * @opt types
+ * @opt visibility 
  */
 public interface DocumentFactory {
 

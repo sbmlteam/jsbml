@@ -21,6 +21,9 @@ import org.xml.sax.helpers.*;
  * @see SAX2Parser
  * @see NodeWriter
  *
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class JAXPFacade
     implements DocumentFactory,

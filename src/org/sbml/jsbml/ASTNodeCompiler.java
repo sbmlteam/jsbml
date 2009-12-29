@@ -31,9 +31,12 @@ package org.sbml.jsbml;
 
 /**
  * A compiler for abstract syntax trees.
- *
- * @author Andreas Dr&auml;ger 
- *
+ * 
+ * @author Andreas Dr&auml;ger
+ * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public interface ASTNodeCompiler {
 
@@ -356,7 +359,6 @@ public interface ASTNodeCompiler {
 	 * @return
 	 */
 	public Object or(ASTNode... nodes);
-
 
 	/**
 	 * 

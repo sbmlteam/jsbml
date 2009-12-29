@@ -39,6 +39,13 @@ import org.sbml.jsbml.xml.stax.SBaseListType;
  * @author Andreas Dr&auml;ger
  * @author marine
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
+ * 
+ * @composed 1 trigger 1 Trigger
+ * @composed 0..1 delay 1 Delay
+ * @composed 1..* ListOf 1 EventAssignment
  */
 public class Event extends AbstractNamedSBase {
 	/**

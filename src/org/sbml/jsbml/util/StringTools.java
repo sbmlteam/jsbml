@@ -35,6 +35,9 @@ package org.sbml.jsbml.util;
  * 
  * @author Andreas Dr&auml;ger
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class StringTools {
 

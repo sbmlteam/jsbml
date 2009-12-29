@@ -39,6 +39,12 @@ import org.sbml.jsbml.xml.stax.SBaseListType;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
+ * 
+ * @composed 0..* ListOf 1 Parameter
  */
 public class KineticLaw extends MathContainer {
 

@@ -12,6 +12,15 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
 
+/**
+ * 
+ * @author Andreas Dr&auml;ger
+ * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
+ *
+ */
 public class SpeciesExtension extends Species{
 
 	private Species species;

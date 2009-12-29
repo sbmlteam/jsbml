@@ -39,6 +39,9 @@ import java.util.HashMap;
  * 
  * @author marine
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class Constraint extends MathContainer {
 

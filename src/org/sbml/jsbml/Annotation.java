@@ -51,6 +51,11 @@ import org.w3c.dom.Node;
  * 
  * @author marine
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
+ * @composed 0..* MIRIAM 1 CVTerm
+ * @composed 0..1 history 1 ModelHistory
  */
 public class Annotation {
 

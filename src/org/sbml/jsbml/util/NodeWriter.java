@@ -9,7 +9,10 @@ import org.w3c.dom.*;
  *
  * @author Marco Donizelli
  * @since 1.0
- *
+ * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public interface NodeWriter {
 

@@ -36,6 +36,9 @@ package org.sbml.jsbml;
  * @author Andreas Dr&auml;ger
  * @author marine
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public interface NamedSBase extends SBase {
 

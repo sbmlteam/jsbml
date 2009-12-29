@@ -44,6 +44,9 @@ import org.sbml.jsbml.SpeciesReference;
 /**
  * @author Andreas Dr&auml;ger
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class TextFormula extends StringTools implements ASTNodeCompiler {
 

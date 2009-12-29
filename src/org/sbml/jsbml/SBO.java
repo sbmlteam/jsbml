@@ -50,6 +50,9 @@ import org.sbml.jsbml.resources.Resource;
  * 
  * @author Andreas Dr&auml;ger
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class SBO {
 

@@ -45,6 +45,9 @@ import org.sbml.jsbml.util.TextFormula;
  * 
  * @author Andreas Dr&auml;ger
  * 
+ * @opt attributes
+ * @opt types
+ * @opt visibility
  */
 public class ASTNode implements TreeNode {
 
