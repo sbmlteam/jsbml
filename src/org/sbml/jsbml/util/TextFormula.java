@@ -40,6 +40,7 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.ASTNode.Type;
 
 /**
  * @author Andreas Dr&auml;ger
@@ -856,8 +857,12 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	public String times(ASTNode... nodes) {
 		Object n[] = new Object[nodes.length];
-		for (int i = 0; i < nodes.length; i++)
+		for (int i = 0; i < nodes.length; i++) {
 			n[i] = nodes[i].compile(this);
+			if (nodes[i].getType() == Type.PLUS
+					|| nodes[i].getType() == Type.MINUS)
+				n[i] = brackets(n[i]);
+		}
 		return times(n).toString();
 	}
 
