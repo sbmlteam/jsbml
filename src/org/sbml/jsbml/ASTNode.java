@@ -567,6 +567,8 @@ public class ASTNode implements TreeNode {
 				arithmetic.addChild(nodes);
 				setParentSBMLObject(nodes, mc, 0);
 			}
+			if (arithmetic.getNumChildren() > 2)
+				arithmetic.reduceToBinary();
 			return arithmetic;
 		} else
 			throw new RuntimeException(
@@ -1646,6 +1648,7 @@ public class ASTNode implements TreeNode {
 	public ASTNode multiplyWith(ASTNode... nodes) {
 		for (ASTNode node : nodes)
 			multiplyWith(node);
+		reduceToBinary();
 		return this;
 	}
 
@@ -1750,7 +1753,7 @@ public class ASTNode implements TreeNode {
 			switch (type) {
 			case PLUS:
 				ASTNode plus = new ASTNode(Type.PLUS, parentSBMLObject);
-				for (i = getNumChildren() - 1; i >= 0; i--)
+				for (i = getNumChildren() - 1; i > 0; i--)
 					plus.addChild(listOfNodes.remove(i));
 				addChild(plus);
 				break;
@@ -1759,7 +1762,7 @@ public class ASTNode implements TreeNode {
 				break;
 			case TIMES:
 				ASTNode times = new ASTNode(Type.TIMES, parentSBMLObject);
-				for (i = getNumChildren() - 1; i >= 0; i--)
+				for (i = getNumChildren() - 1; i > 0; i--)
 					times.addChild(listOfNodes.remove(i));
 				addChild(times);
 				break;
@@ -1768,13 +1771,13 @@ public class ASTNode implements TreeNode {
 				break;
 			case LOGICAL_AND:
 				ASTNode and = new ASTNode(Type.LOGICAL_AND, parentSBMLObject);
-				for (i = getNumChildren() - 1; i >= 0; i--)
+				for (i = getNumChildren() - 1; i > 0; i--)
 					and.addChild(listOfNodes.remove(i));
 				addChild(and);
 				break;
 			case LOGICAL_OR:
 				ASTNode or = new ASTNode(Type.LOGICAL_OR, parentSBMLObject);
-				for (i = getNumChildren() - 1; i >= 0; i--)
+				for (i = getNumChildren() - 1; i > 0; i--)
 					or.addChild(listOfNodes.remove(i));
 				addChild(or);
 				break;
