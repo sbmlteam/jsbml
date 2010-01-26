@@ -42,6 +42,7 @@ import java.util.HashMap;
  * @opt attributes
  * @opt types
  * @opt visibility
+ * @composed 0..1 units 1 UnitDefinition
  */
 public abstract class Symbol extends AbstractNamedSBase {
 

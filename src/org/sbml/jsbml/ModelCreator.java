@@ -306,6 +306,15 @@ public class ModelCreator {
 	}
 
 	/**
+	 * Equivalent to {@link setOrganisation}.
+	 * 
+	 * @param organization
+	 */
+	public void setOrganization(String organization) {
+		setOrganisation(organization);
+	}
+
+	/**
 	 * @return the information about the creator as a String.
 	 */
 	public String toString() {
@@ -366,17 +375,6 @@ public class ModelCreator {
 		return 0;
 	}
 
-	/**
-	 * Unsets the familyName of this ModelCreator.
-	 * 
-	 * @return 0
-	 */
-	public int unsetFamilyName() {
-		familyName = null;
-		// TODO
-		return 0;
-	}
-
 	// /**
 	// * write the other elements of the ModelCreator in 'buffer'
 	// * @param indent
@@ -391,6 +389,17 @@ public class ModelCreator {
 	 */
 
 	/**
+	 * Unsets the familyName of this ModelCreator.
+	 * 
+	 * @return 0
+	 */
+	public int unsetFamilyName() {
+		familyName = null;
+		// TODO
+		return 0;
+	}
+
+	/**
 	 * Unsets the givenName of this ModelCreator.
 	 * 
 	 * @return 0
@@ -399,14 +408,6 @@ public class ModelCreator {
 		givenName = null;
 		// TODO
 		return 0;
-	}
-
-	/**
-	 * Unsets the organisation of this ModelCreator.
-	 * 
-	 */
-	public void unsetOrganization() {
-		organisation = null;
 	}
 
 	// /**
@@ -427,6 +428,14 @@ public class ModelCreator {
 	/*
 	 * public String getOtherXMLInformation() { return otherXMLInformation; }
 	 */
+
+	/**
+	 * Unsets the organisation of this ModelCreator.
+	 * 
+	 */
+	public void unsetOrganization() {
+		organisation = null;
+	}
 
 	/**
 	 * writes the EMAIL element of the ModelCreator in 'buffer'

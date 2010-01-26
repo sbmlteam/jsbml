@@ -47,6 +47,7 @@ import java.util.Set;
  * @opt types
  * @opt visibility
  * @composed 0..1 notes 1 String
+ * @depend - <use> - SBO
  */
 public abstract class AbstractSBase implements SBase {
 

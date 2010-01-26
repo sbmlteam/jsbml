@@ -47,7 +47,7 @@ import org.sbml.jsbml.CVTerm.Qualifier;
  * @opt visibility
  * 
  * @composed 0..1 annotation 1 Annotation
- * @has 0..* listener 1 SBaseChangeListener
+ * @has 0..* listener 1 SBaseChangedListener
  */
 public interface SBase {
 
