@@ -48,6 +48,8 @@ import org.sbml.jsbml.util.TextFormula;
  * @opt attributes
  * @opt types
  * @opt visibility
+ * @composed 0..n child 1 ASTNode
+ * @depend - <call> - ASTNodeCompiler
  */
 public class ASTNode implements TreeNode {
 
