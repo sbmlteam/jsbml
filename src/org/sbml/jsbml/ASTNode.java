@@ -591,8 +591,14 @@ public class ASTNode implements TreeNode {
 			setParentSBMLObject(child, parent, depth + 1);
 	}
 
+	/**
+	 * Denominator if the type is {@link Type.RATIONAL}.
+	 */
 	private int denominator;
 
+	/**
+	 * Exponent if the type is {@link Type.REAL} or {@link Type.REAL_E}.
+	 */
 	private int exponent;
 
 	/**
@@ -600,6 +606,10 @@ public class ASTNode implements TreeNode {
 	 */
 	private LinkedList<ASTNode> listOfNodes;
 
+	/**
+	 * The mantissa if the type is {@link Type.REAL_E} or the real value of
+	 * this node if the type is {@link Type.REAL}.
+	 */
 	private double mantissa;
 
 	/**
@@ -624,6 +634,9 @@ public class ASTNode implements TreeNode {
 	 */
 	private Type type;
 
+	/**
+	 * A direct link to the variable if the type is {@link Type.NAME}.
+	 */
 	private NamedSBase variable;
 
 	/**
