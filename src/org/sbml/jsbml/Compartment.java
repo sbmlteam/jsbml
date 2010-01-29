@@ -41,6 +41,8 @@ import java.util.HashMap;
  * @opt attributes
  * @opt types
  * @opt visibility
+ * @has 0..1 outside 0..* Compartment
+ * @has 0..1 type 1..* CompartmentType
  */
 public class Compartment extends Symbol {
 

@@ -39,6 +39,7 @@ import java.util.HashMap;
  * @author marine
  * @author Andreas Dr&auml;ger
  * 
+ * @has 1 reference 1..* Species 
  * @opt attributes
  * @opt types
  * @opt visibility

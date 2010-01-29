@@ -40,6 +40,7 @@ import java.util.HashMap;
  * @opt attributes
  * @opt types
  * @opt visibility
+ * @has 0..1 type 1..* SpeciesType
  */
 public class Species extends Symbol {
 
