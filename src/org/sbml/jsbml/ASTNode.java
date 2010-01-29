@@ -625,7 +625,7 @@ public class ASTNode implements TreeNode {
 	private int numerator;
 
 	/**
-	 * important for the TreeNode interface.
+	 * Important for the TreeNode interface.
 	 */
 	private ASTNode parent;
 
@@ -839,8 +839,12 @@ public class ASTNode implements TreeNode {
 			 * Names of identifiers: parameters, functions, species etc.
 			 */
 		case NAME:
-			if (variable != null)
+			if (variable != null) {
+				if (variable instanceof FunctionDefinition)
+					return compiler.function((FunctionDefinition) variable,
+							listOfNodes.toArray(new ASTNode[] {}));
 				return compiler.compile(variable);
+			}
 			return compiler.compile(getName());
 			/*
 			 * Type: pi, e, true, false
