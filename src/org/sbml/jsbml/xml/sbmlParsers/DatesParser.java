@@ -33,7 +33,7 @@ package org.sbml.jsbml.xml.sbmlParsers;
 import java.util.Date;
 
 import org.sbml.jsbml.Annotation;
-import org.sbml.jsbml.ModelHistory;
+import org.sbml.jsbml.History;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.xml.stax.DateProcessor;
 import org.sbml.jsbml.xml.stax.ReadingParser;
@@ -83,8 +83,8 @@ public class DatesParser implements ReadingParser{
 		if (elementName != null){
 			
 			// A DatesParser can only modify a contextObject which is a ModelHistory instance.
-			if (contextObject instanceof ModelHistory){
-				ModelHistory modelHistory = (ModelHistory) contextObject;
+			if (contextObject instanceof History){
+				History modelHistory = (History) contextObject;
 				DateProcessor dateProcessor = new DateProcessor();
 				
 				// The date to parse is the text of a 'W3CDTF' element.
@@ -143,7 +143,7 @@ public class DatesParser implements ReadingParser{
 			boolean isNested, Object contextObject) {
 		
 		// A DatesParser can only modify a contextObject which is a ModelHistory instance.
-		if (contextObject instanceof ModelHistory){
+		if (contextObject instanceof History){
 			// When a 'created' or 'modified' node is closed, the previousElement of this parser is set
 			// to "", the boolean hasReadW3CDTF, hasReadCreated and hasReadModified are set to false.
 			if (elementName.equals("created") || elementName.equals("modified")){
@@ -183,7 +183,7 @@ public class DatesParser implements ReadingParser{
 			// This parser doesn't have to create a ModelHistory instance(in the SBML specifications, the created and modified dates
 			// should come after the creator list and so, the modelHistory of the annotation should not be null for this parser).
 			if (modelAnnotation.isSetModelHistory()){
-				ModelHistory modelHistory = modelAnnotation.getModelHistory();
+				History modelHistory = modelAnnotation.getModelHistory();
 
 				// If the localName of the node is 'created' and if it has not been read yet,
 				// the previousElement of this parser is set to 'created' and hasReadCreated is set
@@ -214,7 +214,7 @@ public class DatesParser implements ReadingParser{
 		}
 		// When this parser read a starting element tag, it can modify a contextObject
 		// which is a ModelHistory instance.
-		else if (contextObject instanceof ModelHistory){
+		else if (contextObject instanceof History){
 			
 			// If the node is a 'W3CDTF' subElement of a 'created' or 'modified' element, the boolean hasReadW3CDTF
 			// of this node is set to true. This element should not have attributes or namespace declarations.

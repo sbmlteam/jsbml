@@ -31,7 +31,7 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
 import org.sbml.jsbml.Annotation;
-import org.sbml.jsbml.ModelHistory;
+import org.sbml.jsbml.History;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 
@@ -85,7 +85,7 @@ public class CreatorParser implements ReadingParser{
 		// Creates a ModelHistory instance and set the modelHistory of annotation.
 		if (elementName.equals("creator") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
-			ModelHistory modelHistory = new ModelHistory();
+			History modelHistory = new History();
 			annotation.setModelHistory(modelHistory);
 			
 			return modelHistory;

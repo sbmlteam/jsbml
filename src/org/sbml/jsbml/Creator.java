@@ -40,7 +40,7 @@ package org.sbml.jsbml;
  * @opt types
  * @opt visibility
  */
-public class ModelCreator {
+public class Creator {
 
 	/**
 	 * email of the creator
@@ -66,7 +66,7 @@ public class ModelCreator {
 	 * Creates a ModelCreator instance. By default, the email, familyName,
 	 * givenName, organisation are null.
 	 */
-	public ModelCreator() {
+	public Creator() {
 		this.email = null;
 		this.familyName = null;
 		this.givenName = null;
@@ -79,7 +79,7 @@ public class ModelCreator {
 	 * 
 	 * @param modelCreator
 	 */
-	public ModelCreator(ModelCreator modelCreator) {
+	public Creator(Creator modelCreator) {
 		if (modelCreator.isSetEmail()) {
 			this.email = new String(modelCreator.getEmail());
 		} else {
@@ -107,8 +107,8 @@ public class ModelCreator {
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	public ModelCreator clone() {
-		return new ModelCreator(this);
+	public Creator clone() {
+		return new Creator(this);
 	}
 
 	/*
@@ -117,8 +117,8 @@ public class ModelCreator {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object sb) {
-		if (sb instanceof ModelCreator) {
-			ModelCreator m = (ModelCreator) sb;
+		if (sb instanceof Creator) {
+			Creator m = (Creator) sb;
 			boolean equal = isSetEmail() == m.isSetEmail();
 			if (equal && isSetEmail()) {
 				equal &= getEmail().equals(m.getEmail());
