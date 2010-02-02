@@ -59,8 +59,8 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.ModelCreator;
-import org.sbml.jsbml.ModelHistory;
+import org.sbml.jsbml.Creator;
+import org.sbml.jsbml.History;
 import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.RateRule;
@@ -1047,8 +1047,8 @@ public class TestModel {
   @SuppressWarnings("deprecation")
 @Test public void test_Model_setgetModelHistory()
   {
-    ModelHistory history = new  ModelHistory();
-    ModelCreator mc = new  ModelCreator();
+    History history = new  History();
+    Creator mc = new  Creator();
     Date date = new  Date("20051230 12:15:45 1 2 0"); // TODO : create a proper equivalent Date
     mc.setFamilyName( "Keating");
     mc.setGivenName( "Sarah");
@@ -1060,7 +1060,7 @@ public class TestModel {
     assertTrue( M.isSetModelHistory() == false );
     M.setModelHistory(history);
     assertTrue( M.isSetModelHistory() == true );
-    ModelCreator newMC = history.getCreator(0);
+    Creator newMC = history.getCreator(0);
     assertTrue( newMC != null );
     assertTrue(newMC.getFamilyName().equals( "Keating"));
     assertTrue(newMC.getGivenName().equals( "Sarah"));

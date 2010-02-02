@@ -31,7 +31,7 @@
 package org.sbml.jsbml.xml.sbmlParsers;
 
 import org.sbml.jsbml.Annotation;
-import org.sbml.jsbml.ModelCreator;
+import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 
@@ -95,8 +95,8 @@ public class VCardParser implements ReadingParser{
 		// An elementName can be null if the text appears after a ending element tag.
 		if (elementName != null){
 			// A VCardParser can only modify a contextObject which is a ModelCreator instance.
-			if (contextObject instanceof ModelCreator){
-				ModelCreator modelCreator = (ModelCreator) contextObject;
+			if (contextObject instanceof Creator){
+				Creator modelCreator = (Creator) contextObject;
 				
 				// Sets the familyName String of modelCreator.
 				if (elementName.equals("Family") && hasReadFamilyName){
@@ -133,7 +133,7 @@ public class VCardParser implements ReadingParser{
 			boolean isNested, Object contextObject) {	
 		
 		// A VCardParser can only modify a contextObject which is a ModelCreator instance.
-		if (contextObject instanceof ModelCreator){
+		if (contextObject instanceof Creator){
 			// End of a 'N' node, sets hasReadNNode, hasReadFamilyName and hasReadGivenName to false.
 			if (elementName.equals("N")){
 				hasReadNNode = false;
@@ -166,7 +166,7 @@ public class VCardParser implements ReadingParser{
 	public Object processStartElement(String elementName, String prefix, boolean hasAttribute, boolean hasNamespaces, Object contextObject) {
 		
 		// A VCardParser can only modify a contextObject which is a ModelCreator instance.
-		if (contextObject instanceof ModelCreator){
+		if (contextObject instanceof Creator){
 			// Reads the 'N' node.
 			if (elementName.equals("N") && !hasReadNNode){
 				hasReadNNode = true;

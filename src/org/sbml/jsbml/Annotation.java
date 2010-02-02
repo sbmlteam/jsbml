@@ -96,7 +96,7 @@ public class Annotation {
 	 * The ModelHistory which represents the history section of a RDF
 	 * otherAnnotation
 	 */
-	private ModelHistory modelHistory;
+	private History modelHistory;
 
 	/**
 	 * Creates an Annotation instance from otherAnnotation and cvTerms. By
@@ -303,7 +303,7 @@ public class Annotation {
 	 * 
 	 * @param modelHistory
 	 */
-	public void setModelHistory(ModelHistory modelHistory) {
+	public void setModelHistory(History modelHistory) {
 		this.modelHistory = modelHistory;
 	}
 
@@ -311,7 +311,7 @@ public class Annotation {
 	 * 
 	 * @return the modelHistory of the ModelAnnotation
 	 */
-	public ModelHistory getModelHistory() {
+	public History getModelHistory() {
 		return modelHistory;
 	}
 

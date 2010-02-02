@@ -399,13 +399,13 @@ public interface SBase {
 	 * 
 	 * @return the ModelHistory instance of this object.
 	 */
-	public ModelHistory getModelHistory();
+	public History getModelHistory();
 
 	/**
 	 * 
 	 * @return the ModelHistory instance of this object.
 	 */
-	public void setModelHistory(ModelHistory modelHistory);
+	public void setModelHistory(History modelHistory);
 
 	/**
 	 * 

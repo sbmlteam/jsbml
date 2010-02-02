@@ -888,14 +888,14 @@ public abstract class AbstractSBase implements SBase {
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#getModelHistory()
 	 */
-	public ModelHistory getModelHistory() {
+	public History getModelHistory() {
 		if (isSetAnnotation()) {
 			return annotation.getModelHistory();
 		}
 		return null;
 	}
 
-	public void setModelHistory(ModelHistory modelHistory) {
+	public void setModelHistory(History modelHistory) {
 		annotation.setModelHistory(modelHistory);
 	}
 

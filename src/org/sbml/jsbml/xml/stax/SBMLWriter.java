@@ -53,8 +53,8 @@ import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.MathContainer;
-import org.sbml.jsbml.ModelCreator;
-import org.sbml.jsbml.ModelHistory;
+import org.sbml.jsbml.Creator;
+import org.sbml.jsbml.History;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.JAXPFacade;
@@ -187,7 +187,7 @@ public class SBMLWriter {
 	 * @param rdfNamespaces : contains the RDF namespaces and their prefixes.
 	 * @param writer : the XMLStreamWriter2
 	 */
-	private static void writeModelHistory(ModelHistory modelHistory, HashMap<String, String> rdfNamespaces, XMLStreamWriter2 writer){
+	private static void writeModelHistory(History modelHistory, HashMap<String, String> rdfNamespaces, XMLStreamWriter2 writer){
 		try {
 			String rdfPrefix = rdfNamespaces.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 			if (modelHistory.getNumCreators() > 0){
@@ -200,7 +200,7 @@ public class SBMLWriter {
 				
 				for (int i = 0; i < modelHistory.getNumCreators(); i++){
 
-					ModelCreator modelCreator = modelHistory.getCreator(i);
+					Creator modelCreator = modelHistory.getCreator(i);
 					writer.writeStartElement(rdfPrefix, "li", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 					writer.writeAttribute(rdfPrefix, "http://www.w3.org/1999/02/22-rdf-syntax-ns#", "parseType", "Resource");
 					writer.writeCharacters(" \n");

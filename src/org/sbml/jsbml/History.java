@@ -49,11 +49,11 @@ import org.w3c.util.DateParser;
  * @composed 0..* creator 1 ModelCreator
  * @composed 0..* modification 1 Date
  */
-public class ModelHistory {
+public class History {
 	/**
 	 * Contains all the ModelCreator instances of this ModelHistory.
 	 */
-	private LinkedList<ModelCreator> listOfModelCreators;
+	private LinkedList<Creator> listOfModelCreators;
 	/**
 	 * Contains all the modified date instances of this ModelHistory.
 	 */
@@ -71,8 +71,8 @@ public class ModelHistory {
 	 * Creates a ModelHistory instance. By default, the creation and modified
 	 * are null. The listOfModification and listOfModelCreators are empty.
 	 */
-	public ModelHistory() {
-		listOfModelCreators = new LinkedList<ModelCreator>();
+	public History() {
+		listOfModelCreators = new LinkedList<Creator>();
 		listOfModification = new LinkedList<Date>();
 		creation = null;
 		modified = null;
@@ -83,8 +83,8 @@ public class ModelHistory {
 	 * 
 	 * @param modelHistory
 	 */
-	public ModelHistory(ModelHistory modelHistory) {
-		listOfModelCreators = new LinkedList<ModelCreator>();
+	public History(History modelHistory) {
+		listOfModelCreators = new LinkedList<Creator>();
 		listOfModelCreators.addAll(modelHistory.getListCreators());
 		listOfModification = new LinkedList<Date>();
 		listOfModification.addAll(modelHistory.getListModifiedDates());
@@ -107,7 +107,7 @@ public class ModelHistory {
 	 * 
 	 * @param mc
 	 */
-	public void addCreator(ModelCreator mc) {
+	public void addCreator(Creator mc) {
 		listOfModelCreators.add(mc);
 	}
 
@@ -125,8 +125,8 @@ public class ModelHistory {
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	public ModelHistory clone() {
-		return new ModelHistory(this);
+	public History clone() {
+		return new History(this);
 	}
 
 	/*
@@ -135,15 +135,15 @@ public class ModelHistory {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object o) {
-		if (o instanceof ModelHistory) {
+		if (o instanceof History) {
 			boolean equal = super.equals(o);
-			ModelHistory mh = (ModelHistory) o;
+			History mh = (History) o;
 			equal &= listOfModelCreators.size() == mh.getListCreators().size();
 
 			if (equal) {
 				for (int i = 0; i < listOfModelCreators.size(); i++) {
-					ModelCreator c1 = listOfModelCreators.get(i);
-					ModelCreator c2 = mh.getListCreators().get(i);
+					Creator c1 = listOfModelCreators.get(i);
+					Creator c2 = mh.getListCreators().get(i);
 
 					if (c1 != null && c2 != null) {
 						equal &= c1.equals(c2);
@@ -197,7 +197,7 @@ public class ModelHistory {
 	 * @param i
 	 * @return the nth ModelCreator of this ModelHistory. Can be null.
 	 */
-	public ModelCreator getCreator(int i) {
+	public Creator getCreator(int i) {
 		return listOfModelCreators.get(i);
 	}
 
@@ -206,7 +206,7 @@ public class ModelHistory {
 	 * 
 	 * @return the list of ModelCreators for this ModelHistory.
 	 */
-	public List<ModelCreator> getListCreators() {
+	public List<Creator> getListCreators() {
 		return listOfModelCreators;
 	}
 
@@ -341,7 +341,7 @@ public class ModelHistory {
 		beginCreatorElement(indent, buffer);
 		if (listOfModelCreators != null) {
 			for (int i = 0; i < getNumCreators(); i++) {
-				ModelCreator creator = getCreator(i);
+				Creator creator = getCreator(i);
 
 				creator.toXML(indent + "    ", buffer);
 			}
@@ -408,7 +408,7 @@ public class ModelHistory {
 	 * @param i
 	 * @return the ModelCreator removed from the listOfModelCreators.
 	 */
-	public ModelCreator removeModelCreator(int i) {
+	public Creator removeModelCreator(int i) {
 		if (i < listOfModelCreators.size()) {
 			return listOfModelCreators.remove(i);
 		}

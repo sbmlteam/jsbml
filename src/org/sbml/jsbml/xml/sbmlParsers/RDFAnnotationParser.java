@@ -37,8 +37,8 @@ import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.Event;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.ModelCreator;
-import org.sbml.jsbml.ModelHistory;
+import org.sbml.jsbml.Creator;
+import org.sbml.jsbml.History;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.UnitDefinition;
@@ -83,8 +83,8 @@ public class RDFAnnotationParser implements ReadingParser{
 		// A RDFAnnotationParser can modify a contextObject which is an ModelHistory instance.
 		// When this parser is parsing the model history, some rdf attributes can appear. Try to
 		// read them.
-		else if (contextObject instanceof ModelHistory){
-			ModelHistory modelHistory = (ModelHistory) contextObject;
+		else if (contextObject instanceof History){
+			History modelHistory = (History) contextObject;
 			isReadAttribute = modelHistory.readAttribute(elementName, attributeName, prefix, value);
 		}
 		// A RDFAnnotationParser can modify a contextObject which is an ModelCreator instance.
@@ -92,9 +92,9 @@ public class RDFAnnotationParser implements ReadingParser{
 		// 'li' subelement of the 'Bag' subelement of the 'creator' node.
 		// When this parser is parsing the model history, some rdf attributes can appear. Try to
 		// read them.
-		else if (contextObject instanceof ModelCreator && previousElements.containsKey("creator")){
+		else if (contextObject instanceof Creator && previousElements.containsKey("creator")){
 			if (previousElements.get("creator").equals("li")){
-				ModelCreator modelCreator = (ModelCreator) contextObject;
+				Creator modelCreator = (Creator) contextObject;
 				isReadAttribute = modelCreator.readAttribute(elementName, attributeName, prefix, value);
 			}
 		}
@@ -137,7 +137,7 @@ public class RDFAnnotationParser implements ReadingParser{
 		
 		// If the contextObject is a ModelCreator, the current element should be included into a 'creator'
 		// element.
-		if (contextObject instanceof ModelCreator){
+		if (contextObject instanceof Creator){
 			// If it is a ending Bag element, there is no other creators to parse in the 'creator' node, we can reinitialise the
 			// previousElements HashMap of this parser and remove the Entry which has 'creator' as key.
 			if (elementName.equals("Bag")){
@@ -224,8 +224,8 @@ public class RDFAnnotationParser implements ReadingParser{
 						}
 					}
 					// A RDFAnnotation can modify a contextObject which is a ModelHistory instance.
-					else if (contextObject instanceof ModelHistory){
-						ModelHistory modelHistory = (ModelHistory) contextObject;
+					else if (contextObject instanceof History){
+						History modelHistory = (History) contextObject;
 						// we should be into a 'creator' node and the first element should be a Bag element.
 						if (elementName.equals("Bag")){
 							this.previousElements.put("creator", "Bag");
@@ -236,7 +236,7 @@ public class RDFAnnotationParser implements ReadingParser{
 						else if (elementName.equals("li") && previousElements.containsKey("creator")){
 							if (previousElements.get("creator").equals("Bag")){
 								this.previousElements.put("creator", "li");
-								ModelCreator modelCreator = new ModelCreator();
+								Creator modelCreator = new Creator();
 								modelHistory.addCreator(modelCreator);	
 								return modelCreator;
 							}
