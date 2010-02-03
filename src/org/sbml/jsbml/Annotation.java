@@ -55,7 +55,7 @@ import org.w3c.dom.Node;
  * @opt types
  * @opt visibility
  * @composed 0..* MIRIAM 1 CVTerm
- * @composed 0..1 history 1 ModelHistory
+ * @composed 0..1 history 1 History
  */
 public class Annotation {
 

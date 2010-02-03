@@ -46,7 +46,7 @@ import org.w3c.util.DateParser;
  * @opt types
  * @opt visibility
  * 
- * @composed 0..* creator 1 ModelCreator
+ * @composed 0..* creator 1 Creator
  * @composed 0..* modification 1 Date
  */
 public class History {
