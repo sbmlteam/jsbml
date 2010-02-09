@@ -109,7 +109,7 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Creates a Species instance from a level and verison. By default, the
+	 * Creates a Species instance from a level and version. By default, the
 	 * charge, compartmentID, speciesTypeID, conversionFactorID,
 	 * hasOnlySubstanceUnits, boundaryCondition are null.
 	 * 
