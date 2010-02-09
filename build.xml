@@ -169,7 +169,7 @@
       
     <copy todir="${build.dest}">
         <fileset
-            dir="${src.dir}"
+            dir="${build.src}"
             includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo" > 
         </fileset>
     </copy>

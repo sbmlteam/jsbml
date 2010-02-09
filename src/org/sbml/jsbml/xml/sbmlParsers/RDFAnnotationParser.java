@@ -267,6 +267,7 @@ public class RDFAnnotationParser implements ReadingParser{
 	 * 
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
 	 */
+	@SuppressWarnings("deprecation")
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 		// Check if sbmlDocument and all the  SBML components have a valid Annotation.
 		if (sbmlDocument.hasValidAnnotation()){

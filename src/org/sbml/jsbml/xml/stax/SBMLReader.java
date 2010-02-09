@@ -49,6 +49,7 @@ import javax.xml.stream.events.StartElement;
 import org.codehaus.stax2.XMLEventReader2;
 import org.codehaus.stax2.evt.XMLEvent2;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.sbmlExtensions.groups.GroupsParser;
 import org.sbml.jsbml.xml.sbmlParsers.AnnotationParser;
 import org.sbml.jsbml.xml.sbmlParsers.BiologicalQualifierParser;
 import org.sbml.jsbml.xml.sbmlParsers.CreatorParser;
@@ -89,6 +90,7 @@ public class SBMLReader {
 	public static void initializePackageParserNamespaces(){
 		//TODO Load the map from a configuration file
 		packageParsers.put("http://www.sbml.org/sbml/level3/version1/multi/version1", MultiParser.class);
+		packageParsers.put("http://www.sbml.org/sbml/level3/version1/groups/version1", GroupsParser.class);
 		packageParsers.put("http://www.sbml.org/sbml/level3/version1/core", SBMLCoreParser.class);
 		packageParsers.put("http://www.sbml.org/sbml/level2", SBMLCoreParser.class);
 		packageParsers.put("http://www.w3.org/1999/xhtml", StringParser.class);

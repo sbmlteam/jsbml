@@ -37,6 +37,7 @@ public class SpeciesExtension extends Species{
 		return species.getBoundaryCondition();
 	}
 
+	@SuppressWarnings("deprecation")
 	public int getCharge() {
 		return species.getCharge();
 	}
@@ -73,10 +74,12 @@ public class SpeciesExtension extends Species{
 		return species.getParentSBMLObject();
 	}
 
+	@SuppressWarnings("deprecation")
 	public String getSpeciesType() {
 		return species.getSpeciesType();
 	}
 
+	@SuppressWarnings("deprecation")
 	public SpeciesType getSpeciesTypeInstance() {
 		return species.getSpeciesTypeInstance();
 	}
@@ -133,6 +136,7 @@ public class SpeciesExtension extends Species{
 		return species.isSetSpeciesType();
 	}
 
+	@SuppressWarnings("deprecation")
 	public boolean isSetSpeciesTypeInstance() {
 		return species.isSetSpeciesTypeInstance();
 	}
@@ -186,6 +190,7 @@ public class SpeciesExtension extends Species{
 		species.setInitialConcentration(initialConcentration);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setSpeciesType(SpeciesType speciesType) {
 		species.setSpeciesType(speciesType);
 	}
