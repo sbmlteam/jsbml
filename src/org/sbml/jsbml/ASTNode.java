@@ -834,7 +834,10 @@ public class ASTNode implements TreeNode {
 		case NAME_TIME:
 			return compiler.symbolTime(getName());
 		case FUNCTION_DELAY:
-			return compiler.functionDelay(getName());
+			return compiler.delay(getLeftChild(),
+					getRightChild().isInteger() ? Double
+							.valueOf(getRightChild().getInteger())
+							: getRightChild().getReal());
 			/*
 			 * Names of identifiers: parameters, functions, species etc.
 			 */

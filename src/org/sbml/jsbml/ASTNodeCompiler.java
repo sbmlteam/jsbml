@@ -223,6 +223,14 @@ public interface ASTNodeCompiler {
 	public Object csch(ASTNode node);
 
 	/**
+	 * Evaluate delay functions.
+	 * @param x
+	 * @param d
+	 * @return
+	 */
+	public Object delay(ASTNode x, double d);
+
+	/**
 	 * 
 	 * @param node
 	 * @return
@@ -266,13 +274,6 @@ public interface ASTNodeCompiler {
 	 * @return
 	 */
 	public Object function(FunctionDefinition namedSBase, ASTNode... args);
-
-	/**
-	 * 
-	 * @param delay
-	 * @return
-	 */
-	public Object functionDelay(String delay);
 
 	/**
 	 * 
