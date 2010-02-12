@@ -169,5 +169,12 @@ public class SBMLObjectForXML {
 		this.namespace = null;
 		this.prefix = null;
 	}
+	@Override
+	public String toString() {
+		return "SBMLObjectForXML [attributes=" + attributes + 
+			", name=" + name + ", namespace=" + namespace
+				+ ", prefix=" + prefix + "]";
+	}
+	
 	
 }

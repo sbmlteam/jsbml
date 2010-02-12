@@ -62,6 +62,8 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
+import org.sbml.jsbml.xml.stax.SBMLReader;
+import org.sbml.jsbml.xml.stax.SBMLWriter;
 import org.sbml.jsbml.xml.stax.SBaseListType;
 import org.sbml.jsbml.xml.stax.WritingParser;
 import org.sbml.jsbml.xml.stax.XMLLogger;
@@ -1411,7 +1413,35 @@ public class SBMLCoreParser implements ReadingParser, WritingParser{
 					listOfElementsToWrite = null;
 				}
 			}
+			
+			/*
+			HashMap<String, SBase> extentionObjects = ((SBase) sbase).getExtensionPackages();
+			
+			if (extentionObjects != null && extentionObjects.size() > 0) {
+				
+				for (String namespace : extentionObjects.keySet()) {
+					
+					// System.out.println();
+					
+					WritingParser parser = null;
+					try {
+						parser = SBMLWriter.getWritingPackageParsers(namespace).newInstance();
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					SBase extendedSBase = extentionObjects.get(namespace);
+					listOfElementsToWrite.addAll(parser.getListOfSBMLElementsToWrite(extendedSBase));
+				}
+			}
+			*/
 		}
+		
+		
+		
 		return listOfElementsToWrite;
 	}
 

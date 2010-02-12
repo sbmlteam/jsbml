@@ -95,6 +95,7 @@ public class GroupsParser implements ReadingParser, WritingParser{
 			boolean hasAttributes, boolean hasNamespaces,
 			Object contextObject)
 	 */
+	// Create the proper object and link it to his parent.
 	@SuppressWarnings("unchecked")
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces,
@@ -105,10 +106,12 @@ public class GroupsParser implements ReadingParser, WritingParser{
 			if (elementName.equals("listOfGroups")){
 				ListOf<Group> listOfGroups = new ListOf<Group>();
 				listOfGroups.setSBaseListType(SBaseListType.other);
+				listOfGroups.addNamespace(namespaceURI);
 				this.groupList = GroupList.listOfGroups;
 				
 				ModelGroupExtension groupModel = new ModelGroupExtension(model);
 				groupModel.setListOfGroups(listOfGroups);
+				groupModel.addNamespace(namespaceURI);
 				model.addExtension(GroupsParser.namespaceURI, groupModel);
 				
 				return listOfGroups;
@@ -118,6 +121,7 @@ public class GroupsParser implements ReadingParser, WritingParser{
 			if (elementName.equals("listOfMembers")){
 				ListOf<Member> listOfMembers = new ListOf<Member>();
 				listOfMembers.setSBaseListType(SBaseListType.other);
+				listOfMembers.addNamespace(namespaceURI);
 				this.groupList = GroupList.listOfMembers;
 				
 				group.setListOfMembers(listOfMembers);
@@ -132,11 +136,13 @@ public class GroupsParser implements ReadingParser, WritingParser{
 			if (elementName.equals("group") && this.groupList.equals(GroupList.listOfGroups)){
 				ModelGroupExtension extendeModel = (ModelGroupExtension) listOf.getParentSBMLObject();
 				Group group = new Group();
+				group.addNamespace(namespaceURI);
 				extendeModel.addGroup(group);
 				
 				return group;
 			} else if (elementName.equals("member") && this.groupList.equals(GroupList.listOfMembers)){
 				Member member = new Member();
+				member.addNamespace(namespaceURI);
 				listOf.add(member);
 				
 				return member;
@@ -161,7 +167,12 @@ public class GroupsParser implements ReadingParser, WritingParser{
 	public void processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 		
-		if (elementName.equals("listOfSpeciesInstances")){
+		if (elementName.equals("notes") && contextObject instanceof SBase){
+			SBase sbase = (SBase) contextObject;
+			sbase.setNotes(sbase.getNotesBuffer().toString());
+		}
+		
+		if (elementName.equals("listOfMembers") || elementName.equals("listOfGroups")){
 			this.groupList = GroupList.none;
 		}
 	}
@@ -171,8 +182,7 @@ public class GroupsParser implements ReadingParser, WritingParser{
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
-		
-		
+		// Do some checking ??
 	}
 
 	/**
@@ -189,6 +199,8 @@ public class GroupsParser implements ReadingParser, WritingParser{
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
+		
+		System.out.println("GroupsParser : getListOfSBMLElementsToWrite\n");
 		
 		ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
 		
@@ -237,13 +249,23 @@ public class GroupsParser implements ReadingParser, WritingParser{
 	 */
 	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
 		
+		System.out.println("GroupsParser : writeElement");
+		
 		if (sbmlElementToWrite instanceof SBase){
 			SBase sbase = (SBase) sbmlElementToWrite;
 
 			if (!xmlObject.isSetName()){
-				xmlObject.setName(sbase.getElementName());
-				
+				if (sbase instanceof ListOf<?>) {
+					xmlObject.setName(GroupList.listOfGroups.toString());
+				} else {
+					xmlObject.setName(sbase.getElementName());
+				}
 			}
+			if (!xmlObject.isSetPrefix()){
+				xmlObject.setPrefix("groups");
+			}
+			xmlObject.setNamespace(namespaceURI);
+
 		}
 		
 	}
