@@ -35,6 +35,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * The base class for each SBase component.
@@ -98,6 +99,8 @@ public abstract class AbstractSBase implements SBase {
 	 * appropriate namespace of the package.
 	 */
 	private HashMap<String, SBase> extensions;
+	
+	private Set<String> namespaces = new TreeSet<String>();
 
 	/**
 	 * Creates an AbstractSBase instance. By default, the sboTerm is -1, the
@@ -916,6 +919,7 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void addExtension(String namespace, SBase sbase) {
 		this.extensions.put(namespace, sbase);
+		this.namespaces.add(namespace);
 		stateChanged();
 	}
 
@@ -926,7 +930,15 @@ public abstract class AbstractSBase implements SBase {
 	 * sbase)
 	 */
 	public Set<String> getNamespaces() {
-		return this.extensions.keySet();
+		// Need to separate the list of namespaces from the extensions.
+		// SBase object directly from the extension need to set their namespace.
+		
+		return this.namespaces;
+	}
+	
+	public void addNamespace(String namespace) {
+		
+		this.namespaces.add(namespace);
 	}
 
 	/*
@@ -1036,7 +1048,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#getExtensionPackages()
 	 */
 	public HashMap<String, SBase> getExtensionPackages() {
-		return this.getExtensionPackages();
+		return extensions;
 	}
 
 }
