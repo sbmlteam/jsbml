@@ -52,12 +52,15 @@ import org.codehaus.staxmate.out.SMOutputElement;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.Constraint;
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.History;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.sbmlExtensions.groups.GroupsParser;
 import org.sbml.jsbml.util.JAXPFacade;
+import org.sbml.jsbml.xml.sbmlParsers.MultiParser;
+import org.sbml.jsbml.xml.sbmlParsers.SBMLCoreParser;
 import org.w3c.dom.Document;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
@@ -73,6 +76,32 @@ public class SBMLWriter {
 	 * contains the WritingParser instances of this class.
 	 */
 	private static HashMap<String, WritingParser> instantiatedSBMLParsers = new HashMap<String, WritingParser>();
+	
+	/**
+	 * contains all the relationships namespace URI <=> ReadingParser class.
+	 */
+	private static HashMap <String, Class<? extends WritingParser>> packageParsers = new HashMap<String, Class<? extends WritingParser>>();
+
+	/**
+	 * Initialises the packageParser HasMap of this class.
+	 */
+	public static void initializePackageParserNamespaces(){
+		//TODO Load the map from a configuration file
+		packageParsers.put("http://www.sbml.org/sbml/level3/version1/multi/version1", MultiParser.class);
+		packageParsers.put("http://www.sbml.org/sbml/level3/version1/groups/version1", GroupsParser.class);
+		packageParsers.put("http://www.sbml.org/sbml/level3/version1/core", SBMLCoreParser.class);
+		packageParsers.put("http://www.sbml.org/sbml/level2", SBMLCoreParser.class);
+	}
+
+	/**
+	 * 
+	 * @param namespace
+	 * @return the WritingParser class associated with 'namespace'. Null if there is not matching WritingParser class.
+	 */
+	public static Class<? extends WritingParser> getWritingPackageParsers(String namespace){
+		return SBMLWriter.packageParsers.get(namespace);
+	}
+
 	
 	/**
 	 * 
@@ -442,19 +471,30 @@ public class SBMLWriter {
 	 * @param notesParser : the WritingParser to parse the notes.
 	 * @param MathMLParser : the WritingParser to parse the MathML expressions.
 	 */
-	private static void writeSBMLElements(SBMLObjectForXML xmlObject, SMOutputElement parentElement, XMLStreamWriter2 streamWriter, Object objectToWrite, ReadingParser notesParser, ReadingParser MathMLParser){
+	private static void writeSBMLElements(SBMLObjectForXML xmlObject, SMOutputElement parentElement, XMLStreamWriter2 streamWriter, 
+			Object objectToWrite, ReadingParser notesParser, ReadingParser MathMLParser){
+		
 		ArrayList<WritingParser> listOfPackages = getInitializedParsers(objectToWrite, parentElement.getNamespace().getURI());
 
+		System.out.println("SBMLWriter : writeSBMLElements : xmlObject = " + xmlObject);
+		System.out.println("SBMLWriter : writeSBMLElements : parentElement = " + parentElement.getLocalName() + ", " + parentElement.getNamespace().getURI());
+		System.out.println("SBMLWriter : writeSBMLElements : objectToWrite = " + objectToWrite + "\n");
+		System.out.println("SBMLWriter : writeSBMLElements : listOfPackages = " + listOfPackages + "\n");
+		
 		Iterator<WritingParser> iterator = listOfPackages.iterator();
 		while(iterator.hasNext()){
 			WritingParser parser = iterator.next();
-			ArrayList<Object> SBMLElementsToWrite = parser.getListOfSBMLElementsToWrite(objectToWrite);
-			if (SBMLElementsToWrite == null){
+			ArrayList<Object> sbmlElementsToWrite = parser.getListOfSBMLElementsToWrite(objectToWrite);
+			
+			System.out.println("SBMLWriter : writeSBMLElements : parser = " + parser);
+			System.out.println("SBMLWriter : writeSBMLElements : elementsToWrite = " + sbmlElementsToWrite);
+			
+			if (sbmlElementsToWrite == null){
 				// TODO test if there are some characters to write.
 			}
 			else {
-				for (int i = 0; i < SBMLElementsToWrite.size(); i++){
-					Object nextObjectToWrite = SBMLElementsToWrite.get(i);
+				for (int i = 0; i < sbmlElementsToWrite.size(); i++){
+					Object nextObjectToWrite = sbmlElementsToWrite.get(i);
 
 					xmlObject.clear();
 					parser.writeElement(xmlObject, nextObjectToWrite);
@@ -515,12 +555,14 @@ public class SBMLWriter {
 	/**
 	 * 
 	 * @param object : object to write
-	 * @param SBMLNamespace
+	 * @param namespace
 	 * @return the list of the WritingParser instances necessary to write this object.
 	 */
-	private static ArrayList<WritingParser> getInitializedParsers(Object object, String SBMLNamespace){
+	private static ArrayList<WritingParser> getInitializedParsers(Object object, String namespace){
 		Collection<String> packageNamespaces = null;
 
+		System.out.println("SBMLWriter : getInitializedParsers : namespace, object = " + namespace + ", " + object);
+		
 		if (object instanceof SBase){
 			SBase sbase = (SBase) object;
 			packageNamespaces = sbase.getNamespaces();
@@ -532,17 +574,20 @@ public class SBMLWriter {
 		ArrayList<WritingParser> SBMLParsers = new ArrayList<WritingParser>();
 		
 		if (packageNamespaces != null){
-			if (!packageNamespaces.contains(SBMLNamespace)){
+			
+			System.out.println("SBMLWriter : getInitializedParsers : namespaces = " + packageNamespaces);
+			
+			if (!packageNamespaces.contains(namespace)){
 				try {
-					if (SBMLWriter.instantiatedSBMLParsers.containsKey(SBMLNamespace)){
-						WritingParser sbmlParser = SBMLWriter.instantiatedSBMLParsers.get(SBMLNamespace);
+					if (SBMLWriter.instantiatedSBMLParsers.containsKey(namespace)){
+						WritingParser sbmlParser = SBMLWriter.instantiatedSBMLParsers.get(namespace);
 						SBMLParsers.add(sbmlParser);
 					}
 					else {
-						ReadingParser sbmlParser = SBMLReader.getPackageParsers(SBMLNamespace).newInstance();
+						ReadingParser sbmlParser = SBMLReader.getPackageParsers(namespace).newInstance();
 						
 						if (sbmlParser instanceof WritingParser){
-							SBMLWriter.instantiatedSBMLParsers.put(SBMLNamespace, (WritingParser) sbmlParser);
+							SBMLWriter.instantiatedSBMLParsers.put(namespace, (WritingParser) sbmlParser);
 							SBMLParsers.add((WritingParser) sbmlParser);
 						}
 					}
@@ -557,16 +602,21 @@ public class SBMLWriter {
 			
 			Iterator<String> iterator = packageNamespaces.iterator();
 			while(iterator.hasNext()){
-				String namespace = iterator.next();
+				String packageNamespace = iterator.next();
 				try {
-					if (SBMLWriter.instantiatedSBMLParsers.containsKey(namespace)){
-						WritingParser parser = SBMLWriter.instantiatedSBMLParsers.get(namespace);
+					if (SBMLWriter.instantiatedSBMLParsers.containsKey(packageNamespace)){
+						WritingParser parser = SBMLWriter.instantiatedSBMLParsers.get(packageNamespace);
 						SBMLParsers.add(parser);
 					}
-					else if (!SBMLWriter.instantiatedSBMLParsers.containsKey(namespace) && SBMLWriter.instantiatedSBMLParsers.get(namespace) instanceof WritingParser){
-						WritingParser parser = (WritingParser) SBMLReader.getPackageParsers(namespace).newInstance();
-						SBMLWriter.instantiatedSBMLParsers.put(SBMLNamespace, parser);
-						SBMLParsers.add(parser);
+					else if (!SBMLWriter.instantiatedSBMLParsers.containsKey(packageNamespace)) {
+					
+						ReadingParser sbmlParser = SBMLReader.getPackageParsers(packageNamespace).newInstance();
+						
+						if (sbmlParser instanceof WritingParser){
+						
+							SBMLWriter.instantiatedSBMLParsers.put(namespace, (WritingParser) sbmlParser);
+							SBMLParsers.add((WritingParser) sbmlParser);
+						}
 					}
 				} catch (InstantiationException e) {
 					// TODO Auto-generated catch block
@@ -577,6 +627,9 @@ public class SBMLWriter {
 				}
 			}
 		}
+		
+		// System.out.println("SBMLWriter : getInitializedParsers : SBMLparsers = " + SBMLParsers);
+		
 		return SBMLParsers;
 	}
 	
@@ -587,6 +640,7 @@ public class SBMLWriter {
 	 */
 	public static void write(SBMLDocument sbmlDocument, String fileName){
 		SBMLReader.initializePackageParserNamespaces();
+		SBMLWriter.initializePackageParserNamespaces();
 		sbmlDocument.getSBMLDocumentAttributes();
 		
 		SMOutputFactory smFactory = new SMOutputFactory(WstxOutputFactory.newInstance());
