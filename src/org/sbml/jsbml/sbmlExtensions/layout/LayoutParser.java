@@ -156,7 +156,7 @@ public class LayoutParser implements ReadingParser, WritingParser{
 		return contextObject;
 	}
 
-	@Override
+	// @Override
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		// TODO : the basic Groups elements don't have any text. SBML syntax error, throw an exception, log en error ?
