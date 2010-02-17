@@ -288,15 +288,6 @@ public class Creator {
 	}
 
 	/**
-	 * Is equivalent to setOrganisation.
-	 * 
-	 * @param organization
-	 */
-	public void setOranization(String organization) {
-		setOrganisation(organization);
-	}
-
-	/**
 	 * Sets the organisation
 	 * 
 	 * @param organisation

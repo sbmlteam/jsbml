@@ -193,7 +193,7 @@ public class CVTerm {
 	 * 
 	 * @param urn
 	 *            string representing the resource; e.g.,
-	 *            'http://www.geneontology.org/#GO:0005892'
+	 *            'urn:miriam:kegg.reaction:R00351'
 	 * @return true as specified in {@link Collection.add}
 	 */
 	public boolean addResource(String urn) {
