@@ -31,6 +31,8 @@
 package org.sbml.jsbml;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Represents the 'sbml' root node of a SBML file.
@@ -248,9 +250,11 @@ public class SBMLDocument extends AbstractSBase {
 	public void addNamespace(String namespaceName, String prefix, String URI) {
 		if (!prefix.equals("")) {
 			this.SBMLDocumentNamespaces.put(prefix + ":" + namespaceName, URI);
+
 		} else {
 			this.SBMLDocumentNamespaces.put(namespaceName, URI);
 		}
+        this.addNamespace(URI);
 	}
 
 	/*
@@ -286,6 +290,22 @@ public class SBMLDocument extends AbstractSBase {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 
 		attributes.putAll(SBMLDocumentAttributes);
+
+        if (isSetLevel()){
+           attributes.put("level", Integer.toString(this.getLevel()));
+        }
+        if (isSetVersion()){
+           attributes.put("version", Integer.toString(this.getVersion())); 
+        }
+
+        Iterator<Map.Entry<String, String>> it = this.getSBMLDocumentNamespaces().entrySet().iterator();
+			while (it.hasNext()){
+				Map.Entry<String, String> entry = it.next();
+                if (!entry.getKey().equals("xmlns")){
+                     attributes.put(entry.getKey(), entry.getValue());
+                }
+
+			}
 
 		return attributes;
 	}
