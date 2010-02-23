@@ -215,13 +215,13 @@ public class SBML_L2V1Test {
 		assertTrue(model.getId().equals("Ma2002_cAMP_oscillations"));
 		assertTrue(model.getName().equals("Ma2202_cAMP_oscillations"));
 		
-		System.out.println(" Create date, read : " + model.getModelHistory().getCreatedDate() + ", from file : 2009-08-18T15:45:28Z");
-		System.out.println(" Create date, read : " + model.getModelHistory().getModifiedDate() + ", from file : 2009-08-25T14:48:18Z");
+		System.out.println(" Create date, read : " + model.getHistory().getCreatedDate() + ", from file : 2009-08-18T15:45:28Z");
+		System.out.println(" Create date, read : " + model.getHistory().getModifiedDate() + ", from file : 2009-08-25T14:48:18Z");
 		
-		assertTrue(model.getModelHistory().getCreator(0).getGivenName().equals("Vijayalakshmi"));
-		assertTrue(model.getModelHistory().getCreator(1).getGivenName().equals("Lan"));
-		assertTrue(model.getModelHistory().getCreator(1).getEmail().equals("lma@jhu.edu"));
-		assertTrue(model.getModelHistory().getCreator(0).getOrganisation().equals("EMBL-EBI"));
+		assertTrue(model.getHistory().getCreator(0).getGivenName().equals("Vijayalakshmi"));
+		assertTrue(model.getHistory().getCreator(1).getGivenName().equals("Lan"));
+		assertTrue(model.getHistory().getCreator(1).getEmail().equals("lma@jhu.edu"));
+		assertTrue(model.getHistory().getCreator(0).getOrganisation().equals("EMBL-EBI"));
 		assertTrue(model.getNumCVTerms() == 5);
 		
 		Species erk2 = model.getSpecies("ERK2");

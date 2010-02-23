@@ -1058,7 +1058,7 @@ public class TestModel {
     history.setCreatedDate(date);
     history.setModifiedDate(date);
     assertTrue( M.isSetModelHistory() == false );
-    M.setModelHistory(history);
+    M.setHistory(history);
     assertTrue( M.isSetModelHistory() == true );
     Creator newMC = history.getCreator(0);
     assertTrue( newMC != null );

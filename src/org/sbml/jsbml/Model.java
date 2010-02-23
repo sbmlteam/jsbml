@@ -69,45 +69,30 @@ import org.sbml.jsbml.xml.stax.SBaseListType;
 public class Model extends AbstractNamedSBase {
 
 	/**
-	 * Represents the 'substanceUnits' XML attribute of a model element.
-	 */
-	private String substanceUnitsID;
-	/**
-	 * Represents the 'timeUnits' XML attribute of a model element.
-	 */
-	private String timeUnitsID;
-	/**
-	 * Represents the 'volumeUnits' XML attribute of a model element.
-	 */
-	private String volumeUnitsID;
-	/**
 	 * Represents the 'areaUnits' XML attribute of a model element.
 	 */
 	private String areaUnitsID;
 	/**
-	 * Represents the 'lengthUnits' XML attribute of a model element.
+	 * Represents the 'conversionFactor' XML attribute of a model element.
 	 */
-	private String lengthUnitsID;
+	private String conversionFactorID;
 	/**
 	 * Represents the 'extentUnits' XML attribute of a model element.
 	 */
 	private String extentUnitsID;
 	/**
-	 * Represents the 'conversionFactor' XML attribute of a model element.
+	 * Represents the 'lengthUnits' XML attribute of a model element.
 	 */
-	private String conversionFactorID;
-
+	private String lengthUnitsID;
 	/**
 	 * Represents the listOfCompartments subnode of a model element.
 	 */
 	private ListOf<Compartment> listOfCompartments;
-
 	/**
 	 * Represents the listOfCompartmentTypes subnode of a model element.
 	 */
 	@Deprecated
 	private ListOf<CompartmentType> listOfCompartmentTypes;
-
 	/**
 	 * Represents the listOfConstraints subnode of a model element.
 	 */
@@ -160,6 +145,21 @@ public class Model extends AbstractNamedSBase {
 	private ListOf<UnitDefinition> listOfUnitDefinitions;
 
 	/**
+	 * Represents the 'substanceUnits' XML attribute of a model element.
+	 */
+	private String substanceUnitsID;
+
+	/**
+	 * Represents the 'timeUnits' XML attribute of a model element.
+	 */
+	private String timeUnitsID;
+
+	/**
+	 * Represents the 'volumeUnits' XML attribute of a model element.
+	 */
+	private String volumeUnitsID;
+
+	/**
 	 * Creates a Model instance. By default, all the listxxx and xxxUnitsID are
 	 * null.
 	 */
@@ -184,6 +184,14 @@ public class Model extends AbstractNamedSBase {
 		lengthUnitsID = null;
 		extentUnitsID = null;
 		conversionFactorID = null;
+	}
+
+	/**
+	 * 
+	 * @param id
+	 */
+	public Model(int level, int version) {
+		this(null, level, version);
 	}
 
 	/**
@@ -294,262 +302,6 @@ public class Model extends AbstractNamedSBase {
 		lengthUnitsID = null;
 		extentUnitsID = null;
 		conversionFactorID = null;
-	}
-
-	/**
-	 * 
-	 * @param id
-	 */
-	public Model(int level, int version) {
-		this(null, level, version);
-	}
-
-	public UnitDefinition getTimeUnitsInstance() {
-		if (getModel() != null) {
-			return getModel().getUnitDefinition(this.timeUnitsID);
-		}
-		return null;
-	}
-
-	/**
-	 * Sets the timeUnitsID of this Model to the id of the UnitDefinition
-	 * 'timeUnits'.
-	 * 
-	 * @param timeUnits
-	 */
-	public void setTimeUnits(UnitDefinition timeUnits) {
-		this.timeUnitsID = timeUnits != null ? timeUnits.getId() : null;
-		stateChanged();
-	}
-
-	/**
-	 * 
-	 * @return the UnitDefinition instance which has the volumeUnitsID of this
-	 *         Model as id. Null if it doesn't exist
-	 */
-	public UnitDefinition getVolumeUnitsInstance() {
-		if (getModel() != null) {
-			return getModel().getUnitDefinition(this.volumeUnitsID);
-		}
-		return null;
-	}
-
-	/**
-	 * Sets the volumeUnitsID of this Model to the id of the UnitDefinition
-	 * 'volumeUnits'.
-	 * 
-	 * @param volumeUnits
-	 */
-	public void setVolumeUnits(UnitDefinition volumeUnits) {
-		this.volumeUnitsID = volumeUnits != null ? volumeUnits.getId() : null;
-		stateChanged();
-	}
-
-	/**
-	 * 
-	 * @return the UnitDefinition instance which has the areaUnitsID of this
-	 *         Model as id. Null if it doesn't exist
-	 */
-	public UnitDefinition getAreaUnitsInstance() {
-		if (getModel() != null) {
-			return getModel().getUnitDefinition(this.areaUnitsID);
-		}
-		return null;
-	}
-
-	/**
-	 * Sets the areaUnitsID of this Model to the id of the UnitDefinition
-	 * 'areaUnits'.
-	 * 
-	 * @param areaUnits
-	 */
-	public void setAreaUnits(UnitDefinition areaUnits) {
-		this.areaUnitsID = areaUnits != null ? areaUnits.getId() : null;
-		stateChanged();
-	}
-
-	/**
-	 * 
-	 * @return the UnitDefinition instance which has the lengthUnitsID of this
-	 *         Model as id. Null if it doesn't exist
-	 */
-	public UnitDefinition getLengthUnitsInstance() {
-		if (getModel() != null) {
-			return getModel().getUnitDefinition(this.lengthUnitsID);
-		}
-		return null;
-	}
-
-	/**
-	 * Sets the lengthUnitsID of this Model to the id of the UnitDefinition
-	 * 'lengthUnits'.
-	 * 
-	 * @param lengthUnits
-	 */
-	public void setLengthUnits(UnitDefinition lengthUnits) {
-		this.lengthUnitsID = lengthUnits != null ? lengthUnits.getId() : null;
-		stateChanged();
-	}
-
-	/**
-	 * 
-	 * @return the UnitDefinition instance which has the extentUnitsID of this
-	 *         Model as id. Null if it doesn't exist
-	 */
-	public UnitDefinition getExtentUnitsInstance() {
-		if (getModel() != null) {
-			return getModel().getUnitDefinition(this.extentUnitsID);
-		}
-		return null;
-	}
-
-	/**
-	 * Sets the extentUnitsID of this Model to the id of the UnitDefinition
-	 * 'extentUnits'.
-	 * 
-	 * @param extentUnits
-	 */
-	public void setExtentUnits(UnitDefinition extentUnits) {
-		this.extentUnitsID = extentUnits != null ? extentUnits.getId() : null;
-		stateChanged();
-	}
-
-	/**
-	 * 
-	 * @return the Parameter instance which has the conversionFactorID of this
-	 *         Model as id. Null if it doesn't exist
-	 */
-	public Parameter getConversionFactorInstance() {
-		if (getModel() != null) {
-			return getModel().getParameter(this.conversionFactorID);
-		}
-		return null;
-	}
-
-	/**
-	 * Sets the conversionFactorID of this Model to the id of the Parameter
-	 * 'conversionFactor'.
-	 * 
-	 * @param conversionFactor
-	 */
-	public void setConversionFactor(Parameter conversionFactor) {
-		this.conversionFactorID = conversionFactor != null ? conversionFactor
-				.getId() : null;
-		stateChanged();
-	}
-
-	/**
-	 * 
-	 * @return the timeUnitsID of this Model. Returns an empty String if it is
-	 *         not set.
-	 */
-	public String getTimeUnits() {
-		return isSetTimeUnits() ? timeUnitsID : "";
-	}
-
-	/**
-	 * Sets the timeUnits of this Model to 'timeUnistID'
-	 * 
-	 * @param timeUnitsID
-	 */
-	public void setTimeUnits(String timeUnitsID) {
-		this.timeUnitsID = timeUnitsID;
-		stateChanged();
-	}
-
-	/**
-	 * 
-	 * @return the volumeUnitsID of this Model. Returns an empty String if it is
-	 *         not set.
-	 */
-	public String getVolumeUnits() {
-		return isSetVolumeUnits() ? volumeUnitsID : "";
-	}
-
-	/**
-	 * Sets the volumeUnitsID of this Model to 'volumeUnitsID'
-	 * 
-	 * @param volumeUnitsID
-	 */
-	public void setVolumeUnits(String volumeUnitsID) {
-		this.volumeUnitsID = volumeUnitsID;
-		stateChanged();
-	}
-
-	/**
-	 * 
-	 * @return the areaUnitsID of this Model. Returns an empty String if it is
-	 *         not set.
-	 */
-	public String getAreaUnits() {
-		return isSetAreaUnits() ? areaUnitsID : "";
-	}
-
-	/**
-	 * Sets the areaUnitsID of this Model to 'areaUnitsID'
-	 * 
-	 * @param areaUnitsID
-	 */
-	public void setAreaUnits(String areaUnitsID) {
-		this.areaUnitsID = areaUnitsID;
-		stateChanged();
-	}
-
-	/**
-	 * 
-	 * @return the lengthUnitsID of this Model. Returns an empty String if it is
-	 *         not set.
-	 */
-	public String getLengthUnits() {
-		return isSetLengthUnits() ? lengthUnitsID : "";
-	}
-
-	/**
-	 * Sets the lengthUnitsID of this Model to 'lengthUnitsID'.
-	 * 
-	 * @param lengthUnitsID
-	 */
-	public void setLengthUnits(String lengthUnitsID) {
-		this.lengthUnitsID = lengthUnitsID;
-		stateChanged();
-	}
-
-	/**
-	 * 
-	 * @return the extentUnitsID of this Model. Returns an empty String if it is
-	 *         not set.
-	 */
-	public String getExtentUnits() {
-		return isSetExtentUnits() ? extentUnitsID : "";
-	}
-
-	/**
-	 * Sets the extendUnitsID of this Model to 'extentUnitsID'.
-	 * 
-	 * @param extentUnitsID
-	 */
-	public void setExtentUnits(String extentUnitsID) {
-		this.extentUnitsID = extentUnitsID;
-		stateChanged();
-	}
-
-	/**
-	 * 
-	 * @return the conversionFactorID of this Model. Returns an empty String if
-	 *         it is not set.
-	 */
-	public String getConversionFactor() {
-		return isSetConversionFactor() ? conversionFactorID : "";
-	}
-
-	/**
-	 * Sets the conversionFactorID of this Model to 'conversionFactorID'.
-	 * 
-	 * @param conversionFactorID
-	 */
-	public void setConversionFactor(String conversionFactorID) {
-		this.conversionFactorID = conversionFactorID;
-		stateChanged();
 	}
 
 	/*
@@ -807,6 +559,475 @@ public class Model extends AbstractNamedSBase {
 		return new Model(this);
 	}
 
+	/**
+	 * Creates a new {@link AlgebraicRule} inside this {@link Model} and returns
+	 * it.
+	 * <p>
+	 * 
+	 * @return the {@link AlgebraicRule} object created
+	 *         <p>
+	 * @see #addRule(Rule r)
+	 */
+	public Rule createAlgebraicRule() {
+		AlgebraicRule rule = new AlgebraicRule(level, version);
+		addRule(rule);
+
+		return rule;
+	}
+
+	/**
+	 * Creates a new {@link AssignmentRule} inside this {@link Model} and
+	 * returns it.
+	 * <p>
+	 * 
+	 * @return the {@link AssignmentRule} object created
+	 *         <p>
+	 * @see #addRule(Rule r)
+	 */
+	public Rule createAssignmentRule() {
+		AssignmentRule rule = new AssignmentRule(level, version);
+		addRule(rule);
+
+		return rule;
+	}
+
+	/**
+	 * Creates a new {@link Compartment} inside this {@link Model} and returns
+	 * it.
+	 * <p>
+	 * 
+	 * @return the {@link Compartment} object created
+	 *         <p>
+	 * @see #addCompartment(Compartment c)
+	 */
+	public Compartment createCompartment() {
+		Compartment compartment = new Compartment(level, version);
+		addCompartment(compartment);
+
+		return compartment;
+	}
+
+	/**
+	 * Creates a new {@link CompartmentType} inside this {@link Model} and
+	 * returns it.
+	 * <p>
+	 * 
+	 * @return the {@link CompartmentType} object created
+	 *         <p>
+	 * @see #addCompartmentType(CompartmentType ct)
+	 */
+	@SuppressWarnings("deprecation")
+	public CompartmentType createCompartmentType() {
+		CompartmentType compartmentType = new CompartmentType(level, version);
+		addCompartmentType(compartmentType);
+
+		return compartmentType;
+	}
+
+	/**
+	 * Creates a new {@link Constraint} inside this {@link Model} and returns
+	 * it.
+	 * <p>
+	 * 
+	 * @return the {@link Constraint} object created
+	 *         <p>
+	 * @see #addConstraint(Constraint c)
+	 */
+	public Constraint createConstraint() {
+		Constraint constraint = new Constraint(level, version);
+		addConstraint(constraint);
+
+		return constraint;
+	}
+
+	/**
+	 * Creates a new {@link Delay} inside the last {@link Event} object created
+	 * in this {@link Model}, and returns a pointer to it.
+	 * <p>
+	 * The mechanism by which the last {@link Event} object in this model was
+	 * created is not significant. It could have been created in a variety of
+	 * ways, for example by using createEvent(). If no {@link Event} object
+	 * exists in this {@link Model} object, a new {@link Delay} is <em>not</em>
+	 * created and NULL is returned instead.
+	 * <p>
+	 * 
+	 * @return the {@link Delay} object created
+	 */
+	public Delay createDelay() {
+		return null; // TODO : implement
+	}
+
+	/**
+	 * Creates a new {@link Event} inside this {@link Model} and returns it.
+	 * <p>
+	 * 
+	 * @return the {@link Event} object created
+	 */
+	public Event createEvent() {
+		Event event = new Event(level, version);
+		addEvent(event);
+
+		return event;
+	}
+
+	/**
+	 * Creates a new {@link EventAssignment} inside the last {@link Event}
+	 * object created in this {@link Model}, and returns a pointer to it.
+	 * <p>
+	 * The mechanism by which the last {@link Event} object in this model was
+	 * created is not significant. It could have been created in a variety of
+	 * ways, for example by using createEvent(). If no {@link Event} object
+	 * exists in this {@link Model} object, a new {@link EventAssignment} is
+	 * <em>not</em> created and NULL is returned instead.
+	 * <p>
+	 * 
+	 * @return the {@link EventAssignment} object created
+	 */
+	public EventAssignment createEventAssignment() {
+
+		int numEvent = getNumEvents();
+		Event lastEvent = null;
+
+		if (numEvent == 0) {
+			return null;
+		} else {
+			lastEvent = getEvent(numEvent - 1);
+		}
+
+		EventAssignment eventAssgnt = new EventAssignment(level, version);
+		lastEvent.addEventAssignment(eventAssgnt);
+
+		return eventAssgnt;
+
+	}
+
+	/**
+	 * Creates a new {@link FunctionDefinition} inside this {@link Model} and
+	 * returns it.
+	 * <p>
+	 * 
+	 * @return the {@link FunctionDefinition} object created
+	 *         <p>
+	 * @see #addFunctionDefinition(FunctionDefinition fd)
+	 */
+	public FunctionDefinition createFunctionDefinition() {
+		FunctionDefinition functionDef = new FunctionDefinition(level, version);
+		addFunctionDefinition(functionDef);
+
+		return functionDef;
+	}
+
+	/**
+	 * Creates a new {@link InitialAssignment} inside this {@link Model} and
+	 * returns it.
+	 * <p>
+	 * 
+	 * @return the {@link InitialAssignment} object created
+	 *         <p>
+	 * @see #addInitialAssignment(InitialAssignment ia)
+	 */
+	public InitialAssignment createInitialAssignment() {
+		InitialAssignment initAssgmt = new InitialAssignment(level, version);
+		addInitialAssignment(initAssgmt);
+
+		return initAssgmt;
+	}
+
+	/**
+	 * Creates a new {@link KineticLaw} inside the last {@link Reaction} object
+	 * created in this {@link Model}, and returns a pointer to it.
+	 * <p>
+	 * The mechanism by which the last {@link Reaction} object was created and
+	 * added to this {@link Model} is not significant. It could have been
+	 * created in a variety of ways, for example using createReaction(). If a
+	 * {@link Reaction} does not exist for this model, or a {@link Reaction}
+	 * exists but already has a {@link KineticLaw}, a new {@link KineticLaw} is
+	 * <em>not</em> created and NULL is returned instead.
+	 * <p>
+	 * 
+	 * @return the {@link KineticLaw} object created
+	 */
+	public KineticLaw createKineticLaw() {
+
+		Reaction lastReaction = getLastReactionAdded();
+
+		if (lastReaction == null) {
+			return null;
+		}
+
+		KineticLaw kineticLaw = new KineticLaw(level, version);
+		lastReaction.setKineticLaw(kineticLaw);
+
+		return kineticLaw;
+	}
+
+	/**
+	 * Creates a new local {@link Parameter} inside the {@link KineticLaw}
+	 * object of the last {@link Reaction} created inside this {@link Model},
+	 * and returns a pointer to it.
+	 * <p>
+	 * The last {@link KineticLaw} object in this {@link Model} could have been
+	 * created in a variety of ways. For example, it could have been added using
+	 * createKineticLaw(), or it could be the result of using
+	 * Reaction.createKineticLaw() on the {@link Reaction} object created by a
+	 * createReaction(). If a {@link Reaction} does not exist for this model, or
+	 * the last {@link Reaction} does not contain a {@link KineticLaw} object, a
+	 * new {@link Parameter} is <em>not</em> created and NULL is returned
+	 * instead.
+	 * <p>
+	 * 
+	 * @return the {@link Parameter} object created
+	 */
+	public Parameter createKineticLawParameter() {
+
+		Reaction lastReaction = null;
+		KineticLaw lastKineticLaw = null;
+
+		if (lastReaction == null) {
+			return null;
+		} else {
+			lastKineticLaw = lastReaction.getKineticLaw();
+			if (lastKineticLaw == null) {
+				return null;
+			}
+		}
+
+		Parameter parameter = new Parameter();
+		// TODO : should we use localParameter ???
+		// createKineticLawLocalParameter exist in libsbml-5.
+		// Difference exist between global parameter and local parameter in SBML
+		// level 3
+		lastKineticLaw.addParameter(parameter);
+
+		return parameter;
+	}
+
+	/**
+	 * Creates a new {@link ModifierSpeciesReference} object for a modifier
+	 * species inside the last {@link Reaction} object in this {@link Model},
+	 * and returns a pointer to it.
+	 * <p>
+	 * The mechanism by which the last {@link Reaction} object was created and
+	 * added to this {@link Model} is not significant. It could have been
+	 * created in a variety of ways, for example using createReaction(). If a
+	 * {@link Reaction} does not exist for this model, a new
+	 * {@link ModifierSpeciesReference} is <em>not</em> created and NULL is
+	 * returned instead.
+	 * <p>
+	 * 
+	 * @return the {@link SpeciesReference} object created
+	 */
+	public ModifierSpeciesReference createModifier() {
+
+		Reaction lastReaction = getLastReactionAdded();
+
+		if (lastReaction == null) {
+			return null;
+		}
+
+		ModifierSpeciesReference modifier = lastReaction.createModifier();
+
+		return modifier;
+	}
+
+	/**
+	 * Creates a new {@link Parameter} inside this {@link Model} and returns it.
+	 * <p>
+	 * 
+	 * @return the {@link Parameter} object created
+	 *         <p>
+	 * @see #addParameter(Parameter p)
+	 */
+	public Parameter createParameter() {
+
+		Parameter parameter = new Parameter(level, version);
+		addParameter(parameter);
+
+		return parameter;
+	}
+
+	/**
+	 * Creates a new {@link SpeciesReference} object for a product inside the
+	 * last {@link Reaction} object in this {@link Model}, and returns a pointer
+	 * to it.
+	 * <p>
+	 * The mechanism by which the last {@link Reaction} object was created and
+	 * added to this {@link Model} is not significant. It could have been
+	 * created in a variety of ways, for example using createReaction(). If a
+	 * {@link Reaction} does not exist for this model, a new
+	 * {@link SpeciesReference} is <em>not</em> created and NULL is returned
+	 * instead.
+	 * <p>
+	 * 
+	 * @return the {@link SpeciesReference} object created
+	 */
+	public SpeciesReference createProduct() {
+		Reaction lastReaction = getLastReactionAdded();
+
+		if (lastReaction == null) {
+			return null;
+		}
+
+		SpeciesReference product = lastReaction.createProduct();
+
+		return product;
+	}
+
+	/**
+	 * Creates a new {@link RateRule} inside this {@link Model} and returns it.
+	 * <p>
+	 * 
+	 * @return the {@link RateRule} object created
+	 *         <p>
+	 * @see #addRule(Rule r)
+	 */
+	public RateRule createRateRule() {
+		RateRule rule = new RateRule(level, version);
+		addRule(rule);
+
+		return rule;
+	}
+
+	/**
+	 * Creates a new {@link SpeciesReference} object for a reactant inside the
+	 * last {@link Reaction} object in this {@link Model}, and returns a pointer
+	 * to it.
+	 * <p>
+	 * The mechanism by which the last {@link Reaction} object was created and
+	 * added to this {@link Model} is not significant. It could have been
+	 * created in a variety of ways, for example using createReaction(). If a
+	 * {@link Reaction} does not exist for this model, a new
+	 * {@link SpeciesReference} is <em>not</em> created and NULL is returned
+	 * instead.
+	 * <p>
+	 * 
+	 * @return the {@link SpeciesReference} object created
+	 */
+	public SpeciesReference createReactant() {
+		Reaction lastReaction = getLastReactionAdded();
+
+		if (lastReaction == null) {
+			return null;
+		}
+
+		SpeciesReference reactant = lastReaction.createReactant();
+
+		return reactant;
+	}
+
+	/**
+	 * Creates a new {@link Reaction} inside this {@link Model} and returns it.
+	 * <p>
+	 * 
+	 * @return the {@link Reaction} object created
+	 *         <p>
+	 * @see #addReaction(Reaction r)
+	 */
+	public Reaction createReaction() {
+		Reaction reaction = new Reaction(level, version);
+		addReaction(reaction);
+
+		return reaction;
+	}
+
+	/**
+	 * Creates a new {@link Species} inside this {@link Model} and returns it.
+	 * <p>
+	 * 
+	 * @return the {@link Species} object created
+	 *         <p>
+	 * @see #addSpecies(Species s)
+	 */
+	public Species createSpecies() {
+
+		Species species = new Species(level, version);
+		addSpecies(species);
+
+		return species;
+	}
+
+	/**
+	 * Creates a new {@link SpeciesType} inside this {@link Model} and returns
+	 * it.
+	 * <p>
+	 * 
+	 * @return the {@link SpeciesType} object created
+	 *         <p>
+	 * @see #addSpeciesType(SpeciesType st)
+	 */
+	@SuppressWarnings("deprecation")
+	public SpeciesType createSpeciesType() {
+
+		SpeciesType speciesType = new SpeciesType(level, version);
+		addSpeciesType(speciesType);
+
+		return speciesType;
+	}
+
+	/**
+	 * Creates a new {@link Trigger} inside the last {@link Event} object
+	 * created in this {@link Model}, and returns a pointer to it.
+	 * <p>
+	 * The mechanism by which the last {@link Event} object in this model was
+	 * created is not significant. It could have been created in a variety of
+	 * ways, for example by using createEvent(). If no {@link Event} object
+	 * exists in this {@link Model} object, a new {@link Trigger} is
+	 * <em>not</em> created and NULL is returned instead.
+	 * <p>
+	 * 
+	 * @return the {@link Trigger} object created
+	 */
+	public Trigger createTrigger() {
+		return null; // TODO : implement
+	}
+
+	/**
+	 * Creates a new {@link Unit} object within the last {@link UnitDefinition}
+	 * object created in this model and returns a pointer to it.
+	 * <p>
+	 * The mechanism by which the {@link UnitDefinition} was created is not
+	 * significant. If a {@link UnitDefinition} object does not exist in this
+	 * model, a new {@link Unit} is <em>not</em> created and NULL is returned
+	 * instead.
+	 * <p>
+	 * 
+	 * @return the {@link Unit} object created
+	 *         <p>
+	 * @see #addUnitDefinition(UnitDefinition ud)
+	 */
+	public Unit createUnit() {
+
+		int numUnitDef = getNumUnitDefinitions();
+		UnitDefinition lastUnitDef = null;
+
+		if (numUnitDef == 0) {
+			return null;
+		} else {
+			lastUnitDef = getUnitDefinition(numUnitDef - 1);
+		}
+
+		Unit unit = lastUnitDef.createUnit();
+
+		return unit;
+	}
+
+	/**
+	 * Creates a new {@link UnitDefinition} inside this {@link Model} and
+	 * returns it.
+	 * <p>
+	 * 
+	 * @return the {@link UnitDefinition} object created
+	 *         <p>
+	 * @see #addUnitDefinition(UnitDefinition ud)
+	 */
+	public UnitDefinition createUnitDefinition() {
+
+		UnitDefinition unitDefinition = new UnitDefinition(level, version);
+		addUnitDefinition(unitDefinition);
+
+		return unitDefinition;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1027,6 +1248,24 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @return the areaUnitsID of this Model. Returns an empty String if it is
+	 *         not set.
+	 */
+	public String getAreaUnits() {
+		return isSetAreaUnits() ? areaUnitsID : "";
+	}
+
+	/**
+	 * 
+	 * @return the UnitDefinition instance which has the areaUnitsID of this
+	 *         Model as id. Null if it doesn't exist
+	 */
+	public UnitDefinition getAreaUnitsInstance() {
+		return getUnitDefinition(this.areaUnitsID);
+	}
+
+	/**
+	 * 
 	 * @param n
 	 * @return the nth Compartment instance of the listOfCompartments. Null if
 	 *         if the listOfCompartments is not set.
@@ -1107,51 +1346,6 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Gets the nth SpeciesType object in this Model.
-	 * 
-	 * @param n
-	 *            index
-	 * @return the nth SpeciesType of this Model. Returns null if there are no
-	 *         speciesType defined or if the index n is too big or lower than
-	 *         zero.
-	 */
-	public SpeciesType getSpeciesType(int n) {
-		if (isSetListOfSpeciesTypes() && n < listOfSpeciesTypes.size()
-				&& n >= 0) {
-			return listOfSpeciesTypes.get(n);
-		}
-		return null;
-	}
-
-	/**
-	 * 
-	 * @return true if the listOfConstraints of this Model is not null.
-	 */
-	public boolean isSetListOfConstraints() {
-		return this.listOfConstraints != null;
-	}
-
-	/**
-	 * 
-	 * @return true if the substanceUnitsID of this Model is not null.
-	 */
-	public boolean isSetSubstanceUnits() {
-		return this.substanceUnitsID != null;
-	}
-
-	/**
-	 * 
-	 * @return true if the UnitDefinition which has the substanceUnitsID of this
-	 *         Model as id is not null.
-	 */
-	public boolean isSetSubstanceUnitsInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().getUnitDefinition(this.substanceUnitsID) != null;
-	}
-
-	/**
 	 * Get the nth Constraint object in this Model.
 	 * 
 	 * @param n
@@ -1167,6 +1361,24 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * @return the conversionFactorID of this Model. Returns an empty String if
+	 *         it is not set.
+	 */
+	public String getConversionFactor() {
+		return isSetConversionFactor() ? conversionFactorID : "";
+	}
+
+	/**
+	 * 
+	 * @return the Parameter instance which has the conversionFactorID of this
+	 *         Model as id. Null if it doesn't exist
+	 */
+	public Parameter getConversionFactorInstance() {
+		return getParameter(this.conversionFactorID);
+	}
+
+	/**
 	 * Gets the nth Event object in this Model.
 	 * 
 	 * @param i
@@ -1176,22 +1388,6 @@ public class Model extends AbstractNamedSBase {
 	public Event getEvent(int i) {
 		if (isSetListOfEvents() && i < listOfEvents.size() && i >= 0) {
 			return listOfEvents.get(i);
-		}
-		return null;
-	}
-
-	/**
-	 * Gets the nth UnitDefinition object in this Model.
-	 * 
-	 * @param i
-	 * @return the nth UnitDefinition of this Model. Returns null if there are
-	 *         no UnitDefinition defined or if the index n is too big or lower
-	 *         than zero.
-	 */
-	public UnitDefinition getUnitDefinition(int i) {
-		if (isSetListOfUnitDefinitions() && i < listOfUnitDefinitions.size()
-				&& i >= 0) {
-			return listOfUnitDefinitions.get(i);
 		}
 		return null;
 	}
@@ -1222,30 +1418,23 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return true if the listOfFunctionDefinitions of this Model is not null.
+	 * @return the extentUnitsID of this Model. Returns an empty String if it is
+	 *         not set.
 	 */
-	public boolean isSetListOfFunctionDefinitions() {
-		return this.listOfFunctionDefinitions != null;
+	public String getExtentUnits() {
+		return isSetExtentUnits() ? extentUnitsID : "";
 	}
 
 	/**
 	 * 
-	 * @return true if the timeUnitsID of this Model is not null.
+	 * @return the UnitDefinition instance which has the extentUnitsID of this
+	 *         Model as id. Null if it doesn't exist
 	 */
-	public boolean isSetTimeUnits() {
-		return this.timeUnitsID != null;
-	}
-
-	/**
-	 * 
-	 * @return true if the UnitsDefinition which has the timeUnistID of this
-	 *         Model as id is not null.
-	 */
-	public boolean isSetTimeUnitsInstance() {
-		if (getModel() == null) {
-			return false;
+	public UnitDefinition getExtentUnitsInstance() {
+		if (getModel() != null) {
+			return getModel().getUnitDefinition(this.extentUnitsID);
 		}
-		return getModel().getUnitDefinition(this.timeUnitsID) != null;
+		return null;
 	}
 
 	/**
@@ -1300,6 +1489,44 @@ public class Model extends AbstractNamedSBase {
 			return listOfInitialAssignments.get(n);
 		}
 		return null;
+	}
+
+	/**
+	 * Returns the last reaction added in the model, corresponding to the last
+	 * element of the list of reactions
+	 * 
+	 * @return the last reaction added in the model, corresponding to the last
+	 *         element of the list of reactions, or null is no reaction exist.
+	 */
+	private Reaction getLastReactionAdded() {
+		int numReaction = getNumReactions();
+		Reaction lastReaction = null;
+
+		if (numReaction == 0) {
+			return null;
+		} else {
+			lastReaction = getReaction(numReaction - 1);
+		}
+
+		return lastReaction;
+	}
+
+	/**
+	 * 
+	 * @return the lengthUnitsID of this Model. Returns an empty String if it is
+	 *         not set.
+	 */
+	public String getLengthUnits() {
+		return isSetLengthUnits() ? lengthUnitsID : "";
+	}
+
+	/**
+	 * 
+	 * @return the UnitDefinition instance which has the lengthUnitsID of this
+	 *         Model as id. Null if it doesn't exist
+	 */
+	public UnitDefinition getLengthUnitsInstance() {
+		return getUnitDefinition(this.lengthUnitsID);
 	}
 
 	/**
@@ -1403,6 +1630,14 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<UnitDefinition> getListOfUnitDefinitions() {
 		return listOfUnitDefinitions;
+	}
+
+	/**
+	 * @see getHistory
+	 * @return History of this model
+	 */
+	public History getModelHistory() {
+		return getHistory();
 	}
 
 	/**
@@ -1544,6 +1779,20 @@ public class Model extends AbstractNamedSBase {
 			return listOfSpeciesTypes.size();
 		}
 		return 0;
+	}
+
+	/**
+	 * Counts the number of species whose boundary condition is set to true.
+	 * 
+	 * @return
+	 */
+	public int getNumSpeciesWithBoundaryCondition() {
+		int count = 0;
+		for (Species s : listOfSpecies) {
+			if (s.isSetBoundaryCondition())
+				count++;
+		}
+		return count;
 	}
 
 	/**
@@ -1691,6 +1940,23 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Gets the nth SpeciesType object in this Model.
+	 * 
+	 * @param n
+	 *            index
+	 * @return the nth SpeciesType of this Model. Returns null if there are no
+	 *         speciesType defined or if the index n is too big or lower than
+	 *         zero.
+	 */
+	public SpeciesType getSpeciesType(int n) {
+		if (isSetListOfSpeciesTypes() && n < listOfSpeciesTypes.size()
+				&& n >= 0) {
+			return listOfSpeciesTypes.get(n);
+		}
+		return null;
+	}
+
+	/**
 	 * 
 	 * @param id
 	 * @return the SpeciesType of the listOfSpeciesTypes which has 'id' as id
@@ -1711,6 +1977,53 @@ public class Model extends AbstractNamedSBase {
 					}
 				}
 			}
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @return the substanceUnitsID of this model. Returns the empty String if
+	 *         it is not set.
+	 */
+	public String getSubstanceUnits() {
+		return isSetSubstanceUnits() ? this.substanceUnitsID : "";
+	}
+
+	/**
+	 * 
+	 * @return the UnitDefinitions which has the substanceUnitsID of this Model
+	 *         as id. Null if it doesn't exist.
+	 */
+	public UnitDefinition getSubstanceUnitsInstance() {
+		return getUnitDefinition(this.substanceUnitsID);
+	}
+
+	/**
+	 * 
+	 * @return the timeUnitsID of this Model. Returns an empty String if it is
+	 *         not set.
+	 */
+	public String getTimeUnits() {
+		return isSetTimeUnits() ? timeUnitsID : "";
+	}
+
+	public UnitDefinition getTimeUnitsInstance() {
+		return getUnitDefinition(this.timeUnitsID);
+	}
+
+	/**
+	 * Gets the nth UnitDefinition object in this Model.
+	 * 
+	 * @param i
+	 * @return the nth UnitDefinition of this Model. Returns null if there are
+	 *         no UnitDefinition defined or if the index n is too big or lower
+	 *         than zero.
+	 */
+	public UnitDefinition getUnitDefinition(int i) {
+		if (isSetListOfUnitDefinitions() && i < listOfUnitDefinitions.size()
+				&& i >= 0) {
+			return listOfUnitDefinitions.get(i);
 		}
 		return null;
 	}
@@ -1760,6 +2073,396 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * @return the volumeUnitsID of this Model. Returns an empty String if it is
+	 *         not set.
+	 */
+	public String getVolumeUnits() {
+		return isSetVolumeUnits() ? volumeUnitsID : "";
+	}
+
+	/**
+	 * 
+	 * @return the UnitDefinition instance which has the volumeUnitsID of this
+	 *         Model as id. Null if it doesn't exist
+	 */
+	public UnitDefinition getVolumeUnitsInstance() {
+		return getUnitDefinition(this.volumeUnitsID);
+	}
+
+	/**
+	 * 
+	 * @return true if the areaUnitsID of this Model is not null.
+	 */
+	public boolean isSetAreaUnits() {
+		return this.areaUnitsID != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the UnitDefinition which has the areaUnitsID of this
+	 *         Model as id is not null.
+	 */
+	public boolean isSetAreaUnitsInstance() {
+		return getUnitDefinition(this.areaUnitsID) != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the conversionFactorID of this Model is not null.
+	 */
+	public boolean isSetConversionFactor() {
+		return this.conversionFactorID != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the Parameter which has the conversionFactorID of this
+	 *         Model as id is not null.
+	 */
+	public boolean isSetConversionFactorInstance() {
+		return getUnitDefinition(this.conversionFactorID) != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the extentUnitsID of this Model is not null.
+	 */
+	public boolean isSetExtentUnits() {
+		return this.extentUnitsID != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the UnitDefinition which has the extentUnitsID of this
+	 *         Model as id is not null.
+	 */
+	public boolean isSetExtentUnitsInstance() {
+		return getUnitDefinition(this.extentUnitsID) != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the lengthUnitsID of this Model is not null.
+	 */
+	public boolean isSetLengthUnits() {
+		return this.lengthUnitsID != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the UnitDefinition which has the lengthUnitsID of this
+	 *         Model as id is not null.
+	 */
+	public boolean isSetLengthUnitsInstance() {
+		return getUnitDefinition(this.lengthUnitsID) != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfCompartments of this Model is not null.
+	 */
+	public boolean isSetListOfCompartments() {
+		return this.listOfCompartments != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfCompartmentTypes of this Model is not null.
+	 */
+	@Deprecated
+	public boolean isSetListOfCompartmentTypes() {
+		return this.listOfCompartmentTypes != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfConstraints of this Model is not null.
+	 */
+	public boolean isSetListOfConstraints() {
+		return this.listOfConstraints != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfEvents of this Model is not null.
+	 */
+	public boolean isSetListOfEvents() {
+		return this.listOfEvents != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfFunctionDefinitions of this Model is not null.
+	 */
+	public boolean isSetListOfFunctionDefinitions() {
+		return this.listOfFunctionDefinitions != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfInitialAssignments of this Model is not null.
+	 */
+	public boolean isSetListOfInitialAssignments() {
+		return this.listOfInitialAssignments != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfParameters of this Model is not null.
+	 */
+	public boolean isSetListOfParameters() {
+		return this.listOfParameters != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfReactions of this Model is not null.
+	 */
+	public boolean isSetListOfReactions() {
+		return this.listOfReactions != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfRules of this Model is not null.
+	 */
+	public boolean isSetListOfRules() {
+		return this.listOfRules != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfSpecies of this Model is not null.
+	 */
+	public boolean isSetListOfSpecies() {
+		return this.listOfSpecies != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfSpeciesTypes of this Model is not null.
+	 */
+	@Deprecated
+	public boolean isSetListOfSpeciesTypes() {
+		return this.listOfSpeciesTypes != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfUnitDefinitions of this Model is not null.
+	 */
+	public boolean isSetListOfUnitDefinitions() {
+		return this.listOfUnitDefinitions != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the substanceUnitsID of this Model is not null.
+	 */
+	public boolean isSetSubstanceUnits() {
+		return this.substanceUnitsID != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the UnitDefinition which has the substanceUnitsID of this
+	 *         Model as id is not null.
+	 */
+	public boolean isSetSubstanceUnitsInstance() {
+		return getUnitDefinition(this.substanceUnitsID) != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the timeUnitsID of this Model is not null.
+	 */
+	public boolean isSetTimeUnits() {
+		return this.timeUnitsID != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the UnitsDefinition which has the timeUnistID of this
+	 *         Model as id is not null.
+	 */
+	public boolean isSetTimeUnitsInstance() {
+		return getUnitDefinition(this.timeUnitsID) != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the volumeUnitsID of this Model is not null.
+	 */
+	public boolean isSetVolumeUnits() {
+		return this.volumeUnitsID != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the UnitDefinition which has the volumeUnitsID of this
+	 *         Model as id is not null.
+	 */
+	public boolean isSetVolumeUnitsInstance() {
+		return getUnitDefinition(this.volumeUnitsID) != null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("substanceUnits") && getLevel() > 2) {
+				this.setSubstanceUnits(value);
+			} else if (attributeName.equals("timeUnits") && getLevel() > 2) {
+				this.setTimeUnits(value);
+			} else if (attributeName.equals("volumeUnits") && getLevel() > 2) {
+				this.setVolumeUnits(value);
+			} else if (attributeName.equals("areaUnits") && getLevel() > 2) {
+				this.setAreaUnits(value);
+			} else if (attributeName.equals("lengthUnits") && getLevel() > 2) {
+				this.setLengthUnits(value);
+			} else if (attributeName.equals("extentUnits") && getLevel() > 2) {
+				this.setExtentUnits(value);
+			} else if (attributeName.equals("conversionFactor")
+					&& getLevel() > 2) {
+				this.setConversionFactor(value);
+			}
+		}
+		return isAttributeRead;
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public Compartment removeCompartment(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public Compartment removeCompartment(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	@Deprecated
+	public CompartmentType removeCompartmentType(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
+	@Deprecated
+	public CompartmentType removeCompartmentType(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public Constraint removeConstraint(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public Event removeEvent(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public Event removeEvent(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public FunctionDefinition removeFunctionDefinition(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public FunctionDefinition removeFunctionDefinition(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public InitialAssignment removeInitialAssignment(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public InitialAssignment removeInitialAssignment(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public Parameter removeParameter(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
 	 * Removes the Parameter 'parameter' from this Model.
 	 * 
 	 * @param parameter
@@ -1772,6 +2475,26 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public Parameter removeParameter(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public Reaction removeReaction(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
 	 * removes a reaction from the model
 	 * 
 	 * @param reac
@@ -1781,6 +2504,46 @@ public class Model extends AbstractNamedSBase {
 			listOfReactions.remove(reac);
 			reac.sbaseRemoved();
 		}
+	}
+
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public Reaction removeReaction(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public Rule removeRule(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public Rule removeRule(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public Species removeSpecies(int i) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
@@ -1805,6 +2568,56 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @param string
+	 * @return
+	 */
+	public Species removeSpecies(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public SpeciesType removeSpeciesType(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public SpeciesType removeSpeciesType(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public UnitDefinition removeUnitDefinition(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public UnitDefinition removeUnitDefinition(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
 	 * @param unitDefininition
 	 * @return true if the UnitDefinition 'unitDefinition' has been removed from
 	 *         the Model.
@@ -1821,6 +2634,91 @@ public class Model extends AbstractNamedSBase {
 		}
 
 		return success;
+	}
+
+	/**
+	 * Sets the areaUnitsID of this Model to 'areaUnitsID'
+	 * 
+	 * @param areaUnitsID
+	 */
+	public void setAreaUnits(String areaUnitsID) {
+		this.areaUnitsID = areaUnitsID;
+		stateChanged();
+	}
+
+	/**
+	 * Sets the areaUnitsID of this Model to the id of the UnitDefinition
+	 * 'areaUnits'.
+	 * 
+	 * @param areaUnits
+	 */
+	public void setAreaUnits(UnitDefinition areaUnits) {
+		this.areaUnitsID = areaUnits != null ? areaUnits.getId() : null;
+		stateChanged();
+	}
+
+	/**
+	 * Sets the conversionFactorID of this Model to the id of the Parameter
+	 * 'conversionFactor'.
+	 * 
+	 * @param conversionFactor
+	 */
+	public void setConversionFactor(Parameter conversionFactor) {
+		this.conversionFactorID = conversionFactor != null ? conversionFactor
+				.getId() : null;
+		stateChanged();
+	}
+
+	/**
+	 * Sets the conversionFactorID of this Model to 'conversionFactorID'.
+	 * 
+	 * @param conversionFactorID
+	 */
+	public void setConversionFactor(String conversionFactorID) {
+		this.conversionFactorID = conversionFactorID;
+		stateChanged();
+	}
+
+	/**
+	 * Sets the extendUnitsID of this Model to 'extentUnitsID'.
+	 * 
+	 * @param extentUnitsID
+	 */
+	public void setExtentUnits(String extentUnitsID) {
+		this.extentUnitsID = extentUnitsID;
+		stateChanged();
+	}
+
+	/**
+	 * Sets the extentUnitsID of this Model to the id of the UnitDefinition
+	 * 'extentUnits'.
+	 * 
+	 * @param extentUnits
+	 */
+	public void setExtentUnits(UnitDefinition extentUnits) {
+		this.extentUnitsID = extentUnits != null ? extentUnits.getId() : null;
+		stateChanged();
+	}
+
+	/**
+	 * Sets the lengthUnitsID of this Model to 'lengthUnitsID'.
+	 * 
+	 * @param lengthUnitsID
+	 */
+	public void setLengthUnits(String lengthUnitsID) {
+		this.lengthUnitsID = lengthUnitsID;
+		stateChanged();
+	}
+
+	/**
+	 * Sets the lengthUnitsID of this Model to the id of the UnitDefinition
+	 * 'lengthUnits'.
+	 * 
+	 * @param lengthUnits
+	 */
+	public void setLengthUnits(UnitDefinition lengthUnits) {
+		this.lengthUnitsID = lengthUnits != null ? lengthUnits.getId() : null;
+		stateChanged();
 	}
 
 	/**
@@ -2016,34 +2914,11 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
-	 * @return the UnitDefinitions which has the substanceUnitsID of this Model
-	 *         as id. Null if it doesn't exist.
+	 * @see setHistory
+	 * @param modelHistory
 	 */
-	public UnitDefinition getSubstanceUnitsInstance() {
-		if (getModel() == null) {
-			return null;
-		}
-		return getModel().getUnitDefinition(this.substanceUnitsID);
-	}
-
-	/**
-	 * Sets the substanceUnitsID of this Model to the id of 'substanceUnits'.
-	 * 
-	 * @param substanceUnits
-	 */
-	public void setSubstanceUnits(UnitDefinition substanceUnits) {
-		this.substanceUnitsID = substanceUnits != null ? substanceUnits.getId()
-				: null;
-	}
-
-	/**
-	 * 
-	 * @return the substanceUnitsID of this model. Returns the empty String if
-	 *         it is not set.
-	 */
-	public String getSubstanceUnits() {
-		return isSetSubstanceUnits() ? this.substanceUnitsID : "";
+	public void setModelHistory(History modelHistory) {
+		setHistory(modelHistory);
 	}
 
 	/**
@@ -2057,172 +2932,55 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Sets the substanceUnitsID of this Model to the id of 'substanceUnits'.
 	 * 
-	 * @return true if the listOfRules of this Model is not null.
+	 * @param substanceUnits
 	 */
-	public boolean isSetListOfRules() {
-		return this.listOfRules != null;
+	public void setSubstanceUnits(UnitDefinition substanceUnits) {
+		this.substanceUnitsID = substanceUnits != null ? substanceUnits.getId()
+				: null;
 	}
 
 	/**
+	 * Sets the timeUnits of this Model to 'timeUnistID'
 	 * 
-	 * @return true if the listOfCompartments of this Model is not null.
+	 * @param timeUnitsID
 	 */
-	public boolean isSetListOfCompartments() {
-		return this.listOfCompartments != null;
+	public void setTimeUnits(String timeUnitsID) {
+		this.timeUnitsID = timeUnitsID;
+		stateChanged();
 	}
 
 	/**
+	 * Sets the timeUnitsID of this Model to the id of the UnitDefinition
+	 * 'timeUnits'.
 	 * 
-	 * @return true if the listOfSpecies of this Model is not null.
+	 * @param timeUnits
 	 */
-	public boolean isSetListOfSpecies() {
-		return this.listOfSpecies != null;
+	public void setTimeUnits(UnitDefinition timeUnits) {
+		this.timeUnitsID = timeUnits != null ? timeUnits.getId() : null;
+		stateChanged();
 	}
 
 	/**
+	 * Sets the volumeUnitsID of this Model to 'volumeUnitsID'
 	 * 
-	 * @return true if the listOfParameters of this Model is not null.
+	 * @param volumeUnitsID
 	 */
-	public boolean isSetListOfParameters() {
-		return this.listOfParameters != null;
+	public void setVolumeUnits(String volumeUnitsID) {
+		this.volumeUnitsID = volumeUnitsID;
+		stateChanged();
 	}
 
 	/**
+	 * Sets the volumeUnitsID of this Model to the id of the UnitDefinition
+	 * 'volumeUnits'.
 	 * 
-	 * @return true if the listOfReactions of this Model is not null.
+	 * @param volumeUnits
 	 */
-	public boolean isSetListOfReactions() {
-		return this.listOfReactions != null;
-	}
-
-	/**
-	 * 
-	 * @return true if the listOfCompartmentTypes of this Model is not null.
-	 */
-	@Deprecated
-	public boolean isSetListOfCompartmentTypes() {
-		return this.listOfCompartmentTypes != null;
-	}
-
-	/**
-	 * 
-	 * @return true if the listOfEvents of this Model is not null.
-	 */
-	public boolean isSetListOfEvents() {
-		return this.listOfEvents != null;
-	}
-
-	/**
-	 * 
-	 * @return true if the listOfUnitDefinitions of this Model is not null.
-	 */
-	public boolean isSetListOfUnitDefinitions() {
-		return this.listOfUnitDefinitions != null;
-	}
-
-	/**
-	 * 
-	 * @return true if the listOfInitialAssignments of this Model is not null.
-	 */
-	public boolean isSetListOfInitialAssignments() {
-		return this.listOfInitialAssignments != null;
-	}
-
-	/**
-	 * 
-	 * @return true if the listOfSpeciesTypes of this Model is not null.
-	 */
-	@Deprecated
-	public boolean isSetListOfSpeciesTypes() {
-		return this.listOfSpeciesTypes != null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-
-		if (!isAttributeRead) {
-			if (attributeName.equals("substanceUnits") && getLevel() > 2) {
-				this.setSubstanceUnits(value);
-			} else if (attributeName.equals("timeUnits") && getLevel() > 2) {
-				this.setTimeUnits(value);
-			} else if (attributeName.equals("volumeUnits") && getLevel() > 2) {
-				this.setVolumeUnits(value);
-			} else if (attributeName.equals("areaUnits") && getLevel() > 2) {
-				this.setAreaUnits(value);
-			} else if (attributeName.equals("lengthUnits") && getLevel() > 2) {
-				this.setLengthUnits(value);
-			} else if (attributeName.equals("extentUnits") && getLevel() > 2) {
-				this.setExtentUnits(value);
-			} else if (attributeName.equals("conversionFactor")
-					&& getLevel() > 2) {
-				this.setConversionFactor(value);
-			}
-		}
-		return isAttributeRead;
-	}
-
-	/**
-	 * Sets the timeUnitsID of this Model to null.
-	 */
-	public void unsetTimeUnits() {
-		this.timeUnitsID = null;
-	}
-
-	/**
-	 * 
-	 * @return true if the volumeUnitsID of this Model is not null.
-	 */
-	public boolean isSetVolumeUnits() {
-		return this.volumeUnitsID != null;
-	}
-
-	/**
-	 * 
-	 * @return true if the UnitDefinition which has the volumeUnitsID of this
-	 *         Model as id is not null.
-	 */
-	public boolean isSetVolumeUnitsInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().getUnitDefinition(this.volumeUnitsID) != null;
-	}
-
-	/**
-	 * Sets the volumeUnitsID of this Model to null.
-	 */
-	public void unsetVolumeUnits() {
-		this.volumeUnitsID = null;
-	}
-
-	/**
-	 * 
-	 * @return true if the areaUnitsID of this Model is not null.
-	 */
-	public boolean isSetAreaUnits() {
-		return this.areaUnitsID != null;
-	}
-
-	/**
-	 * 
-	 * @return true if the UnitDefinition which has the areaUnitsID of this
-	 *         Model as id is not null.
-	 */
-	public boolean isSetAreaUnitsInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().getUnitDefinition(this.areaUnitsID) != null;
+	public void setVolumeUnits(UnitDefinition volumeUnits) {
+		this.volumeUnitsID = volumeUnits != null ? volumeUnits.getId() : null;
+		stateChanged();
 	}
 
 	/**
@@ -2233,50 +2991,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
-	 * @return true if the lengthUnitsID of this Model is not null.
+	 * Sets the conversionFactorID of this Model to null.
 	 */
-	public boolean isSetLengthUnits() {
-		return this.lengthUnitsID != null;
-	}
-
-	/**
-	 * 
-	 * @return true if the UnitDefinition which has the lengthUnitsID of this
-	 *         Model as id is not null.
-	 */
-	public boolean isSetLengthUnitsInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().getUnitDefinition(this.lengthUnitsID) != null;
-	}
-
-	/**
-	 * Sets the lengthUnitsID of this Model to null.
-	 */
-	public void unsetLengthUnits() {
-		this.lengthUnitsID = null;
-	}
-
-	/**
-	 * 
-	 * @return true if the extentUnitsID of this Model is not null.
-	 */
-	public boolean isSetExtentUnits() {
-		return this.extentUnitsID != null;
-	}
-
-	/**
-	 * 
-	 * @return true if the UnitDefinition which has the extentUnitsID of this
-	 *         Model as id is not null.
-	 */
-	public boolean isSetExtentUnitsInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().getUnitDefinition(this.extentUnitsID) != null;
+	public void unsetConversionFactor() {
+		this.conversionFactorID = null;
 	}
 
 	/**
@@ -2287,30 +3005,24 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
-	 * @return true if the conversionFactorID of this Model is not null.
+	 * Sets the lengthUnitsID of this Model to null.
 	 */
-	public boolean isSetConversionFactor() {
-		return this.conversionFactorID != null;
+	public void unsetLengthUnits() {
+		this.lengthUnitsID = null;
 	}
 
 	/**
-	 * 
-	 * @return true if the Parameter which has the conversionFactorID of this
-	 *         Model as id is not null.
+	 * Sets the timeUnitsID of this Model to null.
 	 */
-	public boolean isSetConversionFactorInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().getUnitDefinition(this.conversionFactorID) != null;
+	public void unsetTimeUnits() {
+		this.timeUnitsID = null;
 	}
 
 	/**
-	 * Sets the conversionFactorID of this Model to null.
+	 * Sets the volumeUnitsID of this Model to null.
 	 */
-	public void unsetConversionFactor() {
-		this.conversionFactorID = null;
+	public void unsetVolumeUnits() {
+		this.volumeUnitsID = null;
 	}
 
 	/*
@@ -2340,741 +3052,6 @@ public class Model extends AbstractNamedSBase {
 		}
 
 		return attributes;
-	}
-
-	/**
-	 * Creates a new {@link AlgebraicRule} inside this {@link Model} and returns
-	 * it.
-	 * <p>
-	 * 
-	 * @return the {@link AlgebraicRule} object created
-	 *         <p>
-	 * @see #addRule(Rule r)
-	 */
-	public Rule createAlgebraicRule() {
-		AlgebraicRule rule = new AlgebraicRule(level, version);
-		addRule(rule);
-
-		return rule;
-	}
-
-	/**
-	 * Creates a new {@link AssignmentRule} inside this {@link Model} and
-	 * returns it.
-	 * <p>
-	 * 
-	 * @return the {@link AssignmentRule} object created
-	 *         <p>
-	 * @see #addRule(Rule r)
-	 */
-	public Rule createAssignmentRule() {
-		AssignmentRule rule = new AssignmentRule(level, version);
-		addRule(rule);
-
-		return rule;
-	}
-
-	/**
-	 * Creates a new {@link RateRule} inside this {@link Model} and returns it.
-	 * <p>
-	 * 
-	 * @return the {@link RateRule} object created
-	 *         <p>
-	 * @see #addRule(Rule r)
-	 */
-	public RateRule createRateRule() {
-		RateRule rule = new RateRule(level, version);
-		addRule(rule);
-
-		return rule;
-	}
-
-	/**
-	 * Creates a new {@link Compartment} inside this {@link Model} and returns
-	 * it.
-	 * <p>
-	 * 
-	 * @return the {@link Compartment} object created
-	 *         <p>
-	 * @see #addCompartment(Compartment c)
-	 */
-	public Compartment createCompartment() {
-		Compartment compartment = new Compartment(level, version);
-		addCompartment(compartment);
-
-		return compartment;
-	}
-
-	/**
-	 * Creates a new {@link CompartmentType} inside this {@link Model} and
-	 * returns it.
-	 * <p>
-	 * 
-	 * @return the {@link CompartmentType} object created
-	 *         <p>
-	 * @see #addCompartmentType(CompartmentType ct)
-	 */
-	@SuppressWarnings("deprecation")
-	public CompartmentType createCompartmentType() {
-		CompartmentType compartmentType = new CompartmentType(level, version);
-		addCompartmentType(compartmentType);
-
-		return compartmentType;
-	}
-
-	/**
-	 * Creates a new {@link Constraint} inside this {@link Model} and returns
-	 * it.
-	 * <p>
-	 * 
-	 * @return the {@link Constraint} object created
-	 *         <p>
-	 * @see #addConstraint(Constraint c)
-	 */
-	public Constraint createConstraint() {
-		Constraint constraint = new Constraint(level, version);
-		addConstraint(constraint);
-
-		return constraint;
-	}
-
-	/**
-	 * Creates a new {@link Event} inside this {@link Model} and returns it.
-	 * <p>
-	 * 
-	 * @return the {@link Event} object created
-	 */
-	public Event createEvent() {
-		Event event = new Event(level, version);
-		addEvent(event);
-
-		return event;
-	}
-
-	/**
-	 * Creates a new {@link EventAssignment} inside the last {@link Event}
-	 * object created in this {@link Model}, and returns a pointer to it.
-	 * <p>
-	 * The mechanism by which the last {@link Event} object in this model was
-	 * created is not significant. It could have been created in a variety of
-	 * ways, for example by using createEvent(). If no {@link Event} object
-	 * exists in this {@link Model} object, a new {@link EventAssignment} is
-	 * <em>not</em> created and NULL is returned instead.
-	 * <p>
-	 * 
-	 * @return the {@link EventAssignment} object created
-	 */
-	public EventAssignment createEventAssignment() {
-
-		int numEvent = getNumEvents();
-		Event lastEvent = null;
-
-		if (numEvent == 0) {
-			return null;
-		} else {
-			lastEvent = getEvent(numEvent - 1);
-		}
-
-		EventAssignment eventAssgnt = new EventAssignment(level, version);
-		lastEvent.addEventAssignment(eventAssgnt);
-
-		return eventAssgnt;
-
-	}
-
-	/**
-	 * Creates a new {@link Trigger} inside the last {@link Event} object
-	 * created in this {@link Model}, and returns a pointer to it.
-	 * <p>
-	 * The mechanism by which the last {@link Event} object in this model was
-	 * created is not significant. It could have been created in a variety of
-	 * ways, for example by using createEvent(). If no {@link Event} object
-	 * exists in this {@link Model} object, a new {@link Trigger} is
-	 * <em>not</em> created and NULL is returned instead.
-	 * <p>
-	 * 
-	 * @return the {@link Trigger} object created
-	 */
-	public Trigger createTrigger() {
-		return null; // TODO : implement
-	}
-
-	/**
-	 * Creates a new {@link Delay} inside the last {@link Event} object created
-	 * in this {@link Model}, and returns a pointer to it.
-	 * <p>
-	 * The mechanism by which the last {@link Event} object in this model was
-	 * created is not significant. It could have been created in a variety of
-	 * ways, for example by using createEvent(). If no {@link Event} object
-	 * exists in this {@link Model} object, a new {@link Delay} is <em>not</em>
-	 * created and NULL is returned instead.
-	 * <p>
-	 * 
-	 * @return the {@link Delay} object created
-	 */
-	public Delay createDelay() {
-		return null; // TODO : implement
-	}
-
-	/**
-	 * Creates a new {@link FunctionDefinition} inside this {@link Model} and
-	 * returns it.
-	 * <p>
-	 * 
-	 * @return the {@link FunctionDefinition} object created
-	 *         <p>
-	 * @see #addFunctionDefinition(FunctionDefinition fd)
-	 */
-	public FunctionDefinition createFunctionDefinition() {
-		FunctionDefinition functionDef = new FunctionDefinition(level, version);
-		addFunctionDefinition(functionDef);
-
-		return functionDef;
-	}
-
-	/**
-	 * Creates a new {@link InitialAssignment} inside this {@link Model} and
-	 * returns it.
-	 * <p>
-	 * 
-	 * @return the {@link InitialAssignment} object created
-	 *         <p>
-	 * @see #addInitialAssignment(InitialAssignment ia)
-	 */
-	public InitialAssignment createInitialAssignment() {
-		InitialAssignment initAssgmt = new InitialAssignment(level, version);
-		addInitialAssignment(initAssgmt);
-
-		return initAssgmt;
-	}
-
-	/**
-	 * Creates a new {@link Reaction} inside this {@link Model} and returns it.
-	 * <p>
-	 * 
-	 * @return the {@link Reaction} object created
-	 *         <p>
-	 * @see #addReaction(Reaction r)
-	 */
-	public Reaction createReaction() {
-		Reaction reaction = new Reaction(level, version);
-		addReaction(reaction);
-
-		return reaction;
-	}
-
-	/**
-	 * Returns the last reaction added in the model, corresponding to the last
-	 * element of the list of reactions
-	 * 
-	 * @return the last reaction added in the model, corresponding to the last
-	 *         element of the list of reactions, or null is no reaction exist.
-	 */
-	private Reaction getLastReactionAdded() {
-		int numReaction = getNumReactions();
-		Reaction lastReaction = null;
-
-		if (numReaction == 0) {
-			return null;
-		} else {
-			lastReaction = getReaction(numReaction - 1);
-		}
-
-		return lastReaction;
-	}
-
-	/**
-	 * Creates a new {@link KineticLaw} inside the last {@link Reaction} object
-	 * created in this {@link Model}, and returns a pointer to it.
-	 * <p>
-	 * The mechanism by which the last {@link Reaction} object was created and
-	 * added to this {@link Model} is not significant. It could have been
-	 * created in a variety of ways, for example using createReaction(). If a
-	 * {@link Reaction} does not exist for this model, or a {@link Reaction}
-	 * exists but already has a {@link KineticLaw}, a new {@link KineticLaw} is
-	 * <em>not</em> created and NULL is returned instead.
-	 * <p>
-	 * 
-	 * @return the {@link KineticLaw} object created
-	 */
-	public KineticLaw createKineticLaw() {
-
-		Reaction lastReaction = getLastReactionAdded();
-
-		if (lastReaction == null) {
-			return null;
-		}
-
-		KineticLaw kineticLaw = new KineticLaw(level, version);
-		lastReaction.setKineticLaw(kineticLaw);
-
-		return kineticLaw;
-	}
-
-	/**
-	 * Creates a new local {@link Parameter} inside the {@link KineticLaw}
-	 * object of the last {@link Reaction} created inside this {@link Model},
-	 * and returns a pointer to it.
-	 * <p>
-	 * The last {@link KineticLaw} object in this {@link Model} could have been
-	 * created in a variety of ways. For example, it could have been added using
-	 * createKineticLaw(), or it could be the result of using
-	 * Reaction.createKineticLaw() on the {@link Reaction} object created by a
-	 * createReaction(). If a {@link Reaction} does not exist for this model, or
-	 * the last {@link Reaction} does not contain a {@link KineticLaw} object, a
-	 * new {@link Parameter} is <em>not</em> created and NULL is returned
-	 * instead.
-	 * <p>
-	 * 
-	 * @return the {@link Parameter} object created
-	 */
-	public Parameter createKineticLawParameter() {
-
-		Reaction lastReaction = null;
-		KineticLaw lastKineticLaw = null;
-
-		if (lastReaction == null) {
-			return null;
-		} else {
-			lastKineticLaw = lastReaction.getKineticLaw();
-			if (lastKineticLaw == null) {
-				return null;
-			}
-		}
-
-		Parameter parameter = new Parameter();
-		// TODO : should we use localParameter ???
-		// createKineticLawLocalParameter exist in libsbml-5.
-		// Difference exist between global parameter and local parameter in SBML
-		// level 3
-		lastKineticLaw.addParameter(parameter);
-
-		return parameter;
-	}
-
-	/**
-	 * Creates a new {@link ModifierSpeciesReference} object for a modifier
-	 * species inside the last {@link Reaction} object in this {@link Model},
-	 * and returns a pointer to it.
-	 * <p>
-	 * The mechanism by which the last {@link Reaction} object was created and
-	 * added to this {@link Model} is not significant. It could have been
-	 * created in a variety of ways, for example using createReaction(). If a
-	 * {@link Reaction} does not exist for this model, a new
-	 * {@link ModifierSpeciesReference} is <em>not</em> created and NULL is
-	 * returned instead.
-	 * <p>
-	 * 
-	 * @return the {@link SpeciesReference} object created
-	 */
-	public ModifierSpeciesReference createModifier() {
-
-		Reaction lastReaction = getLastReactionAdded();
-
-		if (lastReaction == null) {
-			return null;
-		}
-
-		ModifierSpeciesReference modifier = lastReaction.createModifier();
-
-		return modifier;
-	}
-
-	/**
-	 * Creates a new {@link Parameter} inside this {@link Model} and returns it.
-	 * <p>
-	 * 
-	 * @return the {@link Parameter} object created
-	 *         <p>
-	 * @see #addParameter(Parameter p)
-	 */
-	public Parameter createParameter() {
-
-		Parameter parameter = new Parameter(level, version);
-		addParameter(parameter);
-
-		return parameter;
-	}
-
-	/**
-	 * Creates a new {@link SpeciesReference} object for a product inside the
-	 * last {@link Reaction} object in this {@link Model}, and returns a pointer
-	 * to it.
-	 * <p>
-	 * The mechanism by which the last {@link Reaction} object was created and
-	 * added to this {@link Model} is not significant. It could have been
-	 * created in a variety of ways, for example using createReaction(). If a
-	 * {@link Reaction} does not exist for this model, a new
-	 * {@link SpeciesReference} is <em>not</em> created and NULL is returned
-	 * instead.
-	 * <p>
-	 * 
-	 * @return the {@link SpeciesReference} object created
-	 */
-	public SpeciesReference createProduct() {
-		Reaction lastReaction = getLastReactionAdded();
-
-		if (lastReaction == null) {
-			return null;
-		}
-
-		SpeciesReference product = lastReaction.createProduct();
-
-		return product;
-	}
-
-	/**
-	 * Creates a new {@link SpeciesReference} object for a reactant inside the
-	 * last {@link Reaction} object in this {@link Model}, and returns a pointer
-	 * to it.
-	 * <p>
-	 * The mechanism by which the last {@link Reaction} object was created and
-	 * added to this {@link Model} is not significant. It could have been
-	 * created in a variety of ways, for example using createReaction(). If a
-	 * {@link Reaction} does not exist for this model, a new
-	 * {@link SpeciesReference} is <em>not</em> created and NULL is returned
-	 * instead.
-	 * <p>
-	 * 
-	 * @return the {@link SpeciesReference} object created
-	 */
-	public SpeciesReference createReactant() {
-		Reaction lastReaction = getLastReactionAdded();
-
-		if (lastReaction == null) {
-			return null;
-		}
-
-		SpeciesReference reactant = lastReaction.createReactant();
-
-		return reactant;
-	}
-
-	/**
-	 * Creates a new {@link Species} inside this {@link Model} and returns it.
-	 * <p>
-	 * 
-	 * @return the {@link Species} object created
-	 *         <p>
-	 * @see #addSpecies(Species s)
-	 */
-	public Species createSpecies() {
-
-		Species species = new Species(level, version);
-		addSpecies(species);
-
-		return species;
-	}
-
-	/**
-	 * Creates a new {@link SpeciesType} inside this {@link Model} and returns
-	 * it.
-	 * <p>
-	 * 
-	 * @return the {@link SpeciesType} object created
-	 *         <p>
-	 * @see #addSpeciesType(SpeciesType st)
-	 */
-	@SuppressWarnings("deprecation")
-	public SpeciesType createSpeciesType() {
-
-		SpeciesType speciesType = new SpeciesType(level, version);
-		addSpeciesType(speciesType);
-
-		return speciesType;
-	}
-
-	/**
-	 * Creates a new {@link UnitDefinition} inside this {@link Model} and
-	 * returns it.
-	 * <p>
-	 * 
-	 * @return the {@link UnitDefinition} object created
-	 *         <p>
-	 * @see #addUnitDefinition(UnitDefinition ud)
-	 */
-	public UnitDefinition createUnitDefinition() {
-
-		UnitDefinition unitDefinition = new UnitDefinition(level, version);
-		addUnitDefinition(unitDefinition);
-
-		return unitDefinition;
-	}
-
-	/**
-	 * Creates a new {@link Unit} object within the last {@link UnitDefinition}
-	 * object created in this model and returns a pointer to it.
-	 * <p>
-	 * The mechanism by which the {@link UnitDefinition} was created is not
-	 * significant. If a {@link UnitDefinition} object does not exist in this
-	 * model, a new {@link Unit} is <em>not</em> created and NULL is returned
-	 * instead.
-	 * <p>
-	 * 
-	 * @return the {@link Unit} object created
-	 *         <p>
-	 * @see #addUnitDefinition(UnitDefinition ud)
-	 */
-	public Unit createUnit() {
-
-		int numUnitDef = getNumUnitDefinitions();
-		UnitDefinition lastUnitDef = null;
-
-		if (numUnitDef == 0) {
-			return null;
-		} else {
-			lastUnitDef = getUnitDefinition(numUnitDef - 1);
-		}
-
-		Unit unit = lastUnitDef.createUnit();
-
-		return unit;
-	}
-
-	/**
-	 * Counts the number of species whose boundary condition is set to true.
-	 * 
-	 * @return
-	 */
-	public int getNumSpeciesWithBoundaryCondition() {
-		int count = 0;
-		for (Species s : listOfSpecies) {
-			if (s.isSetBoundaryCondition())
-				count++;
-		}
-		return count;
-	}
-
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public Compartment removeCompartment(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param string
-	 * @return
-	 */
-	public Compartment removeCompartment(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	@Deprecated
-	public CompartmentType removeCompartmentType(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param string
-	 * @return
-	 */
-	@Deprecated
-	public CompartmentType removeCompartmentType(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public Constraint removeConstraint(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public Event removeEvent(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param string
-	 * @return
-	 */
-	public Event removeEvent(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public FunctionDefinition removeFunctionDefinition(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param string
-	 * @return
-	 */
-	public FunctionDefinition removeFunctionDefinition(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public InitialAssignment removeInitialAssignment(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param string
-	 * @return
-	 */
-	public InitialAssignment removeInitialAssignment(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public Parameter removeParameter(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param string
-	 * @return
-	 */
-	public Parameter removeParameter(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public Reaction removeReaction(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param string
-	 * @return
-	 */
-	public Reaction removeReaction(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public Rule removeRule(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param string
-	 * @return
-	 */
-	public Rule removeRule(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public Species removeSpecies(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param string
-	 * @return
-	 */
-	public Species removeSpecies(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public SpeciesType removeSpeciesType(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param string
-	 * @return
-	 */
-	public SpeciesType removeSpeciesType(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public UnitDefinition removeUnitDefinition(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param string
-	 * @return
-	 */
-	public UnitDefinition removeUnitDefinition(String string) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

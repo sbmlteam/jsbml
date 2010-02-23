@@ -86,7 +86,7 @@ public class CreatorParser implements ReadingParser{
 		if (elementName.equals("creator") && contextObject instanceof Annotation){
 			Annotation annotation = (Annotation) contextObject;
 			History modelHistory = new History();
-			annotation.setModelHistory(modelHistory);
+			annotation.setHistory(modelHistory);
 			
 			return modelHistory;
 		}

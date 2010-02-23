@@ -161,10 +161,8 @@ public class InitialAssignment extends MathContainer {
 	 *         InitialAssignment as id. Return null if it doesn't exist.
 	 */
 	public Symbol getSymbolInstance() {
-		if (getModel() == null) {
-			return null;
-		}
-		return getModel().findSymbol(this.symbolID);
+		Model m = getModel();
+		return m != null ? m.findSymbol(this.symbolID) : null;
 	}
 
 	/**
@@ -173,10 +171,8 @@ public class InitialAssignment extends MathContainer {
 	 *         InitialAssignment as id is not null.
 	 */
 	public boolean isSetSymbolInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().findSymbol(this.symbolID) != null;
+		Model m = getModel();
+		return m != null ? m.findSymbol(this.symbolID) != null : false;
 	}
 
 	/**
@@ -197,10 +193,10 @@ public class InitialAssignment extends MathContainer {
 	 */
 	public void checkAndSetSymbol(String symbol) {
 		Symbol nsb = null;
-		if (getModel() != null) {
-			nsb = getModel().findSymbol(symbol);
+		Model m = getModel();
+		if (m != null) {
+			nsb = m.findSymbol(symbol);
 		}
-
 		if (nsb == null) {
 			throw new IllegalArgumentException(
 					"Only the id of an existing Species, Compartments, or Parameters allowed as symbols");
