@@ -154,10 +154,8 @@ public class RateRule extends Rule {
 	 *         id. Null if it doesn't exist.
 	 */
 	public Symbol getVariableInstance() {
-		if (getModel() != null) {
-			return getModel().findSymbol(this.variableID);
-		}
-		return null;
+		Model m = getModel();
+		return m != null ? m.findSymbol(this.variableID) : null;
 	}
 
 	/*
@@ -198,10 +196,8 @@ public class RateRule extends Rule {
 	 *         RateRule as id is not null.
 	 */
 	public boolean isSetVariableInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().findSymbol(this.variableID) != null;
+		Model m = getModel();
+		return m != null ? m.findSymbol(this.variableID) != null : false;
 	}
 
 	/**
@@ -231,8 +227,9 @@ public class RateRule extends Rule {
 	 */
 	public void checkAndSetVariable(String variable) {
 		Symbol nsb = null;
-		if (getModel() != null) {
-			nsb = getModel().findSymbol(variable);
+		Model m = getModel();
+		if (m != null) {
+			nsb = m.findSymbol(variable);
 		}
 		if (nsb == null)
 			throw new IllegalArgumentException(

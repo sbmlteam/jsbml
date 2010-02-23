@@ -228,7 +228,7 @@ public class Annotation {
 		}
 		equals &= isSetModelHistory() == annotation.isSetModelHistory();
 		if (equals && isSetModelHistory()) {
-			equals = this.modelHistory.equals(annotation.getModelHistory());
+			equals = this.modelHistory.equals(annotation.getHistory());
 		}
 		equals &= getListOfCVTerms().isEmpty() == annotation.getListOfCVTerms()
 				.isEmpty();
@@ -303,7 +303,7 @@ public class Annotation {
 	 * 
 	 * @param modelHistory
 	 */
-	public void setModelHistory(History modelHistory) {
+	public void setHistory(History modelHistory) {
 		this.modelHistory = modelHistory;
 	}
 
@@ -311,7 +311,7 @@ public class Annotation {
 	 * 
 	 * @return the modelHistory of the ModelAnnotation
 	 */
-	public History getModelHistory() {
+	public History getHistory() {
 		return modelHistory;
 	}
 
@@ -341,9 +341,9 @@ public class Annotation {
 	 */
 	public boolean isSetAnnotation() {
 		if (getNoRDFAnnotation() == null && getListOfCVTerms().isEmpty()
-				&& getModelHistory() == null) {
+				&& getHistory() == null) {
 			return false;
-		} else if (getNoRDFAnnotation() == null && getModelHistory() == null
+		} else if (getNoRDFAnnotation() == null && getHistory() == null
 				&& !getListOfCVTerms().isEmpty()) {
 
 			for (int i = 0; i < getListOfCVTerms().size(); i++) {
@@ -576,7 +576,7 @@ public class Annotation {
 	 */
 	private void modelHistoryToXML(String indent, StringBuffer buffer) {
 		if (isSetModelHistory()) {
-			getModelHistory().toXML(indent, buffer);
+			getHistory().toXML(indent, buffer);
 		}
 	}
 

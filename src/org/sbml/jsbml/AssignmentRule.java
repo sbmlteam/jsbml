@@ -33,10 +33,10 @@ package org.sbml.jsbml;
 import java.util.HashMap;
 
 /**
- *
+ * 
  * Represents the assignmentRule XML element of a SBML file.
  * 
- * @author Andreas Dr&auml;ger 
+ * @author Andreas Dr&auml;ger
  * @author marine
  * 
  * @opt attributes
@@ -46,11 +46,12 @@ import java.util.HashMap;
 public class AssignmentRule extends Rule {
 
 	/**
-	 * represents the id of a compartment, species, speciesReference or parameter. Matches the variable XML
-	 * attribute of an assignmentRule element.
+	 * represents the id of a compartment, species, speciesReference or
+	 * parameter. Matches the variable XML attribute of an assignmentRule
+	 * element.
 	 */
 	private String variableID;
-	
+
 	/**
 	 * represents the 'units' XML attribute of a ParameterRule.
 	 */
@@ -65,11 +66,14 @@ public class AssignmentRule extends Rule {
 		this.variableID = null;
 		this.unitsID = null;
 	}
-	
+
 	/**
 	 * Creates an AssignmentRule instance with the given level and version.
-	 * @param level the SBML level
-	 * @param version the SBML version
+	 * 
+	 * @param level
+	 *            the SBML level
+	 * @param version
+	 *            the SBML version
 	 */
 	public AssignmentRule(int level, int version) {
 		super(level, version);
@@ -78,61 +82,57 @@ public class AssignmentRule extends Rule {
 
 	/**
 	 * Creates an AssignmentRule instance from a given AssignmentRule.
+	 * 
 	 * @param sb
 	 */
 	public AssignmentRule(AssignmentRule sb) {
 		super(sb);
-		if (sb.isSetVariable()){
+		if (sb.isSetVariable()) {
 			this.variableID = new String(sb.getVariable());
-		}
-		else {
+		} else {
 			this.variableID = null;
 		}
-		if (sb.isSetUnits()){
+		if (sb.isSetUnits()) {
 			this.unitsID = new String(sb.getUnits());
-		}
-		else {
+		} else {
 			this.unitsID = null;
 		}
 	}
 
 	/**
-	 * Creates an AssignmentRule instance from a given variable.
-	 * Takes level and version from the variable.
+	 * Creates an AssignmentRule instance from a given variable. Takes level and
+	 * version from the variable.
 	 */
 	public AssignmentRule(Symbol variable) {
 		super(variable.getLevel(), variable.getVersion());
-		if (variable.isSetId()){
+		if (variable.isSetId()) {
 			this.variableID = new String(variable.getId());
-		}
-		else {
+		} else {
 			this.variableID = null;
 		}
-		if (variable.isSetUnits()){
+		if (variable.isSetUnits()) {
 			this.unitsID = new String(variable.getUnits());
-		}
-		else {
+		} else {
 			this.unitsID = null;
 		}
 	}
 
 	/**
-	 * Creates an AssignmentRule instance from a given variable and math.
-	 * Takes level and version from the variable.
+	 * Creates an AssignmentRule instance from a given variable and math. Takes
+	 * level and version from the variable.
+	 * 
 	 * @param math
 	 */
 	public AssignmentRule(Symbol variable, ASTNode math) {
 		super(math, variable.getLevel(), variable.getVersion());
-		if (variable.isSetId()){
+		if (variable.isSetId()) {
 			this.variableID = new String(variable.getId());
-		}
-		else {
+		} else {
 			this.variableID = null;
 		}
-		if (variable.isSetUnits()){
+		if (variable.isSetUnits()) {
 			this.unitsID = new String(variable.getUnits());
-		}
-		else {
+		} else {
 			this.unitsID = null;
 		}
 	}
@@ -146,24 +146,24 @@ public class AssignmentRule extends Rule {
 	public AssignmentRule clone() {
 		return new AssignmentRule(this);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
 	 */
-	public boolean equals(Object o){
-		if (o instanceof AssignmentRule){
+	public boolean equals(Object o) {
+		if (o instanceof AssignmentRule) {
 			AssignmentRule rule = (AssignmentRule) o;
 			boolean equals = super.equals(rule);
-			
-			if (equals){
+
+			if (equals) {
 				equals &= isSetVariable() == rule.isSetVariable();
-				if (equals && isSetVariable()){
+				if (equals && isSetVariable()) {
 					equals &= getVariable().equals(rule.getVariable());
 				}
 				equals &= isSetUnits() == rule.isSetUnits();
-				if (equals && isSetUnits()){
+				if (equals && isSetUnits()) {
 					equals &= getUnits().equals(rule.getUnits());
 				}
 			}
@@ -182,18 +182,16 @@ public class AssignmentRule extends Rule {
 
 	/**
 	 * 
-	 * @return the UnitDefinition instance which matches the unitsID of this object.
+	 * @return the UnitDefinition instance which matches the unitsID of this
+	 *         object.
 	 */
 	@Deprecated
 	public UnitDefinition getUnitsInstance() {
-		UnitDefinition u = null;
-		if (getModel() != null){
-			u = getModel().getUnitDefinition(this.unitsID);
-		}
-		return u;
+		Model model = getModel();
+		return model != null ? model.getUnitDefinition(this.unitsID) : null;
 	}
-	
-	 /** 
+
+	/**
 	 * @return the unitsID of this object.
 	 */
 	@Deprecated
@@ -203,14 +201,12 @@ public class AssignmentRule extends Rule {
 
 	/**
 	 * 
-	 * @return the variable instance which matches the variableID of this object.
+	 * @return the variable instance which matches the variableID of this
+	 *         object.
 	 */
 	public Symbol getVariableInstance() {
-		Symbol variable = null;
-		if (getModel() != null){
-			variable = getModel().findSymbol(this.variableID);
-		}
-		return variable;
+		Model model = getModel();
+		return model != null ? model.findSymbol(this.variableID) : null;
 	}
 
 	/*
@@ -220,7 +216,8 @@ public class AssignmentRule extends Rule {
 	 */
 	@Override
 	public boolean isCompartmentVolume() {
-		return isSetVariable() && (getVariableInstance() instanceof Compartment);
+		return isSetVariable()
+				&& (getVariableInstance() instanceof Compartment);
 	}
 
 	/*
@@ -246,16 +243,16 @@ public class AssignmentRule extends Rule {
 
 	/**
 	 * 
-	 * @return true if the variableID of this object matches a no null compartment, parameter, species or speciesReference
-	 * of the model instance.
+	 * @return true if the variableID of this object matches a no null
+	 *         compartment, parameter, species or speciesReference of the model
+	 *         instance.
 	 */
 	public boolean isSetVariableInstance() {
-		if (getModel() == null){
-			return false;
-		}
-		return getModel().findSymbol(this.variableID) != null;
+		Model model = getModel();
+		return model != null ? model.findSymbol(this.variableID) != null
+				: false;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the variableID of this object is not null.
@@ -263,20 +260,19 @@ public class AssignmentRule extends Rule {
 	public boolean isSetVariable() {
 		return variableID != null;
 	}
-	
+
 	/**
 	 * 
-	 * @return true if the UnitsID of this object matches a no null UniDefinition
-	 * of the model instance.
+	 * @return true if the UnitsID of this object matches a no null
+	 *         UniDefinition of the model instance.
 	 */
 	@Deprecated
 	public boolean isSetUnitsInstance() {
-		if (getModel() == null){
-			return false;
-		}
-		return getModel().getUnitDefinition(this.unitsID) != null;
+		Model model = getModel();
+		return model != null ? model.getUnitDefinition(this.unitsID) != null
+				: false;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the unitsID of this object is not null.
@@ -297,26 +293,30 @@ public class AssignmentRule extends Rule {
 	}
 
 	/**
-	 * Sets the variableID of this object with 'variable'. It looks first for an existing instance of
-	 * compartment, species, speciesReference or parameter with 'variable' as is value, and then initialises
-	 * the variableID of this object with the id of the variable instance. If no variable instance matches the
-	 * 'variable' String, an exception is thrown.
+	 * Sets the variableID of this object with 'variable'. It looks first for an
+	 * existing instance of compartment, species, speciesReference or parameter
+	 * with 'variable' as is value, and then initialises the variableID of this
+	 * object with the id of the variable instance. If no variable instance
+	 * matches the 'variable' String, an exception is thrown.
+	 * 
 	 * @param variable
 	 */
 	public void checkAndSetVariable(String variable) {
 		Symbol nsb = null;
-		if (getModel() != null){
-			nsb = getModel().findSymbol(variable);
+		Model model = getModel();
+		if (model != null) {
+			nsb = model.findSymbol(variable);
 		}
-		if (nsb == null){
+		if (nsb == null) {
 			throw new IllegalArgumentException(
-			"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
+					"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
 		}
 		setVariable(nsb);
 	}
-	
+
 	/**
 	 * Sets the unitsID to 'unitsID'.
+	 * 
 	 * @param unitsID
 	 */
 	@Deprecated
@@ -324,18 +324,20 @@ public class AssignmentRule extends Rule {
 		this.unitsID = unitsID;
 		stateChanged();
 	}
-	
+
 	/**
 	 * Sets the unitsID of this object with the id of 'units'.
+	 * 
 	 * @param variable
 	 */
 	@Deprecated
 	public void setUnits(UnitDefinition units) {
 		this.unitsID = units.isSetId() ? units.getId() : null;
 	}
-	
+
 	/**
 	 * Sets the variableID to 'variableID'.
+	 * 
 	 * @param variableID
 	 */
 	public void setVariable(String variableID) {
@@ -345,83 +347,81 @@ public class AssignmentRule extends Rule {
 
 	/**
 	 * Sets the variableID to the id of 'variable'.
+	 * 
 	 * @param variable
 	 */
 	public void setVariable(Symbol variable) {
 		this.variableID = variable != null ? variable.getId() : null;
 		stateChanged();
 	}
-	
+
 	/**
 	 * Unsets the unitsID of this AssignmentRule.
 	 */
 	@Deprecated
-	public void unsetUnits(){
+	public void unsetUnits() {
 		this.unitsID = null;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.element.Rule#readAttribute(String attributeName, String prefix, String value)
+	 * 
+	 * @see org.sbml.jsbml.element.Rule#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value){
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
-		if (!isAttributeRead){
-			if (attributeName.equals("variable") && getLevel() > 1){
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("variable") && getLevel() > 1) {
 				this.setVariable(value);
 				return true;
-			}
-			else if (attributeName.equals("specie") && getLevel() == 1){
+			} else if (attributeName.equals("specie") && getLevel() == 1) {
 				this.setVariable(value);
 				return true;
-			}
-			else if (attributeName.equals("compartment") && getLevel() == 1){
+			} else if (attributeName.equals("compartment") && getLevel() == 1) {
 				this.setVariable(value);
 				return true;
-			}
-			else if (attributeName.equals("name") && getLevel() == 1){
+			} else if (attributeName.equals("name") && getLevel() == 1) {
 				this.setVariable(value);
 				return true;
-			}
-			else if (attributeName.equals("units") && getLevel() == 1){
+			} else if (attributeName.equals("units") && getLevel() == 1) {
 				this.setUnits(value);
 				return true;
 			}
 		}
 		return isAttributeRead;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.Rule#writeXMLAttributes()
 	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		
-		if (isSetVariable() ){
-			if (getLevel() > 1){
+
+		if (isSetVariable()) {
+			if (getLevel() > 1) {
 				attributes.put("variable", getVariable());
-			}
-			else if (getLevel() == 1){
-				if (isSpeciesConcentration() && getVersion() == 1){
+			} else if (getLevel() == 1) {
+				if (isSpeciesConcentration() && getVersion() == 1) {
 					attributes.put("specie", getVariable());
-				}
-				else if (isSpeciesConcentration() && getVersion() == 2){
+				} else if (isSpeciesConcentration() && getVersion() == 2) {
 					attributes.put("species", getVariable());
-				}
-				else if (getLevel() == 1 && isCompartmentVolume()){
+				} else if (getLevel() == 1 && isCompartmentVolume()) {
 					attributes.put("compartment", getVariable());
-				}
-				else if (getLevel() == 1 && isParameter()){
+				} else if (getLevel() == 1 && isParameter()) {
 					attributes.put("name", getVariable());
 				}
 			}
 		}
-		
-		if (isSetUnits() && getLevel() == 1){
+
+		if (isSetUnits() && getLevel() == 1) {
 			attributes.put("units", getUnits());
 		}
 

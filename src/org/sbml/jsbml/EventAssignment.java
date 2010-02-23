@@ -117,10 +117,8 @@ public class EventAssignment extends MathContainer {
 	 *         Event is not null.
 	 */
 	public boolean isSetVariableInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().findSymbol(this.variableID) != null;
+		Model m = getModel();
+		return m != null ? m.findSymbol(this.variableID) != null : false;
 	}
 
 	/**
@@ -147,10 +145,8 @@ public class EventAssignment extends MathContainer {
 	 *         id. Return null if it doesn't exist.
 	 */
 	public Symbol getVariableInstance() {
-		if (getModel() == null) {
-			return null;
-		}
-		return getModel().findSymbol(this.variableID);
+		Model m = getModel();
+		return m != null ? m.findSymbol(this.variableID) : null;
 	}
 
 	/**
@@ -180,13 +176,16 @@ public class EventAssignment extends MathContainer {
 	 * @param variable
 	 */
 	public void checkAndSetVariable(String variable) {
-		Symbol nsb = getModel().findSymbol(variable);
-		if (nsb == null) {
-			throw new IllegalArgumentException(
-					"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
-		}
-		setVariable(nsb);
-		stateChanged();
+		Model m = getModel();
+		if (m != null) {
+			Symbol nsb = getModel().findSymbol(variable);
+			if (nsb == null) {
+				throw new IllegalArgumentException(
+						"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
+			}
+			setVariable(nsb);
+			stateChanged();
+		} else throw new NullPointerException("Cannot find a model for this EventAssignment");
 	}
 
 	/**

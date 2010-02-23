@@ -100,9 +100,9 @@ public class SBMLDocument extends AbstractSBase {
 	 * @param version
 	 */
 	public SBMLDocument(int level, int version) {
-		super(level, version);
-		this.model = null;
-		setParentSBML(this);
+		this();
+		setLevel(level);
+		setVersion(version);
 	}
 
 	/**

@@ -39,7 +39,7 @@ import java.util.HashMap;
  * @author marine
  * @author Andreas Dr&auml;ger
  * 
- * @has 1 reference 1..* Species 
+ * @has 1 reference 1..* Species
  * @opt attributes
  * @opt types
  * @opt visibility
@@ -103,7 +103,7 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	public boolean equals(Object o) {
 		boolean equal = super.equals(o);
 
-		//System.out.println("SimplespeciesReference : equals : super.equals = "
+		// System.out.println("SimplespeciesReference : equals : super.equals = "
 		// + equal);
 
 		if (o.getClass().getName().equals(getClass().getName())) {
@@ -150,10 +150,8 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	 *         SimpleSpeciesReference as id. Can be null if it doesn't exist.
 	 */
 	public Species getSpeciesInstance() {
-		if (getModel() == null) {
-			return null;
-		}
-		return getModel().getSpecies(this.speciesID);
+		Model m = getModel();
+		return m != null ? m.getSpecies(this.speciesID) : null;
 	}
 
 	/**
@@ -162,10 +160,8 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	 *         SimpleSpeciesReference as id is not null.
 	 */
 	public boolean isSetSpeciesInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().getSpecies(this.speciesID) != null;
+		Model m = getModel();
+		return m != null ? m.getSpecies(this.speciesID) != null : false;
 	}
 
 	/**

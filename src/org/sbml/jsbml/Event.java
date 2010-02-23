@@ -310,10 +310,8 @@ public class Event extends AbstractNamedSBase {
 	 *         UnitDefinition id which matches the timeUnitsID of this Event.
 	 */
 	public UnitDefinition getTimeUnitsInstance() {
-		if (getModel() != null) {
-			return getModel().getUnitDefinition(this.timeUnitsID);
-		}
-		return null;
+		Model m = getModel();
+		return m != null ? m.getUnitDefinition(this.timeUnitsID) : null;
 	}
 
 	/**
@@ -360,10 +358,9 @@ public class Event extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public boolean isSetTimeUnitsInstance() {
-		if (getModel() != null) {
-			return getModel().getUnitDefinition(this.timeUnitsID) != null;
-		}
-		return false;
+		Model m = getModel();
+		return m != null ? m.getUnitDefinition(this.timeUnitsID) != null
+				: false;
 	}
 
 	/**

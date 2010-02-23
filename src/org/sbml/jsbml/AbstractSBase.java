@@ -99,7 +99,7 @@ public abstract class AbstractSBase implements SBase {
 	 * appropriate namespace of the package.
 	 */
 	private HashMap<String, SBase> extensions;
-	
+
 	private Set<String> namespaces = new TreeSet<String>();
 
 	/**
@@ -131,15 +131,9 @@ public abstract class AbstractSBase implements SBase {
 	 * @param version
 	 */
 	public AbstractSBase(int level, int version) {
-		sboTerm = -1;
-		metaId = null;
-		notes = null;
-		parentSBMLObject = null;
-		setOfListeners = new HashSet<SBaseChangedListener>();
+		this();
 		this.level = Integer.valueOf(level);
 		this.version = Integer.valueOf(version);
-		this.annotation = null;
-		this.extensions = new HashMap<String, SBase>();
 	}
 
 	/**
@@ -357,10 +351,8 @@ public abstract class AbstractSBase implements SBase {
 		if (this instanceof Model) {
 			return (Model) this;
 		}
-		if (getParentSBMLObject() != null) {
-			return getParentSBMLObject().getModel();
-		}
-		return null;
+		return getParentSBMLObject() != null ? getParentSBMLObject().getModel()
+				: null;
 	}
 
 	/*
@@ -391,10 +383,7 @@ public abstract class AbstractSBase implements SBase {
 			return (SBMLDocument) this;
 		}
 		Model m = getModel();
-		if (m != null) {
-			return m.getParentSBMLObject();
-		}
-		return null;
+		return m != null ? m.getParentSBMLObject() : null;
 	}
 
 	/*
@@ -891,15 +880,15 @@ public abstract class AbstractSBase implements SBase {
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#getModelHistory()
 	 */
-	public History getModelHistory() {
+	public History getHistory() {
 		if (isSetAnnotation()) {
-			return annotation.getModelHistory();
+			return annotation.getHistory();
 		}
 		return null;
 	}
 
-	public void setModelHistory(History modelHistory) {
-		annotation.setModelHistory(modelHistory);
+	public void setHistory(History modelHistory) {
+		annotation.setHistory(modelHistory);
 	}
 
 	/*
@@ -932,12 +921,12 @@ public abstract class AbstractSBase implements SBase {
 	public Set<String> getNamespaces() {
 		// Need to separate the list of namespaces from the extensions.
 		// SBase object directly from the extension need to set their namespace.
-		
+
 		return this.namespaces;
 	}
-	
+
 	public void addNamespace(String namespace) {
-		
+
 		this.namespaces.add(namespace);
 	}
 

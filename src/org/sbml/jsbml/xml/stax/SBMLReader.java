@@ -95,6 +95,10 @@ public class SBMLReader {
 		packageParsers.put("http://www.sbml.org/sbml/level3/version1/groups/version1", GroupsParser.class);
 		packageParsers.put("http://www.sbml.org/sbml/level3/version1/layout/version1", LayoutParser.class);
 		packageParsers.put("http://www.sbml.org/sbml/level3/version1/core", SBMLCoreParser.class);
+		packageParsers.put("http://www.sbml.org/sbml/level2/version1", SBMLCoreParser.class);
+		packageParsers.put("http://www.sbml.org/sbml/level2/version2", SBMLCoreParser.class);
+		packageParsers.put("http://www.sbml.org/sbml/level2/version3", SBMLCoreParser.class);
+		packageParsers.put("http://www.sbml.org/sbml/level2/version4", SBMLCoreParser.class);
 		packageParsers.put("http://www.sbml.org/sbml/level2", SBMLCoreParser.class);
 		packageParsers.put("http://www.w3.org/1999/xhtml", StringParser.class);
 		packageParsers.put("http://www.w3.org/1999/02/22-rdf-syntax-ns#", RDFAnnotationParser.class);

@@ -62,8 +62,6 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
-import org.sbml.jsbml.xml.stax.SBMLReader;
-import org.sbml.jsbml.xml.stax.SBMLWriter;
 import org.sbml.jsbml.xml.stax.SBaseListType;
 import org.sbml.jsbml.xml.stax.WritingParser;
 import org.sbml.jsbml.xml.stax.XMLLogger;

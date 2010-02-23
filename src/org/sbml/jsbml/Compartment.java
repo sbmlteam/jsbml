@@ -210,10 +210,8 @@ public class Compartment extends Symbol {
 	 */
 	@Deprecated
 	public CompartmentType getCompartmentTypeInstance() {
-		if (getModel() != null) {
-			return getModel().getCompartmentType(this.compartmentTypeID);
-		}
-		return null;
+		Model m = getModel();
+		return m != null ? m.getCompartmentType(this.compartmentTypeID) : null;
 	}
 
 	/**
@@ -230,10 +228,8 @@ public class Compartment extends Symbol {
 	 *         Return null if no compartment instance matches the outside id.
 	 */
 	public Compartment getOutsideInstance() {
-		if (getModel() != null) {
-			return getModel().getCompartment(this.outsideID);
-		}
-		return null;
+		Model m = getModel();
+		return m != null ? m.getCompartment(this.outsideID) : null;
 	}
 
 	/**
@@ -286,10 +282,9 @@ public class Compartment extends Symbol {
 	 */
 	@Deprecated
 	public boolean isSetCompartmentTypeInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().getCompartmentType(this.compartmentTypeID) != null;
+		Model m = getModel();
+		return m != null ? m.getCompartmentType(this.compartmentTypeID) != null
+				: false;
 	}
 
 	/**
@@ -306,10 +301,8 @@ public class Compartment extends Symbol {
 	 *         this compartment is not null.
 	 */
 	public boolean isSetOutsideInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().getCompartment(this.outsideID) != null;
+		Model m = getModel();
+		return m != null ? m.getCompartment(this.outsideID) != null : false;
 	}
 
 	/**

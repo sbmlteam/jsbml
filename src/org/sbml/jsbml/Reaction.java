@@ -344,10 +344,8 @@ public class Reaction extends AbstractNamedSBase {
 	 *         Reaction as id. Can be null if it doesn't exist.
 	 */
 	public Compartment getCompartmentInstance() {
-		if (getModel() == null) {
-			return null;
-		}
-		return getModel().getCompartment(this.compartmentID);
+		Model m = getModel();
+		return m != null ? m.getCompartment(this.compartmentID) : null;
 	}
 
 	/**
@@ -623,10 +621,8 @@ public class Reaction extends AbstractNamedSBase {
 	 *         Reaction as id is not null;
 	 */
 	public boolean isSetCompartmentInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().getCompartment(this.compartmentID) != null;
+		Model m = getModel();
+		return m != null ? m.getCompartment(this.compartmentID) != null : false;
 	}
 
 	/**

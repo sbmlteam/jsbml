@@ -153,7 +153,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	public boolean equals(Object o) {
 		boolean equal = super.equals(o);
 
-		if (o instanceof Symbol) {
+		if (equal && (o instanceof Symbol)) {
 
 			// System.out.println("Symbol : equals : super.equals = " + equal);
 
@@ -165,13 +165,11 @@ public abstract class Symbol extends AbstractNamedSBase {
 				equal &= v.getUnits().equals(getUnits());
 			}
 
-			if (!(Double.isNaN(v.getValue()) && Double.isNaN(getValue()))) {
+			if (!(Double.isNaN(v.getValue()) && Double.isNaN(getValue())))
 				equal &= v.getValue() == getValue();
-			} else if (Double.isNaN(v.getValue()) && Double.isNaN(getValue())) {
-				return true;
-			} else {
-				return false;
-			}
+			else
+				equal &= (Double.isNaN(v.getValue()) && Double
+						.isNaN(getValue()));
 		}
 
 		return equal;
@@ -201,10 +199,8 @@ public abstract class Symbol extends AbstractNamedSBase {
 	// TODO : we probably need to support the case where unitsID is one of the
 	// predefined kind ?
 	public UnitDefinition getUnitsInstance() {
-		if (getModel() == null) {
-			return null;
-		}
-		return getModel().getUnitDefinition(this.unitsID);
+		Model model = getModel();
+		return model == null ? null : model.getUnitDefinition(this.unitsID);
 	}
 
 	// TODO : check that it is correct in case the unit is one of the supported
@@ -238,10 +234,9 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 *         as id is not null.
 	 */
 	public boolean isSetUnitsInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().getUnitDefinition(this.unitsID) != null;
+		Model model = getModel();
+		return model == null ? false
+				: model.getUnitDefinition(this.unitsID) != null;
 	}
 
 	/**
@@ -299,7 +294,9 @@ public abstract class Symbol extends AbstractNamedSBase {
 			sb.append('_');
 			sb.append(unit.getExponent());
 			ud.setId(sb.toString());
-			getModel().addUnitDefinition(ud);
+			Model m = getModel();
+			if (m != null)
+				m.addUnitDefinition(ud);
 		}
 		setUnits(ud);
 	}

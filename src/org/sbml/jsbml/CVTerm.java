@@ -111,6 +111,7 @@ public class CVTerm {
 		 */
 		BQM_UNKNOWN
 	}
+
 	/**
 	 * This enum list all the possible MIRIAM qualifiers type.
 	 * 
@@ -132,6 +133,7 @@ public class CVTerm {
 		 * Represents the MIRIAM biological qualifier 'encodes'.
 		 */
 	}
+
 	/**
 	 * Represents the MIRIAM qualifier node in the annotation node of a SBML
 	 * component.
@@ -553,7 +555,9 @@ public class CVTerm {
 		if (resourceURIs.size() > 0) {
 			buffer.append(' ');
 		}
-		for (String uri : resourceURIs) {
+		String uri;
+		for (i = 0; i < resourceURIs.size(); i++) {
+			uri = resourceURIs.get(i);
 			if (i > 0) {
 				buffer.append(", ");
 			}

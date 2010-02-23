@@ -237,10 +237,8 @@ public class KineticLaw extends MathContainer {
 	 */
 	@Deprecated
 	public UnitDefinition getTimeUnitsInstance() {
-		if (getModel() == null) {
-			return null;
-		}
-		return getModel().getUnitDefinition(this.timeUnitsID);
+		Model m = getModel();
+		return m != null ? m.getUnitDefinition(this.timeUnitsID) : null;
 	}
 
 	/**
@@ -250,10 +248,9 @@ public class KineticLaw extends MathContainer {
 	 */
 	@Deprecated
 	public boolean isSetTimeUnitsInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().getUnitDefinition(this.timeUnitsID) != null;
+		Model m = getModel();
+		return m != null ? m.getUnitDefinition(this.timeUnitsID) != null
+				: false;
 	}
 
 	/**
@@ -295,10 +292,9 @@ public class KineticLaw extends MathContainer {
 	 */
 	@Deprecated
 	public boolean isSetSubstanceUnitsInstance() {
-		if (getModel() == null) {
-			return false;
-		}
-		return getModel().getUnitDefinition(this.substanceUnitsID) != null;
+		Model m = getModel();
+		return m != null ? m.getUnitDefinition(this.substanceUnitsID) != null
+				: false;
 	}
 
 	/**
@@ -546,10 +542,11 @@ public class KineticLaw extends MathContainer {
 	 * The units are calculated based on the mathematical expression in the
 	 * KineticLaw and the model quantities referenced by <ci> elements used
 	 * within that expression. The getDerivedUnitDefinition() method returns the
-	 * calculated units. <br/> Note that the functionality that facilitates unit
-	 * analysis depends on the model as a whole. Thus, in cases where the object
-	 * has not been added to a model or the model itself is incomplete, unit
-	 * analysis is not possible and this method will return NULL.
+	 * calculated units. <br/>
+	 * Note that the functionality that facilitates unit analysis depends on the
+	 * model as a whole. Thus, in cases where the object has not been added to a
+	 * model or the model itself is incomplete, unit analysis is not possible
+	 * and this method will return NULL.
 	 * 
 	 * 
 	 * @return <b>Warning</b>:Note that it is possible the 'math' expression in

@@ -183,7 +183,7 @@ public class DatesParser implements ReadingParser{
 			// This parser doesn't have to create a ModelHistory instance(in the SBML specifications, the created and modified dates
 			// should come after the creator list and so, the modelHistory of the annotation should not be null for this parser).
 			if (modelAnnotation.isSetModelHistory()){
-				History modelHistory = modelAnnotation.getModelHistory();
+				History modelHistory = modelAnnotation.getHistory();
 
 				// If the localName of the node is 'created' and if it has not been read yet,
 				// the previousElement of this parser is set to 'created' and hasReadCreated is set
