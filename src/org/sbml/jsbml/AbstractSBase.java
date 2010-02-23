@@ -223,7 +223,7 @@ public abstract class AbstractSBase implements SBase {
 			if (body) {
 				this.notes += "</body>";
 			}
-			this.notes += "</notes>";
+			//this.notes += "</notes>";
 
 		} else
 			this.notes = notes;
