@@ -59,7 +59,7 @@ public class SBO {
 	/**
 	 * 
 	 */
-	private static Ontology sbo;
+	private static Properties alias2sbo;
 
 	/**
 	 * 
@@ -69,7 +69,7 @@ public class SBO {
 	/**
 	 * 
 	 */
-	private static Properties alias2sbo;
+	private static Ontology sbo;
 
 	/**
 	 * 
@@ -157,9 +157,17 @@ public class SBO {
 
 	/**
 	 * Creates and returns a list of molecule types accepted as an enzyme by
-	 * default. These are: <ul type="disk"> <li>ANTISENSE_RNA</li> <li>
-	 * SIMPLE_MOLECULE</li> <li>UNKNOWN</li> <li>COMPLEX</li> <li>TRUNCATED</li>
-	 * <li>GENERIC</li> <li>RNA</li> <li>RECEPTOR</li> </ul>
+	 * default. These are:
+	 * <ul type="disk">
+	 * <li>ANTISENSE_RNA</li>
+	 * <li>SIMPLE_MOLECULE</li>
+	 * <li>UNKNOWN</li>
+	 * <li>COMPLEX</li>
+	 * <li>TRUNCATED</li>
+	 * <li>GENERIC</li>
+	 * <li>RNA</li>
+	 * <li>RECEPTOR</li>
+	 * </ul>
 	 * 
 	 * @return
 	 */
@@ -167,20 +175,6 @@ public class SBO {
 		Set<Integer> possibleEnzymes = new HashSet<Integer>();
 		for (String type : new String[] { "ANTISENSE_RNA", "SIMPLE_MOLECULE",
 				"UNKNOWN", "COMPLEX", "TRUNCATED", "GENERIC", "RNA", "RECEPTOR" })
-			possibleEnzymes.add(Integer.valueOf(convertAlias2SBO(type)));
-		return possibleEnzymes;
-	}
-
-	/**
-	 * Creates and returns a list of molecule types that are accepted as an
-	 * enzyme for the given type names.
-	 * 
-	 * @param types
-	 * @return
-	 */
-	public static final Set<Integer> getPossibleEnzymes(String... types) {
-		Set<Integer> possibleEnzymes = new HashSet<Integer>();
-		for (String type : types)
 			possibleEnzymes.add(Integer.valueOf(convertAlias2SBO(type)));
 		return possibleEnzymes;
 	}
@@ -199,6 +193,20 @@ public class SBO {
 	 */
 	public static Ontology getOntology() {
 		return sbo;
+	}
+
+	/**
+	 * Creates and returns a list of molecule types that are accepted as an
+	 * enzyme for the given type names.
+	 * 
+	 * @param types
+	 * @return
+	 */
+	public static final Set<Integer> getPossibleEnzymes(String... types) {
+		Set<Integer> possibleEnzymes = new HashSet<Integer>();
+		for (String type : types)
+			possibleEnzymes.add(Integer.valueOf(convertAlias2SBO(type)));
+		return possibleEnzymes;
 	}
 
 	/**
@@ -251,8 +259,26 @@ public class SBO {
 	 * @param sboTerm
 	 * @return
 	 */
+	public static boolean isBindingActivator(int sboTerm) {
+		return isChildOf(sboTerm, 535);
+	}
+
+	/**
+	 * 
+	 * @param sboTerm
+	 * @return
+	 */
 	public static boolean isCatalyst(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("CATALYSIS"));
+	}
+
+	/**
+	 * 
+	 * @param sboTerm
+	 * @return
+	 */
+	public static boolean isCatalyticActivator(int sboTerm) {
+		return isChildOf(sboTerm, 534);
 	}
 
 	/**
@@ -304,6 +330,15 @@ public class SBO {
 	 */
 	public static boolean isCompetetiveInhibitor(int term) {
 		return isChildOf(term, 206);
+	}
+
+	/**
+	 * 
+	 * @param sboTerm
+	 * @return
+	 */
+	public static boolean isCompleteInhibitor(int sboTerm) {
+		return isChildOf(sboTerm, 537);
 	}
 
 	/**
@@ -466,6 +501,15 @@ public class SBO {
 	 * @param sboTerm
 	 * @return
 	 */
+	public static boolean isHillEquation(int sboTerm) {
+		return isChildOf(sboTerm, 192);
+	}
+
+	/**
+	 * 
+	 * @param sboTerm
+	 * @return
+	 */
 	public static boolean isInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("INHIBITION"));
 	}
@@ -595,6 +639,15 @@ public class SBO {
 	public static boolean isObselete(int sboTerm) {
 		return sbo.getTerm(intToString(sboTerm)).getDescription().startsWith(
 				"obsolete");
+	}
+
+	/**
+	 * 
+	 * @param sboTerm
+	 * @return
+	 */
+	public static boolean isPartialInhibitor(int sboTerm) {
+		return isChildOf(sboTerm, 536);
 	}
 
 	/**
@@ -729,6 +782,15 @@ public class SBO {
 	 * @param sboTerm
 	 * @return
 	 */
+	public static boolean isSpecificActivator(int sboTerm) {
+		return isChildOf(sboTerm, 533);
+	}
+
+	/**
+	 * 
+	 * @param sboTerm
+	 * @return
+	 */
 	public static boolean isStateTransition(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("STATE_TRANSITION"));
 	}
@@ -807,7 +869,7 @@ public class SBO {
 	public static boolean isTranslationalActivation(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("TRANSLATIONAL_ACTIVATION"));
 	}
-
+	
 	/**
 	 * 
 	 * @param sboTerm
@@ -816,7 +878,7 @@ public class SBO {
 	public static boolean isTranslationalInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("TRANSLATIONAL_INHIBITION"));
 	}
-
+	
 	/**
 	 * 
 	 * @param term
@@ -825,7 +887,7 @@ public class SBO {
 	public static boolean isTransport(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("TRANSPORT"));
 	}
-
+	
 	/**
 	 * 
 	 * @param sboTerm
@@ -834,7 +896,7 @@ public class SBO {
 	public static boolean isTrigger(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("TRIGGER"));
 	}
-
+	
 	/**
 	 * 
 	 * @param sboTerm
@@ -843,7 +905,7 @@ public class SBO {
 	public static boolean isTruncated(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("TRUNCATED"));
 	}
-
+	
 	/**
 	 * 
 	 * @param sboTerm
@@ -852,7 +914,7 @@ public class SBO {
 	public static boolean isUnknownMolecule(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("UNKNOWN"));
 	}
-
+	
 	/**
 	 * 
 	 * @param term

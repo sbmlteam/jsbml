@@ -151,12 +151,8 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	// @Override
 	public boolean equals(Object o) {
-		boolean equal = super.equals(o);
-
-		if (equal && (o instanceof Symbol)) {
-
-			// System.out.println("Symbol : equals : super.equals = " + equal);
-
+		if (o instanceof Symbol) {
+			boolean equal = super.equals(o);
 			Symbol v = (Symbol) o;
 			equal &= v.getConstant() == getConstant();
 			equal &= v.isSetUnits() == isSetUnits();
@@ -170,9 +166,9 @@ public abstract class Symbol extends AbstractNamedSBase {
 			else
 				equal &= (Double.isNaN(v.getValue()) && Double
 						.isNaN(getValue()));
+			return equal;
 		}
-
-		return equal;
+		return false;
 	}
 
 	/**

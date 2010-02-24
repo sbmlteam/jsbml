@@ -758,7 +758,6 @@ public class Unit extends AbstractSBase {
 			equal &= getExponent() == u.getExponent();
 			equal &= getOffset() == u.getOffset();
 			equal &= getKind() == u.getKind();
-
 			return equal;
 		}
 		return false;

@@ -213,9 +213,9 @@ public class Event extends AbstractNamedSBase {
 	 */
 	// @Override
 	public boolean equals(Object o) {
-		boolean equal = super.equals(o);
 		if (o instanceof Event) {
 			Event e = (Event) o;
+			boolean equal = super.equals(o);
 			equal &= e.getUseValuesFromTriggerTime() == getUseValuesFromTriggerTime();
 			System.out.println("useValuseFromTriggerTime : " + equal);
 			equal &= e.isSetListOfEventAssignments() == isSetListOfEventAssignments();

@@ -134,9 +134,7 @@ public class InitialAssignment extends MathContainer {
 	public boolean equals(Object o) {
 		if (o instanceof InitialAssignment) {
 			InitialAssignment in = (InitialAssignment) o;
-
 			boolean equals = super.equals(in);
-
 			if ((!in.isSetSymbol() && isSetSymbol())
 					|| (in.isSetSymbol() && !isSetSymbol())) {
 				return false;
@@ -144,6 +142,7 @@ public class InitialAssignment extends MathContainer {
 			if (in.isSetSymbol() && isSetSymbol()) {
 				equals &= in.getSymbol().equals(getSymbol());
 			}
+			return equals;
 		}
 		return false;
 	}

@@ -141,13 +141,13 @@ public abstract class MathContainer extends AbstractSBase {
 	 */
 	// @Override
 	public boolean equals(Object o) {
-		boolean equal = super.equals(o);
 		if (o.getClass().getName().equals(this.getClass().getName())) {
 			MathContainer c = (MathContainer) o;
 			if ((c.isSetMath() && !isSetMath())
 					|| (!c.isSetMath() && isSetMath())) {
 				return false;
 			}
+			boolean equal = super.equals(o);
 			if (c.isSetMath() && isSetMath()) {
 				equal &= getMath().equals(c.getMath());
 			}

@@ -1035,9 +1035,9 @@ public class Model extends AbstractNamedSBase {
 	 */
 	// @Override
 	public boolean equals(Object o) {
-		boolean equal = super.equals(o);
 		if (o instanceof Model) {
 			Model m = (Model) o;
+			boolean equal = super.equals(o);
 			if ((m.isSetListOfFunctionDefinitions() && !isSetListOfFunctionDefinitions())
 					|| (!m.isSetListOfFunctionDefinitions() && isSetListOfFunctionDefinitions())) {
 				return false;
