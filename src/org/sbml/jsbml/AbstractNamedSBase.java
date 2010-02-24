@@ -144,8 +144,8 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 */
 	// @Override
 	public boolean equals(Object o) {
-		boolean equals = super.equals(o);
-		if (equals && o instanceof NamedSBase) {
+		if (o instanceof NamedSBase) {
+			boolean equals = super.equals(o);
 			NamedSBase nsb = (NamedSBase) o;
 			equals &= nsb.isSetId() == isSetId();
 			if (nsb.isSetId() && isSetId()) {
@@ -155,8 +155,9 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 			if (equals && nsb.isSetName()) {
 				equals &= nsb.getName().equals(getName());
 			}
+			return equals;
 		}
-		return equals;
+		return false;
 	}
 
 	/*

@@ -165,6 +165,7 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 			if (fd.isSetName() && isSetName()) {
 				equal &= fd.getName().equals(getName());
 			}
+			return equal;
 		}
 		return false;
 	}

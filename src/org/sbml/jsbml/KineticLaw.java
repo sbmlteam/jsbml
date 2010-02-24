@@ -172,13 +172,13 @@ public class KineticLaw extends MathContainer {
 	 */
 	// @Override
 	public boolean equals(Object o) {
-		boolean equal = super.equals(o);
 		if (o instanceof KineticLaw) {
 			KineticLaw kl = (KineticLaw) o;
 			if ((!kl.isSetListOfParameters() && isSetListOfParameters())
 					|| (kl.isSetListOfParameters() && !isSetListOfParameters())) {
 				return false;
 			}
+			boolean equal = super.equals(o);
 			if (kl.isSetListOfParameters() && isSetListOfParameters()) {
 				equal &= kl.getListOfParameters().equals(getListOfParameters());
 			}
@@ -197,9 +197,8 @@ public class KineticLaw extends MathContainer {
 				equal &= kl.getSubstanceUnits().equals(getSubstanceUnits());
 			}
 			return equal;
-		} else
-			equal = false;
-		return equal;
+		}
+		return false;
 	}
 
 	/**

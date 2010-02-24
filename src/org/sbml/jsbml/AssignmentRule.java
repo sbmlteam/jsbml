@@ -156,7 +156,6 @@ public class AssignmentRule extends Rule {
 		if (o instanceof AssignmentRule) {
 			AssignmentRule rule = (AssignmentRule) o;
 			boolean equals = super.equals(rule);
-
 			if (equals) {
 				equals &= isSetVariable() == rule.isSetVariable();
 				if (equals && isSetVariable()) {

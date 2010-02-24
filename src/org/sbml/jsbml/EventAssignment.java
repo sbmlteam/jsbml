@@ -96,13 +96,13 @@ public class EventAssignment extends MathContainer {
 	 */
 	// @Override
 	public boolean equals(Object o) {
-		boolean equal = super.equals(o);
 		if (o instanceof EventAssignment) {
 			EventAssignment ea = (EventAssignment) o;
 			if ((!ea.isSetVariable() && isSetVariable())
 					|| (ea.isSetVariable() && !isSetVariable())) {
 				return false;
 			}
+			boolean equal = super.equals(o);
 			if (ea.isSetVariable() && isSetVariable()) {
 				equal &= ea.getVariable().equals(getVariable());
 			}

@@ -101,14 +101,9 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	 */
 	// @Override
 	public boolean equals(Object o) {
-		boolean equal = super.equals(o);
-
-		// System.out.println("SimplespeciesReference : equals : super.equals = "
-		// + equal);
-
-		if (o.getClass().getName().equals(getClass().getName())) {
+		if (o instanceof SimpleSpeciesReference) {
 			SimpleSpeciesReference ssr = (SimpleSpeciesReference) o;
-
+			boolean equal = super.equals(o);
 			if ((!isSetSpecies() && ssr.isSetSpecies())
 					|| (isSetSpecies() && !ssr.isSetSpecies())) {
 				return false;
@@ -118,12 +113,9 @@ public abstract class SimpleSpeciesReference extends Symbol {
 				// System.out.println("SimplespeciesReference : speciesRef =  "
 				// + ssr.getSpecies() + ", " + speciesID);
 			}
-
-		} else {
-			equal = false;
-		}
-
-		return equal;
+			return equal;
+		} 
+		return false;
 	}
 
 	/*

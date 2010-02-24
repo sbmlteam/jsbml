@@ -220,9 +220,9 @@ public class SpeciesReference extends SimpleSpeciesReference {
 	 */
 	// @Override
 	public boolean equals(Object o) {
-		boolean equal = super.equals(o);
 		if (o instanceof SpeciesReference) {
 			SpeciesReference sr = (SpeciesReference) o;
+			boolean equal = super.equals(o);
 			if ((sr.isSetStoichiometryMath() && !isSetStoichiometryMath())
 					|| (!sr.isSetStoichiometryMath() && isSetStoichiometryMath())) {
 				return false;
@@ -248,9 +248,8 @@ public class SpeciesReference extends SimpleSpeciesReference {
 				equal &= sr.getDenominator() == denominator;
 			}
 			return equal;
-		} else
-			equal = false;
-		return equal;
+		}
+		return false;
 	}
 
 	/**
