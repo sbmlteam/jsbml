@@ -57,7 +57,7 @@ public class StringTools {
 
 	/**
 	 * This method concatenates two or more object strings into a new
-	 * stringbuffer.
+	 * StringBuffer.
 	 * 
 	 * @param buffers
 	 * @return
@@ -70,12 +70,29 @@ public class StringTools {
 	}
 
 	/**
+	 * Returns a String whose first letter is now in lower case.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public static final String firstLetterLowerCase(String name) {
+		char c = name.charAt(0);
+		if (Character.isLetter(c))
+			c = Character.toLowerCase(c);
+		if (name.length() > 1)
+			name = Character.toString(c) + name.substring(1);
+		else
+			return Character.toString(c);
+		return name;
+	}
+
+	/**
 	 * Returns a String who's first letter is now in upper case.
 	 * 
 	 * @param name
 	 * @return
 	 */
-	public static String firstLetterUpperCase(String name) {
+	public static final String firstLetterUpperCase(String name) {
 		char c = name.charAt(0);
 		if (Character.isLetter(c))
 			c = Character.toUpperCase(c);
@@ -86,6 +103,10 @@ public class StringTools {
 		return name;
 	}
 
+	public static final String newLine() {
+		return System.getProperty("line.separator");
+	}
+
 	/**
 	 * Returns a String from the given value that does not contain a point zero
 	 * at the end.
@@ -93,14 +114,10 @@ public class StringTools {
 	 * @param value
 	 * @return
 	 */
-	public static String toString(double value) {
+	public static final String toString(double value) {
 		if (((int) value) - value == 0)
 			return Integer.toString((int) value);
-		return Double.toString(value);
-	}
-
-	public static String newLine() {
-		return System.getProperty("line.separator");
+		return String.format("%f", value);
 	}
 
 }

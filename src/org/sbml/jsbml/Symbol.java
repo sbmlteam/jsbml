@@ -98,9 +98,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * @param version
 	 */
 	public Symbol(String id, int level, int version) {
-		super(id, level, version);
-		this.unitsID = null;
-		this.constant = null;
+		this(id, null, level, version);
 	}
 
 	/**
@@ -125,23 +123,15 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	public Symbol(Symbol nsb) {
 		super(nsb);
-
-		if (nsb.isSetUnits()) {
-			this.unitsID = new String(nsb.getUnits());
-		} else {
-			this.unitsID = null;
-		}
+		this.unitsID = nsb.isSetUnits() ? new String(nsb.getUnits()) : null;
 		if (nsb.isSetValue()) {
 			this.value = new Double(nsb.getValue());
 			isSetValue = true;
 		} else {
 			this.value = null;
 		}
-		if (nsb.isSetConstant()) {
-			this.constant = new Boolean(nsb.getConstant());
-		} else {
-			this.constant = null;
-		}
+		this.constant = nsb.isSetConstant() ? new Boolean(nsb.getConstant())
+				: null;
 	}
 
 	/*
@@ -190,13 +180,24 @@ public abstract class Symbol extends AbstractNamedSBase {
 	/**
 	 * 
 	 * @return The UnitDefinition instance which has the unitsID of this Symbol
-	 *         as id. Null if it doesn't exist.
+	 *         as id. Null if it doesn't exist. In case that the unit of this
+	 *         Symbol represents a base unit, a new UnitDefinition will be
+	 *         created and returned by this method. This new UnitDefintion will
+	 *         only contain the one unit represented by the unit identifier in
+	 *         this Symbol. Note that the corresponding model will not contain
+	 *         this UnitDefinition. The identifier of this new UnitDefinition
+	 *         will be set to the same value as the name of the base unit.
 	 */
-	// TODO : we probably need to support the case where unitsID is one of the
-	// predefined kind ?
 	public UnitDefinition getUnitsInstance() {
+		if (Unit.isUnitKind(unitsID, getLevel(), getVersion())) {
+			UnitDefinition ud = new UnitDefinition(unitsID, getLevel(),
+					getVersion());
+			ud.addUnit(new Unit(Unit.Kind.valueOf(unitsID), getLevel(),
+					getVersion()));
+			return ud;
+		}
 		Model model = getModel();
-		return model == null ? null : model.getUnitDefinition(this.unitsID);
+		return model == null ? null : model.getUnitDefinition(unitsID);
 	}
 
 	// TODO : check that it is correct in case the unit is one of the supported

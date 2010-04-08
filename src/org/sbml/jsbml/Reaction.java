@@ -191,8 +191,17 @@ public class Reaction extends AbstractNamedSBase {
 	 */
 	public void addChangeListener(SBaseChangedListener l) {
 		super.addChangeListener(l);
+		if (!isSetListOfReactants())
+			listOfReactants = new ListOf<SpeciesReference>(getLevel(),
+					getVersion());
 		listOfReactants.addChangeListener(l);
+		if (!isSetListOfProducts())
+			listOfProducts = new ListOf<SpeciesReference>(getLevel(),
+					getVersion());
 		listOfProducts.addChangeListener(l);
+		if (!isSetListOfModifiers())
+			listOfModifiers = new ListOf<ModifierSpeciesReference>(getLevel(),
+					getVersion());
 		listOfModifiers.addChangeListener(l);
 	}
 
@@ -366,25 +375,34 @@ public class Reaction extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the listOfModifiers of this Reaction. Can be null if not set.
+	 * @return the listOfModifiers of this Reaction. Is initialized here if not
+	 *         yet set.
 	 */
 	public ListOf<ModifierSpeciesReference> getListOfModifiers() {
+		if (!isSetListOfModifiers())
+			listOfModifiers = new ListOf<ModifierSpeciesReference>();
 		return listOfModifiers;
 	}
 
 	/**
 	 * 
-	 * @return the listOfProducts of this Reaction. Can be null if not set.
+	 * @return the listOfProducts of this Reaction. Is initialized here if not
+	 *         yet set.
 	 */
 	public ListOf<SpeciesReference> getListOfProducts() {
+		if (!isSetListOfProducts())
+			listOfProducts = new ListOf<SpeciesReference>();
 		return listOfProducts;
 	}
 
 	/**
 	 * 
-	 * @return the listOfReactants of this Reaction. Can be null if not set.
+	 * @return the listOfReactants of this Reaction. Is initialized here if not
+	 *         yet set.
 	 */
 	public ListOf<SpeciesReference> getListOfReactants() {
+		if (!isSetListOfReactants())
+			listOfReactants = new ListOf<SpeciesReference>();
 		return listOfReactants;
 	}
 

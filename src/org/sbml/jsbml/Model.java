@@ -1948,6 +1948,7 @@ public class Model extends AbstractNamedSBase {
 	 *         speciesType defined or if the index n is too big or lower than
 	 *         zero.
 	 */
+	@SuppressWarnings("deprecation")
 	public SpeciesType getSpeciesType(int n) {
 		if (isSetListOfSpeciesTypes() && n < listOfSpeciesTypes.size()
 				&& n >= 0) {
@@ -2581,6 +2582,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param i
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	public SpeciesType removeSpeciesType(int i) {
 		// TODO Auto-generated method stub
 		return null;
@@ -2591,6 +2593,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param string
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	public SpeciesType removeSpeciesType(String string) {
 		// TODO Auto-generated method stub
 		return null;

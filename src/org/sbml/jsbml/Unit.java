@@ -32,6 +32,7 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
+import org.sbml.jsbml.util.HTMLFormula;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TextFormula;
 
@@ -1366,34 +1367,58 @@ public class Unit extends AbstractSBase {
 		stateChanged();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#toString()
+	/**
+	 * Produces a text formula representation of this unit.
 	 */
-	// @Override
+	@Override
 	public String toString() {
-		String mult;
-		if (multiplier - ((int) multiplier.doubleValue()) == 0) {
-			mult = Integer.toString((int) multiplier.doubleValue());
-		} else {
-			mult = Double.toString(multiplier);
-		}
-		StringBuffer times = mult.equals("1") ? new StringBuffer()
-				: new StringBuffer(mult);
-		StringBuffer pow = new StringBuffer(kind.getSymbol());
-		String prefix = getPrefix();
-		if (prefix.length() > 0) {
-			pow.insert(0, prefix);
-		} else {
-			pow = TextFormula.times(TextFormula.pow(Integer.valueOf(10),
-					Integer.valueOf(scale)), pow);
+		StringBuffer times = new StringBuffer();
+		if (multiplier.doubleValue() != 0) {
+			if (multiplier.doubleValue() != 1)
+				times.append(StringTools.toString(multiplier.doubleValue()));
+			StringBuffer pow = new StringBuffer();
+			pow.append(kind.getSymbol());
+			String prefix = getPrefix();
+			if (prefix.length() > 0 && !prefix.startsWith("10")) {
+				pow.insert(0, prefix);
+			} else if (scale.doubleValue() != 0) {
+				pow = TextFormula.times(TextFormula.pow(Integer.valueOf(10),
+						scale), pow);
+			}
 			times = TextFormula.times(times, pow);
 		}
-		if (isSetOffset()) {
-			times = TextFormula.sum(StringTools.toString(offset.doubleValue()), times);
+		if (offset.doubleValue() != 0) {
+			times = TextFormula.sum(StringTools.toString(offset.doubleValue()),
+					times);
 		}
 		return TextFormula.pow(times, Integer.valueOf(exponent)).toString();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String toHTML() {
+		StringBuffer times = new StringBuffer();
+		if (multiplier.doubleValue() != 0) {
+			if (multiplier.doubleValue() != 1)
+				times.append(StringTools.toString(multiplier.doubleValue()));
+			StringBuffer pow = new StringBuffer();
+			pow.append(kind.getSymbol());
+			String prefix = getPrefix();
+			if (prefix.length() > 0 && !prefix.startsWith("10")) {
+				pow.insert(0, prefix);
+			} else if (scale.doubleValue() != 0) {
+				pow = HTMLFormula.times(HTMLFormula.pow(Integer.valueOf(10),
+						scale), pow);
+			}
+			times = HTMLFormula.times(times, pow);
+		}
+		if (offset.doubleValue() != 0) {
+			times = HTMLFormula.sum(StringTools.toString(offset.doubleValue()),
+					times);
+		}
+		return HTMLFormula.pow(times, Integer.valueOf(exponent)).toString();
 	}
 
 	/*

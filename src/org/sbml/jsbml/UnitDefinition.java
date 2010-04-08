@@ -50,26 +50,6 @@ import org.sbml.jsbml.xml.stax.SBaseListType;
 public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
-	 * Represents the 'listOfUnit' XML subelement of a UnitDefinition.
-	 */
-	private ListOf<Unit> listOfUnit;
-
-	/**
-	 * Creates an UnitDefinition instance. By default, the listOfUnit is null.
-	 */
-	public UnitDefinition() {
-		super();
-		this.listOfUnit = null;
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
-	}
-
-	public UnitDefinition(int level, int version) {
-		super(level, version);
-	}
-
-	/**
 	 * Predefined unit for area.
 	 */
 	public static final UnitDefinition area(int level, int version) {
@@ -146,6 +126,40 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 * @return
+	 */
+	private static final UnitDefinition getPredefinedUnit(String id, int level,
+			int version) {
+		id = id.toLowerCase();
+		Unit u = new Unit(level, version);
+		UnitDefinition ud = new UnitDefinition(id, level, version);
+		if (id.equals("substance")) {
+			u.setKind(Unit.Kind.MOLE);
+		} else if (id.equals("volume")) {
+			u.setKind(Unit.Kind.LITRE);
+		} else if (id.equals("area")) {
+			u.setKind(Unit.Kind.METRE);
+			u.setExponent(2);
+		} else if (id.equals("length")) {
+			u.setKind(Unit.Kind.METRE);
+		} else if (id.equals("time")) {
+			u.setKind(Unit.Kind.SECOND);
+			u.setSBOTerm(345);
+			ud.setSBOTerm(345);
+		} else {
+			throw new IllegalArgumentException(
+					"no predefined unit available for " + id);
+		}
+		ud.setName("Predefined unit " + id);
+		ud.addUnit(u);
+		return ud;
+	}
+
+	/**
 	 * Predefined unit for length.
 	 */
 	public static final UnitDefinition length(int level, int version) {
@@ -176,7 +190,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return a string expressing the unit definition
 	 */
 	public static String printUnits(UnitDefinition ud, boolean compact) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < ud.getNumUnits(); i++) {
 			Unit unit = ud.getUnit(i);
 			if (i > 0) {
@@ -186,13 +200,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 				sb.append(unit.toString());
 			} else {
 				sb.append(unit.getKind().getName().toLowerCase());
-				sb.append(" (exponent = ");
-				sb.append(unit.getExponent());
-				sb.append(", multiplier = ");
-				sb.append(StringTools.toString(unit.getMultiplier()));
-				sb.append(", scale = ");
-				sb.append(unit.getScale());
-				sb.append(')');
+				sb.append(String.format(
+						" (exponent = %d, multiplier = %s, scale = %d)", unit
+								.getExponent(), StringTools.toString(unit
+								.getMultiplier()), unit.getScale()));
 			}
 		}
 		return sb.toString();
@@ -245,37 +256,23 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
-	 * @param id
-	 * @param level
-	 * @param version
-	 * @return
+	 * Represents the 'listOfUnit' XML subelement of a UnitDefinition.
 	 */
-	private static final UnitDefinition getPredefinedUnit(String id, int level,
-			int version) {
-		id = id.toLowerCase();
-		Unit u = new Unit(level, version);
-		UnitDefinition ud = new UnitDefinition(id, level, version);
-		if (id.equals("substance")) {
-			u.setKind(Unit.Kind.MOLE);
-		} else if (id.equals("volume")) {
-			u.setKind(Unit.Kind.LITRE);
-		} else if (id.equals("area")) {
-			u.setKind(Unit.Kind.METRE);
-			u.setExponent(2);
-		} else if (id.equals("length")) {
-			u.setKind(Unit.Kind.METRE);
-		} else if (id.equals("time")) {
-			u.setKind(Unit.Kind.SECOND);
-			u.setSBOTerm(345);
-			ud.setSBOTerm(345);
-		} else {
-			throw new IllegalArgumentException(
-					"no predefined unit available for " + id);
+	private ListOf<Unit> listOfUnit;
+
+	/**
+	 * Creates an UnitDefinition instance. By default, the listOfUnit is null.
+	 */
+	public UnitDefinition() {
+		super();
+		this.listOfUnit = null;
+		if (isSetLevel() && getLevel() < 3) {
+			initDefaults();
 		}
-		ud.setName("Predefined unit " + id);
-		ud.addUnit(u);
-		return ud;
+	}
+
+	public UnitDefinition(int level, int version) {
+		super(level, version);
 	}
 
 	/**
@@ -351,6 +348,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return new UnitDefinition(this);
 	}
 
+	public Unit createUnit() {
+		Unit unit = new Unit(level, version);
+		addUnit(unit);
+
+		return unit;
+	}
+
 	/**
 	 * Devides this unit definition by the second unit definition.
 	 * 
@@ -367,6 +371,24 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return this;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#equals(Object o)
+	 */
+	public boolean equals(Object o) {
+		if (o instanceof UnitDefinition) {
+			UnitDefinition u = (UnitDefinition) o;
+			boolean equal = super.equals(o);
+			equal &= isSetListOfUnits() == u.isSetListOfUnits();
+			if (equal && isSetListOfUnits()) {
+				equal &= getListOfUnits().equals(u.getListOfUnits());
+			}
+			return equal;
+		}
+		return false;
+	}
+
 	/**
 	 * 
 	 * @return the listOfUnits of this UnitDefinition. Can be null if it is not
@@ -374,14 +396,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public ListOf<Unit> getListOfUnits() {
 		return this.listOfUnit;
-	}
-
-	/**
-	 * 
-	 * @return true if the listOfUnits is not null.
-	 */
-	public boolean isSetListOfUnits() {
-		return this.listOfUnit != null;
 	}
 
 	/**
@@ -407,6 +421,24 @@ public class UnitDefinition extends AbstractNamedSBase {
 			return listOfUnit.get(i);
 		}
 		return null;
+	}
+
+	/**
+	 * Initialises the default values of this UnitDefinition.
+	 */
+	public void initDefaults() {
+		if (!isSetListOfUnits()) {
+			this.listOfUnit = new ListOf<Unit>(getLevel(), getVersion());
+			setThisAsParentSBMLObject(listOfUnit);
+		}
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfUnits is not null.
+	 */
+	public boolean isSetListOfUnits() {
+		return this.listOfUnit != null;
 	}
 
 	/**
@@ -584,6 +616,21 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		return isAttributeRead;
+	}
+
 	/**
 	 * Removes the nth Unit object from this UnitDefinition object and returns a
 	 * pointer to it.
@@ -647,46 +694,20 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Initialises the default values of this UnitDefinition.
-	 */
-	public void initDefaults() {
-		if (!isSetListOfUnits()) {
-			this.listOfUnit = new ListOf<Unit>(getLevel(), getVersion());
-			setThisAsParentSBMLObject(listOfUnit);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
+	 * Creates an HTML string representation of this UnitDefinition.
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#equals(Object o)
+	 * @return
 	 */
-	public boolean equals(Object o) {
-		if (o instanceof UnitDefinition) {
-			UnitDefinition u = (UnitDefinition) o;
-			boolean equal = super.equals(o);
-			equal &= isSetListOfUnits() == u.isSetListOfUnits();
-			if (equal && isSetListOfUnits()) {
-				equal &= getListOfUnits().equals(u.getListOfUnits());
+	public String toHTML() {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < getNumUnits(); i++) {
+			Unit unit = getUnit(i);
+			if (i > 0) {
+				sb.append(" &#8901; ");
 			}
-			return equal;
+			sb.append(unit.toHTML());
 		}
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-
-		return isAttributeRead;
+		return sb.toString();
 	}
 
 	/*
@@ -699,12 +720,5 @@ public class UnitDefinition extends AbstractNamedSBase {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 
 		return attributes;
-	}
-
-	public Unit createUnit() {
-		Unit unit = new Unit(level, version);
-		addUnit(unit);
-
-		return unit;
 	}
 }

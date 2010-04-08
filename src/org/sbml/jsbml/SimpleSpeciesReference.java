@@ -58,7 +58,6 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	public SimpleSpeciesReference() {
 		super();
 		this.speciesID = null;
-
 	}
 
 	/**
@@ -69,11 +68,8 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	 */
 	public SimpleSpeciesReference(SimpleSpeciesReference ssr) {
 		super(ssr);
-		if (ssr.isSetSpeciesInstance()) {
-			this.speciesID = new String(ssr.getSpecies());
-		} else {
-			this.speciesID = null;
-		}
+		this.speciesID = ssr.isSetSpecies() ? new String(ssr.getSpecies())
+				: null;
 	}
 
 	/**
@@ -82,16 +78,15 @@ public abstract class SimpleSpeciesReference extends Symbol {
 	 * @param ssr
 	 */
 	public SimpleSpeciesReference(Species s) {
-		super(s);
-		if (s.isSetId()) {
-			this.speciesID = new String(s.getId());
-		} else {
-			this.speciesID = null;
-		}
+		super();
+		this.speciesID = s.isSetId() ? new String(s.getId()) : null;
+		setLevel(s.getLevel());
+		setVersion(s.getVersion());
 	}
 
 	public SimpleSpeciesReference(int level, int version) {
 		super(level, version);
+		this.speciesID = null;
 	}
 
 	/*
@@ -114,7 +109,7 @@ public abstract class SimpleSpeciesReference extends Symbol {
 				// + ssr.getSpecies() + ", " + speciesID);
 			}
 			return equal;
-		} 
+		}
 		return false;
 	}
 

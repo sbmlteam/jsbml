@@ -43,143 +43,153 @@ import org.sbml.jsbml.xml.stax.SBaseListType;
 import org.sbml.jsbml.xml.stax.WritingParser;
 
 /**
- * This class is used to parse the groups extension package elements and attributes. The namespaceURI URI
- * of this parser is "http://www.sbml.org/sbml/level3/version1/groups/version1". This parser is able to read and
- * write elements of the groups package (implements ReadingParser and WritingParser).
+ * This class is used to parse the groups extension package elements and
+ * attributes. The namespaceURI URI of this parser is
+ * "http://www.sbml.org/sbml/level3/version1/groups/version1". This parser is
+ * able to read and write elements of the groups package (implements
+ * ReadingParser and WritingParser).
  * 
  * @author rodrigue
- *
+ * 
  */
-public class GroupsParser implements ReadingParser, WritingParser{
-	
+public class GroupsParser implements ReadingParser, WritingParser {
+
 	/**
 	 * The namespace URI of this parser.
 	 */
 	private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/groups/version1";
-	
+
 	/**
-	 * The GroupList enum which represents the name of the list this parser is currently reading.
-	 *
+	 * The GroupList enum which represents the name of the list this parser is
+	 * currently reading.
+	 * 
 	 */
 	private GroupList groupList = GroupList.none;
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String elementName, String attributeName,
-	 *		String value, String prefix, boolean isLastAttribute,
-	 *		Object contextObject)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String
+	 *      elementName, String attributeName, String value, String prefix,
+	 *      boolean isLastAttribute, Object contextObject)
 	 */
 	public void processAttribute(String elementName, String attributeName,
 			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) {
-		
+
 		boolean isAttributeRead = false;
-		
-		if (contextObject instanceof SBase){
+
+		if (contextObject instanceof SBase) {
 			SBase sbase = (SBase) contextObject;
 			isAttributeRead = sbase.readAttribute(attributeName, prefix, value);
-			
-		} else if (contextObject instanceof Annotation){
+
+		} else if (contextObject instanceof Annotation) {
 			Annotation annotation = (Annotation) contextObject;
-			isAttributeRead = annotation.readAttribute(attributeName, prefix, value);
+			isAttributeRead = annotation.readAttribute(attributeName, prefix,
+					value);
 		}
-		
-		if (!isAttributeRead){
-			// TODO : throw new SBMLException ("The attribute " + attributeName + " on the element " + elementName + "is not part of the SBML specifications");
+
+		if (!isAttributeRead) {
+			// TODO : throw new SBMLException ("The attribute " + attributeName
+			// + " on the element " + elementName +
+			// "is not part of the SBML specifications");
 		}
 	}
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix,
-			boolean hasAttributes, boolean hasNamespaces,
-			Object contextObject)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String
+	 *      elementName, String prefix, boolean hasAttributes, boolean
+	 *      hasNamespaces, Object contextObject)
 	 */
 	// Create the proper object and link it to his parent.
 	@SuppressWarnings("unchecked")
 	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, boolean hasNamespaces,
-			Object contextObject) 
-	{
-		if (contextObject instanceof Model){
+			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
+		if (contextObject instanceof Model) {
 			Model model = (Model) contextObject;
-			if (elementName.equals("listOfGroups")){
+			if (elementName.equals("listOfGroups")) {
 				ListOf<Group> listOfGroups = new ListOf<Group>();
 				listOfGroups.setSBaseListType(SBaseListType.other);
 				listOfGroups.addNamespace(namespaceURI);
 				this.groupList = GroupList.listOfGroups;
-				
+
 				ModelGroupExtension groupModel = new ModelGroupExtension(model);
 				groupModel.setListOfGroups(listOfGroups);
 				groupModel.addNamespace(namespaceURI);
 				model.addExtension(GroupsParser.namespaceURI, groupModel);
-				
+
 				return listOfGroups;
 			}
-		} else if (contextObject instanceof Group){
+		} else if (contextObject instanceof Group) {
 			Group group = (Group) contextObject;
-			if (elementName.equals("listOfMembers")){
+			if (elementName.equals("listOfMembers")) {
 				ListOf<Member> listOfMembers = new ListOf<Member>();
 				listOfMembers.setSBaseListType(SBaseListType.other);
 				listOfMembers.addNamespace(namespaceURI);
 				this.groupList = GroupList.listOfMembers;
-				
+
 				group.setListOfMembers(listOfMembers);
-				
+
 				return listOfMembers;
 			}
 		}
 
-		else if (contextObject instanceof ListOf<?>){
+		else if (contextObject instanceof ListOf<?>) {
 			ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
-			
-			if (elementName.equals("group") && this.groupList.equals(GroupList.listOfGroups)){
-				ModelGroupExtension extendeModel = (ModelGroupExtension) listOf.getParentSBMLObject();
+
+			if (elementName.equals("group")
+					&& this.groupList.equals(GroupList.listOfGroups)) {
+				ModelGroupExtension extendeModel = (ModelGroupExtension) listOf
+						.getParentSBMLObject();
 				Group group = new Group();
 				group.addNamespace(namespaceURI);
 				extendeModel.addGroup(group);
-				
+
 				return group;
-			} else if (elementName.equals("member") && this.groupList.equals(GroupList.listOfMembers)){
+			} else if (elementName.equals("member")
+					&& this.groupList.equals(GroupList.listOfMembers)) {
 				Member member = new Member();
 				member.addNamespace(namespaceURI);
 				listOf.add(member);
-				
+
 				return member;
 			}
-			
+
 		}
 		return contextObject;
 	}
 
-	@Override
+	// @Override
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
-		// TODO : the basic Groups elements don't have any text. SBML syntax error, throw an exception, log en error ?
-		
+		// TODO : the basic Groups elements don't have any text. SBML syntax
+		// error, throw an exception, log en error ?
+
 	}
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
+	 *      elementName, String prefix, boolean isNested, Object contextObject)
 	 */
 	public void processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
-		
-		if (elementName.equals("notes") && contextObject instanceof SBase){
+
+		if (elementName.equals("notes") && contextObject instanceof SBase) {
 			SBase sbase = (SBase) contextObject;
 			sbase.setNotes(sbase.getNotesBuffer().toString());
 		}
-		
-		if (elementName.equals("listOfMembers") || elementName.equals("listOfGroups")){
+
+		if (elementName.equals("listOfMembers")
+				|| elementName.equals("listOfGroups")) {
 			this.groupList = GroupList.none;
 		}
 	}
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument
+	 *      sbmlDocument)
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 		// Do some checking ??
@@ -193,50 +203,50 @@ public class GroupsParser implements ReadingParser, WritingParser{
 		return namespaceURI;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
+	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
+	 * sbase)
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
-		
+
 		System.out.println("GroupsParser : getListOfSBMLElementsToWrite\n");
-		
+
 		ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
-		
-		if (sbase instanceof SBase){
-			if (sbase instanceof ModelGroupExtension){
-				
+
+		if (sbase instanceof SBase) {
+			if (sbase instanceof ModelGroupExtension) {
+
 				ModelGroupExtension model = (ModelGroupExtension) sbase;
 
-				if (model.isSetListOfGroups()){
+				if (model.isSetListOfGroups()) {
 					listOfElementsToWrite.add(model.getListOfGroups());
 				}
-			}
-			else if (sbase instanceof ListOf){
+			} else if (sbase instanceof ListOf) {
 				ListOf<SBase> listOf = (ListOf<SBase>) sbase;
-				
-				if (!listOf.isEmpty()){
+
+				if (!listOf.isEmpty()) {
 					listOfElementsToWrite = new ArrayList<Object>();
-					for (int i = 0; i < listOf.size(); i++){
+					for (int i = 0; i < listOf.size(); i++) {
 						SBase element = listOf.get(i);
-						
-						if (element != null){
+
+						if (element != null) {
 							listOfElementsToWrite.add(element);
 						}
 					}
 				}
-			}
-			else if (sbase instanceof Group){
+			} else if (sbase instanceof Group) {
 				Group group = (Group) sbase;
 
-				if (group.isSetListOfMembers()){
+				if (group.isSetListOfMembers()) {
 					listOfElementsToWrite.add(group.getListOfMembers());
 				}
 			}
 		}
-		
-		if (listOfElementsToWrite.isEmpty()){
+
+		if (listOfElementsToWrite.isEmpty()) {
 			listOfElementsToWrite = null;
 		}
 
@@ -245,88 +255,86 @@ public class GroupsParser implements ReadingParser, WritingParser{
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML
+	 *      xmlObject, Object sbmlElementToWrite)
 	 */
-	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
-		
+	public void writeElement(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+
 		System.out.println("GroupsParser : writeElement");
-		
-		if (sbmlElementToWrite instanceof SBase){
+
+		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
 
-			if (!xmlObject.isSetName()){
+			if (!xmlObject.isSetName()) {
 				if (sbase instanceof ListOf<?>) {
 					xmlObject.setName(GroupList.listOfGroups.toString());
 				} else {
 					xmlObject.setName(sbase.getElementName());
 				}
 			}
-			if (!xmlObject.isSetPrefix()){
+			if (!xmlObject.isSetPrefix()) {
 				xmlObject.setPrefix("groups");
 			}
 			xmlObject.setNamespace(namespaceURI);
 
 		}
-		
+
 	}
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeAttributes(SBMLObjectForXML
+	 *      xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) 
-	{
-		if (sbmlElementToWrite instanceof SBase){
+			Object sbmlElementToWrite) {
+		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
-			
+
 			xmlObject.addAttributes(sbase.writeXMLAttributes());
 		}
-		
+
 	}
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeCharacters(SBMLObjectForXML
+	 *      xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) 
-	{
-		// TODO : Group elements do not have any characters in the XML file. what to do?
-		
+			Object sbmlElementToWrite) {
+		// TODO : Group elements do not have any characters in the XML file.
+		// what to do?
+
 	}
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML
+	 *      xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) 
-	{
-		if (sbmlElementToWrite instanceof SBase){
-			//SBase sbase = (SBase) sbmlElementToWrite;
-			
+			Object sbmlElementToWrite) {
+		if (sbmlElementToWrite instanceof SBase) {
+			// SBase sbase = (SBase) sbmlElementToWrite;
+
 			xmlObject.setPrefix("groups");
 		}
-		
+
 	}
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String
+	 *      elementName, String URI, String prefix, String localName, boolean
+	 *      hasAttributes, boolean isLastNamespace, Object contextObject)
 	 */
 	public void processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) 
-	{
+			Object contextObject) {
 		// Nothing to be done
-		
-	}
 
+	}
 
 }
