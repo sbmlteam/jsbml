@@ -59,6 +59,23 @@ public interface SBase {
 	public void addChangeListener(SBaseChangedListener l);
 
 	/**
+	 * 
+	 * @param term
+	 * @return true if a CVTerm instance has been added to the list of CVTerm of
+	 *         this object.
+	 */
+	public boolean addCVTerm(CVTerm term);
+
+	/**
+	 * add a SBase extension object 'sbase' associated with a namespace
+	 * 'namespace'.
+	 * 
+	 * @param namespace
+	 * @param sbase
+	 */
+	public void addExtension(String namespace, SBase sbase);
+
+	/**
 	 * Appends 'notes' to the notes String of this object.
 	 * 
 	 * @param notes
@@ -112,9 +129,43 @@ public interface SBase {
 
 	/**
 	 * 
+	 * @param index
+	 * @return the CVTerm instance at the position 'index' in the list of
+	 *         CVTerms of this object.
+	 */
+	public CVTerm getCVTerm(int index);
+
+	/**
+	 * 
+	 * @return the list of CVTerms of this object. If not yet set, this method
+	 *         initializes the annotation and returns an empty list.
+	 */
+	public List<CVTerm> getCVTerms();
+
+	/**
+	 * 
 	 * @return the XML element name of this object.
 	 */
 	public String getElementName();
+
+	/**
+	 * 
+	 * @param namespace
+	 * @return the SBase extension object which matches this namespace.
+	 */
+	public SBase getExtension(String namespace);
+
+	/**
+	 * 
+	 * @return the map containing all the extension objects of this object.
+	 */
+	public HashMap<String, SBase> getExtensionPackages();
+
+	/**
+	 * 
+	 * @return the History instance of this object.
+	 */
+	public History getHistory();
 
 	/**
 	 * Returns the SBML Level of the overall SBML document. Return -1 if it is
@@ -140,9 +191,29 @@ public interface SBase {
 
 	/**
 	 * 
-	 * @return the notes subelement of this object as a String.
+	 * @return all the namespaces of all the packages which are currently
+	 *         extending this object.
+	 */
+	public Set<String> getNamespaces();
+
+	/**
+	 * @return the StringBuffer notesBuffer containing the notes subelement of
+	 *         this object as a StringBuffer.
+	 */
+	public StringBuffer getNotesBuffer();
+
+	/**
+	 * 
+	 * @return the notes sub-element of this object as a String. If no notes are
+	 *         set, an empty String will be returned.
 	 */
 	public String getNotesString();
+
+	/**
+	 * 
+	 * @return the number of CVTerms of this object.
+	 */
+	public int getNumCVTerms();
 
 	/**
 	 * This method is convenient when holding an object nested inside other
@@ -194,6 +265,13 @@ public interface SBase {
 	public int getVersion();
 
 	/**
+	 * 
+	 * @return true if the Annotation 'about' String of this object matches the
+	 *         metaid of this object.
+	 */
+	public boolean hasValidAnnotation();
+
+	/**
 	 * Predicate returning true or false depending on whether this object's
 	 * level/version and namespace values correspond to a valid SBML
 	 * specification.
@@ -204,10 +282,9 @@ public interface SBase {
 
 	/**
 	 * 
-	 * @return true if the Annotation 'about' String of this object matches the
-	 *         metaid of this object.
+	 * @return true if this object is extended by other packages.
 	 */
-	public boolean hasValidAnnotation();
+	public boolean isExtendedByOtherPackages();
 
 	/**
 	 * Predicate returning true or false depending on whether this object's
@@ -220,12 +297,24 @@ public interface SBase {
 	public boolean isSetAnnotation();
 
 	/**
+	 * 
+	 * @return true if the level is not null.
+	 */
+	public boolean isSetLevel();
+
+	/**
 	 * Predicate returning true or false depending on whether this object's
 	 * 'metaid' attribute has been set.
 	 * 
 	 * @return true if the metaid is not null.
 	 */
 	public boolean isSetMetaId();
+
+	/**
+	 * 
+	 * @return true if the Annotation instance of this object
+	 */
+	public boolean isSetModelHistory();
 
 	/**
 	 * Predicate returning true or false depending on whether this object's
@@ -237,15 +326,36 @@ public interface SBase {
 
 	/**
 	 * 
+	 * @return true if the notesBuffer is not null.
+	 */
+	public boolean isSetNotesBuffer();
+
+	/**
+	 * 
 	 * @return true if the SBOTerm is not -1.
 	 */
 	public boolean isSetSBOTerm();
 
 	/**
 	 * 
-	 * @return true if the notesBuffer is not null.
+	 * @return true if the version is not null.
 	 */
-	public boolean isSetNotesBuffer();
+	public boolean isSetVersion();
+
+	/**
+	 * If the attribute is an id or name attribute, it will set the id or name
+	 * of this object with the value of the XML attribute ('value').
+	 * 
+	 * @param attributeName
+	 *            : localName of the XML attribute
+	 * @param prefix
+	 *            : prefix of the XML attribute
+	 * @param value
+	 *            : value of the XML attribute
+	 * @return true if the attribute has been read.
+	 */
+	public boolean readAttribute(String attributeName, String prefix,
+			String value);
 
 	/**
 	 * all listeners are informed about the adding of this object to a list
@@ -268,6 +378,21 @@ public interface SBase {
 	public void setAnnotation(Annotation annotation);
 
 	/**
+	 * 
+	 * @return the History instance of this object.
+	 */
+	public void setHistory(History modelHistory);
+
+	/**
+	 * Sets the level of this object with 'level'. If the SBMLparent of this
+	 * object is set and 'level' is different with the SBMLparent level, an
+	 * excpetion is thrown.
+	 * 
+	 * @param level
+	 */
+	public void setLevel(int level);
+
+	/**
 	 * Sets the metaid value with 'metaid'.
 	 * 
 	 * @param metaid
@@ -280,6 +405,11 @@ public interface SBase {
 	 * @param notes
 	 */
 	public void setNotes(String notes);
+
+	/**
+	 * sets the notesBuffer instance to 'notes'.
+	 */
+	public void setNotesBuffer(StringBuffer notes);
 
 	/**
 	 * Sets the value of the 'sboTerm' attribute.
@@ -296,153 +426,14 @@ public interface SBase {
 	public void setSBOTerm(String sboid);
 
 	/**
-	 * all listeners are informed about the change in this object
-	 */
-	public void stateChanged();
-
-	/**
-	 * Unsets the value of the 'annotation' subelement of this SBML object.
-	 */
-	public void unsetAnnotation();
-
-	/**
-	 * Unsets the value of the 'metaid' attribute of this SBML object.
-	 */
-	public void unsetMetaId();
-
-	/**
-	 * Unsets the value of the 'notes' subelement of this SBML object.
-	 */
-	public void unsetNotes();
-
-	/**
-	 * Unsets the value of the 'sboTerm' attribute of this SBML object.
-	 */
-	public void unsetSBOTerm();
-
-	/**
-	 * Unsets the value of the notesBuffer of this SBML object.
-	 */
-	public void unsetNotesBuffer();
-
-	/**
-	 * @return the StringBuffer notesBuffer containing the notes subelement of
-	 *         this object as a StringBuffer.
-	 */
-	public StringBuffer getNotesBuffer();
-
-	/**
-	 * sets the notesBuffer instance to 'notes'.
-	 */
-	public void setNotesBuffer(StringBuffer notes);
-
-	/**
-	 * If the attribute is an id or name attribute, it will set the id or name
-	 * of this object with the value of the XML attribute ('value').
+	 * Sets this object as SBMLParent of 'sbase'. Check if the level and version
+	 * of sbase are set, otherwise sets the level and version of 'sbase' with
+	 * those of this object.
 	 * 
-	 * @param attributeName
-	 *            : localName of the XML attribute
-	 * @param prefix
-	 *            : prefix of the XML attribute
-	 * @param value
-	 *            : value of the XML attribute
-	 * @return true if the attribute has been read.
+	 * If the level and version of sbase are set but not valid, an exception is
+	 * thrown.
 	 */
-	public boolean readAttribute(String attributeName, String prefix,
-			String value);
-
-	/**
-	 * 
-	 * @return the list of CVTerms of this object.
-	 */
-	public List<CVTerm> getCVTerms();
-
-	/**
-	 * 
-	 * @return the number of CVTerms of this object.
-	 */
-	public int getNumCVTerms();
-
-	/**
-	 * 
-	 * @param index
-	 * @return the CVTerm instance at the position 'index' in the list of
-	 *         CVTerms of this object.
-	 */
-	public CVTerm getCVTerm(int index);
-
-	/**
-	 * 
-	 * @param term
-	 * @return true if a CVTerm instance has been added to the list of CVTerm of
-	 *         this object.
-	 */
-	public boolean addCVTerm(CVTerm term);
-
-	/**
-	 * Unsets the list of CVTerm of this object.
-	 */
-	public void unsetCVTerms();
-
-	/**
-	 * Unsets the model History of this object.
-	 */
-	public void unsetModelHistory();
-
-	/**
-	 * 
-	 * @return true if the Annotation instance of this object
-	 */
-	public boolean isSetModelHistory();
-
-	/**
-	 * 
-	 * @return the History instance of this object.
-	 */
-	public History getHistory();
-
-	/**
-	 * 
-	 * @return the History instance of this object.
-	 */
-	public void setHistory(History modelHistory);
-
-	/**
-	 * 
-	 * @param namespace
-	 * @return the SBase extension object which matches this namespace.
-	 */
-	public SBase getExtension(String namespace);
-
-	/**
-	 * add a SBase extension object 'sbase' associated with a namespace
-	 * 'namespace'.
-	 * 
-	 * @param namespace
-	 * @param sbase
-	 */
-	public void addExtension(String namespace, SBase sbase);
-
-	/**
-	 * 
-	 * @return all the namespaces of all the packages which are currently
-	 *         extending this object.
-	 */
-	public Set<String> getNamespaces();
-
-	/**
-	 * @return a map containing the XML attributes of this object.
-	 */
-	public HashMap<String, String> writeXMLAttributes();
-
-	/**
-	 * Sets the level of this object with 'level'. If the SBMLparent of this
-	 * object is set and 'level' is different with the SBMLparent level, an
-	 * excpetion is thrown.
-	 * 
-	 * @param level
-	 */
-	public void setLevel(int level);
+	public void setThisAsParentSBMLObject(AbstractSBase sbase);
 
 	/**
 	 * Sets the version of this object with 'version'. If the SBMLparent of this
@@ -454,36 +445,47 @@ public interface SBase {
 	public void setVersion(int version);
 
 	/**
-	 * 
-	 * @return true if the level is not null.
+	 * all listeners are informed about the change in this object
 	 */
-	public boolean isSetLevel();
+	public void stateChanged();
 
 	/**
-	 * 
-	 * @return true if the version is not null.
+	 * Unsets the value of the 'annotation' subelement of this SBML object.
 	 */
-	public boolean isSetVersion();
+	public void unsetAnnotation();
 
 	/**
-	 * Sets this object as SBMLParent of 'sbase'. Check if the level and version
-	 * of sbase are set, otherwise sets the level and version of 'sbase' with
-	 * those of this object.
-	 * 
-	 * If the level and version of sbase are set but not valid, an exception is
-	 * thrown.
+	 * Unsets the list of CVTerm of this object.
 	 */
-	public void setThisAsParentSBMLObject(AbstractSBase sbase);
+	public void unsetCVTerms();
 
 	/**
-	 * 
-	 * @return true if this object is extended by other packages.
+	 * Unsets the value of the 'metaid' attribute of this SBML object.
 	 */
-	public boolean isExtendedByOtherPackages();
+	public void unsetMetaId();
 
 	/**
-	 * 
-	 * @return the map containing all the extension objects of this object.
+	 * Unsets the model History of this object.
 	 */
-	public HashMap<String, SBase> getExtensionPackages();
+	public void unsetModelHistory();
+
+	/**
+	 * Unsets the value of the 'notes' subelement of this SBML object.
+	 */
+	public void unsetNotes();
+
+	/**
+	 * Unsets the value of the notesBuffer of this SBML object.
+	 */
+	public void unsetNotesBuffer();
+
+	/**
+	 * Unsets the value of the 'sboTerm' attribute of this SBML object.
+	 */
+	public void unsetSBOTerm();
+
+	/**
+	 * @return a map containing the XML attributes of this object.
+	 */
+	public HashMap<String, String> writeXMLAttributes();
 }

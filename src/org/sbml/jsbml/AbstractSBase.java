@@ -37,6 +37,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.sbml.jsbml.util.StringTools;
+
 /**
  * The base class for each SBase component.
  * 
@@ -145,45 +147,29 @@ public abstract class AbstractSBase implements SBase {
 		this(sb.getLevel(), sb.getVersion());
 		if (sb.isSetSBOTerm()) {
 			this.sboTerm = sb.getSBOTerm();
-		} else {
-			this.sboTerm = -1;
 		}
 		if (sb.isSetMetaId()) {
 			this.metaId = new String(sb.getMetaId());
-		} else {
-			this.metaId = null;
 		}
 		if (sb.isSetNotes()) {
 			this.notes = new String(sb.getNotesString());
-		} else {
-			this.notes = null;
 		}
 		this.parentSBMLObject = sb.getParentSBMLObject();
 		this.setOfListeners = new HashSet<SBaseChangedListener>();
 		if (sb instanceof AbstractSBase) {
 			this.setOfListeners.addAll(((AbstractSBase) sb).setOfListeners);
-		} else if (sb instanceof ListOf<?>) {
-			this.setOfListeners.addAll(((ListOf<?>) sb).setOfListeners);
 		}
 		if (sb.isSetLevel()) {
 			this.level = Integer.valueOf(sb.getLevel());
-		} else {
-			this.level = null;
 		}
 		if (sb.isSetVersion()) {
 			this.version = Integer.valueOf(sb.getVersion());
-		} else {
-			this.version = null;
 		}
 		if (sb.isSetAnnotation()) {
 			this.annotation = sb.getAnnotation();
-		} else {
-			this.annotation = null;
 		}
 		if (sb.isSetNotesBuffer()) {
 			this.notesBuffer = new StringBuffer(sb.getNotesBuffer());
-		} else {
-			this.notesBuffer = null;
 		}
 		this.extensions = new HashMap<String, SBase>();
 		if (sb.isExtendedByOtherPackages()) {
@@ -223,7 +209,7 @@ public abstract class AbstractSBase implements SBase {
 			if (body) {
 				this.notes += "</body>";
 			}
-			//this.notes += "</notes>";
+			// this.notes += "</notes>";
 
 		} else
 			this.notes = notes;
@@ -280,13 +266,15 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public List<CVTerm> filterCVTerms(CVTerm.Qualifier qualifier) {
 		LinkedList<CVTerm> l = new LinkedList<CVTerm>();
-		for (CVTerm term : annotation.getListOfCVTerms()) {
-			if (term.isBiologicalQualifier()
-					&& term.getBiologicalQualifierType() == qualifier)
-				l.add(term);
-			else if (term.isModelQualifier()
-					&& term.getModelQualifierType() == qualifier)
-				l.add(term);
+		if (isSetAnnotation()) {
+			for (CVTerm term : annotation.getListOfCVTerms()) {
+				if (term.isBiologicalQualifier()
+						&& term.getBiologicalQualifierType() == qualifier)
+					l.add(term);
+				else if (term.isModelQualifier()
+						&& term.getModelQualifierType() == qualifier)
+					l.add(term);
+			}
 		}
 		return l;
 	}
@@ -319,9 +307,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#getElementName()
 	 */
 	public String getElementName() {
-		String name = getClass().getSimpleName();
-		char c = Character.toLowerCase(name.charAt(0));
-		return Character.toString(c) + name.substring(1);
+		return StringTools.firstLetterLowerCase(getClass().getSimpleName());
 	}
 
 	/*
@@ -361,7 +347,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#getNotesString()
 	 */
 	public String getNotesString() {
-		return notes != null ? notes : null;
+		return notes != null ? notes : "";
 	}
 
 	/*
@@ -809,9 +795,9 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#getCVTerms()
 	 */
 	public List<CVTerm> getCVTerms() {
-		if (isSetAnnotation())
-			return annotation.getListOfCVTerms();
-		return null;
+		if (!isSetAnnotation())
+			annotation = new Annotation();
+		return annotation.getListOfCVTerms();
 	}
 
 	/*
@@ -936,12 +922,12 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#setLevel(int Level)
 	 */
 	public void setLevel(int level) {
-		if (this.parentSBMLObject.isSetLevel()) {
+		if (parentSBMLObject != null && parentSBMLObject.isSetLevel()) {
 			if (level != parentSBMLObject.getLevel()) {
 				try {
-					throw new SBMLException("This " + getElementName()
-							+ " can't have a different level from "
-							+ parentSBMLObject.getLevel());
+					throw new SBMLException(String.format(
+							"This %s can't have a different level from %d",
+							getElementName(), parentSBMLObject.getLevel()));
 				} catch (SBMLException e) {
 					// TODO Different level, what to do?
 					e.printStackTrace();
@@ -958,14 +944,14 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#setVersion(int version)
 	 */
 	public void setVersion(int version) {
-		if (this.parentSBMLObject.isSetVersion()) {
+		if (parentSBMLObject != null && parentSBMLObject.isSetVersion()) {
 			if (version != parentSBMLObject.getVersion()) {
 				try {
-					throw new SBMLException("This " + getElementName()
-							+ " can't have a different version from "
-							+ parentSBMLObject.getLevel());
+					throw new SBMLException(String.format(
+							"This %s can't have a different version from %d",
+							getElementName(), parentSBMLObject.getVersion()));
 				} catch (SBMLException e) {
-					// TODO Different level, what to do?
+					// TODO Different version, what to do?
 					e.printStackTrace();
 				}
 			}

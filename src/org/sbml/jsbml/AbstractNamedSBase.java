@@ -74,9 +74,9 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @param version
 	 */
 	public AbstractNamedSBase(int level, int version) {
-		super(level, version);
-		id = null;
-		name = null;
+		this();
+		setLevel(level);
+		setVersion(version);
 	}
 
 	/**
@@ -86,16 +86,8 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 */
 	public AbstractNamedSBase(AbstractNamedSBase nsb) {
 		super(nsb);
-		if (nsb.isSetId()) {
-			this.id = new String(nsb.getId());
-		} else {
-			this.id = null;
-		}
-		if (nsb.isSetName()) {
-			this.name = new String(nsb.getName());
-		} else {
-			this.name = null;
-		}
+		this.id = nsb.isSetId() ? new String(nsb.getId()) : null;
+		this.name = nsb.isSetName() ? new String(nsb.getName()) : null;
 	}
 
 	/**
@@ -106,13 +98,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @param version
 	 */
 	public AbstractNamedSBase(String id, int level, int version) {
-		super(level, version);
-		if (id != null) {
-			this.id = new String(id);
-		} else {
-			this.id = null;
-		}
-		this.name = null;
+		this(id, null, level, version);
 	}
 
 	/**
@@ -124,17 +110,9 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @param version
 	 */
 	public AbstractNamedSBase(String id, String name, int level, int version) {
-		super(level, version);
-		if (id != null) {
-			this.id = new String(id);
-		} else {
-			this.id = null;
-		}
-		if (name != null) {
-			this.name = new String(name);
-		} else {
-			this.name = null;
-		}
+		this(level, version);
+		this.id = id != null ? new String(id) : null;
+		this.name = name != null ? new String(name) : null;
 	}
 
 	/*
@@ -277,9 +255,12 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 
-		// TODO : we should probably be careful there and check if there is a prefix set before reading the id or name
-		// as there are not defined at the level of the SBase on the SBML specifications and some packages might define them in their own namespace.
-		
+		// TODO : we should probably be careful there and check if there is a
+		// prefix set before reading the id or name
+		// as there are not defined at the level of the SBase on the SBML
+		// specifications and some packages might define them in their own
+		// namespace.
+
 		if (!isAttributeRead) {
 			if (attributeName.equals("id") && getLevel() > 1) {
 				this.setId(value);

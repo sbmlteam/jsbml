@@ -27,7 +27,6 @@
  *===================================================================================
  *
  */
-
 package org.sbml.jsbml.util;
 
 import java.util.IllegalFormatException;

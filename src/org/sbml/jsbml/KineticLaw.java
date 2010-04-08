@@ -54,15 +54,15 @@ public class KineticLaw extends MathContainer {
 	 */
 	private ListOf<Parameter> listOfParameters;
 	/**
-	 * Represents the 'timeUnits' XML attribute of this KineticLaw.
-	 */
-	@Deprecated
-	private String timeUnitsID;
-	/**
 	 * Represents the 'substanceUnits' XML attribute of this KineticLaw.
 	 */
 	@Deprecated
 	private String substanceUnitsID;
+	/**
+	 * Represents the 'timeUnits' XML attribute of this KineticLaw.
+	 */
+	@Deprecated
+	private String timeUnitsID;
 
 	/**
 	 * Creates a KineticLaw instance. By default, this listOfParameters, the
@@ -165,6 +165,24 @@ public class KineticLaw extends MathContainer {
 		return new KineticLaw(this);
 	}
 
+	/**
+	 * Returns <code>true</code> or <code>false</code> depending on whether the
+	 * math expression of this KineticLaw contains parameters/numbers with
+	 * undeclared units.
+	 * 
+	 * A return value of true indicates that the <code>UnitDefinition</code>
+	 * returned by getDerivedUnitDefinition() may not accurately represent the
+	 * units of the expression.
+	 * 
+	 * @return <code>true</code> if the math expression of this KineticLaw
+	 *         includes parameters/numbers with undeclared units,
+	 *         <code>false</code> otherwise.
+	 */
+	public boolean containsUndeclaredUnits() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -202,177 +220,49 @@ public class KineticLaw extends MathContainer {
 	}
 
 	/**
+	 * Calculates and returns a <code>UnitDefinition</code> that expresses the
+	 * units of measurement assumed for the 'math' expression of this
+	 * <code>KineticLaw</code>.
+	 * 
+	 * The units are calculated based on the mathematical expression in the
+	 * KineticLaw and the model quantities referenced by <ci> elements used
+	 * within that expression. The getDerivedUnitDefinition() method returns the
+	 * calculated units. <br/>
+	 * Note that the functionality that facilitates unit analysis depends on the
+	 * model as a whole. Thus, in cases where the object has not been added to a
+	 * model or the model itself is incomplete, unit analysis is not possible
+	 * and this method will return NULL.
+	 * 
+	 * 
+	 * @return <b>Warning</b>:Note that it is possible the 'math' expression in
+	 *         the KineticLaw contains pure numbers or parameters with
+	 *         undeclared units. In those cases, it is not possible to calculate
+	 *         the units of the overall expression without making assumptions.
+	 *         LibSBML does not make assumptions about the units, and
+	 *         getDerivedUnitDefinition() only returns the units as far as it is
+	 *         able to determine them. For example, in an expression X + Y, if X
+	 *         has unambiguously-defined units and Y does not, it will return
+	 *         the units of X. <b>It is important that callers also invoke the
+	 *         method</b> <code>containsUndeclaredUnits()</code> <b>to determine
+	 *         whether this situation holds</b>. Callers may wish to take
+	 *         suitable actions in those scenarios.
+	 * 
+	 * @see containsUndeclaredUnits
+	 */
+	public UnitDefinition getDerivedUnitDefinition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
 	 * 
 	 * @return the listOfParameters of this KineticLaw. Return null if it is not
 	 *         set.
 	 */
 	public ListOf<Parameter> getListOfParameters() {
+		if (!isSetListOfParameters())
+			listOfParameters = new ListOf<Parameter>(getLevel(), getVersion());
 		return listOfParameters;
-	}
-
-	/**
-	 * 
-	 * @return the timeUnitsID of this KineticLaw. Return the empty String if it
-	 *         is not set.
-	 */
-	@Deprecated
-	public String getTimeUnits() {
-		return isSetTimeUnits() ? this.timeUnitsID : "";
-	}
-
-	/**
-	 * 
-	 * @return true if the timeUnitsID of this KineticLaw is not null.
-	 */
-	@Deprecated
-	public boolean isSetTimeUnits() {
-		return this.timeUnitsID != null;
-	}
-
-	/**
-	 * 
-	 * @return the UnitDefinition instance which has the timeUnistID of this
-	 *         KineticLaw as id. Return null if it doesn't exist.
-	 */
-	@Deprecated
-	public UnitDefinition getTimeUnitsInstance() {
-		Model m = getModel();
-		return m != null ? m.getUnitDefinition(this.timeUnitsID) : null;
-	}
-
-	/**
-	 * 
-	 * @return true if the UnistDefinition instance which has the timeUnitsID of
-	 *         this KineticLaw as id is not null.
-	 */
-	@Deprecated
-	public boolean isSetTimeUnitsInstance() {
-		Model m = getModel();
-		return m != null ? m.getUnitDefinition(this.timeUnitsID) != null
-				: false;
-	}
-
-	/**
-	 * 
-	 * @return the substanceUnitsID of this KineticLaw. Return the empty String
-	 *         if it is not set.
-	 */
-	@Deprecated
-	public String getSubstanceUnits() {
-		return isSetSubstanceUnits() ? this.substanceUnitsID : "";
-	}
-
-	/**
-	 * 
-	 * @return true if the substanceUnitsID of this KineticLaw is not null.
-	 */
-	@Deprecated
-	public boolean isSetSubstanceUnits() {
-		return this.substanceUnitsID != null;
-	}
-
-	/**
-	 * 
-	 * @return the UnitDefinition instance which has the substanceUnistID of
-	 *         this KineticLaw as id. Return null if it doesn't exist.
-	 */
-	@Deprecated
-	public UnitDefinition getSubstanceUnitsInstance() {
-		if (getModel() == null) {
-			return null;
-		}
-		return getModel().getUnitDefinition(this.substanceUnitsID);
-	}
-
-	/**
-	 * 
-	 * @return true if the UnistDefinition instance which has the
-	 *         substanceUnitsID of this KineticLaw as id is not null.
-	 */
-	@Deprecated
-	public boolean isSetSubstanceUnitsInstance() {
-		Model m = getModel();
-		return m != null ? m.getUnitDefinition(this.substanceUnitsID) != null
-				: false;
-	}
-
-	/**
-	 * Unsets the timeUnitsID of this KineticLaw.
-	 */
-	@Deprecated
-	public void unsetTimeUnits() {
-		this.timeUnitsID = null;
-	}
-
-	/**
-	 * Unsets the sunbstanceUnistID of this KineticLaw.
-	 */
-	@Deprecated
-	public void unsetSubstanceUnits() {
-		this.substanceUnitsID = null;
-	}
-
-	/**
-	 * 
-	 * @return true if the listOfParameters of this KineticLaw is not null.
-	 */
-	public boolean isSetListOfParameters() {
-		return listOfParameters != null;
-	}
-
-	/**
-	 * Sets the listOfParameters of this KineticLaw to 'list'. It automatically
-	 * sets this as parentSBML object of the listOfParameters as well as the
-	 * Parameter instances in the list.
-	 * 
-	 * @param list
-	 */
-	public void setListOfLocalParameters(ListOf<Parameter> list) {
-		this.listOfParameters = list;
-		setThisAsParentSBMLObject(this.listOfParameters);
-		this.listOfParameters
-				.setSBaseListType(SBaseListType.listOfLocalParameters);
-	}
-
-	/**
-	 * Sets the timeUnitsID of this KineticLaw.
-	 * 
-	 * @param timeUnits
-	 */
-	@Deprecated
-	public void setTimeUnits(String timeUnits) {
-		this.timeUnitsID = timeUnits;
-	}
-
-	/**
-	 * Sets the substanceUnitsID of this KineticLaw.
-	 * 
-	 * @param substanceUnits
-	 */
-	@Deprecated
-	public void setSubstanceUnits(String substanceUnits) {
-		this.substanceUnitsID = substanceUnits;
-	}
-
-	/**
-	 * Sets the timeUnitsID of this KineticLaw.
-	 * 
-	 * @param timeUnits
-	 */
-	@Deprecated
-	public void setTimeUnitsInstance(UnitDefinition timeUnits) {
-		this.timeUnitsID = timeUnits.isSetId() ? timeUnits.getId() : null;
-	}
-
-	/**
-	 * Sets the substanceUnitsID of this KineticLaw.
-	 * 
-	 * @param substanceUnits
-	 */
-	@Deprecated
-	public void setSubstanceUnitsInstance(UnitDefinition substanceUnits) {
-		this.substanceUnitsID = substanceUnits.isSetId() ? substanceUnits
-				.getId() : null;
 	}
 
 	/**
@@ -434,6 +324,124 @@ public class KineticLaw extends MathContainer {
 	}
 
 	/**
+	 * 
+	 * @return the substanceUnitsID of this KineticLaw. Return the empty String
+	 *         if it is not set.
+	 */
+	@Deprecated
+	public String getSubstanceUnits() {
+		return isSetSubstanceUnits() ? this.substanceUnitsID : "";
+	}
+
+	/**
+	 * 
+	 * @return the UnitDefinition instance which has the substanceUnistID of
+	 *         this KineticLaw as id. Return null if it doesn't exist.
+	 */
+	@Deprecated
+	public UnitDefinition getSubstanceUnitsInstance() {
+		if (getModel() == null) {
+			return null;
+		}
+		return getModel().getUnitDefinition(this.substanceUnitsID);
+	}
+
+	/**
+	 * 
+	 * @return the timeUnitsID of this KineticLaw. Return the empty String if it
+	 *         is not set.
+	 */
+	@Deprecated
+	public String getTimeUnits() {
+		return isSetTimeUnits() ? this.timeUnitsID : "";
+	}
+
+	/**
+	 * 
+	 * @return the UnitDefinition instance which has the timeUnistID of this
+	 *         KineticLaw as id. Return null if it doesn't exist.
+	 */
+	@Deprecated
+	public UnitDefinition getTimeUnitsInstance() {
+		Model m = getModel();
+		return m != null ? m.getUnitDefinition(this.timeUnitsID) : null;
+	}
+
+	/**
+	 * 
+	 * @return true if the listOfParameters of this KineticLaw is not null.
+	 */
+	public boolean isSetListOfParameters() {
+		return listOfParameters != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the substanceUnitsID of this KineticLaw is not null.
+	 */
+	@Deprecated
+	public boolean isSetSubstanceUnits() {
+		return this.substanceUnitsID != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the UnistDefinition instance which has the
+	 *         substanceUnitsID of this KineticLaw as id is not null.
+	 */
+	@Deprecated
+	public boolean isSetSubstanceUnitsInstance() {
+		Model m = getModel();
+		return m != null ? m.getUnitDefinition(this.substanceUnitsID) != null
+				: false;
+	}
+
+	/**
+	 * 
+	 * @return true if the timeUnitsID of this KineticLaw is not null.
+	 */
+	@Deprecated
+	public boolean isSetTimeUnits() {
+		return this.timeUnitsID != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the UnistDefinition instance which has the timeUnitsID of
+	 *         this KineticLaw as id is not null.
+	 */
+	@Deprecated
+	public boolean isSetTimeUnitsInstance() {
+		Model m = getModel();
+		return m != null ? m.getUnitDefinition(this.timeUnitsID) != null
+				: false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("timeUnits")
+					&& ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)) {
+				setTimeUnits(value);
+			} else if (attributeName.equals("substanceUnits")
+					&& ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)) {
+				setSubstanceUnits(value);
+			}
+		}
+		return isAttributeRead;
+	}
+
+	/**
 	 * Removes the ith local parameter from this object.
 	 * 
 	 * @param i
@@ -489,28 +497,75 @@ public class KineticLaw extends MathContainer {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Sets the listOfParameters of this KineticLaw to 'list'. It automatically
+	 * sets this as parentSBML object of the listOfParameters as well as the
+	 * Parameter instances in the list.
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
+	 * @param list
 	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
+	public void setListOfLocalParameters(ListOf<Parameter> list) {
+		this.listOfParameters = list;
+		setThisAsParentSBMLObject(this.listOfParameters);
+		this.listOfParameters
+				.setSBaseListType(SBaseListType.listOfLocalParameters);
+	}
 
-		if (!isAttributeRead) {
-			if (attributeName.equals("timeUnits")
-					&& ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)) {
-				setTimeUnits(value);
-			} else if (attributeName.equals("substanceUnits")
-					&& ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)) {
-				setSubstanceUnits(value);
-			}
-		}
-		return isAttributeRead;
+	/**
+	 * Sets the substanceUnitsID of this KineticLaw.
+	 * 
+	 * @param substanceUnits
+	 */
+	@Deprecated
+	public void setSubstanceUnits(String substanceUnits) {
+		this.substanceUnitsID = substanceUnits;
+	}
+
+	/**
+	 * Sets the substanceUnitsID of this KineticLaw.
+	 * 
+	 * @param substanceUnits
+	 */
+	@Deprecated
+	public void setSubstanceUnitsInstance(UnitDefinition substanceUnits) {
+		this.substanceUnitsID = substanceUnits.isSetId() ? substanceUnits
+				.getId() : null;
+	}
+
+	/**
+	 * Sets the timeUnitsID of this KineticLaw.
+	 * 
+	 * @param timeUnits
+	 */
+	@Deprecated
+	public void setTimeUnits(String timeUnits) {
+		this.timeUnitsID = timeUnits;
+	}
+
+	/**
+	 * Sets the timeUnitsID of this KineticLaw.
+	 * 
+	 * @param timeUnits
+	 */
+	@Deprecated
+	public void setTimeUnitsInstance(UnitDefinition timeUnits) {
+		this.timeUnitsID = timeUnits.isSetId() ? timeUnits.getId() : null;
+	}
+
+	/**
+	 * Unsets the sunbstanceUnistID of this KineticLaw.
+	 */
+	@Deprecated
+	public void unsetSubstanceUnits() {
+		this.substanceUnitsID = null;
+	}
+
+	/**
+	 * Unsets the timeUnitsID of this KineticLaw.
+	 */
+	@Deprecated
+	public void unsetTimeUnits() {
+		this.timeUnitsID = null;
 	}
 
 	/*
@@ -531,58 +586,5 @@ public class KineticLaw extends MathContainer {
 		}
 
 		return attributes;
-	}
-
-	/**
-	 * Calculates and returns a <code>UnitDefinition</code> that expresses the
-	 * units of measurement assumed for the 'math' expression of this
-	 * <code>KineticLaw</code>.
-	 * 
-	 * The units are calculated based on the mathematical expression in the
-	 * KineticLaw and the model quantities referenced by <ci> elements used
-	 * within that expression. The getDerivedUnitDefinition() method returns the
-	 * calculated units. <br/>
-	 * Note that the functionality that facilitates unit analysis depends on the
-	 * model as a whole. Thus, in cases where the object has not been added to a
-	 * model or the model itself is incomplete, unit analysis is not possible
-	 * and this method will return NULL.
-	 * 
-	 * 
-	 * @return <b>Warning</b>:Note that it is possible the 'math' expression in
-	 *         the KineticLaw contains pure numbers or parameters with
-	 *         undeclared units. In those cases, it is not possible to calculate
-	 *         the units of the overall expression without making assumptions.
-	 *         LibSBML does not make assumptions about the units, and
-	 *         getDerivedUnitDefinition() only returns the units as far as it is
-	 *         able to determine them. For example, in an expression X + Y, if X
-	 *         has unambiguously-defined units and Y does not, it will return
-	 *         the units of X. <b>It is important that callers also invoke the
-	 *         method</b> <code>containsUndeclaredUnits()</code> <b>to determine
-	 *         whether this situation holds</b>. Callers may wish to take
-	 *         suitable actions in those scenarios.
-	 * 
-	 * @see containsUndeclaredUnits
-	 */
-	public UnitDefinition getDerivedUnitDefinition() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether the
-	 * math expression of this KineticLaw contains parameters/numbers with
-	 * undeclared units.
-	 * 
-	 * A return value of true indicates that the <code>UnitDefinition</code>
-	 * returned by getDerivedUnitDefinition() may not accurately represent the
-	 * units of the expression.
-	 * 
-	 * @return <code>true</code> if the math expression of this KineticLaw
-	 *         includes parameters/numbers with undeclared units,
-	 *         <code>false</code> otherwise.
-	 */
-	public boolean containsUndeclaredUnits() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }

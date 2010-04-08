@@ -274,18 +274,24 @@ public class Annotation {
 
 	/**
 	 * 
-	 * @return the list of CVTerms.
+	 * @return the list of CVTerms. If not yet set, this method initializes this
+	 *         list.
 	 */
 	public List<CVTerm> getListOfCVTerms() {
+		if (listOfCVTerms == null)
+			listOfCVTerms = new LinkedList<CVTerm>();
 		return listOfCVTerms;
 	}
 
 	/**
+	 * If not yet set, this method initializes this
 	 * 
 	 * @param term
 	 * @return true if the 'term' element has been added to the list of CVTerms
 	 */
 	public boolean addCVTerm(CVTerm term) {
+		if (listOfCVTerms == null)
+			listOfCVTerms = new LinkedList<CVTerm>();
 		return listOfCVTerms.add(term);
 	}
 
@@ -509,12 +515,11 @@ public class Annotation {
 				Type qualifierType = cvTerm.getQualifierType();
 				Qualifier qualifier = null;
 				String prefix = null;
-				
-				if (qualifierType.equals(Type.BIOLOGICAL_QUALIFIER)){
+
+				if (qualifierType.equals(Type.BIOLOGICAL_QUALIFIER)) {
 					qualifier = cvTerm.getBiologicalQualifierType();
 					prefix = "bqbiol";
-				}
-				else if (qualifierType.equals(Type.MODEL_QUALIFIER)){
+				} else if (qualifierType.equals(Type.MODEL_QUALIFIER)) {
 					qualifier = cvTerm.getModelQualifierType();
 					prefix = "bqmodel";
 				}

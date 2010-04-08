@@ -306,7 +306,6 @@ public class SBMLDocument extends AbstractSBase {
                 }
 
 			}
-
 		return attributes;
 	}
 }
