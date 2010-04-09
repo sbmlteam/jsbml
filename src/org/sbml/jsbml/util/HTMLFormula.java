@@ -764,12 +764,12 @@ public class HTMLFormula extends StringTools implements ASTNodeCompiler {
 				|| b.contains("/") || b.contains("<sup>"))
 			basis = brackets(basis);
 		String e = exponent.toString();
-		if (e.contains("&#8901;") || e.contains("-") || e.contains("+")
-				|| e.contains("/") || e.contains("<sup>"))
+		if (e.contains("&#8901;") || e.substring(1).contains("-")
+				|| e.contains("+") || e.contains("/") || e.contains("<sup>"))
 			exponent = brackets(e);
 		return concat(basis, "<sup>", exponent, "</sup>");
 	}
-	
+
 	/**
 	 * Returns the product of the given elements as StringBuffer.
 	 * 
@@ -779,7 +779,7 @@ public class HTMLFormula extends StringTools implements ASTNodeCompiler {
 	public static final StringBuffer times(Object... factors) {
 		return arith("&#8901;", factors);
 	}
-	
+
 	/**
 	 * Returns the sum of the given elements as StringBuffer.
 	 * 
@@ -789,7 +789,7 @@ public class HTMLFormula extends StringTools implements ASTNodeCompiler {
 	public static final StringBuffer sum(Object... summands) {
 		return brackets(arith(Character.valueOf('+'), summands));
 	}
-	
+
 	/**
 	 * 
 	 * @param arith

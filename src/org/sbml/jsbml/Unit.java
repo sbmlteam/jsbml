@@ -1387,7 +1387,7 @@ public class Unit extends AbstractSBase {
 			}
 			times = TextFormula.times(times, pow);
 		}
-		if (offset.doubleValue() != 0) {
+		if (offset != null && offset.doubleValue() != 0) {
 			times = TextFormula.sum(StringTools.toString(offset.doubleValue()),
 					times);
 		}

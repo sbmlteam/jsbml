@@ -34,7 +34,6 @@ import java.util.HashMap;
 
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.stax.SBaseListType;
 
 /**
  * Represents the unitDefinition XML element of a SBML file.
@@ -222,17 +221,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 		int i, j;
 		for (i = orig.size() - 1; i >= 0; i--) {
 			Unit u = orig.remove(i);
-			if (units.size() == 0)
-				units.add(u);
-			else
-				for (j = 0; j < units.size(); j++) {
-					Unit unit = units.get(j);
-					if (u.getKind().compareTo(unit.getKind()) > 0) {
-						units.add(j, u);
-					} else {
-						break;
-					}
-				}
+			j = 0;
+			while (0 < u.getKind().compareTo(units.get(j).getKind()))
+				j--;
+			units.add(Math.max(0, j - 1), u);
 		}
 		ud.setListOfUnits(units);
 	}
@@ -325,6 +317,20 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.sbml.jsbml.AbstractSBase#addChangeListener(org.sbml.jsbml.
+	 * SBaseChangedListener)
+	 */
+	@Override
+	public void addChangeListener(SBaseChangedListener l) {
+		super.addChangeListener(l);
+		if (!isSetListOfUnits())
+			listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
+		listOfUnits.addChangeListener(l);
+	}
+
 	/**
 	 * Adds an Unit to this UnitDefinition.
 	 * 
@@ -398,7 +404,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 *         set.
 	 */
 	public ListOf<Unit> getListOfUnits() {
-		return this.listOfUnits;
+		return listOfUnits;
 	}
 
 	/**
@@ -666,7 +672,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public void setListOfUnits(ListOf<Unit> listOfUnits) {
 		this.listOfUnits = listOfUnits;
 		setThisAsParentSBMLObject(this.listOfUnits);
-		this.listOfUnits.setSBaseListType(SBaseListType.listOfUnits);
+		this.listOfUnits.setSBaseListType(ListOf.Type.listOfUnits);
 		stateChanged();
 	}
 

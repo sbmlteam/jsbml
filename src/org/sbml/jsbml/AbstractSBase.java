@@ -511,7 +511,7 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void sbaseRemoved() {
 		for (SBaseChangedListener listener : setOfListeners) {
-			listener.stateChanged(this);
+			listener.sbaseRemoved(this);
 		}
 	}
 

@@ -39,7 +39,6 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
-import org.sbml.jsbml.xml.stax.SBaseListType;
 import org.sbml.jsbml.xml.stax.WritingParser;
 
 /**
@@ -109,7 +108,7 @@ public class GroupsParser implements ReadingParser, WritingParser {
 			Model model = (Model) contextObject;
 			if (elementName.equals("listOfGroups")) {
 				ListOf<Group> listOfGroups = new ListOf<Group>();
-				listOfGroups.setSBaseListType(SBaseListType.other);
+				listOfGroups.setSBaseListType(ListOf.Type.other);
 				listOfGroups.addNamespace(namespaceURI);
 				this.groupList = GroupList.listOfGroups;
 
@@ -124,7 +123,7 @@ public class GroupsParser implements ReadingParser, WritingParser {
 			Group group = (Group) contextObject;
 			if (elementName.equals("listOfMembers")) {
 				ListOf<Member> listOfMembers = new ListOf<Member>();
-				listOfMembers.setSBaseListType(SBaseListType.other);
+				listOfMembers.setSBaseListType(ListOf.Type.other);
 				listOfMembers.addNamespace(namespaceURI);
 				this.groupList = GroupList.listOfMembers;
 
