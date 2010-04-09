@@ -31,12 +31,92 @@
 package org.sbml.jsbml.xml.stax;
 
 /**
- * This enum lists all the possible names of the listXXX components.
- * If the listXXX is a SBML package extension, the SBaseListType value to set would be 'other'.
+ * This enum lists all the possible names of the listXXX components. If the
+ * listXXX is a SBML package extension, the SBaseListType value to set would be
+ * 'other'.
+ * 
  * @author marine
- *
+ * 
  */
 public enum SBaseListType {
-
-	none, other, listOfFunctionDefinitions, listOfUnitDefinitions, listOfCompartments, listOfSpecies, listOfParameters, listOfInitialAssignments, listOfRules, listOfReactants, listOfProducts, listOfEventAssignments, listOfModifiers, listOfConstraints, listOfReactions, listOfEvents, listOfUnits, listOfLocalParameters, listOfCompartmentTypes, listOfSpeciesTypes
+	/**
+	 * 
+	 */
+	none,
+	/**
+	 * 
+	 */
+	other,
+	/**
+	 * 
+	 */
+	listOfFunctionDefinitions,
+	/**
+	 * 
+	 */
+	listOfUnitDefinitions,
+	/**
+	 * 
+	 */
+	listOfCompartments,
+	/**
+	 * 
+	 */
+	listOfSpecies,
+	/**
+	 * 
+	 */
+	listOfParameters,
+	/**
+	 * 
+	 */
+	listOfInitialAssignments,
+	/**
+	 * 
+	 */
+	listOfRules,
+	/**
+	 * 
+	 */
+	listOfReactants,
+	/**
+	 * 
+	 */
+	listOfProducts,
+	/**
+	 * 
+	 */
+	listOfEventAssignments,
+	/**
+	 * 
+	 */
+	listOfModifiers,
+	/**
+	 * 
+	 */
+	listOfConstraints,
+	/**
+	 * 
+	 */
+	listOfReactions,
+	/**
+	 * 
+	 */
+	listOfEvents,
+	/**
+	 * 
+	 */
+	listOfUnits,
+	/**
+	 * 
+	 */
+	listOfLocalParameters,
+	/**
+	 * 
+	 */
+	listOfCompartmentTypes,
+	/**
+	 * 
+	 */
+	listOfSpeciesTypes
 }

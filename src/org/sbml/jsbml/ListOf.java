@@ -65,7 +65,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	private LinkedList<T> listOf = new LinkedList<T>();
 
-
 	/**
 	 * Creates a ListOf instance. By default, the list containing the SBase
 	 * elements is empty.
@@ -80,61 +79,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public ListOf(int level, int version) {
 		super(level, version);
-	}
-
-
-	/**
-	 * Removes a named SBase according to its unique id.
-	 * 
-	 * @param nsb
-	 *            the object to be removed.
-	 * @return success or failure.
-	 */
-	public boolean remove(NamedSBase nsb) {
-		if (!listOf.remove(nsb) && nsb.isSetId()) {
-			int pos = -1;
-			for (int i = 0; i < size() && pos < 0; i++) {
-				NamedSBase sb = (NamedSBase) get(i);
-				if (sb.isSetId() && nsb.isSetId()
-						&& sb.getId().equals(nsb.getId())) {
-					pos = i;
-				}
-			}
-			if (pos >= 0) {
-				listOf.remove(pos);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Specialized method to remove a named SBase according to its unique id.
-	 * 
-	 * @param id
-	 *            the id of the object to be removed.
-	 * @return success or failure.
-	 */
-	@SuppressWarnings("unchecked")
-	public T remove(String removeId) {
-
-		if (removeId != null && removeId.trim().length() == 0) {
-			int pos = -1;
-			SBase sbase = null;
-			for (int i = 0; i < size() && pos < 0; i++) {
-				NamedSBase sb = (NamedSBase) get(i);
-				if (sb.isSetId() && sb.getId().equals(removeId)) {
-					pos = i;
-					sbase = sb;
-					break;
-				}
-			}
-			if (pos >= 0) {
-				listOf.remove(pos);
-				return (T) sbase;
-			}
-		}
-		return null;
 	}
 
 	/**
@@ -155,21 +99,30 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see java.util.LinkedList#add(int index, T element)
+	 */
+	public void add(int index, T element) {
+		listOf.add(index, element);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.LinkedList#add(java.lang.Object)
 	 */
-	// @Override
 	public boolean add(T e) {
 		if (e.getLevel() != getLevel()) {
-			throw new IllegalArgumentException("Level mismatch between "
-					+ getParentSBMLObject().getClass().getSimpleName()
-					+ " in V " + getLevel() + " and "
-					+ e.getClass().getSimpleName() + " in L" + e.getLevel());
+			throw new IllegalArgumentException(String.format(
+					"Level mismatch between %s in V %d and %s in L %d",
+					getParentSBMLObject().getClass().getSimpleName(),
+					getLevel(), e.getClass().getSimpleName(), e.getLevel()));
 		} else if (e.getVersion() != getVersion()) {
-			throw new IllegalArgumentException("Version mismatch between "
-					+ getParentSBMLObject().getClass().getSimpleName()
-					+ " in V" + getVersion() + " and "
-					+ e.getClass().getSimpleName() + " in V" + e.getVersion());
+			throw new IllegalArgumentException(String.format(
+					"Version mismatch between %s in V %d and %s in V %d",
+					getParentSBMLObject().getClass().getSimpleName(),
+					getVersion(), e.getClass().getSimpleName(), e.getVersion()));
 		}
+		// Avoid adding the same thing twice.
 		if (e instanceof NamedSBase) {
 			NamedSBase nsb = (NamedSBase) e;
 			if (nsb.isSetId()) {
@@ -187,6 +140,24 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see java.util.LinkedList#addAll(Collection<? extends T> c)
+	 */
+	public boolean addAll(Collection<? extends T> c) {
+		return listOf.addAll(c);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#addAll(int index, Collection<? extends T> c)
+	 */
+	public boolean addAll(int index, Collection<? extends T> c) {
+		return listOf.addAll(index, c);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.SBase#addChangeListener(org.sbml.squeezer.io.
 	 * SBaseChangedListener)
 	 */
@@ -195,6 +166,44 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		for (int i = 0; i < size(); i++) {
 			get(i).addChangeListener(l);
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#clear()
+	 */
+	public void clear() {
+		listOf.clear();
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#clone()
+	 */
+	@Override
+	public ListOf<T> clone() {
+		return new ListOf<T>(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#contains(Object o)
+	 */
+	public boolean contains(Object o) {
+		return listOf.contains(o);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.containsAll(Collection<?> c)
+	 */
+	public boolean containsAll(Collection<?> c) {
+		return listOf.containsAll(c);
 	}
 
 	/*
@@ -247,13 +256,24 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier, java.lang.String)
+	 * 
+	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier,
+	 * java.lang.String)
 	 */
 	public List<String> filterCVTerms(Qualifier qualifier, String pattern) {
 		List<String> l = new LinkedList<String>();
 		for (CVTerm c : filterCVTerms(qualifier))
 			l.addAll(c.filterResources(pattern));
 		return l;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#get(int index)
+	 */
+	public T get(int index) {
+		return listOf.get(index);
 	}
 
 	/*
@@ -267,13 +287,21 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	}
 
 	/**
-	 * Sets the SBaseListType of this ListOf instance to 'currentList'.
+	 * The first element in this list.
 	 * 
-	 * @param currentList
+	 * @return
 	 */
-	public void setSBaseListType(SBaseListType currentList) {
-		this.currentList = currentList;
-		stateChanged();
+	public T getFirst() {
+		return listOf.getFirst();
+	}
+
+	/**
+	 * Returns the last element in this list.
+	 * 
+	 * @return
+	 */
+	public T getLast() {
+		return listOf.getLast();
 	}
 
 	/**
@@ -282,67 +310,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public SBaseListType getSBaseListType() {
 		return currentList;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
-	 */
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#toString()
-	 */
-	@Override
-	public String toString() {
-		return listOf.toString();
-	}
-
-	/**
-	 * Sets the listOf of this Object to 'listOf'.
-	 * 
-	 * @param listOf
-	 */
-	public void setListOf(LinkedList<T> listOf) {
-		this.listOf = listOf;
-		stateChanged();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#clone()
-	 */
-	@Override
-	public ListOf<T> clone() {
-		return new ListOf<T>(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#clear()
-	 */
-	public void clear() {
-		listOf.clear();
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#contains(Object o)
-	 */
-	public boolean contains(Object o) {
-		return listOf.contains(o);
 	}
 
 	/*
@@ -402,10 +369,140 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
+	 */
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#remove(int index)
+	 */
+	public T remove(int index) {
+		return listOf.remove(index);
+	}
+
+	/**
+	 * Removes a named SBase according to its unique id.
+	 * 
+	 * @param nsb
+	 *            the object to be removed.
+	 * @return success or failure.
+	 */
+	public boolean remove(NamedSBase nsb) {
+		if (!listOf.remove(nsb) && nsb.isSetId()) {
+			int pos = -1;
+			for (int i = 0; i < size() && pos < 0; i++) {
+				NamedSBase sb = (NamedSBase) get(i);
+				if (sb.isSetId() && nsb.isSetId()
+						&& sb.getId().equals(nsb.getId())) {
+					pos = i;
+				}
+			}
+			if (pos >= 0) {
+				listOf.remove(pos);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.LinkedList#remove(Object o)
 	 */
 	public boolean remove(Object o) {
 		return listOf.remove(o);
+	}
+
+	/**
+	 * Specialized method to remove a named SBase according to its unique id.
+	 * 
+	 * @param id
+	 *            the id of the object to be removed.
+	 * @return success or failure.
+	 */
+	@SuppressWarnings("unchecked")
+	public T remove(String removeId) {
+
+		if (removeId != null && removeId.trim().length() == 0) {
+			int pos = -1;
+			SBase sbase = null;
+			for (int i = 0; i < size() && pos < 0; i++) {
+				NamedSBase sb = (NamedSBase) get(i);
+				if (sb.isSetId() && sb.getId().equals(removeId)) {
+					pos = i;
+					sbase = sb;
+					break;
+				}
+			}
+			if (pos >= 0) {
+				listOf.remove(pos);
+				return (T) sbase;
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#removeAll(Collection<?> c)
+	 */
+	public boolean removeAll(Collection<?> c) {
+		return listOf.removeAll(c);
+	}
+
+	/**
+	 * 
+	 * @param l
+	 */
+	public void removeChangeListener(SBaseChangedListener l) {
+		setOfListeners.remove(l);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#retainAll(Collection<?> c)
+	 */
+	public boolean retainAll(Collection<?> c) {
+		return listOf.retainAll(c);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.LinkedList#set(int index, T element)
+	 */
+	public T set(int index, T element) {
+		return listOf.set(index, element);
+	}
+
+	/**
+	 * Sets the listOf of this Object to 'listOf'.
+	 * 
+	 * @param listOf
+	 */
+	public void setListOf(LinkedList<T> listOf) {
+		this.listOf = listOf;
+		stateChanged();
+	}
+
+	/**
+	 * Sets the SBaseListType of this ListOf instance to 'currentList'.
+	 * 
+	 * @param currentList
+	 */
+	public void setSBaseListType(SBaseListType currentList) {
+		this.currentList = currentList;
+		stateChanged();
 	}
 
 	/*
@@ -435,96 +532,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return listOf.toArray();
 	}
 
-
-	/**
-	 * 
-	 * @param l
-	 */
-	public void removeChangeListener(SBaseChangedListener l) {
-		setOfListeners.remove(l);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#add(int index, T element)
-	 */
-	public void add(int index, T element) {
-		listOf.add(index, element);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.containsAll(Collection<?> c)
-	 */
-	public boolean containsAll(Collection<?> c) {
-		return listOf.containsAll(c);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#removeAll(Collection<?> c)
-	 */
-	public boolean removeAll(Collection<?> c) {
-		return listOf.removeAll(c);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#retainAll(Collection<?> c)
-	 */
-	public boolean retainAll(Collection<?> c) {
-		return listOf.retainAll(c);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#set(int index, T element)
-	 */
-	public T set(int index, T element) {
-		return listOf.set(index, element);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#get(int index)
-	 */
-	public T get(int index) {
-		return listOf.get(index);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#remove(int index)
-	 */
-	public T remove(int index) {
-		return listOf.remove(index);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#addAll(Collection<? extends T> c)
-	 */
-	public boolean addAll(Collection<? extends T> c) {
-		return listOf.addAll(c);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#addAll(int index, Collection<? extends T> c)
-	 */
-	public boolean addAll(int index, Collection<? extends T> c) {
-		return listOf.addAll(index, c);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -533,6 +540,16 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	@SuppressWarnings("hiding")
 	public <T> T[] toArray(T[] a) {
 		return listOf.toArray(a);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#toString()
+	 */
+	@Override
+	public String toString() {
+		return listOf.toString();
 	}
 
 	/**
@@ -552,23 +569,5 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 
 		return attributes;
-	}
-
-	/**
-	 * The first element in this list.
-	 * 
-	 * @return
-	 */
-	public T getFirst() {
-		return listOf.getFirst();
-	}
-
-	/**
-	 * Returns the last element in this list.
-	 * 
-	 * @return
-	 */
-	public T getLast() {
-		return listOf.getLast();
 	}
 }
