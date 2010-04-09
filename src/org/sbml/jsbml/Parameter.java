@@ -91,9 +91,8 @@ public class Parameter extends Symbol {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#clone()
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	// @Override
 	public Parameter clone() {
 		return new Parameter(this);
 	}
@@ -105,46 +104,7 @@ public class Parameter extends Symbol {
 	 */
 	// @Override
 	public boolean equals(Object o) {
-		if (o instanceof Parameter)
-			return super.equals(o);
-		return false;
-	}
-
-	/**
-	 * 
-	 * @return the constant Boolean of this Parameter. Can be null if it is not
-	 *         set.
-	 */
-	public boolean getConstant() {
-		return isConstant();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Symbol#getUnits()
-	 */
-	public String getUnits() {
-		return super.getUnits();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Symbol#getUnitsInstance()
-	 */
-	public UnitDefinition getUnitsInstance() {
-		return super.getUnitsInstance();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Symbol#getValue()
-	 */
-	// @Override
-	public double getValue() {
-		return super.getValue();
+		return (o instanceof Parameter) ? super.equals(o) : false;
 	}
 
 	/**
@@ -207,9 +167,5 @@ public class Parameter extends Symbol {
 		}
 
 		return attributes;
-	}
-
-	public void unsetUnits() {
-		setUnits("");
 	}
 }

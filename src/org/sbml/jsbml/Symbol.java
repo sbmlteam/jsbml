@@ -354,6 +354,7 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 */
 	public void unsetUnits() {
 		this.unitsID = null;
+		stateChanged();
 	}
 
 	/**

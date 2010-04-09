@@ -749,9 +749,11 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public KineticLaw createKineticLaw() {
 
-		Reaction lastReaction = getLastReactionAdded();
+		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 
 		if (lastReaction == null) {
+			System.err
+					.println("Could not create KineticLaw because no reactions have been defined yet.");
 			return null;
 		}
 
@@ -780,10 +782,12 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public Parameter createKineticLawParameter() {
 
-		Reaction lastReaction = null;
+		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 		KineticLaw lastKineticLaw = null;
 
 		if (lastReaction == null) {
+			System.err
+					.println("Could not create Parameter for KineticLaw because no reactions have been defined yet.");
 			return null;
 		} else {
 			lastKineticLaw = lastReaction.getKineticLaw();
@@ -819,7 +823,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ModifierSpeciesReference createModifier() {
 
-		Reaction lastReaction = getLastReactionAdded();
+		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 
 		if (lastReaction == null) {
 			return null;
@@ -862,9 +866,11 @@ public class Model extends AbstractNamedSBase {
 	 * @return the {@link SpeciesReference} object created
 	 */
 	public SpeciesReference createProduct() {
-		Reaction lastReaction = getLastReactionAdded();
+		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 
 		if (lastReaction == null) {
+			System.err
+					.println("Could not create Product because no reactions have been defined yet.");
 			return null;
 		}
 
@@ -904,12 +910,12 @@ public class Model extends AbstractNamedSBase {
 	 * @return the {@link SpeciesReference} object created
 	 */
 	public SpeciesReference createReactant() {
-		Reaction lastReaction = getLastReactionAdded();
-
+		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 		if (lastReaction == null) {
+			System.err
+					.println("Could not create Reactant because no reactions have been defined yet.");
 			return null;
 		}
-
 		SpeciesReference reactant = lastReaction.createReactant();
 
 		return reactant;
@@ -1492,23 +1498,14 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Returns the last reaction added in the model, corresponding to the last
-	 * element of the list of reactions
+	 * Returns the last element added in the given list.
 	 * 
-	 * @return the last reaction added in the model, corresponding to the last
-	 *         element of the list of reactions, or null is no reaction exist.
+	 * @return the last element added in the model, corresponding to the last
+	 *         element of the list of these elements, or null is no element
+	 *         exist for this type.
 	 */
-	private Reaction getLastReactionAdded() {
-		int numReaction = getNumReactions();
-		Reaction lastReaction = null;
-
-		if (numReaction == 0) {
-			return null;
-		} else {
-			lastReaction = getReaction(numReaction - 1);
-		}
-
-		return lastReaction;
+	private SBase getLastElementOf(ListOf<? extends SBase> listOf) {
+		return listOf == null || listOf.size() == 0 ? null : listOf.getLast();
 	}
 
 	/**
@@ -1814,10 +1811,11 @@ public class Model extends AbstractNamedSBase {
 	 * @return the nth Parameter of this Model.
 	 */
 	public Parameter getParameter(int n) {
-		if (isSetListOfParameters() && n < listOfParameters.size() && n >= 0) {
+		if (isSetListOfParameters()) {
 			return listOfParameters.get(n);
 		}
-		return null;
+		throw new IndexOutOfBoundsException(
+				"listOfParameters has not been initialized.");
 	}
 
 	/**
@@ -1861,10 +1859,11 @@ public class Model extends AbstractNamedSBase {
 	 * @return the n-th Reaction of this Model.
 	 */
 	public Reaction getReaction(int n) {
-		if (isSetListOfReactions() && n < getNumReactions() && n >= 0) {
+		if (isSetListOfReactions()) {
 			return listOfReactions.get(n);
 		}
-		return null;
+		throw new IndexOutOfBoundsException(
+				"listOfReactions has not been initialized.");
 	}
 
 	/**
@@ -1896,10 +1895,11 @@ public class Model extends AbstractNamedSBase {
 	 * @return the nth Rule of the listOfRules. Null if it doesn't exist.
 	 */
 	public Rule getRule(int n) {
-		if (isSetListOfRules() && n < listOfRules.size() && n >= 0) {
+		if (isSetListOfRules()) {
 			return listOfRules.get(n);
 		}
-		return null;
+		throw new IndexOutOfBoundsException(
+				"listOfRules has not been initialized.");
 	}
 
 	/**
@@ -1910,10 +1910,11 @@ public class Model extends AbstractNamedSBase {
 	 * @return the species with the given index if it exists.
 	 */
 	public Species getSpecies(int n) {
-		if (isSetListOfSpecies() && n < listOfSpecies.size() && n >= 0) {
+		if (isSetListOfSpecies()) {
 			return listOfSpecies.get(n);
 		}
-		return null;
+		throw new IndexOutOfBoundsException(
+				"listOfSpecies has not been initialized.");
 	}
 
 	/**
@@ -1950,11 +1951,11 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@SuppressWarnings("deprecation")
 	public SpeciesType getSpeciesType(int n) {
-		if (isSetListOfSpeciesTypes() && n < listOfSpeciesTypes.size()
-				&& n >= 0) {
+		if (isSetListOfSpeciesTypes()) {
 			return listOfSpeciesTypes.get(n);
 		}
-		return null;
+		throw new IndexOutOfBoundsException(
+				"listOfSpeciesTypes has not been initialized.");
 	}
 
 	/**
@@ -2009,6 +2010,10 @@ public class Model extends AbstractNamedSBase {
 		return isSetTimeUnits() ? timeUnitsID : "";
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public UnitDefinition getTimeUnitsInstance() {
 		return getUnitDefinition(this.timeUnitsID);
 	}
@@ -2016,17 +2021,17 @@ public class Model extends AbstractNamedSBase {
 	/**
 	 * Gets the nth UnitDefinition object in this Model.
 	 * 
-	 * @param i
+	 * @param n
 	 * @return the nth UnitDefinition of this Model. Returns null if there are
 	 *         no UnitDefinition defined or if the index n is too big or lower
 	 *         than zero.
 	 */
-	public UnitDefinition getUnitDefinition(int i) {
-		if (isSetListOfUnitDefinitions() && i < listOfUnitDefinitions.size()
-				&& i >= 0) {
-			return listOfUnitDefinitions.get(i);
+	public UnitDefinition getUnitDefinition(int n) {
+		if (isSetListOfUnitDefinitions()) {
+			return listOfUnitDefinitions.get(n);
 		}
-		return null;
+		throw new IndexOutOfBoundsException(
+				"listOfUnitDefinitions has not been initialized.");
 	}
 
 	/**
@@ -2089,6 +2094,17 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public UnitDefinition getVolumeUnitsInstance() {
 		return getUnitDefinition(this.volumeUnitsID);
+	}
+
+	/**
+	 * Convenient method to check whether this model has a reference to the unit
+	 * with the given identifier.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean hasUnit(String id) {
+		return getUnitDefinition(id) != null;
 	}
 
 	/**
@@ -2736,7 +2752,6 @@ public class Model extends AbstractNamedSBase {
 		setThisAsParentSBMLObject(this.listOfCompartments);
 		this.listOfCompartments
 				.setSBaseListType(SBaseListType.listOfCompartments);
-
 		stateChanged();
 	}
 

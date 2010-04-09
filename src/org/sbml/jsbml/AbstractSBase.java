@@ -159,14 +159,9 @@ public abstract class AbstractSBase implements SBase {
 		if (sb instanceof AbstractSBase) {
 			this.setOfListeners.addAll(((AbstractSBase) sb).setOfListeners);
 		}
-		if (sb.isSetLevel()) {
-			this.level = Integer.valueOf(sb.getLevel());
-		}
-		if (sb.isSetVersion()) {
-			this.version = Integer.valueOf(sb.getVersion());
-		}
 		if (sb.isSetAnnotation()) {
-			this.annotation = sb.getAnnotation();
+			// TODO!!! Clone function not yet fully implemented!
+			this.annotation = sb.getAnnotation().clone();
 		}
 		if (sb.isSetNotesBuffer()) {
 			this.notesBuffer = new StringBuffer(sb.getNotesBuffer());
@@ -604,7 +599,7 @@ public abstract class AbstractSBase implements SBase {
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	// @Override
+	@Override
 	public abstract String toString();
 
 	/*

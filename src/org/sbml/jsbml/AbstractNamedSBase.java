@@ -185,7 +185,6 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		} else {
 			this.id = id;
 		}
-
 		stateChanged();
 	}
 
@@ -220,7 +219,6 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		} else {
 			this.name = name;
 		}
-
 		if (!isSetId() && level == 1) {
 			this.id = name;
 		}
@@ -240,8 +238,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		if (isSetId()) {
 			return id;
 		}
-		String name = getClass().getName();
-		return name.substring(name.lastIndexOf('.') + 1);
+		return getClass().getSimpleName();
 	}
 
 	/*
@@ -274,7 +271,6 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 			}
 			return false;
 		}
-
 		return isAttributeRead;
 	}
 

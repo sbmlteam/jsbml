@@ -45,10 +45,10 @@ import java.util.HashMap;
 public class Species extends Symbol {
 
 	/**
-	 * true means initial amount is set. false means that an initial
+	 * True means initial amount is set. False means that an initial
 	 * concentration is set.
 	 */
-	private boolean amountOrConcentration;
+	private boolean amount;
 
 	/**
 	 * Represents the 'boundaryCondition' attribute of a Species element.
@@ -164,8 +164,7 @@ public class Species extends Symbol {
 		if (species.isSetInitialAmount()) {
 			setInitialAmount(new Double(species.getInitialAmount()));
 		} else if (species.isSetInitialConcentration()) {
-			setInitialConcentration(species
-					.getInitialConcentration());
+			setInitialConcentration(species.getInitialConcentration());
 		} else {
 			setValue(Double.NaN);
 		}
@@ -313,6 +312,14 @@ public class Species extends Symbol {
 	 * @return the hasOnlySubstanceUnits Boolean of this Species.
 	 */
 	public boolean getHasOnlySubstanceUnits() {
+		return hasOnlySubstanceUnits();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean hasOnlySubstanceUnits() {
 		return isSetHasOnlySubstanceUnits() ? this.hasOnlySubstanceUnits
 				: false;
 	}
@@ -338,7 +345,6 @@ public class Species extends Symbol {
 		if (isSetInitialConcentration()) {
 			return getValue();
 		}
-
 		return 0;
 	}
 
@@ -418,7 +424,7 @@ public class Species extends Symbol {
 	 */
 	public void initDefaults() {
 		charge = Integer.valueOf(0);
-		amountOrConcentration = new Boolean(true);
+		amount = new Boolean(true);
 		hasOnlySubstanceUnits = new Boolean(false);
 		boundaryCondition = new Boolean(false);
 		setConstant(new Boolean(false));
@@ -439,7 +445,7 @@ public class Species extends Symbol {
 	 *         false otherwise.
 	 */
 	public boolean isHasOnlySubstanceUnits() {
-		return isSetHasOnlySubstanceUnits() ? hasOnlySubstanceUnits : false;
+		return hasOnlySubstanceUnits();
 	}
 
 	/**
@@ -511,7 +517,7 @@ public class Species extends Symbol {
 	 * @return Returns true if an initial amount has been set for this species.
 	 */
 	public boolean isSetInitialAmount() {
-		return amountOrConcentration && isSetValue();
+		return amount && isSetValue();
 	}
 
 	/**
@@ -520,7 +526,7 @@ public class Species extends Symbol {
 	 *         species.
 	 */
 	public boolean isSetInitialConcentration() {
-		return !amountOrConcentration && isSetValue();
+		return !amount && isSetValue();
 	}
 
 	/**
@@ -669,8 +675,8 @@ public class Species extends Symbol {
 	 * 
 	 * @param charge
 	 */
-	public void setCharge(Integer charge) {
-		this.charge = charge;
+	public void setCharge(int charge) {
+		this.charge = Integer.valueOf(charge);
 		isSetCharge = true;
 		stateChanged();
 	}
@@ -681,7 +687,17 @@ public class Species extends Symbol {
 	 * @param compartment
 	 */
 	public void setCompartment(Compartment compartment) {
-		this.compartmentID = compartment != null ? compartment.getId() : null;
+		if (compartment != null)
+			setCompartment(compartment.getId());
+		else
+			unsetCompartment();
+	}
+
+	/**
+	 * Remove the reference to a comparmtent.
+	 */
+	public void unsetCompartment() {
+		compartmentID = null;
 		stateChanged();
 	}
 
@@ -742,8 +758,8 @@ public class Species extends Symbol {
 	 * @param initialAmount
 	 */
 	public void setInitialAmount(double initialAmount) {
+		amount = true;
 		setValue(initialAmount);
-		amountOrConcentration = true;
 	}
 
 	/**
@@ -752,8 +768,9 @@ public class Species extends Symbol {
 	 * @param initialConcentration
 	 */
 	public void setInitialConcentration(double initialConcentration) {
+		amount = false;
 		setValue(initialConcentration);
-		amountOrConcentration = false;
+
 	}
 
 	/**
@@ -798,6 +815,7 @@ public class Species extends Symbol {
 	 * 
 	 * @param speciesType
 	 */
+	@Deprecated
 	public void setSpeciesType(String speciesType) {
 		if (speciesType != null && speciesType.trim().length() == 0) {
 			speciesType = null;
@@ -822,7 +840,7 @@ public class Species extends Symbol {
 	 * @param unit
 	 */
 	public void setSubstanceUnits(Unit unit) {
-		super.setUnits(unit);
+		setUnits(unit);
 	}
 
 	/**
@@ -831,7 +849,7 @@ public class Species extends Symbol {
 	 * @param unitKind
 	 */
 	public void setSubstanceUnits(Unit.Kind unitKind) {
-		super.setUnits(unitKind);
+		setUnits(unitKind);
 	}
 
 	/**
@@ -840,7 +858,7 @@ public class Species extends Symbol {
 	 * @param units
 	 */
 	public void setSubstanceUnits(UnitDefinition units) {
-		super.setUnits(units);
+		setUnits(units);
 	}
 
 	/**
@@ -849,6 +867,7 @@ public class Species extends Symbol {
 	public void unsetCharge() {
 		charge = null;
 		isSetCharge = false;
+		stateChanged();
 	}
 
 	/**
@@ -856,22 +875,23 @@ public class Species extends Symbol {
 	 */
 	public void unsetConversionFactor() {
 		this.conversionFactorID = null;
+		stateChanged();
 	}
 
 	/**
 	 * Unsets the initialAmount of this Species.
 	 */
 	public void unsetInitialAmount() {
+		amount = false;
 		unsetValue();
-		amountOrConcentration = false;
 	}
 
 	/**
 	 * Unsets the initialConcentration of this Species.
 	 */
 	public void unsetInitialConcentration() {
+		amount = true;
 		unsetValue();
-		amountOrConcentration = true;
 	}
 
 	/**
@@ -879,13 +899,14 @@ public class Species extends Symbol {
 	 */
 	public void unsetSpatialSizeUnits() {
 		spatialSizeUnitsID = null;
+		stateChanged();
 	}
 
 	/**
 	 * Unsets the substanceUnits of this Species.
 	 */
 	public void unsetSubstanceUnits() {
-		super.unsetUnits();
+		unsetUnits();
 	}
 
 	/*

@@ -222,14 +222,17 @@ public class UnitDefinition extends AbstractNamedSBase {
 		int i, j;
 		for (i = orig.size() - 1; i >= 0; i--) {
 			Unit u = orig.remove(i);
-			for (j = 0; j < units.size(); j++) {
-				Unit unit = units.get(j);
-				if (u.getKind().compareTo(unit.getKind()) > 0) {
-					units.add(j, u);
-				} else {
-					break;
+			if (units.size() == 0)
+				units.add(u);
+			else
+				for (j = 0; j < units.size(); j++) {
+					Unit unit = units.get(j);
+					if (u.getKind().compareTo(unit.getKind()) > 0) {
+						units.add(j, u);
+					} else {
+						break;
+					}
 				}
-			}
 		}
 		ud.setListOfUnits(units);
 	}
@@ -258,14 +261,14 @@ public class UnitDefinition extends AbstractNamedSBase {
 	/**
 	 * Represents the 'listOfUnit' XML subelement of a UnitDefinition.
 	 */
-	private ListOf<Unit> listOfUnit;
+	private ListOf<Unit> listOfUnits;
 
 	/**
 	 * Creates an UnitDefinition instance. By default, the listOfUnit is null.
 	 */
 	public UnitDefinition() {
 		super();
-		this.listOfUnit = null;
+		this.listOfUnits = null;
 		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
@@ -285,7 +288,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public UnitDefinition(String id, int level, int version) {
 		super(id, level, version);
-		listOfUnit = null;
+		listOfUnits = null;
 		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
@@ -302,7 +305,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public UnitDefinition(String id, String name, int level, int version) {
 		super(id, name, level, version);
-		listOfUnit = null;
+		listOfUnits = null;
 		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
@@ -318,7 +321,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if (nsb.isSetListOfUnits()) {
 			setListOfUnits((ListOf<Unit>) nsb.getListOfUnits().clone());
 		} else {
-			listOfUnit = null;
+			listOfUnits = null;
 		}
 	}
 
@@ -329,11 +332,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public void addUnit(Unit u) {
 		if (!isSetListOfUnits()) {
-			this.listOfUnit = new ListOf<Unit>();
-			setThisAsParentSBMLObject(this.listOfUnit);
+			this.listOfUnits = new ListOf<Unit>();
+			setThisAsParentSBMLObject(this.listOfUnits);
 		}
 		setThisAsParentSBMLObject(u);
-		listOfUnit.add(u);
+		listOfUnits.add(u);
 		u.parentSBMLObject = this;
 		stateChanged();
 	}
@@ -343,7 +346,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * 
 	 * @see org.sbml.jsbml.element.AbstractSBase#clone()
 	 */
-	// @Override
+	@Override
 	public UnitDefinition clone() {
 		return new UnitDefinition(this);
 	}
@@ -395,7 +398,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 *         set.
 	 */
 	public ListOf<Unit> getListOfUnits() {
-		return this.listOfUnit;
+		return this.listOfUnits;
 	}
 
 	/**
@@ -404,7 +407,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public int getNumUnits() {
 		if (isSetListOfUnits()) {
-			return listOfUnit.size();
+			return listOfUnits.size();
 		}
 		return 0;
 	}
@@ -418,7 +421,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public Unit getUnit(int i) {
 		if (isSetListOfUnits()) {
-			return listOfUnit.get(i);
+			return listOfUnits.get(i);
 		}
 		return null;
 	}
@@ -428,8 +431,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public void initDefaults() {
 		if (!isSetListOfUnits()) {
-			this.listOfUnit = new ListOf<Unit>(getLevel(), getVersion());
-			setThisAsParentSBMLObject(listOfUnit);
+			this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
+			setThisAsParentSBMLObject(listOfUnits);
 		}
 	}
 
@@ -438,7 +441,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return true if the listOfUnits is not null.
 	 */
 	public boolean isSetListOfUnits() {
-		return this.listOfUnit != null;
+		return this.listOfUnits != null;
 	}
 
 	/**
@@ -447,8 +450,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public boolean isVariantOfArea() {
 		if (isSetListOfUnits()) {
-			if (listOfUnit.size() == 1) {
-				Unit unit = listOfUnit.get(0);
+			if (listOfUnits.size() == 1) {
+				Unit unit = listOfUnits.get(0);
 				return unit.isVariantOfArea();
 			}
 		}
@@ -466,8 +469,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public boolean isVariantOfLength() {
 		if (isSetListOfUnits()) {
-			if (listOfUnit.size() == 1) {
-				Unit unit = listOfUnit.get(0);
+			if (listOfUnits.size() == 1) {
+				Unit unit = listOfUnits.get(0);
 				return unit.isVariantOfLength();
 			}
 		}
@@ -485,8 +488,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public boolean isVariantOfSubstance() {
 		if (isSetListOfUnits()) {
-			if (listOfUnit.size() == 1) {
-				Unit unit = listOfUnit.get(0);
+			if (listOfUnits.size() == 1) {
+				Unit unit = listOfUnits.get(0);
 				return unit.isVariantOfSubstance();
 			}
 		}
@@ -499,7 +502,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public boolean isVariantOfSubstancePerArea() {
 		if (isSetListOfUnits()) {
-			if (listOfUnit.size() == 2) {
+			if (listOfUnits.size() == 2) {
 				;
 				if (getUnit(0).isVariantOfSubstance()) {
 					Unit two = getUnit(1).clone();
@@ -521,15 +524,15 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public boolean isVariantOfSubstancePerLength() {
 		if (isSetListOfUnits()) {
-			if (listOfUnit.size() == 2) {
-				Unit unit = listOfUnit.get(0);
-				Unit unit2 = listOfUnit.get(1);
+			if (listOfUnits.size() == 2) {
+				Unit unit = listOfUnits.get(0);
+				Unit unit2 = listOfUnits.get(1);
 				if (unit.isVariantOfSubstance()) {
-					Unit two = listOfUnit.get(1).clone();
+					Unit two = listOfUnits.get(1).clone();
 					two.setExponent(two.getExponent() * -1);
 					return two.isVariantOfLength();
 				} else if (unit2.isVariantOfSubstance()) {
-					Unit one = listOfUnit.get(0).clone();
+					Unit one = listOfUnits.get(0).clone();
 					one.setExponent(one.getExponent() * -1);
 					return one.isVariantOfLength();
 				}
@@ -544,15 +547,15 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public boolean isVariantOfSubstancePerVolume() {
 		if (isSetListOfUnits()) {
-			if (listOfUnit.size() == 2) {
-				Unit unit = listOfUnit.get(0);
-				Unit unit2 = listOfUnit.get(1);
+			if (listOfUnits.size() == 2) {
+				Unit unit = listOfUnits.get(0);
+				Unit unit2 = listOfUnits.get(1);
 				if (unit.isVariantOfSubstance()) {
-					Unit two = listOfUnit.get(1).clone();
+					Unit two = listOfUnits.get(1).clone();
 					two.setExponent(two.getExponent() * -1);
 					return two.isVariantOfVolume();
 				} else if (unit2.isVariantOfSubstance()) {
-					Unit one = listOfUnit.get(0).clone();
+					Unit one = listOfUnits.get(0).clone();
 					one.setExponent(one.getExponent() * -1);
 					return one.isVariantOfVolume();
 				}
@@ -571,8 +574,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public boolean isVariantOfVolume() {
 		if (isSetListOfUnits()) {
-			if (listOfUnit.size() == 1) {
-				Unit unit = listOfUnit.get(0);
+			if (listOfUnits.size() == 1) {
+				Unit unit = listOfUnits.get(0);
 				return unit.isVariantOfVolume();
 			}
 		}
@@ -606,11 +609,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public void raiseByThePowerOf(int exponent) {
 		if (isSetListOfUnits()) {
 			Unit u;
-			for (int i = listOfUnit.size() - 1; i >= 0; i--) {
-				u = listOfUnit.get(i);
+			for (int i = listOfUnits.size() - 1; i >= 0; i--) {
+				u = listOfUnits.get(i);
 				u.setExponent(u.getExponent() * exponent);
 				if (u.getExponent() == 0) {
-					listOfUnit.remove(i);
+					listOfUnits.remove(i);
 				}
 			}
 		}
@@ -645,7 +648,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public Unit removeUnit(int i) {
 		if (isSetListOfUnits()) {
-			Unit u = listOfUnit.remove(i);
+			Unit u = listOfUnits.remove(i);
 			if (u != null) {
 				u.sbaseRemoved();
 			}
@@ -661,9 +664,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @param listOfUnits
 	 */
 	public void setListOfUnits(ListOf<Unit> listOfUnits) {
-		this.listOfUnit = listOfUnits;
-		setThisAsParentSBMLObject(listOfUnits);
-		this.listOfUnit.setSBaseListType(SBaseListType.listOfUnits);
+		this.listOfUnits = listOfUnits;
+		setThisAsParentSBMLObject(this.listOfUnits);
+		this.listOfUnits.setSBaseListType(SBaseListType.listOfUnits);
 		stateChanged();
 	}
 
@@ -688,9 +691,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 					}
 				}
 			}
-			return this;
 		}
-		return null;
+		return this;
 	}
 
 	/**
