@@ -2,7 +2,6 @@ package org.sbml.jsbml.sbmlExtensions.groups;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.xml.stax.SBaseListType;
 
 /**
  * This class represents the listOf extension for the group package

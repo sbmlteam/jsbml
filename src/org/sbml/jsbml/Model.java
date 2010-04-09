@@ -32,8 +32,6 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
-import org.sbml.jsbml.xml.stax.SBaseListType;
-
 /**
  * <p>
  * JSBML implementation of SBML's Model construct.
@@ -313,41 +311,67 @@ public class Model extends AbstractNamedSBase {
 	@SuppressWarnings("deprecation")
 	public void addChangeListener(SBaseChangedListener l) {
 		super.addChangeListener(l);
-		if (listOfFunctionDefinitions == null)
-			listOfFunctionDefinitions = new ListOf<FunctionDefinition>();
+		if (!isSetListOfFunctionDefinitions()) {
+			initListOf(
+					listOfFunctionDefinitions = new ListOf<FunctionDefinition>(),
+					ListOf.Type.listOfFunctionDefinitions);
+		}
 		listOfFunctionDefinitions.addChangeListener(l);
-		if (listOfUnitDefinitions == null)
-			listOfUnitDefinitions = new ListOf<UnitDefinition>();
+		if (!isSetListOfUnitDefinitions()) {
+			initListOf(listOfUnitDefinitions = new ListOf<UnitDefinition>(),
+					ListOf.Type.listOfUnitDefinitions);
+		}
 		listOfUnitDefinitions.addChangeListener(l);
-		if (listOfCompartmentTypes == null)
-			listOfCompartmentTypes = new ListOf<CompartmentType>();
+		if (!isSetListOfCompartmentTypes()) {
+			initListOf(listOfCompartmentTypes = new ListOf<CompartmentType>(),
+					ListOf.Type.listOfCompartmentTypes);
+		}
 		listOfCompartmentTypes.addChangeListener(l);
-		if (listOfSpeciesTypes == null)
-			listOfSpeciesTypes = new ListOf<SpeciesType>();
+		if (!isSetListOfSpeciesTypes()) {
+			initListOf(listOfSpeciesTypes = new ListOf<SpeciesType>(),
+					ListOf.Type.listOfSpeciesTypes);
+		}
 		listOfSpeciesTypes.addChangeListener(l);
-		if (listOfCompartments == null)
-			listOfCompartments = new ListOf<Compartment>();
+		if (!isSetListOfCompartments()) {
+			initListOf(listOfCompartments = new ListOf<Compartment>(),
+					ListOf.Type.listOfCompartments);
+		}
 		listOfCompartments.addChangeListener(l);
-		if (listOfSpecies == null)
-			listOfSpecies = new ListOf<Species>();
+		if (!isSetListOfSpecies()) {
+			initListOf(listOfSpecies = new ListOf<Species>(),
+					ListOf.Type.listOfSpecies);
+		}
 		listOfSpecies.addChangeListener(l);
-		if (listOfParameters == null)
-			listOfParameters = new ListOf<Parameter>();
+		if (!isSetListOfParameters()) {
+			initListOf(listOfParameters = new ListOf<Parameter>(),
+					ListOf.Type.listOfParameters);
+		}
 		listOfParameters.addChangeListener(l);
-		if (listOfInitialAssignments == null)
-			listOfInitialAssignments = new ListOf<InitialAssignment>();
+		if (!isSetListOfInitialAssignments()) {
+			initListOf(
+					listOfInitialAssignments = new ListOf<InitialAssignment>(),
+					ListOf.Type.listOfInitialAssignments);
+		}
 		listOfInitialAssignments.addChangeListener(l);
-		if (listOfRules == null)
-			listOfRules = new ListOf<Rule>();
+		if (!isSetListOfRules()) {
+			initListOf(listOfRules = new ListOf<Rule>(),
+					ListOf.Type.listOfRules);
+		}
 		listOfRules.addChangeListener(l);
-		if (listOfConstraints == null)
-			listOfConstraints = new ListOf<Constraint>();
+		if (!isSetListOfConstraints()) {
+			initListOf(listOfConstraints = new ListOf<Constraint>(),
+					ListOf.Type.listOfConstraints);
+		}
 		listOfConstraints.addChangeListener(l);
-		if (listOfReactions == null)
-			listOfReactions = new ListOf<Reaction>();
+		if (!isSetListOfReactions()) {
+			initListOf(listOfReactions = new ListOf<Reaction>(),
+					ListOf.Type.listOfReactions);
+		}
 		listOfReactions.addChangeListener(l);
-		if (listOfEvents == null)
-			listOfEvents = new ListOf<Event>();
+		if (!isSetListOfEvents()) {
+			initListOf(listOfEvents = new ListOf<Event>(),
+					ListOf.Type.listOfEvents);
+		}
 		listOfEvents.addChangeListener(l);
 	}
 
@@ -1532,6 +1556,10 @@ public class Model extends AbstractNamedSBase {
 	 *         set.
 	 */
 	public ListOf<Compartment> getListOfCompartments() {
+		if (!isSetListOfCompartments()) {
+			initListOf(listOfCompartments = new ListOf<Compartment>(),
+					ListOf.Type.listOfCompartments);
+		}
 		return listOfCompartments;
 	}
 
@@ -1542,6 +1570,10 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public ListOf<CompartmentType> getListOfCompartmentTypes() {
+		if (!isSetListOfCompartmentTypes()) {
+			initListOf(listOfCompartmentTypes = new ListOf<CompartmentType>(),
+					ListOf.Type.listOfCompartments);
+		}
 		return listOfCompartmentTypes;
 	}
 
@@ -1550,6 +1582,10 @@ public class Model extends AbstractNamedSBase {
 	 *         set.
 	 */
 	public ListOf<Constraint> getListOfConstraints() {
+		if (!isSetListOfConstraints()) {
+			initListOf(listOfConstraints = new ListOf<Constraint>(),
+					ListOf.Type.listOfConstraints);
+		}
 		return listOfConstraints;
 	}
 
@@ -1558,6 +1594,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return the listOfEvents of this Model. Can be null if it is not set.
 	 */
 	public ListOf<Event> getListOfEvents() {
+		if (!isSetListOfEvents()) {
+			initListOf(listOfEvents = new ListOf<Event>(),
+					ListOf.Type.listOfEvents);
+		}
 		return listOfEvents;
 	}
 
@@ -1567,6 +1607,11 @@ public class Model extends AbstractNamedSBase {
 	 *         not set.
 	 */
 	public ListOf<FunctionDefinition> getListOfFunctionDefinitions() {
+		if (!isSetListOfFunctionDefinitions()) {
+			initListOf(
+					listOfFunctionDefinitions = new ListOf<FunctionDefinition>(),
+					ListOf.Type.listOfFunctionDefinitions);
+		}
 		return listOfFunctionDefinitions;
 	}
 
@@ -1575,6 +1620,11 @@ public class Model extends AbstractNamedSBase {
 	 *         not set.
 	 */
 	public ListOf<InitialAssignment> getListOfInitialAssignments() {
+		if (!isSetListOfInitialAssignments()) {
+			initListOf(
+					listOfInitialAssignments = new ListOf<InitialAssignment>(),
+					ListOf.Type.listOfInitialAssignments);
+		}
 		return listOfInitialAssignments;
 	}
 
@@ -1583,6 +1633,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return the listOfParameters of this Model. Can be null if it is not set.
 	 */
 	public ListOf<Parameter> getListOfParameters() {
+		if (!isSetListOfParameters()) {
+			initListOf(listOfParameters = new ListOf<Parameter>(),
+					ListOf.Type.listOfParameters);
+		}
 		return listOfParameters;
 	}
 
@@ -1591,6 +1645,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return the listOfReactions of this Model. Can be null if it is not set.
 	 */
 	public ListOf<Reaction> getListOfReactions() {
+		if (!isSetListOfReactions()) {
+			initListOf(listOfReactions = new ListOf<Reaction>(),
+					ListOf.Type.listOfReactions);
+		}
 		return listOfReactions;
 	}
 
@@ -1599,6 +1657,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return the listOfRules of this Model. Can be null if it is not set.
 	 */
 	public ListOf<Rule> getListOfRules() {
+		if (!isSetListOfRules()) {
+			initListOf(listOfRules = new ListOf<Rule>(),
+					ListOf.Type.listOfRules);
+		}
 		return listOfRules;
 	}
 
@@ -1607,6 +1669,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return the listOfSpecies of this Model. Can be null if it is not set.
 	 */
 	public ListOf<Species> getListOfSpecies() {
+		if (!isSetListOfSpecies()) {
+			initListOf(listOfSpecies = new ListOf<Species>(),
+					ListOf.Type.listOfSpecies);
+		}
 		return listOfSpecies;
 	}
 
@@ -1617,6 +1683,10 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public ListOf<SpeciesType> getListOfSpeciesTypes() {
+		if (!isSetListOfSpeciesTypes()) {
+			initListOf(listOfSpeciesTypes = new ListOf<SpeciesType>(),
+					ListOf.Type.listOfSpeciesTypes);
+		}
 		return listOfSpeciesTypes;
 	}
 
@@ -1626,6 +1696,10 @@ public class Model extends AbstractNamedSBase {
 	 *         set.
 	 */
 	public ListOf<UnitDefinition> getListOfUnitDefinitions() {
+		if (!isSetListOfUnitDefinitions()) {
+			initListOf(listOfUnitDefinitions = new ListOf<UnitDefinition>(),
+					ListOf.Type.listOfUnitDefinitions);
+		}
 		return listOfUnitDefinitions;
 	}
 
@@ -2105,6 +2179,19 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public boolean hasUnit(String id) {
 		return getUnitDefinition(id) != null;
+	}
+
+	/**
+	 * Helper method to initialize newly created lists.
+	 * 
+	 * @param list
+	 * @param type
+	 */
+	private void initListOf(ListOf<?> list, ListOf.Type type) {
+		list.setLevel(getLevel());
+		list.setVersion(getVersion());
+		setThisAsParentSBMLObject(list);
+		list.setSBaseListType(type);
 	}
 
 	/**
@@ -2751,7 +2838,7 @@ public class Model extends AbstractNamedSBase {
 		this.listOfCompartments = listOfCompartments;
 		setThisAsParentSBMLObject(this.listOfCompartments);
 		this.listOfCompartments
-				.setSBaseListType(SBaseListType.listOfCompartments);
+				.setSBaseListType(ListOf.Type.listOfCompartments);
 		stateChanged();
 	}
 
@@ -2769,7 +2856,7 @@ public class Model extends AbstractNamedSBase {
 		this.listOfCompartmentTypes = listOfCompartmentTypes;
 		setThisAsParentSBMLObject(this.listOfCompartmentTypes);
 		this.listOfCompartmentTypes
-				.setSBaseListType(SBaseListType.listOfCompartmentTypes);
+				.setSBaseListType(ListOf.Type.listOfCompartmentTypes);
 		stateChanged();
 	}
 
@@ -2784,8 +2871,7 @@ public class Model extends AbstractNamedSBase {
 	public void setListOfConstraints(ListOf<Constraint> listOfConstraints) {
 		this.listOfConstraints = listOfConstraints;
 		setThisAsParentSBMLObject(this.listOfConstraints);
-		this.listOfConstraints
-				.setSBaseListType(SBaseListType.listOfConstraints);
+		this.listOfConstraints.setSBaseListType(ListOf.Type.listOfConstraints);
 		stateChanged();
 
 	}
@@ -2799,7 +2885,7 @@ public class Model extends AbstractNamedSBase {
 	public void setListOfEvents(ListOf<Event> listOfEvents) {
 		this.listOfEvents = listOfEvents;
 		setThisAsParentSBMLObject(this.listOfEvents);
-		this.listOfEvents.setSBaseListType(SBaseListType.listOfEvents);
+		this.listOfEvents.setSBaseListType(ListOf.Type.listOfEvents);
 		stateChanged();
 	}
 
@@ -2816,7 +2902,7 @@ public class Model extends AbstractNamedSBase {
 		this.listOfFunctionDefinitions = listOfFunctionDefinitions;
 		setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
 		this.listOfFunctionDefinitions
-				.setSBaseListType(SBaseListType.listOfFunctionDefinitions);
+				.setSBaseListType(ListOf.Type.listOfFunctionDefinitions);
 
 		stateChanged();
 	}
@@ -2834,7 +2920,7 @@ public class Model extends AbstractNamedSBase {
 		this.listOfInitialAssignments = listOfInitialAssignments;
 		setThisAsParentSBMLObject(this.listOfInitialAssignments);
 		this.listOfInitialAssignments
-				.setSBaseListType(SBaseListType.listOfInitialAssignments);
+				.setSBaseListType(ListOf.Type.listOfInitialAssignments);
 		stateChanged();
 
 	}
@@ -2849,7 +2935,7 @@ public class Model extends AbstractNamedSBase {
 	public void setListOfParameters(ListOf<Parameter> listOfParameters) {
 		this.listOfParameters = listOfParameters;
 		setThisAsParentSBMLObject(this.listOfParameters);
-		this.listOfParameters.setSBaseListType(SBaseListType.listOfParameters);
+		this.listOfParameters.setSBaseListType(ListOf.Type.listOfParameters);
 
 		stateChanged();
 	}
@@ -2864,7 +2950,7 @@ public class Model extends AbstractNamedSBase {
 	public void setListOfReactions(ListOf<Reaction> listOfReactions) {
 		this.listOfReactions = listOfReactions;
 		setThisAsParentSBMLObject(this.listOfReactions);
-		this.listOfReactions.setSBaseListType(SBaseListType.listOfReactions);
+		this.listOfReactions.setSBaseListType(ListOf.Type.listOfReactions);
 
 		stateChanged();
 	}
@@ -2878,7 +2964,7 @@ public class Model extends AbstractNamedSBase {
 	public void setListOfRules(ListOf<Rule> listOfRules) {
 		this.listOfRules = listOfRules;
 		setThisAsParentSBMLObject(this.listOfRules);
-		this.listOfRules.setSBaseListType(SBaseListType.listOfRules);
+		this.listOfRules.setSBaseListType(ListOf.Type.listOfRules);
 
 		stateChanged();
 	}
@@ -2892,7 +2978,7 @@ public class Model extends AbstractNamedSBase {
 	public void setListOfSpecies(ListOf<Species> listOfSpecies) {
 		this.listOfSpecies = listOfSpecies;
 		setThisAsParentSBMLObject(this.listOfSpecies);
-		this.listOfSpecies.setSBaseListType(SBaseListType.listOfSpecies);
+		this.listOfSpecies.setSBaseListType(ListOf.Type.listOfSpecies);
 
 		stateChanged();
 	}
@@ -2910,7 +2996,7 @@ public class Model extends AbstractNamedSBase {
 		this.listOfSpeciesTypes = listOfSpeciesTypes;
 		setThisAsParentSBMLObject(this.listOfSpeciesTypes);
 		this.listOfSpeciesTypes
-				.setSBaseListType(SBaseListType.listOfSpeciesTypes);
+				.setSBaseListType(ListOf.Type.listOfSpeciesTypes);
 
 		stateChanged();
 	}
@@ -2927,7 +3013,7 @@ public class Model extends AbstractNamedSBase {
 		this.listOfUnitDefinitions = listOfUnitDefinitions;
 		setThisAsParentSBMLObject(this.listOfUnitDefinitions);
 		this.listOfUnitDefinitions
-				.setSBaseListType(SBaseListType.listOfUnitDefinitions);
+				.setSBaseListType(ListOf.Type.listOfUnitDefinitions);
 		stateChanged();
 	}
 

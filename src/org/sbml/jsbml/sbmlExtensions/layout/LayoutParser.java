@@ -39,7 +39,6 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
-import org.sbml.jsbml.xml.stax.SBaseListType;
 import org.sbml.jsbml.xml.stax.WritingParser;
 
 /**
@@ -105,7 +104,7 @@ public class LayoutParser implements ReadingParser, WritingParser{
 			Model model = (Model) contextObject;
 			if (elementName.equals("listOfLayouts")){
 				ListOf<Layout> listOfLayouts = new ListOf<Layout>();
-				listOfLayouts.setSBaseListType(SBaseListType.other);
+				listOfLayouts.setSBaseListType(ListOf.Type.other);
 				listOfLayouts.addNamespace(namespaceURI);
 				this.groupList = LayoutList.listOfLayouts;
 				
@@ -120,7 +119,7 @@ public class LayoutParser implements ReadingParser, WritingParser{
 			Layout layout = (Layout) contextObject;
 			if (elementName.equals("listOfSpeciesGlyphs")){
 				ListOf<SpeciesGlyph> listOfSpeciesGlyphs = new ListOf<SpeciesGlyph>();
-				listOfSpeciesGlyphs.setSBaseListType(SBaseListType.other);
+				listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
 				listOfSpeciesGlyphs.addNamespace(namespaceURI);
 				this.groupList = LayoutList.listOfSpeciesGlyphs;
 				

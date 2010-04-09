@@ -36,8 +36,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.sbml.jsbml.xml.stax.SBaseListType;
-
 import org.sbml.jsbml.CVTerm.Qualifier;
 
 /**
@@ -56,10 +54,101 @@ import org.sbml.jsbml.CVTerm.Qualifier;
 public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/**
+	 * This enum lists all the possible names of the listXXX components. If the
+	 * listXXX is a SBML package extension, the SBaseListType value to set would be
+	 * 'other'.
+	 * 
+	 * @author marine
+	 * 
+	 */
+	public static enum Type {
+		/**
+		 * 
+		 */
+		none,
+		/**
+		 * 
+		 */
+		other,
+		/**
+		 * 
+		 */
+		listOfFunctionDefinitions,
+		/**
+		 * 
+		 */
+		listOfUnitDefinitions,
+		/**
+		 * 
+		 */
+		listOfCompartments,
+		/**
+		 * 
+		 */
+		listOfSpecies,
+		/**
+		 * 
+		 */
+		listOfParameters,
+		/**
+		 * 
+		 */
+		listOfInitialAssignments,
+		/**
+		 * 
+		 */
+		listOfRules,
+		/**
+		 * 
+		 */
+		listOfReactants,
+		/**
+		 * 
+		 */
+		listOfProducts,
+		/**
+		 * 
+		 */
+		listOfEventAssignments,
+		/**
+		 * 
+		 */
+		listOfModifiers,
+		/**
+		 * 
+		 */
+		listOfConstraints,
+		/**
+		 * 
+		 */
+		listOfReactions,
+		/**
+		 * 
+		 */
+		listOfEvents,
+		/**
+		 * 
+		 */
+		listOfUnits,
+		/**
+		 * 
+		 */
+		listOfLocalParameters,
+		/**
+		 * 
+		 */
+		listOfCompartmentTypes,
+		/**
+		 * 
+		 */
+		listOfSpeciesTypes
+	}
+	
+	/**
 	 * name of the list at it appears in the SBMLFile. By default, it is
 	 * SBaseListType.none.
 	 */
-	private SBaseListType currentList = SBaseListType.none;
+	private Type currentList = Type.none;
 	/**
 	 * list containing all the SBase elements of this object.
 	 */
@@ -133,6 +222,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 					}
 				}
 			}
+		}
+		for (SBaseChangedListener l : setOfListeners) {
+			e.addChangeListener(l);
 		}
 		return listOf.add(e);
 	}
@@ -308,7 +400,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * 
 	 * @return the SBaseListType of this ListOf instance
 	 */
-	public SBaseListType getSBaseListType() {
+	public Type getSBaseListType() {
 		return currentList;
 	}
 
@@ -384,7 +476,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.LinkedList#remove(int index)
 	 */
 	public T remove(int index) {
-		return listOf.remove(index);
+		T t = listOf.remove(index);
+		t.sbaseRemoved();
+		return t;
 	}
 
 	/**
@@ -500,7 +594,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * 
 	 * @param currentList
 	 */
-	public void setSBaseListType(SBaseListType currentList) {
+	public void setSBaseListType(Type currentList) {
 		this.currentList = currentList;
 		stateChanged();
 	}
@@ -556,7 +650,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * Sets the SBaseListType of this ListOf to SBaseListType.none.
 	 */
 	public void unsetSBaseListType() {
-		this.currentList = SBaseListType.none;
+		this.currentList = Type.none;
 	}
 
 	/*

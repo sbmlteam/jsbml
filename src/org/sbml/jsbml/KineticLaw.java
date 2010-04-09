@@ -32,8 +32,6 @@ package org.sbml.jsbml;
 import java.util.HashMap;
 import java.util.List;
 
-import org.sbml.jsbml.xml.stax.SBaseListType;
-
 /**
  * Represents the kineticLaw XML element of a SBML file.
  * 
@@ -508,7 +506,7 @@ public class KineticLaw extends MathContainer {
 		this.listOfParameters = list;
 		setThisAsParentSBMLObject(this.listOfParameters);
 		this.listOfParameters
-				.setSBaseListType(SBaseListType.listOfLocalParameters);
+				.setSBaseListType(ListOf.Type.listOfLocalParameters);
 	}
 
 	/**

@@ -31,8 +31,6 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
-import org.sbml.jsbml.xml.stax.SBaseListType;
-
 /**
  * Represents the reaction XML element of a SBML file.
  * 
@@ -975,7 +973,7 @@ public class Reaction extends AbstractNamedSBase {
 	public void setListOfModifiers(ListOf<ModifierSpeciesReference> list) {
 		this.listOfModifiers = list;
 		setThisAsParentSBMLObject(this.listOfModifiers);
-		this.listOfModifiers.setSBaseListType(SBaseListType.listOfModifiers);
+		this.listOfModifiers.setSBaseListType(ListOf.Type.listOfModifiers);
 		stateChanged();
 	}
 
@@ -988,7 +986,7 @@ public class Reaction extends AbstractNamedSBase {
 	public void setListOfProducts(ListOf<SpeciesReference> list) {
 		this.listOfProducts = list;
 		setThisAsParentSBMLObject(this.listOfProducts);
-		this.listOfProducts.setSBaseListType(SBaseListType.listOfProducts);
+		this.listOfProducts.setSBaseListType(ListOf.Type.listOfProducts);
 
 		stateChanged();
 	}
@@ -1002,7 +1000,7 @@ public class Reaction extends AbstractNamedSBase {
 	public void setListOfReactants(ListOf<SpeciesReference> list) {
 		this.listOfReactants = list;
 		setThisAsParentSBMLObject(this.listOfReactants);
-		this.listOfReactants.setSBaseListType(SBaseListType.listOfReactants);
+		this.listOfReactants.setSBaseListType(ListOf.Type.listOfReactants);
 
 		stateChanged();
 	}

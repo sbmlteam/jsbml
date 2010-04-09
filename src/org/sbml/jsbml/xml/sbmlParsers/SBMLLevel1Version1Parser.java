@@ -30,7 +30,6 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
-import org.sbml.jsbml.xml.stax.SBaseListType;
 import org.sbml.jsbml.xml.stax.WritingParser;
 
 public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser{
@@ -179,43 +178,43 @@ private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
 					if (list.getParentSBMLObject() instanceof Model){
 						
 						Model model = (Model) list.getParentSBMLObject();
-						if (elementName.equals("unitDefinition") && list.getSBaseListType().equals(SBaseListType.listOfUnitDefinitions)){
+						if (elementName.equals("unitDefinition") && list.getSBaseListType().equals(ListOf.Type.listOfUnitDefinitions)){
 							UnitDefinition unitDefinition = (UnitDefinition) newContextObject;
 							model.addUnitDefinition(unitDefinition);
 						
 							return unitDefinition;
 						}
-						else if (elementName.equals("compartment") && list.getSBaseListType().equals(SBaseListType.listOfCompartments)){
+						else if (elementName.equals("compartment") && list.getSBaseListType().equals(ListOf.Type.listOfCompartments)){
 							Compartment compartment = (Compartment) newContextObject;
 							model.addCompartment(compartment);
 						
 							return compartment;
 						}
-						else if (elementName.equals("specie") && list.getSBaseListType().equals(SBaseListType.listOfSpecies)){
+						else if (elementName.equals("specie") && list.getSBaseListType().equals(ListOf.Type.listOfSpecies)){
 							Species species = (Species) newContextObject;
 							model.addSpecies(species);
 
 							return species;
 						}
-						else if (elementName.equals("parameter") && list.getSBaseListType().equals(SBaseListType.listOfParameters)){
+						else if (elementName.equals("parameter") && list.getSBaseListType().equals(ListOf.Type.listOfParameters)){
 							Parameter parameter = (Parameter) newContextObject;
 							model.addParameter(parameter);
 						
 							return parameter;
 						}
-						else if (elementName.equals("algebraicRule") && list.getSBaseListType().equals(SBaseListType.listOfRules)){
+						else if (elementName.equals("algebraicRule") && list.getSBaseListType().equals(ListOf.Type.listOfRules)){
 							AlgebraicRule rule = (AlgebraicRule) newContextObject;
 							model.addRule(rule);
 						
 							return rule;
 						}
-						else if (elementName.equals("assignmentRule") && list.getSBaseListType().equals(SBaseListType.listOfRules)){
+						else if (elementName.equals("assignmentRule") && list.getSBaseListType().equals(ListOf.Type.listOfRules)){
 							AssignmentRule rule = (AssignmentRule) newContextObject;
 							model.addRule(rule);
 						
 							return rule;
 						}
-						else if (elementName.equals("reaction") && list.getSBaseListType().equals(SBaseListType.listOfReactions)){
+						else if (elementName.equals("reaction") && list.getSBaseListType().equals(ListOf.Type.listOfReactions)){
 							Reaction reaction = (Reaction) newContextObject;
 							model.addReaction(reaction);
 						
@@ -228,7 +227,7 @@ private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
 					else if (list.getParentSBMLObject() instanceof UnitDefinition){
 						UnitDefinition unitDefinition = (UnitDefinition) list.getParentSBMLObject();
 						
-						if (elementName.equals("unit") && list.getSBaseListType().equals(SBaseListType.listOfUnits)){
+						if (elementName.equals("unit") && list.getSBaseListType().equals(ListOf.Type.listOfUnits)){
 							Unit unit = (Unit) newContextObject;
 							unitDefinition.addUnit(unit);
 							
@@ -244,12 +243,12 @@ private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
 						if (elementName.equals("specieReference")){
 							SpeciesReference speciesReference = (SpeciesReference) newContextObject;
 							
-							if (list.getSBaseListType().equals(SBaseListType.listOfReactants)){
+							if (list.getSBaseListType().equals(ListOf.Type.listOfReactants)){
 								reaction.addReactant(speciesReference);
 								
 								return speciesReference;
 							}
-							else if (list.getSBaseListType().equals(SBaseListType.listOfProducts)){
+							else if (list.getSBaseListType().equals(ListOf.Type.listOfProducts)){
 								reaction.addProduct(speciesReference);
 								
 								return speciesReference;
@@ -265,7 +264,7 @@ private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
 					else if (list.getParentSBMLObject() instanceof KineticLaw){
 						KineticLaw kineticLaw = (KineticLaw) list.getParentSBMLObject();
 						
-						if (elementName.equals("parameter") && list.getSBaseListType().equals(SBaseListType.listOfParameters)){
+						if (elementName.equals("parameter") && list.getSBaseListType().equals(ListOf.Type.listOfParameters)){
 							Parameter localParameter = (Parameter) newContextObject;
 							kineticLaw.addParameter(localParameter);
 							
@@ -295,14 +294,14 @@ private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
 					if (elementName.equals("listOfReactants")){
 						ListOf listOfReactants = (ListOf) newContextObject;
 						reaction.setListOfReactants(listOfReactants);
-						listOfReactants.setSBaseListType(SBaseListType.listOfReactants);
+						listOfReactants.setSBaseListType(ListOf.Type.listOfReactants);
 						
 						return listOfReactants;
 					}
 					else if (elementName.equals("listOfProducts")){
 						ListOf listOfProducts = (ListOf) newContextObject;
 						reaction.setListOfProducts(listOfProducts);
-						listOfProducts.setSBaseListType(SBaseListType.listOfProducts);
+						listOfProducts.setSBaseListType(ListOf.Type.listOfProducts);
 
 						return listOfProducts;
 					}
@@ -322,7 +321,7 @@ private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
 					if (elementName.equals("listOfParameters")){
 						ListOf listOfLocalParameters = (ListOf) newContextObject;
 						kineticLaw.setListOfLocalParameters(listOfLocalParameters);
-						listOfLocalParameters.setSBaseListType(SBaseListType.listOfParameters);
+						listOfLocalParameters.setSBaseListType(ListOf.Type.listOfParameters);
 						
 						return listOfLocalParameters;
 					}

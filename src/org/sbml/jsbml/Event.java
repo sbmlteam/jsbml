@@ -31,8 +31,6 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
-import org.sbml.jsbml.xml.stax.SBaseListType;
-
 /**
  * Represents the event XML element of a SBML file.
  * 
@@ -433,7 +431,7 @@ public class Event extends AbstractNamedSBase {
 			ListOf<EventAssignment> listOfEventAssignments) {
 		this.listOfEventAssignments = listOfEventAssignments;
 		this.listOfEventAssignments
-				.setSBaseListType(SBaseListType.listOfEventAssignments);
+				.setSBaseListType(ListOf.Type.listOfEventAssignments);
 		setThisAsParentSBMLObject(this.listOfEventAssignments);
 		stateChanged();
 	}
