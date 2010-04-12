@@ -29,6 +29,7 @@
  */
 package org.sbml.jsbml.util;
 
+
 /**
  * This class provides a collection of convenient methods for manipulating
  * Strings.
@@ -117,7 +118,7 @@ public class StringTools {
 	public static final String toString(double value) {
 		if (((int) value) - value == 0)
 			return Integer.toString((int) value);
-		return String.format("%f", value);
+		return String.format("%.3f", value);
 	}
 
 }
