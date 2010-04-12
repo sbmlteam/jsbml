@@ -32,7 +32,6 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
-import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -193,7 +192,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		for (int i = 0; i < ud.getNumUnits(); i++) {
 			Unit unit = ud.getUnit(i);
 			if (i > 0) {
-				sb.append(' ');
+				sb.append('*'); // multiplication dot \u22c5.
 			}
 			if (compact) {
 				sb.append(unit.toString());
@@ -216,17 +215,22 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 *            the UnitDefinition object whose units are to be reordered.
 	 */
 	public static void reorder(UnitDefinition ud) {
-		ListOf<Unit> units = new ListOf<Unit>(ud.getLevel(), ud.getVersion());
-		ListOf<Unit> orig = ud.getListOfUnits();
-		int i, j;
-		for (i = orig.size() - 1; i >= 0; i--) {
-			Unit u = orig.remove(i);
-			j = 0;
-			while (0 < u.getKind().compareTo(units.get(j).getKind()))
-				j--;
-			units.add(Math.max(0, j - 1), u);
+		if (1 < ud.getNumUnits()) {
+			ListOf<Unit> orig = ud.getListOfUnits();
+			ListOf<Unit> units = new ListOf<Unit>(ud.getLevel(), ud
+					.getVersion());
+			orig.removeAllSBaseChangeListeners();
+			units.add(orig.remove(orig.size() - 1));
+			int i, j;
+			for (i = orig.size() - 1; i >= 0; i--) {
+				Unit u = orig.remove(i);
+				for (j = 0; j < units.size()
+						&& 0 < u.getKind().compareTo(units.get(j).getKind()); j++)
+					;
+				units.add(j, u);
+			}
+			ud.setListOfUnits(units);
 		}
-		ud.setListOfUnits(units);
 	}
 
 	/**
@@ -689,8 +693,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				Unit u = getUnit(i); // current unit
 				Unit s = getUnit(i + 1); // successor unit
 				if (Unit.Kind.areEquivalent(u.getKind(), s.getKind())
-						|| u.getKind() == Kind.DIMENSIONLESS
-						|| s.getKind() == Kind.DIMENSIONLESS) {
+						|| u.isDimensionless() || s.isDimensionless()) {
 					Unit.merge(u, removeUnit(i + 1));
 					if (u.isDimensionless() && i == 0 && getNumUnits() > 1) {
 						Unit.merge(getUnit(i + 1), removeUnit(i));
@@ -699,23 +702,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 			}
 		}
 		return this;
-	}
-
-	/**
-	 * Creates an HTML string representation of this UnitDefinition.
-	 * 
-	 * @return
-	 */
-	public String toHTML() {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < getNumUnits(); i++) {
-			Unit unit = getUnit(i);
-			if (i > 0) {
-				sb.append(" &#8901; ");
-			}
-			sb.append(unit.toHTML());
-		}
-		return sb.toString();
 	}
 
 	/*

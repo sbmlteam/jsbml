@@ -267,7 +267,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public void clear() {
 		listOf.clear();
-
 	}
 
 	/*
@@ -303,7 +302,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	// @Override
 	public boolean equals(Object o) {
 		if (o instanceof ListOf<?>) {
 			boolean equals = super.equals(o);
@@ -319,7 +317,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * 
 	 * @see org.sbml.jsbml.SBase#equals(org.sbml.jsbml.SBase)
 	 */
-	// @Override
 	public boolean equals(SBase sbase) {
 		if (sbase instanceof ListOf<?>) {
 			ListOf<?> listOf = (ListOf<?>) sbase;
@@ -584,8 +581,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * 
 	 * @param listOf
 	 */
-	public void setListOf(LinkedList<T> listOf) {
-		this.listOf = listOf;
+	public void setListOf(List<T> listOf) {
+		this.listOf.clear();
+		listOf.addAll(listOf);
 		stateChanged();
 	}
 
@@ -622,8 +620,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * 
 	 * @see java.util.LinkedList#toArray()
 	 */
-	public Object[] toArray() {
-		return listOf.toArray();
+	public SBase[] toArray() {
+		return (SBase[]) listOf.toArray();
 	}
 
 	/*
