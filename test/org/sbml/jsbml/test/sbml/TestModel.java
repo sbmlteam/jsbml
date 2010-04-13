@@ -883,7 +883,7 @@ public class TestModel {
     o1 = M.createInitialAssignment();
     o2 = M.createInitialAssignment();
     o3 = M.createInitialAssignment();
-    o3.setSymbol("test");
+    o3.setState("test");
     assertTrue( M.removeInitialAssignment(0).equals(o1) );
     assertTrue( M.getNumInitialAssignments() == 2 );
     assertTrue( M.removeInitialAssignment(0).equals(o2) );

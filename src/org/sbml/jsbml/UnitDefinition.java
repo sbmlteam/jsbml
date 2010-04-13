@@ -189,21 +189,24 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public static String printUnits(UnitDefinition ud, boolean compact) {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < ud.getNumUnits(); i++) {
-			Unit unit = ud.getUnit(i);
-			if (i > 0) {
-				sb.append('*'); // multiplication dot \u22c5.
+		if (ud == null)
+			sb.append("null");
+		else
+			for (int i = 0; i < ud.getNumUnits(); i++) {
+				Unit unit = ud.getUnit(i);
+				if (i > 0) {
+					sb.append('*'); // multiplication dot \u22c5.
+				}
+				if (compact) {
+					sb.append(unit.toString());
+				} else {
+					sb.append(unit.getKind().getName().toLowerCase());
+					sb.append(String.format(
+							" (exponent = %d, multiplier = %s, scale = %d)",
+							unit.getExponent(), StringTools.toString(unit
+									.getMultiplier()), unit.getScale()));
+				}
 			}
-			if (compact) {
-				sb.append(unit.toString());
-			} else {
-				sb.append(unit.getKind().getName().toLowerCase());
-				sb.append(String.format(
-						" (exponent = %d, multiplier = %s, scale = %d)", unit
-								.getExponent(), StringTools.toString(unit
-								.getMultiplier()), unit.getScale()));
-			}
-		}
 		return sb.toString();
 	}
 

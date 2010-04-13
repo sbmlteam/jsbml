@@ -159,9 +159,9 @@ public class InitialAssignment extends MathContainer {
 	 * @return the symbol instance which has the symbolID of this
 	 *         InitialAssignment as id. Return null if it doesn't exist.
 	 */
-	public Symbol getSymbolInstance() {
+	public State getStateInstance() {
 		Model m = getModel();
-		return m != null ? m.findSymbol(this.symbolID) : null;
+		return m != null ? m.findState(this.symbolID) : null;
 	}
 
 	/**
@@ -171,7 +171,7 @@ public class InitialAssignment extends MathContainer {
 	 */
 	public boolean isSetSymbolInstance() {
 		Model m = getModel();
-		return m != null ? m.findSymbol(this.symbolID) != null : false;
+		return m != null ? m.findState(this.symbolID) != null : false;
 	}
 
 	/**
@@ -191,16 +191,16 @@ public class InitialAssignment extends MathContainer {
 	 *            : the symbol to set
 	 */
 	public void checkAndSetSymbol(String symbol) {
-		Symbol nsb = null;
+		State nsb = null;
 		Model m = getModel();
 		if (m != null) {
-			nsb = m.findSymbol(symbol);
+			nsb = m.findState(symbol);
 		}
 		if (nsb == null) {
 			throw new IllegalArgumentException(
 					"Only the id of an existing Species, Compartments, or Parameters allowed as symbols");
 		}
-		setSymbol(nsb);
+		setState(nsb.getId());
 		stateChanged();
 	}
 
@@ -210,7 +210,7 @@ public class InitialAssignment extends MathContainer {
 	 * @param symbol
 	 *            : the symbol to set
 	 */
-	public void setSymbol(String symbol) {
+	public void setState(String symbol) {
 		this.symbolID = symbol;
 		stateChanged();
 	}
@@ -219,11 +219,11 @@ public class InitialAssignment extends MathContainer {
 	 * Sets the symbolID of this InitialAssignment to the id of the Symbol
 	 * 'symbol'.
 	 * 
-	 * @param symbol
+	 * @param state
 	 *            : the symbol to set
 	 */
-	public void setSymbol(Symbol symbol) {
-		this.symbolID = symbol != null ? symbol.getId() : null;
+	public void setState(State state) {
+		this.symbolID = state != null ? state.getId() : null;
 		stateChanged();
 	}
 
@@ -248,7 +248,7 @@ public class InitialAssignment extends MathContainer {
 
 		if (!isAttributeRead) {
 			if (attributeName.equals("symbol")) {
-				this.setSymbol(value);
+				this.setState(value);
 				return true;
 			}
 		}

@@ -118,7 +118,7 @@ public class EventAssignment extends MathContainer {
 	 */
 	public boolean isSetVariableInstance() {
 		Model m = getModel();
-		return m != null ? m.findSymbol(this.variableID) != null : false;
+		return m != null ? m.findState(this.variableID) != null : false;
 	}
 
 	/**
@@ -144,9 +144,9 @@ public class EventAssignment extends MathContainer {
 	 *         Parameter) which has the variableID of this EventAssignment as
 	 *         id. Return null if it doesn't exist.
 	 */
-	public Symbol getVariableInstance() {
+	public State getVariableInstance() {
 		Model m = getModel();
-		return m != null ? m.findSymbol(this.variableID) : null;
+		return m != null ? m.findState(this.variableID) : null;
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class EventAssignment extends MathContainer {
 	 * 
 	 * @param variable
 	 */
-	public void setVariable(Symbol variable) {
+	public void setVariable(State variable) {
 		if ((variable instanceof Species) || variable instanceof Compartment
 				|| (variable instanceof Parameter)
 				|| (variable instanceof SpeciesReference)) {
@@ -178,7 +178,7 @@ public class EventAssignment extends MathContainer {
 	public void checkAndSetVariable(String variable) {
 		Model m = getModel();
 		if (m != null) {
-			Symbol nsb = getModel().findSymbol(variable);
+			State nsb = getModel().findState(variable);
 			if (nsb == null) {
 				throw new IllegalArgumentException(
 						"Only the id of an existing Species, Compartments, or Parameters allowed as variables");

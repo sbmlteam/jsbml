@@ -25,13 +25,14 @@ import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.SpeciesType;
-import org.sbml.jsbml.Symbol;
+import org.sbml.jsbml.State;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 import org.sbml.jsbml.xml.stax.WritingParser;
 
+@SuppressWarnings("deprecation")
 public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser{
 
 private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
@@ -620,7 +621,7 @@ private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
 							speciesReference = sr;
 							
 							if (speciesReference != null){
-								initialAssignment.setSymbol(speciesReference);
+								initialAssignment.setState(speciesReference);
 							}
 							else {
 								// TODO : the variable ID doesn't match a SBML component, throw an exception?
@@ -628,15 +629,15 @@ private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
 						}
 					}
 					else {
-						initialAssignment.setSymbol(parameter);
+						initialAssignment.setState(parameter);
 					}
 				}
 				else {
-					initialAssignment.setSymbol(species);
+					initialAssignment.setState(species);
 				}
 			}
 			else {
-				initialAssignment.setSymbol(compartment);
+				initialAssignment.setState(compartment);
 			}
 		}
 	}
@@ -990,7 +991,7 @@ private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
 				}
 				else if (sbase.getElementName().equals("assignementRule")){
 					AssignmentRule assignmentRule = (AssignmentRule) sbase;
-					Symbol variable = assignmentRule.getVariableInstance();
+					State variable = assignmentRule.getVariableInstance();
 					
 					if (variable instanceof Species){
 						xmlObject.setName("specieConcentrationRule");

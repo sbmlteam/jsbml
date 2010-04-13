@@ -44,7 +44,7 @@ import java.util.HashMap;
  * @opt types
  * @opt visibility
  */
-public abstract class SimpleSpeciesReference extends Symbol {
+public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 
 	/**
 	 * Represents the 'species' XML attribute.

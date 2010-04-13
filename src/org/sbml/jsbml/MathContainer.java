@@ -42,22 +42,23 @@ import java.util.HashMap;
  * @opt visibility
  * @composed 0..1 math 1 ASTNode
  */
-public abstract class MathContainer extends AbstractSBase {
+public abstract class MathContainer extends AbstractSBase implements Quantity {
 
-	/**
-	 * The math formula as a Tree.
-	 */
-	private ASTNode math;
-	/**
-	 * The MathMl subnodes as a StringBuffer.
-	 */
-	private StringBuffer mathBuffer;
 	/**
 	 * Represents the 'formula' XML attribute of this object.
 	 */
 	@Deprecated
 	private String formula;
 
+	/**
+	 * The math formula as a Tree.
+	 */
+	private ASTNode math;
+
+	/**
+	 * The MathMl subnodes as a StringBuffer.
+	 */
+	private StringBuffer mathBuffer;
 	/**
 	 * Creates a MathContainer instance. By default, the formula, math and
 	 * mathBuffer are null.
@@ -68,21 +69,6 @@ public abstract class MathContainer extends AbstractSBase {
 		this.mathBuffer = null;
 		this.formula = null;
 	}
-
-	/**
-	 * Creates a MathContainer instance from a level and version. By default,
-	 * the formula, math and mathBuffer are null.
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public MathContainer(int level, int version) {
-		super(level, version);
-		math = null;
-		this.mathBuffer = null;
-		this.formula = null;
-	}
-
 	/**
 	 * Creates a MathContainer instance from an ASTNode, level and version. By
 	 * default, the formula and mathBuffer are null.
@@ -100,6 +86,20 @@ public abstract class MathContainer extends AbstractSBase {
 		}
 		this.formula = null;
 		this.mathBuffer = null;
+	}
+
+	/**
+	 * Creates a MathContainer instance from a level and version. By default,
+	 * the formula, math and mathBuffer are null.
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public MathContainer(int level, int version) {
+		super(level, version);
+		math = null;
+		this.mathBuffer = null;
+		this.formula = null;
 	}
 
 	/**
@@ -170,6 +170,50 @@ public abstract class MathContainer extends AbstractSBase {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Quantity#getDerivedUnit()
+	 */
+	@SuppressWarnings("deprecation")
+	public String getDerivedUnits() {
+		UnitDefinition ud = getDerivedUnitDefinition();
+		Model m = getModel();
+		if (m != null) {
+			if (m.getUnitDefinition(ud.getId()) != null)
+				return ud.getId();
+		}
+		if (ud.getNumUnits() == 1) {
+			Unit u = ud.getUnit(0);
+			if (u.getOffset() == 0 && u.getMultiplier() == 1
+					&& u.getScale() == 0 && u.getExponent() == 1)
+				return u.getKind().toString();
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Quantity#getDerivedUnitInstance()
+	 */
+	public UnitDefinition getDerivedUnitDefinition() {
+		UnitDefinition ud = null;
+		if (isSetMath())
+			ud = math.deriveUnit();
+		if (ud != null) {
+			Model m = getModel();
+			if (m != null)
+				for (UnitDefinition u : m.getListOfUnitDefinitions()) {
+					if (UnitDefinition.areEquivalent(u, ud)) {
+						ud = u;
+						break;
+					}
+				}
+		}
+		return ud;
+	}
+
 	/**
 	 * 
 	 * @return the math ASTNode of this object as a String. It returns the empty
@@ -177,6 +221,15 @@ public abstract class MathContainer extends AbstractSBase {
 	 */
 	public String getFormula() {
 		return isSetMath() ? getMath().toFormula() : "";
+	}
+
+	/**
+	 * 
+	 * @return the formula of this object. If the formula is not set, it returns
+	 *         the empty String.
+	 */
+	public String getFormulaString() {
+		return isSetFormulaString() ? formula : "";
 	}
 
 	/**
@@ -190,6 +243,34 @@ public abstract class MathContainer extends AbstractSBase {
 
 	/**
 	 * 
+	 * @return the mathBuffer of this object. Null if it is not set.
+	 */
+	public StringBuffer getMathBuffer() {
+		return mathBuffer;
+	}
+
+	/**
+	 * 
+	 * @return the mathBuffer of this object as a String.
+	 */
+	public String getMathBufferToString() {
+		if (isSetMathBuffer()) {
+			return mathBuffer.toString();
+		}
+		return "";
+	}
+
+	/**
+	 * 
+	 * @return true if the formula of this Object is not null.
+	 */
+	@Deprecated
+	public boolean isSetFormulaString() {
+		return this.formula != null;
+	}
+
+	/**
+	 * 
 	 * @return true if the math ASTNode of this object is not null.
 	 */
 	public boolean isSetMath() {
@@ -197,35 +278,11 @@ public abstract class MathContainer extends AbstractSBase {
 	}
 
 	/**
-	 * Sets the mathematical expression of this KineticLaw instance to the given
-	 * formula.
 	 * 
-	 * @param formula
+	 * @return true if the mathBuffer of this object is not null.
 	 */
-	public void setFormula(String formula) {
-		math = ASTNode.parseFormula(formula);
-		stateChanged();
-	}
-
-	/**
-	 * Sets the math ASTNode of this object to 'math'.
-	 * 
-	 * @param math
-	 */
-	public void setMath(ASTNode math) {
-		this.math = math.clone();
-		this.math.parentSBMLObject = this;
-		stateChanged();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#toString()
-	 */
-	// @Override
-	public String toString() {
-		return isSetMath() ? math.toString() : "";
+	public boolean isSetMathBuffer() {
+		return this.mathBuffer != null;
 	}
 
 	/*
@@ -250,49 +307,14 @@ public abstract class MathContainer extends AbstractSBase {
 	}
 
 	/**
-	 * Sets the mathBuffer of this object to 'mathBuffer'.
+	 * Sets the mathematical expression of this KineticLaw instance to the given
+	 * formula.
 	 * 
-	 * @param mathBuffer
+	 * @param formula
 	 */
-	public void setMathBuffer(StringBuffer mathBuffer) {
-		this.mathBuffer = mathBuffer;
+	public void setFormula(String formula) {
+		math = ASTNode.parseFormula(formula);
 		stateChanged();
-	}
-
-	/**
-	 * 
-	 * @return the mathBuffer of this object. Null if it is not set.
-	 */
-	public StringBuffer getMathBuffer() {
-		return mathBuffer;
-	}
-
-	/**
-	 * 
-	 * @return true if the mathBuffer of this object is not null.
-	 */
-	public boolean isSetMathBuffer() {
-		return this.mathBuffer != null;
-	}
-
-	/**
-	 * 
-	 * @return the mathBuffer of this object as a String.
-	 */
-	public String getMathBufferToString() {
-		if (isSetMathBuffer()) {
-			return mathBuffer.toString();
-		}
-		return "";
-	}
-
-	/**
-	 * 
-	 * @return the formula of this object. If the formula is not set, it returns
-	 *         the empty String.
-	 */
-	public String getFormulaString() {
-		return isSetFormulaString() ? formula : "";
 	}
 
 	/**
@@ -307,12 +329,34 @@ public abstract class MathContainer extends AbstractSBase {
 	}
 
 	/**
+	 * Sets the math ASTNode of this object to 'math'.
 	 * 
-	 * @return true if the formula of this Object is not null.
+	 * @param math
 	 */
-	@Deprecated
-	public boolean isSetFormulaString() {
-		return this.formula != null;
+	public void setMath(ASTNode math) {
+		this.math = math.clone();
+		this.math.parentSBMLObject = this;
+		stateChanged();
+	}
+
+	/**
+	 * Sets the mathBuffer of this object to 'mathBuffer'.
+	 * 
+	 * @param mathBuffer
+	 */
+	public void setMathBuffer(StringBuffer mathBuffer) {
+		this.mathBuffer = mathBuffer;
+		stateChanged();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#toString()
+	 */
+	// @Override
+	public String toString() {
+		return isSetMath() ? math.toString() : "";
 	}
 
 	/*

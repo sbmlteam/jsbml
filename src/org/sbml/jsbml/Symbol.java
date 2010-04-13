@@ -33,8 +33,10 @@ package org.sbml.jsbml;
 import java.util.HashMap;
 
 /**
- * The base class for {@link SimpleSpeciesReference}, {@link Compartment},
- * {@link Species}, {@link Parameter}
+ * The base class for {@link Compartment}, {@link Species}, {@link Parameter}. A
+ * symbol is a {@link State} variable of the system that declares a unit and a
+ * value, i.e., neither its {@link Unit} or {@link UnitDefinition}, nor its
+ * value are derived. A Symbol defines both fields.
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
@@ -44,12 +46,19 @@ import java.util.HashMap;
  * @opt visibility
  * @has 0..1 units 1 UnitDefinition
  */
-public abstract class Symbol extends AbstractNamedSBase {
+public abstract class Symbol extends AbstractNamedSBase implements State {
 
 	/**
 	 * The constant attribute of this variable.
 	 */
 	protected Boolean constant;
+
+	/**
+	 * a boolean to help knowing is the value as been set by the user or is the
+	 * default one.
+	 */
+	private boolean isSetValue = false;
+
 	/**
 	 * The unit attribute of this variable.
 	 */
@@ -59,12 +68,6 @@ public abstract class Symbol extends AbstractNamedSBase {
 	 * variable.
 	 */
 	protected Double value = Double.NaN;
-
-	/**
-	 * a boolean to help knowing is the value as been set by the user or is the
-	 * default one.
-	 */
-	private boolean isSetValue = false;
 
 	/**
 	 * Creates a Symbol instance. By default, value, unitsID, constant are null.
@@ -161,12 +164,31 @@ public abstract class Symbol extends AbstractNamedSBase {
 		return false;
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the constant Boolean of this symbol.
+	 * @see org.sbml.jsbml.State#getConstant()
 	 */
 	public boolean getConstant() {
 		return isSetConstant() ? this.constant : false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Quantity#getDerivedUnit()
+	 */
+	public String getDerivedUnits() {
+		return getUnits();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Quantity#getDerivedUnitInstance()
+	 */
+	public UnitDefinition getDerivedUnitDefinition() {
+		return getUnitsInstance();
 	}
 
 	/**
@@ -200,12 +222,6 @@ public abstract class Symbol extends AbstractNamedSBase {
 		return model == null ? null : model.getUnitDefinition(unitsID);
 	}
 
-	// TODO : check that it is correct in case the unit is one of the supported
-	// kind directly.
-	public UnitDefinition getDerivedUnitDefinition() {
-		return getUnitsInstance();
-	}
-
 	/**
 	 * Returns the value of this variable. In Compartments the value is its
 	 * size, in Species the value defines its initial amount or concentration,
@@ -217,12 +233,30 @@ public abstract class Symbol extends AbstractNamedSBase {
 		return value != null ? value : 0;
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the constant value if it is set, false otherwise.
+	 * @see org.sbml.jsbml.State#isConstant()
 	 */
 	public boolean isConstant() {
-		return isSetConstant() ? constant : false;
+		return isSetConstant() ? constant.booleanValue() : false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.State#isSetConstant()
+	 */
+	public boolean isSetConstant() {
+		return this.constant != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the unitsID of this Symbol is not null.
+	 */
+	public boolean isSetUnits() {
+		return unitsID != null;
 	}
 
 	/**
@@ -238,35 +272,48 @@ public abstract class Symbol extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return true if the unitsID of this Symbol is not null.
-	 */
-	public boolean isSetUnits() {
-		return unitsID != null;
-	}
-
-	/**
-	 * 
 	 * @return true if the value of this Symbol is set.
 	 */
 	public boolean isSetValue() {
 		return isSetValue;
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return true if the constant Boolean of this Symbol is not null.
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
-	public boolean isSetConstant() {
-		return this.constant != null;
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		return isAttributeRead;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.State#setConstant(boolean)
+	 */
+	public void setConstant(boolean constant) {
+		this.constant = Boolean.valueOf(constant);
+		stateChanged();
 	}
 
 	/**
-	 * Sets the constant Boolean of this Symbol.
+	 * Sets the unitsID of this Symbol.
 	 * 
-	 * @param constant
+	 * @param units
 	 */
-	public void setConstant(Boolean constant) {
-		this.constant = constant;
+	public void setUnits(String units) {
+		if (units != null && units.trim().length() == 0) {
+			this.unitsID = null;
+		} else {
+			this.unitsID = units;
+		}
 		stateChanged();
 	}
 
@@ -318,20 +365,6 @@ public abstract class Symbol extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the unitsID of this Symbol.
-	 * 
-	 * @param units
-	 */
-	public void setUnits(String units) {
-		if (units != null && units.trim().length() == 0) {
-			this.unitsID = null;
-		} else {
-			this.unitsID = units;
-		}
-		stateChanged();
-	}
-
-	/**
 	 * Note that the meaning of the value can be different in all derived
 	 * classes. In Compartments the value defines its size. In Species the value
 	 * describes either the initial amount or the initial concentration. Only
@@ -364,21 +397,6 @@ public abstract class Symbol extends AbstractNamedSBase {
 		value = Double.NaN;
 		isSetValue = false;
 		stateChanged();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-
-		return isAttributeRead;
 	}
 
 	/*

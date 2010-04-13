@@ -153,9 +153,9 @@ public class RateRule extends Rule {
 	 * @return the Symbol instance which has the variableID of this RateRule as
 	 *         id. Null if it doesn't exist.
 	 */
-	public Symbol getVariableInstance() {
+	public State getVariableInstance() {
 		Model m = getModel();
-		return m != null ? m.findSymbol(this.variableID) : null;
+		return m != null ? m.findState(this.variableID) : null;
 	}
 
 	/*
@@ -197,7 +197,7 @@ public class RateRule extends Rule {
 	 */
 	public boolean isSetVariableInstance() {
 		Model m = getModel();
-		return m != null ? m.findSymbol(this.variableID) != null : false;
+		return m != null ? m.findState(this.variableID) != null : false;
 	}
 
 	/**
@@ -226,15 +226,15 @@ public class RateRule extends Rule {
 	 * @param variable
 	 */
 	public void checkAndSetVariable(String variable) {
-		Symbol nsb = null;
+		State nsb = null;
 		Model m = getModel();
 		if (m != null) {
-			nsb = m.findSymbol(variable);
+			nsb = m.findState(variable);
 		}
 		if (nsb == null)
 			throw new IllegalArgumentException(
 					"Only the id of an existing Species, SpeciesReferences, Compartments, or Parameters allowed as variables");
-		setVariable(nsb);
+		setVariable(nsb.getId());
 		stateChanged();
 	}
 
@@ -253,7 +253,7 @@ public class RateRule extends Rule {
 	 * 
 	 * @param variable
 	 */
-	public void setVariable(Symbol variable) {
+	public void setVariable(State variable) {
 		this.variableID = variable != null ? variable.getId() : null;
 		stateChanged();
 	}
