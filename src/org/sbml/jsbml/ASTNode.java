@@ -602,7 +602,7 @@ public class ASTNode implements TreeNode {
 		um.addChild(ast);
 		return um;
 	}
-	
+
 	/**
 	 * Creates a new ASTNode that has exactly one child and which is of type
 	 * minus, i.e., this negates what is encoded in ast.
@@ -2186,5 +2186,16 @@ public class ASTNode implements TreeNode {
 				break;
 			}
 		return isName() ? getName() : getType().toString();
+	}
+
+	/**
+	 * This method recursively evaluates this ASTNode and creates a new
+	 * UnitDefinition with respect of all referenced elements.
+	 * 
+	 * @return
+	 */
+	public UnitDefinition deriveUnit() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

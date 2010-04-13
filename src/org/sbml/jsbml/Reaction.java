@@ -47,7 +47,7 @@ import java.util.HashMap;
  * @composed 0..* modifier 1 ModifierSpeciesReference
  * @composed 0..1 kineticLaw 1 KineticLaw
  */
-public class Reaction extends AbstractNamedSBase {
+public class Reaction extends AbstractNamedSBase implements Quantity {
 
 	/**
 	 * Represents the 'compartment' XML attribute of a reaction element.
@@ -353,6 +353,26 @@ public class Reaction extends AbstractNamedSBase {
 	public Compartment getCompartmentInstance() {
 		Model m = getModel();
 		return m != null ? m.getCompartment(this.compartmentID) : null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Quantity#getDerivedUnit()
+	 */
+	public String getDerivedUnits() {
+		if (isSetKineticLaw())
+			return kineticLaw.getDerivedUnits();
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Quantity#getDerivedUnitInstance()
+	 */
+	public UnitDefinition getDerivedUnitDefinition() {
+		if (isSetKineticLaw())
+			return kineticLaw.getDerivedUnitDefinition();
+		return null;
 	}
 
 	/**
@@ -728,6 +748,21 @@ public class Reaction extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Checks whether the given list references the given species.
+	 * 
+	 * @param list
+	 * @param s
+	 * @return
+	 */
+	private boolean references(ListOf<? extends SimpleSpeciesReference> list,
+			Species s) {
+		for (SimpleSpeciesReference specRef : list)
+			if (specRef.getSpecies().equals(s.getId()))
+				return true;
+		return false;
+	}
+
+	/**
 	 * Removes the nth modifier species (ModifierSpeciesReference object) in the
 	 * list of modifiers in this Reaction and returns it.
 	 * 
@@ -1051,20 +1086,5 @@ public class Reaction extends AbstractNamedSBase {
 		}
 
 		return attributes;
-	}
-
-	/**
-	 * Checks whether the given list references the given species.
-	 * 
-	 * @param list
-	 * @param s
-	 * @return
-	 */
-	private boolean references(ListOf<? extends SimpleSpeciesReference> list,
-			Species s) {
-		for (SimpleSpeciesReference specRef : list)
-			if (specRef.getSpecies().equals(s.getId()))
-				return true;
-		return false;
 	}
 }

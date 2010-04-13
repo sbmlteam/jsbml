@@ -163,6 +163,14 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public Model() {
 		super();
+		initDefaults();
+	}
+
+	/**
+	 * This method ensures that for all constructors the same basic settings are
+	 * made upon creation of new instances of this type.
+	 */
+	private void initDefaults() {
 		listOfCompartments = null;
 		listOfCompartmentTypes = null;
 		listOfConstraints = null;
@@ -175,13 +183,47 @@ public class Model extends AbstractNamedSBase {
 		listOfSpecies = null;
 		listOfSpeciesTypes = null;
 		listOfUnitDefinitions = null;
-		substanceUnitsID = null;
-		timeUnitsID = null;
-		volumeUnitsID = null;
-		areaUnitsID = null;
-		lengthUnitsID = null;
-		extentUnitsID = null;
-		conversionFactorID = null;
+		switch (getLevel()) {
+		// TODO!!! Default settings for all Level/Version combinations
+		case 1:
+			substanceUnitsID = null;
+			timeUnitsID = null;
+			volumeUnitsID = null;
+			areaUnitsID = null;
+			lengthUnitsID = null;
+			extentUnitsID = null;
+			conversionFactorID = null;
+			break;
+		case 2:
+			listOfUnitDefinitions = new ListOf<UnitDefinition>();
+			UnitDefinition p = UnitDefinition.area(getLevel(), getVersion());
+			areaUnitsID = p.getId();
+			listOfUnitDefinitions.add(p);
+			p = UnitDefinition.length(getLevel(), getVersion());
+			lengthUnitsID = p.getId();
+			listOfUnitDefinitions.add(p);
+			p = UnitDefinition.substance(getLevel(), getVersion());
+			substanceUnitsID = p.getId();
+			listOfUnitDefinitions.add(p);
+			p = UnitDefinition.time(getLevel(), getVersion());
+			timeUnitsID = p.getId();
+			listOfUnitDefinitions.add(p);
+			p = UnitDefinition.volume(getLevel(), getVersion());
+			volumeUnitsID = p.getId();
+			listOfUnitDefinitions.add(p);
+			extentUnitsID = null;
+			conversionFactorID = null;
+			break;
+		default:
+			substanceUnitsID = null;
+			timeUnitsID = null;
+			volumeUnitsID = null;
+			areaUnitsID = null;
+			lengthUnitsID = null;
+			extentUnitsID = null;
+			conversionFactorID = null;
+			break;
+		}
 	}
 
 	/**
@@ -200,74 +242,51 @@ public class Model extends AbstractNamedSBase {
 	@SuppressWarnings("deprecation")
 	public Model(Model model) {
 		super(model);
+		initDefaults();
 		if (model.isSetListOfFunctionDefinitions()) {
 			setListOfFunctionDefinitions((ListOf<FunctionDefinition>) model
 					.getListOfFunctionDefinitions().clone());
-		} else {
-			this.listOfFunctionDefinitions = null;
 		}
 		if (model.isSetListOfUnitDefinitions()) {
 			setListOfUnitDefinitions((ListOf<UnitDefinition>) model
 					.getListOfUnitDefinitions().clone());
-		} else {
-			this.listOfUnitDefinitions = null;
 		}
 		if (model.isSetListOfCompartmentTypes()) {
 			setListOfCompartmentTypes((ListOf<CompartmentType>) model
 					.getListOfCompartmentTypes().clone());
-		} else {
-			this.listOfCompartmentTypes = null;
 		}
 		if (model.isSetListOfSpeciesTypes()) {
 			setListOfSpeciesTypes((ListOf<SpeciesType>) model
 					.getListOfSpeciesTypes().clone());
-		} else {
-			this.listOfSpeciesTypes = null;
 		}
 		if (model.isSetListOfCompartments()) {
 			setListOfCompartments((ListOf<Compartment>) model
 					.getListOfCompartments().clone());
-		} else {
-			this.listOfCompartments = null;
 		}
 		if (model.isSetListOfSpecies()) {
 			setListOfSpecies((ListOf<Species>) model.getListOfSpecies().clone());
-		} else {
-			this.listOfSpecies = null;
 		}
 		if (model.isSetListOfParameters()) {
 			setListOfParameters((ListOf<Parameter>) model.getListOfParameters()
 					.clone());
-		} else {
-			this.listOfParameters = null;
 		}
 		if (model.isSetListOfInitialAssignments()) {
 			setListOfInitialAssignments((ListOf<InitialAssignment>) model
 					.getListOfInitialAssignments().clone());
-		} else {
-			this.listOfInitialAssignments = null;
 		}
 		if (model.isSetListOfRules()) {
 			setListOfRules((ListOf<Rule>) model.getListOfRules().clone());
-		} else {
-			this.listOfRules = null;
 		}
 		if (model.isSetListOfConstraints()) {
 			setListOfConstraints((ListOf<Constraint>) model
 					.getListOfConstraints().clone());
-		} else {
-			this.listOfConstraints = null;
 		}
 		if (model.isSetListOfReactions()) {
 			setListOfReactions((ListOf<Reaction>) model.getListOfReactions()
 					.clone());
-		} else {
-			this.listOfReactions = null;
 		}
 		if (model.isSetListOfEvents()) {
 			setListOfEvents((ListOf<Event>) model.getListOfEvents().clone());
-		} else {
-			this.listOfEvents = null;
 		}
 	}
 
@@ -1246,8 +1265,8 @@ public class Model extends AbstractNamedSBase {
 	 * @return the Compartment, Species, SpeciesReference or Parameter which has
 	 *         'symbol' as id.
 	 */
-	public Symbol findSymbol(String symbol) {
-		Symbol nsb = getCompartment(symbol);
+	public State findState(String symbol) {
+		State nsb = getCompartment(symbol);
 		if (nsb == null) {
 			nsb = getSpecies(symbol);
 		}
@@ -2666,7 +2685,6 @@ public class Model extends AbstractNamedSBase {
 		if (success) {
 			spec.sbaseRemoved();
 		}
-
 		return success;
 	}
 
@@ -2734,11 +2752,9 @@ public class Model extends AbstractNamedSBase {
 			success = listOfUnitDefinitions.remove(unitDefininition);
 
 		}
-
 		if (success) {
 			unitDefininition.sbaseRemoved();
 		}
-
 		return success;
 	}
 
@@ -2873,7 +2889,6 @@ public class Model extends AbstractNamedSBase {
 		setThisAsParentSBMLObject(this.listOfConstraints);
 		this.listOfConstraints.setSBaseListType(ListOf.Type.listOfConstraints);
 		stateChanged();
-
 	}
 
 	/**
@@ -2903,7 +2918,6 @@ public class Model extends AbstractNamedSBase {
 		setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
 		this.listOfFunctionDefinitions
 				.setSBaseListType(ListOf.Type.listOfFunctionDefinitions);
-
 		stateChanged();
 	}
 
@@ -2922,7 +2936,6 @@ public class Model extends AbstractNamedSBase {
 		this.listOfInitialAssignments
 				.setSBaseListType(ListOf.Type.listOfInitialAssignments);
 		stateChanged();
-
 	}
 
 	/**
@@ -2936,7 +2949,6 @@ public class Model extends AbstractNamedSBase {
 		this.listOfParameters = listOfParameters;
 		setThisAsParentSBMLObject(this.listOfParameters);
 		this.listOfParameters.setSBaseListType(ListOf.Type.listOfParameters);
-
 		stateChanged();
 	}
 
@@ -2951,7 +2963,6 @@ public class Model extends AbstractNamedSBase {
 		this.listOfReactions = listOfReactions;
 		setThisAsParentSBMLObject(this.listOfReactions);
 		this.listOfReactions.setSBaseListType(ListOf.Type.listOfReactions);
-
 		stateChanged();
 	}
 
@@ -2965,7 +2976,6 @@ public class Model extends AbstractNamedSBase {
 		this.listOfRules = listOfRules;
 		setThisAsParentSBMLObject(this.listOfRules);
 		this.listOfRules.setSBaseListType(ListOf.Type.listOfRules);
-
 		stateChanged();
 	}
 
@@ -2979,7 +2989,6 @@ public class Model extends AbstractNamedSBase {
 		this.listOfSpecies = listOfSpecies;
 		setThisAsParentSBMLObject(this.listOfSpecies);
 		this.listOfSpecies.setSBaseListType(ListOf.Type.listOfSpecies);
-
 		stateChanged();
 	}
 
@@ -2997,7 +3006,6 @@ public class Model extends AbstractNamedSBase {
 		setThisAsParentSBMLObject(this.listOfSpeciesTypes);
 		this.listOfSpeciesTypes
 				.setSBaseListType(ListOf.Type.listOfSpeciesTypes);
-
 		stateChanged();
 	}
 
@@ -3043,6 +3051,7 @@ public class Model extends AbstractNamedSBase {
 	public void setSubstanceUnits(UnitDefinition substanceUnits) {
 		this.substanceUnitsID = substanceUnits != null ? substanceUnits.getId()
 				: null;
+		stateChanged();
 	}
 
 	/**
@@ -3092,6 +3101,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void unsetAreaUnits() {
 		this.areaUnitsID = null;
+		stateChanged();
 	}
 
 	/**
@@ -3099,6 +3109,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void unsetConversionFactor() {
 		this.conversionFactorID = null;
+		stateChanged();
 	}
 
 	/**
@@ -3106,6 +3117,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void unsetExtentUnits() {
 		this.extentUnitsID = null;
+		stateChanged();
 	}
 
 	/**
@@ -3113,6 +3125,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void unsetLengthUnits() {
 		this.lengthUnitsID = null;
+		stateChanged();
 	}
 
 	/**
@@ -3120,6 +3133,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void unsetTimeUnits() {
 		this.timeUnitsID = null;
+		stateChanged();
 	}
 
 	/**
@@ -3127,6 +3141,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void unsetVolumeUnits() {
 		this.volumeUnitsID = null;
+		stateChanged();
 	}
 
 	/*

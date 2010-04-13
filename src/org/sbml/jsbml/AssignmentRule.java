@@ -203,9 +203,9 @@ public class AssignmentRule extends Rule {
 	 * @return the variable instance which matches the variableID of this
 	 *         object.
 	 */
-	public Symbol getVariableInstance() {
+	public State getVariableInstance() {
 		Model model = getModel();
-		return model != null ? model.findSymbol(this.variableID) : null;
+		return model != null ? model.findState(this.variableID) : null;
 	}
 
 	/*
@@ -248,7 +248,7 @@ public class AssignmentRule extends Rule {
 	 */
 	public boolean isSetVariableInstance() {
 		Model model = getModel();
-		return model != null ? model.findSymbol(this.variableID) != null
+		return model != null ? model.findState(this.variableID) != null
 				: false;
 	}
 
@@ -301,16 +301,16 @@ public class AssignmentRule extends Rule {
 	 * @param variable
 	 */
 	public void checkAndSetVariable(String variable) {
-		Symbol nsb = null;
+		State nsb = null;
 		Model model = getModel();
 		if (model != null) {
-			nsb = model.findSymbol(variable);
+			nsb = model.findState(variable);
 		}
 		if (nsb == null) {
 			throw new IllegalArgumentException(
 					"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
 		}
-		setVariable(nsb);
+		setVariable(nsb.getId());
 	}
 
 	/**
@@ -349,7 +349,7 @@ public class AssignmentRule extends Rule {
 	 * 
 	 * @param variable
 	 */
-	public void setVariable(Symbol variable) {
+	public void setVariable(State variable) {
 		this.variableID = variable != null ? variable.getId() : null;
 		stateChanged();
 	}

@@ -41,7 +41,7 @@ import java.util.HashMap;
  * @opt types
  * @opt visibility
  */
-public class SpeciesReference extends SimpleSpeciesReference {
+public class SpeciesReference extends SimpleSpeciesReference implements State {
 
 	/**
 	 * Represents the 'constant' XML attribute of this SpeciesReference.
@@ -188,12 +188,44 @@ public class SpeciesReference extends SimpleSpeciesReference {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.State#getConstant()
+	 */
+	public boolean getConstant() {
+		return isSetConstant() ? constant.booleanValue() : false;
+	}
+
 	/**
 	 * 
 	 * @return the denominator value if it is set, 1 otherwise
 	 */
 	public int getDenominator() {
 		return isSetDenominator ? denominator : 1;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Quantity#getDerivedUnit()
+	 */
+	public String getDerivedUnits() {
+		if (isSetStoichiometryMath())
+			return stoichiometryMath.getDerivedUnits();
+		return Unit.Kind.DIMENSIONLESS.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Quantity#getDerivedUnitInstance()
+	 */
+	public UnitDefinition getDerivedUnitDefinition() {
+		if (isSetStoichiometryMath())
+			return stoichiometryMath.getDerivedUnitDefinition();
+		UnitDefinition ud = new UnitDefinition(getLevel(), getVersion());
+		ud.addUnit(new Unit(Unit.Kind.DIMENSIONLESS, getLevel(), getVersion()));
+		return ud;
 	}
 
 	/**
@@ -224,11 +256,20 @@ public class SpeciesReference extends SimpleSpeciesReference {
 		denominator = 1;
 	}
 
-	/**
-	 * @return the value of the constant Boolean if it is set, false otherwise.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.State#isConstant()
 	 */
 	public boolean isConstant() {
 		return isSetConstant() ? constant : false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.State#isSetConstant()
+	 */
+	public boolean isSetConstant() {
+		return this.constant != null;
 	}
 
 	/**
@@ -289,13 +330,12 @@ public class SpeciesReference extends SimpleSpeciesReference {
 		return isAttributeRead;
 	}
 
-	/**
-	 * Sets the constant boolean of this SpeciesReference.
-	 * 
-	 * @param constant
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.State#setConstant(boolean)
 	 */
 	public void setConstant(boolean constant) {
-		this.constant = constant;
+		this.constant = Boolean.valueOf(constant);
 	}
 
 	/**
