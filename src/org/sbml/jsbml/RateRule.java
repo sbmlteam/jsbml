@@ -86,7 +86,7 @@ public class RateRule extends Rule {
 	 * 
 	 * @param variable
 	 */
-	public RateRule(Symbol variable) {
+	public RateRule(State variable) {
 		super(variable.getLevel(), variable.getVersion());
 		if (variable.isSetId()) {
 			this.variableID = new String(variable.getId());
@@ -102,7 +102,7 @@ public class RateRule extends Rule {
 	 * @param variable
 	 * @param math
 	 */
-	public RateRule(Symbol variable, ASTNode math) {
+	public RateRule(State variable, ASTNode math) {
 		super(math, variable.getLevel(), variable.getVersion());
 		if (variable.isSetId()) {
 			this.variableID = new String(variable.getId());

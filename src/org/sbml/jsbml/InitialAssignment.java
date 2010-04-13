@@ -77,7 +77,7 @@ public class InitialAssignment extends MathContainer {
 	 * 
 	 * @param symbol
 	 */
-	public InitialAssignment(Symbol symbol) {
+	public InitialAssignment(State symbol) {
 		super(symbol.getLevel(), symbol.getVersion());
 		if (symbol.isSetId()) {
 			this.symbolID = new String(symbol.getId());
