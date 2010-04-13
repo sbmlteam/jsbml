@@ -103,15 +103,16 @@ public class AssignmentRule extends Rule {
 	 * Creates an AssignmentRule instance from a given variable. Takes level and
 	 * version from the variable.
 	 */
-	public AssignmentRule(Symbol variable) {
+	public AssignmentRule(State variable) {
 		super(variable.getLevel(), variable.getVersion());
 		if (variable.isSetId()) {
 			this.variableID = new String(variable.getId());
 		} else {
 			this.variableID = null;
 		}
-		if (variable.isSetUnits()) {
-			this.unitsID = new String(variable.getUnits());
+		UnitDefinition ud = variable.getDerivedUnitDefinition();
+		if (ud != null && ud.isSetId()) {
+			this.unitsID = new String(ud.getId());
 		} else {
 			this.unitsID = null;
 		}
