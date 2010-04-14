@@ -62,6 +62,7 @@ public class Compartment extends Symbol {
 	 * Represents the spatialDimensions XML attribute of a compartment element.
 	 */
 	private Short spatialDimensions;
+	private boolean isSetSpatialDimensions = false;
 
 	/**
 	 * Creates a Compartment instance. By default, if the level is set and is
@@ -241,11 +242,13 @@ public class Compartment extends Symbol {
 	}
 
 	/**
+	 * Returns the spatialDimensions of this compartment.
+	 * If it is not set, returns the default SBML level 2 value, which is 3.
 	 * 
-	 * @return the spatialDimensions of this compartment.
+	 * @return the spatialDimensions of this compartment or 3 if spatialdimensions is not set.
 	 */
 	public short getSpatialDimensions() {
-		return isSetSpatialDimensions() ? spatialDimensions : 0;
+		return isSetSpatialDimensions() ? spatialDimensions : 3;
 	}
 
 	/**
@@ -270,7 +273,7 @@ public class Compartment extends Symbol {
 	public void initDefaults() {
 		compartmentTypeID = null;
 		spatialDimensions = 3;
-		setConstant(new Boolean(true));
+		constant = new Boolean(true);
 		outsideID = null;
 		value = new Double(1.0);
 	}
@@ -364,7 +367,7 @@ public class Compartment extends Symbol {
 	 * @return true if the spatialDimensions of this compartment is not null.
 	 */
 	public boolean isSetSpatialDimensions() {
-		return this.spatialDimensions != null;
+		return isSetSpatialDimensions;
 	}
 
 	/**
@@ -432,10 +435,24 @@ public class Compartment extends Symbol {
 	 */
 	public void setSpatialDimensions(short spatialDimensions) {
 		if (spatialDimensions >= 0 && spatialDimensions <= 3) {
+			isSetSpatialDimensions = true;
 			this.spatialDimensions = spatialDimensions;
 		} else {
 			throw new IllegalArgumentException(
-					"Spatial dimensions must be between [0, 3].");
+					"Spatial dimensions must be between [0, 3], " + spatialDimensions + " given.");
+		}
+	}
+
+	/**
+	 * Sets the spatialDimensions of this compartment to 'i'.
+	 */
+	public void setSpatialDimensions(int i) {
+		if (i >= 0 && i <= 3) {
+			isSetSpatialDimensions = true;
+			this.spatialDimensions = (short) i;
+		} else {
+			throw new IllegalArgumentException(
+					"Spatial dimensions must be between [0, 3]." + i + " given.");
 		}
 	}
 
@@ -588,7 +605,7 @@ public class Compartment extends Symbol {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetSpatialDimensions() && getLevel() > 1) {
-			attributes.put("spatialDimension", Short
+			attributes.put("spatialDimensions", Short
 					.toString(getSpatialDimensions()));
 		}
 
@@ -620,10 +637,4 @@ public class Compartment extends Symbol {
 		compartmentTypeID = null;
 	}
 
-	/**
-	 * Sets the spatialDimensions of this compartment to 'i'.
-	 */
-	public void setSpatialDimensions(int i) {
-		setSpatialDimensions((short) i);
-	}
 }

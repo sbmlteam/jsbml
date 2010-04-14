@@ -58,13 +58,13 @@ import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.xml.sbmlParsers.MultiParser;
 import org.sbml.jsbml.xml.sbmlParsers.SBMLCoreParser;
 import org.w3c.dom.Document;
-
 import com.ctc.wstx.stax.WstxOutputFactory;
 
 /**
  * A SBMLWriter provides the methods to write a SBML file.
  * 
  * @author marine
+ * @author rodrigue
  * 
  */
 public class SBMLWriter {
@@ -166,7 +166,6 @@ public class SBMLWriter {
 			converter.writeFragment(domDocument.getChildNodes(), writer);
 			note.addCharacters("\n");
 		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -200,7 +199,6 @@ public class SBMLWriter {
 			converter.writeFragment(domDocument.getChildNodes(), writer);
 			note.addCharacters("\n");
 		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -221,20 +219,16 @@ public class SBMLWriter {
 
 		try {
 			DOMConverter converter = new DOMConverter();
-			SMOutputElement mathElement = element.addElement("math");
 
-			SMNamespace namespace = mathElement
-					.getNamespace("http://www.w3.org/1998/Math/MathML");
-			namespace.setPreferredPrefix("");
-			mathElement.addCharacters("\n");
-
+			element.addCharacters("\n");
+			
 			String math = m.getMathBufferToString().replaceAll("&", "&amp;");
+			
 			Document domDocument = JAXPFacade.getInstance().create(
 					new BufferedReader(new StringReader(math)), true);
 			converter.writeFragment(domDocument.getChildNodes(), writer);
-			mathElement.addCharacters("\n");
+			element.addCharacters("\n");
 		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -380,7 +374,6 @@ public class SBMLWriter {
 				}
 			}
 		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -457,7 +450,6 @@ public class SBMLWriter {
 				}
 			}
 		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -510,7 +502,6 @@ public class SBMLWriter {
 			rdfElement.addCharacters(" \n");
 			annotationElement.addCharacters(" \n");
 		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -579,7 +570,6 @@ public class SBMLWriter {
 			writeSBMLElements(xmlObject, annotationElement, writer, annotation,
 					null, null);
 		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -700,7 +690,6 @@ public class SBMLWriter {
 									notesParser, MathMLParser);
 							parentElement.addCharacters(" \n");
 						} catch (XMLStreamException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -759,10 +748,8 @@ public class SBMLWriter {
 						}
 					}
 				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -792,10 +779,8 @@ public class SBMLWriter {
 						}
 					}
 				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -828,7 +813,7 @@ public class SBMLWriter {
 					.createStax2Writer(new File(fileName));
 			outputDocument = SMOutputFactory.createOutputDocument(streamWriter,
 					"1.0", "UTF-8", false);
-			outputDocument.setIndentation("\n ", 1, 4);
+			outputDocument.setIndentation("\n ", 1, 2);
 
 			String SBMLNamespace = getNamespaceFrom(sbmlDocument.getLevel(),
 					sbmlDocument.getVersion());
@@ -868,24 +853,33 @@ public class SBMLWriter {
 			outputDocument.closeRoot();
 
 		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public static void main(String[] args) {
-		// SBMLDocument testDocument =
-		// readSBMLFile("/home/compneur/Desktop/LibSBML-Project/MultiExamples/glutamateReceptor.xml");
-		SBMLDocument testDocument = SBMLReader
-				.readSBMLFile("/home/compneur/Desktop/LibSBML-Project/BIOMD0000000002.xml");
-		// System.out.println(testDocument.getModel().getNotesString());
-		write(testDocument, "test.xml");
+
+		if (args.length < 1) {
+			System.out.println("Usage : java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
+			System.exit(0);
+		}
+		
+		String fileName = args[0];
+		String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
+		
+		SBMLDocument testDocument = SBMLReader.readSBMLFile(fileName);
+
+		write(testDocument, jsbmlWriteFileName);
 	}
 
+	// TODO : writing of Species should not include unset fields.
+	// TODO : writing of Reaction should not include unset fields.
+	// TODO : writing of SpeciesReference should not include unset fields.
+	// TODO : writing of Symbol should not include unset fields.
+
+	
 }
