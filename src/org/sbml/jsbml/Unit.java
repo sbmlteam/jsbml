@@ -541,30 +541,35 @@ public class Unit extends AbstractSBase {
 	 * Represents the 'exponent' XML attribute of an unit element.
 	 */
 	private Integer exponent;
+	private boolean isSetExponent = false;
 
 	/**
 	 * Represents the 'kind' XML attribute of an unit element.
 	 */
 	private Kind kind;
+	private boolean isSetKind = false;
 
 	/**
 	 * Represents the 'multiplier' XML attribute of an unit element.
 	 */
 	private Double multiplier;
+	private boolean isSetMultiplier = false;
 
 	/**
 	 * Represents the 'offset' XML attribute of an unit element.
 	 */
 	@Deprecated
 	private Double offset;
+	private boolean isSetOffset = false;
 
 	/**
 	 * Represents the 'scale' XML attribute of an unit element.
 	 */
 	private Integer scale;
+	private boolean isSetScale = false;
 
 	/**
-	 * Creates an Unit instance. If the level is set and is superior or equal to
+	 * Creates a Unit instance. If the level is set and is superior or equal to
 	 * 3 the multiplier, scale, kind and exponent are null.
 	 */
 	public Unit() {
@@ -581,7 +586,7 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Creates an Unit instance from a multiplier, scale, kind and exponent. The
+	 * Creates a Unit instance from a multiplier, scale, kind and exponent. The
 	 * offset is null.
 	 * 
 	 * @param multiplier
@@ -594,15 +599,17 @@ public class Unit extends AbstractSBase {
 	public Unit(double multiplier, int scale, Kind kind, int exponent,
 			int level, int version) {
 		super(level, version);
-		this.multiplier = new Double(multiplier);
-		this.scale = Integer.valueOf(scale);
-		this.kind = kind;
-		this.exponent = Integer.valueOf(exponent);
+		
+		// Using the set method to have the isSet properly set to true.
+		setMultiplier(multiplier);
+		setScale(scale);
+		setKind(kind);
+		setExponent(exponent);
 		this.offset = null;
 	}
 
 	/**
-	 * Creates an Unit instance from a level and version. If the level is set
+	 * Creates a Unit instance from a level and version. If the level is set
 	 * and is superior or equal to 3 the multiplier, scale, kind, offset and
 	 * exponent are null.
 	 * 
@@ -623,7 +630,7 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Creates an Unit instance from a scale, kind, level and version.
+	 * Creates a Unit instance from a scale, kind, level and version.
 	 * 
 	 * @param scale
 	 * @param kind
@@ -632,10 +639,11 @@ public class Unit extends AbstractSBase {
 	 */
 	public Unit(int scale, Kind kind, int level, int version) {
 		this(scale, kind, 1, level, version);
+		isSetExponent = false;
 	}
 
 	/**
-	 * Creates an Unit instance from a scale, kind, exponent, level and version.
+	 * Creates a Unit instance from a scale, kind, exponent, level and version.
 	 * 
 	 * @param scale
 	 * @param kind
@@ -645,10 +653,11 @@ public class Unit extends AbstractSBase {
 	 */
 	public Unit(int scale, Kind kind, int exponent, int level, int version) {
 		this(1, scale, kind, exponent, level, version);
+		isSetMultiplier = false;
 	}
 
 	/**
-	 * Creates an Unit instance from a kind, level and version. If the level is
+	 * Creates a Unit instance from a kind, level and version. If the level is
 	 * set and is superior or equal to 3 the multiplier, scale, offset and
 	 * exponent are null.
 	 * 
@@ -668,7 +677,7 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Creates an Unit instance from a kind, exponent, level and verison.
+	 * Creates a Unit instance from a kind, exponent, level and version.
 	 * 
 	 * @param kind
 	 * @param exponent
@@ -677,10 +686,11 @@ public class Unit extends AbstractSBase {
 	 */
 	public Unit(Kind kind, int exponent, int level, int version) {
 		this(0, kind, exponent, level, version);
+		isSetScale = false;
 	}
 
 	/**
-	 * Creates an Unit instance from a given Unit.
+	 * Creates a Unit instance from a given Unit.
 	 * 
 	 * @param unit
 	 */
@@ -754,7 +764,9 @@ public class Unit extends AbstractSBase {
 	/**
 	 * 
 	 * @return the kind of this Unit if it is set, null otherwise.
+	 * 
 	 */
+	// TODO : check if we should not return empty string "2, instead of null for libsbml compatibility
 	public Kind getKind() {
 		return kind;
 	}
@@ -764,7 +776,7 @@ public class Unit extends AbstractSBase {
 	 * @return the multiplier of this Unit if it is set, 1 otherwise.
 	 */
 	public double getMultiplier() {
-		return isSetMultiplier() ? multiplier.doubleValue() : 1;
+		return isSetMultiplier() ? multiplier : 1;
 	}
 
 	/**
@@ -773,7 +785,7 @@ public class Unit extends AbstractSBase {
 	 */
 	@Deprecated
 	public double getOffset() {
-		return isSetOffset() ? offset.doubleValue() : 0;
+		return isSetOffset() ? offset : 0;
 	}
 
 	/**
@@ -896,7 +908,7 @@ public class Unit extends AbstractSBase {
 	 * @return the scale of this Unit if it is set, 0 otherwise.
 	 */
 	public int getScale() {
-		return isSetScale() ? scale.intValue() : 0;
+		return isSetScale() ? scale : 0;
 	}
 
 	/**
@@ -1175,7 +1187,7 @@ public class Unit extends AbstractSBase {
 	 * @return true if the exponent of this Unit is not null.
 	 */
 	public boolean isSetExponent() {
-		return this.exponent != null;
+		return isSetExponent;
 	}
 
 	/**
@@ -1184,7 +1196,7 @@ public class Unit extends AbstractSBase {
 	 * @return
 	 */
 	public boolean isSetKind() {
-		return kind != null;
+		return isSetKind;
 	}
 
 	/**
@@ -1192,7 +1204,7 @@ public class Unit extends AbstractSBase {
 	 * @return true if the multiplier of this Unit is not null.
 	 */
 	public boolean isSetMultiplier() {
-		return this.multiplier != null;
+		return isSetMultiplier;
 	}
 
 	/**
@@ -1201,7 +1213,7 @@ public class Unit extends AbstractSBase {
 	 */
 	@Deprecated
 	public boolean isSetOffset() {
-		return offset != null;
+		return isSetOffset;
 	}
 
 	/**
@@ -1209,7 +1221,7 @@ public class Unit extends AbstractSBase {
 	 * @return true if the scale of this Unit is not null.
 	 */
 	public boolean isSetScale() {
-		return this.scale != null;
+		return isSetScale;
 	}
 
 	/**
@@ -1364,6 +1376,7 @@ public class Unit extends AbstractSBase {
 	 * @param exponent
 	 */
 	public void setExponent(int exponent) {
+		isSetExponent = true;
 		this.exponent = exponent;
 		stateChanged();
 	}
@@ -1374,6 +1387,7 @@ public class Unit extends AbstractSBase {
 	 * @param kind
 	 */
 	public void setKind(Kind kind) {
+		isSetKind = true;
 		this.kind = kind;
 		stateChanged();
 	}
@@ -1384,6 +1398,7 @@ public class Unit extends AbstractSBase {
 	 * @param multiplier
 	 */
 	public void setMultiplier(double multiplier) {
+		isSetMultiplier = true;
 		this.multiplier = multiplier;
 		stateChanged();
 	}
@@ -1395,6 +1410,7 @@ public class Unit extends AbstractSBase {
 	 */
 	@Deprecated
 	public void setOffset(double offset) {
+		isSetOffset = true;
 		this.offset = Double.valueOf(offset);
 		stateChanged();
 	}
@@ -1405,6 +1421,7 @@ public class Unit extends AbstractSBase {
 	 * @param scale
 	 */
 	public void setScale(int scale) {
+		isSetScale = true;
 		this.scale = scale;
 		stateChanged();
 	}
