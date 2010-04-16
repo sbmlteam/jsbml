@@ -33,10 +33,15 @@ package org.sbml.jsbml.xml.stax;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.StringReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 import org.codehaus.stax2.XMLStreamWriter2;
 import org.codehaus.staxmate.SMOutputFactory;
@@ -58,6 +63,7 @@ import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.xml.sbmlParsers.MultiParser;
 import org.sbml.jsbml.xml.sbmlParsers.SBMLCoreParser;
 import org.w3c.dom.Document;
+
 import com.ctc.wstx.stax.WstxOutputFactory;
 
 /**
@@ -144,7 +150,7 @@ public class SBMLWriter {
 	 *            : the SBML namespace
 	 */
 	private static void writeNotes(SBase sbase, SMOutputElement element,
-			XMLStreamWriter2 writer, String sbmlNamespace) {
+			XMLStreamWriter writer, String sbmlNamespace) {
 
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
@@ -167,6 +173,8 @@ public class SBMLWriter {
 			note.addCharacters("\n");
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
+		} catch (RuntimeException e) {			
+			e.printStackTrace();
 		}
 	}
 
@@ -183,7 +191,7 @@ public class SBMLWriter {
 	 *            : the SBML namespace
 	 */
 	private static void writeMessage(Constraint sbase, SMOutputElement element,
-			XMLStreamWriter2 writer, String sbmlNamespace) {
+			XMLStreamWriter writer, String sbmlNamespace) {
 
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
@@ -215,11 +223,11 @@ public class SBMLWriter {
 	 *            : the XMLStreamWriter2
 	 */
 	private static void writeMathML(MathContainer m, SMOutputElement element,
-			XMLStreamWriter2 writer) {
+			XMLStreamWriter writer) {
 
 		try {
 			DOMConverter converter = new DOMConverter();
-
+			
 			element.addCharacters("\n");
 			
 			String math = m.getMathBufferToString().replaceAll("&", "&amp;");
@@ -244,7 +252,7 @@ public class SBMLWriter {
 	 *            : the XMLStreamWriter2
 	 */
 	private static void writeModelHistory(History modelHistory,
-			HashMap<String, String> rdfNamespaces, XMLStreamWriter2 writer) {
+			HashMap<String, String> rdfNamespaces, XMLStreamWriter writer) {
 		try {
 			String rdfPrefix = rdfNamespaces
 					.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
@@ -334,6 +342,9 @@ public class SBMLWriter {
 			}
 			String datePrefix = rdfNamespaces.get("http://purl.org/dc/terms/");
 
+			// System.out.println("isSetCreatedDate = " + modelHistory.isSetCreatedDate());
+			// System.out.println("isSetModifiedDate = " + modelHistory.isSetModifiedDate());
+			
 			if (modelHistory.isSetCreatedDate()) {
 				writer.writeStartElement(datePrefix, "created",
 						"http://purl.org/dc/terms/");
@@ -389,7 +400,7 @@ public class SBMLWriter {
 	 *            : the XMLStreamWriter2
 	 */
 	private static void writeCVTerms(List<CVTerm> listOfCVTerms,
-			HashMap<String, String> rdfNamespaces, XMLStreamWriter2 writer) {
+			HashMap<String, String> rdfNamespaces, XMLStreamWriter writer) {
 		try {
 			String rdfPrefix = rdfNamespaces
 					.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
@@ -465,7 +476,7 @@ public class SBMLWriter {
 	 *            : the XMLStreamWriter.
 	 */
 	private static void writeRDFAnnotation(Annotation annotation,
-			SMOutputElement annotationElement, XMLStreamWriter2 writer) {
+			SMOutputElement annotationElement, XMLStreamWriter writer) {
 		try {
 			SMNamespace namespace = annotationElement.getNamespace(
 					"http://www.w3.org/1999/02/22-rdf-syntax-ns#", "rdf");
@@ -519,7 +530,7 @@ public class SBMLWriter {
 	 *            : the SBML namespace.
 	 */
 	private static void writeAnnotation(SBase sbase, SMOutputElement element,
-			XMLStreamWriter2 writer, String sbmlNamespace) {
+			XMLStreamWriter writer, String sbmlNamespace) {
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
 		Annotation annotation = sbase.getAnnotation();
@@ -558,8 +569,7 @@ public class SBMLWriter {
 				Document domDocument = JAXPFacade.getInstance().create(
 						new BufferedReader(new StringReader(annotationString)),
 						true);
-				converter.writeFragment(domDocument.getFirstChild()
-						.getChildNodes(), writer);
+				converter.writeFragment(domDocument.getFirstChild().getChildNodes(), writer);
 			}
 
 			if (annotation.isSetModelHistory()
@@ -570,6 +580,9 @@ public class SBMLWriter {
 			writeSBMLElements(xmlObject, annotationElement, writer, annotation,
 					null, null);
 		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		} catch (RuntimeException e) {
+			
 			e.printStackTrace();
 		}
 	}
@@ -590,22 +603,21 @@ public class SBMLWriter {
 	 *            : the WritingParser to parse the MathML expressions.
 	 */
 	private static void writeSBMLElements(SBMLObjectForXML xmlObject,
-			SMOutputElement parentElement, XMLStreamWriter2 streamWriter,
+			SMOutputElement parentElement, XMLStreamWriter streamWriter,
 			Object objectToWrite, ReadingParser notesParser,
 			ReadingParser MathMLParser) {
 
 		ArrayList<WritingParser> listOfPackages = getInitializedParsers(
 				objectToWrite, parentElement.getNamespace().getURI());
 
-		System.out.println("SBMLWriter : writeSBMLElements : xmlObject = "
-				+ xmlObject);
-		System.out.println("SBMLWriter : writeSBMLElements : parentElement = "
-				+ parentElement.getLocalName() + ", "
-				+ parentElement.getNamespace().getURI());
-		System.out.println("SBMLWriter : writeSBMLElements : objectToWrite = "
-				+ objectToWrite + "\n");
-		System.out.println("SBMLWriter : writeSBMLElements : listOfPackages = "
-				+ listOfPackages + "\n");
+		// System.out.println("SBMLWriter : writeSBMLElements : xmlObject = " + xmlObject);
+//		System.out.println("SBMLWriter : writeSBMLElements : parentElement = " 
+//				+ parentElement.getLocalName() + ", "
+//				+ parentElement.getNamespace().getURI());
+//		System.out.println("SBMLWriter : writeSBMLElements : objectToWrite = "
+//				+ objectToWrite + "\n");
+//		System.out.println("SBMLWriter : writeSBMLElements : listOfPackages = "
+//				+ listOfPackages + "\n");
 
 		Iterator<WritingParser> iterator = listOfPackages.iterator();
 		while (iterator.hasNext()) {
@@ -613,11 +625,11 @@ public class SBMLWriter {
 			ArrayList<Object> sbmlElementsToWrite = parser
 					.getListOfSBMLElementsToWrite(objectToWrite);
 
-			System.out.println("SBMLWriter : writeSBMLElements : parser = "
-					+ parser);
-			System.out
-					.println("SBMLWriter : writeSBMLElements : elementsToWrite = "
-							+ sbmlElementsToWrite);
+//			System.out.println("SBMLWriter : writeSBMLElements : parser = "
+//					+ parser);
+//			System.out
+//					.println("SBMLWriter : writeSBMLElements : elementsToWrite = "
+//							+ sbmlElementsToWrite);
 
 			if (sbmlElementsToWrite == null) {
 				// TODO test if there are some characters to write.
@@ -710,9 +722,8 @@ public class SBMLWriter {
 			Object object, String namespace) {
 		Set<String> packageNamespaces = null;
 
-		System.out
-				.println("SBMLWriter : getInitializedParsers : namespace, object = "
-						+ namespace + ", " + object);
+//		System.out.println("SBMLWriter : getInitializedParsers : namespace, object = "
+//						+ namespace + ", " + object);
 
 		if (object instanceof SBase) {
 			SBase sbase = (SBase) object;
@@ -725,9 +736,9 @@ public class SBMLWriter {
 
 		if (packageNamespaces != null) {
 
-			System.out
-					.println("SBMLWriter : getInitializedParsers : namespaces = "
-							+ packageNamespaces);
+//			System.out
+//					.println("SBMLWriter : getInitializedParsers : namespaces = "
+//							+ packageNamespaces);
 			if (!packageNamespaces.contains(namespace)) {
 				try {
 
@@ -811,9 +822,10 @@ public class SBMLWriter {
 		try {
 			XMLStreamWriter2 streamWriter = smFactory
 					.createStax2Writer(new File(fileName));
+			
 			outputDocument = SMOutputFactory.createOutputDocument(streamWriter,
 					"1.0", "UTF-8", false);
-			outputDocument.setIndentation("\n ", 1, 2);
+			//outputDocument.setIndentation("\n ", 1, 2);
 
 			String SBMLNamespace = getNamespaceFrom(sbmlDocument.getLevel(),
 					sbmlDocument.getVersion());
@@ -876,10 +888,17 @@ public class SBMLWriter {
 		write(testDocument, jsbmlWriteFileName);
 	}
 
-	// TODO : writing of Species should not include unset fields.
-	// TODO : writing of Reaction should not include unset fields.
-	// TODO : writing of SpeciesReference should not include unset fields.
-	// TODO : writing of Symbol should not include unset fields.
+	// ToCHECK : writing of X should not include unset fields.
 
+	// TODO : dcterms:created, dcterms:modified are not saved !
 	
+	// TODO : notes where an & is present are not written out (so almost all the notes from the models in Biomodels DB)
+	// When java read some notes with &amp;, it convert it to simply & in UTF-8 and when trying to write out the notes, 
+	// there is then an exception as the character is not allowed.
+	
+	// TODO : when there are some custom annotations that do not declare their namespace in the annotation but only on 
+	// the sbml element, the whole annotation failed to be written out.
+	
+	// TODO : put all of that as tracker item on sourceforge as it will probably take some time to be resolved.
+	// TODO : put some logging system in place
 }

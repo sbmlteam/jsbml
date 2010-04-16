@@ -54,7 +54,8 @@ public class Species extends Symbol {
 	 * Represents the 'boundaryCondition' attribute of a Species element.
 	 */
 	private Boolean boundaryCondition;
-
+	private boolean isSetBoundaryCondition = false;
+	
 	/**
 	 * Represents the 'charge' attribute of a Species element.
 	 */
@@ -72,6 +73,8 @@ public class Species extends Symbol {
 	 * Represents the 'hasOnlySubstanceUnits' attribute of a Species element.
 	 */
 	private Boolean hasOnlySubstanceUnits;
+	private boolean isSetHasOnlySubstanceUnits = false;
+	
 	/**
 	 * Boolean value to test if the charge has been set.
 	 */
@@ -95,17 +98,6 @@ public class Species extends Symbol {
 	 */
 	public Species() {
 		super();
-		this.charge = null;
-		this.compartmentID = null;
-		this.speciesTypeID = null;
-		this.conversionFactorID = null;
-		this.hasOnlySubstanceUnits = null;
-		this.boundaryCondition = null;
-		this.spatialSizeUnitsID = null;
-
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
 	}
 
 	/**
@@ -118,13 +110,7 @@ public class Species extends Symbol {
 	 */
 	public Species(int level, int version) {
 		super(level, version);
-		this.charge = null;
-		this.compartmentID = null;
-		this.speciesTypeID = null;
-		this.conversionFactorID = null;
-		this.hasOnlySubstanceUnits = null;
-		this.boundaryCondition = null;
-		this.spatialSizeUnitsID = null;
+		
 		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
@@ -138,28 +124,19 @@ public class Species extends Symbol {
 	public Species(Species species) {
 		super(species);
 		if (species.isSetBoundaryCondition()) {
-			this.boundaryCondition = species.getBoundaryCondition();
-		} else {
-			this.boundaryCondition = null;
-		}
+			setBoundaryCondition(species.getBoundaryCondition());
+		} 
 		if (species.isSetCharge()) {
-			this.charge = Integer.valueOf(species.getCharge());
-		} else {
-			this.charge = null;
+			setCharge(species.getCharge());
 		}
 		if (species.isSetCompartment()) {
-			this.compartmentID = new String(species.getCompartment());
-		} else {
-			this.compartmentID = null;
+			setCompartment(new String(species.getCompartment()));
 		}
 		if (species.isSetSubstanceUnits()) {
-			setSubstanceUnits(new String(species.getCompartment()));
+			setSubstanceUnits(new String(species.getSubstanceUnits()));
 		}
 		if (species.isSetHasOnlySubstanceUnits()) {
-			this.hasOnlySubstanceUnits = new Boolean(species
-					.getHasOnlySubstanceUnits());
-		} else {
-			this.hasOnlySubstanceUnits = null;
+			setHasOnlySubstanceUnits(new Boolean(species.getHasOnlySubstanceUnits()));
 		}
 		if (species.isSetInitialAmount()) {
 			setInitialAmount(new Double(species.getInitialAmount()));
@@ -172,7 +149,7 @@ public class Species extends Symbol {
 			setConstant(new Boolean(species.getConstant()));
 		}
 		if (species.isSetSpatialSizeUnits()) {
-			this.spatialSizeUnitsID = new String(species.getSpatialSizeUnits());
+			setSpatialSizeUnits(new String(species.getSpatialSizeUnits()));
 		} else {
 			this.spatialSizeUnitsID = null;
 		}
@@ -189,13 +166,7 @@ public class Species extends Symbol {
 	 */
 	public Species(String id, int level, int version) {
 		super(id, level, version);
-		this.charge = null;
-		this.compartmentID = null;
-		this.speciesTypeID = null;
-		this.conversionFactorID = null;
-		this.hasOnlySubstanceUnits = null;
-		this.boundaryCondition = null;
-		this.spatialSizeUnitsID = null;
+
 		if (level < 3) {
 			initDefaults();
 		}
@@ -329,6 +300,7 @@ public class Species extends Symbol {
 	 * @return the initialAmount of this Species if it has been set, o
 	 *         otherwise.
 	 */
+	// TODO : check libsbml implementation. Should we return NaN instead ?
 	public double getInitialAmount() {
 		if (isSetInitialAmount()) {
 			return getValue();
@@ -423,11 +395,10 @@ public class Species extends Symbol {
 	 * Initialises the default values of this Species.
 	 */
 	public void initDefaults() {
-		charge = Integer.valueOf(0);
 		amount = new Boolean(true);
 		hasOnlySubstanceUnits = new Boolean(false);
 		boundaryCondition = new Boolean(false);
-		setConstant(new Boolean(false));
+		constant = new Boolean(false);
 	}
 
 	/**
@@ -453,7 +424,7 @@ public class Species extends Symbol {
 	 * @return true if the boundaryCondition of this Species is not null.
 	 */
 	public boolean isSetBoundaryCondition() {
-		return this.boundaryCondition != null;
+		return isSetBoundaryCondition;
 	}
 
 	/**
@@ -509,7 +480,7 @@ public class Species extends Symbol {
 	 * @return true if the hasOnlySubstanceUnits of this Species is not null.
 	 */
 	public boolean isSetHasOnlySubstanceUnits() {
-		return this.hasOnlySubstanceUnits != null;
+		return isSetHasOnlySubstanceUnits;
 	}
 
 	/**
@@ -603,14 +574,6 @@ public class Species extends Symbol {
 		if (!isAttributeRead) {
 			if (attributeName.equals("compartment")) {
 				this.setCompartment(value);
-			} else if (attributeName.equals("units")) {
-				this.setUnits(value);
-				return true;
-			} else if (attributeName.equals("spatialDimensions")
-					&& getLevel() == 2
-					&& (getVersion() == 1 || getVersion() == 2)) {
-				this.setSpatialSizeUnits(value);
-				return true;
 			} else if (attributeName.equals("initialAmount")) {
 				this.setInitialAmount(Double.parseDouble(value));
 			} else if (attributeName.equals("initialConcentration")
@@ -618,6 +581,8 @@ public class Species extends Symbol {
 				this.setInitialConcentration(Double.parseDouble(value));
 			} else if (attributeName.equals("substanceUnits") && getLevel() > 1) {
 				this.setUnits(value);
+			} else if (attributeName.equals("spatialSizeUnits") && getLevel() > 1) {
+				this.setSpatialSizeUnits(value);
 			} else if (attributeName.equals("hasOnlySubstanceUnits")
 					&& getLevel() > 1) {
 				if (value.equals("true")) {
@@ -667,6 +632,7 @@ public class Species extends Symbol {
 	 */
 	public void setBoundaryCondition(Boolean boundaryCondition) {
 		this.boundaryCondition = boundaryCondition;
+		isSetBoundaryCondition = true;
 		stateChanged();
 	}
 
@@ -749,6 +715,7 @@ public class Species extends Symbol {
 	 */
 	public void setHasOnlySubstanceUnits(Boolean hasOnlySubstanceUnits) {
 		this.hasOnlySubstanceUnits = hasOnlySubstanceUnits;
+		isSetHasOnlySubstanceUnits = true;
 		stateChanged();
 	}
 
@@ -831,7 +798,7 @@ public class Species extends Symbol {
 	 * @param unit
 	 */
 	public void setSubstanceUnits(String unit) {
-		super.setUnits(unit);
+		setUnits(unit);
 	}
 
 	/**
