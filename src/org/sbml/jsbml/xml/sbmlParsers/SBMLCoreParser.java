@@ -1390,15 +1390,14 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				Event event = (Event) sbase;
 				listOfElementsToWrite = new ArrayList<Object>();
 
-				if (event.isSetListOfEventAssignments()) {
-					listOfElementsToWrite
-							.add(event.getListOfEventAssignments());
-				}
 				if (event.isSetTrigger()) {
 					listOfElementsToWrite.add(event.getTrigger());
 				}
 				if (event.isSetDelay()) {
 					listOfElementsToWrite.add(event.getDelay());
+				}
+				if (event.isSetListOfEventAssignments()) {
+					listOfElementsToWrite.add(event.getListOfEventAssignments());
 				}
 
 				if (listOfElementsToWrite.isEmpty()) {

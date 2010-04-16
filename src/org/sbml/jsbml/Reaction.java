@@ -57,6 +57,8 @@ public class Reaction extends AbstractNamedSBase implements Quantity {
 	 * Represents the 'fast' XML attribute of a reaction element.
 	 */
 	private Boolean fast;
+	private boolean isSetFast = false;
+	
 	/**
 	 * Represents the 'kineticLaw' XML subNode of a reaction element.
 	 */
@@ -77,22 +79,14 @@ public class Reaction extends AbstractNamedSBase implements Quantity {
 	 * Represents the 'reversible' XML attribute of a reaction element.
 	 */
 	private Boolean reversible;
-
+	private boolean isSetReversible = false;
+	
 	/**
 	 * Creates a Reaction instance. By default, the compartmentID, kineticLaw,
 	 * listOfReactants, listOfProducts and listOfModifiers are null.
 	 */
 	public Reaction() {
 		super();
-		this.kineticLaw = null;
-		this.listOfReactants = null;
-		this.listOfProducts = null;
-		this.listOfModifiers = null;
-		this.compartmentID = null;
-
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
 	}
 
 	/**
@@ -107,9 +101,10 @@ public class Reaction extends AbstractNamedSBase implements Quantity {
 		listOfProducts.parentSBMLObject = this;
 		listOfModifiers = new ListOf<ModifierSpeciesReference>(level, version);
 		listOfModifiers.parentSBMLObject = this;
-		kineticLaw = null;
-		reversible = true;
-		fast = false;
+
+		if (level < 3) {
+			initDefaults();
+		}
 	}
 
 	/**
@@ -119,41 +114,30 @@ public class Reaction extends AbstractNamedSBase implements Quantity {
 	 */
 	public Reaction(Reaction reaction) {
 		super(reaction);
+		
 		if (reaction.isSetFast()) {
 			this.fast = new Boolean(reaction.getFast());
-		} else {
-			this.fast = null;
 		}
 		if (reaction.isSetKineticLaw()) {
 			setKineticLaw(reaction.getKineticLaw().clone());
-		} else {
-			this.kineticLaw = null;
 		}
 		if (reaction.isSetListOfReactants()) {
 			this.listOfReactants = (ListOf<SpeciesReference>) reaction
 					.getListOfReactants().clone();
 			setThisAsParentSBMLObject(listOfReactants);
-		} else {
-			this.listOfReactants = null;
 		}
 		if (reaction.isSetListOfProducts()) {
 			this.listOfProducts = (ListOf<SpeciesReference>) reaction
 					.getListOfProducts().clone();
 			setThisAsParentSBMLObject(listOfProducts);
-		} else {
-			this.listOfReactants = null;
 		}
 		if (reaction.isSetListOfModifiers()) {
 			this.listOfModifiers = (ListOf<ModifierSpeciesReference>) reaction
 					.getListOfModifiers().clone();
 			setThisAsParentSBMLObject(listOfModifiers);
-		} else {
-			this.listOfReactants = null;
 		}
 		if (isSetReversible()) {
 			this.reversible = new Boolean(reaction.getReversible());
-		} else {
-			this.reversible = null;
 		}
 	}
 
@@ -168,13 +152,6 @@ public class Reaction extends AbstractNamedSBase implements Quantity {
 	 */
 	public Reaction(String id, int level, int version) {
 		super(id, level, version);
-		this.kineticLaw = null;
-		this.listOfReactants = null;
-		this.listOfProducts = null;
-		this.listOfModifiers = null;
-		this.compartmentID = null;
-		reversible = null;
-		fast = null;
 
 		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
@@ -666,7 +643,7 @@ public class Reaction extends AbstractNamedSBase implements Quantity {
 	 * @return true if fast is not null.
 	 */
 	public boolean isSetFast() {
-		return this.fast != null;
+		return isSetFast;
 	}
 
 	/**
@@ -706,7 +683,7 @@ public class Reaction extends AbstractNamedSBase implements Quantity {
 	 * @return true if reversible is not null.
 	 */
 	public boolean isSetReversible() {
-		return this.reversible != null;
+		return isSetReversible;
 	}
 
 	/*
@@ -984,6 +961,7 @@ public class Reaction extends AbstractNamedSBase implements Quantity {
 	 */
 	public void setFast(Boolean fast) {
 		this.fast = fast;
+		isSetFast = true;
 		stateChanged();
 	}
 
@@ -1047,6 +1025,7 @@ public class Reaction extends AbstractNamedSBase implements Quantity {
 	 */
 	public void setReversible(Boolean reversible) {
 		this.reversible = reversible;
+		isSetReversible = true;
 		stateChanged();
 	}
 
@@ -1054,14 +1033,16 @@ public class Reaction extends AbstractNamedSBase implements Quantity {
 	 * Sets the fast Boolean of this Reaction to null.
 	 */
 	public void unsetFast() {
-		this.fast = null;
+		isSetFast = false;
+		fast = null;
 	}
 
 	/**
 	 * Sets the reversible Boolean of this Reaction to null.
 	 */
 	public void unsetReversible() {
-		this.reversible = null;
+		isSetReversible = false;
+		reversible = null;
 	}
 
 	/*

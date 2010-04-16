@@ -52,17 +52,19 @@ public abstract class Symbol extends AbstractNamedSBase implements State {
 	 * The constant attribute of this variable.
 	 */
 	protected Boolean constant;
+	protected boolean isSetConstant = false;
 
 	/**
 	 * a boolean to help knowing is the value as been set by the user or is the
 	 * default one.
 	 */
-	private boolean isSetValue = false;
+	protected boolean isSetValue = false;
 
 	/**
 	 * The unit attribute of this variable.
 	 */
-	private String unitsID;
+	protected String unitsID;
+	
 	/**
 	 * The size, initial amount or concentration, or the actual value of this
 	 * variable.
@@ -239,7 +241,7 @@ public abstract class Symbol extends AbstractNamedSBase implements State {
 	 * @see org.sbml.jsbml.State#isConstant()
 	 */
 	public boolean isConstant() {
-		return isSetConstant() ? constant.booleanValue() : false;
+		return isSetConstant() ? constant : false;
 	}
 
 	/*
@@ -248,7 +250,7 @@ public abstract class Symbol extends AbstractNamedSBase implements State {
 	 * @see org.sbml.jsbml.State#isSetConstant()
 	 */
 	public boolean isSetConstant() {
-		return this.constant != null;
+		return isSetConstant;
 	}
 
 	/**
@@ -300,6 +302,7 @@ public abstract class Symbol extends AbstractNamedSBase implements State {
 	 */
 	public void setConstant(boolean constant) {
 		this.constant = Boolean.valueOf(constant);
+		isSetConstant = true;
 		stateChanged();
 	}
 
