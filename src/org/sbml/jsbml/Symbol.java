@@ -80,6 +80,15 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	}
 
 	/**
+	 * 
+	 * @param quantity
+	 */
+	public Symbol(QuantityWithDefinedUnit quantity) {
+		super(quantity);
+		this.constant = null;
+	}
+
+	/**
 	 * Creates a Symbol instance from an id, level and version. By default,
 	 * value, unitsID, constant are null.
 	 * 
@@ -154,10 +163,9 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#getParentSBMLObject()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public ListOf<? extends Symbol> getParentSBMLObject() {
-		return (ListOf<? extends Symbol>) parentSBMLObject;
+	public Model getParentSBMLObject() {
+		return (Model) parentSBMLObject;
 	}
 
 	/*

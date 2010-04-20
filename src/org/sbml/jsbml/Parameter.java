@@ -89,6 +89,19 @@ public class Parameter extends Symbol {
 		}
 	}
 
+	/**
+	 * This constructor allows the creation of a global parameter based on a
+	 * local parameter. It creates a new Parameter object that will have the
+	 * same attributes than the local parameter. Its constant attribute will be
+	 * set to true.
+	 * 
+	 * @param localParameter
+	 */
+	public Parameter(LocalParameter localParameter) {
+		super(localParameter);
+		setConstant(true);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

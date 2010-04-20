@@ -501,7 +501,7 @@ public class SBMLWriter {
 			descriptionElement.addAttribute(namespace, "about", annotation
 					.getAbout());
 			descriptionElement.addCharacters(" \n");
-			if (annotation.isSetModelHistory()) {
+			if (annotation.isSetHistory()) {
 				writeModelHistory(annotation.getHistory(), rdfNamespaces,
 						writer);
 			}
@@ -572,7 +572,7 @@ public class SBMLWriter {
 				converter.writeFragment(domDocument.getFirstChild().getChildNodes(), writer);
 			}
 
-			if (annotation.isSetModelHistory()
+			if (annotation.isSetHistory()
 					|| annotation.getListOfCVTerms().size() > 0) {
 				writeRDFAnnotation(annotation, annotationElement, writer);
 			}
