@@ -30,7 +30,6 @@
 package org.sbml.jsbml;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Represents the kineticLaw XML element of a SBML file.
@@ -50,7 +49,7 @@ public class KineticLaw extends MathContainer {
 	 * Represents the listOfLocalParameters or listOfParameters subelement of a
 	 * kineticLaw element.
 	 */
-	private ListOf<Parameter> listOfParameters;
+	private ListOf<LocalParameter> listOfParameters;
 	/**
 	 * Represents the 'substanceUnits' XML attribute of this KineticLaw.
 	 */
@@ -95,7 +94,7 @@ public class KineticLaw extends MathContainer {
 	public KineticLaw(KineticLaw kineticLaw) {
 		super(kineticLaw);
 		if (kineticLaw.isSetListOfParameters()) {
-			setListOfLocalParameters((ListOf<Parameter>) kineticLaw
+			setListOfLocalParameters((ListOf<LocalParameter>) kineticLaw
 					.getListOfParameters().clone());
 		} else {
 			listOfParameters = null;
@@ -142,9 +141,9 @@ public class KineticLaw extends MathContainer {
 	 * 
 	 * @param p
 	 */
-	public void addParameter(Parameter parameter) {
+	public void addParameter(LocalParameter parameter) {
 		if (!isSetListOfParameters()) {
-			this.listOfParameters = new ListOf<Parameter>();
+			this.listOfParameters = new ListOf<LocalParameter>();
 			setThisAsParentSBMLObject(this.listOfParameters);
 		}
 		if (!getListOfParameters().contains(parameter)) {
@@ -257,9 +256,10 @@ public class KineticLaw extends MathContainer {
 	 * @return the listOfParameters of this KineticLaw. Return null if it is not
 	 *         set.
 	 */
-	public ListOf<Parameter> getListOfParameters() {
+	public ListOf<LocalParameter> getListOfParameters() {
 		if (!isSetListOfParameters())
-			listOfParameters = new ListOf<Parameter>(getLevel(), getVersion());
+			listOfParameters = new ListOf<LocalParameter>(getLevel(),
+					getVersion());
 		return listOfParameters;
 	}
 
@@ -280,7 +280,7 @@ public class KineticLaw extends MathContainer {
 	 * @return the ith Parameter object in the list of local parameters in this
 	 *         KineticLaw instance.
 	 */
-	public Parameter getParameter(int i) {
+	public LocalParameter getParameter(int i) {
 		if (isSetListOfParameters()) {
 			return listOfParameters.get(i);
 		}
@@ -292,9 +292,9 @@ public class KineticLaw extends MathContainer {
 	 * @param id
 	 * @return a local parameter based on its identifier.
 	 */
-	public Parameter getParameter(String id) {
+	public LocalParameter getParameter(String id) {
 		if (isSetListOfParameters()) {
-			for (Parameter p : listOfParameters) {
+			for (LocalParameter p : listOfParameters) {
 				if (p.isSetId()) {
 					if (p.getId().equals(id)) {
 						return p;
@@ -470,10 +470,10 @@ public class KineticLaw extends MathContainer {
 	public void removeParameter(String id) {
 		if (isSetListOfParameters()) {
 			int i = 0;
-			List<Parameter> listOfParameters = this.listOfParameters;
+			ListOf<LocalParameter> listOfParameters = this.listOfParameters;
 			while (i < listOfParameters.size()) {
-				if (listOfParameters.get(i) instanceof Parameter) {
-					Parameter parameter = listOfParameters.get(i);
+				if (listOfParameters.get(i) instanceof LocalParameter) {
+					LocalParameter parameter = listOfParameters.get(i);
 					if (parameter.isSetId()) {
 						if (!parameter.getId().equals(id)) {
 							i++;
@@ -502,7 +502,7 @@ public class KineticLaw extends MathContainer {
 	 * 
 	 * @param list
 	 */
-	public void setListOfLocalParameters(ListOf<Parameter> list) {
+	public void setListOfLocalParameters(ListOf<LocalParameter> list) {
 		this.listOfParameters = list;
 		setThisAsParentSBMLObject(this.listOfParameters);
 		this.listOfParameters

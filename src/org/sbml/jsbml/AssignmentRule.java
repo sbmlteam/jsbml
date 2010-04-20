@@ -103,7 +103,7 @@ public class AssignmentRule extends Rule {
 	 * Creates an AssignmentRule instance from a given variable. Takes level and
 	 * version from the variable.
 	 */
-	public AssignmentRule(State variable) {
+	public AssignmentRule(Variable variable) {
 		super(variable.getLevel(), variable.getVersion());
 		if (variable.isSetId()) {
 			this.variableID = new String(variable.getId());
@@ -204,9 +204,9 @@ public class AssignmentRule extends Rule {
 	 * @return the variable instance which matches the variableID of this
 	 *         object.
 	 */
-	public State getVariableInstance() {
+	public Variable getVariableInstance() {
 		Model model = getModel();
-		return model != null ? model.findState(this.variableID) : null;
+		return model != null ? model.findVariable(this.variableID) : null;
 	}
 
 	/*
@@ -249,7 +249,7 @@ public class AssignmentRule extends Rule {
 	 */
 	public boolean isSetVariableInstance() {
 		Model model = getModel();
-		return model != null ? model.findState(this.variableID) != null
+		return model != null ? model.findVariable(this.variableID) != null
 				: false;
 	}
 
@@ -302,10 +302,10 @@ public class AssignmentRule extends Rule {
 	 * @param variable
 	 */
 	public void checkAndSetVariable(String variable) {
-		State nsb = null;
+		Variable nsb = null;
 		Model model = getModel();
 		if (model != null) {
-			nsb = model.findState(variable);
+			nsb = model.findVariable(variable);
 		}
 		if (nsb == null) {
 			throw new IllegalArgumentException(
@@ -350,7 +350,7 @@ public class AssignmentRule extends Rule {
 	 * 
 	 * @param variable
 	 */
-	public void setVariable(State variable) {
+	public void setVariable(Variable variable) {
 		this.variableID = variable != null ? variable.getId() : null;
 		stateChanged();
 	}

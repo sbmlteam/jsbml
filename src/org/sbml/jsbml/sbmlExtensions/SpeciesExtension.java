@@ -119,14 +119,6 @@ public class SpeciesExtension extends Species{
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Species#getParentSBMLObject()
-	 */
-	public Model getParentSBMLObject() {
-		return species.getParentSBMLObject();
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.Species#getSpeciesType()
 	 */
 	public String getSpeciesType() {

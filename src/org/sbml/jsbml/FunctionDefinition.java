@@ -94,20 +94,6 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	}
 
 	/**
-	 * 
-	 * @param id
-	 */
-	public FunctionDefinition(String id, int level, int version) {
-		super(level, version);
-		if (id != null) {
-			this.id = new String(id);
-		} else {
-			this.id = null;
-		}
-		this.name = null;
-	}
-
-	/**
 	 * Creates a FunctionDefinition instance from an id, ASTNode, level and
 	 * version. By default, name is null. If the ASTNode is not of type lambda,
 	 * an IllegalArgumentException is thrown.
@@ -123,6 +109,20 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 			throw new IllegalArgumentException(
 					"Math element must be of type Lambda.");
 		}
+		if (id != null) {
+			this.id = new String(id);
+		} else {
+			this.id = null;
+		}
+		this.name = null;
+	}
+
+	/**
+	 * 
+	 * @param id
+	 */
+	public FunctionDefinition(String id, int level, int version) {
+		super(level, version);
 		if (id != null) {
 			this.id = new String(id);
 		} else {
@@ -209,6 +209,29 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("id") && getLevel() > 1) {
+				setId(value);
+			} else if (attributeName.equals("name") && getLevel() > 1) {
+				setName(value);
+			}
+		}
+
+		return isAttributeRead;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.MathContainer#setFormula(java.lang.String)
 	 */
 	// @Override
@@ -248,6 +271,16 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.element.NamedSBase#setName(java.lang.String)
+	 */
+	public void setName(String name) {
+		this.name = name;
+		stateChanged();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.SBase#toString()
 	 */
 	// @Override
@@ -265,34 +298,19 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#setName(java.lang.String)
+	 * @see org.sbml.jsbml.element.NamedSBase#unsetId()
 	 */
-	public void setName(String name) {
-		this.name = name;
-		stateChanged();
+	public void unsetId() {
+		this.id = null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
+	 * @see org.sbml.jsbml.element.NamedSBase#unsetName()
 	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-
-		if (!isAttributeRead) {
-			if (attributeName.equals("id") && getLevel() > 1) {
-				setId(value);
-			} else if (attributeName.equals("name") && getLevel() > 1) {
-				setName(value);
-			}
-		}
-
-		return isAttributeRead;
+	public void unsetName() {
+		this.name = null;
 	}
 
 	/*
@@ -312,23 +330,5 @@ public class FunctionDefinition extends MathContainer implements NamedSBase {
 		}
 
 		return attributes;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#unsetId()
-	 */
-	public void unsetId() {
-		this.id = null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#unsetName()
-	 */
-	public void unsetName() {
-		this.name = null;
 	}
 }

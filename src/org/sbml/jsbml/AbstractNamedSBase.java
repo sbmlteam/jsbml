@@ -225,12 +225,12 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		stateChanged();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#toString()
+	/**
+	 * If available, this method returns the name of the component. Otherwise
+	 * the identifier is returned. If both is not possible, the class name of
+	 * this element is returned.
 	 */
-	// @Override
+	@Override
 	public String toString() {
 		if (isSetName() && getName().length() > 0) {
 			return name;

@@ -13,9 +13,11 @@ import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.QuantityWithDefinedUnit;
 import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
@@ -25,9 +27,9 @@ import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.SpeciesType;
-import org.sbml.jsbml.State;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 import org.sbml.jsbml.xml.stax.WritingParser;
@@ -266,7 +268,7 @@ private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
 						KineticLaw kineticLaw = (KineticLaw) list.getParentSBMLObject();
 						
 						if (elementName.equals("parameter") && list.getSBaseListType().equals(ListOf.Type.listOfParameters)){
-							Parameter localParameter = (Parameter) newContextObject;
+							LocalParameter localParameter = (LocalParameter) newContextObject;
 							kineticLaw.addParameter(localParameter);
 							
 							return localParameter;
@@ -735,7 +737,7 @@ private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
 		}
 	}
 	
-	private void setParameterUnits(Parameter parameter, Model model){
+	private void setParameterUnits(QuantityWithDefinedUnit parameter, Model model){
 		
 		if (parameter.isSetUnits()){
 			String unitsID = parameter.getUnits();
@@ -842,7 +844,7 @@ private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
 						KineticLaw kineticLaw = reaction.getKineticLaw();
 						if (kineticLaw.isSetListOfParameters()){
 							for (int j = 0; j < kineticLaw.getNumParameters(); j++){
-								Parameter parameter = kineticLaw.getParameter(j);
+								LocalParameter parameter = kineticLaw.getParameter(j);
 								
 								setParameterUnits(parameter, model);
 							}
@@ -991,7 +993,7 @@ private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
 				}
 				else if (sbase.getElementName().equals("assignementRule")){
 					AssignmentRule assignmentRule = (AssignmentRule) sbase;
-					State variable = assignmentRule.getVariableInstance();
+					Variable variable = assignmentRule.getVariableInstance();
 					
 					if (variable instanceof Species){
 						xmlObject.setName("specieConcentrationRule");

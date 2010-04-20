@@ -86,7 +86,7 @@ public class RateRule extends Rule {
 	 * 
 	 * @param variable
 	 */
-	public RateRule(State variable) {
+	public RateRule(Variable variable) {
 		super(variable.getLevel(), variable.getVersion());
 		if (variable.isSetId()) {
 			this.variableID = new String(variable.getId());
@@ -102,7 +102,7 @@ public class RateRule extends Rule {
 	 * @param variable
 	 * @param math
 	 */
-	public RateRule(State variable, ASTNode math) {
+	public RateRule(Variable variable, ASTNode math) {
 		super(math, variable.getLevel(), variable.getVersion());
 		if (variable.isSetId()) {
 			this.variableID = new String(variable.getId());
@@ -153,9 +153,9 @@ public class RateRule extends Rule {
 	 * @return the Symbol instance which has the variableID of this RateRule as
 	 *         id. Null if it doesn't exist.
 	 */
-	public State getVariableInstance() {
+	public Variable getVariableInstance() {
 		Model m = getModel();
-		return m != null ? m.findState(this.variableID) : null;
+		return m != null ? m.findVariable(this.variableID) : null;
 	}
 
 	/*
@@ -197,7 +197,7 @@ public class RateRule extends Rule {
 	 */
 	public boolean isSetVariableInstance() {
 		Model m = getModel();
-		return m != null ? m.findState(this.variableID) != null : false;
+		return m != null ? m.findVariable(this.variableID) != null : false;
 	}
 
 	/**
@@ -226,10 +226,10 @@ public class RateRule extends Rule {
 	 * @param variable
 	 */
 	public void checkAndSetVariable(String variable) {
-		State nsb = null;
+		Variable nsb = null;
 		Model m = getModel();
 		if (m != null) {
-			nsb = m.findState(variable);
+			nsb = m.findVariable(variable);
 		}
 		if (nsb == null)
 			throw new IllegalArgumentException(
@@ -253,7 +253,7 @@ public class RateRule extends Rule {
 	 * 
 	 * @param variable
 	 */
-	public void setVariable(State variable) {
+	public void setVariable(Variable variable) {
 		this.variableID = variable != null ? variable.getId() : null;
 		stateChanged();
 	}

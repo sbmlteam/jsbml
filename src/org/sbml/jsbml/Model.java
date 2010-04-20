@@ -823,7 +823,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return the {@link Parameter} object created
 	 */
-	public Parameter createKineticLawParameter() {
+	public LocalParameter createKineticLawParameter() {
 
 		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 		KineticLaw lastKineticLaw = null;
@@ -839,11 +839,7 @@ public class Model extends AbstractNamedSBase {
 			}
 		}
 
-		Parameter parameter = new Parameter();
-		// TODO : should we use localParameter ???
-		// createKineticLawLocalParameter exist in libsbml-5.
-		// Difference exist between global parameter and local parameter in SBML
-		// level 3
+		LocalParameter parameter = new LocalParameter();
 		lastKineticLaw.addParameter(parameter);
 
 		return parameter;
@@ -1226,69 +1222,84 @@ public class Model extends AbstractNamedSBase {
 	 *         compartment, species, or parameter wit the given id.
 	 */
 	public NamedSBase findNamedSBase(String id) {
-		NamedSBase namedSBase = null;
-
-		namedSBase = getCompartment(id);
-		if (namedSBase == null) {
-			namedSBase = getSpecies(id);
+		if (id.equals(getId()))
+			return this;
+		NamedSBase nsb = getCompartmentType(id);
+		if (nsb == null) {
+			nsb = getEvent(id);
 		}
-		if (namedSBase == null) {
-			namedSBase = getParameter(id);
-		}
-		if (namedSBase == null) {
-			namedSBase = getReaction(id);
-		}
-		if (namedSBase == null) {
-			namedSBase = getFunctionDefinition(id);
-		}
-		if (namedSBase == null) {
-			namedSBase = getUnitDefinition(id);
-		}
-		// check all local parameters
-		if (namedSBase == null) {
-			for (Reaction reaction : getListOfReactions()) {
-				if (reaction.isSetKineticLaw()) {
-					namedSBase = reaction.getKineticLaw().getParameter(id);
-				}
-				if (namedSBase != null) {
-					break;
-				}
+		if (nsb == null) {
+			for (Reaction r : getListOfReactions()) {
+				if (r.getId().equals(id))
+					return r;
+				nsb = r.getReactant(id);
+				if (nsb != null)
+					return nsb;
+				nsb = r.getProduct(id);
+				if (nsb != null)
+					return nsb;
+				nsb = r.getModifier(id);
+				if (nsb != null)
+					return nsb;
 			}
-
 		}
-		return namedSBase;
+		if (nsb == null) {
+			nsb = getSpeciesType(id);
+		}
+		if (nsb == null) {
+			nsb = getFunctionDefinition(id);
+		}
+		if (nsb == null) {
+			nsb = getUnitDefinition(id);
+		}
+		return findQuantity(id);
 	}
 
 	/**
 	 * 
-	 * @param symbol
+	 * @param variable
 	 * @return the Compartment, Species, SpeciesReference or Parameter which has
 	 *         'symbol' as id.
 	 */
-	public State findState(String symbol) {
-		State nsb = getCompartment(symbol);
+	public Variable findVariable(String variable) {
+		Variable nsb = getCompartment(variable);
 		if (nsb == null) {
-			nsb = getSpecies(symbol);
+			nsb = getSpecies(variable);
 		}
 		if (nsb == null) {
-			nsb = getParameter(symbol);
+			nsb = getParameter(variable);
 		}
 		if (nsb == null && isSetListOfReactions()) {
 			for (int i = 0; i < getNumReactions(); i++) {
 				Reaction reaction = getReaction(i);
-				nsb = reaction.getReactant(symbol);
+				nsb = reaction.getReactant(variable);
 				if (nsb != null) {
 					break;
 				} else {
-					nsb = reaction.getProduct(symbol);
+					nsb = reaction.getProduct(variable);
 					if (nsb != null) {
 						break;
-					} else if (reaction.isSetKineticLaw()) {
-						nsb = reaction.getKineticLaw().getParameter(symbol);
-						if (nsb != null) {
-							break;
-						}
 					}
+				}
+			}
+		}
+		return nsb;
+	}
+
+	/**
+	 * 
+	 * @param quantity
+	 * @return the Compartment, Species, SpeciesReference or Parameter which has
+	 *         'symbol' as id.
+	 */
+	public Quantity findQuantity(String quantity) {
+		Quantity nsb = findVariable(quantity);
+		if (nsb == null) {
+			for (Reaction r : getListOfReactions()) {
+				if (r.isSetKineticLaw()) {
+					nsb = r.getKineticLaw().getParameter(quantity);
+					if (nsb != null)
+						break;
 				}
 			}
 		}

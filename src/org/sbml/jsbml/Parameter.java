@@ -32,10 +32,12 @@ package org.sbml.jsbml;
 import java.util.HashMap;
 
 /**
- * Represents the 'parameter' XML element of a SBML file.
+ * Represents the a globally valid parameter in the model, i.e., a variable that
+ * may change during a simulation or that provides a constant value.
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * @author Nicolas Rodriguez
  * 
  * @opt attributes
  * @opt types
@@ -54,15 +56,6 @@ public class Parameter extends Symbol {
 	}
 
 	/**
-	 * Creates a Parameter instance from a given Parameter.
-	 * 
-	 * @param p
-	 */
-	public Parameter(Parameter p) {
-		super(p);
-	}
-
-	/**
 	 * Creates a Parameter instance from an id, level and version.
 	 * 
 	 * @param id
@@ -77,12 +70,20 @@ public class Parameter extends Symbol {
 	}
 
 	/**
+	 * Creates a Parameter instance from a given Parameter.
+	 * 
+	 * @param p
+	 */
+	public Parameter(Parameter p) {
+		super(p);
+	}
+
+	/**
 	 * 
 	 * @param id
 	 */
 	public Parameter(String id, int level, int version) {
 		super(id, level, version);
-
 		if (level < 3) {
 			initDefaults();
 		}
@@ -91,7 +92,7 @@ public class Parameter extends Symbol {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	 * @see org.sbml.jsbml.Symbol#clone()
 	 */
 	public Parameter clone() {
 		return new Parameter(this);
@@ -100,33 +101,33 @@ public class Parameter extends Symbol {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.Symbol#equals(java.lang.Object)
 	 */
-	// @Override
+	@Override
 	public boolean equals(Object o) {
 		return (o instanceof Parameter) ? super.equals(o) : false;
 	}
 
 	/**
-	 * Initialises the default values of this Parameter.
+	 * Initializes the default values of this Parameter, i.e., sets it to a
+	 * constant variable with a NaN value.
 	 */
 	public void initDefaults() {
-		value = Double.NaN;
-		constant = Boolean.TRUE;
+		setValue(Double.NaN);
+		setConstant(true);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
+	 * @see org.sbml.jsbml.Symbol#readAttribute(java.lang.String,
+	 * java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-
 		if (attributeName.equals("value")) {
 			this.setValue(Double.parseDouble(value));
 			return true;
@@ -150,7 +151,7 @@ public class Parameter extends Symbol {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 * @see org.sbml.jsbml.Symbol#writeXMLAttributes()
 	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {

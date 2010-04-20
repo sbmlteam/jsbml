@@ -42,7 +42,7 @@ import java.util.HashMap;
  * @opt visibility
  * @composed 0..1 math 1 ASTNode
  */
-public abstract class MathContainer extends AbstractSBase implements Quantity {
+public abstract class MathContainer extends AbstractSBase implements SBaseWithDerivedUnit {
 
 	/**
 	 * Represents the 'formula' XML attribute of this object.
@@ -172,8 +172,7 @@ public abstract class MathContainer extends AbstractSBase implements Quantity {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.Quantity#getDerivedUnit()
+	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
 	 */
 	@SuppressWarnings("deprecation")
 	public String getDerivedUnits() {
@@ -194,8 +193,7 @@ public abstract class MathContainer extends AbstractSBase implements Quantity {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.Quantity#getDerivedUnitInstance()
+	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
 	 */
 	public UnitDefinition getDerivedUnitDefinition() {
 		UnitDefinition ud = null;
