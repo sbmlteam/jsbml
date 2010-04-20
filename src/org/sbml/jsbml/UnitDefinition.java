@@ -32,6 +32,7 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
+import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -222,6 +223,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 			ListOf<Unit> orig = ud.getListOfUnits();
 			ListOf<Unit> units = new ListOf<Unit>(ud.getLevel(), ud
 					.getVersion());
+			units.setSBaseListType(Type.listOfUnits);
 			orig.removeAllSBaseChangeListeners();
 			units.add(orig.remove(orig.size() - 1));
 			int i, j;
@@ -334,7 +336,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public void addChangeListener(SBaseChangedListener l) {
 		super.addChangeListener(l);
 		if (!isSetListOfUnits())
-			listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
+			initListOfUnits();
 		listOfUnits.addChangeListener(l);
 	}
 
@@ -345,14 +347,19 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public void addUnit(Unit u) {
 		if (!isSetListOfUnits()) {
-			this.listOfUnits = new ListOf<Unit>();
-			setThisAsParentSBMLObject(this.listOfUnits);
+			initListOfUnits();
 		}
 		setThisAsParentSBMLObject(u);
 		listOfUnits.add(u);
 		u.parentSBMLObject = this;
 		stateChanged();
 	}
+
+  private void initListOfUnits() {
+    this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
+    setThisAsParentSBMLObject(this.listOfUnits);
+    this.listOfUnits.setSBaseListType(Type.listOfUnits);
+  }
 
 	/*
 	 * (non-Javadoc)
@@ -444,7 +451,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public void initDefaults() {
 		if (!isSetListOfUnits()) {
-			this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
+			initListOfUnits();
 			setThisAsParentSBMLObject(listOfUnits);
 		}
 	}

@@ -31,6 +31,8 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
+import org.sbml.jsbml.ListOf.Type;
+
 /**
  * Represents the kineticLaw XML element of a SBML file.
  * 
@@ -143,8 +145,7 @@ public class KineticLaw extends MathContainer {
 	 */
 	public void addParameter(LocalParameter parameter) {
 		if (!isSetListOfParameters()) {
-			this.listOfParameters = new ListOf<LocalParameter>();
-			setThisAsParentSBMLObject(this.listOfParameters);
+			initListOfParameters();
 		}
 		if (!getListOfParameters().contains(parameter)) {
 			setThisAsParentSBMLObject(parameter);
@@ -152,6 +153,12 @@ public class KineticLaw extends MathContainer {
 			stateChanged();
 		}
 	}
+
+  private void initListOfParameters() {
+    this.listOfParameters = new ListOf<LocalParameter>(getLevel(), getVersion());
+    setThisAsParentSBMLObject(this.listOfParameters);
+    this.listOfParameters.setSBaseListType(Type.listOfParameters);
+  }
 
 	/*
 	 * (non-Javadoc)
@@ -258,8 +265,7 @@ public class KineticLaw extends MathContainer {
 	 */
 	public ListOf<LocalParameter> getListOfParameters() {
 		if (!isSetListOfParameters())
-			listOfParameters = new ListOf<LocalParameter>(getLevel(),
-					getVersion());
+			initListOfParameters();
 		return listOfParameters;
 	}
 

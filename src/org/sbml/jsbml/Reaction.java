@@ -95,17 +95,40 @@ public class Reaction extends AbstractNamedSBase implements SBaseWithDerivedUnit
 	 */
 	public Reaction(int level, int version) {
 		super(level, version);
-		listOfReactants = new ListOf<SpeciesReference>(level, version);
-		listOfReactants.parentSBMLObject = this;
-		listOfProducts = new ListOf<SpeciesReference>(level, version);
-		listOfProducts.parentSBMLObject = this;
-		listOfModifiers = new ListOf<ModifierSpeciesReference>(level, version);
-		listOfModifiers.parentSBMLObject = this;
+		initReactantList(level, version);
+		initProductList(level, version);
+		initModifierList(level, version);
 
 		if (level < 3) {
 			initDefaults();
 		}
 	}
+	private void initModifierList() {
+	  initModifierList(getLevel(), getVersion());
+	}	
+  private void initModifierList(int level, int version) {
+    listOfModifiers = new ListOf<ModifierSpeciesReference>(level, version);
+    listOfModifiers.setSBaseListType(ListOf.Type.listOfModifiers);
+		listOfModifiers.parentSBMLObject = this;
+  }
+
+  private void initProductList() {
+    initProductList(getLevel(), getVersion());
+  }
+  private void initProductList(int level, int version) {
+    listOfProducts = new ListOf<SpeciesReference>(level, version);
+    listOfProducts.setSBaseListType(ListOf.Type.listOfProducts);
+		listOfProducts.parentSBMLObject = this;
+  }
+
+  private void initReactantList() {
+    initReactantList(getLevel(), getVersion());
+  }
+  private void initReactantList(int level, int version) {
+    listOfReactants = new ListOf<SpeciesReference>(level, version);
+    listOfReactants.setSBaseListType(ListOf.Type.listOfReactants);
+		listOfReactants.parentSBMLObject = this;
+  }
 
 	/**
 	 * Creates a Reaction instance from a given reaction.
@@ -122,17 +145,17 @@ public class Reaction extends AbstractNamedSBase implements SBaseWithDerivedUnit
 			setKineticLaw(reaction.getKineticLaw().clone());
 		}
 		if (reaction.isSetListOfReactants()) {
-			this.listOfReactants = (ListOf<SpeciesReference>) reaction
+			this.listOfReactants = ( ListOf<SpeciesReference> ) reaction
 					.getListOfReactants().clone();
 			setThisAsParentSBMLObject(listOfReactants);
 		}
 		if (reaction.isSetListOfProducts()) {
-			this.listOfProducts = (ListOf<SpeciesReference>) reaction
+			this.listOfProducts = ( ListOf<SpeciesReference> ) reaction
 					.getListOfProducts().clone();
 			setThisAsParentSBMLObject(listOfProducts);
 		}
 		if (reaction.isSetListOfModifiers()) {
-			this.listOfModifiers = (ListOf<ModifierSpeciesReference>) reaction
+			this.listOfModifiers = ( ListOf<ModifierSpeciesReference> ) reaction
 					.getListOfModifiers().clone();
 			setThisAsParentSBMLObject(listOfModifiers);
 		}
@@ -167,15 +190,15 @@ public class Reaction extends AbstractNamedSBase implements SBaseWithDerivedUnit
 	public void addChangeListener(SBaseChangedListener l) {
 		super.addChangeListener(l);
 		if (!isSetListOfReactants())
-			listOfReactants = new ListOf<SpeciesReference>(getLevel(),
+			initReactantList(getLevel(),
 					getVersion());
 		listOfReactants.addChangeListener(l);
 		if (!isSetListOfProducts())
-			listOfProducts = new ListOf<SpeciesReference>(getLevel(),
+			initProductList(getLevel(),
 					getVersion());
 		listOfProducts.addChangeListener(l);
 		if (!isSetListOfModifiers())
-			listOfModifiers = new ListOf<ModifierSpeciesReference>(getLevel(),
+			initModifierList(getLevel(),
 					getVersion());
 		listOfModifiers.addChangeListener(l);
 	}
@@ -187,7 +210,7 @@ public class Reaction extends AbstractNamedSBase implements SBaseWithDerivedUnit
 	 */
 	public void addModifier(ModifierSpeciesReference modspecref) {
 		if (!isSetListOfModifiers()) {
-			this.listOfModifiers = new ListOf<ModifierSpeciesReference>();
+			this.initModifierList();
 			setThisAsParentSBMLObject(this.listOfModifiers);
 		}
 
@@ -202,7 +225,8 @@ public class Reaction extends AbstractNamedSBase implements SBaseWithDerivedUnit
 	 */
 	public void addProduct(SpeciesReference specref) {
 		if (!isSetListOfProducts()) {
-			this.listOfProducts = new ListOf<SpeciesReference>();
+			this.initProductList();
+			this.listOfProducts.setSBaseListType(ListOf.Type.listOfProducts);
 			setThisAsParentSBMLObject(this.listOfProducts);
 		}
 
@@ -217,7 +241,8 @@ public class Reaction extends AbstractNamedSBase implements SBaseWithDerivedUnit
 	 */
 	public void addReactant(SpeciesReference specref) {
 		if (!isSetListOfReactants()) {
-			this.listOfReactants = new ListOf<SpeciesReference>();
+			this.initReactantList();
+			this.listOfProducts.setSBaseListType(ListOf.Type.listOfReactants);
 			setThisAsParentSBMLObject(this.listOfReactants);
 		}
 
@@ -375,7 +400,7 @@ public class Reaction extends AbstractNamedSBase implements SBaseWithDerivedUnit
 	 */
 	public ListOf<ModifierSpeciesReference> getListOfModifiers() {
 		if (!isSetListOfModifiers())
-			listOfModifiers = new ListOf<ModifierSpeciesReference>();
+			initModifierList();
 		return listOfModifiers;
 	}
 
@@ -386,7 +411,7 @@ public class Reaction extends AbstractNamedSBase implements SBaseWithDerivedUnit
 	 */
 	public ListOf<SpeciesReference> getListOfProducts() {
 		if (!isSetListOfProducts())
-			listOfProducts = new ListOf<SpeciesReference>();
+			initProductList();
 		return listOfProducts;
 	}
 
@@ -397,7 +422,7 @@ public class Reaction extends AbstractNamedSBase implements SBaseWithDerivedUnit
 	 */
 	public ListOf<SpeciesReference> getListOfReactants() {
 		if (!isSetListOfReactants())
-			listOfReactants = new ListOf<SpeciesReference>();
+			initReactantList();
 		return listOfReactants;
 	}
 
