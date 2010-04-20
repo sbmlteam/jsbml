@@ -62,6 +62,17 @@ public class LocalParameter extends QuantityWithDefinedUnit {
 	}
 
 	/**
+	 * Creates a new local parameter that will have the same properties than the
+	 * given global parameter. However, the value of the constant attribute will
+	 * be ignored because a local parameter can only be a constant quantity.
+	 * 
+	 * @param parameter
+	 */
+	public LocalParameter(Parameter parameter) {
+		super(parameter);
+	}
+
+	/**
 	 * @param id
 	 * @param level
 	 * @param version
@@ -89,7 +100,7 @@ public class LocalParameter extends QuantityWithDefinedUnit {
 	public LocalParameter clone() {
 		return new LocalParameter(this);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

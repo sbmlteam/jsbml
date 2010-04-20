@@ -457,8 +457,8 @@ public class Annotation {
 		if (equals && isSetOtherAnnotationThanRDF()) {
 			equals = otherAnnotation.equals(annotation.getNoRDFAnnotation());
 		}
-		equals &= isSetModelHistory() == annotation.isSetModelHistory();
-		if (equals && isSetModelHistory()) {
+		equals &= isSetHistory() == annotation.isSetHistory();
+		if (equals && isSetHistory()) {
 			equals = this.modelHistory.equals(annotation.getHistory());
 		}
 		equals &= getListOfCVTerms().isEmpty() == annotation.getListOfCVTerms()
@@ -633,7 +633,7 @@ public class Annotation {
 	 * 
 	 * @return true if the modelHistory is initialised
 	 */
-	public boolean isSetModelHistory() {
+	public boolean isSetHistory() {
 		return modelHistory != null;
 	}
 
@@ -652,7 +652,7 @@ public class Annotation {
 	 * @param buffer
 	 */
 	private void modelHistoryToXML(String indent, StringBuffer buffer) {
-		if (isSetModelHistory()) {
+		if (isSetHistory()) {
 			getHistory().toXML(indent, buffer);
 		}
 	}

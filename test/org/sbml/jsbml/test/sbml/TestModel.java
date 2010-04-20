@@ -1053,9 +1053,9 @@ public class TestModel {
 		history.addCreator(mc);
 		history.setCreatedDate(date);
 		history.setModifiedDate(date);
-		assertTrue(M.isSetModelHistory() == false);
+		assertTrue(M.isSetHistory() == false);
 		M.setHistory(history);
-		assertTrue(M.isSetModelHistory() == true);
+		assertTrue(M.isSetHistory() == true);
 		Creator newMC = history.getCreator(0);
 		assertTrue(newMC != null);
 		assertTrue(newMC.getFamilyName().equals("Keating"));
@@ -1063,7 +1063,7 @@ public class TestModel {
 		assertTrue(newMC.getEmail().equals("sbml-team@caltech.edu"));
 		assertTrue(newMC.getOrganisation().equals("UH"));
 		M.unsetModelHistory();
-		assertTrue(M.isSetModelHistory() == false);
+		assertTrue(M.isSetHistory() == false);
 		history = null;
 		mc = null;
 	}

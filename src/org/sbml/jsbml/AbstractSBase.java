@@ -598,9 +598,9 @@ public abstract class AbstractSBase implements SBase {
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#isSetModelHistory()
 	 */
-	public boolean isSetModelHistory() {
+	public boolean isSetHistory() {
 		if (isSetAnnotation()) {
-			return annotation.isSetModelHistory();
+			return annotation.isSetHistory();
 		}
 		return false;
 	}

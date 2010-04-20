@@ -314,7 +314,7 @@ public interface SBase {
 	 * 
 	 * @return true if the Annotation instance of this object
 	 */
-	public boolean isSetModelHistory();
+	public boolean isSetHistory();
 
 	/**
 	 * Predicate returning true or false depending on whether this object's
