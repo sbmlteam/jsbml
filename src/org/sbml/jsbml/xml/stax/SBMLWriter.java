@@ -55,9 +55,12 @@ import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.History;
+import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.sbmlExtensions.groups.GroupsParser;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.xml.sbmlParsers.MultiParser;
@@ -638,8 +641,27 @@ public class SBMLWriter {
 					Object nextObjectToWrite = sbmlElementsToWrite.get(i);
 
 					xmlObject.clear();
+					
+					/*
+					 *  The following containers are all optional in a <reaction>,
+					 *  but if any is present, it must not be empty: <listOfReactants>,
+					 *  <listOfProducts>, <listOfModifiers>, <kineticLaw>.
+					 *  (References: L2V2 Section 4.13; L2V3 Section 4.13; L2V4 Section 4.13) 
+					 */
+					if (nextObjectToWrite instanceof ListOf) {
+					  ListOf<?> toTest = (ListOf<?>) nextObjectToWrite;
+					  Type listType = toTest.getSBaseListType();
+					  if (listType.equals(ListOf.Type.listOfReactants) || listType.equals(ListOf.Type.listOfProducts)
+					      || listType.equals(ListOf.Type.listOfModifiers)) {
+					    if (toTest.size()<1) {
+					      continue; // Skip these, see reference in comment above.
+					    }
+					  }
+					} else if (nextObjectToWrite instanceof KineticLaw) {
+					  // TODO: Is there any chance, that an KineticLaw get's an empty XML entity?
+					}
 					parser.writeElement(xmlObject, nextObjectToWrite);
-
+					
 					parser.writeNamespaces(xmlObject, nextObjectToWrite);
 					parser.writeAttributes(xmlObject, nextObjectToWrite);
 					SMOutputElement newOutPutElement = null;
@@ -777,6 +799,15 @@ public class SBMLWriter {
 					} else if (!SBMLWriter.instantiatedSBMLParsers
 							.containsKey(packageNamespace)) {
 
+					  // This check allows to write e.g. CellDesigner Namespaces
+					  // manually to an XML file, without implement the whole parser.
+					  // (e.g. http://www.sbml.org/2001/ns/celldesigner)
+					  if (SBMLReader
+                .getPackageParsers(packageNamespace)==null) {
+					    System.out.println("Warning: Skipping detailed parsing of Namespace '" + packageNamespace + "'. No parser available.");
+					    continue;
+					  }
+					  
 						ReadingParser sbmlParser = SBMLReader
 								.getPackageParsers(packageNamespace)
 								.newInstance();
