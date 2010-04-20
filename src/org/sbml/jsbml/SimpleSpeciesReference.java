@@ -92,9 +92,9 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
-	// @Override
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof SimpleSpeciesReference) {
 			SimpleSpeciesReference ssr = (SimpleSpeciesReference) o;
@@ -116,9 +116,9 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#getParentSBMLObject()
+	 * @see org.sbml.jsbml.AbstractSBase#getParentSBMLObject()
 	 */
-	// @Override
+	@Override
 	public Reaction getParentSBMLObject() {
 		return (Reaction) super.getParentSBMLObject();
 	}

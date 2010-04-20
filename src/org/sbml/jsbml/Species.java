@@ -55,7 +55,7 @@ public class Species extends Symbol {
 	 */
 	private Boolean boundaryCondition;
 	private boolean isSetBoundaryCondition = false;
-	
+
 	/**
 	 * Represents the 'charge' attribute of a Species element.
 	 */
@@ -74,7 +74,7 @@ public class Species extends Symbol {
 	 */
 	private Boolean hasOnlySubstanceUnits;
 	private boolean isSetHasOnlySubstanceUnits = false;
-	
+
 	/**
 	 * Boolean value to test if the charge has been set.
 	 */
@@ -110,7 +110,7 @@ public class Species extends Symbol {
 	 */
 	public Species(int level, int version) {
 		super(level, version);
-		
+
 		if (isSetLevel() && getLevel() < 3) {
 			initDefaults();
 		}
@@ -125,7 +125,7 @@ public class Species extends Symbol {
 		super(species);
 		if (species.isSetBoundaryCondition()) {
 			setBoundaryCondition(species.getBoundaryCondition());
-		} 
+		}
 		if (species.isSetCharge()) {
 			setCharge(species.getCharge());
 		}
@@ -136,7 +136,8 @@ public class Species extends Symbol {
 			setSubstanceUnits(new String(species.getSubstanceUnits()));
 		}
 		if (species.isSetHasOnlySubstanceUnits()) {
-			setHasOnlySubstanceUnits(new Boolean(species.getHasOnlySubstanceUnits()));
+			setHasOnlySubstanceUnits(new Boolean(species
+					.getHasOnlySubstanceUnits()));
 		}
 		if (species.isSetInitialAmount()) {
 			setInitialAmount(new Double(species.getInitialAmount()));
@@ -175,9 +176,9 @@ public class Species extends Symbol {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#clone()
+	 * @see org.sbml.jsbml.Symbol#clone()
 	 */
-	// @Override
+	@Override
 	public Species clone() {
 		return new Species(this);
 	}
@@ -185,9 +186,9 @@ public class Species extends Symbol {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.Symbol#equals(java.lang.Object)
 	 */
-	// @Override
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Species) {
 			boolean equal = super.equals(o);
@@ -318,16 +319,6 @@ public class Species extends Symbol {
 			return getValue();
 		}
 		return 0;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#getParentSBMLObject()
-	 */
-	// @Override
-	public Model getParentSBMLObject() {
-		return (Model) parentSBMLObject;
 	}
 
 	/**
@@ -581,7 +572,8 @@ public class Species extends Symbol {
 				this.setInitialConcentration(Double.parseDouble(value));
 			} else if (attributeName.equals("substanceUnits") && getLevel() > 1) {
 				this.setUnits(value);
-			} else if (attributeName.equals("spatialSizeUnits") && getLevel() > 1) {
+			} else if (attributeName.equals("spatialSizeUnits")
+					&& getLevel() > 1) {
 				this.setSpatialSizeUnits(value);
 			} else if (attributeName.equals("hasOnlySubstanceUnits")
 					&& getLevel() > 1) {

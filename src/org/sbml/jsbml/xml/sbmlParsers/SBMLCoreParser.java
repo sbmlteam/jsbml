@@ -46,6 +46,7 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.Parameter;
@@ -74,6 +75,7 @@ import org.sbml.jsbml.xml.stax.XMLLogger;
  * @author marine
  * 
  */
+@SuppressWarnings("deprecation")
 public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 	/**
@@ -603,7 +605,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfLocalParameters)
 								&& kineticLaw.getLevel() >= 3) {
-							Parameter localParameter = (Parameter) newContextObject;
+							LocalParameter localParameter = (LocalParameter) newContextObject;
 							kineticLaw.addParameter(localParameter);
 
 							return localParameter;
@@ -612,7 +614,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 										ListOf.Type.listOfLocalParameters)
 								&& kineticLaw.isSetLevel()
 								&& kineticLaw.getLevel() < 3) {
-							Parameter localParameter = (Parameter) newContextObject;
+							LocalParameter localParameter = (LocalParameter) newContextObject;
 							kineticLaw.addParameter(localParameter);
 
 							return localParameter;
@@ -1195,7 +1197,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 						}
 						if (kineticLaw.isSetListOfParameters()) {
 							for (int j = 0; j < kineticLaw.getNumParameters(); j++) {
-								Parameter parameter = kineticLaw
+								LocalParameter parameter = kineticLaw
 										.getParameter(j);
 								if (parameter.isSetUnits()
 										&& !parameter.isSetUnitsInstance()) {
@@ -1397,7 +1399,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					listOfElementsToWrite.add(event.getDelay());
 				}
 				if (event.isSetListOfEventAssignments()) {
-					listOfElementsToWrite.add(event.getListOfEventAssignments());
+					listOfElementsToWrite
+							.add(event.getListOfEventAssignments());
 				}
 
 				if (listOfElementsToWrite.isEmpty()) {
@@ -1477,7 +1480,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					Parameter parameter = (Parameter) sbmlElementToWrite;
 
 					if (parameter.getLevel() == 3) {
-						if (parameter.getParentSBMLObject() instanceof ListOf) {
+						if (parameter.getParentSBMLObject() instanceof ListOf<?>) {
 							ListOf<Parameter> list = (ListOf<Parameter>) parameter
 									.getParentSBMLObject();
 							if (list.getSBaseListType() == ListOf.Type.listOfLocalParameters) {

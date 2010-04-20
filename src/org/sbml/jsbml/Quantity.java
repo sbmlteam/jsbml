@@ -1,6 +1,6 @@
 /*
- * $Id: AbstractNamedSBase.java 173 2010-04-09 06:32:34Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/AbstractNamedSBase.java $
+ * $Id: Quantity.java 173 2010-04-09 06:32:34Z andreas-draeger $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/Quantity.java $
  *
  *
  *==================================================================================
@@ -30,38 +30,46 @@
 package org.sbml.jsbml;
 
 /**
- * A quantity is an element that represents a value with an associated unit.
+ * A quantity is an element that represents a value with an associated unit that
+ * can be addressed through the identifier or name attribute of this element.
  * Both the value and the unit may be directly declared by the quantity or may
  * have to be derived.
  * 
  * @author Andreas Dr&auml;ger
- * 
+ * @author Nicolas Rodriguez
+ * @date 2010-04-20
  */
-public interface Quantity extends SBase {
+public interface Quantity extends NamedSBase, SBaseWithDerivedUnit {
 
 	/**
-	 * This method derives the unit of this quantity and tries to identify an
-	 * equivalent {@link UnitDefinition} within the corresponding {@link Model}.
-	 * If no equivalent unit definition can be found, a new unit definition will
-	 * be created that is not part of the model but represents the unit of this
-	 * quantity. If it is not possible to derive a unit for this quantity, null
-	 * will be returned.
+	 * Returns the value of this variable. In Compartments the value is its
+	 * size, in Species the value defines its initial amount or concentration,
+	 * and in Parameters this returns the value attribute from SBML.
 	 * 
-	 * @return
+	 * @return the value
 	 */
-	public UnitDefinition getDerivedUnitDefinition();
+	public double getValue();
 
 	/**
-	 * This method derives the unit of this quantity. If the model that contains
-	 * this quantity already contains a unit that is equivalent to the derived
-	 * unit, the corresponding identifier will be returned. In case that the
-	 * unit cannot be derived or that no equivalent unit exists within the
-	 * model, or if the model has not been defined yet, null will be returned.
-	 * In case that this quantity represents a basic {@link Unit.Kind} this
-	 * method will return the {@link String} representation of this
-	 * {@link Unit.Kind}.
 	 * 
-	 * @return
+	 * @return true if the value of this Symbol is set.
 	 */
-	public String getDerivedUnits();
+	public boolean isSetValue();
+
+	/**
+	 * Note that the meaning of the value can be different in all derived
+	 * classes. In Compartments the value defines its size. In Species the value
+	 * describes either the initial amount or the initial concentration. Only
+	 * the class Parameter really defines a value attribute with this name.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setValue(double value);
+	
+	/**
+	 * Unsets the value of this Quantity.
+	 */
+	public void unsetValue();
+
 }

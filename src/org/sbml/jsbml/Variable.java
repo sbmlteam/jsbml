@@ -1,6 +1,6 @@
 /*
- * $Id: Symbol.java 173 2010-04-09 06:32:34Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/Symbol.java $
+ * $Id: Variable.java 173 2010-04-09 06:32:34Z andreas-draeger $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/Variable.java $
  *
  *
  *==================================================================================
@@ -30,18 +30,19 @@
 package org.sbml.jsbml;
 
 /**
- * A state of the system is a quantity, i.e., a value with a unit that may
- * change during a simulation. To decide whether it has to stay constant, this
- * interface provides the necessary methods.
+ * A variable of the system is a {@link Quantity} whose value may change during
+ * a simulation. To decide whether it has to stay constant, this interface
+ * provides the necessary methods.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2010-04-13
+ * @author Nicolas Rodriguez
+ * @date 2010-04-20
  */
-public interface State extends NamedSBase, Quantity {
+public interface Variable extends Quantity {
 
 	/**
 	 * 
-	 * @return the constant Boolean of this State.
+	 * @return the constant boolean of this variable.
 	 */
 	public boolean getConstant();
 
@@ -53,14 +54,20 @@ public interface State extends NamedSBase, Quantity {
 
 	/**
 	 * 
-	 * @return true if the constant Boolean of this State is not null.
+	 * @return true if the constant boolean of this Variable is not null.
 	 */
 	public boolean isSetConstant();
 
 	/**
-	 * Sets the constant Boolean of this State.
+	 * Sets the constant boolean of this Variable.
 	 * 
 	 * @param constant
 	 */
 	public void setConstant(boolean constant);
+
+	/**
+	 * With this method the constant property of this variable will be set to an
+	 * undefined state.
+	 */
+	public void unsetConstant();
 }

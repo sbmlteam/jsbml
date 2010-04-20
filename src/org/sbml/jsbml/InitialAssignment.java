@@ -77,7 +77,7 @@ public class InitialAssignment extends MathContainer {
 	 * 
 	 * @param symbol
 	 */
-	public InitialAssignment(State symbol) {
+	public InitialAssignment(Variable symbol) {
 		super(symbol.getLevel(), symbol.getVersion());
 		if (symbol.isSetId()) {
 			this.symbolID = new String(symbol.getId());
@@ -159,9 +159,9 @@ public class InitialAssignment extends MathContainer {
 	 * @return the symbol instance which has the symbolID of this
 	 *         InitialAssignment as id. Return null if it doesn't exist.
 	 */
-	public State getStateInstance() {
+	public Variable getStateInstance() {
 		Model m = getModel();
-		return m != null ? m.findState(this.symbolID) : null;
+		return m != null ? m.findVariable(this.symbolID) : null;
 	}
 
 	/**
@@ -171,7 +171,7 @@ public class InitialAssignment extends MathContainer {
 	 */
 	public boolean isSetSymbolInstance() {
 		Model m = getModel();
-		return m != null ? m.findState(this.symbolID) != null : false;
+		return m != null ? m.findVariable(this.symbolID) != null : false;
 	}
 
 	/**
@@ -191,10 +191,10 @@ public class InitialAssignment extends MathContainer {
 	 *            : the symbol to set
 	 */
 	public void checkAndSetSymbol(String symbol) {
-		State nsb = null;
+		Variable nsb = null;
 		Model m = getModel();
 		if (m != null) {
-			nsb = m.findState(symbol);
+			nsb = m.findVariable(symbol);
 		}
 		if (nsb == null) {
 			throw new IllegalArgumentException(
@@ -222,7 +222,7 @@ public class InitialAssignment extends MathContainer {
 	 * @param state
 	 *            : the symbol to set
 	 */
-	public void setState(State state) {
+	public void setState(Variable state) {
 		this.symbolID = state != null ? state.getId() : null;
 		stateChanged();
 	}

@@ -47,7 +47,7 @@ import java.util.HashMap;
  * @composed 0..* modifier 1 ModifierSpeciesReference
  * @composed 0..1 kineticLaw 1 KineticLaw
  */
-public class Reaction extends AbstractNamedSBase implements Quantity {
+public class Reaction extends AbstractNamedSBase implements SBaseWithDerivedUnit {
 
 	/**
 	 * Represents the 'compartment' XML attribute of a reaction element.
@@ -334,7 +334,7 @@ public class Reaction extends AbstractNamedSBase implements Quantity {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Quantity#getDerivedUnit()
+	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
 	 */
 	public String getDerivedUnits() {
 		if (isSetKineticLaw())
@@ -344,7 +344,7 @@ public class Reaction extends AbstractNamedSBase implements Quantity {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Quantity#getDerivedUnitInstance()
+	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
 	 */
 	public UnitDefinition getDerivedUnitDefinition() {
 		if (isSetKineticLaw())

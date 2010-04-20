@@ -36,33 +36,35 @@ import java.util.HashMap;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * @author Nicolas Rodriguez
  * 
  * @opt attributes
  * @opt types
  * @opt visibility
  */
-public class SpeciesReference extends SimpleSpeciesReference implements State {
+public class SpeciesReference extends SimpleSpeciesReference implements
+		Variable {
 
 	/**
 	 * Represents the 'constant' XML attribute of this SpeciesReference.
 	 */
 	private Boolean constant;
-	private boolean isSetConstant = false;
 	/**
 	 * Represents the 'denominator' XML attribute of this SpeciesReference.
 	 */
 	private Integer denominator = 1;
+	private boolean isSetConstant = false;
 	/**
 	 * Boolean value to know if the SpeciesReference denominator has been set.
 	 */
 	private boolean isSetDenominator = false;
 
+	private boolean isSetStoichiometry = false;
 	/**
 	 * Represents the 'stoichiometry' XML attribute of this SpeciesReference.
 	 */
 	private Double stoichiometry;
-	private boolean isSetStoichiometry = false;
-	
+
 	/**
 	 * Contains the MathML expression for the stoichiometry of this
 	 * SpeciesReference.
@@ -87,7 +89,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements State {
 	 */
 	public SpeciesReference(int level, int version) {
 		super(level, version);
-		
+
 		if (level < 3) {
 			initDefaults();
 		}
@@ -116,7 +118,8 @@ public class SpeciesReference extends SimpleSpeciesReference implements State {
 	public SpeciesReference(SpeciesReference speciesReference) {
 		super(speciesReference);
 		if (speciesReference.isSetStoichiometryMath()) {
-			setStoichiometryMath(speciesReference.getStoichiometryMath().clone());
+			setStoichiometryMath(speciesReference.getStoichiometryMath()
+					.clone());
 		}
 		if (speciesReference.isSetStoichiometry()) {
 			setStoichiometry(new Double(speciesReference.getStoichiometry()));
@@ -180,6 +183,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements State {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.State#getConstant()
 	 */
 	public boolean getConstant() {
@@ -197,29 +201,29 @@ public class SpeciesReference extends SimpleSpeciesReference implements State {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.Quantity#getDerivedUnit()
-	 */
-	public String getDerivedUnits() {
-		if (isSetStoichiometryMath()) {
-			return stoichiometryMath.getDerivedUnits();
-		}
-		
-		return Unit.Kind.DIMENSIONLESS.toString();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.Quantity#getDerivedUnitInstance()
 	 */
 	public UnitDefinition getDerivedUnitDefinition() {
 		if (isSetStoichiometryMath()) {
 			return stoichiometryMath.getDerivedUnitDefinition();
 		}
-		
+
 		UnitDefinition ud = new UnitDefinition(getLevel(), getVersion());
 		ud.addUnit(new Unit(Unit.Kind.DIMENSIONLESS, getLevel(), getVersion()));
 		return ud;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Quantity#getDerivedUnit()
+	 */
+	public String getDerivedUnits() {
+		if (isSetStoichiometryMath()) {
+			return stoichiometryMath.getDerivedUnits();
+		}
+
+		return Unit.Kind.DIMENSIONLESS.toString();
 	}
 
 	/**
@@ -240,6 +244,15 @@ public class SpeciesReference extends SimpleSpeciesReference implements State {
 		return stoichiometryMath;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Quantity#getValue()
+	 */
+	public double getValue() {
+		return getStoichiometry();
+	}
+
 	/**
 	 * Initialises the default values of this SpeciesReference.
 	 */
@@ -252,6 +265,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements State {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.State#isConstant()
 	 */
 	public boolean isConstant() {
@@ -260,6 +274,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements State {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.State#isSetConstant()
 	 */
 	public boolean isSetConstant() {
@@ -270,7 +285,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements State {
 	 * 
 	 * @return true if the denominator is not null.
 	 */
-	private boolean isSetDenominator() {
+	public boolean isSetDenominator() {
 		return this.denominator != null;
 	}
 
@@ -289,6 +304,15 @@ public class SpeciesReference extends SimpleSpeciesReference implements State {
 	 */
 	public boolean isSetStoichiometryMath() {
 		return stoichiometryMath != null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Quantity#isSetValue()
+	 */
+	public boolean isSetValue() {
+		return isSetStoichiometry();
 	}
 
 	/*
@@ -326,6 +350,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements State {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.State#setConstant(boolean)
 	 */
 	public void setConstant(boolean constant) {
@@ -359,7 +384,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements State {
 		} else {
 			isSetStoichiometry = true;
 		}
-			
+
 		stateChanged();
 	}
 
@@ -377,6 +402,40 @@ public class SpeciesReference extends SimpleSpeciesReference implements State {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.Quantity#setValue(double)
+	 */
+	public void setValue(double value) {
+		setStoichiometry(value);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Variable#unsetConstant()
+	 */
+	public void unsetConstant() {
+		this.constant = null;
+	}
+
+	/**
+	 * Unsets the stoichiometry property of this element.
+	 */
+	public void unsetStoichiometry() {
+		this.stoichiometry = null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Quantity#unsetValue()
+	 */
+	public void unsetValue() {
+		unsetStoichiometry();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
@@ -384,7 +443,8 @@ public class SpeciesReference extends SimpleSpeciesReference implements State {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetStoichiometry()) {
-			attributes.put("stoichiometry", Double.toString(getStoichiometry()));
+			attributes
+					.put("stoichiometry", Double.toString(getStoichiometry()));
 		}
 		if (isSetConstant()) {
 			attributes.put("constant", Boolean.toString(getConstant()));
