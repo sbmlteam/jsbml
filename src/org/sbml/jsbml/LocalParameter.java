@@ -100,14 +100,4 @@ public class LocalParameter extends QuantityWithDefinedUnit {
 	public LocalParameter clone() {
 		return new LocalParameter(this);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#getParentSBMLObject()
-	 */
-	@Override
-	public KineticLaw getParentSBMLObject() {
-		return (KineticLaw) parentSBMLObject;
-	}
 }

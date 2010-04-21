@@ -335,64 +335,69 @@ public class Model extends AbstractNamedSBase {
 		super.addChangeListener(l);
 		if (!isSetListOfFunctionDefinitions()) {
 			initListOf(
-					listOfFunctionDefinitions = new ListOf<FunctionDefinition>(getLevel(), getVersion()),
+					listOfFunctionDefinitions = new ListOf<FunctionDefinition>(
+							getLevel(), getVersion()),
 					ListOf.Type.listOfFunctionDefinitions);
 		}
 		listOfFunctionDefinitions.addChangeListener(l);
 		if (!isSetListOfUnitDefinitions()) {
-			initListOf(listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(), getVersion()),
+			initListOf(listOfUnitDefinitions = new ListOf<UnitDefinition>(
+					getLevel(), getVersion()),
 					ListOf.Type.listOfUnitDefinitions);
 		}
 		listOfUnitDefinitions.addChangeListener(l);
 		if (!isSetListOfCompartmentTypes()) {
-			initListOf(listOfCompartmentTypes = new ListOf<CompartmentType>(getLevel(), getVersion()),
+			initListOf(listOfCompartmentTypes = new ListOf<CompartmentType>(
+					getLevel(), getVersion()),
 					ListOf.Type.listOfCompartmentTypes);
 		}
 		listOfCompartmentTypes.addChangeListener(l);
 		if (!isSetListOfSpeciesTypes()) {
-			initListOf(listOfSpeciesTypes = new ListOf<SpeciesType>(getLevel(), getVersion()),
-					ListOf.Type.listOfSpeciesTypes);
+			initListOf(listOfSpeciesTypes = new ListOf<SpeciesType>(getLevel(),
+					getVersion()), ListOf.Type.listOfSpeciesTypes);
 		}
 		listOfSpeciesTypes.addChangeListener(l);
 		if (!isSetListOfCompartments()) {
-			initListOf(listOfCompartments = new ListOf<Compartment>(getLevel(), getVersion()),
-					ListOf.Type.listOfCompartments);
+			initListOf(listOfCompartments = new ListOf<Compartment>(getLevel(),
+					getVersion()), ListOf.Type.listOfCompartments);
 		}
 		listOfCompartments.addChangeListener(l);
 		if (!isSetListOfSpecies()) {
-			initListOf(listOfSpecies = new ListOf<Species>(getLevel(), getVersion()),
-					ListOf.Type.listOfSpecies);
+			initListOf(listOfSpecies = new ListOf<Species>(getLevel(),
+					getVersion()), ListOf.Type.listOfSpecies);
 		}
 		listOfSpecies.addChangeListener(l);
 		if (!isSetListOfParameters()) {
-			initListOf(listOfParameters = new ListOf<Parameter>(getLevel(), getVersion()),
-					ListOf.Type.listOfParameters);
+			initListOf(listOfParameters = new ListOf<Parameter>(getLevel(),
+					getVersion()), ListOf.Type.listOfParameters);
 		}
 		listOfParameters.addChangeListener(l);
 		if (!isSetListOfInitialAssignments()) {
 			initListOf(
-					listOfInitialAssignments = new ListOf<InitialAssignment>(getLevel(), getVersion()),
+					listOfInitialAssignments = new ListOf<InitialAssignment>(
+							getLevel(), getVersion()),
 					ListOf.Type.listOfInitialAssignments);
 		}
 		listOfInitialAssignments.addChangeListener(l);
 		if (!isSetListOfRules()) {
-			initListOf(listOfRules = new ListOf<Rule>(getLevel(), getVersion()),
+			initListOf(
+					listOfRules = new ListOf<Rule>(getLevel(), getVersion()),
 					ListOf.Type.listOfRules);
 		}
 		listOfRules.addChangeListener(l);
 		if (!isSetListOfConstraints()) {
-			initListOf(listOfConstraints = new ListOf<Constraint>(getLevel(), getVersion()),
-					ListOf.Type.listOfConstraints);
+			initListOf(listOfConstraints = new ListOf<Constraint>(getLevel(),
+					getVersion()), ListOf.Type.listOfConstraints);
 		}
 		listOfConstraints.addChangeListener(l);
 		if (!isSetListOfReactions()) {
-			initListOf(listOfReactions = new ListOf<Reaction>(getLevel(), getVersion()),
-					ListOf.Type.listOfReactions);
+			initListOf(listOfReactions = new ListOf<Reaction>(getLevel(),
+					getVersion()), ListOf.Type.listOfReactions);
 		}
 		listOfReactions.addChangeListener(l);
 		if (!isSetListOfEvents()) {
-			initListOf(listOfEvents = new ListOf<Event>(getLevel(), getVersion()),
-					ListOf.Type.listOfEvents);
+			initListOf(listOfEvents = new ListOf<Event>(getLevel(),
+					getVersion()), ListOf.Type.listOfEvents);
 		}
 		listOfEvents.addChangeListener(l);
 	}
@@ -412,11 +417,12 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
-  private void initListOfCompartments() {
-    this.listOfCompartments = new ListOf<Compartment>(getLevel(), getVersion());
-    this.listOfCompartments.setSBaseListType(Type.listOfCompartments);
-    setThisAsParentSBMLObject(this.listOfCompartments);
-  }
+	private void initListOfCompartments() {
+		this.listOfCompartments = new ListOf<Compartment>(getLevel(),
+				getVersion());
+		this.listOfCompartments.setSBaseListType(Type.listOfCompartments);
+		setThisAsParentSBMLObject(this.listOfCompartments);
+	}
 
 	/**
 	 * Adds a CompartmentType instance to the listOfCompartmentTypes of this
@@ -468,11 +474,11 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
-  private void initListOfEvents() {
-    this.listOfEvents = new ListOf<Event>(getLevel(), getVersion());
-    setThisAsParentSBMLObject(this.listOfEvents);
-    this.listOfEvents.setSBaseListType(Type.listOfEvents);
-  }
+	private void initListOfEvents() {
+		this.listOfEvents = new ListOf<Event>(getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfEvents);
+		this.listOfEvents.setSBaseListType(Type.listOfEvents);
+	}
 
 	/**
 	 * Adds a FunctionDefinition instance to the listOfFunctionDefinitions of
@@ -490,11 +496,13 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
-  private void initListOfFunctionDefinitions() {
-    this.listOfFunctionDefinitions = new ListOf<FunctionDefinition>(getLevel(), getVersion());
-    setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
-    this.listOfFunctionDefinitions.setSBaseListType(Type.listOfFunctionDefinitions);
-  }
+	private void initListOfFunctionDefinitions() {
+		this.listOfFunctionDefinitions = new ListOf<FunctionDefinition>(
+				getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
+		this.listOfFunctionDefinitions
+				.setSBaseListType(Type.listOfFunctionDefinitions);
+	}
 
 	/**
 	 * Adds an InitialAssignment instance to the listOfInitialAssignments of
@@ -512,11 +520,12 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
-  private void initListOfInitialAssignment() {
-    this.listOfInitialAssignments = new ListOf<InitialAssignment>(getLevel(), getVersion());
-    setThisAsParentSBMLObject(this.listOfInitialAssignments);
-    this.listOfInitialAssignments.setListOf(listOfInitialAssignments);
-  }
+	private void initListOfInitialAssignment() {
+		this.listOfInitialAssignments = new ListOf<InitialAssignment>(
+				getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfInitialAssignments);
+		this.listOfInitialAssignments.setListOf(listOfInitialAssignments);
+	}
 
 	/**
 	 * Adds a Parameter instance to the listOfParameters of this Model.
@@ -533,11 +542,11 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
-  private void initListOfParameters() {
-    this.listOfParameters = new ListOf<Parameter>(getLevel(), getVersion());
-    setThisAsParentSBMLObject(this.listOfParameters);
-    this.listOfParameters.setSBaseListType(Type.listOfParameters);
-  }
+	private void initListOfParameters() {
+		this.listOfParameters = new ListOf<Parameter>(getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfParameters);
+		this.listOfParameters.setSBaseListType(Type.listOfParameters);
+	}
 
 	/**
 	 * Adds a Reaction instance to the listOfReactions of this Model.
@@ -554,11 +563,11 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
-  private void initListOfReactions() {
-    this.listOfReactions = new ListOf<Reaction>(getLevel(), getVersion());
-    setThisAsParentSBMLObject(this.listOfReactions);
-    this.listOfReactions.setSBaseListType(Type.listOfReactions);
-  }
+	private void initListOfReactions() {
+		this.listOfReactions = new ListOf<Reaction>(getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfReactions);
+		this.listOfReactions.setSBaseListType(Type.listOfReactions);
+	}
 
 	/**
 	 * Adds a Rule instance to the listOfRules of this Model.
@@ -575,11 +584,11 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
-  private void initListOfRules() {
-    this.listOfRules = new ListOf<Rule>(getLevel(), getVersion());
-    setThisAsParentSBMLObject(this.listOfRules);
-    this.listOfRules.setSBaseListType(Type.listOfRules);
-  }
+	private void initListOfRules() {
+		this.listOfRules = new ListOf<Rule>(getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfRules);
+		this.listOfRules.setSBaseListType(Type.listOfRules);
+	}
 
 	/**
 	 * Adds a Species instance to the listOfSpecies of this Model.
@@ -596,11 +605,11 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
-  private void initListOfSpecies() {
-    this.listOfSpecies = new ListOf<Species>(getLevel(), getVersion());
-    setThisAsParentSBMLObject(this.listOfSpecies);
-    this.listOfSpecies.setSBaseListType(Type.listOfSpecies);
-  }
+	private void initListOfSpecies() {
+		this.listOfSpecies = new ListOf<Species>(getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfSpecies);
+		this.listOfSpecies.setSBaseListType(Type.listOfSpecies);
+	}
 
 	/**
 	 * Adds a SpeciesType instance to the listOfSpeciesTypes of this Model.
@@ -636,11 +645,12 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
-  private void initListOfUnitDefinitions() {
-    this.listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(), getVersion());
-    setThisAsParentSBMLObject(this.listOfUnitDefinitions);
-    this.listOfUnitDefinitions.setSBaseListType(Type.listOfUnitDefinitions);
-  }
+	private void initListOfUnitDefinitions() {
+		this.listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(),
+				getVersion());
+		setThisAsParentSBMLObject(this.listOfUnitDefinitions);
+		this.listOfUnitDefinitions.setSBaseListType(Type.listOfUnitDefinitions);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -1637,8 +1647,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<Compartment> getListOfCompartments() {
 		if (!isSetListOfCompartments()) {
-			initListOf(listOfCompartments = new ListOf<Compartment>(getLevel(), getVersion()),
-					ListOf.Type.listOfCompartments);
+			initListOf(listOfCompartments = new ListOf<Compartment>(getLevel(),
+					getVersion()), ListOf.Type.listOfCompartments);
 		}
 		return listOfCompartments;
 	}
@@ -1651,7 +1661,8 @@ public class Model extends AbstractNamedSBase {
 	@Deprecated
 	public ListOf<CompartmentType> getListOfCompartmentTypes() {
 		if (!isSetListOfCompartmentTypes()) {
-			initListOf(listOfCompartmentTypes = new ListOf<CompartmentType>(getLevel(), getVersion()),
+			initListOf(listOfCompartmentTypes = new ListOf<CompartmentType>(
+					getLevel(), getVersion()),
 					ListOf.Type.listOfCompartmentTypes);
 		}
 		return listOfCompartmentTypes;
@@ -1663,8 +1674,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<Constraint> getListOfConstraints() {
 		if (!isSetListOfConstraints()) {
-			initListOf(listOfConstraints = new ListOf<Constraint>(getLevel(), getVersion()),
-					ListOf.Type.listOfConstraints);
+			initListOf(listOfConstraints = new ListOf<Constraint>(getLevel(),
+					getVersion()), ListOf.Type.listOfConstraints);
 		}
 		return listOfConstraints;
 	}
@@ -1675,8 +1686,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<Event> getListOfEvents() {
 		if (!isSetListOfEvents()) {
-			initListOf(listOfEvents = new ListOf<Event>(getLevel(), getVersion()),
-					ListOf.Type.listOfEvents);
+			initListOf(listOfEvents = new ListOf<Event>(getLevel(),
+					getVersion()), ListOf.Type.listOfEvents);
 		}
 		return listOfEvents;
 	}
@@ -1689,7 +1700,8 @@ public class Model extends AbstractNamedSBase {
 	public ListOf<FunctionDefinition> getListOfFunctionDefinitions() {
 		if (!isSetListOfFunctionDefinitions()) {
 			initListOf(
-					listOfFunctionDefinitions = new ListOf<FunctionDefinition>(getLevel(), getVersion()),
+					listOfFunctionDefinitions = new ListOf<FunctionDefinition>(
+							getLevel(), getVersion()),
 					ListOf.Type.listOfFunctionDefinitions);
 		}
 		return listOfFunctionDefinitions;
@@ -1702,7 +1714,8 @@ public class Model extends AbstractNamedSBase {
 	public ListOf<InitialAssignment> getListOfInitialAssignments() {
 		if (!isSetListOfInitialAssignments()) {
 			initListOf(
-					listOfInitialAssignments = new ListOf<InitialAssignment>(getLevel(), getVersion()),
+					listOfInitialAssignments = new ListOf<InitialAssignment>(
+							getLevel(), getVersion()),
 					ListOf.Type.listOfInitialAssignments);
 		}
 		return listOfInitialAssignments;
@@ -1714,8 +1727,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<Parameter> getListOfParameters() {
 		if (!isSetListOfParameters()) {
-			initListOf(listOfParameters = new ListOf<Parameter>(getLevel(), getVersion()),
-					ListOf.Type.listOfParameters);
+			initListOf(listOfParameters = new ListOf<Parameter>(getLevel(),
+					getVersion()), ListOf.Type.listOfParameters);
 		}
 		return listOfParameters;
 	}
@@ -1726,8 +1739,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<Reaction> getListOfReactions() {
 		if (!isSetListOfReactions()) {
-			initListOf(listOfReactions = new ListOf<Reaction>(getLevel(), getVersion()),
-					ListOf.Type.listOfReactions);
+			initListOf(listOfReactions = new ListOf<Reaction>(getLevel(),
+					getVersion()), ListOf.Type.listOfReactions);
 		}
 		return listOfReactions;
 	}
@@ -1738,7 +1751,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<Rule> getListOfRules() {
 		if (!isSetListOfRules()) {
-			initListOf(listOfRules = new ListOf<Rule>(getLevel(), getVersion()),
+			initListOf(
+					listOfRules = new ListOf<Rule>(getLevel(), getVersion()),
 					ListOf.Type.listOfRules);
 		}
 		return listOfRules;
@@ -1750,8 +1764,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<Species> getListOfSpecies() {
 		if (!isSetListOfSpecies()) {
-			initListOf(listOfSpecies = new ListOf<Species>(getLevel(), getVersion()),
-					ListOf.Type.listOfSpecies);
+			initListOf(listOfSpecies = new ListOf<Species>(getLevel(),
+					getVersion()), ListOf.Type.listOfSpecies);
 		}
 		return listOfSpecies;
 	}
@@ -1764,8 +1778,8 @@ public class Model extends AbstractNamedSBase {
 	@Deprecated
 	public ListOf<SpeciesType> getListOfSpeciesTypes() {
 		if (!isSetListOfSpeciesTypes()) {
-			initListOf(listOfSpeciesTypes = new ListOf<SpeciesType>(getLevel(), getVersion()),
-					ListOf.Type.listOfSpeciesTypes);
+			initListOf(listOfSpeciesTypes = new ListOf<SpeciesType>(getLevel(),
+					getVersion()), ListOf.Type.listOfSpeciesTypes);
 		}
 		return listOfSpeciesTypes;
 	}
@@ -1777,7 +1791,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<UnitDefinition> getListOfUnitDefinitions() {
 		if (!isSetListOfUnitDefinitions()) {
-			initListOf(listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(), getVersion()),
+			initListOf(listOfUnitDefinitions = new ListOf<UnitDefinition>(
+					getLevel(), getVersion()),
 					ListOf.Type.listOfUnitDefinitions);
 		}
 		return listOfUnitDefinitions;
@@ -1994,16 +2009,6 @@ public class Model extends AbstractNamedSBase {
 			}
 		}
 		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.AbstractSBase#getParentSBMLObject()
-	 */
-	// @Override
-	public SBMLDocument getParentSBMLObject() {
-		return (SBMLDocument) parentSBMLObject;
 	}
 
 	/**

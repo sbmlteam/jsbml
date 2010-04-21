@@ -52,19 +52,23 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	/**
 	 * Represents the 'denominator' XML attribute of this SpeciesReference.
 	 */
-	private Integer denominator = 1;
-	private boolean isSetConstant = false;
+	private Integer denominator;
+	/**
+	 * 
+	 */
+	private boolean isSetConstant;
 	/**
 	 * Boolean value to know if the SpeciesReference denominator has been set.
 	 */
-	private boolean isSetDenominator = false;
-
-	private boolean isSetStoichiometry = false;
+	private boolean isSetDenominator;
+	/**
+	 * 
+	 */
+	private boolean isSetStoichiometry;
 	/**
 	 * Represents the 'stoichiometry' XML attribute of this SpeciesReference.
 	 */
 	private Double stoichiometry;
-
 	/**
 	 * Contains the MathML expression for the stoichiometry of this
 	 * SpeciesReference.
@@ -80,6 +84,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	public SpeciesReference() {
 		super();
+		initDefaults();
 	}
 
 	/**
@@ -89,10 +94,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	public SpeciesReference(int level, int version) {
 		super(level, version);
-
-		if (level < 3) {
-			initDefaults();
-		}
+		initDefaults();
 	}
 
 	/**
@@ -104,10 +106,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	public SpeciesReference(Species species) {
 		super(species);
-
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		initDefaults();
 	}
 
 	/**
@@ -222,7 +221,6 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		if (isSetStoichiometryMath()) {
 			return stoichiometryMath.getDerivedUnits();
 		}
-
 		return Unit.Kind.DIMENSIONLESS.toString();
 	}
 
@@ -256,11 +254,16 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	/**
 	 * Initialises the default values of this SpeciesReference.
 	 */
-	// @Override
 	public void initDefaults() {
-		stoichiometry = 1.0;
-		stoichiometryMath = null;
-		denominator = 1;
+		if (getLevel() < 3) {
+			setConstant(true);
+			setStoichiometry(1d);
+			denominator = Integer.valueOf(1);
+		} else {
+			isSetConstant = false;
+			isSetDenominator = false;
+			isSetStoichiometry = false;
+		}
 	}
 
 	/*
