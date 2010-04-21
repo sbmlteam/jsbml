@@ -161,16 +161,6 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#getParentSBMLObject()
-	 */
-	@Override
-	public Model getParentSBMLObject() {
-		return (Model) parentSBMLObject;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.Variable#isConstant()
 	 */
 	public boolean isConstant() {

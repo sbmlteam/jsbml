@@ -55,8 +55,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/**
 	 * This enum lists all the possible names of the listXXX components. If the
-	 * listXXX is a SBML package extension, the SBaseListType value to set would be
-	 * 'other'.
+	 * listXXX is a SBML package extension, the SBaseListType value to set would
+	 * be 'other'.
 	 * 
 	 * @author marine
 	 * 
@@ -143,7 +143,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		 */
 		listOfSpeciesTypes
 	}
-	
+
 	/**
 	 * name of the list at it appears in the SBMLFile. By default, it is
 	 * SBaseListType.none.
@@ -191,6 +191,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.LinkedList#add(int index, T element)
 	 */
 	public void add(int index, T element) {
+		setThisAsParentSBMLObject(element);
 		listOf.add(index, element);
 	}
 
@@ -203,13 +204,13 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		if (e.getLevel() != getLevel()) {
 			throw new IllegalArgumentException(String.format(
 					"Level mismatch between %s in V %d and %s in L %d",
-					getParentSBMLObject().getClass().getSimpleName(),
-					getLevel(), e.getClass().getSimpleName(), e.getLevel()));
+					getClass().getSimpleName(), getLevel(), e.getClass()
+							.getSimpleName(), e.getLevel()));
 		} else if (e.getVersion() != getVersion()) {
 			throw new IllegalArgumentException(String.format(
 					"Version mismatch between %s in V %d and %s in V %d",
-					getParentSBMLObject().getClass().getSimpleName(),
-					getVersion(), e.getClass().getSimpleName(), e.getVersion()));
+					getClass().getSimpleName(), getVersion(), e.getClass()
+							.getSimpleName(), e.getVersion()));
 		}
 		// Avoid adding the same thing twice.
 		if (e instanceof NamedSBase) {
@@ -226,6 +227,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		for (SBaseChangedListener l : setOfListeners) {
 			e.addChangeListener(l);
 		}
+		setThisAsParentSBMLObject(e);
 		return listOf.add(e);
 	}
 
@@ -235,6 +237,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.LinkedList#addAll(Collection<? extends T> c)
 	 */
 	public boolean addAll(Collection<? extends T> c) {
+		for (T element : c)
+			setThisAsParentSBMLObject(element);
 		return listOf.addAll(c);
 	}
 
@@ -244,6 +248,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.LinkedList#addAll(int index, Collection<? extends T> c)
 	 */
 	public boolean addAll(int index, Collection<? extends T> c) {
+		for (T element : c)
+			setThisAsParentSBMLObject(element);
 		return listOf.addAll(index, c);
 	}
 
@@ -255,8 +261,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public void addChangeListener(SBaseChangedListener l) {
 		setOfListeners.add(l);
-		for (int i = 0; i < size(); i++) {
-			get(i).addChangeListener(l);
+		for (T element : listOf) {
+			element.addChangeListener(l);
 		}
 	}
 
@@ -371,8 +377,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see org.sbml.jlibsbml.SBase#getAnnotationString()
 	 */
 	public String getElementName() {
-		String name = getSBaseListType().toString();
-		return name;
+		return getSBaseListType().toString();
 	}
 
 	/**
@@ -463,7 +468,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
-
 		return false;
 	}
 
@@ -474,6 +478,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public T remove(int index) {
 		T t = listOf.remove(index);
+		if (t instanceof AbstractSBase)
+			((AbstractSBase) t).parentSBMLObject = null;
 		t.sbaseRemoved();
 		return t;
 	}
@@ -496,7 +502,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 				}
 			}
 			if (pos >= 0) {
-				listOf.remove(pos);
+				T t = listOf.remove(pos);
+				if (t instanceof AbstractSBase)
+					((AbstractSBase) t).parentSBMLObject = null;
 				return true;
 			}
 		}
@@ -521,7 +529,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	public T remove(String removeId) {
-
 		if (removeId != null && removeId.trim().length() == 0) {
 			int pos = -1;
 			SBase sbase = null;
@@ -573,6 +580,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.LinkedList#set(int index, T element)
 	 */
 	public T set(int index, T element) {
+		setThisAsParentSBMLObject(element);
 		return listOf.set(index, element);
 	}
 
@@ -583,7 +591,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public void setListOf(List<T> listOf) {
 		this.listOf.clear();
-		listOf.addAll(listOf);
+		this.listOf.addAll(listOf);
 		stateChanged();
 	}
 
@@ -659,7 +667,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-
 		return attributes;
 	}
 }

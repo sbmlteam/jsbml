@@ -78,10 +78,8 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	 * @param ssr
 	 */
 	public SimpleSpeciesReference(Species s) {
-		super();
+		super(s.getLevel(), s.getVersion());
 		this.speciesID = s.isSetId() ? new String(s.getId()) : null;
-		setLevel(s.getLevel());
-		setVersion(s.getVersion());
 	}
 
 	public SimpleSpeciesReference(int level, int version) {
@@ -111,16 +109,6 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 			return equal;
 		}
 		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#getParentSBMLObject()
-	 */
-	@Override
-	public Reaction getParentSBMLObject() {
-		return (Reaction) super.getParentSBMLObject();
 	}
 
 	/**
@@ -165,7 +153,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	 * @param spec
 	 */
 	public void setSpecies(Species spec) {
-		this.speciesID = spec != null ? spec.getId() : null;
+		this.speciesID = spec != null && spec.isSetId() ? spec.getId() : null;
 		stateChanged();
 	}
 
@@ -180,7 +168,6 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 		} else {
 			speciesID = spec;
 		}
-
 		stateChanged();
 	}
 
@@ -197,7 +184,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 		if (isSetSpeciesInstance()) {
 			return getSpeciesInstance().toString();
 		}
-		return null;
+		return super.toString();
 	}
 
 	/*
@@ -232,7 +219,6 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-
 		if (isSetSpecies()) {
 			if ((getLevel() == 1 && getVersion() == 2) || getLevel() > 1) {
 				attributes.put("species", getSpecies());
@@ -240,7 +226,6 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 				attributes.put("specie", getSpecies());
 			}
 		}
-
 		return attributes;
 	}
 }

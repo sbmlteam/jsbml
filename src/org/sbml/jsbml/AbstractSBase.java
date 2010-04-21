@@ -480,8 +480,8 @@ public abstract class AbstractSBase implements SBase {
 		if (this instanceof SBMLDocument) {
 			return (SBMLDocument) this;
 		}
-		Model m = getModel();
-		return m != null ? m.getParentSBMLObject() : null;
+		return getParentSBMLObject() != null ? getParentSBMLObject()
+				.getSBMLDocument() : null;
 	}
 
 	/*
@@ -578,6 +578,18 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.element.SBase#isSetModelHistory()
+	 */
+	public boolean isSetHistory() {
+		if (isSetAnnotation()) {
+			return annotation.isSetHistory();
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.SBase#isSetLevel()
 	 */
 	public boolean isSetLevel() {
@@ -591,18 +603,6 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public boolean isSetMetaId() {
 		return metaId != null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#isSetModelHistory()
-	 */
-	public boolean isSetHistory() {
-		if (isSetAnnotation()) {
-			return annotation.isSetHistory();
-		}
-		return false;
 	}
 
 	/*
@@ -816,9 +816,22 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#setThisAsParentSBMLObject(AbstractSBase
 	 * sbase)
 	 */
-	public void setThisAsParentSBMLObject(AbstractSBase sbase) {
-		sbase.parentSBMLObject = this;
+	public void setThisAsParentSBMLObject(SBase sbase) {
+		checkLevelAndVersionCompatibility(sbase);
+		if (sbase instanceof AbstractSBase) {
+			((AbstractSBase) sbase).parentSBMLObject = this;
+			for (SBaseChangedListener l : setOfListeners)
+				sbase.addChangeListener(l);
+		}
+	}
 
+	/**
+	 * Checks whether or not the given {@link SBase} has the same level and
+	 * version configuration than this element.
+	 * 
+	 * @param sbase
+	 */
+	private void checkLevelAndVersionCompatibility(SBase sbase) {
 		if (sbase.isSetLevel()) {
 			if (sbase.getLevel() != getLevel()) {
 				try {
@@ -843,50 +856,6 @@ public abstract class AbstractSBase implements SBase {
 			}
 		} else {
 			sbase.setVersion(getVersion());
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#setThisAsParentSBMLObject(ListOf<?>
-	 * list)
-	 */
-	void setThisAsParentSBMLObject(ListOf<?> list) {
-		list.parentSBMLObject = this;
-
-		if (list.isSetLevel()) {
-			if (list.getLevel() != getLevel()) {
-				try {
-					throw new SBMLException();
-				} catch (SBMLException e) {
-					// TODO Level different, what to do?
-					e.printStackTrace();
-				}
-			}
-		} else {
-			list.setLevel(getLevel());
-		}
-
-		if (list.isSetVersion()) {
-			if (list.getVersion() != getVersion()) {
-				try {
-					throw new SBMLException();
-				} catch (SBMLException e) {
-					// TODO Version different : what to do?
-					e.printStackTrace();
-				}
-			}
-		} else {
-			list.setVersion(getVersion());
-		}
-		for (SBaseChangedListener l : setOfListeners)
-			list.addChangeListener(l);
-		for (SBase base : list) {
-			if (base instanceof AbstractSBase) {
-				AbstractSBase sbase = (AbstractSBase) base;
-				setThisAsParentSBMLObject(sbase);
-			}
 		}
 	}
 

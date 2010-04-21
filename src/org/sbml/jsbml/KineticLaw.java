@@ -323,6 +323,7 @@ public class KineticLaw extends MathContainer {
 	 * 
 	 * @return Returns the parent SBML object.
 	 */
+	@Override
 	public Reaction getParentSBMLObject() {
 		return (Reaction) parentSBMLObject;
 	}

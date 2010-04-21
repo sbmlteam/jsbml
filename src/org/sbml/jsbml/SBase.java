@@ -298,6 +298,12 @@ public interface SBase {
 
 	/**
 	 * 
+	 * @return true if the Annotation instance of this object
+	 */
+	public boolean isSetHistory();
+
+	/**
+	 * 
 	 * @return true if the level is not null.
 	 */
 	public boolean isSetLevel();
@@ -309,12 +315,6 @@ public interface SBase {
 	 * @return true if the metaid is not null.
 	 */
 	public boolean isSetMetaId();
-
-	/**
-	 * 
-	 * @return true if the Annotation instance of this object
-	 */
-	public boolean isSetHistory();
 
 	/**
 	 * Predicate returning true or false depending on whether this object's
@@ -433,7 +433,7 @@ public interface SBase {
 	 * If the level and version of sbase are set but not valid, an exception is
 	 * thrown.
 	 */
-	public void setThisAsParentSBMLObject(AbstractSBase sbase);
+	public void setThisAsParentSBMLObject(SBase sbase);
 
 	/**
 	 * Sets the version of this object with 'version'. If the SBMLparent of this
