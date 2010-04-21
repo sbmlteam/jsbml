@@ -1,0 +1,70 @@
+JSBML – a flexible and entirely Java-based implementation and data structure for
+working with SBML
+
+Nicolas Rodriguez, Marine Dumousseau, Andreas Dräger, Clemens Wrzodek, Alexander
+Dörr, Sarah Keating, Akiya Jouraku, Nicolas Le Novère, Andreas Zell, and Michael
+Hucka
+
+The XML-based Systems Biology markup language (SBML) constitutes the de-facto
+standard file format to store and exchange biochemical network models: more than
+180 programs are now available that support this file format (23 December 2009).
+The clearly defined data structures that are inspired by real biological
+entities and the comprehensive file format specifications are reasons for this
+success. Furthermore, the library libSBML provides many methods for reading and
+writing SBML files. To this end, libSBML maps the elements from the XML file to
+a hierarchy of in-memory objects that can be manipulated through its Application
+Programing Interface (API). This library therefore constitutes another reason
+for the widespread acceptance of SBML, because it also provides methods for
+consistency checks and validation rules of SBML constructs together with methods
+to interconvert between several level and version combinations of SBML.
+Originally written in Iso C and C++, libSBML also provides language bindings to
+many other programing environments such as MATLAB<startsub>TM<endsub>,
+Java<startsub>TM<endsub>, Python, and many more. However, the following 
+disadvantages hamper its applicability when working with Java:
+1.Due to the underlying wrapped C code, all programs based on libSBML become
+platform dependent. In this way, it is quite hard to develop Java webstart
+applications based on libSBML that would work on any system where Java is
+installed.
+2.The development of libSBML is mainly driven by as far as possible exact
+mapping of the SBML specification for XML-based files to in-memory objects. To
+perform computation or more complex operations the data structures are often not
+flexible enough and the type hierarchy is very flat although many objects share
+several common attributes.
+3.Extending the API becomes very difficult because of the underlying C code.
+When debugging code, many fields and variables are not visible, which
+complicates software development. Under some operating systems, installation and
+compilation can be difficult.
+For these reasons, the SBML community decided in a survey in May 2009 that the
+development of an entirely Java-based data structure for SBML should be made
+available. Here we present the JSBML project, which is freely available at
+http://sourceforge.net/projects/jsbml.  Its aim is to provide SBML parsers and
+writers that map all elements to a flexible and extended type hierarchy  in
+memory, which can directly be used for computation and complex operations.
+Currently, JSBML supports all constructs for SBML up to the latest standard
+Level 3 Version 1 including SBML extensions. The main differences between JSBML
+and libSBML are the more sophisticated and abstract type hierarchy, the usage of
+generic list objects, and that enumerations are used instead of integer numbers
+to return error codes or set the kind of a unit. Furthermore, JSBML provides an
+interface that directly allows for the evaluation of Abstract Syntax Trees in a
+simulation or mapping to other data structures.
+With the help of a layered mapping architecture, JSBML can be used in three
+different ways. First, with the parsers and writers contained in JSBML, SBML
+files can be directly created, manipulated or be written. Second, libSBML can be
+used for reading, validating, and checking SBML. A mapping module is available
+that copies all libSBML data structures into the corresponding JSBML objects.
+Third, with a further mapping module, the plug-in data structures from the
+widespread SBML editor CellDesigner can be mapped into JSBML data structures and
+be synchronized with the CellDesigner API. In this way, it is possible to
+implement an application based on JSBML that can then be used as a plug-in for
+CellDesigner or as a stand-alone program with negligible additional effort.
+With the release of SBMLsqueezer 1.3, the first fully functioning program that
+has been made available that is entirely based on JSBML and that can be used as
+a stand-alone program or as a plug-in for CellDesigner.
+Summarizing, JSBML is a young software project to provide a comprehensive and
+entirely Java-based data structures to read, write, and manipulate SBML files.
+Additionally, it can be used for complex computation and model evaluation
+operations, or be mapped to other data objects. Its layered architecture allows
+for the creation of Java-webstart applications and CellDesigner plug-ins based
+on stand-alone programs with very little effort. However, the community effort
+JSBML is still under development and does not yet cover all special cases of all
+level/version combinations of SBML. 
