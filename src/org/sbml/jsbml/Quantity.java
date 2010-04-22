@@ -39,7 +39,7 @@ package org.sbml.jsbml;
  * @author Nicolas Rodriguez
  * @date 2010-04-20
  */
-public interface Quantity extends NamedSBase, SBaseWithDerivedUnit {
+public interface Quantity extends NamedSBaseWithDerivedUnit {
 
 	/**
 	 * Returns the value of this variable. In Compartments the value is its

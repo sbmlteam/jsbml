@@ -295,18 +295,18 @@ public class KineticLaw extends MathContainer {
 
 	/**
 	 * 
-	 * @param id
+	 * @param idOrName
 	 * @return a local parameter based on its identifier.
 	 */
-	public LocalParameter getParameter(String id) {
+	public LocalParameter getParameter(String idOrName) {
 		if (isSetListOfParameters()) {
 			for (LocalParameter p : listOfParameters) {
 				if (p.isSetId()) {
-					if (p.getId().equals(id)) {
+					if (p.getId().equals(idOrName)) {
 						return p;
 					}
 				} else if (p.isSetName()) {
-					if (p.getName().equals(id)) {
+					if (p.getName().equals(idOrName)) {
 						return p;
 					}
 				}

@@ -171,7 +171,7 @@ public interface ASTNodeCompiler {
 	 * @param variable
 	 * @return
 	 */
-	public Object compile(NamedSBase variable);
+	public Object compile(NamedSBaseWithDerivedUnit variable);
 
 	/**
 	 * 

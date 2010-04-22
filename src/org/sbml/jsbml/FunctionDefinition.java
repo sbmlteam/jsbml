@@ -42,7 +42,8 @@ import java.util.HashMap;
  * @opt types
  * @opt visibility
  */
-public class FunctionDefinition extends MathContainer implements NamedSBase {
+public class FunctionDefinition extends MathContainer implements
+		NamedSBaseWithDerivedUnit {
 
 	/**
 	 * Represents the "id" attribute of a functionDefinition element.
