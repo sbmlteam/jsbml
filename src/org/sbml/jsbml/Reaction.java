@@ -48,7 +48,7 @@ import java.util.HashMap;
  * @composed 0..1 kineticLaw 1 KineticLaw
  */
 public class Reaction extends AbstractNamedSBase implements
-		SBaseWithDerivedUnit {
+		NamedSBaseWithDerivedUnit {
 
 	/**
 	 * Represents the 'compartment' XML attribute of a reaction element.
@@ -365,20 +365,20 @@ public class Reaction extends AbstractNamedSBase implements
 
 	/**
 	 * 
-	 * @param id
+	 * @param idOrName
 	 * @return the ModifierSpeciesReference of the listOfModifiers which has
 	 *         'id' as id (or name depending on the level and version). Can be
 	 *         null if it doesn't exist.
 	 */
-	public ModifierSpeciesReference getModifier(String id) {
+	public ModifierSpeciesReference getModifier(String idOrName) {
 		if (isSetListOfModifiers()) {
 			for (ModifierSpeciesReference msp : listOfModifiers) {
 				if (msp.isSetId()) {
-					if (msp.getId().equals(id)) {
+					if (msp.getId().equals(idOrName)) {
 						return msp;
 					}
 				} else if (msp.isSetName()) {
-					if (msp.getName().equals(id)) {
+					if (msp.getName().equals(idOrName)) {
 						return msp;
 					}
 				}
@@ -423,20 +423,20 @@ public class Reaction extends AbstractNamedSBase implements
 
 	/**
 	 * 
-	 * @param id
+	 * @param idOrName
 	 * @return the SpeciesReference of the listOfProducts which has 'id' as id
 	 *         (or name depending on the level and version). Can be null if it
 	 *         doesn't exist.
 	 */
-	public SpeciesReference getProduct(String id) {
+	public SpeciesReference getProduct(String idOrName) {
 		if (isSetListOfProducts()) {
 			for (SpeciesReference sp : listOfProducts) {
 				if (sp.isSetId()) {
-					if (sp.getId().equals(id)) {
+					if (sp.getId().equals(idOrName)) {
 						return sp;
 					}
 				} else if (sp.isSetName()) {
-					if (sp.getName().equals(id)) {
+					if (sp.getName().equals(idOrName)) {
 						return sp;
 					}
 				}
@@ -457,20 +457,20 @@ public class Reaction extends AbstractNamedSBase implements
 
 	/**
 	 * 
-	 * @param id
+	 * @param idOrName
 	 * @return the SpeciesReference of the listOfReactants which has 'id' as id
 	 *         (or name depending on the level and version). Can be null if it
 	 *         doesn't exist.
 	 */
-	public SpeciesReference getReactant(String id) {
+	public SpeciesReference getReactant(String idOrName) {
 		if (isSetListOfReactants()) {
 			for (SpeciesReference sp : listOfReactants) {
 				if (sp.isSetId()) {
-					if (sp.getId().equals(id)) {
+					if (sp.getId().equals(idOrName)) {
 						return sp;
 					}
 				} else if (sp.isSetName()) {
-					if (sp.getName().equals(id)) {
+					if (sp.getName().equals(idOrName)) {
 						return sp;
 					}
 				}

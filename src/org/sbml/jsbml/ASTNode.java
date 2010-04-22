@@ -418,8 +418,9 @@ public class ASTNode implements TreeNode {
 	 * @param denominator
 	 * @return
 	 */
-	public static ASTNode frac(MathContainer container, NamedSBase numerator,
-			NamedSBase denominator) {
+	public static ASTNode frac(MathContainer container,
+			NamedSBaseWithDerivedUnit numerator,
+			NamedSBaseWithDerivedUnit denominator) {
 		return frac(new ASTNode(numerator, container), new ASTNode(denominator,
 				container));
 	}
@@ -498,8 +499,8 @@ public class ASTNode implements TreeNode {
 	 * @param exponent
 	 * @return
 	 */
-	public static ASTNode pow(MathContainer container, NamedSBase basis,
-			NamedSBase exponent) {
+	public static ASTNode pow(MathContainer container,
+			NamedSBaseWithDerivedUnit basis, NamedSBaseWithDerivedUnit exponent) {
 		return pow(new ASTNode(basis, container), new ASTNode(exponent,
 				container));
 	}
@@ -559,7 +560,8 @@ public class ASTNode implements TreeNode {
 	 * @param sbase
 	 * @return
 	 */
-	public static ASTNode sum(MathContainer parent, NamedSBase... sbase) {
+	public static ASTNode sum(MathContainer parent,
+			NamedSBaseWithDerivedUnit... sbase) {
 		ASTNode elements[] = new ASTNode[sbase.length];
 		for (int i = 0; i < sbase.length; i++)
 			elements[i] = new ASTNode(sbase[i], parent);
@@ -583,7 +585,8 @@ public class ASTNode implements TreeNode {
 	 * @param sbase
 	 * @return
 	 */
-	public static ASTNode times(MathContainer parent, NamedSBase... sbase) {
+	public static ASTNode times(MathContainer parent,
+			NamedSBaseWithDerivedUnit... sbase) {
 		ASTNode elements[] = new ASTNode[sbase.length];
 		for (int i = 0; i < sbase.length; i++)
 			elements[i] = new ASTNode(sbase[i], parent);
@@ -611,7 +614,8 @@ public class ASTNode implements TreeNode {
 	 * @param sbase
 	 * @return
 	 */
-	public static ASTNode uMinus(MathContainer container, NamedSBase sbase) {
+	public static ASTNode uMinus(MathContainer container,
+			NamedSBaseWithDerivedUnit sbase) {
 		return uMinus(new ASTNode(sbase, container));
 	}
 
@@ -653,7 +657,7 @@ public class ASTNode implements TreeNode {
 	 */
 	private Type type;
 
-	private NamedSBase variable;
+	private NamedSBaseWithDerivedUnit variable;
 
 	/**
 	 * Copy constructor; Creates a deep copy of the given ASTNode.
@@ -715,7 +719,7 @@ public class ASTNode implements TreeNode {
 	 * @param nsb
 	 * @param parent
 	 */
-	public ASTNode(NamedSBase nsb, MathContainer parent) {
+	public ASTNode(NamedSBaseWithDerivedUnit nsb, MathContainer parent) {
 		this(Type.NAME, parent);
 		setVariable(nsb);
 	}
@@ -992,10 +996,10 @@ public class ASTNode implements TreeNode {
 		case FUNCTION_TANH:
 			return compiler.tanh(getLeftChild());
 		case FUNCTION:
-			NamedSBase nsb = getVariable();
+			NamedSBaseWithDerivedUnit nsb = getVariable();
 			if (nsb == null) {
 				nsb = getParentSBMLObject().getModel()
-						.findNamedSBase(getName());
+						.findNamedSBaseWithDerivedUnit(getName());
 				setVariable(nsb);
 			}
 			return compiler.function((FunctionDefinition) nsb, listOfNodes
@@ -1046,7 +1050,7 @@ public class ASTNode implements TreeNode {
 	 * @param namedSBase
 	 * @return
 	 */
-	public ASTNode divideBy(NamedSBase namedSBase) {
+	public ASTNode divideBy(NamedSBaseWithDerivedUnit namedSBase) {
 		return divideBy(new ASTNode(namedSBase, getParentSBMLObject()));
 	}
 
@@ -1389,7 +1393,7 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @return
 	 */
-	public NamedSBase getVariable() {
+	public NamedSBaseWithDerivedUnit getVariable() {
 		if (isName())
 			return variable;
 		throw new RuntimeException(
@@ -1749,7 +1753,7 @@ public class ASTNode implements TreeNode {
 	 * @param nsb
 	 * @return
 	 */
-	public ASTNode multiplyWith(NamedSBase nsb) {
+	public ASTNode multiplyWith(NamedSBaseWithDerivedUnit nsb) {
 		return multiplyWith(new ASTNode(nsb, getParentSBMLObject()));
 	}
 
@@ -1787,7 +1791,7 @@ public class ASTNode implements TreeNode {
 	 * @param nsb
 	 * @return
 	 */
-	public ASTNode plus(NamedSBase nsb) {
+	public ASTNode plus(NamedSBaseWithDerivedUnit nsb) {
 		plus(new ASTNode(nsb, getParentSBMLObject()));
 		return this;
 	}
@@ -1830,7 +1834,7 @@ public class ASTNode implements TreeNode {
 	 * @param nsb
 	 * @return
 	 */
-	public ASTNode raiseByThePowerOf(NamedSBase nsb) {
+	public ASTNode raiseByThePowerOf(NamedSBaseWithDerivedUnit nsb) {
 		return raiseByThePowerOf(new ASTNode(nsb, getParentSBMLObject()));
 	}
 
@@ -2000,7 +2004,7 @@ public class ASTNode implements TreeNode {
 		variable = null;
 		Model m = getParentSBMLObject().getModel();
 		if (m != null)
-			variable = m.findNamedSBase(name);
+			variable = m.findNamedSBaseWithDerivedUnit(name);
 		if (variable == null)
 			this.name = name;
 		if (type != Type.NAME && type != Type.FUNCTION)
@@ -2093,7 +2097,7 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @param variable
 	 */
-	public void setVariable(NamedSBase variable) {
+	public void setVariable(NamedSBaseWithDerivedUnit variable) {
 		type = Type.NAME;
 		this.variable = variable;
 	}

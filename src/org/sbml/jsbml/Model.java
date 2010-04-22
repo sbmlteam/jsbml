@@ -169,67 +169,6 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * This method ensures that for all constructors the same basic settings are
-	 * made upon creation of new instances of this type.
-	 */
-	private void initDefaults() {
-		listOfCompartments = null;
-		listOfCompartmentTypes = null;
-		listOfConstraints = null;
-		listOfEvents = null;
-		listOfFunctionDefinitions = null;
-		listOfInitialAssignments = null;
-		listOfParameters = null;
-		listOfReactions = null;
-		listOfRules = null;
-		listOfSpecies = null;
-		listOfSpeciesTypes = null;
-		listOfUnitDefinitions = null;
-		switch (getLevel()) {
-		// TODO!!! Default settings for all Level/Version combinations
-		case 1:
-			substanceUnitsID = null;
-			timeUnitsID = null;
-			volumeUnitsID = null;
-			areaUnitsID = null;
-			lengthUnitsID = null;
-			extentUnitsID = null;
-			conversionFactorID = null;
-			break;
-		case 2:
-			listOfUnitDefinitions = new ListOf<UnitDefinition>();
-			listOfUnitDefinitions.setSBaseListType(Type.listOfUnitDefinitions);
-			UnitDefinition p = UnitDefinition.area(getLevel(), getVersion());
-			areaUnitsID = p.getId();
-			listOfUnitDefinitions.add(p);
-			p = UnitDefinition.length(getLevel(), getVersion());
-			lengthUnitsID = p.getId();
-			listOfUnitDefinitions.add(p);
-			p = UnitDefinition.substance(getLevel(), getVersion());
-			substanceUnitsID = p.getId();
-			listOfUnitDefinitions.add(p);
-			p = UnitDefinition.time(getLevel(), getVersion());
-			timeUnitsID = p.getId();
-			listOfUnitDefinitions.add(p);
-			p = UnitDefinition.volume(getLevel(), getVersion());
-			volumeUnitsID = p.getId();
-			listOfUnitDefinitions.add(p);
-			extentUnitsID = null;
-			conversionFactorID = null;
-			break;
-		default:
-			substanceUnitsID = null;
-			timeUnitsID = null;
-			volumeUnitsID = null;
-			areaUnitsID = null;
-			lengthUnitsID = null;
-			extentUnitsID = null;
-			conversionFactorID = null;
-			break;
-		}
-	}
-
-	/**
 	 * 
 	 * @param id
 	 */
@@ -417,13 +356,6 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
-	private void initListOfCompartments() {
-		this.listOfCompartments = new ListOf<Compartment>(getLevel(),
-				getVersion());
-		this.listOfCompartments.setSBaseListType(Type.listOfCompartments);
-		setThisAsParentSBMLObject(this.listOfCompartments);
-	}
-
 	/**
 	 * Adds a CompartmentType instance to the listOfCompartmentTypes of this
 	 * Model.
@@ -474,12 +406,6 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
-	private void initListOfEvents() {
-		this.listOfEvents = new ListOf<Event>(getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfEvents);
-		this.listOfEvents.setSBaseListType(Type.listOfEvents);
-	}
-
 	/**
 	 * Adds a FunctionDefinition instance to the listOfFunctionDefinitions of
 	 * this Model.
@@ -494,14 +420,6 @@ public class Model extends AbstractNamedSBase {
 			setThisAsParentSBMLObject(functionDefinition);
 			listOfFunctionDefinitions.add(functionDefinition);
 		}
-	}
-
-	private void initListOfFunctionDefinitions() {
-		this.listOfFunctionDefinitions = new ListOf<FunctionDefinition>(
-				getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
-		this.listOfFunctionDefinitions
-				.setSBaseListType(Type.listOfFunctionDefinitions);
 	}
 
 	/**
@@ -520,13 +438,6 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
-	private void initListOfInitialAssignment() {
-		this.listOfInitialAssignments = new ListOf<InitialAssignment>(
-				getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfInitialAssignments);
-		this.listOfInitialAssignments.setListOf(listOfInitialAssignments);
-	}
-
 	/**
 	 * Adds a Parameter instance to the listOfParameters of this Model.
 	 * 
@@ -540,12 +451,6 @@ public class Model extends AbstractNamedSBase {
 			setThisAsParentSBMLObject(parameter);
 			listOfParameters.add(parameter);
 		}
-	}
-
-	private void initListOfParameters() {
-		this.listOfParameters = new ListOf<Parameter>(getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfParameters);
-		this.listOfParameters.setSBaseListType(Type.listOfParameters);
 	}
 
 	/**
@@ -563,12 +468,6 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
-	private void initListOfReactions() {
-		this.listOfReactions = new ListOf<Reaction>(getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfReactions);
-		this.listOfReactions.setSBaseListType(Type.listOfReactions);
-	}
-
 	/**
 	 * Adds a Rule instance to the listOfRules of this Model.
 	 * 
@@ -584,12 +483,6 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
-	private void initListOfRules() {
-		this.listOfRules = new ListOf<Rule>(getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfRules);
-		this.listOfRules.setSBaseListType(Type.listOfRules);
-	}
-
 	/**
 	 * Adds a Species instance to the listOfSpecies of this Model.
 	 * 
@@ -603,12 +496,6 @@ public class Model extends AbstractNamedSBase {
 			setThisAsParentSBMLObject(spec);
 			listOfSpecies.add(spec);
 		}
-	}
-
-	private void initListOfSpecies() {
-		this.listOfSpecies = new ListOf<Species>(getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfSpecies);
-		this.listOfSpecies.setSBaseListType(Type.listOfSpecies);
 	}
 
 	/**
@@ -643,13 +530,6 @@ public class Model extends AbstractNamedSBase {
 			setThisAsParentSBMLObject(unitDefinition);
 			listOfUnitDefinitions.add(unitDefinition);
 		}
-	}
-
-	private void initListOfUnitDefinitions() {
-		this.listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(),
-				getVersion());
-		setThisAsParentSBMLObject(this.listOfUnitDefinitions);
-		this.listOfUnitDefinitions.setSBaseListType(Type.listOfUnitDefinitions);
 	}
 
 	/*
@@ -1276,43 +1156,63 @@ public class Model extends AbstractNamedSBase {
 	/**
 	 * try to figure out the meaning of this name.
 	 * 
-	 * @param id
+	 * @param idOrName
 	 *            an id indicating a variable of the model.
 	 * @return null if no model is available or the model does not contain a
 	 *         compartment, species, or parameter wit the given id.
 	 */
-	public NamedSBase findNamedSBase(String id) {
-		if (id.equals(getId()))
+	public NamedSBase findNamedSBase(String idOrName) {
+		if (idOrName.equals(getId()))
 			return this;
-		NamedSBase nsb = getCompartmentType(id);
-		if (nsb == null) {
-			nsb = getEvent(id);
-		}
-		if (nsb == null) {
+		NamedSBase nsb = getCompartmentType(idOrName);
+		if (nsb == null)
+			nsb = getEvent(idOrName);
+		if (nsb == null)
 			for (Reaction r : getListOfReactions()) {
-				if (r.getId().equals(id))
-					return r;
-				nsb = r.getReactant(id);
-				if (nsb != null)
-					return nsb;
-				nsb = r.getProduct(id);
-				if (nsb != null)
-					return nsb;
-				nsb = r.getModifier(id);
+				nsb = r.getModifier(idOrName);
 				if (nsb != null)
 					return nsb;
 			}
-		}
+		if (nsb == null)
+			nsb = getSpeciesType(idOrName);
+		if (nsb == null)
+			nsb = getUnitDefinition(idOrName);
+		return nsb == null ? findNamedSBaseWithDerivedUnit(idOrName) : nsb;
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public NamedSBaseWithDerivedUnit findNamedSBaseWithDerivedUnit(
+			String idOrName) {
+		NamedSBaseWithDerivedUnit nsb = findQuantity(idOrName);
+		if (nsb == null)
+			nsb = getReaction(idOrName);
+		if (nsb == null)
+			nsb = getFunctionDefinition(idOrName);
+		return nsb;
+	}
+
+	/**
+	 * 
+	 * @param idOrName
+	 * @return the Compartment, Species, SpeciesReference or Parameter which has
+	 *         'symbol' as id.
+	 */
+	public Quantity findQuantity(String idOrName) {
+		Quantity nsb = findVariable(idOrName);
 		if (nsb == null) {
-			nsb = getSpeciesType(id);
+			for (Reaction r : getListOfReactions()) {
+				if (r.isSetKineticLaw()) {
+					nsb = r.getKineticLaw().getParameter(idOrName);
+					if (nsb != null)
+						break;
+				}
+			}
 		}
-		if (nsb == null) {
-			nsb = getFunctionDefinition(id);
-		}
-		if (nsb == null) {
-			nsb = getUnitDefinition(id);
-		}
-		return findQuantity(id);
+		return nsb;
 	}
 
 	/**
@@ -1340,26 +1240,6 @@ public class Model extends AbstractNamedSBase {
 					if (nsb != null) {
 						break;
 					}
-				}
-			}
-		}
-		return nsb;
-	}
-
-	/**
-	 * 
-	 * @param quantity
-	 * @return the Compartment, Species, SpeciesReference or Parameter which has
-	 *         'symbol' as id.
-	 */
-	public Quantity findQuantity(String quantity) {
-		Quantity nsb = findVariable(quantity);
-		if (nsb == null) {
-			for (Reaction r : getListOfReactions()) {
-				if (r.isSetKineticLaw()) {
-					nsb = r.getKineticLaw().getParameter(quantity);
-					if (nsb != null)
-						break;
 				}
 			}
 		}
@@ -1442,21 +1322,21 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @param id
+	 * @param idOrName
 	 * @return the CompartmentType of the listOfCompartmentTypes which has 'id'
 	 *         as id (or name depending on the level and version). Null if if
 	 *         the listOfCompartmentTypes is not set.
 	 */
 	@Deprecated
-	public CompartmentType getCompartmentType(String id) {
-		if (isSetListOfCompartmentTypes() && id != null) {
+	public CompartmentType getCompartmentType(String idOrName) {
+		if (isSetListOfCompartmentTypes() && idOrName != null) {
 			for (CompartmentType ct : listOfCompartmentTypes) {
 				if (ct.isSetId()) {
-					if (ct.getId().equals(id)) {
+					if (ct.getId().equals(idOrName)) {
 						return ct;
 					}
 				} else if (ct.isSetName()) {
-					if (ct.getName().equals(id)) {
+					if (ct.getName().equals(idOrName)) {
 						return ct;
 					}
 				}
@@ -1514,20 +1394,20 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @param id
+	 * @param idOrName
 	 * @return the Event of the listOfEvents which has 'id' as id (or name
 	 *         depending on the level and version). Null if if the listOfEvents
 	 *         is not set.
 	 */
-	public Event getEvent(String id) {
-		if (isSetListOfEvents() && id != null) {
+	public Event getEvent(String idOrName) {
+		if (isSetListOfEvents() && idOrName != null) {
 			for (Event ev : listOfEvents) {
 				if (ev.isSetId()) {
-					if (ev.getId().equals(id)) {
+					if (ev.getId().equals(idOrName)) {
 						return ev;
 					}
 				} else if (ev.isSetName()) {
-					if (ev.getName().equals(id)) {
+					if (ev.getName().equals(idOrName)) {
 						return ev;
 					}
 				}
@@ -1574,20 +1454,20 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @param id
+	 * @param idOrName
 	 * @return the FunctionDefinition of the listOfFunstionDefinitions which has
 	 *         'id' as id (or name depending on the level and version). Null if
 	 *         if the listOfFunctionDefinitions is not set.
 	 */
-	public FunctionDefinition getFunctionDefinition(String id) {
-		if (isSetListOfFunctionDefinitions() && id != null) {
+	public FunctionDefinition getFunctionDefinition(String idOrName) {
+		if (isSetListOfFunctionDefinitions() && idOrName != null) {
 			for (FunctionDefinition f : listOfFunctionDefinitions) {
 				if (f.isSetId()) {
-					if (f.getId().equals(id)) {
+					if (f.getId().equals(idOrName)) {
 						return f;
 					}
 				} else if (f.isSetName()) {
-					if (f.getName().equals(id)) {
+					if (f.getName().equals(idOrName)) {
 						return f;
 					}
 				}
@@ -2027,19 +1907,19 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @param id
+	 * @param idOrName
 	 * @return the Reaction of the listOfReactions which has 'id' as id (or name
 	 *         depending on the level and version). Null if it doesn't exist.
 	 */
-	public Reaction getReaction(String id) {
-		if (isSetListOfReactions() && id != null) {
+	public Reaction getReaction(String idOrName) {
+		if (isSetListOfReactions() && idOrName != null) {
 			for (Reaction reaction : listOfReactions) {
 				if (reaction.isSetId()) {
-					if (reaction.getId().equals(id)) {
+					if (reaction.getId().equals(idOrName)) {
 						return reaction;
 					}
 				} else if (reaction.isSetName()) {
-					if (reaction.getName().equals(id)) {
+					if (reaction.getName().equals(idOrName)) {
 						return reaction;
 					}
 				}
@@ -2119,21 +1999,21 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @param id
+	 * @param idOrName
 	 * @return the SpeciesType of the listOfSpeciesTypes which has 'id' as id
 	 *         (or name depending on the level and version). Null if it doesn't
 	 *         exist.
 	 */
 	@Deprecated
-	public SpeciesType getSpeciesType(String id) {
-		if (isSetListOfSpeciesTypes() && id != null) {
+	public SpeciesType getSpeciesType(String idOrName) {
+		if (isSetListOfSpeciesTypes() && idOrName != null) {
 			for (SpeciesType st : listOfSpeciesTypes) {
 				if (st.isSetId()) {
-					if (st.getId().equals(id)) {
+					if (st.getId().equals(idOrName)) {
 						return st;
 					}
 				} else if (st.isSetName()) {
-					if (st.getName().equals(id)) {
+					if (st.getName().equals(idOrName)) {
 						return st;
 					}
 				}
@@ -2195,20 +2075,20 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @param id
+	 * @param idOrName
 	 * @return the UnitDefinition of the listOfUnitDefinitions which has 'id' as
 	 *         id (or name depending on the level and version). Null if it
 	 *         doesn't exist.
 	 */
-	public UnitDefinition getUnitDefinition(String id) {
-		if (isSetListOfUnitDefinitions() && id != null) {
+	public UnitDefinition getUnitDefinition(String idOrName) {
+		if (isSetListOfUnitDefinitions() && idOrName != null) {
 			for (UnitDefinition unitdef : listOfUnitDefinitions) {
 				if (unitdef.isSetId()) {
-					if (unitdef.getId().equals(id)) {
+					if (unitdef.getId().equals(idOrName)) {
 						return unitdef;
 					}
 				} else if (unitdef.isSetName()) {
-					if (unitdef.getName().equals(id)) {
+					if (unitdef.getName().equals(idOrName)) {
 						return unitdef;
 					}
 				}
@@ -2216,20 +2096,20 @@ public class Model extends AbstractNamedSBase {
 		}
 
 		UnitDefinition ud = null;
-		if (id != null) {
-			if (id.equals("area")) {
+		if (idOrName != null) {
+			if (idOrName.equals("area")) {
 				ud = UnitDefinition.area(getLevel(), getVersion());
 				addUnitDefinition(ud);
-			} else if (id.equals("length")) {
+			} else if (idOrName.equals("length")) {
 				ud = UnitDefinition.length(getLevel(), getVersion());
 				addUnitDefinition(ud);
-			} else if (id.equals("substance")) {
+			} else if (idOrName.equals("substance")) {
 				ud = UnitDefinition.substance(getLevel(), getVersion());
 				addUnitDefinition(ud);
-			} else if (id.equals("time")) {
+			} else if (idOrName.equals("time")) {
 				ud = UnitDefinition.time(getLevel(), getVersion());
 				addUnitDefinition(ud);
-			} else if (id.equals("volume")) {
+			} else if (idOrName.equals("volume")) {
 				ud = UnitDefinition.volume(getLevel(), getVersion());
 				addUnitDefinition(ud);
 			}
@@ -2267,6 +2147,67 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * This method ensures that for all constructors the same basic settings are
+	 * made upon creation of new instances of this type.
+	 */
+	private void initDefaults() {
+		listOfCompartments = null;
+		listOfCompartmentTypes = null;
+		listOfConstraints = null;
+		listOfEvents = null;
+		listOfFunctionDefinitions = null;
+		listOfInitialAssignments = null;
+		listOfParameters = null;
+		listOfReactions = null;
+		listOfRules = null;
+		listOfSpecies = null;
+		listOfSpeciesTypes = null;
+		listOfUnitDefinitions = null;
+		switch (getLevel()) {
+		// TODO!!! Default settings for all Level/Version combinations
+		case 1:
+			substanceUnitsID = null;
+			timeUnitsID = null;
+			volumeUnitsID = null;
+			areaUnitsID = null;
+			lengthUnitsID = null;
+			extentUnitsID = null;
+			conversionFactorID = null;
+			break;
+		case 2:
+			listOfUnitDefinitions = new ListOf<UnitDefinition>();
+			listOfUnitDefinitions.setSBaseListType(Type.listOfUnitDefinitions);
+			UnitDefinition p = UnitDefinition.area(getLevel(), getVersion());
+			areaUnitsID = p.getId();
+			listOfUnitDefinitions.add(p);
+			p = UnitDefinition.length(getLevel(), getVersion());
+			lengthUnitsID = p.getId();
+			listOfUnitDefinitions.add(p);
+			p = UnitDefinition.substance(getLevel(), getVersion());
+			substanceUnitsID = p.getId();
+			listOfUnitDefinitions.add(p);
+			p = UnitDefinition.time(getLevel(), getVersion());
+			timeUnitsID = p.getId();
+			listOfUnitDefinitions.add(p);
+			p = UnitDefinition.volume(getLevel(), getVersion());
+			volumeUnitsID = p.getId();
+			listOfUnitDefinitions.add(p);
+			extentUnitsID = null;
+			conversionFactorID = null;
+			break;
+		default:
+			substanceUnitsID = null;
+			timeUnitsID = null;
+			volumeUnitsID = null;
+			areaUnitsID = null;
+			lengthUnitsID = null;
+			extentUnitsID = null;
+			conversionFactorID = null;
+			break;
+		}
+	}
+
+	/**
 	 * Helper method to initialize newly created lists.
 	 * 
 	 * @param list
@@ -2277,6 +2218,65 @@ public class Model extends AbstractNamedSBase {
 		list.setVersion(getVersion());
 		setThisAsParentSBMLObject(list);
 		list.setSBaseListType(type);
+	}
+
+	private void initListOfCompartments() {
+		this.listOfCompartments = new ListOf<Compartment>(getLevel(),
+				getVersion());
+		this.listOfCompartments.setSBaseListType(Type.listOfCompartments);
+		setThisAsParentSBMLObject(this.listOfCompartments);
+	}
+
+	private void initListOfEvents() {
+		this.listOfEvents = new ListOf<Event>(getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfEvents);
+		this.listOfEvents.setSBaseListType(Type.listOfEvents);
+	}
+
+	private void initListOfFunctionDefinitions() {
+		this.listOfFunctionDefinitions = new ListOf<FunctionDefinition>(
+				getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
+		this.listOfFunctionDefinitions
+				.setSBaseListType(Type.listOfFunctionDefinitions);
+	}
+
+	private void initListOfInitialAssignment() {
+		this.listOfInitialAssignments = new ListOf<InitialAssignment>(
+				getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfInitialAssignments);
+		this.listOfInitialAssignments.setListOf(listOfInitialAssignments);
+	}
+
+	private void initListOfParameters() {
+		this.listOfParameters = new ListOf<Parameter>(getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfParameters);
+		this.listOfParameters.setSBaseListType(Type.listOfParameters);
+	}
+
+	private void initListOfReactions() {
+		this.listOfReactions = new ListOf<Reaction>(getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfReactions);
+		this.listOfReactions.setSBaseListType(Type.listOfReactions);
+	}
+
+	private void initListOfRules() {
+		this.listOfRules = new ListOf<Rule>(getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfRules);
+		this.listOfRules.setSBaseListType(Type.listOfRules);
+	}
+
+	private void initListOfSpecies() {
+		this.listOfSpecies = new ListOf<Species>(getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfSpecies);
+		this.listOfSpecies.setSBaseListType(Type.listOfSpecies);
+	}
+
+	private void initListOfUnitDefinitions() {
+		this.listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(),
+				getVersion());
+		setThisAsParentSBMLObject(this.listOfUnitDefinitions);
+		this.listOfUnitDefinitions.setSBaseListType(Type.listOfUnitDefinitions);
 	}
 
 	/**
@@ -3238,5 +3238,4 @@ public class Model extends AbstractNamedSBase {
 
 		return attributes;
 	}
-
 }

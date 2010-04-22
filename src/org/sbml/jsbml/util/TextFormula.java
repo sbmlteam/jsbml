@@ -37,7 +37,7 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNodeCompiler;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
-import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ASTNode.Type;
 
@@ -240,6 +240,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#and(org.sbml.jsbml.ASTNode[])
 	 */
 	public Object and(ASTNode... nodes) {
@@ -408,9 +409,10 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(org.sbml.jsbml.NamedSBase)
+	 * @seeorg.sbml.jsbml.ASTNodeCompiler#compile(org.sbml.jsbml.
+	 * NamedSBaseWithDerivedUnit)
 	 */
-	public String compile(NamedSBase variable) {
+	public String compile(NamedSBaseWithDerivedUnit variable) {
 		return variable.getId();
 	}
 
@@ -479,10 +481,12 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#delay(org.sbml.jsbml.ASTNode, double)
 	 */
 	public String delay(ASTNode x, double d) {
-		return concat("delay(", x.compile(this), ", ", toString(d), ")").toString();
+		return concat("delay(", x.compile(this), ", ", toString(d), ")")
+				.toString();
 	}
 
 	/*
@@ -543,8 +547,9 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#function(org.sbml.jsbml.NamedSBase,
-	 * org.sbml.jsbml.ASTNode[])
+	 * @see
+	 * org.sbml.jsbml.ASTNodeCompiler#function(org.sbml.jsbml.FunctionDefinition
+	 * , org.sbml.jsbml.ASTNode[])
 	 */
 	public String function(FunctionDefinition func, ASTNode... nodes) {
 		return function(func.getName(), nodes);
@@ -749,6 +754,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#or(org.sbml.jsbml.ASTNode[])
 	 */
 	public Object or(ASTNode... nodes) {
@@ -954,7 +960,6 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 		}
 		return times(n).toString();
 	}
-	
 
 	/*
 	 * (non-Javadoc)
@@ -966,7 +971,6 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 				checkBrackets(node.getLeftChild())).toString();
 	}
 
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -975,9 +979,10 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	public String unknownASTNode() {
 		return Character.toString('?');
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#xor(org.sbml.jsbml.ASTNode[])
 	 */
 	public Object xor(ASTNode... nodes) {
