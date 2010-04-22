@@ -8,8 +8,8 @@ Originally written in C and C++, libSBML also provides automatically generated
 language bindings to many other programming environments including MATLAB,
 Java, Python, and many more. However, the platform independence of Java is lost when
 it is used with libSBML, due to the wrapped C code. Hence, development of libSBML-based Java 
-applications is difficult. Furthermore, the libSBML API and type hierarchy are not as intuitive
-since they are not designed directly for Java. 
+applications is difficult. Furthermore, the libSBML API and type hierarchy are not intuitive
+enough since they were not designed directly for Java. 
 
 For these reasons, the SBML community decided that
 an entirely Java-based library for SBML should be developed.
