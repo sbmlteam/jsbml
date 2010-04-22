@@ -1,40 +1,35 @@
 The XML-based Systems Biology Markup Language (SBML) constitutes the de-facto
-standard file format to store and exchange biochemical network models: more than
-180 programs support this file format (23 December 2009).
-The clearly defined specifications and the libSBML library are reasons for this
-success. LibSBML provides many methods for reading, writing and
+standard file format to store and exchange biochemical network models, and is supported
+by more than 180 software packages to date. Much of this success is due to its clearly defined specifications and the supporting libSBML library. 
+
+LibSBML provides many methods for manipulating and
 validating SBML files through its Application Programing Interface (API).
-
 Originally written in C and C++, libSBML also provides automatically generated 
-language bindings to many other programming environments such as MATLAB,
-Java, Python, and many more. However, when working with Java, due to the
-underlying wrapped C code, all programs based on libSBML become
-platform dependent. In this way, it is quite hard to develop Java applications
-based on libSBML that would work on any Java supporting operation system,
-because installation and compilation of libSBML can be difficult. Furthermore,
-the generated libSBML Java API is not as natural as if we wrote and design it 
-directly for Java, the same applies to the type hierarchy of libSBML.
+language bindings to many other programming environments including MATLAB,
+Java, Python, and many more. However, the platform independence of Java is lost when
+it is used with libSBML, due to the wrapped C code. Hence, development of libSBML-based Java 
+applications is difficult. Furthermore, the libSBML API and type hierarchy are not as intuitive
+since they are not designed directly for Java. 
 
-For these reasons, the SBML community decided in a survey in May 2009 that the
+For these reasons, the SBML community decided that
 an entirely Java-based library for SBML should be developed.
-Several groups that had already started to work on a Java library to support SBML
-joined their effort and here, we present the JSBML project, which is freely
-available at http://sourceforge.net/projects/jsbml. Its aim is to provide SBML
-parsers and writers that map all SBML elements to a flexible and extended type
-hierarchy, which can directly be used for computation and complex operations.
-Whenever possible we try to keep a 100 % API compatibility with the libSBML 
-Java API to easy the effort of projects to switch from one to the other.
-But we are not planning at the moment to re-implement some of the complex 
-part of libsbml, these would be made available in JSBML via webservices for 
-example, like consistency check and validation or convertion between different 
+This work comprised the joined efforts of several groups and here we present 
+the JSBML project, which is freely available at http://sourceforge.net/projects/jsbml. 
+Its aim is to provide SBML parsers and writers that map all SBML elements to a 
+flexible and extended type hierarchy.
+Where possible, efforts were made to attain 100 % API compatibility with the libSBML 
+Java API to facilitate a switch from one API to the other, if desired.
+Currently, there are no plans to re-implement some of the more complex 
+functions of libSBML, since these would be made available in JSBML via webservices. These 
+functions include consistency checking, validation and the conversion between different 
 SBML levels and versions.
 
 Currently, JSBML supports all constructs for SBML up to the latest Level 3
-Version 1 draft proposal including an API to add SBML extensions.
+Version 1 draft proposal, including an API to add SBML extensions.
 
-Summarizing, JSBML is a young, ongoing software project that provides 
+In summary, JSBML is a young, ongoing software project that provides 
 comprehensive and entirely Java-based data structures to read, write, and 
 manipulate SBML files. Its layered architecture allows for the creation of 
 Java-webstart applications and CellDesigner plug-ins based on stand-alone 
 programs with very little effort. One program, SBMLsqueezer 1.3, that uses 
-JSBML has already been released and some others are on the way to use JSBML.
+JSBML has already been released and many others are planned.
