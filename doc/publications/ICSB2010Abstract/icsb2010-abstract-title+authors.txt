@@ -1,5 +1,5 @@
-JSBML – a flexible and entirely Java-based implementation and data structure for
-working with SBML
+JSBML: A flexible and entirely Java-based library for
+   working with SBML
 
 Nicolas Rodriguez, Marine Dumousseau, Andreas Dräger, Clemens Wrzodek, Alexander
 Dörr, Sarah Keating, Akiya Jouraku, Nicolas Le Novère, Andreas Zell, and Michael
