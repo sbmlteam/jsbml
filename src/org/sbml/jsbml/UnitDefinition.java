@@ -230,15 +230,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 			for (i = orig.size() - 1; i >= 0; i--) {
 				Unit u = orig.remove(i);
 				j = 0;
-				while (j < units.size()) {
-					System.out.print(u.getKind() + "\t");
-					System.out.print(units.get(j) + "\t");
-					System.out.println(units.get(j).getKind());
-					if (0 < u.getKind().compareTo(units.get(j).getKind()))
-						j++;
-					else
-						break;
-				}
+				while (j < units.size()
+						&& 0 < u.getKind().compareTo(units.get(j).getKind()))
+					j++;
 				units.add(j, u);
 			}
 			ud.setListOfUnits(units);
