@@ -44,9 +44,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.sbmlExtensions.layout.ExtendedLayoutModel;
-import org.sbml.jsbml.sbmlExtensions.layout.Layout;
-import org.sbml.jsbml.sbmlExtensions.layout.SpeciesGlyph;
+import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
+import org.sbml.jsbml.ext.layout.Layout;
+import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 public class TestL3Layout {
