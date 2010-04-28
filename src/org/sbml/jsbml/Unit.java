@@ -1203,7 +1203,7 @@ public class Unit extends AbstractSBase {
 	 * @return true if the exponent of this Unit is not null.
 	 */
 	public boolean isSetExponent() {
-		return isSetExponent;
+		return exponent != null;
 	}
 
 	/**
@@ -1212,7 +1212,7 @@ public class Unit extends AbstractSBase {
 	 * @return
 	 */
 	public boolean isSetKind() {
-		return isSetKind;
+		return kind != null;
 	}
 
 	/**
@@ -1220,7 +1220,7 @@ public class Unit extends AbstractSBase {
 	 * @return true if the multiplier of this Unit is not null.
 	 */
 	public boolean isSetMultiplier() {
-		return isSetMultiplier;
+		return multiplier != null;
 	}
 
 	/**
@@ -1229,7 +1229,7 @@ public class Unit extends AbstractSBase {
 	 */
 	@Deprecated
 	public boolean isSetOffset() {
-		return isSetOffset;
+		return offset != null;
 	}
 
 	/**
@@ -1237,7 +1237,7 @@ public class Unit extends AbstractSBase {
 	 * @return true if the scale of this Unit is not null.
 	 */
 	public boolean isSetScale() {
-		return isSetScale;
+		return scale != null;
 	}
 
 	/**
