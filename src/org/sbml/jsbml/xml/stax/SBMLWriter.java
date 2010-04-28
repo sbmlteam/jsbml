@@ -61,10 +61,10 @@ import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ListOf.Type;
-import org.sbml.jsbml.sbmlExtensions.groups.GroupsParser;
+import org.sbml.jsbml.ext.groups.GroupsParser;
 import org.sbml.jsbml.util.JAXPFacade;
-import org.sbml.jsbml.xml.sbmlParsers.MultiParser;
-import org.sbml.jsbml.xml.sbmlParsers.SBMLCoreParser;
+import org.sbml.jsbml.xml.parsers.MultiParser;
+import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.w3c.dom.Document;
 
 import com.ctc.wstx.stax.WstxOutputFactory;

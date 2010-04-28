@@ -44,9 +44,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.sbmlExtensions.groups.Group;
-import org.sbml.jsbml.sbmlExtensions.groups.Member;
-import org.sbml.jsbml.sbmlExtensions.groups.ModelGroupExtension;
+import org.sbml.jsbml.ext.groups.Group;
+import org.sbml.jsbml.ext.groups.Member;
+import org.sbml.jsbml.ext.groups.ModelGroupExtension;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 
