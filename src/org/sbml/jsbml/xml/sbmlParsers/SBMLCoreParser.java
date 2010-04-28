@@ -1480,19 +1480,19 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					Parameter parameter = (Parameter) sbmlElementToWrite;
 
 					if (parameter.getLevel() == 3) {
-					  // TODO: Commented, because Eclipse says "Incompatible conditional operand types Model and ListOf<?>"
-						/*if (parameter.getParentSBMLObject() instanceof ListOf<?>) {
-							ListOf<Parameter> list = (ListOf<Parameter>) parameter
-									.getParentSBMLObject();
-							if (list.getSBaseListType() == ListOf.Type.listOfLocalParameters) {
-								xmlObject.setName("localParameter");
-							} else {
-								xmlObject.setName(sbase.getElementName());
-							}
-						} else {
-							// TODO throw an error, all the parameters should be
-							// included into a listOf.
-						}*/
+						// TODO: Commented, because Eclipse says
+						// "Incompatible conditional operand types Model and ListOf<?>"
+						/*
+						 * if (parameter.getParentSBMLObject() instanceof
+						 * ListOf<?>) { ListOf<Parameter> list =
+						 * (ListOf<Parameter>) parameter .getParentSBMLObject();
+						 * if (list.getSBaseListType() ==
+						 * ListOf.Type.listOfLocalParameters) {
+						 * xmlObject.setName("localParameter"); } else {
+						 * xmlObject.setName(sbase.getElementName()); } } else {
+						 * // TODO throw an error, all the parameters should be
+						 * // included into a listOf. }
+						 */
 					} else {
 						xmlObject.setName(sbase.getElementName());
 					}
