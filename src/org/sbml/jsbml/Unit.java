@@ -541,18 +541,27 @@ public class Unit extends AbstractSBase {
 	 * Represents the 'exponent' XML attribute of an unit element.
 	 */
 	private Integer exponent;
+	/**
+	 * 
+	 */
 	private boolean isSetExponent = false;
 
 	/**
 	 * Represents the 'kind' XML attribute of an unit element.
 	 */
 	private Kind kind;
+	/**
+	 * 
+	 */
 	private boolean isSetKind = false;
 
 	/**
 	 * Represents the 'multiplier' XML attribute of an unit element.
 	 */
 	private Double multiplier;
+	/**
+	 * 
+	 */
 	private boolean isSetMultiplier = false;
 
 	/**
@@ -560,12 +569,18 @@ public class Unit extends AbstractSBase {
 	 */
 	@Deprecated
 	private Double offset;
+	/**
+	 * 
+	 */
 	private boolean isSetOffset = false;
 
 	/**
 	 * Represents the 'scale' XML attribute of an unit element.
 	 */
 	private Integer scale;
+	/**
+	 * 
+	 */
 	private boolean isSetScale = false;
 
 	/**
@@ -599,7 +614,7 @@ public class Unit extends AbstractSBase {
 	public Unit(double multiplier, int scale, Kind kind, int exponent,
 			int level, int version) {
 		super(level, version);
-		
+
 		// Using the set method to have the isSet properly set to true.
 		setMultiplier(multiplier);
 		setScale(scale);
@@ -609,8 +624,8 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Creates a Unit instance from a level and version. If the level is set
-	 * and is superior or equal to 3 the multiplier, scale, kind, offset and
+	 * Creates a Unit instance from a level and version. If the level is set and
+	 * is superior or equal to 3 the multiplier, scale, kind, offset and
 	 * exponent are null.
 	 * 
 	 * @param level
@@ -766,7 +781,8 @@ public class Unit extends AbstractSBase {
 	 * @return the kind of this Unit if it is set, null otherwise.
 	 * 
 	 */
-	// TODO : check if we should not return empty string "2, instead of null for libsbml compatibility
+	// TODO : check if we should not return empty string "2, instead of null for
+	// libsbml compatibility
 	public Kind getKind() {
 		return kind;
 	}
@@ -1432,17 +1448,17 @@ public class Unit extends AbstractSBase {
 	@Override
 	public String toString() {
 		StringBuffer times = new StringBuffer();
-		if (multiplier.doubleValue() != 0) {
-			if (multiplier.doubleValue() != 1)
-				times.append(StringTools.toString(multiplier.doubleValue()));
+		if (getMultiplier() != 0) {
+			if (getMultiplier() != 1)
+				times.append(StringTools.toString(getMultiplier()));
 			StringBuffer pow = new StringBuffer();
-			pow.append(kind.getSymbol());
+			pow.append(kind != null ? kind.getSymbol() : "undefined");
 			String prefix = getPrefix();
 			if (prefix.length() > 0 && !prefix.startsWith("10")) {
 				pow.insert(0, prefix);
-			} else if (scale.doubleValue() != 0) {
+			} else if (getScale() != 0) {
 				pow = TextFormula.times(TextFormula.pow(Integer.valueOf(10),
-						scale), pow);
+						getScale()), pow);
 			}
 			times = TextFormula.times(times, pow);
 		}
@@ -1450,9 +1466,51 @@ public class Unit extends AbstractSBase {
 			times = TextFormula.sum(StringTools.toString(offset.doubleValue()),
 					times);
 		}
-		return TextFormula.pow(times, Integer.valueOf(exponent)).toString();
+		return TextFormula.pow(times, Integer.valueOf(getExponent()))
+				.toString();
 	}
 
+	/**
+	 * 
+	 */
+	public void unsetExponent() {
+		exponent = null;
+		stateChanged();
+	}
+
+	/**
+	 * 
+	 */
+	public void unsetKind() {
+		kind = null;
+		stateChanged();
+	}
+	
+	/**
+	 * 
+	 */
+	public void unsetMultiplier() {
+		multiplier = null;
+		stateChanged();
+	}
+	
+	/**
+	 * 
+	 */
+	@Deprecated
+	public void unsetOffset() {
+		offset = null;
+		stateChanged();
+	}
+	
+	/**
+	 * 
+	 */
+	public void unsetScale() {
+		scale = null;
+		stateChanged();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1480,5 +1538,4 @@ public class Unit extends AbstractSBase {
 		}
 		return attributes;
 	}
-
 }

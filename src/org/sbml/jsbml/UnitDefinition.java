@@ -229,9 +229,16 @@ public class UnitDefinition extends AbstractNamedSBase {
 			int i, j;
 			for (i = orig.size() - 1; i >= 0; i--) {
 				Unit u = orig.remove(i);
-				for (j = 0; j < units.size()
-						&& 0 < u.getKind().compareTo(units.get(j).getKind()); j++)
-					;
+				j = 0;
+				while (j < units.size()) {
+					System.out.print(u.getKind() + "\t");
+					System.out.print(units.get(j) + "\t");
+					System.out.println(units.get(j).getKind());
+					if (0 < u.getKind().compareTo(units.get(j).getKind()))
+						j++;
+					else
+						break;
+				}
 				units.add(j, u);
 			}
 			ud.setListOfUnits(units);
@@ -355,11 +362,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 		stateChanged();
 	}
 
-  private void initListOfUnits() {
-    this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
-    setThisAsParentSBMLObject(this.listOfUnits);
-    this.listOfUnits.setSBaseListType(Type.listOfUnits);
-  }
+	private void initListOfUnits() {
+		this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfUnits);
+		this.listOfUnits.setSBaseListType(Type.listOfUnits);
+	}
 
 	/*
 	 * (non-Javadoc)
