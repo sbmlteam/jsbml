@@ -1,11 +1,10 @@
 /*
- * $Id$
- * $URL$
+ * $Id: SBMLReader.java 102 2009-12-13 19:52:50Z andreas-draeger $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/SBMLReader.java $
  *
- *
+ * 
  *==================================================================================
- * Copyright (c) 2009 the copyright is held jointly by the individual
- * authors. See the file AUTHORS for the list of authors.
+ * Copyright (c) 2009 The jsbml team.
  *
  * This file is part of jsbml, the pure java SBML library. Please visit
  * http://sbml.org for more information about SBML, and http://jsbml.sourceforge.net/
@@ -28,62 +27,54 @@
  *
  */
 
-package org.sbml.jsbml.xml.stax;
+package org.sbml.jsbml;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
+import java.util.List;
+
+import org.sbml.jsbml.util.IOProgressListener;
 
 /**
+ * This interface allows the implementing class to create a JSBML model based on
+ * some other data structure. Possible examples are CellDesigner plug-in data
+ * structures or Objects from libSBML. Other data structures can also be
+ * considered, such as a conversion of BioPax or CellML into JSBML data
+ * structures.
  * 
- * TODO: Comment missing
+ * @author Andreas Dr&auml;ger
  * 
  */
-public class XMLLogger {
-
-	/**
-	 * logger
-	 */
-	private Logger logger = Logger.getLogger(XMLLogger.class);
+public interface SBMLInputConverter {
 
 	/**
 	 * 
-	 * @param message
+	 * @return
 	 */
-	public void debug(String message) {
-		logger.debug(message);
-	}
+	public int getNumErrors();
 
 	/**
 	 * 
-	 * @param message
+	 * @param sbmlDocument
+	 * @return
 	 */
-	public void error(String message) {
-		logger.error(message);
-	}
+	public List<SBMLException> getWarnings();
 
 	/**
 	 * 
-	 * @param message
+	 * @param model
+	 * @return
+	 * @throws Exception
 	 */
-	public void fatal(String message) {
-		logger.fatal(message);
-	}
+	public Model convert2Model(Object model) throws Exception;
 
 	/**
 	 * 
-	 * @param message
+	 * @return
 	 */
-	public void info(String message) {
-		logger.info(message);
-	}
+	public Object getOriginalModel();
 
 	/**
 	 * 
-	 * @param priority
-	 * @param message
+	 * @param listener
 	 */
-	public void log(Priority priority, String message) {
-		logger.log(priority, message);
-	}
-
+	public void addIOProgressListener(IOProgressListener listener);
 }
