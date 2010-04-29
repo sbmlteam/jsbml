@@ -30,8 +30,11 @@
 
 package org.sbml.jsbml.xml.parsers;
 
+import java.util.StringTokenizer;
+
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
@@ -82,8 +85,8 @@ public class AnnotationParser implements ReadingParser{
 	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
-		// TODO : try to find a way to encode all the possible special characters. For instance, &amp;, <, > are interpreted during the parsing.
-		characters = characters.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+		//characters = characters.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+	  characters = StringTools.encodeForHTML(characters);
 
 		// an AnnotationParser can only be used for the annotations of a SBML component. If the contextObject is not
 		// an Annotation instance, this parser doesn't process any texts.

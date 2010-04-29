@@ -926,6 +926,11 @@ public class SBMLWriter {
 	// TODO : notes where an & is present are not written out (so almost all the notes from the models in Biomodels DB)
 	// When java read some notes with &amp;, it convert it to simply & in UTF-8 and when trying to write out the notes, 
 	// there is then an exception as the character is not allowed.
+	// => Maybe the new StringTools.encodeForHTML() function comes in handy here?
+	// TODO: I don't think it is a good style, replacing all & by &amp; Maybe the user has taken care of this himself
+	// (as he should in my opinion) and then all "&amp;" replace to "&amp;amp;"! A better way would be, replacing all
+	// those "replaceAll("&", "&amp;");" by a check, which checks if there are "&"'s in the string and then if they
+	// already have the style &amp; and only if not => encode characters by their HTML encoding.
 	
 	// TODO : when there are some custom annotations that do not declare their namespace in the annotation but only on 
 	// the sbml element, the whole annotation failed to be written out.

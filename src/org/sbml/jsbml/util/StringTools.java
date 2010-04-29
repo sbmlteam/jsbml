@@ -30,6 +30,7 @@
 package org.sbml.jsbml.util;
 
 
+
 /**
  * This class provides a collection of convenient methods for manipulating
  * Strings.
@@ -120,5 +121,88 @@ public class StringTools {
 			return Integer.toString((int) value);
 		return String.format("%.3f", value);
 	}
+	
+	public static final String encodeForHTML(String string){
+	  final StringBuilder result = new StringBuilder();
+	  for (char character : string.toCharArray()) {
+	    if      (character == '\t')result.append("&#009;");
+	    else if (character == '!') result.append("&#033;");
+	    else if (character == '#') result.append("&#035;");
+	    else if (character == '$') result.append("&#036;");
+	    else if (character == '%') result.append("&#037;");
+	    else if (character == '\'')result.append("&#039;");
+	    else if (character == '(') result.append("&#040;");
+	    else if (character == ')') result.append("&#041;");
+	    else if (character == '*') result.append("&#042;");
+	    else if (character == '+') result.append("&#043;");
+	    else if (character == ',') result.append("&#044;");
+	    else if (character == '-') result.append("&#045;");
+	    else if (character == '.') result.append("&#046;");
+	    else if (character == '/') result.append("&#047;");
+	    else if (character == ':') result.append("&#058;");
+	    else if (character == ';') result.append("&#059;");
+	    else if (character == '=') result.append("&#061;");
+	    else if (character == '?') result.append("&#063;");
+	    else if (character == '@') result.append("&#064;");
+	    else if (character == '[') result.append("&#091;");
+	    else if (character == '\\')result.append("&#092;");
+	    else if (character == ']') result.append("&#093;");
+	    else if (character == '^') result.append("&#094;");
+	    else if (character == '_') result.append("&#095;");
+	    else if (character == '`') result.append("&#096;");
+	    else if (character == '{') result.append("&#0123;");
+	    else if (character == '|') result.append("&#0124;");
+	    else if (character == '}') result.append("&#0125;");
+	    else if (character == '~') result.append("&#0126;");
+	    else if (character == '<') result.append("&lt;"); 
+	    else if (character == '>') result.append("&gt;"); 
+	    else if (character == '&') result.append("&amp;"); 
+	    else if (character == '"') result.append("&quot;"); 
+	    else if (character == 'à') result.append("&agrave;");
+	    else if (character == 'À') result.append("&Agrave;");
+	    else if (character == 'â') result.append("&acirc;");
+	    else if (character == 'Â') result.append("&Acirc;");
+	    else if (character == 'ä') result.append("&auml;");
+	    else if (character == 'Ä') result.append("&Auml;");
+	    else if (character == 'å') result.append("&aring;");
+	    else if (character == 'Å') result.append("&Aring;");
+	    else if (character == 'æ') result.append("&aelig;");
+	    else if (character == 'Æ') result.append("&AElig;");
+	    else if (character == 'ç') result.append("&ccedil;");
+	    else if (character == 'Ç') result.append("&Ccedil;");
+	    else if (character == 'é') result.append("&eacute;");
+	    else if (character == 'É') result.append("&Eacute;");
+	    else if (character == 'è') result.append("&egrave;");
+	    else if (character == 'È') result.append("&Egrave;");
+	    else if (character == 'ê') result.append("&ecirc;");
+	    else if (character == 'Ê') result.append("&Ecirc;");
+	    else if (character == 'ë') result.append("&euml;");
+	    else if (character == 'Ë') result.append("&Euml;");
+	    else if (character == 'ï') result.append("&iuml;");
+	    else if (character == 'Ï') result.append("&Iuml;");
+	    else if (character == 'ô') result.append("&ocirc;");
+	    else if (character == 'Ô') result.append("&Ocirc;");
+	    else if (character == 'ö') result.append("&ouml;");
+	    else if (character == 'Ö') result.append("&Ouml;");
+	    else if (character == 'ø') result.append("&oslash;");
+	    else if (character == 'Ø') result.append("&Oslash;");
+	    else if (character == 'ß') result.append("&szlig;");
+	    else if (character == 'ù') result.append("&ugrave;");
+	    else if (character == 'Ù') result.append("&Ugrave;");         
+	    else if (character == 'û') result.append("&ucirc;");         
+	    else if (character == 'Û') result.append("&Ucirc;");
+	    else if (character == 'ü') result.append("&uuml;");
+	    else if (character == 'Ü') result.append("&Uuml;");
+	    else if (character == '®') result.append("&reg;");
+	    else if (character == '©') result.append("&copy;");
+	    else if (character == '€') result.append("&euro;");
+	    else if (character == '\n')result.append("&lt;br/&gt;");          // Handle Newline
+	    
+	    else result.append(character); // simple char, which must not be escaped.
+	  }
+	  return result.toString();
+	}
+
+ 
 
 }
