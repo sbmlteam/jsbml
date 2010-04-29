@@ -35,6 +35,7 @@ import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
@@ -151,8 +152,8 @@ public class StringParser implements ReadingParser{
 			Object contextObject) {
 		
 		StringBuffer buffer = getStringBufferFor(contextObject);
-		// TODO trye to find a way to encode all the special characters.
-		characters = characters.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+		//characters = characters.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+		characters = StringTools.encodeForHTML(characters);
 
 		
 		if (buffer != null){
