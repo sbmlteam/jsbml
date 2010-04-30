@@ -255,7 +255,8 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * Initialises the default values of this SpeciesReference.
 	 */
 	public void initDefaults() {
-		if (getLevel() < 3) {
+	  // See http://sbml.org/Community/Wiki/SBML_Level_3_Core/Reaction_changes/Changes_to_stoichiometry
+		if (getLevel() > 2) {
 			setConstant(true);
 			setStoichiometry(1d);
 			denominator = Integer.valueOf(1);

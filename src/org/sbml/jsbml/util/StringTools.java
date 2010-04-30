@@ -150,10 +150,10 @@ public class StringTools {
 	    else if (character == '^') result.append("&#094;");
 	    else if (character == '_') result.append("&#095;");
 	    else if (character == '`') result.append("&#096;");
-	    else if (character == '{') result.append("&#0123;");
-	    else if (character == '|') result.append("&#0124;");
-	    else if (character == '}') result.append("&#0125;");
-	    else if (character == '~') result.append("&#0126;");
+	    else if (character == '{') result.append("&#123;");
+	    else if (character == '|') result.append("&#124;");
+	    else if (character == '}') result.append("&#125;");
+	    else if (character == '~') result.append("&#126;");
 	    else if (character == '<') result.append("&lt;"); 
 	    else if (character == '>') result.append("&gt;"); 
 	    else if (character == '&') result.append("&amp;"); 
@@ -196,7 +196,7 @@ public class StringTools {
 	    else if (character == '®') result.append("&reg;");
 	    else if (character == '©') result.append("&copy;");
 	    else if (character == '€') result.append("&euro;");
-	    else if (character == '\n')result.append("&lt;br/&gt;");          // Handle Newline
+	    else if (character == '\n')result.append("<br/>");          // Handle Newline
 	    
 	    else result.append(character); // simple char, which must not be escaped.
 	  }
