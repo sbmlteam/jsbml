@@ -1,4 +1,4 @@
-package org.sbml.jsbml.multi;
+package org.sbml.jsbml.ext.multi;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Species;
