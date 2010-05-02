@@ -61,6 +61,7 @@ import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 import org.sbml.jsbml.xml.stax.WritingParser;
@@ -482,10 +483,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfReactions)) {
 							Reaction reaction = (Reaction) newContextObject;
+							model.addReaction(reaction);
 							if (model.isSetLevel() && model.getLevel() < 3) {
 								reaction.initDefaults();
 							}
-							model.addReaction(reaction);
 
 							return reaction;
 						} else if (elementName.equals("event")
@@ -493,10 +494,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 										ListOf.Type.listOfEvents)
 								&& model.getLevel() > 1) {
 							Event event = (Event) newContextObject;
+							model.addEvent(event);
 							if (model.isSetLevel() && model.getLevel() < 3) {
 								event.initDefaults();
 							}
-							model.addEvent(event);
 
 							return event;
 						} else if (elementName.equals("compartmentType")
@@ -539,11 +540,13 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					} else if (list.getParentSBMLObject() instanceof Reaction) {
 						Reaction reaction = (Reaction) list
 								.getParentSBMLObject();
+						
 						if (elementName.equals("speciesReference")
 								&& (reaction.getLevel() > 1 || (reaction
 										.getLevel() == 1 && reaction
 										.getVersion() == 2))) {
 							SpeciesReference speciesReference = (SpeciesReference) newContextObject;
+							
 							if (reaction.isSetLevel()
 									&& reaction.getLevel() < 3) {
 								speciesReference.initDefaults();
@@ -614,7 +617,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 										ListOf.Type.listOfLocalParameters)
 								&& kineticLaw.isSetLevel()
 								&& kineticLaw.getLevel() < 3) {
-							LocalParameter localParameter = (LocalParameter) newContextObject;
+							LocalParameter localParameter = new LocalParameter((Parameter) newContextObject);
 							kineticLaw.addParameter(localParameter);
 
 							return localParameter;
@@ -687,6 +690,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					} else if (elementName.equals("listOfModifiers")
 							&& reaction.getLevel() > 1) {
 						ListOf listOfModifiers = (ListOf) newContextObject;
+						listOfModifiers.setSBaseListType(Type.listOfModifiers);
+						// TODO : check why it is needed for listOfModifiers and not the others
+						// probably something wrong before
 						reaction.setListOfModifiers(listOfModifiers);
 
 						return listOfModifiers;
