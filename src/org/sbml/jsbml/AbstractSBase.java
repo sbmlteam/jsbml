@@ -144,7 +144,12 @@ public abstract class AbstractSBase implements SBase {
 	 * @param sb
 	 */
 	public AbstractSBase(SBase sb) {
-		this(sb.getLevel(), sb.getVersion());
+		this();
+		if (sb.isSetLevel() && sb.isSetVersion()) {
+			setLevel(sb.getLevel());
+			setVersion(sb.getVersion());
+		}
+
 		if (sb.isSetSBOTerm()) {
 			this.sboTerm = sb.getSBOTerm();
 		}
