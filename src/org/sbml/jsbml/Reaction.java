@@ -88,7 +88,8 @@ public class Reaction extends AbstractNamedSBase implements
 	 */
 	public Reaction() {
 		super();
-		initDefaults();
+		// Cannot call initDefaults() until the level and version is set
+		//initDefaults();
 	}
 
 	/**
@@ -166,6 +167,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param modspecref
 	 */
 	public void addModifier(ModifierSpeciesReference modspecref) {
+		setThisAsParentSBMLObject(modspecref);
 		listOfModifiers.add(modspecref);
 	}
 
@@ -175,6 +177,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param specref
 	 */
 	public void addProduct(SpeciesReference specref) {
+		setThisAsParentSBMLObject(specref);
 		listOfProducts.add(specref);
 	}
 
@@ -184,6 +187,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param specref
 	 */
 	public void addReactant(SpeciesReference specref) {
+		setThisAsParentSBMLObject(specref);
 		listOfReactants.add(specref);
 	}
 
@@ -518,15 +522,18 @@ public class Reaction extends AbstractNamedSBase implements
 	 * Initializes the default variables of this Reaction.
 	 */
 	public void initDefaults() {
-		if (level < 3) {
-			reversible = new Boolean(true);
-			fast = new Boolean(false);
-		} else {
-			reversible = fast = null;
+		if (isSetLevel() && isSetVersion()) {
+
+			if (level < 3) {
+				reversible = new Boolean(true);
+				fast = new Boolean(false);
+			} else {
+				reversible = fast = null;
+			}
+			initReactantList();
+			initProductList();
+			initModifierList();
 		}
-		initReactantList();
-		initProductList();
-		initModifierList();
 	}
 
 	/**
