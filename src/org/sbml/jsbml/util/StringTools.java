@@ -158,44 +158,6 @@ public class StringTools {
 	    else if (character == '>') result.append("&gt;"); 
 	    else if (character == '&') result.append("&amp;"); 
 	    else if (character == '"') result.append("&quot;"); 
-	    else if (character == 'à') result.append("&agrave;");
-	    else if (character == 'À') result.append("&Agrave;");
-	    else if (character == 'â') result.append("&acirc;");
-	    else if (character == 'Â') result.append("&Acirc;");
-	    else if (character == 'ä') result.append("&auml;");
-	    else if (character == 'Ä') result.append("&Auml;");
-	    else if (character == 'å') result.append("&aring;");
-	    else if (character == 'Å') result.append("&Aring;");
-	    else if (character == 'æ') result.append("&aelig;");
-	    else if (character == 'Æ') result.append("&AElig;");
-	    else if (character == 'ç') result.append("&ccedil;");
-	    else if (character == 'Ç') result.append("&Ccedil;");
-	    else if (character == 'é') result.append("&eacute;");
-	    else if (character == 'É') result.append("&Eacute;");
-	    else if (character == 'è') result.append("&egrave;");
-	    else if (character == 'È') result.append("&Egrave;");
-	    else if (character == 'ê') result.append("&ecirc;");
-	    else if (character == 'Ê') result.append("&Ecirc;");
-	    else if (character == 'ë') result.append("&euml;");
-	    else if (character == 'Ë') result.append("&Euml;");
-	    else if (character == 'ï') result.append("&iuml;");
-	    else if (character == 'Ï') result.append("&Iuml;");
-	    else if (character == 'ô') result.append("&ocirc;");
-	    else if (character == 'Ô') result.append("&Ocirc;");
-	    else if (character == 'ö') result.append("&ouml;");
-	    else if (character == 'Ö') result.append("&Ouml;");
-	    else if (character == 'ø') result.append("&oslash;");
-	    else if (character == 'Ø') result.append("&Oslash;");
-	    else if (character == 'ß') result.append("&szlig;");
-	    else if (character == 'ù') result.append("&ugrave;");
-	    else if (character == 'Ù') result.append("&Ugrave;");         
-	    else if (character == 'û') result.append("&ucirc;");         
-	    else if (character == 'Û') result.append("&Ucirc;");
-	    else if (character == 'ü') result.append("&uuml;");
-	    else if (character == 'Ü') result.append("&Uuml;");
-	    else if (character == '®') result.append("&reg;");
-	    else if (character == '©') result.append("&copy;");
-	    else if (character == '€') result.append("&euro;");
 	    else if (character == '\n')result.append("<br/>");          // Handle Newline
 	    
 	    else result.append(character); // simple char, which must not be escaped.
