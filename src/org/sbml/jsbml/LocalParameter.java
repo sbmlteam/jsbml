@@ -28,6 +28,8 @@
  */
 package org.sbml.jsbml;
 
+import java.util.HashMap;
+
 /**
  * A local parameter can only be used to specify a constant within a
  * {@link KineticLaw}.
@@ -100,4 +102,47 @@ public class LocalParameter extends QuantityWithDefinedUnit {
 	public LocalParameter clone() {
 		return new LocalParameter(this);
 	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Symbol#readAttribute(java.lang.String,
+	 * java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+		if (attributeName.equals("value")) {
+			this.setValue(Double.parseDouble(value));
+			return true;
+		} else if (attributeName.equals("units")) {
+			this.setUnits(value);
+			return true;
+		}
+		
+		return isAttributeRead;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.Symbol#writeXMLAttributes()
+	 */
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+
+		if (isSetValue()) {
+			attributes.put("value", Double.toString(getValue()));
+		}
+		if (isSetUnits()) {
+			attributes.put("units", getUnits());
+		}
+
+		return attributes;
+	}
+
 }
