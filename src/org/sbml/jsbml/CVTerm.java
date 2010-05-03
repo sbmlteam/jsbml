@@ -586,4 +586,34 @@ public class CVTerm {
 		}
 	}
 
+	
+	// TODO : check that this 3 functions are doing the good things and selecting the proper qualifier
+		/**
+		 * 
+		 * @param qualifierType
+		 */
+		public void setQualifierType( int qualifierType )
+		{
+			setQualifierType( Type.values()[ qualifierType ] );
+		}
+	
+		/**
+		 * 
+		 * @param specificQualifierType
+		 */
+		public void setModelQualifierType( int specificQualifierType )
+		{
+			final int NUM_BIOLOGICAL_QUALIFIER_TYPES = 11;
+			setBiologicalQualifierType( Qualifier.values()[ specificQualifierType - NUM_BIOLOGICAL_QUALIFIER_TYPES ] );
+		}
+	
+		/**
+		 * 
+		 * @param specificQualifierType
+		 */
+		public void setBiologicalQualifierType( int specificQualifierType )
+		{
+			setBiologicalQualifierType( Qualifier.values()[ specificQualifierType ] );
+		}
+	
 }
