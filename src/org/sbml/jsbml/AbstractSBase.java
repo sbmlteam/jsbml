@@ -331,6 +331,25 @@ public abstract class AbstractSBase implements SBase {
 		return isSetAnnotation() ? annotation : null;
 	}
 
+	/**
+	 * Returns the annotation of this SBML object as a string.
+	 * 
+	 * @return  the annotation of this SBML object as a string or an empty string 
+	 * if there are no annotation.
+	 * 
+	 */
+	public String getAnnotationString()
+	{
+		Annotation anno = getAnnotation();
+		
+		if (anno != null) {
+			return anno.toXML( "  ", this );
+		}
+		
+		return "";
+	}
+
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -453,6 +472,15 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public String getNotesString() {
 		return notes != null ? notes : "";
+	}
+
+	/**
+	 * 
+	 * @return notes
+	 */
+	public String getNotes()
+	{
+		return getNotesString();
 	}
 
 	/*
