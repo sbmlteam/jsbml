@@ -183,7 +183,13 @@
   <!-- Test the jsbml library                                              -->
   <!-- =================================================================== -->
   <target name="test" depends="init">
-      
+
+
+	<echo message="This first test should have NO failures or errors."/>
+	<echo message="This second test is expected to report some failures or errors corresponding to the libsbml API differences."/>
+  	<echo message=""/>
+  	<echo message="You can see a details of the tests on the two files : jsbmlTestResults.txt and libsbmlCompatibilityTestResults.txt"/>
+  	
     <junit printsummary="yes" > <!-- showoutput="yes" -->
     	<jvmarg value="-DDATA_FOLDER=${build.dest}/org/sbml/jsbml/xml/test/data/"/>
         <sysproperty key="DATA_FOLDER" value="${build.dest}/org/sbml/jsbml/xml/test/data"/>
@@ -192,14 +198,25 @@
     	<test name="org.sbml.jsbml.xml.test.Tests" outfile="jsbmlTestResults">
     		<formatter type="plain"/>
     	</test>
+        <classpath>
+           <path refid="classpath"/>
+           <pathelement location="${build.dir}/${name}.jar"/>
+        </classpath>
+   </junit>
+
+    	<junit printsummary="yes" > <!-- showoutput="yes" -->
+        	<jvmarg value="-DDATA_FOLDER=${build.dest}/org/sbml/jsbml/xml/test/data/"/>
+            <sysproperty key="DATA_FOLDER" value="${build.dest}/org/sbml/jsbml/xml/test/data"/>
+
+        	<formatter type="plain"/>
     	<test name="org.sbml.jsbml.xml.test.LibsbmlCompatibilityTests" outfile="libsbmlCompatibilityTestResults">
     		<formatter type="plain"/>
     	</test>
-         <classpath>
-            <path refid="classpath"/>
-            <pathelement location="${build.dir}/${name}.jar"/>
-         </classpath>
-    </junit>
+            <classpath>
+               <path refid="classpath"/>
+               <pathelement location="${build.dir}/${name}.jar"/>
+            </classpath>
+       </junit>
   	
   </target>
 
