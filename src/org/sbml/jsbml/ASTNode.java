@@ -43,9 +43,7 @@ import org.sbml.jsbml.util.TextFormula;
  * A node in the Abstract Syntax Tree (AST) representation of a mathematical
  * expression.
  * 
- * @author Andreas Dr&auml;ger <a
- *         href="mailto:andreas.draeger@uni-tuebingen.de">
- *         andreas.draeger@uni-tuebingen.de</a>
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class ASTNode implements TreeNode {
@@ -54,9 +52,7 @@ public class ASTNode implements TreeNode {
 	 * An enumeration of all possible types that can be represented by an
 	 * abstract syntax tree node.
 	 * 
-	 * @author Andreas Dr&auml;ger <a
-	 *         href="mailto:andreas.draeger@uni-tuebingen.de"
-	 *         >andreas.draeger@uni-tuebingen.de</a>
+	 * @author Andreas Dr&auml;ger
 	 * 
 	 */
 	public static enum Type {
@@ -619,8 +615,14 @@ public class ASTNode implements TreeNode {
 		return uMinus(new ASTNode(sbase, container));
 	}
 
+	/**
+	 * 
+	 */
 	private int denominator;
 
+	/**
+	 * 
+	 */
 	private int exponent;
 
 	/**
@@ -628,6 +630,9 @@ public class ASTNode implements TreeNode {
 	 */
 	private LinkedList<ASTNode> listOfNodes;
 
+	/**
+	 * 
+	 */
 	private double mantissa;
 
 	/**
@@ -657,6 +662,9 @@ public class ASTNode implements TreeNode {
 	 */
 	private Type type;
 
+	/**
+	 * 
+	 */
 	private NamedSBaseWithDerivedUnit variable;
 
 	/**
@@ -851,188 +859,303 @@ public class ASTNode implements TreeNode {
 	 * @param compiler
 	 * @return
 	 */
-	public Object compile(ASTNodeCompiler compiler) {
-		if (isUMinus())
-			return compiler.uiMinus(this);
-		else if (isSqrt())
-			return compiler.sqrt(getChild(getNumChildren() - 1));
-		else if (isInfinity())
-			return compiler.getPositiveInfinity();
-		else if (isNegInfinity())
-			return compiler.getNegativeInfinity();
-		switch (getType()) {
-		/*
-		 * Numbers
-		 */
-		case REAL:
-			return compiler.compile(getReal());
-		case INTEGER:
-			return compiler.compile(getInteger());
+	public ASTNodeValue compile(ASTNodeCompiler compiler) {
+		ASTNodeValue value;
+		if (isUMinus()) {
+			value = compiler.uiMinus(getLeftChild().compile(compiler));
+		} else if (isSqrt()) {
+			value = compiler.sqrt(getRightChild().compile(compiler));
+		} else if (isInfinity()) {
+			value = compiler.getPositiveInfinity();
+		} else if (isNegInfinity()) {
+			value = compiler.getNegativeInfinity();
+		} else {
+			switch (getType()) {
+			/*
+			 * Numbers
+			 */
+			case REAL:
+				value = compiler.compile(getReal());
+				break;
+			case INTEGER:
+				value = compiler.compile(getInteger());
+				break;
 			/*
 			 * Basic Functions
 			 */
-		case FUNCTION_LOG: {
-			if (getNumChildren() == 2)
-				return compiler.log(getLeftChild(), getRightChild());
-			else
-				return compiler.log(getChild(getNumChildren() - 1));
-		}
+			case FUNCTION_LOG:
+				if (getNumChildren() == 2) {
+					value = compiler.log(getLeftChild().compile(compiler),
+							getRightChild().compile(compiler));
+				} else {
+					value = compiler.log(getRightChild().compile(compiler));
+				}
+				break;
+
 			/*
 			 * Operators
 			 */
-		case POWER:
-			return compiler.pow(getLeftChild(), getRightChild());
-		case PLUS:
-			return compiler.plus(listOfNodes.toArray(new ASTNode[] {}));
-		case MINUS:
-			return compiler.minus(listOfNodes.toArray(new ASTNode[] {}));
-		case TIMES:
-			return compiler.times(listOfNodes.toArray(new ASTNode[] {}));
-		case DIVIDE:
-			return compiler.frac(getLeftChild(), getRightChild());
-		case RATIONAL:
-			return compiler.frac(getNumerator(), getDenominator());
-		case NAME_TIME:
-			return compiler.symbolTime(getName());
-		case FUNCTION_DELAY:
-			return compiler.delay(getLeftChild(),
-					getRightChild().isInteger() ? Double
-							.valueOf(getRightChild().getInteger())
-							: getRightChild().getReal());
+			case POWER:
+				value = compiler.pow(getLeftChild().compile(compiler),
+						getRightChild().compile(compiler));
+				break;
+			case PLUS:
+				value = compiler.plus(compileChildren(compiler));
+				value.setUIFlag(getNumChildren() <= 1);
+				break;
+			case MINUS:
+				value = compiler.minus(compileChildren(compiler));
+				value.setUIFlag(getNumChildren() <= 1);
+				break;
+			case TIMES:
+				value = compiler.times(compileChildren(compiler));
+				value.setUIFlag(getNumChildren() <= 1);
+				break;
+			case DIVIDE:
+				value = compiler.frac(getLeftChild().compile(compiler),
+						getRightChild().compile(compiler));
+				break;
+			case RATIONAL:
+				value = compiler.frac(getNumerator(), getDenominator());
+				break;
+			case NAME_TIME:
+				value = compiler.symbolTime(getName());
+				break;
+			case FUNCTION_DELAY:
+				value = compiler.delay(getLeftChild().compile(compiler),
+						getRightChild().isInteger() ? Double
+								.valueOf(getRightChild().getInteger())
+								: getRightChild().getReal());
+				break;
 			/*
 			 * Names of identifiers: parameters, functions, species etc.
 			 */
-		case NAME:
-			if (variable != null) {
-				if (variable instanceof FunctionDefinition)
-					return compiler.function((FunctionDefinition) variable,
-							listOfNodes.toArray(new ASTNode[] {}));
-				return compiler.compile(variable);
-			}
-			return compiler.compile(getName());
+			case NAME:
+				if (variable != null) {
+					if (variable instanceof FunctionDefinition)
+						value = compiler.function(
+								(FunctionDefinition) variable,
+								compileChildren(compiler));
+					value = compiler.compile(variable);
+				}
+				value = compiler.compile(getName());
+				break;
 			/*
 			 * Type: pi, e, true, false
 			 */
-		case CONSTANT_PI:
-			return compiler.getConstantPi();
-		case CONSTANT_E:
-			return compiler.getConstantE();
-		case CONSTANT_TRUE:
-			return compiler.getConstantTrue();
-		case CONSTANT_FALSE:
-			return compiler.getConstantFalse();
-		case REAL_E:
-			return compiler.compile(getReal());
+			case CONSTANT_PI:
+				value = compiler.getConstantPi();
+				break;
+			case CONSTANT_E:
+				value = compiler.getConstantE();
+				break;
+			case CONSTANT_TRUE:
+				value = compiler.getConstantTrue();
+				break;
+			case CONSTANT_FALSE:
+				value = compiler.getConstantFalse();
+				break;
+			case REAL_E:
+				value = compiler.compile(getReal());
+				break;
 			/*
 			 * More complicated functions
 			 */
-		case FUNCTION_ABS:
-			return compiler.abs(getChild(getNumChildren() - 1));
-		case FUNCTION_ARCCOS:
-			return compiler.arccos(getLeftChild());
-		case FUNCTION_ARCCOSH:
-			return compiler.arccosh(getLeftChild());
-		case FUNCTION_ARCCOT:
-			return compiler.arccot(getLeftChild());
-		case FUNCTION_ARCCOTH:
-			return compiler.arccoth(getLeftChild());
-		case FUNCTION_ARCCSC:
-			return compiler.arccsc(getLeftChild());
-		case FUNCTION_ARCCSCH:
-			return compiler.arccsch(getLeftChild());
-		case FUNCTION_ARCSEC:
-			return compiler.arcsec(getLeftChild());
-		case FUNCTION_ARCSECH:
-			return compiler.arcsech(getLeftChild());
-		case FUNCTION_ARCSIN:
-			return compiler.arcsin(getLeftChild());
-		case FUNCTION_ARCSINH:
-			return compiler.arcsinh(getLeftChild());
-		case FUNCTION_ARCTAN:
-			return compiler.arctan(getLeftChild());
-		case FUNCTION_ARCTANH:
-			return compiler.arctanh(getLeftChild());
-		case FUNCTION_CEILING:
-			return compiler.ceiling(getLeftChild());
-		case FUNCTION_COS:
-			return compiler.cos(getLeftChild());
-		case FUNCTION_COSH:
-			return compiler.cosh(getLeftChild());
-		case FUNCTION_COT:
-			return compiler.cot(getLeftChild());
-		case FUNCTION_COTH:
-			return compiler.coth(getLeftChild());
-		case FUNCTION_CSC:
-			return compiler.csc(getLeftChild());
-		case FUNCTION_CSCH:
-			return compiler.csch(getLeftChild());
-		case FUNCTION_EXP:
-			return compiler.exp(getLeftChild());
-		case FUNCTION_FACTORIAL:
-			return compiler.factorial(getLeftChild());
-		case FUNCTION_FLOOR:
-			return compiler.floor(getLeftChild());
-		case FUNCTION_LN:
-			return compiler.ln(getLeftChild());
-		case FUNCTION_POWER:
-			return compiler.pow(getLeftChild(), getChild(getNumChildren() - 1));
-		case FUNCTION_ROOT:
-			ASTNode left = getLeftChild();
-			if ((getNumChildren() > 1)
-					&& ((left.isInteger() && (left.getInteger() != 2)) || (left
-							.isReal() && (left.getReal() != 2d))))
-				return compiler.root(getLeftChild(), getRightChild());
-			return compiler.sqrt(getChild(getNumChildren() - 1));
-		case FUNCTION_SEC:
-			return compiler.sec(getLeftChild());
-		case FUNCTION_SECH:
-			return compiler.sech(getLeftChild());
-		case FUNCTION_SIN:
-			return compiler.sin(getLeftChild());
-		case FUNCTION_SINH:
-			return compiler.sinh(getLeftChild());
-		case FUNCTION_TAN:
-			return compiler.tan(getLeftChild());
-		case FUNCTION_TANH:
-			return compiler.tanh(getLeftChild());
-		case FUNCTION:
-			NamedSBaseWithDerivedUnit nsb = getVariable();
-			if (nsb == null) {
-				nsb = getParentSBMLObject().getModel()
-						.findNamedSBaseWithDerivedUnit(getName());
-				setVariable(nsb);
+			case FUNCTION_ABS:
+				value = compiler.abs(getRightChild().compile(compiler));
+				break;
+			case FUNCTION_ARCCOS:
+				value = compiler.arccos(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_ARCCOSH:
+				value = compiler.arccosh(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_ARCCOT:
+				value = compiler.arccot(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_ARCCOTH:
+				value = compiler.arccoth(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_ARCCSC:
+				value = compiler.arccsc(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_ARCCSCH:
+				value = compiler.arccsch(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_ARCSEC:
+				value = compiler.arcsec(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_ARCSECH:
+				value = compiler.arcsech(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_ARCSIN:
+				value = compiler.arcsin(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_ARCSINH:
+				value = compiler.arcsinh(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_ARCTAN:
+				value = compiler.arctan(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_ARCTANH:
+				value = compiler.arctanh(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_CEILING:
+				value = compiler.ceiling(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_COS:
+				value = compiler.cos(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_COSH:
+				value = compiler.cosh(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_COT:
+				value = compiler.cot(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_COTH:
+				value = compiler.coth(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_CSC:
+				value = compiler.csc(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_CSCH:
+				value = compiler.csch(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_EXP:
+				value = compiler.exp(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_FACTORIAL:
+				value = compiler.factorial(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_FLOOR:
+				value = compiler.floor(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_LN:
+				value = compiler.ln(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_POWER:
+				value = compiler.pow(getLeftChild().compile(compiler),
+						getRightChild().compile(compiler));
+				break;
+			case FUNCTION_ROOT:
+				ASTNode left = getLeftChild();
+				if ((getNumChildren() == 2)
+						&& ((left.isInteger() && (left.getInteger() != 2)))
+						|| (left.isReal() && (left.getReal() != 2d))) {
+					if (left.isInteger() && (left.getInteger() != 2)) {
+						value = compiler.root(getLeftChild().getInteger(),
+								getRightChild().compile(compiler));
+					} else {
+						// if (left.isReal() && (left.getReal() != 2d))
+						value = compiler.root(getLeftChild().getReal(),
+								getRightChild().compile(compiler));
+					}
+				} else if (getNumChildren() == 1) {
+					value = compiler.sqrt(getRightChild().compile(compiler));
+				} else {
+					value = compiler.root(getLeftChild().compile(compiler),
+							getRightChild().compile(compiler));
+				}
+				break;
+			case FUNCTION_SEC:
+				value = compiler.sec(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_SECH:
+				value = compiler.sech(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_SIN:
+				value = compiler.sin(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_SINH:
+				value = compiler.sinh(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_TAN:
+				value = compiler.tan(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_TANH:
+				value = compiler.tanh(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION:
+				NamedSBaseWithDerivedUnit nsb = getVariable();
+				if (nsb == null) {
+					nsb = getParentSBMLObject().getModel()
+							.findNamedSBaseWithDerivedUnit(getName());
+					setVariable(nsb);
+				}
+				value = compiler.function((FunctionDefinition) nsb,
+						compileChildren(compiler));
+				break;
+			case LAMBDA:
+				value = compiler.lambda(compileChildren(compiler));
+				value.setUIFlag(getNumChildren() <= 1);
+				break;
+			case LOGICAL_AND:
+				value = compiler.and(compileChildren(compiler));
+				value.setUIFlag(getNumChildren() <= 1);
+				break;
+			case LOGICAL_XOR:
+				value = compiler.xor(compileChildren(compiler));
+				value.setUIFlag(getNumChildren() <= 1);
+				break;
+			case LOGICAL_OR:
+				value = compiler.or(compileChildren(compiler));
+				value.setUIFlag(getNumChildren() <= 1);
+				break;
+			case LOGICAL_NOT:
+				value = compiler.not(getLeftChild().compile(compiler));
+				break;
+			case FUNCTION_PIECEWISE:
+				value = compiler.piecewise(compileChildren(compiler));
+				value.setUIFlag(getNumChildren() <= 1);
+				break;
+			case RELATIONAL_EQ:
+				value = compiler.equal(getLeftChild().compile(compiler),
+						getRightChild().compile(compiler));
+				break;
+			case RELATIONAL_GEQ:
+				value = compiler.greaterEqual(getLeftChild().compile(compiler),
+						getRightChild().compile(compiler));
+				break;
+			case RELATIONAL_GT:
+				value = compiler.greaterThan(getLeftChild().compile(compiler),
+						getRightChild().compile(compiler));
+				break;
+			case RELATIONAL_NEQ:
+				value = compiler.notEqual(getLeftChild().compile(compiler),
+						getRightChild().compile(compiler));
+				break;
+			case RELATIONAL_LEQ:
+				value = compiler.lessEqual(getLeftChild().compile(compiler),
+						getRightChild().compile(compiler));
+				break;
+			case RELATIONAL_LT:
+				value = compiler.lessThan(getLeftChild().compile(compiler),
+						getRightChild().compile(compiler));
+				break;
+			default: // UNKNOWN:
+				value = compiler.unknownValue();
+				break;
 			}
-			return compiler.function((FunctionDefinition) nsb, listOfNodes
-					.toArray(new ASTNode[] {}));
-		case LAMBDA:
-			return compiler.lambda(listOfNodes.toArray(new ASTNode[] {}));
-		case LOGICAL_AND:
-			return compiler.and(listOfNodes.toArray(new ASTNode[] {}));
-		case LOGICAL_XOR:
-			return compiler.xor(listOfNodes.toArray(new ASTNode[] {}));
-		case LOGICAL_OR:
-			return compiler.or(listOfNodes.toArray(new ASTNode[] {}));
-		case LOGICAL_NOT:
-			return compiler.not(getLeftChild());
-		case FUNCTION_PIECEWISE:
-			return compiler.piecewise(listOfNodes.toArray(new ASTNode[] {}));
-		case RELATIONAL_EQ:
-			return compiler.relationEqual(getLeftChild(), getRightChild());
-		case RELATIONAL_GEQ:
-			return compiler.relationGreaterEqual(getLeftChild(),
-					getRightChild());
-		case RELATIONAL_GT:
-			return compiler
-					.relationGreaterThan(getLeftChild(), getRightChild());
-		case RELATIONAL_NEQ:
-			return compiler.relationNotEqual(getLeftChild(), getRightChild());
-		case RELATIONAL_LEQ:
-			return compiler.relationLessEqual(getLeftChild(), getRightChild());
-		case RELATIONAL_LT:
-			return compiler.relationLessThan(getLeftChild(), getRightChild());
-		default: // UNKNOWN:
-			return compiler.unknownASTNode();
 		}
+		value.setType(getType());
+		return value;
+	}
+
+	/**
+	 * Convenient method that compiles all children of this node and returns an
+	 * array of values as a result.
+	 * 
+	 * @param compiler
+	 *            The compiler that generates the value for each child.
+	 * @return An array of values as the result of an evaluation of all child
+	 *         nodes.
+	 */
+	private ASTNodeValue[] compileChildren(ASTNodeCompiler compiler) {
+		ASTNodeValue values[] = new ASTNodeValue[getNumChildren()];
+		for (int i = 0; i < getNumChildren(); i++) {
+			values[i] = getChild(i).compile(compiler);
+		}
+		return values;
 	}
 
 	/**
@@ -1374,8 +1497,10 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Returns the last child in the list of children of this node.
 	 * 
-	 * @return
+	 * @return This is equivalent to calling
+	 *         <code>getListOfNodes().getLast()</code>.
 	 */
 	public ASTNode getRightChild() {
 		return listOfNodes.getLast();
