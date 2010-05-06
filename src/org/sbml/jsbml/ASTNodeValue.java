@@ -59,22 +59,32 @@ public class ASTNodeValue {
 	 * 
 	 */
 	private boolean uiFlag;
+	/**
+	 * An {@link ASTNodeCompiler} that is needed in the case that this
+	 * {@link ASTNodeValue} contains a derivative of
+	 * {@link NamedSBaseWithDerivedUnit} as value to translate this value into a
+	 * double. If the compiler does not convert instances of
+	 * {@link NamedSBaseWithDerivedUnit} to double numbers, a
+	 * {@link ClassCastException} will be thrown..
+	 */
+	private ASTNodeCompiler compiler;
 
 	/**
 	 * 
 	 */
-	public ASTNodeValue() {
+	public ASTNodeValue(ASTNodeCompiler compiler) {
 		type = Type.UNKNOWN;
 		value = null;
 		uiFlag = true;
+		this.compiler = compiler;
 	}
 
 	/**
 	 * 
 	 * @param value
 	 */
-	public ASTNodeValue(boolean value) {
-		this();
+	public ASTNodeValue(boolean value, ASTNodeCompiler compiler) {
+		this(compiler);
 		setValue(Boolean.valueOf(value));
 	}
 
@@ -82,17 +92,8 @@ public class ASTNodeValue {
 	 * 
 	 * @param value
 	 */
-	public ASTNodeValue(Boolean value) {
-		this();
-		setValue(value);
-	}
-
-	/**
-	 * 
-	 * @param value
-	 */
-	public ASTNodeValue(double value) {
-		this();
+	public ASTNodeValue(double value, ASTNodeCompiler compiler) {
+		this(compiler);
 		setValue(Double.valueOf(value));
 	}
 
@@ -100,8 +101,8 @@ public class ASTNodeValue {
 	 * 
 	 * @param value
 	 */
-	public ASTNodeValue(float value) {
-		this();
+	public ASTNodeValue(float value, ASTNodeCompiler compiler) {
+		this(compiler);
 		setValue(Float.valueOf(value));
 	}
 
@@ -109,8 +110,8 @@ public class ASTNodeValue {
 	 * 
 	 * @param value
 	 */
-	public ASTNodeValue(int value) {
-		this();
+	public ASTNodeValue(int value, ASTNodeCompiler compiler) {
+		this(compiler);
 		setValue(Integer.valueOf(value));
 	}
 
@@ -118,8 +119,9 @@ public class ASTNodeValue {
 	 * 
 	 * @param value
 	 */
-	public ASTNodeValue(NamedSBaseWithDerivedUnit value) {
-		this();
+	public ASTNodeValue(NamedSBaseWithDerivedUnit value,
+			ASTNodeCompiler compiler) {
+		this(compiler);
 		setValue(value);
 	}
 
@@ -127,8 +129,8 @@ public class ASTNodeValue {
 	 * 
 	 * @param value
 	 */
-	public ASTNodeValue(Number value) {
-		this();
+	public ASTNodeValue(Number value, ASTNodeCompiler compiler) {
+		this(compiler);
 		setValue(value);
 	}
 
@@ -136,8 +138,8 @@ public class ASTNodeValue {
 	 * 
 	 * @param value
 	 */
-	public ASTNodeValue(String value) {
-		this();
+	public ASTNodeValue(String value, ASTNodeCompiler compiler) {
+		this(compiler);
 		setValue(value);
 	}
 
@@ -145,8 +147,8 @@ public class ASTNodeValue {
 	 * 
 	 * @param type
 	 */
-	ASTNodeValue(Type type) {
-		this();
+	ASTNodeValue(Type type, ASTNodeCompiler compiler) {
+		this(compiler);
 		setType(type);
 	}
 
@@ -275,61 +277,6 @@ public class ASTNodeValue {
 	}
 
 	/**
-	 * Tries to convert the value contained in this object into a double number.
-	 * 
-	 * @param compiler
-	 *            An {@link ASTNodeCompiler} that is needed in the case that
-	 *            this {@link ASTNodeValue} contains a derivative of
-	 *            {@link NamedSBaseWithDerivedUnit} as value to translate this
-	 *            value into a double. If the compiler does not convert
-	 *            instances of {@link NamedSBaseWithDerivedUnit} to double
-	 *            numbers, a {@link ClassCastException} will be thrown..
-	 * @return The double value represented by this given {@link ASTNodeValue}.
-	 *         In case this {@link ASTNodeValue} contains an instance of
-	 *         {@link Boolean}, zero is returned for false and one for true. If
-	 *         the value is null, NaN will be returned.
-	 */
-	public double toDouble(ASTNodeCompiler compiler) {
-		if (isNumber()) {
-			return ((Number) getValue()).doubleValue();
-		}
-		if (isBoolean()) {
-			return ((Boolean) getValue()).booleanValue() ? 1d : 0d;
-		}
-		if (isNamedSBaseWithDerivedUnit()) {
-			return ((Number) compiler.compile(
-					(NamedSBaseWithDerivedUnit) getValue()).getValue())
-					.doubleValue();
-		}
-		if (isString()) {
-			return Double.parseDouble(toString());
-		}
-		return Double.NaN;
-	}
-
-	/**
-	 * This method is analog to the toDouble method but tries to convert this
-	 * value into an integer.
-	 * 
-	 * @param compiler
-	 * @return
-	 */
-	public int toInteger(ASTNodeCompiler compiler) {
-		if (isNumber()) {
-			return ((Number) getValue()).intValue();
-		}
-		if (isBoolean()) {
-			return ((Boolean) getValue()).booleanValue() ? 1 : 0;
-		}
-		if (isNamedSBaseWithDerivedUnit()) {
-			return ((Number) compiler.compile(
-					(NamedSBaseWithDerivedUnit) getValue()).getValue())
-					.intValue();
-		}
-		return Integer.parseInt(toString());
-	}
-
-	/**
 	 * Analog to the toDouble method but this method tries to evaluate the value
 	 * contained in this object to a boolean value. In case of numbers, one is
 	 * considered true, all other values represent false.
@@ -337,7 +284,7 @@ public class ASTNodeValue {
 	 * @param compiler
 	 * @return
 	 */
-	public boolean toBoolean(ASTNodeCompiler compiler) {
+	public boolean toBoolean() {
 		if (isBoolean()) {
 			return ((Boolean) getValue()).booleanValue();
 		}
@@ -354,6 +301,66 @@ public class ASTNodeValue {
 			return 1 == ((Number) getValue()).doubleValue();
 		}
 		return Boolean.parseBoolean(toString());
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public NamedSBaseWithDerivedUnit toNamedSBaseWithDerivedUnit() {
+		if (isNamedSBaseWithDerivedUnit()) {
+			return (NamedSBaseWithDerivedUnit) getValue();
+		}
+		if (isString()) {
+			// actually no way to to obtain the namedSBase from a model
+			// because no reference to the model is stored here.
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public double toDouble() {
+		return toNumber().doubleValue();
+	}
+
+	/**
+	 * This method is analog to the toDouble method but tries to convert this
+	 * value into an integer.
+	 * 
+	 * @param compiler
+	 * @return
+	 */
+	public int toInteger() {
+		return toNumber().intValue();
+	}
+
+	/**
+	 * Tries to convert the value contained in this object into a double number.
+	 * 
+	 * @return The number value represented by this given {@link ASTNodeValue}.
+	 *         In case this {@link ASTNodeValue} contains an instance of
+	 *         {@link Boolean}, zero is returned for false and one for true. If
+	 *         the value is null, NaN will be returned.
+	 */
+	public Number toNumber() {
+		if (isNumber()) {
+			return (Number) getValue();
+		}
+		if (isBoolean()) {
+			return Double.valueOf(((Boolean) getValue()).booleanValue() ? 1d
+					: 0d);
+		}
+		if (isNamedSBaseWithDerivedUnit()) {
+			return (Number) compiler.compile(
+					(NamedSBaseWithDerivedUnit) getValue()).getValue();
+		}
+		if (isString()) {
+			return Double.valueOf(toString());
+		}
+		return Double.valueOf(Double.NaN);
 	}
 
 	/*
