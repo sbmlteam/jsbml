@@ -932,13 +932,16 @@ public class ASTNode implements TreeNode {
 			 */
 			case NAME:
 				if (variable != null) {
-					if (variable instanceof FunctionDefinition)
+					if (variable instanceof FunctionDefinition) {
 						value = compiler.function(
 								(FunctionDefinition) variable,
 								compileChildren(compiler));
-					value = compiler.compile(variable);
+					} else {
+						value = compiler.compile(variable);
+					}
+				} else {
+					value = compiler.compile(getName());
 				}
-				value = compiler.compile(getName());
 				break;
 			/*
 			 * Type: pi, e, true, false
@@ -1081,6 +1084,7 @@ public class ASTNode implements TreeNode {
 					nsb = getParentSBMLObject().getModel()
 							.findNamedSBaseWithDerivedUnit(getName());
 					setVariable(nsb);
+					setType(Type.FUNCTION);
 				}
 				value = compiler.function((FunctionDefinition) nsb,
 						compileChildren(compiler));
@@ -1485,14 +1489,17 @@ public class ASTNode implements TreeNode {
 	public Set<NamedSBase> getReferencedNamedSBases() {
 		Set<NamedSBase> l = new HashSet<NamedSBase>();
 		if (isName()) {
-			if (getVariable() != null)
+			if (getVariable() != null) {
 				l.add(getVariable());
-			else
-				System.err.println("Name of this node is " + getName()
-						+ " but no variable is set.");
+			} else {
+				System.err.printf(
+						"Name of this node is %s  but no variable is set.\n",
+						getName());
+			}
 		}
-		for (ASTNode child : listOfNodes)
+		for (ASTNode child : listOfNodes) {
 			l.addAll(child.getReferencedNamedSBases());
+		}
 		return l;
 	}
 
