@@ -30,7 +30,10 @@
 package org.sbml.jsbml;
 
 /**
- * A compiler for abstract syntax trees.
+ * A compiler for abstract syntax trees. This compiler evaluates the values
+ * represented by {@link ASTNode}s. It should be noted that it is not
+ * responsible for the actual recursion. It only defines how to perform
+ * mathematical operations on the result of a previous recursive evaluation.
  * 
  * @author Andreas Dr&auml;ger
  * 
@@ -42,214 +45,194 @@ public interface ASTNodeCompiler {
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object abs(ASTNode node);
+	public ASTNodeValue abs(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param nodes
+	 * @param values
 	 * @return
 	 */
-	public Object and(ASTNode... nodes);
+	public ASTNodeValue and(ASTNodeValue... values);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object arccos(ASTNode node);
+	public ASTNodeValue arccos(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object arccosh(ASTNode node);
+	public ASTNodeValue arccosh(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object arccot(ASTNode node);
+	public ASTNodeValue arccot(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object arccoth(ASTNode node);
+	public ASTNodeValue arccoth(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object arccsc(ASTNode node);
+	public ASTNodeValue arccsc(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object arccsch(ASTNode node);
+	public ASTNodeValue arccsch(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object arcsec(ASTNode node);
+	public ASTNodeValue arcsec(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object arcsech(ASTNode node);
+	public ASTNodeValue arcsech(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object arcsin(ASTNode node);
+	public ASTNodeValue arcsin(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object arcsinh(ASTNode node);
+	public ASTNodeValue arcsinh(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object arctan(ASTNode node);
+	public ASTNodeValue arctan(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object arctanh(ASTNode node);
+	public ASTNodeValue arctanh(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object ceiling(ASTNode node);
+	public ASTNodeValue ceiling(ASTNodeValue value);
 
 	/**
 	 * 
 	 * @param c
 	 * @return
 	 */
-	public Object compile(Compartment c);
+	public ASTNodeValue compile(Compartment c);
 
 	/**
 	 * 
 	 * @param real
 	 * @return
 	 */
-	public Object compile(double real);
+	public ASTNodeValue compile(double real);
 
 	/**
 	 * 
 	 * @param integer
 	 * @return
 	 */
-	public Object compile(int integer);
+	public ASTNodeValue compile(int integer);
 
 	/**
 	 * 
 	 * @param variable
 	 * @return
 	 */
-	public Object compile(NamedSBaseWithDerivedUnit variable);
+	public ASTNodeValue compile(NamedSBaseWithDerivedUnit variable);
 
 	/**
 	 * 
 	 * @param name
 	 * @return
 	 */
-	public Object compile(String name);
+	public ASTNodeValue compile(String name);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object cos(ASTNode node);
+	public ASTNodeValue cos(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object cosh(ASTNode node);
+	public ASTNodeValue cosh(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object cot(ASTNode node);
+	public ASTNodeValue cot(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object coth(ASTNode node);
+	public ASTNodeValue coth(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object csc(ASTNode node);
+	public ASTNodeValue csc(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object csch(ASTNode node);
+	public ASTNodeValue csch(ASTNodeValue value);
 
 	/**
 	 * Evaluate delay functions.
+	 * 
 	 * @param x
 	 * @param d
 	 * @return
 	 */
-	public Object delay(ASTNode x, double d);
-
-	/**
-	 * 
-	 * @param node
-	 * @return
-	 */
-	public Object exp(ASTNode node);
-
-	/**
-	 * 
-	 * @param node
-	 * @return
-	 */
-	public Object factorial(ASTNode node);
-
-	/**
-	 * 
-	 * @param node
-	 * @return
-	 */
-	public Object floor(ASTNode node);
+	public ASTNodeValue delay(ASTNodeValue x, double d);
 
 	/**
 	 * 
@@ -257,7 +240,36 @@ public interface ASTNodeCompiler {
 	 * @param right
 	 * @return
 	 */
-	public Object frac(ASTNode left, ASTNode right);
+	public ASTNodeValue equal(ASTNodeValue left, ASTNodeValue right);
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public ASTNodeValue exp(ASTNodeValue value);
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public ASTNodeValue factorial(ASTNodeValue value);
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public ASTNodeValue floor(ASTNodeValue value);
+
+	/**
+	 * 
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	public ASTNodeValue frac(ASTNodeValue left, ASTNodeValue right);
 
 	/**
 	 * 
@@ -265,7 +277,7 @@ public interface ASTNodeCompiler {
 	 * @param denominator
 	 * @return
 	 */
-	public Object frac(int numerator, int denominator);
+	public ASTNodeValue frac(int numerator, int denominator);
 
 	/**
 	 * 
@@ -273,64 +285,44 @@ public interface ASTNodeCompiler {
 	 * @param args
 	 * @return
 	 */
-	public Object function(FunctionDefinition namedSBase, ASTNode... args);
+	public ASTNodeValue function(FunctionDefinition namedSBase,
+			ASTNodeValue... args);
 
 	/**
 	 * 
 	 * @return
 	 */
-	public Object getConstantE();
+	public ASTNodeValue getConstantE();
 
 	/**
 	 * 
 	 * @return
 	 */
-	public Object getConstantFalse();
+	public ASTNodeValue getConstantFalse();
 
 	/**
 	 * 
 	 * @return
 	 */
-	public Object getConstantPi();
+	public ASTNodeValue getConstantPi();
 
 	/**
 	 * 
 	 * @return
 	 */
-	public Object getConstantTrue();
+	public ASTNodeValue getConstantTrue();
 
 	/**
 	 * 
 	 * @return
 	 */
-	public Object getNegativeInfinity();
+	public ASTNodeValue getNegativeInfinity();
 
 	/**
 	 * 
 	 * @return
 	 */
-	public Object getPositiveInfinity();
-
-	/**
-	 * 
-	 * @param nodes
-	 * @return
-	 */
-	public Object lambda(ASTNode... nodes);
-
-	/**
-	 * 
-	 * @param node
-	 * @return
-	 */
-	public Object ln(ASTNode node);
-
-	/**
-	 * 
-	 * @param node
-	 * @return
-	 */
-	public Object log(ASTNode node);
+	public ASTNodeValue getPositiveInfinity();
 
 	/**
 	 * 
@@ -338,66 +330,7 @@ public interface ASTNodeCompiler {
 	 * @param right
 	 * @return
 	 */
-	public Object log(ASTNode left, ASTNode right);
-
-	/**
-	 * 
-	 * @param nodes
-	 * @return
-	 */
-	public Object minus(ASTNode... nodes);
-
-	/**
-	 * 
-	 * @param node
-	 * @return
-	 */
-	public Object not(ASTNode node);
-
-	/**
-	 * 
-	 * @param nodes
-	 * @return
-	 */
-	public Object or(ASTNode... nodes);
-
-	/**
-	 * 
-	 * @param nodes
-	 * @return
-	 */
-	public Object piecewise(ASTNode... nodes);
-
-	/**
-	 * 
-	 * @param nodes
-	 * @return
-	 */
-	public Object plus(ASTNode... nodes);
-
-	/**
-	 * 
-	 * @param left
-	 * @param right
-	 * @return
-	 */
-	public Object pow(ASTNode left, ASTNode right);
-
-	/**
-	 * 
-	 * @param left
-	 * @param right
-	 * @return
-	 */
-	public Object relationEqual(ASTNode left, ASTNode right);
-
-	/**
-	 * 
-	 * @param left
-	 * @param right
-	 * @return
-	 */
-	public Object relationGreaterEqual(ASTNode left, ASTNode right);
+	public ASTNodeValue greaterEqual(ASTNodeValue left, ASTNodeValue right);
 
 	/**
 	 * 
@@ -405,7 +338,14 @@ public interface ASTNodeCompiler {
 	 * @param rightChild
 	 * @return
 	 */
-	public Object relationGreaterThan(ASTNode left, ASTNode right);
+	public ASTNodeValue greaterThan(ASTNodeValue left, ASTNodeValue right);
+
+	/**
+	 * 
+	 * @param values
+	 * @return
+	 */
+	public ASTNodeValue lambda(ASTNodeValue... values);
 
 	/**
 	 * 
@@ -413,7 +353,7 @@ public interface ASTNodeCompiler {
 	 * @param right
 	 * @return
 	 */
-	public Object relationLessEqual(ASTNode left, ASTNode right);
+	public ASTNodeValue lessEqual(ASTNodeValue left, ASTNodeValue right);
 
 	/**
 	 * 
@@ -421,7 +361,21 @@ public interface ASTNodeCompiler {
 	 * @param right
 	 * @return
 	 */
-	public Object relationLessThan(ASTNode left, ASTNode right);
+	public ASTNodeValue lessThan(ASTNodeValue left, ASTNodeValue right);
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public ASTNodeValue ln(ASTNodeValue value);
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public ASTNodeValue log(ASTNodeValue value);
 
 	/**
 	 * 
@@ -429,7 +383,58 @@ public interface ASTNodeCompiler {
 	 * @param right
 	 * @return
 	 */
-	public Object relationNotEqual(ASTNode left, ASTNode right);
+	public ASTNodeValue log(ASTNodeValue left, ASTNodeValue right);
+
+	/**
+	 * 
+	 * @param values
+	 * @return
+	 */
+	public ASTNodeValue minus(ASTNodeValue... values);
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public ASTNodeValue not(ASTNodeValue value);
+
+	/**
+	 * 
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	public ASTNodeValue notEqual(ASTNodeValue left, ASTNodeValue right);
+
+	/**
+	 * 
+	 * @param values
+	 * @return
+	 */
+	public ASTNodeValue or(ASTNodeValue... values);
+
+	/**
+	 * 
+	 * @param values
+	 * @return
+	 */
+	public ASTNodeValue piecewise(ASTNodeValue... values);
+
+	/**
+	 * 
+	 * @param values
+	 * @return
+	 */
+	public ASTNodeValue plus(ASTNodeValue... values);
+
+	/**
+	 * 
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	public ASTNodeValue pow(ASTNodeValue left, ASTNodeValue right);
 
 	/**
 	 * 
@@ -437,89 +442,97 @@ public interface ASTNodeCompiler {
 	 * @param radiant
 	 * @return
 	 */
-	public Object root(ASTNode rootExponent, ASTNode radiant);
+	public ASTNodeValue root(ASTNodeValue rootExponent, ASTNodeValue radiant);
 
 	/**
 	 * 
-	 * @param node
+	 * @param rootExponent
+	 * @param radiant
 	 * @return
 	 */
-	public Object sec(ASTNode node);
+	public ASTNodeValue root(double rootExponent, ASTNodeValue radiant);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object sech(ASTNode node);
+	public ASTNodeValue sec(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object sin(ASTNode node);
+	public ASTNodeValue sech(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object sinh(ASTNode node);
+	public ASTNodeValue sin(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object sqrt(ASTNode node);
+	public ASTNodeValue sinh(ASTNodeValue value);
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public ASTNodeValue sqrt(ASTNodeValue value);
 
 	/**
 	 * 
 	 * @param time
 	 * @return
 	 */
-	public Object symbolTime(String time);
+	public ASTNodeValue symbolTime(String time);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object tan(ASTNode node);
+	public ASTNodeValue tan(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object tanh(ASTNode node);
+	public ASTNodeValue tanh(ASTNodeValue value);
 
 	/**
 	 * 
-	 * @param nodes
+	 * @param values
 	 * @return
 	 */
-	public Object times(ASTNode... nodes);
+	public ASTNodeValue times(ASTNodeValue... values);
 
 	/**
 	 * 
-	 * @param node
+	 * @param value
 	 * @return
 	 */
-	public Object uiMinus(ASTNode node);
+	public ASTNodeValue uiMinus(ASTNodeValue value);
 
 	/**
 	 * 
 	 * @return
 	 */
-	public Object unknownASTNode();
+	public ASTNodeValue unknownValue();
 
 	/**
 	 * 
-	 * @param nodes
+	 * @param values
 	 * @return
 	 */
-	public Object xor(ASTNode... nodes);
+	public ASTNodeValue xor(ASTNodeValue... values);
 
 }

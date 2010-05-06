@@ -122,6 +122,11 @@ public class StringTools {
 		return String.format("%.3f", value);
 	}
 	
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
 	public static final String encodeForHTML(String string){
 	  final StringBuilder result = new StringBuilder();
 	  for (char character : string.toCharArray()) {
@@ -166,5 +171,15 @@ public class StringTools {
 	}
 
  
+	/**
+	 * 
+	 * @param sb
+	 * @param elems
+	 */
+	public static void append(StringBuilder sb, Object... elems) {
+		for (Object e : elems) {
+			sb.append(e);
+		}
+	}
 
 }
