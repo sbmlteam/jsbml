@@ -36,11 +36,11 @@ import org.sbml.jsbml.ASTNode.Type;
  * elements of this class as arguments and performs its operations on it. Hence,
  * this class represents the union of all possible types to which an abstract
  * syntax tree can be evaluated, i.e., {@link Boolean},
- * {@link NamedSBaseWithDerivedUnit}, {@link Number}, or {@link String}. This class
- * does not define what to do with these values or how to perform any operations
- * on it. It is just the container of a value. The type of this value tells the
- * {@link ASTNodeCompiler} which operation was performed to obtain the value
- * stored in this object.
+ * {@link NamedSBaseWithDerivedUnit}, {@link Number}, or {@link String}. This
+ * class does not define what to do with these values or how to perform any
+ * operations on it. It is just the container of a value. The type of this value
+ * tells the {@link ASTNodeCompiler} which operation was performed to obtain the
+ * value stored in this object.
  * 
  * @author Andreas Dr&auml;ger
  * @date 2010-04-30
@@ -272,6 +272,88 @@ public class ASTNodeValue {
 	 */
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	/**
+	 * Tries to convert the value contained in this object into a double number.
+	 * 
+	 * @param compiler
+	 *            An {@link ASTNodeCompiler} that is needed in the case that
+	 *            this {@link ASTNodeValue} contains a derivative of
+	 *            {@link NamedSBaseWithDerivedUnit} as value to translate this
+	 *            value into a double. If the compiler does not convert
+	 *            instances of {@link NamedSBaseWithDerivedUnit} to double
+	 *            numbers, a {@link ClassCastException} will be thrown..
+	 * @return The double value represented by this given {@link ASTNodeValue}.
+	 *         In case this {@link ASTNodeValue} contains an instance of
+	 *         {@link Boolean}, zero is returned for false and one for true. If
+	 *         the value is null, NaN will be returned.
+	 */
+	public double toDouble(ASTNodeCompiler compiler) {
+		if (isNumber()) {
+			return ((Number) getValue()).doubleValue();
+		}
+		if (isBoolean()) {
+			return ((Boolean) getValue()).booleanValue() ? 1d : 0d;
+		}
+		if (isNamedSBaseWithDerivedUnit()) {
+			return ((Number) compiler.compile(
+					(NamedSBaseWithDerivedUnit) getValue()).getValue())
+					.doubleValue();
+		}
+		if (isString()) {
+			return Double.parseDouble(toString());
+		}
+		return Double.NaN;
+	}
+
+	/**
+	 * This method is analog to the toDouble method but tries to convert this
+	 * value into an integer.
+	 * 
+	 * @param compiler
+	 * @return
+	 */
+	public int toInteger(ASTNodeCompiler compiler) {
+		if (isNumber()) {
+			return ((Number) getValue()).intValue();
+		}
+		if (isBoolean()) {
+			return ((Boolean) getValue()).booleanValue() ? 1 : 0;
+		}
+		if (isNamedSBaseWithDerivedUnit()) {
+			return ((Number) compiler.compile(
+					(NamedSBaseWithDerivedUnit) getValue()).getValue())
+					.intValue();
+		}
+		return Integer.parseInt(toString());
+	}
+
+	/**
+	 * Analog to the toDouble method but this method tries to evaluate the value
+	 * contained in this object to a boolean value. In case of numbers, one is
+	 * considered true, all other values represent false.
+	 * 
+	 * @param compiler
+	 * @return
+	 */
+	public boolean toBoolean(ASTNodeCompiler compiler) {
+		if (isBoolean()) {
+			return ((Boolean) getValue()).booleanValue();
+		}
+		if (isNamedSBaseWithDerivedUnit()) {
+			ASTNodeValue value = compiler
+					.compile((NamedSBaseWithDerivedUnit) getValue());
+			if (value.isBoolean()) {
+				return ((Boolean) value.getValue()).booleanValue();
+			} else if (value.isNumber()) {
+				return 1 == ((Number) value.getValue()).doubleValue();
+			}
+		}
+		if (isNumber()) {
+			return 1 == ((Number) getValue()).doubleValue();
+		}
+		return Boolean.parseBoolean(toString());
 	}
 
 	/*
