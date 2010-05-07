@@ -98,7 +98,7 @@ public class Unit extends AbstractSBase {
 		 */
 		HERTZ,
 		/**
-		 * Marker used by libSBML to indicate an invalid or unset unit.
+		 * Marker used to indicate an invalid or not yet set unit.
 		 */
 		INVALID,
 		/**
@@ -225,7 +225,6 @@ public class Unit extends AbstractSBase {
 						+ StringTools.firstLetterUpperCase(toString()
 								.toLowerCase());
 			}
-
 			if (this == DIMENSIONLESS || this == GRAM || this == ITEM
 					|| this == INVALID || this == KILOGRAM || this == LUX
 					|| this == METER || this == METRE || this == MOLE
@@ -550,10 +549,6 @@ public class Unit extends AbstractSBase {
 	 * Represents the 'kind' XML attribute of an unit element.
 	 */
 	private Kind kind;
-	/**
-	 * 
-	 */
-	private boolean isSetKind = false;
 
 	/**
 	 * Represents the 'multiplier' XML attribute of an unit element.
@@ -589,15 +584,7 @@ public class Unit extends AbstractSBase {
 	 */
 	public Unit() {
 		super();
-		this.multiplier = null;
-		this.scale = null;
-		this.kind = null;
-		this.exponent = null;
-		this.offset = null;
-
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		initDefaults();
 	}
 
 	/**
@@ -633,15 +620,7 @@ public class Unit extends AbstractSBase {
 	 */
 	public Unit(int level, int version) {
 		super(level, version);
-		this.multiplier = null;
-		this.scale = null;
-		this.kind = null;
-		this.exponent = null;
-		this.offset = null;
-
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		initDefaults();
 	}
 
 	/**
@@ -680,15 +659,8 @@ public class Unit extends AbstractSBase {
 	 */
 	public Unit(Kind kind, int level, int version) {
 		super(level, version);
-		this.multiplier = null;
-		this.scale = null;
-		this.exponent = null;
-		this.offset = null;
-
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
-		this.kind = kind;
+		initDefaults();
+		setKind(kind);
 	}
 
 	/**
@@ -719,7 +691,7 @@ public class Unit extends AbstractSBase {
 		if (unit.isSetKind()) {
 			this.kind = unit.getKind();
 		} else {
-			this.kind = null;
+			this.kind = Kind.INVALID;
 		}
 		if (unit.isSetMultiplier()) {
 			this.multiplier = new Double(unit.getMultiplier());
@@ -741,9 +713,9 @@ public class Unit extends AbstractSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.AbstractSBase#clone()
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	// @Override
+	@Override
 	public Unit clone() {
 		return new Unit(this);
 	}
@@ -951,11 +923,18 @@ public class Unit extends AbstractSBase {
 	 * The 'kind' attribute is left unchanged.
 	 */
 	public void initDefaults() {
-		exponent = Integer.valueOf(1);
-		scale = Integer.valueOf(0);
-		multiplier = new Double(1);
-		offset = new Double(0);
-		kind = null;
+		kind = Kind.INVALID;
+		if (getLevel() < 3) {
+			exponent = Integer.valueOf(1);
+			scale = Integer.valueOf(0);
+			multiplier = new Double(1);
+			offset = new Double(0);
+		} else {
+			exponent = null;
+			offset = null;
+			multiplier = null;
+			scale = null;
+		}
 	}
 
 	/**
@@ -1072,7 +1051,16 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Predicate for testing whether this Unit is of the kind joule
+	 * Predicate for testing whether this Unit is of the kind invalid.
+	 * 
+	 * @return
+	 */
+	public boolean isInvalid() {
+		return kind == Kind.INVALID;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind Joule
 	 * 
 	 * @return
 	 */
@@ -1403,9 +1391,12 @@ public class Unit extends AbstractSBase {
 	 * @param kind
 	 */
 	public void setKind(Kind kind) {
-		isSetKind = true;
-		this.kind = kind;
-		stateChanged();
+		if (kind != null) {
+			this.kind = kind;
+			stateChanged();
+		} else {
+			this.kind = Kind.INVALID;
+		}
 	}
 
 	/**
@@ -1482,10 +1473,10 @@ public class Unit extends AbstractSBase {
 	 * 
 	 */
 	public void unsetKind() {
-		kind = null;
+		kind = Kind.INVALID;
 		stateChanged();
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -1493,7 +1484,7 @@ public class Unit extends AbstractSBase {
 		multiplier = null;
 		stateChanged();
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -1502,7 +1493,7 @@ public class Unit extends AbstractSBase {
 		offset = null;
 		stateChanged();
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -1510,7 +1501,7 @@ public class Unit extends AbstractSBase {
 		scale = null;
 		stateChanged();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
