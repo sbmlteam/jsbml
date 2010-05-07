@@ -105,6 +105,10 @@ public class StringTools {
 		return name;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public static final String newLine() {
 		return System.getProperty("line.separator");
 	}

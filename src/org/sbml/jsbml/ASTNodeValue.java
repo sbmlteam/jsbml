@@ -277,12 +277,16 @@ public class ASTNodeValue {
 	}
 
 	/**
-	 * Analog to the toDouble method but this method tries to evaluate the value
-	 * contained in this object to a boolean value. In case of numbers, one is
-	 * considered true, all other values represent false.
+	 * Analog to the toDouble() method but this method tries to evaluate the
+	 * value contained in this object to a boolean value. In case of numbers,
+	 * one is considered true, all other values represent false.
 	 * 
-	 * @param compiler
-	 * @return
+	 * @return A boolean representing the value of this container. Note that if
+	 *         the value is an instance of {@link NamedSBaseWithDerivedUnit}, it
+	 *         can only be converted into a boolean value if the
+	 *         {@link ASTNodeCompiler} associated with this object compiles this
+	 *         value to an {@link ASTNodeValue} that contains a boolean or at
+	 *         least a {@link Number} value.
 	 */
 	public boolean toBoolean() {
 		if (isBoolean()) {
@@ -307,23 +311,16 @@ public class ASTNodeValue {
 	 * 
 	 * @return
 	 */
-	public NamedSBaseWithDerivedUnit toNamedSBaseWithDerivedUnit() {
-		if (isNamedSBaseWithDerivedUnit()) {
-			return (NamedSBaseWithDerivedUnit) getValue();
-		}
-		if (isString()) {
-			// actually no way to to obtain the namedSBase from a model
-			// because no reference to the model is stored here.
-		}
-		return null;
+	public double toDouble() {
+		return toNumber().doubleValue();
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public double toDouble() {
-		return toNumber().doubleValue();
+	public float toFloat() {
+		return toNumber().floatValue();
 	}
 
 	/**
@@ -338,12 +335,42 @@ public class ASTNodeValue {
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	public long toLong() {
+		return toNumber().longValue();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public NamedSBaseWithDerivedUnit toNamedSBaseWithDerivedUnit() {
+		if (isNamedSBaseWithDerivedUnit()) {
+			return (NamedSBaseWithDerivedUnit) getValue();
+		}
+		if (isString()) {
+			// actually no way to to obtain the namedSBase from a model
+			// because no reference to the model is stored here.
+		}
+		return null;
+	}
+
+	/**
 	 * Tries to convert the value contained in this object into a double number.
 	 * 
 	 * @return The number value represented by this given {@link ASTNodeValue}.
 	 *         In case this {@link ASTNodeValue} contains an instance of
 	 *         {@link Boolean}, zero is returned for false and one for true. If
-	 *         the value is null, NaN will be returned.
+	 *         the value is null or cannot be converted to any number,
+	 *         {@link Double.NaN} will be returned. Note that if the value of
+	 *         this container is an instance of
+	 *         {@link NamedSBaseWithDerivedUnit}, the value can only be
+	 *         converted to a number if the compiler associated with this
+	 *         {@link ASTNodeValue} compiles this
+	 *         {@link NamedSBaseWithDerivedUnit} to an {@link ASTNodeValue} that
+	 *         contains a {@link Number}.
 	 */
 	public Number toNumber() {
 		if (isNumber()) {
@@ -354,8 +381,11 @@ public class ASTNodeValue {
 					: 0d);
 		}
 		if (isNamedSBaseWithDerivedUnit()) {
-			return (Number) compiler.compile(
-					(NamedSBaseWithDerivedUnit) getValue()).getValue();
+			ASTNodeValue value = compiler
+					.compile((NamedSBaseWithDerivedUnit) getValue());
+			if (value.isNumber()) {
+				return ((Number) value.getValue()).doubleValue();
+			}
 		}
 		if (isString()) {
 			return Double.valueOf(toString());
