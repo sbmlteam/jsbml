@@ -590,9 +590,18 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @param listOf
 	 */
 	public void setListOf(List<T> listOf) {
-		this.listOf.clear();
-		this.listOf.addAll(listOf);
-		stateChanged();
+		boolean change = false;
+		if (!this.listOf.isEmpty()) {
+			this.listOf.clear();
+			change = true;
+		}
+		if (listOf.size() > 0) {
+			this.listOf.addAll(listOf);
+			change = true;
+		}
+		if (change) {
+			stateChanged();
+		}
 	}
 
 	/**
@@ -628,8 +637,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * 
 	 * @see java.util.LinkedList#toArray()
 	 */
-	public SBase[] toArray() {
-		return (SBase[]) listOf.toArray();
+	@SuppressWarnings("unchecked")
+	public T[] toArray() {
+		return (T[]) listOf.toArray();
 	}
 
 	/*
