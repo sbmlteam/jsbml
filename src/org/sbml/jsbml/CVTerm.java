@@ -430,6 +430,14 @@ public class CVTerm {
 	}
 
 	/**
+	 * 
+	 * @param specificQualifierType
+	 */
+	public void setBiologicalQualifierType(int specificQualifierType) {
+		setBiologicalQualifierType(Qualifier.values()[specificQualifierType]);
+	}
+
+	/**
 	 * Sets the #BiolQualifierType_t of this CVTerm.
 	 * 
 	 * @param qualifier
@@ -451,6 +459,16 @@ public class CVTerm {
 	}
 
 	/**
+	 * 
+	 * @param specificQualifierType
+	 */
+	public void setModelQualifierType(int specificQualifierType) {
+		final int NUM_BIOLOGICAL_QUALIFIER_TYPES = 11;
+		setBiologicalQualifierType(Qualifier.values()[specificQualifierType
+				- NUM_BIOLOGICAL_QUALIFIER_TYPES]);
+	}
+
+	/**
 	 * Sets the ModelQualifierType_t value of this CVTerm.
 	 * 
 	 * @param qualifier
@@ -468,6 +486,16 @@ public class CVTerm {
 						+ " is not a valid model qualifier.");
 			}
 		}
+	}
+
+	// TODO : check that this 3 functions are doing the good things and
+	// selecting the proper qualifier
+	/**
+	 * 
+	 * @param qualifierType
+	 */
+	public void setQualifierType(int qualifierType) {
+		setQualifierType(Type.values()[qualifierType]);
 	}
 
 	/**
@@ -574,9 +602,7 @@ public class CVTerm {
 	 * @param buffer
 	 */
 	public void toXML(String indent, StringBuffer buffer) {
-
 		if (resourceURIs != null) {
-
 			for (int i = 0; i < getNumResources(); i++) {
 				String resourceURI = getResourceURI(i);
 				StringTools.append(buffer, "<rdf:li rdf:resource=\"",
@@ -586,34 +612,4 @@ public class CVTerm {
 		}
 	}
 
-	
-	// TODO : check that this 3 functions are doing the good things and selecting the proper qualifier
-		/**
-		 * 
-		 * @param qualifierType
-		 */
-		public void setQualifierType( int qualifierType )
-		{
-			setQualifierType( Type.values()[ qualifierType ] );
-		}
-	
-		/**
-		 * 
-		 * @param specificQualifierType
-		 */
-		public void setModelQualifierType( int specificQualifierType )
-		{
-			final int NUM_BIOLOGICAL_QUALIFIER_TYPES = 11;
-			setBiologicalQualifierType( Qualifier.values()[ specificQualifierType - NUM_BIOLOGICAL_QUALIFIER_TYPES ] );
-		}
-	
-		/**
-		 * 
-		 * @param specificQualifierType
-		 */
-		public void setBiologicalQualifierType( int specificQualifierType )
-		{
-			setBiologicalQualifierType( Qualifier.values()[ specificQualifierType ] );
-		}
-	
 }

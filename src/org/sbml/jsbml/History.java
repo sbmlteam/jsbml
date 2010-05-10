@@ -396,7 +396,6 @@ public class History {
 	 * @param buffer
 	 */
 	public void toXML(String indent, StringBuffer buffer) {
-
 		createCreatorElements(indent, buffer);
 		createCreatedElement(indent, buffer);
 		createModifiedElements(indent, buffer);

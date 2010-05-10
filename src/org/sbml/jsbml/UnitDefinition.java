@@ -30,8 +30,6 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
-
 import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.StringTools;
 
@@ -640,21 +638,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-
-		return isAttributeRead;
-	}
-
 	/**
 	 * Removes the nth Unit object from this UnitDefinition object and returns a
 	 * pointer to it.
@@ -713,17 +696,5 @@ public class UnitDefinition extends AbstractNamedSBase {
 			}
 		}
 		return this;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
-	 */
-	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
-
-		return attributes;
 	}
 }

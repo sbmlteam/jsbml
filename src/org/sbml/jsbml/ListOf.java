@@ -30,7 +30,6 @@
 package org.sbml.jsbml;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -468,6 +467,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
+		// TODO: What is the purpose of this method?
 		return false;
 	}
 
@@ -667,16 +667,5 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public void unsetSBaseListType() {
 		this.currentList = Type.none;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
-	 */
-	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
-		return attributes;
 	}
 }

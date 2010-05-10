@@ -29,7 +29,6 @@
  */
 package org.sbml.jsbml;
 
-import java.util.HashMap;
 
 /**
  * Represents the trigger XML element of a SBML file.
@@ -73,35 +72,8 @@ public class Trigger extends MathContainer {
 	 * 
 	 * @see org.sbml.jsbml.element.MathContainer#clone()
 	 */
-	// @Override
+	@Override
 	public Trigger clone() {
 		return new Trigger(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#readAttribute(String
-	 * attributeName, String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-
-		return isAttributeRead;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#writeXMLAttributes()
-	 */
-	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
-
-		return attributes;
 	}
 }

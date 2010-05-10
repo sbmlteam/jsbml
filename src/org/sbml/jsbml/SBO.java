@@ -86,8 +86,9 @@ public class SBO {
 					"Systems Biology Ontology");
 			alias2sbo = Resource.readProperties(path + "Alias2SBO.cfg");
 			sbo2alias = new Properties();
-			for (Object key : alias2sbo.keySet())
+			for (Object key : alias2sbo.keySet()) {
 				sbo2alias.put(alias2sbo.get(key), key);
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
@@ -106,7 +107,7 @@ public class SBO {
 	 * @return true if sboTerm is in the range {0,.., 9999999}, false otherwise.
 	 */
 	public static boolean checkTerm(int sboTerm) {
-		return 0 <= sboTerm && sboTerm <= 9999999;
+		return (0 <= sboTerm) && (sboTerm <= 9999999);
 	}
 
 	/**
@@ -871,7 +872,7 @@ public class SBO {
 	public static boolean isTranslationalActivation(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("TRANSLATIONAL_ACTIVATION"));
 	}
-	
+
 	/**
 	 * 
 	 * @param sboTerm
@@ -880,7 +881,7 @@ public class SBO {
 	public static boolean isTranslationalInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("TRANSLATIONAL_INHIBITION"));
 	}
-	
+
 	/**
 	 * 
 	 * @param term
@@ -889,7 +890,7 @@ public class SBO {
 	public static boolean isTransport(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("TRANSPORT"));
 	}
-	
+
 	/**
 	 * 
 	 * @param sboTerm
@@ -898,7 +899,7 @@ public class SBO {
 	public static boolean isTrigger(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("TRIGGER"));
 	}
-	
+
 	/**
 	 * 
 	 * @param sboTerm
@@ -907,7 +908,7 @@ public class SBO {
 	public static boolean isTruncated(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("TRUNCATED"));
 	}
-	
+
 	/**
 	 * 
 	 * @param sboTerm
@@ -916,7 +917,7 @@ public class SBO {
 	public static boolean isUnknownMolecule(int sboTerm) {
 		return isChildOf(sboTerm, convertAlias2SBO("UNKNOWN"));
 	}
-	
+
 	/**
 	 * 
 	 * @param term

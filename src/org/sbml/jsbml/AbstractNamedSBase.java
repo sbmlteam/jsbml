@@ -67,6 +67,17 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	}
 
 	/**
+	 * Creates an AbctractNamedSBase from a given AbstractNamedSBase.
+	 * 
+	 * @param nsb
+	 */
+	public AbstractNamedSBase(AbstractNamedSBase nsb) {
+		super(nsb);
+		this.id = nsb.isSetId() ? new String(nsb.getId()) : null;
+		this.name = nsb.isSetName() ? new String(nsb.getName()) : null;
+	}
+
+	/**
 	 * Creates an AbctractNamedSBase from a level and version. By default, id
 	 * and name are null.
 	 * 
@@ -77,17 +88,6 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		this();
 		setLevel(level);
 		setVersion(version);
-	}
-
-	/**
-	 * Creates an AbctractNamedSBase from a given AbstractNamedSBase.
-	 * 
-	 * @param nsb
-	 */
-	public AbstractNamedSBase(AbstractNamedSBase nsb) {
-		super(nsb);
-		this.id = nsb.isSetId() ? new String(nsb.getId()) : null;
-		this.name = nsb.isSetName() ? new String(nsb.getName()) : null;
 	}
 
 	/**
@@ -177,6 +177,39 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
+	 */
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		// TODO : we should probably be careful there and check if there is a
+		// prefix set before reading the id or name
+		// as there are not defined at the level of the SBase on the SBML
+		// specifications and some packages might define them in their own
+		// namespace.
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("id") && getLevel() > 1) {
+				this.setId(value);
+				return true;
+			} else if (attributeName.equals("name")) {
+				this.setName(value);
+				if (isSetLevel() && getLevel() == 1) {
+					this.setId(value);
+				}
+				return true;
+			}
+			return false;
+		}
+		return isAttributeRead;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
@@ -185,26 +218,6 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		} else {
 			this.id = id;
 		}
-		stateChanged();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#unsetName()
-	 */
-	public void unsetName() {
-		this.name = null;
-		stateChanged();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#unsetId()
-	 */
-	public void unsetId() {
-		this.id = null;
 		stateChanged();
 	}
 
@@ -244,34 +257,21 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
+	 * @see org.sbml.jsbml.element.NamedSBase#unsetId()
 	 */
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
+	public void unsetId() {
+		this.id = null;
+		stateChanged();
+	}
 
-		// TODO : we should probably be careful there and check if there is a
-		// prefix set before reading the id or name
-		// as there are not defined at the level of the SBase on the SBML
-		// specifications and some packages might define them in their own
-		// namespace.
-
-		if (!isAttributeRead) {
-			if (attributeName.equals("id") && getLevel() > 1) {
-				this.setId(value);
-				return true;
-			} else if (attributeName.equals("name")) {
-				this.setName(value);
-				if (isSetLevel() && getLevel() == 1) {
-					this.setId(value);
-				}
-				return true;
-			}
-			return false;
-		}
-		return isAttributeRead;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.NamedSBase#unsetName()
+	 */
+	public void unsetName() {
+		this.name = null;
+		stateChanged();
 	}
 
 	/*

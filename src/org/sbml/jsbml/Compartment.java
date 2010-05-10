@@ -283,6 +283,14 @@ public class Compartment extends Symbol {
 
 	/**
 	 * 
+	 * @return true if the compartmentID of this compartment is not null.
+	 */
+	public boolean isSetCompartmentType() {
+		return compartmentTypeID != null;
+	}
+
+	/**
+	 * 
 	 * @return true if the compartmentType instance which matches the
 	 *         compartmentTypeID of this compartment is not null.
 	 */
@@ -295,10 +303,10 @@ public class Compartment extends Symbol {
 
 	/**
 	 * 
-	 * @return true if the compartmentID of this compartment is not null.
+	 * @return true if the outsideID of this compartment is not null.
 	 */
-	public boolean isSetCompartmentType() {
-		return compartmentTypeID != null;
+	public boolean isSetOutside() {
+		return outsideID != null;
 	}
 
 	/**
@@ -313,18 +321,18 @@ public class Compartment extends Symbol {
 
 	/**
 	 * 
-	 * @return true if the outsideID of this compartment is not null.
-	 */
-	public boolean isSetOutside() {
-		return outsideID != null;
-	}
-
-	/**
-	 * 
 	 * @return true if the size of this compartment is not null.
 	 */
 	public boolean isSetSize() {
 		return isSetValue();
+	}
+
+	/**
+	 * 
+	 * @return true if the spatialDimensions of this compartment is not null.
+	 */
+	public boolean isSetSpatialDimensions() {
+		return isSetSpatialDimensions;
 	}
 
 	/**
@@ -365,12 +373,48 @@ public class Compartment extends Symbol {
 		return isSetSize();
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return true if the spatialDimensions of this compartment is not null.
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
-	public boolean isSetSpatialDimensions() {
-		return isSetSpatialDimensions;
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("spatialDimensions") && getLevel() > 1) {
+				this.setSpatialDimensions(Short.parseShort(value));
+				return true;
+			} else if (attributeName.equals("units")) {
+				this.setUnits(value);
+				return true;
+			} else if (attributeName.equals("size") && getLevel() > 1) {
+				this.setSize(Double.parseDouble(value));
+				return true;
+			} else if (attributeName.equals("volume") && getLevel() == 1) {
+				this.setSize(Double.parseDouble(value));
+				return true;
+			} else if (attributeName.equals("compartmentType")
+					&& getLevel() == 2) {
+				this.setCompartmentType(value);
+				return true;
+			} else if (attributeName.equals("outside") && getLevel() < 3) {
+				this.setOutside(value);
+			} else if (attributeName.equals("constant") && getLevel() > 1) {
+				if (value.equals("true")) {
+					this.setConstant(true);
+					return true;
+				} else if (value.equals("false")) {
+					this.setConstant(false);
+					return true;
+				}
+			}
+		}
+		return isAttributeRead;
 	}
 
 	/**
@@ -432,6 +476,20 @@ public class Compartment extends Symbol {
 	}
 
 	/**
+	 * Sets the spatialDimensions of this compartment to 'i'.
+	 */
+	public void setSpatialDimensions(int i) {
+		if (i >= 0 && i <= 3) {
+			isSetSpatialDimensions = true;
+			this.spatialDimensions = (short) i;
+		} else {
+			throw new IllegalArgumentException(
+					"Spatial dimensions must be between [0, 3]." + i
+							+ " given.");
+		}
+	}
+
+	/**
 	 * Sets the spatialDimensions of this compartment to 'spatialDimensiosn'.
 	 * 
 	 * @param spatialDimensions
@@ -444,20 +502,6 @@ public class Compartment extends Symbol {
 			throw new IllegalArgumentException(
 					"Spatial dimensions must be between [0, 3], "
 							+ spatialDimensions + " given.");
-		}
-	}
-
-	/**
-	 * Sets the spatialDimensions of this compartment to 'i'.
-	 */
-	public void setSpatialDimensions(int i) {
-		if (i >= 0 && i <= 3) {
-			isSetSpatialDimensions = true;
-			this.spatialDimensions = (short) i;
-		} else {
-			throw new IllegalArgumentException(
-					"Spatial dimensions must be between [0, 3]." + i
-							+ " given.");
 		}
 	}
 
@@ -493,6 +537,20 @@ public class Compartment extends Symbol {
 	}
 
 	/**
+	 * Sets the compartmentTypeID of this compartment to null.
+	 */
+	public void unsetCompartmentType() {
+		compartmentTypeID = null;
+	}
+
+	/**
+	 * Sets the outsideID of this compartment to null.
+	 */
+	public void unsetOutside() {
+		this.outsideID = null;
+	}
+
+	/**
 	 * <p>
 	 * Unsets the value of the 'size' attribute of this Compartment.
 	 * </p>
@@ -512,6 +570,13 @@ public class Compartment extends Symbol {
 	 */
 	public void unsetSize() {
 		unsetValue();
+	}
+
+	/**
+	 * sets the spatialDimensions of this compartment to null.
+	 */
+	public void unsetSpatialDimensions() {
+		this.spatialDimensions = null;
 	}
 
 	/**
@@ -540,64 +605,6 @@ public class Compartment extends Symbol {
 	 */
 	public void unsetVolume() {
 		unsetSize();
-	}
-
-	/**
-	 * Sets the outsideID of this compartment to null.
-	 */
-	public void unsetOutside() {
-		this.outsideID = null;
-	}
-
-	/**
-	 * sets the spatialDimensions of this compartment to null.
-	 */
-	public void unsetSpatialDimensions() {
-		this.spatialDimensions = null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-
-		if (!isAttributeRead) {
-			if (attributeName.equals("spatialDimensions") && getLevel() > 1) {
-				this.setSpatialDimensions(Short.parseShort(value));
-				return true;
-			} else if (attributeName.equals("units")) {
-				this.setUnits(value);
-				return true;
-			} else if (attributeName.equals("size") && getLevel() > 1) {
-				this.setSize(Double.parseDouble(value));
-				return true;
-			} else if (attributeName.equals("volume") && getLevel() == 1) {
-				this.setSize(Double.parseDouble(value));
-				return true;
-			} else if (attributeName.equals("compartmentType")
-					&& getLevel() == 2) {
-				this.setCompartmentType(value);
-				return true;
-			} else if (attributeName.equals("outside") && getLevel() < 3) {
-				this.setOutside(value);
-			} else if (attributeName.equals("constant") && getLevel() > 1) {
-				if (value.equals("true")) {
-					this.setConstant(true);
-					return true;
-				} else if (value.equals("false")) {
-					this.setConstant(false);
-					return true;
-				}
-			}
-		}
-		return isAttributeRead;
 	}
 
 	/*
@@ -633,13 +640,6 @@ public class Compartment extends Symbol {
 			attributes.put("units", getUnits());
 		}
 		return attributes;
-	}
-
-	/**
-	 * Sets the compartmentTypeID of this compartment to null.
-	 */
-	public void unsetCompartmentType() {
-		compartmentTypeID = null;
 	}
 
 }

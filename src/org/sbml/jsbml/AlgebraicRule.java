@@ -30,7 +30,6 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
 
 /**
  * Represents the algebraicRule XML element of a SBML file.
@@ -129,32 +128,4 @@ public class AlgebraicRule extends Rule {
 	public boolean isSpeciesConcentration() {
 		return false;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Rule#readAttribute(String attributeName,
-	 * String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-
-		return isAttributeRead;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Rule#writeXMLAttributes()
-	 */
-	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
-
-		return attributes;
-	}
-
 }

@@ -96,9 +96,10 @@ public class EventAssignment extends MathContainer {
 			}
 			setVariable(nsb);
 			stateChanged();
-		} else
+		} else {
 			throw new NullPointerException(
 					"Cannot find a model for this EventAssignment");
+		}
 	}
 
 	/*
