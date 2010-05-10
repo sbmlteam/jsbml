@@ -29,7 +29,6 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
 
 /**
  * Represents the modifierSpeciesReference XML element of a SBML file.
@@ -78,31 +77,8 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#clone()
 	 */
-	// @Override
+	@Override
 	public ModifierSpeciesReference clone() {
 		return new ModifierSpeciesReference(this);
-	}
-
-	/*
-	 * (non-Javadoc) org.sbml.jsbml.element.SBase#readAttribute(String
-	 * attributeName, String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-
-		return isAttributeRead;
-	}
-
-	/*
-	 * (non-Javadoc) org.sbml.jsbml.element.SBase#writeXMLAttributes()
-	 */
-	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
-
-		return attributes;
 	}
 }

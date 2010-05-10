@@ -30,7 +30,6 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
 
 /**
  * The base class for {@link Compartment}, {@link Species}, {@link Parameter}. A
@@ -179,20 +178,6 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-		return isAttributeRead;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.Variable#setConstant(boolean)
 	 */
 	public void setConstant(boolean constant) {
@@ -208,16 +193,5 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	 */
 	public void unsetConstant() {
 		this.constant = null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
-	 */
-	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
-		return attributes;
 	}
 }

@@ -353,6 +353,10 @@ public class ASTNodeValue {
 		if (isString()) {
 			// actually no way to to obtain the namedSBase from a model
 			// because no reference to the model is stored here.
+			ASTNodeValue value = compiler.compile(toString());
+			if (value.isNamedSBaseWithDerivedUnit()) {
+				return (NamedSBaseWithDerivedUnit) value;
+			}
 		}
 		return null;
 	}

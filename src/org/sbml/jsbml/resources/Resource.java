@@ -38,13 +38,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.Vector;
 
 /**
- * Dummy class that just loads resource files if required. Created at
- * 2009-02-05.
+ * Dummy class that just loads resource files if required.
  * 
  * @author Hannes Borch
  * @author Andreas Dr&auml;ger
+ * @date 2009-02-05
  * 
  * @opt attributes
  * @opt types

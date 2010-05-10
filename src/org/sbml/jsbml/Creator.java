@@ -29,6 +29,8 @@
  */
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.util.StringTools;
+
 /**
  * Contains all the information about a creator of a Model (or other in level
  * 3).
@@ -342,17 +344,13 @@ public class Creator {
 	 * @param buffer
 	 */
 	public void toXML(String indent, StringBuffer buffer) {
-
-		buffer.append(indent).append("<rdf:li rdf:parseType=").append('"')
-				.append("Resource").append('"').append("> \n");
-
+		StringTools.append(buffer, indent, "<rdf:li rdf:parseType=", '"',
+				"Resource", '"', ">", StringTools.newLine());
 		createNElement(indent + "  ", buffer);
 		createEMAILElement(indent + "  ", buffer);
 		createOrGElement(indent + "  ", buffer);
 		// createOtherElement(indent, buffer);
-
-		buffer.append(indent).append("</rdf:li> \n");
-
+		StringTools.append(buffer, indent, "</rdf:li>", StringTools.newLine());
 	}
 
 	/**

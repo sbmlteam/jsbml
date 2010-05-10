@@ -39,6 +39,7 @@ import java.util.Set;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.CVTerm.Type;
+import org.sbml.jsbml.util.StringTools;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -378,6 +379,7 @@ public class Annotation {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -772,20 +774,18 @@ public class Annotation {
 	 * @return
 	 */
 	public String toXML(String indent, SBase parentElement) {
-
 		StringBuffer buffer = new StringBuffer();
-
 		if (isSetAnnotation()) {
-			buffer.append(indent).append("<otherAnnotation").append(
-					attributesToXML()).append("> \n");
-
+			StringTools.append(buffer, indent, "<otherAnnotation",
+					attributesToXML(), ">", StringTools.newLine());
 			if (getListOfCVTerms() != null) {
 				RDFAnnotationToXML(indent + "  ", buffer, parentElement);
 			}
 			if (getNoRDFAnnotation() != null) {
 				otherAnnotationToXML(indent + "  ", buffer);
 			}
-			buffer.append(indent).append("</otherAnnotation> \n");
+			StringTools.append(buffer, indent, "</otherAnnotation>",
+					StringTools.newLine());
 		}
 		return buffer.toString();
 	}
@@ -804,7 +804,7 @@ public class Annotation {
 	public void unsetCVTerms() {
 		listOfCVTerms.clear();
 	}
-	
+
 	/**
 	 * Unsets the modelHistory instance of this object.
 	 */

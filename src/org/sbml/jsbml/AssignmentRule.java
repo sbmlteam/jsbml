@@ -68,19 +68,6 @@ public class AssignmentRule extends Rule {
 	}
 
 	/**
-	 * Creates an AssignmentRule instance with the given level and version.
-	 * 
-	 * @param level
-	 *            the SBML level
-	 * @param version
-	 *            the SBML version
-	 */
-	public AssignmentRule(int level, int version) {
-		super(level, version);
-		this.variableID = null;
-	}
-
-	/**
 	 * Creates an AssignmentRule instance from a given AssignmentRule.
 	 * 
 	 * @param sb
@@ -94,6 +81,39 @@ public class AssignmentRule extends Rule {
 		}
 		if (sb.isSetUnits()) {
 			this.unitsID = new String(sb.getUnits());
+		} else {
+			this.unitsID = null;
+		}
+	}
+
+	/**
+	 * Creates an AssignmentRule instance with the given level and version.
+	 * 
+	 * @param level
+	 *            the SBML level
+	 * @param version
+	 *            the SBML version
+	 */
+	public AssignmentRule(int level, int version) {
+		super(level, version);
+		this.variableID = null;
+	}
+
+	/**
+	 * Creates an AssignmentRule instance from a given variable and math. Takes
+	 * level and version from the variable.
+	 * 
+	 * @param math
+	 */
+	public AssignmentRule(Symbol variable, ASTNode math) {
+		super(math, variable.getLevel(), variable.getVersion());
+		if (variable.isSetId()) {
+			this.variableID = new String(variable.getId());
+		} else {
+			this.variableID = null;
+		}
+		if (variable.isSetUnits()) {
+			this.unitsID = new String(variable.getUnits());
 		} else {
 			this.unitsID = null;
 		}
@@ -119,23 +139,25 @@ public class AssignmentRule extends Rule {
 	}
 
 	/**
-	 * Creates an AssignmentRule instance from a given variable and math. Takes
-	 * level and version from the variable.
+	 * Sets the variableID of this object with 'variable'. It looks first for an
+	 * existing instance of compartment, species, speciesReference or parameter
+	 * with 'variable' as is value, and then initialises the variableID of this
+	 * object with the id of the variable instance. If no variable instance
+	 * matches the 'variable' String, an exception is thrown.
 	 * 
-	 * @param math
+	 * @param variable
 	 */
-	public AssignmentRule(Symbol variable, ASTNode math) {
-		super(math, variable.getLevel(), variable.getVersion());
-		if (variable.isSetId()) {
-			this.variableID = new String(variable.getId());
-		} else {
-			this.variableID = null;
+	public void checkAndSetVariable(String variable) {
+		Variable nsb = null;
+		Model model = getModel();
+		if (model != null) {
+			nsb = model.findVariable(variable);
 		}
-		if (variable.isSetUnits()) {
-			this.unitsID = new String(variable.getUnits());
-		} else {
-			this.unitsID = null;
+		if (nsb == null) {
+			throw new IllegalArgumentException(
+					"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
 		}
+		setVariable(nsb.getId());
 	}
 
 	/*
@@ -173,11 +195,11 @@ public class AssignmentRule extends Rule {
 	}
 
 	/**
-	 * 
-	 * @return the variableID of this object.
+	 * @return the unitsID of this object.
 	 */
-	public String getVariable() {
-		return variableID;
+	@Deprecated
+	public String getUnits() {
+		return this.unitsID;
 	}
 
 	/**
@@ -192,11 +214,11 @@ public class AssignmentRule extends Rule {
 	}
 
 	/**
-	 * @return the unitsID of this object.
+	 * 
+	 * @return the variableID of this object.
 	 */
-	@Deprecated
-	public String getUnits() {
-		return this.unitsID;
+	public String getVariable() {
+		return variableID;
 	}
 
 	/**
@@ -243,22 +265,11 @@ public class AssignmentRule extends Rule {
 
 	/**
 	 * 
-	 * @return true if the variableID of this object matches a no null
-	 *         compartment, parameter, species or speciesReference of the model
-	 *         instance.
+	 * @return true if the unitsID of this object is not null.
 	 */
-	public boolean isSetVariableInstance() {
-		Model model = getModel();
-		return model != null ? model.findVariable(this.variableID) != null
-				: false;
-	}
-
-	/**
-	 * 
-	 * @return true if the variableID of this object is not null.
-	 */
-	public boolean isSetVariable() {
-		return variableID != null;
+	@Deprecated
+	public boolean isSetUnits() {
+		return unitsID != null;
 	}
 
 	/**
@@ -275,11 +286,22 @@ public class AssignmentRule extends Rule {
 
 	/**
 	 * 
-	 * @return true if the unitsID of this object is not null.
+	 * @return true if the variableID of this object is not null.
 	 */
-	@Deprecated
-	public boolean isSetUnits() {
-		return unitsID != null;
+	public boolean isSetVariable() {
+		return variableID != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the variableID of this object matches a no null
+	 *         compartment, parameter, species or speciesReference of the model
+	 *         instance.
+	 */
+	public boolean isSetVariableInstance() {
+		Model model = getModel();
+		return model != null ? model.findVariable(this.variableID) != null
+				: false;
 	}
 
 	/*
@@ -292,26 +314,37 @@ public class AssignmentRule extends Rule {
 		return isSetVariable() && (getVariableInstance() instanceof Species);
 	}
 
-	/**
-	 * Sets the variableID of this object with 'variable'. It looks first for an
-	 * existing instance of compartment, species, speciesReference or parameter
-	 * with 'variable' as is value, and then initialises the variableID of this
-	 * object with the id of the variable instance. If no variable instance
-	 * matches the 'variable' String, an exception is thrown.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param variable
+	 * @see org.sbml.jsbml.element.Rule#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
-	public void checkAndSetVariable(String variable) {
-		Variable nsb = null;
-		Model model = getModel();
-		if (model != null) {
-			nsb = model.findVariable(variable);
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("variable") && getLevel() > 1) {
+				this.setVariable(value);
+				return true;
+			} else if (attributeName.equals("specie") && getLevel() == 1) {
+				this.setVariable(value);
+				return true;
+			} else if (attributeName.equals("compartment") && getLevel() == 1) {
+				this.setVariable(value);
+				return true;
+			} else if (attributeName.equals("name") && getLevel() == 1) {
+				this.setVariable(value);
+				return true;
+			} else if (attributeName.equals("units") && getLevel() == 1) {
+				this.setUnits(value);
+				return true;
+			}
 		}
-		if (nsb == null) {
-			throw new IllegalArgumentException(
-					"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
-		}
-		setVariable(nsb.getId());
+		return isAttributeRead;
 	}
 
 	/**
@@ -361,39 +394,6 @@ public class AssignmentRule extends Rule {
 	@Deprecated
 	public void unsetUnits() {
 		this.unitsID = null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Rule#readAttribute(String attributeName,
-	 * String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-
-		if (!isAttributeRead) {
-			if (attributeName.equals("variable") && getLevel() > 1) {
-				this.setVariable(value);
-				return true;
-			} else if (attributeName.equals("specie") && getLevel() == 1) {
-				this.setVariable(value);
-				return true;
-			} else if (attributeName.equals("compartment") && getLevel() == 1) {
-				this.setVariable(value);
-				return true;
-			} else if (attributeName.equals("name") && getLevel() == 1) {
-				this.setVariable(value);
-				return true;
-			} else if (attributeName.equals("units") && getLevel() == 1) {
-				this.setUnits(value);
-				return true;
-			}
-		}
-		return isAttributeRead;
 	}
 
 	/*

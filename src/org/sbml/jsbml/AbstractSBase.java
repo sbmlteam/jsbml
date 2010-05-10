@@ -245,6 +245,40 @@ public abstract class AbstractSBase implements SBase {
 			this.notes = notes;
 	}
 
+	/**
+	 * Checks whether or not the given {@link SBase} has the same level and
+	 * version configuration than this element.
+	 * 
+	 * @param sbase
+	 */
+	private void checkLevelAndVersionCompatibility(SBase sbase) {
+		if (sbase.isSetLevel()) {
+			if (sbase.getLevel() != getLevel()) {
+				try {
+					throw new SBMLException();
+				} catch (SBMLException e) {
+					// TODO Level different, what to do?
+					e.printStackTrace();
+				}
+			}
+		} else {
+			sbase.setLevel(getLevel());
+		}
+
+		if (sbase.isSetVersion()) {
+			if (sbase.getVersion() != getVersion()) {
+				try {
+					throw new SBMLException();
+				} catch (SBMLException e) {
+					// TODO Version different, what to do?
+					e.printStackTrace();
+				}
+			}
+		} else {
+			sbase.setVersion(getVersion());
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -331,6 +365,7 @@ public abstract class AbstractSBase implements SBase {
 		return isSetAnnotation() ? annotation : null;
 	}
 
+	
 	/**
 	 * Returns the annotation of this SBML object as a string.
 	 * 
@@ -349,7 +384,6 @@ public abstract class AbstractSBase implements SBase {
 		return "";
 	}
 
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -456,6 +490,15 @@ public abstract class AbstractSBase implements SBase {
 		return this.namespaces;
 	}
 
+	/**
+	 * 
+	 * @return notes
+	 */
+	public String getNotes()
+	{
+		return getNotesString();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -472,15 +515,6 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public String getNotesString() {
 		return notes != null ? notes : "";
-	}
-
-	/**
-	 * 
-	 * @return notes
-	 */
-	public String getNotes()
-	{
-		return getNotesString();
 	}
 
 	/*
@@ -855,40 +889,6 @@ public abstract class AbstractSBase implements SBase {
 			((AbstractSBase) sbase).parentSBMLObject = this;
 			for (SBaseChangedListener l : setOfListeners)
 				sbase.addChangeListener(l);
-		}
-	}
-
-	/**
-	 * Checks whether or not the given {@link SBase} has the same level and
-	 * version configuration than this element.
-	 * 
-	 * @param sbase
-	 */
-	private void checkLevelAndVersionCompatibility(SBase sbase) {
-		if (sbase.isSetLevel()) {
-			if (sbase.getLevel() != getLevel()) {
-				try {
-					throw new SBMLException();
-				} catch (SBMLException e) {
-					// TODO Level different, what to do?
-					e.printStackTrace();
-				}
-			}
-		} else {
-			sbase.setLevel(getLevel());
-		}
-
-		if (sbase.isSetVersion()) {
-			if (sbase.getVersion() != getVersion()) {
-				try {
-					throw new SBMLException();
-				} catch (SBMLException e) {
-					// TODO Version different, what to do?
-					e.printStackTrace();
-				}
-			}
-		} else {
-			sbase.setVersion(getVersion());
 		}
 	}
 

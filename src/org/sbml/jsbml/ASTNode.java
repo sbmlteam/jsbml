@@ -1163,6 +1163,17 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * This method recursively evaluates this ASTNode and creates a new
+	 * UnitDefinition with respect of all referenced elements.
+	 * 
+	 * @return
+	 */
+	public UnitDefinition deriveUnit() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
 	 * Divides this node through? the given node
 	 * 
 	 * param ast
@@ -1399,11 +1410,11 @@ public class ASTNode implements TreeNode {
 	 * @return the value of this ASTNode as a string.
 	 */
 	public String getName() {
-		if (!isOperator() && !isNumber())
+		if (!isOperator() && !isNumber()) {
 			return variable == null ? name : variable.getId();
+		}
 		throw new RuntimeException(
-				new IllegalArgumentException(
-						"getName() should be called only when !isNumber() || !isOperator()"));
+				"getName() should be called only when !isNumber() || !isOperator()");
 	}
 
 	/**
@@ -2322,16 +2333,5 @@ public class ASTNode implements TreeNode {
 				break;
 			}
 		return isName() ? getName() : getType().toString();
-	}
-
-	/**
-	 * This method recursively evaluates this ASTNode and creates a new
-	 * UnitDefinition with respect of all referenced elements.
-	 * 
-	 * @return
-	 */
-	public UnitDefinition deriveUnit() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
