@@ -30,8 +30,6 @@
 
 package org.sbml.jsbml.xml.parsers;
 
-import java.util.StringTokenizer;
-
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.util.StringTools;

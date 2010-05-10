@@ -29,7 +29,10 @@
  */
 package org.sbml.jsbml.util;
 
+import java.io.IOException;
+import java.util.Properties;
 
+import org.sbml.jsbml.resources.Resource;
 
 /**
  * This class provides a collection of convenient methods for manipulating
@@ -125,56 +128,31 @@ public class StringTools {
 			return Integer.toString((int) value);
 		return String.format("%.3f", value);
 	}
-	
+
 	/**
 	 * 
 	 * @param string
 	 * @return
 	 */
-	public static final String encodeForHTML(String string){
-	  final StringBuilder result = new StringBuilder();
-	  for (char character : string.toCharArray()) {
-	    if      (character == '\t')result.append("&#009;");
-	    else if (character == '!') result.append("&#033;");
-	    else if (character == '#') result.append("&#035;");
-	    else if (character == '$') result.append("&#036;");
-	    else if (character == '%') result.append("&#037;");
-	    else if (character == '\'')result.append("&#039;");
-	    else if (character == '(') result.append("&#040;");
-	    else if (character == ')') result.append("&#041;");
-	    else if (character == '*') result.append("&#042;");
-	    else if (character == '+') result.append("&#043;");
-	    else if (character == ',') result.append("&#044;");
-	    else if (character == '-') result.append("&#045;");
-	    else if (character == '.') result.append("&#046;");
-	    else if (character == '/') result.append("&#047;");
-	    else if (character == ':') result.append("&#058;");
-	    else if (character == ';') result.append("&#059;");
-	    else if (character == '=') result.append("&#061;");
-	    else if (character == '?') result.append("&#063;");
-	    else if (character == '@') result.append("&#064;");
-	    else if (character == '[') result.append("&#091;");
-	    else if (character == '\\')result.append("&#092;");
-	    else if (character == ']') result.append("&#093;");
-	    else if (character == '^') result.append("&#094;");
-	    else if (character == '_') result.append("&#095;");
-	    else if (character == '`') result.append("&#096;");
-	    else if (character == '{') result.append("&#123;");
-	    else if (character == '|') result.append("&#124;");
-	    else if (character == '}') result.append("&#125;");
-	    else if (character == '~') result.append("&#126;");
-	    else if (character == '<') result.append("&lt;"); 
-	    else if (character == '>') result.append("&gt;"); 
-	    else if (character == '&') result.append("&amp;"); 
-	    else if (character == '"') result.append("&quot;"); 
-	    else if (character == '\n')result.append("<br/>");          // Handle Newline
-	    
-	    else result.append(character); // simple char, which must not be escaped.
-	  }
-	  return result.toString();
+	public static final String encodeForHTML(String string) {
+		final StringBuilder result = new StringBuilder();
+		try {
+			Properties p = Resource
+					.readProperties("org/sbml/jsbml/resources/cfg/HTML_CharEncodingTable.txt");
+			for (char character : string.toCharArray()) {
+				if (p.containsKey(String.valueOf(character))) {
+					result.append(p.get(String.valueOf(character)));
+				} else {
+					result.append(character);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			result.append(string);
+		}
+		return result.toString();
 	}
 
- 
 	/**
 	 * 
 	 * @param sb
