@@ -682,8 +682,9 @@ public class ASTNode implements TreeNode {
 		this.name = astNode.name == null ? null : new String(astNode.name);
 		this.variable = astNode.variable;
 		this.numerator = astNode.numerator;
-		for (ASTNode child : astNode.listOfNodes)
+		for (ASTNode child : astNode.listOfNodes) {
 			this.listOfNodes.add(child.clone());
+		}
 	}
 
 	/**
@@ -1424,7 +1425,7 @@ public class ASTNode implements TreeNode {
 	 *         children.
 	 */
 	public int getNumChildren() {
-		return listOfNodes.size();
+		return listOfNodes == null ? 0 : listOfNodes.size();
 	}
 
 	/**
@@ -1537,8 +1538,9 @@ public class ASTNode implements TreeNode {
 	 * @return
 	 */
 	public NamedSBaseWithDerivedUnit getVariable() {
-		if (isName())
+		if (isName()) {
 			return variable;
+		}
 		throw new RuntimeException(
 				new IllegalArgumentException(
 						"getVariable() should be called only when !isNumber() || !isOperator()"));
