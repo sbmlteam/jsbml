@@ -2065,8 +2065,13 @@ public class ASTNode implements TreeNode {
 	 * @return boolean indicating the success or failure of the operation
 	 * 
 	 */
-	public boolean removeChild(long n) {
-		return listOfNodes.remove(n);
+	public boolean removeChild(int n) {
+		if (listOfNodes.size() > n && n >= 0) {
+			listOfNodes.remove(n);
+			return true;
+		}		
+		else
+			return false;
 	}
 
 	/**
