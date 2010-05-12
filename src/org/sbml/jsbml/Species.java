@@ -98,6 +98,7 @@ public class Species extends Symbol {
 	 */
 	public Species() {
 		super();
+		initDefaults();
 	}
 
 	/**
@@ -109,11 +110,7 @@ public class Species extends Symbol {
 	 * @param version
 	 */
 	public Species(int level, int version) {
-		super(level, version);
-
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		this(null, null, level, version);
 	}
 
 	/**
@@ -123,6 +120,7 @@ public class Species extends Symbol {
 	 */
 	public Species(Species species) {
 		super(species);
+		initDefaults();
 		if (species.isSetBoundaryCondition()) {
 			setBoundaryCondition(species.getBoundaryCondition());
 		}
@@ -166,11 +164,19 @@ public class Species extends Symbol {
 	 * @param version
 	 */
 	public Species(String id, int level, int version) {
-		super(id, level, version);
+		this(id, null, level, version);
+	}
 
-		if (level < 3) {
-			initDefaults();
-		}
+	/**
+	 * 
+	 * @param id
+	 * @param name
+	 * @param level
+	 * @param version
+	 */
+	public Species(String id, String name, int level, int version) {
+		super(id, name, level, version);
+		initDefaults();
 	}
 
 	/*
@@ -289,15 +295,6 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return
-	 */
-	public boolean hasOnlySubstanceUnits() {
-		return isSetHasOnlySubstanceUnits() ? this.hasOnlySubstanceUnits
-				: false;
-	}
-
-	/**
-	 * 
 	 * @return the initialAmount of this Species if it has been set, o
 	 *         otherwise.
 	 */
@@ -383,13 +380,28 @@ public class Species extends Symbol {
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	public boolean hasOnlySubstanceUnits() {
+		return isSetHasOnlySubstanceUnits() ? this.hasOnlySubstanceUnits
+				: false;
+	}
+
+	/**
 	 * Initialises the default values of this Species.
 	 */
 	public void initDefaults() {
-		amount = new Boolean(true);
-		hasOnlySubstanceUnits = new Boolean(false);
-		boundaryCondition = new Boolean(false);
-		constant = new Boolean(false);
+		amount = true;
+		if (getLevel() < 3) {
+			hasOnlySubstanceUnits = new Boolean(false);
+			boundaryCondition = new Boolean(false);
+			constant = new Boolean(false);
+		} else {
+			hasOnlySubstanceUnits = null;
+			boundaryCondition = null;
+			constant = null;
+		}
 	}
 
 	/**
@@ -652,14 +664,6 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Remove the reference to a comparmtent.
-	 */
-	public void unsetCompartment() {
-		compartmentID = null;
-		stateChanged();
-	}
-
-	/**
 	 * Sets the compartmentID of this Species to 'compartment'.
 	 * 
 	 * @param compartment
@@ -826,6 +830,14 @@ public class Species extends Symbol {
 	public void unsetCharge() {
 		charge = null;
 		isSetCharge = false;
+		stateChanged();
+	}
+
+	/**
+	 * Remove the reference to a comparmtent.
+	 */
+	public void unsetCompartment() {
+		compartmentID = null;
 		stateChanged();
 	}
 

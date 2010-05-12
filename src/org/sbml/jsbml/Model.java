@@ -174,6 +174,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public Model(int level, int version) {
 		this(null, level, version);
+		initDefaults();
 	}
 
 	/**
@@ -242,25 +243,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public Model(String id, int level, int version) {
 		super(id, level, version);
-		listOfCompartments = null;
-		listOfCompartmentTypes = null;
-		listOfConstraints = null;
-		listOfEvents = null;
-		listOfFunctionDefinitions = null;
-		listOfInitialAssignments = null;
-		listOfParameters = null;
-		listOfReactions = null;
-		listOfRules = null;
-		listOfSpecies = null;
-		listOfSpeciesTypes = null;
-		listOfUnitDefinitions = null;
-		substanceUnitsID = null;
-		timeUnitsID = null;
-		volumeUnitsID = null;
-		areaUnitsID = null;
-		lengthUnitsID = null;
-		extentUnitsID = null;
-		conversionFactorID = null;
+		initDefaults();
 	}
 
 	/*
@@ -584,9 +567,17 @@ public class Model extends AbstractNamedSBase {
 	 * @see #addCompartment(Compartment c)
 	 */
 	public Compartment createCompartment() {
-		Compartment compartment = new Compartment(level, version);
+		return createCompartment(null);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Compartment createCompartment(String id) {
+		Compartment compartment = new Compartment(id, getLevel(), getVersion());
 		addCompartment(compartment);
-
 		return compartment;
 	}
 
@@ -2175,7 +2166,7 @@ public class Model extends AbstractNamedSBase {
 			conversionFactorID = null;
 			break;
 		case 2:
-			listOfUnitDefinitions = new ListOf<UnitDefinition>();
+			listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(), getVersion());
 			listOfUnitDefinitions.setSBaseListType(Type.listOfUnitDefinitions);
 			UnitDefinition p = UnitDefinition.area(getLevel(), getVersion());
 			areaUnitsID = p.getId();
@@ -2443,6 +2434,15 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public boolean isSetListOfUnitDefinitions() {
 		return this.listOfUnitDefinitions != null;
+	}
+
+	/**
+	 * This is equivalent to the call {@link isSetHistory()}.
+	 * 
+	 * @return
+	 */
+	public boolean isSetModelHistory() {
+		return isSetHistory();
 	}
 
 	/**
@@ -3209,7 +3209,7 @@ public class Model extends AbstractNamedSBase {
 		this.volumeUnitsID = null;
 		stateChanged();
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

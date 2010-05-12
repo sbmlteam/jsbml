@@ -67,18 +67,20 @@ public class Compartment extends Symbol {
 	private boolean isSetSpatialDimensions = false;
 
 	/**
+	 * This is the error message to be displayed if an application tries to set
+	 * units or size attribute for this compartment but the spacial dimenstions
+	 * have been set to zero.
+	 */
+	private static final String ERROR_MESSAGE = "Cannot set %s for compartment %s if the spatial dimensions are zero.";
+
+	/**
 	 * Creates a Compartment instance. By default, if the level is set and is
 	 * superior or equal to 3, sets the compartmentType, outsideID and
 	 * spatialDimension to null.
 	 */
 	public Compartment() {
 		super();
-		this.compartmentTypeID = null;
-		this.outsideID = null;
-		this.spatialDimensions = null;
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		initDefaults();
 	}
 
 	/**
@@ -88,6 +90,7 @@ public class Compartment extends Symbol {
 	 */
 	public Compartment(Compartment compartment) {
 		super(compartment);
+		initDefaults();
 		if (compartment.isSetCompartmentType()) {
 			this.compartmentTypeID = new String(compartment
 					.getCompartmentType());
@@ -113,13 +116,7 @@ public class Compartment extends Symbol {
 	 * @param version
 	 */
 	public Compartment(int level, int version) {
-		super(level, version);
-		this.compartmentTypeID = null;
-		this.outsideID = null;
-		this.spatialDimensions = null;
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		this(null, null, level, version);
 	}
 
 	/**
@@ -131,13 +128,7 @@ public class Compartment extends Symbol {
 	 * @param version
 	 */
 	public Compartment(String id, int level, int version) {
-		super(id, level, version);
-		this.compartmentTypeID = null;
-		this.outsideID = null;
-		this.spatialDimensions = null;
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		this(id, null, level, version);
 	}
 
 	/**
@@ -152,12 +143,7 @@ public class Compartment extends Symbol {
 	 */
 	public Compartment(String id, String name, int level, int version) {
 		super(id, name, level, version);
-		this.compartmentTypeID = null;
-		this.outsideID = null;
-		this.spatialDimensions = null;
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		initDefaults();
 	}
 
 	/*
@@ -275,9 +261,14 @@ public class Compartment extends Symbol {
 	 */
 	public void initDefaults() {
 		compartmentTypeID = null;
-		spatialDimensions = 3;
-		constant = new Boolean(true);
 		outsideID = null;
+		if (getLevel() < 3) {
+			spatialDimensions = 3;
+			constant = new Boolean(true);
+		} else {
+			spatialDimensions = null;
+			constant = null;
+		}
 		setValue(1d);
 	}
 
@@ -499,9 +490,87 @@ public class Compartment extends Symbol {
 			isSetSpatialDimensions = true;
 			this.spatialDimensions = spatialDimensions;
 		} else {
-			throw new IllegalArgumentException(
-					"Spatial dimensions must be between [0, 3], "
-							+ spatialDimensions + " given.");
+			throw new IllegalArgumentException(String.format(
+					"Spatial dimensions must be between [0, 3], %f given.",
+					spatialDimensions));
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.QuantityWithDefinedUnit#setUnits(java.lang.String)
+	 */
+	@Override
+	public void setUnits(String units) {
+		if (getSpatialDimensions() > 0) {
+			super.setUnits(units);
+		} else {
+			throw new IllegalArgumentException(String.format(ERROR_MESSAGE,
+					"units", getId()));
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.QuantityWithDefinedUnit#setUnits(org.sbml.jsbml.Unit)
+	 */
+	@Override
+	public void setUnits(Unit unit) {
+		if (getSpatialDimensions() > 0) {
+			super.setUnits(unit);
+		} else {
+			throw new IllegalArgumentException(String.format(ERROR_MESSAGE,
+					"unit", getId()));
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.QuantityWithDefinedUnit#setUnits(org.sbml.jsbml.Unit.Kind)
+	 */
+	@Override
+	public void setUnits(Unit.Kind unitKind) {
+		if (getSpatialDimensions() > 0) {
+			super.setUnits(unitKind);
+		} else {
+			throw new IllegalArgumentException(String.format(ERROR_MESSAGE,
+					"unit kind", getId()));
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.QuantityWithDefinedUnit#setUnits(org.sbml.jsbml.UnitDefinition
+	 * )
+	 */
+	@Override
+	public void setUnits(UnitDefinition unitDefinition) {
+		if (getSpatialDimensions() > 0) {
+			super.setUnits(unitDefinition);
+		} else {
+			throw new IllegalArgumentException(String.format(ERROR_MESSAGE,
+					"unit definition", getId()));
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.QuantityWithDefinedUnit#setValue(double)
+	 */
+	@Override
+	public void setValue(double value) {
+		if (getSpatialDimensions() > 0) {
+			super.setValue(value);
+		} else {
+			throw new IllegalArgumentException(String.format(ERROR_MESSAGE,
+					"size", getId()));
 		}
 	}
 
