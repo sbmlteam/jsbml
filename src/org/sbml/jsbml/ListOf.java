@@ -202,7 +202,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public boolean add(T e) {
 		if (e.getLevel() != getLevel()) {
 			throw new IllegalArgumentException(String.format(
-					"Level mismatch between %s in V %d and %s in L %d",
+					"Level mismatch between %s in L %d and %s in L %d",
 					getClass().getSimpleName(), getLevel(), e.getClass()
 							.getSimpleName(), e.getLevel()));
 		} else if (e.getVersion() != getVersion()) {
