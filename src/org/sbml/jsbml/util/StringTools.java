@@ -47,6 +47,11 @@ import org.sbml.jsbml.resources.Resource;
 public class StringTools {
 
 	/**
+	 * New line separator of this operating system
+	 */
+	public static final String newLine = System.getProperty("line.separator");
+	
+	/**
 	 * Takes the given StringBuffer as input and appends every further Object to
 	 * it.
 	 * 
@@ -61,6 +66,17 @@ public class StringTools {
 	}
 
 	/**
+	 * 
+	 * @param sb
+	 * @param elems
+	 */
+	public static void append(StringBuilder sb, Object... elems) {
+		for (Object e : elems) {
+			sb.append(e);
+		}
+	}
+
+	/**
 	 * This method concatenates two or more object strings into a new
 	 * StringBuffer.
 	 * 
@@ -72,6 +88,30 @@ public class StringTools {
 		for (Object buffer : buffers)
 			res.append(buffer.toString());
 		return res;
+	}
+
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public static final String encodeForHTML(String string) {
+		final StringBuilder result = new StringBuilder();
+		try {
+			Properties p = Resource
+					.readProperties("org/sbml/jsbml/resources/cfg/HTML_CharEncodingTable.txt");
+			for (char character : string.toCharArray()) {
+				if (p.containsKey(String.valueOf(character))) {
+					result.append(p.get(String.valueOf(character)));
+				} else {
+					result.append(character);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			result.append(string);
+		}
+		return result.toString();
 	}
 
 	/**
@@ -128,39 +168,47 @@ public class StringTools {
 			return Integer.toString((int) value);
 		return String.format("%.3f", value);
 	}
-
+	
 	/**
+	 * Returns the number as a word. Zero is converted to "no". Only positive
+	 * numbers from 1 to twelve can be converted. All other numbers are just
+	 * converted to a String containing the number.
 	 * 
-	 * @param string
+	 * @param number
 	 * @return
 	 */
-	public static final String encodeForHTML(String string) {
-		final StringBuilder result = new StringBuilder();
-		try {
-			Properties p = Resource
-					.readProperties("org/sbml/jsbml/resources/cfg/HTML_CharEncodingTable.txt");
-			for (char character : string.toCharArray()) {
-				if (p.containsKey(String.valueOf(character))) {
-					result.append(p.get(String.valueOf(character)));
-				} else {
-					result.append(character);
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			result.append(string);
-		}
-		return result.toString();
-	}
-
-	/**
-	 * 
-	 * @param sb
-	 * @param elems
-	 */
-	public static void append(StringBuilder sb, Object... elems) {
-		for (Object e : elems) {
-			sb.append(e);
+	public static String getWordForNumber(long number) {
+		if ((number < Integer.MIN_VALUE) || (Integer.MAX_VALUE < number))
+			return Long.toString(number);
+		switch ((int) number) {
+		case 0:
+			return "no";
+		case 1:
+			return "one";
+		case 2:
+			return "two";
+		case 3:
+			return "three";
+		case 4:
+			return "four";
+		case 5:
+			return "five";
+		case 6:
+			return "six";
+		case 7:
+			return "seven";
+		case 8:
+			return "eight";
+		case 9:
+			return "nine";
+		case 10:
+			return "ten";
+		case 11:
+			return "eleven";
+		case 12:
+			return "twelve";
+		default:
+			return Long.toString(number);
 		}
 	}
 

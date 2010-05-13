@@ -318,16 +318,20 @@ public class ASTNode implements TreeNode {
 	 */
 	private static ASTNode arithmethicOperation(Type operator, ASTNode... ast) {
 		LinkedList<ASTNode> astList = new LinkedList<ASTNode>();
-		if (ast != null)
+		if (ast != null) {
 			for (ASTNode node : ast) {
 				if (node != null
-						&& !(operator == Type.TIMES && node.isOne() && ast.length > 1))
+						&& !(operator == Type.TIMES && node.isOne() && ast.length > 1)) {
 					astList.add(node);
+				}
 			}
-		if (astList.size() == 0)
+		}
+		if (astList.size() == 0) {
 			return null;
-		if (astList.size() == 1)
+		}
+		if (astList.size() == 1) {
 			return astList.getFirst().clone();
+		}
 		if (operator == Type.PLUS || operator == Type.MINUS
 				|| operator == Type.TIMES || operator == Type.DIVIDE
 				|| operator == Type.POWER) {
@@ -337,13 +341,15 @@ public class ASTNode implements TreeNode {
 				arithmetic.addChild(nodes);
 				setParentSBMLObject(nodes, mc, 0);
 			}
-			if (arithmetic.getNumChildren() > 2)
+			if (arithmetic.getNumChildren() > 2) {
 				arithmetic.reduceToBinary();
+			}
 			return arithmetic;
-		} else
+		} else {
 			throw new RuntimeException(
 					new IllegalArgumentException(
 							"The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER."));
+		}
 	}
 
 	/**
@@ -455,9 +461,9 @@ public class ASTNode implements TreeNode {
 		if (!(exponent.isInteger() && exponent.getInteger() == 1)
 				&& !(exponent.getType() == Type.REAL && exponent.getReal() == 1d)) {
 			if ((exponent.isInteger() && exponent.getInteger() == 0)
-					|| (exponent.getType() == Type.REAL && exponent.getReal() == 0d))
+					|| (exponent.getType() == Type.REAL && exponent.getReal() == 0d)) {
 				basis = new ASTNode(1, basis.getParentSBMLObject());
-			else {
+			} else {
 				setParentSBMLObject(exponent, basis.getParentSBMLObject(), 0);
 				basis.raiseByThePowerOf(exponent);
 			}
@@ -525,8 +531,9 @@ public class ASTNode implements TreeNode {
 	private static void setParentSBMLObject(ASTNode node, MathContainer parent,
 			int depth) {
 		node.parentSBMLObject = parent;
-		for (ASTNode child : node.listOfNodes)
+		for (ASTNode child : node.listOfNodes) {
 			setParentSBMLObject(child, parent, depth + 1);
+		}
 	}
 
 	/**
@@ -559,8 +566,9 @@ public class ASTNode implements TreeNode {
 	public static ASTNode sum(MathContainer parent,
 			NamedSBaseWithDerivedUnit... sbase) {
 		ASTNode elements[] = new ASTNode[sbase.length];
-		for (int i = 0; i < sbase.length; i++)
+		for (int i = 0; i < sbase.length; i++) {
 			elements[i] = new ASTNode(sbase[i], parent);
+		}
 		return sum(elements);
 	}
 
@@ -663,7 +671,9 @@ public class ASTNode implements TreeNode {
 	private Type type;
 
 	/**
-	 * 
+	 * A direct pointer to a referenced variable. This can save a lot of
+	 * computation time because it will then not be necessary to query the
+	 * correspoinding model again and again for this variable.
 	 */
 	private NamedSBaseWithDerivedUnit variable;
 
@@ -809,10 +819,11 @@ public class ASTNode implements TreeNode {
 				}
 				setParentSBMLObject(astnode, getParentSBMLObject(), 0);
 			}
-		} else
+		} else {
 			throw new RuntimeException(
 					new IllegalArgumentException(
 							"The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER."));
+		}
 	}
 
 	/*
@@ -822,6 +833,9 @@ public class ASTNode implements TreeNode {
 	 */
 	public Enumeration<TreeNode> children() {
 		return new Enumeration<TreeNode>() {
+			/**
+			 * The current position within the list of child nodes.
+			 */
 			private int pos = 0;
 
 			/*
@@ -849,7 +863,7 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	// @Override
+	@Override
 	public ASTNode clone() {
 		return new ASTNode(this);
 	}
@@ -1171,6 +1185,7 @@ public class ASTNode implements TreeNode {
 	 */
 	public UnitDefinition deriveUnit() {
 		// TODO Auto-generated method stub
+		System.err.println("not yet implemented");
 		return null;
 	}
 
@@ -1198,26 +1213,36 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	// @Override
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof ASTNode) {
 			ASTNode ast = (ASTNode) o;
 			boolean equal = ast.getType() == type;
-			if (isInteger() && ast.isInteger())
+			if (isInteger() && ast.isInteger()) {
 				equal &= ast.getInteger() == getInteger();
-			if (isName() && ast.isName())
+			}
+			if (isName() && ast.isName()) {
 				equal &= ast.getName().equals(getName());
-			if (isRational() && ast.isRational())
+			}
+			if (isRational() && ast.isRational()) {
 				equal &= ast.getNumerator() == getNumerator()
 						&& ast.getDenominator() == getDenominator();
-			if (isReal() && ast.isReal())
+			}
+			if (isReal() && ast.isReal()) {
 				equal &= ast.getReal() == getReal();
-			if (ast.getType() == Type.REAL_E && type == Type.REAL_E)
+			}
+			if ((ast.getType() == Type.REAL_E) && (type == Type.REAL_E)) {
 				equal &= ast.getMantissa() == getMantissa()
 						&& ast.getExponent() == getExponent();
-			if (equal)
-				for (ASTNode child : listOfNodes)
+			}
+			if (equal) {
+				for (ASTNode child : listOfNodes) {
 					equal &= child.equals(ast);
+					if (!equal) {
+						return false;
+					}
+				}
+			}
 			return equal;
 		}
 		return false;
@@ -1346,8 +1371,9 @@ public class ASTNode implements TreeNode {
 	public int getIndex(TreeNode node) {
 		for (int i = 0; i < listOfNodes.size(); i++) {
 			TreeNode n = listOfNodes.get(i);
-			if (node.equals(n))
+			if ((node == n) || node.equals(n)) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -1994,8 +2020,9 @@ public class ASTNode implements TreeNode {
 			switch (type) {
 			case PLUS:
 				ASTNode plus = new ASTNode(Type.PLUS, parentSBMLObject);
-				for (i = getNumChildren() - 1; i > 0; i--)
+				for (i = getNumChildren() - 1; i > 0; i--) {
 					plus.addChild(listOfNodes.remove(i));
+				}
 				addChild(plus);
 				break;
 			case MINUS:
@@ -2003,8 +2030,9 @@ public class ASTNode implements TreeNode {
 				break;
 			case TIMES:
 				ASTNode times = new ASTNode(Type.TIMES, parentSBMLObject);
-				for (i = getNumChildren() - 1; i > 0; i--)
+				for (i = getNumChildren() - 1; i > 0; i--) {
 					times.addChild(listOfNodes.remove(i));
+				}
 				addChild(times);
 				break;
 			case DIVIDE:
@@ -2012,14 +2040,16 @@ public class ASTNode implements TreeNode {
 				break;
 			case LOGICAL_AND:
 				ASTNode and = new ASTNode(Type.LOGICAL_AND, parentSBMLObject);
-				for (i = getNumChildren() - 1; i > 0; i--)
+				for (i = getNumChildren() - 1; i > 0; i--) {
 					and.addChild(listOfNodes.remove(i));
+				}
 				addChild(and);
 				break;
 			case LOGICAL_OR:
 				ASTNode or = new ASTNode(Type.LOGICAL_OR, parentSBMLObject);
-				for (i = getNumChildren() - 1; i > 0; i--)
+				for (i = getNumChildren() - 1; i > 0; i--) {
 					or.addChild(listOfNodes.remove(i));
+				}
 				addChild(or);
 				break;
 			case LOGICAL_NOT:
@@ -2034,8 +2064,9 @@ public class ASTNode implements TreeNode {
 			}
 		}
 		// recursively restructure this tree.
-		for (ASTNode child : listOfNodes)
+		for (ASTNode child : listOfNodes) {
 			child.reduceToBinary();
+		}
 	}
 
 	/**
@@ -2048,11 +2079,13 @@ public class ASTNode implements TreeNode {
 	 * @return
 	 */
 	public boolean refersTo(String id) {
-		if (isName() && getName() != null && getName().equals(id))
+		if (isName() && (getName() != null) && getName().equals(id)) {
 			return true;
+		}
 		boolean childContains = false;
-		for (ASTNode child : listOfNodes)
+		for (ASTNode child : listOfNodes) {
 			childContains |= child.refersTo(id);
+		}
 		return childContains;
 	}
 
@@ -2066,12 +2099,11 @@ public class ASTNode implements TreeNode {
 	 * 
 	 */
 	public boolean removeChild(int n) {
-		if (listOfNodes.size() > n && n >= 0) {
+		if ((listOfNodes.size() > n) && (n >= 0)) {
 			listOfNodes.remove(n);
 			return true;
-		}		
-		else
-			return false;
+		}
+		return false;
 	}
 
 	/**
@@ -2089,10 +2121,11 @@ public class ASTNode implements TreeNode {
 	public void replaceArgument(String bvar, ASTNode arg) {
 		int n = 0;
 		for (ASTNode child : listOfNodes) {
-			if (child.isName() && child.getName().equals(bvar))
+			if (child.isName() && child.getName().equals(bvar)) {
 				replaceChild(n, arg.clone());
-			else if (child.getNumChildren() > 0)
+			} else if (child.getNumChildren() > 0) {
 				child.replaceArgument(bvar, arg);
+			}
 			n++;
 		}
 	}
@@ -2153,12 +2186,15 @@ public class ASTNode implements TreeNode {
 	public void setName(String name) {
 		variable = null;
 		Model m = getParentSBMLObject().getModel();
-		if (m != null)
+		if (m != null) {
 			variable = m.findNamedSBaseWithDerivedUnit(name);
-		if (variable == null)
+		}
+		if (variable == null) {
 			this.name = name;
-		if (type != Type.NAME && type != Type.FUNCTION)
+		}
+		if (type != Type.NAME && type != Type.FUNCTION) {
 			type = variable == null ? Type.FUNCTION : Type.NAME;
+		}
 	}
 
 	/**
@@ -2171,11 +2207,12 @@ public class ASTNode implements TreeNode {
 	 */
 	public void setType(Type type) {
 		String sType = type.toString();
-		if (sType.startsWith("NAME") || sType.startsWith("CONSTANT"))
+		if (sType.startsWith("NAME") || sType.startsWith("CONSTANT")) {
 			initDefaults();
-		if (type == Type.NAME_TIME)
+		}
+		if (type == Type.NAME_TIME) {
 			name = "time";
-		else if (type == Type.FUNCTION_DELAY) {
+		} else if (type == Type.FUNCTION_DELAY) {
 			name = "delay";
 			initDefaults();
 		}
@@ -2307,13 +2344,13 @@ public class ASTNode implements TreeNode {
 	// @Override
 	public String toString() {
 		// TODO
-		if (isInteger())
+		if (isInteger()) {
 			return Integer.toString(getInteger());
-		else if (isReal())
+		} else if (isReal()) {
 			return Double.toString(getReal());
-		else if (isOperator())
+		} else if (isOperator()) {
 			return Character.toString(getCharacter());
-		else if (isRelational())
+		} else if (isRelational()) {
 			switch (type) {
 			case RELATIONAL_EQ:
 				return Character.toString('=');
@@ -2328,7 +2365,7 @@ public class ASTNode implements TreeNode {
 			case RELATIONAL_NEQ:
 				return "!=";
 			}
-		else if (type.toString().startsWith("FUNCTION")) {
+		} else if (type.toString().startsWith("FUNCTION")) {
 			String name = type.toString();
 			return name.length() > 8 ? type.toString().substring(9)
 					.toLowerCase() : getName();
