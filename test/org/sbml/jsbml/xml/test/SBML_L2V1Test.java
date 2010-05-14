@@ -34,6 +34,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -246,7 +248,13 @@ public class SBML_L2V1Test {
 	    new ArrayList<Object>().get(0); 
 	}
 
-	@Test public void write1(){
+	/**
+	 * 
+	 * @throws XMLStreamException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
+	@Test public void write1() throws XMLStreamException, InstantiationException, IllegalAccessException{
 		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
 	
 		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
