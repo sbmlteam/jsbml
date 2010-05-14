@@ -39,6 +39,8 @@
 package org.sbml.jsbml.test.sbml;
 
 
+import javax.xml.stream.XMLStreamException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -103,7 +105,13 @@ public class TestL3groups {
 		
   }
 
-  @Test public void test_L3_Groups_write1()
+  /**
+   * 
+   * @throws XMLStreamException
+   * @throws InstantiationException
+   * @throws IllegalAccessException
+   */
+  @Test public void test_L3_Groups_write1() throws XMLStreamException, InstantiationException, IllegalAccessException
   {
 	  String fileName = DATA_FOLDER + "/groups/groups1.xml";
 		

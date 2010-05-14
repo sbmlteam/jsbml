@@ -841,8 +841,11 @@ public class SBMLWriter {
 	 *            : the SBMLDocument to write
 	 * @param fileName
 	 *            : the name of the file where to write the SBMLDocument.
+	 * @throws XMLStreamException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 */
-	public static void write(SBMLDocument sbmlDocument, String fileName) {
+	public static void write(SBMLDocument sbmlDocument, String fileName) throws XMLStreamException, InstantiationException, IllegalAccessException {
 		SBMLReader.initializePackageParserNamespaces();
 		SBMLWriter.initializePackageParserNamespaces();
 		sbmlDocument.getSBMLDocumentAttributes();
@@ -850,7 +853,7 @@ public class SBMLWriter {
 		SMOutputFactory smFactory = new SMOutputFactory(WstxOutputFactory
 				.newInstance());
 		SMOutputDocument outputDocument;
-		try {
+		
 			XMLStreamWriter2 streamWriter = smFactory
 					.createStax2Writer(new File(fileName));
 			
@@ -894,17 +897,16 @@ public class SBMLWriter {
 					sbmlDocument, notesParser, MathMLParser);
 
 			outputDocument.closeRoot();
-
-		} catch (XMLStreamException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * 
+	 * @param args
+	 * @throws XMLStreamException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
+	public static void main(String[] args) throws XMLStreamException, InstantiationException, IllegalAccessException {
 
 		if (args.length < 1) {
 			System.out.println("Usage : java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
