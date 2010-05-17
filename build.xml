@@ -43,6 +43,7 @@
     <property name="dist.root" value="${basedir}/dist"/>
     <property name="dist.dir" value="${dist.root}/${name}-${version}"/>
     <property name="package.dir" value="${basedir}/build/package"/>
+  	<property name="resource.dir" value="${basedir}/resources"/>
   	
     <filter token="year" value="${year}"/>
     <filter token="version" value="${version}"/>
@@ -115,6 +116,14 @@
   	            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
   	        </fileset>
   	    </copy>
+  	
+  	<copy todir="${build.src}" overwrite="yes">
+  	  	        <fileset 
+  	  	            dir="${resource.dir}"
+  	  	        	includes="org/sbml/jsbml/**"
+  	  	            excludes="**/.svn*, **/*~, **/*.tgz, **/*.zip ">
+  	  	        </fileset>
+  	  	    </copy>
   	
   </target>
 
