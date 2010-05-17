@@ -80,9 +80,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 		UnitDefinition ud2clone = ud2.clone().simplify();
 		if (ud1clone.getNumUnits() == ud2clone.getNumUnits()) {
 			boolean equivalent = true;
-			for (int i = 0; i < ud1clone.getNumUnits(); i++)
+			for (int i = 0; i < ud1clone.getNumUnits(); i++) {
 				equivalent &= Unit.areEquivalent(ud1clone.getUnit(i), ud2clone
 						.getUnit(i));
+			}
 			return equivalent;
 		}
 		return false;
@@ -131,29 +132,52 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	private static final UnitDefinition getPredefinedUnit(String id, int level,
 			int version) {
-		id = id.toLowerCase();
-		Unit u = new Unit(level, version);
-		UnitDefinition ud = new UnitDefinition(id, level, version);
-		if (id.equals("substance")) {
-			u.setKind(Unit.Kind.MOLE);
-		} else if (id.equals("volume")) {
-			u.setKind(Unit.Kind.LITRE);
-		} else if (id.equals("area")) {
-			u.setKind(Unit.Kind.METRE);
-			u.setExponent(2);
-		} else if (id.equals("length")) {
-			u.setKind(Unit.Kind.METRE);
-		} else if (id.equals("time")) {
-			u.setKind(Unit.Kind.SECOND);
-			u.setSBOTerm(345);
-			ud.setSBOTerm(345);
+		if (level < 3) {
+			id = id.toLowerCase();
+			Unit u = new Unit(level, version);
+			UnitDefinition ud = new UnitDefinition(id, level, version);
+			if (id.equals("substance")) {
+				u.setKind(Unit.Kind.MOLE);
+			} else if (id.equals("volume")) {
+				u.setKind(Unit.Kind.LITRE);
+			} else if (id.equals("area")) {
+				u.setKind(Unit.Kind.METRE);
+				u.setExponent(2);
+			} else if (id.equals("length")) {
+				u.setKind(Unit.Kind.METRE);
+			} else if (id.equals("time")) {
+				u.setKind(Unit.Kind.SECOND);
+				u.setSBOTerm(345);
+				ud.setSBOTerm(345);
+			} else {
+				throw new IllegalArgumentException(
+						"no predefined unit available for " + id);
+			}
+			ud.setName("Predefined unit " + id);
+			ud.addUnit(u);
+			return ud;
 		} else {
 			throw new IllegalArgumentException(
-					"no predefined unit available for " + id);
+					"no predefined unit available for level " + level);
 		}
-		ud.setName("Predefined unit " + id);
-		ud.addUnit(u);
-		return ud;
+	}
+
+	/**
+	 * Test if the given unit is a predefined unit.
+	 * 
+	 * @param ud
+	 */
+	public static boolean isBuiltIn(UnitDefinition ud) {
+		if (ud.getLevel() > 2) {
+			return false;
+		}
+		if (ud.getNumUnits() == 1) {
+			if (Unit.isBuiltIn(ud.getId(), ud.getLevel())) {
+				return ud.equals(getPredefinedUnit(ud.getId(), ud.getLevel(),
+						ud.getVersion()));
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -354,12 +378,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 		stateChanged();
 	}
 
-	private void initListOfUnits() {
-		this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfUnits);
-		this.listOfUnits.setSBaseListType(Type.listOfUnits);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -453,6 +471,21 @@ public class UnitDefinition extends AbstractNamedSBase {
 			initListOfUnits();
 			setThisAsParentSBMLObject(listOfUnits);
 		}
+	}
+
+	private void initListOfUnits() {
+		this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
+		setThisAsParentSBMLObject(this.listOfUnits);
+		this.listOfUnits.setSBaseListType(Type.listOfUnits);
+	}
+
+	/**
+	 * This method tests if this unit definition is a predefined unit.
+	 * 
+	 * @return
+	 */
+	public boolean isBuiltIn() {
+		return isBuiltIn(this);
 	}
 
 	/**

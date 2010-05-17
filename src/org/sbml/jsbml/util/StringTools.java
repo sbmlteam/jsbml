@@ -50,7 +50,7 @@ public class StringTools {
 	 * New line separator of this operating system
 	 */
 	public static final String newLine = System.getProperty("line.separator");
-	
+
 	/**
 	 * Takes the given StringBuffer as input and appends every further Object to
 	 * it.
@@ -60,8 +60,9 @@ public class StringTools {
 	 * @return
 	 */
 	public static final StringBuffer append(StringBuffer k, Object... things) {
-		for (Object t : things)
+		for (Object t : things) {
 			k.append(t);
+		}
 		return k;
 	}
 
@@ -168,7 +169,7 @@ public class StringTools {
 			return Integer.toString((int) value);
 		return String.format("%.3f", value);
 	}
-	
+
 	/**
 	 * Returns the number as a word. Zero is converted to "no". Only positive
 	 * numbers from 1 to twelve can be converted. All other numbers are just

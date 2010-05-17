@@ -39,6 +39,8 @@
 package org.sbml.jsbml.test.sbml;
 
 
+import javax.xml.stream.XMLStreamException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -79,7 +81,11 @@ public class TestL3Layout {
   {
   }
 
-  @Test public void test_L3_Layout_read1()
+  /**
+   * 
+   * @throws XMLStreamException
+   */
+  @Test public void test_L3_Layout_read1() throws XMLStreamException
   {
 		String fileName = DATA_FOLDER + "/layout/GlycolysisLayout_small.xml";
 		

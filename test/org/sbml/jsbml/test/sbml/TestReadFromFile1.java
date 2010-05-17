@@ -40,6 +40,8 @@ package org.sbml.jsbml.test.sbml;
 
 import static org.junit.Assert.assertTrue;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.junit.Test;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.KineticLaw;
@@ -68,8 +70,12 @@ public class TestReadFromFile1 {
 
 	}
 
+	/**
+	 * 
+	 * @throws XMLStreamException
+	 */
 	@Test
-	public void test_read_l1v1_branch() {
+	public void test_read_l1v1_branch() throws XMLStreamException {
 		SBMLDocument d;
 		Model m;
 		Compartment c;

@@ -42,115 +42,122 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 import org.sbml.jsbml.xml.stax.WritingParser;
 
 /**
- * This class is used to parse the layout extension package elements and attributes. The namespaceURI URI
- * of this parser is "http://www.sbml.org/sbml/level3/version1/layout/version1". This parser is able to read and
- * write elements of the layout package (implements ReadingParser and WritingParser).
+ * This class is used to parse the layout extension package elements and
+ * attributes. The namespaceURI URI of this parser is
+ * "http://www.sbml.org/sbml/level3/version1/layout/version1". This parser is
+ * able to read and write elements of the layout package (implements
+ * ReadingParser and WritingParser).
  * 
  * @author rodrigue
- *
+ * 
  */
-public class LayoutParser implements ReadingParser, WritingParser{
-	
+public class LayoutParser implements ReadingParser, WritingParser {
+
 	/**
 	 * The namespace URI of this parser.
 	 */
 	private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/layout/version1";
-	
+
 	/**
-	 * The layoutList enum which represents the name of the list this parser is currently reading.
-	 *
+	 * The layoutList enum which represents the name of the list this parser is
+	 * currently reading.
+	 * 
 	 */
 	private LayoutList groupList = LayoutList.none;
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String elementName, String attributeName,
-	 *		String value, String prefix, boolean isLastAttribute,
-	 *		Object contextObject)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String
+	 *      elementName, String attributeName, String value, String prefix,
+	 *      boolean isLastAttribute, Object contextObject)
 	 */
 	public void processAttribute(String elementName, String attributeName,
 			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) {
-		
+
 		boolean isAttributeRead = false;
-		
-		if (contextObject instanceof SBase){
+
+		if (contextObject instanceof SBase) {
 			SBase sbase = (SBase) contextObject;
 			isAttributeRead = sbase.readAttribute(attributeName, prefix, value);
-			
-		} else if (contextObject instanceof Annotation){
+
+		} else if (contextObject instanceof Annotation) {
 			Annotation annotation = (Annotation) contextObject;
-			isAttributeRead = annotation.readAttribute(attributeName, prefix, value);
+			isAttributeRead = annotation.readAttribute(attributeName, prefix,
+					value);
 		}
-		
-		if (!isAttributeRead){
-			// TODO : throw new SBMLException ("The attribute " + attributeName + " on the element " + elementName + "is not part of the SBML specifications");
+
+		if (!isAttributeRead) {
+			// TODO : throw new SBMLException ("The attribute " + attributeName
+			// + " on the element " + elementName +
+			// "is not part of the SBML specifications");
 		}
 	}
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix,
-			boolean hasAttributes, boolean hasNamespaces,
-			Object contextObject)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String
+	 *      elementName, String prefix, boolean hasAttributes, boolean
+	 *      hasNamespaces, Object contextObject)
 	 */
 	// Create the proper object and link it to his parent.
 	@SuppressWarnings("unchecked")
 	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, boolean hasNamespaces,
-			Object contextObject) 
-	{
-		if (contextObject instanceof Model){
+			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
+		if (contextObject instanceof Model) {
 			Model model = (Model) contextObject;
-			if (elementName.equals("listOfLayouts")){
+			if (elementName.equals("listOfLayouts")) {
 				ListOf<Layout> listOfLayouts = new ListOf<Layout>();
 				listOfLayouts.setSBaseListType(ListOf.Type.other);
 				listOfLayouts.addNamespace(namespaceURI);
 				this.groupList = LayoutList.listOfLayouts;
-				
+
 				ExtendedLayoutModel layoutModel = new ExtendedLayoutModel(model);
 				layoutModel.setListOfLayouts(listOfLayouts);
 				layoutModel.addNamespace(namespaceURI);
 				model.addExtension(LayoutParser.namespaceURI, layoutModel);
-				
+
 				return listOfLayouts;
 			}
-		} else if (contextObject instanceof Layout){
+		} else if (contextObject instanceof Layout) {
 			Layout layout = (Layout) contextObject;
-			if (elementName.equals("listOfSpeciesGlyphs")){
+			if (elementName.equals("listOfSpeciesGlyphs")) {
 				ListOf<SpeciesGlyph> listOfSpeciesGlyphs = new ListOf<SpeciesGlyph>();
 				listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
 				listOfSpeciesGlyphs.addNamespace(namespaceURI);
 				this.groupList = LayoutList.listOfSpeciesGlyphs;
-				
+
 				layout.setListOfSpeciesGlyphs(listOfSpeciesGlyphs);
-				
+
 				return listOfSpeciesGlyphs;
 			} else {
-				//TODO : compartmentGlyph, reactionGlyph, textGlyph
+				// TODO : compartmentGlyph, reactionGlyph, textGlyph
 			}
 		}
 
-		else if (contextObject instanceof ListOf<?>){
+		else if (contextObject instanceof ListOf<?>) {
 			ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
-			
-			if (elementName.equals("layout") && this.groupList.equals(LayoutList.listOfLayouts)){
-				ExtendedLayoutModel extendeModel = (ExtendedLayoutModel) listOf.getParentSBMLObject();
+
+			if (elementName.equals("layout")
+					&& this.groupList.equals(LayoutList.listOfLayouts)) {
+				ExtendedLayoutModel extendeModel = (ExtendedLayoutModel) listOf
+						.getParentSBMLObject();
 				Layout layout = new Layout();
 				layout.addNamespace(namespaceURI);
 				extendeModel.addLayout(layout);
-				
+
 				return layout;
-			} else if (elementName.equals("speciesGlyph") && this.groupList.equals(LayoutList.listOfSpeciesGlyphs)){
-				
+			} else if (elementName.equals("speciesGlyph")
+					&& this.groupList.equals(LayoutList.listOfSpeciesGlyphs)) {
+
 				Layout layout = (Layout) listOf.getParentSBMLObject();
 				SpeciesGlyph speciesGlyph = new SpeciesGlyph();
 				speciesGlyph.addNamespace(namespaceURI);
 				layout.addSpeciesGlyph(speciesGlyph);
-				
+
 				return speciesGlyph;
 			}
-			
+
 		}
 		return contextObject;
 	}
@@ -158,31 +165,34 @@ public class LayoutParser implements ReadingParser, WritingParser{
 	// @Override
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
-		// TODO : the basic Groups elements don't have any text. SBML syntax error, throw an exception, log en error ?
-		
+		// TODO : the basic Groups elements don't have any text. SBML syntax
+		// error, throw an exception, log en error ?
+
 	}
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
+	 *      elementName, String prefix, boolean isNested, Object contextObject)
 	 */
 	public void processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
-		
-		if (elementName.equals("notes") && contextObject instanceof SBase){
+
+		if (elementName.equals("notes") && contextObject instanceof SBase) {
 			SBase sbase = (SBase) contextObject;
 			sbase.setNotes(sbase.getNotesBuffer().toString());
 		}
-		
-		if (elementName.equals("listOfLayouts") || elementName.equals("listOfSpeciesGlyphs")){
+
+		if (elementName.equals("listOfLayouts")
+				|| elementName.equals("listOfSpeciesGlyphs")) {
 			this.groupList = LayoutList.none;
 		}
 	}
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument
+	 *      sbmlDocument)
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 		// Do some checking ??
@@ -196,50 +206,50 @@ public class LayoutParser implements ReadingParser, WritingParser{
 		return namespaceURI;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
+	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
+	 * sbase)
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
-		
+
 		System.out.println("GroupsParser : getListOfSBMLElementsToWrite\n");
-		
+
 		ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
-		
-		if (sbase instanceof SBase){
-			if (sbase instanceof ExtendedLayoutModel){
-				
+
+		if (sbase instanceof SBase) {
+			if (sbase instanceof ExtendedLayoutModel) {
+
 				ExtendedLayoutModel model = (ExtendedLayoutModel) sbase;
 
-				if (model.isSetListOfLayouts()){
+				if (model.isSetListOfLayouts()) {
 					listOfElementsToWrite.add(model.getListOfLayouts());
 				}
-			}
-			else if (sbase instanceof ListOf){
+			} else if (sbase instanceof ListOf) {
 				ListOf<SBase> listOf = (ListOf<SBase>) sbase;
-				
-				if (!listOf.isEmpty()){
+
+				if (!listOf.isEmpty()) {
 					listOfElementsToWrite = new ArrayList<Object>();
-					for (int i = 0; i < listOf.size(); i++){
+					for (int i = 0; i < listOf.size(); i++) {
 						SBase element = listOf.get(i);
-						
-						if (element != null){
+
+						if (element != null) {
 							listOfElementsToWrite.add(element);
 						}
 					}
 				}
-			}
-			else if (sbase instanceof Layout){
+			} else if (sbase instanceof Layout) {
 				Layout layout = (Layout) sbase;
 
-				if (layout.isSetListOfSpeciesGlyphs()){
+				if (layout.isSetListOfSpeciesGlyphs()) {
 					listOfElementsToWrite.add(layout.getListOfSpeciesGlyphs());
 				}
 			}
 		}
-		
-		if (listOfElementsToWrite.isEmpty()){
+
+		if (listOfElementsToWrite.isEmpty()) {
 			listOfElementsToWrite = null;
 		}
 
@@ -248,92 +258,90 @@ public class LayoutParser implements ReadingParser, WritingParser{
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML
+	 *      xmlObject, Object sbmlElementToWrite)
 	 */
-	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
-		
+	public void writeElement(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+
 		System.out.println("GroupsParser : writeElement");
-		
-		if (sbmlElementToWrite instanceof SBase){
+
+		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
 
-			if (!xmlObject.isSetName()){
+			if (!xmlObject.isSetName()) {
 				if (sbase instanceof ListOf<?>) {
 					xmlObject.setName(LayoutList.listOfLayouts.toString());
 				} else {
 					xmlObject.setName(sbase.getElementName());
 				}
 			}
-			if (!xmlObject.isSetPrefix()){
+			if (!xmlObject.isSetPrefix()) {
 				xmlObject.setPrefix("groups");
 			}
 			xmlObject.setNamespace(namespaceURI);
 
 		}
-		
+
 	}
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeAttributes(SBMLObjectForXML
+	 *      xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) 
-	{
-		if (sbmlElementToWrite instanceof SBase){
+			Object sbmlElementToWrite) {
+		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
-			
+
 			xmlObject.addAttributes(sbase.writeXMLAttributes());
 		}
-		
+
 	}
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeCharacters(SBMLObjectForXML
+	 *      xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) 
-	{
-		// TODO : Group elements do not have any characters in the XML file. what to do?
-		
+			Object sbmlElementToWrite) {
+		// TODO : Group elements do not have any characters in the XML file.
+		// what to do?
+
 	}
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML
+	 *      xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) 
-	{
-		if (sbmlElementToWrite instanceof SBase){
-			//SBase sbase = (SBase) sbmlElementToWrite;
-			
+			Object sbmlElementToWrite) {
+		if (sbmlElementToWrite instanceof SBase) {
+			// SBase sbase = (SBase) sbmlElementToWrite;
+
 			xmlObject.setPrefix("groups");
 		}
-		
+
 	}
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String
+	 *      elementName, String URI, String prefix, String localName, boolean
+	 *      hasAttributes, boolean isLastNamespace, Object contextObject)
 	 */
 	public void processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) 
-	{
+			Object contextObject) {
 		// Nothing to be done
-		
-	}
 
+	}
 
 }
 
-
-enum LayoutList {none, listOfLayouts, listOfSpeciesGlyphs, listOfCompartmentGlyphs, listOfCurves};
-
+enum LayoutList {
+	none, listOfLayouts, listOfSpeciesGlyphs, listOfCompartmentGlyphs, listOfCurves
+};

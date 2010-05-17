@@ -365,22 +365,20 @@ public abstract class AbstractSBase implements SBase {
 		return isSetAnnotation() ? annotation : null;
 	}
 
-	
 	/**
 	 * Returns the annotation of this SBML object as a string.
 	 * 
-	 * @return  the annotation of this SBML object as a string or an empty string 
-	 * if there are no annotation.
+	 * @return the annotation of this SBML object as a string or an empty string
+	 *         if there are no annotation.
 	 * 
 	 */
-	public String getAnnotationString()
-	{
+	public String getAnnotationString() {
 		Annotation anno = getAnnotation();
-		
+
 		if (anno != null) {
-			return anno.toXML( "  ", this );
+			return anno.toXML("  ", this);
 		}
-		
+
 		return "";
 	}
 
@@ -494,8 +492,7 @@ public abstract class AbstractSBase implements SBase {
 	 * 
 	 * @return notes
 	 */
-	public String getNotes()
-	{
+	public String getNotes() {
 		return getNotesString();
 	}
 
@@ -976,7 +973,7 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void unsetModelHistory() {
 		if (isSetAnnotation()) {
-			this.annotation.unsetModelHistory();
+			this.annotation.unsetHistory();
 			stateChanged();
 		}
 	}

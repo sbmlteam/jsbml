@@ -97,7 +97,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	private XMLLogger logger;
 
 	/**
-	 * Creates a SBMLCoreParser instance. Initialises the SBMLCoreElements of
+	 * Creates a SBMLCoreParser instance. Initializes the SBMLCoreElements of
 	 * this Parser.
 	 */
 	public SBMLCoreParser() {
@@ -106,7 +106,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	}
 
 	/**
-	 * Initialises the SBMLCoreElements of this parser.
+	 * Initializes the SBMLCoreElements of this parser.
 	 */
 	private void initializeCoreElements() {
 		// TODO : loading from a file would be better.
@@ -253,7 +253,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				} else if (contextObject instanceof Model) {
 
 					Model model = (Model) contextObject;
-					if (newContextObject instanceof ListOf) {
+					if (newContextObject instanceof ListOf<?>) {
 						if (elementName.equals("listOfFunctionDefinitions")
 								&& model.getLevel() > 1) {
 							ListOf listOfFunctionDefinitions = (ListOf) newContextObject;
@@ -527,10 +527,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfUnits)) {
 							Unit unit = (Unit) newContextObject;
-							if (unitDefinition.isSetLevel()
-									&& unitDefinition.getLevel() < 3) {
-								unit.initDefaults();
-							}
+							unit.initDefaults();
 							unitDefinition.addUnit(unit);
 
 							return unit;
@@ -540,13 +537,13 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					} else if (list.getParentSBMLObject() instanceof Reaction) {
 						Reaction reaction = (Reaction) list
 								.getParentSBMLObject();
-						
+
 						if (elementName.equals("speciesReference")
 								&& (reaction.getLevel() > 1 || (reaction
 										.getLevel() == 1 && reaction
 										.getVersion() == 2))) {
 							SpeciesReference speciesReference = (SpeciesReference) newContextObject;
-							
+
 							if (reaction.isSetLevel()
 									&& reaction.getLevel() < 3) {
 								speciesReference.initDefaults();
@@ -617,7 +614,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 										ListOf.Type.listOfLocalParameters)
 								&& kineticLaw.isSetLevel()
 								&& kineticLaw.getLevel() < 3) {
-							LocalParameter localParameter = new LocalParameter((Parameter) newContextObject);
+							LocalParameter localParameter = new LocalParameter(
+									(Parameter) newContextObject);
 							kineticLaw.addParameter(localParameter);
 
 							return localParameter;
@@ -691,7 +689,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 							&& reaction.getLevel() > 1) {
 						ListOf listOfModifiers = (ListOf) newContextObject;
 						listOfModifiers.setSBaseListType(Type.listOfModifiers);
-						// TODO : check why it is needed for listOfModifiers and not the others
+						// TODO : check why it is needed for listOfModifiers and
+						// not the others
 						// probably something wrong before
 						reaction.setListOfModifiers(listOfModifiers);
 
@@ -1288,6 +1287,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
 	 * sbase)
 	 */
+	@SuppressWarnings("unchecked")
 	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
 		ArrayList<Object> listOfElementsToWrite = null;
 		if (sbase instanceof SBase) {
@@ -1344,7 +1344,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				if (listOfElementsToWrite.isEmpty()) {
 					listOfElementsToWrite = null;
 				}
-			} else if (sbase instanceof ListOf) {
+			} else if (sbase instanceof ListOf<?>) {
 				ListOf<SBase> listOf = (ListOf<SBase>) sbase;
 
 				if (!listOf.isEmpty()) {
@@ -1353,7 +1353,16 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 						SBase element = listOf.get(i);
 
 						if (element != null) {
-							listOfElementsToWrite.add(element);
+							boolean add = true;
+							if (element instanceof UnitDefinition) {
+								UnitDefinition ud = (UnitDefinition) element;
+								if (ud.isBuiltIn()) {
+									add = false;
+								}
+							}
+							if (add) {
+								listOfElementsToWrite.add(element);
+							}
 						}
 					}
 					if (listOfElementsToWrite.isEmpty()) {
@@ -1502,7 +1511,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					} else {
 						xmlObject.setName(sbase.getElementName());
 					}
-				} else if (sbmlElementToWrite instanceof ListOf) {
+				} else if (sbmlElementToWrite instanceof ListOf<?>) {
 					ListOf<SBase> list = (ListOf<SBase>) sbmlElementToWrite;
 
 					if (list.getLevel() < 3
@@ -1528,7 +1537,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			Object sbmlElementToWrite) {
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
-
 			xmlObject.addAttributes(sbase.writeXMLAttributes());
 		}
 	}

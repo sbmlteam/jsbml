@@ -32,6 +32,8 @@ package org.sbml.jsbml.xml.test;
 
 import static org.junit.Assert.assertTrue;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.KineticLaw;
@@ -58,10 +60,17 @@ public class SBML_L1VxTests {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	@Before public void setUp() { 
 	}
 	
-	@Test public void readL1V2Branch() {
+	/**
+	 * 
+	 * @throws XMLStreamException
+	 */
+	@Test public void readL1V2Branch() throws XMLStreamException {
 		// URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
 		String fileName = DATA_FOLDER + "/libsbml-test-data/l1v2-branch.xml";
 		
@@ -118,8 +127,11 @@ public class SBML_L1VxTests {
 		System.out.println("L1V2 formula = " + rdClkKL.getFormula());
 	}
 
-	
-	@Test public void readL1V1Units() {
+	/**
+	 * 
+	 * @throws XMLStreamException
+	 */
+	@Test public void readL1V1Units() throws XMLStreamException {
 		// URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
 		String fileName = DATA_FOLDER + "/libsbml-test-data/l1v1-units.xml";
 		
