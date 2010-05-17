@@ -138,7 +138,7 @@ public class Annotation {
 	 * The ModelHistory which represents the history section of a RDF
 	 * otherAnnotation
 	 */
-	private History modelHistory;
+	private History history;
 
 	/**
 	 * contains all the otherAnnotation information which are not RDF
@@ -165,7 +165,7 @@ public class Annotation {
 		this.extensions = new HashMap<String, Annotation>();
 		this.otherAnnotation = null;
 		this.listOfCVTerms = new LinkedList<CVTerm>();
-		this.modelHistory = null;
+		this.history = null;
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class Annotation {
 		this.otherAnnotation = null;
 		this.listOfCVTerms = new LinkedList<CVTerm>();
 		this.annotationNamespaces = attributes;
-		this.modelHistory = null;
+		this.history = null;
 	}
 
 	/**
@@ -208,7 +208,7 @@ public class Annotation {
 		this.extensions = new HashMap<String, Annotation>();
 		this.otherAnnotation = null;
 		this.listOfCVTerms = cvTerms;
-		this.modelHistory = null;
+		this.history = null;
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class Annotation {
 		this.extensions = new HashMap<String, Annotation>();
 		this.otherAnnotation = new StringBuilder(annotation);
 		this.listOfCVTerms = new LinkedList<CVTerm>();
-		this.modelHistory = null;
+		this.history = null;
 	}
 
 	/**
@@ -241,7 +241,7 @@ public class Annotation {
 		this.rdfAnnotationNamespaces = new HashMap<String, String>();
 		this.extensions = new HashMap<String, Annotation>();
 		this.listOfCVTerms = cvTerms;
-		this.modelHistory = null;
+		this.history = null;
 	}
 
 	/**
@@ -461,7 +461,7 @@ public class Annotation {
 		}
 		equals &= isSetHistory() == annotation.isSetHistory();
 		if (equals && isSetHistory()) {
-			equals = this.modelHistory.equals(annotation.getHistory());
+			equals = this.history.equals(annotation.getHistory());
 		}
 		equals &= getListOfCVTerms().isEmpty() == annotation.getListOfCVTerms()
 				.isEmpty();
@@ -489,6 +489,11 @@ public class Annotation {
 		return equals;
 	}
 
+	/**
+	 * 
+	 * @param qualifier
+	 * @return
+	 */
 	public List<CVTerm> filterCVTerms(Qualifier qualifier) {
 		LinkedList<CVTerm> l = new LinkedList<CVTerm>();
 		for (CVTerm term : listOfCVTerms) {
@@ -502,6 +507,12 @@ public class Annotation {
 		return l;
 	}
 
+	/**
+	 * 
+	 * @param qualifier
+	 * @param pattern
+	 * @return
+	 */
 	public List<String> filterCVTerms(Qualifier qualifier, String pattern) {
 		List<String> l = new LinkedList<String>();
 		for (CVTerm c : filterCVTerms(qualifier))
@@ -514,7 +525,7 @@ public class Annotation {
 	 * @return The about String of this object.
 	 */
 	public String getAbout() {
-		return about;
+		return about == null ? "" : about;
 	}
 
 	/**
@@ -562,7 +573,7 @@ public class Annotation {
 	 * @return the modelHistory of the ModelAnnotation
 	 */
 	public History getHistory() {
-		return modelHistory;
+		return history;
 	}
 
 	/**
@@ -636,7 +647,7 @@ public class Annotation {
 	 * @return true if the modelHistory is initialised
 	 */
 	public boolean isSetHistory() {
-		return modelHistory != null;
+		return history != null;
 	}
 
 	/**
@@ -753,7 +764,7 @@ public class Annotation {
 	 * @param modelHistory
 	 */
 	public void setHistory(History modelHistory) {
-		this.modelHistory = modelHistory;
+		this.history = modelHistory;
 	}
 
 	/**
@@ -794,8 +805,9 @@ public class Annotation {
 	 * set the otherAnnotation String to null
 	 */
 	public void unsetAnnotation() {
-		if (isSetAnnotation())
+		if (isSetAnnotation()) {
 			otherAnnotation = null;
+		}
 	}
 
 	/**
@@ -808,7 +820,7 @@ public class Annotation {
 	/**
 	 * Unsets the modelHistory instance of this object.
 	 */
-	public void unsetModelHistory() {
-		this.modelHistory = null;
+	public void unsetHistory() {
+		this.history = null;
 	}
 }

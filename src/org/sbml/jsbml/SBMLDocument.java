@@ -254,7 +254,7 @@ public class SBMLDocument extends AbstractSBase {
 		} else {
 			this.SBMLDocumentNamespaces.put(namespaceName, URI);
 		}
-        this.addNamespace(URI);
+		this.addNamespace(URI);
 	}
 
 	/*
@@ -291,21 +291,22 @@ public class SBMLDocument extends AbstractSBase {
 
 		attributes.putAll(SBMLDocumentAttributes);
 
-        if (isSetLevel()){
-           attributes.put("level", Integer.toString(this.getLevel()));
-        }
-        if (isSetVersion()){
-           attributes.put("version", Integer.toString(this.getVersion())); 
-        }
+		if (isSetLevel()) {
+			attributes.put("level", Integer.toString(this.getLevel()));
+		}
+		if (isSetVersion()) {
+			attributes.put("version", Integer.toString(this.getVersion()));
+		}
 
-        Iterator<Map.Entry<String, String>> it = this.getSBMLDocumentNamespaces().entrySet().iterator();
-			while (it.hasNext()){
-				Map.Entry<String, String> entry = it.next();
-                if (!entry.getKey().equals("xmlns")){
-                     attributes.put(entry.getKey(), entry.getValue());
-                }
-
+		Iterator<Map.Entry<String, String>> it = this
+				.getSBMLDocumentNamespaces().entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, String> entry = it.next();
+			if (!entry.getKey().equals("xmlns")) {
+				attributes.put(entry.getKey(), entry.getValue());
 			}
+
+		}
 		return attributes;
 	}
 }

@@ -32,6 +32,7 @@ package org.sbml.jsbml.xml.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import javax.xml.stream.XMLStreamException;
@@ -78,11 +79,18 @@ public class SBML_L2V1Test {
 	
 	}
 	
+	/**
+	 * 
+	 */
 	@Before public void setUp() { 
 		
 	}
 	
-	@Test public void read1() {
+	/**
+	 * 
+	 * @throws XMLStreamException
+	 */
+	@Test public void read1() throws XMLStreamException {
 		// URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
 		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
 		
@@ -146,13 +154,21 @@ public class SBML_L2V1Test {
 		
 	}
 	
-	@Test public void read2() {
+	/**
+	 * 
+	 * @throws XMLStreamException
+	 */
+	@Test public void read2() throws XMLStreamException {
 		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000227.xml";
 		
 		SBMLReader.readSBMLFile(fileName);
 	}
 	
-	@Test public void read3() {
+	/**
+	 * 
+	 * @throws XMLStreamException
+	 */
+	@Test public void read3() throws XMLStreamException {
 		String fileName = DATA_FOLDER + "/l2v4/BIOMD0000000228.xml"; // l2v4
 		
 		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
@@ -206,7 +222,11 @@ public class SBML_L2V1Test {
 		
 	}
 	
-	@Test public void read4() {
+	/**
+	 * 
+	 * @throws XMLStreamException
+	 */
+	@Test public void read4() throws XMLStreamException {
 		String fileName = DATA_FOLDER + "/l2v4/BIOMD0000000229.xml"; // l2v4
 		
 		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
@@ -253,8 +273,9 @@ public class SBML_L2V1Test {
 	 * @throws XMLStreamException
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
+	 * @throws FileNotFoundException 
 	 */
-	@Test public void write1() throws XMLStreamException, InstantiationException, IllegalAccessException{
+	@Test public void write1() throws XMLStreamException, InstantiationException, IllegalAccessException, FileNotFoundException{
 		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
 	
 		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);

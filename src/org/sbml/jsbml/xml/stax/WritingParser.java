@@ -30,47 +30,70 @@
 
 package org.sbml.jsbml.xml.stax;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The interface to implement for a parser which writes a SBML file.
+ * 
  * @author marine
- *
+ * 
  */
 public interface WritingParser {
 
 	/**
 	 * 
-	 * @param objectToWrite : the sbase component to write.
-	 * @return the list of components that 'sbase' contains. Represents the list of subNodes of this sbase component. 
+	 * @param objectToWrite
+	 *            : the sbase component to write.
+	 * @return the list of components that 'sbase' contains. Represents the list
+	 *         of subNodes of this sbase component.
 	 */
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object objectToWrite);
-	
+	public List<Object> getListOfSBMLElementsToWrite(Object objectToWrite);
+
 	/**
-	 * Sets the name of xmlObject (if it is not set) to the element name of sbmlElementToWrite.
-	 * @param xmlObject : contains the XML information about sbmlElement.
-	 * @param sbmlElementToWrite : the sbase component to write
+	 * Sets the name of xmlObject (if it is not set) to the element name of
+	 * sbmlElementToWrite.
+	 * 
+	 * @param xmlObject
+	 *            : contains the XML information about sbmlElement.
+	 * @param sbmlElementToWrite
+	 *            : the sbase component to write
+	 * @param indent 
 	 */
-	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite); 
-	
+	public void writeElement(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite);
+
 	/**
-	 * Sets the namespace of xmlObject (if it is not set) to the namespace of sbmlElementToWrite.
-	 * @param xmlObject : contains the XML information about sbmlElement.
-	 * @param sbmlElementToWrite: the sbase component to write
+	 * Sets the namespace of xmlObject (if it is not set) to the namespace of
+	 * sbmlElementToWrite.
+	 * 
+	 * @param xmlObject
+	 *            : contains the XML information about sbmlElement.
+	 * @param sbmlElementToWrite
+	 *            : the sbase component to write
 	 */
-	public void writeNamespaces(SBMLObjectForXML xmlObject, Object sbmlElementToWrite);
-	
+	public void writeNamespaces(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite);
+
 	/**
-	 * Adds the XML attributes of of sbmlElementToWrite to the attributes HashMap of the xmlObject.
-	 * @param xmlObject : contains the XML information about sbmlElement.
-	 * @param sbmlElementToWrite : the sbase component to write
+	 * Adds the XML attributes of of sbmlElementToWrite to the attributes
+	 * HashMap of the xmlObject.
+	 * 
+	 * @param xmlObject
+	 *            : contains the XML information about sbmlElement.
+	 * @param sbmlElementToWrite
+	 *            : the sbase component to write
 	 */
-	public void writeAttributes(SBMLObjectForXML xmlObject, Object sbmlElementToWrite);
-	
+	public void writeAttributes(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite);
+
 	/**
 	 * Sets the characters of xmlObject depending on the sbml element to write.
-	 * @param xmlObject : contains the XML information about sbmlElement.
-	 * @param sbmlElementToWrite : the sbase component to write
+	 * 
+	 * @param xmlObject
+	 *            : contains the XML information about sbmlElement.
+	 * @param sbmlElementToWrite
+	 *            : the sbase component to write
 	 */
-	public void writeCharacters(SBMLObjectForXML xmlObject, Object sbmlElementToWrite);
+	public void writeCharacters(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite);
 }

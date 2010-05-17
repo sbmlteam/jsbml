@@ -39,6 +39,8 @@
 package org.sbml.jsbml.test.sbml;
 
 
+import java.io.FileNotFoundException;
+
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.After;
@@ -78,11 +80,19 @@ public class TestL3groups {
   {
   }
 
+  /**
+   * 
+   * @throws Exception
+   */
   @After public void tearDown() throws Exception
   {
   }
 
-  @Test public void test_L3_Groups_read1()
+  /**
+   * 
+   * @throws XMLStreamException
+   */
+  @Test public void test_L3_Groups_read1() throws XMLStreamException
   {
 		String fileName = DATA_FOLDER + "/groups/groups1.xml";
 		
@@ -110,8 +120,9 @@ public class TestL3groups {
    * @throws XMLStreamException
    * @throws InstantiationException
    * @throws IllegalAccessException
+ * @throws FileNotFoundException 
    */
-  @Test public void test_L3_Groups_write1() throws XMLStreamException, InstantiationException, IllegalAccessException
+  @Test public void test_L3_Groups_write1() throws XMLStreamException, InstantiationException, IllegalAccessException, FileNotFoundException
   {
 	  String fileName = DATA_FOLDER + "/groups/groups1.xml";
 		

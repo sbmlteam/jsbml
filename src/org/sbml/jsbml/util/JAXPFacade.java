@@ -78,7 +78,13 @@ public class JAXPFacade
 	       SAX2Parser,
 	       NodeWriter {
 
+	/**
+	 * 
+	 */
     private static JAXPFacade instance_;
+    /**
+     * 
+     */
     private static TransformerFactory transformer_factory;
 
     //
@@ -105,7 +111,6 @@ public class JAXPFacade
      *
      */
     public static JAXPFacade getInstance() {
-
 	return instance_;
     }
 
@@ -657,7 +662,7 @@ public class JAXPFacade
 
     //
     //
-    // Prevents the generation of the default contructor.
+    // Prevents the generation of the default constructor.
     //
     //
     private JAXPFacade() {}
