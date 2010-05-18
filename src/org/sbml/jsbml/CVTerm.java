@@ -163,10 +163,24 @@ public class CVTerm {
 		/**
 		 * If the MIRIAM qualifier is unknown.
 		 */
-		UNKNOWN_QUALIFIER,
+		UNKNOWN_QUALIFIER;
+
 		/**
-		 * Represents the MIRIAM biological qualifier 'encodes'.
+		 * 
+		 * @return
 		 */
+		public String getElementNameEquivalent() {
+			switch (this) {
+			case BIOLOGICAL_QUALIFIER:
+				return "bqbiol";
+			case MODEL_QUALIFIER:
+				return "bqmodel";
+			case UNKNOWN_QUALIFIER:
+				return "unknown";
+			default:
+				return null;
+			}
+		}
 	}
 
 	/**
@@ -335,9 +349,11 @@ public class CVTerm {
 	 */
 	public List<String> filterResources(String pattern) {
 		LinkedList<String> l = new LinkedList<String>();
-		for (String resource : resourceURIs)
-			if (resource.contains(pattern))
+		for (String resource : resourceURIs) {
+			if (resource.contains(pattern)) {
 				l.add(resource);
+			}
+		}
 		return l;
 	}
 
@@ -406,7 +422,7 @@ public class CVTerm {
 	 * @return
 	 */
 	public boolean isBiologicalQualifier() {
-		return type == Type.BIOLOGICAL_QUALIFIER;
+		return type.equals(Type.BIOLOGICAL_QUALIFIER);
 	}
 
 	/**
@@ -414,7 +430,7 @@ public class CVTerm {
 	 * @return
 	 */
 	public boolean isModelQualifier() {
-		return type == Type.MODEL_QUALIFIER;
+		return type.equals(Type.MODEL_QUALIFIER);
 	}
 
 	/**
@@ -422,7 +438,7 @@ public class CVTerm {
 	 * @return
 	 */
 	public boolean isSetType() {
-		return type != Type.UNKNOWN_QUALIFIER;
+		return (type != null) && !type.equals(Type.UNKNOWN_QUALIFIER);
 	}
 
 	/**

@@ -120,7 +120,7 @@ public class BiologicalQualifierParser implements ReadingParser{
 			// This parser can parse only biological Miriam qualifiers. This element should not have attributes or namespace declarations. 
 			// Creates a new CVTerm and 
 			// sets the qualifierType and biologicalQualifierType of this CVTerm. Then, adds the 
-			// initialised CVTerm to annotation.
+			// initialized CVTerm to annotation.
 			if (biologicalQualifierMap.containsKey(elementName) && !hasAttributes && !hasNamespaces){
 				CVTerm cvTerm = new CVTerm();
 				cvTerm.setQualifierType(Type.BIOLOGICAL_QUALIFIER);

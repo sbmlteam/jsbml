@@ -58,7 +58,7 @@ import org.w3c.dom.Node;
  * @composed 0..* MIRIAM 1 CVTerm
  * @composed 0..1 history 1 History
  */
-public class Annotation {
+public class Annotation extends StringTools {
 
 	/**
 	 * 
@@ -278,8 +278,8 @@ public class Annotation {
 		for (Iterator<Map.Entry<String, String>> it = iterator; it.hasNext();) {
 
 			Map.Entry<String, String> entry = it.next();
-			attributes.append(" ").append(entry.getKey()).append("=").append(
-					'"').append(entry.getValue()).append('"');
+			append(attributes, " ", entry.getKey(), "=\"", entry.getValue(),
+					Character.valueOf('"'));
 		}
 
 		return attributes.toString();
@@ -299,7 +299,7 @@ public class Annotation {
 			String metaid = parentElement.getMetaId();
 
 			if (metaid != null) {
-				buffer.append(indent).append("<rdf:RDF \n");
+				append(buffer, indent, "<rdf:RDF ", newLine);
 				/*
 				 * buffer.append(indent).append("         xmlns:rdf=").append('"'
 				 * )
@@ -327,9 +327,8 @@ public class Annotation {
 				 * )).append('"').append(" \n");
 				 * buffer.append(indent).append("> \n");
 				 */
-				buffer.append(indent).append("  <rdf:Description rdf:about=")
-						.append('"').append('#').append(metaid).append('"')
-						.append("> \n");
+				append(buffer, indent, "  <rdf:Description rdf:about=\"#",
+						metaid, "\">", newLine);
 			}
 		}
 
@@ -359,28 +358,27 @@ public class Annotation {
 				CVTerm cvTerm = getCVTerm(i);
 				Type qualifierType = cvTerm.getQualifierType();
 				Qualifier qualifier = null;
-				String prefix = null;
 
 				if (qualifierType.equals(Type.BIOLOGICAL_QUALIFIER)) {
 					qualifier = cvTerm.getBiologicalQualifierType();
-					prefix = "bqbiol";
 				} else if (qualifierType.equals(Type.MODEL_QUALIFIER)) {
 					qualifier = cvTerm.getModelQualifierType();
-					prefix = "bqmodel";
 				}
+				String prefix = qualifier != null ? qualifier
+						.getElementNameEquivalent() : null;
 
 				String stringQualifier = qualifier.getElementNameEquivalent();
 
 				if (prefix != null && stringQualifier != null) {
-					buffer.append(indent).append("<").append(prefix)
-							.append(":").append(stringQualifier).append("> \n");
-					buffer.append(indent).append("  <rdf:Bag> \n");
+					append(buffer, indent, "<", prefix, ":", stringQualifier,
+							">", newLine);
+					append(buffer, indent, "  <rdf:Bag>", newLine);
 
 					cvTerm.toXML(indent + "    ", buffer);
 
-					buffer.append(indent).append("  </rdf:Bag> \n");
-					buffer.append(indent).append("</").append(prefix).append(
-							":").append(stringQualifier).append("> \n");
+					append(buffer, indent, "  </rdf:Bag>", newLine);
+					append(buffer, indent, "</", prefix, ":", stringQualifier,
+							">", newLine);
 				}
 			}
 		}
@@ -400,8 +398,8 @@ public class Annotation {
 			String metaid = parentElement.getMetaId();
 
 			if (metaid != null) {
-				buffer.append(indent).append("  </rdf:Description> \n");
-				buffer.append(indent).append("</rdf:RDF> \n");
+				append(buffer, indent, "  </rdf:Description>", newLine);
+				append(buffer, indent, "</rdf:RDF>", newLine);
 			}
 		}
 	}
@@ -456,11 +454,12 @@ public class Annotation {
 		LinkedList<CVTerm> l = new LinkedList<CVTerm>();
 		for (CVTerm term : listOfCVTerms) {
 			if (term.isBiologicalQualifier()
-					&& term.getBiologicalQualifierType() == qualifier)
+					&& term.getBiologicalQualifierType() == qualifier) {
 				l.add(term);
-			else if (term.isModelQualifier()
-					&& term.getModelQualifierType() == qualifier)
+			} else if (term.isModelQualifier()
+					&& term.getModelQualifierType() == qualifier) {
 				l.add(term);
+			}
 		}
 		return l;
 	}
@@ -473,8 +472,9 @@ public class Annotation {
 	 */
 	public List<String> filterCVTerms(Qualifier qualifier, String pattern) {
 		List<String> l = new LinkedList<String>();
-		for (CVTerm c : filterCVTerms(qualifier))
+		for (CVTerm c : filterCVTerms(qualifier)) {
 			l.addAll(c.filterResources(pattern));
+		}
 		return l;
 	}
 
@@ -636,10 +636,9 @@ public class Annotation {
 	 * @param buffer
 	 */
 	protected void otherAnnotationToXML(String indent, StringBuffer buffer) {
-
-		String[] lines = getNoRDFAnnotation().split("\n");
+		String[] lines = getNoRDFAnnotation().split(newLine);
 		for (int i = 0; i < lines.length; i++) {
-			buffer.append(indent).append(lines[i]).append(" \n");
+			append(buffer, indent, lines[i], newLine);
 		}
 	}
 
@@ -746,16 +745,15 @@ public class Annotation {
 	public String toXML(String indent, SBase parentElement) {
 		StringBuffer buffer = new StringBuffer();
 		if (isSetAnnotation()) {
-			StringTools.append(buffer, indent, "<otherAnnotation",
-					attributesToXML(), ">", StringTools.newLine());
+			append(buffer, indent, "<otherAnnotation", attributesToXML(), ">",
+					newLine);
 			if (getListOfCVTerms() != null) {
 				RDFAnnotationToXML(indent + "  ", buffer, parentElement);
 			}
 			if (getNoRDFAnnotation() != null) {
 				otherAnnotationToXML(indent + "  ", buffer);
 			}
-			StringTools.append(buffer, indent, "</otherAnnotation>",
-					StringTools.newLine());
+			append(buffer, indent, "</otherAnnotation>", newLine);
 		}
 		return buffer.toString();
 	}

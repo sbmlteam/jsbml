@@ -413,8 +413,466 @@ public class Unit extends AbstractSBase {
 	 * @return a UnitDefinition object containing the SI unit.
 	 */
 	public static UnitDefinition convertToSI(Unit unit) {
-		// TODO
-		throw new RuntimeException("not yet implemented!");
+		// The following code has simply been ported from libSBML 4.0.1.
+		double newMultiplier;
+		Unit.Kind uKind = unit.getKind();
+		Unit newUnit = unit.clone();
+		UnitDefinition ud = new UnitDefinition(unit.getLevel(), unit
+				.getVersion());
+		removeScale(newUnit);
+
+		switch (uKind) {
+		case AMPERE:
+			/* Ampere is the SI unit of current */
+			ud.addUnit(newUnit);
+			break;
+		case BECQUEREL:
+		case HERTZ:
+			/* 1 becquerel = 1 sec^-1 = (0.1 sec)^-1 */
+			/* 1 hertz = 1 sec^-1 = (0.1 sec) ^-1 */
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setExponent(newUnit.getExponent() * -1);
+			/* hack to force multiplier to be double precision */
+			newMultiplier = Math.pow(newUnit.getMultiplier(), -1d);
+
+			// ossMultiplier << newMultiplier;
+			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
+
+			newUnit.setMultiplier(newMultiplier);
+			ud.addUnit(newUnit);
+			break;
+
+		case CANDELA:
+			/* candela is the SI unit of luminous intensity */
+			ud.addUnit(newUnit);
+			break;
+
+		case CELSIUS:
+			/* 1 celsius = 1 Kelvin + 273.15 */
+			newUnit.setKind(Unit.Kind.KELVIN);
+			newUnit.setOffset(273.15);
+			ud.addUnit(newUnit);
+			break;
+
+		case COULOMB:
+			/* 1 coulomb = 1 Ampere second */
+			newUnit.setKind(Unit.Kind.AMPERE);
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setExponent(unit.getExponent());
+			newUnit.setMultiplier(1);
+			ud.addUnit(newUnit);
+			break;
+
+		case DIMENSIONLESS:
+		case ITEM:
+		case RADIAN:
+		case STERADIAN:
+			/* all dimensionless */
+			newUnit.setKind(Unit.Kind.DIMENSIONLESS);
+			ud.addUnit(newUnit);
+			break;
+
+		case FARAD:
+			/* 1 Farad = 1 m^-2 kg^-1 s^4 A^2 */
+			newUnit.setKind(Unit.Kind.AMPERE);
+			/* hack to force multiplier to be double precision */
+			newMultiplier = Math.sqrt(newUnit.getMultiplier());
+
+			// ossMultiplier << newMultiplier;
+			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
+
+			newUnit.setMultiplier(newMultiplier);
+			newUnit.setExponent(2 * newUnit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.KILOGRAM);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-1 * unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.METRE);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(4 * unit.getExponent());
+			ud.addUnit(newUnit);
+			break;
+
+		case GRAM:
+			/* 1 gram = 0.001 Kg */
+			newUnit.setKind(Unit.Kind.KILOGRAM);
+			newUnit.setMultiplier(0.001 * newUnit.getMultiplier());
+			ud.addUnit(newUnit);
+			break;
+
+		case GRAY:
+		case SIEVERT:
+			/* 1 Gray = 1 m^2 sec^-2 */
+			/* 1 Sievert = 1 m^2 sec^-2 */
+			newUnit.setKind(Unit.Kind.METRE);
+			/* hack to force multiplier to be double precision */
+			newMultiplier = Math.sqrt(newUnit.getMultiplier());
+
+			// ossMultiplier << newMultiplier;
+			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
+
+			newUnit.setMultiplier(newMultiplier);
+			newUnit.setExponent(2 * newUnit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent((-2) * unit.getExponent());
+			ud.addUnit(newUnit);
+			break;
+
+		case HENRY:
+			/* 1 Henry = 1 m^2 kg s^-2 A^-2 */
+			newUnit.setKind(Unit.Kind.AMPERE);
+			/* hack to force multiplier to be double precision */
+			newMultiplier = (1d / Math.sqrt(newUnit.getMultiplier()));
+
+			// ossMultiplier << newMultiplier;
+			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
+
+			newUnit.setMultiplier(newMultiplier);
+			newUnit.setExponent(-2 * newUnit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.KILOGRAM);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.METRE);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			break;
+
+		case JOULE:
+			/* 1 joule = 1 m^2 kg s^-2 */
+			newUnit.setKind(Unit.Kind.KILOGRAM);
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.METRE);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			break;
+
+		case KATAL:
+			/* 1 katal = 1 mol s^-1 */
+			newUnit.setKind(Unit.Kind.MOLE);
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-1 * unit.getExponent());
+			ud.addUnit(newUnit);
+			break;
+
+		case KELVIN:
+			/* Kelvin is the SI unit of temperature */
+			ud.addUnit(newUnit);
+			break;
+
+		case KILOGRAM:
+			/* Kilogram is the SI unit of mass */
+			ud.addUnit(newUnit);
+			break;
+
+		case LITER:
+		case LITRE:
+			/* 1 litre = 0.001 m^3 = (0.1 m)^3 */
+			newUnit.setKind(Unit.Kind.METRE);
+			newUnit.setExponent(newUnit.getExponent() * 3);
+			/* hack to force multiplier to be double precision */
+			newMultiplier = Math
+					.pow((newUnit.getMultiplier() * 0.001), 1d / 3d);
+
+			// ossMultiplier << newMultiplier;
+			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
+
+			newUnit.setMultiplier(newMultiplier);
+			ud.addUnit(newUnit);
+			break;
+
+		case LUMEN:
+			/* 1 lumen = 1 candela */
+			newUnit.setKind(Unit.Kind.CANDELA);
+			ud.addUnit(newUnit);
+			break;
+
+		case LUX:
+			/* 1 lux = 1 candela m^-2 */
+			newUnit.setKind(Unit.Kind.CANDELA);
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.METRE);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			break;
+
+		case METER:
+		case METRE:
+			/* metre is the SI unit of length */
+			newUnit.setKind(Unit.Kind.METRE);
+			ud.addUnit(newUnit);
+			break;
+
+		case MOLE:
+			/* mole is the SI unit of substance */
+			ud.addUnit(newUnit);
+			break;
+
+		case NEWTON:
+			/* 1 newton = 1 m kg s^-2 */
+			newUnit.setKind(Unit.Kind.KILOGRAM);
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.METRE);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			break;
+
+		case OHM:
+			/* 1 ohm = 1 m^2 kg s^-3 A^-2 */
+			newUnit.setKind(Unit.Kind.AMPERE);
+			/* hack to force multiplier to be double precision */
+			newMultiplier = (1d / Math.sqrt(newUnit.getMultiplier()));
+
+			// ossMultiplier << newMultiplier;
+			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
+
+			newUnit.setMultiplier(newMultiplier);
+			newUnit.setExponent(-2 * newUnit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.KILOGRAM);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.METRE);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-3 * unit.getExponent());
+			ud.addUnit(newUnit);
+			break;
+
+		case PASCAL:
+			/* 1 pascal = 1 m^-1 kg s^-2 */
+			newUnit.setKind(Unit.Kind.KILOGRAM);
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.METRE);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-1 * unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			break;
+
+		case SECOND:
+			/* second is the SI unit of time */
+			ud.addUnit(newUnit);
+			break;
+
+		case SIEMENS:
+			/* 1 siemens = 1 m^-2 kg^-1 s^3 A^2 */
+			newUnit.setKind(Unit.Kind.AMPERE);
+			/* hack to force multiplier to be double precision */
+			newMultiplier = Math.sqrt(newUnit.getMultiplier());
+
+			// ossMultiplier << newMultiplier;
+			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
+
+			newUnit.setMultiplier(newMultiplier);
+			newUnit.setExponent(2 * newUnit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.KILOGRAM);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-1 * unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.METRE);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(3 * unit.getExponent());
+			ud.addUnit(newUnit);
+			break;
+
+		case TESLA:
+			/* 1 tesla = 1 kg s^-2 A^-1 */
+			newUnit.setKind(Unit.Kind.AMPERE);
+			/* hack to force multiplier to be double precision */
+			newMultiplier = (1d / newUnit.getMultiplier());
+
+			// ossMultiplier << newMultiplier;
+			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
+
+			newUnit.setMultiplier(newMultiplier);
+			newUnit.setExponent(-1 * newUnit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.KILOGRAM);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			break;
+
+		case VOLT:
+			/* 1 volt = 1 m^2 kg s^-3 A^-1 */
+			newUnit.setKind(Unit.Kind.AMPERE);
+			/* hack to force multiplier to be double precision */
+			newMultiplier = (1d / newUnit.getMultiplier());
+
+			// ossMultiplier << newMultiplier;
+			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
+
+			newUnit.setMultiplier(newMultiplier);
+			newUnit.setExponent(-1 * newUnit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.KILOGRAM);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.METRE);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-3 * unit.getExponent());
+			ud.addUnit(newUnit);
+			break;
+
+		case WATT:
+			/* 1 watt = 1 m^2 kg s^-3 */
+			newUnit.setKind(Unit.Kind.KILOGRAM);
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.METRE);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-3 * unit.getExponent());
+			ud.addUnit(newUnit);
+			break;
+
+		case WEBER:
+			/* 1 weber = 1 m^2 kg s^-2 A^-1 */
+			newUnit.setKind(Unit.Kind.AMPERE);
+			/* hack to force multiplier to be double precision */
+			newMultiplier = (1d / newUnit.getMultiplier());
+
+			// ossMultiplier << newMultiplier;
+			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
+
+			newUnit.setMultiplier(newMultiplier);
+			newUnit.setExponent(-1 * newUnit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.KILOGRAM);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.METRE);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
+			// unit.getMultiplier());
+			newUnit.setKind(Unit.Kind.SECOND);
+			newUnit.setMultiplier(1d);
+			newUnit.setExponent(-2 * unit.getExponent());
+			ud.addUnit(newUnit);
+			break;
+
+		case INVALID:
+			break;
+		default:
+			break;
+		}
+		return ud;
 	}
 
 	/**
