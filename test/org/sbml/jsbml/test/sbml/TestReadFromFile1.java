@@ -40,6 +40,8 @@ package org.sbml.jsbml.test.sbml;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
+
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
@@ -73,9 +75,10 @@ public class TestReadFromFile1 {
 	/**
 	 * 
 	 * @throws XMLStreamException
+	 * @throws FileNotFoundException 
 	 */
 	@Test
-	public void test_read_l1v1_branch() throws XMLStreamException {
+	public void test_read_l1v1_branch() throws XMLStreamException, FileNotFoundException {
 		SBMLDocument d;
 		Model m;
 		Compartment c;

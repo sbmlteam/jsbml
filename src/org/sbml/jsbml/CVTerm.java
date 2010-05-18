@@ -109,7 +109,42 @@ public class CVTerm {
 		/**
 		 * Represents an unknown MIRIAM model qualifier.
 		 */
-		BQM_UNKNOWN
+		BQM_UNKNOWN;
+
+		/**
+		 * 
+		 * @return
+		 */
+		public String getElementNameEquivalent() {
+			switch (this) {
+			case BQB_ENCODES:
+				return "encodes";
+			case BQB_HAS_PART:
+				return "hasPart";
+			case BQB_HAS_VERSION:
+				return "hasVersion";
+			case BQB_IS:
+				return "is";
+			case BQB_IS_DESCRIBED_BY:
+				return "isDescribedBy";
+			case BQB_IS_ENCODED_BY:
+				return "isEncodedBy";
+			case BQB_IS_HOMOLOG_TO:
+				return "isHomologTo";
+			case BQB_IS_PART_OF:
+				return "isPartOf";
+			case BQB_IS_VERSION_OF:
+				return "isVersionOf";
+			case BQB_OCCURS_IN:
+				return "occursIn";
+			case BQM_IS:
+				return "is";
+			case BQM_IS_DESCRIBED_BY:
+				return "isDescribedBy";
+			default:
+				return null;
+			}
+		}
 	}
 
 	/**

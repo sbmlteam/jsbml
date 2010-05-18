@@ -32,6 +32,8 @@ package org.sbml.jsbml.xml.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
+
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Before;
@@ -69,8 +71,9 @@ public class SBML_L1VxTests {
 	/**
 	 * 
 	 * @throws XMLStreamException
+	 * @throws FileNotFoundException 
 	 */
-	@Test public void readL1V2Branch() throws XMLStreamException {
+	@Test public void readL1V2Branch() throws XMLStreamException, FileNotFoundException {
 		// URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
 		String fileName = DATA_FOLDER + "/libsbml-test-data/l1v2-branch.xml";
 		
@@ -130,8 +133,9 @@ public class SBML_L1VxTests {
 	/**
 	 * 
 	 * @throws XMLStreamException
+	 * @throws FileNotFoundException 
 	 */
-	@Test public void readL1V1Units() throws XMLStreamException {
+	@Test public void readL1V1Units() throws XMLStreamException, FileNotFoundException {
 		// URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
 		String fileName = DATA_FOLDER + "/libsbml-test-data/l1v1-units.xml";
 		

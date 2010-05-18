@@ -39,6 +39,8 @@
 package org.sbml.jsbml.test.sbml;
 
 
+import java.io.FileNotFoundException;
+
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.After;
@@ -84,8 +86,9 @@ public class TestL3Layout {
   /**
    * 
    * @throws XMLStreamException
+ * @throws FileNotFoundException 
    */
-  @Test public void test_L3_Layout_read1() throws XMLStreamException
+  @Test public void test_L3_Layout_read1() throws XMLStreamException, FileNotFoundException
   {
 		String fileName = DATA_FOLDER + "/layout/GlycolysisLayout_small.xml";
 		

@@ -124,11 +124,28 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
+	 * This method returns the predefined unit with the given identifier for the
+	 * specified level and version combination or null if either for the given
+	 * combination of level and version there is no such predefined unit or the
+	 * identifier is not one of those belonging to the group of predefined unit
+	 * definitions.
 	 * 
 	 * @param id
+	 *            one of the values
+	 *            <ul>
+	 *            <li>substance</li>
+	 *            <li>volume</li>
+	 *            <li>area</li>
+	 *            <li>length</li>
+	 *            <li>time</li>
+	 *            </ul>
 	 * @param level
+	 *            a number greater than zero.
 	 * @param version
-	 * @return
+	 *            a number greater than zero.
+	 * @return The predefined unit definition with the given identifier for the
+	 *         specified level version combination or null if no such predefined
+	 *         unit exists.
 	 */
 	private static final UnitDefinition getPredefinedUnit(String id, int level,
 			int version) {
@@ -150,16 +167,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 				u.setSBOTerm(345);
 				ud.setSBOTerm(345);
 			} else {
-				throw new IllegalArgumentException(
-						"no predefined unit available for " + id);
+				return null;
 			}
 			ud.setName("Predefined unit " + id);
 			ud.addUnit(u);
 			return ud;
-		} else {
-			throw new IllegalArgumentException(
-					"no predefined unit available for level " + level);
 		}
+		return null;
 	}
 
 	/**
@@ -172,9 +186,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 			return false;
 		}
 		if (ud.getNumUnits() == 1) {
-			if (Unit.isBuiltIn(ud.getId(), ud.getLevel())) {
-				return ud.equals(getPredefinedUnit(ud.getId(), ud.getLevel(),
-						ud.getVersion()));
+			UnitDefinition predef = getPredefinedUnit(ud.getId(),
+					ud.getLevel(), ud.getVersion());
+			if ((predef != null) && Unit.isBuiltIn(ud.getId(), ud.getLevel())) {
+				return ud.equals(predef);
 			}
 		}
 		return false;

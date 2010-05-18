@@ -340,6 +340,17 @@ public class Unit extends AbstractSBase {
 					&& version == 1 && this == CELSIUS)));
 		}
 
+		/**
+		 * This method is equivalent to calling isDefinedIn.
+		 * 
+		 * @param level
+		 * @param version
+		 * @return
+		 */
+		public boolean isValidUnitKindString(int level, int version) {
+			return isDefinedIn(level, version);
+		}
+
 	}
 
 	/**
@@ -1042,21 +1053,21 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Predicate for testing whether this Unit is of the kind item
-	 * 
-	 * @return
-	 */
-	public boolean isItem() {
-		return kind == Kind.ITEM;
-	}
-
-	/**
 	 * Predicate for testing whether this Unit is of the kind invalid.
 	 * 
 	 * @return
 	 */
 	public boolean isInvalid() {
 		return kind == Kind.INVALID;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind item
+	 * 
+	 * @return
+	 */
+	public boolean isItem() {
+		return kind == Kind.ITEM;
 	}
 
 	/**
