@@ -30,13 +30,18 @@
 
 package org.sbml.jsbml.xml.stax;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Stack;
 import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Characters;
@@ -46,7 +51,6 @@ import javax.xml.stream.events.Namespace;
 import javax.xml.stream.events.StartDocument;
 import javax.xml.stream.events.StartElement;
 
-import org.codehaus.stax2.XMLEventReader2;
 import org.codehaus.stax2.evt.XMLEvent2;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.ext.groups.GroupsParser;
@@ -306,12 +310,65 @@ public class SBMLReader {
 	 * @throws XMLStreamException
 	 */
 	public static SBMLDocument readSBMLFile(String fileName)
+			throws XMLStreamException, FileNotFoundException {
+		return readSBMLFromStream(new FileInputStream(new File(fileName)));
+	}
+
+	/**
+	 * 
+	 * @param args
+	 * @throws XMLStreamException
+	 */
+	public static void main(String[] args) {
+		// SBMLDocument testDocument =
+		// readSBMLFile("/home/compneur/Desktop/LibSBML-Project/MultiExamples/glutamateReceptor.xml");
+		// SBMLDocument testDocument =
+		// readSBMLFile("/home/compneur/Desktop/LibSBML-Project/BIOMD0000000002.xml");
+		// SBMLDocument testDocument =
+		// readSBMLFile("/home/compneur/workspace/jsbmlStax/src/org/sbml/jsbml/xml/test/data/l2v1/BIOMD0000000227.xml");
+		try {
+			SBMLDocument testDocument = readSBMLFile("/home/compneur/workspace/jsbmlStax/src/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
+		} catch (XMLStreamException exc) {
+			exc.printStackTrace();
+		} catch (FileNotFoundException exc) {
+			exc.printStackTrace();
+		}
+	}
+
+	/**
+	 * Reads a SBML String 'fileName'
+	 * 
+	 * @param fileName
+	 * @return the matching SBMLDocument instance.
+	 * @throws XMLStreamException
+	 */
+	public static SBMLDocument readSBML(String fileName)
+			throws XMLStreamException, FileNotFoundException {
+		return readSBMLFile(fileName);
+	}
+
+	/**
+	 * 
+	 * @param xml
+	 * @return
+	 */
+	public static SBMLDocument readSBMLFromString(String xml)
+			throws XMLStreamException {
+		return readSBMLFromStream(new ByteArrayInputStream(xml.getBytes()));
+	}
+
+	/**
+	 * 
+	 * @param stream
+	 * @return
+	 */
+	public static SBMLDocument readSBMLFromStream(InputStream stream)
 			throws XMLStreamException {
 		WstxInputFactory inputFactory = new WstxInputFactory();
 		HashMap<String, ReadingParser> initializedParsers = null;
-
-		XMLEventReader2 xmlEventReader = inputFactory
-				.createXMLEventReader(new File(fileName));
+		
+		XMLEventReader xmlEventReader = inputFactory
+				.createXMLEventReader(stream);		
 		XMLEvent2 event;
 		StartElement element = null;
 		ReadingParser parser = null;
@@ -574,28 +631,6 @@ public class SBMLReader {
 			}
 		}
 		return null;
-	}
-
-	public static void main(String[] args) throws XMLStreamException {
-		// SBMLDocument testDocument =
-		// readSBMLFile("/home/compneur/Desktop/LibSBML-Project/MultiExamples/glutamateReceptor.xml");
-		// SBMLDocument testDocument =
-		// readSBMLFile("/home/compneur/Desktop/LibSBML-Project/BIOMD0000000002.xml");
-		// SBMLDocument testDocument =
-		// readSBMLFile("/home/compneur/workspace/jsbmlStax/src/org/sbml/jsbml/xml/test/data/l2v1/BIOMD0000000227.xml");
-		SBMLDocument testDocument = readSBMLFile("/home/compneur/workspace/jsbmlStax/src/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
-	}
-
-	/**
-	 * Reads a SBML String 'fileName'
-	 * 
-	 * @param fileName
-	 * @return the matching SBMLDocument instance.
-	 * @throws XMLStreamException
-	 */
-	public static SBMLDocument readSBML(String fileName)
-			throws XMLStreamException {
-		return SBMLReader.readSBMLFile(fileName);
 	}
 
 }

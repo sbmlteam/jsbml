@@ -89,8 +89,9 @@ public class SBML_L2V1Test {
 	/**
 	 * 
 	 * @throws XMLStreamException
+	 * @throws FileNotFoundException 
 	 */
-	@Test public void read1() throws XMLStreamException {
+	@Test public void read1() throws XMLStreamException, FileNotFoundException {
 		// URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
 		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
 		
@@ -157,8 +158,9 @@ public class SBML_L2V1Test {
 	/**
 	 * 
 	 * @throws XMLStreamException
+	 * @throws FileNotFoundException 
 	 */
-	@Test public void read2() throws XMLStreamException {
+	@Test public void read2() throws XMLStreamException, FileNotFoundException {
 		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000227.xml";
 		
 		SBMLReader.readSBMLFile(fileName);
@@ -167,8 +169,9 @@ public class SBML_L2V1Test {
 	/**
 	 * 
 	 * @throws XMLStreamException
+	 * @throws FileNotFoundException 
 	 */
-	@Test public void read3() throws XMLStreamException {
+	@Test public void read3() throws XMLStreamException, FileNotFoundException {
 		String fileName = DATA_FOLDER + "/l2v4/BIOMD0000000228.xml"; // l2v4
 		
 		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
@@ -225,8 +228,9 @@ public class SBML_L2V1Test {
 	/**
 	 * 
 	 * @throws XMLStreamException
+	 * @throws FileNotFoundException 
 	 */
-	@Test public void read4() throws XMLStreamException {
+	@Test public void read4() throws XMLStreamException, FileNotFoundException {
 		String fileName = DATA_FOLDER + "/l2v4/BIOMD0000000229.xml"; // l2v4
 		
 		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);

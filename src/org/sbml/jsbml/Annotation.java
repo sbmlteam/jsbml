@@ -66,50 +66,7 @@ public class Annotation {
 	 * @return String which represents the Qualifier qualifier in a XML node
 	 */
 	public static String getElementNameEquivalentToQualifier(Qualifier qualifier) {
-		String stringQualifier = null;
-
-		switch (qualifier) {
-		case BQB_ENCODES:
-			stringQualifier = "encodes";
-			break;
-		case BQB_HAS_PART:
-			stringQualifier = "hasPart";
-			break;
-		case BQB_HAS_VERSION:
-			stringQualifier = "hasVersion";
-			break;
-		case BQB_IS:
-			stringQualifier = "is";
-			break;
-		case BQB_IS_DESCRIBED_BY:
-			stringQualifier = "isDescribedBy";
-			break;
-		case BQB_IS_ENCODED_BY:
-			stringQualifier = "isEncodedBy";
-			break;
-		case BQB_IS_HOMOLOG_TO:
-			stringQualifier = "isHomologTo";
-			break;
-		case BQB_IS_PART_OF:
-			stringQualifier = "isPartOf";
-			break;
-		case BQB_IS_VERSION_OF:
-			stringQualifier = "isVersionOf";
-			break;
-		case BQB_OCCURS_IN:
-			stringQualifier = "occursIn";
-			break;
-		case BQM_IS:
-			stringQualifier = "is";
-			break;
-		case BQM_IS_DESCRIBED_BY:
-			stringQualifier = "isDescribedBy";
-			break;
-		default:
-			break;
-		}
-
-		return stringQualifier;
+		return qualifier.getElementNameEquivalent();
 	}
 
 	/**
@@ -267,8 +224,9 @@ public class Annotation {
 	 * @return true if the 'term' element has been added to the list of CVTerms
 	 */
 	public boolean addCVTerm(CVTerm term) {
-		if (listOfCVTerms == null)
+		if (listOfCVTerms == null) {
 			listOfCVTerms = new LinkedList<CVTerm>();
+		}
 		return listOfCVTerms.add(term);
 	}
 
@@ -411,7 +369,7 @@ public class Annotation {
 					prefix = "bqmodel";
 				}
 
-				String stringQualifier = getElementNameEquivalentToQualifier(qualifier);
+				String stringQualifier = qualifier.getElementNameEquivalent();
 
 				if (prefix != null && stringQualifier != null) {
 					buffer.append(indent).append("<").append(prefix)
@@ -582,8 +540,9 @@ public class Annotation {
 	 *         list.
 	 */
 	public List<CVTerm> getListOfCVTerms() {
-		if (listOfCVTerms == null)
+		if (listOfCVTerms == null) {
 			listOfCVTerms = new LinkedList<CVTerm>();
+		}
 		return listOfCVTerms;
 	}
 
@@ -612,7 +571,7 @@ public class Annotation {
 	 * 
 	 * @return the rdfAnnotationNamespaces map of this object.
 	 */
-	public HashMap<String, String> getRdfAnnotationNamespaces() {
+	public HashMap<String, String> getRDFAnnotationNamespaces() {
 		return rdfAnnotationNamespaces;
 	}
 

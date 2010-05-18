@@ -91,8 +91,9 @@ public class TestL3groups {
   /**
    * 
    * @throws XMLStreamException
+ * @throws FileNotFoundException 
    */
-  @Test public void test_L3_Groups_read1() throws XMLStreamException
+  @Test public void test_L3_Groups_read1() throws XMLStreamException, FileNotFoundException
   {
 		String fileName = DATA_FOLDER + "/groups/groups1.xml";
 		

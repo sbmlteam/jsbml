@@ -37,6 +37,8 @@ import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.util.LaTeX;
+import org.sbml.jsbml.util.MathMLCompiler;
 import org.sbml.jsbml.util.TextFormula;
 
 /**
@@ -505,6 +507,19 @@ public class ASTNode implements TreeNode {
 			NamedSBaseWithDerivedUnit basis, NamedSBaseWithDerivedUnit exponent) {
 		return pow(new ASTNode(basis, container), new ASTNode(exponent,
 				container));
+	}
+
+	/**
+	 * This method parses the given XML string and returns an ASTNode
+	 * representing it.
+	 * 
+	 * @param xml
+	 * @return
+	 */
+	public static ASTNode readMathMLFromString(String xml) {
+		// TODO: implement!
+		System.err.println("not yet implemented");
+		return null;
 	}
 
 	/**
@@ -2336,12 +2351,32 @@ public class ASTNode implements TreeNode {
 		return compile(new TextFormula()).toString();
 	}
 
+	/**
+	 * Converts this node recursively into a LaTeX formatted String.
+	 * 
+	 * @return A String representing the LaTeX code necessary to write the
+	 *         formula corresponding to this node in a document.
+	 */
+	public String toLaTeX() {
+		return compile(new LaTeX()).toString();
+	}
+
+	/**
+	 * This method converts this node recursively into a MathML string that
+	 * corresponds to the subset of MathML defined in the SBML specification.
+	 * 
+	 * @return
+	 */
+	public String toMathML() {
+		return compile(new MathMLCompiler()).toString();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	// @Override
+	@Override
 	public String toString() {
 		// TODO
 		if (isInteger()) {
