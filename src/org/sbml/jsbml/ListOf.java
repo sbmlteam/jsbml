@@ -35,7 +35,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.util.Filter;
 
 /**
@@ -330,37 +329,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 			return listOf.containsAll(this) && this.containsAll(listOf);
 		}
 		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier)
-	 */
-	public List<CVTerm> filterCVTerms(Qualifier qualifier) {
-		LinkedList<CVTerm> l = new LinkedList<CVTerm>();
-		for (CVTerm term : getAnnotation().getListOfCVTerms()) {
-			if (term.isBiologicalQualifier()
-					&& term.getBiologicalQualifierType() == qualifier)
-				l.add(term);
-			else if (term.isModelQualifier()
-					&& term.getModelQualifierType() == qualifier)
-				l.add(term);
-		}
-		return l;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier,
-	 * java.lang.String)
-	 */
-	public List<String> filterCVTerms(Qualifier qualifier, String pattern) {
-		List<String> l = new LinkedList<String>();
-		for (CVTerm c : filterCVTerms(qualifier))
-			l.addAll(c.filterResources(pattern));
-		return l;
 	}
 
 	/**

@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.sbml.jsbml.util.CVTermFilter;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -125,7 +126,7 @@ public abstract class AbstractSBase implements SBase {
 		setOfListeners = new HashSet<SBaseChangedListener>();
 		extensions = new HashMap<String, SBase>();
 	}
-	
+
 	/**
 	 * Creates an AbstractSBase instance from an id and name. By default, the
 	 * sboTerm is -1, the metaid, notes, parentSBMLObject, annotation, level,
@@ -332,21 +333,17 @@ public abstract class AbstractSBase implements SBase {
 		return false;
 	}
 
-	/**
+	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier)
 	 */
 	public List<CVTerm> filterCVTerms(CVTerm.Qualifier qualifier) {
 		LinkedList<CVTerm> l = new LinkedList<CVTerm>();
-		if (isSetAnnotation()) {
-			for (CVTerm term : annotation.getListOfCVTerms()) {
-				if (term.isBiologicalQualifier()
-						&& term.getBiologicalQualifierType() == qualifier)
-					l.add(term);
-				else if (term.isModelQualifier()
-						&& term.getModelQualifierType() == qualifier)
-					l.add(term);
+		CVTermFilter filter = new CVTermFilter(qualifier);
+		for (CVTerm term : getAnnotation().getListOfCVTerms()) {
+			if (filter.accepts(term)) {
+				l.add(term);
 			}
 		}
 		return l;
@@ -360,8 +357,9 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public List<String> filterCVTerms(CVTerm.Qualifier qualifier, String pattern) {
 		List<String> l = new LinkedList<String>();
-		for (CVTerm c : filterCVTerms(qualifier))
+		for (CVTerm c : filterCVTerms(qualifier)) {
 			l.addAll(c.filterResources(pattern));
+		}
 		return l;
 	}
 
