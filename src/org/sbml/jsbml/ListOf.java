@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
+import org.sbml.jsbml.util.Filter;
 
 /**
  * This list implementation is a java List that extends AbstractSBase. It
@@ -362,6 +363,44 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return l;
 	}
 
+	/**
+	 * Returns a new {@link ListOf} that contains only those elements that
+	 * satisfy a certain filter criterion.
+	 * 
+	 * @param f
+	 *            A filter that defines the criterion for elements to be put
+	 *            into the list to be returned.
+	 * @return A new list that can be empty if no element fulfills the filter
+	 *         criterion.
+	 */
+	public ListOf<T> filterList(Filter f) {
+		ListOf<T> list = new ListOf<T>();
+		for (T sbase : this) {
+			if (f.accepts(sbase)) {
+				list.add(sbase);
+			}
+		}
+		return list;
+	}
+
+	/**
+	 * Returns the first element in this list that satisfies a certain filter
+	 * criterion.
+	 * 
+	 * @param f
+	 *            A filter defining the criterion for which to be filter.
+	 * @return The first element of this list that satisfies the criterion or
+	 *         null if no such element exists in this list.
+	 */
+	public T firstHit(Filter f) {
+		for (T sbase : this) {
+			if (f.accepts(sbase)) {
+				return sbase;
+			}
+		}
+		return null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -559,11 +598,36 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	}
 
 	/**
+	 * Removes all elements from this list that fulfill the filter property of
+	 * the given filter.
+	 * 
+	 * @param f
+	 * @return
+	 */
+	public boolean removeAll(Filter f) {
+		return removeAll(filterList(f));
+	}
+
+	/**
 	 * 
 	 * @param l
 	 */
 	public void removeChangeListener(SBaseChangedListener l) {
 		setOfListeners.remove(l);
+	}
+
+	/**
+	 * Removes the first element from this list that fulfills the filter
+	 * property of the given filter.
+	 * 
+	 * @param f
+	 * @return
+	 */
+	public T removeFirst(Filter f) {
+		T t = firstHit(f);
+		if (remove(t))
+			return t;
+		return null;
 	}
 
 	/*

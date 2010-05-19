@@ -32,34 +32,105 @@ package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.SBase;
 
+/**
+ * 
+ * 
+ *
+ */
 public class Layout extends AbstractNamedSBase {
 
+	/**
+	 * 
+	 */
 	private Dimensions dimensions;
-	
+	/**
+	 * 
+	 */
 	private ListOf<CompartmentGlyph> compartmentGlyphs = new ListOf<CompartmentGlyph>();
+	/**
+	 * 
+	 */
 	private ListOf<SpeciesGlyph> listOfSpeciesGlyphs = new ListOf<SpeciesGlyph>();
+	/**
+	 * 
+	 */
 	private ListOf<ReactionGlyph> reactionGlyphs = new ListOf<ReactionGlyph>();
+	/**
+	 * 
+	 */
 	private ListOf<TextGlyph> textGlyphs = new ListOf<TextGlyph>();
+	/**
+	 * 
+	 */
 	private ListOf<GraphicalObject> addGraphicalObjects = new ListOf<GraphicalObject>();
 	
+	/**
+	 * 
+	 */
 	public Layout() {
-		
+		super();
+	}
+	 
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public Layout(int level, int version) {
+		super(level, version);
 	}
 	
-	public Dimensions getDimensions() {
-		return dimensions;
+	/**
+	 * @param layout 
+	 * 
+	 */
+	public Layout(Layout layout) {
+		super(layout);
+		// TODO: not fully implemented!
 	}
 
-	public void setDimensions(Dimensions dimensions) {
-		this.dimensions = dimensions;
+	/**
+	 * 
+	 * @param speciesGlyph
+	 */
+	public void add(SpeciesGlyph speciesGlyph) {
+		addSpeciesGlyph(speciesGlyph);
 	}
 
-	public ListOf<CompartmentGlyph> getListOfCompartmentGlyphs() {
-		return compartmentGlyphs;
+	/**
+	 * 
+	 * @param speciesGlyph
+	 */
+	public void addSpeciesGlyph(SpeciesGlyph speciesGlyph) {
+		if (speciesGlyph != null) {
+			setThisAsParentSBMLObject(speciesGlyph);
+			listOfSpeciesGlyphs.add(speciesGlyph);
+		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	 */
+	@Override
+	public Layout clone() {
+		return new Layout(this);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public ListOf<GraphicalObject> getAddGraphicalObjects() {
+		return addGraphicalObjects;
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public CompartmentGlyph getCompartmentGlyph(int i) {
 		if (i >= 0 && i < compartmentGlyphs.size()) {
 			return compartmentGlyphs.get(i);
@@ -68,14 +139,51 @@ public class Layout extends AbstractNamedSBase {
 		return null;
 	}
 
-	public void setListOfCompartmentGlyphs(ListOf<CompartmentGlyph> compartmentGlyphs) {
-		this.compartmentGlyphs = compartmentGlyphs;
+	/**
+	 * 
+	 * @return
+	 */
+	public Dimensions getDimensions() {
+		return dimensions;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public ListOf<CompartmentGlyph> getListOfCompartmentGlyphs() {
+		return compartmentGlyphs;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public ListOf<ReactionGlyph> getListOfReactionGlyphs() {
+		return reactionGlyphs;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public ListOf<SpeciesGlyph> getListOfSpeciesGlyphs() {
 		return listOfSpeciesGlyphs;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ListOf<TextGlyph> getListOfTextGlyphs() {
+		return textGlyphs;
+	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public SpeciesGlyph getSpeciesGlyph(int i) {
 		if (i >= 0 && i < listOfSpeciesGlyphs.size()) {
 			return listOfSpeciesGlyphs.get(i);
@@ -84,7 +192,54 @@ public class Layout extends AbstractNamedSBase {
 		return null;
 	}
 
-	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetListOfSpeciesGlyphs() {
+		if (listOfSpeciesGlyphs == null || listOfSpeciesGlyphs.isEmpty()) {
+			return false;			
+		}
+		
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param addGraphicalObjects
+	 */
+	public void setAddGraphicalObjects(ListOf<GraphicalObject> addGraphicalObjects) {
+		this.addGraphicalObjects = addGraphicalObjects;
+	}
+
+	/**
+	 * 
+	 * @param dimensions
+	 */
+	public void setDimensions(Dimensions dimensions) {
+		this.dimensions = dimensions;
+	}
+
+	/**
+	 * 
+	 * @param compartmentGlyphs
+	 */
+	public void setListOfCompartmentGlyphs(ListOf<CompartmentGlyph> compartmentGlyphs) {
+		this.compartmentGlyphs = compartmentGlyphs;
+	}
+
+	/**
+	 * 
+	 * @param reactionGlyphs
+	 */
+	public void setListOfReactionGlyphs(ListOf<ReactionGlyph> reactionGlyphs) {
+		this.reactionGlyphs = reactionGlyphs;
+	}
+
+	/**
+	 * 
+	 * @param speciesGlyphs
+	 */
 	public void setListOfSpeciesGlyphs(ListOf<SpeciesGlyph> speciesGlyphs) {
 		if (speciesGlyphs == null) {
 			this.listOfSpeciesGlyphs = new ListOf<SpeciesGlyph>();
@@ -95,61 +250,18 @@ public class Layout extends AbstractNamedSBase {
 		setThisAsParentSBMLObject(this.listOfSpeciesGlyphs);		
 	}
 
-	public void addSpeciesGlyph(SpeciesGlyph speciesGlyph) {
-		if (speciesGlyph != null) {
-			setThisAsParentSBMLObject(speciesGlyph);
-			listOfSpeciesGlyphs.add(speciesGlyph);
-		}
-	}
-
-	public void add(SpeciesGlyph speciesGlyph) {
-		addSpeciesGlyph(speciesGlyph);
-	}
-	
-	public boolean isSetListOfSpeciesGlyphs() {
-		if (listOfSpeciesGlyphs == null || listOfSpeciesGlyphs.isEmpty()) {
-			return false;			
-		}
-		
-		return true;
-	}
-
-	
-	public ListOf<ReactionGlyph> getListOfReactionGlyphs() {
-		return reactionGlyphs;
-	}
-
-	public void setListOfReactionGlyphs(ListOf<ReactionGlyph> reactionGlyphs) {
-		this.reactionGlyphs = reactionGlyphs;
-	}
-
-	public ListOf<TextGlyph> getListOfTextGlyphs() {
-		return textGlyphs;
-	}
-
+	/**
+	 * 
+	 * @param textGlyphs
+	 */
 	public void setListOfTextGlyphs(ListOf<TextGlyph> textGlyphs) {
 		this.textGlyphs = textGlyphs;
 	}
 
-	public ListOf<GraphicalObject> getAddGraphicalObjects() {
-		return addGraphicalObjects;
-	}
-
-	public void setAddGraphicalObjects(ListOf<GraphicalObject> addGraphicalObjects) {
-		this.addGraphicalObjects = addGraphicalObjects;
-	}
-
-	public Layout(int level, int version) {
-		super(level, version);
-	}
-
-	
-	@Override
-	public SBase clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
+	 */
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

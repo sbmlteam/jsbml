@@ -60,7 +60,7 @@ public abstract class MathContainer extends AbstractSBase implements
 	 * The MathMl subnodes as a StringBuffer.
 	 */
 	private StringBuffer mathBuffer;
-
+	
 	/**
 	 * Creates a MathContainer instance. By default, the formula, math and
 	 * mathBuffer are null.
@@ -136,6 +136,14 @@ public abstract class MathContainer extends AbstractSBase implements
 	 */
 	// @Override
 	public abstract MathContainer clone();
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
+	 */
+	public boolean containsUndeclaredUnits() {
+		return isSetMath() ? math.containsUndeclaredUnits() : false;
+	}
 
 	/*
 	 * (non-Javadoc)

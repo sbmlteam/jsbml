@@ -48,7 +48,7 @@ import org.sbml.jsbml.ListOf.Type;
 public class KineticLaw extends MathContainer {
 
 	/**
-	 * Represents the listOfLocalParameters or listOfParameters subelement of a
+	 * Represents the listOfLocalParameters or listOfParameters sub-element of a
 	 * kineticLaw element.
 	 */
 	private ListOf<LocalParameter> listOfParameters;
@@ -69,9 +69,7 @@ public class KineticLaw extends MathContainer {
 	 */
 	public KineticLaw() {
 		super();
-		listOfParameters = null;
-		this.timeUnitsID = null;
-		this.substanceUnitsID = null;
+		initDefaults();
 	}
 
 	/**
@@ -83,9 +81,7 @@ public class KineticLaw extends MathContainer {
 	 */
 	public KineticLaw(int level, int version) {
 		super(level, version);
-		listOfParameters = null;
-		this.timeUnitsID = null;
-		this.substanceUnitsID = null;
+		initDefaults();
 	}
 
 	/**
@@ -95,11 +91,10 @@ public class KineticLaw extends MathContainer {
 	 */
 	public KineticLaw(KineticLaw kineticLaw) {
 		super(kineticLaw);
+		initDefaults();
 		if (kineticLaw.isSetListOfParameters()) {
 			setListOfLocalParameters((ListOf<LocalParameter>) kineticLaw
 					.getListOfParameters().clone());
-		} else {
-			listOfParameters = null;
 		}
 		if (kineticLaw.isSetTimeUnits()) {
 			this.timeUnitsID = new String(kineticLaw.getTimeUnits());
@@ -129,7 +124,7 @@ public class KineticLaw extends MathContainer {
 	 * @seeorg.sbml.jsbml.element.SBase#addChangeListener(org.sbml.squeezer.io.
 	 * SBaseChangedListener )
 	 */
-	// @Override
+	@Override
 	public void addChangeListener(SBaseChangedListener l) {
 		super.addChangeListener(l);
 		if (isSetListOfParameters()) {
@@ -154,12 +149,6 @@ public class KineticLaw extends MathContainer {
 		}
 	}
 
-  private void initListOfParameters() {
-    this.listOfParameters = new ListOf<LocalParameter>(getLevel(), getVersion());
-    setThisAsParentSBMLObject(this.listOfParameters);
-    this.listOfParameters.setSBaseListType(Type.listOfParameters);
-  }
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -167,24 +156,6 @@ public class KineticLaw extends MathContainer {
 	 */
 	public KineticLaw clone() {
 		return new KineticLaw(this);
-	}
-
-	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether the
-	 * math expression of this KineticLaw contains parameters/numbers with
-	 * undeclared units.
-	 * 
-	 * A return value of true indicates that the <code>UnitDefinition</code>
-	 * returned by getDerivedUnitDefinition() may not accurately represent the
-	 * units of the expression.
-	 * 
-	 * @return <code>true</code> if the math expression of this KineticLaw
-	 *         includes parameters/numbers with undeclared units,
-	 *         <code>false</code> otherwise.
-	 */
-	public boolean containsUndeclaredUnits() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	/*
@@ -224,48 +195,14 @@ public class KineticLaw extends MathContainer {
 	}
 
 	/**
-	 * Calculates and returns a <code>UnitDefinition</code> that expresses the
-	 * units of measurement assumed for the 'math' expression of this
-	 * <code>KineticLaw</code>.
-	 * 
-	 * The units are calculated based on the mathematical expression in the
-	 * KineticLaw and the model quantities referenced by <ci> elements used
-	 * within that expression. The getDerivedUnitDefinition() method returns the
-	 * calculated units. <br/>
-	 * Note that the functionality that facilitates unit analysis depends on the
-	 * model as a whole. Thus, in cases where the object has not been added to a
-	 * model or the model itself is incomplete, unit analysis is not possible
-	 * and this method will return NULL.
-	 * 
-	 * 
-	 * @return <b>Warning</b>:Note that it is possible the 'math' expression in
-	 *         the KineticLaw contains pure numbers or parameters with
-	 *         undeclared units. In those cases, it is not possible to calculate
-	 *         the units of the overall expression without making assumptions.
-	 *         LibSBML does not make assumptions about the units, and
-	 *         getDerivedUnitDefinition() only returns the units as far as it is
-	 *         able to determine them. For example, in an expression X + Y, if X
-	 *         has unambiguously-defined units and Y does not, it will return
-	 *         the units of X. <b>It is important that callers also invoke the
-	 *         method</b> <code>containsUndeclaredUnits()</code> <b>to determine
-	 *         whether this situation holds</b>. Callers may wish to take
-	 *         suitable actions in those scenarios.
-	 * 
-	 * @see containsUndeclaredUnits
-	 */
-	public UnitDefinition getDerivedUnitDefinition() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
 	 * 
 	 * @return the listOfParameters of this KineticLaw. Return null if it is not
 	 *         set.
 	 */
 	public ListOf<LocalParameter> getListOfParameters() {
-		if (!isSetListOfParameters())
+		if (!isSetListOfParameters()) {
 			initListOfParameters();
+		}
 		return listOfParameters;
 	}
 
@@ -370,6 +307,25 @@ public class KineticLaw extends MathContainer {
 	public UnitDefinition getTimeUnitsInstance() {
 		Model m = getModel();
 		return m != null ? m.getUnitDefinition(this.timeUnitsID) : null;
+	}
+
+	/**
+	 * 
+	 */
+	public void initDefaults() {
+		initListOfParameters();
+		this.timeUnitsID = null;
+		this.substanceUnitsID = null;
+	}
+
+	/**
+	 * 
+	 */
+	private void initListOfParameters() {
+		this.listOfParameters = new ListOf<LocalParameter>(getLevel(),
+				getVersion());
+		setThisAsParentSBMLObject(this.listOfParameters);
+		this.listOfParameters.setSBaseListType(Type.listOfParameters);
 	}
 
 	/**

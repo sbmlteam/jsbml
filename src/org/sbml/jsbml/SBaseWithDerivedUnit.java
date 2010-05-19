@@ -66,4 +66,19 @@ public interface SBaseWithDerivedUnit extends SBase {
 	 */
 	public String getDerivedUnits();
 
+	/**
+	 * Returns <code>true</code> or <code>false</code> depending on whether this
+	 * {@link SBaseWithDerivedUnit} refers to elements such as parameters or
+	 * numbers with undeclared units.
+	 * 
+	 * A return value of true indicates that the <code>UnitDefinition</code>
+	 * returned by {@see getDerivedUnitDefinition()} may not accurately
+	 * represent the units of the expression.
+	 * 
+	 * @return <code>true</code> if the math expression of this {@link SBaseWithDerivedUnit}
+	 *         includes parameters/numbers with undeclared units,
+	 *         <code>false</code> otherwise.
+	 */
+	public boolean containsUndeclaredUnits();
+
 }

@@ -195,22 +195,33 @@ public class Event extends AbstractNamedSBase {
 		listOfEventAssignments.add(eventass);
 	}
 
-  /**
- * Remove all the EventAssignments of the listOfEventAssignments of this
- * Event.
- */
-public void clearListOfEventAssignments() {
-	this.listOfEventAssignments.clear();
-}
+	/**
+	 * Remove all the EventAssignments of the listOfEventAssignments of this
+	 * Event.
+	 */
+	public void clearListOfEventAssignments() {
+		this.listOfEventAssignments.clear();
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#clone()
 	 */
-	// @Override
+	@Override
 	public Event clone() {
 		return new Event(this);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Delay createDelay() {
+		Delay d = new Delay(getLevel(), getVersion());
+		d.addAllChangeListeners(getSetOfSBaseChangeListeners());
+		setDelay(d);
+		return d;
 	}
 
 	/**
@@ -218,10 +229,19 @@ public void clearListOfEventAssignments() {
 	 * @return the new EventAssignment instance.
 	 */
 	public EventAssignment createEventAssignment() {
-		EventAssignment ea = new EventAssignment(level, version);
+		EventAssignment ea = new EventAssignment(getLevel(), getVersion());
 		addEventAssignment(ea);
-
 		return ea;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Trigger createTrigger() {
+		Trigger t = new Trigger(getLevel(), getVersion());
+		setTrigger(t);
+		return t;
 	}
 
 	/*
@@ -229,7 +249,7 @@ public void clearListOfEventAssignments() {
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
 	 */
-	// @Override
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Event) {
 			Event e = (Event) o;
@@ -351,7 +371,7 @@ public void clearListOfEventAssignments() {
 	}
 
 	/**
-	 * initialises the default values of this Event.
+	 * Initializes the default values of this {@link Event}.
 	 */
 	public void initDefaults() {
 		useValuesFromTriggerTime = new Boolean(true);
@@ -361,11 +381,16 @@ public void clearListOfEventAssignments() {
 		delay = null;
 	}
 
+	/**
+	 * 
+	 */
 	private void initListOfEventAssignments() {
-	    this.listOfEventAssignments = new ListOf<EventAssignment>(getLevel(), getVersion());
-	    setThisAsParentSBMLObject(this.listOfEventAssignments);
-	    this.listOfEventAssignments.setSBaseListType(Type.listOfEventAssignments);
-	  }
+		this.listOfEventAssignments = new ListOf<EventAssignment>(getLevel(),
+				getVersion());
+		setThisAsParentSBMLObject(this.listOfEventAssignments);
+		this.listOfEventAssignments
+				.setSBaseListType(Type.listOfEventAssignments);
+	}
 
 	/**
 	 * 
@@ -468,7 +493,6 @@ public void clearListOfEventAssignments() {
 	 * @return the removed ith EventAssignment instance.
 	 */
 	public EventAssignment removeEventAssignment(int i) {
-
 		if (i >= listOfEventAssignments.size() || i < 0) {
 			return null;
 		}

@@ -144,6 +144,18 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
+	 */
+	public boolean containsUndeclaredUnits() {
+		if (isSetStoichiometryMath()) {
+			return getStoichiometryMath().containsUndeclaredUnits();
+		}
+		return isSetStoichiometry() ? false : true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
 	 */
 	@Override
@@ -252,10 +264,11 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	}
 
 	/**
-	 * Initialises the default values of this SpeciesReference.
+	 * Initializes the default values of this SpeciesReference.
 	 */
 	public void initDefaults() {
-	  // See http://sbml.org/Community/Wiki/SBML_Level_3_Core/Reaction_changes/Changes_to_stoichiometry
+		// See
+		// http://sbml.org/Community/Wiki/SBML_Level_3_Core/Reaction_changes/Changes_to_stoichiometry
 		if (getLevel() > 2) {
 			setConstant(true);
 			setStoichiometry(1d);
@@ -290,7 +303,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * @return true if the denominator is not null.
 	 */
 	public boolean isSetDenominator() {
-		return this.denominator != null;
+		return denominator != null;
 	}
 
 	/**
@@ -298,7 +311,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * @return true if the stoichiometry of this SpeciesReference is not null.
 	 */
 	public boolean isSetStoichiometry() {
-		return isSetStoichiometry;
+		return isSetStoichiometry && (stoichiometry != null);
 	}
 
 	/**

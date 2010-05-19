@@ -162,7 +162,10 @@ public class LayoutParser implements ReadingParser, WritingParser {
 		return contextObject;
 	}
 
-	// @Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.stax.ReadingParser#processCharactersOf(java.lang.String, java.lang.String, java.lang.Object)
+	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		// TODO : the basic Groups elements don't have any text. SBML syntax
@@ -342,6 +345,30 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 }
 
+/**
+ * 
+ * 
+ *
+ */
 enum LayoutList {
-	none, listOfLayouts, listOfSpeciesGlyphs, listOfCompartmentGlyphs, listOfCurves
+	/**
+	 * 
+	 */
+	none,
+	/**
+	 * 
+	 */
+	listOfLayouts,
+	/**
+	 * 
+	 */
+	listOfSpeciesGlyphs,
+	/**
+	 * 
+	 */
+	listOfCompartmentGlyphs,
+	/**
+	 * 
+	 */
+	listOfCurves
 };

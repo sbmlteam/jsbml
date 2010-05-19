@@ -33,47 +33,72 @@ package org.sbml.jsbml.ext.layout;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 
+/**
+ * 
+ * 
+ *
+ */
 public class ExtendedLayoutModel extends Model {
 
+	/**
+	 * 
+	 */
 	protected ListOf<Layout> listOfLayouts = new ListOf<Layout>();
+	/**
+	 * 
+	 */
 	protected Model model;
 	
+	/**
+	 * 
+	 */
 	public ExtendedLayoutModel() {
 		
 	}
 	
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public ExtendedLayoutModel(int level, int version) {
 		// TODO : add package version as well
 		super(level, version);
 	}
 	
+	/**
+	 * 
+	 * @param model
+	 */
 	public ExtendedLayoutModel(Model model) {
 		this.model = model;
 		model.setThisAsParentSBMLObject(this);
 	}
 	
-
-	public ListOf<Layout> getListOfLayouts() {
-		return listOfLayouts;
+	/**
+	 * 
+	 * @param layout
+	 */
+	public void add(Layout layout) {
+		addLayout(layout);
 	}
 
-	public void setListOfLayouts(ListOf<Layout> listOfLayouts) {
-		if (listOfLayouts == null) {
-			this.listOfLayouts = new ListOf<Layout>();
-		} else {
-			this.listOfLayouts = listOfLayouts;
+	/**
+	 * 
+	 * @param layout
+	 */
+	public void addLayout(Layout layout) {
+		if (layout != null) {
+			setThisAsParentSBMLObject(layout);
+			listOfLayouts.add(layout);
 		}
-		setThisAsParentSBMLObject(listOfLayouts);
 	}
 
-	public boolean isSetListOfLayouts() {
-		if (listOfLayouts == null || listOfLayouts.isEmpty()) {
-			return false;			
-		}
-		
-		return true;
-	}
-
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public Layout getLayout(int i) {
 		if (i >= 0 && i < listOfLayouts.size()) {
 			return listOfLayouts.get(i);
@@ -82,15 +107,37 @@ public class ExtendedLayoutModel extends Model {
 		return null;
 	}
 
-	public void addLayout(Layout layout) {
-		if (layout != null) {
-			setThisAsParentSBMLObject(layout);
-			listOfLayouts.add(layout);
+	/**
+	 * 
+	 * @return
+	 */
+	public ListOf<Layout> getListOfLayouts() {
+		return listOfLayouts;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetListOfLayouts() {
+		if (listOfLayouts == null || listOfLayouts.isEmpty()) {
+			return false;			
 		}
+		
+		return true;
 	}
 	
-	public void add(Layout layout) {
-		addLayout(layout);
+	/**
+	 * 
+	 * @param listOfLayouts
+	 */
+	public void setListOfLayouts(ListOf<Layout> listOfLayouts) {
+		if (listOfLayouts == null) {
+			this.listOfLayouts = new ListOf<Layout>();
+		} else {
+			this.listOfLayouts = listOfLayouts;
+		}
+		setThisAsParentSBMLObject(listOfLayouts);
 	}
 		
 }
