@@ -31,6 +31,8 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
+import org.sbml.jsbml.util.NameFilter;
+
 /**
  * Represents the reaction XML element of a SBML file.
  * 
@@ -286,7 +288,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 * 
 	 * @see org.sbml.jsbml.element.NamedSBase#equals(java.lang.Object)
 	 */
-	// @Override
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Reaction) {
 			boolean equal = super.equals(o);
@@ -464,26 +466,13 @@ public class Reaction extends AbstractNamedSBase implements
 
 	/**
 	 * 
-	 * @param idOrName
+	 * @param id
 	 * @return the SpeciesReference of the listOfProducts which has 'id' as id
 	 *         (or name depending on the level and version). Can be null if it
 	 *         doesn't exist.
 	 */
-	public SpeciesReference getProduct(String idOrName) {
-		if (isSetListOfProducts()) {
-			for (SpeciesReference sp : listOfProducts) {
-				if (sp.isSetId()) {
-					if (sp.getId().equals(idOrName)) {
-						return sp;
-					}
-				} else if (sp.isSetName()) {
-					if (sp.getName().equals(idOrName)) {
-						return sp;
-					}
-				}
-			}
-		}
-		return null;
+	public SpeciesReference getProduct(String id) {
+		return getListOfProducts().firstHit(new NameFilter(id));
 	}
 
 	/**
@@ -498,26 +487,13 @@ public class Reaction extends AbstractNamedSBase implements
 
 	/**
 	 * 
-	 * @param idOrName
+	 * @param id
 	 * @return the SpeciesReference of the listOfReactants which has 'id' as id
 	 *         (or name depending on the level and version). Can be null if it
 	 *         doesn't exist.
 	 */
-	public SpeciesReference getReactant(String idOrName) {
-		if (isSetListOfReactants()) {
-			for (SpeciesReference sp : listOfReactants) {
-				if (sp.isSetId()) {
-					if (sp.getId().equals(idOrName)) {
-						return sp;
-					}
-				} else if (sp.isSetName()) {
-					if (sp.getName().equals(idOrName)) {
-						return sp;
-					}
-				}
-			}
-		}
-		return null;
+	public SpeciesReference getReactant(String id) {
+		return getListOfReactants().firstHit(new NameFilter(id));
 	}
 
 	/**
@@ -767,12 +743,21 @@ public class Reaction extends AbstractNamedSBase implements
 	 */
 	private boolean references(ListOf<? extends SimpleSpeciesReference> list,
 			Species s) {
-		for (SimpleSpeciesReference specRef : list)
-			if (specRef.getSpecies().equals(s.getId()))
+		for (SimpleSpeciesReference specRef : list) {
+			if (specRef.getSpecies().equals(s.getId())) {
 				return true;
+			}
+		}
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param list
+	 * @param id
+	 * @return
+	 */
 	private <T> SimpleSpeciesReference remove(
 			ListOf<? extends SimpleSpeciesReference> list, String id) {
 		SimpleSpeciesReference deleted = null;
@@ -801,7 +786,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 *         index is out of range.
 	 */
 	public ModifierSpeciesReference removeModifier(int i) {
-		return listOfModifiers.remove(i);
+		return getListOfModifiers().remove(i);
 	}
 
 	/**
@@ -809,10 +794,8 @@ public class Reaction extends AbstractNamedSBase implements
 	 * 
 	 * @param modspecref
 	 */
-	public void removeModifier(ModifierSpeciesReference modspecref) {
-		if (listOfModifiers.remove(modspecref)) {
-			modspecref.sbaseRemoved();
-		}
+	public boolean removeModifier(ModifierSpeciesReference modspecref) {
+		return getListOfModifiers().remove(modspecref);
 	}
 
 	/**
@@ -878,7 +861,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 *         is out of range.
 	 */
 	public SpeciesReference removeReactant(int i) {
-		return listOfReactants.remove(i);
+		return getListOfReactants().remove(i);
 	}
 
 	/**
@@ -887,10 +870,8 @@ public class Reaction extends AbstractNamedSBase implements
 	 * 
 	 * @param specref
 	 */
-	public void removeReactant(SpeciesReference specref) {
-		if (listOfReactants.remove(specref)) {
-			specref.sbaseRemoved();
-		}
+	public boolean removeReactant(SpeciesReference specref) {
+		return getListOfReactants().remove(specref);
 	}
 
 	/**
