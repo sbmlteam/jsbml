@@ -42,7 +42,8 @@ import java.util.HashMap;
  * @opt visibility
  * @composed 0..1 math 1 ASTNode
  */
-public abstract class MathContainer extends AbstractSBase implements SBaseWithDerivedUnit {
+public abstract class MathContainer extends AbstractSBase implements
+		SBaseWithDerivedUnit {
 
 	/**
 	 * Represents the 'formula' XML attribute of this object.
@@ -59,6 +60,7 @@ public abstract class MathContainer extends AbstractSBase implements SBaseWithDe
 	 * The MathMl subnodes as a StringBuffer.
 	 */
 	private StringBuffer mathBuffer;
+
 	/**
 	 * Creates a MathContainer instance. By default, the formula, math and
 	 * mathBuffer are null.
@@ -69,6 +71,7 @@ public abstract class MathContainer extends AbstractSBase implements SBaseWithDe
 		this.mathBuffer = null;
 		this.formula = null;
 	}
+
 	/**
 	 * Creates a MathContainer instance from an ASTNode, level and version. By
 	 * default, the formula and mathBuffer are null.
@@ -172,27 +175,7 @@ public abstract class MathContainer extends AbstractSBase implements SBaseWithDe
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
-	 */
-	@SuppressWarnings("deprecation")
-	public String getDerivedUnits() {
-		UnitDefinition ud = getDerivedUnitDefinition();
-		Model m = getModel();
-		if (m != null) {
-			if (m.getUnitDefinition(ud.getId()) != null)
-				return ud.getId();
-		}
-		if (ud.getNumUnits() == 1) {
-			Unit u = ud.getUnit(0);
-			if (u.getOffset() == 0 && u.getMultiplier() == 1
-					&& u.getScale() == 0 && u.getExponent() == 1)
-				return u.getKind().toString();
-		}
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
 	 */
 	public UnitDefinition getDerivedUnitDefinition() {
@@ -210,6 +193,28 @@ public abstract class MathContainer extends AbstractSBase implements SBaseWithDe
 				}
 		}
 		return ud;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
+	 */
+	@SuppressWarnings("deprecation")
+	public String getDerivedUnits() {
+		UnitDefinition ud = getDerivedUnitDefinition();
+		Model m = getModel();
+		if (m != null) {
+			if (m.getUnitDefinition(ud.getId()) != null)
+				return ud.getId();
+		}
+		if (ud.getNumUnits() == 1) {
+			Unit u = ud.getUnit(0);
+			if (u.getOffset() == 0 && u.getMultiplier() == 1
+					&& u.getScale() == 0 && u.getExponent() == 1)
+				return u.getKind().toString();
+		}
+		return null;
 	}
 
 	/**
@@ -332,7 +337,7 @@ public abstract class MathContainer extends AbstractSBase implements SBaseWithDe
 	 * @param math
 	 */
 	public void setMath(ASTNode math) {
-		this.math = math.clone();
+		this.math = math;
 		this.math.parentSBMLObject = this;
 		stateChanged();
 	}

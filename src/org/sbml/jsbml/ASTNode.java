@@ -707,8 +707,11 @@ public class ASTNode implements TreeNode {
 		this.name = astNode.name == null ? null : new String(astNode.name);
 		this.variable = astNode.variable;
 		this.numerator = astNode.numerator;
+		this.parent = astNode.getParent();
 		for (ASTNode child : astNode.listOfNodes) {
-			this.listOfNodes.add(child.clone());
+			ASTNode c = child.clone();
+			c.parent = this;
+			this.listOfNodes.add(c);
 		}
 	}
 
@@ -1488,7 +1491,7 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @see javax.swing.tree.TreeNode#getParent()
 	 */
-	public TreeNode getParent() {
+	public ASTNode getParent() {
 		return parent;
 	}
 
