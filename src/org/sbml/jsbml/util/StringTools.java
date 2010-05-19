@@ -165,9 +165,10 @@ public class StringTools {
 	 * @return
 	 */
 	public static final String toString(double value) {
-		if (((int) value) - value == 0)
+		if (((int) value) - value == 0) {
 			return Integer.toString((int) value);
-		return String.format("%.3f", value);
+		}
+		return String.format("%.3f", Double.valueOf(value));
 	}
 
 	/**

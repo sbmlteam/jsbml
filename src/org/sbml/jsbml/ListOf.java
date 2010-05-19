@@ -236,8 +236,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.LinkedList#addAll(Collection<? extends T> c)
 	 */
 	public boolean addAll(Collection<? extends T> c) {
-		for (T element : c)
+		for (T element : c) {
 			setThisAsParentSBMLObject(element);
+		}
 		return listOf.addAll(c);
 	}
 
@@ -637,9 +638,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * 
 	 * @see java.util.LinkedList#toArray()
 	 */
-	@SuppressWarnings("unchecked")
-	public T[] toArray() {
-		return (T[]) listOf.toArray();
+	public Object[] toArray() {
+		return listOf.toArray();
 	}
 
 	/*

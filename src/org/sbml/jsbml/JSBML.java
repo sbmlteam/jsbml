@@ -98,11 +98,7 @@ public class JSBML {
 	 */
 	public static boolean isValidUnitKindString(String string, int level,
 			int version) {
-		Unit.Kind unitKind = forName(string);
-		if (unitKind == null) {
-			return false;
-		}
-		return unitKind.isValidUnitKindString(level, version);
+		return Unit.Kind.isValidUnitKindString(string, level, version);
 	}
 
 	/**

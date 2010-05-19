@@ -29,6 +29,8 @@ public class UnitDefinitionTest {
 		ud.addUnit(new Unit(Unit.Kind.GRAM, 0, 2, 4));
 		System.out.println(UnitDefinition.printUnits(ud, true));
 		System.out.println(UnitDefinition.printUnits(ud.simplify(), true));
+		ud.convertToSIUnits();
+		System.out.println(UnitDefinition.printUnits(ud,true));
 
 		// AMPERE CELSIUS GRAM NEWTON SIEMENS VOLT WEBER
 		// A °C^3 1 N^2 S^4 V^2 1

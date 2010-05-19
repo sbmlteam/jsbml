@@ -74,6 +74,9 @@ public abstract class AbstractSBase implements SBase {
 	 * element in a SBML file.
 	 */
 	private String metaId;
+	/**
+	 * 
+	 */
 	private Set<String> namespaces = new TreeSet<String>();
 	/**
 	 * notes of the SBML component. Matches the notes XML node in a SBML file.
@@ -117,12 +120,12 @@ public abstract class AbstractSBase implements SBase {
 		level = null;
 		version = null;
 		parentSBMLObject = null;
-		setOfListeners = new HashSet<SBaseChangedListener>();
 		annotation = null;
 		notesBuffer = null;
+		setOfListeners = new HashSet<SBaseChangedListener>();
 		extensions = new HashMap<String, SBase>();
 	}
-
+	
 	/**
 	 * Creates an AbstractSBase instance from an id and name. By default, the
 	 * sboTerm is -1, the metaid, notes, parentSBMLObject, annotation, level,
@@ -145,11 +148,11 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public AbstractSBase(SBase sb) {
 		this();
+		this.parentSBMLObject = sb.getParentSBMLObject();
 		if (sb.isSetLevel() && sb.isSetVersion()) {
 			setLevel(sb.getLevel());
 			setVersion(sb.getVersion());
 		}
-
 		if (sb.isSetSBOTerm()) {
 			this.sboTerm = sb.getSBOTerm();
 		}
@@ -159,8 +162,6 @@ public abstract class AbstractSBase implements SBase {
 		if (sb.isSetNotes()) {
 			this.notes = new String(sb.getNotesString());
 		}
-		this.parentSBMLObject = sb.getParentSBMLObject();
-		this.setOfListeners = new HashSet<SBaseChangedListener>();
 		if (sb instanceof AbstractSBase) {
 			this.setOfListeners.addAll(((AbstractSBase) sb).setOfListeners);
 		}
@@ -171,10 +172,18 @@ public abstract class AbstractSBase implements SBase {
 		if (sb.isSetNotesBuffer()) {
 			this.notesBuffer = new StringBuffer(sb.getNotesBuffer());
 		}
-		this.extensions = new HashMap<String, SBase>();
 		if (sb.isExtendedByOtherPackages()) {
 			this.extensions.putAll(sb.getExtensionPackages());
 		}
+	}
+
+	/**
+	 * 
+	 * @param listeners
+	 * @return
+	 */
+	public boolean addAllChangeListeners(Set<SBaseChangedListener> listeners) {
+		return setOfListeners.addAll(listeners);
 	}
 
 	/**
@@ -564,6 +573,16 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public String getSBOTermID() {
 		return SBO.intToString(sboTerm);
+	}
+
+	/**
+	 * Delivers all {@link SBaseChangeListener}s that are assigned to this
+	 * element.
+	 * 
+	 * @return
+	 */
+	public Set<SBaseChangedListener> getSetOfSBaseChangeListeners() {
+		return setOfListeners;
 	}
 
 	/*
