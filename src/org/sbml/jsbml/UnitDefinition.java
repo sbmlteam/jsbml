@@ -30,6 +30,9 @@
 
 package org.sbml.jsbml;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.StringTools;
 
@@ -51,6 +54,25 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public static final UnitDefinition area(int level, int version) {
 		return getPredefinedUnit("area", level, version);
+	}
+
+	/**
+	 * This method converts this unit definition to a
+	 */
+	public void convertToSIUnits() {
+		UnitDefinition ud[] = new UnitDefinition[getNumUnits()];
+		Set<SBaseChangedListener> listeners = new HashSet<SBaseChangedListener>(
+				getSetOfSBaseChangeListeners());
+		removeAllSBaseChangeListeners();
+		for (int i = ud.length - 1; i >= 0; i--) {
+			ud[i] = Unit.convertToSI(removeUnit(i));
+		}
+		for (UnitDefinition u : ud) {
+			getListOfUnits().addAll(u.getListOfUnits());
+		}
+		simplify();
+		addAllChangeListeners(listeners);
+		stateChanged();
 	}
 
 	/**
@@ -227,9 +249,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public static String printUnits(UnitDefinition ud, boolean compact) {
 		StringBuilder sb = new StringBuilder();
-		if (ud == null)
+		if (ud == null) {
 			sb.append("null");
-		else
+		} else {
 			for (int i = 0; i < ud.getNumUnits(); i++) {
 				Unit unit = ud.getUnit(i);
 				if (i > 0) {
@@ -245,6 +267,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 									.getMultiplier()), unit.getScale()));
 				}
 			}
+		}
 		return sb.toString();
 	}
 

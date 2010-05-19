@@ -341,16 +341,22 @@ public class Unit extends AbstractSBase {
 		}
 
 		/**
-		 * This method is equivalent to calling isDefinedIn.
+		 * This method is equivalent to converting the string to a Unit.Kind and
+		 * then calling its isDefinedIn method.
 		 * 
+		 * @param unitKind
 		 * @param level
 		 * @param version
 		 * @return
 		 */
-		public boolean isValidUnitKindString(int level, int version) {
-			return isDefinedIn(level, version);
+		public static boolean isValidUnitKindString(String unitKind, int level,
+				int version) {
+			Kind uk = Kind.valueOf(unitKind);
+			if (uk == null) {
+				return false;
+			}
+			return uk.isDefinedIn(level, version);
 		}
-
 	}
 
 	/**
@@ -413,57 +419,43 @@ public class Unit extends AbstractSBase {
 	 * @return a UnitDefinition object containing the SI unit.
 	 */
 	public static UnitDefinition convertToSI(Unit unit) {
-		// The following code has simply been ported from libSBML 4.0.1.
-		double newMultiplier;
-		Unit.Kind uKind = unit.getKind();
-		Unit newUnit = unit.clone();
-		UnitDefinition ud = new UnitDefinition(unit.getLevel(), unit
-				.getVersion());
-		removeScale(newUnit);
+		double mult = unit.getMultiplier();
+		int scale = unit.getScale();
+		int exp = unit.getExponent();
+		int l = unit.getLevel();
+		int v = unit.getVersion();
+		UnitDefinition ud = new UnitDefinition(l, v);
 
-		switch (uKind) {
+		switch (unit.getKind()) {
 		case AMPERE:
 			/* Ampere is the SI unit of current */
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(mult, scale, Kind.AMPERE, exp, l, v));
 			break;
+
 		case BECQUEREL:
 		case HERTZ:
-			/* 1 becquerel = 1 sec^-1 = (0.1 sec)^-1 */
-			/* 1 hertz = 1 sec^-1 = (0.1 sec) ^-1 */
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setExponent(newUnit.getExponent() * -1);
-			/* hack to force multiplier to be double precision */
-			newMultiplier = Math.pow(newUnit.getMultiplier(), -1d);
-
-			// ossMultiplier << newMultiplier;
-			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
-
-			newUnit.setMultiplier(newMultiplier);
-			ud.addUnit(newUnit);
+			/* 1 Becquerel = 1 sec^-1 */
+			/* 1 Hertz = 1 sec^-1 */
+			ud.addUnit(new Unit(Math.pow(mult, -1d), scale, Kind.SECOND, -exp,
+					l, v));
 			break;
 
 		case CANDELA:
-			/* candela is the SI unit of luminous intensity */
-			ud.addUnit(newUnit);
+			/* Candela is the SI unit of luminous intensity */
+			ud.addUnit(new Unit(mult, scale, Kind.CANDELA, exp, l, v));
 			break;
 
 		case CELSIUS:
-			/* 1 celsius = 1 Kelvin + 273.15 */
-			newUnit.setKind(Unit.Kind.KELVIN);
+			/* 1 °Celsius = 1 Kelvin + 273.15 */
+			Unit newUnit = new Unit(mult, scale, Kind.KELVIN, exp, l, v);
 			newUnit.setOffset(273.15);
 			ud.addUnit(newUnit);
 			break;
 
 		case COULOMB:
-			/* 1 coulomb = 1 Ampere second */
-			newUnit.setKind(Unit.Kind.AMPERE);
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setExponent(unit.getExponent());
-			newUnit.setMultiplier(1);
-			ud.addUnit(newUnit);
+			/* 1 Coulomb = 1 Ampere * second */
+			ud.addUnit(new Unit(mult, scale, Kind.AMPERE, exp, l, v));
+			ud.addUnit(new Unit(mult, scale, Kind.SECOND, exp, l, v));
 			break;
 
 		case DIMENSIONLESS:
@@ -471,400 +463,157 @@ public class Unit extends AbstractSBase {
 		case RADIAN:
 		case STERADIAN:
 			/* all dimensionless */
-			newUnit.setKind(Unit.Kind.DIMENSIONLESS);
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(mult, scale, Kind.DIMENSIONLESS, exp, l, v));
 			break;
 
 		case FARAD:
 			/* 1 Farad = 1 m^-2 kg^-1 s^4 A^2 */
-			newUnit.setKind(Unit.Kind.AMPERE);
-			/* hack to force multiplier to be double precision */
-			newMultiplier = Math.sqrt(newUnit.getMultiplier());
-
-			// ossMultiplier << newMultiplier;
-			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
-
-			newUnit.setMultiplier(newMultiplier);
-			newUnit.setExponent(2 * newUnit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.KILOGRAM);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-1 * unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.METRE);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-2 * unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(4 * unit.getExponent());
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(Math.sqrt(mult), scale, Kind.AMPERE, 2 * exp,
+					l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, -exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.METRE, -2 * exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.SECOND, 4 * exp, l, v));
 			break;
 
 		case GRAM:
 			/* 1 gram = 0.001 Kg */
-			newUnit.setKind(Unit.Kind.KILOGRAM);
-			newUnit.setMultiplier(0.001 * newUnit.getMultiplier());
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(0.001 * mult, scale, Kind.KILOGRAM, exp, l, v));
 			break;
 
 		case GRAY:
 		case SIEVERT:
 			/* 1 Gray = 1 m^2 sec^-2 */
 			/* 1 Sievert = 1 m^2 sec^-2 */
-			newUnit.setKind(Unit.Kind.METRE);
-			/* hack to force multiplier to be double precision */
-			newMultiplier = Math.sqrt(newUnit.getMultiplier());
-
-			// ossMultiplier << newMultiplier;
-			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
-
-			newUnit.setMultiplier(newMultiplier);
-			newUnit.setExponent(2 * newUnit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent((-2) * unit.getExponent());
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(mult, scale, Kind.METRE, 2 * exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2) * exp, l, v));
 			break;
 
 		case HENRY:
 			/* 1 Henry = 1 m^2 kg s^-2 A^-2 */
-			newUnit.setKind(Unit.Kind.AMPERE);
-			/* hack to force multiplier to be double precision */
-			newMultiplier = (1d / Math.sqrt(newUnit.getMultiplier()));
-
-			// ossMultiplier << newMultiplier;
-			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
-
-			newUnit.setMultiplier(newMultiplier);
-			newUnit.setExponent(-2 * newUnit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.KILOGRAM);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.METRE);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(2 * unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-2 * unit.getExponent());
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(1d / Math.sqrt(mult), scale, Kind.AMPERE, (-2)
+					* exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.METRE, 2 * exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2) * exp, l, v));
 			break;
 
 		case JOULE:
 			/* 1 joule = 1 m^2 kg s^-2 */
-			newUnit.setKind(Unit.Kind.KILOGRAM);
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.METRE);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(2 * unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-2 * unit.getExponent());
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(mult, scale, Kind.KILOGRAM, exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.METRE, 2 * exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2) * exp, l, v));
 			break;
 
 		case KATAL:
-			/* 1 katal = 1 mol s^-1 */
-			newUnit.setKind(Unit.Kind.MOLE);
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-1 * unit.getExponent());
-			ud.addUnit(newUnit);
+			/* 1 katal = 1 mol * s^-1 */
+			ud.addUnit(new Unit(mult, scale, Kind.MOLE, exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.SECOND, -exp, l, v));
 			break;
 
 		case KELVIN:
 			/* Kelvin is the SI unit of temperature */
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(mult, scale, Kind.KELVIN, exp, l, v));
 			break;
 
 		case KILOGRAM:
 			/* Kilogram is the SI unit of mass */
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(mult, scale, Kind.KILOGRAM, exp, l, v));
 			break;
 
 		case LITER:
 		case LITRE:
 			/* 1 litre = 0.001 m^3 = (0.1 m)^3 */
-			newUnit.setKind(Unit.Kind.METRE);
-			newUnit.setExponent(newUnit.getExponent() * 3);
-			/* hack to force multiplier to be double precision */
-			newMultiplier = Math
-					.pow((newUnit.getMultiplier() * 0.001), 1d / 3d);
-
-			// ossMultiplier << newMultiplier;
-			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
-
-			newUnit.setMultiplier(newMultiplier);
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(Math.pow(0.001 * mult, 1d / 3d), scale,
+					Kind.METRE, 3 * exp, l, v));
 			break;
 
 		case LUMEN:
-			/* 1 lumen = 1 candela */
-			newUnit.setKind(Unit.Kind.CANDELA);
-			ud.addUnit(newUnit);
+			/* 1 Lumen = 1 Candela */
+			ud.addUnit(new Unit(mult, scale, Kind.CANDELA, exp, l, v));
 			break;
 
 		case LUX:
-			/* 1 lux = 1 candela m^-2 */
-			newUnit.setKind(Unit.Kind.CANDELA);
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.METRE);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-2 * unit.getExponent());
-			ud.addUnit(newUnit);
+			/* 1 Lux = 1 Candela * m^-2 */
+			ud.addUnit(new Unit(mult, scale, Kind.CANDELA, exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.METRE, (-2) * exp, l, v));
 			break;
 
 		case METER:
 		case METRE:
 			/* metre is the SI unit of length */
-			newUnit.setKind(Unit.Kind.METRE);
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(mult, scale, Kind.METRE, exp, l, v));
 			break;
 
 		case MOLE:
 			/* mole is the SI unit of substance */
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(mult, scale, Kind.MOLE, exp, l, v));
 			break;
 
 		case NEWTON:
 			/* 1 newton = 1 m kg s^-2 */
-			newUnit.setKind(Unit.Kind.KILOGRAM);
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.METRE);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-2 * unit.getExponent());
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(mult, scale, Kind.KILOGRAM, exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.METRE, exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2) * exp, l, v));
 			break;
 
 		case OHM:
 			/* 1 ohm = 1 m^2 kg s^-3 A^-2 */
-			newUnit.setKind(Unit.Kind.AMPERE);
-			/* hack to force multiplier to be double precision */
-			newMultiplier = (1d / Math.sqrt(newUnit.getMultiplier()));
-
-			// ossMultiplier << newMultiplier;
-			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
-
-			newUnit.setMultiplier(newMultiplier);
-			newUnit.setExponent(-2 * newUnit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.KILOGRAM);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.METRE);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(2 * unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-3 * unit.getExponent());
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(1d / Math.sqrt(mult), scale, Kind.AMPERE, (-2)
+					* exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.METRE, 2 * exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-3) * exp, l, v));
 			break;
 
 		case PASCAL:
-			/* 1 pascal = 1 m^-1 kg s^-2 */
-			newUnit.setKind(Unit.Kind.KILOGRAM);
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.METRE);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-1 * unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-2 * unit.getExponent());
-			ud.addUnit(newUnit);
+			/* 1 pascal = 1 m^-1 * kg s^-2 */
+			ud.addUnit(new Unit(mult, scale, Kind.KILOGRAM, exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.METRE, -exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2) * exp, l, v));
 			break;
 
 		case SECOND:
 			/* second is the SI unit of time */
-			ud.addUnit(newUnit);
+			ud.addUnit(new Unit(mult, scale, Kind.SECOND, exp, l, v));
 			break;
 
 		case SIEMENS:
-			/* 1 siemens = 1 m^-2 kg^-1 s^3 A^2 */
-			newUnit.setKind(Unit.Kind.AMPERE);
-			/* hack to force multiplier to be double precision */
-			newMultiplier = Math.sqrt(newUnit.getMultiplier());
-
-			// ossMultiplier << newMultiplier;
-			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
-
-			newUnit.setMultiplier(newMultiplier);
-			newUnit.setExponent(2 * newUnit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.KILOGRAM);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-1 * unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.METRE);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-2 * unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(3 * unit.getExponent());
-			ud.addUnit(newUnit);
+			/* 1 Siemens = 1 m^-2 * kg^-1 * s^3 * A^2 */
+			ud.addUnit(new Unit(Math.sqrt(mult), scale, Kind.AMPERE, 2 * exp,
+					l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, -exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.METRE, (-2) * exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.SECOND, 3 * exp, l, v));
 			break;
 
 		case TESLA:
-			/* 1 tesla = 1 kg s^-2 A^-1 */
-			newUnit.setKind(Unit.Kind.AMPERE);
-			/* hack to force multiplier to be double precision */
-			newMultiplier = (1d / newUnit.getMultiplier());
-
-			// ossMultiplier << newMultiplier;
-			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
-
-			newUnit.setMultiplier(newMultiplier);
-			newUnit.setExponent(-1 * newUnit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.KILOGRAM);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-2 * unit.getExponent());
-			ud.addUnit(newUnit);
+			/* 1 tesla = 1 kg * s^-2 * A^-1 */
+			ud.addUnit(new Unit(1d / mult, scale, Kind.AMPERE, -exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2) * exp, l, v));
 			break;
 
 		case VOLT:
-			/* 1 volt = 1 m^2 kg s^-3 A^-1 */
-			newUnit.setKind(Unit.Kind.AMPERE);
-			/* hack to force multiplier to be double precision */
-			newMultiplier = (1d / newUnit.getMultiplier());
-
-			// ossMultiplier << newMultiplier;
-			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
-
-			newUnit.setMultiplier(newMultiplier);
-			newUnit.setExponent(-1 * newUnit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.KILOGRAM);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.METRE);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(2 * unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-3 * unit.getExponent());
-			ud.addUnit(newUnit);
+			/* 1 volt = 1 m^2 * kg * s^-3 * A^-1 */
+			ud.addUnit(new Unit(1d / mult, scale, Kind.AMPERE, -exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.METRE, 2 * exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-3) * exp, l, v));
 			break;
 
 		case WATT:
-			/* 1 watt = 1 m^2 kg s^-3 */
-			newUnit.setKind(Unit.Kind.KILOGRAM);
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.METRE);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(2 * unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-3 * unit.getExponent());
-			ud.addUnit(newUnit);
+			/* 1 Watt = 1 m^2 * kg * s^-3 */
+			ud.addUnit(new Unit(mult, scale, Kind.KILOGRAM, exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.METRE, 2 * exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-3) * exp, l, v));
 			break;
 
 		case WEBER:
-			/* 1 weber = 1 m^2 kg s^-2 A^-1 */
-			newUnit.setKind(Unit.Kind.AMPERE);
-			/* hack to force multiplier to be double precision */
-			newMultiplier = (1d / newUnit.getMultiplier());
-
-			// ossMultiplier << newMultiplier;
-			// newMultiplier = strtod(ossMultiplier.str().c_str(), null);
-
-			newUnit.setMultiplier(newMultiplier);
-			newUnit.setExponent(-1 * newUnit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.KILOGRAM);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.METRE);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(2 * unit.getExponent());
-			ud.addUnit(newUnit);
-			// newUnit = new Unit(uKind, unit.getExponent(), unit.getScale(),
-			// unit.getMultiplier());
-			newUnit.setKind(Unit.Kind.SECOND);
-			newUnit.setMultiplier(1d);
-			newUnit.setExponent(-2 * unit.getExponent());
-			ud.addUnit(newUnit);
+			/* 1 Weber = 1 m^2 * kg * s^-2 * A^-1 */
+			ud.addUnit(new Unit(1d / mult, scale, Kind.AMPERE, -exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.METRE, 2 * exp, l, v));
+			ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2) * exp, l, v));
 			break;
 
 		case INVALID:
@@ -872,7 +621,7 @@ public class Unit extends AbstractSBase {
 		default:
 			break;
 		}
-		return ud;
+		return ud.simplify();
 	}
 
 	/**
@@ -1000,20 +749,18 @@ public class Unit extends AbstractSBase {
 	 *            the Unit object to manipulate.
 	 */
 	public static void removeScale(Unit unit) {
-		double m = unit.getMultiplier() * Math.pow(10, unit.getScale());
-		unit.setMultiplier(m);
-		unit.setScale(0);
+		unit.removeScale();
 	}
 
 	/**
 	 * Represents the 'exponent' XML attribute of an unit element.
 	 */
 	private Integer exponent;
+
 	/**
 	 * 
 	 */
 	private boolean isSetExponent = false;
-
 	/**
 	 * Represents the 'kind' XML attribute of an unit element.
 	 */
@@ -1023,25 +770,26 @@ public class Unit extends AbstractSBase {
 	 * Represents the 'multiplier' XML attribute of an unit element.
 	 */
 	private Double multiplier;
+
 	/**
 	 * 
 	 */
 	private boolean isSetMultiplier = false;
-
 	/**
 	 * Represents the 'offset' XML attribute of an unit element.
 	 */
 	@Deprecated
 	private Double offset;
+
 	/**
 	 * 
 	 */
 	private boolean isSetOffset = false;
-
 	/**
 	 * Represents the 'scale' XML attribute of an unit element.
 	 */
 	private Integer scale;
+
 	/**
 	 * 
 	 */
@@ -1152,6 +900,7 @@ public class Unit extends AbstractSBase {
 	 */
 	public Unit(Unit unit) {
 		super(unit);
+		initDefaults();
 		if (unit.isSetExponent()) {
 			this.exponent = Integer.valueOf(unit.getExponent());
 		} else {
@@ -1222,10 +971,8 @@ public class Unit extends AbstractSBase {
 	 * @return the kind of this Unit if it is set, null otherwise.
 	 * 
 	 */
-	// TODO : check if we should not return empty string "2, instead of null for
-	// libsbml compatibility
 	public Kind getKind() {
-		return kind;
+		return isSetKind() ? kind : Kind.INVALID;
 	}
 
 	/**
@@ -1660,7 +1407,7 @@ public class Unit extends AbstractSBase {
 	 * @return true if the exponent of this Unit is not null.
 	 */
 	public boolean isSetExponent() {
-		return exponent != null;
+		return isSetExponent && (exponent != null);
 	}
 
 	/**
@@ -1669,7 +1416,7 @@ public class Unit extends AbstractSBase {
 	 * @return
 	 */
 	public boolean isSetKind() {
-		return kind != null;
+		return (kind != null) && (kind != Kind.INVALID);
 	}
 
 	/**
@@ -1677,7 +1424,7 @@ public class Unit extends AbstractSBase {
 	 * @return true if the multiplier of this Unit is not null.
 	 */
 	public boolean isSetMultiplier() {
-		return multiplier != null;
+		return isSetMultiplier && (multiplier != null);
 	}
 
 	/**
@@ -1686,7 +1433,7 @@ public class Unit extends AbstractSBase {
 	 */
 	@Deprecated
 	public boolean isSetOffset() {
-		return offset != null;
+		return isSetOffset && (offset != null);
 	}
 
 	/**
@@ -1694,7 +1441,7 @@ public class Unit extends AbstractSBase {
 	 * @return true if the scale of this Unit is not null.
 	 */
 	public boolean isSetScale() {
-		return scale != null;
+		return isSetScale && (scale != null);
 	}
 
 	/**
@@ -1773,10 +1520,10 @@ public class Unit extends AbstractSBase {
 	 */
 	public boolean isVariantOfVolume() {
 		Kind kind = getKind();
-		if (kind == Unit.Kind.LITER || kind == Unit.Kind.LITRE) {
+		if (kind == Kind.LITER || kind == Kind.LITRE) {
 			return getOffset() == 0 && getExponent() == 1;
 		}
-		if (kind == Unit.Kind.METER || kind == Unit.Kind.METRE) {
+		if (kind == Kind.METER || kind == Kind.METRE) {
 			return getOffset() == 0 && getExponent() == 3;
 		}
 		return false;
@@ -1844,6 +1591,19 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
+	 * Manipulates the attributes of the Unit to express the unit with the value
+	 * of the scale attribute reduced to zero.
+	 * 
+	 * For example, 1 millimetre can be expressed as a Unit with kind= 'metre'
+	 * multiplier='1' scale='-3' exponent='1'. It can also be expressed as a
+	 * Unit with kind='metre' multiplier='0.001' scale='0' exponent='1'.
+	 */
+	public void removeScale() {
+		setMultiplier(getMultiplier() * Math.pow(10, getScale()));
+		setScale(0);
+	}
+
+	/**
 	 * Sets the exponent of this Unit
 	 * 
 	 * @param exponent
@@ -1860,12 +1620,8 @@ public class Unit extends AbstractSBase {
 	 * @param kind
 	 */
 	public void setKind(Kind kind) {
-		if (kind != null) {
-			this.kind = kind;
-			stateChanged();
-		} else {
-			this.kind = Kind.INVALID;
-		}
+		this.kind = kind != null ? kind : Kind.INVALID;
+		stateChanged();
 	}
 
 	/**
@@ -1909,8 +1665,9 @@ public class Unit extends AbstractSBase {
 	public String toString() {
 		StringBuffer times = new StringBuffer();
 		if (getMultiplier() != 0) {
-			if (getMultiplier() != 1)
+			if (getMultiplier() != 1) {
 				times.append(StringTools.toString(getMultiplier()));
+			}
 			StringBuffer pow = new StringBuffer();
 			pow.append(kind != null ? kind.getSymbol() : "undefined");
 			String prefix = getPrefix();
@@ -1935,6 +1692,7 @@ public class Unit extends AbstractSBase {
 	 */
 	public void unsetExponent() {
 		exponent = null;
+		isSetExponent = false;
 		stateChanged();
 	}
 
@@ -1951,6 +1709,7 @@ public class Unit extends AbstractSBase {
 	 */
 	public void unsetMultiplier() {
 		multiplier = null;
+		isSetMultiplier = false;
 		stateChanged();
 	}
 
@@ -1960,6 +1719,7 @@ public class Unit extends AbstractSBase {
 	@Deprecated
 	public void unsetOffset() {
 		offset = null;
+		isSetOffset = false;
 		stateChanged();
 	}
 
@@ -1968,6 +1728,7 @@ public class Unit extends AbstractSBase {
 	 */
 	public void unsetScale() {
 		scale = null;
+		isSetScale = false;
 		stateChanged();
 	}
 
@@ -1990,10 +1751,10 @@ public class Unit extends AbstractSBase {
 		if (isSetScale()) {
 			attributes.put("scale", Integer.toString(getScale()));
 		}
-		if (isSetMultiplier() && getLevel() > 1) {
+		if (isSetMultiplier() && (getLevel() > 1)) {
 			attributes.put("multiplier", Double.toString(getMultiplier()));
 		}
-		if (isSetOffset() && getLevel() > 1) {
+		if (isSetOffset() && (getLevel() > 1)) {
 			attributes.put("offset", Double.toString(getOffset()));
 		}
 		return attributes;
