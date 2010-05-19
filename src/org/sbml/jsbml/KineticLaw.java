@@ -32,6 +32,7 @@ package org.sbml.jsbml;
 import java.util.HashMap;
 
 import org.sbml.jsbml.ListOf.Type;
+import org.sbml.jsbml.util.NameFilter;
 
 /**
  * Represents the kineticLaw XML element of a SBML file.
@@ -211,10 +212,7 @@ public class KineticLaw extends MathContainer {
 	 * @return the number of local parameters in this KineticLaw instance.
 	 */
 	public int getNumParameters() {
-		if (isSetListOfParameters()) {
-			return listOfParameters.size();
-		}
-		return 0;
+		return isSetListOfParameters() ? listOfParameters.size() : 0;
 	}
 
 	/**
@@ -224,32 +222,16 @@ public class KineticLaw extends MathContainer {
 	 *         KineticLaw instance.
 	 */
 	public LocalParameter getParameter(int i) {
-		if (isSetListOfParameters()) {
-			return listOfParameters.get(i);
-		}
-		return null;
+		return getListOfParameters().get(i);
 	}
 
 	/**
 	 * 
-	 * @param idOrName
+	 * @param id
 	 * @return a local parameter based on its identifier.
 	 */
-	public LocalParameter getParameter(String idOrName) {
-		if (isSetListOfParameters()) {
-			for (LocalParameter p : listOfParameters) {
-				if (p.isSetId()) {
-					if (p.getId().equals(idOrName)) {
-						return p;
-					}
-				} else if (p.isSetName()) {
-					if (p.getName().equals(idOrName)) {
-						return p;
-					}
-				}
-			}
-		}
-		return null;
+	public LocalParameter getParameter(String id) {
+		return getListOfParameters().firstHit(new NameFilter(id));
 	}
 
 	/**
