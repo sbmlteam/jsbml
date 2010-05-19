@@ -218,6 +218,15 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @return a new ModifierSpeciesReference object.
 	 */
 	public ModifierSpeciesReference createModifier() {
+		return createModifier(null);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public ModifierSpeciesReference createModifier(String id) {
 		ModifierSpeciesReference modifier = new ModifierSpeciesReference(
 				getLevel(), getVersion());
 		addModifier(modifier);
@@ -233,7 +242,16 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @return
 	 */
 	public SpeciesReference createProduct() {
-		SpeciesReference product = new SpeciesReference(getLevel(),
+		return createProduct(null);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public SpeciesReference createProduct(String id) {
+		SpeciesReference product = new SpeciesReference(id, getLevel(),
 				getVersion());
 		addProduct(product);
 		return product;
@@ -248,7 +266,16 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @return
 	 */
 	public SpeciesReference createReactant() {
-		SpeciesReference reactant = new SpeciesReference(getLevel(),
+		return createReactant(null);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public SpeciesReference createReactant(String id) {
+		SpeciesReference reactant = new SpeciesReference(id, getLevel(),
 				getVersion());
 		addReactant(reactant);
 		return reactant;

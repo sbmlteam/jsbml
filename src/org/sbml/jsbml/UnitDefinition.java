@@ -34,6 +34,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.ListOf.Type;
+import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -54,25 +55,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public static final UnitDefinition area(int level, int version) {
 		return getPredefinedUnit("area", level, version);
-	}
-
-	/**
-	 * This method converts this unit definition to a
-	 */
-	public void convertToSIUnits() {
-		UnitDefinition ud[] = new UnitDefinition[getNumUnits()];
-		Set<SBaseChangedListener> listeners = new HashSet<SBaseChangedListener>(
-				getSetOfSBaseChangeListeners());
-		removeAllSBaseChangeListeners();
-		for (int i = ud.length - 1; i >= 0; i--) {
-			ud[i] = Unit.convertToSI(removeUnit(i));
-		}
-		for (UnitDefinition u : ud) {
-			getListOfUnits().addAll(u.getListOfUnits());
-		}
-		simplify();
-		addAllChangeListeners(listeners);
-		stateChanged();
 	}
 
 	/**
@@ -202,8 +184,20 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * Test if the given unit is a predefined unit.
 	 * 
 	 * @param ud
+	 * @deprecated use isPredefined
 	 */
+	@Deprecated
 	public static boolean isBuiltIn(UnitDefinition ud) {
+		return isPredefined(ud);
+	}
+
+	/**
+	 * Test if the given unit is a predefined unit.
+	 * 
+	 * @param ud
+	 * @return
+	 */
+	public static boolean isPredefined(UnitDefinition ud) {
 		if (ud.getLevel() > 2) {
 			return false;
 		}
@@ -336,8 +330,14 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 	}
 
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public UnitDefinition(int level, int version) {
 		super(level, version);
+		initDefaults();
 	}
 
 	/**
@@ -350,10 +350,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public UnitDefinition(String id, int level, int version) {
 		super(id, level, version);
-		listOfUnits = null;
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		initDefaults();
 	}
 
 	/**
@@ -367,10 +364,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public UnitDefinition(String id, String name, int level, int version) {
 		super(id, name, level, version);
-		listOfUnits = null;
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		initDefaults();
 	}
 
 	/**
@@ -380,10 +374,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public UnitDefinition(UnitDefinition nsb) {
 		super(nsb);
+		initDefaults();
 		if (nsb.isSetListOfUnits()) {
 			setListOfUnits((ListOf<Unit>) nsb.getListOfUnits().clone());
-		} else {
-			listOfUnits = null;
 		}
 	}
 
@@ -396,8 +389,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 	@Override
 	public void addChangeListener(SBaseChangedListener l) {
 		super.addChangeListener(l);
-		if (!isSetListOfUnits())
+		if (!isSetListOfUnits()) {
 			initListOfUnits();
+		}
 		listOfUnits.addChangeListener(l);
 	}
 
@@ -426,8 +420,40 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return new UnitDefinition(this);
 	}
 
+	/**
+	 * This method converts this unit definition to a
+	 */
+	public void convertToSIUnits() {
+		UnitDefinition ud[] = new UnitDefinition[getNumUnits()];
+		Set<SBaseChangedListener> listeners = new HashSet<SBaseChangedListener>(
+				getSetOfSBaseChangeListeners());
+		removeAllSBaseChangeListeners();
+		for (int i = ud.length - 1; i >= 0; i--) {
+			ud[i] = Unit.convertToSI(removeUnit(i));
+		}
+		for (UnitDefinition u : ud) {
+			getListOfUnits().addAll(u.getListOfUnits());
+		}
+		simplify();
+		addAllChangeListeners(listeners);
+		stateChanged();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public Unit createUnit() {
-		Unit unit = new Unit(level, version);
+		return createUnit(Kind.INVALID);
+	}
+
+	/**
+	 * 
+	 * @param kind
+	 * @return
+	 */
+	public Unit createUnit(Kind kind) {
+		Unit unit = new Unit(kind, getLevel(), getVersion());
 		addUnit(unit);
 
 		return unit;
@@ -481,10 +507,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return the number of Unit.
 	 */
 	public int getNumUnits() {
-		if (isSetListOfUnits()) {
-			return listOfUnits.size();
-		}
-		return 0;
+		return isSetListOfUnits() ? listOfUnits.size() : 0;
 	}
 
 	/**
@@ -495,14 +518,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return the ith Unit of this UnitDefinition
 	 */
 	public Unit getUnit(int i) {
-		if (isSetListOfUnits()) {
-			return listOfUnits.get(i);
-		}
-		return null;
+		return getListOfUnits().get(i);
 	}
 
 	/**
-	 * Initialises the default values of this UnitDefinition.
+	 * Initializes the default values of this UnitDefinition.
 	 */
 	public void initDefaults() {
 		if (!isSetListOfUnits()) {
@@ -511,6 +531,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private void initListOfUnits() {
 		this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
 		setThisAsParentSBMLObject(this.listOfUnits);
@@ -521,9 +544,20 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * This method tests if this unit definition is a predefined unit.
 	 * 
 	 * @return
+	 * @deprecated use isPredefined()
 	 */
+	@Deprecated
 	public boolean isBuiltIn() {
 		return isBuiltIn(this);
+	}
+
+	/**
+	 * This method tests if this unit definition is a predefined unit.
+	 * 
+	 * @return
+	 */
+	public boolean isPredefined() {
+		return isPredefined(this);
 	}
 
 	/**
@@ -593,7 +627,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public boolean isVariantOfSubstancePerArea() {
 		if (isSetListOfUnits()) {
 			if (listOfUnits.size() == 2) {
-				;
 				if (getUnit(0).isVariantOfSubstance()) {
 					Unit two = getUnit(1).clone();
 					two.setExponent(two.getExponent() * -1);
@@ -642,11 +675,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 				Unit unit2 = listOfUnits.get(1);
 				if (unit.isVariantOfSubstance()) {
 					Unit two = listOfUnits.get(1).clone();
-					two.setExponent(two.getExponent() * -1);
+					two.setExponent(-two.getExponent());
 					return two.isVariantOfVolume();
 				} else if (unit2.isVariantOfSubstance()) {
 					Unit one = listOfUnits.get(0).clone();
-					one.setExponent(one.getExponent() * -1);
+					one.setExponent(-one.getExponent());
 					return one.isVariantOfVolume();
 				}
 			}

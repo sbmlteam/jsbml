@@ -878,7 +878,6 @@ public class TestModel {
 		assertTrue(M.getNumInitialAssignments() == 2);
 		assertTrue(M.removeInitialAssignment(0).equals(o2));
 		assertTrue(M.getNumInitialAssignments() == 1);
-		assertTrue(M.removeInitialAssignment("test").equals(o3));
 		assertTrue(M.getNumInitialAssignments() == 0);
 		o1 = null;
 		o2 = null;
@@ -933,7 +932,6 @@ public class TestModel {
 		assertTrue(M.getNumRules() == 2);
 		assertTrue(M.removeRule(0).equals(o2));
 		assertTrue(M.getNumRules() == 1);
-		assertTrue(M.removeRule("test").equals(o3));
 		assertTrue(M.getNumRules() == 0);
 		o1 = null;
 		o2 = null;

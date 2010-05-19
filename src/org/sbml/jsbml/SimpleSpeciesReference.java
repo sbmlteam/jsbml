@@ -61,6 +61,15 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public SimpleSpeciesReference(int level, int version) {
+		this(null, level, version);
+	}
+
+	/**
 	 * Creates a SimpleSpeciesReference instance from a given
 	 * SimpleSpeciesReference.
 	 * 
@@ -78,12 +87,29 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	 * @param ssr
 	 */
 	public SimpleSpeciesReference(Species s) {
-		super(s.getLevel(), s.getVersion());
+		this(s.getLevel(), s.getVersion());
 		this.speciesID = s.isSetId() ? new String(s.getId()) : null;
 	}
-
-	public SimpleSpeciesReference(int level, int version) {
-		super(level, version);
+	
+	/**
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public SimpleSpeciesReference(String id, int level, int version) {
+		this(id, null, level, version);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param name
+	 * @param level
+	 * @param version
+	 */
+	public SimpleSpeciesReference(String id, String name, int level, int version) {
+		super(id, name, level, version);
 		this.speciesID = null;
 	}
 
@@ -131,6 +157,14 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @return true if ths speciesID of this SimpleSpeciesReference is not null.
+	 */
+	public boolean isSetSpecies() {
+		return speciesID != null;
+	}
+
+	/**
+	 * 
 	 * @return true if the Species instance which has the speciesID of this
 	 *         SimpleSpeciesReference as id is not null.
 	 */
@@ -139,12 +173,28 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 		return m != null ? m.getSpecies(this.speciesID) != null : false;
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return true if ths speciesID of this SimpleSpeciesReference is not null.
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
 	 */
-	public boolean isSetSpecies() {
-		return speciesID != null;
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("species")
+					&& ((getLevel() == 1 && getVersion() == 2) || getLevel() > 1)) {
+				this.setSpecies(value);
+			} else if (attributeName.equals("specie") && getLevel() == 1
+					&& getVersion() == 1) {
+				this.setSpecies(value);
+			}
+		}
+		return isAttributeRead;
 	}
 
 	/**
@@ -185,30 +235,6 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 			return getSpeciesInstance().toString();
 		}
 		return super.toString();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-
-		if (!isAttributeRead) {
-			if (attributeName.equals("species")
-					&& ((getLevel() == 1 && getVersion() == 2) || getLevel() > 1)) {
-				this.setSpecies(value);
-			} else if (attributeName.equals("specie") && getLevel() == 1
-					&& getVersion() == 1) {
-				this.setSpecies(value);
-			}
-		}
-		return isAttributeRead;
 	}
 
 	/*

@@ -594,7 +594,18 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@SuppressWarnings("deprecation")
 	public CompartmentType createCompartmentType() {
-		CompartmentType compartmentType = new CompartmentType(level, version);
+		return createCompartmentType(null);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@Deprecated
+	public CompartmentType createCompartmentType(String id) {
+		CompartmentType compartmentType = new CompartmentType(id, getLevel(),
+				getVersion());
 		addCompartmentType(compartmentType);
 
 		return compartmentType;
@@ -610,7 +621,7 @@ public class Model extends AbstractNamedSBase {
 	 * @see #addConstraint(Constraint c)
 	 */
 	public Constraint createConstraint() {
-		Constraint constraint = new Constraint(level, version);
+		Constraint constraint = new Constraint(getLevel(), getVersion());
 		addConstraint(constraint);
 
 		return constraint;
@@ -630,7 +641,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the {@link Delay} object created
 	 */
 	public Delay createDelay() {
-		return getLastElementOf(getListOfEvents()).createDelay(); 
+		return getLastElementOf(getListOfEvents()).createDelay();
 	}
 
 	/**
@@ -640,7 +651,16 @@ public class Model extends AbstractNamedSBase {
 	 * @return the {@link Event} object created
 	 */
 	public Event createEvent() {
-		Event event = new Event(level, version);
+		return createEvent(null);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Event createEvent(String id) {
+		Event event = new Event(id, getLevel(), getVersion());
 		addEvent(event);
 
 		return event;
@@ -670,7 +690,8 @@ public class Model extends AbstractNamedSBase {
 			lastEvent = getEvent(numEvent - 1);
 		}
 
-		EventAssignment eventAssgnt = new EventAssignment(level, version);
+		EventAssignment eventAssgnt = new EventAssignment(getLevel(),
+				getVersion());
 		lastEvent.addEventAssignment(eventAssgnt);
 
 		return eventAssgnt;
@@ -687,7 +708,17 @@ public class Model extends AbstractNamedSBase {
 	 * @see #addFunctionDefinition(FunctionDefinition fd)
 	 */
 	public FunctionDefinition createFunctionDefinition() {
-		FunctionDefinition functionDef = new FunctionDefinition(level, version);
+		return createFunctionDefinition(null);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public FunctionDefinition createFunctionDefinition(String id) {
+		FunctionDefinition functionDef = new FunctionDefinition(id, getLevel(),
+				getVersion());
 		addFunctionDefinition(functionDef);
 
 		return functionDef;
@@ -703,7 +734,8 @@ public class Model extends AbstractNamedSBase {
 	 * @see #addInitialAssignment(InitialAssignment ia)
 	 */
 	public InitialAssignment createInitialAssignment() {
-		InitialAssignment initAssgmt = new InitialAssignment(level, version);
+		InitialAssignment initAssgmt = new InitialAssignment(getLevel(),
+				getVersion());
 		addInitialAssignment(initAssgmt);
 
 		return initAssgmt;
@@ -733,7 +765,7 @@ public class Model extends AbstractNamedSBase {
 			return null;
 		}
 
-		KineticLaw kineticLaw = new KineticLaw(level, version);
+		KineticLaw kineticLaw = new KineticLaw(getLevel(), getVersion());
 		lastReaction.setKineticLaw(kineticLaw);
 
 		return kineticLaw;
@@ -757,7 +789,15 @@ public class Model extends AbstractNamedSBase {
 	 * @return the {@link Parameter} object created
 	 */
 	public LocalParameter createKineticLawParameter() {
+		return createKineticParameter(null);
+	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public LocalParameter createKineticParameter(String id) {
 		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 		KineticLaw lastKineticLaw = null;
 
@@ -772,7 +812,8 @@ public class Model extends AbstractNamedSBase {
 			}
 		}
 
-		LocalParameter parameter = new LocalParameter();
+		LocalParameter parameter = new LocalParameter(id, getLevel(),
+				getVersion());
 		lastKineticLaw.addParameter(parameter);
 
 		return parameter;
@@ -794,14 +835,22 @@ public class Model extends AbstractNamedSBase {
 	 * @return the {@link SpeciesReference} object created
 	 */
 	public ModifierSpeciesReference createModifier() {
+		return createModifier(null);
+	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public ModifierSpeciesReference createModifier(String id) {
 		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 
 		if (lastReaction == null) {
 			return null;
 		}
 
-		ModifierSpeciesReference modifier = lastReaction.createModifier();
+		ModifierSpeciesReference modifier = lastReaction.createModifier(id);
 
 		return modifier;
 	}
@@ -815,8 +864,16 @@ public class Model extends AbstractNamedSBase {
 	 * @see #addParameter(Parameter p)
 	 */
 	public Parameter createParameter() {
+		return createParameter(null);
+	}
 
-		Parameter parameter = new Parameter(level, version);
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Parameter createParameter(String id) {
+		Parameter parameter = new Parameter(id, getLevel(), getVersion());
 		addParameter(parameter);
 
 		return parameter;
@@ -838,6 +895,10 @@ public class Model extends AbstractNamedSBase {
 	 * @return the {@link SpeciesReference} object created
 	 */
 	public SpeciesReference createProduct() {
+		return createProduct(null);
+	}
+
+	public SpeciesReference createProduct(String id) {
 		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 
 		if (lastReaction == null) {
@@ -846,7 +907,7 @@ public class Model extends AbstractNamedSBase {
 			return null;
 		}
 
-		SpeciesReference product = lastReaction.createProduct();
+		SpeciesReference product = lastReaction.createProduct(id);
 
 		return product;
 	}
@@ -860,7 +921,7 @@ public class Model extends AbstractNamedSBase {
 	 * @see #addRule(Rule r)
 	 */
 	public RateRule createRateRule() {
-		RateRule rule = new RateRule(level, version);
+		RateRule rule = new RateRule(getLevel(), getVersion());
 		addRule(rule);
 
 		return rule;
@@ -882,13 +943,22 @@ public class Model extends AbstractNamedSBase {
 	 * @return the {@link SpeciesReference} object created
 	 */
 	public SpeciesReference createReactant() {
+		return createReactant(null);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public SpeciesReference createReactant(String id) {
 		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 		if (lastReaction == null) {
 			System.err
 					.println("Could not create Reactant because no reactions have been defined yet.");
 			return null;
 		}
-		SpeciesReference reactant = lastReaction.createReactant();
+		SpeciesReference reactant = lastReaction.createReactant(id);
 
 		return reactant;
 	}
@@ -902,7 +972,16 @@ public class Model extends AbstractNamedSBase {
 	 * @see #addReaction(Reaction r)
 	 */
 	public Reaction createReaction() {
-		Reaction reaction = new Reaction(level, version);
+		return createReaction(null);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Reaction createReaction(String id) {
+		Reaction reaction = new Reaction(id, getLevel(), getVersion());
 		addReaction(reaction);
 
 		return reaction;
@@ -917,8 +996,16 @@ public class Model extends AbstractNamedSBase {
 	 * @see #addSpecies(Species s)
 	 */
 	public Species createSpecies() {
+		return createSpecies(null);
+	}
 
-		Species species = new Species(level, version);
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Species createSpecies(String id) {
+		Species species = new Species(id, getLevel(), getVersion());
 		addSpecies(species);
 
 		return species;
@@ -933,10 +1020,19 @@ public class Model extends AbstractNamedSBase {
 	 *         <p>
 	 * @see #addSpeciesType(SpeciesType st)
 	 */
-	@SuppressWarnings("deprecation")
+	@Deprecated
 	public SpeciesType createSpeciesType() {
+		return createSpeciesType(null);
+	}
 
-		SpeciesType speciesType = new SpeciesType(level, version);
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@Deprecated
+	public SpeciesType createSpeciesType(String id) {
+		SpeciesType speciesType = new SpeciesType(id, getLevel(), getVersion());
 		addSpeciesType(speciesType);
 
 		return speciesType;
@@ -974,7 +1070,15 @@ public class Model extends AbstractNamedSBase {
 	 * @see #addUnitDefinition(UnitDefinition ud)
 	 */
 	public Unit createUnit() {
+		return createUnit(null);
+	}
 
+	/**
+	 * 
+	 * @param kind
+	 * @return
+	 */
+	public Unit createUnit(Unit.Kind kind) {
 		int numUnitDef = getNumUnitDefinitions();
 		UnitDefinition lastUnitDef = null;
 
@@ -984,7 +1088,7 @@ public class Model extends AbstractNamedSBase {
 			lastUnitDef = getUnitDefinition(numUnitDef - 1);
 		}
 
-		Unit unit = lastUnitDef.createUnit();
+		Unit unit = lastUnitDef.createUnit(kind);
 
 		return unit;
 	}
@@ -999,8 +1103,17 @@ public class Model extends AbstractNamedSBase {
 	 * @see #addUnitDefinition(UnitDefinition ud)
 	 */
 	public UnitDefinition createUnitDefinition() {
+		return createUnitDefinition(null);
+	}
 
-		UnitDefinition unitDefinition = new UnitDefinition(level, version);
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public UnitDefinition createUnitDefinition(String id) {
+		UnitDefinition unitDefinition = new UnitDefinition(id, getLevel(),
+				getVersion());
 		addUnitDefinition(unitDefinition);
 
 		return unitDefinition;
@@ -1011,7 +1124,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @see org.sbml.jsbml.element.NamedSBase#equals(java.lang.Object)
 	 */
-	// @Override
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Model) {
 			Model m = (Model) o;
@@ -1155,21 +1268,26 @@ public class Model extends AbstractNamedSBase {
 	 *         compartment, species, or parameter wit the given id.
 	 */
 	public NamedSBase findNamedSBase(String idOrName) {
-		if (idOrName.equals(getId()))
+		if (idOrName.equals(getId())) {
 			return this;
+		}
 		NamedSBase nsb = getCompartmentType(idOrName);
-		if (nsb == null)
+		if (nsb == null) {
 			nsb = getEvent(idOrName);
-		if (nsb == null)
+		}
+		if (nsb == null) {
 			for (Reaction r : getListOfReactions()) {
 				nsb = r.getModifier(idOrName);
 				if (nsb != null)
 					return nsb;
 			}
-		if (nsb == null)
+		}
+		if (nsb == null) {
 			nsb = getSpeciesType(idOrName);
-		if (nsb == null)
+		}
+		if (nsb == null) {
 			nsb = getUnitDefinition(idOrName);
+		}
 		return nsb == null ? findNamedSBaseWithDerivedUnit(idOrName) : nsb;
 	}
 
@@ -1181,10 +1299,12 @@ public class Model extends AbstractNamedSBase {
 	public NamedSBaseWithDerivedUnit findNamedSBaseWithDerivedUnit(
 			String idOrName) {
 		NamedSBaseWithDerivedUnit nsb = findQuantity(idOrName);
-		if (nsb == null)
+		if (nsb == null) {
 			nsb = getReaction(idOrName);
-		if (nsb == null)
+		}
+		if (nsb == null) {
 			nsb = getFunctionDefinition(idOrName);
+		}
 		return nsb;
 	}
 
@@ -1200,8 +1320,9 @@ public class Model extends AbstractNamedSBase {
 			for (Reaction r : getListOfReactions()) {
 				if (r.isSetKineticLaw()) {
 					nsb = r.getKineticLaw().getParameter(idOrName);
-					if (nsb != null)
+					if (nsb != null) {
 						break;
+					}
 				}
 			}
 		}
@@ -1608,10 +1729,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the number of Compartments of this Model.
 	 */
 	public int getNumCompartments() {
-		if (isSetListOfCompartments()) {
-			return listOfCompartments.size();
-		}
-		return 0;
+		return isSetListOfCompartments() ? listOfCompartments.size() : 0;
 	}
 
 	/**

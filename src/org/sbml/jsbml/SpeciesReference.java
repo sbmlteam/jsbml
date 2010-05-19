@@ -93,8 +93,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * @param version
 	 */
 	public SpeciesReference(int level, int version) {
-		super(level, version);
-		initDefaults();
+		this(null, level, version);
 	}
 
 	/**
@@ -129,6 +128,28 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		if (speciesReference.isSetDenominator) {
 			setDenominator(new Integer(speciesReference.getDenominator()));
 		}
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public SpeciesReference(String id, int level, int version) {
+		this(id, null, level, version);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param name
+	 * @param level
+	 * @param version
+	 */
+	public SpeciesReference(String id, String name, int level, int version) {
+		super(id, name, level, version);
+		initDefaults();
 	}
 
 	/*
