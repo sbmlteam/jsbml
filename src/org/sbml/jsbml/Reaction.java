@@ -89,7 +89,7 @@ public class Reaction extends AbstractNamedSBase implements
 	public Reaction() {
 		super();
 		// Cannot call initDefaults() until the level and version is set
-		//initDefaults();
+		// initDefaults();
 	}
 
 	/**
@@ -199,6 +199,16 @@ public class Reaction extends AbstractNamedSBase implements
 	// @Override
 	public Reaction clone() {
 		return new Reaction(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
+	 */
+	public boolean containsUndeclaredUnits() {
+		return isSetKineticLaw() ? getKineticLaw().containsUndeclaredUnits()
+				: false;
 	}
 
 	/**
@@ -736,6 +746,24 @@ public class Reaction extends AbstractNamedSBase implements
 		return false;
 	}
 
+	private <T> SimpleSpeciesReference remove(
+			ListOf<? extends SimpleSpeciesReference> list, String id) {
+		SimpleSpeciesReference deleted = null;
+		int index = 0;
+		for (SimpleSpeciesReference reference : list) {
+			if (reference.getSpecies().equals(id)) {
+				deleted = reference;
+				break;
+			}
+			index++;
+		}
+		if (deleted != null) {
+			list.remove(index);
+		}
+		return deleted;
+
+	}
+
 	/**
 	 * Removes the nth modifier species (ModifierSpeciesReference object) in the
 	 * list of modifiers in this Reaction and returns it.
@@ -772,24 +800,6 @@ public class Reaction extends AbstractNamedSBase implements
 	 */
 	public ModifierSpeciesReference removeModifier(String id) {
 		return (ModifierSpeciesReference) remove(listOfModifiers, id);
-	}
-
-	private <T> SimpleSpeciesReference remove(
-			ListOf<? extends SimpleSpeciesReference> list, String id) {
-		SimpleSpeciesReference deleted = null;
-		int index = 0;
-		for (SimpleSpeciesReference reference : list) {
-			if (reference.getSpecies().equals(id)) {
-				deleted = reference;
-				break;
-			}
-			index++;
-		}
-		if (deleted != null) {
-			list.remove(index);
-		}
-		return deleted;
-
 	}
 
 	/**

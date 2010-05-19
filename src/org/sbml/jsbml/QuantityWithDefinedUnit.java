@@ -123,6 +123,15 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
+	 */
+	public boolean containsUndeclaredUnits() {
+		return isSetUnits();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.SBase#equals(java.lang.Object)
 	 */
 	@Override

@@ -158,7 +158,10 @@ public class GroupsParser implements ReadingParser, WritingParser {
 		return contextObject;
 	}
 
-	// @Override
+	/*
+	 * 	(non-Javadoc)
+	 * @see org.sbml.jsbml.xml.stax.ReadingParser#processCharactersOf(java.lang.String, java.lang.String, java.lang.Object)
+	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		// TODO : the basic Groups elements don't have any text. SBML syntax
@@ -333,7 +336,6 @@ public class GroupsParser implements ReadingParser, WritingParser {
 			String localName, boolean hasAttributes, boolean isLastNamespace,
 			Object contextObject) {
 		// Nothing to be done
-
 	}
 
 }

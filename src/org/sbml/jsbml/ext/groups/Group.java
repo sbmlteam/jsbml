@@ -36,31 +36,62 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 
+/**
+ * 
+ * 
+ *
+ */
 public class Group extends AbstractNamedSBase {
 
+	/**
+	 * 
+	 */
 	protected ListOf<Member> listOfMembers = new ListOf<Member>(); 
 
-
+	/**
+	 * 
+	 */
 	public Group() {
 		
 	}
 	
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public Group(int level, int version) {
 		super(level, version);
 	}
 	
+	/**
+	 * 
+	 * @param group
+	 */
 	public Group(Group group) {
 		// TODO
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public ListOf<Member> getListOfMembers() {
 		return listOfMembers;
 	}
 
+	/**
+	 * 
+	 * @param listOfMembers
+	 */
 	public void setListOfMembers(ListOf<Member> listOfMembers) {
 		this.listOfMembers = listOfMembers;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isSetListOfMembers() {
 		if (listOfMembers == null || listOfMembers.isEmpty()) {
 			return false;			
@@ -68,12 +99,20 @@ public class Group extends AbstractNamedSBase {
 		
 		return true;
 	}
-		
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	 */
 	@Override
 	public SBase clone() {
 		return new Group(this);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
+	 */
 	@Override
 	public String toString() {
 		// TODO 
@@ -107,6 +146,11 @@ public class Group extends AbstractNamedSBase {
 		return attributes;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public Member getMember(int i) {
 		if (i >= 0 && i < listOfMembers.size()) {
 			return listOfMembers.get(i);

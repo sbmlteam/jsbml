@@ -32,33 +32,71 @@ package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.SBase;
 
+/**
+ * 
+ * 
+ *
+ */
 public class Curve extends AbstractNamedSBase {
 
+	/**
+	 * 
+	 */
 	ListOf<LineSegment> listOfCurveSegments = new ListOf<LineSegment>();
-	
-	public Curve() {
-		
+
+	/**
+	 * @param curve
+	 * 
+	 */
+	public Curve(Curve curve) {
+		super(curve);
+		if (curve.isSetListOfCurveSegments()) {
+			this.listOfCurveSegments = curve.getListOfCurveSegments().clone();
+		}
 	}
-	
+
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public Curve(int level, int version) {
 		super(level, version);
 	}
 
-	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	 */
+	@Override
+	public Curve clone() {
+		return new Curve(this);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public ListOf<LineSegment> getListOfCurveSegments() {
 		return listOfCurveSegments;
 	}
 
-	public void setListOfCurveSegments(ListOf<LineSegment> listOfCurveSegments) {
-		this.listOfCurveSegments = listOfCurveSegments;
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetListOfCurveSegments() {
+		return listOfCurveSegments != null;
 	}
 
-	@Override
-	public SBase clone() {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * 
+	 * @param listOfCurveSegments
+	 */
+	public void setListOfCurveSegments(ListOf<LineSegment> listOfCurveSegments) {
+		this.listOfCurveSegments = listOfCurveSegments;
 	}
 
 }

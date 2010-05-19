@@ -1113,12 +1113,6 @@ public class ASTNode implements TreeNode {
 				break;
 			case FUNCTION:
 				NamedSBaseWithDerivedUnit nsb = getVariable();
-				if (nsb == null) {
-					nsb = getParentSBMLObject().getModel()
-							.findNamedSBaseWithDerivedUnit(getName());
-					setVariable(nsb);
-					setType(Type.FUNCTION);
-				}
 				value = compiler.function((FunctionDefinition) nsb,
 						compileChildren(compiler));
 				break;
@@ -1278,10 +1272,12 @@ public class ASTNode implements TreeNode {
 		if (getType().equals(ASTNode.Type.NAME)
 				&& (getVariable() instanceof Parameter)
 				&& (getParentSBMLObject().getModel().getParameter(
-						getVariable().getId()) != null))
+						getVariable().getId()) != null)) {
 			pList.add((Parameter) getVariable());
-		for (ASTNode child : getListOfNodes())
+		}
+		for (ASTNode child : getListOfNodes()) {
 			pList.addAll(child.findReferencedGlobalParameters());
+		}
 		return pList;
 	}
 
@@ -1583,11 +1579,20 @@ public class ASTNode implements TreeNode {
 	 */
 	public NamedSBaseWithDerivedUnit getVariable() {
 		if (isName()) {
+			if ((variable == null) && (getParentSBMLObject() != null)) {
+				Model m = getParentSBMLObject().getModel();
+				if (m != null) {
+					Type type = getType();
+					variable = m.findNamedSBaseWithDerivedUnit(getName());
+					setVariable(variable);
+					setType(type);
+				}
+			}
 			return variable;
 		}
 		throw new RuntimeException(
 				new IllegalArgumentException(
-						"getVariable() should be called only when !isNumber() || !isOperator()"));
+						"getVariable() should be called only when !isNumber() or !isOperator()"));
 	}
 
 	/**
@@ -1595,10 +1600,11 @@ public class ASTNode implements TreeNode {
 	 */
 	private void initDefaults() {
 		type = Type.UNKNOWN;
-		if (listOfNodes == null)
+		if (listOfNodes == null) {
 			listOfNodes = new LinkedList<ASTNode>();
-		else
+		} else {
 			listOfNodes.clear();
+		}
 		variable = null;
 		mantissa = Double.NaN;
 	}
@@ -2415,5 +2421,40 @@ public class ASTNode implements TreeNode {
 				break;
 			}
 		return isName() ? getName() : getType().toString();
+	}
+
+	/**
+	 * Returns <code>true</code> or <code>false</code> depending on whether this
+	 * {@link ASTNode} refers to elements such as parameters or numbers with
+	 * undeclared units.
+	 * 
+	 * A return value of true indicates that the <code>UnitDefinition</code>
+	 * returned by {@see getDerivedUnitDefinition()} may not accurately
+	 * represent the units of the expression.
+	 * 
+	 * @return <code>true</code> if the math expression of this {@link ASTNode}
+	 *         includes parameters/numbers with undeclared units,
+	 *         <code>false</code> otherwise.
+	 */
+	public boolean containsUndeclaredUnits() {
+		if (isLeaf()) {
+			if (isNumber() || isRational() || isUnknown()) {
+				return true;
+			}
+			if (isName()) {
+				if ((getVariable() != null)
+						&& (!getVariable().containsUndeclaredUnits())) {
+					return false;
+				}
+				return true;
+			}
+		} else {
+			for (ASTNode child : getListOfNodes()) {
+				if (child.containsUndeclaredUnits()) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

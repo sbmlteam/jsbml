@@ -33,6 +33,8 @@ package org.sbml.jsbml;
 import java.util.HashMap;
 
 import org.sbml.jsbml.ListOf.Type;
+import org.sbml.jsbml.util.BoundaryConditionFilter;
+import org.sbml.jsbml.util.NameFilter;
 
 /**
  * <p>
@@ -569,7 +571,7 @@ public class Model extends AbstractNamedSBase {
 	public Compartment createCompartment() {
 		return createCompartment(null);
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -628,7 +630,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the {@link Delay} object created
 	 */
 	public Delay createDelay() {
-		return null; // TODO : implement
+		return getLastElementOf(getListOfEvents()).createDelay(); 
 	}
 
 	/**
@@ -954,7 +956,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the {@link Trigger} object created
 	 */
 	public Trigger createTrigger() {
-		return null; // TODO : implement
+		return getLastElementOf(getListOfEvents()).createTrigger();
 	}
 
 	/**
@@ -1262,10 +1264,7 @@ public class Model extends AbstractNamedSBase {
 	 *         if the listOfCompartments is not set.
 	 */
 	public Compartment getCompartment(int n) {
-		if (isSetListOfCompartments()) {
-			return listOfCompartments.get(n);
-		}
-		return null;
+		return getListOfCompartments().get(n);
 	}
 
 	/**
@@ -1276,20 +1275,7 @@ public class Model extends AbstractNamedSBase {
 	 *         listOfCompartments is not set.
 	 */
 	public Compartment getCompartment(String id) {
-		if (isSetListOfCompartments() && id != null) {
-			for (Compartment comp : listOfCompartments) {
-				if (comp.isSetId()) {
-					if (comp.getId().equals(id)) {
-						return comp;
-					}
-				} else if (comp.isSetName()) {
-					if (comp.getName().equals(id)) {
-						return comp;
-					}
-				}
-			}
-		}
-		return null;
+		return getListOfCompartments().firstHit(new NameFilter(id));
 	}
 
 	/**
@@ -1303,37 +1289,19 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public CompartmentType getCompartmentType(int n) {
-		if (isSetListOfCompartmentTypes() && n < listOfCompartmentTypes.size()
-				&& n >= 0) {
-			return listOfCompartmentTypes.get(n);
-		}
-
-		return null;
+		return getListOfCompartmentTypes().get(n);
 	}
 
 	/**
 	 * 
-	 * @param idOrName
+	 * @param id
 	 * @return the CompartmentType of the listOfCompartmentTypes which has 'id'
 	 *         as id (or name depending on the level and version). Null if if
 	 *         the listOfCompartmentTypes is not set.
 	 */
 	@Deprecated
-	public CompartmentType getCompartmentType(String idOrName) {
-		if (isSetListOfCompartmentTypes() && idOrName != null) {
-			for (CompartmentType ct : listOfCompartmentTypes) {
-				if (ct.isSetId()) {
-					if (ct.getId().equals(idOrName)) {
-						return ct;
-					}
-				} else if (ct.isSetName()) {
-					if (ct.getName().equals(idOrName)) {
-						return ct;
-					}
-				}
-			}
-		}
-		return null;
+	public CompartmentType getCompartmentType(String id) {
+		return getListOfCompartmentTypes().firstHit(new NameFilter(id));
 	}
 
 	/**
@@ -1345,10 +1313,7 @@ public class Model extends AbstractNamedSBase {
 	 *         zero.
 	 */
 	public Constraint getConstraint(int n) {
-		if (isSetListOfConstraints() && n < listOfConstraints.size() && n >= 0) {
-			return listOfConstraints.get(n);
-		}
-		return null;
+		return getListOfConstraints().get(n);
 	}
 
 	/**
@@ -1372,39 +1337,23 @@ public class Model extends AbstractNamedSBase {
 	/**
 	 * Gets the nth Event object in this Model.
 	 * 
-	 * @param i
+	 * @param n
 	 * @return the nth Event of this Model. Returns null if there are no event
 	 *         defined or if the index n is too big or lower than zero.
 	 */
-	public Event getEvent(int i) {
-		if (isSetListOfEvents() && i < listOfEvents.size() && i >= 0) {
-			return listOfEvents.get(i);
-		}
-		return null;
+	public Event getEvent(int n) {
+		return getListOfEvents().get(n);
 	}
 
 	/**
 	 * 
-	 * @param idOrName
+	 * @param id
 	 * @return the Event of the listOfEvents which has 'id' as id (or name
 	 *         depending on the level and version). Null if if the listOfEvents
 	 *         is not set.
 	 */
-	public Event getEvent(String idOrName) {
-		if (isSetListOfEvents() && idOrName != null) {
-			for (Event ev : listOfEvents) {
-				if (ev.isSetId()) {
-					if (ev.getId().equals(idOrName)) {
-						return ev;
-					}
-				} else if (ev.isSetName()) {
-					if (ev.getName().equals(idOrName)) {
-						return ev;
-					}
-				}
-			}
-		}
-		return null;
+	public Event getEvent(String id) {
+		return getListOfEvents().firstHit(new NameFilter(id));
 	}
 
 	/**
@@ -1422,10 +1371,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id. Null if it doesn't exist
 	 */
 	public UnitDefinition getExtentUnitsInstance() {
-		if (getModel() != null) {
-			return getModel().getUnitDefinition(this.extentUnitsID);
-		}
-		return null;
+		return getUnitDefinition(this.extentUnitsID);
 	}
 
 	/**
@@ -1436,35 +1382,18 @@ public class Model extends AbstractNamedSBase {
 	 *         listOfFunctionDefinitions is not set.
 	 */
 	public FunctionDefinition getFunctionDefinition(int n) {
-		if (isSetListOfFunctionDefinitions()
-				&& n < listOfFunctionDefinitions.size() && n >= 0) {
-			return listOfFunctionDefinitions.get(n);
-		}
-		return null;
+		return getListOfFunctionDefinitions().get(n);
 	}
 
 	/**
 	 * 
-	 * @param idOrName
+	 * @param id
 	 * @return the FunctionDefinition of the listOfFunstionDefinitions which has
 	 *         'id' as id (or name depending on the level and version). Null if
 	 *         if the listOfFunctionDefinitions is not set.
 	 */
-	public FunctionDefinition getFunctionDefinition(String idOrName) {
-		if (isSetListOfFunctionDefinitions() && idOrName != null) {
-			for (FunctionDefinition f : listOfFunctionDefinitions) {
-				if (f.isSetId()) {
-					if (f.getId().equals(idOrName)) {
-						return f;
-					}
-				} else if (f.isSetName()) {
-					if (f.getName().equals(idOrName)) {
-						return f;
-					}
-				}
-			}
-		}
-		return null;
+	public FunctionDefinition getFunctionDefinition(String id) {
+		return getListOfFunctionDefinitions().firstHit(new NameFilter(id));
 	}
 
 	/**
@@ -1475,11 +1404,7 @@ public class Model extends AbstractNamedSBase {
 	 *         listOfInitialAssignments is not set.
 	 */
 	public InitialAssignment getInitialAssignment(int n) {
-		if (isSetListOfInitialAssignments()
-				&& n < listOfInitialAssignments.size() && n >= 0) {
-			return listOfInitialAssignments.get(n);
-		}
-		return null;
+		return getListOfInitialAssignments().get(n);
 	}
 
 	/**
@@ -1489,7 +1414,7 @@ public class Model extends AbstractNamedSBase {
 	 *         element of the list of these elements, or null is no element
 	 *         exist for this type.
 	 */
-	private SBase getLastElementOf(ListOf<? extends SBase> listOf) {
+	private <T> T getLastElementOf(ListOf<? extends T> listOf) {
 		return listOf == null || listOf.size() == 0 ? null : listOf.getLast();
 	}
 
@@ -1672,6 +1597,7 @@ public class Model extends AbstractNamedSBase {
 	/**
 	 * @see getHistory
 	 * @return History of this model
+	 * @deprecated use getHistory()
 	 */
 	public History getModelHistory() {
 		return getHistory();
@@ -1694,10 +1620,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public int getNumCompartmentTypes() {
-		if (isSetListOfCompartmentTypes()) {
-			return listOfCompartmentTypes.size();
-		}
-		return 0;
+		return isSetListOfCompartmentTypes() ? listOfCompartmentTypes.size()
+				: 0;
 	}
 
 	/**
@@ -1705,10 +1629,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the number of Constraints of this Model.
 	 */
 	public int getNumConstraints() {
-		if (isSetListOfConstraints()) {
-			return listOfConstraints.size();
-		}
-		return 0;
+		return isSetListOfConstraints() ? listOfConstraints.size() : 0;
 	}
 
 	/**
@@ -1716,10 +1637,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the number of Events of this Model.
 	 */
 	public int getNumEvents() {
-		if (isSetListOfEvents()) {
-			return listOfEvents.size();
-		}
-		return 0;
+		return isSetListOfEvents() ? listOfEvents.size() : 0;
 	}
 
 	/**
@@ -1727,10 +1645,8 @@ public class Model extends AbstractNamedSBase {
 	 * @return the number of FunctionDefinitions of this Model.
 	 */
 	public int getNumFunctionDefinitions() {
-		if (isSetListOfFunctionDefinitions()) {
-			return listOfFunctionDefinitions.size();
-		}
-		return 0;
+		return isSetListOfFunctionDefinitions() ? listOfFunctionDefinitions
+				.size() : 0;
 	}
 
 	/**
@@ -1738,10 +1654,8 @@ public class Model extends AbstractNamedSBase {
 	 * @return the number of InitialAssignments of this Model.
 	 */
 	public int getNumInitialAssignments() {
-		if (isSetListOfInitialAssignments()) {
-			return listOfInitialAssignments.size();
-		}
-		return 0;
+		return isSetListOfInitialAssignments() ? listOfInitialAssignments
+				.size() : 0;
 	}
 
 	/**
@@ -1753,7 +1667,7 @@ public class Model extends AbstractNamedSBase {
 	public int getNumLocalParameters() {
 		int count = 0;
 		if (isSetListOfReactions()) {
-			for (Reaction reaction : listOfReactions) {
+			for (Reaction reaction : getListOfReactions()) {
 				if (reaction.isSetKineticLaw()) {
 					count += reaction.getKineticLaw().getNumParameters();
 				}
@@ -1767,10 +1681,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the number of Parameters of this Model.
 	 */
 	public int getNumParameters() {
-		if (isSetListOfParameters()) {
-			return listOfParameters.size();
-		}
-		return 0;
+		return isSetListOfParameters() ? listOfParameters.size() : 0;
 	}
 
 	/**
@@ -1778,10 +1689,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the number of Reactions of this Model.
 	 */
 	public int getNumReactions() {
-		if (isSetListOfReactions()) {
-			return listOfReactions.size();
-		}
-		return 0;
+		return isSetListOfReactions() ? listOfReactions.size() : 0;
 	}
 
 	/**
@@ -1789,10 +1697,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the number of Rules of this model.
 	 */
 	public int getNumRules() {
-		if (isSetListOfRules()) {
-			return listOfRules.size();
-		}
-		return 0;
+		return isSetListOfRules() ? listOfRules.size() : 0;
 	}
 
 	/**
@@ -1800,10 +1705,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the number of Species of this Model.
 	 */
 	public int getNumSpecies() {
-		if (isSetListOfSpecies()) {
-			return listOfSpecies.size();
-		}
-		return 0;
+		return isSetListOfSpecies() ? listOfSpecies.size() : 0;
 	}
 
 	/**
@@ -1812,10 +1714,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public int getNumSpeciesTypes() {
-		if (isSetListOfSpeciesTypes()) {
-			return listOfSpeciesTypes.size();
-		}
-		return 0;
+		return isSetListOfSpeciesTypes() ? listOfSpeciesTypes.size() : 0;
 	}
 
 	/**
@@ -1824,12 +1723,8 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public int getNumSpeciesWithBoundaryCondition() {
-		int count = 0;
-		for (Species s : listOfSpecies) {
-			if (s.isSetBoundaryCondition())
-				count++;
-		}
-		return count;
+		return getListOfSpecies().filterList(new BoundaryConditionFilter())
+				.size();
 	}
 
 	/**
@@ -1837,10 +1732,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the number of UnitDefinitions of this Model.
 	 */
 	public int getNumUnitDefinitions() {
-		if (isSetListOfUnitDefinitions()) {
-			return listOfUnitDefinitions.size();
-		}
-		return 0;
+		return isSetListOfUnitDefinitions() ? listOfUnitDefinitions.size() : 0;
 	}
 
 	/**
@@ -1851,11 +1743,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the nth Parameter of this Model.
 	 */
 	public Parameter getParameter(int n) {
-		if (isSetListOfParameters()) {
-			return listOfParameters.get(n);
-		}
-		throw new IndexOutOfBoundsException(
-				"listOfParameters has not been initialized.");
+		return getListOfParameters().get(n);
 	}
 
 	/**
@@ -1866,20 +1754,7 @@ public class Model extends AbstractNamedSBase {
 	 *         exist.
 	 */
 	public Parameter getParameter(String id) {
-		if (isSetListOfParameters() && id != null) {
-			for (Parameter parameter : listOfParameters) {
-				if (parameter.isSetId()) {
-					if (parameter.getId().equals(id)) {
-						return parameter;
-					}
-				} else if (parameter.isSetName()) {
-					if (parameter.getName().equals(id)) {
-						return parameter;
-					}
-				}
-			}
-		}
-		return null;
+		return getListOfParameters().firstHit(new NameFilter(id));
 	}
 
 	/**
@@ -1889,34 +1764,17 @@ public class Model extends AbstractNamedSBase {
 	 * @return the n-th Reaction of this Model.
 	 */
 	public Reaction getReaction(int n) {
-		if (isSetListOfReactions()) {
-			return listOfReactions.get(n);
-		}
-		throw new IndexOutOfBoundsException(
-				"listOfReactions has not been initialized.");
+		return getListOfReactions().get(n);
 	}
 
 	/**
 	 * 
-	 * @param idOrName
+	 * @param id
 	 * @return the Reaction of the listOfReactions which has 'id' as id (or name
 	 *         depending on the level and version). Null if it doesn't exist.
 	 */
-	public Reaction getReaction(String idOrName) {
-		if (isSetListOfReactions() && idOrName != null) {
-			for (Reaction reaction : listOfReactions) {
-				if (reaction.isSetId()) {
-					if (reaction.getId().equals(idOrName)) {
-						return reaction;
-					}
-				} else if (reaction.isSetName()) {
-					if (reaction.getName().equals(idOrName)) {
-						return reaction;
-					}
-				}
-			}
-		}
-		return null;
+	public Reaction getReaction(String id) {
+		return getListOfReactions().firstHit(new NameFilter(id));
 	}
 
 	/**
@@ -1925,11 +1783,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the nth Rule of the listOfRules. Null if it doesn't exist.
 	 */
 	public Rule getRule(int n) {
-		if (isSetListOfRules()) {
-			return listOfRules.get(n);
-		}
-		throw new IndexOutOfBoundsException(
-				"listOfRules has not been initialized.");
+		return getListOfRules().get(n);
 	}
 
 	/**
@@ -1940,11 +1794,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the species with the given index if it exists.
 	 */
 	public Species getSpecies(int n) {
-		if (isSetListOfSpecies()) {
-			return listOfSpecies.get(n);
-		}
-		throw new IndexOutOfBoundsException(
-				"listOfSpecies has not been initialized.");
+		return getListOfSpecies().get(n);
 	}
 
 	/**
@@ -1954,20 +1804,7 @@ public class Model extends AbstractNamedSBase {
 	 *         depending on the level and version). Null if it doesn't exist.
 	 */
 	public Species getSpecies(String id) {
-		if (isSetListOfSpecies() && id != null) {
-			for (Species species : listOfSpecies) {
-				if (species.isSetId()) {
-					if (species.getId().equals(id)) {
-						return species;
-					}
-				} else if (species.isSetName()) {
-					if (species.getName().equals(id)) {
-						return species;
-					}
-				}
-			}
-		}
-		return null;
+		return getListOfSpecies().firstHit(new NameFilter(id));
 	}
 
 	/**
@@ -1979,38 +1816,21 @@ public class Model extends AbstractNamedSBase {
 	 *         speciesType defined or if the index n is too big or lower than
 	 *         zero.
 	 */
-	@SuppressWarnings("deprecation")
+	@Deprecated
 	public SpeciesType getSpeciesType(int n) {
-		if (isSetListOfSpeciesTypes()) {
-			return listOfSpeciesTypes.get(n);
-		}
-		throw new IndexOutOfBoundsException(
-				"listOfSpeciesTypes has not been initialized.");
+		return getListOfSpeciesTypes().get(n);
 	}
 
 	/**
 	 * 
-	 * @param idOrName
+	 * @param id
 	 * @return the SpeciesType of the listOfSpeciesTypes which has 'id' as id
 	 *         (or name depending on the level and version). Null if it doesn't
 	 *         exist.
 	 */
 	@Deprecated
-	public SpeciesType getSpeciesType(String idOrName) {
-		if (isSetListOfSpeciesTypes() && idOrName != null) {
-			for (SpeciesType st : listOfSpeciesTypes) {
-				if (st.isSetId()) {
-					if (st.getId().equals(idOrName)) {
-						return st;
-					}
-				} else if (st.isSetName()) {
-					if (st.getName().equals(idOrName)) {
-						return st;
-					}
-				}
-			}
-		}
-		return null;
+	public SpeciesType getSpeciesType(String id) {
+		return getListOfSpeciesTypes().firstHit(new NameFilter(id));
 	}
 
 	/**
@@ -2057,55 +1877,18 @@ public class Model extends AbstractNamedSBase {
 	 *         than zero.
 	 */
 	public UnitDefinition getUnitDefinition(int n) {
-		if (isSetListOfUnitDefinitions()) {
-			return listOfUnitDefinitions.get(n);
-		}
-		throw new IndexOutOfBoundsException(
-				"listOfUnitDefinitions has not been initialized.");
+		return getListOfUnitDefinitions().get(n);
 	}
 
 	/**
 	 * 
-	 * @param idOrName
+	 * @param id
 	 * @return the UnitDefinition of the listOfUnitDefinitions which has 'id' as
 	 *         id (or name depending on the level and version). Null if it
 	 *         doesn't exist.
 	 */
-	public UnitDefinition getUnitDefinition(String idOrName) {
-		if (isSetListOfUnitDefinitions() && idOrName != null) {
-			for (UnitDefinition unitdef : listOfUnitDefinitions) {
-				if (unitdef.isSetId()) {
-					if (unitdef.getId().equals(idOrName)) {
-						return unitdef;
-					}
-				} else if (unitdef.isSetName()) {
-					if (unitdef.getName().equals(idOrName)) {
-						return unitdef;
-					}
-				}
-			}
-		}
-
-		UnitDefinition ud = null;
-		if (idOrName != null) {
-			if (idOrName.equals("area")) {
-				ud = UnitDefinition.area(getLevel(), getVersion());
-				addUnitDefinition(ud);
-			} else if (idOrName.equals("length")) {
-				ud = UnitDefinition.length(getLevel(), getVersion());
-				addUnitDefinition(ud);
-			} else if (idOrName.equals("substance")) {
-				ud = UnitDefinition.substance(getLevel(), getVersion());
-				addUnitDefinition(ud);
-			} else if (idOrName.equals("time")) {
-				ud = UnitDefinition.time(getLevel(), getVersion());
-				addUnitDefinition(ud);
-			} else if (idOrName.equals("volume")) {
-				ud = UnitDefinition.volume(getLevel(), getVersion());
-				addUnitDefinition(ud);
-			}
-		}
-		return ud;
+	public UnitDefinition getUnitDefinition(String id) {
+		return getListOfUnitDefinitions().firstHit(new NameFilter(id));
 	}
 
 	/**
@@ -2153,40 +1936,47 @@ public class Model extends AbstractNamedSBase {
 		listOfRules = null;
 		listOfSpecies = null;
 		listOfSpeciesTypes = null;
-		listOfUnitDefinitions = null;
+		UnitDefinition ud;
 		switch (getLevel()) {
 		// TODO!!! Default settings for all Level/Version combinations
 		case 1:
-			substanceUnitsID = null;
-			timeUnitsID = null;
-			volumeUnitsID = null;
+			listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(),
+					getVersion());
+			ud = UnitDefinition.substance(getLevel(), getVersion());
+			substanceUnitsID = ud.getId();
+			ud = UnitDefinition.time(getLevel(), getVersion());
+			timeUnitsID = ud.getId();
+			ud = UnitDefinition.volume(getLevel(), getVersion());
+			volumeUnitsID = ud.getId();
 			areaUnitsID = null;
 			lengthUnitsID = null;
 			extentUnitsID = null;
 			conversionFactorID = null;
 			break;
 		case 2:
-			listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(), getVersion());
+			listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(),
+					getVersion());
 			listOfUnitDefinitions.setSBaseListType(Type.listOfUnitDefinitions);
-			UnitDefinition p = UnitDefinition.area(getLevel(), getVersion());
-			areaUnitsID = p.getId();
-			listOfUnitDefinitions.add(p);
-			p = UnitDefinition.length(getLevel(), getVersion());
-			lengthUnitsID = p.getId();
-			listOfUnitDefinitions.add(p);
-			p = UnitDefinition.substance(getLevel(), getVersion());
-			substanceUnitsID = p.getId();
-			listOfUnitDefinitions.add(p);
-			p = UnitDefinition.time(getLevel(), getVersion());
-			timeUnitsID = p.getId();
-			listOfUnitDefinitions.add(p);
-			p = UnitDefinition.volume(getLevel(), getVersion());
-			volumeUnitsID = p.getId();
-			listOfUnitDefinitions.add(p);
+			ud = UnitDefinition.area(getLevel(), getVersion());
+			areaUnitsID = ud.getId();
+			listOfUnitDefinitions.add(ud);
+			ud = UnitDefinition.length(getLevel(), getVersion());
+			lengthUnitsID = ud.getId();
+			listOfUnitDefinitions.add(ud);
+			ud = UnitDefinition.substance(getLevel(), getVersion());
+			substanceUnitsID = ud.getId();
+			listOfUnitDefinitions.add(ud);
+			ud = UnitDefinition.time(getLevel(), getVersion());
+			timeUnitsID = ud.getId();
+			listOfUnitDefinitions.add(ud);
+			ud = UnitDefinition.volume(getLevel(), getVersion());
+			volumeUnitsID = ud.getId();
+			listOfUnitDefinitions.add(ud);
 			extentUnitsID = null;
 			conversionFactorID = null;
 			break;
 		default:
+			listOfUnitDefinitions = null;
 			substanceUnitsID = null;
 			timeUnitsID = null;
 			volumeUnitsID = null;
@@ -2211,6 +2001,9 @@ public class Model extends AbstractNamedSBase {
 		list.setSBaseListType(type);
 	}
 
+	/**
+	 * 
+	 */
 	private void initListOfCompartments() {
 		this.listOfCompartments = new ListOf<Compartment>(getLevel(),
 				getVersion());
@@ -2218,12 +2011,18 @@ public class Model extends AbstractNamedSBase {
 		setThisAsParentSBMLObject(this.listOfCompartments);
 	}
 
+	/**
+	 * 
+	 */
 	private void initListOfEvents() {
 		this.listOfEvents = new ListOf<Event>(getLevel(), getVersion());
 		setThisAsParentSBMLObject(this.listOfEvents);
 		this.listOfEvents.setSBaseListType(Type.listOfEvents);
 	}
 
+	/**
+	 * 
+	 */
 	private void initListOfFunctionDefinitions() {
 		this.listOfFunctionDefinitions = new ListOf<FunctionDefinition>(
 				getLevel(), getVersion());
@@ -2232,6 +2031,9 @@ public class Model extends AbstractNamedSBase {
 				.setSBaseListType(Type.listOfFunctionDefinitions);
 	}
 
+	/**
+	 * 
+	 */
 	private void initListOfInitialAssignment() {
 		this.listOfInitialAssignments = new ListOf<InitialAssignment>(
 				getLevel(), getVersion());
@@ -2239,30 +2041,45 @@ public class Model extends AbstractNamedSBase {
 		this.listOfInitialAssignments.setListOf(listOfInitialAssignments);
 	}
 
+	/**
+	 * 
+	 */
 	private void initListOfParameters() {
 		this.listOfParameters = new ListOf<Parameter>(getLevel(), getVersion());
 		setThisAsParentSBMLObject(this.listOfParameters);
 		this.listOfParameters.setSBaseListType(Type.listOfParameters);
 	}
 
+	/**
+	 * 
+	 */
 	private void initListOfReactions() {
 		this.listOfReactions = new ListOf<Reaction>(getLevel(), getVersion());
 		setThisAsParentSBMLObject(this.listOfReactions);
 		this.listOfReactions.setSBaseListType(Type.listOfReactions);
 	}
 
+	/**
+	 * 
+	 */
 	private void initListOfRules() {
 		this.listOfRules = new ListOf<Rule>(getLevel(), getVersion());
 		setThisAsParentSBMLObject(this.listOfRules);
 		this.listOfRules.setSBaseListType(Type.listOfRules);
 	}
 
+	/**
+	 * 
+	 */
 	private void initListOfSpecies() {
 		this.listOfSpecies = new ListOf<Species>(getLevel(), getVersion());
 		setThisAsParentSBMLObject(this.listOfSpecies);
 		this.listOfSpecies.setSBaseListType(Type.listOfSpecies);
 	}
 
+	/**
+	 * 
+	 */
 	private void initListOfUnitDefinitions() {
 		this.listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(),
 				getVersion());
@@ -2440,7 +2257,9 @@ public class Model extends AbstractNamedSBase {
 	 * This is equivalent to the call {@link isSetHistory()}.
 	 * 
 	 * @return
+	 * @deprecated use isSetHistory()
 	 */
+	@Deprecated
 	public boolean isSetModelHistory() {
 		return isSetHistory();
 	}
@@ -2535,174 +2354,146 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Compartment removeCompartment(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		return getListOfCompartments().remove(i);
 	}
 
 	/**
 	 * 
-	 * @param string
+	 * @param id
 	 * @return
 	 */
-	public Compartment removeCompartment(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public Compartment removeCompartment(String id) {
+		return getListOfCompartments().removeFirst(new NameFilter(id));
 	}
 
 	/**
 	 * 
-	 * @param i
-	 * @return
-	 */
-	@Deprecated
-	public CompartmentType removeCompartmentType(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param string
+	 * @param n
 	 * @return
 	 */
 	@Deprecated
-	public CompartmentType removeCompartmentType(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public CompartmentType removeCompartmentType(int n) {
+		return getListOfCompartmentTypes().remove(n);
 	}
 
 	/**
 	 * 
-	 * @param i
+	 * @param id
 	 * @return
 	 */
-	public Constraint removeConstraint(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	@Deprecated
+	public CompartmentType removeCompartmentType(String id) {
+		return getListOfCompartmentTypes().removeFirst(new NameFilter(id));
 	}
 
 	/**
 	 * 
-	 * @param i
+	 * @param n
 	 * @return
 	 */
-	public Event removeEvent(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	public Constraint removeConstraint(int n) {
+		return getListOfConstraints().remove(n);
 	}
 
 	/**
 	 * 
-	 * @param string
+	 * @param n
 	 * @return
 	 */
-	public Event removeEvent(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public Event removeEvent(int n) {
+		return getListOfEvents().remove(n);
 	}
 
 	/**
 	 * 
-	 * @param i
+	 * @param id
 	 * @return
 	 */
-	public FunctionDefinition removeFunctionDefinition(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	public Event removeEvent(String id) {
+		return getListOfEvents().removeFirst(new NameFilter(id));
 	}
 
 	/**
 	 * 
-	 * @param string
+	 * @param n
 	 * @return
 	 */
-	public FunctionDefinition removeFunctionDefinition(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public FunctionDefinition removeFunctionDefinition(int n) {
+		return getListOfFunctionDefinitions().remove(n);
 	}
 
 	/**
 	 * 
-	 * @param i
+	 * @param id
 	 * @return
 	 */
-	public InitialAssignment removeInitialAssignment(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	public FunctionDefinition removeFunctionDefinition(String id) {
+		return getListOfFunctionDefinitions().removeFirst(new NameFilter(id));
 	}
 
 	/**
 	 * 
-	 * @param string
+	 * @param n
 	 * @return
 	 */
-	public InitialAssignment removeInitialAssignment(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public InitialAssignment removeInitialAssignment(int n) {
+		return getListOfInitialAssignments().remove(n);
 	}
 
 	/**
 	 * 
-	 * @param i
+	 * @param n
 	 * @return
 	 */
-	public Parameter removeParameter(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	public Parameter removeParameter(int n) {
+		return getListOfParameters().remove(n);
 	}
 
 	/**
 	 * Removes the Parameter 'parameter' from this Model.
 	 * 
 	 * @param parameter
+	 * @return
 	 */
-	public void removeParameter(Parameter parameter) {
-		if (isSetListOfParameters()) {
-			listOfParameters.remove(parameter);
-			parameter.sbaseRemoved();
-		}
+	public boolean removeParameter(Parameter parameter) {
+		return getListOfParameters().remove(parameter);
 	}
 
 	/**
 	 * 
-	 * @param string
+	 * @param id
 	 * @return
 	 */
-	public Parameter removeParameter(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public Parameter removeParameter(String id) {
+		return getListOfParameters().removeFirst(new NameFilter(id));
 	}
 
 	/**
 	 * 
-	 * @param i
+	 * @param n
 	 * @return
 	 */
-	public Reaction removeReaction(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	public Reaction removeReaction(int n) {
+		return getListOfReactions().remove(n);
 	}
 
 	/**
 	 * removes a reaction from the model
 	 * 
 	 * @param reac
+	 * @return
 	 */
-	public void removeReaction(Reaction reac) {
-		if (isSetListOfReactions()) {
-			listOfReactions.remove(reac);
-			reac.sbaseRemoved();
-		}
+	public boolean removeReaction(Reaction reac) {
+		return getListOfReactions().remove(reac);
 	}
 
 	/**
 	 * 
-	 * @param string
+	 * @param id
 	 * @return
 	 */
-	public Reaction removeReaction(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public Reaction removeReaction(String id) {
+		return getListOfReactions().removeFirst(new NameFilter(id));
 	}
 
 	/**
@@ -2711,18 +2502,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Rule removeRule(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param string
-	 * @return
-	 */
-	public Rule removeRule(String string) {
-		// TODO Auto-generated method stub
-		return null;
+		return getListOfRules().remove(i);
 	}
 
 	/**
@@ -2731,8 +2511,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Species removeSpecies(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		return getListOfSpecies().remove(i);
 	}
 
 	/**
@@ -2742,68 +2521,54 @@ public class Model extends AbstractNamedSBase {
 	 * @return success
 	 */
 	public boolean removeSpecies(Species spec) {
-		boolean success = false;
-
-		if (isSetListOfSpecies()) {
-			success = listOfSpecies.remove(spec);
-
-		}
-		if (success) {
-			spec.sbaseRemoved();
-		}
-		return success;
+		return getListOfSpecies().remove(spec);
 	}
 
 	/**
 	 * 
-	 * @param string
+	 * @param id
 	 * @return
 	 */
-	public Species removeSpecies(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public Species removeSpecies(String id) {
+		return getListOfSpecies().removeFirst(new NameFilter(id));
 	}
 
 	/**
 	 * 
-	 * @param i
+	 * @param n
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
-	public SpeciesType removeSpeciesType(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	@Deprecated
+	public SpeciesType removeSpeciesType(int n) {
+		return getListOfSpeciesTypes().remove(n);
 	}
 
 	/**
 	 * 
-	 * @param string
+	 * @param id
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
-	public SpeciesType removeSpeciesType(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	@Deprecated
+	public SpeciesType removeSpeciesType(String id) {
+		return getListOfSpeciesTypes().removeFirst(new NameFilter(id));
 	}
 
 	/**
 	 * 
-	 * @param i
+	 * @param n
 	 * @return
 	 */
-	public UnitDefinition removeUnitDefinition(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	public UnitDefinition removeUnitDefinition(int n) {
+		return getListOfUnitDefinitions().get(n);
 	}
 
 	/**
 	 * 
-	 * @param string
+	 * @param id
 	 * @return
 	 */
-	public UnitDefinition removeUnitDefinition(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public UnitDefinition removeUnitDefinition(String id) {
+		return getListOfUnitDefinitions().removeFirst(new NameFilter(id));
 	}
 
 	/**
@@ -2813,15 +2578,7 @@ public class Model extends AbstractNamedSBase {
 	 *         the Model.
 	 */
 	public boolean removeUnitDefinition(UnitDefinition unitDefininition) {
-		boolean success = false;
-		if (isSetListOfUnitDefinitions()) {
-			success = listOfUnitDefinitions.remove(unitDefininition);
-
-		}
-		if (success) {
-			unitDefininition.sbaseRemoved();
-		}
-		return success;
+		return getListOfUnitDefinitions().remove(unitDefininition);
 	}
 
 	/**
@@ -3093,10 +2850,12 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * @see setHistory
-	 * @param modelHistory
+	 * @param history
+	 * @deprecated use <code>setHistory(history)</code>
 	 */
-	public void setModelHistory(History modelHistory) {
-		setHistory(modelHistory);
+	@Deprecated
+	public void setModelHistory(History history) {
+		setHistory(history);
 	}
 
 	/**
@@ -3209,7 +2968,7 @@ public class Model extends AbstractNamedSBase {
 		this.volumeUnitsID = null;
 		stateChanged();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

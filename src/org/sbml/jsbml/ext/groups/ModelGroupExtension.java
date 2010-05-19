@@ -33,28 +33,59 @@ package org.sbml.jsbml.ext.groups;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 
+/**
+ * 
+ * 
+ *
+ */
 public class ModelGroupExtension extends Model {
 
+	/**
+	 * 
+	 */
 	protected ListOf<Group> listOfGroups = new ListOf<Group>();
+	/**
+	 * 
+	 */
 	protected Model model;
 	
+	/**
+	 * 
+	 */
 	public ModelGroupExtension() {
 		
 	}
 	
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public ModelGroupExtension(int level, int version) {
 		super(level, version);
 	}
 	
+	/**
+	 * 
+	 * @param model
+	 */
 	public ModelGroupExtension(Model model) {
 		this.model = model;
 		model.setThisAsParentSBMLObject(this);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public ListOf<Group> getListOfGroups() {
 		return listOfGroups;
 	}
 
+	/**
+	 * 
+	 * @param listOfGroups
+	 */
 	public void setListOfGroups(ListOf<Group> listOfGroups) {
 		if (listOfGroups == null) {
 			this.listOfGroups = new ListOf<Group>();
@@ -64,6 +95,10 @@ public class ModelGroupExtension extends Model {
 		setThisAsParentSBMLObject(listOfGroups);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isSetListOfGroups() {
 		if (listOfGroups == null || listOfGroups.isEmpty()) {
 			return false;			
@@ -72,6 +107,11 @@ public class ModelGroupExtension extends Model {
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public Group getGroup(int i) {
 		if (i >= 0 && i < listOfGroups.size()) {
 			return listOfGroups.get(i);
@@ -80,6 +120,10 @@ public class ModelGroupExtension extends Model {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param group
+	 */
 	public void addGroup(Group group) {
 		setThisAsParentSBMLObject(group);
 		listOfGroups.add(group);		
