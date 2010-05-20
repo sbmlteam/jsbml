@@ -239,7 +239,6 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		if (isSetStoichiometryMath()) {
 			return stoichiometryMath.getDerivedUnitDefinition();
 		}
-
 		UnitDefinition ud = new UnitDefinition(getLevel(), getVersion());
 		ud.addUnit(new Unit(Unit.Kind.DIMENSIONLESS, getLevel(), getVersion()));
 		return ud;

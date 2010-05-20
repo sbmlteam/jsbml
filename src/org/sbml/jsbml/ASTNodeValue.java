@@ -56,6 +56,10 @@ public class ASTNodeValue {
 	 */
 	private Object value;
 	/**
+	 * The unit associated to the value of this object.
+	 */
+	private UnitDefinition unit;
+	/**
 	 * 
 	 */
 	private boolean uiFlag;
@@ -75,6 +79,7 @@ public class ASTNodeValue {
 	public ASTNodeValue(ASTNodeCompiler compiler) {
 		type = Type.UNKNOWN;
 		value = null;
+		unit = null;
 		uiFlag = true;
 		this.compiler = compiler;
 	}
@@ -154,10 +159,37 @@ public class ASTNodeValue {
 
 	/**
 	 * 
+	 * @param unit
+	 */
+	public ASTNodeValue(UnitDefinition unit, ASTNodeCompiler compiler) {
+		this(compiler);
+		setUnit(unit);
+	}
+
+	/**
+	 * Flag to indicate whether or not units have been fully declared for this
+	 * value.
+	 * 
+	 * @return
+	 */
+	public boolean containsUndeclaredUnits() {
+		return !isSetUnit() || (getUnit().getNumUnits() == 0);
+	}
+
+	/**
+	 * 
 	 * @return
 	 */
 	public Type getType() {
 		return type;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public UnitDefinition getUnit() {
+		return unit;
 	}
 
 	/**
@@ -176,6 +208,10 @@ public class ASTNodeValue {
 		return (value != null) && (value instanceof Boolean);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isDifference() {
 		return type == Type.MINUS;
 	}
@@ -194,6 +230,15 @@ public class ASTNodeValue {
 	 */
 	public boolean isNumber() {
 		return (value != null) && (value instanceof Number);
+	}
+
+	/**
+	 * Test if this value can be evaluated to a {@link UnitDefinition}
+	 * 
+	 * @return
+	 */
+	public boolean isSetUnit() {
+		return value instanceof UnitDefinition;
 	}
 
 	/**
@@ -242,6 +287,14 @@ public class ASTNodeValue {
 	 */
 	void setUIFlag(boolean uiFlag) {
 		this.uiFlag = uiFlag;
+	}
+
+	/**
+	 * 
+	 * @param unit
+	 */
+	public void setUnit(UnitDefinition unit) {
+		this.unit = unit;
 	}
 
 	/**

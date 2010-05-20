@@ -410,6 +410,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 		stateChanged();
 	}
 
+	/**
+	 * Removes all {@link Unit} elements from the list of Units in this object.
+	 */
+	public void clear() {
+		getListOfUnits().clear();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -40,6 +40,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.util.LaTeX;
 import org.sbml.jsbml.util.MathMLCompiler;
 import org.sbml.jsbml.util.TextFormula;
+import org.sbml.jsbml.util.UnitCompiler;
 
 /**
  * A node in the Abstract Syntax Tree (AST) representation of a mathematical
@@ -1190,6 +1191,41 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Returns <code>true</code> or <code>false</code> depending on whether this
+	 * {@link ASTNode} refers to elements such as parameters or numbers with
+	 * undeclared units.
+	 * 
+	 * A return value of true indicates that the <code>UnitDefinition</code>
+	 * returned by {@see getDerivedUnitDefinition()} may not accurately
+	 * represent the units of the expression.
+	 * 
+	 * @return <code>true</code> if the math expression of this {@link ASTNode}
+	 *         includes parameters/numbers with undeclared units,
+	 *         <code>false</code> otherwise.
+	 */
+	public boolean containsUndeclaredUnits() {
+		if (isLeaf()) {
+			if (isNumber() || isRational() || isUnknown()) {
+				return true;
+			}
+			if (isName()) {
+				if ((getVariable() != null)
+						&& (!getVariable().containsUndeclaredUnits())) {
+					return false;
+				}
+				return true;
+			}
+		} else {
+			for (ASTNode child : getListOfNodes()) {
+				if (child.containsUndeclaredUnits()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * This method recursively evaluates this ASTNode and creates a new
 	 * UnitDefinition with respect of all referenced elements.
 	 * 
@@ -1198,7 +1234,14 @@ public class ASTNode implements TreeNode {
 	public UnitDefinition deriveUnit() {
 		// TODO Auto-generated method stub
 		System.err.println("not yet implemented");
-		return null;
+		MathContainer container = getParentSBMLObject();
+		int level = -1;
+		int version = -1;
+		if (container != null) {
+			level = container.getLevel();
+			version = container.getVersion();
+		}
+		return compile(new UnitCompiler(level, version)).getUnit();
 	}
 
 	/**
@@ -2413,48 +2456,14 @@ public class ASTNode implements TreeNode {
 			String name = type.toString();
 			return name.length() > 8 ? type.toString().substring(9)
 					.toLowerCase() : getName();
-		} else
+		} else {
 			switch (type) {
 			case NAME_TIME:
 				return type.toString().substring(4).toLowerCase();
 			default:
 				break;
 			}
-		return isName() ? getName() : getType().toString();
-	}
-
-	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether this
-	 * {@link ASTNode} refers to elements such as parameters or numbers with
-	 * undeclared units.
-	 * 
-	 * A return value of true indicates that the <code>UnitDefinition</code>
-	 * returned by {@see getDerivedUnitDefinition()} may not accurately
-	 * represent the units of the expression.
-	 * 
-	 * @return <code>true</code> if the math expression of this {@link ASTNode}
-	 *         includes parameters/numbers with undeclared units,
-	 *         <code>false</code> otherwise.
-	 */
-	public boolean containsUndeclaredUnits() {
-		if (isLeaf()) {
-			if (isNumber() || isRational() || isUnknown()) {
-				return true;
-			}
-			if (isName()) {
-				if ((getVariable() != null)
-						&& (!getVariable().containsUndeclaredUnits())) {
-					return false;
-				}
-				return true;
-			}
-		} else {
-			for (ASTNode child : getListOfNodes()) {
-				if (child.containsUndeclaredUnits()) {
-					return true;
-				}
-			}
 		}
-		return false;
+		return isName() ? getName() : getType().toString();
 	}
 }
