@@ -126,7 +126,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
 	 */
 	public boolean containsUndeclaredUnits() {
-		return isSetUnits();
+		return !isSetUnits();
 	}
 
 	/*
@@ -159,7 +159,12 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
 	 */
 	public UnitDefinition getDerivedUnitDefinition() {
-		return getUnitsInstance();
+		if (isSetUnitsInstance()) {
+			return getUnitsInstance();
+		}
+		UnitDefinition ud = new UnitDefinition(getLevel(), getVersion());
+		ud.addUnit(new Unit(getLevel(), getVersion()));
+		return ud;
 	}
 
 	/*

@@ -341,7 +341,12 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
 	 */
 	public UnitDefinition getDerivedUnitDefinition() {
-		return isSetKineticLaw() ? kineticLaw.getDerivedUnitDefinition() : null;
+		if (isSetKineticLaw()) {
+			return kineticLaw.getDerivedUnitDefinition();
+		}
+		UnitDefinition ud = new UnitDefinition(getLevel(), getVersion());
+		ud.addUnit(new Unit(getLevel(), getVersion()));
+		return ud;
 	}
 
 	/*
