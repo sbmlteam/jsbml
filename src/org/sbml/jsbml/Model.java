@@ -1536,7 +1536,8 @@ public class Model extends AbstractNamedSBase {
 	 *         exist for this type.
 	 */
 	private <T> T getLastElementOf(ListOf<? extends T> listOf) {
-		return listOf == null || listOf.size() == 0 ? null : listOf.getLast();
+		// added casting and parenthesis because there was a compilation error when using the ant script
+		return (listOf == null || listOf.size() == 0) ? (T) null : (T) listOf.getLast();
 	}
 
 	/**

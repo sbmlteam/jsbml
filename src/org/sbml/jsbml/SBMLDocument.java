@@ -146,6 +146,8 @@ public class SBMLDocument extends AbstractSBase {
 	}
 
 	/**
+	 * Returns the model of this SBMLDocument.
+	 * 
 	 * @return the model of this SBMLDocument. Can be null if it is not set.
 	 */
 	public Model getModel() {
