@@ -110,8 +110,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * @return
 	 */
 	public static final StringBuffer diff(Object... subtrahents) {
-		if (subtrahents.length == 1)
-			return brackets(concat(Character.valueOf('-'), subtrahents));
+		if (subtrahents.length == 1){
+			return brackets(concat(Character.valueOf('-'), subtrahents));}
 		return brackets(arith('-', subtrahents));
 	}
 
