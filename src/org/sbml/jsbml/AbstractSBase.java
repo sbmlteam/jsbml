@@ -100,7 +100,7 @@ public abstract class AbstractSBase implements SBase {
 	/**
 	 * set of listeners for this component
 	 */
-	Set<SBaseChangedListener> setOfListeners;
+	protected Set<SBaseChangedListener> setOfListeners;
 
 	/**
 	 * version of the SBML component. Matches the version XML attribute of a
