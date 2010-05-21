@@ -431,7 +431,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 	}
 
 	/**
-	 * Creates a dimensionless unit definition object encapsulated in an ASTNodeValue.
+	 * Creates a dimensionless unit definition object encapsulated in an
+	 * ASTNodeValue.
+	 * 
 	 * @return
 	 */
 	private ASTNodeValue dimensionless() {
@@ -493,7 +495,10 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue frac(ASTNodeValue numerator, ASTNodeValue denominator) {
 		UnitDefinition ud = numerator.getUnit().clone();
-		ud.divideBy(denominator.getUnit());
+		UnitDefinition denom = denominator.getUnit().clone();
+		setLevelAndVersion(ud);
+		setLevelAndVersion(denom);
+		ud.divideBy(denom);
 		return new ASTNodeValue(ud, this);
 	}
 
@@ -600,16 +605,6 @@ public class UnitCompiler implements ASTNodeCompiler {
 		return dimensionless();
 	}
 
-	/**
-	 * Creates an invalid unit definition encapsulated in an ASTNodeValue.
-	 * @return
-	 */
-	private ASTNodeValue invalid() {
-		UnitDefinition ud = new UnitDefinition(level, version);
-		ud.addUnit(new Unit(level, version));
-		return new ASTNodeValue(ud, this);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -620,6 +615,17 @@ public class UnitCompiler implements ASTNodeCompiler {
 			namesToUnits.put(values[i].toString(), values[i].getUnit());
 		}
 		return new ASTNodeValue(values[values.length - 1].getUnit(), this);
+	}
+
+	/**
+	 * Creates an invalid unit definition encapsulated in an ASTNodeValue.
+	 * 
+	 * @return
+	 */
+	private ASTNodeValue invalid() {
+		UnitDefinition ud = new UnitDefinition(level, version);
+		ud.addUnit(new Unit(level, version));
+		return new ASTNodeValue(ud, this);
 	}
 
 	/*
@@ -718,9 +724,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#piecewise(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue piecewise(ASTNodeValue... values) {
-		ASTNodeValue[] varray = new ASTNodeValue[values.length/2];
-		for (int i=0, j=0; i<values.length; i+=2, j++) {
-			varray[j]=values[i];
+		ASTNodeValue[] varray = new ASTNodeValue[values.length / 2];
+		for (int i = 0, j = 0; i < values.length; i += 2, j++) {
+			varray[j] = values[i];
 		}
 		return checkIdentical(varray);
 	}
@@ -822,7 +828,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 		// TODO Auto-generated method stub
 		return new ASTNodeValue(new UnitDefinition(level, version), this);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -841,7 +847,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 		UnitDefinition ud = UnitDefinition.time(level, version);
 		if ((ud == null) && (model != null)) {
 			ud = model.getTimeUnitsInstance();
-			if (ud == null){
+			if (ud == null) {
 				ud = model.getUnitDefinition(time);
 			}
 		}
@@ -878,10 +884,32 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue times(ASTNodeValue... values) {
 		UnitDefinition ud = new UnitDefinition(level, version);
+		UnitDefinition v;
 		for (ASTNodeValue value : values) {
-			ud.multiplyWith(value.getUnit());
+			v = value.getUnit().clone();
+			setLevelAndVersion(v);
+			ud.multiplyWith(v);
 		}
 		return new ASTNodeValue(ud, this);
+	}
+
+	/**
+	 * Ensures that level and version combination of a unit are the same then
+	 * these that are defined here.
+	 * 
+	 * @param unit
+	 */
+	private void setLevelAndVersion(UnitDefinition unit) {
+		if ((unit.getLevel() != level) || (unit.getVersion() != version)) {
+			unit.setLevel(level);
+			unit.setVersion(version);
+			unit.getListOfUnits().setLevel(level);
+			unit.getListOfUnits().setVersion(version);
+			for (Unit u : unit.getListOfUnits()) {
+				u.setLevel(level);
+				u.setVersion(version);
+			}
+		}
 	}
 
 	/*

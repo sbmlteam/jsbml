@@ -534,7 +534,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public void initDefaults() {
 		if (!isSetListOfUnits()) {
 			initListOfUnits();
-			setThisAsParentSBMLObject(listOfUnits);
 		}
 	}
 

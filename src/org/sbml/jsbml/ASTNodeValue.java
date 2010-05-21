@@ -189,6 +189,10 @@ public class ASTNodeValue {
 	 * @return
 	 */
 	public UnitDefinition getUnit() {
+		if (!isSetUnit()) {
+			unit = new UnitDefinition();
+			unit.addUnit(new Unit());
+		}
 		return unit;
 	}
 
