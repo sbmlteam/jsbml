@@ -369,7 +369,10 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#getAnnotation()
 	 */
 	public Annotation getAnnotation() {
-		return isSetAnnotation() ? annotation : null;
+		if (!isSetAnnotation()) {
+			annotation = new Annotation();
+		}
+		return annotation;
 	}
 
 	/**
