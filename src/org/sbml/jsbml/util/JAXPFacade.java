@@ -126,6 +126,7 @@ public class JAXPFacade
      * @return The <code>org.w3c.dom.Document</code> instance representing
      * the XML DOM document created from the <code>byteStream</code>
      * XML content.
+     * @throws SAXException 
      * @throws NullPointerException If <code>byteStream</code> is
      * <code>null</code>.
      * @throws RuntimeException If any error occurs (parser configuration
@@ -133,7 +134,7 @@ public class JAXPFacade
      *
      */
     public Document create(InputStream byteStream,
-			   boolean namespaceAware) {
+			   boolean namespaceAware) throws SAXException {
 
 	if (byteStream == null) {
 	    throw new NullPointerException();
@@ -150,7 +151,7 @@ public class JAXPFacade
 	} catch (IOException e) {
 	    throw new RuntimeException(e);
 	} catch (SAXException e) {
-	    throw new RuntimeException(e);
+	    throw e;
 	}
     }
 
@@ -175,6 +176,7 @@ public class JAXPFacade
      * @return The <code>org.w3c.dom.Document</code> instance representing
      * the XML DOM document created from the <code>byteStream</code>
      * XML content.
+     * @throws SAXException 
      * @throws NullPointerException If <code>byteStream</code> is
      * <code>null</code>.
      * @throws RuntimeException If any error occurs (parser configuration
@@ -183,7 +185,7 @@ public class JAXPFacade
      */
     public Document create(InputStream byteStream,
 			   Object[] schemas,
-			   ErrorHandler handler) {
+			   ErrorHandler handler) throws SAXException {
 
 	if (byteStream == null) {
 	    throw new NullPointerException();
@@ -209,7 +211,7 @@ public class JAXPFacade
 	} catch (IOException e) {
 	    throw new RuntimeException(e);
 	} catch (SAXException e) {
-	    throw new RuntimeException(e);
+	    throw e;
 	}
     }
 
@@ -225,6 +227,7 @@ public class JAXPFacade
      * @return The <code>org.w3c.dom.Document</code> instance representing
      * the XML DOM document created from the <code>characterStream</code>
      * XML content.
+     * @throws SAXException 
      * @throws NullPointerException If <code>characterStream</code> is
      * <code>null</code>.
      * @throws RuntimeException If any error occurs (parser configuration
@@ -232,7 +235,7 @@ public class JAXPFacade
      *
      */
     public Document create(Reader characterStream,
-			   boolean namespaceAware) {
+			   boolean namespaceAware) throws SAXException {
 
 	if (characterStream == null) {
 	    throw new NullPointerException();
@@ -249,7 +252,7 @@ public class JAXPFacade
 	} catch (IOException e) {
 	    throw new RuntimeException(e);
 	} catch (SAXException e) {
-	    throw new RuntimeException(e);
+	    throw e;
 	}
     }
 

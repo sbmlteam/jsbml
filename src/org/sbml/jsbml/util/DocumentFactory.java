@@ -33,13 +33,13 @@ import java.io.Reader;
 
 import org.w3c.dom.Document;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
 
 /**
  * 
  * An interface for XML DOM document factories.
  * 
  * @author Marco Donizelli
- * @since 1.0alpha
  * 
  * @opt attributes
  * @opt types
@@ -61,9 +61,10 @@ public interface DocumentFactory {
 	 * @return The <code>org.w3c.dom.Document</code> instance representing the
 	 *         XML DOM document created from the <code>byteStream</code> XML
 	 *         content.
+	 * @throws SAXException 
 	 * 
 	 */
-	public Document create(InputStream byteStream, boolean namespaceAware);
+	public Document create(InputStream byteStream, boolean namespaceAware) throws SAXException;
 
 	/**
 	 * 
@@ -91,10 +92,11 @@ public interface DocumentFactory {
 	 * @return The <code>org.w3c.dom.Document</code> instance representing the
 	 *         XML DOM document created from the <code>byteStream</code> XML
 	 *         content.
+	 * @throws SAXException 
 	 * 
 	 */
 	public Document create(InputStream byteStream, Object[] schemas,
-			ErrorHandler handler);
+			ErrorHandler handler) throws SAXException;
 
 	/**
 	 * 
@@ -110,9 +112,10 @@ public interface DocumentFactory {
 	 * @return The <code>org.w3c.dom.Document</code> instance representing the
 	 *         XML DOM document created from the <code>characterStream</code>
 	 *         XML content.
+	 * @throws SAXException 
 	 * 
 	 */
-	public Document create(Reader characterStream, boolean namespaceAware);
+	public Document create(Reader characterStream, boolean namespaceAware) throws SAXException;
 
 	/**
 	 * 

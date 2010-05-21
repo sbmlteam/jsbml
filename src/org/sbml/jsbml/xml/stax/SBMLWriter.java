@@ -75,6 +75,7 @@ import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.parsers.MultiParser;
 import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
 
@@ -500,9 +501,14 @@ public class SBMLWriter extends StringTools {
 			String annotationString = annotationBeginning.toString()
 					.replaceAll("&", "&amp;");
 			// here indent gets lost.
-			Document domDocument = JAXPFacade.getInstance().create(
-					new BufferedReader(new StringReader(annotationString)),
-					true);
+			Document domDocument = null;
+			try {
+				domDocument = JAXPFacade.getInstance().create(
+						new BufferedReader(new StringReader(annotationString)),
+						true);
+			} catch (SAXException e) {
+				e.printStackTrace();
+			}
 			converter.writeFragment(
 					domDocument.getFirstChild().getChildNodes(), writer);
 		} else {
@@ -784,6 +790,8 @@ public class SBMLWriter extends StringTools {
 			element.addCharacters(newLine);
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -816,6 +824,8 @@ public class SBMLWriter extends StringTools {
 			converter.writeFragment(domDocument.getChildNodes(), writer);
 			note.addCharacters(newLine);
 		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
 			e.printStackTrace();
 		}
 	}
@@ -855,10 +865,14 @@ public class SBMLWriter extends StringTools {
 		 * quotes.
 		 */
 		// .replaceAll("&", "&amp;");
+		try {
 		Document domDocument = JAXPFacade.getInstance().create(
 				new BufferedReader(new StringReader(notes)), true);
 		converter.writeFragment(domDocument.getChildNodes(), writer);
 		note.addCharacters(newLine);
+		} catch (SAXException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -1149,4 +1163,10 @@ public class SBMLWriter extends StringTools {
 	// TODO : put all of that as tracker item on sourceforge as it will probably
 	// take some time to be resolved.
 	// TODO : put some logging system in place
+	
+	// TODO : write a script to automatically test an SBML file, checking with libsbml that all the values are the same in the original file
+	// and in the newly created one.
+	
+	// TODO : test a bit more Xstream with stax and using Qname to see how it can deal with math or rdf bloc
+	
 }
