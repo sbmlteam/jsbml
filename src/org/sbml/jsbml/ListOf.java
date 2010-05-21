@@ -147,11 +147,11 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * name of the list at it appears in the SBMLFile. By default, it is
 	 * SBaseListType.none.
 	 */
-	private Type currentList = Type.none;
+	protected Type currentList = Type.none;
 	/**
 	 * list containing all the SBase elements of this object.
 	 */
-	private LinkedList<T> listOf = new LinkedList<T>();
+	protected LinkedList<T> listOf = new LinkedList<T>();
 
 	/**
 	 * Creates a ListOf instance. By default, the list containing the SBase
@@ -537,7 +537,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	public T remove(String removeId) {
-		if (removeId != null && removeId.trim().length() == 0) {
+		if (removeId != null && removeId.trim().length() > 0) {
 			int pos = -1;
 			SBase sbase = null;
 			for (int i = 0; i < size() && pos < 0; i++) {
