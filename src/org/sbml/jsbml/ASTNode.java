@@ -2205,6 +2205,7 @@ public class ASTNode implements TreeNode {
 	 * @return the element previously at the specified position
 	 */
 	public ASTNode replaceChild(int n, ASTNode newChild) {
+		newChild.parent = this;
 		return listOfNodes.set(n, newChild);
 	}
 
