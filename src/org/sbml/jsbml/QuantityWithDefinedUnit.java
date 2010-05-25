@@ -29,6 +29,8 @@
  */
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.Unit.Kind;
+
 /**
  * This object represents an element with identifier and name, a value, and a
  * defined unit. In particular, this class defines methods to access and
@@ -164,7 +166,11 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 			return getUnitsInstance();
 		}
 		UnitDefinition ud = new UnitDefinition(getLevel(), getVersion());
-		ud.addUnit(new Unit(getLevel(), getVersion()));
+		Unit u = new Unit(getLevel(), getVersion());
+		if (isSetUnits()) {
+			u.setKind(Kind.valueOf(unitsID));
+		}
+		ud.addUnit(u);
 		return ud;
 	}
 
@@ -246,17 +252,44 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	}
 
 	/**
-	 * Sets the unitsID of this Symbol.
+	 * Sets the unitsID of this {@link QuantityWithDefinedUnit}. Only valid unit
+	 * kind names or identifiers of already existing {@link UnitDefinition}s are
+	 * allowed arguments of this function.
 	 * 
 	 * @param units
+	 *            the identifier of an already existing {@link UnitDefinition}
+	 *            or an {@link Unit.Kind} identifier for the current
+	 *            level/version combination of this unit. Passing a null value
+	 *            to this method is equivalent to calling {@link #unsetUnits()}.
 	 */
 	public void setUnits(String units) {
-		if (units != null && units.trim().length() == 0) {
-			this.unitsID = null;
+		boolean illegalArgument = false;
+		if (units != null) {
+			units = units.trim();
+			if (units.length() > 0) {
+				Model model = getModel();
+				if ((model == null)
+						|| (Kind.isValidUnitKindString(units, getLevel(),
+								getVersion()))) {
+					this.unitsID = units;
+				} else if ((model != null)
+						&& (model.getUnitDefinition(units) != null)) {
+					this.unitsID = units;
+				} else {
+					illegalArgument = true;
+				}
+			} else {
+				illegalArgument = true;
+			}
 		} else {
-			this.unitsID = units;
+			unsetUnits();
 		}
-		stateChanged();
+		if (illegalArgument) {
+			throw new IllegalArgumentException(
+					"Only a valid unit kind or the identifier of an existing unit definition are allowed here.");
+		} else {
+			stateChanged();
+		}
 	}
 
 	/**
