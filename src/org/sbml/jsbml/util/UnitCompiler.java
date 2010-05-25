@@ -128,7 +128,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arccos(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -138,7 +138,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arccosh(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -148,7 +148,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arccot(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -158,7 +158,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arccoth(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -168,7 +168,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arccsc(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -178,7 +178,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arccsch(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -188,7 +188,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arcsec(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -198,7 +198,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arcsech(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -208,7 +208,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arcsin(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -218,7 +218,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arcsinh(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -228,7 +228,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arctan(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -238,7 +238,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arctanh(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -259,25 +259,23 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	private ASTNodeValue checkIdentical(ASTNodeValue... values) {
 		if (values.length == 0) {
-			return new ASTNodeValue(new UnitDefinition(level, version), this);
+			return new ASTNodeValue(this);
 		}
 		int i;
 		ASTNodeValue value = new ASTNodeValue(this);
-		UnitDefinition ud = values[0].getUnit();
 		if (values[0].isNumber()) {
 			i = values.length - 1;
 			while (i >= 0 && values[i].isNumber()) {
 				i--;
 			}
 			values[0].setUnit(values[i].getUnit());
-			if (i == 0) {
-				/*
-				 * Necessary to remember in higher recursion steps that this was
-				 * just a number. The actual value does not matter.
-				 */
-				value.setValue(Integer.valueOf(0));
-			}
+			/*
+			 * Necessary to remember in higher recursion steps that this was
+			 * just a number. The actual value does not matter.
+			 */
+			value.setValue(Integer.valueOf(0));
 		}
+		UnitDefinition ud = values[0].getUnit();
 		for (i = 1; i < values.length; i++) {
 			if (values[i].isNumber()) {
 				values[i].setUnit(values[i - 1].getUnit());
@@ -286,6 +284,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 				break;
 			}
 		}
+		value.setUnit(ud);
 		return value;
 	}
 
@@ -367,7 +366,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue cos(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -377,7 +376,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue cosh(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -387,7 +386,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue cot(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -397,7 +396,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue coth(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -407,7 +406,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue csc(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -417,7 +416,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue csch(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -459,7 +458,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue exp(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -475,7 +474,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 		/*
 		 * TODO: absolutely unclear how to derive the unit here.
 		 */
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -656,7 +655,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue ln(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -666,7 +665,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue log(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -677,7 +676,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue log(ASTNodeValue left, ASTNodeValue right) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -753,7 +752,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 		/*
 		 * TODO: What to to if the exponent is not a number?
 		 */
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -769,7 +768,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 		/*
 		 * TODO: Next problem! What to do with exponents that are no numbers?
 		 */
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -796,7 +795,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue sec(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -806,7 +805,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue sech(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -816,7 +815,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue sin(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -826,7 +825,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue sinh(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -864,7 +863,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue tan(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -874,7 +873,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue tanh(ASTNodeValue value) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -937,7 +936,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue xor(ASTNodeValue... values) {
 		// TODO Auto-generated method stub
-		return new ASTNodeValue(new UnitDefinition(level, version), this);
+		return new ASTNodeValue(this);
 	}
 
 }

@@ -143,11 +143,12 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 			if (v.isSetUnits() && isSetUnits()) {
 				equal &= v.getUnits().equals(getUnits());
 			}
-			if (!(Double.isNaN(v.getValue()) && Double.isNaN(getValue())))
+			if (!(Double.isNaN(v.getValue()) && Double.isNaN(getValue()))) {
 				equal &= v.getValue() == getValue();
-			else
+			} else {
 				equal &= (Double.isNaN(v.getValue()) && Double
 						.isNaN(getValue()));
+			}
 			return equal;
 		}
 		return false;

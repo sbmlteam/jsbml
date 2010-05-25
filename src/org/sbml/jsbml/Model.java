@@ -1330,19 +1330,16 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Searches the variable with the given identifier in this model.
 	 * 
 	 * @param variable
-	 * @return the Compartment, Species, SpeciesReference or Parameter which has
-	 *         'symbol' as id.
+	 *            The identifier of the {@link Variable} of interest.
+	 * @return the {@link Compartment}, {@link Species},
+	 *         {@link SpeciesReference}, or {@link Parameter}, which has
+	 *         'variable' as id.
 	 */
 	public Variable findVariable(String variable) {
-		Variable nsb = getCompartment(variable);
-		if (nsb == null) {
-			nsb = getSpecies(variable);
-		}
-		if (nsb == null) {
-			nsb = getParameter(variable);
-		}
+		Variable nsb = findSymbol(variable);
 		if (nsb == null && isSetListOfReactions()) {
 			for (int i = 0; i < getNumReactions(); i++) {
 				Reaction reaction = getReaction(i);
@@ -1358,6 +1355,24 @@ public class Model extends AbstractNamedSBase {
 			}
 		}
 		return nsb;
+	}
+
+	/**
+	 * Searches in the list of {@link Compartment}s, {@link Species}, and
+	 * {@link Parameter}s for the element with the given identifier.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Symbol findSymbol(String id) {
+		Symbol symbol = getCompartment(id);
+		if (symbol == null) {
+			symbol = getSpecies(id);
+		}
+		if (symbol == null) {
+			symbol = getParameter(id);
+		}
+		return symbol;
 	}
 
 	/**
@@ -1536,8 +1551,10 @@ public class Model extends AbstractNamedSBase {
 	 *         exist for this type.
 	 */
 	private <T> T getLastElementOf(ListOf<? extends T> listOf) {
-		// added casting and parenthesis because there was a compilation error when using the ant script
-		return (listOf == null || listOf.size() == 0) ? (T) null : (T) listOf.getLast();
+		// added casting and parenthesis because there was a compilation error
+		// when using the ant script
+		return (listOf == null || listOf.size() == 0) ? (T) null : (T) listOf
+				.getLast();
 	}
 
 	/**

@@ -242,7 +242,7 @@ public class ASTNodeValue {
 	 * @return
 	 */
 	public boolean isSetUnit() {
-		return value instanceof UnitDefinition;
+		return unit != null;
 	}
 
 	/**
@@ -279,6 +279,22 @@ public class ASTNodeValue {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public String printValueAndUnit() {
+		StringBuilder sb = new StringBuilder();
+		if (value != null) {
+			sb.append(value.toString());
+		} else {
+			sb.append('?');
+		}
+		sb.append(' ');
+		sb.append(UnitDefinition.printUnits(getUnit(), true));
+		return sb.toString();
+	}
+
+	/**
+	 * 
 	 * @param type
 	 */
 	void setType(Type type) {
@@ -298,7 +314,7 @@ public class ASTNodeValue {
 	 * @param unit
 	 */
 	public void setUnit(UnitDefinition unit) {
-		this.unit = unit;
+		this.unit = unit.simplify();
 	}
 
 	/**

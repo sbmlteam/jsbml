@@ -760,7 +760,7 @@ public class Unit extends AbstractSBase {
 	/**
 	 * 
 	 */
-	private boolean isSetExponent = false;
+	private boolean isSetExponent;
 	/**
 	 * Represents the 'kind' XML attribute of an unit element.
 	 */
@@ -774,7 +774,7 @@ public class Unit extends AbstractSBase {
 	/**
 	 * 
 	 */
-	private boolean isSetMultiplier = false;
+	private boolean isSetMultiplier;
 	/**
 	 * Represents the 'offset' XML attribute of an unit element.
 	 */
@@ -784,7 +784,7 @@ public class Unit extends AbstractSBase {
 	/**
 	 * 
 	 */
-	private boolean isSetOffset = false;
+	private boolean isSetOffset;
 	/**
 	 * Represents the 'scale' XML attribute of an unit element.
 	 */
@@ -793,7 +793,7 @@ public class Unit extends AbstractSBase {
 	/**
 	 * 
 	 */
-	private boolean isSetScale = false;
+	private boolean isSetScale;
 
 	/**
 	 * Creates a Unit instance. If the level is set and is superior or equal to
@@ -901,31 +901,17 @@ public class Unit extends AbstractSBase {
 	public Unit(Unit unit) {
 		super(unit);
 		initDefaults();
-		if (unit.isSetExponent()) {
-			this.exponent = Integer.valueOf(unit.getExponent());
-		} else {
-			this.exponent = null;
-		}
-		if (unit.isSetKind()) {
-			this.kind = unit.getKind();
-		} else {
-			this.kind = Kind.INVALID;
-		}
-		if (unit.isSetMultiplier()) {
-			this.multiplier = new Double(unit.getMultiplier());
-		} else {
-			this.multiplier = null;
-		}
-		if (unit.isSetOffset()) {
-			this.offset = new Double(unit.getOffset());
-		} else {
-			this.offset = null;
-		}
-		if (unit.isSetScale()) {
-			this.scale = Integer.valueOf(unit.getScale());
-		} else {
-			this.scale = null;
-		}
+		exponent = unit.exponent != null ? Integer.valueOf(unit.getExponent())
+				: null;
+		multiplier = unit.multiplier != null ? new Double(unit.getMultiplier())
+				: null;
+		offset = unit.offset != null ? new Double(unit.getOffset()) : null;
+		scale = unit.scale != null ? Integer.valueOf(unit.getScale()) : null;
+		kind = unit.isSetKind() ? unit.getKind() : Kind.INVALID;
+		isSetExponent = unit.isSetExponent;
+		isSetMultiplier = unit.isSetMultiplier;
+		isSetOffset = unit.isSetOffset;
+		isSetScale = unit.isSetScale;
 	}
 
 	/*
@@ -1151,6 +1137,10 @@ public class Unit extends AbstractSBase {
 			multiplier = null;
 			scale = null;
 		}
+		isSetExponent = false;
+		isSetScale = false;
+		isSetMultiplier = false;
+		isSetOffset = false;
 	}
 
 	/**
