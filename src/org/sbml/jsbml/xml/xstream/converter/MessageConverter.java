@@ -40,7 +40,10 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 public class MessageConverter implements Converter {
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * @see com.thoughtworks.xstream.converters.Converter#marshal(java.lang.Object, com.thoughtworks.xstream.io.HierarchicalStreamWriter, com.thoughtworks.xstream.converters.MarshallingContext)
+     */
 	public void marshal(Object currentObject, HierarchicalStreamWriter writer,
 			MarshallingContext context) 
 	{
@@ -52,7 +55,10 @@ public class MessageConverter implements Converter {
 		writer.endNode();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see com.thoughtworks.xstream.converters.Converter#unmarshal(com.thoughtworks.xstream.io.HierarchicalStreamReader, com.thoughtworks.xstream.converters.UnmarshallingContext)
+	 */
 	public Object unmarshal(HierarchicalStreamReader reader,
 			UnmarshallingContext context) 
 	{
@@ -73,8 +79,11 @@ public class MessageConverter implements Converter {
 		return message;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.thoughtworks.xstream.converters.ConverterMatcher#canConvert(java.lang.Class)
+	 */
 	@SuppressWarnings("unchecked")
-	@Override
 	public boolean canConvert(Class arg0) {
 		return arg0.equals(Message.class);
 	}

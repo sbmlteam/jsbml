@@ -370,13 +370,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 	/**
 	 * Creates an UnitDefinition instance from a given UnitDefinition.
 	 * 
-	 * @param nsb
+	 * @param unitDefinition
 	 */
-	public UnitDefinition(UnitDefinition nsb) {
-		super(nsb);
+	public UnitDefinition(UnitDefinition unitDefinition) {
+		super(unitDefinition);
 		initDefaults();
-		if (nsb.isSetListOfUnits()) {
-			setListOfUnits((ListOf<Unit>) nsb.getListOfUnits().clone());
+		if (unitDefinition.isSetListOfUnits()) {
+			setListOfUnits(unitDefinition.getListOfUnits().clone());
 		}
 	}
 
@@ -475,7 +475,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if (definition.isSetListOfUnits()) {
 			for (Unit unit1 : definition.getListOfUnits()) {
 				Unit unit = unit1.clone();
-				unit.setExponent(unit1.getExponent() * -1);
+				unit.setExponent(-unit1.getExponent());
 				addUnit(unit);
 			}
 		}
@@ -502,10 +502,12 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the listOfUnits of this UnitDefinition. Can be null if it is not
-	 *         set.
+	 * @return the listOfUnits of this UnitDefinition. Can be empty.
 	 */
 	public ListOf<Unit> getListOfUnits() {
+		if (!isSetListOfUnits()) {
+			initListOfUnits();
+		}
 		return listOfUnits;
 	}
 
@@ -734,8 +736,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * with the given exponent.
 	 * 
 	 * @param exponent
+	 * @return a pointer to this UnitDefinition.
 	 */
-	public void raiseByThePowerOf(int exponent) {
+	public UnitDefinition raiseByThePowerOf(int exponent) {
 		if (isSetListOfUnits()) {
 			Unit u;
 			for (int i = listOfUnits.size() - 1; i >= 0; i--) {
@@ -746,6 +749,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				}
 			}
 		}
+		return this;
 	}
 
 	/**

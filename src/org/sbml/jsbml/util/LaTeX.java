@@ -269,10 +269,17 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		return masked.toString().trim();
 	}
 
+	/**
+	 * 
+	 */
 	public final String CONSTANT_E = mathrm("e").toString();
-
+	/**
+	 * 
+	 */
 	public final String CONSTANT_FALSE = mathrm("false").toString();
-
+	/**
+	 * 
+	 */
 	public final String CONSTANT_TRUE = mathrm("true").toString();
 
 	/**

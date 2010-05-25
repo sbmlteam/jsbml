@@ -1232,8 +1232,6 @@ public class ASTNode implements TreeNode {
 	 * @return
 	 */
 	public UnitDefinition deriveUnit() {
-		// TODO Auto-generated method stub
-		System.err.println("not yet implemented");
 		MathContainer container = getParentSBMLObject();
 		int level = -1;
 		int version = -1;
@@ -1241,7 +1239,7 @@ public class ASTNode implements TreeNode {
 			level = container.getLevel();
 			version = container.getVersion();
 		}
-		return compile(new UnitCompiler(level, version)).getUnit();
+		return compile(new UnitCompiler(level, version)).getUnit().simplify();
 	}
 
 	/**

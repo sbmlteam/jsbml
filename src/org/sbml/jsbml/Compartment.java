@@ -64,14 +64,22 @@ public class Compartment extends Symbol {
 	 * Represents the spatialDimensions XML attribute of a compartment element.
 	 */
 	private Short spatialDimensions;
+	/**
+	 * Helper variable to check if spatial dimensions has been set by the user.
+	 */
 	private boolean isSetSpatialDimensions = false;
+	/**
+	 * This message will be displayed if the user tries to set the spatial
+	 * dimensions of this element to a value other than 0, 1, 2, or 3.
+	 */
+	private static final String ERROR_MESSAGE_INVALID_DIM = "Spatial dimensions must be within {0, 3}, but %f was given.";
 
 	/**
 	 * This is the error message to be displayed if an application tries to set
-	 * units or size attribute for this compartment but the spacial dimenstions
+	 * units or size attribute for this compartment but the spatial dimensions
 	 * have been set to zero.
 	 */
-	private static final String ERROR_MESSAGE = "Cannot set %s for compartment %s if the spatial dimensions are zero.";
+	private static final String ERROR_MESSAGE_ZERO_DIM = "Cannot set %s for compartment %s if the spatial dimensions are zero.";
 
 	/**
 	 * Creates a Compartment instance. By default, if the level is set and is
@@ -96,7 +104,7 @@ public class Compartment extends Symbol {
 					.getCompartmentType());
 		}
 		if (compartment.isSetSpatialDimensions()) {
-			this.spatialDimensions = new Short(compartment
+			this.spatialDimensions = Short.valueOf(compartment
 					.getSpatialDimensions());
 		}
 		if (compartment.isSetOutside()) {
@@ -218,7 +226,7 @@ public class Compartment extends Symbol {
 	 */
 	public Compartment getOutsideInstance() {
 		Model m = getModel();
-		return m != null ? m.getCompartment(this.outsideID) : null;
+		return m != null ? m.getCompartment(outsideID) : null;
 	}
 
 	/**
@@ -237,7 +245,8 @@ public class Compartment extends Symbol {
 	 *         spatialdimensions is not set.
 	 */
 	public short getSpatialDimensions() {
-		return isSetSpatialDimensions() ? spatialDimensions : 3;
+		return isSetSpatialDimensions() && (spatialDimensions != null) ? spatialDimensions
+				: 3;
 	}
 
 	/**
@@ -452,7 +461,6 @@ public class Compartment extends Symbol {
 		} else {
 			this.outsideID = outside;
 		}
-
 		stateChanged();
 	}
 
@@ -474,9 +482,8 @@ public class Compartment extends Symbol {
 			isSetSpatialDimensions = true;
 			this.spatialDimensions = (short) i;
 		} else {
-			throw new IllegalArgumentException(
-					"Spatial dimensions must be between [0, 3]." + i
-							+ " given.");
+			throw new IllegalArgumentException(String.format(
+					ERROR_MESSAGE_INVALID_DIM, i));
 		}
 	}
 
@@ -491,8 +498,7 @@ public class Compartment extends Symbol {
 			this.spatialDimensions = spatialDimensions;
 		} else {
 			throw new IllegalArgumentException(String.format(
-					"Spatial dimensions must be between [0, 3], %f given.",
-					spatialDimensions));
+					ERROR_MESSAGE_INVALID_DIM, spatialDimensions));
 		}
 	}
 
@@ -506,8 +512,8 @@ public class Compartment extends Symbol {
 		if (getSpatialDimensions() > 0) {
 			super.setUnits(units);
 		} else {
-			throw new IllegalArgumentException(String.format(ERROR_MESSAGE,
-					"units", getId()));
+			throw new IllegalArgumentException(String.format(
+					ERROR_MESSAGE_ZERO_DIM, "units", getId()));
 		}
 	}
 
@@ -521,8 +527,8 @@ public class Compartment extends Symbol {
 		if (getSpatialDimensions() > 0) {
 			super.setUnits(unit);
 		} else {
-			throw new IllegalArgumentException(String.format(ERROR_MESSAGE,
-					"unit", getId()));
+			throw new IllegalArgumentException(String.format(
+					ERROR_MESSAGE_ZERO_DIM, "unit", getId()));
 		}
 	}
 
@@ -537,8 +543,8 @@ public class Compartment extends Symbol {
 		if (getSpatialDimensions() > 0) {
 			super.setUnits(unitKind);
 		} else {
-			throw new IllegalArgumentException(String.format(ERROR_MESSAGE,
-					"unit kind", getId()));
+			throw new IllegalArgumentException(String.format(
+					ERROR_MESSAGE_ZERO_DIM, "unit kind", getId()));
 		}
 	}
 
@@ -554,8 +560,8 @@ public class Compartment extends Symbol {
 		if (getSpatialDimensions() > 0) {
 			super.setUnits(unitDefinition);
 		} else {
-			throw new IllegalArgumentException(String.format(ERROR_MESSAGE,
-					"unit definition", getId()));
+			throw new IllegalArgumentException(String.format(
+					ERROR_MESSAGE_ZERO_DIM, "unit definition", getId()));
 		}
 	}
 
@@ -569,8 +575,8 @@ public class Compartment extends Symbol {
 		if (getSpatialDimensions() > 0) {
 			super.setValue(value);
 		} else {
-			throw new IllegalArgumentException(String.format(ERROR_MESSAGE,
-					"size", getId()));
+			throw new IllegalArgumentException(String.format(
+					ERROR_MESSAGE_ZERO_DIM, "size", getId()));
 		}
 	}
 
@@ -617,6 +623,7 @@ public class Compartment extends Symbol {
 	 */
 	public void unsetOutside() {
 		this.outsideID = null;
+		stateChanged();
 	}
 
 	/**
@@ -646,6 +653,8 @@ public class Compartment extends Symbol {
 	 */
 	public void unsetSpatialDimensions() {
 		this.spatialDimensions = null;
+		isSetSpatialDimensions = false;
+		stateChanged();
 	}
 
 	/**
