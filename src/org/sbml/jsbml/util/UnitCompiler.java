@@ -36,9 +36,12 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
+import org.sbml.jsbml.Quantity;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
+
+import sun.security.action.GetLongAction;
 
 /**
  * Derives the units from mathematical operations.
@@ -341,6 +344,12 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue compile(NamedSBaseWithDerivedUnit variable) {
 		ASTNodeValue value = new ASTNodeValue(variable, this);
+		if (variable instanceof Quantity) {
+			Quantity q = (Quantity) variable;
+			if (q.isSetValue()) {
+				value.setValue(Double.valueOf(q.getValue()));
+			}
+		}
 		UnitDefinition ud = variable.getDerivedUnitDefinition();
 		value.setUnit(ud == null ? new UnitDefinition(level, version) : ud);
 		return value;
@@ -746,8 +755,27 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue pow(ASTNodeValue base, ASTNodeValue exponent) {
+		double exp = Double.NaN, v;
 		if (exponent.isNumber()) {
-			return root(1 / exponent.toDouble(), base);
+			v = exponent.toDouble();
+			exp = v == 0 ? 0 : 1 / v;
+		} else {
+			System.out.println(exponent.getUnit().getNumUnits());
+			if (exponent.getUnit().getNumUnits() == 1) {
+				System.out.println(exponent.getUnit().getUnit(0).getKind());
+				if (exponent.getUnit().getUnit(0).getKind() == Kind.DIMENSIONLESS) {
+					v = exponent.toDouble();
+					exp = v == 0 ? 0 : 1 / v;
+				}
+			}
+		}
+		if (exp == 0) {
+			UnitDefinition ud = new UnitDefinition(level, version);
+			ud.addUnit(new Unit(Kind.DIMENSIONLESS, level, version));
+			return new ASTNodeValue(ud, this);
+		}
+		if (!Double.isNaN(exp)) {
+			return root(exp, base);
 		}
 		/*
 		 * TODO: What to to if the exponent is not a number?

@@ -351,7 +351,13 @@ public class Unit extends AbstractSBase {
 		 */
 		public static boolean isValidUnitKindString(String unitKind, int level,
 				int version) {
-			Kind uk = Kind.valueOf(unitKind);
+			Kind uk = null;
+			if (unitKind != null) {
+				try {
+					uk = Kind.valueOf(unitKind);
+				} catch (IllegalArgumentException exc) {
+				}
+			}
 			if (uk == null) {
 				return false;
 			}
