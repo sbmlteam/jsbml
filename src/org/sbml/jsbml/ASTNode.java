@@ -37,10 +37,10 @@ import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.util.LaTeX;
-import org.sbml.jsbml.util.MathMLCompiler;
-import org.sbml.jsbml.util.TextFormula;
-import org.sbml.jsbml.util.UnitCompiler;
+import org.sbml.jsbml.util.compilers.LaTeX;
+import org.sbml.jsbml.util.compilers.MathMLCompiler;
+import org.sbml.jsbml.util.compilers.TextFormula;
+import org.sbml.jsbml.util.compilers.UnitCompiler;
 
 /**
  * A node in the Abstract Syntax Tree (AST) representation of a mathematical
@@ -543,6 +543,9 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @param node
 	 * @param parent
+	 * @param depth
+	 *            Just for testing purposes to track the depth in the tree
+	 *            during the process.
 	 */
 	private static void setParentSBMLObject(ASTNode node, MathContainer parent,
 			int depth) {
@@ -2206,6 +2209,7 @@ public class ASTNode implements TreeNode {
 	 */
 	public ASTNode replaceChild(int n, ASTNode newChild) {
 		newChild.parent = this;
+		setParentSBMLObject(newChild, parentSBMLObject, 0);
 		return listOfNodes.set(n, newChild);
 	}
 

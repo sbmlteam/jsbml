@@ -37,8 +37,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.sbml.jsbml.util.CVTermFilter;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.filters.CVTermFilter;
 
 /**
  * The base class for each SBase component.

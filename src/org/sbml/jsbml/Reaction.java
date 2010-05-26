@@ -31,7 +31,7 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
-import org.sbml.jsbml.util.NameFilter;
+import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * Represents the reaction XML element of a SBML file.

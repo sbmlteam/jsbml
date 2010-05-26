@@ -35,7 +35,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.sbml.jsbml.util.Filter;
+import org.sbml.jsbml.util.filters.Filter;
 
 /**
  * This list implementation is a java List that extends AbstractSBase. It
