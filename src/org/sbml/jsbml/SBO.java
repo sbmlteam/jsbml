@@ -151,11 +151,84 @@ public class SBO {
 	}
 
 	/**
+	 * The SBO term for antisense RNA.
+	 * 
+	 * @return
+	 */
+	public static int getAntisenseRNA() {
+		return convertAlias2SBO("ANTISENSERNA");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getBindingActivator() {
+		return 535;
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
 	public static int getCatalysis() {
 		return 13;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getCatalyst() {
+		return convertAlias2SBO("CATALYSIS");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getCatalyticActivator() {
+		return 534;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getCompetetiveInhibitor() {
+		return 206;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getCompleteInhibitor() {
+		return 537;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getComplex() {
+		return convertAlias2SBO("COMPLEX");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getConservationLaw() {
+		return 355;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getContinuousFramework() {
+		return 62;
 	}
 
 	/**
@@ -186,6 +259,38 @@ public class SBO {
 	 * 
 	 * @return
 	 */
+	public static int getDiscreteFramework() {
+		return 63;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getDrug() {
+		return convertAlias2SBO("DRUG");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getEmptySet() {
+		return convertAlias2SBO("DEGRADED");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getEntity() {
+		return 236;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public static int getEnzymaticCatalysis() {
 		return 460;
 	}
@@ -194,8 +299,212 @@ public class SBO {
 	 * 
 	 * @return
 	 */
+	public static int getEssentialActivator() {
+		return 461;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getEvent() {
+		return 231;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getFunctionalCompartment() {
+		return 289;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getFunctionalEntity() {
+		return 241;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getGene() {
+		return convertAlias2SBO("GENE");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getGeneCodingRegion() {
+		return 335;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getGeneric() {
+		return convertAlias2SBO("GENERIC");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getHillEquation() {
+		return 192;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getInhibitor() {
+		return convertAlias2SBO("INHIBITION");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getInteraction() {
+		return 231;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getIon() {
+		return convertAlias2SBO("ION");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getIonChannel() {
+		return convertAlias2SBO("ION_CHANNEL");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getKineticConstant() {
+		return 9;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getLogicalFramework() {
+		return 234;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getMaterialEntity() {
+		return 240;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getMathematicalExpression() {
+		return 64;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getMessengerRNA() {
+		return 278;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getModellingFramework() {
+		return 4;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getModifier() {
+		return convertAlias2SBO("MODULATION");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getNonCompetetiveInhibitor() {
+		return 207;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getNonEssentialActivator() {
+		return 462;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public static Ontology getOntology() {
 		return sbo;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getPartialInhibitor() {
+		return 536;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getParticipant() {
+		return 235;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getParticipantRole() {
+		return 3;
+	}
+
+	public static int getPhenotype() {
+		return convertAlias2SBO("PHENOTYPE");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getPhysicalParticipant() {
+		return 236;
 	}
 
 	/**
@@ -214,6 +523,102 @@ public class SBO {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public static int getProduct() {
+		return 11;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getProtein() {
+		return convertAlias2SBO("PROTEIN");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getQuantitativeParameter() {
+		return 2;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getRateLaw() {
+		return 1;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getReactant() {
+		return 10;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getReceptor() {
+		return convertAlias2SBO("RECEPTOR");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getRNA() {
+		return convertAlias2SBO("RNA");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getSimpleMolecule() {
+		return convertAlias2SBO("SIMPLE_MOLECULE");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getSpecificActivator() {
+		return 533;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getStateTransition() {
+		return convertAlias2SBO("STATE_TRANSITION");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getSteadyStateExpression() {
+		return 391;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getStimulator() {
+		return convertAlias2SBO("PHYSICAL_STIMULATION");
+	}
+
+	/**
+	 * 
 	 * @param sboTerm
 	 * @return
 	 */
@@ -228,6 +633,102 @@ public class SBO {
 	 */
 	public static Term getTerm(String sboTerm) {
 		return sbo.getTerm(sboTerm);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getTranscription() {
+		return convertAlias2SBO("TRANSCRIPTION");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getTranscriptionalActivation() {
+		return convertAlias2SBO("TRANSCRIPTIONAL_ACTIVATION");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getTranscriptionalInhibitor() {
+		return convertAlias2SBO("TRANSCRIPTIONAL_INHIBITION");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getTransitionOmitted() {
+		return convertAlias2SBO("KNOWN_TRANSITION_OMITTED");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getTranslation() {
+		return convertAlias2SBO("TRANSLATION");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getTranslationalActivation() {
+		return convertAlias2SBO("TRANSLATIONAL_ACTIVATION");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getTranslationalInhibitor() {
+		return convertAlias2SBO("TRANSLATIONAL_INHIBITION");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getTransport() {
+		return convertAlias2SBO("TRANSPORT");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getTrigger() {
+		return convertAlias2SBO("TRIGGER");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getTruncated() {
+		return convertAlias2SBO("TRUNCATED");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getUnknownMolecule() {
+		return convertAlias2SBO("UNKNOWN");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getUnknownTransition() {
+		return convertAlias2SBO("UNKNOWN_TRANSITION");
 	}
 
 	/**
@@ -254,7 +755,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isAntisenseRNA(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("ANTISENSERNA"));
+		return isChildOf(sboTerm, getAntisenseRNA());
 	}
 
 	/**
@@ -263,7 +764,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isBindingActivator(int sboTerm) {
-		return isChildOf(sboTerm, 535);
+		return isChildOf(sboTerm, getBindingActivator());
 	}
 
 	/**
@@ -272,7 +773,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isCatalyst(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("CATALYSIS"));
+		return isChildOf(sboTerm, getCatalyst());
 	}
 
 	/**
@@ -281,7 +782,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isCatalyticActivator(int sboTerm) {
-		return isChildOf(sboTerm, 534);
+		return isChildOf(sboTerm, getCatalyticActivator());
 	}
 
 	/**
@@ -332,7 +833,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isCompetetiveInhibitor(int term) {
-		return isChildOf(term, 206);
+		return isChildOf(term, getCompetetiveInhibitor());
 	}
 
 	/**
@@ -341,7 +842,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isCompleteInhibitor(int sboTerm) {
-		return isChildOf(sboTerm, 537);
+		return isChildOf(sboTerm, getCompleteInhibitor());
 	}
 
 	/**
@@ -351,7 +852,7 @@ public class SBO {
 	 */
 
 	public static boolean isComplex(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("COMPLEX"));
+		return isChildOf(sboTerm, getComplex());
 	}
 
 	/**
@@ -361,7 +862,7 @@ public class SBO {
 	 * @return true if the term is-a conservation law, false otherwise
 	 */
 	public static boolean isConservationLaw(int sboTerm) {
-		return isChildOf(sboTerm, 355);
+		return isChildOf(sboTerm, getConservationLaw());
 	}
 
 	/**
@@ -371,7 +872,7 @@ public class SBO {
 	 * @return true if the term is-a continuous framework, false otherwise
 	 */
 	public static boolean isContinuousFramework(int sboTerm) {
-		return isChildOf(sboTerm, 62);
+		return isChildOf(sboTerm, getContinuousFramework());
 	}
 
 	/**
@@ -381,7 +882,7 @@ public class SBO {
 	 * @return true if the term is-a discrete framework, false otherwise
 	 */
 	public static boolean isDiscreteFramework(int sboTerm) {
-		return isChildOf(sboTerm, 63);
+		return isChildOf(sboTerm, getDiscreteFramework());
 	}
 
 	/**
@@ -390,7 +891,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isDrug(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("DRUG"));
+		return isChildOf(sboTerm, getDrug());
 	}
 
 	/**
@@ -399,7 +900,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isEmptySet(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("DEGRADED"));
+		return isChildOf(sboTerm, getEmptySet());
 	}
 
 	/**
@@ -409,7 +910,7 @@ public class SBO {
 	 * @return true if the term is-a Entity, false otherwise
 	 */
 	public static boolean isEntity(int sboTerm) {
-		return isChildOf(sboTerm, 236);
+		return isChildOf(sboTerm, getEntity());
 	}
 
 	/**
@@ -418,7 +919,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isEnzymaticCatalysis(int sboTerm) {
-		return isChildOf(sboTerm, 460);
+		return isChildOf(sboTerm, getEnzymaticCatalysis());
 	}
 
 	/**
@@ -427,7 +928,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isEssentialActivator(int term) {
-		return isChildOf(term, 461);
+		return isChildOf(term, getEssentialActivator());
 	}
 
 	/**
@@ -437,7 +938,7 @@ public class SBO {
 	 * @return true if the term is-an Event, false otherwise
 	 */
 	public static boolean isEvent(int sboTerm) {
-		return isChildOf(sboTerm, 231);
+		return isChildOf(sboTerm, getEvent());
 	}
 
 	/**
@@ -447,7 +948,7 @@ public class SBO {
 	 * @return true if the term is-a functional compartment, false otherwise
 	 */
 	public static boolean isFunctionalCompartment(int sboTerm) {
-		return isChildOf(sboTerm, 289);
+		return isChildOf(sboTerm, getFunctionalCompartment());
 	}
 
 	/**
@@ -457,7 +958,7 @@ public class SBO {
 	 * @return true if the term is-a functional entity, false otherwise
 	 */
 	public static boolean isFunctionalEntity(int sboTerm) {
-		return isChildOf(sboTerm, 241);
+		return isChildOf(sboTerm, getFunctionalEntity());
 	}
 
 	/**
@@ -466,7 +967,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isGene(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("GENE"));
+		return isChildOf(sboTerm, getGene());
 	}
 
 	/**
@@ -476,7 +977,7 @@ public class SBO {
 	 *         otherwise
 	 */
 	public static boolean isGeneCodingRegion(int sboTerm) {
-		return isChildOf(sboTerm, 335);
+		return isChildOf(sboTerm, getGeneCodingRegion());
 	}
 
 	/**
@@ -486,8 +987,7 @@ public class SBO {
 	 *         false otherwise
 	 */
 	public static boolean isGeneOrGeneCodingRegion(int sboTerm) {
-		return (isChildOf(sboTerm, 335) || isChildOf(sboTerm,
-				convertAlias2SBO("GENE")));
+		return isGene(sboTerm) || isGeneCodingRegion(sboTerm);
 	}
 
 	/**
@@ -496,7 +996,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isGeneric(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("GENERIC"));
+		return isChildOf(sboTerm, getGeneric());
 	}
 
 	/**
@@ -505,7 +1005,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isHillEquation(int sboTerm) {
-		return isChildOf(sboTerm, 192);
+		return isChildOf(sboTerm, getHillEquation());
 	}
 
 	/**
@@ -514,7 +1014,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isInhibitor(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("INHIBITION"));
+		return isChildOf(sboTerm, getInhibitor());
 	}
 
 	/**
@@ -524,7 +1024,7 @@ public class SBO {
 	 * @return true if the term is-an interaction, false otherwise
 	 */
 	public static boolean isInteraction(int sboTerm) {
-		return isChildOf(sboTerm, 231);
+		return isChildOf(sboTerm, getInteraction());
 	}
 
 	/**
@@ -533,7 +1033,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isIon(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("ION"));
+		return isChildOf(sboTerm, getIon());
 	}
 
 	/**
@@ -542,8 +1042,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isIonChannel(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("ION_CHANNEL"));
-
+		return isChildOf(sboTerm, getIonChannel());
 	}
 
 	/**
@@ -553,7 +1052,7 @@ public class SBO {
 	 * @return true if the term is-a kinetic constant, false otherwise
 	 */
 	public static boolean isKineticConstant(int sboTerm) {
-		return isChildOf(sboTerm, 9);
+		return isChildOf(sboTerm, getKineticConstant());
 	}
 
 	/**
@@ -563,7 +1062,7 @@ public class SBO {
 	 * @return true if the term is-a logical framework, false otherwise
 	 */
 	public static boolean isLogicalFramework(int sboTerm) {
-		return isChildOf(sboTerm, 234);
+		return isChildOf(sboTerm, getLogicalFramework());
 	}
 
 	/**
@@ -573,7 +1072,7 @@ public class SBO {
 	 * @return true if the term is-a material entity, false otherwise
 	 */
 	public static boolean isMaterialEntity(int sboTerm) {
-		return isChildOf(sboTerm, 240);
+		return isChildOf(sboTerm, getMaterialEntity());
 	}
 
 	/**
@@ -583,7 +1082,7 @@ public class SBO {
 	 * @return true if the term is-a mathematical expression, false otherwise
 	 */
 	public static boolean isMathematicalExpression(int sboTerm) {
-		return isChildOf(sboTerm, 64);
+		return isChildOf(sboTerm, getMathematicalExpression());
 	}
 
 	/**
@@ -592,7 +1091,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isMessengerRNA(int sboTerm) {
-		return isChildOf(sboTerm, 278);
+		return isChildOf(sboTerm, getMessengerRNA());
 	}
 
 	/**
@@ -602,7 +1101,7 @@ public class SBO {
 	 * @return true if the term is-a modelling framework, false otherwise
 	 */
 	public static boolean isModellingFramework(int sboTerm) {
-		return isChildOf(sboTerm, 4);
+		return isChildOf(sboTerm, getModellingFramework());
 	}
 
 	/**
@@ -612,7 +1111,7 @@ public class SBO {
 	 * @return true if the term is-a modifier, false otherwise
 	 */
 	public static boolean isModifier(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("MODULATION"));
+		return isChildOf(sboTerm, getModifier());
 	}
 
 	/**
@@ -621,7 +1120,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isNonCompetetiveInhibitor(int term) {
-		return isChildOf(term, 207);
+		return isChildOf(term, getNonCompetetiveInhibitor());
 	}
 
 	/**
@@ -630,7 +1129,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isNonEssentialActivator(int term) {
-		return isChildOf(term, 462);
+		return isChildOf(term, getNonEssentialActivator());
 	}
 
 	/**
@@ -650,7 +1149,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isPartialInhibitor(int sboTerm) {
-		return isChildOf(sboTerm, 536);
+		return isChildOf(sboTerm, getPartialInhibitor());
 	}
 
 	/**
@@ -661,7 +1160,7 @@ public class SBO {
 	 * @return true if the term is-a participant, false otherwise
 	 */
 	public static boolean isParticipant(int sboTerm) {
-		return isChildOf(sboTerm, 235);
+		return isChildOf(sboTerm, getParticipant());
 	}
 
 	/**
@@ -671,7 +1170,7 @@ public class SBO {
 	 * @return true if the term is-a participant role, false otherwise
 	 */
 	public static boolean isParticipantRole(int sboTerm) {
-		return isChildOf(sboTerm, 3);
+		return isChildOf(sboTerm, getParticipantRole());
 	}
 
 	/**
@@ -680,7 +1179,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isPhenotype(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("PHENOTYPE"));
+		return isChildOf(sboTerm, getPhenotype());
 	}
 
 	/**
@@ -691,7 +1190,7 @@ public class SBO {
 	 * @return true if the term is-a physical participant, false otherwise
 	 */
 	public static boolean isPhysicalParticipant(int sboTerm) {
-		return isChildOf(sboTerm, 236);
+		return isChildOf(sboTerm, getPhysicalParticipant());
 	}
 
 	/**
@@ -701,7 +1200,7 @@ public class SBO {
 	 * @return true if the term is-a product, false otherwise
 	 */
 	public static boolean isProduct(int sboTerm) {
-		return isChildOf(sboTerm, 11);
+		return isChildOf(sboTerm, getProduct());
 	}
 
 	/**
@@ -710,7 +1209,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isProtein(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("PROTEIN"));
+		return isChildOf(sboTerm, getProtein());
 	}
 
 	/**
@@ -720,7 +1219,7 @@ public class SBO {
 	 * @return true if the term is-a quantitative parameter, false otherwise
 	 */
 	public static boolean isQuantitativeParameter(int sboTerm) {
-		return isChildOf(sboTerm, 2);
+		return isChildOf(sboTerm, getQuantitativeParameter());
 	}
 
 	/**
@@ -730,7 +1229,7 @@ public class SBO {
 	 * @return true if the term is-a rate law, false otherwise
 	 */
 	public static boolean isRateLaw(int sboTerm) {
-		return isChildOf(sboTerm, 1);
+		return isChildOf(sboTerm, getRateLaw());
 	}
 
 	/**
@@ -740,7 +1239,7 @@ public class SBO {
 	 * @return true if the term is-a reactant, false otherwise
 	 */
 	public static boolean isReactant(int sboTerm) {
-		return isChildOf(sboTerm, 10);
+		return isChildOf(sboTerm, getReactant());
 	}
 
 	/**
@@ -749,7 +1248,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isReceptor(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("RECEPTOR"));
+		return isChildOf(sboTerm, getReceptor());
 	}
 
 	/**
@@ -758,7 +1257,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isRNA(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("RNA"));
+		return isChildOf(sboTerm, getRNA());
 	}
 
 	/**
@@ -767,8 +1266,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isRNAOrMessengerRNA(int sboTerm) {
-		return (isChildOf(sboTerm, 278) || isChildOf(sboTerm,
-				convertAlias2SBO("RNA")));
+		return isRNA(sboTerm) || isMessengerRNA(sboTerm);
 	}
 
 	/**
@@ -777,7 +1275,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isSimpleMolecule(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("SIMPLE_MOLECULE"));
+		return isChildOf(sboTerm, getSimpleMolecule());
 	}
 
 	/**
@@ -786,7 +1284,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isSpecificActivator(int sboTerm) {
-		return isChildOf(sboTerm, 533);
+		return isChildOf(sboTerm, getSpecificActivator());
 	}
 
 	/**
@@ -795,7 +1293,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isStateTransition(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("STATE_TRANSITION"));
+		return isChildOf(sboTerm, getStateTransition());
 	}
 
 	/**
@@ -805,7 +1303,7 @@ public class SBO {
 	 * @return true if the term is-a steady state expression, false otherwise
 	 */
 	public static boolean isSteadyStateExpression(int sboTerm) {
-		return isChildOf(sboTerm, 391);
+		return isChildOf(sboTerm, getSteadyStateExpression());
 	}
 
 	/**
@@ -814,7 +1312,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isStimulator(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("PHYSICAL_STIMULATION"));
+		return isChildOf(sboTerm, getStimulator());
 	}
 
 	/**
@@ -823,7 +1321,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isTranscription(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("TRANSCRIPTION"));
+		return isChildOf(sboTerm, getTranscription());
 	}
 
 	/**
@@ -832,8 +1330,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isTranscriptionalActivation(int sboTerm) {
-		return isChildOf(sboTerm,
-				convertAlias2SBO("TRANSCRIPTIONAL_ACTIVATION"));
+		return isChildOf(sboTerm, getTranscriptionalActivation());
 	}
 
 	/**
@@ -842,8 +1339,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isTranscriptionalInhibitor(int sboTerm) {
-		return isChildOf(sboTerm,
-				convertAlias2SBO("TRANSCRIPTIONAL_INHIBITION"));
+		return isChildOf(sboTerm, getTranscriptionalInhibitor());
 	}
 
 	/**
@@ -852,7 +1348,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isTransitionOmitted(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("KNOWN_TRANSITION_OMITTED"));
+		return isChildOf(sboTerm, getTransitionOmitted());
 	}
 
 	/**
@@ -861,7 +1357,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isTranslation(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("TRANSLATION"));
+		return isChildOf(sboTerm, getTranslation());
 	}
 
 	/**
@@ -870,7 +1366,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isTranslationalActivation(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("TRANSLATIONAL_ACTIVATION"));
+		return isChildOf(sboTerm, getTranslationalActivation());
 	}
 
 	/**
@@ -879,7 +1375,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isTranslationalInhibitor(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("TRANSLATIONAL_INHIBITION"));
+		return isChildOf(sboTerm, getTranslationalInhibitor());
 	}
 
 	/**
@@ -888,7 +1384,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isTransport(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("TRANSPORT"));
+		return isChildOf(sboTerm, getTransport());
 	}
 
 	/**
@@ -897,7 +1393,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isTrigger(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("TRIGGER"));
+		return isChildOf(sboTerm, getTrigger());
 	}
 
 	/**
@@ -906,7 +1402,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isTruncated(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("TRUNCATED"));
+		return isChildOf(sboTerm, getTruncated());
 	}
 
 	/**
@@ -915,7 +1411,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isUnknownMolecule(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("UNKNOWN"));
+		return isChildOf(sboTerm, getUnknownMolecule());
 	}
 
 	/**
@@ -924,7 +1420,7 @@ public class SBO {
 	 * @return
 	 */
 	public static boolean isUnknownTransition(int sboTerm) {
-		return isChildOf(sboTerm, convertAlias2SBO("UNKNOWN_TRANSITION"));
+		return isChildOf(sboTerm, getUnknownTransition());
 	}
 
 	/**
