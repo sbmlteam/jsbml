@@ -33,8 +33,8 @@ package org.sbml.jsbml;
 import java.util.HashMap;
 
 import org.sbml.jsbml.ListOf.Type;
-import org.sbml.jsbml.util.BoundaryConditionFilter;
-import org.sbml.jsbml.util.NameFilter;
+import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
+import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * <p>

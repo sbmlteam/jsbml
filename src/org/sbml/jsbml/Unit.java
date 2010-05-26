@@ -33,7 +33,7 @@ package org.sbml.jsbml;
 import java.util.HashMap;
 
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.util.TextFormula;
+import org.sbml.jsbml.util.compilers.TextFormula;
 
 /**
  * Represents the unit XML element of a SBML file.
