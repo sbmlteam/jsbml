@@ -342,12 +342,13 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 *         criterion.
 	 */
 	public ListOf<T> filterList(Filter f) {
-		ListOf<T> list = new ListOf<T>();
+		ListOf<T> list = new ListOf<T>(getLevel(), getVersion());
 		for (T sbase : this) {
 			if (f.accepts(sbase)) {
 				list.add(sbase);
 			}
 		}
+		list.parentSBMLObject = parentSBMLObject;
 		return list;
 	}
 
