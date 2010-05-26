@@ -27,7 +27,7 @@
  *===================================================================================
  *
  */
-package org.sbml.jsbml.util;
+package org.sbml.jsbml.util.compilers;
 
 import java.util.IllegalFormatException;
 import java.util.List;
@@ -40,6 +40,7 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * @author Andreas Dr&auml;ger

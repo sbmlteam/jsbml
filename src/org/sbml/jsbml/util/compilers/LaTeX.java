@@ -26,7 +26,7 @@
  *===================================================================================
  *
  */
-package org.sbml.jsbml.util;
+package org.sbml.jsbml.util.compilers;
 
 import org.sbml.jsbml.ASTNodeCompiler;
 import org.sbml.jsbml.ASTNodeValue;
@@ -36,6 +36,7 @@ import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * Converts {@link ASTNodeValue} objects into a LaTeX {@link String} to be
