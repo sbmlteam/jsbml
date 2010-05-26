@@ -28,6 +28,7 @@
  */
 package org.sbml.jsbml.util.filters;
 
+import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
 
 /**
@@ -70,7 +71,7 @@ public class SBOFilter implements Filter {
 	public boolean accepts(Object o) {
 		if (o instanceof SBase) {
 			SBase sbase = (SBase) o;
-			if (sbase.isSetSBOTerm() && (sbase.getSBOTerm() == term)) {
+			if (sbase.isSetSBOTerm() && (SBO.isChildOf(sbase.getSBOTerm(), term))) {
 				return true;
 			}
 		}
