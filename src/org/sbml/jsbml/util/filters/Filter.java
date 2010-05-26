@@ -26,7 +26,7 @@
  *===================================================================================
  *
  */
-package org.sbml.jsbml.util;
+package org.sbml.jsbml.util.filters;
 
 /**
  * A filter is a general interface that allows to check an object for a certain

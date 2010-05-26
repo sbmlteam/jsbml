@@ -26,7 +26,7 @@
  *===================================================================================
  *
  */
-package org.sbml.jsbml.util;
+package org.sbml.jsbml.util.filters;
 
 import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.SBase;
