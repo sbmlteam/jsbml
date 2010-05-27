@@ -108,4 +108,31 @@ public class CompartmentType extends AbstractNamedSBase {
 	public CompartmentType clone() {
 		return new CompartmentType(this);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	@Deprecated
+	public int getChildCount() {
+		return 0;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	@Deprecated
+	public SBase getChildAt(int childIndex) {
+		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	@Deprecated
+	public boolean getAllowsChildren() {
+		return false;
+	}
 }

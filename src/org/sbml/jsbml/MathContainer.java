@@ -31,6 +31,8 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
+import javax.swing.tree.TreeNode;
+
 /**
  * Base class for all the SBML components which contain MathML nodes.
  * 
@@ -385,5 +387,30 @@ public abstract class MathContainer extends AbstractSBase implements
 			attributes.put("formula", getFormulaString());
 		}
 		return attributes;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return true;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int index) {
+		return (index == 0) && isSetMath() ? getMath() : null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		return isSetMath() ? 1 : 0;
 	}
 }

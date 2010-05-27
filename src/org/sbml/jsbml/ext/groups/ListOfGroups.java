@@ -11,7 +11,7 @@ import org.sbml.jsbml.SBase;
  * @since <pre>16-Feb-2010</pre>
  */
 
-public class ListOfGroups<T extends SBase> extends ListOf{
+public class ListOfGroups<T extends SBase> extends ListOf<T>{
 
     public GroupList getCurrentList() {
         return currentList;
@@ -27,7 +27,7 @@ public class ListOfGroups<T extends SBase> extends ListOf{
       *
       * @see java.lang.Object#equals(java.lang.Object)
       */
-    // @Override
+    @Override
     public boolean equals(Object o) {
         if (o instanceof GroupList) {
             boolean equals = super.equals(o);

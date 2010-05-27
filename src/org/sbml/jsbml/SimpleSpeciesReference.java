@@ -90,7 +90,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 		this(s.getLevel(), s.getVersion());
 		this.speciesID = s.isSetId() ? new String(s.getId()) : null;
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -100,7 +100,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	public SimpleSpeciesReference(String id, int level, int version) {
 		this(id, null, level, version);
 	}
-	
+
 	/**
 	 * 
 	 * @param id

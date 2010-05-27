@@ -30,6 +30,7 @@
 package org.sbml.jsbml;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import org.sbml.jsbml.ListOf.Type;
 
@@ -659,6 +660,56 @@ public class Event extends AbstractNamedSBase {
 		}
 
 		return attributes;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	public SBase getChildAt(int index) {
+		int children = getChildCount();
+		if ((0 < children) && (index < children)) {
+			LinkedList<SBase> l = new LinkedList<SBase>();
+			if (isSetTrigger()) {
+				l.add(getTrigger());
+			}
+			if ((l.size() < index) && isSetDelay()) {
+				l.add(getDelay());
+			}
+			if ((l.size() < index) && isSetListOfEventAssignments()) {
+				l.add(getListOfEventAssignments());
+			}
+			return l.get(index);
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		int children = 0;
+		if (isSetTrigger()) {
+			children++;
+		}
+		if (isSetDelay()) {
+			children++;
+		}
+		if (isSetListOfEventAssignments()) {
+			children++;
+		}
+		return children;
 	}
 
 }

@@ -31,6 +31,8 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
+import javax.swing.tree.TreeNode;
+
 /**
  * Represents the speciesReference XML element of a SBML file.
  * 
@@ -492,4 +494,35 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 
 		return attributes;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int childIndex) {
+		if ((0 <= childIndex) && (childIndex < getChildCount())) {
+			return getStoichiometryMath();
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		return isSetStoichiometryMath() ? 1 : 0;
+	}
+
 }

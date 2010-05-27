@@ -30,6 +30,9 @@
 package org.sbml.jsbml;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+
+import javax.swing.tree.TreeNode;
 
 /**
  * Represents the eventAssignment XML element of a SBML file.
@@ -245,11 +248,42 @@ public class EventAssignment extends MathContainer {
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-
 		if (isSetVariable() && getLevel() >= 2) {
 			attributes.put("variable", getVariable());
 		}
-
 		return attributes;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.MathContainer#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		int children = getChildCount();
+		if ((0 < children) && (index < children)) {
+			LinkedList<TreeNode> l = new LinkedList<TreeNode>();
+			if (isSetVariable()) {
+				l.add(getVariableInstance());
+			}
+			if (isSetMath()) {
+				l.add(getMath());
+			}
+			return l.get(index);
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		int children = super.getChildCount();
+		if (isSetVariable()) {
+			children++;
+		}
+		return children;
 	}
 }

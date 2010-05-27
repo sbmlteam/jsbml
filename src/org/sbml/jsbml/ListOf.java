@@ -381,6 +381,30 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	public SBase getChildAt(int index) {
+		return get(index);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		return size();
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jlibsbml.SBase#getAnnotationString()
 	 */

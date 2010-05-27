@@ -30,8 +30,9 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.SBase;
 
 public class TextGlyph extends AbstractNamedSBase {
 
@@ -47,7 +48,15 @@ public class TextGlyph extends AbstractNamedSBase {
 		super(level, version);
 	}
 
-	
+	/**
+	 * 
+	 * @param textGlyph
+	 */
+	public TextGlyph(TextGlyph textGlyph) {
+		super(textGlyph);
+		// TODO Auto-generated constructor stub
+	}
+
 	public GraphicalObject getGraphicalObject() {
 		return graphicalObject;
 	}
@@ -78,10 +87,40 @@ public class TextGlyph extends AbstractNamedSBase {
 	}
 
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	 */
 	@Override
-	public SBase clone() {
+	public TextGlyph clone() {
+		return new TextGlyph(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int childIndex) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	

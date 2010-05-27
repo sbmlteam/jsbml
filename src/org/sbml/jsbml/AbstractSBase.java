@@ -30,12 +30,15 @@
 
 package org.sbml.jsbml;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
+import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.filters.CVTermFilter;
@@ -125,6 +128,68 @@ public abstract class AbstractSBase implements SBase {
 		notesBuffer = null;
 		setOfListeners = new HashSet<SBaseChangedListener>();
 		extensions = new HashMap<String, SBase>();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
+	 */
+	public int getIndex(TreeNode node) {
+		Enumeration<TreeNode> e = children();
+		for (int i=0; e.hasMoreElements(); i++) {
+			if (node.equals(e.nextElement())) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#isLeaf()
+	 */
+	public boolean isLeaf() {
+		return (getChildCount() == 0) || (!getAllowsChildren());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#children()
+	 */
+	public Enumeration<TreeNode> children() {
+		return new Enumeration<TreeNode>() {
+			int index = 0;
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.util.Enumeration#hasMoreElements()
+			 */
+			public boolean hasMoreElements() {
+				return index < getChildCount();
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.util.Enumeration#nextElement()
+			 */
+			public TreeNode nextElement() {
+				return getChildAt(index);
+			}
+		};
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getParent()
+	 */
+	public SBase getParent() {
+		return getParentSBMLObject();
 	}
 
 	/**

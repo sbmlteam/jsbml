@@ -30,7 +30,6 @@
 
 package org.sbml.jsbml.ext.layout;
 
-import org.sbml.jsbml.SBase;
 
 public class SpeciesGlyph extends GraphicalObject {
 
@@ -44,6 +43,15 @@ public class SpeciesGlyph extends GraphicalObject {
 		super(level, version);
 	}
 	
+	/**
+	 * 
+	 * @param speciesGlyph
+	 */
+	public SpeciesGlyph(SpeciesGlyph speciesGlyph) {
+		super(speciesGlyph);
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getSpecies() {
 		return species;
 	}
@@ -52,10 +60,13 @@ public class SpeciesGlyph extends GraphicalObject {
 		this.species = species;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
+	 */
 	@Override
-	public SBase clone() {
-		// TODO Auto-generated method stub
-		return super.clone();
+	public SpeciesGlyph clone() {
+		return new SpeciesGlyph(this);
 	}
 
 	@Override

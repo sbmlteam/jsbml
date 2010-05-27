@@ -42,6 +42,7 @@ package org.sbml.jsbml;
  * @opt types
  * @opt visibility
  */
+@Deprecated
 public class SpeciesType extends AbstractNamedSBase {
 
 	/**
@@ -107,5 +108,32 @@ public class SpeciesType extends AbstractNamedSBase {
 	@Deprecated
 	public SpeciesType clone() {
 		return new SpeciesType(this);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	@Deprecated
+	public int getChildCount() {
+		return 0;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	@Deprecated
+	public SBase getChildAt(int childIndex) {
+		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	@Deprecated
+	public boolean getAllowsChildren() {
+		return false;
 	}
 }
