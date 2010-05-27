@@ -347,6 +347,8 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	/**
 	 * Sets the unit of this Symbol.
 	 * 
+	 * A new unit will be created base on this kind.
+	 * 
 	 * @param unitKind
 	 */
 	public void setUnits(Unit.Kind unitKind) {
@@ -354,7 +356,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	}
 
 	/**
-	 * Set the unit attribute of this variable to the given unit definition.
+	 * Set the unit attribute of this Symbol to the given unit definition.
 	 * 
 	 * @param units
 	 */

@@ -42,7 +42,9 @@ package org.sbml.jsbml;
 public interface Quantity extends NamedSBaseWithDerivedUnit {
 
 	/**
-	 * Returns the value of this variable. In Compartments the value is its
+	 * Returns the value of this Quantity. 
+	 * 
+	 * In Compartments the value is its
 	 * size, in Species the value defines its initial amount or concentration,
 	 * and in Parameters this returns the value attribute from SBML.
 	 * 
@@ -51,12 +53,15 @@ public interface Quantity extends NamedSBaseWithDerivedUnit {
 	public double getValue();
 
 	/**
+	 * Returns true if the value of this Quantity is set.
 	 * 
-	 * @return true if the value of this Symbol is set.
+	 * @return true if the value of this Quantity is set.
 	 */
 	public boolean isSetValue();
 
 	/**
+	 * Sets the value of this Quantity.
+	 * 
 	 * Note that the meaning of the value can be different in all derived
 	 * classes. In Compartments the value defines its size. In Species the value
 	 * describes either the initial amount or the initial concentration. Only
@@ -69,6 +74,7 @@ public interface Quantity extends NamedSBaseWithDerivedUnit {
 	
 	/**
 	 * Unsets the value of this Quantity.
+	 * 
 	 */
 	public void unsetValue();
 

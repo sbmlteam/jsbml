@@ -476,6 +476,9 @@ public class Compartment extends Symbol {
 
 	/**
 	 * Sets the spatialDimensions of this compartment to 'i'.
+	 * 
+	 * @param i 
+	 * @throws IllegalArgumentException if i < 0 or if  i > 3 
 	 */
 	public void setSpatialDimensions(int i) {
 		if (i >= 0 && i <= 3) {
@@ -491,6 +494,7 @@ public class Compartment extends Symbol {
 	 * Sets the spatialDimensions of this compartment to 'spatialDimensiosn'.
 	 * 
 	 * @param spatialDimensions
+	 * @throws IllegalArgumentException if i < 0 or if  i > 3 
 	 */
 	public void setSpatialDimensions(short spatialDimensions) {
 		if (spatialDimensions >= 0 && spatialDimensions <= 3) {
@@ -502,12 +506,19 @@ public class Compartment extends Symbol {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Sets the unitsID of this {@link QuantityWithDefinedUnit}. Only valid unit
+	 * kind names or identifiers of already existing {@link UnitDefinition}s are
+	 * allowed arguments of this function.
 	 * 
-	 * @see org.sbml.jsbml.QuantityWithDefinedUnit#setUnits(java.lang.String)
+	 * @param units
+	 *            the identifier of an already existing {@link UnitDefinition}
+	 *            or an {@link Unit.Kind} identifier for the current
+	 *            level/version combination of this unit. Passing a null value
+	 *            to this method is equivalent to calling {@link #unsetUnits()}.
+	 *            
+	 * @throws IllegalArgumentException if the unit is not valid or if spatialDimensions = 0.           
 	 */
-	@Override
 	public void setUnits(String units) {
 		if (getSpatialDimensions() > 0) {
 			super.setUnits(units);
@@ -517,12 +528,13 @@ public class Compartment extends Symbol {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Sets the Unit of this Compartment.
 	 * 
-	 * @see org.sbml.jsbml.QuantityWithDefinedUnit#setUnits(org.sbml.jsbml.Unit)
+	 * @param unit
+	 * 	 
+	 * @throws IllegalArgumentException if spatialDimensions = 0.           
 	 */
-	@Override
 	public void setUnits(Unit unit) {
 		if (getSpatialDimensions() > 0) {
 			super.setUnits(unit);
@@ -532,13 +544,16 @@ public class Compartment extends Symbol {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Sets the unit of this Compartment.
 	 * 
-	 * @see
-	 * org.sbml.jsbml.QuantityWithDefinedUnit#setUnits(org.sbml.jsbml.Unit.Kind)
+	 * A new unit will be created base on this kind.
+	 * 
+	 * @param unitKind
+	 * 
+	 * @throws IllegalArgumentException if spatialDimensions = 0.
+	 *            
 	 */
-	@Override
 	public void setUnits(Unit.Kind unitKind) {
 		if (getSpatialDimensions() > 0) {
 			super.setUnits(unitKind);
@@ -548,14 +563,14 @@ public class Compartment extends Symbol {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Set the unit attribute of this Compartment to the given unit definition.
 	 * 
-	 * @see
-	 * org.sbml.jsbml.QuantityWithDefinedUnit#setUnits(org.sbml.jsbml.UnitDefinition
-	 * )
+	 * @param units
+	 * 
+	 * @throws IllegalArgumentException if spatialDimensions = 0.
+	 *            
 	 */
-	@Override
 	public void setUnits(UnitDefinition unitDefinition) {
 		if (getSpatialDimensions() > 0) {
 			super.setUnits(unitDefinition);

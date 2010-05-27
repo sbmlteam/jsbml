@@ -75,6 +75,11 @@ public class SBMLErrorLog {
 	}
 
 	public void setValidationErrors(ArrayList<SBMLError> validationErrors) {
+		if (validationErrors == null) {
+			clearLog();
+			return;
+		}
+		
 		this.validationErrors = validationErrors;
 	}
 
@@ -87,15 +92,11 @@ public class SBMLErrorLog {
 	}
 	
 	public int getNumErrors() {
-		if (validationErrors == null) {
-			return 0;
-		}
-		
 		return validationErrors.size();
 	}
 	
 	public SBMLError getError(long i) {
-		if (validationErrors != null && (i >= 0 && i < validationErrors.size())) {
+		if (i >= 0 && i < validationErrors.size()) {
 			return validationErrors.get((int) i);
 		}
 		
