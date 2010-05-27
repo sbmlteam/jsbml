@@ -30,7 +30,6 @@
 
 package org.sbml.jsbml.ext.layout;
 
-import org.sbml.jsbml.SBase;
 
 public class CompartmentGlyph extends GraphicalObject {
 
@@ -44,6 +43,15 @@ public class CompartmentGlyph extends GraphicalObject {
 		super(level, version);
 	}
 	
+	/**
+	 * 
+	 * @param compartmentGlyph
+	 */
+	public CompartmentGlyph(CompartmentGlyph compartmentGlyph) {
+		super(compartmentGlyph);
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getCompartment() {
 		return compartment;
 	}
@@ -52,10 +60,13 @@ public class CompartmentGlyph extends GraphicalObject {
 		this.compartment = compartment;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
+	 */
 	@Override
-	public SBase clone() {
-		// TODO Auto-generated method stub
-		return super.clone();
+	public CompartmentGlyph clone() {
+		return new CompartmentGlyph(this);
 	}
 
 	@Override

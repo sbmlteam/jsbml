@@ -321,10 +321,42 @@ public class ASTNodeValue {
 	 * 
 	 * @param value
 	 */
+	public void setValue(boolean value) {
+		setValue(Boolean.valueOf(value));
+	}
+	
+	/**
+	 * 
+	 * @param value
+	 */
 	public void setValue(Boolean value) {
 		this.value = value;
 	}
 
+	/**
+	 * 
+	 * @param d
+	 */
+	public void setValue(double d) {
+		setValue(Double.valueOf(d));
+	}
+
+	/**
+	 * 
+	 * @param i
+	 */
+	public void setValue(int i) {
+		setValue(Integer.valueOf(i));
+	}
+	
+	/**
+	 * 
+	 * @param l
+	 */
+	public void setValue(long l) {
+		setValue(Long.valueOf(l));
+	}
+	
 	/**
 	 * 
 	 * @param value
@@ -332,13 +364,21 @@ public class ASTNodeValue {
 	public void setValue(NamedSBaseWithDerivedUnit value) {
 		this.value = value;
 	}
-
+	
 	/**
 	 * 
 	 * @param value
 	 */
 	public void setValue(Number value) {
 		this.value = value;
+	}
+	
+	/**
+	 * 
+	 * @param s
+	 */
+	public void setValue(short s) {
+		setValue(Short.valueOf(s));
 	}
 
 	/**
@@ -478,5 +518,12 @@ public class ASTNodeValue {
 	@Override
 	public String toString() {
 		return (value != null) ? value.toString() : super.toString();
+	}
+
+	/**
+	 * Removes the unit of this element, i.e., the unit will become invalid.
+	 */
+	public void unsetUnit() {
+		unit = null;
 	}
 }

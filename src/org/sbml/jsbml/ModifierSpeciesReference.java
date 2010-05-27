@@ -29,6 +29,8 @@
 
 package org.sbml.jsbml;
 
+import javax.swing.tree.TreeNode;
+
 
 /**
  * Represents the modifierSpeciesReference XML element of a SBML file.
@@ -80,5 +82,29 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 	@Override
 	public ModifierSpeciesReference clone() {
 		return new ModifierSpeciesReference(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int childIndex) {
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		return 0;
 	}
 }

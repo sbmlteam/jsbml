@@ -215,6 +215,30 @@ public class Unit extends AbstractSBase {
 		}
 
 		/**
+		 * This method is equivalent to converting the string to a Unit.Kind and
+		 * then calling its isDefinedIn method.
+		 * 
+		 * @param unitKind
+		 * @param level
+		 * @param version
+		 * @return
+		 */
+		public static boolean isValidUnitKindString(String unitKind, int level,
+				int version) {
+			Kind uk = null;
+			if (unitKind != null) {
+				try {
+					uk = Kind.valueOf(unitKind);
+				} catch (IllegalArgumentException exc) {
+				}
+			}
+			if (uk == null) {
+				return false;
+			}
+			return uk.isDefinedIn(level, version);
+		}
+
+		/**
 		 * Returns the name of this unit kind.
 		 * 
 		 * @return
@@ -339,30 +363,6 @@ public class Unit extends AbstractSBase {
 							&& this == CELSIUS || this == LITER || this == METER) || (level == 2
 					&& version == 1 && this == CELSIUS)));
 		}
-
-		/**
-		 * This method is equivalent to converting the string to a Unit.Kind and
-		 * then calling its isDefinedIn method.
-		 * 
-		 * @param unitKind
-		 * @param level
-		 * @param version
-		 * @return
-		 */
-		public static boolean isValidUnitKindString(String unitKind, int level,
-				int version) {
-			Kind uk = null;
-			if (unitKind != null) {
-				try {
-					uk = Kind.valueOf(unitKind);
-				} catch (IllegalArgumentException exc) {
-				}
-			}
-			if (uk == null) {
-				return false;
-			}
-			return uk.isDefinedIn(level, version);
-		}
 	}
 
 	/**
@@ -426,8 +426,8 @@ public class Unit extends AbstractSBase {
 	 */
 	public static UnitDefinition convertToSI(Unit unit) {
 		double mult = unit.getMultiplier();
+		double exp = unit.getExponent();
 		int scale = unit.getScale();
-		int exp = unit.getExponent();
 		int l = unit.getLevel();
 		int v = unit.getVersion();
 		UnitDefinition ud = new UnitDefinition(l, v);
@@ -708,19 +708,20 @@ public class Unit extends AbstractSBase {
 			double m2 = unit2.getOffset() / Math.pow(10, unit2.getScale())
 					+ unit2.getMultiplier();
 			int s1 = unit1.getScale(), s2 = unit2.getScale();
-			int e1 = unit1.getKind() == Kind.DIMENSIONLESS
+			double e1 = unit1.getKind() == Kind.DIMENSIONLESS
 					&& unit1.getExponent() != 1 ? 1 : unit1.getExponent();
-			int e2 = unit2.getKind() == Kind.DIMENSIONLESS
+			double e2 = unit2.getKind() == Kind.DIMENSIONLESS
 					&& unit2.getExponent() != 1 ? 1 : unit2.getExponent();
 			unit1.setOffset(0);
 			unit1.setMultiplier(Math.pow(m1, e1) * Math.pow(m2, e2));
-			unit1.setScale(s1 * e1 + s2 * e2);
+			unit1.setScale((int) Math.round(s1 * e1 + s2 * e2));
 			if (Kind.areEquivalent(unit1.getKind(), unit2.getKind())) {
 				unit1.setExponent(e1 + e2);
 				if (unit1.getExponent() != 0) {
 					unit1.setMultiplier(Math.pow(unit1.getMultiplier(),
 							1 / unit1.getExponent()));
-					unit1.setScale(unit1.getScale() / unit1.getExponent());
+					unit1.setScale((int) Math.round(unit1.getScale()
+							/ unit1.getExponent()));
 				}
 			} else if (e1 != 0) {
 				unit1.setMultiplier(Math.pow(unit1.getMultiplier(),
@@ -761,7 +762,7 @@ public class Unit extends AbstractSBase {
 	/**
 	 * Represents the 'exponent' XML attribute of an unit element.
 	 */
-	private Integer exponent;
+	private Double exponent;
 
 	/**
 	 * 
@@ -821,7 +822,7 @@ public class Unit extends AbstractSBase {
 	 * @param level
 	 * @param version
 	 */
-	public Unit(double multiplier, int scale, Kind kind, int exponent,
+	public Unit(double multiplier, int scale, Kind kind, double exponent,
 			int level, int version) {
 		super(level, version);
 
@@ -847,19 +848,6 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Creates a Unit instance from a scale, kind, level and version.
-	 * 
-	 * @param scale
-	 * @param kind
-	 * @param level
-	 * @param version
-	 */
-	public Unit(int scale, Kind kind, int level, int version) {
-		this(scale, kind, 1, level, version);
-		isSetExponent = false;
-	}
-
-	/**
 	 * Creates a Unit instance from a scale, kind, exponent, level and version.
 	 * 
 	 * @param scale
@@ -868,9 +856,35 @@ public class Unit extends AbstractSBase {
 	 * @param level
 	 * @param version
 	 */
-	public Unit(int scale, Kind kind, int exponent, int level, int version) {
+	public Unit(int scale, Kind kind, double exponent, int level, int version) {
 		this(1, scale, kind, exponent, level, version);
 		isSetMultiplier = false;
+	}
+
+	/**
+	 * Creates a Unit instance from a scale, kind, level and version.
+	 * 
+	 * @param scale
+	 * @param kind
+	 * @param level
+	 * @param version
+	 */
+	public Unit(int scale, Kind kind, int level, int version) {
+		this(scale, kind, 1d, level, version);
+		isSetExponent = false;
+	}
+
+	/**
+	 * Creates a Unit instance from a kind, exponent, level and version.
+	 * 
+	 * @param kind
+	 * @param exponent
+	 * @param level
+	 * @param version
+	 */
+	public Unit(Kind kind, double exponent, int level, int version) {
+		this(0, kind, exponent, level, version);
+		isSetScale = false;
 	}
 
 	/**
@@ -887,19 +901,6 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Creates a Unit instance from a kind, exponent, level and version.
-	 * 
-	 * @param kind
-	 * @param exponent
-	 * @param level
-	 * @param version
-	 */
-	public Unit(Kind kind, int exponent, int level, int version) {
-		this(0, kind, exponent, level, version);
-		isSetScale = false;
-	}
-
-	/**
 	 * Creates a Unit instance from a given Unit.
 	 * 
 	 * @param unit
@@ -907,7 +908,7 @@ public class Unit extends AbstractSBase {
 	public Unit(Unit unit) {
 		super(unit);
 		initDefaults();
-		exponent = unit.exponent != null ? Integer.valueOf(unit.getExponent())
+		exponent = unit.exponent != null ? Double.valueOf(unit.getExponent())
 				: null;
 		multiplier = unit.multiplier != null ? new Double(unit.getMultiplier())
 				: null;
@@ -950,12 +951,39 @@ public class Unit extends AbstractSBase {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	public SBase getChildAt(int index) {
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		return 0;
+	}
+
 	/**
 	 * 
 	 * @return the exponent of this Unit if it is set, 1 otherwise.
 	 */
-	public int getExponent() {
-		return isSetExponent() ? exponent : 1;
+	public double getExponent() {
+		return isSetExponent() ? exponent : 1d;
 	}
 
 	/**
@@ -1133,7 +1161,7 @@ public class Unit extends AbstractSBase {
 	public void initDefaults() {
 		kind = Kind.INVALID;
 		if (getLevel() < 3) {
-			exponent = Integer.valueOf(1);
+			exponent = Double.valueOf(1d);
 			scale = Integer.valueOf(0);
 			multiplier = new Double(1);
 			offset = new Double(0);
@@ -1604,9 +1632,9 @@ public class Unit extends AbstractSBase {
 	 * 
 	 * @param exponent
 	 */
-	public void setExponent(int exponent) {
+	public void setExponent(double exponent) {
 		isSetExponent = true;
-		this.exponent = exponent;
+		this.exponent = Double.valueOf(exponent);
 		stateChanged();
 	}
 
@@ -1679,8 +1707,7 @@ public class Unit extends AbstractSBase {
 			times = TextFormula.sum(StringTools.toString(offset.doubleValue()),
 					times);
 		}
-		return TextFormula.pow(times, Integer.valueOf(getExponent()))
-				.toString();
+		return TextFormula.pow(times, Double.valueOf(getExponent())).toString();
 	}
 
 	/**
@@ -1742,7 +1769,7 @@ public class Unit extends AbstractSBase {
 			attributes.put("kind", getKind().toString().toLowerCase());
 		}
 		if (isSetExponent()) {
-			attributes.put("exponent", Integer.toString(getExponent()));
+			attributes.put("exponent", Double.toString(getExponent()));
 		}
 		if (isSetScale()) {
 			attributes.put("scale", Integer.toString(getScale()));

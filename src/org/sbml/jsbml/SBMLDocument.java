@@ -76,6 +76,33 @@ public class SBMLDocument extends AbstractSBase {
 		setParentSBML(this);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return true;
+	}
+		
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		return isSetModel() ? 1 : 0;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	public Model getChildAt(int childIndex) {
+		if (childIndex < getChildCount()) {
+			return getModel();
+		}
+		return null;
+	}
+
 	/**
 	 * Creates a SBMLDocument instance from a given SBMLDocument.
 	 * 

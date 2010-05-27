@@ -30,6 +30,7 @@
 package org.sbml.jsbml;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import org.sbml.jsbml.util.filters.NameFilter;
 
@@ -1026,5 +1027,59 @@ public class Reaction extends AbstractNamedSBase implements
 		}
 
 		return attributes;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public SBase getChildAt(int index) {
+		int children = getChildCount();
+		if ((0 < children) && (index < children)) {
+			LinkedList<SBase> l = new LinkedList<SBase>();
+			if (isSetListOfReactants()) {
+				l.add(getListOfReactants());
+			}
+			if ((l.size() < index) && isSetListOfProducts()) {
+				l.add(getListOfProducts());
+			}
+			if ((l.size() < index) && isSetListOfModifiers()) {
+				l.add(getListOfModifiers());
+			}
+			if ((l.size() < index) && isSetKineticLaw()) {
+				l.add(getKineticLaw());
+			}
+			return l.get(index);
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		int children = 0;
+		if (isSetListOfReactants()) {
+			children++;
+		}
+		if (isSetListOfProducts()) {
+			children++;
+		}
+		if (isSetListOfModifiers()) {
+			children++;
+		}
+		if (isSetKineticLaw()) {
+			children++;
+		}
+		return children;
 	}
 }

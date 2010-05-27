@@ -100,17 +100,11 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue abs(ASTNodeValue value) {
-		UnitDefinition ud = value.getUnit();
-		if (value.isBoolean()) {
-			ud.addUnit(new Unit(Kind.DIMENSIONLESS, level, version));
-		} else if (value.isDifference() || value.isSum() || value.isUMinus()) {
-			ud.setListOfUnits(value.getUnit().getListOfUnits());
-		} else if (value.isNumber()) {
+		if (value.isDifference() || value.isSum() || value.isUMinus()
+				|| value.isNumber()) {
 			value.setValue(Double.valueOf(Math.abs(value.toDouble())));
-		} else if (value.isString()) {
-			// TODO
 		}
-		return new ASTNodeValue(ud, this);
+		return value;
 	}
 
 	/*
@@ -119,7 +113,13 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#and(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue and(ASTNodeValue... values) {
-		return dimensionless();
+		ASTNodeValue value = dimensionless();
+		boolean val = true;
+		for (ASTNodeValue v : values) {
+			val &= v.toBoolean();
+		}
+		value.setValue(val);
+		return value;
 	}
 
 	/*
@@ -128,8 +128,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arccos(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arccos(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return new ASTNodeValue(this);
+		return new ASTNodeValue(Math.acos(value.toDouble()), this);
 	}
 
 	/*
@@ -208,8 +207,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsin(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arcsin(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return new ASTNodeValue(this);
+		return new ASTNodeValue(Math.asin(value.toDouble()), this);
 	}
 
 	/*
@@ -228,8 +226,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arctan(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arctan(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return new ASTNodeValue(this);
+		return new ASTNodeValue(Math.atan(value.toDouble()), this);
 	}
 
 	/*
@@ -248,6 +245,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#ceiling(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue ceiling(ASTNodeValue value) {
+		value.setValue(Double.valueOf(Math.ceil(value.toDouble())));
 		return value;
 	}
 
@@ -285,7 +283,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 				break;
 			}
 		}
-		value.setUnit(ud);
+		if (ud.getNumUnits() > 0) {
+			value.setUnit(ud);
+		}
 		return value;
 	}
 
@@ -295,7 +295,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @param b
 	 * @return
 	 */
-	private ASTNodeValue compile(boolean b) {
+	public ASTNodeValue compile(boolean b) {
 		UnitDefinition ud = new UnitDefinition(level, version);
 		ud.addUnit(new Unit(Kind.DIMENSIONLESS, level, version));
 		ASTNodeValue value = new ASTNodeValue(b, this);
@@ -318,8 +318,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double)
 	 */
 	public ASTNodeValue compile(double real) {
-		ASTNodeValue value = new ASTNodeValue(real, this);
-		return value;
+		return new ASTNodeValue(real, this);
 	}
 
 	/*
@@ -328,9 +327,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(int)
 	 */
 	public ASTNodeValue compile(int integer) {
-		ASTNodeValue value = new ASTNodeValue(integer, this);
-		value.setUnit(new UnitDefinition(level, version));
-		return value;
+		return new ASTNodeValue(integer, this);
 	}
 
 	/*
@@ -347,8 +344,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 				value.setValue(Double.valueOf(q.getValue()));
 			}
 		}
-		UnitDefinition ud = variable.getDerivedUnitDefinition();
-		value.setUnit(ud == null ? new UnitDefinition(level, version) : ud);
+		value.setUnit(variable.getDerivedUnitDefinition());
 		return value;
 	}
 
@@ -358,11 +354,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(java.lang.String)
 	 */
 	public ASTNodeValue compile(String name) {
-		UnitDefinition ud = namesToUnits.get(name);
-		if (ud == null) {
-			ud = new UnitDefinition(level, version);
-		}
-		return new ASTNodeValue(ud, this);
+		return new ASTNodeValue(namesToUnits.get(name), this);
 	}
 
 	/*
@@ -371,8 +363,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#cos(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue cos(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return new ASTNodeValue(this);
+		return new ASTNodeValue(Math.cos(value.toDouble()), this);
 	}
 
 	/*
@@ -381,8 +372,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#cosh(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue cosh(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return new ASTNodeValue(this);
+		return new ASTNodeValue(Math.cosh(value.toDouble()), this);
 	}
 
 	/*
@@ -454,7 +444,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue equal(ASTNodeValue left, ASTNodeValue right) {
-		return dimensionless();
+		ASTNodeValue v = dimensionless();
+		v.setValue(left.toDouble() == right.toDouble());
+		return v;
 	}
 
 	/*
@@ -463,8 +455,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#exp(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue exp(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return new ASTNodeValue(this);
+		return pow(getConstantE(), value);
 	}
 
 	/*
@@ -489,7 +480,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#floor(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue floor(ASTNodeValue value) {
-		return value;
+		return new ASTNodeValue(Math.floor(value.toDouble()), this);
 	}
 
 	/*
@@ -504,7 +495,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 		setLevelAndVersion(ud);
 		setLevelAndVersion(denom);
 		ud.divideBy(denom);
-		return new ASTNodeValue(ud, this);
+		ASTNodeValue value = new ASTNodeValue(ud, this);
+		value.setValue(numerator.toDouble() / denominator.toDouble());
+		return value;
 	}
 
 	/*
@@ -540,7 +533,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantE()
 	 */
 	public ASTNodeValue getConstantE() {
-		return compile(Math.E);
+		ASTNodeValue v = dimensionless();
+		v.setValue(Math.E);
+		return v;
 	}
 
 	/*
@@ -549,7 +544,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantFalse()
 	 */
 	public ASTNodeValue getConstantFalse() {
-		return compile(false);
+		ASTNodeValue v = dimensionless();
+		v.setValue(false);
+		return v;
 	}
 
 	/*
@@ -558,7 +555,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantPi()
 	 */
 	public ASTNodeValue getConstantPi() {
-		return compile(Math.PI);
+		ASTNodeValue v = dimensionless();
+		v.setValue(Math.PI);
+		return v;
 	}
 
 	/*
@@ -567,7 +566,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantTrue()
 	 */
 	public ASTNodeValue getConstantTrue() {
-		return compile(true);
+		ASTNodeValue v = dimensionless();
+		v.setValue(true);
+		return v;
 	}
 
 	/*
@@ -596,7 +597,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue greaterEqual(ASTNodeValue left, ASTNodeValue right) {
-		return dimensionless();
+		ASTNodeValue value = dimensionless();
+		value.setValue(left.toDouble() >= right.toDouble());
+		return value;
 	}
 
 	/*
@@ -607,19 +610,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue greaterThan(ASTNodeValue left, ASTNodeValue right) {
-		return dimensionless();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#lambda(org.sbml.jsbml.ASTNodeValue[])
-	 */
-	public ASTNodeValue lambda(ASTNodeValue... values) {
-		for (int i = 0; i < values.length - 1; i++) {
-			namesToUnits.put(values[i].toString(), values[i].getUnit());
-		}
-		return new ASTNodeValue(values[values.length - 1].getUnit(), this);
+		ASTNodeValue value = dimensionless();
+		value.setValue(left.toDouble() > right.toDouble());
+		return value;
 	}
 
 	/**
@@ -636,12 +629,26 @@ public class UnitCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#lambda(org.sbml.jsbml.ASTNodeValue[])
+	 */
+	public ASTNodeValue lambda(ASTNodeValue... values) {
+		for (int i = 0; i < values.length - 1; i++) {
+			namesToUnits.put(values[i].toString(), values[i].getUnit());
+		}
+		return new ASTNodeValue(values[values.length - 1].getUnit(), this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * org.sbml.jsbml.ASTNodeCompiler#lessEqual(org.sbml.jsbml.ASTNodeValue,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue lessEqual(ASTNodeValue left, ASTNodeValue right) {
-		return dimensionless();
+		ASTNodeValue value = dimensionless();
+		value.setValue(left.toDouble() <= right.toDouble());
+		return value;
 	}
 
 	/*
@@ -651,7 +658,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue lessThan(ASTNodeValue left, ASTNodeValue right) {
-		return dimensionless();
+		ASTNodeValue value = dimensionless();
+		value.setValue(left.toDouble() < right.toDouble());
+		return value;
 	}
 
 	/*
@@ -691,7 +700,15 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#minus(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue minus(ASTNodeValue... values) {
-		return checkIdentical(values);
+		ASTNodeValue value = checkIdentical(values);
+		if (values.length > 0) {
+			value.setValue(values[0].toNumber());
+			for (int i = 1; i < values.length; i++) {
+				value.setValue(Double.valueOf(value.toDouble()
+						- values[i].toNumber().doubleValue()));
+			}
+		}
+		return value;
 	}
 
 	/*
@@ -700,7 +717,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#not(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue not(ASTNodeValue value) {
-		return dimensionless();
+		ASTNodeValue v = dimensionless();
+		v.setValue(!value.toBoolean());
+		return v;
 	}
 
 	/*
@@ -710,7 +729,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue notEqual(ASTNodeValue left, ASTNodeValue right) {
-		return dimensionless();
+		ASTNodeValue v = dimensionless();
+		v.setValue(left.toDouble() != right.toDouble());
+		return v;
 	}
 
 	/*
@@ -719,7 +740,15 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#or(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue or(ASTNodeValue... values) {
-		return dimensionless();
+		ASTNodeValue v = dimensionless();
+		v.setValue(false);
+		for (ASTNodeValue value : values) {
+			if (value.toBoolean()) {
+				v.setValue(true);
+				break;
+			}
+		}
+		return v;
 	}
 
 	/*
@@ -733,7 +762,16 @@ public class UnitCompiler implements ASTNodeCompiler {
 		for (int i = 0, j = 0; i < values.length; i += 2, j++) {
 			varray[j] = values[i];
 		}
-		return checkIdentical(varray);
+		int i;
+		for (i = 1; i < values.length - 1; i += 2) {
+			if (values[i].toBoolean()) {
+				return new ASTNodeValue(values[i - 1].toDouble(), this);
+			}
+		}
+		ASTNodeValue value = checkIdentical(varray);
+		value.setValue(Double.valueOf(values[i - 1].toDouble()));
+
+		return value;
 	}
 
 	/*
@@ -742,7 +780,12 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#plus(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue plus(ASTNodeValue... values) {
-		return checkIdentical(values);
+		ASTNodeValue value = checkIdentical(values);
+		for (ASTNodeValue v : values) {
+			value.setValue(Double.valueOf(value.toDouble()
+					+ v.toNumber().doubleValue()));
+		}
+		return value;
 	}
 
 	/*
@@ -757,7 +800,6 @@ public class UnitCompiler implements ASTNodeCompiler {
 			v = exponent.toDouble();
 			exp = v == 0 ? 0 : 1 / v;
 		} else {
-			System.out.println(exponent.getUnit().getNumUnits());
 			if (exponent.getUnit().getNumUnits() == 1) {
 				System.out.println(exponent.getUnit().getUnit(0).getKind());
 				Kind kind = exponent.getUnit().getUnit(0).getKind();
@@ -811,9 +853,12 @@ public class UnitCompiler implements ASTNodeCompiler {
 		 * TODO: This is a problem! The exponent can only be integer!
 		 */
 		for (Unit u : ud.getListOfUnits()) {
-			u.setExponent((int) Math.round(u.getExponent() / rootExponent));
+			u.setExponent(u.getExponent() / rootExponent);
 		}
-		return new ASTNodeValue(ud, this);
+		ASTNodeValue value = new ASTNodeValue(ud, this);
+		value.setValue(Double.valueOf(Math.pow(radiant.toDouble(),
+				1 / rootExponent)));
+		return value;
 	}
 
 	/*
@@ -832,8 +877,27 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#sech(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue sech(ASTNodeValue value) {
-		// TODO Auto-generated method stub
+		// TODO
 		return new ASTNodeValue(this);
+	}
+
+	/**
+	 * Ensures that level and version combination of a unit are the same then
+	 * these that are defined here.
+	 * 
+	 * @param unit
+	 */
+	private void setLevelAndVersion(UnitDefinition unit) {
+		if ((unit.getLevel() != level) || (unit.getVersion() != version)) {
+			unit.setLevel(level);
+			unit.setVersion(version);
+			unit.getListOfUnits().setLevel(level);
+			unit.getListOfUnits().setVersion(version);
+			for (Unit u : unit.getListOfUnits()) {
+				u.setLevel(level);
+				u.setVersion(version);
+			}
+		}
 	}
 
 	/*
@@ -842,8 +906,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#sin(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue sin(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return new ASTNodeValue(this);
+		return new ASTNodeValue(Math.sin(value.toDouble()), this);
 	}
 
 	/*
@@ -852,8 +915,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#sinh(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue sinh(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return new ASTNodeValue(this);
+		return new ASTNodeValue(Math.sinh(value.toDouble()), this);
 	}
 
 	/*
@@ -881,7 +943,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 		if (ud == null) {
 			ud = invalid().getUnit();
 		}
-		return new ASTNodeValue(ud, this);
+		ASTNodeValue value = new ASTNodeValue(ud, this);
+		value.setValue(Double.valueOf(1d));
+		return value;
 	}
 
 	/*
@@ -890,8 +954,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#tan(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue tan(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return new ASTNodeValue(this);
+		return new ASTNodeValue(Math.tan(value.toDouble()), this);
 	}
 
 	/*
@@ -900,8 +963,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#tanh(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue tanh(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return new ASTNodeValue(this);
+		return new ASTNodeValue(Math.tanh(value.toDouble()), this);
 	}
 
 	/*
@@ -912,31 +974,16 @@ public class UnitCompiler implements ASTNodeCompiler {
 	public ASTNodeValue times(ASTNodeValue... values) {
 		UnitDefinition ud = new UnitDefinition(level, version);
 		UnitDefinition v;
+		double d = 1d;
 		for (ASTNodeValue value : values) {
 			v = value.getUnit().clone();
 			setLevelAndVersion(v);
 			ud.multiplyWith(v);
+			d *= value.toDouble();
 		}
-		return new ASTNodeValue(ud, this);
-	}
-
-	/**
-	 * Ensures that level and version combination of a unit are the same then
-	 * these that are defined here.
-	 * 
-	 * @param unit
-	 */
-	private void setLevelAndVersion(UnitDefinition unit) {
-		if ((unit.getLevel() != level) || (unit.getVersion() != version)) {
-			unit.setLevel(level);
-			unit.setVersion(version);
-			unit.getListOfUnits().setLevel(level);
-			unit.getListOfUnits().setVersion(version);
-			for (Unit u : unit.getListOfUnits()) {
-				u.setLevel(level);
-				u.setVersion(version);
-			}
-		}
+		ASTNodeValue value = new ASTNodeValue(ud, this);
+		value.setValue(Double.valueOf(d));
+		return value;
 	}
 
 	/*
@@ -945,6 +992,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue uiMinus(ASTNodeValue value) {
+		value.setValue(Double.valueOf(-value.toDouble()));
 		return value;
 	}
 
@@ -963,8 +1011,19 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#xor(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue xor(ASTNodeValue... values) {
-		// TODO Auto-generated method stub
-		return new ASTNodeValue(this);
+		ASTNodeValue value = dimensionless();
+		boolean v = false;
+		for (int i = 0; i < values.length; i++) {
+			if (values[i].toBoolean()) {
+				if (v) {
+					return getConstantFalse();
+				} else {
+					v = true;
+				}
+			}
+		}
+		value.setValue(Boolean.valueOf(v));
+		return value;
 	}
 
 }

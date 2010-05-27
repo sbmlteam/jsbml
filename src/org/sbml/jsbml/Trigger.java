@@ -29,6 +29,8 @@
  */
 package org.sbml.jsbml;
 
+import javax.swing.tree.TreeNode;
+
 
 /**
  * Represents the trigger XML element of a SBML file.
@@ -75,5 +77,21 @@ public class Trigger extends MathContainer {
 	@Override
 	public Trigger clone() {
 		return new Trigger(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int index) {
+		return (index == 0) && isSetMath() ? getMath() : null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		return isSetMath() ? 1 : 0;
 	}
 }

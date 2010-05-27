@@ -31,7 +31,6 @@
 package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.SBase;
 
 public class ReactionGlyph extends GraphicalObject {
 
@@ -49,6 +48,15 @@ public class ReactionGlyph extends GraphicalObject {
 		super(level, version);
 	}
 	
+	/**
+	 * 
+	 * @param reactionGlyph
+	 */
+	public ReactionGlyph(ReactionGlyph reactionGlyph) {
+		super(reactionGlyph);
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getReaction() {
 		return reaction;
 	}
@@ -57,18 +65,29 @@ public class ReactionGlyph extends GraphicalObject {
 		this.reaction = reaction;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
+	 */
 	@Override
-	public SBase clone() {
-		// TODO Auto-generated method stub
-		return super.clone();
+	public ReactionGlyph clone() {
+		return new ReactionGlyph(this);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object o) {
 		// TODO Auto-generated method stub
 		return super.equals(o);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
+	 */
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

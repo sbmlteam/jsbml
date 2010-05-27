@@ -31,6 +31,8 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
+import javax.swing.tree.TreeNode;
+
 /**
  * Represents the species XML element of a SBML file.
  * 

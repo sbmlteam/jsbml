@@ -72,7 +72,6 @@ public class StoichiometryMath extends MathContainer {
 	 * 
 	 * @see org.sbml.jsbml.element.MathContainer#clone()
 	 */
-	// @Override
 	public StoichiometryMath clone() {
 		return new StoichiometryMath(this);
 	}

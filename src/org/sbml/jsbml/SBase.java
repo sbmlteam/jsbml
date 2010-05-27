@@ -34,6 +34,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.CVTerm.Qualifier;
 
 /**
@@ -49,7 +51,7 @@ import org.sbml.jsbml.CVTerm.Qualifier;
  * @composed 0..1 annotation 1 Annotation
  * @has 0..* listener 1 SBaseChangedListener
  */
-public interface SBase {
+public interface SBase extends TreeNode {
 
 	/**
 	 * adds a listener to the SBase object. from now on changes will be saved

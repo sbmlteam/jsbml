@@ -30,57 +30,138 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.SBase;
 
 public class Dimensions extends AbstractNamedSBase {
 
+	/**
+	 * 
+	 */
 	private double width;
+	/**
+	 * 
+	 */
 	private double height;
+	/**
+	 * 
+	 */
 	private double depth;
 	
+	/**
+	 * 
+	 */
 	public Dimensions() {
 		
 	}
 	
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public Dimensions(int level, int version) {
 		super(level, version);
 	}
 	
+	/**
+	 * 
+	 * @param dimensions
+	 */
+	public Dimensions(Dimensions dimensions) {
+		super(dimensions);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public double getWidth() {
 		return width;
 	}
 
 
+	/**
+	 * 
+	 * @param width
+	 */
 	public void setWidth(double width) {
 		this.width = width;
 	}
 
 
+	/**
+	 * 
+	 * @return
+	 */
 	public double getHeight() {
 		return height;
 	}
 
 
+	/**
+	 * 
+	 * @param height
+	 */
 	public void setHeight(double height) {
 		this.height = height;
 	}
 
 
+	/**
+	 * 
+	 * @return
+	 */
 	public double getDepth() {
 		return depth;
 	}
 
 
+	/**
+	 * 
+	 * @param depth
+	 */
 	public void setDepth(double depth) {
 		this.depth = depth;
 	}
 
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	 */
 	@Override
-	public SBase clone() {
+	public Dimensions clone() {
+		return new Dimensions(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int childIndex) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -31,6 +31,7 @@
 package org.sbml.jsbml;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
@@ -3132,5 +3133,107 @@ public class Model extends AbstractNamedSBase {
 		}
 
 		return attributes;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	public SBase getChildAt(int index) {
+		int children = getChildCount();
+		if ((0 < children) && (index < children)) {
+			LinkedList<SBase> l = new LinkedList<SBase>();
+			if (isSetListOfFunctionDefinitions()) {
+				l.add(getListOfFunctionDefinitions());
+			}
+			if ((l.size() < index) && isSetListOfUnitDefinitions()) {
+				l.add(getListOfUnitDefinitions());
+			}
+			if ((l.size() < index) && isSetListOfCompartmentTypes()) {
+				l.add(getListOfCompartmentTypes());
+			}
+			if ((l.size() < index) && isSetListOfSpeciesTypes()) {
+				l.add(getListOfSpeciesTypes());
+			}
+			if ((l.size() < index) && isSetListOfCompartments()) {
+				l.add(getListOfCompartments());
+			}
+			if ((l.size() < index) && isSetListOfSpecies()) {
+				l.add(getListOfSpecies());
+			}
+			if ((l.size() < index) && isSetListOfParameters()) {
+				l.add(getListOfParameters());
+			}
+			if ((l.size() < index) && isSetListOfInitialAssignments()) {
+				l.add(getListOfInitialAssignments());
+			}
+			if ((l.size() < index) && isSetListOfRules()) {
+				l.add(getListOfRules());
+			}
+			if ((l.size() < index) && isSetListOfConstraints()) {
+				l.add(getListOfConstraints());
+			}
+			if ((l.size() < index) && isSetListOfReactions()) {
+				l.add(getListOfReactions());
+			}
+			if ((l.size() < index) && isSetListOfEvents()) {
+				l.add(getListOfEvents());
+			}
+			return l.get(index);
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		int children = 0;
+		if (isSetListOfFunctionDefinitions()) {
+			children++;
+		}
+		if (isSetListOfUnitDefinitions()) {
+			children++;
+		}
+		if (isSetListOfCompartmentTypes()) {
+			children++;
+		}
+		if (isSetListOfSpeciesTypes()) {
+			children++;
+		}
+		if (isSetListOfCompartments()) {
+			children++;
+		}
+		if (isSetListOfSpecies()) {
+			children++;
+		}
+		if (isSetListOfParameters()) {
+			children++;
+		}
+		if (isSetListOfInitialAssignments()) {
+			children++;
+		}
+		if (isSetListOfRules()) {
+			children++;
+		}
+		if (isSetListOfConstraints()) {
+			children++;
+		}
+		if (isSetListOfReactions()) {
+			children++;
+		}
+		if (isSetListOfEvents()) {
+			children++;
+		}
+		return children;
 	}
 }

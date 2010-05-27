@@ -30,6 +30,9 @@
 package org.sbml.jsbml;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+
+import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.filters.NameFilter;
@@ -529,5 +532,38 @@ public class KineticLaw extends MathContainer {
 		}
 
 		return attributes;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		int children = getChildCount();
+		if ((0 < children) && (index < children)) {
+			LinkedList<SBase> l = new LinkedList<SBase>();
+			if (isSetMath()) {
+				l.add(getModel());
+			}
+			if ((l.size() < index) && isSetListOfParameters()) {
+				l.add(getListOfParameters());
+			}
+			return l.get(index);
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int children = super.getChildCount();
+		if (isSetListOfParameters()) {
+			children++;
+		}
+		return children;
 	}
 }

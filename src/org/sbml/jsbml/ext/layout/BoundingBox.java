@@ -30,49 +30,117 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.SBase;
 
 public class BoundingBox extends AbstractNamedSBase {
 
 	// TODO : may be use directly java objects ??! See if we need metaid, notes, annotation for those.
 	
+	/**
+	 * 
+	 */
 	private Point point;
+	/**
+	 * 
+	 */
 	private Dimensions dimensions;
 	
+	/**
+	 * 
+	 */
 	public BoundingBox() {
-		
 	}
 	
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public BoundingBox(int level, int version) {
 		super(level, version);
 	}
 
-	
+	/**
+	 * 
+	 * @param boundingBox
+	 */
+	public BoundingBox(BoundingBox boundingBox) {
+		super(boundingBox);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public Point getPoint() {
 		return point;
 	}
 
 
+	/**
+	 * 
+	 * @param point
+	 */
 	public void setPoint(Point point) {
 		this.point = point;
 	}
 
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Dimensions getDimensions() {
 		return dimensions;
 	}
 
 
+	/**
+	 * 
+	 * @param dimensions
+	 */
 	public void setDimensions(Dimensions dimensions) {
 		this.dimensions = dimensions;
 	}
 
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	 */
 	@Override
-	public SBase clone() {
+	public BoundingBox clone() {
+		return new BoundingBox(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int childIndex) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

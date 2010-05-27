@@ -500,6 +500,30 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	public Unit getChildAt(int index) {
+		return getUnit(index);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		return getNumUnits();
+	}
+
 	/**
 	 * 
 	 * @return the listOfUnits of this UnitDefinition. Can be empty.
