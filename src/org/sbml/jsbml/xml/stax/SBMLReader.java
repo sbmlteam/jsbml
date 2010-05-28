@@ -52,6 +52,7 @@ import javax.xml.stream.events.StartDocument;
 import javax.xml.stream.events.StartElement;
 
 import org.codehaus.stax2.evt.XMLEvent2;
+import org.codehaus.stax2.ri.evt.AttributeEventImpl;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.ext.groups.GroupsParser;
 import org.sbml.jsbml.ext.layout.LayoutParser;
@@ -257,6 +258,8 @@ public class SBMLReader {
 				SBMLCoreParser.class);
 		packageParsers.put("http://www.sbml.org/sbml/level2",
 				SBMLCoreParser.class);
+		packageParsers.put("http://www.sbml.org/sbml/level1",
+				SBMLCoreParser.class);
 		packageParsers.put("http://www.w3.org/1999/xhtml", StringParser.class);
 		packageParsers.put("http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 				RDFAnnotationParser.class);
@@ -398,6 +401,17 @@ public class SBMLReader {
 				if (currentNode.getLocalPart().equals("sbml")) {
 					initializedParsers = getInitializedPackageParsers(element);
 					SBMLDocument sbmlDocument = new SBMLDocument();
+					for (Iterator<AttributeEventImpl> iterator = element
+							.getAttributes(); iterator.hasNext();) {
+						AttributeEventImpl o = iterator.next();
+						if (o.getName().toString().equals("level")) {
+							sbmlDocument.setLevel(Integer
+									.parseInt(o.getValue()));
+						} else if (o.getName().toString().equals("version")) {
+							sbmlDocument.setVersion(Integer.parseInt(o
+									.getValue()));
+						}
+					}
 					SBMLElements.push(sbmlDocument);
 				}
 

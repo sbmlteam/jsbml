@@ -2191,7 +2191,7 @@ public class Model extends AbstractNamedSBase {
 	 * This method ensures that for all constructors the same basic settings are
 	 * made upon creation of new instances of this type.
 	 */
-	private void initDefaults() {
+	public void initDefaults() {
 		listOfCompartments = null;
 		listOfCompartmentTypes = null;
 		listOfConstraints = null;
