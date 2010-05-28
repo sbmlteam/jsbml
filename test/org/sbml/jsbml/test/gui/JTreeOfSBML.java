@@ -30,14 +30,10 @@ package org.sbml.jsbml.test.gui;
 
 import java.awt.Color;
 
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
@@ -50,7 +46,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * @author Andreas Dr&auml;ger
  * @date 2010-05-27
  */
-public class JTreeOfSBML extends JFrame {
+public class JTreeOfSBML extends JDialog {
 
 	/**
 	 * Generated serial version identifier.
@@ -71,10 +67,13 @@ public class JTreeOfSBML extends JFrame {
 			exc.printStackTrace();
 			JOptionPane.showMessageDialog(this, exc.getMessage(), exc
 					.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
-			System.exit(1);
+			dispose();
 		}
 	}
 
+	/**
+	 * artificial model for testing.
+	 */
 	public JTreeOfSBML() {
 		super();
 		SBMLDocument doc = new SBMLDocument(2, 4);
@@ -90,7 +89,20 @@ public class JTreeOfSBML extends JFrame {
 	 * @param doc
 	 */
 	private void showGUI(SBMLDocument doc) {
-		setTitle("SBML content visualizer");
+		if (doc.isSetModel()) {
+			Model m = doc.getModel();
+			String title = "Content of model \"";
+			if (m.isSetName()) {
+				title += m.getName();
+			} else if (m.isSetId()) {
+				title += m.getId();
+			} else {
+				title += "undefined";
+			}
+			setTitle(title + "\"");
+		} else {
+			setTitle("SBML content visualizer");
+		}
 		JTree tree = new JTree(doc);
 		tree.setBackground(Color.WHITE);
 		tree.expandRow(tree.getRowCount() - 1);
@@ -99,9 +111,10 @@ public class JTreeOfSBML extends JFrame {
 						JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
 		setEnabled(true);
 		setResizable(true);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		pack();
 		setLocationRelativeTo(null);
+		setModal(true);
 		setVisible(true);
 	}
 

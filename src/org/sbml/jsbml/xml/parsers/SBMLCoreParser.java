@@ -291,7 +291,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 */
 	private void initializeCoreElements() {
 		// TODO : loading from a file would be better.
-
 		SBMLCoreElements.put("model", Model.class);
 		SBMLCoreElements.put("listOfFunctionDefinitions", ListOf.class);
 		SBMLCoreElements.put("listOfUnitDefinitions", ListOf.class);
@@ -945,6 +944,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
 					if (elementName.equals("model")) {
 						Model model = (Model) newContextObject;
+						model.setLevel(sbmlDocument.getLevel());
+						model.setVersion(sbmlDocument.getVersion());
+						model.initDefaults();
 						model.setParentSBML(sbmlDocument);
 						sbmlDocument.setModel(model);
 
@@ -953,32 +955,33 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				} else if (contextObject instanceof Model) {
 
 					Model model = (Model) contextObject;
+					setLevelAndVersionFor(newContextObject, model);
 					if (newContextObject instanceof ListOf<?>) {
 						if (elementName.equals("listOfFunctionDefinitions")
 								&& model.getLevel() > 1) {
-							ListOf listOfFunctionDefinitions = (ListOf) newContextObject;
+							ListOf listOfFunctionDefinitions = (ListOf<?>) newContextObject;
 							model
 									.setListOfFunctionDefinitions(listOfFunctionDefinitions);
 
 							return listOfFunctionDefinitions;
 						} else if (elementName.equals("listOfUnitDefinitions")) {
-							ListOf listOfUnitDefinitions = (ListOf) newContextObject;
+							ListOf listOfUnitDefinitions = (ListOf<?>) newContextObject;
 							model
 									.setListOfUnitDefinitions(listOfUnitDefinitions);
 
 							return listOfUnitDefinitions;
 						} else if (elementName.equals("listOfCompartments")) {
-							ListOf listofCompartments = (ListOf) newContextObject;
-							model.setListOfCompartments(listofCompartments);
+							ListOf listOfCompartments = (ListOf<?>) newContextObject;
+							model.setListOfCompartments(listOfCompartments);
 
-							return listofCompartments;
+							return listOfCompartments;
 						} else if (elementName.equals("listOfSpecies")) {
-							ListOf listOfSpecies = (ListOf) newContextObject;
+							ListOf listOfSpecies = (ListOf<?>) newContextObject;
 							model.setListOfSpecies(listOfSpecies);
 
 							return listOfSpecies;
 						} else if (elementName.equals("listOfParameters")) {
-							ListOf listOfParameters = (ListOf) newContextObject;
+							ListOf listOfParameters = (ListOf<?>) newContextObject;
 							model.setListOfParameters(listOfParameters);
 
 							return listOfParameters;
@@ -986,44 +989,44 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 								.equals("listOfInitialAssignments")
 								&& ((model.getLevel() == 2 && model
 										.getVersion() > 1) || model.getLevel() >= 3)) {
-							ListOf listOfInitialAssignments = (ListOf) newContextObject;
+							ListOf listOfInitialAssignments = (ListOf<?>) newContextObject;
 							model
 									.setListOfInitialAssignments(listOfInitialAssignments);
 
 							return listOfInitialAssignments;
 						} else if (elementName.equals("listOfRules")) {
-							ListOf listOfRules = (ListOf) newContextObject;
+							ListOf listOfRules = (ListOf<?>) newContextObject;
 							model.setListOfRules(listOfRules);
 
 							return listOfRules;
 						} else if (elementName.equals("listOfConstraints")
 								&& ((model.getLevel() == 2 && model
 										.getVersion() > 1) || model.getLevel() >= 3)) {
-							ListOf listOfConstraints = (ListOf) newContextObject;
+							ListOf listOfConstraints = (ListOf<?>) newContextObject;
 							model.setListOfConstraints(listOfConstraints);
 
 							return listOfConstraints;
 						} else if (elementName.equals("listOfReactions")) {
-							ListOf listOfReactions = (ListOf) newContextObject;
+							ListOf listOfReactions = (ListOf<?>) newContextObject;
 							model.setListOfReactions(listOfReactions);
 
 							return listOfReactions;
 						} else if (elementName.equals("listOfEvents")
 								&& model.getLevel() > 1) {
-							ListOf listOfEvents = (ListOf) newContextObject;
+							ListOf listOfEvents = (ListOf<?>) newContextObject;
 							model.setListOfEvents(listOfEvents);
 
 							return listOfEvents;
 						} else if (elementName.equals("listOfCompartmentTypes")
 								&& (model.getLevel() == 2 && model.getVersion() > 1)) {
-							ListOf listOfCompartmentTypes = (ListOf) newContextObject;
+							ListOf listOfCompartmentTypes = (ListOf<?>) newContextObject;
 							model
 									.setListOfCompartmentTypes(listOfCompartmentTypes);
 
 							return listOfCompartmentTypes;
 						} else if (elementName.equals("listOfSpeciesTypes")
 								&& (model.getLevel() == 2 && model.getVersion() > 1)) {
-							ListOf listOfSpeciesTypes = (ListOf) newContextObject;
+							ListOf listOfSpeciesTypes = (ListOf<?>) newContextObject;
 							model.setListOfSpeciesTypes(listOfSpeciesTypes);
 
 							return listOfSpeciesTypes;
@@ -1033,11 +1036,12 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					} else {
 						// TODO : SBML syntax error, throw an exception?
 					}
-				} else if (contextObject instanceof ListOf) {
-					ListOf list = (ListOf) contextObject;
+				} else if (contextObject instanceof ListOf<?>) {
+					ListOf<?> list = (ListOf<?>) contextObject;
 					if (list.getParentSBMLObject() instanceof Model) {
 
 						Model model = (Model) list.getParentSBMLObject();
+						setLevelAndVersionFor(newContextObject, model);
 						if (elementName.equals("functionDefinition")
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfFunctionDefinitions)
@@ -1050,9 +1054,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfUnitDefinitions)) {
 							UnitDefinition unitDefinition = (UnitDefinition) newContextObject;
-							if (model.isSetLevel() && model.getLevel() < 3) {
-								unitDefinition.initDefaults();
-							}
+							unitDefinition.initDefaults();
 							model.addUnitDefinition(unitDefinition);
 
 							return unitDefinition;
@@ -1060,9 +1062,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfCompartments)) {
 							Compartment compartment = (Compartment) newContextObject;
-							if (model.isSetLevel() && model.getLevel() < 3) {
-								compartment.initDefaults();
-							}
+							compartment.initDefaults();
 							model.addCompartment(compartment);
 
 							return compartment;
@@ -1072,9 +1072,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 								&& ((model.getLevel() == 1 && model
 										.getVersion() > 1) || model.getLevel() > 1)) {
 							Species species = (Species) newContextObject;
-							if (model.isSetLevel() && model.getLevel() < 3) {
-								species.initDefaults();
-							}
+							species.initDefaults();
 							model.addSpecies(species);
 
 							return species;
@@ -1086,10 +1084,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 								&& model.getLevel() == 1
 								&& model.getVersion() == 1) {
 							Species species = (Species) newContextObject;
-
-							if (model.isSetLevel() && model.getLevel() < 3) {
-								species.initDefaults();
-							}
+							species.initDefaults();
 							model.addSpecies(species);
 
 							return species;
@@ -1097,9 +1092,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfParameters)) {
 							Parameter parameter = (Parameter) newContextObject;
-							if (model.isSetLevel() && model.getLevel() < 3) {
-								parameter.initDefaults();
-							}
+							parameter.initDefaults();
 							model.addParameter(parameter);
 
 							return parameter;
@@ -1184,9 +1177,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 										ListOf.Type.listOfReactions)) {
 							Reaction reaction = (Reaction) newContextObject;
 							model.addReaction(reaction);
-							if (model.isSetLevel() && model.getLevel() < 3) {
-								reaction.initDefaults();
-							}
+							reaction.initDefaults();
 
 							return reaction;
 						} else if (elementName.equals("event")
@@ -1195,9 +1186,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 								&& model.getLevel() > 1) {
 							Event event = (Event) newContextObject;
 							model.addEvent(event);
-							if (model.isSetLevel() && model.getLevel() < 3) {
-								event.initDefaults();
-							}
+							event.initDefaults();
 
 							return event;
 						} else if (elementName.equals("compartmentType")
@@ -1243,11 +1232,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 										.getLevel() == 1 && reaction
 										.getVersion() == 2))) {
 							SpeciesReference speciesReference = (SpeciesReference) newContextObject;
-
-							if (reaction.isSetLevel()
-									&& reaction.getLevel() < 3) {
-								speciesReference.initDefaults();
-							}
+							speciesReference.initDefaults();
 
 							if (list.getSBaseListType().equals(
 									ListOf.Type.listOfReactants)) {
@@ -1265,10 +1250,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 						} else if (elementName.equals("specieReference")
 								&& reaction.getLevel() > 1) {
 							SpeciesReference speciesReference = (SpeciesReference) newContextObject;
-							if (reaction.isSetLevel()
-									&& reaction.getLevel() < 3) {
-								speciesReference.initDefaults();
-							}
+							speciesReference.initDefaults();
 
 							if (list.getSBaseListType().equals(
 									ListOf.Type.listOfReactants)) {
@@ -1376,18 +1358,18 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					Reaction reaction = (Reaction) contextObject;
 
 					if (elementName.equals("listOfReactants")) {
-						ListOf listOfReactants = (ListOf) newContextObject;
+						ListOf listOfReactants = (ListOf<?>) newContextObject;
 						reaction.setListOfReactants(listOfReactants);
 
 						return listOfReactants;
 					} else if (elementName.equals("listOfProducts")) {
-						ListOf listOfProducts = (ListOf) newContextObject;
+						ListOf listOfProducts = (ListOf<?>) newContextObject;
 						reaction.setListOfProducts(listOfProducts);
 
 						return listOfProducts;
 					} else if (elementName.equals("listOfModifiers")
 							&& reaction.getLevel() > 1) {
-						ListOf listOfModifiers = (ListOf) newContextObject;
+						ListOf listOfModifiers = (ListOf<?>) newContextObject;
 						listOfModifiers.setSBaseListType(Type.listOfModifiers);
 						// TODO : check why it is needed for listOfModifiers and
 						// not the others
@@ -1408,7 +1390,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 					if (elementName.equals("listOfLocalParameters")
 							&& kineticLaw.getLevel() >= 3) {
-						ListOf listOfLocalParameters = (ListOf) newContextObject;
+						ListOf listOfLocalParameters = (ListOf<?>) newContextObject;
 						kineticLaw
 								.setListOfLocalParameters(listOfLocalParameters);
 						listOfLocalParameters
@@ -1418,7 +1400,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					} else if (elementName.equals("listOfParameters")
 							&& kineticLaw.isSetLevel()
 							&& kineticLaw.getLevel() < 3) {
-						ListOf listOfLocalParameters = (ListOf) newContextObject;
+						ListOf listOfLocalParameters = (ListOf<?>) newContextObject;
 						kineticLaw
 								.setListOfLocalParameters(listOfLocalParameters);
 						listOfLocalParameters
@@ -1452,6 +1434,23 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			}
 		}
 		return contextObject;
+	}
+
+	/**
+	 * Sets level and version properties of the new object according to the
+	 * value in the model.
+	 * 
+	 * @param newContextObject
+	 * @param model
+	 */
+	private void setLevelAndVersionFor(Object newContextObject, Model model) {
+		if (newContextObject instanceof SBase) {
+			SBase sb = (SBase) newContextObject;
+			// Level and version will be -1 if not set, so we don't
+			// have to check.
+			sb.setLevel(model.getLevel());
+			sb.setVersion(model.getVersion());
+		}
 	}
 
 	/**
