@@ -62,12 +62,33 @@ public class MultiParser implements ReadingParser, WritingParser {
 	private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/multi/version1";
 
 	/**
+	 * 
+	 * @return the namespaceURI of this parser.
+	 */
+	public static String getNamespaceURI() {
+		return namespaceURI;
+	}
+
+	/**
 	 * The MultiList enum which represents the name of the list this parser is
 	 * currently reading. If the Multi package have some lists included into
 	 * other lists, it is maybe better to extend the ListOf class and add an new
 	 * enum instance with the names of the possible lists of the multi package.
 	 */
 	private MultiList multiList = MultiList.none;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
+	 * sbase)
+	 */
+	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
+		if (sbase instanceof Species) {
+			// TODO return the listOf..
+		}
+		return null;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -106,6 +127,45 @@ public class MultiParser implements ReadingParser, WritingParser {
 	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument
+	 * sbmlDocument)
+	 */
+	public void processEndDocument(SBMLDocument sbmlDocument) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
+	 * elementName, String prefix, boolean isNested, Object contextObject)
+	 */
+	public void processEndElement(String elementName, String prefix,
+			boolean isNested, Object contextObject) {
+
+		if (elementName.equals("listOfSpeciesInstances")) {
+			this.multiList = MultiList.none;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String
+	 * elementName, String URI, String prefix, String localName, boolean
+	 * hasAttributes, boolean isLastNamespace, Object contextObject)
+	 */
+	public void processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/*
@@ -153,64 +213,6 @@ public class MultiParser implements ReadingParser, WritingParser {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
-	 * elementName, String prefix, boolean isNested, Object contextObject)
-	 */
-	public void processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject) {
-
-		if (elementName.equals("listOfSpeciesInstances")) {
-			this.multiList = MultiList.none;
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument
-	 * sbmlDocument)
-	 */
-	public void processEndDocument(SBMLDocument sbmlDocument) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * 
-	 * @return the namespaceURI of this parser.
-	 */
-	public static String getNamespaceURI() {
-		return namespaceURI;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
-	 * sbase)
-	 */
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
-		if (sbase instanceof Species) {
-			// TODO return the listOf..
-		}
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
-	 */
-	public void writeElement(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.xml.WritingParser#writeAttributes(SBMLObjectForXML
 	 * xmlObject, Object sbmlElementToWrite)
 	 */
@@ -235,10 +237,10 @@ public class MultiParser implements ReadingParser, WritingParser {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML
+	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML
 	 * xmlObject, Object sbmlElementToWrite)
 	 */
-	public void writeNamespaces(SBMLObjectForXML xmlObject,
+	public void writeElement(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
 		// TODO Auto-generated method stub
 
@@ -247,13 +249,11 @@ public class MultiParser implements ReadingParser, WritingParser {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String
-	 * elementName, String URI, String prefix, String localName, boolean
-	 * hasAttributes, boolean isLastNamespace, Object contextObject)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML
+	 * xmlObject, Object sbmlElementToWrite)
 	 */
-	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) {
+	public void writeNamespaces(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
 		// TODO Auto-generated method stub
 
 	}

@@ -30,40 +30,66 @@
 
 package org.sbml.jsbml.util;
 
+/**
+ *
+ */
 public class Message {
 
+	/**
+	 * 
+	 */
 	private String lang;
+	/**
+	 * 
+	 */
 	private String message;
 	
-	
+	/**
+	 * 
+	 */
 	public Message() {
 	}
 
-
-	@Override
-	public String toString() {
-		return "Message [lang=" + lang + ", messageContent=" + message
-				+ "]";
-	}
-
-
+	/**
+	 * 
+	 * @return
+	 */
 	public String getLang() {
 		return lang;
 	}
 
-
-	public void setLang(String lang) {
-		this.lang = lang;
-	}
-
-
+	/**
+	 * 
+	 * @return
+	 */
 	public String getMessage() {
 		return message;
 	}
 
+	/**
+	 * 
+	 * @param lang
+	 */
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
 
+	/**
+	 * 
+	 * @param messageContent
+	 */
 	public void setMessage(String messageContent) {
 		this.message = messageContent;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Message [lang=" + lang + ", messageContent=" + message
+				+ "]";
 	}
 	
 }

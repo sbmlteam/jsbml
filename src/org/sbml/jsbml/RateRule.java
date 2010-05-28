@@ -111,6 +111,25 @@ public class RateRule extends Rule {
 		}
 	}
 
+	/**
+	 * Sets the variableID of this RateRule to 'variable'. If no Symbol instance
+	 * has 'variable'as id, an IllegalArgumentException is thrown.
+	 * 
+	 * @param variable
+	 */
+	public void checkAndSetVariable(String variable) {
+		Variable nsb = null;
+		Model m = getModel();
+		if (m != null) {
+			nsb = m.findVariable(variable);
+		}
+		if (nsb == null)
+			throw new IllegalArgumentException(
+					"Only the id of an existing Species, SpeciesReferences, Compartments, or Parameters allowed as variables");
+		setVariable(nsb.getId());
+		stateChanged();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -192,20 +211,20 @@ public class RateRule extends Rule {
 
 	/**
 	 * 
+	 * @return true if the variableID of this RateRule is not null.
+	 */
+	public boolean isSetVariable() {
+		return variableID != null;
+	}
+
+	/**
+	 * 
 	 * @return true if the Symbol instance which has the variableID of this
 	 *         RateRule as id is not null.
 	 */
 	public boolean isSetVariableInstance() {
 		Model m = getModel();
 		return m != null ? m.findVariable(this.variableID) != null : false;
-	}
-
-	/**
-	 * 
-	 * @return true if the variableID of this RateRule is not null.
-	 */
-	public boolean isSetVariable() {
-		return variableID != null;
 	}
 
 	/*
@@ -217,45 +236,6 @@ public class RateRule extends Rule {
 	public boolean isSpeciesConcentration() {
 		return isSetVariableInstance()
 				&& (getVariableInstance() instanceof Species);
-	}
-
-	/**
-	 * Sets the variableID of this RateRule to 'variable'. If no Symbol instance
-	 * has 'variable'as id, an IllegalArgumentException is thrown.
-	 * 
-	 * @param variable
-	 */
-	public void checkAndSetVariable(String variable) {
-		Variable nsb = null;
-		Model m = getModel();
-		if (m != null) {
-			nsb = m.findVariable(variable);
-		}
-		if (nsb == null)
-			throw new IllegalArgumentException(
-					"Only the id of an existing Species, SpeciesReferences, Compartments, or Parameters allowed as variables");
-		setVariable(nsb.getId());
-		stateChanged();
-	}
-
-	/**
-	 * Sets the variableID of this RateRule to 'variable'.
-	 * 
-	 * @param variable
-	 */
-	public void setVariable(String variable) {
-		this.variableID = variable;
-		stateChanged();
-	}
-
-	/**
-	 * Sets the variableID of this RateRule to the id of the Symbol 'variable'.
-	 * 
-	 * @param variable
-	 */
-	public void setVariable(Variable variable) {
-		this.variableID = variable != null ? variable.getId() : null;
-		stateChanged();
 	}
 
 	/*
@@ -276,6 +256,26 @@ public class RateRule extends Rule {
 		}
 
 		return isAttributeRead;
+	}
+
+	/**
+	 * Sets the variableID of this RateRule to 'variable'.
+	 * 
+	 * @param variable
+	 */
+	public void setVariable(String variable) {
+		this.variableID = variable;
+		stateChanged();
+	}
+
+	/**
+	 * Sets the variableID of this RateRule to the id of the Symbol 'variable'.
+	 * 
+	 * @param variable
+	 */
+	public void setVariable(Variable variable) {
+		this.variableID = variable != null ? variable.getId() : null;
+		stateChanged();
 	}
 
 	/*

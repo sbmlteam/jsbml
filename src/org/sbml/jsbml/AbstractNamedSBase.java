@@ -120,7 +120,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
 	 */
-	// @Override
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof NamedSBase) {
 			boolean equals = super.equals(o);
@@ -180,6 +180,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
 	 * String prefix, String value)
 	 */
+	@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
@@ -279,6 +280,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#writeAttributes()
 	 */
+	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 

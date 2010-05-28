@@ -120,13 +120,97 @@ public class History {
 		setModifiedDate(date);
 	}
 
+	/**
+	 * writes the beginning of a creator element in 'buffer'
+	 * 
+	 * @param indent
+	 * @param buffer
+	 */
+	private void beginCreatorElement(String indent, StringBuffer buffer) {
+
+		buffer.append(indent).append("<dc:creator> \n");
+		buffer.append(indent).append("  <rdf:Bag> \n");
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public History clone() {
 		return new History(this);
+	}
+
+	/**
+	 * writes the content of a created element in 'buffer'
+	 * 
+	 * @param indent
+	 * @param buffer
+	 */
+	private void createCreatedElement(String indent, StringBuffer buffer) {
+
+		if (isSetCreatedDate()) {
+			String createdDate = DateParser.getIsoDate(getCreatedDate());
+
+			buffer.append(indent).append("<dcterms:created rdf:parseType=")
+					.append('"').append("Resource").append('"').append("> \n");
+			buffer.append(indent).append("  <dcterms:W3CDTF>").append(
+					createdDate).append("<dcterms:W3CDTF> \n");
+			buffer.append(indent).append("</dcterms:created> \n");
+		}
+	}
+
+	/**
+	 * writes the content of a creator element in 'buffer'
+	 * 
+	 * @param indent
+	 * @param buffer
+	 */
+	private void createCreatorElements(String indent, StringBuffer buffer) {
+
+		beginCreatorElement(indent, buffer);
+		if (listOfModelCreators != null) {
+			for (int i = 0; i < getNumCreators(); i++) {
+				Creator creator = getCreator(i);
+
+				creator.toXML(indent + "    ", buffer);
+			}
+		}
+		endCreatorElement(indent, buffer);
+	}
+
+	/**
+	 * writes the content of the modified elements in 'buffer'
+	 * 
+	 * @param indent
+	 * @param buffer
+	 */
+	private void createModifiedElements(String indent, StringBuffer buffer) {
+		if (isSetModifiedDate()) {
+
+			for (int i = 0; i < getNumModifiedDates(); i++) {
+				String modifiedDate = DateParser.getIsoDate(getModifiedDate(i));
+				buffer.append(indent)
+						.append("<dcterms:modified rdf:parseType=").append('"')
+						.append("Resource").append('"').append("> \n");
+				buffer.append(indent).append("  <dcterms:W3CDTF>").append(
+						modifiedDate).append("<dcterms:W3CDTF> \n");
+				buffer.append(indent).append("</dcterms:modified> \n");
+			}
+		}
+	}
+
+	/**
+	 * writes the end of a creator element in 'buffer'
+	 * 
+	 * @param indent
+	 * @param buffer
+	 */
+	private void endCreatorElement(String indent, StringBuffer buffer) {
+
+		buffer.append(indent).append("  </rdf:Bag> \n");
+		buffer.append(indent).append("</dc:creator> \n");
 	}
 
 	/*
@@ -134,6 +218,7 @@ public class History {
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof History) {
 			boolean equal = super.equals(o);
@@ -284,121 +369,23 @@ public class History {
 	}
 
 	/**
-	 * Sets the createdDate.
 	 * 
-	 * @param date
-	 *            a Date object representing the date the ModelHistory was
-	 *            created.
+	 * @param nodeName
+	 * @param attributeName
+	 * @param prefix
+	 * @param value
+	 * @return true if the XML attribute is known by this ModelHistory.
 	 */
-	public void setCreatedDate(Date date) {
-		creation = date;
-	}
+	public boolean readAttribute(String nodeName, String attributeName,
+			String prefix, String value) {
 
-	/**
-	 * Sets the modifiedDate.
-	 * 
-	 * @param date
-	 *            a Date object representing the date the ModelHistory was
-	 *            modified.
-	 */
-	public void setModifiedDate(Date date) {
-		listOfModification.add(date);
-		modified = date;
-	}
-
-	/**
-	 * writes the beginning of a creator element in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void beginCreatorElement(String indent, StringBuffer buffer) {
-
-		buffer.append(indent).append("<dc:creator> \n");
-		buffer.append(indent).append("  <rdf:Bag> \n");
-	}
-
-	/**
-	 * writes the end of a creator element in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void endCreatorElement(String indent, StringBuffer buffer) {
-
-		buffer.append(indent).append("  </rdf:Bag> \n");
-		buffer.append(indent).append("</dc:creator> \n");
-	}
-
-	/**
-	 * writes the content of a creator element in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void createCreatorElements(String indent, StringBuffer buffer) {
-
-		beginCreatorElement(indent, buffer);
-		if (listOfModelCreators != null) {
-			for (int i = 0; i < getNumCreators(); i++) {
-				Creator creator = getCreator(i);
-
-				creator.toXML(indent + "    ", buffer);
+		if (nodeName.equals("creator") || nodeName.equals("created")
+				|| nodeName.equals("modified")) {
+			if (attributeName.equals("parseType") && value.equals("Resource")) {
+				return true;
 			}
 		}
-		endCreatorElement(indent, buffer);
-	}
-
-	/**
-	 * writes the content of a created element in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void createCreatedElement(String indent, StringBuffer buffer) {
-
-		if (isSetCreatedDate()) {
-			String createdDate = DateParser.getIsoDate(getCreatedDate());
-
-			buffer.append(indent).append("<dcterms:created rdf:parseType=")
-					.append('"').append("Resource").append('"').append("> \n");
-			buffer.append(indent).append("  <dcterms:W3CDTF>").append(
-					createdDate).append("<dcterms:W3CDTF> \n");
-			buffer.append(indent).append("</dcterms:created> \n");
-		}
-	}
-
-	/**
-	 * writes the content of the modified elements in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void createModifiedElements(String indent, StringBuffer buffer) {
-		if (isSetModifiedDate()) {
-
-			for (int i = 0; i < getNumModifiedDates(); i++) {
-				String modifiedDate = DateParser.getIsoDate(getModifiedDate(i));
-				buffer.append(indent)
-						.append("<dcterms:modified rdf:parseType=").append('"')
-						.append("Resource").append('"').append("> \n");
-				buffer.append(indent).append("  <dcterms:W3CDTF>").append(
-						modifiedDate).append("<dcterms:W3CDTF> \n");
-				buffer.append(indent).append("</dcterms:modified> \n");
-			}
-		}
-	}
-
-	/**
-	 * converts the ModelHistory into the XML history section of an annotation
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	public void toXML(String indent, StringBuffer buffer) {
-		createCreatorElements(indent, buffer);
-		createCreatedElement(indent, buffer);
-		createModifiedElements(indent, buffer);
+		return false;
 	}
 
 	/**
@@ -435,30 +422,45 @@ public class History {
 	}
 
 	/**
+	 * Sets the createdDate.
+	 * 
+	 * @param date
+	 *            a Date object representing the date the ModelHistory was
+	 *            created.
+	 */
+	public void setCreatedDate(Date date) {
+		creation = date;
+	}
+
+	/**
+	 * Sets the modifiedDate.
+	 * 
+	 * @param date
+	 *            a Date object representing the date the ModelHistory was
+	 *            modified.
+	 */
+	public void setModifiedDate(Date date) {
+		listOfModification.add(date);
+		modified = date;
+	}
+
+	/**
+	 * converts the ModelHistory into the XML history section of an annotation
+	 * 
+	 * @param indent
+	 * @param buffer
+	 */
+	public void toXML(String indent, StringBuffer buffer) {
+		createCreatorElements(indent, buffer);
+		createCreatedElement(indent, buffer);
+		createModifiedElements(indent, buffer);
+	}
+
+	/**
 	 * Sets the created of this ModelHistory to null.
 	 */
 	public void unsetCreatedDate() {
 		this.creation = null;
-	}
-
-	/**
-	 * 
-	 * @param nodeName
-	 * @param attributeName
-	 * @param prefix
-	 * @param value
-	 * @return true if the XML attribute is known by this ModelHistory.
-	 */
-	public boolean readAttribute(String nodeName, String attributeName,
-			String prefix, String value) {
-
-		if (nodeName.equals("creator") || nodeName.equals("created")
-				|| nodeName.equals("modified")) {
-			if (attributeName.equals("parseType") && value.equals("Resource")) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 }

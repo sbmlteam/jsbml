@@ -30,20 +30,38 @@
 
 package org.sbml.jsbml.ext.layout;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.AbstractNamedSBase;
 
+/**
+ *
+ */
 public class TextGlyph extends AbstractNamedSBase {
 
+	/**
+	 * 
+	 */
 	private GraphicalObject graphicalObject;
+	/**
+	 * 
+	 */
 	private String text;
+	/**
+	 * 
+	 */
 	private String originOfText;
-	
+
+	/**
+	 * 
+	 */
 	public TextGlyph() {
-		
+
 	}
-	
+
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public TextGlyph(int level, int version) {
 		super(level, version);
 	}
@@ -57,38 +75,9 @@ public class TextGlyph extends AbstractNamedSBase {
 		// TODO Auto-generated constructor stub
 	}
 
-	public GraphicalObject getGraphicalObject() {
-		return graphicalObject;
-	}
-
-
-	public void setGraphicalObject(GraphicalObject graphicalObject) {
-		this.graphicalObject = graphicalObject;
-	}
-
-
-	public String getText() {
-		return text;
-	}
-
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-
-	public String getOriginOfText() {
-		return originOfText;
-	}
-
-
-	public void setOriginOfText(String originOfText) {
-		this.originOfText = originOfText;
-	}
-
-
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	@Override
@@ -96,33 +85,51 @@ public class TextGlyph extends AbstractNamedSBase {
 		return new TextGlyph(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	/**
+	 * 
+	 * @return
 	 */
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
+	public GraphicalObject getGraphicalObject() {
+		return graphicalObject;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	/**
+	 * 
+	 * @return
 	 */
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getOriginOfText() {
+		return originOfText;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
+	/**
+	 * 
+	 * @return
 	 */
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
+	public String getText() {
+		return text;
 	}
 
-	
-	
+	/**
+	 * 
+	 * @param graphicalObject
+	 */
+	public void setGraphicalObject(GraphicalObject graphicalObject) {
+		this.graphicalObject = graphicalObject;
+	}
+
+	/**
+	 * 
+	 * @param originOfText
+	 */
+	public void setOriginOfText(String originOfText) {
+		this.originOfText = originOfText;
+	}
+
+	/**
+	 * 
+	 * @param text
+	 */
+	public void setText(String text) {
+		this.text = text;
+	}
 }

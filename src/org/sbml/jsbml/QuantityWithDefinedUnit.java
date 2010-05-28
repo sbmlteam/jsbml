@@ -76,30 +76,6 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	public QuantityWithDefinedUnit(int level, int version) {
 		this(null, null, level, version);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		return 0;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public SBase getChildAt(int childIndex) {
-		return null;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		return false;
-	}
 	
 	/**
 	 * 

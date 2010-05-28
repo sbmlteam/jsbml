@@ -30,24 +30,22 @@
 
 package org.sbml.jsbml.ext.layout;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.AbstractNamedSBase;
 
 public class GraphicalObject extends AbstractNamedSBase {
 
+	/**
+	 * 
+	 */
 	private BoundingBox boundingBox;
-	
-	
+
+	/**
+	 * 
+	 */
 	public GraphicalObject() {
-		
+
 	}
-	
-	public GraphicalObject(int level, int version) {
-		super(level, version);
-	}
-	
-	
+
 	/**
 	 * 
 	 * @param graphicalObject
@@ -57,20 +55,18 @@ public class GraphicalObject extends AbstractNamedSBase {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BoundingBox getBoundingBox() {
-		return boundingBox;
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public GraphicalObject(int level, int version) {
+		super(level, version);
 	}
-
-
-	public void setBoundingBox(BoundingBox boundingBox) {
-		this.boundingBox = boundingBox;
-	}
-
-
-
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	@Override
@@ -78,32 +74,19 @@ public class GraphicalObject extends AbstractNamedSBase {
 		return new GraphicalObject(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	/**
+	 * 
+	 * @return
 	 */
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
+	public BoundingBox getBoundingBox() {
+		return boundingBox;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	/**
+	 * 
+	 * @param boundingBox
 	 */
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
+	public void setBoundingBox(BoundingBox boundingBox) {
+		this.boundingBox = boundingBox;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
 }

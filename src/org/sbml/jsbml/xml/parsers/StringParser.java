@@ -53,22 +53,6 @@ public class StringParser implements ReadingParser{
 
 	/**
 	 * 
-	 * @return the typeOfNotes of this ReadingParser.
-	 */
-	public String getTypeOfNotes() {
-		return typeOfNotes;
-	}
-
-	/**
-	 * Sets the typeOfNote of this parser.
-	 * @param typeOfNotes
-	 */
-	public void setTypeOfNotes(String typeOfNotes) {
-		this.typeOfNotes = typeOfNotes;
-	}
-	
-	/**
-	 * 
 	 * @param contextObject
 	 * @return the appropriate StringBuffer depending on what is the contextObject
 	 */
@@ -101,6 +85,14 @@ public class StringParser implements ReadingParser{
 		return buffer;
 	}
 
+	/**
+	 * 
+	 * @return the typeOfNotes of this ReadingParser.
+	 */
+	public String getTypeOfNotes() {
+		return typeOfNotes;
+	}
+	
 	/* (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String elementName, String attributeName,
@@ -169,6 +161,14 @@ public class StringParser implements ReadingParser{
 
 	/* (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
+	 */
+	public void processEndDocument(SBMLDocument sbmlDocument) {
+		// TODO Auto-generated method stub
+	}
+
+	/* (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject)
 	 */
@@ -215,6 +215,46 @@ public class StringParser implements ReadingParser{
 					else {
 						annotation.appendNoRDFAnnotation("</"+elementName+"> \n");
 					}
+				}
+			}
+		}
+	}
+
+	/* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject)
+	 */
+	public void processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
+		
+		StringBuffer buffer = getStringBufferFor(contextObject);
+
+		if (buffer != null){
+			if (!prefix.equals("")){
+				buffer.append(" "+prefix+":"+localName+"=\""+URI+"\"");
+			}
+			else {
+				buffer.append(" "+localName+"=\""+URI+"\"");
+			}
+			if (!hasAttributes && isLastNamespace){
+				buffer.append("> \n");
+			}
+		}
+		else {
+			if (contextObject instanceof Annotation){
+				Annotation annotation = (Annotation) contextObject;
+				if (!prefix.equals("")){
+					annotation.appendNoRDFAnnotation(" "+prefix+":"+localName+"=\""+URI+"\"");
+				}
+				else {
+					annotation.appendNoRDFAnnotation(" "+localName+"=\""+URI+"\"");
+				}
+				
+				if (!hasAttributes && isLastNamespace){
+					annotation.appendNoRDFAnnotation("> \n");
 				}
 			}
 		}
@@ -273,51 +313,11 @@ public class StringParser implements ReadingParser{
 		return contextObject;
 	}
 
-	/* (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
+	/**
+	 * Sets the typeOfNote of this parser.
+	 * @param typeOfNotes
 	 */
-	public void processEndDocument(SBMLDocument sbmlDocument) {
-		// TODO Auto-generated method stub
-	}
-
-	/* (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject)
-	 */
-	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) {
-		
-		StringBuffer buffer = getStringBufferFor(contextObject);
-
-		if (buffer != null){
-			if (!prefix.equals("")){
-				buffer.append(" "+prefix+":"+localName+"=\""+URI+"\"");
-			}
-			else {
-				buffer.append(" "+localName+"=\""+URI+"\"");
-			}
-			if (!hasAttributes && isLastNamespace){
-				buffer.append("> \n");
-			}
-		}
-		else {
-			if (contextObject instanceof Annotation){
-				Annotation annotation = (Annotation) contextObject;
-				if (!prefix.equals("")){
-					annotation.appendNoRDFAnnotation(" "+prefix+":"+localName+"=\""+URI+"\"");
-				}
-				else {
-					annotation.appendNoRDFAnnotation(" "+localName+"=\""+URI+"\"");
-				}
-				
-				if (!hasAttributes && isLastNamespace){
-					annotation.appendNoRDFAnnotation("> \n");
-				}
-			}
-		}
+	public void setTypeOfNotes(String typeOfNotes) {
+		this.typeOfNotes = typeOfNotes;
 	}
 }

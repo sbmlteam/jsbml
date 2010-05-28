@@ -32,8 +32,6 @@ package org.sbml.jsbml.ext.groups;
 
 import java.util.HashMap;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
@@ -59,19 +57,28 @@ public class Group extends AbstractNamedSBase {
 	
 	/**
 	 * 
+	 * @param group
+	 */
+	public Group(Group group) {
+		// TODO
+	}
+	
+	/**
+	 * 
 	 * @param level
 	 * @param version
 	 */
 	public Group(int level, int version) {
 		super(level, version);
 	}
-	
-	/**
-	 * 
-	 * @param group
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	public Group(Group group) {
-		// TODO
+	@Override
+	public SBase clone() {
+		return new Group(this);
 	}
 
 	/**
@@ -84,12 +91,17 @@ public class Group extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @param listOfMembers
+	 * @param i
+	 * @return
 	 */
-	public void setListOfMembers(ListOf<Member> listOfMembers) {
-		this.listOfMembers = listOfMembers;
+	public Member getMember(int i) {
+		if (i >= 0 && i < listOfMembers.size()) {
+			return listOfMembers.get(i);
+		}
+		
+		return null;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -100,25 +112,6 @@ public class Group extends AbstractNamedSBase {
 		}
 		
 		return true;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
-	 */
-	@Override
-	public SBase clone() {
-		return new Group(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		// TODO 
-		return null;
 	}
 
 	/*
@@ -136,6 +129,24 @@ public class Group extends AbstractNamedSBase {
 		return isAttributeRead;
 	}
 
+	/**
+	 * 
+	 * @param listOfMembers
+	 */
+	public void setListOfMembers(ListOf<Member> listOfMembers) {
+		this.listOfMembers = listOfMembers;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
+	 */
+	@Override
+	public String toString() {
+		// TODO 
+		return null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -147,45 +158,4 @@ public class Group extends AbstractNamedSBase {
 
 		return attributes;
 	}
-
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public Member getMember(int i) {
-		if (i >= 0 && i < listOfMembers.size()) {
-			return listOfMembers.get(i);
-		}
-		
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
 }

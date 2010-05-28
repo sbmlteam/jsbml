@@ -76,35 +76,11 @@ public class ModelGroupExtension extends Model {
 	
 	/**
 	 * 
-	 * @return
+	 * @param group
 	 */
-	public ListOf<Group> getListOfGroups() {
-		return listOfGroups;
-	}
-
-	/**
-	 * 
-	 * @param listOfGroups
-	 */
-	public void setListOfGroups(ListOf<Group> listOfGroups) {
-		if (listOfGroups == null) {
-			this.listOfGroups = new ListOf<Group>();
-		} else {
-			this.listOfGroups = listOfGroups;
-		}
-		setThisAsParentSBMLObject(listOfGroups);
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetListOfGroups() {
-		if (listOfGroups == null || listOfGroups.isEmpty()) {
-			return false;			
-		}
-		
-		return true;
+	public void addGroup(Group group) {
+		setThisAsParentSBMLObject(group);
+		listOfGroups.add(group);		
 	}
 
 	/**
@@ -122,11 +98,35 @@ public class ModelGroupExtension extends Model {
 
 	/**
 	 * 
-	 * @param group
+	 * @return
 	 */
-	public void addGroup(Group group) {
-		setThisAsParentSBMLObject(group);
-		listOfGroups.add(group);		
+	public ListOf<Group> getListOfGroups() {
+		return listOfGroups;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetListOfGroups() {
+		if (listOfGroups == null || listOfGroups.isEmpty()) {
+			return false;			
+		}
+		
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param listOfGroups
+	 */
+	public void setListOfGroups(ListOf<Group> listOfGroups) {
+		if (listOfGroups == null) {
+			this.listOfGroups = new ListOf<Group>();
+		} else {
+			this.listOfGroups = listOfGroups;
+		}
+		setThisAsParentSBMLObject(listOfGroups);
 	}
 		
 }

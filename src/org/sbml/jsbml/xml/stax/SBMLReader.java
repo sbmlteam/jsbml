@@ -82,6 +82,122 @@ public class SBMLReader {
 	private static HashMap<String, Class<? extends ReadingParser>> packageParsers = new HashMap<String, Class<? extends ReadingParser>>();
 
 	/**
+	 * Adds a new ReadingParser instance to the initializedParsers if it doesn't
+	 * contain a ReadingParser instance for this namespace URI.
+	 * 
+	 * @param elementName
+	 *            : localName of the XML element
+	 * @param element
+	 *            : StartElement instance
+	 * @param initializedParsers
+	 *            : the map containing all the ReadingParser instance.
+	 */
+	private static void addNamespaceToInitializedPackages(String elementName,
+			StartElement element,
+			HashMap<String, ReadingParser> initializedParsers) {
+		Iterator<Namespace> nam = element.getNamespaces();
+
+		while (nam.hasNext()) {
+			Namespace namespace = (Namespace) nam.next();
+
+			if (elementName.equals("annotation")
+					&& !packageParsers.containsKey(namespace.getNamespaceURI())) {
+				packageParsers.put(namespace.getNamespaceURI(),
+						AnnotationParser.class);
+			}
+			if (packageParsers.containsKey(namespace.getNamespaceURI())
+					&& !initializedParsers.containsKey(namespace
+							.getNamespaceURI())) {
+
+				ReadingParser newParser;
+				try {
+					newParser = packageParsers.get(namespace.getNamespaceURI())
+							.newInstance();
+					initializedParsers.put(namespace.getNamespaceURI(),
+							newParser);
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else if (!packageParsers.containsKey(namespace.getNamespaceURI())
+					&& !initializedParsers.containsKey(namespace
+							.getNamespaceURI())) {
+				// TODO what to do if we have namespaces but no parsers for this
+				// namespaces?
+			}
+		}
+	}
+
+	/**
+	 * Creates the necessary ReadingParser instances and stores them in a
+	 * HashMap.
+	 * 
+	 * @param sbml
+	 *            : the StartElement instance
+	 * @return the map containing the ReadingParser instances for this
+	 *         StartElement.
+	 */
+	@SuppressWarnings("unchecked")
+	private static HashMap<String, ReadingParser> getInitializedPackageParsers(
+			StartElement sbml) {
+		initializePackageParserNamespaces();
+
+		HashMap<String, ReadingParser> initializedParsers = new HashMap<String, ReadingParser>();
+
+		Iterator<Namespace> nam = sbml.getNamespaces();
+		while (nam.hasNext()) {
+			Namespace namespace = nam.next();
+			String namespaceURI = namespace.getNamespaceURI();
+
+			// If the prefix is an empty String, it means that the namespace is
+			// the namespace of the current element (which is the sbml element
+			// normally).
+			if (namespace.getPrefix().length() == 0) {
+				packageParsers.put(namespaceURI, SBMLCoreParser.class);
+				initializedParsers.put(namespaceURI, new SBMLCoreParser());
+			}
+			// If there is a ReadingParser associated with this namespace URI.
+			else if (packageParsers.containsKey(namespaceURI)) {
+				try {
+					initializedParsers.put(namespaceURI, packageParsers.get(
+							namespaceURI).newInstance());
+				} catch (InstantiationException e) {
+					if (isPackageRequired(namespaceURI, sbml)) {
+						// TODO throw an Exception : package required for the
+						// parsing?
+					}
+				} catch (IllegalAccessException e) {
+					if (isPackageRequired(namespaceURI, sbml)) {
+						// TODO throw an Exception : package required for the
+						// parsing?
+					}
+				}
+			}
+			// If there is no ReadingParser associated with this namespaceURI
+			// and there is no 'required' attribute with this namespace, the
+			// declared namespace
+			// can be for the annotation and it associates this namespace URI to
+			// an AnnotationParser instance.
+			else {
+				if (hasNoRequiredAttributeFor(namespaceURI, sbml)) {
+					packageParsers.put(namespaceURI, AnnotationParser.class);
+					initializedParsers
+							.put(namespaceURI, new AnnotationParser());
+				} else {
+					if (isPackageRequired(namespaceURI, sbml)) {
+						// TODO throw an Exception : package required for the
+						// parsing?
+					}
+				}
+			}
+		}
+		return initializedParsers;
+	}
+
+	/**
 	 * 
 	 * @param namespace
 	 * @return the ReadingParser class associated with 'namespace'. Null if
@@ -90,6 +206,29 @@ public class SBMLReader {
 	public static Class<? extends ReadingParser> getPackageParsers(
 			String namespace) {
 		return SBMLReader.packageParsers.get(namespace);
+	}
+
+	/**
+	 * 
+	 * @param namespaceURI
+	 * @param sbml
+	 *            : the StartElement instance
+	 * @return true if there is no 'required' attribute whith this namespace
+	 *         URI.
+	 */
+	@SuppressWarnings("unchecked")
+	private static boolean hasNoRequiredAttributeFor(String namespaceURI,
+			StartElement sbml) {
+		Iterator att = sbml.getAttributes();
+
+		while (att.hasNext()) {
+			Attribute attribute = (Attribute) att.next();
+
+			if (attribute.getName().getNamespaceURI().equals(namespaceURI)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -163,159 +302,6 @@ public class SBMLReader {
 
 	/**
 	 * 
-	 * @param namespaceURI
-	 * @param sbml
-	 *            : the StartElement instance
-	 * @return true if there is no 'required' attribute whith this namespace
-	 *         URI.
-	 */
-	@SuppressWarnings("unchecked")
-	private static boolean hasNoRequiredAttributeFor(String namespaceURI,
-			StartElement sbml) {
-		Iterator att = sbml.getAttributes();
-
-		while (att.hasNext()) {
-			Attribute attribute = (Attribute) att.next();
-
-			if (attribute.getName().getNamespaceURI().equals(namespaceURI)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Creates the necessary ReadingParser instances and stores them in a
-	 * HashMap.
-	 * 
-	 * @param sbml
-	 *            : the StartElement instance
-	 * @return the map containing the ReadingParser instances for this
-	 *         StartElement.
-	 */
-	@SuppressWarnings("unchecked")
-	private static HashMap<String, ReadingParser> getInitializedPackageParsers(
-			StartElement sbml) {
-		initializePackageParserNamespaces();
-
-		HashMap<String, ReadingParser> initializedParsers = new HashMap<String, ReadingParser>();
-
-		Iterator<Namespace> nam = sbml.getNamespaces();
-		while (nam.hasNext()) {
-			Namespace namespace = nam.next();
-			String namespaceURI = namespace.getNamespaceURI();
-
-			// If the prefix is an empty String, it means that the namespace is
-			// the namespace of the current element (which is the sbml element
-			// normally).
-			if (namespace.getPrefix().length() == 0) {
-				packageParsers.put(namespaceURI, SBMLCoreParser.class);
-				initializedParsers.put(namespaceURI, new SBMLCoreParser());
-			}
-			// If there is a ReadingParser associated with this namespace URI.
-			else if (packageParsers.containsKey(namespaceURI)) {
-				try {
-					initializedParsers.put(namespaceURI, packageParsers.get(
-							namespaceURI).newInstance());
-				} catch (InstantiationException e) {
-					if (isPackageRequired(namespaceURI, sbml)) {
-						// TODO throw an Exception : package required for the
-						// parsing?
-					}
-				} catch (IllegalAccessException e) {
-					if (isPackageRequired(namespaceURI, sbml)) {
-						// TODO throw an Exception : package required for the
-						// parsing?
-					}
-				}
-			}
-			// If there is no ReadingParser associated with this namespaceURI
-			// and there is no 'required' attribute with this namespace, the
-			// declared namespace
-			// can be for the annotation and it associates this namespace URI to
-			// an AnnotationParser instance.
-			else {
-				if (hasNoRequiredAttributeFor(namespaceURI, sbml)) {
-					packageParsers.put(namespaceURI, AnnotationParser.class);
-					initializedParsers
-							.put(namespaceURI, new AnnotationParser());
-				} else {
-					if (isPackageRequired(namespaceURI, sbml)) {
-						// TODO throw an Exception : package required for the
-						// parsing?
-					}
-				}
-			}
-		}
-		return initializedParsers;
-	}
-
-	/**
-	 * Adds a new ReadingParser instance to the initializedParsers if it doesn't
-	 * contain a ReadingParser instance for this namespace URI.
-	 * 
-	 * @param elementName
-	 *            : localName of the XML element
-	 * @param element
-	 *            : StartElement instance
-	 * @param initializedParsers
-	 *            : the map containing all the ReadingParser instance.
-	 */
-	private static void addNamespaceToInitializedPackages(String elementName,
-			StartElement element,
-			HashMap<String, ReadingParser> initializedParsers) {
-		Iterator<Namespace> nam = element.getNamespaces();
-
-		while (nam.hasNext()) {
-			Namespace namespace = (Namespace) nam.next();
-
-			if (elementName.equals("annotation")
-					&& !packageParsers.containsKey(namespace.getNamespaceURI())) {
-				packageParsers.put(namespace.getNamespaceURI(),
-						AnnotationParser.class);
-			}
-			if (packageParsers.containsKey(namespace.getNamespaceURI())
-					&& !initializedParsers.containsKey(namespace
-							.getNamespaceURI())) {
-
-				ReadingParser newParser;
-				try {
-					newParser = packageParsers.get(namespace.getNamespaceURI())
-							.newInstance();
-					initializedParsers.put(namespace.getNamespaceURI(),
-							newParser);
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} else if (!packageParsers.containsKey(namespace.getNamespaceURI())
-					&& !initializedParsers.containsKey(namespace
-							.getNamespaceURI())) {
-				// TODO what to do if we have namespaces but no parsers for this
-				// namespaces?
-			}
-		}
-	}
-
-	/**
-	 * Reads the SBML file 'fileName' and creates/initialises a SBMLDocument
-	 * instance.
-	 * 
-	 * @param fileName
-	 *            : name of the SBML file to read.
-	 * @return the initialised SBMLDocument.
-	 * @throws XMLStreamException
-	 */
-	public static SBMLDocument readSBMLFile(String fileName)
-			throws XMLStreamException, FileNotFoundException {
-		return readSBMLFromStream(new FileInputStream(new File(fileName)));
-	}
-
-	/**
-	 * 
 	 * @param args
 	 * @throws XMLStreamException
 	 */
@@ -348,13 +334,17 @@ public class SBMLReader {
 	}
 
 	/**
+	 * Reads the SBML file 'fileName' and creates/initialises a SBMLDocument
+	 * instance.
 	 * 
-	 * @param xml
-	 * @return
+	 * @param fileName
+	 *            : name of the SBML file to read.
+	 * @return the initialised SBMLDocument.
+	 * @throws XMLStreamException
 	 */
-	public static SBMLDocument readSBMLFromString(String xml)
-			throws XMLStreamException {
-		return readSBMLFromStream(new ByteArrayInputStream(xml.getBytes()));
+	public static SBMLDocument readSBMLFile(String fileName)
+			throws XMLStreamException, FileNotFoundException {
+		return readSBMLFromStream(new FileInputStream(new File(fileName)));
 	}
 
 	/**
@@ -366,9 +356,9 @@ public class SBMLReader {
 			throws XMLStreamException {
 		WstxInputFactory inputFactory = new WstxInputFactory();
 		HashMap<String, ReadingParser> initializedParsers = null;
-		
+
 		XMLEventReader xmlEventReader = inputFactory
-				.createXMLEventReader(stream);		
+				.createXMLEventReader(stream);
 		XMLEvent2 event;
 		StartElement element = null;
 		ReadingParser parser = null;
@@ -631,6 +621,16 @@ public class SBMLReader {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * 
+	 * @param xml
+	 * @return
+	 */
+	public static SBMLDocument readSBMLFromString(String xml)
+			throws XMLStreamException {
+		return readSBMLFromStream(new ByteArrayInputStream(xml.getBytes()));
 	}
 
 }

@@ -31,7 +31,6 @@
 package org.sbml.jsbml;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 
 import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
@@ -337,7 +336,6 @@ public class Model extends AbstractNamedSBase {
 			initListOfCompartments();
 		}
 		if (!listOfCompartments.contains(compartment)) {
-			setThisAsParentSBMLObject(compartment);
 			listOfCompartments.add(compartment);
 		}
 	}
@@ -355,7 +353,6 @@ public class Model extends AbstractNamedSBase {
 			setThisAsParentSBMLObject(this.listOfCompartmentTypes);
 		}
 		if (!listOfCompartmentTypes.contains(compartmentType)) {
-			setThisAsParentSBMLObject(compartmentType);
 			listOfCompartmentTypes.add(compartmentType);
 		}
 	}
@@ -372,7 +369,6 @@ public class Model extends AbstractNamedSBase {
 			this.listOfConstraints.setSBaseListType(Type.listOfConstraints);
 		}
 		if (!listOfConstraints.contains(constraint)) {
-			setThisAsParentSBMLObject(constraint);
 			listOfConstraints.add(constraint);
 		}
 	}
@@ -387,7 +383,6 @@ public class Model extends AbstractNamedSBase {
 			initListOfEvents();
 		}
 		if (!listOfEvents.contains(event)) {
-			setThisAsParentSBMLObject(event);
 			listOfEvents.add(event);
 		}
 	}
@@ -403,7 +398,6 @@ public class Model extends AbstractNamedSBase {
 			initListOfFunctionDefinitions();
 		}
 		if (!listOfFunctionDefinitions.contains(functionDefinition)) {
-			setThisAsParentSBMLObject(functionDefinition);
 			listOfFunctionDefinitions.add(functionDefinition);
 		}
 	}
@@ -419,7 +413,6 @@ public class Model extends AbstractNamedSBase {
 			initListOfInitialAssignment();
 		}
 		if (!listOfInitialAssignments.contains(initialAssignment)) {
-			setThisAsParentSBMLObject(initialAssignment);
 			listOfInitialAssignments.add(initialAssignment);
 		}
 	}
@@ -434,7 +427,6 @@ public class Model extends AbstractNamedSBase {
 			initListOfParameters();
 		}
 		if (!listOfParameters.contains(parameter)) {
-			setThisAsParentSBMLObject(parameter);
 			listOfParameters.add(parameter);
 		}
 	}
@@ -449,7 +441,6 @@ public class Model extends AbstractNamedSBase {
 			initListOfReactions();
 		}
 		if (!listOfReactions.contains(reaction)) {
-			setThisAsParentSBMLObject(reaction);
 			listOfReactions.add(reaction);
 		}
 	}
@@ -464,7 +455,6 @@ public class Model extends AbstractNamedSBase {
 			initListOfRules();
 		}
 		if (!listOfRules.contains(rule)) {
-			setThisAsParentSBMLObject(rule);
 			listOfRules.add(rule);
 		}
 	}
@@ -479,7 +469,6 @@ public class Model extends AbstractNamedSBase {
 			initListOfSpecies();
 		}
 		if (!listOfSpecies.contains(spec)) {
-			setThisAsParentSBMLObject(spec);
 			listOfSpecies.add(spec);
 		}
 	}
@@ -497,7 +486,6 @@ public class Model extends AbstractNamedSBase {
 			this.listOfSpeciesTypes.setSBaseListType(Type.listOfSpeciesTypes);
 		}
 		if (!listOfSpeciesTypes.contains(speciesType)) {
-			setThisAsParentSBMLObject(speciesType);
 			listOfSpeciesTypes.add(speciesType);
 		}
 	}
@@ -513,7 +501,6 @@ public class Model extends AbstractNamedSBase {
 			initListOfUnitDefinitions();
 		}
 		if (!listOfUnitDefinitions.contains(unitDefinition)) {
-			setThisAsParentSBMLObject(unitDefinition);
 			listOfUnitDefinitions.add(unitDefinition);
 		}
 	}
@@ -1008,7 +995,6 @@ public class Model extends AbstractNamedSBase {
 	public Species createSpecies(String id) {
 		Species species = new Species(id, getLevel(), getVersion());
 		addSpecies(species);
-
 		return species;
 	}
 
@@ -1331,6 +1317,24 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Searches in the list of {@link Compartment}s, {@link Species}, and
+	 * {@link Parameter}s for the element with the given identifier.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Symbol findSymbol(String id) {
+		Symbol symbol = getCompartment(id);
+		if (symbol == null) {
+			symbol = getSpecies(id);
+		}
+		if (symbol == null) {
+			symbol = getParameter(id);
+		}
+		return symbol;
+	}
+
+	/**
 	 * Searches the variable with the given identifier in this model.
 	 * 
 	 * @param variable
@@ -1358,22 +1362,14 @@ public class Model extends AbstractNamedSBase {
 		return nsb;
 	}
 
-	/**
-	 * Searches in the list of {@link Compartment}s, {@link Species}, and
-	 * {@link Parameter}s for the element with the given identifier.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param id
-	 * @return
+	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
 	 */
-	public Symbol findSymbol(String id) {
-		Symbol symbol = getCompartment(id);
-		if (symbol == null) {
-			symbol = getSpecies(id);
-		}
-		if (symbol == null) {
-			symbol = getParameter(id);
-		}
-		return symbol;
+	@Override
+	public boolean getAllowsChildren() {
+		return true;
 	}
 
 	/**
@@ -1392,6 +1388,140 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public UnitDefinition getAreaUnitsInstance() {
 		return getUnitDefinition(this.areaUnitsID);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	@Override
+	public SBase getChildAt(int index) {
+		int children = getChildCount();
+		if (index >= children) {
+			throw new IndexOutOfBoundsException(index + " >= " + children);
+		}
+		int pos = 0;
+		if (isSetListOfFunctionDefinitions()) {
+			if (pos == index) {
+				return getListOfFunctionDefinitions();
+			}
+			pos++;
+		}
+		if (isSetListOfUnitDefinitions()) {
+			if (pos == index) {
+				return getListOfUnitDefinitions();
+			}
+			pos++;
+		}
+		if (isSetListOfCompartmentTypes()) {
+			if (pos == index) {
+				return getListOfCompartmentTypes();
+			}
+			pos++;
+		}
+		if (isSetListOfSpeciesTypes()) {
+			if (pos == index) {
+				return getListOfSpeciesTypes();
+			}
+			pos++;
+		}
+		if (isSetListOfCompartments()) {
+			if (pos == index) {
+				return getListOfCompartments();
+			}
+			pos++;
+		}
+		if (isSetListOfSpecies()) {
+			if (pos == index) {
+				return getListOfSpecies();
+			}
+			pos++;
+		}
+		if (isSetListOfParameters()) {
+			if (pos == index) {
+				return getListOfParameters();
+			}
+			pos++;
+		}
+		if (isSetListOfInitialAssignments()) {
+			if (pos == index) {
+				return getListOfInitialAssignments();
+			}
+			pos++;
+		}
+		if (isSetListOfRules()) {
+			if (pos == index) {
+				return getListOfRules();
+			}
+			pos++;
+		}
+		if (isSetListOfConstraints()) {
+			if (pos == index) {
+				return getListOfConstraints();
+			}
+			pos++;
+		}
+		if (isSetListOfReactions()) {
+			if (pos == index) {
+				return getListOfReactions();
+			}
+			pos++;
+		}
+		if (isSetListOfEvents()) {
+			if (pos == index) {
+				return getListOfEvents();
+			}
+			pos++;
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int children = 0;
+		if (isSetListOfFunctionDefinitions()) {
+			children++;
+		}
+		if (isSetListOfUnitDefinitions()) {
+			children++;
+		}
+		if (isSetListOfCompartmentTypes()) {
+			children++;
+		}
+		if (isSetListOfSpeciesTypes()) {
+			children++;
+		}
+		if (isSetListOfCompartments()) {
+			children++;
+		}
+		if (isSetListOfSpecies()) {
+			children++;
+		}
+		if (isSetListOfParameters()) {
+			children++;
+		}
+		if (isSetListOfInitialAssignments()) {
+			children++;
+		}
+		if (isSetListOfRules()) {
+			children++;
+		}
+		if (isSetListOfConstraints()) {
+			children++;
+		}
+		if (isSetListOfReactions()) {
+			children++;
+		}
+		if (isSetListOfEvents()) {
+			children++;
+		}
+		return children;
 	}
 
 	/**
@@ -1737,7 +1867,7 @@ public class Model extends AbstractNamedSBase {
 	/**
 	 * @see getHistory
 	 * @return History of this model
-	 * @deprecated use getHistory()
+	 * @deprecated use {@link SBase#getHistory()}
 	 */
 	public History getModelHistory() {
 		return getHistory();
@@ -2075,7 +2205,6 @@ public class Model extends AbstractNamedSBase {
 		listOfSpeciesTypes = null;
 		UnitDefinition ud;
 		switch (getLevel()) {
-		// TODO!!! Default settings for all Level/Version combinations
 		case 1:
 			listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(),
 					getVersion());
@@ -2094,25 +2223,36 @@ public class Model extends AbstractNamedSBase {
 			listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(),
 					getVersion());
 			listOfUnitDefinitions.setSBaseListType(Type.listOfUnitDefinitions);
-			ud = UnitDefinition.area(getLevel(), getVersion());
-			areaUnitsID = ud.getId();
-			listOfUnitDefinitions.add(ud);
-			ud = UnitDefinition.length(getLevel(), getVersion());
-			lengthUnitsID = ud.getId();
-			listOfUnitDefinitions.add(ud);
+
+			// substance
 			ud = UnitDefinition.substance(getLevel(), getVersion());
 			substanceUnitsID = ud.getId();
 			listOfUnitDefinitions.add(ud);
-			ud = UnitDefinition.time(getLevel(), getVersion());
-			timeUnitsID = ud.getId();
-			listOfUnitDefinitions.add(ud);
+
+			// volume
 			ud = UnitDefinition.volume(getLevel(), getVersion());
 			volumeUnitsID = ud.getId();
 			listOfUnitDefinitions.add(ud);
+
+			// area
+			ud = UnitDefinition.area(getLevel(), getVersion());
+			areaUnitsID = ud.getId();
+			listOfUnitDefinitions.add(ud);
+
+			// length
+			ud = UnitDefinition.length(getLevel(), getVersion());
+			lengthUnitsID = ud.getId();
+			listOfUnitDefinitions.add(ud);
+
+			// time
+			ud = UnitDefinition.time(getLevel(), getVersion());
+			timeUnitsID = ud.getId();
+			listOfUnitDefinitions.add(ud);
+
 			extentUnitsID = null;
 			conversionFactorID = null;
 			break;
-		default:
+		default: // undefined or level 3
 			listOfUnitDefinitions = null;
 			substanceUnitsID = null;
 			timeUnitsID = null;
@@ -2391,10 +2531,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * This is equivalent to the call {@link isSetHistory()}.
+	 * This is equivalent to the call {@link SBase#isSetHistory()}.
 	 * 
 	 * @return
-	 * @deprecated use isSetHistory()
+	 * @deprecated use {@link SBase#isSetHistory()}
 	 */
 	@Deprecated
 	public boolean isSetModelHistory() {
@@ -2986,7 +3126,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * @see setHistory
+	 * @see #setHistory(History history)
 	 * @param history
 	 * @deprecated use <code>setHistory(history)</code>
 	 */
@@ -3091,6 +3231,15 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * @see #unsetHistory()
+	 * @deprecated use {@link #unsetHistory()}.
+	 */
+	@Deprecated
+	public void unsetModelHistory() {
+		unsetHistory();
+	}
+
+	/**
 	 * Sets the timeUnitsID of this Model to null.
 	 */
 	public void unsetTimeUnits() {
@@ -3133,107 +3282,5 @@ public class Model extends AbstractNamedSBase {
 		}
 
 		return attributes;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	public SBase getChildAt(int index) {
-		int children = getChildCount();
-		if ((0 < children) && (index < children)) {
-			LinkedList<SBase> l = new LinkedList<SBase>();
-			if (isSetListOfFunctionDefinitions()) {
-				l.add(getListOfFunctionDefinitions());
-			}
-			if ((l.size() < index) && isSetListOfUnitDefinitions()) {
-				l.add(getListOfUnitDefinitions());
-			}
-			if ((l.size() < index) && isSetListOfCompartmentTypes()) {
-				l.add(getListOfCompartmentTypes());
-			}
-			if ((l.size() < index) && isSetListOfSpeciesTypes()) {
-				l.add(getListOfSpeciesTypes());
-			}
-			if ((l.size() < index) && isSetListOfCompartments()) {
-				l.add(getListOfCompartments());
-			}
-			if ((l.size() < index) && isSetListOfSpecies()) {
-				l.add(getListOfSpecies());
-			}
-			if ((l.size() < index) && isSetListOfParameters()) {
-				l.add(getListOfParameters());
-			}
-			if ((l.size() < index) && isSetListOfInitialAssignments()) {
-				l.add(getListOfInitialAssignments());
-			}
-			if ((l.size() < index) && isSetListOfRules()) {
-				l.add(getListOfRules());
-			}
-			if ((l.size() < index) && isSetListOfConstraints()) {
-				l.add(getListOfConstraints());
-			}
-			if ((l.size() < index) && isSetListOfReactions()) {
-				l.add(getListOfReactions());
-			}
-			if ((l.size() < index) && isSetListOfEvents()) {
-				l.add(getListOfEvents());
-			}
-			return l.get(index);
-		}
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		int children = 0;
-		if (isSetListOfFunctionDefinitions()) {
-			children++;
-		}
-		if (isSetListOfUnitDefinitions()) {
-			children++;
-		}
-		if (isSetListOfCompartmentTypes()) {
-			children++;
-		}
-		if (isSetListOfSpeciesTypes()) {
-			children++;
-		}
-		if (isSetListOfCompartments()) {
-			children++;
-		}
-		if (isSetListOfSpecies()) {
-			children++;
-		}
-		if (isSetListOfParameters()) {
-			children++;
-		}
-		if (isSetListOfInitialAssignments()) {
-			children++;
-		}
-		if (isSetListOfRules()) {
-			children++;
-		}
-		if (isSetListOfConstraints()) {
-			children++;
-		}
-		if (isSetListOfReactions()) {
-			children++;
-		}
-		if (isSetListOfEvents()) {
-			children++;
-		}
-		return children;
 	}
 }

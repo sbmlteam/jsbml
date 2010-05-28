@@ -30,19 +30,20 @@
 
 package org.sbml.jsbml.ext.layout;
 
-
 public class CompartmentGlyph extends GraphicalObject {
 
+	/**
+	 * 
+	 */
 	private String compartment;
 
+	/**
+	 * 
+	 */
 	public CompartmentGlyph() {
-		
+
 	}
-	
-	public CompartmentGlyph(int level, int version) {
-		super(level, version);
-	}
-	
+
 	/**
 	 * 
 	 * @param compartmentGlyph
@@ -52,34 +53,28 @@ public class CompartmentGlyph extends GraphicalObject {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public CompartmentGlyph(int level, int version) {
+		super(level, version);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public String getCompartment() {
 		return compartment;
 	}
 
+	/**
+	 * 
+	 * @param compartment
+	 */
 	public void setCompartment(String compartment) {
 		this.compartment = compartment;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
-	 */
-	@Override
-	public CompartmentGlyph clone() {
-		return new CompartmentGlyph(this);
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		// TODO Auto-generated method stub
-		return super.equals(o);
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
-	}
-	
-	
 }

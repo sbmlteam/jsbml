@@ -1060,7 +1060,7 @@ public class TestModel {
 		assertTrue(newMC.getGivenName().equals("Sarah"));
 		assertTrue(newMC.getEmail().equals("sbml-team@caltech.edu"));
 		assertTrue(newMC.getOrganisation().equals("UH"));
-		M.unsetModelHistory();
+		M.unsetHistory();
 		assertTrue(M.isSetHistory() == false);
 		history = null;
 		mc = null;

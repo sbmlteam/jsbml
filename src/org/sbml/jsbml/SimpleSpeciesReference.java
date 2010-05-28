@@ -226,6 +226,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	 * 
 	 * @see org.sbml.jsbml.element.NamedSBase#toString()
 	 */
+	@Override
 	public String toString() {
 		if (isSetName() && getName().length() > 0)
 			return getName();

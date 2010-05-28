@@ -502,26 +502,47 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/*
 	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
 	 */
+	@Override
 	public boolean getAllowsChildren() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
-	public Unit getChildAt(int index) {
-		return getUnit(index);
+	@Override
+	public ListOf<Unit> getChildAt(int index) {
+		int children = getChildCount();
+		if (index >= children) {
+			throw new IndexOutOfBoundsException(index + " >= " + children);
+		}
+		int pos = 0;
+		if (isSetListOfUnits()) {
+			if (index == pos) {
+				return getListOfUnits();
+			}
+			pos++;
+		}
+		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
 	 */
+	@Override
 	public int getChildCount() {
-		return getNumUnits();
+		int children = 0;
+		if (isSetListOfUnits()) {
+			children++;
+		}
+		return children;
 	}
 
 	/**

@@ -133,10 +133,8 @@ public abstract class MathContainer extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#clone()
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	// @Override
 	public abstract MathContainer clone();
 
 	/*
@@ -150,10 +148,9 @@ public abstract class MathContainer extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
-	// @Override
+	@Override
 	public boolean equals(Object o) {
 		if (o.getClass().getName().equals(this.getClass().getName())) {
 			MathContainer c = (MathContainer) o;
@@ -182,6 +179,47 @@ public abstract class MathContainer extends AbstractSBase implements
 			return equal;
 		}
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	@Override
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		int children = getChildCount();
+		if (index >= children) {
+			throw new IndexOutOfBoundsException(index + " >= " + children);
+		}
+		int pos = 0;
+		if (isSetMath()) {
+			if (index == pos) {
+				return getMath();
+			}
+			pos++;
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		return isSetMath() ? 1 : 0;
 	}
 
 	/*
@@ -366,10 +404,8 @@ public abstract class MathContainer extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#toString()
+	 * @see org.sbml.jsbml.AbstractSBase#toString()
 	 */
-	// @Override
 	public String toString() {
 		return isSetMath() ? math.toString() : "";
 	}
@@ -387,30 +423,5 @@ public abstract class MathContainer extends AbstractSBase implements
 			attributes.put("formula", getFormulaString());
 		}
 		return attributes;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		return true;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int index) {
-		return (index == 0) && isSetMath() ? getMath() : null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		return isSetMath() ? 1 : 0;
 	}
 }

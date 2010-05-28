@@ -33,10 +33,11 @@ package org.sbml.jsbml.xml.stax;
 import java.util.HashMap;
 
 /**
- * A SBMLObjectForXML is an object to store the localName, prefix, namespace URI, attributes and text of
- * a SBML component we want to write.
+ * A SBMLObjectForXML is an object to store the localName, prefix, namespace
+ * URI, attributes and text of a SBML component we want to write.
+ * 
  * @author compneur
- *
+ * 
  */
 public class SBMLObjectForXML {
 
@@ -60,79 +61,66 @@ public class SBMLObjectForXML {
 	 * Represents the text of a SBML component to write.
 	 */
 	private String characters;
-	/**
-	 * @param namespace the namespace to set
-	 */
-	public void setNamespace(String namespace) {
-		this.namespace = namespace;
-	}
-	/**
-	 * @return the namespace
-	 */
-	public String getNamespace() {
-		return namespace;
-	}
-	/**
-	 * 
-	 * @return true if the namespace of this Object is not null;
-	 */
-	public boolean isSetNamespace() {
-		return namespace != null;
-	}
-	/**
-	 * @param prefix the prefix to set
-	 */
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
-	/**
-	 * @return the prefix
-	 */
-	public String getPrefix() {
-		return prefix;
-	}
-	/**
-	 * 
-	 * @return true if the prefix of this Object is not null.
-	 */
-	public boolean isSetPrefix() {
-		return prefix != null;
-	}
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	/**
-	 * 
-	 * @return true if the name of this object is not null.
-	 */
-	public boolean isSetName() {
-		return name != null;
-	}
+
 	/**
 	 * Adds an attribute to this attributes HashMap.
-	 * @param attributes the attributes to set
+	 * 
+	 * @param attributes
+	 *            the attributes to set
 	 */
 	public void addAttributes(HashMap<String, String> attributes) {
-		if (this.attributes == null){
+		if (this.attributes == null) {
 			this.attributes = new HashMap<String, String>();
 		}
 		this.attributes.putAll(attributes);
 	}
+
+	/**
+	 * Sets all the variable of this object to null.
+	 */
+	public void clear() {
+		this.attributes = null;
+		this.characters = null;
+		this.name = null;
+		this.namespace = null;
+		this.prefix = null;
+	}
+
 	/**
 	 * @return the attributes
 	 */
 	public HashMap<String, String> getAttributes() {
 		return attributes;
 	}
+
+	/**
+	 * @return the characters
+	 */
+	public String getCharacters() {
+		return characters;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @return the namespace
+	 */
+	public String getNamespace() {
+		return namespace;
+	}
+
+	/**
+	 * @return the prefix
+	 */
+	public String getPrefix() {
+		return prefix;
+	}
+
 	/**
 	 * 
 	 * @return true if the attributes of this object is not null.
@@ -140,18 +128,7 @@ public class SBMLObjectForXML {
 	public boolean isSetAttributes() {
 		return attributes != null;
 	}
-	/**
-	 * @param characters the characters to set
-	 */
-	public void setCharacters(String characters) {
-		this.characters = characters;
-	}
-	/**
-	 * @return the characters
-	 */
-	public String getCharacters() {
-		return characters;
-	}
+
 	/**
 	 * 
 	 * @return true if the characters of this object is not null.
@@ -159,22 +136,67 @@ public class SBMLObjectForXML {
 	public boolean isSetCharacters() {
 		return characters != null;
 	}
+
 	/**
-	 * Sets all the variable of this object to null.
+	 * 
+	 * @return true if the name of this object is not null.
 	 */
-	public void clear(){
-		this.attributes = null;
-		this.characters = null;
-		this.name = null;
-		this.namespace = null;
-		this.prefix = null;
+	public boolean isSetName() {
+		return name != null;
 	}
+
+	/**
+	 * 
+	 * @return true if the namespace of this Object is not null;
+	 */
+	public boolean isSetNamespace() {
+		return namespace != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the prefix of this Object is not null.
+	 */
+	public boolean isSetPrefix() {
+		return prefix != null;
+	}
+
+	/**
+	 * @param characters
+	 *            the characters to set
+	 */
+	public void setCharacters(String characters) {
+		this.characters = characters;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @param namespace
+	 *            the namespace to set
+	 */
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
+	}
+
+	/**
+	 * @param prefix
+	 *            the prefix to set
+	 */
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+
 	@Override
 	public String toString() {
-		return "SBMLObjectForXML [attributes=" + attributes + 
-			", name=" + name + ", namespace=" + namespace
-				+ ", prefix=" + prefix + "]";
+		return "SBMLObjectForXML [attributes=" + attributes + ", name=" + name
+				+ ", namespace=" + namespace + ", prefix=" + prefix + "]";
 	}
-	
-	
+
 }

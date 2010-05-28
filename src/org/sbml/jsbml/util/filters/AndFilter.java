@@ -80,19 +80,19 @@ public class AndFilter implements Filter {
 
 	/**
 	 * 
-	 * @param filters
-	 */
-	public void setFilters(Set<Filter> filters) {
-		this.filters = filters;
-	}
-
-	/**
-	 * 
 	 * @param filter
 	 * @return
 	 */
 	public boolean addFilter(Filter filter) {
 		return filters.add(filter);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Set<Filter> getFilters() {
+		return filters;
 	}
 
 	/**
@@ -106,10 +106,10 @@ public class AndFilter implements Filter {
 
 	/**
 	 * 
-	 * @return
+	 * @param filters
 	 */
-	public Set<Filter> getFilters() {
-		return filters;
+	public void setFilters(Set<Filter> filters) {
+		this.filters = filters;
 	}
 
 }

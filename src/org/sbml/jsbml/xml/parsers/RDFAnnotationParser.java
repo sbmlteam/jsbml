@@ -58,6 +58,13 @@ public class RDFAnnotationParser implements ReadingParser{
 	private static final String namespaceURI = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 	
 	/**
+	 * @return the namespaceURI
+	 */
+	public static String getNamespaceURI() {
+		return namespaceURI;
+	}
+
+	/**
 	 * A map containing the hitory of the previous element within a RDF node this parser has been read.
 	 */
 	private HashMap<String, String> previousElements = new HashMap<String, String>();
@@ -125,142 +132,6 @@ public class RDFAnnotationParser implements ReadingParser{
 			Object contextObject) {
 		// TODO : there is no text for element with the namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#".
 		// There is a syntax error, throw an exception?
-	}
-
-	/* (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject)
-	 */
-	public void processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject) {
-		
-		// If the contextObject is a ModelCreator, the current element should be included into a 'creator'
-		// element.
-		if (contextObject instanceof Creator){
-			// If it is a ending Bag element, there is no other creators to parse in the 'creator' node, we can reinitialise the
-			// previousElements HashMap of this parser and remove the Entry which has 'creator' as key.
-			if (elementName.equals("Bag")){
-				previousElements.remove("creator");
-			}
-			// If it is a ending li element, we can reinitialise the
-			// previousElements HashMap of this parser and set the value of the 'creator' key to 'Bag'.
-			else if (elementName.equals("li")){
-				previousElements.put("creator", "Bag");
-			}
-		}
-		else if (contextObject instanceof CVTerm){
-			// If it is a ending Bag element, there is no other resource URI to parse for this CVTerm, we can reinitialise the
-			// previousElements HashMap of this parser and remove the Entry which has 'CVTerm' as key.
-			if (elementName.equals("Bag")){
-				previousElements.remove("CVTerm");
-			}
-			// If it is a ending li element, we can reinitialise the
-			// previousElements HashMap of this parser and set the value of the 'CVTerm' key to 'Bag'.
-			else if (elementName.equals("li")){
-				previousElements.put("CVTerm", "Bag");
-			}
-		}
-		
-		// If it is the end of a RDF element, we can clear the previousElements HashMap of this parser.
-		if (elementName.equals("RDF")){
-			this.previousElements.clear();
-		}
-	}
-
-	/* (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix,
-			boolean hasAttributes, boolean hasNamespaces,
-			Object contextObject)
-	 */
-	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, boolean hasNamespaces,
-			Object contextObject) {
-		// A RDFAnnotationParser can modify a ContextObject which is an Annotation instance.
-		if (contextObject instanceof Annotation){
-			
-			// If the node is a RDF node, adds ("RDF", null) to the previousElements of this parser.
-			if (elementName.equals("RDF")){
-				this.previousElements.put(elementName, null);
-			}
-			// The Description element should be the first child node of a RDF element.
-			// If the SBML specifications are respected, sets the value of the 'RDF' key to 'Description'.
-			else if(elementName.equals("Description") && previousElements.containsKey("RDF")){
-				if (this.previousElements.get("RDF") == null){
-					this.previousElements.put("RDF", "Description");
-				}
-				else {
-					this.previousElements.put("RDF", "error");
-					// TODO : a description is the unique child of RDF node, SBML syntax error, what to do?
-				}
-			}
-			else {
-				// TODO : SBML syntax error, what to do?
-			}
-		}
-		// If the contextObject is not an Annotation instance, we should be into the Description subNode of the RDF element.
-		else if (this.previousElements.containsKey("RDF")){
-			if (this.previousElements.get("RDF") != null){
-				// The Description subNode of RDF has been read.
-				if (this.previousElements.get("RDF").equals("Description")){
-					// A RDFAnnotation can modify a contextObject which is a CVTerm instance.
-					if (contextObject instanceof CVTerm){
-						// The first element of the 'miriam-qualifier' node (the CVTerm) should be a Bag element.
-						if (elementName.equals("Bag")){
-							this.previousElements.put("CVTerm", "Bag");
-						}
-						// If a 'Bag' subNode has been read and if the current element is a 'li' subNode
-						else if (elementName.equals("li") && previousElements.containsKey("CVTerm")){
-							if (this.previousElements.get("CVTerm").equals("Bag")){
-								this.previousElements.put("CVTerm", "li");
-							}
-							else {
-								// TODO : sbml syntax error, what to do?
-							}
-						}
-						else {
-							// TODO : sbml syntax error, what to do?
-						}
-					}
-					// A RDFAnnotation can modify a contextObject which is a ModelHistory instance.
-					else if (contextObject instanceof History){
-						History modelHistory = (History) contextObject;
-						// we should be into a 'creator' node and the first element should be a Bag element.
-						if (elementName.equals("Bag")){
-							this.previousElements.put("creator", "Bag");
-						}
-						// After the 'Bag' node of the 'creator' element, it should be a 'li' node.
-						// If the SBML specifications are respected, a new ModelCreator will be created
-						// and added to the listOfCreators of modelHistory. In this case, it will return the new ModelCreator instance.
-						else if (elementName.equals("li") && previousElements.containsKey("creator")){
-							if (previousElements.get("creator").equals("Bag")){
-								this.previousElements.put("creator", "li");
-								Creator modelCreator = new Creator();
-								modelHistory.addCreator(modelCreator);	
-								return modelCreator;
-							}
-							else {
-								// TODO : sbml syntax error, what to do?
-							}
-						}
-						else {
-							// TODO : sbml syntax error, what to do?
-						}
-					}
-					else {
-						// TODO : sbml syntax error, what to do?
-					}
-				}
-				else {
-					// TODO : sbml syntax error, what to do?
-				}
-			}
-			else {
-				// TODO : the RDF element doesn't contain a unique Description child node. SBML syntax error, throw an exception?
-			}
-		}
-		return contextObject;
 	}
 
 	/* (non-Javadoc)
@@ -426,6 +297,47 @@ public class RDFAnnotationParser implements ReadingParser{
 
 	/* (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String elementName, String prefix,
+			boolean isNested, Object contextObject)
+	 */
+	public void processEndElement(String elementName, String prefix,
+			boolean isNested, Object contextObject) {
+		
+		// If the contextObject is a ModelCreator, the current element should be included into a 'creator'
+		// element.
+		if (contextObject instanceof Creator){
+			// If it is a ending Bag element, there is no other creators to parse in the 'creator' node, we can reinitialise the
+			// previousElements HashMap of this parser and remove the Entry which has 'creator' as key.
+			if (elementName.equals("Bag")){
+				previousElements.remove("creator");
+			}
+			// If it is a ending li element, we can reinitialise the
+			// previousElements HashMap of this parser and set the value of the 'creator' key to 'Bag'.
+			else if (elementName.equals("li")){
+				previousElements.put("creator", "Bag");
+			}
+		}
+		else if (contextObject instanceof CVTerm){
+			// If it is a ending Bag element, there is no other resource URI to parse for this CVTerm, we can reinitialise the
+			// previousElements HashMap of this parser and remove the Entry which has 'CVTerm' as key.
+			if (elementName.equals("Bag")){
+				previousElements.remove("CVTerm");
+			}
+			// If it is a ending li element, we can reinitialise the
+			// previousElements HashMap of this parser and set the value of the 'CVTerm' key to 'Bag'.
+			else if (elementName.equals("li")){
+				previousElements.put("CVTerm", "Bag");
+			}
+		}
+		
+		// If it is the end of a RDF element, we can clear the previousElements HashMap of this parser.
+		if (elementName.equals("RDF")){
+			this.previousElements.clear();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
 			Object contextObject)
@@ -441,10 +353,98 @@ public class RDFAnnotationParser implements ReadingParser{
 		}
 	}
 
-	/**
-	 * @return the namespaceURI
+	/* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix,
+			boolean hasAttributes, boolean hasNamespaces,
+			Object contextObject)
 	 */
-	public static String getNamespaceURI() {
-		return namespaceURI;
+	public Object processStartElement(String elementName, String prefix,
+			boolean hasAttributes, boolean hasNamespaces,
+			Object contextObject) {
+		// A RDFAnnotationParser can modify a ContextObject which is an Annotation instance.
+		if (contextObject instanceof Annotation){
+			
+			// If the node is a RDF node, adds ("RDF", null) to the previousElements of this parser.
+			if (elementName.equals("RDF")){
+				this.previousElements.put(elementName, null);
+			}
+			// The Description element should be the first child node of a RDF element.
+			// If the SBML specifications are respected, sets the value of the 'RDF' key to 'Description'.
+			else if(elementName.equals("Description") && previousElements.containsKey("RDF")){
+				if (this.previousElements.get("RDF") == null){
+					this.previousElements.put("RDF", "Description");
+				}
+				else {
+					this.previousElements.put("RDF", "error");
+					// TODO : a description is the unique child of RDF node, SBML syntax error, what to do?
+				}
+			}
+			else {
+				// TODO : SBML syntax error, what to do?
+			}
+		}
+		// If the contextObject is not an Annotation instance, we should be into the Description subNode of the RDF element.
+		else if (this.previousElements.containsKey("RDF")){
+			if (this.previousElements.get("RDF") != null){
+				// The Description subNode of RDF has been read.
+				if (this.previousElements.get("RDF").equals("Description")){
+					// A RDFAnnotation can modify a contextObject which is a CVTerm instance.
+					if (contextObject instanceof CVTerm){
+						// The first element of the 'miriam-qualifier' node (the CVTerm) should be a Bag element.
+						if (elementName.equals("Bag")){
+							this.previousElements.put("CVTerm", "Bag");
+						}
+						// If a 'Bag' subNode has been read and if the current element is a 'li' subNode
+						else if (elementName.equals("li") && previousElements.containsKey("CVTerm")){
+							if (this.previousElements.get("CVTerm").equals("Bag")){
+								this.previousElements.put("CVTerm", "li");
+							}
+							else {
+								// TODO : sbml syntax error, what to do?
+							}
+						}
+						else {
+							// TODO : sbml syntax error, what to do?
+						}
+					}
+					// A RDFAnnotation can modify a contextObject which is a ModelHistory instance.
+					else if (contextObject instanceof History){
+						History modelHistory = (History) contextObject;
+						// we should be into a 'creator' node and the first element should be a Bag element.
+						if (elementName.equals("Bag")){
+							this.previousElements.put("creator", "Bag");
+						}
+						// After the 'Bag' node of the 'creator' element, it should be a 'li' node.
+						// If the SBML specifications are respected, a new ModelCreator will be created
+						// and added to the listOfCreators of modelHistory. In this case, it will return the new ModelCreator instance.
+						else if (elementName.equals("li") && previousElements.containsKey("creator")){
+							if (previousElements.get("creator").equals("Bag")){
+								this.previousElements.put("creator", "li");
+								Creator modelCreator = new Creator();
+								modelHistory.addCreator(modelCreator);	
+								return modelCreator;
+							}
+							else {
+								// TODO : sbml syntax error, what to do?
+							}
+						}
+						else {
+							// TODO : sbml syntax error, what to do?
+						}
+					}
+					else {
+						// TODO : sbml syntax error, what to do?
+					}
+				}
+				else {
+					// TODO : sbml syntax error, what to do?
+				}
+			}
+			else {
+				// TODO : the RDF element doesn't contain a unique Description child node. SBML syntax error, throw an exception?
+			}
+		}
+		return contextObject;
 	}
 }

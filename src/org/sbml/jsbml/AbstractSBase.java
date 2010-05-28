@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -130,68 +131,6 @@ public abstract class AbstractSBase implements SBase {
 		extensions = new HashMap<String, SBase>();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
-	 */
-	public int getIndex(TreeNode node) {
-		Enumeration<TreeNode> e = children();
-		for (int i=0; e.hasMoreElements(); i++) {
-			if (node.equals(e.nextElement())) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.tree.TreeNode#isLeaf()
-	 */
-	public boolean isLeaf() {
-		return (getChildCount() == 0) || (!getAllowsChildren());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.tree.TreeNode#children()
-	 */
-	public Enumeration<TreeNode> children() {
-		return new Enumeration<TreeNode>() {
-			int index = 0;
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see java.util.Enumeration#hasMoreElements()
-			 */
-			public boolean hasMoreElements() {
-				return index < getChildCount();
-			}
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see java.util.Enumeration#nextElement()
-			 */
-			public TreeNode nextElement() {
-				return getChildAt(index);
-			}
-		};
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.tree.TreeNode#getParent()
-	 */
-	public SBase getParent() {
-		return getParentSBMLObject();
-	}
-
 	/**
 	 * Creates an AbstractSBase instance from an id and name. By default, the
 	 * sboTerm is -1, the metaid, notes, parentSBMLObject, annotation, level,
@@ -249,16 +188,32 @@ public abstract class AbstractSBase implements SBase {
 	 * @return
 	 */
 	public boolean addAllChangeListeners(Set<SBaseChangedListener> listeners) {
-		return setOfListeners.addAll(listeners);
+		boolean success = setOfListeners.addAll(listeners);
+		Enumeration<TreeNode> children = children();
+		for (int i = 0; children.hasMoreElements(); i++) {
+			TreeNode node = children.nextElement();
+			if (node instanceof SBase) {
+				success &= ((SBase) node).addAllChangeListeners(listeners);
+			}
+		}
+		return success;
 	}
 
 	/**
-	 * adds a listener to the SBase object. from now on changes will be saved
+	 * Recursively adds a listener to the SBase object and all of its
+	 * sub-elements. From now on changes will be saved.
 	 * 
 	 * @param l
 	 */
 	public void addChangeListener(SBaseChangedListener l) {
 		setOfListeners.add(l);
+		Enumeration<TreeNode> children = children();
+		for (int i = 0; children.hasMoreElements(); i++) {
+			TreeNode node = children.nextElement();
+			if (node instanceof SBase) {
+				((SBase) node).addChangeListener(l);
+			}
+		}
 	}
 
 	/*
@@ -357,6 +312,47 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see javax.swing.tree.TreeNode#children()
+	 */
+	public Enumeration<TreeNode> children() {
+		return new Enumeration<TreeNode>() {
+			/**
+			 * Current position in the list of children.
+			 */
+			private int index = 0;
+			/**
+			 * Total number of children in this enumeration.
+			 */
+			private int childCount = getChildCount();
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.util.Enumeration#hasMoreElements()
+			 */
+			public boolean hasMoreElements() {
+				return index < childCount;
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.util.Enumeration#nextElement()
+			 */
+			public TreeNode nextElement() {
+				synchronized (this) {
+					if (index < childCount) {
+						return getChildAt(index++);
+					}
+				}
+				throw new NoSuchElementException("SBase Enumeration");
+			}
+		};
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	public abstract SBase clone();
@@ -366,11 +362,11 @@ public abstract class AbstractSBase implements SBase {
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	// @Override
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof SBase) {
 			SBase sbase = (SBase) o;
-			boolean equals = true;
+			boolean equals = true; // super.equals(o) ???
 			equals &= sbase.isSetMetaId() == isSetMetaId();
 			if (equals && sbase.isSetMetaId()) {
 				equals &= sbase.getMetaId().equals(getMetaId());
@@ -431,6 +427,15 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.SBase#getAnnotation()
 	 */
 	public Annotation getAnnotation() {
@@ -455,6 +460,25 @@ public abstract class AbstractSBase implements SBase {
 		}
 
 		return "";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int childIndex) {
+		throw new IndexOutOfBoundsException("node " + getElementName()
+				+ " has no children");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		return 0;
 	}
 
 	/*
@@ -517,6 +541,27 @@ public abstract class AbstractSBase implements SBase {
 			return annotation.getHistory();
 		}
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
+	 */
+	public int getIndex(TreeNode node) {
+		if (node == null) {
+			throw new IllegalArgumentException("argument is null");
+		}
+		// linear search
+		Enumeration<TreeNode> e = children();
+		for (int i = 0; e.hasMoreElements(); i++) {
+			TreeNode elem = e.nextElement();
+			if ((node == elem) || node.equals(elem)) {
+				return i;
+			}
+		}
+		// not found => node is not a child.
+		return -1;
 	}
 
 	/*
@@ -599,6 +644,16 @@ public abstract class AbstractSBase implements SBase {
 			return annotation.getListOfCVTerms().size();
 		}
 		return 0;
+	}
+
+	/**
+	 * This is equivalent to calling {@link #getParentSBMLObject()}, but this
+	 * method is needed for {@link TreeNode}.
+	 * 
+	 * @see #getParentSBMLObject()
+	 */
+	public SBase getParent() {
+		return getParentSBMLObject();
 	}
 
 	/*
@@ -715,6 +770,15 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see javax.swing.tree.TreeNode#isLeaf()
+	 */
+	public boolean isLeaf() {
+		return (getChildCount() == 0);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.element.SBase#isSetAnnotation()
 	 */
 	public boolean isSetAnnotation() {
@@ -825,11 +889,19 @@ public abstract class AbstractSBase implements SBase {
 	}
 
 	/**
+	 * Recursively removes the given change listener from this element.
 	 * 
 	 * @param l
 	 */
 	public void removeChangeListener(SBaseChangedListener l) {
 		setOfListeners.remove(l);
+		Enumeration<TreeNode> children = children();
+		for (int i = 0; children.hasMoreElements(); i++) {
+			TreeNode node = children.nextElement();
+			if (node instanceof SBase) {
+				((SBase) node).removeChangeListener(l);
+			}
+		}
 	}
 
 	/*
@@ -969,8 +1041,9 @@ public abstract class AbstractSBase implements SBase {
 		checkLevelAndVersionCompatibility(sbase);
 		if (sbase instanceof AbstractSBase) {
 			((AbstractSBase) sbase).parentSBMLObject = this;
-			for (SBaseChangedListener l : setOfListeners)
+			for (SBaseChangedListener l : setOfListeners) {
 				sbase.addChangeListener(l);
+			}
 		}
 	}
 
@@ -1042,6 +1115,18 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.element.SBase#unsetModelHistory()
+	 */
+	public void unsetHistory() {
+		if (isSetAnnotation()) {
+			this.annotation.unsetHistory();
+			stateChanged();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jlibsbml.SBase#unsetMetaId()
 	 */
 	public void unsetMetaId() {
@@ -1049,18 +1134,6 @@ public abstract class AbstractSBase implements SBase {
 			metaId = null;
 		}
 		stateChanged();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#unsetModelHistory()
-	 */
-	public void unsetModelHistory() {
-		if (isSetAnnotation()) {
-			this.annotation.unsetHistory();
-			stateChanged();
-		}
 	}
 
 	/*

@@ -48,6 +48,26 @@ public class CreatorParser implements ReadingParser{
 	 */
 	private static final String namespaceURI = "http://purl.org/dc/elements/1.1/";
 	
+	 /**
+	 * @return the namespaceURI of this parser.
+	 */
+	public static String getNamespaceURI() {
+		return namespaceURI;
+	}
+
+	 /* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String ElementName, String AttributeName,
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject)
+	 */
+	public void processAttribute(String ElementName, String AttributeName,
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject) {
+		// TODO : there is no attributes with the namespace "http://purl.org/dc/elements/1.1/", there
+		// is a SBML syntax error, throw an exception?
+	}
+
 	 /* (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String elementName, String characters,
@@ -61,6 +81,13 @@ public class CreatorParser implements ReadingParser{
 
 	 /* (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
+	 */
+	public void processEndDocument(SBMLDocument sbmlDocument) {
+	}
+
+	/* (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject)
 	 */
@@ -68,7 +95,26 @@ public class CreatorParser implements ReadingParser{
 			boolean isNested, Object contextObject) {
 	}
 
-	 /* (non-Javadoc)
+	/* (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject)
+	 */
+	public void processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
+		
+		// The namespace of this parser is declared in a RDF subnode of an annotation.
+		// adds the namespace to the RDFAnnotationNamespaces HashMap of annotation.
+		if (elementName.equals("RDF") && contextObject instanceof Annotation){
+			Annotation annotation = (Annotation) contextObject;
+			
+			annotation.addRDFAnnotationNamespace(localName, prefix, URI);
+		}
+	}
+
+	/* (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces,
@@ -94,52 +140,6 @@ public class CreatorParser implements ReadingParser{
 			// can contain an history. Should be changed depending on the version.
 		}
 		return contextObject;
-	}
-
-	 /* (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
-	 */
-	public void processEndDocument(SBMLDocument sbmlDocument) {
-	}
-
-	/* (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject)
-	 */
-	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) {
-		
-		// The namespace of this parser is declared in a RDF subnode of an annotation.
-		// adds the namespace to the RDFAnnotationNamespaces HashMap of annotation.
-		if (elementName.equals("RDF") && contextObject instanceof Annotation){
-			Annotation annotation = (Annotation) contextObject;
-			
-			annotation.addRDFAnnotationNamespace(localName, prefix, URI);
-		}
-	}
-
-	/* (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String ElementName, String AttributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject)
-	 */
-	public void processAttribute(String ElementName, String AttributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
-		// TODO : there is no attributes with the namespace "http://purl.org/dc/elements/1.1/", there
-		// is a SBML syntax error, throw an exception?
-	}
-
-	/**
-	 * @return the namespaceURI of this parser.
-	 */
-	public static String getNamespaceURI() {
-		return namespaceURI;
 	}
 
 }

@@ -29,7 +29,6 @@
 
 package org.sbml.jsbml;
 
-import javax.swing.tree.TreeNode;
 
 
 /**
@@ -48,6 +47,15 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 	 */
 	public ModifierSpeciesReference() {
 		super();
+	}
+
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public ModifierSpeciesReference(int level, int version) {
+		super(level, version);
 	}
 
 	/**
@@ -70,10 +78,6 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 		super(species);
 	}
 
-	public ModifierSpeciesReference(int level, int version) {
-		super(level, version);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -82,29 +86,5 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 	@Override
 	public ModifierSpeciesReference clone() {
 		return new ModifierSpeciesReference(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int childIndex) {
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		return 0;
 	}
 }

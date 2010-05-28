@@ -40,21 +40,6 @@ import org.sbml.jsbml.SBMLDocument;
 public interface ReadingParser {
 
 	/**
-	 * Process the XML element and modify 'contextObject' in consequence.
-	 * @param elementName : the localName of the XML element to process
-	 * @param prefix : the prefix of the XML element to process
-	 * @param hasAttributes : boolean value to know if this XML element has attributes.
-	 * @param hasNamespaces : boolean value to know if this XML element contains namespace declarations.
-	 * @param contextObject : the object to set or modify depending on the identity of the current XML element. This object represents the context of the XML element in the SBMLDocument.
-	 * @return a new contextObject which represents the environment of the next node/subnode in the SBMLDocument.
-	 * 
-	 * Ex : if the contextObject is an instance of Event and the elementName is 'trigger', this method will create a new Trigger instance
-	 * and will set the trigger instance of the 'contextObject' to the new Trigger. Then the method will return the new Trigger
-	 * instance which is the new environment.
-	 */
-	public Object processStartElement(String elementName, String prefix, boolean hasAttributes, boolean hasNamespaces, Object contextObject);
-	
-	/**
 	 * Process the XML attribute and modify 'contextObject' in consequence.
 	 * @param elementName : the localName of the XML element.
 	 * @param attributeName : the attribute localName of the XML element.
@@ -67,7 +52,7 @@ public interface ReadingParser {
 	 * Then it will return the modified Reaction instanc.
 	 */
 	public void processAttribute(String elementName, String attributeName, String value, String prefix, boolean isLastAttribute, Object contextObject);
-
+	
 	/**
 	 * Process the text of a XML element and modify 'contextObject' in consequence.
 	 * @param elementName : the localName of the XML element.
@@ -78,6 +63,14 @@ public interface ReadingParser {
 	 * this method will set the familyName of the 'contextObject' to the text value. Then it will return the changed ModelCreator instance.
 	 */
 	public void processCharactersOf(String elementName, String characters, Object contextObject);
+
+	/**
+	 * Process the end of the document. Do the necessary changes in the SBMLDocument.
+	 * @param sbmlDocument : the final initialised SBMLDocument instance.
+	 * 
+	 * Ex : check if all the annotations are valid, etc.
+	 */
+	public void processEndDocument(SBMLDocument sbmlDocument);
 	
 	/**
 	 * Process the end of the element 'elementName'. Modify or not the contextObject.
@@ -88,14 +81,6 @@ public interface ReadingParser {
 	 * 
 	 */
 	public void processEndElement(String elementName, String prefix, boolean isNested, Object contextObject);
-	
-	/**
-	 * Process the end of the document. Do the necessary changes in the SBMLDocument.
-	 * @param sbmlDocument : the final initialised SBMLDocument instance.
-	 * 
-	 * Ex : check if all the annotations are valid, etc.
-	 */
-	public void processEndDocument(SBMLDocument sbmlDocument);
 	
 	/**
 	 * Process the namespace and modify the contextObject in consequence.
@@ -110,4 +95,19 @@ public interface ReadingParser {
 	 * Ex : if the contextObject is an instance of SBMLDocument, the namespaces will be stored in the SBMLNamespaces HashMap of this SBMLDocument.
 	 */
 	public void processNamespace(String elementName, String URI, String prefix, String localName, boolean hasAttributes, boolean isLastNamespace, Object contextObject);
+	
+	/**
+	 * Process the XML element and modify 'contextObject' in consequence.
+	 * @param elementName : the localName of the XML element to process
+	 * @param prefix : the prefix of the XML element to process
+	 * @param hasAttributes : boolean value to know if this XML element has attributes.
+	 * @param hasNamespaces : boolean value to know if this XML element contains namespace declarations.
+	 * @param contextObject : the object to set or modify depending on the identity of the current XML element. This object represents the context of the XML element in the SBMLDocument.
+	 * @return a new contextObject which represents the environment of the next node/subnode in the SBMLDocument.
+	 * 
+	 * Ex : if the contextObject is an instance of Event and the elementName is 'trigger', this method will create a new Trigger instance
+	 * and will set the trigger instance of the 'contextObject' to the new Trigger. Then the method will return the new Trigger
+	 * instance which is the new environment.
+	 */
+	public Object processStartElement(String elementName, String prefix, boolean hasAttributes, boolean hasNamespaces, Object contextObject);
 }

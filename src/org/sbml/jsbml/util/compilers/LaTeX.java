@@ -1437,6 +1437,19 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		return command("texttt", new StringBuffer(id));
 	}
 
+	/**
+	 * 
+	 * @param variable
+	 * @return
+	 */
+	public String timeDerivative(String variable) {
+		String d = mbox("d").toString();
+		String dt = d + symbolTime("t");
+		StringBuilder sb = frac(d, dt);
+		sb.append(mbox(variable));
+		return sb.toString();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1524,18 +1537,5 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue xor(ASTNodeValue... nodes) {
 		return logicalOperation(xor, nodes);
-	}
-
-	/**
-	 * 
-	 * @param variable
-	 * @return
-	 */
-	public String timeDerivative(String variable) {
-		String d = mbox("d").toString();
-		String dt = d + symbolTime("t");
-		StringBuilder sb = frac(d, dt);
-		sb.append(mbox(variable));
-		return sb.toString();
 	}
 }

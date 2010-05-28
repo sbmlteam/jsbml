@@ -33,6 +33,7 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import javax.swing.tree.TreeNode;
@@ -853,8 +854,8 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @see javax.swing.tree.TreeNode#children()
 	 */
-	public Enumeration<TreeNode> children() {
-		return new Enumeration<TreeNode>() {
+	public Enumeration<ASTNode> children() {
+		return new Enumeration<ASTNode>() {
 			/**
 			 * The current position within the list of child nodes.
 			 */
@@ -875,7 +876,12 @@ public class ASTNode implements TreeNode {
 			 * @see java.util.Enumeration#nextElement()
 			 */
 			public ASTNode nextElement() {
-				return listOfNodes.get(pos++);
+				synchronized (listOfNodes) {
+					if (pos < listOfNodes.size()) {
+						return listOfNodes.get(pos++);
+					}
+				}
+				throw new NoSuchElementException("ASTNode Enumeration");
 			}
 		};
 	}

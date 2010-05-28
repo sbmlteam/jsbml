@@ -45,10 +45,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 /**
- * An Annotation represents the otherAnnotation of a SBase element. It contains
- * the list of CVTerm objects, the map containing the attribute of a XML
- * otherAnnotation node and a String containing all the other otherAnnotation
- * elements of the XML otherAnnotation node.
+ * An Annotation represents the otherAnnotation of an {@link SBase} element. It
+ * contains the list of {@link CVTerm} objects, the map containing the attribute
+ * of a XML otherAnnotation node and a {@link String} containing all the other
+ * otherAnnotation elements of the XML otherAnnotation node.
  * 
  * @author marine
  * 
@@ -58,7 +58,7 @@ import org.w3c.dom.Node;
  * @composed 0..* MIRIAM 1 CVTerm
  * @composed 0..1 history 1 History
  */
-public class Annotation extends StringTools {
+public class Annotation {
 
 	/**
 	 * 
@@ -278,8 +278,8 @@ public class Annotation extends StringTools {
 		for (Iterator<Map.Entry<String, String>> it = iterator; it.hasNext();) {
 
 			Map.Entry<String, String> entry = it.next();
-			append(attributes, " ", entry.getKey(), "=\"", entry.getValue(),
-					Character.valueOf('"'));
+			StringTools.append(attributes, " ", entry.getKey(), "=\"", entry
+					.getValue(), Character.valueOf('"'));
 		}
 
 		return attributes.toString();
@@ -299,7 +299,8 @@ public class Annotation extends StringTools {
 			String metaid = parentElement.getMetaId();
 
 			if (metaid != null) {
-				append(buffer, indent, "<rdf:RDF ", newLine);
+				StringTools.append(buffer, indent, "<rdf:RDF ",
+						StringTools.newLine);
 				/*
 				 * buffer.append(indent).append("         xmlns:rdf=").append('"'
 				 * )
@@ -327,8 +328,9 @@ public class Annotation extends StringTools {
 				 * )).append('"').append(" \n");
 				 * buffer.append(indent).append("> \n");
 				 */
-				append(buffer, indent, "  <rdf:Description rdf:about=\"#",
-						metaid, "\">", newLine);
+				StringTools.append(buffer, indent,
+						"  <rdf:Description rdf:about=\"#", metaid, "\">",
+						StringTools.newLine);
 			}
 		}
 
@@ -370,15 +372,17 @@ public class Annotation extends StringTools {
 				String stringQualifier = qualifier.getElementNameEquivalent();
 
 				if (prefix != null && stringQualifier != null) {
-					append(buffer, indent, "<", prefix, ":", stringQualifier,
-							">", newLine);
-					append(buffer, indent, "  <rdf:Bag>", newLine);
+					StringTools.append(buffer, indent, "<", prefix, ":",
+							stringQualifier, ">", StringTools.newLine);
+					StringTools.append(buffer, indent, "  <rdf:Bag>",
+							StringTools.newLine);
 
 					cvTerm.toXML(indent + "    ", buffer);
 
-					append(buffer, indent, "  </rdf:Bag>", newLine);
-					append(buffer, indent, "</", prefix, ":", stringQualifier,
-							">", newLine);
+					StringTools.append(buffer, indent, "  </rdf:Bag>",
+							StringTools.newLine);
+					StringTools.append(buffer, indent, "</", prefix, ":",
+							stringQualifier, ">", StringTools.newLine);
 				}
 			}
 		}
@@ -398,8 +402,10 @@ public class Annotation extends StringTools {
 			String metaid = parentElement.getMetaId();
 
 			if (metaid != null) {
-				append(buffer, indent, "  </rdf:Description>", newLine);
-				append(buffer, indent, "</rdf:RDF>", newLine);
+				StringTools.append(buffer, indent, "  </rdf:Description>",
+						StringTools.newLine);
+				StringTools.append(buffer, indent, "</rdf:RDF>",
+						StringTools.newLine);
 			}
 		}
 	}
@@ -636,9 +642,9 @@ public class Annotation extends StringTools {
 	 * @param buffer
 	 */
 	protected void otherAnnotationToXML(String indent, StringBuffer buffer) {
-		String[] lines = getNoRDFAnnotation().split(newLine);
+		String[] lines = getNoRDFAnnotation().split(StringTools.newLine);
 		for (int i = 0; i < lines.length; i++) {
-			append(buffer, indent, lines[i], newLine);
+			StringTools.append(buffer, indent, lines[i], StringTools.newLine);
 		}
 	}
 
@@ -745,15 +751,16 @@ public class Annotation extends StringTools {
 	public String toXML(String indent, SBase parentElement) {
 		StringBuffer buffer = new StringBuffer();
 		if (isSetAnnotation()) {
-			append(buffer, indent, "<otherAnnotation", attributesToXML(), ">",
-					newLine);
+			StringTools.append(buffer, indent, "<otherAnnotation",
+					attributesToXML(), ">", StringTools.newLine);
 			if (getListOfCVTerms() != null) {
 				RDFAnnotationToXML(indent + "  ", buffer, parentElement);
 			}
 			if (getNoRDFAnnotation() != null) {
 				otherAnnotationToXML(indent + "  ", buffer);
 			}
-			append(buffer, indent, "</otherAnnotation>", newLine);
+			StringTools.append(buffer, indent, "</otherAnnotation>",
+					StringTools.newLine);
 		}
 		return buffer.toString();
 	}

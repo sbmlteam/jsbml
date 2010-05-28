@@ -31,7 +31,7 @@ package org.sbml.jsbml.util;
 import java.util.EventListener;
 
 /**
- * @author draeger
+ * @author Andreas Dr&auml;ger
  * 
  */
 public interface IOProgressListener extends EventListener {

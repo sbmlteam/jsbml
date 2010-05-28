@@ -218,6 +218,47 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
+	 */
+	@Override
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		int children = getChildCount();
+		if (index >= children) {
+			throw new IndexOutOfBoundsException(index + " >= " + children);
+		}
+		int pos = 0;
+		if (isSetStoichiometryMath()) {
+			if (pos == index) {
+				return getStoichiometryMath();
+			}
+			pos++;
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		return isSetStoichiometryMath() ? 1 : 0;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.State#getConstant()
 	 */
 	public boolean getConstant() {
@@ -494,35 +535,4 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 
 		return attributes;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int childIndex) {
-		if ((0 <= childIndex) && (childIndex < getChildCount())) {
-			return getStoichiometryMath();
-		}
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		return isSetStoichiometryMath() ? 1 : 0;
-	}
-
 }

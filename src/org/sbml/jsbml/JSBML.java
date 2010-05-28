@@ -44,6 +44,9 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  */
 public class JSBML {
 
+	/**
+	 * The current version number of JSBML.
+	 */
 	private static final String jsbmlVersion = "0.5.0";
 
 	/**

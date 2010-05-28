@@ -39,12 +39,19 @@ import org.sbml.jsbml.util.IOProgressListener;
  * This interface allows the implementing class to convert a JSBML model into
  * another data structure. Possible examples are a conversion into libSBML or
  * CellDesigner plug-in data structures. Other formats can also be implemented,
- * for instance, a BioPax or CellML converter could be implmented.
+ * for instance, a BioPax or CellML converter could be implemented.
  * 
  * @author Andreas Dr&auml;ger
  * 
  */
 public interface SBMLOutputConverter {
+
+	/**
+	 * Allows this class to fire events through this event Listener.
+	 * 
+	 * @param listener
+	 */
+	public void addIOProgressListener(IOProgressListener listener);
 
 	/**
 	 * 
@@ -79,6 +86,16 @@ public interface SBMLOutputConverter {
 
 	/**
 	 * 
+	 * @param reaction
+	 * @param model
+	 * @return
+	 * @throws SBMLException
+	 */
+	public boolean saveChanges(Reaction reaction, Object model)
+			throws SBMLException;
+
+	/**
+	 * 
 	 * @param model
 	 * @return
 	 * @throws SBMLException
@@ -109,21 +126,4 @@ public interface SBMLOutputConverter {
 	public boolean writeSBML(Object object, String filename,
 			String programName, String versionNumber) throws SBMLException,
 			IOException;
-
-	/**
-	 * 
-	 * @param reaction
-	 * @param model
-	 * @return
-	 * @throws SBMLException
-	 */
-	public boolean saveChanges(Reaction reaction, Object model)
-			throws SBMLException;
-
-	/**
-	 * Allows this class to fire events through this event Listener.
-	 * 
-	 * @param listener
-	 */
-	public void addIOProgressListener(IOProgressListener listener);
 }

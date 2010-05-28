@@ -30,7 +30,6 @@
 package org.sbml.jsbml;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 
 import javax.swing.tree.TreeNode;
 
@@ -167,7 +166,7 @@ public class KineticLaw extends MathContainer {
 	 * 
 	 * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
 	 */
-	// @Override
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof KineticLaw) {
 			KineticLaw kl = (KineticLaw) o;
@@ -196,6 +195,45 @@ public class KineticLaw extends MathContainer {
 			return equal;
 		}
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.MathContainer#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		int children = getChildCount();
+		if (index >= children) {
+			throw new IndexOutOfBoundsException(index + " >= " + children);
+		}
+		int pos = 0;
+		if (isSetMath()) {
+			if (pos == index) {
+				return getMath();
+			}
+			pos++;
+		}
+		if (isSetListOfParameters()) {
+			if (pos == index) {
+				return getListOfParameters();
+			}
+			pos++;
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.MathContainer#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int children = super.getChildCount();
+		if (isSetListOfParameters()) {
+			children++;
+		}
+		return children;
 	}
 
 	/**
@@ -365,9 +403,7 @@ public class KineticLaw extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
+	 * @see org.sbml.jsbml.MathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -516,8 +552,7 @@ public class KineticLaw extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 * @see org.sbml.jsbml.MathContainer#writeXMLAttributes()
 	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
@@ -532,38 +567,5 @@ public class KineticLaw extends MathContainer {
 		}
 
 		return attributes;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int index) {
-		int children = getChildCount();
-		if ((0 < children) && (index < children)) {
-			LinkedList<SBase> l = new LinkedList<SBase>();
-			if (isSetMath()) {
-				l.add(getModel());
-			}
-			if ((l.size() < index) && isSetListOfParameters()) {
-				l.add(getListOfParameters());
-			}
-			return l.get(index);
-		}
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		int children = super.getChildCount();
-		if (isSetListOfParameters()) {
-			children++;
-		}
-		return children;
 	}
 }

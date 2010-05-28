@@ -54,6 +54,17 @@ public class SpeciesType extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a SpeciesType instance from a level and version.
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	@Deprecated
+	public SpeciesType(int level, int version) {
+		super(level, version);
+	}
+
+	/**
 	 * Creates a SpeciesType instance from a given SpeciesType.
 	 * 
 	 * @param nsb
@@ -88,17 +99,6 @@ public class SpeciesType extends AbstractNamedSBase {
 		super(id, name, level, version);
 	}
 
-	/**
-	 * Creates a SpeciesType instance from a level and version.
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	@Deprecated
-	public SpeciesType(int level, int version) {
-		super(level, version);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -108,32 +108,5 @@ public class SpeciesType extends AbstractNamedSBase {
 	@Deprecated
 	public SpeciesType clone() {
 		return new SpeciesType(this);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	@Deprecated
-	public int getChildCount() {
-		return 0;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	@Deprecated
-	public SBase getChildAt(int childIndex) {
-		return null;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	@Deprecated
-	public boolean getAllowsChildren() {
-		return false;
 	}
 }

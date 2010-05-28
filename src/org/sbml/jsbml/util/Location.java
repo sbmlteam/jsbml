@@ -30,34 +30,76 @@
 
 package org.sbml.jsbml.util;
 
+/**
+ * 
+ */
 public class Location {
 
+	/**
+	 * 
+	 */
 	private int line;
+	/**
+	 * 
+	 */
 	private int column;
-	
-	public Location(){}
-	
+
+	/**
+	 * 
+	 */
+	public Location() {
+	}
+
+	/**
+	 * 
+	 * @param line
+	 * @param column
+	 */
 	public Location(int line, int column) {
 		this.line = line;
 		this.column = column;
 	}
-	public int getLine() {
-		return line;
-	}
-	public void setLine(int line) {
-		this.line = line;
-	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public int getColumn() {
 		return column;
 	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getLine() {
+		return line;
+	}
+
+	/**
+	 * 
+	 * @param column
+	 */
 	public void setColumn(int column) {
 		this.column = column;
 	}
 
+	/**
+	 * 
+	 * @param line
+	 */
+	public void setLine(int line) {
+		this.line = line;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Location [column=" + column + ", line=" + line + "]";
 	}
-	
-	
+
 }

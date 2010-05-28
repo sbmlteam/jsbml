@@ -72,18 +72,15 @@ public class InitialAssignment extends MathContainer {
 	}
 
 	/**
-	 * Creates an InitialAssignment instance from a Symbol. Takes level and
-	 * version from the given symbol.
+	 * Creates an InitialAssignment from a Symbol, ASTNode, level and version.
 	 * 
 	 * @param symbol
+	 * @param math
+	 * @param level
+	 * @param version
 	 */
-	public InitialAssignment(Variable symbol) {
-		super(symbol.getLevel(), symbol.getVersion());
-		if (symbol.isSetId()) {
-			this.symbolID = new String(symbol.getId());
-		} else {
-			this.symbolID = null;
-		}
+	public InitialAssignment(int level, int version) {
+		super(level, version);
 	}
 
 	/**
@@ -104,82 +101,18 @@ public class InitialAssignment extends MathContainer {
 	}
 
 	/**
-	 * Creates an InitialAssignment from a Symbol, ASTNode, level and version.
+	 * Creates an InitialAssignment instance from a Symbol. Takes level and
+	 * version from the given symbol.
 	 * 
 	 * @param symbol
-	 * @param math
-	 * @param level
-	 * @param version
 	 */
-	public InitialAssignment(int level, int version) {
-		super(level, version);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#clone()
-	 */
-	// @Override
-	public InitialAssignment clone() {
-		return new InitialAssignment(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
-	 */
-	// @Override
-	public boolean equals(Object o) {
-		if (o instanceof InitialAssignment) {
-			InitialAssignment in = (InitialAssignment) o;
-			boolean equals = super.equals(in);
-			if ((!in.isSetSymbol() && isSetSymbol())
-					|| (in.isSetSymbol() && !isSetSymbol())) {
-				return false;
-			}
-			if (in.isSetSymbol() && isSetSymbol()) {
-				equals &= in.getSymbol().equals(getSymbol());
-			}
-			return equals;
+	public InitialAssignment(Variable symbol) {
+		super(symbol.getLevel(), symbol.getVersion());
+		if (symbol.isSetId()) {
+			this.symbolID = new String(symbol.getId());
+		} else {
+			this.symbolID = null;
 		}
-		return false;
-	}
-
-	/**
-	 * @return the symbolID of this InitialAssignment. Return an empty String if
-	 *         it is not set.
-	 */
-	public String getSymbol() {
-		return isSetSymbol() ? symbolID : "";
-	}
-
-	/**
-	 * @return the symbol instance which has the symbolID of this
-	 *         InitialAssignment as id. Return null if it doesn't exist.
-	 */
-	public Variable getStateInstance() {
-		Model m = getModel();
-		return m != null ? m.findVariable(this.symbolID) : null;
-	}
-
-	/**
-	 * 
-	 * @return true if the symbol instance which has the symbolID of this
-	 *         InitialAssignment as id is not null.
-	 */
-	public boolean isSetSymbolInstance() {
-		Model m = getModel();
-		return m != null ? m.findVariable(this.symbolID) != null : false;
-	}
-
-	/**
-	 * 
-	 * @return true if the symbolID of this InitialAssignment is not null.
-	 */
-	public boolean isSetSymbol() {
-		return symbolID != null;
 	}
 
 	/**
@@ -202,6 +135,94 @@ public class InitialAssignment extends MathContainer {
 		}
 		setState(nsb.getId());
 		stateChanged();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.MathContainer#clone()
+	 */
+	// @Override
+	public InitialAssignment clone() {
+		return new InitialAssignment(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof InitialAssignment) {
+			InitialAssignment in = (InitialAssignment) o;
+			boolean equals = super.equals(in);
+			if ((!in.isSetSymbol() && isSetSymbol())
+					|| (in.isSetSymbol() && !isSetSymbol())) {
+				return false;
+			}
+			if (in.isSetSymbol() && isSetSymbol()) {
+				equals &= in.getSymbol().equals(getSymbol());
+			}
+			return equals;
+		}
+		return false;
+	}
+
+	/**
+	 * @return the symbol instance which has the symbolID of this
+	 *         InitialAssignment as id. Return null if it doesn't exist.
+	 */
+	public Variable getStateInstance() {
+		Model m = getModel();
+		return m != null ? m.findVariable(this.symbolID) : null;
+	}
+
+	/**
+	 * @return the symbolID of this InitialAssignment. Return an empty String if
+	 *         it is not set.
+	 */
+	public String getSymbol() {
+		return isSetSymbol() ? symbolID : "";
+	}
+
+	/**
+	 * 
+	 * @return true if the symbolID of this InitialAssignment is not null.
+	 */
+	public boolean isSetSymbol() {
+		return symbolID != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the symbol instance which has the symbolID of this
+	 *         InitialAssignment as id is not null.
+	 */
+	public boolean isSetSymbolInstance() {
+		Model m = getModel();
+		return m != null ? m.findVariable(this.symbolID) != null : false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			if (attributeName.equals("symbol")) {
+				this.setState(value);
+				return true;
+			}
+		}
+		return isAttributeRead;
 	}
 
 	/**
@@ -232,27 +253,6 @@ public class InitialAssignment extends MathContainer {
 	 */
 	public void unsetSymbol() {
 		this.symbolID = null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-
-		if (!isAttributeRead) {
-			if (attributeName.equals("symbol")) {
-				this.setState(value);
-				return true;
-			}
-		}
-		return isAttributeRead;
 	}
 
 	/*

@@ -13,6 +13,10 @@ import org.sbml.jsbml.SBase;
 
 public class ListOfGroups<T extends SBase> extends ListOf<T>{
 
+	/**
+	 * 
+	 * @return
+	 */
     public GroupList getCurrentList() {
         return currentList;
     }

@@ -30,24 +30,38 @@
 
 package org.sbml.jsbml.ext.layout;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.AbstractNamedSBase;
 
+/**
+ *
+ */
 public class LineSegment extends AbstractNamedSBase {
 
+	/**
+	 * 
+	 */
 	private Point start;
+	/**
+	 * 
+	 */
 	private Point end;
-	
+
+	/**
+	 * 
+	 */
 	public LineSegment() {
-		
+
 	}
-	
+
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public LineSegment(int level, int version) {
 		super(level, version);
 	}
 
-	
 	/**
 	 * 
 	 * @param lineSegment
@@ -57,32 +71,9 @@ public class LineSegment extends AbstractNamedSBase {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Point getStart() {
-		return start;
-	}
-
-
-
-	public void setStart(Point start) {
-		this.start = start;
-	}
-
-
-
-	public Point getEnd() {
-		return end;
-	}
-
-
-
-	public void setEnd(Point end) {
-		this.end = end;
-	}
-
-
-
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	@Override
@@ -90,32 +81,35 @@ public class LineSegment extends AbstractNamedSBase {
 		return new LineSegment(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	/**
+	 * 
+	 * @return
 	 */
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
+	public Point getEnd() {
+		return end;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	/**
+	 * 
+	 * @return
 	 */
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
+	public Point getStart() {
+		return start;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
+	/**
+	 * 
+	 * @param end
 	 */
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
+	public void setEnd(Point end) {
+		this.end = end;
 	}
 
-	
+	/**
+	 * 
+	 * @param start
+	 */
+	public void setStart(Point start) {
+		this.start = start;
+	}
 }

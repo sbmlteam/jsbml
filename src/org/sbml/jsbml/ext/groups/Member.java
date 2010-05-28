@@ -32,39 +32,62 @@ package org.sbml.jsbml.ext.groups;
 
 import java.util.HashMap;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBase;
 
 public class Member extends AbstractSBase {
 
+	/**
+	 * 
+	 */
 	protected String symbol; 
 	
+	/**
+	 * 
+	 */
 	public Member() {
 		
 	}
 	
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public Member(int level, int version) {
 		super(level, version);
 	}
 	
+	/**
+	 * 
+	 * @param member
+	 */
 	public Member(Member member) {
 		// TODO
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	 */
 	@Override
-	public SBase clone() {
+	public Member clone() {
 		return new Member(this);
 	}
 
-	@Override
-	public String toString() {
-		// TODO
-		return null;
+	/**
+	 * 
+	 * @return
+	 */
+	public String getSymbol() {
+		return symbol == null ? "" : symbol;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public SBase getSymbolInstance() {
 		if (getModel() == null) {
 			return null;
@@ -74,32 +97,14 @@ public class Member extends AbstractSBase {
 		return null; // getModel().getCompartment(this.compartmentID);
 	}
 
-	public String getSymbol() {
-		return symbol == null ? "" : symbol;
-	}
-	
-	public void setSymbol(NamedSBase symbol) {
-		if (symbol == null) {
-			this.symbol = null;
-		}
-		this.symbol = symbol.getId();
-		stateChanged();
-	}
-	
-	public void setSymbol(String symbolId) {
-		if (symbolId != null && symbolId.trim().length() == 0) {
-			this.symbol = null;
-		} else {
-			this.symbol = symbolId;
-		}
-		
-		stateChanged();
-	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isSetSymbol() {
 		return symbol != null;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -120,6 +125,42 @@ public class Member extends AbstractSBase {
 		}
 		return isAttributeRead;
 	}
+	
+	/**
+	 * 
+	 * @param symbol
+	 */
+	public void setSymbol(NamedSBase symbol) {
+		if (symbol == null) {
+			this.symbol = null;
+		}
+		this.symbol = symbol.getId();
+		stateChanged();
+	}
+	
+	/**
+	 * 
+	 * @param symbolId
+	 */
+	public void setSymbol(String symbolId) {
+		if (symbolId != null && symbolId.trim().length() == 0) {
+			this.symbol = null;
+		} else {
+			this.symbol = symbolId;
+		}
+		
+		stateChanged();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#toString()
+	 */
+	@Override
+	public String toString() {
+		// TODO
+		return null;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -135,32 +176,5 @@ public class Member extends AbstractSBase {
 		}
 		
 		return attributes;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }
