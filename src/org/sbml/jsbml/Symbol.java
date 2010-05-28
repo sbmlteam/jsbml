@@ -55,6 +55,9 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	 * The constant attribute of this variable.
 	 */
 	protected Boolean constant;
+	/**
+	 * 
+	 */
 	protected boolean isSetConstant = false;
 
 	/**

@@ -866,10 +866,10 @@ public class SBMLWriter extends StringTools {
 		 */
 		// .replaceAll("&", "&amp;");
 		try {
-		Document domDocument = JAXPFacade.getInstance().create(
-				new BufferedReader(new StringReader(notes)), true);
-		converter.writeFragment(domDocument.getChildNodes(), writer);
-		note.addCharacters(newLine);
+			Document domDocument = JAXPFacade.getInstance().create(
+					new BufferedReader(new StringReader(notes)), true);
+			converter.writeFragment(domDocument.getChildNodes(), writer);
+			note.addCharacters(newLine);
 		} catch (SAXException e) {
 			e.printStackTrace();
 		}
@@ -1163,10 +1163,12 @@ public class SBMLWriter extends StringTools {
 	// TODO : put all of that as tracker item on sourceforge as it will probably
 	// take some time to be resolved.
 	// TODO : put some logging system in place
-	
-	// TODO : write a script to automatically test an SBML file, checking with libsbml that all the values are the same in the original file
+
+	// TODO : write a script to automatically test an SBML file, checking with
+	// libsbml that all the values are the same in the original file
 	// and in the newly created one.
-	
-	// TODO : test a bit more Xstream with stax and using Qname to see how it can deal with math or rdf bloc
-	
+
+	// TODO : test a bit more Xstream with stax and using Qname to see how it
+	// can deal with math or rdf bloc
+
 }

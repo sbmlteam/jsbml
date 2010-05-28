@@ -82,12 +82,12 @@ public interface NamedSBase extends SBase {
 	public void setName(String name);
 
 	/**
-	 * sets the name value to null.
-	 */
-	public void unsetName();
-
-	/**
 	 * sets the id value to null.
 	 */
 	public void unsetId();
+
+	/**
+	 * sets the name value to null.
+	 */
+	public void unsetName();
 }

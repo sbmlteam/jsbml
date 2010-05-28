@@ -30,7 +30,6 @@
 package org.sbml.jsbml;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 
 import org.sbml.jsbml.util.filters.NameFilter;
 
@@ -1031,41 +1030,59 @@ public class Reaction extends AbstractNamedSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
+	@Override
 	public SBase getChildAt(int index) {
 		int children = getChildCount();
-		if ((0 < children) && (index < children)) {
-			LinkedList<SBase> l = new LinkedList<SBase>();
-			if (isSetListOfReactants()) {
-				l.add(getListOfReactants());
+		if (index >= children) {
+			throw new IndexOutOfBoundsException(index + " >= " + children);
+		}
+		int pos = 0;
+		if (isSetListOfReactants()) {
+			if (pos == index) {
+				return getListOfReactants();
 			}
-			if ((l.size() < index) && isSetListOfProducts()) {
-				l.add(getListOfProducts());
+			pos++;
+		}
+		if (isSetListOfProducts()) {
+			if (pos == index) {
+				return getListOfProducts();
 			}
-			if ((l.size() < index) && isSetListOfModifiers()) {
-				l.add(getListOfModifiers());
+			pos++;
+		}
+		if (isSetListOfModifiers()) {
+			if (pos == index) {
+				return getListOfModifiers();
 			}
-			if ((l.size() < index) && isSetKineticLaw()) {
-				l.add(getKineticLaw());
+			pos++;
+		}
+		if (isSetKineticLaw()) {
+			if (pos == index) {
+				return getKineticLaw();
 			}
-			return l.get(index);
+			pos++;
 		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
 	 */
+	@Override
 	public boolean getAllowsChildren() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
 	 */
+	@Override
 	public int getChildCount() {
 		int children = 0;
 		if (isSetListOfReactants()) {

@@ -30,10 +30,11 @@
 
 package org.sbml.jsbml.ext.layout;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.AbstractNamedSBase;
 
+/**
+ * 
+ */
 public class Dimensions extends AbstractNamedSBase {
 
 	/**
@@ -48,23 +49,14 @@ public class Dimensions extends AbstractNamedSBase {
 	 * 
 	 */
 	private double depth;
-	
+
 	/**
 	 * 
 	 */
 	public Dimensions() {
-		
+
 	}
-	
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public Dimensions(int level, int version) {
-		super(level, version);
-	}
-	
+
 	/**
 	 * 
 	 * @param dimensions
@@ -76,39 +68,22 @@ public class Dimensions extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return
+	 * @param level
+	 * @param version
 	 */
-	public double getWidth() {
-		return width;
+	public Dimensions(int level, int version) {
+		super(level, version);
 	}
 
-
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param width
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	public void setWidth(double width) {
-		this.width = width;
+	@Override
+	public Dimensions clone() {
+		return new Dimensions(this);
 	}
-
-
-	/**
-	 * 
-	 * @return
-	 */
-	public double getHeight() {
-		return height;
-	}
-
-
-	/**
-	 * 
-	 * @param height
-	 */
-	public void setHeight(double height) {
-		this.height = height;
-	}
-
 
 	/**
 	 * 
@@ -118,6 +93,21 @@ public class Dimensions extends AbstractNamedSBase {
 		return depth;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public double getHeight() {
+		return height;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public double getWidth() {
+		return width;
+	}
 
 	/**
 	 * 
@@ -127,41 +117,19 @@ public class Dimensions extends AbstractNamedSBase {
 		this.depth = depth;
 	}
 
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	/**
+	 * 
+	 * @param height
 	 */
-	@Override
-	public Dimensions clone() {
-		return new Dimensions(this);
+	public void setHeight(double height) {
+		this.height = height;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	/**
+	 * 
+	 * @param width
 	 */
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
+	public void setWidth(double width) {
+		this.width = width;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }

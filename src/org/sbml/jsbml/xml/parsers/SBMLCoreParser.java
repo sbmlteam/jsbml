@@ -105,6 +105,187 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		initializeCoreElements();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
+	 * sbase)
+	 */
+	@SuppressWarnings("unchecked")
+	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
+		ArrayList<Object> listOfElementsToWrite = null;
+		if (sbase instanceof SBase) {
+			if (sbase instanceof SBMLDocument) {
+				SBMLDocument sbmlDocument = (SBMLDocument) sbase;
+				if (sbmlDocument.isSetModel()) {
+					listOfElementsToWrite = new ArrayList<Object>();
+					listOfElementsToWrite.add(sbmlDocument.getModel());
+				}
+			} else if (sbase instanceof Model) {
+
+				Model model = (Model) sbase;
+				listOfElementsToWrite = new ArrayList<Object>();
+				if (model.isSetListOfFunctionDefinitions()) {
+					listOfElementsToWrite.add(model
+							.getListOfFunctionDefinitions());
+				}
+				if (model.isSetListOfUnitDefinitions()) {
+					listOfElementsToWrite.add(model.getListOfUnitDefinitions());
+				}
+				if (model.isSetListOfCompartmentTypes()) {
+					listOfElementsToWrite
+							.add(model.getListOfCompartmentTypes());
+				}
+				if (model.isSetListOfSpeciesTypes()) {
+					listOfElementsToWrite.add(model.getListOfSpeciesTypes());
+				}
+				if (model.isSetListOfCompartments()) {
+					listOfElementsToWrite.add(model.getListOfCompartments());
+				}
+				if (model.isSetListOfSpecies()) {
+					listOfElementsToWrite.add(model.getListOfSpecies());
+				}
+				if (model.isSetListOfParameters()) {
+					listOfElementsToWrite.add(model.getListOfParameters());
+				}
+				if (model.isSetListOfInitialAssignments()) {
+					listOfElementsToWrite.add(model
+							.getListOfInitialAssignments());
+				}
+				if (model.isSetListOfRules()) {
+					listOfElementsToWrite.add(model.getListOfRules());
+				}
+				if (model.isSetListOfConstraints()) {
+					listOfElementsToWrite.add(model.getListOfConstraints());
+				}
+				if (model.isSetListOfReactions()) {
+					listOfElementsToWrite.add(model.getListOfReactions());
+				}
+				if (model.isSetListOfEvents()) {
+					listOfElementsToWrite.add(model.getListOfEvents());
+				}
+
+				if (listOfElementsToWrite.isEmpty()) {
+					listOfElementsToWrite = null;
+				}
+			} else if (sbase instanceof ListOf<?>) {
+				ListOf<SBase> listOf = (ListOf<SBase>) sbase;
+
+				if (!listOf.isEmpty()) {
+					listOfElementsToWrite = new ArrayList<Object>();
+					for (int i = 0; i < listOf.size(); i++) {
+						SBase element = listOf.get(i);
+
+						if (element != null) {
+							boolean add = true;
+							if (element instanceof UnitDefinition) {
+								UnitDefinition ud = (UnitDefinition) element;
+								if (ud.isBuiltIn()) {
+									add = false;
+								}
+							}
+							if (add) {
+								listOfElementsToWrite.add(element);
+							}
+						}
+					}
+					if (listOfElementsToWrite.isEmpty()) {
+						listOfElementsToWrite = null;
+					}
+				}
+			} else if (sbase instanceof UnitDefinition) {
+				UnitDefinition unitDefinition = (UnitDefinition) sbase;
+
+				if (unitDefinition.isSetListOfUnits()) {
+					listOfElementsToWrite = new ArrayList<Object>();
+					listOfElementsToWrite.add(unitDefinition.getListOfUnits());
+				}
+			} else if (sbase instanceof Reaction) {
+				Reaction reaction = (Reaction) sbase;
+				listOfElementsToWrite = new ArrayList<Object>();
+
+				if (reaction.isSetListOfReactants()) {
+					listOfElementsToWrite.add(reaction.getListOfReactants());
+				}
+				if (reaction.isSetListOfProducts()) {
+					listOfElementsToWrite.add(reaction.getListOfProducts());
+				}
+				if (reaction.isSetListOfModifiers()) {
+					listOfElementsToWrite.add(reaction.getListOfModifiers());
+				}
+				if (reaction.isSetKineticLaw()) {
+					listOfElementsToWrite.add(reaction.getKineticLaw());
+				}
+
+				if (listOfElementsToWrite.isEmpty()) {
+					listOfElementsToWrite = null;
+				}
+			} else if (sbase instanceof KineticLaw) {
+				KineticLaw kineticLaw = (KineticLaw) sbase;
+
+				if (kineticLaw.isSetListOfParameters()) {
+					listOfElementsToWrite = new ArrayList<Object>();
+					listOfElementsToWrite.add(kineticLaw.getListOfParameters());
+				}
+			} else if (sbase instanceof Event) {
+				Event event = (Event) sbase;
+				listOfElementsToWrite = new ArrayList<Object>();
+
+				if (event.isSetTrigger()) {
+					listOfElementsToWrite.add(event.getTrigger());
+				}
+				if (event.isSetDelay()) {
+					listOfElementsToWrite.add(event.getDelay());
+				}
+				if (event.isSetListOfEventAssignments()) {
+					listOfElementsToWrite
+							.add(event.getListOfEventAssignments());
+				}
+
+				if (listOfElementsToWrite.isEmpty()) {
+					listOfElementsToWrite = null;
+				}
+			}
+
+			/*
+			 * HashMap<String, SBase> extentionObjects = ((SBase)
+			 * sbase).getExtensionPackages();
+			 * 
+			 * if (extentionObjects != null && extentionObjects.size() > 0) {
+			 * 
+			 * for (String namespace : extentionObjects.keySet()) {
+			 * 
+			 * // System.out.println();
+			 * 
+			 * WritingParser parser = null; try { parser =
+			 * SBMLWriter.getWritingPackageParsers(namespace).newInstance(); }
+			 * catch (InstantiationException e) { // TODO Auto-generated catch
+			 * block e.printStackTrace(); } catch (IllegalAccessException e) {
+			 * // TODO Auto-generated catch block e.printStackTrace(); } SBase
+			 * extendedSBase = extentionObjects.get(namespace);
+			 * listOfElementsToWrite
+			 * .addAll(parser.getListOfSBMLElementsToWrite(extendedSBase)); } }
+			 */
+		}
+
+		return listOfElementsToWrite;
+	}
+
+	/**
+	 * @return the logger
+	 */
+	public XMLLogger getLogger() {
+		return logger;
+	}
+
+	/**
+	 * 
+	 * @return the namespace URI of this parser.
+	 */
+	public String getNamespaceURI() {
+		return namespaceURI;
+	}
+
 	/**
 	 * Initializes the SBMLCoreElements of this parser.
 	 */
@@ -201,6 +382,236 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	}
 
 	/*
+	 * private void setRateRuleVariable(RateRule rule, Model model){ if
+	 * (rule.isSetVariable()){ String variableID = rule.getVariable();
+	 * 
+	 * Compartment compartment = model.getCompartment(variableID); Species
+	 * species = null; SpeciesReference speciesReference = null; Parameter
+	 * parameter = null;
+	 * 
+	 * if (compartment == null){ species = model.getSpecies(variableID);
+	 * 
+	 * if (species == null){ parameter = model.getParameter(variableID);
+	 * 
+	 * if (parameter == null){ if (model.isSetListOfReactions()){
+	 * 
+	 * int i = 0; SpeciesReference sr = null;
+	 * 
+	 * while (i <= model.getNumReactions() - 1 && sr == null){ Reaction reaction
+	 * = model.getReaction(i);
+	 * 
+	 * if (reaction != null){ sr = reaction.getReactant(variableID); if (sr ==
+	 * null){ sr = reaction.getProduct(variableID); } } }
+	 * 
+	 * speciesReference = sr;
+	 * 
+	 * if (speciesReference != null){ rule.setVariable(speciesReference); } else
+	 * { // TODO : the variable ID doesn't match a SBML component, throw an
+	 * exception? } } } else { rule.setVariable(parameter); } } else {
+	 * rule.setVariable(species); } } else { rule.setVariable(compartment); } }
+	 * }
+	 * 
+	 * private boolean setAssignmentRuleVariable(AssignmentRule rule, Model
+	 * model){
+	 * 
+	 * if (rule.isSetVariable() && rule.isSetVariableInstance()){ return true; }
+	 * return false; }
+	 * 
+	 * private void setCompartmentCompartmentType(Compartment compartment, Model
+	 * model){ if (compartment.isSetCompartmentType()){ String compartmentTypeID
+	 * = compartment.getCompartmentType();
+	 * 
+	 * CompartmentType compartmentType =
+	 * model.getCompartmentType(compartmentTypeID);
+	 * 
+	 * if (compartmentType != null){
+	 * compartment.setCompartmentType(compartmentType); } else { // TODO : the
+	 * compartmentType ID doesn't match a compartment, throw an exception? } } }
+	 * 
+	 * private void setCompartmentOutside(Compartment compartment, Model model){
+	 * 
+	 * if (compartment.isSetOutside()){ String outsideID =
+	 * compartment.getOutside();
+	 * 
+	 * Compartment outside = model.getCompartment(outsideID);
+	 * 
+	 * if (outside != null){ compartment.setOutside(outside); } else { // TODO :
+	 * the compartment ID doesn't match a compartment, throw an exception? } } }
+	 * 
+	 * private void setCompartmentUnits(Compartment compartment, Model model){
+	 * 
+	 * if (compartment.isSetUnits()){ String unitsID = compartment.getUnits();
+	 * 
+	 * UnitDefinition unitDefinition = model.getUnitDefinition(unitsID);
+	 * 
+	 * if (unitDefinition != null){ compartment.setUnits(unitDefinition); } else
+	 * { // TODO : the unitDefinition ID doesn't match a unitDefinition, throw
+	 * an exception? } } }
+	 * 
+	 * private void setModelUnits(Model model){
+	 * 
+	 * if (model.isSetAreaUnits()){ String unitsID = model.getAreaUnits();
+	 * 
+	 * UnitDefinition unitDefinition = model.getUnitDefinition(unitsID);
+	 * 
+	 * if (unitDefinition != null){ model.setAreaUnits(unitDefinition); } else {
+	 * // TODO : the unitDefinition ID doesn't match a unitDefinition, throw an
+	 * exception? } } }
+	 * 
+	 * private void setEventTimeUnits(Event event, Model model){
+	 * 
+	 * if (event.isSetTimeUnits()){ String timeUnitsID = event.getTimeUnits();
+	 * 
+	 * UnitDefinition unitDefinition = model.getUnitDefinition(timeUnitsID);
+	 * 
+	 * if (unitDefinition != null){ event.setTimeUnits(unitDefinition); } else {
+	 * // TODO : the unitDefinition ID doesn't match a unitDefinition, throw an
+	 * exception? } } }
+	 * 
+	 * private void setEventAssignmentVariable(EventAssignment eventAssignment,
+	 * Model model){
+	 * 
+	 * if (eventAssignment.isSetVariable()){ String variableID =
+	 * eventAssignment.getVariable();
+	 * 
+	 * Compartment compartment = model.getCompartment(variableID); Species
+	 * species = null; SpeciesReference speciesReference = null; Parameter
+	 * parameter = null;
+	 * 
+	 * if (compartment == null){ species = model.getSpecies(variableID);
+	 * 
+	 * if (species == null){ parameter = model.getParameter(variableID);
+	 * 
+	 * if (parameter == null){ if (model.isSetListOfReactions()){
+	 * 
+	 * int i = 0; SpeciesReference sr = null;
+	 * 
+	 * while (i <= model.getNumReactions() - 1 && sr == null){ Reaction reaction
+	 * = model.getReaction(i);
+	 * 
+	 * if (reaction != null){ sr = reaction.getReactant(variableID); if (sr ==
+	 * null){ sr = reaction.getProduct(variableID); } } }
+	 * 
+	 * speciesReference = sr;
+	 * 
+	 * if (speciesReference != null){
+	 * eventAssignment.setVariable(speciesReference); } else { // TODO : the
+	 * variable ID doesn't match a SBML component, throw an exception? } } }
+	 * else { eventAssignment.setVariable(parameter); } } else {
+	 * eventAssignment.setVariable(species); } } else {
+	 * eventAssignment.setVariable(compartment); } } }
+	 * 
+	 * private void setInitialAssignmentSymbol(InitialAssignment
+	 * initialAssignment, Model model){
+	 * 
+	 * if (initialAssignment.isSetSymbol()){ String variableID =
+	 * initialAssignment.getSymbol();
+	 * 
+	 * Compartment compartment = model.getCompartment(variableID); Species
+	 * species = null; SpeciesReference speciesReference = null; Parameter
+	 * parameter = null;
+	 * 
+	 * if (compartment == null){ species = model.getSpecies(variableID);
+	 * 
+	 * if (species == null){ parameter = model.getParameter(variableID);
+	 * 
+	 * if (parameter == null){ if (model.isSetListOfReactions()){
+	 * 
+	 * int i = 0; SpeciesReference sr = null;
+	 * 
+	 * while (i <= model.getNumReactions() - 1 && sr == null){ Reaction reaction
+	 * = model.getReaction(i);
+	 * 
+	 * if (reaction != null){ sr = reaction.getReactant(variableID); if (sr ==
+	 * null){ sr = reaction.getProduct(variableID); } } }
+	 * 
+	 * speciesReference = sr;
+	 * 
+	 * if (speciesReference != null){
+	 * initialAssignment.setSymbol(speciesReference); } else { // TODO : the
+	 * variable ID doesn't match a SBML component, throw an exception? } } }
+	 * else { initialAssignment.setSymbol(parameter); } } else {
+	 * initialAssignment.setSymbol(species); } } else {
+	 * initialAssignment.setSymbol(compartment); } } }
+	 * 
+	 * private void setReactionCompartment(Reaction reaction, Model model){
+	 * 
+	 * if (reaction.isSetCompartment()){ String compartmentID =
+	 * reaction.getCompartment();
+	 * 
+	 * Compartment compartment = model.getCompartment(compartmentID);
+	 * 
+	 * if (compartment != null){ reaction.setCompartment(compartment); } else {
+	 * // TODO : the compartment ID doesn't match a compartment, throw an
+	 * exception? } } }
+	 * 
+	 * private void setSpeciesReferenceSpecies(SimpleSpeciesReference
+	 * speciesReference, Model model){
+	 * 
+	 * if (speciesReference.isSetSpecies()){ String speciesID =
+	 * speciesReference.getSpecies();
+	 * 
+	 * Species species = model.getSpecies(speciesID);
+	 * 
+	 * if (species != null){ speciesReference.setSpecies(species); } else { //
+	 * TODO : the species ID doesn't match a species, throw an exception? } } }
+	 * 
+	 * private void setSpeciesSubstanceUnits(Species species, Model model){
+	 * 
+	 * if (species.isSetSubstanceUnits()){ String substanceUnitsID =
+	 * species.getSubstanceUnits();
+	 * 
+	 * UnitDefinition unitDefinition =
+	 * model.getUnitDefinition(substanceUnitsID);
+	 * 
+	 * if (unitDefinition != null){ species.setSubstanceUnits(unitDefinition); }
+	 * } }
+	 * 
+	 * private void setSpeciesConversionFactor(Species species, Model model){
+	 * 
+	 * if (species.isSetConversionFactor()){ String conversionFactorID =
+	 * species.getConversionFactor();
+	 * 
+	 * Parameter parameter = model.getParameter(conversionFactorID);
+	 * 
+	 * if (parameter != null){ species.setConversionFactor(parameter); } else {
+	 * // TODO : the parameter ID doesn't match a parameter, throw an exception?
+	 * } } }
+	 * 
+	 * private void setSpeciesSpeciesType(Species species, Model model){
+	 * 
+	 * if (species.isSetSpeciesType()){ String speciesTypeID =
+	 * species.getSpeciesType();
+	 * 
+	 * SpeciesType speciesType = model.getSpeciesType(speciesTypeID);
+	 * 
+	 * if (speciesType != null){ species.setSpeciesType(speciesType); } else {
+	 * // TODO : the speciesType ID doesn't match a speciesType, throw an
+	 * exception? } } }
+	 * 
+	 * private void setSpeciesCompartment(Species species, Model model){
+	 * 
+	 * if (species.isSetCompartment()){ String compartmentID =
+	 * species.getCompartment();
+	 * 
+	 * Compartment compartment = model.getCompartment(compartmentID);
+	 * 
+	 * if (compartment != null){ species.setCompartment(compartment); } else {
+	 * // TODO : the compartment ID doesn't match a compartment, throw an
+	 * exception? } } }
+	 * 
+	 * private void setParameterUnits(Parameter parameter, Model model){
+	 * 
+	 * if (parameter.isSetUnits()){ String unitsID = parameter.getUnits();
+	 * 
+	 * UnitDefinition unitDefinition = model.getUnitDefinition(unitsID);
+	 * 
+	 * if (unitDefinition != null){ parameter.setUnits(unitDefinition); } else {
+	 * // TODO : the unitDefinition ID doesn't match an unitDefinition, throw an
+	 * exception? } } }
+	 */
+
+	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String
@@ -210,6 +621,295 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			Object contextObject) {
 		// TODO : the basic SBML elements don't have any text. SBML syntax
 		// error, throw an exception?
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument
+	 * sbmlDocument)
+	 */
+	public void processEndDocument(SBMLDocument sbmlDocument) {
+
+		if (sbmlDocument.isSetModel()) {
+			Model model = sbmlDocument.getModel();
+
+			if (model.isSetAreaUnits() && !model.isSetAreaUnitsInstance()) {
+				// TODO : throw an exception : No unitDefinition matches the
+				// areaUnitsID of Model.
+			}
+			if (model.isSetConversionFactor()
+					&& !model.isSetConversionFactorInstance()) {
+				// TODO : throw an exception : No parameter matches the
+				// conversionFactorID of Model.
+			}
+			if (model.isSetExtentUnits() && !model.isSetExtentUnitsInstance()) {
+				// TODO : throw an exception : No unitDefinition matches the
+				// extentUnitsID of Model.
+			}
+			if (model.isSetLengthUnits() && !model.isSetLengthUnitsInstance()) {
+				// TODO : throw an exception : No unitDefinition matches the
+				// lengthUnitsID of Model.
+			}
+			if (model.isSetSubstanceUnits()
+					&& !model.isSetSubstanceUnitsInstance()) {
+				// TODO : throw an exception : No unitDefinition matches the
+				// substanceUnitsID of Model.
+			}
+			if (model.isSetTimeUnits() && !model.isSetTimeUnitsInstance()) {
+				// TODO : throw an exception : No unitDefinition matches the
+				// timeUnitsID of Model.
+			}
+			if (model.isSetVolumeUnits() && !model.isSetVolumeUnitsInstance()) {
+				// TODO : throw an exception : No unitDefinition matches the
+				// volumeUnitsID of Model.
+			}
+
+			if (model.isSetListOfRules()) {
+				for (int i = 0; i < model.getNumRules(); i++) {
+					Rule rule = model.getRule(i);
+					if (rule instanceof AssignmentRule) {
+						AssignmentRule assignmentRule = (AssignmentRule) rule;
+						if (assignmentRule.isSetVariable()
+								&& !assignmentRule.isSetVariableInstance()) {
+							// TODO : throw an exception : No Symbol matches the
+							// variableID of AssignmentRule.
+						}
+						if (assignmentRule.isSetUnits()
+								&& !assignmentRule.isSetUnitsInstance()
+								&& assignmentRule.isParameter()) {
+							// TODO : throw an exception : No UnitDefinition
+							// matches the unitsID of AssignmentRule.
+						}
+					} else if (rule instanceof RateRule) {
+						RateRule rateRule = (RateRule) rule;
+						if (rateRule.isSetVariable()
+								&& !rateRule.isSetVariableInstance()) {
+							// TODO : throw an exception : No Symbol matches the
+							// variableID of RateRule.
+						}
+					}
+				}
+			}
+			if (model.isSetListOfCompartments()) {
+				for (int i = 0; i < model.getNumCompartments(); i++) {
+					Compartment compartment = model.getCompartment(i);
+					if (compartment.isSetCompartmentType()
+							&& !compartment.isSetCompartmentTypeInstance()) {
+						// TODO : throw an exception : No CompartmentType
+						// matches the compartmentTypeID of compartment.
+					}
+					if (compartment.isSetOutside()
+							&& !compartment.isSetOutsideInstance()) {
+						// TODO : throw an exception : No Compartment matches
+						// the outsideID of compartment.
+					}
+					if (compartment.isSetUnits()
+							&& !compartment.isSetUnitsInstance()) {
+						// TODO : throw an exception : No UnitDefinition matches
+						// the unitsID of compartment.
+					}
+				}
+			}
+			if (model.isSetListOfEvents()) {
+				for (int i = 0; i < model.getNumEvents(); i++) {
+					Event event = model.getEvent(i);
+
+					if (event.isSetTimeUnits()
+							&& !event.isSetTimeUnitsInstance()) {
+						// TODO : throw an exception : No UnitDefinition matches
+						// the timeUnitsID of event.
+					}
+
+					if (event.isSetListOfEventAssignments()) {
+
+						for (int j = 0; j < event.getNumEventAssignments(); j++) {
+							EventAssignment eventAssignment = event
+									.getEventAssignment(j);
+
+							if (eventAssignment.isSetVariable()
+									&& !eventAssignment.isSetVariableInstance()) {
+								// TODO : throw an exception : No Symbol matches
+								// the variableID of eventAssignment.
+							}
+						}
+					}
+				}
+			}
+			if (model.isSetListOfInitialAssignments()) {
+				for (int i = 0; i < model.getNumInitialAssignments(); i++) {
+					InitialAssignment initialAssignment = model
+							.getInitialAssignment(i);
+
+					if (initialAssignment.isSetSymbol()
+							&& !initialAssignment.isSetSymbolInstance()) {
+						// TODO : throw an exception : No Symbol matches the
+						// symbolID of initialAssignment.
+					}
+				}
+			}
+			if (model.isSetListOfReactions()) {
+				for (int i = 0; i < model.getNumReactions(); i++) {
+					Reaction reaction = model.getReaction(i);
+					if (reaction.isSetCompartment()
+							&& !reaction.isSetCompartmentInstance()) {
+						// TODO : throw an exception : No Compartment matches
+						// the compartmentID of reaction.
+					}
+
+					if (reaction.isSetListOfReactants()) {
+						for (int j = 0; j < reaction.getNumReactants(); j++) {
+							SpeciesReference speciesReference = reaction
+									.getReactant(j);
+
+							if (speciesReference.isSetSpecies()
+									&& !speciesReference.isSetSpeciesInstance()) {
+								// TODO : throw an exception : No Species
+								// matches the speciesID of speciesReference.
+							}
+						}
+					}
+					if (reaction.isSetListOfProducts()) {
+						for (int j = 0; j < reaction.getNumProducts(); j++) {
+							SpeciesReference speciesReference = reaction
+									.getProduct(j);
+
+							if (speciesReference.isSetSpecies()
+									&& !speciesReference.isSetSpeciesInstance()) {
+								// TODO : throw an exception : No Species
+								// matches the speciesID of speciesReference.
+							}
+						}
+					}
+					if (reaction.isSetListOfModifiers()) {
+						for (int j = 0; j < reaction.getNumModifiers(); j++) {
+							ModifierSpeciesReference modifierSpeciesReference = reaction
+									.getModifier(j);
+
+							if (modifierSpeciesReference.isSetSpecies()
+									&& !modifierSpeciesReference
+											.isSetSpeciesInstance()) {
+								// TODO : throw an exception : No Species
+								// matches the speciesID of
+								// modifierSpeciesReference.
+							}
+						}
+					}
+					if (reaction.isSetKineticLaw()) {
+						KineticLaw kineticLaw = reaction.getKineticLaw();
+						if (kineticLaw.isSetTimeUnits()
+								&& !kineticLaw.isSetTimeUnitsInstance()) {
+							// TODO : throw an exception : No UnitDefinition
+							// matches the timeUnitsID of kineticLaw.
+						}
+						if (kineticLaw.isSetSubstanceUnits()
+								&& !kineticLaw.isSetSubstanceUnitsInstance()) {
+							// TODO : throw an exception : No UnitDefinition
+							// matches the substanceUnitsID of kineticLaw.
+						}
+						if (kineticLaw.isSetListOfParameters()) {
+							for (int j = 0; j < kineticLaw.getNumParameters(); j++) {
+								LocalParameter parameter = kineticLaw
+										.getParameter(j);
+								if (parameter.isSetUnits()
+										&& !parameter.isSetUnitsInstance()) {
+									// TODO : throw an exception : No
+									// UnitDefinition matches the unitsID of
+									// parameter.
+								}
+							}
+						}
+					}
+				}
+			}
+			if (model.isSetListOfSpecies()) {
+				for (int i = 0; i < model.getNumSpecies(); i++) {
+					Species species = model.getSpecies(i);
+
+					if (species.isSetSubstanceUnits()
+							&& !species.isSetSubstanceUnitsInstance()) {
+						// TODO : throw an exception : No UnitDefinition matches
+						// the subtsanceUnitsID of species.
+					}
+					if (species.isSetSpeciesType()
+							&& !species.isSetSpeciesTypeInstance()) {
+						// TODO : throw an exception : No SpeciesType matches
+						// the speciesTypeID of species.
+					}
+					if (species.isSetConversionFactor()
+							&& !species.isSetConversionFactorInstance()) {
+						// TODO : throw an exception : No Parameter matches the
+						// conversionFactorID of species.
+					}
+					if (species.isSetCompartment()
+							&& !species.isSetCompartmentInstance()) {
+						// TODO : throw an exception : No Compartment matches
+						// the compartmentID of species.
+					}
+					if (species.isSetSpatialSizeUnits()
+							&& !species.isSetSpatialSizeUnitsInstance()) {
+						// TODO : throw an exception : No UnitDefinition matches
+						// the spatialSizeUnitsID of species.
+					}
+				}
+			}
+			if (model.isSetListOfParameters()) {
+				for (int i = 0; i < model.getNumParameters(); i++) {
+					Parameter parameter = model.getParameter(i);
+					if (parameter.isSetUnits()
+							&& !parameter.isSetUnitsInstance()) {
+						// TODO : throw an exception : No UnitDefinition matches
+						// the unitsID of parameter.
+					}
+				}
+			}
+
+		} else {
+			// TODO : SBML syntax error, what to do?
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
+	 * elementName, String prefix, boolean isNested, Object contextObject)
+	 */
+	public void processEndElement(String elementName, String prefix,
+			boolean isNested, Object contextObject) {
+
+		if (elementName.equals("notes") && contextObject instanceof SBase) {
+			SBase sbase = (SBase) contextObject;
+			sbase.setNotes(sbase.getNotesBuffer().toString());
+		} else if (elementName.equals("message")
+				&& contextObject instanceof Constraint) {
+			Constraint constraint = (Constraint) contextObject;
+
+			if (constraint.getLevel() >= 3
+					|| (constraint.getLevel() == 2 && constraint.getVersion() > 1)) {
+
+			}
+			constraint.setMessage(constraint.getMessageBuffer().toString());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String
+	 * elementName, String URI, String prefix, String localName, boolean
+	 * hasAttributes, boolean isLastNamespace, Object contextObject)
+	 */
+	public void processNamespace(String elementName, String URI, String prefix,
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
+
+		if (contextObject instanceof SBMLDocument) {
+			SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
+			if (!URI.equals(namespaceURI)) {
+				sbmlDocument.addNamespace(localName, prefix, URI);
+			}
+		}
 	}
 
 	/*
@@ -755,696 +1455,37 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	}
 
 	/**
-	 * 
-	 * @return the namespace URI of this parser.
+	 * @param logger
+	 *            the logger to set
 	 */
-	public String getNamespaceURI() {
-		return namespaceURI;
+	public void setLogger(XMLLogger logger) {
+		this.logger = logger;
 	}
-
-	/*
-	 * private void setRateRuleVariable(RateRule rule, Model model){ if
-	 * (rule.isSetVariable()){ String variableID = rule.getVariable();
-	 * 
-	 * Compartment compartment = model.getCompartment(variableID); Species
-	 * species = null; SpeciesReference speciesReference = null; Parameter
-	 * parameter = null;
-	 * 
-	 * if (compartment == null){ species = model.getSpecies(variableID);
-	 * 
-	 * if (species == null){ parameter = model.getParameter(variableID);
-	 * 
-	 * if (parameter == null){ if (model.isSetListOfReactions()){
-	 * 
-	 * int i = 0; SpeciesReference sr = null;
-	 * 
-	 * while (i <= model.getNumReactions() - 1 && sr == null){ Reaction reaction
-	 * = model.getReaction(i);
-	 * 
-	 * if (reaction != null){ sr = reaction.getReactant(variableID); if (sr ==
-	 * null){ sr = reaction.getProduct(variableID); } } }
-	 * 
-	 * speciesReference = sr;
-	 * 
-	 * if (speciesReference != null){ rule.setVariable(speciesReference); } else
-	 * { // TODO : the variable ID doesn't match a SBML component, throw an
-	 * exception? } } } else { rule.setVariable(parameter); } } else {
-	 * rule.setVariable(species); } } else { rule.setVariable(compartment); } }
-	 * }
-	 * 
-	 * private boolean setAssignmentRuleVariable(AssignmentRule rule, Model
-	 * model){
-	 * 
-	 * if (rule.isSetVariable() && rule.isSetVariableInstance()){ return true; }
-	 * return false; }
-	 * 
-	 * private void setCompartmentCompartmentType(Compartment compartment, Model
-	 * model){ if (compartment.isSetCompartmentType()){ String compartmentTypeID
-	 * = compartment.getCompartmentType();
-	 * 
-	 * CompartmentType compartmentType =
-	 * model.getCompartmentType(compartmentTypeID);
-	 * 
-	 * if (compartmentType != null){
-	 * compartment.setCompartmentType(compartmentType); } else { // TODO : the
-	 * compartmentType ID doesn't match a compartment, throw an exception? } } }
-	 * 
-	 * private void setCompartmentOutside(Compartment compartment, Model model){
-	 * 
-	 * if (compartment.isSetOutside()){ String outsideID =
-	 * compartment.getOutside();
-	 * 
-	 * Compartment outside = model.getCompartment(outsideID);
-	 * 
-	 * if (outside != null){ compartment.setOutside(outside); } else { // TODO :
-	 * the compartment ID doesn't match a compartment, throw an exception? } } }
-	 * 
-	 * private void setCompartmentUnits(Compartment compartment, Model model){
-	 * 
-	 * if (compartment.isSetUnits()){ String unitsID = compartment.getUnits();
-	 * 
-	 * UnitDefinition unitDefinition = model.getUnitDefinition(unitsID);
-	 * 
-	 * if (unitDefinition != null){ compartment.setUnits(unitDefinition); } else
-	 * { // TODO : the unitDefinition ID doesn't match a unitDefinition, throw
-	 * an exception? } } }
-	 * 
-	 * private void setModelUnits(Model model){
-	 * 
-	 * if (model.isSetAreaUnits()){ String unitsID = model.getAreaUnits();
-	 * 
-	 * UnitDefinition unitDefinition = model.getUnitDefinition(unitsID);
-	 * 
-	 * if (unitDefinition != null){ model.setAreaUnits(unitDefinition); } else {
-	 * // TODO : the unitDefinition ID doesn't match a unitDefinition, throw an
-	 * exception? } } }
-	 * 
-	 * private void setEventTimeUnits(Event event, Model model){
-	 * 
-	 * if (event.isSetTimeUnits()){ String timeUnitsID = event.getTimeUnits();
-	 * 
-	 * UnitDefinition unitDefinition = model.getUnitDefinition(timeUnitsID);
-	 * 
-	 * if (unitDefinition != null){ event.setTimeUnits(unitDefinition); } else {
-	 * // TODO : the unitDefinition ID doesn't match a unitDefinition, throw an
-	 * exception? } } }
-	 * 
-	 * private void setEventAssignmentVariable(EventAssignment eventAssignment,
-	 * Model model){
-	 * 
-	 * if (eventAssignment.isSetVariable()){ String variableID =
-	 * eventAssignment.getVariable();
-	 * 
-	 * Compartment compartment = model.getCompartment(variableID); Species
-	 * species = null; SpeciesReference speciesReference = null; Parameter
-	 * parameter = null;
-	 * 
-	 * if (compartment == null){ species = model.getSpecies(variableID);
-	 * 
-	 * if (species == null){ parameter = model.getParameter(variableID);
-	 * 
-	 * if (parameter == null){ if (model.isSetListOfReactions()){
-	 * 
-	 * int i = 0; SpeciesReference sr = null;
-	 * 
-	 * while (i <= model.getNumReactions() - 1 && sr == null){ Reaction reaction
-	 * = model.getReaction(i);
-	 * 
-	 * if (reaction != null){ sr = reaction.getReactant(variableID); if (sr ==
-	 * null){ sr = reaction.getProduct(variableID); } } }
-	 * 
-	 * speciesReference = sr;
-	 * 
-	 * if (speciesReference != null){
-	 * eventAssignment.setVariable(speciesReference); } else { // TODO : the
-	 * variable ID doesn't match a SBML component, throw an exception? } } }
-	 * else { eventAssignment.setVariable(parameter); } } else {
-	 * eventAssignment.setVariable(species); } } else {
-	 * eventAssignment.setVariable(compartment); } } }
-	 * 
-	 * private void setInitialAssignmentSymbol(InitialAssignment
-	 * initialAssignment, Model model){
-	 * 
-	 * if (initialAssignment.isSetSymbol()){ String variableID =
-	 * initialAssignment.getSymbol();
-	 * 
-	 * Compartment compartment = model.getCompartment(variableID); Species
-	 * species = null; SpeciesReference speciesReference = null; Parameter
-	 * parameter = null;
-	 * 
-	 * if (compartment == null){ species = model.getSpecies(variableID);
-	 * 
-	 * if (species == null){ parameter = model.getParameter(variableID);
-	 * 
-	 * if (parameter == null){ if (model.isSetListOfReactions()){
-	 * 
-	 * int i = 0; SpeciesReference sr = null;
-	 * 
-	 * while (i <= model.getNumReactions() - 1 && sr == null){ Reaction reaction
-	 * = model.getReaction(i);
-	 * 
-	 * if (reaction != null){ sr = reaction.getReactant(variableID); if (sr ==
-	 * null){ sr = reaction.getProduct(variableID); } } }
-	 * 
-	 * speciesReference = sr;
-	 * 
-	 * if (speciesReference != null){
-	 * initialAssignment.setSymbol(speciesReference); } else { // TODO : the
-	 * variable ID doesn't match a SBML component, throw an exception? } } }
-	 * else { initialAssignment.setSymbol(parameter); } } else {
-	 * initialAssignment.setSymbol(species); } } else {
-	 * initialAssignment.setSymbol(compartment); } } }
-	 * 
-	 * private void setReactionCompartment(Reaction reaction, Model model){
-	 * 
-	 * if (reaction.isSetCompartment()){ String compartmentID =
-	 * reaction.getCompartment();
-	 * 
-	 * Compartment compartment = model.getCompartment(compartmentID);
-	 * 
-	 * if (compartment != null){ reaction.setCompartment(compartment); } else {
-	 * // TODO : the compartment ID doesn't match a compartment, throw an
-	 * exception? } } }
-	 * 
-	 * private void setSpeciesReferenceSpecies(SimpleSpeciesReference
-	 * speciesReference, Model model){
-	 * 
-	 * if (speciesReference.isSetSpecies()){ String speciesID =
-	 * speciesReference.getSpecies();
-	 * 
-	 * Species species = model.getSpecies(speciesID);
-	 * 
-	 * if (species != null){ speciesReference.setSpecies(species); } else { //
-	 * TODO : the species ID doesn't match a species, throw an exception? } } }
-	 * 
-	 * private void setSpeciesSubstanceUnits(Species species, Model model){
-	 * 
-	 * if (species.isSetSubstanceUnits()){ String substanceUnitsID =
-	 * species.getSubstanceUnits();
-	 * 
-	 * UnitDefinition unitDefinition =
-	 * model.getUnitDefinition(substanceUnitsID);
-	 * 
-	 * if (unitDefinition != null){ species.setSubstanceUnits(unitDefinition); }
-	 * } }
-	 * 
-	 * private void setSpeciesConversionFactor(Species species, Model model){
-	 * 
-	 * if (species.isSetConversionFactor()){ String conversionFactorID =
-	 * species.getConversionFactor();
-	 * 
-	 * Parameter parameter = model.getParameter(conversionFactorID);
-	 * 
-	 * if (parameter != null){ species.setConversionFactor(parameter); } else {
-	 * // TODO : the parameter ID doesn't match a parameter, throw an exception?
-	 * } } }
-	 * 
-	 * private void setSpeciesSpeciesType(Species species, Model model){
-	 * 
-	 * if (species.isSetSpeciesType()){ String speciesTypeID =
-	 * species.getSpeciesType();
-	 * 
-	 * SpeciesType speciesType = model.getSpeciesType(speciesTypeID);
-	 * 
-	 * if (speciesType != null){ species.setSpeciesType(speciesType); } else {
-	 * // TODO : the speciesType ID doesn't match a speciesType, throw an
-	 * exception? } } }
-	 * 
-	 * private void setSpeciesCompartment(Species species, Model model){
-	 * 
-	 * if (species.isSetCompartment()){ String compartmentID =
-	 * species.getCompartment();
-	 * 
-	 * Compartment compartment = model.getCompartment(compartmentID);
-	 * 
-	 * if (compartment != null){ species.setCompartment(compartment); } else {
-	 * // TODO : the compartment ID doesn't match a compartment, throw an
-	 * exception? } } }
-	 * 
-	 * private void setParameterUnits(Parameter parameter, Model model){
-	 * 
-	 * if (parameter.isSetUnits()){ String unitsID = parameter.getUnits();
-	 * 
-	 * UnitDefinition unitDefinition = model.getUnitDefinition(unitsID);
-	 * 
-	 * if (unitDefinition != null){ parameter.setUnits(unitDefinition); } else {
-	 * // TODO : the unitDefinition ID doesn't match an unitDefinition, throw an
-	 * exception? } } }
-	 */
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
-	 * elementName, String prefix, boolean isNested, Object contextObject)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeAttributes(SBMLObjectForXML
+	 * xmlObject, Object sbmlElementToWrite)
 	 */
-	public void processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject) {
-
-		if (elementName.equals("notes") && contextObject instanceof SBase) {
-			SBase sbase = (SBase) contextObject;
-			sbase.setNotes(sbase.getNotesBuffer().toString());
-		} else if (elementName.equals("message")
-				&& contextObject instanceof Constraint) {
-			Constraint constraint = (Constraint) contextObject;
-
-			if (constraint.getLevel() >= 3
-					|| (constraint.getLevel() == 2 && constraint.getVersion() > 1)) {
-
-			}
-			constraint.setMessage(constraint.getMessageBuffer().toString());
+	public void writeAttributes(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		if (sbmlElementToWrite instanceof SBase) {
+			SBase sbase = (SBase) sbmlElementToWrite;
+			xmlObject.addAttributes(sbase.writeXMLAttributes());
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument
-	 * sbmlDocument)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeCharacters(SBMLObjectForXML
+	 * xmlObject, Object sbmlElementToWrite)
 	 */
-	public void processEndDocument(SBMLDocument sbmlDocument) {
-
-		if (sbmlDocument.isSetModel()) {
-			Model model = sbmlDocument.getModel();
-
-			if (model.isSetAreaUnits() && !model.isSetAreaUnitsInstance()) {
-				// TODO : throw an exception : No unitDefinition matches the
-				// areaUnitsID of Model.
-			}
-			if (model.isSetConversionFactor()
-					&& !model.isSetConversionFactorInstance()) {
-				// TODO : throw an exception : No parameter matches the
-				// conversionFactorID of Model.
-			}
-			if (model.isSetExtentUnits() && !model.isSetExtentUnitsInstance()) {
-				// TODO : throw an exception : No unitDefinition matches the
-				// extentUnitsID of Model.
-			}
-			if (model.isSetLengthUnits() && !model.isSetLengthUnitsInstance()) {
-				// TODO : throw an exception : No unitDefinition matches the
-				// lengthUnitsID of Model.
-			}
-			if (model.isSetSubstanceUnits()
-					&& !model.isSetSubstanceUnitsInstance()) {
-				// TODO : throw an exception : No unitDefinition matches the
-				// substanceUnitsID of Model.
-			}
-			if (model.isSetTimeUnits() && !model.isSetTimeUnitsInstance()) {
-				// TODO : throw an exception : No unitDefinition matches the
-				// timeUnitsID of Model.
-			}
-			if (model.isSetVolumeUnits() && !model.isSetVolumeUnitsInstance()) {
-				// TODO : throw an exception : No unitDefinition matches the
-				// volumeUnitsID of Model.
-			}
-
-			if (model.isSetListOfRules()) {
-				for (int i = 0; i < model.getNumRules(); i++) {
-					Rule rule = model.getRule(i);
-					if (rule instanceof AssignmentRule) {
-						AssignmentRule assignmentRule = (AssignmentRule) rule;
-						if (assignmentRule.isSetVariable()
-								&& !assignmentRule.isSetVariableInstance()) {
-							// TODO : throw an exception : No Symbol matches the
-							// variableID of AssignmentRule.
-						}
-						if (assignmentRule.isSetUnits()
-								&& !assignmentRule.isSetUnitsInstance()
-								&& assignmentRule.isParameter()) {
-							// TODO : throw an exception : No UnitDefinition
-							// matches the unitsID of AssignmentRule.
-						}
-					} else if (rule instanceof RateRule) {
-						RateRule rateRule = (RateRule) rule;
-						if (rateRule.isSetVariable()
-								&& !rateRule.isSetVariableInstance()) {
-							// TODO : throw an exception : No Symbol matches the
-							// variableID of RateRule.
-						}
-					}
-				}
-			}
-			if (model.isSetListOfCompartments()) {
-				for (int i = 0; i < model.getNumCompartments(); i++) {
-					Compartment compartment = model.getCompartment(i);
-					if (compartment.isSetCompartmentType()
-							&& !compartment.isSetCompartmentTypeInstance()) {
-						// TODO : throw an exception : No CompartmentType
-						// matches the compartmentTypeID of compartment.
-					}
-					if (compartment.isSetOutside()
-							&& !compartment.isSetOutsideInstance()) {
-						// TODO : throw an exception : No Compartment matches
-						// the outsideID of compartment.
-					}
-					if (compartment.isSetUnits()
-							&& !compartment.isSetUnitsInstance()) {
-						// TODO : throw an exception : No UnitDefinition matches
-						// the unitsID of compartment.
-					}
-				}
-			}
-			if (model.isSetListOfEvents()) {
-				for (int i = 0; i < model.getNumEvents(); i++) {
-					Event event = model.getEvent(i);
-
-					if (event.isSetTimeUnits()
-							&& !event.isSetTimeUnitsInstance()) {
-						// TODO : throw an exception : No UnitDefinition matches
-						// the timeUnitsID of event.
-					}
-
-					if (event.isSetListOfEventAssignments()) {
-
-						for (int j = 0; j < event.getNumEventAssignments(); j++) {
-							EventAssignment eventAssignment = event
-									.getEventAssignment(j);
-
-							if (eventAssignment.isSetVariable()
-									&& !eventAssignment.isSetVariableInstance()) {
-								// TODO : throw an exception : No Symbol matches
-								// the variableID of eventAssignment.
-							}
-						}
-					}
-				}
-			}
-			if (model.isSetListOfInitialAssignments()) {
-				for (int i = 0; i < model.getNumInitialAssignments(); i++) {
-					InitialAssignment initialAssignment = model
-							.getInitialAssignment(i);
-
-					if (initialAssignment.isSetSymbol()
-							&& !initialAssignment.isSetSymbolInstance()) {
-						// TODO : throw an exception : No Symbol matches the
-						// symbolID of initialAssignment.
-					}
-				}
-			}
-			if (model.isSetListOfReactions()) {
-				for (int i = 0; i < model.getNumReactions(); i++) {
-					Reaction reaction = model.getReaction(i);
-					if (reaction.isSetCompartment()
-							&& !reaction.isSetCompartmentInstance()) {
-						// TODO : throw an exception : No Compartment matches
-						// the compartmentID of reaction.
-					}
-
-					if (reaction.isSetListOfReactants()) {
-						for (int j = 0; j < reaction.getNumReactants(); j++) {
-							SpeciesReference speciesReference = reaction
-									.getReactant(j);
-
-							if (speciesReference.isSetSpecies()
-									&& !speciesReference.isSetSpeciesInstance()) {
-								// TODO : throw an exception : No Species
-								// matches the speciesID of speciesReference.
-							}
-						}
-					}
-					if (reaction.isSetListOfProducts()) {
-						for (int j = 0; j < reaction.getNumProducts(); j++) {
-							SpeciesReference speciesReference = reaction
-									.getProduct(j);
-
-							if (speciesReference.isSetSpecies()
-									&& !speciesReference.isSetSpeciesInstance()) {
-								// TODO : throw an exception : No Species
-								// matches the speciesID of speciesReference.
-							}
-						}
-					}
-					if (reaction.isSetListOfModifiers()) {
-						for (int j = 0; j < reaction.getNumModifiers(); j++) {
-							ModifierSpeciesReference modifierSpeciesReference = reaction
-									.getModifier(j);
-
-							if (modifierSpeciesReference.isSetSpecies()
-									&& !modifierSpeciesReference
-											.isSetSpeciesInstance()) {
-								// TODO : throw an exception : No Species
-								// matches the speciesID of
-								// modifierSpeciesReference.
-							}
-						}
-					}
-					if (reaction.isSetKineticLaw()) {
-						KineticLaw kineticLaw = reaction.getKineticLaw();
-						if (kineticLaw.isSetTimeUnits()
-								&& !kineticLaw.isSetTimeUnitsInstance()) {
-							// TODO : throw an exception : No UnitDefinition
-							// matches the timeUnitsID of kineticLaw.
-						}
-						if (kineticLaw.isSetSubstanceUnits()
-								&& !kineticLaw.isSetSubstanceUnitsInstance()) {
-							// TODO : throw an exception : No UnitDefinition
-							// matches the substanceUnitsID of kineticLaw.
-						}
-						if (kineticLaw.isSetListOfParameters()) {
-							for (int j = 0; j < kineticLaw.getNumParameters(); j++) {
-								LocalParameter parameter = kineticLaw
-										.getParameter(j);
-								if (parameter.isSetUnits()
-										&& !parameter.isSetUnitsInstance()) {
-									// TODO : throw an exception : No
-									// UnitDefinition matches the unitsID of
-									// parameter.
-								}
-							}
-						}
-					}
-				}
-			}
-			if (model.isSetListOfSpecies()) {
-				for (int i = 0; i < model.getNumSpecies(); i++) {
-					Species species = model.getSpecies(i);
-
-					if (species.isSetSubstanceUnits()
-							&& !species.isSetSubstanceUnitsInstance()) {
-						// TODO : throw an exception : No UnitDefinition matches
-						// the subtsanceUnitsID of species.
-					}
-					if (species.isSetSpeciesType()
-							&& !species.isSetSpeciesTypeInstance()) {
-						// TODO : throw an exception : No SpeciesType matches
-						// the speciesTypeID of species.
-					}
-					if (species.isSetConversionFactor()
-							&& !species.isSetConversionFactorInstance()) {
-						// TODO : throw an exception : No Parameter matches the
-						// conversionFactorID of species.
-					}
-					if (species.isSetCompartment()
-							&& !species.isSetCompartmentInstance()) {
-						// TODO : throw an exception : No Compartment matches
-						// the compartmentID of species.
-					}
-					if (species.isSetSpatialSizeUnits()
-							&& !species.isSetSpatialSizeUnitsInstance()) {
-						// TODO : throw an exception : No UnitDefinition matches
-						// the spatialSizeUnitsID of species.
-					}
-				}
-			}
-			if (model.isSetListOfParameters()) {
-				for (int i = 0; i < model.getNumParameters(); i++) {
-					Parameter parameter = model.getParameter(i);
-					if (parameter.isSetUnits()
-							&& !parameter.isSetUnitsInstance()) {
-						// TODO : throw an exception : No UnitDefinition matches
-						// the unitsID of parameter.
-					}
-				}
-			}
-
-		} else {
-			// TODO : SBML syntax error, what to do?
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String
-	 * elementName, String URI, String prefix, String localName, boolean
-	 * hasAttributes, boolean isLastNamespace, Object contextObject)
-	 */
-	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) {
-
-		if (contextObject instanceof SBMLDocument) {
-			SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
-			if (!URI.equals(namespaceURI)) {
-				sbmlDocument.addNamespace(localName, prefix, URI);
-			}
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
-	 * sbase)
-	 */
-	@SuppressWarnings("unchecked")
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
-		ArrayList<Object> listOfElementsToWrite = null;
-		if (sbase instanceof SBase) {
-			if (sbase instanceof SBMLDocument) {
-				SBMLDocument sbmlDocument = (SBMLDocument) sbase;
-				if (sbmlDocument.isSetModel()) {
-					listOfElementsToWrite = new ArrayList<Object>();
-					listOfElementsToWrite.add(sbmlDocument.getModel());
-				}
-			} else if (sbase instanceof Model) {
-
-				Model model = (Model) sbase;
-				listOfElementsToWrite = new ArrayList<Object>();
-				if (model.isSetListOfFunctionDefinitions()) {
-					listOfElementsToWrite.add(model
-							.getListOfFunctionDefinitions());
-				}
-				if (model.isSetListOfUnitDefinitions()) {
-					listOfElementsToWrite.add(model.getListOfUnitDefinitions());
-				}
-				if (model.isSetListOfCompartmentTypes()) {
-					listOfElementsToWrite
-							.add(model.getListOfCompartmentTypes());
-				}
-				if (model.isSetListOfSpeciesTypes()) {
-					listOfElementsToWrite.add(model.getListOfSpeciesTypes());
-				}
-				if (model.isSetListOfCompartments()) {
-					listOfElementsToWrite.add(model.getListOfCompartments());
-				}
-				if (model.isSetListOfSpecies()) {
-					listOfElementsToWrite.add(model.getListOfSpecies());
-				}
-				if (model.isSetListOfParameters()) {
-					listOfElementsToWrite.add(model.getListOfParameters());
-				}
-				if (model.isSetListOfInitialAssignments()) {
-					listOfElementsToWrite.add(model
-							.getListOfInitialAssignments());
-				}
-				if (model.isSetListOfRules()) {
-					listOfElementsToWrite.add(model.getListOfRules());
-				}
-				if (model.isSetListOfConstraints()) {
-					listOfElementsToWrite.add(model.getListOfConstraints());
-				}
-				if (model.isSetListOfReactions()) {
-					listOfElementsToWrite.add(model.getListOfReactions());
-				}
-				if (model.isSetListOfEvents()) {
-					listOfElementsToWrite.add(model.getListOfEvents());
-				}
-
-				if (listOfElementsToWrite.isEmpty()) {
-					listOfElementsToWrite = null;
-				}
-			} else if (sbase instanceof ListOf<?>) {
-				ListOf<SBase> listOf = (ListOf<SBase>) sbase;
-
-				if (!listOf.isEmpty()) {
-					listOfElementsToWrite = new ArrayList<Object>();
-					for (int i = 0; i < listOf.size(); i++) {
-						SBase element = listOf.get(i);
-
-						if (element != null) {
-							boolean add = true;
-							if (element instanceof UnitDefinition) {
-								UnitDefinition ud = (UnitDefinition) element;
-								if (ud.isBuiltIn()) {
-									add = false;
-								}
-							}
-							if (add) {
-								listOfElementsToWrite.add(element);
-							}
-						}
-					}
-					if (listOfElementsToWrite.isEmpty()) {
-						listOfElementsToWrite = null;
-					}
-				}
-			} else if (sbase instanceof UnitDefinition) {
-				UnitDefinition unitDefinition = (UnitDefinition) sbase;
-
-				if (unitDefinition.isSetListOfUnits()) {
-					listOfElementsToWrite = new ArrayList<Object>();
-					listOfElementsToWrite.add(unitDefinition.getListOfUnits());
-				}
-			} else if (sbase instanceof Reaction) {
-				Reaction reaction = (Reaction) sbase;
-				listOfElementsToWrite = new ArrayList<Object>();
-
-				if (reaction.isSetListOfReactants()) {
-					listOfElementsToWrite.add(reaction.getListOfReactants());
-				}
-				if (reaction.isSetListOfProducts()) {
-					listOfElementsToWrite.add(reaction.getListOfProducts());
-				}
-				if (reaction.isSetListOfModifiers()) {
-					listOfElementsToWrite.add(reaction.getListOfModifiers());
-				}
-				if (reaction.isSetKineticLaw()) {
-					listOfElementsToWrite.add(reaction.getKineticLaw());
-				}
-
-				if (listOfElementsToWrite.isEmpty()) {
-					listOfElementsToWrite = null;
-				}
-			} else if (sbase instanceof KineticLaw) {
-				KineticLaw kineticLaw = (KineticLaw) sbase;
-
-				if (kineticLaw.isSetListOfParameters()) {
-					listOfElementsToWrite = new ArrayList<Object>();
-					listOfElementsToWrite.add(kineticLaw.getListOfParameters());
-				}
-			} else if (sbase instanceof Event) {
-				Event event = (Event) sbase;
-				listOfElementsToWrite = new ArrayList<Object>();
-
-				if (event.isSetTrigger()) {
-					listOfElementsToWrite.add(event.getTrigger());
-				}
-				if (event.isSetDelay()) {
-					listOfElementsToWrite.add(event.getDelay());
-				}
-				if (event.isSetListOfEventAssignments()) {
-					listOfElementsToWrite
-							.add(event.getListOfEventAssignments());
-				}
-
-				if (listOfElementsToWrite.isEmpty()) {
-					listOfElementsToWrite = null;
-				}
-			}
-
-			/*
-			 * HashMap<String, SBase> extentionObjects = ((SBase)
-			 * sbase).getExtensionPackages();
-			 * 
-			 * if (extentionObjects != null && extentionObjects.size() > 0) {
-			 * 
-			 * for (String namespace : extentionObjects.keySet()) {
-			 * 
-			 * // System.out.println();
-			 * 
-			 * WritingParser parser = null; try { parser =
-			 * SBMLWriter.getWritingPackageParsers(namespace).newInstance(); }
-			 * catch (InstantiationException e) { // TODO Auto-generated catch
-			 * block e.printStackTrace(); } catch (IllegalAccessException e) {
-			 * // TODO Auto-generated catch block e.printStackTrace(); } SBase
-			 * extendedSBase = extentionObjects.get(namespace);
-			 * listOfElementsToWrite
-			 * .addAll(parser.getListOfSBMLElementsToWrite(extendedSBase)); } }
-			 */
-		}
-
-		return listOfElementsToWrite;
+	public void writeCharacters(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO SBML components don't have any characters in the XML file. what
+		// to do?
 	}
 
 	/*
@@ -1530,32 +1571,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeAttributes(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
-	 */
-	public void writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		if (sbmlElementToWrite instanceof SBase) {
-			SBase sbase = (SBase) sbmlElementToWrite;
-			xmlObject.addAttributes(sbase.writeXMLAttributes());
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeCharacters(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
-	 */
-	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO SBML components don't have any characters in the XML file. what
-		// to do?
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML
 	 * xmlObject, Object sbmlElementToWrite)
 	 */
@@ -1573,20 +1588,5 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 			xmlObject.setPrefix("");
 		}
-	}
-
-	/**
-	 * @param logger
-	 *            the logger to set
-	 */
-	public void setLogger(XMLLogger logger) {
-		this.logger = logger;
-	}
-
-	/**
-	 * @return the logger
-	 */
-	public XMLLogger getLogger() {
-		return logger;
 	}
 }

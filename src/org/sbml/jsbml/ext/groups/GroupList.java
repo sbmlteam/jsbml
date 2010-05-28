@@ -30,7 +30,20 @@
 
 package org.sbml.jsbml.ext.groups;
 
+/**
+ * 
+ */
 public enum GroupList{
-
-	none, listOfGroups, listOfMembers;
+	/**
+	 * 
+	 */
+	none,
+	/**
+	 * 
+	 */
+	listOfGroups,
+	/**
+	 * 
+	 */
+	listOfMembers;
 }

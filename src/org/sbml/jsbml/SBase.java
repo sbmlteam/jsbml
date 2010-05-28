@@ -54,6 +54,15 @@ import org.sbml.jsbml.CVTerm.Qualifier;
 public interface SBase extends TreeNode {
 
 	/**
+	 * Adds all {@link SBaseChangedListener}s in the given {@link Set} to this
+	 * element.
+	 * 
+	 * @param listeners
+	 * @return true if this operation was a success, false otherwise.
+	 */
+	public boolean addAllChangeListeners(Set<SBaseChangedListener> listeners);
+
+	/**
 	 * adds a listener to the SBase object. from now on changes will be saved
 	 * 
 	 * @param l
@@ -294,13 +303,13 @@ public interface SBase extends TreeNode {
 	 * 
 	 * @return true if the Annotation instance of this object is not null and
 	 *         contains at least one CVTerm or one String containing other
-	 *         annotations than RDF or a modelHistory instance.
+	 *         annotations than RDF or a {@link History} instance.
 	 */
 	public boolean isSetAnnotation();
 
 	/**
 	 * 
-	 * @return true if the Annotation instance of this object
+	 * @return true if the {@link Annotation} instance of this object
 	 */
 	public boolean isSetHistory();
 
@@ -360,6 +369,13 @@ public interface SBase extends TreeNode {
 			String value);
 
 	/**
+	 * Removes the given {@link SBaseChangedListener} from this element.
+	 * 
+	 * @param l
+	 */
+	public void removeChangeListener(SBaseChangedListener l);
+
+	/**
 	 * all listeners are informed about the adding of this object to a list
 	 * 
 	 */
@@ -381,9 +397,9 @@ public interface SBase extends TreeNode {
 
 	/**
 	 * 
-	 * @return the History instance of this object.
+	 * @return the {@link History} instance of this object.
 	 */
-	public void setHistory(History modelHistory);
+	public void setHistory(History history);
 
 	/**
 	 * Sets the level of this object with 'level'. If the SBMLparent of this
@@ -462,14 +478,14 @@ public interface SBase extends TreeNode {
 	public void unsetCVTerms();
 
 	/**
+	 * Unsets the {@link History} of this object.
+	 */
+	public void unsetHistory();
+
+	/**
 	 * Unsets the value of the 'metaid' attribute of this SBML object.
 	 */
 	public void unsetMetaId();
-
-	/**
-	 * Unsets the model History of this object.
-	 */
-	public void unsetModelHistory();
 
 	/**
 	 * Unsets the value of the 'notes' subelement of this SBML object.

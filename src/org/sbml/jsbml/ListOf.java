@@ -381,24 +381,30 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
 	 */
+	@Override
 	public boolean getAllowsChildren() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
-	public SBase getChildAt(int index) {
+	@Override
+	public T getChildAt(int index) {
 		return get(index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
 	 */
+	@Override
 	public int getChildCount() {
 		return size();
 	}
@@ -406,8 +412,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jlibsbml.SBase#getAnnotationString()
+	 * @see org.sbml.jsbml.AbstractSBase#getElementName()
 	 */
+	@Override
 	public String getElementName() {
 		return getSBaseListType().toString();
 	}
@@ -495,9 +502,10 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
+	 * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String,
+	 * java.lang.String, java.lang.String)
 	 */
+	@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
 		// TODO: What is the purpose of this method?
@@ -599,14 +607,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public boolean removeAll(Filter f) {
 		return removeAll(filterList(f));
-	}
-
-	/**
-	 * 
-	 * @param l
-	 */
-	public void removeChangeListener(SBaseChangedListener l) {
-		setOfListeners.remove(l);
 	}
 
 	/**

@@ -48,14 +48,14 @@ public class ExtendedLayoutModel extends Model {
 	 * 
 	 */
 	protected Model model;
-	
+
 	/**
 	 * 
 	 */
 	public ExtendedLayoutModel() {
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @param level
@@ -65,7 +65,7 @@ public class ExtendedLayoutModel extends Model {
 		// TODO : add package version as well
 		super(level, version);
 	}
-	
+
 	/**
 	 * 
 	 * @param model
@@ -74,7 +74,7 @@ public class ExtendedLayoutModel extends Model {
 		this.model = model;
 		model.setThisAsParentSBMLObject(this);
 	}
-	
+
 	/**
 	 * 
 	 * @param layout
@@ -103,7 +103,7 @@ public class ExtendedLayoutModel extends Model {
 		if (i >= 0 && i < listOfLayouts.size()) {
 			return listOfLayouts.get(i);
 		}
-		
+
 		return null;
 	}
 
@@ -121,12 +121,12 @@ public class ExtendedLayoutModel extends Model {
 	 */
 	public boolean isSetListOfLayouts() {
 		if (listOfLayouts == null || listOfLayouts.isEmpty()) {
-			return false;			
+			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * 
 	 * @param listOfLayouts
@@ -139,5 +139,5 @@ public class ExtendedLayoutModel extends Model {
 		}
 		setThisAsParentSBMLObject(listOfLayouts);
 	}
-		
+
 }

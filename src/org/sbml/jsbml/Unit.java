@@ -951,33 +951,6 @@ public class Unit extends AbstractSBase {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	public SBase getChildAt(int index) {
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		return 0;
-	}
-
 	/**
 	 * 
 	 * @return the exponent of this Unit if it is set, 1 otherwise.

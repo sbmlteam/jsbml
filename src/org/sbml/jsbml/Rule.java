@@ -50,16 +50,6 @@ public abstract class Rule extends MathContainer {
 	}
 
 	/**
-	 * Creates a Rule instance from a level and version.
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public Rule(int level, int version) {
-		super(level, version);
-	}
-
-	/**
 	 * Creates a Rule instance from an id, level and version.
 	 * 
 	 * @param math
@@ -68,6 +58,16 @@ public abstract class Rule extends MathContainer {
 	 */
 	public Rule(ASTNode math, int level, int version) {
 		super(math, level, version);
+	}
+
+	/**
+	 * Creates a Rule instance from a level and version.
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public Rule(int level, int version) {
+		super(level, version);
 	}
 
 	/**
@@ -96,6 +96,22 @@ public abstract class Rule extends MathContainer {
 	}
 
 	/**
+	 * (SBML Level 1 only) Predicate returning true or false depending on
+	 * whether this Rule is an CompartmentVolumeRule.
+	 * 
+	 * @return true if this Rule is a CompartmentVolumeRule, false otherwise.
+	 */
+	public abstract boolean isCompartmentVolume();
+
+	/**
+	 * (SBML Level 1 only) Predicate returning true or false depending on
+	 * whether this Rule is an ParameterRule.
+	 * 
+	 * @return true if this Rule is a ParameterRule, false otherwise.
+	 */
+	public abstract boolean isParameter();
+
+	/**
 	 * 
 	 * @return true if this Rule is a RateRule instance.
 	 */
@@ -112,22 +128,6 @@ public abstract class Rule extends MathContainer {
 	 *         'scalar' (Level 1), false otherwise.
 	 */
 	public abstract boolean isScalar();
-
-	/**
-	 * (SBML Level 1 only) Predicate returning true or false depending on
-	 * whether this Rule is an CompartmentVolumeRule.
-	 * 
-	 * @return true if this Rule is a CompartmentVolumeRule, false otherwise.
-	 */
-	public abstract boolean isCompartmentVolume();
-
-	/**
-	 * (SBML Level 1 only) Predicate returning true or false depending on
-	 * whether this Rule is an ParameterRule.
-	 * 
-	 * @return true if this Rule is a ParameterRule, false otherwise.
-	 */
-	public abstract boolean isParameter();
 
 	/**
 	 * (SBML Level 1 only) Predicate returning true or false depending on

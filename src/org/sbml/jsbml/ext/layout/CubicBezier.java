@@ -30,29 +30,64 @@
 
 package org.sbml.jsbml.ext.layout;
 
+/**
+ * 
+ */
 public class CubicBezier extends LineSegment {
 
+	/**
+	 * 
+	 */
 	private Point basePoint1;
+	/**
+	 * 
+	 */
 	private Point basePoint2;
 	
+	/**
+	 * 
+	 */
 	public CubicBezier() {
 		
 	}
 	
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public CubicBezier(int level, int version) {
 		super(level, version);
 	}
 
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public Point getBasePoint1() {
 		return basePoint1;
 	}
-	public void setBasePoint1(Point basePoint1) {
-		this.basePoint1 = basePoint1;
-	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public Point getBasePoint2() {
 		return basePoint2;
 	}
+	
+	/**
+	 * 
+	 * @param basePoint1
+	 */
+	public void setBasePoint1(Point basePoint1) {
+		this.basePoint1 = basePoint1;
+	}
+	
+	/**
+	 * 
+	 * @param basePoint2
+	 */
 	public void setBasePoint2(Point basePoint2) {
 		this.basePoint2 = basePoint2;
 	}

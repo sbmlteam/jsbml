@@ -28,11 +28,19 @@
  */
 package org.sbml.jsbml.test.gui;
 
+import java.awt.Color;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
@@ -55,16 +63,10 @@ public class JTreeOfSBML extends JFrame {
 	 *            The path to an SBML file.
 	 */
 	public JTreeOfSBML(String fileName) {
-		super("SBML content visualizer");
+		super();
 		try {
-			getContentPane().add(
-					new JScrollPane(new JTree(SBMLReader.readSBML(fileName)),
-							JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-							JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
-			pack();
-			setLocationRelativeTo(null);
-			setVisible(true);
+			SBMLDocument doc = SBMLReader.readSBML(fileName);
+			showGUI(doc);
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			JOptionPane.showMessageDialog(this, exc.getMessage(), exc
@@ -73,11 +75,45 @@ public class JTreeOfSBML extends JFrame {
 		}
 	}
 
+	public JTreeOfSBML() {
+		super();
+		SBMLDocument doc = new SBMLDocument(2, 4);
+		Model m = doc.createModel("untitled");
+		m.createSpecies("s1");
+
+		showGUI(doc);
+	}
+
+	/**
+	 * Displays the structure of the given {@link SBMLDocument} to the user.
+	 * 
+	 * @param doc
+	 */
+	private void showGUI(SBMLDocument doc) {
+		setTitle("SBML content visualizer");
+		JTree tree = new JTree(doc);
+		tree.setBackground(Color.WHITE);
+		tree.expandRow(tree.getRowCount() - 1);
+		getContentPane().add(
+				new JScrollPane(tree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+						JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
+		setEnabled(true);
+		setResizable(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true);
+	}
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new JTreeOfSBML(args[0]);
+		if (args.length == 0) {
+			new JTreeOfSBML();
+		} else {
+			new JTreeOfSBML(args[0]);
+		}
 	}
 
 }

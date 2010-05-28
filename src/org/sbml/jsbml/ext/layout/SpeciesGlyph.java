@@ -30,19 +30,32 @@
 
 package org.sbml.jsbml.ext.layout;
 
-
+/**
+ *
+ */
 public class SpeciesGlyph extends GraphicalObject {
 
+	/**
+	 * 
+	 */
 	private String species;
 
+	/**
+	 * 
+	 */
 	public SpeciesGlyph() {
-		
+
 	}
-	
+
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public SpeciesGlyph(int level, int version) {
 		super(level, version);
 	}
-	
+
 	/**
 	 * 
 	 * @param speciesGlyph
@@ -52,16 +65,9 @@ public class SpeciesGlyph extends GraphicalObject {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getSpecies() {
-		return species;
-	}
-
-	public void setSpecies(String species) {
-		this.species = species;
-	}
-
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
 	 */
 	@Override
@@ -69,17 +75,41 @@ public class SpeciesGlyph extends GraphicalObject {
 		return new SpeciesGlyph(this);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object o) {
 		// TODO Auto-generated method stub
 		return super.equals(o);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public String getSpecies() {
+		return species;
+	}
+
+	/**
+	 * 
+	 * @param species
+	 */
+	public void setSpecies(String species) {
+		this.species = species;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
+	 */
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return super.toString();
 	}
-	
-	
 }

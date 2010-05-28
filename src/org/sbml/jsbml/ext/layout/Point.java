@@ -30,25 +30,43 @@
 
 package org.sbml.jsbml.ext.layout;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.SBase;
 
+/**
+ *
+ */
 public class Point extends AbstractNamedSBase {
 
+	/**
+	 * 
+	 */
 	private double x;
+	/**
+	 * 
+	 */
 	private double y;
+	/**
+	 * 
+	 */
 	private double z;
-	
+
+	/**
+	 * 
+	 */
 	public Point() {
-		
+
 	}
-	
+
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public Point(int level, int version) {
 		super(level, version);
 	}
-	
+
 	/**
 	 * 
 	 * @param point
@@ -58,32 +76,9 @@ public class Point extends AbstractNamedSBase {
 		// TODO Auto-generated constructor stub
 	}
 
-	public double getX() {
-		return x;
-	}
-
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	public double getZ() {
-		return z;
-	}
-
-	public void setZ(double z) {
-		this.z = z;
-	}
-
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	@Override
@@ -91,32 +86,51 @@ public class Point extends AbstractNamedSBase {
 		return new Point(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	/**
+	 * 
+	 * @return
 	 */
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
+	public double getX() {
+		return x;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	/**
+	 * 
+	 * @return
 	 */
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
+	public double getY() {
+		return y;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
+	/**
+	 * 
+	 * @return
 	 */
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
+	public double getZ() {
+		return z;
 	}
 
-	
+	/**
+	 * 
+	 * @param x
+	 */
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	/**
+	 * 
+	 * @param y
+	 */
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	/**
+	 * 
+	 * @param z
+	 */
+	public void setZ(double z) {
+		this.z = z;
+	}
 }

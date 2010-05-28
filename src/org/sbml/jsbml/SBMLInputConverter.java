@@ -47,16 +47,9 @@ public interface SBMLInputConverter {
 
 	/**
 	 * 
-	 * @return
+	 * @param listener
 	 */
-	public int getNumErrors();
-
-	/**
-	 * 
-	 * @param sbmlDocument
-	 * @return
-	 */
-	public List<SBMLException> getWarnings();
+	public void addIOProgressListener(IOProgressListener listener);
 
 	/**
 	 * 
@@ -70,11 +63,18 @@ public interface SBMLInputConverter {
 	 * 
 	 * @return
 	 */
+	public int getNumErrors();
+
+	/**
+	 * 
+	 * @return
+	 */
 	public Object getOriginalModel();
 
 	/**
 	 * 
-	 * @param listener
+	 * @param sbmlDocument
+	 * @return
 	 */
-	public void addIOProgressListener(IOProgressListener listener);
+	public List<SBMLException> getWarnings();
 }

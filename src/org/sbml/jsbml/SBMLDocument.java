@@ -76,31 +76,18 @@ public class SBMLDocument extends AbstractSBase {
 		setParentSBML(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	/**
+	 * Creates a SBMLDocument instance from a level and version. By default, the
+	 * parent SBML object of this object is itself. The model is null. The
+	 * SBMLDocumentAttributes and the SBMLDocumentNamespaces are empty.
+	 * 
+	 * @param level
+	 * @param version
 	 */
-	public boolean getAllowsChildren() {
-		return true;
-	}
-		
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		return isSetModel() ? 1 : 0;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	public Model getChildAt(int childIndex) {
-		if (childIndex < getChildCount()) {
-			return getModel();
-		}
-		return null;
+	public SBMLDocument(int level, int version) {
+		this();
+		setLevel(level);
+		setVersion(version);
 	}
 
 	/**
@@ -119,17 +106,30 @@ public class SBMLDocument extends AbstractSBase {
 	}
 
 	/**
-	 * Creates a SBMLDocument instance from a level and version. By default, the
-	 * parent SBML object of this object is itself. The model is null. The
-	 * SBMLDocumentAttributes and the SBMLDocumentNamespaces are empty.
+	 * Adds a namespace to the SBMLNamespaces of this SBMLDocument.
 	 * 
-	 * @param level
-	 * @param version
+	 * @param namespaceName
+	 * @param prefix
+	 * @param URI
 	 */
-	public SBMLDocument(int level, int version) {
-		this();
-		setLevel(level);
-		setVersion(version);
+	public void addNamespace(String namespaceName, String prefix, String URI) {
+		if (!prefix.equals("")) {
+			this.SBMLDocumentNamespaces.put(prefix + ":" + namespaceName, URI);
+
+		} else {
+			this.SBMLDocumentNamespaces.put(namespaceName, URI);
+		}
+		this.addNamespace(URI);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.AbstractSBase#clone()
+	 */
+	// @Override
+	public SBMLDocument clone() {
+		return new SBMLDocument(this);
 	}
 
 	/**
@@ -144,14 +144,67 @@ public class SBMLDocument extends AbstractSBase {
 		return getModel();
 	}
 
-	/**
-	 * Sets the Model for this SBMLDocument to a copy of the given Model.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param model
+	 * @see org.sbml.jsbml.element.AbstractSBase#equals(Object o)
 	 */
-	public void setModel(Model model) {
-		this.model = model;
-		setThisAsParentSBMLObject(this.model);
+	public boolean equals(Object o) {
+		if (o instanceof SBMLDocument) {
+			SBMLDocument d = (SBMLDocument) o;
+			boolean equals = super.equals(o);
+
+			if (!getSBMLDocumentAttributes().equals(
+					d.getSBMLDocumentAttributes())) {
+				return false;
+			}
+			if (!getSBMLDocumentNamespaces().equals(
+					d.getSBMLDocumentNamespaces())) {
+				return false;
+			}
+			return equals;
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
+	 */
+	@Override
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	@Override
+	public Model getChildAt(int index) {
+		int children = getChildCount();
+		if (index >= children) {
+			throw new IndexOutOfBoundsException(index + " >= " + children);
+		}
+		int pos = 0;
+		if (isSetModel()) {
+			if (pos == index) {
+				return getModel();
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		return isSetModel() ? 1 : 0;
 	}
 
 	/**
@@ -182,78 +235,6 @@ public class SBMLDocument extends AbstractSBase {
 	}
 
 	/**
-	 * @return true if the model of this SBMLDocument is not null.
-	 */
-	public boolean isSetModel() {
-		return model != null;
-	}
-
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 * @return true if 'level' and 'version' are valid.
-	 */
-	public boolean setLevelAndVersion(int level, int version) {
-		this.level = level;
-		this.version = version;
-		return hasValidLevelVersionNamespaceCombination();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.AbstractSBase#clone()
-	 */
-	// @Override
-	public SBMLDocument clone() {
-		return new SBMLDocument(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.AbstractSBase#equals(Object o)
-	 */
-	public boolean equals(Object o) {
-		if (o instanceof SBMLDocument) {
-			SBMLDocument d = (SBMLDocument) o;
-			boolean equals = super.equals(o);
-
-			if (!getSBMLDocumentAttributes().equals(
-					d.getSBMLDocumentAttributes())) {
-				return false;
-			}
-			if (!getSBMLDocumentNamespaces().equals(
-					d.getSBMLDocumentNamespaces())) {
-				return false;
-			}
-			return equals;
-		}
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.AbstractSBase#toString()
-	 */
-	// @Override
-	public String toString() {
-		return String.format("SBML Level %d Version %d", level, version);
-	}
-
-	/**
-	 * Sets the SBMLDocumentAttributes.
-	 * 
-	 * @param sBMLDocumentAttributes
-	 */
-	public void setSBMLDocumentAttributes(
-			HashMap<String, String> sBMLDocumentAttributes) {
-		SBMLDocumentAttributes = sBMLDocumentAttributes;
-	}
-
-	/**
 	 * 
 	 * @return the map SBMLDocumentAttributes of this SBMLDocument.
 	 */
@@ -270,20 +251,10 @@ public class SBMLDocument extends AbstractSBase {
 	}
 
 	/**
-	 * Adds a namespace to the SBMLNamespaces of this SBMLDocument.
-	 * 
-	 * @param namespaceName
-	 * @param prefix
-	 * @param URI
+	 * @return true if the model of this SBMLDocument is not null.
 	 */
-	public void addNamespace(String namespaceName, String prefix, String URI) {
-		if (!prefix.equals("")) {
-			this.SBMLDocumentNamespaces.put(prefix + ":" + namespaceName, URI);
-
-		} else {
-			this.SBMLDocumentNamespaces.put(namespaceName, URI);
-		}
-		this.addNamespace(URI);
+	public boolean isSetModel() {
+		return model != null;
 	}
 
 	/*
@@ -307,6 +278,48 @@ public class SBMLDocument extends AbstractSBase {
 			return true;
 		}
 		return isAttributeRead;
+	}
+
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 * @return true if 'level' and 'version' are valid.
+	 */
+	public boolean setLevelAndVersion(int level, int version) {
+		this.level = level;
+		this.version = version;
+		return hasValidLevelVersionNamespaceCombination();
+	}
+
+	/**
+	 * Sets the Model for this SBMLDocument to a copy of the given Model.
+	 * 
+	 * @param model
+	 */
+	public void setModel(Model model) {
+		this.model = model;
+		setThisAsParentSBMLObject(this.model);
+	}
+
+	/**
+	 * Sets the SBMLDocumentAttributes.
+	 * 
+	 * @param sBMLDocumentAttributes
+	 */
+	public void setSBMLDocumentAttributes(
+			HashMap<String, String> sBMLDocumentAttributes) {
+		SBMLDocumentAttributes = sBMLDocumentAttributes;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.AbstractSBase#toString()
+	 */
+	// @Override
+	public String toString() {
+		return String.format("SBML Level %d Version %d", level, version);
 	}
 
 	/*

@@ -150,28 +150,6 @@ public class StringTools {
 	}
 
 	/**
-	 * 
-	 * @return
-	 */
-	public static final String newLine() {
-		return System.getProperty("line.separator");
-	}
-
-	/**
-	 * Returns a String from the given value that does not contain a point zero
-	 * at the end.
-	 * 
-	 * @param value
-	 * @return
-	 */
-	public static final String toString(double value) {
-		if (((int) value) - value == 0) {
-			return Integer.toString((int) value);
-		}
-		return String.format("%.3f", Double.valueOf(value));
-	}
-
-	/**
 	 * Returns the number as a word. Zero is converted to "no". Only positive
 	 * numbers from 1 to twelve can be converted. All other numbers are just
 	 * converted to a String containing the number.
@@ -212,6 +190,28 @@ public class StringTools {
 		default:
 			return Long.toString(number);
 		}
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static final String newLine() {
+		return System.getProperty("line.separator");
+	}
+
+	/**
+	 * Returns a String from the given value that does not contain a point zero
+	 * at the end.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static final String toString(double value) {
+		if (((int) value) - value == 0) {
+			return Integer.toString((int) value);
+		}
+		return String.format("%.3f", Double.valueOf(value));
 	}
 
 }

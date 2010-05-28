@@ -48,7 +48,42 @@ import org.sbml.jsbml.xml.stax.WritingParser;
  */
 public class MathMLParser implements ReadingParser, WritingParser {
 
+	/**
+	 * 
+	 */
 	private static final String namespaceURI = "http://www.w3.org/1998/Math/MathML";
+
+	/**
+	 * @return the namespaceURI
+	 */
+	public static String getNamespaceURI() {
+		return namespaceURI;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
+	 * sbase)
+	 */
+	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String
+	 * ElementName, String AttributeName, String value, String prefix, boolean
+	 * isLastAttribute, Object contextObject)
+	 */
+	public void processAttribute(String ElementName, String AttributeName,
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject) {
+		// TODO Auto-generated method stub
+
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -58,18 +93,6 @@ public class MathMLParser implements ReadingParser, WritingParser {
 	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
-	 * ElementName, String prefix, boolean isNested, Object contextObject)
-	 */
-	public void processEndElement(String ElementName, String prefix,
-			boolean isNested, Object contextObject) {
 		// TODO Auto-generated method stub
 
 	}
@@ -88,72 +111,11 @@ public class MathMLParser implements ReadingParser, WritingParser {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
-	 * sbase)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
+	 * ElementName, String prefix, boolean isNested, Object contextObject)
 	 */
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
-	 */
-	public void writeElement(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.writeAttributes(SBMLObjectForXML xmlObject,
-	 * Object sbmlElementToWrite)
-	 */
-	public void writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeCharacters(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
-	 */
-	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
-	 */
-	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String
-	 * ElementName, String AttributeName, String value, String prefix, boolean
-	 * isLastAttribute, Object contextObject)
-	 */
-	public void processAttribute(String ElementName, String AttributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
+	public void processEndElement(String ElementName, String prefix,
+			boolean isNested, Object contextObject) {
 		// TODO Auto-generated method stub
 
 	}
@@ -185,11 +147,52 @@ public class MathMLParser implements ReadingParser, WritingParser {
 		return null;
 	}
 
-	/**
-	 * @return the namespaceURI
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.writeAttributes(SBMLObjectForXML xmlObject,
+	 * Object sbmlElementToWrite)
 	 */
-	public static String getNamespaceURI() {
-		return namespaceURI;
+	public void writeAttributes(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.WritingParser#writeCharacters(SBMLObjectForXML
+	 * xmlObject, Object sbmlElementToWrite)
+	 */
+	public void writeCharacters(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML
+	 * xmlObject, Object sbmlElementToWrite)
+	 */
+	public void writeElement(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML
+	 * xmlObject, Object sbmlElementToWrite)
+	 */
+	public void writeNamespaces(SBMLObjectForXML xmlObject,
+			Object sbmlElementToWrite) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

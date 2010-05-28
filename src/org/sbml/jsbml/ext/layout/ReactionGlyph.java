@@ -32,22 +32,42 @@ package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.ListOf;
 
+/**
+ * 
+ */
 public class ReactionGlyph extends GraphicalObject {
 
+	/**
+	 * 
+	 */
 	private String reaction;
 
-	private ListOf<SpeciesReferencesGlyph> listOfSpeciesReferencesGlyph = new  ListOf<SpeciesReferencesGlyph>();
-	
+	/**
+	 * 
+	 */
+	private ListOf<SpeciesReferencesGlyph> listOfSpeciesReferencesGlyph = new ListOf<SpeciesReferencesGlyph>();
+
+	/**
+	 * 
+	 */
 	private Curve curve;
-	
+
+	/**
+	 * 
+	 */
 	public ReactionGlyph() {
-		
+
 	}
-	
+
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public ReactionGlyph(int level, int version) {
 		super(level, version);
 	}
-	
+
 	/**
 	 * 
 	 * @param reactionGlyph
@@ -57,16 +77,9 @@ public class ReactionGlyph extends GraphicalObject {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getReaction() {
-		return reaction;
-	}
-
-	public void setReaction(String reaction) {
-		this.reaction = reaction;
-	}
-
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
 	 */
 	@Override
@@ -76,6 +89,7 @@ public class ReactionGlyph extends GraphicalObject {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
@@ -84,8 +98,25 @@ public class ReactionGlyph extends GraphicalObject {
 		return super.equals(o);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public String getReaction() {
+		return reaction;
+	}
+
+	/**
+	 * 
+	 * @param reaction
+	 */
+	public void setReaction(String reaction) {
+		this.reaction = reaction;
+	}
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
 	 */
 	@Override
@@ -93,6 +124,4 @@ public class ReactionGlyph extends GraphicalObject {
 		// TODO Auto-generated method stub
 		return super.toString();
 	}
-	
-	
 }

@@ -30,14 +30,13 @@
 
 package org.sbml.jsbml.ext.layout;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.AbstractNamedSBase;
 
 public class BoundingBox extends AbstractNamedSBase {
 
-	// TODO : may be use directly java objects ??! See if we need metaid, notes, annotation for those.
-	
+	// TODO : may be use directly java objects ??! See if we need metaid, notes,
+	// annotation for those.
+
 	/**
 	 * 
 	 */
@@ -46,20 +45,11 @@ public class BoundingBox extends AbstractNamedSBase {
 	 * 
 	 */
 	private Dimensions dimensions;
-	
+
 	/**
 	 * 
 	 */
 	public BoundingBox() {
-	}
-	
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public BoundingBox(int level, int version) {
-		super(level, version);
 	}
 
 	/**
@@ -73,21 +63,22 @@ public class BoundingBox extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return
+	 * @param level
+	 * @param version
 	 */
-	public Point getPoint() {
-		return point;
+	public BoundingBox(int level, int version) {
+		super(level, version);
 	}
 
-
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param point
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	public void setPoint(Point point) {
-		this.point = point;
+	@Override
+	public BoundingBox clone() {
+		return new BoundingBox(this);
 	}
-
 
 	/**
 	 * 
@@ -97,6 +88,13 @@ public class BoundingBox extends AbstractNamedSBase {
 		return dimensions;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public Point getPoint() {
+		return point;
+	}
 
 	/**
 	 * 
@@ -106,41 +104,11 @@ public class BoundingBox extends AbstractNamedSBase {
 		this.dimensions = dimensions;
 	}
 
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	/**
+	 * 
+	 * @param point
 	 */
-	@Override
-	public BoundingBox clone() {
-		return new BoundingBox(this);
+	public void setPoint(Point point) {
+		this.point = point;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
 }

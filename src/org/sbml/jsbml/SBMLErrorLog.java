@@ -35,81 +35,155 @@ import java.util.ArrayList;
 
 import org.sbml.jsbml.util.Option;
 
-
+/**
+ * 
+ * @author rodrigue
+ * 
+ */
 public class SBMLErrorLog {
 
+	/**
+	 * 
+	 */
 	private File file;
-	
+
+	/**
+	 * 
+	 */
 	private ArrayList<Option> options = new ArrayList<Option>();
-	
+	/**
+	 * 
+	 */
 	private ArrayList<SBMLError> validationErrors = new ArrayList<SBMLError>();
 
+	/**
+	 * 
+	 */
 	private String status;
-	
-	public boolean add(SBMLError e) {
-		return validationErrors.add(e);
-	}
-	
+
+	/**
+	 * 
+	 * @param option
+	 * @return
+	 */
 	public boolean add(Option option) {
 		return options.add(option);
 	}
 
+	/**
+	 * 
+	 * @param e
+	 * @return
+	 */
+	public boolean add(SBMLError e) {
+		return validationErrors.add(e);
+	}
+
+	/**
+	 * 
+	 */
+	public void clearLog() {
+		validationErrors.clear();
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public SBMLError getError(long i) {
+		if (i >= 0 && i < validationErrors.size()) {
+			return validationErrors.get((int) i);
+		}
+
+		return null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public File getFile() {
 		return file;
 	}
 
-	public void setFile(File file) {
-		this.file = file;
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumErrors() {
+		return validationErrors.size();
 	}
 
+	/**
+	 * 
+	 * @param severity
+	 * @return
+	 */
+	public int getNumFailsWithSeverity(long severity) {
+		// TODO
+		return 0;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public ArrayList<Option> getOptions() {
 		return options;
 	}
 
-	public void setOptions(ArrayList<Option> options) {
-		this.options = options;
+	/**
+	 * 
+	 * @return
+	 */
+	public String getStatus() {
+		return status;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public ArrayList<SBMLError> getValidationErrors() {
 		return validationErrors;
 	}
 
+	/**
+	 * 
+	 * @param file
+	 */
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	/**
+	 * 
+	 * @param options
+	 */
+	public void setOptions(ArrayList<Option> options) {
+		this.options = options;
+	}
+
+	/**
+	 * 
+	 * @param status
+	 */
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	/**
+	 * 
+	 * @param validationErrors
+	 */
 	public void setValidationErrors(ArrayList<SBMLError> validationErrors) {
 		if (validationErrors == null) {
 			clearLog();
 			return;
 		}
-		
+
 		this.validationErrors = validationErrors;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
-	public int getNumErrors() {
-		return validationErrors.size();
-	}
-	
-	public SBMLError getError(long i) {
-		if (i >= 0 && i < validationErrors.size()) {
-			return validationErrors.get((int) i);
-		}
-		
-		return null;
-	}
-	
-	public int getNumFailsWithSeverity(long severity) {
-		// TODO 
-		return 0;
-	}
-	
-	public void clearLog() {
-		validationErrors.clear();
-	}
-	
 }

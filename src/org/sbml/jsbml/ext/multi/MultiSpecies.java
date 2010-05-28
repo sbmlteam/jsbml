@@ -9,13 +9,13 @@ import org.sbml.jsbml.ext.SpeciesExtension;
  * 
  *
  */
-public class MultiSpecies extends SpeciesExtension{
+public class MultiSpecies extends SpeciesExtension {
 
 	/**
 	 * 
 	 */
 	private ListOf<InitialSpeciesInstance> listOfInitialSpeciesInstance;
-	
+
 	/**
 	 * 
 	 * @param species
@@ -30,7 +30,7 @@ public class MultiSpecies extends SpeciesExtension{
 	 * @param initialSpecies
 	 */
 	public void addInitialSpeciesInstance(InitialSpeciesInstance initialSpecies) {
-		if (!isSetListOfSpeciesInstances()){
+		if (!isSetListOfSpeciesInstances()) {
 			this.listOfInitialSpeciesInstance = new ListOf<InitialSpeciesInstance>();
 		}
 		if (!listOfInitialSpeciesInstance.contains(initialSpecies)) {
@@ -45,28 +45,28 @@ public class MultiSpecies extends SpeciesExtension{
 	 * @return
 	 */
 	public InitialSpeciesInstance getInitialSpeciesInstance(int n) {
-		if (isSetListOfSpeciesInstances()){
+		if (isSetListOfSpeciesInstances()) {
 			return listOfInitialSpeciesInstance.get(n);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @param id
 	 * @return
 	 */
 	public InitialSpeciesInstance getInitialSpeciesInstance(String id) {
-		if (isSetListOfSpeciesInstances()){
+		if (isSetListOfSpeciesInstances()) {
 			for (InitialSpeciesInstance comp : listOfInitialSpeciesInstance) {
-				if (comp.getId().equals(id)){
+				if (comp.getId().equals(id)) {
 					return comp;
 				}
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -74,12 +74,12 @@ public class MultiSpecies extends SpeciesExtension{
 	public ListOf<InitialSpeciesInstance> getListOfInitialSpeciesInstance() {
 		return listOfInitialSpeciesInstance;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public boolean isSetListOfSpeciesInstances(){
+	public boolean isSetListOfSpeciesInstances() {
 		return this.listOfInitialSpeciesInstance != null;
 	}
 

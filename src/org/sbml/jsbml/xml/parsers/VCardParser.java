@@ -36,18 +36,26 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
- * A VCardParser is used to parser the subNodes of an annotation which have this namespace URI :
- * "http://www.w3.org/2001/vcard-rdf/3.0#".
+ * A VCardParser is used to parser the subNodes of an annotation which have this
+ * namespace URI : "http://www.w3.org/2001/vcard-rdf/3.0#".
+ * 
  * @author marine
- *
+ * 
  */
-public class VCardParser implements ReadingParser{
+public class VCardParser implements ReadingParser {
 
 	/**
 	 * The namespace URI of this ReadindParser.
 	 */
 	private static final String namespaceURI = "http://www.w3.org/2001/vcard-rdf/3.0#";
-	
+
+	/**
+	 * @return the namespaceURI
+	 */
+	public static String getNamespaceURI() {
+		return namespaceURI;
+	}
+
 	/**
 	 * Boolean value to know if the 'N' node has been read.
 	 */
@@ -68,142 +76,73 @@ public class VCardParser implements ReadingParser{
 	 * Boolean value to know if the 'EMAIL' node has been read.
 	 */
 	private boolean hasReadEMAIL = false;
+
 	/**
 	 * Boolean value to know if the 'ORG' node has been read.
 	 */
 	private boolean hasReadORGNode = false;
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String elementName, String attributeName,
-			String value, String prefix, boolean isLastAttribute, Object contextObject)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String
+	 * elementName, String attributeName, String value, String prefix, boolean
+	 * isLastAttribute, Object contextObject)
 	 */
 	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, boolean isLastAttribute, Object contextObject) {
-		// TODO : There is no attribute with a namespace "http://www.w3.org/2001/vcard-rdf/3.0#", SBML syntax error.
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject) {
+		// TODO : There is no attribute with a namespace
+		// "http://www.w3.org/2001/vcard-rdf/3.0#", SBML syntax error.
 		// Throw an exception?
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String elementName, String characters,
-			Object contextObject)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String
+	 * elementName, String characters, Object contextObject)
 	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
-		
-		// An elementName can be null if the text appears after a ending element tag.
-		if (elementName != null){
-			// A VCardParser can only modify a contextObject which is a ModelCreator instance.
-			if (contextObject instanceof Creator){
+
+		// An elementName can be null if the text appears after a ending element
+		// tag.
+		if (elementName != null) {
+			// A VCardParser can only modify a contextObject which is a
+			// ModelCreator instance.
+			if (contextObject instanceof Creator) {
 				Creator modelCreator = (Creator) contextObject;
-				
+
 				// Sets the familyName String of modelCreator.
-				if (elementName.equals("Family") && hasReadFamilyName){
+				if (elementName.equals("Family") && hasReadFamilyName) {
 					modelCreator.setFamilyName(characters);
 				}
 				// Sets the givenName String of modelCreator.
-				else if (elementName.equals("Given") && hasReadGivenName){
+				else if (elementName.equals("Given") && hasReadGivenName) {
 					modelCreator.setGivenName(characters);
 				}
 				// Sets the email String of modelCreator.
-				else if (elementName.equals("EMAIL") && hasReadEMAIL){
+				else if (elementName.equals("EMAIL") && hasReadEMAIL) {
 					modelCreator.setEmail(characters);
 				}
 				// Sets the orgname String of modelCreator.
-				else if (elementName.equals("Orgname") && hasReadOrgName){
+				else if (elementName.equals("Orgname") && hasReadOrgName) {
 					modelCreator.setOrganisation(characters);
-				}
-				else {
+				} else {
 					// TODO : SBML syntax error, throw an exception?
 				}
-			}
-			else {
+			} else {
 				// TODO : SBML syntax error, throw an exception?
 			}
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject)
-	 */
-	public void processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject) {	
-		
-		// A VCardParser can only modify a contextObject which is a ModelCreator instance.
-		if (contextObject instanceof Creator){
-			// End of a 'N' node, sets hasReadNNode, hasReadFamilyName and hasReadGivenName to false.
-			if (elementName.equals("N")){
-				hasReadNNode = false;
-				hasReadFamilyName = false;
-				hasReadGivenName = false;
-			}
-			// End of a 'EMAIL' node, sets hasReadEMAIL to false.
-			else if (elementName.equals("EMAIL")){
-				hasReadEMAIL = false;
-			}
-			// End of a 'ORG' node, sets hasReadORGNode, hasReadOrgName.
-			else if (elementName.equals("ORG")){
-				hasReadORGNode = false;
-				hasReadOrgName = false;
-
-			}
-			else {
-				// TODO : SBML syntax error, throw an exception?
-			}
-		}
-		else {
-			// TODO : SBML syntax error, throw an exception?
-		}
-	}
-
-	/* (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix, boolean hasAttribute, boolean hasNamespaces, Object contextObject)
-	 */
-	public Object processStartElement(String elementName, String prefix, boolean hasAttribute, boolean hasNamespaces, Object contextObject) {
-		
-		// A VCardParser can only modify a contextObject which is a ModelCreator instance.
-		if (contextObject instanceof Creator){
-			// Reads the 'N' node.
-			if (elementName.equals("N") && !hasReadNNode){
-				hasReadNNode = true;
-			}
-			// Reads the 'Family' node.
-			else if (elementName.equals("Family") && hasReadNNode && !hasReadFamilyName && !hasReadGivenName){
-				hasReadFamilyName = true;
-			}
-			// Reads the 'Given' node.
-			else if (elementName.equals("Given") && hasReadNNode && hasReadFamilyName && !hasReadGivenName){
-				hasReadGivenName = true;
-			}
-			// Reads the 'EMAIL' node.
-			else if (elementName.equals("EMAIL") && !hasReadEMAIL){
-				hasReadEMAIL = true;
-			}
-			// Reads the 'ORG' node.
-			else if (elementName.equals("ORG") && !hasReadORGNode){
-				hasReadORGNode = true;
-			}
-			// Reads the 'Orgname' node.
-			else if (elementName.equals("Orgname") && hasReadORGNode && !hasReadOrgName){
-				hasReadOrgName = true;
-			}
-			else {
-				// TODO : SBML syntax error, throw an exception?
-			}
-		}
-		else {
-			// TODO : SBML syntax error, throw an exception?
-		}
-		return contextObject;
-	}
-
-	/* (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument
+	 * sbmlDocument)
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 		hasReadEMAIL = false;
@@ -214,27 +153,108 @@ public class VCardParser implements ReadingParser{
 		hasReadOrgName = false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace, Object contextObject)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
+	 * elementName, String prefix, boolean isNested, Object contextObject)
+	 */
+	public void processEndElement(String elementName, String prefix,
+			boolean isNested, Object contextObject) {
+
+		// A VCardParser can only modify a contextObject which is a ModelCreator
+		// instance.
+		if (contextObject instanceof Creator) {
+			// End of a 'N' node, sets hasReadNNode, hasReadFamilyName and
+			// hasReadGivenName to false.
+			if (elementName.equals("N")) {
+				hasReadNNode = false;
+				hasReadFamilyName = false;
+				hasReadGivenName = false;
+			}
+			// End of a 'EMAIL' node, sets hasReadEMAIL to false.
+			else if (elementName.equals("EMAIL")) {
+				hasReadEMAIL = false;
+			}
+			// End of a 'ORG' node, sets hasReadORGNode, hasReadOrgName.
+			else if (elementName.equals("ORG")) {
+				hasReadORGNode = false;
+				hasReadOrgName = false;
+
+			} else {
+				// TODO : SBML syntax error, throw an exception?
+			}
+		} else {
+			// TODO : SBML syntax error, throw an exception?
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String
+	 * elementName, String URI, String prefix, String localName, boolean
+	 * hasAttributes, boolean isLastNamespace, Object contextObject)
 	 */
 	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace, Object contextObject) {
-		
-		// The namespace of this parser should be declared in a 'RDF' subnode of annotation.
+			String localName, boolean hasAttributes, boolean isLastNamespace,
+			Object contextObject) {
+
+		// The namespace of this parser should be declared in a 'RDF' subnode of
+		// annotation.
 		// Adds the namespace to RDFAnnotationNamespaces HashMap of annotation.
-		if (elementName.equals("RDF") && contextObject instanceof Annotation){
+		if (elementName.equals("RDF") && contextObject instanceof Annotation) {
 			Annotation annotation = (Annotation) contextObject;
-			
+
 			annotation.addRDFAnnotationNamespace(localName, prefix, URI);
 		}
 	}
 
-	/**
-	 * @return the namespaceURI
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String
+	 * elementName, String prefix, boolean hasAttribute, boolean hasNamespaces,
+	 * Object contextObject)
 	 */
-	public static String getNamespaceURI() {
-		return namespaceURI;
+	public Object processStartElement(String elementName, String prefix,
+			boolean hasAttribute, boolean hasNamespaces, Object contextObject) {
+
+		// A VCardParser can only modify a contextObject which is a ModelCreator
+		// instance.
+		if (contextObject instanceof Creator) {
+			// Reads the 'N' node.
+			if (elementName.equals("N") && !hasReadNNode) {
+				hasReadNNode = true;
+			}
+			// Reads the 'Family' node.
+			else if (elementName.equals("Family") && hasReadNNode
+					&& !hasReadFamilyName && !hasReadGivenName) {
+				hasReadFamilyName = true;
+			}
+			// Reads the 'Given' node.
+			else if (elementName.equals("Given") && hasReadNNode
+					&& hasReadFamilyName && !hasReadGivenName) {
+				hasReadGivenName = true;
+			}
+			// Reads the 'EMAIL' node.
+			else if (elementName.equals("EMAIL") && !hasReadEMAIL) {
+				hasReadEMAIL = true;
+			}
+			// Reads the 'ORG' node.
+			else if (elementName.equals("ORG") && !hasReadORGNode) {
+				hasReadORGNode = true;
+			}
+			// Reads the 'Orgname' node.
+			else if (elementName.equals("Orgname") && hasReadORGNode
+					&& !hasReadOrgName) {
+				hasReadOrgName = true;
+			} else {
+				// TODO : SBML syntax error, throw an exception?
+			}
+		} else {
+			// TODO : SBML syntax error, throw an exception?
+		}
+		return contextObject;
 	}
 }

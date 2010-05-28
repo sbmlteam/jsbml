@@ -45,12 +45,6 @@ public interface SBaseChangedListener {
 	 * 
 	 * @param sb
 	 */
-	void stateChanged(SBase sb);
-
-	/**
-	 * 
-	 * @param sb
-	 */
 	void sbaseAdded(SBase sb);
 
 	/**
@@ -58,4 +52,10 @@ public interface SBaseChangedListener {
 	 * @param sb
 	 */
 	void sbaseRemoved(SBase sb);
+
+	/**
+	 * 
+	 * @param sb
+	 */
+	void stateChanged(SBase sb);
 }

@@ -30,17 +30,40 @@
 
 package org.sbml.jsbml.ext.layout;
 
-
+/**
+ *
+ */
 public enum SpeciesReferenceRole {
-	    SPECIES_ROLE_UNDEFINED
-	  , SPECIES_ROLE_SUBSTRATE
-	  , SPECIES_ROLE_PRODUCT
-	  , SPECIES_ROLE_SIDESUBSTRATE
-	  , SPECIES_ROLE_SIDEPRODUCT
-	  , SPECIES_ROLE_MODIFIER
-	  , SPECIES_ROLE_ACTIVATOR
-	  , SPECIES_ROLE_INHIBITOR
-	}
-
-	
-
+	/**
+	 * 
+	 */
+	SPECIES_ROLE_UNDEFINED,
+	/**
+	 * 
+	 */
+	SPECIES_ROLE_SUBSTRATE,
+	/**
+	 * 
+	 */
+	SPECIES_ROLE_PRODUCT,
+	/**
+	 * 
+	 */
+	SPECIES_ROLE_SIDESUBSTRATE,
+	/**
+	 * 
+	 */
+	SPECIES_ROLE_SIDEPRODUCT,
+	/**
+	 * 
+	 */
+	SPECIES_ROLE_MODIFIER,
+	/**
+	 * 
+	 */
+	SPECIES_ROLE_ACTIVATOR,
+	/**
+	 * 
+	 */
+	SPECIES_ROLE_INHIBITOR
+}
