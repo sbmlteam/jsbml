@@ -30,8 +30,11 @@
 
 package org.sbml.jsbml.xml.parsers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InvalidPropertiesFormatException;
+import java.util.Properties;
 
 import org.sbml.jsbml.AlgebraicRule;
 import org.sbml.jsbml.Annotation;
@@ -62,6 +65,7 @@ import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ListOf.Type;
+import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 import org.sbml.jsbml.xml.stax.WritingParser;
@@ -99,8 +103,13 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	/**
 	 * Creates a SBMLCoreParser instance. Initializes the SBMLCoreElements of
 	 * this Parser.
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
-	public SBMLCoreParser() {
+	public SBMLCoreParser() throws InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		SBMLCoreElements = new HashMap<String, Class<? extends Object>>();
 		initializeCoreElements();
 	}
@@ -288,60 +297,22 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 	/**
 	 * Initializes the SBMLCoreElements of this parser.
+	 * 
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
+	 * @throws ClassNotFoundException
 	 */
-	private void initializeCoreElements() {
-		// TODO : loading from a file would be better.
-		SBMLCoreElements.put("model", Model.class);
-		SBMLCoreElements.put("listOfFunctionDefinitions", ListOf.class);
-		SBMLCoreElements.put("listOfUnitDefinitions", ListOf.class);
-		SBMLCoreElements.put("listOfCompartments", ListOf.class);
-		SBMLCoreElements.put("listOfSpecies", ListOf.class);
-		SBMLCoreElements.put("listOfParameters", ListOf.class);
-		SBMLCoreElements.put("listOfInitialAssignments", ListOf.class);
-		SBMLCoreElements.put("listOfRules", ListOf.class);
-		SBMLCoreElements.put("listOfConstraints", ListOf.class);
-		SBMLCoreElements.put("listOfReactions", ListOf.class);
-		SBMLCoreElements.put("listOfEvents", ListOf.class);
-		SBMLCoreElements.put("listOfUnits", ListOf.class);
-		SBMLCoreElements.put("listOfReactants", ListOf.class);
-		SBMLCoreElements.put("listOfProducts", ListOf.class);
-		SBMLCoreElements.put("listOfEventAssignments", ListOf.class);
-		SBMLCoreElements.put("listOfModifiers", ListOf.class);
-		SBMLCoreElements.put("listOfLocalParameters", ListOf.class);
-		SBMLCoreElements.put("listOfCompartmentTypes", ListOf.class);
-		SBMLCoreElements.put("listOfSpeciesTypes", ListOf.class);
-		SBMLCoreElements.put("functionDefinition", FunctionDefinition.class);
-		SBMLCoreElements.put("unitDefinition", UnitDefinition.class);
-		SBMLCoreElements.put("compartment", Compartment.class);
-		SBMLCoreElements.put("species", Species.class);
-		SBMLCoreElements.put("specie", Species.class);
-		SBMLCoreElements.put("parameter", Parameter.class);
-		SBMLCoreElements.put("initialAssignment", InitialAssignment.class);
-		SBMLCoreElements.put("algebraicRule", AlgebraicRule.class);
-		SBMLCoreElements.put("assignmentRule", AssignmentRule.class);
-		SBMLCoreElements.put("specieConcentrationRule", AssignmentRule.class);
-		SBMLCoreElements.put("speciesConcentrationRule", AssignmentRule.class);
-		SBMLCoreElements.put("compartmentVolumeRule", AssignmentRule.class);
-		SBMLCoreElements.put("parameterRule", AssignmentRule.class);
-		SBMLCoreElements.put("rateRule", RateRule.class);
-		SBMLCoreElements.put("constraint", Constraint.class);
-		SBMLCoreElements.put("reaction", Reaction.class);
-		SBMLCoreElements.put("event", Event.class);
-		SBMLCoreElements.put("annotation", Annotation.class);
-		SBMLCoreElements.put("event", Event.class);
-		SBMLCoreElements.put("unit", Unit.class);
-		SBMLCoreElements.put("speciesReference", SpeciesReference.class);
-		SBMLCoreElements.put("specieReference", SpeciesReference.class);
-		SBMLCoreElements.put("modifierSpeciesReference",
-				ModifierSpeciesReference.class);
-		SBMLCoreElements.put("trigger", Trigger.class);
-		SBMLCoreElements.put("delay", Delay.class);
-		SBMLCoreElements.put("eventAssignment", EventAssignment.class);
-		SBMLCoreElements.put("kineticLaw", KineticLaw.class);
-		SBMLCoreElements.put("localParameter", Parameter.class);
-		SBMLCoreElements.put("notes", StringBuffer.class);
-		SBMLCoreElements.put("message", StringBuffer.class);
-		SBMLCoreElements.put("math", StringBuffer.class);
+	private void initializeCoreElements()
+			throws InvalidPropertiesFormatException, IOException,
+			ClassNotFoundException {
+		Properties p = new Properties();
+		p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
+				"org/sbml/jsbml/resources/cfg/SBMLCoreElements.xml"));
+		for (Object k : p.keySet()) {
+			String key = k.toString();
+			SBMLCoreElements.put(key, Class.forName(p.getProperty(key)
+					.toString()));
+		}
 	}
 
 	/*

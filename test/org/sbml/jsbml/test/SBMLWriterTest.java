@@ -1,7 +1,9 @@
 package org.sbml.jsbml.test;
 
 import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.InvalidPropertiesFormatException;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -50,6 +52,12 @@ public class SBMLWriterTest {
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvalidPropertiesFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

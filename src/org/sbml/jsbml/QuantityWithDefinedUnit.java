@@ -59,6 +59,11 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	 * variable.
 	 */
 	private Double value = Double.NaN;
+	/**
+	 * Error message for the case that an invalid unit identifier is to be added
+	 * to this object.
+	 */
+	private static final String ILLEGAL_UNIT_EXCEPTION = "Only a valid unit kind or the identifier of an existing unit definition are allowed here.";
 
 	/**
 	 * 
@@ -67,7 +72,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 		super();
 		this.unitsID = null;
 	}
-	
+
 	/**
 	 * 
 	 * @param level
@@ -76,7 +81,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	public QuantityWithDefinedUnit(int level, int version) {
 		this(null, null, level, version);
 	}
-	
+
 	/**
 	 * 
 	 * @param qwdu
@@ -285,8 +290,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 			unsetUnits();
 		}
 		if (illegalArgument) {
-			throw new IllegalArgumentException(
-					"Only a valid unit kind or the identifier of an existing unit definition are allowed here.");
+			throw new IllegalArgumentException(ILLEGAL_UNIT_EXCEPTION);
 		} else {
 			stateChanged();
 		}

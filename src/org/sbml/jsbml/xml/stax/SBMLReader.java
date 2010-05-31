@@ -34,9 +34,12 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.InvalidPropertiesFormatException;
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.Stack;
 import java.util.Map.Entry;
 
@@ -54,18 +57,10 @@ import javax.xml.stream.events.StartElement;
 import org.codehaus.stax2.evt.XMLEvent2;
 import org.codehaus.stax2.ri.evt.AttributeEventImpl;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.ext.groups.GroupsParser;
-import org.sbml.jsbml.ext.layout.LayoutParser;
+import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.xml.parsers.AnnotationParser;
-import org.sbml.jsbml.xml.parsers.BiologicalQualifierParser;
-import org.sbml.jsbml.xml.parsers.CreatorParser;
-import org.sbml.jsbml.xml.parsers.DatesParser;
-import org.sbml.jsbml.xml.parsers.ModelQualifierParser;
-import org.sbml.jsbml.xml.parsers.MultiParser;
-import org.sbml.jsbml.xml.parsers.RDFAnnotationParser;
 import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.sbml.jsbml.xml.parsers.StringParser;
-import org.sbml.jsbml.xml.parsers.VCardParser;
 
 import com.ctc.wstx.stax.WstxInputFactory;
 
@@ -140,10 +135,14 @@ public class SBMLReader {
 	 *            : the StartElement instance
 	 * @return the map containing the ReadingParser instances for this
 	 *         StartElement.
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	@SuppressWarnings("unchecked")
 	private static HashMap<String, ReadingParser> getInitializedPackageParsers(
-			StartElement sbml) {
+			StartElement sbml) throws InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		initializePackageParserNamespaces();
 
 		HashMap<String, ReadingParser> initializedParsers = new HashMap<String, ReadingParser>();
@@ -233,47 +232,24 @@ public class SBMLReader {
 	}
 
 	/**
-	 * Initialises the packageParser HasMap of this class.
+	 * Initializes the packageParser HasMap of this class.
+	 * 
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
+	 * @throws ClassNotFoundException
 	 */
-	public static void initializePackageParserNamespaces() {
-		// TODO Load the map from a configuration file
-		packageParsers.put(
-				"http://www.sbml.org/sbml/level3/version1/multi/version1",
-				MultiParser.class);
-		packageParsers.put(
-				"http://www.sbml.org/sbml/level3/version1/groups/version1",
-				GroupsParser.class);
-		packageParsers.put(
-				"http://www.sbml.org/sbml/level3/version1/layout/version1",
-				LayoutParser.class);
-		packageParsers.put("http://www.sbml.org/sbml/level3/version1/core",
-				SBMLCoreParser.class);
-		packageParsers.put("http://www.sbml.org/sbml/level2/version1",
-				SBMLCoreParser.class);
-		packageParsers.put("http://www.sbml.org/sbml/level2/version2",
-				SBMLCoreParser.class);
-		packageParsers.put("http://www.sbml.org/sbml/level2/version3",
-				SBMLCoreParser.class);
-		packageParsers.put("http://www.sbml.org/sbml/level2/version4",
-				SBMLCoreParser.class);
-		packageParsers.put("http://www.sbml.org/sbml/level2",
-				SBMLCoreParser.class);
-		packageParsers.put("http://www.sbml.org/sbml/level1",
-				SBMLCoreParser.class);
-		packageParsers.put("http://www.w3.org/1999/xhtml", StringParser.class);
-		packageParsers.put("http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-				RDFAnnotationParser.class);
-		packageParsers.put("http://purl.org/dc/elements/1.1/",
-				CreatorParser.class);
-		packageParsers.put("http://purl.org/dc/terms/", DatesParser.class);
-		packageParsers.put("http://www.w3.org/2001/vcard-rdf/3.0#",
-				VCardParser.class);
-		packageParsers.put("http://biomodels.net/biology-qualifiers/",
-				BiologicalQualifierParser.class);
-		packageParsers.put("http://biomodels.net/model-qualifiers/",
-				ModelQualifierParser.class);
-		packageParsers.put("http://www.w3.org/1998/Math/MathML",
-				StringParser.class);
+	@SuppressWarnings("unchecked")
+	public static void initializePackageParserNamespaces()
+			throws InvalidPropertiesFormatException, IOException,
+			ClassNotFoundException {
+		Properties p = new Properties();
+		p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
+				"org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml"));
+		for (Object k : p.keySet()) {
+			String key = k.toString();
+			packageParsers.put(key, (Class<? extends ReadingParser>) Class
+					.forName(p.getProperty(key)));
+		}
 	}
 
 	/**
@@ -306,9 +282,14 @@ public class SBMLReader {
 	/**
 	 * 
 	 * @param args
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 * @throws XMLStreamException
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args)
+			throws InvalidPropertiesFormatException, IOException,
+			ClassNotFoundException {
 		// SBMLDocument testDocument =
 		// readSBMLFile("/home/compneur/Desktop/LibSBML-Project/MultiExamples/glutamateReceptor.xml");
 		// SBMLDocument testDocument =
@@ -330,9 +311,13 @@ public class SBMLReader {
 	 * @param fileName
 	 * @return the matching SBMLDocument instance.
 	 * @throws XMLStreamException
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	public static SBMLDocument readSBML(String fileName)
-			throws XMLStreamException, FileNotFoundException {
+			throws XMLStreamException, InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		return readSBMLFile(fileName);
 	}
 
@@ -344,9 +329,13 @@ public class SBMLReader {
 	 *            : name of the SBML file to read.
 	 * @return the initialised SBMLDocument.
 	 * @throws XMLStreamException
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	public static SBMLDocument readSBMLFile(String fileName)
-			throws XMLStreamException, FileNotFoundException {
+			throws XMLStreamException, InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		return readSBMLFromStream(new FileInputStream(new File(fileName)));
 	}
 
@@ -354,9 +343,13 @@ public class SBMLReader {
 	 * 
 	 * @param stream
 	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	public static SBMLDocument readSBMLFromStream(InputStream stream)
-			throws XMLStreamException {
+			throws XMLStreamException, InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		WstxInputFactory inputFactory = new WstxInputFactory();
 		HashMap<String, ReadingParser> initializedParsers = null;
 
@@ -371,6 +364,7 @@ public class SBMLReader {
 		QName currentNode = null;
 		boolean isNested = false;
 		boolean isText = false;
+		int level = -1, version = -1;
 
 		// Read all the elements of the file
 		while (xmlEventReader.hasNext()) {
@@ -405,11 +399,11 @@ public class SBMLReader {
 							.getAttributes(); iterator.hasNext();) {
 						AttributeEventImpl o = iterator.next();
 						if (o.getName().toString().equals("level")) {
-							sbmlDocument.setLevel(Integer
-									.parseInt(o.getValue()));
+							level = Integer.parseInt(o.getValue());
+							sbmlDocument.setLevel(level);
 						} else if (o.getName().toString().equals("version")) {
-							sbmlDocument.setVersion(Integer.parseInt(o
-									.getValue()));
+							version = Integer.parseInt(o.getValue());
+							sbmlDocument.setVersion(version);
 						}
 					}
 					SBMLElements.push(sbmlDocument);
@@ -417,7 +411,7 @@ public class SBMLReader {
 
 				// To be able to parse all the SBML file, the sbml node
 				// should have been read first.
-				if (!SBMLElements.isEmpty() && initializedParsers != null) {
+				if (!SBMLElements.isEmpty() && (initializedParsers != null)) {
 
 					// All the element should have a namespace.
 					if (elementNamespace != null) {
@@ -641,9 +635,13 @@ public class SBMLReader {
 	 * 
 	 * @param xml
 	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	public static SBMLDocument readSBMLFromString(String xml)
-			throws XMLStreamException {
+			throws XMLStreamException, InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		return readSBMLFromStream(new ByteArrayInputStream(xml.getBytes()));
 	}
 

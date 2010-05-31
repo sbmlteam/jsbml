@@ -29,7 +29,8 @@
  */
 package org.sbml.jsbml;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.InvalidPropertiesFormatException;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -132,10 +133,13 @@ public class JSBML {
 	 * @param filename
 	 * @return
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	public static SBMLDocument readSBML(String fileName)
-			throws XMLStreamException, FileNotFoundException {
+			throws XMLStreamException, InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		return SBMLReader.readSBML(fileName);
 	}
 
@@ -145,10 +149,13 @@ public class JSBML {
 	 * @param fileName
 	 * @return
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	public static SBMLDocument readSBMLFromFile(String fileName)
-			throws XMLStreamException, FileNotFoundException {
+			throws XMLStreamException, InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		return SBMLReader.readSBML(fileName);
 	}
 
@@ -158,9 +165,13 @@ public class JSBML {
 	 * @param xml
 	 * @return
 	 * @throws XMLStreamException
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	public static SBMLDocument readSBMLFromString(String xml)
-			throws XMLStreamException {
+			throws XMLStreamException, InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		return SBMLReader.readSBMLFromString(xml);
 	}
 
@@ -205,11 +216,13 @@ public class JSBML {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws InvalidPropertiesFormatException 
 	 */
 	public static void writeSBML(SBMLDocument d, String filename)
-			throws FileNotFoundException, XMLStreamException,
-			InstantiationException, IllegalAccessException {
+			throws XMLStreamException,
+			InstantiationException, IllegalAccessException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
 		SBMLWriter.write(d, filename);
 	}
 
@@ -222,10 +235,13 @@ public class JSBML {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 * @throws XMLStreamException
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws InvalidPropertiesFormatException 
 	 */
 	public static String writeSBMLToString(SBMLDocument d)
 			throws XMLStreamException, InstantiationException,
-			IllegalAccessException {
+			IllegalAccessException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
 		return SBMLWriter.writeSBMLToString(d);
 	}
 

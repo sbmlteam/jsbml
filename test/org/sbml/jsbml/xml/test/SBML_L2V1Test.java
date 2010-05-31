@@ -32,8 +32,9 @@ package org.sbml.jsbml.xml.test;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InvalidPropertiesFormatException;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -89,9 +90,11 @@ public class SBML_L2V1Test {
 	/**
 	 * 
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws InvalidPropertiesFormatException 
 	 */
-	@Test public void read1() throws XMLStreamException, FileNotFoundException {
+	@Test public void read1() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
 		// URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
 		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
 		
@@ -158,9 +161,11 @@ public class SBML_L2V1Test {
 	/**
 	 * 
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws InvalidPropertiesFormatException 
 	 */
-	@Test public void read2() throws XMLStreamException, FileNotFoundException {
+	@Test public void read2() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
 		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000227.xml";
 		
 		SBMLReader.readSBMLFile(fileName);
@@ -169,9 +174,11 @@ public class SBML_L2V1Test {
 	/**
 	 * 
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws InvalidPropertiesFormatException 
 	 */
-	@Test public void read3() throws XMLStreamException, FileNotFoundException {
+	@Test public void read3() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
 		String fileName = DATA_FOLDER + "/l2v4/BIOMD0000000228.xml"; // l2v4
 		
 		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
@@ -228,9 +235,11 @@ public class SBML_L2V1Test {
 	/**
 	 * 
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws InvalidPropertiesFormatException 
 	 */
-	@Test public void read4() throws XMLStreamException, FileNotFoundException {
+	@Test public void read4() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
 		String fileName = DATA_FOLDER + "/l2v4/BIOMD0000000229.xml"; // l2v4
 		
 		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
@@ -277,9 +286,11 @@ public class SBML_L2V1Test {
 	 * @throws XMLStreamException
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
-	 * @throws FileNotFoundException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws InvalidPropertiesFormatException 
 	 */
-	@Test public void write1() throws XMLStreamException, InstantiationException, IllegalAccessException, FileNotFoundException{
+	@Test public void write1() throws XMLStreamException, InstantiationException, IllegalAccessException, InvalidPropertiesFormatException, IOException, ClassNotFoundException{
 		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
 	
 		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
