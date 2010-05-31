@@ -100,7 +100,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 				if (listOfElementsToWrite.isEmpty()) {
 					listOfElementsToWrite = null;
 				}
-			} else if (sbase instanceof ListOf) {
+			} else if (sbase instanceof ListOf<?>) {
 				ListOf<SBase> listOf = (ListOf<SBase>) sbase;
 
 				if (!listOf.isEmpty()) {
@@ -433,7 +433,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 				} else if (contextObject instanceof Model) {
 
 					Model model = (Model) contextObject;
-					if (newContextObject instanceof ListOf) {
+					if (newContextObject instanceof ListOf<?>) {
 						if (elementName.equals("listOfUnitDefinitions")) {
 							ListOf listOfUnitDefinitions = (ListOf) newContextObject;
 							model
@@ -471,7 +471,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 					} else {
 						// TODO : SBML syntax error, throw an exception?
 					}
-				} else if (contextObject instanceof ListOf) {
+				} else if (contextObject instanceof ListOf<?>) {
 					ListOf list = (ListOf) contextObject;
 					if (list.getParentSBMLObject() instanceof Model) {
 

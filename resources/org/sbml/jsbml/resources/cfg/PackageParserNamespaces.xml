@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+   This file maps the name spaces of the supported levels and version and other
+   content of SBML files to parsers for the creation of JSBML data objects.
+  </comment>
+  <entry key="http://www.sbml.org/sbml/level3/version1/multi/version1">org.sbml.jsbml.xml.parsers.MultiParser</entry>
+  <entry key="http://www.sbml.org/sbml/level3/version1/groups/version1">org.sbml.jsbml.ext.groups.GroupsParser</entry>
+  <entry key="http://www.sbml.org/sbml/level3/version1/layout/version1">org.sbml.jsbml.ext.layout.LayoutParser</entry>
+  <entry key="http://www.sbml.org/sbml/level3/version1/core">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
+  <entry key="http://www.sbml.org/sbml/level2/version1">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
+  <entry key="http://www.sbml.org/sbml/level2/version2">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
+  <entry key="http://www.sbml.org/sbml/level2/version3">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
+  <entry key="http://www.sbml.org/sbml/level2/version4">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
+  <entry key="http://www.sbml.org/sbml/level2">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
+  <entry key="http://www.sbml.org/sbml/level1">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
+  <entry key="http://www.w3.org/1999/xhtml">org.sbml.jsbml.xml.parsers.StringParser</entry>
+  <entry key="http://www.w3.org/1999/02/22-rdf-syntax-ns#">org.sbml.jsbml.xml.parsers.RDFAnnotationParser</entry>
+  <entry key="http://purl.org/dc/elements/1.1/">org.sbml.jsbml.xml.parsers.CreatorParser</entry>
+  <entry key="http://purl.org/dc/terms/">org.sbml.jsbml.xml.parsers.DatesParser</entry>
+  <entry key="http://www.w3.org/2001/vcard-rdf/3.0#">org.sbml.jsbml.xml.parsers.VCardParser</entry>
+  <entry key="http://biomodels.net/biology-qualifiers/">org.sbml.jsbml.xml.parsers.BiologicalQualifierParser</entry>
+  <entry key="http://biomodels.net/model-qualifiers/">org.sbml.jsbml.xml.parsers.ModelQualifierParser</entry>
+  <entry key="http://www.w3.org/1998/Math/MathML">org.sbml.jsbml.xml.parsers.StringParser</entry>
+</properties>

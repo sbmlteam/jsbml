@@ -477,16 +477,17 @@ public class Compartment extends Symbol {
 	/**
 	 * Sets the spatialDimensions of this compartment to 'i'.
 	 * 
-	 * @param i 
-	 * @throws IllegalArgumentException if i < 0 or if  i > 3 
+	 * @param spatialDimension
+	 * @throws IllegalArgumentException
+	 *             if spatialDimension < 0 or if spatialDimension > 3
 	 */
-	public void setSpatialDimensions(int i) {
-		if (i >= 0 && i <= 3) {
+	public void setSpatialDimensions(int spatialDimension) {
+		if ((spatialDimension >= 0) && (spatialDimension <= 3)) {
 			isSetSpatialDimensions = true;
-			this.spatialDimensions = (short) i;
+			this.spatialDimensions = Short.valueOf((short) spatialDimension);
 		} else {
 			throw new IllegalArgumentException(String.format(
-					ERROR_MESSAGE_INVALID_DIM, i));
+					ERROR_MESSAGE_INVALID_DIM, spatialDimension));
 		}
 	}
 
@@ -494,16 +495,11 @@ public class Compartment extends Symbol {
 	 * Sets the spatialDimensions of this compartment to 'spatialDimensiosn'.
 	 * 
 	 * @param spatialDimensions
-	 * @throws IllegalArgumentException if i < 0 or if  i > 3 
+	 * @throws IllegalArgumentException
+	 *             if spatialDimension < 0 or if spatialDimension > 3
 	 */
 	public void setSpatialDimensions(short spatialDimensions) {
-		if (spatialDimensions >= 0 && spatialDimensions <= 3) {
-			isSetSpatialDimensions = true;
-			this.spatialDimensions = spatialDimensions;
-		} else {
-			throw new IllegalArgumentException(String.format(
-					ERROR_MESSAGE_INVALID_DIM, spatialDimensions));
-		}
+		setSpatialDimensions((int) spatialDimensions);
 	}
 
 	/**
@@ -516,8 +512,9 @@ public class Compartment extends Symbol {
 	 *            or an {@link Unit.Kind} identifier for the current
 	 *            level/version combination of this unit. Passing a null value
 	 *            to this method is equivalent to calling {@link #unsetUnits()}.
-	 *            
-	 * @throws IllegalArgumentException if the unit is not valid or if spatialDimensions = 0.           
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if the unit is not valid or if spatialDimensions = 0.
 	 */
 	public void setUnits(String units) {
 		if (getSpatialDimensions() > 0) {
@@ -532,8 +529,9 @@ public class Compartment extends Symbol {
 	 * Sets the Unit of this Compartment.
 	 * 
 	 * @param unit
-	 * 	 
-	 * @throws IllegalArgumentException if spatialDimensions = 0.           
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if spatialDimensions = 0.
 	 */
 	public void setUnits(Unit unit) {
 		if (getSpatialDimensions() > 0) {
@@ -551,8 +549,9 @@ public class Compartment extends Symbol {
 	 * 
 	 * @param unitKind
 	 * 
-	 * @throws IllegalArgumentException if spatialDimensions = 0.
-	 *            
+	 * @throws IllegalArgumentException
+	 *             if spatialDimensions = 0.
+	 * 
 	 */
 	public void setUnits(Unit.Kind unitKind) {
 		if (getSpatialDimensions() > 0) {
@@ -568,8 +567,9 @@ public class Compartment extends Symbol {
 	 * 
 	 * @param units
 	 * 
-	 * @throws IllegalArgumentException if spatialDimensions = 0.
-	 *            
+	 * @throws IllegalArgumentException
+	 *             if spatialDimensions = 0.
+	 * 
 	 */
 	public void setUnits(UnitDefinition unitDefinition) {
 		if (getSpatialDimensions() > 0) {
@@ -713,7 +713,6 @@ public class Compartment extends Symbol {
 			attributes.put("spatialDimensions", Short
 					.toString(getSpatialDimensions()));
 		}
-
 		if (isSetSize() && getLevel() > 1) {
 			attributes.put("size", Double.toString(getSize()));
 		}

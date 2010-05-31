@@ -40,7 +40,8 @@ package org.sbml.jsbml.test.sbml;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.InvalidPropertiesFormatException;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -75,10 +76,12 @@ public class TestReadFromFile1 {
 	/**
 	 * 
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws InvalidPropertiesFormatException 
 	 */
 	@Test
-	public void test_read_l1v1_branch() throws XMLStreamException, FileNotFoundException {
+	public void test_read_l1v1_branch() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
 		SBMLDocument d;
 		Model m;
 		Compartment c;

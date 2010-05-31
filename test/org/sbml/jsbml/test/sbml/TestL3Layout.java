@@ -39,7 +39,8 @@
 package org.sbml.jsbml.test.sbml;
 
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.InvalidPropertiesFormatException;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -86,9 +87,11 @@ public class TestL3Layout {
   /**
    * 
    * @throws XMLStreamException
- * @throws FileNotFoundException 
+ * @throws ClassNotFoundException 
+ * @throws IOException 
+ * @throws InvalidPropertiesFormatException 
    */
-  @Test public void test_L3_Layout_read1() throws XMLStreamException, FileNotFoundException
+  @Test public void test_L3_Layout_read1() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException
   {
 		String fileName = DATA_FOLDER + "/layout/GlycolysisLayout_small.xml";
 		

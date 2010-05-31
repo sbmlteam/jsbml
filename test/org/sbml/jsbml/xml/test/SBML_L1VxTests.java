@@ -32,7 +32,8 @@ package org.sbml.jsbml.xml.test;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.InvalidPropertiesFormatException;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -71,9 +72,11 @@ public class SBML_L1VxTests {
 	/**
 	 * 
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws InvalidPropertiesFormatException 
 	 */
-	@Test public void readL1V2Branch() throws XMLStreamException, FileNotFoundException {
+	@Test public void readL1V2Branch() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
 		// URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
 		String fileName = DATA_FOLDER + "/libsbml-test-data/l1v2-branch.xml";
 		
@@ -133,9 +136,11 @@ public class SBML_L1VxTests {
 	/**
 	 * 
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws InvalidPropertiesFormatException 
 	 */
-	@Test public void readL1V1Units() throws XMLStreamException, FileNotFoundException {
+	@Test public void readL1V1Units() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
 		// URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
 		String fileName = DATA_FOLDER + "/libsbml-test-data/l1v1-units.xml";
 		
