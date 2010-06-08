@@ -41,13 +41,14 @@ import org.sbml.jsbml.xml.stax.ReadingParser;
 /**
  * A StringParser can be used to store the MathML expressions and/or the html expressions into a String or StringBuffer in the
  * SBML component.
- * @author marine3
+ * 
+ * @author marine
  *
  */
 public class StringParser implements ReadingParser{
 	
 	/**
-	 * String to be able to detect what type of notes this parser is parsing. It can be 'notes', 'message' or 'math'.
+	 * String to be able to detect what type of String this parser is parsing. It can be 'notes', 'message' or 'math'.
 	 */
 	private String typeOfNotes = "";
 

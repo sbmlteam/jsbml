@@ -653,6 +653,8 @@ public class ASTNode implements TreeNode {
 	 */
 	private int exponent;
 
+	private String unitId;
+	
 	/**
 	 * Child nodes.
 	 */
@@ -1427,6 +1429,45 @@ public class ASTNode implements TreeNode {
 						"getExponent() should be called only when getType() == REAL_E or REAL"));
 	}
 
+	
+	
+	/**
+	 * Returns the units attribute.
+	 * 
+	 * @return the units attribute.
+	 */
+	public String getUnits() {
+		return unitId;
+	}
+
+	/**
+	 * Sets the units attribute.
+	 * 
+	 * @param unitId
+	 * @throws IllegalArgumentException if the ASTNode is not a kind of numbers (<cn> in mathml) or if
+	 * the <code>unitId</code> is not a valid unit kind or the id of a unit definition. 
+	 */
+	public void setUnits(String unitId) {
+		
+		if (!isNumber()) {
+			throw new IllegalArgumentException("Unexpected attribute, only literal numbers can defined a unit.");
+		}
+		if (parentSBMLObject != null && (!Unit.isValidUnit(parentSBMLObject.getModel(), unitId))) {
+			throw new IllegalArgumentException("Unexpected attribute, only a valid unit kind or the identifier of " 
+					+ "a unit definition are allowed here.");
+		}
+		
+		this.unitId = unitId;
+	}
+	
+	/**
+	 * Unset the units attribute.
+	 * 
+	 */
+	public void unsetUnits() {
+		unitId = null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1466,13 +1507,24 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Returns the list of children of the current ASTNode.
+	 *  
+	 * @return the list of children of the current ASTNode.
 	 */
 	public List<ASTNode> getListOfNodes() {
 		return listOfNodes;
 	}
 
+	/**
+	 * Returns the list of children of the current ASTNode.
+	 *  
+	 * @return the list of children of the current ASTNode.
+	 */
+	public List<ASTNode> getChildren() {
+		return listOfNodes;
+	}
+	
+	
 	/**
 	 * Get the mantissa value of this node. This function should be called only
 	 * when getType() returns REAL_E or REAL. If getType() returns REAL, this
@@ -1976,6 +2028,36 @@ public class ASTNode implements TreeNode {
 		return this;
 	}
 
+	/**
+	 * Returns true if the current ASTNode has a unit defined.
+	 * 
+	 * @return true if the current ASTNode has a unit defined.
+	 */
+	public boolean isSetUnits() {
+		return unitId != null;
+	}
+	
+	/**
+	 * Returns true if the current ASTNode or any of his descendant has a unit defined.
+	 * 
+	 * @return true if the current ASTNode or any of his descendant has a unit defined.
+	 */
+	public boolean hasUnits(){
+		boolean hasUnits = isSetUnits();
+		
+		if (!hasUnits) {
+			for (ASTNode child : getChildren()) {
+				hasUnits = child.hasUnits();
+				
+				if (hasUnits) {
+					break;
+				}
+			}
+		}
+		
+		return hasUnits;
+	}
+	
 	/**
 	 * multiplies this ASTNode with the given node
 	 * 
