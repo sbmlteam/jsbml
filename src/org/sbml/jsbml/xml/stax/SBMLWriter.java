@@ -72,12 +72,9 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ListOf.Type;
-import org.sbml.jsbml.ext.groups.GroupsParser;
 import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.parsers.MultiParser;
-import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -231,39 +228,26 @@ public class SBMLWriter {
 	 * @return the name space matching the level and version.
 	 */
 	private static String getNamespaceFrom(int level, int version) {
-		switch (level) {
-		case 3:
-			switch (version) {
-			case 1:
+		if (level == 3) {
+			if (version == 1) {
 				return "http://www.sbml.org/sbml/level3/version1/core";
-			default:
-				return null;
 			}
-		case 2:
-			switch (version) {
-			case 4:
+		} else if (level == 2) {
+			if (version == 4) {
 				return "http://www.sbml.org/sbml/level2/version4";
-			case 3:
+			} else if (version == 3) {
 				return "http://www.sbml.org/sbml/level2/version3";
-			case 2:
+			} else if (version == 2) {
 				return "http://www.sbml.org/sbml/level2/version2";
-			case 1:
+			} else if (version == 1) {
 				return "http://www.sbml.org/sbml/level2";
-			default:
-				return null;
 			}
-		case 1:
-			switch (version) {
-			case 2:
+		} else if (level == 1) {
+			if ((version == 1) || (version == 2)) {
 				return "http://www.sbml.org/sbml/level1";
-			case 1:
-				return "http://www.sbml.org/sbml/level1";
-			default:
-				break;
 			}
-		default:
-			return null;
 		}
+		return null;
 	}
 
 	/**
