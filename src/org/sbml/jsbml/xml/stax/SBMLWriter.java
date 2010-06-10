@@ -44,6 +44,7 @@ import java.util.HashMap;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.Map.Entry;
 
@@ -72,6 +73,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.ext.groups.GroupsParser;
+import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.parsers.MultiParser;
@@ -89,7 +91,7 @@ import com.ctc.wstx.stax.WstxOutputFactory;
  * @author Andreas Dr&auml;ger
  * 
  */
-public class SBMLWriter extends StringTools {
+public class SBMLWriter {
 
 	/**
 	 * contains the WritingParser instances of this class.
@@ -226,23 +228,42 @@ public class SBMLWriter extends StringTools {
 	 * 
 	 * @param level
 	 * @param version
-	 * @return the namespace matching the level and version.
+	 * @return the name space matching the level and version.
 	 */
 	private static String getNamespaceFrom(int level, int version) {
-		if (level == 3 && version == 1) {
-			return "http://www.sbml.org/sbml/level3/version1/core";
-		} else if (level == 2 && version == 4) {
-			return "http://www.sbml.org/sbml/level2/version4";
-		} else if (level == 2 && version == 3) {
-			return "http://www.sbml.org/sbml/level2/version3";
-		} else if (level == 2 && version == 2) {
-			return "http://www.sbml.org/sbml/level2/version2";
-		} else if (level == 2 && version == 1) {
-			return "http://www.sbml.org/sbml/level2";
-		} else if (level == 1 && version == 1) {
-			return "http://www.sbml.org/sbml/level1";
+		switch (level) {
+		case 3:
+			switch (version) {
+			case 1:
+				return "http://www.sbml.org/sbml/level3/version1/core";
+			default:
+				return null;
+			}
+		case 2:
+			switch (version) {
+			case 4:
+				return "http://www.sbml.org/sbml/level2/version4";
+			case 3:
+				return "http://www.sbml.org/sbml/level2/version3";
+			case 2:
+				return "http://www.sbml.org/sbml/level2/version2";
+			case 1:
+				return "http://www.sbml.org/sbml/level2";
+			default:
+				return null;
+			}
+		case 1:
+			switch (version) {
+			case 2:
+				return "http://www.sbml.org/sbml/level1";
+			case 1:
+				return "http://www.sbml.org/sbml/level1";
+			default:
+				break;
+			}
+		default:
+			return null;
 		}
-		return null;
 	}
 
 	/**
@@ -257,20 +278,34 @@ public class SBMLWriter extends StringTools {
 	}
 
 	/**
-	 * Initialises the packageParser HasMap of this class.
+	 * Initializes the packageParser {@link HasMap} of this class.
+	 * 
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
+	 * @throws ClassNotFoundException
 	 */
-	public static void initializePackageParserNamespaces() {
-		// TODO Load the map from a configuration file
-		packageParsers.put(
-				"http://www.sbml.org/sbml/level3/version1/multi/version1",
-				MultiParser.class);
-		packageParsers.put(
-				"http://www.sbml.org/sbml/level3/version1/groups/version1",
-				GroupsParser.class);
-		packageParsers.put("http://www.sbml.org/sbml/level3/version1/core",
-				SBMLCoreParser.class);
-		packageParsers.put("http://www.sbml.org/sbml/level2",
-				SBMLCoreParser.class);
+	@SuppressWarnings("unchecked")
+	public static void initializePackageParserNamespaces()
+			throws InvalidPropertiesFormatException, IOException,
+			ClassNotFoundException {
+		// packageParsers.put(
+		// "http://www.sbml.org/sbml/level3/version1/multi/version1",
+		// MultiParser.class);
+		// packageParsers.put(
+		// "http://www.sbml.org/sbml/level3/version1/groups/version1",
+		// GroupsParser.class);
+		// packageParsers.put("http://www.sbml.org/sbml/level3/version1/core",
+		// SBMLCoreParser.class);
+		// packageParsers.put("http://www.sbml.org/sbml/level2",
+		// SBMLCoreParser.class);
+		Properties p = new Properties();
+		p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
+				"org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml"));
+		for (Object k : p.keySet()) {
+			String key = k.toString();
+			packageParsers.put(key, (Class<? extends WritingParser>) Class
+					.forName(p.getProperty(key)));
+		}
 	}
 
 	/**
@@ -373,7 +408,7 @@ public class SBMLWriter extends StringTools {
 		SMOutputContext context = outputDocument.getContext();
 		SMNamespace namespace = context.getNamespace(SBMLNamespace);
 		namespace.setPreferredPrefix("");
-		outputDocument.addCharacters(newLine);
+		outputDocument.addCharacters(StringTools.newLine());
 
 		/*
 		 * Write a comment to track which program created this SBML file and
@@ -387,7 +422,7 @@ public class SBMLWriter extends StringTools {
 					.format(msg, programName, (programVersion != null)
 							&& (programVersion.length() > 0) ? programVersion
 							: "?", date, JSBML.getJSBMLDottedVersion()));
-			outputDocument.addCharacters(newLine);
+			outputDocument.addCharacters(StringTools.newLine());
 		}
 
 		SMOutputElement sbmlElement = outputDocument.addElement(namespace,
@@ -417,7 +452,7 @@ public class SBMLWriter extends StringTools {
 			writeAnnotation(sbmlDocument, sbmlElement, streamWriter,
 					SBMLNamespace, indent);
 		}
-		sbmlElement.addCharacters(newLine);
+		sbmlElement.addCharacters(StringTools.newLine());
 
 		writeSBMLElements(xmlObject, sbmlElement, streamWriter, sbmlDocument,
 				notesParser, MathMLParser, indent);
@@ -491,13 +526,13 @@ public class SBMLWriter extends StringTools {
 		Annotation annotation = sbase.getAnnotation();
 		SMOutputElement annotationElement;
 		String whiteSpaces = createIndent(indent);
-		element.addCharacters(newLine);
+		element.addCharacters(StringTools.newLine());
 		element.setIndentation(whiteSpaces, indent, 2);
 		annotationElement = element.addElement(namespace, "annotation");
 		annotationElement.setIndentation(whiteSpaces, indent, 2);
 
 		if (annotation.getNoRDFAnnotation() != null) {
-			StringBuffer annotationBeginning = concat(whiteSpaces,
+			StringBuffer annotationBeginning = StringTools.concat(whiteSpaces,
 					"<annotation");
 
 			HashMap<String, String> otherNamespaces = annotation
@@ -506,8 +541,8 @@ public class SBMLWriter extends StringTools {
 					.iterator();
 			while (it.hasNext()) {
 				Entry<String, String> entry = it.next();
-				append(annotationBeginning, " ", entry.getKey(), "=\"", entry
-						.getValue(), "\"");
+				StringTools.append(annotationBeginning, " ", entry.getKey(),
+						"=\"", entry.getValue(), "\"");
 				if (entry.getKey().contains(":")) {
 					String[] key = entry.getKey().split(":");
 					annotationElement.getNamespace(key[1], entry.getValue());
@@ -515,9 +550,9 @@ public class SBMLWriter extends StringTools {
 					annotationElement.getNamespace("", entry.getValue());
 				}
 			}
-			append(annotationBeginning, Character.valueOf('>'), newLine,
-					annotation.getNoRDFAnnotation(), whiteSpaces,
-					"</annotation>", newLine);
+			StringTools.append(annotationBeginning, Character.valueOf('>'),
+					StringTools.newLine(), annotation.getNoRDFAnnotation(),
+					whiteSpaces, "</annotation>", StringTools.newLine());
 
 			DOMConverter converter = new DOMConverter();
 			String annotationString = annotationBeginning.toString()
@@ -534,7 +569,7 @@ public class SBMLWriter extends StringTools {
 			converter.writeFragment(
 					domDocument.getFirstChild().getChildNodes(), writer);
 		} else {
-			writer.writeCharacters(newLine);
+			writer.writeCharacters(StringTools.newLine());
 		}
 
 		// if the given SBase is not a model and the level is smaller than 3,
@@ -595,12 +630,12 @@ public class SBMLWriter extends StringTools {
 						&& (prefix != null)) {
 					writer.writeCharacters(whiteSpace);
 					writer.writeStartElement(prefix, elementName, namespaceURI);
-					writer.writeCharacters(newLine);
+					writer.writeCharacters(StringTools.newLine());
 					if (cvTerm.getNumResources() > 0) {
 						writer.writeCharacters(whiteSpace + "  ");
 						writer.writeStartElement(rdfPrefix, "Bag",
 								"http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-						writer.writeCharacters(newLine);
+						writer.writeCharacters(StringTools.newLine());
 						for (int j = 0; j < cvTerm.getNumResources(); j++) {
 							writer.writeCharacters(whiteSpace + "    ");
 							writer
@@ -613,14 +648,14 @@ public class SBMLWriter extends StringTools {
 											"resource", cvTerm
 													.getResourceURI(j));
 							writer.writeEndElement();
-							writer.writeCharacters(newLine);
+							writer.writeCharacters(StringTools.newLine());
 						}
 						writer.writeCharacters(whiteSpace + "  ");
 						writer.writeEndElement();
-						writer.writeCharacters(newLine);
+						writer.writeCharacters(StringTools.newLine());
 						writer.writeCharacters(whiteSpace);
 						writer.writeEndElement();
-						writer.writeCharacters(newLine);
+						writer.writeCharacters(StringTools.newLine());
 					}
 				}
 			}
@@ -651,11 +686,11 @@ public class SBMLWriter extends StringTools {
 			writer.writeCharacters(whiteSpace);
 			writer.writeStartElement(creatorPrefix, "creator",
 					"http://purl.org/dc/elements/1.1/");
-			writer.writeCharacters(newLine);
+			writer.writeCharacters(StringTools.newLine());
 			writer.writeCharacters(whiteSpace + "  ");
 			writer.writeStartElement(rdfPrefix, "Bag",
 					"http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-			writer.writeCharacters(newLine);
+			writer.writeCharacters(StringTools.newLine());
 
 			for (int i = 0; i < history.getNumCreators(); i++) {
 				Creator modelCreator = history.getCreator(i);
@@ -670,14 +705,14 @@ public class SBMLWriter extends StringTools {
 
 				if (modelCreator.isSetFamilyName()
 						|| modelCreator.isSetGivenName()) {
-					writer.writeCharacters(newLine);
+					writer.writeCharacters(StringTools.newLine());
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeStartElement(vCardPrefix, "N",
 							"http://www.w3.org/2001/vcard-rdf/3.0#");
 					writer.writeAttribute(
 							"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 							"parseType", "Resource");
-					writer.writeCharacters(newLine);
+					writer.writeCharacters(StringTools.newLine());
 
 					if (modelCreator.isSetFamilyName()) {
 						writer.writeCharacters(whiteSpace + "        ");
@@ -685,7 +720,7 @@ public class SBMLWriter extends StringTools {
 								"http://www.w3.org/2001/vcard-rdf/3.0#");
 						writer.writeCharacters(modelCreator.getFamilyName());
 						writer.writeEndElement();
-						writer.writeCharacters(newLine);
+						writer.writeCharacters(StringTools.newLine());
 					}
 					if (modelCreator.isSetGivenName()) {
 						writer.writeCharacters(whiteSpace + "        ");
@@ -693,11 +728,11 @@ public class SBMLWriter extends StringTools {
 								"http://www.w3.org/2001/vcard-rdf/3.0#");
 						writer.writeCharacters(modelCreator.getGivenName());
 						writer.writeEndElement();
-						writer.writeCharacters(newLine);
+						writer.writeCharacters(StringTools.newLine());
 					}
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeEndElement();
-					writer.writeCharacters(newLine);
+					writer.writeCharacters(StringTools.newLine());
 				}
 
 				if (modelCreator.isSetEmail()) {
@@ -706,7 +741,7 @@ public class SBMLWriter extends StringTools {
 							"http://www.w3.org/2001/vcard-rdf/3.0#");
 					writer.writeCharacters(modelCreator.getEmail());
 					writer.writeEndElement();
-					writer.writeCharacters(newLine);
+					writer.writeCharacters(StringTools.newLine());
 				}
 				if (modelCreator.isSetOrganisation()) {
 					writer.writeCharacters(whiteSpace + "      ");
@@ -715,27 +750,27 @@ public class SBMLWriter extends StringTools {
 					writer.writeAttribute(rdfPrefix,
 							"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 							"parseType", "Resource");
-					writer.writeCharacters(newLine);
+					writer.writeCharacters(StringTools.newLine());
 					writer.writeCharacters(whiteSpace + "        ");
 					writer.writeStartElement(vCardPrefix, "Orgname",
 							"http://www.w3.org/2001/vcard-rdf/3.0#");
 					writer.writeCharacters(modelCreator.getOrganisation());
 					writer.writeEndElement();
-					writer.writeCharacters(newLine);
+					writer.writeCharacters(StringTools.newLine());
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeEndElement();
-					writer.writeCharacters(newLine);
+					writer.writeCharacters(StringTools.newLine());
 				}
 				writer.writeCharacters(whiteSpace + "    ");
 				writer.writeEndElement();
-				writer.writeCharacters(newLine);
+				writer.writeCharacters(StringTools.newLine());
 			}
 			writer.writeCharacters(whiteSpace + "  ");
 			writer.writeEndElement();
-			writer.writeCharacters(newLine);
+			writer.writeCharacters(StringTools.newLine());
 			writer.writeCharacters(whiteSpace);
 			writer.writeEndElement();
-			writer.writeCharacters(newLine);
+			writer.writeCharacters(StringTools.newLine());
 		}
 		String datePrefix = rdfNamespaces.get("http://purl.org/dc/terms/");
 
@@ -751,16 +786,16 @@ public class SBMLWriter extends StringTools {
 			writer.writeAttribute(rdfPrefix,
 					"http://www.w3.org/1999/02/22-rdf-syntax-ns#", "parseType",
 					"Resource");
-			writer.writeCharacters(newLine);
+			writer.writeCharacters(StringTools.newLine());
 			writer.writeCharacters(whiteSpace + "  ");
 			writer.writeStartElement(datePrefix, "W3CDTF",
 					"http://purl.org/dc/terms/");
 			writer.writeCharacters(history.getCreatedDate().toString());
 			writer.writeEndElement();
-			writer.writeCharacters(newLine);
+			writer.writeCharacters(StringTools.newLine());
 			writer.writeCharacters(whiteSpace);
 			writer.writeEndElement();
-			writer.writeCharacters(newLine);
+			writer.writeCharacters(StringTools.newLine());
 		}
 		if (history.isSetModifiedDate()) {
 			for (int i = 0; i < history.getNumModifiedDates(); i++) {
@@ -770,16 +805,16 @@ public class SBMLWriter extends StringTools {
 				writer.writeAttribute(rdfPrefix,
 						"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 						"parseType", "Resource");
-				writer.writeCharacters(newLine);
+				writer.writeCharacters(StringTools.newLine());
 				writer.writeCharacters(whiteSpace + "  ");
 				writer.writeStartElement(datePrefix, "W3CDTF",
 						"http://purl.org/dc/terms/");
 				writer.writeCharacters(history.getModifiedDate(i).toString());
 				writer.writeEndElement();
-				writer.writeCharacters(newLine);
+				writer.writeCharacters(StringTools.newLine());
 				writer.writeCharacters(whiteSpace);
 				writer.writeEndElement();
-				writer.writeCharacters(newLine);
+				writer.writeCharacters(StringTools.newLine());
 			}
 		}
 	}
@@ -802,14 +837,14 @@ public class SBMLWriter extends StringTools {
 		try {
 			DOMConverter converter = new DOMConverter();
 
-			element.addCharacters(newLine);
+			element.addCharacters(StringTools.newLine());
 
 			String math = m.getMathBufferToString().replaceAll("&", "&amp;");
 
 			Document domDocument = JAXPFacade.getInstance().create(
 					new BufferedReader(new StringReader(math)), true);
 			converter.writeFragment(domDocument.getChildNodes(), writer);
-			element.addCharacters(newLine);
+			element.addCharacters(StringTools.newLine());
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {
@@ -835,16 +870,16 @@ public class SBMLWriter extends StringTools {
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
 		try {
-			element.addCharacters(newLine);
+			element.addCharacters(StringTools.newLine());
 
 			DOMConverter converter = new DOMConverter();
 			SMOutputElement note = element.addElementWithCharacters(namespace,
-					"message", newLine);
+					"message", StringTools.newLine());
 			String messageString = sbase.getMessage().replaceAll("&", "&amp;");
 			Document domDocument = JAXPFacade.getInstance().create(
 					new BufferedReader(new StringReader(messageString)), true);
 			converter.writeFragment(domDocument.getChildNodes(), writer);
-			note.addCharacters(newLine);
+			note.addCharacters(StringTools.newLine());
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {
@@ -872,13 +907,13 @@ public class SBMLWriter extends StringTools {
 
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
-		element.addCharacters(newLine);
+		element.addCharacters(StringTools.newLine());
 		String whiteSpaces = createIndent(indent);
 		writer.writeCharacters(whiteSpaces);
 
 		DOMConverter converter = new DOMConverter();
 		SMOutputElement note = element.addElementWithCharacters(namespace,
-				"notes", newLine);
+				"notes", StringTools.newLine());
 		note.setIndentation(whiteSpaces, indent, 2);
 		String notes = sbase.getNotesString();
 		/*
@@ -891,7 +926,7 @@ public class SBMLWriter extends StringTools {
 			Document domDocument = JAXPFacade.getInstance().create(
 					new BufferedReader(new StringReader(notes)), true);
 			converter.writeFragment(domDocument.getChildNodes(), writer);
-			note.addCharacters(newLine);
+			note.addCharacters(StringTools.newLine());
 		} catch (SAXException e) {
 			e.printStackTrace();
 		}
@@ -929,13 +964,13 @@ public class SBMLWriter extends StringTools {
 				writer.writeNamespace(entry.getValue(), entry.getKey());
 			}
 		}
-		rdfElement.addCharacters(newLine);
+		rdfElement.addCharacters(StringTools.newLine());
 		rdfElement.setIndentation(whiteSpace + "  ", indent + 2, 2);
 		SMOutputElement descriptionElement = rdfElement.addElement(namespace,
 				"Description");
 		descriptionElement.addAttribute(namespace, "about", annotation
 				.getAbout());
-		descriptionElement.addCharacters(newLine);
+		descriptionElement.addCharacters(StringTools.newLine());
 		if (annotation.isSetHistory()) {
 			writeHistory(annotation.getHistory(), rdfNamespaces, writer,
 					indent + 4);
@@ -947,9 +982,9 @@ public class SBMLWriter extends StringTools {
 		descriptionElement.setIndentation(whiteSpace + "  ", indent + 2, 2);
 		descriptionElement.addCharacters(whiteSpace + "  ");
 		annotationElement.setIndentation(whiteSpace, indent, 2);
-		rdfElement.addCharacters(newLine);
+		rdfElement.addCharacters(StringTools.newLine());
 		rdfElement.addCharacters(whiteSpace);
-		annotationElement.addCharacters(newLine);
+		annotationElement.addCharacters(StringTools.newLine());
 	}
 
 	/**
@@ -985,9 +1020,9 @@ public class SBMLWriter extends StringTools {
 		// + parentElement.getLocalName() + ", "
 		// + parentElement.getNamespace().getURI());
 		// System.out.println("SBMLWriter : writeSBMLElements : objectToWrite = "
-		// + objectToWrite + newLine);
+		// + objectToWrite + StringTools.newLine());
 		// System.out.println("SBMLWriter : writeSBMLElements : listOfPackages = "
-		// + listOfPackages + newLine);
+		// + listOfPackages + StringTools.newLine());
 
 		Iterator<WritingParser> iterator = listOfPackages.iterator();
 		while (iterator.hasNext()) {
@@ -1112,12 +1147,12 @@ public class SBMLWriter extends StringTools {
 										streamWriter, indent + 2);
 							}
 						}
-						newOutPutElement.addCharacters(newLine);
+						newOutPutElement.addCharacters(StringTools.newLine());
 
 						writeSBMLElements(xmlObject, newOutPutElement,
 								streamWriter, nextObjectToWrite, notesParser,
 								MathMLParser, indent + 2);
-						parentElement.addCharacters(newLine);
+						parentElement.addCharacters(StringTools.newLine());
 					}
 					streamWriter.writeCharacters(whiteSpaces.substring(0,
 							indent - 2));
