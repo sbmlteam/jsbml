@@ -319,13 +319,14 @@ public class SBMLWriter extends StringTools {
 	 * @throws XMLStreamException
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
-	 * @throws ClassNotFoundException 
-	 * @throws IOException 
-	 * @throws InvalidPropertiesFormatException 
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	public static void write(SBMLDocument sbmlDocument, OutputStream stream)
 			throws XMLStreamException, InstantiationException,
-			IllegalAccessException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
+			IllegalAccessException, InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		write(sbmlDocument, stream, null, null);
 	}
 
@@ -349,6 +350,10 @@ public class SBMLWriter extends StringTools {
 			throws XMLStreamException, InstantiationException,
 			IllegalAccessException, InvalidPropertiesFormatException,
 			IOException, ClassNotFoundException {
+		if (!sbmlDocument.isSetLevel() || !sbmlDocument.isSetVersion()) {
+			throw new IllegalArgumentException(
+					"Unable to write SBML output for documents with undefined SBML Level and Version flag.");
+		}
 		SBMLReader.initializePackageParserNamespaces();
 		SBMLWriter.initializePackageParserNamespaces();
 		// TODO: What is this call good for? The returned Map is never read.
@@ -363,7 +368,6 @@ public class SBMLWriter extends StringTools {
 				streamWriter, "1.0", "UTF-8", false);
 		// outputDocument.setIndentation(newLine + " ", 1, 2);
 
-		// TODO: What happens if Level and Version are not set?
 		String SBMLNamespace = getNamespaceFrom(sbmlDocument.getLevel(),
 				sbmlDocument.getVersion());
 		SMOutputContext context = outputDocument.getContext();
@@ -431,13 +435,14 @@ public class SBMLWriter extends StringTools {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 * @throws XMLStreamException
-	 * @throws ClassNotFoundException 
-	 * @throws IOException 
-	 * @throws InvalidPropertiesFormatException 
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	public static void write(SBMLDocument sbmlDocument, String fileName)
-			throws XMLStreamException,
-			InstantiationException, IllegalAccessException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
+			throws XMLStreamException, InstantiationException,
+			IllegalAccessException, InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		write(sbmlDocument, fileName, null, null);
 	}
 
@@ -450,14 +455,15 @@ public class SBMLWriter extends StringTools {
 	 * @throws XMLStreamException
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
-	 * @throws ClassNotFoundException 
-	 * @throws IOException 
-	 * @throws InvalidPropertiesFormatException 
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	public static void write(SBMLDocument sbmlDocument, String fileName,
 			String programName, String programVersion)
-			throws XMLStreamException,
-			InstantiationException, IllegalAccessException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
+			throws XMLStreamException, InstantiationException,
+			IllegalAccessException, InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		write(sbmlDocument, new BufferedOutputStream(new FileOutputStream(
 				fileName)), programName, programVersion);
 	}
@@ -1127,13 +1133,14 @@ public class SBMLWriter extends StringTools {
 	 * @throws XMLStreamException
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
-	 * @throws ClassNotFoundException 
-	 * @throws IOException 
-	 * @throws InvalidPropertiesFormatException 
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	public static String writeSBMLToString(SBMLDocument d)
 			throws XMLStreamException, InstantiationException,
-			IllegalAccessException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
+			IllegalAccessException, InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		return writeSBMLToString(d, null, null);
 	}
 
@@ -1146,13 +1153,15 @@ public class SBMLWriter extends StringTools {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 * @throws XMLStreamException
-	 * @throws ClassNotFoundException 
-	 * @throws IOException 
-	 * @throws InvalidPropertiesFormatException 
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	public static String writeSBMLToString(SBMLDocument d, String programName,
 			String programVersion) throws XMLStreamException,
-			InstantiationException, IllegalAccessException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
+			InstantiationException, IllegalAccessException,
+			InvalidPropertiesFormatException, IOException,
+			ClassNotFoundException {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		write(d, stream, programName, programVersion);
 		return stream.toString();
