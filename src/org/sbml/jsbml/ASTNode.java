@@ -2190,6 +2190,9 @@ public class ASTNode implements TreeNode {
 					times.addChild(listOfNodes.remove(i));
 				}
 				addChild(times);
+//				if (getLeftChild().isMinusOne() || getRightChild().isMinusOne()) {
+					// TODO
+//				}
 				break;
 			case DIVIDE:
 				// TODO
