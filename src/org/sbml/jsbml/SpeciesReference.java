@@ -283,7 +283,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 			return stoichiometryMath.getDerivedUnitDefinition();
 		}
 		UnitDefinition ud = new UnitDefinition(getLevel(), getVersion());
-		ud.addUnit(new Unit(Unit.Kind.DIMENSIONLESS, getLevel(), getVersion()));
+		ud.addUnit(Unit.Kind.DIMENSIONLESS);
 		return ud;
 	}
 
