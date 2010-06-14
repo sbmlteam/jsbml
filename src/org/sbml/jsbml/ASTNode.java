@@ -1152,27 +1152,27 @@ public class ASTNode implements TreeNode {
 				value.setUIFlag(getNumChildren() <= 1);
 				break;
 			case RELATIONAL_EQ:
-				value = compiler.equal(getLeftChild().compile(compiler),
+				value = compiler.eq(getLeftChild().compile(compiler),
 						getRightChild().compile(compiler));
 				break;
 			case RELATIONAL_GEQ:
-				value = compiler.greaterEqual(getLeftChild().compile(compiler),
+				value = compiler.ge(getLeftChild().compile(compiler),
 						getRightChild().compile(compiler));
 				break;
 			case RELATIONAL_GT:
-				value = compiler.greaterThan(getLeftChild().compile(compiler),
+				value = compiler.gt(getLeftChild().compile(compiler),
 						getRightChild().compile(compiler));
 				break;
 			case RELATIONAL_NEQ:
-				value = compiler.notEqual(getLeftChild().compile(compiler),
+				value = compiler.ne(getLeftChild().compile(compiler),
 						getRightChild().compile(compiler));
 				break;
 			case RELATIONAL_LEQ:
-				value = compiler.lessEqual(getLeftChild().compile(compiler),
+				value = compiler.le(getLeftChild().compile(compiler),
 						getRightChild().compile(compiler));
 				break;
 			case RELATIONAL_LT:
-				value = compiler.lessThan(getLeftChild().compile(compiler),
+				value = compiler.lt(getLeftChild().compile(compiler),
 						getRightChild().compile(compiler));
 				break;
 			default: // UNKNOWN:

@@ -235,12 +235,13 @@ public interface ASTNodeCompiler {
 	public ASTNodeValue delay(ASTNodeValue x, double d);
 
 	/**
+	 * Equal.
 	 * 
 	 * @param left
 	 * @param right
 	 * @return
 	 */
-	public ASTNodeValue equal(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue eq(ASTNodeValue left, ASTNodeValue right);
 
 	/**
 	 * 
@@ -289,6 +290,15 @@ public interface ASTNodeCompiler {
 			ASTNodeValue... args);
 
 	/**
+	 * Greater equal.
+	 * 
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	public ASTNodeValue ge(ASTNodeValue left, ASTNodeValue right);
+
+	/**
 	 * 
 	 * @return
 	 */
@@ -325,20 +335,13 @@ public interface ASTNodeCompiler {
 	public ASTNodeValue getPositiveInfinity();
 
 	/**
+	 * Greater than.
 	 * 
 	 * @param left
 	 * @param right
 	 * @return
 	 */
-	public ASTNodeValue greaterEqual(ASTNodeValue left, ASTNodeValue right);
-
-	/**
-	 * 
-	 * @param leftChild
-	 * @param rightChild
-	 * @return
-	 */
-	public ASTNodeValue greaterThan(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue gt(ASTNodeValue left, ASTNodeValue right);
 
 	/**
 	 * 
@@ -348,20 +351,13 @@ public interface ASTNodeCompiler {
 	public ASTNodeValue lambda(ASTNodeValue... values);
 
 	/**
+	 * Less equal.
 	 * 
 	 * @param left
 	 * @param right
 	 * @return
 	 */
-	public ASTNodeValue lessEqual(ASTNodeValue left, ASTNodeValue right);
-
-	/**
-	 * 
-	 * @param left
-	 * @param right
-	 * @return
-	 */
-	public ASTNodeValue lessThan(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue le(ASTNodeValue left, ASTNodeValue right);
 
 	/**
 	 * 
@@ -386,6 +382,15 @@ public interface ASTNodeCompiler {
 	public ASTNodeValue log(ASTNodeValue left, ASTNodeValue right);
 
 	/**
+	 * Less than.
+	 * 
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	public ASTNodeValue lt(ASTNodeValue left, ASTNodeValue right);
+
+	/**
 	 * 
 	 * @param values
 	 * @return
@@ -393,19 +398,20 @@ public interface ASTNodeCompiler {
 	public ASTNodeValue minus(ASTNodeValue... values);
 
 	/**
-	 * 
-	 * @param value
-	 * @return
-	 */
-	public ASTNodeValue not(ASTNodeValue value);
-
-	/**
+	 * Not equal.
 	 * 
 	 * @param left
 	 * @param right
 	 * @return
 	 */
-	public ASTNodeValue notEqual(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue ne(ASTNodeValue left, ASTNodeValue right);
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public ASTNodeValue not(ASTNodeValue value);
 
 	/**
 	 * 

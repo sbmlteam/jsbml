@@ -411,6 +411,17 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Convenient method to add a new unit object with the given kind that will
+	 * have the same level/version combination than this {@link UnitDefinition}
+	 * object.
+	 * 
+	 * @param kind
+	 */
+	public void addUnit(Unit.Kind kind) {
+		addUnit(new Unit(kind, getLevel(), getVersion()));
+	}
+
+	/**
 	 * Removes all {@link Unit} elements from the list of Units in this object.
 	 */
 	public void clear() {

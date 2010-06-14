@@ -319,7 +319,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#equal(org.sbml.jsbml.ASTNodeValue,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue equal(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue eq(ASTNodeValue left, ASTNodeValue right) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -456,7 +456,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#greaterEqual(org.sbml.jsbml.ASTNodeValue,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue greaterEqual(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue ge(ASTNodeValue left, ASTNodeValue right) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -468,7 +468,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#greaterThan(org.sbml.jsbml.ASTNodeValue,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue greaterThan(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue gt(ASTNodeValue left, ASTNodeValue right) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -490,7 +490,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#lessEqual(org.sbml.jsbml.ASTNodeValue,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue lessEqual(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue le(ASTNodeValue left, ASTNodeValue right) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -501,7 +501,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#lessThan(org.sbml.jsbml.ASTNodeValue,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue lessThan(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue lt(ASTNodeValue left, ASTNodeValue right) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -563,7 +563,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#notEqual(org.sbml.jsbml.ASTNodeValue,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue notEqual(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue ne(ASTNodeValue left, ASTNodeValue right) {
 		// TODO Auto-generated method stub
 		return null;
 	}
