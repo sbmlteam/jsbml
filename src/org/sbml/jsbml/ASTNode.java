@@ -1822,6 +1822,17 @@ public class ASTNode implements TreeNode {
 	public boolean isLogical() {
 		return type.toString().startsWith("LOGICAL_");
 	}
+	
+	/**
+	 * Returns true if this astnode represents the number minus one (either as integer
+	 * or as real value).
+	 * 
+	 * @return
+	 */
+	public boolean isMinusOne() {
+		return (isReal() && getReal() == -1d)
+				|| (isInteger() && getInteger() == -1);
+	}
 
 	/**
 	 * Predicate returning true (non-zero) if this node is a user-defined
