@@ -260,13 +260,13 @@ public class FunctionDefinition extends MathContainer implements
 	 * 
 	 * @see org.sbml.jsbml.element.MathContainer#setMath(org.sbml.ASTNode)
 	 */
-	// @Override
+	@Override
 	public void setMath(ASTNode math) {
 		if (!math.isLambda()) {
 			throw new IllegalArgumentException(
-					"Math element must be of type Lambda.");
+					"math element must be of type Lambda");
 		}
-		super.setMath(math.clone());
+		super.setMath(math);
 	}
 
 	/*

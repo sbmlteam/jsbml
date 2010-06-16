@@ -30,6 +30,7 @@
 package org.sbml.jsbml;
 
 import org.sbml.jsbml.ASTNode.Type;
+import org.w3c.dom.Node;
 
 /**
  * When interpreting {@link ASTNode}s, the {@link ASTNodeCompiler} takes
@@ -72,6 +73,14 @@ public class ASTNodeValue {
 	 * {@link ClassCastException} will be thrown..
 	 */
 	private ASTNodeCompiler compiler;
+	/**
+	 * The level of the underlying {@link SBMLDocument}.
+	 */
+	private int level;
+	/**
+	 * The version of the underlying {@link SBMLDocument}.
+	 */
+	private int version;
 
 	/**
 	 * 
@@ -177,6 +186,16 @@ public class ASTNodeValue {
 	}
 
 	/**
+	 * Returns the level of the SBML document that was the basis to create this
+	 * {@link ASTNodeValue}.
+	 * 
+	 * @return
+	 */
+	public int getLevel() {
+		return level;
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
@@ -205,6 +224,13 @@ public class ASTNodeValue {
 	}
 
 	/**
+	 * @return the version
+	 */
+	public int getVersion() {
+		return version;
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
@@ -226,6 +252,19 @@ public class ASTNodeValue {
 	 */
 	public boolean isNamedSBaseWithDerivedUnit() {
 		return (value != null) && (value instanceof NamedSBaseWithDerivedUnit);
+	}
+
+	/**
+	 * Checks whether the value encapsulated in this {@link ASTNodeValue} is an
+	 * instance of {@link Node}.
+	 * 
+	 * @return
+	 */
+	public boolean isNode() {
+		if (value == null) {
+			return false;
+		}
+		return value instanceof Node;
 	}
 
 	/**
@@ -294,6 +333,14 @@ public class ASTNodeValue {
 	}
 
 	/**
+	 * @param level
+	 *            the level to set
+	 */
+	void setLevel(int level) {
+		this.level = level;
+	}
+
+	/**
 	 * 
 	 * @param type
 	 */
@@ -324,7 +371,7 @@ public class ASTNodeValue {
 	public void setValue(boolean value) {
 		setValue(Boolean.valueOf(value));
 	}
-	
+
 	/**
 	 * 
 	 * @param value
@@ -348,7 +395,7 @@ public class ASTNodeValue {
 	public void setValue(int i) {
 		setValue(Integer.valueOf(i));
 	}
-	
+
 	/**
 	 * 
 	 * @param l
@@ -356,7 +403,7 @@ public class ASTNodeValue {
 	public void setValue(long l) {
 		setValue(Long.valueOf(l));
 	}
-	
+
 	/**
 	 * 
 	 * @param value
@@ -364,7 +411,15 @@ public class ASTNodeValue {
 	public void setValue(NamedSBaseWithDerivedUnit value) {
 		this.value = value;
 	}
-	
+
+	/**
+	 * 
+	 * @param value
+	 */
+	public void setValue(Node value) {
+		this.value = value;
+	}
+
 	/**
 	 * 
 	 * @param value
@@ -372,7 +427,7 @@ public class ASTNodeValue {
 	public void setValue(Number value) {
 		this.value = value;
 	}
-	
+
 	/**
 	 * 
 	 * @param s
@@ -387,6 +442,14 @@ public class ASTNodeValue {
 	 */
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	/**
+	 * @param version
+	 *            the version to set
+	 */
+	void setVersion(int version) {
+		this.version = version;
 	}
 
 	/**
@@ -475,6 +538,17 @@ public class ASTNodeValue {
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	public Node toNode() {
+		if (isNode()) {
+			return (Node) value;
+		}
+		return null;
+	}
+
+	/**
 	 * Tries to convert the value contained in this object into a double number.
 	 * 
 	 * @return The number value represented by this given {@link ASTNodeValue}.
@@ -517,6 +591,9 @@ public class ASTNodeValue {
 	 */
 	@Override
 	public String toString() {
+		if (isNode()) {
+			return compiler.toString(this);
+		}
 		return (value != null) ? value.toString() : super.toString();
 	}
 

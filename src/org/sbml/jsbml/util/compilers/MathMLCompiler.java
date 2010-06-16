@@ -28,18 +28,94 @@
  */
 package org.sbml.jsbml.util.compilers;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.StringWriter;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamException;
+
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNodeCompiler;
 import org.sbml.jsbml.ASTNodeValue;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+import com.sun.org.apache.xml.internal.serialize.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 /**
+ * With this compiler, an {@link ASTNode} can be transformed into a MathML
+ * string.
+ * 
  * @author Andreas Dr&auml;ger
  * @date 2010-05-18
  * 
  */
 public class MathMLCompiler implements ASTNodeCompiler {
+
+	/**
+	 * The additional MathML name space for units to numbers.
+	 */
+	private static final String xmlnsSBML = "http://www.sbml.org/sbml/level3/version1/core";
+
+	/**
+	 * @return the namespace
+	 */
+	public static String getNamespace() {
+		return namespace;
+	}
+
+	/**
+	 * @return the xmlnssbml
+	 */
+	public static String getXMLnamespaceSBML() {
+		return xmlnsSBML;
+	}
+
+	/**
+	 * XML document for the output.
+	 */
+	private Document document;
+
+	/**
+	 * The number of white spaces for the indent if this is to be used.
+	 */
+	private short indent;
+
+	/**
+	 * If true no XML declaration will be written into the MathML output,
+	 * otherwise the XML version will appear at the beginning of the output.
+	 */
+	private boolean omitXMLDeclaration;
+
+	/**
+	 * Decides whether or not the content of the MathML string should be
+	 * indented.
+	 */
+	private boolean indenting;
+
+	/**
+	 * The name space of MathML.
+	 */
+	private static final String namespace = "http://www.w3.org/1998/Math/MathML";
+
+	/**
+	 * 
+	 * @throws ParserConfigurationException
+	 */
+	public MathMLCompiler() throws XMLStreamException {
+		indent = 2;
+		indenting = true;
+		omitXMLDeclaration = true;
+		init();
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -47,8 +123,45 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue abs(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("abs", value);
+	}
+
+	/**
+	 * Creates a {@link Node} with the tag "apply" and adds the given
+	 * {@link Node} as its child. Then it creates a new {@link ASTNodeValue}
+	 * that wraps the apply {@link Node}.
+	 * 
+	 * @param tagName
+	 *            The name of the node to be created, e.g., "abs" or "and".
+	 * @param childNodes
+	 *            at least one child should be passed to this method.
+	 * @return
+	 */
+	private ASTNodeValue createApplyNode(String tagName,
+			ASTNodeValue... childNodes) {
+		Element apply = document.createElement("apply");
+		Element tag = document.createElement(tagName);
+		apply.appendChild(tag);
+		for (ASTNodeValue n : childNodes) {
+			apply.appendChild(n.toNode());
+		}
+		ASTNodeValue v = new ASTNodeValue(this);
+		v.setValue(apply);
+		return v;
+	}
+
+	/**
+	 * Creates an {@link ASTNodeValue} with the single node as defined by the
+	 * tagName.
+	 * 
+	 * @param tagName
+	 * @return
+	 */
+	private ASTNodeValue createConstant(String tagName) {
+		Element tag = document.createElement(tagName);
+		ASTNodeValue v = new ASTNodeValue(this);
+		v.setValue(tag);
+		return v;
 	}
 
 	/*
@@ -57,8 +170,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#and(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue and(ASTNodeValue... values) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("and", values);
 	}
 
 	/*
@@ -67,8 +179,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arccos(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arccos(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("arccos", value);
 	}
 
 	/*
@@ -77,8 +188,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arccosh(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arccosh(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("arccosh", value);
 	}
 
 	/*
@@ -87,8 +197,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arccot(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arccot(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("arccot", value);
 	}
 
 	/*
@@ -97,8 +206,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arccoth(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arccoth(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("arccoth", value);
 	}
 
 	/*
@@ -107,8 +215,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arccsc(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arccsc(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("arccsc", value);
 	}
 
 	/*
@@ -117,8 +224,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arccsch(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arccsch(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("arccsch", value);
 	}
 
 	/*
@@ -127,8 +233,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsec(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arcsec(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("arcsec", value);
 	}
 
 	/*
@@ -137,8 +242,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsech(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arcsech(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("arcsech", value);
 	}
 
 	/*
@@ -147,8 +251,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsin(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arcsin(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("arcsin", value);
 	}
 
 	/*
@@ -157,8 +260,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsinh(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arcsinh(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("arcsinh", value);
 	}
 
 	/*
@@ -167,8 +269,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arctan(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arctan(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("arctan", value);
 	}
 
 	/*
@@ -177,8 +278,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arctanh(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arctanh(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("arctanh", value);
 	}
 
 	/*
@@ -187,8 +287,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#ceiling(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue ceiling(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("ceiling", value);
 	}
 
 	/*
@@ -197,8 +296,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(org.sbml.jsbml.Compartment)
 	 */
 	public ASTNodeValue compile(Compartment c) {
-		// TODO Auto-generated method stub
-		return null;
+		return compile((NamedSBaseWithDerivedUnit) c);
 	}
 
 	/*
@@ -207,8 +305,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double)
 	 */
 	public ASTNodeValue compile(double real) {
-		// TODO Auto-generated method stub
-		return null;
+		return createCnElement(Double.valueOf(real));
 	}
 
 	/*
@@ -217,8 +314,24 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(int)
 	 */
 	public ASTNodeValue compile(int integer) {
-		// TODO Auto-generated method stub
-		return null;
+		return createCnElement(Integer.valueOf(integer));
+	}
+
+	/**
+	 * 
+	 * @param value
+	 * @param type
+	 * @return
+	 */
+	private ASTNodeValue createCnElement(Number value) {
+		Element node = document.createElement("cn");
+		node
+				.setAttribute("type", value instanceof Integer ? "integer"
+						: "real");
+		node.setTextContent(" " + value.toString() + " ");
+		ASTNodeValue v = new ASTNodeValue(this);
+		v.setValue(node);
+		return v;
 	}
 
 	/*
@@ -248,8 +361,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#cos(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue cos(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("cos", value);
 	}
 
 	/*
@@ -258,8 +370,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#cosh(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue cosh(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("cosh", value);
 	}
 
 	/*
@@ -268,8 +379,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#cot(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue cot(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("cot", value);
 	}
 
 	/*
@@ -278,8 +388,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#coth(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue coth(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("coth", value);
 	}
 
 	/*
@@ -288,8 +397,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#csc(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue csc(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("csc", value);
 	}
 
 	/*
@@ -298,8 +406,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#csch(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue csch(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("csch", value);
 	}
 
 	/*
@@ -351,8 +458,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#floor(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue floor(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("floor", value);
 	}
 
 	/*
@@ -361,7 +467,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#frac(org.sbml.jsbml.ASTNodeValue,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue frac(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue frac(ASTNodeValue numerator, ASTNodeValue denominator) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -392,11 +498,22 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.sbml.jsbml.ASTNodeCompiler#greaterEqual(org.sbml.jsbml.ASTNodeValue,
+	 * org.sbml.jsbml.ASTNodeValue)
+	 */
+	public ASTNodeValue geq(ASTNodeValue left, ASTNodeValue right) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantE()
 	 */
 	public ASTNodeValue getConstantE() {
-		// TODO Auto-generated method stub
-		return null;
+		return createConstant("exponentiale");
 	}
 
 	/*
@@ -405,8 +522,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantFalse()
 	 */
 	public ASTNodeValue getConstantFalse() {
-		// TODO Auto-generated method stub
-		return null;
+		return createConstant(Boolean.FALSE.toString());
 	}
 
 	/*
@@ -415,8 +531,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantPi()
 	 */
 	public ASTNodeValue getConstantPi() {
-		// TODO Auto-generated method stub
-		return null;
+		return createConstant("pi");
 	}
 
 	/*
@@ -425,8 +540,30 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantTrue()
 	 */
 	public ASTNodeValue getConstantTrue() {
-		// TODO Auto-generated method stub
-		return null;
+		return createConstant(Boolean.TRUE.toString());
+	}
+
+	/**
+	 * @return the document
+	 */
+	public Document getDocument() {
+		return document;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getIndent() {
+		return indent;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean getIndenting() {
+		return indenting;
 	}
 
 	/*
@@ -435,8 +572,15 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getNegativeInfinity()
 	 */
 	public ASTNodeValue getNegativeInfinity() {
-		// TODO Auto-generated method stub
-		return null;
+		return times(compile(-1), getPositiveInfinity());
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean getOmitXMLDeclaration() {
+		return omitXMLDeclaration;
 	}
 
 	/*
@@ -445,20 +589,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getPositiveInfinity()
 	 */
 	public ASTNodeValue getPositiveInfinity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#greaterEqual(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue ge(ASTNodeValue left, ASTNodeValue right) {
-		// TODO Auto-generated method stub
-		return null;
+		return createConstant("infinity");
 	}
 
 	/*
@@ -473,14 +604,37 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @throws XMLStreamException
+	 */
+	private void init() throws XMLStreamException {
+		try {
+			// create document
+			DocumentBuilderFactory factory = DocumentBuilderFactory
+					.newInstance();
+			factory.setNamespaceAware(true);
+			DocumentBuilder builder;
+			builder = factory.newDocumentBuilder();
+			document = builder.newDocument();
+		} catch (ParserConfigurationException e) {
+			throw new XMLStreamException(e);
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#lambda(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue lambda(ASTNodeValue... values) {
-		// TODO Auto-generated method stub
-		return null;
+		ASTNodeValue value = new ASTNodeValue(this);
+		Node node = document.createElement("lambda");
+		for (ASTNodeValue v : values) {
+			node.appendChild(v.toNode());
+		}
+		value.setValue(node);
+		return value;
 	}
 
 	/*
@@ -490,18 +644,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#lessEqual(org.sbml.jsbml.ASTNodeValue,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue le(ASTNodeValue left, ASTNodeValue right) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#lessThan(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue lt(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue leq(ASTNodeValue left, ASTNodeValue right) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -540,6 +683,17 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#lessThan(org.sbml.jsbml.ASTNodeValue,
+	 * org.sbml.jsbml.ASTNodeValue)
+	 */
+	public ASTNodeValue lt(ASTNodeValue left, ASTNodeValue right) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#minus(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue minus(ASTNodeValue... values) {
@@ -550,9 +704,10 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#not(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#notEqual(org.sbml.jsbml.ASTNodeValue,
+	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue not(ASTNodeValue value) {
+	public ASTNodeValue neq(ASTNodeValue left, ASTNodeValue right) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -560,10 +715,9 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#notEqual(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#not(org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue ne(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue not(ASTNodeValue value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -610,6 +764,17 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return null;
 	}
 
+	/**
+	 * Allows to re-use this object to compile another {@link ASTNode}. Without
+	 * reseting, this compiler can only be used one time. Otherwise it cannot be
+	 * guaranteed that the results will be correct.
+	 * 
+	 * @throws XMLStreamException
+	 */
+	public void reset() throws XMLStreamException {
+		init();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -650,6 +815,34 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	public ASTNodeValue sech(ASTNodeValue value) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * @param indent
+	 *            the indent to set
+	 */
+	public void setIndent(int indent) {
+		if ((indent < 0) || (Short.MAX_VALUE < indent)) {
+			throw new IllegalArgumentException("indent " + indent
+					+ " is out of the range [0, " + Short.MAX_VALUE + "]");
+		}
+		this.indent = (short) indent;
+	}
+
+	/**
+	 * @param indenting
+	 *            the indenting to set
+	 */
+	public void setIndenting(boolean indenting) {
+		this.indenting = indenting;
+	}
+
+	/**
+	 * @param omitXMLDeclaration
+	 *            the omitXMLDeclaration to set
+	 */
+	public void setOmitXMLDeclaration(boolean omitXMLDeclaration) {
+		this.omitXMLDeclaration = omitXMLDeclaration;
 	}
 
 	/*
@@ -718,8 +911,68 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#times(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue times(ASTNodeValue... values) {
-		// TODO Auto-generated method stub
-		return null;
+		return createApplyNode("times", values);
+	}
+
+	/**
+	 * output
+	 * 
+	 * @param value
+	 * @param omitXMLDeclaration
+	 * @param indenting
+	 * @param indent
+	 * @return
+	 * @throws IOException
+	 */
+	public String toMathML(ASTNodeValue value, boolean omitXMLDeclaration,
+			boolean indenting, int indent) throws IOException {
+
+		Element math;
+		if (document.getDocumentElement() == null) {
+			math = document.createElementNS(namespace, "math");
+			if (value.getLevel() > 2) {
+				math.setAttribute("xmlns:sbml", xmlnsSBML);
+			}
+			document.appendChild(math);
+		} else {
+			math = document.getDocumentElement();
+			for (int i = math.getChildNodes().getLength() - 1; i >= 0; i--) {
+				math.removeChild(math.getChildNodes().item(i));
+			}
+		}
+		math.appendChild(value.toNode());
+
+		OutputFormat format = new OutputFormat(document);
+		format.setOmitXMLDeclaration(omitXMLDeclaration);
+		format.setStandalone(true);
+		format.setMethod("xml");
+		format.setMediaType("text/xml");
+		format.setEncoding("UTF-8");
+		format.setAllowJavaNames(true);
+		format.setIndenting(indenting);
+		format.setIndent(indent);
+
+		StringWriter sw = new StringWriter();
+		XMLSerializer serializer = new XMLSerializer(new BufferedWriter(sw),
+				format);
+		serializer.setNamespaces(true);
+		serializer.serialize(document);
+
+		return sw.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#toString(org.sbml.jsbml.ASTNodeValue)
+	 */
+	public String toString(ASTNodeValue value) {
+		try {
+			return toMathML(value, getOmitXMLDeclaration(), getIndenting(),
+					getIndent());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/*

@@ -33,7 +33,7 @@ package org.sbml.jsbml.xml.stax;
 import java.util.HashMap;
 
 /**
- * A SBMLObjectForXML is an object to store the localName, prefix, namespace
+ * An SBMLObjectForXML is an object to store the localName, prefix, namespace
  * URI, attributes and text of a SBML component we want to write.
  * 
  * @author marine

@@ -202,8 +202,9 @@ public class JSBML {
 	 * 
 	 * @param node
 	 * @return
+	 * @throws XMLStreamException 
 	 */
-	public static String writeMathMLToString(ASTNode node) {
+	public static String writeMathMLToString(ASTNode node) throws XMLStreamException {
 		return node.toMathML();
 	}
 

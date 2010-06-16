@@ -272,16 +272,6 @@ public class SBMLWriter {
 	public static void initializePackageParserNamespaces()
 			throws InvalidPropertiesFormatException, IOException,
 			ClassNotFoundException {
-		// packageParsers.put(
-		// "http://www.sbml.org/sbml/level3/version1/multi/version1",
-		// MultiParser.class);
-		// packageParsers.put(
-		// "http://www.sbml.org/sbml/level3/version1/groups/version1",
-		// GroupsParser.class);
-		// packageParsers.put("http://www.sbml.org/sbml/level3/version1/core",
-		// SBMLCoreParser.class);
-		// packageParsers.put("http://www.sbml.org/sbml/level2",
-		// SBMLCoreParser.class);
 		Properties p = new Properties();
 		p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
 				"org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml"));

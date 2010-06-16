@@ -521,6 +521,19 @@ public class UnitCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.sbml.jsbml.ASTNodeCompiler#greaterEqual(org.sbml.jsbml.ASTNodeValue,
+	 * org.sbml.jsbml.ASTNodeValue)
+	 */
+	public ASTNodeValue geq(ASTNodeValue left, ASTNodeValue right) {
+		ASTNodeValue value = dimensionless();
+		value.setValue(left.toDouble() >= right.toDouble());
+		return value;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantE()
 	 */
 	public ASTNodeValue getConstantE() {
@@ -584,19 +597,6 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#greaterEqual(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue ge(ASTNodeValue left, ASTNodeValue right) {
-		ASTNodeValue value = dimensionless();
-		value.setValue(left.toDouble() >= right.toDouble());
-		return value;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
 	 * org.sbml.jsbml.ASTNodeCompiler#greaterThan(org.sbml.jsbml.ASTNodeValue,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
@@ -636,21 +636,9 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#lessEqual(org.sbml.jsbml.ASTNodeValue,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue le(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue leq(ASTNodeValue left, ASTNodeValue right) {
 		ASTNodeValue value = dimensionless();
 		value.setValue(left.toDouble() <= right.toDouble());
-		return value;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#lessThan(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue lt(ASTNodeValue left, ASTNodeValue right) {
-		ASTNodeValue value = dimensionless();
-		value.setValue(left.toDouble() < right.toDouble());
 		return value;
 	}
 
@@ -686,6 +674,18 @@ public class UnitCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#lessThan(org.sbml.jsbml.ASTNodeValue,
+	 * org.sbml.jsbml.ASTNodeValue)
+	 */
+	public ASTNodeValue lt(ASTNodeValue left, ASTNodeValue right) {
+		ASTNodeValue value = dimensionless();
+		value.setValue(left.toDouble() < right.toDouble());
+		return value;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#minus(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue minus(ASTNodeValue... values) {
@@ -703,23 +703,23 @@ public class UnitCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#not(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#notEqual(org.sbml.jsbml.ASTNodeValue,
+	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue not(ASTNodeValue value) {
+	public ASTNodeValue neq(ASTNodeValue left, ASTNodeValue right) {
 		ASTNodeValue v = dimensionless();
-		v.setValue(!value.toBoolean());
+		v.setValue(left.toDouble() != right.toDouble());
 		return v;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#notEqual(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#not(org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue ne(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue not(ASTNodeValue value) {
 		ASTNodeValue v = dimensionless();
-		v.setValue(left.toDouble() != right.toDouble());
+		v.setValue(!value.toBoolean());
 		return v;
 	}
 
@@ -968,6 +968,15 @@ public class UnitCompiler implements ASTNodeCompiler {
 		ASTNodeValue value = new ASTNodeValue(ud, this);
 		value.setValue(Double.valueOf(d));
 		return value;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#toString(org.sbml.jsbml.ASTNodeValue)
+	 */
+	public String toString(ASTNodeValue value) {
+		return value.toString();
 	}
 
 	/*
