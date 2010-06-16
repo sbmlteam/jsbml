@@ -29,6 +29,8 @@
  */
 package org.sbml.jsbml;
 
+import java.io.IOException;
+
 /**
  * A compiler for abstract syntax trees. This compiler evaluates the values
  * represented by {@link ASTNode}s. It should be noted that it is not
@@ -296,7 +298,7 @@ public interface ASTNodeCompiler {
 	 * @param right
 	 * @return
 	 */
-	public ASTNodeValue ge(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue geq(ASTNodeValue left, ASTNodeValue right);
 
 	/**
 	 * 
@@ -357,7 +359,7 @@ public interface ASTNodeCompiler {
 	 * @param right
 	 * @return
 	 */
-	public ASTNodeValue le(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue leq(ASTNodeValue left, ASTNodeValue right);
 
 	/**
 	 * 
@@ -404,7 +406,7 @@ public interface ASTNodeCompiler {
 	 * @param right
 	 * @return
 	 */
-	public ASTNodeValue ne(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue neq(ASTNodeValue left, ASTNodeValue right);
 
 	/**
 	 * 
@@ -540,5 +542,14 @@ public interface ASTNodeCompiler {
 	 * @return
 	 */
 	public ASTNodeValue xor(ASTNodeValue... values);
+
+	/**
+	 * Creates and returns a {@link String} representation of the given
+	 * {@link ASTNodeValue}.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public String toString(ASTNodeValue value);
 
 }

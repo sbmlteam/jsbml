@@ -1,7 +1,10 @@
 package org.sbml.jsbml.xml.parsers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InvalidPropertiesFormatException;
+import java.util.Properties;
 
 import org.sbml.jsbml.AlgebraicRule;
 import org.sbml.jsbml.Annotation;
@@ -30,6 +33,7 @@ import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Variable;
+import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 import org.sbml.jsbml.xml.stax.WritingParser;
@@ -51,9 +55,12 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	protected HashMap<String, Class<? extends Object>> SBMLCoreElements;
 
 	/**
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws InvalidPropertiesFormatException 
 	 * 
 	 */
-	public SBMLLevel1Version1Parser() {
+	public SBMLLevel1Version1Parser() throws InvalidPropertiesFormatException, IOException, ClassNotFoundException {
 		SBMLCoreElements = new HashMap<String, Class<? extends Object>>();
 		initializeCoreElements();
 	}
@@ -161,36 +168,22 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	}
 
 	/**
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
+	 * @throws ClassNotFoundException
 	 * 
 	 */
-	private void initializeCoreElements() {
-		SBMLCoreElements.put("model", Model.class);
-		SBMLCoreElements.put("listOfUnitDefinitions", ListOf.class);
-		SBMLCoreElements.put("listOfCompartments", ListOf.class);
-		SBMLCoreElements.put("listOfSpecies", ListOf.class);
-		SBMLCoreElements.put("listOfParameters", ListOf.class);
-		SBMLCoreElements.put("listOfRules", ListOf.class);
-		SBMLCoreElements.put("listOfReactions", ListOf.class);
-		SBMLCoreElements.put("unitDefinition", UnitDefinition.class);
-		SBMLCoreElements.put("listOfUnits", ListOf.class);
-		SBMLCoreElements.put("listOfReactants", ListOf.class);
-		SBMLCoreElements.put("listOfProducts", ListOf.class);
-		SBMLCoreElements.put("kineticLaw", KineticLaw.class);
-		SBMLCoreElements.put("compartment", Compartment.class);
-		SBMLCoreElements.put("specie", Species.class);
-		SBMLCoreElements.put("parameter", Parameter.class);
-		SBMLCoreElements.put("algebraicRule", AlgebraicRule.class);
-		SBMLCoreElements.put("specieConcentrationRule", AssignmentRule.class);
-		SBMLCoreElements.put("compartmentVolumeRule", AssignmentRule.class);
-		SBMLCoreElements.put("parameterRule", AssignmentRule.class);
-		SBMLCoreElements.put("reaction", Reaction.class);
-		SBMLCoreElements.put("annotation", Annotation.class);
-		SBMLCoreElements.put("unit", Unit.class);
-		SBMLCoreElements.put("assignmentRule", AssignmentRule.class);
-		SBMLCoreElements.put("specieReference", SpeciesReference.class);
-		SBMLCoreElements.put("notes", StringBuffer.class);
-		SBMLCoreElements.put("message", StringBuffer.class);
-		SBMLCoreElements.put("math", StringBuffer.class);
+	private void initializeCoreElements()
+			throws InvalidPropertiesFormatException, IOException,
+			ClassNotFoundException {
+		Properties p = new Properties();
+		p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
+				"org/sbml/jsbml/resources/cfg/SBMLElementsLevel1Version1.xml"));
+		for (Object k : p.keySet()) {
+			String key = k.toString();
+			SBMLCoreElements.put(key, Class.forName(p.getProperty(key)
+					.toString()));
+		}
 	}
 
 	/*

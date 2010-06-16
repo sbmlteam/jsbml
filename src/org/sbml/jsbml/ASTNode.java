@@ -37,6 +37,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import javax.swing.tree.TreeNode;
+import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.util.compilers.LaTeX;
 import org.sbml.jsbml.util.compilers.MathMLCompiler;
@@ -312,6 +313,32 @@ public class ASTNode implements TreeNode {
 		 * 
 		 */
 		UNKNOWN
+	}
+
+	/**
+	 * 
+	 * @param d
+	 * @param parent
+	 * @return
+	 */
+	public static ASTNode abs(double d, MathContainer parent) {
+		ASTNode abs = new ASTNode(Type.FUNCTION_ABS, parent);
+		abs.addChild(new ASTNode(d, parent));
+		return abs;
+	}
+
+	/**
+	 * Creates and returns an {@link ASTNode} that computes the absolute value
+	 * of the given integer value.
+	 * 
+	 * @param integer
+	 * @param parent
+	 * @return
+	 */
+	public static ASTNode abs(int integer, MathContainer parent) {
+		ASTNode abs = new ASTNode(Type.FUNCTION_ABS, parent);
+		abs.addChild(new ASTNode(integer, parent));
+		return abs;
 	}
 
 	/**
@@ -654,7 +681,7 @@ public class ASTNode implements TreeNode {
 	private int exponent;
 
 	private String unitId;
-	
+
 	/**
 	 * Child nodes.
 	 */
@@ -1156,7 +1183,7 @@ public class ASTNode implements TreeNode {
 						getRightChild().compile(compiler));
 				break;
 			case RELATIONAL_GEQ:
-				value = compiler.ge(getLeftChild().compile(compiler),
+				value = compiler.geq(getLeftChild().compile(compiler),
 						getRightChild().compile(compiler));
 				break;
 			case RELATIONAL_GT:
@@ -1164,11 +1191,11 @@ public class ASTNode implements TreeNode {
 						getRightChild().compile(compiler));
 				break;
 			case RELATIONAL_NEQ:
-				value = compiler.ne(getLeftChild().compile(compiler),
+				value = compiler.neq(getLeftChild().compile(compiler),
 						getRightChild().compile(compiler));
 				break;
 			case RELATIONAL_LEQ:
-				value = compiler.le(getLeftChild().compile(compiler),
+				value = compiler.leq(getLeftChild().compile(compiler),
 						getRightChild().compile(compiler));
 				break;
 			case RELATIONAL_LT:
@@ -1181,6 +1208,8 @@ public class ASTNode implements TreeNode {
 			}
 		}
 		value.setType(getType());
+		value.setLevel(getParentSBMLObject().getLevel());
+		value.setVersion(getParentSBMLObject().getVersion());
 		return value;
 	}
 
@@ -1401,6 +1430,15 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Returns the list of children of the current ASTNode.
+	 * 
+	 * @return the list of children of the current ASTNode.
+	 */
+	public List<ASTNode> getChildren() {
+		return listOfNodes;
+	}
+
+	/**
 	 * Get the value of the denominator of this node. This function should be
 	 * called only when getType() == RATIONAL.
 	 * 
@@ -1427,45 +1465,6 @@ public class ASTNode implements TreeNode {
 		throw new RuntimeException(
 				new IllegalArgumentException(
 						"getExponent() should be called only when getType() == REAL_E or REAL"));
-	}
-
-	
-	
-	/**
-	 * Returns the units attribute.
-	 * 
-	 * @return the units attribute.
-	 */
-	public String getUnits() {
-		return unitId;
-	}
-
-	/**
-	 * Sets the units attribute.
-	 * 
-	 * @param unitId
-	 * @throws IllegalArgumentException if the ASTNode is not a kind of numbers (<cn> in mathml) or if
-	 * the <code>unitId</code> is not a valid unit kind or the id of a unit definition. 
-	 */
-	public void setUnits(String unitId) {
-		
-		if (!isNumber()) {
-			throw new IllegalArgumentException("Unexpected attribute, only literal numbers can defined a unit.");
-		}
-		if (parentSBMLObject != null && (!Unit.isValidUnit(parentSBMLObject.getModel(), unitId))) {
-			throw new IllegalArgumentException("Unexpected attribute, only a valid unit kind or the identifier of " 
-					+ "a unit definition are allowed here.");
-		}
-		
-		this.unitId = unitId;
-	}
-	
-	/**
-	 * Unset the units attribute.
-	 * 
-	 */
-	public void unsetUnits() {
-		unitId = null;
 	}
 
 	/*
@@ -1508,23 +1507,13 @@ public class ASTNode implements TreeNode {
 
 	/**
 	 * Returns the list of children of the current ASTNode.
-	 *  
+	 * 
 	 * @return the list of children of the current ASTNode.
 	 */
 	public List<ASTNode> getListOfNodes() {
 		return listOfNodes;
 	}
 
-	/**
-	 * Returns the list of children of the current ASTNode.
-	 *  
-	 * @return the list of children of the current ASTNode.
-	 */
-	public List<ASTNode> getChildren() {
-		return listOfNodes;
-	}
-	
-	
 	/**
 	 * Get the mantissa value of this node. This function should be called only
 	 * when getType() returns REAL_E or REAL. If getType() returns REAL, this
@@ -1676,6 +1665,15 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Returns the units attribute.
+	 * 
+	 * @return the units attribute.
+	 */
+	public String getUnits() {
+		return unitId;
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
@@ -1695,6 +1693,29 @@ public class ASTNode implements TreeNode {
 		throw new RuntimeException(
 				new IllegalArgumentException(
 						"getVariable() should be called only when !isNumber() or !isOperator()"));
+	}
+
+	/**
+	 * Returns true if the current ASTNode or any of his descendant has a unit
+	 * defined.
+	 * 
+	 * @return true if the current ASTNode or any of his descendant has a unit
+	 *         defined.
+	 */
+	public boolean hasUnits() {
+		boolean hasUnits = isSetUnits();
+
+		if (!hasUnits) {
+			for (ASTNode child : getChildren()) {
+				hasUnits = child.hasUnits();
+
+				if (hasUnits) {
+					break;
+				}
+			}
+		}
+
+		return hasUnits;
 	}
 
 	/**
@@ -1766,7 +1787,7 @@ public class ASTNode implements TreeNode {
 	 *         false otherwise.
 	 */
 	public boolean isInfinity() {
-		return isReal() && Double.isInfinite(getReal());
+		return isReal() && Double.isInfinite(getReal()) && (getReal() > 0);
 	}
 
 	/**
@@ -1812,7 +1833,7 @@ public class ASTNode implements TreeNode {
 				&& getLeftChild().isInteger()
 				&& getLeftChild().getInteger() == 10;
 	}
-
+	
 	/**
 	 * Predicate returning true (non-zero) if this node is a MathML logical
 	 * operator (i.e., and, or, not, xor).
@@ -1822,7 +1843,7 @@ public class ASTNode implements TreeNode {
 	public boolean isLogical() {
 		return type.toString().startsWith("LOGICAL_");
 	}
-	
+
 	/**
 	 * Returns true if this astnode represents the number minus one (either as integer
 	 * or as real value).
@@ -1864,7 +1885,7 @@ public class ASTNode implements TreeNode {
 	 *         infinity, false otherwise.
 	 */
 	public boolean isNegInfinity() {
-		return isReal() && Double.isInfinite(-1 * getReal());
+		return isReal() && Double.isInfinite(getReal()) && (getReal() < 0);
 	}
 
 	/**
@@ -1947,6 +1968,15 @@ public class ASTNode implements TreeNode {
 		return type == Type.RELATIONAL_EQ || type == Type.RELATIONAL_GEQ
 				|| type == Type.RELATIONAL_GT || type == Type.RELATIONAL_LEQ
 				|| type == Type.RELATIONAL_LT || type == Type.RELATIONAL_NEQ;
+	}
+
+	/**
+	 * Returns true if the current ASTNode has a unit defined.
+	 * 
+	 * @return true if the current ASTNode has a unit defined.
+	 */
+	public boolean isSetUnits() {
+		return unitId != null;
 	}
 
 	/**
@@ -2039,36 +2069,6 @@ public class ASTNode implements TreeNode {
 		return this;
 	}
 
-	/**
-	 * Returns true if the current ASTNode has a unit defined.
-	 * 
-	 * @return true if the current ASTNode has a unit defined.
-	 */
-	public boolean isSetUnits() {
-		return unitId != null;
-	}
-	
-	/**
-	 * Returns true if the current ASTNode or any of his descendant has a unit defined.
-	 * 
-	 * @return true if the current ASTNode or any of his descendant has a unit defined.
-	 */
-	public boolean hasUnits(){
-		boolean hasUnits = isSetUnits();
-		
-		if (!hasUnits) {
-			for (ASTNode child : getChildren()) {
-				hasUnits = child.hasUnits();
-				
-				if (hasUnits) {
-					break;
-				}
-			}
-		}
-		
-		return hasUnits;
-	}
-	
 	/**
 	 * multiplies this ASTNode with the given node
 	 * 
@@ -2201,9 +2201,10 @@ public class ASTNode implements TreeNode {
 					times.addChild(listOfNodes.remove(i));
 				}
 				addChild(times);
-//				if (getLeftChild().isMinusOne() || getRightChild().isMinusOne()) {
-					// TODO
-//				}
+				// if (getLeftChild().isMinusOne() ||
+				// getRightChild().isMinusOne()) {
+				// TODO
+				// }
 				break;
 			case DIVIDE:
 				// TODO
@@ -2392,6 +2393,31 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Sets the units attribute.
+	 * 
+	 * @param unitId
+	 * @throws IllegalArgumentException
+	 *             if the ASTNode is not a kind of numbers (<cn> in mathml) or
+	 *             if the <code>unitId</code> is not a valid unit kind or the id
+	 *             of a unit definition.
+	 */
+	public void setUnits(String unitId) {
+
+		if (!isNumber()) {
+			throw new IllegalArgumentException(
+					"Unexpected attribute, only literal numbers can defined a unit.");
+		}
+		if (parentSBMLObject != null
+				&& (!Unit.isValidUnit(parentSBMLObject.getModel(), unitId))) {
+			throw new IllegalArgumentException(
+					"Unexpected attribute, only a valid unit kind or the identifier of "
+							+ "a unit definition are allowed here.");
+		}
+
+		this.unitId = unitId;
+	}
+
+	/**
 	 * Sets the value of this ASTNode to the given real (double) and sets the
 	 * node type to REAL.
 	 * 
@@ -2523,8 +2549,9 @@ public class ASTNode implements TreeNode {
 	 * corresponds to the subset of MathML defined in the SBML specification.
 	 * 
 	 * @return
+	 * @throws XMLStreamException
 	 */
-	public String toMathML() {
+	public String toMathML() throws XMLStreamException {
 		return compile(new MathMLCompiler()).toString();
 	}
 
@@ -2570,5 +2597,13 @@ public class ASTNode implements TreeNode {
 			}
 		}
 		return isName() ? getName() : getType().toString();
+	}
+
+	/**
+	 * Unset the units attribute.
+	 * 
+	 */
+	public void unsetUnits() {
+		unitId = null;
 	}
 }
