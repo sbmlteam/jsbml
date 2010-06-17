@@ -176,6 +176,16 @@ public class ASTNodeValue {
 	}
 
 	/**
+	 * 
+	 * @param node
+	 * @param compiler
+	 */
+	public ASTNodeValue(Node node, ASTNodeCompiler compiler) {
+		this(compiler);
+		setValue(node);
+	}
+
+	/**
 	 * Flag to indicate whether or not units have been fully declared for this
 	 * value.
 	 * 

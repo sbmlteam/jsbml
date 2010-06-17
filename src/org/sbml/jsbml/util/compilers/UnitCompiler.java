@@ -306,19 +306,30 @@ public class UnitCompiler implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double, int, java.lang.String)
 	 */
-	public ASTNodeValue compile(double real) {
+	public ASTNodeValue compile(double mantissa, int exponent, String units) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double, java.lang.String)
+	 */
+	public ASTNodeValue compile(double real, String units) {
+		// TODO!
 		return new ASTNodeValue(real, this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(int)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(int, java.lang.String)
 	 */
-	public ASTNodeValue compile(int integer) {
+	public ASTNodeValue compile(int integer, String units) {
+		// TODO!
 		return new ASTNodeValue(integer, this);
 	}
 
@@ -346,7 +357,8 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(java.lang.String)
 	 */
 	public ASTNodeValue compile(String name) {
-		return new ASTNodeValue(namesToUnits.get(name), this);
+		UnitDefinition ud = namesToUnits.get(name);
+		return ud != null ? new ASTNodeValue(ud, this) : new ASTNodeValue(this);
 	}
 
 	/*
@@ -406,10 +418,12 @@ public class UnitCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#delay(org.sbml.jsbml.ASTNodeValue,
-	 * double)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#delay(java.lang.String,
+	 * org.sbml.jsbml.ASTNodeValue, double, java.lang.String)
 	 */
-	public ASTNodeValue delay(ASTNodeValue x, double d) {
+	public ASTNodeValue delay(String delayName, ASTNodeValue x, double d,
+			String units) {
+		// TODO!
 		return symbolTime("time");
 	}
 
@@ -533,6 +547,15 @@ public class UnitCompiler implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantAvogadro(java.lang.String)
+	 */
+	public ASTNodeValue getConstantAvogadro(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantE()
 	 */
@@ -581,7 +604,8 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getNegativeInfinity()
 	 */
 	public ASTNodeValue getNegativeInfinity() {
-		return compile(Double.NEGATIVE_INFINITY);
+		return compile(Double.NEGATIVE_INFINITY, Unit.Kind.DIMENSIONLESS
+				.toString().toLowerCase());
 	}
 
 	/*
@@ -590,7 +614,8 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getPositiveInfinity()
 	 */
 	public ASTNodeValue getPositiveInfinity() {
-		return compile(Double.POSITIVE_INFINITY);
+		return compile(Double.POSITIVE_INFINITY, Unit.Kind.DIMENSIONLESS
+				.toString().toLowerCase());
 	}
 
 	/*
@@ -747,17 +772,18 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#piecewise(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue piecewise(ASTNodeValue... values) {
-		ASTNodeValue[] varray = new ASTNodeValue[values.length / 2];
-		for (int i = 0, j = 0; i < values.length; i += 2, j++) {
+		ASTNodeValue[] varray = new ASTNodeValue[values.length / 2
+				+ ((values.length % 2 == 0) ? 0 : 1)];
+		int i, j;
+		for (i = 0, j = 0; i < values.length; i += 2, j++) {
 			varray[j] = values[i];
 		}
-		int i;
+		ASTNodeValue value = checkIdentical(varray);
 		for (i = 1; i < values.length - 1; i += 2) {
 			if (values[i].toBoolean()) {
 				return new ASTNodeValue(values[i - 1].toDouble(), this);
 			}
 		}
-		ASTNodeValue value = checkIdentical(varray);
 		value.setValue(Double.valueOf(values[i - 1].toDouble()));
 
 		return value;
@@ -984,7 +1010,7 @@ public class UnitCompiler implements ASTNodeCompiler {
 	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue uiMinus(ASTNodeValue value) {
+	public ASTNodeValue uMinus(ASTNodeValue value) {
 		value.setValue(Double.valueOf(-value.toDouble()));
 		return value;
 	}

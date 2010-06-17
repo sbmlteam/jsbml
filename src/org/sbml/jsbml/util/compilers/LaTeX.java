@@ -518,18 +518,20 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double, java.lang.String)
 	 */
-	public ASTNodeValue compile(double real) {
+	public ASTNodeValue compile(double real, String units) {
+		// TODO: deal with Units.
 		return new ASTNodeValue(format(real).toString(), this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(int)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(int, java.lang.String)
 	 */
-	public ASTNodeValue compile(int integer) {
+	public ASTNodeValue compile(int integer, String units) {
+		// TODO: deal with Units.
 		return new ASTNodeValue(integer, this);
 	}
 
@@ -638,10 +640,12 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#delay(org.sbml.jsbml.ASTNodeValue,
 	 * double)
 	 */
-	public ASTNodeValue delay(ASTNodeValue x, double d) {
-		return new ASTNodeValue(concat(mathrm("delay"),
-				brackets(concat(x.toString(), ", ", format(d)))).toString(),
-				this);
+	public ASTNodeValue delay(String delayName, ASTNodeValue x, double d,
+			String timeUnits) {
+		// TODO: deal with units.
+		return new ASTNodeValue(concat(mathrm(maskSpecialChars(delayName)),
+				brackets(concat(x.toString(), ", ", compile(d, timeUnits))))
+				.toString(), this);
 	}
 
 	/**
@@ -1025,16 +1029,13 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNodeValue,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue log(ASTNodeValue left, ASTNodeValue right) {
-		StringBuilder value = new StringBuilder("\\log");
-		if (left != null) {
-			value.append("_{");
-			value.append(left);
-			value.append('}');
+	public ASTNodeValue log(ASTNodeValue base, ASTNodeValue value) {
+		StringBuilder v = new StringBuilder("\\log");
+		if (base != null) {
+			StringTools.append(v, "_{", base, "}");
 		}
-		value.append('{');
-		value.append(right.isUnary() ? right : brackets(right));
-		value.append('}');
+		StringTools.append(v, "{", value.isUnary() ? value : brackets(value),
+				"}");
 		return new ASTNodeValue(value.toString(), this);
 	}
 
@@ -1287,15 +1288,15 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#pow(org.sbml.jsbml.ASTNodeValue,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue pow(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue pow(ASTNodeValue base, ASTNodeValue exponent) {
 		StringBuilder value = new StringBuilder();
-		value.append(left);
-		if (!left.isUnary()) {
+		value.append(base);
+		if (!base.isUnary()) {
 			value = brackets(value);
 		}
 		value.append('^');
 		value.append('{');
-		value.append(right);
+		value.append(exponent);
 		value.append('}');
 		return new ASTNodeValue(value.toString(), this);
 	}
@@ -1519,6 +1520,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#toString(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public String toString(ASTNodeValue value) {
@@ -1530,7 +1532,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue uiMinus(ASTNodeValue value) {
+	public ASTNodeValue uMinus(ASTNodeValue value) {
 		StringBuffer v = new StringBuffer();
 		v.append('-');
 		v.append(value.isSum() || value.isDifference() ? brackets(value)
@@ -1586,5 +1588,25 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue xor(ASTNodeValue... nodes) {
 		return logicalOperation(xor, nodes);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double, int,
+	 * java.lang.String)
+	 */
+	public ASTNodeValue compile(double mantissa, int exponent, String units) {
+		return new ASTNodeValue(concat(format(mantissa), "\\cdot 10^{",
+				exponent, "}").toString(), this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantAvogadro(java.lang.String)
+	 */
+	public ASTNodeValue getConstantAvogadro(String name) {
+		return new ASTNodeValue(maskSpecialChars(name), this);
 	}
 }

@@ -78,6 +78,10 @@ public class ASTNode implements TreeNode {
 		 */
 		CONSTANT_TRUE,
 		/**
+		 * Not present in libSBML; a type to express Avogadro's number.
+		 */
+		CONSTANT_AVOGADRO,
+		/**
 		 * 
 		 */
 		DIVIDE,
@@ -473,6 +477,74 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Creates an {@link ASTNode} representing a logarithm to base 10.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static ASTNode log(ASTNode value) {
+		return log(null, value);
+	}
+
+	/**
+	 * Creates an {@link ASTNode} that represents the logarithm function with
+	 * the given base and value. The parent SBML object will be taken from the
+	 * {@link ASTNode} value.
+	 * 
+	 * @param base
+	 *            The basis of this logarthm. Can be null; then a base of 10
+	 *            will be assumed.
+	 * @param value
+	 *            Must not be null.
+	 * @return An {@link ASTNode} representing the logarithm of the given value
+	 *         with respect to the given base or to the base 10 if base is null.
+	 */
+	public static ASTNode log(ASTNode base, ASTNode value) {
+		if (value == null) {
+			throw new NullPointerException(
+					"logarithm cannot be created for null values");
+		}
+		ASTNode log = new ASTNode(Type.FUNCTION_LOG, value
+				.getParentSBMLObject());
+		if (base != null) {
+			log.addChild(base);
+		}
+		log.addChild(value);
+		setParentSBMLObject(log, log.getParentSBMLObject(), 0);
+		return log;
+	}
+
+	/**
+	 * Create {@link ASTNode} that performs a less than comparison between two
+	 * {@link ASTNode}s. The parent SBML object of the resulting node will be
+	 * taken from the left node.
+	 * 
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	public static ASTNode lt(ASTNode left, ASTNode right) {
+		ASTNode lt = new ASTNode(Type.RELATIONAL_LT, left.getParentSBMLObject());
+		lt.addChild(left);
+		lt.addChild(right);
+		setParentSBMLObject(lt, left.getParentSBMLObject(), 0);
+		return lt;
+	}
+
+	/**
+	 * Create {@link ASTNode} that performs a less than comparison between a
+	 * variable and another {@link ASTNode}. The parent SBML object will be
+	 * taken from the given {@link ASTNode}.
+	 * 
+	 * @param variable
+	 * @param node
+	 * @return
+	 */
+	public static ASTNode lt(String variable, ASTNode node) {
+		return lt(new ASTNode(variable, node.getParentSBMLObject()), node);
+	}
+
+	/**
 	 * 
 	 * @param formula
 	 * @return
@@ -480,6 +552,27 @@ public class ASTNode implements TreeNode {
 	public static ASTNode parseFormula(String formula) {
 		// TODO Auto-generated method stub
 		throw new Error("Not yet implemented.");
+	}
+
+	/**
+	 * Creates a piecewise function. At least one {@link ASTNode} must be given
+	 * as a child. The parent SBML object of this first node will be the parent
+	 * of the resulting {@link ASTNode}.
+	 * 
+	 * @param node
+	 * @param nodes
+	 * @return
+	 */
+	public static ASTNode piecewise(ASTNode node, ASTNode... nodes) {
+		ASTNode piecewise = new ASTNode(Type.FUNCTION_PIECEWISE, node
+				.getParentSBMLObject());
+		for (ASTNode n : nodes) {
+			piecewise.addChild(n);
+		}
+		if (nodes.length > 0) {
+			setParentSBMLObject(piecewise, piecewise.getParentSBMLObject(), 0);
+		}
+		return piecewise;
 	}
 
 	/**
@@ -680,6 +773,9 @@ public class ASTNode implements TreeNode {
 	 */
 	private int exponent;
 
+	/**
+	 * 
+	 */
 	private String unitId;
 
 	/**
@@ -747,6 +843,17 @@ public class ASTNode implements TreeNode {
 			c.parent = this;
 			this.listOfNodes.add(c);
 		}
+	}
+
+	/**
+	 * 
+	 * @param mantissa
+	 * @param exponent
+	 * @param parent
+	 */
+	public ASTNode(double mantissa, int exponent, MathContainer parent) {
+		this(Type.REAL_E, parent);
+		setValue(mantissa, exponent);
 	}
 
 	/**
@@ -934,7 +1041,7 @@ public class ASTNode implements TreeNode {
 	public ASTNodeValue compile(ASTNodeCompiler compiler) {
 		ASTNodeValue value;
 		if (isUMinus()) {
-			value = compiler.uiMinus(getLeftChild().compile(compiler));
+			value = compiler.uMinus(getLeftChild().compile(compiler));
 		} else if (isSqrt()) {
 			value = compiler.sqrt(getRightChild().compile(compiler));
 		} else if (isInfinity()) {
@@ -947,10 +1054,10 @@ public class ASTNode implements TreeNode {
 			 * Numbers
 			 */
 			case REAL:
-				value = compiler.compile(getReal());
+				value = compiler.compile(getReal(), getUnits());
 				break;
 			case INTEGER:
-				value = compiler.compile(getInteger());
+				value = compiler.compile(getInteger(), getUnits());
 				break;
 			/*
 			 * Basic Functions
@@ -984,6 +1091,7 @@ public class ASTNode implements TreeNode {
 				value.setUIFlag(getNumChildren() <= 1);
 				break;
 			case DIVIDE:
+				// TODO: What happens for multiple children?
 				value = compiler.frac(getLeftChild().compile(compiler),
 						getRightChild().compile(compiler));
 				break;
@@ -994,10 +1102,10 @@ public class ASTNode implements TreeNode {
 				value = compiler.symbolTime(getName());
 				break;
 			case FUNCTION_DELAY:
-				value = compiler.delay(getLeftChild().compile(compiler),
-						getRightChild().isInteger() ? Double
-								.valueOf(getRightChild().getInteger())
-								: getRightChild().getReal());
+				value = compiler.delay(getName(), getLeftChild().compile(
+						compiler), getRightChild().isInteger() ? Double
+						.valueOf(getRightChild().getInteger())
+						: getRightChild().getReal(), getUnits());
 				break;
 			/*
 			 * Names of identifiers: parameters, functions, species etc.
@@ -1016,7 +1124,7 @@ public class ASTNode implements TreeNode {
 				}
 				break;
 			/*
-			 * Type: pi, e, true, false
+			 * Type: pi, e, true, false, Avogadro
 			 */
 			case CONSTANT_PI:
 				value = compiler.getConstantPi();
@@ -1030,8 +1138,12 @@ public class ASTNode implements TreeNode {
 			case CONSTANT_FALSE:
 				value = compiler.getConstantFalse();
 				break;
+			case CONSTANT_AVOGADRO:
+				value = compiler.getConstantAvogadro(getName());
+				break;
 			case REAL_E:
-				value = compiler.compile(getReal());
+				value = compiler.compile(getMantissa(), getExponent(),
+						isSetUnits() ? getUnits() : null);
 				break;
 			/*
 			 * More complicated functions
@@ -1460,11 +1572,11 @@ public class ASTNode implements TreeNode {
 	 * @return the value of the exponent of this ASTNode.
 	 */
 	public int getExponent() {
-		if (type == Type.REAL || type == Type.REAL_E)
+		if (type == Type.REAL || type == Type.REAL_E) {
 			return exponent;
-		throw new RuntimeException(
-				new IllegalArgumentException(
-						"getExponent() should be called only when getType() == REAL_E or REAL"));
+		}
+		throw new IllegalArgumentException(
+				"getExponent() should be called only when getType() == REAL_E or REAL");
 	}
 
 	/*
@@ -1524,13 +1636,12 @@ public class ASTNode implements TreeNode {
 	public double getMantissa() {
 		switch (type) {
 		case REAL:
-			getReal();
+			return getReal();
 		case REAL_E:
 			return mantissa;
 		default:
-			throw new RuntimeException(
-					new IllegalArgumentException(
-							"getMantissa() should be called only when getType() == REAL or REAL_E"));
+			throw new IllegalArgumentException(
+					"getMantissa() should be called only when getType() == REAL or REAL_E");
 		}
 	}
 
@@ -1708,7 +1819,6 @@ public class ASTNode implements TreeNode {
 		if (!hasUnits) {
 			for (ASTNode child : getChildren()) {
 				hasUnits = child.hasUnits();
-
 				if (hasUnits) {
 					break;
 				}
@@ -1833,7 +1943,7 @@ public class ASTNode implements TreeNode {
 				&& getLeftChild().isInteger()
 				&& getLeftChild().getInteger() == 10;
 	}
-	
+
 	/**
 	 * Predicate returning true (non-zero) if this node is a MathML logical
 	 * operator (i.e., and, or, not, xor).
@@ -1845,8 +1955,8 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Returns true if this astnode represents the number minus one (either as integer
-	 * or as real value).
+	 * Returns true if this astnode represents the number minus one (either as
+	 * integer or as real value).
 	 * 
 	 * @return
 	 */
@@ -2388,6 +2498,9 @@ public class ASTNode implements TreeNode {
 		} else if (type == Type.FUNCTION_DELAY) {
 			name = "delay";
 			initDefaults();
+		} else if (type == Type.CONSTANT_AVOGADRO) {
+			name = "Avogadro's number";
+			initDefaults();
 		}
 		this.type = type;
 	}
@@ -2402,18 +2515,21 @@ public class ASTNode implements TreeNode {
 	 *             of a unit definition.
 	 */
 	public void setUnits(String unitId) {
-
 		if (!isNumber()) {
 			throw new IllegalArgumentException(
-					"Unexpected attribute, only literal numbers can defined a unit.");
+					"unexpected attribute, only literal numbers can defined a unit");
 		}
-		if (parentSBMLObject != null
-				&& (!Unit.isValidUnit(parentSBMLObject.getModel(), unitId))) {
-			throw new IllegalArgumentException(
-					"Unexpected attribute, only a valid unit kind or the identifier of "
-							+ "a unit definition are allowed here.");
+		if (parentSBMLObject != null) {
+			if (!Unit.isValidUnit(parentSBMLObject.getModel(), unitId)) {
+				throw new IllegalArgumentException(
+						"unexpected attribute, only a valid unit kind or the identifier of a unit definition are allowed here");
+			}
+			if (parentSBMLObject.isSetLevel()
+					&& (2 < parentSBMLObject.getLevel())) {
+				throw new IllegalArgumentException(
+						"units can only be set for numbers in ASTNodes if the level is at least 3");
+			}
 		}
-
 		this.unitId = unitId;
 	}
 
