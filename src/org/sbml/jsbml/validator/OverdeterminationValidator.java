@@ -1,3 +1,32 @@
+/*
+ * $Id: OverdeterminationValidator.java 273 2010-06-10 13:17:41Z andreas-draeger $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/validator/OverdeterminationValidator.java $
+ *
+ *
+ *==================================================================================
+ * Copyright (c) 2009 the copyright is held jointly by the individual
+ * authors. See the file AUTHORS for the list of authors.
+ *
+ * This file is part of jsbml, the pure java SBML library. Please visit
+ * http://sbml.org for more information about SBML, and http://jsbml.sourceforge.net/
+ * to get the latest version of jsbml.
+ *
+ * jsbml is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * jsbml is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with jsbml.  If not, see <http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>.
+ *
+ *===================================================================================
+ *
+ */
 package org.sbml.jsbml.validator;
 
 import java.util.ArrayList;
@@ -27,10 +56,10 @@ import org.sbml.jsbml.SpeciesReference;
  * the Hopcroft-Karp-Algorithm
  * 
  * @author Alexander D&ouml;rr
- * @since 1.4
+ * @since 2010-06-17
  */
 public class OverdeterminationValidator {
-	
+
 	/**
 	 * This class represents an inner node in the bipartite graph, e.g. a
 	 * varibale or an reaction
@@ -370,6 +399,7 @@ public class OverdeterminationValidator {
 		}
 
 	}
+
 	/**
 	 * List with nodes representing an equation in the model
 	 */
@@ -422,6 +452,7 @@ public class OverdeterminationValidator {
 		this.model = model;
 		init();
 	}
+
 	/**
 	 * Improves the matching as far as possible with augmenting paths
 	 */
@@ -764,7 +795,7 @@ public class OverdeterminationValidator {
 		}
 
 	}
-	
+
 	/**
 	 * Finds all paths of the length i whose nodes are part of the matching.
 	 * 
@@ -775,6 +806,7 @@ public class OverdeterminationValidator {
 	 * @param path
 	 *            nodes already visited in the path
 	 */
+	@SuppressWarnings("unchecked")
 	private void findShortestPath(int i, Node node, ArrayList<Node> path) {
 		String value;
 		// Path has reached the desired length -> store it in the list
@@ -798,7 +830,7 @@ public class OverdeterminationValidator {
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns the determined matching
 	 * 
@@ -807,7 +839,7 @@ public class OverdeterminationValidator {
 	public HashMap<String, String> getMatching() {
 		return matching;
 	}
-	
+
 	/**
 	 * Returns the variables in a MathML object without local parameter
 	 * 
@@ -841,14 +873,14 @@ public class OverdeterminationValidator {
 		}
 
 	}
-	
+
 	/**
 	 * Initializes the Converter
 	 */
 	private void init() {
 		this.svariables = new ArrayList<String>();
 		this.reactants = new HashSet<String>();
-		
+
 		for (int i = 0; i < model.getNumReactions(); i++) {
 
 			for (SpeciesReference sref : model.getReaction(i)
@@ -876,15 +908,15 @@ public class OverdeterminationValidator {
 	 * 
 	 * @return
 	 */
-	public boolean isOverDetermined() {
-		return (equations.size() > matching.size());
+	public boolean isOverdetermined() {
+		return equations.size() > matching.size();
 	}
-	
+
 	/**
 	 * Updates the matching of the model on the basis of the found augmented
 	 * path. Please note that because of starting the search for a path through
-	 * the graph at an equation, the first node in the augmented path is always a
-	 * variable and the last one an equation.
+	 * the graph at an equation, the first node in the augmented path is always
+	 * a variable and the last one an equation.
 	 * 
 	 * @param path
 	 */

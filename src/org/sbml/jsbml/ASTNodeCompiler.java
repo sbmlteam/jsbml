@@ -29,8 +29,6 @@
  */
 package org.sbml.jsbml;
 
-import java.io.IOException;
-
 /**
  * A compiler for abstract syntax trees. This compiler evaluates the values
  * represented by {@link ASTNode}s. It should be noted that it is not
@@ -158,18 +156,37 @@ public interface ASTNodeCompiler {
 	public ASTNodeValue compile(Compartment c);
 
 	/**
+	 * Creates an {@link ASTNodeValue} that represents a real number in
+	 * scientific notation, i.e., mantissa * 10^exponent, and the given units.
 	 * 
-	 * @param real
+	 * @param mantissa
+	 *            The number to be multiplied with ten to the power of the given
+	 *            exponent.
+	 * @param exponent
+	 *            The exponent for the multiplier ten.
+	 * @param units
+	 *            The identifier of the units object associated with the number
+	 *            represented by this element. Can be null if no units have been
+	 *            defined.
 	 * @return
 	 */
-	public ASTNodeValue compile(double real);
+	public ASTNodeValue compile(double mantissa, int exponent, String units);
+
+	/**
+	 * 
+	 * @param real
+	 * @param units
+	 * @return
+	 */
+	public ASTNodeValue compile(double real, String units);
 
 	/**
 	 * 
 	 * @param integer
+	 * @param units
 	 * @return
 	 */
-	public ASTNodeValue compile(int integer);
+	public ASTNodeValue compile(int integer, String units);
 
 	/**
 	 * 
@@ -230,11 +247,16 @@ public interface ASTNodeCompiler {
 	/**
 	 * Evaluate delay functions.
 	 * 
+	 * @param delayName
+	 *            the name of this delay function.
 	 * @param x
 	 * @param d
+	 * @param timeUnits
+	 *            the units for the delay.
 	 * @return
 	 */
-	public ASTNodeValue delay(ASTNodeValue x, double d);
+	public ASTNodeValue delay(String delayName, ASTNodeValue x, double d,
+			String timeUnits);
 
 	/**
 	 * Equal.
@@ -284,11 +306,11 @@ public interface ASTNodeCompiler {
 
 	/**
 	 * 
-	 * @param namedSBase
+	 * @param functionDefinition
 	 * @param args
 	 * @return
 	 */
-	public ASTNodeValue function(FunctionDefinition namedSBase,
+	public ASTNodeValue function(FunctionDefinition functionDefinition,
 			ASTNodeValue... args);
 
 	/**
@@ -299,6 +321,16 @@ public interface ASTNodeCompiler {
 	 * @return
 	 */
 	public ASTNodeValue geq(ASTNodeValue left, ASTNodeValue right);
+
+	/**
+	 * Creates an {@link ASTNodeValue} that represent's Avogadro's number.
+	 * Optionally, the compiler may associate the given name with this number.
+	 * 
+	 * @param name
+	 *            An optional name for Avogadro's number.
+	 * @return
+	 */
+	public ASTNodeValue getConstantAvogadro(String name);
 
 	/**
 	 * 
@@ -369,6 +401,7 @@ public interface ASTNodeCompiler {
 	public ASTNodeValue ln(ASTNodeValue value);
 
 	/**
+	 * Logarithm of the given value to base 10.
 	 * 
 	 * @param value
 	 * @return
@@ -376,12 +409,13 @@ public interface ASTNodeCompiler {
 	public ASTNodeValue log(ASTNodeValue value);
 
 	/**
+	 * Logarithm of the given value to the given base.
 	 * 
-	 * @param left
-	 * @param right
+	 * @param base
+	 * @param value
 	 * @return
 	 */
-	public ASTNodeValue log(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue log(ASTNodeValue base, ASTNodeValue value);
 
 	/**
 	 * Less than.
@@ -438,11 +472,11 @@ public interface ASTNodeCompiler {
 
 	/**
 	 * 
-	 * @param left
-	 * @param right
+	 * @param base
+	 * @param exponent
 	 * @return
 	 */
-	public ASTNodeValue pow(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue pow(ASTNodeValue base, ASTNodeValue exponent);
 
 	/**
 	 * 
@@ -490,10 +524,10 @@ public interface ASTNodeCompiler {
 
 	/**
 	 * 
-	 * @param value
+	 * @param radiant
 	 * @return
 	 */
-	public ASTNodeValue sqrt(ASTNodeValue value);
+	public ASTNodeValue sqrt(ASTNodeValue radiant);
 
 	/**
 	 * 
@@ -524,11 +558,20 @@ public interface ASTNodeCompiler {
 	public ASTNodeValue times(ASTNodeValue... values);
 
 	/**
+	 * Creates and returns a {@link String} representation of the given
+	 * {@link ASTNodeValue}.
 	 * 
 	 * @param value
 	 * @return
 	 */
-	public ASTNodeValue uiMinus(ASTNodeValue value);
+	public String toString(ASTNodeValue value);
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public ASTNodeValue uMinus(ASTNodeValue value);
 
 	/**
 	 * 
@@ -542,14 +585,4 @@ public interface ASTNodeCompiler {
 	 * @return
 	 */
 	public ASTNodeValue xor(ASTNodeValue... values);
-
-	/**
-	 * Creates and returns a {@link String} representation of the given
-	 * {@link ASTNodeValue}.
-	 * 
-	 * @param value
-	 * @return
-	 */
-	public String toString(ASTNodeValue value);
-
 }

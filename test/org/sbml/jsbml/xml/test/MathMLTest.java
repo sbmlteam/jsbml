@@ -33,8 +33,12 @@ import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ASTNode.Type;
 
 /**
@@ -48,12 +52,32 @@ public class MathMLTest {
 	 * 
 	 */
 	public MathMLTest() {
-		SBMLDocument doc = new SBMLDocument(1, 1);
+		SBMLDocument doc = new SBMLDocument(3, 1);
 		Model m = doc.createModel("id");
 		FunctionDefinition fd = m.createFunctionDefinition("fd");
-		ASTNode math = new ASTNode(Type.LAMBDA, fd); 
-		math.addChild(ASTNode.abs(Double.NEGATIVE_INFINITY, fd));
+		ASTNode math = new ASTNode(Type.LAMBDA, fd);
+		math.addChild(new ASTNode("x", fd));
+		ASTNode pieces = ASTNode.piecewise(new ASTNode(3, fd), ASTNode.lt("x",
+				ASTNode.abs(Double.NEGATIVE_INFINITY, fd)), ASTNode.times(
+				new ASTNode(5.3, fd), ASTNode.log(new ASTNode(8, fd))));
+		pieces = ASTNode.times(pieces, ASTNode.root(new ASTNode(2, fd),
+				new ASTNode(16, fd)));
+		math.addChild(pieces);
 		fd.setMath(math);
+		try {
+			System.out.println(math.toMathML());
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+		Species species = m.createSpecies("spec");
+		Reaction r = new Reaction(3, 1);
+		r.addReactant(new SpeciesReference(species));
+		KineticLaw kl = new KineticLaw(3, 1);
+		math = new ASTNode(fd, kl);
+		math.addChild(new ASTNode(species, kl));
+		math = ASTNode.times(math, new ASTNode(3.7, 8, kl));
+		kl.setMath(math);
+		r.setKineticLaw(kl);
 		try {
 			System.out.println(math.toMathML());
 		} catch (XMLStreamException e) {
