@@ -558,15 +558,6 @@ public interface ASTNodeCompiler {
 	public ASTNodeValue times(ASTNodeValue... values);
 
 	/**
-	 * Creates and returns a {@link String} representation of the given
-	 * {@link ASTNodeValue}.
-	 * 
-	 * @param value
-	 * @return
-	 */
-	public String toString(ASTNodeValue value);
-
-	/**
 	 * 
 	 * @param value
 	 * @return

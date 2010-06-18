@@ -52,7 +52,9 @@ public class MathMLTest {
 	 * 
 	 */
 	public MathMLTest() {
-		SBMLDocument doc = new SBMLDocument(3, 1);
+		int level = 3;
+		int version = 1;
+		SBMLDocument doc = new SBMLDocument(level, 1);
 		Model m = doc.createModel("id");
 		FunctionDefinition fd = m.createFunctionDefinition("fd");
 		ASTNode math = new ASTNode(Type.LAMBDA, fd);
@@ -70,9 +72,9 @@ public class MathMLTest {
 			e.printStackTrace();
 		}
 		Species species = m.createSpecies("spec");
-		Reaction r = new Reaction(3, 1);
+		Reaction r = new Reaction(level, version);
 		r.addReactant(new SpeciesReference(species));
-		KineticLaw kl = new KineticLaw(3, 1);
+		KineticLaw kl = new KineticLaw(level, version);
 		math = new ASTNode(fd, kl);
 		math.addChild(new ASTNode(species, kl));
 		math = ASTNode.times(math, new ASTNode(3.7, 8, kl));

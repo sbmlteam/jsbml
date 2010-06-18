@@ -32,7 +32,7 @@ SimpleSpeciesReference can't be a Symbol (no constant, units, etc.)
 - where there are // TODO comments, need to log an error or warning message or to throw an exception.
 
 - try to divide the SBMLReader read method and the SBMLWriter write method into several shorter methods to
-be easily read and changed in the futur.
+be easily read and changed in the future.
 
 - Create the metaID if it is not set in the processEndDocument method of RDFAnnotationParser.
 
