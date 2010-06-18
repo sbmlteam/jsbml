@@ -28,9 +28,7 @@
  */
 package org.sbml.jsbml.util.compilers;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -46,12 +44,10 @@ import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.MathMLParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 /**
  * With this compiler, an {@link ASTNode} can be transformed into a MathML
@@ -64,84 +60,25 @@ import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 public class MathMLCompiler implements ASTNodeCompiler {
 
 	/**
-	 * The URI for the definition of the csymbol for avogadro.
-	 */
-	private static final String definitionURIavogadro = "http://www.sbml.org/sbml/symbols/avogadro";
-
-	/**
-	 * The URI for the definition of the csymbol for delay.
-	 */
-	private static final String definitionURIdelay = "http://www.sbml.org/sbml/symbols/delay";
-
-	/**
-	 * The URI for the definition of the csymbol for time.
-	 */
-	private static final String definitionURItime = "http://www.sbml.org/sbml/symbols/time";
-
-	/**
-	 * The name space of MathML.
-	 */
-	private static final String namespace = "http://www.w3.org/1998/Math/MathML";
-
-	/**
-	 * The additional MathML name space for units to numbers.
-	 */
-	private static final String xmlnsSBML = "http://www.sbml.org/sbml/level3/version1/core";
-
-	/**
-	 * This is a switch that indicates whether at least one number element
-	 * exists in the document that refers to a unit and therefore requires at
-	 * least SBML level three. Default value is false.
-	 */
-	private boolean containsNumbersReferingToUnits;
-
-	/**
-	 * @return the namespace
-	 */
-	public static String getNamespace() {
-		return namespace;
-	}
-
-	/**
-	 * @return the xmlnssbml
-	 */
-	public static String getXMLnamespaceSBML() {
-		return xmlnsSBML;
-	}
-
-	/**
 	 * XML document for the output.
 	 */
 	private Document document;
-	/**
-	 * The number of white spaces for the indent if this is to be used.
-	 */
-	private short indent;
-	/**
-	 * Decides whether or not the content of the MathML string should be
-	 * indented.
-	 */
-	private boolean indenting;
 
 	/**
-	 * If true no XML declaration will be written into the MathML output,
-	 * otherwise the XML version will appear at the beginning of the output.
+	 * The last top {@link Element} that has been created in the previous step.
 	 */
-	private boolean omitXMLDeclaration;
+	private Element lastElementCreated;
 
 	/**
-	 * The attribute for SBML units.
+	 * The SBML level to be used in this class.
 	 */
-	private static final String sbmlUnits = "sbml:units";
+	private int level;
 
 	/**
 	 * 
 	 * @throws ParserConfigurationException
 	 */
 	public MathMLCompiler() throws XMLStreamException {
-		indent = 2;
-		indenting = true;
-		omitXMLDeclaration = true;
 		init();
 	}
 
@@ -160,7 +97,11 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#and(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue and(ASTNodeValue... values) {
-		return createApplyNode("and", values);
+		if (values.length > 0) {
+			return createApplyNode("and", values);
+		}
+		throw new IllegalArgumentException(
+				"cannot create and node for empty element list");
 	}
 
 	/*
@@ -327,6 +268,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * NamedSBaseWithDerivedUnit)
 	 */
 	public ASTNodeValue compile(NamedSBaseWithDerivedUnit variable) {
+		setLevel(variable.getLevel());
 		return compile(variable.getId());
 	}
 
@@ -385,14 +327,15 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @return
 	 */
 	private ASTNodeValue createApplyNode(Node tag, ASTNodeValue... childNodes) {
-		Element apply = document.createElement("apply");
-		apply.appendChild(tag);
+		lastElementCreated = document.createElement("apply");
+		lastElementCreated.appendChild(tag);
 		for (ASTNodeValue n : childNodes) {
-			apply.appendChild(n.toNode());
+			lastElementCreated.appendChild(n.toNode());
 		}
-		ASTNodeValue v = new ASTNodeValue(this);
-		v.setValue(apply);
-		return v;
+		if (childNodes.length > 0) {
+			setLevel(childNodes[0].getLevel());
+		}
+		return new ASTNodeValue(lastElementCreated, this);
 	}
 
 	/**
@@ -408,15 +351,15 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 */
 	private ASTNodeValue createApplyNode(String tagName,
 			ASTNodeValue... childNodes) {
-		Element apply = document.createElement("apply");
-		Element tag = document.createElement(tagName);
-		apply.appendChild(tag);
-		for (ASTNodeValue n : childNodes) {
-			apply.appendChild(n.toNode());
+		lastElementCreated = document.createElement("apply");
+		lastElementCreated.appendChild(document.createElement(tagName));
+		for (ASTNodeValue value : childNodes) {
+			lastElementCreated.appendChild(value.toNode());
 		}
-		ASTNodeValue v = new ASTNodeValue(this);
-		v.setValue(apply);
-		return v;
+		if (childNodes.length > 0) {
+			setLevel(childNodes[0].getLevel());
+		}
+		return new ASTNodeValue(lastElementCreated, this);
 	}
 
 	/**
@@ -425,43 +368,9 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @return
 	 */
 	private ASTNodeValue createCiElement(String name) {
-		Element node = document.createElement("ci");
-		node.setTextContent(writeName(name.trim()));
-		ASTNodeValue v = new ASTNodeValue(this);
-		v.setValue(node);
-		return v;
-	}
-
-	/**
-	 * Converts the given {@link Object} into a {@link String}. Then it removes
-	 * leading and tailing white spaces from the given {@link String} and then
-	 * inserts exactly one white space at the beginning and the end of the given
-	 * {@link String}.
-	 * 
-	 * @param name
-	 * @return
-	 */
-	private String writeName(Object name) {
-		return StringTools.concat(" ", name.toString().trim(), " ").toString();
-	}
-
-	/**
-	 * 
-	 * @param value
-	 * @param units
-	 *            Can be null.
-	 * @return
-	 */
-	private Element createCnElement(Number value, String units) {
-		Element node = document.createElement("cn");
-		if (units != null) {
-			containsNumbersReferingToUnits = true;
-			node.setAttribute(sbmlUnits, units);
-		}
-		String type = value instanceof Integer ? "integer" : "real";
-		node.setAttribute("type", type);
-		node.setTextContent(writeName(value));
-		return node;
+		lastElementCreated = document.createElement("ci");
+		lastElementCreated.setTextContent(writeName(name.trim()));
+		return new ASTNodeValue(lastElementCreated, this);
 	}
 
 	/**
@@ -473,18 +382,37 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @return
 	 */
 	private Element createCnElement(double mantissa, int exponent, String units) {
-		Element node = document.createElement("cn");
-		node.setAttribute("type", "e-notation");
+		lastElementCreated = document.createElement("cn");
+		lastElementCreated.setAttribute("type", "e-notation");
 		if (units != null) {
-			containsNumbersReferingToUnits = true;
-			node.setAttribute(sbmlUnits, units);
+			lastElementCreated.setAttribute(MathMLParser
+					.getSBMLUnitsAttribute(), units);
 		}
-		node.appendChild(document.createTextNode(writeName(Double
+		lastElementCreated.appendChild(document.createTextNode(writeName(Double
 				.valueOf(mantissa))));
-		node.appendChild(document.createElement("sep"));
-		node.appendChild(document.createTextNode(writeName(Integer
-				.valueOf(exponent))));
-		return node;
+		lastElementCreated.appendChild(document.createElement("sep"));
+		lastElementCreated.appendChild(document
+				.createTextNode(writeName(Integer.valueOf(exponent))));
+		return lastElementCreated;
+	}
+
+	/**
+	 * 
+	 * @param value
+	 * @param units
+	 *            Can be null.
+	 * @return
+	 */
+	private Element createCnElement(Number value, String units) {
+		lastElementCreated = document.createElement("cn");
+		if (units != null) {
+			lastElementCreated.setAttribute(MathMLParser
+					.getSBMLUnitsAttribute(), units);
+		}
+		String type = value instanceof Integer ? "integer" : "real";
+		lastElementCreated.setAttribute("type", type);
+		lastElementCreated.setTextContent(writeName(value));
+		return lastElementCreated;
 	}
 
 	/**
@@ -495,10 +423,8 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @return
 	 */
 	private ASTNodeValue createConstant(String tagName) {
-		Element tag = document.createElement(tagName);
-		ASTNodeValue v = new ASTNodeValue(this);
-		v.setValue(tag);
-		return v;
+		lastElementCreated = document.createElement(tagName);
+		return new ASTNodeValue(lastElementCreated, this);
 	}
 
 	/**
@@ -508,11 +434,11 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @return
 	 */
 	private Element createCSymbol(String name, String definitionURI) {
-		Element csymbol = document.createElement("csymbol");
-		csymbol.setAttribute("encoding", "text");
-		csymbol.setAttribute("definitionURL", definitionURI);
-		csymbol.setTextContent(writeName(name));
-		return csymbol;
+		lastElementCreated = document.createElement("csymbol");
+		lastElementCreated.setAttribute("encoding", "text");
+		lastElementCreated.setAttribute("definitionURL", definitionURI);
+		lastElementCreated.setTextContent(writeName(name));
+		return lastElementCreated;
 	}
 
 	/*
@@ -541,8 +467,10 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue delay(String delayName, ASTNodeValue x, double d,
 			String timeUnit) {
-		return createApplyNode(createCSymbol(delayName, definitionURIdelay),
-				compile(x.toString()), compile(d, timeUnit));
+		setLevel(x.getLevel());
+		return createApplyNode(createCSymbol(delayName, MathMLParser
+				.getDefinitionURIdelay()), compile(x.toString()), compile(d,
+				timeUnit));
 	}
 
 	/*
@@ -612,8 +540,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue function(FunctionDefinition functionDefinition,
 			ASTNodeValue... args) {
-		return createApplyNode((Element) compile(functionDefinition).toNode(),
-				args);
+		return createApplyNode(compile(functionDefinition).toNode(), args);
 	}
 
 	/*
@@ -633,8 +560,8 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantAvogadro(java.lang.String)
 	 */
 	public ASTNodeValue getConstantAvogadro(String name) {
-		return new ASTNodeValue(createCSymbol(name, definitionURIavogadro),
-				this);
+		return new ASTNodeValue(createCSymbol(name, MathMLParser
+				.getDefinitionURIavogadro()), this);
 	}
 
 	/*
@@ -675,25 +602,17 @@ public class MathMLCompiler implements ASTNodeCompiler {
 
 	/**
 	 * @return the document
+	 * @throws SBMLException
 	 */
-	public Document getDocument() {
-		return document;
+	public Document getDocument() throws SBMLException {
+		return MathMLParser.createMathMLDocumentFor(lastElementCreated, level);
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the level
 	 */
-	public int getIndent() {
-		return indent;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean getIndenting() {
-		return indenting;
+	public int getLevel() {
+		return level;
 	}
 
 	/*
@@ -703,14 +622,6 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue getNegativeInfinity() {
 		return uMinus(getPositiveInfinity());
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean getOmitXMLDeclaration() {
-		return omitXMLDeclaration;
 	}
 
 	/*
@@ -734,11 +645,15 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	}
 
 	/**
+	 * Re-initializes the {@link Document} object belonging to this class. Only
+	 * in this way a new {@link ASTNode} tree can be compiled. To this end, also
+	 * the level attribute is reset (because maybe next time we want to compile
+	 * some {@link ASTNode} with from a different source.
 	 * 
 	 * @throws XMLStreamException
 	 */
 	private void init() throws XMLStreamException {
-		containsNumbersReferingToUnits = false;
+		level = -1;
 		try {
 			// create document
 			DocumentBuilderFactory factory = DocumentBuilderFactory
@@ -758,20 +673,19 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#lambda(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue lambda(ASTNodeValue... values) {
-		ASTNodeValue value = new ASTNodeValue(this);
-		Node lambda = document.createElement("lambda");
+		lastElementCreated = document.createElement("lambda");
 		if (values.length > 0) {
+			setLevel(values[0].getLevel());
 			if (values.length > 1) {
 				for (int i = 0; i < values.length - 1; i++) {
 					Element bvar = document.createElement("bvar");
 					bvar.appendChild(values[i].toNode());
-					lambda.appendChild(bvar);
+					lastElementCreated.appendChild(bvar);
 				}
 			}
-			lambda.appendChild(values[values.length - 1].toNode());
+			lastElementCreated.appendChild(values[values.length - 1].toNode());
 		}
-		value.setValue(lambda);
-		return value;
+		return new ASTNodeValue(lastElementCreated, this);
 	}
 
 	/*
@@ -874,25 +788,28 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#piecewise(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue piecewise(ASTNodeValue... values) {
-		Element apply = document.createElement("apply");
-		Element tag = document.createElement("piecewise");
-		apply.appendChild(tag);
-		Element piece = null;
-		for (int i = 0; i < values.length; i++) {
-			if ((i % 2) == 0) {
-				piece = document.createElement("piece");
-				tag.appendChild(piece);
-			} else if (i == values.length - 1) {
-				piece = document.createElement("otherwise");
-				tag.appendChild(piece);
+		if (values.length > 0) {
+			setLevel(values[0].getLevel());
+			lastElementCreated = document.createElement("apply");
+			Element tag = document.createElement("piecewise");
+			Element piece = null;
+			for (int i = 0; i < values.length; i++) {
+				if ((i % 2) == 0) {
+					piece = document.createElement("piece");
+					tag.appendChild(piece);
+				} else if (i == values.length - 1) {
+					piece = document.createElement("otherwise");
+					tag.appendChild(piece);
+				}
+				if (piece != null) {
+					piece.appendChild(values[i].toNode());
+				}
 			}
-			if (piece != null) {
-				piece.appendChild(values[i].toNode());
-			}
+			lastElementCreated.appendChild(tag);
+			return new ASTNodeValue(lastElementCreated, this);
 		}
-		ASTNodeValue v = new ASTNodeValue(this);
-		v.setValue(apply);
-		return v;
+		throw new IllegalArgumentException(
+				"cannot create piecewise function with empty argument list");
 	}
 
 	/*
@@ -950,7 +867,8 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue root(double rootExponent, ASTNodeValue radiant) {
 		ASTNodeValue exponent;
-		String dimensionless = Unit.Kind.DIMENSIONLESS.toString().toLowerCase();
+		String dimensionless = (0 < level) && (level < 3) ? null
+				: Unit.Kind.DIMENSIONLESS.toString().toLowerCase();
 		if (rootExponent - ((int) rootExponent) == 0) {
 			exponent = compile((int) rootExponent, dimensionless);
 		} else {
@@ -978,32 +896,18 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	}
 
 	/**
-	 * @param indent
-	 *            the indent to set
+	 * @param level
+	 *            the level to set
 	 */
-	public void setIndent(int indent) {
-		if ((indent < 0) || (Short.MAX_VALUE < indent)) {
-			throw new IllegalArgumentException(StringTools.concat("indent ",
-					indent, " is out of the range [0, ",
-					Short.toString(Short.MAX_VALUE) + "]").toString());
+	private void setLevel(int level) {
+		if ((0 < this.level) && (this.level <= 3)
+				&& ((level < 0) || (3 < level))) {
+			throw new IllegalArgumentException(StringTools.concat(
+					"cannot set level from the valid value ",
+					Integer.toString(this.level), " to invalid value ",
+					Integer.toString(level)).toString());
 		}
-		this.indent = (short) indent;
-	}
-
-	/**
-	 * @param indenting
-	 *            the indenting to set
-	 */
-	public void setIndenting(boolean indenting) {
-		this.indenting = indenting;
-	}
-
-	/**
-	 * @param omitXMLDeclaration
-	 *            the omitXMLDeclaration to set
-	 */
-	public void setOmitXMLDeclaration(boolean omitXMLDeclaration) {
-		this.omitXMLDeclaration = omitXMLDeclaration;
+		this.level = level;
 	}
 
 	/*
@@ -1039,7 +943,8 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#symbolTime(java.lang.String)
 	 */
 	public ASTNodeValue symbolTime(String time) {
-		return new ASTNodeValue(createCSymbol(time, definitionURItime), this);
+		return new ASTNodeValue(createCSymbol(time, MathMLParser
+				.getDefinitionURItime()), this);
 	}
 
 	/*
@@ -1070,74 +975,18 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	}
 
 	/**
-	 * output
 	 * 
-	 * @param value
 	 * @param omitXMLDeclaration
 	 * @param indenting
 	 * @param indent
 	 * @return
 	 * @throws IOException
 	 * @throws SBMLException
-	 *             If illegal references to units are made for numbers and the
-	 *             SBML Level has been set to values before level 3.
 	 */
-	public String toMathML(ASTNodeValue value, boolean omitXMLDeclaration,
-			boolean indenting, int indent) throws IOException, SBMLException {
-
-		Element math;
-		if (document.getDocumentElement() == null) {
-			math = document.createElementNS(namespace, "math");
-			if (containsNumbersReferingToUnits) {
-				if ((value.getLevel() < 0) || (value.getLevel() > 2)) {
-					math.setAttribute("xmlns:sbml", xmlnsSBML);
-				} else {
-					throw new SBMLException(
-							"math element contains numbers that refer to unit definitions and therefore requires at least SBML Level 3");
-				}
-			}
-			document.appendChild(math);
-		} else {
-			math = document.getDocumentElement();
-			for (int i = math.getChildNodes().getLength() - 1; i >= 0; i--) {
-				math.removeChild(math.getChildNodes().item(i));
-			}
-		}
-		math.appendChild(value.toNode());
-
-		OutputFormat format = new OutputFormat(document);
-		format.setOmitXMLDeclaration(omitXMLDeclaration);
-		format.setStandalone(true);
-		format.setMethod("xml");
-		format.setMediaType("text/xml");
-		format.setEncoding("UTF-8");
-		format.setAllowJavaNames(true);
-		format.setIndenting(indenting);
-		format.setIndent(indent);
-
-		StringWriter sw = new StringWriter();
-		XMLSerializer serializer = new XMLSerializer(new BufferedWriter(sw),
-				format);
-		serializer.setNamespaces(true);
-		serializer.serialize(document);
-
-		return sw.toString();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#toString(org.sbml.jsbml.ASTNodeValue)
-	 */
-	public String toString(ASTNodeValue value) {
-		try {
-			return toMathML(value, getOmitXMLDeclaration(), getIndenting(),
-					getIndent());
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} catch (SBMLException e) {
-			throw new RuntimeException(e);
-		}
+	public String toMathML(boolean omitXMLDeclaration, boolean indenting,
+			int indent) throws IOException, SBMLException {
+		return MathMLParser.toMathML(getDocument(), omitXMLDeclaration,
+				indenting, indent);
 	}
 
 	/*
@@ -1146,8 +995,9 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue uMinus(ASTNodeValue value) {
-		return times(compile(-1, Unit.Kind.DIMENSIONLESS.toString()
-				.toLowerCase()), value);
+		setLevel(value.getLevel());
+		return times(compile(-1, (0 < level) && (level < 3) ? null
+				: Unit.Kind.DIMENSIONLESS.toString().toLowerCase()), value);
 	}
 
 	/*
@@ -1158,6 +1008,20 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	public ASTNodeValue unknownValue() {
 		// TODO: should we throw an exception here instead?
 		return compile(Double.NaN, null);
+	}
+
+	/**
+	 * Converts the given {@link Object} into a {@link String}. Then it removes
+	 * leading and tailing white spaces from the given {@link String} and then
+	 * inserts exactly one white space at the beginning and the end of the given
+	 * {@link String}.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	private String writeName(Object name) {
+		return StringTools.concat(Character.toString(' '),
+				name.toString().trim(), Character.toString(' ')).toString();
 	}
 
 	/*

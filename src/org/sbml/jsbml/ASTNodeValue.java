@@ -29,7 +29,10 @@
  */
 package org.sbml.jsbml;
 
+import java.io.IOException;
+
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.xml.parsers.MathMLParser;
 import org.w3c.dom.Node;
 
 /**
@@ -49,22 +52,6 @@ import org.w3c.dom.Node;
 public class ASTNodeValue {
 
 	/**
-	 * 
-	 */
-	private Type type;
-	/**
-	 * 
-	 */
-	private Object value;
-	/**
-	 * The unit associated to the value of this object.
-	 */
-	private UnitDefinition unit;
-	/**
-	 * 
-	 */
-	private boolean uiFlag;
-	/**
 	 * An {@link ASTNodeCompiler} that is needed in the case that this
 	 * {@link ASTNodeValue} contains a derivative of
 	 * {@link NamedSBaseWithDerivedUnit} as value to translate this value into a
@@ -78,6 +65,24 @@ public class ASTNodeValue {
 	 */
 	private int level;
 	/**
+	 * The type of the underlying {@link ASTNode}.
+	 */
+	private Type type;
+	/**
+	 * Flag to indicate whether the underlying {@link ASTNode} was an unary
+	 * node.
+	 */
+	private boolean uFlag;
+	/**
+	 * The unit associated to the value of this object.
+	 */
+	private UnitDefinition unit;
+	/**
+	 * The actual value of this element. This is an {@link Object}, but indeed
+	 * we restrict the possibilities to store only certain types here.
+	 */
+	private Object value;
+	/**
 	 * The version of the underlying {@link SBMLDocument}.
 	 */
 	private int version;
@@ -89,7 +94,7 @@ public class ASTNodeValue {
 		type = Type.UNKNOWN;
 		value = null;
 		unit = null;
-		uiFlag = true;
+		uFlag = true;
 		this.compiler = compiler;
 	}
 
@@ -141,6 +146,16 @@ public class ASTNodeValue {
 
 	/**
 	 * 
+	 * @param node
+	 * @param compiler
+	 */
+	public ASTNodeValue(Node node, ASTNodeCompiler compiler) {
+		this(compiler);
+		setValue(node);
+	}
+
+	/**
+	 * 
 	 * @param value
 	 */
 	public ASTNodeValue(Number value, ASTNodeCompiler compiler) {
@@ -173,16 +188,6 @@ public class ASTNodeValue {
 	public ASTNodeValue(UnitDefinition unit, ASTNodeCompiler compiler) {
 		this(compiler);
 		setUnit(unit);
-	}
-
-	/**
-	 * 
-	 * @param node
-	 * @param compiler
-	 */
-	public ASTNodeValue(Node node, ASTNodeCompiler compiler) {
-		this(compiler);
-		setValue(node);
 	}
 
 	/**
@@ -315,7 +320,7 @@ public class ASTNodeValue {
 	 * @return
 	 */
 	public boolean isUMinus() {
-		return isDifference() && uiFlag;
+		return isDifference() && uFlag;
 	}
 
 	/**
@@ -323,7 +328,7 @@ public class ASTNodeValue {
 	 * @return
 	 */
 	public boolean isUnary() {
-		return uiFlag;
+		return uFlag;
 	}
 
 	/**
@@ -363,7 +368,7 @@ public class ASTNodeValue {
 	 * @param uiFlag
 	 */
 	void setUIFlag(boolean uiFlag) {
-		this.uiFlag = uiFlag;
+		this.uFlag = uiFlag;
 	}
 
 	/**
@@ -602,7 +607,15 @@ public class ASTNodeValue {
 	@Override
 	public String toString() {
 		if (isNode()) {
-			return compiler.toString(this);
+			try {
+				return MathMLParser.toMathML(MathMLParser
+						.createMathMLDocumentFor(toNode(), getLevel()), true,
+						true, 2);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (SBMLException e) {
+				e.printStackTrace();
+			}
 		}
 		return (value != null) ? value.toString() : super.toString();
 	}

@@ -1060,18 +1060,6 @@ public class ASTNode implements TreeNode {
 				value = compiler.compile(getInteger(), getUnits());
 				break;
 			/*
-			 * Basic Functions
-			 */
-			case FUNCTION_LOG:
-				if (getNumChildren() == 2) {
-					value = compiler.log(getLeftChild().compile(compiler),
-							getRightChild().compile(compiler));
-				} else {
-					value = compiler.log(getRightChild().compile(compiler));
-				}
-				break;
-
-			/*
 			 * Operators
 			 */
 			case POWER:
@@ -1146,8 +1134,16 @@ public class ASTNode implements TreeNode {
 						isSetUnits() ? getUnits() : null);
 				break;
 			/*
-			 * More complicated functions
+			 * Basic Functions
 			 */
+			case FUNCTION_LOG:
+				if (getNumChildren() == 2) {
+					value = compiler.log(getLeftChild().compile(compiler),
+							getRightChild().compile(compiler));
+				} else {
+					value = compiler.log(getRightChild().compile(compiler));
+				}
+				break;
 			case FUNCTION_ABS:
 				value = compiler.abs(getRightChild().compile(compiler));
 				break;
@@ -1323,6 +1319,16 @@ public class ASTNode implements TreeNode {
 		value.setLevel(getParentSBMLObject().getLevel());
 		value.setVersion(getParentSBMLObject().getVersion());
 		return value;
+	}
+
+	/**
+	 * Method to check whether this {@link ASTNode} is the root node of a tree.
+	 * 
+	 * @return True if this {@link ASTNode} does not have a parent node. False
+	 *         otherwise.
+	 */
+	public boolean isRoot() {
+		return getParent() == null;
 	}
 
 	/**

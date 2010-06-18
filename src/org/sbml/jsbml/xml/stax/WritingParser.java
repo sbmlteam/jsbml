@@ -32,6 +32,8 @@ package org.sbml.jsbml.xml.stax;
 
 import java.util.List;
 
+import org.sbml.jsbml.SBase;
+
 /**
  * The interface to implement for a parser which writes a SBML file.
  * 
@@ -43,9 +45,9 @@ public interface WritingParser {
 	/**
 	 * 
 	 * @param objectToWrite
-	 *            : the sbase component to write.
-	 * @return the list of components that 'sbase' contains. Represents the list
-	 *         of subNodes of this sbase component.
+	 *            : the {@link SBase} component to write.
+	 * @return the list of components that '{@link SBase}' contains. Represents
+	 *         the list of subNodes of this {@link SBase} component.
 	 */
 	public List<Object> getListOfSBMLElementsToWrite(Object objectToWrite);
 
@@ -56,7 +58,7 @@ public interface WritingParser {
 	 * @param xmlObject
 	 *            : contains the XML information about sbmlElement.
 	 * @param sbmlElementToWrite
-	 *            : the sbase component to write
+	 *            : the {@link SBase} component to write
 	 */
 	public void writeAttributes(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite);
@@ -67,7 +69,7 @@ public interface WritingParser {
 	 * @param xmlObject
 	 *            : contains the XML information about sbmlElement.
 	 * @param sbmlElementToWrite
-	 *            : the sbase component to write
+	 *            : the {@link SBase} component to write
 	 */
 	public void writeCharacters(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite);
@@ -79,7 +81,7 @@ public interface WritingParser {
 	 * @param xmlObject
 	 *            : contains the XML information about sbmlElement.
 	 * @param sbmlElementToWrite
-	 *            : the sbase component to write
+	 *            : the {@link SBase} component to write
 	 * @param indent
 	 */
 	public void writeElement(SBMLObjectForXML xmlObject,
@@ -92,7 +94,7 @@ public interface WritingParser {
 	 * @param xmlObject
 	 *            : contains the XML information about sbmlElement.
 	 * @param sbmlElementToWrite
-	 *            : the sbase component to write
+	 *            : the {@link SBase} component to write
 	 */
 	public void writeNamespaces(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite);
