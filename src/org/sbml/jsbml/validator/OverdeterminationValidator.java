@@ -34,6 +34,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -499,14 +500,12 @@ public class OverdeterminationValidator {
 		ArrayList<Node> path;
 
 		// For every path of the current length
-		while (!paths.isEmpty()) {
+		while (!paths.isEmpty()) {			
 			path = paths.get(0);
 			// Search for the start node of the path an unmatched adjacent node
-			for (Node node : path.get(0).getNodes()) {
-
+			for (Node node : path.get(0).getNodes()) {				
 				// New start node not part of a matching
-				if (!matching.containsKey(node.getValue())
-						&& !matching.containsValue(node.getValue())) {
+				if (!matching.containsValue(node.getValue())) {
 					start = node;
 					break;
 				}
@@ -516,8 +515,7 @@ public class OverdeterminationValidator {
 			for (Node node : path.get(path.size() - 1).getNodes()) {
 
 				// New end node not part of a matching
-				if (!matching.containsKey(node.getValue())
-						&& !matching.containsValue(node.getValue())) {
+				if (!matching.containsKey(node.getValue())) {
 					end = node;
 					break;
 				}
@@ -531,6 +529,10 @@ public class OverdeterminationValidator {
 				// Update matching
 				updateMatching(path);
 			}
+			else{
+				System.out.println("mist");
+			}
+				
 			// Path Augmented -> remove from the list
 			paths.remove(path);
 			start = null;
@@ -921,9 +923,9 @@ public class OverdeterminationValidator {
 	 * @param path
 	 */
 	private void updateMatching(ArrayList<Node> path) {
-		System.out.println("new length: " + (path.size() - 1));
 		int index;
 		index = 1;
+		System.out.println(path.get(0).getValue());
 		while (path.size() > index) {
 			matching.remove(path.get(index).getValue());
 			matching.put(path.get(index).getValue(), path.get(index - 1)
