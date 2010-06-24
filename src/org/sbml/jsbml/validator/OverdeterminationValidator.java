@@ -529,9 +529,6 @@ public class OverdeterminationValidator {
 				// Update matching
 				updateMatching(path);
 			}
-			else{
-				System.out.println("mist");
-			}
 				
 			// Path Augmented -> remove from the list
 			paths.remove(path);
