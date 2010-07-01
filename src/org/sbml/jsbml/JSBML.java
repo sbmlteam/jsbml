@@ -202,9 +202,11 @@ public class JSBML {
 	 * 
 	 * @param node
 	 * @return
-	 * @throws XMLStreamException 
+	 * @throws XMLStreamException
+	 * @throws SBMLException
 	 */
-	public static String writeMathMLToString(ASTNode node) throws XMLStreamException {
+	public static String writeMathMLToString(ASTNode node)
+			throws XMLStreamException, SBMLException {
 		return node.toMathML();
 	}
 
@@ -217,13 +219,14 @@ public class JSBML {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 * @throws XMLStreamException
-	 * @throws ClassNotFoundException 
-	 * @throws IOException 
-	 * @throws InvalidPropertiesFormatException 
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	public static void writeSBML(SBMLDocument d, String filename)
-			throws XMLStreamException,
-			InstantiationException, IllegalAccessException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
+			throws XMLStreamException, InstantiationException,
+			IllegalAccessException, InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		SBMLWriter.write(d, filename);
 	}
 
@@ -236,13 +239,14 @@ public class JSBML {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 * @throws XMLStreamException
-	 * @throws ClassNotFoundException 
-	 * @throws IOException 
-	 * @throws InvalidPropertiesFormatException 
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidPropertiesFormatException
 	 */
 	public static String writeSBMLToString(SBMLDocument d)
 			throws XMLStreamException, InstantiationException,
-			IllegalAccessException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
+			IllegalAccessException, InvalidPropertiesFormatException,
+			IOException, ClassNotFoundException {
 		return SBMLWriter.writeSBMLToString(d);
 	}
 

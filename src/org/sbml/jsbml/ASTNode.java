@@ -36,13 +36,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import javax.activity.InvalidActivityException;
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.util.compilers.LaTeX;
-import org.sbml.jsbml.util.compilers.MathMLCompiler;
+import org.sbml.jsbml.util.compilers.MathML;
 import org.sbml.jsbml.util.compilers.TextFormula;
-import org.sbml.jsbml.util.compilers.UnitCompiler;
+import org.sbml.jsbml.util.compilers.Units;
 
 /**
  * A node in the Abstract Syntax Tree (AST) representation of a mathematical
@@ -77,10 +78,6 @@ public class ASTNode implements TreeNode {
 		 * 
 		 */
 		CONSTANT_TRUE,
-		/**
-		 * Not present in libSBML; a type to express Avogadro's number.
-		 */
-		CONSTANT_AVOGADRO,
 		/**
 		 * 
 		 */
@@ -262,6 +259,10 @@ public class ASTNode implements TreeNode {
 		 */
 		NAME,
 		/**
+		 * A type to express Avogadro's number.
+		 */
+		NAME_AVOGADRO,
+		/**
 		 * 
 		 */
 		NAME_TIME,
@@ -419,8 +420,10 @@ public class ASTNode implements TreeNode {
 	 *         mathematical formula. The caller owns the returned string and is
 	 *         responsible for freeing it when it is no longer needed. NULL is
 	 *         returned if the given argument is NULL.
+	 * @throws SBMLException
 	 */
-	public static String formulaToString(ASTNode tree) {
+	public static String formulaToString(ASTNode tree)
+			throws SBMLException {
 		return tree.toFormula();
 	}
 
@@ -774,11 +777,6 @@ public class ASTNode implements TreeNode {
 	private int exponent;
 
 	/**
-	 * 
-	 */
-	private String unitId;
-
-	/**
 	 * Child nodes.
 	 */
 	private LinkedList<ASTNode> listOfNodes;
@@ -814,6 +812,11 @@ public class ASTNode implements TreeNode {
 	 * The type of this ASTNode.
 	 */
 	private Type type;
+
+	/**
+	 * 
+	 */
+	private String unitId;
 
 	/**
 	 * A direct pointer to a referenced variable. This can save a lot of
@@ -1033,12 +1036,22 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Compiles this astnode and returns the result.
+	 * Compiles this {@link ASTNode} and returns the result.
 	 * 
 	 * @param compiler
-	 * @return
+	 *            An instance of an {@link ASTNodeCompiler} that provides
+	 *            methods to translate this {@link ASTNode} into something
+	 *            different.
+	 * @return Some value wrapped in an {@link ASTNodeValue}. The content of the
+	 *         wrapper depends on the {@link ASTNodeCompiler} used to create it.
+	 *         However, this {@link ASTNode} will ensure that level and version
+	 *         are set appropriately according to this node's parent SBML
+	 *         object.
+	 * @throws InvalidActivityException
+	 *             Thrown if an error occurs during the compilation process.
+	 * @throws SBMLException
 	 */
-	public ASTNodeValue compile(ASTNodeCompiler compiler) {
+	public ASTNodeValue compile(ASTNodeCompiler compiler) throws SBMLException {
 		ASTNodeValue value;
 		if (isUMinus()) {
 			value = compiler.uMinus(getLeftChild().compile(compiler));
@@ -1126,7 +1139,7 @@ public class ASTNode implements TreeNode {
 			case CONSTANT_FALSE:
 				value = compiler.getConstantFalse();
 				break;
-			case CONSTANT_AVOGADRO:
+			case NAME_AVOGADRO:
 				value = compiler.getConstantAvogadro(getName());
 				break;
 			case REAL_E:
@@ -1322,16 +1335,6 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Method to check whether this {@link ASTNode} is the root node of a tree.
-	 * 
-	 * @return True if this {@link ASTNode} does not have a parent node. False
-	 *         otherwise.
-	 */
-	public boolean isRoot() {
-		return getParent() == null;
-	}
-
-	/**
 	 * Convenient method that compiles all children of this node and returns an
 	 * array of values as a result.
 	 * 
@@ -1339,8 +1342,10 @@ public class ASTNode implements TreeNode {
 	 *            The compiler that generates the value for each child.
 	 * @return An array of values as the result of an evaluation of all child
 	 *         nodes.
+	 * @throws SBMLException
 	 */
-	private ASTNodeValue[] compileChildren(ASTNodeCompiler compiler) {
+	private ASTNodeValue[] compileChildren(ASTNodeCompiler compiler)
+			throws SBMLException {
 		ASTNodeValue values[] = new ASTNodeValue[getNumChildren()];
 		for (int i = 0; i < getNumChildren(); i++) {
 			values[i] = getChild(i).compile(compiler);
@@ -1388,8 +1393,9 @@ public class ASTNode implements TreeNode {
 	 * UnitDefinition with respect of all referenced elements.
 	 * 
 	 * @return
+	 * @throws SBMLException
 	 */
-	public UnitDefinition deriveUnit() {
+	public UnitDefinition deriveUnit() throws SBMLException {
 		MathContainer container = getParentSBMLObject();
 		int level = -1;
 		int version = -1;
@@ -1397,7 +1403,7 @@ public class ASTNode implements TreeNode {
 			level = container.getLevel();
 			version = container.getVersion();
 		}
-		return compile(new UnitCompiler(level, version)).getUnit().simplify();
+		return compile(new Units(level, version)).getUnit().simplify();
 	}
 
 	/**
@@ -2087,6 +2093,16 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Method to check whether this {@link ASTNode} is the root node of a tree.
+	 * 
+	 * @return True if this {@link ASTNode} does not have a parent node. False
+	 *         otherwise.
+	 */
+	public boolean isRoot() {
+		return getParent() == null;
+	}
+
+	/**
 	 * Returns true if the current ASTNode has a unit defined.
 	 * 
 	 * @return true if the current ASTNode has a unit defined.
@@ -2504,7 +2520,7 @@ public class ASTNode implements TreeNode {
 		} else if (type == Type.FUNCTION_DELAY) {
 			name = "delay";
 			initDefaults();
-		} else if (type == Type.CONSTANT_AVOGADRO) {
+		} else if (type == Type.NAME_AVOGADRO) {
 			name = "Avogadro's number";
 			initDefaults();
 		}
@@ -2651,8 +2667,9 @@ public class ASTNode implements TreeNode {
 	 *         mathematical formula. The caller owns the returned string and is
 	 *         responsible for freeing it when it is no longer needed. NULL is
 	 *         returned if the given argument is NULL.
+	 * @throws SBMLException
 	 */
-	public String toFormula() {
+	public String toFormula() throws SBMLException {
 		return compile(new TextFormula()).toString();
 	}
 
@@ -2661,8 +2678,9 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @return A String representing the LaTeX code necessary to write the
 	 *         formula corresponding to this node in a document.
+	 * @throws SBMLException
 	 */
-	public String toLaTeX() {
+	public String toLaTeX() throws SBMLException {
 		return compile(new LaTeX()).toString();
 	}
 
@@ -2672,9 +2690,11 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @return
 	 * @throws XMLStreamException
+	 * @throws SBMLException
 	 */
-	public String toMathML() throws XMLStreamException {
-		return compile(new MathMLCompiler()).toString();
+	public String toMathML() throws XMLStreamException,
+			SBMLException {
+		return compile(new MathML()).toString();
 	}
 
 	/*

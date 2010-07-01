@@ -215,8 +215,10 @@ public class Unit extends AbstractSBase {
 		}
 
 		/**
-		 * This method is equivalent to converting the string to a Unit.Kind and
-		 * then calling its isDefinedIn method.
+		 * This method is equivalent to converting the {@link String} to a
+		 * {@link Kind} and then calling its {@link #isDefinedIn} method. Only
+		 * entirely upper or entirely lower case {@link String}s are valid
+		 * attributes here.
 		 * 
 		 * @param unitKind
 		 * @param level
@@ -226,10 +228,26 @@ public class Unit extends AbstractSBase {
 		public static boolean isValidUnitKindString(String unitKind, int level,
 				int version) {
 			Kind uk = null;
-			if (unitKind != null) {
-				try {
-					uk = Kind.valueOf(unitKind);
-				} catch (IllegalArgumentException exc) {
+			if ((unitKind != null) && (unitKind.length() > 0)) {
+				/*
+				 * Test whether all characters within the unitKind String are
+				 * either in upper or lower case. It is not allowed to have
+				 * mixed type. The conversion to a Unit.Kind can only be
+				 * performed for an upper case string.
+				 */
+				boolean allUpperCase = true;
+				boolean allLowerCase = true;
+				for (int i = 0; i < unitKind.length(); i++) {
+					char c = unitKind.charAt(i);
+					allUpperCase &= Character.isUpperCase(c);
+					allLowerCase &= Character.isLowerCase(c);
+				}
+				if (allUpperCase || allLowerCase) {
+					try {
+						uk = Kind.valueOf(allLowerCase ? unitKind.toUpperCase()
+								: unitKind);
+					} catch (IllegalArgumentException exc) {
+					}
 				}
 			}
 			if (uk == null) {
@@ -689,38 +707,40 @@ public class Unit extends AbstractSBase {
 		}
 	}
 
-	
 	/**
-	 * Returns true if the <code>unit</code> is a valid unit kind name or an identifier 
-	 * of an existing {@link UnitDefinition}.
+	 * Returns true if the <code>unit</code> is a valid unit kind name or an
+	 * identifier of an existing {@link UnitDefinition}.
 	 * 
 	 * If either the unit or model are null, it will return false.
 	 * 
-	 * @param unit the identifier of a {@link UnitDefinition}
-	 *            or a valid {@link Unit.Kind} identifier for the current
-	 *            level/version combination of the model.
-	 * @param model the model where to look for the <code>unit</code>.
+	 * @param unit
+	 *            the identifier of a {@link UnitDefinition} or a valid
+	 *            {@link Unit.Kind} identifier for the current level/version
+	 *            combination of the model.
+	 * @param model
+	 *            the model where to look for the <code>unit</code>.
 	 * 
-	 * @return true if the unit is a valid unit kind name or an identifier 
-	 * of an existing {@link UnitDefinition}.
+	 * @return true if the unit is a valid unit kind name or an identifier of an
+	 *         existing {@link UnitDefinition}.
 	 */
-	public static boolean isValidUnit(Model model, String unit) {	
+	public static boolean isValidUnit(Model model, String unit) {
 		boolean isValidUnit = false;
 
 		if (unit != null && model != null) {
 			unit = unit.trim();
 			if (unit.length() > 0) {
-				if (Kind.isValidUnitKindString(unit, model.getLevel(),	model.getVersion())) {
+				if (Kind.isValidUnitKindString(unit, model.getLevel(), model
+						.getVersion())) {
 					isValidUnit = true;
 				} else if (model.getUnitDefinition(unit) != null) {
 					isValidUnit = true;
 				}
 			}
 		}
-		
+
 		return isValidUnit;
 	}
-	
+
 	/**
 	 * Merges two Unit objects with the same 'kind' attribute value into a
 	 * single Unit.

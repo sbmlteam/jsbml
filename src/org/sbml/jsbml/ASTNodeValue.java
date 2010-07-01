@@ -478,8 +478,9 @@ public class ASTNodeValue {
 	 *         {@link ASTNodeCompiler} associated with this object compiles this
 	 *         value to an {@link ASTNodeValue} that contains a boolean or at
 	 *         least a {@link Number} value.
+	 * @throws SBMLException 
 	 */
-	public boolean toBoolean() {
+	public boolean toBoolean() throws SBMLException {
 		if (isBoolean()) {
 			return ((Boolean) getValue()).booleanValue();
 		}
@@ -501,16 +502,18 @@ public class ASTNodeValue {
 	/**
 	 * 
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public double toDouble() {
+	public double toDouble() throws SBMLException {
 		return toNumber().doubleValue();
 	}
 
 	/**
 	 * 
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public float toFloat() {
+	public float toFloat() throws SBMLException {
 		return toNumber().floatValue();
 	}
 
@@ -520,16 +523,18 @@ public class ASTNodeValue {
 	 * 
 	 * @param compiler
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public int toInteger() {
+	public int toInteger() throws SBMLException {
 		return toNumber().intValue();
 	}
 
 	/**
 	 * 
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public long toLong() {
+	public long toLong() throws SBMLException {
 		return toNumber().longValue();
 	}
 
@@ -577,8 +582,9 @@ public class ASTNodeValue {
 	 *         {@link ASTNodeValue} compiles this
 	 *         {@link NamedSBaseWithDerivedUnit} to an {@link ASTNodeValue} that
 	 *         contains a {@link Number}.
+	 * @throws SBMLException 
 	 */
-	public Number toNumber() {
+	public Number toNumber() throws SBMLException {
 		if (isNumber()) {
 			return (Number) getValue();
 		}
