@@ -36,6 +36,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.xml.stax.SBMLReader;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
+import org.xml.sax.SAXException;
 
 /**
  * Wrapper class for global methods and constants defined by libSBML.
@@ -222,11 +223,13 @@ public class JSBML {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 * @throws InvalidPropertiesFormatException
+	 * @throws SBMLException 
+	 * @throws SAXException 
 	 */
 	public static void writeSBML(SBMLDocument d, String filename)
 			throws XMLStreamException, InstantiationException,
 			IllegalAccessException, InvalidPropertiesFormatException,
-			IOException, ClassNotFoundException {
+			IOException, ClassNotFoundException, SBMLException, SAXException {
 		SBMLWriter.write(d, filename);
 	}
 
@@ -242,11 +245,13 @@ public class JSBML {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 * @throws InvalidPropertiesFormatException
+	 * @throws SBMLException 
+	 * @throws SAXException 
 	 */
 	public static String writeSBMLToString(SBMLDocument d)
 			throws XMLStreamException, InstantiationException,
 			IllegalAccessException, InvalidPropertiesFormatException,
-			IOException, ClassNotFoundException {
+			IOException, ClassNotFoundException, SBMLException, SAXException {
 		return SBMLWriter.writeSBMLToString(d);
 	}
 

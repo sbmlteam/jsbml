@@ -45,6 +45,7 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
+import org.xml.sax.SAXException;
 
 /**
  * 
@@ -79,7 +80,7 @@ public class MathMLTest {
 			e.printStackTrace();
 		}
 		Species species = m.createSpecies("spec");
-		Reaction r = new Reaction(level, version);
+		Reaction r = m.createReaction("r");
 		r.addReactant(new SpeciesReference(species));
 		KineticLaw kl = new KineticLaw(level, version);
 		math = new ASTNode(fd, kl);
@@ -107,6 +108,10 @@ public class MathMLTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SBMLException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
 			e.printStackTrace();
 		}
 	}
