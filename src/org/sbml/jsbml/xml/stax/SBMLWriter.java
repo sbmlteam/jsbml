@@ -46,6 +46,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.Map.Entry;
 
 import javax.xml.stream.XMLStreamException;
@@ -81,6 +82,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
+import com.sun.org.apache.xpath.internal.WhitespaceStrippingElementMatcher;
 
 /**
  * A SBMLWriter provides the methods to write a SBML file.
@@ -829,10 +831,15 @@ public class SBMLWriter {
 		if (m.isSetMath()) {
 			DOMConverter converter = new DOMConverter();
 			element.addCharacters(StringTools.newLine());
-			Document domDocument = JAXPFacade.getInstance()
-					.create(
-							new BufferedReader(new StringReader(m.getMath()
-									.toMathML())), true);
+			String whiteSpace = createIndent(indent);
+			StringBuilder sb = new StringBuilder();
+			StringTokenizer st = new StringTokenizer(m.getMath().toMathML(), StringTools.newLine());
+			while (st.hasMoreElements()) {
+				StringTools.append(sb, whiteSpace, st.nextElement().toString(), StringTools.newLine());
+			}
+			Document domDocument = JAXPFacade.getInstance().create(
+					new BufferedReader(new StringReader(sb.toString())), true);
+			writer.writeCharacters(whiteSpace);
 			converter.writeFragment(domDocument.getChildNodes(), writer);
 		}
 	}
