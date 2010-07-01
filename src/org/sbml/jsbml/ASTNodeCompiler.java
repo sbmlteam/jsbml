@@ -29,6 +29,7 @@
  */
 package org.sbml.jsbml;
 
+
 /**
  * A compiler for abstract syntax trees. This compiler evaluates the values
  * represented by {@link ASTNode}s. It should be noted that it is not
@@ -47,106 +48,121 @@ public interface ASTNodeCompiler {
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue abs(ASTNodeValue value);
+	public ASTNodeValue abs(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param values
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue and(ASTNodeValue... values);
+	public ASTNodeValue and(ASTNodeValue... values) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue arccos(ASTNodeValue value);
+	public ASTNodeValue arccos(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue arccosh(ASTNodeValue value);
+	public ASTNodeValue arccosh(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue arccot(ASTNodeValue value);
+	public ASTNodeValue arccot(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue arccoth(ASTNodeValue value);
+	public ASTNodeValue arccoth(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue arccsc(ASTNodeValue value);
+	public ASTNodeValue arccsc(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue arccsch(ASTNodeValue value);
+	public ASTNodeValue arccsch(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue arcsec(ASTNodeValue value);
+	public ASTNodeValue arcsec(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue arcsech(ASTNodeValue value);
+	public ASTNodeValue arcsech(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue arcsin(ASTNodeValue value);
+	public ASTNodeValue arcsin(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue arcsinh(ASTNodeValue value);
+	public ASTNodeValue arcsinh(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue arctan(ASTNodeValue value);
+	public ASTNodeValue arctan(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue arctanh(ASTNodeValue value);
+	public ASTNodeValue arctanh(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue ceiling(ASTNodeValue value);
+	public ASTNodeValue ceiling(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
@@ -192,8 +208,9 @@ public interface ASTNodeCompiler {
 	 * 
 	 * @param variable
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue compile(NamedSBaseWithDerivedUnit variable);
+	public ASTNodeValue compile(NamedSBaseWithDerivedUnit variable) throws SBMLException;
 
 	/**
 	 * 
@@ -206,43 +223,49 @@ public interface ASTNodeCompiler {
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue cos(ASTNodeValue value);
+	public ASTNodeValue cos(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue cosh(ASTNodeValue value);
+	public ASTNodeValue cosh(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue cot(ASTNodeValue value);
+	public ASTNodeValue cot(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue coth(ASTNodeValue value);
+	public ASTNodeValue coth(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue csc(ASTNodeValue value);
+	public ASTNodeValue csc(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue csch(ASTNodeValue value);
+	public ASTNodeValue csch(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * Evaluate delay functions.
@@ -264,37 +287,42 @@ public interface ASTNodeCompiler {
 	 * @param left
 	 * @param right
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue eq(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue eq(ASTNodeValue left, ASTNodeValue right) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue exp(ASTNodeValue value);
+	public ASTNodeValue exp(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue factorial(ASTNodeValue value);
+	public ASTNodeValue factorial(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue floor(ASTNodeValue value);
+	public ASTNodeValue floor(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param left
 	 * @param right
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue frac(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue frac(ASTNodeValue left, ASTNodeValue right) throws SBMLException;
 
 	/**
 	 * 
@@ -309,9 +337,10 @@ public interface ASTNodeCompiler {
 	 * @param functionDefinition
 	 * @param args
 	 * @return
+	 * @throws SBMLException 
 	 */
 	public ASTNodeValue function(FunctionDefinition functionDefinition,
-			ASTNodeValue... args);
+			ASTNodeValue... args) throws SBMLException;
 
 	/**
 	 * Greater equal.
@@ -319,8 +348,9 @@ public interface ASTNodeCompiler {
 	 * @param left
 	 * @param right
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue geq(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue geq(ASTNodeValue left, ASTNodeValue right) throws SBMLException;
 
 	/**
 	 * Creates an {@link ASTNodeValue} that represent's Avogadro's number.
@@ -374,15 +404,17 @@ public interface ASTNodeCompiler {
 	 * @param left
 	 * @param right
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue gt(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue gt(ASTNodeValue left, ASTNodeValue right) throws SBMLException;
 
 	/**
 	 * 
 	 * @param values
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue lambda(ASTNodeValue... values);
+	public ASTNodeValue lambda(ASTNodeValue... values) throws SBMLException;
 
 	/**
 	 * Less equal.
@@ -390,23 +422,26 @@ public interface ASTNodeCompiler {
 	 * @param left
 	 * @param right
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue leq(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue leq(ASTNodeValue left, ASTNodeValue right) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue ln(ASTNodeValue value);
+	public ASTNodeValue ln(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * Logarithm of the given value to base 10.
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue log(ASTNodeValue value);
+	public ASTNodeValue log(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * Logarithm of the given value to the given base.
@@ -414,8 +449,9 @@ public interface ASTNodeCompiler {
 	 * @param base
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue log(ASTNodeValue base, ASTNodeValue value);
+	public ASTNodeValue log(ASTNodeValue base, ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * Less than.
@@ -423,15 +459,17 @@ public interface ASTNodeCompiler {
 	 * @param left
 	 * @param right
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue lt(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue lt(ASTNodeValue left, ASTNodeValue right) throws SBMLException;
 
 	/**
 	 * 
 	 * @param values
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue minus(ASTNodeValue... values);
+	public ASTNodeValue minus(ASTNodeValue... values) throws SBMLException;
 
 	/**
 	 * Not equal.
@@ -439,95 +477,108 @@ public interface ASTNodeCompiler {
 	 * @param left
 	 * @param right
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue neq(ASTNodeValue left, ASTNodeValue right);
+	public ASTNodeValue neq(ASTNodeValue left, ASTNodeValue right) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue not(ASTNodeValue value);
+	public ASTNodeValue not(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param values
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue or(ASTNodeValue... values);
+	public ASTNodeValue or(ASTNodeValue... values) throws SBMLException;
 
 	/**
 	 * 
 	 * @param values
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue piecewise(ASTNodeValue... values);
+	public ASTNodeValue piecewise(ASTNodeValue... values) throws SBMLException;
 
 	/**
 	 * 
 	 * @param values
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue plus(ASTNodeValue... values);
+	public ASTNodeValue plus(ASTNodeValue... values) throws SBMLException;
 
 	/**
 	 * 
 	 * @param base
 	 * @param exponent
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue pow(ASTNodeValue base, ASTNodeValue exponent);
+	public ASTNodeValue pow(ASTNodeValue base, ASTNodeValue exponent) throws SBMLException;
 
 	/**
 	 * 
 	 * @param rootExponent
 	 * @param radiant
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue root(ASTNodeValue rootExponent, ASTNodeValue radiant);
+	public ASTNodeValue root(ASTNodeValue rootExponent, ASTNodeValue radiant) throws SBMLException;
 
 	/**
 	 * 
 	 * @param rootExponent
 	 * @param radiant
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue root(double rootExponent, ASTNodeValue radiant);
+	public ASTNodeValue root(double rootExponent, ASTNodeValue radiant) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue sec(ASTNodeValue value);
+	public ASTNodeValue sec(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue sech(ASTNodeValue value);
+	public ASTNodeValue sech(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue sin(ASTNodeValue value);
+	public ASTNodeValue sin(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue sinh(ASTNodeValue value);
+	public ASTNodeValue sinh(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param radiant
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue sqrt(ASTNodeValue radiant);
+	public ASTNodeValue sqrt(ASTNodeValue radiant) throws SBMLException;
 
 	/**
 	 * 
@@ -540,40 +591,46 @@ public interface ASTNodeCompiler {
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue tan(ASTNodeValue value);
+	public ASTNodeValue tan(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue tanh(ASTNodeValue value);
+	public ASTNodeValue tanh(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @param values
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue times(ASTNodeValue... values);
+	public ASTNodeValue times(ASTNodeValue... values) throws SBMLException;
 
 	/**
 	 * 
 	 * @param value
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue uMinus(ASTNodeValue value);
+	public ASTNodeValue uMinus(ASTNodeValue value) throws SBMLException;
 
 	/**
 	 * 
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue unknownValue();
+	public ASTNodeValue unknownValue() throws SBMLException;
 
 	/**
 	 * 
 	 * @param values
 	 * @return
+	 * @throws SBMLException 
 	 */
-	public ASTNodeValue xor(ASTNodeValue... values);
+	public ASTNodeValue xor(ASTNodeValue... values) throws SBMLException;
 }

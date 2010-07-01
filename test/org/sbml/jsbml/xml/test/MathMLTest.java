@@ -29,6 +29,9 @@
  */
 package org.sbml.jsbml.xml.test;
 
+import java.io.IOException;
+import java.util.InvalidPropertiesFormatException;
+
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.ASTNode;
@@ -37,9 +40,11 @@ import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 /**
  * 
@@ -70,6 +75,8 @@ public class MathMLTest {
 			System.out.println(math.toMathML());
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
+		} catch (SBMLException e) {
+			e.printStackTrace();
 		}
 		Species species = m.createSpecies("spec");
 		Reaction r = new Reaction(level, version);
@@ -83,6 +90,23 @@ public class MathMLTest {
 		try {
 			System.out.println(math.toMathML());
 		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		} catch (SBMLException e) {
+			e.printStackTrace();
+		}
+		try {
+			SBMLWriter.write(doc, System.out);
+		} catch (InvalidPropertiesFormatException e) {
+			e.printStackTrace();
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

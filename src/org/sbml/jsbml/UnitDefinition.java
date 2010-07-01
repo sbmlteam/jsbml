@@ -693,11 +693,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 			if (listOfUnits.size() == 2) {
 				if (getUnit(0).isVariantOfSubstance()) {
 					Unit two = getUnit(1).clone();
-					two.setExponent(two.getExponent() * -1);
+					two.setExponent(-two.getExponent());
 					return two.isVariantOfArea();
 				} else if (getUnit(1).isVariantOfSubstance()) {
 					Unit one = getUnit(0).clone();
-					one.setExponent(one.getExponent() * -1);
+					one.setExponent(-one.getExponent());
 					return one.isVariantOfArea();
 				}
 			}
@@ -716,11 +716,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 				Unit unit2 = listOfUnits.get(1);
 				if (unit.isVariantOfSubstance()) {
 					Unit two = listOfUnits.get(1).clone();
-					two.setExponent(two.getExponent() * -1);
+					two.setExponent(-two.getExponent());
 					return two.isVariantOfLength();
 				} else if (unit2.isVariantOfSubstance()) {
 					Unit one = listOfUnits.get(0).clone();
-					one.setExponent(one.getExponent() * -1);
+					one.setExponent(-one.getExponent());
 					return one.isVariantOfLength();
 				}
 			}

@@ -290,9 +290,8 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 		}
 		if (illegalArgument) {
 			throw new IllegalArgumentException(ILLEGAL_UNIT_EXCEPTION);
-		} else {
-			stateChanged();
 		}
+		stateChanged();
 	}
 
 	/**

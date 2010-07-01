@@ -34,6 +34,7 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.util.StringTools;
@@ -1495,14 +1496,14 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#times(org.sbml.jsbml.ASTNodeValue[])
 	 */
-	public ASTNodeValue times(ASTNodeValue... values) {
+	public ASTNodeValue times(ASTNodeValue... values) throws SBMLException {
 		if (values.length == 0) {
 			return new ASTNodeValue("", this);
 		}
 		StringBuilder v = new StringBuilder(values[0].toString());
 		if (values[0].isSum()
 				|| (values[0].isDifference() && !values[0].isUMinus())
-				|| (values[0].isNumber() && values[0].toDouble() < 0)) {
+				|| (values[0].isNumber() && (values[0].toDouble() < 0))) {
 			v = brackets(v);
 		}
 		for (int i = 1; i < values.length; i++) {

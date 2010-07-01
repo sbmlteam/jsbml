@@ -133,6 +133,7 @@ public abstract class MathContainer extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	public abstract MathContainer clone();
@@ -148,6 +149,7 @@ public abstract class MathContainer extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
 	@Override
@@ -230,7 +232,11 @@ public abstract class MathContainer extends AbstractSBase implements
 	public UnitDefinition getDerivedUnitDefinition() {
 		UnitDefinition ud = null;
 		if (isSetMath()) {
-			ud = math.deriveUnit();
+			try {
+				ud = math.deriveUnit();
+			} catch (SBMLException e) {
+				// Doesn't matter. We'll simply return null.
+			}
 		}
 		if (ud != null) {
 			Model m = getModel();
@@ -273,7 +279,11 @@ public abstract class MathContainer extends AbstractSBase implements
 	 *         String if the math ASTNode is not set.
 	 */
 	public String getFormula() {
-		return isSetMath() ? getMath().toFormula() : "";
+		try {
+			return isSetMath() ? getMath().toFormula() : "";
+		} catch (SBMLException e) {
+			return "invalid";
+		}
 	}
 
 	/**
@@ -404,6 +414,7 @@ public abstract class MathContainer extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#toString()
 	 */
 	public String toString() {

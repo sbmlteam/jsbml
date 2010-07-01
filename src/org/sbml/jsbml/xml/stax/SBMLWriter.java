@@ -75,6 +75,7 @@ import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.MathMLParser;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -391,7 +392,7 @@ public class SBMLWriter {
 		if ((programName != null) && (programName.length() > 0)) {
 			String date = String.format("%1$tY-%1$tm-%1$td %1$tR", Calendar
 					.getInstance().getTime());
-			String msg = "Created by %s version %s on %s with jsbml version %s.";
+			String msg = " Created by %s version %s on %s with jsbml version %s. ";
 			outputDocument.addComment(String
 					.format(msg, programName, (programVersion != null)
 							&& (programVersion.length() > 0) ? programVersion
@@ -415,8 +416,8 @@ public class SBMLWriter {
 		}
 		ReadingParser notesParser = SBMLReader.getPackageParsers(
 				"http://www.w3.org/1999/xhtml").newInstance();
-		ReadingParser MathMLParser = SBMLReader.getPackageParsers(
-				"http://www.w3.org/1998/Math/MathML").newInstance();
+		ReadingParser MathMLparser = SBMLReader.getPackageParsers(
+				MathMLParser.getNamespaceURI()).newInstance();
 		int indent = 2;
 		if (sbmlDocument.isSetNotes()) {
 			writeNotes(sbmlDocument, sbmlElement, streamWriter, SBMLNamespace,
@@ -429,7 +430,7 @@ public class SBMLWriter {
 		sbmlElement.addCharacters(StringTools.newLine());
 
 		writeSBMLElements(xmlObject, sbmlElement, streamWriter, sbmlDocument,
-				notesParser, MathMLParser, indent);
+				notesParser, MathMLparser, indent);
 
 		outputDocument.closeRoot();
 	}
@@ -973,7 +974,7 @@ public class SBMLWriter {
 	 *            : the Object to write.
 	 * @param notesParser
 	 *            : the WritingParser to parse the notes.
-	 * @param MathMLParser
+	 * @param MathMLparser
 	 *            : the WritingParser to parse the MathML expressions.
 	 * @param indent
 	 *            The numbe of white spaces before to indent this element.
@@ -982,7 +983,7 @@ public class SBMLWriter {
 	private static void writeSBMLElements(SBMLObjectForXML xmlObject,
 			SMOutputElement parentElement, XMLStreamWriter streamWriter,
 			Object objectToWrite, ReadingParser notesParser,
-			ReadingParser MathMLParser, int indent) throws XMLStreamException {
+			ReadingParser MathMLparser, int indent) throws XMLStreamException {
 
 		String whiteSpaces = createIndent(indent);
 		ArrayList<WritingParser> listOfPackages = getInitializedParsers(
@@ -1112,8 +1113,8 @@ public class SBMLWriter {
 										streamWriter, indent + 2);
 							}
 						}
-						if (nextObjectToWrite instanceof MathContainer
-								&& MathMLParser != null) {
+						if ((nextObjectToWrite instanceof MathContainer)
+								&& (MathMLparser != null)) {
 							MathContainer mathContainer = (MathContainer) nextObjectToWrite;
 							if (!mathContainer.isSetMath()
 									&& mathContainer.isSetMathBuffer()) {
@@ -1125,7 +1126,7 @@ public class SBMLWriter {
 
 						writeSBMLElements(xmlObject, newOutPutElement,
 								streamWriter, nextObjectToWrite, notesParser,
-								MathMLParser, indent + 2);
+								MathMLparser, indent + 2);
 						parentElement.addCharacters(StringTools.newLine());
 					}
 					streamWriter.writeCharacters(whiteSpaces.substring(0,
