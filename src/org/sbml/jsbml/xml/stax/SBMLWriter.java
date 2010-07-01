@@ -69,6 +69,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ListOf.Type;
@@ -286,8 +287,9 @@ public class SBMLWriter {
 	/**
 	 * 
 	 * @param args
+	 * @throws SBMLException
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SBMLException {
 
 		if (args.length < 1) {
 			System.out
@@ -316,6 +318,8 @@ public class SBMLWriter {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -332,11 +336,13 @@ public class SBMLWriter {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 * @throws InvalidPropertiesFormatException
+	 * @throws SBMLException
+	 * @throws SAXException
 	 */
 	public static void write(SBMLDocument sbmlDocument, OutputStream stream)
 			throws XMLStreamException, InstantiationException,
 			IllegalAccessException, InvalidPropertiesFormatException,
-			IOException, ClassNotFoundException {
+			IOException, ClassNotFoundException, SBMLException, SAXException {
 		write(sbmlDocument, stream, null, null);
 	}
 
@@ -354,12 +360,14 @@ public class SBMLWriter {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 * @throws InvalidPropertiesFormatException
+	 * @throws SBMLException
+	 * @throws SAXException
 	 */
 	public static void write(SBMLDocument sbmlDocument, OutputStream stream,
 			String programName, String programVersion)
 			throws XMLStreamException, InstantiationException,
 			IllegalAccessException, InvalidPropertiesFormatException,
-			IOException, ClassNotFoundException {
+			IOException, ClassNotFoundException, SBMLException, SAXException {
 		if (!sbmlDocument.isSetLevel() || !sbmlDocument.isSetVersion()) {
 			throw new IllegalArgumentException(
 					"Unable to write SBML output for documents with undefined SBML Level and Version flag.");
@@ -448,11 +456,13 @@ public class SBMLWriter {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 * @throws InvalidPropertiesFormatException
+	 * @throws SBMLException
+	 * @throws SAXException
 	 */
 	public static void write(SBMLDocument sbmlDocument, String fileName)
 			throws XMLStreamException, InstantiationException,
 			IllegalAccessException, InvalidPropertiesFormatException,
-			IOException, ClassNotFoundException {
+			IOException, ClassNotFoundException, SBMLException, SAXException {
 		write(sbmlDocument, fileName, null, null);
 	}
 
@@ -468,12 +478,14 @@ public class SBMLWriter {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 * @throws InvalidPropertiesFormatException
+	 * @throws SBMLException
+	 * @throws SAXException
 	 */
 	public static void write(SBMLDocument sbmlDocument, String fileName,
 			String programName, String programVersion)
 			throws XMLStreamException, InstantiationException,
 			IllegalAccessException, InvalidPropertiesFormatException,
-			IOException, ClassNotFoundException {
+			IOException, ClassNotFoundException, SBMLException, SAXException {
 		write(sbmlDocument, new BufferedOutputStream(new FileOutputStream(
 				fileName)), programName, programVersion);
 	}
@@ -492,10 +504,12 @@ public class SBMLWriter {
 	 * @param indent
 	 *            the number of indent white spaces of this annotation.
 	 * @throws XMLStreamException
+	 * @throws SBMLException
+	 * @throws SAXException
 	 */
 	private static void writeAnnotation(SBase sbase, SMOutputElement element,
 			XMLStreamWriter writer, String sbmlNamespace, int indent)
-			throws XMLStreamException {
+			throws XMLStreamException, SBMLException, SAXException {
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
 		Annotation annotation = sbase.getAnnotation();
@@ -805,25 +819,21 @@ public class SBMLWriter {
 	 * @param writer
 	 *            : the XMLStreamWriter2
 	 * @param indent
+	 * @throws XMLStreamException
+	 * @throws SBMLException
+	 * @throws SAXException
 	 */
 	private static void writeMathML(MathContainer m, SMOutputElement element,
-			XMLStreamWriter writer, int indent) {
-
-		try {
+			XMLStreamWriter writer, int indent) throws XMLStreamException,
+			SBMLException, SAXException {
+		if (m.isSetMath()) {
 			DOMConverter converter = new DOMConverter();
-
 			element.addCharacters(StringTools.newLine());
-
-			String math = m.getMathBufferToString().replaceAll("&", "&amp;");
-
-			Document domDocument = JAXPFacade.getInstance().create(
-					new BufferedReader(new StringReader(math)), true);
+			Document domDocument = JAXPFacade.getInstance()
+					.create(
+							new BufferedReader(new StringReader(m.getMath()
+									.toMathML())), true);
 			converter.writeFragment(domDocument.getChildNodes(), writer);
-			element.addCharacters(StringTools.newLine());
-		} catch (XMLStreamException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -979,11 +989,14 @@ public class SBMLWriter {
 	 * @param indent
 	 *            The numbe of white spaces before to indent this element.
 	 * @throws XMLStreamException
+	 * @throws SBMLException
+	 * @throws SAXException
 	 */
 	private static void writeSBMLElements(SBMLObjectForXML xmlObject,
 			SMOutputElement parentElement, XMLStreamWriter streamWriter,
 			Object objectToWrite, ReadingParser notesParser,
-			ReadingParser MathMLparser, int indent) throws XMLStreamException {
+			ReadingParser MathMLparser, int indent) throws XMLStreamException,
+			SBMLException, SAXException {
 
 		String whiteSpaces = createIndent(indent);
 		ArrayList<WritingParser> listOfPackages = getInitializedParsers(
@@ -1116,11 +1129,11 @@ public class SBMLWriter {
 						if ((nextObjectToWrite instanceof MathContainer)
 								&& (MathMLparser != null)) {
 							MathContainer mathContainer = (MathContainer) nextObjectToWrite;
-							if (!mathContainer.isSetMath()
-									&& mathContainer.isSetMathBuffer()) {
-								writeMathML(mathContainer, newOutPutElement,
-										streamWriter, indent + 2);
-							}
+							// if (!mathContainer.isSetMath()
+							// && mathContainer.isSetMathBuffer()) {
+							writeMathML(mathContainer, newOutPutElement,
+									streamWriter, indent + 2);
+							// }
 						}
 						newOutPutElement.addCharacters(StringTools.newLine());
 
@@ -1146,11 +1159,13 @@ public class SBMLWriter {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 * @throws InvalidPropertiesFormatException
+	 * @throws SBMLException
+	 * @throws SAXException
 	 */
 	public static String writeSBMLToString(SBMLDocument d)
 			throws XMLStreamException, InstantiationException,
 			IllegalAccessException, InvalidPropertiesFormatException,
-			IOException, ClassNotFoundException {
+			IOException, ClassNotFoundException, SBMLException, SAXException {
 		return writeSBMLToString(d, null, null);
 	}
 
@@ -1166,12 +1181,14 @@ public class SBMLWriter {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 * @throws InvalidPropertiesFormatException
+	 * @throws SBMLException
+	 * @throws SAXException
 	 */
 	public static String writeSBMLToString(SBMLDocument d, String programName,
 			String programVersion) throws XMLStreamException,
 			InstantiationException, IllegalAccessException,
 			InvalidPropertiesFormatException, IOException,
-			ClassNotFoundException {
+			ClassNotFoundException, SBMLException, SAXException {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		write(d, stream, programName, programVersion);
 		return stream.toString();

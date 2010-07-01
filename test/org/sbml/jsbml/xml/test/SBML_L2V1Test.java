@@ -48,9 +48,11 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
+import org.xml.sax.SAXException;
 
 public class SBML_L2V1Test {
 	
@@ -289,8 +291,10 @@ public class SBML_L2V1Test {
 	 * @throws ClassNotFoundException 
 	 * @throws IOException 
 	 * @throws InvalidPropertiesFormatException 
+	 * @throws SBMLException 
+	 * @throws SAXException 
 	 */
-	@Test public void write1() throws XMLStreamException, InstantiationException, IllegalAccessException, InvalidPropertiesFormatException, IOException, ClassNotFoundException{
+	@Test public void write1() throws XMLStreamException, InstantiationException, IllegalAccessException, InvalidPropertiesFormatException, IOException, ClassNotFoundException, SBMLException, SAXException{
 		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
 	
 		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);

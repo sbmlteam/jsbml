@@ -81,6 +81,17 @@ public class MathML implements ASTNodeCompiler {
 	public MathML() throws XMLStreamException {
 		init();
 	}
+	
+	/**
+	 * 
+	 * @param ast
+	 * @throws XMLStreamException
+	 * @throws SBMLException
+	 */
+	public MathML(ASTNode ast) throws XMLStreamException, SBMLException{
+		this();
+		ast.compile(this);
+	}
 
 	/*
 	 * (non-Javadoc)

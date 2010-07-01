@@ -12,16 +12,18 @@ import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.History;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.CVTerm.Type;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
+import org.xml.sax.SAXException;
 
 public class SBMLWriterTest {
 
 	public static void main(String args[]) {
 		SBMLDocument doc = new SBMLDocument(2, 4);
 		doc.setNotes("<body>Senseless test commentar</body>");
-		
+
 		Model m = doc.createModel("model");
 
 		CVTerm term = new CVTerm();
@@ -41,12 +43,14 @@ public class SBMLWriterTest {
 		history.addModifiedDate(Calendar.getInstance().getTime());
 		m.setModelHistory(history);
 
-		m.setNotes("<body>A senseless test model with a senseless notes element.</body>");
-		
+		m
+				.setNotes("<body>A senseless test model with a senseless notes element.</body>");
+
 		m.getUnitDefinition("substance").getUnit(0).setScale(-3);
 
 		try {
-			SBMLWriter.write(doc, new BufferedOutputStream(System.out), "SBMLWriterTest", "");
+			SBMLWriter.write(doc, new BufferedOutputStream(System.out),
+					"SBMLWriterTest", "");
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -58,6 +62,10 @@ public class SBMLWriterTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SBMLException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
 			e.printStackTrace();
 		}
 	}
