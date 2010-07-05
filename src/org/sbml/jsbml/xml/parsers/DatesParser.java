@@ -187,7 +187,7 @@ public class DatesParser implements ReadingParser {
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
 	 * elementName, String prefix, boolean isNested, Object contextObject)
 	 */
-	public void processEndElement(String elementName, String prefix,
+	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 
 		// A DatesParser can only modify a contextObject which is a ModelHistory
@@ -214,6 +214,8 @@ public class DatesParser implements ReadingParser {
 			// TODO : the date instances are only created for the model history
 			// object in the annotation. Throw an error?
 		}
+		
+		return true;
 	}
 
 	/*

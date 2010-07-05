@@ -146,12 +146,14 @@ public class MultiParser implements ReadingParser, WritingParser {
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
 	 * elementName, String prefix, boolean isNested, Object contextObject)
 	 */
-	public void processEndElement(String elementName, String prefix,
+	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 
 		if (elementName.equals("listOfSpeciesInstances")) {
 			this.multiList = MultiList.none;
 		}
+		
+		return true;
 	}
 
 	/*

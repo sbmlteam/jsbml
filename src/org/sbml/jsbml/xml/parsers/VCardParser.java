@@ -159,7 +159,7 @@ public class VCardParser implements ReadingParser {
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
 	 * elementName, String prefix, boolean isNested, Object contextObject)
 	 */
-	public void processEndElement(String elementName, String prefix,
+	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 
 		// A VCardParser can only modify a contextObject which is a ModelCreator
@@ -187,6 +187,8 @@ public class VCardParser implements ReadingParser {
 		} else {
 			// TODO : SBML syntax error, throw an exception?
 		}
+		
+		return true;
 	}
 
 	/*

@@ -73,12 +73,6 @@ public class StringParser implements ReadingParser{
 			SBase sbase = (SBase) contextObject;
 			buffer = sbase.getNotesBuffer();
 		}
-		// If the contextObject is a MathContainer instance, this parser return the mathBuffer
-		// of this component.
-		else if (typeOfNotes.equals("math") && contextObject instanceof MathContainer){
-			MathContainer mathContainer = (MathContainer) contextObject;
-			buffer = mathContainer.getMathBuffer();
-		}
 		else {
 			// TODO : SBML syntax error, throw an exception?
 		}
@@ -173,7 +167,7 @@ public class StringParser implements ReadingParser{
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject)
 	 */
-	public void processEndElement(String elementName, String prefix,
+	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 
 		StringBuffer buffer = getStringBufferFor(contextObject);
@@ -219,6 +213,8 @@ public class StringParser implements ReadingParser{
 				}
 			}
 		}
+		
+		return true;
 	}
 
 	/* (non-Javadoc)
@@ -273,10 +269,10 @@ public class StringParser implements ReadingParser{
 		StringBuffer buffer = null;
 		
 		if (elementName.equals("math") && contextObject instanceof MathContainer){
-			MathContainer mathContainer = (MathContainer) contextObject;
-			buffer = new StringBuffer();
-			mathContainer.setMathBuffer(buffer);
-			this.typeOfNotes = elementName;
+			// We should not come here anymore
+			System.out.println("StringParser : We should not get this node to process !!!!!");
+			throw new IllegalArgumentException("StringParser : We should not get a math node to process !!!!!");
+			// this.typeOfNotes = elementName;
 		}
 		else {
 			buffer = getStringBufferFor(contextObject);

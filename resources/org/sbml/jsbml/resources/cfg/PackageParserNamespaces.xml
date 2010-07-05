@@ -22,5 +22,5 @@
   <entry key="http://www.w3.org/2001/vcard-rdf/3.0#">org.sbml.jsbml.xml.parsers.VCardParser</entry>
   <entry key="http://biomodels.net/biology-qualifiers/">org.sbml.jsbml.xml.parsers.BiologicalQualifierParser</entry>
   <entry key="http://biomodels.net/model-qualifiers/">org.sbml.jsbml.xml.parsers.ModelQualifierParser</entry>
-  <entry key="http://www.w3.org/1998/Math/MathML">org.sbml.jsbml.xml.parsers.StringParser</entry>
+  <entry key="http://www.w3.org/1998/Math/MathML">org.sbml.jsbml.xml.parsers.MathMLStaxParser</entry>
 </properties>

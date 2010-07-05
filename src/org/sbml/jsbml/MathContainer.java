@@ -47,6 +47,8 @@ import javax.swing.tree.TreeNode;
 public abstract class MathContainer extends AbstractSBase implements
 		SBaseWithDerivedUnit {
 
+	// TODO : once the level 1 formula are properly parsed to an ASTNode, we need to remove the formula and mathBuffer attributes 
+	
 	/**
 	 * Represents the 'formula' XML attribute of this object.
 	 */
@@ -59,18 +61,12 @@ public abstract class MathContainer extends AbstractSBase implements
 	private ASTNode math;
 
 	/**
-	 * The MathMl subnodes as a StringBuffer.
-	 */
-	private StringBuffer mathBuffer;
-
-	/**
 	 * Creates a MathContainer instance. By default, the formula, math and
 	 * mathBuffer are null.
 	 */
 	public MathContainer() {
 		super();
 		math = null;
-		this.mathBuffer = null;
 		this.formula = null;
 	}
 
@@ -90,7 +86,6 @@ public abstract class MathContainer extends AbstractSBase implements
 			this.math = null;
 		}
 		this.formula = null;
-		this.mathBuffer = null;
 	}
 
 	/**
@@ -103,7 +98,6 @@ public abstract class MathContainer extends AbstractSBase implements
 	public MathContainer(int level, int version) {
 		super(level, version);
 		math = null;
-		this.mathBuffer = null;
 		this.formula = null;
 	}
 
@@ -118,11 +112,6 @@ public abstract class MathContainer extends AbstractSBase implements
 			setMath(sb.getMath().clone());
 		} else {
 			this.math = null;
-		}
-		if (sb.isSetMathBuffer()) {
-			this.mathBuffer = new StringBuffer(sb.getMathBufferToString());
-		} else {
-			this.mathBuffer = null;
 		}
 		if (sb.isSetFormulaString()) {
 			this.formula = new String(sb.getFormulaString());
@@ -163,13 +152,6 @@ public abstract class MathContainer extends AbstractSBase implements
 			boolean equal = super.equals(o);
 			if (c.isSetMath() && isSetMath()) {
 				equal &= getMath().equals(c.getMath());
-			}
-			if ((c.isSetMathBuffer() && !isSetMathBuffer())
-					|| (!c.isSetMathBuffer() && isSetMathBuffer())) {
-				return false;
-			}
-			if (c.isSetMathBuffer() && isSetMathBuffer()) {
-				equal &= getMathBuffer().equals(c.getMathBuffer());
 			}
 			if ((c.isSetFormulaString() && !isSetFormulaString())
 					|| (!c.isSetFormulaString() && isSetFormulaString())) {
@@ -279,6 +261,11 @@ public abstract class MathContainer extends AbstractSBase implements
 	 *         String if the math ASTNode is not set.
 	 */
 	public String getFormula() {
+		// TODO : we need that until the level 1 formula are properly parsed to an ASTNode
+		if (getLevel() == 1) {
+			return getFormulaString();
+ 		}
+
 		try {
 			return isSetMath() ? getMath().toFormula() : "";
 		} catch (SBMLException e) {
@@ -304,21 +291,15 @@ public abstract class MathContainer extends AbstractSBase implements
 		return math;
 	}
 
-	/**
-	 * 
-	 * @return the mathBuffer of this object. Null if it is not set.
-	 */
-	public StringBuffer getMathBuffer() {
-		return mathBuffer;
-	}
 
 	/**
 	 * 
 	 * @return the mathBuffer of this object as a String.
 	 */
-	public String getMathBufferToString() {
-		if (isSetMathBuffer()) {
-			return mathBuffer.toString();
+	// TODO : check libSBML API, there is a method to return the mathML string
+	public String getMathAsString() {
+		if (isSetMath()) {
+			return math.toMathML();
 		}
 		return "";
 	}
@@ -340,13 +321,6 @@ public abstract class MathContainer extends AbstractSBase implements
 		return math != null;
 	}
 
-	/**
-	 * 
-	 * @return true if the mathBuffer of this object is not null.
-	 */
-	public boolean isSetMathBuffer() {
-		return this.mathBuffer != null;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -402,15 +376,6 @@ public abstract class MathContainer extends AbstractSBase implements
 		stateChanged();
 	}
 
-	/**
-	 * Sets the mathBuffer of this object to 'mathBuffer'.
-	 * 
-	 * @param mathBuffer
-	 */
-	public void setMathBuffer(StringBuffer mathBuffer) {
-		this.mathBuffer = mathBuffer;
-		stateChanged();
-	}
 
 	/*
 	 * (non-Javadoc)

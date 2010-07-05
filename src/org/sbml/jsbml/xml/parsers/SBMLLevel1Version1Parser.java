@@ -359,13 +359,15 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	 * org.sbml.jsbml.xml.stax.ReadingParser#processEndElement(java.lang.String,
 	 * java.lang.String, boolean, java.lang.Object)
 	 */
-	public void processEndElement(String elementName, String prefix,
+	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 
 		if (elementName.equals("notes") && contextObject instanceof SBase) {
 			SBase sbase = (SBase) contextObject;
 			sbase.setNotes(sbase.getNotesBuffer().toString());
 		}
+		
+		return true;
 	}
 
 	/*

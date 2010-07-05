@@ -91,8 +91,9 @@ public class CreatorParser implements ReadingParser{
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject)
 	 */
-	public void processEndElement(String elementName, String prefix,
+	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
+		return true;
 	}
 
 	/* (non-Javadoc)

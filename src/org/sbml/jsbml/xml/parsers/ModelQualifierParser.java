@@ -120,8 +120,9 @@ public class ModelQualifierParser implements ReadingParser{
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String ElementName, String prefix,
 			boolean isNested, Object contextObject)
 	 */
-	public void processEndElement(String ElementName, String prefix,
-			boolean isNested, Object contextObject) {		
+	public boolean processEndElement(String ElementName, String prefix,
+			boolean isNested, Object contextObject) {
+		return true;
 	}
 
 	/*

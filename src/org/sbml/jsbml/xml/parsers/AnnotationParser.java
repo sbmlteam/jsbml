@@ -127,7 +127,7 @@ public class AnnotationParser implements ReadingParser {
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
 	 * elementName, String prefix, boolean isNested, Object contextObject)
 	 */
-	public void processEndElement(String elementName, String prefix,
+	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 
 		// an AnnotationParser can only be used for the annotations of a SBML
@@ -164,6 +164,8 @@ public class AnnotationParser implements ReadingParser {
 			// TODO : There is a synthax error? Throw an exception?, the node
 			// can't be read?
 		}
+		
+		return true;
 	}
 
 	/*

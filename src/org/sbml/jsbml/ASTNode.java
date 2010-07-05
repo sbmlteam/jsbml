@@ -29,6 +29,7 @@
 
 package org.sbml.jsbml;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -44,6 +45,7 @@ import org.sbml.jsbml.util.compilers.LaTeX;
 import org.sbml.jsbml.util.compilers.MathML;
 import org.sbml.jsbml.util.compilers.TextFormula;
 import org.sbml.jsbml.util.compilers.Units;
+import org.sbml.jsbml.util.filters.Filter;
 
 /**
  * A node in the Abstract Syntax Tree (AST) representation of a mathematical
@@ -54,6 +56,8 @@ import org.sbml.jsbml.util.compilers.Units;
  */
 public class ASTNode implements TreeNode {
 
+	// TODO : check how we set the math in level 1
+	
 	/**
 	 * An enumeration of all possible types that can be represented by an
 	 * abstract syntax tree node.
@@ -766,6 +770,12 @@ public class ASTNode implements TreeNode {
 		return uMinus(new ASTNode(sbase, container));
 	}
 
+	
+	/**
+	 * Possible attributes for a MathML element
+	 */
+	private String id, style, className, encoding;
+	
 	/**
 	 * 
 	 */
@@ -1053,6 +1063,9 @@ public class ASTNode implements TreeNode {
 	 */
 	public ASTNodeValue compile(ASTNodeCompiler compiler) throws SBMLException {
 		ASTNodeValue value;
+		
+		// System.out.println("ASTNode : compile : node type = " + getType());
+		
 		if (isUMinus()) {
 			value = compiler.uMinus(getLeftChild().compile(compiler));
 		} else if (isSqrt()) {
@@ -1639,6 +1652,26 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Returns the list of children of the current ASTNode that satisfy the given filter. 
+	 * 
+	 * @param filter
+	 * @return the list of children of the current ASTNode that satisfy the given filter.
+	 */
+	public List<ASTNode> getListOfNodes(Filter filter) {
+		ArrayList<ASTNode> filteredList = new ArrayList<ASTNode>();
+		
+		for (ASTNode node : listOfNodes) {
+			if (filter.accepts(node)) {
+				filteredList.add(node);
+			}
+		}
+		
+		return filteredList;
+	}
+	
+	
+	
+	/**
 	 * Get the mantissa value of this node. This function should be called only
 	 * when getType() returns REAL_E or REAL. If getType() returns REAL, this
 	 * method is identical to getReal().
@@ -1732,7 +1765,7 @@ public class ASTNode implements TreeNode {
 			case REAL:
 				return mantissa;
 			case REAL_E:
-				return getMantissa() * Math.pow(10, getExponent());
+				return Double.parseDouble(getMantissa() + "e" + getExponent()); // getMantissa() * Math.pow(10, getExponent());
 			case RATIONAL:
 				return ((double) getNumerator()) / ((double) getDenominator());
 			case CONSTANT_E:
@@ -2692,9 +2725,18 @@ public class ASTNode implements TreeNode {
 	 * @throws XMLStreamException
 	 * @throws SBMLException
 	 */
-	public String toMathML() throws XMLStreamException,
-			SBMLException {
-		return compile(new MathML()).toString();
+	public String toMathML() {
+		String mathML = "";
+		
+		try {
+			mathML = compile(new MathML()).toString();
+		} catch (SBMLException e) {
+			// TODO : log the exception
+		} catch (XMLStreamException e) {
+			// TODO : log the exception		
+		}
+		
+		return mathML;
 	}
 
 	/*
@@ -2704,6 +2746,17 @@ public class ASTNode implements TreeNode {
 	 */
 	@Override
 	public String toString() {
+		String formula = "";
+		
+		try {
+			formula = compile(new TextFormula()).toString(); 
+		} catch (SBMLException e) {
+			// TODO : log the exception			
+		}
+		
+		return formula;
+		
+		/*
 		// TODO
 		if (isInteger()) {
 			return Integer.toString(getInteger());
@@ -2739,6 +2792,212 @@ public class ASTNode implements TreeNode {
 			}
 		}
 		return isName() ? getName() : getType().toString();
+		*/
+	}
+
+
+	public void setType(String typeStr) {
+
+		// Arithmetic operators 
+		if (typeStr.equals("plus")) {
+			setType(Type.PLUS);
+		} else if (typeStr.equals("minus")) {
+			setType(Type.MINUS);
+		} else if (typeStr.equals("times")) {
+			setType(Type.TIMES);
+		} else if (typeStr.equals("divide")) {
+			setType(Type.DIVIDE);
+		} else if (typeStr.equals("power")) {
+			setType(Type.POWER);
+		} else if (typeStr.equals("root")) {
+			setType(Type.FUNCTION_ROOT);
+		} else if (typeStr.equals("abs")) {
+			setType(Type.FUNCTION_ABS);
+		} else if (typeStr.equals("exp")) {
+			setType(Type.FUNCTION_EXP);
+		} else if (typeStr.equals("ln")) {
+			setType(Type.FUNCTION_LN);
+		} else if (typeStr.equals("log")) {
+			setType(Type.FUNCTION_LOG);
+		} else if (typeStr.equals("floor")) {
+			setType(Type.FUNCTION_FLOOR);
+		} else if (typeStr.equals("ceiling")) {
+			setType(Type.FUNCTION_CEILING);
+		} else if (typeStr.equals("factorial")) {
+			setType(Type.FUNCTION_FACTORIAL);
+		} 
+		
+		// Logical operators
+		else if (typeStr.equals("and")) {
+			setType(Type.LOGICAL_AND);
+		} else if (typeStr.equals("or")) {
+			setType(Type.LOGICAL_OR);	
+		} else if (typeStr.equals("xor")) {
+			setType(Type.LOGICAL_XOR);
+		} else if (typeStr.equals("not")) {
+			setType(Type.LOGICAL_NOT);
+		}
+		
+		// Trigonometric operators
+		else if (typeStr.equals("cos")) {
+			setType(Type.FUNCTION_COS);
+		} else if (typeStr.equals("sin")) {
+			setType(Type.FUNCTION_SIN);	
+		} else if (typeStr.equals("tan")) {
+			setType(Type.FUNCTION_TAN);
+		} else if (typeStr.equals("sec")) {
+			setType(Type.FUNCTION_SEC);
+		} else if (typeStr.equals("csc")) {
+			setType(Type.FUNCTION_CSC);
+		} else if (typeStr.equals("cot")) {
+			setType(Type.FUNCTION_COT);
+		} else if (typeStr.equals("sinh")) {
+			setType(Type.FUNCTION_SINH);
+		} else if (typeStr.equals("cosh")) {
+			setType(Type.FUNCTION_COSH);
+		} else if (typeStr.equals("tanh")) {
+			setType(Type.FUNCTION_TANH);
+		} else if (typeStr.equals("sech")) {
+			setType(Type.FUNCTION_SECH);
+		} else if (typeStr.equals("csch")) {
+			setType(Type.FUNCTION_CSCH);
+		} else if (typeStr.equals("coth")) {
+			setType(Type.FUNCTION_COTH);
+		} else if (typeStr.equals("arcsin")) {
+			setType(Type.FUNCTION_ARCSIN);
+		} else if (typeStr.equals("arccos")) {
+			setType(Type.FUNCTION_ARCCOS);
+		} else if (typeStr.equals("arctan")) {
+			setType(Type.FUNCTION_ARCTAN);
+		} else if (typeStr.equals("arcsec")) {
+			setType(Type.FUNCTION_ARCSEC);
+		} else if (typeStr.equals("arccsc")) {
+			setType(Type.FUNCTION_ARCCSC);
+		} else if (typeStr.equals("arccot")) {
+			setType(Type.FUNCTION_ARCCOT);
+		} else if (typeStr.equals("arcsinh")) {
+			setType(Type.FUNCTION_ARCSINH);
+		} else if (typeStr.equals("arccosh")) {
+			setType(Type.FUNCTION_ARCCOSH);
+		} else if (typeStr.equals("arctanh")) {
+			setType(Type.FUNCTION_ARCTANH);
+		} else if (typeStr.equals("arcsech")) {
+			setType(Type.FUNCTION_ARCSECH);
+		} else if (typeStr.equals("arccsch")) {
+			setType(Type.FUNCTION_ARCCSCH);
+		} else if (typeStr.equals("arccoth")) {
+			setType(Type.FUNCTION_ARCCOTH);
+		}
+		
+		// Relational operators
+		else if (typeStr.equals("eq")) {
+			setType(Type.RELATIONAL_EQ);
+		} else if (typeStr.equals("neq")) {
+			setType(Type.RELATIONAL_NEQ);	
+		} else if (typeStr.equals("gt")) {
+			setType(Type.RELATIONAL_GT);
+		} else if (typeStr.equals("lt")) {
+			setType(Type.RELATIONAL_LT);
+		} else if (typeStr.equals("geq")) {
+			setType(Type.RELATIONAL_GEQ);
+		} else if (typeStr.equals("leq")) {
+			setType(Type.RELATIONAL_LEQ);
+		} 
+		
+		
+		// token : cn, ci, csymbol, sep
+		// TODO : for ci, we have to check if it is a functinoDefinition
+		// for cn, we pass the type attribute to this function to determine the proper astNode type
+		else if (typeStr.equals("real") || typeStr.equals("cn")) { 
+			// we put the type by default to real in case the type attribute is not define on the cn element. 
+			setType(Type.REAL);
+		} else if (typeStr.equals("e-notation")) {
+			setType(Type.REAL_E);
+		} else if (typeStr.equals("integer")) {
+			setType(Type.INTEGER);
+		} else if (typeStr.equals("rational")) {
+			setType(Type.RATIONAL);
+		} else if (typeStr.equals("ci")) {
+			setType(Type.NAME);
+		} else if (typeStr.equals("csymbol")) {
+			setType(Type.UNKNOWN);
+		} else if (typeStr.equals("sep")) {
+			setType(Type.UNKNOWN);
+		} else if (typeStr.equals("http://www.sbml.org/sbml/symbols/time")) {		
+			setType(Type.NAME_TIME);
+		} else if (typeStr.equals("http://www.sbml.org/sbml/symbols/delay")) {
+			setType(Type.FUNCTION_DELAY);
+		} else if (typeStr.equals("http://www.sbml.org/sbml/symbols/avogadro")) {
+			setType(Type.NAME_AVOGADRO);
+		} 
+
+		// general : apply, piecewise, piece, otherwise, lambda
+		 else if (typeStr.equals("lambda")) {
+				setType(Type.LAMBDA);
+		 } else if (typeStr.equals("piecewise")) {
+			 setType(Type.FUNCTION_PIECEWISE);
+		 }
+		
+		
+		// qualifiers : degree, bvar, logbase
+		
+		// constants : true, false, notanumber, pi, infinity, exponentiale
+		 else if (typeStr.equals("true")) {
+			 setType(Type.CONSTANT_TRUE);
+		 } else if (typeStr.equals("false")) {
+			 setType(Type.CONSTANT_FALSE);
+		 } else if (typeStr.equals("notanumber")) {
+			 setType(Type.REAL);
+			 setValue(Double.NaN);
+		 } else if (typeStr.equals("pi")) {
+			 setType(Type.CONSTANT_PI);
+		 } else if (typeStr.equals("infinity")) {
+			 setType(Type.REAL);
+			 setValue(Double.POSITIVE_INFINITY);
+		 } else if (typeStr.equals("exponentiale")) {
+			 setType(Type.CONSTANT_E);
+		 }	
+
+		
+		// possible annotations : semantics, annotation, annotation-xml
+		
+		
+		else {
+			System.out.println("ASTNode : setType(String) : !!!!!!!!!!!!!! Not found a proper type for " + typeStr + " !!!!!!!!!!!!!");
+			setType(Type.UNKNOWN);
+		}
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getStyle() {
+		return style;
+	}
+
+	public void setStyle(String style) {
+		this.style = style;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 
 	/**
@@ -2748,4 +3007,5 @@ public class ASTNode implements TreeNode {
 	public void unsetUnits() {
 		unitId = null;
 	}
+
 }

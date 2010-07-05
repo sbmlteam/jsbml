@@ -178,7 +178,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
 	 *      elementName, String prefix, boolean isNested, Object contextObject)
 	 */
-	public void processEndElement(String elementName, String prefix,
+	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 
 		if (elementName.equals("notes") && contextObject instanceof SBase) {
@@ -190,6 +190,8 @@ public class LayoutParser implements ReadingParser, WritingParser {
 				|| elementName.equals("listOfSpeciesGlyphs")) {
 			this.groupList = LayoutList.none;
 		}
+		
+		return true;
 	}
 
 	/**
