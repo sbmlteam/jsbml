@@ -211,7 +211,8 @@ public class StringTools {
 		if (((int) value) - value == 0) {
 			return Integer.toString((int) value);
 		}
-		return String.format("%.3f", Double.valueOf(value));
+		//return String.format("%.3f", Double.valueOf(value)); // Only 3 number is really too, too low
+		return Double.toString(value);
 	}
 
 }

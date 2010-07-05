@@ -46,16 +46,19 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
+
 /**
  * A MathMLParser is used to parse the MathML expressions injected into a SBML
- * file. The name space URI of this parser is
+ * file. This class use DOM to parse the mathML. The namespace URI of this parser is
  * "http://www.w3.org/1998/Math/MathML". This parser is able to read and write
  * MathML expressions (implements ReadingParser and WritingParser).
  * 
  * @author marine
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class MathMLParser implements ReadingParser, WritingParser {
@@ -119,7 +122,7 @@ public class MathMLParser implements ReadingParser, WritingParser {
 				containsNumbersReferingToUnits |= checkContainsNumbersReferingToUnits(node
 						.getChildNodes().item(i));
 			}
-		}
+		}		
 		return containsNumbersReferingToUnits;
 	}
 
@@ -256,8 +259,7 @@ public class MathMLParser implements ReadingParser, WritingParser {
 		format.setAllowJavaNames(true);
 		format.setIndenting(indenting);
 		format.setIndent(indent);
-		XMLSerializer serializer = new XMLSerializer(new BufferedWriter(out),
-				format);
+		XMLSerializer serializer = new XMLSerializer(new BufferedWriter(out),format);
 		serializer.setNamespaces(true);
 		serializer.serialize(doc);
 	}
@@ -357,10 +359,10 @@ public class MathMLParser implements ReadingParser, WritingParser {
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
 	 * ElementName, String prefix, boolean isNested, Object contextObject)
 	 */
-	public void processEndElement(String ElementName, String prefix,
+	public boolean processEndElement(String ElementName, String prefix,
 			boolean isNested, Object contextObject) {
 		// TODO Auto-generated method stub
-
+		return true;
 	}
 
 	/*

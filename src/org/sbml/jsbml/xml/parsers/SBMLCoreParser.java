@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AlgebraicRule;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.AssignmentRule;
@@ -72,14 +73,17 @@ import org.sbml.jsbml.xml.stax.WritingParser;
 import org.sbml.jsbml.xml.stax.XMLLogger;
 
 /**
- * A SBMLCoreParser is used to parse the SBML core elements of a SBML file. It
+ * A SBMLCoreParser is used to parse the SBML core elements of an SBML file. It
  * can read and write SBML core elements (implements ReadingParser and
- * WritingParser). It would be better to have one parser per level and version
- * rather than one SBMLCoreParser which parses everything. To change ?
+ * WritingParser). 
+ * 
  * 
  * @author marine
  * 
  */
+// It might be better to have one parser per level and version
+// rather than one SBMLCoreParser which parses everything. 
+
 @SuppressWarnings("deprecation")
 public class SBMLCoreParser implements ReadingParser, WritingParser {
 
@@ -104,12 +108,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 * Creates a SBMLCoreParser instance. Initializes the SBMLCoreElements of
 	 * this Parser.
 	 * 
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 * @throws InvalidPropertiesFormatException
 	 */
-	public SBMLCoreParser() throws InvalidPropertiesFormatException,
-			IOException, ClassNotFoundException {
+	public SBMLCoreParser() {
 		SBMLCoreElements = new HashMap<String, Class<? extends Object>>();
 		initializeCoreElements();
 	}
@@ -298,20 +298,26 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	/**
 	 * Initializes the SBMLCoreElements of this parser.
 	 * 
-	 * @throws IOException
-	 * @throws InvalidPropertiesFormatException
-	 * @throws ClassNotFoundException
 	 */
-	private void initializeCoreElements()
-			throws InvalidPropertiesFormatException, IOException,
-			ClassNotFoundException {
+	private void initializeCoreElements() {
 		Properties p = new Properties();
-		p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
-				"org/sbml/jsbml/resources/cfg/SBMLCoreElements.xml"));
-		for (Object k : p.keySet()) {
-			String key = k.toString();
-			SBMLCoreElements.put(key, Class.forName(p.getProperty(key)
-					.toString()));
+
+		try {
+			p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
+					"org/sbml/jsbml/resources/cfg/SBMLCoreElements.xml"));
+			for (Object k : p.keySet()) {
+				String key = k.toString();
+				SBMLCoreElements.put(key, Class.forName(p.getProperty(key)
+						.toString()));
+			}
+		} catch (InvalidPropertiesFormatException e) {
+
+			throw new IllegalArgumentException("The format of the SBMLCoreElements.xml file is incorrect.");
+		} catch (IOException e) {
+			throw new IllegalArgumentException("There was a problem opening the file SBMLCoreElements.xml.");
+		} catch (ClassNotFoundException e) {
+			throw new IllegalArgumentException("There was a problem loading the file SBMLCoreElements.xml : " +
+					e.getMessage());
 		}
 	}
 
@@ -342,6 +348,18 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			Annotation annotation = (Annotation) contextObject;
 			isAttributeRead = annotation.readAttribute(attributeName, prefix,
 					value);
+		} else if (contextObject instanceof ASTNode) {
+			ASTNode astNode = (ASTNode) contextObject;
+			
+			try {
+				astNode.setUnits(value);
+			} catch (IllegalArgumentException e) {
+				
+				System.out.println(e.getMessage());
+				// TODO : Log the error in a log file and possible and ErrorLog object also
+			}
+			
+			System.out.println("SBMLCoreParser : processAttribute : adding an unit to an ASTNode");
 		}
 
 		if (!isAttributeRead) {
@@ -845,7 +863,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
 	 * elementName, String prefix, boolean isNested, Object contextObject)
 	 */
-	public void processEndElement(String elementName, String prefix,
+	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 
 		if (elementName.equals("notes") && contextObject instanceof SBase) {
@@ -861,6 +879,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			}
 			constraint.setMessage(constraint.getMessageBuffer().toString());
 		}
+		
+		return true;
 	}
 
 	/*

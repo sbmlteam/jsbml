@@ -300,7 +300,7 @@ public class RDFAnnotationParser implements ReadingParser{
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject)
 	 */
-	public void processEndElement(String elementName, String prefix,
+	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 		
 		// If the contextObject is a ModelCreator, the current element should be included into a 'creator'
@@ -334,6 +334,8 @@ public class RDFAnnotationParser implements ReadingParser{
 		if (elementName.equals("RDF")){
 			this.previousElements.clear();
 		}
+		
+		return true;
 	}
 
 	/* (non-Javadoc)

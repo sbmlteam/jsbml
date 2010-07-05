@@ -106,18 +106,17 @@ public class SBMLReader {
 							.getNamespaceURI())) {
 
 				ReadingParser newParser;
-				try {
-					newParser = packageParsers.get(namespace.getNamespaceURI())
-							.newInstance();
-					initializedParsers.put(namespace.getNamespaceURI(),
-							newParser);
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					try {
+						newParser = packageParsers.get(namespace.getNamespaceURI())
+								.newInstance();
+						initializedParsers.put(namespace.getNamespaceURI(),
+								newParser);
+					} catch (InstantiationException e) {
+						throw new IllegalArgumentException("An error occur while creating a parser : " + e.getMessage());
+					} catch (IllegalAccessException e) {
+						
+						throw new IllegalArgumentException("An error occur while creating a parser : " + e.getMessage());
+					}
 			} else if (!packageParsers.containsKey(namespace.getNamespaceURI())
 					&& !initializedParsers.containsKey(namespace
 							.getNamespaceURI())) {
@@ -135,14 +134,10 @@ public class SBMLReader {
 	 *            : the StartElement instance
 	 * @return the map containing the ReadingParser instances for this
 	 *         StartElement.
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 * @throws InvalidPropertiesFormatException
 	 */
 	@SuppressWarnings("unchecked")
 	private static HashMap<String, ReadingParser> getInitializedPackageParsers(
-			StartElement sbml) throws InvalidPropertiesFormatException,
-			IOException, ClassNotFoundException {
+			StartElement sbml) {
 		initializePackageParserNamespaces();
 
 		HashMap<String, ReadingParser> initializedParsers = new HashMap<String, ReadingParser>();
@@ -234,22 +229,28 @@ public class SBMLReader {
 	/**
 	 * Initializes the packageParser HasMap of this class.
 	 * 
-	 * @throws IOException
-	 * @throws InvalidPropertiesFormatException
-	 * @throws ClassNotFoundException
 	 */
 	@SuppressWarnings("unchecked")
-	public static void initializePackageParserNamespaces()
-			throws InvalidPropertiesFormatException, IOException,
-			ClassNotFoundException {
+	public static void initializePackageParserNamespaces() {
 		Properties p = new Properties();
-		p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
-				"org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml"));
-		for (Object k : p.keySet()) {
-			String key = k.toString();
-			packageParsers.put(key, (Class<? extends ReadingParser>) Class
-					.forName(p.getProperty(key)));
+		try {
+			p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
+			"org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml"));
+			for (Object k : p.keySet()) {
+				String key = k.toString();
+				packageParsers.put(key, (Class<? extends ReadingParser>) Class
+						.forName(p.getProperty(key)));
+			}
+		} catch (InvalidPropertiesFormatException e) {
+			throw new IllegalArgumentException("The format of the PackageParserNamespaces.xml file is incorrect.");
+		} catch (IOException e) {
+			throw new IllegalArgumentException("There was a problem opening the file PackageParserNamespaces.xml.");
+		} catch (ClassNotFoundException e) {
+			// e.printStackTrace();
+			throw new IllegalArgumentException("There was a problem loading the file PackageParserNamespaces.xml : " +
+					e.getMessage());
 		}
+
 	}
 
 	/**
@@ -282,25 +283,24 @@ public class SBMLReader {
 	/**
 	 * 
 	 * @param args
-	 * @throws ClassNotFoundException
 	 * @throws IOException
-	 * @throws InvalidPropertiesFormatException
-	 * @throws XMLStreamException
 	 */
 	public static void main(String[] args)
-			throws InvalidPropertiesFormatException, IOException,
-			ClassNotFoundException {
-		// SBMLDocument testDocument =
-		// readSBMLFile("/home/compneur/Desktop/LibSBML-Project/MultiExamples/glutamateReceptor.xml");
-		// SBMLDocument testDocument =
-		// readSBMLFile("/home/compneur/Desktop/LibSBML-Project/BIOMD0000000002.xml");
-		// SBMLDocument testDocument =
-		// readSBMLFile("/home/compneur/workspace/jsbmlStax/src/org/sbml/jsbml/xml/test/data/l2v1/BIOMD0000000227.xml");
+			throws IOException {
+
+		if (args.length < 1) {
+			System.out
+					.println("Usage : java org.sbml.jsbml.xml.stax.SBMLReader sbmlFileName");
+			System.exit(0);
+		}
+		
+		String fileName = args[0];
+		
 		try {
-			SBMLDocument testDocument = readSBMLFile("/home/compneur/workspace/jsbmlStax/src/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
+			SBMLDocument testDocument = readSBMLFile(fileName);
 		} catch (XMLStreamException exc) {
 			exc.printStackTrace();
-		} catch (FileNotFoundException exc) {
+		} catch (Exception exc) {
 			exc.printStackTrace();
 		}
 	}
@@ -311,13 +311,10 @@ public class SBMLReader {
 	 * @param fileName
 	 * @return the matching SBMLDocument instance.
 	 * @throws XMLStreamException
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 * @throws InvalidPropertiesFormatException
+	 * @throws FileNotFoundException 
 	 */
 	public static SBMLDocument readSBML(String fileName)
-			throws XMLStreamException, InvalidPropertiesFormatException,
-			IOException, ClassNotFoundException {
+			throws XMLStreamException, FileNotFoundException {
 		return readSBMLFile(fileName);
 	}
 
@@ -329,13 +326,10 @@ public class SBMLReader {
 	 *            : name of the SBML file to read.
 	 * @return the initialised SBMLDocument.
 	 * @throws XMLStreamException
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 * @throws InvalidPropertiesFormatException
+	 * @throws FileNotFoundException 
 	 */
 	public static SBMLDocument readSBMLFile(String fileName)
-			throws XMLStreamException, InvalidPropertiesFormatException,
-			IOException, ClassNotFoundException {
+			throws XMLStreamException, FileNotFoundException {
 		return readSBMLFromStream(new FileInputStream(new File(fileName)));
 	}
 
@@ -343,13 +337,9 @@ public class SBMLReader {
 	 * 
 	 * @param stream
 	 * @return
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 * @throws InvalidPropertiesFormatException
 	 */
 	public static SBMLDocument readSBMLFromStream(InputStream stream)
-			throws XMLStreamException, InvalidPropertiesFormatException,
-			IOException, ClassNotFoundException {
+			throws XMLStreamException {
 		WstxInputFactory inputFactory = new WstxInputFactory();
 		HashMap<String, ReadingParser> initializedParsers = null;
 
@@ -424,8 +414,7 @@ public class SBMLReader {
 						// StringParser instance.
 						if (currentNode.getLocalPart().equals("notes")
 								|| currentNode.getLocalPart().equals("message")) {
-							ReadingParser sbmlparser = initializedParsers
-									.get("http://www.w3.org/1999/xhtml");
+							ReadingParser sbmlparser = initializedParsers.get("http://www.w3.org/1999/xhtml");
 
 							if (sbmlparser instanceof StringParser) {
 								StringParser notesParser = (StringParser) sbmlparser;
@@ -449,7 +438,9 @@ public class SBMLReader {
 												.getPrefix(), hasAttributes,
 												hasNamespace, SBMLElements
 														.peek());
-								SBMLElements.push(processedElement);
+								if (processedElement != null) {
+									SBMLElements.push(processedElement);
+								}
 							}
 
 							// process the namespaces
@@ -547,6 +538,12 @@ public class SBMLReader {
 			else if (event.isEndElement()) {
 				EndElement endElement = event.asEndElement();
 
+				//System.out.println("SBMLReader : event.isEndElement : stack.size = " + SBMLElements.size());
+				//System.out.println("SBMLReader : event.isEndElement : element name = " + endElement.getName().getLocalPart());
+				//if (endElement.getName().getLocalPart().equals("kineticLaw")) {
+					//System.out.println("SBMLReader : event.isEndElement : stack = " + SBMLElements);
+				//}
+				
 				// If this element contains no text and doesn't have any
 				// subNodes, this element is nested.
 				if (!isText && currentNode != null) {
@@ -577,27 +574,30 @@ public class SBMLReader {
 					}
 					// process the end of the element.
 					if (!SBMLElements.isEmpty() && parser != null) {
-						parser.processEndElement(endElement.getName()
+						// System.out.println("SBMLReader : event.isEndElement : calling end element");
+
+						boolean popElementFromTheStack = parser.processEndElement(endElement.getName()
 								.getLocalPart(), endElement.getName()
 								.getPrefix(), isNested, SBMLElements.peek());
 						// remove the top of the SBMLEements stack at the
 						// end of an element if this element is not the sbml
 						// element.
 						if (!endElement.getName().getLocalPart().equals("sbml")) {
+							if (popElementFromTheStack) {
+								SBMLElements.pop();
+							}
+							// System.out.println("SBMLReader : event.isEndElement : new stack.size = " + SBMLElements.size());
 
-							SBMLElements.pop();
 						} else {
 							// process the end of the document and return
 							// the final SBMLDocument
 							if (SBMLElements.peek() instanceof SBMLDocument) {
-								SBMLDocument sbmlDocument = (SBMLDocument) SBMLElements
-										.peek();
+								SBMLDocument sbmlDocument = (SBMLDocument) SBMLElements.peek();
 								Iterator<Entry<String, ReadingParser>> iterator = initializedParsers
 										.entrySet().iterator();
 
 								while (iterator.hasNext()) {
-									Entry<String, ReadingParser> entry = iterator
-											.next();
+									Entry<String, ReadingParser> entry = iterator.next();
 
 									ReadingParser sbmlParser = entry.getValue();
 									sbmlParser.processEndDocument(sbmlDocument);
@@ -635,13 +635,9 @@ public class SBMLReader {
 	 * 
 	 * @param xml
 	 * @return
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 * @throws InvalidPropertiesFormatException
 	 */
 	public static SBMLDocument readSBMLFromString(String xml)
-			throws XMLStreamException, InvalidPropertiesFormatException,
-			IOException, ClassNotFoundException {
+			throws XMLStreamException {
 		return readSBMLFromStream(new ByteArrayInputStream(xml.getBytes()));
 	}
 

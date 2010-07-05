@@ -43,6 +43,7 @@ import org.sbml.jsbml.SBase;
 public interface WritingParser {
 
 	/**
+	 * Returns the list of children of the <code>objectToWrite</code>.
 	 * 
 	 * @param objectToWrite
 	 *            : the {@link SBase} component to write.
@@ -52,8 +53,8 @@ public interface WritingParser {
 	public List<Object> getListOfSBMLElementsToWrite(Object objectToWrite);
 
 	/**
-	 * Adds the XML attributes of of sbmlElementToWrite to the attributes
-	 * HashMap of the xmlObject.
+	 * Adds the XML attributes of the <code>sbmlElementToWrite</code> to the attributes
+	 * HashMap of the <code>xmlObject</code>.
 	 * 
 	 * @param xmlObject
 	 *            : contains the XML information about sbmlElement.

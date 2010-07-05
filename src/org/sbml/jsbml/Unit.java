@@ -229,27 +229,13 @@ public class Unit extends AbstractSBase {
 				int version) {
 			Kind uk = null;
 			if ((unitKind != null) && (unitKind.length() > 0)) {
-				/*
-				 * Test whether all characters within the unitKind String are
-				 * either in upper or lower case. It is not allowed to have
-				 * mixed type. The conversion to a Unit.Kind can only be
-				 * performed for an upper case string.
-				 */
-				boolean allUpperCase = true;
-				boolean allLowerCase = true;
-				for (int i = 0; i < unitKind.length(); i++) {
-					char c = unitKind.charAt(i);
-					allUpperCase &= Character.isUpperCase(c);
-					allLowerCase &= Character.isLowerCase(c);
-				}
-				if (allUpperCase || allLowerCase) {
-					try {
-						uk = Kind.valueOf(allLowerCase ? unitKind.toUpperCase()
-								: unitKind);
-					} catch (IllegalArgumentException exc) {
-					}
+				try {
+					// We need to do that as our enum is upper case and sbml kind are lower case in the SBML XML representation.
+					uk = Kind.valueOf(unitKind.toUpperCase()); 
+				} catch (IllegalArgumentException exc) {
 				}
 			}
+
 			if (uk == null) {
 				return false;
 			}
@@ -658,7 +644,7 @@ public class Unit extends AbstractSBase {
 	 *            the Level of SBML for which the determination should be made.
 	 *            This is necessary because there are a few small differences in
 	 *            allowed units between SBML Level 1 and Level 2.
-	 * @return if name is one of the five SBML predefined unit identifiers
+	 * @return true, if name is one of the five SBML predefined unit identifiers
 	 *         ('substance', 'volume', 'area', 'length' or 'time'), false
 	 *         otherwise. The predefined unit identifiers 'length' and 'area'
 	 *         were added in Level 2 Version 1

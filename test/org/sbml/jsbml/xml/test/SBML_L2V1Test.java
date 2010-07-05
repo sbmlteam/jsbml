@@ -154,9 +154,10 @@ public class SBML_L2V1Test {
 		assertTrue(event.getNumEventAssignments() == 1);
 		assertTrue(event.getEventAssignment(0).getVariable().equals("dClkF"));
 		
-		System.out.println("First Trigger = " + event.getTrigger().getMathBufferToString());
-		assertTrue(event.getTrigger().getMathBufferToString().startsWith("<math"));
-		assertTrue(!event.getTrigger().getMathBufferToString().contains("athML<apply"));
+		System.out.println("First Trigger = " + event.getTrigger().getFormula());
+		
+		assertTrue(event.getTrigger().getMathAsString().startsWith("<math"));
+		assertTrue(!event.getTrigger().getMathAsString().contains("athML<apply"));
 		
 	}
 	
