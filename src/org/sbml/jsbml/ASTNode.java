@@ -41,6 +41,8 @@ import javax.activity.InvalidActivityException;
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.LaTeX;
 import org.sbml.jsbml.util.compilers.MathML;
 import org.sbml.jsbml.util.compilers.TextFormula;
@@ -57,7 +59,7 @@ import org.sbml.jsbml.util.filters.Filter;
 public class ASTNode implements TreeNode {
 
 	// TODO : check how we set the math in level 1
-	
+
 	/**
 	 * An enumeration of all possible types that can be represented by an
 	 * abstract syntax tree node.
@@ -426,8 +428,7 @@ public class ASTNode implements TreeNode {
 	 *         returned if the given argument is NULL.
 	 * @throws SBMLException
 	 */
-	public static String formulaToString(ASTNode tree)
-			throws SBMLException {
+	public static String formulaToString(ASTNode tree) throws SBMLException {
 		return tree.toFormula();
 	}
 
@@ -770,12 +771,11 @@ public class ASTNode implements TreeNode {
 		return uMinus(new ASTNode(sbase, container));
 	}
 
-	
 	/**
 	 * Possible attributes for a MathML element
 	 */
 	private String id, style, className, encoding;
-	
+
 	/**
 	 * 
 	 */
@@ -1063,13 +1063,11 @@ public class ASTNode implements TreeNode {
 	 */
 	public ASTNodeValue compile(ASTNodeCompiler compiler) throws SBMLException {
 		ASTNodeValue value;
-		
-		// System.out.println("ASTNode : compile : node type = " + getType());
-		
+
 		if (isUMinus()) {
-			value = compiler.uMinus(getLeftChild().compile(compiler));
+			value = compiler.uMinus(getLeftChild());
 		} else if (isSqrt()) {
-			value = compiler.sqrt(getRightChild().compile(compiler));
+			value = compiler.sqrt(getRightChild());
 		} else if (isInfinity()) {
 			value = compiler.getPositiveInfinity();
 		} else if (isNegInfinity()) {
@@ -1089,25 +1087,29 @@ public class ASTNode implements TreeNode {
 			 * Operators
 			 */
 			case POWER:
-				value = compiler.pow(getLeftChild().compile(compiler),
-						getRightChild().compile(compiler));
+				value = compiler.pow(getLeftChild(), getRightChild());
 				break;
 			case PLUS:
-				value = compiler.plus(compileChildren(compiler));
+				value = compiler.plus(getChildren());
 				value.setUIFlag(getNumChildren() <= 1);
 				break;
 			case MINUS:
-				value = compiler.minus(compileChildren(compiler));
+				value = compiler.minus(getChildren());
 				value.setUIFlag(getNumChildren() <= 1);
 				break;
 			case TIMES:
-				value = compiler.times(compileChildren(compiler));
+				value = compiler.times(getChildren());
 				value.setUIFlag(getNumChildren() <= 1);
 				break;
 			case DIVIDE:
-				// TODO: What happens for multiple children?
-				value = compiler.frac(getLeftChild().compile(compiler),
-						getRightChild().compile(compiler));
+				if (getNumChildren() != 2) {
+					throw new SBMLException(
+							String
+									.format(
+											"fractions can only have one numerator and one denominator, here %s elements are given",
+											getNumChildren()));
+				}
+				value = compiler.frac(getLeftChild(), getRightChild());
 				break;
 			case RATIONAL:
 				value = compiler.frac(getNumerator(), getDenominator());
@@ -1116,10 +1118,10 @@ public class ASTNode implements TreeNode {
 				value = compiler.symbolTime(getName());
 				break;
 			case FUNCTION_DELAY:
-				value = compiler.delay(getName(), getLeftChild().compile(
-						compiler), getRightChild().isInteger() ? Double
-						.valueOf(getRightChild().getInteger())
-						: getRightChild().getReal(), getUnits());
+				value = compiler.delay(getName(), getLeftChild(),
+						getRightChild().isInteger() ? Double
+								.valueOf(getRightChild().getInteger())
+								: getRightChild().getReal(), getUnits());
 				break;
 			/*
 			 * Names of identifiers: parameters, functions, species etc.
@@ -1128,8 +1130,7 @@ public class ASTNode implements TreeNode {
 				if (variable != null) {
 					if (variable instanceof FunctionDefinition) {
 						value = compiler.function(
-								(FunctionDefinition) variable,
-								compileChildren(compiler));
+								(FunctionDefinition) variable, getChildren());
 					} else {
 						value = compiler.compile(variable);
 					}
@@ -1164,87 +1165,85 @@ public class ASTNode implements TreeNode {
 			 */
 			case FUNCTION_LOG:
 				if (getNumChildren() == 2) {
-					value = compiler.log(getLeftChild().compile(compiler),
-							getRightChild().compile(compiler));
+					value = compiler.log(getLeftChild(), getRightChild());
 				} else {
-					value = compiler.log(getRightChild().compile(compiler));
+					value = compiler.log(getRightChild());
 				}
 				break;
 			case FUNCTION_ABS:
-				value = compiler.abs(getRightChild().compile(compiler));
+				value = compiler.abs(getRightChild());
 				break;
 			case FUNCTION_ARCCOS:
-				value = compiler.arccos(getLeftChild().compile(compiler));
+				value = compiler.arccos(getLeftChild());
 				break;
 			case FUNCTION_ARCCOSH:
-				value = compiler.arccosh(getLeftChild().compile(compiler));
+				value = compiler.arccosh(getLeftChild());
 				break;
 			case FUNCTION_ARCCOT:
-				value = compiler.arccot(getLeftChild().compile(compiler));
+				value = compiler.arccot(getLeftChild());
 				break;
 			case FUNCTION_ARCCOTH:
-				value = compiler.arccoth(getLeftChild().compile(compiler));
+				value = compiler.arccoth(getLeftChild());
 				break;
 			case FUNCTION_ARCCSC:
-				value = compiler.arccsc(getLeftChild().compile(compiler));
+				value = compiler.arccsc(getLeftChild());
 				break;
 			case FUNCTION_ARCCSCH:
-				value = compiler.arccsch(getLeftChild().compile(compiler));
+				value = compiler.arccsch(getLeftChild());
 				break;
 			case FUNCTION_ARCSEC:
-				value = compiler.arcsec(getLeftChild().compile(compiler));
+				value = compiler.arcsec(getLeftChild());
 				break;
 			case FUNCTION_ARCSECH:
-				value = compiler.arcsech(getLeftChild().compile(compiler));
+				value = compiler.arcsech(getLeftChild());
 				break;
 			case FUNCTION_ARCSIN:
-				value = compiler.arcsin(getLeftChild().compile(compiler));
+				value = compiler.arcsin(getLeftChild());
 				break;
 			case FUNCTION_ARCSINH:
-				value = compiler.arcsinh(getLeftChild().compile(compiler));
+				value = compiler.arcsinh(getLeftChild());
 				break;
 			case FUNCTION_ARCTAN:
-				value = compiler.arctan(getLeftChild().compile(compiler));
+				value = compiler.arctan(getLeftChild());
 				break;
 			case FUNCTION_ARCTANH:
-				value = compiler.arctanh(getLeftChild().compile(compiler));
+				value = compiler.arctanh(getLeftChild());
 				break;
 			case FUNCTION_CEILING:
-				value = compiler.ceiling(getLeftChild().compile(compiler));
+				value = compiler.ceiling(getLeftChild());
 				break;
 			case FUNCTION_COS:
-				value = compiler.cos(getLeftChild().compile(compiler));
+				value = compiler.cos(getLeftChild());
 				break;
 			case FUNCTION_COSH:
-				value = compiler.cosh(getLeftChild().compile(compiler));
+				value = compiler.cosh(getLeftChild());
 				break;
 			case FUNCTION_COT:
-				value = compiler.cot(getLeftChild().compile(compiler));
+				value = compiler.cot(getLeftChild());
 				break;
 			case FUNCTION_COTH:
-				value = compiler.coth(getLeftChild().compile(compiler));
+				value = compiler.coth(getLeftChild());
 				break;
 			case FUNCTION_CSC:
-				value = compiler.csc(getLeftChild().compile(compiler));
+				value = compiler.csc(getLeftChild());
 				break;
 			case FUNCTION_CSCH:
-				value = compiler.csch(getLeftChild().compile(compiler));
+				value = compiler.csch(getLeftChild());
 				break;
 			case FUNCTION_EXP:
-				value = compiler.exp(getLeftChild().compile(compiler));
+				value = compiler.exp(getLeftChild());
 				break;
 			case FUNCTION_FACTORIAL:
-				value = compiler.factorial(getLeftChild().compile(compiler));
+				value = compiler.factorial(getLeftChild());
 				break;
 			case FUNCTION_FLOOR:
-				value = compiler.floor(getLeftChild().compile(compiler));
+				value = compiler.floor(getLeftChild());
 				break;
 			case FUNCTION_LN:
-				value = compiler.ln(getLeftChild().compile(compiler));
+				value = compiler.ln(getLeftChild());
 				break;
 			case FUNCTION_POWER:
-				value = compiler.pow(getLeftChild().compile(compiler),
-						getRightChild().compile(compiler));
+				value = compiler.pow(getLeftChild(), getRightChild());
 				break;
 			case FUNCTION_ROOT:
 				ASTNode left = getLeftChild();
@@ -1253,88 +1252,84 @@ public class ASTNode implements TreeNode {
 						|| (left.isReal() && (left.getReal() != 2d))) {
 					if (left.isInteger() && (left.getInteger() != 2)) {
 						value = compiler.root(getLeftChild().getInteger(),
-								getRightChild().compile(compiler));
+								getRightChild());
 					} else {
 						// if (left.isReal() && (left.getReal() != 2d))
 						value = compiler.root(getLeftChild().getReal(),
-								getRightChild().compile(compiler));
+								getRightChild());
 					}
 				} else if (getNumChildren() == 1) {
-					value = compiler.sqrt(getRightChild().compile(compiler));
+					value = compiler.sqrt(getRightChild());
 				} else {
-					value = compiler.root(getLeftChild().compile(compiler),
-							getRightChild().compile(compiler));
+					value = compiler.root(getLeftChild(), getRightChild());
 				}
 				break;
 			case FUNCTION_SEC:
-				value = compiler.sec(getLeftChild().compile(compiler));
+				value = compiler.sec(getLeftChild());
 				break;
 			case FUNCTION_SECH:
-				value = compiler.sech(getLeftChild().compile(compiler));
+				value = compiler.sech(getLeftChild());
 				break;
 			case FUNCTION_SIN:
-				value = compiler.sin(getLeftChild().compile(compiler));
+				value = compiler.sin(getLeftChild());
 				break;
 			case FUNCTION_SINH:
-				value = compiler.sinh(getLeftChild().compile(compiler));
+				value = compiler.sinh(getLeftChild());
 				break;
 			case FUNCTION_TAN:
-				value = compiler.tan(getLeftChild().compile(compiler));
+				value = compiler.tan(getLeftChild());
 				break;
 			case FUNCTION_TANH:
-				value = compiler.tanh(getLeftChild().compile(compiler));
+				value = compiler.tanh(getLeftChild());
 				break;
 			case FUNCTION:
 				NamedSBaseWithDerivedUnit nsb = getVariable();
 				value = compiler.function((FunctionDefinition) nsb,
-						compileChildren(compiler));
+						getChildren());
 				break;
-			case LAMBDA:
-				value = compiler.lambda(compileChildren(compiler));
+			case FUNCTION_PIECEWISE:
+				value = compiler.piecewise(getChildren());
 				value.setUIFlag(getNumChildren() <= 1);
 				break;
+			case LAMBDA:
+				value = compiler.lambda(getChildren());
+				value.setUIFlag(getNumChildren() <= 1);
+				break;
+			/*
+			 * Logical and relational functions
+			 */
 			case LOGICAL_AND:
-				value = compiler.and(compileChildren(compiler));
+				value = compiler.and(getChildren());
 				value.setUIFlag(getNumChildren() <= 1);
 				break;
 			case LOGICAL_XOR:
-				value = compiler.xor(compileChildren(compiler));
+				value = compiler.xor(getChildren());
 				value.setUIFlag(getNumChildren() <= 1);
 				break;
 			case LOGICAL_OR:
-				value = compiler.or(compileChildren(compiler));
+				value = compiler.or(getChildren());
 				value.setUIFlag(getNumChildren() <= 1);
 				break;
 			case LOGICAL_NOT:
-				value = compiler.not(getLeftChild().compile(compiler));
-				break;
-			case FUNCTION_PIECEWISE:
-				value = compiler.piecewise(compileChildren(compiler));
-				value.setUIFlag(getNumChildren() <= 1);
+				value = compiler.not(getLeftChild());
 				break;
 			case RELATIONAL_EQ:
-				value = compiler.eq(getLeftChild().compile(compiler),
-						getRightChild().compile(compiler));
+				value = compiler.eq(getLeftChild(), getRightChild());
 				break;
 			case RELATIONAL_GEQ:
-				value = compiler.geq(getLeftChild().compile(compiler),
-						getRightChild().compile(compiler));
+				value = compiler.geq(getLeftChild(), getRightChild());
 				break;
 			case RELATIONAL_GT:
-				value = compiler.gt(getLeftChild().compile(compiler),
-						getRightChild().compile(compiler));
+				value = compiler.gt(getLeftChild(), getRightChild());
 				break;
 			case RELATIONAL_NEQ:
-				value = compiler.neq(getLeftChild().compile(compiler),
-						getRightChild().compile(compiler));
+				value = compiler.neq(getLeftChild(), getRightChild());
 				break;
 			case RELATIONAL_LEQ:
-				value = compiler.leq(getLeftChild().compile(compiler),
-						getRightChild().compile(compiler));
+				value = compiler.leq(getLeftChild(), getRightChild());
 				break;
 			case RELATIONAL_LT:
-				value = compiler.lt(getLeftChild().compile(compiler),
-						getRightChild().compile(compiler));
+				value = compiler.lt(getLeftChild(), getRightChild());
 				break;
 			default: // UNKNOWN:
 				value = compiler.unknownValue();
@@ -1348,22 +1343,21 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Convenient method that compiles all children of this node and returns an
-	 * array of values as a result.
+	 * Method to check if this {@link ASTNode} represents a sum.
 	 * 
-	 * @param compiler
-	 *            The compiler that generates the value for each child.
-	 * @return An array of values as the result of an evaluation of all child
-	 *         nodes.
-	 * @throws SBMLException
+	 * @return
 	 */
-	private ASTNodeValue[] compileChildren(ASTNodeCompiler compiler)
-			throws SBMLException {
-		ASTNodeValue values[] = new ASTNodeValue[getNumChildren()];
-		for (int i = 0; i < getNumChildren(); i++) {
-			values[i] = getChild(i).compile(compiler);
-		}
-		return values;
+	public boolean isSum() {
+		return type == Type.PLUS;
+	}
+
+	/**
+	 * Method to check if this {@link ASTNode} represents a difference.
+	 * 
+	 * @return
+	 */
+	public boolean isDifference() {
+		return type == Type.MINUS;
 	}
 
 	/**
@@ -1416,7 +1410,7 @@ public class ASTNode implements TreeNode {
 			level = container.getLevel();
 			version = container.getVersion();
 		}
-		return compile(new Units(level, version)).getUnit().simplify();
+		return compile(new Units(level, version)).getUnits().simplify();
 	}
 
 	/**
@@ -1652,25 +1646,25 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Returns the list of children of the current ASTNode that satisfy the given filter. 
+	 * Returns the list of children of the current ASTNode that satisfy the
+	 * given filter.
 	 * 
 	 * @param filter
-	 * @return the list of children of the current ASTNode that satisfy the given filter.
+	 * @return the list of children of the current ASTNode that satisfy the
+	 *         given filter.
 	 */
 	public List<ASTNode> getListOfNodes(Filter filter) {
 		ArrayList<ASTNode> filteredList = new ArrayList<ASTNode>();
-		
+
 		for (ASTNode node : listOfNodes) {
 			if (filter.accepts(node)) {
 				filteredList.add(node);
 			}
 		}
-		
+
 		return filteredList;
 	}
-	
-	
-	
+
 	/**
 	 * Get the mantissa value of this node. This function should be called only
 	 * when getType() returns REAL_E or REAL. If getType() returns REAL, this
@@ -1765,7 +1759,7 @@ public class ASTNode implements TreeNode {
 			case REAL:
 				return mantissa;
 			case REAL_E:
-				return Double.parseDouble(getMantissa() + "e" + getExponent()); // getMantissa() * Math.pow(10, getExponent());
+				return getMantissa() * Math.pow(10, getExponent());
 			case RATIONAL:
 				return ((double) getNumerator()) / ((double) getDenominator());
 			case CONSTANT_E:
@@ -2727,15 +2721,15 @@ public class ASTNode implements TreeNode {
 	 */
 	public String toMathML() {
 		String mathML = "";
-		
+
 		try {
 			mathML = compile(new MathML()).toString();
 		} catch (SBMLException e) {
 			// TODO : log the exception
 		} catch (XMLStreamException e) {
-			// TODO : log the exception		
+			// TODO : log the exception
 		}
-		
+
 		return mathML;
 	}
 
@@ -2747,58 +2741,36 @@ public class ASTNode implements TreeNode {
 	@Override
 	public String toString() {
 		String formula = "";
-		
-		try {
-			formula = compile(new TextFormula()).toString(); 
-		} catch (SBMLException e) {
-			// TODO : log the exception			
-		}
-		
-		return formula;
-		
-		/*
-		// TODO
-		if (isInteger()) {
-			return Integer.toString(getInteger());
-		} else if (isReal()) {
-			return Double.toString(getReal());
-		} else if (isOperator()) {
-			return Character.toString(getCharacter());
-		} else if (isRelational()) {
-			switch (type) {
-			case RELATIONAL_EQ:
-				return Character.toString('=');
-			case RELATIONAL_GEQ:
-				return ">=";
-			case RELATIONAL_GT:
-				return Character.toString('>');
-			case RELATIONAL_LEQ:
-				return "<=";
-			case RELATIONAL_LT:
-				return Character.toString('<');
-			case RELATIONAL_NEQ:
-				return "!=";
-			}
-		} else if (type.toString().startsWith("FUNCTION")) {
-			String name = type.toString();
-			return name.length() > 8 ? type.toString().substring(9)
-					.toLowerCase() : getName();
-		} else {
-			switch (type) {
-			case NAME_TIME:
-				return type.toString().substring(4).toLowerCase();
-			default:
-				break;
-			}
-		}
-		return isName() ? getName() : getType().toString();
-		*/
-	}
 
+		try {
+			formula = compile(new TextFormula()).toString();
+		} catch (SBMLException e) {
+			// TODO : log the exception
+		}
+
+		return formula;
+
+		/*
+		 * // TODO if (isInteger()) { return Integer.toString(getInteger()); }
+		 * else if (isReal()) { return Double.toString(getReal()); } else if
+		 * (isOperator()) { return Character.toString(getCharacter()); } else if
+		 * (isRelational()) { switch (type) { case RELATIONAL_EQ: return
+		 * Character.toString('='); case RELATIONAL_GEQ: return ">="; case
+		 * RELATIONAL_GT: return Character.toString('>'); case RELATIONAL_LEQ:
+		 * return "<="; case RELATIONAL_LT: return Character.toString('<'); case
+		 * RELATIONAL_NEQ: return "!="; } } else if
+		 * (type.toString().startsWith("FUNCTION")) { String name =
+		 * type.toString(); return name.length() > 8 ?
+		 * type.toString().substring(9) .toLowerCase() : getName(); } else {
+		 * switch (type) { case NAME_TIME: return
+		 * type.toString().substring(4).toLowerCase(); default: break; } }
+		 * return isName() ? getName() : getType().toString();
+		 */
+	}
 
 	public void setType(String typeStr) {
 
-		// Arithmetic operators 
+		// Arithmetic operators
 		if (typeStr.equals("plus")) {
 			setType(Type.PLUS);
 		} else if (typeStr.equals("minus")) {
@@ -2825,24 +2797,24 @@ public class ASTNode implements TreeNode {
 			setType(Type.FUNCTION_CEILING);
 		} else if (typeStr.equals("factorial")) {
 			setType(Type.FUNCTION_FACTORIAL);
-		} 
-		
+		}
+
 		// Logical operators
 		else if (typeStr.equals("and")) {
 			setType(Type.LOGICAL_AND);
 		} else if (typeStr.equals("or")) {
-			setType(Type.LOGICAL_OR);	
+			setType(Type.LOGICAL_OR);
 		} else if (typeStr.equals("xor")) {
 			setType(Type.LOGICAL_XOR);
 		} else if (typeStr.equals("not")) {
 			setType(Type.LOGICAL_NOT);
 		}
-		
+
 		// Trigonometric operators
 		else if (typeStr.equals("cos")) {
 			setType(Type.FUNCTION_COS);
 		} else if (typeStr.equals("sin")) {
-			setType(Type.FUNCTION_SIN);	
+			setType(Type.FUNCTION_SIN);
 		} else if (typeStr.equals("tan")) {
 			setType(Type.FUNCTION_TAN);
 		} else if (typeStr.equals("sec")) {
@@ -2888,12 +2860,12 @@ public class ASTNode implements TreeNode {
 		} else if (typeStr.equals("arccoth")) {
 			setType(Type.FUNCTION_ARCCOTH);
 		}
-		
+
 		// Relational operators
 		else if (typeStr.equals("eq")) {
 			setType(Type.RELATIONAL_EQ);
 		} else if (typeStr.equals("neq")) {
-			setType(Type.RELATIONAL_NEQ);	
+			setType(Type.RELATIONAL_NEQ);
 		} else if (typeStr.equals("gt")) {
 			setType(Type.RELATIONAL_GT);
 		} else if (typeStr.equals("lt")) {
@@ -2902,14 +2874,15 @@ public class ASTNode implements TreeNode {
 			setType(Type.RELATIONAL_GEQ);
 		} else if (typeStr.equals("leq")) {
 			setType(Type.RELATIONAL_LEQ);
-		} 
-		
-		
+		}
+
 		// token : cn, ci, csymbol, sep
 		// TODO : for ci, we have to check if it is a functinoDefinition
-		// for cn, we pass the type attribute to this function to determine the proper astNode type
-		else if (typeStr.equals("real") || typeStr.equals("cn")) { 
-			// we put the type by default to real in case the type attribute is not define on the cn element. 
+		// for cn, we pass the type attribute to this function to determine the
+		// proper astNode type
+		else if (typeStr.equals("real") || typeStr.equals("cn")) {
+			// we put the type by default to real in case the type attribute is
+			// not define on the cn element.
 			setType(Type.REAL);
 		} else if (typeStr.equals("e-notation")) {
 			setType(Type.REAL_E);
@@ -2923,47 +2896,46 @@ public class ASTNode implements TreeNode {
 			setType(Type.UNKNOWN);
 		} else if (typeStr.equals("sep")) {
 			setType(Type.UNKNOWN);
-		} else if (typeStr.equals("http://www.sbml.org/sbml/symbols/time")) {		
+		} else if (typeStr.equals("http://www.sbml.org/sbml/symbols/time")) {
 			setType(Type.NAME_TIME);
 		} else if (typeStr.equals("http://www.sbml.org/sbml/symbols/delay")) {
 			setType(Type.FUNCTION_DELAY);
 		} else if (typeStr.equals("http://www.sbml.org/sbml/symbols/avogadro")) {
 			setType(Type.NAME_AVOGADRO);
-		} 
+		}
 
 		// general : apply, piecewise, piece, otherwise, lambda
-		 else if (typeStr.equals("lambda")) {
-				setType(Type.LAMBDA);
-		 } else if (typeStr.equals("piecewise")) {
-			 setType(Type.FUNCTION_PIECEWISE);
-		 }
-		
-		
-		// qualifiers : degree, bvar, logbase
-		
-		// constants : true, false, notanumber, pi, infinity, exponentiale
-		 else if (typeStr.equals("true")) {
-			 setType(Type.CONSTANT_TRUE);
-		 } else if (typeStr.equals("false")) {
-			 setType(Type.CONSTANT_FALSE);
-		 } else if (typeStr.equals("notanumber")) {
-			 setType(Type.REAL);
-			 setValue(Double.NaN);
-		 } else if (typeStr.equals("pi")) {
-			 setType(Type.CONSTANT_PI);
-		 } else if (typeStr.equals("infinity")) {
-			 setType(Type.REAL);
-			 setValue(Double.POSITIVE_INFINITY);
-		 } else if (typeStr.equals("exponentiale")) {
-			 setType(Type.CONSTANT_E);
-		 }	
+		else if (typeStr.equals("lambda")) {
+			setType(Type.LAMBDA);
+		} else if (typeStr.equals("piecewise")) {
+			setType(Type.FUNCTION_PIECEWISE);
+		}
 
-		
+		// qualifiers : degree, bvar, logbase
+
+		// constants : true, false, notanumber, pi, infinity, exponentiale
+		else if (typeStr.equals("true")) {
+			setType(Type.CONSTANT_TRUE);
+		} else if (typeStr.equals("false")) {
+			setType(Type.CONSTANT_FALSE);
+		} else if (typeStr.equals("notanumber")) {
+			setType(Type.REAL);
+			setValue(Double.NaN);
+		} else if (typeStr.equals("pi")) {
+			setType(Type.CONSTANT_PI);
+		} else if (typeStr.equals("infinity")) {
+			setType(Type.REAL);
+			setValue(Double.POSITIVE_INFINITY);
+		} else if (typeStr.equals("exponentiale")) {
+			setType(Type.CONSTANT_E);
+		}
+
 		// possible annotations : semantics, annotation, annotation-xml
-		
-		
+
 		else {
-			System.out.println("ASTNode : setType(String) : !!!!!!!!!!!!!! Not found a proper type for " + typeStr + " !!!!!!!!!!!!!");
+			System.out
+					.println("ASTNode : setType(String) : !!!!!!!!!!!!!! Not found a proper type for "
+							+ typeStr + " !!!!!!!!!!!!!");
 			setType(Type.UNKNOWN);
 		}
 	}
@@ -3006,6 +2978,15 @@ public class ASTNode implements TreeNode {
 	 */
 	public void unsetUnits() {
 		unitId = null;
+	}
+
+	/**
+	 * Checks whether the number of child nodes is exactly one.
+	 * 
+	 * @return
+	 */
+	public boolean isUnary() {
+		return getNumChildren() == 1;
 	}
 
 }

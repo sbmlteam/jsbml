@@ -230,8 +230,9 @@ public class Unit extends AbstractSBase {
 			Kind uk = null;
 			if ((unitKind != null) && (unitKind.length() > 0)) {
 				try {
-					// We need to do that as our enum is upper case and sbml kind are lower case in the SBML XML representation.
-					uk = Kind.valueOf(unitKind.toUpperCase()); 
+					// We need to do that as our enum is upper case and sbml
+					// kind are lower case in the SBML XML representation.
+					uk = Kind.valueOf(unitKind.toUpperCase());
 				} catch (IllegalArgumentException exc) {
 				}
 			}
@@ -367,6 +368,20 @@ public class Unit extends AbstractSBase {
 							&& this == CELSIUS || this == LITER || this == METER) || (level == 2
 					&& version == 1 && this == CELSIUS)));
 		}
+	}
+
+	/**
+	 * Checks whether the given {@link Unit} and the {@link Unit} represented by
+	 * the given {@link String} are equivalent.
+	 * 
+	 * @param unit
+	 * @param units
+	 * @return
+	 * @see #areEquivalent(Unit, Unit)
+	 */
+	public static boolean areEquivalent(Unit unit, String units) {
+		return areEquivalent(unit, new Unit(units, unit.getLevel(), unit
+				.getVersion()));
 	}
 
 	/**
@@ -648,8 +663,20 @@ public class Unit extends AbstractSBase {
 	 *         ('substance', 'volume', 'area', 'length' or 'time'), false
 	 *         otherwise. The predefined unit identifiers 'length' and 'area'
 	 *         were added in Level 2 Version 1
+	 * @deprecated use {@link #isPredefined(String, int)}
 	 */
-	public static boolean isBuiltIn(String name, long level) {
+	@Deprecated
+	public static boolean isBuiltIn(String name, int level) {
+		return isPredefined(name, level);
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @param level
+	 * @return
+	 */
+	public static boolean isPredefined(String name, int level) {
 		if ((level < 3)
 				&& (name.equals("substance") || name.equals("volume")
 						|| name.equals("time") || (level == 2 && (name
@@ -657,6 +684,21 @@ public class Unit extends AbstractSBase {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * 
+	 * @param kind
+	 * @param level
+	 * @param version
+	 * @return
+	 */
+	public static boolean isUnitKind(Kind kind, int level, int version) {
+		try {
+			return kind.isDefinedIn(level, version);
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**
@@ -685,12 +727,11 @@ public class Unit extends AbstractSBase {
 	 *       slightly between Level 2 Versions 1 and 2.
 	 */
 	public static boolean isUnitKind(String name, int level, int version) {
-		try {
-			Kind kind = Kind.valueOf(name.toUpperCase());
-			return kind.isDefinedIn(level, version);
-		} catch (Exception e) {
+		if ((name == null) || UnitDefinition.isPredefined(name, level)) {
+			// predefined units are always unit definitions.
 			return false;
 		}
+		return isUnitKind(Kind.valueOf(name.toUpperCase()), level, version);
 	}
 
 	/**
@@ -801,25 +842,34 @@ public class Unit extends AbstractSBase {
 	 * Represents the 'exponent' XML attribute of an unit element.
 	 */
 	private Double exponent;
-
 	/**
 	 * 
 	 */
 	private boolean isSetExponent;
-	/**
-	 * Represents the 'kind' XML attribute of an unit element.
-	 */
-	private Kind kind;
-
-	/**
-	 * Represents the 'multiplier' XML attribute of an unit element.
-	 */
-	private Double multiplier;
 
 	/**
 	 * 
 	 */
 	private boolean isSetMultiplier;
+
+	/**
+	 * 
+	 */
+	private boolean isSetOffset;
+	/**
+	 * 
+	 */
+	private boolean isSetScale;
+
+	/**
+	 * Represents the 'kind' XML attribute of an unit element.
+	 */
+	private Kind kind;
+	/**
+	 * Represents the 'multiplier' XML attribute of an unit element.
+	 */
+	private Double multiplier;
+
 	/**
 	 * Represents the 'offset' XML attribute of an unit element.
 	 */
@@ -827,18 +877,9 @@ public class Unit extends AbstractSBase {
 	private Double offset;
 
 	/**
-	 * 
-	 */
-	private boolean isSetOffset;
-	/**
 	 * Represents the 'scale' XML attribute of an unit element.
 	 */
 	private Integer scale;
-
-	/**
-	 * 
-	 */
-	private boolean isSetScale;
 
 	/**
 	 * Creates a Unit instance. If the level is set and is superior or equal to
@@ -934,8 +975,23 @@ public class Unit extends AbstractSBase {
 	 */
 	public Unit(Kind kind, int level, int version) {
 		super(level, version);
+		if (!isUnitKind(kind, level, version)) {
+			throw new IllegalArgumentException(String.format(
+					"%s undefined for level %s version %s", kind, level,
+					version));
+		}
 		initDefaults();
 		setKind(kind);
+	}
+
+	/**
+	 * 
+	 * @param units
+	 * @param level
+	 * @param version
+	 */
+	public Unit(String units, int level, int version) {
+		this(Unit.Kind.valueOf(units), level, version);
 	}
 
 	/**

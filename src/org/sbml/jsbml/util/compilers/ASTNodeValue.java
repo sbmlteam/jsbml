@@ -27,10 +27,16 @@
  *===================================================================================
  *
  */
-package org.sbml.jsbml;
+package org.sbml.jsbml.util.compilers;
 
 import java.io.IOException;
 
+import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.xml.parsers.MathMLParser;
 import org.w3c.dom.Node;
@@ -187,7 +193,7 @@ public class ASTNodeValue {
 	 */
 	public ASTNodeValue(UnitDefinition unit, ASTNodeCompiler compiler) {
 		this(compiler);
-		setUnit(unit);
+		setUnits(unit);
 	}
 
 	/**
@@ -197,7 +203,7 @@ public class ASTNodeValue {
 	 * @return
 	 */
 	public boolean containsUndeclaredUnits() {
-		return !isSetUnit() || (getUnit().getNumUnits() == 0);
+		return !isSetUnit() || (getUnits().getNumUnits() == 0);
 	}
 
 	/**
@@ -222,7 +228,7 @@ public class ASTNodeValue {
 	 * 
 	 * @return
 	 */
-	public UnitDefinition getUnit() {
+	public UnitDefinition getUnits() {
 		if (!isSetUnit()) {
 			unit = new UnitDefinition();
 			unit.addUnit(new Unit());
@@ -343,7 +349,7 @@ public class ASTNodeValue {
 			sb.append('?');
 		}
 		sb.append(' ');
-		sb.append(UnitDefinition.printUnits(getUnit(), true));
+		sb.append(UnitDefinition.printUnits(getUnits(), true));
 		return sb.toString();
 	}
 
@@ -351,7 +357,7 @@ public class ASTNodeValue {
 	 * @param level
 	 *            the level to set
 	 */
-	void setLevel(int level) {
+	public void setLevel(int level) {
 		this.level = level;
 	}
 
@@ -359,7 +365,7 @@ public class ASTNodeValue {
 	 * 
 	 * @param type
 	 */
-	void setType(Type type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 
@@ -367,7 +373,7 @@ public class ASTNodeValue {
 	 * 
 	 * @param uiFlag
 	 */
-	void setUIFlag(boolean uiFlag) {
+	public void setUIFlag(boolean uiFlag) {
 		this.uFlag = uiFlag;
 	}
 
@@ -375,7 +381,7 @@ public class ASTNodeValue {
 	 * 
 	 * @param unit
 	 */
-	public void setUnit(UnitDefinition unit) {
+	public void setUnits(UnitDefinition unit) {
 		this.unit = unit.simplify();
 	}
 
@@ -463,7 +469,7 @@ public class ASTNodeValue {
 	 * @param version
 	 *            the version to set
 	 */
-	void setVersion(int version) {
+	public void setVersion(int version) {
 		this.version = version;
 	}
 

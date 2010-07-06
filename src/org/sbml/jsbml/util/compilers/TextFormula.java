@@ -30,17 +30,16 @@
 package org.sbml.jsbml.util.compilers;
 
 import java.util.IllegalFormatException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.ASTNodeCompiler;
-import org.sbml.jsbml.ASTNodeValue;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -254,135 +253,162 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue abs(ASTNodeValue node) {
+	public ASTNodeValue abs(ASTNode node) throws SBMLException {
 		return function("abs", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#and(org.sbml.jsbml.ASTNode[])
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#and(java.util.List)
 	 */
-	public ASTNodeValue and(ASTNodeValue... nodes) {
+	public ASTNodeValue and(List<ASTNode> nodes) throws SBMLException {
 		return logicalOperation(" and ", nodes);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccos(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccos(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue arccos(ASTNodeValue node) {
+	public ASTNodeValue arccos(ASTNode node) throws SBMLException {
 		return function("arccos", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccosh(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccosh(org.sbml.jsbml.
+	 * ASTNode)
 	 */
-	public ASTNodeValue arccosh(ASTNodeValue node) {
+	public ASTNodeValue arccosh(ASTNode node) throws SBMLException {
 		return function("arccos", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccot(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccot(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue arccot(ASTNodeValue node) {
+	public ASTNodeValue arccot(ASTNode node) throws SBMLException {
 		return function("arccot", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccoth(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccoth(org.sbml.jsbml.
+	 * ASTNode)
 	 */
-	public ASTNodeValue arccoth(ASTNodeValue node) {
+	public ASTNodeValue arccoth(ASTNode node) throws SBMLException {
 		return function("arccoth", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccsc(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccsc(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue arccsc(ASTNodeValue node) {
+	public ASTNodeValue arccsc(ASTNode node) throws SBMLException {
 		return function("arccsc", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccsch(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccsch(org.sbml.jsbml.
+	 * ASTNode)
 	 */
-	public ASTNodeValue arccsch(ASTNodeValue node) {
+	public ASTNodeValue arccsch(ASTNode node) throws SBMLException {
 		return function("arccsch", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsec(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsec(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue arcsec(ASTNodeValue node) {
+	public ASTNodeValue arcsec(ASTNode node) throws SBMLException {
 		return function("arcsec", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsech(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsech(org.sbml.jsbml.
+	 * ASTNode)
 	 */
-	public ASTNodeValue arcsech(ASTNodeValue node) {
+	public ASTNodeValue arcsech(ASTNode node) throws SBMLException {
 		return function("arcsech", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsin(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsin(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue arcsin(ASTNodeValue node) {
+	public ASTNodeValue arcsin(ASTNode node) throws SBMLException {
 		return function("arcsin", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsinh(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsinh(org.sbml.jsbml.
+	 * ASTNode)
 	 */
-	public ASTNodeValue arcsinh(ASTNodeValue node) {
+	public ASTNodeValue arcsinh(ASTNode node) throws SBMLException {
 		return function("arcsinh", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arctan(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arctan(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue arctan(ASTNodeValue node) {
+	public ASTNodeValue arctan(ASTNode node) throws SBMLException {
 		return function("arctan", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arctanh(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arctanh(org.sbml.jsbml.
+	 * ASTNode)
 	 */
-	public ASTNodeValue arctanh(ASTNodeValue node) {
+	public ASTNodeValue arctanh(ASTNode node) throws SBMLException {
 		return function("arctanh", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#ceiling(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#ceiling(org.sbml.jsbml.
+	 * ASTNode)
 	 */
-	public ASTNodeValue ceiling(ASTNodeValue node) {
+	public ASTNodeValue ceiling(ASTNode node) throws SBMLException {
 		return function("ceil", node);
 	}
 
@@ -391,9 +417,10 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * 
 	 * @param nodes
 	 * @return
+	 * @throws SBMLException
 	 */
-	private String checkBrackets(ASTNodeValue nodes) {
-		String term = nodes.toString();
+	private String checkBrackets(ASTNode nodes) throws SBMLException {
+		String term = nodes.compile(this).toString();
 		if (nodes.isSum() || nodes.isDifference() || nodes.isUMinus()) {
 			term = brackets(term).toString();
 		}
@@ -403,7 +430,9 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(org.sbml.jsbml.Compartment)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.
+	 * Compartment)
 	 */
 	public ASTNodeValue compile(Compartment c) {
 		return new ASTNodeValue(c.getId(), this);
@@ -412,7 +441,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double, java.lang.String)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(double,
+	 * java.lang.String)
 	 */
 	public ASTNodeValue compile(double real, String units) {
 		return new ASTNodeValue(toString(real), this);
@@ -421,7 +451,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(int, java.lang.String)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(int,
+	 * java.lang.String)
 	 */
 	public ASTNodeValue compile(int integer, String units) {
 		return new ASTNodeValue(integer, this);
@@ -430,7 +461,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seeorg.sbml.jsbml.ASTNodeCompiler#compile(org.sbml.jsbml.
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.
 	 * NamedSBaseWithDerivedUnit)
 	 */
 	public ASTNodeValue compile(NamedSBaseWithDerivedUnit variable) {
@@ -440,7 +472,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(java.lang.String)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(java.lang.String)
 	 */
 	public ASTNodeValue compile(String name) {
 		return new ASTNodeValue(name, this);
@@ -449,94 +482,122 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#cos(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#cos(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue cos(ASTNodeValue node) {
+	public ASTNodeValue cos(ASTNode node) throws SBMLException {
 		return function("cos", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#cosh(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#cosh(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue cosh(ASTNodeValue node) {
+	public ASTNodeValue cosh(ASTNode node) throws SBMLException {
 		return function("cosh", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#cot(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#cot(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue cot(ASTNodeValue node) {
+	public ASTNodeValue cot(ASTNode node) throws SBMLException {
 		return function("cot", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#coth(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#coth(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue coth(ASTNodeValue node) {
+	public ASTNodeValue coth(ASTNode node) throws SBMLException {
 		return function("coth", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#csc(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#csc(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue csc(ASTNodeValue node) {
+	public ASTNodeValue csc(ASTNode node) throws SBMLException {
 		return function("csc", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#csch(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#csch(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue csch(ASTNodeValue node) {
+	public ASTNodeValue csch(ASTNode node) throws SBMLException {
 		return function("csch", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#delay(java.lang.String,
-	 * org.sbml.jsbml.ASTNodeValue, double, java.lang.String)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#delay(java.lang.String,
+	 * org.sbml.jsbml.ASTNode, double, java.lang.String)
 	 */
-	public ASTNodeValue delay(String delayName, ASTNodeValue x, double d,
-			String timeUnits) {
-		return new ASTNodeValue(concat("delay(", x, ", ", toString(d), ")")
-				.toString(), this);
+	public ASTNodeValue delay(String delayName, ASTNode x, double d,
+			String timeUnits) throws SBMLException {
+		return new ASTNodeValue(concat("delay(", x.compile(this), ", ",
+				toString(d), ")").toString(), this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#equal(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#eq(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue eq(ASTNodeValue left, ASTNodeValue right) {
-		return new ASTNodeValue(concat(left, " == ", right).toString(), this);
+	public ASTNodeValue eq(ASTNode left, ASTNode right) throws SBMLException {
+		return new ASTNodeValue(relation(left, " == ", right), this);
+	}
+
+	/**
+	 * 
+	 * @param left
+	 * @param symbol
+	 * @param right
+	 * @return
+	 * @throws SBMLException
+	 */
+	private String relation(ASTNode left, String symbol, ASTNode right)
+			throws SBMLException {
+		return concat(left.compile(this), symbol, right.compile(this))
+				.toString();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#exp(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#exp(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue exp(ASTNodeValue node) {
+	public ASTNodeValue exp(ASTNode node) throws SBMLException {
 		return function("exp", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#factorial(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#factorial(org.sbml.jsbml
+	 * .ASTNode)
 	 */
-	public ASTNodeValue factorial(ASTNodeValue node) {
+	public ASTNodeValue factorial(ASTNode node) {
 		return new ASTNodeValue(append(brackets(node), Character.valueOf('!'))
 				.toString(), this);
 	}
@@ -544,29 +605,32 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#floor(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#floor(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue floor(ASTNodeValue node) {
+	public ASTNodeValue floor(ASTNode node) throws SBMLException {
 		return function("floor", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#frac(org.sbml.jsbml.ASTNode,
-	 * org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#frac(org.sbml.jsbml.ASTNode
+	 * , org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue frac(ASTNodeValue left, ASTNodeValue right) {
-		String numerator = checkBrackets(left);
-		String denominator = checkBrackets(right);
-		return new ASTNodeValue(concat(numerator, Character.valueOf('/'),
-				denominator).toString(), this);
+	public ASTNodeValue frac(ASTNode numerator, ASTNode denominator)
+			throws SBMLException {
+		return new ASTNodeValue(concat(checkBrackets(numerator),
+				Character.valueOf('/'), checkBrackets(denominator)).toString(),
+				this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#frac(int, int)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#frac(int, int)
 	 */
 	public ASTNodeValue frac(int numerator, int denominator) {
 		return new ASTNodeValue(concat(
@@ -581,10 +645,11 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#function(org.sbml.jsbml.FunctionDefinition
-	 * , org.sbml.jsbml.ASTNode[])
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#function(org.sbml.jsbml
+	 * .FunctionDefinition, java.util.List)
 	 */
-	public ASTNodeValue function(FunctionDefinition func, ASTNodeValue... nodes) {
+	public ASTNodeValue function(FunctionDefinition func, List<ASTNode> nodes)
+			throws SBMLException {
 		return function(func.getName(), nodes);
 	}
 
@@ -593,35 +658,44 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * @param name
 	 * @param nodes
 	 * @return
+	 * @throws SBMLException
 	 */
-	private ASTNodeValue function(String name, ASTNodeValue... nodes) {
+	private ASTNodeValue function(String name, List<ASTNode> nodes)
+			throws SBMLException {
 		return new ASTNodeValue(concat(name, lambda(nodes)).toString(), this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#functionDelay(java.lang.String)
+	 * @param name
+	 * @param nodes
+	 * @return
+	 * @throws SBMLException
 	 */
-	public ASTNodeValue functionDelay(String delay) {
-		return new ASTNodeValue(delay, this);
+	private ASTNodeValue function(String name, ASTNode... nodes)
+			throws SBMLException {
+		LinkedList<ASTNode> l = new LinkedList<ASTNode>();
+		for (ASTNode node : nodes) {
+			l.add(node);
+		}
+		return new ASTNodeValue(concat(name, lambda(l)).toString(), this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#greaterEqual(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#geq(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue geq(ASTNodeValue left, ASTNodeValue right) {
-		return new ASTNodeValue(concat(left, ">=", right).toString(), this);
+	public ASTNodeValue geq(ASTNode left, ASTNode right) throws SBMLException {
+		return new ASTNodeValue(relation(left, " >= ", right), this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantE()
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantE()
 	 */
 	public ASTNodeValue getConstantE() {
 		return new ASTNodeValue(Character.toString('e'), this);
@@ -630,7 +704,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantFalse()
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantFalse()
 	 */
 	public ASTNodeValue getConstantFalse() {
 		return new ASTNodeValue(false, this);
@@ -639,7 +713,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantPi()
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantPi()
 	 */
 	public ASTNodeValue getConstantPi() {
 		return new ASTNodeValue("pi", this);
@@ -648,7 +722,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantTrue()
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantTrue()
 	 */
 	public ASTNodeValue getConstantTrue() {
 		return new ASTNodeValue(true, this);
@@ -657,7 +731,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#getNegativeInfinity()
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getNegativeInfinity()
 	 */
 	public ASTNodeValue getNegativeInfinity() {
 		return new ASTNodeValue(Double.NEGATIVE_INFINITY, this);
@@ -666,7 +740,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#getPositiveInfinity()
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getPositiveInfinity()
 	 */
 	public ASTNodeValue getPositiveInfinity() {
 		return new ASTNodeValue(Double.POSITIVE_INFINITY, this);
@@ -676,26 +750,25 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#greaterThan(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#gt(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue gt(ASTNodeValue left, ASTNodeValue right) {
-		return new ASTNodeValue(concat(left, Character.valueOf('>'), right)
-				.toString(), this);
+	public ASTNodeValue gt(ASTNode left, ASTNode right) throws SBMLException {
+		return new ASTNodeValue(relation(left, " > ", right), this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#lambda(org.sbml.jsbml.ASTNode[])
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#lambda(java.util.List)
 	 */
-	public ASTNodeValue lambda(ASTNodeValue... nodes) {
+	public ASTNodeValue lambda(List<ASTNode> nodes) throws SBMLException {
 		StringBuffer lambda = new StringBuffer();
-		for (int i = 0; i < nodes.length; i++) {
+		for (int i = 0; i < nodes.size(); i++) {
 			if (i > 0) {
 				lambda.append(", ");
 			}
-			lambda.append(nodes[i]);
+			lambda.append(nodes.get(i).compile(this));
 		}
 		return new ASTNodeValue(brackets(lambda).toString(), this);
 	}
@@ -704,76 +777,42 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#lessEqual(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue leq(ASTNodeValue left, ASTNodeValue right) {
-		return new ASTNodeValue(concat(left, "<=", right).toString(), this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#ln(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue ln(ASTNodeValue node) {
-		return function("log", node);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue log(ASTNodeValue node) {
-		return function("log", node);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#leq(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue log(ASTNodeValue left, ASTNodeValue right) {
-		return function("log", left, right);
+	public ASTNodeValue leq(ASTNode left, ASTNode right) throws SBMLException {
+		return new ASTNodeValue(relation(left, " <= ", right), this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#logicalOperation(org.sbml.jsbml.ASTNode)
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#ln(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue logicalOperation(ASTNodeValue ast) {
-		StringBuffer value = new StringBuffer();
-		if (!ast.isUnary()) {
-			value.append('(');
-		}
-		value.append(ast);
-		if (!ast.isUnary())
-			value.append(')');
-		switch (ast.getType()) {
-		case LOGICAL_AND:
-			value.append(" and ");
-			break;
-		case LOGICAL_XOR:
-			value.append(" xor ");
-			break;
-		case LOGICAL_OR:
-			value.append(" or ");
-			break;
-		default:
-			break;
-		}
-		if (!ast.isUnary()) {
-			value.append('(');
-		}
-		value.append(ast);
-		if (!ast.isUnary()) {
-			value.append(')');
-		}
-		return new ASTNodeValue(value.toString(), this);
+	public ASTNodeValue ln(ASTNode node) throws SBMLException {
+		return function("log", node);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode)
+	 */
+	public ASTNodeValue log(ASTNode node) throws SBMLException {
+		return function("log", node);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
+	 */
+	public ASTNodeValue log(ASTNode left, ASTNode right) throws SBMLException {
+		return function("log", left, right);
 	}
 
 	/**
@@ -781,22 +820,23 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * @param operator
 	 * @param nodes
 	 * @return
+	 * @throws SBMLException
 	 */
-	private ASTNodeValue logicalOperation(String operator,
-			ASTNodeValue... nodes) {
+	private ASTNodeValue logicalOperation(String operator, List<ASTNode> nodes)
+			throws SBMLException {
 		StringBuffer value = new StringBuffer();
 		boolean first = true;
-		for (ASTNodeValue node : nodes) {
+		for (ASTNode node : nodes) {
 			if (!first) {
 				value.append(operator);
 			} else {
 				first = true;
 			}
 			if (!node.isUnary()) {
-				append(value, Character.valueOf('('), node, Character
-						.valueOf(')'));
+				append(value, Character.valueOf('('), node.compile(this)
+						.toString(), Character.valueOf(')'));
 			} else {
-				value.append(node);
+				value.append(node.compile(this).toString());
 			}
 		}
 		return new ASTNodeValue(value.toString(), this);
@@ -805,26 +845,26 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#lessThan(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#lt(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue lt(ASTNodeValue left, ASTNodeValue right) {
-		return new ASTNodeValue(concat(left, Character.valueOf('<'), right)
-				.toString(), this);
+	public ASTNodeValue lt(ASTNode left, ASTNode right) throws SBMLException {
+		return new ASTNodeValue(relation(left, " < ", right), this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#minus(org.sbml.jsbml.ASTNode[])
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#minus(java.util.List)
 	 */
-	public ASTNodeValue minus(ASTNodeValue... nodes) {
+	public ASTNodeValue minus(List<ASTNode> nodes) throws SBMLException {
 		StringBuffer minus = new StringBuffer();
-		for (int i = 0; i < nodes.length; i++) {
+		for (int i = 0; i < nodes.size(); i++) {
 			if (i > 0) {
 				minus.append('-');
 			}
-			minus.append(checkBrackets(nodes[i]));
+			minus.append(checkBrackets(nodes.get(i)));
 		}
 		return new ASTNodeValue(minus.toString(), this);
 	}
@@ -832,52 +872,61 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#notEqual(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#neq(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue neq(ASTNodeValue left, ASTNodeValue right) {
-		return new ASTNodeValue(concat(left, "!=", right).toString(), this);
+	public ASTNodeValue neq(ASTNode left, ASTNode right) throws SBMLException {
+		return new ASTNodeValue(relation(left, " != ", right), this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#logicalNot(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#not(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue not(ASTNodeValue node) {
+	public ASTNodeValue not(ASTNode node) throws SBMLException {
 		return function("not", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#or(org.sbml.jsbml.ASTNode[])
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#or(java.util.List)
 	 */
-	public ASTNodeValue or(ASTNodeValue... nodes) {
+	public ASTNodeValue or(List<ASTNode> nodes) throws SBMLException {
 		return logicalOperation(" or ", nodes);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#piecewise(org.sbml.jsbml.ASTNode[])
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#piecewise(java.util.List)
 	 */
-	public ASTNodeValue piecewise(ASTNodeValue... nodes) {
+	public ASTNodeValue piecewise(List<ASTNode> nodes) throws SBMLException {
 		return function("piecewise", nodes);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#plus(org.sbml.jsbml.ASTNode[])
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#plus(java.util.List)
 	 */
-	public ASTNodeValue plus(ASTNodeValue... nodes) {
+	public ASTNodeValue plus(List<ASTNode> nodes) throws SBMLException {
 		StringBuffer plus = new StringBuffer();
-		for (int i = 0; i < nodes.length; i++) {
+		ASTNode node;
+		for (int i = 0; i < nodes.size(); i++) {
 			if (i > 0) {
 				plus.append('+');
 			}
-			plus.append(nodes[i]);
+			node = nodes.get(i);
+			if (node.isDifference()) {
+				plus.append(checkBrackets(node));
+			} else {
+				plus.append(node.compile(this));
+			}
 		}
 		return new ASTNodeValue(plus.toString(), this);
 	}
@@ -885,83 +934,100 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#pow(org.sbml.jsbml.ASTNode,
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#pow(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue pow(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue pow(ASTNode left, ASTNode right) throws SBMLException {
 		return function("pow", left, right);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#root(org.sbml.jsbml.ASTNode,
-	 * org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#root(org.sbml.jsbml.ASTNode
+	 * , org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue root(ASTNodeValue rootExponent, ASTNodeValue radiant) {
+	public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant)
+			throws SBMLException {
 		return function("root", rootExponent, radiant);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#root(double,
-	 * org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#root(double,
+	 * org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue root(double rootExponent, ASTNodeValue radiant) {
-		return new ASTNodeValue(concat("root(", rootExponent, radiant)
-				.toString(), this);
+	public ASTNodeValue root(double rootExponent, ASTNode radiant)
+			throws SBMLException {
+		if (rootExponent == 2d) {
+			return sqrt(radiant);
+		}
+		return new ASTNodeValue(concat("root(", rootExponent,
+				radiant.compile(this), ")").toString(), this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sec(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#sec(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue sec(ASTNodeValue node) {
+	public ASTNodeValue sec(ASTNode node) throws SBMLException {
 		return function("sec", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sech(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#sech(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue sech(ASTNodeValue node) {
+	public ASTNodeValue sech(ASTNode node) throws SBMLException {
 		return function("sech", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sin(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#sin(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue sin(ASTNodeValue node) {
+	public ASTNodeValue sin(ASTNode node) throws SBMLException {
 		return function("sin", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sinh(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#sinh(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue sinh(ASTNodeValue node) {
+	public ASTNodeValue sinh(ASTNode node) throws SBMLException {
 		return function("sin", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sqrt(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#sqrt(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue sqrt(ASTNodeValue node) {
+	public ASTNodeValue sqrt(ASTNode node) throws SBMLException {
 		return function("sqrt", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#symbolTime(java.lang.String)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#symbolTime(java.lang.String
+	 * )
 	 */
 	public ASTNodeValue symbolTime(String time) {
 		return new ASTNodeValue(time, this);
@@ -970,34 +1036,34 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#tan(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#tan(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue tan(ASTNodeValue node) {
+	public ASTNodeValue tan(ASTNode node) throws SBMLException {
 		return function("tan", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#tanh(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#tanh(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue tanh(ASTNodeValue node) {
+	public ASTNodeValue tanh(ASTNode node) throws SBMLException {
 		return function("tanh", node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#times(org.sbml.jsbml.ASTNode[])
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#times(java.util.List)
 	 */
-	public ASTNodeValue times(ASTNodeValue... nodes) {
-		Object n[] = new Object[nodes.length];
-		for (int i = 0; i < nodes.length; i++) {
-			n[i] = nodes[i];
-			if (nodes[i].getType() == Type.PLUS
-					|| nodes[i].getType() == Type.MINUS) {
-				n[i] = brackets(n[i]);
-			}
+	public ASTNodeValue times(List<ASTNode> nodes) throws SBMLException {
+		Object n[] = new ASTNodeValue[nodes.size()];
+		for (int i = 0; i < nodes.size(); i++) {
+			ASTNode ast = nodes.get(i);
+			n[i] = new ASTNodeValue(checkBrackets(ast).toString(), this);
 		}
 		return new ASTNodeValue(times(n).toString(), this);
 	}
@@ -1005,9 +1071,11 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNode)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#uMinus(org.sbml.jsbml.ASTNode
+	 * )
 	 */
-	public ASTNodeValue uMinus(ASTNodeValue node) {
+	public ASTNodeValue uMinus(ASTNode node) throws SBMLException {
 		return new ASTNodeValue(concat(Character.valueOf('-'),
 				checkBrackets(node)).toString(), this);
 	}
@@ -1015,25 +1083,26 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#unknownASTNode()
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#unknownValue()
 	 */
-	public ASTNodeValue unknownValue() {
-		return new ASTNodeValue(Character.toString('?'), this);
+	public ASTNodeValue unknownValue() throws SBMLException {
+		throw new SBMLException(
+				"cannot write unknown syntax tree nodes to a formula String");
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#xor(org.sbml.jsbml.ASTNode[])
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#xor(java.util.List)
 	 */
-	public ASTNodeValue xor(ASTNodeValue... nodes) {
+	public ASTNodeValue xor(List<ASTNode> nodes) throws SBMLException {
 		return logicalOperation(" xor ", nodes);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double, int,
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(double, int,
 	 * java.lang.String)
 	 */
 	public ASTNodeValue compile(double mantissa, int exponent, String units) {
@@ -1044,7 +1113,9 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantAvogadro(java.lang.String)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantAvogadro(java
+	 * .lang.String)
 	 */
 	public ASTNodeValue getConstantAvogadro(String name) {
 		return new ASTNodeValue("avogadro", this);

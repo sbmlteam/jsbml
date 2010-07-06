@@ -516,6 +516,61 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Method to test whether a {@link UnitDefinition} with the given identifier
+	 * has been declared in this model.
+	 * 
+	 * @param units
+	 * @return
+	 */
+	public boolean containsUnitDefinition(String units) {
+		return getUnitDefinition(units) != null;
+	}
+
+	/**
+	 * Method to test whether a {@link Species} with the given identifier has
+	 * been declared in this model.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean containsSpecies(String id) {
+		return getSpecies(id) != null;
+	}
+
+	/**
+	 * Method to test whether a {@link Compartment} with the given identifier
+	 * has been declared in this model.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean containsCompartment(String id) {
+		return getCompartment(id) != null;
+	}
+
+	/**
+	 * Method to test whether a {@link Parameter} with the given identifier has
+	 * been declared in this model.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean containsParameter(String id) {
+		return getParameter(id) != null;
+	}
+
+	/**
+	 * Method to test whether a {@link FunctionDefinition} with the given
+	 * identifier has been declared in this model.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean containsFunctionDefinition(String id) {
+		return getFunctionDefinition(id) != null;
+	}
+
+	/**
 	 * Creates a new {@link AlgebraicRule} inside this {@link Model} and returns
 	 * it.
 	 * <p>

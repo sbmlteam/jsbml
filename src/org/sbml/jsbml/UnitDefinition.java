@@ -34,7 +34,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.ListOf.Type;
-import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -55,6 +54,28 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public static final UnitDefinition area(int level, int version) {
 		return getPredefinedUnit("area", level, version);
+	}
+
+	/**
+	 * Checks whether the given {@link UnitDefinition} and the
+	 * {@link UnitDefinition} or {@link Unit} represented by the given
+	 * {@link String} are equivalent.
+	 * 
+	 * @param ud
+	 * @param units
+	 * @return
+	 * @see #areEquivalent(UnitDefinition, UnitDefinition)
+	 * @see Unit#areEquivalent(Unit, Unit)
+	 */
+	public static boolean areEquivalent(UnitDefinition ud, String units) {
+		UnitDefinition ud2 = ud.getModel().getUnitDefinition(units);
+		if (ud2 != null) {
+			return areEquivalent(ud, ud2);
+		} else if (ud.isUnitKind()
+				&& Unit.isUnitKind(units, ud.getLevel(), ud.getVersion())) {
+			return Unit.areEquivalent(ud.getUnit(0), units);
+		}
+		return false;
 	}
 
 	/**
@@ -184,7 +205,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * Test if the given unit is a predefined unit.
 	 * 
 	 * @param ud
-	 * @deprecated use isPredefined
+	 * @deprecated use {@link #isPredefined()}
 	 */
 	@Deprecated
 	public static boolean isBuiltIn(UnitDefinition ud) {
@@ -204,11 +225,22 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if (ud.getNumUnits() == 1) {
 			UnitDefinition predef = getPredefinedUnit(ud.getId(),
 					ud.getLevel(), ud.getVersion());
-			if ((predef != null) && Unit.isBuiltIn(ud.getId(), ud.getLevel())) {
+			if ((predef != null)
+					&& Unit.isPredefined(ud.getId(), ud.getLevel())) {
 				return ud.equals(predef);
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @param level
+	 * @return
+	 */
+	public static boolean isPredefined(String name, int level) {
+		return Unit.isPredefined(name, level);
 	}
 
 	/**
@@ -396,6 +428,14 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * @param unit
+	 */
+	public void addUnit(String unit) {
+		addUnit(Unit.Kind.valueOf(unit));
+	}
+
+	/**
 	 * Adds an Unit to this UnitDefinition.
 	 * 
 	 * @param u
@@ -462,7 +502,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return
 	 */
 	public Unit createUnit() {
-		return createUnit(Kind.INVALID);
+		return createUnit(Unit.Kind.INVALID);
 	}
 
 	/**
@@ -470,7 +510,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @param kind
 	 * @return
 	 */
-	public Unit createUnit(Kind kind) {
+	public Unit createUnit(Unit.Kind kind) {
 		Unit unit = new Unit(kind, getLevel(), getVersion());
 		addUnit(unit);
 
@@ -630,6 +670,23 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public boolean isSetListOfUnits() {
 		return this.listOfUnits != null;
+	}
+
+	/**
+	 * Convenient method to test whether this {@link UnitDefinition} contains
+	 * exactly one {@link Unit} that itself represents a {@link Kind}, i.e.,
+	 * multiplier = 1, exponent = 1, scale = 1. Note that this method requires
+	 * the level and version attributes of this {@link UnitDefinition} to be
+	 * set.
+	 * 
+	 * @return
+	 */
+	public boolean isUnitKind() {
+		if (getNumUnits() == 1) {
+			return Unit.isUnitKind(getUnit(0).getKind(), getLevel(),
+					getVersion());
+		}
+		return false;
 	}
 
 	/**
