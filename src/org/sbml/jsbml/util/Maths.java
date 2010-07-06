@@ -28,7 +28,6 @@
  */
 package org.sbml.jsbml.util;
 
-
 /**
  * This class provides several static methods for mathematical operations such
  * as faculty, logarithms and several trigonometric functions, which are not
@@ -42,11 +41,19 @@ package org.sbml.jsbml.util;
 public class Maths {
 
 	/**
-	 * Avogadro's constant of 6.02214179 &#8901; 10<sup>23</sup>
+	 * Avogadro's constant of 6.02214199 &#8901; 10<sup>23</sup>
 	 * mol<sup>-1</sup>. The standard deviation of this constant is 36 &#8901;
-	 * 10<sup>16</sup> mol<sup>-1</sup>.
+	 * 10<sup>16</sup> mol<sup>-1</sup>. See D. R. Linde, CRC Handbook of
+	 * Chemistry and PHysics, 81st ed., CRC Press, Boca Raton, Florida, 2000.
 	 */
-	public static final double AVOGADRO = 6.02214179 * Math.pow(10, 23);
+	public static final double AVOGADRO = 6.02214199 * Math.pow(10, 23);
+
+	/**
+	 * Universal gas constant of 8.314472 J &#8901; mol<sup>-1</sup> &#8901;
+	 * K<sup>-1</sup> according to D. R. Linde, CRC Handbook of Chemistry and
+	 * PHysics, 81st ed., CRC Press, Boca Raton, Florida, 2000.
+	 */
+	public static final double R = 8.314472;
 
 	/**
 	 * This method computes the arccosh of n

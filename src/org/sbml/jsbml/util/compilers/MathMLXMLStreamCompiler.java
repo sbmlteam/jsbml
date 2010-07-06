@@ -28,17 +28,17 @@
  */
 package org.sbml.jsbml.util.compilers;
 
+import java.util.List;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.sbml.jsbml.ASTNodeCompiler;
-import org.sbml.jsbml.ASTNodeValue;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.StringTools;
-
 
 /**
  * @author rodrigue
@@ -46,45 +46,46 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 
-	private XMLStreamWriter writer;
 	private String indent;
-	
+	private XMLStreamWriter writer;
+
 	public MathMLXMLStreamCompiler(XMLStreamWriter writer, String indent) {
 		if (writer == null) {
-			throw new IllegalArgumentException("Cannot create a MathMLXMLStreamCompiler with a null writer !!");
+			throw new IllegalArgumentException(
+					"Cannot create a MathMLXMLStreamCompiler with a null writer !!");
 		}
-		
+
 		this.writer = writer;
 		this.indent = indent;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue abs(ASTNodeValue value) {
+	public ASTNodeValue abs(ASTNode value) {
 		try {
 			writer.writeCharacters(indent);
 			writer.writeEmptyElement("abs");
 			writer.writeCharacters(StringTools.newLine());
-			
+
 		} catch (XMLStreamException e) {
-			
+
 			e.printStackTrace();
 		}
-		
+
 		// TODO : compile the value
-		
+
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#and(org.sbml.jsbml.ASTNodeValue[])
+	 * @see org.sbml.jsbml.ASTNodeCompiler#and(org.sbml.jsbml.ASTNode[])
 	 */
-	public ASTNodeValue and(ASTNodeValue... values) {
+	public ASTNodeValue and(List<ASTNode> values) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -92,9 +93,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccos(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arccos(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue arccos(ASTNodeValue value) {
+	public ASTNodeValue arccos(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -102,9 +103,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccosh(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arccosh(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue arccosh(ASTNodeValue value) {
+	public ASTNodeValue arccosh(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -112,9 +113,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccot(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arccot(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue arccot(ASTNodeValue value) {
+	public ASTNodeValue arccot(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -122,9 +123,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccoth(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arccoth(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue arccoth(ASTNodeValue value) {
+	public ASTNodeValue arccoth(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -132,9 +133,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccsc(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arccsc(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue arccsc(ASTNodeValue value) {
+	public ASTNodeValue arccsc(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -142,9 +143,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccsch(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arccsch(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue arccsch(ASTNodeValue value) {
+	public ASTNodeValue arccsch(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -152,9 +153,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsec(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsec(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue arcsec(ASTNodeValue value) {
+	public ASTNodeValue arcsec(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -162,9 +163,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsech(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsech(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue arcsech(ASTNodeValue value) {
+	public ASTNodeValue arcsech(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -172,9 +173,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsin(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsin(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue arcsin(ASTNodeValue value) {
+	public ASTNodeValue arcsin(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -182,9 +183,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsinh(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsinh(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue arcsinh(ASTNodeValue value) {
+	public ASTNodeValue arcsinh(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -192,9 +193,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arctan(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arctan(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue arctan(ASTNodeValue value) {
+	public ASTNodeValue arctan(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -202,9 +203,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arctanh(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#arctanh(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue arctanh(ASTNodeValue value) {
+	public ASTNodeValue arctanh(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -212,9 +213,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#ceiling(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#ceiling(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue ceiling(ASTNodeValue value) {
+	public ASTNodeValue ceiling(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -232,30 +233,34 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(double, int,
+	 * java.lang.String)
 	 */
-	public ASTNodeValue compile(double real) {
+	public ASTNodeValue compile(double mantissa, int exponent, String units) {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(int)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(double,
+	 * java.lang.String)
 	 */
-	public ASTNodeValue compile(int integer) {
+	public ASTNodeValue compile(double real, String units) {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		return null;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(int,
+	 * java.lang.String)
 	 */
-	public ASTNodeValue uMinus(ASTNodeValue value) {
+	public ASTNodeValue compile(int integer, String units) {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		return null;
 	}
 
 	/*
@@ -282,9 +287,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#cos(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#cos(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue cos(ASTNodeValue value) {
+	public ASTNodeValue cos(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -292,9 +297,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#cosh(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#cosh(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue cosh(ASTNodeValue value) {
+	public ASTNodeValue cosh(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -302,9 +307,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#cot(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#cot(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue cot(ASTNodeValue value) {
+	public ASTNodeValue cot(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -312,9 +317,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#coth(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#coth(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue coth(ASTNodeValue value) {
+	public ASTNodeValue coth(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -322,9 +327,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#csc(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#csc(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue csc(ASTNodeValue value) {
+	public ASTNodeValue csc(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -332,9 +337,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#csch(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#csch(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue csch(ASTNodeValue value) {
+	public ASTNodeValue csch(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -342,31 +347,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#delay(org.sbml.jsbml.ASTNodeValue,
-	 * double)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#delay(org.sbml.jsbml.ASTNode, double)
 	 */
-	public ASTNodeValue delay(ASTNodeValue x, double d) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#equal(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue equal(ASTNodeValue left, ASTNodeValue right) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#exp(org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue exp(ASTNodeValue value) {
+	public ASTNodeValue delay(ASTNode x, double d) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -375,9 +358,11 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#factorial(org.sbml.jsbml.ASTNodeValue)
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#delay(java.lang.String,
+	 * org.sbml.jsbml.util.compilers.ASTNodeValue, double, java.lang.String)
 	 */
-	public ASTNodeValue factorial(ASTNodeValue value) {
+	public ASTNodeValue delay(String delayName, ASTNode x, double d,
+			String timeUnits) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -385,9 +370,12 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#floor(org.sbml.jsbml.ASTNodeValue)
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#eq(org.sbml.jsbml.util.
+	 * compilers.ASTNode, org.sbml.jsbml.util.compilers.ASTNodeValue)
 	 */
-	public ASTNodeValue floor(ASTNodeValue value) {
+	public ASTNodeValue eq(ASTNode left, ASTNode right)
+			throws SBMLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -395,10 +383,51 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#frac(org.sbml.jsbml.ASTNodeValue,
+	 * @see org.sbml.jsbml.ASTNodeCompiler#equal(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue frac(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue equal(ASTNode left, ASTNode right) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#exp(org.sbml.jsbml.ASTNode)
+	 */
+	public ASTNodeValue exp(ASTNode value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#factorial(org.sbml.jsbml.ASTNode)
+	 */
+	public ASTNodeValue factorial(ASTNode value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#floor(org.sbml.jsbml.ASTNode)
+	 */
+	public ASTNodeValue floor(ASTNode value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#frac(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNodeValue)
+	 */
+	public ASTNodeValue frac(ASTNode left, ASTNode right) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -418,10 +447,35 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	 * 
 	 * @see
 	 * org.sbml.jsbml.ASTNodeCompiler#function(org.sbml.jsbml.FunctionDefinition
-	 * , org.sbml.jsbml.ASTNodeValue[])
+	 * , org.sbml.jsbml.ASTNode[])
 	 */
 	public ASTNodeValue function(FunctionDefinition namedSBase,
-			ASTNodeValue... args) {
+			List<ASTNode> args) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#geq(org.sbml.jsbml.util
+	 * .compilers.ASTNode, org.sbml.jsbml.util.compilers.ASTNodeValue)
+	 */
+	public ASTNodeValue geq(ASTNode left, ASTNode right)
+			throws SBMLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantAvogadro(java
+	 * .lang.String)
+	 */
+	public ASTNodeValue getConstantAvogadro(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -489,11 +543,10 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#greaterEqual(org.sbml.jsbml.ASTNodeValue,
+	 * @see org.sbml.jsbml.ASTNodeCompiler#greaterEqual(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue greaterEqual(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue greaterEqual(ASTNode left, ASTNode right) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -501,21 +554,10 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#greaterThan(org.sbml.jsbml.ASTNodeValue,
+	 * @see org.sbml.jsbml.ASTNodeCompiler#greaterThan(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue greaterThan(ASTNodeValue left, ASTNodeValue right) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#lambda(org.sbml.jsbml.ASTNodeValue[])
-	 */
-	public ASTNodeValue lambda(ASTNodeValue... values) {
+	public ASTNodeValue greaterThan(ASTNode left, ASTNode right) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -524,10 +566,11 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#lessEqual(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#gt(org.sbml.jsbml.util.
+	 * compilers.ASTNode, org.sbml.jsbml.util.compilers.ASTNodeValue)
 	 */
-	public ASTNodeValue lessEqual(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue gt(ASTNode left, ASTNode right)
+			throws SBMLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -535,82 +578,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#lessThan(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#lambda(org.sbml.jsbml.ASTNode[])
 	 */
-	public ASTNodeValue lessThan(ASTNodeValue left, ASTNodeValue right) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#ln(org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue ln(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue log(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue log(ASTNodeValue left, ASTNodeValue right) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#minus(org.sbml.jsbml.ASTNodeValue[])
-	 */
-	public ASTNodeValue minus(ASTNodeValue... values) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#not(org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue not(ASTNodeValue value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#notEqual(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue notEqual(ASTNodeValue left, ASTNodeValue right) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#or(org.sbml.jsbml.ASTNodeValue[])
-	 */
-	public ASTNodeValue or(ASTNodeValue... values) {
+	public ASTNodeValue lambda(List<ASTNode> values) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -619,9 +589,11 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#piecewise(org.sbml.jsbml.ASTNodeValue[])
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#leq(org.sbml.jsbml.util
+	 * .compilers.ASTNode, org.sbml.jsbml.util.compilers.ASTNodeValue)
 	 */
-	public ASTNodeValue piecewise(ASTNodeValue... values) {
+	public ASTNodeValue leq(ASTNode left, ASTNode right)
+			throws SBMLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -629,9 +601,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#plus(org.sbml.jsbml.ASTNodeValue[])
+	 * @see org.sbml.jsbml.ASTNodeCompiler#ln(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue plus(ASTNodeValue... values) {
+	public ASTNodeValue ln(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -639,10 +611,20 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#pow(org.sbml.jsbml.ASTNodeValue,
+	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode)
+	 */
+	public ASTNodeValue log(ASTNode value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue pow(ASTNodeValue left, ASTNodeValue right) {
+	public ASTNodeValue log(ASTNode left, ASTNode right) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -650,10 +632,97 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#root(org.sbml.jsbml.ASTNodeValue,
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#lt(org.sbml.jsbml.util.
+	 * compilers.ASTNode, org.sbml.jsbml.util.compilers.ASTNodeValue)
+	 */
+	public ASTNodeValue lt(ASTNode left, ASTNode right)
+			throws SBMLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#minus(org.sbml.jsbml.ASTNode[])
+	 */
+	public ASTNodeValue minus(List<ASTNode> values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#neq(org.sbml.jsbml.util
+	 * .compilers.ASTNodeValue, org.sbml.jsbml.util.compilers.ASTNodeValue)
+	 */
+	public ASTNodeValue neq(ASTNode left, ASTNode right)
+			throws SBMLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#not(org.sbml.jsbml.ASTNode)
+	 */
+	public ASTNodeValue not(ASTNode value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#or(org.sbml.jsbml.ASTNode[])
+	 */
+	public ASTNodeValue or(List<ASTNode> values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#piecewise(org.sbml.jsbml.ASTNode[])
+	 */
+	public ASTNodeValue piecewise(List<ASTNode> values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#plus(org.sbml.jsbml.ASTNode[])
+	 */
+	public ASTNodeValue plus(List<ASTNode> values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#pow(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue root(ASTNodeValue rootExponent, ASTNodeValue radiant) {
+	public ASTNodeValue pow(ASTNode left, ASTNode right) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#root(org.sbml.jsbml.ASTNode,
+	 * org.sbml.jsbml.ASTNodeValue)
+	 */
+	public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -664,7 +733,7 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#root(double,
 	 * org.sbml.jsbml.ASTNodeValue)
 	 */
-	public ASTNodeValue root(double rootExponent, ASTNodeValue radiant) {
+	public ASTNodeValue root(double rootExponent, ASTNode radiant) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -672,9 +741,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sec(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#sec(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue sec(ASTNodeValue value) {
+	public ASTNodeValue sec(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -682,9 +751,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sech(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#sech(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue sech(ASTNodeValue value) {
+	public ASTNodeValue sech(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -692,9 +761,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sin(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#sin(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue sin(ASTNodeValue value) {
+	public ASTNodeValue sin(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -702,9 +771,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sinh(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#sinh(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue sinh(ASTNodeValue value) {
+	public ASTNodeValue sinh(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -712,9 +781,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sqrt(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#sqrt(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue sqrt(ASTNodeValue value) {
+	public ASTNodeValue sqrt(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -732,9 +801,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#tan(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#tan(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue tan(ASTNodeValue value) {
+	public ASTNodeValue tan(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -742,9 +811,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#tanh(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#tanh(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue tanh(ASTNodeValue value) {
+	public ASTNodeValue tanh(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -752,9 +821,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#times(org.sbml.jsbml.ASTNodeValue[])
+	 * @see org.sbml.jsbml.ASTNodeCompiler#times(org.sbml.jsbml.ASTNode[])
 	 */
-	public ASTNodeValue times(ASTNodeValue... values) {
+	public ASTNodeValue times(List<ASTNode> values) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -762,11 +831,21 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNode)
 	 */
-	public ASTNodeValue uiMinus(ASTNodeValue value) {
+	public ASTNodeValue uiMinus(ASTNode value) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNode)
+	 */
+	public ASTNodeValue uMinus(ASTNode value) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
 	}
 
 	/*
@@ -782,82 +861,9 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#xor(org.sbml.jsbml.ASTNodeValue[])
+	 * @see org.sbml.jsbml.ASTNodeCompiler#xor(org.sbml.jsbml.ASTNode[])
 	 */
-	public ASTNodeValue xor(ASTNodeValue... values) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ASTNodeValue compile(double mantissa, int exponent, String units) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ASTNodeValue compile(double real, String units) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ASTNodeValue compile(int integer, String units) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ASTNodeValue delay(String delayName, ASTNodeValue x, double d,
-			String timeUnits) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ASTNodeValue eq(ASTNodeValue left, ASTNodeValue right)
-			throws SBMLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ASTNodeValue geq(ASTNodeValue left, ASTNodeValue right)
-			throws SBMLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ASTNodeValue getConstantAvogadro(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ASTNodeValue gt(ASTNodeValue left, ASTNodeValue right)
-			throws SBMLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ASTNodeValue leq(ASTNodeValue left, ASTNodeValue right)
-			throws SBMLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ASTNodeValue lt(ASTNodeValue left, ASTNodeValue right)
-			throws SBMLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ASTNodeValue neq(ASTNodeValue left, ASTNodeValue right)
-			throws SBMLException {
+	public ASTNodeValue xor(List<ASTNode> values) {
 		// TODO Auto-generated method stub
 		return null;
 	}
