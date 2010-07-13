@@ -39,7 +39,7 @@ import org.sbml.jsbml.Unit.Kind;
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
  * @date 2010-04-20
- * 
+ * @has 0..1 units 1 UnitDefinition
  */
 public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 		implements Quantity {

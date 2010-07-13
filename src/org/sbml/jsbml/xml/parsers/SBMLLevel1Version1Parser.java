@@ -854,8 +854,8 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	private void setInitialAssignmentSymbol(
 			InitialAssignment initialAssignment, Model model) {
 
-		if (initialAssignment.isSetSymbol()) {
-			String variableID = initialAssignment.getSymbol();
+		if (initialAssignment.isSetVariable()) {
+			String variableID = initialAssignment.getVariable();
 
 			Compartment compartment = model.getCompartment(variableID);
 			Species species = null;
@@ -889,20 +889,20 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 							speciesReference = sr;
 
 							if (speciesReference != null) {
-								initialAssignment.setState(speciesReference);
+								initialAssignment.setVariable(speciesReference);
 							} else {
 								// TODO : the variable ID doesn't match a SBML
 								// component, throw an exception?
 							}
 						}
 					} else {
-						initialAssignment.setState(parameter);
+						initialAssignment.setVariable(parameter);
 					}
 				} else {
-					initialAssignment.setState(species);
+					initialAssignment.setVariable(species);
 				}
 			} else {
-				initialAssignment.setState(compartment);
+				initialAssignment.setVariable(compartment);
 			}
 		}
 	}

@@ -47,14 +47,14 @@ public class InitialAssignment extends MathContainer {
 	/**
 	 * Represents the 'symbol' XML attribute of an initialAssignmnent element.
 	 */
-	private String symbolID;
+	private String variableID;
 
 	/**
-	 * Creates an InitialAssignment instance. By default, symbolID is null.
+	 * Creates an InitialAssignment instance. By default, variableID is null.
 	 */
 	public InitialAssignment() {
 		super();
-		this.symbolID = null;
+		this.variableID = null;
 	}
 
 	/**
@@ -64,18 +64,16 @@ public class InitialAssignment extends MathContainer {
 	 */
 	public InitialAssignment(InitialAssignment sb) {
 		super(sb);
-		if (sb.isSetSymbol()) {
-			this.symbolID = new String(sb.getSymbol());
+		if (sb.isSetVariable()) {
+			this.variableID = new String(sb.getVariable());
 		} else {
-			this.symbolID = null;
+			this.variableID = null;
 		}
 	}
 
 	/**
-	 * Creates an InitialAssignment from a Symbol, ASTNode, level and version.
+	 * Creates an InitialAssignment from level and version.
 	 * 
-	 * @param symbol
-	 * @param math
 	 * @param level
 	 * @param version
 	 */
@@ -84,56 +82,59 @@ public class InitialAssignment extends MathContainer {
 	}
 
 	/**
-	 * Creates an InitialAssignment from a Symbol, ASTNode, level and version.
+	 * Creates an InitialAssignment from a {@link Variable}, {@link ASTNode},
+	 * level and version.
 	 * 
-	 * @param symbol
+	 * @param variable
 	 * @param math
 	 * @param level
 	 * @param version
 	 */
-	public InitialAssignment(Symbol symbol, ASTNode math, int level, int version) {
+	public InitialAssignment(Variable variable, ASTNode math, int level,
+			int version) {
 		super(math, level, version);
-		if (symbol.isSetId()) {
-			this.symbolID = new String(symbol.getId());
+		if (variable.isSetId()) {
+			this.variableID = new String(variable.getId());
 		} else {
-			this.symbolID = null;
+			this.variableID = null;
 		}
 	}
 
 	/**
-	 * Creates an InitialAssignment instance from a Symbol. Takes level and
-	 * version from the given symbol.
+	 * Creates an InitialAssignment instance from a {@link Variable}. Takes
+	 * level and version from the given variable.
 	 * 
-	 * @param symbol
+	 * @param variable
 	 */
-	public InitialAssignment(Variable symbol) {
-		super(symbol.getLevel(), symbol.getVersion());
-		if (symbol.isSetId()) {
-			this.symbolID = new String(symbol.getId());
+	public InitialAssignment(Variable variable) {
+		super(variable.getLevel(), variable.getVersion());
+		if (variable.isSetId()) {
+			this.variableID = new String(variable.getId());
 		} else {
-			this.symbolID = null;
+			this.variableID = null;
 		}
 	}
 
 	/**
-	 * Sets the symbolID of this InitialAssignment to 'symbol'. If this symbolID
-	 * doesn't match any Symbol id in Model (Compartment, Species,
-	 * SpeciesReference or Parameter), an IllegalArgumentException is thrown.
+	 * Sets the variableID of this InitialAssignment to 'variable'. If this
+	 * variableID doesn't match any {@link Variable} id in {@link Model} (
+	 * {@link Compartment}, {@link Species}, {@link SpeciesReference}, or
+	 * {@link Parameter}), an {@link IllegalArgumentException} is thrown.
 	 * 
-	 * @param symbol
+	 * @param variable
 	 *            : the symbol to set
 	 */
-	public void checkAndSetSymbol(String symbol) {
+	public void checkAndSetVariable(String variable) {
 		Variable nsb = null;
 		Model m = getModel();
 		if (m != null) {
-			nsb = m.findVariable(symbol);
+			nsb = m.findVariable(variable);
 		}
 		if (nsb == null) {
 			throw new IllegalArgumentException(
-					"Only the id of an existing Species, Compartments, or Parameters allowed as symbols");
+					"only the id of an existing Species, Compartments, or Parameters allowed as variables");
 		}
-		setState(nsb.getId());
+		setVariable(nsb.getId());
 		stateChanged();
 	}
 
@@ -142,7 +143,7 @@ public class InitialAssignment extends MathContainer {
 	 * 
 	 * @see org.sbml.jsbml.element.MathContainer#clone()
 	 */
-	// @Override
+	@Override
 	public InitialAssignment clone() {
 		return new InitialAssignment(this);
 	}
@@ -157,12 +158,12 @@ public class InitialAssignment extends MathContainer {
 		if (o instanceof InitialAssignment) {
 			InitialAssignment in = (InitialAssignment) o;
 			boolean equals = super.equals(in);
-			if ((!in.isSetSymbol() && isSetSymbol())
-					|| (in.isSetSymbol() && !isSetSymbol())) {
+			if ((!in.isSetVariable() && isSetVariable())
+					|| (in.isSetVariable() && !isSetVariable())) {
 				return false;
 			}
-			if (in.isSetSymbol() && isSetSymbol()) {
-				equals &= in.getSymbol().equals(getSymbol());
+			if (in.isSetVariable() && isSetVariable()) {
+				equals &= in.getVariable().equals(getVariable());
 			}
 			return equals;
 		}
@@ -170,38 +171,38 @@ public class InitialAssignment extends MathContainer {
 	}
 
 	/**
-	 * @return the symbol instance which has the symbolID of this
+	 * @return the variable instance which has the variableID of this
 	 *         InitialAssignment as id. Return null if it doesn't exist.
 	 */
-	public Variable getStateInstance() {
+	public Variable getVariableInstance() {
 		Model m = getModel();
-		return m != null ? m.findVariable(this.symbolID) : null;
+		return m != null ? m.findVariable(this.variableID) : null;
 	}
 
 	/**
-	 * @return the symbolID of this InitialAssignment. Return an empty String if
-	 *         it is not set.
+	 * @return the variableID of this InitialAssignment. Return an empty String
+	 *         if it is not set.
 	 */
-	public String getSymbol() {
-		return isSetSymbol() ? symbolID : "";
+	public String getVariable() {
+		return isSetVariable() ? variableID : "";
 	}
 
 	/**
 	 * 
-	 * @return true if the symbolID of this InitialAssignment is not null.
+	 * @return true if the variableID of this InitialAssignment is not null.
 	 */
-	public boolean isSetSymbol() {
-		return symbolID != null;
+	public boolean isSetVariable() {
+		return variableID != null;
 	}
 
 	/**
 	 * 
-	 * @return true if the symbol instance which has the symbolID of this
-	 *         InitialAssignment as id is not null.
+	 * @return true if the {@link Variable} instance which has the variableID of
+	 *         this {@link InitialAssignment} as id is not null.
 	 */
-	public boolean isSetSymbolInstance() {
+	public boolean isSetVariableInstance() {
 		Model m = getModel();
-		return m != null ? m.findVariable(this.symbolID) != null : false;
+		return m != null ? m.findVariable(this.variableID) != null : false;
 	}
 
 	/*
@@ -218,7 +219,7 @@ public class InitialAssignment extends MathContainer {
 
 		if (!isAttributeRead) {
 			if (attributeName.equals("symbol")) {
-				this.setState(value);
+				this.setVariable(value);
 				return true;
 			}
 		}
@@ -226,33 +227,34 @@ public class InitialAssignment extends MathContainer {
 	}
 
 	/**
-	 * Sets the symbolID of this InitialAssignment to 'symbol'.
+	 * Sets the variableID of this InitialAssignment to 'variable'.
 	 * 
-	 * @param symbol
-	 *            : the symbol to set
+	 * @param variable
+	 *            : the variable to set
 	 */
-	public void setState(String symbol) {
-		this.symbolID = symbol;
+	public void setVariable(String variable) {
+		this.variableID = variable;
 		stateChanged();
 	}
 
 	/**
-	 * Sets the symbolID of this InitialAssignment to the id of the Symbol
-	 * 'symbol'.
+	 * Sets the variableID of this InitialAssignment to the id of the
+	 * {@link Variable} 'variable'.
 	 * 
-	 * @param state
-	 *            : the symbol to set
+	 * @param variable
+	 *            : the variable to set
 	 */
-	public void setState(Variable state) {
-		this.symbolID = state != null ? state.getId() : null;
+	public void setVariable(Variable variable) {
+		this.variableID = variable != null ? variable.getId() : null;
 		stateChanged();
 	}
 
 	/**
-	 * Sets the symbolID of this InitialAssignment to null.
+	 * Removes the reference from this InitialAssignment to its {@link Variable}
+	 * if there was any.
 	 */
-	public void unsetSymbol() {
-		this.symbolID = null;
+	public void unsetVariable() {
+		this.variableID = null;
 	}
 
 	/*
@@ -264,8 +266,8 @@ public class InitialAssignment extends MathContainer {
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 
-		if (isSetSymbol()) {
-			attributes.put("symbol", getSymbol());
+		if (isSetVariable()) {
+			attributes.put("symbol", getVariable());
 		}
 
 		return attributes;
