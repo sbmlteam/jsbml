@@ -53,7 +53,12 @@ public class AssignmentRule extends Rule {
 	private String variableID;
 
 	/**
-	 * represents the 'units' XML attribute of a ParameterRule.
+	 * Represents the 'units' XML attribute of a ParameterRule.
+	 * 
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
 	 */
 	@Deprecated
 	private String unitsID;
@@ -131,7 +136,7 @@ public class AssignmentRule extends Rule {
 			this.variableID = null;
 		}
 		UnitDefinition ud = variable.getDerivedUnitDefinition();
-		if (ud != null && ud.isSetId()) {
+		if ((ud != null) && ud.isSetId()) {
 			this.unitsID = new String(ud.getId());
 		} else {
 			this.unitsID = null;
@@ -196,6 +201,10 @@ public class AssignmentRule extends Rule {
 
 	/**
 	 * @return the unitsID of this object.
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
 	 */
 	@Deprecated
 	public String getUnits() {
@@ -206,6 +215,10 @@ public class AssignmentRule extends Rule {
 	 * 
 	 * @return the UnitDefinition instance which matches the unitsID of this
 	 *         object.
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
 	 */
 	@Deprecated
 	public UnitDefinition getUnitsInstance() {
@@ -266,6 +279,10 @@ public class AssignmentRule extends Rule {
 	/**
 	 * 
 	 * @return true if the unitsID of this object is not null.
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
 	 */
 	@Deprecated
 	public boolean isSetUnits() {
@@ -276,6 +293,10 @@ public class AssignmentRule extends Rule {
 	 * 
 	 * @return true if the UnitsID of this object matches a no null
 	 *         UniDefinition of the model instance.
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
 	 */
 	@Deprecated
 	public boolean isSetUnitsInstance() {
@@ -351,6 +372,13 @@ public class AssignmentRule extends Rule {
 	 * Sets the unitsID to 'unitsID'.
 	 * 
 	 * @param unitsID
+	 *            A valid identifier of a {@link UnitDefinition} in the
+	 *            {@link Model} or the name of one of the {@link Unit.Kind} base
+	 *            types.
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
 	 */
 	@Deprecated
 	public void setUnits(String unitsID) {
@@ -362,6 +390,10 @@ public class AssignmentRule extends Rule {
 	 * Sets the unitsID of this object with the id of 'units'.
 	 * 
 	 * @param variable
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
 	 */
 	@Deprecated
 	public void setUnits(UnitDefinition units) {
@@ -389,7 +421,11 @@ public class AssignmentRule extends Rule {
 	}
 
 	/**
-	 * Unsets the unitsID of this AssignmentRule.
+	 * Unsets the unitsID of this {@link AssignmentRule}.
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
 	 */
 	@Deprecated
 	public void unsetUnits() {
