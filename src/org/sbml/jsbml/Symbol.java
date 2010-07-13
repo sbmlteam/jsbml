@@ -46,7 +46,6 @@ package org.sbml.jsbml;
  * @opt attributes
  * @opt types
  * @opt visibility
- * @has 0..1 units 1 UnitDefinition
  */
 public abstract class Symbol extends QuantityWithDefinedUnit implements
 		Variable {

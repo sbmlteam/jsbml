@@ -46,7 +46,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @opt types
  * @opt visibility
  * 
- * @composed 0..* ListOf 1 Parameter
+ * @composed 0..* ListOf 1 LocalParameter
  */
 public class KineticLaw extends MathContainer {
 

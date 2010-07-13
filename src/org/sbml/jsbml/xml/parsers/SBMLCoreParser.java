@@ -729,8 +729,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					InitialAssignment initialAssignment = model
 							.getInitialAssignment(i);
 
-					if (initialAssignment.isSetSymbol()
-							&& !initialAssignment.isSetSymbolInstance()) {
+					if (initialAssignment.isSetVariable()
+							&& !initialAssignment.isSetVariableInstance()) {
 						// TODO : throw an exception : No Symbol matches the
 						// symbolID of initialAssignment.
 					}
