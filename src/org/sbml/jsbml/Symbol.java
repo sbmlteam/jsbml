@@ -156,7 +156,10 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	 * @see org.sbml.jsbml.Variable#getConstant()
 	 */
 	public boolean getConstant() {
-		return isSetConstant() ? this.constant.booleanValue() : false;
+		// Cannot use the method isSetConstant here as for level 2 we put a value in constant but without using the setConstant
+		// method, so the boolean isSetConstant is false and the value set, corresponding to the default value in the specs, is never returned.
+		// TODO : check if they are some other cases like that !!
+		return constant != null ? this.constant.booleanValue() : false;
 	}
 
 	/*
@@ -165,7 +168,8 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	 * @see org.sbml.jsbml.Variable#isConstant()
 	 */
 	public boolean isConstant() {
-		return isSetConstant() ? constant : false;
+		// For the same reason as in the getConstant method, we cannot use the isSetConstant method.
+		return constant != null ? constant : false;
 	}
 
 	/*
@@ -195,5 +199,6 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	 */
 	public void unsetConstant() {
 		this.constant = null;
+		isSetConstant = false;
 	}
 }
