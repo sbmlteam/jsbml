@@ -79,6 +79,24 @@ public abstract class Rule extends MathContainer {
 		super(sb);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.MathContainer#clone()
+	 */
+	@Override
+	public abstract Rule clone();
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.MathContainer#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		return (o instanceof Rule) ? super.equals(o) : false;
+	}
+
 	/**
 	 * 
 	 * @return true if this Rule is an AlgebraicRule instance.

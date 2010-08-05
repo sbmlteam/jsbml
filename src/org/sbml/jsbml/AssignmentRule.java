@@ -43,14 +43,7 @@ import java.util.HashMap;
  * @opt types
  * @opt visibility
  */
-public class AssignmentRule extends Rule {
-
-	/**
-	 * represents the id of a compartment, species, speciesReference or
-	 * parameter. Matches the variable XML attribute of an assignmentRule
-	 * element.
-	 */
-	private String variableID;
+public class AssignmentRule extends ExplicitRule {
 
 	/**
 	 * Represents the 'units' XML attribute of a ParameterRule.
@@ -68,7 +61,6 @@ public class AssignmentRule extends Rule {
 	 */
 	public AssignmentRule() {
 		super();
-		this.variableID = null;
 		this.unitsID = null;
 	}
 
@@ -79,11 +71,6 @@ public class AssignmentRule extends Rule {
 	 */
 	public AssignmentRule(AssignmentRule sb) {
 		super(sb);
-		if (sb.isSetVariable()) {
-			this.variableID = new String(sb.getVariable());
-		} else {
-			this.variableID = null;
-		}
 		if (sb.isSetUnits()) {
 			this.unitsID = new String(sb.getUnits());
 		} else {
@@ -101,7 +88,6 @@ public class AssignmentRule extends Rule {
 	 */
 	public AssignmentRule(int level, int version) {
 		super(level, version);
-		this.variableID = null;
 	}
 
 	/**
@@ -129,40 +115,13 @@ public class AssignmentRule extends Rule {
 	 * version from the variable.
 	 */
 	public AssignmentRule(Variable variable) {
-		super(variable.getLevel(), variable.getVersion());
-		if (variable.isSetId()) {
-			this.variableID = new String(variable.getId());
-		} else {
-			this.variableID = null;
-		}
+		super(variable);
 		UnitDefinition ud = variable.getDerivedUnitDefinition();
 		if ((ud != null) && ud.isSetId()) {
 			this.unitsID = new String(ud.getId());
 		} else {
 			this.unitsID = null;
 		}
-	}
-
-	/**
-	 * Sets the variableID of this object with 'variable'. It looks first for an
-	 * existing instance of compartment, species, speciesReference or parameter
-	 * with 'variable' as is value, and then initialises the variableID of this
-	 * object with the id of the variable instance. If no variable instance
-	 * matches the 'variable' String, an exception is thrown.
-	 * 
-	 * @param variable
-	 */
-	public void checkAndSetVariable(String variable) {
-		Variable nsb = null;
-		Model model = getModel();
-		if (model != null) {
-			nsb = model.findVariable(variable);
-		}
-		if (nsb == null) {
-			throw new IllegalArgumentException(
-					"Only the id of an existing Species, Compartments, or Parameters allowed as variables");
-		}
-		setVariable(nsb.getId());
 	}
 
 	/*
@@ -185,10 +144,6 @@ public class AssignmentRule extends Rule {
 			AssignmentRule rule = (AssignmentRule) o;
 			boolean equals = super.equals(rule);
 			if (equals) {
-				equals &= isSetVariable() == rule.isSetVariable();
-				if (equals && isSetVariable()) {
-					equals &= getVariable().equals(rule.getVariable());
-				}
 				equals &= isSetUnits() == rule.isSetUnits();
 				if (equals && isSetUnits()) {
 					equals &= getUnits().equals(rule.getUnits());
@@ -228,56 +183,6 @@ public class AssignmentRule extends Rule {
 
 	/**
 	 * 
-	 * @return the variableID of this object.
-	 */
-	public String getVariable() {
-		return variableID;
-	}
-
-	/**
-	 * 
-	 * @return the variable instance which matches the variableID of this
-	 *         object.
-	 */
-	public Variable getVariableInstance() {
-		Model model = getModel();
-		return model != null ? model.findVariable(this.variableID) : null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Rule#isCompartmentVolume()
-	 */
-	@Override
-	public boolean isCompartmentVolume() {
-		return isSetVariable()
-				&& (getVariableInstance() instanceof Compartment);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Rule#isParameter()
-	 */
-	@Override
-	public boolean isParameter() {
-		return isSetVariable() && (getVariableInstance() instanceof Parameter);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Rule#isScalar()
-	 */
-	@Override
-	public boolean isScalar() {
-		// TODO
-		return true;
-	}
-
-	/**
-	 * 
 	 * @return true if the unitsID of this object is not null.
 	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
 	 *             but can only be used in conjunction with {@link Parameter}s.
@@ -303,36 +208,6 @@ public class AssignmentRule extends Rule {
 		Model model = getModel();
 		return model != null ? model.getUnitDefinition(this.unitsID) != null
 				: false;
-	}
-
-	/**
-	 * 
-	 * @return true if the variableID of this object is not null.
-	 */
-	public boolean isSetVariable() {
-		return variableID != null;
-	}
-
-	/**
-	 * 
-	 * @return true if the variableID of this object matches a no null
-	 *         compartment, parameter, species or speciesReference of the model
-	 *         instance.
-	 */
-	public boolean isSetVariableInstance() {
-		Model model = getModel();
-		return model != null ? model.findVariable(this.variableID) != null
-				: false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Rule#isSpeciesConcentration()
-	 */
-	@Override
-	public boolean isSpeciesConcentration() {
-		return isSetVariable() && (getVariableInstance() instanceof Species);
 	}
 
 	/*
@@ -398,26 +273,6 @@ public class AssignmentRule extends Rule {
 	@Deprecated
 	public void setUnits(UnitDefinition units) {
 		this.unitsID = units.isSetId() ? units.getId() : null;
-	}
-
-	/**
-	 * Sets the variableID to 'variableID'.
-	 * 
-	 * @param variableID
-	 */
-	public void setVariable(String variableID) {
-		this.variableID = variableID;
-		stateChanged();
-	}
-
-	/**
-	 * Sets the variableID to the id of 'variable'.
-	 * 
-	 * @param variable
-	 */
-	public void setVariable(Variable variable) {
-		this.variableID = variable != null ? variable.getId() : null;
-		stateChanged();
 	}
 
 	/**
