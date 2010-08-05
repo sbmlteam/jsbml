@@ -112,16 +112,6 @@ public class AlgebraicRule extends Rule {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.Rule#isScalar()
-	 */
-	@Override
-	public boolean isScalar() {
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.element.Rule#isSpeciesConcentration()
 	 */
 	@Override
