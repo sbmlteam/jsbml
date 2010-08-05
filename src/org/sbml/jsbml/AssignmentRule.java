@@ -129,7 +129,7 @@ public class AssignmentRule extends ExplicitRule {
 	 * 
 	 * @see org.sbml.jsbml.element.MathContainer#clone()
 	 */
-	// @Override
+	@Override
 	public AssignmentRule clone() {
 		return new AssignmentRule(this);
 	}
@@ -179,6 +179,15 @@ public class AssignmentRule extends ExplicitRule {
 	public UnitDefinition getUnitsInstance() {
 		Model model = getModel();
 		return model != null ? model.getUnitDefinition(this.unitsID) : null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ExplicitRule#isScalar()
+	 */
+	@Override
+	public boolean isScalar() {
+		return true;
 	}
 
 	/**
@@ -289,8 +298,7 @@ public class AssignmentRule extends ExplicitRule {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Rule#writeXMLAttributes()
+	 * @see org.sbml.jsbml.ExplicitRule#writeXMLAttributes()
 	 */
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
@@ -315,7 +323,6 @@ public class AssignmentRule extends ExplicitRule {
 		if (isSetUnits() && getLevel() == 1) {
 			attributes.put("units", getUnits());
 		}
-
 		return attributes;
 	}
 

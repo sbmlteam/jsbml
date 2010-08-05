@@ -138,16 +138,6 @@ public abstract class Rule extends MathContainer {
 	}
 
 	/**
-	 * Predicate returning true or false depending on whether this Rule is an
-	 * AssignmentRule (SBML Level 2) or has a 'type' attribute value of 'scalar'
-	 * (SBML Level 1).
-	 * 
-	 * @return true if this Rule is an AssignmentRule (Level 2) or has type
-	 *         'scalar' (Level 1), false otherwise.
-	 */
-	public abstract boolean isScalar();
-
-	/**
 	 * (SBML Level 1 only) Predicate returning true or false depending on
 	 * whether this Rule is an SpeciesConcentrationRule.
 	 * 

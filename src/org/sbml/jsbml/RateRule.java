@@ -30,7 +30,6 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
 
 /**
  * 
@@ -86,12 +85,7 @@ public class RateRule extends ExplicitRule {
 	 * @param math
 	 */
 	public RateRule(Variable variable, ASTNode math) {
-		super(math, variable.getLevel(), variable.getVersion());
-		if (variable.isSetId()) {
-			this.variableID = new String(variable.getId());
-		} else {
-			this.variableID = null;
-		}
+		super(math, variable);
 	}
 
 	/*
@@ -99,7 +93,7 @@ public class RateRule extends ExplicitRule {
 	 * 
 	 * @see org.sbml.jsbml.element.MathContainer#clone()
 	 */
-	// @Override
+	@Override
 	public RateRule clone() {
 		return new RateRule(this);
 	}
@@ -116,37 +110,10 @@ public class RateRule extends ExplicitRule {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
+	 * @see org.sbml.jsbml.ExplicitRule#isScalar()
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-
-		if (attributeName.equals("variable")) {
-			this.checkAndSetVariable(value);
-			return true;
-		}
-
-		return isAttributeRead;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
-	 */
-	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
-
-		if (isSetVariable()) {
-			attributes.put("variable", getVariable());
-		}
-
-		return attributes;
+	public boolean isScalar() {
+		return false;
 	}
 }
