@@ -43,19 +43,13 @@ import java.util.HashMap;
  * @opt types
  * @opt visibility
  */
-public class RateRule extends Rule {
-
-	/**
-	 * Represents the 'variable' XML attribute of a rateRule element.
-	 */
-	private String variableID;
+public class RateRule extends ExplicitRule {
 
 	/**
 	 * Creates a RateRule instance. By default, the variableID is null.
 	 */
 	public RateRule() {
 		super();
-		this.variableID = null;
 	}
 
 	/**
@@ -65,7 +59,6 @@ public class RateRule extends Rule {
 	 */
 	public RateRule(int level, int version) {
 		super(level, version);
-		this.variableID = null;
 	}
 
 	/**
@@ -73,11 +66,6 @@ public class RateRule extends Rule {
 	 */
 	public RateRule(RateRule sb) {
 		super(sb);
-		if (sb.isSetVariable()) {
-			this.variableID = new String(sb.getVariable());
-		} else {
-			this.variableID = null;
-		}
 	}
 
 	/**
@@ -87,12 +75,7 @@ public class RateRule extends Rule {
 	 * @param variable
 	 */
 	public RateRule(Variable variable) {
-		super(variable.getLevel(), variable.getVersion());
-		if (variable.isSetId()) {
-			this.variableID = new String(variable.getId());
-		} else {
-			this.variableID = null;
-		}
+		super(variable);
 	}
 
 	/**
@@ -111,25 +94,6 @@ public class RateRule extends Rule {
 		}
 	}
 
-	/**
-	 * Sets the variableID of this RateRule to 'variable'. If no Symbol instance
-	 * has 'variable'as id, an IllegalArgumentException is thrown.
-	 * 
-	 * @param variable
-	 */
-	public void checkAndSetVariable(String variable) {
-		Variable nsb = null;
-		Model m = getModel();
-		if (m != null) {
-			nsb = m.findVariable(variable);
-		}
-		if (nsb == null)
-			throw new IllegalArgumentException(
-					"Only the id of an existing Species, SpeciesReferences, Compartments, or Parameters allowed as variables");
-		setVariable(nsb.getId());
-		stateChanged();
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -145,97 +109,9 @@ public class RateRule extends Rule {
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
-		if (o instanceof RateRule) {
-			RateRule r = (RateRule) o;
-			boolean equal = super.equals(o);
-			equal &= isSetVariable() == r.isSetVariable();
-			if (equal && isSetVariable()) {
-				equal &= getVariable().equals(r.getVariable());
-			}
-			return equal;
-		}
-		return false;
-	}
-
-	/**
-	 * 
-	 * @return the variableID of this RateRule. Returns an empty String if
-	 *         variableID is not set.
-	 */
-	public String getVariable() {
-		return isSetVariable() ? this.variableID : "";
-	}
-
-	/**
-	 * 
-	 * @return the Symbol instance which has the variableID of this RateRule as
-	 *         id. Null if it doesn't exist.
-	 */
-	public Variable getVariableInstance() {
-		Model m = getModel();
-		return m != null ? m.findVariable(this.variableID) : null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Rule#isCompartmentVolume()
-	 */
-	@Override
-	public boolean isCompartmentVolume() {
-		return isSetVariableInstance()
-				&& (getVariableInstance() instanceof Compartment);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Rule#isParameter()
-	 */
-	@Override
-	public boolean isParameter() {
-		return isSetVariableInstance()
-				&& (getVariableInstance() instanceof Parameter);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Rule#isScalar()
-	 */
-	@Override
-	public boolean isScalar() {
-		return false;
-	}
-
-	/**
-	 * 
-	 * @return true if the variableID of this RateRule is not null.
-	 */
-	public boolean isSetVariable() {
-		return variableID != null;
-	}
-
-	/**
-	 * 
-	 * @return true if the Symbol instance which has the variableID of this
-	 *         RateRule as id is not null.
-	 */
-	public boolean isSetVariableInstance() {
-		Model m = getModel();
-		return m != null ? m.findVariable(this.variableID) != null : false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.Rule#isSpeciesConcentration()
-	 */
-	@Override
-	public boolean isSpeciesConcentration() {
-		return isSetVariableInstance()
-				&& (getVariableInstance() instanceof Species);
+		return (o instanceof RateRule) ? super.equals(o) : false;
 	}
 
 	/*
@@ -256,26 +132,6 @@ public class RateRule extends Rule {
 		}
 
 		return isAttributeRead;
-	}
-
-	/**
-	 * Sets the variableID of this RateRule to 'variable'.
-	 * 
-	 * @param variable
-	 */
-	public void setVariable(String variable) {
-		this.variableID = variable;
-		stateChanged();
-	}
-
-	/**
-	 * Sets the variableID of this RateRule to the id of the Symbol 'variable'.
-	 * 
-	 * @param variable
-	 */
-	public void setVariable(Variable variable) {
-		this.variableID = variable != null ? variable.getId() : null;
-		stateChanged();
 	}
 
 	/*
