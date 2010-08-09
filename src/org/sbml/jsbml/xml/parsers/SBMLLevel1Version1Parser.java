@@ -38,6 +38,9 @@ import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 import org.sbml.jsbml.xml.stax.WritingParser;
 
+// TODO : this parser need to work as well with sbml level 1 version 2
+// TODO : we need to parse correctly the rules, the current implementation is wrong
+
 /**
  * 
  */
@@ -506,7 +509,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 							model.addRule(rule);
 
 							return rule;
-						} else if (elementName.equals("assignmentRule")
+						} else if (elementName.equals("assignmentRule") // TODO : wrong, there are no assignmentRule element, only more specialize rule
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfRules)) {
 							AssignmentRule rule = (AssignmentRule) newContextObject;
