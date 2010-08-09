@@ -188,11 +188,26 @@ public class InitialAssignment extends MathContainer {
 	}
 
 	/**
+	 * @return the variableID of this InitialAssignment. Return an empty String
+	 *         if it is not set.
+	 */
+	public String getSymbol() {
+		return getVariable();
+	}
+	/**
 	 * 
 	 * @return true if the variableID of this InitialAssignment is not null.
 	 */
 	public boolean isSetVariable() {
 		return variableID != null;
+	}
+	
+	/**
+	 * 
+	 * @return true if the variableID of this InitialAssignment is not null.
+	 */
+	public boolean isSetSymbol() {
+		return isSetVariable();
 	}
 
 	/**

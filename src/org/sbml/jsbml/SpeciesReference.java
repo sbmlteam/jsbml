@@ -262,7 +262,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * @see org.sbml.jsbml.State#getConstant()
 	 */
 	public boolean getConstant() {
-		return isSetConstant() ? constant : false;
+		return constant != null ? constant : false;
 	}
 
 	/**
@@ -301,11 +301,11 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 
 	/**
 	 * 
-	 * @return the stoichiometry value of this SpeciesReference if it is set, 0
+	 * @return the stoichiometry value of this SpeciesReference if it is set, 1
 	 *         otherwise.
 	 */
 	public double getStoichiometry() {
-		return isSetStoichiometry() ? stoichiometry : 0;
+		return isSetStoichiometry() ? stoichiometry : 1;
 	}
 
 	/**
@@ -332,10 +332,10 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	public void initDefaults() {
 		// See
 		// http://sbml.org/Community/Wiki/SBML_Level_3_Core/Reaction_changes/Changes_to_stoichiometry
-		if (getLevel() > 2) {
-			setConstant(true);
-			setStoichiometry(1d);
-			denominator = Integer.valueOf(1);
+		if (getLevel() <= 2) {
+			constant = true;
+			stoichiometry = 1d;
+			denominator = 1;
 		} else {
 			isSetConstant = false;
 			isSetDenominator = false;
@@ -349,7 +349,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * @see org.sbml.jsbml.State#isConstant()
 	 */
 	public boolean isConstant() {
-		return isSetConstant() ? constant : false;
+		return constant != null ? constant : false;
 	}
 
 	/*
@@ -374,7 +374,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * @return true if the stoichiometry of this SpeciesReference is not null.
 	 */
 	public boolean isSetStoichiometry() {
-		return isSetStoichiometry && (stoichiometry != null);
+		return isSetStoichiometry;
 	}
 
 	/**
@@ -408,8 +408,8 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 				value);
 
 		if (!isAttributeRead) {
-			if (attributeName.equals("stochiometry")) {
-				this.setStoichiometry(Double.parseDouble(value));
+			if (attributeName.equals("stoichiometry")) {
+				setStoichiometry(Double.parseDouble(value));
 				return true;
 			} else if (attributeName.equals("constant")) {
 				if (value.equals("true")) {
