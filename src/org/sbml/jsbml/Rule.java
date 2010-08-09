@@ -71,11 +71,11 @@ public abstract class Rule extends MathContainer {
 	}
 
 	/**
-	 * Creates a Rule instance from a given MathContainer.
+	 * Creates a new {@link Rule} instance from a given {@link Rule}.
 	 * 
 	 * @param sb
 	 */
-	public Rule(MathContainer sb) {
+	public Rule(Rule sb) {
 		super(sb);
 	}
 

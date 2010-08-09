@@ -30,7 +30,6 @@
 
 package org.sbml.jsbml;
 
-
 /**
  * 
  * Represents the rateRule XML element of a SBML file.
@@ -52,12 +51,57 @@ public class RateRule extends ExplicitRule {
 	}
 
 	/**
+	 * 
+	 * @param math
+	 * @param level
+	 * @param version
+	 */
+	public RateRule(ASTNode math, int level, int version) {
+		super(math, level, version);
+	}
+
+	/**
+	 * 
+	 * @param math
+	 * @param parameter
+	 */
+	public RateRule(ASTNode math, Parameter parameter) {
+		this(parameter, math);
+	}
+
+	/**
+	 * 
+	 * @param variable
+	 * @param math
+	 */
+	public RateRule(ASTNode math, Variable variable) {
+		this(variable, math);
+	}
+
+	/**
 	 * Creates a RateRule instance from a given RateRule.
 	 * 
 	 * @param sb
 	 */
 	public RateRule(int level, int version) {
 		super(level, version);
+	}
+
+	/**
+	 * 
+	 * @param parameter
+	 */
+	public RateRule(Parameter parameter) {
+		super(parameter);
+	}
+
+	/**
+	 * 
+	 * @param parameter
+	 * @param math
+	 */
+	public RateRule(Parameter parameter, ASTNode math) {
+		super(parameter, math);
 	}
 
 	/**
@@ -101,15 +145,6 @@ public class RateRule extends ExplicitRule {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object o) {
-		return (o instanceof RateRule) ? super.equals(o) : false;
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.ExplicitRule#isScalar()
 	 */
 	@Override
