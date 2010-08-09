@@ -178,14 +178,18 @@ public abstract class ExplicitRule extends Rule {
 		Variable v = null;
 		Model m = getModel();
 		if (m != null) {
+			/*
+			 * We can only check this condition if the rule has been added to a
+			 * model already. Otherwise it is not possible.
+			 */
 			v = m.findVariable(variable);
-		}
-		if (v == null) {
-			String l3specific = getLevel() > 2 ? "SpeciesReferences, " : "";
-			throw new IllegalArgumentException(
-					"Only the id of an existing Species, "
-							+ l3specific
-							+ "Compartments, or Parameters allowed as variables");
+			if (v == null) {
+				String l3specific = getLevel() > 2 ? "SpeciesReference, " : "";
+				throw new IllegalArgumentException(
+						"Only the id of an existing Species, "
+								+ l3specific
+								+ "Compartment, or Parameter allowed as variables");
+			}
 		}
 		setVariable(v);
 	}

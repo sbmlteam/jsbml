@@ -1,5 +1,6 @@
 http://www.yuml.me/diagram/scruffy/class/samples
 
+[<<TreeNode>>]^-.-[<<SBase>>]
 [<<SBase>>]^-.-[<<NamedSBase>>],
 [<<SBase>>]^-.-[<<SBaseWithDerivedUnit>>],
 [<<SBaseWithDerivedUnit>>]^-.-[MathContainer],
@@ -22,8 +23,9 @@ http://www.yuml.me/diagram/scruffy/class/samples
 [MathContainer]^-[StoichiometryMath],
 [MathContainer]^-[Trigger],
 [Rule]^-[AlgebraicRule],
-[Rule]^-[AssignmentRule],
-[Rule]^-[RateRule],
+[Rule]^-[ExplicitRule],
+[ExplicitRule]^-[AssignmentRule],
+[ExplicitRule]^-[RateRule],
 [AbstractNamedSBase]^-[CompartmentType],
 [AbstractNamedSBase]^-[Event],
 [AbstractNamedSBase]^-[Model],

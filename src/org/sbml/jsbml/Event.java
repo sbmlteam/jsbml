@@ -255,7 +255,6 @@ public class Event extends AbstractNamedSBase {
 			Event e = (Event) o;
 			boolean equal = super.equals(o);
 			equal &= e.getUseValuesFromTriggerTime() == getUseValuesFromTriggerTime();
-			System.out.println("useValuseFromTriggerTime : " + equal);
 			equal &= e.isSetListOfEventAssignments() == isSetListOfEventAssignments();
 			if (equal && isSetListOfEventAssignments()) {
 				equal &= e.getListOfEventAssignments().equals(
@@ -267,7 +266,6 @@ public class Event extends AbstractNamedSBase {
 			} else if (e.isSetDelay() && isSetDelay()) {
 				equal &= e.getDelay().equals(getDelay());
 			}
-			System.out.println("Delay : " + equal);
 
 			if ((!e.isSetTrigger() && isSetTrigger())
 					|| (e.isSetTrigger() && !isSetTrigger())) {
@@ -275,7 +273,6 @@ public class Event extends AbstractNamedSBase {
 			} else if (e.isSetTrigger() && isSetTrigger()) {
 				equal &= e.getTrigger().equals(getTrigger());
 			}
-			System.out.println("Trigger : " + equal);
 
 			if ((!e.isSetTimeUnits() && isSetTimeUnits())
 					|| (e.isSetTimeUnits() && !isSetTimeUnits())) {
@@ -283,7 +280,6 @@ public class Event extends AbstractNamedSBase {
 			} else if (e.isSetTimeUnits() && isSetTimeUnits()) {
 				equal &= e.getTimeUnits().equals(getTimeUnits());
 			}
-			System.out.println("TimeUnist : " + equal);
 
 			return equal;
 		}
