@@ -47,6 +47,17 @@ public abstract class ExplicitRule extends Rule {
 	String variableID;
 
 	/**
+	 * Represents the 'units' XML attribute of a ParameterRule.
+	 * 
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
+	 */
+	@Deprecated
+	String unitsID;
+
+	/**
 	 * 
 	 */
 	public ExplicitRule() {
@@ -65,12 +76,32 @@ public abstract class ExplicitRule extends Rule {
 	}
 
 	/**
+	 * Creates a new {@link ExplicitRule} with the given {@link ASTNode} element
+	 * for the assignment to the given {@link Variable} or the derivative of the
+	 * {@link Variable}.
+	 * 
+	 * @param math
+	 *            An assignment
+	 * @param variable
+	 *            Either the variable itself or its derivative is to be modified
+	 *            with the given.
+	 */
+	public ExplicitRule(ASTNode math, Variable variable) {
+		this(variable, math);
+	}
+
+	/**
 	 * @param rule
 	 */
 	public ExplicitRule(ExplicitRule rule) {
 		super(rule);
-		variableID = rule.isSetVariable() ? new String(rule.getVariable())
-				: null;
+		initDefaults();
+		if (rule.isSetVariable()) {
+			setVariable(new String(rule.getVariable()));
+		}
+		if (rule.isSetUnits()) {
+			setUnits(new String(rule.getUnits()));
+		}
 	}
 
 	/**
@@ -83,29 +114,52 @@ public abstract class ExplicitRule extends Rule {
 	}
 
 	/**
+	 * 
+	 * @param parameter
+	 */
+	public ExplicitRule(Parameter parameter) {
+		this((Variable) parameter);
+		UnitDefinition ud = parameter.getDerivedUnitDefinition();
+		if ((ud != null) && ud.isSetId()) {
+			this.unitsID = new String(ud.getId());
+		} else {
+			this.unitsID = null;
+		}
+	}
+
+	/**
+	 * 
+	 * @param parameter
+	 * @param math
+	 */
+	public ExplicitRule(Parameter parameter, ASTNode math) {
+		this((Variable) parameter, math);
+		if (parameter.isSetUnits()) {
+			this.unitsID = new String(parameter.getUnits());
+		} else {
+			this.unitsID = null;
+		}
+	}
+
+	/**
 	 * Creates a RateRule instance from a given Symbol. Takes level and version
 	 * from the variable.
 	 * 
 	 * @param variable
 	 */
 	public ExplicitRule(Variable variable) {
-		super(variable.getLevel(), variable.getVersion());
+		this(variable.getLevel(), variable.getVersion());
 		checkAndSetVariable(variable.getId());
 	}
 
 	/**
-	 * Creates a new {@link ExplicitRule} with the given {@link ASTNode} element
-	 * for the assignment to the given {@link Variable} or the derivative of the
-	 * {@link Variable}.
 	 * 
-	 * @param math
-	 *            An assignment
 	 * @param variable
-	 *            Either the variable itself or its derivative is to be modified
-	 *            with the given.
+	 * @param math
 	 */
-	public ExplicitRule(ASTNode math, Variable variable) {
+	public ExplicitRule(Variable variable, ASTNode math) {
 		super(math, variable.getLevel(), variable.getVersion());
+		initDefaults();
 		if (variable.isSetId()) {
 			this.variableID = new String(variable.getId());
 		} else {
@@ -121,17 +175,19 @@ public abstract class ExplicitRule extends Rule {
 	 * @param variable
 	 */
 	public void checkAndSetVariable(String variable) {
-		Variable nsb = null;
+		Variable v = null;
 		Model m = getModel();
 		if (m != null) {
-			nsb = m.findVariable(variable);
+			v = m.findVariable(variable);
 		}
-		if (nsb == null) {
+		if (v == null) {
+			String l3specific = getLevel() > 2 ? "SpeciesReferences, " : "";
 			throw new IllegalArgumentException(
-					"Only the id of an existing Species, SpeciesReferences, Compartments, or Parameters allowed as variables");
+					"Only the id of an existing Species, "
+							+ l3specific
+							+ "Compartments, or Parameters allowed as variables");
 		}
-		variableID = nsb.getId();
-		stateChanged();
+		setVariable(v);
 	}
 
 	/*
@@ -139,7 +195,6 @@ public abstract class ExplicitRule extends Rule {
 	 * 
 	 * @see org.sbml.jsbml.Rule#clone()
 	 */
-	@Override
 	public abstract ExplicitRule clone();
 
 	/*
@@ -149,16 +204,47 @@ public abstract class ExplicitRule extends Rule {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof ExplicitRule) {
+		if (o.getClass().getSimpleName().equals(getClass().getSimpleName())) {
 			ExplicitRule r = (ExplicitRule) o;
-			boolean equal = super.equals(o);
-			equal &= isSetVariable() == r.isSetVariable();
-			if (equal && isSetVariable()) {
-				equal &= getVariable().equals(r.getVariable());
+			boolean equals = super.equals(o);
+			equals &= isSetVariable() == r.isSetVariable();
+			if (equals && isSetVariable()) {
+				equals &= getVariable().equals(r.getVariable());
 			}
-			return equal;
+			equals &= isSetUnits() == r.isSetUnits();
+			if (equals && isSetUnits()) {
+				equals &= getUnits().equals(r.getUnits());
+			}
+			return equals;
 		}
 		return false;
+	}
+
+	/**
+	 * @return the unitsID of this object.
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
+	 */
+	@Deprecated
+	public String getUnits() {
+		return isSetUnits() ? unitsID : "";
+	}
+
+	/**
+	 * 
+	 * @return the UnitDefinition instance which matches the unitsID of this
+	 *         object.
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
+	 */
+	@Deprecated
+	public UnitDefinition getUnitsInstance() {
+		Model model = getModel();
+		return model != null ? model.getUnitDefinition(this.unitsID) : null;
 	}
 
 	/**
@@ -185,6 +271,7 @@ public abstract class ExplicitRule extends Rule {
 	 */
 	public void initDefaults() {
 		variableID = null;
+		unitsID = null;
 	}
 
 	/*
@@ -218,6 +305,35 @@ public abstract class ExplicitRule extends Rule {
 	 *         'scalar' (Level 1), false otherwise.
 	 */
 	public abstract boolean isScalar();
+
+	/**
+	 * 
+	 * @return true if the unitsID of this object is not null.
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
+	 */
+	@Deprecated
+	public boolean isSetUnits() {
+		return unitsID != null;
+	}
+
+	/**
+	 * 
+	 * @return true if the UnitsID of this object matches a no null
+	 *         UniDefinition of the model instance.
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
+	 */
+	@Deprecated
+	public boolean isSetUnitsInstance() {
+		Model model = getModel();
+		return model != null ? model.getUnitDefinition(this.unitsID) != null
+				: false;
+	}
 
 	/**
 	 * 
@@ -259,11 +375,61 @@ public abstract class ExplicitRule extends Rule {
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-		if (attributeName.equals("variable")) {
-			this.checkAndSetVariable(value);
-			return true;
+		if (!isAttributeRead) {
+			if (attributeName.equals("variable") && getLevel() > 1) {
+				this.setVariable(value);
+				return true;
+			} else if (attributeName.equals("specie") && getLevel() == 1) {
+				this.setVariable(value);
+				return true;
+			} else if (attributeName.equals("compartment") && getLevel() == 1) {
+				this.setVariable(value);
+				return true;
+			} else if (attributeName.equals("name") && getLevel() == 1) {
+				this.setVariable(value);
+				return true;
+			} else if (attributeName.equals("units") && getLevel() == 1) {
+				this.setUnits(value);
+				return true;
+			}
 		}
 		return isAttributeRead;
+	}
+
+	/**
+	 * Sets the unitsID to 'unitsID'.
+	 * 
+	 * @param unitsID
+	 *            A valid identifier of a {@link UnitDefinition} in the
+	 *            {@link Model} or the name of one of the {@link Unit.Kind} base
+	 *            types.
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
+	 */
+	@Deprecated
+	public void setUnits(String unitsID) {
+		if (isSetVariable() && !isParameter()) {
+			throw new IllegalArgumentException(
+					"Cannot set units for a variable other than parameter");
+		}
+		this.unitsID = unitsID;
+		stateChanged();
+	}
+
+	/**
+	 * Sets the unitsID of this object with the id of 'units'.
+	 * 
+	 * @param variable
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
+	 */
+	@Deprecated
+	public void setUnits(UnitDefinition units) {
+		setUnits(units.isSetId() ? units.getId() : null);
 	}
 
 	/**
@@ -282,8 +448,33 @@ public abstract class ExplicitRule extends Rule {
 	 * @param variable
 	 */
 	public void setVariable(Variable variable) {
-		this.variableID = variable != null ? variable.getId() : null;
-		stateChanged();
+		if (variable != null) {
+			if (isSetUnits() && !(variable instanceof Parameter)) {
+				throw new IllegalArgumentException(
+						"Variable expected to be an instance of Parameter because a Unit attribute is set allready");
+			}
+			if (variable.isSetId()) {
+				variableID = variable.getId();
+				stateChanged();
+			} else {
+				unsetVariable();
+			}
+		} else {
+			unsetVariable();
+		}
+	}
+
+	/**
+	 * Unsets the unitsID of this {@link AssignmentRule}.
+	 * 
+	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
+	 *             but can only be used in conjunction with {@link Parameter}s.
+	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             element ParameterRule.
+	 */
+	@Deprecated
+	public void unsetUnits() {
+		this.unitsID = null;
 	}
 
 	/**
@@ -293,6 +484,7 @@ public abstract class ExplicitRule extends Rule {
 	 */
 	public void unsetVariable() {
 		variableID = null;
+		stateChanged();
 	}
 
 	/*
@@ -304,7 +496,22 @@ public abstract class ExplicitRule extends Rule {
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
 		if (isSetVariable()) {
-			attributes.put("variable", getVariable());
+			if (getLevel() > 1) {
+				attributes.put("variable", getVariable());
+			} else if (getLevel() == 1) {
+				if (isSpeciesConcentration() && getVersion() == 1) {
+					attributes.put("specie", getVariable());
+				} else if (isSpeciesConcentration() && getVersion() == 2) {
+					attributes.put("species", getVariable());
+				} else if (getLevel() == 1 && isCompartmentVolume()) {
+					attributes.put("compartment", getVariable());
+				} else if (getLevel() == 1 && isParameter()) {
+					attributes.put("name", getVariable());
+				}
+			}
+		}
+		if (isSetUnits() && getLevel() == 1) {
+			attributes.put("units", getUnits());
 		}
 		return attributes;
 	}

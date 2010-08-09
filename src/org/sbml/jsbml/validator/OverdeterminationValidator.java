@@ -34,7 +34,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -62,7 +61,7 @@ import org.sbml.jsbml.SpeciesReference;
 public class OverdeterminationValidator {
 
 	/**
-	 * This class represents an inner node in the bipartite graph, e.g. a
+	 * This class represents an inner node in the bipartite graph, e.g., a
 	 * varibale or an reaction
 	 * 
 	 * @author Alexander D&ouml;rr
@@ -90,10 +89,7 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.sbml.squeezer.math.AlgebraicRuleConverter.Node#addNode(org.sbml
-		 * .squeezer.math.AlgebraicRuleConverter.Node)
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#addNode(org.sbml.jsbml.validator.OverdeterminationValidator.Node)
 		 */
 		public void addNode(Node node) {
 			this.nodes.add(node);
@@ -101,10 +97,7 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.sbml.squeezer.math.AlgebraicRuleConverter.Node#deleteNode(org
-		 * .sbml.squeezer.math.AlgebraicRuleConverter.Node)
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#deleteNode(org.sbml.jsbml.validator.OverdeterminationValidator.Node)
 		 */
 		public void deleteNode(Node node) {
 			nodes.remove(node);
@@ -113,33 +106,32 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.sbml.squeezer.math.AlgebraicRuleConverter.Node#getNextNode()
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNextNode()
 		 */
 		public Node getNextNode() {
-			if (nodes.isEmpty())
+			if (nodes.isEmpty()) {
 				return null;
-			else
+			} else {
 				return nodes.get(0);
+			}
 
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.sbml.squeezer.math.AlgebraicRuleConverter.Node#getNode(int)
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNode(int)
 		 */
 		public Node getNode(int i) {
-			if (nodes.size() > i && i >= 0)
+			if (nodes.size() > i && i >= 0) {
 				return nodes.get(i);
-			else
+			} else {
 				return null;
+			}
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.sbml.squeezer.math.AlgebraicRuleConverter.Node#getNodes()
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNodes()
 		 */
 		public List<Node> getNodes() {
 			return this.nodes;
@@ -147,8 +139,7 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.sbml.squeezer.math.AlgebraicRuleConverter.Node#getValue()
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getValue()
 		 */
 		public String getValue() {
 			return value;
@@ -225,10 +216,7 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.sbml.squeezer.math.AlgebraicRuleConverter.Node#addNode(org.sbml
-		 * .squeezer.math.AlgebraicRuleConverter.Node)
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#addNode(org.sbml.jsbml.validator.OverdeterminationValidator.Node)
 		 */
 		public void addNode(Node node) {
 			this.nodes.add(node);
@@ -271,45 +259,39 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.sbml.squeezer.math.AlgebraicRuleConverter.Node#deleteNode(org
-		 * .sbml.squeezer.math.AlgebraicRuleConverter.Node)
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#deleteNode(org.sbml.jsbml.validator.OverdeterminationValidator.Node)
 		 */
 		public void deleteNode(Node node) {
 			nodes.remove(node);
-
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.sbml.squeezer.math.AlgebraicRuleConverter.Node#getNextNode()
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNextNode()
 		 */
 		public Node getNextNode() {
-			if (nodes.isEmpty())
+			if (nodes.isEmpty()) {
 				return null;
-			else
+			} else {
 				return nodes.get(0);
-
+			}
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.sbml.squeezer.math.AlgebraicRuleConverter.Node#getNode(int)
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNode(int)
 		 */
 		public Node getNode(int i) {
-			if (nodes.size() > i && i >= 0)
+			if (nodes.size() > i && i >= 0) {
 				return nodes.get(i);
-			else
+			} else {
 				return null;
+			}
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.sbml.squeezer.math.AlgebraicRuleConverter.Node#getNodes()
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNodes()
 		 */
 		public List<Node> getNodes() {
 			return this.nodes;
@@ -317,8 +299,7 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.sbml.squeezer.math.AlgebraicRuleConverter.Node#getValue()
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getValue()
 		 */
 		public String getValue() {
 			return null;
@@ -343,10 +324,7 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.sbml.squeezer.math.AlgebraicRuleConverter.Node#addNode(org.sbml
-		 * .squeezer.math.AlgebraicRuleConverter.Node)
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#addNode(org.sbml.jsbml.validator.OverdeterminationValidator.Node)
 		 */
 		public void addNode(Node node) {
 
@@ -354,10 +332,7 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.sbml.squeezer.math.AlgebraicRuleConverter.Node#deleteNode(org
-		 * .sbml.squeezer.math.AlgebraicRuleConverter.Node)
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#deleteNode(org.sbml.jsbml.validator.OverdeterminationValidator.Node)
 		 */
 		public void deleteNode(Node node) {
 
@@ -365,8 +340,7 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.sbml.squeezer.math.AlgebraicRuleConverter.Node#getNextNode()
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNextNode()
 		 */
 		public Node getNextNode() {
 			return null;
@@ -374,8 +348,7 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.sbml.squeezer.math.AlgebraicRuleConverter.Node#getNode(int)
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNode(int)
 		 */
 		public Node getNode(int i) {
 			return null;
@@ -383,8 +356,7 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.sbml.squeezer.math.AlgebraicRuleConverter.Node#getNodes()
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNodes()
 		 */
 		public List<Node> getNodes() {
 			return null;
@@ -392,8 +364,7 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.sbml.squeezer.math.AlgebraicRuleConverter.Node#getValue()
+		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getValue()
 		 */
 		public String getValue() {
 			return null;
@@ -478,8 +449,9 @@ public class OverdeterminationValidator {
 			// (length of the next path would be greater than the longest
 			// possible path in the graph)
 			if (matching.size() == equations.size()
-					|| length > equations.size() * 2 - 3)
+					|| length > equations.size() * 2 - 3) {
 				break;
+			}
 
 			// Increment length by 2 because last edge has to be a matching
 			length = length + 2;
@@ -500,10 +472,10 @@ public class OverdeterminationValidator {
 		ArrayList<Node> path;
 
 		// For every path of the current length
-		while (!paths.isEmpty()) {			
+		while (!paths.isEmpty()) {
 			path = paths.get(0);
 			// Search for the start node of the path an unmatched adjacent node
-			for (Node node : path.get(0).getNodes()) {				
+			for (Node node : path.get(0).getNodes()) {
 				// New start node not part of a matching
 				if (!matching.containsValue(node.getValue())) {
 					start = node;
@@ -529,7 +501,7 @@ public class OverdeterminationValidator {
 				// Update matching
 				updateMatching(path);
 			}
-				
+
 			// Path Augmented -> remove from the list
 			paths.remove(path);
 			start = null;
@@ -788,8 +760,9 @@ public class OverdeterminationValidator {
 				}
 
 			}// else remove from stack
-			else
+			else {
 				stack.pop();
+			}
 
 		}
 
@@ -821,9 +794,10 @@ public class OverdeterminationValidator {
 					// Edge saved in the path -> carry on with every adjacent
 					// node of the last node in the path
 					for (Node nextnext : next.getNodes()) {
-						if (nextnext.getValue() != node.getValue())
+						if (nextnext.getValue() != node.getValue()) {
 							findShortestPath(i, nextnext,
 									(ArrayList<Node>) path.clone());
+						}
 					}
 				}
 			}
@@ -852,9 +826,9 @@ public class OverdeterminationValidator {
 		// found node with species
 		if (node.isName() && !node.isFunction()) {
 			if (!node.isConstant()) {
-				if (param == null)
+				if (param == null) {
 					variables.add(node.getName());
-				else {
+				} else {
 					if (!param.contains(node.getName())) {
 						variables.add(node.getName());
 					}
@@ -903,7 +877,7 @@ public class OverdeterminationValidator {
 
 	/**
 	 * Returns a boolean that indicates whether the given model is
-	 * overdetermined or not.
+	 * over determined or not.
 	 * 
 	 * @return
 	 */

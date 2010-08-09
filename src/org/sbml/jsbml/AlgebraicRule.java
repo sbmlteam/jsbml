@@ -30,7 +30,6 @@
 
 package org.sbml.jsbml;
 
-
 /**
  * Represents the algebraicRule XML element of a SBML file.
  * 
@@ -47,6 +46,16 @@ public class AlgebraicRule extends Rule {
 	 */
 	public AlgebraicRule() {
 		super();
+	}
+
+	/**
+	 * Creates an AlgebraicRule instance from a given {@link AlgebraicRule}
+	 * instance.
+	 * 
+	 * @param ar
+	 */
+	public AlgebraicRule(AlgebraicRule ar) {
+		super(ar);
 	}
 
 	/**
@@ -70,21 +79,12 @@ public class AlgebraicRule extends Rule {
 		super(level, version);
 	}
 
-	/**
-	 * Creates an AlgebraicRule instance from a given MathContainer instance.
-	 * 
-	 * @param sb
-	 */
-	public AlgebraicRule(MathContainer sb) {
-		super(sb);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#clone()
+	 * @see org.sbml.jsbml.Rule#clone()
 	 */
-	// @Override
+	@Override
 	public AlgebraicRule clone() {
 		return new AlgebraicRule(this);
 	}
@@ -107,6 +107,16 @@ public class AlgebraicRule extends Rule {
 	@Override
 	public boolean isParameter() {
 		return false;
+	}
+
+	/**
+	 * Executes the algorithm each time this method is called.
+	 * 
+	 * @return
+	 */
+	public Variable getDerivedVariable() {
+		// TODO!!!
+		return null;
 	}
 
 	/*
