@@ -362,8 +362,9 @@ public class Reaction extends AbstractNamedSBase implements
 	 * 
 	 * @return the fast Boolean of this Reaction.
 	 */
+	// Not using the isSetFast here to allow the value set in initDefaults() to be returned.
 	public boolean getFast() {
-		return isSetFast() ? fast : false;
+		return fast != null ? fast : false;
 	}
 
 	/**
@@ -505,8 +506,9 @@ public class Reaction extends AbstractNamedSBase implements
 	 * 
 	 * @return the reversible Boolean of this reaction.
 	 */
+	// Not using the isSetReversible here to allow the value set in initDefaults() to be returned.
 	public boolean getReversible() {
-		return isSetReversible() ? reversible : false;
+		return reversible != null ? reversible : true;
 	}
 
 	/**
