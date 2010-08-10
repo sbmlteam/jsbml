@@ -30,6 +30,9 @@
 
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.validator.ModelOverdeterminedException;
+import org.sbml.jsbml.validator.OverdeterminationValidator;
+
 /**
  * Represents the algebraicRule XML element of a SBML file.
  * 
@@ -110,13 +113,30 @@ public class AlgebraicRule extends Rule {
 	}
 
 	/**
-	 * Executes the algorithm each time this method is called.
+	 * This method provides a convenient way to obtain the variable whose amount
+	 * is determined by this rule. However, you should better directly use the
+	 * {@link OverdeterminationValidator} instead of calling this method. Each
+	 * time you call this method, the bipartite matching between all
+	 * {@link MathContainer}s in the model and all
+	 * {@link NamedSBaseWithDerivedUnit}s will be executed again, leading to a
+	 * probably high computational effort.
 	 * 
-	 * @return
+	 * @return The {@link Variable} determined by this {@link AlgebraicRule}
+	 * @throws ModelOverdeterminedException
+	 *             if the model containing this {@link Rule} is over determined.
+	 * @throws NullPointerException
+	 *             Calling this method requires that this {@link Rule} is
+	 *             already part of a {@link Model}. If you just created a
+	 *             {@link Rule} and didn't add it to a {@link Model} you'll
+	 *             receive a {@link NullPointerException}.
 	 */
-	public Variable getDerivedVariable() {
-		// TODO!!!
-		return null;
+	public Variable getDerivedVariable() throws ModelOverdeterminedException {
+		OverdeterminationValidator odv = new OverdeterminationValidator(
+				getModel());
+		if (odv.isOverdetermined()) {
+			throw new ModelOverdeterminedException();
+		}
+		return (Variable) odv.getMatching().get(this);
 	}
 
 	/*

@@ -34,6 +34,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -48,6 +49,7 @@ import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 
@@ -67,48 +69,57 @@ public class OverdeterminationValidator {
 	 * @author Alexander D&ouml;rr
 	 * @since 1.4
 	 */
-	private class InnerNode implements Node {
+	private class InnerNode<T extends SBase> implements Node<T> {
 		/**
 		 * Adjacent nodes
 		 */
-		private List<Node> nodes;
+		private List<Node<T>> nodes;
 		/**
 		 * Value of this Node
 		 */
-		private String value;
+		private T value;
 
 		/**
 		 * Creates a new inner node
 		 * 
 		 * @param name
 		 */
-		public InnerNode(String name) {
-			this.nodes = new ArrayList<Node>();
+		public InnerNode(T name) {
+			this.nodes = new ArrayList<Node<T>>();
 			this.value = name;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#addNode(org.sbml.jsbml.validator.OverdeterminationValidator.Node)
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#addNode(
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node)
 		 */
-		public void addNode(Node node) {
+		public void addNode(Node<T> node) {
 			this.nodes.add(node);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#deleteNode(org.sbml.jsbml.validator.OverdeterminationValidator.Node)
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#deleteNode
+		 * (org.sbml.jsbml.validator.OverdeterminationValidator.Node)
 		 */
-		public void deleteNode(Node node) {
+		public void deleteNode(Node<T> node) {
 			nodes.remove(node);
 
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNextNode()
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNextNode
+		 * ()
 		 */
-		public Node getNextNode() {
+		public Node<T> getNextNode() {
 			if (nodes.isEmpty()) {
 				return null;
 			} else {
@@ -119,9 +130,11 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNode(int)
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNode(int)
 		 */
-		public Node getNode(int i) {
+		public Node<T> getNode(int i) {
 			if (nodes.size() > i && i >= 0) {
 				return nodes.get(i);
 			} else {
@@ -131,18 +144,31 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNodes()
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNodes()
 		 */
-		public List<Node> getNodes() {
+		public List<Node<T>> getNodes() {
 			return this.nodes;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getValue()
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#getValue()
 		 */
-		public String getValue() {
+		public T getValue() {
 			return value;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			return getValue().toString();
 		}
 
 	}
@@ -151,89 +177,97 @@ public class OverdeterminationValidator {
 	 * This Interface represents a node in the bipartite graph
 	 * 
 	 * @author Alexander D&ouml;rr
-	 * @since 1.4
+	 * 
+	 * @param <S>
 	 */
-	private interface Node {
+	private interface Node<S> {
 		/**
 		 * Adds a node to the list of nodes (creates an edge from this node to
 		 * another one)
 		 * 
 		 * @param node
 		 */
-		public void addNode(Node node);
+		public void addNode(Node<S> node);
 
 		/**
 		 * Deletes node from the list of adjacent nodes
 		 * 
 		 * @param node
 		 */
-		public void deleteNode(Node node);
+		public void deleteNode(Node<S> node);
 
 		/**
 		 * Returns the next node in the list of nodes
 		 * 
 		 * @return
 		 */
-		public Node getNextNode();
+		public Node<S> getNextNode();
 
 		/**
 		 * Returns the i-th node in the list of nodes
 		 * 
 		 * @return
 		 */
-		public Node getNode(int i);
+		public Node<S> getNode(int i);
 
 		/**
 		 * Returns the list of adjacent nodes
 		 * 
 		 * @return
 		 */
-		public List<Node> getNodes();
+		public List<Node<S>> getNodes();
 
 		/**
 		 * Returns the value of this node
 		 * 
 		 * @return
 		 */
-		public String getValue();
+		public S getValue();
 	}
 
 	/**
 	 * This class represents the start node in the bipartite graph
 	 * 
 	 * @author Alexander D&ouml;rr
-	 * @since 1.4
+	 * @param <T>
 	 */
-	private class StartNode implements Node {
-		private List<Node> nodes;
+	private class StartNode<T extends SBase> implements Node<T> {
+		/**
+		 * 
+		 */
+		private List<Node<T>> nodes;
 
 		/**
 		 * Creates a new start node
 		 */
 		public StartNode() {
-			this.nodes = new ArrayList<Node>();
+			this.nodes = new ArrayList<Node<T>>();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#addNode(org.sbml.jsbml.validator.OverdeterminationValidator.Node)
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#addNode(
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node)
 		 */
-		public void addNode(Node node) {
+		public void addNode(Node<T> node) {
 			this.nodes.add(node);
 		}
 
 		/**
 		 * Clones this Graph without terminal node
 		 */
-		public StartNode clone() {
-			StartNode start = new StartNode();
-			Node ln, rn, rnode, lnode;
+		@Override
+		public StartNode<T> clone() {
+			StartNode<T> start = new StartNode<T>();
+			Node<T> ln, rn, rnode, lnode;
 			int index;
-			HashMap<String, Node> variables = new HashMap<String, Node>();
+			HashMap<T, Node<T>> variables = new HashMap<T, Node<T>>();
 			// for all adjacent nodes (equation)
 			for (int i = 0; i < this.nodes.size(); i++) {
 				lnode = this.getNode(i);
-				ln = new InnerNode(lnode.getValue());
+				ln = new InnerNode<T>(lnode.getValue());
 				start.addNode(ln);
 				index = 0;
 				rnode = lnode.getNode(index);
@@ -243,7 +277,7 @@ public class OverdeterminationValidator {
 					if (variables.get(rnode.getValue()) != null) {
 						rn = variables.get(rnode.getValue());
 					} else {
-						rn = new InnerNode(rnode.getValue());
+						rn = new InnerNode<T>(rnode.getValue());
 						variables.put(rnode.getValue(), rn);
 					}
 
@@ -259,17 +293,23 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#deleteNode(org.sbml.jsbml.validator.OverdeterminationValidator.Node)
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#deleteNode
+		 * (org.sbml.jsbml.validator.OverdeterminationValidator.Node)
 		 */
-		public void deleteNode(Node node) {
+		public void deleteNode(Node<T> node) {
 			nodes.remove(node);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNextNode()
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNextNode
+		 * ()
 		 */
-		public Node getNextNode() {
+		public Node<T> getNextNode() {
 			if (nodes.isEmpty()) {
 				return null;
 			} else {
@@ -279,9 +319,11 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNode(int)
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNode(int)
 		 */
-		public Node getNode(int i) {
+		public Node<T> getNode(int i) {
 			if (nodes.size() > i && i >= 0) {
 				return nodes.get(i);
 			} else {
@@ -291,18 +333,31 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNodes()
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNodes()
 		 */
-		public List<Node> getNodes() {
+		public List<Node<T>> getNodes() {
 			return this.nodes;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getValue()
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#getValue()
 		 */
-		public String getValue() {
+		public T getValue() {
 			return null;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			return "start";
 		}
 
 	}
@@ -313,7 +368,7 @@ public class OverdeterminationValidator {
 	 * @author Alexander D&ouml;rr
 	 * @since 1.4
 	 */
-	private class TerminalNode implements Node {
+	private class TerminalNode<T extends SBase> implements Node<T> {
 
 		/**
 		 * Creates a new terminal node
@@ -324,50 +379,74 @@ public class OverdeterminationValidator {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#addNode(org.sbml.jsbml.validator.OverdeterminationValidator.Node)
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#addNode(
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node)
 		 */
-		public void addNode(Node node) {
+		public void addNode(Node<T> node) {
 
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#deleteNode(org.sbml.jsbml.validator.OverdeterminationValidator.Node)
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#deleteNode
+		 * (org.sbml.jsbml.validator.OverdeterminationValidator.Node)
 		 */
-		public void deleteNode(Node node) {
+		public void deleteNode(Node<T> node) {
 
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNextNode()
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNextNode
+		 * ()
 		 */
-		public Node getNextNode() {
+		public Node<T> getNextNode() {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNode(int)
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNode(int)
 		 */
-		public Node getNode(int i) {
+		public Node<T> getNode(int i) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNodes()
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#getNodes()
 		 */
-		public List<Node> getNodes() {
+		public List<Node<T>> getNodes() {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.sbml.jsbml.validator.OverdeterminationValidator.Node#getValue()
+		 * 
+		 * @see
+		 * org.sbml.jsbml.validator.OverdeterminationValidator.Node#getValue()
 		 */
-		public String getValue() {
+		public T getValue() {
 			return null;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			return "end";
 		}
 
 	}
@@ -375,37 +454,37 @@ public class OverdeterminationValidator {
 	/**
 	 * List with nodes representing an equation in the model
 	 */
-	private List<Node> equations;
+	private List<Node<SBase>> equations;
 	/**
 	 * List with nodes representing an variable in the model
 	 */
-	private List<Node> variables;
+	private List<Node<SBase>> variables;
 	/**
 	 * HashMap with id -> node for variables
 	 */
-	private HashMap<String, Node> variableHash;
+	private HashMap<SBase, Node<SBase>> variableHash;
 	/**
 	 * HashMap with id -> node for equations
 	 */
-	private HashMap<String, Node> equationHash;
+	private HashMap<SBase, Node<SBase>> equationHash;
 	/**
 	 * HashMap representing the current matching with value of the left node ->
 	 * value of the right node
 	 */
-	private HashMap<String, String> matching;
+	private Map<SBase, SBase> matching;
 	/**
 	 * The source node of the bipartite graph, respectively the bipartite graph
 	 */
-	private StartNode bipartiteGraph;
+	private StartNode<SBase> bipartiteGraph;
 	/**
 	 * A list where the ids of all global species in an MathML expression are
 	 * saved temporarily
 	 */
-	private List<String> svariables;
+	private List<SBase> svariables;
 	/**
 	 * A list of all paths of a certain length in the graph
 	 */
-	private ArrayList<ArrayList<Node>> paths;
+	private List<List<Node<SBase>>> paths;
 	/**
 	 * A set with the ids of all reactants in the model
 	 */
@@ -429,15 +508,15 @@ public class OverdeterminationValidator {
 	 * Improves the matching as far as possible with augmenting paths
 	 */
 	private void augmentMatching() {
-		paths = new ArrayList<ArrayList<Node>>();
+		paths = new ArrayList<List<Node<SBase>>>();
 		int length = 1;
 
 		while (length < (variables.size() + equations.size())) {
 			System.out.println("Searching path of size: " + length);
 			// Start search for all path of the current length of the adjacent
 			// nodes of the start node
-			for (Node node : bipartiteGraph.getNodes()) {
-				findShortestPath(length, node, new ArrayList<Node>());
+			for (Node<SBase> node : bipartiteGraph.getNodes()) {
+				findShortestPath(length, node, new ArrayList<Node<SBase>>());
 			}
 
 			System.out.println("Found: " + paths.size());
@@ -468,14 +547,14 @@ public class OverdeterminationValidator {
 	private void augmentPath(int length) {
 		System.out
 				.println("Searching augmenting path of size: " + (length + 2));
-		Node start = null, end = null;
-		ArrayList<Node> path;
+		Node<SBase> start = null, end = null;
+		List<Node<SBase>> path;
 
 		// For every path of the current length
 		while (!paths.isEmpty()) {
 			path = paths.get(0);
 			// Search for the start node of the path an unmatched adjacent node
-			for (Node node : path.get(0).getNodes()) {
+			for (Node<SBase> node : path.get(0).getNodes()) {
 				// New start node not part of a matching
 				if (!matching.containsValue(node.getValue())) {
 					start = node;
@@ -484,7 +563,7 @@ public class OverdeterminationValidator {
 			}
 
 			// Search for the end node of the path an unmatched adjacent node
-			for (Node node : path.get(path.size() - 1).getNodes()) {
+			for (Node<SBase> node : path.get(path.size() - 1).getNodes()) {
 
 				// New end node not part of a matching
 				if (!matching.containsKey(node.getValue())) {
@@ -514,17 +593,18 @@ public class OverdeterminationValidator {
 	 * version 1 Core
 	 */
 	private void buildGraph() {
-		equations = new ArrayList<Node>();
-		variables = new ArrayList<Node>();
-		variableHash = new HashMap<String, Node>();
-		equationHash = new HashMap<String, Node>();
-		Node equation, variable;
+		equations = new ArrayList<Node<SBase>>();
+		variables = new ArrayList<Node<SBase>>();
+		variableHash = new HashMap<SBase, Node<SBase>>();
+		equationHash = new HashMap<SBase, Node<SBase>>();
+		Node<SBase> equation;
+		Node<SBase> variable;
 		int i;
 
 		// Build vertices for compartments and hash them
 		for (Compartment c : model.getListOfCompartments()) {
 			if (!c.isConstant()) {
-				variable = new InnerNode(c.getId());
+				variable = new InnerNode<SBase>(c);
 				variables.add(variable);
 				variableHash.put(variable.getValue(), variable);
 			}
@@ -532,7 +612,7 @@ public class OverdeterminationValidator {
 		// Build vertices for species and hash them
 		for (Species s : model.getListOfSpecies()) {
 			if (!s.isConstant()) {
-				variable = new InnerNode(s.getId());
+				variable = new InnerNode<SBase>(s);
 				variables.add(variable);
 				variableHash.put(variable.getValue(), variable);
 			}
@@ -540,7 +620,7 @@ public class OverdeterminationValidator {
 		// Build vertices for parameter and hash them
 		for (Parameter p : model.getListOfParameters()) {
 			if (!p.isConstant()) {
-				variable = new InnerNode(p.getId());
+				variable = new InnerNode<SBase>(p);
 				variables.add(variable);
 				variableHash.put(variable.getValue(), variable);
 			}
@@ -548,7 +628,7 @@ public class OverdeterminationValidator {
 
 		// Build vertices for reaction and hash them
 		for (Reaction r : model.getListOfReactions()) {
-			variable = new InnerNode(r.getId());
+			variable = new InnerNode<SBase>(r);
 			variables.add(variable);
 			variableHash.put(variable.getValue(), variable);
 		}
@@ -560,17 +640,15 @@ public class OverdeterminationValidator {
 			// Create vertices and edges for products
 			for (SpeciesReference sref : r.getListOfProducts()) {
 				if (!sref.getSpeciesInstance().isConstant()) {
-					variable = variableHash.get(sref.getSpeciesInstance()
-							.getId());
+					variable = variableHash.get(sref.getSpeciesInstance());
 					if (!sref.getSpeciesInstance().getBoundaryCondition()) {
 
-						equation = equationHash.get(sref.getSpeciesInstance()
-								.getId());
+						equation = equationHash.get(sref.getSpeciesInstance());
 						if (equation == null) {
-							equation = new InnerNode(sref.getSpeciesInstance()
-									.getId());
+							equation = new InnerNode<SBase>(sref
+									.getSpeciesInstance());
 							equations.add(equation);
-							equationHash.put(sref.getSpeciesInstance().getId(),
+							equationHash.put(sref.getSpeciesInstance(),
 									equation);
 							// link
 							variable.addNode(equation);
@@ -586,17 +664,15 @@ public class OverdeterminationValidator {
 			for (SpeciesReference sref : r.getListOfReactants()) {
 
 				if (!sref.getSpeciesInstance().isConstant()) {
-					variable = variableHash.get(sref.getSpeciesInstance()
-							.getId());
+					variable = variableHash.get(sref.getSpeciesInstance());
 					if (!sref.getSpeciesInstance().getBoundaryCondition()) {
 
-						equation = equationHash.get(sref.getSpeciesInstance()
-								.getId());
+						equation = equationHash.get(sref.getSpeciesInstance());
 						if (equation == null) {
-							equation = new InnerNode(sref.getSpeciesInstance()
-									.getId());
+							equation = new InnerNode<SBase>(sref
+									.getSpeciesInstance());
 							equations.add(equation);
-							equationHash.put(sref.getSpeciesInstance().getId(),
+							equationHash.put(sref.getSpeciesInstance(),
 									equation);
 							// link
 							variable.addNode(equation);
@@ -608,7 +684,7 @@ public class OverdeterminationValidator {
 				}
 			}
 			// link reaction with its kinetic law
-			equation = new InnerNode(r.getId());
+			equation = new InnerNode<SBase>(r);
 			equations.add(equation);
 			variable = variableHash.get(equation.getValue());
 
@@ -629,12 +705,12 @@ public class OverdeterminationValidator {
 
 		// Create vertices and edges for assignment and rate rules
 		for (i = 0; i < model.getNumRules(); i++) {
-			equation = new InnerNode(model.getRule(i).getMetaId());
+			equation = new InnerNode<SBase>(model.getRule(i));
 			Rule r = model.getRule(i);
 			if (r instanceof RateRule) {
 				equations.add(equation);
 				variable = variableHash.get(((RateRule) r)
-						.getVariableInstance().getId());
+						.getVariableInstance());
 				// link
 				variable.addNode(equation);
 				equation.addNode(variable);
@@ -654,7 +730,7 @@ public class OverdeterminationValidator {
 			else if (r instanceof AssignmentRule) {
 				equations.add(equation);
 				variable = variableHash.get(((AssignmentRule) r)
-						.getVariableInstance().getId());
+						.getVariableInstance());
 				// link
 				variable.addNode(equation);
 				equation.addNode(variable);
@@ -674,7 +750,7 @@ public class OverdeterminationValidator {
 
 		// Create vertices and edges for algebraic rules
 		for (i = 0; i < model.getNumRules(); i++) {
-			equation = new InnerNode(model.getRule(i).getMetaId());
+			equation = new InnerNode<SBase>(model.getRule(i));
 			Rule r = model.getRule(i);
 			if (r instanceof AlgebraicRule) {
 				equations.add(equation);
@@ -698,15 +774,15 @@ public class OverdeterminationValidator {
 	 * and Karp paper. Matching is not necessarily maximal.
 	 */
 	private void buildMatching() {
-		StartNode matchingGraph;
+		StartNode<SBase> matchingGraph;
 		// the source node
-		matchingGraph = new StartNode();
+		matchingGraph = new StartNode<SBase>();
 		// the sink node
-		TerminalNode tnode = new TerminalNode();
-		matching = new HashMap<String, String>();
-		Set<Node> B = new HashSet<Node>();
-		Stack<Node> stack = new Stack<Node>();
-		Node first, last;
+		TerminalNode<SBase> tnode = new TerminalNode<SBase>();
+		matching = new HashMap<SBase, SBase>();
+		Set<Node<SBase>> B = new HashSet<Node<SBase>>();
+		Stack<Node<SBase>> stack = new Stack<Node<SBase>>();
+		Node<SBase> first, last;
 		int i;
 
 		// connect equations with source node
@@ -738,7 +814,7 @@ public class OverdeterminationValidator {
 					stack.push(first);
 
 					// if first not the sink node add to the matching
-					if (!(stack.peek() instanceof TerminalNode)) {
+					if (!(stack.peek() instanceof TerminalNode<?>)) {
 						B.add(first);
 					}// first is sink node
 					else {
@@ -779,24 +855,28 @@ public class OverdeterminationValidator {
 	 *            nodes already visited in the path
 	 */
 	@SuppressWarnings("unchecked")
-	private void findShortestPath(int i, Node node, ArrayList<Node> path) {
-		String value;
+	private void findShortestPath(int i, Node<SBase> node,
+			List<Node<SBase>> path) {
+		SBase value;
 		// Path has reached the desired length -> store it in the list
 		if (path.size() == i * 2) {
 			paths.add(path);
 		} else {
 			value = matching.get(node.getValue());
 			// Search for the adjacent node convenient with the current matching
-			for (Node next : node.getNodes()) {
+			for (Node<SBase> next : node.getNodes()) {
 				if (next.getValue() == value) {
 					path.add(node);
 					path.add(next);
 					// Edge saved in the path -> carry on with every adjacent
 					// node of the last node in the path
-					for (Node nextnext : next.getNodes()) {
+					for (Node<SBase> nextnext : next.getNodes()) {
 						if (nextnext.getValue() != node.getValue()) {
-							findShortestPath(i, nextnext,
-									(ArrayList<Node>) path.clone());
+							findShortestPath(
+									i,
+									nextnext,
+									(List<Node<SBase>>) ((ArrayList<Node<SBase>>) path)
+											.clone());
 						}
 					}
 				}
@@ -809,7 +889,7 @@ public class OverdeterminationValidator {
 	 * 
 	 * @return
 	 */
-	public HashMap<String, String> getMatching() {
+	public Map<SBase, SBase> getMatching() {
 		return matching;
 	}
 
@@ -822,15 +902,15 @@ public class OverdeterminationValidator {
 	 * @param variables
 	 */
 	private void getVariables(ListOf<LocalParameter> param, ASTNode node,
-			List<String> variables) {
+			List<SBase> variables) {
 		// found node with species
 		if (node.isName() && !node.isFunction()) {
 			if (!node.isConstant()) {
 				if (param == null) {
-					variables.add(node.getName());
+					variables.add(node.getVariable());
 				} else {
-					if (!param.contains(node.getName())) {
-						variables.add(node.getName());
+					if (!param.contains(node.getVariable())) {
+						variables.add(node.getVariable());
 					}
 				}
 			}
@@ -851,7 +931,7 @@ public class OverdeterminationValidator {
 	 * Initializes the Converter
 	 */
 	private void init() {
-		this.svariables = new ArrayList<String>();
+		this.svariables = new ArrayList<SBase>();
 		this.reactants = new HashSet<String>();
 
 		for (int i = 0; i < model.getNumReactions(); i++) {
@@ -876,8 +956,8 @@ public class OverdeterminationValidator {
 	}
 
 	/**
-	 * Returns a boolean that indicates whether the given model is
-	 * over determined or not.
+	 * Returns a boolean that indicates whether the given model is over
+	 * determined or not.
 	 * 
 	 * @return
 	 */
@@ -893,7 +973,7 @@ public class OverdeterminationValidator {
 	 * 
 	 * @param path
 	 */
-	private void updateMatching(ArrayList<Node> path) {
+	private void updateMatching(List<Node<SBase>> path) {
 		int index;
 		index = 1;
 		System.out.println(path.get(0).getValue());
