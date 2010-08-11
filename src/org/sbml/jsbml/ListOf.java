@@ -147,7 +147,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * name of the list at it appears in the SBMLFile. By default, it is
 	 * SBaseListType.none.
 	 */
-	protected Type currentList = Type.none;
+	protected Type listType = Type.none;
 	/**
 	 * list containing all the SBase elements of this object.
 	 */
@@ -442,7 +442,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @return the SBaseListType of this ListOf instance
 	 */
 	public Type getSBaseListType() {
-		return currentList;
+		return listType;
 	}
 
 	/*
@@ -663,12 +663,12 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	}
 
 	/**
-	 * Sets the SBaseListType of this ListOf instance to 'currentList'.
+	 * Sets the SBaseListType of this ListOf instance to 'listType'.
 	 * 
-	 * @param currentList
+	 * @param listType
 	 */
 	public void setSBaseListType(Type currentList) {
-		this.currentList = currentList;
+		this.listType = currentList;
 		stateChanged();
 	}
 
@@ -716,13 +716,14 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	@Override
 	public String toString() {
-		return listOf.toString();
+		// return listOf.toString();
+		return listType.toString();
 	}
 
 	/**
 	 * Sets the SBaseListType of this ListOf to SBaseListType.none.
 	 */
 	public void unsetSBaseListType() {
-		this.currentList = Type.none;
+		this.listType = Type.none;
 	}
 }
