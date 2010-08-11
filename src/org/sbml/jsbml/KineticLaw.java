@@ -568,4 +568,14 @@ public class KineticLaw extends MathContainer {
 
 		return attributes;
 	}
+
+	@Override
+	public String toString() {
+		String kineticLawStr = "kineticLaw (" + ((Reaction) getParent()).getId() + ") : ";
+		kineticLawStr += super.toString();
+
+		return kineticLawStr; 
+	}
+	
+	
 }
