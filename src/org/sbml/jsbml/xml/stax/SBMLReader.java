@@ -538,11 +538,13 @@ public class SBMLReader {
 			else if (event.isEndElement()) {
 				EndElement endElement = event.asEndElement();
 
+				// TODO : create a log system to avoid having to comment/uncomment sysout to debug
 				//System.out.println("SBMLReader : event.isEndElement : stack.size = " + SBMLElements.size());
 				//System.out.println("SBMLReader : event.isEndElement : element name = " + endElement.getName().getLocalPart());
-				//if (endElement.getName().getLocalPart().equals("kineticLaw")) {
+				//if (endElement.getName().getLocalPart().equals("kineticLaw") || endElement.getName().getLocalPart().startsWith("listOf")) {
 					//System.out.println("SBMLReader : event.isEndElement : stack = " + SBMLElements);
 				//}
+				// TODO : check that the stack did not increase before and after an element ?
 				
 				// If this element contains no text and doesn't have any
 				// subNodes, this element is nested.
