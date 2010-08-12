@@ -136,6 +136,7 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 		// Possible value : type, id, style, class, encoding, definitionURL ...
 		if (attributeName.equals("type") || attributeName.equals("definitionURL")) {
 			astNode.setType(value);
+			// System.out.println("MathMLStaxParser : processAttribute : astNode Type = " + astNode.getType());
 		} else if (attributeName.equals("id")) {
 			astNode.setId(value);
 		} else if (attributeName.equals("style")) {
@@ -145,6 +146,7 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 		} else if (attributeName.equals("encoding")) {
 			astNode.setEncoding(value);
 		}
+		
 		
 	}
 
@@ -192,8 +194,6 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 			}
 		} else if (astNode.isReal()) {
 			astNode.setValue(Double.parseDouble(characters.trim()), 0);
-		} else if (astNode.getType().equals(Type.NAME_TIME)) { 
-			astNode.setName(characters.trim());
 		} else if (astNode.getType().equals(Type.FUNCTION_DELAY)) { 
 			astNode.setName(characters.trim());
 		} else {
@@ -240,7 +240,7 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 			
 			// TODO : add other type of ASTNode in the test
 			if ((astNode.isFunction() || astNode.isOperator()) && !elementName.equals("apply")) {
-				// System.out.println("MathMLStaxParser : processEndElement : stack stay the same");
+				// System.out.println("MathMLStaxParser : processEndElement : stack stay the same. ASTNode type = " + astNode.getType());
 				return false;
 				
 			}

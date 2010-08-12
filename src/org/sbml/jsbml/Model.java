@@ -2282,7 +2282,7 @@ public class Model extends AbstractNamedSBase {
 			// substance
 			ud = UnitDefinition.substance(getLevel(), getVersion());
 			substanceUnitsID = ud.getId();
-			listOfUnitDefinitions.add(ud);
+			listOfUnitDefinitions.add(ud); //TODO : send a mail to the list about that. We need to put these default UnitDefinitions some other place 
 
 			// volume
 			ud = UnitDefinition.volume(getLevel(), getVersion());
@@ -2891,7 +2891,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 */
 	public UnitDefinition removeUnitDefinition(int n) {
-		return getListOfUnitDefinitions().get(n);
+		return getListOfUnitDefinitions().remove(n);
 	}
 
 	/**
