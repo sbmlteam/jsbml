@@ -54,6 +54,7 @@ import org.sbml.jsbml.util.filters.Filter;
  * expression.
  * 
  * @author Andreas Dr&auml;ger
+ * @author rodrigue
  * 
  */
 public class ASTNode implements TreeNode {
@@ -444,6 +445,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Creates a new ASTNode that of type DIVIDE with the given numerator and denominator.
 	 * 
 	 * @param container
 	 * @param numerator
@@ -523,7 +525,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Create {@link ASTNode} that performs a less than comparison between two
+	 * Creates an {@link ASTNode} that performs a less than comparison between two
 	 * {@link ASTNode}s. The parent SBML object of the resulting node will be
 	 * taken from the left node.
 	 * 
@@ -540,7 +542,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Create {@link ASTNode} that performs a less than comparison between a
+	 * Creates an {@link ASTNode} that performs a less than comparison between a
 	 * variable and another {@link ASTNode}. The parent SBML object will be
 	 * taken from the given {@link ASTNode}.
 	 * 
@@ -668,7 +670,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * set the Parent of the node and its children to the given value
+	 * Sets the Parent of the node and its children to the given value
 	 * 
 	 * @param node
 	 * @param parent
@@ -731,7 +733,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Multiplication of several NamedSBase objects.
+	 * Multiplies several NamedSBase objects.
 	 * 
 	 * @param parent
 	 * @param sbase
@@ -831,7 +833,7 @@ public class ASTNode implements TreeNode {
 	/**
 	 * A direct pointer to a referenced variable. This can save a lot of
 	 * computation time because it will then not be necessary to query the
-	 * correspoinding model again and again for this variable.
+	 * corresponding model again and again for this variable.
 	 */
 	private NamedSBaseWithDerivedUnit variable;
 
@@ -859,6 +861,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Creates and returns a new ASTNode.
 	 * 
 	 * @param mantissa
 	 * @param exponent
@@ -870,6 +873,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Creates and returns a new ASTNode.
 	 * 
 	 * @param real
 	 * @param parent
@@ -880,6 +884,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Creates and returns a new ASTNode.
 	 * 
 	 * @param integer
 	 * @param parent
@@ -906,6 +911,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Creates and returns a new ASTNode.
 	 * 
 	 * @param nsb
 	 * @param parent
@@ -916,9 +922,10 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Creates and returns a new ASTNode.
 	 * 
 	 * @param name
-	 * @param parent
+	 * @param parent the parent SBML object.
 	 */
 	public ASTNode(String name, MathContainer parent) {
 		this(Type.NAME, parent);
@@ -929,13 +936,8 @@ public class ASTNode implements TreeNode {
 	/**
 	 * Creates and returns a new ASTNode.
 	 * 
-	 * By default, the returned node will have a type of UNKNOWN. The calling
-	 * code should set the node type to something else as soon as possible using
-	 * setType(int)
-	 * 
-	 * @param type
-	 * @param the
-	 *            parent SBML object
+	 * @param type the type of the ASTNode to create.
+	 * @param parent the parent SBML object.
 	 */
 	public ASTNode(Type type, MathContainer parent) {
 		this(parent);
@@ -943,8 +945,9 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Adds a child to this node.
 	 * 
-	 * @param child
+	 * @param child the node to add as child.
 	 */
 	public void addChild(ASTNode child) {
 		listOfNodes.add(child);
@@ -1343,18 +1346,18 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Method to check if this {@link ASTNode} represents a sum.
+	 * Checks if this {@link ASTNode} represents a sum.
 	 * 
-	 * @return
+	 * @return true if this {@link ASTNode} represents a sum, false otherwise.
 	 */
 	public boolean isSum() {
 		return type == Type.PLUS;
 	}
 
 	/**
-	 * Method to check if this {@link ASTNode} represents a difference.
+	 * Checks if this {@link ASTNode} represents a difference.
 	 * 
-	 * @return
+	 * @return true if this {@link ASTNode} represents a difference, false otherwise.
 	 */
 	public boolean isDifference() {
 		return type == Type.MINUS;
@@ -1396,11 +1399,11 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * This method recursively evaluates this ASTNode and creates a new
+	 * Evaluates recursively this ASTNode and creates a new
 	 * UnitDefinition with respect of all referenced elements.
 	 * 
-	 * @return
-	 * @throws SBMLException
+	 * @return the derived unit of the node.
+	 * @throws SBMLException if they are problems going through the ASTNode tree.
 	 */
 	public UnitDefinition deriveUnit() throws SBMLException {
 		MathContainer container = getParentSBMLObject();
@@ -1414,9 +1417,10 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Divides this node through? the given node
+	 * Divides this node by the given node
 	 * 
-	 * param ast
+	 * @param ast an ASTNode
+	 * @return the current node for convenience.
 	 */
 	public ASTNode divideBy(ASTNode ast) {
 		arithmeticOperation(Type.DIVIDE, ast);
@@ -1424,9 +1428,10 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Divides this node by the given SBML element.
 	 * 
-	 * @param namedSBase
-	 * @return
+	 * @param namedSBase an SBML element that can be represented by a value.
+	 * @return the current node for convenience.
 	 */
 	public ASTNode divideBy(NamedSBaseWithDerivedUnit namedSBase) {
 		return divideBy(new ASTNode(namedSBase, getParentSBMLObject()));
@@ -1476,15 +1481,15 @@ public class ASTNode implements TreeNode {
 	 * Goes through the formula and identifies all global parameters that are
 	 * referenced by this rate equation.
 	 * 
-	 * @param math
-	 * @return
+	 * @return all global parameters that are referenced by this rate equation.
 	 */
 	public List<Parameter> findReferencedGlobalParameters() {
 		LinkedList<Parameter> pList = new LinkedList<Parameter>();
 		if (getType().equals(ASTNode.Type.NAME)
 				&& (getVariable() instanceof Parameter)
 				&& (getParentSBMLObject().getModel().getParameter(
-						getVariable().getId()) != null)) {
+						getVariable().getId()) != null)) 
+		{
 			pList.add((Parameter) getVariable());
 		}
 		for (ASTNode child : getListOfNodes()) {
@@ -1504,11 +1509,13 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Get the value of this node as a single character. This function should be
+	 * Gets the value of this node as a single character. This function should be
 	 * called only when ASTNode.getType() is one of PLUS, MINUS, TIMES, DIVIDE
 	 * or POWER.
 	 * 
 	 * @return the value of this ASTNode as a single character
+	 * @throws IllegalArgumentException if the type of the node is not one of PLUS, MINUS, TIMES, DIVIDE
+	 * or POWER. 
 	 */
 	public char getCharacter() {
 		if (isOperator())
@@ -1526,18 +1533,19 @@ public class ASTNode implements TreeNode {
 			default:
 				break;
 			}
-		throw new RuntimeException(new IllegalArgumentException(
-				"getCharacter() should be called only when isOperator()."));
+		throw new IllegalArgumentException(
+				"getCharacter() should be called only when isOperator().");
 	}
 
 	/**
-	 * Get a child of this node according to an index number.
+	 * Gets a child of this node according to an index number.
 	 * 
 	 * @param n
 	 *            the index of the child to get
 	 * @return the nth child of this ASTNode or NULL if this node has no nth
 	 *         child (n > getNumChildren() - 1).
 	 */
+	// TODO : we are not doing what the doc is saying + we should check the validity of the index passed (> 0 and < getNumChildren())
 	public ASTNode getChild(int n) {
 		return listOfNodes.get(n);
 	}
@@ -1547,6 +1555,7 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @see javax.swing.tree.TreeNode#getChildAt(int)
 	 */
+	// TODO : we should check the validity of the index passed (> 0 and < getNumChildren())
 	public TreeNode getChildAt(int i) {
 		return listOfNodes.get(i);
 	}
@@ -1570,25 +1579,26 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Get the value of the denominator of this node. This function should be
-	 * called only when getType() == RATIONAL.
-	 * 
+	 * Gets the value of the denominator of this node. This function should be
+	 * called only when getType() == RATIONAL, otherwise an Exception is thrown.
 	 * 
 	 * @return the value of the denominator of this ASTNode.
+	 * @throws IllegalArgumentException if the method is called on a node that is not of type rational.
 	 */
 	public int getDenominator() {
-		if (isRational())
+		if (isRational()) {
 			return denominator;
-		throw new RuntimeException(
-				new IllegalArgumentException(
-						"getDenominator() should be called only when getType() == RATIONAL."));
+		}
+		throw new IllegalArgumentException(
+						"getDenominator() should be called only when getType() == RATIONAL.");
 	}
 
 	/**
-	 * Get the exponent value of this ASTNode. This function should be called
-	 * only when getType() returns REAL_E or REAL.
+	 * Gets the exponent value of this ASTNode. This function should be called
+	 * only when getType() returns REAL_E or REAL, otherwise an Exception is thrown.
 	 * 
 	 * @return the value of the exponent of this ASTNode.
+	 * @throws IllegalArgumentException if the method is called on a node that is not of type real.
 	 */
 	public int getExponent() {
 		if (type == Type.REAL || type == Type.REAL_E) {
@@ -1614,20 +1624,21 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Get the value of this node as an integer. This function should be called
-	 * only when getType() == INTEGER.
+	 * Gets the value of this node as an integer. This function should be called
+	 * only when getType() == INTEGER, otherwise an Exception is thrown.
 	 * 
-	 * @return the value of this ASTNode as a (long) integer.
+	 * @return the value of this ASTNode as an integer.
+	 * @throws IllegalArgumentException if the node is not of type integer. 
 	 */
 	public int getInteger() {
-		if (isInteger())
+		if (isInteger()) {
 			return numerator;
-		throw new RuntimeException(new IllegalArgumentException(
-				"getInteger() should be called only when getType() == INTEGER"));
+		}
+		throw new IllegalArgumentException("getInteger() should be called only when getType() == INTEGER");
 	}
 
 	/**
-	 * Get the left child of this node.
+	 * Gets the left child of this node.
 	 * 
 	 * @return the left child of this ASTNode. This is equivalent to
 	 *         getChild(0);
@@ -1666,9 +1677,9 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Get the mantissa value of this node. This function should be called only
-	 * when getType() returns REAL_E or REAL. If getType() returns REAL, this
-	 * method is identical to getReal().
+	 * Gets the mantissa value of this node. This function should be called only
+	 * when getType() returns REAL_E or REAL, otherwise an Exception is thrown. 
+	 * If getType() returns REAL, this method is identical to getReal().
 	 * 
 	 * @return the value of the mantissa of this ASTNode.
 	 */
@@ -1685,42 +1696,44 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Get the value of this node as a string. This function may be called on
+	 * Gets the name of this node. This method may be called on
 	 * nodes that are not operators (isOperator() == false) or numbers
 	 * (isNumber() == false).
 	 * 
-	 * @return the value of this ASTNode as a string.
+	 * @return the name of this node.
+	 * @throws IllegalArgumentException if the method is called on nodes that are operators or numbers.
 	 */
 	public String getName() {
 		if (!isOperator() && !isNumber()) {
 			return variable == null ? name : variable.getId();
 		}
-		throw new RuntimeException(
+		throw new IllegalArgumentException(
 				"getName() should be called only when !isNumber() || !isOperator()");
 	}
 
 	/**
-	 * Get the number of children that this node has.
+	 * Gets the number of children that this node has.
 	 * 
-	 * @return the number of children of this ASTNode, or 0 is this node has no
-	 *         children.
+	 * @return the number of children of this ASTNode.
 	 */
 	public int getNumChildren() {
 		return listOfNodes == null ? 0 : listOfNodes.size();
 	}
 
 	/**
-	 * Get the value of the numerator of this node. This function should be
-	 * called only when getType() == RATIONAL.
+	 * Gets the value of the numerator of this node. This method should be
+	 * called only when getType() == RATIONAL, otherwise an Exception is thrown.
 	 * 
 	 * 
 	 * @return the value of the numerator of this ASTNode.
+	 * @throws IllegalArgumentException if this method is called on a node type other than rational.
 	 */
 	public int getNumerator() {
-		if (isRational())
+		if (isRational()) {
 			return numerator;
-		throw new RuntimeException(new IllegalArgumentException(
-				"getNumerator() should be called only when isRational()"));
+		}
+		throw new IllegalArgumentException(
+				"getNumerator() should be called only when isRational()");
 	}
 
 	/*
@@ -1735,23 +1748,24 @@ public class ASTNode implements TreeNode {
 	/**
 	 * This method is convenient when holding an object nested inside other
 	 * objects in an SBML model. It allows direct access to the &lt;model&gt;
-	 * 
 	 * element containing it.
 	 * 
 	 * @return Returns the parent SBML object.
 	 */
+	// TODO : update javadoc or method to be synchronized. We are not returning the model element there.
 	public MathContainer getParentSBMLObject() {
 		return parentSBMLObject;
 	}
 
 	/**
-	 * Get the real-numbered value of this node. This function should be called
-	 * only when isReal() == true.
+	 * Gets the real-numbered value of this node. This function should be called
+	 * only when isReal() == true, otherwise and Exception is thrown.
 	 * 
 	 * This function performs the necessary arithmetic if the node type is
 	 * REAL_E (mantissa^exponent) or RATIONAL (numerator / denominator).
 	 * 
 	 * @return the value of this ASTNode as a real (double).
+	 * @throws IllegalArgumentException if this node is not of type real.
 	 */
 	public double getReal() {
 		if (isReal() || type == Type.CONSTANT_E || type == Type.CONSTANT_PI) {
@@ -1770,14 +1784,16 @@ public class ASTNode implements TreeNode {
 				break;
 			}
 		}
-		throw new RuntimeException(new IllegalArgumentException(
-				"getReal() should be called only when isReal()"));
+		throw new IllegalArgumentException(
+				"getReal() should be called only when isReal() returns true.");
 	}
 
 	/**
+	 * Returns a set of all the {@link NamedSBase} referenced on this node and all his descendant.
+	 * 
 	 * Just for testing purposes...
 	 * 
-	 * @return
+	 * @return a set of all the {@link NamedSBase} referenced on this node and all his descendant.
 	 */
 	public Set<NamedSBase> getReferencedNamedSBases() {
 		Set<NamedSBase> l = new HashSet<NamedSBase>();
@@ -1807,8 +1823,9 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Returns the type of this node.
 	 * 
-	 * @return
+	 * @return the type of this node.
 	 */
 	public Type getType() {
 		return type;
@@ -1824,8 +1841,11 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Returns the variable of this node.  This function should be called
+	 * only when isName() == true, otherwise and Exception is thrown.
 	 * 
-	 * @return
+	 * @return the variable of this node
+	 * @throws IllegalArgumentException if isName() returns false. 
 	 */
 	public NamedSBaseWithDerivedUnit getVariable() {
 		if (isName()) {
@@ -1840,9 +1860,8 @@ public class ASTNode implements TreeNode {
 			}
 			return variable;
 		}
-		throw new RuntimeException(
-				new IllegalArgumentException(
-						"getVariable() should be called only when !isNumber() or !isOperator()"));
+		throw new IllegalArgumentException(
+						"getVariable() should be called only when isName() == true.");
 	}
 
 	/**
@@ -1868,10 +1887,13 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Initializes the default values/attributes of the node.
 	 * 
 	 */
+	// TODO : we should probably init/reset all values/attribute in this method ?? 
 	private void initDefaults() {
 		type = Type.UNKNOWN;
+		
 		if (listOfNodes == null) {
 			listOfNodes = new LinkedList<ASTNode>();
 		} else {
@@ -1882,7 +1904,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Insert the given ASTNode at point n in the list of children of this
+	 * Inserts the given ASTNode at point n in the list of children of this
 	 * ASTNode. Inserting a child within an ASTNode may result in an inaccurate
 	 * representation.
 	 * 
@@ -1896,11 +1918,12 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node has a boolean type (a
+	 * Returns true if this node has a boolean type (a
 	 * logical operator, a relational operator, or the constants true or false).
 	 * 
 	 * @return true if this ASTNode is a boolean, false otherwise.
 	 */
+	// TODO : check, libsbml is testing for relational operator also.
 	public boolean isBoolean() {
 		return type == Type.CONSTANT_FALSE || type == Type.CONSTANT_TRUE
 				|| type == Type.LOGICAL_AND || type == Type.LOGICAL_NOT
@@ -1908,19 +1931,18 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node represents a MathML
+	 * Returns true if this node represents a MathML
 	 * constant (e.g., true, Pi).
 	 * 
 	 * @return true if this ASTNode is a MathML constant, false otherwise.
 	 */
+	// TODO : Should we test for NAME_AVOGADRO also ?
 	public boolean isConstant() {
-		return type.toString().startsWith("CONSTANT");
+		return type.toString().startsWith("CONSTANT") || type == Type.NAME_AVOGADRO;
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node represents a MathML
-	 * function (e.g., abs()), or an SBML Level 1 function, or a user-defined
-	 * function.
+	 * Returns true if this node represents a function.
 	 * 
 	 * @return true if this ASTNode is a function, false otherwise.
 	 */
@@ -1929,8 +1951,8 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node represents the special
-	 * IEEE 754 value infinity, false (zero) otherwise.
+	 * Returns true if this node represents the special
+	 * IEEE 754 value infinity, false otherwise.
 	 * 
 	 * @return true if this ASTNode is the special IEEE 754 value infinity,
 	 *         false otherwise.
@@ -1940,8 +1962,8 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node contains an integer
-	 * value, false (zero) otherwise.
+	 * Returns true if this node contains an integer
+	 * value, false otherwise.
 	 * 
 	 * @return true if this ASTNode is of type INTEGER, false otherwise.
 	 */
@@ -1950,8 +1972,8 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node is a MathML
-	 * &lt;lambda&gt;, false (zero) otherwise.
+	 * Returns true if this node is a MathML
+	 * &lt;lambda&gt;, false otherwise.
 	 * 
 	 * @return true if this ASTNode is of type LAMBDA, false otherwise.
 	 */
@@ -1969,8 +1991,8 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node represents a log10()
-	 * function, false (zero) otherwise. More precisely, this predicate returns
+	 * Returns true if this node represents a log10()
+	 * function, false otherwise. More precisely, this predicate returns
 	 * true if the node type is FUNCTION_LOG with two children, the first of
 	 * which is an INTEGER equal to 10.
 	 * 
@@ -1984,7 +2006,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node is a MathML logical
+	 * Returns true if this node is a MathML logical
 	 * operator (i.e., and, or, not, xor).
 	 * 
 	 * @return true if this ASTNode is a MathML logical operator.
@@ -2005,41 +2027,40 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node is a user-defined
+	 * Returns true if this node is a user-defined
 	 * variable name in SBML L1, L2 (MathML), or the special symbols delay or
-	 * time. The predicate returns false (zero) otherwise.
+	 * time. The predicate returns false otherwise.
 	 * 
 	 * @return true if this ASTNode is a user-defined variable name in SBML L1,
-	 *         L2 (MathML) or the special symbols delay or time.
+	 *         L2 (MathML) or the special symbols time or avogadro.
 	 */
 	public boolean isName() {
-		return type == Type.NAME || type == Type.FUNCTION;
+		return type == Type.NAME || type == Type.NAME_TIME || type == Type.NAME_AVOGADRO;
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node represents the special
-	 * IEEE 754 value 'not a number' (NaN), false (zero) otherwise.
+	 * Returns true if this node is a type Real and represents the special
+	 * IEEE 754 value 'not a number' {@link Double.NaN}, false otherwise.
 	 * 
-	 * @return true if this ASTNode is the special IEEE 754 NaN
+	 * @return true if this ASTNode is the {@link Double.NaN}
 	 */
 	public boolean isNaN() {
 		return isReal() && Double.isNaN(getReal());
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node represents the special
-	 * IEEE 754 value 'negative infinity', false (zero) otherwise.
+	 * Returns true if this node represents the special
+	 * IEEE 754 value 'negative infinity' {@link Double.NEGATIVE_INFINITY}, false otherwise.
 	 * 
-	 * @return true if this ASTNode is the special IEEE 754 value negative
-	 *         infinity, false otherwise.
+	 * @return true if this ASTNode is {@link Double.NEGATIVE_INFINITY}, false otherwise.
 	 */
 	public boolean isNegInfinity() {
 		return isReal() && Double.isInfinite(getReal()) && (getReal() < 0);
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node contains a number, false
-	 * (zero) otherwise. This is functionally equivalent to the following code:
+	 * Returns true if this node contains a number, false
+	 *  otherwise. This is functionally equivalent to the following code:
 	 * 
 	 * <pre>
 	 * isInteger() || isReal()
@@ -2052,10 +2073,10 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Returns true if this astnode represents the number one (either as integer
+	 * Returns true if this {@link ASTNode} represents the number one (either as integer
 	 * or as real value).
 	 * 
-	 * @return
+	 * @return true if this {@link ASTNode} represents the number one.
 	 */
 	public boolean isOne() {
 		return (isReal() && getReal() == 1d)
@@ -2063,7 +2084,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node is a mathematical
+	 * Returns true if this node is a mathematical
 	 * operator, meaning, +, -, *, / or ^ (power).
 	 * 
 	 * @return true if this ASTNode is an operator.
@@ -2074,8 +2095,8 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node is the MathML
-	 * &lt;piecewise&gt; construct, false (zero) otherwise.
+	 * Returns true if this node is the MathML
+	 * &lt;piecewise&gt; construct, false otherwise.
 	 * 
 	 * @return true if this ASTNode is a MathML piecewise function
 	 */
@@ -2084,21 +2105,21 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node represents a rational
-	 * number, false (zero) otherwise.
+	 * Returns true if this node represents a rational
+	 * number, false otherwise.
 	 * 
-	 * @return true if this ASTNode is of type RATIONAL.
+	 * @return true if this ASTNode is of type {@link Type.RATIONAL}.
 	 */
 	public boolean isRational() {
 		return type == Type.RATIONAL;
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node can represent a real
-	 * number, false (zero) otherwise. More precisely, this node must be of one
+	 * Returns true if this node can represent a real
+	 * number, false otherwise. More precisely, this node must be of one
 	 * of the following types: REAL, REAL_E or RATIONAL.
 	 * 
-	 * @return true if the value of this ASTNode can represented as a real
+	 * @return true if the value of this ASTNode can represented a real
 	 *         number, false otherwise.
 	 */
 	public boolean isReal() {
@@ -2107,7 +2128,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node is a MathML relational
+	 * Returns true if this node is a MathML relational
 	 * operator, meaning ==, >=, >, <, and !=.
 	 * 
 	 * @return true if this ASTNode is a MathML relational operator, false
@@ -2120,30 +2141,30 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Method to check whether this {@link ASTNode} is the root node of a tree.
+	 * Returns true if this {@link ASTNode} is the root node of a tree, false otherwise.
 	 * 
-	 * @return True if this {@link ASTNode} does not have a parent node. False
-	 *         otherwise.
+	 * @return True if this {@link ASTNode} is the root node of a tree, false otherwise.
 	 */
 	public boolean isRoot() {
 		return getParent() == null;
 	}
 
 	/**
-	 * Returns true if the current ASTNode has a unit defined.
+	 * Returns true if a unit is defined on this node.
 	 * 
-	 * @return true if the current ASTNode has a unit defined.
+	 * @return true if a unit is defined on this node.
 	 */
 	public boolean isSetUnits() {
 		return unitId != null;
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node represents a square root
-	 * function, false (zero) otherwise. More precisely, the node type must be
-	 * FUNCTION_ROOT with two children, the first of which is an INTEGER node
-	 * having value equal to 2.
+	 * Returns true if this node represents a square root
+	 * function, false otherwise. 
 	 * 
+	 * More precisely, the node type must be
+	 * {@link Type.FUNCTION_ROOT} with two children, the first of which is an {@link Type.INTEGER} node
+	 * having value equal to 2.
 	 * 
 	 * @return true if the given ASTNode represents a sqrt() function, false
 	 *         otherwise.
@@ -2155,8 +2176,8 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node is a unary minus
-	 * operator, false (zero) otherwise. A node is defined as a unary minus node
+	 * Returns true if this node is a unary minus
+	 * operator, false otherwise. A node is defined as a unary minus node
 	 * if it is of type MINUS and has exactly one child.
 	 * 
 	 * For numbers, unary minus nodes can be 'collapsed' by negating the number.
@@ -2171,7 +2192,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Predicate returning true (non-zero) if this node has an unknown type.
+	 * Returns true if this node has an unknown type.
 	 * 
 	 * 'Unknown' nodes have the type UNKNOWN. Nodes with unknown types will not
 	 * appear in an ASTNode tree returned by libSBML based upon valid SBML
@@ -2187,10 +2208,10 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Returns true if this astnode represents the number zero (either as
+	 * Returns true if this node represents the number zero (either as
 	 * integer or as real value).
 	 * 
-	 * @return
+	 * @return true if this node represents the number zero.
 	 */
 	public boolean isZero() {
 		return (isReal() && getReal() == 0d)
@@ -2198,20 +2219,21 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * subtracts the given ASTNode from this node
+	 * Subtracts the given ASTNode from this node.
 	 * 
-	 * @param ast
+	 * @param ast an <code>ASTNode</code>
+	 * @return the current node for convenience.
 	 */
-
 	public ASTNode minus(ASTNode ast) {
 		arithmeticOperation(Type.MINUS, ast);
 		return this;
 	}
 
 	/**
-	 * Substracts the given real number from this node.
+	 * Subtracts the given number from this node.
 	 * 
-	 * @param real
+	 * @param real a double number.
+	 * @return the current node for convenience.
 	 */
 	public ASTNode minus(double real) {
 		minus(new ASTNode(real, getParentSBMLObject()));
@@ -2219,9 +2241,10 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Substracts the given integer from this node.
+	 * Subtracts the given integer from this node.
 	 * 
-	 * @param integer
+	 * @param integer an integer number.
+	 * @return the current node for convenience.
 	 */
 	public ASTNode minus(int integer) {
 		minus(new ASTNode(integer, getParentSBMLObject()));
@@ -2229,15 +2252,22 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * multiplies this ASTNode with the given node
+	 * Multiplies this ASTNode with the given node
 	 * 
-	 * @param ast
+	 * @param ast an <code>ASTNode</code>
+	 * @return the current node for convenience.
 	 */
 	public ASTNode multiplyWith(ASTNode ast) {
 		arithmeticOperation(Type.TIMES, ast);
 		return this;
 	}
 
+	/**
+	 * Multiplies this ASTNode with the given nodes
+	 * 
+	 * @param nodes some <code>ASTNode</code>
+	 * @return the current node for convenience.
+	 */
 	public ASTNode multiplyWith(ASTNode... nodes) {
 		for (ASTNode node : nodes)
 			multiplyWith(node);
@@ -2246,28 +2276,31 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Multiplies this ASTNode with the given SBML element.
 	 * 
-	 * @param nsb
-	 * @return
+	 * @param nsb an SBML element that can be represented by a value.
+	 * @return the current node for convenience.
 	 */
 	public ASTNode multiplyWith(NamedSBaseWithDerivedUnit nsb) {
 		return multiplyWith(new ASTNode(nsb, getParentSBMLObject()));
 	}
 
 	/**
-	 * adds a given node to this node
+	 * Adds a given node to this node.
 	 * 
-	 * @param ast
-	 */
-
+	 * @param ast an <code>ASTNode</code>
+	 * @return the current node for convenience.
+	 */	
 	public ASTNode plus(ASTNode ast) {
 		arithmeticOperation(Type.PLUS, ast);
 		return this;
 	}
 
 	/**
+	 * Adds a number to this node.
 	 * 
-	 * @param real
+	 * @param real a double number.
+	 * @return the current node for convenience.
 	 */
 	public ASTNode plus(double real) {
 		plus(new ASTNode(real, getParentSBMLObject()));
@@ -2275,8 +2308,10 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Adds an integer number to this node.
 	 * 
-	 * @param integer
+	 * @param integer an integer number.
+	 * @return the current node for convenience.
 	 */
 	public ASTNode plus(int integer) {
 		plus(new ASTNode(integer, getParentSBMLObject()));
@@ -2284,9 +2319,10 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Adds an SBML element to this node.
 	 * 
-	 * @param nsb
-	 * @return
+	 * @param nsb an SBML element that can be represented by a value.
+	 * @return the current node for convenience.
 	 */
 	public ASTNode plus(NamedSBaseWithDerivedUnit nsb) {
 		plus(new ASTNode(nsb, getParentSBMLObject()));
@@ -2297,15 +2333,17 @@ public class ASTNode implements TreeNode {
 	 * Adds the given node as a child of this ASTNode. This method adds child
 	 * nodes from right to left.
 	 * 
-	 * @param child
+	 * @param child an <code>ASTNode</code>
 	 */
 	public void prependChild(ASTNode child) {
 		listOfNodes.addLast(child);
 	}
 
 	/**
+	 * Raises this ASTNode by the power of the value of the given node.
 	 * 
-	 * @param exponent
+	 * @param exponent an <code>ASTNode</code>
+	 * @return the current node for convenience.
 	 */
 	public ASTNode raiseByThePowerOf(ASTNode exponent) {
 		arithmeticOperation(Type.POWER, exponent);
@@ -2313,8 +2351,10 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
+	 * Raises this ASTNode by the power of the given number.
 	 * 
-	 * @param exponent
+	 * @param exponent a double number.
+	 * @return the current node for convenience.
 	 */
 	public ASTNode raiseByThePowerOf(double exponent) {
 		if (exponent == 0d) {
@@ -2328,8 +2368,8 @@ public class ASTNode implements TreeNode {
 	/**
 	 * Raises this ASTNode by the power of the value of this named SBase object.
 	 * 
-	 * @param nsb
-	 * @return
+	 * @param nsb an SBML element that can be represented by a value.
+	 * @return the current node for convenience.
 	 */
 	public ASTNode raiseByThePowerOf(NamedSBaseWithDerivedUnit nsb) {
 		return raiseByThePowerOf(new ASTNode(nsb, getParentSBMLObject()));
@@ -2339,7 +2379,10 @@ public class ASTNode implements TreeNode {
 	 * Reduces this ASTNode to a binary tree, e.g., if the formula in this
 	 * ASTNode is and(x, y, z) then the formula of the reduced node would be
 	 * and(and(x, y), z)
+	 * 
+	 * NotYetImplemented
 	 */
+	// TODO : should we return en exception to tell people that the method is not complete ?
 	public void reduceToBinary() {
 		if (getNumChildren() > 2) {
 			int i;
@@ -2400,13 +2443,13 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Returns true if this astnode or one of its descendents contains some
+	 * Returns true if this node or one of its descendants contains some
 	 * identifier with the given id. This method can be used to scan a formula
-	 * and for a specific parameter or species and detect weather this component
+	 * for a specific parameter or species and detect whether this component
 	 * is used by this formula. This search is done using a DFS.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id the id of an SBML element.
+	 * @return true if this node or one of its descendants contains the given id.
 	 */
 	public boolean refersTo(String id) {
 		if (isName() && (getName() != null) && getName().equals(id)) {
@@ -2437,7 +2480,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Replaces occurences of a name within this ASTNode with the
+	 * Replaces occurrences of a name within this ASTNode with the
 	 * name/value/formula represented by the second argument ASTNode, e.g., if
 	 * the formula in this ASTNode is x + y; bvar is x and arg is an ASTNode
 	 * representing the real value 3 ReplaceArgument substitutes 3 for x within
@@ -2515,6 +2558,7 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @param name
 	 */
+	// TODO : javadoc not synchronized with the code, we are not using isOperator() or isNumber() but may be we should.
 	public void setName(String name) {
 		variable = null;
 		Model m = getParentSBMLObject().getModel();
@@ -2524,24 +2568,32 @@ public class ASTNode implements TreeNode {
 		if (variable == null) {
 			this.name = name;
 		}
-		if (type != Type.NAME && type != Type.FUNCTION) {
+		if ((!type.toString().startsWith("NAME")) && type != Type.FUNCTION) {
 			type = variable == null ? Type.FUNCTION : Type.NAME;
 		}
 	}
 
 	/**
-	 * Sets the type of this ASTNode to the given ASTNodeType_t. A side-effect
+	 * Sets the type of this ASTNode to the given Type. A side-effect
 	 * of doing this is that any numerical values previously stored in this node
 	 * are reset to zero.
 	 * 
 	 * @param type
 	 *            the type to which this node should be set
 	 */
+	// TODO : javadoc not synchronized, we are not reseting previously stored values but we are modifying the name.
+	// TODO : we should probably simplify the code to avoid future problems
 	public void setType(Type type) {
+		
+		// TODO : check that the calls to initDefaults() do not delete anything important when reading the XML file, see MathMLStaxParser.java
+		// System.out.println("ASTNode : setType(Type) called : type = " + type);
+		
 		String sType = type.toString();
 		if (sType.startsWith("NAME") || sType.startsWith("CONSTANT")) {
+			// TODO : check, a user might have set some values before calling the setType()
 			initDefaults();
 		}
+		// TODO : setting the name should not be necessary and a user could have set a name before calling setType
 		if (type == Type.NAME_TIME) {
 			name = "time";
 		} else if (type == Type.FUNCTION_DELAY) {
@@ -2583,7 +2635,7 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Sets the value of this ASTNode to the given real (double) and sets the
+	 * Sets the value of this ASTNode to the given double number and sets the
 	 * node type to REAL.
 	 * 
 	 * This is functionally equivalent to:
@@ -2647,6 +2699,7 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @param variable
 	 */
+	// TODO : add javadoc
 	public void setVariable(NamedSBaseWithDerivedUnit variable) {
 		type = Type.NAME;
 		this.variable = variable;
@@ -2655,6 +2708,8 @@ public class ASTNode implements TreeNode {
 	/**
 	 * Applies the square root function on this syntax tree and returns the
 	 * resulting tree.
+	 * 
+	 * @return the current node for convenience.  
 	 */
 	public ASTNode sqrt() {
 		arithmeticOperation(Type.FUNCTION_ROOT, new ASTNode(2,
@@ -2694,7 +2749,7 @@ public class ASTNode implements TreeNode {
 	 *         mathematical formula. The caller owns the returned string and is
 	 *         responsible for freeing it when it is no longer needed. NULL is
 	 *         returned if the given argument is NULL.
-	 * @throws SBMLException
+	 * @throws SBMLException if there is a problem in the ASTNode tree.
 	 */
 	public String toFormula() throws SBMLException {
 		return compile(new TextFormula()).toString();
@@ -2705,19 +2760,17 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @return A String representing the LaTeX code necessary to write the
 	 *         formula corresponding to this node in a document.
-	 * @throws SBMLException
+	 * @throws SBMLException if there is a problem in the ASTNode tree.
 	 */
 	public String toLaTeX() throws SBMLException {
 		return compile(new LaTeX()).toString();
 	}
 
 	/**
-	 * This method converts this node recursively into a MathML string that
+	 * Converts this node recursively into a MathML string that
 	 * corresponds to the subset of MathML defined in the SBML specification.
 	 * 
-	 * @return
-	 * @throws XMLStreamException
-	 * @throws SBMLException
+	 * @return the representation of this node in MathML.
 	 */
 	public String toMathML() {
 		String mathML = "";
@@ -2726,8 +2779,13 @@ public class ASTNode implements TreeNode {
 			mathML = compile(new MathML()).toString();
 		} catch (SBMLException e) {
 			// TODO : log the exception
+			// e.printStackTrace();
 		} catch (XMLStreamException e) {
 			// TODO : log the exception
+			e.printStackTrace();
+		} catch (RuntimeException e) {
+			// added to prevent a crash when we cannot create the mathML
+			e.printStackTrace();
 		}
 
 		return mathML;
@@ -2746,30 +2804,25 @@ public class ASTNode implements TreeNode {
 			formula = compile(new TextFormula()).toString();
 		} catch (SBMLException e) {
 			// TODO : log the exception
+			// e.printStackTrace();
+		} catch (RuntimeException e) {
+			// added to prevent a crash when we cannot create the formula
+			e.printStackTrace();
 		}
 
 		return formula;
-
-		/*
-		 * // TODO if (isInteger()) { return Integer.toString(getInteger()); }
-		 * else if (isReal()) { return Double.toString(getReal()); } else if
-		 * (isOperator()) { return Character.toString(getCharacter()); } else if
-		 * (isRelational()) { switch (type) { case RELATIONAL_EQ: return
-		 * Character.toString('='); case RELATIONAL_GEQ: return ">="; case
-		 * RELATIONAL_GT: return Character.toString('>'); case RELATIONAL_LEQ:
-		 * return "<="; case RELATIONAL_LT: return Character.toString('<'); case
-		 * RELATIONAL_NEQ: return "!="; } } else if
-		 * (type.toString().startsWith("FUNCTION")) { String name =
-		 * type.toString(); return name.length() > 8 ?
-		 * type.toString().substring(9) .toLowerCase() : getName(); } else {
-		 * switch (type) { case NAME_TIME: return
-		 * type.toString().substring(4).toLowerCase(); default: break; } }
-		 * return isName() ? getName() : getType().toString();
-		 */
 	}
 
+	/**
+	 * Sets the type from a String. The method accept all the supported mathML elements,
+	 * the possible types of cn elements or the possible definitionURL of csymbol elements.
+	 * 
+	 * @param typeStr the type as a String.
+	 */
 	public void setType(String typeStr) {
 
+		// System.out.println("ASTNode : setType(String) called.");
+		
 		// Arithmetic operators
 		if (typeStr.equals("plus")) {
 			setType(Type.PLUS);
@@ -2877,9 +2930,10 @@ public class ASTNode implements TreeNode {
 		}
 
 		// token : cn, ci, csymbol, sep
-		// TODO : for ci, we have to check if it is a functinoDefinition
+		// TODO : for ci, we have to check if it is a functionDefinition
 		// for cn, we pass the type attribute to this function to determine the
 		// proper astNode type
+		// for csymbol, we pass the definitionURL
 		else if (typeStr.equals("real") || typeStr.equals("cn")) {
 			// we put the type by default to real in case the type attribute is
 			// not define on the cn element.
@@ -2904,14 +2958,18 @@ public class ASTNode implements TreeNode {
 			setType(Type.NAME_AVOGADRO);
 		}
 
-		// general : apply, piecewise, piece, otherwise, lambda
+		// TODO : general : apply, piecewise, piece, otherwise, lambda
 		else if (typeStr.equals("lambda")) {
 			setType(Type.LAMBDA);
 		} else if (typeStr.equals("piecewise")) {
 			setType(Type.FUNCTION_PIECEWISE);
+		} else if (typeStr.equals("piece")) {
+			// setType(Type.);
+		} else if (typeStr.equals("otherwise")) {
+			// setType(Type.FUNCTION_PIECEWISE);
 		}
 
-		// qualifiers : degree, bvar, logbase
+		// TODO : qualifiers : degree, bvar, logbase
 
 		// constants : true, false, notanumber, pi, infinity, exponentiale
 		else if (typeStr.equals("true")) {
@@ -2940,34 +2998,74 @@ public class ASTNode implements TreeNode {
 		}
 	}
 
+	/**
+	 * Returns the id of the mathML element represented by this ASTNode.
+	 * 
+	 * @return the id of the mathML element represented by this ASTNode.
+	 */
 	public String getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the id of the mathML element represented by this ASTNode.
+	 * 
+	 * @param id the id.
+	 */
 	public void setId(String id) {
 		this.id = id;
 	}
 
+	/**
+	 * Returns the style of the mathML element represented by this ASTNode.
+	 * 
+	 * @return the style of the mathML element represented by this ASTNode.
+	 */
 	public String getStyle() {
 		return style;
 	}
 
+	/**
+	 * Sets the style of the mathML element represented by this ASTNode.
+	 * 
+	 * @param style the style.
+	 */
 	public void setStyle(String style) {
 		this.style = style;
 	}
 
+	/**
+	 * Returns the class name of the mathML element represented by this ASTNode.
+	 * 
+	 * @return the class name of the mathML element represented by this ASTNode.
+	 */
 	public String getClassName() {
 		return className;
 	}
 
+	/**
+	 * Sets the class name of the mathML element represented by this ASTNode.
+	 * 
+	 * @param className the class name.
+	 */
 	public void setClassName(String className) {
 		this.className = className;
 	}
 
+	/**
+	 * Returns the encoding of the mathML element represented by this ASTNode.
+	 * 
+	 * @return the encoding of the mathML element represented by this ASTNode.
+	 */
 	public String getEncoding() {
 		return encoding;
 	}
 
+	/**
+	 * Sets the encoding of the mathML element represented by this ASTNode.
+	 * 
+	 * @param encoding the encoding
+	 */
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
 	}
