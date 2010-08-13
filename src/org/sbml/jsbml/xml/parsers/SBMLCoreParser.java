@@ -62,6 +62,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.SpeciesType;
+import org.sbml.jsbml.StoichiometryMath;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
@@ -235,6 +236,13 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				if (kineticLaw.isSetListOfParameters()) {
 					listOfElementsToWrite = new ArrayList<Object>();
 					listOfElementsToWrite.add(kineticLaw.getListOfParameters());
+				}
+			} else if (sbase instanceof SpeciesReference) {
+				SpeciesReference speciesReference = (SpeciesReference) sbase;
+
+				if (speciesReference.isSetStoichiometryMath()) {
+					listOfElementsToWrite = new ArrayList<Object>();
+					listOfElementsToWrite.add(speciesReference.getStoichiometryMath());
 				}
 			} else if (sbase instanceof Event) {
 				Event event = (Event) sbase;
@@ -1373,6 +1381,17 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 						reaction.setKineticLaw(kineticLaw);
 
 						return kineticLaw;
+					} else {
+						// TODO : SBML syntax error, throw an exception?
+					}
+				} else if (contextObject instanceof SpeciesReference) {
+					SpeciesReference speciesReference = (SpeciesReference) contextObject;
+
+					if (elementName.equals("stoichiometryMath")) {
+						StoichiometryMath stoichiometryMath = (StoichiometryMath) newContextObject;
+						speciesReference.setStoichiometryMath(stoichiometryMath);
+
+						return stoichiometryMath;
 					} else {
 						// TODO : SBML syntax error, throw an exception?
 					}

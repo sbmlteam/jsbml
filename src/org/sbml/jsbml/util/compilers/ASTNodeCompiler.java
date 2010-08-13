@@ -462,6 +462,16 @@ public interface ASTNodeCompiler {
 	public ASTNodeValue lambda(List<ASTNode> values) throws SBMLException;
 
 	/**
+	 * The body of a {@link FunctionDefinition}.
+	 * 
+	 * @param values
+	 *            Place holders for arguments.
+	 * @return
+	 * @throws SBMLException
+	 */
+	public ASTNodeValue lambdaFunction(List<ASTNode> children) throws SBMLException;
+	
+	/**
 	 * Less equal.
 	 * 
 	 * @param left
@@ -696,4 +706,6 @@ public interface ASTNodeCompiler {
 	 * @throws SBMLException
 	 */
 	public ASTNodeValue xor(List<ASTNode> values) throws SBMLException;
+
+	
 }

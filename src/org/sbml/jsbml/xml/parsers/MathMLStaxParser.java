@@ -34,6 +34,7 @@ import java.util.ArrayList;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.util.StringTools;
@@ -175,8 +176,14 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 		ASTNode astNode = (ASTNode) contextObject;
 		
 		// System.out.println("MathMLStaxParser : processCharactersOf : context type : " + astNode.getType());
+		FunctionDefinition functionDef = astNode.getParentSBMLObject().getModel().getFunctionDefinition(characters.trim());
 		
-		if (astNode.isName()) {
+		if (functionDef != null) {
+			System.out.println("MathMLStaxParser : processCharactersOf : function found !!");
+			astNode.setType(Type.FUNCTION);
+		}
+		
+		if (astNode.isName() || astNode.isFunction()) {
 			astNode.setName(characters.trim());
 		} else if (astNode.isInteger()) {
 			astNode.setValue(Integer.parseInt(characters.trim()));
@@ -280,7 +287,9 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 					// ", prefix = " + prefix + ", hasAttributes = " + hasAttributes + ", hasNamespace = " + hasNamespaces);
 			// + ", " + contextObject);
 		
-		if (elementName.equals("math") || elementName.equals("apply") || elementName.equals("sep") || elementName.equals("piece") || elementName.equals("otherwise")) {
+		if (elementName.equals("math") || elementName.equals("apply") || elementName.equals("sep") 
+				|| elementName.equals("piece") || elementName.equals("otherwise") 
+				|| elementName.equals("bvar") || elementName.equals("degree") || elementName.equals("logbase")) {
 			// we do nothing
 			return null;
 		}
