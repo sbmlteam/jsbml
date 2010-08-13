@@ -30,6 +30,7 @@
 
 package org.sbml.jsbml;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.sbml.jsbml.ListOf.Type;
@@ -145,6 +146,11 @@ public class Model extends AbstractNamedSBase {
 	 * Represents the listOfUnitDefinitions subnode of a model element.
 	 */
 	private ListOf<UnitDefinition> listOfUnitDefinitions;
+	
+	/**
+	 * Represents the list of default UnitDefinitions for a given SBML level and version.
+	 */
+	private ArrayList<UnitDefinition> listOfDefaultUnitDefinitions = new ArrayList<UnitDefinition>();
 
 	/**
 	 * Represents the 'substanceUnits' XML attribute of a model element.
@@ -1911,6 +1917,9 @@ public class Model extends AbstractNamedSBase {
 	 *         set.
 	 */
 	public ListOf<UnitDefinition> getListOfUnitDefinitions() {
+		
+		// System.out.println("getListOfUnitDefinitions called !!");
+		
 		if (!isSetListOfUnitDefinitions()) {
 			initListOf(listOfUnitDefinitions = new ListOf<UnitDefinition>(
 					getLevel(), getVersion()),
@@ -2210,9 +2219,36 @@ public class Model extends AbstractNamedSBase {
 	 *         doesn't exist.
 	 */
 	public UnitDefinition getUnitDefinition(String id) {
-		return getListOfUnitDefinitions().firstHit(new NameFilter(id));
+
+		UnitDefinition unitDefinition = getListOfUnitDefinitions().firstHit(new NameFilter(id));
+
+		// Checking if it is not one of the predefined default units.
+		if (unitDefinition == null) {
+			unitDefinition = getDefaultUnitDefinition(id);
+		}
+		
+		return unitDefinition; 
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param units
+	 * @return
+	 */
+	public UnitDefinition getDefaultUnitDefinition(String units) {
+
+		for (UnitDefinition unitDefinition : listOfDefaultUnitDefinitions) {
+			//System.out.println("Model : getDefaultUnitDefinition : id, name = " + unitDefinition.getId() + ", " + unitDefinition.getName());
+			
+			if (unitDefinition.getId().equals(units)) {
+				return unitDefinition;
+			}
+		}
+		
+		return null;
+	}
+	
 	/**
 	 * 
 	 * @return the volumeUnitsID of this Model. Returns an empty String if it is
@@ -2275,40 +2311,36 @@ public class Model extends AbstractNamedSBase {
 			conversionFactorID = null;
 			break;
 		case 2:
-			listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(),
-					getVersion());
-			listOfUnitDefinitions.setSBaseListType(Type.listOfUnitDefinitions);
 
 			// substance
 			ud = UnitDefinition.substance(getLevel(), getVersion());
 			substanceUnitsID = ud.getId();
-			listOfUnitDefinitions.add(ud); //TODO : send a mail to the list about that. We need to put these default UnitDefinitions some other place 
+			listOfDefaultUnitDefinitions.add(ud); //TODO : send a mail to the list about that. We need to put these default UnitDefinitions some other place 
 
 			// volume
 			ud = UnitDefinition.volume(getLevel(), getVersion());
 			volumeUnitsID = ud.getId();
-			listOfUnitDefinitions.add(ud);
+			listOfDefaultUnitDefinitions.add(ud);
 
 			// area
 			ud = UnitDefinition.area(getLevel(), getVersion());
 			areaUnitsID = ud.getId();
-			listOfUnitDefinitions.add(ud);
+			listOfDefaultUnitDefinitions.add(ud);
 
 			// length
 			ud = UnitDefinition.length(getLevel(), getVersion());
 			lengthUnitsID = ud.getId();
-			listOfUnitDefinitions.add(ud);
+			listOfDefaultUnitDefinitions.add(ud);
 
 			// time
 			ud = UnitDefinition.time(getLevel(), getVersion());
 			timeUnitsID = ud.getId();
-			listOfUnitDefinitions.add(ud);
+			listOfDefaultUnitDefinitions.add(ud);
 
 			extentUnitsID = null;
 			conversionFactorID = null;
 			break;
 		default: // undefined or level 3
-			listOfUnitDefinitions = null;
 			substanceUnitsID = null;
 			timeUnitsID = null;
 			volumeUnitsID = null;
@@ -3173,6 +3205,9 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfUnitDefinitions(
 			ListOf<UnitDefinition> listOfUnitDefinitions) {
+		
+		//System.out.println("setListOfUnitDefinitions called !!");
+		
 		this.listOfUnitDefinitions = listOfUnitDefinitions;
 		setThisAsParentSBMLObject(this.listOfUnitDefinitions);
 		this.listOfUnitDefinitions
@@ -3338,4 +3373,6 @@ public class Model extends AbstractNamedSBase {
 
 		return attributes;
 	}
+
+
 }
