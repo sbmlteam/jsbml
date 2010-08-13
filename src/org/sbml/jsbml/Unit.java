@@ -225,6 +225,7 @@ public class Unit extends AbstractSBase {
 		 * @param version
 		 * @return
 		 */
+		// TODO : check that it works for the default units.
 		public static boolean isValidUnitKindString(String unitKind, int level,
 				int version) {
 			Kind uk = null;
