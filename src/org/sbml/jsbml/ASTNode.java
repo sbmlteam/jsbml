@@ -2034,8 +2034,9 @@ public class ASTNode implements TreeNode {
 	 * @return true if this ASTNode is a user-defined variable name in SBML L1,
 	 *         L2 (MathML) or the special symbols time or avogadro.
 	 */
+	// TODO : make the jsbml code work without the test for Function here.
 	public boolean isName() {
-		return type == Type.NAME || type == Type.NAME_TIME || type == Type.NAME_AVOGADRO;
+		return type == Type.NAME || type == Type.NAME_TIME || type == Type.NAME_AVOGADRO || type == Type.FUNCTION;
 	}
 
 	/**

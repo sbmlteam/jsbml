@@ -51,7 +51,7 @@ import org.sbml.jsbml.xml.stax.WritingParser;
  * 
  */
 public class MathMLStaxParser implements ReadingParser, WritingParser {
-
+	
 
 	/**
 	 * The number of white spaces for the indent if this is to be used.
@@ -239,7 +239,7 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 			ASTNode astNode = (ASTNode) contextObject;
 			
 			// TODO : add other type of ASTNode in the test
-			if ((astNode.isFunction() || astNode.isOperator()) && !elementName.equals("apply")) {
+			if ((astNode.isFunction() || astNode.isOperator() || astNode.isRelational() || astNode.isLogical()) && !elementName.equals("apply") && !elementName.equals("piecewise")) {
 				// System.out.println("MathMLStaxParser : processEndElement : stack stay the same. ASTNode type = " + astNode.getType());
 				return false;
 				
@@ -280,7 +280,7 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 					// ", prefix = " + prefix + ", hasAttributes = " + hasAttributes + ", hasNamespace = " + hasNamespaces);
 			// + ", " + contextObject);
 		
-		if (elementName.equals("math") || elementName.equals("apply") || elementName.equals("sep")) {
+		if (elementName.equals("math") || elementName.equals("apply") || elementName.equals("sep") || elementName.equals("piece") || elementName.equals("otherwise")) {
 			// we do nothing
 			return null;
 		}

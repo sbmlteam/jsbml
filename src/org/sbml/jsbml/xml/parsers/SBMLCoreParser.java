@@ -1336,7 +1336,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 						event.setTrigger(trigger);
 
 						return trigger;
-					} else if (elementName.equals("Delay")
+					} else if (elementName.equals("delay")
 							&& event.getLevel() > 1) {
 						Delay delay = (Delay) newContextObject;
 						event.setDelay(delay);
