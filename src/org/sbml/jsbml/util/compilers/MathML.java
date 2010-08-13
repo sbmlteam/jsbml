@@ -826,6 +826,7 @@ public class MathML implements ASTNodeCompiler {
 			setLevel(values.get(0).getParentSBMLObject().getLevel());
 			lastElementCreated = document.createElement("apply");
 			Element tag = document.createElement("piecewise");
+			lastElementCreated.appendChild(tag);
 			Element piece = null;
 			for (int i = 0; i < values.size(); i++) {
 				if ((i % 2) == 0) {
@@ -839,7 +840,6 @@ public class MathML implements ASTNodeCompiler {
 					piece.appendChild(values.get(i).compile(this).toNode());
 				}
 			}
-			lastElementCreated.appendChild(tag);
 			return new ASTNodeValue(lastElementCreated, this);
 		}
 		throw new IllegalArgumentException(
