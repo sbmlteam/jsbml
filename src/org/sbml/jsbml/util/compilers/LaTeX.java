@@ -1049,6 +1049,17 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#lambdaFunction(org.sbml.jsbml.ASTNode[])
+	 */
+	public ASTNodeValue lambdaFunction(List<ASTNode> nodes) throws SBMLException {
+		// TODO : Don't know how to write this function, anyway it is not called in this implementation yet
+		// will have to check if we need to implement it or not.
+		throw new SBMLException("Method not yet implemented");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#lessEqual(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */

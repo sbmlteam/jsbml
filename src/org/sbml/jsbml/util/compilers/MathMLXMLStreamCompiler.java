@@ -584,6 +584,17 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#lambdaFunction(org.sbml.jsbml.ASTNode[])
+	 */
+	public ASTNodeValue lambdaFunction(List<ASTNode> values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 
 	/*
 	 * (non-Javadoc)

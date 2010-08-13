@@ -710,6 +710,15 @@ public class Units implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.ASTNodeCompiler#lambdaFunction(org.sbml.jsbml.ASTNodeValue[])
+	 */
+	public ASTNodeValue lambdaFunction(List<ASTNode> values) throws SBMLException {
+		throw new SBMLException("Cannot calculate units of a FunctionDefinition");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * org.sbml.jsbml.ASTNodeCompiler#lessEqual(org.sbml.jsbml.ASTNodeValue,
 	 * org.sbml.jsbml.ASTNodeValue)

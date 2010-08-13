@@ -650,8 +650,10 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue function(FunctionDefinition func, List<ASTNode> nodes)
 			throws SBMLException {
-		return function(func.getName(), nodes);
+		return function(func.getId(), nodes);
 	}
+	
+	
 
 	/**
 	 * 
@@ -771,6 +773,22 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 			lambda.append(nodes.get(i).compile(this));
 		}
 		return new ASTNodeValue(brackets(lambda).toString(), this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#lambdaFunction(java.util.List)
+	 */
+	public ASTNodeValue lambdaFunction(List<ASTNode> nodes) throws SBMLException {
+		StringBuffer lambda = new StringBuffer();
+		for (int i = 0; i < nodes.size(); i++) {
+			if (i > 0) {
+				lambda.append(", ");
+			}
+			lambda.append(nodes.get(i).compile(this));
+		}
+		return new ASTNodeValue(concat("lambda" + brackets(lambda)).toString(), this);
 	}
 
 	/*
@@ -1106,6 +1124,9 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * java.lang.String)
 	 */
 	public ASTNodeValue compile(double mantissa, int exponent, String units) {
+		if (exponent == 0) {
+			return new ASTNodeValue(mantissa, this);
+		}
 		return new ASTNodeValue(concat(mantissa, "*10^(", exponent, ")")
 				.toString(), this);
 	}

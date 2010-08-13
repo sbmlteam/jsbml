@@ -51,6 +51,7 @@
   <entry key="species">org.sbml.jsbml.Species</entry>
   <entry key="speciesConcentrationRule">org.sbml.jsbml.AssignmentRule</entry>
   <entry key="speciesReference">org.sbml.jsbml.SpeciesReference</entry>
+  <entry key="stoichiometryMath">org.sbml.jsbml.StoichiometryMath</entry>
   <entry key="trigger">org.sbml.jsbml.Trigger</entry>
   <entry key="unit">org.sbml.jsbml.Unit</entry>
   <entry key="unitDefinition">org.sbml.jsbml.UnitDefinition</entry>

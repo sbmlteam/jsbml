@@ -1295,7 +1295,7 @@ public class ASTNode implements TreeNode {
 				value.setUIFlag(getNumChildren() <= 1);
 				break;
 			case LAMBDA:
-				value = compiler.lambda(getChildren());
+				value = compiler.lambdaFunction(getChildren());
 				value.setUIFlag(getNumChildren() <= 1);
 				break;
 			/*
@@ -2931,7 +2931,7 @@ public class ASTNode implements TreeNode {
 		}
 
 		// token : cn, ci, csymbol, sep
-		// TODO : for ci, we have to check if it is a functionDefinition
+		// for ci, we have to check if it is a functionDefinition
 		// for cn, we pass the type attribute to this function to determine the
 		// proper astNode type
 		// for csymbol, we pass the definitionURL
@@ -2959,19 +2959,26 @@ public class ASTNode implements TreeNode {
 			setType(Type.NAME_AVOGADRO);
 		}
 
-		// TODO : general : apply, piecewise, piece, otherwise, lambda
+		// general : apply, piecewise, piece, otherwise, lambda, bvar
 		else if (typeStr.equals("lambda")) {
 			setType(Type.LAMBDA);
+		} else if (typeStr.equals("bvar")) {
+			// nothing to do, node ignore when parsing	
 		} else if (typeStr.equals("piecewise")) {
 			setType(Type.FUNCTION_PIECEWISE);
 		} else if (typeStr.equals("piece")) {
-			// setType(Type.);
+			// nothing to do, node ignore when parsing
 		} else if (typeStr.equals("otherwise")) {
-			// setType(Type.FUNCTION_PIECEWISE);
+			// nothing to do, node ignore when parsing
 		}
 
-		// TODO : qualifiers : degree, bvar, logbase
-
+		// qualifiers : degree, logbase
+		else if (typeStr.equals("degree")) {
+			// nothing to do, node ignore when parsing
+		} else if (typeStr.equals("logbase")) {
+			// nothing to do, node ignore when parsing
+		}
+		
 		// constants : true, false, notanumber, pi, infinity, exponentiale
 		else if (typeStr.equals("true")) {
 			setType(Type.CONSTANT_TRUE);
@@ -2989,7 +2996,7 @@ public class ASTNode implements TreeNode {
 			setType(Type.CONSTANT_E);
 		}
 
-		// possible annotations : semantics, annotation, annotation-xml
+		// TODO : possible annotations : semantics, annotation, annotation-xml
 
 		else {
 			System.out

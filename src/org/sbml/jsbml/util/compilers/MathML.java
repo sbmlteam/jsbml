@@ -721,8 +721,8 @@ public class MathML implements ASTNodeCompiler {
 			if (values.size() > 1) {
 				for (int i = 0; i < values.size() - 1; i++) {
 					Element bvar = document.createElement("bvar");
-					bvar.appendChild(values.get(i).compile(this).toNode());
 					lastElementCreated.appendChild(bvar);
+					bvar.appendChild(values.get(i).compile(this).toNode());
 				}
 			}
 			lastElementCreated.appendChild(values.get(values.size() - 1)
@@ -730,6 +730,16 @@ public class MathML implements ASTNodeCompiler {
 		}
 		return new ASTNodeValue(lastElementCreated, this);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#lambdaFunction(java.util.List)
+	 */
+	public ASTNodeValue lambdaFunction(List<ASTNode> values) throws DOMException,
+			SBMLException {
+		return lambda(values);
+	}
+	
 
 	/*
 	 * (non-Javadoc)
