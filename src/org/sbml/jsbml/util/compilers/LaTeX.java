@@ -683,13 +683,12 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#delay(java.lang.String,
 	 * org.sbml.jsbml.ASTNode, double, java.lang.String)
 	 */
-	public ASTNodeValue delay(String delayName, ASTNode x, double d,
+	public ASTNodeValue delay(String delayName, ASTNode x, ASTNode delay,
 			String timeUnits) throws SBMLException {
 		// TODO: deal with units.
 		return new ASTNodeValue(concat(
 				mathrm(maskSpecialChars(delayName)),
-				brackets(concat(x.compile(this).toString(), ", ", compile(d,
-						timeUnits)))).toString(), this);
+				brackets(concat(x.compile(this).toString(), ", ", delay.compile(this).toString()))).toString(), this);
 	}
 
 	/**

@@ -361,7 +361,7 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#delay(java.lang.String,
 	 * org.sbml.jsbml.util.compilers.ASTNodeValue, double, java.lang.String)
 	 */
-	public ASTNodeValue delay(String delayName, ASTNode x, double d,
+	public ASTNodeValue delay(String delayName, ASTNode x, ASTNode delay,
 			String timeUnits) {
 		// TODO Auto-generated method stub
 		return null;

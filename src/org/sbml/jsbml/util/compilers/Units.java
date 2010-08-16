@@ -455,7 +455,7 @@ public class Units implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#delay(java.lang.String,
 	 * org.sbml.jsbml.ASTNodeValue, double, java.lang.String)
 	 */
-	public ASTNodeValue delay(String delayName, ASTNode x, double d,
+	public ASTNodeValue delay(String delayName, ASTNode x, ASTNode delay,
 			String units) {
 		// TODO!
 		return symbolTime("time");

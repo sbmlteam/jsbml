@@ -525,12 +525,11 @@ public class MathML implements ASTNodeCompiler {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#delay(java.lang.String, org.sbml.jsbml.ASTNode, double, java.lang.String)
 	 */
-	public ASTNodeValue delay(String delayName, ASTNode x, double d,
+	public ASTNodeValue delay(String delayName, ASTNode x, ASTNode delay,
 			String timeUnit) throws DOMException, SBMLException {
 		setLevel(x.getParentSBMLObject().getLevel());
 		return createApplyNode(createCSymbol(delayName, MathMLParser
-				.getDefinitionURIdelay()), compile(x.toString()), compile(d,
-				timeUnit));
+				.getDefinitionURIdelay()), compile(x.toString()), compile(delay.toString()));
 	}
 
 	/*

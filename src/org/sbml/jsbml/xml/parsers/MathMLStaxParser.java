@@ -179,7 +179,7 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 		FunctionDefinition functionDef = astNode.getParentSBMLObject().getModel().getFunctionDefinition(characters.trim());
 		
 		if (functionDef != null) {
-			System.out.println("MathMLStaxParser : processCharactersOf : function found !!");
+			// System.out.println("MathMLStaxParser : processCharactersOf : function found !!");
 			astNode.setType(Type.FUNCTION);
 		}
 		

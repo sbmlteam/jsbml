@@ -549,10 +549,10 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#delay(java.lang.String,
 	 * org.sbml.jsbml.ASTNode, double, java.lang.String)
 	 */
-	public ASTNodeValue delay(String delayName, ASTNode x, double d,
+	public ASTNodeValue delay(String delayName, ASTNode x, ASTNode y,
 			String timeUnits) throws SBMLException {
 		return new ASTNodeValue(concat("delay(", x.compile(this), ", ",
-				toString(d), ")").toString(), this);
+				y.compile(this), ")").toString(), this);
 	}
 
 	/*
