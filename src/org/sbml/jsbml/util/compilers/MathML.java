@@ -909,8 +909,11 @@ public class MathML implements ASTNodeCompiler {
 		Element logbase = document.createElement("degree");
 		logbase.appendChild(rootExponent.toNode());
 		ASTNodeValue v = createApplyNode("root", radiant);
-		v.toNode().insertBefore(logbase,
-				v.toNode().getFirstChild().getNextSibling());
+		Node v_node = v.toNode();
+		
+		// TODO : Not working - not correcting it as the mathMl output is wrong anyway and will be re-implemented.
+		v_node.insertBefore(logbase, v_node.getFirstChild().getNextSibling());
+		
 		return v;
 	}
 

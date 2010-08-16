@@ -58,7 +58,8 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	 * The size, initial amount or concentration, or the actual value of this
 	 * variable.
 	 */
-	private Double value = Double.NaN;
+	// Visibility modified to allow children classes to set a default value without having the isSetValue returning true.
+	protected Double value = Double.NaN;
 	/**
 	 * Error message for the case that an invalid unit identifier is to be added
 	 * to this object.

@@ -2783,10 +2783,11 @@ public class ASTNode implements TreeNode {
 			// e.printStackTrace();
 		} catch (XMLStreamException e) {
 			// TODO : log the exception
-			e.printStackTrace();
+			// e.printStackTrace();
 		} catch (RuntimeException e) {
 			// added to prevent a crash when we cannot create the mathML
-			e.printStackTrace();
+			// TODO : log the exception
+			// e.printStackTrace();
 		}
 
 		return mathML;
