@@ -1067,6 +1067,8 @@ public class ASTNode implements TreeNode {
 	public ASTNodeValue compile(ASTNodeCompiler compiler) throws SBMLException {
 		ASTNodeValue value;
 
+		// System.out.println("ASTNode : compile : node type = " + getType()) ;
+		
 		if (isUMinus()) {
 			value = compiler.uMinus(getLeftChild());
 		} else if (isSqrt()) {
@@ -1122,9 +1124,7 @@ public class ASTNode implements TreeNode {
 				break;
 			case FUNCTION_DELAY:
 				value = compiler.delay(getName(), getLeftChild(),
-						getRightChild().isInteger() ? Double
-								.valueOf(getRightChild().getInteger())
-								: getRightChild().getReal(), getUnits());
+						getRightChild(), getUnits());
 				break;
 			/*
 			 * Names of identifiers: parameters, functions, species etc.
@@ -2569,7 +2569,7 @@ public class ASTNode implements TreeNode {
 		if (variable == null) {
 			this.name = name;
 		}
-		if ((!type.toString().startsWith("NAME")) && type != Type.FUNCTION) {
+		if ((!type.toString().startsWith("NAME")) && type != Type.FUNCTION && type != Type.FUNCTION_DELAY) {
 			type = variable == null ? Type.FUNCTION : Type.NAME;
 		}
 	}

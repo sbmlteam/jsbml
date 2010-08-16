@@ -303,18 +303,18 @@ public interface ASTNodeCompiler {
 	public ASTNodeValue csch(ASTNode value) throws SBMLException;
 
 	/**
-	 * Evaluate delay functions.
+	 * Evaluates delay functions.
 	 * 
 	 * @param delayName
 	 *            the name of this delay function.
 	 * @param x
-	 * @param d
+	 * @param delay
 	 * @param timeUnits
 	 *            the units for the delay.
 	 * @return
 	 * @throws SBMLException
 	 */
-	public ASTNodeValue delay(String delayName, ASTNode x, double d,
+	public ASTNodeValue delay(String delayName, ASTNode x, ASTNode delay,
 			String timeUnits) throws SBMLException;
 
 	/**
