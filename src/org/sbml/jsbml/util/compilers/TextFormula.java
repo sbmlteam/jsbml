@@ -427,6 +427,21 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 		return term;
 	}
 
+	/**
+	 * Creates brackets if needed.
+	 * 
+	 * @param nodes
+	 * @return
+	 * @throws SBMLException
+	 */
+	private String checkDenominatorBrackets(ASTNode nodes) throws SBMLException {
+		String term = nodes.compile(this).toString();
+		if (nodes.isSum() || nodes.isDifference() || nodes.isUMinus() || nodes.getType() == org.sbml.jsbml.ASTNode.Type.TIMES) {
+			term = brackets(term).toString();
+		}
+		return term;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -623,7 +638,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	public ASTNodeValue frac(ASTNode numerator, ASTNode denominator)
 			throws SBMLException {
 		return new ASTNodeValue(concat(checkBrackets(numerator),
-				Character.valueOf('/'), checkBrackets(denominator)).toString(),
+				Character.valueOf('/'), checkDenominatorBrackets(denominator)).toString(),
 				this);
 	}
 
