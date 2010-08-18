@@ -28,23 +28,29 @@
  */
 package org.sbml.jsbml.util.compilers;
 
+import java.io.StringWriter;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.codehaus.staxmate.SMOutputFactory;
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.FunctionDefinition;
-import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.StringTools;
 
+import com.ctc.wstx.stax.WstxOutputFactory;
+
+
+
 /**
+ *
+ * 
  * @author rodrigue
  * 
  */
-public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
+public class MathMLXMLStreamCompiler {
 
 	private String indent;
 	private XMLStreamWriter writer;
@@ -59,824 +65,444 @@ public class MathMLXMLStreamCompiler implements ASTNodeCompiler {
 		this.indent = indent;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue abs(ASTNode value) {
+	
+	public static String toMathML(ASTNode astNode) {
+
+		String mathML = "";
+		StringWriter stream = new StringWriter();
+		
+		SMOutputFactory smFactory = new SMOutputFactory(WstxOutputFactory
+				.newInstance());
+
 		try {
-			writer.writeCharacters(indent);
-			writer.writeEmptyElement("abs");
+			XMLStreamWriter writer = smFactory.createStax2Writer(stream);
+			
+			writer.writeStartDocument();
+			writer.writeCharacters(StringTools.newLine());
+			writer.writeStartElement("math");
+			writer.writeAttribute("xmlns", "http://www.w3.org/1998/Math/MathML");
 			writer.writeCharacters(StringTools.newLine());
 
-		} catch (XMLStreamException e) {
+			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(writer, "  ");
+			compiler.compile(astNode);
 
+			writer.writeEndElement();
+			writer.writeEndDocument();
+			writer.close();
+
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+		
+		mathML = stream.toString();
+		
+		return mathML;
+	}
+	
+	
+	/**
+	 * Compiles this {@link ASTNode} and produce an XMLStreamWriter representing this node in mathML.
+	 * 
+	 *
+	 * @throws SBMLException
+	 */
+	public void compile(ASTNode astNode) {
+
+		// System.out.println("MathMLXMLStreamCompiler : compile : node type = " + getType()) ;
+		
+		/*
+		 // TODO : check if we need these if/else and if any others Type are missing
+
+		} else if (isInfinity()) {
+			value = compiler.getPositiveInfinity();
+		} else if (isNegInfinity()) {
+			value = compiler.getNegativeInfinity();
+		} else {
+			*/
+		
+			switch (astNode.getType()) {
+			/*
+			 * Numbers
+			 */
+			case REAL:
+				compileReal(astNode);
+				break;
+			case INTEGER:
+				compileInteger(astNode);
+				break;
+			/*
+			 * Operators
+			 */
+			case DIVIDE:
+				if (astNode.getNumChildren() != 2) {
+					// TODO : log that to a file and also add it to an error log like libsbml
+					// new SBMLException("fractions can only have one numerator and one denominator, here " + astNode.getNumChildren() +" elements are given");
+				}
+			case POWER:
+			case PLUS:
+			case MINUS:
+			case TIMES:
+				compileElement(astNode);
+				break;
+			case RATIONAL:
+				compileRational(astNode);
+				break;
+			/*
+			 * Names of identifiers: parameters, functions, species etc.
+			 */
+			case NAME:
+				compileCi(astNode);
+				break;
+			/*
+			 * Type: pi, e, true, false, Avogadro
+			 */
+			case CONSTANT_PI:
+			case CONSTANT_E:
+			case CONSTANT_TRUE:
+			case CONSTANT_FALSE:
+				compileConstantElement(astNode);
+				break;
+				/*
+				* csymbol element
+				*
+				*/
+			case NAME_TIME:
+			case FUNCTION_DELAY:
+			case NAME_AVOGADRO:
+				compileCSymbol(astNode);
+				break;
+			case REAL_E:
+				compileReal_e(astNode);
+				break;
+			/*
+			 * Basic Functions
+			 */
+			case FUNCTION_LOG:
+				// TODO
+/*				if (getNumChildren() == 2) {
+					value = compiler.log(getLeftChild(), getRightChild());
+				} else {
+					value = compiler.log(getRightChild());
+				}
+*/				break;
+			case FUNCTION_ABS:
+			case FUNCTION_ARCCOS:
+			case FUNCTION_ARCCOSH:
+			case FUNCTION_ARCCOT:
+			case FUNCTION_ARCCOTH:
+			case FUNCTION_ARCCSC:
+			case FUNCTION_ARCCSCH:
+			case FUNCTION_ARCSEC:
+			case FUNCTION_ARCSECH:
+			case FUNCTION_ARCSIN:
+			case FUNCTION_ARCSINH:
+			case FUNCTION_ARCTAN:
+			case FUNCTION_ARCTANH:
+			case FUNCTION_CEILING:
+			case FUNCTION_COS:
+			case FUNCTION_COSH:
+			case FUNCTION_COT:
+			case FUNCTION_COTH:
+			case FUNCTION_CSC:
+			case FUNCTION_CSCH:
+			case FUNCTION_EXP:
+			case FUNCTION_FACTORIAL:
+			case FUNCTION_FLOOR:
+			case FUNCTION_LN:
+			case FUNCTION_POWER:
+			case FUNCTION_SEC:
+			case FUNCTION_SECH:
+			case FUNCTION_SIN:
+			case FUNCTION_SINH:
+			case FUNCTION_TAN:
+			case FUNCTION_TANH:
+				compileFunctionElement(astNode);
+				break;
+			case FUNCTION_ROOT:
+				compileRootElement(astNode);
+				break;
+			case FUNCTION:
+				compileFunctionElement(astNode);
+				break;
+			case FUNCTION_PIECEWISE:
+				// TODO
+				break;
+			case LAMBDA:
+				// TODO
+				break;
+			/*
+			 * Logical and relational functions
+			 */
+			case LOGICAL_AND:
+			case LOGICAL_XOR:
+			case LOGICAL_OR:
+			case LOGICAL_NOT:
+				compileLogicalOperator(astNode);
+				break;
+			case RELATIONAL_EQ:
+			case RELATIONAL_GEQ:
+			case RELATIONAL_GT:
+			case RELATIONAL_NEQ:
+			case RELATIONAL_LEQ:
+			case RELATIONAL_LT:
+				compileRelationalOperator(astNode);
+				break;
+			default: // UNKNOWN:
+				// TODO : log a problem
+				System.out.println("MathMLXMLStreamCompiler : !!!!! I don't know what to do with the node of type " + astNode.getType());
+				break;
+			}
+		
+//		value.setType(getType());
+//		value.setLevel(getParentSBMLObject().getLevel());
+//		value.setVersion(getParentSBMLObject().getVersion());
+//		
+//		return value;
+	}
+
+	
+	
+	private void compileCSymbol(ASTNode astNode) {
+		
+		try {
+			writer.writeCharacters(indent);
+			writer.writeStartElement("csymbol");
+			writer.writeAttribute("definitionURL", getDefinitionURL(astNode));
+			writer.writeCharacters(astNode.getName());
+			
+			// delay works like a function, so we need to write all the children
+			if (astNode.getType() == Type.FUNCTION_DELAY) {
+				indent += "  ";
+
+				for (ASTNode arg : astNode.getListOfNodes()) {
+					compile(arg);
+				}
+				
+				indent = indent.substring(2);
+			}
+			
+			writer.writeEndElement();
+			writer.writeCharacters(StringTools.newLine());
+			
+		} catch (XMLStreamException e) {			
+			e.printStackTrace();
+		}
+		
+	}
+
+
+	private String getDefinitionURL(ASTNode astNode) {
+
+		String definitionURL = "";
+		
+		switch (astNode.getType()) {
+			/*
+			* csymbol element
+			*
+			*/
+		case NAME_TIME:
+			definitionURL = "http://www.sbml.org/sbml/symbols/time";
+			break;
+		case FUNCTION_DELAY:
+			definitionURL = "http://www.sbml.org/sbml/symbols/delay";
+			break;
+		case NAME_AVOGADRO:
+			definitionURL = "http://www.sbml.org/sbml/symbols/avogadro";
+			break;
+		}
+		
+		return definitionURL;
+	}
+
+
+
+	private void compileInteger(ASTNode astNode) {
+		
+		try {
+			writer.writeCharacters(indent);
+			writer.writeStartElement("cn");
+			writer.writeAttribute("type", "integer");
+			writer.writeCharacters(" ");
+			writer.writeCharacters(Integer.toString(astNode.getInteger()));
+			writer.writeCharacters(" ");
+			writer.writeEndElement();
+			writer.writeCharacters(StringTools.newLine());
+			
+		} catch (XMLStreamException e) {			
+			e.printStackTrace();
+		}
+		
+	}
+
+
+
+	private void compileReal(ASTNode astNode) {
+
+		try {
+			writer.writeCharacters(indent);
+			writer.writeStartElement("cn");
+			writer.writeAttribute("type", "real");
+			writer.writeCharacters(" ");
+			writer.writeCharacters(Double.toString(astNode.getReal()));
+			writer.writeCharacters(" ");
+			writer.writeEndElement();
+			writer.writeCharacters(StringTools.newLine());
+			
+		} catch (XMLStreamException e) {			
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void compileReal_e(ASTNode astNode) {
+
+		try {
+			writer.writeCharacters(indent);
+			writer.writeStartElement("cn");
+			writer.writeAttribute("type", "e-notation");
+			writer.writeCharacters(" ");
+			writer.writeCharacters(Double.toString(astNode.getMantissa()));
+			writer.writeCharacters(" ");
+			writer.writeEmptyElement("sep");
+			writer.writeCharacters(" ");
+			writer.writeCharacters(Double.toString(astNode.getExponent()));
+			writer.writeCharacters(" ");
+			writer.writeEndElement();
+			writer.writeCharacters(StringTools.newLine());
+			
+		} catch (XMLStreamException e) {			
 			e.printStackTrace();
 		}
 
-		// TODO : compile the value
-
-		return null;
+		
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#and(org.sbml.jsbml.ASTNode[])
-	 */
-	public ASTNodeValue and(List<ASTNode> values) {
-		// TODO Auto-generated method stub
-		return null;
+
+	private void compileRational(ASTNode astNode) {
+
+		try {
+			writer.writeCharacters(indent);
+			writer.writeStartElement("cn");
+			writer.writeAttribute("type", "rational");
+			writer.writeCharacters(" ");
+			writer.writeCharacters(Double.toString(astNode.getNumerator()));
+			writer.writeCharacters(" ");
+			writer.writeEmptyElement("sep");
+			writer.writeCharacters(" ");
+			writer.writeCharacters(Double.toString(astNode.getDenominator()));
+			writer.writeCharacters(" ");
+			writer.writeEndElement();
+			writer.writeCharacters(StringTools.newLine());
+			
+		} catch (XMLStreamException e) {			
+			e.printStackTrace();
+		}
+
+		
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccos(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue arccos(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
+
+	private void compileCi(ASTNode astNode) {
+
+		try {
+			writer.writeCharacters(indent);
+			writer.writeStartElement("ci");
+			writer.writeCharacters(" ");
+			writer.writeCharacters(astNode.getName());
+			writer.writeCharacters(" ");
+			writer.writeEndElement();
+			writer.writeCharacters(StringTools.newLine());
+			
+		} catch (XMLStreamException e) {			
+			e.printStackTrace();
+		}
+
+		
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccosh(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue arccosh(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
+
+
+	private void compileElement(ASTNode astNode) {
+
+		compileElement(astNode.getType().toString().toLowerCase(), astNode);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccot(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue arccot(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
+	private void compileFunctionElement(ASTNode astNode) {
+		String functionName = astNode.getType().toString().substring(9).toLowerCase();
+		
+		compileElement(functionName, astNode);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccoth(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue arccoth(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
+	private void compileRootElement(ASTNode astNode) {
+
+		// TODO
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccsc(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue arccsc(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arccsch(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue arccsch(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsec(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue arcsec(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsech(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue arcsech(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsin(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue arcsin(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsinh(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue arcsinh(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arctan(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue arctan(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#arctanh(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue arctanh(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#ceiling(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue ceiling(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(org.sbml.jsbml.Compartment)
-	 */
-	public ASTNodeValue compile(Compartment c) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(double, int,
-	 * java.lang.String)
-	 */
-	public ASTNodeValue compile(double mantissa, int exponent, String units) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(double,
-	 * java.lang.String)
-	 */
-	public ASTNodeValue compile(double real, String units) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(int,
-	 * java.lang.String)
-	 */
-	public ASTNodeValue compile(int integer, String units) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.sbml.jsbml.ASTNodeCompiler#compile(org.sbml.jsbml.
-	 * NamedSBaseWithDerivedUnit)
-	 */
-	public ASTNodeValue compile(NamedSBaseWithDerivedUnit variable) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(java.lang.String)
-	 */
-	public ASTNodeValue compile(String name) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#cos(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue cos(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#cosh(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue cosh(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#cot(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue cot(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#coth(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue coth(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#csc(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue csc(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#csch(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue csch(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#delay(org.sbml.jsbml.ASTNode, double)
-	 */
-	public ASTNodeValue delay(ASTNode x, double d) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#delay(java.lang.String,
-	 * org.sbml.jsbml.util.compilers.ASTNodeValue, double, java.lang.String)
-	 */
-	public ASTNodeValue delay(String delayName, ASTNode x, ASTNode delay,
-			String timeUnits) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#eq(org.sbml.jsbml.util.
-	 * compilers.ASTNode, org.sbml.jsbml.util.compilers.ASTNodeValue)
-	 */
-	public ASTNodeValue eq(ASTNode left, ASTNode right)
-			throws SBMLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#equal(org.sbml.jsbml.ASTNode,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue equal(ASTNode left, ASTNode right) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#exp(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue exp(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#factorial(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue factorial(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#floor(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue floor(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#frac(org.sbml.jsbml.ASTNode,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue frac(ASTNode left, ASTNode right) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#frac(int, int)
-	 */
-	public ASTNodeValue frac(int numerator, int denominator) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#function(org.sbml.jsbml.FunctionDefinition
-	 * , org.sbml.jsbml.ASTNode[])
-	 */
-	public ASTNodeValue function(FunctionDefinition namedSBase,
-			List<ASTNode> args) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#geq(org.sbml.jsbml.util
-	 * .compilers.ASTNode, org.sbml.jsbml.util.compilers.ASTNodeValue)
-	 */
-	public ASTNodeValue geq(ASTNode left, ASTNode right)
-			throws SBMLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantAvogadro(java
-	 * .lang.String)
-	 */
-	public ASTNodeValue getConstantAvogadro(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantE()
-	 */
-	public ASTNodeValue getConstantE() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantFalse()
-	 */
-	public ASTNodeValue getConstantFalse() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantPi()
-	 */
-	public ASTNodeValue getConstantPi() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantTrue()
-	 */
-	public ASTNodeValue getConstantTrue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#getNegativeInfinity()
-	 */
-	public ASTNodeValue getNegativeInfinity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#getPositiveInfinity()
-	 */
-	public ASTNodeValue getPositiveInfinity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#greaterEqual(org.sbml.jsbml.ASTNode,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue greaterEqual(ASTNode left, ASTNode right) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#greaterThan(org.sbml.jsbml.ASTNode,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue greaterThan(ASTNode left, ASTNode right) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#gt(org.sbml.jsbml.util.
-	 * compilers.ASTNode, org.sbml.jsbml.util.compilers.ASTNodeValue)
-	 */
-	public ASTNodeValue gt(ASTNode left, ASTNode right)
-			throws SBMLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#lambda(org.sbml.jsbml.ASTNode[])
-	 */
-	public ASTNodeValue lambda(List<ASTNode> values) {
-		// TODO Auto-generated method stub
-		return null;
+	private void compileConstantElement(ASTNode astNode) {
+		String functionName = astNode.getType().toString().substring(9).toLowerCase();
+		
+		compileElement(functionName, astNode);
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#lambdaFunction(org.sbml.jsbml.ASTNode[])
+	 * 
+	 * @param string element name
+	 * @param astNode the node containing all the element information
 	 */
-	public ASTNodeValue lambdaFunction(List<ASTNode> values) {
-		// TODO Auto-generated method stub
-		return null;
+	private void compileElement(String string, ASTNode astNode) {
+
+		function(string, astNode.getListOfNodes());
+		
+	}
+
+
+	private void compileRelationalOperator(ASTNode astNode) {
+		String functionName = astNode.getType().toString().substring(11).toLowerCase();
+		
+		compileElement(functionName, astNode);
+		
+	}
+
+	private void compileLogicalOperator(ASTNode astNode) {
+		String functionName = astNode.getType().toString().substring(11).toLowerCase();
+		
+		compileElement(functionName, astNode);
+		
+	}
+
+
+	
+	private void function(String functionName, List<ASTNode> args) {
+
+		function(functionName, args.toArray(new ASTNode[args.size()]));
 	}
 	
+	private void function(String functionName, ASTNode... args) {
+		try {
+			
+			writer.writeCharacters(indent);
+			writer.writeStartElement("apply");
+			writer.writeCharacters(StringTools.newLine());
+			indent += "  ";
+			
+			writer.writeCharacters(indent);
+			writer.writeEmptyElement(functionName);
+			writer.writeCharacters(StringTools.newLine());
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#leq(org.sbml.jsbml.util
-	 * .compilers.ASTNode, org.sbml.jsbml.util.compilers.ASTNodeValue)
-	 */
-	public ASTNodeValue leq(ASTNode left, ASTNode right)
-			throws SBMLException {
-		// TODO Auto-generated method stub
-		return null;
+			for (ASTNode arg : args) {
+				compile(arg);
+			}
+			
+			indent = indent.substring(2);
+			writer.writeCharacters(indent);
+			writer.writeEndElement();
+			writer.writeCharacters(StringTools.newLine());			
+			
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#ln(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue ln(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue log(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue log(ASTNode left, ASTNode right) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#lt(org.sbml.jsbml.util.
-	 * compilers.ASTNode, org.sbml.jsbml.util.compilers.ASTNodeValue)
-	 */
-	public ASTNodeValue lt(ASTNode left, ASTNode right)
-			throws SBMLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#minus(org.sbml.jsbml.ASTNode[])
-	 */
-	public ASTNodeValue minus(List<ASTNode> values) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#neq(org.sbml.jsbml.util
-	 * .compilers.ASTNodeValue, org.sbml.jsbml.util.compilers.ASTNodeValue)
-	 */
-	public ASTNodeValue neq(ASTNode left, ASTNode right)
-			throws SBMLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#not(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue not(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#or(org.sbml.jsbml.ASTNode[])
-	 */
-	public ASTNodeValue or(List<ASTNode> values) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#piecewise(org.sbml.jsbml.ASTNode[])
-	 */
-	public ASTNodeValue piecewise(List<ASTNode> values) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#plus(org.sbml.jsbml.ASTNode[])
-	 */
-	public ASTNodeValue plus(List<ASTNode> values) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#pow(org.sbml.jsbml.ASTNode,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue pow(ASTNode left, ASTNode right) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#root(org.sbml.jsbml.ASTNode,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#root(double,
-	 * org.sbml.jsbml.ASTNodeValue)
-	 */
-	public ASTNodeValue root(double rootExponent, ASTNode radiant) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sec(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue sec(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sech(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue sech(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sin(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue sin(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sinh(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue sinh(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#sqrt(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue sqrt(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#symbolTime(java.lang.String)
-	 */
-	public ASTNodeValue symbolTime(String time) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#tan(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue tan(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#tanh(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue tanh(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#times(org.sbml.jsbml.ASTNode[])
-	 */
-	public ASTNodeValue times(List<ASTNode> values) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue uiMinus(ASTNode value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNode)
-	 */
-	public ASTNodeValue uMinus(ASTNode value) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#unknownValue()
-	 */
-	public ASTNodeValue unknownValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#xor(org.sbml.jsbml.ASTNode[])
-	 */
-	public ASTNodeValue xor(List<ASTNode> values) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }
