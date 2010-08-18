@@ -44,10 +44,10 @@ import java.util.HashMap;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.Map.Entry;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -67,22 +67,21 @@ import org.sbml.jsbml.History;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.parsers.MathMLParser;
+import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
-import com.sun.org.apache.xpath.internal.WhitespaceStrippingElementMatcher;
 
 /**
  * A SBMLWriter provides the methods to write a SBML file.
@@ -809,33 +808,20 @@ public class SBMLWriter {
 			XMLStreamWriter writer, int indent) throws XMLStreamException {
 		if (m.isSetMath()) {
 			
-			// writer.writeCharacters(StringTools.newLine());
-
-			// TODO : implement an ASTNodeCompiler that populate the writer
-			 			
-			// MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(writer, createIndent(indent));
-			// compiler.compile(m.getMath());
+			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters(createIndent(indent + 2));
+			// writer.setPrefix("math", "http://www.w3.org/1998/Math/MathML");
+			// writer.writeStartElement("http://www.w3.org/1998/Math/MathML", "math");
+			writer.writeStartElement("math");
+			writer.writeAttribute("xmlns:math", "http://www.w3.org/1998/Math/MathML");
+			writer.writeCharacters(StringTools.newLine());
 			
-			// writer.writeCharacters(StringTools.newLine());
-
-			// TODO : remove the code below once the ASTNodeCompiler is implemented
-			DOMConverter converter = new DOMConverter();
-			element.addCharacters(StringTools.newLine());
-			String whiteSpace = createIndent(indent);
-			StringBuilder sb = new StringBuilder();
-			StringTokenizer st = new StringTokenizer(m.getMath().toMathML(), StringTools.newLine());
-			while (st.hasMoreElements()) {
-				StringTools.append(sb, whiteSpace, st.nextElement().toString(), StringTools.newLine());
-			}
-			Document domDocument = null;
-			try {
-				domDocument = JAXPFacade.getInstance().create(
-						new BufferedReader(new StringReader(sb.toString())), true);
-				writer.writeCharacters(whiteSpace);
-				converter.writeFragment(domDocument.getChildNodes(), writer);
-			} catch (SAXException e) {
-				e.printStackTrace();
-			}
+			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(writer, createIndent(indent + 4));
+			compiler.compile(m.getMath());
+			
+			writer.writeCharacters(createIndent(indent + 2));
+			writer.writeEndElement();
+			writer.writeCharacters(StringTools.newLine());			
 		}
 	}
 

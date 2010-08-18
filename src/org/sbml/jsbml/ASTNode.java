@@ -39,15 +39,15 @@ import java.util.Set;
 
 import javax.activity.InvalidActivityException;
 import javax.swing.tree.TreeNode;
-import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.LaTeX;
-import org.sbml.jsbml.util.compilers.MathML;
+import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.compilers.TextFormula;
 import org.sbml.jsbml.util.compilers.Units;
 import org.sbml.jsbml.util.filters.Filter;
+
 
 /**
  * A node in the Abstract Syntax Tree (AST) representation of a mathematical
@@ -1923,7 +1923,7 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @return true if this ASTNode is a boolean, false otherwise.
 	 */
-	// TODO : check, libsbml is testing for relational operator also.
+	// TODO : check, libsbml is testing for relational operator also (and the doc is saying so too).
 	public boolean isBoolean() {
 		return type == Type.CONSTANT_FALSE || type == Type.CONSTANT_TRUE
 				|| type == Type.LOGICAL_AND || type == Type.LOGICAL_NOT
@@ -2603,6 +2603,7 @@ public class ASTNode implements TreeNode {
 		} else if (type == Type.NAME_AVOGADRO) {
 			name = "Avogadro's number";
 			initDefaults();
+			setValue(6.02214179e23);
 		}
 		this.type = type;
 	}
@@ -2777,13 +2778,7 @@ public class ASTNode implements TreeNode {
 		String mathML = "";
 
 		try {
-			mathML = compile(new MathML()).toString();
-		} catch (SBMLException e) {
-			// TODO : log the exception
-			// e.printStackTrace();
-		} catch (XMLStreamException e) {
-			// TODO : log the exception
-			// e.printStackTrace();
+			mathML = MathMLXMLStreamCompiler.toMathML(this);
 		} catch (RuntimeException e) {
 			// added to prevent a crash when we cannot create the mathML
 			// TODO : log the exception
@@ -3094,6 +3089,11 @@ public class ASTNode implements TreeNode {
 	 */
 	public boolean isUnary() {
 		return getNumChildren() == 1;
+	}
+
+	public String getDefinitionURL() {
+		// TODO ???
+		return null;
 	}
 
 }
