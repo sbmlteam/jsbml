@@ -228,7 +228,8 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.element.NamedSBase#setName(java.lang.String)
 	 */
 	public void setName(String name) {
-		if (name != null && name.trim().length() == 0) {
+		// removed the call to the trim() function as a name with only space should be considered valid.
+		if (name != null && name.length() == 0) {
 			this.name = null;
 		} else {
 			this.name = name;
