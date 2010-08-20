@@ -825,6 +825,20 @@ public class ASTNode implements TreeNode {
 	 */
 	private Type type;
 
+	
+	/**
+	 * Tells if the type attribute of the cn element was set and we need to write it back or
+	 * if it is set to the default (REAL).
+	 * 
+	 */
+	private boolean isSetNumberType = false;
+	
+	/**
+	 * The value of the definitionURL for csymbol element. Level 3 extensions can create new csymbol element that
+	 * we would not necessary be aware of, so we need to store the attribute value.
+	 */
+	private String definitionURL;
+	
 	/**
 	 * 
 	 */
@@ -1923,11 +1937,9 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @return true if this ASTNode is a boolean, false otherwise.
 	 */
-	// TODO : check, libsbml is testing for relational operator also (and the doc is saying so too).
 	public boolean isBoolean() {
 		return type == Type.CONSTANT_FALSE || type == Type.CONSTANT_TRUE
-				|| type == Type.LOGICAL_AND || type == Type.LOGICAL_NOT
-				|| type == Type.LOGICAL_OR || type == Type.LOGICAL_XOR;
+				|| isLogical() || isRelational();
 	}
 
 	/**
@@ -2830,7 +2842,7 @@ public class ASTNode implements TreeNode {
 		} else if (typeStr.equals("divide")) {
 			setType(Type.DIVIDE);
 		} else if (typeStr.equals("power")) {
-			setType(Type.POWER);
+			setType(Type.FUNCTION_POWER);
 		} else if (typeStr.equals("root")) {
 			setType(Type.FUNCTION_ROOT);
 		} else if (typeStr.equals("abs")) {
@@ -3092,8 +3104,21 @@ public class ASTNode implements TreeNode {
 	}
 
 	public String getDefinitionURL() {
-		// TODO ???
-		return null;
+		return definitionURL;
 	}
 
+	public boolean isSetNumberType() {
+		return isSetNumberType;
+	}
+
+	public void setIsSetNumberType(boolean isSetNumberType) {
+		this.isSetNumberType = isSetNumberType;
+	}
+
+	public void setDefinitionURL(String definitionURL) {
+		this.definitionURL = definitionURL;
+	}
+
+	
+	
 }
