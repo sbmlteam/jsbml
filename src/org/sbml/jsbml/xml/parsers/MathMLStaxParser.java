@@ -135,6 +135,13 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 		// ", value = " + value + ", prefix = " + prefix + ", " + isLastAttribute + ", " + contextObject);
 		
 		// Possible value : type, id, style, class, encoding, definitionURL ...
+		if (attributeName.equals("type")) {
+			astNode.setIsSetNumberType(true);
+		}
+		if (attributeName.equals("definitionURL")) {
+			astNode.setDefinitionURL(value);
+		}
+		
 		if (attributeName.equals("type") || attributeName.equals("definitionURL")) {
 			astNode.setType(value);
 			// System.out.println("MathMLStaxParser : processAttribute : astNode Type = " + astNode.getType());
@@ -157,10 +164,8 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String
 	 * elementName, String characters, Object contextObject)
 	 */
-	public void processCharactersOf(String elementName, String characters,
-			Object contextObject) {
-		// process the text content of the mathMl node, mainly ci and cn should have content
-		// TODO : check for FunctionDefinition and change the ASTNode type !
+	public void processCharactersOf(String elementName, String characters, Object contextObject) {
+		// process the text content of the mathMl node, mainly ci, cn and csymbol should have content
 		
 		// System.out.println("MathMLStaxParser : processCharactersOf called");
 		// System.out.println("MathMLStaxParser : processCharactersOf : element name = " + elementName + ", characters = " + characters);
@@ -200,7 +205,7 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 				astNode.setValue(Double.parseDouble(characters.trim()), (int) 0);
 			}
 		} else if (astNode.isReal()) {
-			astNode.setValue(Double.parseDouble(characters.trim()), 0);
+			astNode.setValue(Double.valueOf(characters.trim()));
 		} else if (astNode.getType().equals(Type.FUNCTION_DELAY)) { 
 			astNode.setName(characters.trim());
 		} else {

@@ -108,17 +108,14 @@ public class MathMLXMLStreamCompiler {
 	 */
 	public void compile(ASTNode astNode) {
 
-		// System.out.println("MathMLXMLStreamCompiler : compile : node type = " + getType()) ;
+		// System.out.println("MathMLXMLStreamCompiler : compile : node type = " + astNode.getType()) ;
 		
-		/*
-		 // TODO : check if we need these if/else and if any others Type are missing
-
-		} else if (isInfinity()) {
-			value = compiler.getPositiveInfinity();
-		} else if (isNegInfinity()) {
-			value = compiler.getNegativeInfinity();
+		if (astNode.isInfinity()) {
+			compilePositiveInfinity(astNode);
+		} else if (astNode.isNegInfinity()) {
+			compileNegativeInfinity(astNode);
 		} else {
-			*/
+			
 		
 			switch (astNode.getType()) {
 			/*
@@ -136,6 +133,7 @@ public class MathMLXMLStreamCompiler {
 			case DIVIDE:
 				if (astNode.getNumChildren() != 2) {
 					// TODO : log that to a file and also add it to an error log like libsbml
+					System.out.println("MathMLXMLStreamCompiler : compile : Type.DIVIDE : getNumChildren() != 2 !!!");
 					// new SBMLException("fractions can only have one numerator and one denominator, here " + astNode.getNumChildren() +" elements are given");
 				}
 			case POWER:
@@ -178,13 +176,8 @@ public class MathMLXMLStreamCompiler {
 			 * Basic Functions
 			 */
 			case FUNCTION_LOG:
-				// TODO
-/*				if (getNumChildren() == 2) {
-					value = compiler.log(getLeftChild(), getRightChild());
-				} else {
-					value = compiler.log(getRightChild());
-				}
-*/				break;
+				compileLog(astNode);
+				break;
 			case FUNCTION_ABS:
 			case FUNCTION_ARCCOS:
 			case FUNCTION_ARCCOSH:
@@ -222,13 +215,13 @@ public class MathMLXMLStreamCompiler {
 				compileRootElement(astNode);
 				break;
 			case FUNCTION:
-				compileFunctionElement(astNode);
+				compileUserFunction(astNode);
 				break;
 			case FUNCTION_PIECEWISE:
-				// TODO
+				compilePiecewise(astNode);
 				break;
 			case LAMBDA:
-				// TODO
+				compileLambda(astNode);
 				break;
 			/*
 			 * Logical and relational functions
@@ -252,68 +245,61 @@ public class MathMLXMLStreamCompiler {
 				System.out.println("MathMLXMLStreamCompiler : !!!!! I don't know what to do with the node of type " + astNode.getType());
 				break;
 			}
-		
-//		value.setType(getType());
-//		value.setLevel(getParentSBMLObject().getLevel());
-//		value.setVersion(getParentSBMLObject().getVersion());
-//		
-//		return value;
+		}
 	}
 
 	
 	
+
+	private void compileNegativeInfinity(ASTNode astNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void compilePositiveInfinity(ASTNode astNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	private void compileCSymbol(ASTNode astNode) {
 		
 		try {
-			writer.writeCharacters(indent);
-			writer.writeStartElement("csymbol");
-			writer.writeAttribute("definitionURL", getDefinitionURL(astNode));
-			writer.writeCharacters(astNode.getName());
-			
 			// delay works like a function, so we need to write all the children
 			if (astNode.getType() == Type.FUNCTION_DELAY) {
+				writer.writeCharacters(indent);
+				writer.writeStartElement("apply");
+				writer.writeCharacters(StringTools.newLine());
 				indent += "  ";
+			}
+			
+			writer.writeCharacters(indent);
+			writer.writeStartElement("csymbol");
+			writer.writeAttribute("encoding", astNode.getEncoding() != null ? astNode.getEncoding() : "text");
+			writer.writeAttribute("definitionURL", astNode.getDefinitionURL() != null ? astNode.getDefinitionURL() : "");
+			writer.writeCharacters(" ");
+			writer.writeCharacters(astNode.getName());
+			writer.writeCharacters(" ");
+			writer.writeEndElement();
+			writer.writeCharacters(StringTools.newLine());
+
+			// delay works like a function, so we need to write all the children
+			if (astNode.getType() == Type.FUNCTION_DELAY) {
 
 				for (ASTNode arg : astNode.getListOfNodes()) {
 					compile(arg);
 				}
 				
-				indent = indent.substring(2);
+				// end apply element
+				writeEndElement();
 			}
-			
-			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());
-			
+						
 		} catch (XMLStreamException e) {			
 			e.printStackTrace();
 		}
 		
 	}
-
-
-	private String getDefinitionURL(ASTNode astNode) {
-
-		String definitionURL = "";
-		
-		switch (astNode.getType()) {
-			/*
-			* csymbol element
-			*
-			*/
-		case NAME_TIME:
-			definitionURL = "http://www.sbml.org/sbml/symbols/time";
-			break;
-		case FUNCTION_DELAY:
-			definitionURL = "http://www.sbml.org/sbml/symbols/delay";
-			break;
-		case NAME_AVOGADRO:
-			definitionURL = "http://www.sbml.org/sbml/symbols/avogadro";
-			break;
-		}
-		
-		return definitionURL;
-	}
-
 
 
 	private void compileInteger(ASTNode astNode) {
@@ -341,9 +327,30 @@ public class MathMLXMLStreamCompiler {
 		try {
 			writer.writeCharacters(indent);
 			writer.writeStartElement("cn");
-			writer.writeAttribute("type", "real");
+			if (astNode.isSetNumberType()) {
+				writer.writeAttribute("type", "real");
+			}
 			writer.writeCharacters(" ");
-			writer.writeCharacters(Double.toString(astNode.getReal()));
+			
+			String doubleStr = Double.toString(astNode.getReal());
+			
+			// TODO : try to use NumberFormat
+			
+			// TODO : 0.000166 get transformed into 1.66E-4 which is invalid 
+			
+			if (doubleStr.indexOf('.') != -1) {
+				// System.out.println("compileReal : . found");
+				int lastZeroIndex = doubleStr.lastIndexOf('0') + 1;
+				
+				// System.out.println("compileReal : . found : string lenght = " + doubleStr.length() + ", lastIndexOfZero = " + lastZeroIndex);
+				
+				if (lastZeroIndex == doubleStr.length() && doubleStr.length() > 3) { 
+					// To avoid to remove 1.0 that I removed somewhere else in the compare script!!
+					// TODO : remove the .0 when necessary here ? Just need to compare the string with libsbml output
+					doubleStr = doubleStr.substring(0, lastZeroIndex - 1);
+				}
+			}
+			writer.writeCharacters(doubleStr);
 			writer.writeCharacters(" ");
 			writer.writeEndElement();
 			writer.writeCharacters(StringTools.newLine());
@@ -435,13 +442,205 @@ public class MathMLXMLStreamCompiler {
 
 	private void compileRootElement(ASTNode astNode) {
 
-		// TODO
+		if (astNode.getNumChildren() == 1) {
+			compileFunctionElement(astNode);
+		} else if (astNode.getNumChildren() == 2) {
+			try {
+				
+				writer.writeCharacters(indent);
+				writer.writeStartElement("apply");
+				writer.writeCharacters(StringTools.newLine());
+				indent += "  ";
+				
+				writer.writeCharacters(indent);
+				writer.writeEmptyElement("root");
+				writer.writeCharacters(StringTools.newLine());
+
+				// write the degree element
+				writer.writeCharacters(indent);
+				writer.writeStartElement("degree");
+				writer.writeCharacters(StringTools.newLine());
+				indent += "  ";
+				
+				compile(astNode.getChild(0));
+				
+				// end degree element								
+				writeEndElement();
+				
+				compile(astNode.getChild(1));
+				
+				// end apply element
+				writeEndElement();
+				
+			} catch (XMLStreamException e) {
+				e.printStackTrace();
+			}
+		} else {
+			// log Error
+			System.out.println("MathMLXMLStreamCompiler : compileRootElement : cannot have more than 2 children on a root node !!");			
+		}
+		
 	}
 
-	private void compileConstantElement(ASTNode astNode) {
-		String functionName = astNode.getType().toString().substring(9).toLowerCase();
+	private void compileLambda(ASTNode astNode) {
+		try {
+			
+			writer.writeCharacters(indent);
+			writer.writeStartElement("lambda");
+			writer.writeCharacters(StringTools.newLine());
+			indent += "  ";
+			
+			int nbChildren = astNode.getChildCount();
+			
+			if (nbChildren > 1) {				
+				for (int i = 0; i < nbChildren - 1; i++ ) {
+					ASTNode arg = astNode.getChild(i);
+					compileBvar(arg);
+				}
+			}
+
+			compile(astNode.getRightChild());
+			
+			writeEndElement();
+			
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
 		
-		compileElement(functionName, astNode);
+	}
+
+
+	private void compileBvar(ASTNode arg) {
+
+
+		try {
+			writer.writeCharacters(indent);
+			writer.writeStartElement("bvar");
+			writer.writeCharacters(StringTools.newLine());
+			indent += "  ";
+			
+			if (!arg.isName()) {
+				System.out.println("MathMLXMLStreamCompiler : compileBvar : Can only have node of type NAME there !!!!");
+			}
+			
+			compileCi(arg);
+			
+			writeEndElement();
+
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
+	private void compilePiecewise(ASTNode astNode) {
+
+		int nbChildren = astNode.getNumChildren();
+		boolean writeOtherwise = true;
+		
+		if (nbChildren % 2 != 1) {
+			writeOtherwise = false;
+		}
+
+		try {
+
+			writer.writeCharacters(indent);
+			writer.writeStartElement("piecewise");
+			writer.writeCharacters(StringTools.newLine());
+			indent += "  ";
+
+			for (int i = 0; i < nbChildren - 1; i = i + 2) {
+
+				writer.writeCharacters(indent);
+				writer.writeStartElement("piece");
+				writer.writeCharacters(StringTools.newLine());
+				indent += "  ";
+				
+				compile(astNode.getChild(i));
+				compile(astNode.getChild(i + 1));
+
+				// end piece element								
+				writeEndElement();
+			}
+
+			if (writeOtherwise) {
+				
+				writer.writeCharacters(indent);
+				writer.writeStartElement("otherwise");
+				writer.writeCharacters(StringTools.newLine());
+				indent += "  ";
+				
+				compile(astNode.getRightChild());
+				
+				writeEndElement();
+			}
+			
+			// end piecewise element
+			writeEndElement();
+			
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
+	private void compileLog(ASTNode astNode) {
+		
+		if (astNode.getNumChildren() == 1) {
+			compileFunctionElement(astNode);
+		} else if (astNode.getNumChildren() == 2) {
+			try {
+				
+				writer.writeCharacters(indent);
+				writer.writeStartElement("apply");
+				writer.writeCharacters(StringTools.newLine());
+				indent += "  ";
+				
+				writer.writeCharacters(indent);
+				writer.writeEmptyElement("log");
+				writer.writeCharacters(StringTools.newLine());
+
+				// write the logbase element
+				writer.writeCharacters(indent);
+				writer.writeStartElement("logbase");
+				writer.writeCharacters(StringTools.newLine());
+				indent += "  ";
+				
+				compile(astNode.getChild(0));
+				
+				// end logbase element								
+				writeEndElement();
+				
+				compile(astNode.getChild(1));
+				
+				// end apply element
+				writeEndElement();
+				
+			} catch (XMLStreamException e) {
+				e.printStackTrace();
+			}
+		} else {
+			// log Error
+			System.out.println("MathMLXMLStreamCompiler : compileRootElement : cannot have more than 2 children on a root node !!");			
+		}
+	}
+
+
+	private void compileConstantElement(ASTNode astNode) {
+		String constantName = astNode.getType().toString().substring(9).toLowerCase();
+		
+		try {
+			
+			writer.writeCharacters(indent);
+			writer.writeEmptyElement(constantName);
+			writer.writeCharacters(StringTools.newLine());
+
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**
@@ -452,6 +651,7 @@ public class MathMLXMLStreamCompiler {
 	 */
 	private void compileElement(String string, ASTNode astNode) {
 
+		// TODO : Not good, we need to write the possible attribute or annotations of the element node
 		function(string, astNode.getListOfNodes());
 		
 	}
@@ -465,14 +665,12 @@ public class MathMLXMLStreamCompiler {
 	}
 
 	private void compileLogicalOperator(ASTNode astNode) {
-		String functionName = astNode.getType().toString().substring(11).toLowerCase();
+		String functionName = astNode.getType().toString().substring(8).toLowerCase();
 		
 		compileElement(functionName, astNode);
 		
 	}
 
-
-	
 	private void function(String functionName, List<ASTNode> args) {
 
 		function(functionName, args.toArray(new ASTNode[args.size()]));
@@ -494,15 +692,46 @@ public class MathMLXMLStreamCompiler {
 				compile(arg);
 			}
 			
-			indent = indent.substring(2);
+			writeEndElement();
+			
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void compileUserFunction(ASTNode  astNode) {
+		try {
+
 			writer.writeCharacters(indent);
-			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());			
+			writer.writeStartElement("apply");
+			writer.writeCharacters(StringTools.newLine());
+			indent += "  ";
+
+			compileCi(astNode);
+
+			for (ASTNode arg : astNode.getChildren()) {
+				compile(arg);
+			}
+
+			writeEndElement();
 			
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
+	private void writeEndElement() {
+		try {
+
+			indent = indent.substring(2);
+			writer.writeCharacters(indent);
+			writer.writeEndElement();
+			writer.writeCharacters(StringTools.newLine());
+
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

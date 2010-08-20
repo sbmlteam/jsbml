@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
@@ -53,6 +54,27 @@ import org.sbml.jsbml.util.StringTools;
  * @opt types
  * @opt visibility
  */
+
+/*
+ * 
+ * 
+// TODO : check if we can improve the writing of brackets or wrote a method to minimized the bracket, 
+ they are few differences with libSBML both way anyway.
+
+BIOMODEL 162 :
+
+
+KineticLaw (ER_leak_fluxD)
+MathContainer :  infix formula output differ.
+JSBML formula : 
+(-ERDensity_D_ERM*vL*(1+-0.00166112956810631*Ca_D_Cytosol*1/(0.00166112956810631*Ca_D_ER)))*ERM*1*1/KMOLE         // False, should put - instead of +- ?
+libSBML formula : 
+-(ERDensity_D_ERM*vL*(1+-(0.00166112956810631*Ca_D_Cytosol*(1/(0.00166112956810631*Ca_D_ER)))))*ERM*1*(1/KMOLE)   // False
+
+ * 
+ * 
+ */
+
 public class TextFormula extends StringTools implements ASTNodeCompiler {
 
 	/**
@@ -436,7 +458,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	private String checkDenominatorBrackets(ASTNode nodes) throws SBMLException {
 		String term = nodes.compile(this).toString();
-		if (nodes.isSum() || nodes.isDifference() || nodes.isUMinus() || nodes.getType() == org.sbml.jsbml.ASTNode.Type.TIMES) {
+		if (nodes.isSum() || nodes.isDifference() || nodes.isUMinus() || nodes.getType() == Type.TIMES) {
 			term = brackets(term).toString();
 		}
 		return term;
@@ -955,6 +977,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 				plus.append('+');
 			}
 			node = nodes.get(i);
+			// TODO : Do we need to put a bracket if we have a difference ??
 			if (node.isDifference()) {
 				plus.append(checkBrackets(node));
 			} else {
