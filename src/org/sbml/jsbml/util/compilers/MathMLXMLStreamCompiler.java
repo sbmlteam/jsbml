@@ -29,6 +29,8 @@
 package org.sbml.jsbml.util.compilers;
 
 import java.io.StringWriter;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
@@ -54,6 +56,14 @@ public class MathMLXMLStreamCompiler {
 
 	private String indent;
 	private XMLStreamWriter writer;
+	
+	
+	/**
+	 * Formats the real number in a valid way for mathML.
+	 * When java read 0.000166, it transforms it to 1.66E-4.
+	 * This DecimalFormat will wrote the number as it was read.
+	 */
+	DecimalFormat realFormat = new DecimalFormat("#########################.#########################");
 
 	public MathMLXMLStreamCompiler(XMLStreamWriter writer, String indent) {
 		if (writer == null) {
@@ -332,24 +342,10 @@ public class MathMLXMLStreamCompiler {
 			}
 			writer.writeCharacters(" ");
 			
-			String doubleStr = Double.toString(astNode.getReal());
+			// We need the DecimalFormat to have number like 0.000166, that get transformed into 1.66E-4 which is 
+			// invalid in mathML, written properly 
+			String doubleStr = realFormat.format(astNode.getReal());
 			
-			// TODO : try to use NumberFormat
-			
-			// TODO : 0.000166 get transformed into 1.66E-4 which is invalid 
-			
-			if (doubleStr.indexOf('.') != -1) {
-				// System.out.println("compileReal : . found");
-				int lastZeroIndex = doubleStr.lastIndexOf('0') + 1;
-				
-				// System.out.println("compileReal : . found : string lenght = " + doubleStr.length() + ", lastIndexOfZero = " + lastZeroIndex);
-				
-				if (lastZeroIndex == doubleStr.length() && doubleStr.length() > 3) { 
-					// To avoid to remove 1.0 that I removed somewhere else in the compare script!!
-					// TODO : remove the .0 when necessary here ? Just need to compare the string with libsbml output
-					doubleStr = doubleStr.substring(0, lastZeroIndex - 1);
-				}
-			}
 			writer.writeCharacters(doubleStr);
 			writer.writeCharacters(" ");
 			writer.writeEndElement();
@@ -368,11 +364,11 @@ public class MathMLXMLStreamCompiler {
 			writer.writeStartElement("cn");
 			writer.writeAttribute("type", "e-notation");
 			writer.writeCharacters(" ");
-			writer.writeCharacters(Double.toString(astNode.getMantissa()));
+			writer.writeCharacters(realFormat.format(astNode.getMantissa()));
 			writer.writeCharacters(" ");
 			writer.writeEmptyElement("sep");
 			writer.writeCharacters(" ");
-			writer.writeCharacters(Double.toString(astNode.getExponent()));
+			writer.writeCharacters(realFormat.format(astNode.getExponent()));
 			writer.writeCharacters(" ");
 			writer.writeEndElement();
 			writer.writeCharacters(StringTools.newLine());
@@ -392,11 +388,11 @@ public class MathMLXMLStreamCompiler {
 			writer.writeStartElement("cn");
 			writer.writeAttribute("type", "rational");
 			writer.writeCharacters(" ");
-			writer.writeCharacters(Double.toString(astNode.getNumerator()));
+			writer.writeCharacters(Integer.toString(astNode.getNumerator()));
 			writer.writeCharacters(" ");
 			writer.writeEmptyElement("sep");
 			writer.writeCharacters(" ");
-			writer.writeCharacters(Double.toString(astNode.getDenominator()));
+			writer.writeCharacters(Integer.toString(astNode.getDenominator()));
 			writer.writeCharacters(" ");
 			writer.writeEndElement();
 			writer.writeCharacters(StringTools.newLine());
@@ -734,4 +730,23 @@ public class MathMLXMLStreamCompiler {
 		}
 	}
 
+	public static void main(String[] args) {
+		
+		double x = 0.0050;
+		double y = 1.0;
+		double z = 1.66E-4;
+		double zz = 12548698515426596325478965230.33254;
+		
+		System.out.println("Test Double formatting ");
+		
+		// NumberFormat format = DecimalFormat.getInstance();
+		DecimalFormat format = new DecimalFormat("#########################.#########################");
+		format.setRoundingMode(RoundingMode.UNNECESSARY);
+		
+		System.out.println("x = " + format.format(x));
+		System.out.println("y = " + format.format(y));
+		System.out.println("z = " + format.format(z) + " " + format.getMaximumFractionDigits());
+		System.out.println("zz = " + format.format(zz) + " ");
+	}
+	
 }
