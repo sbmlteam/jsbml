@@ -60,6 +60,9 @@ public class Reaction extends AbstractNamedSBase implements
 	 * Represents the 'fast' XML attribute of a reaction element.
 	 */
 	private Boolean fast;
+	/**
+	 * 
+	 */
 	private boolean isSetFast = false;
 
 	/**
@@ -82,6 +85,9 @@ public class Reaction extends AbstractNamedSBase implements
 	 * Represents the 'reversible' XML attribute of a reaction element.
 	 */
 	private Boolean reversible;
+	/**
+	 * 
+	 */
 	private boolean isSetReversible = false;
 
 	/**
@@ -90,8 +96,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 */
 	public Reaction() {
 		super();
-		// Cannot call initDefaults() until the level and version is set
-		// initDefaults();
+		initDefaults();
 	}
 
 	/**
@@ -542,17 +547,16 @@ public class Reaction extends AbstractNamedSBase implements
 	 * Initializes the default variables of this Reaction.
 	 */
 	public void initDefaults() {
+		initReactantList();
+		initProductList();
+		initModifierList();
 		if (isSetLevel() && isSetVersion()) {
-
 			if (level < 3) {
 				reversible = new Boolean(true);
 				fast = new Boolean(false);
 			} else {
 				reversible = fast = null;
 			}
-			initReactantList();
-			initProductList();
-			initModifierList();
 		}
 	}
 
