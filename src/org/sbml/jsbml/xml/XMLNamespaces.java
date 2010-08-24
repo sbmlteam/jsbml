@@ -168,14 +168,14 @@ public class XMLNamespaces {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> LIBSBML_OPERATION_SUCCESS
+   * <li> OPERATION_SUCCESS
    * <p>
    */
  public int add(String uri, String prefix) {
 
 	 namespaces.put(prefix, uri);
 	 
-	 return JSBML.LIBSBML_OPERATION_SUCCESS;
+	 return JSBML.OPERATION_SUCCESS;
   }
 
   
@@ -199,14 +199,14 @@ public class XMLNamespaces {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> LIBSBML_OPERATION_SUCCESS
+   * <li> OPERATION_SUCCESS
    * <p>
    */
  public int add(String uri) {
 
 	 namespaces.put("", uri);
 	 
-	 return JSBML.LIBSBML_OPERATION_SUCCESS;
+	 return JSBML.OPERATION_SUCCESS;
   }
 
   
@@ -218,13 +218,13 @@ public class XMLNamespaces {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> LIBSBML_OPERATION_SUCCESS
-   * <li> LIBSBML_INDEX_EXCEEDS_SIZE
+   * <li> OPERATION_SUCCESS
+   * <li> INDEX_EXCEEDS_SIZE
    */
  public int remove(int index) {
 
 	 if (index < 0 || index >= namespaces.size()) {
-		 return JSBML.LIBSBML_INDEX_EXCEEDS_SIZE;
+		 return JSBML.INDEX_EXCEEDS_SIZE;
 	 }
 	 
 	 int i = 0;
@@ -236,7 +236,7 @@ public class XMLNamespaces {
 		 i++;
 	 }
 
-	 return JSBML.LIBSBML_OPERATION_SUCCESS;
+	 return JSBML.OPERATION_SUCCESS;
   }
 
   
@@ -248,7 +248,7 @@ public class XMLNamespaces {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> LIBSBML_OPERATION_SUCCESS
+   * <li> OPERATION_SUCCESS
    * <p>
    * @see #remove(int index)
    */
@@ -256,7 +256,7 @@ public class XMLNamespaces {
 	 
 	 namespaces.remove(prefix);
 
-	 return JSBML.LIBSBML_OPERATION_SUCCESS;
+	 return JSBML.OPERATION_SUCCESS;
 
   }
 
@@ -268,7 +268,7 @@ public class XMLNamespaces {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> LIBSBML_OPERATION_SUCCESS
+   * <li> OPERATION_SUCCESS
    * <p>
    * @see #remove(int index)
    */
@@ -276,7 +276,7 @@ public class XMLNamespaces {
 	 
 	 namespaces.clear();
 	 
-	 return JSBML.LIBSBML_OPERATION_SUCCESS;
+	 return JSBML.OPERATION_SUCCESS;
 
   }
 

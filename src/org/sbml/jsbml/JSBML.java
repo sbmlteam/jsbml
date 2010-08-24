@@ -50,6 +50,17 @@ public class JSBML {
 	 */
 	private static final String jsbmlVersion = "0.8.0";
 
+	public static final int OPERATION_SUCCESS = 0;
+	public final static int INDEX_EXCEEDS_SIZE = -1;
+	public final static int UNEXPECTED_ATTRIBUTE = -2;
+	public final static int OPERATION_FAILED = -3;
+	public final static int INVALID_ATTRIBUTE_VALUE = -4;
+	public final static int INVALID_OBJECT = -5;
+	public final static int DUPLICATE_OBJECT_ID = -6;
+	public final static int LEVEL_MISMATCH = -7;
+	public final static int VERSION_MISMATCH = -8;
+	public final static int INVALID_XML_OPERATION = -9;
+
 	/**
 	 * Converts a string to its corresponding {@link Unit.Kind} enumeration value.
 	 * 
@@ -142,8 +153,12 @@ public class JSBML {
 	 * <p>
 	 */
 	public static String formulaToString(ASTNode node) {
-		// TODO : implement
-		// throw new UnsupportedOperationException();
+		try {
+			return node.toFormula();
+		} catch (SBMLException e) {
+			// TODO : inform the user of the problem.
+		}
+		
 		return "";
 	}
 
