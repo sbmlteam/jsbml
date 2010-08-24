@@ -190,8 +190,12 @@ public abstract class ExplicitRule extends Rule {
 								+ l3specific
 								+ "Compartment, or Parameter allowed as variables");
 			}
+			setVariable(v);
+		} else {
+			// TODO: potential source of bugs.
+			variableID = variable;
+			stateChanged();
 		}
-		setVariable(v);
 	}
 
 	/*
