@@ -11,6 +11,7 @@ http://www.yuml.me/diagram/scruffy/class/samples
 [<<NamedSBase>>]^-.-[AbstractNamedSBase],
 [AbstractNamedSBase]^-[Reaction],
 [AbstractSBase]^-[ListOf],
+[<<List>>]^-.-[ListOf],
 [AbstractSBase]^-[SBMLDocument],
 [AbstractSBase]^-[Unit],
 [AbstractSBase]^-[MathContainer],
