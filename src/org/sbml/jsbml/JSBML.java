@@ -51,22 +51,25 @@ public class JSBML {
 	private static final String jsbmlVersion = "0.8.0";
 
 	public static final int OPERATION_SUCCESS = 0;
-	public final static int INDEX_EXCEEDS_SIZE = -1;
-	public final static int UNEXPECTED_ATTRIBUTE = -2;
-	public final static int OPERATION_FAILED = -3;
-	public final static int INVALID_ATTRIBUTE_VALUE = -4;
-	public final static int INVALID_OBJECT = -5;
-	public final static int DUPLICATE_OBJECT_ID = -6;
-	public final static int LEVEL_MISMATCH = -7;
-	public final static int VERSION_MISMATCH = -8;
-	public final static int INVALID_XML_OPERATION = -9;
+	public static final int INDEX_EXCEEDS_SIZE = -1;
+	public static final int UNEXPECTED_ATTRIBUTE = -2;
+	public static final int OPERATION_FAILED = -3;
+	public static final int INVALID_ATTRIBUTE_VALUE = -4;
+	public static final int INVALID_OBJECT = -5;
+	public static final int DUPLICATE_OBJECT_ID = -6;
+	public static final int LEVEL_MISMATCH = -7;
+	public static final int VERSION_MISMATCH = -8;
+	public static final int INVALID_XML_OPERATION = -9;
 
 	/**
-	 * Converts a string to its corresponding {@link Unit.Kind} enumeration value.
+	 * Converts a string to its corresponding {@link Unit.Kind} enumeration
+	 * value.
 	 * 
-	 * @param name a unit kind string.
+	 * @param name
+	 *            a unit kind string.
 	 * @return a Unit.Kind object.
-	 * @throws IllegalArgumentException is the unit kind string is not a valid unit kind.
+	 * @throws IllegalArgumentException
+	 *             is the unit kind string is not a valid unit kind.
 	 */
 	public static Unit.Kind forName(String name) {
 		return Unit.Kind.valueOf(name.toUpperCase());
@@ -107,10 +110,14 @@ public class JSBML {
 	 * Tests whether a given string corresponds to a predefined
 	 * {@link Unit.Kind} enumeration value.
 	 * 
-	 * @param string the unit string.
-	 * @param level the SBML level.
-	 * @param version the SBML version.
-	 * @return true if the given string is valid for the particular SBML level and version, false otherwise.
+	 * @param string
+	 *            the unit string.
+	 * @param level
+	 *            the SBML level.
+	 * @param version
+	 *            the SBML version.
+	 * @return true if the given string is valid for the particular SBML level
+	 *         and version, false otherwise.
 	 */
 	public static boolean isValidUnitKindString(String string, int level,
 			int version) {
@@ -121,52 +128,51 @@ public class JSBML {
 	 * Parses a text-string mathematical formula and returns a representation as
 	 * an Abstract Syntax Tree.
 	 * 
-	 * @param formula a text-string mathematical formula.
+	 * @param formula
+	 *            a text-string mathematical formula.
 	 * @return an <code>ASTNode</code> representing the formula.
 	 */
 	public static ASTNode parseFormula(String formula) {
 		return ASTNode.parseFormula(formula);
 	}
-	
+
 	/**
 	 * Converts an {@link ASTNode} formula to a text string using a specific
 	 * syntax for mathematical formulas.
 	 * <p>
-	 * The text-string form of
-	 * mathematical formulas produced by <code><a
+	 * The text-string form of mathematical formulas produced by <code><a
 	 * href='libsbml.html#formulaToString(org.sbml.libsbml.{@link ASTNode})'>
-	 * libsbml.formulaToString()</a></code> and read by
-	 * <code><a href='libsbml.html#parseFormula(java.lang.String)'>
-	 * libsbml.parseFormula()</a></code> are
-	 * simple C-inspired infix notation taken from SBML Level&nbsp;1.  A
-	 * formula in this text-string form therefore can be handed to a program
-	 * that understands SBML Level&nbsp;1 mathematical expressions, or used as
-	 * part of a formula translation system.  The syntax is described in detail
-	 * in the libsbml documentation for <a href="http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/ASTNode.html">
-	 * ASTNode</a>.
+	 * libsbml.formulaToString()</a></code> and read by <code><a href='libsbml.html#parseFormula(java.lang.String)'>
+	 * libsbml.parseFormula()</a></code> are simple C-inspired infix notation taken from SBML
+	 * Level&nbsp;1. A formula in this text-string form therefore can be handed
+	 * to a program that understands SBML Level&nbsp;1 mathematical expressions,
+	 * or used as part of a formula translation system. The syntax is described
+	 * in detail in the libsbml documentation for <a href=
+	 * "http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/ASTNode.html"
+	 * > ASTNode</a>.
 	 * <p>
-	 * @param tree the root of the {@link ASTNode} formula expression tree
-	 * <p>
+	 * 
+	 * @param tree
+	 *            the root of the {@link ASTNode} formula expression tree
+	 *            <p>
 	 * @return the formula from the given AST as an SBML Level 1 text-string
-	 * mathematical formula.
-	 * NULL is returned if the given argument is NULL.
-	 * <p>
+	 *         mathematical formula. NULL is returned if the given argument is
+	 *         NULL.
+	 *         <p>
+	 * @throws SBMLException
+	 *             In case the given {@link ASTNode} tree contains invalid
+	 *             nodes.
 	 */
-	public static String formulaToString(ASTNode node) {
-		try {
-			return node.toFormula();
-		} catch (SBMLException e) {
-			// TODO : inform the user of the problem.
-		}
-		
-		return "";
+	public static String formulaToString(ASTNode node) throws SBMLException {
+		return node.toFormula();
 	}
 
 	/**
 	 * Reads the MathML from the given XML string, constructs a corresponding
 	 * abstract syntax tree, and returns a pointer to the root of the tree.
 	 * 
-	 * @param xml the MathML XML string.
+	 * @param xml
+	 *            the MathML XML string.
 	 * @return an <code>ASTNode</code>
 	 */
 	public static ASTNode readMathMLFromString(String xml) {
@@ -176,10 +182,13 @@ public class JSBML {
 	/**
 	 * Reads an SBML document from the given file.
 	 * 
-	 * @param filename the file name.
+	 * @param filename
+	 *            the file name.
 	 * @return an <code>SBMLDocument</code> object.
-	 * @throws XMLStreamException if any error occur while creating the XML document.
-	 * @throws FileNotFoundException if the file name is invalid
+	 * @throws XMLStreamException
+	 *             if any error occur while creating the XML document.
+	 * @throws FileNotFoundException
+	 *             if the file name is invalid
 	 */
 	public static SBMLDocument readSBML(String fileName)
 			throws XMLStreamException, FileNotFoundException {
@@ -189,10 +198,13 @@ public class JSBML {
 	/**
 	 * Reads an SBML document from the given file.
 	 * 
-	 * @param fileName the file name.
+	 * @param fileName
+	 *            the file name.
 	 * @return an <code>SBMLDocument</code> object.
-	 * @throws XMLStreamException if any error occur while creating the XML document.
-	 * @throws FileNotFoundException if the file name is invalid
+	 * @throws XMLStreamException
+	 *             if any error occur while creating the XML document.
+	 * @throws FileNotFoundException
+	 *             if the file name is invalid
 	 */
 	public static SBMLDocument readSBMLFromFile(String fileName)
 			throws XMLStreamException, FileNotFoundException {
@@ -202,9 +214,11 @@ public class JSBML {
 	/**
 	 * Reads an SBML document from a string assumed to be in XML format.
 	 * 
-	 * @param xml the SBMLDocument as XML.
+	 * @param xml
+	 *            the SBMLDocument as XML.
 	 * @return an <code>SBMLDocument</code> object.
-	 * @throws XMLStreamException if any error occur while creating the XML document.
+	 * @throws XMLStreamException
+	 *             if any error occur while creating the XML document.
 	 */
 	public static SBMLDocument readSBMLFromString(String xml)
 			throws XMLStreamException {
@@ -212,9 +226,11 @@ public class JSBML {
 	}
 
 	/**
-	 * Converts a {@link Unit.Kind} enumeration value to a text string equivalent.
+	 * Converts a {@link Unit.Kind} enumeration value to a text string
+	 * equivalent.
 	 * 
-	 * @param uk the Unit.Kind
+	 * @param uk
+	 *            the Unit.Kind
 	 * @return a string representation of the given Unit.Kind
 	 */
 	public static String toString(Unit.Kind uk) {
@@ -224,11 +240,14 @@ public class JSBML {
 	/**
 	 * Tests for logical equality between two given {@link Unit.Kind} values.
 	 * 
-	 * @param uk1 the first Unit.Kind
-	 * @param uk2 the second Unit.Kind
-	 * @return true if the two <code>Unit.Kind</code> are equals, false otherwise.
+	 * @param uk1
+	 *            the first Unit.Kind
+	 * @param uk2
+	 *            the second Unit.Kind
+	 * @return true if the two <code>Unit.Kind</code> are equals, false
+	 *         otherwise.
 	 */
-	public static boolean UnitKind_equals(Unit.Kind uk1, Unit.Kind uk2) {
+	public static boolean equals(Unit.Kind uk1, Unit.Kind uk2) {
 		return uk1.equals(uk2);
 	}
 
@@ -236,8 +255,9 @@ public class JSBML {
 	 * Writes the given ASTNode (and its children) to a string as MathML, and
 	 * returns the string.
 	 * 
-     * @param node the <code>ASTNode</code>
-     * @return the MathML string representing the given <code>ASTNode</code>
+	 * @param node
+	 *            the <code>ASTNode</code>
+	 * @return the MathML string representing the given <code>ASTNode</code>
 	 * @throws XMLStreamException
 	 * @throws SBMLException
 	 */
@@ -247,13 +267,17 @@ public class JSBML {
 	}
 
 	/**
-     * Writes the XML representation of an SBML document to a file.
-     *
-     * @param d the <code>SBMLdocument</code>
-     * @param filename the file name
-     * @throws XMLStreamException if any error occur while creating the XML document.
-     * @throws FileNotFoundException if the file name is invalid
-	 * @throws SBMLException 
+	 * Writes the XML representation of an SBML document to a file.
+	 * 
+	 * @param d
+	 *            the <code>SBMLdocument</code>
+	 * @param filename
+	 *            the file name
+	 * @throws XMLStreamException
+	 *             if any error occur while creating the XML document.
+	 * @throws FileNotFoundException
+	 *             if the file name is invalid
+	 * @throws SBMLException
 	 */
 	public static void writeSBML(SBMLDocument d, String filename)
 			throws XMLStreamException, FileNotFoundException, SBMLException {
@@ -261,21 +285,28 @@ public class JSBML {
 	}
 
 	/**
-     * Writes the given SBML document to an in-memory string.
-     *
-     * @param d the  <code>SBMLdocument</code>
-     * @return the XML representation of the <code>SBMLdocument</code> as a String.
-     * @throws XMLStreamException if any error occur while creating the XML document.
-	 * @throws SBMLException 
+	 * Writes the given SBML document to an in-memory string.
+	 * 
+	 * @param d
+	 *            the <code>SBMLdocument</code>
+	 * @return the XML representation of the <code>SBMLdocument</code> as a
+	 *         String.
+	 * @throws XMLStreamException
+	 *             if any error occur while creating the XML document.
+	 * @throws SBMLException
 	 */
 	public static String writeSBMLToString(SBMLDocument d)
 			throws XMLStreamException, SBMLException {
 		return SBMLWriter.writeSBMLToString(d);
 	}
 
+	/**
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		System.out.println(JSBML.forName("METER"));
 		System.out.println(JSBML.forName("test invalid"));
 	}
-	
+
 }
