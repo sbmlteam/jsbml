@@ -146,9 +146,10 @@ public class Model extends AbstractNamedSBase {
 	 * Represents the listOfUnitDefinitions subnode of a model element.
 	 */
 	private ListOf<UnitDefinition> listOfUnitDefinitions;
-	
+
 	/**
-	 * Represents the list of default UnitDefinitions for a given SBML level and version.
+	 * Represents the list of default UnitDefinitions for a given SBML level and
+	 * version.
 	 */
 	private ArrayList<UnitDefinition> listOfDefaultUnitDefinitions = new ArrayList<UnitDefinition>();
 
@@ -522,28 +523,6 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Method to test whether a {@link UnitDefinition} with the given identifier
-	 * has been declared in this model.
-	 * 
-	 * @param units
-	 * @return
-	 */
-	public boolean containsUnitDefinition(String units) {
-		return getUnitDefinition(units) != null;
-	}
-
-	/**
-	 * Method to test whether a {@link Species} with the given identifier has
-	 * been declared in this model.
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public boolean containsSpecies(String id) {
-		return getSpecies(id) != null;
-	}
-
-	/**
 	 * Method to test whether a {@link Compartment} with the given identifier
 	 * has been declared in this model.
 	 * 
@@ -552,6 +531,17 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public boolean containsCompartment(String id) {
 		return getCompartment(id) != null;
+	}
+
+	/**
+	 * Method to test whether a {@link FunctionDefinition} with the given
+	 * identifier has been declared in this model.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean containsFunctionDefinition(String id) {
+		return getFunctionDefinition(id) != null;
 	}
 
 	/**
@@ -566,14 +556,40 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Method to test whether a {@link FunctionDefinition} with the given
-	 * identifier has been declared in this model.
+	 * Returns true if this model contains a reference to the given
+	 * {@link Quantity}.
+	 * 
+	 * @param quantity
+	 * @return
+	 */
+	public boolean containsQuantity(Quantity quantity) {
+		Model model = quantity.getModel();
+		if (!quantity.isSetId() || (model == null) || (this != model)) {
+			return false;
+		}
+		return findQuantity(quantity.getId()) != null;
+	}
+
+	/**
+	 * Method to test whether a {@link Species} with the given identifier has
+	 * been declared in this model.
 	 * 
 	 * @param id
 	 * @return
 	 */
-	public boolean containsFunctionDefinition(String id) {
-		return getFunctionDefinition(id) != null;
+	public boolean containsSpecies(String id) {
+		return getSpecies(id) != null;
+	}
+
+	/**
+	 * Method to test whether a {@link UnitDefinition} with the given identifier
+	 * has been declared in this model.
+	 * 
+	 * @param units
+	 * @return
+	 */
+	public boolean containsUnitDefinition(String units) {
+		return getUnitDefinition(units) != null;
 	}
 
 	/**
@@ -1663,6 +1679,26 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * 
+	 * @param units
+	 * @return
+	 */
+	public UnitDefinition getDefaultUnitDefinition(String units) {
+
+		for (UnitDefinition unitDefinition : listOfDefaultUnitDefinitions) {
+			// System.out.println("Model : getDefaultUnitDefinition : id, name = "
+			// + unitDefinition.getId() + ", " + unitDefinition.getName());
+
+			if (unitDefinition.getId().equals(units)) {
+				return unitDefinition;
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Gets the nth Event object in this Model.
 	 * 
 	 * @param n
@@ -1917,9 +1953,9 @@ public class Model extends AbstractNamedSBase {
 	 *         set.
 	 */
 	public ListOf<UnitDefinition> getListOfUnitDefinitions() {
-		
+
 		// System.out.println("getListOfUnitDefinitions called !!");
-		
+
 		if (!isSetListOfUnitDefinitions()) {
 			initListOf(listOfUnitDefinitions = new ListOf<UnitDefinition>(
 					getLevel(), getVersion()),
@@ -2009,10 +2045,58 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public int getNumModifierSpeciesReferences() {
+		int count = 0;
+		for (Reaction r : getListOfReactions()) {
+			count += r.getNumModifiers();
+		}
+		return count;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumNamedSBases() {
+		return getNumNamedSBasesWithDerivedUnit() + 1 /* this model */
+				+ getNumSpeciesTypes() + getNumCompartmentTypes()
+				+ getNumUnitDefinitions() + getNumEvents()
+				+ getNumModifierSpeciesReferences();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumNamedSBasesWithDerivedUnit() {
+		return getNumQuantities() + getNumFunctionDefinitions()
+				+ getNumReactions();
+	}
+
+	/**
+	 * 
 	 * @return the number of Parameters of this Model.
 	 */
 	public int getNumParameters() {
 		return isSetListOfParameters() ? listOfParameters.size() : 0;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumQuantities() {
+		return getNumVariables() + getNumLocalParameters();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumQuantitiesWithDefinedUnit() {
+		return getNumSymbols() + getNumLocalParameters();
 	}
 
 	/**
@@ -2041,6 +2125,18 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public int getNumSpeciesReferences() {
+		int count = 0;
+		for (Reaction r : getListOfReactions()) {
+			count += r.getNumReactants() + r.getNumProducts();
+		}
+		return count;
+	}
+
+	/**
+	 * 
 	 * @return the number of SpeciesTypes of this Model.
 	 */
 	@Deprecated
@@ -2060,10 +2156,26 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public int getNumSymbols() {
+		return getNumParameters() + getNumSpecies() + getNumCompartments();
+	}
+
+	/**
+	 * 
 	 * @return the number of UnitDefinitions of this Model.
 	 */
 	public int getNumUnitDefinitions() {
 		return isSetListOfUnitDefinitions() ? listOfUnitDefinitions.size() : 0;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumVariables() {
+		return getNumSymbols() + getNumSpeciesReferences();
 	}
 
 	/**
@@ -2220,35 +2332,17 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public UnitDefinition getUnitDefinition(String id) {
 
-		UnitDefinition unitDefinition = getListOfUnitDefinitions().firstHit(new NameFilter(id));
+		UnitDefinition unitDefinition = getListOfUnitDefinitions().firstHit(
+				new NameFilter(id));
 
 		// Checking if it is not one of the predefined default units.
 		if (unitDefinition == null) {
 			unitDefinition = getDefaultUnitDefinition(id);
 		}
-		
-		return unitDefinition; 
+
+		return unitDefinition;
 	}
 
-	/**
-	 * 
-	 * 
-	 * @param units
-	 * @return
-	 */
-	public UnitDefinition getDefaultUnitDefinition(String units) {
-
-		for (UnitDefinition unitDefinition : listOfDefaultUnitDefinitions) {
-			//System.out.println("Model : getDefaultUnitDefinition : id, name = " + unitDefinition.getId() + ", " + unitDefinition.getName());
-			
-			if (unitDefinition.getId().equals(units)) {
-				return unitDefinition;
-			}
-		}
-		
-		return null;
-	}
-	
 	/**
 	 * 
 	 * @return the volumeUnitsID of this Model. Returns an empty String if it is
@@ -2315,7 +2409,11 @@ public class Model extends AbstractNamedSBase {
 			// substance
 			ud = UnitDefinition.substance(getLevel(), getVersion());
 			substanceUnitsID = ud.getId();
-			listOfDefaultUnitDefinitions.add(ud); //TODO : send a mail to the list about that. We need to put these default UnitDefinitions some other place 
+			listOfDefaultUnitDefinitions.add(ud); // TODO : send a mail to the
+			// list about that. We need
+			// to put these default
+			// UnitDefinitions some
+			// other place
 
 			// volume
 			ud = UnitDefinition.volume(getLevel(), getVersion());
@@ -3205,9 +3303,9 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfUnitDefinitions(
 			ListOf<UnitDefinition> listOfUnitDefinitions) {
-		
-		//System.out.println("setListOfUnitDefinitions called !!");
-		
+
+		// System.out.println("setListOfUnitDefinitions called !!");
+
 		this.listOfUnitDefinitions = listOfUnitDefinitions;
 		setThisAsParentSBMLObject(this.listOfUnitDefinitions);
 		this.listOfUnitDefinitions
@@ -3373,6 +3471,5 @@ public class Model extends AbstractNamedSBase {
 
 		return attributes;
 	}
-
 
 }
