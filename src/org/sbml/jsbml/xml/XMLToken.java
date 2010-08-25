@@ -1453,6 +1453,10 @@ public class XMLToken {
 	}
 
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "XMLToken [attributes=" + attributes + ", namespaces="
