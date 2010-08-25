@@ -2001,6 +2001,32 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public int getNumDelays() {
+		int count = 0;
+		for (Event e : getListOfEvents()) {
+			if (e.isSetDelay()) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumEventAssignments() {
+		int count = 0;
+		for (Event e : getListOfEvents()) {
+			count += e.getNumEventAssignments();
+		}
+		return count;
+	}
+
+	/**
+	 * 
 	 * @return the number of Events of this Model.
 	 */
 	public int getNumEvents() {
@@ -2026,6 +2052,28 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	public int getNumKineticLaws() {
+		int count = 0;
+		for (Reaction r : getListOfReactions()) {
+			if (r.isSetKineticLaw()) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumListsOf() {
+		return getChildCount();
+	}
+
+	/**
 	 * Returns the number of parameters that are contained within kineticLaws in
 	 * the reactions of this model.
 	 * 
@@ -2041,6 +2089,17 @@ public class Model extends AbstractNamedSBase {
 			}
 		}
 		return count;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumMathContainers() {
+		return getNumFunctionDefinitions() + getNumInitialAssignments()
+				+ getNumEventAssignments() + getNumDelays()
+				+ getNumConstraints() + getNumRules() + getNumTriggers()
+				+ getNumStoichiometryMath() + getNumKineticLaws();
 	}
 
 	/**
@@ -2117,6 +2176,29 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public int getNumSBases() {
+		int count = getNumNamedSBases() - getNumFunctionDefinitions()
+				+ getNumMathContainers() + getNumListsOf() + getNumUnits() + 1;
+		// one for this model
+		if (getParent() != null) {
+			count++; // the owning SBML document.
+		}
+		return count;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumSBasesWithDerivedUnit() {
+		return getNumNamedSBasesWithDerivedUnit() + getNumMathContainers()
+				- getNumFunctionDefinitions();
+	}
+
+	/**
+	 * 
 	 * @return the number of Species of this Model.
 	 */
 	public int getNumSpecies() {
@@ -2158,8 +2240,43 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
+	public int getNumStoichiometryMath() {
+		int count = 0;
+		for (Reaction r : getListOfReactions()) {
+			for (SpeciesReference sr : r.getListOfReactants()) {
+				if (sr.isSetStoichiometryMath()) {
+					count++;
+				}
+			}
+			for (SpeciesReference sr : r.getListOfProducts()) {
+				if (sr.isSetStoichiometryMath()) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public int getNumSymbols() {
 		return getNumParameters() + getNumSpecies() + getNumCompartments();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumTriggers() {
+		int count = 0;
+		for (Event e : getListOfEvents()) {
+			if (e.isSetTrigger()) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	/**
@@ -2168,6 +2285,18 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public int getNumUnitDefinitions() {
 		return isSetListOfUnitDefinitions() ? listOfUnitDefinitions.size() : 0;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumUnits() {
+		int count = 0;
+		for (UnitDefinition ud : getListOfUnitDefinitions()) {
+			count += ud.getNumUnits();
+		}
+		return count;
 	}
 
 	/**
