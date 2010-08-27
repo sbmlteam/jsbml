@@ -58,21 +58,19 @@ import org.sbml.jsbml.util.StringTools;
 /*
  * 
  * 
-// TODO : check if we can improve the writing of brackets or wrote a method to minimized the bracket, 
- they are few differences with libSBML both way anyway.
-
-BIOMODEL 162 :
-
-
-KineticLaw (ER_leak_fluxD)
-MathContainer :  infix formula output differ.
-JSBML formula : 
-(-ERDensity_D_ERM*vL*(1+-0.00166112956810631*Ca_D_Cytosol*1/(0.00166112956810631*Ca_D_ER)))*ERM*1*1/KMOLE         // False, should put - instead of +- ?
-libSBML formula : 
--(ERDensity_D_ERM*vL*(1+-(0.00166112956810631*Ca_D_Cytosol*(1/(0.00166112956810631*Ca_D_ER)))))*ERM*1*(1/KMOLE)   // False
-
+ * // TODO : check if we can improve the writing of brackets or wrote a method
+ * to minimized the bracket, they are few differences with libSBML both way
+ * anyway.
+ * 
+ * BIOMODEL 162 :
  * 
  * 
+ * KineticLaw (ER_leak_fluxD) MathContainer : infix formula output differ. JSBML
+ * formula :
+ * (-ERDensity_D_ERM*vL*(1+-0.00166112956810631*Ca_D_Cytosol*1/(0.00166112956810631
+ * *Ca_D_ER)))*ERM*1*1/KMOLE // False, should put - instead of +- ? libSBML
+ * formula :-(ERDensity_D_ERM*vL*(1+-(0.00166112956810631*Ca_D_Cytosol*(1/(
+ * 0.00166112956810631*Ca_D_ER)))))*ERM*1*(1/KMOLE) // False
  */
 
 public class TextFormula extends StringTools implements ASTNodeCompiler {
@@ -458,7 +456,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	private String checkDenominatorBrackets(ASTNode nodes) throws SBMLException {
 		String term = nodes.compile(this).toString();
-		if (nodes.isSum() || nodes.isDifference() || nodes.isUMinus() || nodes.getType() == Type.TIMES) {
+		if (nodes.isSum() || nodes.isDifference() || nodes.isUMinus()
+				|| nodes.getType() == Type.TIMES) {
 			term = brackets(term).toString();
 		}
 		return term;
@@ -660,8 +659,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	public ASTNodeValue frac(ASTNode numerator, ASTNode denominator)
 			throws SBMLException {
 		return new ASTNodeValue(concat(checkBrackets(numerator),
-				Character.valueOf('/'), checkDenominatorBrackets(denominator)).toString(),
-				this);
+				Character.valueOf('/'), checkDenominatorBrackets(denominator))
+				.toString(), this);
 	}
 
 	/*
@@ -689,8 +688,6 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 			throws SBMLException {
 		return function(func.getId(), nodes);
 	}
-	
-	
 
 	/**
 	 * 
@@ -705,7 +702,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 		for (ASTNode node : nodes) {
 			l.add(node);
 		}
-		return new ASTNodeValue(concat(name, lambda(l)).toString(), this);
+		return new ASTNodeValue(concat(name, lambdaBody(l)).toString(), this);
 	}
 
 	/**
@@ -717,7 +714,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	private ASTNodeValue function(String name, List<ASTNode> nodes)
 			throws SBMLException {
-		return new ASTNodeValue(concat(name, lambda(nodes)).toString(), this);
+		return new ASTNodeValue(concat(name, lambdaBody(nodes)).toString(), this);
 	}
 
 	/*
@@ -813,6 +810,20 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#lambda(java.util.List)
 	 */
 	public ASTNodeValue lambda(List<ASTNode> nodes) throws SBMLException {
+		return new ASTNodeValue(StringTools.concat("lambda",
+				brackets(lambdaBody(nodes))).toString(), this);
+	}
+
+	/**
+	 * Creates the body of a lambda function, i.e., the argument list and the
+	 * actual mathematical operation, all comma separated and surrounded in
+	 * brackets.
+	 * 
+	 * @param nodes
+	 * @return
+	 * @throws SBMLException
+	 */
+	private String lambdaBody(List<ASTNode> nodes) throws SBMLException {
 		StringBuffer lambda = new StringBuffer();
 		for (int i = 0; i < nodes.size(); i++) {
 			if (i > 0) {
@@ -820,7 +831,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 			}
 			lambda.append(nodes.get(i).compile(this));
 		}
-		return new ASTNodeValue(brackets(lambda).toString(), this);
+		return lambda.toString();
 	}
 
 	/*
