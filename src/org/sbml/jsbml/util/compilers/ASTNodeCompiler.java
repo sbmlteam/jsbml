@@ -309,6 +309,8 @@ public interface ASTNodeCompiler {
 	 *            the name of this delay function.
 	 * @param x
 	 * @param delay
+	 *            an expression of a positive duration time (the amoutn of
+	 *            delay)
 	 * @param timeUnits
 	 *            the units for the delay.
 	 * @return
@@ -461,16 +463,6 @@ public interface ASTNodeCompiler {
 	 */
 	public ASTNodeValue lambda(List<ASTNode> values) throws SBMLException;
 
-	/**
-	 * The body of a {@link FunctionDefinition}.
-	 * 
-	 * @param values
-	 *            Place holders for arguments.
-	 * @return
-	 * @throws SBMLException
-	 */
-	public ASTNodeValue lambdaFunction(List<ASTNode> children) throws SBMLException;
-	
 	/**
 	 * Less equal.
 	 * 
@@ -707,5 +699,4 @@ public interface ASTNodeCompiler {
 	 */
 	public ASTNodeValue xor(List<ASTNode> values) throws SBMLException;
 
-	
 }

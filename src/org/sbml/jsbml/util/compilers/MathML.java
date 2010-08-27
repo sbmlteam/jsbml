@@ -730,15 +730,6 @@ public class MathML implements ASTNodeCompiler {
 		return new ASTNodeValue(lastElementCreated, this);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#lambdaFunction(java.util.List)
-	 */
-	public ASTNodeValue lambdaFunction(List<ASTNode> values) throws DOMException,
-			SBMLException {
-		return lambda(values);
-	}
-	
 
 	/*
 	 * (non-Javadoc)
