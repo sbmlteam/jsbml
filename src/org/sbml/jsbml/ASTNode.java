@@ -1304,8 +1304,7 @@ public class ASTNode implements TreeNode {
 				value = compiler.tanh(getLeftChild());
 				break;
 			case FUNCTION:
-				NamedSBaseWithDerivedUnit nsb = getVariable();
-				value = compiler.function((FunctionDefinition) nsb,
+				value = compiler.function((FunctionDefinition) getVariable(),
 						getChildren());
 				break;
 			case FUNCTION_PIECEWISE:

@@ -714,7 +714,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	private ASTNodeValue function(String name, List<ASTNode> nodes)
 			throws SBMLException {
-		return new ASTNodeValue(concat(name, lambdaBody(nodes)).toString(), this);
+		return new ASTNodeValue(concat(name, brackets(lambdaBody(nodes)))
+				.toString(), this);
 	}
 
 	/*
