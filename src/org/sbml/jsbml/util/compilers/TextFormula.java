@@ -478,6 +478,20 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(double, int,
+	 * java.lang.String)
+	 */
+	public ASTNodeValue compile(double mantissa, int exponent, String units) {
+		if (exponent == 0) {
+			return new ASTNodeValue(mantissa, this);
+		}
+		return new ASTNodeValue(concat(mantissa, "*10^(", exponent, ")")
+				.toString(), this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(double,
 	 * java.lang.String)
 	 */
@@ -603,20 +617,6 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 		return new ASTNodeValue(relation(left, " == ", right), this);
 	}
 
-	/**
-	 * 
-	 * @param left
-	 * @param symbol
-	 * @param right
-	 * @return
-	 * @throws SBMLException
-	 */
-	private String relation(ASTNode left, String symbol, ASTNode right)
-			throws SBMLException {
-		return concat(left.compile(this), symbol, right.compile(this))
-				.toString();
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -699,9 +699,13 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * @return
 	 * @throws SBMLException
 	 */
-	private ASTNodeValue function(String name, List<ASTNode> nodes)
+	private ASTNodeValue function(String name, ASTNode... nodes)
 			throws SBMLException {
-		return new ASTNodeValue(concat(name, lambda(nodes)).toString(), this);
+		LinkedList<ASTNode> l = new LinkedList<ASTNode>();
+		for (ASTNode node : nodes) {
+			l.add(node);
+		}
+		return new ASTNodeValue(concat(name, lambda(l)).toString(), this);
 	}
 
 	/**
@@ -711,13 +715,9 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * @return
 	 * @throws SBMLException
 	 */
-	private ASTNodeValue function(String name, ASTNode... nodes)
+	private ASTNodeValue function(String name, List<ASTNode> nodes)
 			throws SBMLException {
-		LinkedList<ASTNode> l = new LinkedList<ASTNode>();
-		for (ASTNode node : nodes) {
-			l.add(node);
-		}
-		return new ASTNodeValue(concat(name, lambda(l)).toString(), this);
+		return new ASTNodeValue(concat(name, lambda(nodes)).toString(), this);
 	}
 
 	/*
@@ -729,6 +729,17 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue geq(ASTNode left, ASTNode right) throws SBMLException {
 		return new ASTNodeValue(relation(left, " >= ", right), this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantAvogadro(java
+	 * .lang.String)
+	 */
+	public ASTNodeValue getConstantAvogadro(String name) {
+		return new ASTNodeValue("avogadro", this);
 	}
 
 	/*
@@ -810,22 +821,6 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 			lambda.append(nodes.get(i).compile(this));
 		}
 		return new ASTNodeValue(brackets(lambda).toString(), this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#lambdaFunction(java.util.List)
-	 */
-	public ASTNodeValue lambdaFunction(List<ASTNode> nodes) throws SBMLException {
-		StringBuffer lambda = new StringBuffer();
-		for (int i = 0; i < nodes.size(); i++) {
-			if (i > 0) {
-				lambda.append(", ");
-			}
-			lambda.append(nodes.get(i).compile(this));
-		}
-		return new ASTNodeValue(concat("lambda" + brackets(lambda)).toString(), this);
 	}
 
 	/*
@@ -998,6 +993,20 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 		return function("pow", left, right);
 	}
 
+	/**
+	 * 
+	 * @param left
+	 * @param symbol
+	 * @param right
+	 * @return
+	 * @throws SBMLException
+	 */
+	private String relation(ASTNode left, String symbol, ASTNode right)
+			throws SBMLException {
+		return concat(left.compile(this), symbol, right.compile(this))
+				.toString();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1153,30 +1162,5 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue xor(List<ASTNode> nodes) throws SBMLException {
 		return logicalOperation(" xor ", nodes);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(double, int,
-	 * java.lang.String)
-	 */
-	public ASTNodeValue compile(double mantissa, int exponent, String units) {
-		if (exponent == 0) {
-			return new ASTNodeValue(mantissa, this);
-		}
-		return new ASTNodeValue(concat(mantissa, "*10^(", exponent, ")")
-				.toString(), this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantAvogadro(java
-	 * .lang.String)
-	 */
-	public ASTNodeValue getConstantAvogadro(String name) {
-		return new ASTNodeValue("avogadro", this);
 	}
 }

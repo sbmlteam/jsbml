@@ -547,6 +547,17 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(double, int,
+	 * java.lang.String)
+	 */
+	public ASTNodeValue compile(double mantissa, int exponent, String units) {
+		return new ASTNodeValue(concat(format(mantissa), "\\cdot 10^{",
+				exponent, "}").toString(), this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(double,
 	 * java.lang.String)
 	 */
@@ -904,6 +915,17 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantAvogadro(java
+	 * .lang.String)
+	 */
+	public ASTNodeValue getConstantAvogadro(String name) {
+		return new ASTNodeValue(maskSpecialChars(name), this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantE()
 	 */
 	public ASTNodeValue getConstantE() {
@@ -1043,17 +1065,6 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue lambda(List<ASTNode> nodes) throws SBMLException {
 		return function((FunctionDefinition) null, nodes);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#lambdaFunction(org.sbml.jsbml.ASTNode[])
-	 */
-	public ASTNodeValue lambdaFunction(List<ASTNode> nodes) throws SBMLException {
-		// TODO : Don't know how to write this function, anyway it is not called in this implementation yet
-		// will have to check if we need to implement it or not.
-		throw new SBMLException("Method not yet implemented");
 	}
 
 	/*
@@ -1667,27 +1678,5 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue xor(List<ASTNode> nodes) throws SBMLException {
 		return logicalOperation(xor, nodes);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(double, int,
-	 * java.lang.String)
-	 */
-	public ASTNodeValue compile(double mantissa, int exponent, String units) {
-		return new ASTNodeValue(concat(format(mantissa), "\\cdot 10^{",
-				exponent, "}").toString(), this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantAvogadro(java
-	 * .lang.String)
-	 */
-	public ASTNodeValue getConstantAvogadro(String name) {
-		return new ASTNodeValue(maskSpecialChars(name), this);
 	}
 }
