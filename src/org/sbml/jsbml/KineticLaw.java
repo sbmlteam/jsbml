@@ -534,6 +534,20 @@ public class KineticLaw extends MathContainer {
 		this.timeUnitsID = timeUnits.isSetId() ? timeUnits.getId() : null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.MathContainer#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder kineticLawStr = new StringBuilder();
+		kineticLawStr.append("kineticLaw(");
+		kineticLawStr.append(((Reaction) getParent()).getId());
+		kineticLawStr.append(") : ");
+		kineticLawStr.append(super.toString());
+		return kineticLawStr.toString(); 
+	}
+
 	/**
 	 * Unsets the sunbstanceUnistID of this KineticLaw.
 	 */
@@ -567,14 +581,6 @@ public class KineticLaw extends MathContainer {
 		}
 
 		return attributes;
-	}
-
-	@Override
-	public String toString() {
-		String kineticLawStr = "kineticLaw (" + ((Reaction) getParent()).getId() + ") : ";
-		kineticLawStr += super.toString();
-
-		return kineticLawStr; 
 	}
 	
 	
