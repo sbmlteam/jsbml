@@ -840,7 +840,9 @@ public class ASTNode implements TreeNode {
 	private String definitionURL;
 
 	/**
-	 * 
+	 * Since Level 3 SBML allows to equip numbers with unit identifiers. In this
+	 * case a reference to an identifier of a {@link UnitDefinition} in the
+	 * model can be stored here.
 	 */
 	private String unitId;
 
@@ -1558,10 +1560,8 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @see javax.swing.tree.TreeNode#getChildAt(int)
 	 */
-	// TODO : we should check the validity of the index passed (> 0 and <
-	// getNumChildren())
 	public TreeNode getChildAt(int i) {
-		return listOfNodes.get(i);
+		return getChild(i);
 	}
 
 	/*
@@ -1794,13 +1794,12 @@ public class ASTNode implements TreeNode {
 
 	/**
 	 * This method is convenient when holding an object nested inside other
-	 * objects in an SBML model. It allows direct access to the &lt;model&gt;
-	 * element containing it.
+	 * objects in an SBML model. It allows direct access to the
+	 * {@link MathContainer}; element containing it. From this
+	 * {@link MathContainer} even the overall {@link Model} can be accessed.
 	 * 
 	 * @return Returns the parent SBML object.
 	 */
-	// TODO : update javadoc or method to be synchronized. We are not returning
-	// the model element there.
 	public MathContainer getParentSBMLObject() {
 		return parentSBMLObject;
 	}
@@ -1951,10 +1950,21 @@ public class ASTNode implements TreeNode {
 	 * Initializes the default values/attributes of the node.
 	 * 
 	 */
-	// TODO : we should probably init/reset all values/attribute in this method
-	// ??
 	private void initDefaults() {
 		type = Type.UNKNOWN;
+
+		id = null;
+		style = null;
+		className = null;
+		encoding = null;
+		denominator = 0;
+		exponent = 0;
+		name = null;
+		numerator = 0;
+		// parent = null; // don't remove this node from the tree
+		isSetNumberType = false;
+		definitionURL = null;
+		unitId = null;
 
 		if (listOfNodes == null) {
 			listOfNodes = new LinkedList<ASTNode>();
@@ -1995,7 +2005,6 @@ public class ASTNode implements TreeNode {
 	 * 
 	 * @return true if this ASTNode is a MathML constant, false otherwise.
 	 */
-	// TODO : Should we test for NAME_AVOGADRO also ?
 	public boolean isConstant() {
 		return type.toString().startsWith("CONSTANT")
 				|| type == Type.NAME_AVOGADRO;
@@ -2365,15 +2374,17 @@ public class ASTNode implements TreeNode {
 	}
 
 	/**
-	 * Multiplies this ASTNode with the given nodes
+	 * Multiplies this ASTNode with the given nodes, i.e., all given nodes will
+	 * be children of this node, whose type will be set to {@link Type.TIMES}.
 	 * 
 	 * @param nodes
 	 *            some <code>ASTNode</code>
-	 * @return the current node for convenience.
+	 * @return The current node for convenience.
 	 */
 	public ASTNode multiplyWith(ASTNode... nodes) {
-		for (ASTNode node : nodes)
+		for (ASTNode node : nodes) {
 			multiplyWith(node);
+		}
 		reduceToBinary();
 		return this;
 	}
@@ -2969,11 +2980,11 @@ public class ASTNode implements TreeNode {
 		if (type == Type.NAME_TIME) {
 			name = "time";
 		} else if (type == Type.FUNCTION_DELAY) {
+			initDefaults();
 			name = "delay";
-			initDefaults();
 		} else if (type == Type.NAME_AVOGADRO) {
-			name = "Avogadro's number";
 			initDefaults();
+			name = "Avogadro's number";
 			setValue(6.02214179e23);
 		}
 		this.type = type;
