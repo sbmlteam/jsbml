@@ -2258,8 +2258,13 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Counts and returns the number of all instances of {@link Symbol}
+	 * referenced within the model. There is no dedicated list for
+	 * {@link Symbol}s. This is a convenient method to support working with the
+	 * model data structure.
 	 * 
-	 * @return
+	 * @return The number of {@link Compartment}s, {@link Species}, and
+	 *         {@link Parameter}s in the model.
 	 */
 	public int getNumSymbols() {
 		return getNumParameters() + getNumSpecies() + getNumCompartments();
