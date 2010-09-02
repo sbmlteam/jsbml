@@ -106,17 +106,21 @@ public class SBMLReader {
 							.getNamespaceURI())) {
 
 				ReadingParser newParser;
-					try {
-						newParser = packageParsers.get(namespace.getNamespaceURI())
-								.newInstance();
-						initializedParsers.put(namespace.getNamespaceURI(),
-								newParser);
-					} catch (InstantiationException e) {
-						throw new IllegalArgumentException("An error occur while creating a parser : " + e.getMessage());
-					} catch (IllegalAccessException e) {
-						
-						throw new IllegalArgumentException("An error occur while creating a parser : " + e.getMessage());
-					}
+				try {
+					newParser = packageParsers.get(namespace.getNamespaceURI())
+							.newInstance();
+					initializedParsers.put(namespace.getNamespaceURI(),
+							newParser);
+				} catch (InstantiationException e) {
+					throw new IllegalArgumentException(
+							"An error occur while creating a parser : "
+									+ e.getMessage());
+				} catch (IllegalAccessException e) {
+
+					throw new IllegalArgumentException(
+							"An error occur while creating a parser : "
+									+ e.getMessage());
+				}
 			} else if (!packageParsers.containsKey(namespace.getNamespaceURI())
 					&& !initializedParsers.containsKey(namespace
 							.getNamespaceURI())) {
@@ -234,21 +238,27 @@ public class SBMLReader {
 	public static void initializePackageParserNamespaces() {
 		Properties p = new Properties();
 		try {
-			p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
-			"org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml"));
+			p
+					.loadFromXML(Resource
+							.getInstance()
+							.getStreamFromResourceLocation(
+									"org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml"));
 			for (Object k : p.keySet()) {
 				String key = k.toString();
 				packageParsers.put(key, (Class<? extends ReadingParser>) Class
 						.forName(p.getProperty(key)));
 			}
 		} catch (InvalidPropertiesFormatException e) {
-			throw new IllegalArgumentException("The format of the PackageParserNamespaces.xml file is incorrect.");
+			throw new IllegalArgumentException(
+					"The format of the PackageParserNamespaces.xml file is incorrect.");
 		} catch (IOException e) {
-			throw new IllegalArgumentException("There was a problem opening the file PackageParserNamespaces.xml.");
+			throw new IllegalArgumentException(
+					"There was a problem opening the file PackageParserNamespaces.xml.");
 		} catch (ClassNotFoundException e) {
 			// e.printStackTrace();
-			throw new IllegalArgumentException("There was a problem loading the file PackageParserNamespaces.xml : " +
-					e.getMessage());
+			throw new IllegalArgumentException(
+					"There was a problem loading the file PackageParserNamespaces.xml : "
+							+ e.getMessage());
 		}
 
 	}
@@ -285,17 +295,16 @@ public class SBMLReader {
 	 * @param args
 	 * @throws IOException
 	 */
-	public static void main(String[] args)
-			throws IOException {
+	public static void main(String[] args) throws IOException {
 
 		if (args.length < 1) {
 			System.out
 					.println("Usage : java org.sbml.jsbml.xml.stax.SBMLReader sbmlFileName");
 			System.exit(0);
 		}
-		
+
 		String fileName = args[0];
-		
+
 		try {
 			SBMLDocument testDocument = readSBMLFile(fileName);
 		} catch (XMLStreamException exc) {
@@ -311,11 +320,24 @@ public class SBMLReader {
 	 * @param fileName
 	 * @return the matching SBMLDocument instance.
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 */
 	public static SBMLDocument readSBML(String fileName)
 			throws XMLStreamException, FileNotFoundException {
 		return readSBMLFile(fileName);
+	}
+
+	/**
+	 * Reads a SBML String from the given file
+	 * 
+	 * @param file A file containing SBML content.
+	 * @return the matching SBMLDocument instance.
+	 * @throws XMLStreamException
+	 * @throws FileNotFoundException
+	 */
+	public static SBMLDocument readSBML(File file) throws XMLStreamException,
+			FileNotFoundException {
+		return readSBML(file.getAbsoluteFile());
 	}
 
 	/**
@@ -326,7 +348,7 @@ public class SBMLReader {
 	 *            : name of the SBML file to read.
 	 * @return the initialised SBMLDocument.
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 */
 	public static SBMLDocument readSBMLFile(String fileName)
 			throws XMLStreamException, FileNotFoundException {
@@ -414,7 +436,8 @@ public class SBMLReader {
 						// StringParser instance.
 						if (currentNode.getLocalPart().equals("notes")
 								|| currentNode.getLocalPart().equals("message")) {
-							ReadingParser sbmlparser = initializedParsers.get("http://www.w3.org/1999/xhtml");
+							ReadingParser sbmlparser = initializedParsers
+									.get("http://www.w3.org/1999/xhtml");
 
 							if (sbmlparser instanceof StringParser) {
 								StringParser notesParser = (StringParser) sbmlparser;
@@ -538,14 +561,21 @@ public class SBMLReader {
 			else if (event.isEndElement()) {
 				EndElement endElement = event.asEndElement();
 
-				// TODO : create a log system to avoid having to comment/uncomment sysout to debug
-				//System.out.println("SBMLReader : event.isEndElement : stack.size = " + SBMLElements.size());
-				//System.out.println("SBMLReader : event.isEndElement : element name = " + endElement.getName().getLocalPart());
-				//if (endElement.getName().getLocalPart().equals("kineticLaw") || endElement.getName().getLocalPart().startsWith("listOf")) {
-					//System.out.println("SBMLReader : event.isEndElement : stack = " + SBMLElements);
-				//}
-				// TODO : check that the stack did not increase before and after an element ?
-				
+				// TODO : create a log system to avoid having to
+				// comment/uncomment sysout to debug
+				// System.out.println("SBMLReader : event.isEndElement : stack.size = "
+				// + SBMLElements.size());
+				// System.out.println("SBMLReader : event.isEndElement : element name = "
+				// + endElement.getName().getLocalPart());
+				// if (endElement.getName().getLocalPart().equals("kineticLaw")
+				// || endElement.getName().getLocalPart().startsWith("listOf"))
+				// {
+				// System.out.println("SBMLReader : event.isEndElement : stack = "
+				// + SBMLElements);
+				// }
+				// TODO : check that the stack did not increase before and after
+				// an element ?
+
 				// If this element contains no text and doesn't have any
 				// subNodes, this element is nested.
 				if (!isText && currentNode != null) {
@@ -578,9 +608,11 @@ public class SBMLReader {
 					if (!SBMLElements.isEmpty() && parser != null) {
 						// System.out.println("SBMLReader : event.isEndElement : calling end element");
 
-						boolean popElementFromTheStack = parser.processEndElement(endElement.getName()
-								.getLocalPart(), endElement.getName()
-								.getPrefix(), isNested, SBMLElements.peek());
+						boolean popElementFromTheStack = parser
+								.processEndElement(endElement.getName()
+										.getLocalPart(), endElement.getName()
+										.getPrefix(), isNested, SBMLElements
+										.peek());
 						// remove the top of the SBMLEements stack at the
 						// end of an element if this element is not the sbml
 						// element.
@@ -588,18 +620,21 @@ public class SBMLReader {
 							if (popElementFromTheStack) {
 								SBMLElements.pop();
 							}
-							// System.out.println("SBMLReader : event.isEndElement : new stack.size = " + SBMLElements.size());
+							// System.out.println("SBMLReader : event.isEndElement : new stack.size = "
+							// + SBMLElements.size());
 
 						} else {
 							// process the end of the document and return
 							// the final SBMLDocument
 							if (SBMLElements.peek() instanceof SBMLDocument) {
-								SBMLDocument sbmlDocument = (SBMLDocument) SBMLElements.peek();
+								SBMLDocument sbmlDocument = (SBMLDocument) SBMLElements
+										.peek();
 								Iterator<Entry<String, ReadingParser>> iterator = initializedParsers
 										.entrySet().iterator();
 
 								while (iterator.hasNext()) {
-									Entry<String, ReadingParser> entry = iterator.next();
+									Entry<String, ReadingParser> entry = iterator
+											.next();
 
 									ReadingParser sbmlParser = entry.getValue();
 									sbmlParser.processEndDocument(sbmlDocument);
