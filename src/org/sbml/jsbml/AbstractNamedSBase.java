@@ -47,10 +47,55 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		NamedSBase {
 
 	/**
+	 * Checks whether the given idCandidate is a valid identifier according to
+	 * the SBML specifications.
+	 * 
+	 * @param idCandidate
+	 *            The {@link String} to be tested.
+	 * @param level Level of the SBML to be used.
+	 * @param version Version of the SBML to be used.
+	 * @return True if the argument satisfies the specification of identifiers
+	 *         in the SBML specifications or false otherwise.
+	 */
+	public static final boolean isValidId(String idCandidate, int level,
+			int version) {
+		if ((idCandidate == null) || (idCandidate.length() == 0)) {
+			return false;
+		}
+		if (idCandidate.startsWith("_")
+				|| Character.isLetter(idCandidate.charAt(0))) {
+			boolean containsOnlyLetterDigitUnderscore = true, firstDigit = false;
+			char c;
+			int lettersBeforeFirstDigit = 0;
+			for (int i = 0; i < idCandidate.length()
+					&& containsOnlyLetterDigitUnderscore; i++) {
+				c = idCandidate.charAt(i);
+				if (Character.isLetter(c) && !firstDigit) {
+					lettersBeforeFirstDigit++;
+				}
+				if (Character.isDigit(c)) {
+					firstDigit = true;
+					if (lettersBeforeFirstDigit == 0) {
+						return false;
+					}
+				}
+				if (!Character.isLetter(c) && !Character.isDigit(c)
+						&& (c != '_')) {
+					containsOnlyLetterDigitUnderscore = false;
+				}
+			}
+			return containsOnlyLetterDigitUnderscore
+					&& (!firstDigit || (firstDigit && (lettersBeforeFirstDigit > 0)));
+		}
+		return false;
+	}
+
+	/**
 	 * id of the SBML component (can be optional depending on the level and
 	 * version). Matches the id attribute of an element in a SBML file.
 	 */
 	private String id;
+
 	/**
 	 * name of the SBML component (can be optional depending on the level and
 	 * version). Matches the name attribute of an element in a SBML file.
@@ -214,6 +259,11 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.element.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
+		// TODO: currently method only checks L1 V1!
+		// if (!isValidId(id), getLevel(), getVersion()) {
+		// throw new IllegalArgumentException(String.format(
+		// "%s is not a valid identifier.", id));
+		// }
 		if (id != null && id.trim().length() == 0) {
 			this.id = null;
 		} else {
@@ -228,7 +278,8 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.element.NamedSBase#setName(java.lang.String)
 	 */
 	public void setName(String name) {
-		// removed the call to the trim() function as a name with only space should be considered valid.
+		// removed the call to the trim() function as a name with only space
+		// should be considered valid.
 		if (name != null && name.length() == 0) {
 			this.name = null;
 		} else {
