@@ -81,7 +81,6 @@ public class ValuePair<S extends Comparable<S>, T extends Comparable<T>>
 	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	@Override
 	public int compareTo(ValuePair<S, T> v) {
 		if (equals(v)) {
 			return 0;
