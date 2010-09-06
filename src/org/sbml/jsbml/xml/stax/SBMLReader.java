@@ -337,7 +337,7 @@ public class SBMLReader {
 	 */
 	public static SBMLDocument readSBML(File file) throws XMLStreamException,
 			FileNotFoundException {
-		return readSBML(file.getAbsoluteFile());
+		return readSBML(file.getAbsolutePath());
 	}
 
 	/**

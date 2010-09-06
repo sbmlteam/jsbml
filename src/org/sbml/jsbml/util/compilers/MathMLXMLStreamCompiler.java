@@ -29,7 +29,6 @@
 package org.sbml.jsbml.util.compilers;
 
 import java.io.StringWriter;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -38,8 +37,8 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.codehaus.staxmate.SMOutputFactory;
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.util.StringTools;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
@@ -741,7 +740,9 @@ public class MathMLXMLStreamCompiler {
 		
 		// NumberFormat format = DecimalFormat.getInstance();
 		DecimalFormat format = new DecimalFormat("#########################.#########################");
-		format.setRoundingMode(RoundingMode.UNNECESSARY);
+		// TODO: in Java 1.5 compile error: setRoundingMode(RoundingMode) is
+		// undefined for type DecimalFormat
+		// format.setRoundingMode(RoundingMode.UNNECESSARY);
 		
 		System.out.println("x = " + format.format(x));
 		System.out.println("y = " + format.format(y));
