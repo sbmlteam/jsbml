@@ -31,6 +31,7 @@
 package org.sbml.jsbml;
 
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 /**
  * The base class for each SBML element with an optional id and name.
@@ -52,42 +53,36 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * 
 	 * @param idCandidate
 	 *            The {@link String} to be tested.
-	 * @param level Level of the SBML to be used.
-	 * @param version Version of the SBML to be used.
+	 * @param level
+	 *            Level of the SBML to be used.
+	 * @param version
+	 *            Version of the SBML to be used.
 	 * @return True if the argument satisfies the specification of identifiers
 	 *         in the SBML specifications or false otherwise.
 	 */
 	public static final boolean isValidId(String idCandidate, int level,
 			int version) {
-		if ((idCandidate == null) || (idCandidate.length() == 0)) {
-			return false;
-		}
-		if (idCandidate.startsWith("_")
-				|| Character.isLetter(idCandidate.charAt(0))) {
-			boolean containsOnlyLetterDigitUnderscore = true, firstDigit = false;
-			char c;
-			int lettersBeforeFirstDigit = 0;
-			for (int i = 0; i < idCandidate.length()
-					&& containsOnlyLetterDigitUnderscore; i++) {
-				c = idCandidate.charAt(i);
-				if (Character.isLetter(c) && !firstDigit) {
-					lettersBeforeFirstDigit++;
-				}
-				if (Character.isDigit(c)) {
-					firstDigit = true;
-					if (lettersBeforeFirstDigit == 0) {
-						return false;
-					}
-				}
-				if (!Character.isLetter(c) && !Character.isDigit(c)
-						&& (c != '_')) {
-					containsOnlyLetterDigitUnderscore = false;
-				}
+		final String underscore = "_";
+		final String letter = "a-zA-Z";
+		final String digit = "0-9";
+		final String idChar = "[" + letter + digit + underscore + "]";
+
+		if (level == 1) {
+			if (version == 1) {
+				String SNameL1V1 = underscore + "*[" + letter + "]" + idChar
+						+ '*';
+				return Pattern.matches(SNameL1V1, idCandidate);
+
+			} else if (version == 2) {
+				String SNameL1V2 = "[" + letter + underscore + "]" + idChar
+						+ '*';
+				return Pattern.matches(SNameL1V2, idCandidate);
 			}
-			return containsOnlyLetterDigitUnderscore
-					&& (!firstDigit || (firstDigit && (lettersBeforeFirstDigit > 0)));
 		}
-		return false;
+
+		// level undefined or level > 1
+		String SIdL2 = "[" + letter + underscore + "]" + idChar + '*';
+		return Pattern.matches(SIdL2, idCandidate);
 	}
 
 	/**
@@ -156,8 +151,8 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 */
 	public AbstractNamedSBase(String id, String name, int level, int version) {
 		this(level, version);
-		this.id = id != null ? new String(id) : null;
-		this.name = name != null ? new String(name) : null;
+		setId(id);
+		setName(name);
 	}
 
 	/*
@@ -259,15 +254,14 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.element.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
-		// TODO: currently method only checks L1 V1!
-		// if (!isValidId(id), getLevel(), getVersion()) {
-		// throw new IllegalArgumentException(String.format(
-		// "%s is not a valid identifier.", id));
-		// }
-		if (id != null && id.trim().length() == 0) {
+		if ((id != null) && (id.trim().length() == 0)) {
 			this.id = null;
 		} else {
-			this.id = id;
+			if (!isValidId(id, getLevel(), getVersion())) {
+				throw new IllegalArgumentException(String.format(
+						"%s is not a valid identifier.", id));
+			}
+			this.id = new String(id);
 		}
 		stateChanged();
 	}
@@ -280,15 +274,17 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	public void setName(String name) {
 		// removed the call to the trim() function as a name with only space
 		// should be considered valid.
-		if (name != null && name.length() == 0) {
+		if ((name != null) && (name.length() == 0)) {
 			this.name = null;
 		} else {
-			this.name = name;
+			this.name = new String(name);
 		}
-		if (!isSetId() && level == 1) {
-			this.id = name;
+		if (!isSetId() && (level == 1)) {
+			setId(name);
+		} else {
+			// else part to avoid calling this method twice.
+			stateChanged();
 		}
-		stateChanged();
 	}
 
 	/**
