@@ -274,7 +274,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	public void setName(String name) {
 		// removed the call to the trim() function as a name with only space
 		// should be considered valid.
-		if ((name != null) && (name.length() == 0)) {
+		if ((name == null) || (name.length() == 0)) {
 			this.name = null;
 		} else {
 			this.name = new String(name);
