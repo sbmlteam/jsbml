@@ -1150,6 +1150,9 @@ public class ASTNode implements TreeNode {
 			 * Names of identifiers: parameters, functions, species etc.
 			 */
 			case NAME:
+				if (variable == null) {
+					variable = getVariable();
+				}
 				if (variable != null) {
 					if (variable instanceof FunctionDefinition) {
 						value = compiler.function(
@@ -1910,13 +1913,19 @@ public class ASTNode implements TreeNode {
 	public NamedSBaseWithDerivedUnit getVariable() {
 		if (isName()) {
 			if ((variable == null) && (getParentSBMLObject() != null)) {
-				Model m = getParentSBMLObject().getModel();
-				if (m != null) {
-					Type type = getType();
-					variable = m.findNamedSBaseWithDerivedUnit(getName());
-					setVariable(variable);
-					setType(type);
+				if (getParentSBMLObject() instanceof KineticLaw) {
+					variable = ((KineticLaw) getParentSBMLObject())
+							.getParameter(getName());
 				}
+				if (variable == null) {
+					Model m = getParentSBMLObject().getModel();
+					if (m != null) {
+						variable = m.findNamedSBaseWithDerivedUnit(getName());
+					}
+				}
+				// Type type = getType();
+				setVariable(variable);
+				// setType(type);
 			}
 			return variable;
 		}
