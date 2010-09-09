@@ -254,7 +254,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.element.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
-		if ((id != null) && (id.trim().length() == 0)) {
+		if ((id == null) || (id.trim().length() == 0)) {
 			this.id = null;
 		} else {
 			if (!isValidId(id, getLevel(), getVersion())) {
