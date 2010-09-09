@@ -268,7 +268,7 @@ public class Unit extends AbstractSBase {
 
 		/**
 		 * 
-		 * @return the formula symbol of this unit kind in uni code notation.
+		 * @return the formula symbol of this unit kind in uni-code notation.
 		 */
 		public String getSymbol() {
 			switch (this) {
