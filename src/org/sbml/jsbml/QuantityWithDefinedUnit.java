@@ -174,7 +174,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 		UnitDefinition ud = new UnitDefinition(getLevel(), getVersion());
 		Unit u = new Unit(getLevel(), getVersion());
 		if (isSetUnits()) {
-			u.setKind(Kind.valueOf(unitsID));
+			u.setKind(Kind.valueOf(unitsID.toUpperCase()));
 		}
 		ud.addUnit(u);
 		return ud;
@@ -212,7 +212,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 		if (Unit.isUnitKind(unitsID, getLevel(), getVersion())) {
 			UnitDefinition ud = new UnitDefinition(unitsID, getLevel(),
 					getVersion());
-			ud.addUnit(Unit.Kind.valueOf(unitsID));
+			ud.addUnit(Unit.Kind.valueOf(unitsID.toUpperCase()));
 			return ud;
 		}
 		Model model = getModel();
