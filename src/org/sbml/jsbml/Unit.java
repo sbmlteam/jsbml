@@ -732,7 +732,14 @@ public class Unit extends AbstractSBase {
 			// predefined units are always unit definitions.
 			return false;
 		}
-		return isUnitKind(Kind.valueOf(name.toUpperCase()), level, version);
+		Kind kind = null;
+		try {
+			kind = Kind.valueOf(name.toUpperCase());
+		} catch (IllegalArgumentException exc) {
+			return false;
+		}
+		return isUnitKind(kind, level, version);
+
 	}
 
 	/**
