@@ -88,7 +88,7 @@ public class Curve extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isSetListOfCurveSegments() {
-		return listOfCurveSegments != null;
+		return (listOfCurveSegments != null) && (listOfCurveSegments.size() > 0);
 	}
 
 	/**

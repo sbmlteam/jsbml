@@ -677,26 +677,26 @@ public class Reaction extends AbstractNamedSBase implements
 
 	/**
 	 * 
-	 * @return true if the listOfModifiers of this Reaction is not null.
+	 * @return true if the listOfModifiers of this Reaction is not null and not empty.
 	 */
 	public boolean isSetListOfModifiers() {
-		return listOfModifiers != null && !listOfModifiers.isEmpty();
+		return (listOfModifiers != null) && (listOfModifiers.size() > 0);
 	}
 
 	/**
 	 * 
-	 * @return true if the listOfProducts of this reaction is not null.
+	 * @return true if the listOfProducts of this reaction is not null and not empty.
 	 */
 	public boolean isSetListOfProducts() {
-		return listOfProducts != null && !listOfProducts.isEmpty();
+		return (listOfProducts != null) && (listOfProducts.size() > 0);
 	}
 
 	/**
 	 * 
-	 * @return true if the listOfReactants of this Reaction is not null.
+	 * @return true if the listOfReactants of this Reaction is not null and not empty.
 	 */
 	public boolean isSetListOfReactants() {
-		return listOfReactants != null && !listOfReactants.isEmpty();
+		return (listOfReactants != null) && (listOfReactants.size() > 0);
 	}
 
 	/**

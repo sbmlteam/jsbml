@@ -461,10 +461,10 @@ public class Event extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return true if the listOfEventAssignments of this Event is not null;
+	 * @return true if the listOfEventAssignments of this Event is not null and not empty;
 	 */
 	public boolean isSetListOfEventAssignments() {
-		return listOfEventAssignments != null;
+		return (listOfEventAssignments != null) && (listOfEventAssignments.size() > 0);
 	}
 
 	/**

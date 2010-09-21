@@ -80,7 +80,8 @@ public class MultiSpecies extends SpeciesExtension {
 	 * @return
 	 */
 	public boolean isSetListOfSpeciesInstances() {
-		return this.listOfInitialSpeciesInstance != null;
+		return (listOfInitialSpeciesInstance != null)
+				&& (listOfInitialSpeciesInstance.size() > 0);
 	}
 
 	/**

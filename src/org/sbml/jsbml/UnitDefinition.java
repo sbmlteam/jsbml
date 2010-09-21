@@ -213,6 +213,16 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * @param name
+	 * @param level
+	 * @return
+	 */
+	public static boolean isPredefined(String name, int level) {
+		return Unit.isPredefined(name, level);
+	}
+
+	/**
 	 * Test if the given unit is a predefined unit.
 	 * 
 	 * @param ud
@@ -231,16 +241,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * 
-	 * @param name
-	 * @param level
-	 * @return
-	 */
-	public static boolean isPredefined(String name, int level) {
-		return Unit.isPredefined(name, level);
 	}
 
 	/**
@@ -666,10 +666,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return true if the listOfUnits is not null.
+	 * @return true if the listOfUnits is not null and not empty.
 	 */
 	public boolean isSetListOfUnits() {
-		return this.listOfUnits != null;
+		return (listOfUnits != null) && (listOfUnits.size() > 0);
 	}
 
 	/**

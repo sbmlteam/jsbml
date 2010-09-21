@@ -2753,100 +2753,116 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return true if the listOfCompartments of this Model is not null.
+	 * @return true if the listOfCompartments of this Model is not null and not
+	 *         empty.
 	 */
 	public boolean isSetListOfCompartments() {
-		return this.listOfCompartments != null;
+		return (listOfCompartments != null) && (listOfCompartments.size() > 0);
 	}
 
 	/**
 	 * 
-	 * @return true if the listOfCompartmentTypes of this Model is not null.
+	 * @return true if the listOfCompartmentTypes of this Model is not null and
+	 *         not empty.
+	 * @deprecated
 	 */
 	@Deprecated
 	public boolean isSetListOfCompartmentTypes() {
-		return this.listOfCompartmentTypes != null;
+		return (listOfCompartmentTypes != null)
+				&& (listOfCompartmentTypes.size() > 0);
 	}
 
 	/**
 	 * 
-	 * @return true if the listOfConstraints of this Model is not null.
+	 * @return true if the listOfConstraints of this Model is not null and not
+	 *         empty.
 	 */
 	public boolean isSetListOfConstraints() {
-		return this.listOfConstraints != null;
+		return (listOfConstraints != null) && (listOfConstraints.size() > 0);
 	}
 
 	/**
 	 * 
-	 * @return true if the listOfEvents of this Model is not null.
+	 * @return true if the listOfEvents of this Model is not null and not empty.
 	 */
 	public boolean isSetListOfEvents() {
-		return this.listOfEvents != null;
+		return (listOfEvents != null) && (listOfEvents.size() > 0);
 	}
 
 	/**
 	 * 
-	 * @return true if the listOfFunctionDefinitions of this Model is not null.
+	 * @return true if the listOfFunctionDefinitions of this Model is not null
+	 *         and not empty.
 	 */
 	public boolean isSetListOfFunctionDefinitions() {
-		return this.listOfFunctionDefinitions != null;
+		return (listOfFunctionDefinitions != null)
+				&& (listOfFunctionDefinitions.size() > 0);
 	}
 
 	/**
 	 * 
-	 * @return true if the listOfInitialAssignments of this Model is not null.
+	 * @return true if the listOfInitialAssignments of this Model is not null
+	 *         and not empty.
 	 */
 	public boolean isSetListOfInitialAssignments() {
-		return this.listOfInitialAssignments != null;
+		return (listOfInitialAssignments != null)
+				&& (listOfInitialAssignments.size() > 0);
 	}
 
 	/**
 	 * 
-	 * @return true if the listOfParameters of this Model is not null.
+	 * @return true if the listOfParameters of this Model is not null and not
+	 *         empty.
 	 */
 	public boolean isSetListOfParameters() {
-		return this.listOfParameters != null;
+		return (listOfParameters != null) && (listOfParameters.size() > 0);
 	}
 
 	/**
 	 * 
-	 * @return true if the listOfReactions of this Model is not null.
+	 * @return true if the listOfReactions of this Model is not null and not
+	 *         empty.
 	 */
 	public boolean isSetListOfReactions() {
-		return this.listOfReactions != null;
+		return (listOfReactions != null) && (listOfReactions.size() > 0);
 	}
 
 	/**
 	 * 
-	 * @return true if the listOfRules of this Model is not null.
+	 * @return true if the listOfRules of this Model is not null and not empty.
 	 */
 	public boolean isSetListOfRules() {
-		return this.listOfRules != null;
+		return (listOfRules != null) && (listOfRules.size() > 0);
 	}
 
 	/**
 	 * 
-	 * @return true if the listOfSpecies of this Model is not null.
+	 * @return true if the listOfSpecies of this Model is not null and not
+	 *         empty.
 	 */
 	public boolean isSetListOfSpecies() {
-		return this.listOfSpecies != null;
+		return (listOfSpecies != null) && (listOfSpecies.size() > 0);
 	}
 
 	/**
 	 * 
-	 * @return true if the listOfSpeciesTypes of this Model is not null.
+	 * @return true if the listOfSpeciesTypes of this Model is not null and not
+	 *         empty.
+	 * @deprecated
 	 */
 	@Deprecated
 	public boolean isSetListOfSpeciesTypes() {
-		return this.listOfSpeciesTypes != null;
+		return (listOfSpeciesTypes != null) && (listOfSpeciesTypes.size() > 0);
 	}
 
 	/**
 	 * 
-	 * @return true if the listOfUnitDefinitions of this Model is not null.
+	 * @return true if the listOfUnitDefinitions of this Model is not null and
+	 *         not empty.
 	 */
 	public boolean isSetListOfUnitDefinitions() {
-		return this.listOfUnitDefinitions != null;
+		return (listOfUnitDefinitions != null)
+				&& (listOfUnitDefinitions.size() > 0);
 	}
 
 	/**
