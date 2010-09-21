@@ -57,11 +57,15 @@ public class KineticLaw extends MathContainer {
 	private ListOf<LocalParameter> listOfParameters;
 	/**
 	 * Represents the 'substanceUnits' XML attribute of this KineticLaw.
+	 * 
+	 * @deprecated
 	 */
 	@Deprecated
 	private String substanceUnitsID;
 	/**
 	 * Represents the 'timeUnits' XML attribute of this KineticLaw.
+	 * 
+	 * @deprecated
 	 */
 	@Deprecated
 	private String timeUnitsID;
@@ -199,6 +203,7 @@ public class KineticLaw extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.MathContainer#getChildAt(int)
 	 */
 	@Override
@@ -225,6 +230,7 @@ public class KineticLaw extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.MathContainer#getChildCount()
 	 */
 	@Override
@@ -336,7 +342,9 @@ public class KineticLaw extends MathContainer {
 	 * 
 	 */
 	public void initDefaults() {
-		initListOfParameters();
+		// We cannot initialize this list here because maybe level and version
+		// are set later, which will then cause inconsistencies.
+		// initListOfParameters();
 		this.timeUnitsID = null;
 		this.substanceUnitsID = null;
 	}
@@ -353,10 +361,11 @@ public class KineticLaw extends MathContainer {
 
 	/**
 	 * 
-	 * @return true if the listOfParameters of this KineticLaw is not null.
+	 * @return true if the listOfParameters of this KineticLaw is not null and
+	 *         not empty.
 	 */
 	public boolean isSetListOfParameters() {
-		return listOfParameters != null;
+		return (listOfParameters != null) && (listOfParameters.size() > 0);
 	}
 
 	/**
@@ -372,6 +381,7 @@ public class KineticLaw extends MathContainer {
 	 * 
 	 * @return true if the UnistDefinition instance which has the
 	 *         substanceUnitsID of this KineticLaw as id is not null.
+	 * @deprecated
 	 */
 	@Deprecated
 	public boolean isSetSubstanceUnitsInstance() {
@@ -383,6 +393,7 @@ public class KineticLaw extends MathContainer {
 	/**
 	 * 
 	 * @return true if the timeUnitsID of this KineticLaw is not null.
+	 * @deprecated
 	 */
 	@Deprecated
 	public boolean isSetTimeUnits() {
@@ -393,6 +404,7 @@ public class KineticLaw extends MathContainer {
 	 * 
 	 * @return true if the UnistDefinition instance which has the timeUnitsID of
 	 *         this KineticLaw as id is not null.
+	 * @deprecated
 	 */
 	@Deprecated
 	public boolean isSetTimeUnitsInstance() {
@@ -403,7 +415,9 @@ public class KineticLaw extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.MathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 * 
+	 * @see org.sbml.jsbml.MathContainer#readAttribute(java.lang.String,
+	 * java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -497,6 +511,7 @@ public class KineticLaw extends MathContainer {
 	 * Sets the substanceUnitsID of this KineticLaw.
 	 * 
 	 * @param substanceUnits
+	 * @deprecated
 	 */
 	@Deprecated
 	public void setSubstanceUnits(String substanceUnits) {
@@ -507,6 +522,7 @@ public class KineticLaw extends MathContainer {
 	 * Sets the substanceUnitsID of this KineticLaw.
 	 * 
 	 * @param substanceUnits
+	 * @deprecated
 	 */
 	@Deprecated
 	public void setSubstanceUnitsInstance(UnitDefinition substanceUnits) {
@@ -518,6 +534,7 @@ public class KineticLaw extends MathContainer {
 	 * Sets the timeUnitsID of this KineticLaw.
 	 * 
 	 * @param timeUnits
+	 * @deprecated
 	 */
 	@Deprecated
 	public void setTimeUnits(String timeUnits) {
@@ -528,6 +545,7 @@ public class KineticLaw extends MathContainer {
 	 * Sets the timeUnitsID of this KineticLaw.
 	 * 
 	 * @param timeUnits
+	 * @deprecated
 	 */
 	@Deprecated
 	public void setTimeUnitsInstance(UnitDefinition timeUnits) {
@@ -536,6 +554,7 @@ public class KineticLaw extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.MathContainer#toString()
 	 */
 	@Override
@@ -545,11 +564,13 @@ public class KineticLaw extends MathContainer {
 		kineticLawStr.append(((Reaction) getParent()).getId());
 		kineticLawStr.append(") : ");
 		kineticLawStr.append(super.toString());
-		return kineticLawStr.toString(); 
+		return kineticLawStr.toString();
 	}
 
 	/**
 	 * Unsets the sunbstanceUnistID of this KineticLaw.
+	 * 
+	 * @deprecated
 	 */
 	@Deprecated
 	public void unsetSubstanceUnits() {
@@ -558,6 +579,8 @@ public class KineticLaw extends MathContainer {
 
 	/**
 	 * Unsets the timeUnitsID of this KineticLaw.
+	 * 
+	 * @deprecated
 	 */
 	@Deprecated
 	public void unsetTimeUnits() {
@@ -566,6 +589,7 @@ public class KineticLaw extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.MathContainer#writeXMLAttributes()
 	 */
 	@Override
@@ -582,6 +606,5 @@ public class KineticLaw extends MathContainer {
 
 		return attributes;
 	}
-	
-	
+
 }
