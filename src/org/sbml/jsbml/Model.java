@@ -148,10 +148,10 @@ public class Model extends AbstractNamedSBase {
 	private ListOf<UnitDefinition> listOfUnitDefinitions;
 
 	/**
-	 * Represents the list of default UnitDefinitions for a given SBML level and
+	 * Represents the list of predefined UnitDefinitions for a given SBML level and
 	 * version.
 	 */
-	private ArrayList<UnitDefinition> listOfDefaultUnitDefinitions = new ArrayList<UnitDefinition>();
+	private ArrayList<UnitDefinition> listOfPredefinedUnitDefinitions = new ArrayList<UnitDefinition>();
 
 	/**
 	 * Represents the 'substanceUnits' XML attribute of a model element.
@@ -1637,11 +1637,12 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Gets the CompartmentType with the given <code>id</code>.
 	 * 
 	 * @param id
 	 * @return the CompartmentType of the listOfCompartmentTypes which has 'id'
-	 *         as id (or name depending on the level and version). Null if if
-	 *         the listOfCompartmentTypes is not set.
+	 *         as id (or name depending on the level and version). Null if 
+	 *         the listOfCompartmentTypes is not set or the id is not found.
 	 */
 	@Deprecated
 	public CompartmentType getCompartmentType(String id) {
@@ -1649,7 +1650,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Get the nth Constraint object in this Model.
+	 * Gets the nth Constraint object in this Model.
 	 * 
 	 * @param n
 	 * @return the nth Constraint of this Model. Returns null if there are no
@@ -1661,6 +1662,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the conversionFactor ID of this Model.
 	 * 
 	 * @return the conversionFactorID of this Model. Returns an empty String if
 	 *         it is not set.
@@ -1670,6 +1672,8 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the Parameter instance which has the conversionFactorID of this
+	 * Model as id.
 	 * 
 	 * @return the Parameter instance which has the conversionFactorID of this
 	 *         Model as id. Null if it doesn't exist
@@ -1679,18 +1683,18 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns a UnitDefinition representing one of the predefined units of SBML, returns null if
+	 * the given unit kind is not a valid one for the SBML level and version of this <code>Model</code>.
 	 * 
-	 * 
-	 * @param units
-	 * @return
+	 * @param unitKind a unit kind for one of the predefined units from the SBML Specifications
+	 * @return a UnitDefinition representing one of the predefined units of SBML, null if the unitKind 
+	 * is invalid.
 	 */
-	public UnitDefinition getDefaultUnitDefinition(String units) {
+	public UnitDefinition getPredefinedUnitDefinition(String unitKind) {
 
-		for (UnitDefinition unitDefinition : listOfDefaultUnitDefinitions) {
-			// System.out.println("Model : getDefaultUnitDefinition : id, name = "
-			// + unitDefinition.getId() + ", " + unitDefinition.getName());
+		for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) {
 
-			if (unitDefinition.getId().equals(units)) {
+			if (unitDefinition.getId().equals(unitKind)) {
 				return unitDefinition;
 			}
 		}
@@ -1710,6 +1714,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Gets the Event which as the given <code>id</code> as id.
 	 * 
 	 * @param id
 	 * @return the Event of the listOfEvents which has 'id' as id (or name
@@ -2438,8 +2443,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Gets the UnitDefinition representing the TimeUnits of this Model.
 	 * 
-	 * @return
+	 * @return the UnitDefinition representing the TimeUnits of this Model, null if it is not defined 
+	 * in this Model
 	 */
 	public UnitDefinition getTimeUnitsInstance() {
 		return getUnitDefinition(this.timeUnitsID);
@@ -2458,6 +2465,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the UnitDefinition of the listOfUnitDefinitions which has 'id' as
+	 *         id. If no UnitDefinition are found, we check in the listOfPredefinedUnitDefinition.
+	 *         If we still did not find a UnitDefinition, null is returned.
 	 * 
 	 * @param id
 	 * @return the UnitDefinition of the listOfUnitDefinitions which has 'id' as
@@ -2471,7 +2481,7 @@ public class Model extends AbstractNamedSBase {
 
 		// Checking if it is not one of the predefined default units.
 		if (unitDefinition == null) {
-			unitDefinition = getDefaultUnitDefinition(id);
+			unitDefinition = getPredefinedUnitDefinition(id);
 		}
 
 		return unitDefinition;
@@ -2543,31 +2553,27 @@ public class Model extends AbstractNamedSBase {
 			// substance
 			ud = UnitDefinition.substance(getLevel(), getVersion());
 			substanceUnitsID = ud.getId();
-			listOfDefaultUnitDefinitions.add(ud); // TODO : send a mail to the
-			// list about that. We need
-			// to put these default
-			// UnitDefinitions some
-			// other place
+			listOfPredefinedUnitDefinitions.add(ud);
 
 			// volume
 			ud = UnitDefinition.volume(getLevel(), getVersion());
 			volumeUnitsID = ud.getId();
-			listOfDefaultUnitDefinitions.add(ud);
+			listOfPredefinedUnitDefinitions.add(ud);
 
 			// area
 			ud = UnitDefinition.area(getLevel(), getVersion());
 			areaUnitsID = ud.getId();
-			listOfDefaultUnitDefinitions.add(ud);
+			listOfPredefinedUnitDefinitions.add(ud);
 
 			// length
 			ud = UnitDefinition.length(getLevel(), getVersion());
 			lengthUnitsID = ud.getId();
-			listOfDefaultUnitDefinitions.add(ud);
+			listOfPredefinedUnitDefinitions.add(ud);
 
 			// time
 			ud = UnitDefinition.time(getLevel(), getVersion());
 			timeUnitsID = ud.getId();
-			listOfDefaultUnitDefinitions.add(ud);
+			listOfPredefinedUnitDefinitions.add(ud);
 
 			extentUnitsID = null;
 			conversionFactorID = null;
