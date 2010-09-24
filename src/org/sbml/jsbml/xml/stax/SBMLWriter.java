@@ -33,6 +33,7 @@ package org.sbml.jsbml.xml.stax;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -47,7 +48,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -1162,6 +1162,25 @@ public class SBMLWriter {
 			String programVersion) throws XMLStreamException, SBMLException {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		write(d, stream, programName, programVersion);
+		return stream.toString();
+	}
+
+	/**
+	 * 
+	 * @param document
+	 * @param file
+	 * @param programName
+	 * @param programVersion
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws XMLStreamException
+	 * @throws SBMLException
+	 */
+	public static String write(SBMLDocument document, File file,
+			String programName, String programVersion)
+			throws FileNotFoundException, XMLStreamException, SBMLException {
+		FileOutputStream stream = new FileOutputStream(file);
+		write(document, stream, programName, programVersion);
 		return stream.toString();
 	}
 
