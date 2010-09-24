@@ -79,7 +79,7 @@ public class SBMLReader {
 
 	/**
 	 * Adds a new ReadingParser instance to the initializedParsers if it doesn't
-	 * contain a ReadingParser instance for this namespace URI.
+	 * contain a ReadingParser instance for this name space URI.
 	 * 
 	 * @param elementName
 	 *            : localName of the XML element
@@ -306,7 +306,8 @@ public class SBMLReader {
 		String fileName = args[0];
 
 		try {
-			SBMLDocument testDocument = readSBMLFile(fileName);
+			SBMLDocument testDocument = readSBML(fileName);
+			SBMLWriter.write(testDocument, System.out);
 		} catch (XMLStreamException exc) {
 			exc.printStackTrace();
 		} catch (Exception exc) {
@@ -315,29 +316,31 @@ public class SBMLReader {
 	}
 
 	/**
-	 * Reads a SBML String 'fileName'
+	 * Reads SBML from a given {@link File}.
 	 * 
-	 * @param fileName
+	 * @param file
+	 *            The path to an SBML {@link File}.
 	 * @return the matching SBMLDocument instance.
 	 * @throws XMLStreamException
 	 * @throws FileNotFoundException
 	 */
-	public static SBMLDocument readSBML(String fileName)
-			throws XMLStreamException, FileNotFoundException {
-		return readSBMLFile(fileName);
+	public static SBMLDocument readSBML(String file) throws XMLStreamException,
+			FileNotFoundException {
+		return readSBMLFile(file);
 	}
 
 	/**
 	 * Reads a SBML String from the given file
 	 * 
-	 * @param file A file containing SBML content.
+	 * @param file
+	 *            A file containing SBML content.
 	 * @return the matching SBMLDocument instance.
 	 * @throws XMLStreamException
 	 * @throws FileNotFoundException
 	 */
 	public static SBMLDocument readSBML(File file) throws XMLStreamException,
 			FileNotFoundException {
-		return readSBML(file.getAbsolutePath());
+		return readSBMLFromStream(new FileInputStream(file));
 	}
 
 	/**
@@ -352,13 +355,14 @@ public class SBMLReader {
 	 */
 	public static SBMLDocument readSBMLFile(String fileName)
 			throws XMLStreamException, FileNotFoundException {
-		return readSBMLFromStream(new FileInputStream(new File(fileName)));
+		return readSBML(new File(fileName));
 	}
 
 	/**
 	 * 
 	 * @param stream
 	 * @return
+	 * @throws XMLStreamException
 	 */
 	public static SBMLDocument readSBMLFromStream(InputStream stream)
 			throws XMLStreamException {
@@ -492,8 +496,8 @@ public class SBMLReader {
 								boolean isLastAttribute = !att.hasNext();
 								QName attributeName = attribute.getName();
 
-								if (!attribute.getName().getNamespaceURI()
-										.equals("")) {
+								if (attribute.getName().getNamespaceURI()
+										.length() > 0) {
 									attributeParser = initializedParsers
 											.get(attribute.getName()
 													.getNamespaceURI());
@@ -536,7 +540,7 @@ public class SBMLReader {
 				}
 
 				// process the text of a XML element.
-				if (parser != null && !SBMLElements.isEmpty()
+				if ((parser != null) && !SBMLElements.isEmpty()
 						&& !characters.isWhiteSpace()) {
 					if (currentNode != null) {
 						parser.processCharactersOf(currentNode.getLocalPart(),
@@ -642,7 +646,7 @@ public class SBMLReader {
 								return (SBMLDocument) SBMLElements.peek();
 							} else {
 								// TODO at the end of a sbml node, the
-								// SBMLElements stack must contains only a
+								// SBMLElements stack must contain only a
 								// SBMLDocument instance.
 								// Otherwise, there is a syntax error in the
 								// SBML document, Throw an error?

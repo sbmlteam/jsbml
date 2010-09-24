@@ -314,12 +314,10 @@ public class SBMLDocument extends AbstractSBase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.AbstractSBase#toString()
+	 * @see org.sbml.jsbml.AbstractSBase#toString()
 	 */
-	// @Override
 	public String toString() {
-		return String.format("SBML Level %d Version %d", level, version);
+		return String.format("SBML Level %d Version %d", getLevel(), getVersion());
 	}
 
 	/*

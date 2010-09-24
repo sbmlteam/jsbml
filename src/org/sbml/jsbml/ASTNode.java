@@ -69,15 +69,18 @@ public class ASTNode implements TreeNode {
 	 */
 	public static enum Type {
 		/**
-		 * 
+		 * If the {@link ASTNode} represents Euler's constant, it should have
+		 * this {@link Type}.
 		 */
 		CONSTANT_E,
 		/**
-		 * 
+		 * If an {@link ASTNode} represents the {@link Boolean} attribute
+		 * {@link Boolean.FALSE} it should have this {@link Type}.
 		 */
 		CONSTANT_FALSE,
 		/**
-		 * 
+		 * If the {@link ASTNode} represents the constant &#960;, it should have
+		 * this {@link Type}.
 		 */
 		CONSTANT_PI,
 		/**
@@ -323,7 +326,178 @@ public class ASTNode implements TreeNode {
 		/**
 		 * 
 		 */
-		UNKNOWN
+		UNKNOWN;
+
+		/**
+		 * 
+		 * @return
+		 */
+		public String getName() {
+			switch (this) {
+			case CONSTANT_E:
+				return "";
+			case CONSTANT_FALSE:
+				return "false";
+			case CONSTANT_PI:
+				return "";
+			case CONSTANT_TRUE:
+				return "true";
+			case DIVIDE:
+				return "/";
+			case FUNCTION:
+				return "";
+			case FUNCTION_ABS:
+				return "abs";
+			case FUNCTION_ARCCOS:
+				return "acos";
+			case FUNCTION_ARCCOSH:
+				return "acosh";
+			case FUNCTION_ARCCOT:
+				return "acot";
+			case FUNCTION_ARCCOTH:
+				return "acoth";
+			case FUNCTION_ARCCSC:
+				return "asc";
+			case FUNCTION_ARCCSCH:
+				return "";
+			case FUNCTION_ARCSEC:
+				return "";
+			case FUNCTION_ARCSECH:
+				return "";
+			case FUNCTION_ARCSIN:
+				return "";
+			case FUNCTION_ARCSINH:
+				return "";
+			case FUNCTION_ARCTAN:
+				return "";
+			case FUNCTION_ARCTANH:
+				return "";
+			case FUNCTION_CEILING:
+				return "";
+			case FUNCTION_COS:
+				return "";
+			case FUNCTION_COSH:
+				return "";
+			case FUNCTION_COT:
+				return "";
+			case FUNCTION_COTH:
+				return "";
+			case FUNCTION_CSC:
+				return "";
+			case FUNCTION_CSCH:
+				return "";
+			case FUNCTION_DELAY:
+				return "";
+			case FUNCTION_EXP:
+				return "";
+			case FUNCTION_FACTORIAL:
+				return "";
+			case FUNCTION_FLOOR:
+				return "";
+			case FUNCTION_LN:
+				return "";
+			case FUNCTION_LOG:
+				return "";
+			case FUNCTION_PIECEWISE:
+				return "";
+			case FUNCTION_POWER:
+				return "";
+			case FUNCTION_ROOT:
+				return "";
+			case FUNCTION_SEC:
+				return "";
+			case FUNCTION_SECH:
+				return "";
+			case FUNCTION_SIN:
+				return "";
+			case FUNCTION_SINH:
+				return "";
+			case FUNCTION_TAN:
+				return "";
+			case FUNCTION_TANH:
+				return "";
+			case INTEGER:
+				return "";
+			case LAMBDA:
+				return "";
+			case LOGICAL_AND:
+				return "";
+			case LOGICAL_NOT:
+				return "";
+			case LOGICAL_OR:
+				return "";
+			case LOGICAL_XOR:
+				return "";
+			case MINUS:
+				return "";
+			case NAME:
+				return "";
+			case NAME_AVOGADRO:
+				return "";
+			case NAME_TIME:
+				return "";
+			case PLUS:
+				return "";
+			case POWER:
+				return "";
+			case RATIONAL:
+				return "";
+			case REAL:
+				return "";
+			case REAL_E:
+				return "";
+			case RELATIONAL_EQ:
+				return "";
+			case RELATIONAL_GEQ:
+				return "";
+			case RELATIONAL_GT:
+				return "";
+			case RELATIONAL_LEQ:
+				return "";
+			case RELATIONAL_LT:
+				return "";
+			case RELATIONAL_NEQ:
+				return "";
+			case TIMES:
+				return "";
+			case UNKNOWN:
+				return "";
+			default:
+				return null;
+			}
+		}
+
+		/**
+		 * Returns the {@link Type} corresponding to the given {@link String}.
+		 * 
+		 * @param type
+		 *            e.g., sin, asin, exp, and so on. See the specification of
+		 *            SBML Level 1 Version 1 or 2.
+		 * @return The type corresponding to the given {@link String} or null if
+		 *         no matching can be found.
+		 */
+		public Type getTypeFor(String type) {
+			// TODO
+			// abs, acos, asin, atan, ceil, cos, exp, floor, log, log10, pow,
+			// sqr, sqrt, sin, tan
+			if (type.equals("abs")) {
+				return FUNCTION_ABS;
+			}
+			return null;
+		}
+
+		/**
+		 * Method to check whether this type is valid for the given SBML
+		 * Level/Version combination.
+		 * 
+		 * @param level
+		 * @param version
+		 * @return
+		 */
+		public boolean isDefinedIn(int level, int version) {
+			// TODO
+			return false;
+		}
 	}
 
 	/**
@@ -1362,8 +1536,11 @@ public class ASTNode implements TreeNode {
 			}
 		}
 		value.setType(getType());
-		value.setLevel(getParentSBMLObject().getLevel());
-		value.setVersion(getParentSBMLObject().getVersion());
+		MathContainer parent = getParentSBMLObject();
+		if (parent != null) {
+			value.setLevel(parent.getLevel());
+			value.setVersion(parent.getVersion());
+		}
 		return value;
 	}
 
@@ -1929,7 +2106,7 @@ public class ASTNode implements TreeNode {
 			}
 			return variable;
 		}
-		throw new IllegalArgumentException(
+		throw new IllegalAccessError(
 				"getVariable() should be called only when isName() == true.");
 	}
 
@@ -3209,5 +3386,26 @@ public class ASTNode implements TreeNode {
 	 */
 	public void unsetUnits() {
 		unitId = null;
+	}
+
+	/**
+	 * For a better performance ASTNodes can store a direct pointer to a
+	 * variable element. This is particularly useful when performing more
+	 * complex computation on these data structures. However, if the model is
+	 * changed, it may happen that these pointer become invalid. For instance, a
+	 * previously local parameter may be added to the model in form of a global
+	 * parameter while keeping the same identifier. The local parameter may then
+	 * be removed. Whenever performing changes like this, you may want to update
+	 * pointers within {@link ASTNode} constructs as well.
+	 */
+	public void updateVariables() {
+		if (isName() && (variable != null)) {
+			name = variable.getId();
+			variable = null;
+			variable = getVariable();
+		}
+		for (ASTNode child : getChildren()) {
+			child.updateVariables();
+		}
 	}
 }
