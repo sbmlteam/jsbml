@@ -167,9 +167,13 @@ public class SBMLWriter {
 						}
 					}
 				} catch (InstantiationException e) {
-					throw new IllegalArgumentException("An error occur while creating a parser : " + e.getMessage());
+					throw new IllegalArgumentException(
+							"An error occur while creating a parser : "
+									+ e.getMessage());
 				} catch (IllegalAccessException e) {
-					throw new IllegalArgumentException("An error occur while creating a parser : " + e.getMessage());
+					throw new IllegalArgumentException(
+							"An error occur while creating a parser : "
+									+ e.getMessage());
 				}
 			}
 
@@ -211,9 +215,13 @@ public class SBMLWriter {
 						}
 					}
 				} catch (InstantiationException e) {
-					throw new IllegalArgumentException("An error occur while creating a parser : " + e.getMessage());
+					throw new IllegalArgumentException(
+							"An error occur while creating a parser : "
+									+ e.getMessage());
 				} catch (IllegalAccessException e) {
-					throw new IllegalArgumentException("An error occur while creating a parser : " + e.getMessage());
+					throw new IllegalArgumentException(
+							"An error occur while creating a parser : "
+									+ e.getMessage());
 				}
 			}
 		}
@@ -272,22 +280,28 @@ public class SBMLWriter {
 	public static void initializePackageParserNamespaces() {
 		Properties p = new Properties();
 		try {
-			p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
-			"org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml"));
+			p
+					.loadFromXML(Resource
+							.getInstance()
+							.getStreamFromResourceLocation(
+									"org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml"));
 			for (Object k : p.keySet()) {
 				String key = k.toString();
 				packageParsers.put(key, (Class<? extends WritingParser>) Class
 						.forName(p.getProperty(key)));
 			}
-		} catch (InvalidPropertiesFormatException e) {			
-			throw new IllegalArgumentException("The format of the PackageParserNamespaces.xml file is incorrect.");
+		} catch (InvalidPropertiesFormatException e) {
+			throw new IllegalArgumentException(
+					"The format of the PackageParserNamespaces.xml file is incorrect.");
 		} catch (IOException e) {
-			throw new IllegalArgumentException("There was a problem opening the file PackageParserNamespaces.xml.");
+			throw new IllegalArgumentException(
+					"There was a problem opening the file PackageParserNamespaces.xml.");
 		} catch (ClassNotFoundException e) {
 			// e.printStackTrace();
-			throw new IllegalArgumentException("There was a problem loading the file PackageParserNamespaces.xml : " +
-					e.getMessage());
-			
+			throw new IllegalArgumentException(
+					"There was a problem loading the file PackageParserNamespaces.xml : "
+							+ e.getMessage());
+
 		}
 	}
 
@@ -307,8 +321,9 @@ public class SBMLWriter {
 		String fileName = args[0];
 		String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
 
-		System.out.println("Reading " + fileName + "and writing" + jsbmlWriteFileName);
-		
+		System.out.println("Reading " + fileName + "and writing"
+				+ jsbmlWriteFileName);
+
 		SBMLDocument testDocument;
 		try {
 			testDocument = SBMLReader.readSBMLFile(fileName);
@@ -328,7 +343,7 @@ public class SBMLWriter {
 	 * @param stream
 	 *            : a stream where to write the content of the model to.
 	 * @throws XMLStreamException
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 * @throws IOException
 	 * 
 	 */
@@ -346,7 +361,7 @@ public class SBMLWriter {
 	 * @param programVersion
 	 *            can be null
 	 * @throws XMLStreamException
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 * 
 	 */
 	public static void write(SBMLDocument sbmlDocument, OutputStream stream,
@@ -410,17 +425,21 @@ public class SBMLWriter {
 			notesParser = SBMLReader.getPackageParsers(
 					"http://www.w3.org/1999/xhtml").newInstance();
 			mathMLParser = SBMLReader.getPackageParsers(
-			"http://www.w3.org/1998/Math/MathML").newInstance();
+					"http://www.w3.org/1998/Math/MathML").newInstance();
 		} catch (InstantiationException e) {
-			throw new IllegalArgumentException("An error occur while creating a parser : " + e.getMessage());
+			throw new IllegalArgumentException(
+					"An error occur while creating a parser : "
+							+ e.getMessage());
 		} catch (IllegalAccessException e) {
-			throw new IllegalArgumentException("An error occur while creating a parser : " + e.getMessage());
+			throw new IllegalArgumentException(
+					"An error occur while creating a parser : "
+							+ e.getMessage());
 		}
 
 		int indent = 2;
 		if (sbmlDocument.isSetNotes()) {
-			writeNotes(sbmlDocument, smOutputElement, streamWriter, SBMLNamespace,
-					indent);
+			writeNotes(sbmlDocument, smOutputElement, streamWriter,
+					SBMLNamespace, indent);
 		}
 		if (sbmlDocument.isSetAnnotation()) {
 			writeAnnotation(sbmlDocument, smOutputElement, streamWriter,
@@ -428,8 +447,8 @@ public class SBMLWriter {
 		}
 		smOutputElement.addCharacters(StringTools.newLine());
 
-		writeSBMLElements(xmlObject, smOutputElement, streamWriter, sbmlDocument,
-				notesParser, mathMLParser, indent);
+		writeSBMLElements(xmlObject, smOutputElement, streamWriter,
+				sbmlDocument, notesParser, mathMLParser, indent);
 
 		outputDocument.closeRoot();
 	}
@@ -441,10 +460,10 @@ public class SBMLWriter {
 	 *            : the SBMLDocument to write
 	 * @param fileName
 	 *            : the name of the file where to write the SBMLDocument.
-	 *            
+	 * 
 	 * @throws XMLStreamException
 	 * @throws FileNotFoundException
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 * 
 	 */
 	public static void write(SBMLDocument sbmlDocument, String fileName)
@@ -461,7 +480,7 @@ public class SBMLWriter {
 	 * 
 	 * @throws XMLStreamException
 	 * @throws FileNotFoundException
-	 * @throws SBMLException 
+	 * @throws SBMLException
 	 * 
 	 */
 	public static void write(SBMLDocument sbmlDocument, String fileName,
@@ -533,11 +552,11 @@ public class SBMLWriter {
 				domDocument = JAXPFacade.getInstance().create(
 						new BufferedReader(new StringReader(annotationString)),
 						true);
-				converter.writeFragment(
-						domDocument.getFirstChild().getChildNodes(), writer);
+				converter.writeFragment(domDocument.getFirstChild()
+						.getChildNodes(), writer);
 			} catch (SAXException e) {
 				e.printStackTrace();
-				// TODO : log error or send SBMLException				
+				// TODO : log error or send SBMLException
 			}
 		} else {
 			writer.writeCharacters(StringTools.newLine());
@@ -807,21 +826,24 @@ public class SBMLWriter {
 	private static void writeMathML(MathContainer m, SMOutputElement element,
 			XMLStreamWriter writer, int indent) throws XMLStreamException {
 		if (m.isSetMath()) {
-			
+
 			writer.writeCharacters(StringTools.newLine());
 			writer.writeCharacters(createIndent(indent + 2));
 			// writer.setPrefix("math", "http://www.w3.org/1998/Math/MathML");
-			// writer.writeStartElement("http://www.w3.org/1998/Math/MathML", "math");
+			// writer.writeStartElement("http://www.w3.org/1998/Math/MathML",
+			// "math");
 			writer.writeStartElement("math");
-			writer.writeAttribute("xmlns:math", "http://www.w3.org/1998/Math/MathML");
+			writer.writeAttribute("xmlns:math",
+					"http://www.w3.org/1998/Math/MathML");
 			writer.writeCharacters(StringTools.newLine());
-			
-			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(writer, createIndent(indent + 4));
+
+			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
+					writer, createIndent(indent + 4));
 			compiler.compile(m.getMath());
-			
+
 			writer.writeCharacters(createIndent(indent + 2));
 			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());			
+			writer.writeCharacters(StringTools.newLine());
 		}
 	}
 
@@ -981,15 +1003,16 @@ public class SBMLWriter {
 	 * @throws SAXException
 	 */
 	private static void writeSBMLElements(SBMLObjectForXML parentXmlObject,
-			SMOutputElement smOutputParentElement, XMLStreamWriter streamWriter,
-			Object objectToWrite, ReadingParser notesParser,
-			ReadingParser MathMLparser, int indent) throws XMLStreamException,
-			SBMLException {
+			SMOutputElement smOutputParentElement,
+			XMLStreamWriter streamWriter, Object objectToWrite,
+			ReadingParser notesParser, ReadingParser MathMLparser, int indent)
+			throws XMLStreamException, SBMLException {
 
 		String whiteSpaces = createIndent(indent);
-		
+
 		// Get the list of parsers to use.
-		// TODO : check this, it should probably be a loop, one element could be written by several parser
+		// TODO : check this, it should probably be a loop, one element could be
+		// written by several parser
 		ArrayList<WritingParser> listOfPackages = getInitializedParsers(
 				objectToWrite, smOutputParentElement.getNamespace().getURI());
 
@@ -1006,7 +1029,8 @@ public class SBMLWriter {
 		Iterator<WritingParser> iterator = listOfPackages.iterator();
 		while (iterator.hasNext()) {
 			WritingParser parser = iterator.next();
-			List<Object> sbmlElementsToWrite = parser.getListOfSBMLElementsToWrite(objectToWrite);
+			List<Object> sbmlElementsToWrite = parser
+					.getListOfSBMLElementsToWrite(objectToWrite);
 
 			// System.out.println("SBMLWriter : writeSBMLElements : parser = "
 			// + parser);
@@ -1031,9 +1055,10 @@ public class SBMLWriter {
 						if (list.size() > 0) {
 							SBase sb = list.getFirst();
 							if ((sb instanceof UnitDefinition)
-									&& (parser.getListOfSBMLElementsToWrite(nextObjectToWrite) == null)) 
-							{                      
-								streamWriter.writeCharacters(whiteSpaces.substring(0, indent - 2));
+									&& (parser
+											.getListOfSBMLElementsToWrite(nextObjectToWrite) == null)) {
+								streamWriter.writeCharacters(whiteSpaces
+										.substring(0, indent - 2));
 								continue;
 							}
 						} else {
@@ -1055,6 +1080,13 @@ public class SBMLWriter {
 					if (nextObjectToWrite instanceof ListOf<?>) {
 						ListOf<?> toTest = (ListOf<?>) nextObjectToWrite;
 						Type listType = toTest.getSBaseListType();
+						if (listType == Type.none) {
+							// Prevent writing invalid SBML if list types are
+							// not set appropriately.
+							throw new SBMLException(String.format(
+									"Unknown ListOf type \"%s\".", toTest
+											.getElementName()));
+						}
 						if (listType.equals(ListOf.Type.listOfReactants)
 								|| listType.equals(ListOf.Type.listOfProducts)
 								|| listType.equals(ListOf.Type.listOfModifiers)) {
@@ -1075,14 +1107,17 @@ public class SBMLWriter {
 					if (parentXmlObject.isSetName()) {
 						if (parentXmlObject.isSetNamespace()) {
 							SMNamespace namespaceContext = smOutputParentElement
-									.getNamespace(parentXmlObject.getNamespace(),
-											parentXmlObject.getPrefix());
-							newOutPutElement = smOutputParentElement.addElement(
-									namespaceContext, parentXmlObject.getName());
+									.getNamespace(parentXmlObject
+											.getNamespace(), parentXmlObject
+											.getPrefix());
+							newOutPutElement = smOutputParentElement
+									.addElement(namespaceContext,
+											parentXmlObject.getName());
 						} else {
 
-							newOutPutElement = smOutputParentElement.addElement(
-									smOutputParentElement.getNamespace(), parentXmlObject
+							newOutPutElement = smOutputParentElement
+									.addElement(smOutputParentElement
+											.getNamespace(), parentXmlObject
 											.getName());
 						}
 
@@ -1126,7 +1161,8 @@ public class SBMLWriter {
 						writeSBMLElements(parentXmlObject, newOutPutElement,
 								streamWriter, nextObjectToWrite, notesParser,
 								MathMLparser, indent + 2);
-						smOutputParentElement.addCharacters(StringTools.newLine());
+						smOutputParentElement.addCharacters(StringTools
+								.newLine());
 					}
 					streamWriter.writeCharacters(whiteSpaces.substring(0,
 							indent - 2));
