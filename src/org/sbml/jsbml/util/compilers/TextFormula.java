@@ -702,7 +702,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 		for (ASTNode node : nodes) {
 			l.add(node);
 		}
-		return new ASTNodeValue(concat(name, lambdaBody(l)).toString(), this);
+		return new ASTNodeValue(concat(name, brackets(lambdaBody(l))).toString(), this);
 	}
 
 	/**

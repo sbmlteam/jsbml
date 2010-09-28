@@ -740,9 +740,6 @@ public class MathMLXMLStreamCompiler {
 		
 		// NumberFormat format = DecimalFormat.getInstance();
 		DecimalFormat format = new DecimalFormat("#########################.#########################");
-		// TODO: in Java 1.5 compile error: setRoundingMode(RoundingMode) is
-		// undefined for type DecimalFormat
-		// format.setRoundingMode(RoundingMode.UNNECESSARY);
 		
 		System.out.println("x = " + format.format(x));
 		System.out.println("y = " + format.format(y));
