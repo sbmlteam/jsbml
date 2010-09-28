@@ -1279,7 +1279,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					} else if (list.getParentSBMLObject() instanceof KineticLaw) {
 						KineticLaw kineticLaw = (KineticLaw) list
 								.getParentSBMLObject();
-
+						setLevelAndVersionFor(newContextObject, kineticLaw.getModel());
 						// Level 3 : parameter and listOfParameters =>
 						// localParameter and listOfLocalParameter
 						if (elementName.equals("localParameter")
@@ -1401,6 +1401,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					if (elementName.equals("listOfLocalParameters")
 							&& kineticLaw.getLevel() >= 3) {
 						ListOf listOfLocalParameters = (ListOf<?>) newContextObject;
+						setLevelAndVersionFor(listOfLocalParameters, kineticLaw.getModel());
 						kineticLaw
 								.setListOfLocalParameters(listOfLocalParameters);
 						listOfLocalParameters
@@ -1411,6 +1412,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 							&& kineticLaw.isSetLevel()
 							&& kineticLaw.getLevel() < 3) {
 						ListOf listOfLocalParameters = (ListOf<?>) newContextObject;
+						setLevelAndVersionFor(listOfLocalParameters, kineticLaw.getModel());
 						kineticLaw
 								.setListOfLocalParameters(listOfLocalParameters);
 						listOfLocalParameters
