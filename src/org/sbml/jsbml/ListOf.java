@@ -203,12 +203,12 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public boolean add(T e) {
 		if (e.getLevel() != getLevel()) {
 			throw new IllegalArgumentException(String.format(
-					"Level mismatch between %s in L %d and %s in L %d",
+					JSBML.LEVEL_MISMATCH_MESSAGE,
 					getClass().getSimpleName(), getLevel(), e.getClass()
 							.getSimpleName(), e.getLevel()));
 		} else if (e.getVersion() != getVersion()) {
 			throw new IllegalArgumentException(String.format(
-					"Version mismatch between %s in V %d and %s in V %d",
+					JSBML.VERSION_MISMATCH_MESSAGE,
 					getClass().getSimpleName(), getVersion(), e.getClass()
 							.getSimpleName(), e.getVersion()));
 		}
@@ -273,6 +273,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.LinkedList#clear()
 	 */
 	public void clear() {
+		for (T t : listOf) {
+			t.sbaseRemoved();
+		}
 		listOf.clear();
 	}
 

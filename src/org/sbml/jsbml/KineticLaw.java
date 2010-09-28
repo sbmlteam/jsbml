@@ -143,17 +143,31 @@ public class KineticLaw extends MathContainer {
 	 * Adds a copy of the given Parameter object to the list of local parameters
 	 * in this KineticLaw.
 	 * 
-	 * @param p
+	 * @param parameter
 	 */
-	public void addParameter(LocalParameter parameter) {
+	public void addLocalParameter(LocalParameter parameter) {
 		if (!isSetListOfParameters()) {
 			initListOfParameters();
 		}
 		if (!getListOfParameters().contains(parameter)) {
-			setThisAsParentSBMLObject(parameter);
 			listOfParameters.add(parameter);
+			if (parameter.isSetId() && isSetMath()) {
+				getMath().updateVariables();
+			}
 			stateChanged();
 		}
+	}
+
+	/**
+	 * Adds a copy of the given Parameter object to the list of local parameters
+	 * in this KineticLaw.
+	 * 
+	 * @param p
+	 * @deprecated use {@link #addLocalParameter(LocalParameter)}.
+	 */
+	@Deprecated
+	public void addParameter(LocalParameter parameter) {
+		addLocalParameter(parameter);
 	}
 
 	/*
@@ -501,10 +515,24 @@ public class KineticLaw extends MathContainer {
 	 * @param list
 	 */
 	public void setListOfLocalParameters(ListOf<LocalParameter> list) {
+		if (list == null) {
+			unsetListOfLocalParameters();
+		}
+		if (getLevel() != list.getLevel()) {
+			throw new IllegalArgumentException(JSBML.levelMismatchMessage(this,
+					list));
+		}
+		if (getVersion() != list.getVersion()) {
+			throw new IllegalArgumentException(JSBML.versionMismatchMessage(
+					this, list));
+		}
 		this.listOfParameters = list;
 		setThisAsParentSBMLObject(this.listOfParameters);
 		this.listOfParameters
 				.setSBaseListType(ListOf.Type.listOfLocalParameters);
+		if (isSetMath()) {
+			getMath().updateVariables();
+		}
 	}
 
 	/**
@@ -565,6 +593,17 @@ public class KineticLaw extends MathContainer {
 		kineticLawStr.append(") : ");
 		kineticLawStr.append(super.toString());
 		return kineticLawStr.toString();
+	}
+
+	/**
+	 * 
+	 */
+	public void unsetListOfLocalParameters() {
+		if (listOfParameters != null) {
+			listOfParameters.clear();
+		}
+		listOfParameters = null;
+		stateChanged();
 	}
 
 	/**

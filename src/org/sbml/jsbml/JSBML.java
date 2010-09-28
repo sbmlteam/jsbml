@@ -62,6 +62,56 @@ public class JSBML {
 	public static final int INVALID_XML_OPERATION = -9;
 
 	/**
+	 * Message to display in cases that two objects do not have identical level
+	 * attributes. Requires the following replacement arguments: Class name of
+	 * first element, version in first element, class name of second element and
+	 * level in second argument.
+	 */
+	public static final String LEVEL_MISMATCH_MESSAGE = "Level mismatch between %s in L %d and %s in L %d";
+
+	/**
+	 * Message to display in cases that two objects do not have identical
+	 * version attributes. Requires the following replacement arguments: Class
+	 * name of first element, version in first element, class name of second
+	 * element and version in second argument.
+	 */
+	public static final String VERSION_MISMATCH_MESSAGE = "Version mismatch between %s in V %d and %s in V %d";
+
+	/**
+	 * Creates an error message if the level fields of both elements are not
+	 * identical, or an empty {@link String} otherwise.
+	 * 
+	 * @param element1
+	 * @param element2
+	 * @return
+	 */
+	public static String levelMismatchMessage(SBase element1, SBase element2) {
+		if (element1.getLevel() != element2.getLevel()) {
+			return String.format(VERSION_MISMATCH_MESSAGE, element1
+					.getElementName(), element1.getLevel(), element2
+					.getElementName(), element2.getLevel());
+		}
+		return "";
+	}
+
+	/**
+	 * Creates an error message if the version fields of both elements are not
+	 * identical, or an empty {@link String} otherwise.
+	 * 
+	 * @param element1
+	 * @param element2
+	 * @return
+	 */
+	public static String versionMismatchMessage(SBase element1, SBase element2) {
+		if (element1.getVersion() != element2.getVersion()) {
+			return String.format(VERSION_MISMATCH_MESSAGE, element1
+					.getElementName(), element1.getVersion(), element2
+					.getElementName(), element2.getVersion());
+		}
+		return "";
+	}
+
+	/**
 	 * Converts a string to its corresponding {@link Unit.Kind} enumeration
 	 * value.
 	 * 

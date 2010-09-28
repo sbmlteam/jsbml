@@ -973,8 +973,9 @@ public class ASTNode implements TreeNode {
 	private double mantissa;
 
 	/**
-	 * If no NamedSBase object exists or can be identified when setName() is
-	 * called, the given name is stored in this field.
+	 * If no NamedSBase object exists or can be identified when
+	 * {@link #setName(String)} is called, the given name is stored in this
+	 * field.
 	 */
 	private String name;
 
@@ -2098,11 +2099,13 @@ public class ASTNode implements TreeNode {
 					Model m = getParentSBMLObject().getModel();
 					if (m != null) {
 						variable = m.findNamedSBaseWithDerivedUnit(getName());
+						if (variable instanceof LocalParameter) {
+							// in this case the parameter originates from a different kinetic law.
+							variable = null;
+						}
 					}
 				}
-				// Type type = getType();
 				setVariable(variable);
-				// setType(type);
 			}
 			return variable;
 		}
@@ -2919,14 +2922,8 @@ public class ASTNode implements TreeNode {
 	// TODO : javadoc not synchronized with the code, we are not using
 	// isOperator() or isNumber() but may be we should.
 	public void setName(String name) {
-		variable = null;
-		Model m = getParentSBMLObject().getModel();
-		if (m != null) {
-			variable = m.findNamedSBaseWithDerivedUnit(name);
-		}
-		if (variable == null) {
-			this.name = name;
-		}
+		this.name = name;
+		this.variable = getVariable();
 		if ((!type.toString().startsWith("NAME")) && type != Type.FUNCTION
 				&& type != Type.FUNCTION_DELAY) {
 			type = variable == null ? Type.FUNCTION : Type.NAME;
