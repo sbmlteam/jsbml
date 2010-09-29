@@ -2089,7 +2089,8 @@ public class ASTNode implements TreeNode {
 	 *             if isName() returns false.
 	 */
 	public NamedSBaseWithDerivedUnit getVariable() {
-		if (isName()) {
+		// TODO: Improve: Case distinction with functions!
+		if ((type == Type.NAME) || (type == Type.FUNCTION)) {
 			if ((variable == null) && (getParentSBMLObject() != null)) {
 				if (getParentSBMLObject() instanceof KineticLaw) {
 					variable = ((KineticLaw) getParentSBMLObject())
@@ -2923,7 +2924,6 @@ public class ASTNode implements TreeNode {
 	// isOperator() or isNumber() but may be we should.
 	public void setName(String name) {
 		this.name = name;
-		this.variable = getVariable();
 		if ((!type.toString().startsWith("NAME")) && type != Type.FUNCTION
 				&& type != Type.FUNCTION_DELAY) {
 			type = variable == null ? Type.FUNCTION : Type.NAME;
