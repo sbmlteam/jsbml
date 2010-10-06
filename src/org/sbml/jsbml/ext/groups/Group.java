@@ -44,6 +44,10 @@ import org.sbml.jsbml.SBase;
 public class Group extends AbstractNamedSBase {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 2361503116934849753L;
+	/**
 	 * 
 	 */
 	protected ListOf<Member> listOfMembers = new ListOf<Member>(); 

@@ -35,11 +35,15 @@ import org.sbml.jsbml.Model;
 
 /**
  * 
- * 
+ * @author
  *
  */
 public class ExtendedLayoutModel extends Model {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -6666014348571697514L;
 	/**
 	 * 
 	 */

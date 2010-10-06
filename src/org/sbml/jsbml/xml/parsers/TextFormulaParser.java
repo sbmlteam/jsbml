@@ -87,7 +87,7 @@ public class TextFormulaParser {
 				bracketsOpen.push(Integer.valueOf(i));
 				break;
 			case ')':
-				list.push(new ValuePair<Integer, Integer>(bracketsOpen.pop(),
+				list.add(new ValuePair<Integer, Integer>(bracketsOpen.pop(),
 						Integer.valueOf(i)));
 				break;
 			default:

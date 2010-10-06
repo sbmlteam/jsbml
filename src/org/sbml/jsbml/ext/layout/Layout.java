@@ -36,10 +36,14 @@ import org.sbml.jsbml.ListOf;
 /**
  * 
  * 
- *
+ * @author
  */
 public class Layout extends AbstractNamedSBase {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 8866612784809904674L;
 	/**
 	 * 
 	 */

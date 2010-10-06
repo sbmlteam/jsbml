@@ -41,6 +41,10 @@ import org.sbml.jsbml.Model;
 public class ModelGroupExtension extends Model {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 3334444867660252255L;
+	/**
 	 * 
 	 */
 	protected ListOf<Group> listOfGroups = new ListOf<Group>();

@@ -45,6 +45,10 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 		implements Quantity {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -9088772458214208160L;
+	/**
 	 * a boolean to help knowing is the value as been set by the user or is the
 	 * default one.
 	 */

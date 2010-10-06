@@ -42,7 +42,6 @@ import java.util.TreeSet;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.util.filters.CVTermFilter;
 
 /**
  * The base class for each SBase component.
@@ -59,6 +58,10 @@ import org.sbml.jsbml.util.filters.CVTermFilter;
  */
 public abstract class AbstractSBase implements SBase {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 8781459818293592636L;
 	/**
 	 * annotations of the SBML component. Matches the annotation XML node in a
 	 * SBML file.
@@ -400,14 +403,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier)
 	 */
 	public List<CVTerm> filterCVTerms(CVTerm.Qualifier qualifier) {
-		LinkedList<CVTerm> l = new LinkedList<CVTerm>();
-		CVTermFilter filter = new CVTermFilter(qualifier);
-		for (CVTerm term : getAnnotation().getListOfCVTerms()) {
-			if (filter.accepts(term)) {
-				l.add(term);
-			}
-		}
-		return l;
+		return getAnnotation().filterCVTerms(qualifier);
 	}
 
 	/*

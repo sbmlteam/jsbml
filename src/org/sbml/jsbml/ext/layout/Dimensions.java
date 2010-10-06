@@ -33,10 +33,14 @@ package org.sbml.jsbml.ext.layout;
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
- * 
+ * @author
  */
 public class Dimensions extends AbstractNamedSBase {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -6114634391235520057L;
 	/**
 	 * 
 	 */

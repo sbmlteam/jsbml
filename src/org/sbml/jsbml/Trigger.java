@@ -42,6 +42,11 @@ package org.sbml.jsbml;
 public class Trigger extends MathContainer {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -6964409168614117235L;
+
+	/**
 	 * Creates a Trigger instance.
 	 */
 	public Trigger() {

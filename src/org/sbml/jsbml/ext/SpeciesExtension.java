@@ -25,6 +25,10 @@ import org.sbml.jsbml.Unit.Kind;
 public class SpeciesExtension extends Species {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 5737769017078627348L;
+	/**
 	 * 
 	 */
 	private Species species;
@@ -92,6 +96,7 @@ public class SpeciesExtension extends Species {
 	 * 
 	 * @see org.sbml.jsbml.Species#getCharge()
 	 */
+	@Deprecated
 	public int getCharge() {
 		return species.getCharge();
 	}
@@ -695,6 +700,7 @@ public class SpeciesExtension extends Species {
 	 * @see org.sbml.jsbml.Species#setSpeciesType(org.sbml.jsbml.SpeciesType)
 	 */
 	@Override
+	@Deprecated
 	public void setSpeciesType(SpeciesType speciesType) {
 		species.setSpeciesType(speciesType);
 	}

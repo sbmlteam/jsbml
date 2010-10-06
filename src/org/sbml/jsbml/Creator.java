@@ -29,6 +29,8 @@
  */
 package org.sbml.jsbml;
 
+import java.io.Serializable;
+
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -42,8 +44,12 @@ import org.sbml.jsbml.util.StringTools;
  * @opt types
  * @opt visibility
  */
-public class Creator {
+public class Creator implements Serializable {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -3403463908044292946L;
 	/**
 	 * email of the creator
 	 */

@@ -32,8 +32,18 @@ package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 
+/**
+ * 
+ * @author
+ *
+ */
 public class BoundingBox extends AbstractNamedSBase {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -6371039558611201798L;
+	
 	// TODO : may be use directly java objects ??! See if we need metaid, notes,
 	// annotation for those.
 

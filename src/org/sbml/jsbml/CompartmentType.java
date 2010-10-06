@@ -45,6 +45,11 @@ package org.sbml.jsbml;
 public class CompartmentType extends AbstractNamedSBase {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -2894837299868213399L;
+
+	/**
 	 * Creates a CompartmentType instance.
 	 */
 	@Deprecated

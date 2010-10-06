@@ -49,6 +49,10 @@ import java.util.HashMap;
 public class Compartment extends Symbol {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -1117854029388326636L;
+	/**
 	 * Represents the compartmentType XML attribute of a compartment element. It
 	 * matches a compartmentType id in the model.
 	 */

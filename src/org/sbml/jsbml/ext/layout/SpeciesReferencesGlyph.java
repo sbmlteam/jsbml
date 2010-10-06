@@ -33,10 +33,14 @@ package org.sbml.jsbml.ext.layout;
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
- * 
+ * @author
  */
 public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -8810905237933499989L;
 	/**
 	 * 
 	 */

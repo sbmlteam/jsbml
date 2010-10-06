@@ -5,10 +5,14 @@ import java.util.HashMap;
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
- * 
+ * @author
  */
 public class InitialSpeciesInstance extends AbstractNamedSBase {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 6619677758810986153L;
 	/**
 	 * 
 	 */

@@ -42,6 +42,11 @@ import java.util.HashMap;
 public class LocalParameter extends QuantityWithDefinedUnit {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 57994535283502018L;
+
+	/**
 	 * 
 	 */
 	public LocalParameter() {

@@ -50,6 +50,10 @@ import java.util.Map;
 public class SBMLDocument extends AbstractSBase {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -3927709655186844513L;
+	/**
 	 * Represents the 'model' XML subnode of a SBML file.
 	 */
 	private Model model;

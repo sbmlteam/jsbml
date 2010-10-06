@@ -43,6 +43,11 @@ package org.sbml.jsbml;
 public class ModifierSpeciesReference extends SimpleSpeciesReference {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 6033910247622532704L;
+
+	/**
 	 * Creates a ModifierSpeciesReference instance.
 	 */
 	public ModifierSpeciesReference() {

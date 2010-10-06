@@ -36,11 +36,16 @@ import org.sbml.jsbml.SBase;
 /**
  * This class represents the listOf extension for the group package
  *
- * @author Marine Dumousseau (marine@ebi.ac.uk)
+ * @author Marine Dumousseau
  * 
  */
 
 public class ListOfGroups<T extends SBase> extends ListOf<T>{
+
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -1320591187114439942L;
 
 	/**
 	 * 
@@ -60,7 +65,8 @@ public class ListOfGroups<T extends SBase> extends ListOf<T>{
       *
       * @see java.lang.Object#equals(java.lang.Object)
       */
-    @Override
+	@SuppressWarnings("unchecked")
+	@Override
     public boolean equals(Object o) {
         if (o instanceof ListOfGroups<?>) {
             boolean equals = super.equals(o);

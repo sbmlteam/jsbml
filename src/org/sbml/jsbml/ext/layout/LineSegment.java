@@ -33,10 +33,14 @@ package org.sbml.jsbml.ext.layout;
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
- *
+ * @author
  */
 public class LineSegment extends AbstractNamedSBase {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -5085246314333062152L;
 	/**
 	 * 
 	 */

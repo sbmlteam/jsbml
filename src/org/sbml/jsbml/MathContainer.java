@@ -47,12 +47,18 @@ import javax.swing.tree.TreeNode;
 public abstract class MathContainer extends AbstractSBase implements
 		SBaseWithDerivedUnit {
 
-	// TODO : once the level 1 formula are properly parsed to an ASTNode, we need to remove the formula and mathBuffer attributes 
 	
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -6630349025482311163L;
+
+	/**
 	 * Represents the 'formula' XML attribute of this object.
+	 * @deprecated Only use {@link ASTNode}.
 	 */
 	@Deprecated
+	// TODO : once the level 1 formula are properly parsed to an ASTNode, we need to remove the formula and mathBuffer attributes 
 	private String formula;
 
 	/**

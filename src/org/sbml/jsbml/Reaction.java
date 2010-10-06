@@ -53,6 +53,10 @@ public class Reaction extends AbstractNamedSBase implements
 		NamedSBaseWithDerivedUnit {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 1385417662249487643L;
+	/**
 	 * Represents the 'compartment' XML attribute of a reaction element.
 	 */
 	private String compartmentID;

@@ -44,6 +44,11 @@ package org.sbml.jsbml;
 public class AssignmentRule extends ExplicitRule {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 683172080347613789L;
+
+	/**
 	 * Creates an AssignmentRule instance. By default, the variableID is null.
 	 */
 	public AssignmentRule() {

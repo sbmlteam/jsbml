@@ -53,6 +53,11 @@ import org.sbml.jsbml.util.filters.Filter;
 public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 5757549697766609627L;
+
+	/**
 	 * This enum lists all the possible names of the listXXX components. If the
 	 * listXXX is a SBML package extension, the SBaseListType value to set would
 	 * be 'other'.

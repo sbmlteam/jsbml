@@ -29,6 +29,7 @@
  */
 package org.sbml.jsbml;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,7 +50,11 @@ import org.w3c.util.DateParser;
  * @composed 0..* creator 1 Creator
  * @composed 0..* modification 1 Date
  */
-public class History {
+public class History implements Serializable {
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -1699117162462037149L;
 	/**
 	 * Contains all the ModelCreator instances of this ModelHistory.
 	 */

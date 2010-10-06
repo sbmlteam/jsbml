@@ -45,6 +45,11 @@ import java.util.HashMap;
 public class Species extends Symbol {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 4427015656530890393L;
+
+	/**
 	 * True means initial amount is set. False means that an initial
 	 * concentration is set.
 	 */

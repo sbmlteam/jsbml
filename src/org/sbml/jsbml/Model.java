@@ -72,6 +72,10 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class Model extends AbstractNamedSBase {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 5256379371231860049L;
+	/**
 	 * Represents the 'areaUnits' XML attribute of a model element.
 	 */
 	private String areaUnitsID;
@@ -879,7 +883,7 @@ public class Model extends AbstractNamedSBase {
 
 		LocalParameter parameter = new LocalParameter(id, getLevel(),
 				getVersion());
-		lastKineticLaw.addParameter(parameter);
+		lastKineticLaw.addLocalParameter(parameter);
 
 		return parameter;
 	}

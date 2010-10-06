@@ -42,6 +42,11 @@ package org.sbml.jsbml;
 public class Delay extends MathContainer {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -1578051749680028593L;
+
+	/**
 	 * Creates a Delay instance.
 	 */
 	public Delay() {

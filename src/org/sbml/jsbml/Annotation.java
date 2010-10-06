@@ -30,6 +30,7 @@
 
 package org.sbml.jsbml;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -40,6 +41,7 @@ import java.util.Set;
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.CVTerm.Type;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.filters.CVTermFilter;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -58,7 +60,12 @@ import org.w3c.dom.Node;
  * @composed 0..* MIRIAM 1 CVTerm
  * @composed 0..1 history 1 History
  */
-public class Annotation {
+public class Annotation implements Serializable {
+
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 2127495202258145900L;
 
 	/**
 	 * 
@@ -458,12 +465,9 @@ public class Annotation {
 	 */
 	public List<CVTerm> filterCVTerms(Qualifier qualifier) {
 		LinkedList<CVTerm> l = new LinkedList<CVTerm>();
-		for (CVTerm term : listOfCVTerms) {
-			if (term.isBiologicalQualifier()
-					&& term.getBiologicalQualifierType() == qualifier) {
-				l.add(term);
-			} else if (term.isModelQualifier()
-					&& term.getModelQualifierType() == qualifier) {
+		CVTermFilter filter = new CVTermFilter(qualifier);
+		for (CVTerm term : getListOfCVTerms()) {
+			if (filter.accepts(term)) {
 				l.add(term);
 			}
 		}
@@ -501,6 +505,10 @@ public class Annotation {
 		return annotationNamespaces;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public StringBuilder getAnnotationBuilder() {
 		return this.otherAnnotation;
 	}
@@ -589,10 +597,10 @@ public class Annotation {
 	 * @return true if the Annotation is initialised
 	 */
 	public boolean isSetAnnotation() {
-		if (getNoRDFAnnotation() == null && getListOfCVTerms().isEmpty()
-				&& getHistory() == null) {
+		if ((getNoRDFAnnotation() == null) && getListOfCVTerms().isEmpty()
+				&& (getHistory() == null)) {
 			return false;
-		} else if (getNoRDFAnnotation() == null && getHistory() == null
+		} else if ((getNoRDFAnnotation() == null) && (getHistory() == null)
 				&& !getListOfCVTerms().isEmpty()) {
 
 			for (int i = 0; i < getListOfCVTerms().size(); i++) {
@@ -600,10 +608,8 @@ public class Annotation {
 					return true;
 				}
 			}
-			return false;
-		} else {
-			return true;
 		}
+		return true;
 	}
 
 	/**
@@ -677,7 +683,6 @@ public class Annotation {
 	 */
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
-
 		if (attributeName.equals("about")) {
 			setAbout(value);
 			return true;
@@ -710,12 +715,9 @@ public class Annotation {
 	 * @param annotationNamespaces
 	 */
 	public void setAnnotationAttributes(NamedNodeMap annotationAttributes) {
-
 		if (annotationAttributes != null) {
-
 			for (int i = 0; i < annotationAttributes.getLength(); i++) {
 				Node attribute = annotationAttributes.item(i);
-
 				getAnnotationAttributes().put(attribute.getNodeName(),
 						attribute.getNodeValue());
 			}

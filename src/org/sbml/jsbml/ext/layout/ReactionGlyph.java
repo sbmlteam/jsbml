@@ -33,9 +33,14 @@ package org.sbml.jsbml.ext.layout;
 import org.sbml.jsbml.ListOf;
 
 /**
- * 
+ * @author
  */
 public class ReactionGlyph extends GraphicalObject {
+
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 8770691813350594995L;
 
 	/**
 	 * 

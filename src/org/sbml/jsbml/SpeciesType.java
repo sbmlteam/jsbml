@@ -46,6 +46,11 @@ package org.sbml.jsbml;
 public class SpeciesType extends AbstractNamedSBase {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 7341517738480127866L;
+
+	/**
 	 * Creates a SpeciesType instance.
 	 */
 	@Deprecated

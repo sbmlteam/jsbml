@@ -36,10 +36,14 @@ import org.sbml.jsbml.ListOf;
 /**
  * 
  * 
- *
+ * @author
  */
 public class Curve extends AbstractNamedSBase {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -5435135643993920570L;
 	/**
 	 * 
 	 */

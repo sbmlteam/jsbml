@@ -30,6 +30,7 @@
 
 package org.sbml.jsbml;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -51,7 +52,7 @@ import org.sbml.jsbml.CVTerm.Qualifier;
  * @composed 0..1 annotation 1 Annotation
  * @has 0..* listener 1 SBaseChangedListener
  */
-public interface SBase extends TreeNode {
+public interface SBase extends TreeNode, Serializable {
 
 	/**
 	 * Adds all {@link SBaseChangedListener}s in the given {@link Set} to this

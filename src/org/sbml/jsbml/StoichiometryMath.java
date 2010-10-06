@@ -29,17 +29,23 @@
 
 package org.sbml.jsbml;
 
-
 /**
  * Contains the MathMl expression of the Stoichiometry.
  * 
  * @author Andreas Dr&auml;ger
- * 
+ * @deprecated Use {@link AssignmentRule} with instances of
+ *             {@link SpeciesReference} as {@link Variable} instead.
  * @opt attributes
  * @opt types
  * @opt visibility
  */
+@Deprecated
 public class StoichiometryMath extends MathContainer {
+
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -7070065639669486763L;
 
 	/**
 	 * Creates a StoichiometryMath instance.

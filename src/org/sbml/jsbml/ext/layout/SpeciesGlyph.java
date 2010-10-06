@@ -31,10 +31,14 @@
 package org.sbml.jsbml.ext.layout;
 
 /**
- *
+ * @author
  */
 public class SpeciesGlyph extends GraphicalObject {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 1077785483575936434L;
 	/**
 	 * 
 	 */
