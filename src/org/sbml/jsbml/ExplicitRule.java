@@ -41,6 +41,11 @@ import java.util.HashMap;
 public abstract class ExplicitRule extends Rule {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 7458241628289830621L;
+
+	/**
 	 * Represents the id of a {@link Variable}. Matches the variable XML
 	 * attribute of an assignmentRule or rateRule element.
 	 */

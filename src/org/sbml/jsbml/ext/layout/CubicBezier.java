@@ -31,10 +31,14 @@
 package org.sbml.jsbml.ext.layout;
 
 /**
- * 
+ * @author
  */
 public class CubicBezier extends LineSegment {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -6747242964512145076L;
 	/**
 	 * 
 	 */

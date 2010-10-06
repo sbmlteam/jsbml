@@ -45,6 +45,11 @@ import org.sbml.jsbml.validator.OverdeterminationValidator;
 public class AlgebraicRule extends Rule {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -3952858495318158175L;
+
+	/**
 	 * Creates an AlgebraicRule instance.
 	 */
 	public AlgebraicRule() {

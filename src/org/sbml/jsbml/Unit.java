@@ -48,6 +48,11 @@ import org.sbml.jsbml.util.compilers.TextFormula;
 public class Unit extends AbstractSBase {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -6335465287728562136L;
+
+	/**
 	 * @author Andreas Dr&auml;ger
 	 * @date 2009-08-31
 	 */

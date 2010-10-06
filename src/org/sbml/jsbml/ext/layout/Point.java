@@ -34,10 +34,14 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.SBase;
 
 /**
- *
+ * @author
  */
 public class Point extends AbstractNamedSBase {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7464572763198848890L;
 	/**
 	 * 
 	 */

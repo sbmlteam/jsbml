@@ -46,6 +46,10 @@ public class FunctionDefinition extends MathContainer implements
 		NamedSBaseWithDerivedUnit {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 5103621145642898899L;
+	/**
 	 * Represents the "id" attribute of a functionDefinition element.
 	 */
 	private String id;

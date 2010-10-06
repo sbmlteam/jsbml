@@ -51,6 +51,10 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 		Variable {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 3061467418198640109L;
+	/**
 	 * The constant attribute of this variable.
 	 */
 	protected Boolean constant;

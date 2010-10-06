@@ -36,8 +36,17 @@ import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBase;
 
+/**
+ * 
+ * @author 
+ *
+ */
 public class Member extends AbstractSBase {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 1726020714284762330L;
 	/**
 	 * 
 	 */

@@ -46,6 +46,11 @@ import java.util.HashMap;
 public class Parameter extends Symbol {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 3300762892435768291L;
+
+	/**
 	 * Creates a Parameter instance.
 	 */
 	public Parameter() {

@@ -29,6 +29,7 @@
  */
 package org.sbml.jsbml;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,7 +48,12 @@ import org.sbml.jsbml.util.StringTools;
  * @opt visibility
  * 
  */
-public class CVTerm {
+public class CVTerm implements Serializable {
+
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -3648054739091227113L;
 
 	/**
 	 * This enum list all the possible MIRIAM qualifiers.

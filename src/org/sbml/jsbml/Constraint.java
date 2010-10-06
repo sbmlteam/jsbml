@@ -45,6 +45,11 @@ package org.sbml.jsbml;
 public class Constraint extends MathContainer {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 7396734926596485200L;
+
+	/**
 	 * Represents the subnode message of a constraint element.
 	 */
 	private String message;

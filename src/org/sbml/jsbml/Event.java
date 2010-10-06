@@ -49,6 +49,10 @@ import org.sbml.jsbml.ListOf.Type;
  */
 public class Event extends AbstractNamedSBase {
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 5282750820355199194L;
+	/**
 	 * Represents the 'useValuesFromTriggerTime' XML attribute of an event
 	 * element.
 	 */

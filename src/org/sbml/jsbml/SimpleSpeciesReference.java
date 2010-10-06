@@ -47,6 +47,10 @@ import java.util.HashMap;
 public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -504780573593345060L;
+	/**
 	 * Represents the 'species' XML attribute.
 	 */
 	private String speciesID;

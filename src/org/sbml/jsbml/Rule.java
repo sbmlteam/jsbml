@@ -43,6 +43,11 @@ package org.sbml.jsbml;
 public abstract class Rule extends MathContainer {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -8151628772496225902L;
+
+	/**
 	 * Creates a Rule instance.
 	 */
 	public Rule() {

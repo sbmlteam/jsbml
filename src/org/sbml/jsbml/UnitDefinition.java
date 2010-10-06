@@ -50,6 +50,11 @@ import org.sbml.jsbml.util.StringTools;
 public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -4705380036260408123L;
+
+	/**
 	 * Predefined unit for area.
 	 */
 	public static final UnitDefinition area(int level, int version) {

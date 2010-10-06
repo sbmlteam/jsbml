@@ -48,6 +48,11 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		NamedSBase {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -9186483076164094500L;
+
+	/**
 	 * Checks whether the given idCandidate is a valid identifier according to
 	 * the SBML specifications.
 	 * 

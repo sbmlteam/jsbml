@@ -45,6 +45,10 @@ import java.util.HashMap;
 public class InitialAssignment extends MathContainer {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 2798071640186792089L;
+	/**
 	 * Represents the 'symbol' XML attribute of an initialAssignmnent element.
 	 */
 	private String variableID;

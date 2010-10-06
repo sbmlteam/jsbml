@@ -51,6 +51,10 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class KineticLaw extends MathContainer {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 7528194464711501708L;
+	/**
 	 * Represents the listOfLocalParameters or listOfParameters sub-element of a
 	 * kineticLaw element.
 	 */

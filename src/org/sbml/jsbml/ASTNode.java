@@ -29,6 +29,7 @@
 
 package org.sbml.jsbml;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -56,9 +57,14 @@ import org.sbml.jsbml.util.filters.Filter;
  * @author rodrigue
  * 
  */
-public class ASTNode implements TreeNode {
+public class ASTNode implements TreeNode, Serializable {
 
 	// TODO : check how we set the math in level 1
+
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -1391327698196553142L;
 
 	/**
 	 * An enumeration of all possible types that can be represented by an

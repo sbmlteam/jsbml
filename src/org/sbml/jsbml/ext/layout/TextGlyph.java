@@ -33,10 +33,14 @@ package org.sbml.jsbml.ext.layout;
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
- *
+ * @author
  */
 public class TextGlyph extends AbstractNamedSBase {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -2582985174711830815L;
 	/**
 	 * 
 	 */

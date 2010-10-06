@@ -44,6 +44,10 @@ import java.util.HashMap;
 public class EventAssignment extends MathContainer {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -263409745456083049L;
+	/**
 	 * Represents the 'variable' XML attribute of an eventAssignment element.
 	 */
 	private String variableID;

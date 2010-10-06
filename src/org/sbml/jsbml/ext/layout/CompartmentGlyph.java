@@ -30,8 +30,17 @@
 
 package org.sbml.jsbml.ext.layout;
 
+/**
+ * 
+ * @author 
+ *
+ */
 public class CompartmentGlyph extends GraphicalObject {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -831178362695634919L;
 	/**
 	 * 
 	 */

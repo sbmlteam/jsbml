@@ -48,6 +48,10 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		Variable {
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 4400834403773787677L;
+	/**
 	 * Represents the 'constant' XML attribute of this SpeciesReference.
 	 */
 	private Boolean constant;
@@ -74,6 +78,8 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	/**
 	 * Contains the MathML expression for the stoichiometry of this
 	 * SpeciesReference.
+	 * 
+	 * @deprecated
 	 */
 	private StoichiometryMath stoichiometryMath;
 
@@ -115,6 +121,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * 
 	 * @param speciesReference
 	 */
+	@SuppressWarnings("deprecation")
 	public SpeciesReference(SpeciesReference speciesReference) {
 		super(speciesReference);
 		if (speciesReference.isSetStoichiometryMath()) {
@@ -312,6 +319,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * 
 	 * @return the stoichiometryMath of this SpeciesReference. Can be null if
 	 *         the stoichiometryMath is not set.
+	 * @deprecated
 	 */
 	public StoichiometryMath getStoichiometryMath() {
 		return stoichiometryMath;
@@ -472,6 +480,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * Sets the stoichiometryMath of this SpeciesReference.
 	 * 
 	 * @param math
+	 * @deprecated
 	 */
 	public void setStoichiometryMath(StoichiometryMath math) {
 		this.stoichiometryMath = math;

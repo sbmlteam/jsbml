@@ -7,10 +7,14 @@ import org.sbml.jsbml.ext.SpeciesExtension;
 /**
  * 
  * 
- *
+ * @author
  */
 public class MultiSpecies extends SpeciesExtension {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -5396837209115412420L;
 	/**
 	 * 
 	 */
