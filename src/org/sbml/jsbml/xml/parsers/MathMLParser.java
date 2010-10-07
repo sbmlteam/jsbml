@@ -30,11 +30,17 @@
 
 package org.sbml.jsbml.xml.parsers;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
@@ -47,9 +53,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
-
 
 /**
  * A MathMLParser is used to parse the MathML expressions injected into a SBML
@@ -59,6 +62,8 @@ import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
  * 
  * @author marine
  * @author Andreas Dr&auml;ger
+ * 
+ * @deprecated this class should not be used anymore, replaced by MathMLStaxParser. But we keep it in case somebody want to use org.w3c.dom.Document
  * 
  */
 public class MathMLParser implements ReadingParser, WritingParser {
@@ -249,19 +254,23 @@ public class MathMLParser implements ReadingParser, WritingParser {
 	 */
 	public static void toMathML(Writer out, Document doc,
 			boolean omitXMLDeclaration, boolean indenting, int indent)
-			throws IOException, SBMLException {
-		OutputFormat format = new OutputFormat(doc);
-		format.setOmitXMLDeclaration(omitXMLDeclaration);
-		format.setStandalone(true);
-		format.setMethod("xml");
-		format.setMediaType("text/xml");
-		format.setEncoding("UTF-8");
-		format.setAllowJavaNames(true);
-		format.setIndenting(indenting);
-		format.setIndent(indent);
-		XMLSerializer serializer = new XMLSerializer(new BufferedWriter(out),format);
-		serializer.setNamespaces(true);
-		serializer.serialize(doc);
+			throws IOException, SBMLException 
+	{
+		TransformerFactory tfactory = TransformerFactory.newInstance();
+        Transformer serializer;
+        try {
+            serializer = tfactory.newTransformer();
+            //Setup indenting to "pretty print"
+            serializer.setOutputProperty(OutputKeys.INDENT, "yes");
+            serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            
+            serializer.transform(new DOMSource(doc), new StreamResult(out));
+        } catch (TransformerException e) {
+            // this is fatal, just dump the stack and throw a runtime exception
+            e.printStackTrace();
+            
+            throw new RuntimeException(e);
+        }
 	}
 
 	/**
