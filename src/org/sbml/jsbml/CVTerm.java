@@ -42,6 +42,7 @@ import org.sbml.jsbml.util.StringTools;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * @author rodrigue
  * 
  * @opt attributes
  * @opt types
@@ -50,6 +51,9 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class CVTerm implements Serializable {
 
+	// TODO : it would be probably safer to try to load the list a qualifier from the web at http://www.ebi.ac.uk/miriam/main/qualifiers/xml/
+	// We can have a copy of the file in the jar in case the web access fail but the online one would be better as you can have new qualifiers defined at any time.
+	
 	/**
 	 * Generated serial version identifier.
 	 */
@@ -72,6 +76,10 @@ public class CVTerm implements Serializable {
 		 * Represents the MIRIAM biological qualifier 'hasVersion'.
 		 */
 		BQB_HAS_VERSION,
+		/**
+		 * Represents the MIRIAM biological qualifier 'hasProperty'.
+		 */
+		BQB_HAS_PROPERTY,
 		/**
 		 * Represents the MIRIAM biological qualifier 'is'.
 		 */
@@ -113,6 +121,10 @@ public class CVTerm implements Serializable {
 		 */
 		BQM_IS_DESCRIBED_BY,
 		/**
+		 * Represents the MIRIAM model qualifier 'isDerivedFrom'.
+		 */
+		BQM_IS_DERIVED_FROM,
+		/**
 		 * Represents an unknown MIRIAM model qualifier.
 		 */
 		BQM_UNKNOWN;
@@ -129,6 +141,8 @@ public class CVTerm implements Serializable {
 				return "hasPart";
 			case BQB_HAS_VERSION:
 				return "hasVersion";
+			case BQB_HAS_PROPERTY:
+				return "hasProperty";
 			case BQB_IS:
 				return "is";
 			case BQB_IS_DESCRIBED_BY:
@@ -147,8 +161,10 @@ public class CVTerm implements Serializable {
 				return "is";
 			case BQM_IS_DESCRIBED_BY:
 				return "isDescribedBy";
+			case BQM_IS_DERIVED_FROM:
+				return "isDescribedBy";
 			default:
-				return null;
+				return "unknownQualifier";
 			}
 		}
 	}
@@ -588,6 +604,9 @@ public class CVTerm implements Serializable {
 			case BQM_IS_DESCRIBED_BY:
 				buffer.append("is described by");
 				break;
+			case BQM_IS_DERIVED_FROM:
+				buffer.append("is derived from");
+				break;
 			default: // unknown
 				buffer.append("has something to do with");
 				break;
@@ -605,6 +624,9 @@ public class CVTerm implements Serializable {
 				break;
 			case BQB_HAS_VERSION:
 				buffer.append("has the version");
+				break;
+			case BQB_HAS_PROPERTY:
+				buffer.append("has the property");
 				break;
 			case BQB_IS:
 				buffer.append("is");
