@@ -105,6 +105,10 @@ public class CVTerm implements Serializable {
 		 */
 		BQB_IS_VERSION_OF,
 		/**
+		 * Represents the MIRIAM biological qualifier 'isPropertyOf'.
+		 */
+		BQB_IS_PROPERTY_OF,
+		/**
 		 * Represents the MIRIAM biological qualifier 'occursIn'.
 		 */
 		BQB_OCCURS_IN,
@@ -143,6 +147,8 @@ public class CVTerm implements Serializable {
 				return "hasVersion";
 			case BQB_HAS_PROPERTY:
 				return "hasProperty";
+			case BQB_IS_PROPERTY_OF:
+				return "isPropertyOf";
 			case BQB_IS:
 				return "is";
 			case BQB_IS_DESCRIBED_BY:
