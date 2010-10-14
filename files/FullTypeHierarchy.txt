@@ -1,6 +1,7 @@
 http://www.yuml.me/diagram/scruffy/class/samples
 
 [<<TreeNode>>]^-.-[<<SBase>>]
+[<<Serializable>>]^-.-[<<SBase>>]
 [<<SBase>>]^-.-[<<NamedSBase>>],
 [<<SBase>>]^-.-[<<SBaseWithDerivedUnit>>],
 [<<SBaseWithDerivedUnit>>]^-.-[MathContainer],
