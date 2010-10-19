@@ -210,7 +210,11 @@ public class ASTNode implements TreeNode, Serializable {
 		 */
 		FUNCTION_PIECEWISE,
 		/**
-		 * 
+		 * An {@link ASTNode} of this {@link Type} represents a function call of
+		 * the power function. This function takes two arguments, the base and
+		 * the exponent. Alternatively, also {@link Type.#POWER} can be used,
+		 * which represents the simple text symbol '^' to achive the same
+		 * effect.
 		 */
 		FUNCTION_POWER,
 		/**
@@ -286,23 +290,30 @@ public class ASTNode implements TreeNode, Serializable {
 		 */
 		PLUS,
 		/**
-		 * 
+		 * This {@link Type} represents an operation with two children: a base
+		 * and an exponent. In textual form, this type is represented by the
+		 * symbol '^'.
 		 */
 		POWER,
 		/**
-		 * 
+		 * An {@link ASTNode} of this {@link Type} contains two integer values:
+		 * a numerator and a denominator.
 		 */
 		RATIONAL,
 		/**
-		 * 
+		 * {@link Type} of an {@link ASTNode} that represents a single real
+		 * value, i.e., a double number.
 		 */
 		REAL,
 		/**
-		 * 
+		 * {@link Type} of an {@link ASTNode} with a real value that is split in
+		 * a double mantissa and an integer exponent.
 		 */
 		REAL_E,
 		/**
-		 * 
+		 * An {@link ASTNode} of this {@link Type} represents the relation
+		 * symbol '=' to compare the values of all of its successors in the tree
+		 * for equality.
 		 */
 		RELATIONAL_EQ,
 		/**
@@ -482,14 +493,39 @@ public class ASTNode implements TreeNode, Serializable {
 		 * @return The type corresponding to the given {@link String} or null if
 		 *         no matching can be found.
 		 */
-		public Type getTypeFor(String type) {
-			// TODO
-			// abs, acos, asin, atan, ceil, cos, exp, floor, log, log10, pow,
-			// sqr, sqrt, sin, tan
-			if (type.equals("abs")) {
+		public static Type getTypeFor(String type) {
+			if (type.equalsIgnoreCase("abs")) {
 				return FUNCTION_ABS;
+			} else if (type.equalsIgnoreCase("acos")) {
+				return FUNCTION_ARCCOS;
+			} else if (type.equalsIgnoreCase("asin")) {
+				return FUNCTION_ARCSIN;
+			} else if (type.equalsIgnoreCase("atan")) {
+				return FUNCTION_ARCTAN;
+			} else if (type.equalsIgnoreCase("ceil")) {
+				return FUNCTION_CEILING;
+			} else if (type.equalsIgnoreCase("cos")) {
+				return FUNCTION_COS;
+			} else if (type.equalsIgnoreCase("exp")) {
+				return FUNCTION_EXP;
+			} else if (type.equalsIgnoreCase("floor")) {
+				return FUNCTION_FLOOR;
+			} else if (type.equalsIgnoreCase("log")) {
+				return FUNCTION_LOG;
+			} else if (type.equalsIgnoreCase("log10")) {
+				return FUNCTION_LOG;
+			} else if (type.equalsIgnoreCase("pow")) {
+				return FUNCTION_POWER;
+			} else if (type.equalsIgnoreCase("sqr")) {
+				return FUNCTION_ROOT;
+			} else if (type.equalsIgnoreCase("sqrt")) {
+				return FUNCTION_ROOT;
+			} else if (type.equalsIgnoreCase("sin")) {
+				return FUNCTION_SIN;
+			} else if (type.equalsIgnoreCase("tan")) {
+				return FUNCTION_TAN;
 			}
-			return null;
+			return UNKNOWN;
 		}
 
 		/**
@@ -504,6 +540,7 @@ public class ASTNode implements TreeNode, Serializable {
 			// TODO
 			return false;
 		}
+
 	}
 
 	/**
@@ -1092,6 +1129,18 @@ public class ASTNode implements TreeNode, Serializable {
 	}
 
 	/**
+	 * Creates a new {@link ASTNode} representing an operator, i.e., an internal
+	 * node.
+	 * 
+	 * @param operator
+	 * @param parent
+	 */
+	public ASTNode(char operator, MathContainer parent) {
+		this(parent);
+		setCharacter(operator);
+	}
+
+	/**
 	 * Creates and returns a new ASTNode.
 	 * 
 	 * By default, the returned node will have a type of UNKNOWN. The calling
@@ -1128,7 +1177,6 @@ public class ASTNode implements TreeNode, Serializable {
 	public ASTNode(String name, MathContainer parent) {
 		this(Type.NAME, parent);
 		setName(name);
-
 	}
 
 	/**
@@ -1694,8 +1742,8 @@ public class ASTNode implements TreeNode, Serializable {
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
 	 */
 	public boolean getAllowsChildren() {
-		return !isConstant() && !isInfinity() && !isNumber()
-				&& !isNegInfinity() && !isNaN() && !isRational();
+		return !(isConstant() || isInfinity() || isNumber() || isNegInfinity()
+				|| isNaN() || isRational());
 	}
 
 	/**
@@ -1916,15 +1964,11 @@ public class ASTNode implements TreeNode, Serializable {
 	 * @return the value of the mantissa of this ASTNode.
 	 */
 	public double getMantissa() {
-		switch (type) {
-		case REAL:
-			return getReal();
-		case REAL_E:
+		if ((type == Type.REAL) || type == Type.REAL_E) {
 			return mantissa;
-		default:
-			throw new IllegalArgumentException(
-					"getMantissa() should be called only when getType() == REAL or REAL_E");
 		}
+		throw new IllegalArgumentException(
+				"getMantissa() should be called only when getType() == REAL or REAL_E");
 	}
 
 	/**
@@ -2008,7 +2052,7 @@ public class ASTNode implements TreeNode, Serializable {
 			case REAL:
 				return mantissa;
 			case REAL_E:
-				return getMantissa() * Math.pow(10, getExponent());
+				return mantissa * Math.pow(10, getExponent());
 			case RATIONAL:
 				return ((double) getNumerator()) / ((double) getDenominator());
 			case CONSTANT_E:
@@ -2107,7 +2151,8 @@ public class ASTNode implements TreeNode, Serializable {
 					if (m != null) {
 						variable = m.findNamedSBaseWithDerivedUnit(getName());
 						if (variable instanceof LocalParameter) {
-							// in this case the parameter originates from a different kinetic law.
+							// in this case the parameter originates from a
+							// different kinetic law.
 							variable = null;
 						}
 					}
@@ -2233,7 +2278,11 @@ public class ASTNode implements TreeNode, Serializable {
 	 *         false otherwise.
 	 */
 	public boolean isInfinity() {
-		return isReal() && Double.isInfinite(getReal()) && (getReal() > 0);
+		if (isReal()) {
+			double real = getReal();
+			return Double.isInfinite(real) && (real > 0);
+		}
+		return false;
 	}
 
 	/**
@@ -2331,7 +2380,11 @@ public class ASTNode implements TreeNode, Serializable {
 	 *         otherwise.
 	 */
 	public boolean isNegInfinity() {
-		return isReal() && Double.isInfinite(getReal()) && (getReal() < 0);
+		if (isReal()) {
+			double real = getReal();
+			return Double.isInfinite(real) && (real < 0);
+		}
+		return false;
 	}
 
 	/**
@@ -2482,7 +2535,7 @@ public class ASTNode implements TreeNode, Serializable {
 	 * @return true if this ASTNode is a unary minus, false otherwise.
 	 */
 	public boolean isUMinus() {
-		return type == Type.MINUS && getNumChildren() == 1;
+		return (type == Type.MINUS) && (getNumChildren() == 1);
 	}
 
 	/**

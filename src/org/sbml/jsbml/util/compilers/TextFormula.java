@@ -1002,7 +1002,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue pow(ASTNode left, ASTNode right) throws SBMLException {
-		return function("pow", left, right);
+		return new ASTNodeValue(StringTools.concat(left.compile(this), "^", right.compile(this)).toString(), this);
+		//function("pow", left, right);
 	}
 
 	/**
