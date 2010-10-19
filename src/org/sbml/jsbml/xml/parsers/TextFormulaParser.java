@@ -28,15 +28,13 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
-import java.util.LinkedList;
 import java.util.Stack;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.ASTNode.Type;
-import org.sbml.jsbml.util.ValuePair;
-import org.sbml.jsbml.util.compilers.LaTeX;
 
 /**
  * A parser for SBML Level 1 text formulas that creates {@link ASTNode} objects
@@ -48,19 +46,83 @@ import org.sbml.jsbml.util.compilers.LaTeX;
 public class TextFormulaParser {
 
 	/**
+	 * Switch of whether to be strict or not.
+	 */
+	private boolean strict;
+	/**
+	 * Pattern for number matching in case of mantissa and exponent
+	 */
+	private static final String REAL_E = "[0-9]*\\.?[0-9]*[Ee]";
+
+	/**
 	 * 
 	 */
 	public TextFormulaParser() {
+		setStrict(false);
 	}
 
 	/**
 	 * 
-	 * @param formula
-	 * @return
+	 * @param node
 	 * @throws SBMLException
 	 */
-	public ASTNode parse(String formula) throws SBMLException {
-		return parse(null, formula);
+	private void checkName(ASTNode node) throws SBMLException {
+		if (strict && (node.getVariable() == null)) {
+			throw new SBMLException(String.format(
+					"Cannot find element with id = %s in the model", node
+							.getName()));
+		}
+	}
+
+	/**
+	 * Detects the position of a closing bracket belonging to the first opening
+	 * bracket within the given formula {@link String}.
+	 * 
+	 * @param formula
+	 * @param currPos
+	 * @return 0 if there is neither an opening nor a closing bracket or if the
+	 *         number of brackets is not balanced. Otherwise it delivers the
+	 *         index of the last opening bracket.
+	 */
+	private int findClosingBracket(String formula, int currPos) {
+		Stack<Integer> brackets = new Stack<Integer>();
+		char ch;
+		int i = currPos;
+		do {
+			ch = formula.charAt(i);
+			if ((ch == '(') || (ch == ')')) {
+				brackets.push(Integer.valueOf(i));
+			}
+			i++;
+		} while ((i < formula.length())
+				&& (brackets.isEmpty() || ((brackets.size() % 2 == 1) || (formula
+						.charAt(brackets.peek().intValue()) == '('))));
+		return brackets.isEmpty() ? 0 : brackets.pop().intValue();
+	}
+
+	/**
+	 * 
+	 * @param c
+	 * @return
+	 */
+	private boolean isArithmeticOperator(char c) {
+		switch (c) {
+		case '+':
+		case '-':
+		case '*':
+		case '/':
+		case '^':
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	/**
+	 * @return the strict
+	 */
+	public boolean isStrict() {
+		return strict;
 	}
 
 	/**
@@ -72,126 +134,354 @@ public class TextFormulaParser {
 	 */
 	public ASTNode parse(MathContainer container, String formula)
 			throws SBMLException {
-		ASTNode root = new ASTNode(container);
-		// get rid of white spaces
-		String f = removeWhiteSpaces(formula);
-		System.out.println(formula);
-		System.out.println(f);
-
-		// Stores the beginning and the end of a pair of brackets.
-		Stack<Integer> bracketsOpen = new Stack<Integer>();
-		LinkedList<ValuePair<Integer, Integer>> list = new LinkedList<ValuePair<Integer, Integer>>();
-		for (int i = 0; i < f.length(); i++) {
-			switch (f.charAt(i)) {
-			case '(':
-				bracketsOpen.push(Integer.valueOf(i));
-				break;
-			case ')':
-				list.add(new ValuePair<Integer, Integer>(bracketsOpen.pop(),
-						Integer.valueOf(i)));
-				break;
-			default:
-				break;
-			}
+		if (strict && (container == null)) {
+			throw new NullPointerException(MathContainer.class.getName());
 		}
-		System.out.println();
-		while (!list.isEmpty()) {
-			ValuePair<Integer, Integer> curr = list.removeFirst();
-			String snippet = f.substring(curr.getA().intValue() + 1, curr
-					.getB().intValue());
-			System.out.println(curr + "\t" + snippet);
-			System.out.println(parseSnippet(container, snippet).compile(
-					new LaTeX()).toString());
-		}
-		System.out.println();
-
-		return root;
-	}
-
-	/**
-	 * 
-	 * @param formula
-	 * @return
-	 */
-	private String removeWhiteSpaces(String formula) {
-		StringBuilder sb = new StringBuilder();
+		Stack<ASTNode> stack = new Stack<ASTNode>();
 		char c;
-		for (int i=0; i<formula.length(); i++) {
-			c = formula.charAt(i);
-			if ((c != ' ') && (c != '\t')) {
-				sb.append(c);
-			}
-		}
-		return sb.toString();
-	}
-
-	/**
-	 * Parses a given formula that does not contain any brackets. This is the
-	 * actual parsing method.
-	 * 
-	 * @param container
-	 * @param formula
-	 * @return
-	 */
-	private ASTNode parseSnippet(MathContainer container, String formula) {
-		ASTNode root = new ASTNode(container);
-
-		StringBuilder curr = new StringBuilder();
-		char c;
+		StringBuilder name = new StringBuilder();
+		boolean isWhiteSpace = false;
+		boolean isOperator = false;
 		for (int i = 0; i < formula.length(); i++) {
 			c = formula.charAt(i);
-			if (isArithmeticOperator(c)) {
-				root.setType(getTypeFor(c));
+			if (c == '(') {
+				// recursively parse content of the brackets
+				int pos = findClosingBracket(formula, i);
+				ASTNode inBrackets = parse(container, formula.substring(i + 1,
+						pos));
+				i = pos;
+				if (name.length() > 0) { // function calls
+					pushFunction(stack, name.toString(), inBrackets, container);
+					name = new StringBuilder();
+				} else { // expression
+					push(stack, inBrackets);
+				}
 			} else {
-				curr.append(c);
+				// parse next symbol
+				isWhiteSpace = Character.toString(c).matches("\\s");
+				if (isWhiteSpace && (name.length() == 0)) {
+					continue;
+				}
+				isOperator = isArithmeticOperator(c);
+				if ((isOperator || isWhiteSpace || (i == formula.length() - 1) || (c == ','))
+						&& !((c == '-') && name.toString().matches(REAL_E))) {
+					if (i == formula.length() - 1) {
+						name.append(c);
+					}
+					if (name.length() > 0) {
+						pushValue(stack, name.toString(), container);
+						name = new StringBuilder();
+					}
+					if (isOperator) {
+						push(stack, new ASTNode(c, container));
+					}
+				} else {
+					name.append(c);
+				}
 			}
 		}
-
-		return root;
+		return stack.pop();
 	}
 
-	private ASTNode.Type getTypeFor(char c) {
-		switch (c) {
-		case '-':
-			return Type.MINUS;
-		case '^':
-			return Type.POWER;
-		case '*':
-			return Type.TIMES;
-		case '/':
-			return Type.DIVIDE;
-		case '+':
-			return Type.PLUS;
-		case 'e':
-			return Type.CONSTANT_E;
-		default:
-			return null;
-		}
+	/**
+	 * 
+	 * @param formula
+	 * @return
+	 * @throws SBMLException
+	 */
+	public ASTNode parse(String formula) throws SBMLException {
+		strict = false;
+		return parse(null, formula);
 	}
 
-	private boolean isArithmeticOperator(char c) {
-		switch (c) {
-		case '+':
-		case '-':
-		case '*':
-		case '/':
-			return true;
+	/**
+	 * 
+	 * @param formula
+	 * @param container
+	 * @return
+	 * @throws SBMLException
+	 */
+	public ASTNode parse(String formula, MathContainer container)
+			throws SBMLException {
+		return parse(container, formula);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private int priority(Type t) {
+		switch (t) {
+		case CONSTANT_E:
+		case CONSTANT_FALSE:
+		case CONSTANT_PI:
+		case CONSTANT_TRUE:
+			return 0;
+		case DIVIDE:
+		case FUNCTION:
+		case FUNCTION_ABS:
+		case FUNCTION_ARCCOS:
+		case FUNCTION_ARCCOSH:
+		case FUNCTION_ARCCOT:
+		case FUNCTION_ARCCOTH:
+		case FUNCTION_ARCCSC:
+		case FUNCTION_ARCCSCH:
+		case FUNCTION_ARCSEC:
+		case FUNCTION_ARCSECH:
+		case FUNCTION_ARCSIN:
+		case FUNCTION_ARCSINH:
+		case FUNCTION_ARCTAN:
+		case FUNCTION_ARCTANH:
+		case FUNCTION_CEILING:
+		case FUNCTION_COS:
+		case FUNCTION_COSH:
+		case FUNCTION_COT:
+		case FUNCTION_COTH:
+		case FUNCTION_CSC:
+		case FUNCTION_CSCH:
+		case FUNCTION_DELAY:
+		case FUNCTION_EXP:
+		case FUNCTION_FACTORIAL:
+		case FUNCTION_FLOOR:
+		case FUNCTION_LN:
+		case FUNCTION_LOG:
+		case FUNCTION_PIECEWISE:
+		case FUNCTION_POWER:
+		case FUNCTION_ROOT:
+		case FUNCTION_SEC:
+		case FUNCTION_SECH:
+		case FUNCTION_SIN:
+		case FUNCTION_SINH:
+		case FUNCTION_TAN:
+		case FUNCTION_TANH:
+			return 2;
+		case INTEGER:
+			return 1;
+		case LAMBDA:
+			return 2;
+		case LOGICAL_AND:
+		case LOGICAL_NOT:
+		case LOGICAL_OR:
+		case LOGICAL_XOR:
+		case MINUS:
+		case NAME:
+		case NAME_AVOGADRO:
+		case NAME_TIME:
+		case PLUS:
+			return 1;
+		case POWER:
+			return 3;
+		case RATIONAL:
+		case REAL:
+		case REAL_E:
+			return 0;
+		case RELATIONAL_EQ:
+		case RELATIONAL_GEQ:
+		case RELATIONAL_GT:
+		case RELATIONAL_LEQ:
+		case RELATIONAL_LT:
+		case RELATIONAL_NEQ:
+			return 1;
+		case TIMES:
+			return 2;
+		case UNKNOWN:
 		default:
-			return false;
+			return 0;
 		}
 	}
 
 	/**
-	 * For tests
+	 * Checks which one of the two given arguments has a higher priority.
 	 * 
-	 * @param args
-	 * @throws SBMLException
+	 * @param t1
+	 * @param t2
+	 * @return true if t2 has a higher priority than t1, false otherwise.
 	 */
-	public static void main(String args[]) throws SBMLException {
-		TextFormulaParser parser = new TextFormulaParser();
-		String formula = "(a * (b + c) * d)/(e +  3) *   5";
-		// "Vf*(A*B - P*Q/Keq)/(Kma + A*(1 + P/Kip) + (Vf/(Vr*Keq)) * Kmq*P + Kmp*Q + P*Q)";
-		System.out.println(parser.parse(formula).compile(new LaTeX()));
+	private boolean priority(Type t1, Type t2) {
+		return priority(t1) < priority(t2);
 	}
 
+	/**
+	 * 
+	 * @param stack
+	 * @param node
+	 * @return
+	 */
+	private ASTNode push(Stack<ASTNode> stack, ASTNode node) {
+		if (stack.isEmpty()) {
+			stack.push(node);
+		} else {
+			ASTNode peek = stack.peek();
+			if ((peek.isOperator() && (peek.getNumChildren() < 2))
+					|| (peek.isUnknown())) {
+				if (peek.isUMinus() && node.isOperator()) {
+					uminusContraction(peek);
+				} else {
+					peek.addChild(node);
+					if (node.isOperator()) {
+						stack.pop();
+						stack.push(node);
+					}
+				}
+			} else if (node.isOperator()) {
+				if (!peek.isOperator()
+						|| (peek.isOperator() && !priority(peek.getType(), node
+								.getType()))) {
+					node.addChild(stack.pop());
+					stack.push(node);
+				} else {
+					ASTNode right = peek.getRightChild();
+					peek.removeChild(1);
+					node.addChild(right);
+					peek.addChild(node);
+					stack.push(node);
+				}
+			} else {
+				ASTNode unknown = new ASTNode(node.getParentSBMLObject());
+				unknown.addChild(stack.pop());
+				stack.push(unknown);
+			}
+		}
+		ASTNode peek = stack.peek();
+		if (peek.isOperator() && (stack.size() > 1)
+				&& (peek.isUMinus() || (peek.getNumChildren() == 2))) {
+			if (peek.isUMinus()) {
+				uminusContraction(peek);
+				stack.pop();
+			} else if (peek.getNumChildren() == 2) {
+				rationalContraction(peek);
+				stack.pop();
+			}
+			peek = stack.peek();
+		}
+		return peek;
+	}
+
+	/**
+	 * check functions and calls of user-defined functions
+	 * 
+	 * @param stack
+	 * @param name
+	 * @param inBrackets
+	 * @param container
+	 * @throws SBMLException
+	 */
+	private void pushFunction(Stack<ASTNode> stack, String name,
+			ASTNode inBrackets, MathContainer container) throws SBMLException {
+		Type t = Type.getTypeFor(name);
+		if (t == Type.UNKNOWN) {
+			t = Type.FUNCTION;
+		}
+		if (inBrackets.isUnknown()) {
+			if (t == Type.FUNCTION) {
+				inBrackets.setName(name);
+			}
+			inBrackets.setType(t);
+			checkName(inBrackets);
+			push(stack, inBrackets);
+		} else {
+			ASTNode fun = new ASTNode(t, container);
+			if (t == Type.FUNCTION) {
+				fun.setName(name);
+			}
+			if ((t == Type.FUNCTION_LOG) && (name.equalsIgnoreCase("log10"))) {
+				fun.addChild(new ASTNode(10d, container));
+			} else if ((t == Type.FUNCTION_ROOT)
+					&& (name.equalsIgnoreCase("sqrt"))) {
+				fun.addChild(new ASTNode(2d, container));
+			}
+			fun.addChild(inBrackets);
+			push(stack, fun);
+		}
+	}
+
+	/**
+	 * Creates a new {@link ASTNode} and pushes this to the {@link Stack}. If
+	 * the name can be parsed into a {@link Number}, the new {@link ASTNode}
+	 * will contain this number. Otherwise, this method creates an
+	 * {@link ASTNode} with a {@link String} that refers to the identifier of
+	 * some other object in the {@link Model}.
+	 * 
+	 * @param stack
+	 * @param name
+	 * @param container
+	 * @throws SBMLException
+	 */
+	private void pushValue(Stack<ASTNode> stack, String name,
+			MathContainer container) throws SBMLException {
+		if (strict && (container == null)) {
+			throw new NullPointerException(MathContainer.class.getName());
+		}
+		ASTNode node = new ASTNode(container);
+		if (name.matches(REAL_E + "-?[0-9]+") && name.length() > 1) {
+			// split into mantissa and exponent
+			String vals[] = name.toLowerCase().split("e");
+			node.setValue(Double.parseDouble(vals[0]), Integer
+					.parseInt(vals[1]));
+		} else {
+			// the String either represents a number or a reference
+			try {
+				Number number = Double.parseDouble(name);
+				if (number.intValue() - number.doubleValue() == 0d) {
+					node.setValue(number.intValue());
+				} else {
+					node.setValue(number.doubleValue());
+				}
+			} catch (NumberFormatException exc) {
+				node.setName(name);
+				checkName(node);
+			}
+		}
+		push(stack, node);
+	}
+
+	/**
+	 * 
+	 * @param node
+	 */
+	private void rationalContraction(ASTNode node) {
+		if ((node.getNumChildren() == 2) && (node.getType() == Type.DIVIDE)
+				&& node.getLeftChild().isInteger()
+				&& node.getRightChild().isInteger()) {
+			node.setValue(node.getLeftChild().getInteger(), node
+					.getRightChild().getInteger());
+			node.getListOfNodes().clear();
+		}
+	}
+
+	/**
+	 * @param strict
+	 *            the strict to set
+	 */
+	public void setStrict(boolean strict) {
+		this.strict = strict;
+	}
+
+	/**
+	 * 
+	 * @param node
+	 */
+	private void uminusContraction(ASTNode node) {
+		if (node.isUMinus()) {
+			ASTNode child = node.getLeftChild();
+			if (child.isNumber() || child.isInfinity() || child.isNegInfinity()) {
+				if (child.isInteger()) {
+					node.setValue(-child.getInteger());
+				} else if (child.isRational()) {
+					node
+							.setValue(-child.getNumerator(), child
+									.getDenominator());
+				} else if (child.getType() == Type.REAL_E) {
+					node.setValue(-child.getMantissa(), child.getExponent());
+				} else if (child.isInfinity()) {
+					node.setValue(Double.NEGATIVE_INFINITY);
+				} else if (child.isNegInfinity()) {
+					node.setValue(Double.POSITIVE_INFINITY);
+				} else {
+					node.setValue(-child.getReal());
+				}
+				node.getListOfNodes().clear();
+			}
+		}
+	}
 }

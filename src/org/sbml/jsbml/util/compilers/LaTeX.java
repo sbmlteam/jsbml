@@ -851,7 +851,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		} else {
 			length = args.size() - 1;
 		}
-		StringBuffer argList = new StringBuffer();
+		StringBuilder argList = new StringBuilder();
 
 		for (int i = 0; i < length; i++) {
 			if (i > 0) {
@@ -860,7 +860,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 			argList.append(args.get(i).compile(this));
 		}
 		value.append(brackets(argList));
-		if (length < args.size()) {
+		if ((0 < length) && (length < args.size())) {
 			value.append(" = ");
 			value.append(args.get(args.size() - 1).compile(this));
 		}
