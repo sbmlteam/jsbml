@@ -191,18 +191,18 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 		if (astNode.isName() || astNode.isFunction()) {
 			astNode.setName(characters.trim());
 		} else if (astNode.isInteger()) {
-			astNode.setValue(Integer.parseInt(characters.trim()));
+			astNode.setValue(StringTools.parseSBMLInt(characters.trim()));
 		} else if (astNode.isRational()) {
 			if (elementName == null) {
-				astNode.setValue(astNode.getNumerator(), Integer.parseInt(characters.trim()));
+				astNode.setValue(astNode.getNumerator(), StringTools.parseSBMLInt(characters.trim()));
 			} else {
-				astNode.setValue(Integer.parseInt(characters.trim()), (int) 0);
+				astNode.setValue(StringTools.parseSBMLInt(characters.trim()), (int) 0);
 			}
 		} else if (astNode.getType().equals(Type.REAL_E)) {
 			if (elementName == null) {
-				astNode.setValue(astNode.getMantissa(), Integer.parseInt(characters.trim()));
+				astNode.setValue(astNode.getMantissa(), StringTools.parseSBMLInt(characters.trim()));
 			} else {
-				astNode.setValue(Double.parseDouble(characters.trim()), (int) 0);
+				astNode.setValue(StringTools.parseSBMLDouble(characters.trim()), (int) 0);
 			}
 		} else if (astNode.isReal()) {
 			astNode.setValue(Double.valueOf(characters.trim()));

@@ -31,6 +31,7 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
@@ -725,21 +726,9 @@ public class Reaction extends AbstractNamedSBase implements
 
 		if (!isAttributeRead) {
 			if (attributeName.equals("reversible")) {
-				if (value.equals("true")) {
-					this.setReversible(true);
-					return true;
-				} else if (value.equals("false")) {
-					this.setReversible(false);
-					return true;
-				}
+				this.setReversible(StringTools.parseSBMLBoolean(value));
 			} else if (attributeName.equals("fast")) {
-				if (value.equals("true")) {
-					this.setFast(true);
-					return true;
-				} else if (value.equals("false")) {
-					this.setFast(false);
-					return true;
-				}
+				this.setFast(StringTools.parseSBMLBoolean(value));
 			}
 			if (attributeName.equals("compartment") && getLevel() == 3) {
 				this.setCompartment(value);

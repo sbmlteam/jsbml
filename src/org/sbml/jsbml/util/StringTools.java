@@ -39,6 +39,7 @@ import org.sbml.jsbml.resources.Resource;
  * Strings.
  * 
  * @author Andreas Dr&auml;ger
+ * @author rodrigue
  * 
  * @opt attributes
  * @opt types
@@ -213,6 +214,73 @@ public class StringTools {
 		}
 		//return String.format("%.3f", Double.valueOf(value)); // Only 3 number is really too, too low
 		return Double.toString(value);
+	}
+	
+	/**
+	 * Parses a String into a double number following the rules of the SBML specifications, section 3.1.5.
+	 * 
+	 * @param valueAsStr a double as a String
+	 * @return the String as a double. If the String is not a valid double number, {@link Double.NaN} is returned.
+	 */
+	// TODO : we need to take care of these INFINITY numbers when we write back the SBML file !!
+	public static double parseSBMLDouble(String valueAsStr) {
+		
+		double value = Double.NaN;
+		
+		try {
+			value = Double.parseDouble(valueAsStr);
+		} catch (NumberFormatException e) {
+			if (valueAsStr.trim(). equals("INF")) {
+				value = Double.POSITIVE_INFINITY;
+			} else if (valueAsStr.trim(). equals("-INF")) {
+				value = Double.NEGATIVE_INFINITY;
+			} else {
+				// TODO : log an error !!
+			}
+		}
+		
+		return value;
+	}
+
+	/**
+	 * Parses a String into an int number following the rules of the SBML specifications, section 3.1.3.
+	 * 
+	 * @param valueAsStr an int as a String
+	 * @return the String as an int. If the String is not a valid int number, 0 is returned.
+	 */
+	public static int parseSBMLInt(String valueAsStr) {
+		
+		int value = 0;
+		
+		try {
+			value = Integer.parseInt(valueAsStr);
+		} catch (NumberFormatException e) {
+			// TODO : log an error !!
+		}
+		
+		return value;
+	}
+
+	/**
+	 * Parses a String into a boolean following the rules of the SBML specifications, section 3.1.2.
+	 * 
+	 * @param valueAsStr a boolean as a String
+	 * @return the String as a boolean. If the String is not a valid boolean, false is returned.
+	 */
+	public static boolean parseSBMLBoolean(String valueAsStr) {
+		
+		// Test for true/false ignoring case.
+		boolean value = Boolean.parseBoolean(valueAsStr);
+		
+		if (valueAsStr.equals("0")) {
+			value = false; // this test would not be needed as the value is already false but it is there for completion.
+		} else if (valueAsStr.equals("1")) {
+			value = true;
+		} else if ( ! (valueAsStr.equals("true") || valueAsStr.equals("false"))) {
+			// TODO : log an error !!
+		}
+				
+		return value;
 	}
 
 }
