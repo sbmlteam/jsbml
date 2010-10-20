@@ -1682,13 +1682,13 @@ public class Unit extends AbstractSBase {
 					return false;
 				}
 			} else if (attributeName.equals("exponent")) {
-				this.setExponent(Integer.parseInt(value));
+				this.setExponent(StringTools.parseSBMLInt(value));
 			} else if (attributeName.equals("scale")) {
-				this.setScale(Integer.parseInt(value));
+				this.setScale(StringTools.parseSBMLInt(value));
 			} else if (attributeName.equals("multiplier") && getLevel() > 1) {
-				this.setMultiplier(Double.parseDouble(value));
+				this.setMultiplier(StringTools.parseSBMLDouble(value));
 			} else if (attributeName.equals("offset") && getLevel() > 1) {
-				this.setOffset(Double.parseDouble(value));
+				this.setOffset(StringTools.parseSBMLDouble(value));
 			}
 		}
 		return isAttributeRead;

@@ -30,6 +30,8 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
+import org.sbml.jsbml.util.StringTools;
+
 /**
  * A local parameter can only be used to specify a constant within a
  * {@link KineticLaw}.
@@ -121,7 +123,7 @@ public class LocalParameter extends QuantityWithDefinedUnit {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 		if (attributeName.equals("value")) {
-			this.setValue(Double.parseDouble(value));
+			this.setValue(StringTools.parseSBMLDouble(value));
 			return true;
 		} else if (attributeName.equals("units")) {
 			this.setUnits(value);

@@ -3,6 +3,7 @@ package org.sbml.jsbml.ext.multi;
 import java.util.HashMap;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * @author
@@ -115,7 +116,7 @@ public class InitialSpeciesInstance extends AbstractNamedSBase {
 
 		if (!isReadAttribute) {
 			if (attributeName.equals("initialProportion")) {
-				this.initialProportion = Double.parseDouble(value);
+				this.initialProportion = StringTools.parseSBMLDouble(value);
 
 				return true;
 			} else if (attributeName.equals("selector")) {

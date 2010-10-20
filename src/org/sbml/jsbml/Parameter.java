@@ -31,6 +31,8 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
+import org.sbml.jsbml.util.StringTools;
+
 /**
  * Represents the a globally valid parameter in the model, i.e., a variable that
  * may change during a simulation or that provides a constant value.
@@ -147,21 +149,13 @@ public class Parameter extends Symbol {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 		if (attributeName.equals("value")) {
-			this.setValue(Double.parseDouble(value));
+			this.setValue(StringTools.parseSBMLDouble(value));
 			return true;
 		} else if (attributeName.equals("units")) {
 			this.setUnits(value);
 			return true;
 		} else if (attributeName.equals("constant") && getLevel() > 1) {
-			if (Boolean.parseBoolean(value)) {
-				this.setConstant(true);
-				return true;
-			} else if (value.equals("false")) {
-				this.setConstant(false);
-				return true;
-			} else {
-				// TODO: should an exception be thrown?
-			}
+				this.setConstant(StringTools.parseSBMLBoolean(value));
 		}
 		return isAttributeRead;
 	}

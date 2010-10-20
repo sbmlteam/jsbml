@@ -31,6 +31,8 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
+import org.sbml.jsbml.util.StringTools;
+
 /**
  * Represents the compartment in a model, i.e., a variable element with name,
  * identifier, unit, and value that may change during a simulation. This is the
@@ -398,10 +400,10 @@ public class Compartment extends Symbol {
 				this.setUnits(value);
 				return true;
 			} else if (attributeName.equals("size") && getLevel() > 1) {
-				this.setSize(Double.parseDouble(value));
+				this.setSize(StringTools.parseSBMLDouble(value));
 				return true;
 			} else if (attributeName.equals("volume") && getLevel() == 1) {
-				this.setSize(Double.parseDouble(value));
+				this.setSize(StringTools.parseSBMLDouble(value));
 				return true;
 			} else if (attributeName.equals("compartmentType")
 					&& getLevel() == 2) {
@@ -410,13 +412,7 @@ public class Compartment extends Symbol {
 			} else if (attributeName.equals("outside") && getLevel() < 3) {
 				this.setOutside(value);
 			} else if (attributeName.equals("constant") && getLevel() > 1) {
-				if (value.equals("true")) {
-					this.setConstant(true);
-					return true;
-				} else if (value.equals("false")) {
-					this.setConstant(false);
-					return true;
-				}
+					this.setConstant(StringTools.parseSBMLBoolean(value));
 			}
 		}
 		return isAttributeRead;

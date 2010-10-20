@@ -32,6 +32,7 @@ package org.sbml.jsbml;
 import java.util.HashMap;
 
 import org.sbml.jsbml.ListOf.Type;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * Represents the event XML element of a SBML file.
@@ -534,16 +535,12 @@ public class Event extends AbstractNamedSBase {
 
 		if (!isAttributeRead) {
 			if (attributeName.equals("useValuesFromTriggerTime")
-					&& ((getLevel() == 2 && getVersion() == 4) || getLevel() >= 3)) {
-				if (value.equals("true")) {
-					this.setUseValuesFromTriggerTime(true);
-					return true;
-				} else if (value.equals("false")) {
-					this.setUseValuesFromTriggerTime(false);
-					return true;
-				}
+					&& ((getLevel() == 2 && getVersion() == 4) || getLevel() >= 3)) 
+			{
+				this.setUseValuesFromTriggerTime(StringTools.parseSBMLBoolean(value));
 			} else if (attributeName.equals("timeUnits")
-					&& (getLevel() == 1 || (getLevel() == 2 && (getVersion() == 1 || getVersion() == 2)))) {
+					&& (getLevel() == 1 || (getLevel() == 2 && (getVersion() == 1 || getVersion() == 2)))) 
+			{
 				this.setTimeUnits(value);
 			}
 		}

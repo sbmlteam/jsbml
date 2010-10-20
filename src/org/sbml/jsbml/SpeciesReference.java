@@ -33,6 +33,8 @@ import java.util.HashMap;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.util.StringTools;
+
 /**
  * Represents the speciesReference XML element of a SBML file.
  * 
@@ -417,16 +419,10 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 
 		if (!isAttributeRead) {
 			if (attributeName.equals("stoichiometry")) {
-				setStoichiometry(Double.parseDouble(value));
+				setStoichiometry(StringTools.parseSBMLDouble(value));
 				return true;
 			} else if (attributeName.equals("constant")) {
-				if (value.equals("true")) {
-					setConstant(true);
-					return true;
-				} else if (value.equals("false")) {
-					setConstant(false);
-					return true;
-				}
+				this.setConstant(StringTools.parseSBMLBoolean(value));
 			} else if (attributeName.equals("denominator")) {
 				setDenominator(denominator);
 				return true;

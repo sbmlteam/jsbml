@@ -31,6 +31,8 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
+import org.sbml.jsbml.util.StringTools;
+
 /**
  * Represents the species XML element of a SBML file.
  * 
@@ -586,10 +588,10 @@ public class Species extends Symbol {
 			if (attributeName.equals("compartment")) {
 				this.setCompartment(value);
 			} else if (attributeName.equals("initialAmount")) {
-				this.setInitialAmount(Double.parseDouble(value));
+				this.setInitialAmount(StringTools.parseSBMLDouble(value));
 			} else if (attributeName.equals("initialConcentration")
 					&& getLevel() > 1) {
-				this.setInitialConcentration(Double.parseDouble(value));
+				this.setInitialConcentration(StringTools.parseSBMLDouble(value));
 			} else if (attributeName.equals("substanceUnits") && getLevel() > 1) {
 				this.setUnits(value);
 			} else if (attributeName.equals("spatialSizeUnits")
@@ -597,41 +599,23 @@ public class Species extends Symbol {
 				this.setSpatialSizeUnits(value);
 			} else if (attributeName.equals("hasOnlySubstanceUnits")
 					&& getLevel() > 1) {
-				if (value.equals("true")) {
-					this.setHasOnlySubstanceUnits(true);
-					return true;
-				} else if (value.equals("false")) {
-					this.setHasOnlySubstanceUnits(false);
-					return true;
-				}
+				this.setHasOnlySubstanceUnits(StringTools.parseSBMLBoolean(value));
 			} else if (attributeName.equals("boundaryCondition")) {
-				if (value.equals("true")) {
-					this.setBoundaryCondition(true);
-					return true;
-				} else if (value.equals("false")) {
-					this.setBoundaryCondition(false);
-					return true;
-				}
+				this.setBoundaryCondition(StringTools.parseSBMLBoolean(value));
 			} else if (attributeName.equals("conversionFactor")
 					&& getLevel() == 3) {
 				this.setConversionFactor(value);
 				return true;
 			} else if (attributeName.equals("charge") && isSetLevel()
 					&& getLevel() < 3) {
-				this.setCharge(Integer.parseInt(value));
+				this.setCharge(StringTools.parseSBMLInt(value));
 				return true;
 			} else if (attributeName.equals("speciesType")
 					&& ((getLevel() == 2 && getVersion() >= 2) || getLevel() == 3)) {
 				this.setSpeciesType(value);
 				return true;
 			} else if (attributeName.equals("constant") && getLevel() > 1) {
-				if (value.equals("true")) {
-					this.setConstant(true);
-					return true;
-				} else if (value.equals("false")) {
-					this.setConstant(false);
-					return true;
-				}
+				this.setConstant(StringTools.parseSBMLBoolean(value));
 			}
 		}
 		return isAttributeRead;
