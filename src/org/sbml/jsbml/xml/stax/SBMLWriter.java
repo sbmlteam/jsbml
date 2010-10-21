@@ -388,7 +388,7 @@ public class SBMLWriter {
 		SMOutputContext context = outputDocument.getContext();
 		SMNamespace namespace = context.getNamespace(SBMLNamespace);
 		namespace.setPreferredPrefix("");
-		outputDocument.addCharacters(StringTools.newLine());
+		outputDocument.addCharacters("\n");
 
 		/*
 		 * Write a comment to track which program created this SBML file and
@@ -402,7 +402,7 @@ public class SBMLWriter {
 					.format(msg, programName, (programVersion != null)
 							&& (programVersion.length() > 0) ? programVersion
 							: "?", date, JSBML.getJSBMLDottedVersion()));
-			outputDocument.addCharacters(StringTools.newLine());
+			outputDocument.addCharacters("\n");
 		}
 
 		SMOutputElement smOutputElement = outputDocument.addElement(namespace,
@@ -445,7 +445,7 @@ public class SBMLWriter {
 			writeAnnotation(sbmlDocument, smOutputElement, streamWriter,
 					SBMLNamespace, indent);
 		}
-		smOutputElement.addCharacters(StringTools.newLine());
+		smOutputElement.addCharacters("\n");
 
 		writeSBMLElements(xmlObject, smOutputElement, streamWriter,
 				sbmlDocument, notesParser, mathMLParser, indent);
@@ -515,7 +515,7 @@ public class SBMLWriter {
 		Annotation annotation = sbase.getAnnotation();
 		SMOutputElement annotationElement;
 		String whiteSpaces = createIndent(indent);
-		element.addCharacters(StringTools.newLine());
+		element.addCharacters("\n");
 		element.setIndentation(whiteSpaces, indent, 2);
 		annotationElement = element.addElement(namespace, "annotation");
 		annotationElement.setIndentation(whiteSpaces, indent, 2);
@@ -540,8 +540,8 @@ public class SBMLWriter {
 				}
 			}
 			StringTools.append(annotationBeginning, Character.valueOf('>'),
-					StringTools.newLine(), annotation.getNoRDFAnnotation(),
-					whiteSpaces, "</annotation>", StringTools.newLine());
+					Character.valueOf('\n'), annotation.getNoRDFAnnotation(),
+					whiteSpaces, "</annotation>", Character.valueOf('\n'));
 
 			DOMConverter converter = new DOMConverter();
 			String annotationString = annotationBeginning.toString()
@@ -559,7 +559,7 @@ public class SBMLWriter {
 				// TODO : log error or send SBMLException
 			}
 		} else {
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 		}
 
 		// if the given SBase is not a model and the level is smaller than 3,
@@ -620,12 +620,12 @@ public class SBMLWriter {
 						&& (prefix != null)) {
 					writer.writeCharacters(whiteSpace);
 					writer.writeStartElement(prefix, elementName, namespaceURI);
-					writer.writeCharacters(StringTools.newLine());
+					writer.writeCharacters("\n");
 					if (cvTerm.getNumResources() > 0) {
 						writer.writeCharacters(whiteSpace + "  ");
 						writer.writeStartElement(rdfPrefix, "Bag",
 								"http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-						writer.writeCharacters(StringTools.newLine());
+						writer.writeCharacters("\n");
 						for (int j = 0; j < cvTerm.getNumResources(); j++) {
 							writer.writeCharacters(whiteSpace + "    ");
 							writer
@@ -638,14 +638,14 @@ public class SBMLWriter {
 											"resource", cvTerm
 													.getResourceURI(j));
 							writer.writeEndElement();
-							writer.writeCharacters(StringTools.newLine());
+							writer.writeCharacters("\n");
 						}
 						writer.writeCharacters(whiteSpace + "  ");
 						writer.writeEndElement();
-						writer.writeCharacters(StringTools.newLine());
+						writer.writeCharacters("\n");
 						writer.writeCharacters(whiteSpace);
 						writer.writeEndElement();
-						writer.writeCharacters(StringTools.newLine());
+						writer.writeCharacters("\n");
 					}
 				}
 			}
@@ -676,11 +676,11 @@ public class SBMLWriter {
 			writer.writeCharacters(whiteSpace);
 			writer.writeStartElement(creatorPrefix, "creator",
 					"http://purl.org/dc/elements/1.1/");
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			writer.writeCharacters(whiteSpace + "  ");
 			writer.writeStartElement(rdfPrefix, "Bag",
 					"http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 
 			for (int i = 0; i < history.getNumCreators(); i++) {
 				Creator modelCreator = history.getCreator(i);
@@ -695,14 +695,14 @@ public class SBMLWriter {
 
 				if (modelCreator.isSetFamilyName()
 						|| modelCreator.isSetGivenName()) {
-					writer.writeCharacters(StringTools.newLine());
+					writer.writeCharacters("\n");
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeStartElement(vCardPrefix, "N",
 							"http://www.w3.org/2001/vcard-rdf/3.0#");
 					writer.writeAttribute(
 							"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 							"parseType", "Resource");
-					writer.writeCharacters(StringTools.newLine());
+					writer.writeCharacters("\n");
 
 					if (modelCreator.isSetFamilyName()) {
 						writer.writeCharacters(whiteSpace + "        ");
@@ -710,7 +710,7 @@ public class SBMLWriter {
 								"http://www.w3.org/2001/vcard-rdf/3.0#");
 						writer.writeCharacters(modelCreator.getFamilyName());
 						writer.writeEndElement();
-						writer.writeCharacters(StringTools.newLine());
+						writer.writeCharacters("\n");
 					}
 					if (modelCreator.isSetGivenName()) {
 						writer.writeCharacters(whiteSpace + "        ");
@@ -718,11 +718,11 @@ public class SBMLWriter {
 								"http://www.w3.org/2001/vcard-rdf/3.0#");
 						writer.writeCharacters(modelCreator.getGivenName());
 						writer.writeEndElement();
-						writer.writeCharacters(StringTools.newLine());
+						writer.writeCharacters("\n");
 					}
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeEndElement();
-					writer.writeCharacters(StringTools.newLine());
+					writer.writeCharacters("\n");
 				}
 
 				if (modelCreator.isSetEmail()) {
@@ -731,7 +731,7 @@ public class SBMLWriter {
 							"http://www.w3.org/2001/vcard-rdf/3.0#");
 					writer.writeCharacters(modelCreator.getEmail());
 					writer.writeEndElement();
-					writer.writeCharacters(StringTools.newLine());
+					writer.writeCharacters("\n");
 				}
 				if (modelCreator.isSetOrganisation()) {
 					writer.writeCharacters(whiteSpace + "      ");
@@ -740,27 +740,27 @@ public class SBMLWriter {
 					writer.writeAttribute(rdfPrefix,
 							"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 							"parseType", "Resource");
-					writer.writeCharacters(StringTools.newLine());
+					writer.writeCharacters("\n");
 					writer.writeCharacters(whiteSpace + "        ");
 					writer.writeStartElement(vCardPrefix, "Orgname",
 							"http://www.w3.org/2001/vcard-rdf/3.0#");
 					writer.writeCharacters(modelCreator.getOrganisation());
 					writer.writeEndElement();
-					writer.writeCharacters(StringTools.newLine());
+					writer.writeCharacters("\n");
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeEndElement();
-					writer.writeCharacters(StringTools.newLine());
+					writer.writeCharacters("\n");
 				}
 				writer.writeCharacters(whiteSpace + "    ");
 				writer.writeEndElement();
-				writer.writeCharacters(StringTools.newLine());
+				writer.writeCharacters("\n");
 			}
 			writer.writeCharacters(whiteSpace + "  ");
 			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			writer.writeCharacters(whiteSpace);
 			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 		}
 		String datePrefix = rdfNamespaces.get("http://purl.org/dc/terms/");
 
@@ -776,16 +776,16 @@ public class SBMLWriter {
 			writer.writeAttribute(rdfPrefix,
 					"http://www.w3.org/1999/02/22-rdf-syntax-ns#", "parseType",
 					"Resource");
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			writer.writeCharacters(whiteSpace + "  ");
 			writer.writeStartElement(datePrefix, "W3CDTF",
 					"http://purl.org/dc/terms/");
 			writer.writeCharacters(history.getCreatedDate().toString());
 			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			writer.writeCharacters(whiteSpace);
 			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 		}
 		if (history.isSetModifiedDate()) {
 			for (int i = 0; i < history.getNumModifiedDates(); i++) {
@@ -795,16 +795,16 @@ public class SBMLWriter {
 				writer.writeAttribute(rdfPrefix,
 						"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 						"parseType", "Resource");
-				writer.writeCharacters(StringTools.newLine());
+				writer.writeCharacters("\n");
 				writer.writeCharacters(whiteSpace + "  ");
 				writer.writeStartElement(datePrefix, "W3CDTF",
 						"http://purl.org/dc/terms/");
 				writer.writeCharacters(history.getModifiedDate(i).toString());
 				writer.writeEndElement();
-				writer.writeCharacters(StringTools.newLine());
+				writer.writeCharacters("\n");
 				writer.writeCharacters(whiteSpace);
 				writer.writeEndElement();
-				writer.writeCharacters(StringTools.newLine());
+				writer.writeCharacters("\n");
 			}
 		}
 	}
@@ -827,7 +827,7 @@ public class SBMLWriter {
 			XMLStreamWriter writer, int indent) throws XMLStreamException {
 		if (m.isSetMath()) {
 
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			writer.writeCharacters(createIndent(indent + 2));
 			// writer.setPrefix("math", "http://www.w3.org/1998/Math/MathML");
 			// writer.writeStartElement("http://www.w3.org/1998/Math/MathML",
@@ -835,7 +835,7 @@ public class SBMLWriter {
 			writer.writeStartElement("math");
 			writer.writeAttribute("xmlns:math",
 					"http://www.w3.org/1998/Math/MathML");
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 
 			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
 					writer, createIndent(indent + 4));
@@ -843,7 +843,7 @@ public class SBMLWriter {
 
 			writer.writeCharacters(createIndent(indent + 2));
 			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 		}
 	}
 
@@ -865,16 +865,16 @@ public class SBMLWriter {
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
 		try {
-			element.addCharacters(StringTools.newLine());
+			element.addCharacters("\n");
 
 			DOMConverter converter = new DOMConverter();
 			SMOutputElement note = element.addElementWithCharacters(namespace,
-					"message", StringTools.newLine());
+					"message", "\n");
 			String messageString = sbase.getMessage().replaceAll("&", "&amp;");
 			Document domDocument = JAXPFacade.getInstance().create(
 					new BufferedReader(new StringReader(messageString)), true);
 			converter.writeFragment(domDocument.getChildNodes(), writer);
-			note.addCharacters(StringTools.newLine());
+			note.addCharacters("\n");
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {
@@ -902,13 +902,13 @@ public class SBMLWriter {
 
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
-		element.addCharacters(StringTools.newLine());
+		element.addCharacters("\n");
 		String whiteSpaces = createIndent(indent);
 		writer.writeCharacters(whiteSpaces);
 
 		DOMConverter converter = new DOMConverter();
 		SMOutputElement note = element.addElementWithCharacters(namespace,
-				"notes", StringTools.newLine());
+				"notes", "\n");
 		note.setIndentation(whiteSpaces, indent, 2);
 		String notes = sbase.getNotesString();
 		/*
@@ -921,7 +921,7 @@ public class SBMLWriter {
 			Document domDocument = JAXPFacade.getInstance().create(
 					new BufferedReader(new StringReader(notes)), true);
 			converter.writeFragment(domDocument.getChildNodes(), writer);
-			note.addCharacters(StringTools.newLine());
+			note.addCharacters("\n");
 		} catch (SAXException e) {
 			e.printStackTrace();
 		}
@@ -959,13 +959,13 @@ public class SBMLWriter {
 				writer.writeNamespace(entry.getValue(), entry.getKey());
 			}
 		}
-		rdfElement.addCharacters(StringTools.newLine());
+		rdfElement.addCharacters("\n");
 		rdfElement.setIndentation(whiteSpace + "  ", indent + 2, 2);
 		SMOutputElement descriptionElement = rdfElement.addElement(namespace,
 				"Description");
 		descriptionElement.addAttribute(namespace, "about", annotation
 				.getAbout());
-		descriptionElement.addCharacters(StringTools.newLine());
+		descriptionElement.addCharacters("\n");
 		if (annotation.isSetHistory()) {
 			writeHistory(annotation.getHistory(), rdfNamespaces, writer,
 					indent + 4);
@@ -977,9 +977,9 @@ public class SBMLWriter {
 		descriptionElement.setIndentation(whiteSpace + "  ", indent + 2, 2);
 		descriptionElement.addCharacters(whiteSpace + "  ");
 		annotationElement.setIndentation(whiteSpace, indent, 2);
-		rdfElement.addCharacters(StringTools.newLine());
+		rdfElement.addCharacters("\n");
 		rdfElement.addCharacters(whiteSpace);
-		annotationElement.addCharacters(StringTools.newLine());
+		annotationElement.addCharacters("\n");
 	}
 
 	/**
@@ -1022,9 +1022,9 @@ public class SBMLWriter {
 		// + parentElement.getLocalName() + ", "
 		// + parentElement.getNamespace().getURI());
 		// System.out.println("SBMLWriter : writeSBMLElements : objectToWrite = "
-		// + objectToWrite + StringTools.newLine());
+		// + objectToWrite + '\n');
 		// System.out.println("SBMLWriter : writeSBMLElements : listOfPackages = "
-		// + listOfPackages + StringTools.newLine());
+		// + listOfPackages + '\n');
 
 		Iterator<WritingParser> iterator = listOfPackages.iterator();
 		while (iterator.hasNext()) {
@@ -1156,7 +1156,7 @@ public class SBMLWriter {
 							writeMathML(mathContainer, newOutPutElement,
 									streamWriter, indent + 2);
 						}
-						newOutPutElement.addCharacters(StringTools.newLine());
+						newOutPutElement.addCharacters("\n");
 
 						writeSBMLElements(parentXmlObject, newOutPutElement,
 								streamWriter, nextObjectToWrite, notesParser,
