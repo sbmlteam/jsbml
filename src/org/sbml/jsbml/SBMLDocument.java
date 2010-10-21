@@ -34,6 +34,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.sbml.jsbml.util.NotImplementedException;
+
 /**
  * Represents the 'sbml' root node of a SBML file.
  * 
@@ -110,7 +112,7 @@ public class SBMLDocument extends AbstractSBase {
 	}
 
 	/**
-	 * Adds a namespace to the SBMLNamespaces of this SBMLDocument.
+	 * Adds a name space to the SBMLNamespaces of this SBMLDocument.
 	 * 
 	 * @param namespaceName
 	 * @param prefix
@@ -126,6 +128,16 @@ public class SBMLDocument extends AbstractSBase {
 		this.addNamespace(URI);
 	}
 
+	/**
+	 * Not yet implemented!
+	 * 
+	 * @return
+	 */
+	public int checkConsistency() {
+		// TODO: IMPLEMENT!
+		throw new NotImplementedException();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -137,11 +149,30 @@ public class SBMLDocument extends AbstractSBase {
 	}
 
 	/**
+	 * Creates a new Model inside this {@link SBMLDocument}, and returns a
+	 * pointer to it.
+	 * 
+	 * In SBML Level 2, the use of an identifier on a {@link Model} object is
+	 * optional. This method takes an optional argument, sid, for setting the
+	 * identifier. If not supplied, the identifier attribute on the Model
+	 * instance is not set.
+	 * 
+	 * @return the new {@link Model} instance.
+	 * @deprecated If not working with SBML Level 2 use
+	 *             {@link #createModel(String)} instead.
+	 */
+	@Deprecated
+	public Model createModel() {
+		this.setModel(new Model(getLevel(), getVersion()));
+		return getModel();
+	}
+
+	/**
 	 * Creates a new instance of Model from id and the level and version of this
 	 * SBMLDocument.
 	 * 
 	 * @param id
-	 * @return the new Model instance.
+	 * @return the new {@link Model} instance.
 	 */
 	public Model createModel(String id) {
 		this.setModel(new Model(id, getLevel(), getVersion()));
@@ -227,6 +258,17 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	public int getDefaultVersion() {
 		return 4;
+	}
+
+	/**
+	 * Not yet implemented!
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public SBMLError getError(int i) {
+		// TODO: IMPLEMENT!
+		throw new NotImplementedException();
 	}
 
 	/**
@@ -318,10 +360,12 @@ public class SBMLDocument extends AbstractSBase {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#toString()
 	 */
 	public String toString() {
-		return String.format("SBML Level %d Version %d", getLevel(), getVersion());
+		return String.format("SBML Level %d Version %d", getLevel(),
+				getVersion());
 	}
 
 	/*

@@ -58,7 +58,7 @@ public class KineticLaw extends MathContainer {
 	 * Represents the listOfLocalParameters or listOfParameters sub-element of a
 	 * kineticLaw element.
 	 */
-	private ListOf<LocalParameter> listOfParameters;
+	private ListOf<LocalParameter> listOfLocalParameters;
 	/**
 	 * Represents the 'substanceUnits' XML attribute of this KineticLaw.
 	 * 
@@ -139,7 +139,7 @@ public class KineticLaw extends MathContainer {
 	public void addChangeListener(SBaseChangedListener l) {
 		super.addChangeListener(l);
 		if (isSetListOfParameters()) {
-			listOfParameters.addChangeListener(l);
+			listOfLocalParameters.addChangeListener(l);
 		}
 	}
 
@@ -154,7 +154,7 @@ public class KineticLaw extends MathContainer {
 			initListOfParameters();
 		}
 		if (!getListOfParameters().contains(parameter)) {
-			listOfParameters.add(parameter);
+			listOfLocalParameters.add(parameter);
 			if (parameter.isSetId() && isSetMath()) {
 				getMath().updateVariables();
 			}
@@ -172,6 +172,23 @@ public class KineticLaw extends MathContainer {
 	@Deprecated
 	public void addParameter(LocalParameter parameter) {
 		addLocalParameter(parameter);
+	}
+
+	/**
+	 * This method creates a new {@link LocalParameter} with identical
+	 * properties as the given {@link Parameter} and adds this new
+	 * {@link LocalParameter} to this {@link KineticLaw}'s
+	 * {@link #listOfLocalParameter}s.
+	 * 
+	 * @param p
+	 * @deprecated A {@link KineticLaw} can only contain instances of
+	 *             {@link LocalParameter}s. Please use
+	 *             {@link #addLocalParameter(LocalParameter)} and create an
+	 *             instance of {@link LocalParameter} for your purposes.
+	 */
+	@Deprecated
+	public void addParameter(Parameter p) {
+		addParameter(new LocalParameter(p));
 	}
 
 	/*
@@ -269,7 +286,7 @@ public class KineticLaw extends MathContainer {
 		if (!isSetListOfParameters()) {
 			initListOfParameters();
 		}
-		return listOfParameters;
+		return listOfLocalParameters;
 	}
 
 	/**
@@ -277,7 +294,7 @@ public class KineticLaw extends MathContainer {
 	 * @return the number of local parameters in this KineticLaw instance.
 	 */
 	public int getNumParameters() {
-		return isSetListOfParameters() ? listOfParameters.size() : 0;
+		return isSetListOfParameters() ? listOfLocalParameters.size() : 0;
 	}
 
 	/**
@@ -371,10 +388,10 @@ public class KineticLaw extends MathContainer {
 	 * 
 	 */
 	private void initListOfParameters() {
-		this.listOfParameters = new ListOf<LocalParameter>(getLevel(),
+		this.listOfLocalParameters = new ListOf<LocalParameter>(getLevel(),
 				getVersion());
-		setThisAsParentSBMLObject(this.listOfParameters);
-		this.listOfParameters.setSBaseListType(Type.listOfParameters);
+		setThisAsParentSBMLObject(this.listOfLocalParameters);
+		this.listOfLocalParameters.setSBaseListType(Type.listOfParameters);
 	}
 
 	/**
@@ -383,7 +400,8 @@ public class KineticLaw extends MathContainer {
 	 *         not empty.
 	 */
 	public boolean isSetListOfParameters() {
-		return (listOfParameters != null) && (listOfParameters.size() > 0);
+		return (listOfLocalParameters != null)
+				&& (listOfLocalParameters.size() > 0);
 	}
 
 	/**
@@ -462,7 +480,7 @@ public class KineticLaw extends MathContainer {
 	 */
 	public void removeParameter(int i) {
 		if (isSetListOfParameters()) {
-			listOfParameters.remove(i).sbaseRemoved();
+			listOfLocalParameters.remove(i).sbaseRemoved();
 		}
 	}
 
@@ -473,7 +491,7 @@ public class KineticLaw extends MathContainer {
 	 */
 	public void removeParameter(Parameter p) {
 		if (isSetListOfParameters()) {
-			listOfParameters.remove(p);
+			listOfLocalParameters.remove(p);
 
 		}
 	}
@@ -486,7 +504,7 @@ public class KineticLaw extends MathContainer {
 	public void removeParameter(String id) {
 		if (isSetListOfParameters()) {
 			int i = 0;
-			ListOf<LocalParameter> listOfParameters = this.listOfParameters;
+			ListOf<LocalParameter> listOfParameters = this.listOfLocalParameters;
 			while (i < listOfParameters.size()) {
 				if (listOfParameters.get(i) instanceof LocalParameter) {
 					LocalParameter parameter = listOfParameters.get(i);
@@ -530,9 +548,9 @@ public class KineticLaw extends MathContainer {
 			throw new IllegalArgumentException(JSBML.versionMismatchMessage(
 					this, list));
 		}
-		this.listOfParameters = list;
-		setThisAsParentSBMLObject(this.listOfParameters);
-		this.listOfParameters
+		this.listOfLocalParameters = list;
+		setThisAsParentSBMLObject(this.listOfLocalParameters);
+		this.listOfLocalParameters
 				.setSBaseListType(ListOf.Type.listOfLocalParameters);
 		if (isSetMath()) {
 			getMath().updateVariables();
@@ -603,10 +621,10 @@ public class KineticLaw extends MathContainer {
 	 * 
 	 */
 	public void unsetListOfLocalParameters() {
-		if (listOfParameters != null) {
-			listOfParameters.clear();
+		if (listOfLocalParameters != null) {
+			listOfLocalParameters.clear();
 		}
-		listOfParameters = null;
+		listOfLocalParameters = null;
 		stateChanged();
 	}
 

@@ -1220,6 +1220,18 @@ public class SBMLWriter {
 		return stream.toString();
 	}
 
+	/**
+	 * 
+	 * @param document
+	 * @param file
+	 * @throws SBMLException 
+	 * @throws XMLStreamException 
+	 * @throws FileNotFoundException 
+	 */
+	public static void write(SBMLDocument document, File file) throws FileNotFoundException, XMLStreamException, SBMLException {
+		write(document, file, null, null);
+	}
+
 	// ToCHECK : writing of X should not include unset fields.
 
 	// TODO : dcterms:created, dcterms:modified are not saved !

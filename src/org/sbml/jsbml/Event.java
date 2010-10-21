@@ -54,28 +54,35 @@ public class Event extends AbstractNamedSBase {
 	 */
 	private static final long serialVersionUID = 5282750820355199194L;
 	/**
-	 * Represents the 'useValuesFromTriggerTime' XML attribute of an event
-	 * element.
-	 */
-	private Boolean useValuesFromTriggerTime;
-	/**
-	 * Represents the trigger subelement of an event element.
-	 */
-	private Trigger trigger;
-	/**
-	 * Represents the listOfEventAssignments subelement of an event element.
-	 */
-	private ListOf<EventAssignment> listOfEventAssignments;
-	/**
-	 * Represents the delay subelement of an event element.
+	 * Represents the delay sub-element of an event element.
 	 */
 	private Delay delay;
+	/**
+	 * Represents the listOfEventAssignments sub-element of an event element.
+	 */
+	private ListOf<EventAssignment> listOfEventAssignments;
+
+	/**
+	 * Represents the priority sub-element of an event.
+	 */
+	private Priority priority;
 
 	/**
 	 * Represents the 'timeUnits' XML attribute of an event element.
 	 */
 	@Deprecated
 	private String timeUnitsID;
+
+	/**
+	 * Represents the trigger sub-element of an event element.
+	 */
+	private Trigger trigger;
+
+	/**
+	 * Represents the 'useValuesFromTriggerTime' XML attribute of an event
+	 * element.
+	 */
+	private Boolean useValuesFromTriggerTime;
 
 	/**
 	 * Creates an Event instance. By default, if the level is set and is
@@ -240,6 +247,18 @@ public class Event extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a new, empty {@link Priority}, adds it to this {@link Event} and
+	 * returns the {@link Priority}.
+	 * 
+	 * @return the newly created {@link Priority} object instance
+	 */
+	public Priority createPriority() {
+		Priority p = new Priority(getLevel(), getVersion());
+		setPriority(p);
+		return p;
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
@@ -260,32 +279,29 @@ public class Event extends AbstractNamedSBase {
 			Event e = (Event) o;
 			boolean equal = super.equals(o);
 			equal &= e.getUseValuesFromTriggerTime() == getUseValuesFromTriggerTime();
+			equal &= e.isSetTrigger() == isSetTrigger();
+			equal &= e.isSetPriority() == isSetPriority();
+			equal &= e.isSetTimeUnits() == isSetTimeUnits();
+			equal &= e.isSetDelay() == isSetDelay();
 			equal &= e.isSetListOfEventAssignments() == isSetListOfEventAssignments();
-			if (equal && isSetListOfEventAssignments()) {
-				equal &= e.getListOfEventAssignments().equals(
-						getListOfEventAssignments());
+			if (equal) {
+				if (e.isSetDelay() && isSetDelay()) {
+					equal &= e.getDelay().equals(getDelay());
+				}
+				if (e.isSetTrigger() && isSetTrigger()) {
+					equal &= e.getTrigger().equals(getTrigger());
+				}
+				if (e.isSetPriority() && isSetPriority()) {
+					equal &= e.getPriority().equals(getPriority());
+				}
+				if (e.isSetTimeUnits() && isSetTimeUnits()) {
+					equal &= e.getTimeUnits().equals(getTimeUnits());
+				}
+				if (equal && isSetListOfEventAssignments()) {
+					equal &= e.getListOfEventAssignments().equals(
+							getListOfEventAssignments());
+				}
 			}
-			if ((e.isSetDelay() && !isSetDelay())
-					|| (!e.isSetDelay() && isSetDelay())) {
-				return false;
-			} else if (e.isSetDelay() && isSetDelay()) {
-				equal &= e.getDelay().equals(getDelay());
-			}
-
-			if ((!e.isSetTrigger() && isSetTrigger())
-					|| (e.isSetTrigger() && !isSetTrigger())) {
-				return false;
-			} else if (e.isSetTrigger() && isSetTrigger()) {
-				equal &= e.getTrigger().equals(getTrigger());
-			}
-
-			if ((!e.isSetTimeUnits() && isSetTimeUnits())
-					|| (e.isSetTimeUnits() && !isSetTimeUnits())) {
-				return false;
-			} else if (e.isSetTimeUnits() && isSetTimeUnits()) {
-				equal &= e.getTimeUnits().equals(getTimeUnits());
-			}
-
 			return equal;
 		}
 		return false;
@@ -396,6 +412,13 @@ public class Event extends AbstractNamedSBase {
 	}
 
 	/**
+	 * @return the priority
+	 */
+	public Priority getPriority() {
+		return priority;
+	}
+
+	/**
 	 * 
 	 * @return The timeUnitsID of this Event. Return an empty String if it is
 	 *         not set.
@@ -403,6 +426,15 @@ public class Event extends AbstractNamedSBase {
 	@Deprecated
 	public String getTimeUnits() {
 		return isSetTimeUnits() ? this.timeUnitsID : "";
+	}
+
+	/**
+	 * @return the timeUnitsID
+	 * @deprecated
+	 */
+	@Deprecated
+	public String getTimeUnitsID() {
+		return timeUnitsID;
 	}
 
 	/**
@@ -466,10 +498,20 @@ public class Event extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return true if the listOfEventAssignments of this Event is not null and not empty;
+	 * @return true if the listOfEventAssignments of this Event is not null and
+	 *         not empty;
 	 */
 	public boolean isSetListOfEventAssignments() {
-		return (listOfEventAssignments != null) && (listOfEventAssignments.size() > 0);
+		return (listOfEventAssignments != null)
+				&& (listOfEventAssignments.size() > 0);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetPriority() {
+		return priority == null;
 	}
 
 	/**
@@ -535,12 +577,11 @@ public class Event extends AbstractNamedSBase {
 
 		if (!isAttributeRead) {
 			if (attributeName.equals("useValuesFromTriggerTime")
-					&& ((getLevel() == 2 && getVersion() == 4) || getLevel() >= 3)) 
-			{
-				this.setUseValuesFromTriggerTime(StringTools.parseSBMLBoolean(value));
+					&& ((getLevel() == 2 && getVersion() == 4) || getLevel() >= 3)) {
+				this.setUseValuesFromTriggerTime(StringTools
+						.parseSBMLBoolean(value));
 			} else if (attributeName.equals("timeUnits")
-					&& (getLevel() == 1 || (getLevel() == 2 && (getVersion() == 1 || getVersion() == 2)))) 
-			{
+					&& (getLevel() == 1 || (getLevel() == 2 && (getVersion() == 1 || getVersion() == 2)))) {
 				this.setTimeUnits(value);
 			}
 		}
@@ -615,6 +656,14 @@ public class Event extends AbstractNamedSBase {
 	}
 
 	/**
+	 * @param priority
+	 *            the priority to set
+	 */
+	public void setPriority(Priority priority) {
+		this.priority = priority;
+	}
+
+	/**
 	 * Sets the timeUnitsID of this Event to 'timeUnits'.
 	 * 
 	 * @param timeUnits
@@ -639,6 +688,16 @@ public class Event extends AbstractNamedSBase {
 	public void setTimeUnits(UnitDefinition timeUnits) {
 		this.timeUnitsID = timeUnits != null ? timeUnits.getId() : null;
 		stateChanged();
+	}
+
+	/**
+	 * @param timeUnitsID
+	 *            the timeUnitsID to set
+	 * @deprecated
+	 */
+	@Deprecated
+	public void setTimeUnitsID(String timeUnitsID) {
+		this.timeUnitsID = timeUnitsID;
 	}
 
 	/**

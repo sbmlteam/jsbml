@@ -31,6 +31,8 @@
 package org.sbml.jsbml;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.TextFormula;
@@ -48,11 +50,6 @@ import org.sbml.jsbml.util.compilers.TextFormula;
 public class Unit extends AbstractSBase {
 
 	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -6335465287728562136L;
-
-	/**
 	 * @author Andreas Dr&auml;ger
 	 * @date 2009-08-31
 	 */
@@ -61,6 +58,10 @@ public class Unit extends AbstractSBase {
 		 * The ampere unit.
 		 */
 		AMPERE,
+		/**
+		 * This unit is DIMENSIONLESS multiplied with Avogadro's number.
+		 */
+		AVOGADRO,
 		/**
 		 * The becquerel unit.
 		 */
@@ -220,6 +221,84 @@ public class Unit extends AbstractSBase {
 		}
 
 		/**
+		 * Returns a set of {@link Kind} objects for the given level/version
+		 * combination of SBML.
+		 * 
+		 * @param level
+		 * @param version
+		 * @return A {@link Set} that only contains {@link Kind}s for the given
+		 *         level/version combination.
+		 */
+		public static Set<Kind> getUnitKindsDefinedIn(int level, int version) {
+			Kind[] kinds = {};
+			switch (level) {
+			case 1:
+				switch (version) {
+				case 1:
+				case 2:
+					kinds = new Kind[] { AMPERE, BECQUEREL, CANDELA, CELSIUS,
+							COULOMB, DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY,
+							HERTZ, ITEM, JOULE, KATAL, KELVIN, KILOGRAM, LITER,
+							LITRE, LUMEN, LUX, METER, METRE, MOLE, NEWTON, OHM,
+							PASCAL, RADIAN, SECOND, SIEMENS, SIEVERT,
+							STERADIAN, TESLA, VOLT, WATT, WEBER };
+					break;
+				default:
+					break;
+				}
+				break;
+			case 2:
+				switch (version) {
+				case 1:
+					// Like Level 1 Version 2 without LITER and METER
+					kinds = new Kind[] { AMPERE, BECQUEREL, CANDELA, CELSIUS,
+							COULOMB, DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY,
+							HERTZ, ITEM, JOULE, KATAL, KELVIN, KILOGRAM, LITRE,
+							LUMEN, LUX, METRE, MOLE, NEWTON, OHM, PASCAL,
+							RADIAN, SECOND, SIEMENS, SIEVERT, STERADIAN, TESLA,
+							VOLT, WATT, WEBER };
+					break;
+				case 2:
+				case 3:
+				case 4:
+					// Like Level 2 Version 1 without CELSIUS
+					kinds = new Kind[] { AMPERE, BECQUEREL, CANDELA, COULOMB,
+							DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY, HERTZ,
+							ITEM, JOULE, KATAL, KELVIN, KILOGRAM, LITRE, LUMEN,
+							LUX, METRE, MOLE, NEWTON, OHM, PASCAL, RADIAN,
+							SECOND, SIEMENS, SIEVERT, STERADIAN, TESLA, VOLT,
+							WATT, WEBER };
+					break;
+				default:
+					break;
+				}
+				break;
+			case 3:
+				switch (version) {
+				case 1:
+					// like Level 2 Version 4 with additional AVOGADRO
+					kinds = new Kind[] { AMPERE, AVOGADRO, BECQUEREL, CANDELA,
+							COULOMB, DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY,
+							HERTZ, ITEM, JOULE, KATAL, KELVIN, KILOGRAM, LITRE,
+							LUMEN, LUX, METRE, MOLE, NEWTON, OHM, PASCAL,
+							RADIAN, SECOND, SIEMENS, SIEVERT, STERADIAN, TESLA,
+							VOLT, WATT, WEBER };
+					break;
+				default:
+					break;
+				}
+				break;
+			default:
+				break;
+			}
+			Set<Kind> set = new HashSet<Kind>();
+			for (Kind k : kinds) {
+				set.add(k);
+			}
+			return set;
+		}
+
+		/**
 		 * This method is equivalent to converting the {@link String} to a
 		 * {@link Kind} and then calling its {@link #isDefinedIn} method. Only
 		 * entirely upper or entirely lower case {@link String}s are valid
@@ -343,7 +422,7 @@ public class Unit extends AbstractSBase {
 				return "W";
 			case WEBER:
 				return "Wb";
-			default: // DIMENSIONLESS, ITEM, INVALID:
+			default: // AVOGADRO, DIMENSIONLESS, ITEM, INVALID:
 				return toString().toLowerCase();
 			}
 		}
@@ -357,24 +436,14 @@ public class Unit extends AbstractSBase {
 		 * @return
 		 */
 		public boolean isDefinedIn(int level, int version) {
-			return (((level == 1 && (version == 1 || version == 2))
-					|| (level == 2 && (1 <= version && version <= 4)) || level == 3
-					&& version == 1) && ((this == AMPERE || this == BECQUEREL
-					|| this == CANDELA || this == COULOMB
-					|| this == DIMENSIONLESS || this == FARAD || this == GRAM
-					|| this == GRAY || this == HENRY || this == HERTZ
-					|| this == ITEM || this == JOULE || this == KATAL
-					|| this == KELVIN || this == KILOGRAM || this == LITRE
-					|| this == LUMEN || this == LUX || this == METRE
-					|| this == MOLE || this == NEWTON || this == OHM
-					|| this == PASCAL || this == RADIAN || this == SECOND
-					|| this == SIEMENS || this == SIEVERT || this == STERADIAN
-					|| this == TESLA || this == VOLT || this == WATT || this == WEBER)
-					|| (level == 1 && (version == 1 || version == 2)
-							&& this == CELSIUS || this == LITER || this == METER) || (level == 2
-					&& version == 1 && this == CELSIUS)));
+			return getUnitKindsDefinedIn(level, version).contains(this);
 		}
 	}
+
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -6335465287728562136L;
 
 	/**
 	 * Checks whether the given {@link Unit} and the {@link Unit} represented by
@@ -855,11 +924,11 @@ public class Unit extends AbstractSBase {
 	 * Represents the 'exponent' XML attribute of an unit element.
 	 */
 	private Double exponent;
+
 	/**
 	 * 
 	 */
 	private boolean isSetExponent;
-
 	/**
 	 * 
 	 */
@@ -869,20 +938,20 @@ public class Unit extends AbstractSBase {
 	 * 
 	 */
 	private boolean isSetOffset;
+
 	/**
 	 * 
 	 */
 	private boolean isSetScale;
-
 	/**
 	 * Represents the 'kind' XML attribute of an unit element.
 	 */
 	private Kind kind;
+
 	/**
 	 * Represents the 'multiplier' XML attribute of an unit element.
 	 */
 	private Double multiplier;
-
 	/**
 	 * Represents the 'offset' XML attribute of an unit element.
 	 */
@@ -1064,6 +1133,18 @@ public class Unit extends AbstractSBase {
 	 */
 	public double getExponent() {
 		return isSetExponent() ? exponent : 1d;
+	}
+
+	/**
+	 * Returns the exponent of this {@link Unit}. This method is provided for
+	 * compatibility to libSBML only.
+	 * 
+	 * @return
+	 * @deprecated use {@link #getExponent()}
+	 */
+	@Deprecated
+	public double getExponentAsDouble() {
+		return getExponent();
 	}
 
 	/**
@@ -1264,6 +1345,15 @@ public class Unit extends AbstractSBase {
 	 */
 	public boolean isAmpere() {
 		return kind == Kind.AMPERE;
+	}
+
+	/**
+	 * Predicate for testing whether this Unit is of the kind avogadro.
+	 * 
+	 * @return true if the kind of this Unit is avogadro, false otherwise.
+	 */
+	public boolean isAvogadro() {
+		return kind == Kind.AVOGADRO;
 	}
 
 	/**

@@ -55,7 +55,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * command and a new line.
 	 */
 	public static final String bottomrule = "\\bottomrule\\end{longtable}"
-			+ newLine;
+			+ newLine();
 
 	/**
 	 * The constant pi
@@ -67,12 +67,12 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * LaTeX.
 	 */
 	public static final String descriptionBegin = "\\begin{description}"
-			+ newLine;
+			+ newLine();
 
 	/**
 	 * Surrounded by new line symbols. The end of a description environment.
 	 */
-	public static final String descriptionEnd = "\\end{description}" + newLine;
+	public static final String descriptionEnd = "\\end{description}" + newLine();
 
 	/**
 	 * Surrounded by new line symbols. Begin equation. This type of equation
@@ -80,12 +80,12 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * automatic line breaks (LaTeX will compute the optimal place for line
 	 * breaks). Unfortunately, this does not work for very long denominators.
 	 */
-	public static final String eqBegin = newLine + "\\begin{dmath}" + newLine; // equation
+	public static final String eqBegin = newLine() + "\\begin{dmath}" + newLine(); // equation
 
 	/**
 	 * End equation; cf. eqBegin. Surrounded by new line symbols.
 	 */
-	public static final String eqEnd = newLine + "\\end{dmath}" + newLine; // equation
+	public static final String eqEnd = newLine() + "\\end{dmath}" + newLine(); // equation
 
 	/**
 	 * Left parenthesis.
@@ -101,13 +101,13 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * This is a LaTeX line break. The line break symbol double backslash
 	 * followed by a new line symbol of the operating system.
 	 */
-	public static final String lineBreak = "\\\\" + newLine;
+	public static final String lineBreak = "\\\\" + newLine();
 
 	/**
 	 * Produces a fancy line in tables. Requires LaTeX package booktabs. Starts
 	 * and ends with a new line.
 	 */
-	public static final String midrule = newLine + "\\midrule" + newLine;
+	public static final String midrule = newLine() + "\\midrule" + newLine();
 
 	/**
 	 * 
@@ -138,7 +138,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * Needed for the beginning of a table. Requires LaTeX package booktabs.
 	 * Surounded by new line symbols.
 	 */
-	public static final String toprule = newLine + "\\toprule" + newLine;
+	public static final String toprule = newLine() + "\\toprule" + newLine();
 
 	/**
 	 * 
@@ -236,7 +236,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 */
 	private static StringBuffer heading(String kind, String title,
 			boolean numbering) {
-		StringBuffer heading = new StringBuffer(newLine);
+		StringBuffer heading = new StringBuffer(newLine());
 		heading.append("\\");
 		heading.append(kind);
 		if (!numbering)
@@ -244,7 +244,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		heading.append('{');
 		heading.append(title);
 		heading.append('}');
-		heading.append(newLine);
+		heading.append(newLine());
 		return heading;
 	}
 
@@ -718,7 +718,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		itemBuffer.append(item);
 		itemBuffer.append("] ");
 		itemBuffer.append(description);
-		itemBuffer.append(newLine);
+		itemBuffer.append(newLine());
 		return itemBuffer;
 	}
 
@@ -1156,7 +1156,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		StringBuffer buffer = new StringBuffer("\\begin{longtable}[h!]{");
 		buffer.append(columnDef);
 		buffer.append('}');
-		buffer.append(newLine);
+		buffer.append(newLine());
 		buffer.append("\\caption{");
 		buffer.append(caption);
 		buffer.append('}');
@@ -1167,12 +1167,12 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		head.append(midrule);
 		buffer.append(head);
 		buffer.append("\\endfirsthead");
-		// buffer.append(newLine);
+		// buffer.append(newLine());
 		buffer.append(head);
 		buffer.append("\\endhead");
 		// buffer.append(bottomrule);
 		// buffer.append("\\endlastfoot");
-		buffer.append(newLine);
+		buffer.append(newLine());
 		return buffer;
 	}
 
@@ -1320,7 +1320,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue piecewise(List<ASTNode> nodes) throws SBMLException {
 		StringBuilder v = new StringBuilder("\\begin{dcases}");
-		v.append(newLine);
+		v.append(newLine());
 		for (int i = 0; i < nodes.size() - 1; i++) {
 			v.append(nodes.get(i).compile(this));
 			v.append(((i % 2) == 0) ? " & \\text{if\\ } " : lineBreak);
@@ -1328,7 +1328,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		v.append(nodes.get(nodes.size() - 1).compile(this));
 		if ((nodes.size() % 2) == 1) {
 			v.append(" & \\text{otherwise}");
-			v.append(newLine);
+			v.append(newLine());
 		}
 		v.append("\\end{dcases}");
 		return new ASTNodeValue(v.toString(), this);
@@ -1667,7 +1667,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		usepackage.append('{');
 		usepackage.append(latexPackage);
 		usepackage.append('}');
-		usepackage.append(newLine);
+		usepackage.append(newLine());
 		return usepackage;
 	}
 

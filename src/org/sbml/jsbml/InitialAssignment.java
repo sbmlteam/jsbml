@@ -86,6 +86,21 @@ public class InitialAssignment extends MathContainer {
 	}
 
 	/**
+	 * Creates an InitialAssignment instance from a {@link Variable}. Takes
+	 * level and version from the given variable.
+	 * 
+	 * @param variable
+	 */
+	public InitialAssignment(Variable variable) {
+		super(variable.getLevel(), variable.getVersion());
+		if (variable.isSetId()) {
+			this.variableID = new String(variable.getId());
+		} else {
+			this.variableID = null;
+		}
+	}
+
+	/**
 	 * Creates an InitialAssignment from a {@link Variable}, {@link ASTNode},
 	 * level and version.
 	 * 
@@ -97,21 +112,6 @@ public class InitialAssignment extends MathContainer {
 	public InitialAssignment(Variable variable, ASTNode math, int level,
 			int version) {
 		super(math, level, version);
-		if (variable.isSetId()) {
-			this.variableID = new String(variable.getId());
-		} else {
-			this.variableID = null;
-		}
-	}
-
-	/**
-	 * Creates an InitialAssignment instance from a {@link Variable}. Takes
-	 * level and version from the given variable.
-	 * 
-	 * @param variable
-	 */
-	public InitialAssignment(Variable variable) {
-		super(variable.getLevel(), variable.getVersion());
 		if (variable.isSetId()) {
 			this.variableID = new String(variable.getId());
 		} else {
@@ -175,12 +175,11 @@ public class InitialAssignment extends MathContainer {
 	}
 
 	/**
-	 * @return the variable instance which has the variableID of this
-	 *         InitialAssignment as id. Return null if it doesn't exist.
+	 * @return the variableID of this InitialAssignment. Return an empty String
+	 *         if it is not set.
 	 */
-	public Variable getVariableInstance() {
-		Model m = getModel();
-		return m != null ? m.findVariable(this.variableID) : null;
+	public String getSymbol() {
+		return getVariable();
 	}
 
 	/**
@@ -192,26 +191,28 @@ public class InitialAssignment extends MathContainer {
 	}
 
 	/**
-	 * @return the variableID of this InitialAssignment. Return an empty String
-	 *         if it is not set.
+	 * @return the variable instance which has the variableID of this
+	 *         InitialAssignment as id. Return null if it doesn't exist.
 	 */
-	public String getSymbol() {
-		return getVariable();
+	public Variable getVariableInstance() {
+		Model m = getModel();
+		return m != null ? m.findVariable(this.variableID) : null;
 	}
-	/**
-	 * 
-	 * @return true if the variableID of this InitialAssignment is not null.
-	 */
-	public boolean isSetVariable() {
-		return variableID != null;
-	}
-	
+
 	/**
 	 * 
 	 * @return true if the variableID of this InitialAssignment is not null.
 	 */
 	public boolean isSetSymbol() {
 		return isSetVariable();
+	}
+
+	/**
+	 * 
+	 * @return true if the variableID of this InitialAssignment is not null.
+	 */
+	public boolean isSetVariable() {
+		return variableID != null;
 	}
 
 	/**
@@ -243,6 +244,20 @@ public class InitialAssignment extends MathContainer {
 			}
 		}
 		return isAttributeRead;
+	}
+
+	/**
+	 * This method is provided for compatibility with libSBML and also to
+	 * reflect what is written in the SBML specifications until L3V1, but for
+	 * consistency, JSBML uses the term {@link Variable} to refer to elements
+	 * that satisfy the properties of this interface.
+	 * 
+	 * @param symbol
+	 * @deprecated use {@link #setVariable(String)}.
+	 */
+	@Deprecated
+	public void setSymbol(String symbol) {
+		setVariable(symbol);
 	}
 
 	/**
