@@ -29,7 +29,6 @@
  */
 package org.sbml.jsbml;
 
-
 /**
  * Represents the trigger XML element of a SBML file.
  * 
@@ -40,6 +39,16 @@ package org.sbml.jsbml;
  * @opt visibility
  */
 public class Trigger extends MathContainer {
+
+	/**
+	 * 
+	 */
+	private Boolean persistent;
+
+	/**
+	 * 
+	 */
+	private Boolean initialValue;
 
 	/**
 	 * Generated serial version identifier.
@@ -80,5 +89,76 @@ public class Trigger extends MathContainer {
 	@Override
 	public Trigger clone() {
 		return new Trigger(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.MathContainer#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (super.equals(o) && (o instanceof Trigger)) {
+			Trigger t = (Trigger) o;
+			if (!(t.isSetInitialValue() == isSetInitialValue())
+					&& (t.isSetPersistent() == isSetPersistent())) {
+				return false;
+			}
+			boolean equal = true;
+			if (t.isSetInitialValue() && isSetInitialValue()) {
+				equal &= getInitialValue() == t.getInitialValue();
+			}
+			if (t.isSetPersistent() && isSetPersistent()) {
+				equal &= getPersistent() == t.getPersistent();
+			}
+			return equal;
+		}
+		return false;
+	}
+
+	/**
+	 * @return the initialValue
+	 */
+	public boolean getInitialValue() {
+		return isSetInitialValue() ? initialValue.booleanValue() : false;
+	}
+
+	/**
+	 * @return the persistent
+	 */
+	public boolean getPersistent() {
+		return isSetPersistent() ? persistent.booleanValue() : false;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetInitialValue() {
+		return initialValue != null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetPersistent() {
+		return persistent != null;
+	}
+
+	/**
+	 * @param initialValue
+	 *            the initialValue to set
+	 */
+	public void setInitialValue(boolean initialValue) {
+		this.initialValue = Boolean.valueOf(initialValue);
+	}
+
+	/**
+	 * @param persistent
+	 *            the persistent to set
+	 */
+	public void setPersistent(boolean persistent) {
+		this.persistent = Boolean.valueOf(persistent);
 	}
 }

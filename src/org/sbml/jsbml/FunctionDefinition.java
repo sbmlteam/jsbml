@@ -175,6 +175,55 @@ public class FunctionDefinition extends MathContainer implements
 		return false;
 	}
 
+	/**
+	 * Get the nth argument to this function.
+	 * 
+	 * Callers should first find out the number of arguments to the function by
+	 * calling {@link #getNumArguments()}.
+	 * 
+	 * @param n
+	 *            an integer index for the argument sought.
+	 * @return the nth argument (bound variable) passed to this
+	 *         {@link FunctionDefinition}.
+	 */
+	public ASTNode getArgument(int n) {
+		if (getNumArguments() < n) {
+			throw new IndexOutOfBoundsException(String.format(
+					"No such argument with index %d.", n));
+		}
+		return getMath().getChild(n);
+	}
+
+	/**
+	 * Get the argument named name to this {@link FunctionDefinition}.
+	 * 
+	 * @param name
+	 *            the exact name (case-sensitive) of the sought-after argument
+	 * @return the argument (bound variable) having the given name, or null if
+	 *         no such argument exists.
+	 */
+	public ASTNode getArgument(String name) {
+		ASTNode arg = null;
+		for (int i=0; i<getNumArguments(); i++) {
+			arg = getArgument(i);
+			if (arg.getName().equals(name)) {
+				return arg;
+			}
+		}
+		return arg;
+	}
+
+	/**
+	 * Get the mathematical expression that is the body of this
+	 * {@link FunctionDefinition} object.
+	 * 
+	 * @return the body of this {@link FunctionDefinition} as an Abstract Syntax
+	 *         Tree, or null if no body is defined.
+	 */
+	public ASTNode getBody() {
+		return isSetMath() ? getMath().getRightChild() : null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -191,6 +240,18 @@ public class FunctionDefinition extends MathContainer implements
 	 */
 	public String getName() {
 		return isSetName() ? name : "";
+	}
+
+	/**
+	 * Get the number of arguments (bound variables) taken by this
+	 * {@link FunctionDefinition}.
+	 * 
+	 * @return the number of arguments (bound variables) that must be passed to
+	 *         this {@link FunctionDefinition}.
+	 */
+	public int getNumArguments() {
+		return isSetMath() && (getMath().getNumChildren() > 1) ? getMath()
+				.getNumChildren() - 1 : 0;
 	}
 
 	/*

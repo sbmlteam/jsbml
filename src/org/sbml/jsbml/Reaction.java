@@ -71,6 +71,10 @@ public class Reaction extends AbstractNamedSBase implements
 	private boolean isSetFast = false;
 
 	/**
+	 * 
+	 */
+	private boolean isSetReversible = false;
+	/**
 	 * Represents the 'kineticLaw' XML subNode of a reaction element.
 	 */
 	private KineticLaw kineticLaw;
@@ -90,10 +94,6 @@ public class Reaction extends AbstractNamedSBase implements
 	 * Represents the 'reversible' XML attribute of a reaction element.
 	 */
 	private Boolean reversible;
-	/**
-	 * 
-	 */
-	private boolean isSetReversible = false;
 
 	/**
 	 * Creates a Reaction instance. By default, the compartmentID, kineticLaw,
@@ -224,6 +224,20 @@ public class Reaction extends AbstractNamedSBase implements
 	}
 
 	/**
+	 * Creates a new {@link KineticLaw} object, installs it as this
+	 * {@link Reaction}'s 'kineticLaw' sub-element, and returns it.
+	 * 
+	 * If this {@link Reaction} had a previous KineticLaw, it will be destroyed.
+	 * 
+	 * @return the new {@link KineticLaw} object
+	 */
+	public KineticLaw createKineticLaw() {
+		KineticLaw kl = new KineticLaw(this);
+		setKineticLaw(kl);
+		return kl;
+	}
+
+	/**
 	 * Creates a new <code>ModifierSpeciesReference</code>, adds it to this
 	 * Reaction's list of modifiers and returns it.
 	 * 
@@ -326,6 +340,78 @@ public class Reaction extends AbstractNamedSBase implements
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
+	 */
+	@Override
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	@Override
+	public SBase getChildAt(int index) {
+		int children = getChildCount();
+		if (index >= children) {
+			throw new IndexOutOfBoundsException(index + " >= " + children);
+		}
+		int pos = 0;
+		if (isSetListOfReactants()) {
+			if (pos == index) {
+				return getListOfReactants();
+			}
+			pos++;
+		}
+		if (isSetListOfProducts()) {
+			if (pos == index) {
+				return getListOfProducts();
+			}
+			pos++;
+		}
+		if (isSetListOfModifiers()) {
+			if (pos == index) {
+				return getListOfModifiers();
+			}
+			pos++;
+		}
+		if (isSetKineticLaw()) {
+			if (pos == index) {
+				return getKineticLaw();
+			}
+			pos++;
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int children = 0;
+		if (isSetListOfReactants()) {
+			children++;
+		}
+		if (isSetListOfProducts()) {
+			children++;
+		}
+		if (isSetListOfModifiers()) {
+			children++;
+		}
+		if (isSetKineticLaw()) {
+			children++;
+		}
+		return children;
+	}
+
 	/**
 	 * 
 	 * @return the compartmentID of this Reaction. The empty String if it is not
@@ -372,7 +458,8 @@ public class Reaction extends AbstractNamedSBase implements
 	 * 
 	 * @return the fast Boolean of this Reaction.
 	 */
-	// Not using the isSetFast here to allow the value set in initDefaults() to be returned.
+	// Not using the isSetFast here to allow the value set in initDefaults() to
+	// be returned.
 	public boolean getFast() {
 		return fast != null ? fast : false;
 	}
@@ -516,7 +603,8 @@ public class Reaction extends AbstractNamedSBase implements
 	 * 
 	 * @return the reversible Boolean of this reaction.
 	 */
-	// Not using the isSetReversible here to allow the value set in initDefaults() to be returned.
+	// Not using the isSetReversible here to allow the value set in
+	// initDefaults() to be returned.
 	public boolean getReversible() {
 		return reversible != null ? reversible : true;
 	}
@@ -682,7 +770,8 @@ public class Reaction extends AbstractNamedSBase implements
 
 	/**
 	 * 
-	 * @return true if the listOfModifiers of this Reaction is not null and not empty.
+	 * @return true if the listOfModifiers of this Reaction is not null and not
+	 *         empty.
 	 */
 	public boolean isSetListOfModifiers() {
 		return (listOfModifiers != null) && (listOfModifiers.size() > 0);
@@ -690,7 +779,8 @@ public class Reaction extends AbstractNamedSBase implements
 
 	/**
 	 * 
-	 * @return true if the listOfProducts of this reaction is not null and not empty.
+	 * @return true if the listOfProducts of this reaction is not null and not
+	 *         empty.
 	 */
 	public boolean isSetListOfProducts() {
 		return (listOfProducts != null) && (listOfProducts.size() > 0);
@@ -698,7 +788,8 @@ public class Reaction extends AbstractNamedSBase implements
 
 	/**
 	 * 
-	 * @return true if the listOfReactants of this Reaction is not null and not empty.
+	 * @return true if the listOfReactants of this Reaction is not null and not
+	 *         empty.
 	 */
 	public boolean isSetListOfReactants() {
 		return (listOfReactants != null) && (listOfReactants.size() > 0);
@@ -1025,77 +1116,5 @@ public class Reaction extends AbstractNamedSBase implements
 		}
 
 		return attributes;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
-	public SBase getChildAt(int index) {
-		int children = getChildCount();
-		if (index >= children) {
-			throw new IndexOutOfBoundsException(index + " >= " + children);
-		}
-		int pos = 0;
-		if (isSetListOfReactants()) {
-			if (pos == index) {
-				return getListOfReactants();
-			}
-			pos++;
-		}
-		if (isSetListOfProducts()) {
-			if (pos == index) {
-				return getListOfProducts();
-			}
-			pos++;
-		}
-		if (isSetListOfModifiers()) {
-			if (pos == index) {
-				return getListOfModifiers();
-			}
-			pos++;
-		}
-		if (isSetKineticLaw()) {
-			if (pos == index) {
-				return getKineticLaw();
-			}
-			pos++;
-		}
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
-	 */
-	@Override
-	public boolean getAllowsChildren() {
-		return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		int children = 0;
-		if (isSetListOfReactants()) {
-			children++;
-		}
-		if (isSetListOfProducts()) {
-			children++;
-		}
-		if (isSetListOfModifiers()) {
-			children++;
-		}
-		if (isSetKineticLaw()) {
-			children++;
-		}
-		return children;
 	}
 }

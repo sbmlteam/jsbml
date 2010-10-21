@@ -30,6 +30,8 @@
 package org.sbml.jsbml.util;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.Locale;
 import java.util.Properties;
 
 import org.sbml.jsbml.resources.Resource;
@@ -50,7 +52,18 @@ public class StringTools {
 	/**
 	 * New line separator of this operating system
 	 */
-	public static final String newLine = System.getProperty("line.separator");
+	private static final String newLine = System.getProperty("line.separator");
+
+	/**
+	 * 
+	 */
+	public static final DecimalFormat SCIENTIFIC_FORMAT = new DecimalFormat(
+			"########0.#########E0");
+	/**
+	 * 
+	 */
+	public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat(
+			"#############0.##############");
 
 	/**
 	 * Takes the given StringBuffer as input and appends every further Object to
@@ -87,8 +100,9 @@ public class StringTools {
 	 */
 	public static final StringBuffer concat(Object... buffers) {
 		StringBuffer res = new StringBuffer();
-		for (Object buffer : buffers)
+		for (Object buffer : buffers) {
 			res.append(buffer.toString());
+		}
 		return res;
 	}
 
@@ -151,9 +165,9 @@ public class StringTools {
 	}
 
 	/**
-	 * Returns the number as a word. Zero is converted to "no". Only positive
-	 * numbers from 1 to twelve can be converted. All other numbers are just
-	 * converted to a String containing the number.
+	 * Returns the number as an English word. Zero is converted to "no". Only
+	 * positive numbers from 1 to twelve can be converted. All other numbers are
+	 * just converted to a String containing the number.
 	 * 
 	 * @param number
 	 * @return
@@ -198,88 +212,110 @@ public class StringTools {
 	 * @return
 	 */
 	public static final String newLine() {
-		return System.getProperty("line.separator");
+		return newLine;
 	}
 
 	/**
-	 * Returns a String from the given value that does not contain a point zero
-	 * at the end.
+	 * Returns a {@link String} from the given value that does not contain a
+	 * point zero at the end if the given value represents an integer number.
+	 * The returned {@link String} displays the number in a {@link Locale}-dependent
+	 * way, i.e., the decimal separator and the symbols to represent the digits
+	 * are chosen from the system's configuration. Furthermore, a scientific
+	 * style including 'E' will be used if the value is smaller than 1E-5 or
+	 * greater than 1E5.
 	 * 
 	 * @param value
 	 * @return
 	 */
 	public static final String toString(double value) {
 		if (((int) value) - value == 0) {
-			return Integer.toString((int) value);
+			return String.format("%d", Integer.valueOf((int) value));
 		}
-		//return String.format("%.3f", Double.valueOf(value)); // Only 3 number is really too, too low
-		return Double.toString(value);
+		if ((value < 1E-5) || (1E5 < value)) {
+			return SCIENTIFIC_FORMAT.format(value);
+		}
+		return DECIMAL_FORMAT.format(value);
 	}
-	
+
 	/**
-	 * Parses a String into a double number following the rules of the SBML specifications, section 3.1.5.
+	 * Parses a String into a double number following the rules of the SBML
+	 * specifications, section 3.1.5.
 	 * 
-	 * @param valueAsStr a double as a String
-	 * @return the String as a double. If the String is not a valid double number, {@link Double.NaN} is returned.
+	 * @param valueAsStr
+	 *            a double as a String
+	 * @return the String as a double. If the String is not a valid double
+	 *         number, {@link Double.NaN} is returned.
 	 */
-	// TODO : we need to take care of these INFINITY numbers when we write back the SBML file !!
+	// TODO : we need to take care of these INFINITY numbers when we write back
+	// the SBML file !!
 	public static double parseSBMLDouble(String valueAsStr) {
-		
+
 		double value = Double.NaN;
-		
+		String toTest = valueAsStr.trim();
+
 		try {
-			value = Double.parseDouble(valueAsStr);
+			value = Double.parseDouble(toTest);
 		} catch (NumberFormatException e) {
-			if (valueAsStr.trim(). equals("INF")) {
+			if (toTest.equalsIgnoreCase("INF")) {
 				value = Double.POSITIVE_INFINITY;
-			} else if (valueAsStr.trim(). equals("-INF")) {
+			} else if (toTest.equalsIgnoreCase("-INF")) {
 				value = Double.NEGATIVE_INFINITY;
 			} else {
 				// TODO : log an error !!
 			}
 		}
-		
+
 		return value;
 	}
 
 	/**
-	 * Parses a String into an int number following the rules of the SBML specifications, section 3.1.3.
+	 * Parses a String into an int number following the rules of the SBML
+	 * specifications, section 3.1.3.
 	 * 
-	 * @param valueAsStr an int as a String
-	 * @return the String as an int. If the String is not a valid int number, 0 is returned.
+	 * @param valueAsStr
+	 *            an int as a String
+	 * @return the String as an int. If the String is not a valid int number, 0
+	 *         is returned.
 	 */
 	public static int parseSBMLInt(String valueAsStr) {
-		
+
 		int value = 0;
-		
+
 		try {
-			value = Integer.parseInt(valueAsStr);
+			value = Integer.parseInt(valueAsStr.trim());
 		} catch (NumberFormatException e) {
 			// TODO : log an error !!
 		}
-		
+
 		return value;
 	}
 
 	/**
-	 * Parses a String into a boolean following the rules of the SBML specifications, section 3.1.2.
+	 * Parses a String into a boolean following the rules of the SBML
+	 * specifications, section 3.1.2.
 	 * 
-	 * @param valueAsStr a boolean as a String
-	 * @return the String as a boolean. If the String is not a valid boolean, false is returned.
+	 * @param valueAsStr
+	 *            a boolean as a String
+	 * @return the String as a boolean. If the String is not a valid boolean,
+	 *         false is returned.
 	 */
 	public static boolean parseSBMLBoolean(String valueAsStr) {
-		
+
+		String toTest = valueAsStr.trim();
+
 		// Test for true/false ignoring case.
-		boolean value = Boolean.parseBoolean(valueAsStr);
-		
-		if (valueAsStr.equals("0")) {
-			value = false; // this test would not be needed as the value is already false but it is there for completion.
-		} else if (valueAsStr.equals("1")) {
+		boolean value = Boolean.parseBoolean(toTest);
+
+		if (toTest.equals("0")) {
+			value = false; // this test would not be needed as the value is
+			// already false but it is there for completion.
+		} else if (toTest.equals("1")) {
 			value = true;
-		} else if ( ! (valueAsStr.equals("true") || valueAsStr.equals("false"))) {
+		} else if (!(toTest.equalsIgnoreCase("true") || toTest
+				.equalsIgnoreCase("false"))) {
 			// TODO : log an error !!
 		}
-				
+
 		return value;
 	}
 

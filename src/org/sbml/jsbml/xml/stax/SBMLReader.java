@@ -316,20 +316,6 @@ public class SBMLReader {
 	}
 
 	/**
-	 * Reads SBML from a given {@link File}.
-	 * 
-	 * @param file
-	 *            The path to an SBML {@link File}.
-	 * @return the matching SBMLDocument instance.
-	 * @throws XMLStreamException
-	 * @throws FileNotFoundException
-	 */
-	public static SBMLDocument readSBML(String file) throws XMLStreamException,
-			FileNotFoundException {
-		return readSBMLFile(file);
-	}
-
-	/**
 	 * Reads a SBML String from the given file
 	 * 
 	 * @param file
@@ -341,6 +327,20 @@ public class SBMLReader {
 	public static SBMLDocument readSBML(File file) throws XMLStreamException,
 			FileNotFoundException {
 		return readSBMLFromStream(new FileInputStream(file));
+	}
+
+	/**
+	 * Reads SBML from a given {@link File}.
+	 * 
+	 * @param file
+	 *            The path to an SBML {@link File}.
+	 * @return the matching SBMLDocument instance.
+	 * @throws XMLStreamException
+	 * @throws FileNotFoundException
+	 */
+	public static SBMLDocument readSBML(String file) throws XMLStreamException,
+			FileNotFoundException {
+		return readSBMLFile(file);
 	}
 
 	/**

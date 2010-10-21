@@ -307,7 +307,7 @@ public class Annotation implements Serializable {
 
 			if (metaid != null) {
 				StringTools.append(buffer, indent, "<rdf:RDF ",
-						StringTools.newLine);
+						StringTools.newLine());
 				/*
 				 * buffer.append(indent).append("         xmlns:rdf=").append('"'
 				 * )
@@ -337,7 +337,7 @@ public class Annotation implements Serializable {
 				 */
 				StringTools.append(buffer, indent,
 						"  <rdf:Description rdf:about=\"#", metaid, "\">",
-						StringTools.newLine);
+						StringTools.newLine());
 			}
 		}
 
@@ -380,16 +380,16 @@ public class Annotation implements Serializable {
 
 				if (prefix != null && stringQualifier != null) {
 					StringTools.append(buffer, indent, "<", prefix, ":",
-							stringQualifier, ">", StringTools.newLine);
+							stringQualifier, ">", StringTools.newLine());
 					StringTools.append(buffer, indent, "  <rdf:Bag>",
-							StringTools.newLine);
+							StringTools.newLine());
 
 					cvTerm.toXML(indent + "    ", buffer);
 
 					StringTools.append(buffer, indent, "  </rdf:Bag>",
-							StringTools.newLine);
+							StringTools.newLine());
 					StringTools.append(buffer, indent, "</", prefix, ":",
-							stringQualifier, ">", StringTools.newLine);
+							stringQualifier, ">", StringTools.newLine());
 				}
 			}
 		}
@@ -410,9 +410,9 @@ public class Annotation implements Serializable {
 
 			if (metaid != null) {
 				StringTools.append(buffer, indent, "  </rdf:Description>",
-						StringTools.newLine);
+						StringTools.newLine());
 				StringTools.append(buffer, indent, "</rdf:RDF>",
-						StringTools.newLine);
+						StringTools.newLine());
 			}
 		}
 	}
@@ -648,9 +648,9 @@ public class Annotation implements Serializable {
 	 * @param buffer
 	 */
 	protected void otherAnnotationToXML(String indent, StringBuffer buffer) {
-		String[] lines = getNoRDFAnnotation().split(StringTools.newLine);
+		String[] lines = getNoRDFAnnotation().split(StringTools.newLine());
 		for (int i = 0; i < lines.length; i++) {
-			StringTools.append(buffer, indent, lines[i], StringTools.newLine);
+			StringTools.append(buffer, indent, lines[i], StringTools.newLine());
 		}
 	}
 
@@ -754,7 +754,7 @@ public class Annotation implements Serializable {
 		StringBuffer buffer = new StringBuffer();
 		if (isSetAnnotation()) {
 			StringTools.append(buffer, indent, "<otherAnnotation",
-					attributesToXML(), ">", StringTools.newLine);
+					attributesToXML(), ">", StringTools.newLine());
 			if (getListOfCVTerms() != null) {
 				RDFAnnotationToXML(indent + "  ", buffer, parentElement);
 			}
@@ -762,7 +762,7 @@ public class Annotation implements Serializable {
 				otherAnnotationToXML(indent + "  ", buffer);
 			}
 			StringTools.append(buffer, indent, "</otherAnnotation>",
-					StringTools.newLine);
+					StringTools.newLine());
 		}
 		return buffer.toString();
 	}
