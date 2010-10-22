@@ -3,7 +3,7 @@
 <properties>
   <comment>
     Mapping between SBML core element names and their representation
-    as JSBML classes
+    as JSBML classes.
   </comment>
   <entry key="algebraicRule">org.sbml.jsbml.AlgebraicRule</entry>
   <entry key="annotation">org.sbml.jsbml.Annotation</entry>
@@ -43,6 +43,7 @@
   <entry key="notes">java.lang.StringBuffer</entry>
   <entry key="parameter">org.sbml.jsbml.Parameter</entry>
   <entry key="parameterRule">org.sbml.jsbml.AssignmentRule</entry>
+  <entry key="priority">org.sbml.jsbml.Priority</entry>
   <entry key="rateRule">org.sbml.jsbml.RateRule</entry>
   <entry key="reaction">org.sbml.jsbml.Reaction</entry>
   <entry key="specie">org.sbml.jsbml.Species</entry>
