@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import org.sbml.jsbml.resources.Resource;
 
@@ -218,11 +219,11 @@ public class StringTools {
 	/**
 	 * Returns a {@link String} from the given value that does not contain a
 	 * point zero at the end if the given value represents an integer number.
-	 * The returned {@link String} displays the number in a {@link Locale}-dependent
-	 * way, i.e., the decimal separator and the symbols to represent the digits
-	 * are chosen from the system's configuration. Furthermore, a scientific
-	 * style including 'E' will be used if the value is smaller than 1E-5 or
-	 * greater than 1E5.
+	 * The returned {@link String} displays the number in a {@link Locale}
+	 * -dependent way, i.e., the decimal separator and the symbols to represent
+	 * the digits are chosen from the system's configuration. Furthermore, a
+	 * scientific style including 'E' will be used if the value is smaller than
+	 * 1E-5 or greater than 1E5.
 	 * 
 	 * @param value
 	 * @return
@@ -317,6 +318,47 @@ public class StringTools {
 		}
 
 		return value;
+	}
+
+	/**
+	 * Returns a HTML formated String, in which each line is at most lineBreak
+	 * symbols long.
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public static String toHTML(String string) {
+		return toHTML(string, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns a HTML formated String, in which each line is at most lineBreak
+	 * symbols long.
+	 * 
+	 * @param string
+	 * @param lineBreak
+	 * @return
+	 */
+	public static String toHTML(String string, int lineBreak) {
+		StringTokenizer st = new StringTokenizer(string != null ? string : "",
+				" ");
+		StringBuilder sb = new StringBuilder();
+		if (st.hasMoreElements())
+			sb.append(st.nextElement().toString());
+		int length = sb.length();
+		sb.insert(0, "<html><body>");
+		while (st.hasMoreElements()) {
+			if (length >= lineBreak && lineBreak < Integer.MAX_VALUE) {
+				sb.append("<br/>");
+				length = 0;
+			} else
+				sb.append(' ');
+			String tmp = st.nextElement().toString();
+			length += tmp.length() + 1;
+			sb.append(tmp);
+		}
+		sb.append("</body></html>");
+		return sb.toString();
 	}
 
 }
