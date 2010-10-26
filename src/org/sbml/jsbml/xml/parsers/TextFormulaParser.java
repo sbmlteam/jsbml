@@ -137,6 +137,8 @@ public class TextFormulaParser {
 		if (strict && (container == null)) {
 			throw new NullPointerException(MathContainer.class.getName());
 		}
+		// TODO: Consider relations such as <, =, >, ...
+		// TODO: true, false
 		Stack<ASTNode> stack = new Stack<ASTNode>();
 		char c;
 		StringBuilder name = new StringBuilder();
