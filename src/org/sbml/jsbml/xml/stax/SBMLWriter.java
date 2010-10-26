@@ -44,10 +44,11 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -67,13 +68,13 @@ import org.sbml.jsbml.History;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
@@ -177,6 +178,10 @@ public class SBMLWriter {
 				}
 			}
 
+			// Remember already issued warnings to avoid having
+			// multiple lines, saying the same thing
+			List<String> issuedWarnings = new LinkedList<String>();
+			
 			Iterator<String> iterator = packageNamespaces.iterator();
 			while (iterator.hasNext()) {
 				String packageNamespace = iterator.next();
@@ -192,15 +197,18 @@ public class SBMLWriter {
 						// This check allows to write e.g. CellDesigner
 						// Namespaces
 						// manually to an XML file, without implement the whole
-						// parser.
-						// (e.g. http://www.sbml.org/2001/ns/celldesigner)
-						if (SBMLReader.getPackageParsers(packageNamespace) == null) {
-							System.out
-									.println("Warning: Skipping detailed parsing of Namespace '"
-											+ packageNamespace
-											+ "'. No parser available.");
-							continue;
-						}
+					  // parser.
+					  // (e.g. http://www.sbml.org/2001/ns/celldesigner)
+					  if (SBMLReader.getPackageParsers(packageNamespace) == null) {
+					    if (!issuedWarnings.contains(packageNamespace)) {
+					      System.out
+					      .println("Warning: Skipping detailed parsing of Namespace '"
+					          + packageNamespace
+					          + "'. No parser available.");
+					    }
+					    issuedWarnings.add(packageNamespace);
+					    continue;
+					  }
 
 						ReadingParser sbmlParser = SBMLReader
 								.getPackageParsers(packageNamespace)
