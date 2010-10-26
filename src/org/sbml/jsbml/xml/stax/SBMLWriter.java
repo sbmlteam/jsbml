@@ -104,6 +104,13 @@ public class SBMLWriter {
 	 */
 	private static HashMap<String, Class<? extends WritingParser>> packageParsers = new HashMap<String, Class<? extends WritingParser>>();
 
+  /**
+   * Remember already issued warnings to avoid having
+   * multiple lines, saying the same thing
+   * (Warning: Skipping detailed parsing of Namespace 'XYZ'. No parser available.)
+   */
+	private static transient List<String> issuedWarnings = new LinkedList<String>();
+  
 	/**
 	 * This method creates the necessary number of white spaces at the beginning
 	 * of an entry in the SBML file.
@@ -130,7 +137,7 @@ public class SBMLWriter {
 	private static ArrayList<WritingParser> getInitializedParsers(
 			Object object, String namespace) {
 		Set<String> packageNamespaces = null;
-
+    
 		// System.out.println("SBMLWriter : getInitializedParsers : namespace, object = "
 		// + namespace + ", " + object);
 
@@ -177,10 +184,6 @@ public class SBMLWriter {
 									+ e.getMessage());
 				}
 			}
-
-			// Remember already issued warnings to avoid having
-			// multiple lines, saying the same thing
-			List<String> issuedWarnings = new LinkedList<String>();
 			
 			Iterator<String> iterator = packageNamespaces.iterator();
 			while (iterator.hasNext()) {
@@ -205,8 +208,8 @@ public class SBMLWriter {
 					      .println("Warning: Skipping detailed parsing of Namespace '"
 					          + packageNamespace
 					          + "'. No parser available.");
+					      issuedWarnings.add(packageNamespace);
 					    }
-					    issuedWarnings.add(packageNamespace);
 					    continue;
 					  }
 
