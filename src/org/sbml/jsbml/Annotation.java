@@ -262,7 +262,7 @@ public class Annotation implements Serializable {
 	/**
 	 * Appends 'annotation' to the otherAnnotation StringBuilder of this object.
 	 * 
-	 * @param otherAnnotation
+	 * @param annotation
 	 */
 	public void appendNoRDFAnnotation(String annotation) {
 		if (this.otherAnnotation == null) {
@@ -271,6 +271,21 @@ public class Annotation implements Serializable {
 			this.otherAnnotation.append(annotation);
 		}
 	}
+	
+	 /**
+   * Interts 'annotation' to the otherAnnotation StringBuilder
+   * at position 'offset'.
+   * 
+   * @param annotation
+   * @param offset
+   */
+  public void insertNoRDFAnnotation(String annotation, int offset) {
+    if (this.otherAnnotation == null) {
+      this.otherAnnotation = new StringBuilder(annotation);
+    } else {
+      this.otherAnnotation.insert(offset, annotation);
+    }
+  }
 
 	/**
 	 * 
