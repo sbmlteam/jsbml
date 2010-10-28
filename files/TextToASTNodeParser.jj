@@ -1,0 +1,206 @@
+ /**
+ * JavaCC template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
+ */
+options
+{
+  JDK_VERSION = "1.5";
+
+  static = false;
+}
+
+PARSER_BEGIN(TextToASTNodeParser)
+package org.sbml.jsbml.text.parser;
+
+import org.sbml.jsbml.*;
+
+public class TextToASTNodeParser
+{
+  private MathContainer container;
+
+  public static void main(String args []) throws ParseException
+  {
+    try
+    {
+      Model m = new Model("test", 2, 4);
+      m.createFunctionDefinition("f");
+      m.createRateRule();
+      while (true)
+      {
+        TextToASTNodeParser parser = new TextToASTNodeParser(System.in);
+        System.out.println("Reading from standard input...");
+        System.out.print("Enter an expression like \"1+(2+3)*4;\" :");
+        ASTNode node = parser.Parse(m.getRule(0));
+        System.out.println(node.toString());
+      }
+    }
+    catch (ParseException e)
+    {
+      e.printStackTrace();
+    }
+  }
+}
+
+PARSER_END(TextToASTNodeParser)
+
+SKIP :
+{
+  " "
+| "\t"
+}
+
+TOKEN :
+{
+  < NUMBER :
+    ([ "0"-"9" ])+
+    (
+      "." ([ "0"-"9" ])+
+    )? >
+}
+
+TOKEN :
+{
+  < PLUS : "+" >
+}
+
+TOKEN :
+{
+  < MINUS : "-" >
+}
+
+TOKEN :
+{
+  < TIMES : "*" >
+}
+
+TOKEN :
+{
+  < DIVIDE : "/" >
+}
+
+TOKEN :
+{
+  < OPEN_PAR : "(" >
+}
+
+TOKEN :
+{
+  < CLOSE_PAR : ")" >
+}
+
+TOKEN :
+{
+  < EOL :
+    "\n"
+  | "\r" >
+}
+
+ASTNode Parse(MathContainer container) :
+{
+  double value;
+  ASTNode node = null;
+  this.container = container;
+}
+{
+  node = Expression()
+  {
+    return node;
+  }
+}
+
+ASTNode Expression() :
+{
+  ASTNode value = null;
+}
+{
+  value = Expr()
+  (
+    < EOF >
+  | < EOL >
+  )
+  {
+    return value;
+  }
+}
+
+ASTNode Term() :
+{
+  ASTNode i;
+  ASTNode value;
+  ASTNode node = null;
+}
+{
+  value = Primary()
+  (
+    < TIMES > i = Primary()
+    {
+      node = new ASTNode('*', container);
+      node.addChild(value);
+      node.addChild(i);
+      value = node;
+    }
+  | < DIVIDE > i = Primary()
+    {
+      node = new ASTNode('/', container);
+      node.addChild(value);
+      node.addChild(i);
+      value = node;
+    }
+  )*
+  {
+    return value;
+  }
+}
+
+ASTNode Expr() :
+{
+  ASTNode i;
+  ASTNode value;
+  ASTNode node = null;
+}
+{
+  value = Term()
+  (
+    < PLUS > i = Term()
+    {
+      node = new ASTNode('+', container);
+      node.addChild(value);
+      node.addChild(i);
+      value = node;
+    }
+  | < MINUS > i = Term()
+    {
+      node = new ASTNode('-', container);
+      node.addChild(value);
+      node.addChild(i);
+      value = node;
+    }
+  )*
+  {
+    return value;
+  }
+}
+
+ASTNode Primary() :
+{
+  Token t;
+  double d;
+  ASTNode node = new ASTNode(container);
+}
+{
+  t = < NUMBER >
+  {
+    d = Double.parseDouble(t.image);
+    node.setValue(d);
+    return node;
+  }
+| < OPEN_PAR > node = Expr() < CLOSE_PAR >
+  {
+    return node;
+  }
+| < MINUS > node = Primary()
+  {
+    ASTNode uiMinus = new ASTNode('-', container);
+    uiMinus.addChild(node);
+    return uiMinus;
+  }
+}
