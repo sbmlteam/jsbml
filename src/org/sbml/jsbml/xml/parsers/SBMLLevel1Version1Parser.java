@@ -3,7 +3,6 @@ package org.sbml.jsbml.xml.parsers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
 import org.sbml.jsbml.AlgebraicRule;
@@ -57,13 +56,12 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	 */
 	protected HashMap<String, Class<? extends Object>> SBMLCoreElements;
 
-	/**
-	 * @throws ClassNotFoundException 
-	 * @throws IOException 
-	 * @throws InvalidPropertiesFormatException 
-	 * 
-	 */
-	public SBMLLevel1Version1Parser() throws InvalidPropertiesFormatException, IOException, ClassNotFoundException {
+    /**
+     * @throws ClassNotFoundException
+     * @throws IOException
+     */
+	public SBMLLevel1Version1Parser() throws IOException,
+	ClassNotFoundException {
 		SBMLCoreElements = new HashMap<String, Class<? extends Object>>();
 		initializeCoreElements();
 	}
@@ -170,24 +168,21 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 		return parserNamespace;
 	}
 
-	/**
-	 * @throws IOException
-	 * @throws InvalidPropertiesFormatException
-	 * @throws ClassNotFoundException
-	 * 
-	 */
-	private void initializeCoreElements()
-			throws InvalidPropertiesFormatException, IOException,
-			ClassNotFoundException {
-		Properties p = new Properties();
-		p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
-				"org/sbml/jsbml/resources/cfg/SBMLElementsLevel1Version1.xml"));
-		for (Object k : p.keySet()) {
-			String key = k.toString();
-			SBMLCoreElements.put(key, Class.forName(p.getProperty(key)
-					.toString()));
-		}
+    /**
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    private void initializeCoreElements() throws IOException,
+	ClassNotFoundException {
+	Properties p = new Properties();
+	p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
+	    "org/sbml/jsbml/resources/cfg/SBMLElementsLevel1Version1.xml"));
+	for (Object k : p.keySet()) {
+	    String key = k.toString();
+	    SBMLCoreElements.put(key, Class.forName(p.getProperty(key)
+		    .toString()));
 	}
+    }
 
 	/*
 	 * (non-Javadoc)
