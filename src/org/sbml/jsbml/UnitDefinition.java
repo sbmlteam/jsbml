@@ -331,6 +331,15 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * @param ud
+	 * @return
+	 */
+	public static UnitDefinition simplify(UnitDefinition ud) {
+		return ud.clone().simplify();
+	}
+
+	/**
 	 * Predefined unit for substance.
 	 */
 	public static final UnitDefinition substance(int level, int version) {
@@ -905,7 +914,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		this.listOfUnits.setSBaseListType(ListOf.Type.listOfUnits);
 		stateChanged();
 	}
-
+	
 	/**
 	 * Simplifies the UnitDefinition so that any Unit objects occurring within
 	 * the ListOfUnits occurs only once.

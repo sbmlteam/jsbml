@@ -88,8 +88,8 @@ public class Message {
 	 */
 	@Override
 	public String toString() {
-		return "Message [lang=" + lang + ", messageContent=" + message
-				+ "]";
+		return StringTools.concat("Message [lang=", lang, ", messageContent=",
+				message, "]").toString();
 	}
 	
 }

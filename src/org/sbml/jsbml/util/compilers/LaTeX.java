@@ -136,7 +136,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 
 	/**
 	 * Needed for the beginning of a table. Requires LaTeX package booktabs.
-	 * Surounded by new line symbols.
+	 * Surrounded by new line symbols.
 	 */
 	public static final String toprule = newLine() + "\\toprule" + newLine();
 

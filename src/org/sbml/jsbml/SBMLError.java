@@ -32,6 +32,8 @@ package org.sbml.jsbml;
 
 import org.sbml.jsbml.util.Location;
 import org.sbml.jsbml.util.Message;
+import org.sbml.jsbml.util.NotImplementedException;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * Representation of errors, warnings and other diagnostics. <br/>
@@ -56,7 +58,7 @@ public class SBMLError {
 	/**
 	 * 
 	 */
-	private String severity;
+	private String excerpt;
 	/**
 	 * 
 	 */
@@ -68,7 +70,7 @@ public class SBMLError {
 	/**
 	 * 
 	 */
-	private String excerpt;
+	private String severity;
 
 	/**
 	 * 
@@ -143,6 +145,14 @@ public class SBMLError {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public boolean isInfo() {
+		throw new NotImplementedException();
+	}
+
+	/**
+	 * 
 	 * @param category
 	 */
 	public void setCategory(String category) {
@@ -196,9 +206,10 @@ public class SBMLError {
 	 */
 	@Override
 	public String toString() {
-		return "SBMLError [category=" + category + ", code=" + code
-				+ ", excerpt=" + excerpt + ", location=" + location
-				+ ", \nmessage =" + message + ", severity=" + severity + "]";
+		return StringTools.concat("SBMLError [category=", category, ", code=",
+				code, ", excerpt=", excerpt, ", location=", location,
+				", \nmessage =", message, ", severity=", severity, "]")
+				.toString();
 	}
 
 }
