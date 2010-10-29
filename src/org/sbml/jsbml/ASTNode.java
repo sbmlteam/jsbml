@@ -57,7 +57,7 @@ import org.sbml.jsbml.util.filters.Filter;
  * @author rodrigue
  * 
  */
-public class ASTNode implements TreeNode, Serializable {
+public class ASTNode implements Cloneable, Serializable, TreeNode {
 
 	// TODO : check how we set the math in level 1
 
@@ -211,9 +211,9 @@ public class ASTNode implements TreeNode, Serializable {
 		FUNCTION_PIECEWISE,
 		/**
 		 * An {@link ASTNode} of this {@link Type} represents a function call of
-		 * the power function. This function takes two arguments, the base and
+		 * the 'pow' function. This function takes two arguments, the base and
 		 * the exponent. Alternatively, also {@link Type.#POWER} can be used,
-		 * which represents the simple text symbol '^' to achive the same
+		 * which represents the simple text symbol '^' to achieve the same
 		 * effect.
 		 */
 		FUNCTION_POWER,
