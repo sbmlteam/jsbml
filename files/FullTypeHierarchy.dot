@@ -1,0 +1,81 @@
+#!/usr/local/bin/dot
+#
+# dot -Tpdf FullTypeHierarchy.dot -oFullTypeHierarchy.pdf && acroread FullTypeHierarchy.pdf &
+
+strict digraph G{
+  
+  	edge [
+  	  fontname="Helvetica",
+  	  fontsize=10,
+  	  labelfontname="Helvetica",
+  	  labelfontsize=10
+  	];
+	  node [
+	    fontname="Helvetica",
+	    fontsize=10,
+	    shape=box
+	  ];
+	  nodesep=0.25;
+	  ranksep=0.5;
+  
+  
+
+  "<<Clonable>>" -> "<<SBase>>" [dir=back,arrowtail=empty,style=dashed];
+  "<<Serializable>>" -> "<<SBase>>"  [dir=back,arrowtail=empty,style=dashed];
+  "<<TreeNode>>" -> "<<SBase>>"  [dir=back,arrowtail=empty,style=dashed];
+  "<<SBase>>" -> "<<NamedSBase>>" [dir=back,arrowtail=empty,style=dashed];
+  "<<SBase>>" -> "<<SBaseWithDerivedUnit>>" [dir=back,arrowtail=empty,style=dashed];
+  "<<SBaseWithDerivedUnit>>" -> "<<MathContainer>>" [dir=back,arrowtail=empty,style=dashed];
+  "<<MathContainer>>" -> "AbstractMathContainer" [dir=back,arrowtail=empty,style=dashed];
+  "<<MathContainer>>" -> "<<Assignment>>" [dir=back,arrowtail=empty,style=dashed];
+  "AbstractMathContainer" -> "FunctionDefinition" [dir=back,arrowtail=empty];
+  "AbstractMathContainer" -> "KineticLaw" [dir=back,arrowtail=empty];
+  "<<SBase>>" -> "AbstractSBase" [dir=back,arrowtail=empty,style=dashed];
+  "AbstractSBase" -> "AbstractNamedSBase" [dir=back,arrowtail=empty];
+  "<<NamedSBase>>" -> "AbstractNamedSBase" [dir=back,arrowtail=empty,style=dashed];
+  "AbstractNamedSBase" -> "Reaction" [dir=back,arrowtail=empty];
+  "AbstractSBase" -> "ListOf" [dir=back,arrowtail=empty];
+  "<<List>>" -> "ListOf" [dir=back,arrowtail=empty,style=dashed];
+  "AbstractSBase" -> "SBMLDocument" [dir=back,arrowtail=empty];
+  "AbstractSBase" -> "Unit" [dir=back,arrowtail=empty];
+  "AbstractSBase" -> "AbstractMathContainer" [dir=back,arrowtail=empty];
+  "AbstractMathContainer" -> "Constraint" [dir=back,arrowtail=empty];
+  "AbstractMathContainer" -> "Delay" [dir=back,arrowtail=empty];
+  "AbstractMathContainer" -> "EventAssignment" [dir=back,arrowtail=empty];
+  "AbstractMathContainer" -> "InitialAssignment" [dir=back,arrowtail=empty];
+  "AbstractMathContainer" -> "KineticLaw" [dir=back,arrowtail=empty];
+  "AbstractMathContainer" -> "Rule" [dir=back,arrowtail=empty];
+  "AbstractMathContainer" -> "StoichiometryMath" [dir=back,arrowtail=empty];
+  "AbstractMathContainer" -> "Trigger" [dir=back,arrowtail=empty];
+  "AbstractMathContainer" -> "Priority" [dir=back,arrowtail=empty];
+  "Rule" -> "AlgebraicRule" [dir=back,arrowtail=empty];
+  "Rule" -> "ExplicitRule" [dir=back,arrowtail=empty];
+  "ExplicitRule" -> "AssignmentRule" [dir=back,arrowtail=empty];
+  "ExplicitRule" -> "RateRule" [dir=back,arrowtail=empty];
+  "<<Assignment>>" -> "ExplicitRule" [dir=back,arrowtail=empty,style=dashed];
+  "<<Assignment>>" -> "InitialAssignment" [dir=back,arrowtail=empty,style=dashed];
+  "<<Assignment>>" -> "EventAssignment" [dir=back,arrowtail=empty,style=dashed];
+  "AbstractNamedSBase" -> "CompartmentType" [dir=back,arrowtail=empty];
+  "AbstractNamedSBase" -> "Event" [dir=back,arrowtail=empty];
+  "AbstractNamedSBase" -> "Model" [dir=back,arrowtail=empty];
+  "AbstractNamedSBase" -> "SimpleSpeciesReference" [dir=back,arrowtail=empty];
+  "AbstractNamedSBase" -> "SpeciesType" [dir=back,arrowtail=empty];
+  "AbstractNamedSBase" -> "UnitDefinition" [dir=back,arrowtail=empty];
+  "SimpleSpeciesReference" -> "SpeciesReference" [dir=back,arrowtail=empty];
+  "SimpleSpeciesReference" -> "ModifierSpeciesReference" [dir=back,arrowtail=empty];
+  "<<Quantity>>" -> "QuantityWithDefinedUnit" [dir=back,arrowtail=empty,style=dashed];
+  "<<Quantity>>" -> "<<Variable>>" [dir=back,arrowtail=empty,style=dashed];
+  "<<Variable>>" -> "Symbol" [dir=back,arrowtail=empty,style=dashed];
+  "QuantityWithDefinedUnit" -> "Symbol" [dir=back,arrowtail=empty];
+  "Symbol" -> "Compartment" [dir=back,arrowtail=empty];
+  "Symbol" -> "Species" [dir=back,arrowtail=empty];
+  "Symbol" -> "Parameter" [dir=back,arrowtail=empty];
+  "<<Variable>>" -> "SpeciesReference" [dir=back,arrowtail=empty,style=dashed];
+  "QuantityWithDefinedUnit" -> "LocalParameter" [dir=back,arrowtail=empty];
+  "AbstractNamedSBase" -> "QuantityWithDefinedUnit" [dir=back,arrowtail=empty];
+  "<<SBaseWithDerivedUnit>>" -> "<<NamedSBaseWithDerivedUnit>>" [dir=back,arrowtail=empty,style=dashed];
+  "<<NamedSBase>>" -> "<<NamedSBaseWithDerivedUnit>>" [dir=back,arrowtail=empty,style=dashed];
+  "<<NamedSBaseWithDerivedUnit>>" -> "<<Quantity>>" [dir=back,arrowtail=empty,style=dashed];
+  "<<NamedSBaseWithDerivedUnit>>" -> "Reaction" [dir=back,arrowtail=empty,style=dashed];
+  "<<NamedSBaseWithDerivedUnit>>" -> "FunctionDefinition"  [dir=back,arrowtail=empty,style=dashed];
+}

@@ -42,7 +42,7 @@ package org.sbml.jsbml;
  * @opt types
  * @opt visibility
  */
-public class Constraint extends MathContainer {
+public class Constraint extends AbstractMathContainer {
 
 	/**
 	 * Generated serial version identifier.
@@ -113,10 +113,8 @@ public class Constraint extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#clone()
+	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
-	// @Override
 	public Constraint clone() {
 		return new Constraint(this);
 	}

@@ -40,7 +40,7 @@ package org.sbml.jsbml;
  * @opt types
  * @opt visibility
  */
-public abstract class Rule extends MathContainer {
+public abstract class Rule extends AbstractMathContainer {
 
 	/**
 	 * Generated serial version identifier.
@@ -86,8 +86,7 @@ public abstract class Rule extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.MathContainer#clone()
+	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
 	@Override
 	public abstract Rule clone();

@@ -38,7 +38,7 @@ package org.sbml.jsbml;
  * @opt types
  * @opt visibility
  */
-public class Trigger extends MathContainer {
+public class Trigger extends AbstractMathContainer {
 
 	/**
 	 * 
@@ -83,8 +83,7 @@ public class Trigger extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#clone()
+	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
 	@Override
 	public Trigger clone() {

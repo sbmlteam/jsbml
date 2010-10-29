@@ -40,7 +40,7 @@ package org.sbml.jsbml;
  * @opt visibility
  */
 @Deprecated
-public class StoichiometryMath extends MathContainer {
+public class StoichiometryMath extends AbstractMathContainer {
 
 	/**
 	 * Generated serial version identifier.
@@ -75,8 +75,7 @@ public class StoichiometryMath extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#clone()
+	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
 	public StoichiometryMath clone() {
 		return new StoichiometryMath(this);

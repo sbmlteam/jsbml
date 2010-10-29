@@ -141,8 +141,7 @@ public class AssignmentRule extends ExplicitRule {
 	
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#clone()
+	 * @see org.sbml.jsbml.ExplicitRule#clone()
 	 */
 	@Override
 	public AssignmentRule clone() {

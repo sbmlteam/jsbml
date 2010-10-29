@@ -39,7 +39,7 @@ package org.sbml.jsbml;
  * @opt types
  * @opt visibility
  */
-public class Delay extends MathContainer {
+public class Delay extends AbstractMathContainer {
 
 	/**
 	 * Generated serial version identifier.
@@ -83,10 +83,8 @@ public class Delay extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#clone()
+	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
-	@Override
 	public Delay clone() {
 		return new Delay(this);
 	}
