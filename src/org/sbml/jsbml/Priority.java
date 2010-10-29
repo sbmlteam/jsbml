@@ -34,7 +34,7 @@ package org.sbml.jsbml;
  * @author Andreas Dr&auml;ger
  * @date 2010-10-21
  */
-public class Priority extends MathContainer {
+public class Priority extends AbstractMathContainer {
 
 	/**
 	 * Generated serial version identifier.
@@ -74,11 +74,10 @@ public class Priority extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.MathContainer#clone()
+	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
 	@Override
-	public MathContainer clone() {
+	public Priority clone() {
 		return new Priority(this);
 	}
 

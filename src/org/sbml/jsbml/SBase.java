@@ -52,7 +52,7 @@ import org.sbml.jsbml.CVTerm.Qualifier;
  * @composed 0..1 annotation 1 Annotation
  * @has 0..* listener 1 SBaseChangedListener
  */
-public interface SBase extends TreeNode, Serializable {
+public interface SBase extends Cloneable, Serializable, TreeNode {
 
 	/**
 	 * Adds all {@link SBaseChangedListener}s in the given {@link Set} to this

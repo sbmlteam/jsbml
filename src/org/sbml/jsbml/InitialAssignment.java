@@ -42,7 +42,7 @@ import java.util.HashMap;
  * @opt types
  * @opt visibility
  */
-public class InitialAssignment extends MathContainer {
+public class InitialAssignment extends AbstractMathContainer implements Assignment {
 
 	/**
 	 * Generated serial version identifier.
@@ -144,10 +144,8 @@ public class InitialAssignment extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#clone()
+	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
-	@Override
 	public InitialAssignment clone() {
 		return new InitialAssignment(this);
 	}
@@ -182,17 +180,17 @@ public class InitialAssignment extends MathContainer {
 		return getVariable();
 	}
 
-	/**
-	 * @return the variableID of this InitialAssignment. Return an empty String
-	 *         if it is not set.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#getVariable()
 	 */
 	public String getVariable() {
 		return isSetVariable() ? variableID : "";
 	}
 
-	/**
-	 * @return the variable instance which has the variableID of this
-	 *         InitialAssignment as id. Return null if it doesn't exist.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#getVariableInstance()
 	 */
 	public Variable getVariableInstance() {
 		Model m = getModel();
@@ -207,18 +205,17 @@ public class InitialAssignment extends MathContainer {
 		return isSetVariable();
 	}
 
-	/**
-	 * 
-	 * @return true if the variableID of this InitialAssignment is not null.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#isSetVariable()
 	 */
 	public boolean isSetVariable() {
 		return variableID != null;
 	}
 
-	/**
-	 * 
-	 * @return true if the {@link Variable} instance which has the variableID of
-	 *         this {@link InitialAssignment} as id is not null.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#isSetVariableInstance()
 	 */
 	public boolean isSetVariableInstance() {
 		Model m = getModel();
@@ -260,35 +257,31 @@ public class InitialAssignment extends MathContainer {
 		setVariable(symbol);
 	}
 
-	/**
-	 * Sets the variableID of this InitialAssignment to 'variable'.
-	 * 
-	 * @param variable
-	 *            : the variable to set
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#setVariable(java.lang.String)
 	 */
 	public void setVariable(String variable) {
 		this.variableID = variable;
 		stateChanged();
 	}
 
-	/**
-	 * Sets the variableID of this InitialAssignment to the id of the
-	 * {@link Variable} 'variable'.
-	 * 
-	 * @param variable
-	 *            : the variable to set
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#setVariable(org.sbml.jsbml.Variable)
 	 */
 	public void setVariable(Variable variable) {
 		this.variableID = variable != null ? variable.getId() : null;
 		stateChanged();
 	}
 
-	/**
-	 * Removes the reference from this InitialAssignment to its {@link Variable}
-	 * if there was any.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#unsetVariable()
 	 */
 	public void unsetVariable() {
 		this.variableID = null;
+		stateChanged();
 	}
 
 	/*

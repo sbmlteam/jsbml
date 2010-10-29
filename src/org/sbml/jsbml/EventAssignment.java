@@ -41,7 +41,7 @@ import java.util.HashMap;
  * @opt types
  * @opt visibility
  */
-public class EventAssignment extends MathContainer {
+public class EventAssignment extends AbstractMathContainer implements Assignment {
 
 	/**
 	 * Generated serial version identifier.
@@ -108,10 +108,8 @@ public class EventAssignment extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.MathContainer#clone()
+	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
-	@Override
 	public EventAssignment clone() {
 		return new EventAssignment(this);
 	}
@@ -138,38 +136,34 @@ public class EventAssignment extends MathContainer {
 		return false;
 	}
 
-	/**
-	 * 
-	 * @return the variableID of this Event. Return an empty String if it is not
-	 *         set.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#getVariable()
 	 */
 	public String getVariable() {
 		return isSetVariable() ? this.variableID : "";
 	}
 
-	/**
-	 * 
-	 * @return the Symbol instance (Compartment, Species, SpeciesReference or
-	 *         Parameter) which has the variableID of this EventAssignment as
-	 *         id. Return null if it doesn't exist.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#getVariableInstance()
 	 */
 	public Variable getVariableInstance() {
 		Model m = getModel();
 		return m != null ? m.findVariable(this.variableID) : null;
 	}
 
-	/**
-	 * 
-	 * @return true if the variableID of this Event is not null.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#isSetVariable()
 	 */
 	public boolean isSetVariable() {
 		return variableID != null;
 	}
 
-	/**
-	 * 
-	 * @return true if the id of the Symbol which matches the variableID of this
-	 *         Event is not null.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#isSetVariableInstance()
 	 */
 	public boolean isSetVariableInstance() {
 		Model m = getModel();
@@ -196,21 +190,18 @@ public class EventAssignment extends MathContainer {
 		return isAttributeRead;
 	}
 
-	/**
-	 * Sets the variableID of this EventAssignment to 'variable'.
-	 * 
-	 * @param variable
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#setVariable(java.lang.String)
 	 */
 	public void setVariable(String variable) {
 		this.variableID = variable;
+		stateChanged();
 	}
 
-	/**
-	 * Sets the variableID of this EventAssignment to the id of the Symbol
-	 * variable only if the Symbol is a Species, Compartment, SpeciesReference
-	 * or Parameter.
-	 * 
-	 * @param variable
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#setVariable(org.sbml.jsbml.Variable)
 	 */
 	public void setVariable(Variable variable) {
 		if ((variable instanceof Species) || variable instanceof Compartment
@@ -239,6 +230,15 @@ public class EventAssignment extends MathContainer {
 			return getVariable() + " = 0";
 		}
 		return "";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#unsetVariable()
+	 */
+	public void unsetVariable() {
+		this.variableID = null;
+		stateChanged();
 	}
 
 	/*

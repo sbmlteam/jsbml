@@ -42,7 +42,7 @@ import java.util.HashMap;
  * @opt types
  * @opt visibility
  */
-public class FunctionDefinition extends MathContainer implements
+public class FunctionDefinition extends AbstractMathContainer implements
 		NamedSBaseWithDerivedUnit {
 
 	/**
@@ -138,10 +138,8 @@ public class FunctionDefinition extends MathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#clone()
+	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
-	// @Override
 	public FunctionDefinition clone() {
 		return new FunctionDefinition(this);
 	}

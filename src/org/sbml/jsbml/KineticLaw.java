@@ -48,7 +48,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * 
  * @composed 0..* ListOf 1 LocalParameter
  */
-public class KineticLaw extends MathContainer {
+public class KineticLaw extends AbstractMathContainer {
 
 	/**
 	 * Generated serial version identifier.
@@ -193,8 +193,7 @@ public class KineticLaw extends MathContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#clone()
+	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
 	public KineticLaw clone() {
 		return new KineticLaw(this);

@@ -89,7 +89,6 @@ public class AlgebraicRule extends Rule {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.Rule#clone()
 	 */
 	@Override

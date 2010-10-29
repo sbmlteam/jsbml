@@ -38,7 +38,7 @@ import java.util.HashMap;
  * @author Andreas Dr&auml;ger
  * @date 2010-08-05
  */
-public abstract class ExplicitRule extends Rule {
+public abstract class ExplicitRule extends Rule implements Assignment {
 
 	/**
 	 * Generated serial version identifier.
@@ -205,7 +205,6 @@ public abstract class ExplicitRule extends Rule {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.Rule#clone()
 	 */
 	public abstract ExplicitRule clone();
@@ -260,19 +259,17 @@ public abstract class ExplicitRule extends Rule {
 		return model != null ? model.getUnitDefinition(this.unitsID) : null;
 	}
 
-	/**
-	 * 
-	 * @return the variableID of this {@link ExplicitRule}. Returns an empty
-	 *         String if variableID is not set.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#getVariable()
 	 */
 	public String getVariable() {
 		return isSetVariable() ? this.variableID : "";
 	}
 
-	/**
-	 * 
-	 * @return the {@link Variable} instance which has the variableID of this
-	 *         {@link ExplicitRule} as id. Null if it doesn't exist.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#getVariableInstance()
 	 */
 	public Variable getVariableInstance() {
 		Model m = getModel();
@@ -348,18 +345,17 @@ public abstract class ExplicitRule extends Rule {
 				: false;
 	}
 
-	/**
-	 * 
-	 * @return true if the variableID of this {@link ExplicitRule} is not null.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#isSetVariable()
 	 */
 	public boolean isSetVariable() {
 		return variableID != null;
 	}
 
-	/**
-	 * 
-	 * @return true if the {@link Variable} instance which has the variableID of
-	 *         this {@link ExplicitRule} as id is not null.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#isSetVariableInstance()
 	 */
 	public boolean isSetVariableInstance() {
 		Model m = getModel();
@@ -445,20 +441,17 @@ public abstract class ExplicitRule extends Rule {
 		setUnits(units.isSetId() ? units.getId() : null);
 	}
 
-	/**
-	 * Sets the variableID of this {@link ExplicitRule} to 'variable'.
-	 * 
-	 * @param variable
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#setVariable(java.lang.String)
 	 */
 	public void setVariable(String variable) {
 		checkAndSetVariable(variable);
 	}
 
-	/**
-	 * Sets the variableID of this {@link ExplicitRule} to the id of the
-	 * {@link Variable} 'variable'.
-	 * 
-	 * @param variable
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#setVariable(org.sbml.jsbml.Variable)
 	 */
 	public void setVariable(Variable variable) {
 		if (variable != null) {
@@ -488,12 +481,12 @@ public abstract class ExplicitRule extends Rule {
 	@Deprecated
 	public void unsetUnits() {
 		this.unitsID = null;
+		stateChanged();
 	}
 
-	/**
-	 * Removes the reference of this {@link ExplicitRule} to the identifier of a
-	 * {@link Variable} if there was any, i.e., the variableID field is set to
-	 * null.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Assignment#unsetVariable()
 	 */
 	public void unsetVariable() {
 		variableID = null;
