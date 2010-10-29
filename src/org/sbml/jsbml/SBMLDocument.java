@@ -282,6 +282,14 @@ public class SBMLDocument extends AbstractSBase {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public int getNumErrors() {
+		throw new NotImplementedException();
+	}
+
+	/**
+	 * 
 	 * @return the map SBMLDocumentAttributes of this SBMLDocument.
 	 */
 	public HashMap<String, String> getSBMLDocumentAttributes() {
