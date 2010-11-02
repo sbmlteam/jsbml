@@ -1695,14 +1695,11 @@ public class Model extends AbstractNamedSBase {
 	 * is invalid.
 	 */
 	public UnitDefinition getPredefinedUnitDefinition(String unitKind) {
-
 		for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) {
-
 			if (unitDefinition.getId().equals(unitKind)) {
 				return unitDefinition;
 			}
 		}
-
 		return null;
 	}
 

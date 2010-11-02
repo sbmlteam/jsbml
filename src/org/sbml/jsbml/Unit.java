@@ -1710,15 +1710,24 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public boolean isVariantOfTime() {
+		return (getKind() == Kind.SECOND) && (getOffset() == 0)
+				&& (getExponent() == 1);
+	}
+
+	/**
+	 * 
 	 * @return true if this Unit is a variant of volume.
 	 */
 	public boolean isVariantOfVolume() {
 		Kind kind = getKind();
-		if (kind == Kind.LITER || kind == Kind.LITRE) {
-			return getOffset() == 0 && getExponent() == 1;
+		if ((kind == Kind.LITER) || (kind == Kind.LITRE)) {
+			return (getOffset() == 0) && (getExponent() == 1);
 		}
-		if (kind == Kind.METER || kind == Kind.METRE) {
-			return getOffset() == 0 && getExponent() == 3;
+		if ((kind == Kind.METER) || (kind == Kind.METRE)) {
+			return (getOffset() == 0) && (getExponent() == 3);
 		}
 		return false;
 	}
