@@ -38,13 +38,6 @@ package org.sbml.jsbml;
  */
 public interface Assignment extends MathContainer {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.MathContainer#clone()
-	 */
-	public Assignment clone();
-
 	/**
 	 * @return the variableID of this {@link Assignment}. Returns an empty
 	 *         {@link String} if it is not set.
