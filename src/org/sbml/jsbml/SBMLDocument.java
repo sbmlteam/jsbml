@@ -32,6 +32,8 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.sbml.jsbml.util.NotImplementedException;
@@ -67,6 +69,11 @@ public class SBMLDocument extends AbstractSBase {
 	 * Contains all the namespaces of the sbml XML node and their prefixes.
 	 */
 	private HashMap<String, String> SBMLDocumentNamespaces = new HashMap<String, String>();
+	/**
+	 * Memorizes all {@link SBMLError} when parsing the file containing this
+	 * document.
+	 */
+	private List<SBMLError> listOfErrors;
 
 	/**
 	 * Creates a SBMLDocument instance. By default, the parent SBML object of
@@ -134,6 +141,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * @return
 	 */
 	public int checkConsistency() {
+		listOfErrors = new LinkedList<SBMLError>();
 		// TODO: IMPLEMENT!
 		throw new NotImplementedException();
 	}
@@ -267,8 +275,11 @@ public class SBMLDocument extends AbstractSBase {
 	 * @return
 	 */
 	public SBMLError getError(int i) {
-		// TODO: IMPLEMENT!
-		throw new NotImplementedException();
+		if (isSetListOfErrors()) {
+			return listOfErrors.get(i);
+		}
+		throw new IndexOutOfBoundsException(String.format("No such error %d.",
+				Integer.valueOf(i)));
 	}
 
 	/**
@@ -285,7 +296,15 @@ public class SBMLDocument extends AbstractSBase {
 	 * @return
 	 */
 	public int getNumErrors() {
-		throw new NotImplementedException();
+		return isSetListOfErrors() ? listOfErrors.size() : 0;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean isSetListOfErrors() {
+		return listOfErrors != null;
 	}
 
 	/**

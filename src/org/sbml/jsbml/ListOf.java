@@ -53,11 +53,6 @@ import org.sbml.jsbml.util.filters.Filter;
 public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 5757549697766609627L;
-
-	/**
 	 * This enum lists all the possible names of the listXXX components. If the
 	 * listXXX is a SBML package extension, the SBaseListType value to set would
 	 * be 'other'.
@@ -69,75 +64,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		/**
 		 * 
 		 */
-		none,
-		/**
-		 * 
-		 */
-		other,
-		/**
-		 * 
-		 */
-		listOfFunctionDefinitions,
-		/**
-		 * 
-		 */
-		listOfUnitDefinitions,
-		/**
-		 * 
-		 */
 		listOfCompartments,
-		/**
-		 * 
-		 */
-		listOfSpecies,
-		/**
-		 * 
-		 */
-		listOfParameters,
-		/**
-		 * 
-		 */
-		listOfInitialAssignments,
-		/**
-		 * 
-		 */
-		listOfRules,
-		/**
-		 * 
-		 */
-		listOfReactants,
-		/**
-		 * 
-		 */
-		listOfProducts,
-		/**
-		 * 
-		 */
-		listOfEventAssignments,
-		/**
-		 * 
-		 */
-		listOfModifiers,
-		/**
-		 * 
-		 */
-		listOfConstraints,
-		/**
-		 * 
-		 */
-		listOfReactions,
-		/**
-		 * 
-		 */
-		listOfEvents,
-		/**
-		 * 
-		 */
-		listOfUnits,
-		/**
-		 * 
-		 */
-		listOfLocalParameters,
 		/**
 		 * 
 		 */
@@ -145,18 +72,91 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		/**
 		 * 
 		 */
-		listOfSpeciesTypes
+		listOfConstraints,
+		/**
+		 * 
+		 */
+		listOfEventAssignments,
+		/**
+		 * 
+		 */
+		listOfEvents,
+		/**
+		 * 
+		 */
+		listOfFunctionDefinitions,
+		/**
+		 * 
+		 */
+		listOfInitialAssignments,
+		/**
+		 * 
+		 */
+		listOfLocalParameters,
+		/**
+		 * 
+		 */
+		listOfModifiers,
+		/**
+		 * 
+		 */
+		listOfParameters,
+		/**
+		 * 
+		 */
+		listOfProducts,
+		/**
+		 * 
+		 */
+		listOfReactants,
+		/**
+		 * 
+		 */
+		listOfReactions,
+		/**
+		 * 
+		 */
+		listOfRules,
+		/**
+		 * 
+		 */
+		listOfSpecies,
+		/**
+		 * 
+		 */
+		listOfSpeciesTypes,
+		/**
+		 * 
+		 */
+		listOfUnitDefinitions,
+		/**
+		 * 
+		 */
+		listOfUnits,
+		/**
+		 * 
+		 */
+		none,
+		/**
+		 * 
+		 */
+		other
 	}
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 5757549697766609627L;
+
+	/**
+	 * list containing all the SBase elements of this object.
+	 */
+	protected LinkedList<T> listOf = new LinkedList<T>();
 	/**
 	 * name of the list at it appears in the SBMLFile. By default, it is
 	 * SBaseListType.none.
 	 */
 	protected Type listType = Type.none;
-	/**
-	 * list containing all the SBase elements of this object.
-	 */
-	protected LinkedList<T> listOf = new LinkedList<T>();
 
 	/**
 	 * Creates a ListOf instance. By default, the list containing the SBase
@@ -208,14 +208,12 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public boolean add(T e) {
 		if (e.getLevel() != getLevel()) {
 			throw new IllegalArgumentException(String.format(
-					JSBML.LEVEL_MISMATCH_MESSAGE,
-					getClass().getSimpleName(), getLevel(), e.getClass()
-							.getSimpleName(), e.getLevel()));
+					JSBML.LEVEL_MISMATCH_MESSAGE, getClass().getSimpleName(),
+					getLevel(), e.getClass().getSimpleName(), e.getLevel()));
 		} else if (e.getVersion() != getVersion()) {
 			throw new IllegalArgumentException(String.format(
-					JSBML.VERSION_MISMATCH_MESSAGE,
-					getClass().getSimpleName(), getVersion(), e.getClass()
-							.getSimpleName(), e.getVersion()));
+					JSBML.VERSION_MISMATCH_MESSAGE, getClass().getSimpleName(),
+					getVersion(), e.getClass().getSimpleName(), e.getVersion()));
 		}
 		// Avoid adding the same thing twice.
 		if (e instanceof NamedSBase) {
@@ -270,6 +268,22 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		for (T element : listOf) {
 			element.addChangeListener(l);
 		}
+	}
+
+	/**
+	 * Adds item to the end of this ListOf.
+	 * 
+	 * This variant of the method makes a clone of the item handed to it. This
+	 * means that when the {@link ListOf} is destroyed, the original items will not be
+	 * destroyed.
+	 * 
+	 * @param e
+	 *            the item to be added to the list.
+	 * @return true if this could be successfully appended.
+	 * @see #add(T)
+	 */
+	public boolean append(T e) {
+		return add((T) e.clone());
 	}
 
 	/*
@@ -425,7 +439,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	@Override
 	public String getElementName() {
-		return (getSBaseListType() != null ? getSBaseListType().toString() : Type.none.toString());
+		return (getSBaseListType() != null ? getSBaseListType().toString()
+				: Type.none.toString());
 	}
 
 	/**

@@ -34,6 +34,7 @@ import org.sbml.jsbml.util.Location;
 import org.sbml.jsbml.util.Message;
 import org.sbml.jsbml.util.NotImplementedException;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.XMLError;
 
 /**
  * Representation of errors, warnings and other diagnostics. <br/>
@@ -45,8 +46,12 @@ import org.sbml.jsbml.util.StringTools;
  * @author rodrigue
  * 
  */
-public class SBMLError {
+public class SBMLError extends XMLError {
 
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -6071833473902680630L;
 	/**
 	 * 
 	 */
@@ -131,7 +136,15 @@ public class SBMLError {
 	 * 
 	 * @return
 	 */
-	public Message getMessage() {
+	public String getMessage() {
+		return message.getMessage();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Message getMessageInstance() {
 		return message;
 	}
 
@@ -147,8 +160,53 @@ public class SBMLError {
 	 * 
 	 * @return
 	 */
+	public boolean isFatal() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isInfo() {
 		throw new NotImplementedException();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isInternal() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSystem() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isWarning() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isXML() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	/**

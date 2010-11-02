@@ -801,6 +801,29 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public boolean isVariantOfSubstancePerTime() {
+		if (isSetListOfUnits()) {
+			if (listOfUnits.size() == 2) {
+				Unit unit1 = listOfUnits.get(0);
+				Unit unit2 = listOfUnits.get(1);
+				if (unit1.isVariantOfSubstance()) {
+					Unit two = listOfUnits.get(1).clone();
+					two.setExponent(-two.getExponent());
+					return two.isVariantOfTime();
+				} else if (unit2.isVariantOfSubstance()) {
+					Unit one = listOfUnits.get(0).clone();
+					one.setExponent(-one.getExponent());
+					return one.isVariantOfTime();
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 
 	 * @return true if this UnitDefinition is a variant of substance per volume.
 	 */
 	public boolean isVariantOfSubstancePerVolume() {
@@ -901,7 +924,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Sets the listOfUnits of this UnitDefinition. Automatically sets the
 	 * parentSBML object of the list to this UnitDefinition instance.
@@ -914,7 +937,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		this.listOfUnits.setSBaseListType(ListOf.Type.listOfUnits);
 		stateChanged();
 	}
-	
+
 	/**
 	 * Simplifies the UnitDefinition so that any Unit objects occurring within
 	 * the ListOfUnits occurs only once.

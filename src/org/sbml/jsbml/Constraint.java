@@ -160,6 +160,14 @@ public class Constraint extends AbstractMathContainer {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public String getMessageString() {
+		return message;
+	}
+
+	/**
+	 * 
 	 * @return true if the message of this Constraint is not null.
 	 */
 	public boolean isSetMessage() {
