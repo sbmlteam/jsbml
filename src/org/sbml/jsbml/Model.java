@@ -258,6 +258,15 @@ public class Model extends AbstractNamedSBase {
 		super(id, level, version);
 		initDefaults();
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public Model(String id) {
+		super(id);
+		initDefaults();
+	}
 
 	/*
 	 * (non-Javadoc)

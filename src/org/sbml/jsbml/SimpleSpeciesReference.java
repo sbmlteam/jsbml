@@ -63,6 +63,14 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 		super();
 		this.speciesID = null;
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public SimpleSpeciesReference(String id) {
+		super(id);
+	}
 
 	/**
 	 * 

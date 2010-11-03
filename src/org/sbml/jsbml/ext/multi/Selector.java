@@ -16,6 +16,7 @@ public class Selector extends AbstractNamedSBase {
 	 * 
 	 */
 	public Selector() {
+		super();
 	}
 
 	/**

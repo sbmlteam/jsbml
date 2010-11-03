@@ -370,10 +370,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public UnitDefinition() {
 		super();
-		this.listOfUnits = null;
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+        initDefaults();
 	}
 
 	/**
@@ -386,6 +383,15 @@ public class UnitDefinition extends AbstractNamedSBase {
 		initDefaults();
 	}
 
+	/**
+	 * 
+	 * @param id
+	 */
+	public UnitDefinition(String id) {
+		super(id);
+		initDefaults();
+	}
+	
 	/**
 	 * Creates an UnitDefinition instance from an id, level and version. By
 	 * default, the listOfUnit is null.

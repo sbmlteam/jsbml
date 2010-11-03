@@ -53,6 +53,14 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 	public ModifierSpeciesReference() {
 		super();
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public ModifierSpeciesReference(String id) {
+		super(id);
+	}
 
 	/**
 	 * 

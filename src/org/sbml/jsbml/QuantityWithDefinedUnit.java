@@ -77,6 +77,15 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 		super();
 		this.unitsID = null;
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public QuantityWithDefinedUnit(String id) {
+		this();
+		setId(id);
+	}
 
 	/**
 	 * 

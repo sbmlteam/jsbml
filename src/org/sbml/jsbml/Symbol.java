@@ -104,6 +104,15 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	public Symbol(String id, int level, int version) {
 		this(id, null, level, version);
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public Symbol(String id) {
+		this();
+		setId(id);
+	}
 
 	/**
 	 * Creates a Symbol instance from an id, name, level and version. By

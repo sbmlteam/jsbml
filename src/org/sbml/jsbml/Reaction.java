@@ -145,6 +145,15 @@ public class Reaction extends AbstractNamedSBase implements
 			this.reversible = new Boolean(reaction.getReversible());
 		}
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public Reaction(String id) {
+		super(id);
+		initDefaults();
+	}
 
 	/**
 	 * Creates a Reaction instance from an id, level and version. By default,

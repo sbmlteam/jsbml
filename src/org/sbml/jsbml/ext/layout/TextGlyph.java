@@ -58,7 +58,11 @@ public class TextGlyph extends AbstractNamedSBase {
 	 * 
 	 */
 	public TextGlyph() {
-
+		super();
+	}
+	
+	public TextGlyph(String id) {
+		super(id);
 	}
 
 	/**

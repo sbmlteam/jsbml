@@ -57,9 +57,16 @@ public class Parameter extends Symbol {
 	 */
 	public Parameter() {
 		super();
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		initDefaults();
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public Parameter(String id) {
+		this();
+		setId(id);
 	}
 
 	/**
@@ -71,9 +78,7 @@ public class Parameter extends Symbol {
 	 */
 	public Parameter(int level, int version) {
 		super(level, version);
-		if (level < 3) {
-			initDefaults();
-		}
+		initDefaults();
 	}
 
 	/**
@@ -104,9 +109,7 @@ public class Parameter extends Symbol {
 	 */
 	public Parameter(String id, int level, int version) {
 		super(id, level, version);
-		if (level < 3) {
-			initDefaults();
-		}
+		initDefaults();
 	}
 
 	/*
