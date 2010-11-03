@@ -79,6 +79,16 @@ public class CompartmentType extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * @param id
+	 * @deprecated
+	 */
+	@Deprecated
+	public CompartmentType(String id) {
+		super(id);
+	}
+	
+	/**
 	 * Creates a CompartmentType instance from an id, level and version.
 	 * 
 	 * @param id

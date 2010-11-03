@@ -62,7 +62,11 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	 * 
 	 */
 	public SpeciesReferencesGlyph() {
-
+		super();
+	}
+	
+	public SpeciesReferencesGlyph(String id) {
+		super(id);
 	}
 
 	/**

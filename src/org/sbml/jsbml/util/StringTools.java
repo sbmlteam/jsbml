@@ -156,12 +156,14 @@ public class StringTools {
 	 */
 	public static final String firstLetterUpperCase(String name) {
 		char c = name.charAt(0);
-		if (Character.isLetter(c))
+		if (Character.isLetter(c)) {
 			c = Character.toUpperCase(c);
-		if (name.length() > 1)
+		}
+		if (name.length() > 1) {
 			name = Character.toString(c) + name.substring(1);
-		else
+		} else {
 			return Character.toString(c);
+		}
 		return name;
 	}
 

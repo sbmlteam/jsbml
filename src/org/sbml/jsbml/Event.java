@@ -91,14 +91,7 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public Event() {
 		super();
-		this.trigger = null;
-		this.delay = null;
-		this.listOfEventAssignments = null;
-		this.timeUnitsID = null;
-
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		initDefaults();
 	}
 
 	/**
@@ -143,13 +136,16 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public Event(int level, int version) {
 		super(level, version);
-		this.trigger = null;
-		this.delay = null;
-		this.listOfEventAssignments = null;
-		this.timeUnitsID = null;
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		initDefaults();
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public Event(String id) {
+		super(id);
+		initDefaults();
 	}
 
 	/**
@@ -163,13 +159,7 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public Event(String id, int level, int version) {
 		super(id, level, version);
-		this.trigger = null;
-		this.delay = null;
-		this.listOfEventAssignments = null;
-		this.timeUnitsID = null;
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		initDefaults();
 	}
 
 	/**
@@ -184,13 +174,7 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public Event(String id, String name, int level, int version) {
 		super(id, name, level, version);
-		this.trigger = null;
-		this.delay = null;
-		this.listOfEventAssignments = null;
-		this.timeUnitsID = null;
-		if (isSetLevel() && getLevel() < 3) {
-			initDefaults();
-		}
+		initDefaults();
 	}
 
 	/**
@@ -470,11 +454,15 @@ public class Event extends AbstractNamedSBase {
 	 * Initializes the default values of this {@link Event}.
 	 */
 	public void initDefaults() {
-		useValuesFromTriggerTime = new Boolean(true);
-		setListOfEventAssignments(new ListOf<EventAssignment>(getLevel(),
-				getVersion()));
-		timeUnitsID = null;
-		delay = null;
+		this.trigger = null;
+		this.delay = null;
+		this.listOfEventAssignments = null;
+		this.timeUnitsID = null;
+		if (isSetLevel() && (getLevel() < 3)) {
+			useValuesFromTriggerTime = new Boolean(true);
+			setListOfEventAssignments(new ListOf<EventAssignment>(getLevel(),
+					getVersion()));
+		}
 	}
 
 	/**

@@ -110,6 +110,15 @@ public class Species extends Symbol {
 		super();
 		initDefaults();
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public Species(String id) {
+		this();
+		setId(id);
+	}
 
 	/**
 	 * Creates a Species instance from a level and version. By default, the

@@ -132,6 +132,15 @@ public class Compartment extends Symbol {
 	public Compartment(int level, int version) {
 		this(null, null, level, version);
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public Compartment(String id) {
+		this();
+		setId(id);
+	}
 
 	/**
 	 * Creates a Compartment instance from an id, level and version. By default,
@@ -272,7 +281,7 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 * initialises the default values.
+	 * initializes the default values.
 	 */
 	public void initDefaults() {
 		compartmentTypeID = null;

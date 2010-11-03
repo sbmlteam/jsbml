@@ -54,6 +54,14 @@ public class LocalParameter extends QuantityWithDefinedUnit {
 	public LocalParameter() {
 		super();
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public LocalParameter(String id) {
+		super(id);
+	}
 
 	/**
 	 * @param level

@@ -99,6 +99,15 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 
 	/**
 	 * 
+	 * @param id
+	 */
+	public SpeciesReference(String id) {
+		super(id);
+		initDefaults();
+	}
+	
+	/**
+	 * 
 	 * @param level
 	 * @param version
 	 */

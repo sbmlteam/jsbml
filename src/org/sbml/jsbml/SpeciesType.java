@@ -78,6 +78,16 @@ public class SpeciesType extends AbstractNamedSBase {
 	public SpeciesType(SpeciesType nsb) {
 		super(nsb);
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @deprecated
+	 */
+	@Deprecated
+	public SpeciesType(String id) {
+		super(id);
+	}
 
 	/**
 	 * Creates a SpeciesType instance from an id, level and version.

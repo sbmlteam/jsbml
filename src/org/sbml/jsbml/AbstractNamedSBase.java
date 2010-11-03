@@ -103,7 +103,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	private String name;
 
 	/**
-	 * Creates an AbctractNamedSBase. By default, id and name are null.
+	 * Creates an {@link AbstractNamedSBase}. By default, id and name are null.
 	 */
 	public AbstractNamedSBase() {
 		super();
@@ -112,7 +112,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	}
 
 	/**
-	 * Creates an AbctractNamedSBase from a given AbstractNamedSBase.
+	 * Creates an {@link AbstractNamedSBase} from a given {@link AbstractNamedSBase}.
 	 * 
 	 * @param nsb
 	 */
@@ -123,7 +123,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	}
 
 	/**
-	 * Creates an AbctractNamedSBase from a level and version. By default, id
+	 * Creates an {@link AbstractNamedSBase} from a level and version. By default, id
 	 * and name are null.
 	 * 
 	 * @param level
@@ -135,6 +135,20 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		setVersion(version);
 	}
 
+	/**
+	 * Creates an {@link AbstractNamedSBase} with the given identifier. Note
+	 * that with this constructor the level and version of the element are not
+	 * specified. These elements are however required to ensure the validity of
+	 * the SBML data structure. Without level and version, it may not be
+	 * possible to serialize this class to SBML.
+	 * 
+	 * @param id
+	 */
+	public AbstractNamedSBase(String id) {
+		this();
+		setId(id);
+	}
+	
 	/**
 	 * Creates an AbctractNamedSBase from an id, level and version.
 	 * 
