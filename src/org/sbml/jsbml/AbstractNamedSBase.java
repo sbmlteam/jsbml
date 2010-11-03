@@ -298,7 +298,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		} else {
 			this.name = new String(name);
 		}
-		if (!isSetId() && (level == 1)) {
+		if (!isSetId() && (getLevel() == 1)) {
 			setId(name);
 		} else {
 			// else part to avoid calling this method twice.
