@@ -5,6 +5,7 @@ import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.UnsupportedLookAndFeelException;
+import java.util.ArrayList;
 
 public class TextToASTNodeParser implements TextToASTNodeParserConstants {
   private MathContainer container;
@@ -29,6 +30,14 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
     catch (Exception e)
     {
       e.printStackTrace();
+    }
+  }
+
+  void mustBeEmpty(ArrayList < ASTNode > arguments) throws ParseException
+  {
+    if (!arguments.isEmpty())
+    {
+      throw new ParseException();
     }
   }
 
@@ -185,8 +194,10 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
   double d;
   int i;
   ASTNode node = new ASTNode(container);
+  ASTNode child, furtherChild;
   String s;
   String vals [ ];
+  ArrayList < ASTNode > arguments = new ArrayList < ASTNode > ();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NUMBER:
       t = jj_consume_token(NUMBER);
@@ -203,44 +214,167 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
     case EXPNUMBER:
       t = jj_consume_token(EXPNUMBER);
     s = t.image;
+    System.out.println(s);
     vals = s.toLowerCase().split("e");
-    node.setValue(Double.parseDouble(vals [ 0 ]), Integer.parseInt(vals [ 1 ]));
+    if (vals [ 1 ].startsWith("+"))
+    {
+      i = Integer.parseInt(vals [ 1 ].substring(1));
+    }
+    else
+    {
+      i = Integer.parseInt(vals [ 1 ]);
+    }
+    node.setValue(Double.parseDouble(vals [ 0 ]), i);
     {if (true) return node;}
       break;
-    case FUNCTION:
-      t = jj_consume_token(FUNCTION);
+    default:
+      jj_la1[7] = jj_gen;
+      if (jj_2_1(2)) {
+        t = jj_consume_token(STRING);
+        jj_consume_token(OPEN_PAR);
+        child = TermLvl1();
+        label_4:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case SLPITTER:
+            ;
+            break;
+          default:
+            jj_la1[6] = jj_gen;
+            break label_4;
+          }
+          jj_consume_token(SLPITTER);
+          furtherChild = TermLvl1();
+      arguments.add(furtherChild);
+        }
+        jj_consume_token(CLOSE_PAR);
     s = t.image;
-    String name;
-    s.substring(0, s.length() - 2);
-    vals = s.split("\u005c\u005c(");
-    name = vals [ 0 ];
-    node = new ASTNode(name, container);
-    vals = vals [ 1 ].split(",");
-    for (int j = 0; j < vals.length; j++)
+    if (s.toLowerCase().equals("abs"))
     {
-      node.addChild(new ASTNode(vals [ j ].trim(), container));
+      node = new ASTNode(ASTNode.Type.FUNCTION_ABS, container);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("sin"))
+    {
+      node = new ASTNode(ASTNode.Type.FUNCTION_SIN, container);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("cos"))
+    {
+      node = new ASTNode(ASTNode.Type.FUNCTION_COS, container);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("tan"))
+    {
+      node = new ASTNode(ASTNode.Type.FUNCTION_TAN, container);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("asin"))
+    {
+      node = new ASTNode(ASTNode.Type.FUNCTION_ARCSIN, container);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("acos"))
+    {
+      node = new ASTNode(ASTNode.Type.FUNCTION_ARCCOS, container);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("atan"))
+    {
+      node = new ASTNode(ASTNode.Type.FUNCTION_ARCTAN, container);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("ceil"))
+    {
+      node = new ASTNode(ASTNode.Type.FUNCTION_CEILING, container);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("floor"))
+    {
+      node = new ASTNode(ASTNode.Type.FUNCTION_FLOOR, container);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("log"))
+    {
+      node = new ASTNode(ASTNode.Type.FUNCTION_LN, container);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("log10"))
+    {
+      node = new ASTNode(ASTNode.Type.FUNCTION_LOG, container);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("pow"))
+    {
+      node = new ASTNode(ASTNode.Type.FUNCTION_POWER, container);
+      node.addChild(child);
+    }
+    else if (s.equalsIgnoreCase("sqr"))
+    {
+      mustBeEmpty(arguments);
+      node = new ASTNode(ASTNode.Type.FUNCTION_POWER, container);
+      node.addChild(child);
+      node.addChild(new ASTNode(2, container));
+    }
+    else if (s.equalsIgnoreCase("sqrt"))
+    {
+      mustBeEmpty(arguments);
+      node = new ASTNode(ASTNode.Type.FUNCTION_ROOT, container);
+      node.addChild(new ASTNode(2, container));
+      node.addChild(child);
+    }
+    else
+    {
+      node = new ASTNode(s, container);
+      node.addChild(child);
+    }
+    for (ASTNode argument : arguments)
+    {
+      node.addChild(argument);
     }
     {if (true) return node;}
-      break;
-    case OPEN_PAR:
-      jj_consume_token(OPEN_PAR);
-      node = TermLvl1();
-      jj_consume_token(CLOSE_PAR);
+      } else {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case OPEN_PAR:
+          jj_consume_token(OPEN_PAR);
+          node = TermLvl1();
+          jj_consume_token(CLOSE_PAR);
     {if (true) return node;}
-      break;
-    case MINUS:
-      jj_consume_token(MINUS);
-      node = Primary();
+          break;
+        case MINUS:
+          jj_consume_token(MINUS);
+          node = Primary();
     ASTNode uiMinus = new ASTNode('-', container);
     uiMinus.addChild(node);
     {if (true) return uiMinus;}
-      break;
-    default:
-      jj_la1[6] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+          break;
+        case STRING:
+          t = jj_consume_token(STRING);
+    s = t.image;
+    node = new ASTNode(s, container);
+    {if (true) return node;}
+          break;
+        default:
+          jj_la1[8] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+      }
     }
     throw new Error("Missing return statement in function");
+  }
+
+  private boolean jj_2_1(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_1(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(0, xla); }
+  }
+
+  private boolean jj_3_1() {
+    if (jj_scan_token(STRING)) return true;
+    if (jj_scan_token(OPEN_PAR)) return true;
+    return false;
   }
 
   /** Generated Token Manager. */
@@ -251,15 +385,20 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
   /** Next token. */
   public Token jj_nt;
   private int jj_ntk;
+  private Token jj_scanpos, jj_lastpos;
+  private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[7];
+  final private int[] jj_la1 = new int[9];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x4001,0x100,0xc00,0xc00,0x280,0x280,0x1278,};
+      jj_la1_0 = new int[] {0x8001,0x200,0x1800,0x1800,0x500,0x500,0x80,0x38,0x2440,};
    }
+  final private JJCalls[] jj_2_rtns = new JJCalls[1];
+  private boolean jj_rescan = false;
+  private int jj_gc = 0;
 
   /** Constructor with InputStream. */
   public TextToASTNodeParser(java.io.InputStream stream) {
@@ -272,7 +411,8 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -286,7 +426,8 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Constructor. */
@@ -296,7 +437,8 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -306,7 +448,8 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Constructor with generated Token Manager. */
@@ -315,7 +458,8 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -324,7 +468,8 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -334,11 +479,44 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
     jj_ntk = -1;
     if (token.kind == kind) {
       jj_gen++;
+      if (++jj_gc > 100) {
+        jj_gc = 0;
+        for (int i = 0; i < jj_2_rtns.length; i++) {
+          JJCalls c = jj_2_rtns[i];
+          while (c != null) {
+            if (c.gen < jj_gen) c.first = null;
+            c = c.next;
+          }
+        }
+      }
       return token;
     }
     token = oldToken;
     jj_kind = kind;
     throw generateParseException();
+  }
+
+  static private final class LookaheadSuccess extends java.lang.Error { }
+  final private LookaheadSuccess jj_ls = new LookaheadSuccess();
+  private boolean jj_scan_token(int kind) {
+    if (jj_scanpos == jj_lastpos) {
+      jj_la--;
+      if (jj_scanpos.next == null) {
+        jj_lastpos = jj_scanpos = jj_scanpos.next = token_source.getNextToken();
+      } else {
+        jj_lastpos = jj_scanpos = jj_scanpos.next;
+      }
+    } else {
+      jj_scanpos = jj_scanpos.next;
+    }
+    if (jj_rescan) {
+      int i = 0; Token tok = token;
+      while (tok != null && tok != jj_scanpos) { i++; tok = tok.next; }
+      if (tok != null) jj_add_error_token(kind, i);
+    }
+    if (jj_scanpos.kind != kind) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) throw jj_ls;
+    return false;
   }
 
 
@@ -371,16 +549,43 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
   private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
   private int[] jj_expentry;
   private int jj_kind = -1;
+  private int[] jj_lasttokens = new int[100];
+  private int jj_endpos;
+
+  private void jj_add_error_token(int kind, int pos) {
+    if (pos >= 100) return;
+    if (pos == jj_endpos + 1) {
+      jj_lasttokens[jj_endpos++] = kind;
+    } else if (jj_endpos != 0) {
+      jj_expentry = new int[jj_endpos];
+      for (int i = 0; i < jj_endpos; i++) {
+        jj_expentry[i] = jj_lasttokens[i];
+      }
+      jj_entries_loop: for (java.util.Iterator<?> it = jj_expentries.iterator(); it.hasNext();) {
+        int[] oldentry = (int[])(it.next());
+        if (oldentry.length == jj_expentry.length) {
+          for (int i = 0; i < jj_expentry.length; i++) {
+            if (oldentry[i] != jj_expentry[i]) {
+              continue jj_entries_loop;
+            }
+          }
+          jj_expentries.add(jj_expentry);
+          break jj_entries_loop;
+        }
+      }
+      if (pos != 0) jj_lasttokens[(jj_endpos = pos) - 1] = kind;
+    }
+  }
 
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[15];
+    boolean[] la1tokens = new boolean[16];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 9; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -389,13 +594,16 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
         }
       }
     }
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 16; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
         jj_expentries.add(jj_expentry);
       }
     }
+    jj_endpos = 0;
+    jj_rescan_token();
+    jj_add_error_token(0, 0);
     int[][] exptokseq = new int[jj_expentries.size()][];
     for (int i = 0; i < jj_expentries.size(); i++) {
       exptokseq[i] = jj_expentries.get(i);
@@ -409,6 +617,41 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
 
   /** Disable tracing. */
   final public void disable_tracing() {
+  }
+
+  private void jj_rescan_token() {
+    jj_rescan = true;
+    for (int i = 0; i < 1; i++) {
+    try {
+      JJCalls p = jj_2_rtns[i];
+      do {
+        if (p.gen > jj_gen) {
+          jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
+          switch (i) {
+            case 0: jj_3_1(); break;
+          }
+        }
+        p = p.next;
+      } while (p != null);
+      } catch(LookaheadSuccess ls) { }
+    }
+    jj_rescan = false;
+  }
+
+  private void jj_save(int index, int xla) {
+    JJCalls p = jj_2_rtns[index];
+    while (p.gen > jj_gen) {
+      if (p.next == null) { p = p.next = new JJCalls(); break; }
+      p = p.next;
+    }
+    p.gen = jj_gen + xla - jj_la; p.first = token; p.arg = xla;
+  }
+
+  static final class JJCalls {
+    int gen;
+    Token first;
+    int arg;
+    JJCalls next;
   }
 
 }
