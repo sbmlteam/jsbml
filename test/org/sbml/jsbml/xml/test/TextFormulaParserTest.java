@@ -1,14 +1,9 @@
 package org.sbml.jsbml.xml.test;
 
-import javax.swing.JDialog;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.xml.parsers.TextFormulaParser;
 
 /**
  * 
@@ -47,26 +42,26 @@ public class TextFormulaParserTest {
 		m.createFunctionDefinition("f");
 		m.createRateRule();
 
-		TextFormulaParser parser = new TextFormulaParser();
+		//TextFormulaParser parser = new TextFormulaParser();
 
-		for (int i = 0; i < testCases.length; i++) {
-			System.out.printf("%d.\treading:\t%s\n", i, testCases[i]);
-			ASTNode node = parser.parse(m.getRule(0), testCases[i]);
-			System.out.printf("%d.\tLaTeX:\t%s\n", i, node.toLaTeX());
-
-			JDialog d = new JDialog();
-			d.setTitle("Node output");
-			d.setModal(true);
-			d.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			JTree tree = new JTree(node);
-			d.getContentPane().add(
-					new JScrollPane(tree,
-							JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-							JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
-			d.pack();
-			d.setLocationRelativeTo(null);
-			d.setVisible(true);
-		}
+//		for (int i = 0; i < testCases.length; i++) {
+//			System.out.printf("%d.\treading:\t%s\n", i, testCases[i]);
+//			ASTNode node = parser.parse(m.getRule(0), testCases[i]);
+//			System.out.printf("%d.\tLaTeX:\t%s\n", i, node.toLaTeX());
+//
+//			JDialog d = new JDialog();
+//			d.setTitle("Node output");
+//			d.setModal(true);
+//			d.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//			JTree tree = new JTree(node);
+//			d.getContentPane().add(
+//					new JScrollPane(tree,
+//							JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+//							JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
+//			d.pack();
+//			d.setLocationRelativeTo(null);
+//			d.setVisible(true);
+//		}
 	}
 
 }
