@@ -17,23 +17,25 @@ public interface TextToASTNodeParserConstants {
   /** RegularExpression Id. */
   int EXPNUMBER = 5;
   /** RegularExpression Id. */
-  int FUNCTION = 6;
+  int STRING = 6;
   /** RegularExpression Id. */
-  int PLUS = 7;
+  int SLPITTER = 7;
   /** RegularExpression Id. */
-  int POWER = 8;
+  int PLUS = 8;
   /** RegularExpression Id. */
-  int MINUS = 9;
+  int POWER = 9;
   /** RegularExpression Id. */
-  int TIMES = 10;
+  int MINUS = 10;
   /** RegularExpression Id. */
-  int DIVIDE = 11;
+  int TIMES = 11;
   /** RegularExpression Id. */
-  int OPEN_PAR = 12;
+  int DIVIDE = 12;
   /** RegularExpression Id. */
-  int CLOSE_PAR = 13;
+  int OPEN_PAR = 13;
   /** RegularExpression Id. */
-  int EOL = 14;
+  int CLOSE_PAR = 14;
+  /** RegularExpression Id. */
+  int EOL = 15;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -46,7 +48,8 @@ public interface TextToASTNodeParserConstants {
     "<NUMBER>",
     "<INTEGER>",
     "<EXPNUMBER>",
-    "<FUNCTION>",
+    "<STRING>",
+    "<SLPITTER>",
     "\"+\"",
     "\"^\"",
     "\"-\"",
