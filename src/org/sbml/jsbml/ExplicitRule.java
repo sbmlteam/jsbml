@@ -455,6 +455,12 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	 */
 	public void setVariable(Variable variable) {
 		if (variable != null) {
+			if (variable.isConstant()) {
+				throw new IllegalArgumentException(
+						String.format("Cannot set the constant variable %s as the target of this %s.",
+										variable.getId(), getClass()
+												.getSimpleName()));
+			}
 			if (isSetUnits() && !(variable instanceof Parameter)) {
 				throw new IllegalArgumentException(
 						"Variable expected to be an instance of Parameter because a Unit attribute is set allready");

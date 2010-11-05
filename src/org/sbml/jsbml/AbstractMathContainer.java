@@ -373,7 +373,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	 */
 	public void setMath(ASTNode math) {
 		this.math = math;
-		this.math.parentSBMLObject = this;
+		ASTNode.setParentSBMLObject(math, this);
 		stateChanged();
 	}
 

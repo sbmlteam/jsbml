@@ -204,14 +204,15 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	 * @see org.sbml.jsbml.Assignment#setVariable(org.sbml.jsbml.Variable)
 	 */
 	public void setVariable(Variable variable) {
-		if ((variable instanceof Species) || variable instanceof Compartment
-				|| (variable instanceof Parameter)
-				|| (variable instanceof SpeciesReference)) {
+		if (!variable.isConstant()) {
 			this.variableID = variable.getId();
 			stateChanged();
 		} else {
+			// TODO: also check that before L3 SpeciesReference was not allowed here.
 			throw new IllegalArgumentException(
-					"Only Species, Compartments, SpeciesReferences or Parameters allowed as variables");
+					String.format("Cannot set the constant variable %s as the target of this %s.",
+									variable.getId(), getClass()
+											.getSimpleName()));
 		}
 	}
 
