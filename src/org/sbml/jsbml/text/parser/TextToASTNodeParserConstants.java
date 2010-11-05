@@ -31,11 +31,17 @@ public interface TextToASTNodeParserConstants {
   /** RegularExpression Id. */
   int DIVIDE = 12;
   /** RegularExpression Id. */
-  int OPEN_PAR = 13;
+  int LOG = 13;
   /** RegularExpression Id. */
-  int CLOSE_PAR = 14;
+  int FACULTY = 14;
   /** RegularExpression Id. */
-  int EOL = 15;
+  int OPEN_PAR = 15;
+  /** RegularExpression Id. */
+  int CLOSE_PAR = 16;
+  /** RegularExpression Id. */
+  int COMPARISON = 17;
+  /** RegularExpression Id. */
+  int EOL = 18;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -55,8 +61,11 @@ public interface TextToASTNodeParserConstants {
     "\"-\"",
     "\"*\"",
     "\"/\"",
+    "\"log\"",
+    "\"!\"",
     "\"(\"",
     "\")\"",
+    "<COMPARISON>",
     "<EOL>",
   };
 
