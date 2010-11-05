@@ -51,6 +51,7 @@ import org.sbml.jsbml.Delay;
 import org.sbml.jsbml.Event;
 import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.Trigger;
+import org.sbml.jsbml.text.parser.ParseException;
 
 
 public class TestEvent {
@@ -106,9 +107,9 @@ public class TestEvent {
   }
 */
   
-  @Test public void test_Event_full()
+  @Test public void test_Event_full() throws ParseException
   {
-    ASTNode math1 = ASTNode.parseFormula("0"); // TODO : API changes to document (was libsbml.parseFormula("0"))
+    ASTNode math1 = ASTNode.parseFormula("0"); 
     Trigger trigger = new  Trigger(2,4);
     ASTNode math = ASTNode.parseFormula("0");
     Event e = new  Event(2,4);
@@ -144,7 +145,7 @@ public class TestEvent {
     o3 = null;
   }
 
-  @Test public void test_Event_setDelay()
+  @Test public void test_Event_setDelay() throws ParseException
   {
     ASTNode math1 = ASTNode.parseFormula("0");
     Delay Delay = new  Delay(2,4);
@@ -221,7 +222,7 @@ public class TestEvent {
     E1 = null;
   }
 
-  @Test public void test_Event_setTrigger()
+  @Test public void test_Event_setTrigger() throws ParseException
   {
     ASTNode math1 =  ASTNode.parseFormula("0");
     Trigger trigger = new  Trigger(2,4);

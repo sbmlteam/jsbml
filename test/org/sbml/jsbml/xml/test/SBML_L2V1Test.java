@@ -156,8 +156,8 @@ public class SBML_L2V1Test {
 		
 		System.out.println("First Trigger = " + event.getTrigger().getFormula());
 		
-		assertTrue(event.getTrigger().getMathAsString().contains("<math"));
-		assertTrue(!event.getTrigger().getMathAsString().contains("athML<apply"));
+		assertTrue(event.getTrigger().getMathMLString().contains("<math"));
+		assertTrue(!event.getTrigger().getMathMLString().contains("athML<apply"));
 		
 	}
 	

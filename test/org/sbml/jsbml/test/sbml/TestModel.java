@@ -72,6 +72,7 @@ import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.text.parser.ParseException;
 
 @SuppressWarnings("deprecation")
 public class TestModel {
@@ -97,7 +98,7 @@ public class TestModel {
 	}
 
 	@Test
-	public void test_KineticLaw_getParameterById() {
+	public void test_KineticLaw_getParameterById() throws ParseException {
 		Parameter k1 = new Parameter(2, 4);
 		Parameter k2 = new Parameter(2, 4);
 		k1.setId("k1");
@@ -152,7 +153,7 @@ public class TestModel {
 	}
 
 	@Test
-	public void test_Model_addRules() {
+	public void test_Model_addRules() throws ParseException {
 		Rule r1 = new AlgebraicRule(2, 4);
 		AssignmentRule r2 = new AssignmentRule(2, 4);
 		RateRule r3 = new RateRule(2, 4);
@@ -195,7 +196,7 @@ public class TestModel {
 	}
 
 	@Test
-	public void test_Model_add_get_FunctionDefinitions() {
+	public void test_Model_add_get_FunctionDefinitions() throws ParseException {
 		FunctionDefinition fd1 = new FunctionDefinition(2, 4);
 		FunctionDefinition fd2 = new FunctionDefinition(2, 4);
 		fd1.setId("fd1");
@@ -582,7 +583,7 @@ public class TestModel {
 	}
 
 	@Test
-	public void test_Model_getFunctionDefinitionById() {
+	public void test_Model_getFunctionDefinitionById() throws ParseException {
 		FunctionDefinition fd1 = new FunctionDefinition(2, 4);
 		FunctionDefinition fd2 = new FunctionDefinition(2, 4);
 		fd1.setId("sin");
@@ -685,7 +686,7 @@ public class TestModel {
 	// TODO : API changes, setVariable function is not in the Rule Class.
 
 	@Test
-	public void test_Model_getRules() {
+	public void test_Model_getRules() throws ParseException {
 		Rule ar = new AlgebraicRule(2, 4);
 		AssignmentRule scr = new AssignmentRule(2, 4);
 		AssignmentRule cvr = new AssignmentRule(2, 4);
