@@ -33,6 +33,7 @@ import java.io.FileNotFoundException;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 
@@ -181,8 +182,11 @@ public class JSBML {
 	 * @param formula
 	 *            a text-string mathematical formula.
 	 * @return an <code>ASTNode</code> representing the formula.
+	 * @throws ParseException
+	 *             If the given formula is not of valid format or cannot be
+	 *             parsed for other reasons.
 	 */
-	public static ASTNode parseFormula(String formula) {
+	public static ASTNode parseFormula(String formula) throws ParseException {
 		return ASTNode.parseFormula(formula);
 	}
 

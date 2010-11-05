@@ -32,6 +32,8 @@ package org.sbml.jsbml;
 
 import java.util.HashMap;
 
+import org.sbml.jsbml.text.parser.ParseException;
+
 /**
  * Represents the functionDefinition XML element of a SBML file.
  * 
@@ -298,8 +300,8 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 * 
 	 * @see org.sbml.jsbml.element.MathContainer#setFormula(java.lang.String)
 	 */
-	// @Override
-	public void setFormula(String formula) {
+	@Override
+	public void setFormula(String formula) throws ParseException {
 		ASTNode math = ASTNode.parseFormula(formula);
 		if (!math.isLambda()) {
 			throw new IllegalArgumentException(

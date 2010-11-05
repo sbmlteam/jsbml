@@ -28,15 +28,12 @@
 
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.text.parser.ParseException;
+
 /**
- * Base class for all the SBML components which contain MathML nodes.
+ * Base interface for all the SBML components which contain MathML nodes.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
- * @opt attributes
- * @opt types
- * @opt visibility
- * @composed 0..1 math 1 ASTNode
  */
 public interface MathContainer extends SBaseWithDerivedUnit {
 
@@ -45,64 +42,73 @@ public interface MathContainer extends SBaseWithDerivedUnit {
 	 * 
 	 * @see org.sbml.jsbml.SBase#clone()
 	 */
+	@Override
 	public MathContainer clone();
 
 	/**
-	 * @return the math ASTNode of this object as a String. It returns the empty
-	 *         String if the math ASTNode is not set.
+	 * Converts this {@link MathContainer}'s internal {@link ASTNode} to a
+	 * C-like {@link String} according to the SBML Level 1 specifications and
+	 * returns it.
+	 * 
+	 * @return the math {@link ASTNode} of this object as a String. It returns
+	 *         the empty String if the math {@link ASTNode} is not set.
+	 * @deprecated As this is part of SBML Level 1, it is strongly recommended
+	 *             not to work with the {@link String} representation of a
+	 *             formula, but to deal with a more flexible {@link ASTNode}.
+	 * @see #getMath()
 	 */
+	@Deprecated
 	public String getFormula();
 
 	/**
-	 * @return the formula of this object. If the formula is not set, it returns
-	 *         the empty String.
-	 */
-	public String getFormulaString();
-
-	/**
-	 * @return the math ASTNode of this object. It return null if the math
-	 *         ASTNode is not set.
+	 * If {@link #isSetMath()} returns true, this method returns the
+	 * {@link ASTNode} belonging to this {@link MathContainer}.
+	 * 
+	 * @return the math {@link ASTNode} of this object. It return null if the
+	 *         math {@link ASTNode} is not set.
 	 */
 	public ASTNode getMath();
 
 	/**
-	 * @return the mathBuffer of this object as a String.
+	 * If {@link #isSetMath()} returns true, this method returns the
+	 * corresponding MathML {@link String}, otherwise an empty {@link String}
+	 * will be returned.
+	 * 
+	 * @return the MathML representation of this {@link MathContainer}'s math
+	 *         element.
 	 */
-	public String getMathAsString();
+	public String getMathMLString();
 
 	/**
-	 * @return true if the formula of this Object is not null.
-	 * @deprecated
-	 */
-	@Deprecated
-	public boolean isSetFormulaString();
-
-	/**
-	 * @return true if the math ASTNode of this object is not null.
+	 * Checks if an {@link ASTNode} has been set for this {@link MathContainer}.
+	 * 
+	 * @return true if the math {@link ASTNode} of this object is not null.
 	 */
 	public boolean isSetMath();
 
 	/**
-	 * Sets the mathematical expression of this KineticLaw instance to the given
-	 * formula.
+	 * Sets the mathematical expression of this {@link MathContainer} instance
+	 * to the given formula. This method parses the given {@link String} and
+	 * stores the result in an {@link ASTNode} object.
 	 * 
 	 * @param formula
-	 */
-	public void setFormula(String formula);
-
-	/**
-	 * Sets the formula of this object to 'formula'.
-	 * 
-	 * @param formula
-	 * @deprecated
+	 *            a C-like {@link String} according to the definition in the
+	 *            SBML Level 1 specifications.
+	 * @throws ParseException
+	 *             If the given formula is invalid or cannot be parsed properly.
+	 * @deprecated As this is part of SBML Level 1, it is strongly recommended
+	 *             not to work with the {@link String} representation of a
+	 *             formula, but to deal with a more flexible {@link ASTNode}.
 	 */
 	@Deprecated
-	public void setFormulaString(String formula);
+	public void setFormula(String formula) throws ParseException;
 
 	/**
-	 * Sets the math ASTNode of this object to 'math'.
+	 * Sets the math {@link ASTNode} of this {@link MathContainer} to the given
+	 * value.
 	 * 
 	 * @param math
+	 *            an abstract syntax tree.
 	 */
 	public void setMath(ASTNode math);
 }

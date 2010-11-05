@@ -33,16 +33,13 @@ import java.util.HashMap;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.text.parser.ParseException;
+
 /**
  * Base class for all the SBML components which contain MathML nodes.
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * @composed 0..1 math 1 ASTNode
  */
 public abstract class AbstractMathContainer extends AbstractSBase implements
 		MathContainer {
@@ -53,28 +50,16 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	private static final long serialVersionUID = -6630349025482311163L;
 
 	/**
-	 * Represents the 'formula' XML attribute of this object.
-	 * 
-	 * @deprecated Only use {@link ASTNode}.
-	 */
-	@Deprecated
-	// TODO : once the level 1 formula are properly parsed to an ASTNode, we
-	// need to remove the formula and mathBuffer attributes
-	private String formula;
-
-	/**
-	 * The math formula as a Tree.
+	 * The math formula as an abstract syntax tree.
 	 */
 	private ASTNode math;
 
 	/**
-	 * Creates a MathContainer instance. By default, the formula, math and
-	 * mathBuffer are null.
+	 * Creates a MathContainer instance. By default, the math object is null.
 	 */
 	public AbstractMathContainer() {
 		super();
 		math = null;
-		this.formula = null;
 	}
 
 	/**
@@ -92,7 +77,6 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		} else {
 			this.math = null;
 		}
-		this.formula = null;
 	}
 
 	/**
@@ -105,7 +89,6 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	public AbstractMathContainer(int level, int version) {
 		super(level, version);
 		math = null;
-		this.formula = null;
 	}
 
 	/**
@@ -120,15 +103,11 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		} else {
 			this.math = null;
 		}
-		if (sb.isSetFormulaString()) {
-			this.formula = new String(sb.getFormulaString());
-		} else {
-			this.formula = null;
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	public abstract AbstractMathContainer clone();
@@ -158,13 +137,6 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 			boolean equal = super.equals(o);
 			if (c.isSetMath() && isSetMath()) {
 				equal &= getMath().equals(c.getMath());
-			}
-			if ((c.isSetFormulaString() && !isSetFormulaString())
-					|| (!c.isSetFormulaString() && isSetFormulaString())) {
-				return false;
-			}
-			if (c.isSetFormulaString() && isSetFormulaString()) {
-				equal &= getFormulaString().equals(c.getFormulaString());
 			}
 			return equal;
 		}
@@ -263,16 +235,10 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.MathContainer#getFormula()
 	 */
-	@Deprecated
 	public String getFormula() {
-		// TODO : we need that until the level 1 formula are properly parsed to
-		// an ASTNode
-		if (getLevel() == 1) {
-			return getFormulaString();
-		}
-
 		try {
 			return isSetMath() ? getMath().toFormula() : "";
 		} catch (SBMLException e) {
@@ -282,15 +248,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.MathContainer#getFormulaString()
-	 */
-	@Deprecated
-	public String getFormulaString() {
-		return isSetFormulaString() ? formula : "";
-	}
-
-	/*
-	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.MathContainer#getMath()
 	 */
 	public ASTNode getMath() {
@@ -299,10 +257,10 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.MathContainer#getMathAsString()
+	 * 
+	 * @see org.sbml.jsbml.MathContainer#getMathMLString()
 	 */
-	// TODO : check libSBML API, there is a method to return the mathML string
-	public String getMathAsString() {
+	public String getMathMLString() {
 		if (isSetMath()) {
 			return math.toMathML();
 		}
@@ -311,15 +269,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.MathContainer#isSetFormulaString()
-	 */
-	@Deprecated
-	public boolean isSetFormulaString() {
-		return this.formula != null;
-	}
-
-	/*
-	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.MathContainer#isSetMath()
 	 */
 	public boolean isSetMath() {
@@ -340,8 +290,12 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 
 		if (!isAttributeRead) {
 			if (attributeName.equals("formula") && isSetLevel()
-					&& getLevel() < 2) {
-				setFormulaString(value);
+					&& (getLevel() < 2)) {
+				try {
+					setFormula(value);
+				} catch (ParseException exc) {
+					throw new IllegalArgumentException(exc);
+				}
 			}
 		}
 		return isAttributeRead;
@@ -349,26 +303,17 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.MathContainer#setFormula(java.lang.String)
 	 */
-	@Deprecated
-	public void setFormula(String formula) {
+	public void setFormula(String formula) throws ParseException {
 		math = ASTNode.parseFormula(formula);
 		stateChanged();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.MathContainer#setFormulaString(java.lang.String)
-	 */
-	@Deprecated
-	public void setFormulaString(String formula) {
-		this.formula = formula;
-		stateChanged();
-	}
-
-	/*
-	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.MathContainer#setMath(org.sbml.jsbml.ASTNode)
 	 */
 	public void setMath(ASTNode math) {
@@ -395,9 +340,8 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-
-		if (isSetFormulaString() && isSetLevel() && getLevel() < 2) {
-			attributes.put("formula", getFormulaString());
+		if (isSetMath() && isSetLevel() && getLevel() < 2) {
+			attributes.put("formula", getFormula());
 		}
 		return attributes;
 	}
