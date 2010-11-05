@@ -274,7 +274,8 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		 */
 		MINUS,
 		/**
-		 * 
+		 * {@link ASTNode}s of this {@link Type} refer to a
+		 * {@link NamedSBaseWithDerivedUnit}.
 		 */
 		NAME,
 		/**
@@ -2262,9 +2263,20 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
-	 * Returns true if this node represents a function.
+	 * Returns true if this node represents a function. In this context, the
+	 * term function means pre-defined functions such as "ceil", "abs" or "sin".
+	 * Note that this does not check whether this {@link ASTNode} refers to a
+	 * user-defined {@link FunctionDefinition} object. The type of an
+	 * {@link ASTNode} referencing to a {@link FunctionDefinition} is
+	 * {@link Type#NAME} because like all other
+	 * {@link NamedSBaseWithDerivedUnit} instances that can be referenced in
+	 * {@link ASTNode} objects, only the identifier is stored, here under the
+	 * term "name". Without having a valid reference to the
+	 * {@link MathContainer} that owns this {@link ASTNode} it is impossible to
+	 * identify if a {@link Type#NAME} refers to a {@link FunctionDefinition} or
+	 * some other {@link NamedSBaseWithDerivedUnit}.
 	 * 
-	 * @return true if this ASTNode is a function, false otherwise.
+	 * @return true if this {@link ASTNode} is a function, false otherwise.
 	 */
 	public boolean isFunction() {
 		return type.toString().startsWith("FUNCTION");
