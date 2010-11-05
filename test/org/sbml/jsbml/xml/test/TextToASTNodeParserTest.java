@@ -18,7 +18,7 @@ public class TextToASTNodeParserTest {
 				TextToASTNodeParser parser = new TextToASTNodeParser(System.in);
 				System.out.println("Reading from standard input...");
 				System.out.print("Enter an expression like \"1+(2+3)*4;\" :");
-				ASTNode node = parser.parse(m.getRule(0));
+				ASTNode node = parser.parse();
 				System.out.println(node.toLaTeX());
 			}
 		} catch (Exception e) {

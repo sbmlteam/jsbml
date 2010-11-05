@@ -17,29 +17,29 @@ public interface TextToASTNodeParserConstants {
   /** RegularExpression Id. */
   int EXPNUMBER = 5;
   /** RegularExpression Id. */
-  int STRING = 6;
+  int SLPITTER = 6;
   /** RegularExpression Id. */
-  int SLPITTER = 7;
+  int PLUS = 7;
   /** RegularExpression Id. */
-  int PLUS = 8;
+  int POWER = 8;
   /** RegularExpression Id. */
-  int POWER = 9;
+  int MINUS = 9;
   /** RegularExpression Id. */
-  int MINUS = 10;
+  int TIMES = 10;
   /** RegularExpression Id. */
-  int TIMES = 11;
+  int DIVIDE = 11;
   /** RegularExpression Id. */
-  int DIVIDE = 12;
+  int LOG = 12;
   /** RegularExpression Id. */
-  int LOG = 13;
+  int FACULTY = 13;
   /** RegularExpression Id. */
-  int FACULTY = 14;
+  int OPEN_PAR = 14;
   /** RegularExpression Id. */
-  int OPEN_PAR = 15;
+  int CLOSE_PAR = 15;
   /** RegularExpression Id. */
-  int CLOSE_PAR = 16;
+  int COMPARISON = 16;
   /** RegularExpression Id. */
-  int COMPARISON = 17;
+  int STRING = 17;
   /** RegularExpression Id. */
   int EOL = 18;
 
@@ -54,7 +54,6 @@ public interface TextToASTNodeParserConstants {
     "<NUMBER>",
     "<INTEGER>",
     "<EXPNUMBER>",
-    "<STRING>",
     "<SLPITTER>",
     "\"+\"",
     "\"^\"",
@@ -66,6 +65,7 @@ public interface TextToASTNodeParserConstants {
     "\"(\"",
     "\")\"",
     "<COMPARISON>",
+    "<STRING>",
     "<EOL>",
   };
 

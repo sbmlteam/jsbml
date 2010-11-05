@@ -5,8 +5,6 @@ import org.sbml.jsbml.ASTNode.Type;
 import java.util.ArrayList;
 
 public class TextToASTNodeParser implements TextToASTNodeParserConstants {
-  private MathContainer container;
-
   private void checkSize(ArrayList < ASTNode > arguments, int i) throws ParseException
   {
     if (arguments.size() > i)
@@ -15,9 +13,8 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
     }
   }
 
-  final public ASTNode parse(MathContainer container) throws ParseException {
+  final public ASTNode parse() throws ParseException {
   ASTNode node = null;
-  this.container = container;
     node = Expression();
     {if (true) return node;}
     throw new Error("Missing return statement in function");
@@ -59,7 +56,7 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
       }
       jj_consume_token(POWER);
       rightChild = Primary();
-      node = new ASTNode(ASTNode.Type.POWER, container);
+      node = new ASTNode(ASTNode.Type.POWER);
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
@@ -89,7 +86,7 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
       case TIMES:
         jj_consume_token(TIMES);
         rightChild = TermLvl3();
-      node = new ASTNode('*', container);
+      node = new ASTNode('*');
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
@@ -99,13 +96,13 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
         rightChild = TermLvl3();
       if (leftChild.isInteger() && rightChild.isInteger())
       {
-        node = new ASTNode(container);
+        node = new ASTNode();
         node.setValue(leftChild.getInteger(), rightChild.getInteger());
         leftChild = node;
       }
       else
       {
-        node = new ASTNode('/', container);
+        node = new ASTNode('/');
         node.addChild(leftChild);
         node.addChild(rightChild);
         leftChild = node;
@@ -114,7 +111,7 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
       case LOG:
         jj_consume_token(LOG);
         rightChild = TermLvl3();
-      node = new ASTNode(ASTNode.Type.FUNCTION_TAN, container);
+      node = new ASTNode(ASTNode.Type.FUNCTION_TAN);
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
@@ -152,7 +149,7 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
       case PLUS:
         jj_consume_token(PLUS);
         rightChild = TermLvl2();
-      node = new ASTNode('+', container);
+      node = new ASTNode('+');
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
@@ -160,7 +157,7 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
       case MINUS:
         jj_consume_token(MINUS);
         rightChild = TermLvl2();
-      node = new ASTNode('-', container);
+      node = new ASTNode('-');
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
@@ -213,7 +210,7 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
   Token t;
   double d;
   int i;
-  ASTNode node = new ASTNode(container);
+  ASTNode node = new ASTNode();
   ASTNode child, furtherChild;
   String s;
   String vals [ ];
@@ -430,13 +427,13 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
       checkSize(arguments, 0);
       type = ASTNode.Type.FUNCTION_POWER;
       node.addChild(child);
-      node.addChild(new ASTNode(2, container));
+      node.addChild(new ASTNode(2));
     }
     else if (s.equalsIgnoreCase("sqrt"))
     {
       checkSize(arguments, 0);
       type = ASTNode.Type.FUNCTION_ROOT;
-      node.addChild(new ASTNode(2, container));
+      node.addChild(new ASTNode(2));
       node.addChild(child);
     }
     else if (s.equalsIgnoreCase("exp"))
@@ -468,14 +465,14 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
         case MINUS:
           jj_consume_token(MINUS);
           node = Primary();
-    ASTNode uiMinus = new ASTNode('-', container);
+    ASTNode uiMinus = new ASTNode('-');
     uiMinus.addChild(node);
     {if (true) return uiMinus;}
           break;
         case STRING:
           t = jj_consume_token(STRING);
     s = t.image;
-    node = new ASTNode(s, container);
+    node = new ASTNode(s);
     {if (true) return node;}
           break;
         default:
@@ -518,7 +515,7 @@ public class TextToASTNodeParser implements TextToASTNodeParserConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x40001,0x200,0x3800,0x3800,0x20500,0x20500,0x80,0x38,0x8440,};
+      jj_la1_0 = new int[] {0x40001,0x100,0x1c00,0x1c00,0x10280,0x10280,0x40,0x38,0x24200,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[1];
   private boolean jj_rescan = false;
