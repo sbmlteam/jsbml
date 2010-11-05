@@ -1,3 +1,41 @@
+\documentclass[a4paper,11pt]{scrartcl}
+
+% Fonts
+\usepackage{mathptmx} % Times font in main text and mathematical formulas
+\usepackage{wasysym}  % Contains several special symbols
+\usepackage{pifont}   % Enables Zapf dingbats (special symbols)
+\usepackage[scaled=.95]{helvet} % Sans serif font to be used
+
+% Language definition
+\usepackage[english]{babel}
+\usepackage{varioref} % better references with \vref
+
+
+\title{A short description of the main differences between JSBML and LibSBML}
+\author{Andreas Dr\"ager}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Although JSBML and LibSBML are very similar, this document gives a brief
+overview of the main differences between the Java\texttrademark{} application
+programming interfaces of both libraries.
+\end{abstract}
+
+\section{History}
+
+In earlier versions of SBML only the model itself could be associated with a
+history, i.e., a description about the person(s) who build this model, including
+names, e-mail addresses, modification and creation dates. Nowadays, it has
+become possible to annotate each individual construct of an SBML model with such
+a history. This is reflected by naming the corresponding object \verb!History!
+in JSBML, whereas it is still called \verb!ModelHistory! in LibSBML. Hence, all
+instances of \verb!SBase! in JSBML contain methods do access and manipulate its
+\verb!History!.
+
 \section{Deprecation}
 
 The intension of JSBML is to provide a Java library for the latest 
@@ -11,81 +49,85 @@ elements.
 A model in JSBML always also contains all predefined units in the model
 if there are any, i.e., for models encoded of SBML versions before level
 3. These can be accessed from an instance of model by calling the method
-getPredefinedUnit(String unit).
+\verb!getPredefinedUnit(String unit)!.
 
 \section{MathContainer}
 
 This interface gathers all those elements that may contain mathematical
-expressions encoded in abstract syntax trees (ASTNodes). The abstract
-class AbstractMathContainer serves as actual super class for most of
-the derived types.
+expressions encoded in abstract syntax trees (instances of \verb!ASTNode!).
+The abstract class \verb!AbstractMathContainer! serves as actual super class
+for most of the derived types.
 
 \section{ASTNodeCompiler}
 
 This interface allows users to create customized interpreters for the
 content of mathematical equations encoded in abstract syntax trees. It
-is directly and recursively called from the ASTNode class and returns
-an ASTNodeValue object, which wraps the possible evaluation results of
+is directly and recursively called from the \verb!ASTNode! class and returns
+an \verb!ASTNodeValue! object, which wraps the possible evaluation results of
 the interpretation. JSBML already provides several implementations of
-this interface, for instance, ASTNodes can be directly translated to
-LaTeX or MathML for further processing. 
+this interface, for instance, \verb!ASTNode! objects can be directly translated
+to LaTeX or MathML for further processing.
 
 \section{InitialAssignment}
 
 JSBML unifies all those elements that assign values to some other 
-SBase in SBML under the interface Assignment. This interface uses
+\verb!SBase! in SBML under the interface Assignment. This interface uses
 the term Variable for the element whose value is to be changed depending
 on some mathematical expression that is also present in the Assignment
 (because Assignment extends the interface MathContainer). Therefore,
-an Assignment contains methods such as set/getVariable(Variable v)
-and also isSetVariable() and unsetVariable(). In addition to that
-JSBML also provides the method set/getSymbol(String symbol) in the
-InitialAssignment class to make sure that switching from libSBML to
+an Assignment contains methods such as \verb!set!/\verb!getVariable(Variable v)!
+and also \verb!isSetVariable()! and \verb!unsetVariable()!. In addition to that
+JSBML also provides the method \verb!set!/\verb!getSymbol(String symbol)! in the
+InitialAssignment class to make sure that switching from LibSBML to
 JSBML is quite smoothly. However, the preferred way in JSBML is to
 apply the methods setVariable either with String or Variable instances
 as arguments.
  
 
-\section{The class libSBML}
+\section{The class LibSBML}
 
-There is no class libSBML because this library is called JSBML. You
+There is no class LibSBML because this library is called JSBML. You
 can therefore only find a class JSBML. This class provides similar
-methods as the libSBML class in libSBML.
+methods as the LibSBML class in LibSBML.
 
-\section{libSBMLConstants}
+\section{LibSBMLConstants}
 
 You won't find a corresponding implementation of this interface in 
-JSBML. The reason is that we decided to encode constants using the
+JSBML. The reason is that the JSBML team decided to encode constants using the
 Java construct enum. For instance, all the fields starting with the
-prefix AST_TYPE_* have a corresponding field in the ASTNode class itself.
-There you can find the Type enum. Instead of typing AST_TYPE_PLUS, you
-would therefore type ASTNode.Type.PLUS.
+prefix \verb!AST_TYPE_*! have a corresponding field in the \verb!ASTNode! class
+itself. There you can find the Type enum. Instead of typing
+\verb!AST_TYPE_PLUS!, you would therefore type \verb!ASTNode.Type.PLUS!.
 
-The same holds true for Unit.Kind.* corresponding to the 
-libSBMLConstants.UNIT_KIND_* fields.
+The same holds true for \verb!Unit.Kind.*! corresponding to the 
+\verb!LibSBMLConstants.UNIT_KIND_*! fields.
 
 \section{ListOf}
 
-There is no method get(String id) because the generic implementation of 
-the ListOf<? extends SBase> class in JSBML excepts also elements that do 
-not necessarily have an identifier. Only instances of NamedSBase may have
-the fields identifier and name set. Hence, generally, the ListOf class 
-cannot assume these fields to be present. To query an instance of ListOf 
+There is no method \verb!get(String id)! because the generic implementation of 
+the \verb!ListOf<? extends SBase>! class in JSBML excepts also elements that do 
+not necessarily have an identifier. Only instances of \verb!NamedSBase! may have
+the fields identifier and name set. Hence, generally, the \verb!ListOf! class 
+cannot assume these fields to be present. To query an instance of \verb!ListOf! 
 in JSBML for names or identifiers or both, you can apply the following 
 filter:
-
+\begin{verbatim}
 NamedSBase nsb = myList.firstHit(new NameFilter(identifier));
-
+\end{verbatim}
 This will give you the first element in the list with the given identifier.
 Various filters are already implemented, but you can easily add your 
-customized filter. To this end, you only have to implement the Filter 
-interface in org.sbml.jsbml.util.filters. There you can also find an
-OrFilter and an AndFilter, which take as arguments multiple other filters.
-With the SBOFilter you can query for certain SBO annotations in your list,
-whereas the CVTermFilter helps you to identify SBase instances with a
-desired MIRIAM annotation. For instances of ListOf<Species> you can apply
-the BoundaryConditionFilter to look for those species that operate on the
-boundary of the reaction system.
+customized filter. To this end, you only have to implement the \verb!Filter! 
+interface in \verb!org.sbml.jsbml.util.filters!. There you can also find an
+\verb!OrFilter! and an \verb!AndFilter!, which take as arguments multiple other
+filters. With the \verb!SBOFilter! you can query for certain SBO annotations in
+your list, whereas the \verb!CVTermFilter! helps you to identify \verb!SBase!
+instances with a desired MIRIAM annotation. For instances of
+\verb!ListOf<Species>! you can apply the \verb!BoundaryConditionFilter! to look
+for those species that operate on the boundary of the reaction system.
 
 
+% \bibliographystyle{natbib}
+% \bibliography{literature}
+
+\end{document}
 
