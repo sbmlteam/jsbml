@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Mapping between tokens in a textual representation of a mathematical
+    expression and a corresponding ASTNode.Type.
+  </comment>
+  <entry key="abs">FUNCTION_ABS</entry>
+  <entry key="sin">FUNCTION_SIN</entry>
+  <entry key="cos">FUNCTION_COS</entry>
+  <entry key="tan">FUNCTION_TAN</entry>
+  <entry key="asin">FUNCTION_ARCSIN</entry>
+  <entry key="acos">FUNCTION_ARCCOS</entry>
+  <entry key="accosh">FUNCTION_ARCCOSH</entry>
+  <entry key="accot">FUNCTION_ARCCOT</entry>
+  <entry key="accoth">FUNCTION_ARCCOTH</entry>
+  <entry key="accsc">FUNCTION_ARCCSC</entry>
+  <entry key="accsch">FUNCTION_ARCCSCH</entry>
+  <entry key="acsec">FUNCTION_ARCSEC</entry>
+  <entry key="acsech">FUNCTION_ARCSECH</entry>
+  <entry key="acsinh">FUNCTION_ARCSINH</entry>
+  <entry key="actanh">FUNCTION_ARCTANH</entry>
+  <entry key="cosh">FUNCTION_COSH</entry>
+  <entry key="cot">FUNCTION_COT</entry>
+  <entry key="coth">FUNCTION_COTH</entry>
+  <entry key="csc">FUNCTION_CSC</entry>  
+  <entry key="csch">FUNCTION_CSCH</entry>
+  <entry key="atan">FUNCTION_ARCTAN</entry>
+  <entry key="ceil">FUNCTION_CEILING</entry>
+  <entry key="floor">FUNCTION_FLOOR</entry>   
+  <entry key="log">FUNCTION_LN</entry>  
+  <entry key="log10">FUNCTION_LOG</entry>
+  <entry key="pow">FUNCTION_POWER</entry>
+  <entry key="sqr">FUNCTION_POWER</entry>
+  <entry key="sqrt">FUNCTION_ROOT</entry>
+  <entry key="exp">FUNCTION_EXP</entry>
+  <entry key="fac">FUNCTION_FACTORIAL</entry>
+ </properties>
+ 
