@@ -34,7 +34,9 @@ become possible to annotate each individual construct of an SBML model with such
 a history. This is reflected by naming the corresponding object \verb!History!
 in JSBML, whereas it is still called \verb!ModelHistory! in LibSBML. Hence, all
 instances of \verb!SBase! in JSBML contain methods do access and manipulate its
-\verb!History!.
+\verb!History!. Furthermore, you will not find the classes \verb!ModelCreator!
+and \verb!ModelCreatorList! because JSBML gathers its \verb!Creator! objects
+in a generic \verb!List<Creator>! in the \verb!History!.
 
 \section{Deprecation}
 
@@ -88,7 +90,13 @@ as arguments.
 
 There is no class LibSBML because this library is called JSBML. You
 can therefore only find a class JSBML. This class provides similar
-methods as the LibSBML class in LibSBML.
+methods as the LibSBML class in LibSBML, such as methods to
+\begin{itemize}
+ \item parse a formula \verb!String! into a corresponding \verb!ASTNode! object
+ \item obtain a \verb!Unit.Type! corresponding to a given \verb!String!
+\end{itemize}
+and many more.
+
 
 \section{LibSBMLConstants}
 
@@ -101,6 +109,22 @@ itself. There you can find the Type enum. Instead of typing
 
 The same holds true for \verb!Unit.Kind.*! corresponding to the 
 \verb!LibSBMLConstants.UNIT_KIND_*! fields.
+
+\section{Exceptions}
+
+Generally, JSBML throws more exceptions than LibSBML. This behavior helps
+programmers and users to avoid creating invalid SBML data structures already
+when dealing with these in memory. Examples are the \verb!ParseException! that
+may be thrown if a given formula cannot be parsed properly into an \verb!ASTNode!
+data structure, or \verb!InvalidArgumentException!s if inappropriate values are
+passed to methods. For instance, an object representing a constant such as a
+\verb!Parameter! whose constant attribute has been set to \verb!true! cannot be
+used as the \verb!Variable! element in an \verb!Assignment!. Another example is
+the \verb!InvalidArgumentException! that is thrown when trying to set an invalid
+identifier \verb!String! for an instance of \verb!AbstractNamedSBase!. Hence,
+you have to be aware of potential exceptions and errors when using JSBML, on the
+other hand will this behavior prevent you from doing obvious mistakes.
+
 
 \section{ListOf}
 

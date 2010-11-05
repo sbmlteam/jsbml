@@ -42,13 +42,6 @@ import org.w3c.util.DateParser;
  * @author marine
  * @author Andreas Dr&auml;ger
  * 
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * 
- * @composed 0..* creator 1 Creator
- * @composed 0..* modification 1 Date
  */
 public class History implements Serializable {
 	/**
@@ -58,11 +51,11 @@ public class History implements Serializable {
 	/**
 	 * Contains all the ModelCreator instances of this ModelHistory.
 	 */
-	private LinkedList<Creator> listOfModelCreators;
+	private List<Creator> listOfModelCreators;
 	/**
 	 * Contains all the modified date instances of this ModelHistory.
 	 */
-	private LinkedList<Date> listOfModification;
+	private List<Date> listOfModification;
 	/**
 	 * Date of creation
 	 */
