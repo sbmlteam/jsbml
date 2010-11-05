@@ -11,9 +11,9 @@ public interface FormulaParserConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int NUMBER = 3;
+  int INTEGER = 3;
   /** RegularExpression Id. */
-  int INTEGER = 4;
+  int NUMBER = 4;
   /** RegularExpression Id. */
   int EXPNUMBER = 5;
   /** RegularExpression Id. */
@@ -51,8 +51,8 @@ public interface FormulaParserConstants {
     "<EOF>",
     "\" \"",
     "\"\\t\"",
-    "<NUMBER>",
     "<INTEGER>",
+    "<NUMBER>",
     "<EXPNUMBER>",
     "<SLPITTER>",
     "\"+\"",

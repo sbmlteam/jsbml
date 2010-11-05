@@ -14,7 +14,6 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 
-
 /**
  * 
  * @author Andreas Dr&auml;ger
@@ -23,15 +22,15 @@ import org.sbml.jsbml.text.parser.ParseException;
 public class FormulaParserTest {
 
 	private static String[] testCases = {
-			"23 + 52^2 - 3",
-			"a - log10(5)^11",
-			"f(a, b, c, d)",
-			"23 + (52^2 - 3 + 5)/7 - 45",
-			"10+ --3.5e7 *5",
-			"5/4 + 4/5*10",
-			"10 + -0.3E-5*10",
-			"Vf*(A*B - P*Q/Keq)/(Kma + A*(1 + P/Kip) + (Vf/(Vr*Keq)) * Kmq*P + Kmp*Q + P*Q)",
-			"(a * (b + c) * d)/(e +  3) *   5" };
+	// "23 + 52^2 - 3",
+			// "a - log10(5)^11",
+			// "f(a, b, c, d)",
+			// "23 + (52^2 - 3 + 5)/7 - 45",
+			// "10+ --3.5e7 *5",
+			"5/4 + 4/5*10", "10 + -0.3E-5*10", "ceil (-2.9)"
+	// "Vf*(A*B - P*Q/Keq)/(Kma + A*(1 + P/Kip) + (Vf/(Vr*Keq)) * Kmq*P + Kmp*Q + P*Q)",
+	// "(a * (b + c) * d)/(e +  3) *   5"
+	};
 
 	/**
 	 * 
@@ -51,7 +50,6 @@ public class FormulaParserTest {
 		Model m = new Model("test", 2, 4);
 		m.createFunctionDefinition("f");
 		m.createRateRule();
-
 		FormulaParser parser;
 
 		for (int i = 0; i < testCases.length; i++) {
