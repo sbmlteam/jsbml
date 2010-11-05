@@ -62,11 +62,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	// TODO : check how we set the math in level 1
 
 	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -1391327698196553142L;
-
-	/**
 	 * An enumeration of all possible types that can be represented by an
 	 * abstract syntax tree node.
 	 * 
@@ -347,6 +342,50 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		UNKNOWN;
 
 		/**
+		 * Returns the {@link Type} corresponding to the given {@link String}.
+		 * 
+		 * @param type
+		 *            e.g., sin, asin, exp, and so on. See the specification of
+		 *            SBML Level 1 Version 1 or 2.
+		 * @return The type corresponding to the given {@link String} or null if
+		 *         no matching can be found.
+		 */
+		public static Type getTypeFor(String type) {
+			if (type.equalsIgnoreCase("abs")) {
+				return FUNCTION_ABS;
+			} else if (type.equalsIgnoreCase("acos")) {
+				return FUNCTION_ARCCOS;
+			} else if (type.equalsIgnoreCase("asin")) {
+				return FUNCTION_ARCSIN;
+			} else if (type.equalsIgnoreCase("atan")) {
+				return FUNCTION_ARCTAN;
+			} else if (type.equalsIgnoreCase("ceil")) {
+				return FUNCTION_CEILING;
+			} else if (type.equalsIgnoreCase("cos")) {
+				return FUNCTION_COS;
+			} else if (type.equalsIgnoreCase("exp")) {
+				return FUNCTION_EXP;
+			} else if (type.equalsIgnoreCase("floor")) {
+				return FUNCTION_FLOOR;
+			} else if (type.equalsIgnoreCase("log")) {
+				return FUNCTION_LOG;
+			} else if (type.equalsIgnoreCase("log10")) {
+				return FUNCTION_LOG;
+			} else if (type.equalsIgnoreCase("pow")) {
+				return FUNCTION_POWER;
+			} else if (type.equalsIgnoreCase("sqr")) {
+				return FUNCTION_ROOT;
+			} else if (type.equalsIgnoreCase("sqrt")) {
+				return FUNCTION_ROOT;
+			} else if (type.equalsIgnoreCase("sin")) {
+				return FUNCTION_SIN;
+			} else if (type.equalsIgnoreCase("tan")) {
+				return FUNCTION_TAN;
+			}
+			return UNKNOWN;
+		}
+
+		/**
 		 * 
 		 * @return
 		 */
@@ -486,50 +525,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		}
 
 		/**
-		 * Returns the {@link Type} corresponding to the given {@link String}.
-		 * 
-		 * @param type
-		 *            e.g., sin, asin, exp, and so on. See the specification of
-		 *            SBML Level 1 Version 1 or 2.
-		 * @return The type corresponding to the given {@link String} or null if
-		 *         no matching can be found.
-		 */
-		public static Type getTypeFor(String type) {
-			if (type.equalsIgnoreCase("abs")) {
-				return FUNCTION_ABS;
-			} else if (type.equalsIgnoreCase("acos")) {
-				return FUNCTION_ARCCOS;
-			} else if (type.equalsIgnoreCase("asin")) {
-				return FUNCTION_ARCSIN;
-			} else if (type.equalsIgnoreCase("atan")) {
-				return FUNCTION_ARCTAN;
-			} else if (type.equalsIgnoreCase("ceil")) {
-				return FUNCTION_CEILING;
-			} else if (type.equalsIgnoreCase("cos")) {
-				return FUNCTION_COS;
-			} else if (type.equalsIgnoreCase("exp")) {
-				return FUNCTION_EXP;
-			} else if (type.equalsIgnoreCase("floor")) {
-				return FUNCTION_FLOOR;
-			} else if (type.equalsIgnoreCase("log")) {
-				return FUNCTION_LOG;
-			} else if (type.equalsIgnoreCase("log10")) {
-				return FUNCTION_LOG;
-			} else if (type.equalsIgnoreCase("pow")) {
-				return FUNCTION_POWER;
-			} else if (type.equalsIgnoreCase("sqr")) {
-				return FUNCTION_ROOT;
-			} else if (type.equalsIgnoreCase("sqrt")) {
-				return FUNCTION_ROOT;
-			} else if (type.equalsIgnoreCase("sin")) {
-				return FUNCTION_SIN;
-			} else if (type.equalsIgnoreCase("tan")) {
-				return FUNCTION_TAN;
-			}
-			return UNKNOWN;
-		}
-
-		/**
 		 * Method to check whether this type is valid for the given SBML
 		 * Level/Version combination.
 		 * 
@@ -543,6 +538,11 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		}
 
 	}
+
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -1391327698196553142L;
 
 	/**
 	 * 
@@ -621,6 +621,16 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 */
 	public static ASTNode diff(ASTNode... ast) {
 		return arithmethicOperation(Type.MINUS, ast);
+	}
+
+	/**
+	 * Equal
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	public static ASTNode eq(ASTNode left, ASTNode right) {
+		return relational(Type.RELATIONAL_EQ, left, right);
 	}
 
 	/**
@@ -705,6 +715,38 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
+	 * Method for creating an {@link ASTNode} representing greater or equal for
+	 * the two given nodes.
+	 * 
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	public static ASTNode geq(ASTNode left, ASTNode right) {
+		return relational(Type.RELATIONAL_GEQ, left, right);
+	}
+
+	/**
+	 * Greater than
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	public static ASTNode gt(ASTNode left, ASTNode right) {
+		return relational(Type.RELATIONAL_GT, left, right);
+	}
+	
+	/**
+	 * Less or equal
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	public static ASTNode leq(ASTNode left, ASTNode right) {
+		return relational(Type.RELATIONAL_LEQ, left, right);
+	}
+	
+	/**
 	 * Creates an {@link ASTNode} representing a logarithm to base 10.
 	 * 
 	 * @param value
@@ -752,13 +794,9 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * @return
 	 */
 	public static ASTNode lt(ASTNode left, ASTNode right) {
-		ASTNode lt = new ASTNode(Type.RELATIONAL_LT, left.getParentSBMLObject());
-		lt.addChild(left);
-		lt.addChild(right);
-		setParentSBMLObject(lt, left.getParentSBMLObject(), 0);
-		return lt;
+		return relational(Type.RELATIONAL_LT, left, right);
 	}
-
+	
 	/**
 	 * Creates an {@link ASTNode} that performs a less than comparison between a
 	 * variable and another {@link ASTNode}. The parent SBML object will be
@@ -770,6 +808,16 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 */
 	public static ASTNode lt(String variable, ASTNode node) {
 		return lt(new ASTNode(variable, node.getParentSBMLObject()), node);
+	}
+	
+	/**
+	 * Not equal.
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	public static ASTNode neq(ASTNode left, ASTNode right) {
+		return relational(Type.RELATIONAL_NEQ, left, right);
 	}
 
 	/**
@@ -873,6 +921,28 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
+	 * Creates a relational {@link ASTNode} of the given type with the two given
+	 * children left and right and sets the parent SBML object of all nodes to
+	 * the one provided by the left child.
+	 * 
+	 * @param type
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	private static ASTNode relational(Type type, ASTNode left, ASTNode right) {
+		if ((left == null) || (right == null)) {
+			throw new NullPointerException(
+					"Cannot create a relational node with null arguments.");
+		}
+		ASTNode relational = new ASTNode(type, left.getParentSBMLObject());
+		relational.addChild(left);
+		relational.addChild(right);
+		setParentSBMLObject(relational, left.getParentSBMLObject(), 0);
+		return relational;
+	}
+
+	/**
 	 * 
 	 * @param radicant
 	 * @param rootExponent
@@ -885,6 +955,16 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		root.addChild(radicant);
 		setParentSBMLObject(rootExponent, radicant.getParentSBMLObject(), 0);
 		return root;
+	}
+
+	/**
+	 * Sets the Parent of the node and its children to the given value
+	 * 
+	 * @param node
+	 * @param parent
+	 */
+	static void setParentSBMLObject(ASTNode node, MathContainer parent) {
+		setParentSBMLObject(node, parent, 0);
 	}
 
 	/**
@@ -992,9 +1072,11 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
-	 * Possible attributes for a MathML element
+	 * The value of the definitionURL for csymbol element. Level 3 extensions
+	 * can create new csymbol element that we would not necessary be aware of,
+	 * so we need to store the attribute value.
 	 */
-	private String id, style, className, encoding;
+	private String definitionURL;
 
 	/**
 	 * 
@@ -1005,6 +1087,18 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * 
 	 */
 	private int exponent;
+
+	/**
+	 * Possible attributes for a MathML element
+	 */
+	private String id, style, className, encoding;
+
+	/**
+	 * Tells if the type attribute of the cn element was set and we need to
+	 * write it back or if it is set to the default (REAL).
+	 * 
+	 */
+	private boolean isSetNumberType = false;
 
 	/**
 	 * Child nodes.
@@ -1037,26 +1131,12 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	/**
 	 * The container that holds this ASTNode.
 	 */
-	MathContainer parentSBMLObject;
+	private MathContainer parentSBMLObject;
 
 	/**
 	 * The type of this ASTNode.
 	 */
 	private Type type;
-
-	/**
-	 * Tells if the type attribute of the cn element was set and we need to
-	 * write it back or if it is set to the default (REAL).
-	 * 
-	 */
-	private boolean isSetNumberType = false;
-
-	/**
-	 * The value of the definitionURL for csymbol element. Level 3 extensions
-	 * can create new csymbol element that we would not necessary be aware of,
-	 * so we need to store the attribute value.
-	 */
-	private String definitionURL;
 
 	/**
 	 * Since Level 3 SBML allows to equip numbers with unit identifiers. In this
@@ -1073,7 +1153,17 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	private NamedSBaseWithDerivedUnit variable;
 
 	/**
-	 * Copy constructor; Creates a deep copy of the given ASTNode.
+	 * Creates a new {@link ASTNode} of unspecified type and without a pointer
+	 * to its containing {@link MathContainer}.
+	 */
+	public ASTNode() {
+		this.parentSBMLObject = null;
+		this.listOfNodes = null;
+		this.initDefaults();
+	}
+
+	/**
+	 * Copy constructor; Creates a deep copy of the given {@link ASTNode}.
 	 * 
 	 * @param astNode
 	 *            the ASTNode to be copied.
@@ -1096,40 +1186,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
-	 * Creates and returns a new ASTNode.
-	 * 
-	 * @param mantissa
-	 * @param exponent
-	 * @param parent
-	 */
-	public ASTNode(double mantissa, int exponent, MathContainer parent) {
-		this(Type.REAL_E, parent);
-		setValue(mantissa, exponent);
-	}
-
-	/**
-	 * Creates and returns a new ASTNode.
-	 * 
-	 * @param real
-	 * @param parent
-	 */
-	public ASTNode(double real, MathContainer parent) {
-		this(Type.REAL, parent);
-		setValue(real);
-	}
-
-	/**
-	 * Creates and returns a new ASTNode.
-	 * 
-	 * @param integer
-	 * @param parent
-	 */
-	public ASTNode(int integer, MathContainer parent) {
-		this(Type.INTEGER, parent);
-		setValue(integer);
-	}
-
-	/**
 	 * Creates a new {@link ASTNode} representing an operator, i.e., an internal
 	 * node.
 	 * 
@@ -1140,25 +1196,99 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		this(parent);
 		setCharacter(operator);
 	}
+	
+	/**
+	 * Creates a new {@link ASTNode} representing an operator, i.e., an internal
+	 * node.
+	 * 
+	 * @param operator
+	 */
+	public ASTNode(char operator) {
+		this();
+		setCharacter(operator);
+	}
 
 	/**
-	 * Creates and returns a new ASTNode.
+	 * Creates and returns a new {@link ASTNode}.
 	 * 
-	 * By default, the returned node will have a type of UNKNOWN. The calling
-	 * code should set the node type to something else as soon as possible using
-	 * setType(int)
+	 * @param mantissa
+	 * @param exponent
+	 * @param parent
+	 */
+	public ASTNode(double mantissa, int exponent, MathContainer parent) {
+		this(Type.REAL_E, parent);
+		setValue(mantissa, exponent);
+	}
+	
+	/**
+	 * Creates and returns a new {@link ASTNode}.
+	 * 
+	 * @param mantissa
+	 * @param exponent
+	 */
+	public ASTNode(double mantissa, int exponent) {
+		this(Type.REAL_E);
+		setValue(mantissa, exponent);
+	}
+
+	/**
+	 * Creates and returns a new {@link ASTNode}.
+	 * 
+	 * @param real
+	 * @param parent
+	 */
+	public ASTNode(double real, MathContainer parent) {
+		this(Type.REAL, parent);
+		setValue(real);
+	}
+	
+	/**
+	 * Creates and returns a new {@link ASTNode}.
+	 * 
+	 * @param real
+	 */
+	public ASTNode(double real) {
+		this(Type.REAL);
+		setValue(real);
+	}
+
+	/**
+	 * Creates and returns a new {@link ASTNode} with the given value.
+	 * 
+	 * @param integer
+	 * @param parent
+	 */
+	public ASTNode(int integer, MathContainer parent) {
+		this(Type.INTEGER, parent);
+		setValue(integer);
+	}
+	
+	/**
+	 * Creates and returns a new {@link ASTNode} with the given value.
+	 * @param integer
+	 */
+	public ASTNode(int integer) {
+		this(Type.INTEGER);
+		setValue(integer);
+	}
+
+	/**
+	 * Creates and returns a new {@link ASTNode}.
+	 * 
+	 * By default, the returned node will have a type of {@link Type#UNKNOWN}.
+	 * The calling code should set the node type to something else as soon as
+	 * possible using setType(int)
 	 * 
 	 * @param astNode
 	 *            the parent SBML object
 	 */
 	public ASTNode(MathContainer parent) {
+		this();
 		parentSBMLObject = parent;
-		listOfNodes = null;
-		initDefaults();
 	}
 
 	/**
-	 * Creates and returns a new ASTNode.
+	 * Creates and returns a new {@link ASTNode} referring to the given {@link NamedSBaseWithDerivedUnit}.
 	 * 
 	 * @param nsb
 	 * @param parent
@@ -1167,9 +1297,18 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		this(Type.NAME, parent);
 		setVariable(nsb);
 	}
+	
+	/**
+	 * Creates and returns a new {@link ASTNode} referring to the given {@link NamedSBaseWithDerivedUnit}.
+	 * @param nsb
+	 */
+	public ASTNode(NamedSBaseWithDerivedUnit nsb) {
+		this(Type.NAME);
+		setVariable(nsb);
+	}
 
 	/**
-	 * Creates and returns a new ASTNode.
+	 * Creates and returns a new {@link ASTNode} with the given name.
 	 * 
 	 * @param name
 	 * @param parent
@@ -1178,6 +1317,26 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	public ASTNode(String name, MathContainer parent) {
 		this(Type.NAME, parent);
 		setName(name);
+	}
+	
+	/**
+	 * Creates and returns a new {@link ASTNode} with the given name.
+	 * @param name
+	 */
+	public ASTNode(String name) {
+		this(Type.NAME);
+		setName(name);
+	}
+
+	/**
+	 * Creates a new {@link ASTNode} of the given {@link Type} but without a
+	 * pointer to its {@link MathContainer}.
+	 * 
+	 * @param type
+	 */
+	public ASTNode(Type type) {
+		this();
+		setType(type);
 	}
 
 	/**
@@ -1222,9 +1381,10 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		if (operator == Type.PLUS || operator == Type.MINUS
 				|| operator == Type.TIMES || operator == Type.DIVIDE
 				|| operator == Type.POWER || operator == Type.FUNCTION_ROOT) {
-			if (astnode.isZero() && operator == Type.DIVIDE)
+			if (astnode.isZero() && operator == Type.DIVIDE) {
 				throw new RuntimeException(new IllegalArgumentException(
 						"Cannot divide by zero."));
+			}
 			if (!(astnode.isOne() && (operator == Type.TIMES || operator == Type.DIVIDE))) {
 				ASTNode swap = new ASTNode(type, getParentSBMLObject());
 				swap.denominator = denominator;
@@ -2743,8 +2903,9 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		if (exponent == 0d) {
 			setValue(1);
 			listOfNodes.clear();
-		} else if (exponent != 1d)
+		} else if (exponent != 1d) {
 			raiseByThePowerOf(new ASTNode(exponent, getParentSBMLObject()));
+		}
 		return this;
 	}
 
