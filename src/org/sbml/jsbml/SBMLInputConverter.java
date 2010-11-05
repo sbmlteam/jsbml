@@ -57,7 +57,7 @@ public interface SBMLInputConverter {
 	 * @return
 	 * @throws Exception
 	 */
-	public Model convert2Model(Object model) throws Exception;
+	public Model convertModel(Object model) throws Exception;
 
 	/**
 	 * 
