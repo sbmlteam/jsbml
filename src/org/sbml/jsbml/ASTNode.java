@@ -30,6 +30,7 @@
 package org.sbml.jsbml;
 
 import java.io.Serializable;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -41,6 +42,8 @@ import java.util.Set;
 import javax.activity.InvalidActivityException;
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.text.parser.FormulaParser;
+import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.LaTeX;
@@ -824,10 +827,11 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * 
 	 * @param formula
 	 * @return
+	 * @throws ParseException 
 	 */
-	public static ASTNode parseFormula(String formula) {
-		// TODO Auto-generated method stub
-		throw new Error("Not yet implemented.");
+	public static ASTNode parseFormula(String formula) throws ParseException {
+		FormulaParser parser = new FormulaParser(new StringReader(formula));
+		return parser.parse();
 	}
 
 	/**
