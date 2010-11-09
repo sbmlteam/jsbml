@@ -42,7 +42,6 @@ public interface MathContainer extends SBaseWithDerivedUnit {
 	 * 
 	 * @see org.sbml.jsbml.SBase#clone()
 	 */
-	@Override
 	public MathContainer clone();
 
 	/**
