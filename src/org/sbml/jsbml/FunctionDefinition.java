@@ -256,6 +256,16 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public ListOf<FunctionDefinition> getParent() {
+		return (ListOf<FunctionDefinition>) super.getParent();
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.element.NamedSBase#isSetId()
 	 */
@@ -378,7 +388,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	public void unsetName() {
 		this.name = null;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

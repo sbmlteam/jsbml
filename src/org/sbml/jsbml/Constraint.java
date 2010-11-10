@@ -216,4 +216,14 @@ public class Constraint extends AbstractMathContainer {
 	public void unsetMessageBuffer() {
 		this.messageBuffer = null;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public ListOf<Constraint> getParent() {
+		return (ListOf<Constraint>) super.getParent();
+	}
 }

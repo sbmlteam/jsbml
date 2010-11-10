@@ -395,6 +395,16 @@ public class Event extends AbstractNamedSBase {
 		return 0;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public ListOf<Event> getParent() {
+		return (ListOf<Event>) super.getParent();
+	}
+
 	/**
 	 * @return the priority
 	 */
@@ -744,7 +754,7 @@ public class Event extends AbstractNamedSBase {
 	public void unsetUseValuesFromTriggerTime() {
 		this.useValuesFromTriggerTime = null;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

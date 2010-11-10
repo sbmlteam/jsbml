@@ -123,4 +123,15 @@ public class CompartmentType extends AbstractNamedSBase {
 	public CompartmentType clone() {
 		return new CompartmentType(this);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	@Deprecated
+	public ListOf<CompartmentType> getParent() {
+		return (ListOf<CompartmentType>) super.getParent();
+	}
 }

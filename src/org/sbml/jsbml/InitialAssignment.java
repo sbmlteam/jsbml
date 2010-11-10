@@ -172,6 +172,16 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public ListOf<InitialAssignment> getParent() {
+		return (ListOf<InitialAssignment>) super.getParent();
+	}
+
 	/**
 	 * @return the variableID of this InitialAssignment. Return an empty String
 	 *         if it is not set.
@@ -284,7 +294,7 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 		this.variableID = null;
 		stateChanged();
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -80,4 +80,14 @@ public class StoichiometryMath extends AbstractMathContainer {
 	public StoichiometryMath clone() {
 		return new StoichiometryMath(this);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@Override
+	@Deprecated
+	public SpeciesReference getParent() {
+		return (SpeciesReference) super.getParent();
+	}
 }

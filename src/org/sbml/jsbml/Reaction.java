@@ -569,6 +569,16 @@ public class Reaction extends AbstractNamedSBase implements
 		return listOfReactants.size();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public ListOf<Reaction> getParent() {
+		return (ListOf<Reaction>) super.getParent();
+	}
+
 	/**
 	 * 
 	 * @param i
@@ -578,7 +588,7 @@ public class Reaction extends AbstractNamedSBase implements
 	public SpeciesReference getProduct(int i) {
 		return listOfProducts.get(i);
 	}
-
+	
 	/**
 	 * Searches the first {@link SpeciesReference} in the listOfProducts of this
 	 * {@link Reaction} with the given identifier.
@@ -610,7 +620,7 @@ public class Reaction extends AbstractNamedSBase implements
 		srf.setFilterForSpecies(true);
 		return getListOfProducts().firstHit(srf);
 	}
-	
+
 	/**
 	 * 
 	 * @param i
@@ -1147,7 +1157,7 @@ public class Reaction extends AbstractNamedSBase implements
 		reversible = null;
 		stateChanged();
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

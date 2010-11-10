@@ -124,4 +124,15 @@ public class SpeciesType extends AbstractNamedSBase {
 	public SpeciesType clone() {
 		return new SpeciesType(this);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	@Deprecated
+	public ListOf<SpeciesType> getParent() {
+		return (ListOf<SpeciesType>) super.getParent();
+	}
 }

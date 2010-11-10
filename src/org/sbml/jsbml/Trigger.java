@@ -41,9 +41,9 @@ package org.sbml.jsbml;
 public class Trigger extends AbstractMathContainer {
 
 	/**
-	 * 
+	 * Generated serial version identifier.
 	 */
-	private Boolean persistent;
+	private static final long serialVersionUID = -6964409168614117235L;
 
 	/**
 	 * 
@@ -51,9 +51,9 @@ public class Trigger extends AbstractMathContainer {
 	private Boolean initialValue;
 
 	/**
-	 * Generated serial version identifier.
+	 * 
 	 */
-	private static final long serialVersionUID = -6964409168614117235L;
+	private Boolean persistent;
 
 	/**
 	 * Creates a Trigger instance.
@@ -122,6 +122,15 @@ public class Trigger extends AbstractMathContainer {
 		return isSetInitialValue() ? initialValue.booleanValue() : false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@Override
+	public Event getParent() {
+		return (Event) super.getParent();
+	}
+
 	/**
 	 * @return the persistent
 	 */
@@ -152,7 +161,7 @@ public class Trigger extends AbstractMathContainer {
 	public void setInitialValue(boolean initialValue) {
 		this.initialValue = Boolean.valueOf(initialValue);
 	}
-
+	
 	/**
 	 * @param persistent
 	 *            the persistent to set

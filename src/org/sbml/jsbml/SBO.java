@@ -50,10 +50,6 @@ import org.sbml.jsbml.util.StringTools;
  * Methods for interacting with Systems Biology Ontology (SBO) terms.
  * 
  * @author Andreas Dr&auml;ger
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public class SBO {
 
@@ -76,6 +72,7 @@ public class SBO {
 	 * 
 	 */
 	private static Properties sbo2alias;
+	
 	static {
 		OboParser parser = new OboParser();
 		try {

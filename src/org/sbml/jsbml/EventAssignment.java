@@ -138,6 +138,15 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@Override
+	public Event getParent() {
+		return (Event) super.getParent();
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.Assignment#getVariable()
 	 */
 	public String getVariable() {
@@ -241,7 +250,7 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 		this.variableID = null;
 		stateChanged();
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

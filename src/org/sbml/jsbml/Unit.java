@@ -1173,6 +1173,15 @@ public class Unit extends AbstractSBase {
 		return isSetOffset() ? offset : 0;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@Override
+	public UnitDefinition getParent() {
+		return (UnitDefinition) super.getParent();
+	}
+
 	/**
 	 * 
 	 * @return This method returns the prefix of this unit, for instance, "m"
@@ -1933,7 +1942,7 @@ public class Unit extends AbstractSBase {
 		isSetScale = false;
 		stateChanged();
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
