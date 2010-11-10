@@ -44,6 +44,7 @@ import org.biojava.ontology.Term;
 import org.biojava.ontology.Triple;
 import org.biojava.ontology.io.OboParser;
 import org.sbml.jsbml.resources.Resource;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * Methods for interacting with Systems Biology Ontology (SBO) terms.
@@ -740,12 +741,29 @@ public class SBO {
 	 * @return the given integer sboTerm as a zero-padded seven digit string.
 	 */
 	public static String intToString(int sboTerm) {
-		if (!checkTerm(sboTerm))
+		if (!checkTerm(sboTerm)) {
 			return "";
-		StringBuffer sbo = new StringBuffer(prefix);
+		}
+		return StringTools.concat(prefix, sboNumberString(sboTerm)).toString();
+	}
+	
+	/**
+	 * This method creates a 7 digit SBO number for the given Term identifier (if
+	 * this is a valid identifier). The returned {@link String} will not contain the
+	 * SBO prefix.
+	 * 
+	 * @param sboTerm
+	 * @return
+	 */
+	public static String sboNumberString(int sboTerm) {
+		if (!checkTerm(sboTerm)) {
+			return "";
+		}
+		StringBuilder sbo = new StringBuilder();
 		sbo.append(Integer.toString(sboTerm));
-		while (sbo.length() < 11)
-			sbo.insert(4, '0');
+		while (sbo.length() < 7) {
+			sbo.insert(0, '0');
+		}
 		return sbo.toString();
 	}
 
