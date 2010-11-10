@@ -80,5 +80,14 @@ public class Priority extends AbstractMathContainer {
 	public Priority clone() {
 		return new Priority(this);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@Override
+	public Event getParent() {
+		return (Event) super.getParent();
+	}
 
 }

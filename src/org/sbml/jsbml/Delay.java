@@ -54,16 +54,6 @@ public class Delay extends AbstractMathContainer {
 	}
 
 	/**
-	 * Creates a Delay instance from a level and version.
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public Delay(int level, int version) {
-		super(level, version);
-	}
-
-	/**
 	 * Creates a Delay instance from an ASTNode, level and version.
 	 * 
 	 * @param math
@@ -81,11 +71,30 @@ public class Delay extends AbstractMathContainer {
 		super(sb);
 	}
 
+	/**
+	 * Creates a Delay instance from a level and version.
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public Delay(int level, int version) {
+		super(level, version);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
 	public Delay clone() {
 		return new Delay(this);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@Override
+	public Event getParent() {
+		return (Event) super.getParent();
 	}
 }

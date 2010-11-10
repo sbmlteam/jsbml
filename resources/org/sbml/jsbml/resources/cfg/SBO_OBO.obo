@@ -1,6 +1,6 @@
 format-version: 1.2
-date: 24:02:2010 07:00
-data-version: 23:02:2010 14:22
+date: 10:11:2010 07:00
+data-version: 04:11:2010 14:10
 saved-by: SBO community
 auto-generated-by: SBO Browser (http://www.ebi.ac.uk/sbo/)
 default-namespace: sbo
@@ -37,25 +37,25 @@ is_a: SBO:0000000 ! sbo term
 [Term]
 id: SBO:0000005
 name: obsolete mathematical expression
-def: "" [src_code:NR]
+def: "The description of a system in mathematical terms." [src_code:NR]
 is_obsolete: true
 
 [Term]
 id: SBO:0000006
 name: obsolete parameter
-def: "" [src_code:NR]
+def: "A numerical value that represents the amount of some entity\, process or mathematical function of the system." [src_code:NR]
 is_obsolete: true
 
 [Term]
 id: SBO:0000007
 name: obsolete participant type
-def: "" [src_code:NR]
+def: "The 'kind' of entity involved in some process\, action or reaction in the system. This may be enzyme\, simple chemical\, etc." [src_code:NR]
 is_obsolete: true
 
 [Term]
 id: SBO:0000008
 name: obsolete modelling framework
-def: "" [src_code:NR]
+def: "Basic assumptions that underlie a mathematical model." [src_code:NR]
 is_obsolete: true
 
 [Term]
@@ -63,7 +63,7 @@ id: SBO:0000009
 name: kinetic constant
 def: "Numerical parameter that quantifies the velocity of a chemical reaction." [src_code:NR]
 synonym: "reaction rate constant" []
-is_a: SBO:0000256 ! biochemical parameter
+is_a: SBO:0000002 ! quantitative parameter
 
 [Term]
 id: SBO:0000010
@@ -170,7 +170,7 @@ is_a: SBO:0000035 ! forward unimolecular rate constant\, continuous case
 [Term]
 id: SBO:0000026
 name: new term name
-def: "" [src_code:NR]
+def: "none" [src_code:NR]
 is_obsolete: true
 
 [Term]
@@ -191,7 +191,7 @@ is_a: SBO:0000326 ! enzymatic rate law for non-modulated unireactant enzymes
 [Term]
 id: SBO:0000029
 name: Henri-Michaelis-Menten rate law
-def: "First general rate equation for reactions involving enzymes\, it was presented in \"Victor Henri. Lois GÃ?Â©nÃ?Â©rales de l'Action des Diastases. Paris\, Hermann\, 1903.\". The reaction is assumed to be made of a reversible of the binding of the substrate to the enzyme\, followed by the breakdown of the complex generating the product. Ten years after Henri\, Michaelis and Menten presented a variant of his equation\, based on the hypothesis that the dissociation rate of the substrate was much larger than the rate of the product generation. Leonor Michaelis\, Maud Menten (1913). Die Kinetik der Invertinwirkung\, Biochem. Z. 49\:333-369.<math xmlns=\"http\://www.w3.org/1998/Math/MathML\">\n<semantics definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000062\">\n   <lambda>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000025\">kcat</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000505\">Et</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000515\">S</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000373\">Ks</ci></bvar>\n     <apply>\n       <divide/>\n       <apply>\n         <times/>\n         <ci>kcat</ci>\n         <ci>Et</ci>\n         <ci>S</ci>\n       </apply>\n       <apply>\n         <plus/>\n         <ci>Ks</ci>\n         <ci>S</ci>\n       </apply>\n     </apply>\n   </lambda>\n</semantics>\n</math>" [src_code:NR]
+def: "First general rate equation for reactions involving enzymes\, it was presented in \"Victor Henri. Lois Générales de l'Action des Diastases. Paris\, Hermann\, 1903.\". The reaction is assumed to be made of a reversible of the binding of the substrate to the enzyme\, followed by the breakdown of the complex generating the product. Ten years after Henri\, Michaelis and Menten presented a variant of his equation\, based on the hypothesis that the dissociation rate of the substrate was much larger than the rate of the product generation. Leonor Michaelis\, Maud Menten (1913). Die Kinetik der Invertinwirkung\, Biochem. Z. 49\:333-369.<math xmlns=\"http\://www.w3.org/1998/Math/MathML\">\n<semantics definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000062\">\n   <lambda>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000025\">kcat</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000505\">Et</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000515\">S</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000373\">Ks</ci></bvar>\n     <apply>\n       <divide/>\n       <apply>\n         <times/>\n         <ci>kcat</ci>\n         <ci>Et</ci>\n         <ci>S</ci>\n       </apply>\n       <apply>\n         <plus/>\n         <ci>Ks</ci>\n         <ci>S</ci>\n       </apply>\n     </apply>\n   </lambda>\n</semantics>\n</math>" [src_code:NR]
 is_a: SBO:0000028 ! enzymatic rate law for irreversible non-modulated non-interacting unireactant enzymes
 
 [Term]
@@ -925,13 +925,13 @@ is_a: SBO:0000166 ! mass action rate law for irreversible reactions\, discrete s
 id: SBO:0000147
 name: thermodynamic temperature
 def: "Temperature is the physical property of a system which underlies the common notions of \"hot\" and \"cold\"\, the material with the higher temperature is said to be hotter. Temperature is a quantity related to the average kinetic energy of the particles in a substance. The 10th Conference Generale des Poids et Mesures decided to define the thermodynamic temperature scale by choosing the triple point of water as the fundamental fixed point\, and assigning to it the temperature 273\,16 degrees Kelvin\, exactly (0.01 degree Celsius)." [src_code:NR]
-is_a: SBO:0000255 ! physical characteristic
+is_a: SBO:0000002 ! quantitative parameter
 
 [Term]
 id: SBO:0000148
 name: temperature difference
 def: "Quantity resulting from the difference between two thermodynamic temperatures. A difference or interval of temperature may be expressed in Kelvins or in degrees Celsius.\n" [src_code:NR]
-is_a: SBO:0000255 ! physical characteristic
+is_a: SBO:0000002 ! quantitative parameter
 
 [Term]
 id: SBO:0000149
@@ -991,7 +991,7 @@ is_a: SBO:0000188 ! number of biochemical items
 id: SBO:0000158
 name: order of a reaction with respect to a reactant
 def: "The order of a reaction with respect to a certain reactant is defined as the power to which its concentration term in the rate equation is raised." [src_code:NR]
-is_a: SBO:0000256 ! biochemical parameter
+is_a: SBO:0000382 ! biochemical exponential coefficient
 
 [Term]
 id: SBO:0000159
@@ -1053,7 +1053,7 @@ is_a: SBO:0000000 ! sbo term
 [Term]
 id: SBO:0000232
 name: obsolete event
-def: "" [src_code:NR]
+def: "A phenomenon that takes place and which may be observable\, or may be determined to have occurred as the result of an action or process." [src_code:NR]
 is_obsolete: true
 
 [Term]
@@ -1149,7 +1149,6 @@ is_a: SBO:0000176 ! biochemical reaction
 id: SBO:0000181
 name: conformational transition
 def: "Biochemical reaction that does not result in the modification of covalent bonds of reactants\, but rather modifies the conformation of some reactants\, that is the relative position of their atoms in space." [src_code:NR]
-synonym: "" []
 is_a: SBO:0000176 ! biochemical reaction
 
 [Term]
@@ -1193,7 +1192,7 @@ is_obsolete: true
 id: SBO:0000188
 name: number of biochemical items
 def: "A number of objects of the same type\, identical or different\, involved in a biochemical event." [src_code:NR]
-is_a: SBO:0000256 ! biochemical parameter
+is_a: SBO:0000002 ! quantitative parameter
 
 [Term]
 id: SBO:0000189
@@ -1272,7 +1271,6 @@ is_a: SBO:0000176 ! biochemical reaction
 id: SBO:0000201
 name: oxidation
 def: "Chemical process during which a molecular entity loses electrons." [src_code:NR]
-synonym: "" []
 is_a: SBO:0000200 ! redox reaction
 
 [Term]
@@ -1475,6 +1473,7 @@ is_obsolete: true
 id: SBO:0000236
 name: entity
 def: "A real being\, whether functional or material\, that may participate in an interaction\, a process or relationship of biological significance. \n" [src_code:NR]
+synonym: "new synonym" []
 is_a: SBO:0000000 ! sbo term
 
 [Term]
@@ -1511,7 +1510,6 @@ is_a: SBO:0000236 ! entity
 id: SBO:0000242
 name: channel
 def: "Participating entity that allows another participating entity to pass through it\, possibly connecting different compartments." [src_code:NR]
-synonym: "" []
 is_a: SBO:0000241 ! functional entity
 
 [Term]
@@ -1535,8 +1533,7 @@ is_a: SBO:0000240 ! material entity
 [Term]
 id: SBO:0000246
 name: information macromolecule
-def: "Macromolecule whose sequence is encoded in the genome of living organisms.\n\nCHEBI\:33695 " [src_code:NR]
-synonym: "" []
+def: "Macromolecule whose sequence is encoded in the genome of living organisms." [src_code:NR]
 is_a: SBO:0000245 ! macromolecule
 
 [Term]
@@ -1549,7 +1546,6 @@ is_a: SBO:0000240 ! material entity
 id: SBO:0000248
 name: chemical macromolecule
 def: "Macromolecule whose sequence is not directly encoded in the genome." [src_code:NR]
-synonym: "" []
 is_a: SBO:0000245 ! macromolecule
 
 [Term]
@@ -1588,38 +1584,38 @@ is_a: SBO:0000240 ! material entity
 id: SBO:0000254
 name: electrical resistance
 def: "Measure of the degree to which an object opposes the passage of an electric current. The SI unit of electrical resistance is the ohm." [src_code:NR]
-is_a: SBO:0000255 ! physical characteristic
+is_a: SBO:0000002 ! quantitative parameter
 
 [Term]
 id: SBO:0000255
 name: physical characteristic
 def: "Parameter characterising a physical system or the environment\, and independent of life's influence." [src_code:NR]
-is_a: SBO:0000002 ! quantitative parameter
+is_obsolete: true
 
 [Term]
 id: SBO:0000256
 name: biochemical parameter
 def: "Parameter that depends on the biochemical properties of a system." [src_code:NR]
-is_a: SBO:0000002 ! quantitative parameter
+is_obsolete: true
 
 [Term]
 id: SBO:0000257
 name: conductance
-def: "Measure of how easily electricity flows along a certain path through an electrical element. The SI derived unit of conductance is the siemens." [src_code:NR]
-is_a: SBO:0000255 ! physical characteristic
+def: "Measure of how easily electricity flows along a certain path through an electrical element. The SI derived unit of conductance is the Siemens." [src_code:NR]
+is_a: SBO:0000002 ! quantitative parameter
 
 [Term]
 id: SBO:0000258
 name: capacitance
 def: "Measure of the amount of electric charge stored (or separated) for a given electric potential. The unit of capacitance id the Farad." [src_code:NR]
-is_a: SBO:0000255 ! physical characteristic
+is_a: SBO:0000002 ! quantitative parameter
 
 [Term]
 id: SBO:0000259
 name: voltage
 def: "Difference of electrical potential between two points of an electrical network\, expressed in volts." [src_code:NR]
 synonym: "electrical potential difference" []
-is_a: SBO:0000255 ! physical characteristic
+is_a: SBO:0000002 ! quantitative parameter
 
 [Term]
 id: SBO:0000260
@@ -1667,7 +1663,6 @@ is_a: SBO:0000275 ! enzymatic rate law for mixed-type inhibition of irreversible
 id: SBO:0000266
 name: enzymatic rate law for simple irreversible non-competitive inhibition of unireactant enzymes
 def: "Inhibition of a unireactant enzyme by one inhibitor that can bind to the complex enzyme-substrate and the free enzyme with the same equilibrium constant\, and totally prevent the catalysis.<math xmlns=\"http\://www.w3.org/1998/Math/MathML\">\n<semantics definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000062\">\n   <lambda>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000025\">kcat</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000505\">Et</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000515\">S</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000521\">I</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000027\">Ks</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000261\">Ki</ci></bvar>\n     <apply>\n       <divide/>\n       <apply>\n         <times/>\n         <ci>kcat</ci>\n         <ci>Et</ci>\n         <ci>S</ci>\n       </apply>\n       <apply>\n         <plus/>\n         <apply>\n           <times/>\n           <ci>S</ci>\n           <apply>\n             <plus/>\n             <cn type=\"integer\">1</cn>\n             <apply>\n               <divide/>\n               <ci>I</ci>\n               <ci>Ki</ci>\n             </apply>\n           </apply>\n         </apply>\n         <apply>\n           <times/>\n           <ci>Ks</ci>\n           <apply>\n             <plus/>\n             <cn type=\"integer\">1</cn>\n             <apply>\n               <divide/>\n               <ci>I</ci>\n               <ci>Ki</ci>\n             </apply>\n           </apply>\n         </apply>\n       </apply>\n     </apply>\n   </lambda>\n</semantics>\n</math>" [src_code:NR]
-synonym: "" []
 is_a: SBO:0000442 ! enzymatic rate law for simple reversible non-competitive inhibition of unireactant enzymes
 
 [Term]
@@ -1749,7 +1744,7 @@ is_a: SBO:0000404 ! unit of genetic information
 id: SBO:0000279
 name: pressure
 def: "Pressure (symbol\: p) is the force per unit area applied on a surface in a direction perpendicular to that surface. The unit of pressure is the Pascal (Pa)\, that is equal to 1 Newton per square meter." [src_code:NR]
-is_a: SBO:0000255 ! physical characteristic
+is_a: SBO:0000002 ! quantitative parameter
 
 [Term]
 id: SBO:0000280
@@ -1790,7 +1785,6 @@ is_a: SBO:0000241 ! functional entity
 id: SBO:0000285
 name: material entity of unspecified nature
 def: "Material entity whose nature is unknown or irrelevant." [src_code:NR]
-synonym: "" []
 is_a: SBO:0000240 ! material entity
 
 [Term]
@@ -1936,7 +1930,7 @@ is_a: SBO:0000310 ! acid dissociation characteristic
 id: SBO:0000308
 name: equilibrium or steady-state characteristic
 def: "Quantitative parameter that characterises a biochemical equilibrium. " [src_code:NR]
-is_a: SBO:0000256 ! biochemical parameter
+is_a: SBO:0000002 ! quantitative parameter
 
 [Term]
 id: SBO:0000309
@@ -2092,14 +2086,13 @@ is_a: SBO:0000211 ! removal of a chemical group
 id: SBO:0000331
 name: half-life
 def: "Time interval over which a quantified entity is reduced to half its original value." [src_code:NR]
-synonym: "" []
 is_a: SBO:0000009 ! kinetic constant
 is_a: SBO:0000346 ! temporal measure
 
 [Term]
 id: SBO:0000332
 name: half-life of an exponential decay
-def: "Time taken by a quantity decreasing according to a mono-exponential decay to be divided by two. <math xmlns=\"http\://www.w3.org/1998/Math/MathML\">\n   <lambda>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000035\">k</ci></bvar>\n     <apply>\n       <divide/>\n         <apply>\n           <ln/>           \n           <cn type=\"integer\">2</cn>\n         </apply>\n         <ci>k</ci>\n     </apply>\n   </lambda>\n</math>\n" [src_code:NR]
+def: "Time taken by a quantity decreasing according to a mono-exponential decay to be divided by two. Sometimes called t1/2.<math xmlns=\"http\://www.w3.org/1998/Math/MathML\">\n   <lambda>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000356\">l</ci></bvar>\n     <apply>\n       <divide/>\n         <apply>\n           <ln/>           \n           <cn type=\"integer\">2</cn>\n         </apply>\n         <ci>l</ci>\n     </apply>\n   </lambda>\n</math>\n" [src_code:NR]
 is_a: SBO:0000331 ! half-life
 
 [Term]
@@ -2124,7 +2117,6 @@ is_a: SBO:0000404 ! unit of genetic information
 id: SBO:0000336
 name: interactor
 def: "Entity participating in a physical or functional interaction." [src_code:NR]
-synonym: "" []
 is_a: SBO:0000010 ! reactant
 
 [Term]
@@ -2191,20 +2183,18 @@ is_obsolete: true
 id: SBO:0000346
 name: temporal measure
 def: "Fundamental quantity of the measuring system used to sequence events\, to compare the durations of events and the intervals between them\, and to quantify the motions or the transformation of entities. The SI base unit for time is the SI second. The second is the duration of 9\,192\,631\,770 periods of the radiation corresponding to the transition between the two hyperfine levels of the ground state of the caesium 133 atom." [src_code:NR]
-synonym: "" []
-is_a: SBO:0000255 ! physical characteristic
+is_a: SBO:0000002 ! quantitative parameter
 
 [Term]
 id: SBO:0000347
 name: duration
 def: "Amount of time during which an event persists." [src_code:NR]
-synonym: "" []
 is_a: SBO:0000346 ! temporal measure
 
 [Term]
 id: SBO:0000348
 name: exponential time constant
-def: "Characterises the frequency response of a first-order\, linear time-invariant system. Time that it takes for an exponential decay to reach 1/e (about 37%) of the original value. This is also the average lifetime of an element in the decaying set.<math xmlns=\"http\://www.w3.org/1998/Math/MathML\">\n   <lambda>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000332\">l</ci></bvar>\n     <apply>\n       <divide/>\n         <ci>l</ci>\n         <apply>\n           <ln/>           \n           <cn type=\"integer\">2</cn>\n         </apply>\n     </apply>\n   </lambda>\n</math>\n" [src_code:NR]
+def: "Time that it takes for an exponential decay to reach 1/e (about 37%) of the original value. This characterises the frequency response of a first-order\, linear time-invariant system. This is also the average lifetime of an element in the decaying set. It is the inverse of the exponential decay constant. <math xmlns=\"http\://www.w3.org/1998/Math/MathML\">\n   <lambda>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000356\">l</ci></bvar>\n     <apply>\n       <divide/>\n       <cn type=\"integer\">1</cn>\n       <ci>l</ci>\n     </apply>\n   </lambda>\n</math>\n" [src_code:NR]
 synonym: "mean lifetime" []
 is_a: SBO:0000009 ! kinetic constant
 is_a: SBO:0000346 ! temporal measure
@@ -2250,7 +2240,7 @@ is_a: SBO:0000064 ! mathematical expression
 [Term]
 id: SBO:0000356
 name: decay constant
-def: "Kinetic constant characterising a mono-exponential decay. <math xmlns=\"http\://www.w3.org/1998/Math/MathML\">\n   <lambda>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000348\">t</ci></bvar>\n     <apply>\n       <divide/>\n         <ci>t</ci>\n         <apply>\n           <ln/>           \n           <cn type=\"integer\">2</cn>\n         </apply>\n     </apply>\n   </lambda>\n</math>\n" [src_code:NR]
+def: "Kinetic constant characterising a mono-exponential decay. It is the inverse of the mean lifetime of the continuant being decayed. Its unit is \"per time\". <math xmlns=\"http\://www.w3.org/1998/Math/MathML\">\n   <lambda>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000348\">t</ci></bvar>\n     <apply>\n       <divide/>\n       <cn type=\"integer\">1</cn>\n       <ci>t</ci>\n     </apply>\n   </lambda>\n</math>\n" [src_code:NR]
 is_a: SBO:0000035 ! forward unimolecular rate constant\, continuous case
 
 [Term]
@@ -2332,7 +2322,6 @@ is_a: SBO:0000161 ! reverse non-integral order rate constant
 id: SBO:0000369
 name: gene regulatory region
 def: "Region of a gene that is involved in the modulation of the expression of the gene. " [src_code:NR]
-synonym: "" []
 is_a: SBO:0000404 ! unit of genetic information
 
 [Term]
@@ -2393,14 +2382,13 @@ is_a: SBO:0000270 ! enzymatic rate law for competitive inhibition of irreversibl
 id: SBO:0000379
 name: enzymatic rate law for simple competitive inhibition of irreversible unireactant enzymes by two non-exclusive inhibitors
 def: "Inhibition of a unireactant enzyme by two inhibitors that can bind once to the free enzyme and preclude the binding of the substrate. Binding of one inhibitor may affect binding of the other\, or not. The enzymes do not catalyse the reactions in both directions.<math xmlns=\"http\://www.w3.org/1998/Math/MathML\">\n <semantics definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000062\">\n    <lambda>\n      <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000025\">kcat</ci></bvar>\n      <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000505\">Et</ci></bvar>\n      <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000515\">S</ci></bvar>\n      <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000521\">I1</ci></bvar>\n      <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000521\">I2</ci></bvar>\n      <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000383\">a</ci></bvar>\n      <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000027\">Ks</ci></bvar>\n      <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000261\">Ki1</ci></bvar>\n      <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000261\">Ki2</ci></bvar>\n      <apply>\n    <divide/>\n    <apply>\n      <times/>\n      <ci>kcat</ci>\n      <ci>Et</ci>\n      <ci>S</ci>\n    </apply>\n    <apply>\n      <plus/>\n      <apply>\n        <times/>\n        <ci>Ks</ci>\n        <apply>\n          <plus/>\n          <cn type=\"integer\">1</cn>\n          <apply>\n        <divide/>\n        <ci>I1</ci>\n        <ci>Ki1</ci>\n          </apply>\n          <apply>\n        <divide/>\n        <ci>I2</ci>\n        <ci>Ki2</ci>\n          </apply>\n          <apply>\n        <divide/>\n        <apply>\n          <times/>\n          <ci>I1</ci>\n           <ci>I2</ci>\n        </apply>\n        <apply>\n          <times/>\n      <ci>a</ci>   \n          <ci>Ki1</ci>\n          <ci>Ki2</ci>\n        </apply>\n          </apply>\n        </apply>\n      </apply>\n      <ci>S</ci>\n    </apply>\n      </apply>\n    </lambda>\n </semantics>\n </math> " [src_code:NR]
-synonym: "" []
 is_a: SBO:0000430 ! enzymatic rate law for modulated unireactant enzymes
 
 [Term]
 id: SBO:0000380
 name: biochemical coefficient
 def: "number used as a multiplicative or exponential factor for quantities\, expressions or functions" [src_code:NR]
-is_a: SBO:0000256 ! biochemical parameter
+is_a: SBO:0000002 ! quantitative parameter
 
 [Term]
 id: SBO:0000381
@@ -2435,8 +2423,7 @@ is_a: SBO:0000381 ! biochemical proportionality coefficient
 [Term]
 id: SBO:0000386
 name: enzymatic rate law for inhibition of irreversible unireactant enzymes by single competing substrate
-def: "Inhibition of a unireactant enzyme by a competing substrate (Sa) that binds to the free enzyme on the same binding site. The enzyme does not catalyse the reactions in both directions.\n<math xmlns=\"http\://www.w3.org/1998/Math/MathML\">\n<semantics definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000062\">\n   <lambda>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000025\">kcat</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000505\">Et</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000515\">S</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000515\">Sa</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000027\">Ks</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000027\">Ksa</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000272\">n</ci></bvar>\n     <apply>\n       <divide/>\n       <apply>\n         <times/>\n         <ci>kcat</ci>\n         <ci>Et</ci>\n         <ci>S</ci>\n       </apply>\n       <apply>\n         <plus/>\n         <apply>\n           <times/>\n           <ci>Ks</ci>\n           <apply>\n             <plus/>\n             <cn type=\"integer\">1</cn>\n             <apply>\n                <divide/>\n                <ci>Sa</ci>\n                <ci>Ksa</ci>\n             </apply>\n           </apply>\n         </apply>\n         <ci>S</ci>\n       </apply>\n     </apply>\n   </lambda>\n</semantics>\n</math>  \n" [src_code:NR]
-synonym: "" []
+def: "Inhibition of a unireactant enzyme by a competing substrate (Sa) that binds to the free enzyme on the same binding site. The enzyme does not catalyse the reactions in both directions.<math xmlns=\"http\://www.w3.org/1998/Math/MathML\">\n<semantics definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000062\">\n   <lambda>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000025\">kcat</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000505\">Et</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000515\">S</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000515\">Sa</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000027\">Ks</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000027\">Ksa</ci></bvar>\n     <bvar><ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000272\">n</ci></bvar>\n     <apply>\n       <divide/>\n       <apply>\n         <times/>\n         <ci>kcat</ci>\n         <ci>Et</ci>\n         <ci>S</ci>\n       </apply>\n       <apply>\n         <plus/>\n         <apply>\n           <times/>\n           <ci>Ks</ci>\n           <apply>\n             <plus/>\n             <cn type=\"integer\">1</cn>\n             <apply>\n                <divide/>\n                <ci>Sa</ci>\n                <ci>Ksa</ci>\n             </apply>\n           </apply>\n         </apply>\n         <ci>S</ci>\n       </apply>\n     </apply>\n   </lambda>\n</semantics>\n</math>  \n" [src_code:NR]
 is_a: SBO:0000378 ! enzymatic rate law for inhibition of irreversible unireactant enzymes by competing substrates
 
 [Term]
@@ -2528,7 +2515,6 @@ is_a: SBO:0000211 ! removal of a chemical group
 id: SBO:0000401
 name: deamination
 def: "Removal of an amine group from a molecule\, often under the addition of water" [src_code:NR]
-synonym: "" []
 is_a: SBO:0000211 ! removal of a chemical group
 
 [Term]
@@ -2547,7 +2533,6 @@ is_a: SBO:0000402 ! transfer of a chemical group
 id: SBO:0000404
 name: unit of genetic information
 def: "Functional entity associated with or derived from a unit of inheritance." [src_code:NR]
-synonym: "" []
 is_a: SBO:0000241 ! functional entity
 
 [Term]
@@ -2638,7 +2623,6 @@ is_a: SBO:0000286 ! multimer
 id: SBO:0000419
 name: multimer of informational molecule segment
 def: "Non-covalent association between portions of macromolecules that carry genetic information" [src_code:NR]
-synonym: "" []
 is_a: SBO:0000286 ! multimer
 
 [Term]
@@ -2718,7 +2702,6 @@ is_a: SBO:0000425 ! reversible Hill-type enzymatic rate law
 id: SBO:0000432
 name: irreversible Michaelis Menten rate law for two substrates
 def: "Enzymatic rate law for an irreversible reaction involving two substrates and one product.        <math xmlns=\"http\://www.w3.org/1998/Math/MathML\">\n\t<semantics definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000062\">\n          <lambda>\n            <bvar>\n              <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000515\"> A </ci>\n            </bvar>\n            <bvar>\n              <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000515\"> B </ci>\n            </bvar>\n            <bvar>\n              <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000322\"> KmA </ci>\n            </bvar>\n            <bvar>\n              <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000322\"> KmB </ci>\n            </bvar>\n            <bvar>\n              <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000261\"> KiA </ci>\n            </bvar>\n            <bvar>\n              <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000505\"> Et </ci>\n            </bvar>\n            <bvar>\n              <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000320\"> kcat </ci>\n            </bvar>\n\t    <apply>\n\t      <divide/>\n\t      <apply>\n\t\t<times/>\n\t\t<ci> Et </ci>\n\t\t<ci> kcat </ci>\n\t\t<ci> A </ci>\n\t\t<ci> B </ci>\n\t      </apply>\n\t      <apply>\n\t\t<plus/>\n\t\t<apply>\n\t\t  <times/>\n\t\t  <ci> KiA </ci>\n\t\t  <ci> KmB </ci>\n\t\t</apply>\n\t\t<apply>\n\t\t  <times/>\n\t\t  <ci> KmB </ci>\n\t\t  <ci> A </ci>\n\t\t</apply>\n\t\t<apply>\n\t\t  <times/>\n\t\t  <ci> KmA </ci>\n\t\t  <ci> B </ci>\n\t\t</apply>\n\t\t<apply>\n\t\t  <times/>\n\t\t  <ci> A </ci>\n\t\t  <ci> B </ci>\n\t\t</apply>\n\t      </apply>\n\t    </apply>\n          </lambda>\n\t</semantics>\n        </math>" [src_code:NR]
-synonym: "" []
 is_a: SBO:0000429 ! enzymatic rate law for multireactant enzymes
 
 [Term]
@@ -2838,7 +2821,6 @@ is_a: SBO:0000448 ! enzymatic rate law for reversible specific activation
 id: SBO:0000451
 name: enzymatic rate law for reversible reactions with competitive inhibition
 def: "This enzymatic rate law involves one substrate\, one product and one or more modifiers. The modifiers act as competitive inhibitors of the substrate at the enzyme binding site\, The modifiers (inhibitors) reversibly bound to the enzyme block access to the substrate. The inhibitors have the effect of increasing the apparent Km\, and bind exclusively to the enzymes.  <math xmlns=\"http\://www.w3.org/1998/Math/MathML\">\n    <semantics definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000062\">\n      <lambda>\n        <bvar>\n          <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000515\"> substrate </ci>\n        </bvar>\n        <bvar>\n          <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000512\"> product </ci>\n        </bvar>\n        <bvar>\n          <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000521\"> Inhibitor </ci>\n        </bvar>\n        <bvar>\n          <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000322\"> Kms </ci>\n        </bvar>\n        <bvar>\n          <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000323\"> Kmp </ci>\n        </bvar>\n        <bvar>\n          <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000324\"> Vf </ci>\n        </bvar>\n        <bvar>\n          <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000325\"> Vr </ci>\n        </bvar>\n        <bvar>\n          <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000261\"> Ki </ci>\n        </bvar>\n        <bvar>\n          <ci definitionURL=\"http\://biomodels.net/SBO/#SBO\:0000272\">n</ci>\n        </bvar>\n        <apply>\n          <divide/>\n          <apply>\n            <minus/>\n            <apply>\n              <divide/>\n              <apply>\n                <times/>\n                <ci> Vf </ci>\n                <ci> substrate </ci>\n              </apply>\n              <ci> Kms </ci>\n            </apply>\n            <apply>\n              <divide/>\n              <apply>\n                <times/>\n                <ci> Vr </ci>\n                <ci> product </ci>\n              </apply>\n              <ci> Kmp </ci>\n            </apply>\n          </apply>\n          <apply>\n            <plus/>\n            <cn> 1 </cn>\n            <apply>\n              <divide/>\n              <ci> substrate </ci>\n              <ci> Kms </ci>\n            </apply>\n            <apply>\n              <divide/>\n              <ci> product </ci>\n              <ci> Kmp </ci>\n            </apply>\n            <apply>\n              <sum/>\n              <bvar>\n                <ci> i </ci>\n              </bvar>\n              <lowlimit>\n                <cn type=\"integer\"> 1 </cn>\n              </lowlimit>\n              <uplimit>\n                <ci> n </ci>\n              </uplimit>\n              <apply>\n                <divide/>\n                <apply>\n                  <selector/>\n                  <ci type=\"vector\">I</ci>\n                  <ci> i </ci>\n                </apply>\n                <apply>\n                  <selector/>\n                  <ci type=\"vector\">Ki</ci>\n                  <ci> i </ci>\n                </apply>\n              </apply>\n            </apply>\n          </apply>\n        </apply>\n      </lambda>\n    </semantics>\n  </math>" [src_code:NR]
-synonym: "" []
 is_a: SBO:0000430 ! enzymatic rate law for modulated unireactant enzymes
 
 [Term]
@@ -2926,7 +2908,7 @@ is_a: SBO:0000375 ! process
 id: SBO:0000465
 name: dimensional measure
 def: "The measurable dimensions of an object which are minimally required to define the space that an object occupies." [src_code:NR]
-is_a: SBO:0000255 ! physical characteristic
+is_a: SBO:0000002 ! quantitative parameter
 
 [Term]
 id: SBO:0000466
@@ -3082,7 +3064,7 @@ is_a: SBO:0000188 ! number of biochemical items
 [Term]
 id: SBO:0000491
 name: diffusion coefficient
-def: "A proportionality constant representing the amount of substance diffusing across a unit area through a unit concentration gradient in unit time. The higher the diffusion coefficient (of one substance with respect to another)\, the faster they diffuse into each other. This coefficient has an SI unit of mÂ²/s (lengthÂ²/time)." [src_code:NR]
+def: "A proportionality constant representing the amount of substance diffusing across a unit area through a unit concentration gradient in unit time. The higher the diffusion coefficient (of one substance with respect to another)\, the faster they diffuse into each other. This coefficient has an SI unit of m²/s (length²/time)." [src_code:NR]
 synonym: "diffusivity" []
 is_a: SBO:0000009 ! kinetic constant
 
@@ -3361,6 +3343,12 @@ id: SBO:0000537
 name: complete inhibitor
 def: "Substance that\, when bound\, completely negates enzymatic activity\, without\nitself being consumed or transformed by the reaction\, and without\nsterically hindering the interaction between reactants. The inhibitor\nbinds to all enzyme species independently and with the same affinity\,\ncompletely inhibiting any enzymatic activity." [src_code:NR]
 is_a: SBO:0000207 ! non-competitive inhibitor
+
+[Term]
+id: SBO:0000538
+name: ionic permeability
+def: "A parameter that represents the permeability of an ion channel with respect to a particular ion." [src_code:NR]
+is_a: SBO:0000002 ! quantitative parameter
 
 [Typedef]
 id: is_a

@@ -635,6 +635,15 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return isSetListOfUnits() ? listOfUnits.size() : 0;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@SuppressWarnings("unchecked")
+	public ListOf<UnitDefinition> getParent() {
+		return (ListOf<UnitDefinition>) super.getParent();
+	}
+
 	/**
 	 * Returns a specific Unit instance belonging to this UnitDefinition.
 	 * 
@@ -907,7 +916,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 		return this;
 	}
-
+	
 	/**
 	 * Removes the nth Unit object from this UnitDefinition object and returns a
 	 * pointer to it.
@@ -930,7 +939,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Sets the listOfUnits of this UnitDefinition. Automatically sets the
 	 * parentSBML object of the list to this UnitDefinition instance.
@@ -943,7 +952,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		this.listOfUnits.setSBaseListType(ListOf.Type.listOfUnits);
 		stateChanged();
 	}
-
+	
 	/**
 	 * Simplifies the UnitDefinition so that any Unit objects occurring within
 	 * the ListOfUnits occurs only once.

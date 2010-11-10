@@ -101,6 +101,16 @@ public abstract class Rule extends AbstractMathContainer {
 		return (o instanceof Rule) ? super.equals(o) : false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public ListOf<Rule> getParent() {
+		return (ListOf<Rule>) super.getParent();
+	}
+
 	/**
 	 * 
 	 * @return true if this Rule is an AlgebraicRule instance.
@@ -148,5 +158,4 @@ public abstract class Rule extends AbstractMathContainer {
 	 * @return true if this Rule is a SpeciesConcentrationRule, false otherwise.
 	 */
 	public abstract boolean isSpeciesConcentration();
-
 }

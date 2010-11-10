@@ -315,6 +315,15 @@ public class KineticLaw extends AbstractMathContainer {
 		return getListOfParameters().firstHit(new NameFilter(id));
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@Override
+	public Reaction getParent() {
+		return (Reaction) super.getParent();
+	}
+
 	/**
 	 * This method is convenient when holding an object nested inside other
 	 * objects in an SBML model. It allows direct access to the &lt;model&gt;
@@ -646,7 +655,7 @@ public class KineticLaw extends AbstractMathContainer {
 	public void unsetTimeUnits() {
 		this.timeUnitsID = null;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

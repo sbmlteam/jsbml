@@ -51,23 +51,6 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Andreas Dr&auml;ger
  * @author Marine
  * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * 
- * @composed 0..* ListOf 1 FunctionDefinition
- * @composed 0..* ListOf 1 UnitDefinition
- * @composed 0..* ListOf 1 CompartmentType
- * @composed 0..* ListOf 1 SpeciesType
- * @composed 0..* ListOf 1 Compartment
- * @composed 0..* ListOf 1 Species
- * @composed 0..* ListOf 1 Parameter
- * @composed 0..* ListOf 1 InitialAssignment
- * @composed 0..* ListOf 1 Rule
- * @composed 0..* ListOf 1 Constraint
- * @composed 0..* ListOf 1 Reaction
- * @composed 0..* ListOf 1 Event
- * 
  */
 public class Model extends AbstractNamedSBase {
 
@@ -126,6 +109,12 @@ public class Model extends AbstractNamedSBase {
 	private ListOf<Parameter> listOfParameters;
 
 	/**
+	 * Represents the list of predefined UnitDefinitions for a given SBML level and
+	 * version.
+	 */
+	private ArrayList<UnitDefinition> listOfPredefinedUnitDefinitions = new ArrayList<UnitDefinition>();
+
+	/**
 	 * Represents the listOfReactions subnode of a model element.
 	 */
 	private ListOf<Reaction> listOfReactions;
@@ -150,12 +139,6 @@ public class Model extends AbstractNamedSBase {
 	 * Represents the listOfUnitDefinitions subnode of a model element.
 	 */
 	private ListOf<UnitDefinition> listOfUnitDefinitions;
-
-	/**
-	 * Represents the list of predefined UnitDefinitions for a given SBML level and
-	 * version.
-	 */
-	private ArrayList<UnitDefinition> listOfPredefinedUnitDefinitions = new ArrayList<UnitDefinition>();
 
 	/**
 	 * Represents the 'substanceUnits' XML attribute of a model element.
@@ -247,6 +230,15 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * @param id
+	 */
+	public Model(String id) {
+		super(id);
+		initDefaults();
+	}
+	
+	/**
 	 * Creates a Model instance from an id, level and version. By default, all
 	 * the listxxx and xxxUnitsID are null.
 	 * 
@@ -256,15 +248,6 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public Model(String id, int level, int version) {
 		super(id, level, version);
-		initDefaults();
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 */
-	public Model(String id) {
-		super(id);
 		initDefaults();
 	}
 
@@ -1696,23 +1679,6 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Returns a UnitDefinition representing one of the predefined units of SBML, returns null if
-	 * the given unit kind is not a valid one for the SBML level and version of this <code>Model</code>.
-	 * 
-	 * @param unitKind a unit kind for one of the predefined units from the SBML Specifications
-	 * @return a UnitDefinition representing one of the predefined units of SBML, null if the unitKind 
-	 * is invalid.
-	 */
-	public UnitDefinition getPredefinedUnitDefinition(String unitKind) {
-		for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) {
-			if (unitDefinition.getId().equals(unitKind)) {
-				return unitDefinition;
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * Gets the nth Event object in this Model.
 	 * 
 	 * @param n
@@ -2347,6 +2313,32 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public Parameter getParameter(String id) {
 		return getListOfParameters().firstHit(new NameFilter(id));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@Override
+	public SBMLDocument getParent() {
+		return (SBMLDocument) super.getParent();
+	}
+
+	/**
+	 * Returns a UnitDefinition representing one of the predefined units of SBML, returns null if
+	 * the given unit kind is not a valid one for the SBML level and version of this <code>Model</code>.
+	 * 
+	 * @param unitKind a unit kind for one of the predefined units from the SBML Specifications
+	 * @return a UnitDefinition representing one of the predefined units of SBML, null if the unitKind 
+	 * is invalid.
+	 */
+	public UnitDefinition getPredefinedUnitDefinition(String unitKind) {
+		for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) {
+			if (unitDefinition.getId().equals(unitKind)) {
+				return unitDefinition;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -3637,5 +3629,4 @@ public class Model extends AbstractNamedSBase {
 
 		return attributes;
 	}
-
 }
