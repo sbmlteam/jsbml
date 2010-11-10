@@ -22,8 +22,7 @@ public class FormulaParser implements FormulaParserConstants {
   final public ASTNode parse() throws ParseException {
   ASTNode node = null;
     node = Expression();
-    {if (true) return node;}
-    throw new Error("Missing return statement in function");
+    return node;
   }
 
   final private ASTNode Expression() throws ParseException {

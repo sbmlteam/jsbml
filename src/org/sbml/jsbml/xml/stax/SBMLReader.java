@@ -299,7 +299,7 @@ public class SBMLReader {
 
 		if (args.length < 1) {
 			System.out
-					.println("Usage : java org.sbml.jsbml.xml.stax.SBMLReader sbmlFileName");
+					.println("Usage: java org.sbml.jsbml.xml.stax.SBMLReader sbmlFileName");
 			System.exit(0);
 		}
 

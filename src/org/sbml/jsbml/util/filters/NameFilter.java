@@ -43,11 +43,11 @@ public class NameFilter implements Filter {
 	/**
 	 * The desired identifier for NamedSBases to be acceptable.
 	 */
-	private String id;
+	String id;
 	/**
 	 * The desired name for NamedSBases to be acceptable.
 	 */
-	private String name;
+	String name;
 
 	/**
 	 * 

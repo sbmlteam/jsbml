@@ -33,6 +33,7 @@ import java.util.HashMap;
 
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.filters.NameFilter;
+import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
 
 /**
  * Represents the reaction XML element of a SBML file.
@@ -40,15 +41,6 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Andreas Dr&auml;ger
  * @author rodrigue
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * 
- * @composed 0..* reactant 1 SpeciesReference
- * @composed 0..* product 1 SpeciesReference
- * @composed 0..* modifier 1 ModifierSpeciesReference
- * @composed 0..1 kineticLaw 1 KineticLaw
  */
 public class Reaction extends AbstractNamedSBase implements
 		NamedSBaseWithDerivedUnit {
@@ -97,7 +89,8 @@ public class Reaction extends AbstractNamedSBase implements
 
 	/**
 	 * Creates a Reaction instance. By default, the compartmentID, kineticLaw,
-	 * listOfReactants, listOfProducts and listOfModifiers are null.
+	 * {@link #listOfReactants}, {@link #listOfProducts} and
+	 * {@link #listOfModifiers} are empty.
 	 */
 	public Reaction() {
 		super();
@@ -156,9 +149,9 @@ public class Reaction extends AbstractNamedSBase implements
 	}
 
 	/**
-	 * Creates a Reaction instance from an id, level and version. By default,
-	 * the compartmentID, kineticLaw, listOfReactants, listOfProducts and
-	 * listOfModifiers are null.
+	 * Creates a {@link Reaction} instance from an id, level and version. By default,
+	 * the compartmentID, {@link #kineticLaw}, {@link #listOfReactants}, {@link #listOfProducts} and
+	 * {@link #listOfModifiers} are empty.
 	 * 
 	 * @param id
 	 * @param level
@@ -247,10 +240,10 @@ public class Reaction extends AbstractNamedSBase implements
 	}
 
 	/**
-	 * Creates a new <code>ModifierSpeciesReference</code>, adds it to this
-	 * Reaction's list of modifiers and returns it.
+	 * Creates a new {@link ModifierSpeciesReference}, adds it to this
+	 * {@link Reaction}'s list of modifiers and returns it.
 	 * 
-	 * @return a new ModifierSpeciesReference object.
+	 * @return a new {@link ModifierSpeciesReference} object.
 	 */
 	public ModifierSpeciesReference createModifier() {
 		return createModifier(null);
@@ -269,10 +262,10 @@ public class Reaction extends AbstractNamedSBase implements
 	}
 
 	/**
-	 * Creates a new <code>SpeciesReference</code>, adds it to this Reaction's
-	 * list of products and returns it.
+	 * Creates a new {@link SpeciesReference}, adds it to this {@link Reaction}'s
+	 * {@link #listOfProducts} and returns it.
 	 * 
-	 * @return a new SpeciesReference object.
+	 * @return a new {@link SpeciesReference} object.
 	 * 
 	 * @return
 	 */
@@ -293,7 +286,7 @@ public class Reaction extends AbstractNamedSBase implements
 	}
 
 	/**
-	 * Creates a new <code>SpeciesReference</code>, adds it to this Reaction's
+	 * Creates a new {@link SpeciesReference}, adds it to this Reaction's
 	 * list of reactants and returns it.
 	 * 
 	 * @return a new SpeciesReference object.
@@ -519,27 +512,37 @@ public class Reaction extends AbstractNamedSBase implements
 	}
 
 	/**
+	 * Searches the first {@link ModifierSpeciesReference} in the
+	 * {@link #listOfModifiers} of this {@link Reaction} with the given
+	 * identifier.
 	 * 
-	 * @param idOrName
-	 * @return the ModifierSpeciesReference of the listOfModifiers which has
-	 *         'id' as id (or name depending on the level and version). Can be
-	 *         null if it doesn't exist.
+	 * @param id
+	 *            identifier of the desired {@link ModifierSpeciesReference}.
+	 *            Note that this is not the identifier of the {@link Species}.
+	 * @return the {@link ModifierSpeciesReference} of the
+	 *         {@link #listOfModifiers} which has 'id' as id (or name depending
+	 *         on the level and version). Can be null if it doesn't exist.
 	 */
-	public ModifierSpeciesReference getModifier(String idOrName) {
-		if (isSetListOfModifiers()) {
-			for (ModifierSpeciesReference msp : listOfModifiers) {
-				if (msp.isSetId()) {
-					if (msp.getId().equals(idOrName)) {
-						return msp;
-					}
-				} else if (msp.isSetName()) {
-					if (msp.getName().equals(idOrName)) {
-						return msp;
-					}
-				}
-			}
-		}
-		return null;
+	public ModifierSpeciesReference getModifier(String id) {
+		return getListOfModifiers().firstHit(new NameFilter(id));
+	}
+	
+	/**
+	 * Returns the first {@link ModifierSpeciesReference} in the
+	 * {@link #listOfModifiers} of this {@link Reaction} whose 'species'
+	 * attribute points to a {@link Species} with the given identifier.
+	 * 
+	 * @param id
+	 *            The identifier of a referenced {@link Species}
+	 * @return the {@link ModifierSpeciesReference} of the
+	 *         {@link #listOfModifiers} which has 'id' as species attribute (or
+	 *         name depending on the level and version). Can be null if it
+	 *         doesn't exist.
+	 */
+	public ModifierSpeciesReference getModifierForSpecies(String id) {
+		SpeciesReferenceFilter srf = new SpeciesReferenceFilter(id);
+		srf.setFilterForSpecies(true);
+		return getListOfModifiers().firstHit(srf);
 	}
 
 	/**
@@ -577,35 +580,77 @@ public class Reaction extends AbstractNamedSBase implements
 	}
 
 	/**
+	 * Searches the first {@link SpeciesReference} in the listOfProducts of this
+	 * {@link Reaction} with the given identifier.
 	 * 
 	 * @param id
-	 * @return the SpeciesReference of the listOfProducts which has 'id' as id
+	 *            identifier of the desired {@link SpeciesReference}. Note that
+	 *            this is not the identifier of the {@link Species}.
+	 * @return the {@link SpeciesReference} of the {@link #listOfProducts} which has 'id' as id
 	 *         (or name depending on the level and version). Can be null if it
 	 *         doesn't exist.
 	 */
 	public SpeciesReference getProduct(String id) {
 		return getListOfProducts().firstHit(new NameFilter(id));
 	}
-
+	
+	/**
+	 * Returns the first {@link SpeciesReference} in the {@link #listOfProducts}
+	 * of this {@link Reaction} whose 'species' attribute points to a
+	 * {@link Species} with the given identifier.
+	 * 
+	 * @param id
+	 *            The identifier of a referenced {@link Species}
+	 * @return the {@link SpeciesReference} of the {@link #listOfProducts} which
+	 *         has 'id' as species attribute (or name depending on the level and
+	 *         version). Can be null if it doesn't exist.
+	 */
+	public SpeciesReference getProductForSpecies(String id) {
+		SpeciesReferenceFilter srf = new SpeciesReferenceFilter(id);
+		srf.setFilterForSpecies(true);
+		return getListOfProducts().firstHit(srf);
+	}
+	
 	/**
 	 * 
 	 * @param i
-	 * @return the ith reactant SpeciesReference of the listOfReactants. Can be
-	 *         null if it doesn't exist.
+	 * @return the ith reactant {@link SpeciesReference} of the listOfReactants.
+	 *         Can be null if it doesn't exist.
 	 */
 	public SpeciesReference getReactant(int i) {
 		return listOfReactants.get(i);
 	}
 
 	/**
+	 * Searches the first {@link SpeciesReference} in the listOfReactants of
+	 * this {@link Reaction} with the given identifier.
 	 * 
 	 * @param id
-	 * @return the SpeciesReference of the listOfReactants which has 'id' as id
-	 *         (or name depending on the level and version). Can be null if it
-	 *         doesn't exist.
+	 *            identifier of the desired {@link SpeciesReference}. Note that
+	 *            this is not the identifier of the {@link Species}.
+	 * @return the {@link SpeciesReference} of the listOfReactants which has
+	 *         'id' as id (or name depending on the level and version). Can be
+	 *         null if it doesn't exist.
 	 */
 	public SpeciesReference getReactant(String id) {
 		return getListOfReactants().firstHit(new NameFilter(id));
+	}
+
+	/**
+	 * Returns the first {@link SpeciesReference} in the
+	 * {@link #listOfReactants} of this {@link Reaction} whose 'species'
+	 * attribute points to a {@link Species} with the given identifier.
+	 * 
+	 * @param id
+	 *            The identifier of a referenced {@link Species}
+	 * @return the {@link SpeciesReference} of the {@link #listOfReactants}
+	 *         which has 'id' as species attribute (or name depending on the
+	 *         level and version). Can be null if it doesn't exist.
+	 */
+	public SpeciesReference getReactantForSpecies(String id) {
+		SpeciesReferenceFilter srf = new SpeciesReferenceFilter(id);
+		srf.setFilterForSpecies(true);
+		return getListOfReactants().firstHit(srf);
 	}
 
 	/**
