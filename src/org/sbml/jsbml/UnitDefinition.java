@@ -177,7 +177,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 *         specified level version combination or null if no such predefined
 	 *         unit exists.
 	 */
-	private static final UnitDefinition getPredefinedUnit(String id, int level,
+	public static final UnitDefinition getPredefinedUnit(String id, int level,
 			int version) {
 		if (level < 3) {
 			id = id.toLowerCase();

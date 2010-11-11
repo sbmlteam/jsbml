@@ -2227,6 +2227,8 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 			default:
 				break;
 			}
+		} else if (isInteger()) {
+			return getInteger();
 		}
 		throw new IllegalArgumentException(
 				"getReal() should be called only when isReal() returns true.");

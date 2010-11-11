@@ -138,12 +138,34 @@ public class SBMLDocument extends AbstractSBase {
 	/**
 	 * Not yet implemented!
 	 * 
+	 * It is supposed to fill this {@link SBMLDocument}'s {@link #listOfErrors}
+	 * with {@link SBMLError}s for each problem within this whole data
+	 * structure. You will then be able to obtain this list by calling
+	 * {@link #getError(int)} or {@link #getListOfErrors()}.
+	 * 
 	 * @return
+	 * @throws NotImplementedException
+	 *             Currently, this method is not implemented, so please catch a
+	 *             {@link NotImplementedException} in your program until we
+	 *             remove this error.
 	 */
 	public int checkConsistency() {
-		listOfErrors = new LinkedList<SBMLError>();
+		listOfErrors = getListOfErrors();
 		// TODO: IMPLEMENT!
 		throw new NotImplementedException();
+	}
+	
+	/**
+	 * This method returns a collection of all {@link SBMLError}s reflecting
+	 * problems in the overall data structure of this {@link SBMLDocument}.
+	 * 
+	 * @return
+	 */
+	public List<SBMLError> getListOfErrors() {
+		if (listOfErrors == null) {
+			listOfErrors = new LinkedList<SBMLError>();
+		}
+		return listOfErrors;
 	}
 
 	/*
