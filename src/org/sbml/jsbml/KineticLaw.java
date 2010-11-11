@@ -41,12 +41,6 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * 
- * @composed 0..* ListOf 1 LocalParameter
  */
 public class KineticLaw extends AbstractMathContainer {
 
@@ -278,10 +272,10 @@ public class KineticLaw extends AbstractMathContainer {
 
 	/**
 	 * 
-	 * @return the listOfParameters of this KineticLaw. Return null if it is not
-	 *         set.
+	 * @return the {@link #listOfLocalParameters} of this {@link KineticLaw}.
+	 *         Returns null if it is not set.
 	 */
-	public ListOf<LocalParameter> getListOfParameters() {
+	public ListOf<LocalParameter> getListOfLocalParameters() {
 		if (!isSetListOfParameters()) {
 			initListOfParameters();
 		}
@@ -290,29 +284,77 @@ public class KineticLaw extends AbstractMathContainer {
 
 	/**
 	 * 
-	 * @return the number of local parameters in this KineticLaw instance.
+	 * @return the {@link #listOfLocalParameters} of this {@link KineticLaw}.
+	 *         Returns null if it is not set.
+	 * @deprecated use {@link #getListOfLocalParameters()}
 	 */
-	public int getNumParameters() {
-		return isSetListOfParameters() ? listOfLocalParameters.size() : 0;
+	@Deprecated
+	public ListOf<LocalParameter> getListOfParameters() {
+		return getListOfLocalParameters();
 	}
 
 	/**
 	 * 
 	 * @param i
-	 * @return the ith Parameter object in the list of local parameters in this
-	 *         KineticLaw instance.
+	 * @return the ith {@link LocalParameter} object in the
+	 *         {@link #listOfLocalParameters} in this {@link KineticLaw}
+	 *         instance.
 	 */
-	public LocalParameter getParameter(int i) {
+	public LocalParameter getLocalParameter(int i) {
 		return getListOfParameters().get(i);
 	}
 
 	/**
 	 * 
 	 * @param id
-	 * @return a local parameter based on its identifier.
+	 * @return a {@link LocalParameter} based on its identifier.
 	 */
-	public LocalParameter getParameter(String id) {
+	public LocalParameter getLocalParameter(String id) {
 		return getListOfParameters().firstHit(new NameFilter(id));
+	}
+
+	/**
+	 * 
+	 * @return the number of {@link LocalParameter} instances in this
+	 *         {@link KineticLaw} instance.
+	 */
+	public int getNumLocalParameters() {
+		return isSetListOfParameters() ? listOfLocalParameters.size() : 0;
+	}
+
+	/**
+	 * 
+	 * @return the number of {@link LocalParameter} instances in this
+	 *         {@link KineticLaw} instance.
+	 * @deprecated use {@link #getNumLocalParameters()}
+	 */
+	@Deprecated
+	public int getNumParameters() {
+		return getNumLocalParameters();
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return the ith {@link LocalParameter} object in the
+	 *         {@link #listOfLocalParameters} in this {@link KineticLaw}
+	 *         instance.
+	 * @deprecated use {@link #getLocalParameter(int)}
+	 */
+	@Deprecated
+	public LocalParameter getParameter(int i) {
+		return getLocalParameter(i);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return a {@link LocalParameter} based on its identifier.
+	 * @deprecated use {@link #getLocalParameter(String)}
+	 */
+	@Deprecated
+	public LocalParameter getParameter(String id) {
+		return getLocalParameter(id);
 	}
 
 	/*
@@ -482,59 +524,80 @@ public class KineticLaw extends AbstractMathContainer {
 	}
 
 	/**
-	 * Removes the ith local parameter from this object.
+	 * Removes the ith {@link LocalParameter} from this object.
 	 * 
 	 * @param i
+	 * @return the {@link LocalParameter} that has been removed or null.
 	 */
-	public void removeParameter(int i) {
-		if (isSetListOfParameters()) {
-			listOfLocalParameters.remove(i).sbaseRemoved();
+	public LocalParameter removeLocalParameter(int i) {
+		if (!isSetListOfParameters()) {
+			throw new IndexOutOfBoundsException(Integer.toString(i));
 		}
+		return listOfLocalParameters.remove(i);
 	}
-
+	
 	/**
-	 * Removes the parameter 'p' from the listOfParameters of this KineticLaw.
+	 * Removes the {@link LocalParameter} 'p' from the
+	 * {@link #listOfLocalParameters} of this {@link KineticLaw} according to
+	 * its 'id'.
 	 * 
 	 * @param p
+	 * @return true if the operation was performed successfully.
 	 */
-	public void removeParameter(Parameter p) {
+	public boolean removeLocalParameter(LocalParameter p) {
 		if (isSetListOfParameters()) {
-			listOfLocalParameters.remove(p);
-
+			return listOfLocalParameters.remove(p);
 		}
+		return false;
 	}
 
 	/**
-	 * Removes the ith local parameter from this object based on its id.
+	 * Removes a {@link LocalParameter} from this object based on its 'id'.
 	 * 
 	 * @param i
+	 * @return true if the operation was performed successfully.
 	 */
-	public void removeParameter(String id) {
+	public boolean removeLocalParameter(String id) {
 		if (isSetListOfParameters()) {
-			int i = 0;
-			ListOf<LocalParameter> listOfParameters = this.listOfLocalParameters;
-			while (i < listOfParameters.size()) {
-				if (listOfParameters.get(i) instanceof LocalParameter) {
-					LocalParameter parameter = listOfParameters.get(i);
-					if (parameter.isSetId()) {
-						if (!parameter.getId().equals(id)) {
-							i++;
-						}
-					} else if (parameter.isSetName()) {
-						if (!parameter.getName().equals(id)) {
-							i++;
-						}
-					} else {
-						break;
-					}
-				} else {
-					break;
-				}
-			}
-			if (i < listOfParameters.size()) {
-				listOfParameters.remove(i).sbaseRemoved();
-			}
+			return getListOfLocalParameters().remove(getLocalParameter(id));
 		}
+		return false;
+	}
+	
+	/**
+	 * Removes the ith {@link LocalParameter} from this object.
+	 * 
+	 * @param i
+	 * @deprecated use {@link #removeLocalParameter(int)}
+	 */
+	@Deprecated
+	public void removeParameter(int i) {
+		removeLocalParameter(i);
+	}
+
+	/**
+	 * Removes the {@link Parameter} 'p' from the {@link #listOfLocalParameters}
+	 * of this {@link KineticLaw}.
+	 * 
+	 * @param p
+	 * @return true if the operation was performed successfully.
+	 * @deprecated use {@link #removeLocalParameter(LocalParameter)}
+	 */
+	@Deprecated
+	public boolean removeParameter(Parameter p) {
+		return removeLocalParameter(p.getId());
+	}
+	
+	/**
+	 * Removes a {@link LocalParameter} from this object based on its 'id'.
+	 * 
+	 * @param i
+	 * @return true if the operation was performed successfully.
+	 * @deprecated use {@link #removeLocalParameter(String)}
+	 */
+	@Deprecated
+	public boolean removeParameter(String id) {
+		return removeLocalParameter(id);
 	}
 
 	/**
@@ -624,7 +687,7 @@ public class KineticLaw extends AbstractMathContainer {
 		kineticLawStr.append(super.toString());
 		return kineticLawStr.toString();
 	}
-
+	
 	/**
 	 * 
 	 */
@@ -634,6 +697,14 @@ public class KineticLaw extends AbstractMathContainer {
 		}
 		listOfLocalParameters = null;
 		stateChanged();
+	}
+
+	/**
+	 * @deprecated use {@link #unsetListOfLocalParameters()}
+	 */
+	@Deprecated
+	public void unsetListOfParameters() {
+		unsetListOfLocalParameters();
 	}
 
 	/**

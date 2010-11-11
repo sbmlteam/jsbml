@@ -282,6 +282,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @return true if this could be successfully appended.
 	 * @see #add(T)
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean append(T e) {
 		return add((T) e.clone());
 	}
@@ -543,14 +544,15 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public T remove(int index) {
 		T t = listOf.remove(index);
-		if (t instanceof AbstractSBase)
+		if (t instanceof AbstractSBase) {
 			((AbstractSBase) t).parentSBMLObject = null;
+		}
 		t.sbaseRemoved();
 		return t;
 	}
 
 	/**
-	 * Removes a named SBase according to its unique id.
+	 * Removes a {@link NamedSBase} according to its unique id.
 	 * 
 	 * @param nsb
 	 *            the object to be removed.
@@ -568,8 +570,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 			}
 			if (pos >= 0) {
 				T t = listOf.remove(pos);
-				if (t instanceof AbstractSBase)
+				if (t instanceof AbstractSBase) {
 					((AbstractSBase) t).parentSBMLObject = null;
+				}
 				return true;
 			}
 		}
@@ -582,7 +585,15 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.LinkedList#remove(Object o)
 	 */
 	public boolean remove(Object o) {
-		return listOf.remove(o);
+		if (!(o instanceof SBase)) {
+			return false;
+		}
+		SBase sbase = (SBase) o;
+		if (listOf.remove(sbase)) {
+			sbase.sbaseRemoved();
+			return true;
+		}
+		return false;
 	}
 
 	/**
