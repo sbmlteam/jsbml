@@ -125,6 +125,20 @@ public class AlgebraicRule extends Rule {
 	 * {@link NamedSBaseWithDerivedUnit}s will be executed again, leading to a
 	 * probably high computational effort.
 	 * 
+	 * An example of how to use the {@link OverdeterminationValidator} is given
+	 * here:
+	 * 
+	 * <pre>
+	 * int ruleIndex = 0; // some arbitrary algebraic rule
+	 * AlgebraicRule ar = model.getRule(ruleIndex);
+	 * OverdeterminationValidator odv = new OverdeterminationValidator(model);
+	 * Variable varialbe;
+	 * if (!odv.isOverdetermined()) {
+	 * 	variable = (Variable) odv.getMatching().get(ar);
+	 *  System.out.printf("Rule %d determines Variable %s.", ruleIndex, variable.getId());
+	 * }
+	 * </pre>
+	 * 
 	 * @return The {@link Variable} determined by this {@link AlgebraicRule}
 	 * @throws ModelOverdeterminedException
 	 *             if the model containing this {@link Rule} is over determined.
