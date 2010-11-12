@@ -214,12 +214,17 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	 */
 	public void setVariable(Variable variable) {
 		if (!variable.isConstant()) {
+			if ((2 < getLevel()) && (variable instanceof SpeciesReference)) {
+				throw new IllegalArgumentException(
+						"Cannot set a SpeciesReference as the Variable in an EventAssignment for SBML Level < 3");
+			}
 			this.variableID = variable.getId();
 			stateChanged();
 		} else {
-			// TODO: also check that before L3 SpeciesReference was not allowed here.
 			throw new IllegalArgumentException(
-					String.format("Cannot set the constant variable %s as the target of this %s.",
+					String
+							.format(
+									"Cannot set the constant variable %s as the target of this %s.",
 									variable.getId(), getClass()
 											.getSimpleName()));
 		}

@@ -729,6 +729,10 @@ public class Event extends AbstractNamedSBase {
 	 *            the priority to set
 	 */
 	public void setPriority(Priority priority) {
+		if (2 < getLevel()) {
+			throw new IllegalArgumentException(
+					"Cannot set a priority for an Event if SBML Level < 3.");
+		}
 		this.priority = priority;
 		setThisAsParentSBMLObject(this.priority);
 	}
