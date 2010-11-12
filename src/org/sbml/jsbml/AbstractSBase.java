@@ -1041,6 +1041,7 @@ public abstract class AbstractSBase implements SBase {
 				sbase.addChangeListener(l);
 			}
 		}
+		sbase.sbaseAdded();
 	}
 
 	/*
