@@ -39,14 +39,6 @@ import org.sbml.jsbml.util.StringTools;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * 
- * @composed 1 trigger 1 Trigger
- * @composed 0..1 delay 1 Delay
- * @composed 1..* ListOf 1 EventAssignment
  */
 public class Event extends AbstractNamedSBase {
 	/**
@@ -138,7 +130,7 @@ public class Event extends AbstractNamedSBase {
 		super(level, version);
 		initDefaults();
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -222,12 +214,46 @@ public class Event extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @param math
+	 * @return
+	 */
+	public Delay createDelay(ASTNode math) {
+		Delay d = createDelay();
+		d.setMath(math);
+		return d;
+	}
+
+	/**
+	 * 
 	 * @return the new EventAssignment instance.
 	 */
 	public EventAssignment createEventAssignment() {
 		EventAssignment ea = new EventAssignment(getLevel(), getVersion());
 		addEventAssignment(ea);
 		return ea;
+	}
+
+	/**
+	 * 
+	 * @param variable
+	 * @param math
+	 * @return
+	 */
+	public EventAssignment createEventAssignment(String variable, ASTNode math) {
+		EventAssignment ea = createEventAssignment();
+		ea.setVariable(variable);
+		ea.setMath(math);
+		return ea;
+	}
+
+	/**
+	 * 
+	 * @param variable
+	 * @param math
+	 * @return
+	 */
+	public EventAssignment createEventAssignment(Variable variable, ASTNode math) {
+		return createEventAssignment(variable.getId(), math);
 	}
 
 	/**
@@ -244,11 +270,49 @@ public class Event extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @param math
+	 * @return
+	 */
+	public Priority createPriority(ASTNode math) {
+		Priority p = createPriority();
+		p.setMath(math);
+		return p;
+	}
+
+	/**
+	 * 
 	 * @return
 	 */
 	public Trigger createTrigger() {
 		Trigger t = new Trigger(getLevel(), getVersion());
 		setTrigger(t);
+		return t;
+	}
+
+	/**
+	 * 
+	 * @param initialValue
+	 * @param persistent
+	 * @return
+	 */
+	public Trigger createTrigger(boolean initialValue, boolean persistent) {
+		Trigger t = createTrigger();
+		t.setInitialValue(initialValue);
+		t.setPersistent(persistent);
+		return t;
+	}
+
+	/**
+	 * 
+	 * @param initialValue
+	 * @param persistent
+	 * @param math
+	 * @return
+	 */
+	public Trigger createTrigger(boolean initialValue, boolean persistent,
+			ASTNode math) {
+		Trigger t = createTrigger(initialValue, persistent);
+		t.setMath(math);
 		return t;
 	}
 
@@ -319,6 +383,12 @@ public class Event extends AbstractNamedSBase {
 			}
 			pos++;
 		}
+		if (isSetPriority()) {
+			if (pos == index) {
+				return getPriority();
+			}
+			pos++;
+		}
 		if (isSetDelay()) {
 			if (pos == index) {
 				return getDelay();
@@ -345,6 +415,9 @@ public class Event extends AbstractNamedSBase {
 		if (isSetTrigger()) {
 			children++;
 		}
+		if (isSetPriority()) {
+			children++;
+		}
 		if (isSetDelay()) {
 			children++;
 		}
@@ -359,7 +432,7 @@ public class Event extends AbstractNamedSBase {
 	 * @return the Delay instance of this Event.
 	 */
 	public Delay getDelay() {
-		return delay;
+		return this.delay;
 	}
 
 	/**
@@ -397,6 +470,7 @@ public class Event extends AbstractNamedSBase {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()
 	 */
 	@SuppressWarnings("unchecked")
@@ -409,7 +483,7 @@ public class Event extends AbstractNamedSBase {
 	 * @return the priority
 	 */
 	public Priority getPriority() {
-		return priority;
+		return this.priority;
 	}
 
 	/**
@@ -509,7 +583,7 @@ public class Event extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isSetPriority() {
-		return priority == null;
+		return this.priority != null;
 	}
 
 	/**
@@ -518,7 +592,7 @@ public class Event extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public boolean isSetTimeUnits() {
-		return timeUnitsID != null;
+		return this.timeUnitsID != null;
 	}
 
 	/**
@@ -538,7 +612,7 @@ public class Event extends AbstractNamedSBase {
 	 * @return true if the trigger of this Event is not null.
 	 */
 	public boolean isSetTrigger() {
-		return trigger != null;
+		return this.trigger != null;
 	}
 
 	/**
@@ -632,8 +706,6 @@ public class Event extends AbstractNamedSBase {
 	public void setDelay(Delay delay) {
 		this.delay = delay;
 		setThisAsParentSBMLObject(this.delay);
-		this.delay.sbaseAdded();
-		stateChanged();
 	}
 
 	/**
@@ -650,7 +722,6 @@ public class Event extends AbstractNamedSBase {
 		this.listOfEventAssignments
 				.setSBaseListType(ListOf.Type.listOfEventAssignments);
 		setThisAsParentSBMLObject(this.listOfEventAssignments);
-		stateChanged();
 	}
 
 	/**
@@ -659,6 +730,7 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void setPriority(Priority priority) {
 		this.priority = priority;
+		setThisAsParentSBMLObject(this.priority);
 	}
 
 	/**
@@ -696,6 +768,7 @@ public class Event extends AbstractNamedSBase {
 	@Deprecated
 	public void setTimeUnitsID(String timeUnitsID) {
 		this.timeUnitsID = timeUnitsID;
+		stateChanged();
 	}
 
 	/**
@@ -707,7 +780,6 @@ public class Event extends AbstractNamedSBase {
 	public void setTrigger(Trigger trigger) {
 		this.trigger = trigger;
 		setThisAsParentSBMLObject(this.trigger);
-		this.trigger.sbaseAdded();
 	}
 
 	/**
@@ -718,19 +790,22 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void setUseValuesFromTriggerTime(boolean useValuesFromTriggerTime) {
 		this.useValuesFromTriggerTime = useValuesFromTriggerTime;
+		stateChanged();
 	}
 
 	/**
 	 * Sets the delay of this Event to null.
 	 */
 	public void unsetDelay() {
+		this.delay.sbaseRemoved();
 		this.delay = null;
 	}
 
 	/**
-	 * Sets the listOfEventAssignments of this Event to null.
+	 * Sets the {@link #listOfEventAssignments} of this {@link Event} to null.
 	 */
 	public void unsetListOfEventAssignments() {
+		this.listOfEventAssignments.sbaseRemoved();
 		this.listOfEventAssignments = null;
 	}
 
@@ -739,13 +814,24 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void unsetTimeUnits() {
 		this.timeUnitsID = null;
+		stateChanged();
 	}
 
 	/**
 	 * Sets the trigger of this Event to null.
 	 */
 	public void unsetTrigger() {
+		this.trigger.sbaseRemoved();
 		this.trigger = null;
+	}
+
+	/**
+	 * Sets the {@link Priority} of this {@link Event} to null and notifies
+	 * {@link SBaseChangedListener}s.
+	 */
+	public void unsetPriority() {
+		this.priority.sbaseRemoved();
+		this.priority = null;
 	}
 
 	/**
@@ -753,8 +839,9 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void unsetUseValuesFromTriggerTime() {
 		this.useValuesFromTriggerTime = null;
+		stateChanged();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

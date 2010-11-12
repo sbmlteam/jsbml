@@ -33,10 +33,6 @@ package org.sbml.jsbml;
  * Represents the trigger XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public class Trigger extends AbstractMathContainer {
 
@@ -136,6 +132,22 @@ public class Trigger extends AbstractMathContainer {
 	 */
 	public boolean getPersistent() {
 		return isSetPersistent() ? persistent.booleanValue() : false;
+	}
+	
+	/**
+	 * 
+	 * @return whether or not this {@link Trigger} is initially set to true.
+	 */
+	public boolean isInitialValue() {
+		return getInitialValue();
+	}
+	
+	/**
+	 * 
+	 * @return whether or not this is a persistent {@link Trigger}
+	 */
+	public boolean isPersistent() {
+		return getPersistent();
 	}
 
 	/**

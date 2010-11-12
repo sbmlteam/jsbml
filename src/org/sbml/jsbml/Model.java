@@ -1070,6 +1070,18 @@ public class Model extends AbstractNamedSBase {
 		addSpecies(species);
 		return species;
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param c
+	 * @return
+	 */
+	public Species createSpecies(String id, Compartment c) {
+		Species s = createSpecies(id);
+		s.setCompartment(c);
+		return s;
+	}
 
 	/**
 	 * Creates a new {@link SpeciesType} inside this {@link Model} and returns
@@ -1379,7 +1391,7 @@ public class Model extends AbstractNamedSBase {
 		if (nsb == null) {
 			for (Reaction r : getListOfReactions()) {
 				if (r.isSetKineticLaw()) {
-					nsb = r.getKineticLaw().getParameter(idOrName);
+					nsb = r.getKineticLaw().getLocalParameter(idOrName);
 					if (nsb != null) {
 						break;
 					}
@@ -2065,7 +2077,7 @@ public class Model extends AbstractNamedSBase {
 		if (isSetListOfReactions()) {
 			for (Reaction reaction : getListOfReactions()) {
 				if (reaction.isSetKineticLaw()) {
-					count += reaction.getKineticLaw().getNumParameters();
+					count += reaction.getKineticLaw().getNumLocalParameters();
 				}
 			}
 		}
