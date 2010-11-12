@@ -457,13 +457,18 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 		if (variable != null) {
 			if (variable.isConstant()) {
 				throw new IllegalArgumentException(
-						String.format("Cannot set the constant variable %s as the target of this %s.",
+						String.format(
+										"Cannot set the constant variable %s as the target of this %s.",
 										variable.getId(), getClass()
 												.getSimpleName()));
 			}
 			if (isSetUnits() && !(variable instanceof Parameter)) {
 				throw new IllegalArgumentException(
 						"Variable expected to be an instance of Parameter because a Unit attribute is set allready");
+			}
+			if ((2 < getLevel()) && (variable instanceof SpeciesReference)) {
+				throw new IllegalArgumentException(
+						"Cannot set a SpeciesReference as the Variable in an ExpliciteRule for SBML Level < 3");
 			}
 			if (variable.isSetId()) {
 				variableID = variable.getId();

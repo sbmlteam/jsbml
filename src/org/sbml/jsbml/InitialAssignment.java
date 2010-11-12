@@ -281,7 +281,10 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 	 * @see org.sbml.jsbml.Assignment#setVariable(org.sbml.jsbml.Variable)
 	 */
 	public void setVariable(Variable variable) {
-		// TODO: also check that before L3 SpeciesReference was not allowed here.
+		if ((2 < getLevel()) && (variable instanceof SpeciesReference)) {
+			throw new IllegalArgumentException(
+					"Cannot set a SpeciesReference as the Variable in an InitialAssignment for SBML Level < 3");
+		}
 		this.variableID = variable != null ? variable.getId() : null;
 		stateChanged();
 	}

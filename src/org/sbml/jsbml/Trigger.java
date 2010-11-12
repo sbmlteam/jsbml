@@ -52,29 +52,38 @@ public class Trigger extends AbstractMathContainer {
 	private Boolean persistent;
 
 	/**
-	 * Creates a Trigger instance.
+	 * Creates a {@link Trigger} instance.
 	 */
 	public Trigger() {
 		super();
+		initDefaults();
 	}
 
 	/**
-	 * Creates a Trigger instance from a level and version.
+	 * Creates a {@link Trigger} instance from a level and version.
 	 * 
 	 * @param level
 	 * @param version
 	 */
 	public Trigger(int level, int version) {
 		super(level, version);
+		initDefaults();
 	}
 
 	/**
-	 * Creates a Trigger instance from a given Trigger.
+	 * Creates a {@link Trigger} instance from a given {@link Trigger}.
 	 * 
 	 * @param trigger
 	 */
 	public Trigger(Trigger trigger) {
 		super(trigger);
+		initDefaults();
+		if (trigger.isSetInitialValue()) {
+			this.initialValue = trigger.getInitialValue();
+		}
+		if (trigger.isSetPersistent()) {
+			this.persistent = trigger.getPersistent();
+		}
 	}
 
 	/*
@@ -115,6 +124,9 @@ public class Trigger extends AbstractMathContainer {
 	 * @return the initialValue
 	 */
 	public boolean getInitialValue() {
+		if (getLevel() < 3) {
+			return true;
+		}
 		return isSetInitialValue() ? initialValue.booleanValue() : false;
 	}
 
@@ -131,7 +143,17 @@ public class Trigger extends AbstractMathContainer {
 	 * @return the persistent
 	 */
 	public boolean getPersistent() {
+		if (getLevel() < 3) {
+			return true;
+		}
 		return isSetPersistent() ? persistent.booleanValue() : false;
+	}
+
+	/**
+	 * Sets the properties {@link #initialValue} and {@link #persistent} to null, i.e., undefined.
+	 */
+	public void initDefaults() {
+		initialValue = persistent = null;
 	}
 	
 	/**
@@ -171,14 +193,22 @@ public class Trigger extends AbstractMathContainer {
 	 *            the initialValue to set
 	 */
 	public void setInitialValue(boolean initialValue) {
+		if (getLevel() < 3) {
+			throw new IllegalArgumentException(
+					"Cannot set initialValue property for Trigger with Level < 3.");
+		}
 		this.initialValue = Boolean.valueOf(initialValue);
 	}
-	
+
 	/**
 	 * @param persistent
 	 *            the persistent to set
 	 */
 	public void setPersistent(boolean persistent) {
+		if (getLevel() < 3) {
+			throw new IllegalArgumentException(
+					"Cannot set persistent property for Trigger with Level < 3.");
+		}
 		this.persistent = Boolean.valueOf(persistent);
 	}
 }

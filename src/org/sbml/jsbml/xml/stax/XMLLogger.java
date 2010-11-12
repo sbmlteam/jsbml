@@ -30,6 +30,7 @@
 
 package org.sbml.jsbml.xml.stax;
 
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 
