@@ -36,10 +36,6 @@ package org.sbml.jsbml;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public class AssignmentRule extends ExplicitRule {
 
@@ -146,6 +142,31 @@ public class AssignmentRule extends ExplicitRule {
 	@Override
 	public AssignmentRule clone() {
 		return new AssignmentRule(this);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getElementName()
+	 */
+	@Override
+	public String getElementName() {
+		if (getLevel() == 1) {
+			if (isSpeciesConcentration()) {
+				switch (getVersion()) {
+				case 1:
+					return "specieConcentrationRule";
+				case 2:
+					return "speciesConcentrationRule";
+				default:
+					break;
+				}
+			} else if (isCompartmentVolume()) {
+				return "compartmentVolumeRule";
+			} else if (isParameter()) {
+				return "parameterRule";
+			}
+		}
+		return super.getElementName();
 	}
 
 	/*

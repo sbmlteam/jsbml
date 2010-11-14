@@ -453,6 +453,10 @@ public class Event extends AbstractNamedSBase {
 	 * @return the list of eventAssignments of this Event.
 	 */
 	public ListOf<EventAssignment> getListOfEventAssignments() {
+		if (!isSetListOfEventAssignments()) {
+			setListOfEventAssignments(new ListOf<EventAssignment>(getLevel(),
+					getVersion()));
+		}
 		return listOfEventAssignments;
 	}
 
@@ -540,12 +544,13 @@ public class Event extends AbstractNamedSBase {
 	public void initDefaults() {
 		this.trigger = null;
 		this.delay = null;
+		this.priority = null;
 		this.listOfEventAssignments = null;
 		this.timeUnitsID = null;
 		if (isSetLevel() && (getLevel() < 3)) {
 			useValuesFromTriggerTime = new Boolean(true);
-			setListOfEventAssignments(new ListOf<EventAssignment>(getLevel(),
-					getVersion()));
+		} else {
+			useValuesFromTriggerTime = null;
 		}
 	}
 
@@ -729,7 +734,7 @@ public class Event extends AbstractNamedSBase {
 	 *            the priority to set
 	 */
 	public void setPriority(Priority priority) {
-		if (2 < getLevel()) {
+		if (3 < getLevel()) {
 			throw new IllegalArgumentException(
 					"Cannot set a priority for an Event if SBML Level < 3.");
 		}

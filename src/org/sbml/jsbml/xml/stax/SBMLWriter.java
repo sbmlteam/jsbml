@@ -53,6 +53,7 @@ import java.util.Map.Entry;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.codehaus.stax2.XMLOutputFactory2;
 import org.codehaus.stax2.XMLStreamWriter2;
 import org.codehaus.staxmate.SMOutputFactory;
 import org.codehaus.staxmate.dom.DOMConverter;
@@ -100,14 +101,14 @@ public class SBMLWriter {
 	private static HashMap<String, WritingParser> instantiatedSBMLParsers = new HashMap<String, WritingParser>();
 
 	/**
-	 * contains all the relationships namespace URI <=> ReadingParser class.
+	 * contains all the relationships name space URI <=> ReadingParser class.
 	 */
 	private static HashMap<String, Class<? extends WritingParser>> packageParsers = new HashMap<String, Class<? extends WritingParser>>();
 
   /**
    * Remember already issued warnings to avoid having
    * multiple lines, saying the same thing
-   * (Warning: Skipping detailed parsing of Namespace 'XYZ'. No parser available.)
+   * (Warning: Skipping detailed parsing of name space 'XYZ'. No parser available.)
    */
 	private static transient List<String> issuedWarnings = new LinkedList<String>();
   
@@ -387,8 +388,8 @@ public class SBMLWriter {
 
 		SMOutputFactory smFactory = new SMOutputFactory(WstxOutputFactory
 				.newInstance());
-
-		XMLStreamWriter2 streamWriter = smFactory.createStax2Writer(stream);
+		XMLStreamWriter2 streamWriter = smFactory.createStax2Writer(stream);		
+		streamWriter.setProperty(XMLOutputFactory2.P_AUTOMATIC_EMPTY_ELEMENTS, Boolean.FALSE);
 
 		SMOutputDocument outputDocument = SMOutputFactory.createOutputDocument(
 				streamWriter, "1.0", "UTF-8", false);
@@ -417,10 +418,10 @@ public class SBMLWriter {
 		}
 
 		SMOutputElement smOutputElement = outputDocument.addElement(namespace,
-				"sbml");
+				sbmlDocument.getElementName());
 
 		SBMLObjectForXML xmlObject = new SBMLObjectForXML();
-		xmlObject.setName("sbml");
+		xmlObject.setName(sbmlDocument.getElementName());
 		xmlObject.setNamespace(SBMLNamespace);
 		xmlObject.addAttributes(sbmlDocument.writeXMLAttributes());
 
@@ -639,11 +640,9 @@ public class SBMLWriter {
 						writer.writeCharacters("\n");
 						for (int j = 0; j < cvTerm.getNumResources(); j++) {
 							writer.writeCharacters(whiteSpace + "    ");
-							writer
-									.writeStartElement(rdfPrefix, "li",
+							writer.writeStartElement(rdfPrefix, "li",
 											"http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-							writer
-									.writeAttribute(
+							writer.writeAttribute(
 											rdfPrefix,
 											"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 											"resource", cvTerm
@@ -839,7 +838,7 @@ public class SBMLWriter {
 		if (m.isSetMath()) {
 
 			writer.writeCharacters("\n");
-			writer.writeCharacters(createIndent(indent + 2));
+			writer.writeCharacters(createIndent(indent));
 			// writer.setPrefix("math", "http://www.w3.org/1998/Math/MathML");
 			// writer.writeStartElement("http://www.w3.org/1998/Math/MathML",
 			// "math");
@@ -849,12 +848,11 @@ public class SBMLWriter {
 			writer.writeCharacters("\n");
 
 			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
-					writer, createIndent(indent + 4));
+					writer, createIndent(indent + 2));
 			compiler.compile(m.getMath());
 
-			writer.writeCharacters(createIndent(indent + 2));
+			writer.writeCharacters(createIndent(indent));
 			writer.writeEndElement();
-			writer.writeCharacters("\n");
 		}
 	}
 
@@ -1125,7 +1123,6 @@ public class SBMLWriter {
 									.addElement(namespaceContext,
 											parentXmlObject.getName());
 						} else {
-
 							newOutPutElement = smOutputParentElement
 									.addElement(smOutputParentElement
 											.getNamespace(), parentXmlObject
@@ -1141,7 +1138,7 @@ public class SBMLWriter {
 						}
 						if (nextObjectToWrite instanceof SBase) {
 							SBase s = (SBase) nextObjectToWrite;
-							if (s.isSetNotes() && notesParser != null) {
+							if (s.isSetNotes() && (notesParser != null)) {
 								writeNotes(s, newOutPutElement, streamWriter,
 										newOutPutElement.getNamespace()
 												.getURI(), indent + 2);
@@ -1153,8 +1150,8 @@ public class SBMLWriter {
 										indent + 2);
 							}
 						}
-						if (nextObjectToWrite instanceof Constraint
-								&& notesParser != null) {
+						if ((nextObjectToWrite instanceof Constraint)
+								&& (notesParser != null)) {
 							Constraint constraint = (Constraint) nextObjectToWrite;
 							if (!constraint.isSetMessage()) {
 								writeMathML(constraint, newOutPutElement,
@@ -1172,12 +1169,11 @@ public class SBMLWriter {
 						writeSBMLElements(parentXmlObject, newOutPutElement,
 								streamWriter, nextObjectToWrite, notesParser,
 								MathMLparser, indent + 2);
-						smOutputParentElement.addCharacters(StringTools
-								.newLine());
+						smOutputParentElement.addCharacters("\n");
 					}
-					streamWriter.writeCharacters(whiteSpaces.substring(0,
-							indent - 2));
 				}
+				streamWriter.writeCharacters(whiteSpaces.substring(0,
+						indent - 2));
 			}
 		}
 	}

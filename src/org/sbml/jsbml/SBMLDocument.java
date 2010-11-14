@@ -37,19 +37,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.sbml.jsbml.util.NotImplementedException;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * Represents the 'sbml' root node of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
- * 
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * 
- * @composed 1 model 1 Model
  */
 public class SBMLDocument extends AbstractSBase {
 
@@ -57,6 +51,11 @@ public class SBMLDocument extends AbstractSBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -3927709655186844513L;
+	/**
+	 * Memorizes all {@link SBMLError} when parsing the file containing this
+	 * document.
+	 */
+	private List<SBMLError> listOfErrors;
 	/**
 	 * Represents the 'model' XML subnode of a SBML file.
 	 */
@@ -68,15 +67,10 @@ public class SBMLDocument extends AbstractSBase {
 	/**
 	 * Contains all the namespaces of the sbml XML node and their prefixes.
 	 */
-	private HashMap<String, String> SBMLDocumentNamespaces = new HashMap<String, String>();
-	/**
-	 * Memorizes all {@link SBMLError} when parsing the file containing this
-	 * document.
-	 */
-	private List<SBMLError> listOfErrors;
+	private HashMap<String, String> SBMLDocumentNamespaces;
 
 	/**
-	 * Creates a SBMLDocument instance. By default, the parent SBML object of
+	 * Creates a {@link SBMLDocument} instance. By default, the parent SBML object of
 	 * this object is itself. The model is null. The SBMLDocumentAttributes and
 	 * the SBMLDocumentNamespaces are empty.
 	 * 
@@ -86,9 +80,10 @@ public class SBMLDocument extends AbstractSBase {
 		super();
 		this.model = null;
 		SBMLDocumentAttributes = new HashMap<String, String>();
+		SBMLDocumentNamespaces = new HashMap<String, String>();
 		setParentSBML(this);
 	}
-
+	
 	/**
 	 * Creates a SBMLDocument instance from a level and version. By default, the
 	 * parent SBML object of this object is itself. The model is null. The
@@ -154,19 +149,6 @@ public class SBMLDocument extends AbstractSBase {
 		// TODO: IMPLEMENT!
 		throw new NotImplementedException();
 	}
-	
-	/**
-	 * This method returns a collection of all {@link SBMLError}s reflecting
-	 * problems in the overall data structure of this {@link SBMLDocument}.
-	 * 
-	 * @return
-	 */
-	public List<SBMLError> getListOfErrors() {
-		if (listOfErrors == null) {
-			listOfErrors = new LinkedList<SBMLError>();
-		}
-		return listOfErrors;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -177,7 +159,7 @@ public class SBMLDocument extends AbstractSBase {
 	public SBMLDocument clone() {
 		return new SBMLDocument(this);
 	}
-
+	
 	/**
 	 * Creates a new Model inside this {@link SBMLDocument}, and returns a
 	 * pointer to it.
@@ -290,6 +272,15 @@ public class SBMLDocument extends AbstractSBase {
 		return 4;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getElementName()
+	 */
+	@Override
+	public String getElementName() {
+		return "sbml";
+	}
+
 	/**
 	 * Not yet implemented!
 	 * 
@@ -302,6 +293,19 @@ public class SBMLDocument extends AbstractSBase {
 		}
 		throw new IndexOutOfBoundsException(String.format("No such error %d.",
 				Integer.valueOf(i)));
+	}
+
+	/**
+	 * This method returns a collection of all {@link SBMLError}s reflecting
+	 * problems in the overall data structure of this {@link SBMLDocument}.
+	 * 
+	 * @return
+	 */
+	public List<SBMLError> getListOfErrors() {
+		if (listOfErrors == null) {
+			listOfErrors = new LinkedList<SBMLError>();
+		}
+		return listOfErrors;
 	}
 
 	/**
@@ -323,14 +327,6 @@ public class SBMLDocument extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return
-	 */
-	private boolean isSetListOfErrors() {
-		return listOfErrors != null;
-	}
-
-	/**
-	 * 
 	 * @return the map SBMLDocumentAttributes of this SBMLDocument.
 	 */
 	public HashMap<String, String> getSBMLDocumentAttributes() {
@@ -343,6 +339,14 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	public HashMap<String, String> getSBMLDocumentNamespaces() {
 		return SBMLDocumentNamespaces;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean isSetListOfErrors() {
+		return listOfErrors != null;
 	}
 
 	/**
@@ -363,7 +367,15 @@ public class SBMLDocument extends AbstractSBase {
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
+		
 		if (!isAttributeRead) {
+			if (attributeName.equals("level")) {
+				this.level = Integer.valueOf(StringTools.parseSBMLInt(value));
+				return true;
+			} else if (attributeName.equals("version")) {
+				this.version = Integer.valueOf(StringTools.parseSBMLInt(value));
+				return true;
+			}
 			if (!prefix.equals("")) {
 				this.getSBMLDocumentAttributes().put(
 						prefix + ":" + attributeName, value);
@@ -442,7 +454,6 @@ public class SBMLDocument extends AbstractSBase {
 			if (!entry.getKey().equals("xmlns")) {
 				attributes.put(entry.getKey(), entry.getValue());
 			}
-
 		}
 		return attributes;
 	}

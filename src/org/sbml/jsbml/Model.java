@@ -112,7 +112,7 @@ public class Model extends AbstractNamedSBase {
 	 * Represents the list of predefined UnitDefinitions for a given SBML level and
 	 * version.
 	 */
-	private ArrayList<UnitDefinition> listOfPredefinedUnitDefinitions = new ArrayList<UnitDefinition>();
+	private ArrayList<UnitDefinition> listOfPredefinedUnitDefinitions;
 
 	/**
 	 * Represents the listOfReactions subnode of a model element.
@@ -723,7 +723,6 @@ public class Model extends AbstractNamedSBase {
 	public Event createEvent(String id) {
 		Event event = new Event(id, getLevel(), getVersion());
 		addEvent(event);
-
 		return event;
 	}
 
@@ -2535,6 +2534,7 @@ public class Model extends AbstractNamedSBase {
 	 * made upon creation of new instances of this type.
 	 */
 	public void initDefaults() {
+		listOfPredefinedUnitDefinitions = new ArrayList<UnitDefinition>(5);
 		listOfCompartments = null;
 		listOfCompartmentTypes = null;
 		listOfConstraints = null;

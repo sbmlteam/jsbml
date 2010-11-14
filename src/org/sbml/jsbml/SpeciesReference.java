@@ -99,22 +99,13 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 
 	/**
 	 * 
-	 * @param id
-	 */
-	public SpeciesReference(String id) {
-		super(id);
-		initDefaults();
-	}
-	
-	/**
-	 * 
 	 * @param level
 	 * @param version
 	 */
 	public SpeciesReference(int level, int version) {
 		this(null, level, version);
 	}
-
+	
 	/**
 	 * Creates a SpeciesReference instance from a Species. By default, if the
 	 * level is superior or equal to 3, the constant, stoichiometryMath and
@@ -148,6 +139,15 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		if (speciesReference.isSetDenominator) {
 			setDenominator(new Integer(speciesReference.getDenominator()));
 		}
+	}
+
+	/**
+	 * 
+	 * @param id
+	 */
+	public SpeciesReference(String id) {
+		super(id);
+		initDefaults();
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	public boolean getAllowsChildren() {
 		return true;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -315,6 +315,19 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 			return stoichiometryMath.getDerivedUnits();
 		}
 		return Unit.Kind.DIMENSIONLESS.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getElementName()
+	 */
+	@Override
+	public String getElementName() {
+		if ((getLevel() == 1) && (getVersion() == 1)) {
+			return "specieReference";
+		}
+		return super.getElementName();
 	}
 
 	/**

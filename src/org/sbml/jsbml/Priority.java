@@ -55,6 +55,9 @@ public class Priority extends AbstractMathContainer {
 	 */
 	public Priority(ASTNode math, int level, int version) {
 		super(math, level, version);
+		if (isSetLevel() && (getLevel() < 3)) {
+			throw new IllegalArgumentException("Cannot create Priority element with Level < 3.");
+		}
 	}
 
 	/**
@@ -63,6 +66,9 @@ public class Priority extends AbstractMathContainer {
 	 */
 	public Priority(int level, int version) {
 		super(level, version);
+		if (isSetLevel() && (getLevel() < 3)) {
+			throw new IllegalArgumentException("Cannot create Priority element with Level < 3.");
+		}
 	}
 
 	/**

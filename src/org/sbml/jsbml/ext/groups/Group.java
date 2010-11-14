@@ -34,7 +34,6 @@ import java.util.HashMap;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.SBase;
 
 /**
  * 
@@ -80,8 +79,7 @@ public class Group extends AbstractNamedSBase {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	@Override
-	public SBase clone() {
+	public Group clone() {
 		return new Group(this);
 	}
 

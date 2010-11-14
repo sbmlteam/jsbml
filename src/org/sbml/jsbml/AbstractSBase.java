@@ -37,6 +37,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.swing.tree.TreeNode;
@@ -49,12 +50,6 @@ import org.sbml.jsbml.util.StringTools;
  * @author Andreas Dr&auml;ger
  * @author rodrigue
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * @composed 0..1 notes 1 String
- * @depend - <use> - SBO
  */
 public abstract class AbstractSBase implements SBase {
 
@@ -69,11 +64,11 @@ public abstract class AbstractSBase implements SBase {
 	private Annotation annotation;
 	/**
 	 * map containing the SBML extension object of additional packages with the
-	 * appropriate namespace of the package.
+	 * appropriate name space of the package.
 	 */
 	private HashMap<String, SBase> extensions;
 	/**
-	 * level of the SBML component. Matches the level XML attribute of a sbml
+	 * level of the SBML component. Matches the level XML attribute of a SBML
 	 * node.
 	 */
 	Integer level;
@@ -85,7 +80,7 @@ public abstract class AbstractSBase implements SBase {
 	/**
 	 * 
 	 */
-	private Set<String> namespaces = new TreeSet<String>();
+	private SortedSet<String> namespaces;
 	/**
 	 * notes of the SBML component. Matches the notes XML node in a SBML file.
 	 */
@@ -132,6 +127,7 @@ public abstract class AbstractSBase implements SBase {
 		notesBuffer = null;
 		setOfListeners = new HashSet<SBaseChangedListener>();
 		extensions = new HashMap<String, SBase>();
+		namespaces = new TreeSet<String>();
 	}
 
 	/**
@@ -244,8 +240,14 @@ public abstract class AbstractSBase implements SBase {
 		stateChanged();
 	}
 
+	/**
+	 * Adds an additional name space to the set of name spaces of this
+	 * {@link SBase} if the given name space is not yet present within this
+	 * {@link SortedSet}.
+	 * 
+	 * @param namespace
+	 */
 	public void addNamespace(String namespace) {
-
 		this.namespaces.add(namespace);
 	}
 
@@ -274,25 +276,25 @@ public abstract class AbstractSBase implements SBase {
 			}
 			// this.notes += "</notes>";
 
-		} else
+		} else {
 			this.notes = notes;
+		}
 	}
 
 	/**
 	 * Checks whether or not the given {@link SBase} has the same level and
-	 * version configuration than this element.
+	 * version configuration than this element. If the L/V combination for the
+	 * given sbase is not yet defined, this method sets it to the identical
+	 * values as it is for the current object.
 	 * 
-	 * @param sbase
+	 * @param sbase the element to be checked.
+	 * @return true if the given sbase and this object have the same L/V
+	 *         configuration. False otherwise
 	 */
-	private void checkLevelAndVersionCompatibility(SBase sbase) {
+	private boolean checkLevelAndVersionCompatibility(SBase sbase) {
 		if (sbase.isSetLevel()) {
 			if (sbase.getLevel() != getLevel()) {
-				try {
-					throw new SBMLException();
-				} catch (SBMLException e) {
-					// TODO Level different, what to do?
-					e.printStackTrace();
-				}
+				return false;
 			}
 		} else {
 			sbase.setLevel(getLevel());
@@ -300,16 +302,12 @@ public abstract class AbstractSBase implements SBase {
 
 		if (sbase.isSetVersion()) {
 			if (sbase.getVersion() != getVersion()) {
-				try {
-					throw new SBMLException();
-				} catch (SBMLException e) {
-					// TODO Version different, what to do?
-					e.printStackTrace();
-				}
+				return false;
 			}
 		} else {
 			sbase.setVersion(getVersion());
 		}
+		return true;
 	}
 
 	/*
@@ -358,7 +356,7 @@ public abstract class AbstractSBase implements SBase {
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	public abstract SBase clone();
+	public abstract AbstractSBase clone();
 
 	/*
 	 * (non-Javadoc)
@@ -464,8 +462,8 @@ public abstract class AbstractSBase implements SBase {
 	 * @see javax.swing.tree.TreeNode#getChildAt(int)
 	 */
 	public TreeNode getChildAt(int childIndex) {
-		throw new IndexOutOfBoundsException("node " + getElementName()
-				+ " has no children");
+		throw new IndexOutOfBoundsException(String.format(
+				"Node %s has no children.", getElementName()));
 	}
 
 	/*
@@ -495,8 +493,9 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#getCVTerms()
 	 */
 	public List<CVTerm> getCVTerms() {
-		if (!isSetAnnotation())
+		if (!isSetAnnotation()) {
 			annotation = new Annotation();
+		}
 		return annotation.getListOfCVTerms();
 	}
 
@@ -597,9 +596,9 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#addExtension(String namespace, SBase
 	 * sbase)
 	 */
-	public Set<String> getNamespaces() {
-		// Need to separate the list of namespaces from the extensions.
-		// SBase object directly from the extension need to set their namespace.
+	public SortedSet<String> getNamespaces() {
+		// Need to separate the list of name spaces from the extensions.
+		// SBase object directly from the extension need to set their name space.
 
 		return this.namespaces;
 	}
@@ -735,21 +734,19 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#hasValidLevelVersionNamespaceCombination()
 	 */
 	public boolean hasValidLevelVersionNamespaceCombination() {
-		boolean has = true;
+		boolean has = false;
 		if (level == 1) {
-			if (1 <= version && version <= 2) {
+			if ((1 <= version) && (version <= 2)) {
 				has = true;
-			} else {
-				has = false;
 			}
 		} else if (level == 2) {
-			if (1 <= version && version <= 4) {
+			if ((1 <= version) && (version <= 4)) {
 				has = true;
-			} else {
-				has = false;
 			}
-		} else {
-			has = false;
+		} else if (level == 3) {
+			if ((1 <= version) && (version <= 1)) {
+				has = true;
+			}
 		}
 		return has;
 	}
@@ -778,10 +775,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#isSetAnnotation()
 	 */
 	public boolean isSetAnnotation() {
-		if (annotation == null) {
-			return false;
-		}
-		return annotation.isSetAnnotation();
+		return annotation != null ? annotation.isSetAnnotation() : false;
 	}
 
 	/*
@@ -858,16 +852,8 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
-
-		if (attributeName.equals("level") && this instanceof SBMLDocument) {
-			this.level = Integer.parseInt(value);
-			return true;
-		} else if (attributeName.equals("version")
-				&& this instanceof SBMLDocument) {
-			this.version = Integer.parseInt(value);
-			return true;
-		} else if (attributeName.equals("sboTerm")
-				&& ((getLevel() == 2 && getVersion() >= 2) || getLevel() == 3)) {
+		if (attributeName.equals("sboTerm")
+				&& (((getLevel() == 2) && (getVersion() >= 2)) || (getLevel() == 3))) {
 			this.setSBOTerm(value);
 			return true;
 		} else if (attributeName.equals("metaid")) {
@@ -954,7 +940,7 @@ public abstract class AbstractSBase implements SBase {
 				}
 			}
 		}
-		this.level = level;
+		this.level = Integer.valueOf(level);
 		stateChanged();
 	}
 
@@ -1050,19 +1036,14 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#setVersion(int version)
 	 */
 	public void setVersion(int version) {
-		if (parentSBMLObject != null && parentSBMLObject.isSetVersion()) {
+		if ((parentSBMLObject != null) && parentSBMLObject.isSetVersion()) {
 			if (version != parentSBMLObject.getVersion()) {
-				try {
-					throw new SBMLException(String.format(
-							"This %s can't have a different version from %d",
+					throw new IllegalArgumentException(String.format(
+							"The version of %s must not differ from the version of its parent %d.",
 							getElementName(), parentSBMLObject.getVersion()));
-				} catch (SBMLException e) {
-					// TODO Different version, what to do?
-					e.printStackTrace();
-				}
 			}
 		}
-		this.version = version;
+		this.version = Integer.valueOf(version);
 		stateChanged();
 	}
 
@@ -1161,8 +1142,10 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#unsetSBOTerm()
 	 */
 	public void unsetSBOTerm() {
-		sboTerm = -1;
-		stateChanged();
+		if (isSetSBOTerm()) {
+			sboTerm = -1;
+			stateChanged();
+		}
 	}
 
 	/*
@@ -1177,7 +1160,7 @@ public abstract class AbstractSBase implements SBase {
 			attributes.put("metaid", getMetaId());
 		}
 		if (isSetSBOTerm()
-				&& ((getLevel() == 2 && getVersion() >= 2) || getLevel() == 3)) {
+				&& (((getLevel() == 2) && (getVersion() >= 2)) || (getLevel() == 3))) {
 			attributes.put("sboTerm", getSBOTermID());
 		}
 		return attributes;
