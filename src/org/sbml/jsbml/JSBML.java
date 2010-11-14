@@ -49,7 +49,7 @@ public class JSBML {
 	/**
 	 * The current version number of JSBML.
 	 */
-	private static final String jsbmlVersion = "0.8.0";
+	private static final String jsbmlVersion = "0.8.10";
 
 	public static final int OPERATION_SUCCESS = 0;
 	public static final int INDEX_EXCEEDS_SIZE = -1;

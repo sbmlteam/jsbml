@@ -39,7 +39,6 @@ import org.codehaus.staxmate.SMOutputFactory;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.ASTNode.Type;
-import org.sbml.jsbml.util.StringTools;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
 
@@ -87,10 +86,10 @@ public class MathMLXMLStreamCompiler {
 			XMLStreamWriter writer = smFactory.createStax2Writer(stream);
 			
 			writer.writeStartDocument();
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			writer.writeStartElement("math");
 			writer.writeAttribute("xmlns", "http://www.w3.org/1998/Math/MathML");
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 
 			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(writer, "  ");
 			compiler.compile(astNode);
@@ -279,7 +278,7 @@ public class MathMLXMLStreamCompiler {
 			if (astNode.getType() == Type.FUNCTION_DELAY) {
 				writer.writeCharacters(indent);
 				writer.writeStartElement("apply");
-				writer.writeCharacters(StringTools.newLine());
+				writer.writeCharacters("\n");
 				indent += "  ";
 			}
 			
@@ -291,7 +290,7 @@ public class MathMLXMLStreamCompiler {
 			writer.writeCharacters(astNode.getName());
 			writer.writeCharacters(" ");
 			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 
 			// delay works like a function, so we need to write all the children
 			if (astNode.getType() == Type.FUNCTION_DELAY) {
@@ -321,7 +320,7 @@ public class MathMLXMLStreamCompiler {
 			writer.writeCharacters(Integer.toString(astNode.getInteger()));
 			writer.writeCharacters(" ");
 			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			
 		} catch (XMLStreamException e) {			
 			e.printStackTrace();
@@ -348,7 +347,7 @@ public class MathMLXMLStreamCompiler {
 			writer.writeCharacters(doubleStr);
 			writer.writeCharacters(" ");
 			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			
 		} catch (XMLStreamException e) {			
 			e.printStackTrace();
@@ -370,7 +369,7 @@ public class MathMLXMLStreamCompiler {
 			writer.writeCharacters(realFormat.format(astNode.getExponent()));
 			writer.writeCharacters(" ");
 			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			
 		} catch (XMLStreamException e) {			
 			e.printStackTrace();
@@ -394,7 +393,7 @@ public class MathMLXMLStreamCompiler {
 			writer.writeCharacters(Integer.toString(astNode.getDenominator()));
 			writer.writeCharacters(" ");
 			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			
 		} catch (XMLStreamException e) {			
 			e.printStackTrace();
@@ -413,7 +412,7 @@ public class MathMLXMLStreamCompiler {
 			writer.writeCharacters(astNode.getName());
 			writer.writeCharacters(" ");
 			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			
 		} catch (XMLStreamException e) {			
 			e.printStackTrace();
@@ -444,17 +443,17 @@ public class MathMLXMLStreamCompiler {
 				
 				writer.writeCharacters(indent);
 				writer.writeStartElement("apply");
-				writer.writeCharacters(StringTools.newLine());
+				writer.writeCharacters("\n");
 				indent += "  ";
 				
 				writer.writeCharacters(indent);
 				writer.writeEmptyElement("root");
-				writer.writeCharacters(StringTools.newLine());
+				writer.writeCharacters("\n");
 
 				// write the degree element
 				writer.writeCharacters(indent);
 				writer.writeStartElement("degree");
-				writer.writeCharacters(StringTools.newLine());
+				writer.writeCharacters("\n");
 				indent += "  ";
 				
 				compile(astNode.getChild(0));
@@ -482,7 +481,7 @@ public class MathMLXMLStreamCompiler {
 			
 			writer.writeCharacters(indent);
 			writer.writeStartElement("lambda");
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			indent += "  ";
 			
 			int nbChildren = astNode.getChildCount();
@@ -511,7 +510,7 @@ public class MathMLXMLStreamCompiler {
 		try {
 			writer.writeCharacters(indent);
 			writer.writeStartElement("bvar");
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			indent += "  ";
 			
 			if (!arg.isName()) {
@@ -542,14 +541,14 @@ public class MathMLXMLStreamCompiler {
 
 			writer.writeCharacters(indent);
 			writer.writeStartElement("piecewise");
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			indent += "  ";
 
 			for (int i = 0; i < nbChildren - 1; i = i + 2) {
 
 				writer.writeCharacters(indent);
 				writer.writeStartElement("piece");
-				writer.writeCharacters(StringTools.newLine());
+				writer.writeCharacters("\n");
 				indent += "  ";
 				
 				compile(astNode.getChild(i));
@@ -563,7 +562,7 @@ public class MathMLXMLStreamCompiler {
 				
 				writer.writeCharacters(indent);
 				writer.writeStartElement("otherwise");
-				writer.writeCharacters(StringTools.newLine());
+				writer.writeCharacters("\n");
 				indent += "  ";
 				
 				compile(astNode.getRightChild());
@@ -590,17 +589,17 @@ public class MathMLXMLStreamCompiler {
 				
 				writer.writeCharacters(indent);
 				writer.writeStartElement("apply");
-				writer.writeCharacters(StringTools.newLine());
+				writer.writeCharacters("\n");
 				indent += "  ";
 				
 				writer.writeCharacters(indent);
 				writer.writeEmptyElement("log");
-				writer.writeCharacters(StringTools.newLine());
+				writer.writeCharacters("\n");
 
 				// write the logbase element
 				writer.writeCharacters(indent);
 				writer.writeStartElement("logbase");
-				writer.writeCharacters(StringTools.newLine());
+				writer.writeCharacters("\n");
 				indent += "  ";
 				
 				compile(astNode.getChild(0));
@@ -630,7 +629,7 @@ public class MathMLXMLStreamCompiler {
 			
 			writer.writeCharacters(indent);
 			writer.writeEmptyElement(constantName);
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
@@ -676,12 +675,12 @@ public class MathMLXMLStreamCompiler {
 			
 			writer.writeCharacters(indent);
 			writer.writeStartElement("apply");
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			indent += "  ";
 			
 			writer.writeCharacters(indent);
 			writer.writeEmptyElement(functionName);
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 
 			for (ASTNode arg : args) {
 				compile(arg);
@@ -699,7 +698,7 @@ public class MathMLXMLStreamCompiler {
 
 			writer.writeCharacters(indent);
 			writer.writeStartElement("apply");
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 			indent += "  ";
 
 			compileCi(astNode);
@@ -722,7 +721,7 @@ public class MathMLXMLStreamCompiler {
 			indent = indent.substring(2);
 			writer.writeCharacters(indent);
 			writer.writeEndElement();
-			writer.writeCharacters(StringTools.newLine());
+			writer.writeCharacters("\n");
 
 		} catch (XMLStreamException e) {
 			e.printStackTrace();

@@ -56,14 +56,6 @@ public class LocalParameter extends QuantityWithDefinedUnit {
 	}
 	
 	/**
-	 * 
-	 * @param id
-	 */
-	public LocalParameter(String id) {
-		super(id);
-	}
-
-	/**
 	 * @param level
 	 * @param version
 	 */
@@ -87,6 +79,14 @@ public class LocalParameter extends QuantityWithDefinedUnit {
 	 */
 	public LocalParameter(Parameter parameter) {
 		super(parameter);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 */
+	public LocalParameter(String id) {
+		super(id);
 	}
 
 	/**
@@ -119,6 +119,17 @@ public class LocalParameter extends QuantityWithDefinedUnit {
 	}
 
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getElementName()
+	 */
+	public String getElementName() {
+		if (getLevel() < 3) {
+			return "parameter";
+		}
+		return super.getElementName();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

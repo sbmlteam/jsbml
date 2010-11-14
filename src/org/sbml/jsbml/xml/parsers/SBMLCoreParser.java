@@ -1507,74 +1507,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 */
 	public void writeElement(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
-
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
 			if (!xmlObject.isSetName()) {
-				if (sbmlElementToWrite instanceof AssignmentRule) {
-					AssignmentRule assignmentRule = (AssignmentRule) sbmlElementToWrite;
-					if (assignmentRule.getLevel() == 1) {
-						if (assignmentRule.getVersion() == 1
-								&& assignmentRule.isSpeciesConcentration()) {
-							xmlObject.setName("specieConcentrationRule");
-						} else if (assignmentRule.getVersion() == 2
-								&& assignmentRule.isSpeciesConcentration()) {
-							xmlObject.setName("speciesConcentrationRule");
-						} else if (assignmentRule.isCompartmentVolume()) {
-							xmlObject.setName("compartmentVolumeRule");
-						} else if (assignmentRule.isParameter()) {
-							xmlObject.setName("parameterRule");
-						}
-					} else {
-						xmlObject.setName(sbase.getElementName());
-					}
-				} else if (sbmlElementToWrite instanceof Species) {
-					Species species = (Species) sbmlElementToWrite;
-					if (species.getLevel() == 1 && species.getVersion() == 1) {
-						xmlObject.setName("specie");
-					} else {
-						xmlObject.setName(sbase.getElementName());
-					}
-				} else if (sbmlElementToWrite instanceof SpeciesReference) {
-					SpeciesReference speciesReference = (SpeciesReference) sbmlElementToWrite;
-					if (speciesReference.getLevel() == 1
-							&& speciesReference.getVersion() == 1) {
-						xmlObject.setName("specieReference");
-					} else {
-						xmlObject.setName(sbase.getElementName());
-					}
-				} else if (sbmlElementToWrite instanceof Parameter) {
-					Parameter parameter = (Parameter) sbmlElementToWrite;
-
-					if (parameter.getLevel() == 3) {
-						// TODO: Commented, because Eclipse says
-						// "Incompatible conditional operand types Model and ListOf<?>"
-						/*
-						 * if (parameter.getParentSBMLObject() instanceof
-						 * ListOf<?>) { ListOf<Parameter> list =
-						 * (ListOf<Parameter>) parameter .getParentSBMLObject();
-						 * if (list.getSBaseListType() ==
-						 * ListOf.Type.listOfLocalParameters) {
-						 * xmlObject.setName("localParameter"); } else {
-						 * xmlObject.setName(sbase.getElementName()); } } else {
-						 * // TODO throw an error, all the parameters should be
-						 * // included into a listOf. }
-						 */
-					} else {
-						xmlObject.setName(sbase.getElementName());
-					}
-				} else if (sbmlElementToWrite instanceof ListOf<?>) {
-					ListOf<SBase> list = (ListOf<SBase>) sbmlElementToWrite;
-
-					if (list.getLevel() < 3
-							&& list.getSBaseListType() == ListOf.Type.listOfLocalParameters) {
-						xmlObject.setName("listOfParameters");
-					} else {
-						xmlObject.setName(sbase.getElementName());
-					}
-				} else {
-					xmlObject.setName(sbase.getElementName());
-				}
+				xmlObject.setName(sbase.getElementName());
 			}
 		}
 	}

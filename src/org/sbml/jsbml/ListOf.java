@@ -440,6 +440,10 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	@Override
 	public String getElementName() {
+		if ((getLevel() < 3)
+				&& (getSBaseListType() == ListOf.Type.listOfLocalParameters)) {
+			return "listOfParameters";
+		}
 		return (getSBaseListType() != null ? getSBaseListType().toString()
 				: Type.none.toString());
 	}

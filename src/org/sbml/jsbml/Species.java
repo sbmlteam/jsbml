@@ -62,15 +62,11 @@ public class Species extends Symbol {
 	 */
 	private Boolean boundaryCondition;
 	/**
-	 * 
-	 */
-	private boolean isSetBoundaryCondition = false;
-
-	/**
 	 * Represents the 'charge' attribute of a Species element.
 	 */
 	@Deprecated
 	private Integer charge;
+
 	/**
 	 * Represents the 'compartment' attribute of a Species element.
 	 */
@@ -83,12 +79,16 @@ public class Species extends Symbol {
 	 * Represents the 'hasOnlySubstanceUnits' attribute of a Species element.
 	 */
 	private Boolean hasOnlySubstanceUnits;
-	private boolean isSetHasOnlySubstanceUnits = false;
-
+	/**
+	 * 
+	 */
+	private boolean isSetBoundaryCondition = false;
 	/**
 	 * Boolean value to test if the charge has been set.
 	 */
 	private boolean isSetCharge;
+
+	private boolean isSetHasOnlySubstanceUnits = false;
 	/**
 	 * Represents the 'spatialSizeUnits' attribute of a Species element.
 	 */
@@ -112,15 +112,6 @@ public class Species extends Symbol {
 	}
 	
 	/**
-	 * 
-	 * @param id
-	 */
-	public Species(String id) {
-		this();
-		setId(id);
-	}
-
-	/**
 	 * Creates a Species instance from a level and version. By default, the
 	 * charge, compartmentID, speciesTypeID, conversionFactorID,
 	 * hasOnlySubstanceUnits, boundaryCondition are null.
@@ -131,7 +122,7 @@ public class Species extends Symbol {
 	public Species(int level, int version) {
 		this(null, null, level, version);
 	}
-
+	
 	/**
 	 * Creates a Species instance from a Species.
 	 * 
@@ -171,6 +162,15 @@ public class Species extends Symbol {
 		} else {
 			this.spatialSizeUnitsID = null;
 		}
+	}
+
+	/**
+	 * 
+	 * @param id
+	 */
+	public Species(String id) {
+		this();
+		setId(id);
 	}
 
 	/**
@@ -302,6 +302,18 @@ public class Species extends Symbol {
 			return null;
 		}
 		return getModel().getParameter(this.conversionFactorID);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getElementName()
+	 */
+	@Override
+	public String getElementName() {
+		if ((getLevel() == 1) && (getVersion() == 1)) {
+			return "specie";
+		}
+		return super.getElementName();
 	}
 
 	/**
@@ -658,10 +670,11 @@ public class Species extends Symbol {
 	 * @param compartment
 	 */
 	public void setCompartment(Compartment compartment) {
-		if (compartment != null)
+		if (compartment != null) {
 			setCompartment(compartment.getId());
-		else
+		} else {
 			unsetCompartment();
+		}
 	}
 
 	/**

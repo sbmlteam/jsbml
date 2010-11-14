@@ -31,7 +31,6 @@
 package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.SBase;
 
 /**
  * @author
@@ -85,8 +84,7 @@ public class Point extends AbstractNamedSBase {
 	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	@Override
-	public SBase clone() {
+	public Point clone() {
 		return new Point(this);
 	}
 

@@ -29,6 +29,11 @@
  */
 package org.sbml.jsbml;
 
+import java.util.HashMap;
+
+import org.sbml.jsbml.util.StringTools;
+
+
 /**
  * Represents the trigger XML element of a SBML file.
  * 
@@ -188,6 +193,27 @@ public class Trigger extends AbstractMathContainer {
 		return persistent != null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractMathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead && isSetLevel() && (2 < getLevel())) {
+			if (attributeName.equals("initialValue")) {
+				setInitialValue(StringTools.parseSBMLBoolean(value));
+			}
+			if (attributeName.equals("persistent")) {
+				setPersistent(StringTools.parseSBMLBoolean(value));
+			}
+		}
+		return isAttributeRead;
+	}
+
 	/**
 	 * @param initialValue
 	 *            the initialValue to set
@@ -199,7 +225,7 @@ public class Trigger extends AbstractMathContainer {
 		}
 		this.initialValue = Boolean.valueOf(initialValue);
 	}
-
+	
 	/**
 	 * @param persistent
 	 *            the persistent to set
@@ -210,5 +236,25 @@ public class Trigger extends AbstractMathContainer {
 					"Cannot set persistent property for Trigger with Level < 3.");
 		}
 		this.persistent = Boolean.valueOf(persistent);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractMathContainer#writeXMLAttributes()
+	 */
+	@Override
+	public HashMap<String, String> writeXMLAttributes() {
+		HashMap<String, String> attributes = super.writeXMLAttributes();
+		if (isSetLevel() && (2 < getLevel())) {
+			if (isSetInitialValue()) {
+				attributes.put("initialValue", Boolean
+						.toString(getInitialValue()));
+			}
+			if (isSetPersistent()) {
+				attributes
+						.put("persistent", Boolean.toString(getPersistent()));
+			}
+		}
+		return attributes;
 	}
 }

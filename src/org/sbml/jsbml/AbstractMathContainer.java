@@ -340,7 +340,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	@Override
 	public HashMap<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = super.writeXMLAttributes();
-		if (isSetMath() && isSetLevel() && getLevel() < 2) {
+		if (isSetMath() && isSetLevel() && (getLevel() < 2)) {
 			attributes.put("formula", getFormula());
 		}
 		return attributes;

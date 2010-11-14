@@ -83,7 +83,6 @@ public interface WritingParser {
 	 *            : contains the XML information about sbmlElement.
 	 * @param sbmlElementToWrite
 	 *            : the {@link SBase} component to write
-	 * @param indent
 	 */
 	public void writeElement(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite);
