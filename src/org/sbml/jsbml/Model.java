@@ -31,7 +31,7 @@
 package org.sbml.jsbml;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
@@ -3619,26 +3619,32 @@ public class Model extends AbstractNamedSBase {
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 
-		if (isSetSubstanceUnits() && getLevel() > 2) {
-			attributes.put("substanceUnitsID", getSubstanceUnits());
+		if (getLevel() > 2) {
+			if (isSetSubstanceUnits()) {
+				attributes.put("substanceUnitsID", getSubstanceUnits());
+			}
+			if (isSetTimeUnits()) {
+				attributes.put("timeUnits", getTimeUnits());
+			}
+			if (isSetVolumeUnits()) {
+				attributes.put("volumeUnits", getVolumeUnits());
+			}
+			if (isSetAreaUnits()) {
+				attributes.put("areaUnits", getAreaUnits());
+			}
+			if (isSetLengthUnits()) {
+				attributes.put("lengthUnits", getLengthUnits());
+			}
+			if (isSetExtentUnits()) {
+				attributes.put("extentUnits", getExtentUnits());
+			}
+			if (isSetConversionFactor()) {
+				attributes.put("conversionFactor", getConversionFactor());
+			}
 		}
-		if (isSetTimeUnits() && getLevel() > 2) {
-			attributes.put("timeUnits", getTimeUnits());
-		} else if (isSetVolumeUnits() && getLevel() > 2) {
-			attributes.put("volumeUnits", getVolumeUnits());
-		} else if (isSetAreaUnits() && getLevel() > 2) {
-			attributes.put("areaUnits", getAreaUnits());
-		} else if (isSetLengthUnits() && getLevel() > 2) {
-			attributes.put("lengthUnits", getLengthUnits());
-		} else if (isSetExtentUnits() && getLevel() > 2) {
-			attributes.put("extentUnits", getExtentUnits());
-		} else if (isSetConversionFactor() && getLevel() > 2) {
-			attributes.put("conversionFactor", getConversionFactor());
-		}
-
 		return attributes;
 	}
 }

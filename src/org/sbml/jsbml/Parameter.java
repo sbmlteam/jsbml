@@ -29,7 +29,7 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.sbml.jsbml.util.StringTools;
 
@@ -165,8 +165,8 @@ public class Parameter extends Symbol {
 	 * @see org.sbml.jsbml.Symbol#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetValue()) {
 			attributes.put("value", Double.toString(getValue()));
@@ -174,7 +174,7 @@ public class Parameter extends Symbol {
 		if (isSetUnits()) {
 			attributes.put("units", getUnits());
 		}
-		if (isSetConstant() && getLevel() > 1) {
+		if (isSetConstant() && (getLevel() > 1)) {
 			attributes.put("constant", Boolean.toString(getConstant()));
 		}
 

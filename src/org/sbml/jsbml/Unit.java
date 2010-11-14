@@ -30,8 +30,8 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.sbml.jsbml.util.StringTools;
@@ -1950,23 +1950,38 @@ public class Unit extends AbstractSBase {
 	 * String prefix, String value)
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetKind()) {
 			attributes.put("kind", getKind().toString().toLowerCase());
 		}
-		if (isSetExponent()) {
-			attributes.put("exponent", Double.toString(getExponent()));
-		}
 		if (isSetScale()) {
 			attributes.put("scale", Integer.toString(getScale()));
 		}
-		if (isSetMultiplier() && (getLevel() > 1)) {
-			attributes.put("multiplier", Double.toString(getMultiplier()));
+		if (1 < getLevel()) {
+			if (isSetMultiplier()) {
+				attributes.put("multiplier", Double.toString(getMultiplier()));
+			}
 		}
-		if (isSetOffset() && (getLevel() > 1)) {
-			attributes.put("offset", Double.toString(getOffset()));
+		if ((getLevel() == 2) && (getVersion() == 1)) {
+			if (isSetOffset()) {
+				attributes.put("offset", Double.toString(getOffset()));
+			}
+		}
+		if (isSetExponent()) {
+			if (2 < getLevel()) {
+				attributes.put("exponent", Double.toString(getExponent()));
+			} else {
+				int exponent = (int) getExponent();
+				attributes.put("exponent", Integer
+						.toString((int) getExponent()));
+				if (exponent - getExponent() > 0) {
+					// TODO: Throw Exception?
+					System.err.printf("Illegal non-integer exponent %d.\n",
+							getExponent());
+				}
+			}
 		}
 		return attributes;
 	}

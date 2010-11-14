@@ -28,7 +28,7 @@
  */
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.sbml.jsbml.util.StringTools;
 
@@ -158,8 +158,8 @@ public class LocalParameter extends QuantityWithDefinedUnit {
 	 * @see org.sbml.jsbml.Symbol#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetValue()) {
 			attributes.put("value", Double.toString(getValue()));

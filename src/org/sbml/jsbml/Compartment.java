@@ -29,7 +29,7 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.sbml.jsbml.util.StringTools;
 
@@ -715,30 +715,37 @@ public class Compartment extends Symbol {
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 
-		if (isSetSpatialDimensions() && getLevel() > 1) {
-			attributes.put("spatialDimensions", Short
-					.toString(getSpatialDimensions()));
+		if (getLevel() == 1) {
+			if (isSetVolume()) {
+				attributes.put("volume", Double.toString(getVolume()));
+			}
+		} else if (1 < getLevel()) {
+			if (isSetSpatialDimensions()) {
+				attributes.put("spatialDimensions", Short
+						.toString(getSpatialDimensions()));
+			}
+			if (isSetSize()) {
+				attributes.put("size", Double.toString(getSize()));
+			}
+			if (isSetConstant()) {
+				attributes.put("constant", Boolean.toString(getConstant()));
+			}
+			if (isSetUnits()) {
+				attributes.put("units", getUnits());
+			}
 		}
-		if (isSetSize() && getLevel() > 1) {
-			attributes.put("size", Double.toString(getSize()));
+		if (getLevel() == 2) {
+			if (isSetCompartmentType()) {
+				attributes.put("compartmentType", getCompartmentType());
+			}
 		}
-		if (isSetCompartmentType() && getLevel() == 2) {
-			attributes.put("compartmentType", getCompartmentType());
-		}
-		if (isSetOutside() && getLevel() < 3) {
-			attributes.put("outside", outsideID);
-		}
-		if (isSetVolume() && getLevel() == 1) {
-			attributes.put("volume", Double.toString(getVolume()));
-		}
-		if (isSetConstant() && getLevel() > 1) {
-			attributes.put("constant", Boolean.toString(getConstant()));
-		}
-		if (isSetUnits() && getLevel() > 1) {
-			attributes.put("units", getUnits());
+		if (getLevel() < 3) {
+			if (isSetOutside()) {
+				attributes.put("outside", outsideID);
+			}
 		}
 		return attributes;
 	}

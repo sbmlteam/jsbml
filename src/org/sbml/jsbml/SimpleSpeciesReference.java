@@ -29,7 +29,7 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The base class of {@link SpeciesReference} and
@@ -256,12 +256,12 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 		if (isSetSpecies()) {
-			if ((getLevel() == 1 && getVersion() == 2) || getLevel() > 1) {
+			if (((getLevel() == 1) && (getVersion() == 2)) || (getLevel() > 1)) {
 				attributes.put("species", getSpecies());
-			} else if (getLevel() == 1 && getVersion() == 1) {
+			} else if ((getLevel() == 1) && (getVersion() == 1)) {
 				attributes.put("specie", getSpecies());
 			}
 		}

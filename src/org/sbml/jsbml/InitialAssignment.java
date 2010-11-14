@@ -30,7 +30,7 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents the initialAssignment XML element of a SBML file.
@@ -304,8 +304,8 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes(
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetVariable()) {
 			attributes.put("symbol", getVariable());

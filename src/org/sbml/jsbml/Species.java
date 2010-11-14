@@ -29,7 +29,7 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.sbml.jsbml.util.StringTools;
 
@@ -38,11 +38,6 @@ import org.sbml.jsbml.util.StringTools;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * @has 0..1 type 1..* SpeciesType
  */
 public class Species extends Symbol {
 
@@ -900,47 +895,55 @@ public class Species extends Symbol {
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes(
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetCompartment()) {
 			attributes.put("compartment", getCompartment());
-		}
-		if (isSetSpatialSizeUnits() && getLevel() == 2
-				&& (getVersion() == 1 || getVersion() == 2)) {
-			attributes.put("spatialSizeUnits", getSpatialSizeUnits());
 		}
 		if (isSetInitialAmount()) {
 			attributes
 					.put("initialAmount", Double.toString(getInitialAmount()));
 		}
-		if (isSetInitialConcentration() && getLevel() > 1) {
-			attributes.put("initialConcentration", Double
-					.toString(getInitialConcentration()));
-		}
-		if (isSetSubstanceUnits() && getLevel() > 1) {
-			attributes.put("substanceUnits", getSubstanceUnits());
-		}
-		if (isSetHasOnlySubstanceUnits() && getLevel() > 1) {
-			attributes.put("hasOnlySubstanceUnits", Boolean
-					.toString(getHasOnlySubstanceUnits()));
-		}
-		if (isSetConstant() && getLevel() > 1) {
-			attributes.put("constant", Boolean.toString(getConstant()));
-		}
 		if (isSetBoundaryCondition()) {
 			attributes.put("boundaryCondition", Boolean
 					.toString(getBoundaryCondition()));
 		}
-		if (isSetConversionFactor() && getLevel() == 3) {
-			attributes.put("conversionFactor", getConversionFactor());
+
+		if (1 < getLevel()) {
+			if (isSetInitialConcentration() && !isSetInitialAmount()) {
+				attributes.put("initialConcentration", Double
+						.toString(getInitialConcentration()));
+			}
+			if (isSetSubstanceUnits()) {
+				attributes.put("substanceUnits", getSubstanceUnits());
+			}
+			if (isSetHasOnlySubstanceUnits()) {
+				attributes.put("hasOnlySubstanceUnits", Boolean
+						.toString(getHasOnlySubstanceUnits()));
+			}
+			if (isSetConstant()) {
+				attributes.put("constant", Boolean.toString(getConstant()));
+			}
 		}
-		if (isSetCharge() && isSetLevel() && getLevel() < 3) {
+		if (getLevel() < 3) {
 			attributes.put("charge", Integer.toString(getCharge()));
 		}
-		if (isSetSpeciesType()
-				&& ((getLevel() == 2 && getVersion() >= 2) || getLevel() == 3)) {
-			attributes.put("speciesType", getSpeciesType());
+		if (getLevel() == 2) {
+			if ((getVersion() == 1) || (getVersion() == 2)) {
+				if (isSetSpatialSizeUnits()) {
+					attributes.put("spatialSizeUnits", getSpatialSizeUnits());
+				}
+			}
+			if (getVersion() <= 2) {
+				if (isSetSpeciesType()) {
+					attributes.put("speciesType", getSpeciesType());
+				}
+			}
+		} else if (getLevel() == 3) {
+			if (isSetConversionFactor()) {
+				attributes.put("conversionFactor", getConversionFactor());
+			}
 		}
 
 		return attributes;

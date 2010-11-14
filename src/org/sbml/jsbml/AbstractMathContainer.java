@@ -29,7 +29,7 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
@@ -338,8 +338,8 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 		if (isSetMath() && isSetLevel() && (getLevel() < 2)) {
 			attributes.put("formula", getFormula());
 		}

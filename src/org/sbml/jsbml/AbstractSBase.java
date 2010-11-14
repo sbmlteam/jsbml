@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
@@ -950,6 +951,10 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#setMetaId(java.lang.String)
 	 */
 	public void setMetaId(String metaid) {
+		if (isSetLevel() && (getLevel() < 2)) {
+			throw new IllegalArgumentException(
+					"Cannot set the metaid property of an SBase with Level = 1.");
+		}
 		this.metaId = metaid;
 		stateChanged();
 	}
@@ -1153,15 +1158,18 @@ public abstract class AbstractSBase implements SBase {
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
-	public HashMap<String, String> writeXMLAttributes() {
+	public Map<String, String> writeXMLAttributes() {
 		HashMap<String, String> attributes = new HashMap<String, String>();
 
-		if (isSetMetaId()) {
-			attributes.put("metaid", getMetaId());
-		}
-		if (isSetSBOTerm()
-				&& (((getLevel() == 2) && (getVersion() >= 2)) || (getLevel() == 3))) {
-			attributes.put("sboTerm", getSBOTermID());
+		if (1 < getLevel()) {
+			if (isSetMetaId()) {
+				attributes.put("metaid", getMetaId());
+			}
+			if (((getLevel() == 2) && (getVersion() >= 2)) || (getLevel() == 3)) {
+				if (isSetSBOTerm()) {
+					attributes.put("sboTerm", getSBOTermID());
+				}
+			}
 		}
 		return attributes;
 	}
