@@ -29,7 +29,7 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
@@ -546,8 +546,8 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetStoichiometry()) {
 			attributes
@@ -556,7 +556,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		if (isSetConstant()) {
 			attributes.put("constant", Boolean.toString(getConstant()));
 		}
-		if (isSetDenominator() && level == 1) {
+		if (isSetDenominator() && (getLevel() == 1)) {
 			attributes.put("denominator", Integer.toString(getDenominator()));
 		}
 

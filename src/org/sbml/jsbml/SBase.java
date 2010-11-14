@@ -33,7 +33,9 @@ package org.sbml.jsbml;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 
 import javax.swing.tree.TreeNode;
 
@@ -44,13 +46,6 @@ import org.sbml.jsbml.CVTerm.Qualifier;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * 
- * @composed 0..1 annotation 1 Annotation
- * @has 0..* listener 1 SBaseChangedListener
  */
 public interface SBase extends Cloneable, Serializable, TreeNode {
 
@@ -79,7 +74,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public boolean addCVTerm(CVTerm term);
 
 	/**
-	 * add a SBase extension object 'sbase' associated with a namespace
+	 * add a SBase extension object 'sbase' associated with a name space
 	 * 'namespace'.
 	 * 
 	 * @param namespace
@@ -96,7 +91,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 
 	/**
 	 * 
-	 * Creates a copy of this object, i.e., e new SBase with the same properties
+	 * Creates a copy of this object, i.e., e new {@link SBase} with the same properties
 	 * like this one and returns a pointer to it.
 	 * 
 	 * @return
@@ -104,12 +99,13 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public SBase clone();
 
 	/**
-	 * Returns true if and only if the given SBase has exactly the same
-	 * properties like this SBase instance.
+	 * Returns true if and only if the given {@link SBase} has exactly the same
+	 * properties like this {@link SBase} instance.
 	 * 
 	 * @param sbase
-	 * @return true if and only if the given SBase has exactly the same
-	 *         properties like this SBase instance.
+	 * @return true if and only if the given {@link Object} is an instance of
+	 *         {@link SBase} that has exactly the same properties like this
+	 *         SBase instance.
 	 */
 	public boolean equals(Object sbase);
 
@@ -128,28 +124,28 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * 
 	 * @param qualifier
 	 * @param pattern
-	 *            for instance, kegg or chebi.
+	 *            for instance, 'kegg' or 'chebi'.
 	 * @return
 	 */
 	public List<String> filterCVTerms(Qualifier qualifier, String pattern);
 
 	/**
-	 * @return the content of the 'annotation' subelement of this object as an
-	 *         Annotation instance.
+	 * @return the content of the 'annotation' sub-element of this object as an
+	 *         {@link Annotation} instance.
 	 */
 	public Annotation getAnnotation();
 
 	/**
 	 * 
 	 * @param index
-	 * @return the CVTerm instance at the position 'index' in the list of
-	 *         CVTerms of this object.
+	 * @return the {@link CVTerm} instance at the position 'index' in the list of
+	 *         {@link CVTerm}s of this object.
 	 */
 	public CVTerm getCVTerm(int index);
 
 	/**
 	 * 
-	 * @return the list of CVTerms of this object. If not yet set, this method
+	 * @return the list of {@link CVTerm}s of this object. If not yet set, this method
 	 *         initializes the annotation and returns an empty list.
 	 */
 	public List<CVTerm> getCVTerms();
@@ -163,7 +159,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	/**
 	 * 
 	 * @param namespace
-	 * @return the SBase extension object which matches this namespace.
+	 * @return the SBase extension object which matches this name space.
 	 */
 	public SBase getExtension(String namespace);
 
@@ -175,12 +171,12 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 
 	/**
 	 * 
-	 * @return the History instance of this object.
+	 * @return the {@link History} instance of this object.
 	 */
 	public History getHistory();
 
 	/**
-	 * Returns the SBML Level of the overall SBML document. Return -1 if it is
+	 * Returns the SBML Level of the overall SBML document. Returns -1 if it is
 	 * not set.
 	 * 
 	 * @return the SBML level of this SBML object.
@@ -195,7 +191,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public String getMetaId();
 
 	/**
-	 * Returns the Model object in which the current object is located.
+	 * Returns the {@link Model} object in which the current {@link SBase} is located.
 	 * 
 	 * @return
 	 */
@@ -203,27 +199,27 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 
 	/**
 	 * 
-	 * @return all the namespaces of all the packages which are currently
+	 * @return all the name spaces of all the packages which are currently
 	 *         extending this object.
 	 */
-	public Set<String> getNamespaces();
+	public SortedSet<String> getNamespaces();
 
 	/**
-	 * @return the StringBuffer notesBuffer containing the notes subelement of
-	 *         this object as a StringBuffer.
+	 * @return the {@link StringBuffer} notesBuffer containing the notes
+	 *         sub-element of this object as a {@link StringBuffer}.
 	 */
 	public StringBuffer getNotesBuffer();
 
 	/**
 	 * 
-	 * @return the notes sub-element of this object as a String. If no notes are
-	 *         set, an empty String will be returned.
+	 * @return the notes sub-element of this object as a {@link String}. If no
+	 *         notes are set, an empty {@link String} will be returned.
 	 */
 	public String getNotesString();
 
 	/**
 	 * 
-	 * @return the number of CVTerms of this object.
+	 * @return the number of {@link CVTerm}s of this {@link SBase}.
 	 */
 	public int getNumCVTerms();
 
@@ -234,36 +230,43 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * element containing it.
 	 * 
 	 * @return Returns the parent SBML object.
+	 * @see #getParent()
 	 */
 	public SBase getParentSBMLObject();
 
 	/**
-	 * Returns the parent SBMLDocument object.
+	 * Returns the parent {@link SBMLDocument} object.
 	 * 
-	 * LibSBML uses the class SBMLDocument as a top-level container for storing
+	 * LibSBML uses the class {@link SBMLDocument} as a top-level container for storing
 	 * SBML content and data associated with it (such as warnings and error
-	 * messages). An SBML model in libSBML is contained inside an SBMLDocument
-	 * object. SBMLDocument corresponds roughly to the class Sbml defined in the
+	 * messages). An SBML model in libSBML is contained inside an {@link SBMLDocument}
+	 * object. {@link SBMLDocument} corresponds roughly to the class 'sbml' defined in the
 	 * SBML Level 2 specification, but it does not have a direct correspondence
 	 * in SBML Level 1. (But, it is created by libSBML no matter whether the
 	 * model is Level 1 or Level 2.)
 	 * 
-	 * This method allows the SBMLDocument for the current object to be
+	 * This method allows the {@link SBMLDocument} for the current object to be
 	 * retrieved.
 	 * 
-	 * @return the parent SBMLDocument object of this SBML object.
+	 * @return the parent {@link SBMLDocument} object of this SBML object.
 	 */
 	public SBMLDocument getSBMLDocument();
 
 	/**
+	 * Grants access to the Systems Biology Ontology (SBO) term associated with
+	 * this {@link SBase}.
 	 * 
 	 * @return the SBOTerm attribute of this element.
+	 * @see SBO
 	 */
 	public int getSBOTerm();
 
 	/**
+	 * Grants access to the Systems Biology Ontology (SBO) term associated with
+	 * this {@link SBase}.
 	 * 
 	 * @return the SBO term ID of this element.
+	 * @see SBO
 	 */
 	public String getSBOTermID();
 
@@ -278,14 +281,14 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 
 	/**
 	 * 
-	 * @return true if the Annotation 'about' String of this object matches the
-	 *         metaid of this object.
+	 * @return true if the {@link Annotation} 'about' {@link String} of this
+	 *         object matches the metaid of this object.
 	 */
 	public boolean hasValidAnnotation();
 
 	/**
-	 * Predicate returning true or false depending on whether this object's
-	 * level/version and namespace values correspond to a valid SBML
+	 * Predicate returning <code>true</code> or false depending on whether this object's
+	 * level/version and name space values correspond to a valid SBML
 	 * specification.
 	 * 
 	 * @return
@@ -300,11 +303,12 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 
 	/**
 	 * Predicate returning true or false depending on whether this object's
-	 * 'annotation' subelement exists and has content.
+	 * 'annotation' sub-element exists and has content.
 	 * 
-	 * @return true if the Annotation instance of this object is not null and
-	 *         contains at least one CVTerm or one String containing other
-	 *         annotations than RDF or a {@link History} instance.
+	 * @return true if the {@link Annotation} instance of this object is not
+	 *         null and contains at least one {@link CVTerm} or one
+	 *         {@link String} containing other annotations than RDF or a
+	 *         {@link History} instance.
 	 */
 	public boolean isSetAnnotation();
 
@@ -330,9 +334,9 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 
 	/**
 	 * Predicate returning true or false depending on whether this object's
-	 * 'notes' subelement exists and has content.
+	 * 'notes' sub-element exists and has content.
 	 * 
-	 * @return true if the notes String is not null.
+	 * @return true if the notes {@link String} is not null.
 	 */
 	public boolean isSetNotes();
 
@@ -345,6 +349,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	/**
 	 * 
 	 * @return true if the SBOTerm is not -1.
+	 * @see SBO
 	 */
 	public boolean isSetSBOTerm();
 
@@ -364,7 +369,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 *            : prefix of the XML attribute
 	 * @param value
 	 *            : value of the XML attribute
-	 * @return true if the attribute has been read.
+	 * @return true if the attribute has been successfully read.
 	 */
 	public boolean readAttribute(String attributeName, String prefix,
 			String value);
@@ -389,8 +394,8 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public void sbaseRemoved();
 
 	/**
-	 * Sets the value of the 'annotation' subelement of this SBML object to a
-	 * copy of annotation given as an Annotation instance.
+	 * Sets the value of the 'annotation' sub-element of this SBML object to a
+	 * copy of annotation given as an {@link Annotation} instance.
 	 * 
 	 * @param annotation
 	 */
@@ -403,9 +408,9 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public void setHistory(History history);
 
 	/**
-	 * Sets the level of this object with 'level'. If the SBMLparent of this
-	 * object is set and 'level' is different with the SBMLparent level, an
-	 * excpetion is thrown.
+	 * Sets the level of this object with 'level'. If the SBML parent of this
+	 * object is set and 'level' is different with the SBML parent level, an
+	 * {@link Exception} is thrown.
 	 * 
 	 * @param level
 	 */
@@ -434,6 +439,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * Sets the value of the 'sboTerm' attribute.
 	 * 
 	 * @param term
+	 * @see SBO
 	 */
 	public void setSBOTerm(int term);
 
@@ -441,23 +447,24 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * Sets the value of the 'sboTerm' attribute.
 	 * 
 	 * @param sboid
+	 * @see SBO
 	 */
 	public void setSBOTerm(String sboid);
 
 	/**
-	 * Sets this object as SBMLParent of 'sbase'. Check if the level and version
+	 * Sets this object as SBML parent of 'sbase'. Check if the level and version
 	 * of sbase are set, otherwise sets the level and version of 'sbase' with
 	 * those of this object.
 	 * 
-	 * If the level and version of sbase are set but not valid, an exception is
+	 * If the level and version of sbase are set but not valid, an {@link Exception} is
 	 * thrown.
 	 */
 	public void setThisAsParentSBMLObject(SBase sbase);
 
 	/**
-	 * Sets the version of this object with 'version'. If the SBMLparent of this
+	 * Sets the version of this object with 'version'. If the SBML parent of this
 	 * object is set and 'version' is different with the SBMLparent version, an
-	 * excpetion is thrown.
+	 * {@link Exception} is thrown.
 	 * 
 	 * @param level
 	 */
@@ -469,12 +476,12 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public void stateChanged();
 
 	/**
-	 * Unsets the value of the 'annotation' subelement of this SBML object.
+	 * Unsets the value of the 'annotation' sub-element of this SBML object.
 	 */
 	public void unsetAnnotation();
 
 	/**
-	 * Unsets the list of CVTerm of this object.
+	 * Unsets the list of {@link CVTerm} of this object.
 	 */
 	public void unsetCVTerms();
 
@@ -489,7 +496,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public void unsetMetaId();
 
 	/**
-	 * Unsets the value of the 'notes' subelement of this SBML object.
+	 * Unsets the value of the 'notes' sub-element of this SBML object.
 	 */
 	public void unsetNotes();
 
@@ -504,7 +511,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public void unsetSBOTerm();
 
 	/**
-	 * @return a map containing the XML attributes of this object.
+	 * @return a {@link Map} containing the XML attributes of this object.
 	 */
-	public HashMap<String, String> writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes();
 }

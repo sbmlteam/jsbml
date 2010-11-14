@@ -30,7 +30,7 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.sbml.jsbml.text.parser.ParseException;
 
@@ -395,13 +395,13 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 
-		if (isSetId() && getLevel() > 1) {
+		if (isSetId() && (getLevel() > 1)) {
 			attributes.put("id", getId());
 		}
-		if (isSetName() && getLevel() > 1) {
+		if (isSetName() && (getLevel() > 1)) {
 			attributes.put("name", getName());
 		}
 

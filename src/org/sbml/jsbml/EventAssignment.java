@@ -29,7 +29,7 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents the eventAssignment XML element of a SBML file.
@@ -81,6 +81,9 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	public EventAssignment(int level, int version) {
 		super(level, version);
 		this.variableID = null;
+		if (isSetLevel() && (getLevel() < 2)) {
+			throw new IllegalAccessError("Cannot create an EventAssignment with Level < 2.");
+		}
 	}
 
 	/**
@@ -258,12 +261,11 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see writeXMLAttributes()
+	 * @see org.sbml.jsbml.AbstractMathContainer#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 		if (isSetVariable() && getLevel() >= 2) {
 			attributes.put("variable", getVariable());
 		}

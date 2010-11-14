@@ -29,7 +29,7 @@
  */
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.sbml.jsbml.util.StringTools;
 
@@ -243,8 +243,8 @@ public class Trigger extends AbstractMathContainer {
 	 * @see org.sbml.jsbml.AbstractMathContainer#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 		if (isSetLevel() && (2 < getLevel())) {
 			if (isSetInitialValue()) {
 				attributes.put("initialValue", Boolean

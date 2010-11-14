@@ -29,7 +29,7 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.filters.NameFilter;
@@ -1164,19 +1164,20 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetReversible()) {
 			attributes.put("reversible", Boolean.toString(getReversible()));
 		}
-
 		if (isSetFast()) {
 			attributes.put("fast", Boolean.toString(getFast()));
 		}
 
-		if (isSetCompartment() && getLevel() == 3) {
-			attributes.put("compartment", getCompartment());
+		if (2 < getLevel()) {
+			if (isSetCompartment()) {
+				attributes.put("compartment", getCompartment());
+			}
 		}
 
 		return attributes;

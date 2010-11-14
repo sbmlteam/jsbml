@@ -30,7 +30,7 @@
 
 package org.sbml.jsbml.ext.groups;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.NamedSBase;
@@ -177,8 +177,8 @@ public class Member extends AbstractSBase {
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetSymbol()) {
 			attributes.put("symbol", symbol);

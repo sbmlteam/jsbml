@@ -29,7 +29,7 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.StringTools;
@@ -552,6 +552,9 @@ public class Event extends AbstractNamedSBase {
 		} else {
 			useValuesFromTriggerTime = null;
 		}
+		if (isSetLevel() && (getLevel() < 2)) {
+			throw new IllegalAccessError("Cannot create an Event with Level < 2.");
+		}
 	}
 
 	/**
@@ -857,17 +860,17 @@ public class Event extends AbstractNamedSBase {
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetUseValuesFromTriggerTime()
-				&& ((getLevel() == 2 && getVersion() == 4) || getLevel() >= 3)) {
+				&& (((getLevel() == 2) && (getVersion() == 4)) || (getLevel() >= 3))) {
 			attributes.put("useValuesFromTriggerTime", Boolean
 					.toString(getUseValuesFromTriggerTime()));
 		}
 
 		if (isSetTimeUnits()
-				&& (getLevel() == 1 || (getLevel() == 2 && (getVersion() == 1 || getVersion() == 2)))) {
+				&& ((getLevel() == 1) || ((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2))))) {
 			attributes.put("timeUnits", getTimeUnits());
 		}
 

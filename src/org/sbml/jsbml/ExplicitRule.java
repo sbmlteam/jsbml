@@ -28,7 +28,7 @@
  */
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An explicit {@link Rule} is a rule that explicitly declares its variable
@@ -510,8 +510,8 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 		if (isSetVariable()) {
 			if (getLevel() > 1) {
 				attributes.put("variable", getVariable());

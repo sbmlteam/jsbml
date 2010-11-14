@@ -29,7 +29,7 @@
 
 package org.sbml.jsbml;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
@@ -733,15 +733,16 @@ public class KineticLaw extends AbstractMathContainer {
 	 * @see org.sbml.jsbml.MathContainer#writeXMLAttributes()
 	 */
 	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = super.writeXMLAttributes();
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
 
-		if (isSetTimeUnits()
-				&& ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)) {
-			attributes.put("timeUnits", getTimeUnits());
-		} else if (isSetSubstanceUnits()
-				&& ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)) {
-			attributes.put("substanceUnits", getSubstanceUnits());
+		if ((getLevel() == 1) || ((getLevel() == 2) && (getVersion() == 1))) {
+			if (isSetTimeUnits()) {
+				attributes.put("timeUnits", getTimeUnits());
+			}
+			if (isSetSubstanceUnits()) {
+				attributes.put("substanceUnits", getSubstanceUnits());
+			}
 		}
 
 		return attributes;
