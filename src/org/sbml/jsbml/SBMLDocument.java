@@ -96,6 +96,11 @@ public class SBMLDocument extends AbstractSBase {
 		this();
 		setLevel(level);
 		setVersion(version);
+		if (!hasValidLevelVersionNamespaceCombination()) {
+			throw new IllegalArgumentException(String.format(
+					"Undefined combination of Level %d and Version %d.",
+					this.level, this.version));
+		}
 	}
 
 	/**

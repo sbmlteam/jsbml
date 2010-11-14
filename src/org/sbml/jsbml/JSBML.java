@@ -76,7 +76,11 @@ public class JSBML {
 	 * name of first element, version in first element, class name of second
 	 * element and version in second argument.
 	 */
-	public static final String VERSION_MISMATCH_MESSAGE = "Version mismatch between %s in V %d and %s in V %d";
+	public static final String VERSION_MISMATCH_MESSAGE = "Version mismatch between %s in V %d and %s in V %d.";
+	/**
+	 * Message to indicate that a certain property cannot be set for the current level/version combination.
+	 */
+	public static final String PROPERTY_UNDEFINED_EXCEPTION_MSG = "Property %s is not defined for Level %s and Version %s";
 
 	/**
 	 * Creates an error message if the level fields of both elements are not
@@ -93,6 +97,27 @@ public class JSBML {
 					.getElementName(), element2.getLevel());
 		}
 		return "";
+	}
+	
+	/**
+	 * 
+	 * @param <T>
+	 * @param owner
+	 * @param origList
+	 * @param newList
+	 * @param type
+	 */
+	public static <T extends SBase> void addAllOrReplace(SBase owner,
+			ListOf<T> origList, ListOf<T> newList,
+			ListOf.Type type) {
+		if ((newList == null) || (origList != null)) {
+			origList.clear();
+			origList.addAll(newList);
+		} else {
+			origList = newList;
+			origList.setSBaseListType(type);
+			owner.setThisAsParentSBMLObject(origList);
+		}
 	}
 
 	/**

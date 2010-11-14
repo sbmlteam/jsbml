@@ -286,7 +286,9 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	/**
 	 * 
 	 * @return the denominator value if it is set, 1 otherwise
+	 * @deprecated Use for Level 1 only.
 	 */
+	@Deprecated
 	public int getDenominator() {
 		return isSetDenominator ? denominator : 1;
 	}
@@ -468,20 +470,41 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * Sets the denominator of this SpeciesReference.
 	 * 
 	 * @param denominator
+	 * @deprecated
 	 */
+	@Deprecated
 	public void setDenominator(int denominator) {
+		if ((getLevel() == 1) && (getVersion() == 2)) {
+			if (denominator < 0) {
+				throw new IllegalArgumentException(
+						String.format(
+										"Only positive integer values can be set as denominator. Invalid value %d.",
+										stoichiometry));
+			}
+		}
+		Integer oldDenominator = this.denominator;
 		this.denominator = denominator;
 		isSetDenominator = true;
-		stateChanged();
+		firePropertyChange("denominator", oldDenominator, this.denominator);
 	}
 
 	/**
-	 * Sets the stoichiometry of this SpeciesReference.
+	 * Sets the stoichiometry of this {@link SpeciesReference}.
 	 * 
 	 * @param stoichiometry
 	 */
 	public void setStoichiometry(double stoichiometry) {
-		this.stoichiometry = stoichiometry;
+		if ((getLevel() == 1) && (getVersion() == 2)) {
+			int stoch = (int) stoichiometry;
+			if ((stoch < 0) || (stoch - stoichiometry != 0d)) {
+				throw new IllegalArgumentException(
+						String.format(
+										"Only positive integer values can be set as stoichiometry. Invalid value %d.",
+										stoichiometry));
+			}
+		}
+		Double oldStoichiometry = this.stoichiometry;
+		this.stoichiometry = Double.valueOf(stoichiometry);
 		if (isSetStoichiometryMath()) {
 			stoichiometryMath = null;
 		}
@@ -490,20 +513,19 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		} else {
 			isSetStoichiometry = true;
 		}
-
-		stateChanged();
+		firePropertyChange("stoichiometry", oldStoichiometry, this.stoichiometry);
 	}
 
 	/**
-	 * Sets the stoichiometryMath of this SpeciesReference.
+	 * Sets the {@link StoichiometryMath} of this {@link SpeciesReference).
 	 * 
 	 * @param math
 	 * @deprecated
 	 */
+	@Deprecated
 	public void setStoichiometryMath(StoichiometryMath math) {
 		this.stoichiometryMath = math;
 		setThisAsParentSBMLObject(this.stoichiometryMath);
-		stateChanged();
 	}
 
 	/*

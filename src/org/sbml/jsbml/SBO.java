@@ -501,6 +501,14 @@ public class SBO {
 	 * 
 	 * @return
 	 */
+	public static int getPhysicalCompartment() {
+		return 290;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public static int getPhysicalParticipant() {
 		return 236;
 	}
@@ -744,26 +752,6 @@ public class SBO {
 		return StringTools.concat(prefix, sboNumberString(sboTerm)).toString();
 	}
 	
-	/**
-	 * This method creates a 7 digit SBO number for the given Term identifier (if
-	 * this is a valid identifier). The returned {@link String} will not contain the
-	 * SBO prefix.
-	 * 
-	 * @param sboTerm
-	 * @return
-	 */
-	public static String sboNumberString(int sboTerm) {
-		if (!checkTerm(sboTerm)) {
-			return "";
-		}
-		StringBuilder sbo = new StringBuilder();
-		sbo.append(Integer.toString(sboTerm));
-		while (sbo.length() < 7) {
-			sbo.insert(0, '0');
-		}
-		return sbo.toString();
-	}
-
 	/**
 	 * 
 	 * @param sboTerm
@@ -1198,6 +1186,15 @@ public class SBO {
 	}
 
 	/**
+	 * 
+	 * @param sboTerm
+	 * @return
+	 */
+	public static boolean isPhysicalCompartment(int sboTerm) {
+		return isChildOf(sboTerm, getPhysicalCompartment());
+	}
+
+	/**
 	 * Function for checking the SBO term is from correct part of SBO. Obsolete
 	 * term.
 	 * 
@@ -1436,6 +1433,26 @@ public class SBO {
 	 */
 	public static boolean isUnknownTransition(int sboTerm) {
 		return isChildOf(sboTerm, getUnknownTransition());
+	}
+
+	/**
+	 * This method creates a 7 digit SBO number for the given Term identifier (if
+	 * this is a valid identifier). The returned {@link String} will not contain the
+	 * SBO prefix.
+	 * 
+	 * @param sboTerm
+	 * @return
+	 */
+	public static String sboNumberString(int sboTerm) {
+		if (!checkTerm(sboTerm)) {
+			return "";
+		}
+		StringBuilder sbo = new StringBuilder();
+		sbo.append(Integer.toString(sboTerm));
+		while (sbo.length() < 7) {
+			sbo.insert(0, '0');
+		}
+		return sbo.toString();
 	}
 
 	/**

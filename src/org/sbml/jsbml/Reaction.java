@@ -1054,18 +1054,22 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param compartment
 	 */
 	public void setCompartment(Compartment compartment) {
-		this.compartmentID = compartment != null ? compartment.getId() : null;
-		stateChanged();
+		setCompartment(compartment != null ? compartment.getId() : null);
 	}
 
 	/**
-	 * Sets the compartmentID of this Reaction to 'compartmentID'.
+	 * Sets the compartmentID of this Reaction to 'compartmentID'. This
+	 * method is only available for Level >= 3.
 	 * 
 	 * @param compartmentID
 	 */
 	public void setCompartment(String compartmentID) {
+		if (isSetLevel() && (getLevel() < 3)) {
+			throw new IllegalArgumentException("Cannot set the compartment property for a Reaction with Level < 3.");
+		}
+		String oldCompartmentID = this.compartmentID;
 		this.compartmentID = compartmentID;
-		stateChanged();
+		firePropertyChange("compartment", oldCompartmentID, compartmentID);
 	}
 
 	/**
@@ -1074,59 +1078,50 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param fast
 	 */
 	public void setFast(boolean fast) {
+		Boolean oldFast = this.fast;
 		this.fast = Boolean.valueOf(fast);
 		isSetFast = true;
-		stateChanged();
+		firePropertyChange("fast", oldFast, fast);
 	}
 
 	/**
-	 * Sets the kineticLaw of this Reaction.
+	 * Sets the kineticLaw of this {@link Reaction}.
 	 * 
 	 * @param kineticLaw
 	 */
 	public void setKineticLaw(KineticLaw kineticLaw) {
 		this.kineticLaw = kineticLaw;
 		setThisAsParentSBMLObject(this.kineticLaw);
-		this.kineticLaw.sbaseAdded();
-		stateChanged();
 	}
 
 	/**
 	 * Sets the listOfModifiers of this Reaction. Automatically sets the
 	 * parentSBML object of the list to this Reaction instance.
 	 * 
-	 * @param list
+	 * @param listOfModifiers
 	 */
-	public void setListOfModifiers(ListOf<ModifierSpeciesReference> list) {
-		listOfModifiers = list;
-		setThisAsParentSBMLObject(listOfModifiers);
-		stateChanged();
+	public void setListOfModifiers(ListOf<ModifierSpeciesReference> listOfModifiers) {
+		JSBML.addAllOrReplace(this, this.listOfModifiers, listOfModifiers, ListOf.Type.listOfModifiers);
 	}
 
 	/**
 	 * Sets the listOfProducts of this Reaction. Automatically sets the
 	 * parentSBML object of the list to this Reaction instance.
 	 * 
-	 * @param list
+	 * @param listOfProducts
 	 */
-	public void setListOfProducts(ListOf<SpeciesReference> list) {
-		listOfProducts = list;
-		setThisAsParentSBMLObject(this.listOfProducts);
-		listOfProducts.setSBaseListType(ListOf.Type.listOfProducts);
-		stateChanged();
+	public void setListOfProducts(ListOf<SpeciesReference> listOfProducts) {
+		JSBML.addAllOrReplace(this, this.listOfProducts, listOfProducts, ListOf.Type.listOfProducts);
 	}
 
 	/**
 	 * Sets the listOfReactants of this Reaction. Automatically sets the
 	 * parentSBML object of the list to this Reaction instance.
 	 * 
-	 * @param list
+	 * @param listOfReactants
 	 */
-	public void setListOfReactants(ListOf<SpeciesReference> list) {
-		this.listOfReactants = list;
-		setThisAsParentSBMLObject(this.listOfReactants);
-		this.listOfReactants.setSBaseListType(ListOf.Type.listOfReactants);
-		stateChanged();
+	public void setListOfReactants(ListOf<SpeciesReference> listOfReactants) {
+		JSBML.addAllOrReplace(this, this.listOfReactants, listOfReactants, ListOf.Type.listOfReactants);
 	}
 
 	/**
@@ -1135,27 +1130,30 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param reversible
 	 */
 	public void setReversible(Boolean reversible) {
+		Boolean oldReversible = this.reversible;
 		this.reversible = Boolean.valueOf(reversible);
 		isSetReversible = true;
-		stateChanged();
+		firePropertyChange("reversible", oldReversible, reversible);
 	}
 
 	/**
 	 * Sets the fast Boolean of this Reaction to null.
 	 */
 	public void unsetFast() {
+		Boolean oldFast = this.fast;
 		isSetFast = false;
 		fast = null;
-		stateChanged();
+		firePropertyChange("fast", oldFast, fast);
 	}
 
 	/**
 	 * Sets the reversible Boolean of this Reaction to null.
 	 */
 	public void unsetReversible() {
+		Boolean oldReversible = this.reversible;
 		isSetReversible = false;
 		reversible = null;
-		stateChanged();
+		firePropertyChange("reversible", oldReversible, reversible);
 	}
 	
 	/*

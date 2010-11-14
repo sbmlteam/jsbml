@@ -42,10 +42,6 @@ import org.sbml.jsbml.util.compilers.TextFormula;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2009-08-31
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public class Unit extends AbstractSBase {
 
@@ -1821,9 +1817,10 @@ public class Unit extends AbstractSBase {
 	 * @param exponent
 	 */
 	public void setExponent(double exponent) {
+		Double oldExponent = this.exponent;
 		isSetExponent = true;
 		this.exponent = Double.valueOf(exponent);
-		stateChanged();
+		firePropertyChange("exponent", oldExponent, this.exponent);
 	}
 
 	/**
@@ -1832,31 +1829,41 @@ public class Unit extends AbstractSBase {
 	 * @param kind
 	 */
 	public void setKind(Kind kind) {
+		Kind oldKind = this.kind;
 		this.kind = kind != null ? kind : Kind.INVALID;
-		stateChanged();
+		firePropertyChange("kind", oldKind, this.kind);
 	}
 
 	/**
-	 * Sets the multiplier of this Unit
+	 * Sets the multiplier of this {@link Unit}
 	 * 
 	 * @param multiplier
 	 */
 	public void setMultiplier(double multiplier) {
+		Double oldMultiplyer = this.multiplier;
 		isSetMultiplier = true;
 		this.multiplier = multiplier;
-		stateChanged();
+		firePropertyChange("multiplier", oldMultiplyer, this.multiplier);
 	}
 
 	/**
 	 * Sets the offset of this Unit
 	 * 
 	 * @param offset
+	 * @deprecated Only defined for SBML Level 2 Version 1.
 	 */
 	@Deprecated
 	public void setOffset(double offset) {
-		isSetOffset = true;
-		this.offset = Double.valueOf(offset);
-		stateChanged();
+		if ((getLevel() == 2) && (getVersion() == 1)) {
+			Double oldOffset = this.offset;
+			isSetOffset = true;
+			this.offset = Double.valueOf(offset);
+			firePropertyChange("offset", oldOffset, this.offset);
+		} else {
+			throw new IllegalArgumentException(String.format(
+					JSBML.PROPERTY_UNDEFINED_EXCEPTION_MSG,
+					"offset", getLevel(), getVersion()));
+		}
 	}
 
 	/**
@@ -1865,9 +1872,10 @@ public class Unit extends AbstractSBase {
 	 * @param scale
 	 */
 	public void setScale(int scale) {
+		Integer oldScale = this.scale;
 		isSetScale = true;
 		this.scale = scale;
-		stateChanged();
+		firePropertyChange("scale", oldScale, scale);
 	}
 
 	/**
@@ -1902,45 +1910,56 @@ public class Unit extends AbstractSBase {
 	 * 
 	 */
 	public void unsetExponent() {
+		Double oldExponent = this.exponent;
 		exponent = null;
 		isSetExponent = false;
-		stateChanged();
+		firePropertyChange("exponent", oldExponent, this.exponent);
 	}
 
 	/**
 	 * 
 	 */
 	public void unsetKind() {
+		Kind oldKind = this.kind;
 		kind = Kind.INVALID;
-		stateChanged();
+		firePropertyChange("kind", oldKind, this.kind);
 	}
 
 	/**
 	 * 
 	 */
 	public void unsetMultiplier() {
+		Double oldMultipler = this.multiplier;
 		multiplier = null;
 		isSetMultiplier = false;
-		stateChanged();
+		firePropertyChange("multipler", oldMultipler, this.multiplier);
 	}
 
 	/**
-	 * 
+	 * @deprecated
 	 */
 	@Deprecated
 	public void unsetOffset() {
-		offset = null;
-		isSetOffset = false;
-		stateChanged();
+		if ((getLevel() == 2) && (getVersion() == 1)) {
+			Double oldOffset = this.offset;
+			offset = null;
+			isSetOffset = false;
+			firePropertyChange("offset", oldOffset, this.offset);
+		} else {
+			throw new IllegalArgumentException(String.format(
+					"Property %s is not defined for Level %s and Version %s",
+					"offset", getLevel(), getVersion()));
+		}
 	}
 
 	/**
 	 * 
 	 */
 	public void unsetScale() {
+		Integer oldScale = this.scale;
 		scale = null;
 		isSetScale = false;
-		stateChanged();
+		firePropertyChange("scale", oldScale, scale);
 	}
 	
 	/*
@@ -1976,7 +1995,7 @@ public class Unit extends AbstractSBase {
 				int exponent = (int) getExponent();
 				attributes.put("exponent", Integer
 						.toString((int) getExponent()));
-				if (exponent - getExponent() > 0) {
+				if (exponent - getExponent() != 0) {
 					// TODO: Throw Exception?
 					System.err.printf("Illegal non-integer exponent %d.\n",
 							getExponent());

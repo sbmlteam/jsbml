@@ -307,8 +307,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	 * @see org.sbml.jsbml.MathContainer#setFormula(java.lang.String)
 	 */
 	public void setFormula(String formula) throws ParseException {
-		math = ASTNode.parseFormula(formula);
-		stateChanged();
+		setMath(ASTNode.parseFormula(formula));
 	}
 
 	/*
@@ -317,9 +316,10 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	 * @see org.sbml.jsbml.MathContainer#setMath(org.sbml.jsbml.ASTNode)
 	 */
 	public void setMath(ASTNode math) {
+		ASTNode oldMath = this.math;
 		this.math = math;
 		ASTNode.setParentSBMLObject(math, this);
-		stateChanged();
+		firePropertyChange("math", oldMath, math);
 	}
 
 	/*

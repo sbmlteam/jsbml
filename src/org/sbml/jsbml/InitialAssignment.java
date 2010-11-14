@@ -139,7 +139,6 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 					"only the id of an existing Species, Compartments, or Parameters allowed as variables");
 		}
 		setVariable(nsb.getId());
-		stateChanged();
 	}
 
 	/*
@@ -272,8 +271,9 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 	 * @see org.sbml.jsbml.Assignment#setVariable(java.lang.String)
 	 */
 	public void setVariable(String variable) {
+		String oldVariableID = this.variableID;
 		this.variableID = variable;
-		stateChanged();
+		firePropertyChange("variable", oldVariableID, variable);
 	}
 
 	/*
@@ -285,8 +285,7 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 			throw new IllegalArgumentException(
 					"Cannot set a SpeciesReference as the Variable in an InitialAssignment for SBML Level < 3");
 		}
-		this.variableID = variable != null ? variable.getId() : null;
-		stateChanged();
+		setVariable(this.variableID = variable != null ? variable.getId() : null);
 	}
 
 	/*
@@ -294,8 +293,7 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 	 * @see org.sbml.jsbml.Assignment#unsetVariable()
 	 */
 	public void unsetVariable() {
-		this.variableID = null;
-		stateChanged();
+		setVariable((String) null);
 	}
 	
 	/*

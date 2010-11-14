@@ -752,12 +752,13 @@ public class Event extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public void setTimeUnits(String timeUnits) {
-		if (timeUnits.equals("")) {
+		if ((timeUnits == null) || timeUnits.equals("")) {
 			unsetTimeUnits();
-			return;
+		} else {
+			String oldTimeUnitsID = timeUnitsID == null ? null : new String(timeUnitsID);
+			this.timeUnitsID = timeUnits;
+			firePropertyChange("timeUnits", oldTimeUnitsID, timeUnits);
 		}
-		this.timeUnitsID = timeUnits;
-		stateChanged();
 	}
 
 	/**
@@ -768,8 +769,7 @@ public class Event extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public void setTimeUnits(UnitDefinition timeUnits) {
-		this.timeUnitsID = timeUnits != null ? timeUnits.getId() : null;
-		stateChanged();
+		setTimeUnits(timeUnits != null ? timeUnits.getId() : null);
 	}
 
 	/**
@@ -779,8 +779,7 @@ public class Event extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public void setTimeUnitsID(String timeUnitsID) {
-		this.timeUnitsID = timeUnitsID;
-		stateChanged();
+		setTimeUnits(timeUnitsID);
 	}
 
 	/**
@@ -801,8 +800,9 @@ public class Event extends AbstractNamedSBase {
 	 * @param useValuesFromTriggerTime
 	 */
 	public void setUseValuesFromTriggerTime(boolean useValuesFromTriggerTime) {
+		Boolean oldUsesValuesFromTriggerTime = Boolean.valueOf(this.useValuesFromTriggerTime);
 		this.useValuesFromTriggerTime = useValuesFromTriggerTime;
-		stateChanged();
+		firePropertyChange("useValuesFromTriggerTime", oldUsesValuesFromTriggerTime, useValuesFromTriggerTime);
 	}
 
 	/**
@@ -825,8 +825,7 @@ public class Event extends AbstractNamedSBase {
 	 * Sets the timeUnitsID of this Event to null.
 	 */
 	public void unsetTimeUnits() {
-		this.timeUnitsID = null;
-		stateChanged();
+		setTimeUnitsID(null);
 	}
 
 	/**
@@ -850,8 +849,9 @@ public class Event extends AbstractNamedSBase {
 	 * Sets the useValuesFromTriggerTime of this Event to null.
 	 */
 	public void unsetUseValuesFromTriggerTime() {
+		Boolean oldUseValuesFromTriggerTime = useValuesFromTriggerTime;
 		this.useValuesFromTriggerTime = null;
-		stateChanged();
+		firePropertyChange("useValuesFromTriggerTime", oldUseValuesFromTriggerTime, null);
 	}
 
 	/*

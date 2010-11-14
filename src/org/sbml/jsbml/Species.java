@@ -82,7 +82,9 @@ public class Species extends Symbol {
 	 * Boolean value to test if the charge has been set.
 	 */
 	private boolean isSetCharge;
-
+	/**
+	 * 
+	 */
 	private boolean isSetHasOnlySubstanceUnits = false;
 	/**
 	 * Represents the 'spatialSizeUnits' attribute of a Species element.
@@ -643,9 +645,10 @@ public class Species extends Symbol {
 	 * @param boundaryCondition
 	 */
 	public void setBoundaryCondition(Boolean boundaryCondition) {
+		Boolean oldBoundaryCondition = this.boundaryCondition;
 		this.boundaryCondition = boundaryCondition;
 		isSetBoundaryCondition = true;
-		stateChanged();
+		firePropertyChange("boundaryCondition", oldBoundaryCondition, this.boundaryCondition);
 	}
 
 	/**
@@ -654,9 +657,10 @@ public class Species extends Symbol {
 	 * @param charge
 	 */
 	public void setCharge(int charge) {
+		Integer oldCharge = this.charge;
 		this.charge = Integer.valueOf(charge);
 		isSetCharge = true;
-		stateChanged();
+		firePropertyChange("charge", oldCharge, this.charge);
 	}
 
 	/**
@@ -678,12 +682,15 @@ public class Species extends Symbol {
 	 * @param compartment
 	 */
 	public void setCompartment(String compartment) {
-		if (compartment != null && compartment.trim().length() == 0) {
-			this.compartmentID = null;
-		} else {
-			this.compartmentID = compartment;
+		if (checkIdentifier(compartment)) {
+			String oldCompartment = this.compartmentID;
+			if ((compartment != null) && (compartment.trim().length() == 0)) {
+				this.compartmentID = null;
+			} else {
+				this.compartmentID = compartment;
+			}
+			firePropertyChange("compartment", oldCompartment, compartmentID);
 		}
-		stateChanged();
 	}
 
 	/**
@@ -693,9 +700,8 @@ public class Species extends Symbol {
 	 * @param conversionFactor
 	 */
 	public void setConversionFactor(Parameter conversionFactor) {
-		this.conversionFactorID = conversionFactor != null ? conversionFactor
-				.getId() : null;
-		stateChanged();
+		setConversionFactor(conversionFactor != null ? conversionFactor
+				.getId() : null);
 	}
 
 	/**
@@ -704,13 +710,14 @@ public class Species extends Symbol {
 	 * @param conversionFactorID
 	 */
 	public void setConversionFactor(String conversionFactorID) {
-		if (conversionFactorID != null
-				&& conversionFactorID.trim().length() == 0) {
+		String oldConversionFactor = this.conversionFactorID;
+		if ((conversionFactorID != null)
+				&& (conversionFactorID.trim().length() == 0)) {
 			this.conversionFactorID = null;
 		} else {
 			this.conversionFactorID = conversionFactorID;
 		}
-		stateChanged();
+		firePropertyChange("conversionFactor", oldConversionFactor, conversionFactorID);
 	}
 
 	/**
@@ -718,19 +725,24 @@ public class Species extends Symbol {
 	 * 
 	 * @param hasOnlySubstanceUnits
 	 */
-	public void setHasOnlySubstanceUnits(Boolean hasOnlySubstanceUnits) {
-		this.hasOnlySubstanceUnits = hasOnlySubstanceUnits;
+	public void setHasOnlySubstanceUnits(boolean hasOnlySubstanceUnits) {
+		Boolean oldHasOnlySubstanceUnits = this.hasOnlySubstanceUnits;
+		this.hasOnlySubstanceUnits = Boolean.valueOf(hasOnlySubstanceUnits);
 		isSetHasOnlySubstanceUnits = true;
-		stateChanged();
+		firePropertyChange("hasOnlySubstanceUnits", oldHasOnlySubstanceUnits, this.hasOnlySubstanceUnits);
 	}
 
 	/**
-	 * Sets the initialAmount of this Species.
+	 * Sets the initialAmount of this {@link Species}.
 	 * 
 	 * @param initialAmount
 	 */
 	public void setInitialAmount(double initialAmount) {
-		amount = true;
+		boolean amount = this.amount;
+		this.amount = true;
+		if (!amount) {
+			firePropertyChange("initialAmount", Boolean.FALSE, Boolean.TRUE);
+		}
 		setValue(initialAmount);
 	}
 
@@ -740,7 +752,11 @@ public class Species extends Symbol {
 	 * @param initialConcentration
 	 */
 	public void setInitialConcentration(double initialConcentration) {
-		amount = false;
+		boolean amount = this.amount;
+		this.amount = false;
+		if (amount) {
+			firePropertyChange("initialAmount", Boolean.TRUE, Boolean.FALSE);
+		}
 		setValue(initialConcentration);
 
 	}
@@ -749,14 +765,17 @@ public class Species extends Symbol {
 	 * Sets the spatialSizeUnitsID of this Species to 'spatialSizeUnits'.
 	 * 
 	 * @param spatialSizeUnits
+	 * @deprecated
 	 */
+	@Deprecated
 	public void setSpatialSizeUnits(String spatialSizeUnits) {
-		if (spatialSizeUnits != null && spatialSizeUnits.trim().length() == 0) {
+		String oldSpatialSizeUnits = this.spatialSizeUnitsID;
+		if ((spatialSizeUnits != null) && (spatialSizeUnits.trim().length() == 0)) {
 			this.spatialSizeUnitsID = null;
 		} else {
 			this.spatialSizeUnitsID = spatialSizeUnits;
 		}
-		stateChanged();
+		firePropertyChange("spatialSizeUnits", oldSpatialSizeUnits, this.spatialSizeUnitsID);
 	}
 
 	/**
@@ -764,22 +783,23 @@ public class Species extends Symbol {
 	 * 'spatialSizeUnits'.
 	 * 
 	 * @param spatialSizeUnits
+	 * @deprecated
 	 */
+	@Deprecated
 	public void setSpatialSizeUnits(UnitDefinition spatialSizeUnits) {
-		this.spatialSizeUnitsID = spatialSizeUnits != null ? spatialSizeUnits
-				.getId() : null;
-		stateChanged();
+		setSpatialSizeUnits(spatialSizeUnits != null ? spatialSizeUnits
+				.getId() : null);
 	}
 
 	/**
 	 * Sets the speciesTypeID of this Species to the id of 'speciesType'.
 	 * 
 	 * @param speciesType
+	 * @deprecated
 	 */
 	@Deprecated
 	public void setSpeciesType(SpeciesType speciesType) {
-		this.speciesTypeID = speciesType != null ? speciesType.getId() : null;
-		stateChanged();
+		setSpeciesType(speciesType != null ? speciesType.getId() : null);
 	}
 
 	/**
@@ -789,12 +809,15 @@ public class Species extends Symbol {
 	 */
 	@Deprecated
 	public void setSpeciesType(String speciesType) {
-		if (speciesType != null && speciesType.trim().length() == 0) {
-			speciesType = null;
-		} else {
-			this.speciesTypeID = speciesType;
+		if (checkIdentifier(speciesType)) {
+			String oldSpeciesType = this.speciesTypeID;
+			if ((speciesType != null) && (speciesType.trim().length() == 0)) {
+				speciesType = null;
+			} else {
+				this.speciesTypeID = speciesType;
+			}
+			firePropertyChange("speciesType", oldSpeciesType, this.speciesTypeID);
 		}
-		stateChanged();
 	}
 
 	/**
@@ -835,27 +858,28 @@ public class Species extends Symbol {
 
 	/**
 	 * Unsets the charge of this Species
+	 * @deprecated
 	 */
+	@Deprecated
 	public void unsetCharge() {
+		Integer oldCharge = charge;
 		charge = null;
 		isSetCharge = false;
-		stateChanged();
+		firePropertyChange("charge", oldCharge, this.charge);
 	}
 
 	/**
 	 * Remove the reference to a comparmtent.
 	 */
 	public void unsetCompartment() {
-		compartmentID = null;
-		stateChanged();
+		setCompartment((String) null);
 	}
 
 	/**
 	 * Unsets the conversionFactorID of this Species.
 	 */
 	public void unsetConversionFactor() {
-		this.conversionFactorID = null;
-		stateChanged();
+		setConversionFactor((String) null);
 	}
 
 	/**
@@ -876,10 +900,11 @@ public class Species extends Symbol {
 
 	/**
 	 * Unsets the spatialSizeUnits of this Species
+	 * @deprecated
 	 */
+	@Deprecated
 	public void unsetSpatialSizeUnits() {
-		spatialSizeUnitsID = null;
-		stateChanged();
+		setSpatialSizeUnits((String) null);
 	}
 
 	/**

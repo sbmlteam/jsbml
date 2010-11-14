@@ -471,9 +471,19 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public void setVersion(int version);
 
 	/**
-	 * all listeners are informed about the change in this object
+	 * All {@link SBaseChangedListener}s are informed about the change in this
+	 * {@link SBase}.
+	 * 
+	 * @param propertyName
+	 *            Tells the {@link SBaseChangedListener} the name of the
+	 *            property whose value has been changed.
+	 * @param oldValue
+	 *            This is the value before the change.
+	 * @param newValue
+	 *            This gives the new value.
 	 */
-	public void stateChanged();
+	public void firePropertyChange(String propertyName, Object oldValue,
+			Object newValue);
 
 	/**
 	 * Unsets the value of the 'annotation' sub-element of this SBML object.

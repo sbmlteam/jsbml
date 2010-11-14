@@ -140,11 +140,7 @@ public class Member extends AbstractSBase {
 	 * @param symbol
 	 */
 	public void setSymbol(NamedSBase symbol) {
-		if (symbol == null) {
-			this.symbol = null;
-		}
-		this.symbol = symbol.getId();
-		stateChanged();
+		setSymbol(symbol != null ? symbol.getId() : null);
 	}
 	
 	/**
@@ -152,13 +148,13 @@ public class Member extends AbstractSBase {
 	 * @param symbolId
 	 */
 	public void setSymbol(String symbolId) {
-		if (symbolId != null && symbolId.trim().length() == 0) {
+		String oldSymbol = this.symbol;
+		if ((symbolId != null) && (symbolId.trim().length() == 0)) {
 			this.symbol = null;
 		} else {
 			this.symbol = symbolId;
 		}
-		
-		stateChanged();
+		firePropertyChange("symbol", oldSymbol, this.symbol);
 	}
 
 	/*

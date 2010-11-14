@@ -94,15 +94,15 @@ public class Annotation implements Serializable {
 	private HashMap<String, Annotation> extensions = new HashMap<String, Annotation>();
 
 	/**
-	 * contains all the CVTerm of the RDF otherAnnotation
-	 */
-	private List<CVTerm> listOfCVTerms;
-
-	/**
 	 * The ModelHistory which represents the history section of a RDF
 	 * otherAnnotation
 	 */
 	private History history;
+
+	/**
+	 * contains all the CVTerm of the RDF otherAnnotation
+	 */
+	private List<CVTerm> listOfCVTerms;
 
 	/**
 	 * contains all the otherAnnotation information which are not RDF
@@ -273,21 +273,6 @@ public class Annotation implements Serializable {
 	}
 	
 	 /**
-   * Interts 'annotation' to the otherAnnotation StringBuilder
-   * at position 'offset'.
-   * 
-   * @param annotation
-   * @param offset
-   */
-  public void insertNoRDFAnnotation(String annotation, int offset) {
-    if (this.otherAnnotation == null) {
-      this.otherAnnotation = new StringBuilder(annotation);
-    } else {
-      this.otherAnnotation.insert(offset, annotation);
-    }
-  }
-
-	/**
 	 * 
 	 * @return String containing the attributes of the otherAnnotation node
 	 */
@@ -605,6 +590,21 @@ public class Annotation implements Serializable {
 	}
 
 	/**
+   * Interts 'annotation' to the otherAnnotation StringBuilder
+   * at position 'offset'.
+   * 
+   * @param annotation
+   * @param offset
+   */
+  public void insertNoRDFAnnotation(String annotation, int offset) {
+    if (this.otherAnnotation == null) {
+      this.otherAnnotation = new StringBuilder(annotation);
+    } else {
+      this.otherAnnotation.insert(offset, annotation);
+    }
+  }
+
+	/**
 	 * Checks if the Annotation is initialised. An Annotation is initialised if
 	 * at less one of the following variables is not null : the otherAnnotation
 	 * String, one CVTerm object of the list of CVTerms or the ModelHistory.
@@ -634,6 +634,14 @@ public class Annotation implements Serializable {
 	 */
 	public boolean isSetHistory() {
 		return history != null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetListOfCVTerms() {
+		return (listOfCVTerms != null) && (listOfCVTerms.size() > 0);
 	}
 
 	/**
@@ -790,7 +798,7 @@ public class Annotation implements Serializable {
 			otherAnnotation = null;
 		}
 	}
-
+	
 	/**
 	 * clear the list of CVTerms
 	 */

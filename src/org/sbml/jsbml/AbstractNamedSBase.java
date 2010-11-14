@@ -39,10 +39,6 @@ import java.util.regex.Pattern;
  * @author Andreas Dr&auml;ger
  * @author rodrigue
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public abstract class AbstractNamedSBase extends AbstractSBase implements
 		NamedSBase {
@@ -174,6 +170,23 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		setName(name);
 	}
 
+	/**
+	 * 
+	 * @param sID
+	 *            the identifier to be checked. If null, no real check is
+	 *            performed
+	 * @return true only if the sID is a valid identifier (or null). Otherwise
+	 *         this method throws an {@link IllegalArgumentException}. This is
+	 *         an intended behavior.
+	 */
+	boolean checkIdentifier(String sID) {
+		if ((sID != null) && !isValidId(sID, getLevel(), getVersion())) {
+			throw new IllegalArgumentException(String.format(
+					"%s is not a valid identifier.", sID));
+		}
+		return true;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -273,16 +286,14 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.element.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
+		String property = getLevel() == 1 ? "name" : "id";
+		String oldId = this.id;
 		if ((id == null) || (id.trim().length() == 0)) {
 			this.id = null;
-		} else {
-			if (!isValidId(id, getLevel(), getVersion())) {
-				throw new IllegalArgumentException(String.format(
-						"%s is not a valid identifier.", id));
-			}
+		} else if (checkIdentifier(id)) {
 			this.id = new String(id);
 		}
-		stateChanged();
+		firePropertyChange(property, oldId, this.id);
 	}
 
 	/*
@@ -293,6 +304,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	public void setName(String name) {
 		// removed the call to the trim() function as a name with only space
 		// should be considered valid.
+		String oldName = this.name;
 		if ((name == null) || (name.length() == 0)) {
 			this.name = null;
 		} else {
@@ -302,7 +314,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 			setId(name);
 		} else {
 			// else part to avoid calling this method twice.
-			stateChanged();
+			firePropertyChange("name", oldName, name);
 		}
 	}
 
@@ -328,8 +340,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.element.NamedSBase#unsetId()
 	 */
 	public void unsetId() {
-		this.id = null;
-		stateChanged();
+		setId(null);
 	}
 
 	/*
@@ -338,8 +349,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.element.NamedSBase#unsetName()
 	 */
 	public void unsetName() {
-		this.name = null;
-		stateChanged();
+		setName(null);
 	}
 
 	/*

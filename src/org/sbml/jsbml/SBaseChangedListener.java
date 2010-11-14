@@ -29,17 +29,15 @@
 
 package org.sbml.jsbml;
 
+import java.util.EventListener;
+
 /**
  * A listener interface that allows applications to get notified if the state of
  * any SBase object changes.
  * 
  * @author Andreas Dr&auml;ger
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
-public interface SBaseChangedListener {
+public interface SBaseChangedListener extends EventListener {
 
 	/**
 	 * 
@@ -55,7 +53,7 @@ public interface SBaseChangedListener {
 
 	/**
 	 * 
-	 * @param sb
+	 * @param ev
 	 */
-	void stateChanged(SBase sb);
+	void stateChanged(SBaseChangedEvent ev);
 }

@@ -326,8 +326,9 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 * @see org.sbml.jsbml.element.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
+		String oldID = this.id;
 		this.id = id;
-		stateChanged();
+		firePropertyChange("id", oldID, id);
 	}
 
 	/*
@@ -350,8 +351,9 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 * @see org.sbml.jsbml.element.NamedSBase#setName(java.lang.String)
 	 */
 	public void setName(String name) {
+		String oldName = this.name;
 		this.name = name;
-		stateChanged();
+		firePropertyChange("name", oldName, name);
 	}
 
 	/*
