@@ -41,12 +41,6 @@ import org.sbml.jsbml.util.StringTools;
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * @has 0..1 outside 0..* Compartment
- * @has 0..1 type 1..* CompartmentType
  */
 public class Compartment extends Symbol {
 
@@ -435,9 +429,8 @@ public class Compartment extends Symbol {
 	 */
 	@Deprecated
 	public void setCompartmentType(CompartmentType compartmentType) {
-		this.compartmentTypeID = compartmentType != null ? compartmentType
-				.getId() : null;
-		stateChanged();
+		setCompartmentType(compartmentType != null ? compartmentType
+				.getId() : null);
 	}
 
 	/**
@@ -445,33 +438,39 @@ public class Compartment extends Symbol {
 	 * 
 	 * @param compartmentTypeID
 	 */
+	@Deprecated
 	public void setCompartmentType(String compartmentTypeID) {
+		String oldCompartmentTypeID = this.compartmentTypeID;
 		this.compartmentTypeID = compartmentTypeID;
-		stateChanged();
+		firePropertyChange("compartmentType", oldCompartmentTypeID, this.compartmentTypeID);
 	}
 
 	/**
 	 * Sets the outsideID of this compartment to the id of 'outside'.
 	 * 
 	 * @param outside
+	 * @deprecated since Level 3 Version 1
 	 */
+	@Deprecated
 	public void setOutside(Compartment outside) {
-		this.outsideID = outside != null ? outside.getId() : null;
-		stateChanged();
+		setOutside(outside != null ? outside.getId() : null);
 	}
 
 	/**
 	 * Sets the outsideID of this compartment to 'outside'.
 	 * 
 	 * @param outside
+	 * @deprecated since Level 3 Version 1
 	 */
+	@Deprecated
 	public void setOutside(String outside) {
+		String oldOutside = outsideID;
 		if (outside != null && outside.trim().length() == 0) {
 			this.outsideID = null;
 		} else {
 			this.outsideID = outside;
 		}
-		stateChanged();
+		firePropertyChange("outside", oldOutside, this.outsideID);
 	}
 
 	/**
@@ -644,10 +643,11 @@ public class Compartment extends Symbol {
 
 	/**
 	 * Sets the outsideID of this compartment to null.
+	 * @deprecated since Level 3 Version 1
 	 */
+	@Deprecated
 	public void unsetOutside() {
-		this.outsideID = null;
-		stateChanged();
+		setOutside((String) null);
 	}
 
 	/**
@@ -676,9 +676,10 @@ public class Compartment extends Symbol {
 	 * sets the spatialDimensions of this compartment to null.
 	 */
 	public void unsetSpatialDimensions() {
+		Short oldSpatialDim = this.spatialDimensions;
 		this.spatialDimensions = null;
 		isSetSpatialDimensions = false;
-		stateChanged();
+		firePropertyChange("spacialDimensions", oldSpatialDim, this.spatialDimensions);
 	}
 
 	/**

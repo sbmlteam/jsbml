@@ -44,10 +44,6 @@ import org.sbml.jsbml.util.StringTools;
  * @author marine
  * @author rodrigue
  * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * 
  */
 public class CVTerm implements Serializable {
 
@@ -241,6 +237,34 @@ public class CVTerm implements Serializable {
 	}
 
 	/**
+	 * Creates a new {@link CVTerm} with the given {@link Type} and
+	 * {@link Qualifier} pointing to all given resources.
+	 * 
+	 * @param type
+	 * @param qualifier
+	 * @param resoruces
+	 * @throws IllegalArgumentException
+	 *             if the combination of the given type and qualifier is not
+	 *             possible or if the given resources are invalid.
+	 */
+	public CVTerm(Type type, Qualifier qualifier, String... resoruces) {
+		this();
+		setQualifierType(type);
+		if (isBiologicalQualifier()) {
+			setBiologicalQualifierType(qualifier);
+		} else if (isModelQualifier()) {
+			setModelQualifierType(qualifier);
+		} else {
+			throw new IllegalArgumentException(String.format(
+					"Invalid combination of type %s with qualifier %s.", type,
+					qualifier));
+		}
+		for (String resource : resoruces) {
+			addResource(resource);
+		}
+	}
+
+	/**
 	 * Creates a CVTerm instance from a given CVTerm.
 	 * 
 	 * @param term
@@ -268,7 +292,7 @@ public class CVTerm implements Serializable {
 	}
 
 	/**
-	 * Adds a resource to the CVTerm.
+	 * Adds a resource to the {@link CVTerm}.
 	 * 
 	 * @param urn
 	 *            string representing the resource; e.g.,
@@ -291,49 +315,11 @@ public class CVTerm implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	// @Override
+	@Override
 	public CVTerm clone() {
 		return new CVTerm(this);
-	}
-
-	/**
-	 * 
-	 * @param o
-	 * @return true if the CVTerm 'o' is equal to this CVterm.
-	 */
-	public boolean equals(CVTerm o) {
-		boolean equal = getQualifierType() == o.getQualifierType();
-
-		if (equal) {
-			equal &= getBiologicalQualifierType() == o
-					.getBiologicalQualifierType();
-			if (equal) {
-				equal &= getModelQualifierType() == o.getModelQualifierType();
-				if (equal) {
-					equal &= getNumResources() == o.getNumResources();
-					if (equal) {
-						for (int i = 0; i < getNumResources(); i++) {
-							String resource1 = getResourceURI(i);
-							String resource2 = o.getResourceURI(i);
-
-							if (resource1 != null && resource2 != null) {
-								equal &= resource1.equals(resource2);
-								if (!equal) {
-									return false;
-								}
-							} else if ((resource1 == null && resource2 != null)
-									|| (resource2 == null && resource1 != null)) {
-								return false;
-							}
-						}
-					}
-				}
-			}
-		}
-		return equal;
 	}
 
 	/*
@@ -341,23 +327,27 @@ public class CVTerm implements Serializable {
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	// @Override
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof CVTerm) {
 			CVTerm t = (CVTerm) o;
-			boolean eq = true;
-			eq &= t.getQualifierType() == getQualifierType();
-			eq &= t.getBiologicalQualifierType() == qualifier
-					|| t.getModelQualifierType() == qualifier;
+			boolean eq = t.getQualifierType() == getQualifierType();
+			eq &= (t.getBiologicalQualifierType() == qualifier)
+					|| (t.getModelQualifierType() == qualifier);
 			eq &= t.getNumResources() == getNumResources();
 
 			if (eq) {
 				for (int i = 0; i < t.getNumResources(); i++) {
 					String resource1 = getResourceURI(i);
 					String resource2 = t.getResourceURI(i);
-					if (!resource1.equals(resource2)) {
-						eq = false;
-						break;
+					if ((resource1 != null) && (resource2 != null)) {
+						if (!resource1.equals(resource2)) {
+							eq = false;
+							break;
+						}
+					} else if (((resource1 == null) && (resource2 != null))
+							|| ((resource2 == null) && (resource1 != null))) {
+						return false;
 					}
 				}
 			}
@@ -583,8 +573,9 @@ public class CVTerm implements Serializable {
 	 * @param type
 	 */
 	public void setQualifierType(Type type) {
-		if (type == Type.MODEL_QUALIFIER || type == Type.BIOLOGICAL_QUALIFIER
-				|| type == Type.UNKNOWN_QUALIFIER) {
+		if ((type == Type.MODEL_QUALIFIER)
+				|| (type == Type.BIOLOGICAL_QUALIFIER)
+				|| (type == Type.UNKNOWN_QUALIFIER)) {
 			this.type = type;
 			this.qualifier = type == Type.MODEL_QUALIFIER ? Qualifier.BQM_UNKNOWN
 					: Qualifier.BQB_UNKNOWN;
@@ -691,8 +682,7 @@ public class CVTerm implements Serializable {
 			for (int i = 0; i < getNumResources(); i++) {
 				String resourceURI = getResourceURI(i);
 				StringTools.append(buffer, "<rdf:li rdf:resource=\"",
-						resourceURI, "\"/>");
-				buffer.append(StringTools.newLine());
+						resourceURI, "\"/>\n");
 			}
 		}
 	}

@@ -42,10 +42,6 @@ package org.sbml.jsbml;
  * @author Andreas Dr&auml;ger
  * @author marine
  * @author Nicolas Rodriguez
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public abstract class Symbol extends QuantityWithDefinedUnit implements
 		Variable {
@@ -200,9 +196,10 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	 * @see org.sbml.jsbml.Variable#setConstant(boolean)
 	 */
 	public void setConstant(boolean constant) {
+		Boolean oldConstant = this.constant;
 		this.constant = Boolean.valueOf(constant);
 		isSetConstant = true;
-		stateChanged();
+		firePropertyChange("constant", oldConstant, constant);
 	}
 
 	/*
@@ -211,7 +208,9 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	 * @see org.sbml.jsbml.Variable#unsetConstant()
 	 */
 	public void unsetConstant() {
+		Boolean oldConstant = this.constant;
 		this.constant = null;
 		isSetConstant = false;
+		firePropertyChange("constant", oldConstant, constant);
 	}
 }

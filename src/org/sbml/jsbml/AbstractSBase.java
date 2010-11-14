@@ -118,6 +118,7 @@ public abstract class AbstractSBase implements SBase {
 	 * are empty.
 	 */
 	public AbstractSBase() {
+		super();
 		sboTerm = -1;
 		metaId = null;
 		notes = null;
@@ -144,6 +145,11 @@ public abstract class AbstractSBase implements SBase {
 		this();
 		this.level = Integer.valueOf(level);
 		this.version = Integer.valueOf(version);
+		if (!hasValidLevelVersionNamespaceCombination()) {
+			throw new IllegalArgumentException(String.format(
+					"Undefined combination of Level %d and Version %d.",
+					this.level, this.version));
+		}
 	}
 
 	/**
@@ -225,8 +231,9 @@ public abstract class AbstractSBase implements SBase {
 		if (!isSetAnnotation()) {
 			this.annotation = new Annotation();
 		}
-		stateChanged();
-		return annotation.addCVTerm(term);
+		boolean returnValue = annotation.addCVTerm(term);
+		firePropertyChange("addCVTerm", null, term);
+		return returnValue;
 	}
 
 	/*
@@ -238,7 +245,7 @@ public abstract class AbstractSBase implements SBase {
 	public void addExtension(String namespace, SBase sbase) {
 		this.extensions.put(namespace, sbase);
 		this.namespaces.add(namespace);
-		stateChanged();
+		firePropertyChange("addExtension", null, namespace);
 	}
 
 	/**
@@ -250,6 +257,7 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void addNamespace(String namespace) {
 		this.namespaces.add(namespace);
+		firePropertyChange("addNamespace", null, namespace);
 	}
 
 	/*
@@ -259,6 +267,7 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void appendNotes(String notes) {
 		if (isSetNotes()) {
+			String oldNotes = new String(notes);
 			this.notes = this.notes.trim();
 			boolean body = false;
 			if (this.notes.endsWith("\n")) {
@@ -276,9 +285,10 @@ public abstract class AbstractSBase implements SBase {
 				this.notes += "</body>";
 			}
 			// this.notes += "</notes>";
+			firePropertyChange("notes", oldNotes, notes);
 
 		} else {
-			this.notes = notes;
+			setNotes(notes);
 		}
 	}
 
@@ -915,12 +925,19 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#setAnnotation(java.lang.String)
 	 */
 	public void setAnnotation(Annotation annotation) {
+		Annotation oldAnnotation = this.annotation;
 		this.annotation = annotation;
-		stateChanged();
+		firePropertyChange("setAnnotation", oldAnnotation, annotation);
 	}
 
-	public void setHistory(History modelHistory) {
-		annotation.setHistory(modelHistory);
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#setHistory(org.sbml.jsbml.History)
+	 */
+	public void setHistory(History history) {
+		History oldHistory = annotation.getHistory();
+		annotation.setHistory(history);
+		firePropertyChange("setHistory", oldHistory, history);
 	}
 
 	/*
@@ -929,20 +946,16 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#setLevel(int Level)
 	 */
 	public void setLevel(int level) {
-		if (parentSBMLObject != null && parentSBMLObject.isSetLevel()) {
-			if (level != parentSBMLObject.getLevel()) {
-				try {
-					throw new SBMLException(String.format(
-							"This %s can't have a different level from %d",
-							getElementName(), parentSBMLObject.getLevel()));
-				} catch (SBMLException e) {
-					// TODO Different level, what to do?
-					e.printStackTrace();
-				}
+		if ((parentSBMLObject != null) && parentSBMLObject.isSetLevel()) {
+			if (getLevel() != parentSBMLObject.getLevel()) {
+				throw new IllegalArgumentException(String.format(
+						"This %s must not have a different level from %d.",
+						getElementName(), parentSBMLObject.getLevel()));
 			}
 		}
+		Integer oldLevel = this.level;
 		this.level = Integer.valueOf(level);
-		stateChanged();
+		firePropertyChange("level", oldLevel, this.level);
 	}
 
 	/*
@@ -955,8 +968,9 @@ public abstract class AbstractSBase implements SBase {
 			throw new IllegalArgumentException(
 					"Cannot set the metaid property of an SBase with Level = 1.");
 		}
+		String oldMetaId = this.metaId;
 		this.metaId = metaid;
-		stateChanged();
+		firePropertyChange("metaId", oldMetaId, metaid);
 	}
 
 	/*
@@ -965,12 +979,13 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#setNotes(java.lang.String)
 	 */
 	public void setNotes(String notes) {
+		String oldNotes = new String(this.notes);
 		if (isSetNotes()) {
 			this.notes += notes;
 		} else {
 			this.notes = notes;
 		}
-		stateChanged();
+		firePropertyChange("notes", oldNotes, this.notes);
 	}
 
 	/*
@@ -980,8 +995,9 @@ public abstract class AbstractSBase implements SBase {
 	 * notesBuffer)
 	 */
 	public void setNotesBuffer(StringBuffer notesBuffer) {
+		StringBuffer oldBuffer = this.notesBuffer;
 		this.notesBuffer = notesBuffer;
-		stateChanged();
+		firePropertyChange("notesBuffer", oldBuffer, notesBuffer);
 	}
 
 	/*
@@ -990,8 +1006,9 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#setAnnotation(java.lang.String)
 	 */
 	public void setParentSBML(SBase parent) {
+		SBase oldParent = this.parentSBMLObject;
 		this.parentSBMLObject = parent;
-		stateChanged();
+		firePropertyChange("parentSBML", oldParent, parent);
 	}
 
 	/*
@@ -1004,8 +1021,9 @@ public abstract class AbstractSBase implements SBase {
 			throw new IllegalArgumentException(
 					"SBO terms must not be smaller than zero or larger than 9999999.");
 		}
+		Integer oldTerm = Integer.valueOf(sboTerm);
 		sboTerm = term;
-		stateChanged();
+		firePropertyChange("sboTerm", oldTerm, sboTerm);
 	}
 
 	/*
@@ -1015,7 +1033,6 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void setSBOTerm(String sboid) {
 		setSBOTerm(SBO.stringToInt(sboid));
-		stateChanged();
 	}
 
 	/*
@@ -1048,18 +1065,20 @@ public abstract class AbstractSBase implements SBase {
 							getElementName(), parentSBMLObject.getVersion()));
 			}
 		}
+		Integer oldVersion = this.version;
 		this.version = Integer.valueOf(version);
-		stateChanged();
+		firePropertyChange("version", oldVersion, Integer.valueOf(version));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#stateChanged()
+	 * @see org.sbml.jsbml.SBase#firePropertyChange(java.lang.String, java.lang.Object, java.lang.Object)
 	 */
-	public void stateChanged() {
+	public void firePropertyChange(String propertyName, Object oldValue,
+			Object newValue) {
 		for (SBaseChangedListener listener : setOfListeners) {
-			listener.stateChanged(this);
+			listener.stateChanged(new SBaseChangedEvent(this, propertyName,
+					oldValue, newValue));
 		}
 	}
 
@@ -1078,9 +1097,10 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void unsetAnnotation() {
 		if (isSetAnnotation()) {
+			Annotation oldAnnotation = annotation;
 			annotation = null;
+			firePropertyChange("annotation", oldAnnotation, annotation);
 		}
-		stateChanged();
 	}
 
 	/*
@@ -1089,10 +1109,11 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#unsetCVTerms()
 	 */
 	public void unsetCVTerms() {
-		if (isSetAnnotation()) {
+		if (isSetAnnotation() && getAnnotation().isSetListOfCVTerms()) {
+			List<CVTerm> list = annotation.getListOfCVTerms();
 			annotation.unsetCVTerms();
+			firePropertyChange("cvTerms", list, null);
 		}
-		stateChanged();
 	}
 
 	/*
@@ -1102,8 +1123,9 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void unsetHistory() {
 		if (isSetAnnotation()) {
+			History history = getHistory();
 			this.annotation.unsetHistory();
-			stateChanged();
+			firePropertyChange("history", history, getHistory());
 		}
 	}
 
@@ -1114,9 +1136,10 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void unsetMetaId() {
 		if (isSetMetaId()) {
+			String oldMetaId = metaId; 
 			metaId = null;
+			firePropertyChange("metaId", oldMetaId, getMetaId());
 		}
-		stateChanged();
 	}
 
 	/*
@@ -1126,9 +1149,10 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void unsetNotes() {
 		if (isSetNotes()) {
+			String oldNotes = notes;
 			notes = null;
+			firePropertyChange("notes", oldNotes, getNotes());
 		}
-		stateChanged();
 	}
 
 	/*
@@ -1137,8 +1161,9 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#unsetNotesBuffer()
 	 */
 	public void unsetNotesBuffer() {
+		StringBuffer oldNotesBuffer = notesBuffer;
 		notesBuffer = null;
-		stateChanged();
+		firePropertyChange("notesBuffer", oldNotesBuffer, getNotesBuffer());
 	}
 
 	/*
@@ -1148,8 +1173,9 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void unsetSBOTerm() {
 		if (isSetSBOTerm()) {
+			Integer oldSBOTerm = Integer.valueOf(sboTerm);
 			sboTerm = -1;
-			stateChanged();
+			firePropertyChange("sboTerm", oldSBOTerm, Integer.valueOf(getSBOTerm()));
 		}
 	}
 

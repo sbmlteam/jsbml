@@ -39,7 +39,6 @@ import org.sbml.jsbml.Unit.Kind;
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
  * @date 2010-04-20
- * @has 0..1 units 1 UnitDefinition
  */
 public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 		implements Quantity {
@@ -282,6 +281,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	 */
 	public void setUnits(String units) {
 		boolean illegalArgument = false;
+		String oldUnits = this.unitsID;
 		if (units != null) {
 			units = units.trim();
 			if (units.length() > 0) {
@@ -300,12 +300,12 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 				illegalArgument = true;
 			}
 		} else {
-			unsetUnits();
+			unitsID = null;
 		}
 		if (illegalArgument) {
 			throw new IllegalArgumentException(ILLEGAL_UNIT_EXCEPTION);
 		}
-		stateChanged();
+		firePropertyChange("units", oldUnits, unitsID);
 	}
 
 	/**
@@ -353,8 +353,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	 * @param units
 	 */
 	public void setUnits(UnitDefinition units) {
-		this.unitsID = units != null ? units.getId() : null;
-		stateChanged();
+		setUnits(units != null ? units.getId() : null);
 	}
 
 	/*
@@ -363,19 +362,19 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.Quantity#setValue(double)
 	 */
 	public void setValue(double value) {
+		Double oldValue = this.value;
 		this.value = value;
 		if (!Double.isNaN(value)) {
 			isSetValue = true;
 		}
-		stateChanged();
+		firePropertyChange("value", oldValue, value);
 	}
 
 	/**
 	 * Sets the unitsID of this Quantity to null.
 	 */
 	public void unsetUnits() {
-		this.unitsID = null;
-		stateChanged();
+		setUnits((String) null);
 	}
 
 	/*
@@ -384,8 +383,9 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.Quantity#unsetValue()
 	 */
 	public void unsetValue() {
+		Double oldValue = value;
 		value = Double.NaN;
 		isSetValue = false;
-		stateChanged();
+		firePropertyChange("value", oldValue, value);
 	}
 }

@@ -38,11 +38,6 @@ import java.util.Map;
  * @author Simon Sch&auml;fer
  * @author marine
  * @author Andreas Dr&auml;ger
- * 
- * @has 1 reference 1..* Species
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 
@@ -210,27 +205,26 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the speciesID to the id of the Species 'species'.
+	 * Sets the speciesID to the id of the {@link Species} 'species'.
 	 * 
-	 * @param spec
+	 * @param species
 	 */
-	public void setSpecies(Species spec) {
-		this.speciesID = spec != null && spec.isSetId() ? spec.getId() : null;
-		stateChanged();
+	public void setSpecies(Species species) {
+		setSpecies((species != null) && (species.isSetId()) ? species.getId() : null);
 	}
 
 	/**
 	 * Sets the speciesID to 'spec'.
 	 * 
-	 * @param spec
+	 * @param species
 	 */
-	public void setSpecies(String spec) {
-		if (spec != null && spec.trim().length() == 0) {
-			speciesID = null;
-		} else {
-			speciesID = spec;
+	public void setSpecies(String species) {
+		if (checkIdentifier(species)) {
+			String oldSpecies = this.speciesID;
+			speciesID = (species != null) && (species.trim().length() == 0) ? species
+					: null;
+			firePropertyChange("species", oldSpecies, speciesID);
 		}
-		stateChanged();
 	}
 
 	/*

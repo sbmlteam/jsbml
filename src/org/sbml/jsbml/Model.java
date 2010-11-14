@@ -251,84 +251,6 @@ public class Model extends AbstractNamedSBase {
 		initDefaults();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.sbml.jsbml.element.SBase#addChangeListener(org.sbml.squeezer.io.
-	 * SBaseChangedListener )
-	 */
-	@SuppressWarnings("deprecation")
-	public void addChangeListener(SBaseChangedListener l) {
-		super.addChangeListener(l);
-		if (!isSetListOfFunctionDefinitions()) {
-			initListOf(
-					listOfFunctionDefinitions = new ListOf<FunctionDefinition>(
-							getLevel(), getVersion()),
-					ListOf.Type.listOfFunctionDefinitions);
-		}
-		listOfFunctionDefinitions.addChangeListener(l);
-		if (!isSetListOfUnitDefinitions()) {
-			initListOf(listOfUnitDefinitions = new ListOf<UnitDefinition>(
-					getLevel(), getVersion()),
-					ListOf.Type.listOfUnitDefinitions);
-		}
-		listOfUnitDefinitions.addChangeListener(l);
-		if (!isSetListOfCompartmentTypes()) {
-			initListOf(listOfCompartmentTypes = new ListOf<CompartmentType>(
-					getLevel(), getVersion()),
-					ListOf.Type.listOfCompartmentTypes);
-		}
-		listOfCompartmentTypes.addChangeListener(l);
-		if (!isSetListOfSpeciesTypes()) {
-			initListOf(listOfSpeciesTypes = new ListOf<SpeciesType>(getLevel(),
-					getVersion()), ListOf.Type.listOfSpeciesTypes);
-		}
-		listOfSpeciesTypes.addChangeListener(l);
-		if (!isSetListOfCompartments()) {
-			initListOf(listOfCompartments = new ListOf<Compartment>(getLevel(),
-					getVersion()), ListOf.Type.listOfCompartments);
-		}
-		listOfCompartments.addChangeListener(l);
-		if (!isSetListOfSpecies()) {
-			initListOf(listOfSpecies = new ListOf<Species>(getLevel(),
-					getVersion()), ListOf.Type.listOfSpecies);
-		}
-		listOfSpecies.addChangeListener(l);
-		if (!isSetListOfParameters()) {
-			initListOf(listOfParameters = new ListOf<Parameter>(getLevel(),
-					getVersion()), ListOf.Type.listOfParameters);
-		}
-		listOfParameters.addChangeListener(l);
-		if (!isSetListOfInitialAssignments()) {
-			initListOf(
-					listOfInitialAssignments = new ListOf<InitialAssignment>(
-							getLevel(), getVersion()),
-					ListOf.Type.listOfInitialAssignments);
-		}
-		listOfInitialAssignments.addChangeListener(l);
-		if (!isSetListOfRules()) {
-			initListOf(
-					listOfRules = new ListOf<Rule>(getLevel(), getVersion()),
-					ListOf.Type.listOfRules);
-		}
-		listOfRules.addChangeListener(l);
-		if (!isSetListOfConstraints()) {
-			initListOf(listOfConstraints = new ListOf<Constraint>(getLevel(),
-					getVersion()), ListOf.Type.listOfConstraints);
-		}
-		listOfConstraints.addChangeListener(l);
-		if (!isSetListOfReactions()) {
-			initListOf(listOfReactions = new ListOf<Reaction>(getLevel(),
-					getVersion()), ListOf.Type.listOfReactions);
-		}
-		listOfReactions.addChangeListener(l);
-		if (!isSetListOfEvents()) {
-			initListOf(listOfEvents = new ListOf<Event>(getLevel(),
-					getVersion()), ListOf.Type.listOfEvents);
-		}
-		listOfEvents.addChangeListener(l);
-	}
-
 	/**
 	 * Adds a Compartment instance to the listOfCompartments of this Model.
 	 * 
@@ -2610,97 +2532,91 @@ public class Model extends AbstractNamedSBase {
 	 * @param list
 	 * @param type
 	 */
-	private void initListOf(ListOf<?> list, ListOf.Type type) {
-		list.setLevel(getLevel());
-		list.setVersion(getVersion());
-		setThisAsParentSBMLObject(list);
+	private <T extends SBase> ListOf<T> initListOf(ListOf<T> list,
+			ListOf.Type type) {
+		if (isSetLevel()) {
+			list.setLevel(getLevel());
+		}
+		if (isSetVersion()) {
+			list.setVersion(getVersion());
+		}
 		list.setSBaseListType(type);
+		setThisAsParentSBMLObject(list);
+		return list;
 	}
 
 	/**
 	 * 
 	 */
 	private void initListOfCompartments() {
-		this.listOfCompartments = new ListOf<Compartment>(getLevel(),
-				getVersion());
-		this.listOfCompartments.setSBaseListType(Type.listOfCompartments);
-		setThisAsParentSBMLObject(this.listOfCompartments);
+		this.listOfCompartments = initListOf(new ListOf<Compartment>(),
+				ListOf.Type.listOfCompartments);
 	}
 
 	/**
 	 * 
 	 */
 	private void initListOfEvents() {
-		this.listOfEvents = new ListOf<Event>(getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfEvents);
-		this.listOfEvents.setSBaseListType(Type.listOfEvents);
+		this.listOfEvents = initListOf(new ListOf<Event>(),
+				ListOf.Type.listOfEvents);
 	}
 
 	/**
 	 * 
 	 */
 	private void initListOfFunctionDefinitions() {
-		this.listOfFunctionDefinitions = new ListOf<FunctionDefinition>(
-				getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
-		this.listOfFunctionDefinitions
-				.setSBaseListType(Type.listOfFunctionDefinitions);
+		this.listOfFunctionDefinitions = initListOf(
+				new ListOf<FunctionDefinition>(),
+				ListOf.Type.listOfFunctionDefinitions);
 	}
 
 	/**
 	 * 
 	 */
 	private void initListOfInitialAssignment() {
-		this.listOfInitialAssignments = new ListOf<InitialAssignment>(
-				getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfInitialAssignments);
-		this.listOfInitialAssignments.setListOf(listOfInitialAssignments);
+		this.listOfInitialAssignments = initListOf(
+				new ListOf<InitialAssignment>(),
+				ListOf.Type.listOfInitialAssignments);
 	}
 
 	/**
 	 * 
 	 */
 	private void initListOfParameters() {
-		this.listOfParameters = new ListOf<Parameter>(getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfParameters);
-		this.listOfParameters.setSBaseListType(Type.listOfParameters);
+		this.listOfParameters = initListOf(new ListOf<Parameter>(),
+				ListOf.Type.listOfParameters);
 	}
 
 	/**
 	 * 
 	 */
 	private void initListOfReactions() {
-		this.listOfReactions = new ListOf<Reaction>(getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfReactions);
-		this.listOfReactions.setSBaseListType(Type.listOfReactions);
+		this.listOfReactions = initListOf(new ListOf<Reaction>(),
+				ListOf.Type.listOfReactions);
 	}
 
 	/**
 	 * 
 	 */
 	private void initListOfRules() {
-		this.listOfRules = new ListOf<Rule>(getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfRules);
-		this.listOfRules.setSBaseListType(Type.listOfRules);
+		this.listOfRules = initListOf(new ListOf<Rule>(),
+				ListOf.Type.listOfRules);
 	}
 
 	/**
 	 * 
 	 */
 	private void initListOfSpecies() {
-		this.listOfSpecies = new ListOf<Species>(getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfSpecies);
-		this.listOfSpecies.setSBaseListType(Type.listOfSpecies);
+		this.listOfSpecies = initListOf(new ListOf<Species>(),
+				ListOf.Type.listOfSpecies);
 	}
 
 	/**
 	 * 
 	 */
 	private void initListOfUnitDefinitions() {
-		this.listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(),
-				getVersion());
-		setThisAsParentSBMLObject(this.listOfUnitDefinitions);
-		this.listOfUnitDefinitions.setSBaseListType(Type.listOfUnitDefinitions);
+		this.listOfUnitDefinitions = initListOf(new ListOf<UnitDefinition>(),
+				ListOf.Type.listOfUnitDefinitions);
 	}
 
 	/**
@@ -3219,8 +3135,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param areaUnitsID
 	 */
 	public void setAreaUnits(String areaUnitsID) {
+		String oldAreaUnitsID = this.areaUnitsID;
 		this.areaUnitsID = areaUnitsID;
-		stateChanged();
+		firePropertyChange("areaUnits", oldAreaUnitsID, areaUnitsID);
 	}
 
 	/**
@@ -3230,8 +3147,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param areaUnits
 	 */
 	public void setAreaUnits(UnitDefinition areaUnits) {
-		this.areaUnitsID = areaUnits != null ? areaUnits.getId() : null;
-		stateChanged();
+		setAreaUnits(areaUnits != null ? areaUnits.getId() : null);
 	}
 
 	/**
@@ -3241,9 +3157,8 @@ public class Model extends AbstractNamedSBase {
 	 * @param conversionFactor
 	 */
 	public void setConversionFactor(Parameter conversionFactor) {
-		this.conversionFactorID = conversionFactor != null ? conversionFactor
-				.getId() : null;
-		stateChanged();
+		setConversionFactor(conversionFactor != null ? conversionFactor.getId()
+				: null);
 	}
 
 	/**
@@ -3252,8 +3167,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param conversionFactorID
 	 */
 	public void setConversionFactor(String conversionFactorID) {
+		String oldConversionFactorID = this.conversionFactorID;
 		this.conversionFactorID = conversionFactorID;
-		stateChanged();
+		firePropertyChange("conversionFactor", oldConversionFactorID, conversionFactorID);
 	}
 
 	/**
@@ -3262,8 +3178,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param extentUnitsID
 	 */
 	public void setExtentUnits(String extentUnitsID) {
+		String oldExtentUnits = this.extentUnitsID;
 		this.extentUnitsID = extentUnitsID;
-		stateChanged();
+		firePropertyChange("extentUnits", oldExtentUnits, extentUnitsID);
 	}
 
 	/**
@@ -3273,8 +3190,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param extentUnits
 	 */
 	public void setExtentUnits(UnitDefinition extentUnits) {
-		this.extentUnitsID = extentUnits != null ? extentUnits.getId() : null;
-		stateChanged();
+		setExtentUnits(extentUnits != null ? extentUnits.getId() : null);
 	}
 
 	/**
@@ -3283,8 +3199,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param lengthUnitsID
 	 */
 	public void setLengthUnits(String lengthUnitsID) {
+		String oldLengthUnits = this.lengthUnitsID;
 		this.lengthUnitsID = lengthUnitsID;
-		stateChanged();
+		firePropertyChange("lengthUnits", oldLengthUnits, lengthUnitsID);
 	}
 
 	/**
@@ -3294,8 +3211,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param lengthUnits
 	 */
 	public void setLengthUnits(UnitDefinition lengthUnits) {
-		this.lengthUnitsID = lengthUnits != null ? lengthUnits.getId() : null;
-		stateChanged();
+		setLengthUnits(lengthUnits != null ? lengthUnits.getId() : null);
 	}
 
 	/**
@@ -3306,11 +3222,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfCompartments
 	 */
 	public void setListOfCompartments(ListOf<Compartment> listOfCompartments) {
-		this.listOfCompartments = listOfCompartments;
-		setThisAsParentSBMLObject(this.listOfCompartments);
-		this.listOfCompartments
-				.setSBaseListType(ListOf.Type.listOfCompartments);
-		stateChanged();
+		JSBML.addAllOrReplace(this, this.listOfCompartments, listOfCompartments, ListOf.Type.listOfCompartments);
 	}
 
 	/**
@@ -3320,15 +3232,13 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @param listOfCompartmentTypes
 	 *            the listOfCompartmentTypes to set
+	 * @deprecated
 	 */
 	@Deprecated
 	public void setListOfCompartmentTypes(
 			ListOf<CompartmentType> listOfCompartmentTypes) {
-		this.listOfCompartmentTypes = listOfCompartmentTypes;
-		setThisAsParentSBMLObject(this.listOfCompartmentTypes);
-		this.listOfCompartmentTypes
-				.setSBaseListType(ListOf.Type.listOfCompartmentTypes);
-		stateChanged();
+		JSBML.addAllOrReplace(this, this.listOfCompartmentTypes, listOfCompartmentTypes,
+				ListOf.Type.listOfCompartmentTypes);
 	}
 
 	/**
@@ -3340,10 +3250,7 @@ public class Model extends AbstractNamedSBase {
 	 *            the listOfConstraints to set
 	 */
 	public void setListOfConstraints(ListOf<Constraint> listOfConstraints) {
-		this.listOfConstraints = listOfConstraints;
-		setThisAsParentSBMLObject(this.listOfConstraints);
-		this.listOfConstraints.setSBaseListType(ListOf.Type.listOfConstraints);
-		stateChanged();
+		JSBML.addAllOrReplace(this, this.listOfConstraints, listOfConstraints, ListOf.Type.listOfConstraints);
 	}
 
 	/**
@@ -3353,10 +3260,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfEvents
 	 */
 	public void setListOfEvents(ListOf<Event> listOfEvents) {
-		this.listOfEvents = listOfEvents;
-		setThisAsParentSBMLObject(this.listOfEvents);
-		this.listOfEvents.setSBaseListType(ListOf.Type.listOfEvents);
-		stateChanged();
+		JSBML.addAllOrReplace(this, this.listOfEvents, listOfEvents, ListOf.Type.listOfEvents);
 	}
 
 	/**
@@ -3369,11 +3273,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfFunctionDefinitions(
 			ListOf<FunctionDefinition> listOfFunctionDefinitions) {
-		this.listOfFunctionDefinitions = listOfFunctionDefinitions;
-		setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
-		this.listOfFunctionDefinitions
-				.setSBaseListType(ListOf.Type.listOfFunctionDefinitions);
-		stateChanged();
+		JSBML.addAllOrReplace(this, this.listOfFunctionDefinitions, listOfFunctionDefinitions, ListOf.Type.listOfFunctionDefinitions);
 	}
 
 	/**
@@ -3386,11 +3286,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfInitialAssignments(
 			ListOf<InitialAssignment> listOfInitialAssignments) {
-		this.listOfInitialAssignments = listOfInitialAssignments;
-		setThisAsParentSBMLObject(this.listOfInitialAssignments);
-		this.listOfInitialAssignments
-				.setSBaseListType(ListOf.Type.listOfInitialAssignments);
-		stateChanged();
+		JSBML.addAllOrReplace(this, this.listOfInitialAssignments, listOfInitialAssignments, ListOf.Type.listOfInitialAssignments);
 	}
 
 	/**
@@ -3401,10 +3297,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfParameters
 	 */
 	public void setListOfParameters(ListOf<Parameter> listOfParameters) {
-		this.listOfParameters = listOfParameters;
-		setThisAsParentSBMLObject(this.listOfParameters);
-		this.listOfParameters.setSBaseListType(ListOf.Type.listOfParameters);
-		stateChanged();
+		JSBML.addAllOrReplace(this, this.listOfParameters, listOfParameters, ListOf.Type.listOfParameters);
 	}
 
 	/**
@@ -3415,10 +3308,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfReactions
 	 */
 	public void setListOfReactions(ListOf<Reaction> listOfReactions) {
-		this.listOfReactions = listOfReactions;
-		setThisAsParentSBMLObject(this.listOfReactions);
-		this.listOfReactions.setSBaseListType(ListOf.Type.listOfReactions);
-		stateChanged();
+		JSBML.addAllOrReplace(this, this.listOfReactions, listOfReactions, ListOf.Type.listOfReactions);
 	}
 
 	/**
@@ -3428,10 +3318,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfRules
 	 */
 	public void setListOfRules(ListOf<Rule> listOfRules) {
-		this.listOfRules = listOfRules;
-		setThisAsParentSBMLObject(this.listOfRules);
-		this.listOfRules.setSBaseListType(ListOf.Type.listOfRules);
-		stateChanged();
+		JSBML.addAllOrReplace(this, this.listOfRules, listOfRules, ListOf.Type.listOfRules);
 	}
 
 	/**
@@ -3441,10 +3328,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfSpecies
 	 */
 	public void setListOfSpecies(ListOf<Species> listOfSpecies) {
-		this.listOfSpecies = listOfSpecies;
-		setThisAsParentSBMLObject(this.listOfSpecies);
-		this.listOfSpecies.setSBaseListType(ListOf.Type.listOfSpecies);
-		stateChanged();
+		JSBML.addAllOrReplace(this, this.listOfSpecies, listOfSpecies, ListOf.Type.listOfSpecies);
 	}
 
 	/**
@@ -3457,11 +3341,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public void setListOfSpeciesTypes(ListOf<SpeciesType> listOfSpeciesTypes) {
-		this.listOfSpeciesTypes = listOfSpeciesTypes;
-		setThisAsParentSBMLObject(this.listOfSpeciesTypes);
-		this.listOfSpeciesTypes
-				.setSBaseListType(ListOf.Type.listOfSpeciesTypes);
-		stateChanged();
+		JSBML.addAllOrReplace(this, this.listOfSpeciesTypes, listOfSpeciesTypes, ListOf.Type.listOfSpeciesTypes);
 	}
 
 	/**
@@ -3473,20 +3353,14 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfUnitDefinitions(
 			ListOf<UnitDefinition> listOfUnitDefinitions) {
-
-		// System.out.println("setListOfUnitDefinitions called !!");
-
-		this.listOfUnitDefinitions = listOfUnitDefinitions;
-		setThisAsParentSBMLObject(this.listOfUnitDefinitions);
-		this.listOfUnitDefinitions
-				.setSBaseListType(ListOf.Type.listOfUnitDefinitions);
-		stateChanged();
+		JSBML.addAllOrReplace(this, this.listOfUnitDefinitions, listOfUnitDefinitions,
+				ListOf.Type.listOfUnitDefinitions);
 	}
 
 	/**
 	 * @see #setHistory(History history)
 	 * @param history
-	 * @deprecated use <code>setHistory(history)</code>
+	 * @deprecated use {@link #setHistory(History)}
 	 */
 	@Deprecated
 	public void setModelHistory(History history) {
@@ -3499,8 +3373,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param substanceUnitsID
 	 */
 	public void setSubstanceUnits(String substanceUnitsID) {
+		String oldSubstanceUnitsID = this.substanceUnitsID;
 		this.substanceUnitsID = substanceUnitsID;
-		stateChanged();
+		firePropertyChange("substanceUnits", oldSubstanceUnitsID, substanceUnitsID);
 	}
 
 	/**
@@ -3509,9 +3384,8 @@ public class Model extends AbstractNamedSBase {
 	 * @param substanceUnits
 	 */
 	public void setSubstanceUnits(UnitDefinition substanceUnits) {
-		this.substanceUnitsID = substanceUnits != null ? substanceUnits.getId()
-				: null;
-		stateChanged();
+		setSubstanceUnits(substanceUnits != null ? substanceUnits.getId()
+				: null);
 	}
 
 	/**
@@ -3520,8 +3394,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param timeUnitsID
 	 */
 	public void setTimeUnits(String timeUnitsID) {
+		String oldTimeUnitsID = this.timeUnitsID;
 		this.timeUnitsID = timeUnitsID;
-		stateChanged();
+		firePropertyChange("timeUnits", oldTimeUnitsID, timeUnitsID);
 	}
 
 	/**
@@ -3531,8 +3406,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param timeUnits
 	 */
 	public void setTimeUnits(UnitDefinition timeUnits) {
-		this.timeUnitsID = timeUnits != null ? timeUnits.getId() : null;
-		stateChanged();
+		setTimeUnits(timeUnits != null ? timeUnits.getId() : null);
 	}
 
 	/**
@@ -3541,8 +3415,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param volumeUnitsID
 	 */
 	public void setVolumeUnits(String volumeUnitsID) {
+		String oldVolumeUnitsID = this.volumeUnitsID;
 		this.volumeUnitsID = volumeUnitsID;
-		stateChanged();
+		firePropertyChange("volumeUnits", oldVolumeUnitsID, this.volumeUnitsID);
 	}
 
 	/**
@@ -3552,40 +3427,35 @@ public class Model extends AbstractNamedSBase {
 	 * @param volumeUnits
 	 */
 	public void setVolumeUnits(UnitDefinition volumeUnits) {
-		this.volumeUnitsID = volumeUnits != null ? volumeUnits.getId() : null;
-		stateChanged();
+		setVolumeUnits(volumeUnits != null ? volumeUnits.getId() : null);
 	}
 
 	/**
 	 * Sets the areaUnitsID of this Model to null.
 	 */
 	public void unsetAreaUnits() {
-		this.areaUnitsID = null;
-		stateChanged();
+		setAreaUnits((String) null);
 	}
 
 	/**
 	 * Sets the conversionFactorID of this Model to null.
 	 */
 	public void unsetConversionFactor() {
-		this.conversionFactorID = null;
-		stateChanged();
+		setConversionFactor((String) null);
 	}
 
 	/**
 	 * Sets the extentUnitsID of this Model to null.
 	 */
 	public void unsetExtentUnits() {
-		this.extentUnitsID = null;
-		stateChanged();
+		setExtentUnits((String) null);
 	}
 
 	/**
 	 * Sets the lengthUnitsID of this Model to null.
 	 */
 	public void unsetLengthUnits() {
-		this.lengthUnitsID = null;
-		stateChanged();
+		setLengthUnits((String) null);
 	}
 
 	/**
@@ -3601,16 +3471,14 @@ public class Model extends AbstractNamedSBase {
 	 * Sets the timeUnitsID of this Model to null.
 	 */
 	public void unsetTimeUnits() {
-		this.timeUnitsID = null;
-		stateChanged();
+		setTimeUnits((String) null);
 	}
 
 	/**
 	 * Sets the volumeUnitsID of this Model to null.
 	 */
 	public void unsetVolumeUnits() {
-		this.volumeUnitsID = null;
-		stateChanged();
+		setVolumeUnits((String) null);
 	}
 
 	/*

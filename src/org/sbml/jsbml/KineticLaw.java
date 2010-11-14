@@ -145,14 +145,13 @@ public class KineticLaw extends AbstractMathContainer {
 	 */
 	public void addLocalParameter(LocalParameter parameter) {
 		if (!isSetListOfParameters()) {
-			initListOfParameters();
+			initListOfLocalParameters();
 		}
 		if (!getListOfParameters().contains(parameter)) {
 			listOfLocalParameters.add(parameter);
 			if (parameter.isSetId() && isSetMath()) {
 				getMath().updateVariables();
 			}
-			stateChanged();
 		}
 	}
 
@@ -277,7 +276,7 @@ public class KineticLaw extends AbstractMathContainer {
 	 */
 	public ListOf<LocalParameter> getListOfLocalParameters() {
 		if (!isSetListOfParameters()) {
-			initListOfParameters();
+			initListOfLocalParameters();
 		}
 		return listOfLocalParameters;
 	}
@@ -437,7 +436,7 @@ public class KineticLaw extends AbstractMathContainer {
 	/**
 	 * 
 	 */
-	private void initListOfParameters() {
+	private void initListOfLocalParameters() {
 		this.listOfLocalParameters = new ListOf<LocalParameter>(getLevel(),
 				getVersion());
 		setThisAsParentSBMLObject(this.listOfLocalParameters);
@@ -696,7 +695,6 @@ public class KineticLaw extends AbstractMathContainer {
 			listOfLocalParameters.clear();
 		}
 		listOfLocalParameters = null;
-		stateChanged();
 	}
 
 	/**

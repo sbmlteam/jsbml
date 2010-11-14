@@ -102,7 +102,6 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 						"Only the id of an existing Species, Compartments, Parameters, or SpeciesReferences allowed as variables");
 			}
 			setVariable(nsb);
-			stateChanged();
 		} else {
 			throw new NullPointerException(
 					"Cannot find a model for this EventAssignment");
@@ -207,8 +206,9 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	 * @see org.sbml.jsbml.Assignment#setVariable(java.lang.String)
 	 */
 	public void setVariable(String variable) {
+		String oldVariable = this.variableID;
 		this.variableID = variable;
-		stateChanged();
+		firePropertyChange("variable", oldVariable, variable);
 	}
 
 	/*
@@ -221,12 +221,10 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 				throw new IllegalArgumentException(
 						"Cannot set a SpeciesReference as the Variable in an EventAssignment for SBML Level < 3");
 			}
-			this.variableID = variable.getId();
-			stateChanged();
+			setVariable(variable.getId());
 		} else {
 			throw new IllegalArgumentException(
-					String
-							.format(
+					String.format(
 									"Cannot set the constant variable %s as the target of this %s.",
 									variable.getId(), getClass()
 											.getSimpleName()));
@@ -255,8 +253,7 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	 * @see org.sbml.jsbml.Assignment#unsetVariable()
 	 */
 	public void unsetVariable() {
-		this.variableID = null;
-		stateChanged();
+		setVariable((String) null);
 	}
 	
 	/*

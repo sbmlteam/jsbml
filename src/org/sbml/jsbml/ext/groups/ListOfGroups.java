@@ -94,8 +94,9 @@ public class ListOfGroups<T extends SBase> extends ListOf<T>{
 	 * @param listType
 	 */
 	public void setCurrentList(GroupList currentList) {
+		GroupList oldList = this.listType;
 		this.listType = currentList;
-		stateChanged();
+		firePropertyChange("currentList", oldList, this.listType);
 	}
 
 }

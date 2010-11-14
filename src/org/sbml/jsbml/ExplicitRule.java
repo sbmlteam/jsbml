@@ -198,8 +198,9 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 			setVariable(v);
 		} else {
 			// TODO: potential source of bugs.
+			String oldVariable = variableID;
 			variableID = variable;
-			stateChanged();
+			firePropertyChange("variable", oldVariable, variableID);
 		}
 	}
 
@@ -423,8 +424,9 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 			throw new IllegalArgumentException(
 					"Cannot set units for a variable other than parameter");
 		}
+		String oldUnitsID = this.unitsID;
 		this.unitsID = unitsID;
-		stateChanged();
+		firePropertyChange("units", oldUnitsID, unitsID);
 	}
 
 	/**
@@ -471,8 +473,9 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 						"Cannot set a SpeciesReference as the Variable in an ExpliciteRule for SBML Level < 3");
 			}
 			if (variable.isSetId()) {
+				String oldVariable = this.variableID;
 				variableID = variable.getId();
-				stateChanged();
+				firePropertyChange("variable", oldVariable, variableID);
 			} else {
 				unsetVariable();
 			}
@@ -482,17 +485,18 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	}
 
 	/**
-	 * Unsets the unitsID of this {@link AssignmentRule}.
+	 * Unsets the unitsID of this {@link ExplicitRule}.
 	 * 
 	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
 	 *             but can only be used in conjunction with {@link Parameter}s.
-	 *             In this case this {@link AssignmentRule} represents the SBML
+	 *             In this case this {@link ExplicitRule} represents the SBML
 	 *             element ParameterRule.
 	 */
 	@Deprecated
 	public void unsetUnits() {
+		String oldUnitsID = this.unitsID;
 		this.unitsID = null;
-		stateChanged();
+		firePropertyChange("units", oldUnitsID, unitsID);
 	}
 
 	/*
@@ -500,8 +504,9 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	 * @see org.sbml.jsbml.Assignment#unsetVariable()
 	 */
 	public void unsetVariable() {
+		String oldVariableID = this.variableID;
 		variableID = null;
-		stateChanged();
+		firePropertyChange("variable", oldVariableID, variableID);
 	}
 
 	/*

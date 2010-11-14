@@ -563,22 +563,27 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @return success or failure.
 	 */
 	public boolean remove(NamedSBase nsb) {
-		if (!listOf.remove(nsb) && nsb.isSetId()) {
-			int pos = -1;
-			for (int i = 0; i < size() && pos < 0; i++) {
-				NamedSBase sb = (NamedSBase) get(i);
-				if (sb.isSetId() && nsb.isSetId()
-						&& sb.getId().equals(nsb.getId())) {
-					pos = i;
+		if (!listOf.remove(nsb)) {
+			if (nsb.isSetId()) {
+				int pos = -1;
+				for (int i = 0; i < size() && pos < 0; i++) {
+					NamedSBase sb = (NamedSBase) get(i);
+					if (sb.isSetId() && nsb.isSetId()
+							&& sb.getId().equals(nsb.getId())) {
+						pos = i;
+					}
+				}
+				if (pos >= 0) {
+					T t = listOf.remove(pos);
+					if (t instanceof AbstractSBase) {
+						((AbstractSBase) t).parentSBMLObject = null;
+					}
+					return true;
 				}
 			}
-			if (pos >= 0) {
-				T t = listOf.remove(pos);
-				if (t instanceof AbstractSBase) {
-					((AbstractSBase) t).parentSBMLObject = null;
-				}
-				return true;
-			}
+		} else {
+			nsb.sbaseRemoved();
+			return true;
 		}
 		return false;
 	}
@@ -687,17 +692,11 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @param listOf
 	 */
 	public void setListOf(List<T> listOf) {
-		boolean change = false;
 		if (!this.listOf.isEmpty()) {
 			this.listOf.clear();
-			change = true;
 		}
-		if (listOf.size() > 0) {
+		if ((listOf != null) && (listOf.size() > 0)) {
 			this.listOf.addAll(listOf);
-			change = true;
-		}
-		if (change) {
-			stateChanged();
 		}
 	}
 
@@ -707,8 +706,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @param listType
 	 */
 	public void setSBaseListType(Type currentList) {
+		Type oldType = this.listType;
 		this.listType = currentList;
-		stateChanged();
+		firePropertyChange("setSBaseListType", oldType, listType);
 	}
 
 	/*

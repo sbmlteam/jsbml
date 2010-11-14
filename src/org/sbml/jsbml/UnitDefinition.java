@@ -41,11 +41,6 @@ import org.sbml.jsbml.util.StringTools;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * @composed 1..* ListOf 1 Unit
  */
 public class UnitDefinition extends AbstractNamedSBase {
 
@@ -464,10 +459,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if (!isSetListOfUnits()) {
 			initListOfUnits();
 		}
-		setThisAsParentSBMLObject(u);
 		listOfUnits.add(u);
-		u.parentSBMLObject = this;
-		stateChanged();
 	}
 
 	/**
@@ -506,6 +498,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		Set<SBaseChangedListener> listeners = new HashSet<SBaseChangedListener>(
 				getSetOfSBaseChangeListeners());
 		removeAllSBaseChangeListeners();
+		ListOf<Unit> oldListOfUnits = getListOfUnits().clone();
 		for (int i = ud.length - 1; i >= 0; i--) {
 			ud[i] = Unit.convertToSI(removeUnit(i));
 		}
@@ -514,7 +507,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 		simplify();
 		addAllChangeListeners(listeners);
-		stateChanged();
+		firePropertyChange("convertToSBUnits", oldListOfUnits, getListOfUnits());
 	}
 
 	/**
@@ -941,16 +934,15 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the listOfUnits of this UnitDefinition. Automatically sets the
-	 * parentSBML object of the list to this UnitDefinition instance.
+	 * Sets the {@link #listOfUnits} of this {@link UnitDefinition}.
+	 * Automatically sets the parent SBML object of the list to this
+	 * {@link UnitDefinition} instance.
 	 * 
 	 * @param listOfUnits
 	 */
 	public void setListOfUnits(ListOf<Unit> listOfUnits) {
-		this.listOfUnits = listOfUnits;
-		setThisAsParentSBMLObject(this.listOfUnits);
-		this.listOfUnits.setSBaseListType(ListOf.Type.listOfUnits);
-		stateChanged();
+		JSBML.addAllOrReplace(this, this.listOfUnits, listOfUnits,
+				ListOf.Type.listOfUnits);
 	}
 	
 	/**
