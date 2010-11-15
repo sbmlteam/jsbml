@@ -11,7 +11,7 @@
   	    <format property="YEAR" pattern="yyyy"/>
 	</tstamp>
 
-    <property name="Name" value="pure Java version of libSBML"/>
+    <property name="Name" value="JSBML"/>
     <property name="name" value="jsbml"/>
     <property name="version" value="0.8"/>
 
@@ -65,20 +65,21 @@
   <target name="usage" depends="init">
     <echo message=""/>
     <echo message=""/>
-    <echo message="${Name} Build file"/>
-    <echo message="-------------------------------------------------------------"/>
+    <echo message=" ${Name} Build file"/>
+    <echo message=" -------------------------------------------------------------"/>
     <echo message=""/>
     <echo message=" available targets are:"/>
     <echo message=""/>
-    <echo message="   compile  --> compiles the source code"/>
-    <echo message="   jar      --> generates the ${name}.jar file"/>
-    <echo message="   bigjar   --> generates the ${name}-with-dependencies.jar file"/>
-    <echo message="   test     --> runs the Tests"/>
-    <echo message="   javadoc  --> generates the API documentation"/>
-    <echo message="   clean    --> cleans up the directory"/>
+    <echo message="   compile     --> compiles the source code"/>
+    <echo message="   jar         --> generates the ${name}.jar file"/>
+    <echo message="   bigjar      --> generates the ${name}-with-dependencies.jar file"/>
+    <echo message="   test        --> runs the Tests"/>
+    <echo message="   update-sbo  --> Updates the SBO Ontology file "/>
+    <echo message="   javadoc     --> generates the API documentation"/>
+    <echo message="   clean       --> cleans up the directory"/>
     <echo message=""/>
     <echo message=" See the comments inside the build.xml file for more details."/>
-    <echo message="-------------------------------------------------------------"/>
+    <echo message=" -------------------------------------------------------------"/>
     <echo message=""/>
     <echo message=""/>
   </target>
@@ -242,8 +243,17 @@
        </junit>
   	
   </target>
+  
+  <!-- =================================================================== -->
+  <!-- Updates the SBO Ontology file                                       -->
+  <!-- =================================================================== -->
+  <target name="update-sbo">
+  
+    <get src="http://www.ebi.ac.uk/sbo/exports/Main/SBO_OBO.obo" dest="${basedir}/resources/org/sbml/jsbml/resources/cfg/SBO_OBO.obo" verbose="on"/>
+  
 
-	  
+  </target>
+	
   <!-- =================================================================== -->
   <!-- Creates the API documentation                                       -->
   <!-- =================================================================== -->
