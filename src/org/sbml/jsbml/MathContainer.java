@@ -37,13 +37,6 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public interface MathContainer extends SBaseWithDerivedUnit {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.SBase#clone()
-	 */
-	public MathContainer clone();
-
 	/**
 	 * Converts this {@link MathContainer}'s internal {@link ASTNode} to a
 	 * C-like {@link String} according to the SBML Level 1 specifications and
