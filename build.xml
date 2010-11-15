@@ -72,7 +72,8 @@
     <echo message=""/>
     <echo message="   compile  --> compiles the source code"/>
     <echo message="   jar      --> generates the ${name}.jar file"/>
-    <echo message="   test      --> runs the Tests"/>
+    <echo message="   bigjar   --> generates the ${name}-with-dependencies.jar file"/>
+    <echo message="   test     --> runs the Tests"/>
     <echo message="   javadoc  --> generates the API documentation"/>
     <echo message="   clean    --> cleans up the directory"/>
     <echo message=""/>
@@ -186,6 +187,19 @@
          basedir="${build.dest}"/>
   </target>
 
+  <!-- =================================================================== -->  
+  <!-- Creates the class package and include all the dependencies jars      -->
+  <!-- into a big jsbml jar file.                                                                    -->
+  <!-- =================================================================== -->
+  <target name="bigjar" depends="compile">
+
+	<!-- we use the ${build.src} to include the sources of jsbml in the resulting jar -->      
+    <jar jarfile="${build.dir}/${name}-with-dependencies.jar"
+         basedir="${build.src}">
+    	<zipgroupfileset dir="${jars.dir}" includes="*.jar" />
+    	 
+    </jar>     
+  </target>
 
 
   <!-- =================================================================== -->  
