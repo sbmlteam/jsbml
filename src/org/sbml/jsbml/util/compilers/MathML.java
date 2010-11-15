@@ -113,7 +113,7 @@ public class MathML implements ASTNodeCompiler {
 			return createApplyNode("and", values);
 		}
 		throw new IllegalArgumentException(
-				"cannot create and node for empty element list");
+				"Cannot create a node for empty element list");
 	}
 
 	/*
@@ -843,7 +843,7 @@ public class MathML implements ASTNodeCompiler {
 			return new ASTNodeValue(lastElementCreated, this);
 		}
 		throw new IllegalArgumentException(
-				"cannot create piecewise function with empty argument list");
+				"Cannot create piecewise function with empty argument list");
 	}
 
 	/*
@@ -949,7 +949,7 @@ public class MathML implements ASTNodeCompiler {
 		if ((0 < this.level) && (this.level <= 3)
 				&& ((level < 0) || (3 < level))) {
 			throw new IllegalArgumentException(StringTools.concat(
-					"cannot set level from the valid value ",
+					"Cannot set level from the valid value ",
 					Integer.toString(this.level), " to invalid value ",
 					Integer.toString(level)).toString());
 		}

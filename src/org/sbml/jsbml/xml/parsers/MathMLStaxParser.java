@@ -351,9 +351,9 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 	 */
 	public void setIndent(int indent) {
 		if ((indent < 0) || (Short.MAX_VALUE < indent)) {
-			throw new IllegalArgumentException(StringTools.concat("indent ",
-					indent, " is out of the range [0, ",
-					Short.toString(Short.MAX_VALUE) + "]").toString());
+			throw new IllegalArgumentException(String.format(
+					"indent %d is out of the range [0, %d].",
+					indent, Short.toString(Short.MAX_VALUE)));
 		}
 		this.indent = (short) indent;
 	}

@@ -40,20 +40,33 @@ import java.util.EventListener;
 public interface SBaseChangedListener extends EventListener {
 
 	/**
+	 * The {@link SBase} passed to this method has just been added to the
+	 * {@link SBMLDocument} or another containing element.
 	 * 
 	 * @param sb
+	 *            This element is now part of the {@link SBMLDocument}.
 	 */
-	void sbaseAdded(SBase sb);
+	public void sbaseAdded(SBase sb);
 
 	/**
+	 * The {@link SBase} passed to this method has been removed from a
+	 * containing parent and does hence no longer belong to the
+	 * {@link SBMLDocument} anymore.
 	 * 
 	 * @param sb
+	 *            This element is not longer part of the {@link SBMLDocument}.
 	 */
-	void sbaseRemoved(SBase sb);
+	public void sbaseRemoved(SBase sb);
 
 	/**
+	 * This method indicates that some property of an {@link SBase} has been
+	 * changed. The given {@link SBaseChangedEvent} contains a pointer to the
+	 * {@link SBase}, a {@link String} representation of the name of the
+	 * property, whose value has been changed together with the previous and the
+	 * new value. Casts may be necessary, because the {@link SBaseChangedEvent}
+	 * contains the values as {@link Object} instances only.
 	 * 
 	 * @param ev
 	 */
-	void stateChanged(SBaseChangedEvent ev);
+	public void stateChanged(SBaseChangedEvent ev);
 }

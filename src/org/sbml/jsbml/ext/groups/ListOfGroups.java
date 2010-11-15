@@ -32,6 +32,7 @@ package org.sbml.jsbml.ext.groups;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.SBaseChangedEvent;
 
 /**
  * This class represents the listOf extension for the group package
@@ -96,7 +97,7 @@ public class ListOfGroups<T extends SBase> extends ListOf<T>{
 	public void setCurrentList(GroupList currentList) {
 		GroupList oldList = this.listType;
 		this.listType = currentList;
-		firePropertyChange("currentList", oldList, this.listType);
+		firePropertyChange(SBaseChangedEvent.currentList, oldList, this.listType);
 	}
 
 }

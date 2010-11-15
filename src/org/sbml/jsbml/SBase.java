@@ -31,7 +31,6 @@
 package org.sbml.jsbml;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -130,6 +129,36 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public List<String> filterCVTerms(Qualifier qualifier, String pattern);
 
 	/**
+	 * All {@link SBaseChangedListener}s are informed about the change in this
+	 * {@link SBase}.
+	 * 
+	 * @param propertyName
+	 *            Tells the {@link SBaseChangedListener} the name of the
+	 *            property whose value has been changed.
+	 * @param oldValue
+	 *            This is the value before the change.
+	 * @param newValue
+	 *            This gives the new value that is now the new value for the
+	 *            given property..
+	 */
+	public void firePropertyChange(String propertyName, Object oldValue,
+			Object newValue);
+
+	/**
+	 * All {@link SBaseChangedListener} instances linked to this {@link SBase}
+	 * are informed about the adding of this object to an owning {@link ListOf}
+	 * or to another new parent SBML object.
+	 */
+	public void fireSBaseAddedEvent();
+
+	/**
+	 * All {@link SBaseChangedListener} instances linked to this {@link SBase}
+	 * are informed about the deletion of this {@link SBase} from a
+	 * {@link ListOf} or from another parent SBML object.
+	 */
+	public void fireSBaseRemovedEvent();
+
+	/**
 	 * @return the content of the 'annotation' sub-element of this object as an
 	 *         {@link Annotation} instance.
 	 */
@@ -167,7 +196,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * 
 	 * @return the map containing all the extension objects of this object.
 	 */
-	public HashMap<String, SBase> getExtensionPackages();
+	public Map<String, SBase> getExtensionPackages();
 
 	/**
 	 * 
@@ -382,18 +411,6 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public void removeChangeListener(SBaseChangedListener l);
 
 	/**
-	 * all listeners are informed about the adding of this object to a list
-	 * 
-	 */
-	public void sbaseAdded();
-
-	/**
-	 * 
-	 * all listeners are informed about the deletion of this object from a list
-	 */
-	public void sbaseRemoved();
-
-	/**
 	 * Sets the value of the 'annotation' sub-element of this SBML object to a
 	 * copy of annotation given as an {@link Annotation} instance.
 	 * 
@@ -469,21 +486,6 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * @param level
 	 */
 	public void setVersion(int version);
-
-	/**
-	 * All {@link SBaseChangedListener}s are informed about the change in this
-	 * {@link SBase}.
-	 * 
-	 * @param propertyName
-	 *            Tells the {@link SBaseChangedListener} the name of the
-	 *            property whose value has been changed.
-	 * @param oldValue
-	 *            This is the value before the change.
-	 * @param newValue
-	 *            This gives the new value.
-	 */
-	public void firePropertyChange(String propertyName, Object oldValue,
-			Object newValue);
 
 	/**
 	 * Unsets the value of the 'annotation' sub-element of this SBML object.

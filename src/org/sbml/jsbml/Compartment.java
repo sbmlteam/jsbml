@@ -442,7 +442,7 @@ public class Compartment extends Symbol {
 	public void setCompartmentType(String compartmentTypeID) {
 		String oldCompartmentTypeID = this.compartmentTypeID;
 		this.compartmentTypeID = compartmentTypeID;
-		firePropertyChange("compartmentType", oldCompartmentTypeID, this.compartmentTypeID);
+		firePropertyChange(SBaseChangedEvent.compartmentType, oldCompartmentTypeID, this.compartmentTypeID);
 	}
 
 	/**
@@ -464,13 +464,18 @@ public class Compartment extends Symbol {
 	 */
 	@Deprecated
 	public void setOutside(String outside) {
+		if (3 <= getLevel()) {
+			throw new IllegalArgumentException(String.format(
+									"Cannot set the outside property to %s for a compartment with SBML Level = %d",
+									outside, getLevel()));
+		}
 		String oldOutside = outsideID;
 		if (outside != null && outside.trim().length() == 0) {
 			this.outsideID = null;
 		} else {
 			this.outsideID = outside;
 		}
-		firePropertyChange("outside", oldOutside, this.outsideID);
+		firePropertyChange(SBaseChangedEvent.outside, oldOutside, this.outsideID);
 	}
 
 	/**
@@ -490,7 +495,7 @@ public class Compartment extends Symbol {
 	 *             if spatialDimension < 0 or if spatialDimension > 3
 	 */
 	public void setSpatialDimensions(int spatialDimension) {
-		if ((spatialDimension >= 0) && (spatialDimension <= 3)) {
+		if ((0 <= spatialDimension) && (spatialDimension <= 3)) {
 			isSetSpatialDimensions = true;
 			this.spatialDimensions = Short.valueOf((short) spatialDimension);
 		} else {
@@ -524,8 +529,9 @@ public class Compartment extends Symbol {
 	 * @throws IllegalArgumentException
 	 *             if the unit is not valid or if spatialDimensions = 0.
 	 */
+	@Override
 	public void setUnits(String units) {
-		if (getSpatialDimensions() > 0) {
+		if (0 < getSpatialDimensions()) {
 			super.setUnits(units);
 		} else {
 			throw new IllegalArgumentException(String.format(
@@ -534,15 +540,16 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 * Sets the Unit of this Compartment.
+	 * Sets the {@link Unit} of this {@link Compartment}.
 	 * 
 	 * @param unit
 	 * 
 	 * @throws IllegalArgumentException
 	 *             if spatialDimensions = 0.
 	 */
+	@Override
 	public void setUnits(Unit unit) {
-		if (getSpatialDimensions() > 0) {
+		if (0 < getSpatialDimensions()) {
 			super.setUnits(unit);
 		} else {
 			throw new IllegalArgumentException(String.format(
@@ -561,8 +568,9 @@ public class Compartment extends Symbol {
 	 *             if spatialDimensions = 0.
 	 * 
 	 */
+	@Override
 	public void setUnits(Unit.Kind unitKind) {
-		if (getSpatialDimensions() > 0) {
+		if (0 < getSpatialDimensions()) {
 			super.setUnits(unitKind);
 		} else {
 			throw new IllegalArgumentException(String.format(
@@ -576,11 +584,12 @@ public class Compartment extends Symbol {
 	 * @param units
 	 * 
 	 * @throws IllegalArgumentException
-	 *             if spatialDimensions = 0.
+	 *             if spatialDimensions <= 0.
 	 * 
 	 */
+	@Override
 	public void setUnits(UnitDefinition unitDefinition) {
-		if (getSpatialDimensions() > 0) {
+		if (0 < getSpatialDimensions()) {
 			super.setUnits(unitDefinition);
 		} else {
 			throw new IllegalArgumentException(String.format(
@@ -679,7 +688,7 @@ public class Compartment extends Symbol {
 		Short oldSpatialDim = this.spatialDimensions;
 		this.spatialDimensions = null;
 		isSetSpatialDimensions = false;
-		firePropertyChange("spacialDimensions", oldSpatialDim, this.spatialDimensions);
+		firePropertyChange(SBaseChangedEvent.spacialDimensions, oldSpatialDim, this.spatialDimensions);
 	}
 
 	/**

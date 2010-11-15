@@ -37,9 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.InvalidPropertiesFormatException;
 import java.util.Iterator;
-import java.util.Properties;
 import java.util.Stack;
 import java.util.Map.Entry;
 
@@ -56,8 +54,8 @@ import javax.xml.stream.events.StartElement;
 
 import org.codehaus.stax2.evt.XMLEvent2;
 import org.codehaus.stax2.ri.evt.AttributeEventImpl;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.xml.parsers.AnnotationParser;
 import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.sbml.jsbml.xml.parsers.StringParser;
@@ -112,14 +110,11 @@ public class SBMLReader {
 					initializedParsers.put(namespace.getNamespaceURI(),
 							newParser);
 				} catch (InstantiationException e) {
-					throw new IllegalArgumentException(
-							"An error occur while creating a parser : "
-									+ e.getMessage());
+					throw new IllegalArgumentException(String.format(
+							JSBML.UNDEFINED_PARSE_ERROR_MSG, e.getMessage()));
 				} catch (IllegalAccessException e) {
-
-					throw new IllegalArgumentException(
-							"An error occur while creating a parser : "
-									+ e.getMessage());
+					throw new IllegalArgumentException(String.format(
+							JSBML.UNDEFINED_PARSE_ERROR_MSG, e.getMessage()));
 				}
 			} else if (!packageParsers.containsKey(namespace.getNamespaceURI())
 					&& !initializedParsers.containsKey(namespace
@@ -231,36 +226,11 @@ public class SBMLReader {
 	}
 
 	/**
-	 * Initializes the packageParser HasMap of this class.
+	 * Initializes the packageParser {@link HashMap} of this class.
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
 	public static void initializePackageParserNamespaces() {
-		Properties p = new Properties();
-		try {
-			p
-					.loadFromXML(Resource
-							.getInstance()
-							.getStreamFromResourceLocation(
-									"org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml"));
-			for (Object k : p.keySet()) {
-				String key = k.toString();
-				packageParsers.put(key, (Class<? extends ReadingParser>) Class
-						.forName(p.getProperty(key)));
-			}
-		} catch (InvalidPropertiesFormatException e) {
-			throw new IllegalArgumentException(
-					"The format of the PackageParserNamespaces.xml file is incorrect.");
-		} catch (IOException e) {
-			throw new IllegalArgumentException(
-					"There was a problem opening the file PackageParserNamespaces.xml.");
-		} catch (ClassNotFoundException e) {
-			// e.printStackTrace();
-			throw new IllegalArgumentException(
-					"There was a problem loading the file PackageParserNamespaces.xml : "
-							+ e.getMessage());
-		}
-
+		JSBML.loadClasses("org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml", packageParsers);
 	}
 
 	/**

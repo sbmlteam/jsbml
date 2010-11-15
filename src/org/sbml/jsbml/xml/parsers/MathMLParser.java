@@ -52,18 +52,18 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-
-
 /**
  * A MathMLParser is used to parse the MathML expressions injected into a SBML
- * file. This class use DOM to parse the mathML. The namespace URI of this parser is
- * "http://www.w3.org/1998/Math/MathML". This parser is able to read and write
- * MathML expressions (implements ReadingParser and WritingParser).
+ * file. This class use DOM to parse the mathML. The name space URI of this
+ * parser is "http://www.w3.org/1998/Math/MathML". This parser is able to read
+ * and write MathML expressions (implements ReadingParser and WritingParser).
  * 
  * @author marine
  * @author Andreas Dr&auml;ger
  * 
- * @deprecated this class should not be used anymore, replaced by MathMLStaxParser. But we keep it in case somebody want to use org.w3c.dom.Document
+ * @deprecated this class should not be used anymore, replaced by
+ *             MathMLStaxParser. But we keep it in case somebody want to use
+ *             org.w3c.dom.Document
  * 
  */
 public class MathMLParser implements ReadingParser, WritingParser {
@@ -407,9 +407,9 @@ public class MathMLParser implements ReadingParser, WritingParser {
 	 */
 	public void setIndent(int indent) {
 		if ((indent < 0) || (Short.MAX_VALUE < indent)) {
-			throw new IllegalArgumentException(StringTools.concat("indent ",
-					indent, " is out of the range [0, ",
-					Short.toString(Short.MAX_VALUE) + "]").toString());
+			throw new IllegalArgumentException(String.format(
+					"indent %d is out of the range [0, %d].",
+					indent, Short.toString(Short.MAX_VALUE)));
 		}
 		this.indent = (short) indent;
 	}

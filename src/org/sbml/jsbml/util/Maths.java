@@ -228,8 +228,8 @@ public class Maths {
 	 */
 	public static final double factorial(double n) {
 		if (n < 0) {
-			throw new IllegalArgumentException(
-					"cannot compute factorial for values < 0");
+			throw new IllegalArgumentException(String.format(
+					"Cannot compute factorial for values %d < 0", n));
 		}
 		if ((n == 0) || (n == 1)) {
 			return 1;

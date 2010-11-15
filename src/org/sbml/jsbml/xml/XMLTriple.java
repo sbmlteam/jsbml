@@ -168,7 +168,7 @@ public class XMLTriple {
 	public XMLTriple(String triplet, char sepchar) {
 		
 		if (triplet == null) {
-			throw new IllegalArgumentException("Cannot create an XMLTriple with a null argument !");
+			throw new IllegalArgumentException("Cannot create an XMLTriple with a null argument.");
 		}
 		// parse the triplet
 		String[] tokens = triplet.split("" + sepchar);
@@ -183,7 +183,9 @@ public class XMLTriple {
 			name = tokens[1].trim();
 			prefix = tokens[2].trim();
 		} else {
-			throw new IllegalArgumentException("Cannot create an XMLTriple with the argument '" + triplet + "' and the separator '" + sepchar + "'.");
+			throw new IllegalArgumentException(String.format(
+									"Cannot create an XMLTriple with the argument '%s' and the separator '%s'.",
+									triplet, sepchar));
 		}
 	}
 

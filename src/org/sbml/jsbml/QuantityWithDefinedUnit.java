@@ -67,7 +67,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	 * Error message for the case that an invalid unit identifier is to be added
 	 * to this object.
 	 */
-	private static final String ILLEGAL_UNIT_EXCEPTION = "Only a valid unit kind or the identifier of an existing unit definition are allowed here.";
+	private static final String ILLEGAL_UNIT_EXCEPTION = "Cannot identify unit %s in the model. Only a valid unit kind or the identifier of an existing unit definition are allowed.";
 
 	/**
 	 * 
@@ -303,9 +303,9 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 			unitsID = null;
 		}
 		if (illegalArgument) {
-			throw new IllegalArgumentException(ILLEGAL_UNIT_EXCEPTION);
+			throw new IllegalArgumentException(String.format(ILLEGAL_UNIT_EXCEPTION, units));
 		}
-		firePropertyChange("units", oldUnits, unitsID);
+		firePropertyChange(SBaseChangedEvent.units, oldUnits, unitsID);
 	}
 
 	/**
@@ -367,7 +367,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 		if (!Double.isNaN(value)) {
 			isSetValue = true;
 		}
-		firePropertyChange("value", oldValue, value);
+		firePropertyChange(SBaseChangedEvent.value, oldValue, value);
 	}
 
 	/**
@@ -386,6 +386,6 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 		Double oldValue = value;
 		value = Double.NaN;
 		isSetValue = false;
-		firePropertyChange("value", oldValue, value);
+		firePropertyChange(SBaseChangedEvent.value, oldValue, value);
 	}
 }

@@ -207,13 +207,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public boolean add(T e) {
 		if (e.getLevel() != getLevel()) {
-			throw new IllegalArgumentException(String.format(
-					JSBML.LEVEL_MISMATCH_MESSAGE, getClass().getSimpleName(),
-					getLevel(), e.getClass().getSimpleName(), e.getLevel()));
+			throw new IllegalArgumentException(JSBML.levelMismatchMessage(this, e));
 		} else if (e.getVersion() != getVersion()) {
-			throw new IllegalArgumentException(String.format(
-					JSBML.VERSION_MISMATCH_MESSAGE, getClass().getSimpleName(),
-					getVersion(), e.getClass().getSimpleName(), e.getVersion()));
+			throw new IllegalArgumentException(JSBML.versionMismatchMessage(this, e));
 		}
 		// Avoid adding the same thing twice.
 		if (e instanceof NamedSBase) {
@@ -294,7 +290,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public void clear() {
 		for (T t : listOf) {
-			t.sbaseRemoved();
+			t.fireSBaseRemovedEvent();
 		}
 		listOf.clear();
 	}
@@ -551,7 +547,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		if (t instanceof AbstractSBase) {
 			((AbstractSBase) t).parentSBMLObject = null;
 		}
-		t.sbaseRemoved();
+		t.fireSBaseRemovedEvent();
 		return t;
 	}
 
@@ -582,7 +578,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 				}
 			}
 		} else {
-			nsb.sbaseRemoved();
+			nsb.fireSBaseRemovedEvent();
 			return true;
 		}
 		return false;
@@ -599,7 +595,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		}
 		SBase sbase = (SBase) o;
 		if (listOf.remove(sbase)) {
-			sbase.sbaseRemoved();
+			sbase.fireSBaseRemovedEvent();
 			return true;
 		}
 		return false;
@@ -708,7 +704,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public void setSBaseListType(Type currentList) {
 		Type oldType = this.listType;
 		this.listType = currentList;
-		firePropertyChange("setSBaseListType", oldType, listType);
+		firePropertyChange(SBaseChangedEvent.baseListType, oldType, listType);
 	}
 
 	/*

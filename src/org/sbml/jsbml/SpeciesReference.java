@@ -54,6 +54,10 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	private static final long serialVersionUID = 4400834403773787677L;
 	/**
+	 * Message to be displayed in case that an illegal stoichiometric value has been set.
+	 */
+	private static final String ILLEGAL_STOCHIOMETRY_VALUE = "Only positive integer values can be set as %s. Invalid value %d.";
+	/**
 	 * Represents the 'constant' XML attribute of this SpeciesReference.
 	 */
 	private Boolean constant;
@@ -478,14 +482,14 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 			if (denominator < 0) {
 				throw new IllegalArgumentException(
 						String.format(
-										"Only positive integer values can be set as denominator. Invalid value %d.",
-										stoichiometry));
+										ILLEGAL_STOCHIOMETRY_VALUE,
+										"denominator", stoichiometry));
 			}
 		}
 		Integer oldDenominator = this.denominator;
 		this.denominator = denominator;
 		isSetDenominator = true;
-		firePropertyChange("denominator", oldDenominator, this.denominator);
+		firePropertyChange(SBaseChangedEvent.denominator, oldDenominator, this.denominator);
 	}
 
 	/**
@@ -497,10 +501,9 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		if ((getLevel() == 1) && (getVersion() == 2)) {
 			int stoch = (int) stoichiometry;
 			if ((stoch < 0) || (stoch - stoichiometry != 0d)) {
-				throw new IllegalArgumentException(
-						String.format(
-										"Only positive integer values can be set as stoichiometry. Invalid value %d.",
-										stoichiometry));
+				throw new IllegalArgumentException(String.format(
+						ILLEGAL_STOCHIOMETRY_VALUE, "stoichiometry",
+						stoichiometry));
 			}
 		}
 		Double oldStoichiometry = this.stoichiometry;
@@ -513,7 +516,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		} else {
 			isSetStoichiometry = true;
 		}
-		firePropertyChange("stoichiometry", oldStoichiometry, this.stoichiometry);
+		firePropertyChange(SBaseChangedEvent.stoichiometry, oldStoichiometry, this.stoichiometry);
 	}
 
 	/**

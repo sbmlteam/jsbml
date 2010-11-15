@@ -189,18 +189,15 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 			 */
 			v = m.findVariable(variable);
 			if (v == null) {
-				String l3specific = getLevel() > 2 ? "SpeciesReference, " : "";
-				throw new IllegalArgumentException(
-						"Only the id of an existing Species, "
-								+ l3specific
-								+ "Compartment, or Parameter allowed as variables");
+				throw new IllegalArgumentException(String.format(
+						NO_SUCH_VARIABLE_EXCEPTION_MSG, m.getId(), variable));
 			}
 			setVariable(v);
 		} else {
 			// TODO: potential source of bugs.
 			String oldVariable = variableID;
 			variableID = variable;
-			firePropertyChange("variable", oldVariable, variableID);
+			firePropertyChange(SBaseChangedEvent.variable, oldVariable, variableID);
 		}
 	}
 
@@ -421,12 +418,12 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	@Deprecated
 	public void setUnits(String unitsID) {
 		if (isSetVariable() && !isParameter()) {
-			throw new IllegalArgumentException(
-					"Cannot set units for a variable other than parameter");
+			throw new IllegalArgumentException(String.format(
+					"Cannot set unit %s for a variable other than parameter", unitsID));
 		}
 		String oldUnitsID = this.unitsID;
 		this.unitsID = unitsID;
-		firePropertyChange("units", oldUnitsID, unitsID);
+		firePropertyChange(SBaseChangedEvent.units, oldUnitsID, unitsID);
 	}
 
 	/**
@@ -459,23 +456,23 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 		if (variable != null) {
 			if (variable.isConstant()) {
 				throw new IllegalArgumentException(
-						String.format(
-										"Cannot set the constant variable %s as the target of this %s.",
-										variable.getId(), getClass()
-												.getSimpleName()));
+						String.format(ILLEGAL_CONSTANT_VARIABLE_MSG,
+										variable.getId(), getElementName()));
 			}
 			if (isSetUnits() && !(variable instanceof Parameter)) {
-				throw new IllegalArgumentException(
-						"Variable expected to be an instance of Parameter because a Unit attribute is set allready");
+				throw new IllegalArgumentException(String.format(
+										"Variable expected to be an instance of Parameter because a Unit attribute is set allready, but given is an %s.",
+										variable.getElementName()));
 			}
-			if ((2 < getLevel()) && (variable instanceof SpeciesReference)) {
-				throw new IllegalArgumentException(
-						"Cannot set a SpeciesReference as the Variable in an ExpliciteRule for SBML Level < 3");
+			if ((getLevel() < 3) && (variable instanceof SpeciesReference)) {
+				throw new IllegalArgumentException(String.format(
+						ILLEGAL_VARIABLE_EXCEPTION_MSG, variable.getId(),
+						getElementName()));
 			}
 			if (variable.isSetId()) {
 				String oldVariable = this.variableID;
 				variableID = variable.getId();
-				firePropertyChange("variable", oldVariable, variableID);
+				firePropertyChange(SBaseChangedEvent.variable, oldVariable, variableID);
 			} else {
 				unsetVariable();
 			}
@@ -496,7 +493,7 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	public void unsetUnits() {
 		String oldUnitsID = this.unitsID;
 		this.unitsID = null;
-		firePropertyChange("units", oldUnitsID, unitsID);
+		firePropertyChange(SBaseChangedEvent.variable, oldUnitsID, unitsID);
 	}
 
 	/*
@@ -506,7 +503,7 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	public void unsetVariable() {
 		String oldVariableID = this.variableID;
 		variableID = null;
-		firePropertyChange("variable", oldVariableID, variableID);
+		firePropertyChange(SBaseChangedEvent.variable, oldVariableID, variableID);
 	}
 
 	/*

@@ -39,16 +39,17 @@ import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
- * A StringParser can be used to store the MathML expressions and/or the html expressions into a String or StringBuffer in the
- * SBML component.
+ * A StringParser can be used to store the MathML expressions and/or the html
+ * expressions into a String or StringBuffer in the SBML component.
  * 
  * @author marine
- *
+ * 
  */
 public class StringParser implements ReadingParser{
 	
 	/**
-	 * String to be able to detect what type of String this parser is parsing. It can be 'notes', 'message' or 'math'.
+	 * String to be able to detect what type of String this parser is parsing.
+	 * It can be 'notes', 'message' or 'math'.
 	 */
 	private String typeOfNotes = "";
 
@@ -69,7 +70,7 @@ public class StringParser implements ReadingParser{
 		}
 		// If the contextObject is a SBase instance, this method return the notesBuffer
 		// of this component.
-		else if ((typeOfNotes.equals("notes") || typeOfNotes.equals("")) && contextObject instanceof SBase){
+		else if ((typeOfNotes.equals("notes") || typeOfNotes.equals("")) && (contextObject instanceof SBase)){
 			SBase sbase = (SBase) contextObject;
 			buffer = sbase.getNotesBuffer();
 		}
@@ -109,7 +110,7 @@ public class StringParser implements ReadingParser{
 			}
 			
 			if (isLastAttribute){
-				buffer.append("> \n");
+				buffer.append(">\n");
 			}
 		}
 		else {
@@ -124,7 +125,7 @@ public class StringParser implements ReadingParser{
 				}
 				
 				if (isLastAttribute){
-					annotation.appendNoRDFAnnotation("> \n");
+					annotation.appendNoRDFAnnotation(">\n");
 				}
 			}
 		}
@@ -144,12 +145,12 @@ public class StringParser implements ReadingParser{
 
 		
 		if (buffer != null){
-			buffer.append(characters + " \n");
+			buffer.append(characters + "\n");
 		}
 		else {
 			if (contextObject instanceof Annotation){
 				Annotation annotation = (Annotation) contextObject;
-				annotation.appendNoRDFAnnotation(characters + " \n");
+				annotation.appendNoRDFAnnotation(characters + "\n");
 			}
 		}
 	}
@@ -173,20 +174,20 @@ public class StringParser implements ReadingParser{
 		StringBuffer buffer = getStringBufferFor(contextObject);
 		
 		if (buffer != null){
-			if (isNested && buffer.toString().endsWith("> \n")){
+			if (isNested && buffer.toString().endsWith(">\n")){
 				int bufferLength = buffer.length();
 				buffer.delete(bufferLength - 3, bufferLength);
 			}
 			
 			if (isNested){
-				buffer.append("/> \n");
+				buffer.append("/>\n");
 			}
 			else {
 				if (!prefix.equals("")){
-					buffer.append("</"+prefix+":"+elementName+"> \n");
+					buffer.append("</"+prefix+":"+elementName+">\n");
 				}
 				else {
-					buffer.append("</"+elementName+"> \n");
+					buffer.append("</"+elementName+">\n");
 				}
 			}
 		}
@@ -195,20 +196,20 @@ public class StringParser implements ReadingParser{
 				Annotation annotation = (Annotation) contextObject;
 				StringBuilder builder = annotation.getAnnotationBuilder();
 
-				if (isNested && annotation.getNoRDFAnnotation().endsWith("> \n")){
+				if (isNested && annotation.getNoRDFAnnotation().endsWith(">\n")){
 					int builderLength = builder.length();
 					builder.delete(builderLength - 4, builderLength - 1);
 				}
 				
 				if (isNested){
-					annotation.appendNoRDFAnnotation("/> \n");
+					annotation.appendNoRDFAnnotation("/>\n");
 				}
 				else {
 					if (!prefix.equals("")){
-						annotation.appendNoRDFAnnotation("</"+prefix+":"+elementName+"> \n");
+						annotation.appendNoRDFAnnotation("</"+prefix+":"+elementName+">\n");
 					}
 					else {
-						annotation.appendNoRDFAnnotation("</"+elementName+"> \n");
+						annotation.appendNoRDFAnnotation("</"+elementName+">\n");
 					}
 				}
 			}
@@ -237,7 +238,7 @@ public class StringParser implements ReadingParser{
 				buffer.append(" "+localName+"=\""+URI+"\"");
 			}
 			if (!hasAttributes && isLastNamespace){
-				buffer.append("> \n");
+				buffer.append(">\n");
 			}
 		}
 		else {
@@ -251,7 +252,7 @@ public class StringParser implements ReadingParser{
 				}
 				
 				if (!hasAttributes && isLastNamespace){
-					annotation.appendNoRDFAnnotation("> \n");
+					annotation.appendNoRDFAnnotation(">\n");
 				}
 			}
 		}
@@ -268,10 +269,10 @@ public class StringParser implements ReadingParser{
 			Object contextObject) {
 		StringBuffer buffer = null;
 		
-		if (elementName.equals("math") && contextObject instanceof MathContainer){
+		if (elementName.equals("math") && (contextObject instanceof MathContainer)) {
 			// We should not come here anymore
-			System.out.println("StringParser : We should not get this node to process !!!!!");
-			throw new IllegalArgumentException("StringParser : We should not get a math node to process !!!!!");
+			System.out.println("StringParser: We should not get this node to process !!!!!");
+			throw new IllegalArgumentException("StringParser: We should not get a math node to process !!!!!");
 			// this.typeOfNotes = elementName;
 		}
 		else {
@@ -288,7 +289,7 @@ public class StringParser implements ReadingParser{
 			}
 			
 			if (!hasAttributes && !hasNamespaces){
-				buffer.append("> \n");
+				buffer.append(">\n");
 			}
 		}
 		else {
@@ -303,7 +304,7 @@ public class StringParser implements ReadingParser{
 				}
 				
 				if (!hasAttributes && !hasNamespaces){
-					annotation.appendNoRDFAnnotation("> \n");
+					annotation.appendNoRDFAnnotation(">\n");
 				}
 			}
 		}

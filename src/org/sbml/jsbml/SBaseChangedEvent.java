@@ -38,11 +38,72 @@ import java.util.EventObject;
  * @date 2010-11-14
  */
 public class SBaseChangedEvent extends EventObject {
-
+	
 	/**
 	 * Generated serial version identifier
 	 */
 	private static final long serialVersionUID = 1669574491009205844L;
+	
+	/*
+	 * Property names that can change in the life time of an SBML document.
+	 */
+	public static final String addCVTerm = "addCVTerm";
+	public static final String addExtension="addExtension";
+	public static final String addNamespace="addNamespace";
+	public static final String notes="notes";
+	public static final String setAnnotation="setAnnotation";
+	public static final String level = "level";	
+	public static final String version="version"; 
+	public static final String metaId = "metaId";
+	public static final String notesBuffer = "notesBuffer";
+	public static final String parentSBMLObject = "parentSBMLObject";
+	public static final String sboTerm = "sboTerm";
+	public static final String annotation = "annotation";
+	public static final String unsetCVTerms = "unsetCVTerms";
+	public static final String history = "history";
+	public static final String currentList = "currentList";
+	public static final String symbol = "symbol";
+	public static final String math = "math";
+	public static final String name = "name";
+	public static final String id = "id";
+	public static final String compartmentType = "compartmentType";
+	public static final String outside = "outside";
+	public static final String spacialDimensions = "spacialDimensions";
+	public static final String message = "message";
+	public static final String messageBuffer = "messageBuffer";
+	public static final String timeUnits = "timeUnits";
+	public static final String useValuesFromTriggerTime = "useValuesFromTriggerTime";
+	public static final String variable = "variable";
+	public static final String units = "units";
+	public static final String baseListType = "baseListType";
+	public static final String areaUnits = "areaUnits";
+	public static final String conversionFactor = "conversionFactor";
+	public static final String extentUnits = "extentUnits";
+	public static final String lengthUnits = "lengthUnits";
+	public static final String substanceUnits = "substanceUnits";
+	public static final String volumeUnits = "volumeUnits";
+	public static final String value = "value";
+	public static final String compartment = "compartment";
+	public static final String fast = "fast";
+	public static final String reversible = "reversible";
+	public static final String species = "species";
+	public static final String boundaryCondition = "boundaryCondition";
+	public static final String charge = "charge";
+	public static final String hasOnlySubstanceUnits = "hasOnlySubstanceUnits";
+	public static final String initialAmount = "initialAmount";
+	public static final String spatialSizeUnits = "spatialSizeUnits";
+	public static final String speciesType = "speciesType";
+	public static final String denominator = "denominator";
+	public static final String stoichiometry = "stoichiometry";
+	public static final String constant = "constant";
+	public static final String exponent = "exponent";
+	public static final String kind = "kind";
+	public static final String multiplier = "multiplier";
+	public static final String offset = "offset";
+	public static final String scale = "scale";
+	public static final String listOfUnits = "listOfUnits";
+	
+	
 	/**
 	 * The previous value and the new value of the changed property in the
 	 * {@link SBase}

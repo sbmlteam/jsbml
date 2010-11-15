@@ -648,19 +648,28 @@ public class Species extends Symbol {
 		Boolean oldBoundaryCondition = this.boundaryCondition;
 		this.boundaryCondition = boundaryCondition;
 		isSetBoundaryCondition = true;
-		firePropertyChange("boundaryCondition", oldBoundaryCondition, this.boundaryCondition);
+		firePropertyChange(SBaseChangedEvent.boundaryCondition, oldBoundaryCondition, this.boundaryCondition);
 	}
 
 	/**
 	 * Sets the charge of this Species.
 	 * 
 	 * @param charge
+	 * @deprecated Only defined in SBML Level 1, Version 1 and 2, and Level 2
+	 *             Version 1. Since Level 2 Version 2 it has been marked as a
+	 *             deprecated property, but has been completely removed in SBML
+	 *             Level 3.
 	 */
+	@Deprecated
 	public void setCharge(int charge) {
+		if (3 <= getLevel()) {
+			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
+					SBaseChangedEvent.charge, this));
+		}
 		Integer oldCharge = this.charge;
 		this.charge = Integer.valueOf(charge);
 		isSetCharge = true;
-		firePropertyChange("charge", oldCharge, this.charge);
+		firePropertyChange(SBaseChangedEvent.charge, oldCharge, this.charge);
 	}
 
 	/**
@@ -689,7 +698,7 @@ public class Species extends Symbol {
 			} else {
 				this.compartmentID = compartment;
 			}
-			firePropertyChange("compartment", oldCompartment, compartmentID);
+			firePropertyChange(SBaseChangedEvent.compartment, oldCompartment, compartmentID);
 		}
 	}
 
@@ -717,7 +726,8 @@ public class Species extends Symbol {
 		} else {
 			this.conversionFactorID = conversionFactorID;
 		}
-		firePropertyChange("conversionFactor", oldConversionFactor, conversionFactorID);
+		firePropertyChange(SBaseChangedEvent.conversionFactor,
+				oldConversionFactor, conversionFactorID);
 	}
 
 	/**
@@ -729,7 +739,7 @@ public class Species extends Symbol {
 		Boolean oldHasOnlySubstanceUnits = this.hasOnlySubstanceUnits;
 		this.hasOnlySubstanceUnits = Boolean.valueOf(hasOnlySubstanceUnits);
 		isSetHasOnlySubstanceUnits = true;
-		firePropertyChange("hasOnlySubstanceUnits", oldHasOnlySubstanceUnits, this.hasOnlySubstanceUnits);
+		firePropertyChange(SBaseChangedEvent.hasOnlySubstanceUnits, oldHasOnlySubstanceUnits, this.hasOnlySubstanceUnits);
 	}
 
 	/**
@@ -741,7 +751,7 @@ public class Species extends Symbol {
 		boolean amount = this.amount;
 		this.amount = true;
 		if (!amount) {
-			firePropertyChange("initialAmount", Boolean.FALSE, Boolean.TRUE);
+			firePropertyChange(SBaseChangedEvent.initialAmount, Boolean.FALSE, Boolean.TRUE);
 		}
 		setValue(initialAmount);
 	}
@@ -755,7 +765,7 @@ public class Species extends Symbol {
 		boolean amount = this.amount;
 		this.amount = false;
 		if (amount) {
-			firePropertyChange("initialAmount", Boolean.TRUE, Boolean.FALSE);
+			firePropertyChange(SBaseChangedEvent.initialAmount, Boolean.TRUE, Boolean.FALSE);
 		}
 		setValue(initialConcentration);
 
@@ -765,17 +775,21 @@ public class Species extends Symbol {
 	 * Sets the spatialSizeUnitsID of this Species to 'spatialSizeUnits'.
 	 * 
 	 * @param spatialSizeUnits
-	 * @deprecated
+	 * @deprecated This property is only valid for SBML Level 2 Versions 1 and 2.
 	 */
 	@Deprecated
 	public void setSpatialSizeUnits(String spatialSizeUnits) {
+		if ((getLevel() != 2) && ((1 != getVersion()) || (2 != getVersion()))) {
+			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
+					SBaseChangedEvent.spatialSizeUnits, this));
+		}
 		String oldSpatialSizeUnits = this.spatialSizeUnitsID;
 		if ((spatialSizeUnits != null) && (spatialSizeUnits.trim().length() == 0)) {
 			this.spatialSizeUnitsID = null;
 		} else {
 			this.spatialSizeUnitsID = spatialSizeUnits;
 		}
-		firePropertyChange("spatialSizeUnits", oldSpatialSizeUnits, this.spatialSizeUnitsID);
+		firePropertyChange(SBaseChangedEvent.spatialSizeUnits, oldSpatialSizeUnits, this.spatialSizeUnitsID);
 	}
 
 	/**
@@ -806,9 +820,14 @@ public class Species extends Symbol {
 	 * Sets the speciesTypeID of this Species to 'speciesType'.
 	 * 
 	 * @param speciesType
+	 * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
 	 */
 	@Deprecated
 	public void setSpeciesType(String speciesType) {
+		if ((getLevel() != 2) && ((getVersion() < 2) || (4 < getVersion()))) {
+			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
+					SBaseChangedEvent.speciesType, this));
+		}
 		if (checkIdentifier(speciesType)) {
 			String oldSpeciesType = this.speciesTypeID;
 			if ((speciesType != null) && (speciesType.trim().length() == 0)) {
@@ -816,7 +835,7 @@ public class Species extends Symbol {
 			} else {
 				this.speciesTypeID = speciesType;
 			}
-			firePropertyChange("speciesType", oldSpeciesType, this.speciesTypeID);
+			firePropertyChange(SBaseChangedEvent.speciesType, oldSpeciesType, this.speciesTypeID);
 		}
 	}
 
@@ -865,7 +884,7 @@ public class Species extends Symbol {
 		Integer oldCharge = charge;
 		charge = null;
 		isSetCharge = false;
-		firePropertyChange("charge", oldCharge, this.charge);
+		firePropertyChange(SBaseChangedEvent.charge, oldCharge, this.charge);
 	}
 
 	/**

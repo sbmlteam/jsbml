@@ -63,17 +63,26 @@ public class MathMLXMLStreamCompiler {
 	 */
 	DecimalFormat realFormat = new DecimalFormat("#########################.#########################");
 
+	/**
+	 * 
+	 * @param writer
+	 * @param indent
+	 */
 	public MathMLXMLStreamCompiler(XMLStreamWriter writer, String indent) {
 		if (writer == null) {
 			throw new IllegalArgumentException(
-					"Cannot create a MathMLXMLStreamCompiler with a null writer !!");
+					"Cannot create a MathMLXMLStreamCompiler with a null writer.");
 		}
 
 		this.writer = writer;
 		this.indent = indent;
 	}
 
-	
+	/**
+	 * 
+	 * @param astNode
+	 * @return
+	 */
 	public static String toMathML(ASTNode astNode) {
 
 		String mathML = "";

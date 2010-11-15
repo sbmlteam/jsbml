@@ -176,13 +176,11 @@ public class SBMLWriter {
 						}
 					}
 				} catch (InstantiationException e) {
-					throw new IllegalArgumentException(
-							"An error occur while creating a parser : "
-									+ e.getMessage());
+					throw new IllegalArgumentException(String.format(
+							JSBML.UNDEFINED_PARSE_ERROR_MSG, e.getMessage()));
 				} catch (IllegalAccessException e) {
-					throw new IllegalArgumentException(
-							"An error occur while creating a parser : "
-									+ e.getMessage());
+					throw new IllegalArgumentException(String.format(
+							JSBML.UNDEFINED_PARSE_ERROR_MSG, e.getMessage()));
 				}
 			}
 			
@@ -227,13 +225,11 @@ public class SBMLWriter {
 						}
 					}
 				} catch (InstantiationException e) {
-					throw new IllegalArgumentException(
-							"An error occur while creating a parser : "
-									+ e.getMessage());
+					throw new IllegalArgumentException(String.format(
+							JSBML.UNDEFINED_PARSE_ERROR_MSG, e.getMessage()));
 				} catch (IllegalAccessException e) {
-					throw new IllegalArgumentException(
-							"An error occur while creating a parser : "
-									+ e.getMessage());
+					throw new IllegalArgumentException(String.format(
+							JSBML.UNDEFINED_PARSE_ERROR_MSG, e.getMessage()));
 				}
 			}
 		}
@@ -292,10 +288,7 @@ public class SBMLWriter {
 	public static void initializePackageParserNamespaces() {
 		Properties p = new Properties();
 		try {
-			p
-					.loadFromXML(Resource
-							.getInstance()
-							.getStreamFromResourceLocation(
+			p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
 									"org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml"));
 			for (Object k : p.keySet()) {
 				String key = k.toString();
@@ -309,11 +302,9 @@ public class SBMLWriter {
 			throw new IllegalArgumentException(
 					"There was a problem opening the file PackageParserNamespaces.xml.");
 		} catch (ClassNotFoundException e) {
-			// e.printStackTrace();
-			throw new IllegalArgumentException(
-					"There was a problem loading the file PackageParserNamespaces.xml : "
-							+ e.getMessage());
-
+			throw new IllegalArgumentException(String.format(
+									"There was a problem loading the file PackageParserNamespaces.xml: %s. Please make sure the resource directory is included in the Java class path.",
+									e.getMessage()));
 		}
 	}
 
@@ -439,13 +430,11 @@ public class SBMLWriter {
 			mathMLParser = SBMLReader.getPackageParsers(
 					"http://www.w3.org/1998/Math/MathML").newInstance();
 		} catch (InstantiationException e) {
-			throw new IllegalArgumentException(
-					"An error occur while creating a parser : "
-							+ e.getMessage());
+			throw new IllegalArgumentException(String.format(
+					JSBML.UNDEFINED_PARSE_ERROR_MSG, e.getMessage()));
 		} catch (IllegalAccessException e) {
-			throw new IllegalArgumentException(
-					"An error occur while creating a parser : "
-							+ e.getMessage());
+			throw new IllegalArgumentException(String.format(
+					JSBML.UNDEFINED_PARSE_ERROR_MSG, e.getMessage()));
 		}
 
 		int indent = 2;

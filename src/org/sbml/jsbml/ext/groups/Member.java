@@ -35,6 +35,7 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.SBaseChangedEvent;
 
 /**
  * 
@@ -154,7 +155,7 @@ public class Member extends AbstractSBase {
 		} else {
 			this.symbol = symbolId;
 		}
-		firePropertyChange("symbol", oldSymbol, this.symbol);
+		firePropertyChange(SBaseChangedEvent.symbol, oldSymbol, this.symbol);
 	}
 
 	/*

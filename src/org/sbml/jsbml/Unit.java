@@ -896,8 +896,9 @@ public class Unit extends AbstractSBase {
 				unit1.setKind(Kind.LITRE);
 			}
 		} else {
-			throw new IllegalArgumentException(
-					"Units can only be merged if both have the same kind attribute or if one of them is dimensionless.");
+			throw new IllegalArgumentException(String.format(
+									"Cannot merge units with different kind properties %s and %s. Units can only be merged if both have the same kind attribute or if one of them is dimensionless.",
+									unit1.getKind(), unit2.getKind()));
 		}
 	}
 
@@ -1055,7 +1056,7 @@ public class Unit extends AbstractSBase {
 		super(level, version);
 		if (!isUnitKind(kind, level, version)) {
 			throw new IllegalArgumentException(String.format(
-					"%s undefined for level %s version %s", kind, level,
+					"Unit kind %s is undefined for level %s version %s.", kind, level,
 					version));
 		}
 		initDefaults();
@@ -1820,7 +1821,7 @@ public class Unit extends AbstractSBase {
 		Double oldExponent = this.exponent;
 		isSetExponent = true;
 		this.exponent = Double.valueOf(exponent);
-		firePropertyChange("exponent", oldExponent, this.exponent);
+		firePropertyChange(SBaseChangedEvent.exponent, oldExponent, this.exponent);
 	}
 
 	/**
@@ -1831,7 +1832,7 @@ public class Unit extends AbstractSBase {
 	public void setKind(Kind kind) {
 		Kind oldKind = this.kind;
 		this.kind = kind != null ? kind : Kind.INVALID;
-		firePropertyChange("kind", oldKind, this.kind);
+		firePropertyChange(SBaseChangedEvent.kind, oldKind, this.kind);
 	}
 
 	/**
@@ -1843,7 +1844,7 @@ public class Unit extends AbstractSBase {
 		Double oldMultiplyer = this.multiplier;
 		isSetMultiplier = true;
 		this.multiplier = multiplier;
-		firePropertyChange("multiplier", oldMultiplyer, this.multiplier);
+		firePropertyChange(SBaseChangedEvent.multiplier, oldMultiplyer, this.multiplier);
 	}
 
 	/**
@@ -1858,11 +1859,10 @@ public class Unit extends AbstractSBase {
 			Double oldOffset = this.offset;
 			isSetOffset = true;
 			this.offset = Double.valueOf(offset);
-			firePropertyChange("offset", oldOffset, this.offset);
+			firePropertyChange(SBaseChangedEvent.offset, oldOffset, this.offset);
 		} else {
-			throw new IllegalArgumentException(String.format(
-					JSBML.PROPERTY_UNDEFINED_EXCEPTION_MSG,
-					"offset", getLevel(), getVersion()));
+			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
+					SBaseChangedEvent.offset, this));
 		}
 	}
 
@@ -1875,7 +1875,7 @@ public class Unit extends AbstractSBase {
 		Integer oldScale = this.scale;
 		isSetScale = true;
 		this.scale = scale;
-		firePropertyChange("scale", oldScale, scale);
+		firePropertyChange(SBaseChangedEvent.scale, oldScale, scale);
 	}
 
 	/**
@@ -1913,7 +1913,7 @@ public class Unit extends AbstractSBase {
 		Double oldExponent = this.exponent;
 		exponent = null;
 		isSetExponent = false;
-		firePropertyChange("exponent", oldExponent, this.exponent);
+		firePropertyChange(SBaseChangedEvent.exponent, oldExponent, this.exponent);
 	}
 
 	/**
@@ -1922,7 +1922,7 @@ public class Unit extends AbstractSBase {
 	public void unsetKind() {
 		Kind oldKind = this.kind;
 		kind = Kind.INVALID;
-		firePropertyChange("kind", oldKind, this.kind);
+		firePropertyChange(SBaseChangedEvent.kind, oldKind, this.kind);
 	}
 
 	/**
@@ -1932,7 +1932,7 @@ public class Unit extends AbstractSBase {
 		Double oldMultipler = this.multiplier;
 		multiplier = null;
 		isSetMultiplier = false;
-		firePropertyChange("multipler", oldMultipler, this.multiplier);
+		firePropertyChange(SBaseChangedEvent.multiplier, oldMultipler, this.multiplier);
 	}
 
 	/**
@@ -1940,16 +1940,10 @@ public class Unit extends AbstractSBase {
 	 */
 	@Deprecated
 	public void unsetOffset() {
-		if ((getLevel() == 2) && (getVersion() == 1)) {
-			Double oldOffset = this.offset;
-			offset = null;
-			isSetOffset = false;
-			firePropertyChange("offset", oldOffset, this.offset);
-		} else {
-			throw new IllegalArgumentException(String.format(
-					"Property %s is not defined for Level %s and Version %s",
-					"offset", getLevel(), getVersion()));
-		}
+		Double oldOffset = this.offset;
+		offset = null;
+		isSetOffset = false;
+		firePropertyChange(SBaseChangedEvent.offset, oldOffset, this.offset);
 	}
 
 	/**
@@ -1959,7 +1953,7 @@ public class Unit extends AbstractSBase {
 		Integer oldScale = this.scale;
 		scale = null;
 		isSetScale = false;
-		firePropertyChange("scale", oldScale, scale);
+		firePropertyChange(SBaseChangedEvent.scale, oldScale, scale);
 	}
 	
 	/*
