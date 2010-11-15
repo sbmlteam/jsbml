@@ -54,6 +54,11 @@ public class CVTerm implements Serializable {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -3648054739091227113L;
+	/**
+	 * Message to indicate an illegal combination of a {@link Type} and a
+	 * {@link Qualifier} attribute.
+	 */
+	private static final String INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG = "Invalid combination of type %s with qualifier %s.";
 
 	/**
 	 * This enum list all the possible MIRIAM qualifiers.
@@ -256,7 +261,7 @@ public class CVTerm implements Serializable {
 			setModelQualifierType(qualifier);
 		} else {
 			throw new IllegalArgumentException(String.format(
-					"Invalid combination of type %s with qualifier %s.", type,
+					INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG, type,
 					qualifier));
 		}
 		for (String resource : resoruces) {
@@ -517,12 +522,14 @@ public class CVTerm implements Serializable {
 				if (this.type == Type.BIOLOGICAL_QUALIFIER) {
 					this.qualifier = qualifier;
 				} else {
-					throw new IllegalArgumentException(
-							"Biological qualifiers can only be applyed if the type is set to Biological Qualifier.");
+					throw new IllegalArgumentException(String.format(
+							INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG, type,
+							qualifier));
 				}
 			} else {
-				throw new IllegalArgumentException(qualifier.toString()
-						+ " is not a valid Biological Qualifier.");
+				throw new IllegalArgumentException(String.format(
+						"%s is not a valid Biological Qualifier.", qualifier
+								.toString()));
 			}
 		}
 	}
@@ -551,8 +558,8 @@ public class CVTerm implements Serializable {
 					throw new IllegalArgumentException(
 							"Model qualifier types can only be applyed if the type is set to Model Qualifier.");
 			} else {
-				throw new IllegalArgumentException(qualifier.toString()
-						+ " is not a valid model qualifier.");
+				throw new IllegalArgumentException(String.format(
+						"%s is not a valid Model !ualifier.", qualifier.toString()));
 			}
 		}
 	}
@@ -580,8 +587,8 @@ public class CVTerm implements Serializable {
 			this.qualifier = type == Type.MODEL_QUALIFIER ? Qualifier.BQM_UNKNOWN
 					: Qualifier.BQB_UNKNOWN;
 		} else {
-			throw new IllegalArgumentException(type.toString()
-					+ " is not a valid qualifier.");
+			throw new IllegalArgumentException(String.format(
+					"%s is not a valid qualifier.", type.toString()));
 		}
 	}
 

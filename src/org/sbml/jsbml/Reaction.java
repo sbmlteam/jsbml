@@ -992,7 +992,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 */
 	public void removeProduct(SpeciesReference specref) {
 		if (listOfProducts.remove(specref)) {
-			specref.sbaseRemoved();
+			specref.fireSBaseRemovedEvent();
 		}
 	}
 
@@ -1065,11 +1065,13 @@ public class Reaction extends AbstractNamedSBase implements
 	 */
 	public void setCompartment(String compartmentID) {
 		if (isSetLevel() && (getLevel() < 3)) {
-			throw new IllegalArgumentException("Cannot set the compartment property for a Reaction with Level < 3.");
+			throw new IllegalArgumentException(String.format(
+									"Cannot set the compartment property to %s for reaction %s with Level < 3.",
+									compartmentID, getId()));
 		}
 		String oldCompartmentID = this.compartmentID;
 		this.compartmentID = compartmentID;
-		firePropertyChange("compartment", oldCompartmentID, compartmentID);
+		firePropertyChange(SBaseChangedEvent.compartment, oldCompartmentID, compartmentID);
 	}
 
 	/**
@@ -1081,7 +1083,7 @@ public class Reaction extends AbstractNamedSBase implements
 		Boolean oldFast = this.fast;
 		this.fast = Boolean.valueOf(fast);
 		isSetFast = true;
-		firePropertyChange("fast", oldFast, fast);
+		firePropertyChange(SBaseChangedEvent.fast, oldFast, fast);
 	}
 
 	/**
@@ -1133,7 +1135,7 @@ public class Reaction extends AbstractNamedSBase implements
 		Boolean oldReversible = this.reversible;
 		this.reversible = Boolean.valueOf(reversible);
 		isSetReversible = true;
-		firePropertyChange("reversible", oldReversible, reversible);
+		firePropertyChange(SBaseChangedEvent.reversible, oldReversible, reversible);
 	}
 
 	/**
@@ -1143,7 +1145,7 @@ public class Reaction extends AbstractNamedSBase implements
 		Boolean oldFast = this.fast;
 		isSetFast = false;
 		fast = null;
-		firePropertyChange("fast", oldFast, fast);
+		firePropertyChange(SBaseChangedEvent.fast, oldFast, fast);
 	}
 
 	/**
@@ -1153,7 +1155,7 @@ public class Reaction extends AbstractNamedSBase implements
 		Boolean oldReversible = this.reversible;
 		isSetReversible = false;
 		reversible = null;
-		firePropertyChange("reversible", oldReversible, reversible);
+		firePropertyChange(SBaseChangedEvent.reversible, oldReversible, reversible);
 	}
 	
 	/*

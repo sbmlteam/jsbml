@@ -62,6 +62,13 @@ import org.sbml.jsbml.util.filters.Filter;
  */
 public class ASTNode implements Cloneable, Serializable, TreeNode {
 
+	/**
+	 * Message to indicate that an {@link ASTNode.Type} type has been chosen
+	 * which cannot be used as an operator.
+	 */
+	public static final String INVALID_OPERATOR_MSG = "Invalid operator %s. The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER.";
+	
+	
 	// TODO : check how we set the math in level 1
 
 	/**
@@ -96,7 +103,8 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		 */
 		DIVIDE,
 		/**
-		 * 
+		 * The type of an {@link ASTNode} containing a reference to a user-defined
+		 * {@link FunctionDefinition}.
 		 */
 		FUNCTION,
 		/**
@@ -609,9 +617,8 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 			}
 			return arithmetic;
 		} else {
-			throw new RuntimeException(
-					new IllegalArgumentException(
-							"The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER."));
+			throw new IllegalArgumentException(String.format(
+					INVALID_OPERATOR_MSG, operator));
 		}
 	}
 
@@ -1409,9 +1416,8 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 				setParentSBMLObject(astnode, getParentSBMLObject(), 0);
 			}
 		} else {
-			throw new RuntimeException(
-					new IllegalArgumentException(
-							"The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER."));
+			throw new IllegalArgumentException(String.format(
+					INVALID_OPERATOR_MSG, operator));
 		}
 	}
 
@@ -2299,11 +2305,11 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 
 	/**
 	 * Returns the variable of this node. This function should be called only
-	 * when isName() == true, otherwise and Exception is thrown.
+	 * when {@link #isName()} == <code>true<code>, otherwise and Exception is thrown.
 	 * 
 	 * @return the variable of this node
 	 * @throws IllegalArgumentException
-	 *             if isName() returns false.
+	 *             if {@link #isName()} returns false.
 	 */
 	public NamedSBaseWithDerivedUnit getVariable() {
 		// TODO: Improve: Case distinction with functions!
@@ -2311,7 +2317,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 			if ((variable == null) && (getParentSBMLObject() != null)) {
 				if (getParentSBMLObject() instanceof KineticLaw) {
 					variable = ((KineticLaw) getParentSBMLObject())
-							.getParameter(getName());
+							.getLocalParameter(getName());
 				}
 				if (variable == null) {
 					Model m = getParentSBMLObject().getModel();
@@ -2430,17 +2436,11 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 
 	/**
 	 * Returns true if this node represents a function. In this context, the
-	 * term function means pre-defined functions such as "ceil", "abs" or "sin".
-	 * Note that this does not check whether this {@link ASTNode} refers to a
-	 * user-defined {@link FunctionDefinition} object. The type of an
-	 * {@link ASTNode} referencing to a {@link FunctionDefinition} is
-	 * {@link Type#NAME} because like all other
-	 * {@link NamedSBaseWithDerivedUnit} instances that can be referenced in
-	 * {@link ASTNode} objects, only the identifier is stored, here under the
-	 * term "name". Without having a valid reference to the
-	 * {@link MathContainer} that owns this {@link ASTNode} it is impossible to
-	 * identify if a {@link Type#NAME} refers to a {@link FunctionDefinition} or
-	 * some other {@link NamedSBaseWithDerivedUnit}.
+	 * term function means pre-defined functions such as "ceil", "abs" or "sin"
+	 * or whether this {@link ASTNode} refers to a user-defined
+	 * {@link FunctionDefinition} object. Without having a valid reference to
+	 * the {@link MathContainer} that owns this {@link ASTNode} it is impossible
+	 * to identify the referenced {@link FunctionDefinition}.
 	 * 
 	 * @return true if this {@link ASTNode} is a function, false otherwise.
 	 */
@@ -3422,18 +3422,21 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 */
 	public void setUnits(String unitId) {
 		if (!isNumber()) {
-			throw new IllegalArgumentException(
-					"unexpected attribute, only literal numbers can defined a unit");
+			throw new IllegalArgumentException(String.format(
+									"Unexpected attribute %s, only literal numbers can defined a unit.",
+									unitId));
 		}
 		if (parentSBMLObject != null) {
 			if (!Unit.isValidUnit(parentSBMLObject.getModel(), unitId)) {
-				throw new IllegalArgumentException(
-						"unexpected attribute, only a valid unit kind or the identifier of a unit definition are allowed here");
+				throw new IllegalArgumentException(String.format(
+										"Unexpected attribute %s, only a valid unit kind or the identifier of a unit definition are allowed here.",
+										unitId));
 			}
 			if (parentSBMLObject.isSetLevel()
 					&& (2 < parentSBMLObject.getLevel())) {
-				throw new IllegalArgumentException(
-						"units can only be set for numbers in ASTNodes if the level is at least 3");
+				throw new IllegalArgumentException(String.format(
+										"Cannot set unit %s for a numbers in an ASTNode before SBML Level 3.",
+										unitId));
 			}
 		}
 		this.unitId = unitId;

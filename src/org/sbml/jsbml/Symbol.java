@@ -199,7 +199,7 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 		Boolean oldConstant = this.constant;
 		this.constant = Boolean.valueOf(constant);
 		isSetConstant = true;
-		firePropertyChange("constant", oldConstant, constant);
+		firePropertyChange(SBaseChangedEvent.constant, oldConstant, constant);
 	}
 
 	/*
@@ -211,6 +211,6 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 		Boolean oldConstant = this.constant;
 		this.constant = null;
 		isSetConstant = false;
-		firePropertyChange("constant", oldConstant, constant);
+		firePropertyChange(SBaseChangedEvent.constant, oldConstant, constant);
 	}
 }

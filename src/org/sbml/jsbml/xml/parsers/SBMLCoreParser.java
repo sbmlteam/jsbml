@@ -30,11 +30,8 @@
 
 package org.sbml.jsbml.xml.parsers;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.InvalidPropertiesFormatException;
-import java.util.Properties;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AlgebraicRule;
@@ -48,6 +45,7 @@ import org.sbml.jsbml.Event;
 import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.InitialAssignment;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.LocalParameter;
@@ -67,7 +65,6 @@ import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ListOf.Type;
-import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 import org.sbml.jsbml.xml.stax.WritingParser;
@@ -308,25 +305,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 * 
 	 */
 	private void initializeCoreElements() {
-		Properties p = new Properties();
-
-		try {
-			p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
-					"org/sbml/jsbml/resources/cfg/SBMLCoreElements.xml"));
-			for (Object k : p.keySet()) {
-				String key = k.toString();
-				SBMLCoreElements.put(key, Class.forName(p.getProperty(key)
-						.toString()));
-			}
-		} catch (InvalidPropertiesFormatException e) {
-
-			throw new IllegalArgumentException("The format of the SBMLCoreElements.xml file is incorrect.");
-		} catch (IOException e) {
-			throw new IllegalArgumentException("There was a problem opening the file SBMLCoreElements.xml.");
-		} catch (ClassNotFoundException e) {
-			throw new IllegalArgumentException("There was a problem loading the file SBMLCoreElements.xml : " +
-					e.getMessage());
-		}
+		JSBML.loadClasses("org/sbml/jsbml/resources/cfg/SBMLCoreElements.xml", SBMLCoreElements);
 	}
 
 	/*
@@ -362,7 +341,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			try {
 				astNode.setUnits(value);
 			} catch (IllegalArgumentException e) {
-				
 				System.out.println(e.getMessage());
 				// TODO : Log the error in a log file and possible and ErrorLog object also
 			}

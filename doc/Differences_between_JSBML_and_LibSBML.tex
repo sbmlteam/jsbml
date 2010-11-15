@@ -1,6 +1,6 @@
 \documentclass[
   letterpaper,
-  12pt,
+  11pt,
   headsepline,
   pointlessnumbers,
   tablecaptionabove,
@@ -173,6 +173,32 @@ the interpretation. JSBML already provides several implementations of
 this interface, for instance, \verb!ASTNode! objects can be directly translated
 to LaTeX or MathML for further processing.
 
+\section{Change events and listeners}
+
+JSBML introduces the possibility to listen to change events in the life of an
+SBML document. To benefit from this advantage, simply let your class implement
+the interface \verb!SBaseChangeListener! and add it to the list of listeners in
+your instance of  \verb!SBMLDocument!. You only have to implement three methods
+\begin{description}
+ \item[sbaseAdded] This method notifies the listener that the given \verb!SBase!
+   has just been added to the \verb!SBMLDocument!
+ \item[sbaseRemoved] The \verb!SBase! instance passed to this method is no
+   longer part of the \verb!SBMLDocument! as it has just been removed.
+ \item[stateChanged] This method provides detailled information about some value
+   change within the \verb!SBMLDocument!. The object passed to this method is
+   an \verb!SBaseChangeEvent!, wich provides information about the \verb!SBase!
+   that has been changed, its property whose value has been changed (this is a
+   \verb!String! represenation of the name of the property), along with the
+   previous value and the new value.
+\end{description}
+With the help of these methods, you can keep track of what your
+\verb!SBMLDocument! does at any time. Furthermore, one could consider to make
+use of this functionality in a graphical user interface, where the user should
+be asked if he or she really wants to delete some element or to approve changes
+before making these persistent. Another idea of using this, would be to write
+log files of the model building process automatically.
+
+
 \section{Deprecation}
 
 The intension of JSBML is to provide a Java library for the latest 
@@ -195,6 +221,7 @@ the \verb!InvalidArgumentException! that is thrown when trying to set an invalid
 identifier \verb!String! for an instance of \verb!AbstractNamedSBase!. Hence,
 you have to be aware of potential exceptions and errors when using JSBML, on the
 other hand will this behavior prevent you from doing obvious mistakes.
+
 
 \section{Initial assignments}
 

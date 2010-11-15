@@ -191,7 +191,7 @@ public class Constraint extends AbstractMathContainer {
 	public void setMessage(String message) {
 		String oldMessage = this.message != null ? new String(this.message) : null;
 		this.message = message;
-		firePropertyChange("message", oldMessage, message);
+		firePropertyChange(SBaseChangedEvent.message, oldMessage, message);
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class Constraint extends AbstractMathContainer {
 	public void setMessageBuffer(StringBuffer messageBuffer) {
 		StringBuffer oldMessage = this.messageBuffer != null ? new StringBuffer(this.messageBuffer) : null;
 		this.messageBuffer = messageBuffer;
-		firePropertyChange("messageBuffer", oldMessage, messageBuffer);
+		firePropertyChange(SBaseChangedEvent.messageBuffer, oldMessage, messageBuffer);
 	}
 
 	/**

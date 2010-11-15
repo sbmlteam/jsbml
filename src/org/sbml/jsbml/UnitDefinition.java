@@ -507,7 +507,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 		simplify();
 		addAllChangeListeners(listeners);
-		firePropertyChange("convertToSBUnits", oldListOfUnits, getListOfUnits());
+		firePropertyChange(SBaseChangedEvent.listOfUnits, oldListOfUnits,
+				getListOfUnits());
 	}
 
 	/**
@@ -926,7 +927,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if (isSetListOfUnits()) {
 			Unit u = listOfUnits.remove(i);
 			if (u != null) {
-				u.sbaseRemoved();
+				u.fireSBaseRemovedEvent();
 			}
 			return u;
 		}

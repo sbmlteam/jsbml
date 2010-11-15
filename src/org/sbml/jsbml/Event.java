@@ -654,14 +654,14 @@ public class Event extends AbstractNamedSBase {
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-
 		if (!isAttributeRead) {
-			if (attributeName.equals("useValuesFromTriggerTime")
-					&& ((getLevel() == 2 && getVersion() == 4) || getLevel() >= 3)) {
+			if (attributeName
+					.equals(SBaseChangedEvent.useValuesFromTriggerTime)
+					&& (((getLevel() == 2) && (getVersion() == 4)) || (getLevel() >= 3))) {
 				this.setUseValuesFromTriggerTime(StringTools
 						.parseSBMLBoolean(value));
-			} else if (attributeName.equals("timeUnits")
-					&& (getLevel() == 1 || (getLevel() == 2 && (getVersion() == 1 || getVersion() == 2)))) {
+			} else if (attributeName.equals(SBaseChangedEvent.timeUnits)
+					&& ((getLevel() == 1) || ((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2))))) {
 				this.setTimeUnits(value);
 			}
 		}
@@ -737,9 +737,9 @@ public class Event extends AbstractNamedSBase {
 	 *            the priority to set
 	 */
 	public void setPriority(Priority priority) {
-		if (3 < getLevel()) {
+		if (getLevel() < 3) {
 			throw new IllegalArgumentException(
-					"Cannot set a priority for an Event if SBML Level < 3.");
+					"Cannot set a Priority for an Event if SBML Level < 3.");
 		}
 		this.priority = priority;
 		setThisAsParentSBMLObject(this.priority);
@@ -749,15 +749,20 @@ public class Event extends AbstractNamedSBase {
 	 * Sets the timeUnitsID of this Event to 'timeUnits'.
 	 * 
 	 * @param timeUnits
+	 * @deprecated This is only applicable for SBML Level 2, Versions 1 and 2.
 	 */
 	@Deprecated
 	public void setTimeUnits(String timeUnits) {
+		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
+			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
+					SBaseChangedEvent.timeUnits, this));
+		}
 		if ((timeUnits == null) || timeUnits.equals("")) {
 			unsetTimeUnits();
 		} else {
 			String oldTimeUnitsID = timeUnitsID == null ? null : new String(timeUnitsID);
 			this.timeUnitsID = timeUnits;
-			firePropertyChange("timeUnits", oldTimeUnitsID, timeUnits);
+			firePropertyChange(SBaseChangedEvent.timeUnits, oldTimeUnitsID, timeUnits);
 		}
 	}
 
@@ -800,16 +805,22 @@ public class Event extends AbstractNamedSBase {
 	 * @param useValuesFromTriggerTime
 	 */
 	public void setUseValuesFromTriggerTime(boolean useValuesFromTriggerTime) {
-		Boolean oldUsesValuesFromTriggerTime = Boolean.valueOf(this.useValuesFromTriggerTime);
+		if (!((getLevel() == 2) && (getVersion() == 4)) || (3 <= getLevel())) {
+			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
+					SBaseChangedEvent.useValuesFromTriggerTime, this));
+		}
+		Boolean oldUsesValuesFromTriggerTime = Boolean
+				.valueOf(this.useValuesFromTriggerTime);
 		this.useValuesFromTriggerTime = useValuesFromTriggerTime;
-		firePropertyChange("useValuesFromTriggerTime", oldUsesValuesFromTriggerTime, useValuesFromTriggerTime);
+		firePropertyChange(SBaseChangedEvent.useValuesFromTriggerTime,
+				oldUsesValuesFromTriggerTime, useValuesFromTriggerTime);
 	}
 
 	/**
 	 * Sets the delay of this Event to null.
 	 */
 	public void unsetDelay() {
-		this.delay.sbaseRemoved();
+		this.delay.fireSBaseRemovedEvent();
 		this.delay = null;
 	}
 
@@ -817,7 +828,7 @@ public class Event extends AbstractNamedSBase {
 	 * Sets the {@link #listOfEventAssignments} of this {@link Event} to null.
 	 */
 	public void unsetListOfEventAssignments() {
-		this.listOfEventAssignments.sbaseRemoved();
+		this.listOfEventAssignments.fireSBaseRemovedEvent();
 		this.listOfEventAssignments = null;
 	}
 
@@ -832,7 +843,7 @@ public class Event extends AbstractNamedSBase {
 	 * Sets the trigger of this Event to null.
 	 */
 	public void unsetTrigger() {
-		this.trigger.sbaseRemoved();
+		this.trigger.fireSBaseRemovedEvent();
 		this.trigger = null;
 	}
 
@@ -841,7 +852,7 @@ public class Event extends AbstractNamedSBase {
 	 * {@link SBaseChangedListener}s.
 	 */
 	public void unsetPriority() {
-		this.priority.sbaseRemoved();
+		this.priority.fireSBaseRemovedEvent();
 		this.priority = null;
 	}
 
@@ -851,7 +862,7 @@ public class Event extends AbstractNamedSBase {
 	public void unsetUseValuesFromTriggerTime() {
 		Boolean oldUseValuesFromTriggerTime = useValuesFromTriggerTime;
 		this.useValuesFromTriggerTime = null;
-		firePropertyChange("useValuesFromTriggerTime", oldUseValuesFromTriggerTime, null);
+		firePropertyChange(SBaseChangedEvent.useValuesFromTriggerTime, oldUseValuesFromTriggerTime, null);
 	}
 
 	/*
@@ -865,13 +876,13 @@ public class Event extends AbstractNamedSBase {
 
 		if (isSetUseValuesFromTriggerTime()
 				&& (((getLevel() == 2) && (getVersion() == 4)) || (getLevel() >= 3))) {
-			attributes.put("useValuesFromTriggerTime", Boolean
+			attributes.put(SBaseChangedEvent.useValuesFromTriggerTime, Boolean
 					.toString(getUseValuesFromTriggerTime()));
 		}
 
 		if (isSetTimeUnits()
 				&& ((getLevel() == 1) || ((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2))))) {
-			attributes.put("timeUnits", getTimeUnits());
+			attributes.put(SBaseChangedEvent.timeUnits, getTimeUnits());
 		}
 
 		return attributes;

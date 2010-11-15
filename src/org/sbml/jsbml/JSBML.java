@@ -30,9 +30,14 @@
 package org.sbml.jsbml;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.InvalidPropertiesFormatException;
+import java.util.Map;
+import java.util.Properties;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
@@ -68,7 +73,7 @@ public class JSBML {
 	 * first element, version in first element, class name of second element and
 	 * level in second argument.
 	 */
-	public static final String LEVEL_MISMATCH_MESSAGE = "Level mismatch between %s in L %d and %s in L %d";
+	public static final String LEVEL_MISMATCH_MSG = "Level mismatch between %s in L %d and %s in L %d";
 
 	/**
 	 * Message to display in cases that two objects do not have identical
@@ -76,29 +81,26 @@ public class JSBML {
 	 * name of first element, version in first element, class name of second
 	 * element and version in second argument.
 	 */
-	public static final String VERSION_MISMATCH_MESSAGE = "Version mismatch between %s in V %d and %s in V %d.";
+	public static final String VERSION_MISMATCH_MSG = "Version mismatch between %s in V %d and %s in V %d.";
 	/**
 	 * Message to indicate that a certain property cannot be set for the current level/version combination.
 	 */
 	public static final String PROPERTY_UNDEFINED_EXCEPTION_MSG = "Property %s is not defined for Level %s and Version %s";
-
 	/**
-	 * Creates an error message if the level fields of both elements are not
-	 * identical, or an empty {@link String} otherwise.
-	 * 
-	 * @param element1
-	 * @param element2
-	 * @return
+	 * Message to indicate that an invalid combination of the level and version
+	 * attribute has been set.
 	 */
-	public static String levelMismatchMessage(SBase element1, SBase element2) {
-		if (element1.getLevel() != element2.getLevel()) {
-			return String.format(VERSION_MISMATCH_MESSAGE, element1
-					.getElementName(), element1.getLevel(), element2
-					.getElementName(), element2.getLevel());
-		}
-		return "";
-	}
-	
+	public static final String UNDEFINED_LEVEL_VERSION_COMBINATION_MSG = "Undefined combination of Level %d and Version %d.";
+	/**
+	 * This indicates that the {@link Model} has not been set properly or that an element tries to access its containing model but this is not possible.
+	 */
+	public static final String UNDEFINED_MODEL_MSG = "Cannot access containing model.";
+	/**
+	 * This message indicates that a problem occurred but the current class
+	 * cannot give any more precise information about the reasons.
+	 */
+	public static final String UNDEFINED_PARSE_ERROR_MSG = "An error occur while creating a parser: %s.";
+
 	/**
 	 * 
 	 * @param <T>
@@ -110,6 +112,14 @@ public class JSBML {
 	public static <T extends SBase> void addAllOrReplace(SBase owner,
 			ListOf<T> origList, ListOf<T> newList,
 			ListOf.Type type) {
+		if (newList != null) {
+			if (owner.getLevel() != newList.getLevel()) {
+				throw new IllegalArgumentException(levelMismatchMessage(owner, newList));
+			}
+			if (owner.getVersion() != newList.getVersion()) {
+				throw new IllegalArgumentException(versionMismatchMessage(owner, newList));
+			}
+		}
 		if ((newList == null) || (origList != null)) {
 			origList.clear();
 			origList.addAll(newList);
@@ -119,22 +129,50 @@ public class JSBML {
 			owner.setThisAsParentSBMLObject(origList);
 		}
 	}
+	
+	/**
+	 * Tests for logical equality between two given {@link Unit.Kind} values.
+	 * 
+	 * @param uk1
+	 *            the first Unit.Kind
+	 * @param uk2
+	 *            the second Unit.Kind
+	 * @return true if the two <code>Unit.Kind</code> are equals, false
+	 *         otherwise.
+	 */
+	public static boolean equals(Unit.Kind uk1, Unit.Kind uk2) {
+		return uk1.equals(uk2);
+	}
 
 	/**
-	 * Creates an error message if the version fields of both elements are not
-	 * identical, or an empty {@link String} otherwise.
+	 * Converts an {@link ASTNode} formula to a text string using a specific
+	 * syntax for mathematical formulas.
+	 * <p>
+	 * The text-string form of mathematical formulas produced by <code><a
+	 * href='libsbml.html#formulaToString(org.sbml.libsbml.{@link ASTNode})'>
+	 * libsbml.formulaToString()</a></code> and read by <code><a href='libsbml.html#parseFormula(java.lang.String)'>
+	 * libsbml.parseFormula()</a></code> are simple C-inspired infix notation taken from SBML
+	 * Level&nbsp;1. A formula in this text-string form therefore can be handed
+	 * to a program that understands SBML Level&nbsp;1 mathematical expressions,
+	 * or used as part of a formula translation system. The syntax is described
+	 * in detail in the libsbml documentation for <a href=
+	 * "http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/ASTNode.html"
+	 * > ASTNode</a>.
+	 * <p>
 	 * 
-	 * @param element1
-	 * @param element2
-	 * @return
+	 * @param tree
+	 *            the root of the {@link ASTNode} formula expression tree
+	 *            <p>
+	 * @return the formula from the given AST as an SBML Level 1 text-string
+	 *         mathematical formula. NULL is returned if the given argument is
+	 *         NULL.
+	 *         <p>
+	 * @throws SBMLException
+	 *             In case the given {@link ASTNode} tree contains invalid
+	 *             nodes.
 	 */
-	public static String versionMismatchMessage(SBase element1, SBase element2) {
-		if (element1.getVersion() != element2.getVersion()) {
-			return String.format(VERSION_MISMATCH_MESSAGE, element1
-					.getElementName(), element1.getVersion(), element2
-					.getElementName(), element2.getVersion());
-		}
-		return "";
+	public static String formulaToString(ASTNode node) throws SBMLException {
+		return node.toFormula();
 	}
 
 	/**
@@ -201,6 +239,63 @@ public class JSBML {
 	}
 
 	/**
+	 * Creates an error message if the level fields of both elements are not
+	 * identical, or an empty {@link String} otherwise.
+	 * 
+	 * @param element1
+	 * @param element2
+	 * @return
+	 */
+	public static String levelMismatchMessage(SBase element1, SBase element2) {
+		if (element1.getLevel() != element2.getLevel()) {
+			return String.format(VERSION_MISMATCH_MSG, element1
+					.getElementName(), element1.getLevel(), element2
+					.getElementName(), element2.getLevel());
+		}
+		return "";
+	}
+
+	/**
+	 * Loads {@link Properties} from a configuration file with the given path
+	 * assuming that all values represent class names.
+	 * @param <T>
+	 * @param path
+	 * @param whereToPutProperties
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T extends Class<?>> void loadClasses(String path,
+			Map<String, T> whereToPutProperties) {
+		Properties p = new Properties();
+		try {
+			p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
+					path));
+			for (Object k : p.keySet()) {
+				String key = k.toString();
+				whereToPutProperties.put(key, (T) Class.forName(p.getProperty(key)));
+			}
+		} catch (InvalidPropertiesFormatException e) {
+			throw new IllegalArgumentException(String.format(
+					"The format of the file %s is incorrect.", path));
+		} catch (IOException e) {
+			throw new IllegalArgumentException(String.format(
+					"There was a problem opening the file %s.", path));
+		} catch (ClassNotFoundException e) {
+			throw new IllegalArgumentException(String.format(
+									"There was a problem loading the file %s: %s. Please make sure the resources directory is included in the Java class path.",
+									path, e.getMessage()));
+		}
+	}
+
+	/**
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		System.out.println(JSBML.forName("METER"));
+		System.out.println(JSBML.forName("test invalid"));
+	}
+
+	/**
 	 * Parses a text-string mathematical formula and returns a representation as
 	 * an Abstract Syntax Tree.
 	 * 
@@ -213,37 +308,6 @@ public class JSBML {
 	 */
 	public static ASTNode parseFormula(String formula) throws ParseException {
 		return ASTNode.parseFormula(formula);
-	}
-
-	/**
-	 * Converts an {@link ASTNode} formula to a text string using a specific
-	 * syntax for mathematical formulas.
-	 * <p>
-	 * The text-string form of mathematical formulas produced by <code><a
-	 * href='libsbml.html#formulaToString(org.sbml.libsbml.{@link ASTNode})'>
-	 * libsbml.formulaToString()</a></code> and read by <code><a href='libsbml.html#parseFormula(java.lang.String)'>
-	 * libsbml.parseFormula()</a></code> are simple C-inspired infix notation taken from SBML
-	 * Level&nbsp;1. A formula in this text-string form therefore can be handed
-	 * to a program that understands SBML Level&nbsp;1 mathematical expressions,
-	 * or used as part of a formula translation system. The syntax is described
-	 * in detail in the libsbml documentation for <a href=
-	 * "http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/ASTNode.html"
-	 * > ASTNode</a>.
-	 * <p>
-	 * 
-	 * @param tree
-	 *            the root of the {@link ASTNode} formula expression tree
-	 *            <p>
-	 * @return the formula from the given AST as an SBML Level 1 text-string
-	 *         mathematical formula. NULL is returned if the given argument is
-	 *         NULL.
-	 *         <p>
-	 * @throws SBMLException
-	 *             In case the given {@link ASTNode} tree contains invalid
-	 *             nodes.
-	 */
-	public static String formulaToString(ASTNode node) throws SBMLException {
-		return node.toFormula();
 	}
 
 	/**
@@ -317,17 +381,33 @@ public class JSBML {
 	}
 
 	/**
-	 * Tests for logical equality between two given {@link Unit.Kind} values.
+	 * Creates an error message if the version fields of both elements are not
+	 * identical, or an empty {@link String} otherwise.
 	 * 
-	 * @param uk1
-	 *            the first Unit.Kind
-	 * @param uk2
-	 *            the second Unit.Kind
-	 * @return true if the two <code>Unit.Kind</code> are equals, false
-	 *         otherwise.
+	 * @param element1
+	 * @param element2
+	 * @return
 	 */
-	public static boolean equals(Unit.Kind uk1, Unit.Kind uk2) {
-		return uk1.equals(uk2);
+	public static String versionMismatchMessage(SBase element1, SBase element2) {
+		if (element1.getVersion() != element2.getVersion()) {
+			return String.format(VERSION_MISMATCH_MSG, element1
+					.getElementName(), element1.getVersion(), element2
+					.getElementName(), element2.getVersion());
+		}
+		return "";
+	}
+	
+	/**
+	 * Creates an error message pointing out that the property of the given name is not defined
+	 * in the Level/Version combination of the given {@link SBase}.
+	 * 
+	 * @param property
+	 * @param sbase
+	 * @return
+	 */
+	public static String propertyUndefinedMessage(String property, SBase sbase) {
+		return String.format(PROPERTY_UNDEFINED_EXCEPTION_MSG, property,
+				Integer.valueOf(sbase.getLevel()), Integer.valueOf(sbase.getVersion()));
 	}
 
 	/**
@@ -377,15 +457,6 @@ public class JSBML {
 	public static String writeSBMLToString(SBMLDocument d)
 			throws XMLStreamException, SBMLException {
 		return SBMLWriter.writeSBMLToString(d);
-	}
-
-	/**
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		System.out.println(JSBML.forName("METER"));
-		System.out.println(JSBML.forName("test invalid"));
 	}
 
 }

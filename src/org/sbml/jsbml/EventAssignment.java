@@ -89,22 +89,23 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	/**
 	 * Sets the variableID of this EventAssignment to 'variable'. If 'variable'
 	 * doesn't match any id of Compartment , Species, SpeciesReference or
-	 * Parameter in Model, an IllegalArgumentException is thrown.
+	 * Parameter in Model, an {@link IllegalArgumentException} is thrown.
 	 * 
 	 * @param variable
+	 * @throws IllegalArgumentException
 	 */
 	public void checkAndSetVariable(String variable) {
 		Model m = getModel();
 		if (m != null) {
 			Variable nsb = getModel().findVariable(variable);
 			if (nsb == null) {
-				throw new IllegalArgumentException(
-						"Only the id of an existing Species, Compartments, Parameters, or SpeciesReferences allowed as variables");
+				throw new IllegalArgumentException(String.format(
+										NO_SUCH_VARIABLE_EXCEPTION_MSG,
+										m.getId(), variable));
 			}
 			setVariable(nsb);
 		} else {
-			throw new NullPointerException(
-					"Cannot find a model for this EventAssignment");
+			throw new NullPointerException(JSBML.UNDEFINED_MODEL_MSG);
 		}
 	}
 
@@ -208,7 +209,7 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	public void setVariable(String variable) {
 		String oldVariable = this.variableID;
 		this.variableID = variable;
-		firePropertyChange("variable", oldVariable, variable);
+		firePropertyChange(SBaseChangedEvent.variable, oldVariable, variable);
 	}
 
 	/*
@@ -217,17 +218,16 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	 */
 	public void setVariable(Variable variable) {
 		if (!variable.isConstant()) {
-			if ((2 < getLevel()) && (variable instanceof SpeciesReference)) {
-				throw new IllegalArgumentException(
-						"Cannot set a SpeciesReference as the Variable in an EventAssignment for SBML Level < 3");
+			if ((getLevel() < 3) && (variable instanceof SpeciesReference)) {
+				throw new IllegalArgumentException(String.format(
+						ILLEGAL_VARIABLE_EXCEPTION_MSG, variable.getId(),
+						getElementName()));
 			}
 			setVariable(variable.getId());
 		} else {
-			throw new IllegalArgumentException(
-					String.format(
-									"Cannot set the constant variable %s as the target of this %s.",
-									variable.getId(), getClass()
-											.getSimpleName()));
+			throw new IllegalArgumentException(String.format(
+					ILLEGAL_CONSTANT_VARIABLE_MSG, variable.getId(),
+					getElementName()));
 		}
 	}
 

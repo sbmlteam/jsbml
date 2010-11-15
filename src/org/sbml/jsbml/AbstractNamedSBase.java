@@ -286,7 +286,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.element.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
-		String property = getLevel() == 1 ? "name" : "id";
+		String property = getLevel() == 1 ? SBaseChangedEvent.name : SBaseChangedEvent.id;
 		String oldId = this.id;
 		if ((id == null) || (id.trim().length() == 0)) {
 			this.id = null;
@@ -314,7 +314,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 			setId(name);
 		} else {
 			// else part to avoid calling this method twice.
-			firePropertyChange("name", oldName, name);
+			firePropertyChange(SBaseChangedEvent.name, oldName, name);
 		}
 	}
 

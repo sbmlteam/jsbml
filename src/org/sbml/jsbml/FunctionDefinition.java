@@ -52,6 +52,11 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 */
 	private static final long serialVersionUID = 5103621145642898899L;
 	/**
+	 * Error message to indicate that an incorrect {@link Type} has been passed
+	 * to a method.
+	 */
+	private static final String ILLEGAL_ASTNODE_TYPE_MSG = "Math element is expected to be of type %s, but given is %s.";
+	/**
 	 * Represents the "id" attribute of a functionDefinition element.
 	 */
 	private String id;
@@ -113,8 +118,9 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	public FunctionDefinition(String id, ASTNode lambda, int level, int version) {
 		super(lambda, level, version);
 		if (!lambda.isLambda()) {
-			throw new IllegalArgumentException(
-					"Math element must be of type Lambda.");
+			throw new IllegalArgumentException(String.format(
+									ILLEGAL_ASTNODE_TYPE_MSG,
+									ASTNode.Type.LAMBDA, lambda.getType()));
 		}
 		if (id != null) {
 			this.id = new String(id);
@@ -314,8 +320,9 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	public void setFormula(String formula) throws ParseException {
 		ASTNode math = ASTNode.parseFormula(formula);
 		if (!math.isLambda()) {
-			throw new IllegalArgumentException(
-					"Math element must be of type Lambda.");
+			throw new IllegalArgumentException(String.format(
+					ILLEGAL_ASTNODE_TYPE_MSG, ASTNode.Type.LAMBDA, math
+							.getType()));
 		}
 		setMath(math);
 	}
@@ -328,7 +335,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	public void setId(String id) {
 		String oldID = this.id;
 		this.id = id;
-		firePropertyChange("id", oldID, id);
+		firePropertyChange(SBaseChangedEvent.id, oldID, id);
 	}
 
 	/*
@@ -339,8 +346,9 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	@Override
 	public void setMath(ASTNode math) {
 		if (!math.isLambda()) {
-			throw new IllegalArgumentException(
-					"math element must be of type Lambda");
+			throw new IllegalArgumentException(String.format(
+					ILLEGAL_ASTNODE_TYPE_MSG, ASTNode.Type.LAMBDA, math
+							.getType()));
 		}
 		super.setMath(math);
 	}
@@ -353,7 +361,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	public void setName(String name) {
 		String oldName = this.name;
 		this.name = name;
-		firePropertyChange("name", oldName, name);
+		firePropertyChange(SBaseChangedEvent.name, oldName, name);
 	}
 
 	/*

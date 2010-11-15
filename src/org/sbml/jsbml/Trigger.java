@@ -220,8 +220,8 @@ public class Trigger extends AbstractMathContainer {
 	 */
 	public void setInitialValue(boolean initialValue) {
 		if (getLevel() < 3) {
-			throw new IllegalArgumentException(
-					"Cannot set initialValue property for Trigger with Level < 3.");
+			throw new IllegalArgumentException(String.format(
+					"Cannot set initialValue property to %s for Trigger with Level < 3.", initialValue));
 		}
 		this.initialValue = Boolean.valueOf(initialValue);
 	}
@@ -232,8 +232,8 @@ public class Trigger extends AbstractMathContainer {
 	 */
 	public void setPersistent(boolean persistent) {
 		if (getLevel() < 3) {
-			throw new IllegalArgumentException(
-					"Cannot set persistent property for Trigger with Level < 3.");
+			throw new IllegalArgumentException(String.format(
+					"Cannot set persistent property to %s for Trigger with Level < 3.", persistent));
 		}
 		this.persistent = Boolean.valueOf(persistent);
 	}

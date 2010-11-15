@@ -1723,8 +1723,8 @@ public class Model extends AbstractNamedSBase {
 	 *         set.
 	 */
 	public ListOf<Compartment> getListOfCompartments() {
-		if (!isSetListOfCompartments()) {
-			initListOf(listOfCompartments = new ListOf<Compartment>(getLevel(),
+		if (listOfCompartments == null) {
+			listOfCompartments = initListOf(new ListOf<Compartment>(getLevel(),
 					getVersion()), ListOf.Type.listOfCompartments);
 		}
 		return listOfCompartments;
@@ -1737,8 +1737,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public ListOf<CompartmentType> getListOfCompartmentTypes() {
-		if (!isSetListOfCompartmentTypes()) {
-			initListOf(listOfCompartmentTypes = new ListOf<CompartmentType>(
+		if (listOfCompartmentTypes == null) {
+			listOfCompartmentTypes = initListOf(new ListOf<CompartmentType>(
 					getLevel(), getVersion()),
 					ListOf.Type.listOfCompartmentTypes);
 		}
@@ -1750,8 +1750,8 @@ public class Model extends AbstractNamedSBase {
 	 *         set.
 	 */
 	public ListOf<Constraint> getListOfConstraints() {
-		if (!isSetListOfConstraints()) {
-			initListOf(listOfConstraints = new ListOf<Constraint>(getLevel(),
+		if (listOfConstraints == null) {
+			listOfConstraints = initListOf(new ListOf<Constraint>(getLevel(),
 					getVersion()), ListOf.Type.listOfConstraints);
 		}
 		return listOfConstraints;
@@ -1762,8 +1762,8 @@ public class Model extends AbstractNamedSBase {
 	 * @return the listOfEvents of this Model. Can be null if it is not set.
 	 */
 	public ListOf<Event> getListOfEvents() {
-		if (!isSetListOfEvents()) {
-			initListOf(listOfEvents = new ListOf<Event>(getLevel(),
+		if (listOfEvents == null) {
+			listOfEvents = initListOf(new ListOf<Event>(getLevel(),
 					getVersion()), ListOf.Type.listOfEvents);
 		}
 		return listOfEvents;
@@ -1775,10 +1775,9 @@ public class Model extends AbstractNamedSBase {
 	 *         not set.
 	 */
 	public ListOf<FunctionDefinition> getListOfFunctionDefinitions() {
-		if (!isSetListOfFunctionDefinitions()) {
-			initListOf(
-					listOfFunctionDefinitions = new ListOf<FunctionDefinition>(
-							getLevel(), getVersion()),
+		if (listOfFunctionDefinitions == null) {
+			listOfFunctionDefinitions = initListOf(
+					new ListOf<FunctionDefinition>(getLevel(), getVersion()),
 					ListOf.Type.listOfFunctionDefinitions);
 		}
 		return listOfFunctionDefinitions;
@@ -1789,10 +1788,9 @@ public class Model extends AbstractNamedSBase {
 	 *         not set.
 	 */
 	public ListOf<InitialAssignment> getListOfInitialAssignments() {
-		if (!isSetListOfInitialAssignments()) {
-			initListOf(
-					listOfInitialAssignments = new ListOf<InitialAssignment>(
-							getLevel(), getVersion()),
+		if (listOfInitialAssignments == null) {
+			listOfInitialAssignments = initListOf(
+					new ListOf<InitialAssignment>(getLevel(), getVersion()),
 					ListOf.Type.listOfInitialAssignments);
 		}
 		return listOfInitialAssignments;
@@ -1803,8 +1801,8 @@ public class Model extends AbstractNamedSBase {
 	 * @return the listOfParameters of this Model. Can be null if it is not set.
 	 */
 	public ListOf<Parameter> getListOfParameters() {
-		if (!isSetListOfParameters()) {
-			initListOf(listOfParameters = new ListOf<Parameter>(getLevel(),
+		if (listOfParameters == null) {
+			listOfParameters = initListOf(new ListOf<Parameter>(getLevel(),
 					getVersion()), ListOf.Type.listOfParameters);
 		}
 		return listOfParameters;
@@ -1815,8 +1813,8 @@ public class Model extends AbstractNamedSBase {
 	 * @return the listOfReactions of this Model. Can be null if it is not set.
 	 */
 	public ListOf<Reaction> getListOfReactions() {
-		if (!isSetListOfReactions()) {
-			initListOf(listOfReactions = new ListOf<Reaction>(getLevel(),
+		if (listOfReactions == null) {
+			listOfReactions = initListOf(new ListOf<Reaction>(getLevel(),
 					getVersion()), ListOf.Type.listOfReactions);
 		}
 		return listOfReactions;
@@ -1827,9 +1825,9 @@ public class Model extends AbstractNamedSBase {
 	 * @return the listOfRules of this Model. Can be null if it is not set.
 	 */
 	public ListOf<Rule> getListOfRules() {
-		if (!isSetListOfRules()) {
-			initListOf(
-					listOfRules = new ListOf<Rule>(getLevel(), getVersion()),
+		if (listOfRules == null) {
+			listOfRules = initListOf(
+					new ListOf<Rule>(getLevel(), getVersion()),
 					ListOf.Type.listOfRules);
 		}
 		return listOfRules;
@@ -1840,8 +1838,8 @@ public class Model extends AbstractNamedSBase {
 	 * @return the listOfSpecies of this Model. Can be null if it is not set.
 	 */
 	public ListOf<Species> getListOfSpecies() {
-		if (!isSetListOfSpecies()) {
-			initListOf(listOfSpecies = new ListOf<Species>(getLevel(),
+		if (listOfSpecies == null) {
+			listOfSpecies = initListOf(new ListOf<Species>(getLevel(),
 					getVersion()), ListOf.Type.listOfSpecies);
 		}
 		return listOfSpecies;
@@ -1854,8 +1852,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public ListOf<SpeciesType> getListOfSpeciesTypes() {
-		if (!isSetListOfSpeciesTypes()) {
-			initListOf(listOfSpeciesTypes = new ListOf<SpeciesType>(getLevel(),
+		if (listOfSpeciesTypes == null) {
+			listOfSpeciesTypes = initListOf(new ListOf<SpeciesType>(getLevel(),
 					getVersion()), ListOf.Type.listOfSpeciesTypes);
 		}
 		return listOfSpeciesTypes;
@@ -1867,11 +1865,8 @@ public class Model extends AbstractNamedSBase {
 	 *         set.
 	 */
 	public ListOf<UnitDefinition> getListOfUnitDefinitions() {
-
-		// System.out.println("getListOfUnitDefinitions called !!");
-
-		if (!isSetListOfUnitDefinitions()) {
-			initListOf(listOfUnitDefinitions = new ListOf<UnitDefinition>(
+		if (listOfUnitDefinitions == null) {
+			listOfUnitDefinitions = initListOf(new ListOf<UnitDefinition>(
 					getLevel(), getVersion()),
 					ListOf.Type.listOfUnitDefinitions);
 		}
@@ -3137,7 +3132,7 @@ public class Model extends AbstractNamedSBase {
 	public void setAreaUnits(String areaUnitsID) {
 		String oldAreaUnitsID = this.areaUnitsID;
 		this.areaUnitsID = areaUnitsID;
-		firePropertyChange("areaUnits", oldAreaUnitsID, areaUnitsID);
+		firePropertyChange(SBaseChangedEvent.areaUnits, oldAreaUnitsID, areaUnitsID);
 	}
 
 	/**
@@ -3169,7 +3164,7 @@ public class Model extends AbstractNamedSBase {
 	public void setConversionFactor(String conversionFactorID) {
 		String oldConversionFactorID = this.conversionFactorID;
 		this.conversionFactorID = conversionFactorID;
-		firePropertyChange("conversionFactor", oldConversionFactorID, conversionFactorID);
+		firePropertyChange(SBaseChangedEvent.conversionFactor, oldConversionFactorID, conversionFactorID);
 	}
 
 	/**
@@ -3180,7 +3175,7 @@ public class Model extends AbstractNamedSBase {
 	public void setExtentUnits(String extentUnitsID) {
 		String oldExtentUnits = this.extentUnitsID;
 		this.extentUnitsID = extentUnitsID;
-		firePropertyChange("extentUnits", oldExtentUnits, extentUnitsID);
+		firePropertyChange(SBaseChangedEvent.extentUnits, oldExtentUnits, extentUnitsID);
 	}
 
 	/**
@@ -3201,7 +3196,7 @@ public class Model extends AbstractNamedSBase {
 	public void setLengthUnits(String lengthUnitsID) {
 		String oldLengthUnits = this.lengthUnitsID;
 		this.lengthUnitsID = lengthUnitsID;
-		firePropertyChange("lengthUnits", oldLengthUnits, lengthUnitsID);
+		firePropertyChange(SBaseChangedEvent.lengthUnits, oldLengthUnits, lengthUnitsID);
 	}
 
 	/**
@@ -3375,7 +3370,7 @@ public class Model extends AbstractNamedSBase {
 	public void setSubstanceUnits(String substanceUnitsID) {
 		String oldSubstanceUnitsID = this.substanceUnitsID;
 		this.substanceUnitsID = substanceUnitsID;
-		firePropertyChange("substanceUnits", oldSubstanceUnitsID, substanceUnitsID);
+		firePropertyChange(SBaseChangedEvent.substanceUnits, oldSubstanceUnitsID, substanceUnitsID);
 	}
 
 	/**
@@ -3396,7 +3391,7 @@ public class Model extends AbstractNamedSBase {
 	public void setTimeUnits(String timeUnitsID) {
 		String oldTimeUnitsID = this.timeUnitsID;
 		this.timeUnitsID = timeUnitsID;
-		firePropertyChange("timeUnits", oldTimeUnitsID, timeUnitsID);
+		firePropertyChange(SBaseChangedEvent.timeUnits, oldTimeUnitsID, timeUnitsID);
 	}
 
 	/**
@@ -3417,7 +3412,7 @@ public class Model extends AbstractNamedSBase {
 	public void setVolumeUnits(String volumeUnitsID) {
 		String oldVolumeUnitsID = this.volumeUnitsID;
 		this.volumeUnitsID = volumeUnitsID;
-		firePropertyChange("volumeUnits", oldVolumeUnitsID, this.volumeUnitsID);
+		firePropertyChange(SBaseChangedEvent.volumeUnits, oldVolumeUnitsID, this.volumeUnitsID);
 	}
 
 	/**

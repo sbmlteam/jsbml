@@ -533,8 +533,8 @@ public class SpeciesExtension extends Species {
 	 * @see org.sbml.jsbml.AbstractSBase#sbaseAdded()
 	 */
 	@Override
-	public void sbaseAdded() {
-		species.sbaseAdded();
+	public void fireSBaseAddedEvent() {
+		species.fireSBaseAddedEvent();
 	}
 
 	/*
@@ -543,8 +543,8 @@ public class SpeciesExtension extends Species {
 	 * @see org.sbml.jsbml.AbstractSBase#sbaseRemoved()
 	 */
 	@Override
-	public void sbaseRemoved() {
-		species.sbaseRemoved();
+	public void fireSBaseRemovedEvent() {
+		species.fireSBaseRemovedEvent();
 	}
 
 	/*
