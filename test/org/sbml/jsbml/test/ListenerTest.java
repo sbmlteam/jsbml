@@ -106,7 +106,7 @@ public class ListenerTest implements SBaseChangedListener {
 	 * SBaseChangedEvent)
 	 */
 	public void stateChanged(SBaseChangedEvent ev) {
-		System.out.println(ev.toString());
+		System.out.printf("Change:\t%s\n", ev.toString());
 	}
 
 }
