@@ -221,8 +221,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	public void setSpecies(String species) {
 		if (checkIdentifier(species)) {
 			String oldSpecies = this.speciesID;
-			speciesID = (species != null) && (species.trim().length() == 0) ? species
-					: null;
+			speciesID = species;
 			firePropertyChange(SBaseChangedEvent.species, oldSpecies, speciesID);
 		}
 	}

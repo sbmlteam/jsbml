@@ -143,8 +143,16 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public AbstractSBase(int level, int version) {
 		this();
-		this.level = Integer.valueOf(level);
-		this.version = Integer.valueOf(version);
+		if ((0 < level) && (level < 4)) {
+			this.level = Integer.valueOf(level);
+		} else {
+			this.level = null;
+		}
+		if ((0 < version)) {
+			this.version = Integer.valueOf(version);
+		} else {
+			this.version = null;
+		}
 		if (!hasValidLevelVersionNamespaceCombination()) {
 			throw new IllegalArgumentException(String.format(
 					JSBML.UNDEFINED_LEVEL_VERSION_COMBINATION_MSG,
@@ -158,12 +166,8 @@ public abstract class AbstractSBase implements SBase {
 	 * @param sb
 	 */
 	public AbstractSBase(SBase sb) {
-		this();
+		this(sb.getLevel(), sb.getVersion());
 		this.parentSBMLObject = sb.getParentSBMLObject();
-		if (sb.isSetLevel() && sb.isSetVersion()) {
-			setLevel(sb.getLevel());
-			setVersion(sb.getVersion());
-		}
 		if (sb.isSetSBOTerm()) {
 			this.sboTerm = sb.getSBOTerm();
 		}
