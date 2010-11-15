@@ -269,7 +269,7 @@ public abstract class AbstractSBase implements SBase {
 		if (isSetNotes()) {
 			String oldNotes = new String(notes);
 			this.notes = this.notes.trim();
-			boolean body = false;
+			boolean body = this.notes.toLowerCase().trim().startsWith("<body");
 			if (this.notes.endsWith("\n")) {
 				this.notes = this.notes.substring(0, this.notes.length() - 2);
 			}
@@ -979,7 +979,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#setNotes(java.lang.String)
 	 */
 	public void setNotes(String notes) {
-		String oldNotes = new String(this.notes);
+		String oldNotes = this.notes;
 		if (isSetNotes()) {
 			this.notes += notes;
 		} else {
