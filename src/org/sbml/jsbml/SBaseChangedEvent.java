@@ -133,10 +133,9 @@ public class SBaseChangedEvent extends EventObject {
 	 * @param sbaseChangedEvent
 	 */
 	public SBaseChangedEvent(SBaseChangedEvent sbaseChangedEvent) {
-		super(sbaseChangedEvent.getSource());
-		this.propertyName = sbaseChangedEvent.getPropertyName();
-		this.oldValue = sbaseChangedEvent.getOldValue();
-		this.newValue = sbaseChangedEvent.getNewValue();
+		this(sbaseChangedEvent.getSource(),
+				sbaseChangedEvent.getPropertyName(), sbaseChangedEvent
+						.getOldValue(), sbaseChangedEvent.getNewValue());
 	}
 
 	/*

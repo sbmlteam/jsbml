@@ -210,7 +210,7 @@ public abstract class AbstractSBase implements SBase {
 	}
 
 	/**
-	 * Recursively adds a listener to the SBase object and all of its
+	 * Recursively adds a listener to the {@link SBase} object and all of its
 	 * sub-elements. From now on changes will be saved.
 	 * 
 	 * @param l
