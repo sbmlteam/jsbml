@@ -255,7 +255,8 @@ public class History implements Serializable {
 					equal &= getModifiedDate().equals(mh.getModifiedDate());
 				}
 				equal &= isSetCreatedDate() == mh.isSetCreatedDate();
-				if (equal) {
+				// isSetCreatedDate() may still be null.
+				if (equal && isSetCreatedDate()) {
 					equal &= getCreatedDate().equals(mh.getCreatedDate());
 				}
 			}
