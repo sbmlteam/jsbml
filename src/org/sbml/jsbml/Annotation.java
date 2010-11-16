@@ -60,7 +60,7 @@ import org.w3c.dom.Node;
  * @composed 0..* MIRIAM 1 CVTerm
  * @composed 0..1 history 1 History
  */
-public class Annotation implements Serializable {
+public class Annotation implements Cloneable, Serializable {
 
 	/**
 	 * Generated serial version identifier.
@@ -83,16 +83,16 @@ public class Annotation implements Serializable {
 	private String about;
 
 	/**
-	 * contains all the namespaces of the matching XML otherAnnotation node
+	 * contains all the name spaces of the matching XML otherAnnotation node
 	 */
-	private HashMap<String, String> annotationNamespaces = new HashMap<String, String>();
+	private Map<String, String> annotationNamespaces;
 
 	/**
-	 * contains all the otherAnnotation extension objects with the namespace of
+	 * contains all the otherAnnotation extension objects with the name space of
 	 * their package.
 	 */
-	private HashMap<String, Annotation> extensions = new HashMap<String, Annotation>();
-
+	private Map<String, Annotation> extensions;
+	
 	/**
 	 * The ModelHistory which represents the history section of a RDF
 	 * otherAnnotation
@@ -111,9 +111,9 @@ public class Annotation implements Serializable {
 	private StringBuilder otherAnnotation;
 
 	/**
-	 * contains all the namespaces of the matching XML RDF otherAnnotation node
+	 * contains all the name spaces of the matching XML RDF otherAnnotation node
 	 */
-	private HashMap<String, String> rdfAnnotationNamespaces = new HashMap<String, String>();
+	private Map<String, String> rdfAnnotationNamespaces;
 
 	/**
 	 * Creates an Annotation instance. By default, the modelHistory and
@@ -133,23 +133,49 @@ public class Annotation implements Serializable {
 	}
 
 	/**
+	 * Clone constructor.
 	 * 
 	 * @param annotation
 	 */
 	public Annotation(Annotation annotation) {
 		this();
-		// TODO: We need a clone constructor for annotations!
+		copy(annotation.getAnnotationNamespaces(), this.annotationNamespaces);
+		copy(annotation.getRDFAnnotationNamespaces(), this.rdfAnnotationNamespaces);
+		for (Map.Entry<String, Annotation> entry : annotation.extensions.entrySet()) {
+			this.extensions.put(new String(entry.getKey()), entry.getValue().clone());
+		}
+		this.otherAnnotation = new StringBuilder(annotation.otherAnnotation.toString());
+		for (CVTerm term : annotation.getListOfCVTerms()) {
+			this.listOfCVTerms.add(term.clone());
+		}
+		this.history = annotation.history.clone();
+	}
+	
+	/**
+	 * Helper to copy two {@link Map} instances.
+	 * 
+	 * @param origin
+	 *            copy from here
+	 * @param target
+	 *            copy everything into this target {@link Map}.
+	 */
+	private static final void copy(Map<String, String> origin,
+			Map<String, String> target) {
+		for (Map.Entry<String, String> entry : origin.entrySet()) {
+			target.put(new String(entry.getKey().toString()), 
+					   new String(entry.getValue().toString()));
+		}
 	}
 
 	/**
-	 * Creates an Annotation instance from attributes. By default, the
-	 * modelHistory and otherAnnotation Strings are null. The list of CVTerms is
-	 * empty. The HashMaps annotationNamespaces, rdfAnnotationNamespaces and
+	 * Creates an {@link Annotation} instance from attributes. By default, the
+	 * {@link History} and otherAnnotation Strings are null. The list of CVTerms is
+	 * empty. The {@link Map}s annotationNamespaces, rdfAnnotationNamespaces and
 	 * extensions are empty.
 	 * 
 	 * @param attributes
 	 */
-	public Annotation(HashMap<String, String> attributes) {
+	public Annotation(Map<String, String> attributes) {
 		this.annotationNamespaces = new HashMap<String, String>();
 		this.rdfAnnotationNamespaces = new HashMap<String, String>();
 		this.extensions = new HashMap<String, Annotation>();
@@ -176,8 +202,8 @@ public class Annotation implements Serializable {
 	}
 
 	/**
-	 * Creates an Annotation instance from otherAnnotation. By default, the
-	 * modelHistory is null, the list of CVTerms is empty. The HashMaps
+	 * Creates an {@link Annotation} instance from otherAnnotation. By default, the
+	 * {@link History} is null, the list of CVTerms is empty. The {@link Map}s
 	 * annotationNamespaces, rdfAnnotationNamespaces and extensions are empty.
 	 * 
 	 * @param otherAnnotation
@@ -193,7 +219,7 @@ public class Annotation implements Serializable {
 
 	/**
 	 * Creates an Annotation instance from otherAnnotation and cvTerms. By
-	 * default, the modelHistory is null. The HashMaps annotationNamespaces,
+	 * default, the {@link History} is null. The {@link Map}s annotationNamespaces,
 	 * rdfAnnotationNamespaces and extensions are empty.
 	 * 
 	 * @param otherAnnotation
@@ -248,7 +274,7 @@ public class Annotation implements Serializable {
 	}
 
 	/**
-	 * adds a namespace to the rdfAnnotationNamespaces map of this object.
+	 * adds a name space to the rdfAnnotationNamespaces map of this object.
 	 * 
 	 * @param namespaceName
 	 * @param prefix
@@ -501,7 +527,7 @@ public class Annotation implements Serializable {
 	 * @return the map containing the otherAnnotation attributes of this
 	 *         Annotation
 	 */
-	public HashMap<String, String> getAnnotationAttributes() {
+	public Map<String, String> getAnnotationAttributes() {
 		return annotationNamespaces;
 	}
 
@@ -517,7 +543,7 @@ public class Annotation implements Serializable {
 	 * 
 	 * @return the annotationNamespace map of this object.
 	 */
-	public HashMap<String, String> getAnnotationNamespaces() {
+	public Map<String, String> getAnnotationNamespaces() {
 		return annotationNamespaces;
 	}
 
@@ -585,7 +611,7 @@ public class Annotation implements Serializable {
 	 * 
 	 * @return the rdfAnnotationNamespaces map of this object.
 	 */
-	public HashMap<String, String> getRDFAnnotationNamespaces() {
+	public Map<String, String> getRDFAnnotationNamespaces() {
 		return rdfAnnotationNamespaces;
 	}
 
@@ -603,6 +629,14 @@ public class Annotation implements Serializable {
       this.otherAnnotation.insert(offset, annotation);
     }
   }
+
+	/**
+	 * Check whether the 'about' element has been initialized.
+	 * @return
+	 */
+	public boolean isSetAbout() {
+		return about != null;
+	}
 
 	/**
 	 * Checks if the Annotation is initialised. An Annotation is initialised if
@@ -789,7 +823,7 @@ public class Annotation implements Serializable {
 		}
 		return buffer.toString();
 	}
-
+	
 	/**
 	 * set the otherAnnotation String to null
 	 */
@@ -798,7 +832,7 @@ public class Annotation implements Serializable {
 			otherAnnotation = null;
 		}
 	}
-	
+
 	/**
 	 * clear the list of CVTerms
 	 */

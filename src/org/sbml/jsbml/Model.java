@@ -2496,7 +2496,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id is not null.
 	 */
 	public boolean isSetAreaUnitsInstance() {
-		return getUnitDefinition(this.areaUnitsID) != null;
+		return isSetListOfUnitDefinitions() && (getUnitDefinition(this.areaUnitsID) != null);
 	}
 
 	/**
@@ -2530,7 +2530,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id is not null.
 	 */
 	public boolean isSetExtentUnitsInstance() {
-		return getUnitDefinition(this.extentUnitsID) != null;
+		return isSetListOfUnitDefinitions() && (getUnitDefinition(this.extentUnitsID) != null);
 	}
 
 	/**
@@ -2547,7 +2547,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id is not null.
 	 */
 	public boolean isSetLengthUnitsInstance() {
-		return getUnitDefinition(this.lengthUnitsID) != null;
+		return isSetListOfUnitDefinitions() && (getUnitDefinition(this.lengthUnitsID) != null);
 	}
 
 	/**
@@ -2689,7 +2689,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id is not null.
 	 */
 	public boolean isSetSubstanceUnitsInstance() {
-		return getUnitDefinition(this.substanceUnitsID) != null;
+		return isSetListOfUnitDefinitions() && (getUnitDefinition(this.substanceUnitsID) != null);
 	}
 
 	/**
@@ -2706,7 +2706,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id is not null.
 	 */
 	public boolean isSetTimeUnitsInstance() {
-		return getUnitDefinition(this.timeUnitsID) != null;
+		return isSetListOfUnitDefinitions() && (getUnitDefinition(this.timeUnitsID) != null);
 	}
 
 	/**
@@ -2723,7 +2723,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id is not null.
 	 */
 	public boolean isSetVolumeUnitsInstance() {
-		return getUnitDefinition(this.volumeUnitsID) != null;
+		return isSetListOfUnitDefinitions() && (getUnitDefinition(this.volumeUnitsID) != null);
 	}
 
 	/*
