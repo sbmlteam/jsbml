@@ -269,9 +269,9 @@ public class JSBML {
 		try {
 			p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
 					path));
-			for (Object k : p.keySet()) {
-				String key = k.toString();
-				whereToPutProperties.put(key, (T) Class.forName(p.getProperty(key)));
+			for (Map.Entry<Object, Object> entry : p.entrySet()) {
+				whereToPutProperties.put(entry.getKey().toString(), (T) Class
+						.forName(entry.getValue().toString()));
 			}
 		} catch (InvalidPropertiesFormatException e) {
 			throw new IllegalArgumentException(String.format(

@@ -789,7 +789,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#isSetAnnotation()
 	 */
 	public boolean isSetAnnotation() {
-		return annotation != null ? annotation.isSetAnnotation() : false;
+		return annotation != null;
 	}
 
 	/*

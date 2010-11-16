@@ -30,6 +30,7 @@
 package org.sbml.jsbml;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,7 +44,7 @@ import org.w3c.util.DateParser;
  * @author Andreas Dr&auml;ger
  * 
  */
-public class History implements Serializable {
+public class History implements Cloneable, Serializable {
 	/**
 	 * Generated serial version identifier.
 	 */
@@ -86,15 +87,16 @@ public class History implements Serializable {
 		listOfModelCreators.addAll(modelHistory.getListCreators());
 		listOfModification = new LinkedList<Date>();
 		listOfModification.addAll(modelHistory.getListModifiedDates());
+		Calendar calendar = Calendar.getInstance();
 		if (modelHistory.isSetCreatedDate()) {
-			creation = new Date();
-			creation = modelHistory.getCreatedDate();// .clone();
+			calendar.setTime(modelHistory.getCreatedDate());
+			creation = calendar.getTime();
 		} else {
 			creation = null;
 		}
 		if (modelHistory.isSetModifiedDate()) {
-			modified = new Date();
-			modified = modelHistory.getModifiedDate();// .clone();
+			calendar.setTime(modelHistory.getModifiedDate());
+			modified = calendar.getTime();
 		} else {
 			modified = null;
 		}

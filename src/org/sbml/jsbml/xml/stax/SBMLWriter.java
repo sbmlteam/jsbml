@@ -46,6 +46,7 @@ import java.util.InvalidPropertiesFormatException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -525,7 +526,7 @@ public class SBMLWriter {
 			StringBuffer annotationBeginning = StringTools.concat(whiteSpaces,
 					"<annotation");
 
-			HashMap<String, String> otherNamespaces = annotation
+			Map<String, String> otherNamespaces = annotation
 					.getAnnotationNamespaces();
 			Iterator<Entry<String, String>> it = otherNamespaces.entrySet()
 					.iterator();
@@ -565,8 +566,13 @@ public class SBMLWriter {
 
 		// if the given SBase is not a model and the level is smaller than 3,
 		// no history can be written.
-		if ((annotation.isSetHistory() && ((sbase.getLevel() > 3) || (sbase instanceof Model)))
+		// Annotation cannot be written without metaid tag.
+		if (sbase.isSetMetaId() && (annotation.isSetHistory() && ((sbase.getLevel() >= 3) || (sbase instanceof Model)))
 				|| annotation.getListOfCVTerms().size() > 0) {
+			if (!annotation.isSetAbout()) {
+				// add required missing tag
+				annotation.setAbout("#" + sbase.getMetaId());
+			}
 			writeRDFAnnotation(annotation, annotationElement, writer,
 					indent + 2);
 		}
@@ -588,13 +594,12 @@ public class SBMLWriter {
 	 * @throws XMLStreamException
 	 */
 	private static void writeCVTerms(List<CVTerm> listOfCVTerms,
-			HashMap<String, String> rdfNamespaces, XMLStreamWriter writer,
+			Map<String, String> rdfNamespaces, XMLStreamWriter writer,
 			int indent) throws XMLStreamException {
 		String rdfPrefix = rdfNamespaces
 				.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 		String whiteSpace = createIndent(indent);
 		if (listOfCVTerms.size() > 0) {
-
 			for (int i = 0; i < listOfCVTerms.size(); i++) {
 				CVTerm cvTerm = listOfCVTerms.get(i);
 				String namespaceURI = null;
@@ -664,7 +669,7 @@ public class SBMLWriter {
 	 * @throws XMLStreamException
 	 */
 	private static void writeHistory(History history,
-			HashMap<String, String> rdfNamespaces, XMLStreamWriter writer,
+			Map<String, String> rdfNamespaces, XMLStreamWriter writer,
 			int indent) throws XMLStreamException {
 		String whiteSpace = createIndent(indent);
 		String rdfPrefix = rdfNamespaces
@@ -947,7 +952,7 @@ public class SBMLWriter {
 		SMOutputElement rdfElement = annotationElement.addElement(namespace,
 				"RDF");
 
-		HashMap<String, String> rdfNamespaces = annotation
+		Map<String, String> rdfNamespaces = annotation
 				.getRDFAnnotationNamespaces();
 		Iterator<Entry<String, String>> it = rdfNamespaces.entrySet()
 				.iterator();

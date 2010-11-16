@@ -71,15 +71,27 @@ public class JTreeOfSBML extends JDialog {
 		}
 	}
 
+	private SBMLDocument createDefaultDocument() {
+		SBMLDocument doc = new SBMLDocument(2, 4);
+		Model m = doc.createModel("untitled");
+		m.createSpecies("s1");
+		return doc;
+	}
+	
 	/**
 	 * artificial model for testing.
 	 */
 	public JTreeOfSBML() {
 		super();
-		SBMLDocument doc = new SBMLDocument(2, 4);
-		Model m = doc.createModel("untitled");
-		m.createSpecies("s1");
-
+		showGUI(createDefaultDocument());
+	}
+	
+	/**
+	 * 
+	 * @param doc
+	 */
+	public JTreeOfSBML(SBMLDocument doc) {
+		super();
 		showGUI(doc);
 	}
 

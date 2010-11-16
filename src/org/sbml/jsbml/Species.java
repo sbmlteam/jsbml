@@ -971,7 +971,9 @@ public class Species extends Symbol {
 			}
 		}
 		if (getLevel() < 3) {
-			attributes.put("charge", Integer.toString(getCharge()));
+			if (isSetCharge) {
+				attributes.put("charge", Integer.toString(getCharge()));
+			}
 		}
 		if (getLevel() == 2) {
 			if ((getVersion() == 1) || (getVersion() == 2)) {

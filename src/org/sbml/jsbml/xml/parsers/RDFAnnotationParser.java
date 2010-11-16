@@ -65,7 +65,7 @@ public class RDFAnnotationParser implements ReadingParser{
 	}
 
 	/**
-	 * A map containing the hitory of the previous element within a RDF node this parser has been read.
+	 * A map containing the history of the previous element within a RDF node this parser has been read.
 	 */
 	private HashMap<String, String> previousElements = new HashMap<String, String>();
 

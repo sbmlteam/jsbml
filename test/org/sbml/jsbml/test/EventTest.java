@@ -9,9 +9,6 @@ import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.SBaseChangedEvent;
-import org.sbml.jsbml.SBaseChangedListener;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
@@ -20,7 +17,7 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  * @author Andreas Dr&auml;ger
  * @date 2010-11-12
  */
-public class EventTest implements SBaseChangedListener {
+public class EventTest extends SimpleSBaseChangeListener {
 
 	/**
 	 * 
@@ -56,31 +53,5 @@ public class EventTest implements SBaseChangedListener {
 	public static void main(String[] args) throws ParseException,
 			XMLStreamException, SBMLException {
 		new EventTest();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBaseChangedListener#sbaseAdded(org.sbml.jsbml.SBase)
-	 */
-	public void sbaseAdded(SBase sb) {
-		System.out.printf("[ADD]\t%s\n", sb);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBaseChangedListener#sbaseRemoved(org.sbml.jsbml.SBase)
-	 */
-	public void sbaseRemoved(SBase sb) {
-		System.out.printf("[DEL]\t%s\n", sb);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.sbml.jsbml.SBaseChangedListener#stateChanged(org.sbml.jsbml.
-	 * SBaseChangedEvent)
-	 */
-	public void stateChanged(SBaseChangedEvent ev) {
-		System.out.printf("[CHG]\t%s\n", ev);
 	}
 }
