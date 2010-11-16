@@ -296,8 +296,7 @@ public class SBMLDocument extends AbstractSBase {
 		if (isSetListOfErrors()) {
 			return listOfErrors.get(i);
 		}
-		throw new IndexOutOfBoundsException(String.format("No such error %d.",
-				Integer.valueOf(i)));
+		throw new IndexOutOfBoundsException(Integer.toString(i));
 	}
 
 	/**
@@ -351,7 +350,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * @return
 	 */
 	private boolean isSetListOfErrors() {
-		return listOfErrors != null;
+		return (listOfErrors != null) && (listOfErrors.size() > 0);
 	}
 
 	/**

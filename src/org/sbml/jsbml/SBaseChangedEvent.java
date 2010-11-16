@@ -102,6 +102,7 @@ public class SBaseChangedEvent extends EventObject {
 	public static final String offset = "offset";
 	public static final String scale = "scale";
 	public static final String listOfUnits = "listOfUnits";
+	public static final String priority = "priority";
 	
 	
 	/**

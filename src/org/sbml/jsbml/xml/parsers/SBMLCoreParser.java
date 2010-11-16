@@ -1031,7 +1031,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfUnitDefinitions)) {
 							UnitDefinition unitDefinition = (UnitDefinition) newContextObject;
-							unitDefinition.initDefaults();
 							model.addUnitDefinition(unitDefinition);
 
 							return unitDefinition;

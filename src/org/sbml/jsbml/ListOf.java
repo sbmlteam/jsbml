@@ -51,6 +51,40 @@ import org.sbml.jsbml.util.filters.Filter;
  * @opt visibility
  */
 public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
+	
+	/**
+	 * Helper method to initialize newly created lists.
+	 * 
+	 * @param list
+	 * @param type
+	 */
+	public static <T extends SBase> ListOf<T> initListOf(SBase parent,
+			ListOf<T> list, ListOf.Type type) {
+		if (parent.isSetLevel()) {
+			list.setLevel(parent.getLevel());
+		}
+		if (parent.isSetVersion()) {
+			list.setVersion(parent.getVersion());
+		}
+		list.setSBaseListType(type);
+		parent.setThisAsParentSBMLObject(list);
+		return list;
+	}
+
+	/**
+	 * Helper method to initialize a new {@link ListOf} object for the given
+	 * parent SBML object and with the given {@link Class} as the type of the
+	 * list.
+	 * 
+	 * @param <T>
+	 * @param parent
+	 * @param clazz
+	 * @return
+	 */
+	public static <T extends SBase> ListOf<T> newInstance(SBase parent,
+			Class<T> clazz) {
+		return initListOf(parent, new ListOf<T>(), ListOf.Type.valueOf(clazz));
+	}
 
 	/**
 	 * This enum lists all the possible names of the listXXX components. If the
@@ -134,13 +168,121 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		 */
 		listOfUnits,
 		/**
-		 * 
+		 * Indicates that the {@link Type} is not known yet or has not been
+		 * configured so far.
 		 */
 		none,
 		/**
-		 * 
+		 * For instance, it is not possible to decide between reactants and products
+		 * because both elements are of the same type. Also in the extension packages
+		 * this type is required.
 		 */
-		other
+		other;
+
+		/**
+		 * Gives the corresponding {@link Type} for the given {@link Class}
+		 * object. However, in the case of {@link #listOfReactants} and
+		 * {@link #listOfProducts} it is not possible to make a distinction
+		 * because both types refer to the same {@link Class} object. Therefore,
+		 * in this case this method will return the type {@link #other}, which
+		 * is to be clearly distinguished from {@link #none}.
+		 * 
+		 * @param type
+		 * @return
+		 */
+		@SuppressWarnings("deprecation")
+		public static Type valueOf(Class<? extends SBase> type) {
+			if (type.equals(Compartment.class)) {
+				return listOfCompartments;
+			} else if(type.equals(CompartmentType.class)) {
+				return listOfCompartmentTypes;
+			} else if (type.equals(Constraint.class)) {
+				return listOfConstraints;
+			} else if (type.equals(Event.class)) {
+				return listOfEvents;
+			} else if (type.equals(EventAssignment.class)) {
+				return listOfEventAssignments;
+			} else if (type.equals(FunctionDefinition.class)) {
+				return listOfFunctionDefinitions;
+			} else if (type.equals(InitialAssignment.class)) {
+				return listOfInitialAssignments;
+			} else if (type.equals(LocalParameter.class)) {
+				return listOfLocalParameters;
+			} else if (type.equals(ModifierSpeciesReference.class)) {
+				return listOfModifiers;
+			} else if (type.equals(Parameter.class)) {
+				return listOfParameters;
+			} else if (type.equals(SpeciesReference.class)) {
+				// Can be reactant or product!
+				return other;
+			} else if (type.equals(Reaction.class)) {
+				return listOfReactions;
+			} else if (type.equals(Rule.class)) {
+				return listOfRules;
+			} else if (type.equals(Species.class)) {
+				return listOfSpecies;
+			} else if (type.equals(SpeciesType.class)) {
+				return listOfSpeciesTypes;
+			} else if (type.equals(UnitDefinition.class)) {
+				return listOfUnitDefinitions;
+			} else if (type.equals(Unit.class)) {
+				return listOfUnits;
+			}
+			return none;
+		}
+		
+		/**
+		 * Gives the corresponding {@link Class} object for this {@link Type}.
+		 * However, in case of {@link #listOfReactants} and
+		 * {@link #listOfProducts} the same {@link Class} object is returned.
+		 * 
+		 * @return
+		 */
+		@SuppressWarnings("deprecation")
+		public Class<? extends SBase> toClass() {
+			switch (this) {
+			case listOfCompartments:
+				return Compartment.class;
+			case listOfCompartmentTypes:
+				return CompartmentType.class;
+			case listOfConstraints:
+				return Constraint.class;
+			case listOfEventAssignments:
+				return EventAssignment.class;
+			case listOfEvents:
+				return Event.class;
+			case listOfFunctionDefinitions:
+				return FunctionDefinition.class;
+			case listOfInitialAssignments:
+				return InitialAssignment.class;
+			case listOfLocalParameters:
+				return LocalParameter.class;
+			case listOfModifiers:
+				return ModifierSpeciesReference.class;
+			case listOfParameters:
+				return Parameter.class;
+			case listOfProducts:
+				return SpeciesReference.class;
+			case listOfReactants:
+				return SpeciesReference.class;
+			case listOfReactions:
+				return Reaction.class;
+			case listOfRules:
+				return Rule.class;
+			case listOfSpecies:
+				return Species.class;
+			case listOfSpeciesTypes:
+				return SpeciesType.class;
+			case listOfUnitDefinitions:
+				return UnitDefinition.class;
+			case listOfUnits:
+				return Unit.class;
+			case none:
+				return null;
+			default:
+				return SBase.class;
+			}
+		}
 	}
 
 	/**
@@ -705,6 +847,16 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		Type oldType = this.listType;
 		this.listType = currentList;
 		firePropertyChange(SBaseChangedEvent.baseListType, oldType, listType);
+	}
+	
+	/**
+	 * Sets the SBaseListType of this {@link ListOf} instance to the listType
+	 * defined by the given {@link Class}.
+	 * 
+	 * @param type
+	 */
+	public void setSBaseListType(Class<T> type) {
+		setSBaseListType(Type.valueOf(type));
 	}
 
 	/*

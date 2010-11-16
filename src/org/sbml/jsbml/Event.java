@@ -31,7 +31,6 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
-import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -176,11 +175,9 @@ public class Event extends AbstractNamedSBase {
 	 * @param eventass
 	 */
 	public void addEventAssignment(EventAssignment eventass) {
-		if (!isSetListOfEventAssignments()) {
-			initListOfEventAssignments();
+		if (!getListOfEventAssignments().contains(eventass)) {
+			listOfEventAssignments.add(eventass);
 		}
-		setThisAsParentSBMLObject(eventass);
-		listOfEventAssignments.add(eventass);
 	}
 
 	/**
@@ -188,7 +185,9 @@ public class Event extends AbstractNamedSBase {
 	 * Event.
 	 */
 	public void clearListOfEventAssignments() {
-		this.listOfEventAssignments.clear();
+		if (isSetListOfEventAssignments()) {
+			listOfEventAssignments.clear();
+		}
 	}
 
 	/*
@@ -332,23 +331,21 @@ public class Event extends AbstractNamedSBase {
 			equal &= e.isSetTimeUnits() == isSetTimeUnits();
 			equal &= e.isSetDelay() == isSetDelay();
 			equal &= e.isSetListOfEventAssignments() == isSetListOfEventAssignments();
-			if (equal) {
-				if (e.isSetDelay() && isSetDelay()) {
-					equal &= e.getDelay().equals(getDelay());
-				}
-				if (e.isSetTrigger() && isSetTrigger()) {
-					equal &= e.getTrigger().equals(getTrigger());
-				}
-				if (e.isSetPriority() && isSetPriority()) {
-					equal &= e.getPriority().equals(getPriority());
-				}
-				if (e.isSetTimeUnits() && isSetTimeUnits()) {
-					equal &= e.getTimeUnits().equals(getTimeUnits());
-				}
-				if (equal && isSetListOfEventAssignments()) {
-					equal &= e.getListOfEventAssignments().equals(
-							getListOfEventAssignments());
-				}
+			if (equal && e.isSetDelay()) {
+				equal &= e.getDelay().equals(getDelay());
+			}
+			if (equal && e.isSetTrigger()) {
+				equal &= e.getTrigger().equals(getTrigger());
+			}
+			if (equal && e.isSetPriority()) {
+				equal &= e.getPriority().equals(getPriority());
+			}
+			if (equal && e.isSetTimeUnits()) {
+				equal &= e.getTimeUnits().equals(getTimeUnits());
+			}
+			if (equal && isSetListOfEventAssignments()) {
+				equal &= e.getListOfEventAssignments().equals(
+						getListOfEventAssignments());
 			}
 			return equal;
 		}
@@ -445,7 +442,7 @@ public class Event extends AbstractNamedSBase {
 		if (isSetListOfEventAssignments()) {
 			return listOfEventAssignments.get(n);
 		}
-		return null;
+		throw new IndexOutOfBoundsException(Integer.toString(n));
 	}
 
 	/**
@@ -453,9 +450,8 @@ public class Event extends AbstractNamedSBase {
 	 * @return the list of eventAssignments of this Event.
 	 */
 	public ListOf<EventAssignment> getListOfEventAssignments() {
-		if (!isSetListOfEventAssignments()) {
-			setListOfEventAssignments(new ListOf<EventAssignment>(getLevel(),
-					getVersion()));
+		if (listOfEventAssignments == null) {
+			listOfEventAssignments = ListOf.newInstance(this, EventAssignment.class);
 		}
 		return listOfEventAssignments;
 	}
@@ -466,10 +462,7 @@ public class Event extends AbstractNamedSBase {
 	 *         of this Event.
 	 */
 	public int getNumEventAssignments() {
-		if (isSetListOfEventAssignments()) {
-			return listOfEventAssignments.size();
-		}
-		return 0;
+		return listOfEventAssignments == null ? 0 : listOfEventAssignments.size();
 	}
 
 	/*
@@ -555,17 +548,6 @@ public class Event extends AbstractNamedSBase {
 		if (isSetLevel() && (getLevel() < 2)) {
 			throw new IllegalAccessError("Cannot create an Event with Level < 2.");
 		}
-	}
-
-	/**
-	 * 
-	 */
-	private void initListOfEventAssignments() {
-		this.listOfEventAssignments = new ListOf<EventAssignment>(getLevel(),
-				getVersion());
-		setThisAsParentSBMLObject(this.listOfEventAssignments);
-		this.listOfEventAssignments
-				.setSBaseListType(Type.listOfEventAssignments);
 	}
 
 	/**
@@ -674,8 +656,8 @@ public class Event extends AbstractNamedSBase {
 	 * @return the removed ith EventAssignment instance.
 	 */
 	public EventAssignment removeEventAssignment(int i) {
-		if (i >= listOfEventAssignments.size() || i < 0) {
-			return null;
+		if ((i >= getNumEventAssignments()) || (i < 0)) {
+			throw new IndexOutOfBoundsException(Integer.toString(i));
 		}
 		return listOfEventAssignments.remove(i);
 	}
@@ -689,7 +671,7 @@ public class Event extends AbstractNamedSBase {
 		EventAssignment deletedEventAssignment = null;
 		int index = 0;
 
-		for (EventAssignment reactant : listOfEventAssignments) {
+		for (EventAssignment reactant : getListOfEventAssignments()) {
 			if (reactant.getVariable().equals(id)) {
 				deletedEventAssignment = reactant;
 				break;
@@ -726,10 +708,8 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void setListOfEventAssignments(
 			ListOf<EventAssignment> listOfEventAssignments) {
-		this.listOfEventAssignments = listOfEventAssignments;
-		this.listOfEventAssignments
-				.setSBaseListType(ListOf.Type.listOfEventAssignments);
-		setThisAsParentSBMLObject(this.listOfEventAssignments);
+		JSBML.addAllOrReplace(this, this.listOfEventAssignments,
+				listOfEventAssignments, ListOf.Type.listOfEventAssignments);
 	}
 
 	/**
@@ -738,11 +718,13 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void setPriority(Priority priority) {
 		if (getLevel() < 3) {
-			throw new IllegalArgumentException(
-					"Cannot set a Priority for an Event if SBML Level < 3.");
+			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
+					SBaseChangedEvent.priority, this));
 		}
+		Priority oldPriority = this.priority;
 		this.priority = priority;
 		setThisAsParentSBMLObject(this.priority);
+		firePropertyChange(SBaseChangedEvent.priority, oldPriority, priority);
 	}
 
 	/**

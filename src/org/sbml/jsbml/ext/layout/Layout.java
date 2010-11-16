@@ -201,10 +201,9 @@ public class Layout extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isSetListOfSpeciesGlyphs() {
-		if (listOfSpeciesGlyphs == null || listOfSpeciesGlyphs.isEmpty()) {
+		if ((listOfSpeciesGlyphs == null) || listOfSpeciesGlyphs.isEmpty()) {
 			return false;			
 		}
-		
 		return true;
 	}
 
