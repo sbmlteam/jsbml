@@ -480,6 +480,9 @@ public class Reaction extends AbstractNamedSBase implements
 	 *         yet set.
 	 */
 	public ListOf<ModifierSpeciesReference> getListOfModifiers() {
+		if (listOfModifiers == null) {
+			listOfModifiers = ListOf.newInstance(this, ModifierSpeciesReference.class);
+		}
 		return listOfModifiers;
 	}
 
@@ -489,6 +492,10 @@ public class Reaction extends AbstractNamedSBase implements
 	 *         yet set.
 	 */
 	public ListOf<SpeciesReference> getListOfProducts() {
+		if (listOfProducts == null) {
+			listOfProducts = ListOf.initListOf(this,
+					new ListOf<SpeciesReference>(), ListOf.Type.listOfProducts);
+		}
 		return listOfProducts;
 	}
 
@@ -498,6 +505,10 @@ public class Reaction extends AbstractNamedSBase implements
 	 *         yet set.
 	 */
 	public ListOf<SpeciesReference> getListOfReactants() {
+		if (listOfReactants == null) {
+			listOfReactants = ListOf.initListOf(this, new ListOf<SpeciesReference>(),
+							ListOf.Type.listOfReactants);
+		}
 		return listOfReactants;
 	}
 
@@ -508,7 +519,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 *         null if it doesn't exist.
 	 */
 	public ModifierSpeciesReference getModifier(int i) {
-		return listOfModifiers.get(i);
+		return getListOfModifiers().get(i);
 	}
 
 	/**
@@ -550,7 +561,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @return the number of ModifierSpeciesReferences of this Reaction.
 	 */
 	public int getNumModifiers() {
-		return listOfModifiers.size();
+		return listOfModifiers == null ? 0 : listOfModifiers.size();
 	}
 
 	/**
@@ -558,7 +569,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @return the number of products SpeciesReference.
 	 */
 	public int getNumProducts() {
-		return listOfProducts.size();
+		return listOfProducts == null ? 0 : listOfProducts.size();
 	}
 
 	/**
@@ -566,7 +577,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @return the number of reactants SpeciesReference.
 	 */
 	public int getNumReactants() {
-		return listOfReactants.size();
+		return listOfReactants == null ? 0 : listOfReactants.size();
 	}
 
 	/*
@@ -586,7 +597,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 *         null if it doesn't exist.
 	 */
 	public SpeciesReference getProduct(int i) {
-		return listOfProducts.get(i);
+		return getListOfProducts().get(i);
 	}
 	
 	/**
@@ -628,7 +639,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 *         Can be null if it doesn't exist.
 	 */
 	public SpeciesReference getReactant(int i) {
-		return listOfReactants.get(i);
+		return getListOfReactants().get(i);
 	}
 
 	/**
@@ -704,9 +715,6 @@ public class Reaction extends AbstractNamedSBase implements
 	 * Initializes the default variables of this Reaction.
 	 */
 	public void initDefaults() {
-		initReactantList();
-		initProductList();
-		initModifierList();
 		if (isSetLevel() && isSetVersion()) {
 			if (level < 3) {
 				reversible = new Boolean(true);
@@ -716,61 +724,7 @@ public class Reaction extends AbstractNamedSBase implements
 			}
 		}
 	}
-
-	/**
-	 * 
-	 */
-	private void initModifierList() {
-		initModifierList(getLevel(), getVersion());
-	}
-
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	private void initModifierList(int level, int version) {
-		listOfModifiers = new ListOf<ModifierSpeciesReference>(level, version);
-		listOfModifiers.setSBaseListType(ListOf.Type.listOfModifiers);
-		listOfModifiers.parentSBMLObject = this;
-	}
-
-	/**
-	 * 
-	 */
-	private void initProductList() {
-		initProductList(getLevel(), getVersion());
-	}
-
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	private void initProductList(int level, int version) {
-		listOfProducts = new ListOf<SpeciesReference>(level, version);
-		listOfProducts.setSBaseListType(ListOf.Type.listOfProducts);
-		listOfProducts.parentSBMLObject = this;
-	}
-
-	/**
-	 * 
-	 */
-	private void initReactantList() {
-		initReactantList(getLevel(), getVersion());
-	}
-
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	private void initReactantList(int level, int version) {
-		listOfReactants = new ListOf<SpeciesReference>(level, version);
-		listOfReactants.setSBaseListType(ListOf.Type.listOfReactants);
-		listOfReactants.parentSBMLObject = this;
-	}
-
+	
 	/**
 	 * Convenient test if the given species takes part in this reaction as a
 	 * reactant, product, or modifier.

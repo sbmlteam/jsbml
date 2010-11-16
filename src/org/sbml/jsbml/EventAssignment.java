@@ -245,7 +245,7 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 		} else if (isSetVariable()) {
 			return getVariable() + " = 0";
 		}
-		return "";
+		return getElementName();
 	}
 
 	/*

@@ -113,10 +113,9 @@ public class ModelGroupExtension extends Model {
 	 * @return
 	 */
 	public boolean isSetListOfGroups() {
-		if (listOfGroups == null || listOfGroups.isEmpty()) {
+		if ((listOfGroups == null) || listOfGroups.isEmpty()) {
 			return false;			
-		}
-		
+		}		
 		return true;
 	}
 

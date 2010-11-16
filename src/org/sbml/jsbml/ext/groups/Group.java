@@ -109,10 +109,9 @@ public class Group extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isSetListOfMembers() {
-		if (listOfMembers == null || listOfMembers.isEmpty()) {
+		if ((listOfMembers == null) || listOfMembers.isEmpty()) {
 			return false;			
 		}
-		
 		return true;
 	}
 

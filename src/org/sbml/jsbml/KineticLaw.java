@@ -33,7 +33,6 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
@@ -123,20 +122,6 @@ public class KineticLaw extends AbstractMathContainer {
 		parentReaction.setKineticLaw(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.sbml.jsbml.element.SBase#addChangeListener(org.sbml.squeezer.io.
-	 * SBaseChangedListener )
-	 */
-	@Override
-	public void addChangeListener(SBaseChangedListener l) {
-		super.addChangeListener(l);
-		if (isSetListOfParameters()) {
-			listOfLocalParameters.addChangeListener(l);
-		}
-	}
-
 	/**
 	 * Adds a copy of the given Parameter object to the list of local parameters
 	 * in this KineticLaw.
@@ -144,10 +129,7 @@ public class KineticLaw extends AbstractMathContainer {
 	 * @param parameter
 	 */
 	public void addLocalParameter(LocalParameter parameter) {
-		if (!isSetListOfParameters()) {
-			initListOfLocalParameters();
-		}
-		if (!getListOfParameters().contains(parameter)) {
+		if (getListOfLocalParameters().contains(parameter)) {
 			listOfLocalParameters.add(parameter);
 			if (parameter.isSetId() && isSetMath()) {
 				getMath().updateVariables();
@@ -201,13 +183,13 @@ public class KineticLaw extends AbstractMathContainer {
 	public boolean equals(Object o) {
 		if (o instanceof KineticLaw) {
 			KineticLaw kl = (KineticLaw) o;
-			if ((!kl.isSetListOfParameters() && isSetListOfParameters())
-					|| (kl.isSetListOfParameters() && !isSetListOfParameters())) {
+			if ((!kl.isSetListOfLocalParameters() && isSetListOfLocalParameters())
+					|| (kl.isSetListOfLocalParameters() && !isSetListOfLocalParameters())) {
 				return false;
 			}
 			boolean equal = super.equals(o);
-			if (kl.isSetListOfParameters() && isSetListOfParameters()) {
-				equal &= kl.getListOfParameters().equals(getListOfParameters());
+			if (kl.isSetListOfLocalParameters() && isSetListOfLocalParameters()) {
+				equal &= kl.getListOfLocalParameters().equals(getListOfLocalParameters());
 			}
 			if ((!kl.isSetTimeUnits() && isSetTimeUnits())
 					|| (kl.isSetTimeUnits() && !isSetTimeUnits())) {
@@ -246,9 +228,9 @@ public class KineticLaw extends AbstractMathContainer {
 			}
 			pos++;
 		}
-		if (isSetListOfParameters()) {
+		if (isSetListOfLocalParameters()) {
 			if (pos == index) {
-				return getListOfParameters();
+				return getListOfLocalParameters();
 			}
 			pos++;
 		}
@@ -263,7 +245,7 @@ public class KineticLaw extends AbstractMathContainer {
 	@Override
 	public int getChildCount() {
 		int children = super.getChildCount();
-		if (isSetListOfParameters()) {
+		if (isSetListOfLocalParameters()) {
 			children++;
 		}
 		return children;
@@ -275,8 +257,8 @@ public class KineticLaw extends AbstractMathContainer {
 	 *         Returns null if it is not set.
 	 */
 	public ListOf<LocalParameter> getListOfLocalParameters() {
-		if (!isSetListOfParameters()) {
-			initListOfLocalParameters();
+		if (listOfLocalParameters == null) {
+			listOfLocalParameters = ListOf.newInstance(this, LocalParameter.class);
 		}
 		return listOfLocalParameters;
 	}
@@ -318,7 +300,7 @@ public class KineticLaw extends AbstractMathContainer {
 	 *         {@link KineticLaw} instance.
 	 */
 	public int getNumLocalParameters() {
-		return isSetListOfParameters() ? listOfLocalParameters.size() : 0;
+		return isSetListOfLocalParameters() ? listOfLocalParameters.size() : 0;
 	}
 
 	/**
@@ -435,20 +417,20 @@ public class KineticLaw extends AbstractMathContainer {
 
 	/**
 	 * 
+	 * @return true if the listOfParameters of this KineticLaw is not null and
+	 *         not empty.
+	 * @deprecated use {@link #isSetListOfLocalParameters()}
 	 */
-	private void initListOfLocalParameters() {
-		this.listOfLocalParameters = new ListOf<LocalParameter>(getLevel(),
-				getVersion());
-		setThisAsParentSBMLObject(this.listOfLocalParameters);
-		this.listOfLocalParameters.setSBaseListType(Type.listOfParameters);
+	@Deprecated
+	public boolean isSetListOfParameters() {
+		return isSetListOfLocalParameters();
 	}
 
 	/**
 	 * 
-	 * @return true if the listOfParameters of this KineticLaw is not null and
-	 *         not empty.
+	 * @return
 	 */
-	public boolean isSetListOfParameters() {
+	public boolean isSetListOfLocalParameters() {
 		return (listOfLocalParameters != null)
 				&& (listOfLocalParameters.size() > 0);
 	}
@@ -511,11 +493,9 @@ public class KineticLaw extends AbstractMathContainer {
 				value);
 
 		if (!isAttributeRead) {
-			if (attributeName.equals("timeUnits")
-					&& ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)) {
+			if (attributeName.equals("timeUnits")) {
 				setTimeUnits(value);
-			} else if (attributeName.equals("substanceUnits")
-					&& ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1)) {
+			} else if (attributeName.equals("substanceUnits")) {
 				setSubstanceUnits(value);
 			}
 		}
@@ -529,7 +509,7 @@ public class KineticLaw extends AbstractMathContainer {
 	 * @return the {@link LocalParameter} that has been removed or null.
 	 */
 	public LocalParameter removeLocalParameter(int i) {
-		if (!isSetListOfParameters()) {
+		if (!isSetListOfLocalParameters()) {
 			throw new IndexOutOfBoundsException(Integer.toString(i));
 		}
 		return listOfLocalParameters.remove(i);
@@ -544,7 +524,7 @@ public class KineticLaw extends AbstractMathContainer {
 	 * @return true if the operation was performed successfully.
 	 */
 	public boolean removeLocalParameter(LocalParameter p) {
-		if (isSetListOfParameters()) {
+		if (isSetListOfLocalParameters()) {
 			return listOfLocalParameters.remove(p);
 		}
 		return false;
@@ -557,7 +537,7 @@ public class KineticLaw extends AbstractMathContainer {
 	 * @return true if the operation was performed successfully.
 	 */
 	public boolean removeLocalParameter(String id) {
-		if (isSetListOfParameters()) {
+		if (isSetListOfLocalParameters()) {
 			return getListOfLocalParameters().remove(getLocalParameter(id));
 		}
 		return false;
@@ -607,21 +587,8 @@ public class KineticLaw extends AbstractMathContainer {
 	 * @param list
 	 */
 	public void setListOfLocalParameters(ListOf<LocalParameter> list) {
-		if (list == null) {
-			unsetListOfLocalParameters();
-		}
-		if (getLevel() != list.getLevel()) {
-			throw new IllegalArgumentException(JSBML.levelMismatchMessage(this,
-					list));
-		}
-		if (getVersion() != list.getVersion()) {
-			throw new IllegalArgumentException(JSBML.versionMismatchMessage(
-					this, list));
-		}
-		this.listOfLocalParameters = list;
-		setThisAsParentSBMLObject(this.listOfLocalParameters);
-		this.listOfLocalParameters
-				.setSBaseListType(ListOf.Type.listOfLocalParameters);
+		JSBML.addAllOrReplace(this, listOfLocalParameters, list,
+				ListOf.Type.listOfLocalParameters);
 		if (isSetMath()) {
 			getMath().updateVariables();
 		}
@@ -631,11 +598,19 @@ public class KineticLaw extends AbstractMathContainer {
 	 * Sets the substanceUnitsID of this KineticLaw.
 	 * 
 	 * @param substanceUnits
-	 * @deprecated
+	 * @deprecated Only defined for SBML Level 1 and Level 2 Version 1 and 2.
 	 */
 	@Deprecated
 	public void setSubstanceUnits(String substanceUnits) {
-		this.substanceUnitsID = substanceUnits;
+		if ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1) {
+			String oldSubstanceUnits = this.substanceUnitsID;
+			this.substanceUnitsID = substanceUnits;
+			firePropertyChange(SBaseChangedEvent.substanceUnits,
+					oldSubstanceUnits, substanceUnitsID);
+		} else {
+			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
+					SBaseChangedEvent.substanceUnits, this));
+		}
 	}
 
 	/**
@@ -654,11 +629,19 @@ public class KineticLaw extends AbstractMathContainer {
 	 * Sets the timeUnitsID of this KineticLaw.
 	 * 
 	 * @param timeUnits
-	 * @deprecated
+	 * @deprecated Only defined for Level 1 and Level 2 Version 1.
 	 */
 	@Deprecated
 	public void setTimeUnits(String timeUnits) {
-		this.timeUnitsID = timeUnits;
+		if (((getLevel() == 2) && (getVersion() == 1)) || (getLevel() == 1)) {
+			String oldTimeUnits = this.timeUnitsID;
+			this.timeUnitsID = timeUnits;
+			firePropertyChange(SBaseChangedEvent.timeUnits, oldTimeUnits,
+					timeUnitsID);
+		} else {
+			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
+					SBaseChangedEvent.timeUnits, this));
+		}
 	}
 
 	/**

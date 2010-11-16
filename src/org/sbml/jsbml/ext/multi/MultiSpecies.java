@@ -34,7 +34,7 @@ public class MultiSpecies extends SpeciesExtension {
 	 * @param initialSpecies
 	 */
 	public void addInitialSpeciesInstance(InitialSpeciesInstance initialSpecies) {
-		if (!isSetListOfSpeciesInstances()) {
+		if (listOfInitialSpeciesInstance == null) {
 			this.listOfInitialSpeciesInstance = new ListOf<InitialSpeciesInstance>();
 		}
 		if (!listOfInitialSpeciesInstance.contains(initialSpecies)) {
@@ -52,7 +52,7 @@ public class MultiSpecies extends SpeciesExtension {
 		if (isSetListOfSpeciesInstances()) {
 			return listOfInitialSpeciesInstance.get(n);
 		}
-		return null;
+		throw new IndexOutOfBoundsException(Integer.toString(n));
 	}
 
 	/**

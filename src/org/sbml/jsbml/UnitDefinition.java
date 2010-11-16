@@ -317,8 +317,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 				Unit u = orig.remove(i);
 				j = 0;
 				while (j < units.size()
-						&& 0 < u.getKind().compareTo(units.get(j).getKind()))
+						&& 0 < u.getKind().compareTo(units.get(j).getKind())) {
 					j++;
+				}
 				units.add(j, u);
 			}
 			ud.setListOfUnits(units);
@@ -356,7 +357,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Represents the 'listOfUnit' XML subelement of a UnitDefinition.
+	 * Represents the 'listOfUnit' XML sub-element of a UnitDefinition.
 	 */
 	private ListOf<Unit> listOfUnits;
 
@@ -365,7 +366,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public UnitDefinition() {
 		super();
-        initDefaults();
 	}
 
 	/**
@@ -375,7 +375,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public UnitDefinition(int level, int version) {
 		super(level, version);
-		initDefaults();
 	}
 
 	/**
@@ -384,7 +383,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public UnitDefinition(String id) {
 		super(id);
-		initDefaults();
 	}
 	
 	/**
@@ -397,7 +395,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public UnitDefinition(String id, int level, int version) {
 		super(id, level, version);
-		initDefaults();
 	}
 
 	/**
@@ -411,7 +408,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public UnitDefinition(String id, String name, int level, int version) {
 		super(id, name, level, version);
-		initDefaults();
 	}
 
 	/**
@@ -421,25 +417,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public UnitDefinition(UnitDefinition unitDefinition) {
 		super(unitDefinition);
-		initDefaults();
 		if (unitDefinition.isSetListOfUnits()) {
 			setListOfUnits(unitDefinition.getListOfUnits().clone());
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.sbml.jsbml.AbstractSBase#addChangeListener(org.sbml.jsbml.
-	 * SBaseChangedListener)
-	 */
-	@Override
-	public void addChangeListener(SBaseChangedListener l) {
-		super.addChangeListener(l);
-		if (!isSetListOfUnits()) {
-			initListOfUnits();
-		}
-		listOfUnits.addChangeListener(l);
 	}
 
 	/**
@@ -451,15 +431,15 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Adds an Unit to this UnitDefinition.
+	 * Adds an {@link Unit} to this {@link UnitDefinition}.
 	 * 
 	 * @param u
 	 */
 	public void addUnit(Unit u) {
-		if (!isSetListOfUnits()) {
-			initListOfUnits();
+		listOfUnits = getListOfUnits();
+		if (!listOfUnits.contains(u)) {
+			listOfUnits.add(u);
 		}
-		listOfUnits.add(u);
 	}
 
 	/**
@@ -615,8 +595,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return the listOfUnits of this UnitDefinition. Can be empty.
 	 */
 	public ListOf<Unit> getListOfUnits() {
-		if (!isSetListOfUnits()) {
-			initListOfUnits();
+		if (listOfUnits == null) {
+			listOfUnits = ListOf.newInstance(this, Unit.class);
 		}
 		return listOfUnits;
 	}
@@ -647,24 +627,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public Unit getUnit(int i) {
 		return getListOfUnits().get(i);
-	}
-
-	/**
-	 * Initializes the default values of this UnitDefinition.
-	 */
-	public void initDefaults() {
-		if (!isSetListOfUnits()) {
-			initListOfUnits();
-		}
-	}
-
-	/**
-	 * 
-	 */
-	private void initListOfUnits() {
-		this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
-		setThisAsParentSBMLObject(this.listOfUnits);
-		this.listOfUnits.setSBaseListType(Type.listOfUnits);
 	}
 
 	/**

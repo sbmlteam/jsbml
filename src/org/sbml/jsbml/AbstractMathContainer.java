@@ -329,7 +329,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	 */
 	@Override
 	public String toString() {
-		return isSetMath() ? math.toString() : "";
+		return isSetMath() ? math.toString() : getElementName();
 	}
 
 	/*

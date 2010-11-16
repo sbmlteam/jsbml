@@ -124,10 +124,9 @@ public class ExtendedLayoutModel extends Model {
 	 * @return
 	 */
 	public boolean isSetListOfLayouts() {
-		if (listOfLayouts == null || listOfLayouts.isEmpty()) {
+		if ((listOfLayouts == null) || listOfLayouts.isEmpty()) {
 			return false;
 		}
-
 		return true;
 	}
 

@@ -33,7 +33,6 @@ package org.sbml.jsbml;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
 import org.sbml.jsbml.util.filters.NameFilter;
 
@@ -58,6 +57,10 @@ public class Model extends AbstractNamedSBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 5256379371231860049L;
+	/**
+	 * Error message to indicate that an element could not be created.
+	 */
+	private static final String COULD_NOT_CREATE_ELEMENT_MSG = "Could not create %s because no %s have been defined yet.\n";
 	/**
 	 * Represents the 'areaUnits' XML attribute of a model element.
 	 */
@@ -257,9 +260,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param compartment
 	 */
 	public void addCompartment(Compartment compartment) {
-		if (!isSetListOfCompartments()) {
-			initListOfCompartments();
-		}
+		listOfCompartments = getListOfCompartments();
 		if (!listOfCompartments.contains(compartment)) {
 			listOfCompartments.add(compartment);
 		}
@@ -273,10 +274,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public void addCompartmentType(CompartmentType compartmentType) {
-		if (!isSetListOfCompartmentTypes()) {
-			this.listOfCompartmentTypes = new ListOf<CompartmentType>();
-			setThisAsParentSBMLObject(this.listOfCompartmentTypes);
-		}
+		listOfCompartmentTypes = getListOfCompartmentTypes();
 		if (!listOfCompartmentTypes.contains(compartmentType)) {
 			listOfCompartmentTypes.add(compartmentType);
 		}
@@ -288,11 +286,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param constraint
 	 */
 	public void addConstraint(Constraint constraint) {
-		if (!isSetListOfConstraints()) {
-			this.listOfConstraints = new ListOf<Constraint>();
-			setThisAsParentSBMLObject(this.listOfConstraints);
-			this.listOfConstraints.setSBaseListType(Type.listOfConstraints);
-		}
+		listOfConstraints = getListOfConstraints();
 		if (!listOfConstraints.contains(constraint)) {
 			listOfConstraints.add(constraint);
 		}
@@ -304,9 +298,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param event
 	 */
 	public void addEvent(Event event) {
-		if (!isSetListOfEvents()) {
-			initListOfEvents();
-		}
+		listOfEvents = getListOfEvents();
 		if (!listOfEvents.contains(event)) {
 			listOfEvents.add(event);
 		}
@@ -319,9 +311,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param functionDefinition
 	 */
 	public void addFunctionDefinition(FunctionDefinition functionDefinition) {
-		if (!isSetListOfFunctionDefinitions()) {
-			initListOfFunctionDefinitions();
-		}
+		listOfFunctionDefinitions = getListOfFunctionDefinitions();
 		if (!listOfFunctionDefinitions.contains(functionDefinition)) {
 			listOfFunctionDefinitions.add(functionDefinition);
 		}
@@ -334,9 +324,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param initialAssignment
 	 */
 	public void addInitialAssignment(InitialAssignment initialAssignment) {
-		if (!isSetListOfInitialAssignments()) {
-			initListOfInitialAssignment();
-		}
+		listOfInitialAssignments = getListOfInitialAssignments();
 		if (!listOfInitialAssignments.contains(initialAssignment)) {
 			listOfInitialAssignments.add(initialAssignment);
 		}
@@ -348,9 +336,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param parameter
 	 */
 	public void addParameter(Parameter parameter) {
-		if (!isSetListOfParameters()) {
-			initListOfParameters();
-		}
+		listOfParameters = getListOfParameters();
 		if (!listOfParameters.contains(parameter)) {
 			listOfParameters.add(parameter);
 		}
@@ -362,9 +348,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param reaction
 	 */
 	public void addReaction(Reaction reaction) {
-		if (!isSetListOfReactions()) {
-			initListOfReactions();
-		}
+		listOfReactions = getListOfReactions();
 		if (!listOfReactions.contains(reaction)) {
 			listOfReactions.add(reaction);
 		}
@@ -376,9 +360,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param rule
 	 */
 	public void addRule(Rule rule) {
-		if (!isSetListOfRules()) {
-			initListOfRules();
-		}
+		listOfRules = getListOfRules();
 		if (!listOfRules.contains(rule)) {
 			listOfRules.add(rule);
 		}
@@ -390,9 +372,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param spec
 	 */
 	public void addSpecies(Species spec) {
-		if (!isSetListOfSpecies()) {
-			initListOfSpecies();
-		}
+		listOfSpecies = getListOfSpecies();
 		if (!listOfSpecies.contains(spec)) {
 			listOfSpecies.add(spec);
 		}
@@ -405,11 +385,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public void addSpeciesType(SpeciesType speciesType) {
-		if (!isSetListOfSpeciesTypes()) {
-			this.listOfSpeciesTypes = new ListOf<SpeciesType>();
-			setThisAsParentSBMLObject(this.listOfSpeciesTypes);
-			this.listOfSpeciesTypes.setSBaseListType(Type.listOfSpeciesTypes);
-		}
+		listOfSpeciesTypes = getListOfSpeciesTypes();
 		if (!listOfSpeciesTypes.contains(speciesType)) {
 			listOfSpeciesTypes.add(speciesType);
 		}
@@ -422,9 +398,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param unitDefinition
 	 */
 	public void addUnitDefinition(UnitDefinition unitDefinition) {
-		if (!isSetListOfUnitDefinitions()) {
-			initListOfUnitDefinitions();
-		}
+		listOfUnitDefinitions = getListOfUnitDefinitions();
 		if (!listOfUnitDefinitions.contains(unitDefinition)) {
 			listOfUnitDefinitions.add(unitDefinition);
 		}
@@ -742,8 +716,8 @@ public class Model extends AbstractNamedSBase {
 		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 
 		if (lastReaction == null) {
-			System.err
-					.println("Could not create KineticLaw because no reactions have been defined yet.");
+			System.err.printf(COULD_NOT_CREATE_ELEMENT_MSG, "KineticLaw",
+					"reactions");
 			return null;
 		}
 
@@ -784,8 +758,8 @@ public class Model extends AbstractNamedSBase {
 		KineticLaw lastKineticLaw = null;
 
 		if (lastReaction == null) {
-			System.err
-					.println("Could not create Parameter for KineticLaw because no reactions have been defined yet.");
+			System.err.printf(COULD_NOT_CREATE_ELEMENT_MSG,
+					"Parameter for KineticLaw", "reactions");
 			return null;
 		} else {
 			lastKineticLaw = lastReaction.getKineticLaw();
@@ -884,8 +858,8 @@ public class Model extends AbstractNamedSBase {
 		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 
 		if (lastReaction == null) {
-			System.err
-					.println("Could not create Product because no reactions have been defined yet.");
+			System.err.printf(COULD_NOT_CREATE_ELEMENT_MSG, "Product",
+					"reactions");
 			return null;
 		}
 
@@ -936,8 +910,8 @@ public class Model extends AbstractNamedSBase {
 	public SpeciesReference createReactant(String id) {
 		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 		if (lastReaction == null) {
-			System.err
-					.println("Could not create Reactant because no reactions have been defined yet.");
+			System.err.printf(COULD_NOT_CREATE_ELEMENT_MSG, "Reactant",
+					"reactions");
 			return null;
 		}
 		SpeciesReference reactant = lastReaction.createReactant(id);
@@ -1271,8 +1245,9 @@ public class Model extends AbstractNamedSBase {
 		if (nsb == null) {
 			for (Reaction r : getListOfReactions()) {
 				nsb = r.getModifier(idOrName);
-				if (nsb != null)
+				if (nsb != null) {
 					return nsb;
+				}
 			}
 		}
 		if (nsb == null) {
@@ -1351,7 +1326,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public Variable findVariable(String variable) {
 		Variable nsb = findSymbol(variable);
-		if (nsb == null && isSetListOfReactions()) {
+		if ((nsb == null) && isSetListOfReactions()) {
 			for (int i = 0; i < getNumReactions(); i++) {
 				Reaction reaction = getReaction(i);
 				nsb = reaction.getReactant(variable);
@@ -1695,8 +1670,8 @@ public class Model extends AbstractNamedSBase {
 	private <T> T getLastElementOf(ListOf<? extends T> listOf) {
 		// added casting and parenthesis because there was a compilation error
 		// when using the ant script
-		return (listOf == null || listOf.size() == 0) ? (T) null : (T) listOf
-				.getLast();
+		return ((listOf == null) || (listOf.size() == 0)) ? (T) null
+				: (T) listOf.getLast();
 	}
 
 	/**
@@ -1724,8 +1699,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<Compartment> getListOfCompartments() {
 		if (listOfCompartments == null) {
-			listOfCompartments = initListOf(new ListOf<Compartment>(getLevel(),
-					getVersion()), ListOf.Type.listOfCompartments);
+			listOfCompartments = ListOf.newInstance(this, Compartment.class);
 		}
 		return listOfCompartments;
 	}
@@ -1734,13 +1708,12 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return the listOfCompartmentTypes of this Model. Can be null if it is
 	 *         not set.
+	 * @deprecated
 	 */
 	@Deprecated
 	public ListOf<CompartmentType> getListOfCompartmentTypes() {
 		if (listOfCompartmentTypes == null) {
-			listOfCompartmentTypes = initListOf(new ListOf<CompartmentType>(
-					getLevel(), getVersion()),
-					ListOf.Type.listOfCompartmentTypes);
+			listOfCompartmentTypes = ListOf.newInstance(this, CompartmentType.class);
 		}
 		return listOfCompartmentTypes;
 	}
@@ -1751,8 +1724,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<Constraint> getListOfConstraints() {
 		if (listOfConstraints == null) {
-			listOfConstraints = initListOf(new ListOf<Constraint>(getLevel(),
-					getVersion()), ListOf.Type.listOfConstraints);
+			listOfConstraints = ListOf.newInstance(this, Constraint.class);
 		}
 		return listOfConstraints;
 	}
@@ -1763,8 +1735,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<Event> getListOfEvents() {
 		if (listOfEvents == null) {
-			listOfEvents = initListOf(new ListOf<Event>(getLevel(),
-					getVersion()), ListOf.Type.listOfEvents);
+			listOfEvents = ListOf.newInstance(this, Event.class);
 		}
 		return listOfEvents;
 	}
@@ -1776,9 +1747,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<FunctionDefinition> getListOfFunctionDefinitions() {
 		if (listOfFunctionDefinitions == null) {
-			listOfFunctionDefinitions = initListOf(
-					new ListOf<FunctionDefinition>(getLevel(), getVersion()),
-					ListOf.Type.listOfFunctionDefinitions);
+			listOfFunctionDefinitions = ListOf.newInstance(this,
+					FunctionDefinition.class);
 		}
 		return listOfFunctionDefinitions;
 	}
@@ -1789,9 +1759,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<InitialAssignment> getListOfInitialAssignments() {
 		if (listOfInitialAssignments == null) {
-			listOfInitialAssignments = initListOf(
-					new ListOf<InitialAssignment>(getLevel(), getVersion()),
-					ListOf.Type.listOfInitialAssignments);
+			listOfInitialAssignments = ListOf.newInstance(this, 
+					InitialAssignment.class);
 		}
 		return listOfInitialAssignments;
 	}
@@ -1802,8 +1771,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<Parameter> getListOfParameters() {
 		if (listOfParameters == null) {
-			listOfParameters = initListOf(new ListOf<Parameter>(getLevel(),
-					getVersion()), ListOf.Type.listOfParameters);
+			listOfParameters = ListOf.newInstance(this, Parameter.class);
 		}
 		return listOfParameters;
 	}
@@ -1814,21 +1782,18 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<Reaction> getListOfReactions() {
 		if (listOfReactions == null) {
-			listOfReactions = initListOf(new ListOf<Reaction>(getLevel(),
-					getVersion()), ListOf.Type.listOfReactions);
+			listOfReactions = ListOf.newInstance(this, Reaction.class);
 		}
 		return listOfReactions;
 	}
 
 	/**
 	 * 
-	 * @return the listOfRules of this Model. Can be null if it is not set.
+	 * @return the listOfRules of this {@link Model}. Can be null if it is not set.
 	 */
 	public ListOf<Rule> getListOfRules() {
 		if (listOfRules == null) {
-			listOfRules = initListOf(
-					new ListOf<Rule>(getLevel(), getVersion()),
-					ListOf.Type.listOfRules);
+			listOfRules = ListOf.newInstance(this, Rule.class);
 		}
 		return listOfRules;
 	}
@@ -1839,8 +1804,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<Species> getListOfSpecies() {
 		if (listOfSpecies == null) {
-			listOfSpecies = initListOf(new ListOf<Species>(getLevel(),
-					getVersion()), ListOf.Type.listOfSpecies);
+			listOfSpecies = ListOf.newInstance(this, Species.class);
 		}
 		return listOfSpecies;
 	}
@@ -1849,12 +1813,12 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @return the listOfSpeciesTypes of this Model. Can be null if it is not
 	 *         set.
+	 *         @deprecated
 	 */
 	@Deprecated
 	public ListOf<SpeciesType> getListOfSpeciesTypes() {
 		if (listOfSpeciesTypes == null) {
-			listOfSpeciesTypes = initListOf(new ListOf<SpeciesType>(getLevel(),
-					getVersion()), ListOf.Type.listOfSpeciesTypes);
+			listOfSpeciesTypes = ListOf.newInstance(this, SpeciesType.class);
 		}
 		return listOfSpeciesTypes;
 	}
@@ -1866,9 +1830,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public ListOf<UnitDefinition> getListOfUnitDefinitions() {
 		if (listOfUnitDefinitions == null) {
-			listOfUnitDefinitions = initListOf(new ListOf<UnitDefinition>(
-					getLevel(), getVersion()),
-					ListOf.Type.listOfUnitDefinitions);
+			listOfUnitDefinitions = ListOf.newInstance(this, UnitDefinition.class);
 		}
 		return listOfUnitDefinitions;
 	}
@@ -2466,8 +2428,7 @@ public class Model extends AbstractNamedSBase {
 		UnitDefinition ud;
 		switch (getLevel()) {
 		case 1:
-			listOfUnitDefinitions = new ListOf<UnitDefinition>(getLevel(),
-					getVersion());
+			listOfUnitDefinitions = ListOf.newInstance(this, UnitDefinition.class);
 			ud = UnitDefinition.substance(getLevel(), getVersion());
 			substanceUnitsID = ud.getId();
 			ud = UnitDefinition.time(getLevel(), getVersion());
@@ -2519,99 +2480,6 @@ public class Model extends AbstractNamedSBase {
 			conversionFactorID = null;
 			break;
 		}
-	}
-
-	/**
-	 * Helper method to initialize newly created lists.
-	 * 
-	 * @param list
-	 * @param type
-	 */
-	private <T extends SBase> ListOf<T> initListOf(ListOf<T> list,
-			ListOf.Type type) {
-		if (isSetLevel()) {
-			list.setLevel(getLevel());
-		}
-		if (isSetVersion()) {
-			list.setVersion(getVersion());
-		}
-		list.setSBaseListType(type);
-		setThisAsParentSBMLObject(list);
-		return list;
-	}
-
-	/**
-	 * 
-	 */
-	private void initListOfCompartments() {
-		this.listOfCompartments = initListOf(new ListOf<Compartment>(),
-				ListOf.Type.listOfCompartments);
-	}
-
-	/**
-	 * 
-	 */
-	private void initListOfEvents() {
-		this.listOfEvents = initListOf(new ListOf<Event>(),
-				ListOf.Type.listOfEvents);
-	}
-
-	/**
-	 * 
-	 */
-	private void initListOfFunctionDefinitions() {
-		this.listOfFunctionDefinitions = initListOf(
-				new ListOf<FunctionDefinition>(),
-				ListOf.Type.listOfFunctionDefinitions);
-	}
-
-	/**
-	 * 
-	 */
-	private void initListOfInitialAssignment() {
-		this.listOfInitialAssignments = initListOf(
-				new ListOf<InitialAssignment>(),
-				ListOf.Type.listOfInitialAssignments);
-	}
-
-	/**
-	 * 
-	 */
-	private void initListOfParameters() {
-		this.listOfParameters = initListOf(new ListOf<Parameter>(),
-				ListOf.Type.listOfParameters);
-	}
-
-	/**
-	 * 
-	 */
-	private void initListOfReactions() {
-		this.listOfReactions = initListOf(new ListOf<Reaction>(),
-				ListOf.Type.listOfReactions);
-	}
-
-	/**
-	 * 
-	 */
-	private void initListOfRules() {
-		this.listOfRules = initListOf(new ListOf<Rule>(),
-				ListOf.Type.listOfRules);
-	}
-
-	/**
-	 * 
-	 */
-	private void initListOfSpecies() {
-		this.listOfSpecies = initListOf(new ListOf<Species>(),
-				ListOf.Type.listOfSpecies);
-	}
-
-	/**
-	 * 
-	 */
-	private void initListOfUnitDefinitions() {
-		this.listOfUnitDefinitions = initListOf(new ListOf<UnitDefinition>(),
-				ListOf.Type.listOfUnitDefinitions);
 	}
 
 	/**
