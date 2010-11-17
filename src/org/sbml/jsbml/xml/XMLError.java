@@ -46,6 +46,7 @@ public class XMLError extends Error {
 	 * 
 	 */
 	public XMLError() {
+		super();
 	}
 
 	

@@ -65,6 +65,7 @@ import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ListOf.Type;
+import org.sbml.jsbml.test.SimpleSBaseChangeListener;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 import org.sbml.jsbml.xml.stax.WritingParser;
@@ -326,7 +327,12 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		// Try to read the attributes.
 		if (contextObject instanceof SBase) {
 			SBase sbase = (SBase) contextObject;
-			isAttributeRead = sbase.readAttribute(attributeName, prefix, value);
+			try {
+				isAttributeRead = sbase.readAttribute(attributeName, prefix,
+						value);
+			} catch (Throwable exc) {
+				System.err.println(exc.getMessage());
+			}
 		}
 		// A SBMLCoreParser can modify a contextObject which is an instance of
 		// Annotation.

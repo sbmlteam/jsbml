@@ -56,6 +56,7 @@ import org.codehaus.stax2.evt.XMLEvent2;
 import org.codehaus.stax2.ri.evt.AttributeEventImpl;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.test.SimpleSBaseChangeListener;
 import org.sbml.jsbml.xml.parsers.AnnotationParser;
 import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.sbml.jsbml.xml.parsers.StringParser;
@@ -71,7 +72,7 @@ import com.ctc.wstx.stax.WstxInputFactory;
 public class SBMLReader {
 
 	/**
-	 * contains all the relationships namespace URI <=> ReadingParser class.
+	 * contains all the relationships name space URI <=> {@link ReadingParser} class.
 	 */
 	private static HashMap<String, Class<? extends ReadingParser>> packageParsers = new HashMap<String, Class<? extends ReadingParser>>();
 
@@ -381,6 +382,8 @@ public class SBMLReader {
 				if (currentNode.getLocalPart().equals("sbml")) {
 					initializedParsers = getInitializedPackageParsers(element);
 					SBMLDocument sbmlDocument = new SBMLDocument();
+					// DEBUG:
+					sbmlDocument.addChangeListener(new SimpleSBaseChangeListener());
 					for (Iterator<AttributeEventImpl> iterator = element
 							.getAttributes(); iterator.hasNext();) {
 						AttributeEventImpl o = iterator.next();

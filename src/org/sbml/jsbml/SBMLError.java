@@ -44,6 +44,7 @@ import org.sbml.jsbml.xml.XMLError;
  * >libSBML SBMLError javadoc</a>
  * 
  * @author rodrigue
+ * @author Andreas Dr&auml;ger
  * 
  */
 public class SBMLError extends XMLError {
@@ -81,6 +82,7 @@ public class SBMLError extends XMLError {
 	 * 
 	 */
 	public SBMLError() {
+		super();
 	}
 
 	// String category, int code, String severity,

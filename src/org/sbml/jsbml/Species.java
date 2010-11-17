@@ -612,8 +612,7 @@ public class Species extends Symbol {
 				this.setInitialConcentration(StringTools.parseSBMLDouble(value));
 			} else if (attributeName.equals("substanceUnits") && getLevel() > 1) {
 				this.setUnits(value);
-			} else if (attributeName.equals("spatialSizeUnits")
-					&& getLevel() > 1) {
+			} else if (attributeName.equals("spatialSizeUnits")) {
 				this.setSpatialSizeUnits(value);
 			} else if (attributeName.equals("hasOnlySubstanceUnits")
 					&& getLevel() > 1) {

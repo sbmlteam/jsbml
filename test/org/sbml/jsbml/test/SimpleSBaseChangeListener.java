@@ -33,13 +33,17 @@ import org.sbml.jsbml.SBaseChangedEvent;
 import org.sbml.jsbml.SBaseChangedListener;
 
 /**
+ * This very simple implementation of an {@link SBaseChangedListener} writes all
+ * the events to the standard out stream.
+ * 
  * @author Andreas Dr&auml;ger
  * @date 2010-11-16
  */
-public abstract class SimpleSBaseChangeListener implements SBaseChangedListener {
+public class SimpleSBaseChangeListener implements SBaseChangedListener {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.SBaseChangedListener#sbaseAdded(org.sbml.jsbml.SBase)
 	 */
 	public void sbaseAdded(SBase sb) {
@@ -48,7 +52,9 @@ public abstract class SimpleSBaseChangeListener implements SBaseChangedListener 
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBaseChangedListener#sbaseRemoved(org.sbml.jsbml.SBase)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.SBaseChangedListener#sbaseRemoved(org.sbml.jsbml.SBase)
 	 */
 	public void sbaseRemoved(SBase sb) {
 		System.out.printf("[DEL]\t%s\n", sb);
