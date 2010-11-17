@@ -129,7 +129,7 @@ public class KineticLaw extends AbstractMathContainer {
 	 * @param parameter
 	 */
 	public void addLocalParameter(LocalParameter parameter) {
-		if (getListOfLocalParameters().contains(parameter)) {
+		if (!getListOfLocalParameters().contains(parameter)) {
 			listOfLocalParameters.add(parameter);
 			if (parameter.isSetId() && isSetMath()) {
 				getMath().updateVariables();
