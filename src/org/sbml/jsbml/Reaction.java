@@ -163,36 +163,36 @@ public class Reaction extends AbstractNamedSBase implements
 	}
 
 	/**
-	 * Adds a ModifierSpeciesReference instance to this Reaction.
+	 * Adds a {@link ModifierSpeciesReference} instance to this {@link Reaction}.
 	 * 
 	 * @param modspecref
+	 * @return <code>true</code> if the {@link #listOfModifiers} was
+	 *         changed as a result of this call.
 	 */
-	public void addModifier(ModifierSpeciesReference modspecref) {
-		if (!getListOfModifiers().contains(modspecref)) {
-			listOfModifiers.add(modspecref);
-		}
+	public boolean addModifier(ModifierSpeciesReference modspecref) {
+		return getListOfModifiers().add(modspecref);
 	}
 
 	/**
-	 * Adds a SpeciesReference instance to the listOfProducts of this Reaction.
+	 * Adds a {@link SpeciesReference} instance to the listOfProducts of this {@link Reaction}.
 	 * 
 	 * @param specref
+	 * @return <code>true</code> if the {@link #listOfProducts} was
+	 *         changed as a result of this call.
 	 */
-	public void addProduct(SpeciesReference specref) {
-		if (!getListOfProducts().contains(specref)) {
-			listOfProducts.add(specref);
-		}
+	public boolean addProduct(SpeciesReference specref) {
+		return getListOfProducts().add(specref);
 	}
 
 	/**
-	 * Adds a SpeciesReference instance to the listOfReactants of this Reaction.
+	 * Adds a {@link SpeciesReference} instance to the listOfReactants of this {@link Reaction}.
 	 * 
 	 * @param specref
+	 * @return <code>true</code> if the {@link #listOfReactants} was
+	 *         changed as a result of this call.
 	 */
-	public void addReactant(SpeciesReference specref) {
-		if (!getListOfReactants().contains(specref)) {
-			listOfReactants.add(specref);
-		}
+	public boolean addReactant(SpeciesReference specref) {
+		return getListOfReactants().add(specref);
 	}
 
 	/*
@@ -1047,7 +1047,8 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param listOfModifiers
 	 */
 	public void setListOfModifiers(ListOf<ModifierSpeciesReference> listOfModifiers) {
-		JSBML.addAllOrReplace(this, this.listOfModifiers, listOfModifiers, ListOf.Type.listOfModifiers);
+		this.listOfModifiers = JSBML.addAllOrReplace(this, this.listOfModifiers,
+				listOfModifiers, ListOf.Type.listOfModifiers);
 	}
 
 	/**
@@ -1057,7 +1058,8 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param listOfProducts
 	 */
 	public void setListOfProducts(ListOf<SpeciesReference> listOfProducts) {
-		JSBML.addAllOrReplace(this, this.listOfProducts, listOfProducts, ListOf.Type.listOfProducts);
+		this.listOfProducts = JSBML.addAllOrReplace(this, this.listOfProducts,
+				listOfProducts, ListOf.Type.listOfProducts);
 	}
 
 	/**
@@ -1067,7 +1069,8 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param listOfReactants
 	 */
 	public void setListOfReactants(ListOf<SpeciesReference> listOfReactants) {
-		JSBML.addAllOrReplace(this, this.listOfReactants, listOfReactants, ListOf.Type.listOfReactants);
+		this.listOfReactants = JSBML.addAllOrReplace(this, this.listOfReactants,
+				listOfReactants, ListOf.Type.listOfReactants);
 	}
 
 	/**

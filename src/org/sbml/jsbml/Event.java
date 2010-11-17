@@ -173,11 +173,11 @@ public class Event extends AbstractNamedSBase {
 	 * Event.
 	 * 
 	 * @param eventass
+	 * @return <code>true</code> if the {@link #listOfEventAssignments} was
+	 *         changed as a result of this call.
 	 */
-	public void addEventAssignment(EventAssignment eventass) {
-		if (!getListOfEventAssignments().contains(eventass)) {
-			listOfEventAssignments.add(eventass);
-		}
+	public boolean addEventAssignment(EventAssignment eventass) {
+		return getListOfEventAssignments().add(eventass);
 	}
 
 	/**
@@ -708,8 +708,9 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void setListOfEventAssignments(
 			ListOf<EventAssignment> listOfEventAssignments) {
-		JSBML.addAllOrReplace(this, this.listOfEventAssignments,
-				listOfEventAssignments, ListOf.Type.listOfEventAssignments);
+		this.listOfEventAssignments = JSBML.addAllOrReplace(this,
+				this.listOfEventAssignments, listOfEventAssignments,
+				ListOf.Type.listOfEventAssignments);
 	}
 
 	/**

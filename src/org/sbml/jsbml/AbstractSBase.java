@@ -1047,14 +1047,13 @@ public abstract class AbstractSBase implements SBase {
 	 * sbase)
 	 */
 	public void setThisAsParentSBMLObject(SBase sbase) {
-		checkLevelAndVersionCompatibility(sbase);
-		if (sbase instanceof AbstractSBase) {
-			((AbstractSBase) sbase).parentSBMLObject = this;
-			for (SBaseChangedListener l : setOfListeners) {
-				sbase.addChangeListener(l);
+		if (checkLevelAndVersionCompatibility(sbase)) {
+			if (sbase instanceof AbstractSBase) {
+				((AbstractSBase) sbase).parentSBMLObject = this;
+				sbase.addAllChangeListeners(getSetOfSBaseChangeListeners());
 			}
+			sbase.fireSBaseAddedEvent();
 		}
-		sbase.fireSBaseAddedEvent();
 	}
 
 	/*

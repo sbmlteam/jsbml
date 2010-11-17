@@ -382,8 +382,7 @@ public class SBMLReader {
 				if (currentNode.getLocalPart().equals("sbml")) {
 					initializedParsers = getInitializedPackageParsers(element);
 					SBMLDocument sbmlDocument = new SBMLDocument();
-					// DEBUG:
-					sbmlDocument.addChangeListener(new SimpleSBaseChangeListener());
+					// DEBUG: sbmlDocument.addChangeListener(new SimpleSBaseChangeListener());
 					for (Iterator<AttributeEventImpl> iterator = element
 							.getAttributes(); iterator.hasNext();) {
 						AttributeEventImpl o = iterator.next();

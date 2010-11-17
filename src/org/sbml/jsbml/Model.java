@@ -258,11 +258,11 @@ public class Model extends AbstractNamedSBase {
 	 * Adds a Compartment instance to the listOfCompartments of this Model.
 	 * 
 	 * @param compartment
+	 * @return <code>true</code> if the {@link #listOfCompartments} was
+	 *         changed as a result of this call.
 	 */
-	public void addCompartment(Compartment compartment) {
-		if (!getListOfCompartments().contains(compartment)) {
-			listOfCompartments.add(compartment);
-		}
+	public boolean addCompartment(Compartment compartment) {
+		return getListOfCompartments().add(compartment);
 	}
 
 	/**
@@ -270,50 +270,47 @@ public class Model extends AbstractNamedSBase {
 	 * Model.
 	 * 
 	 * @param compartmentType
+	 * @return <code>true</code> if the {@link #listOfCompartmentTypes} was
+	 *         changed as a result of this call.
+	 * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
 	 */
 	@Deprecated
-	public void addCompartmentType(CompartmentType compartmentType) {
-		listOfCompartmentTypes = getListOfCompartmentTypes();
-		if (!listOfCompartmentTypes.contains(compartmentType)) {
-			listOfCompartmentTypes.add(compartmentType);
-		}
+	public boolean addCompartmentType(CompartmentType compartmentType) {
+		return getListOfCompartmentTypes().add(compartmentType);
 	}
 
 	/**
-	 * Adds a Constraint instance to the listOfConstraints of this Model.
+	 * Adds a {@link Constraint} instance to the listOfConstraints of this {@link Model}.
 	 * 
 	 * @param constraint
+	 * @return <code>true</code> if the {@link #listOfConstraints} was
+	 *         changed as a result of this call.
 	 */
-	public void addConstraint(Constraint constraint) {
-		listOfConstraints = getListOfConstraints();
-		if (!listOfConstraints.contains(constraint)) {
-			listOfConstraints.add(constraint);
-		}
+	public boolean addConstraint(Constraint constraint) {
+		return getListOfConstraints().add(constraint);
 	}
 
 	/**
-	 * Adds an Event instance to the listOfEvents of this Model.
+	 * Adds an {@link Event} instance to the listOfEvents of this Model.
 	 * 
 	 * @param event
+	 * @return <code>true</code> if the {@link #listOfEvents} was
+	 *         changed as a result of this call.
 	 */
-	public void addEvent(Event event) {
-		listOfEvents = getListOfEvents();
-		if (!listOfEvents.contains(event)) {
-			listOfEvents.add(event);
-		}
+	public boolean addEvent(Event event) {
+		return getListOfEvents().add(event);
 	}
 
 	/**
-	 * Adds a FunctionDefinition instance to the listOfFunctionDefinitions of
-	 * this Model.
+	 * Adds a {@link FunctionDefinition} instance to the listOfFunctionDefinitions of
+	 * this {@link Model}.
 	 * 
 	 * @param functionDefinition
+	 * @return <code>true</code> if the {@link #listOfFunctionDefinitions} was
+	 *         changed as a result of this call.
 	 */
-	public void addFunctionDefinition(FunctionDefinition functionDefinition) {
-		listOfFunctionDefinitions = getListOfFunctionDefinitions();
-		if (!listOfFunctionDefinitions.contains(functionDefinition)) {
-			listOfFunctionDefinitions.add(functionDefinition);
-		}
+	public boolean addFunctionDefinition(FunctionDefinition functionDefinition) {
+		return getListOfFunctionDefinitions().add(functionDefinition);
 	}
 
 	/**
@@ -321,73 +318,68 @@ public class Model extends AbstractNamedSBase {
 	 * this Model.
 	 * 
 	 * @param initialAssignment
+	 * @return <code>true</code> if the {@link #listOfInitialAssignments} was
+	 *         changed as a result of this call.
 	 */
-	public void addInitialAssignment(InitialAssignment initialAssignment) {
-		listOfInitialAssignments = getListOfInitialAssignments();
-		if (!listOfInitialAssignments.contains(initialAssignment)) {
-			listOfInitialAssignments.add(initialAssignment);
-		}
+	public boolean addInitialAssignment(InitialAssignment initialAssignment) {
+		return getListOfInitialAssignments().add(initialAssignment);
 	}
 
 	/**
 	 * Adds a Parameter instance to the listOfParameters of this Model.
 	 * 
 	 * @param parameter
+	 * @return <code>true</code> if the {@link #listOfParameters} was
+	 *         changed as a result of this call.
 	 */
-	public void addParameter(Parameter parameter) {
-		listOfParameters = getListOfParameters();
-		if (!listOfParameters.contains(parameter)) {
-			listOfParameters.add(parameter);
-		}
+	public boolean addParameter(Parameter parameter) {
+		return getListOfParameters().add(parameter);
 	}
 
 	/**
 	 * Adds a Reaction instance to the listOfReactions of this Model.
 	 * 
 	 * @param reaction
+	 * @return <code>true</code> if the {@link #listOfReactions} was
+	 *         changed as a result of this call.
 	 */
-	public void addReaction(Reaction reaction) {
-		listOfReactions = getListOfReactions();
-		if (!listOfReactions.contains(reaction)) {
-			listOfReactions.add(reaction);
-		}
+	public boolean addReaction(Reaction reaction) {
+		return getListOfReactions().add(reaction);
 	}
 
 	/**
 	 * Adds a Rule instance to the listOfRules of this Model.
 	 * 
 	 * @param rule
+	 * @return <code>true</code> if the {@link #listOfRules} was
+	 *         changed as a result of this call.
 	 */
-	public void addRule(Rule rule) {
-		listOfRules = getListOfRules();
-		if (!listOfRules.contains(rule)) {
-			listOfRules.add(rule);
-		}
+	public boolean addRule(Rule rule) {
+		return getListOfRules().add(rule);
 	}
 
 	/**
 	 * Adds a Species instance to the listOfSpecies of this Model.
 	 * 
 	 * @param spec
+	 * @return <code>true</code> if the {@link #listOfSpecies} was
+	 *         changed as a result of this call.
 	 */
-	public void addSpecies(Species spec) {
-		listOfSpecies = getListOfSpecies();
-		if (!listOfSpecies.contains(spec)) {
-			listOfSpecies.add(spec);
-		}
+	public boolean addSpecies(Species spec) {
+		return getListOfSpecies().add(spec);
 	}
 
 	/**
 	 * Adds a SpeciesType instance to the listOfSpeciesTypes of this Model.
 	 * 
 	 * @param speciesType
+	 * @return <code>true</code> if the {@link #listOfSpeciesTypes} was changed
+	 *         as a result of this call.
+	 * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
 	 */
 	@Deprecated
-	public void addSpeciesType(SpeciesType speciesType) {
-		listOfSpeciesTypes = getListOfSpeciesTypes();
-		if (!listOfSpeciesTypes.contains(speciesType)) {
-			listOfSpeciesTypes.add(speciesType);
-		}
+	public boolean addSpeciesType(SpeciesType speciesType) {
+		return getListOfSpeciesTypes().add(speciesType);
 	}
 
 	/**
@@ -395,12 +387,11 @@ public class Model extends AbstractNamedSBase {
 	 * Model.
 	 * 
 	 * @param unitDefinition
+	 * @return <code>true</code> if the {@link #listOfUnitDefinitions} was
+	 *         changed as a result of this call.
 	 */
-	public void addUnitDefinition(UnitDefinition unitDefinition) {
-		listOfUnitDefinitions = getListOfUnitDefinitions();
-		if (!listOfUnitDefinitions.contains(unitDefinition)) {
-			listOfUnitDefinitions.add(unitDefinition);
-		}
+	public boolean addUnitDefinition(UnitDefinition unitDefinition) {
+		return getListOfUnitDefinitions().add(unitDefinition);
 	}
 
 	/*
@@ -3084,7 +3075,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfCompartments
 	 */
 	public void setListOfCompartments(ListOf<Compartment> listOfCompartments) {
-		JSBML.addAllOrReplace(this, this.listOfCompartments, listOfCompartments, ListOf.Type.listOfCompartments);
+		this.listOfCompartments = JSBML.addAllOrReplace(this,
+				this.listOfCompartments, listOfCompartments,
+				ListOf.Type.listOfCompartments);
 	}
 
 	/**
@@ -3099,7 +3092,8 @@ public class Model extends AbstractNamedSBase {
 	@Deprecated
 	public void setListOfCompartmentTypes(
 			ListOf<CompartmentType> listOfCompartmentTypes) {
-		JSBML.addAllOrReplace(this, this.listOfCompartmentTypes, listOfCompartmentTypes,
+		this.listOfCompartmentTypes = JSBML.addAllOrReplace(this,
+				this.listOfCompartmentTypes, listOfCompartmentTypes,
 				ListOf.Type.listOfCompartmentTypes);
 	}
 
@@ -3112,7 +3106,8 @@ public class Model extends AbstractNamedSBase {
 	 *            the listOfConstraints to set
 	 */
 	public void setListOfConstraints(ListOf<Constraint> listOfConstraints) {
-		JSBML.addAllOrReplace(this, this.listOfConstraints, listOfConstraints, ListOf.Type.listOfConstraints);
+		this.listOfConstraints = JSBML.addAllOrReplace(this, this.listOfConstraints,
+				listOfConstraints, ListOf.Type.listOfConstraints);
 	}
 
 	/**
@@ -3122,7 +3117,8 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfEvents
 	 */
 	public void setListOfEvents(ListOf<Event> listOfEvents) {
-		JSBML.addAllOrReplace(this, this.listOfEvents, listOfEvents, ListOf.Type.listOfEvents);
+		this.listOfEvents = JSBML.addAllOrReplace(this, this.listOfEvents,
+				listOfEvents, ListOf.Type.listOfEvents);
 	}
 
 	/**
@@ -3135,7 +3131,9 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfFunctionDefinitions(
 			ListOf<FunctionDefinition> listOfFunctionDefinitions) {
-		JSBML.addAllOrReplace(this, this.listOfFunctionDefinitions, listOfFunctionDefinitions, ListOf.Type.listOfFunctionDefinitions);
+		this.listOfFunctionDefinitions = JSBML.addAllOrReplace(this,
+				this.listOfFunctionDefinitions, listOfFunctionDefinitions,
+				ListOf.Type.listOfFunctionDefinitions);
 	}
 
 	/**
@@ -3148,7 +3146,9 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfInitialAssignments(
 			ListOf<InitialAssignment> listOfInitialAssignments) {
-		JSBML.addAllOrReplace(this, this.listOfInitialAssignments, listOfInitialAssignments, ListOf.Type.listOfInitialAssignments);
+		this.listOfInitialAssignments = JSBML.addAllOrReplace(this,
+				this.listOfInitialAssignments, listOfInitialAssignments,
+				ListOf.Type.listOfInitialAssignments);
 	}
 
 	/**
@@ -3159,7 +3159,8 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfParameters
 	 */
 	public void setListOfParameters(ListOf<Parameter> listOfParameters) {
-		JSBML.addAllOrReplace(this, this.listOfParameters, listOfParameters, ListOf.Type.listOfParameters);
+		this.listOfParameters = JSBML.addAllOrReplace(this, this.listOfParameters,
+				listOfParameters, ListOf.Type.listOfParameters);
 	}
 
 	/**
@@ -3170,7 +3171,8 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfReactions
 	 */
 	public void setListOfReactions(ListOf<Reaction> listOfReactions) {
-		JSBML.addAllOrReplace(this, this.listOfReactions, listOfReactions, ListOf.Type.listOfReactions);
+		this.listOfReactions = JSBML.addAllOrReplace(this, this.listOfReactions,
+				listOfReactions, ListOf.Type.listOfReactions);
 	}
 
 	/**
@@ -3180,7 +3182,8 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfRules
 	 */
 	public void setListOfRules(ListOf<Rule> listOfRules) {
-		JSBML.addAllOrReplace(this, this.listOfRules, listOfRules, ListOf.Type.listOfRules);
+		this.listOfRules = JSBML.addAllOrReplace(this, this.listOfRules,
+				listOfRules, ListOf.Type.listOfRules);
 	}
 
 	/**
@@ -3190,7 +3193,8 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfSpecies
 	 */
 	public void setListOfSpecies(ListOf<Species> listOfSpecies) {
-		JSBML.addAllOrReplace(this, this.listOfSpecies, listOfSpecies, ListOf.Type.listOfSpecies);
+		this.listOfSpecies = JSBML.addAllOrReplace(this, this.listOfSpecies,
+				listOfSpecies, ListOf.Type.listOfSpecies);
 	}
 
 	/**
@@ -3203,7 +3207,9 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public void setListOfSpeciesTypes(ListOf<SpeciesType> listOfSpeciesTypes) {
-		JSBML.addAllOrReplace(this, this.listOfSpeciesTypes, listOfSpeciesTypes, ListOf.Type.listOfSpeciesTypes);
+		this.listOfSpeciesTypes = JSBML.addAllOrReplace(this,
+				this.listOfSpeciesTypes, listOfSpeciesTypes,
+				ListOf.Type.listOfSpeciesTypes);
 	}
 
 	/**
@@ -3215,7 +3221,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfUnitDefinitions(
 			ListOf<UnitDefinition> listOfUnitDefinitions) {
-		JSBML.addAllOrReplace(this, this.listOfUnitDefinitions, listOfUnitDefinitions,
+		this.listOfUnitDefinitions = JSBML.addAllOrReplace(this,
+				this.listOfUnitDefinitions, listOfUnitDefinitions,
 				ListOf.Type.listOfUnitDefinitions);
 	}
 

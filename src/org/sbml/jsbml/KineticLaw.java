@@ -127,14 +127,17 @@ public class KineticLaw extends AbstractMathContainer {
 	 * in this KineticLaw.
 	 * 
 	 * @param parameter
+	 * @return <code>true</code> if the {@link #listOfLocalParameters} was
+	 *         changed as a result of this call.
 	 */
-	public void addLocalParameter(LocalParameter parameter) {
-		if (!getListOfLocalParameters().contains(parameter)) {
-			listOfLocalParameters.add(parameter);
+	public boolean addLocalParameter(LocalParameter parameter) {
+		if (getListOfLocalParameters().add(parameter)) {
 			if (parameter.isSetId() && isSetMath()) {
 				getMath().updateVariables();
 			}
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -142,11 +145,13 @@ public class KineticLaw extends AbstractMathContainer {
 	 * in this KineticLaw.
 	 * 
 	 * @param p
+	 * @return <code>true</code> if the {@link #listOfLocalParameters} was
+	 *         changed as a result of this call.
 	 * @deprecated use {@link #addLocalParameter(LocalParameter)}.
 	 */
 	@Deprecated
-	public void addParameter(LocalParameter parameter) {
-		addLocalParameter(parameter);
+	public boolean addParameter(LocalParameter parameter) {
+		return addLocalParameter(parameter);
 	}
 
 	/**
@@ -587,8 +592,8 @@ public class KineticLaw extends AbstractMathContainer {
 	 * @param list
 	 */
 	public void setListOfLocalParameters(ListOf<LocalParameter> list) {
-		JSBML.addAllOrReplace(this, listOfLocalParameters, list,
-				ListOf.Type.listOfLocalParameters);
+		this.listOfLocalParameters = JSBML.addAllOrReplace(this,
+				listOfLocalParameters, list, ListOf.Type.listOfLocalParameters);
 		if (isSetMath()) {
 			getMath().updateVariables();
 		}
