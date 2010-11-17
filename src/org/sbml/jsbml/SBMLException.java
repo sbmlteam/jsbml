@@ -33,10 +33,6 @@ package org.sbml.jsbml;
  * This class roughly corresponds to libSBML's SBMLError class.
  * 
  * @author Andreas Dr&auml;ger
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public class SBMLException extends Exception {
 
@@ -1208,12 +1204,10 @@ public class SBMLException extends Exception {
 
 	/**
 	 * 
-	 * @author Andreas Dr&auml;ger <a
-	 *         href="mailto:andreas.draeger@uni-tuebingen.de"
-	 *         >andreas.draeger@uni-tuebingen.de</a>
+	 * @author Andreas Dr&auml;ger
 	 * 
 	 */
-	private enum Type {
+	public enum Type {
 		/**
 		 * 
 		 */

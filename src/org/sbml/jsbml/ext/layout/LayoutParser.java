@@ -79,8 +79,12 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 		if (contextObject instanceof SBase) {
 			SBase sbase = (SBase) contextObject;
-			isAttributeRead = sbase.readAttribute(attributeName, prefix, value);
-
+			try {
+				isAttributeRead = sbase.readAttribute(attributeName, prefix,
+						value);
+			} catch (Throwable exc) {
+				System.err.println(exc.getMessage());
+			}
 		} else if (contextObject instanceof Annotation) {
 			Annotation annotation = (Annotation) contextObject;
 			isAttributeRead = annotation.readAttribute(attributeName, prefix,
