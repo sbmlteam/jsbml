@@ -260,8 +260,7 @@ public class Model extends AbstractNamedSBase {
 	 * @param compartment
 	 */
 	public void addCompartment(Compartment compartment) {
-		listOfCompartments = getListOfCompartments();
-		if (!listOfCompartments.contains(compartment)) {
+		if (!getListOfCompartments().contains(compartment)) {
 			listOfCompartments.add(compartment);
 		}
 	}

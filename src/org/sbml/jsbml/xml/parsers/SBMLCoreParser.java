@@ -895,6 +895,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 * elementName, String prefix, boolean hasAttributes, boolean hasNamespaces,
 	 * Object contextObject)
 	 */
+	@SuppressWarnings("unchecked")
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
@@ -904,6 +905,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			try {
 				Object newContextObject = SBMLCoreElements.get(elementName)
 						.newInstance();
+				if (contextObject instanceof SBase) {
+					setLevelAndVersionFor(newContextObject,
+							(SBase) contextObject);
+				}
 
 				if (elementName.equals("notes")
 						&& contextObject instanceof SBase) {
@@ -932,7 +937,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				} else if (contextObject instanceof Model) {
 
 					Model model = (Model) contextObject;
-					setLevelAndVersionFor(newContextObject, model);
 					if (newContextObject instanceof ListOf<?>) {
 						if (elementName.equals("listOfFunctionDefinitions")
 								&& model.getLevel() > 1) {
@@ -1018,7 +1022,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					if (list.getParentSBMLObject() instanceof Model) {
 
 						Model model = (Model) list.getParentSBMLObject();
-						setLevelAndVersionFor(newContextObject, model);
 						if (elementName.equals("functionDefinition")
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfFunctionDefinitions)
@@ -1256,7 +1259,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					} else if (list.getParentSBMLObject() instanceof KineticLaw) {
 						KineticLaw kineticLaw = (KineticLaw) list
 								.getParentSBMLObject();
-						setLevelAndVersionFor(newContextObject, kineticLaw.getModel());
 						// Level 3 : parameter and listOfParameters =>
 						// localParameter and listOfLocalParameter
 						if (elementName.equals("localParameter")
@@ -1332,7 +1334,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					}
 				} else if (contextObject instanceof Reaction) {
 					Reaction reaction = (Reaction) contextObject;
-
 					if (elementName.equals("listOfReactants")) {
 						ListOf listOfReactants = (ListOf<?>) newContextObject;
 						reaction.setListOfReactants(listOfReactants);
@@ -1378,7 +1379,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					if (elementName.equals("listOfLocalParameters")
 							&& kineticLaw.getLevel() >= 3) {
 						ListOf listOfLocalParameters = (ListOf<?>) newContextObject;
-						setLevelAndVersionFor(listOfLocalParameters, kineticLaw.getModel());
 						kineticLaw
 								.setListOfLocalParameters(listOfLocalParameters);
 						listOfLocalParameters
@@ -1389,7 +1389,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 							&& kineticLaw.isSetLevel()
 							&& kineticLaw.getLevel() < 3) {
 						ListOf listOfLocalParameters = (ListOf<?>) newContextObject;
-						setLevelAndVersionFor(listOfLocalParameters, kineticLaw.getModel());
 						kineticLaw
 								.setListOfLocalParameters(listOfLocalParameters);
 						listOfLocalParameters
@@ -1430,15 +1429,15 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 * value in the model.
 	 * 
 	 * @param newContextObject
-	 * @param model
+	 * @param parent
 	 */
-	private void setLevelAndVersionFor(Object newContextObject, Model model) {
+	private void setLevelAndVersionFor(Object newContextObject, SBase parent) {
 		if (newContextObject instanceof SBase) {
 			SBase sb = (SBase) newContextObject;
 			// Level and version will be -1 if not set, so we don't
 			// have to check.
-			sb.setLevel(model.getLevel());
-			sb.setVersion(model.getVersion());
+			sb.setLevel(parent.getLevel());
+			sb.setVersion(parent.getVersion());
 		}
 	}
 
