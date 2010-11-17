@@ -383,23 +383,27 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		} else if (e.getVersion() != getVersion()) {
 			throw new IllegalArgumentException(JSBML.versionMismatchMessage(this, e));
 		}
-		// Avoid adding the same thing twice.
-		if (e instanceof NamedSBase) {
-			NamedSBase nsb = (NamedSBase) e;
-			if (nsb.isSetId()) {
-				for (SBase element : this) {
-					NamedSBase elem = ((NamedSBase) element);
-					if (elem.isSetId() && elem.getId().equals(nsb.getId())) {
-						return false;
-					}
-				}
-			}
+//		// Avoid adding the same thing twice.
+//		if (e instanceof NamedSBase) {
+//			NamedSBase nsb = (NamedSBase) e;
+//			if (nsb.isSetId()) {
+//				for (SBase element : this) {
+//					NamedSBase elem = ((NamedSBase) element);
+//					if (elem.isSetId() && elem.getId().equals(nsb.getId())) {
+//						return false;
+//					}
+//				}
+//			}
+//		}
+		if (contains(e)) {
+			return false;
 		}
 		for (SBaseChangedListener l : setOfListeners) {
 			e.addChangeListener(l);
 		}
+		boolean success = listOf.add(e);
 		setThisAsParentSBMLObject(e);
-		return listOf.add(e);
+		return success;
 	}
 
 	/*

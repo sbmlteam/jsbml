@@ -904,8 +904,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @param listOfUnits
 	 */
 	public void setListOfUnits(ListOf<Unit> listOfUnits) {
-		JSBML.addAllOrReplace(this, this.listOfUnits, listOfUnits,
-				ListOf.Type.listOfUnits);
+		this.listOfUnits = JSBML.addAllOrReplace(this, this.listOfUnits,
+				listOfUnits, ListOf.Type.listOfUnits);
 	}
 	
 	/**

@@ -37,6 +37,7 @@ import java.util.Properties;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.xml.stax.SBMLReader;
@@ -102,31 +103,49 @@ public class JSBML {
 	public static final String UNDEFINED_PARSE_ERROR_MSG = "An error occur while creating a parser: %s.";
 
 	/**
+	 * Helper method that takes as argument the owner of a {@link ListOf}
+	 * object, the currently set list in this owner, the desired new list and
+	 * the {@link Type} that is to be set. It then looks if old elements have to
+	 * be deleted or new elements are to be added to the original list. Finally,
+	 * it sets a pointer from the original list to the parent. To make sure
+	 * everything is correct, a pointer to the modified list is returned, which
+	 * should then in turn be assigned to the variable storing the original
+	 * list. Otherwise the modification might get lost.
 	 * 
 	 * @param <T>
 	 * @param owner
 	 * @param origList
 	 * @param newList
 	 * @param type
+	 * @return a pointer to the list that has been changed.
 	 */
-	public static <T extends SBase> void addAllOrReplace(SBase owner,
+	public static <T extends SBase> ListOf<T> addAllOrReplace(SBase owner,
 			ListOf<T> origList, ListOf<T> newList, ListOf.Type type) {
 		if (newList != null) {
 			if (owner.getLevel() != newList.getLevel()) {
-				throw new IllegalArgumentException(levelMismatchMessage(owner, newList));
+				throw new IllegalArgumentException(levelMismatchMessage(owner,
+						newList));
 			}
 			if (owner.getVersion() != newList.getVersion()) {
-				throw new IllegalArgumentException(versionMismatchMessage(owner, newList));
+				throw new IllegalArgumentException(versionMismatchMessage(
+						owner, newList));
 			}
 		}
 		if ((newList == null) || (origList != null)) {
-			origList.clear();
-			origList.addAll(newList);
+			if (origList != null) {
+				origList.clear();
+			}
+			if (newList == null) {
+				origList = null;
+			} else {
+				origList.addAll(newList);
+			}
 		} else {
 			origList = newList;
 			origList.setSBaseListType(type);
 			owner.setThisAsParentSBMLObject(origList);
 		}
+		return origList;
 	}
 	
 	/**

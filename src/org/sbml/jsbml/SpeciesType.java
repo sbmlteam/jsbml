@@ -32,15 +32,12 @@ package org.sbml.jsbml;
 
 
 /**
- * Represents the speciesType XML element of a SBML file. It is @deprecated
+ * Represents the speciesType XML element of a SBML file. It is deprecated
  * since level 3.
  * 
  * @author Andreas Dr&auml;ger
- * @deprecated
+ * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
  * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 @Deprecated
 public class SpeciesType extends AbstractNamedSBase {
