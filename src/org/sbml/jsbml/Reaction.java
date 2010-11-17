@@ -162,27 +162,15 @@ public class Reaction extends AbstractNamedSBase implements
 		initDefaults();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.sbml.jsbml.element.SBase#addChangeListener(org.sbml.squeezer.io.
-	 * SBaseChangedListener )
-	 */
-	public void addChangeListener(SBaseChangedListener l) {
-		super.addChangeListener(l);
-		listOfReactants.addChangeListener(l);
-		listOfProducts.addChangeListener(l);
-		listOfModifiers.addChangeListener(l);
-	}
-
 	/**
 	 * Adds a ModifierSpeciesReference instance to this Reaction.
 	 * 
 	 * @param modspecref
 	 */
 	public void addModifier(ModifierSpeciesReference modspecref) {
-		setThisAsParentSBMLObject(modspecref);
-		listOfModifiers.add(modspecref);
+		if (!getListOfModifiers().contains(modspecref)) {
+			listOfModifiers.add(modspecref);
+		}
 	}
 
 	/**
@@ -191,8 +179,9 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param specref
 	 */
 	public void addProduct(SpeciesReference specref) {
-		setThisAsParentSBMLObject(specref);
-		listOfProducts.add(specref);
+		if (!getListOfProducts().contains(specref)) {
+			listOfProducts.add(specref);
+		}
 	}
 
 	/**
@@ -201,8 +190,9 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param specref
 	 */
 	public void addReactant(SpeciesReference specref) {
-		setThisAsParentSBMLObject(specref);
-		listOfReactants.add(specref);
+		if (!getListOfReactants().contains(specref)) {
+			listOfReactants.add(specref);
+		}
 	}
 
 	/*

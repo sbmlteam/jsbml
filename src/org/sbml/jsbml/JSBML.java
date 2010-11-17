@@ -110,8 +110,7 @@ public class JSBML {
 	 * @param type
 	 */
 	public static <T extends SBase> void addAllOrReplace(SBase owner,
-			ListOf<T> origList, ListOf<T> newList,
-			ListOf.Type type) {
+			ListOf<T> origList, ListOf<T> newList, ListOf.Type type) {
 		if (newList != null) {
 			if (owner.getLevel() != newList.getLevel()) {
 				throw new IllegalArgumentException(levelMismatchMessage(owner, newList));

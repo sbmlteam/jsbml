@@ -281,14 +281,14 @@ public class Compartment extends Symbol {
 		compartmentTypeID = null;
 		outsideID = null;
 		if (getLevel() < 3) {
-			spatialDimensions = 3;
+			spatialDimensions = Short.valueOf((short) 3);
 			constant = new Boolean(true);
 		} else {
 			spatialDimensions = null;
 			constant = null;
 		}
 		// TODO : There is no default value for compartment size (only for level 1 apparently) ??
-		value = 1.;
+		value = Double.valueOf(1d);
 	}
 
 	/**

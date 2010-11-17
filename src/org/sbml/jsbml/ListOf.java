@@ -53,40 +53,6 @@ import org.sbml.jsbml.util.filters.Filter;
 public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	
 	/**
-	 * Helper method to initialize newly created lists.
-	 * 
-	 * @param list
-	 * @param type
-	 */
-	public static <T extends SBase> ListOf<T> initListOf(SBase parent,
-			ListOf<T> list, ListOf.Type type) {
-		if (parent.isSetLevel()) {
-			list.setLevel(parent.getLevel());
-		}
-		if (parent.isSetVersion()) {
-			list.setVersion(parent.getVersion());
-		}
-		list.setSBaseListType(type);
-		parent.setThisAsParentSBMLObject(list);
-		return list;
-	}
-
-	/**
-	 * Helper method to initialize a new {@link ListOf} object for the given
-	 * parent SBML object and with the given {@link Class} as the type of the
-	 * list.
-	 * 
-	 * @param <T>
-	 * @param parent
-	 * @param clazz
-	 * @return
-	 */
-	public static <T extends SBase> ListOf<T> newInstance(SBase parent,
-			Class<T> clazz) {
-		return initListOf(parent, new ListOf<T>(), ListOf.Type.valueOf(clazz));
-	}
-
-	/**
 	 * This enum lists all the possible names of the listXXX components. If the
 	 * listXXX is a SBML package extension, the SBaseListType value to set would
 	 * be 'other'.
@@ -286,14 +252,80 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	}
 
 	/**
+	 * Switches the behavior of the {@link #toString()} method from displaying
+	 * the {@link Type} (default) to the complete content of all instances of
+	 * {@link ListOf}
+	 */
+	private static boolean DEBUG_MODE;
+
+	/**
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 5757549697766609627L;
 
 	/**
+	 * Helper method to initialize newly created lists.
+	 * 
+	 * @param list
+	 * @param type
+	 */
+	public static <T extends SBase> ListOf<T> initListOf(SBase parent,
+			ListOf<T> list, ListOf.Type type) {
+		if (parent.isSetLevel()) {
+			list.setLevel(parent.getLevel());
+		}
+		if (parent.isSetVersion()) {
+			list.setVersion(parent.getVersion());
+		}
+		list.setSBaseListType(type);
+		parent.setThisAsParentSBMLObject(list);
+		return list;
+	}
+
+	/**
+	 * If this method returns true, the {@link #toString()} method of this
+	 * {@link ListOf} displays the whole content of the list. Otherwise, only
+	 * the {@link Type} is shown.
+	 * 
+	 * @return the debugMode
+	 */
+	public static boolean isDebugMode() {
+		return DEBUG_MODE;
+	}
+	/**
+	 * Helper method to initialize a new {@link ListOf} object for the given
+	 * parent SBML object and with the given {@link Class} as the type of the
+	 * list.
+	 * 
+	 * @param <T>
+	 * @param parent
+	 * @param clazz
+	 * @return
+	 */
+	public static <T extends SBase> ListOf<T> newInstance(SBase parent,
+			Class<T> clazz) {
+		return initListOf(parent, new ListOf<T>(), ListOf.Type.valueOf(clazz));
+	}
+
+	/**
+	 * Allows you to influence the behavior of the {@link #toString()} method.
+	 * If set to <code>true</code>, the whole content of this {@link ListOf} is
+	 * displayed by the {@link #toString()} method, just like it is done in
+	 * other {@link List} implementations. The default for JSBML, however, is,
+	 * to only display the {@link Type} of this list.
+	 * 
+	 * @param debugMode
+	 *            the debugMode to set
+	 */
+	public static void setDebugMode(boolean debugMode) {
+		DEBUG_MODE = debugMode;
+	}
+
+	/**
 	 * list containing all the SBase elements of this object.
 	 */
 	protected LinkedList<T> listOf = new LinkedList<T>();
+
 	/**
 	 * name of the list at it appears in the SBMLFile. By default, it is
 	 * SBaseListType.none.
@@ -334,8 +366,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#add(int index, T element)
+	 * @see java.util.List#add(int, java.lang.Object)
 	 */
 	public void add(int index, T element) {
 		setThisAsParentSBMLObject(element);
@@ -344,8 +375,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#add(java.lang.Object)
+	 * @see java.util.List#add(java.lang.Object)
 	 */
 	public boolean add(T e) {
 		if (e.getLevel() != getLevel()) {
@@ -374,8 +404,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#addAll(Collection<? extends T> c)
+	 * @see java.util.List#addAll(java.util.Collection)
 	 */
 	public boolean addAll(Collection<? extends T> c) {
 		for (T element : c) {
@@ -386,8 +415,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#addAll(int index, Collection<? extends T> c)
+	 * @see java.util.List#addAll(int, java.util.Collection)
 	 */
 	public boolean addAll(int index, Collection<? extends T> c) {
 		for (T element : c)
@@ -397,9 +425,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#addChangeListener(org.sbml.squeezer.io.
-	 * SBaseChangedListener)
+	 * @see org.sbml.jsbml.AbstractSBase#addChangeListener(org.sbml.jsbml.SBaseChangedListener)
 	 */
 	public void addChangeListener(SBaseChangedListener l) {
 		setOfListeners.add(l);
@@ -427,8 +453,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#clear()
+	 * @see java.util.List#clear()
 	 */
 	public void clear() {
 		for (T t : listOf) {
@@ -439,18 +464,15 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#clone()
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	@Override
 	public ListOf<T> clone() {
 		return new ListOf<T>(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#contains(Object o)
+	 * @see java.util.List#contains(java.lang.Object)
 	 */
 	public boolean contains(Object o) {
 		return listOf.contains(o);
@@ -458,8 +480,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.containsAll(Collection<?> c)
+	 * @see java.util.List#containsAll(java.util.Collection)
 	 */
 	public boolean containsAll(Collection<?> c) {
 		return listOf.containsAll(c);
@@ -476,19 +497,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 			ListOf<?> listOf = (ListOf<?>) o;
 			equals &= getSBaseListType() == listOf.getSBaseListType();
 			return listOf.containsAll(this) && equals;
-		}
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.SBase#equals(org.sbml.jsbml.SBase)
-	 */
-	public boolean equals(SBase sbase) {
-		if (sbase instanceof ListOf<?>) {
-			ListOf<?> listOf = (ListOf<?>) sbase;
-			return listOf.containsAll(this) && this.containsAll(listOf);
 		}
 		return false;
 	}
@@ -534,8 +542,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#get(int index)
+	 * @see java.util.List#get(int)
 	 */
 	public T get(int index) {
 		return listOf.get(index);
@@ -543,7 +550,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
 	 */
 	@Override
@@ -553,7 +559,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
@@ -614,8 +619,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#indexOf(Object o)
+	 * @see java.util.List#indexOf(java.lang.Object)
 	 */
 	public int indexOf(Object o) {
 		return listOf.indexOf(o);
@@ -623,8 +627,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#isEmpty()
+	 * @see java.util.List#isEmpty()
 	 */
 	public boolean isEmpty() {
 		return listOf.isEmpty();
@@ -632,8 +635,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#iterator()
+	 * @see java.util.List#iterator()
 	 */
 	public Iterator<T> iterator() {
 		return listOf.iterator();
@@ -641,8 +643,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#lastIndexOf(Object o)
+	 * @see java.util.List#lastIndexOf(java.lang.Object)
 	 */
 	public int lastIndexOf(Object o) {
 		return listOf.lastIndexOf(o);
@@ -650,8 +651,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#listIterator()
+	 * @see java.util.List#listIterator()
 	 */
 	public ListIterator<T> listIterator() {
 		return listOf.listIterator();
@@ -659,8 +659,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#listIterator(int index)
+	 * @see java.util.List#listIterator(int)
 	 */
 	public ListIterator<T> listIterator(int index) {
 		return listOf.listIterator(index);
@@ -668,9 +667,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String,
-	 * java.lang.String, java.lang.String)
+	 * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -681,8 +678,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#remove(int index)
+	 * @see java.util.List#remove(int)
 	 */
 	public T remove(int index) {
 		T t = listOf.remove(index);
@@ -728,8 +724,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#remove(Object o)
+	 * @see java.util.List#remove(java.lang.Object)
 	 */
 	public boolean remove(Object o) {
 		if (!(o instanceof SBase)) {
@@ -773,8 +768,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#removeAll(Collection<?> c)
+	 * @see java.util.List#removeAll(java.util.Collection)
 	 */
 	public boolean removeAll(Collection<?> c) {
 		return listOf.removeAll(c);
@@ -807,8 +801,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#retainAll(Collection<?> c)
+	 * @see java.util.List#retainAll(java.util.Collection)
 	 */
 	public boolean retainAll(Collection<?> c) {
 		return listOf.retainAll(c);
@@ -816,8 +809,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#set(int index, T element)
+	 * @see java.util.List#set(int, java.lang.Object)
 	 */
 	public T set(int index, T element) {
 		setThisAsParentSBMLObject(element);
@@ -839,6 +831,16 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	}
 
 	/**
+	 * Sets the SBaseListType of this {@link ListOf} instance to the listType
+	 * defined by the given {@link Class}.
+	 * 
+	 * @param type
+	 */
+	public void setSBaseListType(Class<T> type) {
+		setSBaseListType(Type.valueOf(type));
+	}
+	
+	/**
 	 * Sets the SBaseListType of this ListOf instance to 'listType'.
 	 * 
 	 * @param listType
@@ -848,21 +850,10 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		this.listType = currentList;
 		firePropertyChange(SBaseChangedEvent.baseListType, oldType, listType);
 	}
-	
-	/**
-	 * Sets the SBaseListType of this {@link ListOf} instance to the listType
-	 * defined by the given {@link Class}.
-	 * 
-	 * @param type
-	 */
-	public void setSBaseListType(Class<T> type) {
-		setSBaseListType(Type.valueOf(type));
-	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#size()
+	 * @see java.util.List#size()
 	 */
 	public int size() {
 		return listOf.size();
@@ -870,8 +861,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#subList(int fromIndex, int toIndex)
+	 * @see java.util.List#subList(int, int)
 	 */
 	public List<T> subList(int fromIndex, int toIndex) {
 		return listOf.subList(fromIndex, toIndex);
@@ -879,8 +869,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#toArray()
+	 * @see java.util.List#toArray()
 	 */
 	public Object[] toArray() {
 		return listOf.toArray();
@@ -888,8 +877,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.util.LinkedList#toArray(T[] a)
+	 * @see java.util.List#toArray(T[])
 	 */
 	@SuppressWarnings("hiding")
 	public <T> T[] toArray(T[] a) {
@@ -898,12 +886,13 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#toString()
+	 * @see org.sbml.jsbml.AbstractSBase#toString()
 	 */
 	@Override
 	public String toString() {
-		// return listOf.toString();
+		if (DEBUG_MODE) {
+			return listOf.toString();
+		}
 		return listType.toString();
 	}
 
