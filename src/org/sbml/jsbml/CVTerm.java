@@ -47,21 +47,14 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class CVTerm implements Cloneable, Serializable {
 
-	// TODO : it would be probably safer to try to load the list a qualifier from the web at http://www.ebi.ac.uk/miriam/main/qualifiers/xml/
-	// We can have a copy of the file in the jar in case the web access fail but the online one would be better as you can have new qualifiers defined at any time.
-	
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -3648054739091227113L;
-	/**
-	 * Message to indicate an illegal combination of a {@link Type} and a
-	 * {@link Qualifier} attribute.
-	 */
-	private static final String INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG = "Invalid combination of type %s with qualifier %s.";
+	// TODO : it would be probably safer to try to load the list a qualifier
+	// from the web at http://www.ebi.ac.uk/miriam/main/qualifiers/xml/
+	// We can have a copy of the file in the jar in case the web access fail but
+	// the online one would be better as you can have new qualifiers defined at
+	// any time.
 
 	/**
-	 * This enum list all the possible MIRIAM qualifiers.
+	 * This <code>enum</code> list all the possible MIRIAM qualifiers.
 	 * 
 	 */
 	public static enum Qualifier {
@@ -174,8 +167,23 @@ public class CVTerm implements Cloneable, Serializable {
 				return "unknownQualifier";
 			}
 		}
-	}
 
+		/**
+		 * 
+		 * @return
+		 */
+		public boolean isBiologicalQualifier() {
+			return !isModelQualifier();
+		}
+
+		/**
+		 * 
+		 * @return
+		 */
+		public boolean isModelQualifier() {
+			return toString().startsWith("BQM_");
+		}
+	}
 	/**
 	 * This enum list all the possible MIRIAM qualifiers type.
 	 * 
@@ -213,27 +221,38 @@ public class CVTerm implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -3648054739091227113L;
+
+	/**
+	 * Message to indicate an illegal combination of a {@link Type} and a
+	 * {@link Qualifier} attribute.
+	 */
+	private static final String INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG = "Invalid combination of type %s with qualifier %s.";
+
+	/**
 	 * Represents the MIRIAM qualifier node in the annotation node of a SBML
 	 * component.
 	 */
 	private Qualifier qualifier;
 
 	/**
-	 * Contains all the MIRIAM URI associated with the qualifier of this CVTerm
+	 * Contains all the MIRIAM URI associated with the qualifier of this {@link CVTerm}
 	 * instance.
 	 */
 	private List<String> resourceURIs;
 
 	/**
-	 * Represents the type of MIRIAM qualifier for this CVTerm. It depends on
-	 * the namespace in the SBML file, it can be a model qualifier or a
-	 * biological qualifier.
+	 * Represents the type of MIRIAM qualifier for this {@link CVTerm}. It
+	 * depends on the name space in the SBML file, it can be a model qualifier
+	 * or a biological qualifier.
 	 */
 	private Type type;
 
 	/**
-	 * Creates a CVTerm instance. By default, the type and qualifier of this
-	 * CVTerm are null. The list of resourceURIS is empty.
+	 * Creates a {@link CVTerm} instance. By default, the type and qualifier of
+	 * this {@link CVTerm} are null. The list of resourceURIS is empty.
 	 */
 	public CVTerm() {
 		type = Type.UNKNOWN_QUALIFIER;
@@ -242,35 +261,7 @@ public class CVTerm implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Creates a new {@link CVTerm} with the given {@link Type} and
-	 * {@link Qualifier} pointing to all given resources.
-	 * 
-	 * @param type
-	 * @param qualifier
-	 * @param resoruces
-	 * @throws IllegalArgumentException
-	 *             if the combination of the given type and qualifier is not
-	 *             possible or if the given resources are invalid.
-	 */
-	public CVTerm(Type type, Qualifier qualifier, String... resoruces) {
-		this();
-		setQualifierType(type);
-		if (isBiologicalQualifier()) {
-			setBiologicalQualifierType(qualifier);
-		} else if (isModelQualifier()) {
-			setModelQualifierType(qualifier);
-		} else {
-			throw new IllegalArgumentException(String.format(
-					INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG, type,
-					qualifier));
-		}
-		for (String resource : resoruces) {
-			addResource(resource);
-		}
-	}
-
-	/**
-	 * Creates a CVTerm instance from a given CVTerm.
+	 * Creates a {@link CVTerm} instance from a given {@link CVTerm}.
 	 * 
 	 * @param term
 	 */
@@ -297,6 +288,53 @@ public class CVTerm implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Guesses the {@link Type} argument and sets the {@link Qualifier}
+	 * attribute appropriately. Then it adds all the given resources.
+	 * 
+	 * @param qualifier
+	 * @param resources
+	 */
+	public CVTerm(Qualifier qualifier, String... resources) {
+		this();
+		if (qualifier.isBiologicalQualifier()) {
+			setQualifierType(Type.BIOLOGICAL_QUALIFIER);
+			setBiologicalQualifierType(qualifier);
+		} else {
+			setQualifierType(Type.MODEL_QUALIFIER);
+			setModelQualifierType(qualifier);
+		}
+		addResources(resources);
+	}
+
+	/**
+	 * Creates a new {@link CVTerm} with the given {@link Type} and
+	 * {@link Qualifier} pointing to all given resources.
+	 * 
+	 * @param type
+	 * @param qualifier
+	 * @param resources
+	 * @throws IllegalArgumentException
+	 *             if the combination of the given type and qualifier is not
+	 *             possible or if the given resources are invalid.
+	 */
+	public CVTerm(Type type, Qualifier qualifier, String... resources) {
+		this();
+		setQualifierType(type);
+		if (isBiologicalQualifier()) {
+			setBiologicalQualifierType(qualifier);
+		} else if (isModelQualifier()) {
+			setModelQualifierType(qualifier);
+		} else {
+			throw new IllegalArgumentException(String
+					.format(INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG, type,
+							qualifier));
+		}
+		for (String resource : resources) {
+			addResource(resource);
+		}
+	}
+
+	/**
 	 * Adds a resource to the {@link CVTerm}.
 	 * 
 	 * @param urn
@@ -306,6 +344,19 @@ public class CVTerm implements Cloneable, Serializable {
 	 */
 	public boolean addResource(String urn) {
 		return resourceURIs.add(urn);
+	}
+
+	/**
+	 * 
+	 * @param resources
+	 * @return
+	 */
+	public boolean addResources(String... resources) {
+		boolean success = true;
+		for (String resource : resources) {
+			success &= addResource(resource);
+		}
+		return success;
 	}
 
 	/**
@@ -320,6 +371,7 @@ public class CVTerm implements Cloneable, Serializable {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -552,14 +604,16 @@ public class CVTerm implements Cloneable, Serializable {
 	public void setModelQualifierType(Qualifier qualifier) {
 		if (qualifier != null) {
 			if (qualifier.toString().startsWith("BQM")) {
-				if (this.type == Type.MODEL_QUALIFIER)
+				if (this.type == Type.MODEL_QUALIFIER) {
 					this.qualifier = qualifier;
-				else
+				} else {
 					throw new IllegalArgumentException(
 							"Model qualifier types can only be applyed if the type is set to Model Qualifier.");
+				}
 			} else {
 				throw new IllegalArgumentException(String.format(
-						"%s is not a valid Model !ualifier.", qualifier.toString()));
+						"%s is not a valid Model !ualifier.", qualifier
+								.toString()));
 			}
 		}
 	}
@@ -593,8 +647,8 @@ public class CVTerm implements Cloneable, Serializable {
 	}
 
 	/**
-	 * @return a String containing the qualifier and all the resource URIs of
-	 *         this CVTerm.
+	 * @return a {@link String} containing the qualifier and all the resource
+	 *         URIs of this {@link CVTerm}.
 	 */
 	public String toString() {
 		StringBuilder buffer = new StringBuilder();
@@ -674,12 +728,11 @@ public class CVTerm implements Cloneable, Serializable {
 			}
 			buffer.append(uri);
 		}
-		buffer.append('.');
 		return buffer.toString();
 	}
 
 	/**
-	 * writes all the MIRIAM annotations of the CVTerm in 'buffer'
+	 * writes all the MIRIAM annotations of the {@link CVTerm} in 'buffer'
 	 * 
 	 * @param indent
 	 * @param buffer
