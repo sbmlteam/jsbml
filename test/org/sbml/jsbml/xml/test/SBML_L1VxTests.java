@@ -164,10 +164,6 @@ public class SBML_L1VxTests {
 		
 		assertTrue(s1.getInitialAmount() == 1);
 		
-		Parameter vm = model.getParameter(0);
-		
-		assertTrue(vm != null);
-		assertTrue(vm.getUnits().equals("mls"));
 		
 		UnitDefinition mls = model.getUnitDefinition(1);
 		
@@ -180,7 +176,12 @@ public class SBML_L1VxTests {
 		assertTrue(mls.getUnit(2).getExponent() == -1);
 		assertTrue(mls.getUnit(2).getKind().getName().equals("second"));
 		assertTrue(mls.getUnit(2).getKind().equals(Kind.SECOND));
+
+		Parameter vm = model.getParameter(0);
 		
+		assertTrue(vm != null);
+		assertTrue(vm.getUnits().equals("mls"));
+
 	}
 
 }
