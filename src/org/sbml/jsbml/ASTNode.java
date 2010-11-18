@@ -385,7 +385,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 			} else if (type.equalsIgnoreCase("pow")) {
 				return FUNCTION_POWER;
 			} else if (type.equalsIgnoreCase("sqr")) {
-				return FUNCTION_ROOT;
+				return FUNCTION_POWER;
 			} else if (type.equalsIgnoreCase("sqrt")) {
 				return FUNCTION_ROOT;
 			} else if (type.equalsIgnoreCase("sin")) {
