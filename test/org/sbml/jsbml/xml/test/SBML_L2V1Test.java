@@ -50,6 +50,7 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 import org.xml.sax.SAXException;
@@ -277,7 +278,38 @@ public class SBML_L2V1Test {
 		
 		
 	}
+
 	
+	/**
+	 * 
+	 * @throws XMLStreamException
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws InvalidPropertiesFormatException 
+	 */
+	@Test public void read5() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
+		String fileName = DATA_FOLDER + "/l2v3/BIOMD0000000191.xml"; // l2v3
+		
+		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
+		Model model = doc.getModel();
+		
+		assertTrue(doc.getLevel() == 2 && doc.getVersion() == 3);
+		
+		assertTrue(model.getNumUnitDefinitions() == 4);
+		
+		UnitDefinition microM = model.getUnitDefinition(2);
+		UnitDefinition microMById = model.getUnitDefinition("microM");
+		
+		assertTrue(microM.equals(microMById));
+		
+		assertTrue(microM.getNumUnits() == 2);
+		assertTrue(microM.getName().equals("microM"));
+		assertTrue(microM.getUnit(0).getScale() == -6);
+		assertTrue(microM.getUnit(0).getKind().getName().equals("mole"));
+		
+		
+	}
+
 	/**
 	 *  Example that check that an exception is correctly launched.
 	 */
