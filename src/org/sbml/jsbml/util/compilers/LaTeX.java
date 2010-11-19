@@ -1371,8 +1371,8 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 			throws SBMLException {
 		StringBuilder value = new StringBuilder();
 		value.append(base.compile(this));
-		if (!base.isUnary()) {
-			value = brackets(value);
+		if (!(base.getNumChildren() < 2)) {			
+			value = brackets(value);			
 		}
 		value.append('^');
 		value.append('{');
@@ -1599,9 +1599,11 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 				.toString());
 		if (values.get(0).isSum()
 				|| (values.get(0).isDifference() && !values.get(0).isUMinus())
-				|| (values.get(0).isNumber() && (values.get(0).getReal() < 0))) {
-			v = brackets(v);
+				|| (values.get(0).isNumber() && !(values.get(0).getReal() < 0))) {
+			v = brackets(v);		
+			
 		}
+		
 		for (int i = 1; i < values.size(); i++) {
 			v.append("\\cdot");
 			if ((values.get(i).isDifference() || values.get(i).isSum())
@@ -1622,11 +1624,11 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#uMinus(org.sbml.jsbml.ASTNode
 	 * )
 	 */
-	public ASTNodeValue uMinus(ASTNode value) {
+	public ASTNodeValue uMinus(ASTNode value) throws SBMLException {
 		StringBuffer v = new StringBuffer();
 		v.append('-');
-		v.append(value.isSum() || value.isDifference() ? brackets(value)
-				: value);
+		v.append(value.isSum() || value.isDifference() ? brackets(value.compile(this).toString())
+				: value.compile(this).toString());
 		return new ASTNodeValue(v.toString(), this);
 	}
 
