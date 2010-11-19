@@ -297,7 +297,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * )
 	 */
 	public ASTNodeValue arccos(ASTNode node) throws SBMLException {
-		return function("arccos", node);
+		return function("acos", node);
 	}
 
 	/*
@@ -308,7 +308,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * ASTNode)
 	 */
 	public ASTNodeValue arccosh(ASTNode node) throws SBMLException {
-		return function("arccos", node);
+		return function("accos", node);
 	}
 
 	/*
@@ -319,7 +319,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * )
 	 */
 	public ASTNodeValue arccot(ASTNode node) throws SBMLException {
-		return function("arccot", node);
+		return function("accot", node);
 	}
 
 	/*
@@ -330,7 +330,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * ASTNode)
 	 */
 	public ASTNodeValue arccoth(ASTNode node) throws SBMLException {
-		return function("arccoth", node);
+		return function("accoth", node);
 	}
 
 	/*
@@ -341,7 +341,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * )
 	 */
 	public ASTNodeValue arccsc(ASTNode node) throws SBMLException {
-		return function("arccsc", node);
+		return function("accsc", node);
 	}
 
 	/*
@@ -352,7 +352,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * ASTNode)
 	 */
 	public ASTNodeValue arccsch(ASTNode node) throws SBMLException {
-		return function("arccsch", node);
+		return function("accsch", node);
 	}
 
 	/*
@@ -363,7 +363,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * )
 	 */
 	public ASTNodeValue arcsec(ASTNode node) throws SBMLException {
-		return function("arcsec", node);
+		return function("acsec", node);
 	}
 
 	/*
@@ -374,7 +374,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * ASTNode)
 	 */
 	public ASTNodeValue arcsech(ASTNode node) throws SBMLException {
-		return function("arcsech", node);
+		return function("acsech", node);
 	}
 
 	/*
@@ -385,7 +385,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * )
 	 */
 	public ASTNodeValue arcsin(ASTNode node) throws SBMLException {
-		return function("arcsin", node);
+		return function("acsin", node);
 	}
 
 	/*
@@ -396,7 +396,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * ASTNode)
 	 */
 	public ASTNodeValue arcsinh(ASTNode node) throws SBMLException {
-		return function("arcsinh", node);
+		return function("acsinh", node);
 	}
 
 	/*
@@ -407,7 +407,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * )
 	 */
 	public ASTNodeValue arctan(ASTNode node) throws SBMLException {
-		return function("arctan", node);
+		return function("actan", node);
 	}
 
 	/*
@@ -418,7 +418,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * ASTNode)
 	 */
 	public ASTNodeValue arctanh(ASTNode node) throws SBMLException {
-		return function("arctanh", node);
+		return function("actanh", node);
 	}
 
 	/*
@@ -484,8 +484,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 		if (exponent == 0) {
 			return new ASTNodeValue(mantissa, this);
 		}
-		return new ASTNodeValue(concat(mantissa, "*10^(", exponent, ")")
-				.toString(), this);
+		return new ASTNodeValue(concat(mantissa, "E", exponent).toString(),
+				this);
 	}
 
 	/*
@@ -702,7 +702,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 		for (ASTNode node : nodes) {
 			l.add(node);
 		}
-		return new ASTNodeValue(concat(name, brackets(lambdaBody(l))).toString(), this);
+		return new ASTNodeValue(concat(name, brackets(lambdaBody(l)))
+				.toString(), this);
 	}
 
 	/**
@@ -863,7 +864,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue log(ASTNode node) throws SBMLException {
-		return function("log", node);
+		return function("log10", node);
 	}
 
 	/*
@@ -926,7 +927,8 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 			if (i > 0) {
 				minus.append('-');
 			}
-			minus.append(checkBrackets(nodes.get(i)));
+			//minus.append(checkBrackets(nodes.get(i)));
+			minus.append(nodes.get(i));
 		}
 		return new ASTNodeValue(minus.toString(), this);
 	}
@@ -985,11 +987,11 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 			}
 			node = nodes.get(i);
 			// TODO : Do we need to put a bracket if we have a difference ??
-			if (node.isDifference()) {
-				plus.append(checkBrackets(node));
-			} else {
-				plus.append(node.compile(this));
-			}
+			//if (node.isDifference()) {
+			//plus.append(checkBrackets(node));
+			//} else {
+			plus.append(node.compile(this));
+			//}
 		}
 		return new ASTNodeValue(plus.toString(), this);
 	}
@@ -1002,8 +1004,9 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue pow(ASTNode left, ASTNode right) throws SBMLException {
-		return new ASTNodeValue(StringTools.concat(left.compile(this), "^", right.compile(this)).toString(), this);
-		//function("pow", left, right);
+		return new ASTNodeValue(StringTools.concat(left.compile(this), "^",
+				right.compile(this)).toString(), this);
+		// function("pow", left, right);
 	}
 
 	/**
