@@ -927,7 +927,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 			if (i > 0) {
 				minus.append('-');
 			}
-			//minus.append(checkBrackets(nodes.get(i)));
+			// minus.append(checkBrackets(nodes.get(i)));
 			minus.append(nodes.get(i));
 		}
 		return new ASTNodeValue(minus.toString(), this);
@@ -987,11 +987,11 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 			}
 			node = nodes.get(i);
 			// TODO : Do we need to put a bracket if we have a difference ??
-			//if (node.isDifference()) {
-			//plus.append(checkBrackets(node));
-			//} else {
+			// if (node.isDifference()) {
+			// plus.append(checkBrackets(node));
+			// } else {
 			plus.append(node.compile(this));
-			//}
+			// }
 		}
 		return new ASTNodeValue(plus.toString(), this);
 	}
@@ -1004,8 +1004,15 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue pow(ASTNode left, ASTNode right) throws SBMLException {
-		return new ASTNodeValue(StringTools.concat(left.compile(this), "^",
-				right.compile(this)).toString(), this);
+		if (left.getNumChildren() < 2) {
+			return new ASTNodeValue(StringTools.concat(left.compile(this), "^",
+					right.compile(this)).toString(), this);
+		} else {
+			return new ASTNodeValue(StringTools.concat(Character.valueOf('('),
+					left.compile(this), Character.valueOf(')'), "^",
+					right.compile(this)).toString(), this);
+		}
+
 		// function("pow", left, right);
 	}
 
