@@ -170,36 +170,32 @@ public class FormulaParser implements FormulaParserConstants {
         t = jj_consume_token(COMPARISON);
         rightChild = TermLvl2();
       s = t.image;
-      Type type;
-      if (s.equals("<"))
+      Type type = null;
+      if (s.equalsIgnoreCase("<"))
       {
         type = ASTNode.Type.RELATIONAL_LT;
       }
-      else if (s.equals(">"))
+      else if (s.equalsIgnoreCase(">"))
       {
         type = ASTNode.Type.RELATIONAL_GT;
       }
-      else if (s.equals("=="))
+      else if (s.equalsIgnoreCase("=="))
       {
         type = ASTNode.Type.RELATIONAL_EQ;
       }
-      else if (s.equals("!="))
+      else if (s.equalsIgnoreCase("!="))
       {
         type = ASTNode.Type.RELATIONAL_NEQ;
       }
-      else if (s.equals(">="))
+      else if (s.equalsIgnoreCase(">="))
       {
         type = ASTNode.Type.RELATIONAL_GEQ;
       }
-      else if (s.equals("<="))
+      else if (s.equalsIgnoreCase("<="))
       {
         type = ASTNode.Type.RELATIONAL_LEQ;
       }
-      else
-      {
-        {if (true) throw new ParseException();}
-      }
-      node = new ASTNode(type);
+      node.setType(type);
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
@@ -288,7 +284,10 @@ public class FormulaParser implements FormulaParserConstants {
     {
       {if (true) throw new RuntimeException("Could not read configuration file " + Resource.class.getResource(path), e);}
     }
-    type = ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
+    if (stringToType.containsKey(s.toLowerCase()))
+    {
+      type = ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
+    }
     if (s.equalsIgnoreCase("pow"))
     {
       checkSize(arguments, 1);
@@ -306,11 +305,12 @@ public class FormulaParser implements FormulaParserConstants {
       node.addChild(new ASTNode(2));
       node.addChild(child);
     }
-    else
+    else if (type != null)
     {
       checkSize(arguments, 0);
       node.addChild(child);
     }
+    
     if (type != null)
     {
       node.setType(type);
