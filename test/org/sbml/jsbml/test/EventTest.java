@@ -33,13 +33,16 @@ public class EventTest extends SimpleSBaseChangeListener {
 		model.createSpecies("s1", c);
 		model.createSpecies("s2", c);
 		Event ev = model.createEvent();
-		Trigger trigger = ev.createTrigger(false, true, ASTNode.leq(
-				new ASTNode(3), new ASTNode(2)));
+		Trigger trigger = ev.createTrigger(false, true, JSBML.parseFormula("3 >= 2"));
 		trigger.setMath(ASTNode.geq(new ASTNode(ASTNode.Type.NAME_TIME),
 				new ASTNode(10)));
 		ev.createPriority(JSBML.parseFormula("25"));
 		ev.createDelay(JSBML.parseFormula("2"));
 		ev.createEventAssignment("s1", JSBML.parseFormula("s2"));
+		System.out.println("==================================");
+		SBMLWriter.write(doc, System.out);
+		System.out.println("==================================");
+		doc.setLevelAndVersion(2, 4);
 		System.out.println("==================================");
 		SBMLWriter.write(doc, System.out);
 	}

@@ -336,7 +336,7 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return the initialConcentration of this Species if it has been set, o
+	 * @return the initialConcentration of this {@link Species} if it has been set, o
 	 *         otherwise.
 	 */
 	public double getInitialConcentration() {
@@ -369,7 +369,7 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return the speciesTypeID of this Species. The empty String if it is not
+	 * @return the speciesTypeID of this {@link Species}. The empty String if it is not
 	 *         set.
 	 */
 	@Deprecated
@@ -647,11 +647,12 @@ public class Species extends Symbol {
 		Boolean oldBoundaryCondition = this.boundaryCondition;
 		this.boundaryCondition = boundaryCondition;
 		isSetBoundaryCondition = true;
-		firePropertyChange(SBaseChangedEvent.boundaryCondition, oldBoundaryCondition, this.boundaryCondition);
+		firePropertyChange(SBaseChangedEvent.boundaryCondition,
+				oldBoundaryCondition, this.boundaryCondition);
 	}
 
 	/**
-	 * Sets the charge of this Species.
+	 * Sets the charge of this {@link Species}.
 	 * 
 	 * @param charge
 	 * @deprecated Only defined in SBML Level 1, Version 1 and 2, and Level 2
@@ -672,7 +673,7 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Sets the compartmentID of this Species to the id of 'compartment'.
+	 * Sets the compartmentID of this {@link Species} to the id of 'compartment'.
 	 * 
 	 * @param compartment
 	 */
@@ -685,7 +686,7 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Sets the compartmentID of this Species to 'compartment'.
+	 * Sets the compartmentID of this {@link Species} to 'compartment'.
 	 * 
 	 * @param compartment
 	 */
@@ -702,8 +703,8 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Sets the conversionFactorID of this Species to the id of
-	 * 'conversionFactor'.
+	 * Sets the conversionFactorID of this {@link Species} to the id of
+	 * 'conversionFactor'. This is only possible if Level >= 3.
 	 * 
 	 * @param conversionFactor
 	 */
@@ -713,11 +714,16 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Sets the conversionFactorID of this Species to 'conversionFactorID'.
+	 * Sets the conversionFactorID of this {@link Species} to 'conversionFactorID'.
+	 * This is only possible if Level >= 3.
 	 * 
 	 * @param conversionFactorID
 	 */
 	public void setConversionFactor(String conversionFactorID) {
+		if (getLevel() < 3) {
+			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
+					SBaseChangedEvent.conversionFactor, this));
+		}
 		String oldConversionFactor = this.conversionFactorID;
 		if ((conversionFactorID != null)
 				&& (conversionFactorID.trim().length() == 0)) {
@@ -738,7 +744,8 @@ public class Species extends Symbol {
 		Boolean oldHasOnlySubstanceUnits = this.hasOnlySubstanceUnits;
 		this.hasOnlySubstanceUnits = Boolean.valueOf(hasOnlySubstanceUnits);
 		isSetHasOnlySubstanceUnits = true;
-		firePropertyChange(SBaseChangedEvent.hasOnlySubstanceUnits, oldHasOnlySubstanceUnits, this.hasOnlySubstanceUnits);
+		firePropertyChange(SBaseChangedEvent.hasOnlySubstanceUnits,
+				oldHasOnlySubstanceUnits, this.hasOnlySubstanceUnits);
 	}
 
 	/**
@@ -750,13 +757,14 @@ public class Species extends Symbol {
 		boolean amount = this.amount;
 		this.amount = true;
 		if (!amount) {
-			firePropertyChange(SBaseChangedEvent.initialAmount, Boolean.FALSE, Boolean.TRUE);
+			firePropertyChange(SBaseChangedEvent.initialAmount, Boolean.FALSE,
+					Boolean.TRUE);
 		}
 		setValue(initialAmount);
 	}
 
 	/**
-	 * Sets the initialConcentration of this Species.
+	 * Sets the initialConcentration of this {@link Species}.
 	 * 
 	 * @param initialConcentration
 	 */
@@ -764,14 +772,14 @@ public class Species extends Symbol {
 		boolean amount = this.amount;
 		this.amount = false;
 		if (amount) {
-			firePropertyChange(SBaseChangedEvent.initialAmount, Boolean.TRUE, Boolean.FALSE);
+			firePropertyChange(SBaseChangedEvent.initialAmount, Boolean.TRUE,
+					Boolean.FALSE);
 		}
 		setValue(initialConcentration);
-
 	}
 
 	/**
-	 * Sets the spatialSizeUnitsID of this Species to 'spatialSizeUnits'.
+	 * Sets the spatialSizeUnitsID of this {@link Species} to 'spatialSizeUnits'.
 	 * 
 	 * @param spatialSizeUnits
 	 * @deprecated This property is only valid for SBML Level 2 Versions 1 and 2.
@@ -792,7 +800,7 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Sets the spatialSizeUnitsID of this Species to the id of
+	 * Sets the spatialSizeUnitsID of this {@link Species} to the id of
 	 * 'spatialSizeUnits'.
 	 * 
 	 * @param spatialSizeUnits
@@ -805,7 +813,7 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Sets the speciesTypeID of this Species to the id of 'speciesType'.
+	 * Sets the speciesTypeID of this {@link Species} to the id of 'speciesType'.
 	 * 
 	 * @param speciesType
 	 * @deprecated
@@ -816,7 +824,7 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Sets the speciesTypeID of this Species to 'speciesType'.
+	 * Sets the speciesTypeID of this {@link Species} to 'speciesType'.
 	 * 
 	 * @param speciesType
 	 * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.

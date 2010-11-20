@@ -383,18 +383,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		} else if (e.getVersion() != getVersion()) {
 			throw new IllegalArgumentException(JSBML.versionMismatchMessage(this, e));
 		}
-//		// Avoid adding the same thing twice.
-//		if (e instanceof NamedSBase) {
-//			NamedSBase nsb = (NamedSBase) e;
-//			if (nsb.isSetId()) {
-//				for (SBase element : this) {
-//					NamedSBase elem = ((NamedSBase) element);
-//					if (elem.isSetId() && elem.getId().equals(nsb.getId())) {
-//						return false;
-//					}
-//				}
-//			}
-//		}
 		if (contains(e)) {
 			return false;
 		}
@@ -821,7 +809,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	}
 
 	/**
-	 * Sets the listOf of this Object to 'listOf'.
+	 * Sets the listOf of this {@link ListOf} to 'listOf'.
 	 * 
 	 * @param listOf
 	 */
@@ -835,7 +823,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	}
 
 	/**
-	 * Sets the SBaseListType of this {@link ListOf} instance to the listType
+	 * Sets the {@link Type} of this {@link ListOf} instance to the {@link Type}
 	 * defined by the given {@link Class}.
 	 * 
 	 * @param type
@@ -845,7 +833,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	}
 	
 	/**
-	 * Sets the SBaseListType of this ListOf instance to 'listType'.
+	 * Sets the {@link Type} of this {@link ListOf} instance to 'listType'.
 	 * 
 	 * @param listType
 	 */

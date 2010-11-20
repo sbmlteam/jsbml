@@ -175,7 +175,7 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	/**
 	 * Sets the variableID of this {@link ExplicitRule} to 'variable'. If no
 	 * {@link Variable} instance has 'variable'as id, an
-	 * IllegalArgumentException is thrown.
+	 * {@link IllegalArgumentException} is thrown.
 	 * 
 	 * @param variable
 	 */

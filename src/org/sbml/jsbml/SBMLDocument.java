@@ -63,11 +63,11 @@ public class SBMLDocument extends AbstractSBase {
 	/**
 	 * Contains all the XML attributes of the sbml XML node.
 	 */
-	private HashMap<String, String> SBMLDocumentAttributes;
+	private Map<String, String> SBMLDocumentAttributes;
 	/**
 	 * Contains all the namespaces of the sbml XML node and their prefixes.
 	 */
-	private HashMap<String, String> SBMLDocumentNamespaces;
+	private Map<String, String> SBMLDocumentNamespaces;
 
 	/**
 	 * Creates a {@link SBMLDocument} instance. By default, the parent SBML object of
@@ -313,9 +313,9 @@ public class SBMLDocument extends AbstractSBase {
 	}
 
 	/**
-	 * Returns the model of this SBMLDocument.
+	 * Returns the model of this {@link SBMLDocument}.
 	 * 
-	 * @return the model of this SBMLDocument. Can be null if it is not set.
+	 * @return the model of this {@link SBMLDocument}. Can be null if it is not set.
 	 */
 	public Model getModel() {
 		return model;
@@ -333,7 +333,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * 
 	 * @return the map SBMLDocumentAttributes of this SBMLDocument.
 	 */
-	public HashMap<String, String> getSBMLDocumentAttributes() {
+	public Map<String, String> getSBMLDocumentAttributes() {
 		return SBMLDocumentAttributes;
 	}
 
@@ -341,7 +341,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * 
 	 * @return the map SBMLDocumentNamespaces of this SBMLDocument.
 	 */
-	public HashMap<String, String> getSBMLDocumentNamespaces() {
+	public Map<String, String> getSBMLDocumentNamespaces() {
 		return SBMLDocumentNamespaces;
 	}
 
@@ -392,25 +392,77 @@ public class SBMLDocument extends AbstractSBase {
 	}
 
 	/**
+	 * <p>
+	 * Sets the SBML Level and Version of this {@link SBMLDocument} instance,
+	 * attempting to convert the model as needed.
+	 * </p>
+	 * <p>
+	 * This method is equivalent to calling
+	 * 
+	 * <pre>
+	 * setLevelAndVersion(level, version, true);
+	 * </pre>
+	 * 
+	 * </p>
 	 * 
 	 * @param level
+	 *            the desired SBML Level
 	 * @param version
+	 *            the desired Version within the SBML Level
 	 * @return true if 'level' and 'version' are valid.
+	 * @see #setLevelAndVersion(int, int, boolean)
 	 */
 	public boolean setLevelAndVersion(int level, int version) {
-		this.level = level;
-		this.version = version;
-		return hasValidLevelVersionNamespaceCombination();
+		return super.setLevelAndVersion(level, version, true);
+	}
+	
+	/**
+	 * <p>
+	 * Sets the SBML Level and Version of this {@link SBMLDocument} instance,
+	 * attempting to convert the model as needed.
+	 * </p><p>
+	 * This method is the principal way in JSBML to convert models between
+	 * Levels and Versions of SBML. Generally, models can be converted upward
+	 * without difficulty (e.g., from SBML Level 1 to Level 2, or from an
+	 * earlier Version of Level 2 to the latest Version of Level 2). Sometimes
+	 * models can be translated downward as well, if they do not use constructs
+	 * specific to more advanced Levels of SBML.
+	 * </p><p>
+	 * Calling this method will not necessarily lead to a successful conversion.
+	 * If the conversion fails, it will be logged in the error list associated
+	 * with this {@link SBMLDocument}. Callers should consult
+	 * {@link #getNumErrors()} to find out if the conversion succeeded
+	 * without problems. For conversions from Level 2 to Level 1, callers can
+	 * also check the Level of the model after calling this method to find out
+	 * whether it is Level 1. (If the conversion to Level 1 failed, the Level of
+	 * this model will be left unchanged.)
+	 * </p>
+	 * 
+	 * @param level
+	 *            the desired SBML Level
+	 * @param version
+	 *            the desired Version within the SBML Level
+	 * @param strict
+	 *            boolean indicating whether to check consistency of both the
+	 *            source and target model when performing conversion (defaults
+	 *            to true)
+	 * @return
+	 */
+	@Override
+	public boolean setLevelAndVersion(int level, int version, boolean strict) {
+		return super.setLevelAndVersion(level, version, strict);
 	}
 
 	/**
-	 * Sets the Model for this SBMLDocument to a copy of the given Model.
+	 * Sets the {@link Model} for this {@link SBMLDocument} to the given {@link Model}.
 	 * 
 	 * @param model
 	 */
 	public void setModel(Model model) {
+		Model oldModel = this.model;
 		this.model = model;
 		setThisAsParentSBMLObject(this.model);
+		firePropertyChange(SBaseChangedEvent.model, oldModel, this.model);
 	}
 
 	/**
@@ -419,8 +471,11 @@ public class SBMLDocument extends AbstractSBase {
 	 * @param sBMLDocumentAttributes
 	 */
 	public void setSBMLDocumentAttributes(
-			HashMap<String, String> sBMLDocumentAttributes) {
+			Map<String, String> sBMLDocumentAttributes) {
+		Map<String, String> oldAttributes = this.SBMLDocumentAttributes;
 		SBMLDocumentAttributes = sBMLDocumentAttributes;
+		firePropertyChange(SBaseChangedEvent.SBMLDocumentAttributes,
+				oldAttributes, this.SBMLDocumentAttributes);
 	}
 
 	/*

@@ -189,8 +189,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object o) {
@@ -212,8 +211,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#getId()
+	 * @see org.sbml.jsbml.NamedSBase#getId()
 	 */
 	public String getId() {
 		return isSetId() ? this.id : "";
@@ -221,8 +219,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#getName()
+	 * @see org.sbml.jsbml.NamedSBase#getName()
 	 */
 	public String getName() {
 		return isSetName() ? this.name : "";
@@ -230,8 +227,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#isSetId()
+	 * @see org.sbml.jsbml.NamedSBase#isSetId()
 	 */
 	public boolean isSetId() {
 		return id != null;
@@ -239,8 +235,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#isSetName()
+	 * @see org.sbml.jsbml.NamedSBase#isSetName()
 	 */
 	public boolean isSetName() {
 		return name != null;
@@ -248,9 +243,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
+	 * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -282,8 +275,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#setId(java.lang.String)
+	 * @see org.sbml.jsbml.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
 		String property = getLevel() == 1 ? SBaseChangedEvent.name : SBaseChangedEvent.id;
@@ -298,8 +290,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#setName(java.lang.String)
+	 * @see org.sbml.jsbml.NamedSBase#setName(java.lang.String)
 	 */
 	public void setName(String name) {
 		// removed the call to the trim() function as a name with only space
@@ -336,8 +327,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#unsetId()
+	 * @see org.sbml.jsbml.NamedSBase#unsetId()
 	 */
 	public void unsetId() {
 		setId(null);
@@ -345,8 +335,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#unsetName()
+	 * @see org.sbml.jsbml.NamedSBase#unsetName()
 	 */
 	public void unsetName() {
 		setName(null);
@@ -354,8 +343,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#writeAttributes()
+	 * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {

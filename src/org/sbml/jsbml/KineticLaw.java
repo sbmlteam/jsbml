@@ -367,7 +367,7 @@ public class KineticLaw extends AbstractMathContainer {
 
 	/**
 	 * 
-	 * @return the substanceUnitsID of this KineticLaw. Return the empty String
+	 * @return the substanceUnitsID of this {@link KineticLaw}. Return the empty {@link String}
 	 *         if it is not set.
 	 */
 	@Deprecated
@@ -390,7 +390,7 @@ public class KineticLaw extends AbstractMathContainer {
 
 	/**
 	 * 
-	 * @return the timeUnitsID of this KineticLaw. Return the empty String if it
+	 * @return the timeUnitsID of this {@link KineticLaw}. Return the empty {@link String} if it
 	 *         is not set.
 	 */
 	@Deprecated
@@ -413,9 +413,6 @@ public class KineticLaw extends AbstractMathContainer {
 	 * 
 	 */
 	public void initDefaults() {
-		// We cannot initialize this list here because maybe level and version
-		// are set later, which will then cause inconsistencies.
-		// initListOfParameters();
 		this.timeUnitsID = null;
 		this.substanceUnitsID = null;
 	}
@@ -585,14 +582,14 @@ public class KineticLaw extends AbstractMathContainer {
 	}
 
 	/**
-	 * Sets the listOfParameters of this KineticLaw to 'list'. It automatically
+	 * Sets the listOfParameters of this {@link KineticLaw} to 'list'. It automatically
 	 * sets this as parentSBML object of the listOfParameters as well as the
 	 * Parameter instances in the list.
 	 * 
 	 * @param list
 	 */
 	public void setListOfLocalParameters(ListOf<LocalParameter> list) {
-		this.listOfLocalParameters = JSBML.addAllOrReplace(this,
+		this.listOfLocalParameters = JSBML.setListOf(this,
 				listOfLocalParameters, list, ListOf.Type.listOfLocalParameters);
 		if (isSetMath()) {
 			getMath().updateVariables();
@@ -600,7 +597,7 @@ public class KineticLaw extends AbstractMathContainer {
 	}
 
 	/**
-	 * Sets the substanceUnitsID of this KineticLaw.
+	 * Sets the substanceUnitsID of this {@link KineticLaw}.
 	 * 
 	 * @param substanceUnits
 	 * @deprecated Only defined for SBML Level 1 and Level 2 Version 1 and 2.
@@ -619,19 +616,7 @@ public class KineticLaw extends AbstractMathContainer {
 	}
 
 	/**
-	 * Sets the substanceUnitsID of this KineticLaw.
-	 * 
-	 * @param substanceUnits
-	 * @deprecated
-	 */
-	@Deprecated
-	public void setSubstanceUnitsInstance(UnitDefinition substanceUnits) {
-		this.substanceUnitsID = substanceUnits.isSetId() ? substanceUnits
-				.getId() : null;
-	}
-
-	/**
-	 * Sets the timeUnitsID of this KineticLaw.
+	 * Sets the timeUnitsID of this {@link KineticLaw}.
 	 * 
 	 * @param timeUnits
 	 * @deprecated Only defined for Level 1 and Level 2 Version 1.
@@ -653,11 +638,11 @@ public class KineticLaw extends AbstractMathContainer {
 	 * Sets the timeUnitsID of this KineticLaw.
 	 * 
 	 * @param timeUnits
-	 * @deprecated
+	 * @deprecated Only defined for Level 1 and Level 2 Version 1.
 	 */
 	@Deprecated
 	public void setTimeUnitsInstance(UnitDefinition timeUnits) {
-		this.timeUnitsID = timeUnits.isSetId() ? timeUnits.getId() : null;
+		setTimeUnits(timeUnits.isSetId() ? timeUnits.getId() : null);
 	}
 
 	/*

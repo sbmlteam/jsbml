@@ -119,7 +119,7 @@ public class JSBML {
 	 * @param type
 	 * @return a pointer to the list that has been changed.
 	 */
-	public static <T extends SBase> ListOf<T> addAllOrReplace(SBase owner,
+	public static <T extends SBase> ListOf<T> setListOf(SBase owner,
 			ListOf<T> origList, ListOf<T> newList, ListOf.Type type) {
 		if (newList != null) {
 			if (owner.getLevel() != newList.getLevel()) {

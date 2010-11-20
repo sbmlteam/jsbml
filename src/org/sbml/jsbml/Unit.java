@@ -970,7 +970,7 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Creates a Unit instance from a multiplier, scale, kind and exponent. The
+	 * Creates a {@link Unit} instance from a multiplier, scale, kind and exponent. The
 	 * offset is null.
 	 * 
 	 * @param multiplier
@@ -993,7 +993,7 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Creates a Unit instance from a level and version. If the level is set and
+	 * Creates a {@link Unit} instance from a level and version. If the level is set and
 	 * is superior or equal to 3 the multiplier, scale, kind, offset and
 	 * exponent are null.
 	 * 
@@ -1126,7 +1126,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return the exponent of this Unit if it is set, 1 otherwise.
+	 * @return the exponent of this {@link Unit} if it is set, 1 otherwise.
 	 */
 	public double getExponent() {
 		return isSetExponent() ? exponent : 1d;
@@ -1163,7 +1163,8 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return the offset of this Unit if it is set, 0 otherwise.
+	 * @return the offset of this {@link Unit} if it is set, 0 otherwise.
+	 * @deprecated
 	 */
 	@Deprecated
 	public double getOffset() {
@@ -1611,7 +1612,7 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Predicate to test whether the 'kind' attribute of this Unit has been set.
+	 * Predicate to test whether the 'kind' attribute of this {@link Unit} has been set.
 	 * 
 	 * @return
 	 */
@@ -1813,7 +1814,7 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Sets the exponent of this Unit
+	 * Sets the exponent of this {@link Unit}
 	 * 
 	 * @param exponent
 	 */
@@ -1825,7 +1826,7 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Sets the kind of this Unit
+	 * Sets the {@link Kind} of this {@link Unit}
 	 * 
 	 * @param kind
 	 */
@@ -1848,7 +1849,7 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Sets the offset of this Unit
+	 * Sets the offset of this {@link Unit}
 	 * 
 	 * @param offset
 	 * @deprecated Only defined for SBML Level 2 Version 1.

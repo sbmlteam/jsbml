@@ -120,7 +120,7 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 	}
 
 	/**
-	 * Sets the variableID of this InitialAssignment to 'variable'. If this
+	 * Sets the variableID of this {@link InitialAssignment} to 'variable'. If this
 	 * variableID doesn't match any {@link Variable} id in {@link Model} (
 	 * {@link Compartment}, {@link Species}, {@link SpeciesReference}, or
 	 * {@link Parameter}), an {@link IllegalArgumentException} is thrown.
@@ -182,8 +182,11 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 	}
 
 	/**
-	 * @return the variableID of this InitialAssignment. Return an empty String
-	 *         if it is not set.
+	 * This method is for compatibility with libSBML only.
+	 * 
+	 * @return the variableID of this {@link InitialAssignment}. Return an empty
+	 *         {@link String} if it is not set.
+	 * @deprecated use {@link #getVariable()}
 	 */
 	public String getSymbol() {
 		return getVariable();

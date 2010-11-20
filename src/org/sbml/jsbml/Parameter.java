@@ -78,9 +78,9 @@ public class Parameter extends Symbol {
 	}
 
 	/**
-	 * This constructor allows the creation of a global parameter based on a
-	 * local parameter. It creates a new Parameter object that will have the
-	 * same attributes than the local parameter. Its constant attribute will be
+	 * This constructor allows the creation of a global {@link Parameter} based on a
+	 * {@link LocalParameter}. It creates a new {@link Parameter} object that will have the
+	 * same attributes than the {@link LocalParameter}. Its constant attribute will be
 	 * set to true.
 	 * 
 	 * @param localParameter
@@ -128,7 +128,7 @@ public class Parameter extends Symbol {
 	}
 
 	/**
-	 * Initializes the default values of this Parameter, i.e., sets it to a
+	 * Initializes the default values of this {@link Parameter}, i.e., sets it to a
 	 * constant variable with a NaN value.
 	 */
 	public void initDefaults() {

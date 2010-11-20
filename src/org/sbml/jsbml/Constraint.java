@@ -35,12 +35,7 @@ package org.sbml.jsbml;
  * Represents the constraint XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * 
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public class Constraint extends AbstractMathContainer {
 
@@ -189,7 +184,7 @@ public class Constraint extends AbstractMathContainer {
 	 *            : the message to set
 	 */
 	public void setMessage(String message) {
-		String oldMessage = this.message != null ? new String(this.message) : null;
+		String oldMessage = this.message;
 		this.message = message;
 		firePropertyChange(SBaseChangedEvent.message, oldMessage, message);
 	}
@@ -200,23 +195,23 @@ public class Constraint extends AbstractMathContainer {
 	 * @param messageBuffer
 	 */
 	public void setMessageBuffer(StringBuffer messageBuffer) {
-		StringBuffer oldMessage = this.messageBuffer != null ? new StringBuffer(this.messageBuffer) : null;
+		StringBuffer oldMessage = this.messageBuffer;
 		this.messageBuffer = messageBuffer;
 		firePropertyChange(SBaseChangedEvent.messageBuffer, oldMessage, messageBuffer);
 	}
 
 	/**
-	 * Sets the message of this Constraint to null.
+	 * Sets the message of this {@link Constraint} to null.
 	 */
 	public void unsetMessage() {
-		this.message = null;
+		setMessage(null);
 	}
 
 	/**
 	 * sets the messageBuffer of this Constraint to null.
 	 */
 	public void unsetMessageBuffer() {
-		this.messageBuffer = null;
+		setMessageBuffer(null);
 	}
 	
 	/*
