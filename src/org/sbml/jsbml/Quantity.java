@@ -42,38 +42,40 @@ package org.sbml.jsbml;
 public interface Quantity extends NamedSBaseWithDerivedUnit {
 
 	/**
-	 * Returns the value of this Quantity. 
+	 * Returns the value of this {@link Quantity}.
 	 * 
-	 * In Compartments the value is its
-	 * size, in Species the value defines its initial amount or concentration,
-	 * and in Parameters this returns the value attribute from SBML.
+	 * In {@link Compartment}s the value is its size, in {@link Species} the
+	 * value defines its initial amount or concentration, and in
+	 * {@link Parameter}s and {@link LocalParameter}s this returns the value
+	 * attribute from SBML.
 	 * 
 	 * @return the value
 	 */
 	public double getValue();
 
 	/**
-	 * Returns true if the value of this Quantity is set.
+	 * Returns true if the value of this {@link Quantity} is set.
 	 * 
-	 * @return true if the value of this Quantity is set.
+	 * @return true if the value of this {@link Quantity} is set.
 	 */
 	public boolean isSetValue();
 
 	/**
-	 * Sets the value of this Quantity.
+	 * Sets the value of this {@link Quantity}.
 	 * 
 	 * Note that the meaning of the value can be different in all derived
-	 * classes. In Compartments the value defines its size. In Species the value
-	 * describes either the initial amount or the initial concentration. Only
-	 * the class Parameter really defines a value attribute with this name.
+	 * classes. In {@link Compartment}s the value defines its size. In
+	 * {@link Species} the value describes either the initial amount or the
+	 * initial concentration. Only the class {@link Parameter} and
+	 * {@link LocalParameter} really define a value attribute with this name.
 	 * 
 	 * @param value
 	 *            the value to set
 	 */
 	public void setValue(double value);
-	
+
 	/**
-	 * Unsets the value of this Quantity.
+	 * Unsets the value of this {@link Quantity}.
 	 * 
 	 */
 	public void unsetValue();

@@ -426,6 +426,7 @@ public class Compartment extends Symbol {
 	 * 'compartmentType'
 	 * 
 	 * @param compartmentType
+	 * @deprecated
 	 */
 	@Deprecated
 	public void setCompartmentType(CompartmentType compartmentType) {
@@ -437,6 +438,7 @@ public class Compartment extends Symbol {
 	 * Sets the compartmentTypeID of this compartment to 'compartmentTypeID'
 	 * 
 	 * @param compartmentTypeID
+	 * @deprecated
 	 */
 	@Deprecated
 	public void setCompartmentType(String compartmentTypeID) {
@@ -464,13 +466,11 @@ public class Compartment extends Symbol {
 	 */
 	@Deprecated
 	public void setOutside(String outside) {
-		if (3 <= getLevel()) {
-			throw new IllegalArgumentException(String.format(
-									"Cannot set the outside property to %s for a compartment with SBML Level = %d",
-									outside, getLevel()));
+		if (getLevel() >= 3) {
+			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage("outside", this));
 		}
 		String oldOutside = outsideID;
-		if (outside != null && outside.trim().length() == 0) {
+		if ((outside != null) && (outside.trim().length() == 0)) {
 			this.outsideID = null;
 		} else {
 			this.outsideID = outside;
@@ -497,7 +497,9 @@ public class Compartment extends Symbol {
 	public void setSpatialDimensions(int spatialDimension) {
 		if ((0 <= spatialDimension) && (spatialDimension <= 3)) {
 			isSetSpatialDimensions = true;
+			Short oldSpatialDimensions = this.spatialDimensions;
 			this.spatialDimensions = Short.valueOf((short) spatialDimension);
+			firePropertyChange(SBaseChangedEvent.spatialDimensions, oldSpatialDimensions, this.spatialDimensions);
 		} else {
 			throw new IllegalArgumentException(String.format(
 					ERROR_MESSAGE_INVALID_DIM, spatialDimension));
@@ -644,10 +646,10 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 * Sets the compartmentTypeID of this compartment to null.
+	 * Sets the compartmentTypeID of this {@link Compartment} to null.
 	 */
 	public void unsetCompartmentType() {
-		compartmentTypeID = null;
+		setCompartmentType((String) null);
 	}
 
 	/**

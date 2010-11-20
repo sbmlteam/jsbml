@@ -203,7 +203,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 
 	/**
 	 * 
-	 * @return the unitsID of this Symbol. The empty String if it is not set.
+	 * @return the unitsID of this {@link QuantityWithDefinedUnit}. The empty {@link String} if it is not set.
 	 */
 	public String getUnits() {
 		return isSetUnits() ? unitsID : "";
@@ -309,7 +309,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	}
 
 	/**
-	 * Sets the Unit of this Symbol.
+	 * Sets the {@link Unit} of this {@link QuantityWithDefinedUnit}.
 	 * 
 	 * @param unit
 	 */
@@ -318,8 +318,8 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 		UnitDefinition ud = new UnitDefinition(unit.getKind().toString(),
 				getLevel(), getVersion());
 		ud.addUnit(unit);
-		if (unit.getExponent() != 1 || unit.getScale() != 0
-				|| unit.getMultiplier() != 1d || unit.getOffset() != 0d) {
+		if ((unit.getExponent() != 1) || (unit.getScale() != 0)
+				|| (unit.getMultiplier() != 1d) || (unit.getOffset() != 0d)) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(unit.getMultiplier());
 			sb.append('_');
@@ -330,14 +330,15 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 			sb.append(unit.getExponent());
 			ud.setId(sb.toString());
 			Model m = getModel();
-			if (m != null)
+			if (m != null) {
 				m.addUnitDefinition(ud);
+			}
 		}
 		setUnits(ud);
 	}
 
 	/**
-	 * Sets the unit of this Symbol.
+	 * Sets the unit of this {@link QuantityWithDefinedUnit}.
 	 * 
 	 * A new unit will be created base on this kind.
 	 * 
@@ -348,7 +349,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	}
 
 	/**
-	 * Set the unit attribute of this Symbol to the given unit definition.
+	 * Set the unit attribute of this {@link QuantityWithDefinedUnit} to the given unit definition.
 	 * 
 	 * @param units
 	 */
@@ -371,7 +372,7 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	}
 
 	/**
-	 * Sets the unitsID of this Quantity to null.
+	 * Sets the unitsID of this {@link QuantityWithDefinedUnit} to null.
 	 */
 	public void unsetUnits() {
 		setUnits((String) null);

@@ -154,10 +154,9 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractMathContainer#equals(java.lang.Object)
 	 */
-	// @Override
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof FunctionDefinition) {
 			boolean equal = super.equals(o);
@@ -232,8 +231,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#getId()
+	 * @see org.sbml.jsbml.NamedSBase#getId()
 	 */
 	public String getId() {
 		return isSetId() ? this.id : "";
@@ -241,8 +239,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#getName()
+	 * @see org.sbml.jsbml.NamedSBase#getName()
 	 */
 	public String getName() {
 		return isSetName() ? name : "";
@@ -272,8 +269,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#isSetId()
+	 * @see org.sbml.jsbml.NamedSBase#isSetId()
 	 */
 	public boolean isSetId() {
 		return id != null;
@@ -281,8 +277,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#isSetName()
+	 * @see org.sbml.jsbml.NamedSBase#isSetName()
 	 */
 	public boolean isSetName() {
 		return name != null;
@@ -290,9 +285,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
+	 * @see org.sbml.jsbml.AbstractMathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -313,8 +306,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#setFormula(java.lang.String)
+	 * @see org.sbml.jsbml.AbstractMathContainer#setFormula(java.lang.String)
 	 */
 	@Override
 	public void setFormula(String formula) throws ParseException {
@@ -329,8 +321,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#setId(java.lang.String)
+	 * @see org.sbml.jsbml.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
 		String oldID = this.id;
@@ -340,8 +331,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#setMath(org.sbml.ASTNode)
+	 * @see org.sbml.jsbml.AbstractMathContainer#setMath(org.sbml.jsbml.ASTNode)
 	 */
 	@Override
 	public void setMath(ASTNode math) {
@@ -355,8 +345,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#setName(java.lang.String)
+	 * @see org.sbml.jsbml.NamedSBase#setName(java.lang.String)
 	 */
 	public void setName(String name) {
 		String oldName = this.name;
@@ -366,10 +355,9 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#toString()
+	 * @see org.sbml.jsbml.AbstractMathContainer#toString()
 	 */
-	// @Override
+	@Override
 	public String toString() {
 		if (isSetName() && getName().length() > 0) {
 			return name;
@@ -383,8 +371,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#unsetId()
+	 * @see org.sbml.jsbml.NamedSBase#unsetId()
 	 */
 	public void unsetId() {
 		this.id = null;
@@ -392,8 +379,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#unsetName()
+	 * @see org.sbml.jsbml.NamedSBase#unsetName()
 	 */
 	public void unsetName() {
 		this.name = null;
@@ -401,8 +387,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 * @see org.sbml.jsbml.AbstractMathContainer#writeXMLAttributes()
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {

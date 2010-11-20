@@ -103,6 +103,12 @@ public class SBaseChangedEvent extends EventObject {
 	public static final String scale = "scale";
 	public static final String listOfUnits = "listOfUnits";
 	public static final String priority = "priority";
+	public static final String initialValue = "initialValue";
+	public static final String persistent = "persistent";
+	public static final String SBMLDocumentAttributes = "SBMLDocumentAttributes";
+	public static final String model = "model";
+	public static final String kineticLaw = "kineticLaw";
+	public static final String spatialDimensions = "spatialDimensions";
 	
 	
 	/**

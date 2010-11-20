@@ -53,12 +53,7 @@ import org.w3c.dom.Node;
  * otherAnnotation elements of the XML otherAnnotation node.
  * 
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * @composed 0..* MIRIAM 1 CVTerm
- * @composed 0..1 history 1 History
+ * @author Andreas Dr&auml;ger
  */
 public class Annotation implements Cloneable, Serializable {
 
@@ -116,7 +111,7 @@ public class Annotation implements Cloneable, Serializable {
 	private Map<String, String> rdfAnnotationNamespaces;
 
 	/**
-	 * Creates an Annotation instance. By default, the modelHistory and
+	 * Creates an Annotation instance. By default, the {@link History} and
 	 * otherAnnotation Strings are null. The list of CVTerms is empty. The
 	 * HashMaps annotationNamespaces, rdfAnnotationNamespaces and extensions are
 	 * empty.
@@ -186,7 +181,7 @@ public class Annotation implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Creates an Annotation instance from cvTerms. By default, the modelHistory
+	 * Creates an Annotation instance from cvTerms. By default, the {@link History}
 	 * and otherAnnotation Strings are null. The HashMaps annotationNamespaces,
 	 * rdfAnnotationNamespaces and extensions are empty.
 	 * 
@@ -568,7 +563,7 @@ public class Annotation implements Cloneable, Serializable {
 
 	/**
 	 * 
-	 * @return the modelHistory of the ModelAnnotation
+	 * @return the {@link History} of the ModelAnnotation
 	 */
 	public History getHistory() {
 		return history;
@@ -662,9 +657,9 @@ public class Annotation implements Cloneable, Serializable {
 	}
 
 	/**
-	 * check if the modelHistory is initialised
+	 * check if the {@link History} is initialised
 	 * 
-	 * @return true if the modelHistory is initialised
+	 * @return true if the {@link History} is initialised
 	 */
 	public boolean isSetHistory() {
 		return history != null;
@@ -692,7 +687,7 @@ public class Annotation implements Cloneable, Serializable {
 	 * @param indent
 	 * @param buffer
 	 */
-	private void modelHistoryToXML(String indent, StringBuffer buffer) {
+	private void historyToXML(String indent, StringBuffer buffer) {
 		if (isSetHistory()) {
 			getHistory().toXML(indent, buffer);
 		}
@@ -723,7 +718,7 @@ public class Annotation implements Cloneable, Serializable {
 
 		beginRDFAnnotationElement(indent, buffer, parentElement);
 
-		modelHistoryToXML(indent + "    ", buffer);
+		historyToXML(indent + "    ", buffer);
 		createCVTermsElements(indent + "    ", buffer);
 
 		endRDFAnnotationElement(indent, buffer, parentElement);
@@ -782,12 +777,12 @@ public class Annotation implements Cloneable, Serializable {
 	}
 
 	/**
-	 * changes the modelHistory instance to 'modelHistory'
+	 * changes the {@link History} instance to 'history'
 	 * 
-	 * @param modelHistory
+	 * @param history
 	 */
-	public void setHistory(History modelHistory) {
-		this.history = modelHistory;
+	public void setHistory(History history) {
+		this.history = history;
 	}
 
 	/**
@@ -841,7 +836,7 @@ public class Annotation implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Unsets the modelHistory instance of this object.
+	 * Unsets the {@link History} instance of this object.
 	 */
 	public void unsetHistory() {
 		this.history = null;

@@ -1345,7 +1345,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the areaUnitsID of this Model. Returns an empty String if it is
+	 * @return the areaUnitsID of this {@link Model}. Returns an empty {@link String} if it is
 	 *         not set.
 	 */
 	public String getAreaUnits() {
@@ -1498,7 +1498,7 @@ public class Model extends AbstractNamedSBase {
 	/**
 	 * 
 	 * @param n
-	 * @return the nth Compartment instance of the listOfCompartments. Null if
+	 * @return the nth {@link Compartment} instance of the listOfCompartments. Null if
 	 *         if the listOfCompartments is not set.
 	 */
 	public Compartment getCompartment(int n) {
@@ -1508,7 +1508,7 @@ public class Model extends AbstractNamedSBase {
 	/**
 	 * 
 	 * @param id
-	 * @return the Compartment of the listOfCompartments which has 'id' as id
+	 * @return the {@link Compartment} of the listOfCompartments which has 'id' as id
 	 *         (or name depending on the version and level). Null if if the
 	 *         listOfCompartments is not set.
 	 */
@@ -1531,7 +1531,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Gets the CompartmentType with the given <code>id</code>.
+	 * Gets the {@link CompartmentType} with the given <code>id</code>.
 	 * 
 	 * @param id
 	 * @return the CompartmentType of the listOfCompartmentTypes which has 'id'
@@ -1556,9 +1556,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Returns the conversionFactor ID of this Model.
+	 * Returns the conversionFactor ID of this {@link Model}.
 	 * 
-	 * @return the conversionFactorID of this Model. Returns an empty String if
+	 * @return the conversionFactorID of this {@link Model}. Returns an empty {@link String} if
 	 *         it is not set.
 	 */
 	public String getConversionFactor() {
@@ -1588,7 +1588,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Gets the Event which as the given <code>id</code> as id.
+	 * Gets the {@link Event} which as the given <code>id</code> as id.
 	 * 
 	 * @param id
 	 * @return the Event of the listOfEvents which has 'id' as id (or name
@@ -1601,7 +1601,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the extentUnitsID of this Model. Returns an empty String if it is
+	 * @return the extentUnitsID of this {@link Model}. Returns an empty {@link String} if it is
 	 *         not set.
 	 */
 	public String getExtentUnits() {
@@ -1620,7 +1620,7 @@ public class Model extends AbstractNamedSBase {
 	/**
 	 * 
 	 * @param n
-	 * @return the nth FunctionDefinition instance of the
+	 * @return the nth {@link FunctionDefinition} instance of the
 	 *         listOfFunstionDefinitions. Null if if the
 	 *         listOfFunctionDefinitions is not set.
 	 */
@@ -1631,7 +1631,7 @@ public class Model extends AbstractNamedSBase {
 	/**
 	 * 
 	 * @param id
-	 * @return the FunctionDefinition of the listOfFunstionDefinitions which has
+	 * @return the {@link FunctionDefinition} of the listOfFunstionDefinitions which has
 	 *         'id' as id (or name depending on the level and version). Null if
 	 *         if the listOfFunctionDefinitions is not set.
 	 */
@@ -1640,10 +1640,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Get the nth InitialAssignment object in this Model.
+	 * Get the nth {@link InitialAssignment} object in this {@link Model}.
 	 * 
 	 * @param n
-	 * @return the nth InitialAssignment of this Model. Null if the
+	 * @return the nth {@link InitialAssignment} of this {@link Model}. Null if the
 	 *         listOfInitialAssignments is not set.
 	 */
 	public InitialAssignment getInitialAssignment(int n) {
@@ -1666,7 +1666,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the lengthUnitsID of this Model. Returns an empty String if it is
+	 * @return the lengthUnitsID of this {@link Model}. Returns an empty {@link String} if it is
 	 *         not set.
 	 */
 	public String getLengthUnits() {
@@ -1684,7 +1684,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the listOfCompartments of this Model. Can be null if it is not
+	 * @return the listOfCompartments of this {@link Model}. Can be null if it is not
 	 *         set.
 	 */
 	public ListOf<Compartment> getListOfCompartments() {
@@ -1696,7 +1696,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the listOfCompartmentTypes of this Model. Can be null if it is
+	 * @return the listOfCompartmentTypes of this {@link Model}. Can be null if it is
 	 *         not set.
 	 * @deprecated
 	 */
@@ -1709,7 +1709,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * @return the listOfConstraints of this Model. Can be null if it is not
+	 * @return the listOfConstraints of this {@link Model}. Can be null if it is not
 	 *         set.
 	 */
 	public ListOf<Constraint> getListOfConstraints() {
@@ -1721,7 +1721,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the listOfEvents of this Model. Can be null if it is not set.
+	 * @return the listOfEvents of this {@link Model}. Can be null if it is not set.
 	 */
 	public ListOf<Event> getListOfEvents() {
 		if (listOfEvents == null) {
@@ -1732,7 +1732,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the listOfFunctionDefinitions of this Model. Can be null if it is
+	 * @return the listOfFunctionDefinitions of this {@link Model}. Can be null if it is
 	 *         not set.
 	 */
 	public ListOf<FunctionDefinition> getListOfFunctionDefinitions() {
@@ -1744,7 +1744,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * @return the listOfInitialAssignments of this Model. Can be null if it is
+	 * @return the listOfInitialAssignments of this {@link Model}. Can be null if it is
 	 *         not set.
 	 */
 	public ListOf<InitialAssignment> getListOfInitialAssignments() {
@@ -1790,7 +1790,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the listOfSpecies of this Model. Can be null if it is not set.
+	 * @return the listOfSpecies of this {@link Model}. Can be null if it is not set.
 	 */
 	public ListOf<Species> getListOfSpecies() {
 		if (listOfSpecies == null) {
@@ -1801,7 +1801,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the listOfSpeciesTypes of this Model. Can be null if it is not
+	 * @return the listOfSpeciesTypes of this {@link Model}. Can be null if it is not
 	 *         set.
 	 *         @deprecated
 	 */
@@ -1815,7 +1815,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the listOfUnitDefinitions of this Model. Can be null if it is not
+	 * @return the listOfUnitDefinitions of this {@link Model}. Can be null if it is not
 	 *         set.
 	 */
 	public ListOf<UnitDefinition> getListOfUnitDefinitions() {
@@ -2299,7 +2299,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the substanceUnitsID of this model. Returns the empty String if
+	 * @return the substanceUnitsID of this model. Returns the empty {@link String} if
 	 *         it is not set.
 	 */
 	public String getSubstanceUnits() {
@@ -2317,7 +2317,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the timeUnitsID of this Model. Returns an empty String if it is
+	 * @return the timeUnitsID of this {@link Model}. Returns an empty {@link String} if it is
 	 *         not set.
 	 */
 	public String getTimeUnits() {
@@ -2325,10 +2325,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Gets the UnitDefinition representing the TimeUnits of this Model.
+	 * Gets the UnitDefinition representing the TimeUnits of this {@link Model}.
 	 * 
-	 * @return the UnitDefinition representing the TimeUnits of this Model, null if it is not defined 
-	 * in this Model
+	 * @return the {@link UnitDefinition} representing the TimeUnits of this
+	 *         {@link Model}, null if it is not defined in this {@link Model}
 	 */
 	public UnitDefinition getTimeUnitsInstance() {
 		return getUnitDefinition(this.timeUnitsID);
@@ -2983,7 +2983,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the areaUnitsID of this Model to 'areaUnitsID'
+	 * Sets the areaUnitsID of this {@link Model} to 'areaUnitsID'
 	 * 
 	 * @param areaUnitsID
 	 */
@@ -2994,7 +2994,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the areaUnitsID of this Model to the id of the UnitDefinition
+	 * Sets the areaUnitsID of this {@link Model} to the id of the {@link UnitDefinition}
 	 * 'areaUnits'.
 	 * 
 	 * @param areaUnits
@@ -3004,7 +3004,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the conversionFactorID of this Model to the id of the Parameter
+	 * Sets the conversionFactorID of this {@link Model} to the id of the {@link Parameter}
 	 * 'conversionFactor'.
 	 * 
 	 * @param conversionFactor
@@ -3015,18 +3015,22 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the conversionFactorID of this Model to 'conversionFactorID'.
+	 * Sets the conversionFactorID of this {@link Model} to 'conversionFactorID'.
 	 * 
 	 * @param conversionFactorID
 	 */
 	public void setConversionFactor(String conversionFactorID) {
+		if (getLevel() < 3) {
+			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
+					SBaseChangedEvent.conversionFactor, this));
+		}
 		String oldConversionFactorID = this.conversionFactorID;
 		this.conversionFactorID = conversionFactorID;
 		firePropertyChange(SBaseChangedEvent.conversionFactor, oldConversionFactorID, conversionFactorID);
 	}
 
 	/**
-	 * Sets the extendUnitsID of this Model to 'extentUnitsID'.
+	 * Sets the extendUnitsID of this {@link Model} to 'extentUnitsID'.
 	 * 
 	 * @param extentUnitsID
 	 */
@@ -3037,7 +3041,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the extentUnitsID of this Model to the id of the UnitDefinition
+	 * Sets the extentUnitsID of this {@link Model} to the id of the {@link UnitDefinition}
 	 * 'extentUnits'.
 	 * 
 	 * @param extentUnits
@@ -3047,7 +3051,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the lengthUnitsID of this Model to 'lengthUnitsID'.
+	 * Sets the lengthUnitsID of this {@link Model} to 'lengthUnitsID'.
 	 * 
 	 * @param lengthUnitsID
 	 */
@@ -3058,7 +3062,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the lengthUnitsID of this Model to the id of the UnitDefinition
+	 * Sets the lengthUnitsID of this {@link Model} to the id of the UnitDefinition
 	 * 'lengthUnits'.
 	 * 
 	 * @param lengthUnits
@@ -3068,14 +3072,14 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the listOfCompartments of this Model to 'listOfCompartments'.
+	 * Sets the listOfCompartments of this {@link Model} to 'listOfCompartments'.
 	 * Automatically sets the parentSBML objects of 'listOfCompartments' to this
 	 * Model.
 	 * 
 	 * @param listOfCompartments
 	 */
 	public void setListOfCompartments(ListOf<Compartment> listOfCompartments) {
-		this.listOfCompartments = JSBML.addAllOrReplace(this,
+		this.listOfCompartments = JSBML.setListOf(this,
 				this.listOfCompartments, listOfCompartments,
 				ListOf.Type.listOfCompartments);
 	}
@@ -3083,7 +3087,7 @@ public class Model extends AbstractNamedSBase {
 	/**
 	 * Sets the listOfCompartmentTypes of this Model to
 	 * 'listOfCompartmentTypes'. Automatically sets the parentSBML objects of
-	 * 'listOfCompartmentTypes' to this Model.
+	 * 'listOfCompartmentTypes' to this {@link Model}.
 	 * 
 	 * @param listOfCompartmentTypes
 	 *            the listOfCompartmentTypes to set
@@ -3092,13 +3096,13 @@ public class Model extends AbstractNamedSBase {
 	@Deprecated
 	public void setListOfCompartmentTypes(
 			ListOf<CompartmentType> listOfCompartmentTypes) {
-		this.listOfCompartmentTypes = JSBML.addAllOrReplace(this,
+		this.listOfCompartmentTypes = JSBML.setListOf(this,
 				this.listOfCompartmentTypes, listOfCompartmentTypes,
 				ListOf.Type.listOfCompartmentTypes);
 	}
 
 	/**
-	 * Sets the listOfConstraints of this Model to 'listOfConstraints'.
+	 * Sets the listOfConstraints of this {@link Model} to 'listOfConstraints'.
 	 * Automatically sets the parentSBML objects of 'listOfCanstraints' to this
 	 * Model.
 	 * 
@@ -3106,23 +3110,23 @@ public class Model extends AbstractNamedSBase {
 	 *            the listOfConstraints to set
 	 */
 	public void setListOfConstraints(ListOf<Constraint> listOfConstraints) {
-		this.listOfConstraints = JSBML.addAllOrReplace(this, this.listOfConstraints,
+		this.listOfConstraints = JSBML.setListOf(this, this.listOfConstraints,
 				listOfConstraints, ListOf.Type.listOfConstraints);
 	}
 
 	/**
-	 * Sets the listOfEvents of this Model to 'listOfEvents'. Automatically sets
-	 * the parentSBML objects of 'listOfEvents' to this Model.
+	 * Sets the listOfEvents of this {@link Model} to 'listOfEvents'. Automatically sets
+	 * the parentSBML objects of 'listOfEvents' to this {@link Model}.
 	 * 
 	 * @param listOfEvents
 	 */
 	public void setListOfEvents(ListOf<Event> listOfEvents) {
-		this.listOfEvents = JSBML.addAllOrReplace(this, this.listOfEvents,
+		this.listOfEvents = JSBML.setListOf(this, this.listOfEvents,
 				listOfEvents, ListOf.Type.listOfEvents);
 	}
 
 	/**
-	 * Sets the listOfFunctionDefinitions of this Model to
+	 * Sets the listOfFunctionDefinitions of this {@link Model} to
 	 * 'listOfFunctionDefinitions'. Automatically sets the parentSBML objects of
 	 * 'listOfFunctionDefinitions' to this Model.
 	 * 
@@ -3131,13 +3135,13 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfFunctionDefinitions(
 			ListOf<FunctionDefinition> listOfFunctionDefinitions) {
-		this.listOfFunctionDefinitions = JSBML.addAllOrReplace(this,
+		this.listOfFunctionDefinitions = JSBML.setListOf(this,
 				this.listOfFunctionDefinitions, listOfFunctionDefinitions,
 				ListOf.Type.listOfFunctionDefinitions);
 	}
 
 	/**
-	 * Sets the listOfInitialAssignments of this Model to
+	 * Sets the listOfInitialAssignments of this {@link Model} to
 	 * 'listOfInitialAssignments'. Automatically sets the parentSBML objects of
 	 * 'listOfInitialAssignments' to this Model.
 	 * 
@@ -3146,54 +3150,54 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfInitialAssignments(
 			ListOf<InitialAssignment> listOfInitialAssignments) {
-		this.listOfInitialAssignments = JSBML.addAllOrReplace(this,
+		this.listOfInitialAssignments = JSBML.setListOf(this,
 				this.listOfInitialAssignments, listOfInitialAssignments,
 				ListOf.Type.listOfInitialAssignments);
 	}
 
 	/**
-	 * Sets the listOfParameters of this Model to 'listOfParameters'.
+	 * Sets the listOfParameters of this {@link Model} to 'listOfParameters'.
 	 * Automatically sets the parentSBML objects of 'listOfParameters' to this
 	 * Model.
 	 * 
 	 * @param listOfParameters
 	 */
 	public void setListOfParameters(ListOf<Parameter> listOfParameters) {
-		this.listOfParameters = JSBML.addAllOrReplace(this, this.listOfParameters,
+		this.listOfParameters = JSBML.setListOf(this, this.listOfParameters,
 				listOfParameters, ListOf.Type.listOfParameters);
 	}
 
 	/**
-	 * Sets the listOfReactions of this Model to 'listOfReactions'.
+	 * Sets the listOfReactions of this {@link Model} to 'listOfReactions'.
 	 * Automatically sets the parentSBML objects of 'listOfReactions' to this
 	 * Model.
 	 * 
 	 * @param listOfReactions
 	 */
 	public void setListOfReactions(ListOf<Reaction> listOfReactions) {
-		this.listOfReactions = JSBML.addAllOrReplace(this, this.listOfReactions,
+		this.listOfReactions = JSBML.setListOf(this, this.listOfReactions,
 				listOfReactions, ListOf.Type.listOfReactions);
 	}
 
 	/**
-	 * Sets the listOfRules of this Model to 'listOfRules'. Automatically sets
+	 * Sets the listOfRules of this {@link Model} to 'listOfRules'. Automatically sets
 	 * the parentSBML objects of 'listOfRules' to this Model.
 	 * 
 	 * @param listOfRules
 	 */
 	public void setListOfRules(ListOf<Rule> listOfRules) {
-		this.listOfRules = JSBML.addAllOrReplace(this, this.listOfRules,
+		this.listOfRules = JSBML.setListOf(this, this.listOfRules,
 				listOfRules, ListOf.Type.listOfRules);
 	}
 
 	/**
-	 * Sets the listOfSpecies of this Model to 'listOfSpecies'. Automatically
+	 * Sets the listOfSpecies of this {@link Model} to 'listOfSpecies'. Automatically
 	 * sets the parentSBML objects of 'listOfSpecies' to this Model.
 	 * 
 	 * @param listOfSpecies
 	 */
 	public void setListOfSpecies(ListOf<Species> listOfSpecies) {
-		this.listOfSpecies = JSBML.addAllOrReplace(this, this.listOfSpecies,
+		this.listOfSpecies = JSBML.setListOf(this, this.listOfSpecies,
 				listOfSpecies, ListOf.Type.listOfSpecies);
 	}
 
@@ -3207,13 +3211,13 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public void setListOfSpeciesTypes(ListOf<SpeciesType> listOfSpeciesTypes) {
-		this.listOfSpeciesTypes = JSBML.addAllOrReplace(this,
+		this.listOfSpeciesTypes = JSBML.setListOf(this,
 				this.listOfSpeciesTypes, listOfSpeciesTypes,
 				ListOf.Type.listOfSpeciesTypes);
 	}
 
 	/**
-	 * Sets the listOfUnitDefinitions of this Model to 'listOfUnitDefinitions'.
+	 * Sets the listOfUnitDefinitions of this {@link Model} to 'listOfUnitDefinitions'.
 	 * Automatically sets the parentSBML objects of 'listOfUnitDefinitions' to
 	 * this Model.
 	 * 
@@ -3221,7 +3225,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfUnitDefinitions(
 			ListOf<UnitDefinition> listOfUnitDefinitions) {
-		this.listOfUnitDefinitions = JSBML.addAllOrReplace(this,
+		this.listOfUnitDefinitions = JSBML.setListOf(this,
 				this.listOfUnitDefinitions, listOfUnitDefinitions,
 				ListOf.Type.listOfUnitDefinitions);
 	}
@@ -3237,7 +3241,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the substanceUnitsID of this Model to 'substanceUnitsID'
+	 * Sets the substanceUnitsID of this {@link Model} to 'substanceUnitsID'
 	 * 
 	 * @param substanceUnitsID
 	 */
@@ -3248,7 +3252,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the substanceUnitsID of this Model to the id of 'substanceUnits'.
+	 * Sets the substanceUnitsID of this {@link Model} to the id of 'substanceUnits'.
 	 * 
 	 * @param substanceUnits
 	 */
@@ -3258,7 +3262,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the timeUnits of this Model to 'timeUnistID'
+	 * Sets the timeUnits of this {@link Model} to 'timeUnistID'
 	 * 
 	 * @param timeUnitsID
 	 */
@@ -3269,7 +3273,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the timeUnitsID of this Model to the id of the UnitDefinition
+	 * Sets the timeUnitsID of this {@link Model} to the id of the {@link UnitDefinition}
 	 * 'timeUnits'.
 	 * 
 	 * @param timeUnits
@@ -3279,7 +3283,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the volumeUnitsID of this Model to 'volumeUnitsID'
+	 * Sets the volumeUnitsID of this {@link Model} to 'volumeUnitsID'
 	 * 
 	 * @param volumeUnitsID
 	 */
@@ -3290,7 +3294,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the volumeUnitsID of this Model to the id of the UnitDefinition
+	 * Sets the volumeUnitsID of this {@link Model} to the id of the {@link UnitDefinition}
 	 * 'volumeUnits'.
 	 * 
 	 * @param volumeUnits
@@ -3300,28 +3304,28 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the areaUnitsID of this Model to null.
+	 * Sets the areaUnitsID of this {@link Model} to null.
 	 */
 	public void unsetAreaUnits() {
 		setAreaUnits((String) null);
 	}
 
 	/**
-	 * Sets the conversionFactorID of this Model to null.
+	 * Sets the conversionFactorID of this {@link Model} to null.
 	 */
 	public void unsetConversionFactor() {
 		setConversionFactor((String) null);
 	}
 
 	/**
-	 * Sets the extentUnitsID of this Model to null.
+	 * Sets the extentUnitsID of this {@link Model} to null.
 	 */
 	public void unsetExtentUnits() {
 		setExtentUnits((String) null);
 	}
 
 	/**
-	 * Sets the lengthUnitsID of this Model to null.
+	 * Sets the lengthUnitsID of this {@link Model} to null.
 	 */
 	public void unsetLengthUnits() {
 		setLengthUnits((String) null);
@@ -3337,14 +3341,14 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the timeUnitsID of this Model to null.
+	 * Sets the timeUnitsID of this {@link Model} to null.
 	 */
 	public void unsetTimeUnits() {
 		setTimeUnits((String) null);
 	}
 
 	/**
-	 * Sets the volumeUnitsID of this Model to null.
+	 * Sets the volumeUnitsID of this {@link Model} to null.
 	 */
 	public void unsetVolumeUnits() {
 		setVolumeUnits((String) null);

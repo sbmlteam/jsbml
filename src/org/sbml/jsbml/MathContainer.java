@@ -103,4 +103,15 @@ public interface MathContainer extends SBaseWithDerivedUnit {
 	 *            an abstract syntax tree.
 	 */
 	public void setMath(ASTNode math);
+	
+	/**
+	 * @deprecated use {@link #unsetMath()}
+	 */
+	@Deprecated
+	public void unsetFormula();
+	
+	/**
+	 * 
+	 */
+	public void unsetMath();
 }

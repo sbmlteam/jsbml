@@ -34,7 +34,7 @@ import java.io.Serializable;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * Contains all the information about a creator of a Model (or other in level
+ * Contains all the information about a creator of a {@link Model} (or other {@link SBase} in level
  * 3).
  * 
  * @author marine3
@@ -44,7 +44,7 @@ import org.sbml.jsbml.util.StringTools;
  * @opt types
  * @opt visibility
  */
-public class Creator implements Serializable {
+public class Creator implements Cloneable, Serializable {
 
 	/**
 	 * Generated serial version identifier.
@@ -71,19 +71,30 @@ public class Creator implements Serializable {
 	// private String otherXMLInformation;
 
 	/**
-	 * Creates a ModelCreator instance. By default, the email, familyName,
+	 * Creates a {@link Creator} instance. By default, the email, familyName,
 	 * givenName, organisation are null.
 	 */
 	public Creator() {
-		this.email = null;
-		this.familyName = null;
-		this.givenName = null;
-		this.organisation = null;
+		this(null, null, null, null);
+	}
+	
+	/**
+	 * 
+	 * @param givenName
+	 * @param familyName
+	 * @param organization
+	 * @param email
+	 */
+	public Creator(String givenName, String familyName, String organization, String email) {
+		this.givenName = givenName;
+		this.familyName = familyName;
+		this.organisation = organization;
+		this.email = email;
 		// this.otherXMLInformation = null;
 	}
 
 	/**
-	 * Creates a ModelCreator instance from a given ModelCreator.
+	 * Creates a {@link Creator} instance from a given {@link Creator}.
 	 * 
 	 * @param modelCreator
 	 */
@@ -150,7 +161,7 @@ public class Creator implements Serializable {
 
 	/**
 	 * 
-	 * @return the email from the ModelCreator. Returns an empty String if it is
+	 * @return the email from the {@link Creator}. Returns an empty String if it is
 	 *         not set.
 	 */
 	public String getEmail() {
@@ -159,7 +170,7 @@ public class Creator implements Serializable {
 
 	/**
 	 * 
-	 * @return the familyName from the ModelCreator. Returns an empty String if
+	 * @return the familyName from the {@link Creator}. Returns an empty String if
 	 *         it is not set.
 	 */
 	public String getFamilyName() {
@@ -167,7 +178,7 @@ public class Creator implements Serializable {
 	}
 
 	/**
-	 * Returns the givenName from the ModelCreator. Returns an empty String if
+	 * Returns the givenName from the {@link Creator}. Returns an empty String if
 	 * it is not set.
 	 * 
 	 * @return
@@ -177,7 +188,7 @@ public class Creator implements Serializable {
 	}
 
 	/**
-	 * Returns the organisation from the ModelCreator. Returns an empty String
+	 * Returns the organisation from the {@link Creator}. Returns an empty String
 	 * if it is not set.
 	 * 
 	 * @return
@@ -197,9 +208,9 @@ public class Creator implements Serializable {
 
 	/**
 	 * Predicate returning true or false depending on whether this
-	 * ModelCreator's email has been set.
+	 * {@link Creator}'s email has been set.
 	 * 
-	 * @return true if the email of this ModelCreator is not null.
+	 * @return true if the email of this {@link Creator} is not null.
 	 */
 	public boolean isSetEmail() {
 		return email != null;
@@ -207,9 +218,9 @@ public class Creator implements Serializable {
 
 	/**
 	 * Predicate returning true or false depending on whether this
-	 * ModelCreator's familyName has been set.
+	 * {@link Creator}'s familyName has been set.
 	 * 
-	 * @return true if the familyName of this ModelCreator is not null.
+	 * @return true if the familyName of this {@link Creator} is not null.
 	 */
 	public boolean isSetFamilyName() {
 		return familyName != null;
@@ -217,9 +228,9 @@ public class Creator implements Serializable {
 
 	/**
 	 * Predicate returning true or false depending on whether this
-	 * ModelCreator's givenName has been set.
+	 * {@link Creator}'s givenName has been set.
 	 * 
-	 * @return true if the givenName of this ModelCreator is not null.
+	 * @return true if the givenName of this {@link Creator} is not null.
 	 */
 	public boolean isSetGivenName() {
 		return givenName != null;
@@ -227,9 +238,9 @@ public class Creator implements Serializable {
 
 	/**
 	 * Predicate returning true or false depending on whether this
-	 * ModelCreator's organisation has been set.
+	 * {@link Creator}'s organisation has been set.
 	 * 
-	 * @return true if the organisation of this ModelCreator is not null.
+	 * @return true if the organisation of this {@link Creator} is not null.
 	 */
 	public boolean isSetOrganisation() {
 		return organisation != null;
@@ -245,7 +256,7 @@ public class Creator implements Serializable {
 	}
 
 	/**
-	 * @return true if the XML attribute is known by this ModelCreator.
+	 * @return true if the XML attribute is known by this {@link Creator}.
 	 */
 	public boolean readAttribute(String elementName, String attributeName,
 			String prefix, String value) {
@@ -344,7 +355,7 @@ public class Creator implements Serializable {
 	}
 
 	/**
-	 * converts the ModelCreator into XML
+	 * converts the {@link Creator} into XML
 	 * 
 	 * @param indent
 	 * @param buffer
@@ -360,7 +371,7 @@ public class Creator implements Serializable {
 	}
 
 	/**
-	 * Unsets the email of this ModelCreator.
+	 * Unsets the email of this {@link Creator}.
 	 * 
 	 * @return 0
 	 */
@@ -371,7 +382,7 @@ public class Creator implements Serializable {
 	}
 
 	// /**
-	// * write the other elements of the ModelCreator in 'buffer'
+	// * write the other elements of the {@link Creator} in 'buffer'
 	// * @param indent
 	// * @param buffer
 	// */
@@ -384,7 +395,7 @@ public class Creator implements Serializable {
 	 */
 
 	/**
-	 * Unsets the familyName of this ModelCreator.
+	 * Unsets the familyName of this {@link Creator}.
 	 * 
 	 * @return 0
 	 */
@@ -395,7 +406,7 @@ public class Creator implements Serializable {
 	}
 
 	/**
-	 * Unsets the givenName of this ModelCreator.
+	 * Unsets the givenName of this {@link Creator}.
 	 * 
 	 * @return 0
 	 */
@@ -418,14 +429,14 @@ public class Creator implements Serializable {
 
 	// /**
 	// *
-	// * @return the otherXMLInformation String of ModelCreator
+	// * @return the otherXMLInformation String of {@link Creator}
 	// */
 	/*
 	 * public String getOtherXMLInformation() { return otherXMLInformation; }
 	 */
 
 	/**
-	 * Unsets the organisation of this ModelCreator.
+	 * Unsets the organisation of this {@link Creator}.
 	 * 
 	 */
 	public void unsetOrganization() {
@@ -433,7 +444,7 @@ public class Creator implements Serializable {
 	}
 
 	/**
-	 * writes the EMAIL element of the ModelCreator in 'buffer'
+	 * writes the EMAIL element of the {@link Creator} in 'buffer'
 	 * 
 	 * @param indent
 	 * @param buffer
@@ -446,7 +457,7 @@ public class Creator implements Serializable {
 	}
 
 	/**
-	 * writes the N element of the ModelCreator in 'buffer'
+	 * writes the N element of the {@link Creator} in 'buffer'
 	 * 
 	 * @param indent
 	 * @param buffer
@@ -471,7 +482,7 @@ public class Creator implements Serializable {
 	}
 
 	/**
-	 * writes the ORG element of the ModelCreator in 'buffer'
+	 * writes the ORG element of the {@link Creator} in 'buffer'
 	 * 
 	 * @param indent
 	 * @param buffer

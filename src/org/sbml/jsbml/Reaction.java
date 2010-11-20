@@ -405,9 +405,10 @@ public class Reaction extends AbstractNamedSBase implements
 	}
 
 	/**
+	 * Only available if Level >= 3.
 	 * 
-	 * @return the compartmentID of this Reaction. The empty String if it is not
-	 *         set.
+	 * @return the compartmentID of this {@link Reaction}. The empty
+	 *         {@link String} if it is not set.
 	 */
 	public String getCompartment() {
 		return isSetCompartment() ? this.compartmentID : "";
@@ -992,7 +993,7 @@ public class Reaction extends AbstractNamedSBase implements
 	}
 
 	/**
-	 * Sets the compartmentID of this Reaction to the id of the Compartment
+	 * Sets the compartmentID of this {@link Reaction} to the id of the {@link Compartment}
 	 * 'compartment'.
 	 * 
 	 * @param compartment
@@ -1009,17 +1010,17 @@ public class Reaction extends AbstractNamedSBase implements
 	 */
 	public void setCompartment(String compartmentID) {
 		if (isSetLevel() && (getLevel() < 3)) {
-			throw new IllegalArgumentException(String.format(
-									"Cannot set the compartment property to %s for reaction %s with Level < 3.",
-									compartmentID, getId()));
+			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
+					SBaseChangedEvent.compartment, this));
 		}
 		String oldCompartmentID = this.compartmentID;
 		this.compartmentID = compartmentID;
-		firePropertyChange(SBaseChangedEvent.compartment, oldCompartmentID, compartmentID);
+		firePropertyChange(SBaseChangedEvent.compartment, oldCompartmentID,
+				compartmentID);
 	}
 
 	/**
-	 * Sets the fast Boolean of this Reaction.
+	 * Sets the fast Boolean of this {@link Reaction}.
 	 * 
 	 * @param fast
 	 */
@@ -1036,45 +1037,47 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param kineticLaw
 	 */
 	public void setKineticLaw(KineticLaw kineticLaw) {
+		KineticLaw oldKineticLaw = this.kineticLaw;
 		this.kineticLaw = kineticLaw;
 		setThisAsParentSBMLObject(this.kineticLaw);
+		firePropertyChange(SBaseChangedEvent.kineticLaw, oldKineticLaw, this.kineticLaw);
 	}
 
 	/**
-	 * Sets the listOfModifiers of this Reaction. Automatically sets the
-	 * parentSBML object of the list to this Reaction instance.
+	 * Sets the listOfModifiers of this {@link Reaction}. Automatically sets the
+	 * parentSBML object of the list to this {@link Reaction} instance.
 	 * 
 	 * @param listOfModifiers
 	 */
 	public void setListOfModifiers(ListOf<ModifierSpeciesReference> listOfModifiers) {
-		this.listOfModifiers = JSBML.addAllOrReplace(this, this.listOfModifiers,
+		this.listOfModifiers = JSBML.setListOf(this, this.listOfModifiers,
 				listOfModifiers, ListOf.Type.listOfModifiers);
 	}
 
 	/**
-	 * Sets the listOfProducts of this Reaction. Automatically sets the
-	 * parentSBML object of the list to this Reaction instance.
+	 * Sets the listOfProducts of this {@link Reaction}. Automatically sets the
+	 * parentSBML object of the list to this {@link Reaction} instance.
 	 * 
 	 * @param listOfProducts
 	 */
 	public void setListOfProducts(ListOf<SpeciesReference> listOfProducts) {
-		this.listOfProducts = JSBML.addAllOrReplace(this, this.listOfProducts,
+		this.listOfProducts = JSBML.setListOf(this, this.listOfProducts,
 				listOfProducts, ListOf.Type.listOfProducts);
 	}
 
 	/**
-	 * Sets the listOfReactants of this Reaction. Automatically sets the
-	 * parentSBML object of the list to this Reaction instance.
+	 * Sets the listOfReactants of this {@link Reaction}. Automatically sets the
+	 * parentSBML object of the list to this {@link Reaction} instance.
 	 * 
 	 * @param listOfReactants
 	 */
 	public void setListOfReactants(ListOf<SpeciesReference> listOfReactants) {
-		this.listOfReactants = JSBML.addAllOrReplace(this, this.listOfReactants,
+		this.listOfReactants = JSBML.setListOf(this, this.listOfReactants,
 				listOfReactants, ListOf.Type.listOfReactants);
 	}
 
 	/**
-	 * Sets the reversible Boolean of this Reaction.
+	 * Sets the reversible Boolean of this {@link Reaction}.
 	 * 
 	 * @param reversible
 	 */
@@ -1096,7 +1099,7 @@ public class Reaction extends AbstractNamedSBase implements
 	}
 
 	/**
-	 * Sets the reversible Boolean of this Reaction to null.
+	 * Sets the reversible Boolean of this {@link Reaction} to null.
 	 */
 	public void unsetReversible() {
 		Boolean oldReversible = this.reversible;

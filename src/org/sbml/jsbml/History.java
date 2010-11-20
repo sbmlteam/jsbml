@@ -38,7 +38,7 @@ import java.util.List;
 import org.w3c.util.DateParser;
 
 /**
- * Contains all the history information about a Model (or other if level 3).
+ * Contains all the history information about a {@link Model} (or other {@link SBase} if level 3).
  * 
  * @author marine
  * @author Andreas Dr&auml;ger
@@ -50,11 +50,11 @@ public class History implements Cloneable, Serializable {
 	 */
 	private static final long serialVersionUID = -1699117162462037149L;
 	/**
-	 * Contains all the ModelCreator instances of this ModelHistory.
+	 * Contains all the {@link Creator} instances of this {@link History}.
 	 */
-	private List<Creator> listOfModelCreators;
+	private List<Creator> listOfCreators;
 	/**
-	 * Contains all the modified date instances of this ModelHistory.
+	 * Contains all the modified date instances of this {@link History}.
 	 */
 	private List<Date> listOfModification;
 	/**
@@ -67,24 +67,24 @@ public class History implements Cloneable, Serializable {
 	private Date modified;
 
 	/**
-	 * Creates a ModelHistory instance. By default, the creation and modified
-	 * are null. The listOfModification and listOfModelCreators are empty.
+	 * Creates a {@link History} instance. By default, the creation and modified
+	 * are null. The {@link #listOfModification} and {@link #listOfCreators} are empty.
 	 */
 	public History() {
-		listOfModelCreators = new LinkedList<Creator>();
+		listOfCreators = new LinkedList<Creator>();
 		listOfModification = new LinkedList<Date>();
 		creation = null;
 		modified = null;
 	}
 
 	/**
-	 * Creates a ModelHistory instance from a given ModelHistory.
+	 * Creates a {@link History} instance from a given {@link History}.
 	 * 
 	 * @param modelHistory
 	 */
 	public History(History modelHistory) {
-		listOfModelCreators = new LinkedList<Creator>();
-		listOfModelCreators.addAll(modelHistory.getListCreators());
+		listOfCreators = new LinkedList<Creator>();
+		listOfCreators.addAll(modelHistory.getListCreators());
 		listOfModification = new LinkedList<Date>();
 		listOfModification.addAll(modelHistory.getListModifiedDates());
 		Calendar calendar = Calendar.getInstance();
@@ -103,16 +103,16 @@ public class History implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Adds a ModelCreator instance to this ModelHistory.
+	 * Adds a {@link Creator} instance to this {@link History}.
 	 * 
 	 * @param mc
 	 */
 	public void addCreator(Creator mc) {
-		listOfModelCreators.add(mc);
+		listOfCreators.add(mc);
 	}
 
 	/**
-	 * Adds a Date of modification to this ModelHistory.
+	 * Adds a Date of modification to this {@link History}.
 	 * 
 	 * @param date
 	 */
@@ -170,7 +170,7 @@ public class History implements Cloneable, Serializable {
 	private void createCreatorElements(String indent, StringBuffer buffer) {
 
 		beginCreatorElement(indent, buffer);
-		if (listOfModelCreators != null) {
+		if (listOfCreators != null) {
 			for (int i = 0; i < getNumCreators(); i++) {
 				Creator creator = getCreator(i);
 
@@ -223,11 +223,11 @@ public class History implements Cloneable, Serializable {
 		if (o instanceof History) {
 			boolean equal = super.equals(o);
 			History mh = (History) o;
-			equal &= listOfModelCreators.size() == mh.getListCreators().size();
+			equal &= listOfCreators.size() == mh.getListCreators().size();
 
 			if (equal) {
-				for (int i = 0; i < listOfModelCreators.size(); i++) {
-					Creator c1 = listOfModelCreators.get(i);
+				for (int i = 0; i < listOfCreators.size(); i++) {
+					Creator c1 = listOfCreators.get(i);
 					Creator c2 = mh.getListCreators().get(i);
 
 					if (c1 != null && c2 != null) {
@@ -268,9 +268,9 @@ public class History implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Returns the createdDate from the ModelHistory.
+	 * Returns the createdDate from the {@link History}.
 	 * 
-	 * @return Date object representing the createdDate from the ModelHistory.
+	 * @return {@link Date} object representing the createdDate from the {@link History}.
 	 *         Can be null if it is not set.
 	 */
 	public Date getCreatedDate() {
@@ -278,37 +278,37 @@ public class History implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Get the nth ModelCreator object in this ModelHistory.
+	 * Get the nth {@link Creator} object in this {@link History}.
 	 * 
 	 * @param i
-	 * @return the nth ModelCreator of this ModelHistory. Can be null.
+	 * @return the nth {@link Creator} of this {@link History}. Can be null.
 	 */
 	public Creator getCreator(int i) {
-		return listOfModelCreators.get(i);
+		return listOfCreators.get(i);
 	}
 
 	/**
-	 * Get the list of ModelCreator objects in this ModelHistory.
+	 * Get the list of {@link Creator} objects in this {@link History}.
 	 * 
-	 * @return the list of ModelCreators for this ModelHistory.
+	 * @return the list of {@link Creator}s for this {@link History}.
 	 */
 	public List<Creator> getListCreators() {
-		return listOfModelCreators;
+		return listOfCreators;
 	}
 
 	/**
-	 * Get the list of ModifiedDate objects in this ModelHistory.
+	 * Get the list of ModifiedDate objects in this {@link History}.
 	 * 
-	 * @return the list of ModifiedDates for this ModelHistory.
+	 * @return the list of ModifiedDates for this {@link History}.
 	 */
 	public List<Date> getListModifiedDates() {
 		return listOfModification;
 	}
 
 	/**
-	 * Returns the modifiedDate from the ModelHistory.
+	 * Returns the modifiedDate from the {@link History}.
 	 * 
-	 * @return Date object representing the modifiedDate from the ModelHistory.
+	 * @return Date object representing the modifiedDate from the {@link History}.
 	 *         Can be null if it is not set.
 	 */
 	public Date getModifiedDate() {
@@ -316,32 +316,32 @@ public class History implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Get the nth Date object in the list of ModifiedDates in this
-	 * ModelHistory.
+	 * Get the nth {@link Date} object in the list of ModifiedDates in this
+	 * {@link History}.
 	 * 
 	 * @param n
-	 *            the nth Date in the list of ModifiedDates of this
-	 *            ModelHistory.
-	 * @return the nth Date object in the list of ModifiedDates in this
-	 *         ModelHistory. Can be null if it is not set.
+	 *            the nth {@link Date} in the list of ModifiedDates of this
+	 *            {@link History}.
+	 * @return the nth {@link Date} object in the list of ModifiedDates in this
+	 *         {@link History}. Can be null if it is not set.
 	 */
 	public Date getModifiedDate(int n) {
 		return listOfModification.get(n);
 	}
 
 	/**
-	 * Get the number of ModelCreator objects in this ModelHistory.
+	 * Get the number of {@link Creator} objects in this {@link History}.
 	 * 
-	 * @return the number of ModelCreators in this ModelHistory.
+	 * @return the number of {@link Creator}s in this {@link History}.
 	 */
 	public int getNumCreators() {
-		return listOfModelCreators.size();
+		return listOfCreators.size();
 	}
 
 	/**
-	 * Get the number of ModifiedDate objects in this ModelHistory.
+	 * Get the number of ModifiedDate objects in this {@link History}.
 	 * 
-	 * @return the number of ModifiedDates in this ModelHistory.
+	 * @return the number of ModifiedDates in this {@link History}.
 	 */
 	public int getNumModifiedDates() {
 		return listOfModification.size();
@@ -349,9 +349,9 @@ public class History implements Cloneable, Serializable {
 
 	/**
 	 * Predicate returning true or false depending on whether this
-	 * ModelHistory's createdDate has been set.
+	 * {@link History}'s createdDate has been set.
 	 * 
-	 * @return true if the createdDate of this ModelHistory has been set, false
+	 * @return true if the createdDate of this {@link History} has been set, false
 	 *         otherwise.
 	 */
 	public boolean isSetCreatedDate() {
@@ -360,9 +360,9 @@ public class History implements Cloneable, Serializable {
 
 	/**
 	 * Predicate returning true or false depending on whether this
-	 * ModelHistory's modifiedDate has been set.
+	 * {@link History}'s modifiedDate has been set.
 	 * 
-	 * @return true if the modifiedDate of this ModelHistory has been set, false
+	 * @return true if the modifiedDate of this {@link History} has been set, false
 	 *         otherwise.
 	 */
 	public boolean isSetModifiedDate() {
@@ -375,7 +375,7 @@ public class History implements Cloneable, Serializable {
 	 * @param attributeName
 	 * @param prefix
 	 * @param value
-	 * @return true if the XML attribute is known by this ModelHistory.
+	 * @return true if the XML attribute is known by this {@link History}.
 	 */
 	public boolean readAttribute(String nodeName, String attributeName,
 			String prefix, String value) {
@@ -388,25 +388,25 @@ public class History implements Cloneable, Serializable {
 		}
 		return false;
 	}
-
+	
 	/**
-	 * If there is no ith ModelCreator, it returns null.
+	 *If there is no ith {@link Creator}, it returns null.
 	 * 
 	 * @param i
-	 * @return the ModelCreator removed from the listOfModelCreators.
+	 * @return the {@link Creator} removed from the {@link #listOfCreators}.
 	 */
-	public Creator removeModelCreator(int i) {
-		if (i < listOfModelCreators.size()) {
-			return listOfModelCreators.remove(i);
+	public Creator removeCreator(int i) {
+		if (i < listOfCreators.size()) {
+			return listOfCreators.remove(i);
 		}
 		return null;
 	}
 
 	/**
-	 * If there is no ith modified Date, it returns null.
+	 * If there is no ith modified {@link Date}, it returns null.
 	 * 
 	 * @param i
-	 * @return the modified Date removed from the listOfModification.
+	 * @return the modified {@link Date} removed from the listOfModification.
 	 */
 	public Date removeModifiedDate(int i) {
 		if (i < listOfModification.size()) {
@@ -426,7 +426,7 @@ public class History implements Cloneable, Serializable {
 	 * Sets the createdDate.
 	 * 
 	 * @param date
-	 *            a Date object representing the date the ModelHistory was
+	 *            a {@link Date} object representing the date the {@link History} was
 	 *            created.
 	 */
 	public void setCreatedDate(Date date) {
@@ -437,7 +437,7 @@ public class History implements Cloneable, Serializable {
 	 * Sets the modifiedDate.
 	 * 
 	 * @param date
-	 *            a Date object representing the date the ModelHistory was
+	 *            a {@link Date} object representing the date the {@link History} was
 	 *            modified.
 	 */
 	public void setModifiedDate(Date date) {
@@ -446,7 +446,7 @@ public class History implements Cloneable, Serializable {
 	}
 
 	/**
-	 * converts the ModelHistory into the XML history section of an annotation
+	 * converts the {@link History} into the XML history section of an annotation
 	 * 
 	 * @param indent
 	 * @param buffer
@@ -458,7 +458,7 @@ public class History implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Sets the created of this ModelHistory to null.
+	 * Sets the created of this {@link History} to null.
 	 */
 	public void unsetCreatedDate() {
 		this.creation = null;

@@ -146,7 +146,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the speciesID of this Species. The empty String if it is not set.
+	 * @return the speciesID of this {@link Species}. The empty String if it is not set.
 	 */
 	public String getSpecies() {
 		return isSetSpecies() ? speciesID : "";

@@ -63,6 +63,20 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	}
 
 	/**
+	 * Creates a MathContainer instance from a given MathContainer.
+	 * 
+	 * @param sb
+	 */
+	public AbstractMathContainer(AbstractMathContainer sb) {
+		super(sb);
+		if (sb.isSetMath()) {
+			setMath(sb.getMath().clone());
+		} else {
+			this.math = null;
+		}
+	}
+
+	/**
 	 * Creates a MathContainer instance from an ASTNode, level and version. By
 	 * default, the formula and mathBuffer are null.
 	 * 
@@ -89,20 +103,6 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	public AbstractMathContainer(int level, int version) {
 		super(level, version);
 		math = null;
-	}
-
-	/**
-	 * Creates a MathContainer instance from a given MathContainer.
-	 * 
-	 * @param sb
-	 */
-	public AbstractMathContainer(AbstractMathContainer sb) {
-		super(sb);
-		if (sb.isSetMath()) {
-			setMath(sb.getMath().clone());
-		} else {
-			this.math = null;
-		}
 	}
 
 	/*
@@ -238,6 +238,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	 * 
 	 * @see org.sbml.jsbml.MathContainer#getFormula()
 	 */
+	@Deprecated
 	public String getFormula() {
 		try {
 			return isSetMath() ? getMath().toFormula() : "";
@@ -245,7 +246,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 			return "invalid";
 		}
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -254,7 +255,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	public ASTNode getMath() {
 		return math;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -306,6 +307,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	 * 
 	 * @see org.sbml.jsbml.MathContainer#setFormula(java.lang.String)
 	 */
+	@Deprecated
 	public void setFormula(String formula) throws ParseException {
 		setMath(ASTNode.parseFormula(formula));
 	}
@@ -330,6 +332,23 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	@Override
 	public String toString() {
 		return isSetMath() ? math.toString() : getElementName();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.MathContainer#unsetFormula()
+	 */
+	@Deprecated
+	public void unsetFormula() {
+		unsetMath();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.MathContainer#unsetMath()
+	 */
+	public void unsetMath() {
+		setMath(null);
 	}
 
 	/*

@@ -466,12 +466,19 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * @see org.sbml.jsbml.State#setConstant(boolean)
 	 */
 	public void setConstant(boolean constant) {
+		if (getLevel() < 3) {
+			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
+					SBaseChangedEvent.constant, this));
+		}
+		Boolean oldConstant = this.constant;
 		this.constant = Boolean.valueOf(constant);
 		isSetConstant = true;
+		firePropertyChange(SBaseChangedEvent.constant, oldConstant,
+				this.constant);
 	}
 
 	/**
-	 * Sets the denominator of this SpeciesReference.
+	 * Sets the denominator of this {@link SpeciesReference}.
 	 * 
 	 * @param denominator
 	 * @deprecated

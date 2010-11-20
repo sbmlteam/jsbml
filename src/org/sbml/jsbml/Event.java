@@ -527,8 +527,7 @@ public class Event extends AbstractNamedSBase {
 	 *         if it has not been set.
 	 */
 	public boolean getUseValuesFromTriggerTime() {
-		return isSetUseValuesFromTriggerTime() ? useValuesFromTriggerTime
-				: false;
+		return isUseValuesFromTriggerTime();
 	}
 
 	/**
@@ -615,14 +614,12 @@ public class Event extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return the boolean value of the useValuesFromTriggerTime of this Event
+	 * @return the boolean value of the useValuesFromTriggerTime of this {@link Event}
 	 *         if it has been set, false otherwise.
 	 */
 	public boolean isUseValuesFromTriggerTime() {
-		if (isSetUseValuesFromTriggerTime()) {
-			return useValuesFromTriggerTime;
-		}
-		return false;
+		return isSetUseValuesFromTriggerTime() ? useValuesFromTriggerTime
+				: false;
 	}
 
 	/*
@@ -694,6 +691,9 @@ public class Event extends AbstractNamedSBase {
 	 * @param delay
 	 */
 	public void setDelay(Delay delay) {
+		if (isSetDelay()) {
+			this.delay.fireSBaseRemovedEvent();
+		}
 		this.delay = delay;
 		setThisAsParentSBMLObject(this.delay);
 	}
@@ -708,7 +708,7 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void setListOfEventAssignments(
 			ListOf<EventAssignment> listOfEventAssignments) {
-		this.listOfEventAssignments = JSBML.addAllOrReplace(this,
+		this.listOfEventAssignments = JSBML.setListOf(this,
 				this.listOfEventAssignments, listOfEventAssignments,
 				ListOf.Type.listOfEventAssignments);
 	}
@@ -729,7 +729,7 @@ public class Event extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the timeUnitsID of this Event to 'timeUnits'.
+	 * Sets the timeUnitsID of this {@link Event} to 'timeUnits'.
 	 * 
 	 * @param timeUnits
 	 * @deprecated This is only applicable for SBML Level 2, Versions 1 and 2.
@@ -740,17 +740,18 @@ public class Event extends AbstractNamedSBase {
 			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
 					SBaseChangedEvent.timeUnits, this));
 		}
-		if ((timeUnits == null) || timeUnits.equals("")) {
-			unsetTimeUnits();
-		} else {
-			String oldTimeUnitsID = timeUnitsID == null ? null : new String(timeUnitsID);
-			this.timeUnitsID = timeUnits;
-			firePropertyChange(SBaseChangedEvent.timeUnits, oldTimeUnitsID, timeUnits);
+		if (timeUnits.equals("")) {
+			timeUnits = null;
 		}
+		String oldTimeUnitsID = timeUnitsID == null ? null : new String(
+				timeUnitsID);
+		this.timeUnitsID = timeUnits;
+		firePropertyChange(SBaseChangedEvent.timeUnits, oldTimeUnitsID,
+				timeUnits);
 	}
 
 	/**
-	 * Sets the timeUnitsID of this Event to the id of the UnitDefinition
+	 * Sets the timeUnitsID of this {@link Event} to the id of the {@link UnitDefinition}
 	 * 'timeUnits'.
 	 * 
 	 * @param timeUnits
@@ -772,17 +773,20 @@ public class Event extends AbstractNamedSBase {
 
 	/**
 	 * Sets the trigger of this Event to 'trigger'. It automatically sets the
-	 * Trigger parentSBML object to this Event instance.
+	 * {@link Trigger} parentSBML object to this Event instance.
 	 * 
 	 * @param trigger
 	 */
 	public void setTrigger(Trigger trigger) {
+		if (isSetTrigger()) {
+			this.trigger.fireSBaseRemovedEvent();
+		}
 		this.trigger = trigger;
 		setThisAsParentSBMLObject(this.trigger);
 	}
 
 	/**
-	 * Sets the useValuesFromTriggerTime of this Event to
+	 * Sets the useValuesFromTriggerTime of this {@link Event} to
 	 * 'useValuesFromTriggerTime'.
 	 * 
 	 * @param useValuesFromTriggerTime
@@ -800,7 +804,7 @@ public class Event extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the delay of this Event to null.
+	 * Sets the delay of this {@link Event} to null.
 	 */
 	public void unsetDelay() {
 		this.delay.fireSBaseRemovedEvent();
@@ -816,14 +820,15 @@ public class Event extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Sets the timeUnitsID of this Event to null.
+	 * Sets the timeUnitsID of this {@link Event} to null.
 	 */
 	public void unsetTimeUnits() {
 		setTimeUnitsID(null);
 	}
 
 	/**
-	 * Sets the trigger of this Event to null.
+	 * Sets the trigger of this {@link Event} to null and notifies
+	 * {@link SBaseChangedListener}s.
 	 */
 	public void unsetTrigger() {
 		this.trigger.fireSBaseRemovedEvent();
