@@ -691,26 +691,27 @@ public class Event extends AbstractNamedSBase {
 	 * @param delay
 	 */
 	public void setDelay(Delay delay) {
-		if (isSetDelay()) {
-			this.delay.fireSBaseRemovedEvent();
-		}
+		unsetDelay();
 		this.delay = delay;
 		setThisAsParentSBMLObject(this.delay);
 	}
 
 	/**
-	 * Sets the listofEventAssignments of this Event to
+	 * Sets the {@link #listOfEventAssignments} of this {@link Event} to
 	 * 'listOfEventAssignments'. It automatically sets the SBMLParent object of
-	 * the listOfEventAssignments and all the EventAssignments in this list to
-	 * this Event instance.
+	 * the listOfEventAssignments and all the {@link EventAssignment}s in this list to
+	 * this {@link Event} instance.
 	 * 
 	 * @param listOfEventAssignments
 	 */
 	public void setListOfEventAssignments(
 			ListOf<EventAssignment> listOfEventAssignments) {
-		this.listOfEventAssignments = JSBML.setListOf(this,
-				this.listOfEventAssignments, listOfEventAssignments,
-				ListOf.Type.listOfEventAssignments);
+		unsetListOfEventAssignments();
+		this.listOfEventAssignments = listOfEventAssignments;
+		if ((this.listOfEventAssignments != null) && (this.listOfEventAssignments.getSBaseListType() != ListOf.Type.listOfEventAssignments)) {
+			this.listOfEventAssignments.setSBaseListType(ListOf.Type.listOfEventAssignments);
+		}
+		setThisAsParentSBMLObject(this.listOfEventAssignments);
 	}
 
 	/**
@@ -719,13 +720,12 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void setPriority(Priority priority) {
 		if (getLevel() < 3) {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
-					SBaseChangedEvent.priority, this));
+			throw new PropertyNotAvailableError(SBaseChangedEvent.priority,
+					this);
 		}
-		Priority oldPriority = this.priority;
+		unsetPriority();
 		this.priority = priority;
 		setThisAsParentSBMLObject(this.priority);
-		firePropertyChange(SBaseChangedEvent.priority, oldPriority, priority);
 	}
 
 	/**
@@ -737,8 +737,8 @@ public class Event extends AbstractNamedSBase {
 	@Deprecated
 	public void setTimeUnits(String timeUnits) {
 		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
-					SBaseChangedEvent.timeUnits, this));
+			throw new PropertyNotAvailableError(SBaseChangedEvent.timeUnits,
+					this);
 		}
 		if (timeUnits.equals("")) {
 			timeUnits = null;
@@ -778,9 +778,7 @@ public class Event extends AbstractNamedSBase {
 	 * @param trigger
 	 */
 	public void setTrigger(Trigger trigger) {
-		if (isSetTrigger()) {
-			this.trigger.fireSBaseRemovedEvent();
-		}
+		unsetTrigger();
 		this.trigger = trigger;
 		setThisAsParentSBMLObject(this.trigger);
 	}
@@ -793,8 +791,8 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public void setUseValuesFromTriggerTime(boolean useValuesFromTriggerTime) {
 		if (!((getLevel() == 2) && (getVersion() == 4)) || (3 <= getLevel())) {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
-					SBaseChangedEvent.useValuesFromTriggerTime, this));
+			throw new PropertyNotAvailableError(
+					SBaseChangedEvent.useValuesFromTriggerTime, this);
 		}
 		Boolean oldUsesValuesFromTriggerTime = Boolean
 				.valueOf(this.useValuesFromTriggerTime);
@@ -806,17 +804,31 @@ public class Event extends AbstractNamedSBase {
 	/**
 	 * Sets the delay of this {@link Event} to null.
 	 */
-	public void unsetDelay() {
-		this.delay.fireSBaseRemovedEvent();
-		this.delay = null;
+	public boolean unsetDelay() {
+		if (this.delay != null) {
+			Delay oldDelay = this.delay;
+			this.delay = null;
+			oldDelay.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 
 	/**
-	 * Sets the {@link #listOfEventAssignments} of this {@link Event} to null.
+	 * Removes the {@link #listOfEventAssignments} from this {@link Model} and
+	 * notifies all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
 	 */
-	public void unsetListOfEventAssignments() {
-		this.listOfEventAssignments.fireSBaseRemovedEvent();
-		this.listOfEventAssignments = null;
+	public boolean unsetListOfEventAssignments() {
+		if (this.listOfEventAssignments != null) {
+			ListOf<EventAssignment> oldListOfEventAssignments = this.listOfEventAssignments;
+			this.listOfEventAssignments = null;
+			oldListOfEventAssignments.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -830,18 +842,28 @@ public class Event extends AbstractNamedSBase {
 	 * Sets the trigger of this {@link Event} to null and notifies
 	 * {@link SBaseChangedListener}s.
 	 */
-	public void unsetTrigger() {
-		this.trigger.fireSBaseRemovedEvent();
-		this.trigger = null;
+	public boolean unsetTrigger() {
+		if (this.trigger != null) {
+			Trigger oldTrigger = this.trigger;
+			this.trigger = null;
+			oldTrigger.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 
 	/**
 	 * Sets the {@link Priority} of this {@link Event} to null and notifies
 	 * {@link SBaseChangedListener}s.
 	 */
-	public void unsetPriority() {
-		this.priority.fireSBaseRemovedEvent();
-		this.priority = null;
+	public boolean unsetPriority() {
+		if (this.priority != null) {
+			Priority oldPriority = this.priority;
+			this.priority = null;
+			oldPriority.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -850,7 +872,8 @@ public class Event extends AbstractNamedSBase {
 	public void unsetUseValuesFromTriggerTime() {
 		Boolean oldUseValuesFromTriggerTime = useValuesFromTriggerTime;
 		this.useValuesFromTriggerTime = null;
-		firePropertyChange(SBaseChangedEvent.useValuesFromTriggerTime, oldUseValuesFromTriggerTime, null);
+		firePropertyChange(SBaseChangedEvent.useValuesFromTriggerTime,
+				oldUseValuesFromTriggerTime, null);
 	}
 
 	/*

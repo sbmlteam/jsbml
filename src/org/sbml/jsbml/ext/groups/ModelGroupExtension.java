@@ -32,6 +32,7 @@ package org.sbml.jsbml.ext.groups;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBaseChangedListener;
 
 /**
  * 
@@ -124,12 +125,33 @@ public class ModelGroupExtension extends Model {
 	 * @param listOfGroups
 	 */
 	public void setListOfGroups(ListOf<Group> listOfGroups) {
+		unsetListOfGroups();
 		if (listOfGroups == null) {
 			this.listOfGroups = new ListOf<Group>();
 		} else {
 			this.listOfGroups = listOfGroups;
 		}
+		if ((this.listOfGroups != null) && (this.listOfGroups.getSBaseListType() != ListOf.Type.other)) {
+			this.listOfGroups.setSBaseListType(ListOf.Type.other);
+		}
 		setThisAsParentSBMLObject(listOfGroups);
+	}
+
+	/**
+	 * Removes the {@link #listOfGroups} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfGroups() {
+		if (this.listOfGroups != null) {
+			ListOf<Group> oldListOfGroups = this.listOfGroups;
+			this.listOfGroups = null;
+			oldListOfGroups.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 		
 }

@@ -97,9 +97,7 @@ public class SBMLDocument extends AbstractSBase {
 		setLevel(level);
 		setVersion(version);
 		if (!hasValidLevelVersionNamespaceCombination()) {
-			throw new IllegalArgumentException(String.format(
-					JSBML.UNDEFINED_LEVEL_VERSION_COMBINATION_MSG,
-					this.level, this.version));
+			throw new LevelVersionError(this);
 		}
 	}
 
@@ -459,10 +457,27 @@ public class SBMLDocument extends AbstractSBase {
 	 * @param model
 	 */
 	public void setModel(Model model) {
-		Model oldModel = this.model;
+		unsetModel();
 		this.model = model;
 		setThisAsParentSBMLObject(this.model);
-		firePropertyChange(SBaseChangedEvent.model, oldModel, this.model);
+	}
+
+	
+	/**
+	 * Sets the {@link Model} of this {@link SBMLDocument} to null and notifies
+	 * all {@link SBaseChangedListener} about changes.
+	 * 
+	 * @return <code>true</code> if calling this method changed the properties
+	 *         of this element.
+	 */
+	public boolean unsetModel() {
+		if (this.model != null) {
+			Model oldModel = this.model;
+			this.model = null;
+			oldModel.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 
 	/**

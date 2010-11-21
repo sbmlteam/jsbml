@@ -663,8 +663,7 @@ public class Species extends Symbol {
 	@Deprecated
 	public void setCharge(int charge) {
 		if (3 <= getLevel()) {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
-					SBaseChangedEvent.charge, this));
+			throw new PropertyNotAvailableError(SBaseChangedEvent.charge, this);
 		}
 		Integer oldCharge = this.charge;
 		this.charge = Integer.valueOf(charge);
@@ -721,8 +720,8 @@ public class Species extends Symbol {
 	 */
 	public void setConversionFactor(String conversionFactorID) {
 		if (getLevel() < 3) {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
-					SBaseChangedEvent.conversionFactor, this));
+			throw new PropertyNotAvailableError(
+					SBaseChangedEvent.conversionFactor, this);
 		}
 		String oldConversionFactor = this.conversionFactorID;
 		if ((conversionFactorID != null)
@@ -787,8 +786,8 @@ public class Species extends Symbol {
 	@Deprecated
 	public void setSpatialSizeUnits(String spatialSizeUnits) {
 		if ((getLevel() != 2) && ((1 != getVersion()) || (2 != getVersion()))) {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
-					SBaseChangedEvent.spatialSizeUnits, this));
+			throw new PropertyNotAvailableError(
+					SBaseChangedEvent.spatialSizeUnits, this);
 		}
 		String oldSpatialSizeUnits = this.spatialSizeUnitsID;
 		if ((spatialSizeUnits != null) && (spatialSizeUnits.trim().length() == 0)) {
@@ -796,7 +795,8 @@ public class Species extends Symbol {
 		} else {
 			this.spatialSizeUnitsID = spatialSizeUnits;
 		}
-		firePropertyChange(SBaseChangedEvent.spatialSizeUnits, oldSpatialSizeUnits, this.spatialSizeUnitsID);
+		firePropertyChange(SBaseChangedEvent.spatialSizeUnits,
+				oldSpatialSizeUnits, this.spatialSizeUnitsID);
 	}
 
 	/**
@@ -832,8 +832,8 @@ public class Species extends Symbol {
 	@Deprecated
 	public void setSpeciesType(String speciesType) {
 		if ((getLevel() != 2) && ((getVersion() < 2) || (4 < getVersion()))) {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
-					SBaseChangedEvent.speciesType, this));
+			throw new PropertyNotAvailableError(SBaseChangedEvent.speciesType,
+					this);
 		}
 		if (checkIdentifier(speciesType)) {
 			String oldSpeciesType = this.speciesTypeID;
@@ -842,7 +842,8 @@ public class Species extends Symbol {
 			} else {
 				this.speciesTypeID = speciesType;
 			}
-			firePropertyChange(SBaseChangedEvent.speciesType, oldSpeciesType, this.speciesTypeID);
+			firePropertyChange(SBaseChangedEvent.speciesType, oldSpeciesType,
+					this.speciesTypeID);
 		}
 	}
 

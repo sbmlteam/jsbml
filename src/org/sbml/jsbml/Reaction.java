@@ -1010,8 +1010,8 @@ public class Reaction extends AbstractNamedSBase implements
 	 */
 	public void setCompartment(String compartmentID) {
 		if (isSetLevel() && (getLevel() < 3)) {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
-					SBaseChangedEvent.compartment, this));
+			throw new PropertyNotAvailableError(SBaseChangedEvent.compartment,
+					this);
 		}
 		String oldCompartmentID = this.compartmentID;
 		this.compartmentID = compartmentID;
@@ -1037,10 +1037,26 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param kineticLaw
 	 */
 	public void setKineticLaw(KineticLaw kineticLaw) {
-		KineticLaw oldKineticLaw = this.kineticLaw;
+		unsetKineticLaw();
 		this.kineticLaw = kineticLaw;
 		setThisAsParentSBMLObject(this.kineticLaw);
-		firePropertyChange(SBaseChangedEvent.kineticLaw, oldKineticLaw, this.kineticLaw);
+	}
+
+	/**
+	 * Sets the {@link KineticLaw} of this {@link Reaction} to null and notifies
+	 * all {@link SBaseChangedListener} about changes.
+	 * 
+	 * @return <code>true</code> if calling this method changed the properties
+	 *         of this element.
+	 */
+	public boolean unsetKineticLaw() {
+		if (this.kineticLaw != null) {
+			KineticLaw oldKinticLaw = this.kineticLaw;
+			this.kineticLaw = null;
+			oldKinticLaw.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -1050,19 +1066,61 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param listOfModifiers
 	 */
 	public void setListOfModifiers(ListOf<ModifierSpeciesReference> listOfModifiers) {
-		this.listOfModifiers = JSBML.setListOf(this, this.listOfModifiers,
-				listOfModifiers, ListOf.Type.listOfModifiers);
+		unsetListOfModifiers();
+		this.listOfModifiers = listOfModifiers;
+		if ((this.listOfModifiers != null) && (this.listOfModifiers.getSBaseListType() != ListOf.Type.listOfModifiers)) {
+			this.listOfModifiers.setSBaseListType(ListOf.Type.listOfModifiers);
+		}
+		setThisAsParentSBMLObject(this.listOfModifiers);
 	}
 
 	/**
-	 * Sets the listOfProducts of this {@link Reaction}. Automatically sets the
+	 * Removes the {@link #listOfModifiers} from this {@link Reaction} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfModifiers() {
+		if (this.listOfModifiers != null) {
+			ListOf<ModifierSpeciesReference> oldListOfModifiers = this.listOfModifiers;
+			this.listOfModifiers = null;
+			oldListOfModifiers.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Sets the {@link #listOfProducts} of this {@link Reaction}. Automatically sets the
 	 * parentSBML object of the list to this {@link Reaction} instance.
 	 * 
 	 * @param listOfProducts
 	 */
 	public void setListOfProducts(ListOf<SpeciesReference> listOfProducts) {
-		this.listOfProducts = JSBML.setListOf(this, this.listOfProducts,
-				listOfProducts, ListOf.Type.listOfProducts);
+		unsetListOfProducts();
+		this.listOfProducts = listOfProducts;
+		if ((this.listOfProducts != null) && (this.listOfProducts.getSBaseListType() != ListOf.Type.listOfProducts)) {
+			this.listOfProducts.setSBaseListType(ListOf.Type.listOfProducts);
+		}
+		setThisAsParentSBMLObject(this.listOfProducts);
+	}
+
+	/**
+	 * Removes the {@link #listOfProducts} from this {@link Reaction} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfProducts() {
+		if (this.listOfProducts != null) {
+			ListOf<SpeciesReference> oldListOfProducts = this.listOfProducts;
+			this.listOfProducts = null;
+			oldListOfProducts.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -1072,8 +1130,29 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param listOfReactants
 	 */
 	public void setListOfReactants(ListOf<SpeciesReference> listOfReactants) {
-		this.listOfReactants = JSBML.setListOf(this, this.listOfReactants,
-				listOfReactants, ListOf.Type.listOfReactants);
+		unsetListOfReactants();
+		this.listOfReactants = listOfReactants;
+		if ((this.listOfReactants != null) && (this.listOfReactants.getSBaseListType() != ListOf.Type.listOfReactants)) {
+			this.listOfReactants.setSBaseListType(ListOf.Type.listOfReactants);
+		}
+		setThisAsParentSBMLObject(this.listOfReactants);
+	}
+
+	/**
+	 * Removes the {@link #listOfReactants} from this {@link Reaction} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfReactants() {
+		if (this.listOfReactants != null) {
+			ListOf<SpeciesReference> oldListOfReactants = this.listOfReactants;
+			this.listOfReactants = null;
+			oldListOfReactants.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 
 	/**

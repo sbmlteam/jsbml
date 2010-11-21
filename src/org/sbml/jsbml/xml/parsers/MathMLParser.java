@@ -44,7 +44,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 import org.sbml.jsbml.xml.stax.WritingParser;

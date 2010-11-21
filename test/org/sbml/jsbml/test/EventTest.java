@@ -5,12 +5,12 @@ import javax.xml.stream.XMLStreamException;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Event;
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.util.SimpleSBaseChangeListener;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 /**
@@ -33,12 +33,12 @@ public class EventTest extends SimpleSBaseChangeListener {
 		model.createSpecies("s1", c);
 		model.createSpecies("s2", c);
 		Event ev = model.createEvent();
-		Trigger trigger = ev.createTrigger(false, true, JSBML.parseFormula("3 >= 2"));
+		Trigger trigger = ev.createTrigger(false, true, ASTNode.parseFormula("3 >= 2"));
 		trigger.setMath(ASTNode.geq(new ASTNode(ASTNode.Type.NAME_TIME),
 				new ASTNode(10)));
-		ev.createPriority(JSBML.parseFormula("25"));
-		ev.createDelay(JSBML.parseFormula("2"));
-		ev.createEventAssignment("s1", JSBML.parseFormula("s2"));
+		ev.createPriority(ASTNode.parseFormula("25"));
+		ev.createDelay(ASTNode.parseFormula("2"));
+		ev.createEventAssignment("s1", ASTNode.parseFormula("s2"));
 		System.out.println("==================================");
 		SBMLWriter.write(doc, System.out);
 		System.out.println("==================================");

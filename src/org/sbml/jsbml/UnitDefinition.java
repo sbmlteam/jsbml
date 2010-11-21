@@ -904,8 +904,12 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @param listOfUnits
 	 */
 	public void setListOfUnits(ListOf<Unit> listOfUnits) {
-		this.listOfUnits = JSBML.setListOf(this, this.listOfUnits,
-				listOfUnits, ListOf.Type.listOfUnits);
+		unsetListOfUnits();
+		this.listOfUnits = listOfUnits;
+		if ((this.listOfUnits != null) && (this.listOfUnits.getSBaseListType() != ListOf.Type.listOfUnits)) {
+			this.listOfUnits.setSBaseListType(ListOf.Type.listOfUnits);
+		}
+		setThisAsParentSBMLObject(this.listOfUnits);
 	}
 	
 	/**
@@ -930,5 +934,17 @@ public class UnitDefinition extends AbstractNamedSBase {
 			}
 		}
 		return this;
+	}
+
+	/**
+	 * Removes the {@link #listOfUnits} from this {@link UnitDefinition} and notifies 
+	 * all registered instances of {@link SBaseChangedListener}.
+	 */
+	public void unsetListOfUnits() {
+		if (this.listOfUnits != null) {
+			ListOf<Unit> oldListOfUnits = this.listOfUnits;
+			this.listOfUnits = null;
+			oldListOfUnits.fireSBaseRemovedEvent();
+		}
 	}
 }

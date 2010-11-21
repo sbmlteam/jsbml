@@ -29,7 +29,6 @@
 package org.sbml.jsbml.test;
 
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.text.parser.ParseException;
 
@@ -45,7 +44,7 @@ public class FormulaTest {
 				"-3E-5 + -3*-5+(a+b)/(c+3)+5 " };
 
 		for (String formula : formulae) {
-			ASTNode testNode = JSBML.parseFormula(formula);
+			ASTNode testNode = ASTNode.parseFormula(formula);
 
 			System.out.println("===================");
 			System.out.printf("[IN]:\t%s\n", formula);

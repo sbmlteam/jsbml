@@ -45,10 +45,6 @@ import java.util.Properties;
  * @author Hannes Borch
  * @author Andreas Dr&auml;ger
  * @date 2009-02-05
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public final class Resource {
 

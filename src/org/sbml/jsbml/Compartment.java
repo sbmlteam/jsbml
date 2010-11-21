@@ -444,7 +444,8 @@ public class Compartment extends Symbol {
 	public void setCompartmentType(String compartmentTypeID) {
 		String oldCompartmentTypeID = this.compartmentTypeID;
 		this.compartmentTypeID = compartmentTypeID;
-		firePropertyChange(SBaseChangedEvent.compartmentType, oldCompartmentTypeID, this.compartmentTypeID);
+		firePropertyChange(SBaseChangedEvent.compartmentType,
+				oldCompartmentTypeID, this.compartmentTypeID);
 	}
 
 	/**
@@ -467,7 +468,7 @@ public class Compartment extends Symbol {
 	@Deprecated
 	public void setOutside(String outside) {
 		if (getLevel() >= 3) {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage("outside", this));
+			throw new PropertyNotAvailableError(SBaseChangedEvent.outside, this);
 		}
 		String oldOutside = outsideID;
 		if ((outside != null) && (outside.trim().length() == 0)) {
@@ -690,7 +691,8 @@ public class Compartment extends Symbol {
 		Short oldSpatialDim = this.spatialDimensions;
 		this.spatialDimensions = null;
 		isSetSpatialDimensions = false;
-		firePropertyChange(SBaseChangedEvent.spacialDimensions, oldSpatialDim, this.spatialDimensions);
+		firePropertyChange(SBaseChangedEvent.spacialDimensions, oldSpatialDim,
+				this.spatialDimensions);
 	}
 
 	/**

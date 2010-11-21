@@ -178,9 +178,7 @@ public abstract class AbstractSBase implements SBase {
 			this.version = null;
 		}
 		if (!hasValidLevelVersionNamespaceCombination()) {
-			throw new IllegalArgumentException(String.format(
-					JSBML.UNDEFINED_LEVEL_VERSION_COMBINATION_MSG,
-					this.level, this.version));
+			throw new LevelVersionError(this);
 		}
 	}
 
@@ -271,8 +269,8 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void addExtension(String namespace, SBase sbase) {
 		this.extensions.put(namespace, sbase);
-		this.namespaces.add(namespace);
-		firePropertyChange(SBaseChangedEvent.addExtension, null, namespace);
+		addNamespace(namespace);
+		firePropertyChange(SBaseChangedEvent.addExtension, null, this.extensions);
 	}
 
 	/**
@@ -462,10 +460,15 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void firePropertyChange(String propertyName, Object oldValue,
 			Object newValue) {
-		SBaseChangedEvent changeEvent = new SBaseChangedEvent(this,
-				propertyName, oldValue, newValue);
-		for (SBaseChangedListener listener : setOfListeners) {
-			listener.stateChanged(changeEvent);
+		if ((setOfListeners.size() > 0)
+				&& (((oldValue == null) && (newValue != null))
+						|| ((oldValue != null) && (newValue == null)) || (!oldValue
+						.equals(newValue)))) {
+			SBaseChangedEvent changeEvent = new SBaseChangedEvent(this,
+					propertyName, oldValue, newValue);
+			for (SBaseChangedListener listener : setOfListeners) {
+				listener.stateChanged(changeEvent);
+			}
 		}
 	}
 
@@ -940,10 +943,7 @@ public abstract class AbstractSBase implements SBase {
 		if ((parentSBMLObject != null) && (parentSBMLObject != this)
 				&& parentSBMLObject.isSetLevel()) {
 			if (level != parentSBMLObject.getLevel()) {
-				throw new IllegalArgumentException(String.format(
-						JSBML.LEVEL_MISMATCH_MSG, getElementName(), getLevel(),
-						parentSBMLObject.getElementName(), parentSBMLObject
-								.getLevel()));
+				throw new LevelVersionError(this, parentSBMLObject);
 			}
 		}
 		Integer oldLevel = this.level;
@@ -986,8 +986,7 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void setMetaId(String metaId) {
 		if (getLevel() == 1) {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
-					"metaid", this));
+			throw new PropertyNotAvailableError(SBaseChangedEvent.metaId, this);
 		}
 		String oldMetaId = this.metaId;
 		this.metaId = metaId;
@@ -1057,7 +1056,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#setThisAsParentSBMLObject(org.sbml.jsbml.SBase)
 	 */
 	public void setThisAsParentSBMLObject(SBase sbase) {
-		if (checkLevelAndVersionCompatibility(sbase)) {
+		if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
 			if (sbase instanceof AbstractSBase) {
 				((AbstractSBase) sbase).parentSBMLObject = this;
 				sbase.addAllChangeListeners(getSetOfSBaseChangeListeners());
@@ -1074,10 +1073,7 @@ public abstract class AbstractSBase implements SBase {
 		if ((parentSBMLObject != null) && (parentSBMLObject != this)
 				&& parentSBMLObject.isSetVersion()) {
 			if (version != parentSBMLObject.getVersion()) {
-				throw new IllegalArgumentException(String.format(
-						JSBML.VERSION_MISMATCH_MSG, getElementName(),
-						getVersion(), parentSBMLObject.getElementName(),
-						parentSBMLObject.getVersion()));
+				throw new LevelVersionError(parentSBMLObject, this);
 			}
 		}
 		Integer oldVersion = this.version;
@@ -1101,7 +1097,8 @@ public abstract class AbstractSBase implements SBase {
 		if (isSetAnnotation()) {
 			Annotation oldAnnotation = annotation;
 			annotation = null;
-			firePropertyChange(SBaseChangedEvent.annotation, oldAnnotation, annotation);
+			firePropertyChange(SBaseChangedEvent.annotation, oldAnnotation,
+					annotation);
 		}
 	}
 
@@ -1175,7 +1172,8 @@ public abstract class AbstractSBase implements SBase {
 		if (isSetSBOTerm()) {
 			Integer oldSBOTerm = Integer.valueOf(sboTerm);
 			sboTerm = -1;
-			firePropertyChange(SBaseChangedEvent.sboTerm, oldSBOTerm, Integer.valueOf(getSBOTerm()));
+			firePropertyChange(SBaseChangedEvent.sboTerm, oldSBOTerm, Integer
+					.valueOf(getSBOTerm()));
 		}
 	}
 

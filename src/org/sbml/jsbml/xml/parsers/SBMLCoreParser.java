@@ -65,7 +65,6 @@ import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ListOf.Type;
-import org.sbml.jsbml.test.SimpleSBaseChangeListener;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 import org.sbml.jsbml.xml.stax.WritingParser;

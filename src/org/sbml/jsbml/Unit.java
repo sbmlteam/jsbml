@@ -300,10 +300,17 @@ public class Unit extends AbstractSBase {
 		 * entirely upper or entirely lower case {@link String}s are valid
 		 * attributes here.
 		 * 
+		 * Tests whether a given string corresponds to a predefined
+		 * {@link Unit.Kind} enumeration value.
+		 * 
 		 * @param unitKind
+		 *            the unit string.
 		 * @param level
+		 *            the SBML level.
 		 * @param version
-		 * @return
+		 *            the SBML version.
+		 * @return <code>true</code> if the given string is valid for the
+		 *         particular SBML level and version, false otherwise.
 		 */
 		// TODO : check that it works for the default units.
 		public static boolean isValidUnitKindString(String unitKind, int level,
@@ -1862,8 +1869,7 @@ public class Unit extends AbstractSBase {
 			this.offset = Double.valueOf(offset);
 			firePropertyChange(SBaseChangedEvent.offset, oldOffset, this.offset);
 		} else {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
-					SBaseChangedEvent.offset, this));
+			throw new PropertyNotAvailableError(SBaseChangedEvent.offset, this);
 		}
 	}
 
@@ -1933,7 +1939,8 @@ public class Unit extends AbstractSBase {
 		Double oldMultipler = this.multiplier;
 		multiplier = null;
 		isSetMultiplier = false;
-		firePropertyChange(SBaseChangedEvent.multiplier, oldMultipler, this.multiplier);
+		firePropertyChange(SBaseChangedEvent.multiplier, oldMultipler,
+				this.multiplier);
 	}
 
 	/**
