@@ -467,8 +467,8 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	public void setConstant(boolean constant) {
 		if (getLevel() < 3) {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
-					SBaseChangedEvent.constant, this));
+			throw new PropertyNotAvailableError(SBaseChangedEvent.constant,
+					this);
 		}
 		Boolean oldConstant = this.constant;
 		this.constant = Boolean.valueOf(constant);
@@ -523,7 +523,8 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		} else {
 			isSetStoichiometry = true;
 		}
-		firePropertyChange(SBaseChangedEvent.stoichiometry, oldStoichiometry, this.stoichiometry);
+		firePropertyChange(SBaseChangedEvent.stoichiometry, oldStoichiometry,
+				this.stoichiometry);
 	}
 
 	/**
@@ -534,6 +535,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	@Deprecated
 	public void setStoichiometryMath(StoichiometryMath math) {
+		unsetStoichiometryMath();
 		this.stoichiometryMath = math;
 		setThisAsParentSBMLObject(this.stoichiometryMath);
 	}
@@ -561,6 +563,22 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	public void unsetStoichiometry() {
 		this.stoichiometry = null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @deprecated
+	 */
+	@Deprecated
+	public boolean unsetStoichiometryMath() {
+		if (this.stoichiometryMath != null) {
+			StoichiometryMath oldStoichiometryMath = this.stoichiometryMath;
+			this.stoichiometryMath = null;
+			oldStoichiometryMath.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 
 	/*

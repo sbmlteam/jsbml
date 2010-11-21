@@ -586,11 +586,15 @@ public class KineticLaw extends AbstractMathContainer {
 	 * sets this as parentSBML object of the listOfParameters as well as the
 	 * Parameter instances in the list.
 	 * 
-	 * @param list
+	 * @param listOfLocalParameters
 	 */
-	public void setListOfLocalParameters(ListOf<LocalParameter> list) {
-		this.listOfLocalParameters = JSBML.setListOf(this,
-				listOfLocalParameters, list, ListOf.Type.listOfLocalParameters);
+	public void setListOfLocalParameters(ListOf<LocalParameter> listOfLocalParameters) {
+		unsetListOfLocalParameters();
+		this.listOfLocalParameters = listOfLocalParameters;
+		if ((this.listOfLocalParameters != null) && (this.listOfLocalParameters.getSBaseListType() != ListOf.Type.listOfLocalParameters)) {
+			this.listOfLocalParameters.setSBaseListType(ListOf.Type.listOfLocalParameters);
+		}
+		setThisAsParentSBMLObject(this.listOfLocalParameters);
 		if (isSetMath()) {
 			getMath().updateVariables();
 		}
@@ -610,8 +614,8 @@ public class KineticLaw extends AbstractMathContainer {
 			firePropertyChange(SBaseChangedEvent.substanceUnits,
 					oldSubstanceUnits, substanceUnitsID);
 		} else {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
-					SBaseChangedEvent.substanceUnits, this));
+			throw new PropertyNotAvailableError(
+					SBaseChangedEvent.substanceUnits, this);
 		}
 	}
 
@@ -629,8 +633,8 @@ public class KineticLaw extends AbstractMathContainer {
 			firePropertyChange(SBaseChangedEvent.timeUnits, oldTimeUnits,
 					timeUnitsID);
 		} else {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
-					SBaseChangedEvent.timeUnits, this));
+			throw new PropertyNotAvailableError(SBaseChangedEvent.timeUnits,
+					this);
 		}
 	}
 
@@ -661,13 +665,20 @@ public class KineticLaw extends AbstractMathContainer {
 	}
 	
 	/**
+	 * Removes the {@link #listOfLocalParameters} from this {@link KineticLaw} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
 	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
 	 */
-	public void unsetListOfLocalParameters() {
-		if (listOfLocalParameters != null) {
-			listOfLocalParameters.clear();
+	public boolean unsetListOfLocalParameters() {
+		if (this.listOfLocalParameters != null) {
+			ListOf<LocalParameter> oldListOfLocalParameters = this.listOfLocalParameters;
+			this.listOfLocalParameters = null;
+			oldListOfLocalParameters.fireSBaseRemovedEvent();
+			return true;
 		}
-		listOfLocalParameters = null;
+		return false;
 	}
 
 	/**

@@ -32,6 +32,8 @@ package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBaseChangedListener;
 
 /**
  * 
@@ -100,6 +102,28 @@ public class Curve extends AbstractNamedSBase {
 	 * @param listOfCurveSegments
 	 */
 	public void setListOfCurveSegments(ListOf<LineSegment> listOfCurveSegments) {
+		unsetListOfCurveSegments();
 		this.listOfCurveSegments = listOfCurveSegments;
+		if ((this.listOfCurveSegments != null) && (this.listOfCurveSegments.getSBaseListType() != ListOf.Type.other)) {
+			this.listOfCurveSegments.setSBaseListType(ListOf.Type.other);
+		}
+		setThisAsParentSBMLObject(this.listOfCurveSegments);
+	}
+	
+	/**
+	 * Removes the {@link #listOfLineSegments} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfCurveSegments() {
+		if (this.listOfCurveSegments != null) {
+			ListOf<LineSegment> oldListOfCurveSegments = this.listOfCurveSegments;
+			this.listOfCurveSegments = null;
+			oldListOfCurveSegments.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 }

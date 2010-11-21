@@ -84,6 +84,14 @@ public class SBMLError extends XMLError {
 	public SBMLError() {
 		super();
 	}
+	
+	/**
+	 * 
+	 * @param message
+	 */
+	public SBMLError(String message) {
+		super(message);
+	}
 
 	// String category, int code, String severity,
 

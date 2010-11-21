@@ -54,13 +54,13 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class Model extends AbstractNamedSBase {
 
 	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 5256379371231860049L;
-	/**
 	 * Error message to indicate that an element could not be created.
 	 */
 	private static final String COULD_NOT_CREATE_ELEMENT_MSG = "Could not create %s because no %s have been defined yet.\n";
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 5256379371231860049L;
 	/**
 	 * Represents the 'areaUnits' XML attribute of a model element.
 	 */
@@ -3021,12 +3021,13 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setConversionFactor(String conversionFactorID) {
 		if (getLevel() < 3) {
-			throw new IllegalArgumentException(JSBML.propertyUndefinedMessage(
-					SBaseChangedEvent.conversionFactor, this));
+			throw new PropertyNotAvailableError(
+					SBaseChangedEvent.conversionFactor, this);
 		}
 		String oldConversionFactorID = this.conversionFactorID;
 		this.conversionFactorID = conversionFactorID;
-		firePropertyChange(SBaseChangedEvent.conversionFactor, oldConversionFactorID, conversionFactorID);
+		firePropertyChange(SBaseChangedEvent.conversionFactor,
+				oldConversionFactorID, conversionFactorID);
 	}
 
 	/**
@@ -3079,11 +3080,14 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfCompartments
 	 */
 	public void setListOfCompartments(ListOf<Compartment> listOfCompartments) {
-		this.listOfCompartments = JSBML.setListOf(this,
-				this.listOfCompartments, listOfCompartments,
-				ListOf.Type.listOfCompartments);
+		unsetListOfCompartments();
+		this.listOfCompartments = listOfCompartments;
+		if ((this.listOfCompartments != null) && (this.listOfCompartments.getSBaseListType() != ListOf.Type.listOfCompartments)) {
+			this.listOfCompartments.setSBaseListType(ListOf.Type.listOfCompartments);
+		}
+		setThisAsParentSBMLObject(this.listOfCompartments);
 	}
-
+	
 	/**
 	 * Sets the listOfCompartmentTypes of this Model to
 	 * 'listOfCompartmentTypes'. Automatically sets the parentSBML objects of
@@ -3096,9 +3100,12 @@ public class Model extends AbstractNamedSBase {
 	@Deprecated
 	public void setListOfCompartmentTypes(
 			ListOf<CompartmentType> listOfCompartmentTypes) {
-		this.listOfCompartmentTypes = JSBML.setListOf(this,
-				this.listOfCompartmentTypes, listOfCompartmentTypes,
-				ListOf.Type.listOfCompartmentTypes);
+		unsetListOfCompartmentTypes();
+		this.listOfCompartmentTypes = listOfCompartmentTypes;
+		if ((this.listOfCompartmentTypes != null) && (this.listOfCompartmentTypes.getSBaseListType() != ListOf.Type.listOfCompartmentTypes)) {
+			this.listOfCompartmentTypes.setSBaseListType(ListOf.Type.listOfCompartmentTypes);
+		}
+		setThisAsParentSBMLObject(this.listOfCompartmentTypes);
 	}
 
 	/**
@@ -3110,10 +3117,14 @@ public class Model extends AbstractNamedSBase {
 	 *            the listOfConstraints to set
 	 */
 	public void setListOfConstraints(ListOf<Constraint> listOfConstraints) {
-		this.listOfConstraints = JSBML.setListOf(this, this.listOfConstraints,
-				listOfConstraints, ListOf.Type.listOfConstraints);
+		unsetListOfConstraints();
+		this.listOfConstraints = listOfConstraints;
+		if ((this.listOfConstraints != null) && (this.listOfConstraints.getSBaseListType() != ListOf.Type.listOfConstraints)) {
+			this.listOfConstraints.setSBaseListType(ListOf.Type.listOfConstraints);
+		}
+		setThisAsParentSBMLObject(this.listOfConstraints);
 	}
-
+	
 	/**
 	 * Sets the listOfEvents of this {@link Model} to 'listOfEvents'. Automatically sets
 	 * the parentSBML objects of 'listOfEvents' to this {@link Model}.
@@ -3121,8 +3132,12 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfEvents
 	 */
 	public void setListOfEvents(ListOf<Event> listOfEvents) {
-		this.listOfEvents = JSBML.setListOf(this, this.listOfEvents,
-				listOfEvents, ListOf.Type.listOfEvents);
+		unsetListOfEvents();
+		this.listOfEvents = listOfEvents;
+		if ((this.listOfEvents != null) && (this.listOfEvents.getSBaseListType() != ListOf.Type.listOfEvents)) {
+			this.listOfEvents.setSBaseListType(ListOf.Type.listOfEvents);
+		}
+		setThisAsParentSBMLObject(this.listOfEvents);
 	}
 
 	/**
@@ -3135,13 +3150,16 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfFunctionDefinitions(
 			ListOf<FunctionDefinition> listOfFunctionDefinitions) {
-		this.listOfFunctionDefinitions = JSBML.setListOf(this,
-				this.listOfFunctionDefinitions, listOfFunctionDefinitions,
-				ListOf.Type.listOfFunctionDefinitions);
+		unsetListOfFunctionDefinitions();
+		this.listOfFunctionDefinitions = listOfFunctionDefinitions;
+		if ((this.listOfFunctionDefinitions != null) && (this.listOfFunctionDefinitions.getSBaseListType() != ListOf.Type.listOfFunctionDefinitions)) {
+			this.listOfFunctionDefinitions.setSBaseListType(ListOf.Type.listOfFunctionDefinitions);
+		}
+		setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
 	}
-
+	
 	/**
-	 * Sets the listOfInitialAssignments of this {@link Model} to
+	 * Sets the {@link #listOfInitialAssignments} of this {@link Model} to
 	 * 'listOfInitialAssignments'. Automatically sets the parentSBML objects of
 	 * 'listOfInitialAssignments' to this Model.
 	 * 
@@ -3150,46 +3168,61 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfInitialAssignments(
 			ListOf<InitialAssignment> listOfInitialAssignments) {
-		this.listOfInitialAssignments = JSBML.setListOf(this,
-				this.listOfInitialAssignments, listOfInitialAssignments,
-				ListOf.Type.listOfInitialAssignments);
+		unsetListOfInitialAssignments();
+		this.listOfInitialAssignments = listOfInitialAssignments;
+		if ((this.listOfInitialAssignments != null) && (this.listOfInitialAssignments.getSBaseListType() != ListOf.Type.listOfInitialAssignments)) {
+			this.listOfInitialAssignments.setSBaseListType(ListOf.Type.listOfInitialAssignments);
+		}
+		setThisAsParentSBMLObject(this.listOfInitialAssignments);
 	}
 
 	/**
-	 * Sets the listOfParameters of this {@link Model} to 'listOfParameters'.
+	 * Sets the {@link #listOfParameters} of this {@link Model} to 'listOfParameters'.
 	 * Automatically sets the parentSBML objects of 'listOfParameters' to this
 	 * Model.
 	 * 
 	 * @param listOfParameters
 	 */
 	public void setListOfParameters(ListOf<Parameter> listOfParameters) {
-		this.listOfParameters = JSBML.setListOf(this, this.listOfParameters,
-				listOfParameters, ListOf.Type.listOfParameters);
+		unsetListOfParameters();
+		this.listOfParameters = listOfParameters;
+		if ((this.listOfParameters != null) && (this.listOfParameters.getSBaseListType() != ListOf.Type.listOfParameters)) {
+			this.listOfParameters.setSBaseListType(ListOf.Type.listOfParameters);
+		}
+		setThisAsParentSBMLObject(listOfParameters);
 	}
-
+	
 	/**
-	 * Sets the listOfReactions of this {@link Model} to 'listOfReactions'.
+	 * Sets the {@link #listOfReactions} of this {@link Model} to 'listOfReactions'.
 	 * Automatically sets the parentSBML objects of 'listOfReactions' to this
 	 * Model.
 	 * 
 	 * @param listOfReactions
 	 */
 	public void setListOfReactions(ListOf<Reaction> listOfReactions) {
-		this.listOfReactions = JSBML.setListOf(this, this.listOfReactions,
-				listOfReactions, ListOf.Type.listOfReactions);
+		unsetListOfReactions();
+		this.listOfReactions = listOfReactions;
+		if ((this.listOfReactions != null) &&(this.listOfReactions.getSBaseListType() != ListOf.Type.listOfReactions)) {
+			this.listOfReactions.setSBaseListType(ListOf.Type.listOfReactions);
+		}
+		setThisAsParentSBMLObject(this.listOfReactions);
 	}
 
 	/**
-	 * Sets the listOfRules of this {@link Model} to 'listOfRules'. Automatically sets
+	 * Sets the {@link #listOfRules} of this {@link Model} to 'listOfRules'. Automatically sets
 	 * the parentSBML objects of 'listOfRules' to this Model.
 	 * 
 	 * @param listOfRules
 	 */
 	public void setListOfRules(ListOf<Rule> listOfRules) {
-		this.listOfRules = JSBML.setListOf(this, this.listOfRules,
-				listOfRules, ListOf.Type.listOfRules);
+		unsetListOfRules();
+		this.listOfRules = listOfRules;
+		if ((this.listOfRules != null) && (this.listOfRules.getSBaseListType() != ListOf.Type.listOfRules)) {
+			this.listOfRules.setSBaseListType(ListOf.Type.listOfRules);
+		}
+		setThisAsParentSBMLObject(this.listOfRules);
 	}
-
+	
 	/**
 	 * Sets the listOfSpecies of this {@link Model} to 'listOfSpecies'. Automatically
 	 * sets the parentSBML objects of 'listOfSpecies' to this Model.
@@ -3197,8 +3230,12 @@ public class Model extends AbstractNamedSBase {
 	 * @param listOfSpecies
 	 */
 	public void setListOfSpecies(ListOf<Species> listOfSpecies) {
-		this.listOfSpecies = JSBML.setListOf(this, this.listOfSpecies,
-				listOfSpecies, ListOf.Type.listOfSpecies);
+		unsetListOfSpecies();
+		this.listOfSpecies = listOfSpecies;
+		if ((this.listOfSpecies != null) && (this.listOfSpecies.getSBaseListType() != ListOf.Type.listOfSpecies)) {
+			this.listOfSpecies.setSBaseListType(ListOf.Type.listOfSpecies);
+		}
+		setThisAsParentSBMLObject(this.listOfSpecies);
 	}
 
 	/**
@@ -3208,12 +3245,16 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @param listOfSpeciesTypes
 	 *            the listOfSpeciesTypes to set
+	 * @deprecated
 	 */
 	@Deprecated
 	public void setListOfSpeciesTypes(ListOf<SpeciesType> listOfSpeciesTypes) {
-		this.listOfSpeciesTypes = JSBML.setListOf(this,
-				this.listOfSpeciesTypes, listOfSpeciesTypes,
-				ListOf.Type.listOfSpeciesTypes);
+		unsetListOfSpeciesTypes();
+		this.listOfSpeciesTypes = listOfSpeciesTypes;
+		if ((this.listOfSpeciesTypes != null) && (this.listOfSpeciesTypes.getSBaseListType() != ListOf.Type.listOfSpeciesTypes)) {
+			this.listOfSpeciesTypes.setSBaseListType(ListOf.Type.listOfSpeciesTypes);
+		}
+		setThisAsParentSBMLObject(this.listOfSpeciesTypes);
 	}
 
 	/**
@@ -3225,9 +3266,12 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setListOfUnitDefinitions(
 			ListOf<UnitDefinition> listOfUnitDefinitions) {
-		this.listOfUnitDefinitions = JSBML.setListOf(this,
-				this.listOfUnitDefinitions, listOfUnitDefinitions,
-				ListOf.Type.listOfUnitDefinitions);
+		unsetListOfUnitDefinitions();
+		this.listOfUnitDefinitions = listOfUnitDefinitions;
+		if ((this.listOfUnitDefinitions != null) && (this.listOfUnitDefinitions.getSBaseListType() != ListOf.Type.listOfUnitDefinitions)) {
+			this.listOfUnitDefinitions.setSBaseListType(ListOf.Type.listOfUnitDefinitions);
+		}
+		setThisAsParentSBMLObject(this.listOfUnitDefinitions);
 	}
 
 	/**
@@ -3248,7 +3292,8 @@ public class Model extends AbstractNamedSBase {
 	public void setSubstanceUnits(String substanceUnitsID) {
 		String oldSubstanceUnitsID = this.substanceUnitsID;
 		this.substanceUnitsID = substanceUnitsID;
-		firePropertyChange(SBaseChangedEvent.substanceUnits, oldSubstanceUnitsID, substanceUnitsID);
+		firePropertyChange(SBaseChangedEvent.substanceUnits,
+				oldSubstanceUnitsID, substanceUnitsID);
 	}
 
 	/**
@@ -3269,7 +3314,8 @@ public class Model extends AbstractNamedSBase {
 	public void setTimeUnits(String timeUnitsID) {
 		String oldTimeUnitsID = this.timeUnitsID;
 		this.timeUnitsID = timeUnitsID;
-		firePropertyChange(SBaseChangedEvent.timeUnits, oldTimeUnitsID, timeUnitsID);
+		firePropertyChange(SBaseChangedEvent.timeUnits, oldTimeUnitsID,
+				timeUnitsID);
 	}
 
 	/**
@@ -3290,7 +3336,8 @@ public class Model extends AbstractNamedSBase {
 	public void setVolumeUnits(String volumeUnitsID) {
 		String oldVolumeUnitsID = this.volumeUnitsID;
 		this.volumeUnitsID = volumeUnitsID;
-		firePropertyChange(SBaseChangedEvent.volumeUnits, oldVolumeUnitsID, this.volumeUnitsID);
+		firePropertyChange(SBaseChangedEvent.volumeUnits, oldVolumeUnitsID,
+				this.volumeUnitsID);
 	}
 
 	/**
@@ -3329,6 +3376,213 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void unsetLengthUnits() {
 		setLengthUnits((String) null);
+	}
+
+	/**
+	 * Removes the {@link #listOfCompartments} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfCompartments() {
+		if (this.listOfCompartments != null) {
+			ListOf<Compartment> oldListOfCompartments = this.listOfCompartments;
+			this.listOfCompartments = null;
+			oldListOfCompartments.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the {@link #listOfCompartmentTypes} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 * @deprecated
+	 */
+	@Deprecated
+	public boolean unsetListOfCompartmentTypes() {
+		if (this.listOfCompartmentTypes != null) {
+			ListOf<CompartmentType> oldListOfCompartmentTypes = this.listOfCompartmentTypes;
+			this.listOfCompartmentTypes = null;
+			oldListOfCompartmentTypes.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the {@link #listOfConstraints} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfConstraints() {
+		if (this.listOfConstraints != null) {
+			ListOf<Constraint> oldListOfConstraints = this.listOfConstraints;
+			this.listOfConstraints = null;
+			oldListOfConstraints.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the {@link #listOfEvents} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfEvents() {
+		if (this.listOfEvents != null) {
+			ListOf<Event> oldListOfEvents = this.listOfEvents;
+			this.listOfEvents = null;
+			oldListOfEvents.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the {@link #listOfFunctionDefinitions} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfFunctionDefinitions() {
+		if (this.listOfFunctionDefinitions != null) {
+			ListOf<FunctionDefinition> oldListOfFunctionDefinitions = this.listOfFunctionDefinitions;
+			this.listOfFunctionDefinitions = null;
+			oldListOfFunctionDefinitions.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the {@link #listOfInitialAssignments} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfInitialAssignments() {
+		if (this.listOfInitialAssignments != null) {
+			ListOf<InitialAssignment> oldListOfInitialAssignments = this.listOfInitialAssignments;
+			this.listOfInitialAssignments = null;
+			oldListOfInitialAssignments.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the {@link #listOfParameters} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfParameters() {
+		if (this.listOfParameters != null) {
+			ListOf<Parameter> oldListOfParameters = this.listOfParameters;
+			this.listOfParameters = null;
+			oldListOfParameters.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the {@link #listOfReactions} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfReactions() {
+		if (this.listOfReactions != null) {
+			ListOf<Reaction> oldListOfReactions = this.listOfReactions;
+			this.listOfReactions = null;
+			oldListOfReactions.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the {@link #listOfRules} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfRules() {
+		if (this.listOfRules != null) {
+			ListOf<Rule> oldListOfRules = this.listOfRules;
+			this.listOfRules = null;
+			oldListOfRules.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the {@link #listOfSpecies} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfSpecies() {
+		if (this.listOfSpecies != null) {
+			ListOf<Species> oldListOfSpecies = this.listOfSpecies;
+			this.listOfSpecies = null;
+			oldListOfSpecies.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the {@link #listOfSpeciesTypes} from this {@link Model} and
+	 * notifies all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 * @deprecated
+	 */
+	@Deprecated
+	public boolean unsetListOfSpeciesTypes() {
+		if (this.listOfSpeciesTypes != null) {
+			ListOf<SpeciesType> oldListOfSpeciesTypes = this.listOfSpeciesTypes;
+			this.listOfSpeciesTypes = null;
+			oldListOfSpeciesTypes.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the {@link #listOfUnitDefinitions} from this {@link Model} and notifies 
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfUnitDefinitions() {
+		if (this.listOfUnitDefinitions != null) {
+			ListOf<UnitDefinition> oldListOfUnitDefinitions = this.listOfUnitDefinitions;
+			this.listOfUnitDefinitions = null;
+			oldListOfUnitDefinitions.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 
 	/**

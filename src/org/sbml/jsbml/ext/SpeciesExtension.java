@@ -749,10 +749,13 @@ public class SpeciesExtension extends Species {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#firePropertyChange(java.lang.String, java.lang.Object, java.lang.Object)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#firePropertyChange(java.lang.String,
+	 * java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+	public void firePropertyChange(String propertyName, Object oldValue,
+			Object newValue) {
 		species.firePropertyChange(propertyName, oldValue, newValue);
 	}
 

@@ -503,7 +503,8 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	public void unsetVariable() {
 		String oldVariableID = this.variableID;
 		variableID = null;
-		firePropertyChange(SBaseChangedEvent.variable, oldVariableID, variableID);
+		firePropertyChange(SBaseChangedEvent.variable, oldVariableID,
+				variableID);
 	}
 
 	/*

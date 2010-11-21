@@ -456,15 +456,18 @@ public class SBMLWriter {
 	}
 
 	/**
-	 * Writes the SBMLDocument in a SBML file.
+	 * Writes the XML representation of an {@link SBMLDocument} in a SBML file.
 	 * 
 	 * @param sbmlDocument
 	 *            : the SBMLDocument to write
 	 * @param fileName
-	 *            : the name of the file where to write the SBMLDocument.
+	 *            : the name of the file where to write the {@link SBMLDocument}
+	 *            .
 	 * 
 	 * @throws XMLStreamException
+	 *             if any error occur while creating the XML document.
 	 * @throws FileNotFoundException
+	 *             if the file name is invalid
 	 * @throws SBMLException
 	 * 
 	 */
@@ -1173,16 +1176,19 @@ public class SBMLWriter {
 	}
 
 	/**
+	 * Writes the given SBML document to an in-memory string.
 	 * 
-	 * @param d
-	 * @return
+	 * @param doc
+	 *            the <code>SBMLdocument</code>
+	 * @return the XML representation of the <code>SBMLdocument</code> as a
+	 *         String.
 	 * @throws XMLStreamException
+	 *             if any error occur while creating the XML document.
 	 * @throws SBMLException
-	 * 
 	 */
-	public static String writeSBMLToString(SBMLDocument d)
+	public static String writeSBMLToString(SBMLDocument doc)
 			throws XMLStreamException, SBMLException {
-		return writeSBMLToString(d, null, null);
+		return writeSBMLToString(doc, null, null);
 	}
 
 	/***

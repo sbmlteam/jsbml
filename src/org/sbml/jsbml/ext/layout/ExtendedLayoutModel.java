@@ -32,6 +32,7 @@ package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBaseChangedListener;
 
 /**
  * 
@@ -135,12 +136,33 @@ public class ExtendedLayoutModel extends Model {
 	 * @param listOfLayouts
 	 */
 	public void setListOfLayouts(ListOf<Layout> listOfLayouts) {
+		unsetListOfLayouts();
 		if (listOfLayouts == null) {
 			this.listOfLayouts = new ListOf<Layout>();
 		} else {
 			this.listOfLayouts = listOfLayouts;
 		}
+		if ((this.listOfLayouts != null) && (this.listOfLayouts.getSBaseListType() != ListOf.Type.other)) {
+			this.listOfLayouts.setSBaseListType(ListOf.Type.other);
+		}
 		setThisAsParentSBMLObject(listOfLayouts);
+	}
+	
+	/**
+	 * Removes the {@link #listOfLayouts} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfLayouts() {
+		if (this.listOfLayouts != null) {
+			ListOf<Layout> oldListOfLayouts = this.listOfLayouts;
+			this.listOfLayouts = null;
+			oldListOfLayouts.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 
 }

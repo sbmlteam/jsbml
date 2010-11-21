@@ -1,6 +1,8 @@
 package org.sbml.jsbml.ext.multi;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBaseChangedListener;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.SpeciesExtension;
 
@@ -18,7 +20,7 @@ public class MultiSpecies extends SpeciesExtension {
 	/**
 	 * 
 	 */
-	private ListOf<InitialSpeciesInstance> listOfInitialSpeciesInstance;
+	private ListOf<InitialSpeciesInstance> listOfInitialSpeciesInstances;
 
 	/**
 	 * 
@@ -34,12 +36,12 @@ public class MultiSpecies extends SpeciesExtension {
 	 * @param initialSpecies
 	 */
 	public void addInitialSpeciesInstance(InitialSpeciesInstance initialSpecies) {
-		if (listOfInitialSpeciesInstance == null) {
-			this.listOfInitialSpeciesInstance = new ListOf<InitialSpeciesInstance>();
+		if (listOfInitialSpeciesInstances == null) {
+			this.listOfInitialSpeciesInstances = new ListOf<InitialSpeciesInstance>();
 		}
-		if (!listOfInitialSpeciesInstance.contains(initialSpecies)) {
+		if (!listOfInitialSpeciesInstances.contains(initialSpecies)) {
 			initialSpecies.setParentSBML(this);
-			listOfInitialSpeciesInstance.add(initialSpecies);
+			listOfInitialSpeciesInstances.add(initialSpecies);
 		}
 	}
 
@@ -50,7 +52,7 @@ public class MultiSpecies extends SpeciesExtension {
 	 */
 	public InitialSpeciesInstance getInitialSpeciesInstance(int n) {
 		if (isSetListOfSpeciesInstances()) {
-			return listOfInitialSpeciesInstance.get(n);
+			return listOfInitialSpeciesInstances.get(n);
 		}
 		throw new IndexOutOfBoundsException(Integer.toString(n));
 	}
@@ -62,7 +64,7 @@ public class MultiSpecies extends SpeciesExtension {
 	 */
 	public InitialSpeciesInstance getInitialSpeciesInstance(String id) {
 		if (isSetListOfSpeciesInstances()) {
-			for (InitialSpeciesInstance comp : listOfInitialSpeciesInstance) {
+			for (InitialSpeciesInstance comp : listOfInitialSpeciesInstances) {
 				if (comp.getId().equals(id)) {
 					return comp;
 				}
@@ -76,7 +78,7 @@ public class MultiSpecies extends SpeciesExtension {
 	 * @return
 	 */
 	public ListOf<InitialSpeciesInstance> getListOfInitialSpeciesInstance() {
-		return listOfInitialSpeciesInstance;
+		return listOfInitialSpeciesInstances;
 	}
 
 	/**
@@ -84,8 +86,8 @@ public class MultiSpecies extends SpeciesExtension {
 	 * @return
 	 */
 	public boolean isSetListOfSpeciesInstances() {
-		return (listOfInitialSpeciesInstance != null)
-				&& (listOfInitialSpeciesInstance.size() > 0);
+		return (listOfInitialSpeciesInstances != null)
+				&& (listOfInitialSpeciesInstances.size() > 0);
 	}
 
 	/**
@@ -94,7 +96,29 @@ public class MultiSpecies extends SpeciesExtension {
 	 */
 	public void setListOfInitialSpeciesInstance(
 			ListOf<InitialSpeciesInstance> listOfInitialSpeciesInstance) {
-		this.listOfInitialSpeciesInstance = listOfInitialSpeciesInstance;
+		unsetListOfInitialSpeciesInstances();
+		this.listOfInitialSpeciesInstances = listOfInitialSpeciesInstance;
+		if ((this.listOfInitialSpeciesInstances != null) && (this.listOfInitialSpeciesInstances.getSBaseListType() != ListOf.Type.other)) {
+			this.listOfInitialSpeciesInstances.setSBaseListType(ListOf.Type.other);
+		}
+		setThisAsParentSBMLObject(this.listOfInitialSpeciesInstances);
+	}
+	
+	/**
+	 * Removes the {@link #listOfInitialSpeciesInstances} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfInitialSpeciesInstances() {
+		if (this.listOfInitialSpeciesInstances != null) {
+			ListOf<InitialSpeciesInstance> oldListOfInitialSpeciesInstances = this.listOfInitialSpeciesInstances;
+			this.listOfInitialSpeciesInstances = null;
+			oldListOfInitialSpeciesInstances.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 
 }

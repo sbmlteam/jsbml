@@ -36,6 +36,7 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.test.gui.JTreeOfSBML;
+import org.sbml.jsbml.util.SimpleSBaseChangeListener;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 /**

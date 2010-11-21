@@ -34,6 +34,8 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBaseChangedListener;
 
 /**
  * 
@@ -135,7 +137,29 @@ public class Group extends AbstractNamedSBase {
 	 * @param listOfMembers
 	 */
 	public void setListOfMembers(ListOf<Member> listOfMembers) {
+		unsetListOfMembers();
 		this.listOfMembers = listOfMembers;
+		if ((this.listOfMembers != null) && (this.listOfMembers.getSBaseListType() != ListOf.Type.other)) {
+			this.listOfMembers.setSBaseListType(ListOf.Type.other);
+		}
+		setThisAsParentSBMLObject(this.listOfMembers);
+	}
+
+	/**
+	 * Removes the {@link #listOfMembers} from this {@link Model} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfMembers() {
+		if (this.listOfMembers != null) {
+			ListOf<Member> oldListOfMembers = this.listOfMembers;
+			this.listOfMembers = null;
+			oldListOfMembers.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 
 	/*

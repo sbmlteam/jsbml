@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * This list implementation is a java List that extends AbstractSBase. It
@@ -369,8 +370,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#add(int, java.lang.Object)
 	 */
 	public void add(int index, T element) {
-		setThisAsParentSBMLObject(element);
 		listOf.add(index, element);
+		setThisAsParentSBMLObject(element);
 	}
 
 	/*
@@ -378,12 +379,16 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#add(java.lang.Object)
 	 */
 	public boolean add(T e) {
-		if (e.getLevel() != getLevel()) {
-			throw new IllegalArgumentException(JSBML.levelMismatchMessage(this, e));
-		} else if (e.getVersion() != getVersion()) {
-			throw new IllegalArgumentException(JSBML.versionMismatchMessage(this, e));
+		if ((e.getLevel() != getLevel()) || (e.getVersion() != getVersion())) {
+			throw new LevelVersionError(this, e);
 		}
-		if (contains(e)) {
+		if (e instanceof NamedSBase) {
+			NamedSBase nsb = (NamedSBase) e;
+			if (nsb.isSetId()
+					&& (firstHit(new NameFilter(nsb.getId())) != null)) {
+				return false;
+			}
+		} else if (contains(e)) {
 			return false;
 		}
 		for (SBaseChangedListener l : setOfListeners) {
@@ -399,10 +404,13 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#addAll(java.util.Collection)
 	 */
 	public boolean addAll(Collection<? extends T> c) {
-		for (T element : c) {
-			setThisAsParentSBMLObject(element);
+		if (listOf.addAll(c)) {
+			for (T element : c) {
+				setThisAsParentSBMLObject(element);
+			}
+			return true;
 		}
-		return listOf.addAll(c);
+		return false;
 	}
 
 	/*
@@ -410,9 +418,13 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#addAll(int, java.util.Collection)
 	 */
 	public boolean addAll(int index, Collection<? extends T> c) {
-		for (T element : c)
-			setThisAsParentSBMLObject(element);
-		return listOf.addAll(index, c);
+		if (listOf.addAll(index, c)) {
+			for (T element : c) {
+				setThisAsParentSBMLObject(element);
+			}
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -804,12 +816,15 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#set(int, java.lang.Object)
 	 */
 	public T set(int index, T element) {
+		T prevElem = listOf.set(index, element);
+		prevElem.fireSBaseRemovedEvent();
 		setThisAsParentSBMLObject(element);
-		return listOf.set(index, element);
+		return prevElem;
 	}
 
 	/**
-	 * Sets the listOf of this {@link ListOf} to 'listOf'.
+	 * Clears this {@link ListOf} if not empty and then adds all elements in 
+	 * the given {@link List} to this {@link ListOf}.
 	 * 
 	 * @param listOf
 	 */

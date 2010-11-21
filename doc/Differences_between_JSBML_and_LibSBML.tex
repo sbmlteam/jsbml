@@ -23,6 +23,8 @@
 % Figures
 \usepackage{graphicx}
 \usepackage{sidecap}
+\usepackage{rotating}    % Allows setting sideways tables and figures, and to
+                                        % rotate text.
 
 % Some color in the document
 \usepackage{color}
@@ -112,12 +114,12 @@ Whenever multiple elements defined in the SBML specification share some attribut
 JSBML provides a common super class or at least a common interface that gathers methods
 for manipulation of the shared properties. In this way, the type hierarchy of JSBML has
 become more complex (see Fig.~\vref{fig:TypeHierarchy}). 
-\begin{figure}[btp]
+\begin{sidewaysfigure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{FullTypeHierarchy}
 \caption[The type hierarchy in JSBML]{The type hierarchy of the main SBML constructs in JSBML}
 \label{fig:TypeHierarchy}
-\end{figure}
+\end{sidewaysfigure}
 Just like in LibSBML, all elements extend the abstract type \verb!SBase!, but in JSBML, 
 \verb!SBase! has become an interface. This allows more complex relations between derived 
 data types. In contrast to LibSBML, \verb!SBase! in JSBML extends three other interfaces: 
@@ -261,15 +263,20 @@ for most of the derived types.
 
 \section{The classes \texttt{libSBML} and \texttt{JSBML}}
 
-There is no class LibSBML because this library is called JSBML. You
-can therefore only find a class JSBML. This class provides similar
-methods as the LibSBML class in LibSBML, such as methods to
-\begin{itemize}
- \item parse a formula \verb!String! into a corresponding \verb!ASTNode! object
- \item obtain a \verb!Unit.Type! corresponding to a given \verb!String!
-\end{itemize}
-and many more.
-
+There is no class \texttt{LibSBML} because this library is called \texttt{JSBML}. You
+can therefore only find a class \texttt{JSBML}. This class provides some similar
+methods as the \texttt{LibSBML} class in LibSBML, such as  \verb!getJSBMLDottedVersion()!
+to obtain the current version of the JSBML library. However, many other methods that you
+might expect to find there, if you are used to LibSBML, are located in the actual
+classes that are related with the function. For instance, the method to convert between
+a \verb!String! and a corresponding \verb!Unit.Kind! can be done by using the method
+\begin{verbatim}
+Unit.Kind.valueOf(myString);
+\end{verbatim}
+In a similar way, the \verb!ASTNode! class provides a method to parse C-like formula
+\verb!String!s according to the specification of SBML Level 1 into an abstract syntax tree.
+Therefore, in contrast to the  \texttt{LibSBML} class, the class \texttt{JSBML} contains
+only a few methods.
 
 \section{Replacement of the interface \texttt{libSBMConstants} by Java enums}
 

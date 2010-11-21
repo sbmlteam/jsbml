@@ -56,7 +56,7 @@ import org.codehaus.stax2.evt.XMLEvent2;
 import org.codehaus.stax2.ri.evt.AttributeEventImpl;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.test.SimpleSBaseChangeListener;
+import org.sbml.jsbml.util.SimpleSBaseChangeListener;
 import org.sbml.jsbml.xml.parsers.AnnotationParser;
 import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.sbml.jsbml.xml.parsers.StringParser;
@@ -305,9 +305,9 @@ public class SBMLReader {
 	 * 
 	 * @param file
 	 *            The path to an SBML {@link File}.
-	 * @return the matching SBMLDocument instance.
-	 * @throws XMLStreamException
-	 * @throws FileNotFoundException
+	 * @return the matching {@link SBMLDocument} instance.
+	 * @throws XMLStreamException  if any error occur while creating the XML document.
+	 * @throws FileNotFoundException  if the file name is invalid
 	 */
 	public static SBMLDocument readSBML(String file) throws XMLStreamException,
 			FileNotFoundException {
@@ -645,9 +645,13 @@ public class SBMLReader {
 	}
 
 	/**
+	 * Reads an SBML document from a string assumed to be in XML format.
 	 * 
 	 * @param xml
-	 * @return
+	 *            the {@link SBMLDocument} as XML.
+	 * @return an {@link SBMLDocument} object.
+	 * @throws XMLStreamException
+	 *             if any error occur while creating the XML document.
 	 */
 	public static SBMLDocument readSBMLFromString(String xml)
 			throws XMLStreamException {
