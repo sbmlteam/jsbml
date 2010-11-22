@@ -58,6 +58,7 @@ import org.sbml.jsbml.util.filters.Filter;
  * 
  * @author Andreas Dr&auml;ger
  * @author rodrigue
+ * @author Alexander D&ouml;rr
  * 
  */
 public class ASTNode implements Cloneable, Serializable, TreeNode {
@@ -352,6 +353,51 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		 */
 		UNKNOWN;
 
+		
+		/**
+		 * Returns the {@link Type} corresponding to the given {@link String}.
+		 * 
+		 * @param type
+		 *            e.g., sin, asin, exp, and so on. See the specification of
+		 *            SBML Level 1 Version 1 or 2.
+		 * @return The type corresponding to the given {@link String} or null if
+		 *         no matching can be found.
+		 */
+		public static Type getFunctionTypeFor(String type) {
+			if (type.equalsIgnoreCase("abs")) {
+				return FUNCTION_ABS;
+			} else if (type.equalsIgnoreCase("acos")) {
+				return FUNCTION_ARCCOS;
+			} else if (type.equalsIgnoreCase("asin")) {
+				return FUNCTION_ARCSIN;
+			} else if (type.equalsIgnoreCase("atan")) {
+				return FUNCTION_ARCTAN;
+			} else if (type.equalsIgnoreCase("ceil")) {
+				return FUNCTION_CEILING;
+			} else if (type.equalsIgnoreCase("cos")) {
+				return FUNCTION_COS;
+			} else if (type.equalsIgnoreCase("exp")) {
+				return FUNCTION_EXP;
+			} else if (type.equalsIgnoreCase("floor")) {
+				return FUNCTION_FLOOR;
+			} else if (type.equalsIgnoreCase("log")) {
+				return FUNCTION_LOG;
+			} else if (type.equalsIgnoreCase("log10")) {
+				return FUNCTION_LOG;
+			} else if (type.equalsIgnoreCase("pow")) {
+				return FUNCTION_POWER;
+			} else if (type.equalsIgnoreCase("sqr")) {
+				return FUNCTION_POWER;
+			} else if (type.equalsIgnoreCase("sqrt")) {
+				return FUNCTION_ROOT;
+			} else if (type.equalsIgnoreCase("sin")) {
+				return FUNCTION_SIN;
+			} else if (type.equalsIgnoreCase("tan")) {
+				return FUNCTION_TAN;
+			}
+			return UNKNOWN;
+		}
+		
 		/**
 		 * Returns the {@link Type} corresponding to the given {@link String}.
 		 * 

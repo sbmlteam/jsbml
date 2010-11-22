@@ -16,6 +16,11 @@
 \usepackage{pifont}   % Enables Zapf dingbats (special symbols)
 \usepackage[scaled=.95]{helvet} % Sans serif font to be used
 
+% Page style
+
+\usepackage[automark]{scrpage2}
+%\usepackage{fancyhdr}
+
 % Language definition
 \usepackage[english]{babel}
 \usepackage{varioref} % better references with \vref
@@ -37,16 +42,19 @@
 \usepackage[unicode]{hyperref}
 \usepackage[htt]{hyphenat}
 
-% Style definitions
-
-\selectlanguage{english}
-
 % some nice colors
 \definecolor{royalblue}{cmyk}{.93, .79, 0, 0}
 \definecolor{lightblue}{cmyk}{.10, .017, 0, 0}
 \definecolor{darkgreen}{rgb}{0,.7,0}
 \definecolor{darkred}{rgb}{.7,0,0}
 \definecolor{lightgray}{gray}{0.97}
+
+% Style definitions
+
+\selectlanguage{english}
+\addtokomafont{sectioning}{\color{royalblue}}
+\pagestyle{scrheadings}
+\ofoot{\includegraphics[width=50pt]{logo/JSBML_shaddow_small}}
 
 \hypersetup{
               bookmarks={true},
@@ -89,7 +97,6 @@ breakatwhitespace=true
 % rulesepcolor=\color{lightgray}
 % frameround=ttff
 }
-\pagestyle{headings}
 
 \title{A short description of the main differences between JSBML and LibSBML}
 \author{Andreas Dr\"ager}
