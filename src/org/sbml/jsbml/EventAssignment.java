@@ -192,10 +192,9 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-
-		if (!isAttributeRead && getLevel() >= 2) {
+		if (!isAttributeRead) {
 			if (attributeName.equals("variable")) {
-				this.setVariable(value);
+				setVariable(value);
 				return true;
 			}
 		}

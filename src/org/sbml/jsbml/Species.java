@@ -604,35 +604,39 @@ public class Species extends Symbol {
 
 		if (!isAttributeRead) {
 			if (attributeName.equals("compartment")) {
-				this.setCompartment(value);
+				setCompartment(value);
+				return true;
 			} else if (attributeName.equals("initialAmount")) {
-				this.setInitialAmount(StringTools.parseSBMLDouble(value));
+				setInitialAmount(StringTools.parseSBMLDouble(value));
+				return true;
 			} else if (attributeName.equals("initialConcentration")
 					&& getLevel() > 1) {
-				this.setInitialConcentration(StringTools.parseSBMLDouble(value));
+				setInitialConcentration(StringTools.parseSBMLDouble(value));
+				return true;
 			} else if (attributeName.equals("substanceUnits") && getLevel() > 1) {
-				this.setUnits(value);
+				setUnits(value);
+				return true;
 			} else if (attributeName.equals("spatialSizeUnits")) {
-				this.setSpatialSizeUnits(value);
-			} else if (attributeName.equals("hasOnlySubstanceUnits")
-					&& getLevel() > 1) {
-				this.setHasOnlySubstanceUnits(StringTools.parseSBMLBoolean(value));
+				setSpatialSizeUnits(value);
+				return true;
+			} else if (attributeName.equals("hasOnlySubstanceUnits")) {
+				setHasOnlySubstanceUnits(StringTools.parseSBMLBoolean(value));
+				return true;
 			} else if (attributeName.equals("boundaryCondition")) {
-				this.setBoundaryCondition(StringTools.parseSBMLBoolean(value));
-			} else if (attributeName.equals("conversionFactor")
-					&& getLevel() == 3) {
-				this.setConversionFactor(value);
+				setBoundaryCondition(StringTools.parseSBMLBoolean(value));
 				return true;
-			} else if (attributeName.equals("charge") && isSetLevel()
-					&& getLevel() < 3) {
-				this.setCharge(StringTools.parseSBMLInt(value));
+			} else if (attributeName.equals("conversionFactor")) {
+				setConversionFactor(value);
 				return true;
-			} else if (attributeName.equals("speciesType")
-					&& ((getLevel() == 2 && getVersion() >= 2) || getLevel() == 3)) {
-				this.setSpeciesType(value);
+			} else if (attributeName.equals("charge")) {
+				setCharge(StringTools.parseSBMLInt(value));
 				return true;
-			} else if (attributeName.equals("constant") && getLevel() > 1) {
-				this.setConstant(StringTools.parseSBMLBoolean(value));
+			} else if (attributeName.equals("speciesType")) {
+				setSpeciesType(value);
+				return true;
+			} else if (attributeName.equals("constant")) {
+				setConstant(StringTools.parseSBMLBoolean(value));
+				return true;
 			}
 		}
 		return isAttributeRead;
@@ -740,6 +744,10 @@ public class Species extends Symbol {
 	 * @param hasOnlySubstanceUnits
 	 */
 	public void setHasOnlySubstanceUnits(boolean hasOnlySubstanceUnits) {
+		if (getLevel() < 2) {
+			throw new PropertyNotAvailableError(
+					SBaseChangedEvent.hasOnlySubstanceUnits, this);
+		}
 		Boolean oldHasOnlySubstanceUnits = this.hasOnlySubstanceUnits;
 		this.hasOnlySubstanceUnits = Boolean.valueOf(hasOnlySubstanceUnits);
 		isSetHasOnlySubstanceUnits = true;

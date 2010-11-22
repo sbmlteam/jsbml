@@ -3644,7 +3644,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 			// added to prevent a crash when we cannot create the formula
 			e.printStackTrace();
 		}
-
 		return formula;
 	}
 

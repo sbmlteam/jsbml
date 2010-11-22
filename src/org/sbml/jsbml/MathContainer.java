@@ -86,11 +86,16 @@ public interface MathContainer extends SBaseWithDerivedUnit {
 	 * @param formula
 	 *            a C-like {@link String} according to the definition in the
 	 *            SBML Level 1 specifications.
-	 * @throws ParseException
-	 *             If the given formula is invalid or cannot be parsed properly.
 	 * @deprecated As this is part of SBML Level 1, it is strongly recommended
 	 *             not to work with the {@link String} representation of a
 	 *             formula, but to deal with a more flexible {@link ASTNode}.
+	 *             Please use {@link ASTNode#parseFormula(String)} to create an
+	 *             {@link ASTNode} object from your formula {@link String}.
+	 * @throws ParseException
+	 *             If the given formula is invalid or cannot be parsed properly.
+	 * @throws PropertyNotAvailableError
+	 *             When trying to set this attribute and the Level is set to a
+	 *             value other than 1, this will throw an error.
 	 */
 	@Deprecated
 	public void setFormula(String formula) throws ParseException;

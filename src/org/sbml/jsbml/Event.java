@@ -635,13 +635,12 @@ public class Event extends AbstractNamedSBase {
 				value);
 		if (!isAttributeRead) {
 			if (attributeName
-					.equals(SBaseChangedEvent.useValuesFromTriggerTime)
-					&& (((getLevel() == 2) && (getVersion() == 4)) || (getLevel() >= 3))) {
-				this.setUseValuesFromTriggerTime(StringTools
-						.parseSBMLBoolean(value));
-			} else if (attributeName.equals(SBaseChangedEvent.timeUnits)
-					&& ((getLevel() == 1) || ((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2))))) {
-				this.setTimeUnits(value);
+					.equals(SBaseChangedEvent.useValuesFromTriggerTime)) {
+				setUseValuesFromTriggerTime(StringTools.parseSBMLBoolean(value));
+				return true;
+			} else if (attributeName.equals(SBaseChangedEvent.timeUnits)) {
+				setTimeUnits(value);
+				return true;
 			}
 		}
 		return isAttributeRead;
@@ -790,7 +789,8 @@ public class Event extends AbstractNamedSBase {
 	 * @param useValuesFromTriggerTime
 	 */
 	public void setUseValuesFromTriggerTime(boolean useValuesFromTriggerTime) {
-		if (!((getLevel() == 2) && (getVersion() == 4)) || (3 <= getLevel())) {
+		if (getLevelAndVersion().compareTo(Integer.valueOf(2),
+				Integer.valueOf(4)) < 0) {
 			throw new PropertyNotAvailableError(
 					SBaseChangedEvent.useValuesFromTriggerTime, this);
 		}

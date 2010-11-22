@@ -44,6 +44,7 @@ import java.util.TreeSet;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.ValuePair;
 
 /**
  * The base class for each {@link SBase} component.
@@ -92,10 +93,10 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	private Map<String, SBase> extensions;
 	/**
-	 * level of the SBML component. Matches the level XML attribute of a SBML
+	 * Level and version of the SBML component. Matches the level XML attribute of a SBML
 	 * node.
 	 */
-	Integer level;
+	ValuePair<Integer, Integer> lv;
 	/**
 	 * metaid of the SBML component. Matches the metaid XML attribute of an
 	 * element in a SBML file.
@@ -130,15 +131,9 @@ public abstract class AbstractSBase implements SBase {
 	protected Set<SBaseChangedListener> setOfListeners;
 
 	/**
-	 * version of the SBML component. Matches the version XML attribute of a
-	 * sbml node.
-	 */
-	Integer version;
-
-	/**
 	 * Creates an AbstractSBase instance. By default, the sboTerm is -1, the
 	 * metaid, notes, parentSBMLObject, annotation, level, version and
-	 * notesBuffer are null. The setOfListeners list and the extensions hashmap
+	 * notesBuffer are null. The setOfListeners list and the extensions hash map
 	 * are empty.
 	 */
 	public AbstractSBase() {
@@ -146,8 +141,7 @@ public abstract class AbstractSBase implements SBase {
 		sboTerm = -1;
 		metaId = null;
 		notes = null;
-		level = null;
-		version = null;
+		lv = getLevelAndVersion();
 		parentSBMLObject = null;
 		annotation = null;
 		notesBuffer = null;
@@ -168,14 +162,14 @@ public abstract class AbstractSBase implements SBase {
 	public AbstractSBase(int level, int version) {
 		this();
 		if ((0 < level) && (level < 4)) {
-			this.level = Integer.valueOf(level);
+			this.lv.setL(Integer.valueOf(level));
 		} else {
-			this.level = null;
+			this.lv.setL(null);
 		}
 		if ((0 < version)) {
-			this.version = Integer.valueOf(version);
+			this.lv.setV(Integer.valueOf(version));
 		} else {
-			this.version = null;
+			this.lv.setV(null);
 		}
 		if (!hasValidLevelVersionNamespaceCombination()) {
 			throw new LevelVersionError(this);
@@ -203,7 +197,6 @@ public abstract class AbstractSBase implements SBase {
 			this.setOfListeners.addAll(((AbstractSBase) sb).setOfListeners);
 		}
 		if (sb.isSetAnnotation()) {
-			// TODO!!! Clone function not yet fully implemented!
 			this.annotation = sb.getAnnotation().clone();
 		}
 		if (sb.isSetNotesBuffer()) {
@@ -354,13 +347,13 @@ public abstract class AbstractSBase implements SBase {
 	public Enumeration<TreeNode> children() {
 		return new Enumeration<TreeNode>() {
 			/**
-			 * Current position in the list of children.
-			 */
-			private int index = 0;
-			/**
 			 * Total number of children in this enumeration.
 			 */
 			private int childCount = getChildCount();
+			/**
+			 * Current position in the list of children.
+			 */
+			private int index = 0;
 
 			/*
 			 * (non-Javadoc)
@@ -633,7 +626,22 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#getLevel()
 	 */
 	public int getLevel() {
-		return isSetLevel() ? this.level : -1;
+		return isSetLevel() ? this.lv.getL().intValue() : -1;
+	}
+
+	/**
+	 * Access to the Level and Version combination of this {@link SBase}.
+	 * 
+	 * @return A {@link ValuePair} with the Level and Version of this
+	 *         {@link SBase}. Note that the returned {@link ValuePair} is never
+	 *         null, but if undeclared it may contain elements set to -1.
+	 */
+	public ValuePair<Integer, Integer> getLevelAndVersion() {
+		if (this.lv == null) {
+			this.lv = new ValuePair<Integer, Integer>(Integer.valueOf(-1),
+					Integer.valueOf(-1));
+		}
+		return this.lv;
 	}
 
 	/*
@@ -739,7 +747,7 @@ public abstract class AbstractSBase implements SBase {
 	public int getSBOTerm() {
 		return sboTerm;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getSBOTermID()
@@ -747,7 +755,7 @@ public abstract class AbstractSBase implements SBase {
 	public String getSBOTermID() {
 		return SBO.intToString(sboTerm);
 	}
-	
+
 	/**
 	 * Delivers all {@link SBaseChangeListener}s that are assigned to this
 	 * element.
@@ -763,8 +771,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#getVersion()
 	 */
 	public int getVersion() {
-		return isSetVersion() ? this.version : -1;
-
+		return isSetVersion() ? this.lv.getV().intValue() : -1;
 	}
 
 	/*
@@ -832,7 +839,8 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#isSetLevel()
 	 */
 	public boolean isSetLevel() {
-		return level != null;
+		return (lv != null) && (lv.getL() != null)
+				&& (lv.getL().intValue() > -1);
 	}
 
 	/*
@@ -872,7 +880,8 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#isSetVersion()
 	 */
 	public boolean isSetVersion() {
-		return version != null;
+		return (lv != null) && (lv.getV() != null)
+				&& (lv.getV().intValue() > -1);
 	}
 
 	/*
@@ -881,12 +890,11 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
-		if (attributeName.equals("sboTerm")
-				&& (((getLevel() == 2) && (getVersion() >= 2)) || (getLevel() == 3))) {
-			this.setSBOTerm(value);
+		if (attributeName.equals("sboTerm")) {
+			setSBOTerm(value);
 			return true;
 		} else if (attributeName.equals("metaid")) {
-			this.metaId = value;
+			setMetaId(value);
 			return true;
 		}
 		return false;
@@ -924,7 +932,7 @@ public abstract class AbstractSBase implements SBase {
 		this.annotation = annotation;
 		firePropertyChange(SBaseChangedEvent.setAnnotation, oldAnnotation, annotation);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setHistory(org.sbml.jsbml.History)
@@ -934,7 +942,7 @@ public abstract class AbstractSBase implements SBase {
 		annotation.setHistory(history);
 		firePropertyChange(SBaseChangedEvent.history, oldHistory, history);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setLevel(int)
@@ -946,9 +954,9 @@ public abstract class AbstractSBase implements SBase {
 				throw new LevelVersionError(this, parentSBMLObject);
 			}
 		}
-		Integer oldLevel = this.level;
-		this.level = Integer.valueOf(level);
-		firePropertyChange(SBaseChangedEvent.level, oldLevel, this.level);
+		Integer oldLevel = getLevelAndVersion().getL();
+		this.lv.setL(Integer.valueOf(level));
+		firePropertyChange(SBaseChangedEvent.level, oldLevel, this.lv.getL());
 	}
 
 	/**
@@ -1033,6 +1041,10 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#setSBOTerm(int)
 	 */
 	public void setSBOTerm(int term) {
+		if (getLevelAndVersion().compareTo(Integer.valueOf(2),
+				Integer.valueOf(2)) < 0) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.sboTerm, this);
+		}
 		if (!SBO.checkTerm(term)) {
 			throw new IllegalArgumentException(String.format(
 					"Cannot set invalid SBO term %d because it must not be smaller than zero or larger than 9999999."));
@@ -1064,7 +1076,7 @@ public abstract class AbstractSBase implements SBase {
 			sbase.fireSBaseAddedEvent();
 		}
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setVersion(int)
@@ -1076,8 +1088,8 @@ public abstract class AbstractSBase implements SBase {
 				throw new LevelVersionError(parentSBMLObject, this);
 			}
 		}
-		Integer oldVersion = this.version;
-		this.version = Integer.valueOf(version);
+		Integer oldVersion = getLevelAndVersion().getV();
+		this.lv.setV(Integer.valueOf(version));
 		firePropertyChange(SBaseChangedEvent.version, oldVersion, version);
 	}
 

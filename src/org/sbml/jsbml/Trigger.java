@@ -202,13 +202,13 @@ public class Trigger extends AbstractMathContainer {
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-
-		if (!isAttributeRead && isSetLevel() && (2 < getLevel())) {
+		if (!isAttributeRead) {
 			if (attributeName.equals("initialValue")) {
 				setInitialValue(StringTools.parseSBMLBoolean(value));
-			}
-			if (attributeName.equals("persistent")) {
+				return true;
+			} else if (attributeName.equals("persistent")) {
 				setPersistent(StringTools.parseSBMLBoolean(value));
+				return true;
 			}
 		}
 		return isAttributeRead;
@@ -221,8 +221,7 @@ public class Trigger extends AbstractMathContainer {
 	 */
 	public void setInitialValue(boolean initialValue) {
 		if (getLevel() < 3) {
-			throw new IllegalArgumentException(String.format(
-					"Cannot set initialValue property to %s for Trigger with Level < 3.", initialValue));
+			throw new PropertyNotAvailableError(SBaseChangedEvent.initialValue, this);
 		}
 		Boolean oldInitialValue = this.initialValue;
 		this.initialValue = Boolean.valueOf(initialValue);
@@ -236,8 +235,7 @@ public class Trigger extends AbstractMathContainer {
 	 */
 	public void setPersistent(boolean persistent) {
 		if (getLevel() < 3) {
-			throw new IllegalArgumentException(String.format(
-					"Cannot set persistent property to %s for Trigger with Level < 3.", persistent));
+			throw new PropertyNotAvailableError(SBaseChangedEvent.persistent, this);
 		}
 		Boolean oldPersistent = this.persistent;
 		this.persistent = Boolean.valueOf(persistent);

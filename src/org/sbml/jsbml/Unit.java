@@ -1716,7 +1716,7 @@ public class Unit extends AbstractSBase {
 		Kind kind = getKind();
 		if (kind == Kind.MOLE
 				|| kind == Kind.ITEM
-				|| (((level == 2 && version > 1) || level > 2) && (kind == Kind.GRAM || isKilogram()))) {
+				|| ((((getLevel() == 2) && (getVersion() > 1)) || (getLevel() > 2)) && (kind == Kind.GRAM || isKilogram()))) {
 			return getOffset() == 0 && getExponent() == 1;
 		}
 		return false;
@@ -1789,19 +1789,23 @@ public class Unit extends AbstractSBase {
 			if (attributeName.equals("kind")) {
 				try {
 					Kind kind = Kind.valueOf(value.toUpperCase());
-					this.setKind(kind);
+					setKind(kind);
 					return true;
 				} catch (Exception e) {
 					return false;
 				}
 			} else if (attributeName.equals("exponent")) {
-				this.setExponent(StringTools.parseSBMLInt(value));
+				setExponent(StringTools.parseSBMLInt(value));
+				return true;
 			} else if (attributeName.equals("scale")) {
-				this.setScale(StringTools.parseSBMLInt(value));
-			} else if (attributeName.equals("multiplier") && getLevel() > 1) {
-				this.setMultiplier(StringTools.parseSBMLDouble(value));
-			} else if (attributeName.equals("offset") && getLevel() > 1) {
-				this.setOffset(StringTools.parseSBMLDouble(value));
+				setScale(StringTools.parseSBMLInt(value));
+				return true;
+			} else if (attributeName.equals("multiplier")) {
+				setMultiplier(StringTools.parseSBMLDouble(value));
+				return true;
+			} else if (attributeName.equals("offset")) {
+				setOffset(StringTools.parseSBMLDouble(value));
+				return true;
 			}
 		}
 		return isAttributeRead;
@@ -1849,6 +1853,9 @@ public class Unit extends AbstractSBase {
 	 * @param multiplier
 	 */
 	public void setMultiplier(double multiplier) {
+		if (getLevel() < 2) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.multiplier, this);
+		}
 		Double oldMultiplyer = this.multiplier;
 		isSetMultiplier = true;
 		this.multiplier = multiplier;

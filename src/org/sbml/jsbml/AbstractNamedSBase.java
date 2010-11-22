@@ -255,20 +255,19 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		// prefix set before reading the id or name
 		// as there are not defined at the level of the SBase on the SBML
 		// specifications and some packages might define them in their own
-		// namespace.
+		// name space.
 
 		if (!isAttributeRead) {
-			if (attributeName.equals("id") && getLevel() > 1) {
+			if (attributeName.equals("id") && (getLevel() > 1)) {
 				this.setId(value);
 				return true;
 			} else if (attributeName.equals("name")) {
 				this.setName(value);
-				if (isSetLevel() && getLevel() == 1) {
+				if (isSetLevel() && (getLevel() == 1)) {
 					this.setId(value);
 				}
 				return true;
 			}
-			return false;
 		}
 		return isAttributeRead;
 	}

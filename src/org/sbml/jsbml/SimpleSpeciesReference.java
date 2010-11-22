@@ -194,11 +194,13 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 
 		if (!isAttributeRead) {
 			if (attributeName.equals("species")
-					&& ((getLevel() == 1 && getVersion() == 2) || getLevel() > 1)) {
-				this.setSpecies(value);
-			} else if (attributeName.equals("specie") && getLevel() == 1
-					&& getVersion() == 1) {
-				this.setSpecies(value);
+					&& (((getLevel() == 1) && (getVersion() == 2)) || (getLevel() > 1))) {
+				setSpecies(value);
+				return true;
+			} else if (attributeName.equals("specie") && (getLevel() == 1)
+					&& (getVersion() == 1)) {
+				setSpecies(value);
+				return true;
 			}
 		}
 		return isAttributeRead;

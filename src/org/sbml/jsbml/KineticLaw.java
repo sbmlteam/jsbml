@@ -493,12 +493,13 @@ public class KineticLaw extends AbstractMathContainer {
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-
 		if (!isAttributeRead) {
 			if (attributeName.equals("timeUnits")) {
 				setTimeUnits(value);
+				return true;
 			} else if (attributeName.equals("substanceUnits")) {
 				setSubstanceUnits(value);
+				return true;
 			}
 		}
 		return isAttributeRead;
@@ -608,7 +609,7 @@ public class KineticLaw extends AbstractMathContainer {
 	 */
 	@Deprecated
 	public void setSubstanceUnits(String substanceUnits) {
-		if ((getLevel() == 2 && getVersion() == 1) || getLevel() == 1) {
+		if (((getLevel() == 2) && (getVersion() == 1)) || (getLevel() == 1)) {
 			String oldSubstanceUnits = this.substanceUnitsID;
 			this.substanceUnitsID = substanceUnits;
 			firePropertyChange(SBaseChangedEvent.substanceUnits,

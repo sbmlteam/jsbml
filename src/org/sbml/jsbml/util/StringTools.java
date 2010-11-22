@@ -272,25 +272,41 @@ public class StringTools {
 	}
 
 	/**
-	 * Parses a String into an int number following the rules of the SBML
+	 * Parses a {@link String} into an int number following the rules of the SBML
 	 * specifications, section 3.1.3.
 	 * 
 	 * @param valueAsStr
-	 *            an int as a String
-	 * @return the String as an int. If the String is not a valid int number, 0
+	 *            an int as a {@link String}
+	 * @return the {@link String} as an int. If the {@link String} is not a valid int number, 0
 	 *         is returned.
 	 */
 	public static int parseSBMLInt(String valueAsStr) {
-
 		int value = 0;
-
 		try {
 			value = Integer.parseInt(valueAsStr.trim());
 		} catch (NumberFormatException e) {
 			// TODO : log an error !!
 		}
-
 		return value;
+	}
+	
+	/**
+	 * Parses a {@link String} into an short number following the rules of the
+	 * SBML specifications, section 3.1.3.
+	 * 
+	 * @param value
+	 *            an int as a String
+	 * @return the {@link String} as an short. If the {@link String} is not a
+	 *         valid short number, 0 is returned.
+	 */
+	public static int parseSBMLShort(String value) {
+		short v = 0;
+		try {
+			v = Short.parseShort(value.trim());
+		} catch (NumberFormatException e) {
+			// TODO : log an error !!
+		}
+		return v;
 	}
 
 	/**
