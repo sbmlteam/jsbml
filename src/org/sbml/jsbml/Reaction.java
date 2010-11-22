@@ -707,7 +707,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 */
 	public void initDefaults() {
 		if (isSetLevel() && isSetVersion()) {
-			if (level < 3) {
+			if (getLevel() < 3) {
 				reversible = new Boolean(true);
 				fast = new Boolean(false);
 			} else {
@@ -823,15 +823,15 @@ public class Reaction extends AbstractNamedSBase implements
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-
 		if (!isAttributeRead) {
 			if (attributeName.equals("reversible")) {
-				this.setReversible(StringTools.parseSBMLBoolean(value));
+				setReversible(StringTools.parseSBMLBoolean(value));
+				return true;
 			} else if (attributeName.equals("fast")) {
-				this.setFast(StringTools.parseSBMLBoolean(value));
-			}
-			if (attributeName.equals("compartment") && getLevel() == 3) {
-				this.setCompartment(value);
+				setFast(StringTools.parseSBMLBoolean(value));
+				return true;
+			} else if (attributeName.equals("compartment")) {
+				setCompartment(value);
 				return true;
 			}
 		}
@@ -1009,7 +1009,7 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @param compartmentID
 	 */
 	public void setCompartment(String compartmentID) {
-		if (isSetLevel() && (getLevel() < 3)) {
+		if (getLevel() < 3) {
 			throw new PropertyNotAvailableError(SBaseChangedEvent.compartment,
 					this);
 		}

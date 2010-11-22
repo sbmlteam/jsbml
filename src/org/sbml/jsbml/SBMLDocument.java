@@ -372,17 +372,15 @@ public class SBMLDocument extends AbstractSBase {
 		
 		if (!isAttributeRead) {
 			if (attributeName.equals("level")) {
-				this.level = Integer.valueOf(StringTools.parseSBMLInt(value));
-				return true;
+				setLevel(StringTools.parseSBMLInt(value));
 			} else if (attributeName.equals("version")) {
-				this.version = Integer.valueOf(StringTools.parseSBMLInt(value));
-				return true;
+				setVersion(StringTools.parseSBMLInt(value));
 			}
 			if (!prefix.equals("")) {
-				this.getSBMLDocumentAttributes().put(
+				getSBMLDocumentAttributes().put(
 						prefix + ":" + attributeName, value);
 			} else {
-				this.getSBMLDocumentAttributes().put(attributeName, value);
+				getSBMLDocumentAttributes().put(attributeName, value);
 			}
 			return true;
 		}

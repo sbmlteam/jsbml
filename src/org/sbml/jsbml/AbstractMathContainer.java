@@ -290,10 +290,10 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 				value);
 
 		if (!isAttributeRead) {
-			if (attributeName.equals("formula") && isSetLevel()
-					&& (getLevel() < 2)) {
+			if (attributeName.equals("formula")) {
 				try {
 					setFormula(value);
+					return true;
 				} catch (ParseException exc) {
 					throw new IllegalArgumentException(exc);
 				}
@@ -309,6 +309,9 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	 */
 	@Deprecated
 	public void setFormula(String formula) throws ParseException {
+		if (1 < getLevel()) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.formula, this);
+		}
 		setMath(ASTNode.parseFormula(formula));
 	}
 

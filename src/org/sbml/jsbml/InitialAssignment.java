@@ -83,6 +83,12 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 	 */
 	public InitialAssignment(int level, int version) {
 		super(level, version);
+		if (getLevelAndVersion().compareTo(Integer.valueOf(2),
+				Integer.valueOf(2)) < 0) {
+			throw new IllegalArgumentException(String.format(
+					"Cannot create a %s with Level = %s and Version = &s.",
+					getElementName(), getLevel(), getVersion()));
+		}
 	}
 
 	/**
@@ -245,7 +251,6 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-
 		if (!isAttributeRead) {
 			if (attributeName.equals("symbol")) {
 				this.setVariable(value);
@@ -274,6 +279,9 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 	 * @see org.sbml.jsbml.Assignment#setVariable(java.lang.String)
 	 */
 	public void setVariable(String variable) {
+		if (getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)) < 0) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.variable, this);
+		}
 		String oldVariableID = this.variableID;
 		this.variableID = variable;
 		firePropertyChange(SBaseChangedEvent.variable, oldVariableID, variable);

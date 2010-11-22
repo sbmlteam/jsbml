@@ -671,13 +671,19 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String,
+	 * java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
-		// TODO: What is the purpose of this method?
-		return false;
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+		if (!isAttributeRead) {
+			// TODO: are there any special attributes?
+		}
+		return isAttributeRead;
 	}
 
 	/*

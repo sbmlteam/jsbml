@@ -450,13 +450,13 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 				setStoichiometry(StringTools.parseSBMLDouble(value));
 				return true;
 			} else if (attributeName.equals("constant")) {
-				this.setConstant(StringTools.parseSBMLBoolean(value));
+				setConstant(StringTools.parseSBMLBoolean(value));
+				return true;
 			} else if (attributeName.equals("denominator")) {
 				setDenominator(denominator);
 				return true;
 			}
 		}
-
 		return isAttributeRead;
 	}
 
@@ -487,8 +487,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	public void setDenominator(int denominator) {
 		if ((getLevel() == 1) && (getVersion() == 2)) {
 			if (denominator < 0) {
-				throw new IllegalArgumentException(
-						String.format(
+				throw new IllegalArgumentException(String.format(
 										ILLEGAL_STOCHIOMETRY_VALUE,
 										"denominator", stoichiometry));
 			}

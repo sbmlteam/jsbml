@@ -109,6 +109,9 @@ public class SBaseChangedEvent extends EventObject {
 	public static final String model = "model";
 	public static final String kineticLaw = "kineticLaw";
 	public static final String spatialDimensions = "spatialDimensions";
+	public static final String formula = "formula";
+	public static final String size = "size";
+	public static final String volume = "volume";
 	
 	
 	/**

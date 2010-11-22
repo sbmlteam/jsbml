@@ -39,10 +39,6 @@ import org.sbml.jsbml.text.parser.ParseException;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public class FunctionDefinition extends AbstractMathContainer implements
 		NamedSBaseWithDerivedUnit {
@@ -103,6 +99,11 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 */
 	public FunctionDefinition(int level, int version) {
 		super(level, version);
+		if (getLevel() < 2) {
+			throw new IllegalArgumentException(String.format(
+					"Cannot create a %s with Level = %s.", getElementName(),
+					getLevel()));
+		}
 	}
 
 	/**
@@ -292,15 +293,15 @@ public class FunctionDefinition extends AbstractMathContainer implements
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-
 		if (!isAttributeRead) {
-			if (attributeName.equals("id") && getLevel() > 1) {
+			if (attributeName.equals("id")) {
 				setId(value);
-			} else if (attributeName.equals("name") && getLevel() > 1) {
+				return true;
+			} else if (attributeName.equals("name")) {
 				setName(value);
+				return true;
 			}
 		}
-
 		return isAttributeRead;
 	}
 
@@ -324,6 +325,9 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 * @see org.sbml.jsbml.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
+		if (getLevel() < 2) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.id, this);
+		}
 		String oldID = this.id;
 		this.id = id;
 		firePropertyChange(SBaseChangedEvent.id, oldID, id);
@@ -335,6 +339,9 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 */
 	@Override
 	public void setMath(ASTNode math) {
+		if (getLevel() < 2) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.id, this);
+		}
 		if (!math.isLambda()) {
 			throw new IllegalArgumentException(String.format(
 					ILLEGAL_ASTNODE_TYPE_MSG, ASTNode.Type.LAMBDA, math
@@ -348,6 +355,9 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 * @see org.sbml.jsbml.NamedSBase#setName(java.lang.String)
 	 */
 	public void setName(String name) {
+		if (getLevel() < 2) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.id, this);
+		}
 		String oldName = this.name;
 		this.name = name;
 		firePropertyChange(SBaseChangedEvent.name, oldName, name);

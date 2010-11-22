@@ -196,6 +196,9 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	 * @see org.sbml.jsbml.Variable#setConstant(boolean)
 	 */
 	public void setConstant(boolean constant) {
+		if (getLevel() == 1) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.constant, this);
+		}
 		Boolean oldConstant = this.constant;
 		this.constant = Boolean.valueOf(constant);
 		isSetConstant = true;

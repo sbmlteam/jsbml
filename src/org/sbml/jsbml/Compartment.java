@@ -394,28 +394,28 @@ public class Compartment extends Symbol {
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-
 		if (!isAttributeRead) {
-			if (attributeName.equals("spatialDimensions") && getLevel() > 1) {
-				this.setSpatialDimensions(Short.parseShort(value));
+			if (attributeName.equals("spatialDimensions")) {
+				setSpatialDimensions(StringTools.parseSBMLShort(value));
 				return true;
 			} else if (attributeName.equals("units")) {
-				this.setUnits(value);
+				setUnits(value);
 				return true;
-			} else if (attributeName.equals("size") && getLevel() > 1) {
-				this.setSize(StringTools.parseSBMLDouble(value));
+			} else if (attributeName.equals("size")) {
+				setSize(StringTools.parseSBMLDouble(value));
 				return true;
-			} else if (attributeName.equals("volume") && getLevel() == 1) {
-				this.setSize(StringTools.parseSBMLDouble(value));
+			} else if (attributeName.equals("volume")) {
+				setVolume(StringTools.parseSBMLDouble(value));
 				return true;
-			} else if (attributeName.equals("compartmentType")
-					&& getLevel() == 2) {
-				this.setCompartmentType(value);
+			} else if (attributeName.equals("compartmentType")) {
+				setCompartmentType(value);
 				return true;
-			} else if (attributeName.equals("outside") && getLevel() < 3) {
-				this.setOutside(value);
-			} else if (attributeName.equals("constant") && getLevel() > 1) {
-					this.setConstant(StringTools.parseSBMLBoolean(value));
+			} else if (attributeName.equals("outside")) {
+				setOutside(value);
+				return true;
+			} else if (attributeName.equals("constant")) {
+				setConstant(StringTools.parseSBMLBoolean(value));
+				return true;
 			}
 		}
 		return isAttributeRead;
@@ -442,6 +442,10 @@ public class Compartment extends Symbol {
 	 */
 	@Deprecated
 	public void setCompartmentType(String compartmentTypeID) {
+		if (getLevel() != 2) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.compartmentType,
+					this);
+		}
 		String oldCompartmentTypeID = this.compartmentTypeID;
 		this.compartmentTypeID = compartmentTypeID;
 		firePropertyChange(SBaseChangedEvent.compartmentType,
@@ -485,6 +489,9 @@ public class Compartment extends Symbol {
 	 * @param size
 	 */
 	public void setSize(double size) {
+		if (getLevel() < 2) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.size, this);
+		}
 		setValue(size);
 	}
 
@@ -496,6 +503,10 @@ public class Compartment extends Symbol {
 	 *             if spatialDimension < 0 or if spatialDimension > 3
 	 */
 	public void setSpatialDimensions(int spatialDimension) {
+		if (getLevel() < 2) {
+			throw new PropertyNotAvailableError(
+					SBaseChangedEvent.spacialDimensions, this);
+		}
 		if ((0 <= spatialDimension) && (spatialDimension <= 3)) {
 			isSetSpatialDimensions = true;
 			Short oldSpatialDimensions = this.spatialDimensions;
@@ -643,6 +654,9 @@ public class Compartment extends Symbol {
 	 *            in whatever units are in effect for the compartment.
 	 */
 	public void setVolume(double value) {
+		if (getLevel() != 1) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.volume, this);
+		}
 		setSize(value);
 	}
 

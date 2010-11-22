@@ -148,13 +148,14 @@ public class Parameter extends Symbol {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 		if (attributeName.equals("value")) {
-			this.setValue(StringTools.parseSBMLDouble(value));
+			setValue(StringTools.parseSBMLDouble(value));
 			return true;
 		} else if (attributeName.equals("units")) {
-			this.setUnits(value);
+			setUnits(value);
 			return true;
-		} else if (attributeName.equals("constant") && getLevel() > 1) {
-				this.setConstant(StringTools.parseSBMLBoolean(value));
+		} else if (attributeName.equals("constant")) {
+			setConstant(StringTools.parseSBMLBoolean(value));
+			return true;
 		}
 		return isAttributeRead;
 	}

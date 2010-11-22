@@ -484,9 +484,8 @@ public class Model extends AbstractNamedSBase {
 	 * @see #addRule(Rule r)
 	 */
 	public Rule createAlgebraicRule() {
-		AlgebraicRule rule = new AlgebraicRule(level, version);
+		AlgebraicRule rule = new AlgebraicRule(getLevel(), getVersion());
 		addRule(rule);
-
 		return rule;
 	}
 
@@ -500,9 +499,8 @@ public class Model extends AbstractNamedSBase {
 	 * @see #addRule(Rule r)
 	 */
 	public Rule createAssignmentRule() {
-		AssignmentRule rule = new AssignmentRule(level, version);
+		AssignmentRule rule = new AssignmentRule(getLevel(), getVersion());
 		addRule(rule);
-
 		return rule;
 	}
 
@@ -2729,21 +2727,27 @@ public class Model extends AbstractNamedSBase {
 				value);
 
 		if (!isAttributeRead) {
-			if (attributeName.equals("substanceUnits") && getLevel() > 2) {
-				this.setSubstanceUnits(value);
-			} else if (attributeName.equals("timeUnits") && getLevel() > 2) {
-				this.setTimeUnits(value);
-			} else if (attributeName.equals("volumeUnits") && getLevel() > 2) {
-				this.setVolumeUnits(value);
-			} else if (attributeName.equals("areaUnits") && getLevel() > 2) {
-				this.setAreaUnits(value);
-			} else if (attributeName.equals("lengthUnits") && getLevel() > 2) {
-				this.setLengthUnits(value);
-			} else if (attributeName.equals("extentUnits") && getLevel() > 2) {
-				this.setExtentUnits(value);
-			} else if (attributeName.equals("conversionFactor")
-					&& getLevel() > 2) {
-				this.setConversionFactor(value);
+			if (attributeName.equals("substanceUnits")) {
+				setSubstanceUnits(value);
+				return true;
+			} else if (attributeName.equals("timeUnits")) {
+				setTimeUnits(value);
+				return true;
+			} else if (attributeName.equals("volumeUnits")) {
+				setVolumeUnits(value);
+				return true;
+			} else if (attributeName.equals("areaUnits")) {
+				setAreaUnits(value);
+				return true;
+			} else if (attributeName.equals("lengthUnits")) {
+				setLengthUnits(value);
+				return true;
+			} else if (attributeName.equals("extentUnits")) {
+				setExtentUnits(value);
+				return true;
+			} else if (attributeName.equals("conversionFactor")) {
+				setConversionFactor(value);
+				return true;
 			}
 		}
 		return isAttributeRead;
@@ -2988,6 +2992,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param areaUnitsID
 	 */
 	public void setAreaUnits(String areaUnitsID) {
+		if (getLevel() < 3) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.areaUnits, this);
+		}
 		String oldAreaUnitsID = this.areaUnitsID;
 		this.areaUnitsID = areaUnitsID;
 		firePropertyChange(SBaseChangedEvent.areaUnits, oldAreaUnitsID, areaUnitsID);
@@ -3036,6 +3043,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param extentUnitsID
 	 */
 	public void setExtentUnits(String extentUnitsID) {
+		if (getLevel() < 3) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.extentUnits, this);
+		}
 		String oldExtentUnits = this.extentUnitsID;
 		this.extentUnitsID = extentUnitsID;
 		firePropertyChange(SBaseChangedEvent.extentUnits, oldExtentUnits, extentUnitsID);
@@ -3057,6 +3067,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param lengthUnitsID
 	 */
 	public void setLengthUnits(String lengthUnitsID) {
+		if (getLevel() < 3) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.lengthUnits, this);
+		}
 		String oldLengthUnits = this.lengthUnitsID;
 		this.lengthUnitsID = lengthUnitsID;
 		firePropertyChange(SBaseChangedEvent.lengthUnits, oldLengthUnits, lengthUnitsID);
@@ -3290,6 +3303,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param substanceUnitsID
 	 */
 	public void setSubstanceUnits(String substanceUnitsID) {
+		if (getLevel() < 3) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.substanceUnits, this);
+		}
 		String oldSubstanceUnitsID = this.substanceUnitsID;
 		this.substanceUnitsID = substanceUnitsID;
 		firePropertyChange(SBaseChangedEvent.substanceUnits,
@@ -3312,6 +3328,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param timeUnitsID
 	 */
 	public void setTimeUnits(String timeUnitsID) {
+		if (getLevel() < 3) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.timeUnits, this);
+		}
 		String oldTimeUnitsID = this.timeUnitsID;
 		this.timeUnitsID = timeUnitsID;
 		firePropertyChange(SBaseChangedEvent.timeUnits, oldTimeUnitsID,
@@ -3334,6 +3353,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param volumeUnitsID
 	 */
 	public void setVolumeUnits(String volumeUnitsID) {
+		if (getLevel() < 3) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.volumeUnits, this);
+		}
 		String oldVolumeUnitsID = this.volumeUnitsID;
 		this.volumeUnitsID = volumeUnitsID;
 		firePropertyChange(SBaseChangedEvent.volumeUnits, oldVolumeUnitsID,

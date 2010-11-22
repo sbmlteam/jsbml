@@ -383,20 +383,17 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 		if (!isAttributeRead) {
-			if (attributeName.equals("variable") && getLevel() > 1) {
-				this.setVariable(value);
+			if ((getLevel() == 1)
+					&& (attributeName.equals("compartment")
+							|| attributeName.equals("name") || attributeName
+							.equals("specie"))) {
+				setVariable(value);
 				return true;
-			} else if (attributeName.equals("specie") && getLevel() == 1) {
-				this.setVariable(value);
+			} else if ((getLevel() == 1) && attributeName.equals("units")) {
+				setUnits(value);
 				return true;
-			} else if (attributeName.equals("compartment") && getLevel() == 1) {
-				this.setVariable(value);
-				return true;
-			} else if (attributeName.equals("name") && getLevel() == 1) {
-				this.setVariable(value);
-				return true;
-			} else if (attributeName.equals("units") && getLevel() == 1) {
-				this.setUnits(value);
+			} else if ((getLevel() > 1) && attributeName.equals("variable")) {
+				setVariable(value);
 				return true;
 			}
 		}
@@ -417,6 +414,9 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	 */
 	@Deprecated
 	public void setUnits(String unitsID) {
+		if (getLevel() != 1) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.units, this);
+		}
 		if (isSetVariable() && !isParameter()) {
 			throw new IllegalArgumentException(String.format(
 					"Cannot set unit %s for a variable other than parameter", unitsID));
