@@ -30,7 +30,9 @@ package org.sbml.jsbml.util.compilers;
 
 import java.io.StringWriter;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -39,6 +41,7 @@ import org.codehaus.staxmate.SMOutputFactory;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.util.StringTools;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
 
@@ -61,7 +64,8 @@ public class MathMLXMLStreamCompiler {
 	 * When java read 0.000166, it transforms it to 1.66E-4.
 	 * This DecimalFormat will wrote the number as it was read.
 	 */
-	DecimalFormat realFormat = new DecimalFormat("#########################.#########################");
+	DecimalFormat realFormat = new DecimalFormat(StringTools.REAL_FORMAT,
+			new DecimalFormatSymbols(Locale.ENGLISH));
 
 	/**
 	 * 
@@ -747,7 +751,7 @@ public class MathMLXMLStreamCompiler {
 		System.out.println("Test Double formatting ");
 		
 		// NumberFormat format = DecimalFormat.getInstance();
-		DecimalFormat format = new DecimalFormat("#########################.#########################");
+		DecimalFormat format = new DecimalFormat(StringTools.REAL_FORMAT, new DecimalFormatSymbols(Locale.ENGLISH));
 		
 		System.out.println("x = " + format.format(x));
 		System.out.println("y = " + format.format(y));

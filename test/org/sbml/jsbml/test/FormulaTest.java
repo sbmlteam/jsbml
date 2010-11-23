@@ -39,7 +39,7 @@ import org.sbml.jsbml.text.parser.ParseException;
 public class FormulaTest {
 
 	public FormulaTest() throws ParseException, SBMLException {
-		String formulae[] = { "7 * acos(53) + 7/8",
+		String formulae[] = { "7 * 4/-.5E-5/5*10", "7 * acos(53) + 7/8",
 				"-3 * (-5) + ((a + b)/(c + 3)+5)",
 				"-3E-5 + -3*-5+(a+b)/(c+3)+5 " };
 

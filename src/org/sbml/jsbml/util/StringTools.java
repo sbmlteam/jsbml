@@ -31,6 +31,7 @@ package org.sbml.jsbml.util;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -58,13 +59,15 @@ public class StringTools {
 	/**
 	 * 
 	 */
-	public static final DecimalFormat SCIENTIFIC_FORMAT = new DecimalFormat(
-			"########0.#########E0");
+	public static final String SCIENTIFIC_FORMAT = "########0.#########E0";
 	/**
 	 * 
 	 */
-	public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat(
-			"#############0.##############");
+	public static final String DECIMAL_FORMAT = "#############0.##############";
+	/**
+	 * 
+	 */
+	public static final String REAL_FORMAT = "#########################.#########################";
 
 	/**
 	 * Takes the given StringBuffer as input and appends every further Object to
@@ -231,13 +234,27 @@ public class StringTools {
 	 * @return
 	 */
 	public static final String toString(double value) {
+		return toString(Locale.getDefault(), value);
+	}
+	
+	/**
+	 * Allows for {@link Locale}-dependent number formatting.
+	 * @param locale
+	 * @param value
+	 * @return
+	 */
+	public static final String toString(Locale locale, double value) {
 		if (((int) value) - value == 0) {
 			return String.format("%d", Integer.valueOf((int) value));
 		}
-		if ((value < 1E-5) || (1E5 < value)) {
-			return SCIENTIFIC_FORMAT.format(value);
+		if ((Math.abs(value) < 1E-5) || (1E5 < Math.abs(value))) {
+			DecimalFormat df = new DecimalFormat(SCIENTIFIC_FORMAT,
+					new DecimalFormatSymbols(locale));
+			return df.format(value);
 		}
-		return DECIMAL_FORMAT.format(value);
+		DecimalFormat df = new DecimalFormat(DECIMAL_FORMAT,
+				new DecimalFormatSymbols(locale));
+		return df.format(value);
 	}
 
 	/**
