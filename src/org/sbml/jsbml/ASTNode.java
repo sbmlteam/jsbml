@@ -44,6 +44,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.util.NotImplementedException;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.LaTeX;
@@ -352,51 +353,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		 * 
 		 */
 		UNKNOWN;
-
-		
-		/**
-		 * Returns the {@link Type} corresponding to the given {@link String}.
-		 * 
-		 * @param type
-		 *            e.g., sin, asin, exp, and so on. See the specification of
-		 *            SBML Level 1 Version 1 or 2.
-		 * @return The type corresponding to the given {@link String} or null if
-		 *         no matching can be found.
-		 */
-		public static Type getFunctionTypeFor(String type) {
-			if (type.equalsIgnoreCase("abs")) {
-				return FUNCTION_ABS;
-			} else if (type.equalsIgnoreCase("acos")) {
-				return FUNCTION_ARCCOS;
-			} else if (type.equalsIgnoreCase("asin")) {
-				return FUNCTION_ARCSIN;
-			} else if (type.equalsIgnoreCase("atan")) {
-				return FUNCTION_ARCTAN;
-			} else if (type.equalsIgnoreCase("ceil")) {
-				return FUNCTION_CEILING;
-			} else if (type.equalsIgnoreCase("cos")) {
-				return FUNCTION_COS;
-			} else if (type.equalsIgnoreCase("exp")) {
-				return FUNCTION_EXP;
-			} else if (type.equalsIgnoreCase("floor")) {
-				return FUNCTION_FLOOR;
-			} else if (type.equalsIgnoreCase("log")) {
-				return FUNCTION_LOG;
-			} else if (type.equalsIgnoreCase("log10")) {
-				return FUNCTION_LOG;
-			} else if (type.equalsIgnoreCase("pow")) {
-				return FUNCTION_POWER;
-			} else if (type.equalsIgnoreCase("sqr")) {
-				return FUNCTION_POWER;
-			} else if (type.equalsIgnoreCase("sqrt")) {
-				return FUNCTION_ROOT;
-			} else if (type.equalsIgnoreCase("sin")) {
-				return FUNCTION_SIN;
-			} else if (type.equalsIgnoreCase("tan")) {
-				return FUNCTION_TAN;
-			}
-			return UNKNOWN;
-		}
 		
 		/**
 		 * Returns the {@link Type} corresponding to the given {@link String}.
@@ -581,145 +537,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 			// TODO : possible annotations : semantics, annotation, annotation-xml
 
 			return UNKNOWN;
-		}
-
-		/**
-		 * 
-		 * @return
-		 */
-		public String getName() {
-			switch (this) {
-			case CONSTANT_E:
-				return "";
-			case CONSTANT_FALSE:
-				return "false";
-			case CONSTANT_PI:
-				return "";
-			case CONSTANT_TRUE:
-				return "true";
-			case DIVIDE:
-				return "/";
-			case FUNCTION:
-				return "";
-			case FUNCTION_ABS:
-				return "abs";
-			case FUNCTION_ARCCOS:
-				return "acos";
-			case FUNCTION_ARCCOSH:
-				return "acosh";
-			case FUNCTION_ARCCOT:
-				return "acot";
-			case FUNCTION_ARCCOTH:
-				return "acoth";
-			case FUNCTION_ARCCSC:
-				return "asc";
-			case FUNCTION_ARCCSCH:
-				return "";
-			case FUNCTION_ARCSEC:
-				return "";
-			case FUNCTION_ARCSECH:
-				return "";
-			case FUNCTION_ARCSIN:
-				return "";
-			case FUNCTION_ARCSINH:
-				return "";
-			case FUNCTION_ARCTAN:
-				return "";
-			case FUNCTION_ARCTANH:
-				return "";
-			case FUNCTION_CEILING:
-				return "";
-			case FUNCTION_COS:
-				return "";
-			case FUNCTION_COSH:
-				return "";
-			case FUNCTION_COT:
-				return "";
-			case FUNCTION_COTH:
-				return "";
-			case FUNCTION_CSC:
-				return "";
-			case FUNCTION_CSCH:
-				return "";
-			case FUNCTION_DELAY:
-				return "";
-			case FUNCTION_EXP:
-				return "";
-			case FUNCTION_FACTORIAL:
-				return "";
-			case FUNCTION_FLOOR:
-				return "";
-			case FUNCTION_LN:
-				return "";
-			case FUNCTION_LOG:
-				return "";
-			case FUNCTION_PIECEWISE:
-				return "";
-			case FUNCTION_POWER:
-				return "";
-			case FUNCTION_ROOT:
-				return "";
-			case FUNCTION_SEC:
-				return "";
-			case FUNCTION_SECH:
-				return "";
-			case FUNCTION_SIN:
-				return "";
-			case FUNCTION_SINH:
-				return "";
-			case FUNCTION_TAN:
-				return "";
-			case FUNCTION_TANH:
-				return "";
-			case INTEGER:
-				return "";
-			case LAMBDA:
-				return "";
-			case LOGICAL_AND:
-				return "";
-			case LOGICAL_NOT:
-				return "";
-			case LOGICAL_OR:
-				return "";
-			case LOGICAL_XOR:
-				return "";
-			case MINUS:
-				return "";
-			case NAME:
-				return "";
-			case NAME_AVOGADRO:
-				return "";
-			case NAME_TIME:
-				return "";
-			case PLUS:
-				return "";
-			case POWER:
-				return "";
-			case RATIONAL:
-				return "";
-			case REAL:
-				return "";
-			case REAL_E:
-				return "";
-			case RELATIONAL_EQ:
-				return "";
-			case RELATIONAL_GEQ:
-				return "";
-			case RELATIONAL_GT:
-				return "";
-			case RELATIONAL_LEQ:
-				return "";
-			case RELATIONAL_LT:
-				return "";
-			case RELATIONAL_NEQ:
-				return "";
-			case TIMES:
-				return "";
-			case UNKNOWN:
-				return "";
-			default:
-				return null;
-			}
 		}
 
 		/**
@@ -1120,12 +937,14 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 */
 	public static ASTNode readMathMLFromString(String xml) {
 		// TODO: implement!
-		// MathMLStaxParser parser = new MathMLStaxParser();
-		// parser.processStartElement(elementName, prefix, hasAttributes,
-		// hasNamespaces, contextObject)
-
-		System.err.println("not yet implemented");
-		return null;
+//		 MathMLStaxParser parser = new MathMLStaxParser();
+//		 Object contextObject = null;
+//		 boolean hasAttributes = false;
+//		 boolean hasNamespaces = false;
+//		 String prefix = "";
+//		 parser.processStartElement(elementName, prefix, hasAttributes,
+//		 hasNamespaces, contextObject);
+		throw new NotImplementedException();
 	}
 
 	/**

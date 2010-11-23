@@ -29,9 +29,12 @@
  */
 package org.sbml.jsbml.util.compilers;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.IllegalFormatException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 
 import org.sbml.jsbml.ASTNode;
@@ -484,8 +487,10 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 		if (exponent == 0) {
 			return new ASTNodeValue(mantissa, this);
 		}
-		return new ASTNodeValue(concat(mantissa, "E", exponent).toString(),
-				this);
+		return new ASTNodeValue(concat(
+				(new DecimalFormat(StringTools.REAL_FORMAT,
+						new DecimalFormatSymbols(Locale.ENGLISH)))
+						.format(mantissa), "E", exponent).toString(), this);
 	}
 
 	/*
@@ -495,7 +500,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * java.lang.String)
 	 */
 	public ASTNodeValue compile(double real, String units) {
-		return new ASTNodeValue(toString(real), this);
+		return new ASTNodeValue(toString(Locale.ENGLISH, real), this);
 	}
 
 	/*
