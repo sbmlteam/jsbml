@@ -105,7 +105,9 @@ public class StringTools {
 	public static final StringBuffer concat(Object... buffers) {
 		StringBuffer res = new StringBuffer();
 		for (Object buffer : buffers) {
-			res.append(buffer.toString());
+			if (buffer != null) {
+				res.append(buffer.toString());
+			}
 		}
 		return res;
 	}
