@@ -898,9 +898,9 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 			if (!first) {
 				value.append(operator);
 			} else {
-				first = true;
+				first = false;
 			}
-			if (!node.isUnary()) {
+			if (node.getNumChildren()>0) {
 				append(value, Character.valueOf('('), node.compile(this)
 						.toString(), Character.valueOf(')'));
 			} else {

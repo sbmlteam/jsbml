@@ -39,9 +39,19 @@ public interface FormulaParserConstants {
   /** RegularExpression Id. */
   int COMPARISON = 16;
   /** RegularExpression Id. */
-  int STRING = 17;
+  int BOOLEAN_LOGIC = 17;
   /** RegularExpression Id. */
-  int EOL = 18;
+  int AND = 18;
+  /** RegularExpression Id. */
+  int OR = 19;
+  /** RegularExpression Id. */
+  int XOR = 20;
+  /** RegularExpression Id. */
+  int NOT = 21;
+  /** RegularExpression Id. */
+  int STRING = 22;
+  /** RegularExpression Id. */
+  int EOL = 23;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -65,6 +75,11 @@ public interface FormulaParserConstants {
     "\"(\"",
     "\")\"",
     "<COMPARISON>",
+    "<BOOLEAN_LOGIC>",
+    "<AND>",
+    "<OR>",
+    "<XOR>",
+    "<NOT>",
     "<STRING>",
     "<EOL>",
   };

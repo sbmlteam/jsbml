@@ -136,6 +136,7 @@ public class FormulaParser implements FormulaParserConstants {
   ASTNode node = null;
   Token t;
   String s;
+  Type type = null;
     leftChild = TermLvl2();
     label_3:
     while (true) {
@@ -143,6 +144,7 @@ public class FormulaParser implements FormulaParserConstants {
       case PLUS:
       case MINUS:
       case COMPARISON:
+      case BOOLEAN_LOGIC:
         ;
         break;
       default:
@@ -166,11 +168,31 @@ public class FormulaParser implements FormulaParserConstants {
       node.addChild(rightChild);
       leftChild = node;
         break;
+      case BOOLEAN_LOGIC:
+        t = jj_consume_token(BOOLEAN_LOGIC);
+        rightChild = TermLvl2();
+      s = t.image;
+      if (s.equalsIgnoreCase("or"))
+      {
+        type = ASTNode.Type.LOGICAL_OR;
+      }
+      else if (s.equalsIgnoreCase("and"))
+      {
+        type = ASTNode.Type.LOGICAL_AND;
+      }
+      else if (s.equalsIgnoreCase("xor"))
+      {
+        type = ASTNode.Type.LOGICAL_XOR;
+      }
+      node = new ASTNode(type);
+      node.addChild(leftChild);
+      node.addChild(rightChild);
+      leftChild = node;
+        break;
       case COMPARISON:
         t = jj_consume_token(COMPARISON);
         rightChild = TermLvl2();
       s = t.image;
-      Type type = null;
       if (s.equalsIgnoreCase("<"))
       {
         type = ASTNode.Type.RELATIONAL_LT;
@@ -305,6 +327,12 @@ public class FormulaParser implements FormulaParserConstants {
       node.addChild(new ASTNode(2));
       node.addChild(child);
     }
+    else if (s.equalsIgnoreCase("not"))
+    {
+      checkSize(arguments, 0);
+      node.addChild(child);
+      type = Type.LOGICAL_NOT;
+    }
     else
     {
       checkSize(arguments, 0);
@@ -338,9 +366,48 @@ public class FormulaParser implements FormulaParserConstants {
     uiMinus.addChild(node);
     {if (true) return uiMinus;}
           break;
+        case NOT:
+          jj_consume_token(NOT);
+          node = TermLvl1();
+    ASTNode not = new ASTNode(Type.LOGICAL_NOT);
+    not.addChild(node);
+    {if (true) return not;}
+          break;
         case STRING:
           t = jj_consume_token(STRING);
     s = t.image;
+    if (s.equalsIgnoreCase("true"))
+    {
+      node = new ASTNode(Type.CONSTANT_TRUE);
+    }
+    else if (s.equalsIgnoreCase("false"))
+    {
+      node = new ASTNode(Type.CONSTANT_FALSE);
+    }
+    else if (s.equalsIgnoreCase("pi"))
+    {
+      node = new ASTNode(Type.CONSTANT_PI);
+    }
+    else if (s.equalsIgnoreCase("avogadro"))
+    {
+      node = new ASTNode(Type.NAME_AVOGADRO);
+    }
+    else if (s.equalsIgnoreCase("time"))
+    {
+      node = new ASTNode(Type.NAME_TIME);
+    }
+    else if (s.equalsIgnoreCase("exponentiale"))
+    {
+      node = new ASTNode(Type.CONSTANT_E);
+    }
+    else if (s.equalsIgnoreCase("-infinity"))
+    {
+      node = new ASTNode(Double.NEGATIVE_INFINITY);
+    }
+    else if (s.equalsIgnoreCase("infinity"))
+    {
+      node = new ASTNode(Double.POSITIVE_INFINITY);
+    }
     node = new ASTNode(s);
     {if (true) return node;}
           break;
@@ -384,7 +451,7 @@ public class FormulaParser implements FormulaParserConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x40001,0x100,0x1c00,0x1c00,0x10280,0x10280,0x40,0x38,0x24200,};
+      jj_la1_0 = new int[] {0x800001,0x100,0x1c00,0x1c00,0x30280,0x30280,0x40,0x38,0x604200,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[1];
   private boolean jj_rescan = false;
@@ -570,7 +637,7 @@ public class FormulaParser implements FormulaParserConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[19];
+    boolean[] la1tokens = new boolean[24];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -584,7 +651,7 @@ public class FormulaParser implements FormulaParserConstants {
         }
       }
     }
-    for (int i = 0; i < 19; i++) {
+    for (int i = 0; i < 24; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

@@ -39,10 +39,36 @@ import org.sbml.jsbml.text.parser.ParseException;
 public class FormulaTest {
 
 	public FormulaTest() throws ParseException, SBMLException {
-		String formulae[] = { "7 * 4/-.5E-5/5*10", "7 * acos(53) + 7/8",
-				"-3 * (-5) + ((a + b)/(c + 3)+5)",
-				"-3E-5 + -3*-5+(a+b)/(c+3)+5 " };
+		String formulae[] = {
+//		"7 * acos(53) + 7/8",
+//		"-3 * (-5) + ((a + b)/(c + 3)+5)",
+//		 "-3 * (-5)",
+//		"-3E-5 + -3*-5+(a+b)/(c+3)+5",
+//		 "23 + 52^2 - 3",
+		 //"f(a, b, c, d)",
+//		 "a - log10(5)^11",
+//		 "pow(3,5)",
+//		 "pow(3 + 5,5)",
+//		 "23 + (52^2 - 3 + 5)/7 - 45",
+//		"(y > x) == true",
+//		"3 <= 5",
+//		"3 == 5",
+		"a xor b",
+		"not c",
+		"not(c)",
+//		 "--3.5e7",
+//		 "10+ --3.5e7 *5",
+//		 "5/4 + 4/5*10",
+//		"10 + -0.3E-5*10",
+//		 "-7.8",
+		// "-infinity",
+//		 "ceil(-2.9) + 6 * -7.8",
+//		 "Vf*(A*B - P*Q/Keq)/(Kma + A*(1 + P/Kip) + (Vf/(Vr*Keq)) * Kmq*P + Kmp*Q + P*Q)",
+//		 "a*(b+c)*d/(e+3)*5",
+//		"(a * (b + c) * d)/(e +  3) *   5",
+		"1"};
 
+	
 		for (String formula : formulae) {
 			ASTNode testNode = ASTNode.parseFormula(formula);
 
