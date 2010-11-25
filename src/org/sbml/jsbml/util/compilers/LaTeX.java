@@ -72,7 +72,8 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	/**
 	 * Surrounded by new line symbols. The end of a description environment.
 	 */
-	public static final String descriptionEnd = "\\end{description}" + newLine();
+	public static final String descriptionEnd = "\\end{description}"
+			+ newLine();
 
 	/**
 	 * Surrounded by new line symbols. Begin equation. This type of equation
@@ -80,7 +81,8 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * automatic line breaks (LaTeX will compute the optimal place for line
 	 * breaks). Unfortunately, this does not work for very long denominators.
 	 */
-	public static final String eqBegin = newLine() + "\\begin{dmath}" + newLine(); // equation
+	public static final String eqBegin = newLine() + "\\begin{dmath}"
+			+ newLine(); // equation
 
 	/**
 	 * End equation; cf. eqBegin. Surrounded by new line symbols.
@@ -699,7 +701,8 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		// TODO: deal with units.
 		return new ASTNodeValue(concat(
 				mathrm(maskSpecialChars(delayName)),
-				brackets(concat(x.compile(this).toString(), ", ", delay.compile(this).toString()))).toString(), this);
+				brackets(concat(x.compile(this).toString(), ", ", delay
+						.compile(this).toString()))).toString(), this);
 	}
 
 	/**
@@ -1124,11 +1127,11 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		StringBuffer value = new StringBuffer();
 		int i = 0;
 		for (ASTNode v : values) {
-			if (!v.isUnary()) {
+			if (v.getNumChildren()>0) {
 				value.append(leftBrace);
 			}
 			value.append(v.compile(this).toString());
-			if (!v.isUnary()) {
+			if (v.getNumChildren()>0) {
 				value.append(rightBrace);
 			}
 			if (i < values.size() - 1) {
@@ -1300,8 +1303,8 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	public ASTNodeValue not(ASTNode node) throws SBMLException {
 		return new ASTNodeValue(concat(
 				"\\neg ",
-				node.isUnary() ? node.compile(this) : brackets(node
-						.compile(this))).toString(), this);
+				(node.getNumChildren() == 0) ? node.compile(this)
+						: brackets(node.compile(this))).toString(), this);
 	}
 
 	/*
@@ -1371,8 +1374,8 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 			throws SBMLException {
 		StringBuilder value = new StringBuilder();
 		value.append(base.compile(this));
-		if (!(base.getNumChildren() < 2)) {			
-			value = brackets(value);			
+		if (!(base.getNumChildren() < 2)) {
+			value = brackets(value);
 		}
 		value.append('^');
 		value.append('{');
@@ -1598,12 +1601,13 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		StringBuilder v = new StringBuilder(values.get(0).compile(this)
 				.toString());
 		if (values.get(0).isSum()
-				|| (values.get(0).isDifference() && !values.get(0).isUMinus())
-				|| (values.get(0).isNumber() && !(values.get(0).getReal() < 0))) {
-			v = brackets(v);		
-			
+				|| (values.get(0).isDifference() && !values.get(0).isUMinus())) {
+			// || (values.get(0).isNumber() && !(values.get(0).getReal() < 0)))
+			// {
+			v = brackets(v);
+
 		}
-		
+
 		for (int i = 1; i < values.size(); i++) {
 			v.append("\\cdot");
 			if ((values.get(i).isDifference() || values.get(i).isSum())
@@ -1627,8 +1631,8 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	public ASTNodeValue uMinus(ASTNode value) throws SBMLException {
 		StringBuffer v = new StringBuffer();
 		v.append('-');
-		v.append(value.isSum() || value.isDifference() ? brackets(value.compile(this).toString())
-				: value.compile(this).toString());
+		v.append(value.isSum() || value.isDifference() ? brackets(value
+				.compile(this).toString()) : value.compile(this).toString());
 		return new ASTNodeValue(v.toString(), this);
 	}
 
