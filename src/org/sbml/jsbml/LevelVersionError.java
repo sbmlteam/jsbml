@@ -31,6 +31,8 @@ package org.sbml.jsbml;
 import org.sbml.jsbml.util.Message;
 
 /**
+ * 
+ * 
  * @author Andreas Dr&auml;ger
  * @date 2010-11-21
  */
@@ -125,5 +127,13 @@ public class LevelVersionError extends SBMLError {
 		}
 		setMessage(message);
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBMLError#toString()
+	 */
+	public String toString() {
+		return getMessage();
+	}
+
 
 }
