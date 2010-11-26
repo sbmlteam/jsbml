@@ -58,9 +58,52 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UnitDefinition;
 
 
+/**
+ * Generates a sub model containing the elements passed as argument and all
+ * the necessary dependencies.
+ * 
+ * <p> You do not need to fill all of the parameter arrays. Here is how the sub model generation works :
+ * <li>If you give some compartment ids, all the species inside these compartment are included.
+ * <li>If you give some species ids (and all added species from the compartments), all the reactions where one of these species is present are included
+ * <li>All the species involved in the reactions given as parameter or added automatically from the given species are included.
+ * <li>All compartments where one of the included species is present is included.
+ * <li>All needed UnitDefinitions, SpeciesTypes and CompartmentTypes are included.
+ * <li>All the rules and events passed as parameter along the one needed are included.
+ * <li>All the global parameter are added automatically at the moment, without checking if there are used or not.
+ * <li>All the functionDefinitions used in the included mathML are added automatically.
+ *
+ * 
+ * @author rodrigue
+ * @author chenli
+ *
+ */
 public class SubModel {
 
 	
+    /**
+     * Generates a sub model containing the elements passed as argument and all
+     * the necessary dependencies.
+     * 
+     * <p> You do not need to fill all of the parameter arrays. Here is how the sub model generation works :
+     * <li>If you give some compartment ids, all the species inside these compartment are included.
+     * <li>If you give some species ids (and all added species from the compartments), all the reactions where one of these species is present are included
+     * <li>All the species involved in the reactions given as parameter or added automatically from the given species are included.
+     * <li>All compartments where one of the included species is present is included.
+     * <li>All needed UnitDefinitions, SpeciesTypes and CompartmentTypes are included.
+     * <li>All the rules and events passed as parameter along the one needed are included.
+     * <li>All the global parameter are added automatically at the moment, without checking if there are used or not.
+     * <li>All the functionDefinitions used in the included mathML are added automatically.
+     *  
+     * <p>
+     * @param model the SBML model where we want to extract a sub-model.
+     * @param compartmentsIds the list of compartment to keep
+     * @param speciesIds the list of species to keep
+     * @param reactsIds the list of reactions to keep
+     * @param rulesIds the list of rules to keep
+     * @param eventsIds the list of events to keep
+     * @return a sub model containing the elements passed as argument and all
+     * the necessary dependencies.
+     */
     @SuppressWarnings("deprecation")
 	public static SBMLDocument generateSubModel(
             Model model,
@@ -68,9 +111,8 @@ public class SubModel {
             String[] speciesIds,
             String[] reactsIds,
             String[] rulesIds,
-            String[] eventsIds,
-            int Level,
-            int version) {
+            String[] eventsIds) 
+    {
 
 
     	// TODO : need to be sure that all needed elements have a metaid, likes rules, events, ...
@@ -107,6 +149,8 @@ public class SubModel {
         	allFunctionsIdSet.add(functionDefinition.getId());
         }
 
+        // TODO : the added rules or events can contain some species, compartment or speciesReferences (for L3) that could
+        // not be present in the list of included elements !!!
 
         //
         // annotations
