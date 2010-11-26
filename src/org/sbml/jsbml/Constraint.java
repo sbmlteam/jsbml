@@ -30,12 +30,15 @@
 
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.xml.XMLNode;
+
 
 /**
  * Represents the constraint XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * @author rodrigue
  */
 public class Constraint extends AbstractMathContainer {
 
@@ -47,26 +50,19 @@ public class Constraint extends AbstractMathContainer {
 	/**
 	 * Represents the subnode message of a constraint element.
 	 */
-	private String message;
+	private XMLNode message;
 
 	/**
-	 * contains the message of this Constraint as a StringBuffer.
-	 */
-	private StringBuffer messageBuffer;
-
-	/**
-	 * Creates a Constraint instance. By default, the message and messageBuffer
-	 * are null.
+	 * Creates a Constraint instance. By default, the message is null.
 	 */
 	public Constraint() {
 		super();
 		this.message = null;
-		this.setMessageBuffer(null);
 	}
 
 	/**
 	 * Creates a Constraint instance from an ASTNode, a level and a version. By
-	 * default, the message and messageBuffer are null.
+	 * default, the message is null.
 	 * 
 	 * @param math
 	 * @param level
@@ -75,7 +71,6 @@ public class Constraint extends AbstractMathContainer {
 	public Constraint(ASTNode math, int level, int version) {
 		super(math, level, version);
 		message = null;
-		this.messageBuffer = null;
 	}
 
 	/**
@@ -86,16 +81,13 @@ public class Constraint extends AbstractMathContainer {
 	public Constraint(Constraint sb) {
 		super(sb);
 		if (sb.isSetMessage()) {
-			this.message = new String(sb.getMessage());
-		}
-		if (sb.isSetMessageBuffer()) {
-			this.messageBuffer = new StringBuffer(sb.getMessageBuffer());
+			this.message = new XMLNode(sb.getMessage());
 		}
 	}
 
 	/**
 	 * Creates a Constraint instance from a level and a version. By default, the
-	 * message and messageBuffer are null.
+	 * message is null.
 	 * 
 	 * @param level
 	 * @param version
@@ -103,7 +95,6 @@ public class Constraint extends AbstractMathContainer {
 	public Constraint(int level, int version) {
 		super(level, version);
 		this.message = null;
-		this.messageBuffer = null;
 	}
 
 	/*
@@ -128,29 +119,17 @@ public class Constraint extends AbstractMathContainer {
 			if (equal && isSetMessage()) {
 				equal &= c.getMessage().equals(getMessage());
 			}
-			equal &= c.isSetMessageBuffer() == isSetMessageBuffer();
-			if (equal && isSetMessageBuffer()) {
-				equal &= c.getMessageBuffer().equals(getMessageBuffer());
-			}
 			return equal;
 		}
 		return false;
 	}
 
 	/**
-	 * @return the message of this Constraint. Return an empty String if the
+	 * @return the message of this Constraint. Return null if the
 	 *         message is not set.
 	 */
-	public String getMessage() {
-		return isSetMessage() ? message : "";
-	}
-
-	/**
-	 * 
-	 * @return ths messageBuffer of this Constraint.
-	 */
-	public StringBuffer getMessageBuffer() {
-		return messageBuffer;
+	public XMLNode getMessage() {
+		return isSetMessage() ? message : null;
 	}
 
 	/**
@@ -158,7 +137,7 @@ public class Constraint extends AbstractMathContainer {
 	 * @return
 	 */
 	public String getMessageString() {
-		return message;
+		return message.toXMLString();
 	}
 
 	/**
@@ -170,11 +149,15 @@ public class Constraint extends AbstractMathContainer {
 	}
 
 	/**
+	 * Sets the message of this Constraint to 'message'.
 	 * 
-	 * @return true if the messageBuffer of this Constraint is not null.
+	 * @param message
+	 *            : the message to set
 	 */
-	public boolean isSetMessageBuffer() {
-		return this.messageBuffer != null;
+	public void setMessage(XMLNode message) {
+		XMLNode oldMessage = this.message;
+		this.message = message;
+		firePropertyChange(SBaseChangedEvent.message, oldMessage, message);
 	}
 
 	/**
@@ -184,36 +167,20 @@ public class Constraint extends AbstractMathContainer {
 	 *            : the message to set
 	 */
 	public void setMessage(String message) {
-		String oldMessage = this.message;
-		this.message = message;
+		XMLNode oldMessage = this.message;
+		
+		// TODO : this.message = message;
+		
 		firePropertyChange(SBaseChangedEvent.message, oldMessage, message);
-	}
-
-	/**
-	 * Sets the messageBuffer of this Constraint to 'messageBuffer'.
-	 * 
-	 * @param messageBuffer
-	 */
-	public void setMessageBuffer(StringBuffer messageBuffer) {
-		StringBuffer oldMessage = this.messageBuffer;
-		this.messageBuffer = messageBuffer;
-		firePropertyChange(SBaseChangedEvent.messageBuffer, oldMessage, messageBuffer);
 	}
 
 	/**
 	 * Sets the message of this {@link Constraint} to null.
 	 */
 	public void unsetMessage() {
-		setMessage(null);
+		setMessage((XMLNode) null);
 	}
 
-	/**
-	 * sets the messageBuffer of this Constraint to null.
-	 */
-	public void unsetMessageBuffer() {
-		setMessageBuffer(null);
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()

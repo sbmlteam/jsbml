@@ -44,6 +44,7 @@ import org.sbml.jsbml.xml.stax.ReadingParser;
  * which have this namespace URI : http://biomodels.net/biology-qualifiers/.
  * 
  * @author marine
+ * @author rodrigue
  * 
  */
 public class BiologicalQualifierParser implements ReadingParser {
@@ -78,13 +79,15 @@ public class BiologicalQualifierParser implements ReadingParser {
 	 * Initialises the biologicalQualifierMap of this parser.
 	 */
 	private void initialisesBiologicalQualifierMap() {
-		// TODO maybe loading from a file would be better.
+		// TODO : loading from a file would be better.
+		
+		// TODO : We need to try to make it work with qualifier that we do not know !!!
+		
 		biologicalQualifierMap.put("encodes", Qualifier.BQB_ENCODES);
 		biologicalQualifierMap.put("hasPart", Qualifier.BQB_HAS_PART);
 		biologicalQualifierMap.put("hasVersion", Qualifier.BQB_HAS_VERSION);
 		biologicalQualifierMap.put("is", Qualifier.BQB_IS);
-		biologicalQualifierMap.put("isDescribedBy",
-				Qualifier.BQB_IS_DESCRIBED_BY);
+		biologicalQualifierMap.put("isDescribedBy", Qualifier.BQB_IS_DESCRIBED_BY);
 		biologicalQualifierMap.put("isEncodedBy", Qualifier.BQB_IS_ENCODED_BY);
 		biologicalQualifierMap.put("isHomologTo", Qualifier.BQB_IS_HOMOLOG_TO);
 		biologicalQualifierMap.put("isPartOf", Qualifier.BQB_IS_PART_OF);
@@ -103,7 +106,7 @@ public class BiologicalQualifierParser implements ReadingParser {
 			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) {
 		// TODO : a node with a biological qualifier can't have attributes,
-		// there is a SBML syntax error, throw an exception?
+		// there is a SBML syntax error, log the error ?
 
 	}
 
@@ -116,7 +119,7 @@ public class BiologicalQualifierParser implements ReadingParser {
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		// TODO : a node with a biological qualifier can't have text, there is a
-		// SBML syntax error, throw an exception?
+		// SBML syntax error, log the error ?
 	}
 
 	/*
@@ -173,6 +176,7 @@ public class BiologicalQualifierParser implements ReadingParser {
 
 		// A BiologicalQualifierParser can only modify a contextObject which is
 		// an instance of Annotation.
+		// That will probably change in SBML level 3 with the Annotation package
 		if (contextObject instanceof Annotation) {
 			Annotation annotation = (Annotation) contextObject;
 
@@ -192,12 +196,11 @@ public class BiologicalQualifierParser implements ReadingParser {
 				annotation.addCVTerm(cvTerm);
 				return cvTerm;
 			} else {
-				// TODO : SBML syntax error, throw an error?
+				// TODO : SBML syntax error, log an error
 			}
 		} else {
 			// TODO the context object of a biological qualifier node should be
-			// an annotation instance, there is
-			// a SBML syntax error, throw an exception?
+			// an annotation instance, there is a SBML syntax error, log an error ?
 		}
 		return contextObject;
 	}

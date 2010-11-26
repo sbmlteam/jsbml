@@ -446,15 +446,16 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 				value);
 
 		if (!isAttributeRead) {
+			isAttributeRead = true;
+			
 			if (attributeName.equals("stoichiometry")) {
 				setStoichiometry(StringTools.parseSBMLDouble(value));
-				return true;
 			} else if (attributeName.equals("constant")) {
 				setConstant(StringTools.parseSBMLBoolean(value));
-				return true;
 			} else if (attributeName.equals("denominator")) {
 				setDenominator(denominator);
-				return true;
+			} else {
+				isAttributeRead = false;
 			}
 		}
 		return isAttributeRead;

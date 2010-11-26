@@ -48,17 +48,17 @@ defined in SBML.
 
 public class XMLToken {
 
-	protected XMLAttributes attributes;
+	protected XMLAttributes attributes = new XMLAttributes();
 	
-	protected XMLNamespaces namespaces;
+	protected XMLNamespaces namespaces = new XMLNamespaces();
 	
 	 /**
 	  * the XMLTripe (name, uri and prefix) of this XML element.
 	  * 
 	  */
-	protected XMLTriple triple;
+	protected XMLTriple triple = new XMLTriple();
 
-	protected String characters = null;
+	protected String characters = "";
 
 	private long column = 0;
 	private long line = 0; 
@@ -1083,7 +1083,7 @@ public class XMLToken {
 	 * @return the number of namespaces in this list.
 	 */
 	public int getNamespacesLength() {
-		return namespaces.getLength();
+		return namespaces == null ? 0 : namespaces.getLength();
 	}
 
 
@@ -1174,7 +1174,7 @@ public class XMLToken {
 	 * <code>false</code> otherwise.
 	 */
 	public boolean isNamespacesEmpty() {
-		return namespaces.isEmpty();
+		return namespaces == null ? true : namespaces.isEmpty();
 	}
 
 

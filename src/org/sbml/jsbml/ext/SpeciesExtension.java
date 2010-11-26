@@ -214,16 +214,6 @@ public class SpeciesExtension extends Species {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#getNotesBuffer()
-	 */
-	@Override
-	public StringBuffer getNotesBuffer() {
-		return species.getNotesBuffer();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#getNotesString()
 	 */
 	@Override
@@ -662,16 +652,6 @@ public class SpeciesExtension extends Species {
 	@Override
 	public void setNotes(String notes) {
 		species.setNotes(notes);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#setNotesBuffer(java.lang.StringBuffer)
-	 */
-	@Override
-	public void setNotesBuffer(StringBuffer notes) {
-		species.setNotesBuffer(notes);
 	}
 
 	/*

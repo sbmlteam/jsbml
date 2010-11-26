@@ -309,9 +309,6 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	 */
 	@Deprecated
 	public void setFormula(String formula) throws ParseException {
-		if (1 < getLevel()) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.formula, this);
-		}
 		setMath(ASTNode.parseFormula(formula));
 	}
 
@@ -324,7 +321,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		ASTNode oldMath = this.math;
 		this.math = math;
 		ASTNode.setParentSBMLObject(math, this);
-		firePropertyChange(SBaseChangedEvent.math, oldMath, math);
+		// firePropertyChange(SBaseChangedEvent.math, oldMath, math);
 	}
 
 	/*

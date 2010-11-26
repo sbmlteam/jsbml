@@ -2949,7 +2949,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * 
 	 * NotYetImplemented
 	 */
-	// TODO : should we return en exception to tell people that the method is
+	// TODO : should we return an exception to tell people that the method is
 	// not complete ?
 	public void reduceToBinary() {
 		if (getNumChildren() > 2) {
@@ -3214,10 +3214,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 					setValue(Double.POSITIVE_INFINITY);
 				}
 			}
-		} else {
-			System.out
-					.println("ASTNode : setType(String) : !!!!!!!!!!!!!! Not found a proper type for "
-							+ typeStr + " !!!!!!!!!!!!!");
 		}
 	}
 
@@ -3356,7 +3352,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * 
 	 * @param variable
 	 */
-	// TODO : add javadoc
 	public void setVariable(NamedSBaseWithDerivedUnit variable) {
 		type = Type.NAME;
 		this.variable = variable;
@@ -3375,7 +3370,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
-	 * Swap the children of this ASTNode with the children of that ASTNode.
+	 * Swaps the children of this ASTNode with the children of that ASTNode.
 	 * 
 	 * @param that
 	 *            the other node whose children should be used to replace this

@@ -133,7 +133,10 @@ public class Parameter extends Symbol {
 	 */
 	public void initDefaults() {
 		setValue(Double.NaN);
-		setConstant(true);
+
+		if (getLevel() > 1) {
+			setConstant(true);
+		}
 	}
 
 	/*
@@ -147,16 +150,21 @@ public class Parameter extends Symbol {
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-		if (attributeName.equals("value")) {
-			setValue(StringTools.parseSBMLDouble(value));
-			return true;
-		} else if (attributeName.equals("units")) {
-			setUnits(value);
-			return true;
-		} else if (attributeName.equals("constant")) {
-			setConstant(StringTools.parseSBMLBoolean(value));
-			return true;
+		
+		if (!isAttributeRead) {
+			isAttributeRead = true;
+		
+			if (attributeName.equals("value")) {
+				setValue(StringTools.parseSBMLDouble(value));
+			} else if (attributeName.equals("units")) {
+				setUnits(value);
+			} else if (attributeName.equals("constant")) {
+				setConstant(StringTools.parseSBMLBoolean(value));
+			} else {
+				isAttributeRead = false;
+			}
 		}
+
 		return isAttributeRead;
 	}
 

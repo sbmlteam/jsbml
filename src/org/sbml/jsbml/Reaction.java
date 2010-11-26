@@ -824,16 +824,17 @@ public class Reaction extends AbstractNamedSBase implements
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 		if (!isAttributeRead) {
+			isAttributeRead = true;
+			
 			if (attributeName.equals("reversible")) {
 				setReversible(StringTools.parseSBMLBoolean(value));
-				return true;
 			} else if (attributeName.equals("fast")) {
 				setFast(StringTools.parseSBMLBoolean(value));
-				return true;
 			} else if (attributeName.equals("compartment")) {
-				setCompartment(value);
-				return true;
-			}
+				this.setCompartment(value);
+			} else {
+				isAttributeRead = false;
+			} 
 		}
 		return isAttributeRead;
 	}

@@ -44,7 +44,9 @@ import java.util.TreeSet;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.util.ValuePair;
+
 
 /**
  * The base class for each {@link SBase} component.
@@ -106,15 +108,13 @@ public abstract class AbstractSBase implements SBase {
 	 * 
 	 */
 	private SortedSet<String> namespaces;
+
 	/**
 	 * notes of the SBML component. Matches the notes XML node in a SBML file.
+	 *
 	 */
-	private String notes;
-	/**
-	 * buffer containing the notes when parsing the notes XML node in a SBML
-	 * file.
-	 */
-	private StringBuffer notesBuffer;
+	private XMLNode notesXMLNode;
+
 	/**
 	 * parent sbml component
 	 */
@@ -140,11 +140,10 @@ public abstract class AbstractSBase implements SBase {
 		super();
 		sboTerm = -1;
 		metaId = null;
-		notes = null;
+		notesXMLNode = null;
 		lv = getLevelAndVersion();
 		parentSBMLObject = null;
 		annotation = null;
-		notesBuffer = null;
 		setOfListeners = new HashSet<SBaseChangedListener>();
 		extensions = new HashMap<String, SBase>();
 		namespaces = new TreeSet<String>();
@@ -191,16 +190,13 @@ public abstract class AbstractSBase implements SBase {
 			this.metaId = new String(sb.getMetaId());
 		}
 		if (sb.isSetNotes()) {
-			this.notes = new String(sb.getNotesString());
+			this.notesXMLNode = sb.getNotes().clone();
 		}
 		if (sb instanceof AbstractSBase) {
 			this.setOfListeners.addAll(((AbstractSBase) sb).setOfListeners);
 		}
 		if (sb.isSetAnnotation()) {
 			this.annotation = sb.getAnnotation().clone();
-		}
-		if (sb.isSetNotesBuffer()) {
-			this.notesBuffer = new StringBuffer(sb.getNotesBuffer());
 		}
 		if (sb.isExtendedByOtherPackages()) {
 			this.extensions.putAll(sb.getExtensionPackages());
@@ -285,25 +281,11 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void appendNotes(String notes) {
 		if (isSetNotes()) {
-			String oldNotes = notes;
-			this.notes = this.notes.trim();
-			boolean body = this.notes.toLowerCase().trim().startsWith("<body");
-			if (this.notes.endsWith("\n")) {
-				this.notes = this.notes.substring(0, this.notes.length() - 2);
-			}
-			if (this.notes.endsWith("</notes>")) {
-				this.notes = this.notes.substring(0, this.notes.length() - 9);
-			}
-			if (this.notes.endsWith("</body>")) {
-				body = true;
-				this.notes = this.notes.substring(0, this.notes.length() - 8);
-			}
-			this.notes += notes;
-			if (body) {
-				this.notes += "</body>";
-			}
-			// this.notes += "</notes>";
-			firePropertyChange(SBaseChangedEvent.notes, oldNotes, notes);
+			// String oldNotes = notes;
+
+			// TODO 
+			
+			// firePropertyChange(SBaseChangedEvent.notes, oldNotes, notes);
 
 		} else {
 			setNotes(notes);
@@ -415,10 +397,6 @@ public abstract class AbstractSBase implements SBase {
 			if (equals && sbase.isSetAnnotation()) {
 				equals &= sbase.getAnnotation().equals(getAnnotation());
 			}
-			equals &= sbase.isSetNotesBuffer() == isSetNotesBuffer();
-			if (equals && sbase.isSetNotesBuffer()) {
-				equals &= sbase.getNotesBuffer().equals(getNotesBuffer());
-			}
 			return equals;
 		}
 		return false;
@@ -455,8 +433,9 @@ public abstract class AbstractSBase implements SBase {
 			Object newValue) {
 		if ((setOfListeners.size() > 0)
 				&& (((oldValue == null) && (newValue != null))
-						|| ((oldValue != null) && (newValue == null)) || (!oldValue
-						.equals(newValue)))) {
+				|| ((oldValue != null) && (newValue == null))
+				|| (oldValue != null && !oldValue.equals(newValue)))) 
+		{
 			SBaseChangedEvent changeEvent = new SBaseChangedEvent(this,
 					propertyName, oldValue, newValue);
 			for (SBaseChangedListener listener : setOfListeners) {
@@ -679,24 +658,17 @@ public abstract class AbstractSBase implements SBase {
 	 * 
 	 * @return notes
 	 */
-	public String getNotes() {
-		return getNotesString();
+	public XMLNode getNotes() {
+		return notesXMLNode;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#getNotesBuffer()
-	 */
-	public StringBuffer getNotesBuffer() {
-		return notesBuffer;
-	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getNotesString()
 	 */
 	public String getNotesString() {
-		return notes != null ? notes : "";
+		return notesXMLNode != null ? notesXMLNode.toXMLString() : "";
 	}
 
 	/*
@@ -856,15 +828,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#isSetNotes()
 	 */
 	public boolean isSetNotes() {
-		return notes != null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#isSetNotesBuffer()
-	 */
-	public boolean isSetNotesBuffer() {
-		return notesBuffer != null;
+		return notesXMLNode != null;
 	}
 
 	/*
@@ -1005,24 +969,27 @@ public abstract class AbstractSBase implements SBase {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setNotes(java.lang.String)
 	 */
-	public void setNotes(String notes) {
-		String oldNotes = this.notes;
+	public void setNotes(XMLNode notes) {
 		if (isSetNotes()) {
-			this.notes += notes;
+			// TODO : check if it is the default libsbml behavior
+			// this.notes += notes;
 		} else {
-			this.notes = notes;
+			this.notesXMLNode = notes;
 		}
-		firePropertyChange(SBaseChangedEvent.notes, oldNotes, this.notes);
+		// TODO : correct the fire Event
+		firePropertyChange("notes", null, this.notesXMLNode);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#setNotesBuffer(java.lang.StringBuffer)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#setNotes(java.lang.String)
 	 */
-	public void setNotesBuffer(StringBuffer notesBuffer) {
-		StringBuffer oldBuffer = this.notesBuffer;
-		this.notesBuffer = notesBuffer;
-		firePropertyChange(SBaseChangedEvent.notesBuffer, oldBuffer, notesBuffer);
+	public void setNotes(String notes) {
+
+		// TODO
+
+		// firePropertyChange(SBaseChangedEvent.notes, oldNotes, this.notes);
 	}
 
 	/*
@@ -1158,21 +1125,10 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void unsetNotes() {
 		if (isSetNotes()) {
-			String oldNotes = notes;
-			notes = null;
+			XMLNode oldNotes = notesXMLNode;
+			notesXMLNode = null;
 			firePropertyChange(SBaseChangedEvent.notes, oldNotes, getNotes());
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jlibsbml.SBase#unsetNotesBuffer()
-	 */
-	public void unsetNotesBuffer() {
-		StringBuffer oldNotesBuffer = notesBuffer;
-		notesBuffer = null;
-		firePropertyChange(SBaseChangedEvent.notesBuffer, oldNotesBuffer, getNotesBuffer());
 	}
 
 	/*

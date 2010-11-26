@@ -28,9 +28,7 @@
  */
 package org.sbml.jsbml.util;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
-
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.SBaseChangedEvent;
 import org.sbml.jsbml.SBaseChangedListener;
@@ -44,24 +42,13 @@ import org.sbml.jsbml.SBaseChangedListener;
  */
 public class SimpleSBaseChangeListener implements SBaseChangedListener {
 
-	private PrintStream out;
+	Logger logger = Logger.getLogger(SimpleSBaseChangeListener.class);
 
 	/**
 	 * Creates an {@link SBaseChangedListener} that writes all events to the
 	 * standard output.
 	 */
 	public SimpleSBaseChangeListener() {
-		this(System.out);
-	}
-
-	/**
-	 * Creates a new {@link SBaseChangedListener} that writes all events to the
-	 * given {@link OutputStream}.
-	 * 
-	 * @param out
-	 */
-	public SimpleSBaseChangeListener(OutputStream out) {
-		this.out = new PrintStream(out);
 	}
 
 	/*
@@ -70,8 +57,7 @@ public class SimpleSBaseChangeListener implements SBaseChangedListener {
 	 * @see org.sbml.jsbml.SBaseChangedListener#sbaseAdded(org.sbml.jsbml.SBase)
 	 */
 	public void sbaseAdded(SBase sb) {
-		out.printf("[ADD]\t%s\n", sb);
-		out.flush();
+		logger.debug(String.format("[ADD]\t%s\n", sb));		
 	}
 
 	/*
@@ -81,8 +67,7 @@ public class SimpleSBaseChangeListener implements SBaseChangedListener {
 	 * org.sbml.jsbml.SBaseChangedListener#sbaseRemoved(org.sbml.jsbml.SBase)
 	 */
 	public void sbaseRemoved(SBase sb) {
-		out.printf("[DEL]\t%s\n", sb);
-		out.flush();
+		logger.debug(String.format("[DEL]\t%s\n", sb));
 	}
 
 	/*
@@ -92,8 +77,7 @@ public class SimpleSBaseChangeListener implements SBaseChangedListener {
 	 * SBaseChangedEvent)
 	 */
 	public void stateChanged(SBaseChangedEvent ev) {
-		out.printf("[CHG]\t%s\n", ev);
-		out.flush();
+		logger.debug(String.format("[CHG]\t%s\n", ev));
 	}
 
 }

@@ -77,7 +77,6 @@ public class XMLError extends Error {
 	 * @return
 	 */
 	public int getErrorId() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

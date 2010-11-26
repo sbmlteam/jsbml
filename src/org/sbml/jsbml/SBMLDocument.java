@@ -371,6 +371,8 @@ public class SBMLDocument extends AbstractSBase {
 				value);
 		
 		if (!isAttributeRead) {
+			isAttributeRead = true;
+			
 			if (attributeName.equals("level")) {
 				setLevel(StringTools.parseSBMLInt(value));
 			} else if (attributeName.equals("version")) {
@@ -382,7 +384,6 @@ public class SBMLDocument extends AbstractSBase {
 			} else {
 				getSBMLDocumentAttributes().put(attributeName, value);
 			}
-			return true;
 		}
 		return isAttributeRead;
 	}

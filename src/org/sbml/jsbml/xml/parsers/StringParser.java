@@ -30,56 +30,31 @@
 
 package org.sbml.jsbml.xml.parsers;
 
-import org.sbml.jsbml.Annotation;
-import org.sbml.jsbml.Constraint;
-import org.sbml.jsbml.MathContainer;
+import org.apache.log4j.Logger;
+
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.XMLAttributes;
+import org.sbml.jsbml.xml.XMLNamespaces;
+import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.XMLTriple;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
- * A StringParser can be used to store the MathML expressions and/or the html
- * expressions into a String or StringBuffer in the SBML component.
+ * A StringParser can be used to store the html expressions into an XMLNode in the
+ * SBML component.
  * 
- * @author marine
- * 
+ * @author rodrigue
+ *
  */
-public class StringParser implements ReadingParser{
+public class StringParser implements ReadingParser {
 	
 	/**
-	 * String to be able to detect what type of String this parser is parsing.
-	 * It can be 'notes', 'message' or 'math'.
+	 * String to be able to detect what type of String this parser is parsing. It can be 'notes' or 'message'.
 	 */
 	private String typeOfNotes = "";
-
-	/**
-	 * 
-	 * @param contextObject
-	 * @return the appropriate StringBuffer depending on what is the contextObject
-	 */
-	private StringBuffer getStringBufferFor(Object contextObject){
-		StringBuffer buffer = null;
-
-		// If the contextObject is a Constraint instance, this method return the messageBuffer
-		// of constraint.
-		if (typeOfNotes.equals("message") && contextObject instanceof Constraint){
-			Constraint constraint = (Constraint) contextObject;
-			buffer = constraint.getMessageBuffer();
-			
-		}
-		// If the contextObject is a SBase instance, this method return the notesBuffer
-		// of this component.
-		else if ((typeOfNotes.equals("notes") || typeOfNotes.equals("")) && (contextObject instanceof SBase)){
-			SBase sbase = (SBase) contextObject;
-			buffer = sbase.getNotesBuffer();
-		}
-		else {
-			// TODO : SBML syntax error, throw an exception?
-		}
-		
-		return buffer;
-	}
+	
+	private Logger logger = Logger.getLogger(StringParser.class);
 
 	/**
 	 * 
@@ -97,38 +72,21 @@ public class StringParser implements ReadingParser{
 	 */
 	public void processAttribute(String elementName, String attributeName,
 			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
+			Object contextObject) 
+	{
 		
-		StringBuffer buffer = getStringBufferFor(contextObject);
+		logger.debug("processAttribute : attribute name = " + attributeName + ", value = " + value);
 		
-		if (buffer != null){
-			if (!prefix.equals("")){
-				buffer.append(" "+prefix+":"+attributeName+"=\""+value+"\"");
-			}
-			else {
-				buffer.append(" "+attributeName+"=\""+value+"\"");
-			}
+		if (contextObject instanceof XMLNode) {
 			
-			if (isLastAttribute){
-				buffer.append(">\n");
-			}
+			XMLNode xmlNode = (XMLNode) contextObject;
+			xmlNode.addAttr(attributeName, value, null, prefix);
+			
+			
+		} else {
+			logger.debug("processAttribute : context Object is not an XMLNode !!! " + contextObject);
 		}
-		else {
-			if (contextObject instanceof Annotation){
-				Annotation annotation = (Annotation) contextObject;
-				
-				if (!prefix.equals("")){
-					annotation.appendNoRDFAnnotation(" "+prefix+":"+attributeName+"=\""+value+"\"");
-				}
-				else {
-					annotation.appendNoRDFAnnotation(" "+attributeName+"=\""+value+"\"");
-				}
-				
-				if (isLastAttribute){
-					annotation.appendNoRDFAnnotation(">\n");
-				}
-			}
-		}
+		
 	}
 
 	/* (non-Javadoc)
@@ -139,20 +97,22 @@ public class StringParser implements ReadingParser{
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		
-		StringBuffer buffer = getStringBufferFor(contextObject);
-		//characters = characters.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-		characters = StringTools.encodeForHTML(characters);
+		logger.debug("processCharactersOf called.");
+		
+		// characters = StringTools.encodeForHTML(characters); // TODO : use an apache util for that.
+
+		if (contextObject instanceof XMLNode) {
+			
+			XMLNode xmlNode = (XMLNode) contextObject;
+			XMLNode textNode = new XMLNode(characters);
+
+			xmlNode.addChild(textNode);
+			
+		} else {
+			logger.debug("processCharactersOf : context Object is not an XMLNode !!! " + contextObject);
+		}
 
 		
-		if (buffer != null){
-			buffer.append(characters + "\n");
-		}
-		else {
-			if (contextObject instanceof Annotation){
-				Annotation annotation = (Annotation) contextObject;
-				annotation.appendNoRDFAnnotation(characters + "\n");
-			}
-		}
 	}
 
 	/* (non-Javadoc)
@@ -160,7 +120,7 @@ public class StringParser implements ReadingParser{
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
-		// TODO Auto-generated method stub
+		// TODO : nothing special to be done I think ??!!!
 	}
 
 	/* (non-Javadoc)
@@ -169,49 +129,13 @@ public class StringParser implements ReadingParser{
 			boolean isNested, Object contextObject)
 	 */
 	public boolean processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject) {
-
-		StringBuffer buffer = getStringBufferFor(contextObject);
-		
-		if (buffer != null){
-			if (isNested && buffer.toString().endsWith(">\n")){
-				int bufferLength = buffer.length();
-				buffer.delete(bufferLength - 3, bufferLength);
-			}
+			boolean isNested, Object contextObject) 
+	{
+		if (contextObject instanceof XMLNode) {
+			XMLNode xmlNode = (XMLNode) contextObject;
 			
-			if (isNested){
-				buffer.append("/>\n");
-			}
-			else {
-				if (!prefix.equals("")){
-					buffer.append("</"+prefix+":"+elementName+">\n");
-				}
-				else {
-					buffer.append("</"+elementName+">\n");
-				}
-			}
-		}
-		else {
-			if (contextObject instanceof Annotation){
-				Annotation annotation = (Annotation) contextObject;
-				StringBuilder builder = annotation.getAnnotationBuilder();
-
-				if (isNested && annotation.getNoRDFAnnotation().endsWith(">\n")){
-					int builderLength = builder.length();
-					builder.delete(builderLength - 4, builderLength - 1);
-				}
-				
-				if (isNested){
-					annotation.appendNoRDFAnnotation("/>\n");
-				}
-				else {
-					if (!prefix.equals("")){
-						annotation.appendNoRDFAnnotation("</"+prefix+":"+elementName+">\n");
-					}
-					else {
-						annotation.appendNoRDFAnnotation("</"+elementName+">\n");
-					}
-				}
+			if (xmlNode.getNumChildren() == 0) {
+				xmlNode.setEnd();
 			}
 		}
 		
@@ -226,36 +150,22 @@ public class StringParser implements ReadingParser{
 	 */
 	public void processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) {
+			Object contextObject) 
+	{
+		if (contextObject instanceof XMLNode) {
+			
+			XMLNode xmlNode = (XMLNode) contextObject;
+			if (!xmlNode.isStart()) {
+				logger.debug("processNamespace : context Object is not a start node !!! " + contextObject);
+			}
+			
+			xmlNode.addNamespace(URI, prefix);
+			
+		} else {
+			logger.debug("processNamespace : context Object is not an XMLNode !!! " + contextObject);
+			logger.debug("processNamespace : element name = " + elementName + ", namespace = " + prefix + ":" + URI);
+		}
 		
-		StringBuffer buffer = getStringBufferFor(contextObject);
-
-		if (buffer != null){
-			if (!prefix.equals("")){
-				buffer.append(" "+prefix+":"+localName+"=\""+URI+"\"");
-			}
-			else {
-				buffer.append(" "+localName+"=\""+URI+"\"");
-			}
-			if (!hasAttributes && isLastNamespace){
-				buffer.append(">\n");
-			}
-		}
-		else {
-			if (contextObject instanceof Annotation){
-				Annotation annotation = (Annotation) contextObject;
-				if (!prefix.equals("")){
-					annotation.appendNoRDFAnnotation(" "+prefix+":"+localName+"=\""+URI+"\"");
-				}
-				else {
-					annotation.appendNoRDFAnnotation(" "+localName+"=\""+URI+"\"");
-				}
-				
-				if (!hasAttributes && isLastNamespace){
-					annotation.appendNoRDFAnnotation(">\n");
-				}
-			}
-		}
 	}
 
 	/* (non-Javadoc)
@@ -266,49 +176,25 @@ public class StringParser implements ReadingParser{
 	 */
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces,
-			Object contextObject) {
-		StringBuffer buffer = null;
+			Object contextObject) 
+	{
+		logger.debug("processStartElement : element name = " + elementName);
 		
-		if (elementName.equals("math") && (contextObject instanceof MathContainer)) {
-			// We should not come here anymore
-			System.out.println("StringParser: We should not get this node to process !!!!!");
-			throw new IllegalArgumentException("StringParser: We should not get a math node to process !!!!!");
-			// this.typeOfNotes = elementName;
-		}
-		else {
-			buffer = getStringBufferFor(contextObject);
-		}
+		// Creating a StartElement XMLNode !!	
+		XMLNode xmlNode = new XMLNode(new XMLTriple(elementName, null, prefix), new XMLAttributes(), new XMLNamespaces());
 		
-		if (buffer != null){
-
-			if (!prefix.equals("")){
-				buffer.append("<"+prefix+":"+elementName);
-			}
-			else {
-				buffer.append("<"+elementName);
-			}
+		if (contextObject instanceof SBase) {
+			SBase parentSBMLElement = (SBase) contextObject;
 			
-			if (!hasAttributes && !hasNamespaces){
-				buffer.append(">\n");
-			}
+			parentSBMLElement.getNotes().addChild(xmlNode);
+			
+		} else if (contextObject instanceof XMLNode) {
+			XMLNode parentNode = (XMLNode) contextObject;
+			
+			parentNode.addChild(xmlNode);
 		}
-		else {
-			if (contextObject instanceof Annotation){
-				Annotation annotation = (Annotation) contextObject;
-
-				if (!prefix.equals("")){
-					annotation.appendNoRDFAnnotation("<"+prefix+":"+elementName);
-				}
-				else {
-					annotation.appendNoRDFAnnotation("<"+elementName);
-				}
-				
-				if (!hasAttributes && !hasNamespaces){
-					annotation.appendNoRDFAnnotation(">\n");
-				}
-			}
-		}
-		return contextObject;
+		
+		return xmlNode;
 	}
 
 	/**

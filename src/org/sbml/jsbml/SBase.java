@@ -39,6 +39,7 @@ import java.util.SortedSet;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
+import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * The interface to implement for each SBML component.
@@ -234,10 +235,13 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public SortedSet<String> getNamespaces();
 
 	/**
-	 * @return the {@link StringBuffer} notesBuffer containing the notes
-	 *         sub-element of this object as a {@link StringBuffer}.
+	 * Returns the <code>XMLNode</code> containing the notes sub-element of
+	 * this object.
+	 * 
+	 * @return the <code>XMLNode</code> containing the notes sub-element of
+	 *         this object.
 	 */
-	public StringBuffer getNotesBuffer();
+	public XMLNode getNotes();
 
 	/**
 	 * 
@@ -371,12 +375,6 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 
 	/**
 	 * 
-	 * @return true if the notesBuffer is not null.
-	 */
-	public boolean isSetNotesBuffer();
-
-	/**
-	 * 
 	 * @return true if the SBOTerm is not -1.
 	 * @see SBO
 	 */
@@ -441,16 +439,18 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public void setMetaId(String metaid);
 
 	/**
+	 * Sets the <code>XMLNode</code> containing the notes sub-element of
+	 * this object.
+	 * 
+	 */
+	public void setNotes(XMLNode notesXMLNode);
+
+	/**
 	 * Sets the notes with 'notes'.
 	 * 
 	 * @param notes
 	 */
 	public void setNotes(String notes);
-
-	/**
-	 * sets the notesBuffer instance to 'notes'.
-	 */
-	public void setNotesBuffer(StringBuffer notes);
 
 	/**
 	 * Sets the value of the 'sboTerm' attribute.
@@ -511,11 +511,6 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * Unsets the value of the 'notes' sub-element of this SBML object.
 	 */
 	public void unsetNotes();
-
-	/**
-	 * Unsets the value of the notesBuffer of this SBML object.
-	 */
-	public void unsetNotesBuffer();
 
 	/**
 	 * Unsets the value of the 'sboTerm' attribute of this SBML object.
