@@ -68,4 +68,11 @@ public class PropertyNotAvailableError extends SBMLError {
 	public PropertyNotAvailableError(String property, SBase sbase) {
 		super(propertyUndefinedMessage(property, sbase));
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBMLError#toString()
+	 */
+	public String toString() {
+		return getMessage();
+	}
 }
