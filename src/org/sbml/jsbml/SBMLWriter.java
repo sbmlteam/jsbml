@@ -35,76 +35,145 @@ import java.io.OutputStream;
 import javax.xml.stream.XMLStreamException;
 
 /**
- * This class is simply a wrapper around the actual
- * {@link org.sbml.jsbml.xml.stax.SBMLWriter} in JSBML provided here for
- * compatibility with libSBML.
+ * Provides methods for writing SBML to files, text strings or streams.
+ * <p>
+ * This {@link SBMLWriter} is just a wrapper for the actual implementation
+ * in {@link org.sbml.jsbml.xml.stax.SBMLWriter}. 
+ * <p>
+ * This class is
+ * provided for compatibility with libSBML and to avoid problems if the 
+ * internal of jsbml change, so it is preferable to use it instead of directly 
+ * using {@link org.sbml.jsbml.xml.stax.SBMLWriter}.
+ * 
+ * The {@link SBMLWriter} class is the converse of {@link SBMLReader}, and provides the
+ * main interface for serializing SBML models into XML and writing the
+ * result to files and text strings.  The methods for writing SBML all take
+ * an {@link SBMLDocument} object and a destination.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2010-10-21
- * @deprecated directly use the static methods in
- *             {@link org.sbml.jsbml.xml.stax.SBMLWriter}.
+ * @author rodrigue
+ * 
  */
-@Deprecated
 public class SBMLWriter {
 
+	private String programName;
+	private String programVersion;
+	
 	/**
-	 * Constructor provided for compatibility with libSBML.
+	 * Creates a new {@link SBMLwriter}.
 	 */
-	@Deprecated
 	public SBMLWriter() {
 	}
 
+	
 	/**
-	 * 
-	 * @param document
-	 * @param file
-	 * @param programName
-	 * @param programVersion
-	 * @return
-	 * @throws FileNotFoundException
-	 * @throws XMLStreamException
-	 * @throws SBMLException
-	 * @deprecated use {@link
-	 *             org.sbml.jsbml.xml.stax.SBMLWriter.#write(SBMLDocument, File,
-	 *             String, String))}
+	 * Sets the name of this program, i.e., the program that is about to
+	 * write out the {@link SBMLDocument}.
+	 * <p>
+	 * If the program name and version are set (see
+	 * {@link #setProgramVersion(String version)}), the
+	 * following XML comment, intended for human consumption, will be written
+	 * at the beginning of the document:
+	 * <div class='fragment'><pre>
+	   &lt;!-- Created by &lt;program name&gt; version &lt;program version&gt;
+	   on yyyy-MM-dd HH:mm with {@link JSBML} version &lt;{@link JSBML} version&gt;. --&gt;
+	</pre></div>
+	 * <p>
+	 * @param name the name of this program (where 'this program' refers to
+	 * the program in which JSBML is embedded, not JSBML itself!)
+	 * <p>
+	 * @return integer value indicating success/failure of the
+	 * function.  The possible values
+	 * returned by this function are:
+	 * <li> {@link  JSBML.OPERATION_SUCCESS}
+	 * <p>
+	 * @see #setProgramVersion(String version)
 	 */
-	@Deprecated
-	public String write(SBMLDocument document, File file, String programName,
+	public int setProgramName(String name) {
+		programName = name;
+
+		return JSBML.OPERATION_SUCCESS;
+	}
+
+	/**
+	 * Sets the version of this program, i.e., the program that is about to
+	 * write out the {@link SBMLDocument}.
+	 * <p>
+	 * If the program version and name are set (see
+	 * {@link setProgramName(String name)}), the
+	 * following XML comment, intended for human consumption, will be written
+	 * at the beginning of the document: <div class='fragment'><pre>&lt;!-- Created by &lt;program
+	 * name&gt; version &lt;program version&gt; on yyyy-MM-dd HH:mm with {@link JSBML}
+	 * version &lt;{@link JSBML} version&gt;. --&gt; </pre></div>
+	 * <p>
+	 * @param version the version of this program (where 'this program'
+	 * refers to the program in which JSBML is embedded, not JSBML itself!)
+	 * <p>
+	 * @return integer value indicating success/failure of the
+	 * function.  The possible values
+	 * returned by this function are:
+	 * <li> {@link  JSBML.OPERATION_SUCCESS}
+	 * <p>
+	 * @see #setProgramName(String name)
+	 */
+	public int setProgramVersion(String version) {
+		programVersion = version;
+		
+		return JSBML.OPERATION_SUCCESS;
+	}
+	 
+	 
+	/**
+	 * Writes the given SBML document to a {@link File}.
+     * <p>
+	 * @param sbmlDocument the {@link SBMLDocument} to be written
+	 * @param file the file where the SBML document is to be written.
+	 * @param programName the name of this program (where 'this program' refers to
+	 * the program in which JSBML is embedded, not JSBML itself!)
+	 * @param programVersion the version of this program (where 'this program'
+	 * refers to the program in which JSBML is embedded, not JSBML itself!)
+	 * 
+	 * @throws FileNotFoundException if the file does not exist or cannot be created.
+	 * @throws XMLStreamException if any problems prevent to write the {@link SBMLDocument} as XML. 
+	 * @throws SBMLException if any SBML problems prevent to write the {@link SBMLDocument}. 
+	 * 
+	 */
+	public void write(SBMLDocument document, File file, String programName,
 			String programVersion) throws FileNotFoundException,
 			XMLStreamException, SBMLException {
-		return org.sbml.jsbml.xml.stax.SBMLWriter.write(document, file,
+		org.sbml.jsbml.xml.stax.SBMLWriter.write(document, file,
 				programName, programVersion);
 	}
 
 	/**
+	 * Writes the given SBML document to the output stream.
+	 *  
+	 * @param sbmlDocument the SBML document to be written
+	 * @param stream the stream object where the SBML is to be written.
 	 * 
-	 * @param sbmlDocument
-	 * @param stream
-	 * @throws XMLStreamException
-	 * @throws SBMLException
-	 * @deprecated use {@link
-	 *             org.sbml.jsbml.xml.stax.SBMLWriter.#write(SBMLDocument,
-	 *             OutputStream))}
+	 * @throws XMLStreamException if any problems prevent to write the {@link SBMLDocument} as XML. 
+	 * @throws SBMLException if any SBML problems prevent to write the {@link SBMLDocument}. 
+	 * 
 	 */
-	@Deprecated
 	public void write(SBMLDocument sbmlDocument, OutputStream stream)
 			throws XMLStreamException, SBMLException {
-		org.sbml.jsbml.xml.stax.SBMLWriter.write(sbmlDocument, stream);
+		org.sbml.jsbml.xml.stax.SBMLWriter.write(sbmlDocument, stream, programName, programVersion);
 	}
 
 	/**
+	 * Writes the given SBML document to the output stream.
 	 * 
-	 * @param sbmlDocument
-	 * @param stream
-	 * @param programName
-	 * @param programVersion
-	 * @throws XMLStreamException
-	 * @throws SBMLException
-	 * @deprecated use {@link
-	 *             org.sbml.jsbml.xml.stax.SBMLWriter.#write(SBMLDocument,
-	 *             OutputStream, String, String))}
+	 * @param sbmlDocument the SBML document to be written
+	 * @param stream the stream object where the SBML is to be written.
+	 * @param programName the name of this program (where 'this program' refers to
+	 * the program in which JSBML is embedded, not JSBML itself!)
+	 * @param programVersion the version of this program (where 'this program'
+	 * refers to the program in which JSBML is embedded, not JSBML itself!)
+	 * 
+	 * @throws XMLStreamException if any problems prevent to write the {@link SBMLDocument} as XML. 
+	 * @throws SBMLException if any SBML problems prevent to write the {@link SBMLDocument}. 
+	 * 
 	 */
-	@Deprecated
 	public void write(SBMLDocument sbmlDocument, OutputStream stream,
 			String programName, String programVersion)
 			throws XMLStreamException, SBMLException {
@@ -113,36 +182,38 @@ public class SBMLWriter {
 	}
 
 	/**
+	 * Writes the given SBML document to filename.
+     * <p>
+	 * @param sbmlDocument the {@link SBMLDocument} to be written
+	 * @param fileName the name or full pathname of the file where the SBML
+     * document is to be written.
+     * <p> 
+	 * @throws FileNotFoundException if the file does not exist or cannot be created.
+	 * @throws XMLStreamException if any problems prevent to write the {@link SBMLDocument} as XML. 
+	 * @throws SBMLException if any SBML problems prevent to write the {@link SBMLDocument}. 
 	 * 
-	 * @param sbmlDocument
-	 * @param fileName
-	 * @throws XMLStreamException
-	 * @throws FileNotFoundException
-	 * @throws SBMLException
-	 * @deprecated use {@link
-	 *             org.sbml.jsbml.xml.stax.SBMLWriter.#write(SBMLDocument,
-	 *             String)}
 	 */
-	@Deprecated
 	public void write(SBMLDocument sbmlDocument, String fileName)
 			throws XMLStreamException, FileNotFoundException, SBMLException {
-		org.sbml.jsbml.xml.stax.SBMLWriter.write(sbmlDocument, fileName);
+		org.sbml.jsbml.xml.stax.SBMLWriter.write(sbmlDocument, fileName, programName, programVersion);
 	}
 
 	/**
+	 * Writes the given SBML document to filename.
+     * <p>
+	 * @param sbmlDocument the {@link SBMLDocument} to be written
+	 * @param fileName the name or full pathname of the file where the SBML
+     * document is to be written.
+	 * @param programName the name of this program (where 'this program' refers to
+	 * the program in which JSBML is embedded, not JSBML itself!)
+	 * @param programVersion the version of this program (where 'this program'
+	 * refers to the program in which JSBML is embedded, not JSBML itself!)
 	 * 
-	 * @param sbmlDocument
-	 * @param fileName
-	 * @param programName
-	 * @param programVersion
-	 * @throws XMLStreamException
-	 * @throws FileNotFoundException
-	 * @throws SBMLException
-	 * @deprecated use {@link
-	 *             org.sbml.jsbml.xml.stax.SBMLWriter.#write(SBMLDocument,
-	 *             String, String, String)}
+	 * @throws FileNotFoundException if the file does not exist or cannot be created.
+	 * @throws XMLStreamException if any problems prevent to write the {@link SBMLDocument} as XML. 
+	 * @throws SBMLException if any SBML problems prevent to write the {@link SBMLDocument}. 
+	 * 
 	 */
-	@Deprecated
 	public void write(SBMLDocument sbmlDocument, String fileName,
 			String programName, String programVersion)
 			throws XMLStreamException, FileNotFoundException, SBMLException {
@@ -151,19 +222,49 @@ public class SBMLWriter {
 	}
 
 	/**
+	 * Writes the given SBML document to a {@link File}.
 	 * 
-	 * @param document
-	 * @param file
-	 * @throws FileNotFoundException
-	 * @throws XMLStreamException
-	 * @throws SBMLException
-	 * @deprecated use {@link
-	 *             org.sbml.jsbml.xml.stax.SBMLWriter.#write(SBMLDocument,
-	 *             File)}
+	 * @param d the SBML document to be written
+	 * @param file the file where the SBML document is to be written. 
+	 * 
+	 * @throws FileNotFoundException if the file does not exist or cannot be created.
+	 * @throws XMLStreamException if any problems prevent to write the {@link SBMLDocument} as XML. 
+	 * @throws SBMLException if any SBML problems prevent to write the {@link SBMLDocument}. 
+	 * 
 	 */
-	@Deprecated
 	public void writeSBML(SBMLDocument document, File file)
 			throws FileNotFoundException, XMLStreamException, SBMLException {
 		org.sbml.jsbml.xml.stax.SBMLWriter.write(document, file);
 	}
+	
+	/**
+	 * Writes the given SBML document to an in-memory string and returns it.
+	 * <p>
+	 * @param d the SBML document to be written
+	 * <p>
+	 * @return the string representing the SBML document as XML.
+	 * @throws XMLStreamException if any problems prevent to write the {@link SBMLDocument} as XML. 
+	 * @throws SBMLException if any SBML problems prevent to write the {@link SBMLDocument}. 
+	 */
+	public String writeSBMLToString(SBMLDocument d) throws XMLStreamException, SBMLException {
+		return org.sbml.jsbml.xml.stax.SBMLWriter.writeSBMLToString(d, programName, programVersion);
+	}
+
+	/**
+	 * Writes the given SBML document to filename.
+	 * <p>
+	 * @param d the SBML document to be written
+	 * @param filename the name or full pathname of the file where the SBML
+	 * document is to be written. 
+	 * 
+	 * @throws FileNotFoundException if the file does not exist or cannot be created.
+	 * @throws XMLStreamException if any problems prevent to write the {@link SBMLDocument} as XML. 
+	 * @throws SBMLException if any SBML problems prevent to write the {@link SBMLDocument}. 
+	 */
+	public void writeSBMLToFile(SBMLDocument d, String filename) 
+		throws FileNotFoundException, XMLStreamException, SBMLException 
+	{
+		write(d, filename);
+	}
+
 }
