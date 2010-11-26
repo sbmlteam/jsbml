@@ -51,8 +51,6 @@ public class XMLAttributes {
 	ArrayList<XMLTriple> attributeNames = new ArrayList<XMLTriple>();
 	ArrayList<String> attributeValues = new ArrayList<String>();
 	
-	String elementName;
-	
 	// XMLErrorLog errorLog;
 	
   /**
@@ -69,10 +67,6 @@ public class XMLAttributes {
 	  if (sb instanceof XMLAttributes) {
 		  XMLAttributes xmlAttributes = (XMLAttributes) sb;
 		  
-		  // Compare elementName
-		  if (elementName.equals(xmlAttributes.elementName)) {
-			  return false;
-		  }
 		  for (XMLTriple xmlTriple : attributeNames) {
 			  if (!xmlAttributes.hasAttribute(xmlTriple)) {
 				  return false;
@@ -97,7 +91,7 @@ public class XMLAttributes {
    */
   public int hashCode()
   {
-	  int hashcode = elementName.hashCode();
+	  int hashcode = 0;
 	  
 	  for (int i = 0; i < attributeNames.size(); i++) {
 		  hashcode += attributeNames.get(i).hashCode() + attributeValues.get(i).hashCode();
@@ -119,8 +113,6 @@ public class XMLAttributes {
    * Copy constructor; creates a copy of this {@link XMLAttributes} set.
    */
  public XMLAttributes(XMLAttributes orig) {
-	 
-	 elementName = orig.elementName;
 	 
 	 for (int i = 0; i < orig.attributeNames.size(); i++) {
 		 

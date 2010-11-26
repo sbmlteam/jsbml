@@ -54,6 +54,7 @@ import java.util.Map.Entry;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.log4j.Logger;
 import org.codehaus.stax2.XMLOutputFactory2;
 import org.codehaus.stax2.XMLStreamWriter2;
 import org.codehaus.staxmate.SMOutputFactory;
@@ -81,6 +82,7 @@ import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
+import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -140,8 +142,8 @@ public class SBMLWriter {
 			Object object, String namespace) {
 		Set<String> packageNamespaces = null;
     
-		// System.out.println("SBMLWriter : getInitializedParsers : namespace, object = "
-		// + namespace + ", " + object);
+		Logger logger = Logger.getLogger(SBMLWriter.class);
+		logger.debug("getInitializedParsers : namespace, object = " + namespace + ", " + object);
 
 		if (object instanceof SBase) {
 			SBase sbase = (SBase) object;
@@ -154,9 +156,8 @@ public class SBMLWriter {
 
 		if (packageNamespaces != null) {
 
-			// System.out
-			// .println("SBMLWriter : getInitializedParsers : namespaces = "
-			// + packageNamespaces);
+			logger.debug("getInitializedParsers : namespaces = " + packageNamespaces);
+			
 			if (!packageNamespaces.contains(namespace)) {
 				try {
 
@@ -204,9 +205,7 @@ public class SBMLWriter {
 					  // (e.g. http://www.sbml.org/2001/ns/celldesigner)
 					  if (SBMLReader.getPackageParsers(packageNamespace) == null) {
 					    if (!issuedWarnings.contains(packageNamespace)) {
-					      System.out
-					      .println("Warning: Skipping detailed parsing of Namespace '"
-					          + packageNamespace
+					      logger.warn("Skipping detailed parsing of Namespace '" + packageNamespace
 					          + "'. No parser available.");
 					      issuedWarnings.add(packageNamespace);
 					    }
@@ -235,8 +234,7 @@ public class SBMLWriter {
 			}
 		}
 
-		// System.out.println("SBMLWriter : getInitializedParsers : SBMLparsers = "
-		// + SBMLParsers);
+		logger.debug("getInitializedParsers : SBMLparsers = " + sbmlParsers);
 
 		return sbmlParsers;
 	}
@@ -304,7 +302,8 @@ public class SBMLWriter {
 					"There was a problem opening the file PackageParserNamespaces.xml.");
 		} catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException(String.format(
-									"There was a problem loading the file PackageParserNamespaces.xml: %s. Please make sure the resource directory is included in the Java class path.",
+									"There was a problem loading the file PackageParserNamespaces.xml: %s. " +
+									"Please make sure the resource directory is included in the Java class path.",
 									e.getMessage()));
 		}
 	}
@@ -370,7 +369,8 @@ public class SBMLWriter {
 	 */
 	public static void write(SBMLDocument sbmlDocument, OutputStream stream,
 			String programName, String programVersion)
-			throws XMLStreamException, SBMLException {
+			throws XMLStreamException, SBMLException 
+	{
 		if (!sbmlDocument.isSetLevel() || !sbmlDocument.isSetVersion()) {
 			throw new IllegalArgumentException(
 					"Unable to write SBML output for documents with undefined SBML Level and Version flag.");
@@ -864,28 +864,17 @@ public class SBMLWriter {
 	 *            : the XMLStreamWriter2
 	 * @param sbmlNamespace
 	 *            : the SBML namespace
+	 * @throws XMLStreamException 
 	 */
 	private static void writeMessage(Constraint sbase, SMOutputElement element,
-			XMLStreamWriter writer, String sbmlNamespace) {
+			XMLStreamWriter writer, String sbmlNamespace, int indent) throws XMLStreamException 
+	{
 
-		SMNamespace namespace = element.getNamespace(sbmlNamespace);
-		namespace.setPreferredPrefix("");
-		try {
-			element.addCharacters("\n");
+		writer.writeCharacters("\n");
 
-			DOMConverter converter = new DOMConverter();
-			SMOutputElement note = element.addElementWithCharacters(namespace,
-					"message", "\n");
-			String messageString = sbase.getMessage().replaceAll("&", "&amp;");
-			Document domDocument = JAXPFacade.getInstance().create(
-					new BufferedReader(new StringReader(messageString)), true);
-			converter.writeFragment(domDocument.getChildNodes(), writer);
-			note.addCharacters("\n");
-		} catch (XMLStreamException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		}
+		XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, createIndent(indent));
+		
+		xmlNodeWriter.write(sbase.getMessage());
 	}
 
 	/**
@@ -906,31 +895,12 @@ public class SBMLWriter {
 			XMLStreamWriter writer, String sbmlNamespace, int indent)
 			throws XMLStreamException {
 
-		SMNamespace namespace = element.getNamespace(sbmlNamespace);
-		namespace.setPreferredPrefix("");
-		element.addCharacters("\n");
-		String whiteSpaces = createIndent(indent);
-		writer.writeCharacters(whiteSpaces);
+		writer.writeCharacters("\n");
 
-		DOMConverter converter = new DOMConverter();
-		SMOutputElement note = element.addElementWithCharacters(namespace,
-				"notes", "\n");
-		note.setIndentation(whiteSpaces, indent, 2);
-		String notes = sbase.getNotesString();
-		/*
-		 * This can lead to problems if utf8 characters are encoded in the notes
-		 * using the designated HTML codes, i.e., &#8820; for left double
-		 * quotes.
-		 */
-		// .replaceAll("&", "&amp;");
-		try {
-			Document domDocument = JAXPFacade.getInstance().create(
-					new BufferedReader(new StringReader(notes)), true);
-			converter.writeFragment(domDocument.getChildNodes(), writer);
-			note.addCharacters("\n");
-		} catch (SAXException e) {
-			e.printStackTrace();
-		}
+		XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, createIndent(indent));
+		
+		xmlNodeWriter.write(sbase.getNotes());
+		
 	}
 
 	/**
@@ -1150,9 +1120,10 @@ public class SBMLWriter {
 						if ((nextObjectToWrite instanceof Constraint)
 								&& (notesParser != null)) {
 							Constraint constraint = (Constraint) nextObjectToWrite;
-							if (!constraint.isSetMessage()) {
-								writeMathML(constraint, newOutPutElement,
-										streamWriter, indent + 2);
+							if (constraint.isSetMessage()) {
+								writeMessage(constraint, newOutPutElement, streamWriter,
+										newOutPutElement.getNamespace()
+												.getURI(), indent + 2);
 							}
 						}
 						if ((nextObjectToWrite instanceof MathContainer)
@@ -1208,6 +1179,7 @@ public class SBMLWriter {
 		return stream.toString();
 	}
 
+
 	/**
 	 * 
 	 * @param document
@@ -1219,12 +1191,11 @@ public class SBMLWriter {
 	 * @throws XMLStreamException
 	 * @throws SBMLException
 	 */
-	public static String write(SBMLDocument document, File file,
+	public static void write(SBMLDocument document, File file,
 			String programName, String programVersion)
 			throws FileNotFoundException, XMLStreamException, SBMLException {
 		FileOutputStream stream = new FileOutputStream(file);
 		write(document, stream, programName, programVersion);
-		return stream.toString();
 	}
 
 	/**
@@ -1243,35 +1214,14 @@ public class SBMLWriter {
 
 	// TODO : dcterms:created, dcterms:modified are not saved !
 
-	// TODO : notes where an & is present are not written out (so almost all the
-	// notes from the models in Biomodels DB)
-	// When java read some notes with &amp;, it convert it to simply & in UTF-8
-	// and when trying to write out the notes,
-	// there is then an exception as the character is not allowed.
-	// => Maybe the new encodeForHTML() function comes in handy
-	// here?
-	// TODO: I don't think it is a good style, replacing all & by &amp; Maybe
-	// the user has taken care of this himself
-	// (as he should in my opinion) and then all "&amp;" replace to "&amp;amp;"!
-	// A better way would be, replacing all
-	// those "replaceAll("&", "&amp;");" by a check, which checks if there are
-	// "&"'s in the string and then if they
-	// already have the style &amp; and only if not => encode characters by
-	// their HTML encoding.
-
 	// TODO : when there are some custom annotations that do not declare their
 	// namespace in the annotation but only on
 	// the sbml element, the whole annotation failed to be written out.
 
 	// TODO : put all of that as tracker item on sourceforge as it will probably
 	// take some time to be resolved.
-	// TODO : put some logging system in place
 
-	// TODO : write a script to automatically test an SBML file, checking with
-	// libsbml that all the values are the same in the original file
-	// and in the newly created one.
-
-	// TODO : test a bit more Xstream with stax and using Qname to see how it
+	// TODO : test a bit more Xstream and using Qname to see how it
 	// can deal with math or rdf bloc
 
 }

@@ -32,7 +32,6 @@ package org.sbml.jsbml;
 
 import org.sbml.jsbml.util.Location;
 import org.sbml.jsbml.util.Message;
-import org.sbml.jsbml.util.NotImplementedException;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLError;
 
@@ -72,7 +71,7 @@ public class SBMLError extends XMLError {
 	/**
 	 * 
 	 */
-	private Message message;
+	private Message messageObj;
 	/**
 	 * 
 	 */
@@ -142,20 +141,13 @@ public class SBMLError extends XMLError {
 		return location;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public String getMessage() {
-		return message.getMessage();
-	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public Message getMessageInstance() {
-		return message;
+		return messageObj;
 	}
 
 	/**
@@ -171,8 +163,8 @@ public class SBMLError extends XMLError {
 	 * @return
 	 */
 	public boolean isFatal() {
-		// TODO Auto-generated method stub
-		return false;
+		// TODO : check that
+		return severity != null && severity.equals("fatal");
 	}
 
 	/**
@@ -180,7 +172,7 @@ public class SBMLError extends XMLError {
 	 * @return
 	 */
 	public boolean isInfo() {
-		throw new NotImplementedException();
+		return severity != null && severity.equals("info");
 	}
 
 	/**
@@ -188,8 +180,7 @@ public class SBMLError extends XMLError {
 	 * @return
 	 */
 	public boolean isInternal() {
-		// TODO Auto-generated method stub
-		return false;
+		return severity != null && severity.equals("internal");
 	}
 
 	/**
@@ -197,8 +188,7 @@ public class SBMLError extends XMLError {
 	 * @return
 	 */
 	public boolean isSystem() {
-		// TODO Auto-generated method stub
-		return false;
+		return severity != null && severity.equals("system");
 	}
 
 	/**
@@ -206,8 +196,7 @@ public class SBMLError extends XMLError {
 	 * @return
 	 */
 	public boolean isWarning() {
-		// TODO Auto-generated method stub
-		return false;
+		return severity != null && severity.equals("warning");
 	}
 
 	/**
@@ -215,8 +204,7 @@ public class SBMLError extends XMLError {
 	 * @return
 	 */
 	public boolean isXML() {
-		// TODO Auto-generated method stub
-		return false;
+		return severity != null && severity.equals("xml");
 	}
 
 	/**
@@ -253,10 +241,10 @@ public class SBMLError extends XMLError {
 
 	/**
 	 * 
-	 * @param message
+	 * @param messageObj
 	 */
 	public void setMessage(Message message) {
-		this.message = message;
+		this.messageObj = message;
 	}
 
 	/**
@@ -276,7 +264,7 @@ public class SBMLError extends XMLError {
 	public String toString() {
 		return StringTools.concat("SBMLError [category=", category, ", code=",
 				code, ", excerpt=", excerpt, ", location=", location,
-				", \nmessage =", message, ", severity=", severity, "]")
+				", \nmessage =", messageObj, ", severity=", severity, "]")
 				.toString();
 	}
 

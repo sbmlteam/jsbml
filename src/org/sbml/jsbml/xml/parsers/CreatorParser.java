@@ -38,10 +38,12 @@ import org.sbml.jsbml.xml.stax.ReadingParser;
 /**
  * A CreatorParser is used to parser the subelements of an annotation element which have this namespaceURI :
  * http://purl.org/dc/elements/1.1/.
+ * 
  * @author marine
+ * @author rodrigue
  *
  */
-public class CreatorParser implements ReadingParser{
+public class CreatorParser implements ReadingParser {
 
 	/**
 	 * The namespace URI of this ReadingParser.
@@ -65,7 +67,7 @@ public class CreatorParser implements ReadingParser{
 			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) {
 		// TODO : there is no attributes with the namespace "http://purl.org/dc/elements/1.1/", there
-		// is a SBML syntax error, throw an exception?
+		// is a SBML syntax error, log an error ?
 	}
 
 	 /* (non-Javadoc)
@@ -76,7 +78,7 @@ public class CreatorParser implements ReadingParser{
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		// TODO : there is no text for the element with the namespace "http://purl.org/dc/elements/1.1/", there
-		// is a SBML syntax error, throw an exception?
+		// is a SBML syntax error, log an error ?
 	}
 
 	 /* (non-Javadoc)

@@ -39,8 +39,6 @@ import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.stax.ReadingParser;
-import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
-import org.sbml.jsbml.xml.stax.WritingParser;
 
 /**
  * A MathMLStaxParser is used to parse the MathML expressions injected into a SBML
@@ -51,7 +49,7 @@ import org.sbml.jsbml.xml.stax.WritingParser;
  * @author rodrigue
  * 
  */
-public class MathMLStaxParser implements ReadingParser, WritingParser {
+public class MathMLStaxParser implements ReadingParser {
 	
 
 	/**
@@ -374,64 +372,5 @@ public class MathMLStaxParser implements ReadingParser, WritingParser {
 		this.omitXMLDeclaration = omitXMLDeclaration;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.writeAttributes(SBMLObjectForXML xmlObject,
-	 * Object sbmlElementToWrite)
-	 */
-	public void writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO 
-		
-		System.out.println("MathMLStaxParser : writeAttributes called");
-		// System.out.println("MathMLStaxParser : writeAttributes : xmlObject = " + xmlObject + " element = " + sbmlElementToWrite);
-		
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeCharacters(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
-	 */
-	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO
-
-		System.out.println("MathMLStaxParser : writeCharacters called");
-		// System.out.println("MathMLStaxParser : writeCharacters : xmlObject = " + xmlObject + " element = " + sbmlElementToWrite);
-		
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
-	 */
-	public void writeElement(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO
-
-		System.out.println("MathMLStaxParser : writeElement called");
-		// System.out.println("MathMLStaxParser : writeElement : xmlObject = " + xmlObject + " element = " + sbmlElementToWrite);
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
-	 */
-	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO 
-
-		System.out.println("MathMLStaxParser : writeNamespaces called");
-		// System.out.println("MathMLStaxParser : writeNamespaces : xmlObject = " + xmlObject + " element = " + sbmlElementToWrite);
-		
-	}
 
 }

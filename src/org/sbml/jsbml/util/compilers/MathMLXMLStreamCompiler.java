@@ -37,10 +37,11 @@ import java.util.Locale;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.log4j.Logger;
 import org.codehaus.staxmate.SMOutputFactory;
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.StringTools;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
@@ -48,7 +49,7 @@ import com.ctc.wstx.stax.WstxOutputFactory;
 
 
 /**
- *
+ * Writes an {@link ASTNode} the mathML.
  * 
  * @author rodrigue
  * 
@@ -57,7 +58,7 @@ public class MathMLXMLStreamCompiler {
 
 	private String indent;
 	private XMLStreamWriter writer;
-	
+	private Logger logger = Logger.getLogger(MathMLXMLStreamCompiler.class);
 	
 	/**
 	 * Formats the real number in a valid way for mathML.
@@ -68,14 +69,17 @@ public class MathMLXMLStreamCompiler {
 			new DecimalFormatSymbols(Locale.ENGLISH));
 
 	/**
+	 * Create a new MathMLXMLStreamCompiler.
 	 * 
-	 * @param writer
-	 * @param indent
+	 * @param writer the writer
+	 * @param indent the starting indentation
+	 * 
+	 * @throws IllegalArgumentException if the writer is null
 	 */
 	public MathMLXMLStreamCompiler(XMLStreamWriter writer, String indent) {
 		if (writer == null) {
 			throw new IllegalArgumentException(
-					"Cannot create a MathMLXMLStreamCompiler with a null writer.");
+					"Cannot create a XMLNodeWriter with a null writer.");
 		}
 
 		this.writer = writer;
@@ -83,9 +87,10 @@ public class MathMLXMLStreamCompiler {
 	}
 
 	/**
+	 * Writes an {@link ASTNode} the mathML.
 	 * 
-	 * @param astNode
-	 * @return
+	 * @param astNode the {@link ASTNode} to serialize as mathML
+	 * @return a String representing this ASTNode as mathML.
 	 */
 	public static String toMathML(ASTNode astNode) {
 
@@ -125,11 +130,11 @@ public class MathMLXMLStreamCompiler {
 	 * Compiles this {@link ASTNode} and produce an XMLStreamWriter representing this node in mathML.
 	 * 
 	 *
-	 * @throws SBMLException
+	 * @throws SBMLException if any problems occur while checking the ASTNode tree.
 	 */
 	public void compile(ASTNode astNode) {
 
-		// System.out.println("MathMLXMLStreamCompiler : compile : node type = " + astNode.getType()) ;
+		logger.debug("compile : node type = " + astNode.getType()) ;
 		
 		if (astNode.isInfinity()) {
 			compilePositiveInfinity(astNode);
@@ -153,9 +158,8 @@ public class MathMLXMLStreamCompiler {
 			 */
 			case DIVIDE:
 				if (astNode.getNumChildren() != 2) {
-					// TODO : log that to a file and also add it to an error log like libsbml
-					System.out.println("MathMLXMLStreamCompiler : compile : Type.DIVIDE : getNumChildren() != 2 !!!");
-					// new SBMLException("fractions can only have one numerator and one denominator, here " + astNode.getNumChildren() +" elements are given");
+					// TODO : add it to an error log like libsbml ?
+					logger.warn("compile : Type.DIVIDE : getNumChildren() != 2 !!!");
 				}
 			case POWER:
 			case PLUS:
@@ -262,8 +266,7 @@ public class MathMLXMLStreamCompiler {
 				compileRelationalOperator(astNode);
 				break;
 			default: // UNKNOWN:
-				// TODO : log a problem
-				System.out.println("MathMLXMLStreamCompiler : !!!!! I don't know what to do with the node of type " + astNode.getType());
+				logger.warn("!!!!! I don't know what to do with the node of type " + astNode.getType());
 				break;
 			}
 		}
@@ -319,7 +322,6 @@ public class MathMLXMLStreamCompiler {
 		} catch (XMLStreamException e) {			
 			e.printStackTrace();
 		}
-		
 	}
 
 
@@ -338,7 +340,6 @@ public class MathMLXMLStreamCompiler {
 		} catch (XMLStreamException e) {			
 			e.printStackTrace();
 		}
-		
 	}
 
 
@@ -387,8 +388,6 @@ public class MathMLXMLStreamCompiler {
 		} catch (XMLStreamException e) {			
 			e.printStackTrace();
 		}
-
-		
 	}
 
 
@@ -411,8 +410,6 @@ public class MathMLXMLStreamCompiler {
 		} catch (XMLStreamException e) {			
 			e.printStackTrace();
 		}
-
-		
 	}
 
 
@@ -483,8 +480,7 @@ public class MathMLXMLStreamCompiler {
 				e.printStackTrace();
 			}
 		} else {
-			// log Error
-			System.out.println("MathMLXMLStreamCompiler : compileRootElement : cannot have more than 2 children on a root node !!");			
+			logger.warn("Cannot have more than 2 children on a root node !!");			
 		}
 		
 	}
@@ -519,7 +515,6 @@ public class MathMLXMLStreamCompiler {
 
 	private void compileBvar(ASTNode arg) {
 
-
 		try {
 			writer.writeCharacters(indent);
 			writer.writeStartElement("bvar");
@@ -527,7 +522,7 @@ public class MathMLXMLStreamCompiler {
 			indent += "  ";
 			
 			if (!arg.isName()) {
-				System.out.println("MathMLXMLStreamCompiler : compileBvar : Can only have node of type NAME there !!!!");
+				logger.warn("compileBvar : can only have node of type NAME there !!!!");
 			}
 			
 			compileCi(arg);
@@ -537,7 +532,6 @@ public class MathMLXMLStreamCompiler {
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 
@@ -589,7 +583,6 @@ public class MathMLXMLStreamCompiler {
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 
@@ -629,8 +622,7 @@ public class MathMLXMLStreamCompiler {
 				e.printStackTrace();
 			}
 		} else {
-			// log Error
-			System.out.println("MathMLXMLStreamCompiler : compileRootElement : cannot have more than 2 children on a root node !!");			
+			logger.warn("compileLog : cannot have more than 2 children on a log node !!");			
 		}
 	}
 
@@ -647,7 +639,6 @@ public class MathMLXMLStreamCompiler {
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	/**

@@ -184,11 +184,6 @@ public class GroupsParser implements ReadingParser, WritingParser {
 	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 
-		if (elementName.equals("notes") && contextObject instanceof SBase) {
-			SBase sbase = (SBase) contextObject;
-			sbase.setNotes(sbase.getNotesBuffer().toString());
-		}
-
 		if (elementName.equals("listOfMembers")
 				|| elementName.equals("listOfGroups")) {
 			this.groupList = GroupList.none;

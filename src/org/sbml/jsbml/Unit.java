@@ -1786,26 +1786,25 @@ public class Unit extends AbstractSBase {
 				value);
 
 		if (!isAttributeRead) {
+			isAttributeRead = true;
+			
 			if (attributeName.equals("kind")) {
 				try {
 					Kind kind = Kind.valueOf(value.toUpperCase());
 					setKind(kind);
-					return true;
 				} catch (Exception e) {
-					return false;
+					isAttributeRead = false;
 				}
 			} else if (attributeName.equals("exponent")) {
 				setExponent(StringTools.parseSBMLInt(value));
-				return true;
 			} else if (attributeName.equals("scale")) {
 				setScale(StringTools.parseSBMLInt(value));
-				return true;
 			} else if (attributeName.equals("multiplier")) {
 				setMultiplier(StringTools.parseSBMLDouble(value));
-				return true;
 			} else if (attributeName.equals("offset")) {
 				setOffset(StringTools.parseSBMLDouble(value));
-				return true;
+			} else {
+				isAttributeRead = false;
 			}
 		}
 		return isAttributeRead;

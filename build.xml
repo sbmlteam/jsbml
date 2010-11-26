@@ -181,7 +181,7 @@
     <copy todir="${build.dest}">
         <fileset
             dir="${build.src}"
-            includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo" > 
+            includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties" > 
         </fileset>
     </copy>
     <jar jarfile="${build.dir}/${name}.jar"
@@ -194,9 +194,15 @@
   <!-- =================================================================== -->
   <target name="bigjar" depends="compile">
 
-	<!-- we use the ${build.src} to include the sources of jsbml in the resulting jar -->      
+	<!-- we use the ${build.src} to include the sources of jsbml in the resulting jar -->
+    <copy todir="${build.dest}">
+        <fileset
+            dir="${build.src}"
+            includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties **/*.java" > 
+        </fileset>	      
+    </copy>
     <jar jarfile="${build.dir}/${name}-with-dependencies.jar"
-         basedir="${build.src}">
+         basedir="${build.dest}">
     	<zipgroupfileset dir="${jars.dir}" includes="*.jar" />
     	 
     </jar>     

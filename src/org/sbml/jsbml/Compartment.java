@@ -395,29 +395,27 @@ public class Compartment extends Symbol {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 		if (!isAttributeRead) {
+			isAttributeRead = true;
+			
 			if (attributeName.equals("spatialDimensions")) {
 				setSpatialDimensions(StringTools.parseSBMLShort(value));
-				return true;
 			} else if (attributeName.equals("units")) {
 				setUnits(value);
-				return true;
 			} else if (attributeName.equals("size")) {
 				setSize(StringTools.parseSBMLDouble(value));
-				return true;
 			} else if (attributeName.equals("volume")) {
 				setVolume(StringTools.parseSBMLDouble(value));
-				return true;
 			} else if (attributeName.equals("compartmentType")) {
 				setCompartmentType(value);
-				return true;
 			} else if (attributeName.equals("outside")) {
 				setOutside(value);
-				return true;
 			} else if (attributeName.equals("constant")) {
 				setConstant(StringTools.parseSBMLBoolean(value));
-				return true;
+			} else {
+				isAttributeRead = false;
 			}
 		}
+		
 		return isAttributeRead;
 	}
 
@@ -657,7 +655,7 @@ public class Compartment extends Symbol {
 		if (getLevel() != 1) {
 			throw new PropertyNotAvailableError(SBaseChangedEvent.volume, this);
 		}
-		setSize(value);
+		setValue(value);
 	}
 
 	/**

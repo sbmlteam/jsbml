@@ -43,6 +43,7 @@ import org.sbml.jsbml.xml.stax.ReadingParser;
  * 'otherAnnotation' String of the matching Annotation instance.
  * 
  * @author marine
+ * @author rodrigue
  */
 public class AnnotationParser implements ReadingParser {
 
@@ -82,8 +83,8 @@ public class AnnotationParser implements ReadingParser {
 				annotation.appendNoRDFAnnotation("> \n");
 			}
 		} else {
-			// TODO : There is a synthax error? Throw an exception?, the
-			// attribute can't be read?
+			// There is a syntax error, the attribute can't be read?
+			// TODO : log the problem 
 		}
 	}
 
@@ -107,8 +108,8 @@ public class AnnotationParser implements ReadingParser {
 			annotation.appendNoRDFAnnotation(characters + " \n");
 
 		} else {
-			// TODO : There is a synthax error? Throw an exception?, the text
-			// can't be read?
+			// There is a syntax error, the text can't be read?
+			// TODO : log the problem 
 		}
 	}
 
@@ -161,8 +162,8 @@ public class AnnotationParser implements ReadingParser {
 				}
 			}
 		} else {
-			// TODO : There is a synthax error? Throw an exception?, the node
-			// can't be read?
+			// There is a syntax error, the node can't be read?
+			// TODO : log the problem 
 		}
 		
 		return true;
@@ -233,8 +234,8 @@ public class AnnotationParser implements ReadingParser {
 			}
 			return annotation;
 		} else {
-			// TODO : There is a synthax error? Throw an exception?, the node
-			// can't be read?
+			// There is a syntax error, the node can't be read ?
+			// TODO : log the problem 
 		}
 		return contextObject;
 	}

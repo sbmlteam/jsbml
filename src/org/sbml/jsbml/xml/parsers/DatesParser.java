@@ -45,6 +45,7 @@ import org.w3c.util.InvalidDateException;
  * namespace URI : http://purl.org/dc/terms/.
  * 
  * @author marine
+ * @author rodrigue
  * 
  */
 public class DatesParser implements ReadingParser {
@@ -93,7 +94,7 @@ public class DatesParser implements ReadingParser {
 			Object contextObject) {
 		// TODO : There is no attributes with the namespace
 		// "http://purl.org/dc/terms/". There is a SBML
-		// syntax error, throw an exception?
+		// syntax error, log an error.
 	}
 
 	/*

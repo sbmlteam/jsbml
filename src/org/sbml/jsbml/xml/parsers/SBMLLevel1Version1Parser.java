@@ -33,6 +33,9 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.resources.Resource;
+import org.sbml.jsbml.xml.XMLAttributes;
+import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.XMLTriple;
 import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 import org.sbml.jsbml.xml.stax.WritingParser;
@@ -365,11 +368,6 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 
-		if (elementName.equals("notes") && contextObject instanceof SBase) {
-			SBase sbase = (SBase) contextObject;
-			sbase.setNotes(sbase.getNotesBuffer().toString());
-		}
-		
 		return true;
 	}
 
@@ -406,12 +404,11 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			try {
 				Object newContextObject = SBMLCoreElements.get(elementName)
 						.newInstance();
-
+				
 				if (elementName.equals("notes")
 						&& contextObject instanceof SBase) {
 					SBase sbase = (SBase) contextObject;
-					StringBuffer notes = (StringBuffer) newContextObject;
-					sbase.setNotesBuffer(notes);
+					sbase.setNotes(new XMLNode(new XMLTriple("notes", null, null), new XMLAttributes()));
 				} else if (elementName.equals("annotation")
 						&& contextObject instanceof SBase) {
 					SBase sbase = (SBase) contextObject;

@@ -603,42 +603,37 @@ public class Species extends Symbol {
 				value);
 
 		if (!isAttributeRead) {
+			isAttributeRead = true;
+			
 			if (attributeName.equals("compartment")) {
 				setCompartment(value);
-				return true;
 			} else if (attributeName.equals("initialAmount")) {
 				setInitialAmount(StringTools.parseSBMLDouble(value));
-				return true;
 			} else if (attributeName.equals("initialConcentration")
 					&& getLevel() > 1) {
 				setInitialConcentration(StringTools.parseSBMLDouble(value));
-				return true;
 			} else if (attributeName.equals("substanceUnits") && getLevel() > 1) {
 				setUnits(value);
-				return true;
 			} else if (attributeName.equals("spatialSizeUnits")) {
 				setSpatialSizeUnits(value);
-				return true;
 			} else if (attributeName.equals("hasOnlySubstanceUnits")) {
 				setHasOnlySubstanceUnits(StringTools.parseSBMLBoolean(value));
-				return true;
 			} else if (attributeName.equals("boundaryCondition")) {
 				setBoundaryCondition(StringTools.parseSBMLBoolean(value));
-				return true;
 			} else if (attributeName.equals("conversionFactor")) {
 				setConversionFactor(value);
-				return true;
 			} else if (attributeName.equals("charge")) {
 				setCharge(StringTools.parseSBMLInt(value));
-				return true;
 			} else if (attributeName.equals("speciesType")) {
 				setSpeciesType(value);
 				return true;
 			} else if (attributeName.equals("constant")) {
 				setConstant(StringTools.parseSBMLBoolean(value));
-				return true;
+			} else {
+				isAttributeRead = false;
 			}
 		}
+		
 		return isAttributeRead;
 	}
 

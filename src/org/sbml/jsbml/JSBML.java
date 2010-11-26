@@ -71,6 +71,11 @@ public class JSBML {
 	 * cannot give any more precise information about the reasons.
 	 */
 	public static final String UNDEFINED_PARSE_ERROR_MSG = "An error occur while creating a parser: %s.";
+	/**
+	 * This message indicates that a problem occurred but the current class
+	 * cannot give any more precise information about the reasons.
+	 */
+	public static final String UNDEFINED_PARSING_ERROR_MSG = "An error occur while parsing the file : %s.";
 
 	/**
 	 * Returns the JSBML version as a string of the form '1.2.3'.
