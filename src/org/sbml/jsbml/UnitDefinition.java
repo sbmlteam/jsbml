@@ -34,7 +34,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.sbml.jsbml.ListOf.Type;
+import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.ValuePair;
 
 /**
  * Represents the unitDefinition XML element of a SBML file.
@@ -179,18 +181,20 @@ public class UnitDefinition extends AbstractNamedSBase {
 			Unit u = new Unit(level, version);
 			UnitDefinition ud = new UnitDefinition(id, level, version);
 			if (id.equals("substance")) {
-				u.setKind(Unit.Kind.MOLE);
+				u.setKind(Kind.MOLE);
 			} else if (id.equals("volume")) {
-				u.setKind(Unit.Kind.LITRE);
+				u.setKind(Kind.LITRE);
 			} else if (id.equals("area")) {
-				u.setKind(Unit.Kind.METRE);
+				u.setKind(Kind.METRE);
 				u.setExponent(2);
 			} else if (id.equals("length")) {
-				u.setKind(Unit.Kind.METRE);
+				u.setKind(Kind.METRE);
 			} else if (id.equals("time")) {
-				u.setKind(Unit.Kind.SECOND);
-				u.setSBOTerm(345);
-				ud.setSBOTerm(345);
+				u.setKind(Kind.SECOND);
+				if (new ValuePair<Integer, Integer>(level, version).compareTo(2, 2) >= 0 ) {
+					u.setSBOTerm(345);
+					ud.setSBOTerm(345);
+				}
 			} else {
 				return null;
 			}
