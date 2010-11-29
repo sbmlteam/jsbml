@@ -549,7 +549,11 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#get(int)
 	 */
 	public T get(int index) {
-		return listOf.get(index);
+		if (index >= 0 && index < listOf.size()) {
+			return listOf.get(index);			
+		}
+		
+		return null;
 	}
 
 	/*

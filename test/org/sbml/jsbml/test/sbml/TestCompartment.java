@@ -66,25 +66,19 @@ public class TestCompartment {
     C = null;
   }
 
-  @Test public void test_Compartment_get_type()
-  {
-	  assertTrue(false);
-//    assertTrue( C.getTypeCode() == libsbml.SBML_COMPARTMENT ); // TODO : need to implement the getTypeCode function in jsbml
-  }
   
   @Test public void test_Compartment_get_notes_xml_node()
   {
-	  assertTrue(false);
-//    assertTrue( C.getNotes() == null ); // TODO DOCUMENT API changes : c.getNodes() return an XMLNode in libsbml, we have only a method c.getNotesString() returning a String
+	  assertTrue( C.getNotes() == null );
   }
   
   @Test public void test_Compartment_create()
   {
 //    assertTrue( C.getTypeCode() == libsbml.SBML_COMPARTMENT );
     assertTrue( C.getMetaId().equals("") == true );
-//    assertTrue( C.getNotes() == null );
-    assertTrue( C.getNotesString() == null ); // TODO : document api changes, this method is added
-    assertTrue( C.getAnnotation() == null );
+    assertTrue( C.getNotes() == null );
+    assertTrue( C.getNotesString() == null );
+    // assertTrue( C.getAnnotation() == null );
     assertTrue( C.getId().equals("") == true );
     assertTrue( C.getName().equals("") == true );
     assertTrue( C.getUnits().equals("") == true );
@@ -106,8 +100,8 @@ public class TestCompartment {
     c.setId( "A");
 //    assertTrue( c.getTypeCode() == libsbml.SBML_COMPARTMENT );
     assertTrue( c.getMetaId().equals("") == true );
-//    assertTrue( c.getNotes() == null );
-    assertTrue( c.getAnnotation() == null );
+    assertTrue( c.getNotes() == null );
+    // assertTrue( c.getAnnotation() == null );
     assertTrue( c.getName().equals("") == true );
     assertTrue( c.getSpatialDimensions() == 3 );
     assertTrue(c.getId().equals( "A"     ));
@@ -117,30 +111,6 @@ public class TestCompartment {
     c = null;
   }
 
-//TODO CHECK : We have no constructor with SBMLNamespaces, we did not implement this class and the same for XMLNamespaces
-  @Test public void test_Compartment_createWithNS()
-  {
-	  assertTrue(false);
-	  /*
-    XMLNamespaces xmlns = new  XMLNamespaces();
-    xmlns.add( "http://www.sbml.org", "testsbml");
-    SBMLNamespaces sbmlns = new  SBMLNamespaces(2,1);
-    sbmlns.addNamespaces(xmlns); */
-	  
-     Compartment c = new  Compartment(2,1); // new  Compartment(sbmlns); 
-//    assertTrue( c.getTypeCode() == libsbml.SBML_COMPARTMENT );
-    assertTrue( c.getMetaId().equals("") == true );
-//    assertTrue( c.getNotes() == null );
-    assertTrue( c.getAnnotation() == null );
-    assertTrue( c.getLevel() == 2 );
-    assertTrue( c.getVersion() == 1 );
-    assertTrue( c.getNamespaces() != null ); // TODO CHECK : what this method is returning
-//    assertTrue( c.getNamespaces().getLength() == 2 );
-    assertTrue( c.getName().equals("") == true );
-    assertTrue( c.getSpatialDimensions() == 3 );
-    assertTrue( c.getConstant() == true );
-    c = null;
-  }
 
   @Test public void test_Compartment_getSpatialDimensions()
   {
@@ -154,7 +124,8 @@ public class TestCompartment {
     assertTrue( C.getConstant() == true );
   }
 
-  @Test public void test_Compartment_getsetType()
+  @SuppressWarnings("deprecation")
+@Test public void test_Compartment_getsetType()
   {
     C.setCompartmentType( "cell");
     assertTrue(C.getCompartmentType().equals( "cell" ));
@@ -220,9 +191,10 @@ public class TestCompartment {
     }
   }
 
-  @Test public void test_Compartment_setOutside()
+  @SuppressWarnings("deprecation")
+@Test public void test_Compartment_setOutside()
   {
-    String outside =  "cell";;
+    String outside =  "cell";
     C.setOutside(outside);
     assertTrue(C.getOutside().equals(outside));
     assertEquals( true, C.isSetOutside() );
@@ -240,20 +212,15 @@ public class TestCompartment {
 
   @Test public void test_Compartment_setUnits()
   {
-    String units =  "volume";;
+    String units =  "volume";
     C.setUnits(units);
     assertTrue(C.getUnits().equals(units));
     assertEquals( true, C.isSetUnits() );
-    if (C.getUnits() == units);
-    {
-    }
     C.setUnits(C.getUnits());
     assertTrue(C.getUnits().equals(units));
     C.setUnits("");
     assertEquals( false, C.isSetUnits() );
-    if (C.getUnits() != null);
-    {
-    }
+    assertTrue(C.getUnits() == ""); // in libsbml it returns null
   }
 
   @Test public void test_Compartment_unsetSize()
@@ -265,13 +232,6 @@ public class TestCompartment {
     assertEquals( false, C.isSetSize() );
   }
 
-  @Test public void test_Compartment_unsetVolume()
-  {
-    C.setVolume(1.0);
-    assertTrue( C.getVolume() == 1.0 );
-    C.unsetVolume();
-    assertEquals( false, C.isSetVolume() );
-  }
 
 
 }

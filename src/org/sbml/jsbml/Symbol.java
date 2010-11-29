@@ -152,7 +152,7 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 		if (o instanceof Symbol) {
 			boolean equal = super.equals(o);
 			Symbol v = (Symbol) o;
-			equal &= v.isSetConstant() && isSetConstant();
+			equal &= v.isSetConstant() == isSetConstant();
 			equal &= v.getConstant() == getConstant();
 			return equal;
 		}

@@ -280,6 +280,12 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	 *            to this method is equivalent to calling {@link #unsetUnits()}.
 	 */
 	public void setUnits(String units) {
+		
+		if (units != null && units.trim().length() == 0) {
+			unsetUnits();
+			return;
+		}
+		
 		boolean illegalArgument = false;
 		String oldUnits = this.unitsID;
 		if (units != null) {

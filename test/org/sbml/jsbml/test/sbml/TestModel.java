@@ -41,6 +41,7 @@ package org.sbml.jsbml.test.sbml;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.After;
@@ -71,6 +72,7 @@ import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.text.parser.ParseException;
 
@@ -86,10 +88,6 @@ public class TestModel {
 	@Before
 	public void setUp() throws Exception {
 		M = new Model(2, 4);
-		if (M == null)
-			;
-		{
-		}
 	}
 
 	@After
@@ -122,9 +120,9 @@ public class TestModel {
 		r1.setKineticLaw(kl);
 		M.addReaction(r1);
 		KineticLaw kl1 = M.getReaction(0).getKineticLaw();
-		assertTrue(!kl1.getParameter("k1").equals(k3));
-		assertTrue(!kl1.getParameter("k1").equals(k1));
-		assertTrue(!kl1.getParameter("k2").equals(k4));
+		// assertTrue(!kl1.getParameter("k1").equals(k3)); // TODO : compare Parameter and LocalParameter
+		// assertTrue(!kl1.getParameter("k1").equals(k1)); // We are not doinga clone of the object and even it will return true
+		// assertTrue(!kl1.getParameter("k2").equals(k4)); // TODO : compare Parameter and LocalParameter
 		assertEquals(kl1.getParameter("k3"), null);
 	}
 
@@ -179,18 +177,25 @@ public class TestModel {
 
 	@Test
 	public void test_Model_add_get_Event() {
+	    ASTNode math = null;
+	    try {
+			math = ASTNode.parseFormula("0");
+		} catch (ParseException e) {
+			assertTrue(false);
+		} 
+
 		Event e1 = new Event(2, 4);
 		Event e2 = new Event(2, 4);
 		Trigger t = new Trigger(2, 4);
 		e1.setTrigger(t);
-		e2.setTrigger(t);
-		e1.createEventAssignment();
-		e2.createEventAssignment();
+		e2.setTrigger(t); // TODO : Document the difference : Setting the same trigger object there in jsbml !!!
+		e1.createEventAssignment("k1", math);
+		e2.createEventAssignment("k2", math);
 		M.addEvent(e1);
 		M.addEvent(e2);
 		assertTrue(M.getNumEvents() == 2);
-		assertTrue(!M.getEvent(0).equals(e1));
-		assertTrue(!M.getEvent(1).equals(e2));
+		// assertTrue(!M.getEvent(0).equals(e1)); // the eventAssignement would be the same in jsbml
+		// assertTrue(!M.getEvent(1).equals(e2));
 		assertEquals(M.getEvent(2), null);
 		assertEquals(M.getEvent(-2), null);
 	}
@@ -201,13 +206,14 @@ public class TestModel {
 		FunctionDefinition fd2 = new FunctionDefinition(2, 4);
 		fd1.setId("fd1");
 		fd2.setId("fd2");
-		fd1.setMath(ASTNode.parseFormula("2"));
-		fd2.setMath(ASTNode.parseFormula("2"));
+		// fd1.setMath(ASTNode.parseFormula("f(x) = x+2)"));
+		fd1.setMath(ASTNode.parseFormula("lamda(2)"));
+		fd2.setMath(ASTNode.parseFormula("lamda(x, x+2)"));
 		M.addFunctionDefinition(fd1);
 		M.addFunctionDefinition(fd2);
 		assertTrue(M.getNumFunctionDefinitions() == 2);
-		assertTrue(!M.getFunctionDefinition(0).equals(fd1));
-		assertTrue(!M.getFunctionDefinition(1).equals(fd2));
+		// assertTrue(!M.getFunctionDefinition(0).equals(fd1)); // would be the same in jsbml
+		// assertTrue(!M.getFunctionDefinition(1).equals(fd2));
 		assertEquals(M.getFunctionDefinition(2), null);
 		assertEquals(M.getFunctionDefinition(-2), null);
 	}
@@ -218,13 +224,13 @@ public class TestModel {
 		UnitDefinition ud2 = new UnitDefinition(2, 4);
 		ud1.setId("ud1");
 		ud2.setId("ud2");
-		ud1.createUnit();
-		ud2.createUnit();
+		ud1.createUnit(Kind.LITRE);
+		ud2.createUnit(Kind.METRE);
 		M.addUnitDefinition(ud1);
 		M.addUnitDefinition(ud2);
 		assertTrue(M.getNumUnitDefinitions() == 2);
-		assertTrue(!M.getUnitDefinition(0).equals(ud1));
-		assertTrue(!M.getUnitDefinition(1).equals(ud2));
+		// assertTrue(!M.getUnitDefinition(0).equals(ud1)); // would be the same in jsbml
+		// assertTrue(!M.getUnitDefinition(1).equals(ud2));
 		assertEquals(M.getUnitDefinition(2), null);
 		assertEquals(M.getUnitDefinition(-2), null);
 	}
@@ -233,8 +239,8 @@ public class TestModel {
 	public void test_Model_create() {
 		// assertTrue( M.getTypeCode() == libsbml.SBML_MODEL );
 		assertTrue(M.getMetaId().equals("") == true);
-		// assertTrue( M.getNotes() == null );
-		assertTrue(M.getAnnotation() == null);
+		assertTrue( M.getNotes() == null );
+		//assertTrue(M.getAnnotation() == null);
 		assertTrue(M.getId().equals("") == true);
 		assertTrue(M.getName().equals("") == true);
 		assertEquals(false, M.isSetId());
@@ -267,7 +273,7 @@ public class TestModel {
 		Compartment c = M.createCompartment();
 		assertTrue(c != null);
 		assertTrue(M.getNumCompartments() == 1);
-		assertTrue(M.getCompartment(0).equals(c) == true);
+		assertTrue(M.getCompartment(0).equals(c)); // TODO : check why this is failing
 	}
 
 	@Test
@@ -418,7 +424,7 @@ public class TestModel {
 		Parameter p = M.createParameter();
 		assertTrue(p != null);
 		assertTrue(M.getNumParameters() == 1);
-		assertEquals(M.getParameter(0), p);
+		assertEquals(M.getParameter(0), p); // TODO : check why this failing
 	}
 
 	@Test
@@ -499,7 +505,7 @@ public class TestModel {
 		Unit u;
 		M.createUnitDefinition();
 		M.createUnitDefinition();
-		u = M.createUnit();
+		u = M.createUnit(Kind.LITRE);
 		assertTrue(u != null);
 		assertTrue(M.getNumUnitDefinitions() == 2);
 		ud = M.getUnitDefinition(1);
@@ -558,8 +564,9 @@ public class TestModel {
 		M.addCompartment(c1);
 		M.addCompartment(c2);
 		assertTrue(M.getNumCompartments() == 2);
-		assertTrue(M.getCompartment("A").equals(c1) != true);
-		assertTrue(M.getCompartment("B").equals(c2) != true);
+		// assertTrue(!M.getCompartment("A").equals(c1)); // would be the same in jsbml
+		// assertTrue(!M.getCompartment("B").equals(c2));
+		assertTrue(M.getCompartment("B").equals(c2));
 		assertTrue(M.getCompartment("C") == null);
 	}
 
@@ -577,8 +584,8 @@ public class TestModel {
 		M.addEvent(e1);
 		M.addEvent(e2);
 		assertTrue(M.getNumEvents() == 2);
-		assertTrue(!M.getEvent("e1").equals(e1));
-		assertTrue(!M.getEvent("e2").equals(e2));
+		// assertTrue(!M.getEvent("e1").equals(e1));
+		// assertTrue(!M.getEvent("e2").equals(e2));
 		assertEquals(M.getEvent("e3"), null);
 	}
 
@@ -593,8 +600,8 @@ public class TestModel {
 		M.addFunctionDefinition(fd1);
 		M.addFunctionDefinition(fd2);
 		assertTrue(M.getNumFunctionDefinitions() == 2);
-		assertTrue(!M.getFunctionDefinition("sin").equals(fd1));
-		assertTrue(!M.getFunctionDefinition("cos").equals(fd2));
+		//assertTrue(!M.getFunctionDefinition("sin").equals(fd1));
+		// assertTrue(!M.getFunctionDefinition("cos").equals(fd2));
 		assertEquals(M.getFunctionDefinition("tan"), null);
 	}
 
@@ -649,8 +656,8 @@ public class TestModel {
 		M.addParameter(p1);
 		M.addParameter(p2);
 		assertTrue(M.getNumParameters() == 2);
-		assertNotEquals(M.getParameter("Km1"), p1);
-		assertNotEquals(M.getParameter("Km2"), p2);
+		// assertNotEquals(M.getParameter("Km1"), p1);
+		// assertNotEquals(M.getParameter("Km2"), p2);
 		assertEquals(M.getParameter("Km3"), null);
 	}
 
@@ -678,8 +685,9 @@ public class TestModel {
 		M.addReaction(r1);
 		M.addReaction(r2);
 		assertTrue(M.getNumReactions() == 2);
-		assertNotEquals(M.getReaction("reaction_1"), r1);
-		assertNotEquals(M.getReaction("reaction_2"), r2);
+		// assertNotEquals(M.getReaction("reaction_1"), r1);
+		// assertNotEquals(M.getReaction("reaction_2"), r2);
+		assertEquals(M.getReaction("reaction_2"), r2);
 		assertEquals(M.getReaction("reaction_3"), null);
 	}
 
@@ -707,9 +715,9 @@ public class TestModel {
 		scr = (AssignmentRule) M.getRule(1);
 		cvr = (AssignmentRule) M.getRule(2);
 		pr = (AssignmentRule) M.getRule(3);
-		assertTrue(ar.getFormula().equals("x + 1"));
-		assertTrue(scr.getFormula().equals("k * t/(1 + k)"));
-		assertTrue(cvr.getFormula().equals("0.10 * t"));
+		assertTrue(ar.getFormula().equals("x+1")); // .equals("x + 1")
+		assertTrue(scr.getFormula().equals("k*t/(1+k)")); // .equals("k * t/(1 + k)"));
+		assertTrue(cvr.getFormula().equals("0.1*t")); // .equals("0.10 * t"));
 		assertTrue(pr.getFormula().equals("k3/k2"));
 	}
 
@@ -741,8 +749,9 @@ public class TestModel {
 		M.addSpecies(s1);
 		M.addSpecies(s2);
 		assertTrue(M.getNumSpecies() == 2);
-		assertTrue(M.getSpecies("Glucose").equals(s1) != true);
-		assertTrue(M.getSpecies("Glucose_6_P").equals(s2) != true);
+		// assertTrue(M.getSpecies("Glucose").equals(s1) != true);
+		// assertTrue(M.getSpecies("Glucose_6_P").equals(s2) != true);
+		assertTrue(M.getSpecies("Glucose_6_P").equals(s2));
 		assertTrue(M.getSpecies("Glucose2") == null);
 	}
 
@@ -752,8 +761,8 @@ public class TestModel {
 		UnitDefinition ud2 = new UnitDefinition(2, 4);
 		ud1.setId("mmls");
 		ud2.setId("volume");
-		ud1.createUnit();
-		ud2.createUnit();
+		ud1.createUnit(Kind.LITRE);
+		ud2.createUnit(Kind.LITRE);
 		M.addUnitDefinition(ud1);
 		M.addUnitDefinition(ud2);
 		assertTrue(M.getNumUnitDefinitions() == 2);
@@ -769,13 +778,13 @@ public class TestModel {
 		UnitDefinition ud2 = new UnitDefinition(2, 4);
 		ud1.setId("mmls");
 		ud2.setId("volume");
-		ud1.createUnit();
-		ud2.createUnit();
+		ud1.createUnit(Kind.LITRE);
+		ud2.createUnit(Kind.LITRE);
 		M.addUnitDefinition(ud1);
 		M.addUnitDefinition(ud2);
 		assertTrue(M.getNumUnitDefinitions() == 2);
-		assertNotEquals(M.getUnitDefinition("mmls"), ud1);
-		assertNotEquals(M.getUnitDefinition("volume"), ud2);
+		// assertNotEquals(M.getUnitDefinition("mmls"), ud1);
+		// assertNotEquals(M.getUnitDefinition("volume"), ud2);
 		assertEquals(M.getUnitDefinition("rototillers"), null);
 	}
 
@@ -933,6 +942,7 @@ public class TestModel {
 		assertTrue(M.getNumRules() == 2);
 		assertTrue(M.removeRule(0).equals(o2));
 		assertTrue(M.getNumRules() == 1);
+		assertTrue( M.removeRule("test").equals(o3) );
 		assertTrue(M.getNumRules() == 0);
 		o1 = null;
 		o2 = null;
@@ -1042,9 +1052,7 @@ public class TestModel {
 	public void test_Model_setgetModelHistory() {
 		History history = new History();
 		Creator mc = new Creator();
-		Date date = new Date("20051230 12:15:45 1 2 0"); // TODO : create a
-		// proper equivalent
-		// Date
+		Date date = Calendar.getInstance().getTime();
 		mc.setFamilyName("Keating");
 		mc.setGivenName("Sarah");
 		mc.setEmail("sbml-team@caltech.edu");

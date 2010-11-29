@@ -189,12 +189,13 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 			 */
 			v = m.findVariable(variable);
 			if (v == null) {
-				throw new IllegalArgumentException(String.format(
-						NO_SUCH_VARIABLE_EXCEPTION_MSG, m.getId(), variable));
+				String oldVariable = variableID;
+				variableID = variable;
+				firePropertyChange(SBaseChangedEvent.variable, oldVariable, variableID);				
+			} else {
+				setVariable(v);
 			}
-			setVariable(v);
 		} else {
-			// TODO: potential source of bugs.
 			String oldVariable = variableID;
 			variableID = variable;
 			firePropertyChange(SBaseChangedEvent.variable, oldVariable, variableID);
@@ -445,7 +446,16 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	 * @see org.sbml.jsbml.Assignment#setVariable(java.lang.String)
 	 */
 	public void setVariable(String variable) {
-		checkAndSetVariable(variable);
+		// checkAndSetVariable(variable); // We cannot use that as the Object might not be defined yet in L3.
+		
+		if (variable != null && variable.trim().length() == 0) {
+			variable = null;
+		}
+		
+		String oldVariable = variableID;
+		variableID = variable;
+		firePropertyChange(SBaseChangedEvent.variable, oldVariable, variableID);
+		
 	}
 
 	/*
@@ -461,7 +471,7 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 			}
 			if (isSetUnits() && !(variable instanceof Parameter)) {
 				throw new IllegalArgumentException(String.format(
-										"Variable expected to be an instance of Parameter because a Unit attribute is set allready, but given is an %s.",
+										"Variable expected to be an instance of Parameter because a Unit attribute is set already, but given is an %s.",
 										variable.getElementName()));
 			}
 			if ((getLevel() < 3) && (variable instanceof SpeciesReference)) {

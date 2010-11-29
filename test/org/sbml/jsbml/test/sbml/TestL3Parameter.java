@@ -81,13 +81,13 @@ public class TestL3Parameter {
   {
 //    assertTrue( P.getTypeCode() == libsbml.SBML_PARAMETER );
     assertTrue( P.getMetaId().equals("") == true );
-//    assertTrue( P.getNotes() == null );
-    assertTrue( P.getAnnotation() == null );
+    assertTrue( P.getNotes() == null );
+//    assertTrue( P.getAnnotation() == null );
     assertTrue( P.getId().equals("") == true );
     assertTrue( P.getName().equals("") == true );
     assertTrue( P.getUnits().equals("") == true );
     assertEquals( true, isNaN(P.getValue()) );
-    assertTrue( P.getConstant() == false ); // TODO : check with libsbml guys assertTrue( P.getConstant() == true );
+    assertTrue( P.getConstant() == true );
     assertEquals( false, P.isSetId() );
     assertEquals( false, P.isSetName() );
     assertEquals( false, P.isSetValue() );
@@ -126,18 +126,6 @@ public class TestL3Parameter {
   }
 */
 
-  @Test public void test_L3_Parameter_hasRequiredAttributes()
-  {
-	  assertTrue(false); // TODO : we need to implement the method sbase.hasRequiredAttributes() for all element
-	  
-    Parameter p = new  Parameter(3,1);
-//    assertEquals( false, p.hasRequiredAttributes() );
-    p.setId( "id");
-//    assertEquals( false, p.hasRequiredAttributes() );
-    p.setConstant(false);
-//    assertEquals( true, p.hasRequiredAttributes() );
-    p = null;
-  }
 
   @Test public void test_L3_Parameter_id()
   {

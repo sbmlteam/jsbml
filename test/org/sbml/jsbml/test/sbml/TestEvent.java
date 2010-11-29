@@ -76,8 +76,8 @@ public class TestEvent {
   {
 //    assertTrue( E.getTypeCode() == libsbml.SBML_EVENT );
     assertTrue( E.getMetaId().equals("") == true );
-//    assertTrue( E.getNotes() == null );
-    assertTrue( E.getAnnotation() == null );
+    assertTrue( E.getNotes() == null );
+//    assertTrue( E.getAnnotation() == null );
     assertTrue( E.getId().equals("") == true );
     assertTrue( E.getName().equals("") == true );
     assertEquals(E.getTrigger(),null);
@@ -122,7 +122,7 @@ public class TestEvent {
     e.setName( "Set k2 to zero when P1 <= t");
     e.addEventAssignment(ea);
     assertTrue( e.getNumEventAssignments() == 1 );
-    assertTrue(e.getEventAssignment(0) != ea);
+    assertTrue(e.getEventAssignment(0) == ea);
     math = null;
     e = null;
   }
@@ -130,9 +130,15 @@ public class TestEvent {
   @Test public void test_Event_removeEventAssignment()
   {
     EventAssignment o1,o2,o3;
-    o1 = E.createEventAssignment();
-    o2 = E.createEventAssignment();
-    o3 = E.createEventAssignment();
+    ASTNode math = null;
+    try {
+		math = ASTNode.parseFormula("0");
+	} catch (ParseException e) {
+		assertTrue(false);
+	} 
+    o1 = E.createEventAssignment("t1", math); // We cannot add several time the same element to a list of anything
+    o2 = E.createEventAssignment("t2", math);
+    o3 = E.createEventAssignment("t3", math);
     o3.setVariable("test");
     assertTrue( E.removeEventAssignment(0).equals(o1) );
     assertTrue( E.getNumEventAssignments() == 2 );
@@ -148,16 +154,16 @@ public class TestEvent {
   @Test public void test_Event_setDelay() throws ParseException
   {
     ASTNode math1 = ASTNode.parseFormula("0");
-    Delay Delay = new  Delay(2,4);
-    Delay.setMath(math1);
-    E.setDelay(Delay);
+    Delay delay = new  Delay(2,4);
+    delay.setMath(math1);
+    E.setDelay(delay);
     assertTrue(E.getDelay() != null);
     assertEquals( true, E.isSetDelay() );
-    if (E.getDelay() == Delay);
+    if (E.getDelay() == delay);
     {
     }
     E.setDelay(E.getDelay());
-    assertTrue(E.getDelay() != Delay);
+    // assertTrue(E.getDelay() != delay); // We are not doing a copy of the object, so it is the same
     E.setDelay(null);
     assertEquals( false, E.isSetDelay() );
     if (E.getDelay() != null);
@@ -234,7 +240,7 @@ public class TestEvent {
     {
     }
     E.setTrigger(E.getTrigger());
-    assertTrue(E.getTrigger() != trigger);
+    // assertTrue(E.getTrigger() != trigger); // We are not doing a copy of the object, so it is the same 
     E.setTrigger(null);
     assertEquals( false, E.isSetTrigger() );
     if (E.getTrigger() != null);
