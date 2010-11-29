@@ -543,6 +543,11 @@ public class Compartment extends Symbol {
 	 */
 	@Override
 	public void setUnits(String units) {
+		if (units != null && units.trim().length() == 0) {
+			unsetUnits();
+			return;
+		}
+		
 		if (0 < getSpatialDimensions()) {
 			super.setUnits(units);
 		} else {

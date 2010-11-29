@@ -35,6 +35,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
 import org.sbml.jsbml.util.filters.NameFilter;
+import org.sbml.jsbml.util.filters.RuleVariableFilter;
 
 /**
  * <p>
@@ -2908,6 +2909,15 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public Rule removeRule(int i) {
 		return getListOfRules().remove(i);
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public Rule removeRule(String variableId) {
+		return getListOfRules().removeFirst(new RuleVariableFilter(variableId));
 	}
 
 	/**

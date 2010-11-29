@@ -70,8 +70,8 @@ public class TestParameter {
   {
 //    assertTrue( P.getTypeCode() == libsbml.SBML_PARAMETER );
     assertTrue( P.getMetaId().equals("") == true );
-//    assertTrue( P.getNotes() == null );
-    assertTrue( P.getAnnotation() == null );
+    assertTrue( P.getNotes() == null );
+//    assertTrue( P.getAnnotation() == null );
     assertTrue( P.getId().equals("") == true );
     assertTrue( P.getName().equals("") == true );
     assertTrue( P.getUnits().equals("") == true );

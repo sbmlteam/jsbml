@@ -135,7 +135,7 @@ public class Parameter extends Symbol {
 		setValue(Double.NaN);
 
 		if (getLevel() > 1) {
-			setConstant(true);
+			constant = true;
 		}
 	}
 

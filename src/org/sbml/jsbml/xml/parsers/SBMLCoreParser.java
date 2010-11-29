@@ -971,7 +971,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 								log4jLogger.warn("The element " + elementName + " is not recognized");
 							}
 						} else if (elementName.equals("specieReference")
-								&& reaction.getLevel() > 1) {
+								&& reaction.getLevel() == 1) {
 							SpeciesReference speciesReference = (SpeciesReference) newContextObject;
 							speciesReference.initDefaults();
 

@@ -689,6 +689,10 @@ public class Species extends Symbol {
 	 * @param compartment
 	 */
 	public void setCompartment(String compartment) {
+		if (compartment != null && compartment.trim().length() == 0) {
+			unsetCompartment();
+			return;
+		}
 		if (checkIdentifier(compartment)) {
 			String oldCompartment = this.compartmentID;
 			if ((compartment != null) && (compartment.trim().length() == 0)) {

@@ -69,15 +69,15 @@ public class TestSpecies {
   {
 //    assertTrue( S.getTypeCode() == libsbml.SBML_SPECIES );
     assertTrue( S.getMetaId().equals("") == true );
-//    assertTrue( S.getNotes() == null );
-    assertTrue( S.getAnnotation() == null );
+    assertTrue( S.getNotes() == null );
+    // assertTrue( S.getAnnotation() == null );
     assertTrue( S.getId().equals("") == true );
     assertTrue( S.getName().equals("") == true );
     assertTrue( S.getCompartment().equals("") == true );
     assertTrue( S.getInitialAmount() == 0.0 );
     assertTrue( S.getInitialConcentration() == 0.0 );
     assertTrue( S.getSubstanceUnits().equals("") == true );
-    // assertTrue( S.getSpatialSizeUnits().equals("") == true ); // TODO : implements, it is currently missing as removed in l2v4
+    assertTrue( S.getSpatialSizeUnits().equals("") == true );
     assertTrue( S.getHasOnlySubstanceUnits() == false );
     assertTrue( S.getBoundaryCondition() == false );
     assertTrue( S.getCharge() == 0 );
@@ -130,6 +130,7 @@ public class TestSpecies {
     assertTrue(S.getCompartment().equals(compartment));
     S.setCompartment("");
     assertEquals( false, S.isSetCompartment() );
+    S.setCompartment((String) null);
     if (S.getCompartment() != null);
     {
     }
@@ -192,11 +193,9 @@ public class TestSpecies {
   }
 
   
-   // TODO : add again when  SpatialSizeUnit is supported
-  @Test public void test_Species_setSpatialSizeUnits()
+  @SuppressWarnings("deprecation")
+@Test public void test_Species_setSpatialSizeUnits()
   {
-	  assertTrue(false);
-	  /*
     Species s = new  Species(2,1);
     String units =  "volume";;
     s.setSpatialSizeUnits(units);
@@ -213,7 +212,6 @@ public class TestSpecies {
     {
     }
     s = null;
-    */
   }
 
   
@@ -251,5 +249,6 @@ public class TestSpecies {
     if (S.getSubstanceUnits() != null);
     {
     }
+    S.unsetUnits();
   }
 }

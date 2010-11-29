@@ -85,6 +85,7 @@ import java.util.regex.Pattern;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.util.Location;
+import org.sbml.jsbml.util.Message;
 import org.sbml.jsbml.util.Option;
 import org.sbml.jsbml.xml.xstream.converter.MessageConverter;
 
@@ -94,6 +95,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 /**
  * Validator is simply a container for the static method validateSBML(filename,
  * parameters).
+ * 
  */
 class Validator {
 	public static String validatorURL = "http://sbml.org/validator/";
@@ -365,12 +367,11 @@ public class SBMLValidator {
 			xstream.alias("option", Option.class);
 			xstream.alias("problem", SBMLError.class);
 			xstream.alias("location", Location.class);
-			xstream.registerConverter(new MessageConverter());
-
-			// xstream.alias("message", Message.class);
-			// TODO : make a custom Converter to read correctly the message with
-			// it's lang attribute.
-
+			// xstream.registerConverter(new MessageConverter(), XStream.PRIORITY_VERY_HIGH);
+			xstream.registerLocalConverter(SBMLErrorLog.class, "messageInstance", new MessageConverter());
+			
+			xstream.alias("message", Message.class);
+			
 			xstream.addImplicitCollection(SBMLErrorLog.class, "options",
 					"option", Option.class);
 			xstream.addImplicitCollection(SBMLErrorLog.class,
@@ -379,7 +380,9 @@ public class SBMLValidator {
 			xstream.aliasField("error", SBMLErrorLog.class, "status");
 			xstream.aliasField("warning", SBMLErrorLog.class, "status");
 			xstream.aliasField("no-errors", SBMLErrorLog.class, "status");
-
+			
+			xstream.aliasField("message", SBMLErrorLog.class, "messageInstance");
+			
 			xstream.useAttributeFor(File.class);
 
 			xstream.useAttributeFor(Option.class, "name");
@@ -388,7 +391,7 @@ public class SBMLValidator {
 			xstream.useAttributeFor(SBMLError.class, "category");
 			xstream.useAttributeFor(SBMLError.class, "code");
 			xstream.useAttributeFor(SBMLError.class, "severity");
-
+			
 			xstream.useAttributeFor(Location.class, "line");
 			xstream.useAttributeFor(Location.class, "column");
 

@@ -71,7 +71,7 @@ public class SBMLError extends XMLError {
 	/**
 	 * 
 	 */
-	private Message messageObj;
+	private Message message;
 	/**
 	 * 
 	 */
@@ -147,7 +147,7 @@ public class SBMLError extends XMLError {
 	 * @return
 	 */
 	public Message getMessageInstance() {
-		return messageObj;
+		return message;
 	}
 
 	/**
@@ -163,8 +163,7 @@ public class SBMLError extends XMLError {
 	 * @return
 	 */
 	public boolean isFatal() {
-		// TODO : check that
-		return severity != null && severity.equals("fatal");
+		return severity != null && severity.equalsIgnoreCase("Fatal");
 	}
 
 	/**
@@ -172,7 +171,7 @@ public class SBMLError extends XMLError {
 	 * @return
 	 */
 	public boolean isInfo() {
-		return severity != null && severity.equals("info");
+		return severity != null && (severity.equalsIgnoreCase("Info") || severity.equalsIgnoreCase("Avisory"));
 	}
 
 	/**
@@ -180,7 +179,7 @@ public class SBMLError extends XMLError {
 	 * @return
 	 */
 	public boolean isInternal() {
-		return severity != null && severity.equals("internal");
+		return category != null && category.equalsIgnoreCase("Internal");
 	}
 
 	/**
@@ -188,7 +187,7 @@ public class SBMLError extends XMLError {
 	 * @return
 	 */
 	public boolean isSystem() {
-		return severity != null && severity.equals("system");
+		return category != null && category.equalsIgnoreCase("System");
 	}
 
 	/**
@@ -196,7 +195,7 @@ public class SBMLError extends XMLError {
 	 * @return
 	 */
 	public boolean isWarning() {
-		return severity != null && severity.equals("warning");
+		return severity != null && severity.equalsIgnoreCase("Warning");
 	}
 
 	/**
@@ -204,7 +203,7 @@ public class SBMLError extends XMLError {
 	 * @return
 	 */
 	public boolean isXML() {
-		return severity != null && severity.equals("xml");
+		return category != null && category.equalsIgnoreCase("xml");
 	}
 
 	/**
@@ -244,9 +243,9 @@ public class SBMLError extends XMLError {
 	 * @param messageObj
 	 */
 	public void setMessage(Message message) {
-		this.messageObj = message;
+		this.message = message;
 	}
-
+	
 	/**
 	 * 
 	 * @param severity
@@ -264,7 +263,7 @@ public class SBMLError extends XMLError {
 	public String toString() {
 		return StringTools.concat("SBMLError [category=", category, ", code=",
 				code, ", excerpt=", excerpt, ", location=", location,
-				", \nmessage =", messageObj, ", severity=", severity, "]")
+				", \nmessage =", message, ", severity=", severity, "]")
 				.toString();
 	}
 

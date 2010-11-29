@@ -1,6 +1,6 @@
 /*
- * $Id: BoundaryConditionFilter.java 231 2010-05-13 09:19:09Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/util/BoundaryConditionFilter.java $
+ * $Id: MathMLComnpiler.java 97 2009-12-10 09:08:54Z andreas-draeger $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/util/MathMLComnpiler.java $
  *
  * 
  *==================================================================================
@@ -28,33 +28,64 @@
  */
 package org.sbml.jsbml.util.filters;
 
-import org.sbml.jsbml.Species;
+import org.sbml.jsbml.ExplicitRule;
 
 /**
- * This filter accepts species whose boundary condition is set to true.
+ * This filter only accepts instances of {@link ExplicitRule} with the variable as
+ * given in the constructor of this object.
  * 
- * @author Andreas Dr&auml;ger
- * 
+ * @author rodrigue
+ *  
  */
-public class BoundaryConditionFilter implements Filter {
+public class RuleVariableFilter implements Filter {
 
 	/**
-	 * Constructs a new boundary condition filter.
+	 * The desired identifier for NamedSBases to be acceptable.
 	 */
-	public BoundaryConditionFilter() {
+	String id;
+
+	/**
+	 * 
+	 */
+	public RuleVariableFilter() {
+		this(null);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 */
+	public RuleVariableFilter(String id) {
+		this.id = id;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.util.Filter#accepts(java.lang.Object)
+	 * @see org.sbml.jsbml.util.Filter#fulfilsProperty(java.lang.Object)
 	 */
 	public boolean accepts(Object o) {
-		if (o instanceof Species) {
-			Species s = (Species) o;
-			return s.isSetBoundaryCondition() && s.getBoundaryCondition();
+		if (o instanceof ExplicitRule) {
+			ExplicitRule er = (ExplicitRule) o;
+			if (er.isSetVariable() && (id != null) && er.getVariable().equals(id)) {
+				return true;
+			}
 		}
 		return false;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+	
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

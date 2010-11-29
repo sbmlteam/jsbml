@@ -115,8 +115,8 @@ public class TestReaction {
   {
     //assertTrue( R.getTypeCode() == libsbml.SBML_REACTION );
     assertTrue( R.getMetaId().equals("") == true );
-    //assertTrue( R.getNotes() == null );
-    assertTrue( R.getAnnotation() == null );
+    assertTrue( R.getNotes() == null );
+//    assertTrue( R.getAnnotation() == null );
     assertTrue( R.getId().equals("") == true );
     assertTrue( R.getName().equals("") == true );
     assertEquals(R.getKineticLaw(),null);

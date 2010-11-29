@@ -668,7 +668,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#getNotesString()
 	 */
 	public String getNotesString() {
-		return notesXMLNode != null ? notesXMLNode.toXMLString() : "";
+		return notesXMLNode != null ? notesXMLNode.toXMLString() : null;
 	}
 
 	/*
@@ -902,7 +902,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#setHistory(org.sbml.jsbml.History)
 	 */
 	public void setHistory(History history) {
-		History oldHistory = annotation.getHistory();
+		History oldHistory = getAnnotation().getHistory();
 		annotation.setHistory(history);
 		firePropertyChange(SBaseChangedEvent.history, oldHistory, history);
 	}
