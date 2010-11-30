@@ -201,6 +201,7 @@ public class SBML_L2V1Test {
 		assertTrue(model.getListOfUnitDefinitions().get(1).getMetaId().equals("metaid_0000004"));
 		
 		Species pRBp = model.getSpecies("pRBp");
+		pRBp.setHasOnlySubstanceUnits(false);
 		
 		assertTrue(pRBp != null);
 		System.out.println("pRBp notes : " + pRBp.getNotesString()); // namespace lost, should probably here.
