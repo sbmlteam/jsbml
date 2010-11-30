@@ -65,7 +65,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	/**
 	 * Creates a MathContainer instance from a given MathContainer.
 	 * 
-	 * @param sb
+	 * @param sb an <code>AbstractMathContainer</code> object to clone
 	 */
 	public AbstractMathContainer(AbstractMathContainer sb) {
 		super(sb);
@@ -78,11 +78,11 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 
 	/**
 	 * Creates a MathContainer instance from an ASTNode, level and version. By
-	 * default, the formula and mathBuffer are null.
+	 * default, the math is null.
 	 * 
-	 * @param math
-	 * @param level
-	 * @param version
+	 * @param math the ASTNode representing the math.
+	 * @param level the SBML level
+	 * @param version the SBML version
 	 */
 	public AbstractMathContainer(ASTNode math, int level, int version) {
 		super(level, version);
@@ -97,8 +97,8 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	 * Creates a MathContainer instance from a level and version. By default,
 	 * the formula, math and mathBuffer are null.
 	 * 
-	 * @param level
-	 * @param version
+	 * @param level the SBML level
+	 * @param version the SBML version
 	 */
 	public AbstractMathContainer(int level, int version) {
 		super(level, version);

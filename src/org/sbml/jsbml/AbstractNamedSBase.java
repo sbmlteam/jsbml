@@ -110,7 +110,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	/**
 	 * Creates an {@link AbstractNamedSBase} from a given {@link AbstractNamedSBase}.
 	 * 
-	 * @param nsb
+	 * @param nsb an <code>AbstractNamedSBase</code> object to clone
 	 */
 	public AbstractNamedSBase(AbstractNamedSBase nsb) {
 		super(nsb);
@@ -122,8 +122,8 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * Creates an {@link AbstractNamedSBase} from a level and version. By default, id
 	 * and name are null.
 	 * 
-	 * @param level
-	 * @param version
+	 * @param level the SBML level
+	 * @param version the SBML version
 	 */
 	public AbstractNamedSBase(int level, int version) {
 		this();
@@ -138,7 +138,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * the SBML data structure. Without level and version, it may not be
 	 * possible to serialize this class to SBML.
 	 * 
-	 * @param id
+	 * @param id the id of this <code>AbstractNamedSBase</code>
 	 */
 	public AbstractNamedSBase(String id) {
 		this();
@@ -148,9 +148,9 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	/**
 	 * Creates an AbctractNamedSBase from an id, level and version.
 	 * 
-	 * @param id
-	 * @param level
-	 * @param version
+	 * @param id the id of this <code>AbstractNamedSBase</code>
+	 * @param level the SBML level
+	 * @param version the SBML version
 	 */
 	public AbstractNamedSBase(String id, int level, int version) {
 		this(id, null, level, version);
@@ -159,10 +159,10 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	/**
 	 * Creates an AbctractNamedSBase from an id, name, level and version.
 	 * 
-	 * @param id
-	 * @param name
-	 * @param level
-	 * @param version
+	 * @param id the id of this <code>AbstractNamedSBase</code>
+	 * @param id the name of this <code>AbstractNamedSBase</code>
+	 * @param level the SBML level
+	 * @param version the SBML version
 	 */
 	public AbstractNamedSBase(String id, String name, int level, int version) {
 		this(level, version);
@@ -171,6 +171,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	}
 
 	/**
+	 * Checks if the sID is a valid identifier.
 	 * 
 	 * @param sID
 	 *            the identifier to be checked. If null, no real check is
@@ -178,6 +179,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @return true only if the sID is a valid identifier (or null). Otherwise
 	 *         this method throws an {@link IllegalArgumentException}. This is
 	 *         an intended behavior.
+	 * @throws IllegalArgumentException if the given id is not valid in this model.
 	 */
 	boolean checkIdentifier(String sID) {
 		if ((sID != null) && !isValidId(sID, getLevel(), getVersion())) {
@@ -281,7 +283,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		String oldId = this.id;
 		if ((id == null) || (id.trim().length() == 0)) {
 			this.id = null;
-		} else if (checkIdentifier(id)) {
+		} else if (checkIdentifier(id)) { // TODO : we should remove all call to checkIdentifier in the setter methods to support for SBML L3
 			this.id = new String(id);
 		}
 		firePropertyChange(property, oldId, this.id);
@@ -309,7 +311,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	}
 
 	/**
-	 * If available, this method returns the name of the component. Otherwise
+	 * Returns the name of the component, if it is available. Otherwise,
 	 * the identifier is returned. If both is not possible, the class name of
 	 * this element is returned.
 	 */

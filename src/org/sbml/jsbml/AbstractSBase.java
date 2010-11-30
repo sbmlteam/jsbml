@@ -61,11 +61,13 @@ public abstract class AbstractSBase implements SBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 8781459818293592636L;
+	
 	/**
+	 * Returns true is the level and version combination is a valid one, false otherwise.
 	 * 
-	 * @param level
-	 * @param version
-	 * @return
+	 * @param level the SBML level
+	 * @param version the SBML version
+	 * @return true is the level and version combination is a valid one, false otherwise.
 	 */
 	public static boolean isValidLevelAndVersionCombination(int level, int version) {
 		boolean has = false;
@@ -131,9 +133,12 @@ public abstract class AbstractSBase implements SBase {
 	protected Set<SBaseChangedListener> setOfListeners;
 
 	/**
-	 * Creates an AbstractSBase instance. By default, the sboTerm is -1, the
-	 * metaid, notes, parentSBMLObject, annotation, level, version and
-	 * notesBuffer are null. The setOfListeners list and the extensions hash map
+	 * Creates an AbstractSBase instance. 
+	 * 
+	 * <p>By default, the sboTerm is -1, the
+	 * metaid, notes, parentSBMLObject, annotation, and
+	 * notes are null. The level and version are set to -1.
+	 * The setOfListeners list and the extensions hash map
 	 * are empty.
 	 */
 	public AbstractSBase() {
@@ -150,13 +155,15 @@ public abstract class AbstractSBase implements SBase {
 	}
 
 	/**
-	 * Creates an AbstractSBase instance from an id and name. By default, the
-	 * sboTerm is -1, the metaid, notes, parentSBMLObject, annotation, level,
-	 * version and notesBuffer are null. The setOfListeners list and the
-	 * extensions hashmap are empty.
+	 * Creates an AbstractSBase instance from an id and name. 
 	 * 
-	 * @param level
-	 * @param version
+	 * <p>By default, the
+	 * sboTerm is -1, the metaid, notes, parentSBMLObject, annotation, 
+	 *  and notes are null. The setOfListeners list and the
+	 * extensions hash map are empty.
+	 * 
+	 * @param level the SBML level
+	 * @param version the SBML version
 	 */
 	public AbstractSBase(int level, int version) {
 		this();
@@ -178,7 +185,7 @@ public abstract class AbstractSBase implements SBase {
 	/**
 	 * Creates an AbstractSBase instance from a given AbstractSBase.
 	 * 
-	 * @param sb
+	 * @param sb an <code>AbstractSBase</code> object to clone
 	 */
 	public AbstractSBase(SBase sb) {
 		this(sb.getLevel(), sb.getVersion());
@@ -204,11 +211,12 @@ public abstract class AbstractSBase implements SBase {
 	}
 
 	/**
-	 * Recursively adds all given {@link SBaseChangedListener} instances to this
+	 * Adds recursively all given {@link SBaseChangedListener} instances to this
 	 * element.
 	 * 
-	 * @param listeners
-	 * @return
+	 * @param listeners the set of listeners to add
+	 * @return true if the set of listeners is added with success.
+	 * 
 	 */
 	public boolean addAllChangeListeners(Set<SBaseChangedListener> listeners) {
 		boolean success = setOfListeners.addAll(listeners);
@@ -223,10 +231,10 @@ public abstract class AbstractSBase implements SBase {
 	}
 
 	/**
-	 * Recursively adds a listener to the {@link SBase} object and all of its
-	 * sub-elements. From now on changes will be saved.
+	 * Adds recursively a listener to the {@link SBase} object and all of its
+	 * sub-elements.
 	 * 
-	 * @param l
+	 * @param l the listener to add
 	 */
 	public void addChangeListener(SBaseChangedListener l) {
 		setOfListeners.add(l);
@@ -267,7 +275,7 @@ public abstract class AbstractSBase implements SBase {
 	 * {@link SBase} if the given name space is not yet present within this
 	 * {@link SortedSet}.
 	 * 
-	 * @param namespace
+	 * @param namespace the namespace to add
 	 */
 	public void addNamespace(String namespace) {
 		this.namespaces.add(namespace);
@@ -609,7 +617,7 @@ public abstract class AbstractSBase implements SBase {
 	}
 
 	/**
-	 * Access to the Level and Version combination of this {@link SBase}.
+	 * Returns the Level and Version combination of this {@link SBase}.
 	 * 
 	 * @return A {@link ValuePair} with the Level and Version of this
 	 *         {@link SBase}. Note that the returned {@link ValuePair} is never
@@ -655,8 +663,9 @@ public abstract class AbstractSBase implements SBase {
 	}
 
 	/**
+	 * Returns an <code>XMLNode</code> object that represent the notes of this element.
 	 * 
-	 * @return notes
+	 * @return an <code>XMLNode</code> object that represent the notes of this element.
 	 */
 	public XMLNode getNotes() {
 		return notesXMLNode;
@@ -686,6 +695,7 @@ public abstract class AbstractSBase implements SBase {
 	 * This is equivalent to calling {@link #getParentSBMLObject()}, but this
 	 * method is needed for {@link TreeNode}.
 	 * 
+	 * @return the parent element of this element.
 	 * @see #getParentSBMLObject()
 	 */
 	public SBase getParent() {
@@ -729,10 +739,11 @@ public abstract class AbstractSBase implements SBase {
 	}
 
 	/**
-	 * Delivers all {@link SBaseChangeListener}s that are assigned to this
+	 * Returns all {@link SBaseChangeListener}s that are assigned to this
 	 * element.
 	 * 
-	 * @return
+	 * @return all {@link SBaseChangeListener}s that are assigned to this
+	 * element.
 	 */
 	public Set<SBaseChangedListener> getSetOfSBaseChangeListeners() {
 		return setOfListeners;
@@ -872,9 +883,9 @@ public abstract class AbstractSBase implements SBase {
 	}
 
 	/**
-	 * Recursively removes the given change listener from this element.
+	 * Removes recursively the given change listener from this element.
 	 * 
-	 * @param l
+	 * @param l the listener to remove.
 	 */
 	public void removeChangeListener(SBaseChangedListener l) {
 		setOfListeners.remove(l);
@@ -924,13 +935,13 @@ public abstract class AbstractSBase implements SBase {
 	}
 
 	/**
-	 * Recursively sets the level and version attribute for this element
+	 * Sets recursively the level and version attribute for this element
 	 * and all sub-elements.
 	 * 
-	 * @param level
-	 * @param version
-	 * @param strict
-	 * @return
+	 * @param level the SBML level
+	 * @param version the SBML version
+	 * @param strict a boolean to say if the method need to be strict or not (not used at the moment)
+	 * @return true if the operation as been successful.
 	 */
 	boolean setLevelAndVersion(int level, int version, boolean strict) {
 		if (isValidLevelAndVersionCombination(level, version)) {
