@@ -383,10 +383,14 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) 
 	{
+		
+		// TODO : we have to check if we are in the context of a Notes or an Annotation
+		
 		if (elementName.equals("notes")) {
 			
-		} else {
+		} else if (characters.trim().length() != 0) {
 			// log4jLogger.warn("The SBML core XML element should not have any content, everything should be stored as attribute.");
+			// log4jLogger.warn("The Characters are : @" + characters.trim() + "@");
 		}
 	}
 
@@ -557,7 +561,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 										.getParameter(j);
 								if (parameter.isSetUnits()
 										&& !parameter.isSetUnitsInstance()) {
-									log4jLogger.warn("No UnitDefinition matches the unitsID of parameter.");
+									log4jLogger.warn("No UnitDefinition matches the unitsID '" + 
+											parameter.getUnits() + "'of the parameter " + 
+											parameter.getId() + ".");
 								}
 							}
 						}
