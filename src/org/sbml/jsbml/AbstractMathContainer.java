@@ -195,7 +195,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 			try {
 				ud = math.deriveUnit();
 			} catch (SBMLException e) {
-				// Doesn't matter. We'll simply return null.
+				// Doesn't matter. We'll simply return an undefined unit.
 			}
 		}
 		if (ud != null) {
@@ -207,6 +207,9 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 						break;
 					}
 				}
+		} else {
+			ud = new UnitDefinition(getLevel(), getVersion());
+			ud.addUnit(ud.createUnit());
 		}
 		return ud;
 	}
@@ -321,7 +324,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		ASTNode oldMath = this.math;
 		this.math = math;
 		ASTNode.setParentSBMLObject(math, this);
-		// firePropertyChange(SBaseChangedEvent.math, oldMath, math);
+		firePropertyChange(SBaseChangedEvent.math, oldMath, math);
 	}
 
 	/*
