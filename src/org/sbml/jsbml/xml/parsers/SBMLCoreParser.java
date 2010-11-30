@@ -386,7 +386,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		if (elementName.equals("notes")) {
 			
 		} else {
-			log4jLogger.warn("The SBML core XML element should not have any content, everything should be stored as attribute.");
+			// log4jLogger.warn("The SBML core XML element should not have any content, everything should be stored as attribute.");
 		}
 	}
 
