@@ -1061,10 +1061,10 @@ public class Unit extends AbstractSBase {
 	 */
 	public Unit(Kind kind, int level, int version) {
 		super(level, version);
-		if (!isUnitKind(kind, level, version)) {
+		if (!isUnitKind(kind, level, version) && (kind != Kind.INVALID)) {
 			throw new IllegalArgumentException(String.format(
-					"Unit kind %s is undefined for level %s version %s.", kind, level,
-					version));
+					"Unit kind %s is undefined for level %s version %s.", kind,
+					level, version));
 		}
 		initDefaults();
 		setKind(kind);
