@@ -46,12 +46,6 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	private static final long serialVersionUID = 7458241628289830621L;
 
 	/**
-	 * Represents the id of a {@link Variable}. Matches the variable XML
-	 * attribute of an assignmentRule or rateRule element.
-	 */
-	String variableID;
-
-	/**
 	 * Represents the 'units' XML attribute of a ParameterRule.
 	 * 
 	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
@@ -61,6 +55,12 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	 */
 	@Deprecated
 	String unitsID;
+
+	/**
+	 * Represents the id of a {@link Variable}. Matches the variable XML
+	 * attribute of an assignmentRule or rateRule element.
+	 */
+	String variableID;
 
 	/**
 	 * 
@@ -147,14 +147,14 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	}
 
 	/**
-	 * Creates a RateRule instance from a given Symbol. Takes level and version
-	 * from the variable.
+	 * Creates an {@link ExplicitRule} instance from a given {@link Variable}.
+	 * Takes level and version from the variable.
 	 * 
 	 * @param variable
 	 */
 	public ExplicitRule(Variable variable) {
 		this(variable.getLevel(), variable.getVersion());
-		checkAndSetVariable(variable.getId());
+		setVariable(variable);
 	}
 
 	/**
@@ -169,36 +169,6 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 			this.variableID = new String(variable.getId());
 		} else {
 			this.variableID = null;
-		}
-	}
-
-	/**
-	 * Sets the variableID of this {@link ExplicitRule} to 'variable'. If no
-	 * {@link Variable} instance has 'variable'as id, an
-	 * {@link IllegalArgumentException} is thrown.
-	 * 
-	 * @param variable
-	 */
-	public void checkAndSetVariable(String variable) {
-		Variable v = null;
-		Model m = getModel();
-		if (m != null) {
-			/*
-			 * We can only check this condition if the rule has been added to a
-			 * model already. Otherwise it is not possible.
-			 */
-			v = m.findVariable(variable);
-			if (v == null) {
-				String oldVariable = variableID;
-				variableID = variable;
-				firePropertyChange(SBaseChangedEvent.variable, oldVariable, variableID);				
-			} else {
-				setVariable(v);
-			}
-		} else {
-			String oldVariable = variableID;
-			variableID = variable;
-			firePropertyChange(SBaseChangedEvent.variable, oldVariable, variableID);
 		}
 	}
 
@@ -529,19 +499,18 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 			if (getLevel() > 1) {
 				attributes.put("variable", getVariable());
 			} else if (getLevel() == 1) {
-				if (isSpeciesConcentration() && getVersion() == 1) {
-					attributes.put("specie", getVariable());
-				} else if (isSpeciesConcentration() && getVersion() == 2) {
-					attributes.put("species", getVariable());
-				} else if (getLevel() == 1 && isCompartmentVolume()) {
+				if (isSpeciesConcentration()) {
+					attributes.put((getVersion() == 1) ? "specie" : "species",
+							getVariable());
+				} else if (isCompartmentVolume()) {
 					attributes.put("compartment", getVariable());
-				} else if (getLevel() == 1 && isParameter()) {
+				} else if (isParameter()) {
 					attributes.put("name", getVariable());
 				}
+				if (isSetUnits()) {
+					attributes.put("units", getUnits());
+				}
 			}
-		}
-		if (isSetUnits() && getLevel() == 1) {
-			attributes.put("units", getUnits());
 		}
 		return attributes;
 	}

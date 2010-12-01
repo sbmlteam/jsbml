@@ -222,7 +222,11 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 						ILLEGAL_VARIABLE_EXCEPTION_MSG, variable.getId(),
 						getElementName()));
 			}
-			setVariable(variable.getId());
+			if (variable.isSetId()) {
+				setVariable(variable.getId());
+			} else {
+				unsetVariable();
+			}
 		} else {
 			throw new IllegalArgumentException(String.format(
 					ILLEGAL_CONSTANT_VARIABLE_MSG, variable.getId(),
