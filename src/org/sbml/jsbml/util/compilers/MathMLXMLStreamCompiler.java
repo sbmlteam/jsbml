@@ -54,6 +54,7 @@ import com.ctc.wstx.stax.WstxOutputFactory;
  * @author rodrigue
  * 
  */
+// TODO: Let this implement the regular ASTNodeCompiler interface.
 public class MathMLXMLStreamCompiler {
 
 	private String indent;

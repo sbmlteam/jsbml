@@ -1966,15 +1966,15 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	/**
 	 * Gets a child of this node according to an index number.
 	 * 
-	 * @param n
+	 * @param index
 	 *            the index of the child to get
-	 * @return the nth child of this ASTNode or NULL if this node has no nth
-	 *         child (n > getNumChildren() - 1).
+	 * @return the child of this {@link ASTNode} with the given index.
+	 * @throws IndexOutOfBoundsException
+	 *             - if the index is out of range (index < 0 || index >=
+	 *             size()).
 	 */
-	// TODO : we are not doing what the doc is saying + we should check the
-	// validity of the index passed (> 0 and < getNumChildren())
-	public ASTNode getChild(int n) {
-		return listOfNodes.get(n);
+	public ASTNode getChild(int index) {
+		return listOfNodes.get(index);
 	}
 
 	/*
