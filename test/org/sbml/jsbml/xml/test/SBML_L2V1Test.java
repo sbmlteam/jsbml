@@ -115,6 +115,10 @@ public class SBML_L2V1Test {
 		
 		Species dClk = model.getSpecies("dClk");
 		
+		assertTrue(dClk.getCompartment().equals("CELL"));
+		dClk.unsetCompartment();
+		assertTrue(dClk.getCompartment().length() == 0);
+		
 		assertTrue(dClk != null);
 		
 		assertTrue(dClk.getName().length() == 0);
