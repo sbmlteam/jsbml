@@ -739,13 +739,13 @@ public abstract class AbstractSBase implements SBase {
 	}
 
 	/**
-	 * Returns all {@link SBaseChangeListener}s that are assigned to this
+	 * Returns all {@link SBaseChangedListener}s that are assigned to this
 	 * element.
 	 * 
-	 * @return all {@link SBaseChangeListener}s that are assigned to this
+	 * @return all {@link SBaseChangedListener}s that are assigned to this
 	 * element.
 	 */
-	public Set<SBaseChangedListener> getSetOfSBaseChangeListeners() {
+	public Set<SBaseChangedListener> getSetOfSBaseChangedListeners() {
 		return setOfListeners;
 	}
 
@@ -878,7 +878,7 @@ public abstract class AbstractSBase implements SBase {
 	/**
 	 * Removes all SBase change listeners from this element.
 	 */
-	public void removeAllSBaseChangeListeners() {
+	public void removeAllSBaseChangedListeners() {
 		setOfListeners.clear();
 	}
 
@@ -1049,7 +1049,7 @@ public abstract class AbstractSBase implements SBase {
 		if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
 			if (sbase instanceof AbstractSBase) {
 				((AbstractSBase) sbase).parentSBMLObject = this;
-				sbase.addAllChangeListeners(getSetOfSBaseChangeListeners());
+				sbase.addAllChangeListeners(getSetOfSBaseChangedListeners());
 			}
 			sbase.fireSBaseAddedEvent();
 		}

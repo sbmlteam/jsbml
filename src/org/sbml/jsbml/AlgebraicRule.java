@@ -38,9 +38,6 @@ import org.sbml.jsbml.validator.OverdeterminationValidator;
  * 
  * @author Andreas Dr&auml;ger
  * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public class AlgebraicRule extends Rule {
 
@@ -60,7 +57,7 @@ public class AlgebraicRule extends Rule {
 	 * Creates an AlgebraicRule instance from a given {@link AlgebraicRule}
 	 * instance.
 	 * 
-	 * @param ar
+	 * @param ar an AlgebraicRule to clone.
 	 */
 	public AlgebraicRule(AlgebraicRule ar) {
 		super(ar);
@@ -69,9 +66,9 @@ public class AlgebraicRule extends Rule {
 	/**
 	 * Creates an AlgebraicRule instance from math, level and version.
 	 * 
-	 * @param math
-	 * @param level
-	 * @param version
+	 * @param math the math of the AlgebraicRule
+	 * @param level the SBML level
+	 * @param version the SBML version
 	 */
 	public AlgebraicRule(ASTNode math, int level, int version) {
 		super(math, level, version);
@@ -80,8 +77,8 @@ public class AlgebraicRule extends Rule {
 	/**
 	 * Creates an AlgebraicRule instance from level and version.
 	 * 
-	 * @param level
-	 * @param version
+	 * @param level the SBML level
+	 * @param version the SBML version
 	 */
 	public AlgebraicRule(int level, int version) {
 		super(level, version);
@@ -117,7 +114,7 @@ public class AlgebraicRule extends Rule {
 	}
 
 	/**
-	 * This method provides a convenient way to obtain the variable whose amount
+	 * Provides a convenient way to obtain the variable whose amount
 	 * is determined by this rule. However, you should better directly use the
 	 * {@link OverdeterminationValidator} instead of calling this method. Each
 	 * time you call this method, the bipartite matching between all

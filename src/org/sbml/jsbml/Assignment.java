@@ -34,7 +34,7 @@ package org.sbml.jsbml;
  * that assigns a value to the {@link Variable}.
  * 
  * @author Andreas Dr&auml;ger
- * @date 20010-10-29
+ * 
  */
 public interface Assignment extends MathContainer {
 	/**
@@ -54,25 +54,35 @@ public interface Assignment extends MathContainer {
 	 * associated {@link Model} that would have the desired identifier.
 	 */
 	public static final String NO_SUCH_VARIABLE_EXCEPTION_MSG = "Model %s does not contain any variable with identifier %s.";
+	
 	/**
+	 * Returns the variableID of this {@link Assignment}. Returns an empty
+	 *         {@link String} if it is not set.
+	 * 
 	 * @return the variableID of this {@link Assignment}. Returns an empty
 	 *         {@link String} if it is not set.
 	 */
 	public String getVariable();
 
 	/**
+	 * Returns the {@link Variable} instance which has the variableID of this
+	 *         {@link Assignment} as id. Return null if it doesn't exist.
+	 * 
 	 * @return the {@link Variable} instance which has the variableID of this
 	 *         {@link Assignment} as id. Return null if it doesn't exist.
 	 */
 	public Variable getVariableInstance();
 
 	/**
+	 * Returns true if the variableID of this {@link Assignment} is not null.
 	 * 
 	 * @return true if the variableID of this {@link Assignment} is not null.
 	 */
 	public boolean isSetVariable();
 
 	/**
+	 * Returns true if the {@link Variable} instance which has the variableID of
+	 *         this {@link Assignment} as id is not null.
 	 * 
 	 * @return true if the {@link Variable} instance which has the variableID of
 	 *         this {@link Assignment} as id is not null.

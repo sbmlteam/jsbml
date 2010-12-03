@@ -160,7 +160,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * Creates an AbctractNamedSBase from an id, name, level and version.
 	 * 
 	 * @param id the id of this <code>AbstractNamedSBase</code>
-	 * @param id the name of this <code>AbstractNamedSBase</code>
+	 * @param name the name of this <code>AbstractNamedSBase</code>
 	 * @param level the SBML level
 	 * @param version the SBML version
 	 */
