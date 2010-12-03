@@ -340,7 +340,6 @@ public class FormulaParser implements FormulaParserConstants {
     }
     else
     {
-      checkSize(arguments, 0);
       node.addChild(child);
     }
     if (type != null)
