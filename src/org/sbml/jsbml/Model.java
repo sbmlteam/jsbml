@@ -31,6 +31,8 @@
 package org.sbml.jsbml;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
@@ -39,10 +41,10 @@ import org.sbml.jsbml.util.filters.RuleVariableFilter;
 
 /**
  * <p>
- * JSBML implementation of SBML's Model construct.
+ * JSBML implementation of SBML's {@link Model} construct.
  * </p>
  * <p>
- * In an SBML model definition, a single object of class Model serves as the
+ * In an SBML model definition, a single object of class {@link Model} serves as the
  * overall container for the lists of the various model components. All of the
  * lists are optional, but if a given list container is present within the
  * model, the list must not be empty; that is, it must have length one or more.
@@ -1216,6 +1218,29 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Finds all instances of {@link LocalParameter} in this {@link Model} and
+	 * adds them to a {@link List}.
+	 * 
+	 * @param idOrName
+	 * @return A {@link List} of all {@link LocalParameter} instances with the
+	 *         given name or identifier. This {@link List} can be empty, but
+	 *         never null.
+	 */
+	public List<LocalParameter> findLocalParameters(String idOrName) {
+		List<LocalParameter> list = new LinkedList<LocalParameter>();
+		LocalParameter p;
+		for (Reaction r : getListOfReactions()) {
+			if (r.isSetKineticLaw()) {
+				p = r.getKineticLaw().getLocalParameter(idOrName);
+				if (p != null) {
+					list.add(p);
+				}
+			}
+		}
+		return list;
+	}
+
+	/**
 	 * try to figure out the meaning of this name.
 	 * 
 	 * @param idOrName
@@ -1232,18 +1257,18 @@ public class Model extends AbstractNamedSBase {
 			nsb = getEvent(idOrName);
 		}
 		if (nsb == null) {
+			nsb = getSpeciesType(idOrName);
+		}
+		if (nsb == null) {
+			nsb = getUnitDefinition(idOrName);
+		}
+		if (nsb == null) {
 			for (Reaction r : getListOfReactions()) {
 				nsb = r.getModifier(idOrName);
 				if (nsb != null) {
 					return nsb;
 				}
 			}
-		}
-		if (nsb == null) {
-			nsb = getSpeciesType(idOrName);
-		}
-		if (nsb == null) {
-			nsb = getUnitDefinition(idOrName);
 		}
 		return nsb == null ? findNamedSBaseWithDerivedUnit(idOrName) : nsb;
 	}
@@ -1255,35 +1280,91 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public NamedSBaseWithDerivedUnit findNamedSBaseWithDerivedUnit(
 			String idOrName) {
-		NamedSBaseWithDerivedUnit nsb = findQuantity(idOrName);
-		if (nsb == null) {
-			nsb = getReaction(idOrName);
-		}
+		NamedSBaseWithDerivedUnit nsb = getReaction(idOrName);
 		if (nsb == null) {
 			nsb = getFunctionDefinition(idOrName);
+		}
+		return nsb == null ? findQuantity(idOrName) : nsb;
+	}
+
+	/**
+	 * Searches for an instance of {@link Quantity} within all of this
+	 * {@link Model}'s components that has the given identifier or name
+	 * attribute and returns it. There might be multiple instances of
+	 * {@link LocalParameter} with the same identifier or name, each located in
+	 * different {@link Reaction}s. In this case, the first match will be
+	 * returned. Note that also global {@link Parameter} instances have a higher
+	 * priority and are returned first.
+	 * 
+	 * @param idOrName
+	 * @return the {@link Compartment}, {@link Species},
+	 *         {@link SpeciesReference} or {@link Parameter}, or the first
+	 *         {@link LocalParameter} which has 'symbol' as id.
+	 * @see #findLocalParameters(String)
+	 */
+	public Quantity findQuantity(String idOrName) {
+		Quantity nsb = findVariable(idOrName);
+		if (nsb == null) {
+			List<LocalParameter> list = findLocalParameters(idOrName);
+			if (!list.isEmpty()) {
+				return list.get(0);
+			}
 		}
 		return nsb;
 	}
 
 	/**
+	 * Searches for an instance of {@link QuantityWithDefinedUnit} within all of
+	 * this {@link Model}'s components that has the given identifier or name
+	 * attribute and returns it. There might be multiple instances of
+	 * {@link LocalParameter} with the same identifier or name, each located in
+	 * different {@link Reaction}s. In this case, the first match will be
+	 * returned. Note that also global {@link Parameter} instances have a higher
+	 * priority and are returned first.
 	 * 
 	 * @param idOrName
-	 * @return the Compartment, Species, SpeciesReference or Parameter which has
-	 *         'symbol' as id.
+	 * @return
+	 * @see #findLocalParameters(String)
 	 */
-	public Quantity findQuantity(String idOrName) {
-		Quantity nsb = findVariable(idOrName);
-		if (nsb == null) {
-			for (Reaction r : getListOfReactions()) {
-				if (r.isSetKineticLaw()) {
-					nsb = r.getKineticLaw().getLocalParameter(idOrName);
-					if (nsb != null) {
-						break;
+	public QuantityWithDefinedUnit findQuantityWithDefinedUnit(String idOrName) {
+		QuantityWithDefinedUnit q = findSymbol(idOrName);
+		if (q == null) {
+			List<LocalParameter> list = findLocalParameters(idOrName);
+			if (!list.isEmpty()) {
+				return list.get(0);
+			}
+		}
+		return q;
+	}
+
+	/**
+	 * Searches for all references to {@link Species} in the reactions assigned
+	 * to this {@link Model}, i.e., reactants and products.
+	 * 
+	 * @param id
+	 *            the identifier of the {@link SpeciesReference} of interest.
+	 *            Note that this is not the identifier of the {@link Species}
+	 *            instance referred to by the {@link SpeciesReference}.
+	 * @return The first {@link SpeciesReference} with the given identifier or
+	 *         null if there is no such element.
+	 */
+	public SpeciesReference findSpeciesReference(String id) {
+		SpeciesReference specRef = null;
+		if (isSetListOfReactions()) {
+			for (int i = 0; i < getNumReactions(); i++) {
+				Reaction reaction = getReaction(i);
+				specRef = reaction.getReactant(id);
+				if (specRef != null) {
+					return specRef;
+				} else {
+					specRef = reaction.getProduct(id);
+					if (specRef != null) {
+						return specRef;
 					}
 				}
 			}
 		}
-		return nsb;
+		return specRef;
 	}
 
 	/**
@@ -1315,19 +1396,8 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public Variable findVariable(String variable) {
 		Variable nsb = findSymbol(variable);
-		if ((nsb == null) && isSetListOfReactions()) {
-			for (int i = 0; i < getNumReactions(); i++) {
-				Reaction reaction = getReaction(i);
-				nsb = reaction.getReactant(variable);
-				if (nsb != null) {
-					break;
-				} else {
-					nsb = reaction.getProduct(variable);
-					if (nsb != null) {
-						break;
-					}
-				}
-			}
+		if (nsb == null) {
+			nsb = findSpeciesReference(variable);
 		}
 		return nsb;
 	}
