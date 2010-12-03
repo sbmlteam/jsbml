@@ -54,35 +54,38 @@ public class AssignmentRule extends ExplicitRule {
 	/**
 	 * Creates an AssignmentRule instance from a given AssignmentRule.
 	 * 
-	 * @param sb
+	 * @param ar the AssignmentRule to clone.
 	 */
-	public AssignmentRule(AssignmentRule sb) {
-		super(sb);
+	public AssignmentRule(AssignmentRule ar) {
+		super(ar);
 	}
 
 	/**
+	 * Creates an AssignmentRule instance from a given math, level and version.
 	 * 
-	 * @param math
-	 * @param level
-	 * @param version
+	 * @param math the math
+	 * @param level the SBML level
+	 * @param version the SBML version
 	 */
 	public AssignmentRule(ASTNode math, int level, int version) {
 		super(math, level, version);
 	}
 
 	/**
+	 * Creates an AssignmentRule instance from a given math and Parameter.
 	 * 
-	 * @param math
-	 * @param parameter
+	 * @param math the math
+	 * @param parameter the parameter
 	 */
 	public AssignmentRule(ASTNode math, Parameter parameter) {
 		this(parameter, math);
 	}
 
 	/**
+	 * Creates an AssignmentRule instance from a given math and {@link Variable}.
 	 * 
-	 * @param variable
-	 * @param math
+	 * @param math the math
+	 * @param variable the variable
 	 */
 	public AssignmentRule(ASTNode math, Variable variable) {
 		this(variable, math);
@@ -101,17 +104,19 @@ public class AssignmentRule extends ExplicitRule {
 	}
 
 	/**
+	 * Creates an AssignmentRule instance from a given Parameter.
 	 * 
-	 * @param parameter
+	 * @param parameter the parameter
 	 */
 	public AssignmentRule(Parameter parameter) {
 		super(parameter);
 	}
 
 	/**
+	 * Creates an AssignmentRule instance from a given math and Parameter.
 	 * 
-	 * @param parameter
-	 * @param math
+	 * @param parameter the parameter
+	 * @param math the math
 	 */
 	public AssignmentRule(Parameter parameter, ASTNode math) {
 		super(parameter, math);
@@ -120,6 +125,8 @@ public class AssignmentRule extends ExplicitRule {
 	/**
 	 * Creates an AssignmentRule instance from a given variable. Takes level and
 	 * version from the variable.
+	 * 
+	 * @param variable the {@link Variable}
 	 */
 	public AssignmentRule(Variable variable) {
 		super(variable);
@@ -129,7 +136,8 @@ public class AssignmentRule extends ExplicitRule {
 	 * Creates an AssignmentRule instance from a given variable and math. Takes
 	 * level and version from the variable.
 	 * 
-	 * @param math
+	 * @param variable the {@link Variable}
+	 * @param math the math
 	 */
 	public AssignmentRule(Variable variable, ASTNode math) {
 		super(variable, math);

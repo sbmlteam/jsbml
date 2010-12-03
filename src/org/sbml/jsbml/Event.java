@@ -206,7 +206,7 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public Delay createDelay() {
 		Delay d = new Delay(getLevel(), getVersion());
-		d.addAllChangeListeners(getSetOfSBaseChangeListeners());
+		d.addAllChangeListeners(getSetOfSBaseChangedListeners());
 		setDelay(d);
 		return d;
 	}

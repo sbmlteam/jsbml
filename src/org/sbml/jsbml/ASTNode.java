@@ -560,10 +560,13 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	private static final long serialVersionUID = -1391327698196553142L;
 
 	/**
+	 * Creates and returns an {@link ASTNode} that computes the absolute value
+	 * of the given double value.
 	 * 
-	 * @param d
-	 * @param parent
-	 * @return
+	 * @param d a double value
+	 * @param parent the parent ASTNode
+	 * @return an {@link ASTNode} that computes the absolute value
+	 * of the given double value.
 	 */
 	public static ASTNode abs(double d, MathContainer parent) {
 		ASTNode abs = new ASTNode(Type.FUNCTION_ABS, parent);
@@ -575,9 +578,10 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * Creates and returns an {@link ASTNode} that computes the absolute value
 	 * of the given integer value.
 	 * 
-	 * @param integer
-	 * @param parent
-	 * @return
+	 * @param integer an integer value
+	 * @param parent  the parent ASTNode
+	 * @return an {@link ASTNode} that computes the absolute value
+	 * of the given integer value.
 	 */
 	public static ASTNode abs(int integer, MathContainer parent) {
 		ASTNode abs = new ASTNode(Type.FUNCTION_ABS, parent);
@@ -586,10 +590,11 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
+	 * Creates a new ASTNode of type <code>operator</code> and adds the given nodes as children.
 	 * 
-	 * @param operator
-	 * @param ast
-	 * @return
+	 * @param operator the type of arithmetic operation
+	 * @param ast the children of the new ASTNode
+	 * @return a new ASTNode of type <code>operator</code> and adds the given nodes as children.
 	 */
 	private static ASTNode arithmethicOperation(Type operator, ASTNode... ast) {
 		LinkedList<ASTNode> astList = new LinkedList<ASTNode>();
@@ -629,19 +634,19 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	/**
 	 * Creates a new ASTNode of type MINUS and adds the given nodes as children
 	 * 
-	 * @param parent
-	 * @param ast
-	 * @return
+	 * @param ast the children of the new ASTNode
+	 * @return a new ASTNode of type MINUS and adds the given nodes as children
 	 */
 	public static ASTNode diff(ASTNode... ast) {
 		return arithmethicOperation(Type.MINUS, ast);
 	}
 
 	/**
-	 * Equal
-	 * @param left
-	 * @param right
-	 * @return
+	 * Creates a new ASTNode of type RELATIONAL_EQ.
+	 * 
+	 * @param left the left child.
+	 * @param right the right child.
+	 * @return a new ASTNode of type RELATIONAL_EQ.
 	 */
 	public static ASTNode eq(ASTNode left, ASTNode right) {
 		return relational(Type.RELATIONAL_EQ, left, right);
@@ -651,8 +656,9 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * Returns a new ASTNode that represents Euler's constant raised by the
 	 * power of the given exponent.
 	 * 
-	 * @param exponent
-	 * @return
+	 * @param exponent the exponent
+	 * @return a new ASTNode that represents Euler's constant raised by the
+	 * power of the given exponent.
 	 */
 	public static ASTNode exp(ASTNode exponent) {
 		ASTNode e = new ASTNode(Type.CONSTANT_E, exponent.getParentSBMLObject());
@@ -660,7 +666,9 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
-	 * @see toFormula()
+	 * Returns the formula from the given ASTNode as an SBML Level 1 text-string
+	 *         mathematical formula. 
+	 *         
 	 * 
 	 * @param tree
 	 *            the root of the ASTNode formula expression tree
@@ -669,6 +677,8 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 *         responsible for freeing it when it is no longer needed. NULL is
 	 *         returned if the given argument is NULL.
 	 * @throws SBMLException
+	 * @see toFormula
+	 * 
 	 */
 	public static String formulaToString(ASTNode tree) throws SBMLException {
 		return tree.toFormula();
@@ -677,9 +687,9 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	/**
 	 * Creates a new ASTNode of type DIVIDE with the given nodes as children.
 	 * 
-	 * @param numerator
-	 * @param denominator
-	 * @return
+	 * @param numerator the numerator
+	 * @param denominator the denominator
+	 * @return a new ASTNode of type DIVIDE with the given nodes as children.
 	 */
 	public static ASTNode frac(ASTNode numerator, ASTNode denominator) {
 		return numerator.divideBy(denominator);
@@ -689,10 +699,10 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * Creates a new ASTNode that of type DIVIDE with the given numerator and
 	 * denominator.
 	 * 
-	 * @param container
-	 * @param numerator
-	 * @param denominator
-	 * @return
+	 * @param numerator the numerator
+	 * @param denominator the denominator
+	 * @return a new ASTNode that of type DIVIDE with the given numerator and
+	 * denominator.
 	 */
 	public static ASTNode frac(int numerator, ASTNode denominator) {
 		return frac(new ASTNode(numerator, denominator.getParentSBMLObject()),
@@ -702,10 +712,10 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	/**
 	 * Creates a new ASTNode that divides two named sbase objects.
 	 * 
-	 * @param container
-	 * @param numerator
-	 * @param denominator
-	 * @return
+	 * @param container the parent object
+	 * @param numerator the numerator
+	 * @param denominator the denominator
+	 * @return a new ASTNode that divides two named sbase objects.
 	 */
 	public static ASTNode frac(MathContainer container,
 			NamedSBaseWithDerivedUnit numerator,
@@ -715,12 +725,12 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
-	 * Returns a fraction of the two entities.
+	 * Returns a new ASTNode that of type DIVIDE with the two entities as numerator and denominator.
 	 * 
-	 * @param container
-	 * @param numeratorId
-	 * @param denominatorId
-	 * @return
+	 * @param container the parent object
+	 * @param numeratorId the numerator
+	 * @param denominatorId the numerator
+	 * @return a new ASTNode that of type DIVIDE with the two entities as numerator and denominator.
 	 */
 	public static ASTNode frac(MathContainer container, String numeratorId,
 			String denominatorId) {
@@ -729,42 +739,48 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
-	 * Method for creating an {@link ASTNode} representing greater or equal for
+	 * Creates an {@link ASTNode} representing greater or equal for
 	 * the two given nodes.
 	 * 
-	 * @param left
-	 * @param right
-	 * @return
+	 * @param left the left child.
+	 * @param right the right child.
+	 * @return an {@link ASTNode} representing greater or equal.
 	 */
 	public static ASTNode geq(ASTNode left, ASTNode right) {
 		return relational(Type.RELATIONAL_GEQ, left, right);
 	}
 
 	/**
-	 * Greater than
-	 * @param left
-	 * @param right
-	 * @return
+	 * Creates an {@link ASTNode} representing greater than for
+	 * the two given left and right child.
+	 * 
+	 * @param left the left child.
+	 * @param right the right child.
+	 * @return an {@link ASTNode} representing greater than for
+	 * the two given left and right child.
 	 */
 	public static ASTNode gt(ASTNode left, ASTNode right) {
 		return relational(Type.RELATIONAL_GT, left, right);
 	}
 	
 	/**
-	 * Less or equal
-	 * @param left
-	 * @param right
-	 * @return
+	 * Creates an {@link ASTNode} representing less or equal for
+	 * the two given left and right child.
+	 * 
+	 * @param left the left child.
+	 * @param right the right child.
+	 * @return an {@link ASTNode} representing less or equal for
+	 * the two given left and right child.
 	 */
 	public static ASTNode leq(ASTNode left, ASTNode right) {
 		return relational(Type.RELATIONAL_LEQ, left, right);
 	}
 	
 	/**
-	 * Creates an {@link ASTNode} representing a logarithm to base 10.
+	 * Creates an {@link ASTNode} representing a logarithm to base 10 of the given value.
 	 * 
-	 * @param value
-	 * @return
+	 * @param value the value which is the argument of the logarithm.
+	 * @return an {@link ASTNode} representing a logarithm to base 10 of the given value.
 	 */
 	public static ASTNode log(ASTNode value) {
 		return log(null, value);
@@ -776,7 +792,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * {@link ASTNode} value.
 	 * 
 	 * @param base
-	 *            The basis of this logarthm. Can be null; then a base of 10
+	 *            The basis of this logarithm. Can be null; then a base of 10
 	 *            will be assumed.
 	 * @param value
 	 *            Must not be null.
@@ -803,9 +819,10 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * two {@link ASTNode}s. The parent SBML object of the resulting node will
 	 * be taken from the left node.
 	 * 
-	 * @param left
-	 * @param right
-	 * @return
+	 * @param left the left child.
+	 * @param right the right child.
+	 * @return an {@link ASTNode} that performs a less than comparison between
+	 * two {@link ASTNode}s.
 	 */
 	public static ASTNode lt(ASTNode left, ASTNode right) {
 		return relational(Type.RELATIONAL_LT, left, right);
@@ -816,19 +833,23 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * variable and another {@link ASTNode}. The parent SBML object will be
 	 * taken from the given {@link ASTNode}.
 	 * 
-	 * @param variable
-	 * @param node
-	 * @return
+	 * @param variable the left child.
+	 * @param node the right child.
+	 * @return an {@link ASTNode} that performs a less than comparison between a
+	 * variable and another {@link ASTNode}.
 	 */
 	public static ASTNode lt(String variable, ASTNode node) {
 		return lt(new ASTNode(variable, node.getParentSBMLObject()), node);
 	}
 	
 	/**
-	 * Not equal.
-	 * @param left
-	 * @param right
-	 * @return
+	 * Creates an {@link ASTNode} that performs a not equal comparison between
+	 * two {@link ASTNode}s.
+	 * 
+	 * @param left the left child.
+	 * @param right the right child.
+	 * @return an {@link ASTNode} that performs a not equal comparison between
+	 * two {@link ASTNode}s.
 	 */
 	public static ASTNode neq(ASTNode left, ASTNode right) {
 		return relational(Type.RELATIONAL_NEQ, left, right);
@@ -851,13 +872,16 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
-	 * Creates a piecewise function. At least one {@link ASTNode} must be given
+	 * Creates a piecewise {@link ASTNode}. 
+	 * 
+	 * <p>At least one {@link ASTNode} must be given
 	 * as a child. The parent SBML object of this first node will be the parent
 	 * of the resulting {@link ASTNode}.
 	 * 
-	 * @param node
-	 * @param nodes
-	 * @return
+	 * @param node the parent SBML object of this node will be the parent
+	 * of the resulting {@link ASTNode}.
+	 * @param nodes the children of the new piecewise ASTNode
+	 * @return a piecewise {@link ASTNode}.
 	 */
 	public static ASTNode piecewise(ASTNode node, ASTNode... nodes) {
 		ASTNode piecewise = new ASTNode(Type.FUNCTION_PIECEWISE, node
@@ -872,10 +896,11 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
+	 * Creates a power {@link ASTNode}. 
 	 * 
-	 * @param basis
-	 * @param exponent
-	 * @return
+	 * @param basis the basis
+	 * @param exponent the exponent
+	 * @return a power {@link ASTNode}.
 	 */
 	public static ASTNode pow(ASTNode basis, ASTNode exponent) {
 		if (!(exponent.isInteger() && exponent.getInteger() == 1)
@@ -892,10 +917,11 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
+	 * Creates a power {@link ASTNode}.
 	 * 
-	 * @param basis
-	 * @param exponent
-	 * @return
+	 * @param basis the basis
+	 * @param exponent the exponent
+	 * @return a power {@link ASTNode}.
 	 */
 	public static ASTNode pow(ASTNode basis, double exponent) {
 		basis.raiseByThePowerOf(exponent);
@@ -903,10 +929,11 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
+	 * Creates a power {@link ASTNode}.
 	 * 
-	 * @param basis
-	 * @param exponent
-	 * @return
+	 * @param basis the basis
+	 * @param exponent the exponent
+	 * @return a power {@link ASTNode}.
 	 */
 	public static ASTNode pow(ASTNode basis, int exponent) {
 		basis.raiseByThePowerOf(exponent);
@@ -916,10 +943,10 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	/**
 	 * Raises the given basis by the power of the given exponent.
 	 * 
-	 * @param container
-	 * @param basis
-	 * @param exponent
-	 * @return
+	 * @param container the parent object
+	 * @param basis the basis
+	 * @param exponent the exponent
+	 * @return a power {@link ASTNode}.
 	 */
 	public static ASTNode pow(MathContainer container,
 			NamedSBaseWithDerivedUnit basis, NamedSBaseWithDerivedUnit exponent) {
@@ -928,7 +955,9 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
-	 * Reads the MathML from the given XML string, constructs a corresponding
+	 * Reads the MathML from the given XML string.
+	 * 
+	 * <p>Constructs a corresponding
 	 * abstract syntax tree, and returns a pointer to the root of the tree.
 	 * 
 	 * @param xml
@@ -949,13 +978,15 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 
 	/**
 	 * Creates a relational {@link ASTNode} of the given type with the two given
-	 * children left and right and sets the parent SBML object of all nodes to
+	 * children left and right.
+	 * <p> Sets the parent SBML object of all nodes to
 	 * the one provided by the left child.
 	 * 
-	 * @param type
-	 * @param left
-	 * @param right
-	 * @return
+	 * @param type the type of relational node.
+	 * @param left the left child.
+	 * @param right the right child.
+	 * @return a relational {@link ASTNode} of the given type with the two given
+	 * children left and right.
 	 */
 	private static ASTNode relational(Type type, ASTNode left, ASTNode right) {
 		if ((left == null) || (right == null)) {
@@ -970,25 +1001,26 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
+	 * Creates a root {@link ASTNode}.
 	 * 
-	 * @param radicant
-	 * @param rootExponent
-	 * @return
+	 * @param radicand the radicand
+	 * @param rootExponent the exponent of the root element. 
+	 * @return a root {@link ASTNode}.
 	 */
-	public static ASTNode root(ASTNode rootExponent, ASTNode radicant) {
-		ASTNode root = new ASTNode(Type.FUNCTION_ROOT, radicant
+	public static ASTNode root(ASTNode rootExponent, ASTNode radicand) {
+		ASTNode root = new ASTNode(Type.FUNCTION_ROOT, radicand
 				.getParentSBMLObject());
 		root.addChild(rootExponent);
-		root.addChild(radicant);
-		setParentSBMLObject(rootExponent, radicant.getParentSBMLObject(), 0);
+		root.addChild(radicand);
+		setParentSBMLObject(rootExponent, radicand.getParentSBMLObject(), 0);
 		return root;
 	}
 
 	/**
 	 * Sets the Parent of the node and its children to the given value
 	 * 
-	 * @param node
-	 * @param parent
+	 * @param node the orphan node
+	 * @param parent the parent
 	 */
 	static void setParentSBMLObject(ASTNode node, MathContainer parent) {
 		setParentSBMLObject(node, parent, 0);
@@ -997,10 +1029,10 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	/**
 	 * Sets the Parent of the node and its children to the given value
 	 * 
-	 * @param node
-	 * @param parent
-	 * @param depth
-	 *            Just for testing purposes to track the depth in the tree
+	 * @param node the orphan node
+	 * @param parent the parent
+	 * @param depth the current depth in the ASTNode tree.
+	 *            It is just here for testing purposes to track the depth in the tree
 	 *            during the process.
 	 */
 	private static void setParentSBMLObject(ASTNode node, MathContainer parent,
@@ -1012,20 +1044,20 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
+	 * Creates a root {@link ASTNode}.
 	 * 
 	 * @param radicand
-	 * @return
+	 * @return a root {@link ASTNode}.
 	 */
 	public static ASTNode sqrt(ASTNode radicand) {
 		return root(new ASTNode(2, radicand.getParentSBMLObject()), radicand);
 	}
 
 	/**
-	 * Creates a AstNode of type Plus with the given nodes as children
+	 * Creates a new ASTNode of type Plus with the given nodes as children.
 	 * 
-	 * @param parent
-	 * @param ast
-	 * @return
+	 * @param ast the children nodes.
+	 * @return a new ASTNode of type Plus with the given nodes as children.
 	 */
 	public static ASTNode sum(ASTNode... ast) {
 		return arithmethicOperation(Type.PLUS, ast);
@@ -1034,7 +1066,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	/**
 	 * Sum of several NamedSBase objects.
 	 * 
-	 * @param parent
+	 * @param parent the parent
 	 * @param sbase
 	 * @return
 	 */

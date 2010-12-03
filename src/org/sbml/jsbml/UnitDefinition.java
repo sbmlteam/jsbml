@@ -36,7 +36,6 @@ import java.util.Set;
 import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.util.ValuePair;
 
 /**
  * Represents the unitDefinition XML element of a SBML file.
@@ -191,10 +190,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 				u.setKind(Kind.METRE);
 			} else if (id.equals("time")) {
 				u.setKind(Kind.SECOND);
-				if (new ValuePair<Integer, Integer>(level, version).compareTo(2, 2) >= 0 ) {
-					u.setSBOTerm(345);
-					ud.setSBOTerm(345);
-				}
+				// TODO : add a miriam annotation to http://bioportal.bioontology.org/visualize/44519/?conceptid=UO%3A0000003
+				// once UO as been added to miriam
 			} else {
 				return null;
 			}
@@ -314,7 +311,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 			ListOf<Unit> units = new ListOf<Unit>(ud.getLevel(), ud
 					.getVersion());
 			units.setSBaseListType(Type.listOfUnits);
-			orig.removeAllSBaseChangeListeners();
+			orig.removeAllSBaseChangedListeners();
 			units.add(orig.remove(orig.size() - 1));
 			int i, j;
 			for (i = orig.size() - 1; i >= 0; i--) {
@@ -480,8 +477,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public void convertToSIUnits() {
 		UnitDefinition ud[] = new UnitDefinition[getNumUnits()];
 		Set<SBaseChangedListener> listeners = new HashSet<SBaseChangedListener>(
-				getSetOfSBaseChangeListeners());
-		removeAllSBaseChangeListeners();
+				getSetOfSBaseChangedListeners());
+		removeAllSBaseChangedListeners();
 		ListOf<Unit> oldListOfUnits = getListOfUnits().clone();
 		for (int i = ud.length - 1; i >= 0; i--) {
 			ud[i] = Unit.convertToSI(removeUnit(i));
