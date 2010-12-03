@@ -333,6 +333,11 @@ public class FormulaParser implements FormulaParserConstants {
       node.addChild(child);
       type = Type.LOGICAL_NOT;
     }
+     else if (s.equalsIgnoreCase("lambda"))
+    {
+      node.addChild(child);
+      type = Type.LAMBDA;
+    }
     else
     {
       checkSize(arguments, 0);
