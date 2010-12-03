@@ -7,7 +7,8 @@
   headinclude,
   appendixprefix,
   idxtotoc,
-  bibtotoc
+  bibtotoc,
+  titlepage
 ]{scrartcl}
 
 % Fonts
@@ -24,6 +25,7 @@
 % Language definition
 \usepackage[english]{babel}
 \usepackage{varioref} % better references with \vref
+\usepackage{natbib}   % nice citeation
 
 % Figures
 \usepackage{graphicx}
@@ -54,7 +56,7 @@
 \selectlanguage{english}
 \addtokomafont{sectioning}{\color{royalblue}}
 \pagestyle{scrheadings}
-\ofoot{\includegraphics[width=50pt]{logo/JSBML_shaddow_small}}
+\ofoot{\includegraphics[width=50pt]{logo/JSBML_shaddow.pdf}}
 
 \hypersetup{
               bookmarks={true},
@@ -98,13 +100,19 @@ breakatwhitespace=true
 % frameround=ttff
 }
 
+\hyphenation{
+Cell-De-sig-n-er
+}
+
 \title{A short description of the main differences between JSBML and LibSBML}
 \author{Andreas Dr\"ager}
 \date{\today}
+\publishers{\includegraphics[width=100pt]{logo/JSBML_shaddow.pdf}}
 
 \begin{document}
 
 \maketitle
+\tableofcontents
 
 \begin{abstract}
 Although the libraries JSBML and LibSBML for working with files and data structures 
@@ -113,6 +121,11 @@ share a common scope, users should be informed about their major differences to
 switch from one library from the other one more easily. To this end, the document at
 hand gives a brief overview of the main differences between the Java\texttrademark{} 
 application programming interfaces of both libraries.
+
+In addition, JSBML can be used as a communication layer between the widely spread
+application CellDesigner and an application that works with JSBML as its internal
+data structure. This document gives an example that demonstrates how to convert
+between CellDesigner's plug-in data structures an JSBML objects.
 \end{abstract}
 
 \section{An extended type hierarchy}
@@ -132,7 +145,7 @@ Just like in LibSBML, all elements extend the abstract type \verb!SBase!, but in
 data types. In contrast to LibSBML, \verb!SBase! in JSBML extends three other interfaces: 
 \verb!Cloneable!, \verb!Serializable!, and \verb!TreeNode!. As all elements defined in JSBML 
 override the \verb!clone()! method from the class \verb!java.lang.Object!, all JSBML 
-elements can be deepely copied and are therefore ``cloneable". By extending the interface
+elements can be deeply copied and are therefore ``cloneable". By extending the interface
 \verb!Serializable!, it is possible to store JSBML elements in binary form without explicitly 
 writing it to an SBML file. In this way, programs can easily load and save their in-memory
 objects or send complex data structures through a network connection without the need of
@@ -144,13 +157,13 @@ In this way, all instances of JSBML's \verb!SBase! interface can be directly pas
 \verb!swing! class \verb!JTree! and hence be easily visualized. Listing~\vref{lst:Visualization}
 demonstrates in a simple code example how to parse an SBML file and to immediately display
 its content on a \verb!JFrame!.
-\lstinputlisting[language=Java,float,caption={Parsing and visualizing the content of an SBML 
-file},label=lst:Visualization]{posters/2010_ICSB_and_COMBINE/JSBMLvisualizer.java}
+\lstinputlisting[language=Java,float,caption={Parsing and visualizing the
+content of an SBML file},label=lst:Visualization]{posters/2010_ICSB_and_COMBINE/JSBMLvisualizer.java}
 Fig.~\vref{fig:Visualization} shows an example output when applying the program from 
 Listing~\vref{lst:Visualization} to SBML test model \texttt{case00026}.
 \begin{SCfigure}[][t]
 \includegraphics[width=.35\textwidth]{posters/2010_ICSB_and_COMBINE/JSBMLvisualizerTransparent}
-\caption[Tree representatation of an SBML file]{A tree representation of the content of SBML test model \texttt{case00026}}
+\caption[Tree representation of an SBML file]{A tree representation of the content of SBML test model \texttt{case00026}}
 \label{fig:Visualization}
 \end{SCfigure}
 The \verb!ASTNode! class in JSBML also implements all these three interfaces and can hence
@@ -160,8 +173,8 @@ be cloned, serialized, and visualized in the same way.
 \section{Abstract syntax trees}
 
 Both libraries define a class \verb!ASTNode! for in-memory manipulation and evaluation
-of abstract syntax trees that represent mathematical formulae and equations. These
-can either pe parsed from a representation in \verb!C! language-like \verb!String!s,
+of abstract syntax trees that represent mathematical formulas and equations. These
+can either be parsed from a representation in \verb!C! language-like \verb!String!s,
 or from a MathML representation. The JSBML \verb!ASTNode! provides various methods
 to transform these trees to other formats, for instance, \LaTeX{} \verb!String!s.
 In JSBML, several static methods allow easy creation of new syntax trees, for instance,
@@ -182,6 +195,24 @@ the interpretation. JSBML already provides several implementations of
 this interface, for instance, \verb!ASTNode! objects can be directly translated
 to LaTeX or MathML for further processing.
 
+\section{Cloning when adding child nodes}
+
+When adding elements such as a \verb!Species! to a \verb!Model!, LibSBML will
+clone the object and add the clone to the \verb!Model!. In contrast, JSBML does
+not automatically perform cloning. The advantage is that modifications on the
+object belonging to the original pointer will also propagate to the element
+added to the \verb!Model!. Furthermore, this is more efficient with respect to
+the run time and also more intuitive. If cloning is necessary, users should call
+the \verb!clone()! method manually. Since all instances of \verb!SBase! and also
+\verb!Annotation!, \verb!ASTNode!, \verb!CVTerm!, and \verb!History! implement
+the interface \verb!Cloneable! (see Fig.~\vref{fig:TypeHierarchy}), all these
+elements can be naturally cloned. However, when cloning an object in JSBML, such
+as an \verb!AbstractNamedSBase!, all children of this element will be cloned
+before adding them to the new element. This is necessary, because the data
+structures specified in SBML define a tree, in which each element has exactly
+one parental node.
+
+
 \section{Change events and listeners}
 
 JSBML introduces the possibility to listen to change events in the life of an
@@ -193,11 +224,11 @@ your instance of  \verb!SBMLDocument!. You only have to implement three methods
    has just been added to the \verb!SBMLDocument!
  \item[sbaseRemoved] The \verb!SBase! instance passed to this method is no
    longer part of the \verb!SBMLDocument! as it has just been removed.
- \item[stateChanged] This method provides detailled information about some value
+ \item[stateChanged] This method provides detailed information about some value
    change within the \verb!SBMLDocument!. The object passed to this method is
-   an \verb!SBaseChangeEvent!, wich provides information about the \verb!SBase!
+   an \verb!SBaseChangeEvent!, which provides information about the \verb!SBase!
    that has been changed, its property whose value has been changed (this is a
-   \verb!String! represenation of the name of the property), along with the
+   \verb!String! representation of the name of the property), along with the
    previous value and the new value.
 \end{description}
 With the help of these methods, you can keep track of what your
@@ -238,13 +269,13 @@ JSBML unifies all those elements that assign values to some other
 \verb!SBase! in SBML under the interface Assignment. This interface uses
 the term Variable for the element whose value is to be changed depending
 on some mathematical expression that is also present in the Assignment
-(because Assignment extends the interface MathContainer). Therefore,
+(because Assignment extends the interface \texttt{MathContainer}). Therefore,
 an Assignment contains methods such as \verb!set!-/\verb!getVariable(Variable v)!
 and also \verb!isSetVariable()! and \verb!unsetVariable()!. In addition to that
 JSBML also provides the method \verb!set!-/\verb!getSymbol(String symbol)! in the
-InitialAssignment class to make sure that switching from LibSBML to
+\texttt{InitialAssignment} class to make sure that switching from LibSBML to
 JSBML is quite smoothly. However, the preferred way in JSBML is to
-apply the methods setVariable either with String or Variable instances
+apply the methods \texttt{setVariable} either with String or Variable instances
 as arguments.
 
 \section{Model history}
@@ -281,7 +312,8 @@ a \verb!String! and a corresponding \verb!Unit.Kind! can be done by using the me
 Unit.Kind.valueOf(myString);
 \end{verbatim}
 In a similar way, the \verb!ASTNode! class provides a method to parse C-like formula
-\verb!String!s according to the specification of SBML Level 1 into an abstract syntax tree.
+\verb!String!s according to the specification of SBML Level 1 into an abstract
+syntax tree.
 Therefore, in contrast to the  \texttt{LibSBML} class, the class \texttt{JSBML} contains
 only a few methods.
 
@@ -339,9 +371,111 @@ if there are any, i.e., for models encoded of SBML versions before level
 3. These can be accessed from an instance of model by calling the method
 \verb!getPredefinedUnit(String unit)!.
 
+\appendix
 
-% \bibliographystyle{natbib}
-% \bibliography{literature}
+\section{An example of how to turn a JSBML-based application into a CellDesigner
+plug-in}
+
+Once an application has been implemented based on JSBML, it can easily be
+accessed from CellDesigner's plug-in menu \citep{Funahashi2003}. To this end,
+it is necessary to
+extend two classes that are defined in CellDesigner's plug-in API (Abstract
+Programming Interface). The Listings~\vrefrange{lst:PluginAction}{lst:Plugin}
+show a very simple example of how to pass CellDesigner plug-in model data
+structures to the translator in JSBML, which creates then a JSBML \verb!Model!
+data structure.
+\lstinputlisting[language=Java,float,caption={A simple implementation of
+CellDesigner's abstract class \texttt{PluginAction}},
+label=lst:PluginAction]{SimpleCellDesignerPlugin/org/sbml/jsbml/cdplugin/SimpleCellDesignerPluginAction.java}
+% \lstinputlisting[language=Java,float,caption={SimpleCellDesignerPlugin},
+% label=lst:Plugin]{SimpleCellDesignerPlugin/org/sbml/jsbml/cdplugin/SimpleCellDesignerPlugin.java}
+\begin{lstlisting}[language=Java,float,caption={A simple example for a
+CellDesigner plug-in using JSBML as a communication layer},label=lst:Plugin]
+package org.sbml.jsbml.cdplugin;
+
+import javax.swing.*;
+
+import jp.sbi.celldesigner.plugin.*;
+
+import org.sbml.jsbml.*;
+import org.sbml.jsbml.test.gui.JTreeOfSBML;
+
+public class SimpleCellDesignerPlugin extends CellDesignerPlugin {
+
+  public static final String ACTION = "Display full model tree";
+  public static final String APPLICATION_NAME = "Simple Plugin";
+
+  public SimpleCellDesignerPlugin() {
+    super();
+    try {
+      System.out.printf("\n\nLoading %s\n\n", APPLICATION_NAME);
+      SimpleCellDesignerPluginAction action = new SimpleCellDesignerPluginAction(
+          this);
+      PluginMenu menu = new PluginMenu(APPLICATION_NAME);
+      PluginMenuItem menuItem = new PluginMenuItem(ACTION, action);
+      menu.add(menuItem);
+      addCellDesignerPluginMenu(menu);
+    } catch (Exception exc) {
+      exc.printStackTrace();
+    }
+  }
+  // ... Include also methods from super class
+  public void startPlugin() {
+    PluginSBMLReader reader = new PluginSBMLReader(getSelectedModel(), SBO
+        .getDefaultPossibleEnzymes());
+    Model model = reader.getModel();
+    SBMLDocument doc = new SBMLDocument(model.getLevel(), model
+        .getVersion());
+    doc.setModel(model);
+    JFrame frame = new JFrame(APPLICATION_NAME);
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    frame.getContentPane().add(
+        new JScrollPane(new JTreeOfSBML(doc),
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
+    frame.setResizable(true);
+    frame.pack();
+    frame.setVisible(true);
+  }
+}
+\end{lstlisting}
+The example described by Listings~\vrefrange{lst:PluginAction}{lst:Plugin}
+create a plug-in for CellDesigner, which displays the SBML data structure
+in a tree, like the example in Fig.~\vref{fig:Visualization}. This example only
+shows how to translate a plug-in data structure
+from CellDesigner into a corresponding JSBML data structure. With the help of
+the class \verb!PluginSBMLWriter! it is possible to notify CellDesigner about
+changes in the model data structure. Note that Listing~\vref{lst:Plugin} is only
+completed by implementing the methods from the super class. In this example it
+is sufficient to leave the implementation open as shown in
+Listing~\vref{lst:PluginMethods}.
+\begin{lstlisting}[language=Java,float,caption={Empty implementation of the
+methods from the abstract class \texttt{CellDesignerPlugin}},
+label=lst:PluginMethods]
+  public void addPluginMenu() {
+  }
+
+  public void modelClosed(PluginSBase psb) {
+  }
+
+  public void modelOpened(PluginSBase psb) {
+  }
+
+  public void modelSelectChanged(PluginSBase psb) {
+  }
+
+  public void SBaseAdded(PluginSBase psb) {
+  }
+
+  public void SBaseChanged(PluginSBase psb) {
+  }
+
+  public void SBaseDeleted(PluginSBase psb) {
+  }
+\end{lstlisting}
+
+\bibliographystyle{natbib}
+\bibliography{literature}
 
 \end{document}
 

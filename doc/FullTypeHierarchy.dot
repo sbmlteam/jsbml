@@ -24,6 +24,9 @@ strict digraph G{
   Serializable              [label="<<Serializable>>"];
   TreeNode                  [label="<<TreeNode>>"];
   ASTNode                   [label="ASTNode"];
+  Annotation                [label="Annotation"];
+  CVTerm                    [label="CVTerm"];
+  History                   [label="History"];
   SBase                     [label="<<SBase>>"];
   namedSBase                [label="<<NamedSBase>>"];
   NamedSBaseWithDerivedUnit [label="<<NamedSBaseWithDerivedUnit>>"];
@@ -73,7 +76,13 @@ strict digraph G{
 
   Cloneable                 -> SBase                     [dir=back,arrowtail=empty,style=dashed];
   Cloneable                 -> ASTNode                   [dir=back,arrowtail=empty,style=dashed];
+  Cloneable                 -> History                   [dir=back,arrowtail=empty,style=dashed];
+  Cloneable                 -> CVTerm                    [dir=back,arrowtail=empty,style=dashed];
+  Cloneable                 -> Annotation                [dir=back,arrowtail=empty,style=dashed];
   Serializable              -> SBase                     [dir=back,arrowtail=empty,style=dashed];
+  Serializable              -> History                   [dir=back,arrowtail=empty,style=dashed];
+  Serializable              -> CVTerm                    [dir=back,arrowtail=empty,style=dashed];
+  Serializable              -> Annotation                [dir=back,arrowtail=empty,style=dashed];
   Serializable              -> ASTNode                   [dir=back,arrowtail=empty,style=dashed];
   TreeNode                  -> SBase                     [dir=back,arrowtail=empty,style=dashed];
   TreeNode                  -> ASTNode                   [dir=back,arrowtail=empty,style=dashed];
