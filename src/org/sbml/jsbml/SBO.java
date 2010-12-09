@@ -1466,4 +1466,25 @@ public class SBO {
 	public static int stringToInt(String sboTerm) {
 		return checkTerm(sboTerm) ? Integer.parseInt(sboTerm.substring(4)) : -1;
 	}
+	
+	public static void main(String[] args) {
+		int i = 0;
+		for (Term term : sbo.getTerms()) {
+
+			// Testing what is read and how
+			
+			System.out.println("Term : " + term);
+			System.out.println("    Term name : " + term.getName());
+			System.out.println("    Term Desc : " + term.getDescription());
+			System.out.println("    Term Synonyms : " + term.getSynonyms().length);
+			System.out.println("    Term Synonyms : " + term.getSynonyms());
+			System.out.println("    Tern Annotation keys : " + term.getAnnotation().keys());
+			System.out.println("    Tern Annotation size : " + term.getAnnotation().asMap().size());
+			
+			i++;
+			if (i > 5) {
+				break;
+			}
+		}
+	}
 }
