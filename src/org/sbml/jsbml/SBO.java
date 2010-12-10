@@ -35,11 +35,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Set;
 
 import org.biojava.bio.seq.io.ParseException;
 import org.biojava.ontology.Ontology;
+import org.biojava.ontology.Synonym;
 import org.biojava.ontology.Term;
 import org.biojava.ontology.Triple;
 import org.biojava.ontology.io.OboParser;
@@ -1468,23 +1470,46 @@ public class SBO {
 	}
 	
 	public static void main(String[] args) {
-		int i = 0;
+
+		int i = 0; 
 		for (Term term : sbo.getTerms()) {
 
-			// Testing what is read and how
+			boolean isObsolete = false;
+			try {
+				term.getAnnotation().getProperty("is_obsolete");
+				
+				// If an exception as not been thrown, the property exist and the term is obsolete
+				// We could do another test to be sure that the property value is equals to 'true'
+				isObsolete = true;
+				
+			} catch (NoSuchElementException e) {
+				// does nothing, the term is not obsolete
+			}
 			
-			System.out.println("Term : " + term);
-			System.out.println("    Term name : " + term.getName());
-			System.out.println("    Term Desc : " + term.getDescription());
-			System.out.println("    Term Synonyms : " + term.getSynonyms().length);
-			System.out.println("    Term Synonyms : " + term.getSynonyms());
-			System.out.println("    Tern Annotation keys : " + term.getAnnotation().keys());
-			System.out.println("    Tern Annotation size : " + term.getAnnotation().asMap().size());
-			
-			i++;
-			if (i > 5) {
-				break;
+			// There are terms that store the relationships, they are of the class Triple
+			// so we exclude these to show only the actual SBO ontology terms.
+			if (!(term instanceof Triple) && !isObsolete) {
+
+				System.out.println("[Term : " + term + "]");
+				System.out.println("    id : " + term.getName()); // There is no id in the biojava Term class, so the id is store in the name field
+				System.out.println("    name : " + term.getDescription()); // as name is used to store the id, the description is storing the name !!
+				if (term.getSynonyms().length > 0) {
+					System.out.print("    Term Synonyms : ");
+					for (Object synonym : term.getSynonyms()) {
+						System.out.print(((Synonym) synonym).getName() + ", ");
+					}
+					System.out.println(" ");
+				}
+				
+				for (Object key : term.getAnnotation().keys()) {
+					
+					System.out.println("    " + key + " : " + term.getAnnotation().getProperty(key));
+				}
+				
+				i++;
 			}
 		}
+		
+		System.out.println("\nThere is " + i + " terms in the SBO ontology.");
 	}
 }
