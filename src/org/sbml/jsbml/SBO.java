@@ -30,8 +30,6 @@
 package org.sbml.jsbml;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
@@ -39,21 +37,316 @@ import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Set;
 
-import org.biojava.bio.seq.io.ParseException;
+import org.biojava.bio.Annotation;
 import org.biojava.ontology.Ontology;
 import org.biojava.ontology.Synonym;
-import org.biojava.ontology.Term;
-import org.biojava.ontology.Triple;
 import org.biojava.ontology.io.OboParser;
 import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * Methods for interacting with Systems Biology Ontology (SBO) terms.
+ * Methods for interacting with Systems Biology Ontology (SBO) terms. This class
+ * uses the BioJava classes for working with ontologies and contains static
+ * classes to represent single {@link Term}s and {@link Triple}s of subject,
+ * predicate, and object, where each of these three entities is again an
+ * instance of {@link Term}. The classes {@link Term} and {@link Triple}
+ * basically wrap the underlying functions from BioJava, but the original
+ * {@link Object}s can be accessed via dedicated get methods. Furthermore, the
+ * {@link Ontology} from BioJava, which is used in this class, can also be
+ * obtained using the method {@link #getOntology()}.
  * 
  * @author Andreas Dr&auml;ger
  */
 public class SBO {
+
+	/**
+	 * This is a convenient wrapper class for the corresponding implementation
+	 * of {@link org.biojava.ontology.Term} in BioJava as it provides
+	 * specialized methods to obtain the information from the SBO OBO file
+	 * directly and under the same name as the keys are given in that file.
+	 * 
+	 * @author Andreas Dr&auml;ger
+	 * @date 2010-12-12
+	 * @see org.biojava.ontology.Term
+	 */
+	public static class Term {
+		
+		/**
+		 * The base properties of this {@link Term}.
+		 */
+		private String id, name, def;
+		
+		/**
+		 * The underlying BioJava {@link org.biojava.ontology.Term}.
+		 */
+		private org.biojava.ontology.Term term;
+
+		/**
+		 * 
+		 * @param term
+		 */
+		private Term(org.biojava.ontology.Term term) {
+			if (term == null) {
+				throw new NullPointerException("Term must not be null.");
+			}
+			if (term instanceof org.biojava.ontology.Triple) {
+				org.biojava.ontology.Triple triple = (org.biojava.ontology.Triple) term;
+				this.term = triple.getSubject();
+			} else {
+				this.term = term;
+			}
+			id = name = def = null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object o) {
+			if (o instanceof Term) {
+				Term term = (Term) o;
+				return (term.getId() != null) && term.getId().equals(getId());
+			}
+			return false;
+		}
+
+		/**
+		 * The definition of this {@link Term}, which is stored in the
+		 * corresponding OBO file under the key <code>def</code>.
+		 * 
+		 * @return
+		 */
+		public String getDefinition() {
+			if (def == null) {
+				Annotation annotation;
+				Object definition;
+				annotation = this.term.getAnnotation();
+				definition = (annotation != null)
+						&& (annotation.keys().size() > 0) ? annotation
+						.getProperty("def") : null;
+				def = definition != null ? definition.toString() : "";
+				def = def.replace("\\n", " ").replace("\\", "");
+				def = def.trim();
+			}
+			return def;
+		}
+
+		/**
+		 * The SBO identifier of this {@link Term}, for instance:
+		 * <code>SBO:0000031</code>.
+		 * 
+		 * @return
+		 */
+		public String getId() {
+			if (id == null) {
+				id = this.term.toString().split(" ")[0];
+			}
+			return id;
+		}
+
+		/**
+		 * The name of this {@link Term}, i.e., a very short characterization.
+		 * 
+		 * @return
+		 */
+		public String getName() {
+			if (name == null) {
+				String description;
+				description = this.term.getDescription();
+				name = description != null ? description.replace("\\n", " ")
+						.replace("\\,", ",").trim() : "";
+			}
+			return name;
+		}
+
+		/**
+		 * Creates and returns a set of {@link Triple}s, in which this
+		 * {@link Term} is the subject and the predicate is always
+		 * <code>is_a</code>. The object of each such {@link Triple} will be one
+		 * of this {@link Term}'s parents.
+		 * 
+		 * @return
+		 * @see SBO#getTriples(Term, Term, Term)
+		 */
+		public Set<Triple> getParents() {
+			return SBO.getTriples(this, SBO.getTerm("is_a"), null);
+		}
+
+		/**
+		 * Access to all {@link Synonym}s of this {@link Term}.
+		 * 
+		 * @return an empty array if no {@link Synonym}s exist for this term,
+		 *         but never null.
+		 */
+		public Synonym[] getSynonyms() {
+			Object synonyms[] = term.getSynonyms();
+			if ((synonyms == null) || (synonyms.length == 0)) {
+				return new Synonym[0];
+			}
+			Synonym syn[] = new Synonym[synonyms.length];
+			for (int i = 0; i < synonyms.length; i++) {
+				syn[i] = (Synonym) synonyms[i];
+			}
+			return syn;
+		}
+
+		/**
+		 * Grants access to the underlying BioJava
+		 * {@link org.biojava.ontology.Term}.
+		 * 
+		 * @return
+		 */
+		public org.biojava.ontology.Term getTerm() {
+			return this.term;
+		}
+
+		/**
+		 * Checks whether or not this {@link Term} is obsolete.
+		 * 
+		 * @return
+		 */
+		public boolean isObsolete() {
+			if (term.getAnnotation().keys().contains("is_obsolete")) {
+				return true;
+			}
+			return false;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			return getId();
+		}
+
+		/**
+		 * 
+		 * @param complete
+		 * @return
+		 */
+		public static String printTerm(Term term) {
+			StringBuilder sb = new StringBuilder();
+			StringTools.append(sb, "[Term]\nid: ", term.getId(), "\nname: ",
+					term.getName(), "\ndef: ", term.getDefinition());
+			if (term.isObsolete()) {
+				sb.append("\nis_obsolete: true");
+			}
+			for (Object synonym : term.getSynonyms()) {
+				sb.append("\nsynonym: ");
+				if (synonym instanceof Synonym) {
+					Synonym s = (Synonym) synonym;
+					StringTools.append(sb, "\"", s.getName(), "\" [");
+					if (s.getCategory() != null) {
+						sb.append(s.getCategory());
+					}
+					sb.append(']');
+				} else {
+					sb.append(synonym);
+				}
+			}
+			for (Triple triple : term.getParents()) {
+				StringTools.append(sb, "\n", triple.getPredicate(), " ", triple
+						.getObject(), " ! ", triple.getObject().getName());
+			}
+			return sb.toString();
+		}
+	}
+
+	/**
+	 * This is a wrapper class for the corresponding BioJava class
+	 * {@link org.biojava.ontology.Triple}, to allow for simplified access to
+	 * the properties of a subject-predicate-object triple in this ontology.
+	 * 
+	 * @author Andreas Dr&auml;ger
+	 * @date 2010-12-12
+	 * @see org.biojava.ontology.Triple
+	 */
+	public static class Triple {
+		
+		/**
+		 * The BioJava {@link org.biojava.ontology.Triple}.
+		 */
+		private org.biojava.ontology.Triple triple;
+
+		/**
+		 * Creates a new {@link Triple} from a given corresponding object from
+		 * BioJava.
+		 *  
+		 * @param triple
+		 */
+		private Triple(org.biojava.ontology.Triple triple) {
+			if (triple == null) {
+				throw new NullPointerException("Triple must not be null.");
+			}
+			this.triple = triple;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object o) {
+			if (o instanceof Triple) {
+				return getTriple().equals(((Triple) o).getTriple());
+			}
+			return false;
+		}
+
+		/**
+		 * The object of this {@link Triple}.
+		 * 
+		 * @return
+		 */
+		public Term getObject() {
+			return new Term(triple.getObject());
+		}
+
+		/**
+		 * The predicate of this {@link Triple}.
+		 *  
+		 * @return
+		 */
+		public Term getPredicate() {
+			return new Term(triple.getPredicate());
+		}
+
+		/**
+		 * The subject of this {@link Triple}.
+		 * 
+		 * @return
+		 */
+		public Term getSubject() {
+			return new Term(triple.getSubject());
+		}
+
+		/**
+		 * Grants access to the original BioJava
+		 * {@link org.biojava.ontology.Triple}.
+		 * 
+		 * @return
+		 */
+		public org.biojava.ontology.Triple getTriple() {
+			return triple;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			return String.format("%s %s %s", getSubject(), getPredicate(),
+					getObject());
+		}
+	}
 
 	/**
 	 * 
@@ -64,17 +357,22 @@ public class SBO {
 	 * 
 	 */
 	private static final String prefix = "SBO:";
-
+	
 	/**
 	 * 
 	 */
 	private static Ontology sbo;
-
+	
 	/**
 	 * 
 	 */
 	private static Properties sbo2alias;
 	
+	/**
+	 * 
+	 */
+	private static Set<Term> terms;
+
 	static {
 		OboParser parser = new OboParser();
 		try {
@@ -89,13 +387,9 @@ public class SBO {
 			for (Object key : alias2sbo.keySet()) {
 				sbo2alias.put(alias2sbo.get(key), key);
 			}
-		} catch (ParseException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (RuntimeException e) {
+			// convert between BioJava's Terms and our Terms.
+			terms = new HashSet<Term>();
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}
@@ -464,7 +758,7 @@ public class SBO {
 	}
 
 	/**
-	 * 
+	 * Grants access to the underlying {@link Ontology} form BioJava.
 	 * @return
 	 */
 	public static Ontology getOntology() {
@@ -473,7 +767,8 @@ public class SBO {
 
 	/**
 	 * 
-	 * @return
+	 * @return The SBO term identifier corresponding to the {@link Term} with
+	 *         the name "partial inhibitor".
 	 */
 	public static int getPartialInhibitor() {
 		return 536;
@@ -494,7 +789,11 @@ public class SBO {
 	public static int getParticipantRole() {
 		return 3;
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public static int getPhenotype() {
 		return convertAlias2SBO("PHENOTYPE");
 	}
@@ -506,7 +805,7 @@ public class SBO {
 	public static int getPhysicalCompartment() {
 		return 290;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -524,8 +823,9 @@ public class SBO {
 	 */
 	public static final Set<Integer> getPossibleEnzymes(String... types) {
 		Set<Integer> possibleEnzymes = new HashSet<Integer>();
-		for (String type : types)
+		for (String type : types) {
 			possibleEnzymes.add(Integer.valueOf(convertAlias2SBO(type)));
+		}
 		return possibleEnzymes;
 	}
 
@@ -631,7 +931,7 @@ public class SBO {
 	 * @return
 	 */
 	public static Term getTerm(int sboTerm) {
-		return sbo.getTerm(intToString(sboTerm));
+		return getTerm(intToString(sboTerm));
 	}
 
 	/**
@@ -640,7 +940,20 @@ public class SBO {
 	 * @return
 	 */
 	public static Term getTerm(String sboTerm) {
-		return sbo.getTerm(sboTerm);
+		return new Term(sbo.getTerm(sboTerm));
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static Set<Term> getTerms() {
+		if (terms.size() < sbo.getTerms().size()) {
+			for (org.biojava.ontology.Term term : sbo.getTerms()) {
+				terms.add(new Term(term));
+			}
+		}
+		return terms;
 	}
 
 	/**
@@ -717,6 +1030,26 @@ public class SBO {
 
 	/**
 	 * 
+	 * @param subject
+	 * @param predicate
+	 * @param object
+	 * @return
+	 * @see org.biojava.ontology.Ontology#getTriples(org.biojava.ontology.Term,
+	 *      org.biojava.ontology.Term, org.biojava.ontology.Term)
+	 */
+	public static Set<Triple> getTriples(Term subject, Term predicate, Term object) {
+		Set<Triple> triples = new HashSet<Triple>();
+		for (org.biojava.ontology.Triple triple : sbo.getTriples(
+				subject != null ? subject.getTerm() : null,
+				object != null ? object.getTerm() : null,
+				predicate != null ? predicate.getTerm() : null)) {
+			triples.add(new Triple(triple));
+		}
+		return triples;
+	}
+	
+	/**
+	 * 
 	 * @return
 	 */
 	public static int getTruncated() {
@@ -753,7 +1086,7 @@ public class SBO {
 		}
 		return StringTools.concat(prefix, sboNumberString(sboTerm)).toString();
 	}
-	
+
 	/**
 	 * 
 	 * @param sboTerm
@@ -771,7 +1104,7 @@ public class SBO {
 	public static boolean isBindingActivator(int sboTerm) {
 		return isChildOf(sboTerm, getBindingActivator());
 	}
-
+	
 	/**
 	 * 
 	 * @param sboTerm
@@ -803,15 +1136,16 @@ public class SBO {
 	 *         contains a term with the id corresponding to sboTerm.
 	 */
 	public static boolean isChildOf(int sboTerm, int parent) {
-		if (!checkTerm(sboTerm))
+		if (!checkTerm(sboTerm)) {
 			return false;
-		return isChildOf(sbo.getTerm(intToString(sboTerm)), sbo
-				.getTerm(intToString(parent)));
+		}
+		return isChildOf(new Term(sbo.getTerm(intToString(sboTerm))), new Term(sbo
+				.getTerm(intToString(parent))));
 	}
 
 	/**
-	 * Traverses the systems biology ontology starting at Term subject until
-	 * either the root (SBO:0000000) or the Term object is reached.
+	 * Traverses the systems biology ontology starting at {@link Term} subject until
+	 * either the root (SBO:0000000) or the {@link Term} object is reached.
 	 * 
 	 * @param subject
 	 *            Child
@@ -820,14 +1154,18 @@ public class SBO {
 	 * @return true if subject is a child of object.
 	 */
 	private static boolean isChildOf(Term subject, Term object) {
-		if (subject.equals(object))
+		if (subject.equals(object)) {
 			return true;
-		Set<Triple> relations = sbo.getTriples(subject, null, null);
-		for (Triple triple : relations) {
-			if (triple.getObject().equals(object))
+		}
+		Set<org.biojava.ontology.Triple> relations = sbo.getTriples(
+				subject != null ? subject.getTerm() : null, null, null);
+		for (org.biojava.ontology.Triple triple : relations) {
+			if (triple.getObject().equals(object.getTerm())) {
 				return true;
-			if (isChildOf(triple.getObject(), object))
+			}
+			if (isChildOf(new Term(triple.getObject()), object)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -1138,14 +1476,13 @@ public class SBO {
 	}
 
 	/**
-	 * Function for checking whether the SBO term is obselete.
+	 * Function for checking whether the SBO term is obsolete.
 	 * 
 	 * @param sboTerm
 	 * @return true if the term is-an obsolete term, false otherwise
 	 */
-	public static boolean isObselete(int sboTerm) {
-		return sbo.getTerm(intToString(sboTerm)).getDescription().startsWith(
-				"obsolete");
+	public static boolean isObsolete(int sboTerm) {
+		return getTerm(intToString(sboTerm)).isObsolete();
 	}
 
 	/**
@@ -1427,7 +1764,7 @@ public class SBO {
 	public static boolean isUnknownMolecule(int sboTerm) {
 		return isChildOf(sboTerm, getUnknownMolecule());
 	}
-
+	
 	/**
 	 * 
 	 * @param term
@@ -1436,9 +1773,9 @@ public class SBO {
 	public static boolean isUnknownTransition(int sboTerm) {
 		return isChildOf(sboTerm, getUnknownTransition());
 	}
-
+		
 	/**
-	 * This method creates a 7 digit SBO number for the given Term identifier (if
+	 * This method creates a 7 digit SBO number for the given {@link Term} identifier (if
 	 * this is a valid identifier). The returned {@link String} will not contain the
 	 * SBO prefix.
 	 * 
@@ -1469,11 +1806,16 @@ public class SBO {
 		return checkTerm(sboTerm) ? Integer.parseInt(sboTerm.substring(4)) : -1;
 	}
 	
+	/**
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		int i = 0; 
-		for (Term term : sbo.getTerms()) {
-
+		for (org.biojava.ontology.Term term : sbo.getTerms()) {
+			//System.out.printf("%s\n\n", Term.printTerm(new Term(term)));
+			
 			boolean isObsolete = false;
 			try {
 				term.getAnnotation().getProperty("is_obsolete");
