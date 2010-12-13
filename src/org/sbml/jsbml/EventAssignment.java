@@ -37,9 +37,6 @@ import java.util.Map;
  * @author Andreas Dr&auml;ger
  * @author marine
  * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public class EventAssignment extends AbstractMathContainer implements Assignment {
 
