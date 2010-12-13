@@ -29,12 +29,16 @@
  */
 package org.sbml.jsbml;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.sbml.jsbml.resources.Resource;
+import org.sbml.jsbml.text.parser.ParseException;
 
 /**
  * Wrapper class for global methods and constants defined by JSBML.
@@ -139,4 +143,169 @@ public class JSBML {
 									path, e.getMessage()));
 		}
 	}
+	
+	
+	/**	 
+     * Converts an {@link ASTNode} formula to a text string using a specific	 
+     * syntax for mathematical formulas.	 
+     * <p>	 
+     * The text-string form of mathematical formulas produced by <code><a	 
+     * href='libsbml.html#formulaToString(org.sbml.libsbml.{@link ASTNode})'>	 
+     * libsbml.formulaToString()</a></code> and read by <code><a href='libsbml.html#parseFormula(java.lang.String)'>	 
+     * libsbml.parseFormula()</a></code> are simple C-inspired infix notation taken from SBML	 
+     * Level&nbsp;1. A formula in this text-string form therefore can be handed	 
+     * to a program that understands SBML Level&nbsp;1 mathematical expressions,	 
+     * or used as part of a formula translation system. The syntax is described	 
+     * in detail in the libsbml documentation for <a href=	 
+     * "http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/ASTNode.html"	 
+     * > ASTNode</a>.	 
+     * <p>	 
+     *	 
+     * @param tree	 
+     *            the root of the {@link ASTNode} formula expression tree	 
+     *            <p>	 
+     * @return the formula from the given AST as an SBML Level 1 text-string	 
+     *         mathematical formula. NULL is returned if the given argument is	 
+     *         NULL.	 
+     *         <p>	 
+     * @throws SBMLException	 
+     *             In case the given {@link ASTNode} tree contains invalid	 
+     *             nodes.	 
+     */	 
+    public static String formulaToString(ASTNode node) throws SBMLException {	 
+            return node.toFormula();	 
+    }
+    
+    /**	 
+     * Parses a text-string mathematical formula and returns a representation as	 
+     * an Abstract Syntax Tree.	 
+     *	 
+     * @param formula	 
+     *            a text-string mathematical formula.	 
+     * @return an <code>ASTNode</code> representing the formula.	 
+     * @throws ParseException	 
+     *             If the given formula is not of valid format or cannot be	 
+     *             parsed for other reasons.	 
+     */	 
+    public static ASTNode parseFormula(String formula) throws ParseException {	 
+            return ASTNode.parseFormula(formula);	 
+    }	 
+ 
+    /**	 
+     * Reads the MathML from the given XML string, constructs a corresponding	 
+     * abstract syntax tree, and returns a pointer to the root of the tree.	 
+     *	 
+     * @param xml	 
+     *            the MathML XML string.	 
+     * @return an <code>ASTNode</code>	 
+     */	 
+    public static ASTNode readMathMLFromString(String xml) {	 
+            return ASTNode.readMathMLFromString(xml);	 
+    }
+	
+    /**	 
+     * Reads an SBML document from the given file.	 
+     *	 
+     * @param filename	 
+     *            the file name.	 
+     * @return an <code>SBMLDocument</code> object.	 
+     * @throws XMLStreamException	 
+     *             if any error occur while creating the XML document.	 
+     * @throws FileNotFoundException	 
+     *             if the file name is invalid	 
+     */	 
+    public static SBMLDocument readSBML(String fileName)	 
+                    throws XMLStreamException, FileNotFoundException {
+    	SBMLReader reader = new SBMLReader();
+    	
+    	return reader.readSBML(fileName);	 
+    }	 
+ 
+    /**	 
+     * Reads an SBML document from the given file.	 
+     *	 
+     * @param fileName	 
+     *            the file name.	 
+     * @return an <code>SBMLDocument</code> object.	 
+     * @throws XMLStreamException	 
+     *             if any error occur while creating the XML document.	 
+     * @throws FileNotFoundException	 
+     *             if the file name is invalid	 
+     */	 
+    public static SBMLDocument readSBMLFromFile(String fileName)	 
+                    throws XMLStreamException, FileNotFoundException {	 
+    	SBMLReader reader = new SBMLReader();
+    	
+    	return reader.readSBML(fileName);	 
+    }	 
+ 
+    /**	 
+     * Reads an SBML document from a string assumed to be in XML format.	 
+     *	 
+     * @param xml	 
+     *            the SBMLDocument as XML.	 
+     * @return an <code>SBMLDocument</code> object.	 
+     * @throws XMLStreamException	 
+     *             if any error occur while creating the XML document.	 
+     */	 
+    public static SBMLDocument readSBMLFromString(String xml)	 
+                    throws XMLStreamException {	 
+    	SBMLReader reader = new SBMLReader();
+    	
+    	return reader.readSBMLFromString(xml);	 
+    }
+    
+    
+    /**	 
+     * Writes the given ASTNode (and its children) to a string as MathML, and	 
+     * returns the string.	 
+     *	 
+     * @param node	 
+     *            the <code>ASTNode</code>	 
+     * @return the MathML string representing the given <code>ASTNode</code>	 
+     * @throws XMLStreamException	 
+     * @throws SBMLException	 
+     */	 
+    public static String writeMathMLToString(ASTNode node)	 
+                    throws XMLStreamException, SBMLException {	 
+            return node.toMathML();	 
+    }	 
+ 
+    /**	 
+     * Writes the XML representation of an SBML document to a file.	 
+     *	 
+     * @param d	 
+     *            the <code>SBMLdocument</code>	 
+     * @param filename	 
+     *            the file name	 
+     * @throws XMLStreamException	 
+     *             if any error occur while creating the XML document.	 
+     * @throws FileNotFoundException	 
+     *             if the file name is invalid	 
+     * @throws SBMLException	 
+     */	 
+    public static void writeSBML(SBMLDocument d, String filename)	 
+                    throws XMLStreamException, FileNotFoundException, SBMLException 
+    {	 
+    	SBMLWriter writer = new SBMLWriter();
+    	writer.write(d, filename);	 
+    }	 
+ 
+    /**	 
+     * Writes the given SBML document to an in-memory string.	 
+     *	 
+     * @param d	 
+     *            the <code>SBMLdocument</code>	 
+     * @return the XML representation of the <code>SBMLdocument</code> as a	 
+     *         String.	 
+     * @throws XMLStreamException	 
+     *             if any error occur while creating the XML document.	 
+     * @throws SBMLException	 
+     */	 
+    public static String writeSBMLToString(SBMLDocument d)	 
+                    throws XMLStreamException, SBMLException 
+    {	 
+    	SBMLWriter writer = new SBMLWriter();
+    	return writer.writeSBMLToString(d);	 
+    }
 }
