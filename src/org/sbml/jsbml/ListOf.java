@@ -555,6 +555,32 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		
 		return null;
 	}
+	
+	/**
+	 * Gets the list element which has the id 'id'. 
+	 * 
+	 * <p>The elements of the list have to implement {@link NamedSBase}, if they are not
+	 * or if the id is not found, null is returned.
+	 * 
+	 * @param id the id to search for.
+	 * @return the list element which has the id 'id'.
+	 */
+	public T get(String id) {
+		
+		T foundElement = null;
+		
+		for (T element : listOf) {
+			if (element instanceof NamedSBase) {
+				if (((NamedSBase) element).getId().equals(id)) {
+					foundElement = element;
+					break;
+				}
+			}
+		}
+		
+		return foundElement;
+	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -919,4 +945,5 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public void unsetSBaseListType() {
 		this.listType = Type.none;
 	}
+
 }
