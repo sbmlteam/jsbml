@@ -32,8 +32,8 @@ package org.sbml.jsbml;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.HashSet;
-import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Set;
 
@@ -69,7 +69,44 @@ public class SBO {
 	 * @date 2010-12-12
 	 * @see org.biojava.ontology.Term
 	 */
-	public static class Term {
+	public static class Term implements Cloneable, Comparable<Term>, Serializable {
+		
+		/**
+		 * Generated serial version identifier.
+		 */
+		private static final long serialVersionUID = -2753964994128680208L;
+
+		/**
+		 * 
+		 * @param complete
+		 * @return
+		 */
+		public static String printTerm(Term term) {
+			StringBuilder sb = new StringBuilder();
+			StringTools.append(sb, "[Term]\nid: ", term.getId(), "\nname: ",
+					term.getName(), "\ndef: ", term.getDefinition());
+			if (term.isObsolete()) {
+				sb.append("\nis_obsolete: true");
+			}
+			for (Object synonym : term.getSynonyms()) {
+				sb.append("\nsynonym: ");
+				if (synonym instanceof Synonym) {
+					Synonym s = (Synonym) synonym;
+					StringTools.append(sb, "\"", s.getName(), "\" [");
+					if (s.getCategory() != null) {
+						sb.append(s.getCategory());
+					}
+					sb.append(']');
+				} else {
+					sb.append(synonym);
+				}
+			}
+			for (Triple triple : term.getParents()) {
+				StringTools.append(sb, "\n", triple.getPredicate(), " ", triple
+						.getObject(), " ! ", triple.getObject().getName());
+			}
+			return sb.toString();
+		}
 		
 		/**
 		 * The base properties of this {@link Term}.
@@ -96,6 +133,23 @@ public class SBO {
 				this.term = term;
 			}
 			id = name = def = null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Object#clone()
+		 */
+		@Override
+		public Term clone() {
+			return new Term(this.term);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Comparable#compareTo(java.lang.Object)
+		 */
+		public int compareTo(Term term) {
+			return getId().compareTo(term.getId());
 		}
 
 		/*
@@ -127,7 +181,7 @@ public class SBO {
 						&& (annotation.keys().size() > 0) ? annotation
 						.getProperty("def") : null;
 				def = definition != null ? definition.toString() : "";
-				def = def.replace("\\n", " ").replace("\\", "");
+				def = def.replace("\\n", "\n").replace("\\t", "\t").replace("\\", "");
 				def = def.trim();
 			}
 			return def;
@@ -155,7 +209,7 @@ public class SBO {
 			if (name == null) {
 				String description;
 				description = this.term.getDescription();
-				name = description != null ? description.replace("\\n", " ")
+				name = description != null ? description.replace("\\n", "\n")
 						.replace("\\,", ",").trim() : "";
 			}
 			return name;
@@ -223,38 +277,6 @@ public class SBO {
 		public String toString() {
 			return getId();
 		}
-
-		/**
-		 * 
-		 * @param complete
-		 * @return
-		 */
-		public static String printTerm(Term term) {
-			StringBuilder sb = new StringBuilder();
-			StringTools.append(sb, "[Term]\nid: ", term.getId(), "\nname: ",
-					term.getName(), "\ndef: ", term.getDefinition());
-			if (term.isObsolete()) {
-				sb.append("\nis_obsolete: true");
-			}
-			for (Object synonym : term.getSynonyms()) {
-				sb.append("\nsynonym: ");
-				if (synonym instanceof Synonym) {
-					Synonym s = (Synonym) synonym;
-					StringTools.append(sb, "\"", s.getName(), "\" [");
-					if (s.getCategory() != null) {
-						sb.append(s.getCategory());
-					}
-					sb.append(']');
-				} else {
-					sb.append(synonym);
-				}
-			}
-			for (Triple triple : term.getParents()) {
-				StringTools.append(sb, "\n", triple.getPredicate(), " ", triple
-						.getObject(), " ! ", triple.getObject().getName());
-			}
-			return sb.toString();
-		}
 	}
 
 	/**
@@ -266,7 +288,12 @@ public class SBO {
 	 * @date 2010-12-12
 	 * @see org.biojava.ontology.Triple
 	 */
-	public static class Triple {
+	public static class Triple implements Cloneable, Comparable<Triple>, Serializable {
+		
+		/**
+		 * Generated serial version identifier.
+		 */
+		private static final long serialVersionUID = 7289048361260650338L;
 		
 		/**
 		 * The BioJava {@link org.biojava.ontology.Triple}.
@@ -284,6 +311,42 @@ public class SBO {
 				throw new NullPointerException("Triple must not be null.");
 			}
 			this.triple = triple;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Object#clone()
+		 */
+		@Override
+		public Triple clone() {
+			return new Triple(this.triple);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Comparable#compareTo(java.lang.Object)
+		 */
+		public int compareTo(Triple triple) {
+			String subject = getSubject() != null ? getSubject().toString() : "";
+			String predicate = getPredicate() != null ? getPredicate()
+					.toString() : "";
+			String object = getObject() != null ? getObject().toString() : "";
+			String tSub = triple.getSubject() != null ? triple.getSubject()
+					.toString() : "";
+			String tPred = triple.getPredicate() != null ? triple
+					.getPredicate().toString() : "";
+			String tObj = triple.getObject() != null ? triple.getObject()
+					.toString() : "";
+			int compare = subject.compareTo(tSub);
+			if (compare != 0) {
+				return compare;
+			}
+			compare = predicate.compareTo(tPred);
+			if (compare != 0) {
+				return compare;
+			}
+			compare = object.compareTo(tObj);
+			return compare;
 		}
 
 		/*
@@ -1775,6 +1838,56 @@ public class SBO {
 	}
 		
 	/**
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+		int i = 0; 
+		for (Term term : getTerms()) {
+			if (!term.isObsolete()) {
+				System.out.printf("%s\n\n", Term.printTerm(term));
+				i++;
+			}
+//			boolean isObsolete = false;
+//			try {
+//				term.getAnnotation().getProperty("is_obsolete");
+//				
+//				// If an exception as not been thrown, the property exist and the term is obsolete
+//				// We could do another test to be sure that the property value is equals to 'true'
+//				isObsolete = true;
+//				
+//			} catch (NoSuchElementException e) {
+//				// does nothing, the term is not obsolete
+//			}
+//			
+//			// There are terms that store the relationships, they are of the class Triple
+//			// so we exclude these to show only the actual SBO ontology terms.
+//			if (!(term instanceof Triple) && !isObsolete) {
+//
+//				System.out.println("[Term : " + term + "]");
+//				System.out.println("    id : " + term.getName()); // There is no id in the biojava Term class, so the id is store in the name field
+//				System.out.println("    name : " + term.getDescription()); // as name is used to store the id, the description is storing the name !!
+//				if (term.getSynonyms().length > 0) {
+//					System.out.print("    Term Synonyms : ");
+//					for (Object synonym : term.getSynonyms()) {
+//						System.out.print(((Synonym) synonym).getName() + ", ");
+//					}
+//					System.out.println(" ");
+//				}
+//				
+//				for (Object key : term.getAnnotation().keys()) {
+//					
+//					System.out.println("    " + key + " : " + term.getAnnotation().getProperty(key));
+//				}
+//				
+//				i++;
+//			}
+		}
+		System.out.println("\nThere is " + i + " terms in the SBO ontology.");
+	}
+
+	/**
 	 * This method creates a 7 digit SBO number for the given {@link Term} identifier (if
 	 * this is a valid identifier). The returned {@link String} will not contain the
 	 * SBO prefix.
@@ -1793,7 +1906,7 @@ public class SBO {
 		}
 		return sbo.toString();
 	}
-
+	
 	/**
 	 * Returns the string as a correctly formatted SBO integer portion.
 	 * 
@@ -1804,54 +1917,5 @@ public class SBO {
 	 */
 	public static int stringToInt(String sboTerm) {
 		return checkTerm(sboTerm) ? Integer.parseInt(sboTerm.substring(4)) : -1;
-	}
-	
-	/**
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-
-		int i = 0; 
-		for (org.biojava.ontology.Term term : sbo.getTerms()) {
-			//System.out.printf("%s\n\n", Term.printTerm(new Term(term)));
-			
-			boolean isObsolete = false;
-			try {
-				term.getAnnotation().getProperty("is_obsolete");
-				
-				// If an exception as not been thrown, the property exist and the term is obsolete
-				// We could do another test to be sure that the property value is equals to 'true'
-				isObsolete = true;
-				
-			} catch (NoSuchElementException e) {
-				// does nothing, the term is not obsolete
-			}
-			
-			// There are terms that store the relationships, they are of the class Triple
-			// so we exclude these to show only the actual SBO ontology terms.
-			if (!(term instanceof Triple) && !isObsolete) {
-
-				System.out.println("[Term : " + term + "]");
-				System.out.println("    id : " + term.getName()); // There is no id in the biojava Term class, so the id is store in the name field
-				System.out.println("    name : " + term.getDescription()); // as name is used to store the id, the description is storing the name !!
-				if (term.getSynonyms().length > 0) {
-					System.out.print("    Term Synonyms : ");
-					for (Object synonym : term.getSynonyms()) {
-						System.out.print(((Synonym) synonym).getName() + ", ");
-					}
-					System.out.println(" ");
-				}
-				
-				for (Object key : term.getAnnotation().keys()) {
-					
-					System.out.println("    " + key + " : " + term.getAnnotation().getProperty(key));
-				}
-				
-				i++;
-			}
-		}
-		
-		System.out.println("\nThere is " + i + " terms in the SBO ontology.");
 	}
 }
