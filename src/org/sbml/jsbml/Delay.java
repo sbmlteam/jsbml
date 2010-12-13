@@ -35,9 +35,6 @@ package org.sbml.jsbml;
  * 
  * @author Andreas Dr&auml;ger
  * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public class Delay extends AbstractMathContainer {
 
