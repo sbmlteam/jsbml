@@ -88,7 +88,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		CONSTANT_E,
 		/**
 		 * If an {@link ASTNode} represents the {@link Boolean} attribute
-		 * {@link Boolean.FALSE} it should have this {@link Type}.
+		 * {@link Boolean#FALSE} it should have this {@link Type}.
 		 */
 		CONSTANT_FALSE,
 		/**
@@ -220,7 +220,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		/**
 		 * An {@link ASTNode} of this {@link Type} represents a function call of
 		 * the 'pow' function. This function takes two arguments, the base and
-		 * the exponent. Alternatively, also {@link Type.#POWER} can be used,
+		 * the exponent. Alternatively, also {@link Type#POWER} can be used,
 		 * which represents the simple text symbol '^' to achieve the same
 		 * effect.
 		 */
@@ -540,12 +540,15 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		}
 
 		/**
-		 * Method to check whether this type is valid for the given SBML
+		 * Checks whether this type is valid for the given SBML
 		 * Level/Version combination.
+		 * 
+		 * @jsbml.warning this method is not implemented
 		 * 
 		 * @param level
 		 * @param version
-		 * @return
+		 * @return whether this type is valid for the given SBML
+		 * Level/Version combination.
 		 */
 		public boolean isDefinedIn(int level, int version) {
 			// TODO
@@ -677,7 +680,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 *         responsible for freeing it when it is no longer needed. NULL is
 	 *         returned if the given argument is NULL.
 	 * @throws SBMLException
-	 * @see toFormula
+	 * @see #toFormula()
 	 * 
 	 */
 	public static String formulaToString(ASTNode tree) throws SBMLException {
@@ -1068,7 +1071,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * 
 	 * @param parent the parent
 	 * @param sbase
-	 * @return
+	 * @return the sum of several NamedSBase objects.
 	 */
 	public static ASTNode sum(MathContainer parent,
 			NamedSBaseWithDerivedUnit... sbase) {
@@ -1083,7 +1086,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * Creates an ASTNode of type times and adds the given nodes as children.
 	 * 
 	 * @param ast
-	 * @return
+	 * @return an ASTNode of type times and adds the given nodes as children.
 	 */
 	public static ASTNode times(ASTNode... ast) {
 		return arithmethicOperation(Type.TIMES, ast);
@@ -1094,7 +1097,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * 
 	 * @param parent
 	 * @param sbase
-	 * @return
+	 * @return the multiplication of several NamedSBase objects.
 	 */
 	public static ASTNode times(MathContainer parent,
 			NamedSBaseWithDerivedUnit... sbase) {
@@ -1109,7 +1112,8 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * minus, i.e., this negates what is encoded in ast.
 	 * 
 	 * @param ast
-	 * @return
+	 * @return a new ASTNode that has exactly one child and which is of type
+	 * minus, i.e., this negates what is encoded in ast.
 	 */
 	public static ASTNode uMinus(ASTNode ast) {
 		ASTNode um = new ASTNode(Type.MINUS, ast.getParentSBMLObject());
@@ -1123,7 +1127,8 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * 
 	 * @param container
 	 * @param sbase
-	 * @return
+	 * @return a new ASTNode that has exactly one child and which is of type
+	 * minus, i.e., this negates what is encoded in ast.
 	 */
 	public static ASTNode uMinus(MathContainer container,
 			NamedSBaseWithDerivedUnit sbase) {
@@ -1338,7 +1343,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * The calling code should set the node type to something else as soon as
 	 * possible using setType(int)
 	 * 
-	 * @param astNode
+	 * @param parent
 	 *            the parent SBML object
 	 */
 	public ASTNode(MathContainer parent) {
@@ -1369,7 +1374,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	/**
 	 * Creates and returns a new {@link ASTNode} with the given name.
 	 * 
-	 * @param name
+	 * @param name the name of this ASTNode
 	 * @param parent
 	 *            the parent SBML object.
 	 */
@@ -1380,7 +1385,8 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	
 	/**
 	 * Creates and returns a new {@link ASTNode} with the given name.
-	 * @param name
+	 * 
+	 * @param name  the name of this ASTNode
 	 */
 	public ASTNode(String name) {
 		this(Type.NAME);
@@ -1824,7 +1830,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * undeclared units.
 	 * 
 	 * A return value of true indicates that the <code>UnitDefinition</code>
-	 * returned by {@see getDerivedUnitDefinition()} may not accurately
+	 * returned by {@link Variable#getDerivedUnitDefinition()} may not accurately
 	 * represent the units of the expression.
 	 * 
 	 * @return <code>true</code> if the math expression of this {@link ASTNode}
@@ -2046,8 +2052,9 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
+	 * Returns the definitionURL
 	 * 
-	 * @return
+	 * @return the definitionURL
 	 */
 	public String getDefinitionURL() {
 		return definitionURL;
@@ -2567,7 +2574,8 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * Returns true if this astnode represents the number minus one (either as
 	 * integer or as real value).
 	 * 
-	 * @return
+	 * @return true if this astnode represents the number minus one (either as
+	 * integer or as real value).
 	 */
 	public boolean isMinusOne() {
 		return (isReal() && getReal() == -1d)
@@ -2590,9 +2598,9 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 
 	/**
 	 * Returns true if this node is a type Real and represents the special IEEE
-	 * 754 value 'not a number' {@link Double.NaN}, false otherwise.
+	 * 754 value 'not a number' {@link Double#NaN}, false otherwise.
 	 * 
-	 * @return true if this ASTNode is the {@link Double.NaN}
+	 * @return true if this ASTNode is the {@link Double#NaN}
 	 */
 	public boolean isNaN() {
 		return isReal() && Double.isNaN(getReal());
@@ -2600,9 +2608,9 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 
 	/**
 	 * Returns true if this node represents the special IEEE 754 value 'negative
-	 * infinity' {@link Double.NEGATIVE_INFINITY}, false otherwise.
+	 * infinity' {@link Double#NEGATIVE_INFINITY}, false otherwise.
 	 * 
-	 * @return true if this ASTNode is {@link Double.NEGATIVE_INFINITY}, false
+	 * @return true if this ASTNode is {@link Double#NEGATIVE_INFINITY}, false
 	 *         otherwise.
 	 */
 	public boolean isNegInfinity() {
@@ -2662,7 +2670,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	/**
 	 * Returns true if this node represents a rational number, false otherwise.
 	 * 
-	 * @return true if this ASTNode is of type {@link Type.RATIONAL}.
+	 * @return true if this ASTNode is of type {@link Type#RATIONAL}.
 	 */
 	public boolean isRational() {
 		return type == Type.RATIONAL;
@@ -2706,8 +2714,9 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
+	 * Returns true if the number type is set.
 	 * 
-	 * @return
+	 * @return  true if the number type is set. 
 	 */
 	public boolean isSetNumberType() {
 		return isSetNumberType;
@@ -2726,8 +2735,8 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * Returns true if this node represents a square root function, false
 	 * otherwise.
 	 * 
-	 * More precisely, the node type must be {@link Type.FUNCTION_ROOT} with two
-	 * children, the first of which is an {@link Type.INTEGER} node having value
+	 * More precisely, the node type must be {@link Type#FUNCTION_ROOT} with two
+	 * children, the first of which is an {@link Type#INTEGER} node having value
 	 * equal to 2.
 	 * 
 	 * @return true if the given ASTNode represents a sqrt() function, false
@@ -2767,7 +2776,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	/**
 	 * Checks whether the number of child nodes is exactly one.
 	 * 
-	 * @return
+	 * @return true if the number of child nodes is exactly one.
 	 */
 	public boolean isUnary() {
 		return getNumChildren() == 1;
@@ -2850,7 +2859,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 
 	/**
 	 * Multiplies this ASTNode with the given nodes, i.e., all given nodes will
-	 * be children of this node, whose type will be set to {@link Type.TIMES}.
+	 * be children of this node, whose type will be set to {@link Type#TIMES}.
 	 * 
 	 * @param nodes
 	 *            some <code>ASTNode</code>

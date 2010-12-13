@@ -390,7 +390,7 @@ public class XMLToken {
 	 * <li> OPERATION_SUCCESS
 	 * <li> OPERATION_FAILED
 	 * <p>
-	 * @note This function replaces the existing {@link XMLAttributes} with the new one.
+	 * @jsbml.note This function replaces the existing {@link XMLAttributes} with the new one.
 	 */
 	public int setAttributes(XMLAttributes attributes) {
 
@@ -420,7 +420,7 @@ public class XMLToken {
 	 * <li> OPERATION_SUCCESS
 	 * <li> OPERATION_FAILED
 	 * <p>
-	 * @note if local name with the same namespace URI already exists in the
+	 * @jsbml.note if local name with the same namespace URI already exists in the
 	 * attribute set, its value and prefix will be replaced.
 	 * <p>
 	 */
@@ -448,7 +448,7 @@ public class XMLToken {
 	 * <li> OPERATION_SUCCESS
 	 * <li> OPERATION_FAILED
 	 * <p>
-	 * @note if local name with the same namespace URI already exists in the
+	 * @jsbml.note if local name with the same namespace URI already exists in the
 	 * attribute set, its value and prefix will be replaced.
 	 * <p>
 	 */
@@ -476,7 +476,7 @@ public class XMLToken {
 	 * <li> OPERATION_SUCCESS
 	 * <li> OPERATION_FAILED
 	 * <p>
-	 * @note if local name with the same namespace URI already exists in the
+	 * @jsbml.note if local name with the same namespace URI already exists in the
 	 * attribute set, its value and prefix will be replaced.
 	 * <p>
 	 */
@@ -495,7 +495,7 @@ public class XMLToken {
 	 * in this {@link XMLToken}.
 	 * Nothing will be done if this {@link XMLToken} is not a start element.
 	 * <p>
-	 * @note if local name with the same namespace URI already exists in the 
+	 * @jsbml.note if local name with the same namespace URI already exists in the 
 	 * attribute set, its value and prefix will be replaced.
 	 * <p>
 	 * @param triple an {@link XMLTriple}, the XML triple of the attribute.
@@ -690,7 +690,7 @@ public class XMLToken {
 	 * <p>
 	 * @return the local name of an attribute in this list (by position).  
 	 * <p>
-	 * @note If index
+	 * @jsbml.note If index
 	 * is out of range, an empty string will be returned.  Use hasAttr(index) 
 	 * to test for the attribute existence.
 	 */
@@ -709,7 +709,7 @@ public class XMLToken {
 	 * @return the namespace prefix of an attribute in the attribute set
 	 * (by position).  
 	 * <p>
-	 * @note If index is out of range, an empty string will be
+	 * @jsbml.note If index is out of range, an empty string will be
 	 * returned. Use hasAttr(index) to test for the attribute existence.
 	 */
 	public String getAttrPrefix(int index) {
@@ -727,7 +727,7 @@ public class XMLToken {
 	 * @return the prefixed name of an attribute in the attribute set 
 	 * (by position).  
 	 * <p>
-	 * @note If index is out of range, an empty string will be
+	 * @jsbml.note If index is out of range, an empty string will be
 	 * returned.  Use hasAttr(index) to test for attribute existence.
 	 */
 	public String getAttrPrefixedName(int index) {
@@ -744,7 +744,7 @@ public class XMLToken {
 	 * <p>
 	 * @return the namespace URI of an attribute in the attribute set (by position).
 	 * <p>
-	 * @note If index is out of range, an empty string will be returned.  Use
+	 * @jsbml.note If index is out of range, an empty string will be returned.  Use
 	 * hasAttr(index) to test for attribute existence.
 	 */
 	public String getAttrURI(int index) {
@@ -761,7 +761,7 @@ public class XMLToken {
 	 * <p>
 	 * @return the value of an attribute in the attribute set (by position).  
 	 * <p>
-	 * @note If index
+	 * @jsbml.note If index
 	 * is out of range, an empty string will be returned. Use hasAttr(index)
 	 * to test for attribute existence.
 	 */
@@ -778,7 +778,7 @@ public class XMLToken {
 	 * <p>
 	 * @return The attribute value as a string.  
 	 * <p>
-	 * @note If an attribute with the 
+	 * @jsbml.note If an attribute with the 
 	 * given local name and namespace URI does not exist, an empty string will be 
 	 * returned.  
 	 * Use hasAttr(name, uri) to test for attribute existence.
@@ -795,7 +795,7 @@ public class XMLToken {
 	 * <p>
 	 * @return The attribute value as a string.  
 	 * <p>
-	 * @note If an attribute with the 
+	 * @jsbml.note If an attribute with the 
 	 * given local name does not exist, an empty string will be 
 	 * returned.  
 	 * Use hasAttr(name, uri) to test for attribute existence.
@@ -813,7 +813,7 @@ public class XMLToken {
 	 * <p>
 	 * @return The attribute value as a string.  
 	 * <p>
-	 * @note If an attribute with the
+	 * @jsbml.note If an attribute with the
 	 * given {@link XMLTriple} does not exist, an empty string will be returned.  
 	 * Use hasAttr(triple) to test for attribute existence.
 	 */
@@ -920,7 +920,7 @@ public class XMLToken {
 	 * <li> OPERATION_FAILED
 	 * 
 	 * <p>
-	 * @note This function replaces the existing {@link XMLNamespaces} with the new one.
+	 * @jsbml.note This function replaces the existing {@link XMLNamespaces} with the new one.
 	 */
 	public int setNamespaces(XMLNamespaces namespaces) {
 		
@@ -1098,7 +1098,7 @@ public class XMLToken {
 	 * @return the prefix of an XML namespace declaration in the {@link XMLNamespaces} 
 	 * (by position).  
 	 * <p>
-	 * @note If index is out of range, an empty string will be
+	 * @jsbml.note If index is out of range, an empty string will be
 	 * returned.
 	 * <p>
 	 * @see #getNamespacesLength()
@@ -1115,7 +1115,7 @@ public class XMLToken {
 	 * <p>
 	 * @return the prefix of an XML namespace declaration given its URI.  
 	 * <p>
-	 * @note If <code>uri</code> does not exist, an empty string will be returned.
+	 * @jsbml.note If <code>uri</code> does not exist, an empty string will be returned.
 	 */
 	public String getNamespacePrefix(String uri) {
 		return namespaces.getPrefix(uri);
@@ -1130,7 +1130,7 @@ public class XMLToken {
 	 * @return the URI of an XML namespace declaration in the {@link XMLNamespaces}
 	 * (by position).  
 	 * <p>
-	 * @note If <code>index</code> is out of range, an empty string will be
+	 * @jsbml.note If <code>index</code> is out of range, an empty string will be
 	 * returned.
 	 * <p>
 	 * @see #getNamespacesLength()
@@ -1147,7 +1147,7 @@ public class XMLToken {
 	 * <p>
 	 * @return the URI of an XML namespace declaration given its prefix.  
 	 * <p>
-	 * @note If <code>prefix</code> does not exist, an empty string will be returned.
+	 * @jsbml.note If <code>prefix</code> does not exist, an empty string will be returned.
 	 */
 	public String getNamespaceURI(String prefix) {
 		return namespaces.getURI(prefix);
@@ -1159,7 +1159,7 @@ public class XMLToken {
 	 * <p>
 	 * @return the URI of an XML namespace declaration for the empty prefix.
 	 * <p>
-	 * @note If <code>prefix</code> does not exist, an empty string will be returned.
+	 * @jsbml.note If <code>prefix</code> does not exist, an empty string will be returned.
 	 */
 	public String getNamespaceURI() {
 		return namespaces.getURI();
@@ -1263,7 +1263,7 @@ public class XMLToken {
 	 * <p>
 	 * @return the namespace prefix of this XML element.  
 	 * <p>
-	 * @note If no prefix
+	 * @jsbml.note If no prefix
 	 * exists, an empty string will be return.
 	 */
 	public String getPrefix() {

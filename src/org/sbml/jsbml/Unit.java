@@ -801,7 +801,7 @@ public class Unit extends AbstractSBase {
 	 * @param version
 	 *            an integer representing the SBML specification Version
 	 * @return true if name is a valid UnitKind, false otherwise
-	 * @note The allowed unit names differ between SBML Levels 1 and 2 and again
+	 * @jsbml.note The allowed unit names differ between SBML Levels 1 and 2 and again
 	 *       slightly between Level 2 Versions 1 and 2.
 	 */
 	public static boolean isUnitKind(String name, int level, int version) {

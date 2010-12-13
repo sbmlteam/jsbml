@@ -297,6 +297,11 @@
     	     breakiterator="yes"
     >
 		<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
+    	<tag name="sbml.deprecated" description="Deprecated in SBML since :"/>
+    	<tag name="jsbml.note" description="Note"/>
+    	<tag name="jsbml.warning"/>
+    	<tag name="doc.note"  description="Documentation note"/>
+    	
    </javadoc> 	
   </target>
 

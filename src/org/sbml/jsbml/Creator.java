@@ -40,9 +40,6 @@ import org.sbml.jsbml.util.StringTools;
  * @author marine3
  * @author Andreas Dr&auml;ger
  * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public class Creator implements Cloneable, Serializable {
 
@@ -79,6 +76,7 @@ public class Creator implements Cloneable, Serializable {
 	}
 	
 	/**
+	 * Creates a {@link Creator} instance. 
 	 * 
 	 * @param givenName
 	 * @param familyName
@@ -160,6 +158,8 @@ public class Creator implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Returns the email from the {@link Creator}. Returns an empty String if it is
+	 *         not set.
 	 * 
 	 * @return the email from the {@link Creator}. Returns an empty String if it is
 	 *         not set.
@@ -169,6 +169,8 @@ public class Creator implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Returns the familyName from the {@link Creator}. Returns an empty String if
+	 *         it is not set.
 	 * 
 	 * @return the familyName from the {@link Creator}. Returns an empty String if
 	 *         it is not set.
@@ -181,7 +183,8 @@ public class Creator implements Cloneable, Serializable {
 	 * Returns the givenName from the {@link Creator}. Returns an empty String if
 	 * it is not set.
 	 * 
-	 * @return
+	 * @return the givenName from the {@link Creator}. Returns an empty String if
+	 * it is not set.
 	 */
 	public String getGivenName() {
 		return isSetGivenName() ? givenName : "";
@@ -191,23 +194,28 @@ public class Creator implements Cloneable, Serializable {
 	 * Returns the organisation from the {@link Creator}. Returns an empty String
 	 * if it is not set.
 	 * 
-	 * @return
+	 * @return the organisation from the {@link Creator}. Returns an empty String
+	 * if it is not set.
 	 */
 	public String getOrganisation() {
 		return isSetOrganisation() ? organisation : "";
 	}
 
 	/**
-	 * Equivalent to {@link getOrganisation()}
+	 * Returns the organisation from the {@link Creator}. Returns an empty String
+	 * if it is not set.
+	 * <p>
+	 * Equal to {@link #getOrganisation()}
 	 * 
-	 * @return
+	 * @return the organisation from the {@link Creator}. Returns an empty String
+	 * if it is not set.
 	 */
 	public String getOrganization() {
 		return getOrganisation();
 	}
 
 	/**
-	 * Predicate returning true or false depending on whether this
+	 * Returns true or false depending on whether this
 	 * {@link Creator}'s email has been set.
 	 * 
 	 * @return true if the email of this {@link Creator} is not null.
@@ -217,7 +225,7 @@ public class Creator implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Predicate returning true or false depending on whether this
+	 * Returns true or false depending on whether this
 	 * {@link Creator}'s familyName has been set.
 	 * 
 	 * @return true if the familyName of this {@link Creator} is not null.
@@ -227,7 +235,7 @@ public class Creator implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Predicate returning true or false depending on whether this
+	 * Returns true or false depending on whether this
 	 * {@link Creator}'s givenName has been set.
 	 * 
 	 * @return true if the givenName of this {@link Creator} is not null.
@@ -237,7 +245,7 @@ public class Creator implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Predicate returning true or false depending on whether this
+	 * Returns true or false depending on whether this
 	 * {@link Creator}'s organisation has been set.
 	 * 
 	 * @return true if the organisation of this {@link Creator} is not null.
@@ -247,15 +255,20 @@ public class Creator implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Equivalent to {@link isSetOrganisation()}
+	 * Returns true or false depending on whether this
+	 * {@link Creator}'s organisation has been set.
+	 * <p>Equal to {@link #isSetOrganisation()}
 	 * 
-	 * @return
+	 * @return true or false depending on whether this
+	 * {@link Creator}'s organisation has been set.
 	 */
 	public boolean isSetOrganization() {
 		return isSetOrganisation();
 	}
 
 	/**
+	 * Returns true if the XML attribute is known by this {@link Creator}.
+	 * 
 	 * @return true if the XML attribute is known by this {@link Creator}.
 	 */
 	public boolean readAttribute(String elementName, String attributeName,
@@ -274,36 +287,33 @@ public class Creator implements Cloneable, Serializable {
 	 * Sets the email
 	 * 
 	 * @param email
-	 * @return 0
+	 * @return {@link JSBML#OPERATION_SUCCESS}
 	 */
 	public int setEmail(String email) {
 		this.email = email;
-		// TODO
-		return 0;
+		return JSBML.OPERATION_SUCCESS;
 	}
 
 	/**
 	 * Sets the family name
 	 * 
 	 * @param familyName
-	 * @return 0
+	 * @return {@link JSBML#OPERATION_SUCCESS}
 	 */
 	public int setFamilyName(String familyName) {
 		this.familyName = familyName;
-		// TODO
-		return 0;
+		return JSBML.OPERATION_SUCCESS;
 	}
 
 	/**
 	 * Sets the given name
 	 * 
 	 * @param givenName
-	 * @return 0
+	 * @return {@link JSBML#OPERATION_SUCCESS}
 	 */
 	public int setGivenName(String givenName) {
 		this.givenName = givenName;
-		// TODO
-		return 0;
+		return JSBML.OPERATION_SUCCESS;
 	}
 
 	/**
@@ -316,7 +326,8 @@ public class Creator implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Equivalent to {@link setOrganisation}.
+	 * Sets the organisation
+	 * <p>Equal to {@link #setOrganisation(String)}.
 	 * 
 	 * @param organization
 	 */
@@ -325,6 +336,8 @@ public class Creator implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Returns the information about the creator as a String.
+	 * 
 	 * @return the information about the creator as a String.
 	 */
 	public String toString() {
@@ -355,7 +368,7 @@ public class Creator implements Cloneable, Serializable {
 	}
 
 	/**
-	 * converts the {@link Creator} into XML
+	 * Converts the {@link Creator} into XML
 	 * 
 	 * @param indent
 	 * @param buffer
@@ -373,67 +386,32 @@ public class Creator implements Cloneable, Serializable {
 	/**
 	 * Unsets the email of this {@link Creator}.
 	 * 
-	 * @return 0
+	 * @return {@link JSBML#OPERATION_SUCCESS}
 	 */
 	public int unsetEmail() {
 		email = null;
-		// TODO
-		return 0;
+		return JSBML.OPERATION_SUCCESS;
 	}
-
-	// /**
-	// * write the other elements of the {@link Creator} in 'buffer'
-	// * @param indent
-	// * @param buffer
-	// */
-	/*
-	 * private void createOtherElement(String indent, StringBuffer buffer){
-	 * 
-	 * if (getOtherXMLInformation() != null){ String [] lines =
-	 * getOtherXMLInformation().split("\n"); for (int i = 0; i < lines.length;
-	 * i++){ buffer.append(indent).append(lines[i]).append(" \n"); } } }
-	 */
 
 	/**
 	 * Unsets the familyName of this {@link Creator}.
 	 * 
-	 * @return 0
+	 * @return {@link JSBML#OPERATION_SUCCESS}
 	 */
 	public int unsetFamilyName() {
 		familyName = null;
-		// TODO
-		return 0;
+		return JSBML.OPERATION_SUCCESS;
 	}
 
 	/**
 	 * Unsets the givenName of this {@link Creator}.
 	 * 
-	 * @return 0
+	 * @return {@link JSBML#OPERATION_SUCCESS}
 	 */
 	public int unsetGivenName() {
 		givenName = null;
-		// TODO
-		return 0;
+		return JSBML.OPERATION_SUCCESS;
 	}
-
-	// /**
-	// * changes the other information about the creator
-	// * @param otherXMLInformation
-	// */
-	/*
-	 * public void setOtherXMLInformation(String otherXMLInformation) { if
-	 * (getOtherXMLInformation() == null){ this.otherXMLInformation =
-	 * otherXMLInformation; } else{ this.otherXMLInformation +=
-	 * otherXMLInformation; } }
-	 */
-
-	// /**
-	// *
-	// * @return the otherXMLInformation String of {@link Creator}
-	// */
-	/*
-	 * public String getOtherXMLInformation() { return otherXMLInformation; }
-	 */
 
 	/**
 	 * Unsets the organisation of this {@link Creator}.
@@ -444,7 +422,7 @@ public class Creator implements Cloneable, Serializable {
 	}
 
 	/**
-	 * writes the EMAIL element of the {@link Creator} in 'buffer'
+	 * Writes the EMAIL element of the {@link Creator} in 'buffer'
 	 * 
 	 * @param indent
 	 * @param buffer
@@ -457,7 +435,7 @@ public class Creator implements Cloneable, Serializable {
 	}
 
 	/**
-	 * writes the N element of the {@link Creator} in 'buffer'
+	 * Writes the N element of the {@link Creator} in 'buffer'
 	 * 
 	 * @param indent
 	 * @param buffer
@@ -482,7 +460,7 @@ public class Creator implements Cloneable, Serializable {
 	}
 
 	/**
-	 * writes the ORG element of the {@link Creator} in 'buffer'
+	 * Writes the ORG element of the {@link Creator} in 'buffer'
 	 * 
 	 * @param indent
 	 * @param buffer

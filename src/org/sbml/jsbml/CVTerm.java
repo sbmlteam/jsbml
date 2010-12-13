@@ -128,8 +128,9 @@ public class CVTerm implements Cloneable, Serializable {
 		BQM_UNKNOWN;
 
 		/**
+		 * Returns a name corresponding to this Qualifier Object.
 		 * 
-		 * @return
+		 * @return a name corresponding to this Qualifier Object.
 		 */
 		public String getElementNameEquivalent() {
 			switch (this) {
@@ -169,16 +170,18 @@ public class CVTerm implements Cloneable, Serializable {
 		}
 
 		/**
+		 * Returns true if this qualifier is a biological qualifier.
 		 * 
-		 * @return
+		 * @return true if this qualifier is a biological qualifier, false otherwise.
 		 */
 		public boolean isBiologicalQualifier() {
 			return !isModelQualifier();
 		}
 
 		/**
+		 * Returns true if this qualifier is a model qualifier.
 		 * 
-		 * @return
+		 * @return true if this qualifier is a model qualifier, false otherwise.
 		 */
 		public boolean isModelQualifier() {
 			return toString().startsWith("BQM_");
@@ -203,8 +206,9 @@ public class CVTerm implements Cloneable, Serializable {
 		UNKNOWN_QUALIFIER;
 
 		/**
+		 * Returns a name corresponding to this Type of qualifier Object.
 		 * 
-		 * @return
+		 * @return a name corresponding to this Type of qualifier Object.
 		 */
 		public String getElementNameEquivalent() {
 			switch (this) {
@@ -263,7 +267,7 @@ public class CVTerm implements Cloneable, Serializable {
 	/**
 	 * Creates a {@link CVTerm} instance from a given {@link CVTerm}.
 	 * 
-	 * @param term
+	 * @param term the {@link CVTerm} to clone
 	 */
 	public CVTerm(CVTerm term) {
 		this.type = term.getQualifierType();
@@ -337,19 +341,23 @@ public class CVTerm implements Cloneable, Serializable {
 	/**
 	 * Adds a resource to the {@link CVTerm}.
 	 * 
+	 * <p>Same method a {@link #addResourceURI(String)}
+	 * 
 	 * @param urn
 	 *            string representing the resource; e.g.,
 	 *            'urn:miriam:kegg.reaction:R00351'
-	 * @return true as specified in {@link Collection.add}
+	 * @return true as specified in {@link Collection#add(Object)}
 	 */
 	public boolean addResource(String urn) {
 		return resourceURIs.add(urn);
 	}
 
 	/**
+	 * Adds list of resources to the {@link CVTerm}.
 	 * 
-	 * @param resources
-	 * @return
+	 * @param resources a list of strings representing the resources; e.g.,
+	 *            'urn:miriam:kegg.reaction:R00351'
+	 * @return true if all the resources have been added properly.
 	 */
 	public boolean addResources(String... resources) {
 		boolean success = true;
@@ -360,8 +368,14 @@ public class CVTerm implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Adds a resource to the {@link CVTerm}.
+	 * 
+	 * <p>Same method a {@link #addResource(String)}
 	 * 
 	 * @param uri
+	 *            string representing the resource; e.g.,
+	 *            'urn:miriam:kegg.reaction:R00351'
+	 *            
 	 * @return true if 'uri' has been added to the list of resourceURI of this
 	 *         CVTerm.
 	 */
@@ -457,6 +471,7 @@ public class CVTerm implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Returns the number of resources for this CVTerm.
 	 * 
 	 * @return the number of resources for this CVTerm.
 	 */
@@ -465,6 +480,7 @@ public class CVTerm implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Returns the Qualifier Type code for this CVTerm.
 	 * 
 	 * @return the Qualifier Type code for this CVTerm.
 	 */
@@ -484,7 +500,7 @@ public class CVTerm implements Cloneable, Serializable {
 	/**
 	 * Returns the value of the nth resource for this CVTerm.
 	 * 
-	 * @param n
+	 * @param i
 	 *            : index of the resourceURI in the list of the resourceURI.
 	 * @return the value of the nth resource for this CVTerm.
 	 */
@@ -493,32 +509,36 @@ public class CVTerm implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Returns true if this qualifier is a biological qualifier.
 	 * 
-	 * @return
+	 * @return true if this qualifier is a biological qualifier, false otherwise.
 	 */
 	public boolean isBiologicalQualifier() {
 		return type.equals(Type.BIOLOGICAL_QUALIFIER);
 	}
 
 	/**
+	 * Returns true if this qualifier is a model qualifier.
 	 * 
-	 * @return
+	 * @return true if this qualifier is a model qualifier, false otherwise.
 	 */
 	public boolean isModelQualifier() {
 		return type.equals(Type.MODEL_QUALIFIER);
 	}
 
 	/**
+	 * Returns true if the Type of this CVTerm is set.
 	 * 
-	 * @return
+	 * @return true if the Type of this CVTerm is set.
 	 */
 	public boolean isSetType() {
 		return (type != null) && !type.equals(Type.UNKNOWN_QUALIFIER);
 	}
 
 	/**
+	 * Returns true if the Qualifier of this CVTerm is set.
 	 * 
-	 * @return
+	 * @return true if the Qualifier of this CVTerm is set.
 	 */
 	public boolean isSetTypeQualifier() {
 		return qualifier != null;
@@ -556,6 +576,7 @@ public class CVTerm implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Sets the biological qualifier type.
 	 * 
 	 * @param specificQualifierType
 	 */
@@ -564,7 +585,7 @@ public class CVTerm implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Sets the #BiolQualifierType_t of this CVTerm.
+	 * Sets the biological qualifier type of this CVTerm.
 	 * 
 	 * @param qualifier
 	 */
@@ -587,6 +608,7 @@ public class CVTerm implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Sets the model qualifier type of this CVTerm.
 	 * 
 	 * @param specificQualifierType
 	 */
@@ -597,7 +619,7 @@ public class CVTerm implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Sets the ModelQualifierType_t value of this CVTerm.
+	 * Sets the model qualifier type of this CVTerm.
 	 * 
 	 * @param qualifier
 	 */
@@ -621,8 +643,9 @@ public class CVTerm implements Cloneable, Serializable {
 	// TODO : check that this 3 functions are doing the good things and
 	// selecting the proper qualifier
 	/**
+	 * Sets the type of this CVTerm to the Type represented by 'qualifierType'.
 	 * 
-	 * @param qualifierType
+	 * @param qualifierType the Type to set as an integer.
 	 */
 	public void setQualifierType(int qualifierType) {
 		setQualifierType(Type.values()[qualifierType]);
@@ -647,6 +670,9 @@ public class CVTerm implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Returns a {@link String} containing the qualifier and all the resource
+	 *         URIs of this {@link CVTerm}.
+	 * 
 	 * @return a {@link String} containing the qualifier and all the resource
 	 *         URIs of this {@link CVTerm}.
 	 */
@@ -732,7 +758,7 @@ public class CVTerm implements Cloneable, Serializable {
 	}
 
 	/**
-	 * writes all the MIRIAM annotations of the {@link CVTerm} in 'buffer'
+	 * Writes all the MIRIAM annotations of the {@link CVTerm} in 'buffer'
 	 * 
 	 * @param indent
 	 * @param buffer
