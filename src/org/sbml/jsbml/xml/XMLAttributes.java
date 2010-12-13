@@ -147,7 +147,7 @@ public class XMLAttributes {
    * returned by this function are:
    * <li> OPERATION_SUCCESS
    * <p>
-   * @note if local name with the same namespace URI already exists in this 
+   * @jsbml.note if local name with the same namespace URI already exists in this 
    * attribute set, its value and prefix will be replaced.
    * <p>
    */
@@ -173,7 +173,7 @@ public class XMLAttributes {
    * returned by this function are:
    * <li> OPERATION_SUCCESS
    * <p>
-   * @note if local name with the same namespace URI already exists in this 
+   * @jsbml.note if local name with the same namespace URI already exists in this 
    * attribute set, its value and prefix will be replaced.
    * <p>
    */
@@ -199,7 +199,7 @@ public class XMLAttributes {
    * returned by this function are:
    * <li> OPERATION_SUCCESS
    * <p>
-   * @note if local name with the same namespace URI already exists in this 
+   * @jsbml.note if local name with the same namespace URI already exists in this 
    * attribute set, its value and prefix will be replaced.
    * <p>
    */
@@ -216,7 +216,7 @@ public class XMLAttributes {
   /**
    * Adds an attribute with the given {@link XMLTriple}/value pair to this {@link XMLAttributes} set.
    * <p>
-   * @note if local name with the same namespace URI already exists in this attribute set, 
+   * @jsbml.note if local name with the same namespace URI already exists in this attribute set, 
    * its value and prefix will be replaced.
    * <p>
    * @param triple an {@link XMLTriple}, the XML triple of the attribute.
@@ -384,7 +384,7 @@ public class XMLAttributes {
   /**
    * Returns the index of an attribute with the given name.
    * <p>
-   * @note A namespace bound to the name is not checked by this function.
+   * @jsbml.note A namespace bound to the name is not checked by this function.
    * Thus, if there are multiple attributes with the given local name and
    * different namespaces, the smallest index among those attributes will
    * be returned.  {@link XMLAttributes#getIndex(String name, String uri)} or
@@ -475,7 +475,7 @@ public class XMLAttributes {
    * <p>
    * @return the local name of an attribute in this list (by position).  
    * <p>
-   * @note If index is out of range, an empty string will be returned.  Use
+   * @jsbml.note If index is out of range, an empty string will be returned.  Use
    * {@link XMLAttributes#hasAttribute(int index)} to test for the attribute
    * existence.
    */
@@ -499,7 +499,7 @@ public class XMLAttributes {
    * @return the namespace prefix of an attribute in this list (by
    * position).  
    * <p>
-   * @note If index is out of range, an empty string will be returned. Use
+   * @jsbml.note If index is out of range, an empty string will be returned. Use
    * {@link XMLAttributes#hasAttribute(int index)} to test for the attribute
    * existence.
    */
@@ -523,7 +523,7 @@ public class XMLAttributes {
    * @return the prefixed name of an attribute in this list (by
    * position).  
    * <p>
-   * @note If index is out of range, an empty string will be returned.  Use
+   * @jsbml.note If index is out of range, an empty string will be returned.  Use
    * {@link XMLAttributes#hasAttribute(int index)} to test for attribute existence.
    */
  public String getPrefixedName(int index) {
@@ -547,7 +547,7 @@ public class XMLAttributes {
    * <p>
    * @return the namespace URI of an attribute in this list (by position).
    * <p>
-   * @note If index is out of range, an empty string will be returned.  Use
+   * @jsbml.note If index is out of range, an empty string will be returned.  Use
    * {@link XMLAttributes#hasAttribute(int index)} to test for attribute existence.
    */
  public String getURI(int index) {
@@ -569,7 +569,7 @@ public class XMLAttributes {
    * <p>
    * @return the value of an attribute in the list (by position).  
    * <p>
-   * @note If index is out of range, an empty string will be returned.  Use
+   * @jsbml.note If index is out of range, an empty string will be returned.  Use
    * {@link XMLAttributes#hasAttribute(int index)} to test for attribute existence.
    */
  public String getValue(int index) {
@@ -590,7 +590,7 @@ public class XMLAttributes {
    * <p>
    * @return The attribute value as a string.  
    * <p>
-   * @note If an attribute with the given local name does not exist, an
+   * @jsbml.note If an attribute with the given local name does not exist, an
    * empty string will be returned.  Use {@link XMLAttributes#hasAttribute(String name, String uri)}
    * to test for attribute existence.  A namespace bound to the local name
    * is not checked by this function.  Thus, if there are multiple
@@ -623,7 +623,7 @@ public class XMLAttributes {
    * <p>
    * @return The attribute value as a string.  
    * <p>
-   * @note If an attribute with the given local name and namespace URI does
+   * @jsbml.note If an attribute with the given local name and namespace URI does
    * not exist, an empty string will be returned.  Use
    * {@link XMLAttributes#hasAttribute(String name, String uri)}
    * to test for attribute existence.
@@ -651,7 +651,7 @@ public class XMLAttributes {
    * <p>
    * @return The attribute value as a string.  
    * <p>
-   * @note If an attribute with the given {@link XMLTriple} does not exist, an
+   * @jsbml.note If an attribute with the given {@link XMLTriple} does not exist, an
    * empty string will be returned.  Use
    * {@link XMLAttributes#hasAttribute(XMLTriple  triple)} to test for attribute existence.
    */

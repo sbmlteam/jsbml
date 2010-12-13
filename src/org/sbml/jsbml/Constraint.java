@@ -125,6 +125,9 @@ public class Constraint extends AbstractMathContainer {
 	}
 
 	/**
+	 * Returns the message of this Constraint. Return null if the
+	 *         message is not set.
+	 * 
 	 * @return the message of this Constraint. Return null if the
 	 *         message is not set.
 	 */
@@ -133,14 +136,16 @@ public class Constraint extends AbstractMathContainer {
 	}
 
 	/**
+	 * Returns the message of this Constraint as an XML String.
 	 * 
-	 * @return
+	 * @return  the message of this Constraint as an XML String.
 	 */
 	public String getMessageString() {
 		return message.toXMLString();
 	}
 
 	/**
+	 * Returns true if the message of this Constraint is not null.
 	 * 
 	 * @return true if the message of this Constraint is not null.
 	 */

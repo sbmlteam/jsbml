@@ -35,12 +35,8 @@ package org.sbml.jsbml;
  * Represents the compartmentType XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * @date 2009-08-31
- * @deprecated
+ * @sbml.deprecated Level 3 Version 1
  * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public class CompartmentType extends AbstractNamedSBase {
 
@@ -79,6 +75,7 @@ public class CompartmentType extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a CompartmentType instance from an id.
 	 * 
 	 * @param id
 	 * @deprecated

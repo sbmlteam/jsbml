@@ -107,7 +107,7 @@ else
  */
 public class XMLNode extends XMLToken {
 
-	// TODO : check that @note is supported in java 1.6, otherwise use the command : javadoc -tag note:a:"Note:" ...
+	// TODO : check that @jsbml.note is supported in java 1.6, otherwise use the command : javadoc -tag note:a:"Note:" ...
 
 	private ArrayList<XMLNode> childrenElements = new ArrayList<XMLNode>();
 
@@ -355,7 +355,7 @@ public class XMLNode extends XMLToken {
 	 * <li> OPERATION_SUCCESS
 	 * <li> OPERATION_FAILED
 	 * <p>
-	 * @note The given node is added at the end of the children list.
+	 * @jsbml.note The given node is added at the end of the children list.
 	 */
 	public int addChild(XMLNode node) {
 
@@ -425,7 +425,7 @@ public class XMLNode extends XMLToken {
 	 * @return the removed child, or NULL if <code>n</code> is greater than the number
 	 * of children in this node
 	 * <p>
-	 * @note The caller owns the returned node and is responsible for deleting it.
+	 * @jsbml.note The caller owns the returned node and is responsible for deleting it.
 	 */
 	public XMLNode removeChild(long n) {
 		
@@ -516,7 +516,7 @@ public class XMLNode extends XMLToken {
 	 * @param xmlstr string to be converted to a XML node.
 	 * @param xmlns {@link XMLNamespaces} the namespaces to set (default value is NULL).
 	 * <p>
-	 * @note The caller owns the returned {@link XMLNode} and is reponsible for deleting it.
+	 * @jsbml.note The caller owns the returned {@link XMLNode} and is reponsible for deleting it.
 	 * The returned {@link XMLNode} object is a dummy root (container) {@link XMLNode} if the top-level 
 	 * element in the given XML string is NOT <code>html</code>, <code>body</code>, <code>annotation</code>, <code>notes</code>.
 	 * In the dummy root node, each top-level element in the given XML string is contained
@@ -544,7 +544,7 @@ public class XMLNode extends XMLToken {
 	 * @param xmlstr string to be converted to a XML node.
 	 * @param xmlns {@link XMLNamespaces} the namespaces to set (default value is NULL).
 	 * <p>
-	 * @note The caller owns the returned {@link XMLNode} and is reponsible for deleting it.
+	 * @jsbml.note The caller owns the returned {@link XMLNode} and is reponsible for deleting it.
 	 * The returned {@link XMLNode} object is a dummy root (container) {@link XMLNode} if the top-level 
 	 * element in the given XML string is NOT <code>html</code>, <code>body</code>, <code>annotation</code>, <code>notes</code>.
 	 * In the dummy root node, each top-level element in the given XML string is contained

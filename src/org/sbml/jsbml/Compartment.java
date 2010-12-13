@@ -94,7 +94,7 @@ public class Compartment extends Symbol {
 	/**
 	 * Creates a Compartment instance from a given compartment.
 	 * 
-	 * @param compartment
+	 * @param compartment the compartment object to clone.
 	 */
 	public Compartment(Compartment compartment) {
 		super(compartment);
@@ -120,16 +120,17 @@ public class Compartment extends Symbol {
 	 * the level is set and is superior or equal to 3, sets the compartmentType,
 	 * outsideID and spatialDimension to null.
 	 * 
-	 * @param level
-	 * @param version
+	 * @param level the SBML level
+	 * @param version  the SBML level
 	 */
 	public Compartment(int level, int version) {
 		this(null, null, level, version);
 	}
 	
 	/**
+	 * Creates a Compartment instance with the given id. 
 	 * 
-	 * @param id
+	 * @param id the compartment id.
 	 */
 	public Compartment(String id) {
 		this();
@@ -140,9 +141,9 @@ public class Compartment extends Symbol {
 	 * Creates a Compartment instance from an id, level and version. By default,
 	 * sets the compartmentType, outsideID and spatialDimension to null.
 	 * 
-	 * @param id
-	 * @param level
-	 * @param version
+	 * @param id  the compartment id.
+	 * @param level the SBML level
+	 * @param version  the SBML level
 	 */
 	public Compartment(String id, int level, int version) {
 		this(id, null, level, version);
@@ -153,10 +154,10 @@ public class Compartment extends Symbol {
 	 * default, if the level is set and is superior or equal to 3, sets the
 	 * compartmentType, outsideID and spatialDimension to null.
 	 * 
-	 * @param id
-	 * @param name
-	 * @param level
-	 * @param version
+	 * @param id  the compartment id.
+	 * @param name the compartment name.
+	 * @param level the SBML level
+	 * @param version  the SBML level
 	 */
 	public Compartment(String id, String name, int level, int version) {
 		super(id, name, level, version);
@@ -200,6 +201,8 @@ public class Compartment extends Symbol {
 	}
 
 	/**
+	 * Returns the compartmentType id of this compartment. Return an empty
+	 *         String if it is not set.
 	 * 
 	 * @return the compartmentType id of this compartment. Return an empty
 	 *         String if it is not set.
@@ -209,10 +212,13 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 * 
+	 * Returns the compartmentType instance in Model for this compartment
+	 *         compartmentTypeID. Return null if there is no compartmentType
+	 *         instance which matches this compartmentTypeID.
+	 *         
 	 * @return the compartmentType instance in Model for this compartment
 	 *         compartmentTypeID. Return null if there is no compartmentType
-	 *         instance which matches this id.
+	 *         instance which matches this compartmentTypeID.
 	 */
 	@Deprecated
 	public CompartmentType getCompartmentTypeInstance() {
@@ -221,6 +227,7 @@ public class Compartment extends Symbol {
 	}
 
 	/**
+	 * Returns the outside id of this compartment. Return "" if it is not set.
 	 * 
 	 * @return the outside id of this compartment. Return "" if it is not set.
 	 */
@@ -229,6 +236,8 @@ public class Compartment extends Symbol {
 	}
 
 	/**
+	 * Returns the compartment instance which matches the outside id in Model.
+	 *         Return null if no compartment instance matches the outside id.
 	 * 
 	 * @return the compartment instance which matches the outside id in Model.
 	 *         Return null if no compartment instance matches the outside id.
@@ -239,6 +248,7 @@ public class Compartment extends Symbol {
 	}
 
 	/**
+	 * Returns the size of this compartment.
 	 * 
 	 * @return the size of this compartment.
 	 */
@@ -251,7 +261,7 @@ public class Compartment extends Symbol {
 	 * returns the default SBML level 2 value, which is 3.
 	 * 
 	 * @return the spatialDimensions of this compartment or 3 if
-	 *         spatialdimensions is not set.
+	 *         spatialDimensions is not set.
 	 */
 	public short getSpatialDimensions() {
 		return isSetSpatialDimensions() && (spatialDimensions != null) ? spatialDimensions
@@ -259,7 +269,7 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 *(For SBML Level 1) Get the volume of this Compartment
+	 * Gets the volume of this Compartment
 	 * 
 	 * This method is identical to getSize(). In SBML Level 1, compartments are
 	 * always three-dimensional constructs and only have volumes, whereas in
@@ -268,14 +278,14 @@ public class Compartment extends Symbol {
 	 * provides both getSize() and getVolume() for easier compatibility between
 	 * SBML Levels.
 	 * 
-	 * @return
+	 * @return the volume of this Compartment
 	 */
 	public double getVolume() {
 		return getSize();
 	}
 
 	/**
-	 * initializes the default values.
+	 * Initializes the default values.
 	 */
 	public void initDefaults() {
 		compartmentTypeID = null;
@@ -292,6 +302,7 @@ public class Compartment extends Symbol {
 	}
 
 	/**
+	 * Returns true if the compartmentID of this compartment is not null.
 	 * 
 	 * @return true if the compartmentID of this compartment is not null.
 	 */
@@ -300,7 +311,9 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 * 
+	 * Returns true if the compartmentType instance which matches the
+	 *         compartmentTypeID of this compartment is not null.
+	 *         
 	 * @return true if the compartmentType instance which matches the
 	 *         compartmentTypeID of this compartment is not null.
 	 */
@@ -312,6 +325,7 @@ public class Compartment extends Symbol {
 	}
 
 	/**
+	 * Returns true if the outsideID of this compartment is not null.
 	 * 
 	 * @return true if the outsideID of this compartment is not null.
 	 */
@@ -320,6 +334,8 @@ public class Compartment extends Symbol {
 	}
 
 	/**
+	 * Returns true if the compartment instance which matches the outsideID of
+	 *         this compartment is not null.
 	 * 
 	 * @return true if the compartment instance which matches the outsideID of
 	 *         this compartment is not null.
@@ -330,16 +346,18 @@ public class Compartment extends Symbol {
 	}
 
 	/**
+	 * Returns true if the size of this compartment has been set by a user.
 	 * 
-	 * @return true if the size of this compartment is not null.
+	 * @return true if the size of this compartment has been set by a user.
 	 */
 	public boolean isSetSize() {
 		return isSetValue();
 	}
 
 	/**
+	 * Returns true if the spatialDimensions of this compartment has been set by a user.
 	 * 
-	 * @return true if the spatialDimensions of this compartment is not null.
+	 * @return true if the spatialDimensions of this compartment has been set by a user.
 	 */
 	public boolean isSetSpatialDimensions() {
 		return isSetSpatialDimensions;
@@ -347,7 +365,7 @@ public class Compartment extends Symbol {
 
 	/**
 	 * <p>
-	 * (For SBML Level 1) Predicate returning true or false depending on whether
+	 * Returns true or false depending on whether
 	 * this Compartment's 'volume' attribute has been set.
 	 * </p>
 	 * <p>
@@ -364,7 +382,7 @@ public class Compartment extends Symbol {
 	 * of the optional attribute in question.
 	 * </p>
 	 * <p>
-	 * This method is similar but not identical to isSetSize(). The latter
+	 * This method is similar but not identical to {@link #isSetSize()}. The latter
 	 * should not be used in the context of SBML Level 1 models because this
 	 * method (isSetVolume()) performs extra processing to take into account the
 	 * difference in default values between SBML Levels 1 and 2.
@@ -372,8 +390,8 @@ public class Compartment extends Symbol {
 	 * 
 	 * @return true if the 'volume' attribute ('size' in L2) of this Compartment
 	 *         has been set, false otherwise.
-	 * @see isSetSize
-	 * @note In SBML Level 1, a compartment's volume has a default value ( 1.0)
+	 * @see #isSetSize()
+	 * @jsbml.note In SBML Level 1, a compartment's volume has a default value ( 1.0)
 	 *       and therefore this method will always return true. In Level 2, a
 	 *       compartment's size (the equivalent of SBML Level 1's 'volume') is
 	 *       optional and has no default value, and therefore may or may not be
@@ -424,7 +442,7 @@ public class Compartment extends Symbol {
 	 * 'compartmentType'
 	 * 
 	 * @param compartmentType
-	 * @deprecated
+	 * @sbml.deprecated Level 3 Version 1
 	 */
 	@Deprecated
 	public void setCompartmentType(CompartmentType compartmentType) {
@@ -454,7 +472,7 @@ public class Compartment extends Symbol {
 	 * Sets the outsideID of this compartment to the id of 'outside'.
 	 * 
 	 * @param outside
-	 * @deprecated since Level 3 Version 1
+	 * @sbml.deprecated Level 3 Version 1
 	 */
 	@Deprecated
 	public void setOutside(Compartment outside) {
@@ -465,7 +483,7 @@ public class Compartment extends Symbol {
 	 * Sets the outsideID of this compartment to 'outside'.
 	 * 
 	 * @param outside
-	 * @deprecated since Level 3 Version 1
+	 * @sbml.deprecated Level 3 Version 1
 	 */
 	@Deprecated
 	public void setOutside(String outside) {
@@ -577,7 +595,7 @@ public class Compartment extends Symbol {
 	/**
 	 * Sets the unit of this Compartment.
 	 * 
-	 * A new unit will be created base on this kind.
+	 * A new Unit object will be created base on this kind.
 	 * 
 	 * @param unitKind
 	 * 
@@ -598,7 +616,7 @@ public class Compartment extends Symbol {
 	/**
 	 * Set the unit attribute of this Compartment to the given unit definition.
 	 * 
-	 * @param units
+	 * @param unitDefinition
 	 * 
 	 * @throws IllegalArgumentException
 	 *             if spatialDimensions <= 0.
@@ -672,6 +690,7 @@ public class Compartment extends Symbol {
 
 	/**
 	 * Sets the outsideID of this compartment to null.
+	 * 
 	 * @deprecated since Level 3 Version 1
 	 */
 	@Deprecated
@@ -702,7 +721,7 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 * sets the spatialDimensions of this compartment to null.
+	 * Sets the spatialDimensions of this compartment to null.
 	 */
 	public void unsetSpatialDimensions() {
 		Short oldSpatialDim = this.spatialDimensions;
@@ -714,7 +733,7 @@ public class Compartment extends Symbol {
 
 	/**
 	 * <p>
-	 * (For SBML Level 1) Unsets the value of the 'volume' attribute of this
+	 * Unsets the value of the 'volume' attribute of this
 	 * Compartment.
 	 * </p>
 	 * <p>
