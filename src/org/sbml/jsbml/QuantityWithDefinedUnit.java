@@ -249,11 +249,24 @@ public abstract class QuantityWithDefinedUnit extends AbstractNamedSBase
 	}
 
 	/**
+	 * Checks whether the element referenced by the <code>unitsID</code>
+	 * attribute of this {@link QuantityWithDefinedUnit} is either an existing
+	 * base {@link Unit}, i.e., a simple {@link Unit} that can directly be
+	 * addressed via its {@link Kind} element, or the identifier of an existing
+	 * {@link UnitDefinition} in the {@link Model} to which this
+	 * {@link QuantityWithDefinedUnit} belongs.
 	 * 
-	 * @return true if the UnitDefinition which has the unitsID of this Symbol
-	 *         as id is not null.
+	 * @return true if either a {@link UnitDefinition}, which has the
+	 *         <code>unitsID</code> of this {@link QuantityWithDefinedUnit}, can
+	 *         be found in the {@link Model} to which this
+	 *         {@link QuantityWithDefinedUnit} belongs, or if this element's
+	 *         <code>unitsID</code> as a corresponding base {@link Unit} for the
+	 *         given Level/Version combination.
 	 */
 	public boolean isSetUnitsInstance() {
+		if (Unit.isUnitKind(this.unitsID, getLevel(), getVersion())) {
+			return true;
+		}
 		Model model = getModel();
 		return model == null ? false
 				: model.getUnitDefinition(this.unitsID) != null;

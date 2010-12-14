@@ -555,15 +555,15 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 								&& !kineticLaw.isSetSubstanceUnitsInstance()) {
 							log4jLogger.warn("No UnitDefinition matches the substanceUnitsID of kineticLaw.");
 						}
-						if (kineticLaw.isSetListOfParameters()) {
-							for (int j = 0; j < kineticLaw.getNumParameters(); j++) {
+						if (kineticLaw.isSetListOfLocalParameters()) {
+							for (int j = 0; j < kineticLaw.getNumLocalParameters(); j++) {
 								LocalParameter parameter = kineticLaw
-										.getParameter(j);
+										.getLocalParameter(j);
 								if (parameter.isSetUnits()
 										&& !parameter.isSetUnitsInstance()) {
-									log4jLogger.warn("No UnitDefinition matches the unitsID '" + 
-											parameter.getUnits() + "'of the parameter " + 
-											parameter.getId() + ".");
+									log4jLogger.warn(String.format(
+										"No UnitDefinition matches the unitsID '%s'of the parameter %s.",
+										parameter.getUnits(), parameter.getId()));
 								}
 							}
 						}
