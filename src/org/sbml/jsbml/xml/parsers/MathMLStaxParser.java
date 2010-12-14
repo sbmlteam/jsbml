@@ -186,7 +186,7 @@ public class MathMLStaxParser implements ReadingParser {
 			astNode.setType(Type.FUNCTION);
 		}
 		
-		if (astNode.isName() || astNode.isFunction()) {
+		if (astNode.isString() || astNode.isFunction()) {
 			astNode.setName(characters.trim());
 		} else if (astNode.isInteger()) {
 			astNode.setValue(StringTools.parseSBMLInt(characters.trim()));

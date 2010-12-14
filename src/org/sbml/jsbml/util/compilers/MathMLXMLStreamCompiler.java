@@ -522,7 +522,7 @@ public class MathMLXMLStreamCompiler {
 			writer.writeCharacters("\n");
 			indent += "  ";
 			
-			if (!arg.isName()) {
+			if (!arg.isString()) {
 				logger.warn("compileBvar : can only have node of type NAME there !!!!");
 			}
 			

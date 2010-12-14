@@ -904,7 +904,7 @@ public class OverdeterminationValidator {
 	private void getVariables(ListOf<LocalParameter> param, ASTNode node,
 			List<SBase> variables) {
 		// found node with species
-		if (node.isName() && !node.isFunction()) {
+		if (node.isString() && !node.isFunction()) {
 			if (!node.isConstant()) {
 				if (param == null) {
 					variables.add(node.getVariable());

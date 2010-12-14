@@ -755,7 +755,7 @@ public class SubModel {
 
     private static void getRelatedFunctions(Set<String> relatedFunctionsSet, Set<String> allFunctionsIdSet, ASTNode mathNode) {
 
-        if ((mathNode.isName() || mathNode.isFunction())
+        if ((mathNode.isString() || mathNode.isFunction())
                 && allFunctionsIdSet.contains(mathNode.getName().trim())
                 && !relatedFunctionsSet.contains(mathNode.getName().trim())) {
 
