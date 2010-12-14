@@ -34,6 +34,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Set;
 
@@ -45,7 +46,9 @@ import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * Methods for interacting with Systems Biology Ontology (SBO) terms. This class
+ * Methods for interacting with Systems Biology Ontology (SBO) terms. 
+ * 
+ * <p>This class
  * uses the BioJava classes for working with ontologies and contains static
  * classes to represent single {@link Term}s and {@link Triple}s of subject,
  * predicate, and object, where each of these three entities is again an
@@ -55,7 +58,152 @@ import org.sbml.jsbml.util.StringTools;
  * {@link Ontology} from BioJava, which is used in this class, can also be
  * obtained using the method {@link #getOntology()}.
  * 
+ * <p>
+ * The values of 'id' attributes on SBML components allow the components to
+ * be cross-referenced within a model. The values of 'name' attributes on
+ * SBML components provide the opportunity to assign them meaningful labels
+ * suitable for display to humans.  The specific identifiers and labels
+ * used in a model necessarily must be unrestricted by SBML, so that
+ * software and users are free to pick whatever they need.  However, this
+ * freedom makes it more difficult for software tools to determine, without
+ * additional human intervention, the semantics of models more precisely
+ * than the semantics provided by the SBML object classes defined in other
+ * sections of this document.  For example, there is nothing inherent in a
+ * parameter with identifier <code>k</code> that would indicate to a
+ * software tool it is a first-order rate constant (if that's what
+ * <code>k</code> happened to be in some given model).  However, one may
+ * need to convert a model between different representations (e.g.,
+ * Henri-Michaelis-Menten versus elementary steps), or to use it with
+ * different modeling approaches (discrete or continuous).  One may also
+ * need to relate the model components with other description formats such
+ * as SBGN (<a target='_blank'
+ * href='http://www.sbgn.org/'>http://www.sbgn.org/</a>) using deeper
+ * semantics.  Although an advanced software tool <em>might</em> be able to
+ * deduce the semantics of some model components through detailed analysis
+ * of the kinetic rate expressions and other parts of the model, this
+ * quickly becomes infeasible for any but the simplest of models.
+ * <p>
+ * An approach to solving this problem is to associate model components
+ * with terms from carefully curated controlled vocabularies (CVs).  This
+ * is the purpose of the optional 'sboTerm' attribute provided on the SBML
+ * class {@link SBase}.  The 'sboTerm' attribute always refers to terms belonging
+ * to the Systems Biology Ontology (SBO).
+ * <p>
+ * <h2>Use of {@link SBO}</h2>
+ * <p>
+ * Labeling model components with terms from shared controlled vocabularies
+ * allows a software tool to identify each component using identifiers that
+ * are not tool-specific.  An example of where this is useful is the desire
+ * by many software developers to provide users with meaningful names for
+ * reaction rate equations.  Software tools with editing interfaces
+ * frequently provide these names in menus or lists of choices for users.
+ * However, without a standardized set of names or identifiers shared
+ * between developers, a given software package cannot reliably interpret
+ * the names or identifiers of reactions used in models written by other
+ * tools.
+ * <p>
+ * The first solution that might come to mind is to stipulate that certain
+ * common reactions always have the same name (e.g., 'Michaelis-Menten'), but
+ * this is simply impossible to do: not only do humans often disagree on
+ * the names themselves, but it would not allow for correction of errors or
+ * updates to the list of predefined names except by issuing new releases
+ * of the SBML specification&mdash;to say nothing of many other limitations
+ * with this approach.  Moreover, the parameters and variables that appear
+ * in rate expressions also need to be identified in a way that software
+ * tools can interpret mechanically, implying that the names of these
+ * entities would also need to be regulated.
+ * <p>
+ * The Systems Biology Ontology (SBO) provides terms for identifying most
+ * elements of SBML. The relationship implied by an 'sboTerm' on an SBML
+ * model component is <em>is-a</em> between the characteristic of the
+ * component meant to be described by SBO on this element and the SBO
+ * term identified by the value of the 'sboTerm'. By adding SBO term
+ * references on the components of a model, a software tool can provide
+ * additional details using independent, shared vocabularies that can
+ * enable <em>other</em> software tools to recognize precisely what the
+ * component is meant to be.  Those tools can then act on that information.
+ * For example, if the SBO identifier <code>'SBO:0000049'</code> is assigned
+ * to the concept of 'first-order irreversible mass-action kinetics,
+ * continuous framework', and a given {@link KineticLaw} object in a model has an
+ * 'sboTerm' attribute with this value, then regardless of the identifier
+ * and name given to the reaction itself, a software tool could use this to
+ * inform users that the reaction is a first-order irreversible mass-action
+ * reaction.  This kind of reverse engineering of the meaning of reactions
+ * in a model would be difficult to do otherwise, especially for more
+ * complex reaction types.
+ * <p>
+ * The presence of SBO labels on {@link Compartment}, {@link Species}, and {@link Reaction}
+ * objects in SBML can help map those entities to equivalent concepts in
+ * other standards, such as (but not limited to) BioPAX (<a target='_blank'
+ * href='http://www.biopax.org/'>http://www.biopax.org/</a>), PSI-MI (<a
+ * target='_blank'
+ * href='http://www.psidev.info/index.php?q=node/60'>http://www.psidev.info</a>),
+ * or the Systems Biology Graphical Notation (SBGN, <a target='_blank'
+ * href='http://www.sbgn.org/'>http://www.sbgn.org/</a>).  Such mappings
+ * can be used in conversion procedures, or to build interfaces, with SBO
+ * becoming a kind of 'glue' between standards of representation.
+ * <p>
+ * The presence of the label on a kinetic expression can also allow
+ * software tools to make more intelligent decisions about reaction rate
+ * expressions.  For example, an application could recognize certain types
+ * of reaction formulas as being ones it knows how to solve with optimized
+ * procedures.  The application could then use internal, optimized code
+ * implementing the rate formula indexed by identifiers such as
+ * <code>'SBO:0000049'</code> appearing in SBML models.
+ * <p>
+ * Finally, SBO labels may be very valuable when it comes to model
+ * integration, by helping identify interfaces, convert mathematical
+ * expressions and parameters etc.
+ * <p>
+ * Although the use of SBO can be beneficial, it is critical to keep in
+ * mind that the presence of an 'sboTerm' value on an object <em>must not
+ * change the fundamental mathematical meaning</em> of the model.  An SBML
+ * model must be defined such that it stands on its own and does not depend
+ * on additional information added by SBO terms for a correct mathematical
+ * interpretation.  SBO term definitions will not imply any alternative
+ * mathematical semantics for any SBML object labeled with that term.  Two
+ * important reasons motivate this principle.  First, it would be too
+ * limiting to require all software tools to be able to understand the SBO
+ * vocabularies in addition to understanding SBML.  Supporting SBO is not
+ * only additional work for the software developer; for some kinds of
+ * applications, it may not make sense.  If SBO terms on a model are
+ * optional, it follows that the SBML model <em>must</em> remain
+ * unambiguous and fully interpretable without them, because an application
+ * reading the model may ignore the terms.  Second, we believe allowing the
+ * use of 'sboTerm' to alter the mathematical meaning of a model would
+ * allow too much leeway to shoehorn inconsistent concepts into SBML
+ * objects, ultimately reducing the interoperability of the models.
+ * <p>
+ * <h2>Relationships between {@link SBO} and SBML</h2>
+ * <p>
+ * The goal of SBO labeling for SBML is to clarify to the fullest extent
+ * possible the nature of each element in a model.  The approach taken in
+ * SBO begins with a hierarchically-structured set of controlled
+ * vocabularies with six main divisions: (1) entity, (2) participant role,
+ * (3) quantitative parameter, (4) modeling framework, (5) mathematical
+ * expression, and (6) interaction.  The web site for SBO (<a
+ * target='_blank'
+ * href='http://biomodels.net/sbo'>http://biomodels.net</a>) should be
+ * consulted for the current version of the ontology.
+ * <p>
+ * The Systems Biology Ontology (SBO) is not part of SBML; it is being
+ * developed separately, to allow the modeling community to evolve the
+ * ontology independently of SBML.  However, the terms in the ontology are
+ * being designed keeping SBML components in mind, and are classified into
+ * subsets that can be directly related with SBML components such as
+ * reaction rate expressions, parameters, and others.  The use of 'sboTerm'
+ * attributes is optional, and the presence of 'sboTerm' on an element does
+ * not change the way the model is <em>interpreted</em>.  Annotating SBML
+ * elements with SBO terms adds additional semantic information that may
+ * be used to <em>convert</em> the model into another model, or another
+ * format.  Although SBO support provides an important source of
+ * information to understand the meaning of a model, software does not need
+ * to support 'sboTerm' to be considered SBML-compliant.
+ * <p>
+ * 
  * @author Andreas Dr&auml;ger
+ * @author rodrigue
+ * 
  */
 public class SBO {
 
@@ -65,8 +213,6 @@ public class SBO {
 	 * specialized methods to obtain the information from the SBO OBO file
 	 * directly and under the same name as the keys are given in that file.
 	 * 
-	 * @author Andreas Dr&auml;ger
-	 * @date 2010-12-12
 	 * @see org.biojava.ontology.Term
 	 */
 	public static class Term implements Cloneable, Comparable<Term>, Serializable {
@@ -77,9 +223,10 @@ public class SBO {
 		private static final long serialVersionUID = -2753964994128680208L;
 
 		/**
+		 * Returns a String representing a term the same way as in the OBO file.
 		 * 
-		 * @param complete
-		 * @return
+		 * @param term the term to print
+		 * @return a String representing a term the same way as in the OBO file.
 		 */
 		public static String printTerm(Term term) {
 			StringBuilder sb = new StringBuilder();
@@ -101,9 +248,8 @@ public class SBO {
 					sb.append(synonym);
 				}
 			}
-			for (Triple triple : term.getParents()) {
-				StringTools.append(sb, "\n", triple.getPredicate(), " ", triple
-						.getObject(), " ! ", triple.getObject().getName());
+			for (Term parent : term.getParentTerms()) {
+				StringTools.append(sb, "\nis_a ", parent, " ! ", parent.getName());
 			}
 			return sb.toString();
 		}
@@ -119,19 +265,17 @@ public class SBO {
 		private org.biojava.ontology.Term term;
 
 		/**
+		 * Creates a new Term instance.
 		 * 
-		 * @param term
+		 * @param term a {@link org.biojava.ontology.Term} object
 		 */
 		private Term(org.biojava.ontology.Term term) {
 			if (term == null) {
 				throw new NullPointerException("Term must not be null.");
 			}
-			if (term instanceof org.biojava.ontology.Triple) {
-				org.biojava.ontology.Triple triple = (org.biojava.ontology.Triple) term;
-				this.term = triple.getSubject();
-			} else {
-				this.term = term;
-			}
+			
+			this.term = term;
+			
 			id = name = def = null;
 		}
 
@@ -167,10 +311,10 @@ public class SBO {
 		}
 
 		/**
-		 * The definition of this {@link Term}, which is stored in the
+		 * Returns the definition of this {@link Term}, which is stored in the
 		 * corresponding OBO file under the key <code>def</code>.
 		 * 
-		 * @return
+		 * @return the definition of this {@link Term}.
 		 */
 		public String getDefinition() {
 			if (def == null) {
@@ -188,22 +332,22 @@ public class SBO {
 		}
 
 		/**
-		 * The SBO identifier of this {@link Term}, for instance:
+		 * Returns the SBO identifier of this {@link Term}, for instance:
 		 * <code>SBO:0000031</code>.
 		 * 
-		 * @return
+		 * @return the SBO identifier of this {@link Term}
 		 */
 		public String getId() {
 			if (id == null) {
-				id = this.term.toString().split(" ")[0];
+				id = term.getName();
 			}
 			return id;
 		}
 
 		/**
-		 * The name of this {@link Term}, i.e., a very short characterization.
+		 * Returns the name of this {@link Term}, i.e., a very short characterization.
 		 * 
-		 * @return
+		 * @return the name of this {@link Term}
 		 */
 		public String getName() {
 			if (name == null) {
@@ -216,23 +360,47 @@ public class SBO {
 		}
 
 		/**
-		 * Creates and returns a set of {@link Triple}s, in which this
-		 * {@link Term} is the subject and the predicate is always
-		 * <code>is_a</code>. The object of each such {@link Triple} will be one
-		 * of this {@link Term}'s parents.
+		 * Returns the parent Terms.
 		 * 
-		 * @return
-		 * @see SBO#getTriples(Term, Term, Term)
+		 * @return the parent Terms.
+		 * 
 		 */
-		public Set<Triple> getParents() {
-			return SBO.getTriples(this, SBO.getTerm("is_a"), null);
+		public Set<Term> getParentTerms() {
+
+			Set<Triple> parentRelationShip = SBO.getTriples(this, SBO.getTerm("is_a"), null);
+			Set<Term> parents = new HashSet<Term>();
+			
+			for (Triple triple : parentRelationShip) {
+				parents.add(triple.getObject());
+			}
+			
+			return parents;
+		}
+
+		
+		/**
+		 * Returns a set of all the children Term.
+		 * 
+		 * @return  a set of all the children Term.
+		 */
+		public Set<Term> getChildren() {
+			
+			Set<Triple> childrenRelationShip = SBO.getTriples(null, SBO.getTerm("is_a"), this);
+			Set<Term> children = new HashSet<Term>();
+			
+			for (Triple triple : childrenRelationShip) {
+				children.add(triple.getSubject());
+			}
+			
+			return children;
 		}
 
 		/**
-		 * Access to all {@link Synonym}s of this {@link Term}.
+		 * Returns all {@link Synonym}s of this {@link Term}.
 		 * 
-		 * @return an empty array if no {@link Synonym}s exist for this term,
-		 *         but never null.
+		 * @return all {@link Synonym}s of this {@link Term}. Returns 
+		 * an empty array if no {@link Synonym}s exist for this term,
+		 * but never null.
 		 */
 		public Synonym[] getSynonyms() {
 			Object synonyms[] = term.getSynonyms();
@@ -250,7 +418,8 @@ public class SBO {
 		 * Grants access to the underlying BioJava
 		 * {@link org.biojava.ontology.Term}.
 		 * 
-		 * @return
+		 * @return the underlying BioJava
+		 * {@link org.biojava.ontology.Term}.
 		 */
 		public org.biojava.ontology.Term getTerm() {
 			return this.term;
@@ -259,9 +428,9 @@ public class SBO {
 		/**
 		 * Checks whether or not this {@link Term} is obsolete.
 		 * 
-		 * @return
+		 * @return whether or not this {@link Term} is obsolete.
 		 */
-		public boolean isObsolete() {
+		public boolean isObsolete() {			
 			if (term.getAnnotation().keys().contains("is_obsolete")) {
 				return true;
 			}
@@ -284,8 +453,6 @@ public class SBO {
 	 * {@link org.biojava.ontology.Triple}, to allow for simplified access to
 	 * the properties of a subject-predicate-object triple in this ontology.
 	 * 
-	 * @author Andreas Dr&auml;ger
-	 * @date 2010-12-12
 	 * @see org.biojava.ontology.Triple
 	 */
 	public static class Triple implements Cloneable, Comparable<Triple>, Serializable {
@@ -363,27 +530,27 @@ public class SBO {
 		}
 
 		/**
-		 * The object of this {@link Triple}.
+		 * Returns the object of this {@link Triple}.
 		 * 
-		 * @return
+		 * @return the object of this {@link Triple}.
 		 */
 		public Term getObject() {
 			return new Term(triple.getObject());
 		}
 
 		/**
-		 * The predicate of this {@link Triple}.
+		 * Returns the predicate of this {@link Triple}.
 		 *  
-		 * @return
+		 * @return the predicate of this {@link Triple}.
 		 */
 		public Term getPredicate() {
 			return new Term(triple.getPredicate());
 		}
 
 		/**
-		 * The subject of this {@link Triple}.
+		 * Returns the subject of this {@link Triple}.
 		 * 
-		 * @return
+		 * @return the subject of this {@link Triple}.
 		 */
 		public Term getSubject() {
 			return new Term(triple.getSubject());
@@ -393,7 +560,8 @@ public class SBO {
 		 * Grants access to the original BioJava
 		 * {@link org.biojava.ontology.Triple}.
 		 * 
-		 * @return
+		 * @return the original BioJava
+		 * {@link org.biojava.ontology.Triple}.
 		 */
 		public org.biojava.ontology.Triple getTriple() {
 			return triple;
@@ -417,7 +585,7 @@ public class SBO {
 	private static Properties alias2sbo;
 
 	/**
-	 * 
+	 * the prefix of all SBO ids.
 	 */
 	private static final String prefix = "SBO:";
 	
@@ -488,19 +656,21 @@ public class SBO {
 	}
 
 	/**
+	 * Returns an SBO id corresponding to the given alias.
 	 * 
-	 * @param aliasType
-	 * @return
+	 * @param alias
+	 * @return an SBO id corresponding to the given alias.
 	 */
-	public static int convertAlias2SBO(String aliasType) {
-		Object value = alias2sbo.get(aliasType);
+	public static int convertAlias2SBO(String alias) {
+		Object value = alias2sbo.get(alias);
 		return value != null ? Integer.parseInt(value.toString()) : -1;
 	}
 
 	/**
+	 * Returns an alias corresponding to the given SBO id.
 	 * 
 	 * @param sboterm
-	 * @return
+	 * @return an alias corresponding to the given SBO id.
 	 */
 	public static String convertSBO2Alias(int sboterm) {
 		Object value = sbo2alias.get(Integer.toString(sboterm));
@@ -508,9 +678,9 @@ public class SBO {
 	}
 
 	/**
-	 * The SBO term for antisense RNA.
+	 * Returns the SBO id for antisense RNA.
 	 * 
-	 * @return
+	 * @return the SBO id for antisense RNA.
 	 */
 	public static int getAntisenseRNA() {
 		return convertAlias2SBO("ANTISENSERNA");
@@ -989,114 +1159,165 @@ public class SBO {
 	}
 
 	/**
+	 * Gets the SBO term with the id 'sboTerm'.
 	 * 
-	 * @param sboTerm
-	 * @return
+	 * @jsbml.warning The methods will throw NoSuchElementException if the id is not found.
+	 * 
+	 * @param sboTerm the id of the SBO term to search for.
+	 * @return the SBO term with the id 'sboTerm'.
+	 * @throws NoSuchElementException if the id is not found.
 	 */
 	public static Term getTerm(int sboTerm) {
 		return getTerm(intToString(sboTerm));
 	}
 
 	/**
+	 * Gets the SBO term with the id 'sboTerm'.
 	 * 
-	 * @param sboTerm
-	 * @return
+	 * <p> The id need to be of the form 'SBO:XXXXXXX' where X is a digit number.
+	 * 
+	 * @jsbml.warning The methods will throw NoSuchElementException if the id is not found or null.
+	 * 
+	 * @param sboTerm the id of the SBO term to search for.
+	 * @return the SBO term with the id 'sboTerm'.
+	 * @throws NoSuchElementException if the id is not found or null.
 	 */
 	public static Term getTerm(String sboTerm) {
 		return new Term(sbo.getTerm(sboTerm));
 	}
 
 	/**
+	 * Returns the root element of the SBO Ontology (SBO:0000000).
 	 * 
-	 * @return
+	 * @return the root element of the SBO Ontology (SBO:0000000).
+	 */
+	public static Term getSBORoot() {
+		return getTerm("SBO:0000000");
+	}
+	
+	/**
+	 * Return the set of terms of the SBO Ontology.
+	 * 
+	 * <p> This methods return only Term object and no Triple object that represent the
+	 * relationship between terms. If you want to access the full set of {@link org.biojava.ontology.Term}
+	 * containing also the {@link org.biojava.ontology.Triple}, use {@link SBO#getOntology()} 
+	 * to get the underlying biojava object.
+	 * 
+	 * @return the set of terms of the SBO Ontology.
 	 */
 	public static Set<Term> getTerms() {
 		if (terms.size() < sbo.getTerms().size()) {
 			for (org.biojava.ontology.Term term : sbo.getTerms()) {
-				terms.add(new Term(term));
+				
+				if (term instanceof org.biojava.ontology.Triple) {					
+					// does nothing
+				} else if (term instanceof org.biojava.ontology.Term) {
+					terms.add(new Term(term));
+				} 
 			}
 		}
 		return terms;
 	}
 
 	/**
+	 * Returns the SBO id corresponding to the alias 'TRANSCRIPTION'
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'TRANSCRIPTION'
 	 */
 	public static int getTranscription() {
 		return convertAlias2SBO("TRANSCRIPTION");
 	}
 
 	/**
+	 * Returns the SBO id corresponding to the alias 'TRANSCRIPTIONAL_ACTIVATION'
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'TRANSCRIPTIONAL_ACTIVATION'
 	 */
 	public static int getTranscriptionalActivation() {
 		return convertAlias2SBO("TRANSCRIPTIONAL_ACTIVATION");
 	}
 
 	/**
+	 * Returns the SBO id corresponding to the alias 'TRANSCRIPTIONAL_INHIBITION'
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'TRANSCRIPTIONAL_INHIBITION'
 	 */
 	public static int getTranscriptionalInhibitor() {
 		return convertAlias2SBO("TRANSCRIPTIONAL_INHIBITION");
 	}
 
 	/**
+	 * Returns the SBO id corresponding to the alias 'KNOWN_TRANSITION_OMITTED'
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'KNOWN_TRANSITION_OMITTED'
 	 */
 	public static int getTransitionOmitted() {
 		return convertAlias2SBO("KNOWN_TRANSITION_OMITTED");
 	}
 
 	/**
+	 * Returns the SBO id corresponding to the alias 'TRANSLATION'
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'TRANSLATION'
 	 */
 	public static int getTranslation() {
 		return convertAlias2SBO("TRANSLATION");
 	}
 
 	/**
+	 * Returns the SBO id corresponding to the alias 'TRANSLATIONAL_ACTIVATION'
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'TRANSLATIONAL_ACTIVATION'
 	 */
 	public static int getTranslationalActivation() {
 		return convertAlias2SBO("TRANSLATIONAL_ACTIVATION");
 	}
 
 	/**
+	 * Returns the SBO id corresponding to the alias 'TRANSLATIONAL_INHIBITION'
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'TRANSLATIONAL_INHIBITION'
 	 */
 	public static int getTranslationalInhibitor() {
 		return convertAlias2SBO("TRANSLATIONAL_INHIBITION");
 	}
 
 	/**
+	 * Returns the SBO id corresponding to the alias 'TRANSPORT'
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'TRANSPORT'
 	 */
 	public static int getTransport() {
 		return convertAlias2SBO("TRANSPORT");
 	}
 
 	/**
+	 * Returns the SBO id corresponding to the alias 'TRIGGER'
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'TRIGGER'
 	 */
 	public static int getTrigger() {
 		return convertAlias2SBO("TRIGGER");
 	}
 
 	/**
+	 * Returns a set of Triple which match the supplied subject, predicate and object.
+	 *  
+	 * <p>If any of the parameters of this method are null, they are treated as wildcards.
 	 * 
-	 * @param subject
-	 * @param predicate
-	 * @param object
-	 * @return
+	 * <pre> for example : 
+	 *    getTriples(SBO.getTerm("SBO:0000002"), SBO.getTerm("is_a"), null);
+	 *    will returned all the parent Terms of SBO:0000002
+	 * 
+	 *    getTriples(null, SBO.getTerm("is_a"), SBO.getTerm(188));
+	 *    will returned all the children Terms of SBO:0000188
+	 *  
+	 *  <p>
+	 * @param subject the subject to search for, or null.
+	 * @param predicate the relationship to search for, or null. 
+	 * @param object the object to search for, or null.
+	 * @return a set of Triple which match the supplied subject, predicate and object.
+	 * 
 	 * @see org.biojava.ontology.Ontology#getTriples(org.biojava.ontology.Term,
 	 *      org.biojava.ontology.Term, org.biojava.ontology.Term)
 	 */
@@ -1112,24 +1333,27 @@ public class SBO {
 	}
 	
 	/**
+	 * Returns the SBO id corresponding to the alias 'TRUNCATED'
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'TRUNCATED'
 	 */
 	public static int getTruncated() {
 		return convertAlias2SBO("TRUNCATED");
 	}
 
 	/**
+	 * Returns the SBO id corresponding to the alias 'UNKNOWN'
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'UNKNOWN'
 	 */
 	public static int getUnknownMolecule() {
 		return convertAlias2SBO("UNKNOWN");
 	}
 
 	/**
+	 * Returns the SBO id corresponding to the alias 'UNKNOWN_TRANSITION'
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'UNKNOWN_TRANSITION'
 	 */
 	public static int getUnknownTransition() {
 		return convertAlias2SBO("UNKNOWN_TRANSITION");
@@ -1151,36 +1375,40 @@ public class SBO {
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isAntisenseRNA(int sboTerm) {
 		return isChildOf(sboTerm, getAntisenseRNA());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isBindingActivator(int sboTerm) {
 		return isChildOf(sboTerm, getBindingActivator());
 	}
-	
+
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isCatalyst(int sboTerm) {
 		return isChildOf(sboTerm, getCatalyst());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isCatalyticActivator(int sboTerm) {
 		return isChildOf(sboTerm, getCatalyticActivator());
@@ -1234,35 +1462,37 @@ public class SBO {
 	}
 
 	/**
-	 * 
-	 * @param term
-	 * @return
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
+	 * @param sboTerm
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
-	public static boolean isCompetetiveInhibitor(int term) {
-		return isChildOf(term, getCompetetiveInhibitor());
+	public static boolean isCompetetiveInhibitor(int sboTerm) {
+		return isChildOf(sboTerm, getCompetetiveInhibitor());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isCompleteInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, getCompleteInhibitor());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
-
 	public static boolean isComplex(int sboTerm) {
 		return isChildOf(sboTerm, getComplex());
 	}
 
 	/**
-	 * Function for checking the SBO term is from correct part of SBO.
+	 * Returns true if the term is-a conservation law, false otherwise
 	 * 
 	 * @param sboTerm
 	 * @return true if the term is-a conservation law, false otherwise
@@ -1272,7 +1502,7 @@ public class SBO {
 	}
 
 	/**
-	 * Function for checking the SBO term is from correct part of SBO.
+	 * Returns true if the term is-a continuous framework, false otherwise
 	 * 
 	 * @param sboTerm
 	 * @return true if the term is-a continuous framework, false otherwise
@@ -1282,7 +1512,7 @@ public class SBO {
 	}
 
 	/**
-	 * Function for checking the SBO term is from correct part of SBO.
+	 * Returns true if the term is-a discrete framework, false otherwise
 	 * 
 	 * @param sboTerm
 	 * @return true if the term is-a discrete framework, false otherwise
@@ -1292,25 +1522,27 @@ public class SBO {
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isDrug(int sboTerm) {
 		return isChildOf(sboTerm, getDrug());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isEmptySet(int sboTerm) {
 		return isChildOf(sboTerm, getEmptySet());
 	}
 
 	/**
-	 * Function for checking the SBO term is from correct part of SBO.
+	 * Returns true if the term is-a Entity, false otherwise
 	 * 
 	 * @param sboTerm
 	 * @return true if the term is-a Entity, false otherwise
@@ -1320,21 +1552,23 @@ public class SBO {
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isEnzymaticCatalysis(int sboTerm) {
 		return isChildOf(sboTerm, getEnzymaticCatalysis());
 	}
 
 	/**
-	 * 
-	 * @param term
-	 * @return
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
+	 * @param sboTerm
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
-	public static boolean isEssentialActivator(int term) {
-		return isChildOf(term, getEssentialActivator());
+	public static boolean isEssentialActivator(int sboTerm) {
+		return isChildOf(sboTerm, getEssentialActivator());
 	}
 
 	/**
@@ -1368,16 +1602,19 @@ public class SBO {
 	}
 
 	/**
-	 * 
-	 * @param term
-	 * @return
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
+	 * @param sboTerm
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isGene(int sboTerm) {
 		return isChildOf(sboTerm, getGene());
 	}
 
 	/**
-	 * 
+	 * Returns true if the sboTerm stands for a gene coding region, false
+	 *         otherwise
+	 *         
 	 * @param sboTerm
 	 * @return true if the sboTerm stands for a gene coding region, false
 	 *         otherwise
@@ -1387,6 +1624,8 @@ public class SBO {
 	}
 
 	/**
+	 * Returns true if the sboTerm stands for a gene coding region or a gene,
+	 *         false otherwise
 	 * 
 	 * @param sboTerm
 	 * @return true if the sboTerm stands for a gene coding region or a gene,
@@ -1397,27 +1636,30 @@ public class SBO {
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isGeneric(int sboTerm) {
 		return isChildOf(sboTerm, getGeneric());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isHillEquation(int sboTerm) {
 		return isChildOf(sboTerm, getHillEquation());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, getInhibitor());
@@ -1434,18 +1676,20 @@ public class SBO {
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isIon(int sboTerm) {
 		return isChildOf(sboTerm, getIon());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isIonChannel(int sboTerm) {
 		return isChildOf(sboTerm, getIonChannel());
@@ -1492,9 +1736,10 @@ public class SBO {
 	}
 
 	/**
-	 * 
-	 * @param term
-	 * @return
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
+	 * @param sboTerm
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isMessengerRNA(int sboTerm) {
 		return isChildOf(sboTerm, getMessengerRNA());
@@ -1521,21 +1766,23 @@ public class SBO {
 	}
 
 	/**
-	 * 
-	 * @param term
-	 * @return
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
+	 * @param sboTerm
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
-	public static boolean isNonCompetetiveInhibitor(int term) {
-		return isChildOf(term, getNonCompetetiveInhibitor());
+	public static boolean isNonCompetetiveInhibitor(int sboTerm) {
+		return isChildOf(sboTerm, getNonCompetetiveInhibitor());
 	}
 
 	/**
-	 * 
-	 * @param term
-	 * @return
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
+	 * @param sboTerm
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
-	public static boolean isNonEssentialActivator(int term) {
-		return isChildOf(term, getNonEssentialActivator());
+	public static boolean isNonEssentialActivator(int sboTerm) {
+		return isChildOf(sboTerm, getNonEssentialActivator());
 	}
 
 	/**
@@ -1549,9 +1796,10 @@ public class SBO {
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isPartialInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, getPartialInhibitor());
@@ -1579,18 +1827,20 @@ public class SBO {
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isPhenotype(int sboTerm) {
 		return isChildOf(sboTerm, getPhenotype());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isPhysicalCompartment(int sboTerm) {
 		return isChildOf(sboTerm, getPhysicalCompartment());
@@ -1618,9 +1868,10 @@ public class SBO {
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isProtein(int sboTerm) {
 		return isChildOf(sboTerm, getProtein());
@@ -1657,54 +1908,60 @@ public class SBO {
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isReceptor(int sboTerm) {
 		return isChildOf(sboTerm, getReceptor());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isRNA(int sboTerm) {
 		return isChildOf(sboTerm, getRNA());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isRNAOrMessengerRNA(int sboTerm) {
 		return isRNA(sboTerm) || isMessengerRNA(sboTerm);
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isSimpleMolecule(int sboTerm) {
 		return isChildOf(sboTerm, getSimpleMolecule());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isSpecificActivator(int sboTerm) {
 		return isChildOf(sboTerm, getSpecificActivator());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isStateTransition(int sboTerm) {
 		return isChildOf(sboTerm, getStateTransition());
@@ -1721,125 +1978,139 @@ public class SBO {
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isStimulator(int sboTerm) {
 		return isChildOf(sboTerm, getStimulator());
 	}
 
 	/**
-	 * 
-	 * @param term
-	 * @return
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
+	 * @param sboTerm
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isTranscription(int sboTerm) {
 		return isChildOf(sboTerm, getTranscription());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isTranscriptionalActivation(int sboTerm) {
 		return isChildOf(sboTerm, getTranscriptionalActivation());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isTranscriptionalInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, getTranscriptionalInhibitor());
 	}
 
 	/**
-	 * 
-	 * @param term
-	 * @return
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
+	 * @param sboTerm
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isTransitionOmitted(int sboTerm) {
 		return isChildOf(sboTerm, getTransitionOmitted());
 	}
 
 	/**
-	 * 
-	 * @param term
-	 * @return
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
+	 * @param sboTerm
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isTranslation(int sboTerm) {
 		return isChildOf(sboTerm, getTranslation());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isTranslationalActivation(int sboTerm) {
 		return isChildOf(sboTerm, getTranslationalActivation());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isTranslationalInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, getTranslationalInhibitor());
 	}
 
 	/**
-	 * 
-	 * @param term
-	 * @return
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
+	 * @param sboTerm
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isTransport(int sboTerm) {
 		return isChildOf(sboTerm, getTransport());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isTrigger(int sboTerm) {
 		return isChildOf(sboTerm, getTrigger());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isTruncated(int sboTerm) {
 		return isChildOf(sboTerm, getTruncated());
 	}
 
 	/**
-	 * 
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
 	 * @param sboTerm
-	 * @return
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isUnknownMolecule(int sboTerm) {
 		return isChildOf(sboTerm, getUnknownMolecule());
 	}
 	
 	/**
-	 * 
-	 * @param term
-	 * @return
+	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * <p>
+	 * @param sboTerm
+	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
 	 */
 	public static boolean isUnknownTransition(int sboTerm) {
 		return isChildOf(sboTerm, getUnknownTransition());
 	}
 		
 	/**
+	 * Tests method.
 	 * 
-	 * @param args
+	 * @param args no argument are processed.
 	 */
 	public static void main(String[] args) {
 
@@ -1849,51 +2120,48 @@ public class SBO {
 				System.out.printf("%s\n\n", Term.printTerm(term));
 				i++;
 			}
-//			boolean isObsolete = false;
-//			try {
-//				term.getAnnotation().getProperty("is_obsolete");
-//				
-//				// If an exception as not been thrown, the property exist and the term is obsolete
-//				// We could do another test to be sure that the property value is equals to 'true'
-//				isObsolete = true;
-//				
-//			} catch (NoSuchElementException e) {
-//				// does nothing, the term is not obsolete
-//			}
-//			
-//			// There are terms that store the relationships, they are of the class Triple
-//			// so we exclude these to show only the actual SBO ontology terms.
-//			if (!(term instanceof Triple) && !isObsolete) {
-//
-//				System.out.println("[Term : " + term + "]");
-//				System.out.println("    id : " + term.getName()); // There is no id in the biojava Term class, so the id is store in the name field
-//				System.out.println("    name : " + term.getDescription()); // as name is used to store the id, the description is storing the name !!
-//				if (term.getSynonyms().length > 0) {
-//					System.out.print("    Term Synonyms : ");
-//					for (Object synonym : term.getSynonyms()) {
-//						System.out.print(((Synonym) synonym).getName() + ", ");
-//					}
-//					System.out.println(" ");
-//				}
-//				
-//				for (Object key : term.getAnnotation().keys()) {
-//					
-//					System.out.println("    " + key + " : " + term.getAnnotation().getProperty(key));
-//				}
-//				
-//				i++;
-//			}
 		}
 		System.out.println("\nThere is " + i + " terms in the SBO ontology.");
+		
+		System.out.println("\nPrinting the SBO ontology tree :");
+		Term sboRoot = SBO.getSBORoot();
+		
+		for (Term term : sboRoot.getChildren()) {
+			System.out.println("   " + term.getId() + " - " + term.getName());
+			
+			printChildren(term, "   ");
+		}
+		
+		// TODO : Shall we catch the exception thrown by the biojava getTerm() method or let it like that ??
+		System.out.println("Search null Term : " + SBO.getTerm(null));
+		System.out.println("Search invalid id Term : " + SBO.getTerm("SBO:004"));
+		System.out.println("Search invalid id Term : " + SBO.getTerm("0000004"));
 	}
 
+	
 	/**
-	 * This method creates a 7 digit SBO number for the given {@link Term} identifier (if
+	 * Prints to the console all the sub-tree of terms, starting from the children
+	 * of the given parent term.
+	 * 
+	 * @param parent the parent term
+	 * @param indent the indentation to use to print the children terms
+	 */
+	private static void printChildren(Term parent, String indent) {
+		for (Term term : parent.getChildren()) {
+			System.out.println(indent + "   " + term.getId() + " - " + term.getName());
+			printChildren(term, indent + "   ");
+		}		
+	}
+	
+	/**
+	 * Creates and returns a 7 digit SBO number for the given {@link Term} identifier (if
 	 * this is a valid identifier). The returned {@link String} will not contain the
 	 * SBO prefix.
 	 * 
 	 * @param sboTerm
-	 * @return
+	 * @return a 7 digit SBO number for the given {@link Term} identifier (if
+	 * this is a valid identifier). The returned {@link String} will not contain the
+	 * SBO prefix.
 	 */
 	public static String sboNumberString(int sboTerm) {
 		if (!checkTerm(sboTerm)) {
@@ -1917,5 +2185,5 @@ public class SBO {
 	 */
 	public static int stringToInt(String sboTerm) {
 		return checkTerm(sboTerm) ? Integer.parseInt(sboTerm.substring(4)) : -1;
-	}
+	}		
 }
