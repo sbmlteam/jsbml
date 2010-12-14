@@ -1,13 +1,15 @@
+			       -------------
+			       JSBML Authors
+			       -------------
 
-Core Developer :
+			   -- Core developers --
 
-Andreas Dräger, University of Tübingen
-Nicolas Rodriguez, European Bioinformatics Institute
-Marine Dumousseau, European Bioinformatics Institute
+         Andreas Draeger, University of Tubingen, Germany
+         Nicolas Rodriguez, European Bioinformatics Institute, UK
+         Marine Dumousseau, European Bioinformatics Institute, UK
 
+			    -- Contributors --
 
-Contributors :
+         Michael Hucka, California Institute of Technology, USA
 
-
-Alumni :
-
+			       -- Alumni --
