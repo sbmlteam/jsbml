@@ -539,8 +539,9 @@ public class Model extends AbstractNamedSBase {
 	 * @return the {@link CompartmentType} object created
 	 *         <p>
 	 * @see #addCompartmentType(CompartmentType ct)
+	 * @deprecated {@link CompartmentType}s should no longer be used.
 	 */
-	@SuppressWarnings("deprecation")
+	@Deprecated
 	public CompartmentType createCompartmentType() {
 		return createCompartmentType(null);
 	}
@@ -549,6 +550,7 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 * @param id
 	 * @return
+	 *  @deprecated {@link CompartmentType}s should no longer be used.
 	 */
 	@Deprecated
 	public CompartmentType createCompartmentType(String id) {
@@ -2490,17 +2492,19 @@ public class Model extends AbstractNamedSBase {
 			listOfUnitDefinitions = ListOf.newInstance(this, UnitDefinition.class);
 			ud = UnitDefinition.substance(getLevel(), getVersion());
 			substanceUnitsID = ud.getId();
+			listOfPredefinedUnitDefinitions.add(ud);
 			ud = UnitDefinition.time(getLevel(), getVersion());
 			timeUnitsID = ud.getId();
+			listOfPredefinedUnitDefinitions.add(ud);
 			ud = UnitDefinition.volume(getLevel(), getVersion());
 			volumeUnitsID = ud.getId();
+			listOfPredefinedUnitDefinitions.add(ud);
 			areaUnitsID = null;
 			lengthUnitsID = null;
 			extentUnitsID = null;
 			conversionFactorID = null;
 			break;
 		case 2:
-
 			// substance
 			ud = UnitDefinition.substance(getLevel(), getVersion());
 			substanceUnitsID = ud.getId();
@@ -2555,7 +2559,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id is not null.
 	 */
 	public boolean isSetAreaUnitsInstance() {
-		return isSetListOfUnitDefinitions() && (getUnitDefinition(this.areaUnitsID) != null);
+		return isSetListOfUnitDefinitions() && (getAreaUnitsInstance() != null);
 	}
 
 	/**
@@ -2589,7 +2593,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id is not null.
 	 */
 	public boolean isSetExtentUnitsInstance() {
-		return isSetListOfUnitDefinitions() && (getUnitDefinition(this.extentUnitsID) != null);
+		return isSetListOfUnitDefinitions() && (getExtentUnitsInstance() != null);
 	}
 
 	/**
@@ -2606,7 +2610,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id is not null.
 	 */
 	public boolean isSetLengthUnitsInstance() {
-		return isSetListOfUnitDefinitions() && (getUnitDefinition(this.lengthUnitsID) != null);
+		return isSetListOfUnitDefinitions() && (getLengthUnitsInstance() != null);
 	}
 
 	/**
@@ -2748,7 +2752,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id is not null.
 	 */
 	public boolean isSetSubstanceUnitsInstance() {
-		return isSetListOfUnitDefinitions() && (getUnitDefinition(this.substanceUnitsID) != null);
+		return isSetListOfUnitDefinitions() && (getSubstanceUnitsInstance() != null);
 	}
 
 	/**
@@ -2765,7 +2769,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id is not null.
 	 */
 	public boolean isSetTimeUnitsInstance() {
-		return isSetListOfUnitDefinitions() && (getUnitDefinition(this.timeUnitsID) != null);
+		return isSetListOfUnitDefinitions() && (getTimeUnitsInstance() != null);
 	}
 
 	/**
@@ -2782,7 +2786,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id is not null.
 	 */
 	public boolean isSetVolumeUnitsInstance() {
-		return isSetListOfUnitDefinitions() && (getUnitDefinition(this.volumeUnitsID) != null);
+		return isSetListOfUnitDefinitions() && (getVolumeUnitsInstance() != null);
 	}
 
 	/*
