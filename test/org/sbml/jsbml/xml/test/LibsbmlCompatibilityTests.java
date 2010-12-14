@@ -41,7 +41,6 @@ import org.sbml.jsbml.test.sbml.TestModel;
 import org.sbml.jsbml.test.sbml.TestParameter;
 import org.sbml.jsbml.test.sbml.TestReaction;
 import org.sbml.jsbml.test.sbml.TestReadFromFile1;
-import org.sbml.jsbml.test.sbml.TestReadFromFile2;
 import org.sbml.jsbml.test.sbml.TestReadFromFile5;
 import org.sbml.jsbml.test.sbml.TestSpecies;
 
