@@ -1842,7 +1842,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 			if (isNumber() || isRational() || isUnknown()) {
 				return true;
 			}
-			if (isName()) {
+			if (isString()) {
 				if ((getVariable() != null)
 						&& (!getVariable().containsUndeclaredUnits())) {
 					return false;
@@ -1914,7 +1914,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 			if (isInteger() && ast.isInteger()) {
 				equal &= ast.getInteger() == getInteger();
 			}
-			if (isName() && ast.isName()) {
+			if (isString() && ast.isString()) {
 				equal &= ast.getName().equals(getName());
 			}
 			if (isRational() && ast.isRational()) {
@@ -2306,7 +2306,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 */
 	public Set<NamedSBase> getReferencedNamedSBases() {
 		Set<NamedSBase> l = new HashSet<NamedSBase>();
-		if (isName()) {
+		if (isString()) {
 			if (getVariable() != null) {
 				l.add(getVariable());
 			} else {
@@ -2360,11 +2360,11 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 
 	/**
 	 * Returns the variable of this node. This function should be called only
-	 * when {@link #isName()} == <code>true<code>, otherwise and Exception is thrown.
+	 * when {@link #isString()} == <code>true<code>, otherwise and Exception is thrown.
 	 * 
 	 * @return the variable of this node
 	 * @throws IllegalArgumentException
-	 *             if {@link #isName()} returns false.
+	 *             if {@link #isString()} returns false.
 	 */
 	public NamedSBaseWithDerivedUnit getVariable() {
 		// TODO: Improve: Case distinction with functions!
@@ -2583,17 +2583,28 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
-	 * Returns true if this node is a user-defined variable name in SBML L1, L2
-	 * (MathML), or the special symbols delay or time. The predicate returns
-	 * false otherwise.
+	 * Returns <code>true</code> if this node is a name or refers to a
+	 * {@link FunctionDefinition}.
 	 * 
-	 * @return true if this ASTNode is a user-defined variable name in SBML L1,
-	 *         L2 (MathML) or the special symbols time or avogadro.
+	 * @return true if this {@link ASTNode} is a user-defined variable name in SBML L1,
+	 *         L2 (MathML) or the special symbols time or Avogadro.
+	 * @see #isName()
 	 */
-	// TODO : make the jsbml code work without the test for Function here.
+	public boolean isString() {
+		return isName() || (type == Type.FUNCTION);
+	}
+
+	/**
+	 * Returns <code>true</code> if this node is a user-defined {@link Variable} name in SBML L1, L2
+	 * (MathML), or the special symbols delay or time. The predicate returns
+	 * <code>false</code> otherwise.
+	 * 
+	 * @return <code>true</code> if this {@link ASTNode} is a user-defined variable name in SBML L1,
+	 *         L2 (MathML) or the special symbols time or Avogadro.
+	 */
 	public boolean isName() {
-		return type == Type.NAME || type == Type.NAME_TIME
-				|| type == Type.NAME_AVOGADRO || type == Type.FUNCTION;
+		return (type == Type.NAME) || (type == Type.NAME_TIME)
+				|| (type == Type.NAME_AVOGADRO);
 	}
 
 	/**
@@ -3063,7 +3074,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 *         id.
 	 */
 	public boolean refersTo(String id) {
-		if (isName() && (getName() != null) && getName().equals(id)) {
+		if (isString() && (getName() != null) && getName().equals(id)) {
 			return true;
 		}
 		boolean childContains = false;
@@ -3105,7 +3116,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	public void replaceArgument(String bvar, ASTNode arg) {
 		int n = 0;
 		for (ASTNode child : listOfNodes) {
-			if (child.isName() && child.getName().equals(bvar)) {
+			if (child.isString() && child.getName().equals(bvar)) {
 				replaceChild(n, arg.clone());
 			} else if (child.getNumChildren() > 0) {
 				child.replaceArgument(bvar, arg);
@@ -3521,7 +3532,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * pointers within {@link ASTNode} constructs as well.
 	 */
 	public void updateVariables() {
-		if (isName() && (variable != null)) {
+		if (isString() && (variable != null)) {
 			name = variable.getId();
 			variable = null;
 			variable = getVariable();
