@@ -14,7 +14,7 @@
          Clemens Wrzodek, University of Tuebingen, Germany
          Michael Hucka, California Institute of Technology, USA
 
-			       -- Alumni --
+			    -- Alumni --
 
 			       Simon Schaefer, University of Tuebingen, Germany
 			       
