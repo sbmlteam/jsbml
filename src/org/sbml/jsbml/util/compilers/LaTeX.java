@@ -852,6 +852,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 			value.append(mathtt(LaTeX.maskSpecialChars(fun.getId())));
 			length = args.size();
 		} else {
+			value.append("\\lambda");
 			length = args.size() - 1;
 		}
 		StringBuilder argList = new StringBuilder();
@@ -863,7 +864,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 			argList.append(args.get(i).compile(this));
 		}
 		value.append(brackets(argList));
-		if ((0 < length) && (length < args.size())) {
+		if ((0 <= length) && (length < args.size())) {
 			value.append(" = ");
 			value.append(args.get(args.size() - 1).compile(this));
 		}
