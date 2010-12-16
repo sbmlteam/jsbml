@@ -37,7 +37,6 @@ import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
-import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -868,8 +867,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 			length = args.size();
 		} else if (args.size() == 1) {
 			length = 0;
-			value.append("\\lambda\\left(\\right) = ");
-			value.append(args.get(0).compile(this));
+			value.append("\\lambda\\left(\\right)");
 		} else {
 			value.append("\\lambda");
 			length = args.size() - 1;
@@ -888,7 +886,6 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		}
 
 		if ((0 <= length) && (length < args.size())) {
-			value.insert(0, "\\lambda");
 			value.append(" = ");
 			value.append(args.get(args.size() - 1).compile(this));
 		}

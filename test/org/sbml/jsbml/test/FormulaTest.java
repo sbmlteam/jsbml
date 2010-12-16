@@ -33,7 +33,6 @@ import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.Species;
 import org.sbml.jsbml.text.parser.ParseException;
 
 /**
@@ -44,6 +43,11 @@ public class FormulaTest {
 
 	public FormulaTest() throws ParseException, SBMLException {
 		String formulae[] = {
+				"lambda(2)",
+				"lambda(x, x+2)",
+				"ln(2)/mdt",
+				"exp(-mu*D)",
+				"log(2)/mdt",
 				//"-3 * -5",
 				//"-3/5",
 //				"-5 -4",
@@ -55,7 +59,6 @@ public class FormulaTest {
 //				"(-5+5) - (6 -2)",
 				"5 + 5 * 6 + 6",
 				"(5 + 5) * (6 + 6)",
-				
 				//"ln(5)",
 				//"5!",				
 				// "7 * acos(53) + 7/8",
