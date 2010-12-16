@@ -42,6 +42,7 @@ import java.util.Set;
 import javax.activity.InvalidActivityException;
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.NotImplementedException;
@@ -3505,10 +3506,16 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 			formula = compile(new TextFormula()).toString();
 		} catch (SBMLException e) {
 			// TODO : log the exception
-			// e.printStackTrace();
+			Logger logger = Logger.getLogger(ASTNode.class);
+			if (logger.isDebugEnabled()) {
+				e.printStackTrace();
+			}
 		} catch (RuntimeException e) {
 			// added to prevent a crash when we cannot create the formula
-			e.printStackTrace();
+			Logger logger = Logger.getLogger(ASTNode.class);
+			if (logger.isDebugEnabled()) {
+				e.printStackTrace();
+			}
 		}
 		return formula;
 	}

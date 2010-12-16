@@ -35,8 +35,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.w3c.util.DateParser;
-
 /**
  * Contains all the history information about a {@link Model} (or other {@link SBase} if level 3).
  * 
@@ -120,18 +118,6 @@ public class History implements Cloneable, Serializable {
 		setModifiedDate(date);
 	}
 
-	/**
-	 * writes the beginning of a creator element in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void beginCreatorElement(String indent, StringBuffer buffer) {
-
-		buffer.append(indent).append("<dc:creator> \n");
-		buffer.append(indent).append("  <rdf:Bag> \n");
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -142,76 +128,6 @@ public class History implements Cloneable, Serializable {
 		return new History(this);
 	}
 
-	/**
-	 * writes the content of a created element in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void createCreatedElement(String indent, StringBuffer buffer) {
-
-		if (isSetCreatedDate()) {
-			String createdDate = DateParser.getIsoDate(getCreatedDate());
-
-			buffer.append(indent).append("<dcterms:created rdf:parseType=")
-					.append('"').append("Resource").append('"').append("> \n");
-			buffer.append(indent).append("  <dcterms:W3CDTF>").append(
-					createdDate).append("<dcterms:W3CDTF> \n");
-			buffer.append(indent).append("</dcterms:created> \n");
-		}
-	}
-
-	/**
-	 * writes the content of a creator element in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void createCreatorElements(String indent, StringBuffer buffer) {
-
-		beginCreatorElement(indent, buffer);
-		if (listOfCreators != null) {
-			for (int i = 0; i < getNumCreators(); i++) {
-				Creator creator = getCreator(i);
-
-				creator.toXML(indent + "    ", buffer);
-			}
-		}
-		endCreatorElement(indent, buffer);
-	}
-
-	/**
-	 * writes the content of the modified elements in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void createModifiedElements(String indent, StringBuffer buffer) {
-		if (isSetModifiedDate()) {
-
-			for (int i = 0; i < getNumModifiedDates(); i++) {
-				String modifiedDate = DateParser.getIsoDate(getModifiedDate(i));
-				buffer.append(indent)
-						.append("<dcterms:modified rdf:parseType=").append('"')
-						.append("Resource").append('"').append("> \n");
-				buffer.append(indent).append("  <dcterms:W3CDTF>").append(
-						modifiedDate).append("<dcterms:W3CDTF> \n");
-				buffer.append(indent).append("</dcterms:modified> \n");
-			}
-		}
-	}
-
-	/**
-	 * writes the end of a creator element in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void endCreatorElement(String indent, StringBuffer buffer) {
-
-		buffer.append(indent).append("  </rdf:Bag> \n");
-		buffer.append(indent).append("</dc:creator> \n");
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -452,9 +368,7 @@ public class History implements Cloneable, Serializable {
 	 * @param buffer
 	 */
 	public void toXML(String indent, StringBuffer buffer) {
-		createCreatorElements(indent, buffer);
-		createCreatedElement(indent, buffer);
-		createModifiedElements(indent, buffer);
+		// TODO 
 	}
 
 	/**

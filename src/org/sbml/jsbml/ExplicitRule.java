@@ -66,7 +66,7 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	String variableID;
 
 	/**
-	 * 
+	 * Creates a new {@link ExplicitRule}.
 	 */
 	public ExplicitRule() {
 		super();
@@ -74,6 +74,8 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	}
 
 	/**
+	 * Creates a new {@link ExplicitRule}
+	 * 
 	 * @param math
 	 * @param level
 	 * @param version
@@ -99,6 +101,8 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	}
 
 	/**
+	 * Creates a new {@link ExplicitRule}
+	 * 
 	 * @param rule
 	 */
 	public ExplicitRule(ExplicitRule rule) {
@@ -113,6 +117,8 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	}
 
 	/**
+	 * Creates a new {@link ExplicitRule}
+	 * 
 	 * @param level
 	 * @param version
 	 */
@@ -122,6 +128,7 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	}
 
 	/**
+	 * Creates a new {@link ExplicitRule}
 	 * 
 	 * @param parameter
 	 */
@@ -136,6 +143,7 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	}
 
 	/**
+	 * Creates a new {@link ExplicitRule}
 	 * 
 	 * @param parameter
 	 * @param math
@@ -161,6 +169,7 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	}
 
 	/**
+	 * Creates a new {@link ExplicitRule}
 	 * 
 	 * @param variable
 	 * @param math
@@ -205,6 +214,8 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	}
 
 	/**
+	 * Returns the unitsID of this object.
+	 * 
 	 * @return the unitsID of this object.
 	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
 	 *             but can only be used in conjunction with {@link Parameter}s.

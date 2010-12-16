@@ -41,15 +41,16 @@ import java.io.OutputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -71,19 +72,20 @@ import org.sbml.jsbml.History;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.w3c.dom.Document;
+import org.w3c.util.DateParser;
 import org.xml.sax.SAXException;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
@@ -143,7 +145,7 @@ public class SBMLWriter {
 		Set<String> packageNamespaces = null;
     
 		Logger logger = Logger.getLogger(SBMLWriter.class);
-		logger.debug("getInitializedParsers : namespace, object = " + namespace + ", " + object);
+		// logger.debug("getInitializedParsers : namespace, object = " + namespace + ", " + object);
 
 		if (object instanceof SBase) {
 			SBase sbase = (SBase) object;
@@ -156,7 +158,7 @@ public class SBMLWriter {
 
 		if (packageNamespaces != null) {
 
-			logger.debug("getInitializedParsers : namespaces = " + packageNamespaces);
+			// logger.debug("getInitializedParsers : namespaces = " + packageNamespaces);
 			
 			if (!packageNamespaces.contains(namespace)) {
 				try {
@@ -234,7 +236,7 @@ public class SBMLWriter {
 			}
 		}
 
-		logger.debug("getInitializedParsers : SBMLparsers = " + sbmlParsers);
+		// logger.debug("getInitializedParsers : SBMLparsers = " + sbmlParsers);
 
 		return sbmlParsers;
 	}
@@ -324,7 +326,7 @@ public class SBMLWriter {
 		String fileName = args[0];
 		String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
 
-		System.out.println("Reading " + fileName + "and writing"
+		System.out.println("Reading " + fileName + " and writing "
 				+ jsbmlWriteFileName);
 
 		SBMLDocument testDocument;
@@ -514,7 +516,8 @@ public class SBMLWriter {
 	 */
 	private static void writeAnnotation(SBase sbase, SMOutputElement element,
 			XMLStreamWriter writer, String sbmlNamespace, int indent)
-			throws XMLStreamException, SBMLException {
+			throws XMLStreamException, SBMLException 
+	{
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
 		Annotation annotation = sbase.getAnnotation();
@@ -673,7 +676,10 @@ public class SBMLWriter {
 	 */
 	private static void writeHistory(History history,
 			Map<String, String> rdfNamespaces, XMLStreamWriter writer,
-			int indent) throws XMLStreamException {
+			int indent) throws XMLStreamException 
+	{
+		// Logger logger = Logger.getLogger(SBMLWriter.class);	
+		
 		String whiteSpace = createIndent(indent);
 		String rdfPrefix = rdfNamespaces
 				.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
@@ -769,53 +775,56 @@ public class SBMLWriter {
 			writer.writeEndElement();
 			writer.writeCharacters("\n");
 		}
-		String datePrefix = rdfNamespaces.get("http://purl.org/dc/terms/");
 
-		// System.out.println("isSetCreatedDate = " +
-		// modelHistory.isSetCreatedDate());
-		// System.out.println("isSetModifiedDate = " +
-		// modelHistory.isSetModifiedDate());
+		String dctermPrefix = rdfNamespaces.get("http://purl.org/dc/terms/");
 
+		String creationDate;
+		String now = creationDate = DateParser.getIsoDateNoMillis(new Date());
+		
 		if (history.isSetCreatedDate()) {
-			writer.writeCharacters(whiteSpace);
-			writer.writeStartElement(datePrefix, "created",
-					"http://purl.org/dc/terms/");
-			writer.writeAttribute(rdfPrefix,
-					"http://www.w3.org/1999/02/22-rdf-syntax-ns#", "parseType",
-					"Resource");
-			writer.writeCharacters("\n");
-			writer.writeCharacters(whiteSpace + "  ");
-			writer.writeStartElement(datePrefix, "W3CDTF",
-					"http://purl.org/dc/terms/");
-			writer.writeCharacters(history.getCreatedDate().toString());
-			writer.writeEndElement();
-			writer.writeCharacters("\n");
-			writer.writeCharacters(whiteSpace);
-			writer.writeEndElement();
-			writer.writeCharacters("\n");
+			creationDate = DateParser.getIsoDateNoMillis(history.getCreatedDate());
+		} else { // We need to add a creation date
+			creationDate = now;
 		}
+		writeW3CDate(writer, indent, creationDate, "created", dctermPrefix, rdfPrefix);
+
+		// Writing the current modified dates.
 		if (history.isSetModifiedDate()) {
 			for (int i = 0; i < history.getNumModifiedDates(); i++) {
-				writer.writeCharacters(whiteSpace);
-				writer.writeStartElement(datePrefix, "modified",
-						"http://purl.org/dc/terms/");
-				writer.writeAttribute(rdfPrefix,
-						"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-						"parseType", "Resource");
-				writer.writeCharacters("\n");
-				writer.writeCharacters(whiteSpace + "  ");
-				writer.writeStartElement(datePrefix, "W3CDTF",
-						"http://purl.org/dc/terms/");
-				writer.writeCharacters(history.getModifiedDate(i).toString());
-				writer.writeEndElement();
-				writer.writeCharacters("\n");
-				writer.writeCharacters(whiteSpace);
-				writer.writeEndElement();
-				writer.writeCharacters("\n");
+				writeW3CDate(writer, indent, DateParser.getIsoDateNoMillis(history.getModifiedDate(i)),
+						"modified", dctermPrefix, rdfPrefix);
 			}
 		}
+		// We need to add a new modified date
+		writeW3CDate(writer, indent, now, "modified", dctermPrefix, rdfPrefix);
+		
 	}
 
+	private static void writeW3CDate(XMLStreamWriter writer,
+			int indent, String dateISO, String dcterm, 
+			String dctermPrefix, String rdfPrefix) 
+	throws XMLStreamException 
+	{
+		String whiteSpace = createIndent(indent);
+		
+		writer.writeCharacters(whiteSpace);
+		writer.writeStartElement(dctermPrefix, dcterm,
+				"http://purl.org/dc/terms/");
+		writer.writeAttribute(rdfPrefix,
+				"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+				"parseType", "Resource");
+		writer.writeCharacters("\n");
+		writer.writeCharacters(whiteSpace + "  ");
+		writer.writeStartElement(dctermPrefix, "W3CDTF",
+				"http://purl.org/dc/terms/");
+		writer.writeCharacters(dateISO);
+		writer.writeEndElement();
+		writer.writeCharacters("\n");
+		writer.writeCharacters(whiteSpace);
+		writer.writeEndElement();
+		writer.writeCharacters("\n");		
+	}
+	
 	/**
 	 * Writes the MathML expression for the math element of this sbase
 	 * component.
@@ -839,9 +848,16 @@ public class SBMLWriter {
 			// writer.setPrefix("math", "http://www.w3.org/1998/Math/MathML");
 			// writer.writeStartElement("http://www.w3.org/1998/Math/MathML",
 			// "math");
-			writer.writeStartElement("math");
-			writer.writeAttribute("xmlns:math",
-					"http://www.w3.org/1998/Math/MathML");
+			 
+			writer.writeStartElement("math"); // "http://www.w3.org/1998/Math/MathML", 
+
+			writer.writeNamespace(null, "http://www.w3.org/1998/Math/MathML");
+			
+			writer.setPrefix("math", "http://www.w3.org/1998/Math/MathML");
+			writer.setDefaultNamespace("http://www.w3.org/1998/Math/MathML");
+			
+			// writer.writeAttribute("xmlns:math",	"http://www.w3.org/1998/Math/MathML");
+			
 			writer.writeCharacters("\n");
 
 			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
@@ -917,7 +933,10 @@ public class SBMLWriter {
 	 */
 	private static void writeRDFAnnotation(Annotation annotation,
 			SMOutputElement annotationElement, XMLStreamWriter writer,
-			int indent) throws XMLStreamException {
+			int indent) throws XMLStreamException 
+	{
+		//Logger logger = Logger.getLogger(SBMLWriter.class);
+		
 		String whiteSpace = createIndent(indent);
 		SMNamespace namespace = annotationElement.getNamespace(
 				"http://www.w3.org/1999/02/22-rdf-syntax-ns#", "rdf");

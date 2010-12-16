@@ -90,10 +90,9 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	}
 
 	/**
-	 * Creates a FunctionDefinition instance from an id, level and version. By
+	 * Creates a FunctionDefinition instance from a level and version. By
 	 * default, name is null.
 	 * 
-	 * @param id
 	 * @param level
 	 * @param version
 	 */
@@ -132,8 +131,11 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	}
 
 	/**
+	 * Creates a FunctionDefinition instance from an id, level and version.
 	 * 
 	 * @param id
+	 * @param level
+	 * @param version
 	 */
 	public FunctionDefinition(String id, int level, int version) {
 		super(level, version);

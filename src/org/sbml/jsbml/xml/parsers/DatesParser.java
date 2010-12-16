@@ -32,6 +32,7 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.History;
 import org.sbml.jsbml.SBMLDocument;
@@ -82,6 +83,8 @@ public class DatesParser implements ReadingParser {
 	 */
 	boolean hasReadModified = false;
 
+	private Logger logger = Logger.getLogger(DatesParser.class);
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -91,10 +94,10 @@ public class DatesParser implements ReadingParser {
 	 */
 	public void processAttribute(String ElementName, String AttributeName,
 			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
-		// TODO : There is no attributes with the namespace
-		// "http://purl.org/dc/terms/". There is a SBML
-		// syntax error, log an error.
+			Object contextObject) 
+	{
+		// does nothing
+		logger.debug("processCharactersOf : attribute " + AttributeName + " ignored.");
 	}
 
 	/*
@@ -105,7 +108,9 @@ public class DatesParser implements ReadingParser {
 	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
-
+		
+		logger.debug("processCharactersOf : " + characters + ", element name = " + elementName);
+		
 		// An elementName can be null if the text appears after an element
 		// ending tag. In this case,
 		// this parser will not parse the text.
@@ -129,16 +134,21 @@ public class DatesParser implements ReadingParser {
 					// this node.
 					// Sets the created Date of modelHistory.
 					if (hasReadCreated && previousElement.equals("created")) {
-						String stringDate = dateProcessor
-								.formatToW3CDTF(characters);
-
+						String stringDate = dateProcessor.formatToW3CDTF(characters);
+						
 						try {
 							Date createdDate = DateParser.parse(stringDate);
 							modelHistory.setCreatedDate(createdDate);
+
+							logger.debug("processCharactersOf : getIsoDateNoMillis " + DateParser.getIsoDateNoMillis(createdDate));
+							
 						} catch (InvalidDateException e) {
-							// TODO : can't create a Date, what to do?
-							e.printStackTrace();
+							logger.warn("Cannot read the following date properly :" + stringDate);
+							if (logger.isDebugEnabled()) {
+								e.printStackTrace();
+							}
 						}
+						
 					}
 					// If the previous node was a 'modified' element and
 					// respected the SBML specifications,
@@ -147,25 +157,26 @@ public class DatesParser implements ReadingParser {
 					// Sets the modified Date and adds the new Date to the
 					// listOfModifications of modelHistory.
 					else if (previousElement.equals("modified")) {
-						String stringDate = dateProcessor
-								.formatToW3CDTF(characters);
+						String stringDate = dateProcessor.formatToW3CDTF(characters);
 
 						try {
 							Date modifiedDate = DateParser.parse(stringDate);
 							modelHistory.setModifiedDate(modifiedDate);
 						} catch (InvalidDateException e) {
-							// TODO : can't create a Date, what to do?
-							e.printStackTrace();
+							logger.warn("Cannot read the following date properly :" + stringDate);
+							if (logger.isDebugEnabled()) {
+								e.printStackTrace();
+							}
 						}
 					} else {
-						// TODO : SBML syntax error, what to do?
+						logger.debug("processCharactersOf : previousElement is not created or modified !!!");
 					}
 				} else {
-					// TODO : SBML syntax error, what to do?
+					logger.debug("processCharactersOf : context object is not a W3CDTF element !! ");
 				}
 			} else {
-				// TODO : the date instances are only created for the model
-				// history object in the annotation. Throw an error?
+				logger.debug("processCharactersOf : context object is not an History !! -> "
+						+ contextObject.getClass().getName());
 			}
 		}
 	}
@@ -191,6 +202,8 @@ public class DatesParser implements ReadingParser {
 	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 
+		logger.debug("processEndElement : " + elementName);
+		
 		// A DatesParser can only modify a contextObject which is a ModelHistory
 		// instance.
 		if (contextObject instanceof History) {
@@ -207,13 +220,12 @@ public class DatesParser implements ReadingParser {
 				if (elementName.equals("modified")) {
 					hasReadModified = false;
 				}
-			} else {
-				// TODO : the date instances are only created for the created
-				// and/or modified nodes in the annotation. Throw an error?
+			} else if (!elementName.equals("W3CDTF")) {
+				logger.debug("Found an element other than 'created', 'modified' or 'W3CDTF', " +
+						"does not know what to do with '" + elementName + "'");
 			}
 		} else {
-			// TODO : the date instances are only created for the model history
-			// object in the annotation. Throw an error?
+			logger.debug("Does not now what to do with the element '" + elementName + "'.");
 		}
 		
 		return true;
@@ -250,52 +262,49 @@ public class DatesParser implements ReadingParser {
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
+		logger.debug("processStartElement : " + elementName);
+		
 		// When this parser read a starting element tag, it can modify a
-		// contextObject
-		// which is an Annotation instance.
+		// contextObject which is an Annotation instance.
 		if (contextObject instanceof Annotation) {
-			Annotation modelAnnotation = (Annotation) contextObject;
+			Annotation annotation = (Annotation) contextObject;
 
-			// This parser doesn't have to create a ModelHistory instance(in the
-			// SBML specifications, the created and modified dates
-			// should come after the creator list and so, the modelHistory of
-			// the annotation should not be null for this parser).
-			if (modelAnnotation.isSetHistory()) {
-				History modelHistory = modelAnnotation.getHistory();
+			if (!annotation.isSetHistory()) {
+				annotation.setHistory(new History());
+			}
+			
+			if (annotation.isSetHistory()) {
+				History history = annotation.getHistory();
 
 				// If the localName of the node is 'created' and if it has not
 				// been read yet,
 				// the previousElement of this parser is set to 'created' and
 				// hasReadCreated is set
-				// to true. This element should not have attributes or namespace
-				// declarations.
+				// to true.
 				// The modelHistory of annotation is not changed but is
 				// returned.
-				if (elementName.equals("created") && !hasReadCreated
-						&& !hasNamespaces && !hasAttributes) {
+				if (elementName.equals("created") && !hasReadCreated) {
 					hasReadCreated = true;
 					this.previousElement = elementName;
 
-					return modelHistory;
+					return history;
 				}
 				// If the localName of the node is 'modified' and if it has not
 				// been read yet,
 				// the previousElement of this parser is set to 'modified' and
 				// hasReadModified is set
-				// to true. This element should not have attributes or namespace
-				// declarations.
+				// to true.
 				// The modelHistory of annotation is not changed but is
 				// returned.
-				else if (elementName.equals("modified") && !hasReadModified
-						&& !hasNamespaces && !hasAttributes) {
+				else if (elementName.equals("modified") && !hasReadModified) {
 					this.previousElement = elementName;
 					hasReadModified = true;
-					return modelHistory;
+					return history;
 				} else {
-					// TODO : SBML syntax error, what to do?
+					logger.debug("processStartElement : element unknown !!");
 				}
 			} else {
-				// TODO : create a modelHistory instance? throw an exception?
+				logger.debug("processStartElement : history not set yet !!");
 			}
 		}
 		// When this parser read a starting element tag, it can modify a
@@ -305,18 +314,14 @@ public class DatesParser implements ReadingParser {
 
 			// If the node is a 'W3CDTF' subElement of a 'created' or 'modified'
 			// element, the boolean hasReadW3CDTF
-			// of this node is set to true. This element should not have
-			// attributes or namespace declarations.
+			// of this node is set to true.
 			if (elementName.equals("W3CDTF")
 					&& (previousElement.equals("created") || previousElement
-							.equals("modified")) && !hasNamespaces
-					&& !hasAttributes) {
+							.equals("modified"))) {
 				hasReadW3CDTF = true;
 			}
-		} else {
-			// TODO : should be changed depending on the version. Now, there is
-			// not only the model which contain a model history.
-		}
+		} 
+
 		return contextObject;
 	}
 }
