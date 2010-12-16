@@ -19,126 +19,157 @@ strict digraph G{
 	    fontsize=10,
 	    shape=box
 	  ];
-  
-  Cloneable                 [label="<<Cloneable>>"];
-  Serializable              [label="<<Serializable>>"];
-  TreeNode                  [label="<<TreeNode>>"];
-  ASTNode                   [label="ASTNode"];
-  Annotation                [label="Annotation"];
-  CVTerm                    [label="CVTerm"];
-  History                   [label="History"];
-  SBase                     [label="<<SBase>>"];
-  namedSBase                [label="<<NamedSBase>>"];
-  NamedSBaseWithDerivedUnit [label="<<NamedSBaseWithDerivedUnit>>"];
-  MathContainer             [label="<<MathContainer>>"];
-  Assignment                [label="<<Assignment>>"];
-  AbstractMathContainer     [label="AbstractMathContainer"];
-  AbstractNamedSBase        [label="AbstractNamedSBase"];
-  FunctionDefinition        [label=FunctionDefinition];
-  AbstractSBase             [label="AbstractSBase"];
-  ListOf                    [label="ListOf"];
-  List                      [label="<<List>>"];
-  Rule                      [label="Rule"];
-  Constraint                [label="Constraint"];
-  AlgebraicRule             [label="AlgebraicRule"];
-  ExplicitRule              [label="ExplicitRule"];
-  AssignmentRule            [label="AssignmentRule"];
-  KineticLaw                [label="KineticLaw"];
-  SBMLDocument              [label="SBMLDocument"];
-  Unit                      [label="Unit"];
-  Delay                     [label="Delay"];
-  Reaction                  [label="Reaction"];
-  Priority                  [label="Priority"];
-  RateRule                  [label="RateRule"];
-  CompartmentType           [label="CompartmentType"];
-  Event                     [label="Event"];
-  EventAssignment           [label="EventAssignment"];
-  Model                     [label="Model"];
-  SimpleSpeciesReference    [label="SimpleSpeciesReference"];
-  SpeciesType               [label="SpeciesType"];
-  InitialAssignment         [label="InitialAssignment"];
-  UnitDefinition            [label="UnitDefinition"];
-  StoichiometryMath         [label="StoichiometryMath"];
-  Delay                     [label="Delay"];
-  SpeciesReference          [label="SpeciesReference"];
-  ModifierSpeciesReference  [label="ModifierSpeciesReference"];
-  QuantityWithDefinedUnit   [label="QuantityWithDefinedUnit"];
-  Quantity                  [label="<<Quantity>>"];
-  SBaseWithDerivedUnit      [label="<<SBaseWithDerivedUnit>>"];
-  Variable                  [label="<<Variable>>"];
-  Symbol                    [label="Symbol"];
-  Parameter                 [label="Parameter"];
-  Compartment               [label="Compartment"];
-  Species                   [label="Species"];
-  LocalParameter            [label="LocalParameter"];
-  Trigger                   [label="Trigger"];
-  
 
-  Cloneable                 -> SBase                     [dir=back,arrowtail=empty,style=dashed];
-  Cloneable                 -> ASTNode                   [dir=back,arrowtail=empty,style=dashed];
-  Cloneable                 -> History                   [dir=back,arrowtail=empty,style=dashed];
-  Cloneable                 -> CVTerm                    [dir=back,arrowtail=empty,style=dashed];
-  Cloneable                 -> Annotation                [dir=back,arrowtail=empty,style=dashed];
-  Serializable              -> SBase                     [dir=back,arrowtail=empty,style=dashed];
-  Serializable              -> History                   [dir=back,arrowtail=empty,style=dashed];
-  Serializable              -> CVTerm                    [dir=back,arrowtail=empty,style=dashed];
-  Serializable              -> Annotation                [dir=back,arrowtail=empty,style=dashed];
-  Serializable              -> ASTNode                   [dir=back,arrowtail=empty,style=dashed];
-  TreeNode                  -> SBase                     [dir=back,arrowtail=empty,style=dashed];
-  TreeNode                  -> ASTNode                   [dir=back,arrowtail=empty,style=dashed];
-  SBase                     -> namedSBase                [dir=back,arrowtail=empty,style=dashed];
-  SBase                     -> SBaseWithDerivedUnit      [dir=back,arrowtail=empty,style=dashed];
-  SBaseWithDerivedUnit      -> MathContainer             [dir=back,arrowtail=empty,style=dashed];
-  SBaseWithDerivedUnit      -> NamedSBaseWithDerivedUnit [dir=back,arrowtail=empty,style=dashed];
-  MathContainer             -> AbstractMathContainer     [dir=back,arrowtail=empty,style=dashed];
-  MathContainer             -> Assignment                [dir=back,arrowtail=empty,style=dashed];
-  AbstractMathContainer     -> FunctionDefinition        [dir=back,arrowtail=empty];
-  AbstractMathContainer     -> KineticLaw                [dir=back,arrowtail=empty];
-  SBase                     -> AbstractSBase             [dir=back,arrowtail=empty,style=dashed];
-  AbstractSBase             -> AbstractNamedSBase        [dir=back,arrowtail=empty];
-  namedSBase                -> AbstractNamedSBase        [dir=back,arrowtail=empty,style=dashed];
-  AbstractNamedSBase        -> Reaction                  [dir=back,arrowtail=empty];
-  AbstractSBase             -> ListOf                    [dir=back,arrowtail=empty];
-  List                      -> ListOf                    [dir=back,arrowtail=empty,style=dashed];
-  AbstractSBase             -> SBMLDocument              [dir=back,arrowtail=empty];
-  AbstractSBase             -> Unit                      [dir=back,arrowtail=empty];
-  AbstractSBase             -> AbstractMathContainer     [dir=back,arrowtail=empty];
-  AbstractMathContainer     -> Constraint                [dir=back,arrowtail=empty];
-  AbstractMathContainer     -> Delay                     [dir=back,arrowtail=empty];
-  AbstractMathContainer     -> EventAssignment           [dir=back,arrowtail=empty];
-  AbstractMathContainer     -> InitialAssignment         [dir=back,arrowtail=empty];
-  AbstractMathContainer     -> KineticLaw                [dir=back,arrowtail=empty];
-  AbstractMathContainer     -> Rule                      [dir=back,arrowtail=empty];
-  AbstractMathContainer     -> StoichiometryMath         [dir=back,arrowtail=empty];
-  AbstractMathContainer     -> Trigger                   [dir=back,arrowtail=empty];
-  AbstractMathContainer     -> Priority                  [dir=back,arrowtail=empty];
-  Rule                      -> AlgebraicRule             [dir=back,arrowtail=empty];
-  Rule                      -> ExplicitRule              [dir=back,arrowtail=empty];
-  ExplicitRule              -> AssignmentRule            [dir=back,arrowtail=empty];
-  ExplicitRule              -> RateRule                  [dir=back,arrowtail=empty];
-  Assignment                -> ExplicitRule              [dir=back,arrowtail=empty,style=dashed];
-  Assignment                -> InitialAssignment         [dir=back,arrowtail=empty,style=dashed];
-  Assignment                -> EventAssignment           [dir=back,arrowtail=empty,style=dashed];
-  AbstractNamedSBase        -> CompartmentType           [dir=back,arrowtail=empty];
-  AbstractNamedSBase        -> Event                     [dir=back,arrowtail=empty];
-  AbstractNamedSBase        -> Model                     [dir=back,arrowtail=empty];
-  AbstractNamedSBase        -> SimpleSpeciesReference    [dir=back,arrowtail=empty];
-  AbstractNamedSBase        -> SpeciesType               [dir=back,arrowtail=empty];
-  AbstractNamedSBase        -> UnitDefinition            [dir=back,arrowtail=empty];
-  SimpleSpeciesReference    -> SpeciesReference          [dir=back,arrowtail=empty];
-  SimpleSpeciesReference    -> ModifierSpeciesReference  [dir=back,arrowtail=empty];
-  Quantity                  -> QuantityWithDefinedUnit   [dir=back,arrowtail=empty,style=dashed];
-  Quantity                  -> Variable                  [dir=back,arrowtail=empty,style=dashed];
-  Variable                  -> Symbol                    [dir=back,arrowtail=empty,style=dashed];
-  QuantityWithDefinedUnit   -> Symbol                    [dir=back,arrowtail=empty];
-  Symbol                    -> Compartment               [dir=back,arrowtail=empty];
-  Symbol                    -> Species                   [dir=back,arrowtail=empty];
-  Symbol                    -> Parameter                 [dir=back,arrowtail=empty];
-  Variable                  -> SpeciesReference          [dir=back,arrowtail=empty,style=dashed];
-  QuantityWithDefinedUnit   -> LocalParameter            [dir=back,arrowtail=empty];
-  AbstractNamedSBase        -> QuantityWithDefinedUnit   [dir=back,arrowtail=empty];
-  namedSBase                -> NamedSBaseWithDerivedUnit [dir=back,arrowtail=empty,style=dashed];
-  NamedSBaseWithDerivedUnit -> Quantity                  [dir=back,arrowtail=empty,style=dashed];
-  NamedSBaseWithDerivedUnit -> Reaction                  [dir=back,arrowtail=empty,style=dashed];
-  NamedSBaseWithDerivedUnit -> FunctionDefinition        [dir=back,arrowtail=empty,style=dashed];
+  /*
+   * Interfaces
+   */
+     
+  Assignment                               [label="<<Assignment>>"];
+  Cloneable                                [label="<<Cloneable>>"];
+  List                                     [label="<<List>>"];
+  MathContainer                            [label="<<MathContainer>>"];
+  NamedSBase                               [label="<<NamedSBase>>"];
+  NamedSBaseWithDerivedUnit                [label="<<NamedSBaseWithDerivedUnit>>"];
+  Quantity                                 [label="<<Quantity>>"];
+  SBaseWithDerivedUnit                     [label="<<SBaseWithDerivedUnit>>"];
+  SBaseWithUnit                            [label="<<SBaseWithUnit>>"];
+  SBase                                    [label="<<SBase>>"];
+  Serializable                             [label="<<Serializable>>"];
+  TreeNode                                 [label="<<TreeNode>>"];
+  Variable                                 [label="<<Variable>>"];
+  
+  /*
+   * Abstract data types
+   */
+  
+  AbstractMathContainer                    [label="Abstract\nMathContainer"];
+  AbstractNamedSBase                       [label="Abstract\nNamedSBase"];
+  AbstractNamedSBaseWithUnit                    [label="AbstractNamedSBase\nWithUnit"];
+  AbstractSBase                            [label="Abstract\nSBase"];
+  ExplicitRule                             [label="Explicit\nRule"];
+  Rule                                     [label="Rule"];
+  SimpleSpeciesReference                   [label="Simple\nSpeciesReference"];
+  QuantityWithUnit                         [label="Quantity\nWithUnit"];
+  Symbol                                   [label="Symbol"];
+
+  /*
+   * Objects
+   */
+   
+  AlgebraicRule                            [label="Algebraic\nRule"];
+  Annotation                               [label="Annotation"];
+  AssignmentRule                           [label="Assignment\nRule"];
+  ASTNode                                  [label="ASTNode"];
+  Compartment                              [label="Compartment"];
+  CompartmentType                          [label="Compartment\nType"];
+  Constraint                               [label="Constraint"];
+  CVTerm                                   [label="CV\nTerm"];
+  Delay                                    [label="Delay"];
+  Event                                    [label="Event"];
+  EventAssignment                          [label="Event\nAssignment"];
+  FunctionDefinition                       [label="Function\nDefinition"];
+  History                                  [label="History"];
+  InitialAssignment                        [label="Initial\nAssignment"];
+  KineticLaw                               [label="Kinetic\nLaw"];
+  ListOf                                   [label="List\nOf"];
+  LocalParameter                           [label="Local\nParameter"];
+  Model                                    [label="Model"];
+  ModifierSpeciesReference                 [label="Modifier\nSpeciesReference"];
+  Object                                   [label="Object"];
+  Parameter                                [label="Parameter"];
+  Priority                                 [label="Priority"];
+  RateRule                                 [label="Rate\nRule"];
+  Reaction                                 [label="Reaction"];
+  SBMLDocument                             [label="SBML\nDocument"];
+  Species                                  [label="Species"];
+  SpeciesReference                         [label="Species\nReference"];
+  SpeciesType                              [label="Species\nType"];
+  StoichiometryMath                        [label="Stoichiometry\nMath"];
+  Trigger                                  [label="Trigger"];
+  Unit                                     [label="Unit"];
+  UnitDefinition                           [label="Unit\nDefinition"];
+  
+  /*
+   * Inheritance
+   */  
+
+  AbstractNamedSBase         -> Reaction                   [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> CompartmentType            [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> Model                      [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> SimpleSpeciesReference     [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> SpeciesType                [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> UnitDefinition             [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> AbstractNamedSBaseWithUnit [dir=back,arrowtail=empty];
+  AbstractNamedSBaseWithUnit -> Event                      [dir=back,arrowtail=empty];
+  AbstractNamedSBaseWithUnit -> QuantityWithUnit           [dir=back,arrowtail=empty];
+  AbstractSBase              -> SBMLDocument               [dir=back,arrowtail=empty];
+  AbstractSBase              -> Unit                       [dir=back,arrowtail=empty];
+  AbstractSBase              -> AbstractMathContainer      [dir=back,arrowtail=empty];
+  AbstractSBase              -> AbstractNamedSBase         [dir=back,arrowtail=empty];
+  AbstractSBase              -> ListOf                     [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> Constraint                 [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> Delay                      [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> EventAssignment            [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> InitialAssignment          [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> KineticLaw                 [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> Rule                       [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> StoichiometryMath          [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> Trigger                    [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> Priority                   [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> FunctionDefinition         [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> KineticLaw                 [dir=back,arrowtail=empty];
+  Assignment                 -> ExplicitRule               [dir=back,arrowtail=empty,style=dashed];
+  Assignment                 -> InitialAssignment          [dir=back,arrowtail=empty,style=dashed];
+  Assignment                 -> EventAssignment            [dir=back,arrowtail=empty,style=dashed];
+  Cloneable                  -> SBase                      [dir=back,arrowtail=empty,style=dashed];
+  Cloneable                  -> ASTNode                    [dir=back,arrowtail=empty,style=dashed];
+  Cloneable                  -> History                    [dir=back,arrowtail=empty,style=dashed];
+  Cloneable                  -> CVTerm                     [dir=back,arrowtail=empty,style=dashed];
+  Cloneable                  -> Annotation                 [dir=back,arrowtail=empty,style=dashed];
+  ExplicitRule               -> AssignmentRule             [dir=back,arrowtail=empty];
+  ExplicitRule               -> RateRule                   [dir=back,arrowtail=empty];
+  List                       -> ListOf                     [dir=back,arrowtail=empty,style=dashed];
+  MathContainer              -> AbstractMathContainer      [dir=back,arrowtail=empty,style=dashed];
+  MathContainer              -> Assignment                 [dir=back,arrowtail=empty,style=dashed];
+  NamedSBase                 -> AbstractNamedSBase         [dir=back,arrowtail=empty,style=dashed];
+  NamedSBase                 -> NamedSBaseWithDerivedUnit  [dir=back,arrowtail=empty,style=dashed];
+  NamedSBaseWithDerivedUnit  -> AbstractNamedSBaseWithUnit [dir=back,arrowtail=empty,style=dashed];
+  NamedSBaseWithDerivedUnit  -> Quantity                   [dir=back,arrowtail=empty,style=dashed];
+  NamedSBaseWithDerivedUnit  -> Reaction                   [dir=back,arrowtail=empty,style=dashed];
+  NamedSBaseWithDerivedUnit  -> FunctionDefinition         [dir=back,arrowtail=empty,style=dashed];
+  Object                     -> History                    [dir=back,arrowtail=empty];
+  Object                     -> Annotation                 [dir=back,arrowtail=empty];
+  Object                     -> CVTerm                     [dir=back,arrowtail=empty];
+  Object                     -> ASTNode                    [dir=back,arrowtail=empty];
+  Object                     -> AbstractSBase              [dir=back,arrowtail=empty];
+  Quantity                   -> QuantityWithUnit           [dir=back,arrowtail=empty,style=dashed];
+  Quantity                   -> Variable                   [dir=back,arrowtail=empty,style=dashed];
+  QuantityWithUnit           -> Symbol                     [dir=back,arrowtail=empty];
+  QuantityWithUnit           -> LocalParameter             [dir=back,arrowtail=empty];
+  Rule                       -> AlgebraicRule              [dir=back,arrowtail=empty];
+  Rule                       -> ExplicitRule               [dir=back,arrowtail=empty];
+  SBase                      -> NamedSBase                 [dir=back,arrowtail=empty,style=dashed];
+  SBase                      -> SBaseWithDerivedUnit       [dir=back,arrowtail=empty,style=dashed];
+  SBase                      -> AbstractSBase              [dir=back,arrowtail=empty,style=dashed];
+  SBaseWithDerivedUnit       -> MathContainer              [dir=back,arrowtail=empty,style=dashed];
+  SBaseWithDerivedUnit       -> NamedSBaseWithDerivedUnit  [dir=back,arrowtail=empty,style=dashed];
+  SBaseWithDerivedUnit       -> SBaseWithUnit              [dir=back,arrowtail=empty,style=dashed];
+  SBaseWithUnit              -> AbstractNamedSBaseWithUnit [dir=back,arrowtail=empty,style=dashed];
+  SBaseWithUnit              -> ExplicitRule               [dir=back,arrowtail=empty,style=dashed];
+  SBaseWithUnit              -> KineticLaw                 [dir=back,arrowtail=empty,style=dashed];
+  SimpleSpeciesReference     -> SpeciesReference           [dir=back,arrowtail=empty];
+  SimpleSpeciesReference     -> ModifierSpeciesReference   [dir=back,arrowtail=empty];
+  Serializable               -> SBase                      [dir=back,arrowtail=empty,style=dashed];
+  Serializable               -> History                    [dir=back,arrowtail=empty,style=dashed];
+  Serializable               -> CVTerm                     [dir=back,arrowtail=empty,style=dashed];
+  Serializable               -> Annotation                 [dir=back,arrowtail=empty,style=dashed];
+  Serializable               -> ASTNode                    [dir=back,arrowtail=empty,style=dashed];
+  Symbol                     -> Compartment                [dir=back,arrowtail=empty];
+  Symbol                     -> Species                    [dir=back,arrowtail=empty];
+  Symbol                     -> Parameter                  [dir=back,arrowtail=empty];
+  TreeNode                   -> SBase                      [dir=back,arrowtail=empty,style=dashed];
+  TreeNode                   -> ASTNode                    [dir=back,arrowtail=empty,style=dashed];
+  Variable                   -> Symbol                     [dir=back,arrowtail=empty,style=dashed];
+  Variable                   -> SpeciesReference           [dir=back,arrowtail=empty,style=dashed];
+  
 }

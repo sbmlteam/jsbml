@@ -115,75 +115,82 @@ Cell-De-sig-n-er
 \tableofcontents
 
 \begin{abstract}
-Although the libraries JSBML and LibSBML for working with files and data structures 
-defined in the standard SBML (Systems Biology Markup Language) are very similar and 
-share a common scope, users should be informed about their major differences to 
-switch from one library from the other one more easily. To this end, the document at
-hand gives a brief overview of the main differences between the Java\texttrademark{} 
-application programming interfaces of both libraries.
+Although the libraries JSBML and LibSBML for working with files and data
+structures defined in the standard SBML (Systems Biology Markup Language) are
+very similar and share a common scope, users should be informed about their
+major differences to switch from one library from the other one more easily. To
+this end, the document at hand gives a brief overview of the main differences
+between the Java\texttrademark{} application programming interfaces of both
+libraries.
 
-In addition, JSBML can be used as a communication layer between the widely spread
-application CellDesigner and an application that works with JSBML as its internal
-data structure. This document gives an example that demonstrates how to convert
-between CellDesigner's plug-in data structures an JSBML objects.
+In addition, JSBML can be used as a communication layer between the widely
+spread application CellDesigner and an application that works with JSBML as its
+internal data structure. This document gives an example that demonstrates how to
+convert between CellDesigner's plug-in data structures an JSBML objects.
 \end{abstract}
 
 \section{An extended type hierarchy}
 
-Whenever multiple elements defined in the SBML specification share some attributes,
-JSBML provides a common super class or at least a common interface that gathers methods
-for manipulation of the shared properties. In this way, the type hierarchy of JSBML has
-become more complex (see Fig.~\vref{fig:TypeHierarchy}). 
+Whenever multiple elements defined in the SBML specification share some
+attributes, JSBML provides a common super class or at least a common interface
+that gathers methods for manipulation of the shared properties. In this way, the
+type hierarchy of JSBML has become more complex (see
+Fig.~\vref{fig:TypeHierarchy}).
 \begin{sidewaysfigure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{FullTypeHierarchy}
-\caption[The type hierarchy in JSBML]{The type hierarchy of the main SBML constructs in JSBML}
+\includegraphics[width=\textwidth]{FullTypeHierarchy.pdf}
+\caption[The type hierarchy in JSBML]{The type hierarchy of the main SBML
+constructs in JSBML}
 \label{fig:TypeHierarchy}
 \end{sidewaysfigure}
-Just like in LibSBML, all elements extend the abstract type \verb!SBase!, but in JSBML, 
-\verb!SBase! has become an interface. This allows more complex relations between derived 
-data types. In contrast to LibSBML, \verb!SBase! in JSBML extends three other interfaces: 
-\verb!Cloneable!, \verb!Serializable!, and \verb!TreeNode!. As all elements defined in JSBML 
-override the \verb!clone()! method from the class \verb!java.lang.Object!, all JSBML 
-elements can be deeply copied and are therefore ``cloneable". By extending the interface
-\verb!Serializable!, it is possible to store JSBML elements in binary form without explicitly 
-writing it to an SBML file. In this way, programs can easily load and save their in-memory
-objects or send complex data structures through a network connection without the need of
-additional file encoding and subsequent parsing. 
-The third interface, \verb!TreeNode! is actually defined in Java's \verb!swing! package, but
-defines a data type independent of any graphical information. It basically defines recursive
-methods on hierarchically structured data types, such as iteration over all of its successors.
-In this way, all instances of JSBML's \verb!SBase! interface can be directly passed to the
-\verb!swing! class \verb!JTree! and hence be easily visualized. Listing~\vref{lst:Visualization}
-demonstrates in a simple code example how to parse an SBML file and to immediately display
-its content on a \verb!JFrame!.
+Just like in LibSBML, all elements extend the abstract type \verb!SBase!, but in
+JSBML, \verb!SBase! has become an interface. This allows more complex relations
+between derived data types. In contrast to LibSBML, \verb!SBase! in JSBML
+extends three other interfaces: \verb!Cloneable!, \verb!Serializable!, and
+\verb!TreeNode!. As all elements defined in JSBML override the \verb!clone()!
+method from the class \verb!java.lang.Object!, all JSBML elements can be deeply
+copied and are therefore ``cloneable". By extending the interface
+\verb!Serializable!, it is possible to store JSBML elements in binary form
+without explicitly writing it to an SBML file. In this way, programs can easily
+load and save their in-memory objects or send complex data structures
+through a network connection without the need of additional file encoding and
+subsequent parsing. The third interface, \verb!TreeNode! is actually defined in
+Java's \verb!swing! package, but defines a data type independent of any
+graphical information. It basically defines recursive methods on hierarchically
+structured data types, such as iteration over all of its successors. In this
+way, all instances of JSBML's \verb!SBase! interface can be directly passed to
+the \verb!swing! class \verb!JTree! and hence be easily visualized.
+Listing~\vref{lst:Visualization} demonstrates in a simple code example how to
+parse an SBML file and to immediately display its content on a \verb!JFrame!.
 \lstinputlisting[language=Java,float,caption={Parsing and visualizing the
 content of an SBML file},label=lst:Visualization]{posters/2010_ICSB_and_COMBINE/JSBMLvisualizer.java}
-Fig.~\vref{fig:Visualization} shows an example output when applying the program from 
-Listing~\vref{lst:Visualization} to SBML test model \texttt{case00026}.
+Fig.~\vref{fig:Visualization} shows an example output when applying the program
+from Listing~\vref{lst:Visualization} to SBML test model \texttt{case00026}.
 \begin{SCfigure}[][t]
 \includegraphics[width=.35\textwidth]{posters/2010_ICSB_and_COMBINE/JSBMLvisualizerTransparent}
-\caption[Tree representation of an SBML file]{A tree representation of the content of SBML test model \texttt{case00026}}
+\caption[Tree representation of an SBML file]{A tree representation of the
+content of SBML test model \texttt{case00026}}
 \label{fig:Visualization}
 \end{SCfigure}
-The \verb!ASTNode! class in JSBML also implements all these three interfaces and can hence
-be cloned, serialized, and visualized in the same way.
+The \verb!ASTNode! class in JSBML also implements all these three interfaces and
+can hence be cloned, serialized, and visualized in the same way.
 
 
 \section{Abstract syntax trees}
 
-Both libraries define a class \verb!ASTNode! for in-memory manipulation and evaluation
-of abstract syntax trees that represent mathematical formulas and equations. These
-can either be parsed from a representation in \verb!C! language-like \verb!String!s,
-or from a MathML representation. The JSBML \verb!ASTNode! provides various methods
-to transform these trees to other formats, for instance, \LaTeX{} \verb!String!s.
-In JSBML, several static methods allow easy creation of new syntax trees, for instance,
-the following code
+Both libraries define a class \verb!ASTNode! for in-memory manipulation and
+evaluation of abstract syntax trees that represent mathematical formulas and
+equations. These can either be parsed from a representation in \verb!C!
+language-like \verb!String!s, or from a MathML representation. The JSBML
+\verb!ASTNode! provides various methods to transform these trees to other
+formats, for instance, \LaTeX{} \verb!String!s. In JSBML, several static methods
+allow easy creation of new syntax trees, for instance, the following code
 \begin{verbatim}
 ASTNode myNode = ASTNode.plus(myLeftAstNode, myRightASTNode);
 \end{verbatim}
-creates a new instance of \verb!ASTNode! which represents the sum of the two other
-\verb!ASTNode!s. In this way, even complex trees can be easily manipulated.
+creates a new instance of \verb!ASTNode! which represents the sum of the two
+other \verb!ASTNode!s. In this way, even complex trees can be easily
+manipulated.
 
 \section{The \texttt{ASTNodeCompiler} class}
 
@@ -252,15 +259,16 @@ elements.
 Generally, JSBML throws more exceptions than LibSBML. This behavior helps
 programmers and users to avoid creating invalid SBML data structures already
 when dealing with these in memory. Examples are the \verb!ParseException! that
-may be thrown if a given formula cannot be parsed properly into an \verb!ASTNode!
-data structure, or \verb!InvalidArgumentException!s if inappropriate values are
-passed to methods. For instance, an object representing a constant such as a
-\verb!Parameter! whose constant attribute has been set to \verb!true! cannot be
-used as the \verb!Variable! element in an \verb!Assignment!. Another example is
-the \verb!InvalidArgumentException! that is thrown when trying to set an invalid
-identifier \verb!String! for an instance of \verb!AbstractNamedSBase!. Hence,
-you have to be aware of potential exceptions and errors when using JSBML, on the
-other hand will this behavior prevent you from doing obvious mistakes.
+may be thrown if a given formula cannot be parsed properly into an
+\verb!ASTNode! data structure, or \verb!InvalidArgumentException!s if
+inappropriate values are passed to methods. For instance, an object representing
+a constant such as a \verb!Parameter! whose constant attribute has been set to
+\verb!true! cannot be used as the \verb!Variable! element in an
+\verb!Assignment!. Another example is the \verb!InvalidArgumentException! that
+is thrown when trying to set an invalid identifier \verb!String! for an instance
+of \verb!AbstractNamedSBase!. Hence, you have to be aware of potential
+exceptions and errors when using JSBML, on the other hand will this behavior
+prevent you from doing obvious mistakes.
 
 
 \section{Initial assignments}
@@ -270,13 +278,12 @@ JSBML unifies all those elements that assign values to some other
 the term Variable for the element whose value is to be changed depending
 on some mathematical expression that is also present in the Assignment
 (because Assignment extends the interface \texttt{MathContainer}). Therefore,
-an Assignment contains methods such as \verb!set!-/\verb!getVariable(Variable v)!
-and also \verb!isSetVariable()! and \verb!unsetVariable()!. In addition to that
-JSBML also provides the method \verb!set!-/\verb!getSymbol(String symbol)! in the
-\texttt{InitialAssignment} class to make sure that switching from LibSBML to
-JSBML is quite smoothly. However, the preferred way in JSBML is to
-apply the methods \texttt{setVariable} either with String or Variable instances
-as arguments.
+an Assignment contains methods such as
+\verb!set!-/\verb!getVariable(Variable v)! and also \verb!isSetVariable()! and
+\verb!unsetVariable()!. In addition to that JSBML also provides the method \verb!set!-/\verb!getSymbol(String symbol)! in the \texttt{InitialAssignment}
+class to make sure that switching from LibSBML to JSBML is quite smoothly.
+However, the preferred way in JSBML is to apply the methods
+\texttt{setVariable} either with String or Variable instances as arguments.
 
 \section{Model history}
 
@@ -301,21 +308,22 @@ for most of the derived types.
 
 \section{The classes \texttt{libSBML} and \texttt{JSBML}}
 
-There is no class \texttt{LibSBML} because this library is called \texttt{JSBML}. You
-can therefore only find a class \texttt{JSBML}. This class provides some similar
-methods as the \texttt{LibSBML} class in LibSBML, such as  \verb!getJSBMLDottedVersion()!
-to obtain the current version of the JSBML library. However, many other methods that you
-might expect to find there, if you are used to LibSBML, are located in the actual
-classes that are related with the function. For instance, the method to convert between
-a \verb!String! and a corresponding \verb!Unit.Kind! can be done by using the method
+There is no class \texttt{LibSBML} because this library is called
+\texttt{JSBML}. You can therefore only find a class \texttt{JSBML}. This class
+provides some similar methods as the \texttt{LibSBML} class in LibSBML, such as
+\verb!getJSBMLDottedVersion()! to obtain the current version of the JSBML
+library. However, many other methods that you might expect to find there, if you
+are used to LibSBML, are located in the actual classes that are related with the
+function. For instance, the method to convert between a \verb!String! and a
+corresponding \verb!Unit.Kind! can be done by using the method
 \begin{verbatim}
 Unit.Kind.valueOf(myString);
 \end{verbatim}
-In a similar way, the \verb!ASTNode! class provides a method to parse C-like formula
-\verb!String!s according to the specification of SBML Level 1 into an abstract
-syntax tree.
-Therefore, in contrast to the  \texttt{LibSBML} class, the class \texttt{JSBML} contains
-only a few methods.
+In a similar way, the \verb!ASTNode! class provides a method to parse C-like
+formula \verb!String!s according to the specification of SBML Level 1 into an
+abstract syntax tree. Therefore, in contrast to the  \texttt{LibSBML} class, the
+class \texttt{JSBML} contains only a few methods.
+
 
 \section{Replacement of the interface \texttt{libSBMConstants} by Java enums}
 
@@ -337,8 +345,7 @@ the \verb!ListOf<? extends SBase>! class in JSBML excepts also elements that do
 not necessarily have an identifier. Only instances of \verb!NamedSBase! may have
 the fields identifier and name set. Hence, generally, the \verb!ListOf! class 
 cannot assume these fields to be present. To query an instance of \verb!ListOf! 
-in JSBML for names or identifiers or both, you can apply the following 
-filter:
+in JSBML for names or identifiers or both, you can apply the following filter:
 \begin{verbatim}
 NamedSBase nsb = myList.firstHit(new NameFilter(identifier));
 \end{verbatim}
@@ -356,20 +363,69 @@ for those species that operate on the boundary of the reaction system.
 
 \section{Units}
 
-Since SBML Level 3 the data type of the exponent attribute in the \verb!Unit! class
-has been changed from \verb!int! to \verb!double! values. JSBML reflects this in
-the method \verb!getExponent()! by returning \verb!double! values only. For a
-better compatibility with LibSBML, whose corresponding method still returns 
-\verb!int! values, JSBML also provides the method \verb!getExponentAsDouble()!.
-This method returns the value from the \verb!getExponent()! method and is
-therefore absolutely redundant.
+Since SBML Level 3 the data type of the exponent attribute in the \verb!Unit!
+class has been changed from \verb!int! to \verb!double! values. JSBML reflects
+this in the method \verb!getExponent()! by returning \verb!double! values only.
+For a better compatibility with LibSBML, whose corresponding method still
+returns \verb!int! values, JSBML also provides the method
+\verb!getExponentAsDouble()!. This method returns the value from the
+\verb!getExponent()! method and is therefore absolutely redundant.
 
 \section{Unit Definitions}
+
+\subsection{Predefined unit definitions}
 
 A model in JSBML always also contains all predefined units in the model
 if there are any, i.e., for models encoded of SBML versions before level
 3. These can be accessed from an instance of model by calling the method
 \verb!getPredefinedUnit(String unit)!.
+
+\subsection{Access to the units of an element}
+
+In JSBML, all SBML elements that can be associated with some unit implement the
+interface \verb!SBaseWithUnit!. This interface provides methods for direct
+access to an object representing their unit. Currently, the following elements
+implement this interface:
+\begin{itemize}
+ \item \verb!AbstractNamedSBaseWithUnit!
+ \item \verb!ExplicitRule!
+ \item \verb!KineticLaw!
+\end{itemize}
+Fig.~\vref{fig:TypeHierarchy} proivdes a better overview about the relationships
+between all the classes explained here.
+Note that \verb!AbstractNamedSBaseWithUnit! serves as the abstract super class
+for \verb!Event! and \verb!QuantityWithUnit!. In \verb!Event! all methods to
+deal with units are already deprecated because only in SBML Level 1 Versions 1
+and 2 \verb!Event!s could be explicitly equipped with units. The same holds true
+for instances of \verb!ExplicitRule! and \verb!KineticLaw!, which both can only
+explicitly be populated with units for SBML in Level 1, Version 1 and 2. In
+contrast, \verb!QuantityWithUnit! serves as the abstract super class for
+\verb!LocalParameter! and \verb!Symbol!, which is then again the super type of
+\verb!Compartment!, \verb!Species!, and (global) \verb!Parameter!.
+
+Care must be taken when obtaining an instance of \verb!UnitDefinition! from one
+of the classes implementing \verb!SBaseWithUnit!
+because it might happen that the given \verb!UnitDefinition! has just been
+created for convenience from the information provided by the class, but that the
+model containing this \verb!SBaseWithUnit! does actually not contain this
+\verb!UnitDefinition!. It might therefore be useful to either check if the
+\verb!Model! contains this \verb!UnitDefinition! or to add it to the
+\verb!Model!.
+
+In case of \verb!KineticLaw! it is even more difficult, because
+SBML Level 1 allows to separately set the substance unit and the time unit of
+the element. To unify the API, we decided to also provide methods that allow
+the user to simply pass one \verb!UnitDefinition! or its identifier to
+\verb!KineticLaw!. These methods then try to guess if a substance unit or time
+unit is given. Furthermore, it is possible to pass a \verb!UnitDefinition!
+representing a variant of substance per time directly. In this case, the
+\verb!KineticLaw! will memorize a direct link to this \verb!UnitDefinition! in
+the model and also try to save separate links to the time unit and the substance
+unit. However, this may cause a problem if the containing \verb!Model! does not
+contain separate \verb!UnitDefinition!s for both enties.
+
+Generally, this approach provides a more general way to access and manipulate
+units of SBML elements.
 
 \appendix
 
@@ -378,12 +434,11 @@ plug-in}
 
 Once an application has been implemented based on JSBML, it can easily be
 accessed from CellDesigner's plug-in menu \citep{Funahashi2003}. To this end,
-it is necessary to
-extend two classes that are defined in CellDesigner's plug-in API (Abstract
-Programming Interface). The Listings~\vrefrange{lst:PluginAction}{lst:Plugin}
-show a very simple example of how to pass CellDesigner plug-in model data
-structures to the translator in JSBML, which creates then a JSBML \verb!Model!
-data structure.
+it is necessary to extend two classes that are defined in CellDesigner's plug-in
+API (Abstract Programming Interface). The
+Listings~\vrefrange{lst:PluginAction}{lst:Plugin} show a very simple example of
+how to pass CellDesigner plug-in model data structures to the translator in
+JSBML, which creates then a JSBML \verb!Model! data structure.
 \lstinputlisting[language=Java,float,caption={A simple implementation of
 CellDesigner's abstract class \texttt{PluginAction}},
 label=lst:PluginAction]{SimpleCellDesignerPlugin/org/sbml/jsbml/cdplugin/SimpleCellDesignerPluginAction.java}
@@ -398,7 +453,7 @@ import javax.swing.*;
 import jp.sbi.celldesigner.plugin.*;
 
 import org.sbml.jsbml.*;
-import org.sbml.jsbml.test.gui.JTreeOfSBML;
+import org.sbml.jsbml.gui.*;
 
 public class SimpleCellDesignerPlugin extends CellDesignerPlugin {
 
@@ -427,15 +482,7 @@ public class SimpleCellDesignerPlugin extends CellDesignerPlugin {
     SBMLDocument doc = new SBMLDocument(model.getLevel(), model
         .getVersion());
     doc.setModel(model);
-    JFrame frame = new JFrame(APPLICATION_NAME);
-    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    frame.getContentPane().add(
-        new JScrollPane(new JTreeOfSBML(doc),
-            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
-    frame.setResizable(true);
-    frame.pack();
-    frame.setVisible(true);
+    new JSBMLvisualizer(doc);
   }
 }
 \end{lstlisting}
@@ -478,4 +525,3 @@ label=lst:PluginMethods]
 \bibliography{literature}
 
 \end{document}
-

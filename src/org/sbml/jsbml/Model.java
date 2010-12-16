@@ -397,6 +397,36 @@ public class Model extends AbstractNamedSBase {
 		return getListOfUnitDefinitions().add(unitDefinition);
 	}
 
+	/**
+	 * Checks whether an identical {@link UnitDefinition} like the given
+	 * {@link UnitDefinition} is already in this {@link Model}'s
+	 * {@link #listOfUnitDefinitions}. If yes, the identifier of the identical
+	 * {@link UnitDefinition} will be returned. Otherwise, the given unit is
+	 * added to the {@link #listOfUnitDefinitions} and its identifier will be
+	 * returned. In any case, this method returns the identifier of a
+	 * {@link UnitDefinition} that is part of this {@link Model} at least after
+	 * calling this method.
+	 * 
+	 * @param units
+	 *            The unit to be checked and added if no identical
+	 *            {@link UnitDefinition} can be found.
+	 * @return
+	 */
+	public String addUnitDefinitionOrReturnIdenticalUnit(UnitDefinition units) {
+		boolean contains = false;
+		for (UnitDefinition ud : getListOfUnitDefinitions()) {
+			if (UnitDefinition.areIdentical(ud, units)) {
+				units = ud;
+				contains = true;
+				break;
+			}
+		}
+		if (!contains) {
+			addUnitDefinition(units);
+		}
+		return units.getId();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -947,7 +977,7 @@ public class Model extends AbstractNamedSBase {
 	public Species createSpecies() {
 		return createSpecies(null);
 	}
-
+	
 	/**
 	 * 
 	 * @param id
@@ -958,7 +988,7 @@ public class Model extends AbstractNamedSBase {
 		addSpecies(species);
 		return species;
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -1316,7 +1346,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Searches for an instance of {@link QuantityWithDefinedUnit} within all of
+	 * Searches for an instance of {@link QuantityWithUnit} within all of
 	 * this {@link Model}'s components that has the given identifier or name
 	 * attribute and returns it. There might be multiple instances of
 	 * {@link LocalParameter} with the same identifier or name, each located in
@@ -1328,8 +1358,8 @@ public class Model extends AbstractNamedSBase {
 	 * @return
 	 * @see #findLocalParameters(String)
 	 */
-	public QuantityWithDefinedUnit findQuantityWithDefinedUnit(String idOrName) {
-		QuantityWithDefinedUnit q = findSymbol(idOrName);
+	public QuantityWithUnit findQuantityWithUnit(String idOrName) {
+		QuantityWithUnit q = findSymbol(idOrName);
 		if (q == null) {
 			List<LocalParameter> list = findLocalParameters(idOrName);
 			if (!list.isEmpty()) {
@@ -3168,7 +3198,7 @@ public class Model extends AbstractNamedSBase {
 	public void setLengthUnits(UnitDefinition lengthUnits) {
 		setLengthUnits(lengthUnits != null ? lengthUnits.getId() : null);
 	}
-
+	
 	/**
 	 * Sets the listOfCompartments of this {@link Model} to 'listOfCompartments'.
 	 * Automatically sets the parentSBML objects of 'listOfCompartments' to this
@@ -3184,7 +3214,7 @@ public class Model extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfCompartments);
 	}
-	
+
 	/**
 	 * Sets the listOfCompartmentTypes of this Model to
 	 * 'listOfCompartmentTypes'. Automatically sets the parentSBML objects of
@@ -3204,7 +3234,7 @@ public class Model extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfCompartmentTypes);
 	}
-
+	
 	/**
 	 * Sets the listOfConstraints of this {@link Model} to 'listOfConstraints'.
 	 * Automatically sets the parentSBML objects of 'listOfCanstraints' to this
@@ -3221,7 +3251,7 @@ public class Model extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfConstraints);
 	}
-	
+
 	/**
 	 * Sets the listOfEvents of this {@link Model} to 'listOfEvents'. Automatically sets
 	 * the parentSBML objects of 'listOfEvents' to this {@link Model}.
@@ -3236,7 +3266,7 @@ public class Model extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfEvents);
 	}
-
+	
 	/**
 	 * Sets the listOfFunctionDefinitions of this {@link Model} to
 	 * 'listOfFunctionDefinitions'. Automatically sets the parentSBML objects of
@@ -3254,7 +3284,7 @@ public class Model extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
 	}
-	
+
 	/**
 	 * Sets the {@link #listOfInitialAssignments} of this {@link Model} to
 	 * 'listOfInitialAssignments'. Automatically sets the parentSBML objects of
@@ -3272,7 +3302,7 @@ public class Model extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfInitialAssignments);
 	}
-
+	
 	/**
 	 * Sets the {@link #listOfParameters} of this {@link Model} to 'listOfParameters'.
 	 * Automatically sets the parentSBML objects of 'listOfParameters' to this
@@ -3288,7 +3318,7 @@ public class Model extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(listOfParameters);
 	}
-	
+
 	/**
 	 * Sets the {@link #listOfReactions} of this {@link Model} to 'listOfReactions'.
 	 * Automatically sets the parentSBML objects of 'listOfReactions' to this
@@ -3304,7 +3334,7 @@ public class Model extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfReactions);
 	}
-
+	
 	/**
 	 * Sets the {@link #listOfRules} of this {@link Model} to 'listOfRules'. Automatically sets
 	 * the parentSBML objects of 'listOfRules' to this Model.
@@ -3319,7 +3349,7 @@ public class Model extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfRules);
 	}
-	
+
 	/**
 	 * Sets the listOfSpecies of this {@link Model} to 'listOfSpecies'. Automatically
 	 * sets the parentSBML objects of 'listOfSpecies' to this Model.

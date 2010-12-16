@@ -6,7 +6,7 @@
 
          Andreas Draeger, University of Tuebingen, Germany
          Nicolas Rodriguez, European Bioinformatics Institute, UK
-         Marine Dumousseau, European Bioinformatics Institute, UK
+         
 
 			    -- Contributors --
 
@@ -15,6 +15,7 @@
          Michael Hucka, California Institute of Technology, USA
 
 			    -- Alumni --
-
+         
+         Marine Dumousseau, European Bioinformatics Institute, UK
 			      Simon Schaefer, University of Tuebingen, Germany
 			       

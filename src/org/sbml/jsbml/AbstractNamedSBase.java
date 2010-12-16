@@ -174,15 +174,16 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * Checks if the sID is a valid identifier.
 	 * 
 	 * @param sID
-	 *            the identifier to be checked. If null, no real check is
-	 *            performed
-	 * @return true only if the sID is a valid identifier (or null). Otherwise
-	 *         this method throws an {@link IllegalArgumentException}. This is
-	 *         an intended behavior.
-	 * @throws IllegalArgumentException if the given id is not valid in this model.
+	 *            the identifier to be checked. If null or an invalid
+	 *            identifier, an exception will be thrown.
+	 * @return <code>true</code> only if the sID is a valid identifier.
+	 *         Otherwise this method throws an {@link IllegalArgumentException}.
+	 *         This is an intended behavior.
+	 * @throws IllegalArgumentException
+	 *             if the given id is not valid in this model.
 	 */
 	boolean checkIdentifier(String sID) {
-		if ((sID != null) && !isValidId(sID, getLevel(), getVersion())) {
+		if ((sID == null) || !isValidId(sID, getLevel(), getVersion())) {
 			throw new IllegalArgumentException(String.format(
 					"%s is not a valid identifier.", sID));
 		}
@@ -279,11 +280,12 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
-		String property = getLevel() == 1 ? SBaseChangedEvent.name : SBaseChangedEvent.id;
+		String property = getLevel() == 1 ? SBaseChangedEvent.name
+				: SBaseChangedEvent.id;
 		String oldId = this.id;
 		if ((id == null) || (id.trim().length() == 0)) {
 			this.id = null;
-		} else if (checkIdentifier(id)) { // TODO : we should remove all call to checkIdentifier in the setter methods to support for SBML L3
+		} else if ((getLevel() == 3) || checkIdentifier(id)) {
 			this.id = new String(id);
 		}
 		firePropertyChange(property, oldId, this.id);
