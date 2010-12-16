@@ -14,15 +14,15 @@ This software is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED
 WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR
 PURPOSE.  The software and documentation provided hereunder is
-on an "as is" basis, and the University of Tubingen, EMBL-EBI,
+on an "as is" basis, and the University of Tuebingen, EMBL-EBI,
 and California Institute of Technology have no obligations to
 provide maintenance, support, updates, enhancements or
-modifications.  In no event shall the University of Tubingen,
+modifications.  In no event shall the University of Tuebingen,
 EMBL-EBI, and/or California Institute of Technology be liable
 to any party for direct, indirect, special, incidental or
 consequential damages, including lost profits, arising out of
 the use of this software and its documentation, even if the
-University of Tubingen, EMBL-EBI, and California Institute of
+University of Tuebingen, EMBL-EBI, and California Institute of
 Technology have been advised of the possibility of such damage.
 See the GNU Lesser General Public License for more details.
 
