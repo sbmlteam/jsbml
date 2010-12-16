@@ -31,6 +31,7 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
+import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -39,7 +40,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Andreas Dr&auml;ger
  * @author marine
  */
-public class Event extends AbstractNamedSBase {
+public class Event extends AbstractNamedSBaseWithUnit {
 	/**
 	 * Generated serial version identifier.
 	 */
@@ -57,12 +58,6 @@ public class Event extends AbstractNamedSBase {
 	 * Represents the priority sub-element of an event.
 	 */
 	private Priority priority;
-
-	/**
-	 * Represents the 'timeUnits' XML attribute of an event element.
-	 */
-	@Deprecated
-	private String timeUnitsID;
 
 	/**
 	 * Represents the trigger sub-element of an event element.
@@ -111,9 +106,6 @@ public class Event extends AbstractNamedSBase {
 					.getListOfEventAssignments().clone());
 		} else {
 			this.listOfEventAssignments = null;
-		}
-		if (event.isSetTimeUnits()) {
-			this.timeUnitsID = new String(event.getTimeUnits());
 		}
 	}
 
@@ -198,6 +190,16 @@ public class Event extends AbstractNamedSBase {
 	@Override
 	public Event clone() {
 		return new Event(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#containsUndeclaredUnits()
+	 */
+	@Override
+	@Deprecated
+	public boolean containsUndeclaredUnits() {
+		return super.containsUndeclaredUnits();
 	}
 
 	/**
@@ -432,6 +434,26 @@ public class Event extends AbstractNamedSBase {
 		return this.delay;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getDerivedUnitDefinition()
+	 */
+	@Override
+	@Deprecated
+	public UnitDefinition getDerivedUnitDefinition() {
+		return super.getDerivedUnitDefinition();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getDerivedUnits()
+	 */
+	@Override
+	@Deprecated
+	public String getDerivedUnits() {
+		return super.getDerivedUnits();
+	}
+
 	/**
 	 * 
 	 * @param n
@@ -487,10 +509,11 @@ public class Event extends AbstractNamedSBase {
 	 * 
 	 * @return The timeUnitsID of this Event. Return an empty String if it is
 	 *         not set.
+	 * @deprecated
 	 */
 	@Deprecated
 	public String getTimeUnits() {
-		return isSetTimeUnits() ? this.timeUnitsID : "";
+		return getUnits();
 	}
 
 	/**
@@ -499,18 +522,20 @@ public class Event extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public String getTimeUnitsID() {
-		return timeUnitsID;
+		return getUnits();
 	}
 
 	/**
 	 * 
-	 * @return the UnitDefinition instance of the model which matches the
-	 *         timesUnitsID of this Event. Return null if there is no
-	 *         UnitDefinition id which matches the timeUnitsID of this Event.
+	 * @return the {@link UnitDefinition} instance of the model which matches
+	 *         the timesUnitsID of this {@link Event}. Returns null if there is
+	 *         no {@link UnitDefinition} id which matches the
+	 *         {@link #timeUnitsID} of this {@link Event}.
+	 * @deprecated
 	 */
+	@Deprecated
 	public UnitDefinition getTimeUnitsInstance() {
-		Model m = getModel();
-		return m != null ? m.getUnitDefinition(this.timeUnitsID) : null;
+		return getUnitsInstance();
 	}
 
 	/**
@@ -519,6 +544,26 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public Trigger getTrigger() {
 		return trigger;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getUnits()
+	 */
+	@Override
+	@Deprecated
+	public String getUnits() {
+		return super.getUnits();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getUnitsInstance()
+	 */
+	@Override
+	@Deprecated
+	public UnitDefinition getUnitsInstance() {
+		return super.getUnitsInstance();
 	}
 
 	/**
@@ -538,7 +583,6 @@ public class Event extends AbstractNamedSBase {
 		this.delay = null;
 		this.priority = null;
 		this.listOfEventAssignments = null;
-		this.timeUnitsID = null;
 		if (isSetLevel() && (getLevel() < 3)) {
 			useValuesFromTriggerTime = new Boolean(true);
 		} else {
@@ -577,23 +621,23 @@ public class Event extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return true if the timeUnitsID of this Event is not null.
+	 * @return true if the timeUnitsID of this {@link Event} is not null.
+	 * @deprecated
 	 */
 	@Deprecated
 	public boolean isSetTimeUnits() {
-		return this.timeUnitsID != null;
+		return isSetUnits();
 	}
 
 	/**
 	 * 
 	 * @return true if the UnitDefinition which has the timeUnitsID of this
 	 *         Event as id is not null.
+	 * @deprecated
 	 */
 	@Deprecated
 	public boolean isSetTimeUnitsInstance() {
-		Model m = getModel();
-		return m != null ? m.getUnitDefinition(this.timeUnitsID) != null
-				: false;
+		return isSetUnitsInstance();
 	}
 
 	/**
@@ -602,6 +646,26 @@ public class Event extends AbstractNamedSBase {
 	 */
 	public boolean isSetTrigger() {
 		return this.trigger != null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#isSetUnits()
+	 */
+	@Override
+	@Deprecated
+	public boolean isSetUnits() {
+		return super.isSetUnits();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#isSetUnitsInstance()
+	 */
+	@Override
+	@Deprecated
+	public boolean isSetUnitsInstance() {
+		return super.isSetUnitsInstance();
 	}
 
 	/**
@@ -621,7 +685,7 @@ public class Event extends AbstractNamedSBase {
 		return isSetUseValuesFromTriggerTime() ? useValuesFromTriggerTime
 				: false;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -645,7 +709,7 @@ public class Event extends AbstractNamedSBase {
 		}
 		return isAttributeRead;
 	}
-
+	
 	/**
 	 * 
 	 * @param i
@@ -657,7 +721,7 @@ public class Event extends AbstractNamedSBase {
 		}
 		return listOfEventAssignments.remove(i);
 	}
-
+	
 	/**
 	 * 
 	 * @param id
@@ -682,7 +746,7 @@ public class Event extends AbstractNamedSBase {
 		return deletedEventAssignment;
 		// return listOfEventAssignments.remove(id);
 	}
-
+	
 	/**
 	 * Sets the delay of this Event to 'delay'. It automatically sets the Delay
 	 * parentSBML object to this Event instance.
@@ -694,7 +758,7 @@ public class Event extends AbstractNamedSBase {
 		this.delay = delay;
 		setThisAsParentSBMLObject(this.delay);
 	}
-
+	
 	/**
 	 * Sets the {@link #listOfEventAssignments} of this {@link Event} to
 	 * 'listOfEventAssignments'. It automatically sets the SBMLParent object of
@@ -712,7 +776,7 @@ public class Event extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfEventAssignments);
 	}
-
+	
 	/**
 	 * @param priority
 	 *            the priority to set
@@ -726,7 +790,7 @@ public class Event extends AbstractNamedSBase {
 		this.priority = priority;
 		setThisAsParentSBMLObject(this.priority);
 	}
-
+	
 	/**
 	 * Sets the timeUnitsID of this {@link Event} to 'timeUnits'.
 	 * 
@@ -735,20 +799,9 @@ public class Event extends AbstractNamedSBase {
 	 */
 	@Deprecated
 	public void setTimeUnits(String timeUnits) {
-		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.timeUnits,
-					this);
-		}
-		if (timeUnits.equals("")) {
-			timeUnits = null;
-		}
-		String oldTimeUnitsID = timeUnitsID == null ? null : new String(
-				timeUnitsID);
-		this.timeUnitsID = timeUnits;
-		firePropertyChange(SBaseChangedEvent.timeUnits, oldTimeUnitsID,
-				timeUnits);
+		setUnits(timeUnits);
 	}
-
+	
 	/**
 	 * Sets the timeUnitsID of this {@link Event} to the id of the {@link UnitDefinition}
 	 * 'timeUnits'.
@@ -780,6 +833,63 @@ public class Event extends AbstractNamedSBase {
 		unsetTrigger();
 		this.trigger = trigger;
 		setThisAsParentSBMLObject(this.trigger);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#setUnits(org.sbml.jsbml.Unit.Kind)
+	 */
+	@Override
+	@Deprecated
+	public void setUnits(Kind timeUnitKind) {
+		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.timeUnits,
+					this);
+		}
+		super.setUnits(timeUnitKind);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#setUnits(java.lang.String)
+	 */
+	@Override
+	@Deprecated
+	public void setUnits(String timeUnits) {
+		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.timeUnits,
+					this);
+		}
+		super.setUnits(timeUnits);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#setUnits(org.sbml.jsbml.Unit)
+	 */
+	@Override
+	@Deprecated
+	public void setUnits(Unit timeUnit) {
+		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.timeUnits,
+					this);
+		}
+		super.setUnits(timeUnit);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#setUnits(org.sbml.jsbml.UnitDefinition)
+	 */
+	@Override
+	@Deprecated
+	public void setUnits(UnitDefinition timeUnits) {
+		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
+			throw new PropertyNotAvailableError(SBaseChangedEvent.timeUnits,
+					this);
+		}
+		super.setUnits(timeUnits);
 	}
 
 	/**
@@ -832,6 +942,20 @@ public class Event extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Sets the {@link Priority} of this {@link Event} to null and notifies
+	 * {@link SBaseChangedListener}s.
+	 */
+	public boolean unsetPriority() {
+		if (this.priority != null) {
+			Priority oldPriority = this.priority;
+			this.priority = null;
+			oldPriority.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Sets the timeUnitsID of this {@link Event} to null.
 	 */
 	public void unsetTimeUnits() {
@@ -847,20 +971,6 @@ public class Event extends AbstractNamedSBase {
 			Trigger oldTrigger = this.trigger;
 			this.trigger = null;
 			oldTrigger.fireSBaseRemovedEvent();
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Sets the {@link Priority} of this {@link Event} to null and notifies
-	 * {@link SBaseChangedListener}s.
-	 */
-	public boolean unsetPriority() {
-		if (this.priority != null) {
-			Priority oldPriority = this.priority;
-			this.priority = null;
-			oldPriority.fireSBaseRemovedEvent();
 			return true;
 		}
 		return false;

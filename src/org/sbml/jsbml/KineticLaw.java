@@ -33,6 +33,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
@@ -41,12 +42,17 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Andreas Dr&auml;ger
  * @author marine
  */
-public class KineticLaw extends AbstractMathContainer {
+public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 
 	/**
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 7528194464711501708L;
+	/**
+	 * Exception to be displayed in case that an illegal variant of unit is to
+	 * be set for this {@link SBaseWithUnit}.
+	 */
+	private static final String ILLEGAL_UNIT_KIND_EXCEPTION_MSG = "Cannot set unit %s because only variants of substance or time units are acceptable.";
 	/**
 	 * Represents the listOfLocalParameters or listOfParameters sub-element of a
 	 * kineticLaw element.
@@ -66,6 +72,14 @@ public class KineticLaw extends AbstractMathContainer {
 	 */
 	@Deprecated
 	private String timeUnitsID;
+	/**
+	 * In case that a variant of substance per time is set, this will memorize
+	 * the identifier of the corresponding element in the {@link Model}.
+	 * 
+	 * @deprecated
+	 */
+	@Deprecated
+	private String unitsID;
 
 	/**
 	 * Creates a KineticLaw instance. By default, this listOfParameters, the
@@ -349,7 +363,7 @@ public class KineticLaw extends AbstractMathContainer {
 	 */
 	@Override
 	public Reaction getParent() {
-		return (Reaction) super.getParent();
+		return getParentSBMLObject();
 	}
 
 	/**
@@ -382,10 +396,21 @@ public class KineticLaw extends AbstractMathContainer {
 	 */
 	@Deprecated
 	public UnitDefinition getSubstanceUnitsInstance() {
-		if (getModel() == null) {
-			return null;
+		Model m = getModel();
+		if ((m != null) && isSetSubstanceUnits()) {
+			return m.getUnitDefinition(substanceUnitsID);
 		}
-		return getModel().getUnitDefinition(this.substanceUnitsID);
+		if (unitsID != null) {
+			UnitDefinition def = new UnitDefinition("substance", getLevel(),
+					getVersion());
+			for (Unit unit : getUnitsInstance().getListOfUnits()) {
+				if (unit.isVariantOfSubstance()) {
+					def.addUnit(unit);
+				}
+			}
+			return def;
+		}
+		return null;
 	}
 
 	/**
@@ -406,7 +431,61 @@ public class KineticLaw extends AbstractMathContainer {
 	@Deprecated
 	public UnitDefinition getTimeUnitsInstance() {
 		Model m = getModel();
-		return m != null ? m.getUnitDefinition(this.timeUnitsID) : null;
+		if ((m != null) && isSetTimeUnits()) {
+			return m.getUnitDefinition(timeUnitsID);
+		}
+		if (unitsID != null) {
+			UnitDefinition def = new UnitDefinition("time", getLevel(), getVersion());
+			Unit time;
+			for (Unit unit : getUnitsInstance().getListOfUnits()) {
+				time = unit.clone();
+				time.setExponent(-unit.getExponent());
+				if (unit.isVariantOfTime()) {
+					def.addUnit(time);
+				}
+			}
+			return def;
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#getUnits()
+	 */
+	@Deprecated
+	public String getUnits() {
+		return isSetUnits() ? unitsID : "";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#getUnitsInstance()
+	 */
+	@Deprecated
+	public UnitDefinition getUnitsInstance() {
+		if (unitsID != null) {
+			if (Unit.isUnitKind(unitsID, getLevel(), getVersion())) {
+				UnitDefinition ud = new UnitDefinition(unitsID, getLevel(),
+						getVersion());
+				ud.addUnit(Unit.Kind.valueOf(unitsID.toUpperCase()));
+				return ud;
+			}
+			Model model = getModel();
+			return model == null ? null : model.getUnitDefinition(unitsID);
+		}
+		UnitDefinition substancePerTimeUnits = getSubstanceUnitsInstance();
+		UnitDefinition timeUnits = getTimeUnitsInstance();
+		substancePerTimeUnits = (substancePerTimeUnits == null) ? new UnitDefinition(
+				getLevel(), getVersion()) : substancePerTimeUnits.clone();
+		if (timeUnits != null) {
+			substancePerTimeUnits.divideBy(timeUnits);
+			substancePerTimeUnits.setId(getSubstanceUnits() + "_per_"
+					+ getTimeUnits());
+		} else if (!substancePerTimeUnits.isSetId()) {
+			substancePerTimeUnits.setId(getSubstanceUnits());
+		}
+		return substancePerTimeUnits;
 	}
 
 	/**
@@ -419,6 +498,15 @@ public class KineticLaw extends AbstractMathContainer {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public boolean isSetListOfLocalParameters() {
+		return (listOfLocalParameters != null)
+				&& (listOfLocalParameters.size() > 0);
+	}
+
+	/**
+	 * 
 	 * @return true if the listOfParameters of this KineticLaw is not null and
 	 *         not empty.
 	 * @deprecated use {@link #isSetListOfLocalParameters()}
@@ -426,15 +514,6 @@ public class KineticLaw extends AbstractMathContainer {
 	@Deprecated
 	public boolean isSetListOfParameters() {
 		return isSetListOfLocalParameters();
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetListOfLocalParameters() {
-		return (listOfLocalParameters != null)
-				&& (listOfLocalParameters.size() > 0);
 	}
 
 	/**
@@ -481,7 +560,36 @@ public class KineticLaw extends AbstractMathContainer {
 		return m != null ? m.getUnitDefinition(this.timeUnitsID) != null
 				: false;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#isSetUnits()
+	 */
+	@Deprecated
+	public boolean isSetUnits() {
+		return (isSetSubstanceUnits() && isSetTimeUnits()) || (unitsID != null);
+	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#isSetUnitsInstance()
+	 */
+	@Deprecated
+	public boolean isSetUnitsInstance() {
+		if (isSetSubstanceUnitsInstance() && isSetTimeUnitsInstance()) {
+			return true;
+		}
+		if (unitsID != null) {
+			if (Unit.isUnitKind(this.unitsID, getLevel(), getVersion())) {
+				return true;
+			}
+			Model model = getModel();
+			return model == null ? false
+					: model.getUnitDefinition(this.unitsID) != null;
+		}
+		return false;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -545,7 +653,7 @@ public class KineticLaw extends AbstractMathContainer {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Removes the ith {@link LocalParameter} from this object.
 	 * 
@@ -569,7 +677,7 @@ public class KineticLaw extends AbstractMathContainer {
 	public boolean removeParameter(Parameter p) {
 		return removeLocalParameter(p.getId());
 	}
-	
+
 	/**
 	 * Removes a {@link LocalParameter} from this object based on its 'id'.
 	 * 
@@ -600,7 +708,7 @@ public class KineticLaw extends AbstractMathContainer {
 			getMath().updateVariables();
 		}
 	}
-
+	
 	/**
 	 * Sets the substanceUnitsID of this {@link KineticLaw}.
 	 * 
@@ -618,6 +726,16 @@ public class KineticLaw extends AbstractMathContainer {
 			throw new PropertyNotAvailableError(
 					SBaseChangedEvent.substanceUnits, this);
 		}
+	}
+
+	/**
+	 * 
+	 * @param substanceUnit
+	 * @deprecated
+	 */
+	@Deprecated
+	public void setSubstanceUnits(Unit substanceUnit) {
+		setUnits(substanceUnit);		
 	}
 
 	/**
@@ -640,14 +758,133 @@ public class KineticLaw extends AbstractMathContainer {
 	}
 
 	/**
+	 * 
+	 * @param timeUnit
+	 * @deprecated
+	 */
+	@Deprecated
+	public void setTimeUnits(Unit timeUnit) {
+		setUnits(timeUnit);
+	}
+	
+	/**
 	 * Sets the timeUnitsID of this KineticLaw.
 	 * 
 	 * @param timeUnits
 	 * @deprecated Only defined for Level 1 and Level 2 Version 1.
 	 */
 	@Deprecated
-	public void setTimeUnitsInstance(UnitDefinition timeUnits) {
+	public void setTimeUnits(UnitDefinition timeUnits) {
 		setTimeUnits(timeUnits.isSetId() ? timeUnits.getId() : null);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.Unit.Kind)
+	 */
+	@Deprecated
+	public void setUnits(Kind unitKind) {
+		setUnits(new Unit(unitKind, getLevel(), getVersion()));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(java.lang.String)
+	 */
+	@Deprecated
+	public void setUnits(String units) {
+		String oldUnits = this.unitsID;
+		if (units == null) {
+			unitsID = null;
+		} else {
+			units = units.trim();
+			boolean illegalArgument = false;
+			if (units.length() == 0) {
+				illegalArgument = true;
+			} else {
+				Model model = getModel();
+				if (((model == null) || Kind.isValidUnitKindString(units,
+						getLevel(), getVersion()))
+						|| (((model != null) && (model.getUnitDefinition(units) != null)))) {
+					unitsID = units;
+				} else {
+					illegalArgument = true;
+				}
+			}
+			if (illegalArgument) {
+				throw new IllegalArgumentException(String.format(
+						JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
+			}
+		}
+		if (oldUnits != unitsID) {
+			firePropertyChange(SBaseChangedEvent.units, oldUnits, unitsID);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.Unit)
+	 */
+	@Deprecated
+	public void setUnits(Unit unit) {
+		if (!unit.isVariantOfSubstance() && !unit.isVariantOfTime()) {
+			throw new IllegalArgumentException(String.format(
+				ILLEGAL_UNIT_KIND_EXCEPTION_MSG, unit.toString()));
+		}
+		if ((unit.getExponent() != 1) || (unit.getScale() != 0)
+				|| (unit.getMultiplier() != 1d) || (unit.getOffset() != 0d)) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(unit.getMultiplier());
+			sb.append('_');
+			sb.append(unit.getScale());
+			sb.append('_');
+			sb.append(unit.getKind().toString());
+			sb.append('_');
+			sb.append(unit.getExponent());
+			UnitDefinition ud = new UnitDefinition(sb.toString(), getLevel(),
+					getVersion());
+			ud.addUnit(unit);
+			Model m = getModel();
+			if (m != null) {
+				m.addUnitDefinition(ud);
+			}
+			setUnits(ud.getId());	
+		} else {
+			setUnits(unit.getKind().toString());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.UnitDefinition)
+	 */
+	@Deprecated
+	public void setUnits(UnitDefinition units) {
+		if (units != null) {
+			units = units.simplify();
+			if (units.isVariantOfSubstance()) {
+				setSubstanceUnits(units.getUnit(0));
+			} else if (units.isVariantOfTime()) {
+				setTimeUnits(units.getUnit(0));
+			} else if (units.isVariantOfSubstancePerTime()) {
+				for (Unit unit : units.getListOfUnits()) {
+					if (unit.isVariantOfSubstance()) {
+						setSubstanceUnits(unit);
+					} else {
+						// must be variant of time^-1
+						Unit u = unit.clone();
+						u.setExponent(-unit.getExponent());
+						setTimeUnits(u);
+					}
+				}
+			} else {
+				throw new IllegalArgumentException(String.format(
+						ILLEGAL_UNIT_KIND_EXCEPTION_MSG, UnitDefinition
+								.printUnits(units, true)));
+			}
+		} else {
+			unsetUnits();
+		}
 	}
 
 	/*
@@ -659,12 +896,12 @@ public class KineticLaw extends AbstractMathContainer {
 	public String toString() {
 		StringBuilder kineticLawStr = new StringBuilder();
 		kineticLawStr.append("kineticLaw(");
-		kineticLawStr.append(((Reaction) getParent()).getId());
+		kineticLawStr.append(getParent().getId());
 		kineticLawStr.append(") : ");
 		kineticLawStr.append(super.toString());
 		return kineticLawStr.toString();
 	}
-	
+
 	/**
 	 * Removes the {@link #listOfLocalParameters} from this {@link KineticLaw} and notifies
 	 * all registered instances of {@link SBaseChangedListener}.
@@ -697,7 +934,10 @@ public class KineticLaw extends AbstractMathContainer {
 	 */
 	@Deprecated
 	public void unsetSubstanceUnits() {
-		this.substanceUnitsID = null;
+		String oldSubstanceUnitsID = substanceUnitsID;
+		substanceUnitsID = null;
+		firePropertyChange(SBaseChangedEvent.substanceUnits,
+				oldSubstanceUnitsID, substanceUnitsID);
 	}
 
 	/**
@@ -707,9 +947,27 @@ public class KineticLaw extends AbstractMathContainer {
 	 */
 	@Deprecated
 	public void unsetTimeUnits() {
-		this.timeUnitsID = null;
+		String oldTimeUnitsID = timeUnitsID;
+		timeUnitsID = null;
+		firePropertyChange(SBaseChangedEvent.timeUnits, oldTimeUnitsID,
+				timeUnitsID);
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#unsetUnits()
+	 */
+	@Deprecated
+	public void unsetUnits() {
+		unsetSubstanceUnits();
+		unsetTimeUnits();
+		if (unitsID != null) {
+			String oldUnitID = unitsID;
+			unitsID = null;
+			firePropertyChange(SBaseChangedEvent.units, oldUnitID, unitsID);
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -718,16 +976,15 @@ public class KineticLaw extends AbstractMathContainer {
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
-
 		if ((getLevel() == 1) || ((getLevel() == 2) && (getVersion() == 1))) {
 			if (isSetTimeUnits()) {
-				attributes.put("timeUnits", getTimeUnits());
+				attributes.put(SBaseChangedEvent.timeUnits, getTimeUnits());
 			}
 			if (isSetSubstanceUnits()) {
-				attributes.put("substanceUnits", getSubstanceUnits());
+				attributes.put(SBaseChangedEvent.substanceUnits,
+						getSubstanceUnits());
 			}
 		}
-
 		return attributes;
 	}
 

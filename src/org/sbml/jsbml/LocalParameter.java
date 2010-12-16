@@ -41,7 +41,7 @@ import org.sbml.jsbml.util.StringTools;
  * @date 2010-04-20
  * 
  */
-public class LocalParameter extends QuantityWithDefinedUnit {
+public class LocalParameter extends QuantityWithUnit {
 
 	/**
 	 * Generated serial version identifier.
@@ -110,10 +110,8 @@ public class LocalParameter extends QuantityWithDefinedUnit {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.QuantityWithDefinedUnit#clone()
+	 * @see org.sbml.jsbml.QuantityWithUnit#clone()
 	 */
-	@Override
 	public LocalParameter clone() {
 		return new LocalParameter(this);
 	}

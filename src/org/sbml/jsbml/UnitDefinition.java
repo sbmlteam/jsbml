@@ -819,11 +819,31 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * Convenience function for testing if a given unit definition is a variant
+	 * of the predefined unit identifier 'time'.
+	 * 
+	 * @return <code>true</code> if this {@link UnitDefinition} is a variant of
+	 *         the predefined unit time, meaning second with only arbitrary
+	 *         variations in scale or multiplier values; <code>false</code>
+	 *         otherwise.
+	 */
+	public boolean isVariantOfTime() {
+		if (isSetListOfUnits()) {
+			if (listOfUnits.size() == 1) {
+				Unit unit = listOfUnits.get(0);
+				return unit.isVariantOfTime();
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Convenience function for testing if a given unit definition is a variant
 	 * of the predefined unit identifier 'volume'.
 	 * 
-	 * @return true if this UnitDefinition is a variant of the predefined unit
-	 *         volume, meaning litre or cubic metre with only abritrary
-	 *         variations in scale or multiplier values; false otherwise.
+	 * @return <code>true</code> if this {@link UnitDefinition} is a variant of
+	 *         the predefined unit volume, meaning litre or cubic metre with
+	 *         only arbitrary variations in scale or multiplier values;
+	 *         <code>false</code> otherwise.
 	 */
 	public boolean isVariantOfVolume() {
 		if (isSetListOfUnits()) {
@@ -948,4 +968,5 @@ public class UnitDefinition extends AbstractNamedSBase {
 			oldListOfUnits.fireSBaseRemovedEvent();
 		}
 	}
+
 }

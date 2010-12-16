@@ -30,16 +30,14 @@
 
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.Unit.Kind;
+
 /**
  * 
  * Represents the rateRule XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public class RateRule extends ExplicitRule {
 
@@ -155,4 +153,5 @@ public class RateRule extends ExplicitRule {
 	public boolean isScalar() {
 		return false;
 	}
+	
 }

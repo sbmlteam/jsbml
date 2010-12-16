@@ -19,7 +19,7 @@ import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.Parameter;
-import org.sbml.jsbml.QuantityWithDefinedUnit;
+import org.sbml.jsbml.QuantityWithUnit;
 import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
@@ -912,7 +912,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	 * @param parameter
 	 * @param model
 	 */
-	private void setParameterUnits(QuantityWithDefinedUnit parameter,
+	private void setParameterUnits(QuantityWithUnit parameter,
 			Model model) {
 
 		if (parameter.isSetUnits()) {

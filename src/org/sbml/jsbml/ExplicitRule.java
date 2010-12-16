@@ -30,6 +30,8 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
+import org.sbml.jsbml.Unit.Kind;
+
 /**
  * An explicit {@link Rule} is a rule that explicitly declares its variable
  * element. Hence, this class provides methods to access and manipulate the
@@ -38,7 +40,8 @@ import java.util.Map;
  * @author Andreas Dr&auml;ger
  * @date 2010-08-05
  */
-public abstract class ExplicitRule extends Rule implements Assignment {
+public abstract class ExplicitRule extends Rule implements Assignment,
+		SBaseWithUnit {
 
 	/**
 	 * Generated serial version identifier.
@@ -54,8 +57,8 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	 *             element ParameterRule.
 	 */
 	@Deprecated
-	String unitsID;
-
+	protected String unitsID;
+	
 	/**
 	 * Represents the id of a {@link Variable}. Matches the variable XML
 	 * attribute of an assignmentRule or rateRule element.
@@ -371,6 +374,15 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 		return isAttributeRead;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.Unit.Kind)
+	 */
+	@Deprecated
+	public void setUnits(Kind unitKind) {
+		setUnits(new Unit(unitKind, getLevel(), getVersion()));
+	}
+
 	/**
 	 * Sets the unitsID to 'unitsID'.
 	 * 
@@ -397,6 +409,34 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 		firePropertyChange(SBaseChangedEvent.units, oldUnitsID, unitsID);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.Unit)
+	 */
+	@Deprecated
+	public void setUnits(Unit unit) {
+		UnitDefinition ud = new UnitDefinition(unit.getKind().toString(),
+				getLevel(), getVersion());
+		ud.addUnit(unit);
+		if ((unit.getExponent() != 1) || (unit.getScale() != 0)
+				|| (unit.getMultiplier() != 1d) || (unit.getOffset() != 0d)) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(unit.getMultiplier());
+			sb.append('_');
+			sb.append(unit.getScale());
+			sb.append('_');
+			sb.append(unit.getKind().toString());
+			sb.append('_');
+			sb.append(unit.getExponent());
+			ud.setId(sb.toString());
+			Model m = getModel();
+			if (m != null) {
+				m.addUnitDefinition(ud);
+			}
+		}
+		setUnits(ud);
+	}
+
 	/**
 	 * Sets the unitsID of this object with the id of 'units'.
 	 * 
@@ -408,7 +448,11 @@ public abstract class ExplicitRule extends Rule implements Assignment {
 	 */
 	@Deprecated
 	public void setUnits(UnitDefinition units) {
-		setUnits(units.isSetId() ? units.getId() : null);
+		if (units != null) {
+			setUnits(units.getId());
+		} else {
+			unsetUnits();
+		}
 	}
 
 	/*

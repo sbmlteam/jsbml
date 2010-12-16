@@ -43,7 +43,7 @@ package org.sbml.jsbml;
  * @author marine
  * @author Nicolas Rodriguez
  */
-public abstract class Symbol extends QuantityWithDefinedUnit implements
+public abstract class Symbol extends QuantityWithUnit implements
 		Variable {
 
 	/**
@@ -84,7 +84,7 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	 * 
 	 * @param quantity
 	 */
-	public Symbol(QuantityWithDefinedUnit quantity) {
+	public Symbol(QuantityWithUnit quantity) {
 		super(quantity);
 		this.constant = null;
 	}
@@ -137,10 +137,8 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.QuantityWithDefinedUnit#clone()
+	 * @see org.sbml.jsbml.QuantityWithUnit#clone()
 	 */
-	@Override
 	public abstract Symbol clone();
 
 	/*
@@ -165,8 +163,12 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	 * @see org.sbml.jsbml.Variable#getConstant()
 	 */
 	public boolean getConstant() {
-		// Cannot use the method isSetConstant here as for level 2 we put a value in constant but without using the setConstant
-		// method, so the boolean isSetConstant is false and the value set, corresponding to the default value in the specs, is never returned.
+		/*
+		 * Cannot use the method isSetConstant here as for level 2 we put a
+		 * value in constant but without using the setConstant method, so the
+		 * boolean isSetConstant is false and the value set, corresponding to
+		 * the default value in the specs, is never returned.
+		 */
 		// TODO : check if they are some other cases like that !!
 		return constant != null ? this.constant.booleanValue() : false;
 	}
@@ -177,7 +179,10 @@ public abstract class Symbol extends QuantityWithDefinedUnit implements
 	 * @see org.sbml.jsbml.Variable#isConstant()
 	 */
 	public boolean isConstant() {
-		// For the same reason as in the getConstant method, we cannot use the isSetConstant method.
+		/*
+		 * For the same reason as in the getConstant method, we cannot use the
+		 * isSetConstant method.
+		 */
 		return constant != null ? constant : false;
 	}
 

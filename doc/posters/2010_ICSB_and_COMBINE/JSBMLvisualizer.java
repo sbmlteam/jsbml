@@ -1,4 +1,4 @@
-package org.sbml.simulator.gui;
+package org.sbml.gui;
 
 import javax.swing.*;
 

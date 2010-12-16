@@ -546,7 +546,7 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 * Sets the unitsID of this {@link QuantityWithDefinedUnit}. Only valid unit
+	 * Sets the unitsID of this {@link QuantityWithUnit}. Only valid unit
 	 * kind names or identifiers of already existing {@link UnitDefinition}s are
 	 * allowed arguments of this function.
 	 * 
@@ -634,8 +634,7 @@ public class Compartment extends Symbol {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.QuantityWithDefinedUnit#setValue(double)
+	 * @see org.sbml.jsbml.QuantityWithUnit#setValue(double)
 	 */
 	@Override
 	public void setValue(double value) {

@@ -689,11 +689,7 @@ public class Species extends Symbol {
 	 * @param compartment
 	 */
 	public void setCompartment(String compartment) {
-		if (compartment != null && compartment.trim().length() == 0) {
-			unsetCompartment();
-			return;
-		}
-		if (checkIdentifier(compartment)) {
+		if ((compartment == null) || checkIdentifier(compartment)) {
 			String oldCompartment = this.compartmentID;
 			if ((compartment != null) && (compartment.trim().length() == 0)) {
 				this.compartmentID = null;
@@ -842,13 +838,10 @@ public class Species extends Symbol {
 			throw new PropertyNotAvailableError(SBaseChangedEvent.speciesType,
 					this);
 		}
-		if (checkIdentifier(speciesType)) {
+		if ((speciesType == null) || (speciesType.trim().length() == 0) || checkIdentifier(speciesType)) {
 			String oldSpeciesType = this.speciesTypeID;
-			if ((speciesType != null) && (speciesType.trim().length() == 0)) {
-				speciesType = null;
-			} else {
-				this.speciesTypeID = speciesType;
-			}
+			speciesType = ((speciesType != null) && (speciesType.trim()
+					.length() == 0)) ? null : speciesType;
 			firePropertyChange(SBaseChangedEvent.speciesType, oldSpeciesType,
 					this.speciesTypeID);
 		}
