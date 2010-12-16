@@ -900,7 +900,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 			} else {
 				first = false;
 			}
-			if (node.getNumChildren()>0) {
+			if (node.getNumChildren() > 0) {
 				append(value, Character.valueOf('('), node.compile(this)
 						.toString(), Character.valueOf(')'));
 			} else {
@@ -927,15 +927,21 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#minus(java.util.List)
 	 */
 	public ASTNodeValue minus(List<ASTNode> nodes) throws SBMLException {
-		StringBuffer minus = new StringBuffer();
-		for (int i = 0; i < nodes.size(); i++) {
-			if (i > 0) {
-				minus.append('-');
+		if (nodes.size() > 0) {
+			StringBuffer minus = new StringBuffer();
+
+			minus.append(nodes.get(0));
+
+			for (int i = 1; i < nodes.size(); i++) {
+				if (i > 0) {
+					minus.append('-');
+				}
+				minus.append(checkBrackets(nodes.get(i)));
 			}
-			// minus.append(checkBrackets(nodes.get(i)));
-			minus.append(nodes.get(i));
+			return new ASTNodeValue(minus.toString(), this);
+		} else {
+			return new ASTNodeValue(this);
 		}
-		return new ASTNodeValue(minus.toString(), this);
 	}
 
 	/*
@@ -986,19 +992,22 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	public ASTNodeValue plus(List<ASTNode> nodes) throws SBMLException {
 		StringBuffer plus = new StringBuffer();
 		ASTNode node;
-		for (int i = 0; i < nodes.size(); i++) {
-			if (i > 0) {
+		
+		if (nodes.size() > 0) {
+			plus.append(nodes.get(0));
+
+			for (int i = 1; i < nodes.size(); i++) {
 				plus.append('+');
+
+				node = nodes.get(i);
+				//plus.append(checkBrackets(node));
+				plus.append(node);
+
 			}
-			node = nodes.get(i);
-			// TODO : Do we need to put a bracket if we have a difference ??
-			// if (node.isDifference()) {
-			// plus.append(checkBrackets(node));
-			// } else {
-			plus.append(node.compile(this));
-			// }
+			return new ASTNodeValue(plus.toString(), this);
+		} else {
+			return new ASTNodeValue(this);
 		}
-		return new ASTNodeValue(plus.toString(), this);
 	}
 
 	/*

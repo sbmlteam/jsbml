@@ -497,6 +497,21 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		return buffer;
 	}
 
+	/**
+	 * Creates brackets if needed.
+	 * 
+	 * @param nodes
+	 * @return
+	 * @throws SBMLException
+	 */
+	private String checkBrackets(ASTNodeValue node) throws SBMLException {
+		String term = node.toString();
+		if (node.isSum() || node.isDifference() || node.isUMinus()) {
+			term = brackets(term).toString();
+		}
+		return term;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -851,6 +866,10 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		if (fun != null) {
 			value.append(mathtt(LaTeX.maskSpecialChars(fun.getId())));
 			length = args.size();
+		} else if (args.size() == 1) {
+			length = 0;
+			value.append("\\lambda\\left(\\right) = ");
+			value.append(args.get(0).compile(this));
 		} else {
 			value.append("\\lambda");
 			length = args.size() - 1;
@@ -863,11 +882,17 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 			}
 			argList.append(args.get(i).compile(this));
 		}
-		value.append(brackets(argList));
+
+		if (length > 0) {
+			value.append(brackets(argList));
+		}
+
 		if ((0 <= length) && (length < args.size())) {
+			value.insert(0, "\\lambda");
 			value.append(" = ");
 			value.append(args.get(args.size() - 1).compile(this));
 		}
+
 		return new ASTNodeValue(value.toString(), this);
 	}
 
@@ -1128,11 +1153,11 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		StringBuffer value = new StringBuffer();
 		int i = 0;
 		for (ASTNode v : values) {
-			if (v.getNumChildren()>0) {
+			if (v.getNumChildren() > 0) {
 				value.append(leftBrace);
 			}
 			value.append(v.compile(this).toString());
-			if (v.getNumChildren()>0) {
+			if (v.getNumChildren() > 0) {
 				value.append(rightBrace);
 			}
 			if (i < values.size() - 1) {
@@ -1276,11 +1301,9 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		value.append(nodes.get(0).compile(this).toString());
 		for (int i = 1; i < nodes.size(); i++) {
 			value.append('-');
-			if (nodes.get(i).getType() == Type.PLUS) {
-				value.append(brackets(nodes.get(i).compile(this)));
-			} else {
-				value.append(nodes.get(i).compile(this));
-			}
+
+			value.append(checkBrackets(nodes.get(i).compile(this)));
+
 		}
 		return new ASTNodeValue(value.toString(), this);
 	}
@@ -1346,18 +1369,14 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	public ASTNodeValue plus(List<ASTNode> nodes) throws SBMLException {
 		if (nodes.size() > 0) {
 			StringBuilder value = new StringBuilder();
+
 			value.append(nodes.get(0).compile(this));
+
 			for (int i = 1; i < nodes.size(); i++) {
-				if (nodes.get(i).isUMinus()) {
-					value.append(nodes.get(i).compile(this));
-				} else {
-					value.append('+');
-					if (nodes.get(i).getType() == Type.MINUS) {
-						value.append(brackets(nodes.get(i).compile(this)));
-					} else {
-						value.append(nodes.get(i).compile(this));
-					}
-				}
+
+				value.append('+');
+				value.append(nodes.get(i).compile(this));
+
 			}
 			return new ASTNodeValue(value.toString(), this);
 		}
@@ -1602,7 +1621,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		StringBuilder v = new StringBuilder(values.get(0).compile(this)
 				.toString());
 		if (values.get(0).isSum()
-				|| (values.get(0).isDifference() && !values.get(0).isUMinus())) {
+				|| (values.get(0).isDifference() && values.get(0).isUMinus())) {
 			// || (values.get(0).isNumber() && !(values.get(0).getReal() < 0)))
 			// {
 			v = brackets(v);
@@ -1612,7 +1631,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		for (int i = 1; i < values.size(); i++) {
 			v.append("\\cdot");
 			if ((values.get(i).isDifference() || values.get(i).isSum())
-					&& !values.get(i).isUMinus()) {
+					&& values.get(i).isUMinus()) {
 				v.append(brackets(values.get(i).compile(this).toString()));
 			} else {
 				v.append(' ');

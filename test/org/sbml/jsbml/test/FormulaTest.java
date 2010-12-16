@@ -29,7 +29,11 @@
 package org.sbml.jsbml.test;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.AssignmentRule;
+import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.text.parser.ParseException;
 
 /**
@@ -40,35 +44,49 @@ public class FormulaTest {
 
 	public FormulaTest() throws ParseException, SBMLException {
 		String formulae[] = {
-//		"7 * acos(53) + 7/8",
-//		"-3 * (-5) + ((a + b)/(c + 3)+5)",
-//		 "-3 * (-5)",
-//		"-3E-5 + -3*-5+(a+b)/(c+3)+5",
-//		 "23 + 52^2 - 3",
-		 //"f(a, b, c, d)",
-//		 "a - log10(5)^11",
-//		 "pow(3,5)",
-//		 "pow(3 + 5,5)",
-//		 "23 + (52^2 - 3 + 5)/7 - 45",
-//		"(y > x) == true",
-//		"3 <= 5",
-//		"3 == 5",
-		"a xor b",
-		"not c",
-		"not(c)",
-//		 "--3.5e7",
-//		 "10+ --3.5e7 *5",
-//		 "5/4 + 4/5*10",
-//		"10 + -0.3E-5*10",
-//		 "-7.8",
-		// "-infinity",
-//		 "ceil(-2.9) + 6 * -7.8",
-//		 "Vf*(A*B - P*Q/Keq)/(Kma + A*(1 + P/Kip) + (Vf/(Vr*Keq)) * Kmq*P + Kmp*Q + P*Q)",
-//		 "a*(b+c)*d/(e+3)*5",
-//		"(a * (b + c) * d)/(e +  3) *   5",
-		"1"};
+				//"-3 * -5",
+				//"-3/5",
+//				"-5 -4",
+//				"-5 + 5-4",
+//				"5 - 5-4",
+//				"5 - (5-4)",
+//				"-5 + 5+4",
+//				"(-5+5) -6",
+//				"(-5+5) - (6 -2)",
+				"5 + 5 * 6 + 6",
+				"(5 + 5) * (6 + 6)",
+				
+				//"ln(5)",
+				//"5!",				
+				// "7 * acos(53) + 7/8",
+				// "-3 * (-5) + ((a + b)/(c + 3)+5)",
+				// "-3 * (-5)",
+				// "-3E-5 + -3*-5+(a+b)/(c+3)+5",
+				// "23 + 52^2 - 3",
+				// "a - log10(5)^11",
+				// "pow(3,5)",
+				// "pow(3 + 5,5)",
+				// "23 + (52^2 - 3 + 5)/7 - 45",
+				// "(y > x) == true",
+				// "3 <= 5",
+				// "3 == 5",
+				// "a xor b",
+				// "not c",
+				// "not(c)",
+				// "--3.5e7",
+				// "10+ --3.5e7 *5",
+				// "5/4 + 4/5*10",
+				// "10 + -0.3E-5*10",
+				// "-7.8",
+				// "-infinity",
+				// "ceil(-2.9) + 6 * -7.8",
+				// "Vf*(A*B - P*Q/Keq)/(Kma + A*(1 + P/Kip) + (Vf/(Vr*Keq)) * Kmq*P + Kmp*Q + P*Q)",
+				// "a*(b+c)*d/(e+3)*5",
+				// "(a * (b + c) * d)/(e +  3) *   5",
+				// "lambda(2)",
+				// "lambda(x, x+2)",
+				"1" };
 
-	
 		for (String formula : formulae) {
 			ASTNode testNode = ASTNode.parseFormula(formula);
 
@@ -76,6 +94,15 @@ public class FormulaTest {
 			System.out.printf("[IN]:\t%s\n", formula);
 			System.out.printf("[OUT]:\t%s\n", testNode.toFormula());
 			System.out.printf("[LTX]:\t%s\n", testNode.toLaTeX());
+
+			AssignmentRule as = new AssignmentRule(2, 4);
+			Model m = new Model(2, 4);
+			FunctionDefinition fd = new FunctionDefinition("f", 2, 4);
+			m.addFunctionDefinition(fd);
+			//as.setMath(ASTNode.parseFormula("f(a, b, c, d)"));
+			//m.addRule(as);
+			//System.out.println(as.getMath().toString());
+
 		}
 
 	}

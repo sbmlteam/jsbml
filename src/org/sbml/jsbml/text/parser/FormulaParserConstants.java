@@ -29,9 +29,9 @@ public interface FormulaParserConstants {
   /** RegularExpression Id. */
   int DIVIDE = 11;
   /** RegularExpression Id. */
-  int LOG = 12;
+  int FACTORIAL = 12;
   /** RegularExpression Id. */
-  int FACULTY = 13;
+  int LOG = 13;
   /** RegularExpression Id. */
   int OPEN_PAR = 14;
   /** RegularExpression Id. */
@@ -70,8 +70,8 @@ public interface FormulaParserConstants {
     "\"-\"",
     "\"*\"",
     "\"/\"",
-    "\"log\"",
     "\"!\"",
+    "\"log\"",
     "\"(\"",
     "\")\"",
     "<COMPARISON>",

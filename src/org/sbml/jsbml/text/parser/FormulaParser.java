@@ -17,6 +17,32 @@ public class FormulaParser implements FormulaParserConstants {
     }
   }
 
+  private Integer getInteger(ASTNode node)
+  {
+    if (node.isUMinus())
+    {
+      if (node.getChild(0).isInteger())
+      {
+        return - node.getChild(0).getInteger();
+      }
+      else
+      {
+        return null;
+      }
+    }
+    else
+    {
+      if (node.isInteger())
+      {
+        return node.getInteger();
+      }
+      else
+      {
+        return null;
+      }
+    }
+  }
+
   final public ASTNode parse() throws ParseException {
   ASTNode node = null;
     node = Expression();
@@ -52,18 +78,33 @@ public class FormulaParser implements FormulaParserConstants {
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case POWER:
+      case FACTORIAL:
         ;
         break;
       default:
         jj_la1[1] = jj_gen;
         break label_1;
       }
-      jj_consume_token(POWER);
-      rightChild = Primary();
-      node = new ASTNode(ASTNode.Type.POWER);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case POWER:
+        jj_consume_token(POWER);
+        rightChild = Primary();
+      node = new ASTNode(Type.POWER);
       node.addChild(leftChild);
       node.addChild(rightChild);
       leftChild = node;
+        break;
+      case FACTORIAL:
+        jj_consume_token(FACTORIAL);
+      node = new ASTNode(Type.FUNCTION_FACTORIAL);
+      node.addChild(leftChild);
+      leftChild = node;
+        break;
+      default:
+        jj_la1[2] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
     {if (true) return leftChild;}
     throw new Error("Missing return statement in function");
@@ -83,7 +124,7 @@ public class FormulaParser implements FormulaParserConstants {
         ;
         break;
       default:
-        jj_la1[2] = jj_gen;
+        jj_la1[3] = jj_gen;
         break label_2;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -98,10 +139,13 @@ public class FormulaParser implements FormulaParserConstants {
       case DIVIDE:
         jj_consume_token(DIVIDE);
         rightChild = TermLvl3();
-      if (leftChild.isInteger() && rightChild.isInteger())
+      Integer left, right;
+      left = getInteger(leftChild);
+      right = getInteger(rightChild);
+      if (left != null && right != null)
       {
         node = new ASTNode();
-        node.setValue(leftChild.getInteger(), rightChild.getInteger());
+        node.setValue(left, right);
         leftChild = node;
       }
       else
@@ -121,7 +165,7 @@ public class FormulaParser implements FormulaParserConstants {
       leftChild = node;
         break;
       default:
-        jj_la1[3] = jj_gen;
+        jj_la1[4] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -131,9 +175,10 @@ public class FormulaParser implements FormulaParserConstants {
   }
 
   final private ASTNode TermLvl1() throws ParseException {
-  ASTNode rightChild;
+  ASTNode rightChild = null;
   ASTNode leftChild;
   ASTNode node = null;
+  ASTNode root = null, currentNode = null;
   Token t;
   String s;
   Type type = null;
@@ -148,7 +193,7 @@ public class FormulaParser implements FormulaParserConstants {
         ;
         break;
       default:
-        jj_la1[4] = jj_gen;
+        jj_la1[5] = jj_gen;
         break label_3;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -223,7 +268,7 @@ public class FormulaParser implements FormulaParserConstants {
       leftChild = node;
         break;
       default:
-        jj_la1[5] = jj_gen;
+        jj_la1[6] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -270,7 +315,7 @@ public class FormulaParser implements FormulaParserConstants {
     {if (true) return node;}
       break;
     default:
-      jj_la1[7] = jj_gen;
+      jj_la1[8] = jj_gen;
       if (jj_2_1(2)) {
         t = jj_consume_token(STRING);
         jj_consume_token(OPEN_PAR);
@@ -282,7 +327,7 @@ public class FormulaParser implements FormulaParserConstants {
             ;
             break;
           default:
-            jj_la1[6] = jj_gen;
+            jj_la1[7] = jj_gen;
             break label_4;
           }
           jj_consume_token(SLPITTER);
@@ -333,7 +378,13 @@ public class FormulaParser implements FormulaParserConstants {
       node.addChild(child);
       type = Type.LOGICAL_NOT;
     }
-     else if (s.equalsIgnoreCase("lambda"))
+    else if (s.equalsIgnoreCase("ln"))
+    {
+      checkSize(arguments, 0);
+      node.addChild(child);
+      type = Type.FUNCTION_LN;
+    }
+    else if (s.equalsIgnoreCase("lambda"))
     {
       node.addChild(child);
       type = Type.LAMBDA;
@@ -416,7 +467,7 @@ public class FormulaParser implements FormulaParserConstants {
     {if (true) return node;}
           break;
         default:
-          jj_la1[8] = jj_gen;
+          jj_la1[9] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -449,13 +500,13 @@ public class FormulaParser implements FormulaParserConstants {
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[9];
+  final private int[] jj_la1 = new int[10];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x800001,0x100,0x1c00,0x1c00,0x30280,0x30280,0x40,0x38,0x604200,};
+      jj_la1_0 = new int[] {0x800001,0x1100,0x1100,0x2c00,0x2c00,0x30280,0x30280,0x40,0x38,0x604200,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[1];
   private boolean jj_rescan = false;
@@ -472,7 +523,7 @@ public class FormulaParser implements FormulaParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -487,7 +538,7 @@ public class FormulaParser implements FormulaParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -498,7 +549,7 @@ public class FormulaParser implements FormulaParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -509,7 +560,7 @@ public class FormulaParser implements FormulaParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -519,7 +570,7 @@ public class FormulaParser implements FormulaParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -529,7 +580,7 @@ public class FormulaParser implements FormulaParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -646,7 +697,7 @@ public class FormulaParser implements FormulaParserConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 10; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
