@@ -110,7 +110,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	/**
 	 * Log4j logger
 	 */
-	private Logger log4jLogger = Logger.getLogger(SBMLReader.class);
+	private Logger log4jLogger = Logger.getLogger(SBMLCoreParser.class);
 	
 	/**
 	 * Creates a SBMLCoreParser instance. Initializes the sbmlCoreElements of
