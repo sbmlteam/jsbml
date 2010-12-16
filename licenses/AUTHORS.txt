@@ -2,7 +2,7 @@
 			       JSBML Authors
 			       -------------
 
-			   -- Core developers --
+                           -- Core developers --
 
          Andreas Draeger, University of Tuebingen, Germany
          Nicolas Rodriguez, European Bioinformatics Institute, UK
@@ -14,8 +14,7 @@
          Clemens Wrzodek, University of Tuebingen, Germany
          Michael Hucka, California Institute of Technology, USA
 
-			    -- Alumni --
+                               -- Alumni --
          
          Marine Dumousseau, European Bioinformatics Institute, UK
-			      Simon Schaefer, University of Tuebingen, Germany
-			       
+         Simon Schaefer, University of Tuebingen, Germany
