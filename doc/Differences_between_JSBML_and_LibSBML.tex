@@ -1,4 +1,5 @@
 \documentclass[
+  BCOR12mm,
   letterpaper,
   11pt,
   headsepline,
@@ -8,6 +9,7 @@
   appendixprefix,
   idxtotoc,
   bibtotoc,
+  twoside,
   titlepage
 ]{scrartcl}
 
@@ -20,7 +22,7 @@
 % Page style
 
 \usepackage[automark]{scrpage2}
-%\usepackage{fancyhdr}
+\usepackage[paper=letterpaper, centering]{geometry}
 
 % Language definition
 \usepackage[english]{babel}
@@ -56,7 +58,7 @@
 \selectlanguage{english}
 \addtokomafont{sectioning}{\color{royalblue}}
 \pagestyle{scrheadings}
-\ofoot{\includegraphics[width=50pt]{logo/JSBML_shaddow.pdf}}
+\ifoot{\includegraphics[width=50pt]{logo/JSBML_shaddow.pdf}}
 
 \hypersetup{
               bookmarks={true},
@@ -66,7 +68,8 @@
               breaklinks={true},
               colorlinks={false},
               pdfpagemode={UseOutlines},
-              pdftitle={A short description of the main differences between JSBML and LibSBML},
+              pdftitle={A short description of the main differences between
+              JSBML and LibSBML},
               pdfauthor={Andreas Dr\"ager},
               pdfsubject={Software guide},
               pdfkeywords={LibSBML, JSBML, Java, SBML, API, LaTeX},
@@ -105,7 +108,10 @@ Cell-De-sig-n-er
 }
 
 \title{A short description of the main differences between JSBML and LibSBML}
-\author{Andreas Dr\"ager}
+\author{Andreas Dr\"ager\thanks{Center for Bioinformatics T\"ubingen, University
+of T\"ubingen, T\"ubingen, Germany}\and%
+Nicolas Rodriguez\thanks{European Bioinformatics Institute, Wellcome Trust
+Genome Campus, Hinxton, Cambridge, United Kingdom}}
 \date{\today}
 \publishers{\includegraphics[width=100pt]{logo/JSBML_shaddow.pdf}}
 
