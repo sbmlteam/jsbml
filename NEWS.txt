@@ -1,0 +1,19 @@
+	       JSBML NEWS -- History of user-visible changes
+
+No news yet.
+
+
+
+
+
+
+-------------------------------------------------------------------------------
+$URL$
+Last Modified: $Date$
+Last Modified By: $Author$
+
+The following is for [X]Emacs users.  Please leave in place.
+Local Variables:
+fill-column: 77
+End:
+-----------------------------------------------------------------------------
