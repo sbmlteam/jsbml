@@ -188,7 +188,13 @@ public abstract class AbstractSBase implements SBase {
 	 * @param sb an <code>AbstractSBase</code> object to clone
 	 */
 	public AbstractSBase(SBase sb) {
-		this(sb.getLevel(), sb.getVersion());
+		this();
+		if (sb.isSetLevel()) {
+			setLevel(sb.getLevel());
+		}
+		if (sb.isSetVersion()) {
+			setVersion(sb.getVersion());
+		}
 		this.parentSBMLObject = sb.getParentSBMLObject();
 		if (sb.isSetSBOTerm()) {
 			this.sboTerm = sb.getSBOTerm();

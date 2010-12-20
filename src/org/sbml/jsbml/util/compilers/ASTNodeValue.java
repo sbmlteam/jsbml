@@ -359,6 +359,9 @@ public class ASTNodeValue {
 	 */
 	public void setLevel(int level) {
 		this.level = level;
+		if (isSetUnit() && !getUnits().isSetLevel()) {
+			getUnits().setLevel(level);
+		}
 	}
 
 	/**
@@ -471,6 +474,9 @@ public class ASTNodeValue {
 	 */
 	public void setVersion(int version) {
 		this.version = version;
+		if (isSetUnit() && !getUnits().isSetVersion()) {
+			getUnits().setVersion(version);
+		}
 	}
 
 	/**

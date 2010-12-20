@@ -258,7 +258,7 @@ public class Units implements ASTNodeCompiler {
 		ASTNodeValue value = new ASTNodeValue(this);
 		if (values[0].isNumber()) {
 			int i = values.length - 1;
-			while (i >= 0 && values[i].isNumber()) {
+			while ((i >= 0) && values[i].isNumber()) {
 				i--;
 			}
 			UnitDefinition ud = values[Math.max(0, i)].getUnits();

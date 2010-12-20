@@ -34,6 +34,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * Base class for all the SBML components which contain MathML nodes.
@@ -334,7 +335,13 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	 */
 	@Override
 	public String toString() {
-		return isSetMath() ? math.toString() : getElementName();
+		if (isSetMath()) {
+			try {
+				return math.toString();
+			} catch (Throwable exc) {
+			}
+		}
+		return StringTools.firstLetterLowerCase(getElementName());
 	}
 
 	/*

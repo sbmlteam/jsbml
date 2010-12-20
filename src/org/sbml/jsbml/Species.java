@@ -326,12 +326,11 @@ public class Species extends Symbol {
 	 * @return the initialAmount of this Species if it has been set, o
 	 *         otherwise.
 	 */
-	// TODO : check libsbml implementation. Should we return NaN instead ?
 	public double getInitialAmount() {
 		if (isSetInitialAmount()) {
 			return getValue();
 		}
-		return 0;
+		return Double.NaN;
 	}
 
 	/**
@@ -343,7 +342,7 @@ public class Species extends Symbol {
 		if (isSetInitialConcentration()) {
 			return getValue();
 		}
-		return 0;
+		return Double.NaN;
 	}
 
 	/**
