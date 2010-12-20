@@ -149,6 +149,15 @@ public class SBMLError extends XMLError {
 	public Message getMessageInstance() {
 		return message;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Throwable#getMessage()
+	 */
+	@Override
+	public String getMessage() {
+		return message != null ? message.getMessage() : "";
+	}
 
 	/**
 	 * 

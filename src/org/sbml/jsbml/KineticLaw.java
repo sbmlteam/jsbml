@@ -894,12 +894,13 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder kineticLawStr = new StringBuilder();
-		kineticLawStr.append("kineticLaw(");
-		kineticLawStr.append(getParent().getId());
-		kineticLawStr.append(") : ");
-		kineticLawStr.append(super.toString());
-		return kineticLawStr.toString();
+//		StringBuilder kineticLawStr = new StringBuilder();
+//		kineticLawStr.append("kineticLaw(");
+//		kineticLawStr.append(getParent().getId());
+//		kineticLawStr.append(") : ");
+//		kineticLawStr.append(super.toString());
+//		return kineticLawStr.toString();
+		return String.format("%s(%s)", getElementName(), getParent().getId());
 	}
 
 	/**

@@ -1583,10 +1583,8 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 				break;
 			case DIVIDE:
 				if (getNumChildren() != 2) {
-					throw new SBMLException(
-							String
-									.format(
-											"fractions can only have one numerator and one denominator, here %s elements are given",
+					throw new SBMLException(String.format(
+											"Fractions must have one numerator and one denominator, here %s elements are given.",
 											getNumChildren()));
 				}
 				value = compiler.frac(getLeftChild(), getRightChild());
@@ -3508,13 +3506,13 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 			// TODO : log the exception
 			Logger logger = Logger.getLogger(ASTNode.class);
 			if (logger.isDebugEnabled()) {
-				e.printStackTrace();
+				logger.error("Could not compile ASTNode to formula.", e);
 			}
 		} catch (RuntimeException e) {
 			// added to prevent a crash when we cannot create the formula
 			Logger logger = Logger.getLogger(ASTNode.class);
 			if (logger.isDebugEnabled()) {
-				e.printStackTrace();
+				logger.error("Could not compile ASTNode to formula.", e);
 			}
 		}
 		return formula;

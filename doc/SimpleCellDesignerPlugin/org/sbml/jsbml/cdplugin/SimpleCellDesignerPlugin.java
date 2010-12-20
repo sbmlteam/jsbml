@@ -60,15 +60,6 @@ public class SimpleCellDesignerPlugin extends CellDesignerPlugin {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception exc) {
 		}
-		JFrame frame = new JFrame(APPLICATION_NAME);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().add(
-				new JScrollPane(new JTreeOfSBML(doc),
-						JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-						JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
-		frame.setResizable(true);
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		new JSBMLvisualizer(APPLICATION_NAME);
 	}
 }

@@ -102,12 +102,34 @@ public class LevelVersionError extends SBMLError {
 	 * @param sbase
 	 */
 	public LevelVersionError(SBase sbase) {
+		this(sbase.getElementName(), sbase.getLevel(), sbase.getVersion());
+	}
+	
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public LevelVersionError(int level, int version) {
+		this(null, level, version);
+	}
+	
+	/**
+	 * 
+	 * @param elementName
+	 * @param level
+	 * @param version
+	 */
+	public LevelVersionError(String elementName, int level, int version) {
 		super();
 		Message message = new Message();
-		if (!sbase.hasValidLevelVersionNamespaceCombination()) {
+		if (!AbstractSBase.isValidLevelAndVersionCombination(level, version)) {
 			message.setMessage(String.format(
-					UNDEFINED_LEVEL_VERSION_COMBINATION_MSG, sbase.getLevel(),
-					sbase.getVersion()));
+					UNDEFINED_LEVEL_VERSION_COMBINATION_MSG, level, version));
+			if (elementName != null) {
+				message.setMessage(String.format("%s for element %s.", message.getMessage().substring(0,
+						message.getMessage().length() - 1), elementName));
+			}
 			setMessage(message);
 		}
 	}
@@ -127,7 +149,7 @@ public class LevelVersionError extends SBMLError {
 		}
 		setMessage(message);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBMLError#toString()
 	 */

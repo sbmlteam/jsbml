@@ -876,7 +876,9 @@ public class Unit extends AbstractSBase {
 					&& unit1.getExponent() != 1 ? 1 : unit1.getExponent();
 			double e2 = unit2.getKind() == Kind.DIMENSIONLESS
 					&& unit2.getExponent() != 1 ? 1 : unit2.getExponent();
-			unit1.setOffset(0);
+			if (unit1.getOffset() != 0d) {
+				unit1.setOffset(0);
+			}
 			unit1.setMultiplier(Math.pow(m1, e1) * Math.pow(m2, e2));
 			unit1.setScale((int) Math.round(s1 * e1 + s2 * e2));
 			if (Kind.areEquivalent(unit1.getKind(), unit2.getKind())) {
