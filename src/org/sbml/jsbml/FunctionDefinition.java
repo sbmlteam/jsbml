@@ -342,8 +342,10 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	@Override
 	public void setMath(ASTNode math) {
 		if (getLevel() < 2) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.id, this);
+			// throw new PropertyNotAvailableError(SBaseChangedEvent.id, this);
+			// We can use internally ASTNode even if working on level 1 model !!
 		}
+
 		if (!math.isLambda()) {
 			throw new IllegalArgumentException(String.format(
 					ILLEGAL_ASTNODE_TYPE_MSG, ASTNode.Type.LAMBDA, math
