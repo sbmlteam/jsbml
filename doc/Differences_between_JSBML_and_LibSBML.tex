@@ -132,7 +132,7 @@ libraries.
 In addition, JSBML can be used as a communication layer between the widely
 spread application CellDesigner and an application that works with JSBML as its
 internal data structure. This document gives an example that demonstrates how to
-convert between CellDesigner's plug-in data structures an JSBML objects.
+convert between CellDesigner's plug-in data structures and JSBML objects.
 \end{abstract}
 
 \section{An extended type hierarchy}
@@ -273,7 +273,7 @@ a constant such as a \verb!Parameter! whose constant attribute has been set to
 \verb!Assignment!. Another example is the \verb!InvalidArgumentException! that
 is thrown when trying to set an invalid identifier \verb!String! for an instance
 of \verb!AbstractNamedSBase!. Hence, you have to be aware of potential
-exceptions and errors when using JSBML, on the other hand will this behavior
+exceptions and errors when using JSBML, on the other hand this will 
 prevent you from doing obvious mistakes.
 
 
@@ -397,10 +397,10 @@ implement this interface:
  \item \verb!ExplicitRule!
  \item \verb!KineticLaw!
 \end{itemize}
-Fig.~\vref{fig:TypeHierarchy} proivdes a better overview about the relationships
+Fig.~\vref{fig:TypeHierarchy} provides a better overview about the relationships
 between all the classes explained here.
 Note that \verb!AbstractNamedSBaseWithUnit! serves as the abstract super class
-for \verb!Event! and \verb!QuantityWithUnit!. In \verb!Event! all methods to
+for \verb!Event! and \verb!QuantityWithUnit!. In \verb!Event!, all methods to
 deal with units are already deprecated because only in SBML Level 1 Versions 1
 and 2 \verb!Event!s could be explicitly equipped with units. The same holds true
 for instances of \verb!ExplicitRule! and \verb!KineticLaw!, which both can only
