@@ -576,6 +576,12 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 					break;
 				}
 			}
+			if (element instanceof ExplicitRule) {
+				if (((ExplicitRule) element).getVariable().equals(id)) {
+					foundElement = element;
+					break;
+				}
+			}
 		}
 		
 		return foundElement;
