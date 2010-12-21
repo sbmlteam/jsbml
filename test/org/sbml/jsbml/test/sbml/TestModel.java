@@ -206,9 +206,8 @@ public class TestModel {
 		FunctionDefinition fd2 = new FunctionDefinition(2, 4);
 		fd1.setId("fd1");
 		fd2.setId("fd2");
-		// fd1.setMath(ASTNode.parseFormula("f(x) = x+2)"));
-		fd1.setMath(ASTNode.parseFormula("lamda(2)"));
-		fd2.setMath(ASTNode.parseFormula("lamda(x, x+2)"));
+		fd1.setMath(ASTNode.parseFormula("lambda(2)"));
+		fd2.setMath(ASTNode.parseFormula("lambda(x, x+2)"));
 		M.addFunctionDefinition(fd1);
 		M.addFunctionDefinition(fd2);
 		assertTrue(M.getNumFunctionDefinitions() == 2);
@@ -596,8 +595,8 @@ public class TestModel {
 		FunctionDefinition fd2 = new FunctionDefinition(2, 4);
 		fd1.setId("sin");
 		fd2.setId("cos");
-		fd1.setMath(ASTNode.parseFormula("2"));
-		fd2.setMath(ASTNode.parseFormula("2"));
+		fd1.setMath(ASTNode.parseFormula("lambda(2)"));
+		fd2.setMath(ASTNode.parseFormula("lambda(2)"));
 		M.addFunctionDefinition(fd1);
 		M.addFunctionDefinition(fd2);
 		assertTrue(M.getNumFunctionDefinitions() == 2);
