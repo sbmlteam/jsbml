@@ -128,6 +128,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 			if (v.isSetUnits() && isSetUnits()) {
 				equal &= v.getUnits().equals(getUnits());
 			}
+			return equal;
 		}
 		return false;
 	}
@@ -222,6 +223,10 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(java.lang.String)
 	 */
 	public void setUnits(String units) {
+		if (units != null && units.trim().length() == 0) {
+			units = null; // If we pass the empty String or null, the value is reset.
+		}
+		
 		String oldUnits = this.unitsID;
 		if (units == null) {
 			unitsID = null;

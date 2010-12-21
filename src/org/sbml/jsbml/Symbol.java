@@ -151,7 +151,9 @@ public abstract class Symbol extends QuantityWithUnit implements
 			boolean equal = super.equals(o);
 			Symbol v = (Symbol) o;
 			equal &= v.isSetConstant() == isSetConstant();
-			equal &= v.getConstant() == getConstant();
+			if (v.isSetConstant() && isSetConstant()) {
+				equal &= v.getConstant() == getConstant();
+			}
 			return equal;
 		}
 		return false;

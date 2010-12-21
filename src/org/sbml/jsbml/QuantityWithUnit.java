@@ -135,7 +135,7 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 	 */
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof QuantityWithUnit) {
+		if (o instanceof QuantityWithUnit) {			
 			boolean equal = super.equals(o);
 			QuantityWithUnit v = (QuantityWithUnit) o;
 			if (!(Double.isNaN(v.getValue()) && Double.isNaN(getValue()))) {
@@ -143,7 +143,7 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 			} else {
 				equal &= (Double.isNaN(v.getValue()) && Double
 						.isNaN(getValue()));
-			}
+			}			
 			return equal;
 		}
 		return false;

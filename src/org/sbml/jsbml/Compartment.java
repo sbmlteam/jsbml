@@ -184,7 +184,6 @@ public class Compartment extends Symbol {
 		if (o instanceof Compartment) {
 			boolean equal = super.equals(o);
 			Compartment c = (Compartment) o;
-			equal &= c.getConstant() == getConstant();
 			equal &= c.isSetOutside() == isSetOutside();
 			if (c.isSetOutside() && isSetOutside()) {
 				equal &= c.getOutside().equals(getOutside());
