@@ -109,9 +109,11 @@ public class MathMLXMLStreamCompiler {
 			writer.writeStartDocument();
 			writer.writeCharacters("\n");
 			writer.writeStartElement("math");
-			writer.writeAttribute("xmlns", "http://www.w3.org/1998/Math/MathML");
+			writer.writeNamespace(null, "http://www.w3.org/1998/Math/MathML");			
 			writer.writeCharacters("\n");
 
+			writer.setPrefix("math", "http://www.w3.org/1998/Math/MathML");
+			
 			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(writer, "  ");
 			compiler.compile(astNode);
 
