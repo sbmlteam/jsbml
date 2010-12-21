@@ -1910,6 +1910,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		if (o instanceof ASTNode) {
 			ASTNode ast = (ASTNode) o;
 			boolean equal = ast.getType() == type;
+			
 			if (isInteger() && ast.isInteger()) {
 				equal &= ast.getInteger() == getInteger();
 			}
@@ -1927,9 +1928,17 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 				equal &= ast.getMantissa() == getMantissa()
 						&& ast.getExponent() == getExponent();
 			}
+
+			// TODO : test if listOfNodes == null ?
+			if (listOfNodes.size() != ast.getListOfNodes().size()) {
+				equal = false;
+			}
+			
 			if (equal) {
+				int i = 0;
 				for (ASTNode child : listOfNodes) {
-					equal &= child.equals(ast);
+					equal &= child.equals(ast.getChild(i));
+					i++;
 					if (!equal) {
 						return false;
 					}
