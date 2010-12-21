@@ -688,6 +688,9 @@ public class Species extends Symbol {
 	 * @param compartment
 	 */
 	public void setCompartment(String compartment) {
+		if (compartment != null && compartment.trim().length() == 0) {
+			compartment = null; // If we pass the empty String or null, the value is reset.
+		}
 		if ((compartment == null) || checkIdentifier(compartment)) {
 			String oldCompartment = this.compartmentID;
 			if ((compartment != null) && (compartment.trim().length() == 0)) {
