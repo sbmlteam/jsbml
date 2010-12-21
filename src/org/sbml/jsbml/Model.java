@@ -35,6 +35,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
 import org.sbml.jsbml.util.filters.NameFilter;
 import org.sbml.jsbml.util.filters.RuleVariableFilter;
@@ -56,6 +57,8 @@ import org.sbml.jsbml.util.filters.RuleVariableFilter;
  */
 public class Model extends AbstractNamedSBase {
 
+	private Logger logger = Logger.getLogger("Model");
+	
 	/**
 	 * Error message to indicate that an element could not be created.
 	 */
@@ -739,8 +742,8 @@ public class Model extends AbstractNamedSBase {
 		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 
 		if (lastReaction == null) {
-			System.err.printf(COULD_NOT_CREATE_ELEMENT_MSG, "KineticLaw",
-					"reactions");
+			logger.warn(String.format(COULD_NOT_CREATE_ELEMENT_MSG, "KineticLaw",
+					"reactions"));
 			return null;
 		}
 
@@ -781,8 +784,8 @@ public class Model extends AbstractNamedSBase {
 		KineticLaw lastKineticLaw = null;
 
 		if (lastReaction == null) {
-			System.err.printf(COULD_NOT_CREATE_ELEMENT_MSG,
-					"Parameter for KineticLaw", "reactions");
+			logger.warn(String.format(COULD_NOT_CREATE_ELEMENT_MSG,
+					"Parameter for KineticLaw", "reactions"));
 			return null;
 		} else {
 			lastKineticLaw = lastReaction.getKineticLaw();
@@ -881,8 +884,8 @@ public class Model extends AbstractNamedSBase {
 		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 
 		if (lastReaction == null) {
-			System.err.printf(COULD_NOT_CREATE_ELEMENT_MSG, "Product",
-					"reactions");
+			logger.warn(String.format(COULD_NOT_CREATE_ELEMENT_MSG, "Product",
+					"reactions"));
 			return null;
 		}
 
@@ -933,8 +936,8 @@ public class Model extends AbstractNamedSBase {
 	public SpeciesReference createReactant(String id) {
 		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
 		if (lastReaction == null) {
-			System.err.printf(COULD_NOT_CREATE_ELEMENT_MSG, "Reactant",
-					"reactions");
+			logger.warn(String.format(COULD_NOT_CREATE_ELEMENT_MSG, "Reactant",
+					"reactions"));
 			return null;
 		}
 		SpeciesReference reactant = lastReaction.createReactant(id);
