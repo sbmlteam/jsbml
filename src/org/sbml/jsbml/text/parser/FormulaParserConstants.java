@@ -31,23 +31,23 @@ public interface FormulaParserConstants {
   /** RegularExpression Id. */
   int FACTORIAL = 12;
   /** RegularExpression Id. */
-  int LOG = 13;
+  int OPEN_PAR = 13;
   /** RegularExpression Id. */
-  int OPEN_PAR = 14;
+  int CLOSE_PAR = 14;
   /** RegularExpression Id. */
-  int CLOSE_PAR = 15;
+  int COMPARISON = 15;
   /** RegularExpression Id. */
-  int COMPARISON = 16;
+  int BOOLEAN_LOGIC = 16;
   /** RegularExpression Id. */
-  int BOOLEAN_LOGIC = 17;
+  int AND = 17;
   /** RegularExpression Id. */
-  int AND = 18;
+  int OR = 18;
   /** RegularExpression Id. */
-  int OR = 19;
+  int XOR = 19;
   /** RegularExpression Id. */
-  int XOR = 20;
+  int NOT = 20;
   /** RegularExpression Id. */
-  int NOT = 21;
+  int LOG = 21;
   /** RegularExpression Id. */
   int STRING = 22;
   /** RegularExpression Id. */
@@ -71,7 +71,6 @@ public interface FormulaParserConstants {
     "\"*\"",
     "\"/\"",
     "\"!\"",
-    "\"log\"",
     "\"(\"",
     "\")\"",
     "<COMPARISON>",
@@ -80,6 +79,7 @@ public interface FormulaParserConstants {
     "<OR>",
     "<XOR>",
     "<NOT>",
+    "\"log\"",
     "<STRING>",
     "<EOL>",
   };

@@ -43,6 +43,24 @@ public class FormulaParser implements FormulaParserConstants {
     }
   }
 
+  final public Token string() throws ParseException {
+  Token t;
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case LOG:
+      t = jj_consume_token(LOG);
+      break;
+    case STRING:
+      t = jj_consume_token(STRING);
+      break;
+    default:
+      jj_la1[0] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+    {if (true) return t;}
+    throw new Error("Missing return statement in function");
+  }
+
   final public ASTNode parse() throws ParseException {
   ASTNode node = null;
     node = Expression();
@@ -61,7 +79,7 @@ public class FormulaParser implements FormulaParserConstants {
       jj_consume_token(EOL);
       break;
     default:
-      jj_la1[0] = jj_gen;
+      jj_la1[1] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -82,7 +100,7 @@ public class FormulaParser implements FormulaParserConstants {
         ;
         break;
       default:
-        jj_la1[1] = jj_gen;
+        jj_la1[2] = jj_gen;
         break label_1;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -101,7 +119,7 @@ public class FormulaParser implements FormulaParserConstants {
       leftChild = node;
         break;
       default:
-        jj_la1[2] = jj_gen;
+        jj_la1[3] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -120,11 +138,10 @@ public class FormulaParser implements FormulaParserConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case TIMES:
       case DIVIDE:
-      case LOG:
         ;
         break;
       default:
-        jj_la1[3] = jj_gen;
+        jj_la1[4] = jj_gen;
         break label_2;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -156,16 +173,8 @@ public class FormulaParser implements FormulaParserConstants {
         leftChild = node;
       }
         break;
-      case LOG:
-        jj_consume_token(LOG);
-        rightChild = TermLvl3();
-      node = new ASTNode(ASTNode.Type.FUNCTION_TAN);
-      node.addChild(leftChild);
-      node.addChild(rightChild);
-      leftChild = node;
-        break;
       default:
-        jj_la1[4] = jj_gen;
+        jj_la1[5] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -178,7 +187,6 @@ public class FormulaParser implements FormulaParserConstants {
   ASTNode rightChild = null;
   ASTNode leftChild;
   ASTNode node = null;
-  ASTNode root = null, currentNode = null;
   Token t;
   String s;
   Type type = null;
@@ -193,7 +201,7 @@ public class FormulaParser implements FormulaParserConstants {
         ;
         break;
       default:
-        jj_la1[5] = jj_gen;
+        jj_la1[6] = jj_gen;
         break label_3;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -268,7 +276,7 @@ public class FormulaParser implements FormulaParserConstants {
       leftChild = node;
         break;
       default:
-        jj_la1[6] = jj_gen;
+        jj_la1[7] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -315,9 +323,9 @@ public class FormulaParser implements FormulaParserConstants {
     {if (true) return node;}
       break;
     default:
-      jj_la1[8] = jj_gen;
+      jj_la1[9] = jj_gen;
       if (jj_2_1(2)) {
-        t = jj_consume_token(STRING);
+        t = string();
         jj_consume_token(OPEN_PAR);
         child = TermLvl1();
         label_4:
@@ -327,7 +335,7 @@ public class FormulaParser implements FormulaParserConstants {
             ;
             break;
           default:
-            jj_la1[7] = jj_gen;
+            jj_la1[8] = jj_gen;
             break label_4;
           }
           jj_consume_token(SLPITTER);
@@ -389,6 +397,11 @@ public class FormulaParser implements FormulaParserConstants {
       node.addChild(child);
       type = Type.LAMBDA;
     }
+    else if (s.equalsIgnoreCase("piecewise"))
+    {
+      node.addChild(child);
+      type = Type.FUNCTION_PIECEWISE;
+    }
     else
     {
       node.addChild(child);
@@ -427,6 +440,13 @@ public class FormulaParser implements FormulaParserConstants {
     ASTNode not = new ASTNode(Type.LOGICAL_NOT);
     not.addChild(node);
     {if (true) return not;}
+          break;
+        case LOG:
+          jj_consume_token(LOG);
+          child = Primary();
+    node = new ASTNode(Type.FUNCTION_LN);
+    node.addChild(child);
+    {if (true) return node;}
           break;
         case STRING:
           t = jj_consume_token(STRING);
@@ -467,7 +487,7 @@ public class FormulaParser implements FormulaParserConstants {
     {if (true) return node;}
           break;
         default:
-          jj_la1[9] = jj_gen;
+          jj_la1[10] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -483,8 +503,18 @@ public class FormulaParser implements FormulaParserConstants {
     finally { jj_save(0, xla); }
   }
 
+  private boolean jj_3R_5() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(21)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(22)) return true;
+    }
+    return false;
+  }
+
   private boolean jj_3_1() {
-    if (jj_scan_token(STRING)) return true;
+    if (jj_3R_5()) return true;
     if (jj_scan_token(OPEN_PAR)) return true;
     return false;
   }
@@ -500,13 +530,13 @@ public class FormulaParser implements FormulaParserConstants {
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[10];
+  final private int[] jj_la1 = new int[11];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x800001,0x1100,0x1100,0x2c00,0x2c00,0x30280,0x30280,0x40,0x38,0x604200,};
+      jj_la1_0 = new int[] {0x600000,0x800001,0x1100,0x1100,0xc00,0xc00,0x18280,0x18280,0x40,0x38,0x702200,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[1];
   private boolean jj_rescan = false;
@@ -523,7 +553,7 @@ public class FormulaParser implements FormulaParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -538,7 +568,7 @@ public class FormulaParser implements FormulaParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -549,7 +579,7 @@ public class FormulaParser implements FormulaParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -560,7 +590,7 @@ public class FormulaParser implements FormulaParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -570,7 +600,7 @@ public class FormulaParser implements FormulaParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -580,7 +610,7 @@ public class FormulaParser implements FormulaParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -697,7 +727,7 @@ public class FormulaParser implements FormulaParserConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 11; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
