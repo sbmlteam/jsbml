@@ -438,15 +438,21 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	/**
 	 * Creates brackets if needed.
 	 * 
-	 * @param nodes
+	 * @param node
 	 * @return
 	 * @throws SBMLException
 	 */
-	private String checkBrackets(ASTNode nodes) throws SBMLException {
-		String term = nodes.compile(this).toString();
-		if (nodes.isSum() || nodes.isDifference() || nodes.isUMinus()) {
+	private String checkBrackets(ASTNode node) throws SBMLException {
+		String term = node.compile(this).toString();
+
+		if (node.isSum() || node.isDifference() || node.isUMinus()) {
 			term = brackets(term).toString();
+		} else if (node.isReal()) {
+			if (node.getReal() < 0.0) {
+				term = brackets(term).toString();
+			}
 		}
+
 		return term;
 	}
 
@@ -487,6 +493,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 		if (exponent == 0) {
 			return new ASTNodeValue(mantissa, this);
 		}
+
 		return new ASTNodeValue(concat(
 				(new DecimalFormat(StringTools.REAL_FORMAT,
 						new DecimalFormatSymbols(Locale.ENGLISH)))
@@ -927,21 +934,22 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#minus(java.util.List)
 	 */
 	public ASTNodeValue minus(List<ASTNode> nodes) throws SBMLException {
-		if (nodes.size() > 0) {
-			StringBuffer minus = new StringBuffer();
-
-			minus.append(nodes.get(0));
-
-			for (int i = 1; i < nodes.size(); i++) {
-				if (i > 0) {
-					minus.append('-');
-				}
-				minus.append(checkBrackets(nodes.get(i)));
-			}
-			return new ASTNodeValue(minus.toString(), this);
-		} else {
-			return new ASTNodeValue(this);
+		if (nodes.size() == 0) {
+			return new ASTNodeValue("", this);
 		}
+
+		StringBuffer minus = new StringBuffer();
+
+		minus.append(nodes.get(0));
+
+		for (int i = 1; i < nodes.size(); i++) {
+			if (i > 0) {
+				minus.append('-');
+			}
+			minus.append(checkBrackets(nodes.get(i)));
+		}
+		return new ASTNodeValue(minus.toString(), this);
+
 	}
 
 	/*
@@ -991,23 +999,20 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue plus(List<ASTNode> nodes) throws SBMLException {
 		StringBuffer plus = new StringBuffer();
-		ASTNode node;
-		
-		if (nodes.size() > 0) {
-			plus.append(nodes.get(0));
-
-			for (int i = 1; i < nodes.size(); i++) {
-				plus.append('+');
-
-				node = nodes.get(i);
-				//plus.append(checkBrackets(node));
-				plus.append(node);
-
-			}
-			return new ASTNodeValue(plus.toString(), this);
-		} else {
-			return new ASTNodeValue(this);
+		if (nodes.size() == 0) {
+			return new ASTNodeValue("", this);
 		}
+
+		plus.append(nodes.get(0));
+
+		for (int i = 1; i < nodes.size(); i++) {
+			plus.append('+');
+
+			plus.append(checkBrackets(nodes.get(i)));
+
+		}
+		return new ASTNodeValue(plus.toString(), this);
+
 	}
 
 	/*
@@ -1040,8 +1045,9 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 	 */
 	private String relation(ASTNode left, String symbol, ASTNode right)
 			throws SBMLException {
-		return concat(left.compile(this), symbol, right.compile(this))
-				.toString();
+
+		return concat((left.isRelational()) ? brackets(left) : left, symbol,
+				(right.isRelational()) ? brackets(right) : right).toString();
 	}
 
 	/*
