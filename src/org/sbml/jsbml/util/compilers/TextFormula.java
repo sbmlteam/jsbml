@@ -1031,8 +1031,7 @@ public class TextFormula extends StringTools implements ASTNodeCompiler {
 					left.compile(this), Character.valueOf(')'), "^",
 					right.compile(this)).toString(), this);
 		}
-
-		// function("pow", left, right);
+	
 	}
 
 	/**

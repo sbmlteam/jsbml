@@ -1648,10 +1648,10 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * )
 	 */
 	public ASTNodeValue uMinus(ASTNode value) throws SBMLException {
+		
 		StringBuffer v = new StringBuffer();
 		v.append('-');
-		v.append(value.isSum() || value.isDifference() ? brackets(value
-				.compile(this).toString()) : value.compile(this).toString());
+		v.append(checkBrackets(value).toString());
 		return new ASTNodeValue(v.toString(), this);
 	}
 

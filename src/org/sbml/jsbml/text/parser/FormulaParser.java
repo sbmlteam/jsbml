@@ -483,7 +483,10 @@ public class FormulaParser implements FormulaParserConstants {
     {
       node = new ASTNode(Double.POSITIVE_INFINITY);
     }
-    node = new ASTNode(s);
+    else
+    {
+      node = new ASTNode(s);
+    }
     {if (true) return node;}
           break;
         default:
