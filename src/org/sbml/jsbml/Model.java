@@ -53,6 +53,7 @@ import org.sbml.jsbml.util.filters.RuleVariableFilter;
  * 
  * @author Andreas Dr&auml;ger
  * @author Marine
+ * @author rodrigue
  * 
  */
 public class Model extends AbstractNamedSBase {
@@ -165,7 +166,7 @@ public class Model extends AbstractNamedSBase {
 	private String volumeUnitsID;
 
 	/**
-	 * Creates a Model instance. By default, all the listxxx and xxxUnitsID are
+	 * Creates a Model instance. By default, all the listOfxxx and xxxUnitsID are
 	 * null.
 	 */
 	public Model() {
@@ -174,8 +175,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a Model instance.
 	 * 
-	 * @param id
+	 * @param level
+	 * @param version
 	 */
 	public Model(int level, int version) {
 		this(null, level, version);
@@ -239,6 +242,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a Model instance from an id.
 	 * 
 	 * @param id
 	 */
@@ -249,7 +253,7 @@ public class Model extends AbstractNamedSBase {
 	
 	/**
 	 * Creates a Model instance from an id, level and version. By default, all
-	 * the listxxx and xxxUnitsID are null.
+	 * the listOfxxx and xxxUnitsID are null.
 	 * 
 	 * @param id
 	 * @param level
@@ -441,33 +445,36 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Method to test whether a {@link Compartment} with the given identifier
-	 * has been declared in this model.
+	 * Returns true if this model contains a reference to a {@link Compartment} 
+	 * with the given identifier.
 	 * 
 	 * @param id
-	 * @return
+	 * @return true if this model contains a reference to a {@link Compartment} 
+	 * with the given identifier.
 	 */
 	public boolean containsCompartment(String id) {
 		return getCompartment(id) != null;
 	}
 
 	/**
-	 * Method to test whether a {@link FunctionDefinition} with the given
-	 * identifier has been declared in this model.
-	 * 
+	 * Returns true if this model contains a reference to a {@link FunctionDefinition} 
+	 * with the given identifier.
+	 *  
 	 * @param id
-	 * @return
+	 * @return true if this model contains a reference to a {@link FunctionDefinition} 
+	 * with the given identifier.
 	 */
 	public boolean containsFunctionDefinition(String id) {
 		return getFunctionDefinition(id) != null;
 	}
 
 	/**
-	 * Method to test whether a {@link Parameter} with the given identifier has
-	 * been declared in this model.
+	 * Returns true if this model contains a reference to a {@link Parameter} 
+	 * with the given identifier.
 	 * 
 	 * @param id
-	 * @return
+	 * @return true if this model contains a reference to a {@link Parameter} 
+	 * with the given identifier.
 	 */
 	public boolean containsParameter(String id) {
 		return getParameter(id) != null;
@@ -478,7 +485,8 @@ public class Model extends AbstractNamedSBase {
 	 * {@link Quantity}.
 	 * 
 	 * @param quantity
-	 * @return
+	 * @return true if this model contains a reference to the given
+	 * {@link Quantity}.
 	 */
 	public boolean containsQuantity(Quantity quantity) {
 		Model model = quantity.getModel();
@@ -489,22 +497,24 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Method to test whether a {@link Species} with the given identifier has
-	 * been declared in this model.
+	 * Returns true if this model contains a reference to the given
+	 * {@link Species}.
 	 * 
 	 * @param id
-	 * @return
+	 * @return true if this model contains a reference to the given
+	 * {@link Species}.
 	 */
 	public boolean containsSpecies(String id) {
 		return getSpecies(id) != null;
 	}
 
 	/**
-	 * Method to test whether a {@link UnitDefinition} with the given identifier
-	 * has been declared in this model.
-	 * 
+ 	 * Returns true if this model contains a reference to the given
+	 * {@link UnitDefinition}.
+	 *  
 	 * @param units
-	 * @return
+	 * @return true if this model contains a reference to the given
+	 * {@link UnitDefinition}.
 	 */
 	public boolean containsUnitDefinition(String units) {
 		return getUnitDefinition(units) != null;
@@ -519,7 +529,7 @@ public class Model extends AbstractNamedSBase {
 	 *         <p>
 	 * @see #addRule(Rule r)
 	 */
-	public Rule createAlgebraicRule() {
+	public AlgebraicRule createAlgebraicRule() {
 		AlgebraicRule rule = new AlgebraicRule(getLevel(), getVersion());
 		addRule(rule);
 		return rule;
@@ -534,7 +544,7 @@ public class Model extends AbstractNamedSBase {
 	 *         <p>
 	 * @see #addRule(Rule r)
 	 */
-	public Rule createAssignmentRule() {
+	public AssignmentRule createAssignmentRule() {
 		AssignmentRule rule = new AssignmentRule(getLevel(), getVersion());
 		addRule(rule);
 		return rule;
@@ -554,9 +564,11 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a new {@link Compartment} inside this {@link Model} and returns
+	 * it.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id the id of the new element to create
+	 * @return the {@link Compartment} object created
 	 */
 	public Compartment createCompartment(String id) {
 		Compartment compartment = new Compartment(id, getLevel(), getVersion());
@@ -580,9 +592,11 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a new {@link CompartmentType} inside this {@link Model} and
+	 * returns it.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id the id of the new element to create
+	 * @return the {@link CompartmentType} object created
 	 *  @deprecated {@link CompartmentType}s should no longer be used.
 	 */
 	@Deprecated
@@ -638,9 +652,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a new {@link Event} inside this {@link Model} and returns it.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id the id of the new element to create
+	 * @return the {@link Event} object created
 	 */
 	public Event createEvent(String id) {
 		Event event = new Event(id, getLevel(), getVersion());
@@ -694,9 +709,11 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a new {@link FunctionDefinition} inside this {@link Model} and
+	 * returns it.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id the id of the new element to create
+	 * @return the {@link FunctionDefinition} object created
 	 */
 	public FunctionDefinition createFunctionDefinition(String id) {
 		FunctionDefinition functionDef = new FunctionDefinition(id, getLevel(),
@@ -754,7 +771,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Creates a new local {@link Parameter} inside the {@link KineticLaw}
+	 * Creates a new local {@link LocalParameter} inside the {@link KineticLaw}
 	 * object of the last {@link Reaction} created inside this {@link Model},
 	 * and returns a pointer to it.
 	 * <p>
@@ -764,20 +781,23 @@ public class Model extends AbstractNamedSBase {
 	 * Reaction.createKineticLaw() on the {@link Reaction} object created by a
 	 * createReaction(). If a {@link Reaction} does not exist for this model, or
 	 * the last {@link Reaction} does not contain a {@link KineticLaw} object, a
-	 * new {@link Parameter} is <em>not</em> created and NULL is returned
+	 * new {@link LocalParameter} is <em>not</em> created and NULL is returned
 	 * instead.
 	 * <p>
 	 * 
-	 * @return the {@link Parameter} object created
+	 * @return the {@link LocalParameter} object created
 	 */
 	public LocalParameter createKineticLawParameter() {
 		return createKineticParameter(null);
 	}
 
 	/**
+	 * Creates a new local {@link LocalParameter} inside the {@link KineticLaw}
+	 * object of the last {@link Reaction} created inside this {@link Model},
+	 * and returns a pointer to it.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id the id of the new element to create
+	 * @return the {@link LocalParameter} object created
 	 */
 	public LocalParameter createKineticParameter(String id) {
 		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
@@ -821,9 +841,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a new {@link ModifierSpeciesReference} with the specified 'id'.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id the id of the new element to create
+	 * @return the {@link SpeciesReference} object created
 	 */
 	public ModifierSpeciesReference createModifier(String id) {
 		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
@@ -850,9 +871,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a new {@link Parameter}.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id the id of the new element to create
+	 * @return the {@link Parameter} object created
 	 */
 	public Parameter createParameter(String id) {
 		Parameter parameter = new Parameter(id, getLevel(), getVersion());
@@ -929,9 +951,13 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a new {@link SpeciesReference} object, with the specified 'id',
+	 *  for a reactant inside the
+	 * last {@link Reaction} object in this {@link Model}, and returns a pointer
+	 * to it.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id the id of the new element to create
+	 * @return  the {@link SpeciesReference} object created.
 	 */
 	public SpeciesReference createReactant(String id) {
 		Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
@@ -958,9 +984,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a new {@link Reaction} inside this {@link Model} and returns it.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id the id of the new element to create
+	 * @return the {@link Reaction} object created
 	 */
 	public Reaction createReaction(String id) {
 		Reaction reaction = new Reaction(id, getLevel(), getVersion());
@@ -982,9 +1009,10 @@ public class Model extends AbstractNamedSBase {
 	}
 	
 	/**
+	 * Creates a new {@link Species} inside this {@link Model} and returns it.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id the id of the new element to create
+	 * @return the {@link Species} object created
 	 */
 	public Species createSpecies(String id) {
 		Species species = new Species(id, getLevel(), getVersion());
@@ -993,10 +1021,11 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a new {@link Species} inside this {@link Model} and returns it.
 	 * 
-	 * @param id
-	 * @param c
-	 * @return
+	 * @param id the id of the new element to create
+	 * @param c the Compartment of the new {@link Species}
+	 * @return the {@link Species} object created
 	 */
 	public Species createSpecies(String id, Compartment c) {
 		Species s = createSpecies(id);
@@ -1019,9 +1048,11 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a new {@link SpeciesType} inside this {@link Model} and returns
+	 * it.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id the id of the new element to create
+	 * @return the {@link SpeciesType} object created
 	 */
 	@Deprecated
 	public SpeciesType createSpeciesType(String id) {
@@ -1067,9 +1098,11 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a new {@link Unit} object within the last {@link UnitDefinition}
+	 * object created in this model and returns a pointer to it.
 	 * 
-	 * @param kind
-	 * @return
+	 * @param kind the kind of the new unit.
+	 * @return the {@link Unit} object created
 	 */
 	public Unit createUnit(Unit.Kind kind) {
 		int numUnitDef = getNumUnitDefinitions();
@@ -1100,9 +1133,11 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a new {@link UnitDefinition} inside this {@link Model} and
+	 * returns it.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id the id of the new element to create
+	 * @return the {@link UnitDefinition} object created
 	 */
 	public UnitDefinition createUnitDefinition(String id) {
 		UnitDefinition unitDefinition = new UnitDefinition(id, getLevel(),
@@ -1276,50 +1311,54 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * try to figure out the meaning of this name.
+	 * Returns a {@link NamedSBase} element of the model that has the given 'id' as id 
+	 * or null if no element is found.
 	 * 
-	 * @param idOrName
-	 *            an id indicating a variable of the model.
-	 * @return null if no model is available or the model does not contain a
-	 *         compartment, species, or parameter wit the given id.
+	 * @param id
+	 *            an id indicating an element of the model.
+	 * @return a {@link NamedSBase} element of the model that has the given 'id' as id 
+	 * or null if no element is found.
 	 */
-	public NamedSBase findNamedSBase(String idOrName) {
-		if (idOrName.equals(getId())) {
+	public NamedSBase findNamedSBase(String id) {
+		if (id.equals(getId())) {
 			return this;
 		}
-		NamedSBase nsb = getCompartmentType(idOrName);
+		NamedSBase nsb = getCompartmentType(id);
 		if (nsb == null) {
-			nsb = getEvent(idOrName);
+			nsb = getEvent(id);
 		}
 		if (nsb == null) {
-			nsb = getSpeciesType(idOrName);
+			nsb = getSpeciesType(id);
 		}
 		if (nsb == null) {
-			nsb = getUnitDefinition(idOrName);
+			nsb = getUnitDefinition(id);
 		}
 		if (nsb == null) {
 			for (Reaction r : getListOfReactions()) {
-				nsb = r.getModifier(idOrName);
+				nsb = r.getModifier(id);
 				if (nsb != null) {
 					return nsb;
 				}
 			}
 		}
-		return nsb == null ? findNamedSBaseWithDerivedUnit(idOrName) : nsb;
+		return nsb == null ? findNamedSBaseWithDerivedUnit(id) : nsb;
 	}
 
 	/**
+	 * Returns a {@link NamedSBaseWithDerivedUnit} element of the model
+	 * that has the given 'id' as id  or null if no element is found.
 	 * 
-	 * @param name
-	 * @return
+	 * @param id an id indicating an element  of the model.
+	 * @return a {@link NamedSBaseWithDerivedUnit} element of the model that has the given 'id' as id 
+	 * or null if no element is found.
 	 */
 	public NamedSBaseWithDerivedUnit findNamedSBaseWithDerivedUnit(
-			String idOrName) {
-		NamedSBaseWithDerivedUnit nsb = getReaction(idOrName);
+			String id) {
+		NamedSBaseWithDerivedUnit nsb = getReaction(id);
 		if (nsb == null) {
-			nsb = getFunctionDefinition(idOrName);
+			nsb = getFunctionDefinition(id);
 		}
-		return nsb == null ? findQuantity(idOrName) : nsb;
+		return nsb == null ? findQuantity(id) : nsb;
 	}
 
 	/**
@@ -1331,16 +1370,16 @@ public class Model extends AbstractNamedSBase {
 	 * returned. Note that also global {@link Parameter} instances have a higher
 	 * priority and are returned first.
 	 * 
-	 * @param idOrName
+	 * @param id
 	 * @return the {@link Compartment}, {@link Species},
 	 *         {@link SpeciesReference} or {@link Parameter}, or the first
-	 *         {@link LocalParameter} which has 'symbol' as id.
+	 *         {@link LocalParameter} which has 'id' as id.
 	 * @see #findLocalParameters(String)
 	 */
-	public Quantity findQuantity(String idOrName) {
-		Quantity nsb = findVariable(idOrName);
+	public Quantity findQuantity(String id) {
+		Quantity nsb = findVariable(id);
 		if (nsb == null) {
-			List<LocalParameter> list = findLocalParameters(idOrName);
+			List<LocalParameter> list = findLocalParameters(id);
 			if (!list.isEmpty()) {
 				return list.get(0);
 			}
@@ -1407,7 +1446,8 @@ public class Model extends AbstractNamedSBase {
 	 * {@link Parameter}s for the element with the given identifier.
 	 * 
 	 * @param id
-	 * @return
+	 * @return a {@link Symbol} element with the given identifier or
+	 *         null if there is no such element.
 	 */
 	public Symbol findSymbol(String id) {
 		Symbol symbol = getCompartment(id);
@@ -1421,7 +1461,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Searches the variable with the given identifier in this model.
+	 * Searches the {@link Variable} with the given identifier in this model.
 	 * 
 	 * @param variable
 	 *            The identifier of the {@link Variable} of interest.
@@ -1448,8 +1488,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
-	 * @return the areaUnitsID of this {@link Model}. Returns an empty {@link String} if it is
+	 * Returns the area units ID of this {@link Model}.
+	 *         
+	 * @return the area units ID of this {@link Model}. Returns an empty {@link String} if it is
 	 *         not set.
 	 */
 	public String getAreaUnits() {
@@ -1457,8 +1498,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
-	 * @return the UnitDefinition instance which has the areaUnitsID of this
+	 * Returns the {@link UnitDefinition} instance which has the area units ID of this
+	 *         Model as id.
+	 *         
+	 * @return the {@link UnitDefinition} instance which has the area Units ID of this
 	 *         Model as id. Null if it doesn't exist
 	 */
 	public UnitDefinition getAreaUnitsInstance() {
@@ -1600,6 +1643,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Gets  the nth {@link Compartment} instance of the listOfCompartments.
 	 * 
 	 * @param n
 	 * @return the nth {@link Compartment} instance of the listOfCompartments. Null if
@@ -1610,6 +1654,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Gets  the {@link Compartment} of the listOfCompartments which has 'id' as id.
 	 * 
 	 * @param id
 	 * @return the {@link Compartment} of the listOfCompartments which has 'id' as id
@@ -1704,8 +1749,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the extent units ID of this {@link Model}.
 	 * 
-	 * @return the extentUnitsID of this {@link Model}. Returns an empty {@link String} if it is
+	 * @return the extent units ID of this {@link Model}. Returns an empty {@link String} if it is
 	 *         not set.
 	 */
 	public String getExtentUnits() {
@@ -1713,8 +1759,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
-	 * @return the UnitDefinition instance which has the extentUnitsID of this
+	 * Returns the {@link UnitDefinition} instance which has the extent units ID of this
+	 *         Model as id.
+	 *         
+	 * @return the {@link UnitDefinition} instance which has the extent units ID of this
 	 *         Model as id. Null if it doesn't exist
 	 */
 	public UnitDefinition getExtentUnitsInstance() {
@@ -1722,6 +1770,8 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Gets  the nth {@link FunctionDefinition} instance of the
+	 *         listOfFunstionDefinitions.
 	 * 
 	 * @param n
 	 * @return the nth {@link FunctionDefinition} instance of the
@@ -1733,6 +1783,8 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the {@link FunctionDefinition} of the listOfFunstionDefinitions which has
+	 *         'id' as id.
 	 * 
 	 * @param id
 	 * @return the {@link FunctionDefinition} of the listOfFunstionDefinitions which has
@@ -1744,7 +1796,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Get the nth {@link InitialAssignment} object in this {@link Model}.
+	 * Gets the nth {@link InitialAssignment} object in this {@link Model}.
 	 * 
 	 * @param n
 	 * @return the nth {@link InitialAssignment} of this {@link Model}. Null if the
@@ -1754,6 +1806,19 @@ public class Model extends AbstractNamedSBase {
 		return getListOfInitialAssignments().get(n);
 	}
 
+	/**
+	 * Returns the InitialAssignment of the listOfInitialAssignments which has
+	 *         'id' as id.
+	 * 
+	 * @param id
+	 * @return the InitialAssignment of the listOfInitialAssignments which has
+	 *         'id' as id (or name depending on the level and version). Null if
+	 *         it doesn't exist.
+	 */
+	public InitialAssignment getInitialAssignment(String id) {
+		return getListOfInitialAssignments().firstHit(new NameFilter(id));
+	}
+	
 	/**
 	 * Returns the last element added in the given list.
 	 * 
@@ -1769,8 +1834,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the length units ID of this {@link Model}.
 	 * 
-	 * @return the lengthUnitsID of this {@link Model}. Returns an empty {@link String} if it is
+	 * @return the length units ID of this {@link Model}. Returns an empty {@link String} if it is
 	 *         not set.
 	 */
 	public String getLengthUnits() {
@@ -1778,8 +1844,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the length units of this {@link Model} as a {@link UnitDefinition}.
 	 * 
-	 * @return the UnitDefinition instance which has the lengthUnitsID of this
+	 * @return the UnitDefinition instance which has the length units ID of this
 	 *         Model as id. Null if it doesn't exist
 	 */
 	public UnitDefinition getLengthUnitsInstance() {
@@ -1787,9 +1854,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the listOfCompartments of this {@link Model}.
 	 * 
-	 * @return the listOfCompartments of this {@link Model}. Can be null if it is not
-	 *         set.
+	 * @return the listOfCompartments of this {@link Model}.
 	 */
 	public ListOf<Compartment> getListOfCompartments() {
 		if (listOfCompartments == null) {
@@ -1799,9 +1866,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the listOfCompartmentTypes of this {@link Model}.
 	 * 
-	 * @return the listOfCompartmentTypes of this {@link Model}. Can be null if it is
-	 *         not set.
+	 * @return the listOfCompartmentTypes of this {@link Model}.
 	 * @deprecated
 	 */
 	@Deprecated
@@ -1813,7 +1880,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * @return the listOfConstraints of this {@link Model}. Can be null if it is not
+	 * Returns the listOfConstraints of this {@link Model}.
+	 * 
+	 * @return the listOfConstraints of this {@link Model}.
 	 *         set.
 	 */
 	public ListOf<Constraint> getListOfConstraints() {
@@ -1824,8 +1893,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the listOfEvents of this {@link Model}.
 	 * 
-	 * @return the listOfEvents of this {@link Model}. Can be null if it is not set.
+	 * @return the listOfEvents of this {@link Model}.
 	 */
 	public ListOf<Event> getListOfEvents() {
 		if (listOfEvents == null) {
@@ -1835,9 +1905,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the listOfFunctionDefinitions of this {@link Model}.
 	 * 
-	 * @return the listOfFunctionDefinitions of this {@link Model}. Can be null if it is
-	 *         not set.
+	 * @return the listOfFunctionDefinitions of this {@link Model}.
 	 */
 	public ListOf<FunctionDefinition> getListOfFunctionDefinitions() {
 		if (listOfFunctionDefinitions == null) {
@@ -1848,8 +1918,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * @return the listOfInitialAssignments of this {@link Model}. Can be null if it is
-	 *         not set.
+	 * Returns the listOfInitialAssignments of this {@link Model}.
+	 * 
+	 * @return the listOfInitialAssignments of this {@link Model}.
 	 */
 	public ListOf<InitialAssignment> getListOfInitialAssignments() {
 		if (listOfInitialAssignments == null) {
@@ -1860,8 +1931,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the listOfParameters of this {@link Model}.
 	 * 
-	 * @return the listOfParameters of this Model. Can be null if it is not set.
+	 * @return the listOfParameters of this {@link Model}.
 	 */
 	public ListOf<Parameter> getListOfParameters() {
 		if (listOfParameters == null) {
@@ -1871,8 +1943,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the listOfReactions of this {@link Model}.
 	 * 
-	 * @return the listOfReactions of this Model. Can be null if it is not set.
+	 * @return the listOfReactions of this {@link Model}.
 	 */
 	public ListOf<Reaction> getListOfReactions() {
 		if (listOfReactions == null) {
@@ -1882,8 +1955,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the listOfRules of this {@link Model}.
 	 * 
-	 * @return the listOfRules of this {@link Model}. Can be null if it is not set.
+	 * @return the listOfRules of this {@link Model}.
 	 */
 	public ListOf<Rule> getListOfRules() {
 		if (listOfRules == null) {
@@ -1893,8 +1967,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the listOfSpecies of this {@link Model}.
 	 * 
-	 * @return the listOfSpecies of this {@link Model}. Can be null if it is not set.
+	 * @return the listOfSpecies of this {@link Model}.
 	 */
 	public ListOf<Species> getListOfSpecies() {
 		if (listOfSpecies == null) {
@@ -1904,10 +1979,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the listOfSpeciesTypes of this {@link Model}.
 	 * 
-	 * @return the listOfSpeciesTypes of this {@link Model}. Can be null if it is not
-	 *         set.
-	 *         @deprecated
+	 * @return the listOfSpeciesTypes of this {@link Model}.
+	 * @deprecated
 	 */
 	@Deprecated
 	public ListOf<SpeciesType> getListOfSpeciesTypes() {
@@ -1918,9 +1993,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the listOfUnitDefinitions of this {@link Model}.
 	 * 
-	 * @return the listOfUnitDefinitions of this {@link Model}. Can be null if it is not
-	 *         set.
+	 * @return the listOfUnitDefinitions of this {@link Model}.
 	 */
 	public ListOf<UnitDefinition> getListOfUnitDefinitions() {
 		if (listOfUnitDefinitions == null) {
@@ -1930,8 +2005,11 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * @see getHistory
-	 * @return History of this model
+	 * Returns {@link History} of this model.
+	 * 
+	 * @return the {@link History} of this model.
+	 * 
+	 * @see SBase#getHistory
 	 * @deprecated use {@link SBase#getHistory()}
 	 */
 	public History getModelHistory() {
@@ -1939,16 +2017,18 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link Compartment}s of this Model.
 	 * 
-	 * @return the number of Compartments of this Model.
+	 * @return the number of {@link Compartment}s of this Model.
 	 */
 	public int getNumCompartments() {
 		return isSetListOfCompartments() ? listOfCompartments.size() : 0;
 	}
 
 	/**
+	 * Returns the number of {@link CompartmentType}s of this Model.
 	 * 
-	 * @return the number of CompartmentTypes of this Model.
+	 * @return the number of {@link CompartmentType}s of this Model.
 	 */
 	@Deprecated
 	public int getNumCompartmentTypes() {
@@ -1957,16 +2037,18 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link Constraint}s of this Model.
 	 * 
-	 * @return the number of Constraints of this Model.
+	 * @return the number of {@link Constraint}s of this Model.
 	 */
 	public int getNumConstraints() {
 		return isSetListOfConstraints() ? listOfConstraints.size() : 0;
 	}
 
 	/**
+	 * Returns the number of {@link Delay}s of this Model.
 	 * 
-	 * @return
+	 * @return the number of {@link Delay}s of this Model.
 	 */
 	public int getNumDelays() {
 		int count = 0;
@@ -1979,8 +2061,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link EventAssignment}s of this Model.
 	 * 
-	 * @return
+	 * @return return the number of {@link EventAssignment}s of this Model.
 	 */
 	public int getNumEventAssignments() {
 		int count = 0;
@@ -1991,16 +2074,18 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link Event}s of this Model.
 	 * 
-	 * @return the number of Events of this Model.
+	 * @return the number of {@link Event}s of this Model.
 	 */
 	public int getNumEvents() {
 		return isSetListOfEvents() ? listOfEvents.size() : 0;
 	}
 
 	/**
+	 * Returns the number of {@link FunctionDefinition}s of this Model.
 	 * 
-	 * @return the number of FunctionDefinitions of this Model.
+	 * @return the number of {@link FunctionDefinition}s of this Model.
 	 */
 	public int getNumFunctionDefinitions() {
 		return isSetListOfFunctionDefinitions() ? listOfFunctionDefinitions
@@ -2008,8 +2093,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link InitialAssignment}s of this Model.
 	 * 
-	 * @return the number of InitialAssignments of this Model.
+	 * @return the number of {@link InitialAssignment}s of this Model.
 	 */
 	public int getNumInitialAssignments() {
 		return isSetListOfInitialAssignments() ? listOfInitialAssignments
@@ -2017,8 +2103,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link KineticLaw}s of this Model.
 	 * 
-	 * @return
+	 * @return the number of {@link KineticLaw}s of this Model.
 	 */
 	public int getNumKineticLaws() {
 		int count = 0;
@@ -2031,8 +2118,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Returns the number of {@link ListOf}s of this Model.
+	 *  
+	 * @return the number of {@link ListOf}s of this Model.
 	 */
 	public int getNumListsOf() {
 		return getChildCount();
@@ -2042,7 +2130,8 @@ public class Model extends AbstractNamedSBase {
 	 * Returns the number of parameters that are contained within kineticLaws in
 	 * the reactions of this model.
 	 * 
-	 * @return
+	 * @return the number of parameters that are contained within kineticLaws in
+	 * the reactions of this model.
 	 */
 	public int getNumLocalParameters() {
 		int count = 0;
@@ -2057,8 +2146,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of elements that can contain math in the {@link Model}.
 	 * 
-	 * @return
+	 * @return the number of elements that can contain math in the {@link Model}.
+	 * @see MathContainer
 	 */
 	public int getNumMathContainers() {
 		return getNumFunctionDefinitions() + getNumInitialAssignments()
@@ -2068,8 +2159,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link ModifierSpeciesReference}s in the {@link Model}.
 	 * 
-	 * @return
+	 * @return the number of {@link ModifierSpeciesReference}s in the {@link Model}.
 	 */
 	public int getNumModifierSpeciesReferences() {
 		int count = 0;
@@ -2080,8 +2172,11 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link NamedSBase}s in the {@link Model}, so elements that can
+	 * have a name.
 	 * 
-	 * @return
+	 * @return the number of {@link NamedSBase}s in the {@link Model}, so elements that can
+	 * have a name.
 	 */
 	public int getNumNamedSBases() {
 		return getNumNamedSBasesWithDerivedUnit() + 1 /* this model */
@@ -2091,8 +2186,11 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link NamedSBaseWithDerivedUnit}s in the {@link Model}, so elements that can
+	 * have a name and a unit that can be derived.
 	 * 
-	 * @return
+	 * @return the number of {@link NamedSBaseWithDerivedUnit}s in the {@link Model}, so elements that can
+	 * have a name and a unit that can be derived.
 	 */
 	public int getNumNamedSBasesWithDerivedUnit() {
 		return getNumQuantities() + getNumFunctionDefinitions()
@@ -2100,48 +2198,54 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link Parameter}s of this Model.
 	 * 
-	 * @return the number of Parameters of this Model.
+	 * @return the number of {@link Parameter}s of this Model.
 	 */
 	public int getNumParameters() {
 		return isSetListOfParameters() ? listOfParameters.size() : 0;
 	}
 
 	/**
+	 * Returns the number of {@link Quantity}s of this Model.
 	 * 
-	 * @return
+	 * @return the number of {@link Quantity}s of this Model.
 	 */
 	public int getNumQuantities() {
 		return getNumVariables() + getNumLocalParameters();
 	}
 
 	/**
+	 * Returns the number of {@link QuantityWithUnit}s of this Model.
 	 * 
-	 * @return
+	 * @return the number of {@link QuantityWithUnit}s of this Model.
 	 */
-	public int getNumQuantitiesWithDefinedUnit() {
+	public int getNumQuantitiesWithUnit() {
 		return getNumSymbols() + getNumLocalParameters();
 	}
 
 	/**
+	 * Returns the number of {@link Reaction}s of this Model.
 	 * 
-	 * @return the number of Reactions of this Model.
+	 * @return the number of {@link Reaction}s of this Model.
 	 */
 	public int getNumReactions() {
 		return isSetListOfReactions() ? listOfReactions.size() : 0;
 	}
 
 	/**
+	 * Returns the number of {@link Rule}s of this model.
 	 * 
-	 * @return the number of Rules of this model.
+	 * @return the number of {@link Rule}s of this model.
 	 */
 	public int getNumRules() {
 		return isSetListOfRules() ? listOfRules.size() : 0;
 	}
 
 	/**
+	 * Returns the number of {@link SBase}s of this model.
 	 * 
-	 * @return
+	 * @return the number of {@link SBase}s of this model.
 	 */
 	public int getNumSBases() {
 		int count = getNumNamedSBases() - getNumFunctionDefinitions()
@@ -2154,8 +2258,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link SBaseWithDerivedUnit}s of this model.
 	 * 
-	 * @return
+	 * @return the number of {@link SBaseWithDerivedUnit}s of this model.
 	 */
 	public int getNumSBasesWithDerivedUnit() {
 		return getNumNamedSBasesWithDerivedUnit() + getNumMathContainers()
@@ -2163,16 +2268,18 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link Species} of this Model.
 	 * 
-	 * @return the number of Species of this Model.
+	 * @return the number of {@link Species} of this Model.
 	 */
 	public int getNumSpecies() {
 		return isSetListOfSpecies() ? listOfSpecies.size() : 0;
 	}
 
 	/**
+	 * Returns the number of {@link SpeciesReferences}s of this Model.
 	 * 
-	 * @return
+	 * @return the number of {@link SpeciesReferences}s of this Model.
 	 */
 	public int getNumSpeciesReferences() {
 		int count = 0;
@@ -2183,8 +2290,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link SpeciesType}s of this Model.
 	 * 
-	 * @return the number of SpeciesTypes of this Model.
+	 * @return the number of {@link SpeciesType}s of this Model.
 	 */
 	@Deprecated
 	public int getNumSpeciesTypes() {
@@ -2192,9 +2300,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Counts the number of species whose boundary condition is set to true.
+	 * Returns the number of {@link Species} whose boundary condition is set to true.
 	 * 
-	 * @return
+	 * @return the number of {@link Species} whose boundary condition is set to true.
 	 */
 	public int getNumSpeciesWithBoundaryCondition() {
 		return getListOfSpecies().filterList(new BoundaryConditionFilter())
@@ -2202,8 +2310,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link StoichiometryMath} in the {@link Model}.
 	 * 
-	 * @return
+	 * @return the number of {@link StoichiometryMath} in the {@link Model}.
 	 */
 	public int getNumStoichiometryMath() {
 		int count = 0;
@@ -2223,7 +2332,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Counts and returns the number of all instances of {@link Symbol}
+	 * Returns the number of all instances of {@link Symbol}
 	 * referenced within the model. There is no dedicated list for
 	 * {@link Symbol}s. This is a convenient method to support working with the
 	 * model data structure.
@@ -2236,8 +2345,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link Trigger} of this Model.
 	 * 
-	 * @return
+	 * @return the number of {@link Trigger} of this Model.
 	 */
 	public int getNumTriggers() {
 		int count = 0;
@@ -2250,16 +2360,18 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link UnitDefinition}s of this Model.
 	 * 
-	 * @return the number of UnitDefinitions of this Model.
+	 * @return the number of {@link UnitDefinition}s of this Model.
 	 */
 	public int getNumUnitDefinitions() {
 		return isSetListOfUnitDefinitions() ? listOfUnitDefinitions.size() : 0;
 	}
 
 	/**
+	 * Returns the number of {@link Unit}s of this Model.
 	 * 
-	 * @return
+	 * @return the number of {@link Unit}s of this Model.
 	 */
 	public int getNumUnits() {
 		int count = 0;
@@ -2270,28 +2382,30 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link Variable}s of this Model.
 	 * 
-	 * @return
+	 * @return the number of {@link Variable}s of this Model.
 	 */
 	public int getNumVariables() {
 		return getNumSymbols() + getNumSpeciesReferences();
 	}
 
 	/**
-	 * Gets the nth Parameter object in this Model.
+	 * Gets the nth {@link Parameter} object in this {@link Model}.
 	 * 
 	 * @param n
 	 *            index
-	 * @return the nth Parameter of this Model.
+	 * @return the nth {@link Parameter} of this {@link Model}.
 	 */
 	public Parameter getParameter(int n) {
 		return getListOfParameters().get(n);
 	}
 
 	/**
+	 * Returns the {@link Parameter} of the listOfParameters which has 'id' as id
 	 * 
 	 * @param id
-	 * @return the Parameter of the listOfParameters which has 'id' as id (or
+	 * @return the {@link Parameter} of the listOfParameters which has 'id' as id (or
 	 *         name depending on the level and version). Null if it doesn't
 	 *         exist.
 	 */
@@ -2326,19 +2440,20 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Gets the n-th Reaction object in this Model.
+	 * Gets the n-th {@link Reaction} object in this Model.
 	 * 
 	 * @param reactionIndex
-	 * @return the n-th Reaction of this Model.
+	 * @return the n-th {@link Reaction} of this Model.
 	 */
 	public Reaction getReaction(int n) {
 		return getListOfReactions().get(n);
 	}
 
 	/**
+	 * Returns the {@link Reaction} of the listOfReactions which has 'id' as id.
 	 * 
 	 * @param id
-	 * @return the Reaction of the listOfReactions which has 'id' as id (or name
+	 * @return the {@link Reaction} of the listOfReactions which has 'id' as id (or name
 	 *         depending on the level and version). Null if it doesn't exist.
 	 */
 	public Reaction getReaction(String id) {
@@ -2346,29 +2461,30 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
-	 * @param n
-	 * @return the nth Rule of the listOfRules. Null if it doesn't exist.
+	 * Gets the nth {@link Rule} of the listOfRules.
+	 *  
+	 * @param n an index
+	 * @return the nth {@link Rule} of the listOfRules. Null if it doesn't exist.
 	 */
 	public Rule getRule(int n) {
 		return getListOfRules().get(n);
 	}
 
 	/**
-	 * Gets the n-th Species object in this Model.
+	 * Gets the n-th {@link Species} object in this Model.
 	 * 
-	 * @param n
-	 *            the nth Species of this Model.
-	 * @return the species with the given index if it exists.
+	 * @param n an index
+	 * @return the {@link Species} with the given index if it exists, null otherwise.
 	 */
 	public Species getSpecies(int n) {
 		return getListOfSpecies().get(n);
 	}
 
 	/**
+	 * Gets the {@link Species} of the listOfSpecies which has 'id' as id.
 	 * 
 	 * @param id
-	 * @return the Species of the listOfSpecies which has 'id' as id (or name
+	 * @return the {@link Species} of the listOfSpecies which has 'id' as id (or name
 	 *         depending on the level and version). Null if it doesn't exist.
 	 */
 	public Species getSpecies(String id) {
@@ -2376,11 +2492,11 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Gets the nth SpeciesType object in this Model.
+	 * Gets the nth {@link SpeciesType} object in this Model.
 	 * 
 	 * @param n
 	 *            index
-	 * @return the nth SpeciesType of this Model. Returns null if there are no
+	 * @return the nth {@link SpeciesType} of this Model. Returns null if there are no
 	 *         speciesType defined or if the index n is too big or lower than
 	 *         zero.
 	 */
@@ -2390,9 +2506,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the {@link SpeciesType} of the listOfSpeciesTypes which has 'id' as id.
 	 * 
 	 * @param id
-	 * @return the SpeciesType of the listOfSpeciesTypes which has 'id' as id
+	 * @return the {@link SpeciesType} of the listOfSpeciesTypes which has 'id' as id
 	 *         (or name depending on the level and version). Null if it doesn't
 	 *         exist.
 	 */
@@ -2402,8 +2519,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the substance units ID of this model.
 	 * 
-	 * @return the substanceUnitsID of this model. Returns the empty {@link String} if
+	 * @return the substance units ID of this model. Returns the empty {@link String} if
 	 *         it is not set.
 	 */
 	public String getSubstanceUnits() {
@@ -2411,8 +2529,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
-	 * @return the UnitDefinitions which has the substanceUnitsID of this Model
+	 * Returns the {@link UnitDefinition} which has the substance units ID of this Model
+	 *         as id.
+	 *         
+	 * @return the {@link UnitDefinition} which has the substanceUnitsID of this Model
 	 *         as id. Null if it doesn't exist.
 	 */
 	public UnitDefinition getSubstanceUnitsInstance() {
@@ -2420,8 +2540,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the time units ID of this {@link Model}. 
 	 * 
-	 * @return the timeUnitsID of this {@link Model}. Returns an empty {@link String} if it is
+	 * @return the time units ID of this {@link Model} or an empty {@link String} if it is
 	 *         not set.
 	 */
 	public String getTimeUnits() {
@@ -2429,9 +2550,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Gets the UnitDefinition representing the TimeUnits of this {@link Model}.
+	 * Gets the {@link UnitDefinition} representing the time units of this {@link Model}.
 	 * 
-	 * @return the {@link UnitDefinition} representing the TimeUnits of this
+	 * @return the {@link UnitDefinition} representing the time units of this
 	 *         {@link Model}, null if it is not defined in this {@link Model}
 	 */
 	public UnitDefinition getTimeUnitsInstance() {
@@ -2439,10 +2560,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Gets the nth UnitDefinition object in this Model.
+	 * Gets the nth {@link UnitDefinition} object in this {@link Model}.
 	 * 
 	 * @param n
-	 * @return the nth UnitDefinition of this Model. Returns null if there are
+	 * @return the nth {@link UnitDefinition} of this Model. Returns null if there are
 	 *         no UnitDefinition defined or if the index n is too big or lower
 	 *         than zero.
 	 */
@@ -2474,8 +2595,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the volume units ID of this {@link Model}.
 	 * 
-	 * @return the volumeUnitsID of this Model. Returns an empty String if it is
+	 * @return the volume nits ID of this {@link Model}. Returns an empty String if it is
 	 *         not set.
 	 */
 	public String getVolumeUnits() {
@@ -2483,28 +2605,30 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
-	 * @return the UnitDefinition instance which has the volumeUnitsID of this
-	 *         Model as id. Null if it doesn't exist
+	 * Returns the {@link UnitDefinition} instance which has the volume units ID of this
+	 *         {@link Model} as id.
+	 *         
+	 * @return the {@link UnitDefinition} instance which has the volume units ID of this
+	 *         {@link Model} as id. Null if it doesn't exist
 	 */
 	public UnitDefinition getVolumeUnitsInstance() {
 		return getUnitDefinition(this.volumeUnitsID);
 	}
 
 	/**
-	 * Convenient method to check whether this model has a reference to the unit
+	 * Returns true if this model has a reference to the unit
 	 * with the given identifier.
 	 * 
 	 * @param id
-	 * @return
+	 * @return true if this model has a reference to the unit
+	 * with the given identifier, false otherwise.
 	 */
 	public boolean hasUnit(String id) {
 		return getUnitDefinition(id) != null;
 	}
 
 	/**
-	 * This method ensures that for all constructors the same basic settings are
-	 * made upon creation of new instances of this type.
+	 * Initializes the default values of the attributes of the {@link Model}
 	 */
 	public void initDefaults() {
 		listOfPredefinedUnitDefinitions = new ArrayList<UnitDefinition>(5);
@@ -2579,16 +2703,19 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns true if the area units ID of this Model is not null.
 	 * 
-	 * @return true if the areaUnitsID of this Model is not null.
+	 * @return true if the area units ID of this Model is not null.
 	 */
 	public boolean isSetAreaUnits() {
 		return this.areaUnitsID != null;
 	}
 
 	/**
-	 * 
-	 * @return true if the UnitDefinition which has the areaUnitsID of this
+	 * Returns true if the UnitDefinition which has the area units ID of this
+	 *         Model as id is not null.
+	 *         
+	 * @return true if the UnitDefinition which has the area units ID of this
 	 *         Model as id is not null.
 	 */
 	public boolean isSetAreaUnitsInstance() {
@@ -2596,6 +2723,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns  true if the conversionFactorID of this Model is not null.
 	 * 
 	 * @return true if the conversionFactorID of this Model is not null.
 	 */
@@ -2604,6 +2732,8 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns true if the Parameter which has the conversionFactorID of this
+	 *         Model as id is not null.
 	 * 
 	 * @return true if the Parameter which has the conversionFactorID of this
 	 *         Model as id is not null.
@@ -2613,6 +2743,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns true if the extentUnitsID of this Model is not null.
 	 * 
 	 * @return true if the extentUnitsID of this Model is not null.
 	 */
@@ -2621,7 +2752,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the UnitDefinition which has the extentUnitsID of this
+	 *         Model as id is not null.
+	 *         
 	 * @return true if the UnitDefinition which has the extentUnitsID of this
 	 *         Model as id is not null.
 	 */
@@ -2630,6 +2763,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns true if the lengthUnitsID of this Model is not null.
 	 * 
 	 * @return true if the lengthUnitsID of this Model is not null.
 	 */
@@ -2638,7 +2772,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the UnitDefinition which has the lengthUnitsID of this
+	 *         Model as id is not null.
+	 *         
 	 * @return true if the UnitDefinition which has the lengthUnitsID of this
 	 *         Model as id is not null.
 	 */
@@ -2647,7 +2783,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the listOfCompartments of this Model is not null and not
+	 *         empty.
+	 *         
 	 * @return true if the listOfCompartments of this Model is not null and not
 	 *         empty.
 	 */
@@ -2656,7 +2794,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the listOfCompartmentTypes of this Model is not null and
+	 *         not empty.
+	 *         
 	 * @return true if the listOfCompartmentTypes of this Model is not null and
 	 *         not empty.
 	 * @deprecated
@@ -2668,7 +2808,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the listOfConstraints of this Model is not null and not
+	 *         empty.
+	 *         
 	 * @return true if the listOfConstraints of this Model is not null and not
 	 *         empty.
 	 */
@@ -2677,6 +2819,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns true if the listOfEvents of this Model is not null and not empty.
 	 * 
 	 * @return true if the listOfEvents of this Model is not null and not empty.
 	 */
@@ -2685,7 +2828,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the listOfFunctionDefinitions of this Model is not null
+	 *         and not empty.
+	 *         
 	 * @return true if the listOfFunctionDefinitions of this Model is not null
 	 *         and not empty.
 	 */
@@ -2695,7 +2840,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the listOfInitialAssignments of this Model is not null
+	 *         and not empty.
+	 *         
 	 * @return true if the listOfInitialAssignments of this Model is not null
 	 *         and not empty.
 	 */
@@ -2705,7 +2852,8 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the listOfParameters of this Model is not null and not
+	 *         empty.
 	 * @return true if the listOfParameters of this Model is not null and not
 	 *         empty.
 	 */
@@ -2714,7 +2862,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the listOfReactions of this Model is not null and not
+	 *         empty.
+	 *         
 	 * @return true if the listOfReactions of this Model is not null and not
 	 *         empty.
 	 */
@@ -2723,6 +2873,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns true if the listOfRules of this Model is not null and not empty.
 	 * 
 	 * @return true if the listOfRules of this Model is not null and not empty.
 	 */
@@ -2731,7 +2882,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the listOfSpecies of this Model is not null and not
+	 *         empty.
+	 *         
 	 * @return true if the listOfSpecies of this Model is not null and not
 	 *         empty.
 	 */
@@ -2740,7 +2893,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the listOfSpeciesTypes of this Model is not null and not
+	 *         empty.
+	 *         
 	 * @return true if the listOfSpeciesTypes of this Model is not null and not
 	 *         empty.
 	 * @deprecated
@@ -2751,7 +2906,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the listOfUnitDefinitions of this Model is not null and
+	 *         not empty.
+	 *         
 	 * @return true if the listOfUnitDefinitions of this Model is not null and
 	 *         not empty.
 	 */
@@ -2761,9 +2918,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns the {@link History} of the Model.
 	 * This is equivalent to the call {@link SBase#isSetHistory()}.
 	 * 
-	 * @return
+	 * @return the {@link History} of the Model.
 	 * @deprecated use {@link SBase#isSetHistory()}
 	 */
 	@Deprecated
@@ -2772,6 +2930,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns true if the substanceUnitsID of this Model is not null.
 	 * 
 	 * @return true if the substanceUnitsID of this Model is not null.
 	 */
@@ -2780,7 +2939,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the UnitDefinition which has the substanceUnitsID of this
+	 *         Model as id is not null.
+	 *         
 	 * @return true if the UnitDefinition which has the substanceUnitsID of this
 	 *         Model as id is not null.
 	 */
@@ -2789,6 +2950,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns true if the timeUnitsID of this Model is not null.
 	 * 
 	 * @return true if the timeUnitsID of this Model is not null.
 	 */
@@ -2797,7 +2959,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the UnitsDefinition which has the timeUnistID of this
+	 *         Model as id is not null.
+	 *         
 	 * @return true if the UnitsDefinition which has the timeUnistID of this
 	 *         Model as id is not null.
 	 */
@@ -2806,6 +2970,7 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns true if the volumeUnitsID of this Model is not null.
 	 * 
 	 * @return true if the volumeUnitsID of this Model is not null.
 	 */
@@ -2814,7 +2979,9 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
+	 * Returns true if the UnitDefinition which has the volumeUnitsID of this
+	 *         Model as id is not null.
+	 *         
 	 * @return true if the UnitDefinition which has the volumeUnitsID of this
 	 *         Model as id is not null.
 	 */
@@ -2862,27 +3029,30 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Removes the i-th {@link Compartment} of the {@link Model}.
 	 * 
-	 * @param i
-	 * @return
+	 * @param i the index of the {@link Compartment} to remove
+	 * @return the removed {@link Compartment}.
 	 */
 	public Compartment removeCompartment(int i) {
 		return getListOfCompartments().remove(i);
 	}
 
 	/**
+	 * Removes the {@link Compartment} of the {@link Model} with 'id' as id.
 	 * 
 	 * @param id
-	 * @return
+	 * @return the removed {@link Compartment}.
 	 */
 	public Compartment removeCompartment(String id) {
 		return getListOfCompartments().removeFirst(new NameFilter(id));
 	}
 
 	/**
+	 * Removes the n-th {@link CompartmentType} of the {@link Model}.
 	 * 
-	 * @param n
-	 * @return
+	 * @param n the index of the {@link Compartment} to remove
+	 * @return the removed {@link CompartmentType}.
 	 */
 	@Deprecated
 	public CompartmentType removeCompartmentType(int n) {
@@ -2890,9 +3060,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Removes the {@link CompartmentType} of the {@link Model} with 'id' as id.
 	 * 
 	 * @param id
-	 * @return
+	 * @return the removed element.
 	 */
 	@Deprecated
 	public CompartmentType removeCompartmentType(String id) {
@@ -2900,63 +3071,70 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Removes the n-th {@link Constraint} of the {@link Model}.
 	 * 
 	 * @param n
-	 * @return
+	 * @return the removed element.
 	 */
 	public Constraint removeConstraint(int n) {
 		return getListOfConstraints().remove(n);
 	}
 
 	/**
+	 * Removes the n-th {@link Event} of the {@link Model}.
 	 * 
 	 * @param n
-	 * @return
+	 * @return the removed element.
 	 */
 	public Event removeEvent(int n) {
 		return getListOfEvents().remove(n);
 	}
 
 	/**
+	 * Removes the {@link Event} of the {@link Model} with 'id' as id.
 	 * 
 	 * @param id
-	 * @return
+	 * @return the removed element.
 	 */
 	public Event removeEvent(String id) {
 		return getListOfEvents().removeFirst(new NameFilter(id));
 	}
 
 	/**
+	 * Removes the n-th {@link FunctionDefinition} of the {@link Model}.
 	 * 
 	 * @param n
-	 * @return
+	 * @return the removed element.
 	 */
 	public FunctionDefinition removeFunctionDefinition(int n) {
 		return getListOfFunctionDefinitions().remove(n);
 	}
 
 	/**
+	 * Removes the {@link FunctionDefinition} of the {@link Model} with 'id' as id.
 	 * 
 	 * @param id
-	 * @return
+	 * @return the removed element.
 	 */
 	public FunctionDefinition removeFunctionDefinition(String id) {
 		return getListOfFunctionDefinitions().removeFirst(new NameFilter(id));
 	}
 
 	/**
+	 * Removes the n-th {@link InitialAssignment} of the {@link Model}.
 	 * 
 	 * @param n
-	 * @return
+	 * @return the removed element.
 	 */
 	public InitialAssignment removeInitialAssignment(int n) {
 		return getListOfInitialAssignments().remove(n);
 	}
 
 	/**
+	 * Removes the n-th {@link Parameter} of the {@link Model}.
 	 * 
 	 * @param n
-	 * @return
+	 * @return the removed element.
 	 */
 	public Parameter removeParameter(int n) {
 		return getListOfParameters().remove(n);
@@ -2966,99 +3144,107 @@ public class Model extends AbstractNamedSBase {
 	 * Removes the Parameter 'parameter' from this Model.
 	 * 
 	 * @param parameter
-	 * @return
+	 * @return true if the {@link Parameter} was found and removed.
 	 */
 	public boolean removeParameter(Parameter parameter) {
 		return getListOfParameters().remove(parameter);
 	}
 
 	/**
+	 * Removes the {@link Parameter} of the {@link Model} with 'id' as id.
 	 * 
 	 * @param id
-	 * @return
+	 * @return the removed element.
 	 */
 	public Parameter removeParameter(String id) {
 		return getListOfParameters().removeFirst(new NameFilter(id));
 	}
 
 	/**
+	 * Removes the n-th {@link Reaction} of the {@link Model}.
 	 * 
 	 * @param n
-	 * @return
+	 * @return the removed element.
 	 */
 	public Reaction removeReaction(int n) {
 		return getListOfReactions().remove(n);
 	}
 
 	/**
-	 * removes a reaction from the model
+	 * Removes a reaction from the model.
 	 * 
 	 * @param reac
-	 * @return
+	 * @return true if the {@link Reaction} was found and removed.
 	 */
 	public boolean removeReaction(Reaction reac) {
 		return getListOfReactions().remove(reac);
 	}
 
 	/**
+	 * Removes the {@link Reaction} of the {@link Model} with 'id' as id.
 	 * 
 	 * @param id
-	 * @return
+	 * @return the removed element.
 	 */
 	public Reaction removeReaction(String id) {
 		return getListOfReactions().removeFirst(new NameFilter(id));
 	}
 
 	/**
+	 * Removes the i-th {@link Rule} of the {@link Model}.
 	 * 
 	 * @param i
-	 * @return
+	 * @return the removed element.
 	 */
 	public Rule removeRule(int i) {
 		return getListOfRules().remove(i);
 	}
 
 	/**
+	 * Removes the {@link Rule} of the {@link Model} with 'variableId' as variable.
 	 * 
-	 * @param i
-	 * @return
+	 * @param variableId
+	 * @return the removed element.
 	 */
 	public Rule removeRule(String variableId) {
 		return getListOfRules().removeFirst(new RuleVariableFilter(variableId));
 	}
 
 	/**
+	 * Removes the i-th {@link Species} of the {@link Model}.
 	 * 
 	 * @param i
-	 * @return
+	 * @return the removed element.
 	 */
 	public Species removeSpecies(int i) {
 		return getListOfSpecies().remove(i);
 	}
 
 	/**
-	 * removes a species from the model
+	 * Removes a species from the model.
 	 * 
 	 * @param spec
-	 * @return success
+	 * @return true if the {@link Species} was found and removed.
 	 */
 	public boolean removeSpecies(Species spec) {
 		return getListOfSpecies().remove(spec);
 	}
 
 	/**
+	 * Removes the {@link Species} of the {@link Model} with 'id' as id.
 	 * 
 	 * @param id
-	 * @return
+	 * @return the removed element.
 	 */
 	public Species removeSpecies(String id) {
 		return getListOfSpecies().removeFirst(new NameFilter(id));
 	}
 
 	/**
+	 * Removes the n-th {@link SpeciesType} of the {@link Model}.
 	 * 
 	 * @param n
-	 * @return
+	 * @return the removed element.
 	 */
 	@Deprecated
 	public SpeciesType removeSpeciesType(int n) {
@@ -3066,9 +3252,10 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Removes the {@link SpeciesType} of the {@link Model} with 'id' as id.
 	 * 
 	 * @param id
-	 * @return
+	 * @return the removed element.
 	 */
 	@Deprecated
 	public SpeciesType removeSpeciesType(String id) {
@@ -3076,24 +3263,27 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Removes the n-th {@link UnitDefinition} of the {@link Model}.
 	 * 
 	 * @param n
-	 * @return
+	 * @return the removed element.
 	 */
 	public UnitDefinition removeUnitDefinition(int n) {
 		return getListOfUnitDefinitions().remove(n);
 	}
 
 	/**
+	 * Removes the {@link UnitDefinition} of the {@link Model} with 'id' as id.
 	 * 
 	 * @param id
-	 * @return
+	 * @return the removed element.
 	 */
 	public UnitDefinition removeUnitDefinition(String id) {
 		return getListOfUnitDefinitions().removeFirst(new NameFilter(id));
 	}
 
 	/**
+	 * Removes a {@link UnitDefinition} of the {@link Model}.
 	 * 
 	 * @param unitDefininition
 	 * @return true if the UnitDefinition 'unitDefinition' has been removed from
