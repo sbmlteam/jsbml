@@ -76,7 +76,7 @@ public class SimpleSBaseChangeListener implements SBaseChangedListener {
 	 * @seeorg.sbml.jsbml.SBaseChangedListener#stateChanged(org.sbml.jsbml.
 	 * SBaseChangedEvent)
 	 */
-	public void stateChanged(SBaseChangedEvent ev) {
+	public void stateChanged(SBaseChangedEvent ev) {		
 		logger.debug(String.format("[CHG]\t%s\n", ev));
 	}
 
