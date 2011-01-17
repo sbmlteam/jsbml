@@ -31,14 +31,13 @@
 package org.sbml.jsbml.xml.stax;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -52,6 +51,10 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -80,11 +83,12 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.resources.Resource;
-import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.util.DateParser;
 import org.xml.sax.SAXException;
 
@@ -518,6 +522,11 @@ public class SBMLWriter {
 			XMLStreamWriter writer, String sbmlNamespace, int indent)
 			throws XMLStreamException, SBMLException 
 	{
+		
+		Logger logger = Logger.getLogger(SBMLWriter.class);
+		
+		logger.debug("writeAnnotation started.");
+		
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
 		Annotation annotation = sbase.getAnnotation();
@@ -551,20 +560,34 @@ public class SBMLWriter {
 					Character.valueOf('\n'), annotation.getNoRDFAnnotation(),
 					whiteSpaces, "</annotation>", Character.valueOf('\n'));
 
+			
 			DOMConverter converter = new DOMConverter();
 			String annotationString = annotationBeginning.toString()
 					.replaceAll("&", "&amp;");
+			
+
+			
+			logger.debug("Annotation String : \n" + annotationString);
+			
 			// here indent gets lost.
-			Document domDocument = null;
-			try {
-				domDocument = JAXPFacade.getInstance().create(
-						new BufferedReader(new StringReader(annotationString)),
-						true);
-				converter.writeFragment(domDocument.getFirstChild()
-						.getChildNodes(), writer);
-			} catch (SAXException e) {
-				e.printStackTrace();
-				// TODO : log error or send SBMLException
+			Document domDocument = getTextDocument(annotationString);
+			
+			if (domDocument != null) {
+				logger.debug(domDocument.getChildNodes().getLength());
+				logger.debug(domDocument.getChildNodes().item(0).getChildNodes().getLength());
+
+				NodeList grandChildren = domDocument.getChildNodes().item(0).getChildNodes(); 
+				for (int i = 0; i < grandChildren.getLength(); i++) {
+					Node node = grandChildren.item(0);
+					
+					if (node != null) {
+						logger.debug("Node = " + node.getNodeName());
+					} else {
+						logger.debug("Node = null");
+					}
+				}
+				
+				converter.writeFragment(domDocument.getFirstChild(), writer);
 			}
 		} else {
 			writer.writeCharacters("\n");
@@ -587,6 +610,49 @@ public class SBMLWriter {
 				null, null, indent + 2);
 	}
 
+	
+    /**
+     * Returns a DOM document created from the given String.
+     * 
+     * @return a DOM document created from the given String 
+     */
+    private static Document getTextDocument(String documentString) {
+
+        DocumentBuilderFactory document_builder_factory = null;
+
+        try {
+            document_builder_factory = DocumentBuilderFactory.newInstance();
+            document_builder_factory.setAttribute(
+                    "http://java.sun.com/xml/jaxp/properties/schemaLanguage",
+                    "http://www.w3.org/2001/XMLSchema");
+            document_builder_factory.setNamespaceAware(false);
+            SAXParserFactory sax_parser_factory = SAXParserFactory
+                    .newInstance();
+            sax_parser_factory.setNamespaceAware(false);
+        } catch (Exception e) {
+            throw new ExceptionInInitializerError(e);
+        }
+        try {
+            DocumentBuilder document_builder = null;
+            synchronized (document_builder_factory) {
+                document_builder_factory.setValidating(false);
+                document_builder = document_builder_factory
+                        .newDocumentBuilder();
+            }
+                                   
+            return document_builder.parse(new ByteArrayInputStream(documentString.getBytes("US-ASCII")));
+            
+        } catch (ParserConfigurationException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (SAXException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+	
 	/**
 	 * Writes the listOfCVTerms.
 	 * 

@@ -464,6 +464,9 @@ public class SBMLReader {
 				// process the text of a XML element.
 				if ((parser != null) && !sbmlElements.isEmpty()	&& isText) {
 					if (currentNode != null) {
+						
+						// logger.debug("isCharacter : elementName = " + currentNode.getLocalPart());
+						
 						parser.processCharactersOf(currentNode.getLocalPart(),
 								characters.getData(), sbmlElements.peek());
 					} else {

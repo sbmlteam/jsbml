@@ -111,6 +111,20 @@ public class SBML_L2V1Test {
 		assertTrue(model.getId().equals("Smolen2002"));
 		assertTrue(model.getName().equals("Smolen2002_CircClock"));
 		
+		/*
+		 * <dcterms:created rdf:parseType="Resource">
+          <dcterms:W3CDTF>2005-06-29T11:01:49Z</dcterms:W3CDTF>
+        </dcterms:created>
+        <dcterms:modified rdf:parseType="Resource">
+          <dcterms:W3CDTF>2008-08-21T11:47:14Z</dcterms:W3CDTF>
+        </dcterms:modified>
+		 * 
+		 */
+		// System.out.println("Created on  : " + model.getHistory().getCreatedDate());
+		// System.out.println("Modified on : " + model.getHistory().getModifiedDate());
+		
+		// asserTrue(model.getHistory().getCreatedDate());
+		
 		assertTrue(model.getUnitDefinition("substance").getName().equals("nanomole (new default)"));
 		
 		Species dClk = model.getSpecies("dClk");
