@@ -46,6 +46,16 @@ import org.sbml.jsbml.util.compilers.TextFormula;
 public class Unit extends AbstractSBase {
 
 	/**
+	 * This enumeration contains an exhaustive list of all available unit kinds
+	 * within all Levels and Versions of SBML. Note that some of these kinds are
+	 * not available in some Level/Version combinations, such as
+	 * {@link #AVOGADRO}, which has been defined in Level 3 for the first time,
+	 * or {@link #CELSIUS}, which has been removed from the specification of
+	 * SBML in Level 2 Version 4. This enum also provides helpful methods, for
+	 * instance, to check if two instances of {@link Kind} with different names
+	 * are still equivalent ({@link #areEquivalent(Kind, Kind)}), or to get the
+	 * formula symbol of the {@link Kind} ({@link #getSymbol()}).
+	 * 
 	 * @author Andreas Dr&auml;ger
 	 * @date 2009-08-31
 	 */

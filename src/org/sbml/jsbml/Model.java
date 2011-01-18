@@ -36,9 +36,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
 import org.sbml.jsbml.util.filters.NameFilter;
-import org.sbml.jsbml.util.filters.RuleVariableFilter;
 
 /**
  * <p>
@@ -1807,16 +1807,22 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Returns the InitialAssignment of the listOfInitialAssignments which has
-	 *         'id' as id.
+	 * Returns the {@link InitialAssignment} of the
+	 * {@link #listOfInitialAssignments} whose <code>symbol</code> attribute,
+	 * i.e., whose {@link Variable} has the given <code>variable</code> as
+	 * identifier.
 	 * 
-	 * @param id
-	 * @return the InitialAssignment of the listOfInitialAssignments which has
-	 *         'id' as id (or name depending on the level and version). Null if
-	 *         it doesn't exist.
+	 * @param variable
+	 *            The identifier of a variable, for which a corresponding
+	 *            {@link InitialAssignment} is requested.
+	 * @return the first {@link InitialAssignment} of the
+	 *         {@link #listOfInitialAssignments}, whose {@link Variable} has the
+	 *         <code>variable</code> as identifier (or name depending on the
+	 *         level and version). Null if it doesn't exist.
 	 */
-	public InitialAssignment getInitialAssignment(String id) {
-		return getListOfInitialAssignments().firstHit(new NameFilter(id));
+	public InitialAssignment getInitialAssignment(String variable) {
+		return getListOfInitialAssignments().firstHit(
+				new AssignmentVariableFilter(variable));
 	}
 	
 	/**
@@ -2468,6 +2474,19 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public Rule getRule(int n) {
 		return getListOfRules().get(n);
+	}
+	
+	/**
+	 * Searches for the first instance of {@link ExplicitRule} within this
+	 * {@link Model}'s {@link #listOfRules}, whose variable attribute is set to
+	 * the value passed to this method.
+	 * 
+	 * @param variable
+	 * @return Null if no element with the required property exists.
+	 */
+	public ExplicitRule getRule(String variable) {
+		Rule rule = listOfRules.firstHit(new AssignmentVariableFilter(variable)); 
+		return (rule != null) && (rule instanceof ExplicitRule) ? (ExplicitRule) rule : null;
 	}
 
 	/**
@@ -3207,7 +3226,7 @@ public class Model extends AbstractNamedSBase {
 	 * @return the removed element.
 	 */
 	public Rule removeRule(String variableId) {
-		return getListOfRules().removeFirst(new RuleVariableFilter(variableId));
+		return getListOfRules().removeFirst(new AssignmentVariableFilter(variableId));
 	}
 
 	/**

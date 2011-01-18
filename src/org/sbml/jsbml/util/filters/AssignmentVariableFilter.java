@@ -28,16 +28,17 @@
  */
 package org.sbml.jsbml.util.filters;
 
-import org.sbml.jsbml.ExplicitRule;
+import org.sbml.jsbml.Assignment;
 
 /**
- * This filter only accepts instances of {@link ExplicitRule} with the variable as
+ * This filter only accepts instances of {@link Assignment} with the variable as
  * given in the constructor of this object.
  * 
  * @author rodrigue
+ * @author Andreas Dr&auml;ger
  *  
  */
-public class RuleVariableFilter implements Filter {
+public class AssignmentVariableFilter implements Filter {
 
 	/**
 	 * The desired identifier for NamedSBases to be acceptable.
@@ -47,7 +48,7 @@ public class RuleVariableFilter implements Filter {
 	/**
 	 * 
 	 */
-	public RuleVariableFilter() {
+	public AssignmentVariableFilter() {
 		this(null);
 	}
 
@@ -55,7 +56,7 @@ public class RuleVariableFilter implements Filter {
 	 * 
 	 * @param id
 	 */
-	public RuleVariableFilter(String id) {
+	public AssignmentVariableFilter(String id) {
 		this.id = id;
 	}
 
@@ -65,8 +66,8 @@ public class RuleVariableFilter implements Filter {
 	 * @see org.sbml.jsbml.util.Filter#fulfilsProperty(java.lang.Object)
 	 */
 	public boolean accepts(Object o) {
-		if (o instanceof ExplicitRule) {
-			ExplicitRule er = (ExplicitRule) o;
+		if (o instanceof Assignment) {
+			Assignment er = (Assignment) o;
 			if (er.isSetVariable() && (id != null) && er.getVariable().equals(id)) {
 				return true;
 			}

@@ -1,6 +1,6 @@
-			       -------------
-			       JSBML Authors
-			       -------------
+                           -------------
+                           JSBML Authors
+                           -------------
 
                            -- Core developers --
 
@@ -8,7 +8,7 @@
          Nicolas Rodriguez, European Bioinformatics Institute, UK
          
 
-			    -- Contributors --
+                           -- Contributors --
 
          Alexander Doerr, University of Tuebingen, Germany
          Clemens Wrzodek, University of Tuebingen, Germany

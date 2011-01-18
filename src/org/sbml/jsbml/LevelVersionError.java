@@ -31,7 +31,9 @@ package org.sbml.jsbml;
 import org.sbml.jsbml.util.Message;
 
 /**
- * 
+ * An {@link SBMLError} that indicates that associated instances of
+ * {@link SBase} cannot be combined within the same model due to their
+ * differently set Level or Version attribute.
  * 
  * @author Andreas Dr&auml;ger
  * @date 2010-11-21
