@@ -31,6 +31,14 @@ package org.sbml.jsbml;
 import org.sbml.jsbml.Unit.Kind;
 
 /**
+ * This simple implementation of the interfaces
+ * {@link NamedSBaseWithDerivedUnit} and {@link SBaseWithUnit} defines elements
+ * that can be addressed by their identifier and are or can be associated with a
+ * defined {@link Unit} or {@link UnitDefinition}. Derived elements from this
+ * class might be directly or indirectly associated with some value, i.e., the
+ * value might be derived by evaluating some expression in form of an
+ * {@link ASTNode}, or it might be directly defined as an attribute.
+ * 
  * @author Andreas Dr&auml;ger
  * @date 2010-12-16
  */
