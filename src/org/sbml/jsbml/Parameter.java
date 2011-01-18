@@ -34,7 +34,7 @@ import java.util.Map;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * Represents the a globally valid parameter in the model, i.e., a variable that
+ * Represents a globally valid parameter in the model, i.e., a variable that
  * may change during a simulation or that provides a constant value.
  * 
  * @author Andreas Dr&auml;ger
