@@ -31,13 +31,14 @@
 package org.sbml.jsbml.xml.stax;
 
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -51,10 +52,6 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParserFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -83,12 +80,11 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.resources.Resource;
+import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.w3c.util.DateParser;
 import org.xml.sax.SAXException;
 
@@ -381,6 +377,9 @@ public class SBMLWriter {
 			throw new IllegalArgumentException(
 					"Unable to write SBML output for documents with undefined SBML Level and Version flag.");
 		}
+		
+		Logger logger = Logger.getLogger(SBMLWriter.class);
+		
 		SBMLReader.initializePackageParserNamespaces();
 		SBMLWriter.initializePackageParserNamespaces();
 
@@ -423,8 +422,26 @@ public class SBMLWriter {
 		xmlObject.setNamespace(SBMLNamespace);
 		xmlObject.addAttributes(sbmlDocument.writeXMLAttributes());
 
-		Iterator<Entry<String, String>> it = xmlObject.getAttributes()
-				.entrySet().iterator();
+		// register all the namespaces of the SBMLDocument to the writer
+		Iterator<Map.Entry<String, String>> it = sbmlDocument.getSBMLDocumentNamespaces().entrySet().iterator();
+		
+		logger.debug(" SBML namespaces size = " + sbmlDocument.getSBMLDocumentNamespaces().size());
+		
+		while (it.hasNext()) {
+			Map.Entry<String, String> entry = it.next();
+			if (!entry.getKey().equals("xmlns")) {
+				
+				logger.debug(" SBML namespaces : " + entry.getKey() + " = " + entry.getValue());
+				
+				String namespacePrefix = entry.getKey().substring(entry.getKey().indexOf(":") + 1);
+				streamWriter.setPrefix(namespacePrefix, entry.getValue());
+
+				logger.debug(" SBML namespaces : " + namespacePrefix + " = " + entry.getValue());
+
+			}
+		}
+		
+		it = xmlObject.getAttributes().entrySet().iterator();
 		while (it.hasNext()) {
 			Entry<String, String> entry = it.next();
 			smOutputElement.addAttribute(entry.getKey(), entry.getValue());
@@ -522,11 +539,6 @@ public class SBMLWriter {
 			XMLStreamWriter writer, String sbmlNamespace, int indent)
 			throws XMLStreamException, SBMLException 
 	{
-		
-		Logger logger = Logger.getLogger(SBMLWriter.class);
-		
-		logger.debug("writeAnnotation started.");
-		
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
 		Annotation annotation = sbase.getAnnotation();
@@ -541,8 +553,10 @@ public class SBMLWriter {
 			StringBuffer annotationBeginning = StringTools.concat(whiteSpaces,
 					"<annotation");
 
+			// Adding the namespaces of the annotation element
 			Map<String, String> otherNamespaces = annotation
 					.getAnnotationNamespaces();
+
 			Iterator<Entry<String, String>> it = otherNamespaces.entrySet()
 					.iterator();
 			while (it.hasNext()) {
@@ -556,38 +570,40 @@ public class SBMLWriter {
 					annotationElement.getNamespace("", entry.getValue());
 				}
 			}
+			
+			// Adding the namespaces of the sbml element
+			otherNamespaces = sbase.getSBMLDocument().getSBMLDocumentNamespaces();
+			it = otherNamespaces.entrySet().iterator();
+			
+			while (it.hasNext()) {
+				Entry<String, String> entry = it.next();
+				StringTools.append(annotationBeginning, " ", entry.getKey(),
+						"=\"", entry.getValue(), "\"");
+				if (entry.getKey().contains(":")) {
+					String[] key = entry.getKey().split(":");
+					annotationElement.getNamespace(key[1], entry.getValue());
+				} else {
+					// does nothing, we don't need the sbml namespace here
+				}
+			}
+
 			StringTools.append(annotationBeginning, Character.valueOf('>'),
 					Character.valueOf('\n'), annotation.getNoRDFAnnotation(),
 					whiteSpaces, "</annotation>", Character.valueOf('\n'));
 
-			
 			DOMConverter converter = new DOMConverter();
 			String annotationString = annotationBeginning.toString()
 					.replaceAll("&", "&amp;");
-			
-
-			
-			logger.debug("Annotation String : \n" + annotationString);
-			
 			// here indent gets lost.
-			Document domDocument = getTextDocument(annotationString);
-			
-			if (domDocument != null) {
-				logger.debug(domDocument.getChildNodes().getLength());
-				logger.debug(domDocument.getChildNodes().item(0).getChildNodes().getLength());
-
-				NodeList grandChildren = domDocument.getChildNodes().item(0).getChildNodes(); 
-				for (int i = 0; i < grandChildren.getLength(); i++) {
-					Node node = grandChildren.item(0);
-					
-					if (node != null) {
-						logger.debug("Node = " + node.getNodeName());
-					} else {
-						logger.debug("Node = null");
-					}
-				}
-				
-				converter.writeFragment(domDocument.getFirstChild(), writer);
+			Document domDocument = null;
+			try {
+				domDocument = JAXPFacade.getInstance().create(
+						new BufferedReader(new StringReader(annotationString)),
+						true);
+				converter.writeFragment(domDocument.getFirstChild().getChildNodes(), writer);
+			} catch (SAXException e) {
+				e.printStackTrace();
+				// TODO : log error or send SBMLException
 			}
 		} else {
 			writer.writeCharacters("\n");
@@ -610,49 +626,6 @@ public class SBMLWriter {
 				null, null, indent + 2);
 	}
 
-	
-    /**
-     * Returns a DOM document created from the given String.
-     * 
-     * @return a DOM document created from the given String 
-     */
-    private static Document getTextDocument(String documentString) {
-
-        DocumentBuilderFactory document_builder_factory = null;
-
-        try {
-            document_builder_factory = DocumentBuilderFactory.newInstance();
-            document_builder_factory.setAttribute(
-                    "http://java.sun.com/xml/jaxp/properties/schemaLanguage",
-                    "http://www.w3.org/2001/XMLSchema");
-            document_builder_factory.setNamespaceAware(false);
-            SAXParserFactory sax_parser_factory = SAXParserFactory
-                    .newInstance();
-            sax_parser_factory.setNamespaceAware(false);
-        } catch (Exception e) {
-            throw new ExceptionInInitializerError(e);
-        }
-        try {
-            DocumentBuilder document_builder = null;
-            synchronized (document_builder_factory) {
-                document_builder_factory.setValidating(false);
-                document_builder = document_builder_factory
-                        .newDocumentBuilder();
-            }
-                                   
-            return document_builder.parse(new ByteArrayInputStream(documentString.getBytes("US-ASCII")));
-            
-        } catch (ParserConfigurationException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (SAXException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-	
 	/**
 	 * Writes the listOfCVTerms.
 	 * 
