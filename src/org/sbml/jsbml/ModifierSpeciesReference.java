@@ -36,9 +36,6 @@ package org.sbml.jsbml;
  * 
  * @author Andreas Dr&auml;ger
  * 
- * @opt attributes
- * @opt types
- * @opt visibility
  */
 public class ModifierSpeciesReference extends SimpleSpeciesReference {
 
@@ -54,14 +51,6 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 		super();
 	}
 	
-	/**
-	 * 
-	 * @param id
-	 */
-	public ModifierSpeciesReference(String id) {
-		super(id);
-	}
-
 	/**
 	 * 
 	 * @param level
@@ -89,6 +78,24 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
 	 */
 	public ModifierSpeciesReference(Species species) {
 		super(species);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 */
+	public ModifierSpeciesReference(String id) {
+		super(id);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public ModifierSpeciesReference(String id, int level, int version) {
+		super(id, level, version);
 	}
 
 	/*
