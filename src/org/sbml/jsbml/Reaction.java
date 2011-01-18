@@ -236,7 +236,20 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @return a new {@link ModifierSpeciesReference} object.
 	 */
 	public ModifierSpeciesReference createModifier() {
-		return createModifier(null);
+		return createModifier((String) null);
+	}
+
+	/**
+	 * Creates a new {@link ModifierSpeciesReference}, which points to the given
+	 * {@link Species}, adds it to this {@link Reaction}'s
+	 * {@link #listOfModifiers}, and returns a pointer to it.
+	 * 
+	 * @param species
+	 *            the {@link Species} to which this modifier should point.
+	 * @see #createModifier(String, Species)
+	 */
+	public ModifierSpeciesReference createModifier(Species species) {
+		return createModifier(null, species);
 	}
 
 	/**
@@ -245,10 +258,29 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @return
 	 */
 	public ModifierSpeciesReference createModifier(String id) {
-		ModifierSpeciesReference modifier = new ModifierSpeciesReference(
+		ModifierSpeciesReference modifier = new ModifierSpeciesReference(id,
 				getLevel(), getVersion());
 		addModifier(modifier);
 		return modifier;
+	}
+	
+	/**
+	 * Creates a new {@link ModifierSpeciesReference} with the given
+	 * <code>id</code> as its identifier, which points to the given
+	 * {@link Species}, adds it to this {@link Reaction}'s
+	 * {@link #listOfModifiers}, and returns a pointer to it.
+	 * 
+	 * @param id
+	 *            the identifier of the {@link ModifierSpeciesReference} to be
+	 *            created.
+	 * @param species
+	 *            the {@link Species} to which this modifier should point.
+	 * @return a pointer to the newly created {@link ModifierSpeciesReference}.
+	 */
+	public ModifierSpeciesReference createModifier(String id, Species species) {
+		ModifierSpeciesReference modSpecRef = createModifier(id);
+		modSpecRef.setSpecies(species);
+		return modSpecRef;
 	}
 
 	/**
@@ -260,9 +292,25 @@ public class Reaction extends AbstractNamedSBase implements
 	 * @return
 	 */
 	public SpeciesReference createProduct() {
-		return createProduct(null);
+		return createProduct((String) null);
 	}
 
+	/**
+	 * Creates a new {@link SpeciesReference}, which points to the given
+	 * {@link Species}, adds it to this {@link Reaction}'s
+	 * {@link #listOfProducts} and returns a pointer to it.
+	 * 
+	 * @param species
+	 *            the {@link Species} to which the {@link SpeciesReference}
+	 *            should point.
+	 * @return a pointer to a newly created {@link SpeciesReference} that has
+	 *         been added to this {@link Reaction}'s {@link #listOfProducts}.
+	 * @see #createProduct(String, Species)
+	 */
+	public SpeciesReference createProduct(Species species) {
+		return createProduct(null, species);
+	}
+	
 	/**
 	 * 
 	 * @param id
@@ -274,19 +322,52 @@ public class Reaction extends AbstractNamedSBase implements
 		addProduct(product);
 		return product;
 	}
+	
+	/**
+	 * Creates a new {@link SpeciesReference} with the given <code>id</code> as
+	 * its identifier, which points to the given {@link Species}, adds it to
+	 * this {@link Reaction}'s {@link #listOfProducts} and returns a pointer to
+	 * it.
+	 * 
+	 * @param id
+	 *            the identifier of the {@link SpeciesReference} to be created.
+	 * @param species
+	 *            the {@link Species} to which the {@link SpeciesReference}
+	 *            should point.
+	 * @return a pointer to a newly created {@link SpeciesReference} that has
+	 *         been added to this {@link Reaction}'s {@link #listOfProducts}.
+	 */
+	public SpeciesReference createProduct(String id, Species species) {
+		SpeciesReference specRef = createProduct(id);
+		specRef.setSpecies(species);
+		return specRef;
+	}
 
 	/**
-	 * Creates a new {@link SpeciesReference}, adds it to this Reaction's
-	 * list of reactants and returns it.
+	 * Creates a new {@link SpeciesReference}, adds it to this {@link Reaction}'s
+	 * {@link #listOfReactants} and returns it.
 	 * 
 	 * @return a new SpeciesReference object.
 	 * 
 	 * @return
 	 */
 	public SpeciesReference createReactant() {
-		return createReactant(null);
+		return createReactant((String) null);
 	}
 
+	/**
+	 * Creates a new {@link SpeciesReference} to the given {@link Species} and
+	 * adds it to the {@link #listOfReactants}.
+	 * 
+	 * @param species
+	 * @return the newly created instance of {@link SpeciesReference} that
+	 *         points to the given {@link Species}.
+	 * @see #createReactant(String, Species)
+	 */
+	public SpeciesReference createReactant(Species species) {
+		return createReactant(null, species);
+	}
+	
 	/**
 	 * 
 	 * @param id
@@ -297,6 +378,23 @@ public class Reaction extends AbstractNamedSBase implements
 				getVersion());
 		addReactant(reactant);
 		return reactant;
+	}
+
+	/**
+	 * Creates a new {@link SpeciesReference} with the given <code>id</code> as
+	 * identifier, which points to the given {@link Species} and adds it to the
+	 * {@link #listOfReactants}.
+	 * 
+	 * @param id
+	 *            the identifier of the {@link SpeciesReference} to be created.
+	 * @param species
+	 *            the {@link Species} to which this reactant should point.
+	 * @return a pointer to the newly created {@link SpeciesReference}.
+	 */
+	public SpeciesReference createReactant(String id, Species species) {
+		SpeciesReference specRef = createReactant(id);
+		specRef.setSpecies(species);
+		return specRef;
 	}
 
 	/*
@@ -512,7 +610,7 @@ public class Reaction extends AbstractNamedSBase implements
 	public ModifierSpeciesReference getModifier(int i) {
 		return getListOfModifiers().get(i);
 	}
-
+	
 	/**
 	 * Searches the first {@link ModifierSpeciesReference} in the
 	 * {@link #listOfModifiers} of this {@link Reaction} with the given
@@ -528,7 +626,7 @@ public class Reaction extends AbstractNamedSBase implements
 	public ModifierSpeciesReference getModifier(String id) {
 		return getListOfModifiers().firstHit(new NameFilter(id));
 	}
-	
+
 	/**
 	 * Returns the first {@link ModifierSpeciesReference} in the
 	 * {@link #listOfModifiers} of this {@link Reaction} whose 'species'
@@ -580,7 +678,7 @@ public class Reaction extends AbstractNamedSBase implements
 	public ListOf<Reaction> getParent() {
 		return (ListOf<Reaction>) super.getParent();
 	}
-
+	
 	/**
 	 * 
 	 * @param i
@@ -605,7 +703,7 @@ public class Reaction extends AbstractNamedSBase implements
 	public SpeciesReference getProduct(String id) {
 		return getListOfProducts().firstHit(new NameFilter(id));
 	}
-	
+
 	/**
 	 * Returns the first {@link SpeciesReference} in the {@link #listOfProducts}
 	 * of this {@link Reaction} whose 'species' attribute points to a
@@ -701,7 +799,7 @@ public class Reaction extends AbstractNamedSBase implements
 	public boolean hasReactant(Species s) {
 		return references(listOfReactants, s);
 	}
-
+	
 	/**
 	 * Initializes the default variables of this Reaction.
 	 */
@@ -715,7 +813,7 @@ public class Reaction extends AbstractNamedSBase implements
 			}
 		}
 	}
-	
+
 	/**
 	 * Convenient test if the given species takes part in this reaction as a
 	 * reactant, product, or modifier.
@@ -1044,23 +1142,6 @@ public class Reaction extends AbstractNamedSBase implements
 	}
 
 	/**
-	 * Sets the {@link KineticLaw} of this {@link Reaction} to null and notifies
-	 * all {@link SBaseChangedListener} about changes.
-	 * 
-	 * @return <code>true</code> if calling this method changed the properties
-	 *         of this element.
-	 */
-	public boolean unsetKineticLaw() {
-		if (this.kineticLaw != null) {
-			KineticLaw oldKinticLaw = this.kineticLaw;
-			this.kineticLaw = null;
-			oldKinticLaw.fireSBaseRemovedEvent();
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Sets the listOfModifiers of this {@link Reaction}. Automatically sets the
 	 * parentSBML object of the list to this {@link Reaction} instance.
 	 * 
@@ -1073,23 +1154,6 @@ public class Reaction extends AbstractNamedSBase implements
 			this.listOfModifiers.setSBaseListType(ListOf.Type.listOfModifiers);
 		}
 		setThisAsParentSBMLObject(this.listOfModifiers);
-	}
-
-	/**
-	 * Removes the {@link #listOfModifiers} from this {@link Reaction} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
-	 * 
-	 * @return <code>true</code> if calling this method lead to a change in this
-	 *         data structure.
-	 */
-	public boolean unsetListOfModifiers() {
-		if (this.listOfModifiers != null) {
-			ListOf<ModifierSpeciesReference> oldListOfModifiers = this.listOfModifiers;
-			this.listOfModifiers = null;
-			oldListOfModifiers.fireSBaseRemovedEvent();
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -1108,23 +1172,6 @@ public class Reaction extends AbstractNamedSBase implements
 	}
 
 	/**
-	 * Removes the {@link #listOfProducts} from this {@link Reaction} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
-	 * 
-	 * @return <code>true</code> if calling this method lead to a change in this
-	 *         data structure.
-	 */
-	public boolean unsetListOfProducts() {
-		if (this.listOfProducts != null) {
-			ListOf<SpeciesReference> oldListOfProducts = this.listOfProducts;
-			this.listOfProducts = null;
-			oldListOfProducts.fireSBaseRemovedEvent();
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Sets the listOfReactants of this {@link Reaction}. Automatically sets the
 	 * parentSBML object of the list to this {@link Reaction} instance.
 	 * 
@@ -1137,23 +1184,6 @@ public class Reaction extends AbstractNamedSBase implements
 			this.listOfReactants.setSBaseListType(ListOf.Type.listOfReactants);
 		}
 		setThisAsParentSBMLObject(this.listOfReactants);
-	}
-
-	/**
-	 * Removes the {@link #listOfReactants} from this {@link Reaction} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
-	 * 
-	 * @return <code>true</code> if calling this method lead to a change in this
-	 *         data structure.
-	 */
-	public boolean unsetListOfReactants() {
-		if (this.listOfReactants != null) {
-			ListOf<SpeciesReference> oldListOfReactants = this.listOfReactants;
-			this.listOfReactants = null;
-			oldListOfReactants.fireSBaseRemovedEvent();
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -1179,6 +1209,74 @@ public class Reaction extends AbstractNamedSBase implements
 	}
 
 	/**
+	 * Sets the {@link KineticLaw} of this {@link Reaction} to null and notifies
+	 * all {@link SBaseChangedListener} about changes.
+	 * 
+	 * @return <code>true</code> if calling this method changed the properties
+	 *         of this element.
+	 */
+	public boolean unsetKineticLaw() {
+		if (this.kineticLaw != null) {
+			KineticLaw oldKinticLaw = this.kineticLaw;
+			this.kineticLaw = null;
+			oldKinticLaw.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the {@link #listOfModifiers} from this {@link Reaction} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfModifiers() {
+		if (this.listOfModifiers != null) {
+			ListOf<ModifierSpeciesReference> oldListOfModifiers = this.listOfModifiers;
+			this.listOfModifiers = null;
+			oldListOfModifiers.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the {@link #listOfProducts} from this {@link Reaction} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfProducts() {
+		if (this.listOfProducts != null) {
+			ListOf<SpeciesReference> oldListOfProducts = this.listOfProducts;
+			this.listOfProducts = null;
+			oldListOfProducts.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Removes the {@link #listOfReactants} from this {@link Reaction} and notifies
+	 * all registered instances of {@link SBaseChangedListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
+	public boolean unsetListOfReactants() {
+		if (this.listOfReactants != null) {
+			ListOf<SpeciesReference> oldListOfReactants = this.listOfReactants;
+			this.listOfReactants = null;
+			oldListOfReactants.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Sets the reversible Boolean of this {@link Reaction} to null.
 	 */
 	public void unsetReversible() {
@@ -1187,7 +1285,7 @@ public class Reaction extends AbstractNamedSBase implements
 		reversible = null;
 		firePropertyChange(SBaseChangedEvent.reversible, oldReversible, reversible);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
