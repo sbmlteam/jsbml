@@ -893,11 +893,17 @@ public class Annotation implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Clears the {@link List} of {@link CVTerm}s.
+	 * Clears the {@link List} of {@link CVTerm}s and removes unnecessary
+	 * entries from the {@link #rdfAnnotationNamespaces}.
 	 */
 	public void unsetCVTerms() {
 		if (listOfCVTerms != null) {
 			listOfCVTerms.clear();
+			for (Type type : CVTerm.Type.values()) {
+				if (rdfAnnotationNamespaces.containsKey(type.getNamespaceURI())) {
+					rdfAnnotationNamespaces.remove(type.getNamespaceURI());
+				}
+			}
 		}
 		listOfCVTerms = null;
 	}

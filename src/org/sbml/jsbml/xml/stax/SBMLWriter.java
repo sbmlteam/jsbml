@@ -632,8 +632,9 @@ public class SBMLWriter {
 		// if the given SBase is not a model and the level is smaller than 3,
 		// no history can be written.
 		// Annotation cannot be written without metaid tag.
-		if (sbase.isSetMetaId() && (annotation.isSetHistory() && ((sbase.getLevel() >= 3) || (sbase instanceof Model)))
-				|| annotation.getListOfCVTerms().size() > 0) {
+		if (sbase.isSetMetaId()
+				&& ((annotation.isSetHistory() && ((sbase.getLevel() >= 3) || (sbase instanceof Model))) || annotation
+						.getListOfCVTerms().size() > 0)) {
 			if (!annotation.isSetAbout()) {
 				// add required missing tag
 				annotation.setAbout("#" + sbase.getMetaId());
