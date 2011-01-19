@@ -67,13 +67,13 @@ public class CVTerm implements Cloneable, Serializable {
 		 */
 		BQB_HAS_PART,
 		/**
-		 * Represents the MIRIAM biological qualifier 'hasVersion'.
-		 */
-		BQB_HAS_VERSION,
-		/**
 		 * Represents the MIRIAM biological qualifier 'hasProperty'.
 		 */
 		BQB_HAS_PROPERTY,
+		/**
+		 * Represents the MIRIAM biological qualifier 'hasVersion'.
+		 */
+		BQB_HAS_VERSION,
 		/**
 		 * Represents the MIRIAM biological qualifier 'is'.
 		 */
@@ -95,13 +95,13 @@ public class CVTerm implements Cloneable, Serializable {
 		 */
 		BQB_IS_PART_OF,
 		/**
-		 * Represents the MIRIAM biological qualifier 'isVersionOf'.
-		 */
-		BQB_IS_VERSION_OF,
-		/**
 		 * Represents the MIRIAM biological qualifier 'isPropertyOf'.
 		 */
 		BQB_IS_PROPERTY_OF,
+		/**
+		 * Represents the MIRIAM biological qualifier 'isVersionOf'.
+		 */
+		BQB_IS_VERSION_OF,
 		/**
 		 * Represents the MIRIAM biological qualifier 'occursIn'.
 		 */
@@ -115,13 +115,13 @@ public class CVTerm implements Cloneable, Serializable {
 		 */
 		BQM_IS,
 		/**
-		 * Represents the MIRIAM model qualifier 'isDescribedBy'.
-		 */
-		BQM_IS_DESCRIBED_BY,
-		/**
 		 * Represents the MIRIAM model qualifier 'isDerivedFrom'.
 		 */
 		BQM_IS_DERIVED_FROM,
+		/**
+		 * Represents the MIRIAM model qualifier 'isDescribedBy'.
+		 */
+		BQM_IS_DESCRIBED_BY,
 		/**
 		 * Represents an unknown MIRIAM model qualifier.
 		 */
@@ -222,18 +222,33 @@ public class CVTerm implements Cloneable, Serializable {
 				return null;
 			}
 		}
-	}
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -3648054739091227113L;
+		/**
+		 * Returns the name space associated to this {@link Type}.
+		 * @return
+		 */
+		public String getNamespaceURI() {
+			switch (this) {
+			case BIOLOGICAL_QUALIFIER:
+				return "http://biomodels.net/biology-qualifiers/";
+			case MODEL_QUALIFIER:
+				return "http://biomodels.net/model-qualifiers/";
+			default:
+				return null;
+			}
+		}
+	}
 
 	/**
 	 * Message to indicate an illegal combination of a {@link Type} and a
 	 * {@link Qualifier} attribute.
 	 */
 	private static final String INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG = "Invalid combination of type %s with qualifier %s.";
+
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -3648054739091227113L;
 
 	/**
 	 * Represents the MIRIAM qualifier node in the annotation node of a SBML

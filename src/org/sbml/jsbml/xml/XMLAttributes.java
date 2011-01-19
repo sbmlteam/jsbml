@@ -34,16 +34,16 @@ import java.util.ArrayList;
 
 import org.sbml.jsbml.JSBML;
 
-/** 
+/**
  * Representation of the attributes on an XML node.
  * <p>
  * <em style='color: #555'>
-This class of objects is defined by jsbml only and has no direct
-equivalent in terms of SBML components.  This class is not prescribed by
-the SBML specifications, although it is used to implement features
-defined in SBML.
-</em>
-
+ * This class of objects is defined by jsbml only and has no direct
+ * equivalent in terms of SBML components.  This class is not prescribed by
+ * the SBML specifications, although it is used to implement features
+ * defined in SBML.
+ * </em>
+ * 
  * <p>
  */
 public class XMLAttributes {

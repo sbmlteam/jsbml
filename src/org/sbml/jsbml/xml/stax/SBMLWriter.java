@@ -101,6 +101,27 @@ import com.ctc.wstx.stax.WstxOutputFactory;
 public class SBMLWriter {
 
 	/**
+	 * URI for the RDF syntax name space definition for VCards.
+	 */
+	public static final transient String URI_RDF_VCARD_NS = "http://www.w3.org/2001/vcard-rdf/3.0#";
+	/**
+	 * URI for purl terms.
+	 */
+	public static final transient String URI_PURL_TERMS = "http://purl.org/dc/terms/";
+	/**
+	 * URI for the definition of MathML.
+	 */
+	public static final transient String URI_MATHML_DEFINITION = "http://www.w3.org/1998/Math/MathML";
+	/**
+	 * URI for the definition of purl elements
+	 */
+	public static final transient String URI_PURL_ELEMENTS = "http://purl.org/dc/elements/1.1/";
+	/**
+	 * URI for the definition of XHTML.
+	 */
+	public static final transient String URI_XHTML_DEFINITION = "http://www.w3.org/1999/xhtml";
+
+	/**
 	 * contains the WritingParser instances of this class.
 	 */
 	private static HashMap<String, WritingParser> instantiatedSBMLParsers = new HashMap<String, WritingParser>();
@@ -145,7 +166,7 @@ public class SBMLWriter {
 		Set<String> packageNamespaces = null;
     
 		Logger logger = Logger.getLogger(SBMLWriter.class);
-		// logger.debug("getInitializedParsers : namespace, object = " + namespace + ", " + object);
+		// logger.debug("getInitializedParsers : name space, object = " + name space + ", " + object);
 
 		if (object instanceof SBase) {
 			SBase sbase = (SBase) object;
@@ -158,7 +179,7 @@ public class SBMLWriter {
 
 		if (packageNamespaces != null) {
 
-			// logger.debug("getInitializedParsers : namespaces = " + packageNamespaces);
+			// logger.debug("getInitializedParsers : name spaces = " + packageNamespaces);
 			
 			if (!packageNamespaces.contains(namespace)) {
 				try {
@@ -219,7 +240,6 @@ public class SBMLWriter {
 								.newInstance();
 
 						if (sbmlParser instanceof WritingParser) {
-
 							SBMLWriter.instantiatedSBMLParsers.put(
 									packageNamespace,
 									(WritingParser) sbmlParser);
@@ -291,10 +311,10 @@ public class SBMLWriter {
 		try {
 			p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
 									"org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml"));
-			for (Object k : p.keySet()) {
-				String key = k.toString();
-				packageParsers.put(key, (Class<? extends WritingParser>) Class
-						.forName(p.getProperty(key)));
+			for (Map.Entry<Object, Object> entry : p.entrySet()) {
+				packageParsers.put(entry.getKey().toString(),
+						(Class<? extends WritingParser>) Class.forName(entry
+								.getValue().toString()));
 			}
 		} catch (InvalidPropertiesFormatException e) {
 			throw new IllegalArgumentException(
@@ -450,9 +470,9 @@ public class SBMLWriter {
 		ReadingParser mathMLParser = null;
 		try {
 			notesParser = SBMLReader.getPackageParsers(
-					"http://www.w3.org/1999/xhtml").newInstance();
+					URI_XHTML_DEFINITION).newInstance();
 			mathMLParser = SBMLReader.getPackageParsers(
-					"http://www.w3.org/1998/Math/MathML").newInstance();
+					URI_MATHML_DEFINITION).newInstance();
 		} catch (InstantiationException e) {
 			throw new IllegalArgumentException(String.format(
 					JSBML.UNDEFINED_PARSE_ERROR_MSG, e.getMessage()));
@@ -549,7 +569,7 @@ public class SBMLWriter {
 		annotationElement = element.addElement(namespace, "annotation");
 		annotationElement.setIndentation(whiteSpaces, indent, 2);
 
-		if (annotation.getNoRDFAnnotation() != null) {
+		if (annotation.getNonRDFannotation() != null) {
 			StringBuffer annotationBeginning = StringTools.concat(whiteSpaces,
 					"<annotation");
 
@@ -588,7 +608,7 @@ public class SBMLWriter {
 			}
 
 			StringTools.append(annotationBeginning, Character.valueOf('>'),
-					Character.valueOf('\n'), annotation.getNoRDFAnnotation(),
+					Character.valueOf('\n'), annotation.getNonRDFannotation(),
 					whiteSpaces, "</annotation>", Character.valueOf('\n'));
 
 			DOMConverter converter = new DOMConverter();
@@ -641,8 +661,7 @@ public class SBMLWriter {
 	private static void writeCVTerms(List<CVTerm> listOfCVTerms,
 			Map<String, String> rdfNamespaces, XMLStreamWriter writer,
 			int indent) throws XMLStreamException {
-		String rdfPrefix = rdfNamespaces
-				.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+		String rdfPrefix = rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS);
 		String whiteSpace = createIndent(indent);
 		if (listOfCVTerms.size() > 0) {
 			for (int i = 0; i < listOfCVTerms.size(); i++) {
@@ -652,47 +671,42 @@ public class SBMLWriter {
 				String elementName = null;
 				if (cvTerm.getQualifierType().equals(
 						CVTerm.Type.BIOLOGICAL_QUALIFIER)) {
-					namespaceURI = "http://biomodels.net/biology-qualifiers/";
-					prefix = rdfNamespaces
-							.get("http://biomodels.net/biology-qualifiers/");
+					namespaceURI = CVTerm.Type.BIOLOGICAL_QUALIFIER.getNamespaceURI();
+					prefix = rdfNamespaces.get(namespaceURI);
 					elementName = cvTerm.getBiologicalQualifierType()
 							.getElementNameEquivalent();
 				} else if (cvTerm.getQualifierType().equals(
 						CVTerm.Type.MODEL_QUALIFIER)) {
-					namespaceURI = "http://biomodels.net/model-qualifiers/";
-					prefix = rdfNamespaces
-							.get("http://biomodels.net/model-qualifiers/");
+					namespaceURI = cvTerm.getQualifierType().getNamespaceURI();
+					prefix = rdfNamespaces.get(namespaceURI);
 					elementName = Annotation
 							.getElementNameEquivalentToQualifier(cvTerm
 									.getModelQualifierType());
 				}
-
 				if ((namespaceURI != null) && (elementName != null)
 						&& (prefix != null)) {
-					writer.writeCharacters(whiteSpace);
+					writer.writeCharacters(whiteSpace + "  ");
 					writer.writeStartElement(prefix, elementName, namespaceURI);
 					writer.writeCharacters("\n");
 					if (cvTerm.getNumResources() > 0) {
-						writer.writeCharacters(whiteSpace + "  ");
+						writer.writeCharacters(whiteSpace + "    ");
 						writer.writeStartElement(rdfPrefix, "Bag",
-								"http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+								Annotation.URI_RDF_SYNTAX_NS);
 						writer.writeCharacters("\n");
 						for (int j = 0; j < cvTerm.getNumResources(); j++) {
-							writer.writeCharacters(whiteSpace + "    ");
+							writer.writeCharacters(whiteSpace + "      ");
 							writer.writeStartElement(rdfPrefix, "li",
-											"http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-							writer.writeAttribute(
-											rdfPrefix,
-											"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-											"resource", cvTerm
-													.getResourceURI(j));
+									Annotation.URI_RDF_SYNTAX_NS);
+							writer.writeAttribute(rdfPrefix,
+									Annotation.URI_RDF_SYNTAX_NS, "resource",
+									cvTerm.getResourceURI(j));
 							writer.writeEndElement();
 							writer.writeCharacters("\n");
 						}
-						writer.writeCharacters(whiteSpace + "  ");
+						writer.writeCharacters(whiteSpace + "    ");
 						writer.writeEndElement();
 						writer.writeCharacters("\n");
-						writer.writeCharacters(whiteSpace);
+						writer.writeCharacters(whiteSpace + "  ");
 						writer.writeEndElement();
 						writer.writeCharacters("\n");
 					}
@@ -720,46 +734,44 @@ public class SBMLWriter {
 		// Logger logger = Logger.getLogger(SBMLWriter.class);	
 		
 		String whiteSpace = createIndent(indent);
-		String rdfPrefix = rdfNamespaces
-				.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+		String rdfPrefix = rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS);
 		if (history.getNumCreators() > 0) {
-			String creatorPrefix = rdfNamespaces
-					.get("http://purl.org/dc/elements/1.1/");
+			String creatorPrefix = rdfNamespaces.get(URI_PURL_ELEMENTS);
 			writer.writeCharacters(whiteSpace);
 			writer.writeStartElement(creatorPrefix, "creator",
-					"http://purl.org/dc/elements/1.1/");
+					URI_PURL_ELEMENTS);
 			writer.writeCharacters("\n");
 			writer.writeCharacters(whiteSpace + "  ");
 			writer.writeStartElement(rdfPrefix, "Bag",
-					"http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+					Annotation.URI_RDF_SYNTAX_NS);
 			writer.writeCharacters("\n");
 
 			for (int i = 0; i < history.getNumCreators(); i++) {
 				Creator modelCreator = history.getCreator(i);
 				writer.writeCharacters(whiteSpace + "    ");
 				writer.writeStartElement(rdfPrefix, "li",
-						"http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+						Annotation.URI_RDF_SYNTAX_NS);
 				writer.writeAttribute(rdfPrefix,
-						"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+						Annotation.URI_RDF_SYNTAX_NS,
 						"parseType", "Resource");
 				String vCardPrefix = rdfNamespaces
-						.get("http://www.w3.org/2001/vcard-rdf/3.0#");
+						.get(URI_RDF_VCARD_NS);
 
 				if (modelCreator.isSetFamilyName()
 						|| modelCreator.isSetGivenName()) {
 					writer.writeCharacters("\n");
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeStartElement(vCardPrefix, "N",
-							"http://www.w3.org/2001/vcard-rdf/3.0#");
+							URI_RDF_VCARD_NS);
 					writer.writeAttribute(
-							"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+							Annotation.URI_RDF_SYNTAX_NS,
 							"parseType", "Resource");
 					writer.writeCharacters("\n");
 
 					if (modelCreator.isSetFamilyName()) {
 						writer.writeCharacters(whiteSpace + "        ");
 						writer.writeStartElement(vCardPrefix, "Family",
-								"http://www.w3.org/2001/vcard-rdf/3.0#");
+								URI_RDF_VCARD_NS);
 						writer.writeCharacters(modelCreator.getFamilyName());
 						writer.writeEndElement();
 						writer.writeCharacters("\n");
@@ -767,7 +779,7 @@ public class SBMLWriter {
 					if (modelCreator.isSetGivenName()) {
 						writer.writeCharacters(whiteSpace + "        ");
 						writer.writeStartElement(vCardPrefix, "Given",
-								"http://www.w3.org/2001/vcard-rdf/3.0#");
+								URI_RDF_VCARD_NS);
 						writer.writeCharacters(modelCreator.getGivenName());
 						writer.writeEndElement();
 						writer.writeCharacters("\n");
@@ -780,7 +792,7 @@ public class SBMLWriter {
 				if (modelCreator.isSetEmail()) {
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeStartElement(vCardPrefix, "EMAIL",
-							"http://www.w3.org/2001/vcard-rdf/3.0#");
+							URI_RDF_VCARD_NS);
 					writer.writeCharacters(modelCreator.getEmail());
 					writer.writeEndElement();
 					writer.writeCharacters("\n");
@@ -788,14 +800,14 @@ public class SBMLWriter {
 				if (modelCreator.isSetOrganisation()) {
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeStartElement(vCardPrefix, "ORG",
-							"http://www.w3.org/2001/vcard-rdf/3.0#");
+							URI_RDF_VCARD_NS);
 					writer.writeAttribute(rdfPrefix,
-							"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+							Annotation.URI_RDF_SYNTAX_NS,
 							"parseType", "Resource");
 					writer.writeCharacters("\n");
 					writer.writeCharacters(whiteSpace + "        ");
 					writer.writeStartElement(vCardPrefix, "Orgname",
-							"http://www.w3.org/2001/vcard-rdf/3.0#");
+							URI_RDF_VCARD_NS);
 					writer.writeCharacters(modelCreator.getOrganisation());
 					writer.writeEndElement();
 					writer.writeCharacters("\n");
@@ -815,7 +827,7 @@ public class SBMLWriter {
 			writer.writeCharacters("\n");
 		}
 
-		String dctermPrefix = rdfNamespaces.get("http://purl.org/dc/terms/");
+		String dctermPrefix = rdfNamespaces.get(URI_PURL_TERMS);
 
 		String creationDate;
 		String now = creationDate = DateParser.getIsoDateNoMillis(new Date());
@@ -843,25 +855,22 @@ public class SBMLWriter {
 			int indent, String dateISO, String dcterm, 
 			String dctermPrefix, String rdfPrefix) 
 	throws XMLStreamException 
-	{
+ {
 		String whiteSpace = createIndent(indent);
-		
+
 		writer.writeCharacters(whiteSpace);
-		writer.writeStartElement(dctermPrefix, dcterm,
-				"http://purl.org/dc/terms/");
-		writer.writeAttribute(rdfPrefix,
-				"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-				"parseType", "Resource");
+		writer.writeStartElement(dctermPrefix, dcterm, URI_PURL_TERMS);
+		writer.writeAttribute(rdfPrefix, Annotation.URI_RDF_SYNTAX_NS, "parseType",
+				"Resource");
 		writer.writeCharacters("\n");
 		writer.writeCharacters(whiteSpace + "  ");
-		writer.writeStartElement(dctermPrefix, "W3CDTF",
-				"http://purl.org/dc/terms/");
+		writer.writeStartElement(dctermPrefix, "W3CDTF", URI_PURL_TERMS);
 		writer.writeCharacters(dateISO);
 		writer.writeEndElement();
 		writer.writeCharacters("\n");
 		writer.writeCharacters(whiteSpace);
 		writer.writeEndElement();
-		writer.writeCharacters("\n");		
+		writer.writeCharacters("\n");
 	}
 	
 	/**
@@ -884,18 +893,16 @@ public class SBMLWriter {
 
 			writer.writeCharacters("\n");
 			writer.writeCharacters(createIndent(indent));
-			// writer.setPrefix("math", "http://www.w3.org/1998/Math/MathML");
-			// writer.writeStartElement("http://www.w3.org/1998/Math/MathML",
+			// writer.setPrefix("math", URI_MATHML_DEFINITION);
+			// writer.writeStartElement(URI_MATHML_DEFINITION,
 			// "math");
 			 
-			writer.writeStartElement("math"); // "http://www.w3.org/1998/Math/MathML", 
-
-			writer.writeNamespace(null, "http://www.w3.org/1998/Math/MathML");
+			writer.writeStartElement("math"); // URI_MATHML_DEFINITION, 
+			writer.writeNamespace(null, URI_MATHML_DEFINITION);
+			writer.setPrefix("math", URI_MATHML_DEFINITION);
+			writer.setDefaultNamespace(URI_MATHML_DEFINITION);
 			
-			writer.setPrefix("math", "http://www.w3.org/1998/Math/MathML");
-			writer.setDefaultNamespace("http://www.w3.org/1998/Math/MathML");
-			
-			// writer.writeAttribute("xmlns:math",	"http://www.w3.org/1998/Math/MathML");
+			// writer.writeAttribute("xmlns:math",	URI_MATHML_DEFINITION);
 			
 			writer.writeCharacters("\n");
 
@@ -978,11 +985,17 @@ public class SBMLWriter {
 		
 		String whiteSpace = createIndent(indent);
 		SMNamespace namespace = annotationElement.getNamespace(
-				"http://www.w3.org/1999/02/22-rdf-syntax-ns#", "rdf");
+				Annotation.URI_RDF_SYNTAX_NS, "rdf");
 		annotationElement.setIndentation(whiteSpace, indent, 2);
 		SMOutputElement rdfElement = annotationElement.addElement(namespace,
 				"RDF");
 
+		/*
+		 * TODO: Check which name spaces are really required and add only those;
+		 * particularly, if name spaces are missing and it is known from the
+		 * kind of RDF annotation, which name spaces are needed, these should be
+		 * added automatically here.
+		 */
 		Map<String, String> rdfNamespaces = annotation
 				.getRDFAnnotationNamespaces();
 		Iterator<Entry<String, String>> it = rdfNamespaces.entrySet()

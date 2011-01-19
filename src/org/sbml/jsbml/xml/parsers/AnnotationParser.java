@@ -140,7 +140,7 @@ public class AnnotationParser implements ReadingParser {
 
 			// If the element is nested, we need to remove the default ending
 			// tag of the element.
-			if (isNested && annotation.getNoRDFAnnotation().endsWith("> \n")) {
+			if (isNested && annotation.getNonRDFannotation().endsWith("> \n")) {
 				int builderLength = builder.length();
 				builder.delete(builderLength - 3, builderLength);
 			}
