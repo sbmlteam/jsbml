@@ -51,7 +51,9 @@ public class SpeciesAnnotationTest extends SimpleSBaseChangeListener {
 		Model model = doc.createModel("model_test");
 		Species s1 = model.createSpecies("s1", model.createCompartment("c1"));
 		s1.setMetaId("meta_" + s1.getId());
-        s1.getAnnotation().addRDFAnnotationNamespace("bqbiol", "", "http://biomodels.net/biology-qualifiers/");
+		// Not necessary anymore.
+		// s1.getAnnotation().addRDFAnnotationNamespace("bqbiol", "",
+		// "http://biomodels.net/biology-qualifiers/");
 		s1.addCVTerm(new CVTerm(CVTerm.Type.BIOLOGICAL_QUALIFIER,
 				CVTerm.Qualifier.BQB_HAS_PART, "urn:miriam:obo.chebi:CHEBI:15422"));
 		System.out.println("==================================");

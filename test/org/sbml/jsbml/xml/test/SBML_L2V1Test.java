@@ -226,7 +226,7 @@ public class SBML_L2V1Test {
 
 		// TODO : add more complex test for Notes !! assertTrue(pRBp.getNotesString().contains("http://www.w3.org/1999/xhtml"));
 		
-		System.out.println("pRBp annotation : " + pRBp.getAnnotation().getNoRDFAnnotation());
+		System.out.println("pRBp annotation : " + pRBp.getAnnotation().getNonRDFannotation());
 		System.out.println("pRBp annotation : " + pRBp.getCVTerm(0).toString());
 		
 		assertTrue(model.getListOfParameters().size() == 40);
@@ -247,9 +247,9 @@ public class SBML_L2V1Test {
 		Reaction pRB_synthesis = model.getReaction("pRB_synthesis");
 		
 		assertTrue(pRB_synthesis != null);
-		System.out.println("pRB_synthesis additional annotation : " + pRB_synthesis.getAnnotation().getNoRDFAnnotation());
+		System.out.println("pRB_synthesis additional annotation : " + pRB_synthesis.getAnnotation().getNonRDFannotation());
 
-		assertTrue(pRB_synthesis.getAnnotation().getNoRDFAnnotation().trim().equals("<jigcell:ratelaw jigcell:name=\"Local\"/>"));
+		assertTrue(pRB_synthesis.getAnnotation().getNonRDFannotation().trim().equals("<jigcell:ratelaw jigcell:name=\"Local\"/>"));
 		
 		assertTrue(pRB_synthesis.getCVTerm(0).getResourceURI(0).equals("urn:miriam:obo.go:GO%3A0006412"));
 		// GO:3A0006412

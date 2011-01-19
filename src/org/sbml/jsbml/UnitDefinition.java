@@ -33,6 +33,7 @@ package org.sbml.jsbml;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
@@ -190,10 +191,15 @@ public class UnitDefinition extends AbstractNamedSBase {
 				u.setKind(Kind.METRE);
 			} else if (id.equals("time")) {
 				u.setKind(Kind.SECOND);
-				// TODO : add a miriam annotation to http://bioportal.bioontology.org/visualize/44519/?conceptid=UO%3A0000003
-				// once UO as been added to miriam
 			} else {
 				return null;
+			}
+			if ((level > 1) && (version > 1)) {
+				String resource = u.getKind().getUnitOntologyResource();
+				if (resource != null) {
+					u.setMetaId("meta_" + id);
+					u.addCVTerm(new CVTerm(Qualifier.BQB_IS, resource));
+				}
 			}
 			ud.setName("Predefined unit " + id);
 			ud.addUnit(u);

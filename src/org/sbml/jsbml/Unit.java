@@ -441,6 +441,138 @@ public class Unit extends AbstractSBase {
 		}
 
 		/**
+		 * Creates a unit ontology identifier for this {@link Kind} if possible
+		 * and returns it. See {@link http
+		 * ://obo.cvs.sourceforge.net/viewvc/obo/obo
+		 * /ontology/phenotype/unit.obo} for more information.
+		 * 
+		 * @return the unit ontology identifier for this {@link Kind} or null if
+		 *         this {@link Kind} has no corresponding type in the unit
+		 *         ontology.
+		 * 
+		 * @see #getUnitOntologyNumber()
+		 */
+		public String getUnitOntologyIdentifier() {
+			int id = getUnitOntologyNumber();
+			if (id > -1) {
+				StringBuilder sb = new StringBuilder();
+				sb.append("UO:");
+				sb.append(id);
+				while (sb.toString().length() < 10) {
+					sb.insert(3, 0);
+				}
+				return sb.toString();
+			} 
+			return null;
+		}
+
+		/**
+		 * Looks for the corresponding unit ontology resource for this
+		 * {@link Kind}. Please visit {@link http://bioportal.bioontology.org/visualize/44519/?conceptid=UO%3A0000003}
+		 * and {@link http://www.ebi.ac.uk/miriam/main/datatypes/MIR:00000136}
+		 * for more details.
+		 * 
+		 * @return the unit ontology number of this {@link Kind} or -1 if no
+		 *         entry exists for this {@link Kind} in the unit ontology.
+		 */
+		public int getUnitOntologyNumber() {
+			switch (this) {
+			case AMPERE:
+				return 11;
+				// case AVOGADRO:
+				// return "";
+			case BECQUEREL:
+				return 132;
+			case CANDELA:
+				return 14;
+			case CELSIUS:
+				return 27;
+			case COULOMB:
+				return 220;
+			case DIMENSIONLESS:
+				return 186;
+				// case FARAD:
+				// return "";
+			case GRAM:
+				return 21;
+			case GRAY:
+				return 134;
+				// case HENRY:
+				// return "";
+			case HERTZ:
+				return 106;
+				// case INVALID:
+				// return "";
+				// case ITEM:
+				// return "";
+			case JOULE:
+				return 112;
+			case KATAL:
+				return 120;
+			case KELVIN:
+				return 12;
+			case KILOGRAM:
+				return 9;
+			case LITER:
+			case LITRE:
+				return 99;
+			case LUMEN:
+				return 118;
+			case LUX:
+				return 116;
+			case METER:
+			case METRE:
+				return 8;
+			case MOLE:
+				return 13;
+			case NEWTON:
+				return 108;
+				// case OHM:
+				// return "";
+			case PASCAL:
+				return 110;
+			case RADIAN:
+				return 123;
+			case SECOND:
+				return 10;
+			case SIEMENS:
+				return 264;
+			case SIEVERT:
+				return 137;
+			case STERADIAN:
+				return 125;
+			case TESLA:
+				return 228;
+			case VOLT:
+				return 218;
+			case WATT:
+				return 114;
+			case WEBER:
+				return 226;
+			default:
+				return -1;
+			}
+		}
+
+		/**
+		 * Creates a MIRIAM resource pointing to the entry in the unit ontology
+		 * corresponding to this {@link Kind}. If such an entry exists, this
+		 * method will return the {@link String}
+		 * <code>urn:miriam:obo.unit:UO%3A</code> plus the number of the
+		 * resource filled to a seven-digit number by inserting leading zeros.
+		 * 
+		 * @return null if no corresponding entry exists in the unit ontology,
+		 *         otherwise a MIRIAM resource pointing to it.
+		 */
+		public String getUnitOntologyResource() {
+			String uo = getUnitOntologyIdentifier();
+			if (uo != null) {
+				return "urn:miriam:obo.unit:" + uo.replace(":", "%3A");
+			}
+			return null;
+		}
+		
+		/**
 		 * Tests whether this kind of unit is defined in the given level and
 		 * version of SBML.
 		 * 
@@ -1830,9 +1962,10 @@ public class Unit extends AbstractSBase {
 	 * multiplier='1' scale='-3' exponent='1'. It can also be expressed as a
 	 * Unit with kind='metre' multiplier='0.001' scale='0' exponent='1'.
 	 */
-	public void removeScale() {
+	public Unit removeScale() {
 		setMultiplier(getMultiplier() * Math.pow(10, getScale()));
 		setScale(0);
+		return this;
 	}
 
 	/**

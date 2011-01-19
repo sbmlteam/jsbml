@@ -3,7 +3,6 @@
  */
 package org.sbml.jsbml.test;
 
-import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 
