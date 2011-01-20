@@ -1008,4 +1008,12 @@ public class Event extends AbstractNamedSBaseWithUnit {
 
 		return attributes;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getPredefinedUnitID()
+	 */
+	public String getPredefinedUnitID() {
+		return null;
+	}
 }

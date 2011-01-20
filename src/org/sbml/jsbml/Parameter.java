@@ -57,15 +57,6 @@ public class Parameter extends Symbol {
 	}
 	
 	/**
-	 * 
-	 * @param id
-	 */
-	public Parameter(String id) {
-		this();
-		setId(id);
-	}
-
-	/**
 	 * Creates a Parameter instance from an id, level and version.
 	 * 
 	 * @param id
@@ -103,6 +94,15 @@ public class Parameter extends Symbol {
 	 * 
 	 * @param id
 	 */
+	public Parameter(String id) {
+		this();
+		setId(id);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 */
 	public Parameter(String id, int level, int version) {
 		super(id, level, version);
 		initDefaults();
@@ -125,6 +125,14 @@ public class Parameter extends Symbol {
 	@Override
 	public boolean equals(Object o) {
 		return (o instanceof Parameter) ? super.equals(o) : false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getPredefinedUnitID()
+	 */
+	public String getPredefinedUnitID() {
+		return null;
 	}
 
 	/**

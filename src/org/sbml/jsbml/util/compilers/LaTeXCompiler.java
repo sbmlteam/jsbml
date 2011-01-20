@@ -46,7 +46,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Andreas Dr&auml;ger
  * @date 2009-01-03
  */
-public class LaTeX extends StringTools implements ASTNodeCompiler {
+public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 
 	/**
 	 * Requires LaTeX package booktabs. Produces a fancy line at the bottom of a
@@ -316,7 +316,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * 
 	 * 
 	 */
-	public LaTeX() {
+	public LaTeXCompiler() {
 		printNameIfAvailable = false;
 	}
 
@@ -324,7 +324,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 	 * 
 	 * @param settings
 	 */
-	public LaTeX(boolean namesInEquations) {
+	public LaTeXCompiler(boolean namesInEquations) {
 		setPrintNameIfAvailable(namesInEquations);
 	}
 
@@ -874,7 +874,7 @@ public class LaTeX extends StringTools implements ASTNodeCompiler {
 		StringBuffer value = new StringBuffer();
 		int length;
 		if (fun != null) {
-			value.append(mathtt(LaTeX.maskSpecialChars(fun.getId())));
+			value.append(mathtt(LaTeXCompiler.maskSpecialChars(fun.getId())));
 			length = args.size();
 		} else if (args.size() == 1) {
 			length = 0;

@@ -294,13 +294,11 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#appendNotes(java.lang.String)
 	 */
 	public void appendNotes(String notes) {
+		// TODO
 		if (isSetNotes()) {
-			// String oldNotes = notes;
-
-			// TODO 
-			
-			// firePropertyChange(SBaseChangedEvent.notes, oldNotes, notes);
-
+			XMLNode oldNotes = notesXMLNode.clone();
+			notesXMLNode.append(notes);
+			firePropertyChange(SBaseChangedEvent.notes, oldNotes, notesXMLNode);
 		} else {
 			setNotes(notes);
 		}
@@ -987,14 +985,10 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#setNotes(java.lang.String)
 	 */
 	public void setNotes(XMLNode notes) {
-		if (isSetNotes()) {
-			// TODO : check if it is the default libsbml behavior
-			// this.notes += notes;
-		} else {
-			this.notesXMLNode = notes;
-		}
-		// TODO : correct the fire Event
-		firePropertyChange("notes", null, this.notesXMLNode);
+		// TODO
+		XMLNode oldNotes = this.notesXMLNode;
+		this.notesXMLNode = notes;
+		firePropertyChange(SBaseChangedEvent.notes, oldNotes, this.notesXMLNode);
 	}
 
 	/*
@@ -1003,10 +997,17 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#setNotes(java.lang.String)
 	 */
 	public void setNotes(String notes) {
-
 		// TODO
-
-		// firePropertyChange(SBaseChangedEvent.notes, oldNotes, this.notes);
+		XMLNode.convertStringToXMLNode(notes);
+		if (notesXMLNode == null) {
+			XMLNode node = new XMLNode(notes);
+			// TODO
+			setNotes(node); 
+		} else {
+			XMLNode oldNotes = notesXMLNode.clone();
+			notesXMLNode.setCharacters(notes);
+			firePropertyChange(SBaseChangedEvent.notes, oldNotes, this.notesXMLNode);
+		}
 	}
 
 	/*

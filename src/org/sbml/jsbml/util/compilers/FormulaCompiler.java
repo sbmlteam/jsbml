@@ -76,7 +76,7 @@ import org.sbml.jsbml.util.StringTools;
  * 0.00166112956810631*Ca_D_ER)))))*ERM*1*(1/KMOLE) // False
  */
 
-public class TextFormula extends StringTools implements ASTNodeCompiler {
+public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
 	/**
 	 * Basic method which links several elements with a mathematical operator.

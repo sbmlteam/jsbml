@@ -101,27 +101,6 @@ import com.ctc.wstx.stax.WstxOutputFactory;
 public class SBMLWriter {
 
 	/**
-	 * URI for the RDF syntax name space definition for VCards.
-	 */
-	public static final transient String URI_RDF_VCARD_NS = "http://www.w3.org/2001/vcard-rdf/3.0#";
-	/**
-	 * URI for purl terms.
-	 */
-	public static final transient String URI_PURL_TERMS = "http://purl.org/dc/terms/";
-	/**
-	 * URI for the definition of MathML.
-	 */
-	public static final transient String URI_MATHML_DEFINITION = "http://www.w3.org/1998/Math/MathML";
-	/**
-	 * URI for the definition of purl elements
-	 */
-	public static final transient String URI_PURL_ELEMENTS = "http://purl.org/dc/elements/1.1/";
-	/**
-	 * URI for the definition of XHTML.
-	 */
-	public static final transient String URI_XHTML_DEFINITION = "http://www.w3.org/1999/xhtml";
-
-	/**
 	 * contains the WritingParser instances of this class.
 	 */
 	private static HashMap<String, WritingParser> instantiatedSBMLParsers = new HashMap<String, WritingParser>();
@@ -470,9 +449,9 @@ public class SBMLWriter {
 		ReadingParser mathMLParser = null;
 		try {
 			notesParser = SBMLReader.getPackageParsers(
-					URI_XHTML_DEFINITION).newInstance();
+					JSBML.URI_XHTML_DEFINITION).newInstance();
 			mathMLParser = SBMLReader.getPackageParsers(
-					URI_MATHML_DEFINITION).newInstance();
+					JSBML.URI_MATHML_DEFINITION).newInstance();
 		} catch (InstantiationException e) {
 			throw new IllegalArgumentException(String.format(
 					JSBML.UNDEFINED_PARSE_ERROR_MSG, e.getMessage()));
@@ -737,10 +716,10 @@ public class SBMLWriter {
 		String whiteSpace = createIndent(indent);
 		String rdfPrefix = rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS);
 		if (history.getNumCreators() > 0) {
-			String creatorPrefix = rdfNamespaces.get(URI_PURL_ELEMENTS);
+			String creatorPrefix = rdfNamespaces.get(JSBML.URI_PURL_ELEMENTS);
 			writer.writeCharacters(whiteSpace);
 			writer.writeStartElement(creatorPrefix, "creator",
-					URI_PURL_ELEMENTS);
+					JSBML.URI_PURL_ELEMENTS);
 			writer.writeCharacters("\n");
 			writer.writeCharacters(whiteSpace + "  ");
 			writer.writeStartElement(rdfPrefix, "Bag",
@@ -756,14 +735,14 @@ public class SBMLWriter {
 						Annotation.URI_RDF_SYNTAX_NS,
 						"parseType", "Resource");
 				String vCardPrefix = rdfNamespaces
-						.get(URI_RDF_VCARD_NS);
+						.get(JSBML.URI_RDF_VCARD_NS);
 
 				if (modelCreator.isSetFamilyName()
 						|| modelCreator.isSetGivenName()) {
 					writer.writeCharacters("\n");
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeStartElement(vCardPrefix, "N",
-							URI_RDF_VCARD_NS);
+							JSBML.URI_RDF_VCARD_NS);
 					writer.writeAttribute(
 							Annotation.URI_RDF_SYNTAX_NS,
 							"parseType", "Resource");
@@ -772,7 +751,7 @@ public class SBMLWriter {
 					if (modelCreator.isSetFamilyName()) {
 						writer.writeCharacters(whiteSpace + "        ");
 						writer.writeStartElement(vCardPrefix, "Family",
-								URI_RDF_VCARD_NS);
+								JSBML.URI_RDF_VCARD_NS);
 						writer.writeCharacters(modelCreator.getFamilyName());
 						writer.writeEndElement();
 						writer.writeCharacters("\n");
@@ -780,7 +759,7 @@ public class SBMLWriter {
 					if (modelCreator.isSetGivenName()) {
 						writer.writeCharacters(whiteSpace + "        ");
 						writer.writeStartElement(vCardPrefix, "Given",
-								URI_RDF_VCARD_NS);
+								JSBML.URI_RDF_VCARD_NS);
 						writer.writeCharacters(modelCreator.getGivenName());
 						writer.writeEndElement();
 						writer.writeCharacters("\n");
@@ -793,7 +772,7 @@ public class SBMLWriter {
 				if (modelCreator.isSetEmail()) {
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeStartElement(vCardPrefix, "EMAIL",
-							URI_RDF_VCARD_NS);
+							JSBML.URI_RDF_VCARD_NS);
 					writer.writeCharacters(modelCreator.getEmail());
 					writer.writeEndElement();
 					writer.writeCharacters("\n");
@@ -801,14 +780,14 @@ public class SBMLWriter {
 				if (modelCreator.isSetOrganisation()) {
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeStartElement(vCardPrefix, "ORG",
-							URI_RDF_VCARD_NS);
+							JSBML.URI_RDF_VCARD_NS);
 					writer.writeAttribute(rdfPrefix,
 							Annotation.URI_RDF_SYNTAX_NS,
 							"parseType", "Resource");
 					writer.writeCharacters("\n");
 					writer.writeCharacters(whiteSpace + "        ");
 					writer.writeStartElement(vCardPrefix, "Orgname",
-							URI_RDF_VCARD_NS);
+							JSBML.URI_RDF_VCARD_NS);
 					writer.writeCharacters(modelCreator.getOrganisation());
 					writer.writeEndElement();
 					writer.writeCharacters("\n");
@@ -828,7 +807,7 @@ public class SBMLWriter {
 			writer.writeCharacters("\n");
 		}
 
-		String dctermPrefix = rdfNamespaces.get(URI_PURL_TERMS);
+		String dctermPrefix = rdfNamespaces.get(JSBML.URI_PURL_TERMS);
 
 		String creationDate;
 		String now = creationDate = DateParser.getIsoDateNoMillis(new Date());
@@ -860,12 +839,12 @@ public class SBMLWriter {
 		String whiteSpace = createIndent(indent);
 
 		writer.writeCharacters(whiteSpace);
-		writer.writeStartElement(dctermPrefix, dcterm, URI_PURL_TERMS);
+		writer.writeStartElement(dctermPrefix, dcterm, JSBML.URI_PURL_TERMS);
 		writer.writeAttribute(rdfPrefix, Annotation.URI_RDF_SYNTAX_NS, "parseType",
 				"Resource");
 		writer.writeCharacters("\n");
 		writer.writeCharacters(whiteSpace + "  ");
-		writer.writeStartElement(dctermPrefix, "W3CDTF", URI_PURL_TERMS);
+		writer.writeStartElement(dctermPrefix, "W3CDTF", JSBML.URI_PURL_TERMS);
 		writer.writeCharacters(dateISO);
 		writer.writeEndElement();
 		writer.writeCharacters("\n");
@@ -899,9 +878,9 @@ public class SBMLWriter {
 			// "math");
 			 
 			writer.writeStartElement("math"); // URI_MATHML_DEFINITION, 
-			writer.writeNamespace(null, URI_MATHML_DEFINITION);
-			writer.setPrefix("math", URI_MATHML_DEFINITION);
-			writer.setDefaultNamespace(URI_MATHML_DEFINITION);
+			writer.writeNamespace(null, JSBML.URI_MATHML_DEFINITION);
+			writer.setPrefix("math", JSBML.URI_MATHML_DEFINITION);
+			writer.setDefaultNamespace(JSBML.URI_MATHML_DEFINITION);
 			
 			// writer.writeAttribute("xmlns:math",	URI_MATHML_DEFINITION);
 			

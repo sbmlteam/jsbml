@@ -45,6 +45,17 @@ import org.sbml.jsbml.util.StringTools;
 public class Compartment extends Symbol {
 
 	/**
+	 * This message will be displayed if the user tries to set the spatial
+	 * dimensions of this element to a value other than 0, 1, 2, or 3.
+	 */
+	private static final String ERROR_MESSAGE_INVALID_DIM = "Spatial dimensions must be within {0, 3}, but %f was given.";
+	/**
+	 * This is the error message to be displayed if an application tries to set
+	 * units or size attribute for this compartment but the spatial dimensions
+	 * have been set to zero.
+	 */
+	private static final String ERROR_MESSAGE_ZERO_DIM = "Cannot set %s for compartment %s if the spatial dimensions are zero.";
+	/**
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -1117854029388326636L;
@@ -55,31 +66,20 @@ public class Compartment extends Symbol {
 	@Deprecated
 	private String compartmentTypeID;
 	/**
+	 * Helper variable to check if spatial dimensions has been set by the user.
+	 */
+	private boolean isSetSpatialDimensions = false;
+	/**
 	 * Represents the outside XML attribute of a compartment element. It matches
 	 * a compartment id in the model instance.
 	 */
 	@Deprecated
 	private String outsideID;
+
 	/**
 	 * Represents the spatialDimensions XML attribute of a compartment element.
 	 */
 	private Short spatialDimensions;
-	/**
-	 * Helper variable to check if spatial dimensions has been set by the user.
-	 */
-	private boolean isSetSpatialDimensions = false;
-	/**
-	 * This message will be displayed if the user tries to set the spatial
-	 * dimensions of this element to a value other than 0, 1, 2, or 3.
-	 */
-	private static final String ERROR_MESSAGE_INVALID_DIM = "Spatial dimensions must be within {0, 3}, but %f was given.";
-
-	/**
-	 * This is the error message to be displayed if an application tries to set
-	 * units or size attribute for this compartment but the spatial dimensions
-	 * have been set to zero.
-	 */
-	private static final String ERROR_MESSAGE_ZERO_DIM = "Cannot set %s for compartment %s if the spatial dimensions are zero.";
 
 	/**
 	 * Creates a Compartment instance. By default, if the level is set and is
@@ -246,6 +246,17 @@ public class Compartment extends Symbol {
 		return m != null ? m.getCompartment(outsideID) : null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getPredefinedUnitID()
+	 */
+	public String getPredefinedUnitID() {
+		if (getLevel() < 3) {
+			return "volume";
+		}
+		return null;
+	}
+
 	/**
 	 * Returns the size of this compartment.
 	 * 
@@ -289,6 +300,7 @@ public class Compartment extends Symbol {
 	public void initDefaults() {
 		compartmentTypeID = null;
 		outsideID = null;
+		unitsID = getPredefinedUnitID();
 		if (getLevel() < 3) {
 			spatialDimensions = Short.valueOf((short) 3);
 			constant = new Boolean(true);

@@ -49,7 +49,7 @@ import org.sbml.jsbml.util.Maths;
  * @author Andreas Dr&auml;ger
  * @date 2010-05-20
  */
-public class Units implements ASTNodeCompiler {
+public class UnitsCompiler implements ASTNodeCompiler {
 
 	/**
 	 * SBML level field
@@ -72,7 +72,7 @@ public class Units implements ASTNodeCompiler {
 	/**
 	 * 
 	 */
-	public Units() {
+	public UnitsCompiler() {
 		this(-1, -1);
 	}
 
@@ -81,7 +81,7 @@ public class Units implements ASTNodeCompiler {
 	 * @param level
 	 * @param version
 	 */
-	public Units(int level, int version) {
+	public UnitsCompiler(int level, int version) {
 		this.level = level;
 		this.version = version;
 		this.namesToUnits = new HashMap<String, UnitDefinition>();
@@ -91,7 +91,7 @@ public class Units implements ASTNodeCompiler {
 	 * 
 	 * @param model
 	 */
-	public Units(Model model) {
+	public UnitsCompiler(Model model) {
 		this(model.getLevel(), model.getVersion());
 		this.model = model;
 	}
@@ -254,9 +254,15 @@ public class Units implements ASTNodeCompiler {
 				.toDouble())), this);
 	}
 
+	/**
+	 * 
+	 * @param values
+	 * @return
+	 */
 	private ASTNodeValue checkIdentical(ASTNodeValue... values) {
 		ASTNodeValue value = new ASTNodeValue(this);
 		if (values[0].isNumber()) {
+			// TODO: Numbers might also have units
 			int i = values.length - 1;
 			while ((i >= 0) && values[i].isNumber()) {
 				i--;
@@ -267,7 +273,6 @@ public class Units implements ASTNodeCompiler {
 			 * Necessary to remember in higher recursion steps that this was
 			 * just a number. The actual value does not matter.
 			 */
-			// TODO: save correct value.
 			value.setValue(Integer.valueOf(0));
 		}
 		UnitDefinition ud = values[0].getUnits();
@@ -341,8 +346,7 @@ public class Units implements ASTNodeCompiler {
 	 * java.lang.String)
 	 */
 	public ASTNodeValue compile(double mantissa, int exponent, String units) {
-		// TODO Auto-generated method stub
-		return null;
+		return compile(mantissa * Math.pow(10, exponent), units);
 	}
 
 	/*
@@ -351,8 +355,19 @@ public class Units implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double, java.lang.String)
 	 */
 	public ASTNodeValue compile(double real, String units) {
-		// TODO!
-		return new ASTNodeValue(real, this);
+		ASTNodeValue v = new ASTNodeValue(real, this);
+		UnitDefinition ud;
+		if (Unit.Kind.isValidUnitKindString(units, level, version)) {
+			ud = new UnitDefinition(level, version);
+			ud.addUnit(Unit.Kind.valueOf(units.toUpperCase()));
+			v.setUnits(ud);
+		} else if (model != null) {
+			ud = model.getUnitDefinition(units);
+			if (ud != null) {
+				v.setUnits(ud);
+			}
+		}
+		return v;
 	}
 
 	/*
@@ -361,8 +376,7 @@ public class Units implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(int, java.lang.String)
 	 */
 	public ASTNodeValue compile(int integer, String units) {
-		// TODO!
-		return new ASTNodeValue(integer, this);
+		return compile((double) integer, units);
 	}
 
 	/*
@@ -502,16 +516,14 @@ public class Units implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#factorial(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue factorial(ASTNode value) throws SBMLException {
+		ASTNodeValue v = new ASTNodeValue(Maths.factorial(value.compile(this)
+				.toDouble()), this);
 		if (value.isNumber()) {
-			double d = value.compile(this).toDouble();
-			ASTNodeValue v = root(1 / d, value);
-			v.setValue(Maths.factorial(d));
-			return v;
+			v.setUnits(value.getUnitsInstance());
+		} else if (value.isName()) {
+			// TODO: AVOGADRO, Quantity...
 		}
-		/*
-		 * TODO: absolutely unclear how to derive the unit here.
-		 */
-		return new ASTNodeValue(this);
+		return v;
 	}
 
 	/*
@@ -598,8 +610,7 @@ public class Units implements ASTNodeCompiler {
 		UnitDefinition perMole = new UnitDefinition();
 		perMole.setLevel(level);
 		perMole.setId("per_mole");
-		// TODO: deal vith correct version!
-		perMole.addUnit(new Unit(Kind.MOLE, -1, level, -1));
+		perMole.addUnit(new Unit(Kind.MOLE, -1, level, version));
 		value.setUnits(perMole);
 		return value;
 	}
@@ -884,21 +895,9 @@ public class Units implements ASTNodeCompiler {
 	private ASTNodeValue pow(ASTNodeValue base, ASTNodeValue exponent)
 			throws SBMLException {
 		double exp = Double.NaN, v;
-		if (exponent.isNumber()) {
 			v = exponent.toDouble();
 			exp = v == 0 ? 0 : 1 / v;
-		} else {
-			if (exponent.getUnits().getNumUnits() == 1) {
-				System.out.println(exponent.getUnits().getUnit(0).getKind());
-				Kind kind = exponent.getUnits().getUnit(0).getKind();
-				// only if the kind is a dimensionless quantity we can proceed.
-				if ((kind == Kind.DIMENSIONLESS) || (kind == Kind.ITEM)
-						|| (kind == Kind.RADIAN) || (kind == Kind.STERADIAN)) {
-					v = exponent.toDouble();
-					exp = v == 0 ? 0 : 1 / v;
-				}
-			}
-		}
+			checkForDimensionlessUnits(exponent.getUnits());
 		if (exp == 0) {
 			UnitDefinition ud = new UnitDefinition(level, version);
 			ud.addUnit(Kind.DIMENSIONLESS);
@@ -907,26 +906,50 @@ public class Units implements ASTNodeCompiler {
 		if (!Double.isNaN(exp)) {
 			return root(exp, base);
 		}
-		/*
-		 * TODO: What to to if the exponent is not a number?
-		 */
+		
 		return new ASTNodeValue(this);
+	}
+
+	/**
+	 * Throws an {@link IllegalArgumentException} if the given units do not
+	 * represent a dimensionless unit.
+	 * 
+	 * @param units
+	 */
+	private void checkForDimensionlessUnits(UnitDefinition units) {
+		units.simplify();
+		String illegal = null;
+		if (units.getNumUnits() == 1) {
+			Kind kind = units.getUnit(0).getKind();
+			// only if the kind is a dimensionless quantity we can proceed.
+			if ((kind != Kind.DIMENSIONLESS) && (kind != Kind.ITEM)
+					&& (kind != Kind.RADIAN) && (kind != Kind.STERADIAN)) {
+				illegal = kind.toString();
+			}
+		} else {
+			illegal = units.toString();
+		}
+		if (illegal != null) {
+			throw new IllegalArgumentException(
+					new UnitException(String.format(
+											"A dimensionless unit is required but given is %s.",
+											illegal)));
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#root(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#root(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant)
 			throws SBMLException {
+		if (rootExponent.isSetUnits()) {
+			checkForDimensionlessUnits(rootExponent.getUnitsInstance());
+		}
 		if (rootExponent.isNumber()) {
 			return root(rootExponent.compile(this).toDouble(), radiant);
 		}
-		/*
-		 * TODO: Next problem! What to do with exponents that are no numbers?
-		 */
+		
 		return new ASTNodeValue(this);
 	}
 

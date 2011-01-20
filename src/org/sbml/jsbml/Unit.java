@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.util.compilers.TextFormula;
+import org.sbml.jsbml.util.compilers.FormulaCompiler;
 
 /**
  * Represents the unit XML element of a SBML file.
@@ -2052,16 +2052,16 @@ public class Unit extends AbstractSBase {
 			if (prefix.length() > 0 && !prefix.startsWith("10")) {
 				pow.insert(0, prefix);
 			} else if (getScale() != 0) {
-				pow = TextFormula.times(TextFormula.pow(Integer.valueOf(10),
+				pow = FormulaCompiler.times(FormulaCompiler.pow(Integer.valueOf(10),
 						getScale()), pow);
 			}
-			times = TextFormula.times(times, pow);
+			times = FormulaCompiler.times(times, pow);
 		}
 		if (offset != null && offset.doubleValue() != 0) {
-			times = TextFormula.sum(StringTools.toString(offset.doubleValue()),
+			times = FormulaCompiler.sum(StringTools.toString(offset.doubleValue()),
 					times);
 		}
-		return TextFormula.pow(times, Double.valueOf(getExponent())).toString();
+		return FormulaCompiler.pow(times, Double.valueOf(getExponent())).toString();
 	}
 
 	/**

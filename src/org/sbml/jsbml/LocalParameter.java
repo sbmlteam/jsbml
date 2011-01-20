@@ -130,6 +130,14 @@ public class LocalParameter extends QuantityWithUnit {
 	
 	/*
 	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getPredefinedUnitID()
+	 */
+	public String getPredefinedUnitID() {
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.Symbol#readAttribute(java.lang.String,
 	 * java.lang.String, java.lang.String)
