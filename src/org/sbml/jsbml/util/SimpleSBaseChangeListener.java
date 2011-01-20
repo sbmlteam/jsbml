@@ -1,6 +1,6 @@
 /*
- * $Id:  SimpleSBaseChangeListener.java 17:21:54 draeger $
- * $URL: SimpleSBaseChangeListener.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

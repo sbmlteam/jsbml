@@ -1,6 +1,6 @@
 /*
- * $Id: ASTNodeValue.java 191 2010-04-22 07:33:11Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/ASTNodeValue.java $
+ * $Id$
+ * $URL$
  *
  *
  *==================================================================================

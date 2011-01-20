@@ -1,6 +1,6 @@
 /*
- * $Id:  SBaseWithDefinedUnit.java 10:26:46 draeger $
- * $URL: SBaseWithDefinedUnit.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

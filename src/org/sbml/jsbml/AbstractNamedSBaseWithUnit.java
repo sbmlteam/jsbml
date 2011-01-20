@@ -1,6 +1,6 @@
 /*
- * $Id:  AbstrtactNamedSBaseWithUnit.java 09:04:30 draeger $
- * $URL: AbstrtactNamedSBaseWithUnit.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

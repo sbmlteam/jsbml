@@ -1,6 +1,6 @@
 /*
- * $Id: QuantityWithUnit.java 173 2010-04-09 06:32:34Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/QuantityWithUnit.java $
+ * $Id$
+ * $URL$
  *
  *
  *==================================================================================

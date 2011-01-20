@@ -1,6 +1,6 @@
 /*
- * $Id: Filter.java 231 2010-05-13 09:19:09Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/util/Filter.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

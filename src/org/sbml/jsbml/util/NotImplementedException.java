@@ -1,6 +1,6 @@
 /*
- * $Id:  NotImplementedException.java 10:04:01 draeger $
- * $URL: NotImplementedException.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

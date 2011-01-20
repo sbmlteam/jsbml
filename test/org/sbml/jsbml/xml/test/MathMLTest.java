@@ -1,6 +1,6 @@
 /*
- * $Id: MathMLTest.java 117 2009-12-16 09:53:01Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/test/org/sbml/jsbml/xml/test/MathMLTest.java $
+ * $Id$
+ * $URL$
  *
  *
  *==================================================================================

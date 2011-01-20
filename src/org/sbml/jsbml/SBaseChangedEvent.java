@@ -1,6 +1,6 @@
 /*
- * $Id:  SBaseChangedEvent.java 18:05:03 draeger $
- * $URL: SBaseChangedEvent.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

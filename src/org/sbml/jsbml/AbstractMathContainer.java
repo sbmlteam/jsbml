@@ -1,6 +1,6 @@
 /*
- * $Id: MathContainer.java 366 2010-10-06 15:38:11Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/MathContainer.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

@@ -5,8 +5,8 @@
  * @author  Akiya Jouraku (Java conversion)
  * @author  Sarah Keating 
  *
- * $Id: TestCVTerms.java 11442 2010-07-09 02:23:35Z mhucka $
- * $HeadURL: http://sbml.svn.sourceforge.net/svnroot/sbml/trunk/libsbml/src/bindings/java/test/org/sbml/libsbml/test/annotation/TestCVTerms.java $
+ * $Id$
+ * $HeadURL$
  *
  * ====== WARNING ===== WARNING ===== WARNING ===== WARNING ===== WARNING ======
  *

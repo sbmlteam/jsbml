@@ -1,6 +1,6 @@
 /*
- * $Id: NamedSBaseWithDerivedUnit.java 129 2009-12-29 18:33:31Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/NamedSBaseWithDerivedUnit.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

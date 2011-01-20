@@ -5,8 +5,8 @@
  * @author  Akiya Jouraku (Java conversion)
  * @author  Ben Bornstein 
  *
- * $Id: TestReadFromFile5.java 11383 2010-07-06 05:14:11Z mhucka $
- * $HeadURL: http://sbml.svn.sourceforge.net/svnroot/sbml/trunk/libsbml/src/bindings/java/test/org/sbml/libsbml/test/sbml/TestReadFromFile5.java $
+ * $Id$
+ * $HeadURL$
  *
  * ====== WARNING ===== WARNING ===== WARNING ===== WARNING ===== WARNING ======
  *

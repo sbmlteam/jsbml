@@ -1,6 +1,6 @@
 /*
- * $Id:  SpeciesAnnotationTest.java 17:20:59 draeger $
- * $URL: SpeciesAnnotationTest.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

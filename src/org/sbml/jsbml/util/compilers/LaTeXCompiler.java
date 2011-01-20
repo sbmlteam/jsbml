@@ -1,6 +1,6 @@
 /*
- * $Id: LaTeX.java 97 2009-12-10 09:08:54Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/util/LaTeX.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

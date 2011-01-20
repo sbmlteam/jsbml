@@ -1,6 +1,6 @@
 /*
- * $Id: ValuePair.java 369 2010-10-12 10:36:35Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/util/ValuePair.java $
+ * $Id$
+ * $URL$
  *
  *
  *==================================================================================

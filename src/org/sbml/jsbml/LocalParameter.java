@@ -1,6 +1,6 @@
 /*
- * $Id: LocalParameter.java 175 2010-04-12 02:37:31Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/LocalParameter.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
