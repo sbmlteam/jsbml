@@ -57,7 +57,7 @@ public class SimpleSBaseChangeListener implements SBaseChangedListener {
 	 * @see org.sbml.jsbml.SBaseChangedListener#sbaseAdded(org.sbml.jsbml.SBase)
 	 */
 	public void sbaseAdded(SBase sb) {
-		logger.debug(String.format("[ADD]\t%s\n", sb));		
+		logger.debug(String.format("[ADD]\t%s", sb));		
 	}
 
 	/*
@@ -67,7 +67,7 @@ public class SimpleSBaseChangeListener implements SBaseChangedListener {
 	 * org.sbml.jsbml.SBaseChangedListener#sbaseRemoved(org.sbml.jsbml.SBase)
 	 */
 	public void sbaseRemoved(SBase sb) {
-		logger.debug(String.format("[DEL]\t%s\n", sb));
+		logger.debug(String.format("[DEL]\t%s", sb));
 	}
 
 	/*
@@ -77,7 +77,7 @@ public class SimpleSBaseChangeListener implements SBaseChangedListener {
 	 * SBaseChangedEvent)
 	 */
 	public void stateChanged(SBaseChangedEvent ev) {		
-		logger.debug(String.format("[CHG]\t%s\n", ev));
+		logger.debug(String.format("[CHG]\t%s", ev));
 	}
 
 }

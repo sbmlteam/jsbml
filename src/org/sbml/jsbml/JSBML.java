@@ -86,6 +86,27 @@ public class JSBML {
 	public static final int UNEXPECTED_ATTRIBUTE = -2;
 
 	public static final int VERSION_MISMATCH = -8;
+	
+	/**
+	 * URI for the RDF syntax name space definition for VCards.
+	 */
+	public static final transient String URI_RDF_VCARD_NS = "http://www.w3.org/2001/vcard-rdf/3.0#";
+	/**
+	 * URI for purl terms.
+	 */
+	public static final transient String URI_PURL_TERMS = "http://purl.org/dc/terms/";
+	/**
+	 * URI for the definition of MathML.
+	 */
+	public static final transient String URI_MATHML_DEFINITION = "http://www.w3.org/1998/Math/MathML";
+	/**
+	 * URI for the definition of purl elements
+	 */
+	public static final transient String URI_PURL_ELEMENTS = "http://purl.org/dc/elements/1.1/";
+	/**
+	 * URI for the definition of XHTML.
+	 */
+	public static final transient String URI_XHTML_DEFINITION = "http://www.w3.org/1999/xhtml";
 
 	
 	/**

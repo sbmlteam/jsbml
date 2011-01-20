@@ -43,15 +43,16 @@ import javax.activity.InvalidActivityException;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.NotImplementedException;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
-import org.sbml.jsbml.util.compilers.LaTeX;
+import org.sbml.jsbml.util.compilers.LaTeXCompiler;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
-import org.sbml.jsbml.util.compilers.TextFormula;
-import org.sbml.jsbml.util.compilers.Units;
+import org.sbml.jsbml.util.compilers.FormulaCompiler;
+import org.sbml.jsbml.util.compilers.UnitsCompiler;
 import org.sbml.jsbml.util.filters.Filter;
 
 /**
@@ -64,15 +65,6 @@ import org.sbml.jsbml.util.filters.Filter;
  * 
  */
 public class ASTNode implements Cloneable, Serializable, TreeNode {
-
-	/**
-	 * Message to indicate that an {@link ASTNode.Type} type has been chosen
-	 * which cannot be used as an operator.
-	 */
-	public static final String INVALID_OPERATOR_MSG = "Invalid operator %s. The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER.";
-	
-	
-	// TODO : check how we set the math in level 1
 
 	/**
 	 * An enumeration of all possible types that can be represented by an
@@ -557,6 +549,15 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		}
 
 	}
+	
+	
+	// TODO : check how we set the math in level 1
+
+	/**
+	 * Message to indicate that an {@link ASTNode.Type} type has been chosen
+	 * which cannot be used as an operator.
+	 */
+	public static final String INVALID_OPERATOR_MSG = "Invalid operator %s. The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER.";
 
 	/**
 	 * Generated serial version identifier.
@@ -1255,10 +1256,9 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * node.
 	 * 
 	 * @param operator
-	 * @param parent
 	 */
-	public ASTNode(char operator, MathContainer parent) {
-		this(parent);
+	public ASTNode(char operator) {
+		this();
 		setCharacter(operator);
 	}
 	
@@ -1267,10 +1267,32 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * node.
 	 * 
 	 * @param operator
+	 * @param parent
 	 */
-	public ASTNode(char operator) {
-		this();
+	public ASTNode(char operator, MathContainer parent) {
+		this(parent);
 		setCharacter(operator);
+	}
+
+	/**
+	 * Creates and returns a new {@link ASTNode}.
+	 * 
+	 * @param real
+	 */
+	public ASTNode(double real) {
+		this(Type.REAL);
+		setValue(real);
+	}
+	
+	/**
+	 * Creates and returns a new {@link ASTNode}.
+	 * 
+	 * @param mantissa
+	 * @param exponent
+	 */
+	public ASTNode(double mantissa, int exponent) {
+		this(Type.REAL_E);
+		setValue(mantissa, exponent);
 	}
 
 	/**
@@ -1288,17 +1310,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	/**
 	 * Creates and returns a new {@link ASTNode}.
 	 * 
-	 * @param mantissa
-	 * @param exponent
-	 */
-	public ASTNode(double mantissa, int exponent) {
-		this(Type.REAL_E);
-		setValue(mantissa, exponent);
-	}
-
-	/**
-	 * Creates and returns a new {@link ASTNode}.
-	 * 
 	 * @param real
 	 * @param parent
 	 */
@@ -1306,17 +1317,16 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		this(Type.REAL, parent);
 		setValue(real);
 	}
-	
-	/**
-	 * Creates and returns a new {@link ASTNode}.
-	 * 
-	 * @param real
-	 */
-	public ASTNode(double real) {
-		this(Type.REAL);
-		setValue(real);
-	}
 
+	/**
+	 * Creates and returns a new {@link ASTNode} with the given value.
+	 * @param integer
+	 */
+	public ASTNode(int integer) {
+		this(Type.INTEGER);
+		setValue(integer);
+	}
+	
 	/**
 	 * Creates and returns a new {@link ASTNode} with the given value.
 	 * 
@@ -1325,15 +1335,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 */
 	public ASTNode(int integer, MathContainer parent) {
 		this(Type.INTEGER, parent);
-		setValue(integer);
-	}
-	
-	/**
-	 * Creates and returns a new {@link ASTNode} with the given value.
-	 * @param integer
-	 */
-	public ASTNode(int integer) {
-		this(Type.INTEGER);
 		setValue(integer);
 	}
 
@@ -1354,6 +1355,15 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 
 	/**
 	 * Creates and returns a new {@link ASTNode} referring to the given {@link NamedSBaseWithDerivedUnit}.
+	 * @param nsb
+	 */
+	public ASTNode(NamedSBaseWithDerivedUnit nsb) {
+		this(Type.NAME);
+		setVariable(nsb);
+	}
+	
+	/**
+	 * Creates and returns a new {@link ASTNode} referring to the given {@link NamedSBaseWithDerivedUnit}.
 	 * 
 	 * @param nsb
 	 * @param parent
@@ -1362,16 +1372,17 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		this(Type.NAME, parent);
 		setVariable(nsb);
 	}
-	
-	/**
-	 * Creates and returns a new {@link ASTNode} referring to the given {@link NamedSBaseWithDerivedUnit}.
-	 * @param nsb
-	 */
-	public ASTNode(NamedSBaseWithDerivedUnit nsb) {
-		this(Type.NAME);
-		setVariable(nsb);
-	}
 
+	/**
+	 * Creates and returns a new {@link ASTNode} with the given name.
+	 * 
+	 * @param name  the name of this ASTNode
+	 */
+	public ASTNode(String name) {
+		this(Type.NAME);
+		setName(name);
+	}
+	
 	/**
 	 * Creates and returns a new {@link ASTNode} with the given name.
 	 * 
@@ -1381,16 +1392,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 */
 	public ASTNode(String name, MathContainer parent) {
 		this(Type.NAME, parent);
-		setName(name);
-	}
-	
-	/**
-	 * Creates and returns a new {@link ASTNode} with the given name.
-	 * 
-	 * @param name  the name of this ASTNode
-	 */
-	public ASTNode(String name) {
-		this(Type.NAME);
 		setName(name);
 	}
 
@@ -1874,7 +1875,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 			level = container.getLevel();
 			version = container.getVersion();
 		}
-		return compile(new Units(level, version)).getUnits().simplify();
+		return compile(new UnitsCompiler(level, version)).getUnits().simplify();
 	}
 
 	/**
@@ -2367,6 +2368,30 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
+	 * Creates or obtains a {@link UnitDefinition} corresponding to the unit
+	 * that has been set for this {@link ASTNode} and returns a pointer to it.
+	 * Note that in case that this {@link ASTNode} is associated with a
+	 * {@link Kind}, the created {@link UnitDefinition} will not be part of the
+	 * model, it is just a container for the {@link Kind}.
+	 * 
+	 * @return A {@link UnitDefinition} or null.
+	 */
+	public UnitDefinition getUnitsInstance() {
+		if (!isSetUnits() || (getParentSBMLObject() == null)) {
+			return null;
+		}
+		int level = getParentSBMLObject().getLevel();
+		int version = getParentSBMLObject().getVersion();
+		if (Unit.Kind.isValidUnitKindString(getUnits(), level, version)) {
+			UnitDefinition ud = new UnitDefinition(getUnits(), level, version);
+			ud.addUnit(Unit.Kind.valueOf(getUnits().toUpperCase()));
+		} else if (getParentSBMLObject().getModel() == null) {
+			return null;
+		}
+		return getParentSBMLObject().getModel().getUnitDefinition(getUnits());
+	}
+
+	/**
 	 * Returns the variable of this node. This function should be called only
 	 * when {@link #isString()} == <code>true<code>, otherwise and Exception is thrown.
 	 * 
@@ -2591,18 +2616,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
-	 * Returns <code>true</code> if this node is a name or refers to a
-	 * {@link FunctionDefinition}.
-	 * 
-	 * @return true if this {@link ASTNode} is a user-defined variable name in SBML L1,
-	 *         L2 (MathML) or the special symbols time or Avogadro.
-	 * @see #isName()
-	 */
-	public boolean isString() {
-		return isName() || (type == Type.FUNCTION);
-	}
-
-	/**
 	 * Returns <code>true</code> if this node is a user-defined {@link Variable} name in SBML L1, L2
 	 * (MathML), or the special symbols delay or time. The predicate returns
 	 * <code>false</code> otherwise.
@@ -2765,6 +2778,18 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		return type == Type.FUNCTION_ROOT && listOfNodes.size() == 2
 				&& getLeftChild().isInteger()
 				&& getLeftChild().getInteger() == 2;
+	}
+
+	/**
+	 * Returns <code>true</code> if this node is a name or refers to a
+	 * {@link FunctionDefinition}.
+	 * 
+	 * @return true if this {@link ASTNode} is a user-defined variable name in SBML L1,
+	 *         L2 (MathML) or the special symbols time or Avogadro.
+	 * @see #isName()
+	 */
+	public boolean isString() {
+		return isName() || (type == Type.FUNCTION);
 	}
 
 	/**
@@ -3465,7 +3490,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 *             if there is a problem in the ASTNode tree.
 	 */
 	public String toFormula() throws SBMLException {
-		return compile(new TextFormula()).toString();
+		return compile(new FormulaCompiler()).toString();
 	}
 
 	/**
@@ -3477,7 +3502,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 *             if there is a problem in the ASTNode tree.
 	 */
 	public String toLaTeX() throws SBMLException {
-		return compile(new LaTeX()).toString();
+		return compile(new LaTeXCompiler()).toString();
 	}
 
 	/**
@@ -3510,7 +3535,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		String formula = "";
 
 		try {
-			formula = compile(new TextFormula()).toString();
+			formula = compile(new FormulaCompiler()).toString();
 		} catch (SBMLException e) {
 			// TODO : log the exception
 			Logger logger = Logger.getLogger(ASTNode.class);
@@ -3555,4 +3580,5 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 			child.updateVariables();
 		}
 	}
+
 }

@@ -345,6 +345,17 @@ public class Species extends Symbol {
 		return Double.NaN;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getPredefinedUnitID()
+	 */
+	public String getPredefinedUnitID() {
+		if (getLevel() < 3) {
+			return "substance";
+		}
+		return null;
+	}
+
 	/**
 	 * 
 	 * @return the spatialSizeUnits of this Species.
@@ -420,6 +431,7 @@ public class Species extends Symbol {
 	 */
 	public void initDefaults() {
 		amount = true;
+		unitsID = getPredefinedUnitID();
 		if (getLevel() < 3) {
 			hasOnlySubstanceUnits = new Boolean(false);
 			boundaryCondition = new Boolean(false);

@@ -58,7 +58,7 @@ import org.w3c.dom.Node;
  * @date 2010-05-18
  * 
  */
-public class MathML implements ASTNodeCompiler {
+public class MathMLCompiler implements ASTNodeCompiler {
 
 	/**
 	 * XML document for the output.
@@ -79,7 +79,7 @@ public class MathML implements ASTNodeCompiler {
 	 * 
 	 * @throws ParserConfigurationException
 	 */
-	public MathML() throws XMLStreamException {
+	public MathMLCompiler() throws XMLStreamException {
 		init();
 	}
 
@@ -89,7 +89,7 @@ public class MathML implements ASTNodeCompiler {
 	 * @throws XMLStreamException
 	 * @throws SBMLException
 	 */
-	public MathML(ASTNode ast) throws XMLStreamException, SBMLException {
+	public MathMLCompiler(ASTNode ast) throws XMLStreamException, SBMLException {
 		this();
 		ast.compile(this);
 	}

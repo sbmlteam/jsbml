@@ -45,7 +45,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Andreas Dr&auml;ger
  * @date 2010-04-08
  */
-public class HTMLFormula extends MathML {
+public class HTMLFormula extends MathMLCompiler {
 
 	/**
 	 * HTML code for the empty set symbol &ldquo;&#8709;&rdquo;.

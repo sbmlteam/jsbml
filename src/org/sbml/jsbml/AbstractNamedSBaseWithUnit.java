@@ -199,8 +199,34 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.SBaseWithUnit#isSetUnits()
 	 */
 	public boolean isSetUnits() {
-		return unitsID != null;
+		return (unitsID != null) && !isPredefinedUnitsID(unitsID);
 	}
+	
+	/**
+	 * Checks whether or not a given identifier for a {@link Kind} or
+	 * {@link UnitDefinition} equals a predefined unit identifier for this type.
+	 * 
+	 * @param unitsID the identifier to be checked.
+	 * @return true if the given identifier equals the unit definition
+	 *         identifier that is predefined under the Level/Version combination
+	 *         for this data type.
+	 */
+	public boolean isPredefinedUnitsID(String unitsID) {
+		if (unitsID != null) {
+			String predefID = getPredefinedUnitID();
+			return (predefID != null) && unitsID.equals(predefID);
+		}
+		return false;
+	}
+
+	/**
+	 * Returns the predefined unit identifier for this data type with the
+	 * current level/version combination.
+	 * 
+	 * @return an identifier of a unit in the containing {@link Model}. This can
+	 *         be one of the predefined unit identifiers if there are any.
+	 */
+	public abstract String getPredefinedUnitID();
 
 	/*
 	 * (non-Javadoc)
