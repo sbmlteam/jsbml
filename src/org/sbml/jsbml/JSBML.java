@@ -1,6 +1,6 @@
 /*
- * $Id: JSBML.java 181 2010-04-20 07:28:21Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/JSBML.java $
+ * $Id$
+ * $URL$
  *
  *
  *==================================================================================

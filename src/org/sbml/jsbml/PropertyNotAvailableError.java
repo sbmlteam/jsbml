@@ -1,6 +1,6 @@
 /*
- * $Id:  PropertyNotAvailableError.java 19:06:45 draeger $
- * $URL: PropertyNotAvailableError.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

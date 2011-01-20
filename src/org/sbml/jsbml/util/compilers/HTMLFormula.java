@@ -1,6 +1,6 @@
 /*
- * $Id: HTMLFormula.java 151 2010-02-11 17:23:46Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/util/HTMLFormula.java $
+ * $Id$
+ * $URL$
  *
  *
  *==================================================================================

@@ -1,6 +1,6 @@
 /*
- * $Id: MathMLParser.java 282 2010-06-18 17:29:34Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/xml/parsers/MathMLParser.java $
+ * $Id$
+ * $URL$
  *
  *
  *==================================================================================

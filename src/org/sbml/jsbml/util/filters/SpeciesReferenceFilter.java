@@ -1,6 +1,6 @@
 /*
- * $Id:  SpeciesReferenceFilter.java 09:35:53 draeger $
- * $URL: SpeciesReferenceFilter.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

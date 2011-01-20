@@ -1,6 +1,6 @@
 /*
- * $Id:  UnitException.java 15:12:01 draeger $
- * $URL: UnitException.java $ 
+ * $Id$
+ * $URL$ 
  * 
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 

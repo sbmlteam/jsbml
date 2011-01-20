@@ -1,6 +1,6 @@
 /*
- * $Id: OverdeterminationValidator.java 273 2010-06-10 13:17:41Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/validator/OverdeterminationValidator.java $
+ * $Id$
+ * $URL$
  *
  *
  *==================================================================================

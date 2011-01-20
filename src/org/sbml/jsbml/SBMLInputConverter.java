@@ -1,6 +1,6 @@
 /*
- * $Id: SBMLReader.java 102 2009-12-13 19:52:50Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/SBMLReader.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

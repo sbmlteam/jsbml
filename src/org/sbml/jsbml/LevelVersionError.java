@@ -1,6 +1,6 @@
 /*
- * $Id:  LevelVersionMissmatch.java 19:17:10 draeger $
- * $URL: LevelVersionMissmatch.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
