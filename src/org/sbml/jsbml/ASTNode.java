@@ -32,19 +32,20 @@ import java.util.Set;
 
 import javax.activity.InvalidActivityException;
 import javax.swing.tree.TreeNode;
+import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
-import org.sbml.jsbml.util.NotImplementedException;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
+import org.sbml.jsbml.util.compilers.FormulaCompiler;
 import org.sbml.jsbml.util.compilers.LaTeXCompiler;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
-import org.sbml.jsbml.util.compilers.FormulaCompiler;
 import org.sbml.jsbml.util.compilers.UnitsCompiler;
 import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
  * A node in the Abstract Syntax Tree (AST) representation of a mathematical
@@ -961,15 +962,13 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * @return an {@link ASTNode}
 	 */
 	public static ASTNode readMathMLFromString(String xml) {
-		// TODO: implement!
-//		 MathMLStaxParser parser = new MathMLStaxParser();
-//		 Object contextObject = null;
-//		 boolean hasAttributes = false;
-//		 boolean hasNamespaces = false;
-//		 String prefix = "";
-//		 parser.processStartElement(elementName, prefix, hasAttributes,
-//		 hasNamespaces, contextObject);
-		throw new NotImplementedException();
+		try {
+			return new SBMLReader().readMathML(xml);
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 	/**

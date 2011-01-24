@@ -347,6 +347,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			try {
 				astNode.setUnits(value);
 			} catch (IllegalArgumentException e) {
+				// TODO : Write from which element the error is coming from : astNode.getParentSBMLObject();
 				log4jLogger.info(e.getMessage());
 				// TODO : Log the error to the ErrorLog object
 			}

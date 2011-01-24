@@ -45,15 +45,18 @@ import javax.xml.stream.events.XMLEvent;
 
 import org.apache.log4j.Logger;
 import org.codehaus.stax2.evt.XMLEvent2;
+import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.JSBML;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.util.Message;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.SimpleSBaseChangeListener;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.AnnotationParser;
+import org.sbml.jsbml.xml.parsers.MathMLStaxParser;
 import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.sbml.jsbml.xml.parsers.StringParser;
 
@@ -72,144 +75,59 @@ public class SBMLReader {
 	/**
 	 * Contains all the relationships namespace URI <=> {@link ReadingParser} implementation classes.
 	 */
-	private static HashMap<String, Class<? extends ReadingParser>> packageParsers = new HashMap<String, Class<? extends ReadingParser>>();
+	private HashMap<String, Class<? extends ReadingParser>> packageParsers = new HashMap<String, Class<? extends ReadingParser>>();
 
+	
 	/**
-	 * Adds a new ReadingParser instance to the initializedParsers if it doesn't
-	 * contain a ReadingParser instance for this name space URI.
-	 * 
-	 * @param elementName
-	 *            : localName of the XML element
-	 * @param startElement
-	 *            : StartElement instance
-	 * @param initializedParsers
-	 *            : the map containing all the ReadingParser instance.
+	 * Contains all the initialized parsers.
 	 */
-	private static void addNamespaceToInitializedPackages(String elementName,
-			StartElement startElement,
-			HashMap<String, ReadingParser> initializedParsers) 
-	{
-		@SuppressWarnings("unchecked")
-		Iterator<Namespace> nam = startElement.getNamespaces();
+	private HashMap<String, ReadingParser> initializedParsers = new HashMap<String, ReadingParser>();
 
-		while (nam.hasNext()) {
-			Namespace namespace = nam.next();
 
-			if (elementName.equals("annotation")
-					&& !packageParsers.containsKey(namespace.getNamespaceURI())) 
-			{
-				packageParsers.put(namespace.getNamespaceURI(),
-						AnnotationParser.class);
-			}
-			if (packageParsers.containsKey(namespace.getNamespaceURI())
-					&& !initializedParsers.containsKey(namespace
-							.getNamespaceURI())) 
-			{
-
-				ReadingParser newParser;
-				try {
-					newParser = packageParsers.get(namespace.getNamespaceURI())
-							.newInstance();
-					initializedParsers.put(namespace.getNamespaceURI(),
-							newParser);
-				} catch (InstantiationException e) {
-					throw new IllegalArgumentException(String.format(
-							JSBML.UNDEFINED_PARSE_ERROR_MSG, e.getMessage()));
-				} catch (IllegalAccessException e) {
-					throw new IllegalArgumentException(String.format(
-							JSBML.UNDEFINED_PARSE_ERROR_MSG, e.getMessage()));
-				}
-			} else if (!packageParsers.containsKey(namespace.getNamespaceURI())
-					&& !initializedParsers.containsKey(namespace
-							.getNamespaceURI())) 
-			{
-				// TODO : check that this message does not appear each time that the namespace is encountered
-				
-				Logger logger = Logger.getLogger(SBMLReader.class);
-				logger.warn("Cannot find a parser for the " + namespace.getNamespaceURI() + " namespace");
-			}
-		}
-	}
-
+	
 	/**
-	 * Creates the necessary ReadingParser instances and stores them in a
+	 * Creates the ReadingParser instances and stores them in a
 	 * HashMap.
 	 * 
-	 * @param startElement
-	 *            : the StartElement instance
-	 * @return the map containing the ReadingParser instances for this
-	 *         StartElement.
+	 * @return the map containing the ReadingParser instances.
 	 */
-	@SuppressWarnings("unchecked")
-	private static HashMap<String, ReadingParser> getInitializedPackageParsers(
-			StartElement startElement) {
-		initializePackageParserNamespaces();
-
-		HashMap<String, ReadingParser> initializedParsers = new HashMap<String, ReadingParser>();
-
-		Iterator<Namespace> nam = startElement.getNamespaces();
-		while (nam.hasNext()) {
-			Namespace namespace = nam.next();
-			String namespaceURI = namespace.getNamespaceURI();
-
-			// If the prefix is an empty String, it means that the namespace is
-			// the namespace of the current element (which is the sbml element
-			// normally).
-			// TODO : wrong assumption, I think - Nico.
-			if (namespace.getPrefix().length() == 0) {
-				packageParsers.put(namespaceURI, SBMLCoreParser.class);
-				initializedParsers.put(namespaceURI, new SBMLCoreParser());
-			}
-			// If there is a ReadingParser associated with this namespace URI.
-			else if (packageParsers.containsKey(namespaceURI)) {
-				try {
-					initializedParsers.put(namespaceURI, packageParsers.get(
-							namespaceURI).newInstance());
-				} catch (InstantiationException e) {
-					if (isPackageRequired(namespaceURI, startElement)) {
-						// throwing an Exception : the package is required for the parsing
-						// We could just log the error and try anyway to read the file ??
-						SBMLError error = new SBMLError();
-						Message message = new Message();
-						// TODO : Use something like : String.format(JSBML.UNDEFINED_PARSE_ERROR_MSG, e.getMessage())
-						message.setMessage("The package parser for " + namespaceURI + 
-								" cannot be created. It is required to understand this model.\n" + e.getMessage());
-						error.setMessage(message);
-						throw error;
-					}
-				} catch (IllegalAccessException e) {
-					if (isPackageRequired(namespaceURI, startElement)) {
-						// throwing an Exception : the package is required for the parsing
-						// We could just log the error and try anyway to read the file ??
-						SBMLError error = new SBMLError();
-						Message message = new Message();
-						message.setMessage("The package parser for " + namespaceURI + 
-								" cannot be created. It is required to understand this model.\n" + e.getMessage());
-						error.setMessage(message);
-						throw error;
-					}
-				}
-			}
-			// If there is no ReadingParser associated with this namespaceURI
-			// and there is no 'required' attribute with this namespace, the
-			// declared namespace
-			// can be for the annotation and it associates this namespace URI to
-			// an AnnotationParser instance.
-			// TODO : this is wrong as it is possible that we have a model with a level 3 package that jsbml do not know about
-			else {
-				if (hasNoRequiredAttributeFor(namespaceURI, startElement)) {
-					packageParsers.put(namespaceURI, AnnotationParser.class);
-					initializedParsers.put(namespaceURI, new AnnotationParser());
-				} else {
-					if (isPackageRequired(namespaceURI, startElement)) {
-						// TODO throw an Exception : package required for the
-						// parsing?
-					}
-				}
+	private HashMap<String, ReadingParser> initializePackageParsers() 
+	{
+		if (packageParsers.size() == 0) {
+			initializePackageParserNamespaces();
+		}
+		
+		for (String namespace : packageParsers.keySet()) {
+			try {
+				initializedParsers.put(namespace, packageParsers.get(namespace).newInstance());
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
 			}
 		}
+		
 		return initializedParsers;
 	}
+	
+	/**
+	 * Associates any unknown namespaces with the {@link AnnotationParser}.
+	 * 
+	 */
+	private void addAnnotationParsers(StartElement startElement) 
+	{
+		@SuppressWarnings("unchecked")
+		Iterator<Namespace> namespacesIterator = startElement.getNamespaces();
+		
+		while (namespacesIterator.hasNext()) {
+			String namespaceURI = namespacesIterator.next().getNamespaceURI();
+			
+			if (initializedParsers.get(namespaceURI) == null) {
+				initializedParsers.put(namespaceURI, new AnnotationParser());
+			}
+		}
+	}
+	
 
 	/**
 	 * Gets the ReadingParser class associated with 'namespace'.
@@ -218,42 +136,16 @@ public class SBMLReader {
 	 * @return the ReadingParser class associated with 'namespace'. Null if
 	 *         there is not matching ReadingParser class.
 	 */
-	public static Class<? extends ReadingParser> getPackageParsers(
-			String namespace) {
-		return SBMLReader.packageParsers.get(namespace);
+	public Class<? extends ReadingParser> getReadingParsers(String namespace) {
+		return packageParsers.get(namespace);
 	}
 
-	/**
-	 * Returns true if there is no 'required' attribute for this namespace
-	 *         URI, false otherwise.
-	 * 
-	 * @param namespaceURI
-	 * @param startElement
-	 *            : the StartElement instance
-	 * @return true if there is no 'required' attribute with this namespace
-	 *         URI.
-	 */
-	private static boolean hasNoRequiredAttributeFor(String namespaceURI,
-			StartElement startElement) 
-	{
-		@SuppressWarnings("unchecked")
-		Iterator<Attribute> att = startElement.getAttributes();
-
-		while (att.hasNext()) {
-			Attribute attribute = (Attribute) att.next();
-
-			if (attribute.getName().getNamespaceURI().equals(namespaceURI)) {
-				return false;
-			}
-		}
-		return true;
-	}
 
 	/**
 	 * Initializes the packageParser {@link HashMap} of this class.
 	 * 
 	 */
-	public static void initializePackageParserNamespaces() {
+	public void initializePackageParserNamespaces() {
 		JSBML.loadClasses("org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml", packageParsers);
 	}
 
@@ -268,8 +160,7 @@ public class SBMLReader {
 	 *         to read the SBML file. If there is no 'required' attribute for
 	 *         this namespace URI, return false.
 	 */
-	// TODO : Duplicate method with hasNoRequiredAttributeFor ???
-	private static boolean isPackageRequired(String namespaceURI,
+	private boolean isPackageRequired(String namespaceURI,
 			StartElement startElement) 
 	{
 		@SuppressWarnings("unchecked")
@@ -304,6 +195,7 @@ public class SBMLReader {
 	 */
 	public static void main(String[] args) throws IOException, XMLStreamException, SBMLException  {
 
+		/*
 		if (args.length < 1) {
 			System.out
 					.println("Usage: java org.sbml.jsbml.xml.stax.SBMLReader sbmlFileName");
@@ -314,6 +206,40 @@ public class SBMLReader {
 
 		SBMLDocument testDocument = readSBML(fileName);
 		SBMLWriter.write(testDocument, System.out);
+		
+		*/
+		String mathMLString1 = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+			+ "  <apply>\n"
+            + "    <times/>\n"
+            + "    <ci> uVol </ci>\n"
+            + "    <ci> MKP3 </ci>\n"
+            + "  </apply>\n"
+            + "</math>\n";
+		
+		String mathMLString2 = "<math:math xmlns:math=\"http://www.w3.org/1998/Math/MathML\">\n"
+			+ "  <math:apply>\n"
+            + "    <math:times/>\n"
+            + "    <math:ci> uVol </math:ci>\n"
+            + "    <math:ci> MKP3 </math:ci>\n"
+            + "  </math:apply>\n"
+            + "</math:math>\n";
+		
+		String notesHTMLString = "<notes>\n" +
+			"  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n " +
+			"    <p>The model describes the double phosphorylation of MAP kinase by an ordered mechanism using the Michaelis-Menten formalism. " +
+			"Two enzymes successively phosphorylate the MAP kinase, but one phosphatase dephosphorylates both sites.</p>\n" +
+			"  </body>\n" +
+			"</notes>";
+		
+		SBMLReader reader = new SBMLReader();
+		
+		Object astNodeObject1 = reader.readXMLFromString(mathMLString1);
+		Object astNodeObject2 = reader.readXMLFromString(mathMLString2);
+		Object xmlNodeObject = reader.readXMLFromString(notesHTMLString);
+		
+		System.out.println("MathML object = " + astNodeObject1);
+		System.out.println("MathML object = " + ((AssignmentRule) astNodeObject2).getMath());
+		System.out.println("Notes object = " + ((SBase) xmlNodeObject).getNotes().toXMLString());
 	}
 
 	/**
@@ -325,9 +251,16 @@ public class SBMLReader {
 	 * @throws XMLStreamException
 	 * @throws FileNotFoundException
 	 */
-	public static SBMLDocument readSBML(File file) throws XMLStreamException,
-			FileNotFoundException {
-		return readSBMLFromStream(new FileInputStream(file));
+	public SBMLDocument readSBML(File file) throws XMLStreamException,
+			FileNotFoundException 
+	{
+		Object readObject = readXMLFromStream(new FileInputStream(file));
+		
+		if (readObject instanceof SBMLDocument) {
+			return (SBMLDocument) readObject;
+		}
+		
+		throw new XMLStreamException("Your did not gave a correct SBMl file !");
 	}
 
 	/**
@@ -339,7 +272,7 @@ public class SBMLReader {
 	 * @throws XMLStreamException
 	 * @throws FileNotFoundException
 	 */
-	public static SBMLDocument readSBML(String file) throws XMLStreamException,
+	public SBMLDocument readSBML(String file) throws XMLStreamException,
 			FileNotFoundException {
 		return readSBMLFile(file);
 	}
@@ -354,26 +287,121 @@ public class SBMLReader {
 	 * @throws XMLStreamException
 	 * @throws FileNotFoundException
 	 */
-	public static SBMLDocument readSBMLFile(String fileName)
+	public SBMLDocument readSBMLFile(String fileName)
 			throws XMLStreamException, FileNotFoundException {
 		return readSBML(new File(fileName));
 	}
 
+	
 	/**
-	 * Reads a SBML document from the given <code>stream</code>.
+	 * Reads an {@link SBMLDocument} from the given {@link XMLEventReader}
+	 * 
+	 * @param xmlEventReader
+	 * @return
+	 * @throws XMLStreamException
+	 */
+	public SBMLDocument readSBML(XMLEventReader xmlEventReader)
+		throws XMLStreamException 
+	{
+		return (SBMLDocument) readXMLFromXMLEventReader(xmlEventReader);		
+	}
+	
+	/**
+	 * Reads a mathML String into an {@link ASTNode}.
+	 * 
+	 * @param mathML
+	 * @return an {@link ASTNode} representing the given mathML String.
+	 * @throws XMLStreamException
+	 */
+	public ASTNode readMathML(String mathML)
+		throws XMLStreamException 
+	{
+		Object object = readXMLFromString(mathML);
+		
+		if (object != null && object instanceof Rule) {
+			ASTNode math = ((Rule) object).getMath();
+			
+			if (math != null) {
+				return math;
+			}
+		}
+		
+		return null;
+	}
+
+	/**
+	 * Reads a notes XML String into an {@link XMLNode}.
+	 * 
+	 * @param notesXHTML
+	 * @return an {@link XMLNode} representing the given notes String.
+	 * @throws XMLStreamException
+	 */
+	public XMLNode readNotes(String notesXHTML)
+		throws XMLStreamException 
+	{
+		Object object = readXMLFromString(notesXHTML);
+
+		if (object != null && object instanceof Rule) {
+			XMLNode notes = ((Rule) object).getNotes();
+
+			if (notes != null) {
+				return notes;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Reads a SBML document from the given <code>stream</code>. 
 	 * 
 	 * @param stream
 	 * @return
 	 * @throws XMLStreamException
 	 */
-	public static SBMLDocument readSBMLFromStream(InputStream stream)
+	public SBMLDocument readSBMLFromStream(InputStream stream)
 			throws XMLStreamException 
 	{
 		WstxInputFactory inputFactory = new WstxInputFactory();
-		HashMap<String, ReadingParser> initializedParsers = null;
 
-		XMLEventReader xmlEventReader = inputFactory
-				.createXMLEventReader(stream);
+		XMLEventReader xmlEventReader = inputFactory.createXMLEventReader(stream);
+		
+		return (SBMLDocument) readXMLFromXMLEventReader(xmlEventReader);		
+	}
+
+	/**
+	 * Reads a XML document from the given <code>stream</code>. It need to be a self contain part of
+	 * an SBML document. 
+	 * 
+	 * @param stream
+	 * @return
+	 * @throws XMLStreamException
+	 */
+	private Object readXMLFromStream(InputStream stream)
+			throws XMLStreamException 
+	{
+		WstxInputFactory inputFactory = new WstxInputFactory();
+
+		XMLEventReader xmlEventReader = inputFactory.createXMLEventReader(stream);
+		
+		return readXMLFromXMLEventReader(xmlEventReader);		
+	}
+	
+		
+	/**
+	 * Reads an XML document from the given {@link XMLEventReader}. It need to represent a self contain part of
+	 * an SBML document. It can be either a math element, a notes element or the whole SBML model. If math or notes are given, 
+	 * a Rule containing the math or notes will be returned, otherwise an SBMLDocument is returned.
+	 * 
+	 * 
+	 * @param xmlEventReader
+	 * @return an <code>Object</code> representing the given XML.
+	 * @throws XMLStreamException
+	 */
+	private Object readXMLFromXMLEventReader(XMLEventReader xmlEventReader)  throws XMLStreamException {
+
+		initializePackageParsers();
+
 		XMLEvent event;
 		StartElement startElement = null;
 		ReadingParser parser = null;
@@ -383,7 +411,8 @@ public class SBMLReader {
 		Boolean isText = false;
 		Boolean isHTML = false;
 		Integer level = -1, version = -1;
-
+		Object lastElement = null;
+		
 		Logger logger = Logger.getLogger(SBMLReader.class);	
 		
 		// Read all the elements of the file
@@ -410,12 +439,14 @@ public class SBMLReader {
 				isNested = false;
 				isText = false;
 				
+				addAnnotationParsers(startElement);
+				
 				// If the XML element is the sbml element, creates the
 				// necessary ReadingParser instances.
 				// Creates an empty SBMLDocument instance and pushes it on
 				// the SBMLElements stack.
 				if (currentNode.getLocalPart().equals("sbml")) {
-					initializedParsers = getInitializedPackageParsers(startElement);
+
 					SBMLDocument sbmlDocument = new SBMLDocument();
 
 					// the output of the change listener is activated or not via log4j.properties
@@ -434,10 +465,32 @@ public class SBMLReader {
 						}
 					}
 					sbmlElements.push(sbmlDocument);
-				} 
+				} else if (lastElement == null) {
+					// We put a fake element that can take either math or notes
 
-				parser = processStartElement(startElement, currentNode, isHTML,
-						initializedParsers, sbmlElements);
+					if (currentNode.getLocalPart().equals("notes")) {
+						
+						initializedParsers.put("", new SBMLCoreParser());
+						
+					} else if (currentNode.getLocalPart().equals("math")) {
+						
+						initializedParsers.put("", new MathMLStaxParser());
+						initializedParsers.put(JSBML.URI_MATHML_DEFINITION, new MathMLStaxParser());
+						currentNode = new QName(JSBML.URI_MATHML_DEFINITION, "math");
+						
+					}
+					
+					// TODO : will not work with arbitrary SBML part
+					// TODO : we need to be able, somehow, to set the Model element in the AssignmentRule
+					// to be able to have a fully functional parsing. Without it the functionDefinition, for examples, are
+					// not properly recognized.
+					AssignmentRule assignmentRule = new AssignmentRule();
+					sbmlElements.push(assignmentRule);
+					
+				}
+
+				parser = processStartElement(startElement, currentNode, isHTML,	sbmlElements);
+				lastElement = sbmlElements.peek();
 
 			}
 			// Characters
@@ -479,8 +532,12 @@ public class SBMLReader {
 			}
 			// EndElement
 			else if (event.isEndElement()) {
+
+				// the method  processEndElement will return null until we arrive at the end of the 'sbml' element.
+				lastElement = sbmlElements.peek();
+				
 				SBMLDocument sbmlDocument = processEndElement(startElement, currentNode, isNested, isText, isHTML, event,
-						level, version, parser,	initializedParsers, sbmlElements);
+						level, version, parser,	sbmlElements);
 				
 				if (sbmlDocument != null) {
 					return sbmlDocument;
@@ -489,7 +546,20 @@ public class SBMLReader {
 				currentNode = null;
 				isNested = false;
 				isText = false;
-			}
+			} 
+		}
+		
+		// We reach the end of the XML fragment and no 'sbml' have been found
+		// so we are probably parsing some math or notes String.
+		
+		logger.debug("no more XMLEvent : stack.size = " + sbmlElements.size());
+		
+		logger.debug("no more XMLEvent : stack = " + sbmlElements);
+		
+		initializedParsers.remove("");
+		
+		if (sbmlElements.size() > 0) {
+			return sbmlElements.peek();
 		}
 		
 		return null;
@@ -501,12 +571,31 @@ public class SBMLReader {
 	 * @param xml
 	 * @return
 	 */
-	public static SBMLDocument readSBMLFromString(String xml)
-	throws XMLStreamException {
-		return readSBMLFromStream(new ByteArrayInputStream(xml.getBytes()));
+	public SBMLDocument readSBMLFromString(String xml)
+		throws XMLStreamException 
+	{
+		Object readObject = readXMLFromStream(new ByteArrayInputStream(xml.getBytes()));
+		
+		if (readObject instanceof SBMLDocument) {
+			return (SBMLDocument) readObject;
+		}
+		
+		throw new XMLStreamException("Your did not gave a correct SBMl file !");
 	}
 
+	/**
+	 * Reads an XML String that should the part of a SBML model.
+	 * 
+	 * @param xml
+	 * @return
+	 */
+	private Object readXMLFromString(String xml)
+		throws XMLStreamException 
+	{
+		return readXMLFromStream(new ByteArrayInputStream(xml.getBytes()));
+	}
 
+	
 	/**
 	 * Process a {@link StartElement} event.
 	 * 
@@ -517,13 +606,15 @@ public class SBMLReader {
 	 * @param sbmlElements
 	 * @return
 	 */
-	private static ReadingParser processStartElement(StartElement startElement, QName currentNode, 
-			Boolean isHTML, HashMap<String, ReadingParser> initializedParsers, Stack<Object> sbmlElements) 
+	private ReadingParser processStartElement(StartElement startElement, QName currentNode, 
+			Boolean isHTML, Stack<Object> sbmlElements) 
 	{		
 		Logger logger = Logger.getLogger(SBMLReader.class);		
 		ReadingParser parser = null;
 
 		String elementNamespace = currentNode.getNamespaceURI();
+
+		logger.debug("processStartElement : " + currentNode.getLocalPart() + ", " + elementNamespace);
 		
 		// To be able to parse all the SBML file, the sbml node
 		// should have been read first.
@@ -531,8 +622,6 @@ public class SBMLReader {
 
 			// All the element should have a namespace.
 			if (elementNamespace != null) {
-				addNamespaceToInitializedPackages(currentNode.getLocalPart(), 
-						startElement, initializedParsers);
 				
 				parser = initializedParsers.get(elementNamespace);
 				// if the current node is a notes or message element
@@ -540,14 +629,13 @@ public class SBMLReader {
 				// we need to set the typeOfNotes variable of the
 				// StringParser instance.
 				if (currentNode.getLocalPart().equals("notes")
-						|| currentNode.getLocalPart().equals("message")) {
-					ReadingParser sbmlparser = initializedParsers
-						.get("http://www.w3.org/1999/xhtml");
+						|| currentNode.getLocalPart().equals("message")) 
+				{
+					ReadingParser sbmlparser = initializedParsers.get(JSBML.URI_XHTML_DEFINITION);
 
 					if (sbmlparser instanceof StringParser) {
 						StringParser notesParser = (StringParser) sbmlparser;
-						notesParser.setTypeOfNotes(currentNode
-								.getLocalPart());
+						notesParser.setTypeOfNotes(currentNode.getLocalPart());
 					}
 				}
 
@@ -576,10 +664,10 @@ public class SBMLReader {
 					}
 					
 					// process the namespaces
-					processNamespaces(nam, currentNode, initializedParsers, sbmlElements, hasAttributes);
+					processNamespaces(nam, currentNode,sbmlElements, hasAttributes);
 					
 					// Process the attributes
-					processAttributes(att, currentNode, initializedParsers, sbmlElements, parser, hasAttributes);
+					processAttributes(att, currentNode, sbmlElements, parser, hasAttributes);
 
 				} else {
 					logger.warn("Cannot find a parser for the " + elementNamespace + " namespace");				}
@@ -600,9 +688,8 @@ public class SBMLReader {
 	 * @param sbmlElements
 	 * @param hasAttributes
 	 */
-	private static void processNamespaces(Iterator<Namespace> nam, QName currentNode, 
-			HashMap<String, ReadingParser> initializedParsers, Stack<Object> sbmlElements,
-			boolean hasAttributes) 
+	private void processNamespaces(Iterator<Namespace> nam, QName currentNode, 
+			Stack<Object> sbmlElements,	boolean hasAttributes) 
 	{
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		ReadingParser namespaceParser = null;
@@ -637,9 +724,8 @@ public class SBMLReader {
 	 * @param parser
 	 * @param hasAttributes
 	 */
-	private static void processAttributes(Iterator<Attribute> att, QName currentNode, 
-			HashMap<String, ReadingParser> initializedParsers, Stack<Object> sbmlElements,
-			ReadingParser parser, boolean hasAttributes) 
+	private void processAttributes(Iterator<Attribute> att, QName currentNode, 
+			Stack<Object> sbmlElements, ReadingParser parser, boolean hasAttributes) 
 	{
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		ReadingParser attributeParser = null;
@@ -661,10 +747,8 @@ public class SBMLReader {
 				attributeParser.processAttribute(
 						currentNode.getLocalPart(),
 						attributeName.getLocalPart(),
-						attribute.getValue(), attributeName
-						.getPrefix(),
-						isLastAttribute, sbmlElements
-						.peek());
+						attribute.getValue(), attributeName.getPrefix(),
+						isLastAttribute, sbmlElements.peek());
 			} else {
 				logger.warn("Cannot find a parser for the " + attribute.getName().getNamespaceURI() + " namespace");
 			}
@@ -688,33 +772,35 @@ public class SBMLReader {
 	 * @param sbmlElements
 	 * @return
 	 */
-	private static SBMLDocument processEndElement(StartElement element, QName currentNode, Boolean isNested, Boolean isText, 
+	private SBMLDocument processEndElement(StartElement element, QName currentNode, Boolean isNested, Boolean isText, 
 			Boolean isHTML, XMLEvent event,	int level, int version, ReadingParser parser, 			
-			HashMap<String, ReadingParser> initializedParsers, Stack<Object> sbmlElements) 
+			Stack<Object> sbmlElements) 
 	{
+		Logger logger = Logger.getLogger(SBMLReader.class);
 		
 		EndElement endElement = event.asEndElement();
 
-		// TODO : create a log system to avoid having to comment/uncomment sysout to debug
-//		System.out.println("SBMLReader : event.isEndElement : stack.size = " + SBMLElements.size());
-//		System.out.println("SBMLReader : event.isEndElement : element name = " + endElement.getName().getLocalPart());
-//		if (endElement.getName().getLocalPart().equals("kineticLaw") || endElement.getName().getLocalPart().startsWith("listOf")) {
-//			System.out.println("SBMLReader : event.isEndElement : stack = " + SBMLElements);
-//		}
+		logger.debug("event.isEndElement : stack.size = " + sbmlElements.size());
+		logger.debug("event.isEndElement : element name = " + endElement.getName().getLocalPart());
+		if (endElement.getName().getLocalPart().equals("kineticLaw") || endElement.getName().getLocalPart().startsWith("listOf")
+				|| endElement.getName().getLocalPart().equals("math")) 
+		{
+			logger.debug("event.isEndElement : stack = " + sbmlElements);
+		}
 		// TODO : check that the stack did not increase before and after an element ?
 		
 		// If this element contains no text and doesn't have any
 		// subNodes, this element is nested.
 		if (!isText && currentNode != null) {
 			if (currentNode.getLocalPart().equals(
-					endElement.getName().getLocalPart())) {
+					endElement.getName().getLocalPart())) 
+			{
 				isNested = true;
 			}
 		}
 
 		if (initializedParsers != null) {
-			parser = initializedParsers.get(endElement.getName()
-					.getNamespaceURI());
+			parser = initializedParsers.get(endElement.getName().getNamespaceURI());
 
 			// if the current node is a notes or message element and
 			// the matching ReadingParser is a StringParser, we need
@@ -733,13 +819,12 @@ public class SBMLReader {
 			}
 			// process the end of the element.
 			if (!sbmlElements.isEmpty() && parser != null) {
-				// System.out.println("SBMLReader : event.isEndElement : calling end element");
+				logger.debug("event.isEndElement : calling parser.processEndElement ");
 
 				boolean popElementFromTheStack = parser
-						.processEndElement(endElement.getName()
-								.getLocalPart(), endElement.getName()
-								.getPrefix(), isNested, sbmlElements
-								.peek());
+						.processEndElement(endElement.getName().getLocalPart(),
+								endElement.getName().getPrefix(), isNested,
+								sbmlElements.peek());
 				// remove the top of the SBMLElements stack at the
 				// end of an element if this element is not the sbml
 				// element.
@@ -752,23 +837,31 @@ public class SBMLReader {
 					// + SBMLElements.size());
 
 				} else {
+					
+					logger.debug("event.isEndElement : sbml element found");
+					
 					// process the end of the document and return
 					// the final SBMLDocument
 					if (sbmlElements.peek() instanceof SBMLDocument) {
 						SBMLDocument sbmlDocument = (SBMLDocument) sbmlElements
 								.peek();
+						
 						Iterator<Entry<String, ReadingParser>> iterator = initializedParsers
 								.entrySet().iterator();
 
 						while (iterator.hasNext()) {
-							Entry<String, ReadingParser> entry = iterator
-									.next();
+							Entry<String, ReadingParser> entry = iterator.next();
 
 							ReadingParser sbmlParser = entry.getValue();
-							sbmlParser.processEndDocument(sbmlDocument);
+							// TODO : calling endDocument for all parsers, can it be a problem ?
+							// sbmlParser.processEndDocument(sbmlDocument);
+							
+							// TODO : call endDocument only on the parser associated with the namespaces 
+							// declared on the sbml element.
+							// logger.debug("event.isEndElement : parser = " + sbmlParser.getClass());
 						}
 						
-						return (SBMLDocument) sbmlElements.peek();
+						return sbmlDocument;
 						
 					} else {
 						// TODO at the end of a sbml node, the
@@ -776,6 +869,7 @@ public class SBMLReader {
 						// SBMLDocument instance.
 						// Otherwise, there is a syntax error in the
 						// SBML document, Throw an error?
+						logger.warn("!!! event.isEndElement : there is a problem in your SBML file !!!!");
 					}
 				}
 			} else {

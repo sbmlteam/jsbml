@@ -64,7 +64,7 @@ public class Test {
 		assignment2.setVariable(k2);
 		assignment2.setMath(new ASTNode(k1));
 		
-		SBMLWriter.write(doc, System.out);
+		new SBMLWriter().write(doc, System.out);
 	}
 
 }

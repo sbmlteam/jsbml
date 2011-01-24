@@ -22,6 +22,7 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.FunctionDefinition;
@@ -59,6 +60,8 @@ public class MathMLStaxParser implements ReadingParser {
 	 */
 	private boolean omitXMLDeclaration;
 
+	private transient Logger logger = Logger.getLogger(MathMLStaxParser.class);
+	
 	/**
 	 * 
 	 * @return
@@ -111,7 +114,7 @@ public class MathMLStaxParser implements ReadingParser {
 		// the sbml:units attribute is handle by the SBMLCoreParser.
 
 		if (! (contextObject instanceof ASTNode)) {
-			System.out.println("MathMLStaxParser : processAttribute : !!!!!!!!! context is not an ASTNode ( " +
+			logger.debug("processAttribute : !!!!!!!!! context is not an ASTNode ( " +
 					contextObject.getClass());
 			return;
 		}
@@ -161,7 +164,7 @@ public class MathMLStaxParser implements ReadingParser {
 		
 		// Depending of the type of ASTNode, we need to do different things
 		if (! (contextObject instanceof ASTNode)) {
-			System.out.println("MathMLStaxParser : processCharactersOf : !!!!!!!!! context is not an ASTNode ( " + 
+			logger.debug("processCharactersOf : !!!!!!!!! context is not an ASTNode ( " + 
 					contextObject.getClass() + " )!!!!!!!!!!");
 			return;
 		}
@@ -169,7 +172,17 @@ public class MathMLStaxParser implements ReadingParser {
 		ASTNode astNode = (ASTNode) contextObject;
 		
 		// System.out.println("MathMLStaxParser : processCharactersOf : context type : " + astNode.getType());
-		FunctionDefinition functionDef = astNode.getParentSBMLObject().getModel().getFunctionDefinition(characters.trim());
+
+		FunctionDefinition functionDef = null;
+		
+		try {
+			functionDef = astNode.getParentSBMLObject().getModel().getFunctionDefinition(characters.trim());
+		} catch(NullPointerException e) {
+			// TODO : this does not work when we do not set the model object when reading a mathML XML String by it's own. 
+			// It should not happen in theory but when reading only a mathML block, it is happening and
+			// functionDefinition are not properly recognized
+			logger.warn("WARNING : cannot recognize properly functionDefinition in mathML block !!!");
+		}
 		
 		if (functionDef != null) {
 			// System.out.println("MathMLStaxParser : processCharactersOf : function found !!");
@@ -197,7 +210,7 @@ public class MathMLStaxParser implements ReadingParser {
 		} else if (astNode.getType().equals(Type.FUNCTION_DELAY)) { 
 			astNode.setName(characters.trim());
 		} else {
-			System.out.println("MathMLStaxParser : processCharactersOf : !!!!!!!!! I don't know what to do with that : " +
+			logger.warn("processCharactersOf : !!!!!!!!! I don't know what to do with that : " +
 					elementName + " !!!!!!!!!!");
 		}
 	}
@@ -223,13 +236,13 @@ public class MathMLStaxParser implements ReadingParser {
 	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 		
-		// System.out.println("MathMLStaxParser : processEndElement called");
-		// System.out.println("MathMLStaxParser : processEndElement : element name = " + elementName);
+		logger.debug("processEndElement called");
+		logger.debug("processEndElement : element name = " + elementName);
 		if (elementName.equals("sep")) {
 			return false;
 		} else if (contextObject instanceof MathContainer) {
 			try {
-				// System.out.println("MathMLStaxParser : processEndElement : formula = " + ((MathContainer) contextObject).getMath());
+				// logger.debug("processEndElement : formula = " + ((MathContainer) contextObject).getMath());
 			} catch (Exception e) {
 				System.out.println("MathMLStaxParser : processEndElement : Exception " + e.getLocalizedMessage());				
 			}
@@ -238,9 +251,11 @@ public class MathMLStaxParser implements ReadingParser {
 		} else if (contextObject instanceof ASTNode) {
 			ASTNode astNode = (ASTNode) contextObject;
 			
-			// TODO : add other type of ASTNode in the test
-			if ((astNode.isFunction() || astNode.isOperator() || astNode.isRelational() || astNode.isLogical()) && !elementName.equals("apply") && !elementName.equals("piecewise")) {
-				// System.out.println("MathMLStaxParser : processEndElement : stack stay the same. ASTNode type = " + astNode.getType());
+			// add other type of ASTNode in the test ??
+			if ((astNode.isFunction() || astNode.isOperator() || astNode.isRelational() || 
+					astNode.isLogical()) && !elementName.equals("apply") && !elementName.equals("piecewise")) 
+			{
+				logger.debug("processEndElement : stack stay the same. ASTNode type = " + astNode.getType());
 				return false;
 				
 			}
@@ -258,10 +273,11 @@ public class MathMLStaxParser implements ReadingParser {
 	 */
 	public void processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) {
+			Object contextObject) 
+	{
 		// TODO 
 		
-		// System.out.println("MathMLStaxParser : processNamespace called");
+		logger.debug("processNamespace called");
 
 	}
 
@@ -275,8 +291,8 @@ public class MathMLStaxParser implements ReadingParser {
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 		
-		// System.out.println("MathMLStaxParser : processStartElement called");
-		// System.out.println("MathMLStaxParser : processStartElement : element name = " + elementName); // +  
+		logger.debug("processStartElement called");
+		logger.debug("processStartElement : element name = " + elementName); // +  
 					// ", prefix = " + prefix + ", hasAttributes = " + hasAttributes + ", hasNamespace = " + hasNamespaces);
 			// + ", " + contextObject);
 		
@@ -307,8 +323,8 @@ public class MathMLStaxParser implements ReadingParser {
 			// System.out.println("MathMLStaxParser : processStartElement parent type : " + parentASTNode.getType());
 		} else {
 			// Should never happen
-			System.out.println("MathMLStaxParser : processStartElement : !!!!!!!!!!! Should not have been here !!!!!!!!!!!");
-			System.out.println("MathMLStaxParser : processStartElement : contextObject.classname = " + contextObject.getClass().getName());
+			logger.debug("processStartElement : !!!!!!!!!!! Should not have been here !!!!!!!!!!!");
+			logger.debug("processStartElement : contextObject.classname = " + contextObject.getClass().getName());
 			return null;
 		}
 		

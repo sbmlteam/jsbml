@@ -59,7 +59,7 @@ public class ListenerTest implements SBaseChangedListener {
 
 		try {
 			System.out.println();
-			SBMLWriter.write(doc, System.out);
+			new SBMLWriter().write(doc, System.out);
 		} catch (Exception exc) {
 			exc.printStackTrace();
 		}

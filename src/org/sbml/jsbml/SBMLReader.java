@@ -83,7 +83,7 @@ public class SBMLReader {
 	 */
 	public SBMLDocument readSBML(File file) throws FileNotFoundException,
 			XMLStreamException {
-		return org.sbml.jsbml.xml.stax.SBMLReader.readSBML(file);
+		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBML(file);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class SBMLReader {
 	 */
 	public SBMLDocument readSBML(String filename) throws FileNotFoundException,
 			XMLStreamException {
-		return org.sbml.jsbml.xml.stax.SBMLReader.readSBML(filename);
+		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBML(filename);
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class SBMLReader {
 	 */
 	public SBMLDocument readSBMLFromFile(String filename) throws XMLStreamException,
 			FileNotFoundException {
-		return org.sbml.jsbml.xml.stax.SBMLReader.readSBMLFile(filename);
+		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBMLFile(filename);
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class SBMLReader {
 	 */
 	public SBMLDocument readSBMLFromStream(InputStream stream)
 			throws XMLStreamException {
-		return org.sbml.jsbml.xml.stax.SBMLReader.readSBMLFromStream(stream);
+		return (SBMLDocument) new org.sbml.jsbml.xml.stax.SBMLReader().readSBMLFromStream(stream);
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class SBMLReader {
 	 */
 	public SBMLDocument readSBMLFromString(String xml)
 			throws XMLStreamException {
-		return org.sbml.jsbml.xml.stax.SBMLReader.readSBMLFromString(xml);
+		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBMLFromString(xml);
 	}
 
 }

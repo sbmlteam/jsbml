@@ -53,7 +53,7 @@ public class JTreeOfSBML extends JDialog {
 	public JTreeOfSBML(String fileName) {
 		super();
 		try {
-			SBMLDocument doc = SBMLReader.readSBML(fileName);
+			SBMLDocument doc = new SBMLReader().readSBML(fileName);
 			showGUI(doc);
 		} catch (Exception exc) {
 			exc.printStackTrace();

@@ -70,7 +70,7 @@ public class SBML_L1VxTests {
 		// URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
 		String fileName = DATA_FOLDER + "/libsbml-test-data/l1v2-branch.xml";
 		
-		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
+		SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
 		Model model = doc.getModel();
 		
 		assertTrue(doc.getLevel() == 1 && doc.getVersion() == 2);
@@ -134,7 +134,7 @@ public class SBML_L1VxTests {
 		// URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
 		String fileName = DATA_FOLDER + "/libsbml-test-data/l1v1-units.xml";
 		
-		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
+		SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
 		Model model = doc.getModel();
 		
 		assertTrue(doc.getLevel() == 1 && doc.getVersion() == 1);

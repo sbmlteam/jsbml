@@ -46,7 +46,6 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 
 public class TestReadFromFile5 {
@@ -180,10 +179,10 @@ public class TestReadFromFile5 {
 		e.printStackTrace();
 		assert(false);
 	}
-    if (d == null);
-    {
-    }
-    assertTrue( d.getLevel() == 2 );
+
+	System.out.println(" TestReadFromFile 5 : reading done.");
+	
+	assertTrue( d.getLevel() == 2 );
     assertTrue( d.getVersion() == 1 );
     m = d.getModel();
     assertTrue( m != null );

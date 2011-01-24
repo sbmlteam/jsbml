@@ -93,7 +93,7 @@ public class TestL3groups {
 			ClassNotFoundException {
 		String fileName = DATA_FOLDER + "/groups/groups1.xml";
 
-		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
+		SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
 		Model model = doc.getModel();
 
 		System.out.println("Model extension objects : "
@@ -134,8 +134,8 @@ public class TestL3groups {
 			ClassNotFoundException, SBMLException, SAXException {
 		String fileName = DATA_FOLDER + "/groups/groups1.xml";
 
-		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
+		SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
 
-		SBMLWriter.write(doc, DATA_FOLDER + "/groups/groups1_write.xml");
+		new SBMLWriter().write(doc, DATA_FOLDER + "/groups/groups1_write.xml");
 	}
 }
