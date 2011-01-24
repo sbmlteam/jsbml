@@ -60,11 +60,11 @@ public class EventTest extends SimpleSBaseChangeListener {
 		ev.createDelay(ASTNode.parseFormula("2"));
 		ev.createEventAssignment("s1", ASTNode.parseFormula("s2"));
 		System.out.println("==================================");
-		SBMLWriter.write(doc, System.out);
+		new SBMLWriter().write(doc, System.out);
 		System.out.println("==================================");
 		doc.setLevelAndVersion(2, 4);
 		System.out.println("==================================");
-		SBMLWriter.write(doc, System.out);
+		new SBMLWriter().write(doc, System.out);
 	}
 
 	/**

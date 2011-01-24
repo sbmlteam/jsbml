@@ -131,9 +131,10 @@ public class SBMLWriter {
 	 * 
 	 */
 	public void write(SBMLDocument document, File file, String programName,
-			String programVersion) throws FileNotFoundException,
-			XMLStreamException, SBMLException {
-		org.sbml.jsbml.xml.stax.SBMLWriter.write(document, file,
+			String programVersion) 
+		throws FileNotFoundException, XMLStreamException, SBMLException 
+	{
+		new org.sbml.jsbml.xml.stax.SBMLWriter().write(document, file,
 				programName, programVersion);
 	}
 
@@ -149,7 +150,7 @@ public class SBMLWriter {
 	 */
 	public void write(SBMLDocument sbmlDocument, OutputStream stream)
 			throws XMLStreamException, SBMLException {
-		org.sbml.jsbml.xml.stax.SBMLWriter.write(sbmlDocument, stream, programName, programVersion);
+		new org.sbml.jsbml.xml.stax.SBMLWriter().write(sbmlDocument, stream, programName, programVersion);
 	}
 
 	/**
@@ -169,7 +170,7 @@ public class SBMLWriter {
 	public void write(SBMLDocument sbmlDocument, OutputStream stream,
 			String programName, String programVersion)
 			throws XMLStreamException, SBMLException {
-		org.sbml.jsbml.xml.stax.SBMLWriter.write(sbmlDocument, stream,
+		new org.sbml.jsbml.xml.stax.SBMLWriter().write(sbmlDocument, stream,
 				programName, programVersion);
 	}
 
@@ -187,7 +188,7 @@ public class SBMLWriter {
 	 */
 	public void write(SBMLDocument sbmlDocument, String fileName)
 			throws XMLStreamException, FileNotFoundException, SBMLException {
-		org.sbml.jsbml.xml.stax.SBMLWriter.write(sbmlDocument, fileName, programName, programVersion);
+		new org.sbml.jsbml.xml.stax.SBMLWriter().write(sbmlDocument, fileName, programName, programVersion);
 	}
 
 	/**
@@ -209,7 +210,7 @@ public class SBMLWriter {
 	public void write(SBMLDocument sbmlDocument, String fileName,
 			String programName, String programVersion)
 			throws XMLStreamException, FileNotFoundException, SBMLException {
-		org.sbml.jsbml.xml.stax.SBMLWriter.write(sbmlDocument, fileName,
+		new org.sbml.jsbml.xml.stax.SBMLWriter().write(sbmlDocument, fileName,
 				programName, programVersion);
 	}
 
@@ -226,7 +227,7 @@ public class SBMLWriter {
 	 */
 	public void writeSBML(SBMLDocument document, File file)
 			throws FileNotFoundException, XMLStreamException, SBMLException {
-		org.sbml.jsbml.xml.stax.SBMLWriter.write(document, file);
+		new org.sbml.jsbml.xml.stax.SBMLWriter().write(document, file);
 	}
 	
 	/**
@@ -239,7 +240,7 @@ public class SBMLWriter {
 	 * @throws SBMLException if any SBML problems prevent to write the {@link SBMLDocument}. 
 	 */
 	public String writeSBMLToString(SBMLDocument d) throws XMLStreamException, SBMLException {
-		return org.sbml.jsbml.xml.stax.SBMLWriter.writeSBMLToString(d, programName, programVersion);
+		return new org.sbml.jsbml.xml.stax.SBMLWriter().writeSBMLToString(d, programName, programVersion);
 	}
 
 	/**

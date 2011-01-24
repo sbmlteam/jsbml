@@ -87,7 +87,7 @@ public class TestL3Layout {
   {
 		String fileName = DATA_FOLDER + "/layout/GlycolysisLayout_small.xml";
 		
-		SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
+		SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
 		Model model = doc.getModel();
 		
 		System.out.println("Model extension objects : " + model.getExtension(LAYOUT_NAMESPACE));

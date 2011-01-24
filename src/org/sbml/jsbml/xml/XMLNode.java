@@ -25,7 +25,10 @@ import static org.sbml.jsbml.JSBML.OPERATION_SUCCESS;
 
 import java.util.ArrayList;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
+import org.sbml.jsbml.xml.stax.SBMLReader;
 
 
 
@@ -504,7 +507,7 @@ public class XMLNode extends XMLToken {
 	 * first argument.
 	 * <p>
 	 * @param xmlstr string to be converted to a XML node.
-	 * @param xmlns {@link XMLNamespaces} the namespaces to set (default value is NULL).
+	 * @param xmlns {@link XMLNamespaces} the namespaces to set (default value is NULL). This argument is ignored at the moment.
 	 * <p>
 	 * @jsbml.note The caller owns the returned {@link XMLNode} and is reponsible for deleting it.
 	 * The returned {@link XMLNode} object is a dummy root (container) {@link XMLNode} if the top-level 
@@ -518,7 +521,15 @@ public class XMLNode extends XMLToken {
 	 * 
 	 */
 	public static XMLNode convertStringToXMLNode(String xmlstr, XMLNamespaces xmlns) {
-		// TODO
+		
+		// TODO : check how to use the xmlns arguments inside the SBMLReader.readNotes.
+		
+		try {
+			return new SBMLReader().readNotes(xmlstr);
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 
@@ -546,7 +557,12 @@ public class XMLNode extends XMLToken {
 	 * 
 	 */
 	public static XMLNode convertStringToXMLNode(String xmlstr) {
-		// TODO
+		try {
+			return new SBMLReader().readNotes(xmlstr);
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 

@@ -74,7 +74,7 @@ public class MathMLTest {
 		System.out.println(math.toMathML());
 
 		try {
-			SBMLWriter.write(doc, System.out);
+			new SBMLWriter().write(doc, System.out);
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		} catch (SBMLException e) {

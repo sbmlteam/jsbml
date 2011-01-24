@@ -84,7 +84,7 @@ public class TestReadFromFile1 {
 		SpeciesReference sr;
 		UnitDefinition ud;
 		String filename = DATA_FOLDER + "/libsbml-test-data/l1v1-branch.xml";
-		d = SBMLReader.readSBML(filename);
+		d = new SBMLReader().readSBML(filename);
 		if (d == null)
 			;
 		{

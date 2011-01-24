@@ -66,7 +66,7 @@ public class SBMLWriterTest {
 		m.getUnitDefinition("substance").getUnit(0).setScale(-3);
 
 		try {
-			SBMLWriter.write(doc, new BufferedOutputStream(System.out),
+			new SBMLWriter().write(doc, new BufferedOutputStream(System.out),
 					"SBMLWriterTest", "");
 		} catch (XMLStreamException e) {
 			e.printStackTrace();

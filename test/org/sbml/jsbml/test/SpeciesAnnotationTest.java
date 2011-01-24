@@ -49,7 +49,7 @@ public class SpeciesAnnotationTest extends SimpleSBaseChangeListener {
 		s1.addCVTerm(new CVTerm(CVTerm.Type.BIOLOGICAL_QUALIFIER,
 				CVTerm.Qualifier.BQB_HAS_PART, "urn:miriam:obo.chebi:CHEBI:15422"));
 		System.out.println("==================================");
-		SBMLWriter.write(doc, System.out);
+		new SBMLWriter().write(doc, System.out);
 		new JTreeOfSBML(doc);
 	}
 
