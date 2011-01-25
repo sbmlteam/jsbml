@@ -104,7 +104,12 @@ public class XMLNodeWriter {
 		}
 		
 		if (xmlNode.isElement()) {
-			writer.writeStartElement(xmlNode.getName());
+			if (xmlNode.getPrefix() != null) {
+				writer.writeStartElement(xmlNode.getPrefix(), xmlNode.getName(), xmlNode.getURI());
+			} else {
+				writer.writeStartElement(xmlNode.getName());
+			}
+			
 			if (isRoot) {
 				writer.writeCharacters("\n");
 				writer.writeCharacters(indent + "  ");				

@@ -51,7 +51,6 @@ import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.SimpleSBaseChangeListener;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLNode;
@@ -195,7 +194,7 @@ public class SBMLReader {
 	 */
 	public static void main(String[] args) throws IOException, XMLStreamException, SBMLException  {
 
-		/*
+		
 		if (args.length < 1) {
 			System.out
 					.println("Usage: java org.sbml.jsbml.xml.stax.SBMLReader sbmlFileName");
@@ -204,10 +203,20 @@ public class SBMLReader {
 
 		String fileName = args[0];
 
-		SBMLDocument testDocument = readSBML(fileName);
-		SBMLWriter.write(testDocument, System.out);
+		SBMLDocument testDocument = new SBMLReader().readSBML(fileName);
 		
-		*/
+		System.out.println("Number of namespaces: " + testDocument.getSBMLDocumentNamespaces().size());
+
+		for(String prefix : testDocument.getSBMLDocumentNamespaces().keySet()){
+			System.out.println("PREFIX = "+prefix);
+			String uri = testDocument.getSBMLDocumentNamespaces().get(prefix);
+			System.out.println("URI = "+uri);
+		}
+
+		
+		// new SBMLWriter().write(testDocument, System.out);
+		
+		/*
 		String mathMLString1 = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
 			+ "  <apply>\n"
             + "    <times/>\n"
@@ -240,6 +249,7 @@ public class SBMLReader {
 		System.out.println("MathML object = " + astNodeObject1);
 		System.out.println("MathML object = " + ((AssignmentRule) astNodeObject2).getMath());
 		System.out.println("Notes object = " + ((SBase) xmlNodeObject).getNotes().toXMLString());
+		*/
 	}
 
 	/**
@@ -264,10 +274,10 @@ public class SBMLReader {
 	}
 
 	/**
-	 * Reads SBML from a given {@link File}.
+	 * Reads SBML from a given file.
 	 * 
 	 * @param file
-	 *            The path to an SBML {@link File}.
+	 *            The path to an SBML file.
 	 * @return the matching SBMLDocument instance.
 	 * @throws XMLStreamException
 	 * @throws FileNotFoundException
@@ -650,21 +660,19 @@ public class SBMLReader {
 
 					// All the subNodes of SBML are processed.
 					if (!currentNode.getLocalPart().equals("sbml")) {
-						Object processedElement = parser.processStartElement(currentNode
-								.getLocalPart(), currentNode
-								.getPrefix(), hasAttributes,
-								hasNamespace, sbmlElements
-								.peek());
+						Object processedElement = parser.processStartElement(currentNode.getLocalPart(), 
+								currentNode.getPrefix(), hasAttributes,
+								hasNamespace, sbmlElements.peek());
 						if (processedElement != null) {
 							sbmlElements.push(processedElement);
 						} else {
 							// It is normal to have sometimes null returned as some of the 
-							// XML elements are ignore or do not produce a new java object (like 'apply' in mathML).
+							// XML elements are ignored or do not produce a new java object (like 'apply' in mathML).
 						}
 					}
 					
 					// process the namespaces
-					processNamespaces(nam, currentNode,sbmlElements, hasAttributes);
+					processNamespaces(nam, currentNode,sbmlElements, parser, hasAttributes);
 					
 					// Process the attributes
 					processAttributes(att, currentNode, sbmlElements, parser, hasAttributes);
@@ -678,6 +686,7 @@ public class SBMLReader {
 		return parser;
 	}
 
+	// TODO : the attributes hasAttributes, hasNamespace, isLastAttribute and  isLastNamespace are probably not needed for XML reading.
 	
 	/**
 	 * Process Namespaces of the current element on the stack.
@@ -689,7 +698,7 @@ public class SBMLReader {
 	 * @param hasAttributes
 	 */
 	private void processNamespaces(Iterator<Namespace> nam, QName currentNode, 
-			Stack<Object> sbmlElements,	boolean hasAttributes) 
+			Stack<Object> sbmlElements,	ReadingParser parser, boolean hasAttributes) 
 	{
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		ReadingParser namespaceParser = null;
@@ -699,9 +708,19 @@ public class SBMLReader {
 			boolean isLastNamespace = !nam.hasNext();
 			namespaceParser = initializedParsers.get(namespace.getNamespaceURI());
 			
+			logger.debug("processNamespaces : " + namespace.getNamespaceURI());
+			
+			// Calling the currentNode parser to store all the declared namespaces
+			parser.processNamespace(currentNode.getLocalPart(),
+					namespace.getNamespaceURI(),
+					namespace.getName().getPrefix(),
+					namespace.getName().getLocalPart(),
+					hasAttributes, isLastNamespace,
+					sbmlElements.peek());
+			
+			// Calling each corresponding parser, in case they want to initialize things for the currentNode
 			if (namespaceParser != null) {
-				namespaceParser.processNamespace(
-						currentNode.getLocalPart(),
+				namespaceParser.processNamespace(currentNode.getLocalPart(),
 						namespace.getNamespaceURI(),
 						namespace.getName().getPrefix(),
 						namespace.getName().getLocalPart(),

@@ -209,7 +209,7 @@ public class SBMLWriter {
 	{
 		if (sbmlParser == null) {
 			if (!issuedWarnings.contains(namespace)) {
-				logger.warn("Skipping detailed parsing of Namespace '" + namespace
+				logger.debug("Skipping detailed parsing of Namespace '" + namespace
 						+ "'. No parser available.");
 				issuedWarnings.add(namespace);
 			}

@@ -622,13 +622,18 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 */
 	public void processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) {
+			Object contextObject) 
+	{
 
+		// TODO : for SBML level 3, there will probably be some namespace in other places than in the sbml element
+		
 		if (contextObject instanceof SBMLDocument) {
 			SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
 			if (!URI.equals(namespaceURI)) {
 				sbmlDocument.addNamespace(localName, prefix, URI);
 			}
+			
+			log4jLogger.debug("processNamespace : " + prefix + " = " + URI);
 		}
 	}
 
