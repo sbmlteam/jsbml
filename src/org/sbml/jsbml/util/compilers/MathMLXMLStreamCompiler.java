@@ -137,7 +137,7 @@ public class MathMLXMLStreamCompiler {
 			compilePositiveInfinity(astNode);
 		} else if (astNode.isNegInfinity()) {
 			compileNegativeInfinity(astNode);
-		} else {
+		} else { // TODO : what about NaN ??
 			
 		
 			switch (astNode.getType()) {
@@ -171,7 +171,15 @@ public class MathMLXMLStreamCompiler {
 			 * Names of identifiers: parameters, functions, species etc.
 			 */
 			case NAME:
-				compileCi(astNode);
+				if (astNode.getChildCount() > 0) { // In case the id is not a valid functionDefinition id, the type is set to NAME
+					
+					// TODO : check for SBML level 3 where the order of the listOf is not mandatory any more.
+					// TODO : check how and when we put the type FUNCTION to a node.
+					
+					compileUserFunction(astNode);
+				} else {
+					compileCi(astNode);
+				}
 				break;
 			/*
 			 * Type: pi, e, true, false, Avogadro
