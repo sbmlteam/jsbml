@@ -510,11 +510,11 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	public ASTNodeValue factorial(ASTNode value) throws SBMLException {
 		ASTNodeValue v = new ASTNodeValue(Maths.factorial(value.compile(this)
 				.toDouble()), this);
-		if (value.isNumber()) {
-			v.setUnits(value.getUnitsInstance());
-		} else if (value.isName()) {
-			// TODO: AVOGADRO, Quantity...
-		}
+//		if (value.isNumber()) {
+//			v.setUnits(value.getUnitsInstance());
+//		} else if (value.isName()) {
+//			// TODO: AVOGADRO, Quantity...
+//		}
 		return v;
 	}
 

@@ -944,7 +944,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				if (Unit.Kind.areEquivalent(u.getKind(), s.getKind())
 						|| u.isDimensionless() || s.isDimensionless()) {
 					Unit.merge(u, removeUnit(i + 1));
-					if (u.isDimensionless() && i == 0 && getNumUnits() > 1) {
+					if (u.isDimensionless() && (i == 0) && (getNumUnits() > 1)) {
 						Unit.merge(getUnit(i + 1), removeUnit(i));
 					}
 				}

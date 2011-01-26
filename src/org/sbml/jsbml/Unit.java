@@ -986,19 +986,19 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Merges two Unit objects with the same 'kind' attribute value into a
-	 * single Unit.
+	 * Merges two {@link Unit} objects with the same 'kind' attribute value into a
+	 * single {@link Unit}.
 	 * 
 	 * @param unit1
-	 *            the first Unit object; the result of the operation is left as
-	 *            a new version of this unit, modified in-place.
+	 *            the first {@link Unit} object; the result of the operation is left as
+	 *            a new version of this {@link Unit}, modified in-place.
 	 * @param unit2
-	 *            the second Unit object to merge with the first
+	 *            the second {@link Unit} object to merge with the first
 	 */
 	public static void merge(Unit unit1, Unit unit2) {
 		if (Kind.areEquivalent(unit1.getKind(), unit2.getKind())
 				|| unit1.isDimensionless() || unit2.isDimensionless()) {
-			// let' get rid of this offset if there is any...
+			// let's get rid of this offset if there is any...
 			double m1 = unit1.getOffset() / Math.pow(10, unit1.getScale())
 					+ unit1.getMultiplier();
 			double m2 = unit2.getOffset() / Math.pow(10, unit2.getScale())
@@ -1035,6 +1035,10 @@ public class Unit extends AbstractSBase {
 				unit1.setKind(Kind.METRE);
 			} else if (unit1.getKind() == Kind.LITER) {
 				unit1.setKind(Kind.LITRE);
+			}
+		} else if (unit1.getKind().equals(Kind.INVALID) || unit2.getKind().equals(Kind.INVALID)) {
+			if (!unit2.getKind().equals(Kind.INVALID)) {
+				unit1 = unit2;
 			}
 		} else {
 			throw new IllegalArgumentException(String.format(
