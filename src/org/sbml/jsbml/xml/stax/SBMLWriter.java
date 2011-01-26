@@ -497,11 +497,12 @@ public class SBMLWriter {
 		annotationElement = element.addElement(namespace, "annotation");
 		annotationElement.setIndentation(whiteSpaces, indent, 2);
 
-		if (annotation.getNonRDFannotation() != null) {
+		if ((annotation.getNonRDFannotation() != null)
+				&& (annotation.getNonRDFannotation().length() > 0)) {
 			StringBuffer annotationBeginning = StringTools.concat(whiteSpaces,
 					"<annotation");
 
-			// Adding the namespaces of the annotation element
+			// Adding the name spaces of the annotation element
 			Map<String, String> otherNamespaces = annotation
 					.getAnnotationNamespaces();
 
@@ -519,7 +520,7 @@ public class SBMLWriter {
 				}
 			}
 
-			// Adding the namespaces of the sbml element
+			// Adding the name spaces of the sbml element
 			otherNamespaces = sbase.getSBMLDocument()
 					.getSBMLDocumentNamespaces();
 			it = otherNamespaces.entrySet().iterator();
@@ -563,7 +564,9 @@ public class SBMLWriter {
 		// no history can be written.
 		// Annotation cannot be written without metaid tag.
 		if (sbase.isSetMetaId()
-				&& ((annotation.isSetHistory() && ((sbase.getLevel() >= 3) || (sbase instanceof Model))) || annotation
+				&& ((annotation.isSetHistory()
+						&& !annotation.getHistory().isEmpty() && ((sbase
+						.getLevel() >= 3) || (sbase instanceof Model))) || annotation
 						.getListOfCVTerms().size() > 0)) {
 			if (!annotation.isSetAbout()) {
 				// add required missing tag

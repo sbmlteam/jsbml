@@ -688,10 +688,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#getNumCVTerms()
 	 */
 	public int getNumCVTerms() {
-		if (isSetAnnotation()) {
-			return annotation.getListOfCVTerms().size();
-		}
-		return 0;
+		return isSetAnnotation() ? annotation.getListOfCVTerms().size() : 0;
 	}
 
 	/**
@@ -767,7 +764,7 @@ public abstract class AbstractSBase implements SBase {
 	public boolean hasValidAnnotation() {
 		if (isSetAnnotation()) {
 			if (isSetMetaId()) {
-				if (getAnnotation().getAbout().equals("#_" + getMetaId())) {
+				if (getAnnotation().getAbout().equals("#" + getMetaId())) {
 					return true;
 				}
 			}

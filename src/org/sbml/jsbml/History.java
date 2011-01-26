@@ -39,6 +39,10 @@ public class History implements Cloneable, Serializable {
 	 */
 	private static final long serialVersionUID = -1699117162462037149L;
 	/**
+	 * Date of creation
+	 */
+	private Date creation;
+	/**
 	 * Contains all the {@link Creator} instances of this {@link History}.
 	 */
 	private List<Creator> listOfCreators;
@@ -46,10 +50,6 @@ public class History implements Cloneable, Serializable {
 	 * Contains all the modified date instances of this {@link History}.
 	 */
 	private List<Date> listOfModification;
-	/**
-	 * Date of creation
-	 */
-	private Date creation;
 	/**
 	 * Last date of modification
 	 */
@@ -255,6 +255,28 @@ public class History implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Checks whether at least one attribute has been set for this
+	 * {@link History}.
+	 * 
+	 * @return true if at least one of the possible attributes is set, i.e., not
+	 *         null:
+	 *         <ul>
+	 *         <li> {@link #creation} date</li>
+	 *         <li> {@link #listOfCreators} is not null and contains at least one
+	 *         element</li>
+	 *         <li>
+	 *         {@link #listOfModification} is not null and contains at least one
+	 *         element.</li>
+	 *         <li> {@link #modified} is not null.</li>
+	 *         </ul>
+	 */
+	public boolean isEmpty() {
+		return ((creation == null)
+				&& ((listOfCreators == null) || (listOfCreators.size() == 0))
+				&& ((listOfModification == null) || (listOfModification.size() == 0)) && (modified == null));
+	}
+
+	/**
 	 * Predicate returning true or false depending on whether this
 	 * {@link History}'s createdDate has been set.
 	 * 
@@ -275,7 +297,7 @@ public class History implements Cloneable, Serializable {
 	public boolean isSetModifiedDate() {
 		return modified != null;
 	}
-
+	
 	/**
 	 * 
 	 * @param nodeName
@@ -295,7 +317,7 @@ public class History implements Cloneable, Serializable {
 		}
 		return false;
 	}
-	
+
 	/**
 	 *If there is no ith {@link Creator}, it returns null.
 	 * 
