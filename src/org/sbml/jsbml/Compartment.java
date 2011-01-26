@@ -243,7 +243,19 @@ public class Compartment extends Symbol {
 	 */
 	public String getPredefinedUnitID() {
 		if (getLevel() < 3) {
-			return "volume";
+			if (getLevel() < 2) {
+				return "volume";
+			}
+			switch (getSpatialDimensions()) {
+			case 3:
+				return "volume";
+			case 2:
+				return "area";
+			case 1:
+				return "length";
+			default:
+				break;
+			}
 		}
 		return null;
 	}
@@ -291,7 +303,7 @@ public class Compartment extends Symbol {
 	public void initDefaults() {
 		compartmentTypeID = null;
 		outsideID = null;
-		unitsID = getPredefinedUnitID();
+		unitsID = null;
 		if (getLevel() < 3) {
 			spatialDimensions = Short.valueOf((short) 3);
 			constant = new Boolean(true);
@@ -563,7 +575,7 @@ public class Compartment extends Symbol {
 	 */
 	@Override
 	public void setUnits(String units) {
-		if (units != null && units.trim().length() == 0) {
+		if ((units != null) && (units.trim().length() == 0)) {
 			unsetUnits();
 			return;
 		}
