@@ -175,7 +175,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	boolean checkIdentifier(String sID) {
 		if ((sID == null) || !isValidId(sID, getLevel(), getVersion())) {
 			throw new IllegalArgumentException(String.format(
-					"%s is not a valid identifier.", sID));
+					"\"%s\" is not a valid identifier.", sID));
 		}
 		return true;
 	}

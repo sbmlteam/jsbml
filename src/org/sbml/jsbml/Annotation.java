@@ -268,11 +268,21 @@ public class Annotation implements Cloneable, Serializable {
 		}
 		return listOfCVTerms.add(cvTerm);
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isEmpty() {
+		return (((history == null) || (history.isEmpty()))
+				&& ((listOfCVTerms == null) || (listOfCVTerms.size() == 0))
+				&& ((otherAnnotation == null) || (otherAnnotation.length() == 0)));
+	}
 
 	/**
 	 * Adds an Annotation extension object to the extensions map of this object.
 	 * 
-	 * @param namespace the namespace.
+	 * @param namespace the name space.
 	 * @param annotation the annotation extension object.
 	 */
 	public void addExtension(String namespace, Annotation annotation) {
@@ -734,7 +744,7 @@ public class Annotation implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Writes the history section of the RDF annotation in 'buffer'
+	 * Writes the {@link History} section of the RDF annotation in 'buffer'
 	 * 
 	 * @param indent the indentation to use.
 	 * @param buffer the buffer where we need to write.
