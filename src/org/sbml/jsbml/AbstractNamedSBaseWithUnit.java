@@ -166,7 +166,11 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.SBaseWithUnit#getUnits()
 	 */
 	public String getUnits() {
-		return isSetUnits() ? unitsID : "";
+		if (isSetUnits()) {
+			return unitsID;
+		}
+		String predef = getPredefinedUnitID(); 
+		return predef != null ? predef : "";
 	}
 
 	/*
@@ -191,7 +195,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.SBaseWithUnit#isSetUnits()
 	 */
 	public boolean isSetUnits() {
-		return (unitsID != null) && !isPredefinedUnitsID(unitsID);
+		return (unitsID != null) /*&& !isPredefinedUnitsID(unitsID)*/;
 	}
 	
 	/**
@@ -249,7 +253,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(java.lang.String)
 	 */
 	public void setUnits(String units) {
-		if (units != null && units.trim().length() == 0) {
+		if ((units != null) && (units.trim().length() == 0)) {
 			units = null; // If we pass the empty String or null, the value is reset.
 		}
 		

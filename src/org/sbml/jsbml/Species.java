@@ -422,7 +422,7 @@ public class Species extends Symbol {
 	 */
 	public void initDefaults() {
 		amount = true;
-		unitsID = getPredefinedUnitID();
+		unitsID = null;
 		if (getLevel() < 3) {
 			hasOnlySubstanceUnits = new Boolean(false);
 			boundaryCondition = new Boolean(false);
