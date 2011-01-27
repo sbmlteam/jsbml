@@ -29,7 +29,6 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
  * A MathMLStaxParser is used to parse the MathML expressions injected into a SBML

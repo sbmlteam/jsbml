@@ -27,7 +27,6 @@ import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.CVTerm.Type;
-import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
  * A BiologicalQualifierParser is used to parse the XML elements and attributes

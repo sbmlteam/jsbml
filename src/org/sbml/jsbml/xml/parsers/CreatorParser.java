@@ -23,7 +23,6 @@ package org.sbml.jsbml.xml.parsers;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.History;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
  * A CreatorParser is used to parser the subelements of an annotation element which have this namespaceURI :

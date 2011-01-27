@@ -58,9 +58,7 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
-import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
-import org.sbml.jsbml.xml.stax.WritingParser;
 import org.sbml.jsbml.xml.stax.XMLLogger;
 
 /**

@@ -30,9 +30,7 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.multi.InitialSpeciesInstance;
 import org.sbml.jsbml.ext.multi.MultiList;
 import org.sbml.jsbml.ext.multi.MultiSpecies;
-import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
-import org.sbml.jsbml.xml.stax.WritingParser;
 
 /**
  * A MultiParser is used to parse the multi extension package elements and

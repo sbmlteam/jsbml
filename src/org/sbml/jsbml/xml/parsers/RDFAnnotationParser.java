@@ -32,7 +32,6 @@ import org.sbml.jsbml.History;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
  * A RDFAnnotationParser is used to parser the subNodes of an annotation which have the namespace URI :

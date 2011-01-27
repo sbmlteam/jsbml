@@ -28,7 +28,6 @@ import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNamespaces;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
-import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
  * A StringParser can be used to store the html expressions into an XMLNode in the

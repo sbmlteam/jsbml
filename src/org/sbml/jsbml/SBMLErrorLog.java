@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import org.sbml.jsbml.util.Option;
 
 /**
+ * Log of errors and other events encountered during SBML processing. 
  * 
  * @author rodrigue
  * 

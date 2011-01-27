@@ -27,7 +27,6 @@ import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.History;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.xml.stax.DateProcessor;
-import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.w3c.util.DateParser;
 import org.w3c.util.InvalidDateException;
 
