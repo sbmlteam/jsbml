@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml.util.compilers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -462,9 +463,13 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeValue, double, java.lang.String)
 	 */
 	public ASTNodeValue delay(String delayName, ASTNode x, ASTNode delay,
-			String units) {
-		// TODO!
-		return symbolTime("time");
+			String units) throws SBMLException {
+
+		UnitDefinition ud = x.compile(this).getUnits().clone();
+		// TODO: not the correct value, need insight into time scale to return
+		// the corret value
+
+		return new ASTNodeValue(ud, this);
 	}
 
 	/**
@@ -510,11 +515,13 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	public ASTNodeValue factorial(ASTNode value) throws SBMLException {
 		ASTNodeValue v = new ASTNodeValue(Maths.factorial(value.compile(this)
 				.toDouble()), this);
-//		if (value.isNumber()) {
-//			v.setUnits(value.getUnitsInstance());
-//		} else if (value.isName()) {
-//			// TODO: AVOGADRO, Quantity...
-//		}
+
+		// if (value.isNumber()) {
+		// v.setUnits(value.getUnitsInstance());
+		// } else if (value.isName()) {
+		// // TODO: AVOGADRO, Quantity...
+		// }
+
 		return v;
 	}
 
@@ -858,12 +865,110 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#plus(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue plus(List<ASTNode> values) throws SBMLException {
-		ASTNodeValue value = checkIdentical(values);
-		for (ASTNode v : values) {
-			value.setValue(Double.valueOf(value.toDouble()
-					+ v.compile(this).toNumber().doubleValue()));
+		ASTNodeValue value = new ASTNodeValue(this);
+		if (values.size() == 0) {
+			return value;
 		}
+		int i = 0;
+		ASTNodeValue compiledvalues[] = new ASTNodeValue[values.size()];
+		for (ASTNode node : values) {
+			compiledvalues[i++] = node.compile(this);
+		}
+		value.setValue(Integer.valueOf(0));
+		value.getUnits().addUnit(Unit.Kind.INVALID);
+
+		i = compiledvalues.length - 1;
+
+		while (i >= 0) {
+			value.setValue(Double.valueOf(value.toDouble()
+					+ compiledvalues[i].toNumber().doubleValue()));
+			if (!compiledvalues[i].getUnits().isInvalid()) {
+				value.setUnits(compiledvalues[i].getUnits());
+				break;
+			}
+			i--;
+		}
+
+		for (int j = i - 1; j >= 0; j--) {
+			unifyUnits(value, compiledvalues[j]);
+			value.setValue(Double.valueOf(value.toDouble()
+					+ compiledvalues[j].toNumber().doubleValue()));
+
+		}
+
 		return value;
+	}
+
+	/**
+	 * This method tries to unfiy the units of two ASTNodeValues so that they
+	 * have the same units and their value thus also adjusted. If the units of
+	 * both ASTNodeValues are not compatible, an expception is thrown.
+	 * 
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	private void unifyUnits(ASTNodeValue left, ASTNodeValue right)
+			throws SBMLException {
+		if (UnitDefinition.areCompatible(left.getUnits(), right.getUnits())) {
+
+			if (!right.getUnits().isInvalid()) {
+				left.getUnits().simplify();
+				right.getUnits().simplify();
+				int mean, scale1, scale2;
+				double v1 = left.toNumber().doubleValue(), v2 = right
+						.toNumber().doubleValue();
+				for (int i = 0; i < left.getUnits().getNumUnits(); i++) {
+					Unit u1 = left.getUnits().getUnit(i);
+					Unit u2 = right.getUnits().getUnit(i);
+					mean = (Math.abs(u1.getScale()) + Math.abs(u2.getScale())) / 2;
+
+					if (u1.getScale() > mean) {
+						scale1 = Math.abs(u1.getScale()) - mean;
+						scale2 = mean - u2.getScale();
+
+					} else {
+						scale2 = Math.abs(u2.getScale()) - mean;
+						scale1 = mean - u1.getScale();
+
+					}
+					
+					if (u1.getExponent() < 0) {
+					scale1 = -scale1;
+					scale2 = -scale2;
+					}
+					
+					if (scale1 > mean) {
+						v1 = v1 * Math.pow(10.0, -scale1);
+						v2 = v2 * Math.pow(10.0, -scale2);					
+						
+					}
+					else{
+						v1 = v1 * Math.pow(10.0, scale1);
+						v2 = v2 * Math.pow(10.0, scale2);	
+					}
+					
+					u1.setScale(mean);
+					u2.setScale(mean);
+					
+				}
+				left.setValue(v1);
+				right.setValue(v2);
+			}
+
+		} else {
+			throw new IllegalArgumentException(
+					new UnitException(
+							String
+									.format(
+											"Can not apply the units %s against %s in an addition or subtraction.",
+											UnitDefinition.printUnits(left
+													.getUnits()),
+											UnitDefinition.printUnits(right
+													.getUnits()))));
+
+		}
+
 	}
 
 	/*
@@ -887,9 +992,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	private ASTNodeValue pow(ASTNodeValue base, ASTNodeValue exponent)
 			throws SBMLException {
 		double exp = Double.NaN, v;
-			v = exponent.toDouble();
-			exp = v == 0 ? 0 : 1 / v;
-			checkForDimensionlessUnits(exponent.getUnits());
+		v = exponent.toDouble();
+		exp = v == 0 ? 0 : 1 / v;
+		checkForDimensionlessUnits(exponent.getUnits());
 		if (exp == 0) {
 			UnitDefinition ud = new UnitDefinition(level, version);
 			ud.addUnit(Kind.DIMENSIONLESS);
@@ -898,7 +1003,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		if (!Double.isNaN(exp)) {
 			return root(exp, base);
 		}
-		
+
 		return new ASTNodeValue(this);
 	}
 
@@ -922,16 +1027,18 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			illegal = units.toString();
 		}
 		if (illegal != null) {
-			throw new IllegalArgumentException(
-					new UnitException(String.format(
-											"A dimensionless unit is required but given is %s.",
-											illegal)));
+			throw new IllegalArgumentException(new UnitException(String.format(
+					"A dimensionless unit is required but given is %s.",
+					illegal)));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#root(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#root(org.sbml.jsbml.ASTNode
+	 * , org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant)
 			throws SBMLException {
@@ -941,7 +1048,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		if (rootExponent.isNumber()) {
 			return root(rootExponent.compile(this).toDouble(), radiant);
 		}
-		
+
 		return new ASTNodeValue(this);
 	}
 

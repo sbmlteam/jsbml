@@ -47,6 +47,32 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public static final UnitDefinition area(int level, int version) {
 		return getPredefinedUnit("area", level, version);
 	}
+	
+	/**
+	 * <p>
+	 * Predicate returning true or false depending on whether two UnitDefinition
+	 * objects are compatible.
+	 * </p>
+	 * <p>
+	 * For the purposes of performing this comparison, two UnitDefinition
+	 * objects are considered compatible when they contain compatible list of
+	 * Unit objects. This means two UnitDefinition objects are compatible if both  
+	 * satisfy the method areEquivalent or one of both has Invalid as {@link Unit.Kind}
+	 * 
+	 * @param ud1
+	 *            the first UnitDefinition object to compare
+	 * @param ud2
+	 *            the second UnitDefinition object to compare
+	 * @return true if all the Unit objects in ud1 are compatible to the Unit
+	 *         objects in ud2, false otherwise.
+	 * @see areIdentical
+	 * @see Unit.areEquivalent
+	 */
+	public static boolean areCompatible(UnitDefinition ud1, UnitDefinition ud2) {
+		
+		return areEquivalent(ud1, ud2) || ud2.isInvalid() || ud1.isInvalid();
+		
+	}
 
 	/**
 	 * Checks whether the given {@link UnitDefinition} and the
@@ -67,6 +93,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				&& Unit.isUnitKind(units, ud.getLevel(), ud.getVersion())) {
 			return Unit.areEquivalent(ud.getUnit(0), units);
 		}
+		
 		return false;
 	}
 
@@ -285,7 +312,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				} else {
 					sb.append(unit.getKind().getName().toLowerCase());
 					sb.append(String.format(
-							" (exponent = %d, multiplier = %s, scale = %d)",
+							" (exponent = %f, multiplier = %s, scale = %d)",
 							unit.getExponent(), StringTools.toString(unit
 									.getMultiplier()), unit.getScale()));
 				}
@@ -636,6 +663,23 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public boolean isBuiltIn() {
 		return isBuiltIn(this);
 	}
+	
+	/**
+	 * This method checks, if this UnitDefinition only contains Invalid
+	 * as {@link Unit.Kind}.
+	 * 
+	 * @return
+	 */
+	public boolean isInvalid(){
+		UnitDefinition ud = this.clone().simplify();
+		
+		if(ud.getNumUnits() == 1){
+			return ud.getUnit(0).isInvalid();
+		}
+	
+		return false; 
+		
+	}
 
 	/**
 	 * This method tests if this unit definition is a predefined unit.
@@ -860,10 +904,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return
 	 */
 	public UnitDefinition multiplyWith(UnitDefinition definition) {
-		if (isSetListOfUnits()) {
-			for (Unit unit : definition.getListOfUnits()) {
-				addUnit(unit.clone());
-			}
+		if (!isSetListOfUnits()) {
+			this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
+		}
+		for (Unit unit : definition.getListOfUnits()) {
+			addUnit(unit.clone());
 		}
 		return this;
 	}
@@ -930,10 +975,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 	
 	/**
-	 * Simplifies the UnitDefinition so that any Unit objects occurring within
-	 * the ListOfUnits occurs only once.
+	 * Simplifies the {@link UnitDefinition} so that any {@link Unit} objects
+	 * occurring within the {@link #listOfUnits} occurs only once. {@link Unit}s
+	 * of {@link Kind} {@link Kind.INVALID} are treated like
+	 * {@link Kind.DIMENSIONLESS} units and will therefore tend to disapear by
+	 * merging with other units.
 	 * 
-	 * @return a pointer to the simplified unit definition.
+	 * @return a pointer to the simplified {@link UnitDefinition}.
 	 */
 	public UnitDefinition simplify() {
 		if (isSetListOfUnits()) {
@@ -942,7 +990,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				Unit u = getUnit(i); // current unit
 				Unit s = getUnit(i + 1); // successor unit
 				if (Unit.Kind.areEquivalent(u.getKind(), s.getKind())
-						|| u.isDimensionless() || s.isDimensionless()) {
+						|| u.isDimensionless() || s.isDimensionless() || u.isInvalid() || s.isInvalid()) {
 					Unit.merge(u, removeUnit(i + 1));
 					if (u.isDimensionless() && (i == 0) && (getNumUnits() > 1)) {
 						Unit.merge(getUnit(i + 1), removeUnit(i));

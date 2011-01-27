@@ -1038,7 +1038,13 @@ public class Unit extends AbstractSBase {
 			}
 		} else if (unit1.getKind().equals(Kind.INVALID) || unit2.getKind().equals(Kind.INVALID)) {
 			if (!unit2.getKind().equals(Kind.INVALID)) {
-				unit1 = unit2;
+				if (unit2.isSetOffset) {
+					unit1.setOffset(unit2.getOffset());
+				}
+				unit1.setMultiplier(unit2.getMultiplier());
+				unit1.setScale(unit2.getScale());
+				unit1.setKind(unit2.getKind());
+				unit1.setExponent(unit2.getExponent());
 			}
 		} else {
 			throw new IllegalArgumentException(String.format(
