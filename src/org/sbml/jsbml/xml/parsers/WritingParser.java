@@ -1,6 +1,6 @@
 /*
- * $Id$
- * $URL$
+ * $Id: WritingParser.java 543 2011-01-20 22:41:22Z mhucka $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/xml/stax/WritingParser.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -18,11 +18,12 @@
  * ----------------------------------------------------------------------------
  */
 
-package org.sbml.jsbml.xml.stax;
+package org.sbml.jsbml.xml.parsers;
 
 import java.util.List;
 
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
  * The interface to implement for a parser which writes a SBML file.

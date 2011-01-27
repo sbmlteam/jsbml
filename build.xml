@@ -285,6 +285,7 @@
   <target name="javadoc" depends="prepare-src">
     <mkdir dir="${build.javadocs}"/>
     <javadoc packagenames="org.*"
+    		 excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*"
              sourcepath="${build.src}"
              destdir="${build.javadocs}"
              classpathref="classpath"
@@ -294,9 +295,10 @@
              use="true"
              splitindex="true"
              noindex="false"
-             windowtitle="${Name} API"
-             doctitle="${Name}"
+             windowtitle="${Name} ${version} API Specification"
+             doctitle="${Name} ${version} API Specification"
     	     breakiterator="yes"
+    		 access="public"
     >
 		<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
     	<link href="http://www.biojava.org/docs/api17"/>

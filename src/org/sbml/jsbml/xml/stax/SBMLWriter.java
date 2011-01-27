@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -70,12 +71,11 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
+import org.sbml.jsbml.xml.parsers.WritingParser;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.w3c.dom.Document;
 import org.w3c.util.DateParser;
 import org.xml.sax.SAXException;
-
-import com.ctc.wstx.stax.WstxOutputFactory;
 
 /**
  * A SBMLWriter provides the methods to write a SBML file.
@@ -340,15 +340,16 @@ public class SBMLWriter {
 
 		initializePackageParsers();
 
-		SMOutputFactory smFactory = new SMOutputFactory(
-				WstxOutputFactory.newInstance());
+		SMOutputFactory smFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
 		XMLStreamWriter2 streamWriter = smFactory.createStax2Writer(stream);
-		streamWriter.setProperty(XMLOutputFactory2.P_AUTOMATIC_EMPTY_ELEMENTS,
-				Boolean.FALSE);
+		
+		// This does not work probably because we go to the line, so the element is not considered empty !!
+		streamWriter.setProperty(XMLOutputFactory2.P_AUTOMATIC_EMPTY_ELEMENTS, Boolean.TRUE);
 
 		SMOutputDocument outputDocument = SMOutputFactory.createOutputDocument(
 				streamWriter, "1.0", "UTF-8", false);
-		// outputDocument.setIndentation(newLine + " ", 1, 2);
+		// to have the automatic indentation working, we should probably only be using StaxMate classes and not directly StAX
+		// outputDocument.setIndentation("\n  ", 1, 1);
 
 		String SBMLNamespace = getNamespaceFrom(sbmlDocument.getLevel(),
 				sbmlDocument.getVersion());
@@ -1020,8 +1021,10 @@ public class SBMLWriter {
 
 			if (sbmlElementsToWrite == null) {
 				// TODO test if there are some characters to write.
-				streamWriter.writeCharacters(whiteSpaces.substring(0,
-						indent - 2));
+				
+				// to allow the XML parser to prune empty elements, this indent should not be added.
+				// streamWriter.writeCharacters(whiteSpaces.substring(0,
+				// 		indent - 2));
 			} else {
 				for (int i = 0; i < sbmlElementsToWrite.size(); i++) {
 					Object nextObjectToWrite = sbmlElementsToWrite.get(i);
@@ -1079,10 +1082,13 @@ public class SBMLWriter {
 						// TODO: Is there any chance, that an KineticLaw get's
 						// an empty XML entity?
 					}
+					
+					// Writing the element, starting by the indent
 					streamWriter.writeCharacters(whiteSpaces);
 					parser.writeElement(parentXmlObject, nextObjectToWrite);
 					parser.writeNamespaces(parentXmlObject, nextObjectToWrite);
 					parser.writeAttributes(parentXmlObject, nextObjectToWrite);
+					
 					SMOutputElement newOutPutElement = null;
 					if (parentXmlObject.isSetName()) {
 						if (parentXmlObject.isSetNamespace()) {
@@ -1135,6 +1141,7 @@ public class SBMLWriter {
 							writeMathML(mathContainer, newOutPutElement,
 									streamWriter, indent + 2);
 						}
+						// TODO : to allow the XML parser to prune empty element, this line should not be added in all the cases.
 						newOutPutElement.addCharacters("\n");
 
 						writeSBMLElements(parentXmlObject, newOutPutElement,

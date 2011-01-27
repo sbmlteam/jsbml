@@ -56,9 +56,7 @@ import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
-import org.sbml.jsbml.xml.stax.ReadingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
-import org.sbml.jsbml.xml.stax.WritingParser;
 
 // TODO : this parser need to work as well with sbml level 1 version 2
 // TODO : we need to parse correctly the rules, the current implementation is wrong

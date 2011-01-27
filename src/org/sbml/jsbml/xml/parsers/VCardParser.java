@@ -23,7 +23,6 @@ package org.sbml.jsbml.xml.parsers;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.xml.stax.ReadingParser;
 
 /**
  * A VCardParser is used to parser the subNodes of an annotation which have this

@@ -27,9 +27,9 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.xml.stax.ReadingParser;
+import org.sbml.jsbml.xml.parsers.ReadingParser;
+import org.sbml.jsbml.xml.parsers.WritingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
-import org.sbml.jsbml.xml.stax.WritingParser;
 
 /**
  * This class is used to parse the layout extension package elements and
@@ -57,7 +57,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String
+	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(String
 	 *      elementName, String attributeName, String value, String prefix,
 	 *      boolean isLastAttribute, Object contextObject)
 	 */
@@ -90,7 +90,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String
+	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(String
 	 *      elementName, String prefix, boolean hasAttributes, boolean
 	 *      hasNamespaces, Object contextObject)
 	 */
@@ -169,7 +169,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
+	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndElement(String
 	 *      elementName, String prefix, boolean isNested, Object contextObject)
 	 */
 	public boolean processEndElement(String elementName, String prefix,
@@ -185,7 +185,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument
+	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndDocument(SBMLDocument
 	 *      sbmlDocument)
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
@@ -252,7 +252,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML
+	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(SBMLObjectForXML
 	 *      xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeElement(SBMLObjectForXML xmlObject,
@@ -281,7 +281,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeAttributes(SBMLObjectForXML
+	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeAttributes(SBMLObjectForXML
 	 *      xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeAttributes(SBMLObjectForXML xmlObject,
@@ -296,7 +296,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeCharacters(SBMLObjectForXML
+	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeCharacters(SBMLObjectForXML
 	 *      xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeCharacters(SBMLObjectForXML xmlObject,
@@ -308,7 +308,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML
+	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeNamespaces(SBMLObjectForXML
 	 *      xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeNamespaces(SBMLObjectForXML xmlObject,
@@ -323,7 +323,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String
+	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processNamespace(String
 	 *      elementName, String URI, String prefix, String localName, boolean
 	 *      hasAttributes, boolean isLastNamespace, Object contextObject)
 	 */

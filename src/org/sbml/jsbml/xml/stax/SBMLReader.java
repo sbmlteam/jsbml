@@ -56,6 +56,7 @@ import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.AnnotationParser;
 import org.sbml.jsbml.xml.parsers.MathMLStaxParser;
+import org.sbml.jsbml.xml.parsers.ReadingParser;
 import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.sbml.jsbml.xml.parsers.StringParser;
 
