@@ -992,8 +992,6 @@ public class SBMLWriter {
 		String whiteSpaces = createIndent(indent);
 
 		// Get the list of parsers to use.
-		// TODO : check this, it should probably be a loop, one element could be
-		// written by several parser
 		ArrayList<WritingParser> listOfPackages = getWritingParsers(
 				objectToWrite, smOutputParentElement.getNamespace().getURI());
 
@@ -1020,7 +1018,7 @@ public class SBMLWriter {
 			// + sbmlElementsToWrite);
 
 			if (sbmlElementsToWrite == null) {
-				// TODO test if there are some characters to write.
+				// TODO : test if there are some characters to write ?
 				
 				// to allow the XML parser to prune empty elements, this indent should not be added.
 				// streamWriter.writeCharacters(whiteSpaces.substring(0,
@@ -1028,6 +1026,7 @@ public class SBMLWriter {
 			} else {
 				for (int i = 0; i < sbmlElementsToWrite.size(); i++) {
 					Object nextObjectToWrite = sbmlElementsToWrite.get(i);
+					boolean elementIsNested = false;
 
 					/*
 					 * Skip predefined UnitDefinitions (check depending on Level
@@ -1062,6 +1061,11 @@ public class SBMLWriter {
 					 */
 					if (nextObjectToWrite instanceof ListOf<?>) {
 						ListOf<?> toTest = (ListOf<?>) nextObjectToWrite;
+						
+						if (toTest.size() > 0) {
+							elementIsNested = true;
+						}
+						
 						Type listType = toTest.getSBaseListType();
 						if (listType == Type.none) {
 							// Prevent writing invalid SBML if list types are
@@ -1088,6 +1092,7 @@ public class SBMLWriter {
 					parser.writeElement(parentXmlObject, nextObjectToWrite);
 					parser.writeNamespaces(parentXmlObject, nextObjectToWrite);
 					parser.writeAttributes(parentXmlObject, nextObjectToWrite);
+					
 					
 					SMOutputElement newOutPutElement = null;
 					if (parentXmlObject.isSetName()) {
@@ -1119,30 +1124,40 @@ public class SBMLWriter {
 								writeNotes(s, newOutPutElement, streamWriter,
 										newOutPutElement.getNamespace()
 												.getURI(), indent + 2);
+								elementIsNested = true;
 							}
 							if (s.isSetAnnotation()) {
 								writeAnnotation(s, newOutPutElement,
 										streamWriter, newOutPutElement
 												.getNamespace().getURI(),
 										indent + 2);
+								elementIsNested = true;
 							}
 						}
-						if ((nextObjectToWrite instanceof Constraint)) {
+						if (nextObjectToWrite instanceof Constraint) {
 							Constraint constraint = (Constraint) nextObjectToWrite;
 							if (constraint.isSetMessage()) {
 								writeMessage(constraint, newOutPutElement,
 										streamWriter, newOutPutElement
 												.getNamespace().getURI(),
 										indent + 2);
+								elementIsNested = true;
 							}
 						}
-						if ((nextObjectToWrite instanceof MathContainer)) {
+						if (nextObjectToWrite instanceof MathContainer) {
 							MathContainer mathContainer = (MathContainer) nextObjectToWrite;
 							writeMathML(mathContainer, newOutPutElement,
 									streamWriter, indent + 2);
+							elementIsNested = true;
 						}
-						// TODO : to allow the XML parser to prune empty element, this line should not be added in all the cases.
-						newOutPutElement.addCharacters("\n");
+						if (nextObjectToWrite instanceof Model || nextObjectToWrite instanceof UnitDefinition) {
+							elementIsNested = true;
+						}
+						
+						// to allow the XML parser to prune empty element, this line should not be added in all the cases.
+						if (elementIsNested) {
+							newOutPutElement.addCharacters("\n");
+						}
 
 						writeSBMLElements(parentXmlObject, newOutPutElement,
 								streamWriter, nextObjectToWrite, indent + 2);
@@ -1218,8 +1233,6 @@ public class SBMLWriter {
 			throws FileNotFoundException, XMLStreamException, SBMLException {
 		write(document, file, null, null);
 	}
-
-	// ToCHECK : writing of X should not include unset fields.
 
 	// TODO : test a bit more Xstream and using Qname to see how it
 	// can deal with math or rdf bloc
