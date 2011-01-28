@@ -38,18 +38,19 @@ public class XMLToken {
 
 	protected XMLAttributes attributes = new XMLAttributes();
 	
-	protected StringBuffer characters;
+	protected StringBuffer characters = new StringBuffer();
 	
-	private long column = 0;
+	protected long column = 0;
 
-	private boolean isEndElement = false;
+	protected boolean isEndElement = false;
 
-	private boolean isEOF = false;
-	private boolean isStartElement = false; 
+	protected boolean isEOF = false;
+	protected boolean isStartElement = false; 
 	
-	private boolean isText = false;
-	private long line = 0;
+	protected boolean isText = false;
+	protected long line = 0;
 	protected XMLNamespaces namespaces = new XMLNamespaces();
+	
 	/**
 	  * the XMLTripe (name, uri and prefix) of this XML element.
 	  * 

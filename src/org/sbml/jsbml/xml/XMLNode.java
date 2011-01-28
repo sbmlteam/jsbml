@@ -100,8 +100,6 @@ else
  */
 public class XMLNode extends XMLToken {
 
-	// TODO : check that @jsbml.note is supported in java 1.6, otherwise use the command : javadoc -tag note:a:"Note:" ...
-
 	private ArrayList<XMLNode> childrenElements = new ArrayList<XMLNode>();
 
 
@@ -153,9 +151,27 @@ public class XMLNode extends XMLToken {
 	 * <p>
 	 * @param token {@link XMLToken} to be copied to {@link XMLNode}
 	 */
-	public XMLNode(XMLToken token) {
+	public XMLNode(XMLToken orig) {
 
-		// TODO
+		if (orig.triple != null) {
+			triple = orig.triple.clone();
+		}
+		if (orig.attributes != null) {
+			attributes = orig.attributes.clone();
+		}
+		if (orig.namespaces != null) {
+			namespaces = orig.namespaces.clone();
+		}
+		line = orig.line;
+		column = orig.column;
+		if (orig.characters != null) {
+			characters.append(orig.getCharacters());
+		}
+		isText = orig.isText;
+		isStartElement = orig.isStartElement;
+		isEndElement = orig.isEndElement;
+		isEOF = orig.isEOF;
+
 	}
 
 
@@ -321,7 +337,13 @@ public class XMLNode extends XMLToken {
 	 */
 	public XMLNode(XMLNode orig) {
 
-		// TODO
+		super((XMLToken) orig);
+		
+		if (orig.childrenElements.size() > 0) {
+			for (XMLNode origchildren : orig.childrenElements) {
+				childrenElements.add(origchildren.clone());
+			}
+		}
 	}
 
 
