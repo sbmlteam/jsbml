@@ -184,7 +184,7 @@
             includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties" > 
         </fileset>
     </copy>
-    <jar jarfile="${build.dir}/${name}.jar"
+    <jar jarfile="${build.dir}/${name}-${version}.jar"
          basedir="${build.dest}"/>
   </target>
 
@@ -201,7 +201,7 @@
             includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties **/*.java" > 
         </fileset>	      
     </copy>
-    <jar jarfile="${build.dir}/${name}-with-dependencies.jar"
+    <jar jarfile="${build.dir}/${name}-${version}-with-dependencies.jar"
          basedir="${build.dest}">
     	<zipgroupfileset dir="${jars.dir}" includes="*.jar" />
     	 
