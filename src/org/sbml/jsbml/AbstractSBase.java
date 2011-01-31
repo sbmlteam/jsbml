@@ -34,8 +34,10 @@ import java.util.TreeSet;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.util.ValuePair;
+import org.sbml.jsbml.xml.XMLAttributes;
+import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.XMLTriple;
 
 
 /**
@@ -46,6 +48,8 @@ import org.sbml.jsbml.util.ValuePair;
  * @author marine
  */
 public abstract class AbstractSBase implements SBase {
+
+	enum NOTES_TYPE { NotesHTML, NotesBody, NotesAny };
 
 	/**
 	 * Generated serial version identifier.
@@ -294,8 +298,8 @@ public abstract class AbstractSBase implements SBase {
 			
 			XMLNode oldNotes = notesXMLNode.clone();
 			
-			// TODO : see http://sbml.svn.sourceforge.net/viewvc/sbml/trunk/libsbml/src/sbml/SBase.cpp?revision=12629&view=markup appendNotes from libsbml
-			// wrong : notesXMLNode.append(notes);
+			appendNotes(addedNotes);
+			
 			firePropertyChange(SBaseChangedEvent.notes, oldNotes, notesXMLNode);
 			
 		} else {
@@ -303,6 +307,335 @@ public abstract class AbstractSBase implements SBase {
 		}
 	}
 
+	/**
+	 * Appends notes to the existing notes.
+	 * <p>This allows other notes to be preserved whilst
+	 * adding additional information.
+	 * 
+	 * @param notes
+	 */
+	public void appendNotes(XMLNode notes) {
+		
+		if(notes == null) 
+		{
+			return;
+		}
+
+		String  name = notes.getName();
+
+		// The content of notes in SBML can consist only of the following 
+		// possibilities:
+		//
+		//  1. A complete XHTML document (minus the XML and DOCTYPE 
+		//     declarations), that is, XHTML content beginning with the 
+		//     html tag.
+		//     (notesType is NotesHTML.)
+		//
+		//  2. The body element from an XHTML document.
+		//     (notesType is NotesBody.) 
+		//
+		//  3. Any XHTML content that would be permitted within a body 
+		//     element, each one must declare the XML namespace separately.
+		//     (notesType is NotesAny.) 
+		//
+
+
+		NOTES_TYPE addedNotesType = NOTES_TYPE.NotesAny; 
+		XMLNode   addedNotes = new XMLNode();
+		
+		//------------------------------------------------------------
+		//
+		// STEP1 : identifies the type of the given notes
+		//
+		//------------------------------------------------------------
+
+		if (name == "notes")
+		{
+			/* check for notes tags on the added notes and strip if present and
+		       the notes tag has "html" or "body" element */
+
+		    if (notes.getNumChildren() > 0)  
+		    { 
+		      // notes.getChild(0) must be "html", "body", or any XHTML
+		      // element that would be permitted within a "body" element 
+		      // (e.g. <p>..</p>,  <br>..</br> and so forth).
+
+		      String cname = notes.getChild(0).getName();
+
+		      if (cname == "html")
+		      {
+		        addedNotes = notes.getChild(0);
+		        addedNotesType = NOTES_TYPE.NotesHTML;
+		      }
+		      else if (cname == "body") 
+		      {
+		        addedNotes = notes.getChild(0);
+		        addedNotesType = NOTES_TYPE.NotesBody;
+		      }
+		      else
+		      {
+		        // the notes tag must NOT be stripped if notes.getChild(0) node 
+		        // is neither "html" nor "body" element because the children of 
+		        // the addedNotes will be added to the current notes later if the node 
+		        // is neither "html" nor "body".
+		        addedNotes = notes;
+		        addedNotesType = NOTES_TYPE.NotesAny;
+		      }
+		    }
+		    else
+		    {
+		      // the given notes is empty 
+		    	  // TODO : log an error
+		      return;
+		    }
+		  }
+		  else
+		  {
+		    // if the XMLNode argument notes has been created from a string and 
+		    // it is a set of subelements there may be a single empty node
+		    // as parent - leaving this in doesn't affect the writing out of notes
+		    // but messes up the check for correct syntax
+			  
+			  // TODO : check that we are doing that when parsing a String into XMLNode
+			  
+		    if (!notes.isStart() && !notes.isEnd() && !notes.isText() ) 
+		    {
+		      if (notes.getNumChildren() > 0)
+		      { 
+		        addedNotes = notes;
+		        addedNotesType = NOTES_TYPE.NotesAny;
+		      }
+		      else
+		      {
+		        // the given notes is empty 
+		        return;
+		      }
+		    }
+		    else
+		    {
+		      if (name == "html")
+		      {
+		        addedNotes = notes;
+		        addedNotesType = NOTES_TYPE.NotesHTML;
+		      }
+		      else if (name == "body")
+		      {
+		        addedNotes = notes;
+		        addedNotesType = NOTES_TYPE.NotesBody;
+		      }
+		      else
+		      {
+		        // The given notes node needs to be added to a parent node
+		        // if the node is neither "html" nor "body" element because the 
+		        // children of addedNotes will be added to the current notes later if the 
+		        // node is neither "html" nor "body" (i.e. any XHTML element that 
+		        // would be permitted within a "body" element)
+		        addedNotes.addChild(notes);
+		        addedNotesType = NOTES_TYPE.NotesAny;
+		      }
+		    }
+		  }
+
+		  //
+		  // checks the addedNotes of "html" if the html tag contains "head" and 
+		  // "body" tags which must be located in this order.
+		  //
+		  if (addedNotesType == NOTES_TYPE.NotesHTML)
+		  {
+		    if ((addedNotes.getNumChildren() != 2) ||
+		        ( (addedNotes.getChild(0).getName() != "head") ||
+		          (addedNotes.getChild(1).getName() != "body")
+		        )
+		       )
+		    {
+		    	// TODO : log an error to the user or throw an exception or both ?		    	
+		      return;
+		    }
+		  }
+
+		  // We do not have a Syntax checker working on XMLNode !!		    
+		  // check whether notes is valid xhtml ?? (libsbml is doing that)
+
+		  if ( notesXMLNode != null )
+		  {
+		    //------------------------------------------------------------
+		    //
+		    //  STEP2: identifies the type of the existing notes 
+		    //
+		    //------------------------------------------------------------
+
+		    NOTES_TYPE curNotesType   = NOTES_TYPE.NotesAny; 
+		    XMLNode  curNotes = notesXMLNode;
+
+		    // curNotes.getChild(0) must be "html", "body", or any XHTML
+		    // element that would be permitted within a "body" element .
+
+		    String cname = curNotes.getChild(0).getName();
+		  
+		    if (cname == "html")
+		    {
+		      XMLNode curHTML = curNotes.getChild(0);
+		      //
+		      // checks the curHTML if the html tag contains "head" and "body" tags
+		      // which must be located in this order, otherwise nothing will be done.
+		      //
+		      if ((curHTML.getNumChildren() != 2) ||
+		          ( (curHTML.getChild(0).getName() != "head") ||
+		            (curHTML.getChild(1).getName() != "body")
+		          )
+		         )
+		      {
+		    	  // TODO : log an error
+		        return;
+		      }
+		      curNotesType = NOTES_TYPE.NotesHTML;
+		    }
+		    else if (cname == "body") 
+		    {
+		      curNotesType = NOTES_TYPE.NotesBody;
+		    }
+		    else
+		    {
+		      curNotesType = NOTES_TYPE.NotesAny;
+		    }
+		  
+		    /*
+		     * BUT we also have the issue of the rules relating to notes
+		     * contents and where to add them ie we cannot add a second body element
+		     * etc...
+		     */
+
+		    //------------------------------------------------------------
+		    //
+		    //  STEP3: appends the given notes to the current notes
+		    //
+		    //------------------------------------------------------------
+		  
+		    int i;
+		  
+		    if (curNotesType == NOTES_TYPE.NotesHTML)
+		    {
+		      XMLNode curHTML = curNotes.getChild(0); 
+		      XMLNode curBody = curHTML.getChild(1);
+		      
+		      if (addedNotesType == NOTES_TYPE.NotesHTML)
+		      {
+		        // adds the given html tag to the current html tag
+		  
+		        XMLNode addedBody = addedNotes.getChild(1);   
+		  
+		        for (i=0; i < addedBody.getNumChildren(); i++)
+		        {
+		          if (curBody.addChild(addedBody.getChild(i)) < 0 )
+			    	  // TODO : log an error
+		            return;          
+		        }
+		      }
+		      else if ((addedNotesType == NOTES_TYPE.NotesBody) || (addedNotesType == NOTES_TYPE.NotesAny))
+		      {
+		        // adds the given body or other tag (permitted in the body) to the current 
+		        // html tag
+		  
+		        for (i=0; i < addedNotes.getNumChildren(); i++)
+		        {
+		          if (curBody.addChild(addedNotes.getChild(i)) < 0 )
+			    	  // TODO : log an error
+		            return;
+		        }
+		      }
+		    }
+		    else if (curNotesType == NOTES_TYPE.NotesBody)
+		    {
+		      if (addedNotesType == NOTES_TYPE.NotesHTML)
+		      {
+		        // adds the given html tag to the current body tag
+		  
+		        XMLNode addedHTML = new XMLNode(addedNotes);
+		        XMLNode addedBody = addedHTML.getChild(1);
+		        XMLNode curBody   = curNotes.getChild(0);
+		  
+		        for (i=0; i < curBody.getNumChildren(); i++)
+		        {
+		          addedBody.insertChild(i,curBody.getChild(i));
+		        }
+		        
+		        curNotes.removeChildren();
+		        if (curNotes.addChild(addedHTML) < 0)
+			    	  // TODO : log an error
+		        	return;
+		      }
+		      else if ((addedNotesType == NOTES_TYPE.NotesBody) || (addedNotesType == NOTES_TYPE.NotesAny))
+		      {
+		        // adds the given body or other tag (permitted in the body) to the current 
+		        // body tag
+		  
+		        XMLNode curBody = curNotes.getChild(0);
+		  
+		        for (i=0; i < addedNotes.getNumChildren(); i++)
+		        {
+		          if (curBody.addChild(addedNotes.getChild(i)) < 0)
+			    	  // TODO : log an error
+		            return;
+		        }
+		      }
+		    }
+		    else if (curNotesType == NOTES_TYPE.NotesAny)
+		    {
+		      if (addedNotesType == NOTES_TYPE.NotesHTML)
+		      {
+		        // adds the given html tag to the current any tag permitted in the body.
+		  
+		        XMLNode addedHTML = new XMLNode(addedNotes);
+		        XMLNode addedBody = addedHTML.getChild(1);
+		  
+		        for (i=0; i < curNotes.getNumChildren(); i++)
+		        {
+		          addedBody.insertChild(i,curNotes.getChild(i));
+		        }
+		  
+		        curNotes.removeChildren();
+		        if (curNotes.addChild(addedHTML) < 0)
+			    	  // TODO : log an error
+		          return;
+		      }
+		      else if (addedNotesType == NOTES_TYPE.NotesBody)
+		      {
+		        // adds the given body tag to the current any tag permitted in the body.
+		  
+		        XMLNode addedBody = new XMLNode(addedNotes);
+		  
+		        for (i=0; i < curNotes.getNumChildren(); i++)
+		        {
+		          addedBody.insertChild(i,curNotes.getChild(i));
+		        }
+		  
+		        curNotes.removeChildren();
+		        if (curNotes.addChild(addedBody) < 0)
+			    	  // TODO : log an error
+		          return;
+		      }
+		      else if (addedNotesType == NOTES_TYPE.NotesAny)
+		      {
+		        // adds the given any tag permitted in the boy to that of the current 
+		        // any tag.
+		  
+		        for (i=0; i < addedNotes.getNumChildren(); i++)
+		        {
+		          if (curNotes.addChild(addedNotes.getChild(i)) < 0)
+			    	  // TODO : log an error
+		            return;
+		        }
+		      }
+		    }
+		  }
+		  else // if (mNotes == NULL)
+		  {
+		    // setNotes accepts XMLNode with/without top level notes tags.
+			setNotes(notes);
+		  }
+	}
+	
+	
 	/**
 	 * Checks whether or not the given {@link SBase} has the same level and
 	 * version configuration than this element. If the L/V combination for the
