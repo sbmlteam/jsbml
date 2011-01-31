@@ -74,10 +74,17 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 
 	/**
 	 * Appends 'notes' to the notes String of this object.
-	 * 
+	 *  
 	 * @param notes
 	 */
 	public void appendNotes(String notes);
+
+	/**
+	 * Appends 'notes' to the notes of this object.
+	 * 
+	 * @param notes
+	 */
+	public void appendNotes(XMLNode notes);
 
 	/**
 	 * 
