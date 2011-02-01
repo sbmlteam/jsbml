@@ -179,14 +179,16 @@ public class HTMLFormula extends MathMLCompiler {
 	 */
 	public static String toHTML(UnitDefinition ud) {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < ud.getNumUnits(); i++) {
-			Unit unit = ud.getUnit(i);
-			if (i > 0) {
-				sb.append(' ');
-				sb.append(C_DOT);
-				sb.append(' ');
+		if (ud != null) {
+			for (int i = 0; i < ud.getNumUnits(); i++) {
+				Unit unit = ud.getUnit(i);
+				if (i > 0) {
+					sb.append(' ');
+					sb.append(C_DOT);
+					sb.append(' ');
+				}
+				sb.append(toHTML(unit));
 			}
-			sb.append(toHTML(unit));
 		}
 		return sb.toString();
 	}

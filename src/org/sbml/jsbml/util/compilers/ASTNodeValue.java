@@ -376,7 +376,7 @@ public class ASTNodeValue {
 	 * @param unit
 	 */
 	public void setUnits(UnitDefinition unit) {
-		this.unit = unit.simplify();
+		this.unit = (unit != null) ? unit.simplify() : unit;
 	}
 
 	/**
