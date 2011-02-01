@@ -38,6 +38,12 @@ public class Creator implements Cloneable, Serializable {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -3403463908044292946L;
+	
+	/**
+	 * URI for the RDF syntax name space definition for VCards.
+	 */
+	public static final transient String URI_RDF_VCARD_NS = "http://www.w3.org/2001/vcard-rdf/3.0#";
+	
 	/**
 	 * email of the creator
 	 */

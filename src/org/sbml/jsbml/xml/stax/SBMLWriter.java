@@ -53,6 +53,7 @@ import org.codehaus.staxmate.out.SMNamespace;
 import org.codehaus.staxmate.out.SMOutputContext;
 import org.codehaus.staxmate.out.SMOutputDocument;
 import org.codehaus.staxmate.out.SMOutputElement;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.Constraint;
@@ -211,21 +212,21 @@ public class SBMLWriter {
 	private String getNamespaceFrom(int level, int version) {
 		if (level == 3) {
 			if (version == 1) {
-				return "http://www.sbml.org/sbml/level3/version1/core";
+				return SBMLDocument.URI_NAMESPACE_L3V1Core;
 			}
 		} else if (level == 2) {
 			if (version == 4) {
-				return "http://www.sbml.org/sbml/level2/version4";
+				return SBMLDocument.URI_NAMESPACE_L2V4;
 			} else if (version == 3) {
-				return "http://www.sbml.org/sbml/level2/version3";
+				return SBMLDocument.URI_NAMESPACE_L2V3;
 			} else if (version == 2) {
-				return "http://www.sbml.org/sbml/level2/version2";
+				return SBMLDocument.URI_NAMESPACE_L2V2;
 			} else if (version == 1) {
-				return "http://www.sbml.org/sbml/level2";
+				return SBMLDocument.URI_NAMESPACE_L2V1;
 			}
 		} else if (level == 1) {
 			if ((version == 1) || (version == 2)) {
-				return "http://www.sbml.org/sbml/level1";
+				return SBMLDocument.URI_NAMESPACE_L1;
 			}
 		}
 		return null;
@@ -784,14 +785,14 @@ public class SBMLWriter {
 						Annotation.URI_RDF_SYNTAX_NS);
 				writer.writeAttribute(rdfPrefix, Annotation.URI_RDF_SYNTAX_NS,
 						"parseType", "Resource");
-				String vCardPrefix = rdfNamespaces.get(JSBML.URI_RDF_VCARD_NS);
+				String vCardPrefix = rdfNamespaces.get(Creator.URI_RDF_VCARD_NS);
 
 				if (modelCreator.isSetFamilyName()
 						|| modelCreator.isSetGivenName()) {
 					writer.writeCharacters("\n");
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeStartElement(vCardPrefix, "N",
-							JSBML.URI_RDF_VCARD_NS);
+							Creator.URI_RDF_VCARD_NS);
 					writer.writeAttribute(Annotation.URI_RDF_SYNTAX_NS,
 							"parseType", "Resource");
 					writer.writeCharacters("\n");
@@ -799,7 +800,7 @@ public class SBMLWriter {
 					if (modelCreator.isSetFamilyName()) {
 						writer.writeCharacters(whiteSpace + "        ");
 						writer.writeStartElement(vCardPrefix, "Family",
-								JSBML.URI_RDF_VCARD_NS);
+								Creator.URI_RDF_VCARD_NS);
 						writer.writeCharacters(modelCreator.getFamilyName());
 						writer.writeEndElement();
 						writer.writeCharacters("\n");
@@ -807,7 +808,7 @@ public class SBMLWriter {
 					if (modelCreator.isSetGivenName()) {
 						writer.writeCharacters(whiteSpace + "        ");
 						writer.writeStartElement(vCardPrefix, "Given",
-								JSBML.URI_RDF_VCARD_NS);
+								Creator.URI_RDF_VCARD_NS);
 						writer.writeCharacters(modelCreator.getGivenName());
 						writer.writeEndElement();
 						writer.writeCharacters("\n");
@@ -820,7 +821,7 @@ public class SBMLWriter {
 				if (modelCreator.isSetEmail()) {
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeStartElement(vCardPrefix, "EMAIL",
-							JSBML.URI_RDF_VCARD_NS);
+							Creator.URI_RDF_VCARD_NS);
 					writer.writeCharacters(modelCreator.getEmail());
 					writer.writeEndElement();
 					writer.writeCharacters("\n");
@@ -828,14 +829,14 @@ public class SBMLWriter {
 				if (modelCreator.isSetOrganisation()) {
 					writer.writeCharacters(whiteSpace + "      ");
 					writer.writeStartElement(vCardPrefix, "ORG",
-							JSBML.URI_RDF_VCARD_NS);
+							Creator.URI_RDF_VCARD_NS);
 					writer.writeAttribute(rdfPrefix,
 							Annotation.URI_RDF_SYNTAX_NS, "parseType",
 							"Resource");
 					writer.writeCharacters("\n");
 					writer.writeCharacters(whiteSpace + "        ");
 					writer.writeStartElement(vCardPrefix, "Orgname",
-							JSBML.URI_RDF_VCARD_NS);
+							Creator.URI_RDF_VCARD_NS);
 					writer.writeCharacters(modelCreator.getOrganisation());
 					writer.writeEndElement();
 					writer.writeCharacters("\n");
@@ -908,9 +909,9 @@ public class SBMLWriter {
 			// "math");
 
 			writer.writeStartElement("math"); // URI_MATHML_DEFINITION,
-			writer.writeNamespace(null, JSBML.URI_MATHML_DEFINITION);
-			writer.setPrefix("math", JSBML.URI_MATHML_DEFINITION);
-			writer.setDefaultNamespace(JSBML.URI_MATHML_DEFINITION);
+			writer.writeNamespace(null, ASTNode.URI_MATHML_DEFINITION);
+			writer.setPrefix("math", ASTNode.URI_MATHML_DEFINITION);
+			writer.setDefaultNamespace(ASTNode.URI_MATHML_DEFINITION);
 
 			// writer.writeAttribute("xmlns:math", URI_MATHML_DEFINITION);
 

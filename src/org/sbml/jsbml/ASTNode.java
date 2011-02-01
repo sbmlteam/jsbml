@@ -311,23 +311,23 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		 */
 		RELATIONAL_EQ,
 		/**
-		 * 
+		 * Greater or equal
 		 */
 		RELATIONAL_GEQ,
 		/**
-		 * 
+		 * Greater than
 		 */
 		RELATIONAL_GT,
 		/**
-		 * 
+		 * Less or equal
 		 */
 		RELATIONAL_LEQ,
 		/**
-		 * 
+		 * Less than
 		 */
 		RELATIONAL_LT,
 		/**
-		 * 
+		 * Not equal
 		 */
 		RELATIONAL_NEQ,
 		/**
@@ -476,11 +476,11 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 				return UNKNOWN;
 			} else if (type.equals("sep")) {
 				return UNKNOWN;
-			} else if (type.equals("http://www.sbml.org/sbml/symbols/time")) {
+			} else if (type.equals(URI_TIME_DEFINITION)) {
 				return NAME_TIME;
-			} else if (type.equals("http://www.sbml.org/sbml/symbols/delay")) {
+			} else if (type.equals(URI_DELAY_DEFINITION)) {
 				return FUNCTION_DELAY;
-			} else if (type.equals("http://www.sbml.org/sbml/symbols/avogadro")) {
+			} else if (type.equals(URI_AVOGADRO_DEFINITION)) {
 				return NAME_AVOGADRO;
 			}
 
@@ -542,6 +542,26 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 
 	}
 	
+	/**
+	 * URI for the definition of MathML.
+	 */
+	public static final transient String URI_MATHML_DEFINITION = "http://www.w3.org/1998/Math/MathML";
+	
+	/**
+	 * The URI for the definition of the csymbol for avogadro.
+	 */
+	public static final transient String URI_AVOGADRO_DEFINITION = "http://www.sbml.org/sbml/symbols/avogadro";
+	
+	/**
+	 * The URI for the definition of the csymbol for delay.
+	 */
+	public static final transient String URI_DELAY_DEFINITION = "http://www.sbml.org/sbml/symbols/delay";
+	
+	/**
+	 * The URI for the definition of the csymbol for time.
+	 */
+	public static final transient String URI_TIME_DEFINITION = "http://www.sbml.org/sbml/symbols/time";
+	
 	
 	// TODO : check how we set the math in level 1
 
@@ -549,7 +569,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * Message to indicate that an {@link ASTNode.Type} type has been chosen
 	 * which cannot be used as an operator.
 	 */
-	public static final String INVALID_OPERATOR_MSG = "Invalid operator %s. The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER.";
+	public static final transient String INVALID_OPERATOR_MSG = "Invalid operator %s. The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER.";
 
 	/**
 	 * Generated serial version identifier.

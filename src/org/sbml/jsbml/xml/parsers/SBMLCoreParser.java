@@ -78,12 +78,6 @@ import org.sbml.jsbml.xml.stax.XMLLogger;
 public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 	/**
-	 * The namespace URI of this parser is by default the namespaceURI of SBML
-	 * level 3 version 1.
-	 */
-	private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/core";
-
-	/**
 	 * This map contains all the relationships XML element name <=> matching
 	 * java class.
 	 */
@@ -295,7 +289,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 * @return the namespace URI of this parser.
 	 */
 	public String getNamespaceURI() {
-		return namespaceURI;
+		return SBMLDocument.URI_NAMESPACE_L3V1Core;
 	}
 
 	/**
@@ -627,7 +621,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		
 		if (contextObject instanceof SBMLDocument) {
 			SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
-			if (!URI.equals(namespaceURI)) {
+			if (!URI.equals(SBMLDocument.URI_NAMESPACE_L3V1Core)) {
 				sbmlDocument.addNamespace(localName, prefix, URI);
 			}
 			

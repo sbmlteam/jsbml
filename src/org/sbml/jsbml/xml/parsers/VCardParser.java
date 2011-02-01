@@ -34,18 +34,6 @@ import org.sbml.jsbml.SBMLDocument;
 public class VCardParser implements ReadingParser {
 
 	/**
-	 * The namespace URI of this ReadindParser.
-	 */
-	private static final String namespaceURI = "http://www.w3.org/2001/vcard-rdf/3.0#";
-
-	/**
-	 * @return the namespaceURI
-	 */
-	public static String getNamespaceURI() {
-		return namespaceURI;
-	}
-
-	/**
 	 * Boolean value to know if the 'N' node has been read.
 	 */
 	private boolean hasReadNNode = false;
@@ -71,6 +59,13 @@ public class VCardParser implements ReadingParser {
 	 */
 	private boolean hasReadORGNode = false;
 
+	/**
+	 * @return the namespaceURI
+	 */
+	public static String getNamespaceURI() {
+		return Creator.URI_RDF_VCARD_NS;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

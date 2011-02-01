@@ -25,6 +25,7 @@ import java.util.Date;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.History;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.xml.stax.DateProcessor;
 import org.w3c.util.DateParser;
@@ -39,18 +40,6 @@ import org.w3c.util.InvalidDateException;
  * 
  */
 public class DatesParser implements ReadingParser {
-
-	/**
-	 * The namespace URI of this parser.
-	 */
-	private static final String namespaceURI = "http://purl.org/dc/terms/";
-
-	/**
-	 * @return the namespaceURI
-	 */
-	public static String getNamespaceURI() {
-		return namespaceURI;
-	}
 
 	/**
 	 * Stores the localName of the last element read by this parser.
@@ -73,6 +62,13 @@ public class DatesParser implements ReadingParser {
 	boolean hasReadModified = false;
 
 	private Logger logger = Logger.getLogger(DatesParser.class);
+	
+	/**
+	 * @return the namespaceURI
+	 */
+	public static String getNamespaceURI() {
+		return JSBML.URI_PURL_TERMS;
+	}
 	
 	/*
 	 * (non-Javadoc)

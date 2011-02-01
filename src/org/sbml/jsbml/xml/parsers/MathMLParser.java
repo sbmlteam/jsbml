@@ -32,6 +32,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
@@ -42,7 +43,7 @@ import org.w3c.dom.Node;
 /**
  * A MathMLParser is used to parse the MathML expressions injected into a SBML
  * file. This class use DOM to parse the mathML. The name space URI of this
- * parser is "http://www.w3.org/1998/Math/MathML". This parser is able to read
+ * parser is {@link http://www.w3.org/1998/Math/MathML}. This parser is able to read
  * and write MathML expressions (implements ReadingParser and WritingParser).
  * 
  * @author marine
@@ -56,30 +57,6 @@ import org.w3c.dom.Node;
 public class MathMLParser implements ReadingParser, WritingParser {
 
 	/**
-	 * The URI for the definition of the csymbol for avogadro.
-	 */
-	private static final String definitionURIavogadro = "http://www.sbml.org/sbml/symbols/avogadro";
-
-	/**
-	 * The URI for the definition of the csymbol for delay.
-	 */
-	private static final String definitionURIdelay = "http://www.sbml.org/sbml/symbols/delay";
-
-	/**
-	 * The URI for the definition of the csymbol for time.
-	 */
-	private static final String definitionURItime = "http://www.sbml.org/sbml/symbols/time";
-
-	/**
-	 * The name space URI of MathML.
-	 */
-	private static final String namespaceURI = "http://www.w3.org/1998/Math/MathML";
-
-	/**
-	 * The additional MathML name space for units to numbers.
-	 */
-	private static final String namespaceURISBML = "http://www.sbml.org/sbml/level3/version1/core";
-	/**
 	 * The SBML attribute for the additional namespace.
 	 */
 	private static final String sbmlNS = "xmlns:sbml";
@@ -88,6 +65,7 @@ public class MathMLParser implements ReadingParser, WritingParser {
 	 * The attribute for SBML units.
 	 */
 	private static final String sbmlUnits = "sbml:units";
+
 
 	/**
 	 * Recursively checks whether the given {@link Node} contains any numbers
@@ -160,7 +138,7 @@ public class MathMLParser implements ReadingParser, WritingParser {
 	 * @return
 	 */
 	public static String getDefinitionURIavogadro() {
-		return definitionURIavogadro;
+		return ASTNode.URI_AVOGADRO_DEFINITION;
 	}
 
 	/**
@@ -168,7 +146,7 @@ public class MathMLParser implements ReadingParser, WritingParser {
 	 * @return
 	 */
 	public static String getDefinitionURIdelay() {
-		return definitionURIdelay;
+		return ASTNode.URI_DELAY_DEFINITION;
 	}
 
 	/**
@@ -176,14 +154,14 @@ public class MathMLParser implements ReadingParser, WritingParser {
 	 * @return
 	 */
 	public static String getDefinitionURItime() {
-		return definitionURItime;
+		return ASTNode.URI_TIME_DEFINITION;
 	}
 
 	/**
 	 * @return the namespaceURI
 	 */
 	public static String getNamespaceURI() {
-		return namespaceURI;
+		return ASTNode.URI_MATHML_DEFINITION;
 	}
 
 	/**
@@ -203,11 +181,11 @@ public class MathMLParser implements ReadingParser, WritingParser {
 	}
 
 	/**
-	 * 
+	 * The additional MathML name space for units to numbers.
 	 * @return
 	 */
 	public static String getXMLnamespaceSBML() {
-		return namespaceURISBML;
+		return SBMLDocument.URI_NAMESPACE_L3V1Core;
 	}
 
 	/**

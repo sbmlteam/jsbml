@@ -215,8 +215,8 @@ public class SBML_L2V1Test {
 		assertTrue(pRBp != null);
 		System.out.println("pRBp notes : " + pRBp.getNotesString()); // namespace lost, should probably here.
 
-		// TODO : add more complex test for Notes !! assertTrue(pRBp.getNotesString().contains("http://www.w3.org/1999/xhtml"));
-		
+		// TODO : add more complex test for Notes !! assertTrue(pRBp.getNotesString().contains(JSBML.URI_XHTML_DEFINITION));
+
 		System.out.println("pRBp annotation : " + pRBp.getAnnotation().getNonRDFannotation());
 		System.out.println("pRBp annotation : " + pRBp.getCVTerm(0).toString());
 		

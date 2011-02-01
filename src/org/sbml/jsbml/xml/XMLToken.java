@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml.xml;
 
+import java.io.Serializable;
+
 import org.sbml.jsbml.JSBML;
 
 /**
@@ -33,8 +35,14 @@ import org.sbml.jsbml.JSBML;
  * </em>
  * 
  * <p>
+ * @author Nicolas Rodriguez
  */
-public class XMLToken {
+public class XMLToken implements Cloneable, Serializable {
+
+	/**
+	 * Generated serial version identifier
+	 */
+	private static final long serialVersionUID = -3501521107595952650L;
 
 	protected XMLAttributes attributes = new XMLAttributes();
 	
@@ -473,11 +481,11 @@ public class XMLToken {
 	}
 
 
-	/**
-	 * Creates and returns a deep copy of this {@link XMLToken}.
-	 * <p>
-	 * @return a (deep) copy of this {@link XMLToken} set.
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public XMLToken clone() {
 		return new XMLToken(this);
 	}
