@@ -37,8 +37,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -61,13 +61,13 @@ import org.sbml.jsbml.History;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
@@ -88,15 +88,50 @@ import org.xml.sax.SAXException;
 public class SBMLWriter {
 
 	/**
+	 * Tests this class
+	 * 
+	 * @param args
+	 * @throws SBMLException
+	 */
+	public static void main(String[] args) throws SBMLException {
+
+		if (args.length < 1) {
+			System.out
+					.println("Usage : java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
+			System.exit(0);
+		}
+
+		String fileName = args[0];
+		String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
+
+		System.out.println("Reading " + fileName + " and writing "
+				+ jsbmlWriteFileName);
+
+		SBMLDocument testDocument;
+		try {
+			testDocument = new SBMLReader().readSBMLFile(fileName);
+			new SBMLWriter().write(testDocument, jsbmlWriteFileName);
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * The symbol for indentation.
+	 */
+	private char indentChar = ' ';
+
+	/**
+	 * The number of indentation symbols.
+	 */
+	private short indentCount = 2;
+	
+	/**
 	 * contains the WritingParser instances of this class.
 	 */
 	private HashMap<String, WritingParser> instantiatedSBMLParsers = new HashMap<String, WritingParser>();
-
-	/**
-	 * contains all the relationships name space URI <=> WritingParser class.
-	 */
-	private HashMap<String, Class<? extends WritingParser>> packageParsers = new HashMap<String, Class<? extends WritingParser>>();
-
 	/**
 	 * Remember already issued warnings to avoid having multiple lines, saying
 	 * the same thing (Warning: Skipping detailed parsing of name space 'XYZ'.
@@ -107,46 +142,93 @@ public class SBMLWriter {
 	Logger logger = Logger.getLogger(SBMLWriter.class);
 
 	/**
+	 * contains all the relationships name space URI <=> WritingParser class.
+	 */
+	private HashMap<String, Class<? extends WritingParser>> packageParsers = new HashMap<String, Class<? extends WritingParser>>();
+	
+	/**
+	 * Adds a {@link WritingParser} to the given list of {@link WritingParser} 
+	 * 
+	 * @param sbmlParsers
+	 * @param sbmlParser
+	 * @param namespace
+	 */
+	private void addWritingParser(ArrayList<WritingParser> sbmlParsers,
+			WritingParser sbmlParser, String namespace) 
+	{
+		if (sbmlParser == null) {
+			if (!issuedWarnings.contains(namespace)) {
+				logger.debug("Skipping detailed parsing of Namespace '" + namespace
+						+ "'. No parser available.");
+				issuedWarnings.add(namespace);
+			}
+		} else {
+			sbmlParsers.add(sbmlParser);
+		}
+
+	}
+
+	/**
 	 * This method creates the necessary number of white spaces at the beginning
 	 * of an entry in the SBML file.
 	 * 
 	 * @param indent
 	 * @return
 	 */
-	private String createIndent(int indent) {
+	private String createIndentationString(int indent) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < indent; i++) {
-			sb.append(' ');
+			sb.append(indentChar);
 		}
 		return sb.toString();
 	}
 
 	/**
-	 * Creates the ReadingParser instances and stores them in a HashMap.
+	 * Gives the symbol that is used to indent the SBML output for a better
+	 * structure and to improve human-readability.
 	 * 
-	 * @return the map containing the ReadingParser instances.
+	 * @return the character to be used for indentation.
 	 */
-	private HashMap<String, WritingParser> initializePackageParsers() {
-		if (packageParsers.size() == 0) {
-			initializePackageParserNamespaces();
-		}
+	public char getIndentationChar() {
+		return indentChar;
+	}
 
-		for (String namespace : packageParsers.keySet()) {
-			try {
-				instantiatedSBMLParsers.put(namespace,
-						packageParsers.get(namespace).newInstance());
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (ClassCastException e) {
-				// does nothing, some of the parsers are only Reader and not Writer
-				// so would throw a ClassCastException
-				logger.debug(e.getMessage());
+	/**
+	 * Gives the number of indent symbols that are inserted in a line to better structure the SBML output.
+	 * 
+	 * @return the indentCount
+	 */
+	public short getIndentationCount() {
+		return indentCount;
+	}
+
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 * @return the name space matching the level and version.
+	 */
+	private String getNamespaceFrom(int level, int version) {
+		if (level == 3) {
+			if (version == 1) {
+				return "http://www.sbml.org/sbml/level3/version1/core";
+			}
+		} else if (level == 2) {
+			if (version == 4) {
+				return "http://www.sbml.org/sbml/level2/version4";
+			} else if (version == 3) {
+				return "http://www.sbml.org/sbml/level2/version3";
+			} else if (version == 2) {
+				return "http://www.sbml.org/sbml/level2/version2";
+			} else if (version == 1) {
+				return "http://www.sbml.org/sbml/level2";
+			}
+		} else if (level == 1) {
+			if ((version == 1) || (version == 2)) {
+				return "http://www.sbml.org/sbml/level1";
 			}
 		}
-
-		return instantiatedSBMLParsers;
+		return null;
 	}
 
 	/**
@@ -198,57 +280,6 @@ public class SBMLWriter {
 	}
 
 	/**
-	 * Adds a {@link WritingParser} to the given list of {@link WritingParser} 
-	 * 
-	 * @param sbmlParsers
-	 * @param sbmlParser
-	 * @param namespace
-	 */
-	private void addWritingParser(ArrayList<WritingParser> sbmlParsers,
-			WritingParser sbmlParser, String namespace) 
-	{
-		if (sbmlParser == null) {
-			if (!issuedWarnings.contains(namespace)) {
-				logger.debug("Skipping detailed parsing of Namespace '" + namespace
-						+ "'. No parser available.");
-				issuedWarnings.add(namespace);
-			}
-		} else {
-			sbmlParsers.add(sbmlParser);
-		}
-
-	}
-
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 * @return the name space matching the level and version.
-	 */
-	private String getNamespaceFrom(int level, int version) {
-		if (level == 3) {
-			if (version == 1) {
-				return "http://www.sbml.org/sbml/level3/version1/core";
-			}
-		} else if (level == 2) {
-			if (version == 4) {
-				return "http://www.sbml.org/sbml/level2/version4";
-			} else if (version == 3) {
-				return "http://www.sbml.org/sbml/level2/version3";
-			} else if (version == 2) {
-				return "http://www.sbml.org/sbml/level2/version2";
-			} else if (version == 1) {
-				return "http://www.sbml.org/sbml/level2";
-			}
-		} else if (level == 1) {
-			if ((version == 1) || (version == 2)) {
-				return "http://www.sbml.org/sbml/level1";
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * 
 	 * @param namespace
 	 * @return the WritingParser class associated with 'namespace'. Null if
@@ -269,34 +300,99 @@ public class SBMLWriter {
 	}
 
 	/**
-	 * Tests this class
+	 * Creates the ReadingParser instances and stores them in a HashMap.
 	 * 
-	 * @param args
+	 * @return the map containing the ReadingParser instances.
+	 */
+	private HashMap<String, WritingParser> initializePackageParsers() {
+		if (packageParsers.size() == 0) {
+			initializePackageParserNamespaces();
+		}
+
+		for (String namespace : packageParsers.keySet()) {
+			try {
+				instantiatedSBMLParsers.put(namespace,
+						packageParsers.get(namespace).newInstance());
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (ClassCastException e) {
+				// does nothing, some of the parsers are only Reader and not Writer
+				// so would throw a ClassCastException
+				logger.debug(e.getMessage());
+			}
+		}
+
+		return instantiatedSBMLParsers;
+	}
+
+	/**
+	 * Allows you to set another blank character for indentation. Allowed are
+	 * only tabs and white spaces, i.e., <code>'\t'</code> and <code>' '</code>.
+	 * 
+	 * @param the character to be used for indentation
+	 *            the indentSymbol to set
+	 */
+	public void setIndentationChar(char indentSymbol) {
+		if ((indentSymbol != ' ') && (indentSymbol != '\t')) {
+			throw new IllegalArgumentException(String.format(
+									"Invalid argument '%s'. Only the blank symbols '\\t' and ' ' are allowed for indentation.",
+									indentSymbol));
+		}
+		this.indentChar = indentSymbol;
+	}
+
+	/**
+	 * 
+	 * @param indentCount
+	 * @see SBMLWriter#setIndentationCount(short)
+	 */
+	public void setIndentationCount(int indentCount) {
+		setIndentationCount((short) indentCount);
+	}
+
+	/**
+	 * @param indentCount the indentCount to set
+	 */
+	public void setIndentationCount(short indentCount) {
+		if (indentCount < 0) {
+			throw new IllegalArgumentException(String.format(
+					"Indent count must be non-negative. Invalid argument %d.",
+					indentCount));
+		}
+		this.indentCount = indentCount;
+	}
+
+	/**
+	 * 
+	 * @param document
+	 * @param file
+	 * @throws SBMLException
+	 * @throws XMLStreamException
+	 * @throws FileNotFoundException
+	 */
+	public void write(SBMLDocument document, File file)
+			throws FileNotFoundException, XMLStreamException, SBMLException {
+		write(document, file, null, null);
+	}
+
+	/**
+	 * 
+	 * @param document
+	 * @param file
+	 * @param programName
+	 * @param programVersion
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws XMLStreamException
 	 * @throws SBMLException
 	 */
-	public static void main(String[] args) throws SBMLException {
-
-		if (args.length < 1) {
-			System.out
-					.println("Usage : java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
-			System.exit(0);
-		}
-
-		String fileName = args[0];
-		String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
-
-		System.out.println("Reading " + fileName + " and writing "
-				+ jsbmlWriteFileName);
-
-		SBMLDocument testDocument;
-		try {
-			testDocument = new SBMLReader().readSBMLFile(fileName);
-			new SBMLWriter().write(testDocument, jsbmlWriteFileName);
-		} catch (XMLStreamException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+	public void write(SBMLDocument document, File file, String programName,
+			String programVersion) throws FileNotFoundException,
+			XMLStreamException, SBMLException {
+		FileOutputStream stream = new FileOutputStream(file);
+		write(document, stream, programName, programVersion);
 	}
 
 	/**
@@ -381,18 +477,18 @@ public class SBMLWriter {
 		xmlObject.setNamespace(SBMLNamespace);
 		xmlObject.addAttributes(sbmlDocument.writeXMLAttributes());
 
-		// register all the namespaces of the SBMLDocument to the writer
+		// register all the name spaces of the SBMLDocument to the writer
 		Iterator<Map.Entry<String, String>> it = sbmlDocument
 				.getSBMLDocumentNamespaces().entrySet().iterator();
 
-		logger.debug(" SBML namespaces size = "
+		logger.debug(" SBML name spaces size = "
 				+ sbmlDocument.getSBMLDocumentNamespaces().size());
 
 		while (it.hasNext()) {
 			Map.Entry<String, String> entry = it.next();
 			if (!entry.getKey().equals("xmlns")) {
 
-				logger.debug(" SBML namespaces : " + entry.getKey() + " = "
+				logger.debug(" SBML name spaces : " + entry.getKey() + " = "
 						+ entry.getValue());
 
 				String namespacePrefix = entry.getKey().substring(
@@ -411,7 +507,7 @@ public class SBMLWriter {
 			smOutputElement.addAttribute(entry.getKey(), entry.getValue());
 		}
 
-		int indent = 2;
+		int indent = indentCount;
 		if (sbmlDocument.isSetNotes()) {
 			writeNotes(sbmlDocument, smOutputElement, streamWriter,
 					SBMLNamespace, indent);
@@ -492,11 +588,11 @@ public class SBMLWriter {
 		namespace.setPreferredPrefix("");
 		Annotation annotation = sbase.getAnnotation();
 		SMOutputElement annotationElement;
-		String whiteSpaces = createIndent(indent);
+		String whiteSpaces = createIndentationString(indent);
 		element.addCharacters("\n");
-		element.setIndentation(whiteSpaces, indent, 2);
+		element.setIndentation(whiteSpaces, indent, indentCount);
 		annotationElement = element.addElement(namespace, "annotation");
-		annotationElement.setIndentation(whiteSpaces, indent, 2);
+		annotationElement.setIndentation(whiteSpaces, indent, indentCount);
 
 		if ((annotation.getNonRDFannotation() != null)
 				&& (annotation.getNonRDFannotation().length() > 0)) {
@@ -574,11 +670,11 @@ public class SBMLWriter {
 				annotation.setAbout("#" + sbase.getMetaId());
 			}
 			writeRDFAnnotation(annotation, annotationElement, writer,
-					indent + 2);
+					indent + indentCount);
 		}
 		SBMLObjectForXML xmlObject = new SBMLObjectForXML();
 		writeSBMLElements(xmlObject, annotationElement, writer, annotation,
-				indent + 2);
+				indent + indentCount);
 	}
 
 	/**
@@ -587,7 +683,7 @@ public class SBMLWriter {
 	 * @param listOfCVTerms
 	 *            : the list of CVTerms to write
 	 * @param rdfNamespaces
-	 *            : the RDF namespaces and prefixes
+	 *            : the RDF name spaces and prefixes
 	 * @param writer
 	 *            : the XMLStreamWriter2
 	 * @param indent
@@ -597,7 +693,7 @@ public class SBMLWriter {
 			Map<String, String> rdfNamespaces, XMLStreamWriter writer,
 			int indent) throws XMLStreamException {
 		String rdfPrefix = rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS);
-		String whiteSpace = createIndent(indent);
+		String whiteSpace = createIndentationString(indent);
 		if (listOfCVTerms.size() > 0) {
 			for (int i = 0; i < listOfCVTerms.size(); i++) {
 				CVTerm cvTerm = listOfCVTerms.get(i);
@@ -668,7 +764,7 @@ public class SBMLWriter {
 			int indent) throws XMLStreamException {
 		// Logger logger = Logger.getLogger(SBMLWriter.class);
 
-		String whiteSpace = createIndent(indent);
+		String whiteSpace = createIndentationString(indent);
 		String rdfPrefix = rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS);
 		if (history.getNumCreators() > 0) {
 			String creatorPrefix = rdfNamespaces.get(JSBML.URI_PURL_ELEMENTS);
@@ -787,26 +883,6 @@ public class SBMLWriter {
 
 	}
 
-	private void writeW3CDate(XMLStreamWriter writer, int indent,
-			String dateISO, String dcterm, String dctermPrefix, String rdfPrefix)
-			throws XMLStreamException {
-		String whiteSpace = createIndent(indent);
-
-		writer.writeCharacters(whiteSpace);
-		writer.writeStartElement(dctermPrefix, dcterm, JSBML.URI_PURL_TERMS);
-		writer.writeAttribute(rdfPrefix, Annotation.URI_RDF_SYNTAX_NS,
-				"parseType", "Resource");
-		writer.writeCharacters("\n");
-		writer.writeCharacters(whiteSpace + "  ");
-		writer.writeStartElement(dctermPrefix, "W3CDTF", JSBML.URI_PURL_TERMS);
-		writer.writeCharacters(dateISO);
-		writer.writeEndElement();
-		writer.writeCharacters("\n");
-		writer.writeCharacters(whiteSpace);
-		writer.writeEndElement();
-		writer.writeCharacters("\n");
-	}
-
 	/**
 	 * Writes the MathML expression for the math element of this sbase
 	 * component.
@@ -826,7 +902,7 @@ public class SBMLWriter {
 		if (m.isSetMath()) {
 
 			writer.writeCharacters("\n");
-			writer.writeCharacters(createIndent(indent));
+			writer.writeCharacters(createIndentationString(indent));
 			// writer.setPrefix("math", URI_MATHML_DEFINITION);
 			// writer.writeStartElement(URI_MATHML_DEFINITION,
 			// "math");
@@ -841,10 +917,10 @@ public class SBMLWriter {
 			writer.writeCharacters("\n");
 
 			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
-					writer, createIndent(indent + 2));
+					writer, createIndentationString(indent + indentCount));
 			compiler.compile(m.getMath());
 
-			writer.writeCharacters(createIndent(indent));
+			writer.writeCharacters(createIndentationString(indent));
 			writer.writeEndElement();
 		}
 	}
@@ -869,7 +945,7 @@ public class SBMLWriter {
 		writer.writeCharacters("\n");
 
 		XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer,
-				createIndent(indent));
+				createIndentationString(indent));
 
 		xmlNodeWriter.write(sbase.getMessage());
 	}
@@ -895,7 +971,7 @@ public class SBMLWriter {
 		writer.writeCharacters("\n");
 
 		XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer,
-				createIndent(indent));
+				createIndentationString(indent));
 
 		xmlNodeWriter.write(sbase.getNotes());
 
@@ -918,10 +994,10 @@ public class SBMLWriter {
 			int indent) throws XMLStreamException {
 		// Logger logger = Logger.getLogger(SBMLWriter.class);
 
-		String whiteSpace = createIndent(indent);
+		String whiteSpace = createIndentationString(indent);
 		SMNamespace namespace = annotationElement.getNamespace(
 				Annotation.URI_RDF_SYNTAX_NS, "rdf");
-		annotationElement.setIndentation(whiteSpace, indent, 2);
+		annotationElement.setIndentation(whiteSpace, indent, indentCount);
 		SMOutputElement rdfElement = annotationElement.addElement(namespace,
 				"RDF");
 
@@ -942,7 +1018,7 @@ public class SBMLWriter {
 			}
 		}
 		rdfElement.addCharacters("\n");
-		rdfElement.setIndentation(whiteSpace + "  ", indent + 2, 2);
+		rdfElement.setIndentation(whiteSpace + "  ", indent + indentCount, indentCount);
 		SMOutputElement descriptionElement = rdfElement.addElement(namespace,
 				"Description");
 		descriptionElement.addAttribute(namespace, "about",
@@ -954,11 +1030,11 @@ public class SBMLWriter {
 		}
 		if (annotation.getListOfCVTerms().size() > 0) {
 			writeCVTerms(annotation.getListOfCVTerms(), rdfNamespaces, writer,
-					indent + 2);
+					indent + indentCount);
 		}
-		descriptionElement.setIndentation(whiteSpace + "  ", indent + 2, 2);
+		descriptionElement.setIndentation(whiteSpace + "  ", indent + indentCount, indentCount);
 		descriptionElement.addCharacters(whiteSpace + "  ");
-		annotationElement.setIndentation(whiteSpace, indent, 2);
+		annotationElement.setIndentation(whiteSpace, indent, indentCount);
 		rdfElement.addCharacters("\n");
 		rdfElement.addCharacters(whiteSpace);
 		annotationElement.addCharacters("\n");
@@ -988,8 +1064,8 @@ public class SBMLWriter {
 			SMOutputElement smOutputParentElement,
 			XMLStreamWriter streamWriter, Object objectToWrite, int indent)
 			throws XMLStreamException, SBMLException {
-
-		String whiteSpaces = createIndent(indent);
+		
+		String whiteSpaces = createIndentationString(indent);
 
 		// Get the list of parsers to use.
 		ArrayList<WritingParser> listOfPackages = getWritingParsers(
@@ -1022,7 +1098,7 @@ public class SBMLWriter {
 				
 				// to allow the XML parser to prune empty elements, this indent should not be added.
 				// streamWriter.writeCharacters(whiteSpaces.substring(0,
-				// 		indent - 2));
+				// 		indent - indentCount));
 			} else {
 				for (int i = 0; i < sbmlElementsToWrite.size(); i++) {
 					Object nextObjectToWrite = sbmlElementsToWrite.get(i);
@@ -1036,16 +1112,13 @@ public class SBMLWriter {
 						ListOf<?> list = (ListOf<?>) nextObjectToWrite;
 						if (list.size() > 0) {
 							SBase sb = list.getFirst();
-							if ((sb instanceof UnitDefinition)
-									&& (parser
+							if ((sb instanceof UnitDefinition) && (parser
 											.getListOfSBMLElementsToWrite(nextObjectToWrite) == null)) {
-								streamWriter.writeCharacters(whiteSpaces
-										.substring(0, indent - 2));
+								streamWriter.writeCharacters(whiteSpaces.substring(0, indent - indentCount));
 								continue;
 							}
 						} else {
-							streamWriter.writeCharacters(whiteSpaces.substring(
-									0, indent - 2));
+							streamWriter.writeCharacters(whiteSpaces.substring(0, indent - indentCount));
 							continue;
 						}
 					}
@@ -1123,14 +1196,18 @@ public class SBMLWriter {
 							if (s.isSetNotes()) {
 								writeNotes(s, newOutPutElement, streamWriter,
 										newOutPutElement.getNamespace()
-												.getURI(), indent + 2);
+												.getURI(), indent + indentCount);
 								elementIsNested = true;
 							}
 							if (s.isSetAnnotation()) {
 								writeAnnotation(s, newOutPutElement,
 										streamWriter, newOutPutElement
 												.getNamespace().getURI(),
-										indent + 2);
+										indent + indentCount);
+								elementIsNested = true;
+							}
+							if (s.getChildCount() > 0) {
+								// make sure that we'll have line breaks if an element has any sub elements.
 								elementIsNested = true;
 							}
 						}
@@ -1140,14 +1217,14 @@ public class SBMLWriter {
 								writeMessage(constraint, newOutPutElement,
 										streamWriter, newOutPutElement
 												.getNamespace().getURI(),
-										indent + 2);
+										indent + indentCount);
 								elementIsNested = true;
 							}
 						}
 						if (nextObjectToWrite instanceof MathContainer) {
 							MathContainer mathContainer = (MathContainer) nextObjectToWrite;
 							writeMathML(mathContainer, newOutPutElement,
-									streamWriter, indent + 2);
+									streamWriter, indent + indentCount);
 							elementIsNested = true;
 						}
 						if (nextObjectToWrite instanceof Model || nextObjectToWrite instanceof UnitDefinition) {
@@ -1160,12 +1237,12 @@ public class SBMLWriter {
 						}
 
 						writeSBMLElements(parentXmlObject, newOutPutElement,
-								streamWriter, nextObjectToWrite, indent + 2);
+								streamWriter, nextObjectToWrite, indent + indentCount);
 						smOutputParentElement.addCharacters("\n");
 					}
 				}
 				streamWriter.writeCharacters(whiteSpaces.substring(0,
-						indent - 2));
+						indent - indentCount));
 			}
 		}
 	}
@@ -1203,35 +1280,24 @@ public class SBMLWriter {
 		return stream.toString();
 	}
 
-	/**
-	 * 
-	 * @param document
-	 * @param file
-	 * @param programName
-	 * @param programVersion
-	 * @return
-	 * @throws FileNotFoundException
-	 * @throws XMLStreamException
-	 * @throws SBMLException
-	 */
-	public void write(SBMLDocument document, File file, String programName,
-			String programVersion) throws FileNotFoundException,
-			XMLStreamException, SBMLException {
-		FileOutputStream stream = new FileOutputStream(file);
-		write(document, stream, programName, programVersion);
-	}
+	private void writeW3CDate(XMLStreamWriter writer, int indent,
+			String dateISO, String dcterm, String dctermPrefix, String rdfPrefix)
+			throws XMLStreamException {
+		String whiteSpace = createIndentationString(indent);
 
-	/**
-	 * 
-	 * @param document
-	 * @param file
-	 * @throws SBMLException
-	 * @throws XMLStreamException
-	 * @throws FileNotFoundException
-	 */
-	public void write(SBMLDocument document, File file)
-			throws FileNotFoundException, XMLStreamException, SBMLException {
-		write(document, file, null, null);
+		writer.writeCharacters(whiteSpace);
+		writer.writeStartElement(dctermPrefix, dcterm, JSBML.URI_PURL_TERMS);
+		writer.writeAttribute(rdfPrefix, Annotation.URI_RDF_SYNTAX_NS,
+				"parseType", "Resource");
+		writer.writeCharacters("\n");
+		writer.writeCharacters(whiteSpace + "  ");
+		writer.writeStartElement(dctermPrefix, "W3CDTF", JSBML.URI_PURL_TERMS);
+		writer.writeCharacters(dateISO);
+		writer.writeEndElement();
+		writer.writeCharacters("\n");
+		writer.writeCharacters(whiteSpace);
+		writer.writeEndElement();
+		writer.writeCharacters("\n");
 	}
 
 	// TODO : test a bit more Xstream and using Qname to see how it
