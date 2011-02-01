@@ -35,9 +35,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.ValuePair;
-import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
-import org.sbml.jsbml.xml.XMLTriple;
 
 
 /**
