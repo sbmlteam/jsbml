@@ -233,7 +233,7 @@
     	</test>
         <classpath>
            <path refid="classpath"/>
-           <pathelement location="${build.dir}/${name}.jar"/>
+           <pathelement location="${build.dir}/${name}-${version}.jar"/>
         </classpath>
    </junit>
   	<echo message=""/>
@@ -248,7 +248,7 @@
     	</test>
             <classpath>
                <path refid="classpath"/>
-               <pathelement location="${build.dir}/${name}.jar"/>
+               <pathelement location="${build.dir}/${name}-${version}.jar"/>
             </classpath>
        </junit>
   	<echo message=""/>
@@ -263,7 +263,7 @@
     	</test>
             <classpath>
                <path refid="classpath"/>
-               <pathelement location="${build.dir}/${name}.jar"/>
+               <pathelement location="${build.dir}/${name}-${version}.jar"/>
             </classpath>
        </junit>
   	
