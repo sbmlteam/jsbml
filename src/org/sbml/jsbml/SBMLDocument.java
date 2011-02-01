@@ -41,6 +41,37 @@ public class SBMLDocument extends AbstractSBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -3927709655186844513L;
+	
+	/**
+	 * The namespace URI of SBML Level 3 Version 1.
+	 */
+	public static final transient String URI_NAMESPACE_L3V1Core = "http://www.sbml.org/sbml/level3/version1/core";
+	
+	/**
+	 * The namespace URI of SBML Level 2 Version 4.
+	 */
+	public static final transient String URI_NAMESPACE_L2V4 = "http://www.sbml.org/sbml/level2/version4";
+
+	/**
+	 * The namespace URI of SBML Level 2 Version 3.
+	 */
+	public static final transient String URI_NAMESPACE_L2V3 = "http://www.sbml.org/sbml/level2/version3";
+
+	/**
+	 * The namespace URI of SBML Level 2 Version 2.
+	 */
+	public static final String URI_NAMESPACE_L2V2 = "http://www.sbml.org/sbml/level2/version2";
+
+	/**
+	 * The namespace URI of SBML Level 2 Version 1.
+	 */
+	public static final transient String URI_NAMESPACE_L2V1 = "http://www.sbml.org/sbml/level2";
+
+	/**
+	 * The namespace URI of SBML Level 1 Version 1 and 2.
+	 */
+	public static final transient String URI_NAMESPACE_L1 = "http://www.sbml.org/sbml/level1";
+	
 	/**
 	 * Memorizes all {@link SBMLError} when parsing the file containing this
 	 * document.

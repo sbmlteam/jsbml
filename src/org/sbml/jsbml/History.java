@@ -27,7 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Contains all the history information about a {@link Model} (or other {@link SBase} if level 3).
+ * Contains all the history information about a {@link Model} (or other {@link SBase} if level >= 3).
  * 
  * @author marine
  * @author Andreas Dr&auml;ger
@@ -101,7 +101,7 @@ public class History implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Adds a Date of modification to this {@link History}.
+	 * Adds a {@link Date} of modification to this {@link History}.
 	 * 
 	 * @param date
 	 */

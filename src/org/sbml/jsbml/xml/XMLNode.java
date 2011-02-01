@@ -97,13 +97,22 @@ else
 }
 </pre></div> 
  * <p>
+ * @author Nicolas Rodriguez
  */
 public class XMLNode extends XMLToken {
 
+	/**
+	 * Generated serial version identifier
+	 */
+	private static final long serialVersionUID = -7699595383368237593L;
+	
 	private ArrayList<XMLNode> childrenElements = new ArrayList<XMLNode>();
 
 
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.XMLToken#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -127,6 +136,10 @@ public class XMLNode extends XMLToken {
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.XMLToken#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -347,10 +360,9 @@ public class XMLNode extends XMLToken {
 	}
 
 
-	/**
-	 * Creates and returns a deep copy of this {@link XMLNode}.
-	 * <p>
-	 * @return a (deep) copy of this {@link XMLNode}.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.XMLToken#clone()
 	 */
 	public XMLNode clone() {
 		return new XMLNode(this);

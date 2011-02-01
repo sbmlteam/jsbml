@@ -235,7 +235,7 @@ public class SBMLReader {
             + "</math:math>\n";
 		
 		String notesHTMLString = "<notes>\n" +
-			"  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n " +
+			"  <body xmlns=\"" + JSBML.URI_XHTML_DEFINITION + "\">\n " +
 			"    <p>The model describes the double phosphorylation of MAP kinase by an ordered mechanism using the Michaelis-Menten formalism. " +
 			"Two enzymes successively phosphorylate the MAP kinase, but one phosphatase dephosphorylates both sites.</p>\n" +
 			"  </body>\n" +
@@ -486,8 +486,8 @@ public class SBMLReader {
 					} else if (currentNode.getLocalPart().equals("math")) {
 						
 						initializedParsers.put("", new MathMLStaxParser());
-						initializedParsers.put(JSBML.URI_MATHML_DEFINITION, new MathMLStaxParser());
-						currentNode = new QName(JSBML.URI_MATHML_DEFINITION, "math");
+						initializedParsers.put(ASTNode.URI_MATHML_DEFINITION, new MathMLStaxParser());
+						currentNode = new QName(ASTNode.URI_MATHML_DEFINITION, "math");
 						
 					}
 					
@@ -830,7 +830,7 @@ public class SBMLReader {
 					|| endElement.getName().getLocalPart().equals(
 							"message")) {
 				ReadingParser sbmlparser = initializedParsers
-						.get("http://www.w3.org/1999/xhtml");
+						.get(JSBML.URI_XHTML_DEFINITION);
 				if (sbmlparser instanceof StringParser) {
 					StringParser notesParser = (StringParser) sbmlparser;
 					notesParser.setTypeOfNotes(endElement.getName()

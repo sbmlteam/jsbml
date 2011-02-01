@@ -70,11 +70,6 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	/**
 	 * 
 	 */
-	private String parserNamespace = "http://www.sbml.org/sbml/level1/version1";
-
-	/**
-	 * 
-	 */
 	protected HashMap<String, Class<? extends Object>> SBMLCoreElements;
 
     /**
@@ -186,7 +181,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	 * @return
 	 */
 	public String getParserNamespace() {
-		return parserNamespace;
+		return SBMLDocument.URI_NAMESPACE_L1;
 	}
 
     /**
@@ -403,7 +398,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 
 		if (contextObject instanceof SBMLDocument) {
 			SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
-			if (!URI.equals(parserNamespace)) {
+			if (!URI.equals(SBMLDocument.URI_NAMESPACE_L1)) {
 				sbmlDocument.addNamespace(localName, prefix, URI);
 			}
 		}
@@ -945,14 +940,6 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 				// throw an exception?
 			}
 		}
-	}
-
-	/**
-	 * 
-	 * @param parserNamespace
-	 */
-	public void setParserNamespace(String parserNamespace) {
-		this.parserNamespace = parserNamespace;
 	}
 
 	/**

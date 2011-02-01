@@ -293,13 +293,9 @@ public abstract class AbstractSBase implements SBase {
 		XMLNode addedNotes = XMLNode.convertStringToXMLNode(notes);
 		
 		if (isSetNotes()) {
-			
 			XMLNode oldNotes = notesXMLNode.clone();
-			
 			appendNotes(addedNotes);
-			
 			firePropertyChange(SBaseChangedEvent.notes, oldNotes, notesXMLNode);
-			
 		} else {
 			setNotes(addedNotes);
 		}

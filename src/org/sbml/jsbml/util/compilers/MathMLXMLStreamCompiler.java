@@ -53,8 +53,6 @@ public class MathMLXMLStreamCompiler {
 	private XMLStreamWriter writer;
 	private Logger logger = Logger.getLogger(MathMLXMLStreamCompiler.class);
 	
-	private static String MATHML_NS = "http://www.w3.org/1998/Math/MathML";
-	
 	/**
 	 * Formats the real number in a valid way for mathML.
 	 * When java read 0.000166, it transforms it to 1.66E-4.
@@ -101,10 +99,10 @@ public class MathMLXMLStreamCompiler {
 			writer.writeStartDocument();
 			writer.writeCharacters("\n");
 			writer.writeStartElement("math");
-			writer.writeNamespace(null, "http://www.w3.org/1998/Math/MathML");			
+			writer.writeNamespace(null, ASTNode.URI_MATHML_DEFINITION);			
 			writer.writeCharacters("\n");
 
-			writer.setPrefix("math", "http://www.w3.org/1998/Math/MathML");
+			writer.setPrefix("math", ASTNode.URI_MATHML_DEFINITION);
 			
 			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(writer, "  ");
 			compiler.compile(astNode);
@@ -298,13 +296,13 @@ public class MathMLXMLStreamCompiler {
 			// delay works like a function, so we need to write all the children
 			if (astNode.getType() == Type.FUNCTION_DELAY) {
 				writer.writeCharacters(indent);
-				writer.writeStartElement(MATHML_NS, "apply");
+				writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "apply");
 				writer.writeCharacters("\n");
 				indent += "  ";
 			}
 			
 			writer.writeCharacters(indent);
-			writer.writeStartElement(MATHML_NS, "csymbol");
+			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "csymbol");
 			writer.writeAttribute("encoding", astNode.getEncoding() != null ? astNode.getEncoding() : "text");
 			writer.writeAttribute("definitionURL", astNode.getDefinitionURL() != null ? astNode.getDefinitionURL() : "");
 			writer.writeCharacters(" ");
@@ -334,8 +332,8 @@ public class MathMLXMLStreamCompiler {
 		
 		try {
 			writer.writeCharacters(indent);
-			writer.writeStartElement(MATHML_NS, "cn");
-			writer.writeAttribute("type", "integer"); // writer.writeAttribute(MATHML_NS, "type", "integer");
+			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "cn");
+			writer.writeAttribute("type", "integer"); // writer.writeAttribute(ASTNode.URI_MATHML_DEFINITION, "type", "integer");
 			writer.writeCharacters(" ");
 			writer.writeCharacters(Integer.toString(astNode.getInteger()));
 			writer.writeCharacters(" ");
@@ -353,7 +351,7 @@ public class MathMLXMLStreamCompiler {
 
 		try {
 			writer.writeCharacters(indent);
-			writer.writeStartElement(MATHML_NS, "cn");
+			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "cn");
 			if (astNode.isSetNumberType()) {
 				writer.writeAttribute("type", "real");
 			}
@@ -378,12 +376,12 @@ public class MathMLXMLStreamCompiler {
 
 		try {
 			writer.writeCharacters(indent);
-			writer.writeStartElement(MATHML_NS, "cn");
+			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "cn");
 			writer.writeAttribute("type", "e-notation");
 			writer.writeCharacters(" ");
 			writer.writeCharacters(realFormat.format(astNode.getMantissa()));
 			writer.writeCharacters(" ");
-			writer.writeEmptyElement(MATHML_NS, "sep");
+			writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "sep");
 			writer.writeCharacters(" ");
 			writer.writeCharacters(realFormat.format(astNode.getExponent()));
 			writer.writeCharacters(" ");
@@ -400,12 +398,12 @@ public class MathMLXMLStreamCompiler {
 
 		try {
 			writer.writeCharacters(indent);
-			writer.writeStartElement(MATHML_NS, "cn");
+			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "cn");
 			writer.writeAttribute("type", "rational");
 			writer.writeCharacters(" ");
 			writer.writeCharacters(Integer.toString(astNode.getNumerator()));
 			writer.writeCharacters(" ");
-			writer.writeEmptyElement(MATHML_NS, "sep");
+			writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "sep");
 			writer.writeCharacters(" ");
 			writer.writeCharacters(Integer.toString(astNode.getDenominator()));
 			writer.writeCharacters(" ");
@@ -422,7 +420,7 @@ public class MathMLXMLStreamCompiler {
 
 		try {
 			writer.writeCharacters(indent);
-			writer.writeStartElement(MATHML_NS, "ci");
+			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "ci");
 			writer.writeCharacters(" ");
 			writer.writeCharacters(astNode.getName());
 			writer.writeCharacters(" ");
@@ -457,17 +455,17 @@ public class MathMLXMLStreamCompiler {
 			try {
 				
 				writer.writeCharacters(indent);
-				writer.writeStartElement(MATHML_NS, "apply");
+				writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "apply");
 				writer.writeCharacters("\n");
 				indent += "  ";
 				
 				writer.writeCharacters(indent);
-				writer.writeEmptyElement(MATHML_NS, "root");
+				writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "root");
 				writer.writeCharacters("\n");
 
 				// write the degree element
 				writer.writeCharacters(indent);
-				writer.writeStartElement(MATHML_NS, "degree");
+				writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "degree");
 				writer.writeCharacters("\n");
 				indent += "  ";
 				
@@ -494,7 +492,7 @@ public class MathMLXMLStreamCompiler {
 		try {
 			
 			writer.writeCharacters(indent);
-			writer.writeStartElement(MATHML_NS, "lambda");
+			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "lambda");
 			writer.writeCharacters("\n");
 			indent += "  ";
 			
@@ -522,7 +520,7 @@ public class MathMLXMLStreamCompiler {
 
 		try {
 			writer.writeCharacters(indent);
-			writer.writeStartElement(MATHML_NS, "bvar");
+			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "bvar");
 			writer.writeCharacters("\n");
 			indent += "  ";
 			
@@ -552,14 +550,14 @@ public class MathMLXMLStreamCompiler {
 		try {
 
 			writer.writeCharacters(indent);
-			writer.writeStartElement(MATHML_NS, "piecewise");
+			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "piecewise");
 			writer.writeCharacters("\n");
 			indent += "  ";
 
 			for (int i = 0; i < nbChildren - 1; i = i + 2) {
 
 				writer.writeCharacters(indent);
-				writer.writeStartElement(MATHML_NS, "piece");
+				writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "piece");
 				writer.writeCharacters("\n");
 				indent += "  ";
 				
@@ -573,7 +571,7 @@ public class MathMLXMLStreamCompiler {
 			if (writeOtherwise) {
 				
 				writer.writeCharacters(indent);
-				writer.writeStartElement(MATHML_NS, "otherwise");
+				writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "otherwise");
 				writer.writeCharacters("\n");
 				indent += "  ";
 				
@@ -599,17 +597,17 @@ public class MathMLXMLStreamCompiler {
 			try {
 				
 				writer.writeCharacters(indent);
-				writer.writeStartElement(MATHML_NS, "apply");
+				writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "apply");
 				writer.writeCharacters("\n");
 				indent += "  ";
 				
 				writer.writeCharacters(indent);
-				writer.writeEmptyElement(MATHML_NS, "log");
+				writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "log");
 				writer.writeCharacters("\n");
 
 				// write the logbase element
 				writer.writeCharacters(indent);
-				writer.writeStartElement(MATHML_NS, "logbase");
+				writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "logbase");
 				writer.writeCharacters("\n");
 				indent += "  ";
 				
@@ -638,7 +636,7 @@ public class MathMLXMLStreamCompiler {
 		try {
 			
 			writer.writeCharacters(indent);
-			writer.writeEmptyElement(MATHML_NS, constantName);
+			writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, constantName);
 			writer.writeCharacters("\n");
 
 		} catch (XMLStreamException e) {
@@ -683,12 +681,12 @@ public class MathMLXMLStreamCompiler {
 		try {
 			
 			writer.writeCharacters(indent);
-			writer.writeStartElement(MATHML_NS, "apply");
+			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "apply");
 			writer.writeCharacters("\n");
 			indent += "  ";
 			
 			writer.writeCharacters(indent);
-			writer.writeEmptyElement(MATHML_NS, functionName);
+			writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, functionName);
 			writer.writeCharacters("\n");
 
 			for (ASTNode arg : args) {
@@ -706,7 +704,7 @@ public class MathMLXMLStreamCompiler {
 		try {
 
 			writer.writeCharacters(indent);
-			writer.writeStartElement(MATHML_NS, "apply");
+			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "apply");
 			writer.writeCharacters("\n");
 			indent += "  ";
 
