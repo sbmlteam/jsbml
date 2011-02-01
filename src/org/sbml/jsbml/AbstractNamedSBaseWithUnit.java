@@ -142,13 +142,12 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		if (isSetUnitsInstance()) {
 			return getUnitsInstance();
 		}
-		UnitDefinition ud = new UnitDefinition(getLevel(), getVersion());
-		Unit u = new Unit(getLevel(), getVersion());
-		if (isSetUnits()) {
-			u.setKind(Kind.valueOf(unitsID.toUpperCase()));
+		String derivedUnits = getDerivedUnits();
+		Model model = getModel();
+		if ((model != null) && (derivedUnits.length() > 0)) {
+			return model.getUnitDefinition(derivedUnits);
 		}
-		ud.addUnit(u);
-		return ud;
+		return null;
 	}
 
 	/*
@@ -157,7 +156,11 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
 	 */
 	public String getDerivedUnits() {
-		return getUnits();
+		if (isSetUnits()) {
+			return unitsID;
+		}
+		String predef = getPredefinedUnitID(); 
+		return predef != null ? predef : "";
 	}
 
 	/*
@@ -166,11 +169,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.SBaseWithUnit#getUnits()
 	 */
 	public String getUnits() {
-		if (isSetUnits()) {
-			return unitsID;
-		}
-		String predef = getPredefinedUnitID(); 
-		return predef != null ? predef : "";
+		return isSetUnits() ? unitsID : "";
 	}
 
 	/*
