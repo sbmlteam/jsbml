@@ -27,7 +27,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Contains all the history information about a {@link Model} (or other {@link SBase} if level >= 3).
+ * Contains all the history information about a {@link Model} (or other
+ * {@link SBase} if level >= 3).
  * 
  * @author marine
  * @author Andreas Dr&auml;ger
@@ -72,22 +73,17 @@ public class History implements Cloneable, Serializable {
 	 * @param modelHistory
 	 */
 	public History(History modelHistory) {
-		listOfCreators = new LinkedList<Creator>();
+		this();
 		listOfCreators.addAll(modelHistory.getListCreators());
-		listOfModification = new LinkedList<Date>();
 		listOfModification.addAll(modelHistory.getListModifiedDates());
 		Calendar calendar = Calendar.getInstance();
 		if (modelHistory.isSetCreatedDate()) {
 			calendar.setTime(modelHistory.getCreatedDate());
 			creation = calendar.getTime();
-		} else {
-			creation = null;
 		}
 		if (modelHistory.isSetModifiedDate()) {
 			calendar.setTime(modelHistory.getModifiedDate());
 			modified = calendar.getTime();
-		} else {
-			modified = null;
 		}
 	}
 
@@ -242,7 +238,7 @@ public class History implements Cloneable, Serializable {
 	 * @return the number of {@link Creator}s in this {@link History}.
 	 */
 	public int getNumCreators() {
-		return listOfCreators.size();
+		return isSetListOfCreators() ? listOfCreators.size() : 0;
 	}
 
 	/**
@@ -251,7 +247,7 @@ public class History implements Cloneable, Serializable {
 	 * @return the number of ModifiedDates in this {@link History}.
 	 */
 	public int getNumModifiedDates() {
-		return listOfModification.size();
+		return isSetListOfModification() ? listOfModification.size() : 0;
 	}
 
 	/**
@@ -271,11 +267,10 @@ public class History implements Cloneable, Serializable {
 	 *         </ul>
 	 */
 	public boolean isEmpty() {
-		return ((creation == null)
-				&& ((listOfCreators == null) || (listOfCreators.size() == 0))
-				&& ((listOfModification == null) || (listOfModification.size() == 0)) && (modified == null));
+		return !isSetCreatedDate() && (getNumCreators() == 0)
+				&& (getNumModifiedDates() == 0) && !isSetModifiedDate();
 	}
-
+	
 	/**
 	 * Predicate returning true or false depending on whether this
 	 * {@link History}'s createdDate has been set.
@@ -285,6 +280,22 @@ public class History implements Cloneable, Serializable {
 	 */
 	public boolean isSetCreatedDate() {
 		return creation != null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetListOfCreators() {
+		return listOfCreators != null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetListOfModification() {
+		return listOfModification != null;
 	}
 
 	/**
@@ -308,7 +319,6 @@ public class History implements Cloneable, Serializable {
 	 */
 	public boolean readAttribute(String nodeName, String attributeName,
 			String prefix, String value) {
-
 		if (nodeName.equals("creator") || nodeName.equals("created")
 				|| nodeName.equals("modified")) {
 			if (attributeName.equals("parseType") && value.equals("Resource")) {
@@ -319,20 +329,17 @@ public class History implements Cloneable, Serializable {
 	}
 
 	/**
-	 *If there is no ith {@link Creator}, it returns null.
+	 *If there is no i<sup>th</sup> {@link Creator}, it returns null.
 	 * 
 	 * @param i
 	 * @return the {@link Creator} removed from the {@link #listOfCreators}.
 	 */
 	public Creator removeCreator(int i) {
-		if (i < listOfCreators.size()) {
-			return listOfCreators.remove(i);
-		}
-		return null;
+		return listOfCreators.remove(i);
 	}
 
 	/**
-	 * If there is no ith modified {@link Date}, it returns null.
+	 * If there is no i<sup>th</sup> modified {@link Date}, it returns null.
 	 * 
 	 * @param i
 	 * @return the modified {@link Date} removed from the listOfModification.
@@ -348,7 +355,7 @@ public class History implements Cloneable, Serializable {
 			}
 			return listOfModification.remove(i);
 		}
-		return null;
+		throw new IndexOutOfBoundsException(String.format("No modified date %d available.", i));
 	}
 
 	/**

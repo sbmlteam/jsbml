@@ -300,8 +300,12 @@ public class Unit extends AbstractSBase {
 		 * entirely upper or entirely lower case {@link String}s are valid
 		 * attributes here.
 		 * 
-		 * Tests whether a given string corresponds to a predefined
+		 * This method tests whether a given string corresponds to a predefined
 		 * {@link Unit.Kind} enumeration value.
+		 * 
+		 * To check whether a given {@link String} represents some predefined
+		 * {@link UnitDefinition}, please use the method
+		 * {@link Unit#isPredefined(String, int)}.
 		 * 
 		 * @param unitKind
 		 *            the unit string.
@@ -311,8 +315,8 @@ public class Unit extends AbstractSBase {
 		 *            the SBML version.
 		 * @return <code>true</code> if the given string is valid for the
 		 *         particular SBML level and version, false otherwise.
+		 * @see Unit#isPredefined(String, int)
 		 */
-		// TODO : check that it works for the default units.
 		public static boolean isValidUnitKindString(String unitKind, int level,
 				int version) {
 			Kind uk = null;
@@ -864,15 +868,16 @@ public class Unit extends AbstractSBase {
 	 * unit.
 	 * 
 	 * @param name
-	 *            a string to be tested against the predefined unit names
+	 *            a {@link String} to be tested against the predefined unit
+	 *            names
 	 * @param level
 	 *            the Level of SBML for which the determination should be made.
 	 *            This is necessary because there are a few small differences in
 	 *            allowed units between SBML Level 1 and Level 2.
-	 * @return true, if name is one of the five SBML predefined unit identifiers
-	 *         ('substance', 'volume', 'area', 'length' or 'time'), false
-	 *         otherwise. The predefined unit identifiers 'length' and 'area'
-	 *         were added in Level 2 Version 1
+	 * @return <code>true</code>, if name is one of the five SBML predefined
+	 *         unit identifiers ('substance', 'volume', 'area', 'length' or
+	 *         'time'), <code>false</code> otherwise. The predefined unit
+	 *         identifiers 'length' and 'area' were added in Level 2 Version 1
 	 * @deprecated use {@link #isPredefined(String, int)}
 	 */
 	@Deprecated
@@ -881,17 +886,30 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
+	 * Predicate to test whether a given string is the name of a predefined SBML
+	 * unit.
 	 * 
 	 * @param name
+	 *            a {@link String} to be tested against the predefined unit
+	 *            names
 	 * @param level
-	 * @return
+	 *            the Level of SBML for which the determination should be made.
+	 *            This is necessary because there are a few small differences in
+	 *            allowed units between SBML Level 1 and Level 2.
+	 * @return <code>true</code>, if name is one of the five SBML predefined
+	 *         unit identifiers ('substance', 'volume', 'area', 'length' or
+	 *         'time'), <code>false</code> otherwise. The predefined unit
+	 *         identifiers 'length' and 'area' were added in Level 2 Version 1
 	 */
 	public static boolean isPredefined(String name, int level) {
-		if ((level < 3)
-				&& (name.equals("substance") || name.equals("volume")
-						|| name.equals("time") || (level == 2 && (name
-						.equals("length") || name.equals("area"))))) {
-			return true;
+		if (level < 3) {
+			if ((level == 2) && (name.equals("length") || name.equals("area"))) {
+				return true;
+			}
+			if (name.equals("substance") || name.equals("volume")
+					|| name.equals("time")) {
+				return true;
+			}
 		}
 		return false;
 	}

@@ -48,14 +48,30 @@ import org.w3c.dom.Node;
 public class Annotation implements Cloneable, Serializable {
 	
 	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 2127495202258145900L;
+
+	/**
 	 * The RDF syntax name space definition URI.
 	 */
 	public static final transient String URI_RDF_SYNTAX_NS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 
 	/**
-	 * Generated serial version identifier.
+	 * Copies one {@link Map} instance into another.
+	 * 
+	 * @param origin
+	 *            copy from here
+	 * @param target
+	 *            copy everything into this target {@link Map}.
 	 */
-	private static final long serialVersionUID = 2127495202258145900L;
+	private static final void copy(Map<String, String> origin,
+			Map<String, String> target) {
+		for (Map.Entry<String, String> entry : origin.entrySet()) {
+			target.put(new String(entry.getKey().toString()), 
+					   new String(entry.getValue().toString()));
+		}
+	}
 
 	/**
 	 * Returns a {@link String} which represents the given {@link Qualifier}.
@@ -77,13 +93,13 @@ public class Annotation implements Cloneable, Serializable {
 	 * contains all the name spaces of the matching XML annotation node
 	 */
 	private Map<String, String> annotationNamespaces;
-
+	
 	/**
 	 * contains all the annotation extension objects with the name space of
 	 * their package.
 	 */
 	private Map<String, Annotation> extensions;
-	
+
 	/**
 	 * The ModelHistory which represents the history section of a RDF
 	 * annotation
@@ -119,7 +135,7 @@ public class Annotation implements Cloneable, Serializable {
 		this.otherAnnotation = null;
 		this.history = null;
 	}
-
+	
 	/**
 	 * Creates a new Annotation instance by cloning the given Annotation.
 	 * 
@@ -143,21 +159,19 @@ public class Annotation implements Cloneable, Serializable {
 			this.history = annotation.getHistory().clone();
 		}
 	}
-	
+
 	/**
-	 * Copies one {@link Map} instance into another.
+	 * Creates an {@link Annotation} instance from a list of {@link CVTerm}
+	 * objects. By default, the {@link History} and otherAnnotation {@link String}s are
+	 * null. The {@link Map}s annotationNamespaces, rdfAnnotationNamespaces and
+	 * extensions are empty.
 	 * 
-	 * @param origin
-	 *            copy from here
-	 * @param target
-	 *            copy everything into this target {@link Map}.
+	 * @param cvTerms
+	 *            the list of {@link CVTerm}.
 	 */
-	private static final void copy(Map<String, String> origin,
-			Map<String, String> target) {
-		for (Map.Entry<String, String> entry : origin.entrySet()) {
-			target.put(new String(entry.getKey().toString()), 
-					   new String(entry.getValue().toString()));
-		}
+	public Annotation(List<CVTerm> cvTerms) {
+		this();
+		this.listOfCVTerms = cvTerms;
 	}
 
 	/**
@@ -173,20 +187,6 @@ public class Annotation implements Cloneable, Serializable {
 	public Annotation(Map<String, String> annotations) {
 		this();
 		this.annotationNamespaces = annotations;
-	}
-
-	/**
-	 * Creates an {@link Annotation} instance from a list of {@link CVTerm}
-	 * objects. By default, the {@link History} and otherAnnotation {@link String}s are
-	 * null. The {@link Map}s annotationNamespaces, rdfAnnotationNamespaces and
-	 * extensions are empty.
-	 * 
-	 * @param cvTerms
-	 *            the list of {@link CVTerm}.
-	 */
-	public Annotation(List<CVTerm> cvTerms) {
-		this();
-		this.listOfCVTerms = cvTerms;
 	}
 
 	/**
@@ -270,16 +270,6 @@ public class Annotation implements Cloneable, Serializable {
 	}
 	
 	/**
-	 * 
-	 * @return
-	 */
-	public boolean isEmpty() {
-		return (((history == null) || (history.isEmpty()))
-				&& ((listOfCVTerms == null) || (listOfCVTerms.size() == 0))
-				&& ((otherAnnotation == null) || (otherAnnotation.length() == 0)));
-	}
-
-	/**
 	 * Adds an Annotation extension object to the extensions map of this object.
 	 * 
 	 * @param namespace the name space.
@@ -318,8 +308,8 @@ public class Annotation implements Cloneable, Serializable {
 			this.otherAnnotation.append(annotation);
 		}
 	}
-	
-	 /**
+
+	/**
 	  * Writes the attributes of the otherAnnotation node
 	 * 
 	 * @return a String containing the attributes of the otherAnnotation node
@@ -392,8 +382,8 @@ public class Annotation implements Cloneable, Serializable {
 		}
 
 	}
-
-	/*
+	
+	 /*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Object#clone()
@@ -652,6 +642,15 @@ public class Annotation implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Gives the number of {@link CVTerm}s in this {@link Annotation}.
+	 * 
+	 * @return the number of controlled vocabulary terms in this {@link Annotation}.
+	 */
+	public int getNumCVTerms() {
+		return isSetListOfCVTerms() ? listOfCVTerms.size() : 0;
+	}
+
+	/**
 	 * Returns the rdfAnnotationNamespaces {@link Map} of this object.
 	 * 
 	 * @return the rdfAnnotationNamespaces {@link Map} of this object.
@@ -661,6 +660,18 @@ public class Annotation implements Cloneable, Serializable {
 			rdfAnnotationNamespaces = new HashMap<String, String>();
 		}
 		return rdfAnnotationNamespaces;
+	}
+
+	/**
+	 * Writes the {@link History} section of the RDF annotation in 'buffer'
+	 * 
+	 * @param indent the indentation to use.
+	 * @param buffer the buffer where we need to write.
+	 */
+	private void historyToXML(String indent, StringBuffer buffer) {
+		if (isSetHistory()) {
+			getHistory().toXML(indent, buffer);
+		}
 	}
 
 	/**
@@ -681,12 +692,40 @@ public class Annotation implements Cloneable, Serializable {
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	public boolean isEmpty() {
+		return (!isSetHistory() || history.isEmpty())
+				&& (getNumCVTerms() == 0)
+				&& (!isSetOtherAnnotationThanRDF() || (otherAnnotation.length() == 0));
+	}
+
+	/**
 	 * Checks whether the 'about' element has been initialized.
 	 * 
 	 * @return true if the 'about' element has been initialized.
 	 */
 	public boolean isSetAbout() {
 		return about != null;
+	}
+
+	/**
+	 * Checks if the {@link History} is initialised
+	 * 
+	 * @return true if the {@link History} is initialised
+	 */
+	public boolean isSetHistory() {
+		return history != null;
+	}
+
+	/**
+	 * Checks if the list of {@link CVTerm} is not empty.
+	 * 
+	 * @return true if there is one or more {@link CVTerm} defined. 
+	 */
+	public boolean isSetListOfCVTerms() {
+		return (listOfCVTerms != null) && (listOfCVTerms.size() > 0);
 	}
 
 	/**
@@ -717,42 +756,12 @@ public class Annotation implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Checks if the {@link History} is initialised
-	 * 
-	 * @return true if the {@link History} is initialised
-	 */
-	public boolean isSetHistory() {
-		return history != null;
-	}
-
-	/**
-	 * Checks if the list of {@link CVTerm} is not empty.
-	 * 
-	 * @return true if there is one or more {@link CVTerm} defined. 
-	 */
-	public boolean isSetListOfCVTerms() {
-		return (listOfCVTerms != null) && (listOfCVTerms.size() > 0);
-	}
-
-	/**
 	 * Returns true if there is some non RDF annotation.
 	 * 
 	 * @return true if there is some non RDF annotation.
 	 */
 	public boolean isSetOtherAnnotationThanRDF() {
 		return this.otherAnnotation != null;
-	}
-
-	/**
-	 * Writes the {@link History} section of the RDF annotation in 'buffer'
-	 * 
-	 * @param indent the indentation to use.
-	 * @param buffer the buffer where we need to write.
-	 */
-	private void historyToXML(String indent, StringBuffer buffer) {
-		if (isSetHistory()) {
-			getHistory().toXML(indent, buffer);
-		}
 	}
 
 	/**
@@ -820,15 +829,6 @@ public class Annotation implements Cloneable, Serializable {
 	 * 
 	 * @param annotationNamespaces the annotationNamespaces to set
 	 */
-	public void setAnnotationNamespaces(HashMap<String, String> annotationNamespaces) {
-		this.annotationNamespaces = annotationNamespaces;
-	}
-
-	/**
-	 * Sets the annotationNamespaces.
-	 * 
-	 * @param annotationNamespaces the annotationNamespaces to set
-	 */
 	// TODO : we need to find better names for these class attributes and methods for 1.0 release
 	public void setAnnotationAttributes(NamedNodeMap annotationNamespaces) {
 		if (annotationNamespaces != null) {
@@ -838,6 +838,15 @@ public class Annotation implements Cloneable, Serializable {
 						attribute.getNodeValue());
 			}
 		}
+	}
+
+	/**
+	 * Sets the annotationNamespaces.
+	 * 
+	 * @param annotationNamespaces the annotationNamespaces to set
+	 */
+	public void setAnnotationNamespaces(HashMap<String, String> annotationNamespaces) {
+		this.annotationNamespaces = annotationNamespaces;
 	}
 
 	/**
@@ -884,15 +893,6 @@ public class Annotation implements Cloneable, Serializable {
 	}
 	
 	/**
-	 * Sets the non RDF annotation String to null.
-	 */
-	public void unsetNonRDFannotation() {
-		if (isSetNonRDFannotation()) {
-			otherAnnotation = null;
-		}
-	}
-
-	/**
 	 * Clears the {@link List} of {@link CVTerm}s and removes unnecessary
 	 * entries from the {@link #rdfAnnotationNamespaces}.
 	 */
@@ -913,5 +913,14 @@ public class Annotation implements Cloneable, Serializable {
 	 */
 	public void unsetHistory() {
 		this.history = null;
+	}
+
+	/**
+	 * Sets the non RDF annotation String to null.
+	 */
+	public void unsetNonRDFannotation() {
+		if (isSetNonRDFannotation()) {
+			otherAnnotation = null;
+		}
 	}
 }

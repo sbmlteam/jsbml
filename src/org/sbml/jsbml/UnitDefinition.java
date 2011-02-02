@@ -50,28 +50,29 @@ public class UnitDefinition extends AbstractNamedSBase {
 	
 	/**
 	 * <p>
-	 * Predicate returning true or false depending on whether two UnitDefinition
-	 * objects are compatible.
+	 * Predicate returning <code>true</code> or <code>false</code> depending on
+	 * whether two UnitDefinition objects are compatible.
 	 * </p>
 	 * <p>
-	 * For the purposes of performing this comparison, two UnitDefinition
-	 * objects are considered compatible when they contain compatible list of
-	 * Unit objects. This means two UnitDefinition objects are compatible if both  
-	 * satisfy the method areEquivalent or one of both has Invalid as {@link Unit.Kind}
+	 * For the purposes of performing this comparison, two
+	 * {@link UnitDefinition} objects are considered compatible when they
+	 * contain compatible list of {@link Unit} objects. This means two
+	 * {@link UnitDefinition} objects are compatible if both satisfy the method
+	 * {@link #areEquivalent(UnitDefinition, UnitDefinition)} or one of both has
+	 * {@link Kind#INVALID} as {@link Unit.Kind}
 	 * 
 	 * @param ud1
-	 *            the first UnitDefinition object to compare
+	 *            the first {@link UnitDefinition} object to compare
 	 * @param ud2
-	 *            the second UnitDefinition object to compare
-	 * @return true if all the Unit objects in ud1 are compatible to the Unit
-	 *         objects in ud2, false otherwise.
-	 * @see areIdentical
-	 * @see Unit.areEquivalent
+	 *            the second {@link UnitDefinition} object to compare
+	 * @return <code>true</code> if all the {@link Unit} objects in ud1 are
+	 *         compatible to the {@link Unit} objects in ud2, <code>false</code>
+	 *         otherwise.
+	 * @see #areIdentical(UnitDefinition, UnitDefinition)
+	 * @see Unit#areEquivalent(Unit, Unit)
 	 */
 	public static boolean areCompatible(UnitDefinition ud1, UnitDefinition ud2) {
-		
 		return areEquivalent(ud1, ud2) || ud2.isInvalid() || ud1.isInvalid();
-		
 	}
 
 	/**
