@@ -30,73 +30,80 @@ import javax.xml.stream.XMLStreamException;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
-
-
-/** 
+/**
  * Representation of a node in an XML document tree.
  * <p>
- * Beginning with version 1.0, jsbml implements an XML abstraction
- * layer, like libSBML. The basic data object in the XML abstraction is a
- * <em>node</em>, represented by {@link XMLNode}.
+ * Beginning with version 1.0, JSBML implements an XML abstraction layer, like
+ * LibSBML. The basic data object in the XML abstraction is a <em>node</em>,
+ * represented by {@link XMLNode}.
  * <p>
- * An {@link XMLNode} can contain any number of children.  Each child is another
- * {@link XMLNode}, thereby forming a tree.  The methods XMLNode.getNumChildren()
- * and {@link XMLNode#getChild(long n)}
- * can be used to access the tree structure starting from a given node.
+ * An {@link XMLNode} can contain any number of children. Each child is another
+ * {@link XMLNode}, thereby forming a tree. The methods
+ * {@link XMLNode#getNumChildren()} and {@link XMLNode#getChild(long n)} can be
+ * used to access the tree structure starting from a given node.
  * <p>
  * <p>
- * Each {@link XMLNode} is subclassed from {@link XMLToken}, and thus has the same methods
- * available as {@link XMLToken}.  These methods include XMLToken.getNamespaces(),
- * XMLToken.getPrefix(), XMLToken.getName(), XMLToken.getURI(), and
- * XMLToken.getAttributes().
+ * Each {@link XMLNode} is subclassed from {@link XMLToken}, and thus has the
+ * same methods available as {@link XMLToken}. These methods include
+ * {@link XMLToken#getNamespaces()}, {@link XMLToken#getPrefix()},
+ * {@link XMLToken#getName()}, {@link XMLToken#getURI()}, and
+ * {@link XMLToken#getAttributes()}.
  * <p>
- * <h2>Conversion between an XML string and an {@link XMLNode}</h2>
+ * <h2>Conversion between an XML {@link String} and an {@link XMLNode}</h2>
  * <p>
- * jsbml provides the following utility functions for converting an XML string 
- * (e.g., &lt;annotation&gt;...&lt;/annotation&gt;) to/from an {@link XMLNode} object.
+ * JSBML provides the following utility functions for converting an XML
+ * {@link String} (e.g., &lt;annotation&gt;...&lt;/annotation&gt;) to/from an
+ * {@link XMLNode} object.
  * <ul>
- * <li> XMLNode.toXMLString() returns a string representation of the {@link XMLNode} object. 
+ * <li>XMLNode{@link #toXMLString()} returns a {@link String} representation of
+ * the {@link XMLNode} object.
  * <p>
- * <li> XMLNode.convertXMLNodeToString() (static function) returns a string representation 
- * of the given {@link XMLNode} object.
+ * <li>{@link #convertXMLNodeToString(XMLNode)} (static function) returns a
+ * {@link String} representation of the given {@link XMLNode} object.
  * <p>
- * <li> XMLNode.convertStringToXMLNode() (static function) returns an {@link XMLNode} object converted 
- * from the given XML string.
+ * <li>{@link #convertStringToXMLNode(String)} (static function) returns an
+ * {@link XMLNode} object converted from the given XML {@link String}.
  * </ul>
  * <p>
- * The returned {@link XMLNode} object by XMLNode.convertStringToXMLNode() is a dummy root 
- * (container) {@link XMLNode} if the given XML string has two or more top-level elements 
- * (e.g., '&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;'). In the dummy root node, each top-level element in 
- * the given XML string is contained as a child {@link XMLNode}. XMLToken.isEOF() can be used 
- * to identify if the returned {@link XMLNode} object is a dummy node or not. 
- * Here is an example:
- * <div class='fragment'><pre>
-// Checks if the returned {@link XMLNode} object by XMLNode.convertStringToXMLNode() is a dummy root node:
-
-String str = '...';
-{@link XMLNode} xn = {@link XMLNode}.convertStringToXMLNode(str);
-if (xn == null)
-{
-  // returned value is null (error)
-  ...
-}
-else if ( xn.isEOF() )
-{
-  // root node is a dummy node
-  for (int i=0; i &lt; xn.getNumChildren(); i++)
-  {
-    // access to each child node of the dummy node.
-    {@link XMLNode} xnChild = xn.getChild(i);
-    ...
-  }
-}
-else
-{
-  // root node is NOT a dummy node
-  ...
-}
-</pre></div> 
+ * The returned {@link XMLNode} object by
+ * {@link XMLNode#convertStringToXMLNode(String)} is a dummy root (container)
+ * {@link XMLNode} if the given XML {@link String} has two or more top-level
+ * elements (e.g., '&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;'). In the dummy
+ * root node, each top-level element in the given XML {@link String} is
+ * contained as a child {@link XMLNode}. {@link XMLToken#isEOF()} can be used to
+ * identify if the returned {@link XMLNode} object is a dummy node or not. Here
+ * is an example: <div class='fragment'>
+ * 
+ * <pre>
+ * // Checks if the returned {@link XMLNode} object by XMLNode.convertStringToXMLNode() is a dummy root node:
+ * 
+ * String str = '...';
+ * {@link XMLNode} xn = {@link XMLNode}.convertStringToXMLNode(str);
+ * if (xn == null)
+ * {
+ *   // returned value is null (error)
+ *   ...
+ * }
+ * else if ( xn.isEOF() )
+ * {
+ *   // root node is a dummy node
+ *   for (int i=0; i &lt; xn.getNumChildren(); i++)
+ *   {
+ *     // access to each child node of the dummy node.
+ *     {@link XMLNode} xnChild = xn.getChild(i);
+ *     ...
+ *   }
+ * }
+ * else
+ * {
+ *   // root node is NOT a dummy node
+ *   ...
+ * }
+ * </pre>
+ * 
+ * </div>
  * <p>
+ * 
  * @author Nicolas Rodriguez
  */
 public class XMLNode extends XMLToken {

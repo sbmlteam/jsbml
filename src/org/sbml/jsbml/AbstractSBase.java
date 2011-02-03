@@ -47,7 +47,25 @@ import org.sbml.jsbml.xml.XMLNode;
  */
 public abstract class AbstractSBase implements SBase {
 
-	enum NOTES_TYPE { NotesHTML, NotesBody, NotesAny };
+	/**
+	 * 
+	 * @author rodrigue
+	 *
+	 */
+	enum NOTES_TYPE {
+		/**
+		 * 
+		 */
+		NotesAny,
+		/**
+		 * 
+		 */
+		NotesBody,
+		/**
+		 * 
+		 */
+		NotesHTML 
+	};
 
 	/**
 	 * Generated serial version identifier.
@@ -78,26 +96,31 @@ public abstract class AbstractSBase implements SBase {
 		}
 		return has;
 	}
+	
 	/**
 	 * annotations of the SBML component. Matches the annotation XML node in a
 	 * SBML file.
 	 */
 	private Annotation annotation;
+	
 	/**
 	 * map containing the SBML extension object of additional packages with the
 	 * appropriate name space of the package.
 	 */
 	private Map<String, SBase> extensions;
+	
 	/**
 	 * Level and version of the SBML component. Matches the level XML attribute of a SBML
 	 * node.
 	 */
 	ValuePair<Integer, Integer> lv;
+	
 	/**
 	 * metaid of the SBML component. Matches the metaid XML attribute of an
 	 * element in a SBML file.
 	 */
 	private String metaId;
+	
 	/**
 	 * 
 	 */
@@ -113,6 +136,7 @@ public abstract class AbstractSBase implements SBase {
 	 * parent sbml component
 	 */
 	SBase parentSBMLObject;
+	
 	/**
 	 * sbo term of the SBML component. Matches the sboTerm XML attribute of an
 	 * element in a SBML file.
@@ -1305,23 +1329,22 @@ public abstract class AbstractSBase implements SBase {
 
 	/*
 	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#setNotes(java.lang.String)
+	 */
+	public void setNotes(String notes) {
+		XMLNode newNotesXMLNode = XMLNode.convertStringToXMLNode(notes);
+		setNotes(newNotesXMLNode); 
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setNotes(java.lang.String)
 	 */
 	public void setNotes(XMLNode notes) {
 		XMLNode oldNotes = this.notesXMLNode;
 		this.notesXMLNode = notes;
 		firePropertyChange(SBaseChangedEvent.notes, oldNotes, this.notesXMLNode);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#setNotes(java.lang.String)
-	 */
-	public void setNotes(String notes) {
-		XMLNode newNotesXMLNode = XMLNode.convertStringToXMLNode(notes);
-		
-		setNotes(newNotesXMLNode); 
 	}
 
 	/*
