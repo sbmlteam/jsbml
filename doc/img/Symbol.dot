@@ -212,8 +212,8 @@ digraph G {
 	c7:p -> c0:p [dir=back,arrowtail=empty];
 	//org.sbml.jsbml.Symbol implements org.sbml.jsbml.Variable
 	c6:p -> c0:p [dir=back,arrowtail=empty,style=dashed];
-	// org.sbml.jsbml.QuantityWithUnit HAS org.sbml.jsbml.UnitDefinition
-	c7:p -> c15:p [taillabel="             0..1", label="  units", headlabel=" 1", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=none, arrowtail=ediamond];
+	// org.sbml.jsbml.AbstractNamedSBaseWithUnit HAS org.sbml.jsbml.UnitDefinition
+	c17:p -> c15:p [taillabel="             0..1", label="  units", headlabel=" 1", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=none, arrowtail=ediamond];
 	//org.sbml.jsbml.LocalParameter extends org.sbml.jsbml.QuantityWithUnit
 	c7:p -> c1:p [dir=back,arrowtail=empty];
 	//org.sbml.jsbml.SpeciesReference extends org.sbml.jsbml.SimpleSpeciesReference
@@ -259,7 +259,7 @@ digraph G {
 	// org.sbml.jsbml.UnitDefinition COMPOSED org.sbml.jsbml.Unit
 	c15:p -> c16:p [taillabel="\n1..*    ", label="  ListOf", headlabel="1", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=none, arrowtail=diamond];
 	//org.sbml.jsbml.Unit extends org.sbml.jsbml.AbstractSBase
-	c11:p -> c16:ne [dir=back,arrowtail=empty];
+	c11:p -> c16:p [dir=back,arrowtail=empty];
 	// SpeciesType
 //	c19[label=<<table title="SpeciesType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//SpeciesType.html">
 //		<tr><td><table border="0" cellspacing="0" cellpadding="1">

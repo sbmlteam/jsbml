@@ -51,7 +51,7 @@
 % some nice colors
 \definecolor{royalblue}{cmyk}{.93, .79, 0, 0}
 \definecolor{lightblue}{cmyk}{.10, .017, 0, 0}
-\definecolor{darkgreen}{rgb}{0,.7,0}
+\definecolor{forrestgreen}{cmyk}{.76, 0, .76, .45}
 \definecolor{darkred}{rgb}{.7,0,0}
 \definecolor{lightgray}{gray}{0.97}
 
@@ -59,6 +59,7 @@
 
 \selectlanguage{english}
 \addtokomafont{sectioning}{\color{royalblue}}
+\setkomafont{descriptionlabel}{\normalfont\bfseries}
 \pagestyle{scrheadings}
 \ifoot{\includegraphics[width=50pt]{logo/JSBML_shaddow.pdf}}
 
@@ -100,14 +101,19 @@ captionpos=b,
 basicstyle=\footnotesize\ttfamily\bfseries,
 stringstyle=\color{darkred}\footnotesize\ttfamily,
 keywordstyle=\color{royalblue}\bfseries\ttfamily,
-ndkeywordstyle=\color{darkgreen},
+ndkeywordstyle=\color{forrestgreen},
 numbers=left,
 numberstyle=\footnotesize,
 % backgroundcolor=\color{lightgray},
 breaklines=true,
 tabsize=2,
 frame=single,
-breakatwhitespace=true
+breakatwhitespace=true,
+identifierstyle=\color{black},
+% morecomment=[l][\color{forrestgreen}]{//},
+% morecomment=[s][\color{lightblue}]{/**}{*/},
+% morecomment=[s][\color{forrestgreen}]{/*}{*/},
+commentstyle=\color{forrestgreen}
 % framexleftmargin=5mm,
 % rulesepcolor=\color{lightgray}
 % frameround=ttff
@@ -141,7 +147,7 @@ Pasadena, CA, USA}}
 Although the libraries JSBML and LibSBML for working with files and data
 structures defined in the standard SBML (Systems Biology Markup Language) are
 very similar and share a common scope, users should be informed about their
-major differences to switch from one library from the other one more easily. To
+major differences to switch from one library to the other one more easily. To
 this end, the document at hand gives a brief overview of the main differences
 between the Java\texttrademark{} application programming interfaces of both
 libraries.
@@ -151,11 +157,11 @@ spread application CellDesigner and an application that works with JSBML as its
 internal data structure. This document gives an example that demonstrates how to
 convert between CellDesigner's plug-in data structures and JSBML objects.
 
-In the same way, it is possible to inter-convert between data structures obtained
-from LibSBML and JSBML data structures. \textcolor{red}{This document also
-provides an example of how to read SBML files with LibSBML, to turn them into
-JSBML data structures, manipulate them and to turn it back for writing into the
-LibSBML format.}
+In the same way, it is possible to inter-convert between data structures
+obtained from LibSBML version 4.2.0 and JSBML version 0.8.* data structures.
+This document also provides an example of how to read SBML files with LibSBML,
+to turn them into JSBML data structures, manipulate them and to turn it back for
+writing into the LibSBML format.
 
 Furthermore, JSBML provides a compatibility module, whose member classes show
 an identical type declaration as defined in LibSBML. In this way, the
@@ -174,7 +180,7 @@ type hierarchy of JSBML\index{Application programming interface!JSBML} has becom
 Figs.~\vrefrange{fig:TypeHierarchy}{fig:MathContainerHierarchy}).
 \begin{sidewaysfigure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{img/FullTypeHierarchy}
+\includegraphics[width=\textwidth]{img/FullTypeHierarchy.pdf}
 \caption[The type hierarchy in JSBML]{The type hierarchy of the main SBML
 constructs in JSBML}
 \label{fig:TypeHierarchy}
@@ -227,7 +233,7 @@ img/Symbol}
  \centering
  \includegraphics[width=\textwidth]{img/MathContainer}
  % MathContainerClass.pdf: 557x396 pixel, 72dpi, 19.65x13.97 cm, bb=0 0 557 396
- \caption[\texttt{MathContainer}]{\texttt{MathContainer}, adapted from \citep{Draeger2011}. Instances of the interface \texttt{MathContainer}, particularly its directly derived class \texttt{AbstractMathContainer} constitute the super class for all elements that store and manipulate mathematical formulas in JSBML, which is done in form of \texttt{ASTNode} objects. These can be evaluated using an implementation of \texttt{ASTNodeCompiler}. Note that some classes that extend \texttt{AbstractMathContainer} do not contain any own fields or methods: \texttt{Delay}, \texttt{Trigger}, \texttt{StoichiometryMath}, and \texttt{AlgebraicRule}.}
+ \caption[\texttt{MathContainer}]{\texttt{MathContainer}, adapted from \citep{Draeger2011}. Instances of the interface \texttt{MathContainer}, particularly its directly derived class \texttt{AbstractMathContainer}, constitute the super class for all elements that store and manipulate mathematical formulas in JSBML, which is done in form of \texttt{ASTNode} objects. These can be evaluated using an implementation of \texttt{ASTNodeCompiler}. Note that some classes that extend \texttt{AbstractMathContainer} do not contain any own fields or methods: \texttt{Delay}, \texttt{Trigger}, \texttt{StoichiometryMath}, and \texttt{AlgebraicRule}.}
  \label{fig:MathContainerHierarchy}
 \end{figure}
 Just like in LibSBML\index{Application programming interface!LibSBML} \citep{Bornstein2008}, all elements extend the abstract type \texttt{SBase}\index{\texttt{SBase}}, but in
@@ -241,7 +247,7 @@ copied and are therefore \emph{cloneable}. By extending the interface
 \texttt{Serializable},
 \index{\texttt{Serializable}}
 it is possible to store JSBML\index{Application programming interface!JSBML} elements in binary form
-without explicitly writing it to an SBML file\index{SBML!XML file}. In this way, programs can easily
+without explicitly writing them to an SBML file\index{SBML!XML file}. In this way, programs can easily
 load and save their in-memory objects or send complex data structures
 through a network connection without the need of additional file encoding and
 subsequent parsing. The third interface, \texttt{TreeNode} is actually defined in
@@ -266,25 +272,31 @@ The \texttt{ASTNode} class in JSBML\index{\texttt{ASTNode}} also implements all 
 can hence be cloned, serialized, and visualized in the same way.
 
 
-\subsection{The \texttt{Assignment} class}
+\subsection{The \texttt{MathContainer} interface}
+
+This interface gathers all those elements that may contain mathematical
+expressions encoded in abstract syntax trees (instances of
+\texttt{ASTNode}\index{\texttt{ASTNode}}).
+The abstract class \texttt{AbstractMathContainer}\index{JSBML!\texttt{MathContainer}} serves as actual super class
+for most of the derived types. Figs.~\vrefrange{fig:MathContainer}{fig:MathContainerHierarchy} give a better overview of how this data structure
+is intended to function.
+
+
+\subsection{The \texttt{Assignment} interface}
 
 JSBML\index{JSBML!\texttt{Assignment}} unifies all those elements that assign values to some other
 \texttt{SBase}\index{\texttt{SBase}} in SBML\index{SBML} \citep{M.Hucka03012003} under the interface \texttt{Assignment}. This interface
 uses the term \emph{variable} for the element whose value is to be changed depending on some mathematical expression that is also present in the \texttt{Assignment}
 (because \texttt{Assignment} extends the interface \texttt{MathContainer}\index{JSBML!\texttt{MathContainer}}). Therefore,
-an Assignment contains methods such as \texttt{set}-/\texttt{getVariable(Variable v)} and also \texttt{isSetVariable()} as well as
+an \texttt{Assignment} contains methods such as \texttt{set}-/\texttt{getVariable(Variable v)} and also \texttt{isSetVariable()} as well as
 \texttt{unsetVariable()}. In addition to that, JSBML also provides the method \texttt{set}-/\texttt{getSymbol(String symbol)} in the \texttt{InitialAssignment}
 \index{\texttt{InitialAssignment}}
 class to make sure that switching from LibSBML\index{\texttt{InitialAssignment}} to JSBML is quite smoothly.
 However, the preferred way in JSBML\index{JSBML!\texttt{Variable}} is to apply the methods
-\texttt{setVariable} either with \texttt{String}\index{\texttt{String}} or \texttt{Variable} instances as arguments.
-
-\subsection{The \texttt{MathContainer} interface}
-
-This interface gathers all those elements that may contain mathematical
-expressions encoded in abstract syntax trees (instances of \texttt{ASTNode}\index{\texttt{ASTNode}}).
-The abstract class \texttt{AbstractMathContainer}\index{JSBML!\texttt{MathContainer}} serves as actual super class
-for most of the derived types.
+\texttt{setVariable} either with \texttt{String}
+\index{\texttt{String}!Identifier} or \texttt{Variable} instances as arguments.
+Fig.~\vref{fig:MathContainerHierarchy} displays the type hierarchy of the
+\texttt{Assignment} interface in more detail.
 
 
 \section{Differences in the abstract programming interface}
@@ -303,7 +315,7 @@ will discuss the most important differences in the APIs of JSBML\index{Applicati
 Both libraries define a class \texttt{ASTNode}\index{\texttt{ASTNode}} for in-memory manipulation and
 evaluation of abstract syntax trees that represent mathematical formulas and
 equations. These can either be parsed from a representation in \texttt{C}
-language-like \texttt{String}s\texttt{String}\index{\texttt{String}}, or from a MathML\index{MathML} representation. The JSBML\index{\texttt{ASTNode}}
+language-like \texttt{String}s\index{\texttt{String}!Formula}, or from a MathML\index{MathML} representation. The JSBML\index{\texttt{ASTNode}}
 \texttt{ASTNode} provides various methods to transform these trees to other
 formats, for instance, \LaTeX{}\index{\LaTeX} \texttt{String}s. In JSBML, several static
 methods allow easy creation of new syntax trees, for instance, the following
@@ -320,10 +332,16 @@ manipulated.
 This interface allows users to create customized interpreters for the
 content of mathematical equations encoded in abstract syntax trees. It
 is directly and recursively called from the \texttt{ASTNode} class and returns
-an \texttt{ASTNodeValue}\index{\texttt{ASTNode}!\texttt{ASTNodeValue}}\index{\texttt{ASTNode}!\texttt{ASTNodeCompiler}} object, which wraps the possible evaluation results of
-the interpretation. JSBML\index{\texttt{ASTNode}} already provides several implementations of
-this interface, for instance, \texttt{ASTNode} objects can be directly translated
-to \LaTeX{}\index{\LaTeX} or MathML\index{MathML} for further processing.
+an \texttt{ASTNodeValue}
+\index{\texttt{ASTNode}!\texttt{ASTNodeValue}}
+\index{\texttt{ASTNode}!\texttt{ASTNodeCompiler}} object,
+which wraps the possible evaluation results of the interpretation.
+JSBML\index{\texttt{ASTNode}} already provides several implementations of this
+interface, for instance, \texttt{ASTNode} objects can be directly translated to
+\texttt{C} language-like \texttt{String}s\index{\texttt{String}!Formula},
+\LaTeX{}\index{\LaTeX}, or MathML\index{MathML} for further processing.
+Furthermore, the class \texttt{UnitsCompiler}
+\index{Unit!\texttt{\texttt{UnitsCompiler}}}, which JSBML uses to derive the unit of an abstract syntax tree, also implements this interface.
 
 \subsection{Cloning when adding child nodes}
 
@@ -353,7 +371,7 @@ elements.
 
 \subsection{Exceptions}
 
-Generally, JSBML\index{Exception} throws more exceptions than LibSBML\index{Exception!Error codes}, whose methods often return error codes instead. This behavior helps
+Generally, JSBML\index{Exception} throws more exceptions than LibSBML,\index{Exception!Error codes} whose methods often return error codes instead. This behavior helps
 programmers and users to avoid creating invalid SBML data structures already
 when dealing with these in memory. Examples are the \texttt{ParseException}
 \index{Exception!\texttt{ParseException}} that
@@ -362,9 +380,8 @@ may be thrown if a given formula cannot be parsed properly into an
 \index{Exception!\texttt{InvalidArgumentException}} if inappropriate values are passed to methods. For instance,
 \begin{itemize}
  \item an object representing
-a constant such as a \texttt{Parameter}
-\index{\texttt{Parameter}}
-whose constant attribute has been set to
+a constant such as a \texttt{Parameter}\index{\texttt{Parameter}}
+\index{\texttt{Parameter}} whose constant attribute has been set to
 \texttt{true} cannot be used as the \texttt{Variable}\index{JSBML!\texttt{Variable}} element in an
 \texttt{Assignment}.
  \item Another example is the \texttt{InvalidArgumentException} that
@@ -387,36 +404,12 @@ such a history. This is reflected by naming the corresponding object
 in JSBML\index{Annotation!\texttt{ModelHistory}}, whereas it is still called
 \texttt{ModelHistory} in LibSBML\index{Annotation!\texttt{ModelHistory}}. Hence, all
 instances of \texttt{SBase}\index{\texttt{SBase}} in JSBML\index{JSBML!
-\texttt{ModelHistory}} contain methods do access and manipulate its
+\texttt{ModelHistory}} contain methods to access and manipulate its
 \texttt{History}. Furthermore, you will not find the classes
 \texttt{ModelCreator}
 and \texttt{ModelCreatorList} because JSBML\index{Annotation!\texttt{ModelCreator}}
 gathers its \texttt{Creator} objects
 in a generic \texttt{List<Creator>} in the \texttt{History}\index{Annotation!\texttt{History}}.
- 
-
-\subsection{The classes \texttt{libSBML} and \texttt{JSBML}}
-
-There is no class \texttt{libSBML} because this library is called
-\texttt{JSBML}\index{\texttt{libSBML}}\index{\texttt{libSBML}}. You can therefore only find a class \texttt{JSBML}\index{JSBML!\texttt{JSBML}}. This class
-provides some similar methods as the \texttt{libSBML} class in LibSBML, such as
-\texttt{getJSBMLDottedVersion()}
-\index{JSBML!Version} to obtain the current
-version of the JSBML library. However, many other methods that you might expect
-to find there, if you are used to LibSBML, are located in the actual classes that
-are related with the function. For instance, the method to convert between a
-\texttt{String}\index{\texttt{String}} and
-a corresponding \texttt{Unit.Kind}
-\index{Unit!\texttt{Unit.Kind}} can be done
-by using the method
-\begin{lstlisting}
-Unit.Kind.valueOf(myString);
-\end{lstlisting}
-In a similar way, the \texttt{ASTNode}\index{\texttt{ASTNode}} class provides a method to parse
-\texttt{C}-like
-formula \texttt{String}s according to the specification of SBML Level 1\index{SBML!Level~1}
-\citep{Hucka2003} into an abstract syntax tree\index{\texttt{ASTNode}}. Therefore, in contrast to the
-\texttt{libSBML} class, the class \texttt{JSBML}\index{JSBML!\texttt{JSBML}} contains only a few methods.
 
 
 \subsection{Replacement of the interface \texttt{libSBMConstants} by Java \texttt{enum}s}
@@ -427,14 +420,37 @@ Java construct \texttt{enum}. For instance, all the fields starting with the
 prefix \texttt{AST\_TYPE\_*}
 \index{\texttt{ASTNode}!\texttt{AST\_TYPE\_*}} have a
 corresponding field in the \texttt{ASTNode} class itself. There you can find the
-\texttt{Type}
-\index{\texttt{ASTNode}!\texttt{ASTNode.Type}} enum.
+\texttt{enum} \texttt{Type}\index{\texttt{ASTNode}!\texttt{ASTNode.Type}}.
 Instead of typing \texttt{libSBMLConstants.AST\_TYPE\_PLUS}, you would therefore
 type \texttt{ASTNode.Type.PLUS}.
 
 The same holds true for \texttt{Unit.Kind.*} corresponding to the
 \texttt{libSBMLConstants.UNIT\_KIND\_*}
 \index{Unit!\texttt{UNIT\_KIND\_*}} fields.
+
+\subsection{The classes \texttt{libSBML} and \texttt{JSBML}}
+
+There is no class \texttt{libSBML} because this library is called
+\texttt{JSBML}\index{\texttt{libSBML}}\index{\texttt{libSBML}}. You can
+therefore only find a class \texttt{JSBML}\index{JSBML!\texttt{JSBML}}. This
+class provides some similar methods as the \texttt{libSBML} class in LibSBML,
+such as \texttt{getJSBMLDottedVersion()}
+\index{JSBML!Version} to obtain the current
+version of the JSBML library, which is 0.8.* at the time of writing this
+document. However, many other methods that you might expect
+to find there, if you are used to LibSBML, are located in the actual classes
+that are related with the function. For instance, the method to convert between
+a \texttt{String}\index{\texttt{String}!Unit}\index{Unit!\texttt{String}} and
+a corresponding \texttt{Unit.Kind}\index{Unit!\texttt{Unit.Kind}} can be done
+by using the method
+\begin{lstlisting}
+Unit.Kind myKind = Unit.Kind.valueOf(myString);
+\end{lstlisting}
+In a similar way, the \texttt{ASTNode}\index{\texttt{ASTNode}} class provides a method to parse
+\texttt{C}-like
+formula \texttt{String}s\index{\texttt{String}!Formula} according to the specification of SBML Level 1\index{SBML!Level~1}
+\citep{Hucka2003} into an abstract syntax tree\index{\texttt{ASTNode}}. Therefore, in contrast to the
+\texttt{libSBML} class, the class \texttt{JSBML}\index{JSBML!\texttt{JSBML}} contains only a few methods.
 
 
 \subsection{Various types of \texttt{ListOf*} classes}
@@ -475,12 +491,13 @@ JSBML\index{Unit}
 reflects this in the method \texttt{getExponent()} by returning \texttt{double}
 values only. For a better compatibility with LibSBML
 \index{Application programming interface!LibSBML!Units!\texttt{getExponentAsDouble()}}
-\index{Application programming interface!LibSBML!Units!\texttt{getExponent()}}, whose corresponding method still
+\index{Application programming interface!LibSBML!Units!\texttt{getExponent()}},
+whose corresponding method still
 returns \texttt{int} values, JSBML also provides the method
 \texttt{getExponentAsDouble()}. This method returns the value from the
 \texttt{getExponent()} method and is therefore absolutely redundant.
 
-\subsection{Unit Definitions}
+\subsection{Unit definitions}
 
 \subsubsection{Predefined unit definitions}
 
@@ -522,21 +539,20 @@ Fig.~\vref{fig:TypeHierarchy} provides a better overview about the relationships
 between all the classes explained here. Note that
 \texttt{AbstractNamedSBaseWithUnit} serves as the abstract super class for
 \texttt{Event}\index{Event} and \texttt{QuantityWithUnit}\index{JSBML!\texttt{QuantityWithUnit}}. In \texttt{Event}, all methods
-to deal with units are already deprecated because only in SBML Level 1 Versions 1
-and 2\index{SBML!Level~1} \citep{Hucka2003} \texttt{Event}s could be explicitly equipped with units.
-The same holds true for instances of \texttt{ExplicitRule}
-\index{Rule!\texttt{ExplicitRule}}
-and \texttt{KineticLaw},
-\index{\texttt{KineticLaw}}
+to deal with units are already deprecated because only in SBML Level 1 Versions
+1 and 2\index{SBML!Level~1} \citep{Hucka2003} \texttt{Event}s could be
+explicitly equipped with units. The same holds true for instances of
+\texttt{ExplicitRule}\index{Rule!\texttt{ExplicitRule}}
+and \texttt{KineticLaw},\index{\texttt{KineticLaw}}
 which both can only explicitly be populated with units for
-SBML in Level 1, Version 1 and 2\index{SBML!Level~1}. In contrast, \texttt{QuantityWithUnit}\index{JSBML!\texttt{QuantityWithUnit}} serves
+SBML in Level 1, Versions 1 and 2\index{SBML!Level~1}. In contrast, \texttt{QuantityWithUnit}\index{JSBML!\texttt{QuantityWithUnit}} serves
 as the abstract super class for \texttt{LocalParameter}\index{\texttt{LocalParameter}} and \texttt{Symbol}\index{JSBML!\texttt{Symbol}},
 which is then again the super type of \texttt{Compartment}\index{\texttt{Compartment}}, \texttt{Species}\index{Species}, and (global) \texttt{Parameter}\index{\texttt{Parameter}}.
 
 With \texttt{SBaseWithUnit}\index{\texttt{SBase}!\texttt{SBaseWithUnit}} being a subtype of \texttt{SBaseWithDerivedUnit}\index{\texttt{SBase}!\texttt{SBaseWithDerivedUnit}}
 users can access the units of such an element in two different ways:
 \begin{description}
- \item[\texttt{getUnit()}] This method returns the \texttt{String}\index{\texttt{String}} of the unit
+ \item[\texttt{getUnit()}] This method returns the \texttt{String}\index{\texttt{String}!Unit}\index{Unit!\texttt{String}} of the unit
  kind or the unit definition in the model\index{Model}
  that has been directly set by the user
  during the life time of the element. If nothing has been declared, an empty
@@ -546,7 +562,7 @@ users can access the units of such an element in two different ways:
  \texttt{getUnit()} if some unit has been declared explicitly, or it returns the
  predefined unit of the element for the given SBML Level/Version combination.
  Only if neither a user-defined nor a predefined unit is available, this method
- returns an empty \texttt{String}\index{\texttt{String}}.
+ returns an empty \texttt{String}\index{\texttt{String}!Empty}.
 \end{description}
 Both methods have corresponding methods to directly obtain an instance of
 \texttt{UnitDefinition}
@@ -618,7 +634,11 @@ With the help of these methods, you can keep track of what your
 use of this functionality in a graphical user interface\index{Graphical user interface}, where the user should
 be asked if he or she really wants to delete some element or to approve changes
 before making these persistent. Another idea of using this, would be to write
-log files\index{Logging!Log file} of the model\index{Model} building process automatically.
+log files\index{Logging!Log file} of the model\index{Model} building process
+automatically. To this end, JSBML already provides its implementation
+\texttt{SimpleSBaseChangedListener},
+\index{Event!\texttt{SimpleSBaseChangedListener}} which notifies a logger about
+each change.
 
 Note that the class \texttt{SBaseChangedEvent}\index{Event!\texttt{SBaseChangedEvent}} implements the class
 \texttt{java.util.EventObject}\index{Event!\texttt{EventObject}} and that the interface
@@ -631,10 +651,38 @@ only keep track of changes in instances of \texttt{SBase} directly. This means
 that changes inside of, e.g., \texttt{CVTerm}\index{Annotation!\texttt{CVTerm}} or \texttt{History}\index{Annotation!\texttt{History}} may not be
 traced.
 
+\subsection{Determination of the variable in \texttt{AlgebraicRule}s}
+
+The class \texttt{OverdeterminationValidator}
+\index{JSBML!\texttt{OverdeterminationValidator}} in JSBML provides methods to
+determine if a model\index{Model!Over determination}
+is over determined. This is done using the algorithm of \citet{Hopcroft1973}.
+While doing that, it also determines the variable element for each
+\texttt{AlgebraicRule}\index{Rule!\texttt{AlgebraicRule}} if
+possible. In JSBML, \texttt{AlgebraicRule} even provides a method
+\texttt{getDerivedVariable()} to directly obtain a pointer to its free variable.
+
+
 \subsection{Logging functionality}
 
 \textcolor{red}{JSBML provides logging.}
 \index{Logging}
+
+\section{Open tasks in JSBML version 0.8.*}
+
+\begin{itemize}
+\item JSBML does not yet provide a complete validator for SBML.
+\item The number of tests files is currently limited; needed are both both tests
+from the LibSBML Java API\index{Application programming interface!LibSBML} and some new tests.
+\item The documentation could be improved.
+\item The support for SBML Level 3\index{SBML!Level~3} should be completed, particularly extension packages.\index{SBML!Extension packages}
+\item The \texttt{getTypeCode()}\index{\texttt{SBase}!\texttt{getTypeCode()}} methods are missing because due to the
+\texttt{getClass()} methods in each element these are actually not neede when
+working with Java.
+\item The \texttt{toSBML()}\index{\texttt{SBase}!\texttt{toSBML()}} methods in \texttt{SBase} are still missing.
+\item Constructors and methods with namespaces are not yet provided.
+\item The LibSBML compatibility module\index{LibSBML!Compatibility module} could be improved.
+\end{itemize}
 
 \appendix
 
@@ -658,8 +706,65 @@ let \texttt{Parameter} inherit from \texttt{LocalParameter} but this could lead
 to a semantic misinterpretation.
 \end{description}
 
-\section{An example of how to turn a JSBML-based application into a CellDesigner
-plug-in}
+\section{How to use the JSBML module API}
+
+JSBML can also be used as a communication layer
+\index{JSBML!As communication layer} between your application and LibSBML
+\citep{Bornstein2008} or the program CellDesigner \citep{Funahashi2003}.
+Furthermore, a compatibility module\index{LibSBML!Compatibility module} provides the same package structure as it is
+provided by LibSBML. In this section, we will give small code examples of how to
+make use of these modules.
+
+\subsection{An example of how to use LibSBML for parsing SBML into JSBML data
+structures}
+
+The capabilities of the SBML validator\index{SBML!Validator} constitute the
+major strength of LibSBML \citep{Bornstein2008} in comparison to JSBML, whose
+SBML validation is not yet fully implemented. Furthermore, if the
+platform-dependency of LibSBML does not hamper your application, or you want to
+slowly switch from LibSBML to JSBML, you may want to be able to still read and
+write SBML models using LibSBML. To this end, the JSBML module
+\texttt{libSBMLio} provies the classes \texttt{LibSBMLReader}
+\index{JSBML!\texttt{LibSBMLReader}} and
+\texttt{LibSBMLWriter}\index{JSBML!\texttt{LibSBMLWriter}}.
+Listing~\vref{lst:LibSBMLio} gives a small example of how to use the
+\texttt{LibSBMLReader}. For this example to run, please make sure to have
+LibSBML installed correctly on your system. The current version of the
+LibSBML/JSBML interface at the time of writing this document requires LibSBML
+version 4.2.0\index{LibSBML!Version}.
+To this end, you may have to set environment variables, e.g., the
+\texttt{LD\_LIBRARY\_PATH}\index{LibSBML!\texttt{LD\_LIBRARY\_PATH}} under Linux
+operating system\index{Operating system}, appropriately. For details, see the
+documentation of LibSBML\footnote{\url{http://sbml.org/Software/libSBML}}.
+\begin{lstlisting}[language=Java,float,caption={A simple example for a
+converting LibSBML data structures into JSBML data objects},label=lst:LibSBMLio]
+  /**
+   * @param args the path to a valid SBML file.
+   */
+  public static void main(String[] args) {
+    try {
+      // Load LibSBML:
+      System.loadLibrary("sbmlj");
+      // Extra check to be sure we have access to libSBML:
+      Class.forName("org.sbml.libsbml.libsbml");
+
+      // Read SBML file using LibSBML and convert it to JSBML:
+      LibSBMLReader reader = new LibSBMLReader();
+      SBMLDocument doc = reader.convertSBMLDocument(args[0]);
+
+      // Run some application:
+      new JSBMLvisualizer(doc);
+
+    } catch (Throwable e) {
+      e.printStackTrace();
+    }
+  }
+\end{lstlisting}
+Writing SBML works similarly. This example will display the content of an SBML
+file in a \texttt{JTree}, similar as shown in Fig.~\vref{fig:Visualization}.
+
+\subsection{An example of how to turn a JSBML-based application into a
+CellDesigner plug-in}
 
 Once an application has been implemented based on JSBML, it can easily be
 accessed from CellDesigner's plug-in menu \citep{Funahashi2003}. To this end,
@@ -735,6 +840,10 @@ the class \texttt{PluginSBMLWriter} it is possible to notify CellDesigner about
 changes in the model data structure. Note that Listing~\vref{lst:Plugin} is only
 completed by implementing the methods from the super class. In this example it
 is sufficient to leave the implementation open.
+
+\subsection{How to use JSBML's compatibility module for LibSBML}
+
+\textcolor{red}{To be described here.}\index{LibSBML!Compatibility module}
 
 \clearpage
 \bibliographystyle{natbib}
