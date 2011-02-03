@@ -59,7 +59,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 * Necessary for function definitions to remember the units of the argument
 	 * list.
 	 */
-	private HashMap<String, UnitDefinition> namesToUnits;
+	private HashMap<String, ASTNodeValue> namesToUnits;
 
 	/**
 	 * 
@@ -76,7 +76,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	public UnitsCompiler(int level, int version) {
 		this.level = level;
 		this.version = version;
-		this.namesToUnits = new HashMap<String, UnitDefinition>();
+		this.namesToUnits = new HashMap<String, ASTNodeValue>();
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arccos(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Math.acos(v.toDouble()));
 
 		return v;
@@ -139,7 +139,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arccosh(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.arccosh(v.toDouble()));
 
 		return v;
@@ -152,7 +152,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arccot(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.arccot(v.toDouble()));
 
 		return v;
@@ -165,7 +165,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arccoth(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.arccoth(v.toDouble()));
 
 		return v;
@@ -178,7 +178,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arccsc(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.arccsc(v.toDouble()));
 
 		return v;
@@ -191,7 +191,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arccsch(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.arccsch(v.toDouble()));
 
 		return v;
@@ -204,7 +204,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arcsec(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.arcsec(v.toDouble()));
 
 		return v;
@@ -217,7 +217,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arcsech(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.arcsech(v.toDouble()));
 
 		return v;
@@ -230,7 +230,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arcsin(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Math.asin(v.toDouble()));
 
 		return v;
@@ -243,7 +243,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arcsinh(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.arcsinh(v.toDouble()));
 
 		return v;
@@ -256,7 +256,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arctan(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Math.atan(v.toDouble()));
 
 		return v;
@@ -269,7 +269,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue arctanh(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.arctanh(v.toDouble()));
 
 		return v;
@@ -374,8 +374,10 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(java.lang.String)
 	 */
 	public ASTNodeValue compile(String name) {
-		UnitDefinition ud = namesToUnits.get(name);
-		return ud != null ? new ASTNodeValue(ud, this) : new ASTNodeValue(this);
+		if (namesToUnits.containsKey(name)) {
+			return namesToUnits.get(name);
+		}
+		return new ASTNodeValue(this);
 	}
 
 	/*
@@ -385,9 +387,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue cos(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Math.cos(v.toDouble()));
-		
+
 		return v;
 	}
 
@@ -398,9 +400,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue cosh(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Math.cosh(v.toDouble()));
-		
+
 		return v;
 	}
 
@@ -411,9 +413,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue cot(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.cot(v.toDouble()));
-		
+
 		return v;
 	}
 
@@ -424,9 +426,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue coth(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.coth(v.toDouble()));
-		
+
 		return v;
 	}
 
@@ -437,9 +439,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue csc(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.csc(v.toDouble()));
-		
+
 		return v;
 	}
 
@@ -450,9 +452,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue csch(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.csch(v.toDouble()));
-		
+
 		return v;
 	}
 
@@ -471,13 +473,12 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		 * There are no restrictions on the form of x. The units of the d
 		 * parameter are determined from the built-in time. The value of the d
 		 * parameter, when evaluated, must be numerical (i.e., a number in
-		 * MathML real, integer, or “e-notation” format) and be greater than or
+		 * MathML real, integer, or ï¿½e-notationï¿½ format) and be greater than or
 		 * equal to 0. (v2l4)
 		 */
 		UnitDefinition ud = x.compile(this).getUnits().clone();
 
-		// TODO: not the correct value, need insight into time scale to return
-		// the corret value
+		// TODO: not the correct value, need insight into time scale to return the correct value
 
 		return new ASTNodeValue(ud, this);
 	}
@@ -586,11 +587,17 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue function(FunctionDefinition function, List<ASTNode> args)
 			throws SBMLException {
-		for (ASTNode arg : args) {
-			this.namesToUnits.put(arg.toString(), arg.compile(this).getUnits());
+		ASTNode lambda = function.getMath();
+		HashMap<String, ASTNodeValue> argValues = new HashMap<String, ASTNodeValue>();
+		for (int i = 0; i < args.size(); i++) {
+			argValues.put(lambda.getChild(i).compile(this).toString(), args
+					.get(i).compile(this));
 		}
 		try {
-			return new ASTNodeValue(function.getMath().deriveUnit(), this);
+			this.namesToUnits = argValues;
+			ASTNodeValue value = lambda.getRightChild().compile(this);
+			this.namesToUnits.clear();
+			return value;
 		} catch (SBMLException e) {
 			return new ASTNodeValue(this);
 		}
@@ -730,7 +737,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	public ASTNodeValue lambda(List<ASTNode> values) throws SBMLException {
 		for (int i = 0; i < values.size() - 1; i++) {
 			namesToUnits.put(values.get(i).toString(), values.get(i).compile(
-					this).getUnits());
+					this));
 		}
 		return new ASTNodeValue(values.get(values.size() - 1).compile(this)
 				.getUnits(), this);
@@ -787,7 +794,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	public ASTNodeValue log(ASTNode number, ASTNode base) throws SBMLException {
 		ASTNodeValue v = number.compile(this);
 		ASTNodeValue b = base.compile(this);
-		checkForDimensionlessInvalidUnits(b.getUnits());
+		checkForDimensionlessOrInvalidUnits(b.getUnits());
 		v.setValue(Maths.log(v.toDouble(), b.toDouble()));
 
 		return v;
@@ -977,46 +984,54 @@ public class UnitsCompiler implements ASTNodeCompiler {
 				for (int i = 0; i < left.getUnits().getNumUnits(); i++) {
 					Unit u1 = left.getUnits().getUnit(i);
 					Unit u2 = right.getUnits().getUnit(i);
-					if ((u1.getMultiplier() != 0d) && (u2.getMultiplier() != 0d)) {				
-					
-					mean = (Math.abs(u1.getScale()) + Math.abs(u2.getScale())) / 2;
+					if ((u1.getMultiplier() != 0d)
+							&& (u2.getMultiplier() != 0d)) {
 
-					if (u1.getScale() > mean) {
-						scale1 = Math.abs(u1.getScale()) - mean;
-						scale2 = mean - u2.getScale();
+						mean = (Math.abs(u1.getScale()) + Math.abs(u2
+								.getScale())) / 2;
 
-					} else {
-						scale2 = Math.abs(u2.getScale()) - mean;
-						scale1 = mean - u1.getScale();
-					}
+						if (u1.getScale() > mean) {
+							scale1 = Math.abs(u1.getScale()) - mean;
+							scale2 = mean - u2.getScale();
 
-					if (u1.getExponent() < 0) {
-						scale1 = -scale1;
-						scale2 = -scale2;
-					}
+						} else {
+							scale2 = Math.abs(u2.getScale()) - mean;
+							scale1 = mean - u1.getScale();
+						}
 
-					if (scale1 > mean) {
-						v1 = v1 * Math.pow(10.0, -scale1 * u1.getExponent());
-						v2 = v2 * Math.pow(10.0, -scale2 * u2.getExponent());
+						if (u1.getExponent() < 0) {
+							scale1 = -scale1;
+							scale2 = -scale2;
+						}
 
-					} else {
-						v1 = v1 * Math.pow(10.0, scale1 * u1.getExponent());
-						v2 = v2 * Math.pow(10.0, scale2 * u2.getExponent());
-					}
+						if (scale1 > mean) {
+							v1 = v1
+									* Math
+											.pow(10.0, -scale1
+													* u1.getExponent());
+							v2 = v2
+									* Math
+											.pow(10.0, -scale2
+													* u2.getExponent());
 
-					if (u1.getMultiplier() > 1d) {
-						v1 = v1 * u1.getMultiplier();
-						u1.setMultiplier(1d);
-					}
-					
-					if (u2.getMultiplier() > 1d) {
-						v2 = v2 * u2.getMultiplier();
-						u2.setMultiplier(1d);
-					}
+						} else {
+							v1 = v1 * Math.pow(10.0, scale1 * u1.getExponent());
+							v2 = v2 * Math.pow(10.0, scale2 * u2.getExponent());
+						}
 
-					u1.setScale(mean);
-					u2.setScale(mean);
-					
+						if (u1.getMultiplier() > 1d) {
+							v1 = v1 * u1.getMultiplier();
+							u1.setMultiplier(1d);
+						}
+
+						if (u2.getMultiplier() > 1d) {
+							v2 = v2 * u2.getMultiplier();
+							u2.setMultiplier(1d);
+						}
+
+						u1.setScale(mean);
+						u2.setScale(mean);
+
 					}
 
 				}
@@ -1062,7 +1077,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		double exp = Double.NaN, v;
 		v = exponent.toDouble();
 		exp = v == 0 ? 0 : 1 / v;
-		checkForDimensionlessInvalidUnits(exponent.getUnits());
+		checkForDimensionlessOrInvalidUnits(exponent.getUnits());
 		if (exp == 0) {
 			UnitDefinition ud = new UnitDefinition(level, version);
 			ud.addUnit(Kind.DIMENSIONLESS);
@@ -1077,37 +1092,11 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
 	/**
 	 * Throws an {@link IllegalArgumentException} if the given units do not
-	 * represent a dimensionless unit.
-	 * 
-	 * @param units
-	 */
-	private void checkForDimensionlessUnits(UnitDefinition units) {
-		units.simplify();
-		String illegal = null;
-		if (units.getNumUnits() == 1) {
-			Kind kind = units.getUnit(0).getKind();
-			// only if the kind is a dimensionless quantity we can proceed.
-			if ((kind != Kind.DIMENSIONLESS) && (kind != Kind.ITEM)
-					&& (kind != Kind.RADIAN) && (kind != Kind.STERADIAN)) {
-				illegal = kind.toString();
-			}
-		} else {
-			illegal = units.toString();
-		}
-		if (illegal != null) {
-			throw new IllegalArgumentException(new UnitException(String.format(
-					"A dimensionless unit is required but given is %s.",
-					illegal)));
-		}
-	}
-
-	/**
-	 * Throws an {@link IllegalArgumentException} if the given units do not
 	 * represent a dimensionless or invalid unit.
 	 * 
 	 * @param units
 	 */
-	private void checkForDimensionlessInvalidUnits(UnitDefinition units) {
+	private void checkForDimensionlessOrInvalidUnits(UnitDefinition units) {
 		units.simplify();
 		String illegal = null;
 
@@ -1142,7 +1131,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant)
 			throws SBMLException {
 		if (rootExponent.isSetUnits()) {
-			checkForDimensionlessInvalidUnits(rootExponent.getUnitsInstance());
+			checkForDimensionlessOrInvalidUnits(rootExponent.getUnitsInstance());
 		}
 		if (rootExponent.isNumber()) {
 			return root(rootExponent.compile(this).toDouble(), radiant);
@@ -1188,9 +1177,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue sec(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.sec(v.toDouble()));
-		
+
 		return v;
 	}
 
@@ -1201,9 +1190,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue sech(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.sech(v.toDouble()));
-		
+
 		return v;
 	}
 
@@ -1233,9 +1222,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue sin(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Math.sin(v.toDouble()));
-		
+
 		return v;
 	}
 
@@ -1246,9 +1235,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue sinh(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Math.sinh(v.toDouble()));
-		
+
 		return v;
 	}
 
@@ -1289,9 +1278,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue tan(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Math.tan(v.toDouble()));
-		
+
 		return v;
 	}
 
@@ -1302,9 +1291,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue tanh(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
-		checkForDimensionlessInvalidUnits(v.getUnits());
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Math.tanh(v.toDouble()));
-		
+
 		return v;
 	}
 

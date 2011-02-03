@@ -46,7 +46,7 @@ import org.sbml.jsbml.SpeciesReference;
 
 /**
  * This class creates a bipartite graph and a matching for the given model using
- * the Hopcroft-Karp-Algorithm
+ * the algorithm by Hopcroft and Karp (1973).
  * 
  * @author Alexander D&ouml;rr
  * @since 2010-06-17

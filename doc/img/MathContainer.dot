@@ -136,7 +136,7 @@ margin=0;
 <tr><td align="center" balign="center"> KineticLaw </td></tr>
 		</table></td></tr>
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="left" balign="left"> - listOfParameters : ListOf&lt;LocalParameter&gt; </td></tr>
+<tr><td align="left" balign="left"> - listOfLocalParameters : ListOf&lt;LocalParameter&gt; </td></tr>
 <tr><td align="left" balign="left"> - substanceUnitsID : String </td></tr>
 <tr><td align="left" balign="left"> - timeUnitsID : String </td></tr>
 		</table></td></tr>
