@@ -20,7 +20,6 @@
 
 package org.sbml.jsbml.util.compilers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -934,8 +933,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 					}
 					
 					if (u1.getExponent() < 0) {
-					scale1 = -scale1;
-					scale2 = -scale2;
+						scale1 = -scale1;
+						scale2 = -scale2;
 					}
 					
 					if (scale1 > mean) {

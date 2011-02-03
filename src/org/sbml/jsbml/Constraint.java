@@ -43,7 +43,7 @@ public class Constraint extends AbstractMathContainer {
 	private XMLNode message;
 
 	/**
-	 * Creates a Constraint instance. By default, the message is null.
+	 * Creates a {@link Constraint} instance. By default, the message is null.
 	 */
 	public Constraint() {
 		super();
@@ -51,7 +51,7 @@ public class Constraint extends AbstractMathContainer {
 	}
 
 	/**
-	 * Creates a Constraint instance from an ASTNode, a level and a version. By
+	 * Creates a {@link Constraint} instance from an {@link ASTNode}, a level and a version. By
 	 * default, the message is null.
 	 * 
 	 * @param math
@@ -64,7 +64,7 @@ public class Constraint extends AbstractMathContainer {
 	}
 
 	/**
-	 * Creates a Constraint instance from a given Constraint.
+	 * Creates a {@link Constraint} instance from a given {@link Constraint}.
 	 * 
 	 * @param sb
 	 */
@@ -76,7 +76,7 @@ public class Constraint extends AbstractMathContainer {
 	}
 
 	/**
-	 * Creates a Constraint instance from a level and a version. By default, the
+	 * Creates a {@link Constraint} instance from a level and a version. By default, the
 	 * message is null.
 	 * 
 	 * @param level
@@ -115,10 +115,10 @@ public class Constraint extends AbstractMathContainer {
 	}
 
 	/**
-	 * Returns the message of this Constraint. Return null if the
+	 * Returns the message of this {@link Constraint}. Returns null if the
 	 *         message is not set.
 	 * 
-	 * @return the message of this Constraint. Return null if the
+	 * @return the message of this {@link Constraint}. Returns null if the
 	 *         message is not set.
 	 */
 	public XMLNode getMessage() {
@@ -126,25 +126,25 @@ public class Constraint extends AbstractMathContainer {
 	}
 
 	/**
-	 * Returns the message of this Constraint as an XML String.
+	 * Returns the message of this {@link Constraint} as an XML {@link String}.
 	 * 
-	 * @return  the message of this Constraint as an XML String.
+	 * @return  the message of this {@link Constraint} as an XML {@link String}.
 	 */
 	public String getMessageString() {
 		return message.toXMLString();
 	}
 
 	/**
-	 * Returns true if the message of this Constraint is not null.
+	 * Returns true if the message of this {@link Constraint} is not null.
 	 * 
-	 * @return true if the message of this Constraint is not null.
+	 * @return true if the message of this {@link Constraint} is not null.
 	 */
 	public boolean isSetMessage() {
 		return message != null;
 	}
 
 	/**
-	 * Sets the message of this Constraint to 'message'.
+	 * Sets the message of this {@link Constraint} to 'message'.
 	 * 
 	 * @param message
 	 *            : the message to set
@@ -156,16 +156,14 @@ public class Constraint extends AbstractMathContainer {
 	}
 
 	/**
-	 * Sets the message of this Constraint to 'message'.
+	 * Sets the message of this {@link Constraint} to 'message'.
 	 * 
 	 * @param message
 	 *            : the message to set
 	 */
 	public void setMessage(String message) {
 		XMLNode oldMessage = this.message;
-		
-		// TODO : this.message = message;
-		
+		this.message = XMLNode.convertStringToXMLNode(message);
 		firePropertyChange(SBaseChangedEvent.message, oldMessage, message);
 	}
 
