@@ -2015,7 +2015,7 @@ public class Unit extends AbstractSBase {
 	 * @param multiplier
 	 */
 	public void setMultiplier(double multiplier) {
-		if (getLevel() < 2) {
+		if (getLevel() < 2 && multiplier != 1) { // added the multiplier test != 1 to prevent error being reported when it is not necessary
 			throw new PropertyNotAvailableError(SBaseChangedEvent.multiplier, this);
 		}
 		Double oldMultiplyer = this.multiplier;
