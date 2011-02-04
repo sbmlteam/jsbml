@@ -14,6 +14,7 @@
 		<property name="Name" value="JSBML"/>
 		<property name="name" value="jsbml"/>
 		<property name="version" value="0.8-b1"/>
+		<property name="api.version" value="0.8"/>
 
 		<property name="year" value="${YEAR}"/>
 
@@ -99,6 +100,7 @@
 		<!-- create directories -->
 		<mkdir dir="${build.src}"/>
 		<mkdir dir="${build.dest}"/>
+		<mkdir dir="${build.dest}/META-INF"/>
 		<mkdir dir="${package.dir}"/>
 		<mkdir dir="${dist.root}"/>
 		<mkdir dir="${dist.dir}"/>
@@ -170,6 +172,15 @@
            target="1.5"
            classpathref="classpath">
 		</javac>
+		<manifest file="${build.dest}/META-INF/MANIFEST.MF">
+		    <section name="${Name}">
+		      <attribute name="Specification-Title" value="${Name}"/>
+		      <attribute name="Specification-Version" value="${api.version}"/>
+		      <attribute name="Implementation-Title" value="${Name}"/>
+		      <attribute name="Implementation-Version" value="${version}"/> 
+		    </section>
+		  </manifest>
+
 	</target>
 
 
@@ -179,13 +190,11 @@
 	<target name="jar" depends="compile">
 
 		<copy todir="${build.dest}">
-			<fileset
-            dir="${build.src}"
-            includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties" >
+			<fileset dir="${build.src}" 
+				includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties">
 			</fileset>
 		</copy>
-		<jar jarfile="${build.dir}/${name}-${version}.jar"
-         basedir="${build.dest}"/>
+		<jar jarfile="${build.dir}/${name}-${version}.jar" basedir="${build.dest}" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
 	</target>
 
 	<!-- =================================================================== -->
@@ -202,7 +211,7 @@
 			</fileset>
 		</copy>
 		<jar jarfile="${build.dir}/${name}-${version}-with-dependencies.jar"
-         basedir="${build.dest}">
+         basedir="${build.dest}"  manifest="${build.dest}/META-INF/MANIFEST.MF">
 			<zipgroupfileset dir="${jars.dir}" includes="*.jar" />
 
 		</jar>
@@ -319,7 +328,7 @@
 	<target name="dist" depends="prepare-src">
 
 		<!-- Creates the standard jar file -->
-		
+
 		<antcall target="clean"/>
 
 		<antcall target="jar"/>
@@ -356,7 +365,7 @@
 			</fileset>
 		</copy>
 
-		
+
 		<copy todir="${dist.dir}">
 			<fileset dir="${basedir}/" includes="LICENSE.txt NEWS.txt README AUTHORS.txt">
 			</fileset>
@@ -374,11 +383,12 @@
 
 		<!-- Creates the archives to be distributed -->
 		<zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.zip" includes="${name}-${version}/**"/>
-		<tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip"></tar>
+		<tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip">
+		</tar>
 
 	</target>
 
-	
+
 	<!-- =================================================================== -->
 	<!-- Cleans everything                                                   -->
 	<!-- =================================================================== -->
