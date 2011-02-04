@@ -54,7 +54,8 @@ public class JSBML {
 	/**
 	 * The current version number of JSBML.
 	 */
-	private static final String jsbmlVersion = "0.8.15";
+	private static final String jsbmlVersion = "0.8-b1"; // TODO : replace automatically this version number with [BUILD.NUMBER]
+	
 	public static final int LEVEL_MISMATCH = -7;
 	public static final int OPERATION_FAILED = -3;
 	public static final int OPERATION_SUCCESS = 0;
@@ -157,23 +158,30 @@ public class JSBML {
 	}
 
 	/**
-	 * Returns the JSBML version as an integer: version 1.2.3 becomes 10203.
+	 * Returns the JSBML version as an integer: version 1.2.3 becomes 123.
 	 * 
-	 * @return the JSBML version as an integer: version 1.2.3 becomes 10203.
+	 * @return the JSBML version as an integer: version 1.2.3 becomes 123.
 	 */
 	public static int getJSBMLVersion() {
-		return Integer.parseInt(getJSBMLVersionString());
+		String jsbmlVersionString = getJSBMLVersionString(); 
+		int indexOfDash = jsbmlVersionString.indexOf("-");
+		
+		if (indexOfDash != -1) {
+			jsbmlVersionString = jsbmlVersionString.substring(0, indexOfDash);
+		}
+		
+		return Integer.parseInt(jsbmlVersionString);
 	}
 	
 	
 	/**
-	 * Returns the JSBML version as a string: version 1.2.3 becomes '10203'.
+	 * Returns the JSBML version as a string: version 1.2.3 becomes '123'.
 	 * 
-	 * @return the JSBML version as a string: version 1.2.3 becomes '10203'.
+	 * @return the JSBML version as a string: version 1.2.3 becomes '123'.
 	 */
 	public static String getJSBMLVersionString() {
 		StringBuilder number = new StringBuilder();
-		for (String num : getJSBMLDottedVersion().split(".")) {
+		for (String num : jsbmlVersion.split("\\.")) {
 			number.append(num);
 		}
 		return number.toString();
