@@ -173,13 +173,13 @@
            classpathref="classpath">
 		</javac>
 		<manifest file="${build.dest}/META-INF/MANIFEST.MF">
-		    <section name="${Name}">
-		      <attribute name="Specification-Title" value="${Name}"/>
-		      <attribute name="Specification-Version" value="${api.version}"/>
-		      <attribute name="Implementation-Title" value="${Name}"/>
-		      <attribute name="Implementation-Version" value="${version}"/> 
-		    </section>
-		  </manifest>
+			<section name="${Name}">
+				<attribute name="Specification-Title" value="${Name}"/>
+				<attribute name="Specification-Version" value="${api.version}"/>
+				<attribute name="Implementation-Title" value="${Name}"/>
+				<attribute name="Implementation-Version" value="${version}"/>
+			</section>
+		</manifest>
 
 	</target>
 
@@ -388,6 +388,42 @@
 
 	</target>
 
+
+	<!-- =================================================================== -->
+	<!-- Build the jsbml modules                                             -->
+	<!-- =================================================================== -->
+	<target name="module">
+
+		<!-- TODO : we need to add a dist target for each modules 
+			then, we need to inherit a property that give us the name of the dist folder
+			and copy it to the jsbml dist folder under the modules sub-folder.
+			Or if we cannot get a property from a sub ant task, just copy everything that is
+			on the dist folder of the module.
+		-->
+		<ant dir="${basedir}/../modules/cellDesigner" target="clean" />
+		<ant dir="${basedir}/../modules/cellDesigner" target="jar" />
+		<ant dir="${basedir}/../modules/cellDesigner" target="javadoc"/>
+
+		<ant dir="${basedir}/../modules/libSBMLio" target="clean" />
+		<ant dir="${basedir}/../modules/libSBMLio" target="jar" />
+		<ant dir="${basedir}/../modules/libSBMLio" target="javadoc"/>
+
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Copy the jsbml modules to the dist folder                           -->
+	<!-- =================================================================== -->
+	<target name="module-dist">
+
+		<mkdir dir="${dist.dir}/modules"/>
+
+		<mkdir dir="${dist.dir}/modules/cellDesigner"/>
+
+		<mkdir dir="${dist.dir}/modules/libSBMLio" />
+
+		<!-- TODO : copy all the necessary files from the modules -->
+		
+	</target>
 
 	<!-- =================================================================== -->
 	<!-- Cleans everything                                                   -->
