@@ -341,13 +341,15 @@ public class SBMLValidator {
 			String output = "xml";
 
 			parameters.put("output", output);
+			parameters.put("offcheck", "u");
 
 			// getting an XML output of the error log
 			// describe there :
 			// http://sbml.org/Facilities/Validator/Validator_Web_API
 			result = Validator.validateSBML(fileName, parameters);
 
-			// print(result, System.out);
+			// DEBUG 
+			print(result, System.out);
 
 			XStream xstream = new XStream(new DomDriver()); // To parse XML
 															// using DOM

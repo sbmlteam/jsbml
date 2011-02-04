@@ -20,14 +20,18 @@
 
 package org.sbml.jsbml;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
+
+import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.util.NotImplementedException;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.validator.SBMLValidator;
 
 /**
  * Represents the 'sbml' root node of a SBML file.
@@ -76,7 +80,13 @@ public class SBMLDocument extends AbstractSBase {
 	 * Memorizes all {@link SBMLError} when parsing the file containing this
 	 * document.
 	 */
-	private List<SBMLError> listOfErrors;
+	private SBMLErrorLog listOfErrors;
+	
+	/**
+	 * Contains all the parameter to validate the SBML document
+	 */
+	private HashMap<String, String> checkConsistencyParameters = new HashMap<String, String>();
+	
 	/**
 	 * Represents the 'model' XML subnode of a SBML file.
 	 */
@@ -155,25 +165,58 @@ public class SBMLDocument extends AbstractSBase {
 	}
 
 	/**
-	 * Not yet implemented!
-	 * 
-	 * It is supposed to fill this {@link SBMLDocument}'s {@link #listOfErrors}
+	 * Validates the {@link SBMLDocument} using the
+	 * SBML.org online validator (http://sbml.org/validator/).
+	 * <p>
+	 * It will fill this {@link SBMLDocument}'s {@link #listOfErrors}
 	 * with {@link SBMLError}s for each problem within this whole data
 	 * structure. You will then be able to obtain this list by calling
 	 * {@link #getError(int)} or {@link #getListOfErrors()}.
 	 * 
-	 * @return
-	 * @throws NotImplementedException
-	 *             Currently, this method is not implemented, so please catch a
-	 *             {@link NotImplementedException} in your program until we
-	 *             remove this error.
+	 * @return the number of errors found
 	 */
 	public int checkConsistency() {
-		listOfErrors = getListOfErrors();
-		// TODO: IMPLEMENT!
-		throw new NotImplementedException();
+		
+		File tmpFile = null;
+		
+		try {
+			tmpFile = File.createTempFile("jsbml-", ".xml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			new SBMLWriter().writeSBML(this, tmpFile);
+		} catch (FileNotFoundException e) { // TODO : log the errors. Send an exception ??
+			e.printStackTrace();
+			return -1;
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+			return -1;
+		} catch (SBMLException e) {
+			e.printStackTrace();
+			return -1;
+		}
+		
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		
+		// System.out.println("SBMLDocument.checkConsistency : tmp file = " + tmpFile.getAbsolutePath());
+		
+		listOfErrors = SBMLValidator.checkConsistency(tmpFile.getAbsolutePath(), parameters); 
+
+		return listOfErrors.getNumErrors();
 	}
 
+	public void printErrors() {
+		int nbErrors = listOfErrors.getNumErrors();
+		
+		for (int i = 0; i < nbErrors; i++) {
+			System.out.println(listOfErrors.getError(i));
+		}
+	}
+	
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -306,16 +349,15 @@ public class SBMLDocument extends AbstractSBase {
 	}
 
 	/**
-	 * Not yet implemented!
 	 * 
 	 * @param i
-	 * @return
+	 * @return 
 	 */
 	public SBMLError getError(int i) {
 		if (isSetListOfErrors()) {
-			return listOfErrors.get(i);
+			return listOfErrors.getError(i);
 		}
-		throw new IndexOutOfBoundsException(Integer.toString(i));
+		throw new IndexOutOfBoundsException(Integer.toString(i)); // TODO : test if the number is too low or too big
 	}
 
 	/**
@@ -324,13 +366,23 @@ public class SBMLDocument extends AbstractSBase {
 	 * 
 	 * @return
 	 */
-	public List<SBMLError> getListOfErrors() {
+	public SBMLErrorLog getListOfErrors() {
 		if (listOfErrors == null) {
-			listOfErrors = new LinkedList<SBMLError>();
+			listOfErrors = new SBMLErrorLog();
 		}
 		return listOfErrors;
 	}
 
+	/**
+	 * This method returns a collection of all {@link SBMLError}s reflecting
+	 * problems in the overall data structure of this {@link SBMLDocument}.
+	 * 
+	 * @return
+	 */
+	public SBMLErrorLog getErrorLog() {
+		return getListOfErrors();
+	}
+	
 	/**
 	 * Returns the model of this {@link SBMLDocument}.
 	 * 
@@ -345,7 +397,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * @return
 	 */
 	public int getNumErrors() {
-		return isSetListOfErrors() ? listOfErrors.size() : 0;
+		return isSetListOfErrors() ? listOfErrors.getNumErrors() : 0;
 	}
 
 	/**
@@ -369,7 +421,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * @return
 	 */
 	private boolean isSetListOfErrors() {
-		return (listOfErrors != null) && (listOfErrors.size() > 0);
+		return (listOfErrors != null) && (listOfErrors.getNumErrors() > 0);
 	}
 
 	/**
