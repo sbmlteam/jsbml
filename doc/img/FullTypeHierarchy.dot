@@ -5,78 +5,95 @@
 
 strict digraph G{
 
-	  nodesep=0.25;
-	  ranksep=0.5;
-	    
-  	edge [
-  	  fontname="Helvetica",
-  	  fontsize=10,
-  	  labelfontname="Helvetica",
-  	  labelfontsize=10
-  	];
-	  node [
-	    fontname="Helvetica",
-	    fontsize=10,
-	    shape=box
-	  ];
+	nodesep=0.25;
+	ranksep=0.5;
+
+	edge [
+	  fontname="Helvetica",
+	  fontsize=10,
+	  labelfontname="Helvetica",
+	  labelfontsize=10
+	];
+	node [
+	  fontname="Helvetica",
+	  fontsize=10,
+	  shape=box
+	];
+
+
+  subgraph clusterJava {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#FFE4E1"
+    color="#ffffff"
+    label="Java data types";
+    labelloc=t;
+    labeljust=c;
+
+    // Interfaces
+    Cloneable                              [label="<<interface>>\nCloneable"];
+    List                                   [label="<<interface>>\nList"];
+    Serializable                           [label="<<interface>>\nSerializable"];
+    TreeNode                               [label="<<interface>>\nTreeNode"];
+
+    // Objects
+    Object                                 [label="Object"];
+
+  }
 
   /*
    * Interfaces
    */
-     
-  Assignment                               [label="<<interface>>\nAssignment"];
-  Cloneable                                [label="<<interface>>\nCloneable"];
-  List                                     [label="<<interface>>\nList"];
-  MathContainer                            [label="<<interface>>\nMathContainer"];
-  NamedSBase                               [label="<<interface>>\nNamedSBase"];
-  NamedSBaseWithDerivedUnit                [label="<<interface>>\nNamedSBase\nWithDerivedUnit"];
-  Quantity                                 [label="<<interface>>\nQuantity"];
-  SBaseWithDerivedUnit                     [label="<<interface>>\nSBase\nWithDerivedUnit"];
-  SBaseWithUnit                            [label="<<interface>>\nSBaseWithUnit"];
+
+  Assignment                               [label="<<interface>>\nAssignment", style="filled", fillcolor="#F0F8FF"];
+  MathContainer                            [label="<<interface>>\nMathContainer", style="filled", fillcolor="#F0F8FF"];
+  NamedSBase                               [label="<<interface>>\nNamedSBase", style="filled", fillcolor="#F0F8FF"];
+  NamedSBaseWithDerivedUnit                [label="<<interface>>\nNamedSBase\nWithDerivedUnit", style="filled", fillcolor="#F0F8FF"];
+  Quantity                                 [label="<<interface>>\nQuantity", style="filled", fillcolor="#F0F8FF"];
+  SBaseWithDerivedUnit                     [label="<<interface>>\nSBase\nWithDerivedUnit", style="filled", fillcolor="#F0F8FF"];
+  SBaseWithUnit                            [label="<<interface>>\nSBaseWithUnit", style="filled", fillcolor="#F0F8FF"];
   SBase                                    [label="<<interface>>\nSBase"];
-  Serializable                             [label="<<interface>>\nSerializable"];
-  TreeNode                                 [label="<<interface>>\nTreeNode"];
-  Variable                                 [label="<<interface>>\nVariable"];
-  
+  Variable                                 [label="<<interface>>\nVariable", style="filled", fillcolor="#F0F8FF"];
+
   /*
    * Abstract data types
    */
-  
-  AbstractMathContainer                    [label=<<font face="Helvetica-Oblique">AbstractMathContainer</font>>];
-  AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>];
-  AbstractNamedSBaseWithUnit               [label=<<font face="Helvetica-Oblique">AbstractNamedSBase<br/>WithUnit</font>>];
-  AbstractSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>];
-  ExplicitRule                             [label=<<font face="Helvetica-Oblique">Explicit<br/>Rule</font>>];
+
+  AbstractMathContainer                    [label=<<font face="Helvetica-Oblique">Abstract<br/>MathContainer</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractNamedSBaseWithUnit               [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase<br/>WithUnit</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  ExplicitRule                             [label=<<font face="Helvetica-Oblique">Explicit<br/>Rule</font>>, style="filled", fillcolor="#F0F8FF"];
   Rule                                     [label=<<font face="Helvetica-Oblique">Rule</font>>];
   SimpleSpeciesReference                   [label=<<font face="Helvetica-Oblique">Simple<br/>SpeciesReference</font>>];
-  QuantityWithUnit                         [label=<<font face="Helvetica-Oblique">Quantity<br/>WithUnit</font>>];
-  Symbol                                   [label=<<font face="Helvetica-Oblique">Symbol</font>>];
+  QuantityWithUnit                         [label=<<font face="Helvetica-Oblique">Quantity<br/>WithUnit</font>>, style="filled", fillcolor="#F0F8FF"];
+  Symbol                                   [label=<<font face="Helvetica-Oblique">Symbol</font>>, style="filled", fillcolor="#F0F8FF"];
 
   /*
    * Objects
    */
-   
+
   AlgebraicRule                            [label="Algebraic\nRule"];
-  Annotation                               [label="Annotation"];
+  Annotation                               [label="Annotation", style="filled", fillcolor="#F0F8FF"];
   AssignmentRule                           [label="Assignment\nRule"];
   ASTNode                                  [label="ASTNode"];
   Compartment                              [label="Compartment"];
   CompartmentType                          [label="Compartment\nType"];
   Constraint                               [label="Constraint"];
-  Creator                                  [label="Creator"];
+  Creator                                  [label="Creator", style="filled", fillcolor="#FFFFE0"];
   CVTerm                                   [label="CV\nTerm"];
   Delay                                    [label="Delay"];
   Event                                    [label="Event"];
   EventAssignment                          [label="Event\nAssignment"];
   FunctionDefinition                       [label="Function\nDefinition"];
-  History                                  [label="History"];
+  History                                  [label="History", style="filled", fillcolor="#FFFFE0"];
   InitialAssignment                        [label="Initial\nAssignment"];
   KineticLaw                               [label="Kinetic\nLaw"];
   ListOf                                   [label="List\nOf"];
   LocalParameter                           [label="Local\nParameter"];
   Model                                    [label="Model"];
   ModifierSpeciesReference                 [label="Modifier\nSpeciesReference"];
-  Object                                   [label="Object"];
   Parameter                                [label="Parameter"];
   Priority                                 [label="Priority"];
   RateRule                                 [label="Rate\nRule"];
@@ -89,10 +106,11 @@ strict digraph G{
   Trigger                                  [label="Trigger"];
   Unit                                     [label="Unit"];
   UnitDefinition                           [label="Unit\nDefinition"];
-  
+  XMLNode                                  [label="XML\nNode"];
+
   /*
    * Inheritance
-   */  
+   */
 
   AbstractNamedSBase         -> AbstractNamedSBaseWithUnit [dir=back,arrowtail=empty];
   AbstractNamedSBase         -> CompartmentType            [dir=back,arrowtail=empty];
@@ -128,6 +146,7 @@ strict digraph G{
   Cloneable                  -> CVTerm                     [dir=back,arrowtail=empty,style=dashed];
   Cloneable                  -> History                    [dir=back,arrowtail=empty,style=dashed];
   Cloneable                  -> SBase                      [dir=back,arrowtail=empty,style=dashed];
+  Cloneable                  -> XMLNode                    [dir=back,arrowtail=empty,style=dashed];
   ExplicitRule               -> AssignmentRule             [dir=back,arrowtail=empty];
   ExplicitRule               -> RateRule                   [dir=back,arrowtail=empty];
   List                       -> ListOf                     [dir=back,arrowtail=empty,style=dashed];
@@ -145,6 +164,7 @@ strict digraph G{
   Object                     -> Creator                    [dir=back,arrowtail=empty];
   Object                     -> CVTerm                     [dir=back,arrowtail=empty];
   Object                     -> History                    [dir=back,arrowtail=empty];
+  Object                     -> XMLNode                    [dir=back,arrowtail=empty];
   Quantity                   -> QuantityWithUnit           [dir=back,arrowtail=empty,style=dashed];
   Quantity                   -> Variable                   [dir=back,arrowtail=empty,style=dashed];
   QuantityWithUnit           -> LocalParameter             [dir=back,arrowtail=empty];
@@ -168,11 +188,12 @@ strict digraph G{
   Serializable               -> CVTerm                     [dir=back,arrowtail=empty,style=dashed];
   Serializable               -> History                    [dir=back,arrowtail=empty,style=dashed];
   Serializable               -> SBase                      [dir=back,arrowtail=empty,style=dashed];
+  Serializable               -> XMLNode                    [dir=back,arrowtail=empty,style=dashed];
   Symbol                     -> Compartment                [dir=back,arrowtail=empty];
   Symbol                     -> Parameter                  [dir=back,arrowtail=empty];
   Symbol                     -> Species                    [dir=back,arrowtail=empty];
   TreeNode                   -> ASTNode                    [dir=back,arrowtail=empty,style=dashed];
   TreeNode                   -> SBase                      [dir=back,arrowtail=empty,style=dashed];
-  Variable                   -> SpeciesReference           [dir=back,arrowtail=empty,style=dashed];  
+  Variable                   -> SpeciesReference           [dir=back,arrowtail=empty,style=dashed];
   Variable                   -> Symbol                     [dir=back,arrowtail=empty,style=dashed];
 }
