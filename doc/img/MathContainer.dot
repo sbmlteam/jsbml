@@ -28,7 +28,7 @@ margin=0;
 	// org.sbml.jsbml.EventAssignment
 	c0 [label=<<table title="org.sbml.jsbml.EventAssignment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> EventAssignment </td></tr>
+<tr><td align="center" balign="center"> Event<br/>Assignment </td></tr>
 		</table></td></tr>
 <tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="left" balign="left"> - variableID : String </td></tr>
@@ -61,7 +61,7 @@ margin=0;
 	// org.sbml.jsbml.InitialAssignment
 	c5 [height=0.1,with=0.1,label=<<table title="org.sbml.jsbml.InitialAssignment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1" port="p1">
-<tr><td align="center" balign="center"> InitialAssignment </td></tr>
+<tr><td align="center" balign="center"> Initial<br/>Assignment </td></tr>
 		</table></td></tr>
 <tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="left" balign="left"> - variableID : String </td></tr>
@@ -84,14 +84,28 @@ margin=0;
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.sbml.jsbml.Trigger
 	c8 [label=<<table title="org.sbml.jsbml.Trigger" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Trigger </td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
+  <tr>
+    <td>
+      <table border="0" cellspacing="0" cellpadding="1">
+        <tr>
+          <td align="center" balign="center"> Trigger </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <table border="0" cellspacing="0" cellpadding="1">
+        <tr><td align="left" balign="left"> - initialValue : Boolean </td></tr>
+        <tr><td align="left" balign="left"> - persistent : Boolean </td></tr>
+      </table>
+    </td>
+  </tr>
+</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.sbml.jsbml.StoichiometryMath
 	c9 [height=0.1,label=<<table title="org.sbml.jsbml.StoichiometryMath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> StoichiometryMath </td></tr>
+<tr><td align="center" balign="center"> Stoichiometry<br/>Math </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 // 	// org.sbml.jsbml.ListOf<T extends SBase>
@@ -110,7 +124,7 @@ margin=0;
 	// org.sbml.jsbml.AbstractMathContainer
 	c12 [height=0.1,margin=0,label=<<table title="org.sbml.jsbml.AbstractMathContainer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> AbstractMathContainer </font></td></tr>
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> Abstract<br/>MathContainer </font></td></tr>
 </table></td></tr>
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <!--<tr><td align="left" balign="left"> - formula : String </td></tr>-->
@@ -144,7 +158,7 @@ margin=0;
 	// org.sbml.jsbml.FunctionDefinition
 	c17 [height=0.1,label=<<table title="org.sbml.jsbml.FunctionDefinition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> FunctionDefinition </td></tr>
+<tr><td align="center" balign="center"> Function<br/>Definition </td></tr>
 		</table></td></tr>
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="left" balign="left"> - id : String </td></tr>
@@ -160,8 +174,14 @@ margin=0;
 <tr><td align="left" balign="left"> - unitsID : String </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// org.sbml.jsbml.Priority
+	c45 [label=<<table title="org.sbml.jsbml.Priority" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> Priority </td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.sbml.jsbml.EventAssignment extends org.sbml.jsbml.AbstractMathContainer
-	c12:e -> c0:p [dir=back,arrowtail=empty];
+	c12:p -> c0:p [dir=back,arrowtail=empty];
 	//org.sbml.jsbml.Rule extends org.sbml.jsbml.AbstractMathContainer
 	c12:se -> c1:nw [dir=back,arrowtail=empty];
 	//org.sbml.jsbml.AlgebraicRule extends org.sbml.jsbml.Rule
@@ -178,6 +198,8 @@ margin=0;
 	c12:s -> c6:n [dir=back,arrowtail=empty];
 	//org.sbml.jsbml.Delay extends org.sbml.jsbml.AbstractMathContainer
 	c12:w -> c7:p [dir=back,arrowtail=empty];
+	//org.sbml.jsbml.Priority extends org.sbml.jsbml.AbstractMathContainer
+	c12:s -> c45:p [dir=back,arrowtail=empty];
 	//org.sbml.jsbml.Trigger extends org.sbml.jsbml.AbstractMathContainer
 	c12:w -> c8:p [dir=back,arrowtail=empty];
 	//org.sbml.jsbml.StoichiometryMath extends org.sbml.jsbml.AbstractMathContainer
@@ -265,7 +287,7 @@ margin=0;
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> AbstractSBase </font></td></tr>
 </table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
-{rank="same"; c32; c9}
+{rank="same"; c32; c9; c45}
 {rank="same"; c12; c5; c0; c17}
 {rank="same"; c18; c22; c35}
 {rank="same"; c11; c33}
