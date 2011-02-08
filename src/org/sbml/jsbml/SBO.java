@@ -674,7 +674,7 @@ public class SBO {
 	 * @return the SBO id for antisense RNA.
 	 */
 	public static int getAntisenseRNA() {
-		return convertAlias2SBO("ANTISENSERNA");
+		return convertAlias2SBO("ANTISENSE_RNA");
 	}
 
 	/**
@@ -2122,6 +2122,8 @@ public class SBO {
 			
 			printChildren(term, "   ");
 		}
+		
+		System.out.println("ANTISENSE_RNA = " + SBO.getAntisenseRNA());
 		
 		// TODO : Shall we catch the exception thrown by the biojava getTerm() method or let it like that ??
 		System.out.println("Search null Term : " + SBO.getTerm(null));
