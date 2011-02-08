@@ -1,6 +1,19 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ======================================================================
+Version 0.8 (xx-xx-2011)
+======================================================================
+
+* New Features :
+
+
+* Bug Fixes :
+  - Corrected a typo in the method SBO.getAntisenseRNA(), the method was
+    always returning -1. This now returning the correct value (317), thanks
+    to Anushya Muruganujan for reporting this.
+     
+
+======================================================================
 Version 0.8-b1 (04-02-2011)
 ======================================================================
 
