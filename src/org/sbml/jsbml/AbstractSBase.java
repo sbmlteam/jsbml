@@ -36,6 +36,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 
 /**
@@ -867,10 +868,11 @@ public abstract class AbstractSBase implements SBase {
 	 * 
 	 */
 	public String getAnnotationString() {
+		
 		Annotation anno = getAnnotation();
 
 		if (anno != null) {
-			return anno.toXML("  ", this);
+			return new SBMLWriter().writeAnnotation(this);
 		}
 
 		return "";
