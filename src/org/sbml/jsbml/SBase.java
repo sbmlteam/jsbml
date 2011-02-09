@@ -157,11 +157,23 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public void fireSBaseRemovedEvent();
 
 	/**
+	 * Returns the content of the 'annotation' sub-element of this object as an
+	 *         {@link Annotation} instance.
+	 *         
 	 * @return the content of the 'annotation' sub-element of this object as an
 	 *         {@link Annotation} instance.
 	 */
 	public Annotation getAnnotation();
 
+	/**
+	 * Returns the content of the 'annotation' sub-element of this object as a
+	 * String.
+	 * 
+	 * @return the content of the 'annotation' sub-element of this object as a
+	 * String.
+	 */
+	public String getAnnotationString();
+	
 	/**
 	 * 
 	 * @param index
