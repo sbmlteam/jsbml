@@ -382,16 +382,6 @@ public class History implements Cloneable, Serializable {
 	}
 
 	/**
-	 * converts the {@link History} into the XML history section of an annotation
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	public void toXML(String indent, StringBuffer buffer) {
-		// TODO 
-	}
-
-	/**
 	 * Sets the created of this {@link History} to null.
 	 */
 	public void unsetCreatedDate() {

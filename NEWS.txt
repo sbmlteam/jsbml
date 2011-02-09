@@ -1,7 +1,7 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ======================================================================
-Version 0.8 (xx-xx-2011)
+Version 0.8-x (xx-xx-2011)
 ======================================================================
 
 * New Features :
@@ -9,9 +9,27 @@ Version 0.8 (xx-xx-2011)
 
 * Bug Fixes :
   - Corrected a typo in the method SBO.getAntisenseRNA(), the method was
-    always returning -1. This now returning the correct value (317), thanks
+    always returning -1. It is now returning the correct value (317), thanks
     to Anushya Muruganujan for reporting this.
-     
+
+  - [Tracker issue #3175906] : Removed plenty of unused methods in the 
+    Annotation class that were dealing with writing the annotation as XML. 
+    Everything is handle now in the stax SBMLWriter [TODO].
+    The getAnnotationString method was not present in the SBase interface, it is 
+    now added and should be the only method used to get the Annotation as XML. 
+    
+  - [Tracker issue #3175911] : compartment.spatialDimensions type changed 
+    to double ??. [TODO]
+    
+  - [Tracker issue #3176548] : id containing underscores were not parsed
+    properly by the infix formula parser. [TODO] 
+    Thanks to Goksel Misirli for reporting this.
+    
+  - [Tracker issue #3175833] : annotation tags are not properly closed all
+    the times. For example for kineticLaw. [TODO]  
+    Thanks to Goksel Misirli for reporting this.  
+  
+         
 
 ======================================================================
 Version 0.8-b1 (04-02-2011)

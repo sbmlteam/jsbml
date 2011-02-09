@@ -22,7 +22,6 @@ package org.sbml.jsbml;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +29,7 @@ import java.util.Set;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.CVTerm.Type;
-import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.filters.CVTermFilter;
-
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -309,79 +306,6 @@ public class Annotation implements Cloneable, Serializable {
 		}
 	}
 
-	/**
-	  * Writes the attributes of the otherAnnotation node
-	 * 
-	 * @return a String containing the attributes of the otherAnnotation node
-	 */
-	// TODO : may be we can add the missing namespace here ??
-	private String attributesToXML() {
-		StringBuffer attributes = new StringBuffer();
-
-		Iterator<Map.Entry<String, String>> iterator = getAnnotationAttributes()
-				.entrySet().iterator();
-
-		for (Iterator<Map.Entry<String, String>> it = iterator; it.hasNext();) {
-
-			Map.Entry<String, String> entry = it.next();
-			StringTools.append(attributes, " ", entry.getKey(), "=\"", entry
-					.getValue(), Character.valueOf('"'));
-		}
-
-		return attributes.toString();
-	}
-
-	/**
-	 * Writes the beginning of the RDF annotation element in 'buffer'
-	 * 
-	 * @param indent the indentation to start with.
-	 * @param buffer the buffer where we need to write.
-	 * @param parentElement the parent SBML element of the annotation to write.
-	 */
-	protected void beginRDFAnnotationElement(String indent,
-			StringBuffer buffer, SBase parentElement) {
-
-		if (parentElement != null) {
-			String metaid = parentElement.getMetaId();
-
-			if (metaid != null) {
-				StringTools.append(buffer, indent, "<rdf:RDF ",
-						StringTools.newLine());
-				// TODO : check if this code is used and if the namespaces are added/handled correctly
-				/*
-				 * buffer.append(indent).append("         xmlns:rdf=").append('"'
-				 * )
-				 * .append(RDFElement.getRDFNamespaces().get("rdf")).append('"')
-				 * .append(" \n");
-				 * buffer.append(indent).append("         xmlns:dc="
-				 * ).append('"')
-				 * .append(RDFElement.getRDFNamespaces().get("dc")).
-				 * append('"').append(" \n");
-				 * buffer.append(indent).append("         xmlns:dcterms="
-				 * ).append
-				 * ('"').append(RDFElement.getRDFNamespaces().get("dcterms"
-				 * )).append('"').append(" \n");
-				 * buffer.append(indent).append("         xmlns:vCard="
-				 * ).append('"'
-				 * ).append(RDFElement.getRDFNamespaces().get("vcard"
-				 * )).append('"').append(" \n");
-				 * buffer.append(indent).append("         xmlns:bqbiol="
-				 * ).append(
-				 * '"').append(RDFElement.getRDFNamespaces().get("bqbiol"
-				 * )).append('"').append(" \n");
-				 * buffer.append(indent).append("         xmlns:bqmodel="
-				 * ).append
-				 * ('"').append(RDFElement.getRDFNamespaces().get("bqmodel"
-				 * )).append('"').append(" \n");
-				 * buffer.append(indent).append("> \n");
-				 */
-				StringTools.append(buffer, indent,
-						"  <rdf:Description rdf:about=\"#", metaid, "\">",
-						StringTools.newLine());
-			}
-		}
-
-	}
 	
 	 /*
 	 * (non-Javadoc)
@@ -393,69 +317,6 @@ public class Annotation implements Cloneable, Serializable {
 		return new Annotation(this);
 	}
 
-	/**
-	 * Writes the CV term elements in 'buffer'
-	 * 
-	 * @param indent the indentation to start with.
-	 * @param buffer the buffer where we need to write.
-	 */
-	protected void createCVTermsElements(String indent, StringBuffer buffer) {
-
-		if (getListOfCVTerms() != null) {
-
-			for (int i = 0; i < getListOfCVTerms().size(); i++) {
-				CVTerm cvTerm = getCVTerm(i);
-				Type qualifierType = cvTerm.getQualifierType();
-				Qualifier qualifier = null;
-
-				if (qualifierType.equals(Type.BIOLOGICAL_QUALIFIER)) {
-					qualifier = cvTerm.getBiologicalQualifierType();
-				} else if (qualifierType.equals(Type.MODEL_QUALIFIER)) {
-					qualifier = cvTerm.getModelQualifierType();
-				}
-				String prefix = qualifier != null ? qualifier
-						.getElementNameEquivalent() : null;
-
-				String stringQualifier = qualifier.getElementNameEquivalent();
-
-				if (prefix != null && stringQualifier != null) {
-					StringTools.append(buffer, indent, "<", prefix, ":",
-							stringQualifier, ">", StringTools.newLine());
-					StringTools.append(buffer, indent, "  <rdf:Bag>",
-							StringTools.newLine());
-
-					cvTerm.toXML(indent + "    ", buffer);
-
-					StringTools.append(buffer, indent, "  </rdf:Bag>",
-							StringTools.newLine());
-					StringTools.append(buffer, indent, "</", prefix, ":",
-							stringQualifier, ">", StringTools.newLine());
-				}
-			}
-		}
-	}
-
-	/**
-	 * Writes the end of the RDF annotation element in 'buffer'
-	 * 
-	 * @param indent the indentation to end with.
-	 * @param buffer the buffer where we need to write.
-	 * @param parentElement the parent SBML element of the annotation to write.
-	 */
-	protected void endRDFAnnotationElement(String indent, StringBuffer buffer,
-			SBase parentElement) {
-
-		if (parentElement != null) {
-			String metaid = parentElement.getMetaId();
-
-			if (metaid != null) {
-				StringTools.append(buffer, indent, "  </rdf:Description>",
-						StringTools.newLine());
-				StringTools.append(buffer, indent, "</rdf:RDF>",
-						StringTools.newLine());
-			}
-		}
-	}
 
 	/**
 	 * Checks if this object is equal to 'annotation'
@@ -542,17 +403,6 @@ public class Annotation implements Cloneable, Serializable {
 		return about == null ? "" : about;
 	}
 
-	/**
-	 * Returns the map containing the otherAnnotation attributes of this
-	 *         Annotation
-	 *         
-	 * @return the map containing the otherAnnotation attributes of this
-	 *         Annotation
-	 */
-	// TODO : this method name and javadoc is a bit strange. And it is the same as getAnnotationNamespaces() !!
-	public Map<String, String> getAnnotationAttributes() {
-		return annotationNamespaces;
-	}
 
 	/**
 	 * Returns the StringBuilder representing non RDF annotations.
@@ -662,17 +512,6 @@ public class Annotation implements Cloneable, Serializable {
 		return rdfAnnotationNamespaces;
 	}
 
-	/**
-	 * Writes the {@link History} section of the RDF annotation in 'buffer'
-	 * 
-	 * @param indent the indentation to use.
-	 * @param buffer the buffer where we need to write.
-	 */
-	private void historyToXML(String indent, StringBuffer buffer) {
-		if (isSetHistory()) {
-			getHistory().toXML(indent, buffer);
-		}
-	}
 
 	/**
 	 * Inserts 'annotation' to the non RDF annotation StringBuilder
@@ -764,36 +603,7 @@ public class Annotation implements Cloneable, Serializable {
 		return this.otherAnnotation != null;
 	}
 
-	/**
-	 * Writes the non RDF annotation elements in 'buffer'.
-	 * 
-	 * @param indent the indentation to use.
-	 * @param buffer the buffer where we need to write.
-	 */
-	protected void otherAnnotationToXML(String indent, StringBuffer buffer) {
-		String[] lines = getNonRDFannotation().split(StringTools.newLine());
-		for (int i = 0; i < lines.length; i++) {
-			StringTools.append(buffer, indent, lines[i], StringTools.newLine());
-		}
-	}
 
-	/**
-	 * Writes the RDF annotation elements in 'buffer'
-	 * 
-	 * @param indent
-	 *            the indentation to use.
-	 * @param buffer
-	 *            the buffer where we need to write.
-	 * @param parentElement
-	 *            the parent SBML element of the annotation to write.
-	 */
-	protected void RDFAnnotationToXML(String indent, StringBuffer buffer,
-			SBase parentElement) {
-		beginRDFAnnotationElement(indent, buffer, parentElement);
-		historyToXML(indent + "    ", buffer);
-		createCVTermsElements(indent + "    ", buffer);
-		endRDFAnnotationElement(indent, buffer, parentElement);
-	}
 
 	/**
 	 * Sets the about instance of this object if the attributeName is equal to
@@ -834,7 +644,7 @@ public class Annotation implements Cloneable, Serializable {
 		if (annotationNamespaces != null) {
 			for (int i = 0; i < annotationNamespaces.getLength(); i++) {
 				Node attribute = annotationNamespaces.item(i);
-				getAnnotationAttributes().put(attribute.getNodeName(),
+				getAnnotationNamespaces().put(attribute.getNodeName(),
 						attribute.getNodeValue());
 			}
 		}
@@ -867,31 +677,7 @@ public class Annotation implements Cloneable, Serializable {
 		this.rdfAnnotationNamespaces = rdfAnnotationNamespaces;
 	}
 
-	/**
-	 * Converts the {@link Annotation} into an XML annotation element
-	 * 
-	 * @param indent
-	 *            the indentation to use.
-	 * @param parentElement
-	 *            the parent SBML element of the annotation to write.
-	 * @return the {@link Annotation} as an XML annotation element
-	 */
-	public String toXML(String indent, SBase parentElement) {
-		StringBuffer buffer = new StringBuffer();
-		if (isSetNonRDFannotation()) {
-			StringTools.append(buffer, indent, "<annotation",
-					attributesToXML(), ">\n");
-			if (getListOfCVTerms() != null) {
-				RDFAnnotationToXML(indent + "  ", buffer, parentElement);
-			}
-			if (getNonRDFannotation() != null) {
-				otherAnnotationToXML(indent + "  ", buffer);
-			}
-			StringTools.append(buffer, indent, "</annotation>\n");
-		}
-		return buffer.toString();
-	}
-	
+
 	/**
 	 * Clears the {@link List} of {@link CVTerm}s and removes unnecessary
 	 * entries from the {@link #rdfAnnotationNamespaces}.

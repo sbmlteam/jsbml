@@ -29,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -77,6 +78,8 @@ import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.w3c.dom.Document;
 import org.w3c.util.DateParser;
 import org.xml.sax.SAXException;
+
+import com.ctc.wstx.stax.WstxOutputFactory;
 
 /**
  * A SBMLWriter provides the methods to write a SBML file.
@@ -584,7 +587,8 @@ public class SBMLWriter {
 	 */
 	private void writeAnnotation(SBase sbase, SMOutputElement element,
 			XMLStreamWriter writer, String sbmlNamespace, int indent)
-			throws XMLStreamException, SBMLException {
+		throws XMLStreamException, SBMLException 
+	{
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
 		Annotation annotation = sbase.getAnnotation();
@@ -640,6 +644,7 @@ public class SBMLWriter {
 					whiteSpaces, "</annotation>", Character.valueOf('\n'));
 
 			DOMConverter converter = new DOMConverter();
+			
 			String annotationString = annotationBeginning.toString()
 					.replaceAll("&", "&amp;");
 			// here indent gets lost.
@@ -661,11 +666,11 @@ public class SBMLWriter {
 		// if the given SBase is not a model and the level is smaller than 3,
 		// no history can be written.
 		// Annotation cannot be written without metaid tag.
-		if (sbase.isSetMetaId()
-				&& ((annotation.isSetHistory()
-						&& !annotation.getHistory().isEmpty() && ((sbase
-						.getLevel() >= 3) || (sbase instanceof Model))) || annotation
-						.getListOfCVTerms().size() > 0)) {
+		if (sbase.isSetMetaId()	&& ((annotation.isSetHistory()
+				&& !annotation.getHistory().isEmpty()
+				&& ((sbase.getLevel() >= 3)	|| (sbase instanceof Model))) 
+				|| annotation.getListOfCVTerms().size() > 0)) 
+		{
 			if (!annotation.isSetAbout()) {
 				// add required missing tag
 				annotation.setAbout("#" + sbase.getMetaId());
@@ -992,7 +997,9 @@ public class SBMLWriter {
 	 */
 	private void writeRDFAnnotation(Annotation annotation,
 			SMOutputElement annotationElement, XMLStreamWriter writer,
-			int indent) throws XMLStreamException {
+			int indent) 
+		throws XMLStreamException 
+	{
 		// Logger logger = Logger.getLogger(SBMLWriter.class);
 
 		String whiteSpace = createIndentationString(indent);
@@ -1301,6 +1308,58 @@ public class SBMLWriter {
 		writer.writeCharacters("\n");
 	}
 
+	
+	public String writeAnnotation(SBase sbase) {
+		
+		String annotationStr = "";
+
+		if (sbase == null || (!sbase.isSetAnnotation())) {
+			return annotationStr;
+		}
+		
+		StringWriter stream = new StringWriter();
+		
+		SMOutputFactory smFactory = new SMOutputFactory(WstxOutputFactory.newInstance());
+
+		try {
+			XMLStreamWriter writer = smFactory.createStax2Writer(stream);
+
+			writer.writeStartDocument();
+			writer.writeCharacters("\n");
+			
+			logger.warn(" Warning !! : SBMLwriter.writeAnnotation is not fully implemented");
+			
+			// TODO : register all the sbml element namespaces
+			
+			// writer.writeNamespace(null, ASTNode.URI_MATHML_DEFINITION);			
+			// writer.writeCharacters("\n");
+
+			// writer.setPrefix("math", ASTNode.URI_MATHML_DEFINITION);
+
+			// TODO : call the writeAnnotation method
+			
+			// TODO : define the SMOutputElement
+			SMOutputElement element = null;
+			
+			// TODO : create the sbmlNamespace variable
+			String sbmlNamespace = null;
+			
+			writeAnnotation(sbase, element, writer, sbmlNamespace, 0);
+			
+			writer.writeEndDocument();
+			writer.close();
+
+			annotationStr = stream.toString();
+
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		} catch (SBMLException e) {
+			e.printStackTrace();
+		}
+
+		return annotationStr;
+	}
+	
 	// TODO : test a bit more Xstream and using Qname to see how it
 	// can deal with math or rdf bloc
 
