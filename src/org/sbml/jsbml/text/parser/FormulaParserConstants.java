@@ -13,45 +13,51 @@ public interface FormulaParserConstants {
   /** RegularExpression Id. */
   int INTEGER = 3;
   /** RegularExpression Id. */
-  int NUMBER = 4;
+  int DIGIT = 4;
   /** RegularExpression Id. */
-  int EXPNUMBER = 5;
+  int NUMBER = 5;
   /** RegularExpression Id. */
-  int SLPITTER = 6;
+  int EXPNUMBER = 6;
   /** RegularExpression Id. */
-  int PLUS = 7;
+  int SLPITTER = 7;
   /** RegularExpression Id. */
-  int POWER = 8;
+  int PLUS = 8;
   /** RegularExpression Id. */
-  int MINUS = 9;
+  int POWER = 9;
   /** RegularExpression Id. */
-  int TIMES = 10;
+  int MINUS = 10;
   /** RegularExpression Id. */
-  int DIVIDE = 11;
+  int TIMES = 11;
   /** RegularExpression Id. */
-  int FACTORIAL = 12;
+  int DIVIDE = 12;
   /** RegularExpression Id. */
-  int OPEN_PAR = 13;
+  int FACTORIAL = 13;
   /** RegularExpression Id. */
-  int CLOSE_PAR = 14;
+  int OPEN_PAR = 14;
   /** RegularExpression Id. */
-  int COMPARISON = 15;
+  int CLOSE_PAR = 15;
   /** RegularExpression Id. */
-  int BOOLEAN_LOGIC = 16;
+  int COMPARISON = 16;
   /** RegularExpression Id. */
-  int AND = 17;
+  int BOOLEAN_LOGIC = 17;
   /** RegularExpression Id. */
-  int OR = 18;
+  int AND = 18;
   /** RegularExpression Id. */
-  int XOR = 19;
+  int OR = 19;
   /** RegularExpression Id. */
-  int NOT = 20;
+  int XOR = 20;
   /** RegularExpression Id. */
-  int LOG = 21;
+  int NOT = 21;
   /** RegularExpression Id. */
-  int STRING = 22;
+  int LOG = 22;
   /** RegularExpression Id. */
-  int EOL = 23;
+  int STRING = 23;
+  /** RegularExpression Id. */
+  int IDCHAR = 24;
+  /** RegularExpression Id. */
+  int LETTER = 25;
+  /** RegularExpression Id. */
+  int EOL = 26;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -62,6 +68,7 @@ public interface FormulaParserConstants {
     "\" \"",
     "\"\\t\"",
     "<INTEGER>",
+    "<DIGIT>",
     "<NUMBER>",
     "<EXPNUMBER>",
     "<SLPITTER>",
@@ -81,6 +88,8 @@ public interface FormulaParserConstants {
     "<NOT>",
     "\"log\"",
     "<STRING>",
+    "<IDCHAR>",
+    "<LETTER>",
     "<EOL>",
   };
 

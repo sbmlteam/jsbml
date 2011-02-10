@@ -506,19 +506,19 @@ public class FormulaParser implements FormulaParserConstants {
     finally { jj_save(0, xla); }
   }
 
-  private boolean jj_3R_5() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(21)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(22)) return true;
-    }
-    return false;
-  }
-
   private boolean jj_3_1() {
     if (jj_3R_5()) return true;
     if (jj_scan_token(OPEN_PAR)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_5() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(22)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(23)) return true;
+    }
     return false;
   }
 
@@ -539,7 +539,7 @@ public class FormulaParser implements FormulaParserConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x600000,0x800001,0x1100,0x1100,0xc00,0xc00,0x18280,0x18280,0x40,0x38,0x702200,};
+      jj_la1_0 = new int[] {0xc00000,0x4000001,0x2200,0x2200,0x1800,0x1800,0x30500,0x30500,0x80,0x68,0xe04400,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[1];
   private boolean jj_rescan = false;
@@ -725,7 +725,7 @@ public class FormulaParser implements FormulaParserConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[24];
+    boolean[] la1tokens = new boolean[27];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -739,7 +739,7 @@ public class FormulaParser implements FormulaParserConstants {
         }
       }
     }
-    for (int i = 0; i < 24; i++) {
+    for (int i = 0; i < 27; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

@@ -833,7 +833,11 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			compiledvalues[i++] = node.compile(this);
 		}
 		value.setValue(Integer.valueOf(0));
-		value.getUnits().addUnit(Unit.Kind.INVALID);
+		UnitDefinition ud = new UnitDefinition(this.level, this.version);
+		ud.addUnit(Unit.Kind.INVALID);
+		value.setUnits(ud);		
+		
+		//value.getUnits().addUnit(Unit.Kind.INVALID);
 
 		i = 0;
 
@@ -929,6 +933,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue plus(List<ASTNode> values) throws SBMLException {
 		ASTNodeValue value = new ASTNodeValue(this);
+
 		if (values.size() == 0) {
 			return value;
 		}
@@ -937,8 +942,12 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		for (ASTNode node : values) {
 			compiledvalues[i++] = node.compile(this);
 		}
+		
 		value.setValue(Integer.valueOf(0));
-		value.getUnits().addUnit(Unit.Kind.INVALID);
+		UnitDefinition ud = new UnitDefinition(this.level, this.version);
+		ud.addUnit(Unit.Kind.INVALID);
+		value.setUnits(ud);		
+		//value.getUnits().addUnit(Unit.Kind.INVALID);
 
 		i = compiledvalues.length - 1;
 
