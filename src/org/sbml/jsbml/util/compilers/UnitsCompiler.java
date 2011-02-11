@@ -23,6 +23,7 @@ package org.sbml.jsbml.util.compilers;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.NDC;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
@@ -473,12 +474,26 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		 * There are no restrictions on the form of x. The units of the d
 		 * parameter are determined from the built-in time. The value of the d
 		 * parameter, when evaluated, must be numerical (i.e., a number in
-		 * MathML real, integer, or �e-notation� format) and be greater than or
-		 * equal to 0. (v2l4)
+		 * MathML real, integer, or e-notation format) and be greater than
+		 * or equal to 0. (v2l4)
 		 */
 		UnitDefinition ud = x.compile(this).getUnits().clone();
 
-		// TODO: not the correct value, need insight into time scale to return the correct value
+		if (model.getTimeUnitsInstance() != null) {
+			if (!UnitDefinition.areEquivalent(model.getTimeUnitsInstance(), ud)) {
+				throw new IllegalArgumentException(
+						new UnitException(
+								String
+										.format(
+												"Units of time in a delay function do not match. Given %s and %s.",
+												UnitDefinition
+														.printUnits(model
+																.getTimeUnitsInstance()),
+												UnitDefinition.printUnits(ud))));
+			}
+		}
+		// TODO: not the correct value, need insight into time scale to return
+		// the correct value
 
 		return new ASTNodeValue(ud, this);
 	}
@@ -518,7 +533,10 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#exp(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue exp(ASTNode value) throws SBMLException {
-		return pow(getConstantE(), value.compile(this));
+		ASTNodeValue v = value.compile(this);
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
+
+		return pow(getConstantE(), v);
 	}
 
 	/*
@@ -528,6 +546,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#factorial(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue factorial(ASTNode value) throws SBMLException {
+
 		ASTNodeValue v = new ASTNodeValue(Maths.factorial(value.compile(this)
 				.toDouble()), this);
 		v.setUnits(value.getUnitsInstance().clone());
@@ -592,6 +611,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		for (int i = 0; i < args.size(); i++) {
 			argValues.put(lambda.getChild(i).compile(this).toString(), args
 					.get(i).compile(this));
+			
 		}
 		try {
 			this.namesToUnits = argValues;
@@ -768,6 +788,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue ln(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.ln(v.toDouble()));
 
 		return v;
@@ -780,6 +801,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue log(ASTNode value) throws SBMLException {
 		ASTNodeValue v = value.compile(this);
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		v.setValue(Maths.log(v.toDouble()));
 
 		return v;
@@ -794,6 +816,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	public ASTNodeValue log(ASTNode number, ASTNode base) throws SBMLException {
 		ASTNodeValue v = number.compile(this);
 		ASTNodeValue b = base.compile(this);
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		checkForDimensionlessOrInvalidUnits(b.getUnits());
 		v.setValue(Maths.log(v.toDouble(), b.toDouble()));
 
@@ -835,9 +858,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		value.setValue(Integer.valueOf(0));
 		UnitDefinition ud = new UnitDefinition(this.level, this.version);
 		ud.addUnit(Unit.Kind.INVALID);
-		value.setUnits(ud);		
-		
-		//value.getUnits().addUnit(Unit.Kind.INVALID);
+		value.setUnits(ud);
+
+		// value.getUnits().addUnit(Unit.Kind.INVALID);
 
 		i = 0;
 
@@ -937,17 +960,18 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		if (values.size() == 0) {
 			return value;
 		}
+
 		int i = 0;
 		ASTNodeValue compiledvalues[] = new ASTNodeValue[values.size()];
 		for (ASTNode node : values) {
 			compiledvalues[i++] = node.compile(this);
 		}
-		
+
 		value.setValue(Integer.valueOf(0));
 		UnitDefinition ud = new UnitDefinition(this.level, this.version);
 		ud.addUnit(Unit.Kind.INVALID);
-		value.setUnits(ud);		
-		//value.getUnits().addUnit(Unit.Kind.INVALID);
+		value.setUnits(ud);
+		// value.getUnits().addUnit(Unit.Kind.INVALID);
 
 		i = compiledvalues.length - 1;
 
