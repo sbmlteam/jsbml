@@ -21,6 +21,7 @@
 package org.sbml.jsbml.util.compilers;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Compartment;
@@ -803,7 +804,7 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 	 */
 	public StringBuffer format(double value) {
 		StringBuffer sb = new StringBuffer();
-		String val = Double.toString(value);
+		String val = StringTools.toString(Locale.ENGLISH, value);
 		if (val.contains("E")) {
 			String split[] = val.split("E");
 			val = "10^{" + format(Double.parseDouble(split[1])) + "}";

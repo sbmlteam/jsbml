@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.util.StringTools;
@@ -70,7 +71,7 @@ public class Compartment extends Symbol {
 	/**
 	 * Represents the spatialDimensions XML attribute of a compartment element.
 	 */
-	private Short spatialDimensions;
+	private Double spatialDimensions;
 
 	/**
 	 * Creates a Compartment instance. By default, if the level is set and is
@@ -95,7 +96,7 @@ public class Compartment extends Symbol {
 					.getCompartmentType());
 		}
 		if (compartment.isSetSpatialDimensions()) {
-			this.spatialDimensions = Short.valueOf(compartment
+			this.spatialDimensions = Double.valueOf(compartment
 					.getSpatialDimensions());
 		}
 		if (compartment.isSetOutside()) {
@@ -246,7 +247,7 @@ public class Compartment extends Symbol {
 			if (getLevel() < 2) {
 				return "volume";
 			}
-			switch (getSpatialDimensions()) {
+			switch ((short) getSpatialDimensions()) {
 			case 3:
 				return "volume";
 			case 2:
@@ -270,15 +271,31 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 * Returns the spatialDimensions of this compartment. If it is not set,
-	 * returns the default SBML level 2 value, which is 3.
+	 * Returns the {@link #spatialDimensions} of this {@link Compartment}. If it
+	 * is not set and the level of this {@link Compartment} is two it returns
+	 * the default SBML Level 2 value, which is 3. In all other cases,
+	 * {@link Double#NaN} will be returned.
 	 * 
-	 * @return the spatialDimensions of this compartment or 3 if
-	 *         spatialDimensions is not set.
+	 * @return the {@link #spatialDimensions} of this {@link Compartment} or 3
+	 *         if {@link #spatialDimensions} is not set and level is 2.
 	 */
-	public short getSpatialDimensions() {
-		return isSetSpatialDimensions() && (spatialDimensions != null) ? spatialDimensions
-				: 3;
+	public double getSpatialDimensions() {
+		if (isSetSpatialDimensions() && (spatialDimensions != null)) {
+			return spatialDimensions.doubleValue();
+		}
+		if (getLevel() == 2) {
+			return 3d;
+		}
+		return Double.NaN;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @deprecated use {@link #getSpatialDimensions()}
+	 */
+	public double getSpatialDimensionsAsDouble() {
+		return getSpatialDimensions();
 	}
 
 	/**
@@ -305,7 +322,7 @@ public class Compartment extends Symbol {
 		outsideID = null;
 		unitsID = null;
 		if (getLevel() < 3) {
-			spatialDimensions = Short.valueOf((short) 3);
+			spatialDimensions = Double.valueOf(3d);
 			constant = new Boolean(true);
 		} else {
 			spatialDimensions = null;
@@ -532,20 +549,31 @@ public class Compartment extends Symbol {
 	 * @throws IllegalArgumentException
 	 *             if spatialDimension < 0 or if spatialDimension > 3
 	 */
-	public void setSpatialDimensions(int spatialDimension) {
+	public void setSpatialDimensions(double spatialDimension) {
 		if (getLevel() < 2) {
 			throw new PropertyNotAvailableError(
 					SBaseChangedEvent.spacialDimensions, this);
 		}
-		if ((0 <= spatialDimension) && (spatialDimension <= 3)) {
+		if (((0d <= spatialDimension) && (spatialDimension <= 3d) && (((int) spatialDimension)
+				- spatialDimension == 0d))
+				|| (getLevel() > 2)) {
 			isSetSpatialDimensions = true;
-			Short oldSpatialDimensions = this.spatialDimensions;
-			this.spatialDimensions = Short.valueOf((short) spatialDimension);
-			firePropertyChange(SBaseChangedEvent.spatialDimensions, oldSpatialDimensions, this.spatialDimensions);
+			Double oldSpatialDimensions = this.spatialDimensions;
+			this.spatialDimensions = Double.valueOf(spatialDimension);
+			firePropertyChange(SBaseChangedEvent.spatialDimensions,
+					oldSpatialDimensions, this.spatialDimensions);
 		} else {
 			throw new IllegalArgumentException(String.format(
 					ERROR_MESSAGE_INVALID_DIM, spatialDimension));
 		}
+	}
+	
+	/**
+	 * 
+	 * @param spatialDimensions
+	 */
+	public void setSpatialDimensions(int spatialDimensions) {
+		setSpatialDimensions((double) spatialDimensions);
 	}
 
 	/**
@@ -737,7 +765,7 @@ public class Compartment extends Symbol {
 	 * Sets the spatialDimensions of this compartment to null.
 	 */
 	public void unsetSpatialDimensions() {
-		Short oldSpatialDim = this.spatialDimensions;
+		Double oldSpatialDim = this.spatialDimensions;
 		this.spatialDimensions = null;
 		isSetSpatialDimensions = false;
 		firePropertyChange(SBaseChangedEvent.spacialDimensions, oldSpatialDim,
@@ -780,18 +808,28 @@ public class Compartment extends Symbol {
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
-
-		if (getLevel() == 1) {
+		int level = getLevel();
+		Locale en = Locale.ENGLISH;
+		if (level == 1) {
 			if (isSetVolume()) {
-				attributes.put("volume", Double.toString(getVolume()));
+				attributes.put("volume", StringTools.toString(en, getVolume()));
 			}
-		} else if (1 < getLevel()) {
+		} else if (1 < level) {
 			if (isSetSpatialDimensions()) {
-				attributes.put("spatialDimensions", Short
-						.toString(getSpatialDimensions()));
+				attributes.put("spatialDimensions", level < 3 ? Short
+						.toString((short) getSpatialDimensions()) : StringTools
+						.toString(en, getSpatialDimensions()));
+				if ((level < 3)
+						&& (((short) getSpatialDimensions())
+								- getSpatialDimensions() != 0d)) {
+					// TODO: Throw Exception?
+					System.err.printf(
+							"Illegal non-integer spatial dimensions %d.\n",
+							getSpatialDimensions());
+				}
 			}
 			if (isSetSize()) {
-				attributes.put("size", Double.toString(getSize()));
+				attributes.put("size", StringTools.toString(en, getSize()));
 			}
 			if (isSetConstant()) {
 				attributes.put("constant", Boolean.toString(getConstant()));
@@ -800,12 +838,12 @@ public class Compartment extends Symbol {
 				attributes.put("units", getUnits());
 			}
 		}
-		if (getLevel() == 2) {
+		if (level == 2) {
 			if (isSetCompartmentType()) {
 				attributes.put("compartmentType", getCompartmentType());
 			}
 		}
-		if (getLevel() < 3) {
+		if (level < 3) {
 			if (isSetOutside()) {
 				attributes.put("outside", outsideID);
 			}

@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.util.StringTools;
@@ -160,7 +161,8 @@ public class LocalParameter extends QuantityWithUnit {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetValue()) {
-			attributes.put("value", Double.toString(getValue()));
+			attributes.put("value", StringTools.toString(Locale.ENGLISH,
+					getValue()));
 		}
 		if (isSetUnits()) {
 			attributes.put("units", getUnits());

@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.util.StringTools;
@@ -954,13 +955,13 @@ public class Species extends Symbol {
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
-
+		Locale en = Locale.ENGLISH;
 		if (isSetCompartment()) {
 			attributes.put("compartment", getCompartment());
 		}
 		if (isSetInitialAmount()) {
-			attributes
-					.put("initialAmount", Double.toString(getInitialAmount()));
+			attributes.put("initialAmount", StringTools.toString(en,
+					getInitialAmount()));
 		}
 		if (isSetBoundaryCondition()) {
 			attributes.put("boundaryCondition", Boolean
@@ -969,8 +970,8 @@ public class Species extends Symbol {
 
 		if (1 < getLevel()) {
 			if (isSetInitialConcentration() && !isSetInitialAmount()) {
-				attributes.put("initialConcentration", Double
-						.toString(getInitialConcentration()));
+				attributes.put("initialConcentration", StringTools.toString(en,
+						getInitialConcentration()));
 			}
 			if (isSetSubstanceUnits()) {
 				attributes.put("substanceUnits", getSubstanceUnits());
