@@ -23,9 +23,9 @@ package org.sbml.jsbml.util.compilers;
 import java.util.List;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
-import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.Unit;
@@ -230,7 +230,7 @@ public interface ASTNodeCompiler {
 	 * @return
 	 * @throws SBMLException
 	 */
-	public ASTNodeValue compile(NamedSBaseWithDerivedUnit variable)
+	public ASTNodeValue compile(CallableSBase variable)
 			throws SBMLException;
 
 	/**

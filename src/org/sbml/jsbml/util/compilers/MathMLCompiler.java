@@ -30,9 +30,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
-import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.util.StringTools;
@@ -230,7 +230,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.Compartment)
 	 */
 	public ASTNodeValue compile(Compartment c) {
-		return compile((NamedSBaseWithDerivedUnit) c);
+		return compile((CallableSBase) c);
 	}
 
 	/*
@@ -262,9 +262,9 @@ public class MathMLCompiler implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.NamedSBaseWithDerivedUnit)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.CallableSBase)
 	 */
-	public ASTNodeValue compile(NamedSBaseWithDerivedUnit variable) {
+	public ASTNodeValue compile(CallableSBase variable) {
 		setLevel(variable.getLevel());
 		return compile(variable.getId());
 	}

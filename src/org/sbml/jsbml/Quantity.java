@@ -30,7 +30,7 @@ package org.sbml.jsbml;
  * @author Nicolas Rodriguez
  * @date 2010-04-20
  */
-public interface Quantity extends NamedSBaseWithDerivedUnit {
+public interface Quantity extends CallableSBase {
 
 	/**
 	 * Returns the value of this {@link Quantity}.

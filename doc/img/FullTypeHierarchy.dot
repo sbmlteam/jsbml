@@ -47,6 +47,7 @@ strict digraph G{
    */
 
   Assignment                               [label="<<interface>>\nAssignment", style="filled", fillcolor="#F0F8FF"];
+  CallableSBase                            [label="<<interface>>\nCallableSBase", style="filled", fillcolor="#F0F8FF"];
   MathContainer                            [label="<<interface>>\nMathContainer", style="filled", fillcolor="#F0F8FF"];
   NamedSBase                               [label="<<interface>>\nNamedSBase", style="filled", fillcolor="#F0F8FF"];
   NamedSBaseWithDerivedUnit                [label="<<interface>>\nNamedSBase\nWithDerivedUnit", style="filled", fillcolor="#F0F8FF"];
@@ -77,7 +78,7 @@ strict digraph G{
   AlgebraicRule                            [label="Algebraic\nRule"];
   Annotation                               [label="Annotation", style="filled", fillcolor="#F0F8FF"];
   AssignmentRule                           [label="Assignment\nRule"];
-  ASTNode                                  [label="ASTNode"];
+  ASTNode                                  [label="AST\nNode"];
   Compartment                              [label="Compartment"];
   CompartmentType                          [label="Compartment\nType"];
   Constraint                               [label="Constraint"];
@@ -140,6 +141,9 @@ strict digraph G{
   Assignment                 -> EventAssignment            [dir=back,arrowtail=empty,style=dashed];
   Assignment                 -> ExplicitRule               [dir=back,arrowtail=empty,style=dashed];
   Assignment                 -> InitialAssignment          [dir=back,arrowtail=empty,style=dashed];
+  CallableSBase              -> Quantity                   [dir=back,arrowtail=empty,style=dashed];
+  CallableSBase              -> FunctionDefinition         [dir=back,arrowtail=empty,style=dashed];
+  CallableSBase              -> Reaction                   [dir=back,arrowtail=empty,style=dashed];
   Cloneable                  -> Annotation                 [dir=back,arrowtail=empty,style=dashed];
   Cloneable                  -> ASTNode                    [dir=back,arrowtail=empty,style=dashed];
   Cloneable                  -> Creator                    [dir=back,arrowtail=empty,style=dashed];
@@ -155,9 +159,7 @@ strict digraph G{
   NamedSBase                 -> AbstractNamedSBase         [dir=back,arrowtail=empty,style=dashed];
   NamedSBase                 -> NamedSBaseWithDerivedUnit  [dir=back,arrowtail=empty,style=dashed];
   NamedSBaseWithDerivedUnit  -> AbstractNamedSBaseWithUnit [dir=back,arrowtail=empty,style=dashed];
-  NamedSBaseWithDerivedUnit  -> FunctionDefinition         [dir=back,arrowtail=empty,style=dashed];
-  NamedSBaseWithDerivedUnit  -> Quantity                   [dir=back,arrowtail=empty,style=dashed];
-  NamedSBaseWithDerivedUnit  -> Reaction                   [dir=back,arrowtail=empty,style=dashed];
+  NamedSBaseWithDerivedUnit  -> CallableSBase              [dir=back,arrowtail=empty,style=dashed];
   Object                     -> AbstractSBase              [dir=back,arrowtail=empty];
   Object                     -> Annotation                 [dir=back,arrowtail=empty];
   Object                     -> ASTNode                    [dir=back,arrowtail=empty];

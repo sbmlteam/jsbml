@@ -27,7 +27,7 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.NamedSBase;
-import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
+import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.StringTools;
@@ -598,12 +598,9 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.
-	 * NamedSBaseWithDerivedUnit)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.CallableSBase)
 	 */
-	public ASTNodeValue compile(NamedSBaseWithDerivedUnit variable) {
+	public ASTNodeValue compile(CallableSBase variable) {
 		if (variable instanceof Species) {
 			Species species = (Species) variable;
 			Compartment c = species.getCompartmentInstance();

@@ -33,8 +33,7 @@ import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
  * @author rodrigue
  * @author marine
  */
-public class Reaction extends AbstractNamedSBase implements
-		NamedSBaseWithDerivedUnit {
+public class Reaction extends AbstractNamedSBase implements CallableSBase {
 
 	/**
 	 * Generated serial version identifier.

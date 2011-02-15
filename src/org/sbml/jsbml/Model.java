@@ -48,12 +48,11 @@ import org.sbml.jsbml.util.filters.NameFilter;
  */
 public class Model extends AbstractNamedSBase {
 
-	private Logger logger = Logger.getLogger("Model");
-	
 	/**
 	 * Error message to indicate that an element could not be created.
 	 */
 	private static final String COULD_NOT_CREATE_ELEMENT_MSG = "Could not create %s because no %s have been defined yet.\n";
+	
 	/**
 	 * Generated serial version identifier.
 	 */
@@ -87,7 +86,6 @@ public class Model extends AbstractNamedSBase {
 	 * Represents the listOfConstraints subnode of a model element.
 	 */
 	private ListOf<Constraint> listOfConstraints;
-
 	/**
 	 * Represents the listOfEvents subnode of a model element.
 	 */
@@ -139,6 +137,8 @@ public class Model extends AbstractNamedSBase {
 	 * Represents the listOfUnitDefinitions subnode of a model element.
 	 */
 	private ListOf<UnitDefinition> listOfUnitDefinitions;
+
+	private Logger logger = Logger.getLogger("Model");
 
 	/**
 	 * Represents the 'substanceUnits' XML attribute of a model element.
@@ -1278,6 +1278,23 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Returns a {@link CallableSBase} element of the {@link Model} that has the
+	 * given 'id' as identifier or null if no element is found.
+	 * 
+	 * @param id
+	 *            an identifier indicating an element of the {@link Model}.
+	 * @return a {@link CallableSBase} element of the {@link Model} that has the
+	 *         given 'id' as id or null if no element is found.
+	 */
+	public CallableSBase findCallableSBase(String id) {
+		CallableSBase csb = getReaction(id);
+		if (csb == null) {
+			csb = getFunctionDefinition(id);
+		}
+		return csb == null ? findQuantity(id) : csb;
+	}
+
+	/**
 	 * Finds all instances of {@link LocalParameter} in this {@link Model} and
 	 * adds them to a {@link List}.
 	 * 
@@ -1333,22 +1350,24 @@ public class Model extends AbstractNamedSBase {
 		}
 		return nsb == null ? findNamedSBaseWithDerivedUnit(id) : nsb;
 	}
-
+	
 	/**
-	 * Returns a {@link NamedSBaseWithDerivedUnit} element of the model
-	 * that has the given 'id' as id  or null if no element is found.
+	 * Returns a {@link NamedSBaseWithDerivedUnit} element of the {@link Model}
+	 * that has the given 'id' as id or null if no element is found. It first
+	 * tries to find a {@link CallableSBase} with the given identifier and, if
+	 * this is not successful, it searches for an instance of {@link Event} with
+	 * the given id.
 	 * 
-	 * @param id an id indicating an element  of the model.
-	 * @return a {@link NamedSBaseWithDerivedUnit} element of the model that has the given 'id' as id 
-	 * or null if no element is found.
+	 * @param id
+	 *            an id indicating an element of the {@link Model}.
+	 * @return a {@link NamedSBaseWithDerivedUnit} element of the {@link Model}
+	 *         that has the given 'id' as id or null if no element is found.
+	 * @see #findCallableSBase(String)
 	 */
 	public NamedSBaseWithDerivedUnit findNamedSBaseWithDerivedUnit(
 			String id) {
-		NamedSBaseWithDerivedUnit nsb = getReaction(id);
-		if (nsb == null) {
-			nsb = getFunctionDefinition(id);
-		}
-		return nsb == null ? findQuantity(id) : nsb;
+		NamedSBaseWithDerivedUnit nsb = findCallableSBase(id);
+		return nsb == null ? getEvent(id) : nsb;
 	}
 
 	/**

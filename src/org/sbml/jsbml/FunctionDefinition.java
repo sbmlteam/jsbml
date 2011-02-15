@@ -31,7 +31,7 @@ import org.sbml.jsbml.text.parser.ParseException;
  * @author marine
  */
 public class FunctionDefinition extends AbstractMathContainer implements
-		NamedSBaseWithDerivedUnit {
+		CallableSBase {
 
 	/**
 	 * Generated serial version identifier.

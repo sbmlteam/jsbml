@@ -23,7 +23,7 @@ package org.sbml.jsbml.util.compilers;
 import java.io.IOException;
 
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
+import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Unit;
@@ -37,7 +37,7 @@ import org.w3c.dom.Node;
  * elements of this class as arguments and performs its operations on it. Hence,
  * this class represents the union of all possible types to which an abstract
  * syntax tree can be evaluated, i.e., {@link Boolean},
- * {@link NamedSBaseWithDerivedUnit}, {@link Number}, or {@link String}. This
+ * {@link CallableSBase}, {@link Number}, or {@link String}. This
  * class does not define what to do with these values or how to perform any
  * operations on it. It is just the container of a value. The type of this value
  * tells the {@link ASTNodeCompiler} which operation was performed to obtain the
@@ -51,9 +51,9 @@ public class ASTNodeValue {
 	/**
 	 * An {@link ASTNodeCompiler} that is needed in the case that this
 	 * {@link ASTNodeValue} contains a derivative of
-	 * {@link NamedSBaseWithDerivedUnit} as value to translate this value into a
+	 * {@link CallableSBase} as value to translate this value into a
 	 * double. If the compiler does not convert instances of
-	 * {@link NamedSBaseWithDerivedUnit} to double numbers, a
+	 * {@link CallableSBase} to double numbers, a
 	 * {@link ClassCastException} will be thrown..
 	 */
 	private ASTNodeCompiler compiler;
@@ -135,7 +135,7 @@ public class ASTNodeValue {
 	 * 
 	 * @param value
 	 */
-	public ASTNodeValue(NamedSBaseWithDerivedUnit value,
+	public ASTNodeValue(CallableSBase value,
 			ASTNodeCompiler compiler) {
 		this(compiler);
 		setValue(value);
@@ -262,8 +262,8 @@ public class ASTNodeValue {
 	 * 
 	 * @return
 	 */
-	public boolean isNamedSBaseWithDerivedUnit() {
-		return (value != null) && (value instanceof NamedSBaseWithDerivedUnit);
+	public boolean isCallableSBase() {
+		return (value != null) && (value instanceof CallableSBase);
 	}
 
 	/**
@@ -423,7 +423,7 @@ public class ASTNodeValue {
 	 * 
 	 * @param value
 	 */
-	public void setValue(NamedSBaseWithDerivedUnit value) {
+	public void setValue(CallableSBase value) {
 		this.value = value;
 	}
 
@@ -476,7 +476,7 @@ public class ASTNodeValue {
 	 * one is considered true, all other values represent false.
 	 * 
 	 * @return A boolean representing the value of this container. Note that if
-	 *         the value is an instance of {@link NamedSBaseWithDerivedUnit}, it
+	 *         the value is an instance of {@link CallableSBase}, it
 	 *         can only be converted into a boolean value if the
 	 *         {@link ASTNodeCompiler} associated with this object compiles this
 	 *         value to an {@link ASTNodeValue} that contains a boolean or at
@@ -487,9 +487,9 @@ public class ASTNodeValue {
 		if (isBoolean()) {
 			return ((Boolean) getValue()).booleanValue();
 		}
-		if (isNamedSBaseWithDerivedUnit()) {
+		if (isCallableSBase()) {
 			ASTNodeValue value = compiler
-					.compile((NamedSBaseWithDerivedUnit) getValue());
+					.compile((CallableSBase) getValue());
 			if (value.isBoolean()) {
 				return ((Boolean) value.getValue()).booleanValue();
 			} else if (value.isNumber()) {
@@ -545,16 +545,16 @@ public class ASTNodeValue {
 	 * 
 	 * @return
 	 */
-	public NamedSBaseWithDerivedUnit toNamedSBaseWithDerivedUnit() {
-		if (isNamedSBaseWithDerivedUnit()) {
-			return (NamedSBaseWithDerivedUnit) getValue();
+	public CallableSBase toCallableSBase() {
+		if (isCallableSBase()) {
+			return (CallableSBase) getValue();
 		}
 		if (isString()) {
 			// actually no way to to obtain the namedSBase from a model
 			// because no reference to the model is stored here.
 			ASTNodeValue value = compiler.compile(toString());
-			if (value.isNamedSBaseWithDerivedUnit()) {
-				return (NamedSBaseWithDerivedUnit) value;
+			if (value.isCallableSBase()) {
+				return (CallableSBase) value;
 			}
 		}
 		return null;
@@ -580,10 +580,10 @@ public class ASTNodeValue {
 	 *         the value is null or cannot be converted to any number,
 	 *         {@link Double.NaN} will be returned. Note that if the value of
 	 *         this container is an instance of
-	 *         {@link NamedSBaseWithDerivedUnit}, the value can only be
+	 *         {@link CallableSBase}, the value can only be
 	 *         converted to a number if the compiler associated with this
 	 *         {@link ASTNodeValue} compiles this
-	 *         {@link NamedSBaseWithDerivedUnit} to an {@link ASTNodeValue} that
+	 *         {@link CallableSBase} to an {@link ASTNodeValue} that
 	 *         contains a {@link Number}.
 	 * @throws SBMLException 
 	 */
@@ -595,9 +595,9 @@ public class ASTNodeValue {
 			return Double.valueOf(((Boolean) getValue()).booleanValue() ? 1d
 					: 0d);
 		}
-		if (isNamedSBaseWithDerivedUnit()) {
+		if (isCallableSBase()) {
 			ASTNodeValue value = compiler
-					.compile((NamedSBaseWithDerivedUnit) getValue());
+					.compile((CallableSBase) getValue());
 			if (value.isNumber()) {
 				return ((Number) value.getValue()).doubleValue();
 			}
