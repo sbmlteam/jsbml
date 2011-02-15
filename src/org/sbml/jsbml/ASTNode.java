@@ -268,7 +268,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		MINUS,
 		/**
 		 * {@link ASTNode}s of this {@link Type} refer to a
-		 * {@link NamedSBaseWithDerivedUnit}.
+		 * {@link CallableSBase}.
 		 */
 		NAME,
 		/**
@@ -735,8 +735,8 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * @return a new ASTNode that divides two named sbase objects.
 	 */
 	public static ASTNode frac(MathContainer container,
-			NamedSBaseWithDerivedUnit numerator,
-			NamedSBaseWithDerivedUnit denominator) {
+			CallableSBase numerator,
+			CallableSBase denominator) {
 		return frac(new ASTNode(numerator, container), new ASTNode(denominator,
 				container));
 	}
@@ -966,7 +966,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * @return a power {@link ASTNode}.
 	 */
 	public static ASTNode pow(MathContainer container,
-			NamedSBaseWithDerivedUnit basis, NamedSBaseWithDerivedUnit exponent) {
+			CallableSBase basis, CallableSBase exponent) {
 		return pow(new ASTNode(basis, container), new ASTNode(exponent,
 				container));
 	}
@@ -1086,7 +1086,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * @return the sum of several NamedSBase objects.
 	 */
 	public static ASTNode sum(MathContainer parent,
-			NamedSBaseWithDerivedUnit... sbase) {
+			CallableSBase... sbase) {
 		ASTNode elements[] = new ASTNode[sbase.length];
 		for (int i = 0; i < sbase.length; i++) {
 			elements[i] = new ASTNode(sbase[i], parent);
@@ -1112,7 +1112,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * @return the multiplication of several NamedSBase objects.
 	 */
 	public static ASTNode times(MathContainer parent,
-			NamedSBaseWithDerivedUnit... sbase) {
+			CallableSBase... sbase) {
 		ASTNode elements[] = new ASTNode[sbase.length];
 		for (int i = 0; i < sbase.length; i++)
 			elements[i] = new ASTNode(sbase[i], parent);
@@ -1143,7 +1143,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * minus, i.e., this negates what is encoded in ast.
 	 */
 	public static ASTNode uMinus(MathContainer container,
-			NamedSBaseWithDerivedUnit sbase) {
+			CallableSBase sbase) {
 		return uMinus(new ASTNode(sbase, container));
 	}
 
@@ -1226,7 +1226,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * computation time because it will then not be necessary to query the
 	 * corresponding model again and again for this variable.
 	 */
-	private NamedSBaseWithDerivedUnit variable;
+	private CallableSBase variable;
 
 	/**
 	 * Creates a new {@link ASTNode} of unspecified type and without a pointer
@@ -1364,21 +1364,21 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	}
 
 	/**
-	 * Creates and returns a new {@link ASTNode} referring to the given {@link NamedSBaseWithDerivedUnit}.
+	 * Creates and returns a new {@link ASTNode} referring to the given {@link CallableSBase}.
 	 * @param nsb
 	 */
-	public ASTNode(NamedSBaseWithDerivedUnit nsb) {
+	public ASTNode(CallableSBase nsb) {
 		this(Type.NAME);
 		setVariable(nsb);
 	}
 	
 	/**
-	 * Creates and returns a new {@link ASTNode} referring to the given {@link NamedSBaseWithDerivedUnit}.
+	 * Creates and returns a new {@link ASTNode} referring to the given {@link CallableSBase}.
 	 * 
 	 * @param nsb
 	 * @param parent
 	 */
-	public ASTNode(NamedSBaseWithDerivedUnit nsb, MathContainer parent) {
+	public ASTNode(CallableSBase nsb, MathContainer parent) {
 		this(Type.NAME, parent);
 		setVariable(nsb);
 	}
@@ -1907,7 +1907,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 *            an SBML element that can be represented by a value.
 	 * @return the current node for convenience.
 	 */
-	public ASTNode divideBy(NamedSBaseWithDerivedUnit namedSBase) {
+	public ASTNode divideBy(CallableSBase namedSBase) {
 		return divideBy(new ASTNode(namedSBase, getParentSBMLObject()));
 	}
 
@@ -2409,7 +2409,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * @throws IllegalArgumentException
 	 *             if {@link #isString()} returns false.
 	 */
-	public NamedSBaseWithDerivedUnit getVariable() {
+	public CallableSBase getVariable() {
 		// TODO: Improve: Case distinction with functions!
 		if ((type == Type.NAME) || (type == Type.FUNCTION)) {
 			if ((variable == null) && (getParentSBMLObject() != null)) {
@@ -2420,7 +2420,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 				if (variable == null) {
 					Model m = getParentSBMLObject().getModel();
 					if (m != null) {
-						variable = m.findNamedSBaseWithDerivedUnit(getName());
+						variable = m.findCallableSBase(getName());
 						if (variable instanceof LocalParameter) {
 							// in this case the parameter originates from a
 							// different kinetic law.
@@ -2934,7 +2934,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 *            an SBML element that can be represented by a value.
 	 * @return the current node for convenience.
 	 */
-	public ASTNode multiplyWith(NamedSBaseWithDerivedUnit nsb) {
+	public ASTNode multiplyWith(CallableSBase nsb) {
 		return multiplyWith(new ASTNode(nsb, getParentSBMLObject()));
 	}
 
@@ -2981,7 +2981,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 *            an SBML element that can be represented by a value.
 	 * @return the current node for convenience.
 	 */
-	public ASTNode plus(NamedSBaseWithDerivedUnit nsb) {
+	public ASTNode plus(CallableSBase nsb) {
 		plus(new ASTNode(nsb, getParentSBMLObject()));
 		return this;
 	}
@@ -3033,7 +3033,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 *            an SBML element that can be represented by a value.
 	 * @return the current node for convenience.
 	 */
-	public ASTNode raiseByThePowerOf(NamedSBaseWithDerivedUnit nsb) {
+	public ASTNode raiseByThePowerOf(CallableSBase nsb) {
 		return raiseByThePowerOf(new ASTNode(nsb, getParentSBMLObject()));
 	}
 
@@ -3447,7 +3447,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * 
 	 * @param variable
 	 */
-	public void setVariable(NamedSBaseWithDerivedUnit variable) {
+	public void setVariable(CallableSBase variable) {
 		type = Type.NAME;
 		this.variable = variable;
 	}

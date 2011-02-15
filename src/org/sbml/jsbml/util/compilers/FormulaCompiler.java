@@ -29,12 +29,12 @@ import java.util.Locale;
 import java.util.Vector;
 
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
-import org.sbml.jsbml.NamedSBaseWithDerivedUnit;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -513,12 +513,9 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.
-	 * NamedSBaseWithDerivedUnit)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.CallableSBase)
 	 */
-	public ASTNodeValue compile(NamedSBaseWithDerivedUnit variable) {
+	public ASTNodeValue compile(CallableSBase variable) {
 		return new ASTNodeValue(variable.getId(), this);
 	}
 
