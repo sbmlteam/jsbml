@@ -40,6 +40,7 @@ public class FormulaTest {
 				"ln(2)/mdt",
 				"exp(-mu*D)",
 				"log(2)/mdt",
+				"a_b__3_c + 5",
 				//"-3 * -5",
 				//"-3/5",
 //				"-5 -4",

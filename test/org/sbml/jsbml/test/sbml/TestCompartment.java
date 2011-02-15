@@ -75,8 +75,8 @@ public class TestCompartment {
     assertTrue( C.getName().equals("") == true );
     assertTrue( C.getUnits().equals("") == true );
     assertTrue( C.getOutside().equals("") == true );
-    assertTrue( C.getSpatialDimensions() == 3 );
-    assertTrue( C.getVolume() == 1.0 );
+    assertTrue( C.getSpatialDimensions() == 3d );
+    assertTrue( C.getVolume() == 1d );
     assertTrue( C.getConstant() == true );
     assertEquals( false, C.isSetId() );
     assertEquals( false, C.isSetName() );
@@ -95,7 +95,7 @@ public class TestCompartment {
     assertTrue( c.getNotes() == null );
     // assertTrue( c.getAnnotation() == null );
     assertTrue( c.getName().equals("") == true );
-    assertTrue( c.getSpatialDimensions() == 3 );
+    assertTrue( c.getSpatialDimensions() == 3d );
     assertTrue(c.getId().equals( "A"     ));
     assertTrue( c.getConstant() == true );
     assertEquals( true, c.isSetId() );
@@ -107,7 +107,7 @@ public class TestCompartment {
   @Test public void test_Compartment_getSpatialDimensions()
   {
     C.setSpatialDimensions(1);
-    assertTrue( C.getSpatialDimensions() == 1 );
+    assertTrue( C.getSpatialDimensions() == 1d );
   }
 
   @Test public void test_Compartment_getsetConstant()
@@ -135,7 +135,7 @@ public class TestCompartment {
     assertTrue( c.getName().equals("") == true );
     assertTrue( c.getUnits().equals("") == true );
     assertTrue( c.getOutside().equals("") == true );
-    assertTrue( c.getSpatialDimensions() == 3 );
+    assertTrue( c.getSpatialDimensions() == 3d );
     assertTrue( c.getVolume() == 1.0 );
     assertTrue( c.getConstant() == true );
     assertEquals( true, c.isSetId() );
