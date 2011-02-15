@@ -272,18 +272,20 @@ public class Compartment extends Symbol {
 
 	/**
 	 * Returns the {@link #spatialDimensions} of this {@link Compartment}. If it
-	 * is not set and the level of this {@link Compartment} is two it returns
-	 * the default SBML Level 2 value, which is 3. In all other cases,
-	 * {@link Double#NaN} will be returned.
+	 * is not set and the level of this {@link Compartment} is either one or two
+	 * it returns the default SBML Level 2 value, which is 3. In all other
+	 * cases, {@link Double#NaN} will be returned.
 	 * 
 	 * @return the {@link #spatialDimensions} of this {@link Compartment} or 3
-	 *         if {@link #spatialDimensions} is not set and level is 2.
+	 *         if {@link #spatialDimensions} is not set and level is 1 or 2.
 	 */
 	public double getSpatialDimensions() {
 		if (isSetSpatialDimensions() && (spatialDimensions != null)) {
 			return spatialDimensions.doubleValue();
 		}
-		if (getLevel() == 2) {
+		if (getLevel() < 3) {
+			// Although in Level 1, no spatial dimensions are defined, but
+			// these are implicitly 3 due to the volume attribute.
 			return 3d;
 		}
 		return Double.NaN;
@@ -308,8 +310,11 @@ public class Compartment extends Symbol {
 	 * provides both getSize() and getVolume() for easier compatibility between
 	 * SBML Levels.
 	 * 
-	 * @return the volume of this Compartment
+	 * @return the volume of this {@link Compartment}
+	 * @deprecated The volume attribute is only defined in SBML Level 1. Please
+	 *             use {@link #getSize()}.
 	 */
+	@Deprecated
 	public double getVolume() {
 		return getSize();
 	}
@@ -396,8 +401,8 @@ public class Compartment extends Symbol {
 
 	/**
 	 * <p>
-	 * Returns true or false depending on whether
-	 * this Compartment's 'volume' attribute has been set.
+	 * Returns true or false depending on whether this Compartment's 'volume'
+	 * attribute has been set.
 	 * </p>
 	 * <p>
 	 * Some words of explanation about the set/unset/isSet methods: SBML Levels
@@ -413,21 +418,24 @@ public class Compartment extends Symbol {
 	 * of the optional attribute in question.
 	 * </p>
 	 * <p>
-	 * This method is similar but not identical to {@link #isSetSize()}. The latter
-	 * should not be used in the context of SBML Level 1 models because this
-	 * method (isSetVolume()) performs extra processing to take into account the
-	 * difference in default values between SBML Levels 1 and 2.
+	 * This method is similar but not identical to {@link #isSetSize()}. The
+	 * latter should not be used in the context of SBML Level 1 models because
+	 * this method (isSetVolume()) performs extra processing to take into
+	 * account the difference in default values between SBML Levels 1 and 2.
 	 * </p>
 	 * 
 	 * @return true if the 'volume' attribute ('size' in L2) of this Compartment
 	 *         has been set, false otherwise.
 	 * @see #isSetSize()
-	 * @jsbml.note In SBML Level 1, a compartment's volume has a default value ( 1.0)
-	 *       and therefore this method will always return true. In Level 2, a
-	 *       compartment's size (the equivalent of SBML Level 1's 'volume') is
-	 *       optional and has no default value, and therefore may or may not be
-	 *       set.
+	 * @jsbml.note In SBML Level 1, a compartment's volume has a default value (
+	 *             1.0) and therefore this method will always return true. In
+	 *             Level 2, a compartment's size (the equivalent of SBML Level
+	 *             1's 'volume') is optional and has no default value, and
+	 *             therefore may or may not be set.
+	 * @deprecated The volume attribute is only defined in SBML Level 1. Please
+	 *             use {@link #isSetSize()}
 	 */
+	@Deprecated
 	public boolean isSetVolume() {
 		return isSetSize();
 	}
@@ -445,7 +453,6 @@ public class Compartment extends Symbol {
 				value);
 		if (!isAttributeRead) {
 			isAttributeRead = true;
-			
 			if (attributeName.equals("spatialDimensions")) {
 				setSpatialDimensions(StringTools.parseSBMLShort(value));
 			} else if (attributeName.equals("units")) {
@@ -680,7 +687,7 @@ public class Compartment extends Symbol {
 	 */
 	@Override
 	public void setValue(double value) {
-		if (getSpatialDimensions() > 0) {
+		if (getSpatialDimensions() > 0d) {
 			super.setValue(value);
 		} else {
 			throw new IllegalArgumentException(String.format(
@@ -707,14 +714,18 @@ public class Compartment extends Symbol {
 	 * of the optional attribute in question.
 	 * </p>
 	 * <p>
-	 * This method is identical to setVolume() and is provided for compatibility
-	 * between SBML Level 1 and Level 2.
+	 * This method is identical to {@link #setSize(double)} and is provided for
+	 * compatibility between SBML Level 1 and Level 2.
 	 * </p>
 	 * 
 	 * @param value
 	 *            a double representing the volume of this compartment instance
 	 *            in whatever units are in effect for the compartment.
+	 * @deprecated This method is only available for SBML Level 1. You should
+	 *             either use {@link #setSize(double)} or
+	 *             {@link #setValue(double)}.
 	 */
+	@Deprecated
 	public void setVolume(double value) {
 		if (getLevel() != 1) {
 			throw new PropertyNotAvailableError(SBaseChangedEvent.volume, this);
@@ -774,8 +785,7 @@ public class Compartment extends Symbol {
 
 	/**
 	 * <p>
-	 * Unsets the value of the 'volume' attribute of this
-	 * Compartment.
+	 * Unsets the value of the 'volume' attribute of this Compartment.
 	 * </p>
 	 * <p>
 	 * Some words of explanation about the set/unset/isSet methods: SBML Levels
@@ -795,7 +805,11 @@ public class Compartment extends Symbol {
 	 * therefore should always be set. In Level 2, 'size' is optional with no
 	 * default value and as such may or may not be set.
 	 * </p>
+	 * 
+	 * @deprecated The volume attribute is only defined in SBML Level 1. Please
+	 *             use {@link #unsetSize()}
 	 */
+	@Deprecated
 	public void unsetVolume() {
 		unsetSize();
 	}

@@ -78,17 +78,9 @@ public class TestIncompatibilities {
 	    assertTrue( c.getNamespaces() != null );
 //	    assertTrue( c.getNamespaces().getLength() == 2 );
 	    assertTrue( c.getName().equals("") == true );
-	    assertTrue( c.getSpatialDimensions() == 3 );
+	    assertTrue( c.getSpatialDimensions() == 3d );
 	    assertTrue( c.getConstant() == true );
 	    c = null;
-	  }
-
-	  @Test public void test_Compartment_unsetVolume()
-	  {
-	    C.setVolume(1.0); // Volume is not an SBML level 2 attribute, so we throw an exception to tell the user
-	    assertTrue( C.getVolume() == 1.0 );
-	    C.unsetVolume();
-	    assertEquals( false, C.isSetVolume() );
 	  }
 
 	  @Test public void test_Compartment_getAnnotation()
@@ -202,6 +194,16 @@ public class TestIncompatibilities {
 		  // assertTrue(ud.getUnit(0).getKind() == Unit.Kind.LITRE); 
 		  // TODO : API changes to document
 
+	  }
+	  
+	  @Test public void test_Compartment_unsetVolume()
+	  {
+		C.setLevel(1);
+		C.setVersion(2);
+	    C.setVolume(1d); // Volume is not an SBML level 2 attribute, so we throw an exception to tell the user
+	    assertTrue( C.getVolume() == 1d );
+	    C.unsetVolume();
+	    assertEquals( false, C.isSetVolume() );
 	  }
 	  
 }
