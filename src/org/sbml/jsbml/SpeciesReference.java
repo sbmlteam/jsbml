@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.util.Locale;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -591,8 +592,8 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetStoichiometry()) {
-			attributes
-					.put("stoichiometry", Double.toString(getStoichiometry()));
+			attributes.put("stoichiometry", StringTools.toString(
+					Locale.ENGLISH, getStoichiometry()));
 		}
 		if (isSetConstant()) {
 			attributes.put("constant", Boolean.toString(getConstant()));

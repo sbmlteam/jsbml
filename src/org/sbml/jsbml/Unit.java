@@ -21,6 +21,7 @@
 package org.sbml.jsbml;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -2142,7 +2143,8 @@ public class Unit extends AbstractSBase {
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
-
+		
+		Locale en = Locale.ENGLISH;
 		if (isSetKind()) {
 			attributes.put("kind", getKind().toString().toLowerCase());
 		}
@@ -2151,22 +2153,24 @@ public class Unit extends AbstractSBase {
 		}
 		if (1 < getLevel()) {
 			if (isSetMultiplier()) {
-				attributes.put("multiplier", Double.toString(getMultiplier()));
+				attributes.put("multiplier", StringTools.toString(en,
+						getMultiplier()));
 			}
 		}
 		if ((getLevel() == 2) && (getVersion() == 1)) {
 			if (isSetOffset()) {
-				attributes.put("offset", Double.toString(getOffset()));
+				attributes.put("offset", StringTools.toString(en, getOffset()));
 			}
 		}
 		if (isSetExponent()) {
 			if (2 < getLevel()) {
-				attributes.put("exponent", Double.toString(getExponent()));
+				attributes.put("exponent", StringTools.toString(en,
+						getExponent()));
 			} else {
 				int exponent = (int) getExponent();
 				attributes.put("exponent", Integer
 						.toString((int) getExponent()));
-				if (exponent - getExponent() != 0) {
+				if (exponent - getExponent() != 0d) {
 					// TODO: Throw Exception?
 					System.err.printf("Illegal non-integer exponent %d.\n",
 							getExponent());
