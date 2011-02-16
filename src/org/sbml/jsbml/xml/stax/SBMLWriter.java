@@ -51,9 +51,11 @@ import org.codehaus.stax2.XMLStreamWriter2;
 import org.codehaus.staxmate.SMOutputFactory;
 import org.codehaus.staxmate.dom.DOMConverter;
 import org.codehaus.staxmate.out.SMNamespace;
+import org.codehaus.staxmate.out.SMOutputContainer;
 import org.codehaus.staxmate.out.SMOutputContext;
 import org.codehaus.staxmate.out.SMOutputDocument;
 import org.codehaus.staxmate.out.SMOutputElement;
+import org.codehaus.staxmate.out.SMRootFragment;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.CVTerm;
@@ -443,7 +445,7 @@ public class SBMLWriter {
 		SMOutputFactory smFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
 		XMLStreamWriter2 streamWriter = smFactory.createStax2Writer(stream);
 		
-		// This does not work probably because we go to the line, so the element is not considered empty !!
+		// For this to work, the elements need to be completely empty (no whitespace or line return)
 		streamWriter.setProperty(XMLOutputFactory2.P_AUTOMATIC_EMPTY_ELEMENTS, Boolean.TRUE);
 
 		SMOutputDocument outputDocument = SMOutputFactory.createOutputDocument(
@@ -518,7 +520,7 @@ public class SBMLWriter {
 		}
 		if (sbmlDocument.isSetAnnotation()) {
 			writeAnnotation(sbmlDocument, smOutputElement, streamWriter,
-					SBMLNamespace, indent);
+					SBMLNamespace, indent, false);
 		}
 		smOutputElement.addCharacters("\n");
 
@@ -585,8 +587,8 @@ public class SBMLWriter {
 	 * @throws SBMLException
 	 * @throws SAXException
 	 */
-	private void writeAnnotation(SBase sbase, SMOutputElement element,
-			XMLStreamWriter writer, String sbmlNamespace, int indent)
+	private void writeAnnotation(SBase sbase, SMOutputContainer element,
+			XMLStreamWriter writer, String sbmlNamespace, int indent, boolean xmlFragment)
 		throws XMLStreamException, SBMLException 
 	{
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
@@ -594,9 +596,14 @@ public class SBMLWriter {
 		Annotation annotation = sbase.getAnnotation();
 		SMOutputElement annotationElement;
 		String whiteSpaces = createIndentationString(indent);
-		element.addCharacters("\n");
-		element.setIndentation(whiteSpaces, indent, indentCount);
-		annotationElement = element.addElement(namespace, "annotation");
+		
+		if (xmlFragment) {
+			annotationElement = element.addElement("annotation");
+		} else {
+			element.addCharacters("\n");
+			element.setIndentation(whiteSpaces, indent, indentCount);		
+			annotationElement = element.addElement(namespace, "annotation");
+		}
 		annotationElement.setIndentation(whiteSpaces, indent, indentCount);
 
 		if ((annotation.getNonRDFannotation() != null)
@@ -1211,7 +1218,7 @@ public class SBMLWriter {
 								writeAnnotation(s, newOutPutElement,
 										streamWriter, newOutPutElement
 												.getNamespace().getURI(),
-										indent + indentCount);
+										indent + indentCount, false);
 								elementIsNested = true;
 							}
 							if (s.getChildCount() > 0) {
@@ -1311,7 +1318,7 @@ public class SBMLWriter {
 	
 	public String writeAnnotation(SBase sbase) {
 		
-		String annotationStr = "";
+		String annotationStr = "<annotation>\n</annotation>";
 
 		if (sbase == null || (!sbase.isSetAnnotation())) {
 			return annotationStr;
@@ -1322,35 +1329,29 @@ public class SBMLWriter {
 		SMOutputFactory smFactory = new SMOutputFactory(WstxOutputFactory.newInstance());
 
 		try {
-			XMLStreamWriter writer = smFactory.createStax2Writer(stream);
+			XMLStreamWriter2 writer = smFactory.createStax2Writer(stream);
 
-			writer.writeStartDocument();
-			writer.writeCharacters("\n");
-			
-			logger.warn(" Warning !! : SBMLwriter.writeAnnotation is not fully implemented");
-			
-			// TODO : register all the sbml element namespaces
-			
-			// writer.writeNamespace(null, ASTNode.URI_MATHML_DEFINITION);			
-			// writer.writeCharacters("\n");
+			// For this to work, the elements need to be completely empty (no whitespace or line return)
+			writer.setProperty(XMLOutputFactory2.P_AUTOMATIC_EMPTY_ELEMENTS, Boolean.TRUE);
 
-			// writer.setPrefix("math", ASTNode.URI_MATHML_DEFINITION);
+			// Create an xml fragment to avoid having the xml declaration
+			SMRootFragment outputDocument = SMOutputFactory.createOutputFragment(writer);
 
-			// TODO : call the writeAnnotation method
+			// create the sbmlNamespace variable
+			String sbmlNamespace = getNamespaceFrom(sbase.getLevel(), sbase.getVersion());
+			SMOutputContext context = outputDocument.getContext();
+			SMNamespace namespace = context.getNamespace(sbmlNamespace);
+			namespace.setPreferredPrefix("");
 			
-			// TODO : define the SMOutputElement
-			SMOutputElement element = null;
-			
-			// TODO : create the sbmlNamespace variable
-			String sbmlNamespace = null;
-			
-			writeAnnotation(sbase, element, writer, sbmlNamespace, 0);
-			
+			// all the sbml element namespaces are registered to the writer in the writeAnnotation method
+
+			// call the writeAnnotation, indicating that we are building an xml fragment
+			writeAnnotation(sbase, outputDocument, writer, sbmlNamespace, 0, true);
+
 			writer.writeEndDocument();
 			writer.close();
 
 			annotationStr = stream.toString();
-
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		} catch (SBMLException e) {
