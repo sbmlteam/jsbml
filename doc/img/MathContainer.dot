@@ -19,7 +19,7 @@ margin=0;
 // <tr><td align="center" balign="center"> SBase </td></tr>
 // 		</table></td></tr>
 // 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
-// //org.sbml.jsbml.NamedSBaseWithDerivedUnit implements org.sbml.jsbml.NamedSBase
+// //org.sbml.jsbml.CallableSBase implements org.sbml.jsbml.NamedSBaseWithDerivedUnit
 // 	c:p -> c11:p [dir=back,arrowtail=empty,style=dashed];
 // //org.sbml.jsbml.AbstractSBase implements org.sbml.jsbml.SBase
 // 	c:p -> c18:p [dir=back,arrowtail=empty,style=dashed];
@@ -114,11 +114,11 @@ margin=0;
 // <tr><td align="center" balign="center"> ListOf&lt;T extends SBase&gt; </td></tr>
 // 		</table></td></tr>
 // 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.sbml.jsbml.NamedSBaseWithDerivedUnit
-	c11 [height=0.1,width=0.1,label=<<table title="org.sbml.jsbml.NamedSBaseWithDerivedUnit" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	// org.sbml.jsbml.CallableSBase
+	c11 [height=0.1,width=0.1,label=<<table title="org.sbml.jsbml.CallableSBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> NamedSBaseWithDerivedUnit </td></tr>
+<tr><td align="center" balign="center"> CallableSBase </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.sbml.jsbml.AbstractMathContainer
@@ -158,7 +158,7 @@ margin=0;
 	// org.sbml.jsbml.FunctionDefinition
 	c17 [height=0.1,label=<<table title="org.sbml.jsbml.FunctionDefinition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Function<br/>Definition </td></tr>
+<tr><td align="center" balign="center"> FunctionDefinition </td></tr>
 		</table></td></tr>
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="left" balign="left"> - id : String </td></tr>
@@ -183,7 +183,7 @@ margin=0;
 	//org.sbml.jsbml.EventAssignment extends org.sbml.jsbml.AbstractMathContainer
 	c12:p -> c0:p [dir=back,arrowtail=empty];
 	//org.sbml.jsbml.Rule extends org.sbml.jsbml.AbstractMathContainer
-	c12:se -> c1:nw [dir=back,arrowtail=empty];
+	c12:s -> c1:nw [dir=back,arrowtail=empty];
 	//org.sbml.jsbml.AlgebraicRule extends org.sbml.jsbml.Rule
 	c1:p -> c2:p [dir=back,arrowtail=empty];
 	//org.sbml.jsbml.ExplicitRule extends org.sbml.jsbml.Rule
@@ -224,7 +224,7 @@ margin=0;
 	c16:s -> c21:p [taillabel="0..*       ", label="  ListOf", headlabel="1", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=none, arrowtail=diamond];
 	//org.sbml.jsbml.FunctionDefinition extends org.sbml.jsbml.AbstractMathContainer
 	c12:p -> c17:p [dir=back,arrowtail=empty];
-	//org.sbml.jsbml.FunctionDefinition implements org.sbml.jsbml.NamedSBaseWithDerivedUnit
+	//org.sbml.jsbml.FunctionDefinition implements org.sbml.jsbml.CallableSBase
 	c11:s -> c17:p [dir=back,arrowtail=empty,style=dashed];
 	// MathContainer
 	c18[label=<<table title="org.sbml.jsbml.MathContainer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
@@ -260,11 +260,11 @@ margin=0;
 <tr><td align="center" balign="center"> SBaseWithDerivedUnit </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
-        // NamedSBase
-        c23 [height=0.1,width=0.1,label=<<table title="org.sbml.jsbml.NamedSBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+        // NamedSBaseWithDerivedUnit
+        c23 [height=0.1,width=0.1,label=<<table title="org.sbml.jsbml.NamedSBaseWithDerivedUnit" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> NamedSBase </td></tr>
+<tr><td align="center" balign="center"> NamedSBaseWithDerivedUnit </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.sbml.jsbml.SBaseWithUnit
@@ -295,7 +295,8 @@ margin=0;
 c1:s -> c17:n [style="invis"];
 c18:p -> c22:p [dir=back,arrowtail=none,style=dashed,arrowhead=empty];
 // c22:p -> c12:n [dir=back,arrowtail=empty,style=dashed];
-c22:p -> c11:p [dir=back,arrowtail=empty,style=dashed];
+c22:p -> c23:p [dir=back,arrowtail=empty,style=dashed];
+{rank="same"; c22; c23}
 c23:p -> c11:p [dir=back,arrowtail=empty,style=dashed];
 c22:p -> c33:p [dir=back,arrowtail=empty,style=dashed];
 c33:p -> c32:p [dir=back,arrowtail=empty,style=dashed]; // ExplicitRule

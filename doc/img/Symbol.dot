@@ -208,12 +208,22 @@ digraph G {
 <tr><td align="center" balign="center"> SBaseWithDerivedUnit </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
+
+	// org.sbml.jsbml.CallableSBase
+	c21 [label=<<table title="org.sbml.jsbml.CallableSBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> CallableSBase </td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
+
+
 	//org.sbml.jsbml.Symbol extends org.sbml.jsbml.QuantityWithUnit
 	c7:p -> c0:p [dir=back,arrowtail=empty];
 	//org.sbml.jsbml.Symbol implements org.sbml.jsbml.Variable
 	c6:p -> c0:p [dir=back,arrowtail=empty,style=dashed];
 	// org.sbml.jsbml.AbstractNamedSBaseWithUnit HAS org.sbml.jsbml.UnitDefinition
-	c17:p -> c15:p [taillabel="             0..1", label="  units", headlabel=" 1", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=none, arrowtail=ediamond];
+	c17:p -> c15:p [taillabel="\n             0..1", label="units\n\n\n", headlabel="      1\n\n", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=none, arrowtail=ediamond];
 	//org.sbml.jsbml.LocalParameter extends org.sbml.jsbml.QuantityWithUnit
 	c7:p -> c1:p [dir=back,arrowtail=empty];
 	//org.sbml.jsbml.SpeciesReference extends org.sbml.jsbml.SimpleSpeciesReference
@@ -239,9 +249,11 @@ digraph G {
 	//org.sbml.jsbml.SimpleSpeciesReference extends org.sbml.jsbml.AbstractNamedSBase
 	c10:p -> c8:p [dir=back,arrowtail=empty];
 	// org.sbml.jsbml.SimpleSpeciesReference HAS org.sbml.jsbml.Species
-	c8:p -> c5:p [taillabel="\n1      ", label="reference\n\n\n\n\n\n\n\n", headlabel="   1..*", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=none, arrowtail=ediamond];
-	//org.sbml.jsbml.Quantity implements org.sbml.jsbml.NamedSBaseWithDerivedUnit
-	c12:p -> c9:p [dir=back,arrowtail=empty,style=dashed];
+	c8:p -> c5:p [taillabel="\n1      ", label="reference", headlabel="1..*\n\n", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=none, arrowtail=ediamond];
+	//org.sbml.jsbml.Quantity implements org.sbml.jsbml.CallableSBase
+	c21:p -> c9:p [dir=back,arrowtail=empty,style=dashed];
+	//org.sbml.jsbml.CallableSBase implements org.sbml.jsbml.NamedSBaseWithDerivedUnit
+	c12:p -> c21:p [dir=back,arrowtail=empty,style=dashed];
 	//org.sbml.jsbml.AbstractNamedSBase extends org.sbml.jsbml.AbstractSBase
 	c11:p -> c10:p [dir=back,arrowtail=empty];
 	//org.sbml.jsbml.AbstractNamedSBase implements org.sbml.jsbml.NamedSBase
@@ -257,7 +269,7 @@ digraph G {
 	//org.sbml.jsbml.UnitDefinition extends org.sbml.jsbml.AbstractNamedSBase
 	c10:p -> c15:p [dir=back,arrowtail=empty];
 	// org.sbml.jsbml.UnitDefinition COMPOSED org.sbml.jsbml.Unit
-	c15:p -> c16:p [taillabel="\n1..*    ", label="  ListOf", headlabel="1", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=none, arrowtail=diamond];
+	c15:p -> c16:p [taillabel="\n1..*      ", label="ListOf", headlabel=" 1", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=none, arrowtail=diamond];
 	//org.sbml.jsbml.Unit extends org.sbml.jsbml.AbstractSBase
 	c11:p -> c16:p [dir=back,arrowtail=empty];
 	// SpeciesType
@@ -279,5 +291,6 @@ digraph G {
 
 
 // {rank="same"; c15; c16}
+  {rank="same"; c9; c21}
 }
 

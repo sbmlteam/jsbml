@@ -57,7 +57,7 @@ margin=0;
 <tr><td align="left" balign="left"> - parent : ASTNode </td></tr>
 <tr><td align="left" balign="left"> - type : ASTNode.Type </td></tr>
 <tr><td align="left" balign="left"> - unitId : String </td></tr>
-<tr><td align="left" balign="left"> - variable : NamedSBaseWithDerivedUnit </td></tr>
+<tr><td align="left" balign="left"> - variable : CallableSBase </td></tr>
 <tr><td align="left" balign="left"> ~ parentSBMLObject : MathContainer </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
@@ -122,11 +122,11 @@ margin=0;
 <tr><td align="center" balign="center"> Serializable </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.sbml.jsbml.NamedSBaseWithDerivedUnit
-	c10 [label=<<table title="org.sbml.jsbml.NamedSBaseWithDerivedUnit" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	// org.sbml.jsbml.CallableSBase
+	c10 [label=<<table title="org.sbml.jsbml.CallableSBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> NamedSBaseWithDerivedUnit </td></tr>
+<tr><td align="center" balign="center"> CallableSBase </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 
@@ -141,7 +141,7 @@ margin=0;
         c8:n -> c6:n [dir=back,arrowtail=empty,style=dashed];
         // SBase -> Serializable
         c9:n -> c6:n [dir=back,arrowtail=empty,style=dashed];
-        // NamedSBaseWithDerivedUnit -> SBase
+        // CallableSBase -> SBase
         c5:p -> c10:p [dir=back,arrowtail=empty,style=dashed];
         // ASTNode -> Cloneable
         c8:s -> c2:n [dir=back,arrowtail=empty,style=dashed];
