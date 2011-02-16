@@ -178,11 +178,11 @@ margin=0;
 <tr><td align="center" balign="center"> NamedSBaseWithDerivedUnit </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
-        // org.sbml.jsbml.Quantity
-	c17 [height=0.1,width=0.1,label=<<table title="org.sbml.jsbml.Quantity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+        // org.sbml.jsbml.CallableSBase
+	c17 [height=0.1,width=0.1,label=<<table title="org.sbml.jsbml.CallableSBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> Quantity </td></tr>
+<tr><td align="center" balign="center"> CallableSBase </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
         // org.sbml.jsbml.Reaction
@@ -202,14 +202,13 @@ margin=0;
 <!--<tr><td align="left" balign="left"> - isSetReversible : boolean </td></tr>-->
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
-        // org.sbml.jsbml.FunctionDefinition
-        c19 [height=0.1,label=<<table title="org.sbml.jsbml.FunctionDefinition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+        // org.sbml.jsbml.AbstractNamedSBaseWithUnit
+        c19 [height=0.1,label=<<table title="org.sbml.jsbml.AbstractNamedSBaseWithUnit" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> FunctionDefinition </font></td></tr>
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> AbstractNamedSBaseWithUnit </font></td></tr>
 		</table></td></tr>
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="left" balign="left"> - id : String </td></tr>
-<tr><td align="left" balign="left"> - name : String </td></tr>
+<tr><td align="left" balign="left"> - unitsID : String </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
         // org.sbml.jsbml.MathContainer
@@ -243,7 +242,7 @@ margin=0;
 	//org.sbml.jsbml.AbstractNamedSBase extends org.sbml.jsbml.AbstractSBase
 	c3:sw -> c4:n [dir=back,arrowtail=empty];
 	//org.sbml.jsbml.AbstractNamedSBase implements org.sbml.jsbml.NamedSBase
-	c2:sw -> c4:p [dir=back,arrowtail=empty,style=dashed];
+	c2:p -> c4:n [dir=back,arrowtail=empty,style=dashed];
 	// org.sbml.jsbml.Annotation COMPOSED org.sbml.jsbml.CVTerm
 	c5:p -> c6:p [taillabel="0..*      ", label=" MIRIAM", headlabel="1", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=none, arrowtail=diamond];
 	// org.sbml.jsbml.Annotation COMPOSED org.sbml.jsbml.History
@@ -255,20 +254,25 @@ margin=0;
 
 
 
- // Quantity -> NamedSBaseWithDerivedUnit
+ // CallableSBase -> NamedSBaseWithDerivedUnit
  c16:p -> c17:p [dir=back,arrowtail=empty,style=dashed];
  // NamedSBaseWithDerivedUnit -> SBaseWithDerivedUnit
- c15:p -> c16:p [dir=back,arrowtail=empty,style=dashed];
+ c15:s -> c16:p [dir=back,arrowtail=empty,style=dashed];
  // SBaseWithDerivedUnit -> SBase
  c1:p -> c15:n [dir=back,arrowtail=empty,style=dashed];
  // NamedSBaseWithDerivedUnit -> NamedSBase
- c2:se -> c16:n [dir=back,arrowtail=empty,style=dashed];
- // Reaction -> NamedSBaseWithDerivedUnit
- c16:sw -> c18:n [dir=back,arrowtail=empty,style=dashed];
- // FunctionDefinition -> NamedSBaseWithDerivedUnit
+ c2:p -> c16:p [dir=back,arrowtail=empty,style=dashed];
+ // Reaction -> CallableSBase
+ c17:p -> c18:p [dir=back,arrowtail=empty,style=dashed];
+
+ {rank="same"; c17; c18}
+
+ // AbstractNamedSBaseWithUnit -> NamedSBaseWithDerivedUnit
  c16:se -> c19:n [dir=back,arrowtail=empty,style=dashed];
  // Reaction -> AbstractNamedSBase
- c4:p -> c18:n [dir=back,arrowtail=empty,style=dashed];
+ c4:s -> c18:n [dir=back,arrowtail=empty];
+ // Reaction -> AbstractNamedSBase
+ c4:p -> c19:n [dir=back,arrowtail=empty];
 
  // MathContainer -> SBaseWithDerivedUnit
  //c15:p -> c20:p [dir=back,arrowtail=empty,style=dashed];

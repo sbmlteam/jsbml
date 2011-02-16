@@ -3,16 +3,14 @@ package org.sbml.gui;
 import javax.swing.*;
 import org.sbml.jsbml.*;
 
+/** Displays the content of an SBML file in a {@link JTree} */
 public class JSBMLvisualizer extends JFrame {
 
 	public JSBMLvisualizer(SBMLDocument document) {
 		super(document.isSetModel() ? document.getModel().getId() : "SBML Visualizer");
-		getContentPane().add(new JScrollPane(new JTree(document),
-						JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-						JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
+		getContentPane().add(new JScrollPane(new JTree(document)));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack();
-		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 	/** @param args Expects a valid path to an SBML file. */ 
