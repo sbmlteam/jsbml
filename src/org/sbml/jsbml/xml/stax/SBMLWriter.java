@@ -38,8 +38,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -65,13 +65,13 @@ import org.sbml.jsbml.History;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
@@ -456,6 +456,7 @@ public class SBMLWriter {
 		String SBMLNamespace = getNamespaceFrom(sbmlDocument.getLevel(),
 				sbmlDocument.getVersion());
 		SMOutputContext context = outputDocument.getContext();
+		context.setIndentation("\n  ", 1, 2);
 		SMNamespace namespace = context.getNamespace(SBMLNamespace);
 		namespace.setPreferredPrefix("");
 		outputDocument.addCharacters("\n");
@@ -685,9 +686,6 @@ public class SBMLWriter {
 			writeRDFAnnotation(annotation, annotationElement, writer,
 					indent + indentCount);
 		}
-		SBMLObjectForXML xmlObject = new SBMLObjectForXML();
-		writeSBMLElements(xmlObject, annotationElement, writer, annotation,
-				indent + indentCount);
 	}
 
 	/**
@@ -911,22 +909,24 @@ public class SBMLWriter {
 	 * 
 	 */
 	private void writeMathML(MathContainer m, SMOutputElement element,
-			XMLStreamWriter writer, int indent) throws XMLStreamException {
+			XMLStreamWriter writer, int indent) throws XMLStreamException 
+	{
 		if (m.isSetMath()) {
 
-			writer.writeCharacters("\n");
+			// set the indentation for the closing tag
+			element.setIndentation(createIndentationString(indent), indent + indentCount, indentCount);
+			element.addCharacters("\n");
+			// set the indentation for the math opening tag			
+			element.setIndentation(createIndentationString(indent), indent + indentCount, indentCount);
+
+			// Creating an SMOutputElement to be sure that the previous nested element tag is closed properly.
+			SMNamespace mathMLNamespace = element.getNamespace(ASTNode.URI_MATHML_DEFINITION, ASTNode.URI_MATHML_PREFIX);
+			SMOutputElement mathElement = element.addElement(mathMLNamespace, "math");
+
+			mathElement.setIndentation(createIndentationString(indent + 2), indent + indentCount, indentCount);
+			
 			writer.writeCharacters(createIndentationString(indent));
-			// writer.setPrefix("math", URI_MATHML_DEFINITION);
-			// writer.writeStartElement(URI_MATHML_DEFINITION,
-			// "math");
-
-			writer.writeStartElement("math"); // URI_MATHML_DEFINITION,
-			writer.writeNamespace(null, ASTNode.URI_MATHML_DEFINITION);
-			writer.setPrefix("math", ASTNode.URI_MATHML_DEFINITION);
-			writer.setDefaultNamespace(ASTNode.URI_MATHML_DEFINITION);
-
-			// writer.writeAttribute("xmlns:math", URI_MATHML_DEFINITION);
-
+			
 			writer.writeCharacters("\n");
 
 			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
@@ -934,7 +934,6 @@ public class SBMLWriter {
 			compiler.compile(m.getMath());
 
 			writer.writeCharacters(createIndentationString(indent));
-			writer.writeEndElement();
 		}
 	}
 

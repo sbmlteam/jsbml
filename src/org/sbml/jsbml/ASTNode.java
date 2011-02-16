@@ -546,7 +546,12 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * URI for the definition of MathML.
 	 */
 	public static final transient String URI_MATHML_DEFINITION = "http://www.w3.org/1998/Math/MathML";
-	
+
+	/**
+	 * URI prefix for the definition of MathML, it will be used to write the sbml file
+	 */
+	public static final String URI_MATHML_PREFIX = "";
+
 	/**
 	 * The URI for the definition of the csymbol for avogadro.
 	 */
@@ -575,6 +580,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -1391327698196553142L;
+
 
 	/**
 	 * Creates and returns an {@link ASTNode} that computes the absolute value
