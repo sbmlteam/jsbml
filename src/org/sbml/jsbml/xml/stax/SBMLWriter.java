@@ -685,7 +685,13 @@ public class SBMLWriter {
 			}
 			writeRDFAnnotation(annotation, annotationElement, writer,
 					indent + indentCount);
+		} else {
+			logger.warn("Some annotations will be lost as there is no metaid defined on " + sbase.getElementName());
 		}
+		
+		// set the indentation for the closing tag
+		element.setIndentation(whiteSpaces, indent + indentCount, indentCount);
+
 	}
 
 	/**
@@ -913,11 +919,10 @@ public class SBMLWriter {
 	{
 		if (m.isSetMath()) {
 
-			// set the indentation for the closing tag
-			element.setIndentation(createIndentationString(indent), indent + indentCount, indentCount);
+			String whitespaces = createIndentationString(indent);
 			element.addCharacters("\n");
 			// set the indentation for the math opening tag			
-			element.setIndentation(createIndentationString(indent), indent + indentCount, indentCount);
+			element.setIndentation(whitespaces, indent + indentCount, indentCount);
 
 			// Creating an SMOutputElement to be sure that the previous nested element tag is closed properly.
 			SMNamespace mathMLNamespace = element.getNamespace(ASTNode.URI_MATHML_DEFINITION, ASTNode.URI_MATHML_PREFIX);
@@ -925,7 +930,7 @@ public class SBMLWriter {
 
 			mathElement.setIndentation(createIndentationString(indent + 2), indent + indentCount, indentCount);
 			
-			writer.writeCharacters(createIndentationString(indent));
+			writer.writeCharacters(whitespaces);
 			
 			writer.writeCharacters("\n");
 
@@ -933,7 +938,7 @@ public class SBMLWriter {
 					writer, createIndentationString(indent + indentCount));
 			compiler.compile(m.getMath());
 
-			writer.writeCharacters(createIndentationString(indent));
+			writer.writeCharacters(whitespaces);
 		}
 	}
 
