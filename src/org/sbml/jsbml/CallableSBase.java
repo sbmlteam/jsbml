@@ -31,6 +31,7 @@ package org.sbml.jsbml;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2011-02-15
+ * @since 0.8-b2
  */
 public interface CallableSBase extends NamedSBaseWithDerivedUnit {
 
