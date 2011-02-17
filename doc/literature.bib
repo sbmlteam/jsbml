@@ -118,6 +118,66 @@
 	rate law, SBML, SBML2LaTeX, SBMLsqueezer, valine biosynthesis}
 }
 
+@ARTICLE{Draeger2008,
+  author = {Dr{\"a}ger, Andreas and Hassis, Nadine and Supper, Jochen and Schr{\"o}der,
+	Adrian and Zell, Andreas},
+  title = {{SBMLsqueezer: a CellDesigner plug-in to generate kinetic rate equations
+	for biochemical networks}},
+  journal = {BMC Systems Biology},
+  year = {2008},
+  volume = {2},
+  pages = {39},
+  number = {1},
+  month = {April},
+  abstract = {Background
+	
+	The development of complex biochemical models has been facilitated
+	through the standardization of machine-readable representations like
+	SBML (Systems Biology Markup Language). This effort is accompanied
+	by the ongoing development of the human-readable diagrammatic representation
+	SBGN (Systems Biology Graphical Notation). The graphical SBML editor
+	CellDesigner allows direct translation of SBGN into SBML, and vice
+	versa. For the assignment of kinetic rate laws, however, this process
+	is not straightforward, as it often requires manual assembly and
+	specific knowledge of kinetic equations.
+	
+	Results
+	
+	SBMLsqueezer facilitates exactly this modeling step via automated
+	equation generation, overcoming the highly error-prone and cumbersome
+	process of manually assigning kinetic equations. For each reaction
+	the kinetic equation is derived from the stoichiometry, the participating
+	species (e.g., proteins, mRNA or simple molecules) as well as the
+	regulatory relations (activation, inhibition or other modulations)
+	of the SBGN diagram. Such information allows distinctions between,
+	for example, translation, phosphorylation or state transitions. The
+	types of kinetics considered are numerous, for instance generalized
+	mass-action, Hill, convenience and several Michaelis-Menten-based
+	kinetics, each including activation and inhibition. These kinetics
+	allow SBMLsqueezer to cover metabolic, gene regulatory, signal transduction
+	and mixed networks. Whenever multiple kinetics are applicable to
+	one reaction, parameter settings allow for user-defined specifications.
+	After invoking SBMLsqueezer, the kinetic formulas are generated and
+	assigned to the model, which can then be simulated in CellDesigner
+	or with external ODE solvers. Furthermore, the equations can be exported
+	to SBML, LaTeX or plain text format.
+	
+	Conclusion
+	
+	SBMLsqueezer considers the annotation of all participating reactants,
+	products and regulators when generating rate laws for reactions.
+	Thus, for each reaction, only applicable kinetic formulas are considered.
+	This modeling scheme creates kinetics in accordance with the diagrammatic
+	representation. In contrast most previously published tools have
+	relied on the stoichiometry and generic modulators of a reaction,
+	thus ignoring and potentially conflicting with the information expressed
+	through the process diagram. Additional material and the source code
+	can be found at the project homepage (URL found in the Availability
+	and requirements section).},
+  doi = {10.1186/1752-0509-2-39},
+  url = {http://dx.doi.org/10.1186/1752-0509-2-39}
+}
+
 @ARTICLE{Funahashi2003,
   author = {Funahashi, Akira and Tanimura, Naoki and Morohashi, Mineo and Kitano,
 	Hiroaki},
