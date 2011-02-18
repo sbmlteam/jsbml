@@ -8,14 +8,11 @@ public class JSBMLvisualizer extends JFrame {
 	public JSBMLvisualizer(SBMLDocument document) {
 		super(document.getModel().getId());
 		getContentPane().add(new JScrollPane(new JTree(document)));
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack();
 		setVisible(true);
 	}
 	/** @param args Expects a valid path to an SBML file. */ 
 	public static void main(String[] args) throws Exception {
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		new JSBMLvisualizer((new SBMLReader()).readSBML(args[0]));
 	}
-
 }
