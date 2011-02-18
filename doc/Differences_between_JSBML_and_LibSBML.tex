@@ -172,12 +172,14 @@ versa by simply exchanging the included JAR file in the project.
 
 %\textcolor{red}{This document gives an example for the usage of the
 %compatibility module.}
-%\end{abstract}
 % Not sure we need to mention in the abstract that we gives examples code for
 % each point and anyway, there is not example at the moment for this module.
 
 % I removed the line return for the \index to try to remove the extra spaces
 % that were added.
+
+\end{abstract}
+
 
 \tableofcontents
 
@@ -509,6 +511,9 @@ creates a new instance of \texttt{ASTNode} which represents the sum of the two
 other \texttt{ASTNode}s. In this way, even complex trees can be easily
 manipulated.
 
+\textcolor{red}{There is more change than this, we have methods that take/return
+CallableSBase}
+
 \subsection{The \texttt{ASTNodeCompiler} class}
 
 This interface allows users to create customized interpreters for the
@@ -534,8 +539,8 @@ clone the object and add the clone to the \texttt{Model}. In contrast, JSBML\ind
 not automatically perform cloning. The advantage is that modifications on the
 object belonging to the original pointer will also propagate to the element
 added to the \texttt{Model}. Furthermore, this is more efficient with respect to
-the run time and also more intuitive. If cloning is necessary, users should call
-the \texttt{clone()} method manually. Since all instances of \texttt{SBase}\index{SBase@\texttt{SBase}} and also
+the run time and also more intuitive for java programmers. If cloning is
+necessary, users should call the \texttt{clone()} method manually. Since all instances of \texttt{SBase}\index{SBase@\texttt{SBase}} and also
 \texttt{Annotation}\index{Annotation}, \texttt{ASTNode}\index{ASTNode@\texttt{ASTNode}}, \texttt{CVTerm}\index{Annotation!\texttt{CVTerm}}, and \texttt{History}\index{Annotation!\texttt{History}} implement
 the interface \texttt{Cloneable}\index{Cloning} (see Fig.~\vref{fig:TypeHierarchy}), all these
 elements can be naturally cloned. However, when cloning an object in
@@ -549,7 +554,7 @@ define a tree, in which each element has exactly one parental node.
 
 \subsection{Compartments}
 
-In SBML Level 3\index{SBML!Level~3} \citep{Hucka2010a} the domain of the
+In SBML Level 3\index{SBML!Level~3} \citep{Hucka2010a}, the domain of the
 \texttt{spatialDimensions} attribute in \texttt{Compartment}s
 was changed from $\lbrace 0, 1, 2, 3\rbrace$, which can be represented with a
 \texttt{short} value in Java to a value in $\mathbb{R}$, i.e., a \texttt{double}
@@ -565,20 +570,20 @@ that is marked as a deprected method.
 
 \subsection{Deprecation}
 
-The intension of JSBML\index{JSBML!Deprication} is to provide a Java library for
-the latest specification of SBML\index{SBML}.
+The intention of JSBML\index{JSBML!Deprication} is to provide a Java library
+that support the latest specifications of SBML\index{SBML}.
 \index{SBML!Specification}
 \index{Deprecation}
-Hence, JSBML provides methods and
-classes to cover earlier releases of SBML as well, but these are often marked
+But we also want to support earlier specifications. So JSBML provides methods
+and classes to cover those as well, but these are often marked
 as being deprecated to avoid creating models that refer to these 
 elements.
 
 \subsection{Exceptions}
 
-Generally, JSBML\index{Exception} throws more exceptions than libSBML,\index{Exception!Error codes} whose methods often return error codes instead.
-This behavior helps
-programmers and users to avoid creating invalid SBML data structures already
+In case of an error, JSBML\index{Exception} throws often an exception while
+libSBML\index{Exception!Error codes} methods return some error codes instead.
+This behavior helps programmers and users to avoid creating invalid SBML data structures already
 when dealing with these in memory. Furthermore, exception handling is very well
 implemented in Java and it is therefore a better programming style in this
 language. Methods can already declare that these may potentially throw
@@ -605,7 +610,9 @@ is thrown when trying to set an invalid identifier \texttt{String} for an instan
 \end{itemize}
 Hence, you have to be aware of potential
 exceptions and errors when using JSBML\index{Exception}, on the other hand this will
-prevent you from doing obvious mistakes.
+prevent you from doing obvious mistakes. One potential problem of detecting
+errors quickly and throwing exceptions is that it might prevent JSBML to be able
+to read properly invalid SBML models.
 
 
 \subsection{Model history}
@@ -680,17 +687,17 @@ contains only a few methods.
 
 \subsection{Various types of \texttt{ListOf*} classes}
 
-In JSBML the \texttt{ListOf*}
-\index{ListOf*@\texttt{ListOf*}}
-objects do not offer a method
-\texttt{get(String id)} because their generic implementation 
-\texttt{ListOf<?~extends SBase>} excepts also elements that do
-not necessarily have an identifier. Only instances of \texttt{NamedSBase}
-\index{SBase@\texttt{SBase}!\texttt{NamedSBase}}
-may have the fields identifier and name set. Hence, generally, the
-\texttt{ListOf} class cannot assume these fields to be present. To query an
-instance of \texttt{ListOf} in JSBML for names or identifiers or both, you can
-apply the following filter:
+% We have the method get(String) on the ListOf and libsbml does not have it on
+% the main ListOf class, only on subclasses where it is possible to do it.
+
+In JSBML, there is not a specific
+\texttt{ListOf*}\index{ListOf*@\texttt{ListOf*}} class for each type of SBase
+elements. We used a generic implementation 
+\texttt{ListOf<?~extends SBase>} that allow us to use the same class for each of
+the different {ListOf*} classes defined in libSBML while keeping a type safe
+class. We defined several methods that uses the \texttt{Filter} interface to
+search or filter a \texttt{ListOf} object. For example, to query an instance of
+\texttt{ListOf} in JSBML for names or identifiers or both, you can apply the following filter:
 \begin{lstlisting}
 NamedSBase nsb = myList.firstHit(new NameFilter(identifier));
 \end{lstlisting}
@@ -729,7 +736,7 @@ still returns \texttt{int} values, JSBML also provides the method
 A model in JSBML
 \index{Unit!Predefined units}
 always also contains all predefined units in the model
-if there are any, i.e., for models encoded of SBML versions before Level
+if there are any, i.e., for models encoded with SBML versions before Level
 3\index{SBML!Level~3}. These can be accessed from an instance of model by calling the method
 \texttt{getPredefinedUnit(String unit)}.
 
@@ -754,11 +761,11 @@ with MIRIAM-compliant\index{Annotation!MIRIAM} information.
 
 \subsubsection{Access to the units of an element}
 
-In JSBML, all SBML elements that can be associated with some unit implement the
-interface \texttt{SBaseWithUnit}.
+In JSBML, all SBML elements, that can be associated with some unit, implement
+the interface \texttt{SBaseWithUnit}.
 \index{SBase@\texttt{SBase}!\texttt{SBaseWithUnit}}
-This interface provides methods for direct
-access to an object representing their unit. Currently, the following elements
+This interface provides methods to directly
+access an object representing their unit. Currently, the following elements
 implement this interface:
 \begin{itemize}
  \item \texttt{AbstractNamedSBaseWithUnit}
@@ -771,14 +778,15 @@ between all the classes explained here. Note that
 \texttt{AbstractNamedSBaseWithUnit} serves as the abstract superclass for
 \texttt{Event}\index{Event} and \texttt{QuantityWithUnit}.
 \index{JSBML!QuantityWithUnit@\texttt{QuantityWithUnit}}
-In \texttt{Event}, all methods
-to deal with units are already deprecated because only in SBML Level 1 Versions
-1 and 2\index{SBML!Level~1} \texttt{Event}s could be
-explicitly equipped with units. The same holds true for instances of
+In the class \texttt{Event}, all methods
+to deal with units are deprecated because the timeUnits attribute
+was removed in SBML Level 2 Versions 2\index{SBML!Level~2}. The same holds true
+for instances of
 \texttt{ExplicitRule}\index{Rule!\texttt{ExplicitRule}}
 and \texttt{KineticLaw},\index{KineticLaw@\texttt{KineticLaw}}
-which both can only explicitly be populated with units for
-SBML in Level 1, Versions 1 and 2\index{SBML!Level~1}. In contrast,
+which both can only be explicitly populated with units in SBML Level
+1\index{SBML!Level~1} for \texttt{ExplicitRule} and before SBML in Level 2,
+Versions 3\index{SBML!Level~2} for \texttt{KineticLaw}. In contrast,
 \texttt{QuantityWithUnit}
 \index{JSBML!QuantityWithUnit@\texttt{QuantityWithUnit}}
 serves as the abstract superclass for \texttt{LocalParameter}
@@ -861,7 +869,7 @@ units of SBML elements.
 The JSBML library also provides some features that cannot be found in libSBML.
 This section briefly introduces its most important additional capabilities.
 
-\subsection{Change events and listeners}
+\subsection{Change listeners}
 
 JSBML introduces the possibility to listen to change events in the life of an
 SBML document. To benefit from this advantage, simply let your class implement
@@ -919,66 +927,19 @@ possible. In JSBML, \texttt{AlgebraicRule} even provides a method
 \textcolor{red}{JSBML provides logging.}
 \index{Logging}
 
-\section{Open tasks in JSBML version 0.8.*}
+\subsection{JSBML modules}
 
-\begin{itemize}
-\item JSBML does not yet provide a complete validator for SBML.
-\item The number of tests files is currently limited; needed are both tests
-from the libSBML Java\texttrademark{} API\index{Application programming interface!libSBML} and some new tests.
-\item The documentation could be improved.
-\item The support for SBML Level 3\index{SBML!Level~3} should be completed, particularly extension packages.\index{SBML!Extension packages}
-\item The \texttt{getTypeCode()}
-\index{SBase@\texttt{SBase}!\texttt{getTypeCode()}}
-methods are missing because due to the \texttt{getClass()} methods in each
-element, these are actually not needed when working with Java.
-\item The \texttt{toSBML()}\index{SBase@\texttt{SBase}!\texttt{toSBML()}}
-methods in \texttt{SBase} are still missing.
-\item Constructors and methods with namespaces are not yet provided.
-\item The libSBML compatibility module
+JSBML modules extends the functionality of JSBML and are provided as separate
+libraries (jar files). With the help of the current JSBML modules, JSBML can be
+used as a communication layer \index{JSBML!As communication layer} between your
+application and libSBML \citep{Bornstein2008} or the program CellDesigner
+\citep{Funahashi2003}. Furthermore, a compatibility module
 \index{libSBML!Compatibility module}
-could be improved.
-\end{itemize}
+will try to provides the same package structure and API as in the libSBML Java
+bindings. In this section, we will give small code examples of how to make use
+of these modules.
 
-\appendix
-
-\section{Frequently Asked Questions (FAQ)}
-
-\begin{description}
-  \item[Why does the class \texttt{LocalParameter} not inherit from
-  \texttt{Parameter}?]
-  \index{Parameter!\texttt{LocalParameter}}
-  \index{Parameter!\texttt{Parameter}}
-The reason is the Boolean
-\index{Boolean}
-attribute \texttt{constant}, which is present in
-\index{Constant}
-\index{Parameter!\texttt{constant}}
-\texttt{Parameter} and can be set to \texttt{false}. A parameter in the meaning
-of SBML is not a constant, it might be some system variable
-\index{JSBML!Variable@\texttt{Variable}}
-and can therefore be the subject of \texttt{Rule}s,
-\index{Rule}
-\texttt{Event}s\index{Event!\texttt{Event}}, \texttt{InitialAssignment}s
-\index{InitialAssignment@\texttt{InitialAssignment}}
-and so on, i.e., all instances of \texttt{Assignment},
-\index{JSBML!Assignment@\texttt{Assignment}}
-whereas a \texttt{LocalParameter} is defined as a constant quantity that never
-changes its value during the evaluation of a model\index{Model}. It would
-therefore only be possible to let \texttt{Parameter} inherit from
-\texttt{LocalParameter} but this could lead to a semantic misinterpretation.
-\end{description}
-
-\section{How to use the JSBML module API}
-
-JSBML can also be used as a communication layer
-\index{JSBML!As communication layer} between your application and libSBML
-\citep{Bornstein2008} or the program CellDesigner \citep{Funahashi2003}.
-Furthermore, a compatibility module
-\index{libSBML!Compatibility module}
-provides the same package structure as it is provided by libSBML. In this
-section, we will give small code examples of how to make use of these modules.
-
-\subsection{An example of how to use libSBML for parsing SBML into JSBML data
+\subsubsection{An example of how to use libSBML for parsing SBML into JSBML data
 structures}
 
 The capabilities of the SBML validator\index{SBML!Validator} constitute the
@@ -1028,7 +989,7 @@ converting libSBML data structures into JSBML data objects},label=lst:LibSBMLio]
 Writing SBML works similarly. This example will display the content of an SBML
 file in a \texttt{JTree}, similar as shown in Fig.~\vref{fig:Visualization}.
 
-\subsection{An example of how to turn a JSBML-based application into a
+\subsubsection{An example of how to turn a JSBML-based application into a
 CellDesigner plug-in}
 
 Once an application has been implemented based on JSBML, it can easily be
@@ -1106,10 +1067,54 @@ changes in the model data structure. Note that Listing~\vref{lst:Plugin} is only
 completed by implementing the methods from the superclass. In this example it
 is sufficient to leave the implementation open.
 
-\subsection{How to use JSBML's compatibility module for libSBML}
+
+\subsubsection{JSBML's compatibility module for libSBML}
 
 \textcolor{red}{To be described here.}
 \index{libSBML!Compatibility module}
+
+
+\section{Open tasks in JSBML}
+
+\begin{itemize}
+\item JSBML does not yet provide a complete validator for SBML.
+\item The support for SBML Level 3\index{SBML!Level~3} should be completed, particularly extension packages.\index{SBML!Extension packages}
+\item The \texttt{toSBML()}\index{SBase@\texttt{SBase}!\texttt{toSBML()}}
+methods in \texttt{SBase} are still missing.
+\item Constructors and methods with namespaces are not yet provided.
+\item The libSBML compatibility module\index{libSBML!Compatibility module} need
+to be implemented.
+\end{itemize}
+
+\appendix
+
+\section{Frequently Asked Questions (FAQ)}
+
+\begin{description}
+  \item[Why does the class \texttt{LocalParameter} not inherit from
+  \texttt{Parameter}?]
+  \index{Parameter!\texttt{LocalParameter}}
+  \index{Parameter!\texttt{Parameter}}
+The reason is the Boolean
+\index{Boolean}
+attribute \texttt{constant}, which is present in
+\index{Constant}
+\index{Parameter!\texttt{constant}}
+\texttt{Parameter} and can be set to \texttt{false}. A parameter in the meaning
+of SBML is not a constant, it might be some system variable
+\index{JSBML!Variable@\texttt{Variable}}
+and can therefore be the subject of \texttt{Rule}s,
+\index{Rule}
+\texttt{Event}s\index{Event!\texttt{Event}}, \texttt{InitialAssignment}s
+\index{InitialAssignment@\texttt{InitialAssignment}}
+and so on, i.e., all instances of \texttt{Assignment},
+\index{JSBML!Assignment@\texttt{Assignment}}
+whereas a \texttt{LocalParameter} is defined as a constant quantity that never
+changes its value during the evaluation of a model\index{Model}. It would
+therefore only be possible to let \texttt{Parameter} inherit from
+\texttt{LocalParameter} but this could lead to a semantic misinterpretation.
+\end{description}
+
 
 % \clearpage
 \bibliographystyle{natbib}
