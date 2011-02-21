@@ -5,6 +5,8 @@
 \usepackage{subfig}
 \usepackage{listings}
 
+\usepackage{ulem}
+
 % some nice colors
 \definecolor{royalblue}{cmyk}{.93, .79, 0, 0}
 \definecolor{lightblue}{cmyk}{.10, .017, 0, 0}
@@ -87,24 +89,24 @@ be downloaded under the terms of LGPL 2.1 at \href{http://sbml.org/Software/JSBM
 
 The XML-based Systems Biology Markup Language (SBML, \citealt{Hucka2003}) is
 the \emph{de facto} standard file format for the storage and exchange of
-biochemical models, and is supported by more than 200
-software packages to date (October 2010). Much of this success is due to its
+biochemical models\sout{, and is supported by more than 200
+software packages to date (October 2010)}. Much of this success is due to its
 clearly defined specifications and the availability of libSBML \citep{Bornstein2008}, a
 portable, robust, and easy-to-use library.
 
 LibSBML provides many methods for manipulating and validating
 SBML files through its Application Programming Interface (API).
 Originally written in C and C++, libSBML also provides automatically generated 
-language bindings for Java\texttrademark, MATLAB\texttrademark, Perl, and
-many more. However, the platform independence of Java is compromised
+language bindings for Java\texttrademark\sout{, MATLAB\texttrademark, Perl, and
+many more}. However, the platform independence of Java is compromised
 in libSBML due to the fact that the language binding is a
 wrapper around the C/C++ core. 
 Therefore, many software developers experience difficulties in
 the deployment of portable libSBML-based Java applications.
-Furthermore, the libSBML API and type hierarchy are not sufficiently intuitive
-from a Java programmer's perspective just because they were not
-designed directly for Java.
-Because of these reasons, among others, several groups in the SBML community
+\sout{Furthermore, the libSBML API and type hierarchy are not sufficiently
+intuitive from a Java programmer's perspective just because they were not
+designed directly for Java.}
+Because of this reason, among others, several groups in the SBML community
 were developing their own native library for SBML. To avoid duplication of
 work, some of these groups have mounted an open-source effort to
 develop a pure Java library for SBML. Here we present the JSBML
@@ -115,11 +117,11 @@ The aim of the project is to provide an SBML
 library that maps all SBML elements to a flexible and extended
 type hierarchy. Where possible, JSBML strives to attain
 100\,\% compatibility with libSBML's Java API, to ease a switch from
-one library to the other. Currently, JSBML supports all constructs
-for SBML up to the latest Level 3 Version 1 Core specification. At the moment,
+one library to the other.\sout{ Currently, JSBML supports all constructs
+for SBML up to the latest Level 3 Version 1 Core specification.} At the moment,
 there are no plans to re-implement some of the more complex functions of
 libSBML, such as model consistency checking, SBML validation,
-and the conversion between different SBML Levels and Versions,
+and the conversion between different SBML levels and versions,
 since separate community efforts are expected to make them
 available to JSBML via web services.
 
@@ -128,23 +130,6 @@ available to JSBML via web services.
 \begin{methods}
 %\section{Methods}
 \section{A brief overview of JSBML}
-
-%\begin{itemize}
-%\item Support for SBML Levels and Versions (from L1 through L3V1)
-%\item Reading/writing of SBML from various sources: Strings, files, URLs, serialized objects, model creation in memory, model manipulation
-%\item Communication layer between CellDesigner and program or libSBML and another program
-%\item libSBML compatibility
-%\item extended, object-oriented SBML type hierarchy based on the SBML specifications with multiple additional abstract data types
-%\item support for all SBML constructs (all SBML types, Annotation, incl. MIRIRIAM, Notes in XHTML form -> parser for XHTML strings)
-%\item interconvertable math objects: reading and writing in MathML (since SBML Level 2) and C-language like formulas, also writing to \LaTeX{} code; internally only abstract syntax trees
-%\item Exceptions for invalid arguments or assignments depending on Level/Version
-%\item Over determination check for the model and identification of the variables in algebraic rules
-%\item finding elements in the model and in list (filter)
-%\item deriving the unit of mathematical expressions
-%\item MIRIAM support \citep{Novere2005} and automatic annotation of pre-defined unitdefinitions with corresponding entries of the units ontology.
-%\item SBO support and interconvertion between SBO terms and CellDesigner annotation tags.
-%\item better adaptation to Java
-%\end{itemize}
 
 The main achievement of the JSBML project is its extended type hierarchy that has been designed 
 from scratch based on the SBML specifications, but with respect to the naming conventions of
@@ -159,12 +144,12 @@ superclass of all those instances of \texttt{SBase} that can be addressed by an 
 a name. Similarly, all classes that may contain a mathematical expression implement the 
 interface \texttt{MathContainer}. A full overview of this type hierarchy can be found in the supplementary
 file. JSBML also supports annotations, including MIRIAM \citep{Novere2005} and SBO \citep{Novere2006b} 
-with the help of the BioJava OBO parser \citep{Holland2008}, and notes in XHTML form. Predefined units are automatically
-annotated with the correct Unit Ontology terms.
-The \texttt{Model} class provides several \texttt{find*} methods to query for SBML elements.
-Filters enable to search lists for elements with certain properties. 
-All \texttt{ListOf*} elements implement Java's \texttt{List} interface making it 
-possible to iterate over its elements and usage of generic types.
+\sout{with the help of the BioJava OBO parser \citep{Holland2008}, and notes in
+XHTML form}. \sout{Predefined units are automatically annotated with the correct
+Unit Ontology terms.} The \texttt{Model} class provides several \texttt{find*}
+methods to query for SBML elements. Filters enable to search lists for elements with certain properties. 
+All \texttt{ListOf*} elements implement the Java's \texttt{List} interface,
+making it possible to iterate over its elements and to use generic types.
 Fig.~\ref{fig:JSBML} demonstrates how the hierachically structured content of an SBML file 
 can be easily visualized in form of a tree.
 \begin{figure*}
@@ -192,10 +177,10 @@ to perform any kind of recursive operations on any instance of \texttt{SBase} su
 Special parsers read mathematical expressions from infix formulas or MathML 
 into abstract syntax trees, which are the only internal representation
 of formulas in JSBML.
-These trees can directly be written in MathML, formula strings, or \LaTeX{} code and 
-also be visualized in a \texttt{JTree} since they also implement \texttt{TreeNode}. 
-Although JSBML does not implement a fully-featured consistency check for SBML
-models, some exceptions are thrown to prevent users to create invalid content.
+These trees can directly be written in MathML, formula strings, or \LaTeX{}
+code\sout{ and also be visualized in a \texttt{JTree} since they also implement
+\texttt{TreeNode}}. Although JSBML does not implement a fully-featured
+consistency check for SBML models, some exceptions are thrown to prevent users to create invalid content.
 An overdetermination check for the model has been implemented based on the 
 algorithm of \citet{Hopcroft1973}, which also identifies the variables 
 in algebraic rules. Furthermore, JSBML can automatically derive the unit of a mathematical expression.
@@ -211,11 +196,13 @@ facilitates turning an existing application into a plug-in for CellDesigner.
 \section{Implementation}
 
 JSBML is entirely written in the Java\texttrademark{} programming language version 1.5 and does 
-not require the installation of any other software besides a Java Virtual Machine. It was successfully
-tested under MacOS X, Microsoft Windows XP, Vista, and Windows 7, and openSuSE 11.2 and 
-Ubuntu Linux 10.04. JSBML is distributed in form of various JAR files (including or excluding required
-third-party libraries) and source code. In addition, a convenient ANT file with several options allows 
-users to easily create customized JAR files. Being distributed under the terms of the Lesser GNU
+not require the installation of any other software besides a Java Virtual
+Machine.\sout{ It was successfully tested under MacOS X, Microsoft Windows XP,
+Vista, and Windows 7, and openSuSE 11.2 and Ubuntu Linux 10.04.} JSBML is
+distributed in form of various JAR files (including or excluding  required
+third-party libraries) and source code. In addition, a convenient build file
+with several options allows users to easily create customized JAR files.
+Being distributed under the terms of the Lesser GNU
 Public License (LGPL), the JSBML library can freely be used even in proprietary software.
 
 %\section{Discussion}
