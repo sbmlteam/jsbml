@@ -5,7 +5,7 @@
 \usepackage{subfig}
 \usepackage{listings}
 
-\usepackage{ulem}
+% \usepackage{ulem}
 
 % some nice colors
 \definecolor{royalblue}{cmyk}{.93, .79, 0, 0}
@@ -40,6 +40,10 @@ commentstyle=\color{forrestgreen}
 % frameround=ttff
 }
 
+\hyphenation{
+Tree-Node
+}
+
 \begin{document}
 \firstpage{1}
 \application
@@ -47,12 +51,11 @@ commentstyle=\color{forrestgreen}
 for working with SBML} \author[Dr\"ager \textit{et~al.}]{Andreas
 Dr\"ager\,$^{1,*}$, Nicolas Rodriguez\,$^{2,*}$, 
 Alexander D\"orr\,$^{1}$, 
-Marine Dumousseau\,$^{2}$, 
+Marine Dumousseau\,$^{2}$,
 Clemens Wrzodek\,$^{1}$, 
 Nicolas Le Nov\`{e}re\,$^{2}$, 
 Andreas Zell\,$^{1}$, 
-Michael Hucka\,$^{3,*}$
-\footnote{to whom correspondence should be addressed}}
+Michael Hucka\,$^{3,}$\footnote{to whom correspondence should be addressed}}
 \address{$^{1}$Center for Bioinformatics Tuebingen, University of Tuebingen, T\"ubingen, Germany.\\
 $^{2}$European Bioinformatics Institute, Wellcome Trust Genome Campus, Hinxton, Cambridge, UK\\
 $^{3}$Computing and Mathematical Sciences, California Institute of Technology, Pasadena, CA, USA}
@@ -87,25 +90,27 @@ be downloaded under the terms of LGPL 2.1 at \href{http://sbml.org/Software/JSBM
 
 \section{Introduction}
 
-The XML-based Systems Biology Markup Language (SBML, \citealt{Hucka2003}) is
-the \emph{de facto} standard file format for the storage and exchange of
-biochemical models\sout{, and is supported by more than 200
-software packages to date (October 2010)}. Much of this success is due to its
+The XML-based Systems Biology Markup Language (SBML, \citealt{M.Hucka03012003})
+is the \emph{de facto} standard file format for the storage and exchange of
+biochemical models, supported by more than 200 software packages to date
+(Oct.~2010).
+Much of this success is due to its
 clearly defined specifications and the availability of libSBML \citep{Bornstein2008}, a
 portable, robust, and easy-to-use library.
 
 LibSBML provides many methods for manipulating and validating
 SBML files through its Application Programming Interface (API).
 Originally written in C and C++, libSBML also provides automatically generated 
-language bindings for Java\texttrademark\sout{, MATLAB\texttrademark, Perl, and
-many more}. However, the platform independence of Java is compromised
+language bindings for Java\texttrademark.
+%, MATLAB\texttrademark, Perl, and many more}.
+However, the platform independence of Java is compromised
 in libSBML due to the fact that the language binding is a
 wrapper around the C/C++ core. 
 Therefore, many software developers experience difficulties in
 the deployment of portable libSBML-based Java applications.
-\sout{Furthermore, the libSBML API and type hierarchy are not sufficiently
-intuitive from a Java programmer's perspective just because they were not
-designed directly for Java.}
+% Furthermore, the libSBML API and type hierarchy are not sufficiently
+% intuitive from a Java programmer's perspective just because they were not
+% designed directly for Java.
 Because of this reason, among others, several groups in the SBML community
 were developing their own native library for SBML. To avoid duplication of
 work, some of these groups have mounted an open-source effort to
@@ -117,11 +122,9 @@ The aim of the project is to provide an SBML
 library that maps all SBML elements to a flexible and extended
 type hierarchy. Where possible, JSBML strives to attain
 100\,\% compatibility with libSBML's Java API, to ease a switch from
-one library to the other.\sout{ Currently, JSBML supports all constructs
-for SBML up to the latest Level 3 Version 1 Core specification.} At the moment,
-there are no plans to re-implement some of the more complex functions of
-libSBML, such as model consistency checking, SBML validation,
-and the conversion between different SBML levels and versions,
+one library to the other. At the moment, there are no plans to re-implement some
+of the more complex functions of libSBML, such as model consistency checking,
+SBML validation, and the conversion between different SBML levels and versions,
 since separate community efforts are expected to make them
 available to JSBML via web services.
 
@@ -143,10 +146,12 @@ data type in one of the SBML specifications directly, but serves as the
 superclass of all those instances of \texttt{SBase} that can be addressed by an identifier and
 a name. Similarly, all classes that may contain a mathematical expression implement the 
 interface \texttt{MathContainer}. A full overview of this type hierarchy can be found in the supplementary
-file. JSBML also supports annotations, including MIRIAM \citep{Novere2005} and SBO \citep{Novere2006b} 
-\sout{with the help of the BioJava OBO parser \citep{Holland2008}, and notes in
-XHTML form}. \sout{Predefined units are automatically annotated with the correct
-Unit Ontology terms.} The \texttt{Model} class provides several \texttt{find*}
+file. JSBML also supports annotations, including MIRIAM \citep{Novere2005} and
+SBO \citep{Novere2006b, Holland2008}
+and notes in XHTML form.
+% Predefined units are automatically annotated with the correct
+% Unit Ontology terms.
+The \texttt{Model} class provides several \texttt{find*}
 methods to query for SBML elements. Filters enable to search lists for elements with certain properties. 
 All \texttt{ListOf*} elements implement the Java's \texttt{List} interface,
 making it possible to iterate over its elements and to use generic types.
@@ -155,22 +160,23 @@ can be easily visualized in form of a tree.
 \begin{figure*}
 \centerline{
   \subfloat[Example source code using JSBML]{\label{lst:JSBMLVisualizer}
-    \raisebox{2.7cm}{
-      \parbox{.63\textwidth}{
-        \begin{minipage}[t][5.7cm][c]{.62\textwidth}
+    \raisebox{2.82cm}{
+      \parbox{.55\textwidth}{
+        \begin{minipage}[t][5.7cm][c]{.55\textwidth}
           \lstinputlisting[language=Java]{src/JSBMLvisualizer.java}
         \end{minipage}
       }
     }
-  }\hfill
+  }\hspace{1cm}
   \subfloat[Example for SBML test case
   26]{\label{fig:JSBMLVisualizer}
 %     \raisebox{1.2cm}{
   	\includegraphics[width=.24\textwidth,height=170pt]{img/Case26_Tree_Windows.png}}%}
-  	} \caption[A minimal example using JSBML for reading and visualizing an SBML file using JSBML]{
-A minimal example using JSBML for reading and visualizing an SBML file. In JSBML, the type \texttt{SBase} extends 
-the Java interfaces \texttt{TreeNode}, among others. It allows users
-to perform any kind of recursive operations on any instance of \texttt{SBase} such as visualizing it in a \texttt{JTree}.
+  	} \caption[Using JSBML for reading and visualizing an SBML file using JSBML]{
+Using JSBML for reading and visualizing an SBML file. In JSBML, the type
+\texttt{SBase} extends the Java interfaces \texttt{TreeNode}, which allows users
+to perform any kind of recursive operations on any instance of \texttt{SBase}
+such as visualizing it in a \texttt{JTree}, \texttt{Serializable} for saving JSBML objects in binary form or sending them via a network connection, and \texttt{Cloneable} to create deep object copies.
 }
 \label{fig:JSBML}
 \end{figure*}
@@ -178,8 +184,10 @@ Special parsers read mathematical expressions from infix formulas or MathML
 into abstract syntax trees, which are the only internal representation
 of formulas in JSBML.
 These trees can directly be written in MathML, formula strings, or \LaTeX{}
-code\sout{ and also be visualized in a \texttt{JTree} since they also implement
-\texttt{TreeNode}}. Although JSBML does not implement a fully-featured
+code.
+% and also be visualized in a \texttt{JTree} since they also implement
+% \texttt{TreeNode}.
+Although JSBML does not implement a fully-featured
 consistency check for SBML models, some exceptions are thrown to prevent users to create invalid content.
 An overdetermination check for the model has been implemented based on the 
 algorithm of \citet{Hopcroft1973}, which also identifies the variables 
@@ -191,19 +199,22 @@ help of some modules, JSBML capabilites can be extended and JSBML could be used
 as a communication layer between CellDesigner \citep{Funahashi2003} or 
 libSBML and any other applications. In this way, JSBML 
 facilitates turning an existing application into a plug-in for CellDesigner.
+Currently, JSBML supports all constructs for SBML up to the latest Level 3
+Version 1 Core specification.
 \end{methods}
 
 \section{Implementation}
 
-JSBML is entirely written in the Java\texttrademark{} programming language version 1.5 and does 
+JSBML is entirely written in the Java\texttrademark{} version 1.5 and does 
 not require the installation of any other software besides a Java Virtual
-Machine.\sout{ It was successfully tested under MacOS X, Microsoft Windows XP,
-Vista, and Windows 7, and openSuSE 11.2 and Ubuntu Linux 10.04.} JSBML is
-distributed in form of various JAR files (including or excluding  required
-third-party libraries) and source code. In addition, a convenient build file
-with several options allows users to easily create customized JAR files.
-Being distributed under the terms of the Lesser GNU
-Public License (LGPL), the JSBML library can freely be used even in proprietary software.
+Machine.
+% It was successfully tested under MacOS X, Windows 7, Vista, XP, and Linux
+% (openSuSE 11.2, Ubuntu 10.04).
+JSBML is distributed in form of various JAR files (including or excluding
+required third-party libraries) and source code. In addition, a convenient build
+file with several options allows users to easily create customized JAR files.
+Being distributed under the terms of the Lesser GNU Public License (LGPL), the
+JSBML library can freely be used even in proprietary software.
 
 %\section{Discussion}
 
@@ -215,7 +226,9 @@ provides comprehensive and entirely Java-based data structures
 to read, write, and manipulate SBML files. Its layered architecture
 allows for the creation of Java web start applications and
 CellDesigner plug-ins based on stand-alone programs with very
-little effort. One program, SBMLsqueezer \citep{Draeger2008}, has already been
+little effort.
+%
+One program, SBMLsqueezer \citep{Draeger2008}, has already been
 re-implemented and released under version 1.3 using JSBML, a simulator, which is
 benchmarked on the SBML test suite will be available soon, and
 many other projects are planned.
@@ -223,12 +236,10 @@ many other projects are planned.
 \section*{Acknowledgement}
 
 \paragraph{Funding\textcolon}
-
-The development of JSBML is funded in part by a grant from the National Institute
-of General Medical Sciences (NIGMS, USA), funds from EMBL-EBI (Germany and UK), 
-the Federal Ministry of Education and Research (BMBF, Germany) in the Virtual 
-Liver Network (grant number 0315756) and the MedSys project Spher4Sys 
-(grant number 0315384C), as well as the University of Tuebingen, Germany. 
+The development of JSBML is funded by a grant from the National Institute
+of General Medical Sciences (NIGMS, USA), funds from EMBL-EBI (Germany, UK),
+and the Federal Ministry of Education and Research (BMBF, Germany) in the
+projects Virtual Liver and Spher4Sys (grant numbers 0315756 and 0315384C).
 
 \paragraph{Conflict of Interest\textcolon} none declared.
 
@@ -243,6 +254,73 @@ Liver Network (grant number 0315756) and the MedSys project Spher4Sys
 %\bibliography{Document}
 
 
-\bibliographystyle{natbib}
-\bibliography{../../literature}
+% \bibliographystyle{natbib}
+% \bibliography{../../literature}
+
+\begin{thebibliography}{}
+
+\bibitem[Bornstein {\em et~al.}(2008)Bornstein, Keating, Jouraku, and
+  Hucka]{Bornstein2008}
+Bornstein {\em et~al.} (2008).
+\newblock {LibSBML: an API Library for SBML}.
+\newblock {\em Bioinformatics\/}, {\bf 24}(6), 880--881.
+
+\bibitem[Dr{\"a}ger {\em et~al.}(2008)Dr{\"a}ger, Hassis, Supper, Schr{\"o}der,
+  and Zell]{Draeger2008}
+Dr{\"a}ger {\em et~al.} (2008).
+\newblock {SBMLsqueezer: a CellDesigner plug-in to generate kinetic rate
+  equations for biochemical networks}.
+\newblock {\em BMC Syst. Biol.\/}, {\bf 2}(1), 39.
+
+\bibitem[Funahashi {\em et~al.}(2003)Funahashi, Tanimura, Morohashi, and
+  Kitano]{Funahashi2003}
+Funahashi {\em et~al.} (2003).
+\newblock {CellDesigner: a process diagram editor for gene-regulatory and
+  biochemical networks}.
+\newblock {\em BioSilico\/}, {\bf 1}(5), 159--162.
+
+\bibitem[Holland {\em et~al.}(2008)Holland, Down, Pocock, Prli\'{c}, Huen,
+  James, Foisy, Dr\"ager, Yates, Heuer, and Schreiber]{Holland2008}
+Holland {\em et~al.} (2008).
+\newblock {BioJava: an Open-Source Framework for Bioinformatics}.
+\newblock {\em Bioinformatics\/}, {\bf 24}(18), 2096--2097.
+
+\bibitem[Hopcroft and Karp(1973)Hopcroft and Karp]{Hopcroft1973}
+Hopcroft and Karp (1973).
+\newblock {An $n^{5/2}$ algorithm for maximum matchings in bipartite graphs}.
+\newblock {\em SIAM J. Comput.\/}, {\bf 2}, 225.
+
+\bibitem[Hucka {\em et~al.}(2003)Hucka, Finney, Sauro, Bolouri, Doyle, Kitano,
+  Arkin, Bornstein, Bray, Cornish-Bowden, Cuellar, Dronov, Gilles, Ginkel, Gor,
+  Goryanin, Hedley, Hodgman, Hofmeyr, Hunter, Juty, Kasberger, Kremling,
+  Kummer, Le~Nov{\`e}re, Loew, Lucio, Mendes, Minch, Mjolsness, Nakayama,
+  Nelson, Nielsen, Sakurada, Schaff, Shapiro, Shimizu, Spence, Stelling,
+  Takahashi, Tomita, Wagner, Wang, and the rest of~the
+  SBML~Forum]{M.Hucka03012003}
+Hucka {\em et~al.} (2003).
+\newblock {The systems biology markup language (SBML): a medium for
+  representation and exchange of biochemical network models}.
+\newblock {\em Bioinformatics\/}, {\bf 19}(4), 524--531.
+
+\bibitem[Le~Nov{\`e}re {\em et~al.}(2005)Le~Nov{\`e}re, Finney, Hucka, Bhalla,
+  Campagne, Collado-Vides, Crampin, Halstead, Klipp, Mendes, Nielsen, Sauro,
+  Shapiro, Snoep, Spence, and Wanner]{Novere2005}
+Le~Nov{\`e}re {\em et~al.} (2005).
+\newblock {Minimum information requested in the annotation of biochemical
+  models (MIRIAM)}.
+\newblock {\em Nat. Biotechnol.\/}, {\bf 23}(12), 1509--1515.
+
+\bibitem[Le~Nov{\`e}re {\em et~al.}(2006)Le~Nov{\`e}re, Courtot, and
+  Laibe]{Novere2006b}
+Le~Nov{\`e}re {\em et~al.} (2006).
+\newblock Adding semantics in kinetics models of biochemical pathways.
+\newblock In Kettner and Hicks, eds., {\em 2\textsuperscript{nd}
+  International ESCEC Workshop.
+%   on Experimental Standard Conditions on Enzyme
+%   Characterizations.
+  Beilstein Institut, R{\"u}desheim, Germany\/}, pages
+  137--153, R{\"u}dessheim/Rhein, Germany. ESEC.
+
+\end{thebibliography}
+
 \end{document}
