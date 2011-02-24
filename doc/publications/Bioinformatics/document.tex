@@ -49,12 +49,12 @@ Tree-Node
 \application
 \title[JSBML: The Java library for SBML]{JSBML: a flexible Java library
 for working with SBML} \author[Dr\"ager \textit{et~al.}]{Andreas
-Dr\"ager\,$^{1,*}$, Nicolas Rodriguez\,$^{2,*}$, 
-Alexander D\"orr\,$^{1}$, 
+Dr\"ager\,$^{1,*}$, Nicolas Rodriguez\,$^{2,*}$,
+Alexander D\"orr\,$^{1}$,
 Marine Dumousseau\,$^{2}$,
-Clemens Wrzodek\,$^{1}$, 
-Nicolas Le Nov\`{e}re\,$^{2}$, 
-Andreas Zell\,$^{1}$, 
+Clemens Wrzodek\,$^{1}$,
+Nicolas Le Nov\`{e}re\,$^{2}$,
+Andreas Zell\,$^{1}$,
 Michael Hucka\,$^{3,}$\footnote{to whom correspondence should be addressed}}
 \address{$^{1}$Center for Bioinformatics Tuebingen, University of Tuebingen, T\"ubingen, Germany.\\
 $^{2}$European Bioinformatics Institute, Wellcome Trust Genome Campus, Hinxton, Cambridge, UK\\
@@ -71,18 +71,18 @@ $^{3}$Computing and Mathematical Sciences, California Institute of Technology, P
 \section{Summary:}
 The specifications of the Systems Biology Markup Language (SBML) define a standard for storing
 and exchanging biochemical models in XML-formatted text files. To perform higher-level operations
-on these models, e.g., numerical simulation or visual representation, an appropriate mapping to 
+on these models, e.g., numerical simulation or visual representation, an appropriate mapping to
 in-memory objects is required. To this end, the JSBML library has
 been developed. In contrast to earlier approaches, JSBML has been especially designed for the
 Java\texttrademark{} programming language and can therefore be used on all platforms, for which
-a Java Runtime Environment is available. In this way, programs based on JSBML can, for instance, be 
-easily released as Java webstart applications. JSBML's internal data structures
+a Java Runtime Environment is available. In this way, programs based on JSBML can, for instance, be
+easily released as Java\texttrademark{} Web Start applications. JSBML's internal data structures
 have been completely developed from scratch based on the definitions in the
 SBML specifications but with respect to achieve the highest possible degree of
 compatibility to the existing library libSBML. JSBML supports all SBML levels
 and versions that are available today. In addition, JSBML provides modules that facilitate
 the development of CellDesigner plugins or ease the migration from a libSBML backend.
-\section{Availability:} Source code, binaries, and documentation of JSBML can 
+\section{Availability:} Source code, binaries, and documentation of JSBML can
 be downloaded under the terms of LGPL 2.1 at \href{http://sbml.org/Software/JSBML}{http://sbml.org/Software/JSBML}.
 \section{Contact:} \href{mailto:jsbml-team@sbml.org}{jsbml-team@sbml.org}
 \section{Supplementary information:} Supplementary data are available at Bioinformatics online.
@@ -100,12 +100,12 @@ portable, robust, and easy-to-use library.
 
 LibSBML provides many methods for manipulating and validating
 SBML files through its Application Programming Interface (API).
-Originally written in C and C++, libSBML also provides automatically generated 
+Originally written in C and C++, libSBML also provides automatically generated
 language bindings for Java\texttrademark.
 %, MATLAB\texttrademark, Perl, and many more}.
 However, the platform independence of Java is compromised
 in libSBML due to the fact that the language binding is a
-wrapper around the C/C++ core. 
+wrapper around the C/C++ core.
 Therefore, many software developers experience difficulties in
 the deployment of portable libSBML-based Java applications.
 % Furthermore, the libSBML API and type hierarchy are not sufficiently
@@ -134,17 +134,17 @@ available to JSBML via web services.
 %\section{Methods}
 \section{A brief overview of JSBML}
 
-The main achievement of the JSBML project is its extended type hierarchy that has been designed 
+The main achievement of the JSBML project is its extended type hierarchy that has been designed
 from scratch based on the SBML specifications, but with respect to the naming conventions of
-methods and classes in libSBML. For each element that is defined in at least one of the SBML levels 
+methods and classes in libSBML. For each element that is defined in at least one of the SBML levels
 or versions, JSBML provides a corresponding class that reflects all of its
-properties. SBML elements or attributes that are not part of the most 
+properties. SBML elements or attributes that are not part of the most
 recent specifications (removed or obsolete) are marked as deprecated. For
 elements sharing common properties, JSBML defines a superclass or an interface
-for them. For instance, the interface \texttt{NamedSBase} does not correspond to a 
+for them. For instance, the interface \texttt{NamedSBase} does not correspond to a
 data type in one of the SBML specifications directly, but serves as the
 superclass of all those instances of \texttt{SBase} that can be addressed by an identifier and
-a name. Similarly, all classes that may contain a mathematical expression implement the 
+a name. Similarly, all classes that may contain a mathematical expression implement the
 interface \texttt{MathContainer}. A full overview of this type hierarchy can be found in the supplementary
 file. JSBML also supports annotations, including MIRIAM \citep{Novere2005} and
 SBO \citep{Novere2006b, Holland2008}
@@ -152,10 +152,10 @@ and notes in XHTML form.
 % Predefined units are automatically annotated with the correct
 % Unit Ontology terms.
 The \texttt{Model} class provides several \texttt{find*}
-methods to query for SBML elements. Filters enable to search lists for elements with certain properties. 
+methods to query for SBML elements. Filters enable to search lists for elements with certain properties.
 All \texttt{ListOf*} elements implement the Java's \texttt{List} interface,
 making it possible to iterate over its elements and to use generic types.
-Fig.~\ref{fig:JSBML} demonstrates how the hierachically structured content of an SBML file 
+Fig.~\ref{fig:JSBML} demonstrates how the hierachically structured content of an SBML file
 can be easily visualized in form of a tree.
 \begin{figure*}
 \centerline{
@@ -180,7 +180,7 @@ such as visualizing it in a \texttt{JTree}, \texttt{Serializable} for saving JSB
 }
 \label{fig:JSBML}
 \end{figure*}
-Special parsers read mathematical expressions from infix formulas or MathML 
+Special parsers read mathematical expressions from infix formulas or MathML
 into abstract syntax trees, which are the only internal representation
 of formulas in JSBML.
 These trees can directly be written in MathML, formula strings, or \LaTeX{}
@@ -189,15 +189,15 @@ code.
 % \texttt{TreeNode}.
 Although JSBML does not implement a fully-featured
 consistency check for SBML models, some exceptions are thrown to prevent users to create invalid content.
-An overdetermination check for the model has been implemented based on the 
-algorithm of \citet{Hopcroft1973}, which also identifies the variables 
+An overdetermination check for the model has been implemented based on the
+algorithm of \citet{Hopcroft1973}, which also identifies the variables
 in algebraic rules. Furthermore, JSBML can automatically derive the unit of a mathematical expression.
 Whenever a property of some \texttt{SBase} is altered, an \texttt{SBaseChangeEvent} is fired
 that notifies dedicated listeners. In this way, a graphical user interfaces
 could automatically react when any changes happened to the model. With the
 help of some modules, JSBML capabilites can be extended and JSBML could be used
-as a communication layer between CellDesigner \citep{Funahashi2003} or 
-libSBML and any other applications. In this way, JSBML 
+as a communication layer between CellDesigner \citep{Funahashi2003} or
+libSBML and any other applications. In this way, JSBML
 facilitates turning an existing application into a plug-in for CellDesigner.
 Currently, JSBML supports all constructs for SBML up to the latest Level 3
 Version 1 Core specification.
@@ -205,7 +205,7 @@ Version 1 Core specification.
 
 \section{Implementation}
 
-JSBML is entirely written in the Java\texttrademark{} version 1.5 and does 
+JSBML is entirely written in the Java\texttrademark{} version 1.5 and does
 not require the installation of any other software besides a Java Virtual
 Machine.
 % It was successfully tested under MacOS X, Windows 7, Vista, XP, and Linux
