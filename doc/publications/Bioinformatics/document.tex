@@ -140,8 +140,8 @@ respect to the naming conventions of methods and classes in libSBML. For each
 element defined in at least one of the SBML levels or versions, JSBML provides a
 corresponding class reflecting all of its properties. SBML elements or
 attributes that are not part of the most recent specifications (removed or
-obsolete) are marked as deprecated. For elements sharing common properties,
-JSBML defines a superclass or an interface for them. For instance, the interface
+obsolete) are marked as deprecated. JSBML defines a superclass or an
+interface for elements sharing common properties. For instance, the interface
 \texttt{NamedSBase} does not correspond to a data type in one of the SBML
 specifications directly, but serves as the superclass of all those instances of
 \texttt{SBase} that can be addressed by an identifier and a name. Similarly, all
@@ -179,11 +179,12 @@ of SBML.]{\label{lst:JSBMLVisualizer}
 }
 \caption[Using JSBML for reading and visualizing an SBML file using
 JSBML]{Using JSBML for reading and visualizing an SBML file. In JSBML, the type
-\texttt{SBase} extends the Java interfaces \texttt{TreeNode}, which allows users
-to perform any kind of recursive operations on any instance of \texttt{SBase}
-such as visualizing it in a \texttt{JTree}, \texttt{Serializable} for saving
-JSBML  objects in binary form or sending them via a network connection, and
-\texttt{Cloneable} to create deep object copies.}
+\texttt{SBase} extends the Java interfaces \texttt{Serializable} for saving
+JSBML objects in binary form or sending them via a network connection,
+\texttt{Cloneable} to create deep object copies, and \texttt{TreeNode}. The
+latter one allows users to perform any kind of recursive operations on any
+instance of \texttt{SBase} such as visualizing it in a \texttt{JTree}
+(see~\ref{fig:JSBMLVisualizer}).}
 \label{fig:JSBML}
 \end{figure*}
 Special parsers read mathematical expressions from infix formulas or MathML
