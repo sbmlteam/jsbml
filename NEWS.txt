@@ -34,7 +34,11 @@ Version 0.8-x (xx-xx-2011)
   - A new interface, CallableSBase, was introduced to encompass all the 
     different SBML elements that can be referenced inside a mathML 'ci'
     element. As a consequence, some methods signature have changed.
-         
+
+  - [Tracker issue #3175833] : in some cases, an empty annotation was 
+    written if a metaid was defined. Some methods were added to the 
+    Annotation class to test which part of the annotation is defined.
+
 
 ============================================================================
 Version 0.8-b1 (04-02-2011)
