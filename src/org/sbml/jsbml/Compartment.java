@@ -614,8 +614,8 @@ public class Compartment extends Symbol {
 			unsetUnits();
 			return;
 		}
-		
-		if (0 < getSpatialDimensions()) {
+		double specDim = getSpatialDimensions();
+		if (Double.isNaN(specDim) || (0 < specDim)) {
 			super.setUnits(units);
 		} else {
 			throw new IllegalArgumentException(String.format(

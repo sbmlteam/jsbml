@@ -2659,7 +2659,6 @@ public class Model extends AbstractNamedSBase {
 	 * Initializes the default values of the attributes of the {@link Model}
 	 */
 	public void initDefaults() {
-		listOfPredefinedUnitDefinitions = new ArrayList<UnitDefinition>(5);
 		listOfCompartments = null;
 		listOfCompartmentTypes = null;
 		listOfConstraints = null;
@@ -2672,6 +2671,8 @@ public class Model extends AbstractNamedSBase {
 		listOfSpecies = null;
 		listOfSpeciesTypes = null;
 		UnitDefinition ud;
+		listOfPredefinedUnitDefinitions = (getLevel() >= 3) ? null
+				: new ArrayList<UnitDefinition>(5);
 		switch (getLevel()) {
 		case 1:
 			listOfUnitDefinitions = ListOf.newInstance(this, UnitDefinition.class);
