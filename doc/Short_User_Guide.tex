@@ -1051,6 +1051,15 @@ possible. In JSBML, \texttt{AlgebraicRule} even provides a method
 \texttt{getDerivedVariable()} to directly obtain a pointer to its free variable.
 
 
+\subsection{\texttt{find*}-Methods}
+
+JSBML provides users with several \texttt{find*}-Methods\index{JSBML!\texttt{find*}-Methods} on a \texttt{Model}\index{model!\texttt{Model}} to quickly identify elements, based on their identifier or name. Developers can search for different instances of \texttt{SBase} (
+\texttt{CallableSBase}, \index{SBase@\texttt{SBase}!\texttt{CallableSBase}}
+\texttt{NamedSBase}, \index{SBase@\texttt{SBase}!\texttt{NamedSBase}}
+\texttt{NamedSBaseWithDerivedUnit}) \index{SBase@\texttt{SBase}!\texttt{NamedSBaseWithDerivedUnit}}
+or use the methods \texttt{findLocalParameters}, \texttt{findQuantity}, \texttt{findQuantityWithUnit}, \texttt{findQuantityWithUnit}, \texttt{findSymbol}, and \texttt{findVariable} to search for the corresponding element in the model. This enables a quick and easy way to work with SBML models, without having to iterate through the elements of a \texttt{Model} again and again.
+
+
 \subsection{Logging functionality}
 
 \textcolor{red}{JSBML provides logging.}
