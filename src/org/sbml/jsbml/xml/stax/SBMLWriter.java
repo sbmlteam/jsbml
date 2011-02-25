@@ -116,6 +116,9 @@ public class SBMLWriter {
 		SBMLDocument testDocument;
 		try {
 			testDocument = new SBMLReader().readSBMLFile(fileName);
+			
+			// testDocument.checkConsistency();
+			
 			new SBMLWriter().write(testDocument, jsbmlWriteFileName);
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
@@ -538,7 +541,7 @@ public class SBMLWriter {
 	 *            : the SBMLDocument to write
 	 * @param fileName
 	 *            : the name of the file where to write the {@link SBMLDocument}
-	 *            .
+	 *            
 	 * 
 	 * @throws XMLStreamException
 	 *             if any error occur while creating the XML document.
@@ -674,6 +677,9 @@ public class SBMLWriter {
 		// if the given SBase is not a model and the level is smaller than 3,
 		// no history can be written.
 		// Annotation cannot be written without metaid tag.
+		
+		// TODO : create an automatic metaid ???
+		
 		if (sbase.isSetMetaId()	&& ((annotation.isSetHistory()
 				&& !annotation.getHistory().isEmpty()
 				&& ((sbase.getLevel() >= 3)	|| (sbase instanceof Model))) 
@@ -1322,7 +1328,7 @@ public class SBMLWriter {
 	
 	public String writeAnnotation(SBase sbase) {
 		
-		String annotationStr = "<annotation>\n</annotation>";
+		String annotationStr = "";
 
 		if (sbase == null || (!sbase.isSetAnnotation())) {
 			return annotationStr;

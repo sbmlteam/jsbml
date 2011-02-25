@@ -568,7 +568,8 @@ public class Annotation implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Checks if the Annotation is initialised. 
+	 * Checks if the Annotation is initialised.
+	 *  
 	 * <p>An Annotation is initialised if
 	 * at least one of the following is true :
 	 * <li> there is some non RDF annotation
@@ -578,12 +579,15 @@ public class Annotation implements Cloneable, Serializable {
 	 * 
 	 * @return true if the Annotation is initialised
 	 */
-	public boolean isSetNonRDFannotation() {
+	public boolean isSetAnnotation() {
 		if ((getNonRDFannotation() == null) && getListOfCVTerms().isEmpty()
-				&& (getHistory() == null)) {
+				&& (getHistory() == null)) 
+		{
 			return false;
+			
 		} else if ((getNonRDFannotation() == null) && (getHistory() == null)
-				&& !getListOfCVTerms().isEmpty()) {
+				&& !getListOfCVTerms().isEmpty()) 
+		{
 
 			for (int i = 0; i < getListOfCVTerms().size(); i++) {
 				if (getCVTerm(i) != null) {
@@ -595,12 +599,58 @@ public class Annotation implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Checks if the non RDF part of the Annotation is initialised.
+	 *  
+	 * <p>An Annotation is initialised if
+	 *  there is some non RDF annotation
+	 * <p>
+	 * 
+	 * @return true if the non RDF part of the Annotation is initialised.
+	 */
+	public boolean isSetNonRDFannotation() {
+		if ((getNonRDFannotation() == null)) {
+			return false;
+		}
+		
+		return true;
+	}
+
+	/**
+	 * Checks if the RDF part of the Annotation is initialised.
+	 *  
+	 * <p>An Annotation is initialised if
+	 * at least one of the following is true :
+	 * <li> one or more CVTerm are defined
+	 * <li> there is an history defined.
+	 * <p>
+	 * 
+	 * @return true if the RDF part of the Annotation is initialised
+	 */
+	public boolean isSetRDFannotation() {
+		if (getListOfCVTerms().isEmpty() && (getHistory() == null)) {
+			return false;
+		} else if ((getHistory() == null) && !getListOfCVTerms().isEmpty()) {
+
+			for (int i = 0; i < getListOfCVTerms().size(); i++) {
+				if (getCVTerm(i) != null) {
+					return true;
+				}
+			}
+		}
+		return true;
+	}
+
+	
+	/**
 	 * Returns true if there is some non RDF annotation.
+	 * <p>Same as {@link #isSetNonRDFannotation()}
 	 * 
 	 * @return true if there is some non RDF annotation.
+	 * @see #isSetNonRDFannotation()
+	 * @deprecated please use {@link #isSetNonRDFannotation()}
 	 */
 	public boolean isSetOtherAnnotationThanRDF() {
-		return this.otherAnnotation != null;
+		return isSetNonRDFannotation();
 	}
 
 
@@ -633,6 +683,15 @@ public class Annotation implements Cloneable, Serializable {
 	}
 	
 	// TODO : some fireSBaseChangedEvent are missing in this class.
+	
+	/**
+	 * Sets the value of the non RDF annotations
+	 * 
+	 * @param nonRDFAnnotation
+	 */
+	public void setNonRDFAnnotation(String nonRDFAnnotation) {
+		otherAnnotation = new StringBuilder(nonRDFAnnotation);
+	}
 	
 	/**
 	 * Sets the annotationNamespaces.
