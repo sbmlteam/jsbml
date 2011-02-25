@@ -1472,16 +1472,16 @@ public class Model extends AbstractNamedSBase {
 	/**
 	 * Searches the {@link Variable} with the given identifier in this model.
 	 * 
-	 * @param variable
+	 * @param id
 	 *            The identifier of the {@link Variable} of interest.
 	 * @return the {@link Compartment}, {@link Species},
 	 *         {@link SpeciesReference}, or {@link Parameter}, which has
 	 *         'variable' as id.
 	 */
-	public Variable findVariable(String variable) {
-		Variable nsb = findSymbol(variable);
+	public Variable findVariable(String id) {
+		Variable nsb = findSymbol(id);
 		if (nsb == null) {
-			nsb = findSpeciesReference(variable);
+			nsb = findSpeciesReference(id);
 		}
 		return nsb;
 	}
