@@ -352,7 +352,10 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.CallableSBase)
+	 * 
+	 * @see
+	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.
+	 * CallableSBase)
 	 */
 	public ASTNodeValue compile(CallableSBase variable) {
 		ASTNodeValue value = new ASTNodeValue(variable, this);
@@ -471,13 +474,15 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		 * There are no restrictions on the form of x. The units of the d
 		 * parameter are determined from the built-in time. The value of the d
 		 * parameter, when evaluated, must be numerical (i.e., a number in
-		 * MathML real, integer, or e-notation format) and be greater than
-		 * or equal to 0. (v2l4)
+		 * MathML real, integer, or e-notation format) and be greater than or
+		 * equal to 0. (v2l4)
 		 */
-		UnitDefinition ud = x.compile(this).getUnits().clone();
+		UnitDefinition value = x.compile(this).getUnits().clone();
+		UnitDefinition time = delay.compile(this).getUnits().clone();
 
 		if (model.getTimeUnitsInstance() != null) {
-			if (!UnitDefinition.areEquivalent(model.getTimeUnitsInstance(), ud)) {
+			if (!UnitDefinition.areEquivalent(model.getTimeUnitsInstance(),
+					time)) {
 				throw new IllegalArgumentException(
 						new UnitException(
 								String
@@ -486,13 +491,13 @@ public class UnitsCompiler implements ASTNodeCompiler {
 												UnitDefinition
 														.printUnits(model
 																.getTimeUnitsInstance()),
-												UnitDefinition.printUnits(ud))));
+												UnitDefinition.printUnits(time))));
 			}
 		}
-		// TODO: not the correct value, need insight into time scale to return
+		// not the correct value, need insight into time scale to return
 		// the correct value
 
-		return new ASTNodeValue(ud, this);
+		return new ASTNodeValue(value, this);
 	}
 
 	/**
@@ -608,7 +613,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		for (int i = 0; i < args.size(); i++) {
 			argValues.put(lambda.getChild(i).compile(this).toString(), args
 					.get(i).compile(this));
-			
+
 		}
 		try {
 			this.namesToUnits = argValues;
@@ -934,11 +939,37 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNodeCompiler#piecewise(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue piecewise(List<ASTNode> values) throws SBMLException {
-		int i;
+		int i = 0;
 
-		for (i = 1; i < values.size() - 1; i += 2) {
-			if (values.get(i).compile(this).toBoolean()) {
-				return values.get(i - 1).compile(this);
+		ASTNodeValue compiledvalues[] = new ASTNodeValue[values.size()];
+		for (ASTNode node : values) {
+			compiledvalues[i++] = node.compile(this);
+		}
+		if (values.size() > 2) {
+			ASTNodeValue node = compiledvalues[0];
+
+			for (i = 2; i < values.size(); i += 2) {
+				if (!UnitDefinition.areEquivalent(node.getUnits(),
+						compiledvalues[i].getUnits())) {
+					throw new IllegalArgumentException(
+							new UnitException(
+									String
+											.format(
+													"Units of some return values in a piecewise function do not match. Given %s and %s.",
+													UnitDefinition
+															.printUnits(node
+																	.getUnits()),
+													UnitDefinition
+															.printUnits(compiledvalues[i]
+																	.getUnits()))));
+
+				}
+			}
+		}
+
+		for (i = 1; i < compiledvalues.length - 1; i += 2) {
+			if (compiledvalues[i].toBoolean()) {
+				return compiledvalues[i - 1];
 			}
 		}
 
@@ -1092,6 +1123,15 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue pow(ASTNode base, ASTNode exponent)
 			throws SBMLException {
+		if (exponent.isSetUnits()) {
+			checkForDimensionlessOrInvalidUnits(exponent.getUnitsInstance());
+		}
+		if (exponent.isNumber()) {
+			if (!(exponent.isInteger() || exponent.isRational())) {
+				checkForDimensionlessOrInvalidUnits(base.getUnitsInstance());
+			}
+		}
+
 		return pow(base.compile(this), exponent.compile(this));
 	}
 
@@ -1107,11 +1147,12 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		double exp = Double.NaN, v;
 		v = exponent.toDouble();
 		exp = v == 0 ? 0 : 1 / v;
-		checkForDimensionlessOrInvalidUnits(exponent.getUnits());
 		if (exp == 0) {
 			UnitDefinition ud = new UnitDefinition(level, version);
 			ud.addUnit(Kind.DIMENSIONLESS);
-			return new ASTNodeValue(ud, this);
+			ASTNodeValue value = new ASTNodeValue(ud, this);
+			value.setValue(Integer.valueOf(1));
+			return value;
 		}
 		if (!Double.isNaN(exp)) {
 			return root(exp, base);
@@ -1164,6 +1205,12 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			checkForDimensionlessOrInvalidUnits(rootExponent.getUnitsInstance());
 		}
 		if (rootExponent.isNumber()) {
+
+			if (!(rootExponent.isInteger() || rootExponent.isRational())) {
+				checkForDimensionlessOrInvalidUnits(rootExponent
+						.getUnitsInstance());
+			}
+
 			return root(rootExponent.compile(this).toDouble(), radiant);
 		}
 
@@ -1178,6 +1225,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue root(double rootExponent, ASTNode radiant)
 			throws SBMLException {
+
 		return root(rootExponent, radiant.compile(this));
 	}
 
@@ -1192,6 +1240,15 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			throws SBMLException {
 		UnitDefinition ud = radiant.getUnits().clone();
 		for (Unit u : ud.getListOfUnits()) {
+			if (((u.getExponent() / rootExponent) % 1.0) != 0.0) {
+				throw new IllegalArgumentException(
+						new UnitException(
+								String
+										.format(
+												"Can not perform power or root operation due to incompatibility with a unit exponent. Given %s and %s.",
+												u.getExponent(), rootExponent)));
+			}
+			
 			u.setExponent(u.getExponent() / rootExponent);
 		}
 		ASTNodeValue value = new ASTNodeValue(ud, this);
