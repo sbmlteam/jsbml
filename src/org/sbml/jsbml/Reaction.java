@@ -272,6 +272,26 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		modSpecRef.setSpecies(species);
 		return modSpecRef;
 	}
+	
+	
+	/**
+	 * Creates a new {@link ModifierSpeciesReference} with the given
+	 * <code>id</code> as its identifier, which points to the {@link Species}
+	 * with the given <code>id</code>, adds it to this {@link Reaction}'s
+	 * {@link #listOfModifiers}, and returns a pointer to it.
+	 * 
+	 * @param id
+	 *            the identifier of the {@link ModifierSpeciesReference} to be
+	 *            created.
+	 * @param species
+	 *            the identifier of the {@link Species} to be referenced.
+	 * @return a pointer to the newly created {@link ModifierSpeciesReference}.
+	 */
+	public ModifierSpeciesReference createModifier(String id, String species) {
+		ModifierSpeciesReference modSpecRef = createModifier(id);
+		modSpecRef.setSpecies(species);
+		return modSpecRef;
+	}
 
 	/**
 	 * Creates a new {@link SpeciesReference}, adds it to this {@link Reaction}'s
@@ -332,6 +352,18 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		specRef.setSpecies(species);
 		return specRef;
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param species
+	 * @return
+	 */
+	public SpeciesReference createProduct(String id, String species) {
+		SpeciesReference specRef = createProduct(id);
+		specRef.setSpecies(species);
+		return specRef;
+	}
 
 	/**
 	 * Creates a new {@link SpeciesReference}, adds it to this {@link Reaction}'s
@@ -382,6 +414,18 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	 * @return a pointer to the newly created {@link SpeciesReference}.
 	 */
 	public SpeciesReference createReactant(String id, Species species) {
+		SpeciesReference specRef = createReactant(id);
+		specRef.setSpecies(species);
+		return specRef;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param species
+	 * @return
+	 */
+	public SpeciesReference createReactant(String id, String species) {
 		SpeciesReference specRef = createReactant(id);
 		specRef.setSpecies(species);
 		return specRef;
