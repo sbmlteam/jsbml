@@ -43,6 +43,9 @@ Version 0.8-x (xx-xx-2011)
     as an integer. This has been corrected and if the level of the model is 
     3, the exponent is read as a double. 
 
+  - [Tracker issue #3196638] : the message constraint was not properly read,
+    it was stored in the notes instead of the message ! This is now 
+    corrected.
 
 ============================================================================
 Version 0.8-b1 (04-02-2011)

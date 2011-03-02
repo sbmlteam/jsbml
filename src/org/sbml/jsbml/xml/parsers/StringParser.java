@@ -22,6 +22,7 @@ package org.sbml.jsbml.xml.parsers;
 
 import org.apache.log4j.Logger;
 
+import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.xml.XMLAttributes;
@@ -175,7 +176,11 @@ public class StringParser implements ReadingParser {
 		if (contextObject instanceof SBase) {
 			SBase parentSBMLElement = (SBase) contextObject;
 			
-			parentSBMLElement.getNotes().addChild(xmlNode);
+			if (typeOfNotes.equals("notes")) {
+				parentSBMLElement.getNotes().addChild(xmlNode);
+			} else if (typeOfNotes.equals("message") && parentSBMLElement instanceof Constraint) {
+				((Constraint) parentSBMLElement).getMessage().addChild(xmlNode);
+			}
 			
 		} else if (contextObject instanceof XMLNode) {
 			XMLNode parentNode = (XMLNode) contextObject;
