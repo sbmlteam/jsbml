@@ -1959,7 +1959,8 @@ public class Unit extends AbstractSBase {
 					isAttributeRead = false;
 				}
 			} else if (attributeName.equals("exponent")) {
-				setExponent(StringTools.parseSBMLInt(value));
+				setExponent(getLevel() < 3 ? StringTools.parseSBMLInt(value)
+						: StringTools.parseSBMLDouble(value));
 			} else if (attributeName.equals("scale")) {
 				setScale(StringTools.parseSBMLInt(value));
 			} else if (attributeName.equals("multiplier")) {
@@ -1997,6 +1998,17 @@ public class Unit extends AbstractSBase {
 		isSetExponent = true;
 		this.exponent = Double.valueOf(exponent);
 		firePropertyChange(SBaseChangedEvent.exponent, oldExponent, this.exponent);
+	}
+	
+	/**
+	 * Sets the exponent of this {@link Unit}
+	 * 
+	 * @param exponent
+	 * @deprecated use {@link #setExponent(double)}
+	 */
+	@Deprecated
+	public void setExponent(int exponent) {
+		setExponent((double) exponent);
 	}
 
 	/**
