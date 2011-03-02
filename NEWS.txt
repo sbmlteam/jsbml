@@ -45,7 +45,7 @@ Version 0.8-x (xx-xx-2011)
 
   - [Tracker issue #3196638] : the message constraint was not properly read,
     it was stored in the notes instead of the message ! This is now 
-    corrected.
+    corrected, thanks to the person who reported that.
 
 ============================================================================
 Version 0.8-b1 (04-02-2011)

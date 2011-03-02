@@ -180,6 +180,9 @@ public class StringParser implements ReadingParser {
 				parentSBMLElement.getNotes().addChild(xmlNode);
 			} else if (typeOfNotes.equals("message") && parentSBMLElement instanceof Constraint) {
 				((Constraint) parentSBMLElement).getMessage().addChild(xmlNode);
+			} else {
+				logger.warn("The type of String " + typeOfNotes + " on the element " + 
+						parentSBMLElement.getElementName() + " is unknown !! Some data might be lost");
 			}
 			
 		} else if (contextObject instanceof XMLNode) {
