@@ -42,13 +42,13 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		Variable {
 
 	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 4400834403773787677L;
-	/**
 	 * Message to be displayed in case that an illegal stoichiometric value has been set.
 	 */
 	private static final String ILLEGAL_STOCHIOMETRY_VALUE = "Only positive integer values can be set as %s. Invalid value %d.";
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 4400834403773787677L;
 	/**
 	 * Represents the 'constant' XML attribute of this SpeciesReference.
 	 */
@@ -239,6 +239,18 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return true;
 	}
 	
+	/**
+	 * This method computes the fraction of the stoichiometry and the
+	 * denominator. Actually, the denominator is only defined in SBML Level 1.
+	 * For convenience, this method might be usefull.
+	 * 
+	 * @return The fraction between {@link #stoichiometry} and
+	 *         {@link #denominator}.
+	 */
+	public double getCalculatedStoichiometry() {
+		return getStoichiometry() / getDenominator();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -278,7 +290,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	public boolean getConstant() {
 		return constant != null ? constant : false;
 	}
-
+	
 	/**
 	 * 
 	 * @return the denominator value if it is set, 1 otherwise
@@ -341,8 +353,9 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * 
 	 * @return the stoichiometryMath of this SpeciesReference. Can be null if
 	 *         the stoichiometryMath is not set.
-	 * @deprecated
+	 * @deprecated since SBML Level 3 this should not be used anymore.
 	 */
+	@Deprecated
 	public StoichiometryMath getStoichiometryMath() {
 		return stoichiometryMath;
 	}
@@ -363,7 +376,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		// See
 		// http://sbml.org/Community/Wiki/SBML_Level_3_Core/Reaction_changes/Changes_to_stoichiometry
 		if (getLevel() <= 2) {
-			constant = true;
+			constant = Boolean.valueOf(true);
 			stoichiometry = 1d;
 			denominator = 1;
 		} else {
@@ -379,7 +392,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * @see org.sbml.jsbml.State#isConstant()
 	 */
 	public boolean isConstant() {
-		return constant != null ? constant : false;
+		return constant != null ? constant.booleanValue() : false;
 	}
 
 	/*
