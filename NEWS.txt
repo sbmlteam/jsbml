@@ -39,6 +39,10 @@ Version 0.8-x (xx-xx-2011)
     written if a metaid was defined. Some methods were added to the 
     Annotation class to test which part of the annotation is defined.
 
+  - [Tracker issue #3196284] : the unit exponent was incorrectly always read
+    as an integer. This has been corrected and if the level of the model is 
+    3, the exponent is read as a double. 
+
 
 ============================================================================
 Version 0.8-b1 (04-02-2011)

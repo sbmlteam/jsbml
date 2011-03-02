@@ -51,6 +51,7 @@ import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.SimpleSBaseChangeListener;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLNode;
@@ -214,6 +215,9 @@ public class SBMLReader {
 			System.out.println("URI = "+uri);
 		}
 
+		for (Species species : testDocument.getModel().getListOfSpecies()) {
+			species.getAnnotationString();
+		}
 		
 		// new SBMLWriter().write(testDocument, System.out);
 		
@@ -839,7 +843,7 @@ public class SBMLReader {
 			}
 			// process the end of the element.
 			if (!sbmlElements.isEmpty() && parser != null) {
-				logger.debug("event.isEndElement : calling parser.processEndElement ");
+				logger.debug("event.isEndElement : calling parser.processEndElement " + parser.getClass());
 
 				boolean popElementFromTheStack = parser
 						.processEndElement(endElement.getName().getLocalPart(),
