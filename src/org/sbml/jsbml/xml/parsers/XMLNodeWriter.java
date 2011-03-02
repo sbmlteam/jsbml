@@ -98,7 +98,7 @@ public class XMLNodeWriter {
 		
 		boolean isRoot = false;
 		
-		if (xmlNode.getName().equals("notes") || xmlNode.getName().equals("notes")) {
+		if (xmlNode.getName().equals("notes") || xmlNode.getName().equals("message")) {
 			writer.writeCharacters(indent);
 			isRoot = true;
 		}

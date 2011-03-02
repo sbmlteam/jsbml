@@ -1131,9 +1131,10 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 					if (elementName.equals("message")
 							&& ((constraint.getLevel() == 2 && constraint
-									.getVersion() > 1) || constraint.getLevel() >= 3)) {
+									.getVersion() > 1) || constraint.getLevel() >= 3)) 
+					{
+						constraint.setMessage(new XMLNode(new XMLTriple("message", null, null), new XMLAttributes()));
 
-						// TODO : constraint.setMessage(new XMLNode(new XMLTriple("message", null, null), new XMLAttributes()));
 						return constraint;
 					} else {
 						log4jLogger.warn("The element " + elementName + " is not recognized");
