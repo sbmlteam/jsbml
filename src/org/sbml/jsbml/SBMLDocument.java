@@ -29,9 +29,10 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.sbml.jsbml.util.NotImplementedException;
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.validator.SBMLValidator;
+import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 
 /**
  * Represents the 'sbml' root node of a SBML file.
@@ -85,7 +86,7 @@ public class SBMLDocument extends AbstractSBase {
 	/**
 	 * Contains all the parameter to validate the SBML document
 	 */
-	private HashMap<String, String> checkConsistencyParameters = new HashMap<String, String>();
+	private HashMap<String, Boolean> checkConsistencyParameters = new HashMap<String, Boolean>();
 	
 	/**
 	 * Represents the 'model' XML subnode of a SBML file.
@@ -101,6 +102,11 @@ public class SBMLDocument extends AbstractSBase {
 	private Map<String, String> SBMLDocumentNamespaces;
 
 	/**
+	 * logger used to print messages
+	 */
+	private transient Logger logger = Logger.getLogger(getClass());
+	
+	/**
 	 * Creates a {@link SBMLDocument} instance. By default, the parent SBML object of
 	 * this object is itself. The model is null. The SBMLDocumentAttributes and
 	 * the SBMLDocumentNamespaces are empty.
@@ -113,6 +119,7 @@ public class SBMLDocument extends AbstractSBase {
 		SBMLDocumentAttributes = new HashMap<String, String>();
 		SBMLDocumentNamespaces = new HashMap<String, String>();
 		setParentSBML(this);
+		checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), false);
 	}
 	
 	/**
@@ -145,6 +152,7 @@ public class SBMLDocument extends AbstractSBase {
 			this.model = null;
 		}
 		setParentSBML(this);
+		checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), false);		
 	}
 
 	/**
@@ -168,12 +176,23 @@ public class SBMLDocument extends AbstractSBase {
 	 * Validates the {@link SBMLDocument} using the
 	 * SBML.org online validator (http://sbml.org/validator/).
 	 * <p>
+	 * you can control the consistency checks that are performed when
+	 * {@link #checkConsistency()} is called with the 
+	 * {@link #setConsistencyChecks(CHECK_CATEGORY, boolean)} method.
 	 * It will fill this {@link SBMLDocument}'s {@link #listOfErrors}
 	 * with {@link SBMLError}s for each problem within this whole data
 	 * structure. You will then be able to obtain this list by calling
 	 * {@link #getError(int)} or {@link #getListOfErrors()}.
+	 * <p>
+	 * If this method returns a nonzero value (meaning, one or more
+	 * consistency checks have failed for SBML document), the failures may be
+	 * due to warnings @em or errors.  Callers should inspect the severity
+	 * flag in the individual SBMLError objects returned by
+	 * {@link SBMLDocument#getError(int)} to determine the nature of the failures.
 	 * 
 	 * @return the number of errors found
+	 * 
+	 * @see #setConsistencyChecks(CHECK_CATEGORY, boolean)
 	 */
 	public int checkConsistency() {
 		
@@ -182,31 +201,222 @@ public class SBMLDocument extends AbstractSBase {
 		try {
 			tmpFile = File.createTempFile("jsbml-", ".xml");
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("There was an error creating a temporary file :" + e.getMessage());
+			
+			if (logger.isDebugEnabled()) {
+				e.printStackTrace();
+			}
+			return -1;
 		}
 
 		try {
 			new SBMLWriter().writeSBML(this, tmpFile);
-		} catch (FileNotFoundException e) { // TODO : log the errors. Send an exception ??
-			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			logger.error("There was an error creating a temporary file :" + e.getMessage());
+			
+			if (logger.isDebugEnabled()) {
+				e.printStackTrace();
+			}
 			return -1;
 		} catch (XMLStreamException e) {
-			e.printStackTrace();
+			logger.error("There was an error creating a temporary file :" + e.getMessage());
+			
+			if (logger.isDebugEnabled()) {
+				e.printStackTrace();
+			}
 			return -1;
 		} catch (SBMLException e) {
-			e.printStackTrace();
+			logger.error("There was an error creating a temporary file :" + e.getMessage());
+			
+			if (logger.isDebugEnabled()) {
+				e.printStackTrace();
+			}
 			return -1;
 		}
 		
-		HashMap<String, String> parameters = new HashMap<String, String>();
+		/*
+		 * u --> Disable checking the consistency of measurement units associated with quantities (SBML L2V3 rules 105nn) 
+		 * i --> Disable checking the correctness and consistency of identifiers used for model entities (SBML L2V3 rules 103nn) 
+		 * m --> Disable checking the syntax of MathML mathematical expressions (SBML L2V3 rules 102nn) 
+		 * s --> Disable checking the validity of SBO identifiers (if any) used in the model (SBML L2V3 rules 107nn) 
+		 * o --> Disable static analysis of whether the model is overdetermined 
+		 * p --> Disable additional checks for recommended good modeling practices 
+		 * g --> Disable all other general SBML consistency checks (SBML L2v3 rules 2nnnn) 
+		 * 
+		 */
+
+		// checkConsistencyParameters.put("offcheck", "u");
+		// checkConsistencyParameters.put("offcheck", "u,p,o");
 		
 		// System.out.println("SBMLDocument.checkConsistency : tmp file = " + tmpFile.getAbsolutePath());
 		
-		listOfErrors = SBMLValidator.checkConsistency(tmpFile.getAbsolutePath(), parameters); 
+		HashMap<String, String> consistencyParameters = new HashMap<String, String>(); 
+		String offcheck = null;
+		
+		for (String checkCategory : checkConsistencyParameters.keySet()) {
+			CHECK_CATEGORY typeOfCheck = CHECK_CATEGORY.valueOf(checkCategory);
+			boolean checkIsOn = checkConsistencyParameters.get(checkCategory); 
+			
+			logger.debug(" Type of check = " + typeOfCheck);
+			
+			switch (typeOfCheck)
+			{
+			case IDENTIFIER_CONSISTENCY: {
+				if (!checkIsOn) {
+					offcheck = (offcheck == null) ? "i" : offcheck + ",i"; 
+				}
+				break;
+			}
+		  case GENERAL_CONSISTENCY: {
+				if (!checkIsOn) {
+					offcheck = (offcheck == null) ? "g" : offcheck + ",g"; 
+				}
+				break;
+			}
+		  case SBO_CONSISTENCY: {
+				if (!checkIsOn) {
+					offcheck = (offcheck == null) ? "s" : offcheck + ",s"; 
+				}
+				break;
+			}
+		  case MATHML_CONSISTENCY: {
+				if (!checkIsOn) {
+					offcheck = (offcheck == null) ? "m" : offcheck + ",m"; 
+				}
+				break;
+			}
+		  case UNITS_CONSISTENCY: {
+				if (!checkIsOn) {
+					offcheck = (offcheck == null) ? "u" : offcheck + ",u"; 
+				}
+				break;
+			}
+		  case OVERDETERMINED_MODEL: {
+				if (!checkIsOn) {
+					offcheck = (offcheck == null) ? "o" : offcheck + ",o"; 
+				}
+				break;
+			}
+		  case MODELING_PRACTICE: {
+				if (!checkIsOn) {
+					offcheck = (offcheck == null) ? "p" : offcheck + ",p"; 
+				}
+				break;
+			}
+		  default: {
+			  // If it's a category for which we don't have validators, ignore it.
+			  // Should not happen as checkConsistencyParameters is only modified through
+			  // setConsistencyChecks(CHECK_CATEGORY, boolean)
+			  break;
+		  }
+		  }
+		}
+		if (offcheck != null) {
+			consistencyParameters.put("offcheck", offcheck);
+		}
+
+		// Doing the actual check consistency
+		listOfErrors = SBMLValidator.checkConsistency(tmpFile.getAbsolutePath(), consistencyParameters); 
+
+		try {
+			tmpFile.delete();
+		} catch (SecurityException e) {
+			logger.error("There was an error removing a temporary file :" + e.getMessage());
+			
+			if (logger.isDebugEnabled()) {
+				e.printStackTrace();
+			}
+		}
 
 		return listOfErrors.getNumErrors();
 	}
 
+	/**
+	 * Controls the consistency checks that are performed when
+	 * {@link SBMLDocument#checkConsistency()} is called.
+	 * <p>
+	 * This method works by adding or subtracting consistency checks from the
+	 * set of all possible checks that {@link SBMLDocument#checkConsistency()} knows
+	 * how to perform.  This method may need to be called multiple times in
+	 * order to achieve the desired combination of checks.  The first
+	 * argument (<code>category</code>) in a call to this method indicates the category
+	 * of consistency/error checks that are to be turned on or off, and the
+	 * second argument (<code>apply</code>, a boolean) indicates whether to turn it on
+	 * (value of <code>true</code>) or off (value of <code>false</code>).
+	 * <p>
+	 * * The possible categories (values to the argument <code>category</code>) are the
+	 * set of values from the {@link CHECK_CATEGORYH} enumeration.
+	 * The following are the possible choices:
+	 * <p>
+	 * <p>
+	 * <li> {@link GENERAL_CONSISTENCY}:
+	 * Correctness and consistency of specific SBML language constructs.
+	 * Performing this set of checks is highly recommended.  With respect to
+	 * the SBML specification, these concern failures in applying the
+	 * validation rules numbered 2xxxx in the Level&nbsp;2 Versions&nbsp;2, 3
+	 * and&nbsp;4 specifications.
+	 * <p>
+	 * <li> {@link IDENTIFIER_CONSISTENCY}:
+	 * Correctness and consistency of identifiers used for model entities.
+	 * An example of inconsistency would be using a species identifier in a
+	 * reaction rate formula without first having declared the species.  With
+	 * respect to the SBML specification, these concern failures in applying
+	 * the validation rules numbered 103xx in the Level&nbsp;2
+	 * Versions&nbsp;2, 3 and&nbsp;4 specifications.
+	 * <p>
+	 * <li> {@link UNITS_CONSISTENCY}:
+	 * Consistency of measurement units associated with quantities in a
+	 * model.  With respect to the SBML specification, these concern failures
+	 * in applying the validation rules numbered 105xx in the Level&nbsp;2
+	 * Versions&nbsp;2, 3 and&nbsp;4 specifications.
+	 * <p>
+	 * <li> {@link MATHML_CONSISTENCY}:
+	 * Syntax of MathML constructs.  With respect to the SBML specification,
+	 * these concern failures in applying the validation rules numbered 102xx
+	 * in the Level&nbsp;2 Versions&nbsp;2, 3 and&nbsp;4 specifications.
+	 * <p>
+	 * <li> {@link SBO_CONSISTENCY}:
+	 * Consistency and validity of SBO identifiers (if any) used in the
+	 * model.  With respect to the SBML specification, these concern failures
+	 * in applying the validation rules numbered 107xx in the Level&nbsp;2
+	 * Versions&nbsp;2, 3 and&nbsp;4 specifications.
+	 * <p>
+	 * <li> {@link OVERDETERMINED_MODEL}:
+	 * Static analysis of whether the system of equations implied by a model
+	 * is mathematically overdetermined.  With respect to the SBML
+	 * specification, this is validation rule #10601 in the SBML Level&nbsp;2
+	 * Versions&nbsp;2, 3 and&nbsp;4 specifications.
+	 * <p>
+	 * <li> {@link MODELING_PRACTICE}:
+	 * Additional checks for recommended good modeling practice. (These are
+	 * tests performed by libSBML and do not have equivalent SBML validation
+	 * rules.)
+	 * <p>
+	 * <em>By default, all validation checks are applied</em> to the model in
+	 * an {@link SBMLDocument} object <em>unless</em> {@link SBMLDocument#setConsistencyChecks(int, boolean)}  is called to
+	 * indicate that only a subset should be applied.  Further, this default
+	 * (i.e., performing all checks) applies separately to <em>each new
+	 * {@link SBMLDocument} object</em> created.  In other words, each time a model
+	 * is read using {@link SBMLReader#readSBML(String)} , {@link SBMLReader#readSBMLFromString(String)}, a new
+	 * {@link SBMLDocument} is created and for that document, a call to
+	 * {@link SBMLDocument#checkConsistency()} will default to applying all possible checks.
+	 * Calling programs must invoke {@link SBMLDocument#setConsistencyChecks(int, boolean)}  for each such new
+	 * model if they wish to change the consistency checks applied.
+	 * <p>
+	 * @param category a value drawn from JSBML#JSBML.SBML_VALIDATOR_* indicating the
+	 * consistency checking/validation to be turned on or off
+	 * <p>
+	 * @param apply a boolean indicating whether the checks indicated by
+	 * <code>category</code> should be applied or not.
+	 * <p>
+	 * @see SBMLDocument#checkConsistency()
+	 */
+	public void setConsistencyChecks(SBMLValidator.CHECK_CATEGORY category, boolean apply)
+	{		
+		checkConsistencyParameters.put(category.name(), apply);
+	}
+
+	
 	public void printErrors() {
 		int nbErrors = listOfErrors.getNumErrors();
 		
@@ -354,10 +564,11 @@ public class SBMLDocument extends AbstractSBase {
 	 * @return 
 	 */
 	public SBMLError getError(int i) {
-		if (isSetListOfErrors()) {
-			return listOfErrors.getError(i);
+		if (!isSetListOfErrors() || i < 0 || i >= getNumErrors()) {
+			throw new IndexOutOfBoundsException("You are trying to access the error number " + i + ", which is invalid.");	
 		}
-		throw new IndexOutOfBoundsException(Integer.toString(i)); // TODO : test if the number is too low or too big
+		
+		return listOfErrors.getError(i);
 	}
 
 	/**

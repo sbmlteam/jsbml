@@ -47,6 +47,11 @@ Version 0.8-x (xx-xx-2011)
     it was stored in the notes instead of the message ! This is now 
     corrected, thanks to the person who reported that.
 
+  - Corrected several bugs in the SBMLValidator and implemented properly all
+    the classes related to SBMLdocument.checkConsistency() so that is works 
+    as expected.
+    
+
 ============================================================================
 Version 0.8-b1 (04-02-2011)
 ============================================================================
