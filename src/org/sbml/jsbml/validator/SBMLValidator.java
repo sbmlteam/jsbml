@@ -25,43 +25,21 @@ package org.sbml.jsbml.validator;
  * \brief   Validates an SBML document using the SBML.org Online Validator
  * \author  Ben Bornstein <sbml-team@caltech.edu>
  * \author  Akiya Jouraku <sbml-team@caltech.edu>
- *
- * $Id$
- * $Source$
- *
- * Copyright 2006 California Institute of Technology and
- * Japan Science and Technology Corporation.
- *
- * This library is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published
- * by the Free Software Foundation; either version 2.1 of the License, or
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
- * MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  The software and
- * documentation provided hereunder is on an "as is" basis, and the
- * California Institute of Technology and Japan Science and Technology
- * Corporation have no obligations to provide maintenance, support,
- * updates, enhancements or modifications.  In no event shall the
- * California Institute of Technology or the Japan Science and Technology
- * Corporation be liable to any party for direct, indirect, special,
- * incidental or consequential damages, including lost profits, arising
- * out of the use of this software and its documentation, even if the
- * California Institute of Technology and/or Japan Science and Technology
- * Corporation have been advised of the possibility of such damage.  See
- * the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+ * 
+ * This file is adapted from libSBML by rodrigue
+ * 
  */
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
@@ -72,6 +50,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.util.Location;
@@ -99,7 +78,10 @@ class Validator {
 	 * @return an InputStream containing the validation results.
 	 */
 	public static InputStream validateSBML(String filename,
-			Map<String, String> parameters) throws IOException {
+			Map<String, String> parameters) throws IOException 
+	{
+		Logger logger = Logger.getLogger(SBMLValidator.class);
+		
 		if (parameters.get("output") == null) {
 			parameters.put("output", "xml");
 		}
@@ -119,6 +101,8 @@ class Validator {
 				String name = iter.next();
 				String value = parameters.get(name);
 
+				logger.debug("Validator.validateSBML : parameter " + name + " = " + value);
+				
 				post.writeParameter(name, value);
 			}
 		} catch (NoSuchElementException e) {
@@ -181,6 +165,10 @@ class MultipartPost {
 		InputStream source = new FileInputStream(file);
 		copy(source, stream);
 
+		// Adding a line return, otherwise the xml content is considered
+		// invalid by libsbml
+		stream.write(System.getProperty ( "line.separator" ).getBytes());
+		
 		stream.flush();
 		source.close();
 	}
@@ -218,29 +206,26 @@ class MultipartPost {
 }
 
 /**
- * usage: java validateSBML [-h] [-o output-format] [-d opt1[,opt2,...]]
- * filename.xml usage: java validateSBML [-h] [-o output-format] [-d
- * opt1[,opt2,...]] http://...
- * 
  * Validates the SBML document given by filename.xml or located at the http://
- * URL. Output-format is optional and may be one of: xml, xhtml, json, text
- * (default: xml)
+ * URL. Output-format will always be xml
+ * <p>
+ * usage: java org.sbml.jsbml.validator.SBMLValidator [-h] [-d opt1[,opt2,...]]
+ * filename.xml
+ * <br> 
+ * usage: java validateSBML [-h] [-d opt1[,opt2,...]] http://...
+ * 
+ * 
  */
 public class SBMLValidator {
+	
 	static void usage() {
-		String usage = "usage: java validateSBML [-h] [-o output-format] [-d opt1[,opt2,...]] filename.xml\n"
-				+ "usage: java validateSBML [-h] [-o output-format] [-d opt1[,opt2,...]] http://..."
+		String usage = "usage: java org.sbml.jsbml.validator.SBMLValidator [-h] [-d opt1[,opt2,...]] filename.xml\n"
+				+ "usage: java org.sbml.jsbml.validator.SBMLValidator [-h] [-d opt1[,opt2,...]] http://..."
 				+ "\n\n"
 				+ "  Validates the SBML document given by filename.xml or located at\n"
 				+ "  the http:// URL."
 				+ "\n\n"
 				+ "Options:\n\n"
-				+ "  -o output-format\n"
-				+ "    Specify an output format.\n\n"
-				+ "      xml   : XML (Default)\n"
-				+ "      xhtml : XHTML\n"
-				+ "      text  : plain text\n"
-				+ "      json  : JavaScript Object Notation\n\n"
 				+ "  -d opt1[,opt2,...]\n"
 				+ "    Disable the given consistency check options.\n"
 				+ "    The options are given as comma-separated characters.\n"
@@ -265,7 +250,7 @@ public class SBMLValidator {
 	public static void main(String[] args) {
 		String filename = null;
 		String output = "xml";
-		String offcheck = null;
+		String offcheck = "u";
 
 		/**
 		 * 
@@ -303,10 +288,14 @@ public class SBMLValidator {
 				usage();
 			} else {
 				// currently only one filename (url) can be given.
-				if ((i + 1) < args.length) {
-					usage();
-				}
+				
 				filename = args[i];
+				
+				if ((i + 1) < args.length) {
+					// usage();
+					break;
+				}
+				
 			}
 		}
 
@@ -315,8 +304,21 @@ public class SBMLValidator {
 		}
 
 		HashMap<String, String> parameters = new HashMap<String, String>();
+		parameters.put("output", output);
+		parameters.put("offcheck", offcheck);
 
-		checkConsistency(filename, parameters);
+		System.out.println("Validating  " + filename + "\n");
+
+		SBMLErrorLog sbmlErrorLog = checkConsistency(filename, parameters);
+		
+		System.out.println("There is " + sbmlErrorLog.getNumErrors() + " errors in the model.\n");
+		
+		// printErrors
+		for (int j = 0; j < sbmlErrorLog.getNumErrors(); j++) {
+			SBMLError error = sbmlErrorLog.getError(j);
+			
+			System.out.println(error.toString() + "\n");
+		}
 	}
 
 	static void print(InputStream source, OutputStream destination)
@@ -329,38 +331,87 @@ public class SBMLValidator {
 		}
 
 		destination.flush();
+		source.reset();
 	}
 
+	static void print(Reader source, Writer destination)
+		throws IOException 
+	{
+		char[] buffer = new char[8192];
+		int nbChar = 0;
+		
+		while ((nbChar = source.read(buffer, 0, buffer.length)) >= 0) {
+			destination.write(buffer, 0, nbChar);
+		}
+
+		destination.flush();
+	}
+
+	/**
+	 * Validates an SBML model using the
+	 * SBML.org online validator (http://sbml.org/validator/).
+	 * 
+	 * <p>
+	 * You can control the consistency checks that are performed when
+	 * {@link #checkConsistency()} is called with the {@link HashMap} of 
+	 * parameters given.
+	 * It will fill the {@link SBMLErrorLog}
+	 * with {@link SBMLError}s for each problem within this whole model.
+	 * 
+	 * <p>
+	 * If this method returns a non empty {@link SBMLErrorLog}, the failures may be
+	 * due to warnings @em or errors.  Callers should inspect the severity
+	 * flag in the individual SBMLError objects to determine the nature of the failures.
+	 * 
+	 * @param fileName a file name
+	 * @param parameters parameters for the libsbml checkConsistency()
+ 	 * @return an {@link SBMLErrorLog} containing the list of errors.
+ 	 * 
+ 	 * @see <a href="http://sbml.org/Facilities/Validator/Validator_Web_API">sbml.org Validator Web API</a>
+ 	 */
 	public static SBMLErrorLog checkConsistency(String fileName,
-			HashMap<String, String> parameters) {
-
+			HashMap<String, String> parameters) 
+	{
+		Logger logger = Logger.getLogger(SBMLValidator.class);
+		
 		try {
-			InputStream result = null;
-
-			// DEBUG
+			Reader result = null;
+			
+			// We force the output to be xml
 			String output = "xml";
-
 			parameters.put("output", output);
-			parameters.put("offcheck", "u");
+
+			logger.debug("Calling the sbml.org Web Validator.");
+
+			logger.debug("offcheck = @" + parameters.get("offcheck") + "@");
 
 			// getting an XML output of the error log
 			// describe there :
 			// http://sbml.org/Facilities/Validator/Validator_Web_API
-			result = Validator.validateSBML(fileName, parameters);
+			result = new InputStreamReader(Validator.validateSBML(fileName, parameters));
 
-			// DEBUG 
-			print(result, System.out);
-
-			XStream xstream = new XStream(new DomDriver()); // To parse XML
-															// using DOM
-			// XStream xstream = new XStream(new StaxDriver()); // To parse XML
-			// using Stax
+			// DEBUG
+			if (logger.isDebugEnabled()) {
+				String resultString = new String();
+				StringWriter out = new StringWriter();
+				print(result, out);
+				
+				resultString = out.toString();
+				logger.debug(resultString);
+				
+				result = new StringReader(resultString);				
+				
+			}
+			
+			XStream xstream = new XStream(new DomDriver()); // To parse XML using DOM
+			// XStream xstream = new XStream(new StaxDriver()); // To parse XML using Stax
+			
 			xstream.alias("validation-results", SBMLErrorLog.class);
 			xstream.alias("option", Option.class);
 			xstream.alias("problem", SBMLError.class);
 			xstream.alias("location", Location.class);
 			// xstream.registerConverter(new MessageConverter(), XStream.PRIORITY_VERY_HIGH);
-			xstream.registerLocalConverter(SBMLErrorLog.class, "messageInstance", new MessageConverter());
+			xstream.registerLocalConverter(SBMLError.class, "message", new MessageConverter());
 			
 			xstream.alias("message", Message.class);
 			
@@ -372,8 +423,6 @@ public class SBMLValidator {
 			xstream.aliasField("error", SBMLErrorLog.class, "status");
 			xstream.aliasField("warning", SBMLErrorLog.class, "status");
 			xstream.aliasField("no-errors", SBMLErrorLog.class, "status");
-			
-			xstream.aliasField("message", SBMLErrorLog.class, "messageInstance");
 			
 			xstream.useAttributeFor(File.class);
 
@@ -387,27 +436,21 @@ public class SBMLValidator {
 			xstream.useAttributeFor(Location.class, "line");
 			xstream.useAttributeFor(Location.class, "column");
 
-			// xstream.useAttributeFor(ValidationError.class, "messageLang");
-			// xstream.aliasField("lang", ValidationError.class, "messageLang");
-
-			// xstream.aliasField("message", SBMLError.class, "message");
-
 			SBMLErrorLog resultsObj = (SBMLErrorLog) xstream.fromXML(result);
 
-			System.out.println("Parsing done !!!");
+			logger.debug("Call and Parsing of the results done !!!");
 
-			System.out.println("File = " + resultsObj.getFile().getName());
+			// logger.debug("File = " + resultsObj.getFile().getName());
 
-			System.out
-					.println("Nb Options = " + resultsObj.getOptions().size());
-			System.out.println(resultsObj.getOptions());
+			// logger.debug("Nb Options = " + resultsObj.getOptions().size());
+			// logger.debug(resultsObj.getOptions());
 
-			System.out.println("Nb Problems = "
-					+ resultsObj.getValidationErrors().size());
-			System.out.println("ValidationError(2) =\n"
-					+ resultsObj.getValidationErrors().get(2));
+			logger.debug("Nb Problems = "	+ resultsObj.getValidationErrors().size());
+			
+			if (resultsObj.getValidationErrors().size() > 0) {
+				logger.debug("ValidationError(0) = "	+ resultsObj.getValidationErrors().get(0));
+			}
 
-			// print(result, System.out);
 			result.close();
 
 			return resultsObj;
@@ -417,5 +460,69 @@ public class SBMLValidator {
 
 		return null;
 	}
+
+	/**
+	 * Enumerates the different possible check categories
+	 * when performing the validation of an SBML document.
+	 * 
+	 */
+	public static enum CHECK_CATEGORY 
+	{		
+		/**
+		 * Correctness and consistency of specific SBML language constructs.
+		 * Performing this set of checks is highly recommended.  With respect to
+		 * the SBML specification, these concern failures in applying the
+		 * validation rules numbered 2xxxx in the Level 2 or Level 3 specifications. 
+		 */
+		GENERAL_CONSISTENCY,
+
+		/**
+ 		 * Correctness and consistency of identifiers used for model entities.
+		 * An example of inconsistency would be using a species identifier in a
+		 * reaction rate formula without first having declared the species.  With
+		 * respect to the SBML specification, these concern failures in applying
+		 * the validation rules numbered 103xx in the Level 2 or Level 3 specifications.
+		 */
+		IDENTIFIER_CONSISTENCY,
+		
+		/**
+		 * Consistency and validity of SBO identifiers (if any) used in the
+		 * model.  With respect to the SBML specification, these concern failures
+		 * in applying the validation rules numbered 107xx in the Level 2 or 
+		 * Level 3 specifications.
+		 */				
+		SBO_CONSISTENCY,
+		
+		/**
+		 * Syntax of MathML constructs.  With respect to the SBML specification,
+		 * these concern failures in applying the validation rules numbered 102xx
+		 * in the Level 2 or Level 3 specifications.
+		 */
+		MATHML_CONSISTENCY, 
+		
+		/**
+		 * Consistency of measurement units associated with quantities in a
+		 * model.  With respect to the SBML specification, these concern failures
+		 * in applying the validation rules numbered 105xx in the Level 2 or 
+		 * Level 3 specifications.
+		 */
+		UNITS_CONSISTENCY, 
+		
+		/**
+		 * Static analysis of whether the system of equations implied by a model
+		 * is mathematically overdetermined.  With respect to the SBML
+		 * specification, this is validation rule #10601 in the SBML Level 2 or 
+		 * Level 3 specifications.
+		 */
+		OVERDETERMINED_MODEL,
+		
+		/**
+		 * Additional checks for recommended good modeling practice. (These are
+		 * tests performed by <a href="http://sbml.org/Software/libSBML">libSBML</a>
+		 *  and do not have equivalent SBML validation rules.)
+		 */
+		MODELING_PRACTICE
+	};
+	
 
 }

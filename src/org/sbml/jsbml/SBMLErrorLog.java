@@ -53,94 +53,171 @@ public class SBMLErrorLog {
 	private String status;
 
 	/**
+	 * Adds an option.
 	 * 
 	 * @param option
-	 * @return
+	 * @return true if the option was added successfully.
 	 */
-	public boolean add(Option option) {
+	boolean add(Option option) {
 		return options.add(option);
 	}
 
 	/**
+	 * Adds an error.
 	 * 
 	 * @param e
-	 * @return
+	 * @return true if the error was added successfully.
 	 */
-	public boolean add(SBMLError e) {
+	boolean add(SBMLError e) {
 		return validationErrors.add(e);
 	}
 
 	/**
-	 * 
+	 * Clears the log.
 	 */
 	public void clearLog() {
 		validationErrors.clear();
 	}
 
 	/**
-	 * 
-	 * @param i
-	 * @return
+	 * Returns the <i>n</i>th {@link SBMLError} object in this log.
+	 * <p>
+	 * Index <code>n</code> is counted from 0.  Callers should first inquire about the
+	 * number of items in the log by using the
+	 * {@link #getNumErrors()} method.
+	 * Attempts to use an error index number that exceeds the actual number
+	 * of errors in the log will result in a <code>null</code> being returned.
+	 * <p>
+	 * @param n the index number of the error to retrieve (with 0 being the
+	 * first error).
+	 * <p>
+	 * @return the <i>n</i>th {@link SBMLError} in this log, or <code>null</code> if <code>n</code> is
+	 * greater than or equal to {@link #getNumErrors()}.
+	 * <p>
+	 * @see #getNumErrors()
 	 */
-	public SBMLError getError(long i) {
-		if (i >= 0 && i < validationErrors.size()) {
-			return validationErrors.get((int) i);
+	public SBMLError getError(long n) {
+		if (n >= 0 && n < validationErrors.size()) {
+			return validationErrors.get((int) n);
 		}
 
 		return null;
 	}
 
 	/**
+	 * Returns the file containing the xml error log representation.
 	 * 
-	 * @return
+	 * @return the file containing the xml error log representation.
 	 */
-	public File getFile() {
+	File getFile() {
 		return file;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Returns the number of errors that have been logged.
+	 * <p>
+	 * To retrieve individual errors from the log, callers may use
+	 * {@link #getError(long n)}.
+	 * <p>
+	 * @return the number of errors that have been logged.
 	 */
 	public int getNumErrors() {
 		return validationErrors.size();
 	}
 
 	/**
-	 * 
-	 * @param severity
-	 * @return
+	 * Returns the number of errors that have been logged with the given
+	 * severity code.
+	 * <p>
+	 * LibSBML associates severity levels with every {@link SBMLError} object to
+	 * provide an indication of how serious the problem is.  Severities range
+	 * from informational diagnostics to fatal (irrecoverable) errors.  Given
+	 * an {@link SBMLError} object instance, a caller can interrogate it for its
+	 * severity level using methods such as {@link SBMLError#getSeverity()},
+	 * {@link SBMLError#isFatal()}, and so on.  The present method encapsulates
+	 * iteration and interrogation of all objects in an {@link SBMLErrorLog}, making
+	 * it easy to check for the presence of error objects with specific
+	 * severity levels.
+	 * <p>
+	 * @param severity a value from the enumeration {@link SBMLError#SEVERITY} 
+	 * <p>
+	 * @return a count of the number of errors with the given severity code.
+	 * <p>
+	 * @see #getNumErrors()
 	 */
-	public int getNumFailsWithSeverity(long severity) {
-		// TODO
+	public int getNumFailsWithSeverity(SBMLError.SEVERITY severity) {
+
+		int nbWithSeverity = 0;
+		
+		for (SBMLError error : validationErrors) {
+			switch(severity) {
+			case INFO: {
+				if (error.isInfo()) {
+					nbWithSeverity++;
+				}
+				break;
+			}
+			case WARNING: {
+				if (error.isWarning()) {
+					nbWithSeverity++;
+				}
+				break;
+			}
+			case ERROR: {
+				if (error.isError()) {
+					nbWithSeverity++;
+				}
+				break;
+			}
+			case FATAL: {
+				if (error.isFatal()) {
+					nbWithSeverity++;
+				}
+				break;
+			}
+			}
+		}
+		
 		return 0;
 	}
 
 	/**
+	 * Returns the list of options.
 	 * 
-	 * @return
+	 * @return the list of options.
 	 */
-	public ArrayList<Option> getOptions() {
+	ArrayList<Option> getOptions() {
+		if (options == null) {
+			options = new ArrayList<Option>();
+		}
 		return options;
 	}
 
 	/**
+	 * Returns the status of the error log.
 	 * 
-	 * @return
+	 * @return the status of the error log.
 	 */
-	public String getStatus() {
+	String getStatus() {
 		return status;
 	}
 
 	/**
+	 * Returns the list of {@link SBMLError}
 	 * 
-	 * @return
+	 * @return the list of {@link SBMLError}
 	 */
 	public ArrayList<SBMLError> getValidationErrors() {
+		if (validationErrors == null) {
+			// This is to prevent NullPointerException, if there is no errors, xstream set the collection to null. 
+			validationErrors = new ArrayList<SBMLError>();
+		}
+		
 		return validationErrors;
 	}
 
 	/**
+	 * Sets the file.
 	 * 
 	 * @param file
 	 */
@@ -149,6 +226,7 @@ public class SBMLErrorLog {
 	}
 
 	/**
+	 * Sets the list of options.
 	 * 
 	 * @param options
 	 */
@@ -157,6 +235,7 @@ public class SBMLErrorLog {
 	}
 
 	/**
+	 * Sets the status.
 	 * 
 	 * @param status
 	 */
@@ -165,10 +244,11 @@ public class SBMLErrorLog {
 	}
 
 	/**
+	 * Sets the list of errors.
 	 * 
 	 * @param validationErrors
 	 */
-	public void setValidationErrors(ArrayList<SBMLError> validationErrors) {
+	void setValidationErrors(ArrayList<SBMLError> validationErrors) {
 		if (validationErrors == null) {
 			clearLog();
 			return;

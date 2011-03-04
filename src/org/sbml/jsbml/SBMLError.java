@@ -38,6 +38,8 @@ import org.sbml.jsbml.xml.XMLError;
  */
 public class SBMLError extends XMLError {
 
+	public enum SEVERITY {INFO, WARNING, ERROR, FATAL}; 
+	
 	/**
 	 * Generated serial version identifier.
 	 */
@@ -68,64 +70,72 @@ public class SBMLError extends XMLError {
 	private String severity;
 
 	/**
-	 * 
+	 * Constructs a new {@link SBMLError}.
 	 */
 	public SBMLError() {
 		super();
 	}
 	
 	/**
+	 * Constructs a new {@link SBMLError} with the given message.
 	 * 
-	 * @param message
+	 * @param message the error message
 	 */
 	public SBMLError(String message) {
 		super(message);
 	}
 
-	// String category, int code, String severity,
-
 	/**
+	 * Returns the category of the {@link SBMLError}
 	 * 
+	 * @return the category of the {@link SBMLError}
 	 */
 	public String getCategory() {
 		return category;
 	}
 
 	/**
+	 * Returns the code of this {@link SBMLError}.
 	 * 
-	 * @return
+	 * @return the code of this {@link SBMLError}.
+	 * 
+	 * @see the appendix on the SBML specifications about validations rules.
 	 */
 	public int getCode() {
 		return code;
 	}
 
 	/**
+	 * Returns the column where this {@link SBMLError} happened.
 	 * 
-	 * @return
+	 * @return the column where this {@link SBMLError} happened.
 	 */
 	public int getColumn() {
 		return location.getColumn();
 	}
 
 	/**
+	 * Returns a fragment of the original XML file that induced the error.
 	 * 
-	 * @return
+	 * @return a fragment of the original XML file that induced the error.
 	 */
 	public String getExcerpt() {
 		return excerpt;
 	}
 
 	/**
+	 * Returns the line where this {@link SBMLError} happened.
 	 * 
-	 * @return
+	 * @return the line where this {@link SBMLError} happened.
 	 */
 	public int getLine() {
 		return location.getLine();
 	}
 
 	/**
+	 * Returns the location where this {@link SBMLError} happened.
 	 * 
-	 * @return
+	 * @return the location where this {@link SBMLError} happened.
 	 */
 	public Location getLocation() {
 		return location;
@@ -140,72 +150,90 @@ public class SBMLError extends XMLError {
 		return message;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Throwable#getMessage()
+	/**
+	 * Returns the message of the {@link SBMLError}
+	 *
+	 * @return the message of the {@link SBMLError}
 	 */
-	@Override
 	public String getMessage() {
 		return message != null ? message.getMessage() : "";
 	}
 
 	/**
+	 * Returns the severity of the {@link SBMLError}
 	 * 
-	 * @return
+	 * @return the severity of the {@link SBMLError}
 	 */
 	public String getSeverity() {
 		return severity;
 	}
 
 	/**
+	 * Returns true is the {@link SBMLError} severity is of type {@link SEVERITY#FATAL}
 	 * 
-	 * @return
+	 * @return true is the {@link SBMLError} severity is of type {@link SEVERITY#FATAL}
 	 */
 	public boolean isFatal() {
 		return severity != null && severity.equalsIgnoreCase("Fatal");
 	}
 
 	/**
+	 * Returns true is the {@link SBMLError} severity is of type {@link SEVERITY#ERROR}
 	 * 
-	 * @return
+	 * @return true is the {@link SBMLError} severity is of type {@link SEVERITY#ERROR}
+	 */
+	public boolean isError() {
+		return severity != null && severity.equalsIgnoreCase("Error");
+	}
+
+	/**
+	 * Returns true is the {@link SBMLError} severity is of type {@link SEVERITY#INFO}
+	 * 
+	 * @return true is the {@link SBMLError} severity is of type {@link SEVERITY#INFO}
 	 */
 	public boolean isInfo() {
-		return severity != null && (severity.equalsIgnoreCase("Info") || severity.equalsIgnoreCase("Avisory"));
+		return severity != null && (severity.equalsIgnoreCase("Info") || severity.equalsIgnoreCase("Advisory"));
 	}
 
 	/**
+	 * Returns true is the {@link SBMLError} severity is of type {@link SEVERITY#WARNING}
 	 * 
-	 * @return
-	 */
-	public boolean isInternal() {
-		return category != null && category.equalsIgnoreCase("Internal");
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSystem() {
-		return category != null && category.equalsIgnoreCase("System");
-	}
-
-	/**
-	 * 
-	 * @return
+	 * @return true is the {@link SBMLError} severity is of type {@link SEVERITY#WARNING}
 	 */
 	public boolean isWarning() {
 		return severity != null && severity.equalsIgnoreCase("Warning");
 	}
 
 	/**
+	 * Returns true is the {@link SBMLError} category is of type <code>internal</code>
 	 * 
-	 * @return
+	 * @return true is the {@link SBMLError} category is of type <code>internal</code>
+	 */
+	public boolean isInternal() {
+		return category != null && category.equalsIgnoreCase("Internal");
+	}
+
+	/**
+	 * Returns true is the {@link SBMLError} category is of type <code>system</code>
+	 * 
+	 * @return true is the {@link SBMLError} category is of type <code>system</code>
+	 */
+	public boolean isSystem() {
+		return category != null && category.equalsIgnoreCase("System");
+	}
+
+
+	/**
+	 * Returns true is the {@link SBMLError} category is of type <code>xml</code>
+	 * 
+	 * @return true is the {@link SBMLError} category is of type <code>xml</code>
 	 */
 	public boolean isXML() {
 		return category != null && category.equalsIgnoreCase("xml");
 	}
 
 	/**
+	 * Sets the category of this {@link SBMLError}.
 	 * 
 	 * @param category
 	 */
@@ -214,14 +242,18 @@ public class SBMLError extends XMLError {
 	}
 
 	/**
+	 * Sets the error code of this {@link SBMLError}.
 	 * 
 	 * @param code
+	 * 
+	 * @see the appendix on the SBML specifications about validations rules.
 	 */
 	public void setCode(int code) {
 		this.code = code;
 	}
 
 	/**
+	 * Sets the excerpt of this {@link SBMLError}.
 	 * 
 	 * @param excerpt
 	 */
@@ -230,6 +262,7 @@ public class SBMLError extends XMLError {
 	}
 
 	/**
+	 * Sets the location of this {@link SBMLError}.
 	 * 
 	 * @param location
 	 */
@@ -238,6 +271,7 @@ public class SBMLError extends XMLError {
 	}
 
 	/**
+	 * Sets the message of this {@link SBMLError}.
 	 * 
 	 * @param messageObj
 	 */
@@ -246,6 +280,7 @@ public class SBMLError extends XMLError {
 	}
 	
 	/**
+	 * Sets the severity of this {@link SBMLError}.
 	 * 
 	 * @param severity
 	 */
@@ -260,10 +295,9 @@ public class SBMLError extends XMLError {
 	 */
 	@Override
 	public String toString() {
-		return StringTools.concat("SBMLError [category=", category, ", code=",
-				code, ", excerpt=", excerpt, ", location=", location,
-				", \nmessage =", message, ", severity=", severity, "]")
-				.toString();
+		return StringTools.concat("SBMLError ", code, " [", severity, "] [", category, "] ","\n  excerpt = ", excerpt, "\n  ", location,
+				"\n  message = ", message.getMessage() ,"\n").toString();
 	}
+
 
 }
