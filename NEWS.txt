@@ -51,6 +51,9 @@ Version 0.8-x (xx-xx-2011)
     the classes related to SBMLdocument.checkConsistency() so that is works 
     as expected.
     
+  - [Tracker issue #3199792 ] : localParameter were not parsed correctly in 
+    SBML level 3. Thanks for the persons who reported it.
+      
 
 ============================================================================
 Version 0.8-b1 (04-02-2011)
