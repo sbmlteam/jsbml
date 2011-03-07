@@ -36,7 +36,7 @@
   <entry key="listOfSpeciesTypes">org.sbml.jsbml.ListOf</entry>
   <entry key="listOfUnits">org.sbml.jsbml.ListOf</entry>
   <entry key="listOfUnitDefinitions">org.sbml.jsbml.ListOf</entry>
-  <entry key="localParameter">org.sbml.jsbml.Parameter</entry>
+  <entry key="localParameter">org.sbml.jsbml.LocalParameter</entry>
   <entry key="math">java.lang.StringBuffer</entry>
   <entry key="message">java.lang.StringBuffer</entry>
   <entry key="model">org.sbml.jsbml.Model</entry>
