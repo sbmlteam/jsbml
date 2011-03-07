@@ -1002,7 +1002,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfLocalParameters)
 								&& kineticLaw.getLevel() >= 3) {
-							LocalParameter localParameter = (LocalParameter) newContextObject;
+							LocalParameter localParameter = new LocalParameter(
+									(Parameter) newContextObject);
 							kineticLaw.addParameter(localParameter);
 
 							return localParameter;
