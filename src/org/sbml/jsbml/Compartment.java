@@ -687,7 +687,8 @@ public class Compartment extends Symbol {
 	 */
 	@Override
 	public void setValue(double value) {
-		if (getSpatialDimensions() > 0d) {
+		double dim = getSpatialDimensions();
+		if ((dim > 0d) || Double.isNaN(dim)) {
 			super.setValue(value);
 		} else {
 			throw new IllegalArgumentException(String.format(

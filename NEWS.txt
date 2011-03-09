@@ -8,6 +8,13 @@ Version 0.8-x (xx-xx-2011)
 
 
 * Bug Fixes :
+
+  - [Tracker issue #3204275] : It was impossible to set the size of a 
+    compartment for models in Level 3 if the spatial dimensions are 
+    undefined, i.e., NaN. Since it is only prohibited to set the size 
+    if the dimensions equal 0, we provided another test in the set 
+    method in Compartment to allow for this.
+  
   - Corrected a typo in the method SBO.getAntisenseRNA(), the method was
     always returning -1. It is now returning the correct value (317), thanks
     to Anushya Muruganujan for reporting this.
