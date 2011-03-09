@@ -2409,7 +2409,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 
 	/**
 	 * Returns the variable of this node. This function should be called only
-	 * when {@link #isString()} == <code>true<code>, otherwise and Exception is thrown.
+	 * when {@link #isString()} == <code>true</code>, otherwise and Exception is thrown.
 	 * 
 	 * @return the variable of this node
 	 * @throws IllegalArgumentException
