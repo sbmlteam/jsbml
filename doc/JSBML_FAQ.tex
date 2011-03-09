@@ -1,0 +1,26 @@
+For questions regarding SBML, please see the SBML FAQ at
+\url{http://sbml.org/Documents/FAQ}.
+\begin{description}
+\item[Why does the class \texttt{LocalParameter} not inherit from
+\texttt{Parameter}?]
+\index{parameter!\texttt{LocalParameter}}
+\index{parameter!\texttt{Parameter}}
+The reason is the Boolean
+\index{Boolean}
+attribute \texttt{constant}, which is present in
+\index{constant}
+\index{parameter!\texttt{constant}}
+\texttt{Parameter} and can be set to \texttt{false}. A parameter in the meaning
+of SBML is not a constant, it might be some system variable
+\index{JSBML!variable@\texttt{Variable}}
+and can therefore be the subject of \texttt{Rule}s,
+\index{rule}
+\texttt{Event}s\index{event!\texttt{Event}}, \texttt{InitialAssignment}s
+\index{InitialAssignment@\texttt{InitialAssignment}}
+and so on, i.e., all instances of \texttt{Assignment},
+\index{JSBML!assignment@\texttt{Assignment}}
+whereas a \texttt{LocalParameter} is defined as a constant quantity that never
+changes its value during the evaluation of a model\index{model}. It would
+therefore only be possible to let \texttt{Parameter} inherit from
+\texttt{LocalParameter} but this could lead to a semantic misinterpretation.
+\end{description}

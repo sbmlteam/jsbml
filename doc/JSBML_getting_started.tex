@@ -1,0 +1,129 @@
+\section{Introduction}
+
+JSBML is a library that will help you to manipulate SBML files. If you are not
+familiar with SBML, a good starting point would be to read the latest SBML
+specification\index{SBML!specification}\footnote{\url{%
+http://sbml.org/Documents/Specifications/}} \citep{Hucka2010a}. If you have some
+other questions about SBML, you may find the answer in the SBML
+FAQ\footnote{http://sbml.org/Documents/FAQ}. JSBML is written in Java\TTra. To
+use it, you will need a Java Runtime Environment (JRE) 1.5 or higher. See, for
+example, the Java SE download page\footnote{\url{%
+http://www.oracle.com/technetwork/java/javase/downloads/index.html}
+\label{fn:jvmldl}}.
+JSBML also provides several modules. Two of them should ease developers to
+interact with CellDesigner or libSBML and one module eases switching from
+libSBML to JSBML.
+
+
+\section{Obtaining and setting up JSBML}
+
+\subsection{Using the JSBML JAR file distribution}
+Before starting to use JSBML, you will need to configure your class path. JSBML
+provides two versions of the JAR file:
+\begin{enumerate}
+\item including all dependencies - it is sufficient to include just this file in
+      your class path.
+\item without any dependencies - you need to take care of all the dependecies of
+      JSBML by yourself.
+\end{enumerate}
+
+The JSBML JAR file with dependencies is a merged JAR file that includes all of
+its dependencies. In this case, it is sufficient to include
+it into your build or class path to use JSBML.
+
+
+
+\subsubsection{Dependencies}
+\index{JSBML!dependencies}%
+
+When using the JSBML JAR file without dependencies, you need the JSBML
+dependencies in addition to the JSBML library. The following list gives you an
+overview of all these libraries:
+\begin{description}
+\item[biojava-1.7-ontology.jar] This is a stripped down version of the
+biojava-1.7 containing mostly ontology-related classes.
+\item[junit-4.8.jar]This library is only needed, if you want to run the JUnit
+tests of JSBML (located in the \texttt{test} folder).
+\item[stax2-api-3.0.3.jar] \textcolor{red}{TODO: Describe why this library is
+necessary.}
+\item[stax-api-1.0.1.jar] \textcolor{red}{TODO: Describe why this library is
+necessary.}% Is this library really necessary? What for?
+\item[staxmate-2.0.0.jar] \textcolor{red}{TODO: Describe why this library is
+necessary.}
+\item[xstream-1.3.1.jar] \textcolor{red}{TODO: Describe why this library is
+necessary.}
+\item[jigsaw-dateParser.jar] This is a stripped version of the jigsaw-library,
+containing one class to manipulate dates. It has been created with the most
+recent version at 2010-12-16.
+\item[woodstox-core-lgpl-4.0.9.jar] \textcolor{red}{TODO: Describe why this
+library is necessary.}
+\item[log4j-1.2.8.jar] JSBML uses the Apache log4j logger. If you want to use
+logging, you should include this logger.
+\end{description}
+These are the versions JSBML was developed and tested with, some more recent
+versions might work, too. When you have all of these dependencies in your build
+or class path alongside the JSBML JAR file, you are ready to work with JSBML.
+
+
+\subsection{Download and usage of the source distribution}
+
+As an alternative to using the JAR files, you can check out the source tree from
+SVN and compile JSBML yourself. To do that, you will need to have a Java
+JDK\footref{fn:jvmldl} installed, the Apache
+Ant\footnote{http://ant.apache.org/\label{fn:ant}} build system, and
+Subversion\footnote{\url{http://subversion.apache.org/}\label{fn:svn}}, a
+version control system.
+
+%# to get the source
+\begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
+title={Use the following command to download the latest JSBML classes (requires
+Subversion\footref{fn:svn}):}]
+svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk jsbml
+cd jsbml
+\end{lstlisting}
+
+%# to compile and create the library JAR file
+\begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
+title={To compile the JSBML library to a single JAR file, type the following
+command (requires Apache Ant\footref{fn:ant}):}]
+ant jar
+\end{lstlisting}
+
+% (requires Apache Ant\footref{fn:ant})
+%# to run the tests
+\begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
+title={If you want to run the JUnit tests on your compiled JAR file, please use
+the following command:}]
+ant test
+\end{lstlisting}
+
+If you performed all the steps above, you should have a JSBML library, based on
+the latest version of all classes. You can now include the created JAR file into
+your build or class path and start using JSBML.
+
+\subsection{Download and usage of the JSBML modules}
+
+JSBML provides today, three additional modules. Please type the following
+Subversion\footref{fn:svn} commands on your command line to obtain the
+corresponding modules.
+
+\begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
+title={The CellDesigner bridge-module should help CellDesigner plugin developers
+to use JSBML as internal datastructure.}]
+svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/cellDesigner cellDesigner
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
+title={Developers, who still want to make use of libSBML (e.g., to use the
+SBML-validator), might want to have a look at the libSBML communication layer.}]
+svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/libSBMLio/ libSBMLio
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
+title={The third module is a compatibility module to ease switching from libSBML
+to JSBML.}]
+svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/libSBMLcompat libSBMLcompat
+\end{lstlisting}
+
+%\noindent All these modules can be compiled and included into your project in
+% the same way as described for the JSBML main library.
