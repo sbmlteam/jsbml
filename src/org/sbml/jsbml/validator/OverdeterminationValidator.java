@@ -503,14 +503,11 @@ public class OverdeterminationValidator {
 		int length = 1;
 
 		while (length < (variables.size() + equations.size())) {
-			System.out.println("Searching path of size: " + length);
 			// Start search for all path of the current length of the adjacent
 			// nodes of the start node
 			for (Node<SBase> node : bipartiteGraph.getNodes()) {
 				findShortestPath(length, node, new ArrayList<Node<SBase>>());
 			}
-
-			System.out.println("Found: " + paths.size());
 
 			// Try to augment every found path
 			augmentPath(length);
@@ -536,8 +533,6 @@ public class OverdeterminationValidator {
 	 * @param length
 	 */
 	private void augmentPath(int length) {
-		System.out
-				.println("Searching augmenting path of size: " + (length + 2));
 		Node<SBase> start = null, end = null;
 		List<Node<SBase>> path;
 
@@ -681,16 +676,6 @@ public class OverdeterminationValidator {
 
 			variable.addNode(equation);
 			equation.addNode(variable);
-			/**
-			 * Not in 3.1 // link kinetic law with its variables
-			 * svariables.clear();
-			 * getVariables(r.getKineticLaw().getListOfParameters(), r
-			 * .getKineticLaw().getMath(), svariables);
-			 * 
-			 * for (int j = 0; j < svariables.size(); j++) { variable =
-			 * variableHash.get(svariables.get(j)); if (variable != null) {
-			 * variable.addNode(equation); equation.addNode(variable); } }
-			 */
 
 		}
 
@@ -706,16 +691,6 @@ public class OverdeterminationValidator {
 				variable.addNode(equation);
 				equation.addNode(variable);
 
-				/**
-				 * Not in 3.1 // -- self creation svariables.clear();
-				 * getVariables(null, model.getRule(i).getMath(), svariables);
-				 * // link rule with its variables for (int j = 0; j <
-				 * svariables.size(); j++) { variable =
-				 * variableHash.get(svariables.get(j)); if (variable != null) {
-				 * variable.addNode(equation); equation.addNode(variable);
-				 * 
-				 * } } // --
-				 */
 			}
 
 			else if (r instanceof AssignmentRule) {
@@ -726,16 +701,6 @@ public class OverdeterminationValidator {
 				variable.addNode(equation);
 				equation.addNode(variable);
 
-				/**
-				 * Not in 3.1 svariables.clear(); getVariables(null,
-				 * model.getRule(i).getMath(), svariables); // link rule with
-				 * its variables for (int j = 0; j < svariables.size(); j++) {
-				 * variable = variableHash.get(svariables.get(j)); if (variable
-				 * != null) { variable.addNode(equation);
-				 * equation.addNode(variable);
-				 * 
-				 * } }
-				 */
 			}
 		}
 
@@ -751,7 +716,7 @@ public class OverdeterminationValidator {
 				// link rule with its variables
 				for (int j = 0; j < svariables.size(); j++) {
 					variable = variableHash.get(svariables.get(j));
-					if (variable != null) {
+					if (variable != null) {						
 						variable.addNode(equation);
 						equation.addNode(variable);
 					}
@@ -887,16 +852,15 @@ public class OverdeterminationValidator {
 	/**
 	 * Returns the variables in a MathML object without local parameter
 	 * 
-	 * @param param
-	 * 
+	 * @param param 
 	 * @param node
 	 * @param variables
 	 */
 	private void getVariables(ListOf<LocalParameter> param, ASTNode node,
 			List<SBase> variables) {
-		// found node with species
-		if (node.isString() && !node.isFunction()) {
-			if (!node.isConstant()) {
+		// found node with species	
+		if (node.getChildCount() == 0 && node.isString()) {
+			if (!node.isConstant()) {				
 				if (param == null) {
 					variables.add(node.getVariable());
 				} else {
@@ -905,9 +869,9 @@ public class OverdeterminationValidator {
 					}
 				}
 			}
-
 		}
-		// Else found operator or function
+		
+		// else found operator or function
 		else {
 			// carry on with all children
 			Enumeration<ASTNode> nodes = node.children();
@@ -967,7 +931,6 @@ public class OverdeterminationValidator {
 	private void updateMatching(List<Node<SBase>> path) {
 		int index;
 		index = 1;
-		System.out.println(path.get(0).getValue());
 		while (path.size() > index) {
 			matching.remove(path.get(index).getValue());
 			matching.put(path.get(index).getValue(), path.get(index - 1)
