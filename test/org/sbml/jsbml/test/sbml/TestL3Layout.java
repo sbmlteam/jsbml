@@ -46,6 +46,12 @@ import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
+/**
+ * 
+ * @author
+ * @since 0.8
+ * @version $Rev$
+ */
 public class TestL3Layout {
 
 	public static String DATA_FOLDER = null;

@@ -33,10 +33,8 @@ import org.sbml.jsbml.util.StringTools;
  * @author Andreas Dr&auml;ger
  * @author marine
  * @author Nicolas Rodriguez
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
+ * @since 0.8
+ * @version $Rev$
  */
 public class SpeciesReference extends SimpleSpeciesReference implements
 		Variable {

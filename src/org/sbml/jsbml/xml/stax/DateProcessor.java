@@ -32,8 +32,8 @@ import java.util.regex.Pattern;
  * Format time to W3DTF
  * 
  * @author Chen Li
- * @since 2.0
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class DateProcessor {
 

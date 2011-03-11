@@ -39,6 +39,8 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * @since 0.8
+ * @version $Rev$
  */
 public class SBMLDocument extends AbstractSBase {
 

@@ -31,6 +31,8 @@ import org.sbml.jsbml.Unit.Kind;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2010-08-05
+ * @since 0.8
+ * @version $Rev$
  */
 public abstract class ExplicitRule extends Rule implements Assignment,
 		SBaseWithUnit {

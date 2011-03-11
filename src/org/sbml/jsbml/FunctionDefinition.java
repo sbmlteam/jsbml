@@ -29,6 +29,8 @@ import org.sbml.jsbml.text.parser.ParseException;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * @since 0.8
+ * @version $Rev$
  */
 public class FunctionDefinition extends AbstractMathContainer implements
 		CallableSBase {

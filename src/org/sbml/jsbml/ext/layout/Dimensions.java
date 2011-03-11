@@ -24,6 +24,8 @@ import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
  * @author
+ * @since 0.8
+ * @version $Rev$
  */
 public class Dimensions extends AbstractNamedSBase {
 

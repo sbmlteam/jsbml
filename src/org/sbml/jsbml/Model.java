@@ -44,7 +44,8 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Andreas Dr&auml;ger
  * @author Marine
  * @author rodrigue
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class Model extends AbstractNamedSBase {
 

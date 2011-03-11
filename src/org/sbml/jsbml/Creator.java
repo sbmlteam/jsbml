@@ -30,7 +30,8 @@ import org.sbml.jsbml.util.StringTools;
  * 
  * @author marine3
  * @author Andreas Dr&auml;ger
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class Creator implements Cloneable, Serializable {
 

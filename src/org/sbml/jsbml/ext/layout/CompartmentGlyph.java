@@ -23,7 +23,8 @@ package org.sbml.jsbml.ext.layout;
 /**
  * 
  * @author 
- *
+ * @since 0.8
+ * @version $Rev$
  */
 public class CompartmentGlyph extends GraphicalObject {
 

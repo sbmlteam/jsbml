@@ -29,6 +29,8 @@ import org.sbml.jsbml.util.StringTools;
  * Represents the trigger XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
+ * @since 0.8
+ * @version $Rev$
  */
 public class Trigger extends AbstractMathContainer {
 

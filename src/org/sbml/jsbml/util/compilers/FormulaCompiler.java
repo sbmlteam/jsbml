@@ -43,10 +43,8 @@ import org.sbml.jsbml.util.StringTools;
  * Level 2.
  * 
  * @author Andreas Dr&auml;ger
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
+ * @since 0.8
+ * @version $Rev$
  */
 
 /*

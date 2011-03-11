@@ -25,6 +25,12 @@ import java.lang.reflect.TypeVariable;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Species;
 
+/**
+ * 
+ * @author 
+ * @since 0.8
+ * @version $Rev$
+ */
 public class ListTest {
 
 	/**

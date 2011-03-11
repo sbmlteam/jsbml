@@ -33,6 +33,8 @@ import org.sbml.jsbml.Unit.Kind;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2010-12-16
+ * @since 0.8
+ * @version $Rev$
  */
 public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		implements NamedSBaseWithDerivedUnit, SBaseWithUnit {

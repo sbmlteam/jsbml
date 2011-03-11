@@ -28,7 +28,8 @@ import java.util.Map;
  * URI, attributes and text of a SBML component we want to write.
  * 
  * @author marine
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class SBMLObjectForXML {
 

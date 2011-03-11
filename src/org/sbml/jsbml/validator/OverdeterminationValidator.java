@@ -49,7 +49,9 @@ import org.sbml.jsbml.SpeciesReference;
  * the algorithm by Hopcroft and Karp (1973).
  * 
  * @author Alexander D&ouml;rr
- * @since 2010-06-17
+ * @date 2010-06-17
+ * @since 0.8
+ * @version $Rev$
  */
 public class OverdeterminationValidator {
 

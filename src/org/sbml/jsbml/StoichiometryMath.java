@@ -26,9 +26,8 @@ package org.sbml.jsbml;
  * @author Andreas Dr&auml;ger
  * @deprecated Use {@link AssignmentRule} with instances of
  *             {@link SpeciesReference} as {@link Variable} instead.
- * @opt attributes
- * @opt types
- * @opt visibility
+ * @since 0.8
+ * @version $Rev$
  */
 @Deprecated
 public class StoichiometryMath extends AbstractMathContainer {

@@ -28,11 +28,8 @@ import org.xml.sax.helpers.*;
  * An interface for XML SAX2 parsers.
  * 
  * @author Marco Donizelli
- * @since 1.1
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
+ * @since 0.8
+ * @version $Rev$
  */
 public interface SAX2Parser {
 

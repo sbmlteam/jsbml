@@ -29,6 +29,8 @@ import java.util.Map;
  * @author Simon Sch&auml;fer
  * @author marine
  * @author Andreas Dr&auml;ger
+ * @since 0.8
+ * @version $Rev$
  */
 public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 

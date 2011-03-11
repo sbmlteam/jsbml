@@ -37,6 +37,8 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2010-05-27
+ * @since 0.8
+ * @version $Rev$
  */
 public class JTreeOfSBML extends JDialog {
 

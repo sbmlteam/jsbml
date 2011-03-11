@@ -29,6 +29,8 @@ import org.sbml.jsbml.xml.XMLNode;
  * @author Andreas Dr&auml;ger
  * @author marine
  * @author rodrigue
+ * @since 0.8
+ * @version $Rev$
  */
 public class Constraint extends AbstractMathContainer {
 

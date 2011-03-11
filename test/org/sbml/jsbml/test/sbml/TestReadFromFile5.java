@@ -48,6 +48,12 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UnitDefinition;
 
+/**
+ * 
+ * @author
+ * @since 0.8
+ * @version $Rev$
+ */
 public class TestReadFromFile5 {
 
 	public static String DATA_FOLDER = null;

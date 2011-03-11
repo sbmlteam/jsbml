@@ -39,7 +39,8 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * ReadingParser and WritingParser).
  * 
  * @author rodrigue
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class GroupsParser implements ReadingParser, WritingParser {
 

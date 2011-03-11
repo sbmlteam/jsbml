@@ -20,6 +20,10 @@
 
 package org.sbml.jsbml.util;
 
+/**
+ * @since 0.8
+ * @version $Rev$
+ */
 public class Option {
 
 	/**

@@ -48,6 +48,8 @@ import org.w3c.dom.Node;
  * 
  * @author marine
  * @author Andreas Dr&auml;ger
+ * @since 0.8
+ * @version $Rev$
  * 
  * @deprecated this class should not be used anymore, replaced by
  *             MathMLStaxParser. But we keep it in case somebody want to use

@@ -39,6 +39,12 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
+/**
+ * 
+ * @author
+ * @since 0.8
+ * @version $Rev$
+ */
 public class SBML_L1VxTests {
 	
 	

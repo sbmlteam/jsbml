@@ -69,12 +69,14 @@ import com.ctc.wstx.stax.WstxInputFactory;
  * @author marine
  * @author Andreas Dr&auml;ger
  * @author rodrigue
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class SBMLReader {
 
 	/**
-	 * Contains all the relationships namespace URI <=> {@link ReadingParser} implementation classes.
+	 * Contains all the relationships namespace URI <=> {@link ReadingParser}
+	 * implementation classes.
 	 */
 	private HashMap<String, Class<? extends ReadingParser>> packageParsers = new HashMap<String, Class<? extends ReadingParser>>();
 
@@ -274,8 +276,7 @@ public class SBMLReader {
 		if (readObject instanceof SBMLDocument) {
 			return (SBMLDocument) readObject;
 		}
-		
-		throw new XMLStreamException("Your did not gave a correct SBMl file !");
+		throw new XMLStreamException("Your did not provide a correct SBMl file!");
 	}
 
 	/**

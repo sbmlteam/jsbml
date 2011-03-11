@@ -30,6 +30,8 @@ import org.sbml.jsbml.Unit.Kind;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2010-12-15
+ * @since 0.8
+ * @version $Rev$
  */
 public interface SBaseWithUnit extends SBaseWithDerivedUnit {
 

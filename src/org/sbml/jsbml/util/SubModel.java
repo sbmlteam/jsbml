@@ -66,7 +66,8 @@ import org.sbml.jsbml.UnitDefinition;
  * 
  * @author rodrigue
  * @author chenli
- *
+ * @since 0.8
+ * @version $Rev$
  */
 public class SubModel {
 

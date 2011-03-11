@@ -28,9 +28,9 @@ import org.sbml.jsbml.SBaseChangedEvent;
  * This class represents the listOf extension for the group package
  *
  * @author Marine Dumousseau
- * 
+ * @since 0.8
+ * @version $Rev$
  */
-
 public class ListOfGroups<T extends SBase> extends ListOf<T>{
 
 	/**

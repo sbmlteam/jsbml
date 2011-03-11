@@ -69,7 +69,8 @@ import org.sbml.jsbml.xml.stax.XMLLogger;
  * @author rodrigue
  * @author Andreas Dr&auml;ger
  * @author marine
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 // It might be better to have one parser per level and version
 // rather than one SBMLCoreParser which parses everything. 

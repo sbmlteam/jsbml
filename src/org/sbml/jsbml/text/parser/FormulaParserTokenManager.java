@@ -8,7 +8,10 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.resources.Resource;
 
-/** Token Manager. */
+/** Token Manager. 
+ * @since 0.8
+ * @version $Rev$
+ */
 public class FormulaParserTokenManager implements FormulaParserConstants
 {
 

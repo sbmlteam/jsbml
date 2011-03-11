@@ -34,6 +34,8 @@ import org.sbml.jsbml.Species;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2010-11-10
+ * @since 0.8
+ * @version $Rev$
  */
 public class SpeciesReferenceFilter extends NameFilter {
 

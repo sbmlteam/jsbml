@@ -26,7 +26,8 @@ import org.sbml.jsbml.Species;
  * This filter accepts species whose boundary condition is set to true.
  * 
  * @author Andreas Dr&auml;ger
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class BoundaryConditionFilter implements Filter {
 

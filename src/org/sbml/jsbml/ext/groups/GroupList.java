@@ -21,7 +21,8 @@
 package org.sbml.jsbml.ext.groups;
 
 /**
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public enum GroupList{
 	/**

@@ -24,6 +24,8 @@ package org.sbml.jsbml;
  * This class roughly corresponds to libSBML's SBMLError class.
  * 
  * @author Andreas Dr&auml;ger
+ * @since 0.8
+ * @version $Rev$
  */
 public class SBMLException extends Exception {
 

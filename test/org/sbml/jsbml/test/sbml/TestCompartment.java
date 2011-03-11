@@ -41,7 +41,10 @@ import org.sbml.jsbml.Compartment;
 
 // TODO : test what libsbml is returning with getValue(), when the value is not set, probably not NaN ?
 
-
+/**
+ * @since 0.8
+ * @version $Rev$
+ */
 public class TestCompartment {
   private Compartment C;
 

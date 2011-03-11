@@ -8,6 +8,12 @@ import javax.xml.stream.XMLStreamException;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
 
+/**
+ * 
+ * @author 
+ * @since 0.8
+ * @version $Rev$
+ */
 public class ValidateSBML {
 
 	public static void main (String[] args) throws FileNotFoundException, XMLStreamException

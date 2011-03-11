@@ -29,7 +29,8 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * The interface to implement for a parser which writes a SBML file.
  * 
  * @author marine
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public interface WritingParser {
 

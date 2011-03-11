@@ -32,6 +32,8 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * @since 0.8
+ * @version $Rev$
  */
 public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 

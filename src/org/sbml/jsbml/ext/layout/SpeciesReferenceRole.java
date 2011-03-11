@@ -21,7 +21,8 @@
 package org.sbml.jsbml.ext.layout;
 
 /**
- *
+ * @since 0.8
+ * @version $Rev$
  */
 public enum SpeciesReferenceRole {
 	/**

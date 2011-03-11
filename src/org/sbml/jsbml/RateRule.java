@@ -20,14 +20,14 @@
 
 package org.sbml.jsbml;
 
-import org.sbml.jsbml.Unit.Kind;
-
 /**
  * 
  * Represents the rateRule XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * @since 0.8
+ * @version $Rev$
  */
 public class RateRule extends ExplicitRule {
 

@@ -35,7 +35,8 @@ import org.sbml.jsbml.xml.XMLTriple;
  * SBML component.
  * 
  * @author rodrigue
- *
+ * @since 0.8
+ * @version $Rev$
  */
 public class StringParser implements ReadingParser {
 	

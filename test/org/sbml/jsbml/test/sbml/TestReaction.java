@@ -42,7 +42,12 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SpeciesReference;
 
 
-
+/**
+ * 
+ * @author
+ * @since 0.8
+ * @version $Rev$
+ */
 public class TestReaction {
 
 	static void assertNotEquals(Object a, Object b)

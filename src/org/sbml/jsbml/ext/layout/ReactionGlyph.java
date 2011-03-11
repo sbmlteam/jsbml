@@ -24,6 +24,8 @@ import org.sbml.jsbml.ListOf;
 
 /**
  * @author
+ * @since 0.8
+ * @version $Rev$
  */
 public class ReactionGlyph extends GraphicalObject {
 

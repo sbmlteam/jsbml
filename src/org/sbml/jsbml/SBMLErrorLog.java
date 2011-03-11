@@ -29,7 +29,8 @@ import org.sbml.jsbml.util.Option;
  * Log of errors and other events encountered during SBML processing. 
  * 
  * @author rodrigue
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class SBMLErrorLog {
 

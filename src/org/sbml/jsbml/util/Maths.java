@@ -29,6 +29,8 @@ package org.sbml.jsbml.util;
  * @author Diedonn&eacute; Mosu Wouamba
  * @author Alexander D&ouml;rr
  * @date 2007-10-29
+ * @since 0.8
+ * @version $Rev$
  */
 public class Maths {
 

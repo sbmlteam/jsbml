@@ -49,6 +49,12 @@ import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
+/**
+ * 
+ * @author
+ * @since 0.8
+ * @version $Rev$
+ */
 public class TestReadFromFile1 {
 
 	public static String DATA_FOLDER = null;

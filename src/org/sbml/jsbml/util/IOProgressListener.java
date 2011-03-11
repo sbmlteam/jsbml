@@ -24,7 +24,8 @@ import java.util.EventListener;
 
 /**
  * @author Andreas Dr&auml;ger
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public interface IOProgressListener extends EventListener {
 

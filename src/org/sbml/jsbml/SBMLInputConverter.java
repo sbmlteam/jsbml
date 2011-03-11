@@ -32,7 +32,8 @@ import org.sbml.jsbml.util.IOProgressListener;
  * structures.
  * 
  * @author Andreas Dr&auml;ger
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public interface SBMLInputConverter {
 
