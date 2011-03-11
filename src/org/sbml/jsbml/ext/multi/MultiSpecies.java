@@ -30,6 +30,8 @@ import org.sbml.jsbml.ext.SpeciesExtension;
  * 
  * 
  * @author
+ * @since 0.8
+ * @version $Rev$
  */
 public class MultiSpecies extends SpeciesExtension {
 

@@ -36,10 +36,8 @@ import org.sbml.jsbml.resources.Resource;
  * 
  * @author Andreas Dr&auml;ger
  * @author rodrigue
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
+ * @since 0.8
+ * @version $Rev$
  */
 public class StringTools {
 

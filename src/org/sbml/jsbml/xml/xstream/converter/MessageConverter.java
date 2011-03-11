@@ -29,7 +29,8 @@ import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 /**
- *
+ * @since 0.8
+ * @version $Rev$
  */
 public class MessageConverter implements Converter {
 

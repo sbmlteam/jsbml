@@ -30,7 +30,8 @@ import org.sbml.jsbml.SBMLDocument;
  * 
  * @author marine
  * @author rodrigue
- *
+ * @since 0.8
+ * @version $Rev$
  */
 public class CreatorParser implements ReadingParser {
 

@@ -35,6 +35,8 @@ import org.sbml.jsbml.JSBML;
  * </em>
  * 
  * <p>
+ * @since 0.8
+ * @version $Rev$
  */
 public class XMLAttributes {
 

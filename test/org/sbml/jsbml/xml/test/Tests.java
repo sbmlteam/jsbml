@@ -24,6 +24,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+/**
+ * 
+ * @author
+ * @since 0.8
+ * @version $Rev$
+ */
 @RunWith(value=Suite.class)
 @SuiteClasses(value={SBML_L1VxTests.class, SBML_L2V1Test.class})
 public class Tests {

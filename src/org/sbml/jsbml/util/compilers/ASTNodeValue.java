@@ -45,6 +45,8 @@ import org.w3c.dom.Node;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2010-04-30
+ * @since 0.8
+ * @version $Rev$
  */
 public class ASTNodeValue {
 

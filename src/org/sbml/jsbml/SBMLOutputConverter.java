@@ -32,7 +32,8 @@ import org.sbml.jsbml.util.IOProgressListener;
  * for instance, a BioPax or CellML converter could be implemented.
  * 
  * @author Andreas Dr&auml;ger
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public interface SBMLOutputConverter {
 

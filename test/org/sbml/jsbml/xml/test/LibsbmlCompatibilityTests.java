@@ -34,6 +34,12 @@ import org.sbml.jsbml.test.sbml.TestReadFromFile1;
 import org.sbml.jsbml.test.sbml.TestReadFromFile5;
 import org.sbml.jsbml.test.sbml.TestSpecies;
 
+/**
+ * 
+ * @author 
+ * @since 0.8
+ * @version $Rev$
+ */
 @RunWith(value=Suite.class)
 @SuiteClasses(value={TestCompartment.class, TestSpecies.class, TestParameter.class, TestL3Parameter.class, 
 		TestReaction.class, TestEvent.class, TestModel.class, TestReadFromFile1.class, TestCVTerms.class, 

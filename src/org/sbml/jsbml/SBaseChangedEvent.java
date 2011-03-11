@@ -28,6 +28,8 @@ import java.util.EventObject;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2010-11-14
+ * @since 0.8
+ * @version $Rev$
  */
 public class SBaseChangedEvent extends EventObject {
 	

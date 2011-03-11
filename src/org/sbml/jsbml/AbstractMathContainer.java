@@ -32,6 +32,8 @@ import org.sbml.jsbml.util.StringTools;
  * 
  * @author Andreas Dr&auml;ger
  * @author marine
+ * @since 0.8
+ * @version $Rev$
  */
 public abstract class AbstractMathContainer extends AbstractSBase implements
 		MathContainer {

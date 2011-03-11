@@ -32,10 +32,8 @@ import org.xml.sax.SAXException;
  * An interface for XML DOM document factories.
  * 
  * @author Marco Donizelli
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
+ * @since 0.8
+ * @version $Rev$
  */
 public interface DocumentFactory {
 

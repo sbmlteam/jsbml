@@ -31,6 +31,8 @@ import org.sbml.jsbml.SBaseChangedListener;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2010-11-16
+ * @since 0.8
+ * @version $Rev$
  */
 public class SimpleSBaseChangeListener implements SBaseChangedListener {
 

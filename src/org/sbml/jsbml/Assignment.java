@@ -26,7 +26,8 @@ package org.sbml.jsbml;
  * that assigns a value to the {@link Variable}.
  * 
  * @author Andreas Dr&auml;ger
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public interface Assignment extends MathContainer {
 	/**

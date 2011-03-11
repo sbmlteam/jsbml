@@ -194,7 +194,8 @@ import org.sbml.jsbml.util.StringTools;
  * 
  * @author Andreas Dr&auml;ger
  * @author rodrigue
- * 
+ * @since 0.8
+ * @version $Rev$ 
  */
 public class SBO {
 

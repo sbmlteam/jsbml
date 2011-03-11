@@ -40,7 +40,8 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * ReadingParser and WritingParser).
  * 
  * @author marine
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class MultiParser implements ReadingParser, WritingParser {
 

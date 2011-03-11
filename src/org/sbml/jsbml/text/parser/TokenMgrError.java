@@ -2,15 +2,20 @@
 /* JavaCCOptions: */
 package org.sbml.jsbml.text.parser;
 
-/** Token Manager Error. */
+/**
+ * Token Manager Error.
+ * 
+ * @since 0.8
+ * @version $Rev$
+ */
 public class TokenMgrError extends Error
 {
 
-  /**
-   * The version identifier for this Serializable class.
-   * Increment only if the <i>serialized</i> form of the
-   * class changes.
-   */
+	/**
+	 * The version identifier for this Serializable class. Increment only if the
+	 * <i>serialized</i> form of the class changes.
+	 * 
+	 */
   private static final long serialVersionUID = 1L;
 
   /*

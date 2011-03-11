@@ -37,7 +37,8 @@ import org.w3c.util.InvalidDateException;
  * 
  * @author marine
  * @author rodrigue
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class DatesParser implements ReadingParser {
 

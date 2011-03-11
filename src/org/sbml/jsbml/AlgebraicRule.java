@@ -27,7 +27,8 @@ import org.sbml.jsbml.validator.OverdeterminationValidator;
  * Represents the algebraicRule XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class AlgebraicRule extends Rule {
 

@@ -89,7 +89,8 @@ import com.ctc.wstx.stax.WstxOutputFactory;
  * @author marine
  * @author rodrigue
  * @author Andreas Dr&auml;ger
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class SBMLWriter {
 

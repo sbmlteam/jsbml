@@ -45,6 +45,13 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 import org.xml.sax.SAXException;
 
+/**
+ * 
+ * @author
+ * @since 0.8
+ * @version $Rev$
+ *
+ */
 public class SBML_L2V1Test {
 	
 	

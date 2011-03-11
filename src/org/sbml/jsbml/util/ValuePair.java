@@ -28,6 +28,8 @@ import java.io.Serializable;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2010-09-01
+ * @since 0.8
+ * @version $Rev$
  */
 public class ValuePair<L extends Comparable<L>, V extends Comparable<V>>
 		implements Cloneable, Comparable<ValuePair<L, V>>, Serializable {

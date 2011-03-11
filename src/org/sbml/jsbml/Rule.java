@@ -25,10 +25,8 @@ package org.sbml.jsbml;
  * {@link AssignmentRule}.
  * 
  * @author Andreas Dr&auml;ger
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
+ * @since 0.8
+ * @version $Rev$
  */
 public abstract class Rule extends AbstractMathContainer {
 

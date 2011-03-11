@@ -29,6 +29,8 @@ import org.sbml.jsbml.util.Message;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2010-11-21
+ * @since 0.8
+ * @version $Rev$
  */
 public class LevelVersionError extends SBMLError {
 

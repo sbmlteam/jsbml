@@ -29,7 +29,8 @@ import org.sbml.jsbml.SBMLDocument;
  * namespace URI : "http://www.w3.org/2001/vcard-rdf/3.0#".
  * 
  * @author marine
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class VCardParser implements ReadingParser {
 

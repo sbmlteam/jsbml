@@ -33,6 +33,8 @@ import org.sbml.jsbml.util.StringTools;
  * 
  * @author marine
  * @author rodrigue
+ * @since 0.8
+ * @version $Rev$
  */
 public class AnnotationParser implements ReadingParser {
 

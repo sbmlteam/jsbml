@@ -55,8 +55,9 @@ defined in SBML.
  * object instance can be retrieved based on their index using
  * {@link XMLNamespaces#getPrefix(int index)}, or by their characteristics such as
  * their URI or position in the list.
+ * @since 0.8
+ * @version $Rev$
  */
-
 public class XMLNamespaces {
 	
 	/**

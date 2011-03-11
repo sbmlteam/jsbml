@@ -40,6 +40,8 @@ import org.sbml.jsbml.util.Maths;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2010-05-20
+ * @since 0.8
+ * @version $Rev$
  */
 public class UnitsCompiler implements ASTNodeCompiler {
 

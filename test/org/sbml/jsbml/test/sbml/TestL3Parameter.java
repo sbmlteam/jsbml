@@ -39,6 +39,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.Parameter;
 
+/**
+ * @author
+ * @since 0.8
+ * @version $Rev$
+ */
 public class TestL3Parameter {
 
   private Parameter P;

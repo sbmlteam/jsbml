@@ -45,6 +45,8 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  * @author Andreas Dr&auml;ger
  * @author rodrigue
  * @author marine
+ * @since 0.8
+ * @version $Rev$
  */
 public abstract class AbstractSBase implements SBase {
 

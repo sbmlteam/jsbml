@@ -34,7 +34,8 @@ import org.sbml.jsbml.xml.XMLError;
  * 
  * @author rodrigue
  * @author Andreas Dr&auml;ger
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class SBMLError extends XMLError {
 

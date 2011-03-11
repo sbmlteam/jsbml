@@ -34,7 +34,8 @@ import org.sbml.jsbml.CVTerm.Type;
  * 
  * @author marine
  * @author rodrigue
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class BiologicalQualifierParser implements ReadingParser {
 

@@ -25,7 +25,8 @@ package org.sbml.jsbml;
  * Represents the delay subnode of an event element.
  * 
  * @author Andreas Dr&auml;ger
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class Delay extends AbstractMathContainer {
 

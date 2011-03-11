@@ -29,6 +29,8 @@ import java.util.regex.Pattern;
  * @author Andreas Dr&auml;ger
  * @author rodrigue
  * @author marine
+ * @since 0.8
+ * @version $Rev$
  */
 public abstract class AbstractNamedSBase extends AbstractSBase implements
 		NamedSBase {

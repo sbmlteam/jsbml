@@ -61,8 +61,9 @@ package org.sbml.jsbml.xml;
  * {@link XMLTriple} objects are the lowest-level data item in the XML layer
  * of jsbml.  Other objects such as {@link XMLToken} make use of {@link XMLTriple}
  * objects.
+ * @since 0.8
+ * @version $Rev$
  */
-
 public class XMLTriple {
 
 	private String name = "";

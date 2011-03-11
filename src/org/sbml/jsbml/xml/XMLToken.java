@@ -36,6 +36,8 @@ import org.sbml.jsbml.JSBML;
  * 
  * <p>
  * @author Nicolas Rodriguez
+ * @since 0.8
+ * @version $Rev$
  */
 public class XMLToken implements Cloneable, Serializable {
 

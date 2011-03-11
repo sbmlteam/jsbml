@@ -21,7 +21,8 @@
 package org.sbml.jsbml.ext.multi;
 
 /**
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public enum MultiList {
 	/**

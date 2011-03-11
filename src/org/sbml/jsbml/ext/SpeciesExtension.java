@@ -35,11 +35,8 @@ import org.sbml.jsbml.Unit.Kind;
 /**
  * 
  * @author Andreas Dr&auml;ger
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
- * 
+ * @since 0.8
+ * @version $Rev$ 
  */
 @SuppressWarnings("deprecation")
 public class SpeciesExtension extends Species {

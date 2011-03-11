@@ -5,8 +5,9 @@ package org.sbml.jsbml.text.parser;
 /**
  * An implementation of interface CharStream, where the stream is assumed to
  * contain only ASCII characters (without unicode processing).
+ * @since 0.8
+ * @version $Rev$
  */
-
 public class SimpleCharStream
 {
 /** Whether parser is static. */

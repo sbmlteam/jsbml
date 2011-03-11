@@ -8,6 +8,11 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.resources.Resource;
 
+/**
+ * 
+ * @since 0.8
+ * @version $Rev$
+ */
 public class FormulaParser implements FormulaParserConstants {
   private void checkSize(ArrayList < ASTNode > arguments, int i) throws ParseException
   {

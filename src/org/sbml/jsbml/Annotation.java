@@ -41,6 +41,8 @@ import org.w3c.dom.Node;
  * 
  * @author marine
  * @author Andreas Dr&auml;ger
+ * @since 0.8
+ * @version $Rev$
  */
 public class Annotation implements Cloneable, Serializable {
 	

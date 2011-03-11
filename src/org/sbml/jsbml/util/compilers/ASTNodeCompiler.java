@@ -47,10 +47,8 @@ import org.sbml.jsbml.Unit.Kind;
  * </pre>
  * 
  * @author Andreas Dr&auml;ger
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
+ * @since 0.8
+ * @version $Rev$
  */
 public interface ASTNodeCompiler {
 

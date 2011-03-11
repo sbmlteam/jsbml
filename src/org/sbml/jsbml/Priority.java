@@ -25,6 +25,8 @@ package org.sbml.jsbml;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2010-10-21
+ * @since 0.8
+ * @version $Rev$
  */
 public class Priority extends AbstractMathContainer {
 

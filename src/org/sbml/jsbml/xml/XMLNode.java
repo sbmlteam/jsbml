@@ -105,6 +105,8 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * <p>
  * 
  * @author Nicolas Rodriguez
+ * @since 0.8
+ * @version $Rev$
  */
 public class XMLNode extends XMLToken {
 

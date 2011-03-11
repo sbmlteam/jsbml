@@ -33,6 +33,8 @@ import org.sbml.jsbml.util.compilers.FormulaCompiler;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2009-08-31
+ * @since 0.8
+ * @version $Rev$
  */
 public class Unit extends AbstractSBase {
 

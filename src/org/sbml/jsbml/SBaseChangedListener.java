@@ -27,6 +27,8 @@ import java.util.EventListener;
  * any SBase object changes.
  * 
  * @author Andreas Dr&auml;ger
+ * @since 0.8
+ * @version $Rev$
  */
 public interface SBaseChangedListener extends EventListener {
 

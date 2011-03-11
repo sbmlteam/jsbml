@@ -37,10 +37,8 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author rodrigue
  * @author marine
  * @author Andreas Dr&auml;ger
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
+ * @since 0.8
+ * @version $Rev$
  */
 public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	

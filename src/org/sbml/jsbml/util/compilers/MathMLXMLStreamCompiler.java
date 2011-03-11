@@ -44,7 +44,8 @@ import com.ctc.wstx.stax.WstxOutputFactory;
  * Writes an {@link ASTNode} the mathML.
  * 
  * @author rodrigue
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 // TODO: Let this implement the regular ASTNodeCompiler interface.
 public class MathMLXMLStreamCompiler {

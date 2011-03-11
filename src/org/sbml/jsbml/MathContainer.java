@@ -26,6 +26,8 @@ import org.sbml.jsbml.text.parser.ParseException;
  * Base interface for all the SBML components which contain MathML nodes.
  * 
  * @author Andreas Dr&auml;ger
+ * @since 0.8
+ * @version $Rev$
  */
 public interface MathContainer extends SBaseWithDerivedUnit {
 

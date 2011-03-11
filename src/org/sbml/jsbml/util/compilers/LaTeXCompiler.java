@@ -38,6 +38,8 @@ import org.sbml.jsbml.util.StringTools;
  * 
  * @author Andreas Dr&auml;ger
  * @date 2009-01-03
+ * @since 0.8
+ * @version $Rev$
  */
 public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 

@@ -36,6 +36,12 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.text.parser.ParseException;
 
+/**
+ * 
+ * @author 
+ * @since 0.8
+ * @version $Rev$
+ */
 public class TestIncompatibilities {
 
 	  private Compartment C;

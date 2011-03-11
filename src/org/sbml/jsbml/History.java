@@ -32,7 +32,8 @@ import java.util.List;
  * 
  * @author marine
  * @author Andreas Dr&auml;ger
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class History implements Cloneable, Serializable {
 	/**

@@ -26,7 +26,8 @@ package org.sbml.jsbml;
  * Represents the modifierSpeciesReference XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class ModifierSpeciesReference extends SimpleSpeciesReference {
 

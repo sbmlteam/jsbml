@@ -33,6 +33,10 @@ import java.util.List;
 import org.junit.Test;
 import org.sbml.jsbml.CVTerm;
 
+/**
+ * @since 0.8
+ * @version $Rev$
+ */
 public class TestCVTerms {
 
   static void assertTrue(boolean condition) throws AssertionError

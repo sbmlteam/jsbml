@@ -37,7 +37,8 @@ import org.sbml.jsbml.util.StringTools;
  * MathML expressions (implements ReadingParser and WritingParser).
  * 
  * @author rodrigue
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class MathMLStaxParser implements ReadingParser {
 	

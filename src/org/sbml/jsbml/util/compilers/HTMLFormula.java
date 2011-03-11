@@ -35,6 +35,8 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * @author Andreas Dr&auml;ger
  * @date 2010-04-08
+ * @since 0.8
+ * @version $Rev$
  */
 public class HTMLFormula extends MathMLCompiler {
 

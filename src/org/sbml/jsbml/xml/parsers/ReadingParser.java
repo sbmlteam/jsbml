@@ -26,7 +26,8 @@ import org.sbml.jsbml.SBMLDocument;
  * The interface to implement for the SBML parsers reading SBML files.
  * 
  * @author marine
- *
+ * @since 0.8
+ * @version $Rev$
  */
 public interface ReadingParser {
 

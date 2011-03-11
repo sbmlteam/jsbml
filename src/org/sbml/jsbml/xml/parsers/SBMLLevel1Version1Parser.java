@@ -62,7 +62,8 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 // TODO : we need to parse correctly the rules, the current implementation is wrong
 
 /**
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 @SuppressWarnings("deprecation")
 public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {

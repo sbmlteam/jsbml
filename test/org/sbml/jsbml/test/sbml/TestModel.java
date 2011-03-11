@@ -68,6 +68,13 @@ import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.text.parser.ParseException;
 
+/**
+ * 
+ * @author
+ * @since 0.8
+ * @version $Rev$
+ *
+ */
 @SuppressWarnings("deprecation")
 public class TestModel {
 

@@ -39,6 +39,8 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * ReadingParser and WritingParser).
  * 
  * @author rodrigue
+ * @since 0.8
+ * @version $Rev$
  * 
  */
 public class LayoutParser implements ReadingParser, WritingParser {

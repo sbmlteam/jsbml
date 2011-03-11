@@ -37,7 +37,8 @@ import org.sbml.jsbml.UnitDefinition;
  * A RDFAnnotationParser is used to parser the subNodes of an annotation which have the namespace URI :
  * "http://www.w3.org/1999/02/22-rdf-syntax-ns#". This parser can only read the rdf annotations.
  * @author marine
- *
+ * @since 0.8
+ * @version $Rev$
  */
 public class RDFAnnotationParser implements ReadingParser{
 	

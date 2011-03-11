@@ -26,8 +26,9 @@ package org.sbml.jsbml;
  * since level 3.
  * 
  * @author Andreas Dr&auml;ger
+ * @since 0.8
+ * @version $Rev$
  * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
- * 
  */
 @Deprecated
 public class SpeciesType extends AbstractNamedSBase {

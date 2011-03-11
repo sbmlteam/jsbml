@@ -27,9 +27,9 @@ package org.sbml.jsbml.validator;
  * \author  Akiya Jouraku <sbml-team@caltech.edu>
  * 
  * This file is adapted from libSBML by rodrigue
- * 
+ * @since 0.8
+ * @version $Rev$
  */
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

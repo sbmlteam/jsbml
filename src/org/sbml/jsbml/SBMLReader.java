@@ -53,7 +53,8 @@ import javax.xml.stream.XMLStreamException;
  * 
  * @author Andreas Dr&auml;ger
  * @author rodrigue
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class SBMLReader {
 

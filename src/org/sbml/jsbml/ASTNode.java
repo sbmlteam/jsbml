@@ -54,7 +54,8 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * @author Andreas Dr&auml;ger
  * @author rodrigue
  * @author Alexander D&ouml;rr
- * 
+ * @since 0.8
+ * @version $Rev$
  */
 public class ASTNode implements Cloneable, Serializable, TreeNode {
 

@@ -32,6 +32,8 @@ package org.sbml.jsbml;
  * @author Andreas Dr&auml;ger
  * @author marine
  * @author Nicolas Rodriguez
+ * @since 0.8
+ * @version $Rev$
  */
 public abstract class Symbol extends QuantityWithUnit implements
 		Variable {

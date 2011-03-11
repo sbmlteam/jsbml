@@ -26,7 +26,9 @@ package org.sbml.jsbml.util.filters;
  * check some of its field values.
  * 
  * @author Andreas Dr&auml;ger
- * @data 2010-05-19
+ * @date 2010-05-19
+ * @since 0.8
+ * @version $Rev$
  */
 public interface Filter {
 

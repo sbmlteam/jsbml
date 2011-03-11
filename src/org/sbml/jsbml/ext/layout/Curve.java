@@ -29,6 +29,8 @@ import org.sbml.jsbml.SBaseChangedListener;
  * 
  * 
  * @author
+ * @since 0.8
+ * @version $Rev$
  */
 public class Curve extends AbstractNamedSBase {
 

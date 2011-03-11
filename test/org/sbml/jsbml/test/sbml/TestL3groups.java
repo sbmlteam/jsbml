@@ -48,6 +48,11 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 import org.xml.sax.SAXException;
 
+/**
+ * @since 0.8
+ * @version $Rev$
+ *
+ */
 public class TestL3groups {
 
 	public static String DATA_FOLDER = null;

@@ -30,7 +30,8 @@ import org.sbml.jsbml.SBaseChangedListener;
 /**
  * 
  * 
- *
+ * @since 0.8
+ * @version $Rev$
  */
 public class Group extends AbstractNamedSBase {
 

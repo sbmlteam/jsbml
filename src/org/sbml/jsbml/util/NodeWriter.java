@@ -30,11 +30,8 @@ import org.w3c.dom.Node;
  * A writer for XML DOM nodes.
  * 
  * @author Marco Donizelli
- * @since 1.0
- * 
- * @opt attributes
- * @opt types
- * @opt visibility
+ * @since 0.8
+ * @version $Rev$
  */
 public interface NodeWriter {
 

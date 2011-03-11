@@ -39,6 +39,12 @@ import org.junit.Test;
 
 import org.sbml.jsbml.Species;
 
+/**
+ * 
+ * @author
+ * @since 0.8
+ * @version $Rev$
+ */
 public class TestSpecies {
 
   private Species S;
