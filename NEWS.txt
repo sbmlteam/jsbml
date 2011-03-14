@@ -9,6 +9,10 @@ Version 0.8-x (xx-xx-2011)
 
 * Bug Fixes :
 
+  - [Tracker issue #3208903] : After parsing, Priority elements were 
+    not added to their event. Thanks to Sebastian Froh for reporting 
+    this.
+
   - [Tracker issue #3204275] : It was impossible to set the size of a 
     compartment for models in Level 3 if the spatial dimensions are 
     undefined, i.e., NaN. Since it is only prohibited to set the size 

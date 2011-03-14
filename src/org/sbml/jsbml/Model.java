@@ -300,6 +300,9 @@ public class Model extends AbstractNamedSBase {
 	 *         result of this call.
 	 */
 	public boolean addEvent(Event event) {
+		if (getLevel() < 2) {
+			throw new PropertyNotAvailableError("event", this);
+		}
 		return getListOfEvents().add(event);
 	}
 

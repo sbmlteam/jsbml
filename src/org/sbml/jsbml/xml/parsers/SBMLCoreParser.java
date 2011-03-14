@@ -43,6 +43,7 @@ import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.Priority;
 import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
@@ -1049,24 +1050,26 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				} else if (contextObject instanceof Event) {
 					Event event = (Event) contextObject;
 
-					if (elementName.equals("listOfEventAssignments")
-							&& event.getLevel() > 1) {
+					if (elementName.equals("listOfEventAssignments")) {
 						ListOf<EventAssignment> listOfEventAssignments = (ListOf<EventAssignment>) newContextObject;
 						event.setListOfEventAssignments(listOfEventAssignments);
 
 						return listOfEventAssignments;
-					} else if (elementName.equals("trigger")
-							&& event.getLevel() > 1) {
+					} else if (elementName.equals("trigger")) {
 						Trigger trigger = (Trigger) newContextObject;
 						event.setTrigger(trigger);
 
 						return trigger;
-					} else if (elementName.equals("delay")
-							&& event.getLevel() > 1) {
+					} else if (elementName.equals("delay")) {
 						Delay delay = (Delay) newContextObject;
 						event.setDelay(delay);
 
 						return delay;
+					} else if (elementName.equals("priority")) {
+						Priority priority = (Priority) newContextObject;
+						event.setPriority(priority);
+
+						return priority;
 					} else {
 						log4jLogger.warn("The element " + elementName + " is not recognized");
 					}
