@@ -39,7 +39,7 @@ public class PropertyNotAvailableError extends SBMLError {
 	/**
 	 * Message to indicate that a certain property cannot be set for the current level/version combination.
 	 */
-	public static final String PROPERTY_UNDEFINED_EXCEPTION_MSG = "Property %s is not defined for Level %s and Version %s";
+	public static final String PROPERTY_UNDEFINED_EXCEPTION_MSG = "Property %s is not defined in %s for Level %d and Version %d.";
 	
 	/**
 	 * Creates an error message pointing out that the property of the given name is not defined
@@ -50,8 +50,9 @@ public class PropertyNotAvailableError extends SBMLError {
 	 * @return
 	 */
 	public static String propertyUndefinedMessage(String property, SBase sbase) {
-		return String.format(PROPERTY_UNDEFINED_EXCEPTION_MSG, property,
-				Integer.valueOf(sbase.getLevel()), Integer.valueOf(sbase.getVersion()));
+		return String.format(PROPERTY_UNDEFINED_EXCEPTION_MSG, property, sbase
+				.getElementName(), Integer.valueOf(sbase.getLevel()), Integer
+				.valueOf(sbase.getVersion()));
 	}
 	
 	/**
