@@ -897,8 +897,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 			throw new PropertyNotAvailableError(
 					SBaseChangedEvent.useValuesFromTriggerTime, this);
 		}
-		Boolean oldUsesValuesFromTriggerTime = Boolean
-				.valueOf(this.useValuesFromTriggerTime);
+		Boolean oldUsesValuesFromTriggerTime = this.useValuesFromTriggerTime;
 		this.useValuesFromTriggerTime = useValuesFromTriggerTime;
 		firePropertyChange(SBaseChangedEvent.useValuesFromTriggerTime,
 				oldUsesValuesFromTriggerTime, useValuesFromTriggerTime);
