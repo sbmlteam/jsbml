@@ -241,12 +241,14 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				if (event.isSetTrigger()) {
 					listOfElementsToWrite.add(event.getTrigger());
 				}
+				if (event.isSetPriority()) {
+					listOfElementsToWrite.add(event.getPriority());
+				}
 				if (event.isSetDelay()) {
 					listOfElementsToWrite.add(event.getDelay());
 				}
 				if (event.isSetListOfEventAssignments()) {
-					listOfElementsToWrite
-							.add(event.getListOfEventAssignments());
+					listOfElementsToWrite.add(event.getListOfEventAssignments());
 				}
 
 				if (listOfElementsToWrite.isEmpty()) {

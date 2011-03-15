@@ -3347,13 +3347,16 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		// set a name before calling setType
 		if (type == Type.NAME_TIME) {
 			name = "time";
+			definitionURL = URI_TIME_DEFINITION;
 		} else if (type == Type.FUNCTION_DELAY) {
 			initDefaults();
 			name = "delay";
+			definitionURL = URI_DELAY_DEFINITION;
 		} else if (type == Type.NAME_AVOGADRO) {
 			initDefaults();
 			name = "Avogadro's number";
 			setValue(6.02214179e23);
+			definitionURL = URI_AVOGADRO_DEFINITION;
 		}
 		this.type = type;
 	}
