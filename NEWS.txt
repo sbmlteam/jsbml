@@ -6,6 +6,9 @@ Version 0.8-x (xx-xx-2011)
 
 * New Features :
 
+  - The indentation was improved: There was often no indentation when
+    writing the closing tag for any instances of MathContainer, such
+    as EventAssignments or KineticLaws.
 
 * Bug Fixes :
 
