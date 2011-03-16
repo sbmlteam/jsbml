@@ -938,7 +938,6 @@ public class SBMLWriter {
 			mathElement.setIndentation(createIndentationString(indent + 2), indent + indentCount, indentCount);
 			
 			writer.writeCharacters(whitespaces);
-			
 			writer.writeCharacters("\n");
 
 			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
@@ -1195,6 +1194,8 @@ public class SBMLWriter {
 					
 					SMOutputElement newOutPutElement = null;
 					if (parentXmlObject.isSetName()) {
+						boolean isClosedMathContainer = false;
+						
 						if (parentXmlObject.isSetNamespace()) {
 							SMNamespace namespaceContext = smOutputParentElement
 									.getNamespace(
@@ -1251,15 +1252,19 @@ public class SBMLWriter {
 							MathContainer mathContainer = (MathContainer) nextObjectToWrite;
 							writeMathML(mathContainer, newOutPutElement,
 									streamWriter, indent + indentCount);
-							elementIsNested = true;
+							elementIsNested = isClosedMathContainer = true;
 						}
-						if (nextObjectToWrite instanceof Model || nextObjectToWrite instanceof UnitDefinition) {
+						if (!elementIsNested
+								&& ((nextObjectToWrite instanceof Model) || (nextObjectToWrite instanceof UnitDefinition))) {
 							elementIsNested = true;
 						}
 						
 						// to allow the XML parser to prune empty element, this line should not be added in all the cases.
 						if (elementIsNested) {
 							newOutPutElement.addCharacters("\n");
+							if (isClosedMathContainer) {
+								newOutPutElement.addCharacters(whiteSpaces);
+							}
 						}
 
 						writeSBMLElements(parentXmlObject, newOutPutElement,
