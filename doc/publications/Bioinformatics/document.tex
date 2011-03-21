@@ -150,32 +150,34 @@ the project are freely available from
 %\section{Methods}
 \section{A brief overview of JSBML}
 
-A key achievement of the JSBML project is the development of an extended type hierarchy,
-designed from scratch based on the SBML specifications, but still
-following the naming conventions of methods and classes in libSBML~\citep{Bornstein2008}. For each
-element defined in at least one SBML Level/Version combination, JSBML provides a
-corresponding class reflecting all of its properties. SBML elements or
-attributes not part of higher SBML Levels (removed or made
-obsolete) are marked as deprecated. JSBML defines superclasses or
-interfaces for elements that share common properties. For instance, the interface
-\texttt{NamedSBase} does not directly correspond to a data type in one of the SBML
-specifications, but serves as the superclass of all
-\texttt{SBase}-derived classes that can be addressed by an identifier and a name. Similarly, all
-classes that may contain a mathematical expression implement the
-interface \texttt{MathContainer}. (A full overview of this type hierarchy can be
-found in the supplementary data associated with this article.) JSBML also
+A key achievement of the JSBML project is the development of an extended type
+hierarchy, designed from scratch based on the SBML specifications, but still
+following the naming conventions of methods and classes in
+libSBML. For each element defined in at least one SBML Level/Version combination,
+JSBML provides a corresponding class reflecting all of its properties. SBML
+elements or attributes not part of higher SBML Levels (removed or made
+obsolete) are marked as deprecated. JSBML defines superclasses or interfaces for
+elements that share common properties. For instance, the interface
+\texttt{NamedSBase} does not directly correspond to a data type in one of the
+SBML specifications, but serves as the superclass of all \texttt{SBase}-derived
+classes that can be addressed by an identifier and a name. Similarly, all classes
+that may contain a mathematical expression implement the
+interface \texttt{MathContainer}. A full overview of this type hierarchy can be
+found in the supplementary data associated with this article. JSBML also
 supports SBML \emph{notes} in XHTML format, as well as SBML
-\emph{annotations}, including MIRIAM~\citep{Novere2005} and SBO~\citep{Novere2006b}.
+\emph{annotations}, including MIRIAM~\citep{Novere2005} and
+SBO~\citep{Novere2006b}.
 When building JSBML, the latest SBO file can directly be downloaded and parsed
 \citep{Holland2008}.
 % Predefined units are automatically annotated with the correct
 % Unit Ontology terms.
-The \texttt{Model} class provides several methods, all beginning with the name \texttt{find*},
-for querying SBML elements. Filters enable users to search lists for elements
-that possess specific properties. All \texttt{ListOf*} elements in JSBML implement Java's
-\texttt{List} interface, making iteration and the use of generic Java types possible.
-Fig.~\ref{fig:JSBML} demonstrates how the hierachically
-structured content of an SBML file can be easily visualized in form of a tree.
+The \texttt{Model} class provides several methods, all beginning with the name
+\texttt{find*}, for querying SBML elements. Filters enable users to search lists
+for elements that possess specific properties. All \texttt{ListOf*} elements in
+JSBML implement Java's \texttt{List} interface, making iteration and the use of
+generic Java types possible. Fig.~\ref{fig:JSBML} demonstrates how the
+hierachically structured content of an SBML file can be easily visualized in form
+of a tree.
 \begin{figure*}
 \centerline{
   \subfloat[The SBML parser in JSBML understands the hierarchical data structure
@@ -224,9 +226,8 @@ way, graphical user interfaces can automatically react when the model is changed
 Using modules, JSBML capabilites can be further
 extended; this allows JSBML to be used as a communication layer
 between an application and libSBML or CellDesigner
-\citep{Funahashi2003}---this also facilitates turning an existing application into
-a plugin for CellDesigner.
-
+\citep{Funahashi2003}---this also facilitates turning an existing application
+into a plugin for CellDesigner.
 \end{methods}
 
 \section{Implementation}
@@ -247,15 +248,22 @@ JSBML can freely be used even in proprietary software.
 
 \section{Conclusion}
 
-JSBML is an going project that provides comprehensive and
-entirely Java-based data structures to read, write, and manipulate SBML files.
-Its layered architecture allows for the creation of Java Web Start applications
-and CellDesigner plugins based on stand-alone programs with very little effort.
+JSBML is an ongoing project that provides comprehensive and entirely Java-based
+data structures to read, write, and manipulate SBML files. Its layered
+architecture allows for the creation of Java Web Start applications and
+CellDesigner plugins based on stand-alone programs with very little effort.
 %
-One program, SBMLsqueezer~\citep{Draeger2008}, has already been re-implemented
-and released under version 1.3 using JSBML. A simulator, benchmarked
-on the SBML Test Suite, will be available soon, and many other projects are
-planned.
+% One program, SBMLsqueezer~\citep{Draeger2008}, has already been re-implemented
+% and released under version 1.3 using JSBML. A simulator, benchmarked
+% on the SBML Test Suite, will be available soon, and many other projects are
+% planned.
+New versions of some programs have already been released using JSBML
+\citep{Draeger2008, Draeger2009}. A simulator, benchmarked on the SBML Test
+Suite, will be available soon, and many other projects are planned.
+% New versions of some pograms \citep{Draeger2008, Draeger2009}
+% % SBMLsqueezer and SBML2\LaTeX{}
+% have already been released using JSBML. A simulator, banchmarked on the SBML
+% Test Suite, will be available soon and many other projects are planned.
 
 \section*{Acknowledgement}
 
@@ -298,6 +306,13 @@ Dr{\"a}ger {\em et~al.} (2008).
 \newblock {SBMLsqueezer: a CellDesigner plug-in to generate kinetic rate
   equations for biochemical networks}.
 \newblock {\em BMC Syst. Biol.\/}, {\bf 2}(1), 39.
+
+\bibitem[Dr{\"a}ger {\em et~al.}(2009)Dr{\"a}ger, Planatscher, Wouamba,
+  Schr{\"o}der, Hucka, Endler, Golebiewski, M{\"u}ller, and Zell]{Draeger2009}
+Dr{\"a}ger {\em et~al.} (2009).
+\newblock {{SBML2\LaTeX: Conversion of SBML files into human-readable
+  reports}}.
+\newblock {\em Bioinformatics\/}, {\bf 25}(11), 1455--1456.
 
 \bibitem[Funahashi {\em et~al.}(2003)Funahashi, Tanimura, Morohashi, and
   Kitano]{Funahashi2003}
