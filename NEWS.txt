@@ -9,8 +9,16 @@ Version 0.8-x (xx-xx-2011)
   - The indentation was improved: There was often no indentation when
     writing the closing tag for any instances of MathContainer, such
     as EventAssignments or KineticLaws.
+    
+  - The new interface CallableSBase ensures that only instances of this
+    type may be referenced in ASTNodes. In this way, it is no longer
+    possible to refer to Events from ASTNodes.
 
 * Bug Fixes :
+
+  - A NullPointerException could occur when deriving the unit of an
+    expression containing a call to the factorial function. Thanks
+    to Roland Keller for reporting this. 
 
   - [Tracker issue #3208887] : When trying to access the previously
     set value for  UseValuesFromTriggerTime it was possible that a

@@ -553,7 +553,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
 		ASTNodeValue v = new ASTNodeValue(Maths.factorial(value.compile(this)
 				.toDouble()), this);
-		v.setUnits(value.getUnitsInstance().clone());
+		if (value.isSetUnits()) {
+			v.setUnits(value.getUnitsInstance().clone());
+		}
 
 		return v;
 	}

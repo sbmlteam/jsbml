@@ -223,8 +223,8 @@ public class ASTNodeValue {
 	 */
 	public UnitDefinition getUnits() {
 		if (!isSetUnit()) {
-			unit = new UnitDefinition();
-			unit.addUnit(new Unit());
+			unit = new UnitDefinition(level, version);
+			unit.addUnit(new Unit(level, version));
 		}
 		return unit;
 	}
