@@ -1,6 +1,6 @@
 /*
- * $Id:  PriorityTest.java 14:32:37 draeger $
- * $URL: PriorityTest.java $
+ * $Id$
+ * $URL$
  *
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
