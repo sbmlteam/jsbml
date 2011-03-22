@@ -46,7 +46,12 @@
 \makeindex
 
 \hyphenation{
+Boo-lean
 Cell-De-sig-n-er
+Call-able-S-Base
+Event-Listener
+Event-Hand-l-er
+S-Base-Chang-ed-Listen-er
 }
 
 \title{A short description of the main differences between JSBML and libSBML}
@@ -85,10 +90,9 @@ internal data structure. An example is given, that demonstrates how to
 convert between CellDesigner's plug-in data structures and JSBML objects.
 
 In the same way, it is possible to inter-convert between data structures
-obtained from libSBML and JSBML \textcolor{red}{No need to mention the
-specific versions in the abstract, I think}. We provides an example of how to
-read SBML files with libSBML, turn them into JSBML data structures, manipulate
- them and turn them back to libSBML for writing.
+obtained from libSBML and JSBML. We provide an example of how to read SBML files
+with libSBML, turn them into JSBML data structures, manipulate them and turn
+them back to libSBML for writing.
 
 Furthermore, JSBML will provides a compatibility module, whose member classes
 show an identical API as defined in libSBML. In this way, the
@@ -111,8 +115,6 @@ versa by simply exchanging the included JAR file in the project.
 
 \section{Frequently Asked Questions (FAQ)}
 \input{JSBML_FAQ}
-
-\input{JSBML_open_tasks}
 
 % \clearpage
 \bibliographystyle{natbib}
