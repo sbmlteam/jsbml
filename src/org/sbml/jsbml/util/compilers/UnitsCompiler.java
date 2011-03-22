@@ -554,9 +554,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		ASTNodeValue v = new ASTNodeValue(Maths.factorial(value.compile(this)
 				.toDouble()), this);
 		if (value.isSetUnits()) {
-			v.setUnits(value.getUnitsInstance().clone());
+			v.setUnits(value.getUnitsInstance());
 		}
-
+		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		return v;
 	}
 
@@ -1187,10 +1187,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			illegal = units.toString();
 		}
 		if (illegal != null) {
-			throw new IllegalArgumentException(
-					new UnitException(
-							String
-									.format(
+			throw new IllegalArgumentException(new UnitException(String.format(
 											"An invalid or dimensionless unit is required but given is %s.",
 											illegal)));
 		}

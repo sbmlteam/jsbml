@@ -52,7 +52,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * expression.
  * 
  * @author Andreas Dr&auml;ger
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @author Alexander D&ouml;rr
  * @since 0.8
  * @version $Rev$

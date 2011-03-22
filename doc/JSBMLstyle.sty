@@ -12,6 +12,7 @@
 \RequirePackage{wasysym}  % Contains several special symbols
 \RequirePackage{pifont}   % Enables Zapf dingbats (special symbols)
 \RequirePackage[scaled=.95]{helvet} % Sans serif font to be used
+\RequirePackage{courier}
 
 % Page style
 
@@ -58,14 +59,23 @@
 \selectlanguage{english}
 \addtokomafont{sectioning}{\color{royalblue}}
 \setkomafont{descriptionlabel}{\normalfont\bfseries}
+% \DeclareFontShape{OT1}{cmtt}{b}{n}
+%    {
+%     <5><6><7><8>cmbtt8%
+%     <9>cmbtt9%
+%     <10><12><10.95><14.4><17.28><20.74><24.88>cmbtt10
+%     }{}
+% \DeclareFontShape{OT1}{cmtt}{bx}{n}
+%    {<->ssub*cmtt/b/n}{}
+
 \pagestyle{scrheadings}
 \ifoot{\includegraphics[width=50pt]{logo/JSBML_shaddow.pdf}}
 
 \lstset{language=Java,
 captionpos=b,
-basicstyle=\footnotesize\ttfamily\bfseries,
+basicstyle=\footnotesize\ttfamily,
 stringstyle=\color{darkred}\footnotesize\ttfamily,
-keywordstyle=\color{royalblue}\bfseries\ttfamily,
+keywordstyle=\color{royalblue}\ttfamily\bfseries,
 ndkeywordstyle=\color{forrestgreen},
 numbers=left,
 numberstyle=\footnotesize,
