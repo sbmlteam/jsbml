@@ -5,7 +5,7 @@ familiar with SBML, a good starting point would be to read the latest SBML
 specification\index{SBML!specification}\footnote{\url{%
 http://sbml.org/Documents/Specifications/}} \citep{Hucka2010a}. If you have some
 other questions about SBML, you may find the answer in the SBML
-FAQ\footnote{http://sbml.org/Documents/FAQ}. JSBML is written in Java\TTra. To
+FAQ\footnote{\url{http://sbml.org/Documents/FAQ}}. JSBML is written in Java\TTra. To
 use it, you will need a Java Runtime Environment (JRE) 1.5 or higher. See, for
 example, the Java SE download page\footnote{\url{%
 http://www.oracle.com/technetwork/java/javase/downloads/index.html}
@@ -70,7 +70,7 @@ or class path alongside the JSBML JAR file, you are ready to work with JSBML.
 As an alternative to using the JAR files, you can check out the source tree from
 SVN and compile JSBML yourself. To do that, you will need to have a Java
 JDK\footref{fn:jvmldl} installed, the Apache
-Ant\footnote{http://ant.apache.org/\label{fn:ant}} build system, and
+Ant\footnote{\url{http://ant.apache.org/}\label{fn:ant}} build system, and
 Subversion\footnote{\url{http://subversion.apache.org/}\label{fn:svn}}, a
 version control system.
 
@@ -78,7 +78,7 @@ version control system.
 \begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
 title={Use the following command to download the latest JSBML classes (requires
 Subversion\footref{fn:svn}):}]
-svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk jsbml
+svn co "https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk" jsbml
 cd jsbml
 \end{lstlisting}
 
@@ -110,19 +110,19 @@ corresponding modules.
 \begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
 title={The CellDesigner bridge-module should help CellDesigner plugin developers
 to use JSBML as internal datastructure.}]
-svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/cellDesigner cellDesigner
+svn co "https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/cellDesigner" cellDesigner
 \end{lstlisting}
 
 \begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
 title={Developers, who still want to make use of libSBML (e.g., to use the
 SBML-validator), might want to have a look at the libSBML communication layer.}]
-svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/libSBMLio/ libSBMLio
+svn co "https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/libSBMLio/" libSBMLio
 \end{lstlisting}
 
 \begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
 title={The third module is a compatibility module to ease switching from libSBML
 to JSBML.}]
-svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/libSBMLcompat libSBMLcompat
+svn co "https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/libSBMLcompat" libSBMLcompat
 \end{lstlisting}
 
 %\noindent All these modules can be compiled and included into your project in
