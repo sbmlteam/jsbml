@@ -50,7 +50,7 @@ JSBML.
 \includegraphics[width=\textwidth]{img/FullTypeHierarchy.pdf}
 \caption[The type hierarchy of the main SBML constructs in JSBML]{The type
 hierarchy of the main SBML constructs in JSBML.
-% Nächster satz auch schon oben verwendet.
+% Nï¿½chster satz auch schon oben verwendet.
 With letting \texttt{SBase} implement the Java interfaces
 \texttt{Cloneable}, \texttt{Serializable}, and \texttt{TreeNode}, all derived
 elements also implement these types. Elements colored in blue have been
@@ -900,8 +900,38 @@ or use the methods \texttt{findLocalParameters}, \texttt{findQuantity}, \texttt{
 
 \subsection{Logging functionality}
 
-\textcolor{red}{JSBML provides logging.}
-\index{logging}%
+% TODO
+
+% what is done by default
+
+% see documentation there : http://logging.apache.org/log4j/1.2/manual.html
+
+% how to modify the default behavior
+%Use -Dlog4j.configuration=/home/user/myLog4j.properties
+
+% some examples configurations
+
+\begin{lstlisting}[language=bash,caption={A simple  log4j example.},label=lst:log4j1]
+
+# All logging output sent to the console
+log4j.rootCategory=INFO, console
+
+#
+# Console Display
+#
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+
+# Pattern to output the caller's file name and line number.
+log4j.appender.console.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} - %5p (%F:%L) - %m%n
+
+# Log the messages from the SimpleSBaseChangeListener at the DEBUG Level
+# Allow to see all the changes that hapenned to the SBML elements
+log4j.logger.org.sbml.jsbml.util=DEBUG
+
+\end{lstlisting}
+
+
 
 \subsection{JSBML modules}
 
@@ -916,7 +946,7 @@ will try to provides the same package structure and API as in the libSBML Java
 bindings. In this section, we will give small code examples of how to make use
 of these modules.
 
-\subsubsection{How to use libSBML for parsing SBML into JSBML data structures?}
+\subsubsection{libSBMLio or how to use libSBML for parsing SBML into JSBML data structures?}
 
 The capabilities of the SBML validator\index{SBML!validator} constitute the
 major strength of libSBML \citep{Bornstein2008} in comparison to JSBML, whose
@@ -965,7 +995,7 @@ converting libSBML data structures into JSBML data objects},label=lst:LibSBMLio]
 Writing SBML works similarly. This example will display the content of an SBML
 file in a \texttt{JTree}, similar as shown in Fig.~\vref{fig:Visualization}.
 
-\subsubsection{How to turn a JSBML-based application into a CellDesigner plugin?}
+\subsubsection{cellDesigner or how to turn a JSBML-based application into a CellDesigner plugin?}
 
 Once an application has been implemented based on JSBML, it can easily be
 accessed from CellDesigner's plugin menu \citep{Funahashi2003}. To this end,
@@ -1043,12 +1073,12 @@ completed by implementing the methods from the superclass. In this example it
 is sufficient to leave the implementation open.
 
 
-\subsubsection{JSBML's compatibility module for libSBML}
+\subsubsection{libSBMLcompat, the JSBML's compatibility module for libSBML}
 
-In addition, the compatibility module of JSBML mimics the package structure of
-libSBML and provides identically named classes. In this way, it is possible to
+The compatibility module of JSBML will use the same package structure as the
+libSBML java bindings and provides identically named classes and API. Using the module, it will be possible to
 swich an existing application from libSBML to JSBML or the other way arround
 without changing any code.
 
-\textcolor{red}{To be described here.}
+This module is in development and will be available with the version 1.0 of JSBML.
 \index{libSBML!compatibility module}%

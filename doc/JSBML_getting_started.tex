@@ -44,19 +44,17 @@ overview of all these libraries:
 biojava-1.7 containing mostly ontology-related classes.
 \item[junit-4.8.jar]This library is only needed, if you want to run the JUnit
 tests of JSBML (located in the \texttt{test} folder).
-\item[stax2-api-3.0.3.jar] \textcolor{red}{TODO: Describe why this library is
-necessary.}
-\item[stax-api-1.0.1.jar] \textcolor{red}{TODO: Describe why this library is
-necessary.}% Is this library really necessary? What for?
-\item[staxmate-2.0.0.jar] \textcolor{red}{TODO: Describe why this library is
-necessary.}
-\item[xstream-1.3.1.jar] \textcolor{red}{TODO: Describe why this library is
-necessary.}
-\item[jigsaw-dateParser.jar] This is a stripped version of the jigsaw-library,
+\item[stax2-api-3.0.3.jar] Used to read and write the XML files.
+\item[stax-api-1.0.1.jar] Used to read and write the XML files.
+\item[woodstox-core-lgpl-4.0.9.jar] Used to read and write the XML files. This the stax parser implementation we use.
+\item[staxmate-2.0.0.jar] Used to read and write the XML files. This library allow to use stax in a more friendly
+manner.
+\item[xstream-1.3.1.jar] Used to read and write the XML files. This parser is used to parse
+the result from the SBML validator, we might use it more in the future or drop it
+to use only stax/woodstox
+\item[jigsaw-dateParser.jar] This is a stripped down version of the jigsaw-library,
 containing one class to manipulate dates. It has been created with the most
-recent version at 2010-12-16.
-\item[woodstox-core-lgpl-4.0.9.jar] \textcolor{red}{TODO: Describe why this
-library is necessary.}
+recent version from 2010-12-16.
 \item[log4j-1.2.8.jar] JSBML uses the Apache log4j logger. If you want to use
 logging, you should include this logger.
 \end{description}
@@ -75,7 +73,7 @@ Subversion\footnote{\url{http://subversion.apache.org/}\label{fn:svn}}, a
 version control system.
 
 %# to get the source
-\begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
+\begin{lstlisting}[language=bash,numbers=none,captionpos=t,
 title={Use the following command to download the latest JSBML classes (requires
 Subversion\footref{fn:svn}):}]
 svn co "https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk" jsbml
@@ -83,7 +81,7 @@ cd jsbml
 \end{lstlisting}
 
 %# to compile and create the library JAR file
-\begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
+\begin{lstlisting}[language=bash,numbers=none,captionpos=t,
 title={To compile the JSBML library to a single JAR file, type the following
 command (requires Apache Ant\footref{fn:ant}):}]
 ant jar
@@ -91,7 +89,7 @@ ant jar
 
 % (requires Apache Ant\footref{fn:ant})
 %# to run the tests
-\begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
+\begin{lstlisting}[language=bash,numbers=none,captionpos=t,
 title={If you want to run the JUnit tests on your compiled JAR file, please use
 the following command:}]
 ant test
@@ -103,27 +101,29 @@ your build or class path and start using JSBML.
 
 \subsection{Download and usage of the JSBML modules}
 
-JSBML provides today, three additional modules. Please type the following
+JSBML provides today, two additional modules. Please type the following
 Subversion\footref{fn:svn} commands on your command line to obtain the
 corresponding modules.
 
-\begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
+
+\begin{lstlisting}[language=bash,numbers=none,captionpos=t,
 title={The CellDesigner bridge-module should help CellDesigner plugin developers
 to use JSBML as internal datastructure.}]
 svn co "https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/cellDesigner" cellDesigner
 \end{lstlisting}
 
-\begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
-title={Developers, who still want to make use of libSBML (e.g., to use the
-SBML-validator), might want to have a look at the libSBML communication layer.}]
+\begin{lstlisting}[language=bash,numbers=none,captionpos=t,
+title={Developers, who still want to make use of libSBML, might want to have a look 
+at the libSBML communication layer.}] 
 svn co "https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/libSBMLio/" libSBMLio
 \end{lstlisting}
 
-\begin{lstlisting}[language=bash,numbers=none,float=h,captionpos=t,
-title={The third module is a compatibility module to ease switching from libSBML
-to JSBML.}]
-svn co "https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/libSBMLcompat" libSBMLcompat
-\end{lstlisting}
+% There is not module yet, so nothing the checkout. 
+% \begin{lstlisting}[language=bash,numbers=none,captionpos=t,
+% title={The third module is a compatibility module to ease switching from libSBML
+% to JSBML.}]
+% svn co "https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/libSBMLcompat" libSBMLcompat
+% \end{lstlisting}
 
 %\noindent All these modules can be compiled and included into your project in
 % the same way as described for the JSBML main library.
