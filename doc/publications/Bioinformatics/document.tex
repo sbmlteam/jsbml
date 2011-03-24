@@ -106,7 +106,7 @@ Bioinformatics online.
 The XML-based Systems Biology Markup Language (SBML, \citealt{M.Hucka03012003})
 is the \emph{de facto} standard file format for the storage and exchange of
 quantitative computational models in systems biology, supported by more than
-210 software packages to date (Mar.~2010).
+210 software packages to date (Mar.~2011).
 Much of this success is due to its
 clearly defined specifications and the availability of libSBML~\citep{Bornstein2008},
 a portable, robust, full-featured, and easy-to-use library.
@@ -129,12 +129,12 @@ develop their own Java libraries for SBML. To avoid needless duplication of
 effort, some of these groups later pooled their efforts and created JSBML, an
 open-source project to develop a pure Java library for SBML.
 
-The primary aim of the project is to provide an API library
+The primary aim of the project is to provide an API 
 that maps all SBML elements to a flexible and extended
 Java type hierarchy. Where possible, JSBML strives for
 100\,\% compatibility with libSBML's Java API, to ease the transition from
 one library to the other. There are currently no plans to reimplement 
-the more complex functionality of libSBML, such as model consistency checking,
+the more complex functionalities of libSBML, such as model consistency checking,
 SBML validation, and conversion between different SBML Levels and Versions;
 separate community efforts are underway to provide such libSBML facilities
 via web services.
@@ -167,7 +167,7 @@ found in the supplementary data associated with this article. JSBML also
 supports SBML \emph{notes} in XHTML format, as well as SBML
 \emph{annotations}, including MIRIAM~\citep{Novere2005} and
 SBO~\citep{Novere2006b}.
-When building JSBML, the latest SBO file can directly be downloaded and parsed
+When building JSBML, the latest SBO OBO export can directly be downloaded and parsed
 \citep{Holland2008}.
 % Predefined units are automatically annotated with the correct
 % Unit Ontology terms.
