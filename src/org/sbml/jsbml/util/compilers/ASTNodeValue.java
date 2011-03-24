@@ -26,7 +26,6 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.xml.parsers.MathMLParser;
@@ -75,7 +74,7 @@ public class ASTNodeValue {
 	/**
 	 * The unit associated to the value of this object.
 	 */
-	private UnitDefinition unit;
+	private UnitDefinition unitDef;
 	/**
 	 * The actual value of this element. This is an {@link Object}, but indeed
 	 * we restrict the possibilities to store only certain types here.
@@ -92,7 +91,7 @@ public class ASTNodeValue {
 	public ASTNodeValue(ASTNodeCompiler compiler) {
 		type = Type.UNKNOWN;
 		value = null;
-		unit = null;
+		unitDef = null;
 		uFlag = true;
 		this.compiler = compiler;
 	}
@@ -122,6 +121,16 @@ public class ASTNodeValue {
 	public ASTNodeValue(float value, ASTNodeCompiler compiler) {
 		this(compiler);
 		setValue(Float.valueOf(value));
+	}
+	
+	/**
+	 * 
+	 * @param value
+	 * @param compiler
+	 */
+	public ASTNodeValue(long value, ASTNodeCompiler compiler) {
+		this(compiler);
+		setValue(Long.valueOf(value));
 	}
 
 	/**
@@ -223,10 +232,10 @@ public class ASTNodeValue {
 	 */
 	public UnitDefinition getUnits() {
 		if (!isSetUnit()) {
-			unit = new UnitDefinition(level, version);
-			unit.addUnit(new Unit(level, version));
+			unitDef = new UnitDefinition(level, version);
+			unitDef.createUnit();
 		}
-		return unit;
+		return unitDef;
 	}
 
 	/**
@@ -295,7 +304,7 @@ public class ASTNodeValue {
 	 * @return
 	 */
 	public boolean isSetUnit() {
-		return unit != null;
+		return unitDef != null;
 	}
 
 	/**
@@ -378,7 +387,7 @@ public class ASTNodeValue {
 	 * @param unit
 	 */
 	public void setUnits(UnitDefinition unit) {
-		this.unit = (unit != null) ? unit.simplify() : unit;
+		this.unitDef = (unit != null) ? unit.simplify() : unit;
 	}
 
 	/**
@@ -635,6 +644,6 @@ public class ASTNodeValue {
 	 * Removes the unit of this element, i.e., the unit will become invalid.
 	 */
 	public void unsetUnit() {
-		unit = null;
+		unitDef = null;
 	}
 }

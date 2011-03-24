@@ -220,16 +220,19 @@ public class Maths {
 	 * @param n
 	 * @return
 	 */
-	public static final double factorial(double n) {
+	public static final long factorial(int n) {
 		if (n < 0) {
 			throw new IllegalArgumentException(String.format(
-					"Cannot compute factorial for values %d < 0", n));
+					"Cannot compute factorial for values %s < 0", StringTools
+							.toString(n)));
 		}
 		if ((n == 0) || (n == 1)) {
 			return 1;
 		}
 		return n * factorial(n - 1);
 	}
+	
+	// TODO: implement Gamma function for non-integer cases.
 
 	/**
 	 * This method computes the ln of n

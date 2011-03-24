@@ -28,6 +28,12 @@ Version 0.8-x (xx-xx-2011)
 
 * Bug Fixes :
 
+  - The class Maths, a compilation of useful mathematical functions,
+    provided an implementation of the factorial function that took
+    a double as its argument. However, for this purpose, the Gamma
+    function must be implemented. We changed this function to take 
+    integer values only.
+
   - A NullPointerException could occur when deriving the unit of an
     expression containing a call to the factorial function. Thanks
     to Roland Keller for reporting this. 
