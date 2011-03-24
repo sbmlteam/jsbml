@@ -29,7 +29,7 @@ package org.sbml.jsbml;
  * @since 0.8
  * @version $Rev$
  */
-public class PropertyNotAvailableError extends SBMLError {
+public class PropertyNotAvailableError extends PropertyError {
 
 	/**
 	 * Generated serial version identifier.
@@ -37,23 +37,10 @@ public class PropertyNotAvailableError extends SBMLError {
 	private static final long serialVersionUID = 3030431702957624218L;
 
 	/**
-	 * Message to indicate that a certain property cannot be set for the current level/version combination.
+	 * Message to indicate that a certain property cannot be set for the current
+	 * level/version combination.
 	 */
 	public static final String PROPERTY_UNDEFINED_EXCEPTION_MSG = "Property %s is not defined in %s for Level %d and Version %d.";
-	
-	/**
-	 * Creates an error message pointing out that the property of the given name is not defined
-	 * in the Level/Version combination of the given {@link SBase}.
-	 * 
-	 * @param property
-	 * @param sbase
-	 * @return
-	 */
-	public static String propertyUndefinedMessage(String property, SBase sbase) {
-		return String.format(PROPERTY_UNDEFINED_EXCEPTION_MSG, property, sbase
-				.getElementName(), Integer.valueOf(sbase.getLevel()), Integer
-				.valueOf(sbase.getVersion()));
-	}
 	
 	/**
 	 * 
@@ -61,13 +48,7 @@ public class PropertyNotAvailableError extends SBMLError {
 	 * @param sbase
 	 */
 	public PropertyNotAvailableError(String property, SBase sbase) {
-		super(propertyUndefinedMessage(property, sbase));
+		super(createMessage(PROPERTY_UNDEFINED_EXCEPTION_MSG, property, sbase));
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.SBMLError#toString()
-	 */
-	public String toString() {
-		return getMessage();
-	}
 }

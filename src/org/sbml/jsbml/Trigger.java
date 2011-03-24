@@ -125,7 +125,10 @@ public class Trigger extends AbstractMathContainer {
 		if (getLevel() < 3) {
 			return true;
 		}
-		return isSetInitialValue() ? initialValue.booleanValue() : false;
+		if (!isSetInitialValue()) {
+			throw new PropertyUndefinedError("initialValue", this);
+		}
+		return initialValue.booleanValue();
 	}
 
 	/*
@@ -144,7 +147,10 @@ public class Trigger extends AbstractMathContainer {
 		if (getLevel() < 3) {
 			return true;
 		}
-		return isSetPersistent() ? persistent.booleanValue() : false;
+		if (!isSetPersistent()) {
+			throw new PropertyUndefinedError("persistent", this);
+		}
+		return persistent.booleanValue();
 	}
 
 	/**

@@ -13,6 +13,18 @@ Version 0.8-x (xx-xx-2011)
   - The new interface CallableSBase ensures that only instances of this
     type may be referenced in ASTNodes. In this way, it is no longer
     possible to refer to Events from ASTNodes.
+    
+  - Additional type of error: abstract PropertyError with its two sub-
+    types PropertyNotAvailableError and PropertyUndefinedError. The 
+    PropertyNotAvailableError one indicates that a certain property
+    of an SBase is not defined for its current Level/Version 
+    combination, whereas the latter one indicates that the value 
+    belonging to a mandatory property, for which there is no default
+    value has not been defined. At least in the Trigger class, 
+    PropertyUndefinedErrors are now thrown when attempting to access
+    the value of the persistent or initialValue attribute for models
+    with Level >= 3 and an undeclared value. Thanks to Roland Keller
+    and Lucian Smith for pointing out this necessity.    
 
 * Bug Fixes :
 
