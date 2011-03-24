@@ -551,10 +551,13 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue factorial(ASTNode value) throws SBMLException {
 
-		ASTNodeValue v = new ASTNodeValue(Maths.factorial(value.compile(this)
-				.toDouble()), this);
+		ASTNodeValue v = new ASTNodeValue(Maths.factorial((int) Math.round(value.compile(this)
+				.toDouble())), this);
 		if (value.isSetUnits()) {
 			v.setUnits(value.getUnitsInstance());
+		} else {
+			v.setLevel(level);
+			v.setVersion(version);
 		}
 		checkForDimensionlessOrInvalidUnits(v.getUnits());
 		return v;
