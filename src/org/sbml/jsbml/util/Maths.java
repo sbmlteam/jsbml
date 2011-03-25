@@ -94,7 +94,8 @@ public class Maths {
 	public static final double arccsc(double n) {
 		double asin = Math.asin(n);
 		if (asin == 0) {
-			throw new ArithmeticException("arccsc(" + n + ") undefined");
+			throw new ArithmeticException(String.format("arccsc(%s) undefined",
+					StringTools.toString(n)));
 		}
 		return 1 / asin;
 	}
@@ -167,7 +168,8 @@ public class Maths {
 	public static final double cot(double n) {
 		double sin = Math.sin(n);
 		if (sin == 0) {
-			throw new ArithmeticException("cot(" + n + ") undefined");
+			throw new ArithmeticException(String.format("cot(%s) undefined",
+					StringTools.toString(n)));
 		}
 		return Math.cos(n) / sin;
 	}
@@ -181,7 +183,8 @@ public class Maths {
 	public static final double coth(double n) {
 		double sinh = Math.sinh(n);
 		if (sinh == 0) {
-			throw new ArithmeticException("coth(" + n + ") undefined");
+			throw new ArithmeticException(String.format("coth(%s) undefined",
+					StringTools.toString(n)));
 		}
 		return Math.cosh(n) / sinh;
 	}
@@ -195,7 +198,8 @@ public class Maths {
 	public static final double csc(double n) {
 		double sin = Math.sin(n);
 		if (sin == 0) {
-			throw new ArithmeticException("csc(" + n + ") undefined");
+			throw new ArithmeticException(String.format("csc(%s) undefined",
+					StringTools.toString(n)));
 		}
 		return 1 / sin;
 	}
@@ -209,7 +213,8 @@ public class Maths {
 	public static final double csch(double n) {
 		double sinh = Math.sinh(n);
 		if (sinh == 0) {
-			throw new ArithmeticException("csch(" + n + " undefined");
+			throw new ArithmeticException(String.format("csch(%s) undefined",
+					StringTools.toString(n)));
 		}
 		return 1 / sinh;
 	}
@@ -231,7 +236,7 @@ public class Maths {
 		}
 		return n * factorial(n - 1);
 	}
-	
+
 	// TODO: implement Gamma function for non-integer cases.
 
 	/**
@@ -264,7 +269,8 @@ public class Maths {
 	public static final double log(double number, double base) {
 		double denominator = Math.log(base);
 		if (denominator == 0) {
-			throw new ArithmeticException("log_e(" + base + ") undefined");
+			throw new ArithmeticException(String.format("log_e(%s) undefined",
+					StringTools.toString(base)));
 		}
 		return Math.log(number) / denominator;
 	}
@@ -291,7 +297,8 @@ public class Maths {
 	 */
 	public static final double sec(double n) {
 		if (n == 0) {
-			throw new ArithmeticException("sec(" + n + ") undefined");
+			throw new ArithmeticException(String.format("sec(%s) undefined",
+					StringTools.toString(n)));
 		}
 		return 1 / n;
 	}
@@ -305,7 +312,8 @@ public class Maths {
 	public static final double sech(double n) {
 		double cosh = Math.cosh(n);
 		if (cosh == 0) {
-			throw new ArithmeticException("sech(" + n + ") undefined");
+			throw new ArithmeticException(String.format("sech(%s) undefined",
+					StringTools.toString(n)));
 		}
 		return 1 / cosh;
 	}

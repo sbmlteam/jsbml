@@ -4,6 +4,7 @@
 
 \usepackage{subfig}
 \usepackage{listings}
+\usepackage{ifthen}
 
 % \usepackage{ulem}
 
@@ -19,7 +20,7 @@
 morendkeywords={String, SBMLsqueezer, LibSBMLReader, LibSBMLWriter, CfgKeys,
   Throwable}
 captionpos=b,
-basicstyle=\scriptsize\ttfamily\bfseries,
+basicstyle=\scriptsize\ttfamily,%\bfseries
 stringstyle=\color{darkred}\scriptsize\ttfamily,
 keywordstyle=\color{royalblue}\bfseries\ttfamily,
 ndkeywordstyle=\color{forrestgreen},
@@ -34,15 +35,19 @@ identifierstyle=\color{black},
 % morecomment=[l][\color{forrestgreen}]{//},
 % morecomment=[s][\color{lightblue}]{/**}{*/},
 % morecomment=[s][\color{forrestgreen}]{/*}{*/},
-commentstyle=\color{forrestgreen}
+commentstyle=\ttfamily\itshape\color{forrestgreen}
 % framexleftmargin=5mm,
 % rulesepcolor=\color{lightgray}
 % frameround=ttff
 }
 
 \hyphenation{
+SBML-squeez-er
 Tree-Node
 }
+
+\newboolean{final}
+\setboolean{final}{true}
 
 \begin{document}
 \firstpage{1}
@@ -52,11 +57,11 @@ for working with SBML} \author[Dr\"ager \textit{et~al.}]{Andreas
 Dr\"ager\,$^{1,*}$,
 Nicolas Rodriguez\,$^{2,*}$,
 Marine Dumousseau\,$^{2}$,
-Alexander D\"orr\,$^{1}$,
+Alexander~D\"orr\,$^{1}$,
 Clemens Wrzodek\,$^{1}$,
 Nicolas Le Nov\`{e}re\,$^{2}$,
 Andreas Zell\,$^{1}$,
-Michael Hucka\,$^{3,}$\footnote{to whom correspondence should be addressed}}
+Michael~Hucka\,$^{3,}$\footnote{to whom correspondence should be addressed}}
 \address{$^{1}$Center for Bioinformatics Tuebingen (ZBIT), University of
 Tuebingen, T\"ubingen, Germany.\\
 $^{2}$European Bioinformatics Institute, Wellcome Trust Genome Campus, Hinxton,
@@ -74,20 +79,31 @@ Pasadena, CA, USA}
 \begin{abstract}
 
 \section{Summary:}
+\ifthenelse{\boolean{final}}{%
 The specifications of the Systems Biology Markup Language (SBML) define
 standards for storing and exchanging models in XML-formatted text files. To
 perform model simulations, graphical visualizations, and other software
-manipulations, it is necessary to map the SBML
-representation to an in-memory form. We developed JSBML for this purpose. In
-contrast to earlier approaches, JSBML has been designed from the ground up
+manipulations, it is necessary to map the SBML representation to an in-memory
+form. We developed JSBML for this purpose. In contrast to earlier approaches,
+JSBML has been designed from the ground up}{%
+The Systems Biology Markup Language (SBML) is a community XML standard language
+for describing and exchanging mathematical models. In order to perform model
+simulations, graphical visualizations, and other software manipulations, it is
+necessary to interpret SBML files. In contrast to prior implementations of SBML
+APIs, JSBML has been designed from the ground up}%
 for the Java\texttrademark{} programming language, and can therefore be used on
 all platforms supported by a Java Runtime Environment. This offers important
 benefits for Java users, including the ability to distribute software as Java Web
 Start applications. JSBML supports all SBML Levels and Versions through Level~3
-Version~1, and we have strived to maintain the highest possible degree of compatibility with the
-popular library libSBML.  JSBML also supports modules that can
-facilitate the development of plugins for applications such as CellDesigner, as
-well as ease migration from a libSBML-based backend.
+Version~1, and we have strived to maintain the highest possible degree of
+compatibility with the popular library libSBML. JSBML also supports modules that
+can facilitate the development of plugins for
+\ifthenelse{\boolean{final}}{%
+applications such as CellDesigner,
+}{%
+end-user applications,
+}%
+as well as ease migration from a libSBML-based backend.
 
 \section{Availability:} Source code, binaries, and documentation for JSBML can
 be freely obtained under the terms of the LGPL 2.1 from the website
@@ -116,17 +132,29 @@ SBML files through its Application Programming Interface (API).
 Primarily written in C and C++, libSBML also provides automatically-generated
 language bindings for Java\texttrademark, among other programming languages.
 %, MATLAB\texttrademark, Perl, and many more}.
-However, the full platform independence of Java is compromised
-in libSBML because the Java binding is essentially only a wrapper
+However, the full platform independence
+\ifthenelse{\boolean{final}}{%
+brought by the use of Java is limited in libSBML because the binding is only a
+wrapper
+}{%
+of Java is compromised in libSBML because the Java binding is essentially only a
+wrapper
+}%%%%%%%%%%%%
 around the C/C++ core, implemented using the Java Native Interface.
-As a conseqeuence, many software developers experience difficulties 
+As a consequence, many software developers experience difficulties
 deploying portable libSBML-based Java applications.
 % Furthermore, the libSBML API and type hierarchy are not sufficiently
 % intuitive from a Java programmer's perspective just because they were not
 % designed directly for Java.
+\ifthenelse{\boolean{final}}{%
+Several groups in the SBML community thus began to
+develop their own Java libraries for SBML. To avoid needless duplication, some of
+these groups recently pooled their efforts and created JSBML, an
+}{%
 For this and other reasons, several groups in the SBML community began to
 develop their own Java libraries for SBML. To avoid needless duplication of
 effort, some of these groups later pooled their efforts and created JSBML, an
+}%
 open-source project to develop a pure Java library for SBML.
 
 The primary aim of the project is to provide an API 
@@ -139,8 +167,12 @@ SBML validation, and conversion between different SBML Levels and Versions;
 separate community efforts are underway to provide such libSBML facilities
 via web services.
 
+\ifthenelse{\boolean{final}}{%
+The software produced by the project is freely available from
+}{%
 We describe JSBML in the rest of this article.  The fruits of 
 the project are freely available from
+}%
 \href{http://sbml.org/Software/JSBML}{http://sbml.org/Software/JSBML}.
 
 
@@ -165,10 +197,10 @@ that may contain a mathematical expression implement the
 interface \texttt{MathContainer}. A full overview of this type hierarchy can be
 found in the supplementary data associated with this article. JSBML also
 supports SBML \emph{notes} in XHTML format, as well as SBML
-\emph{annotations}, including MIRIAM~\citep{Novere2005} and
-SBO~\citep{Novere2006b}.
-When building JSBML, the latest SBO OBO export can directly be downloaded and parsed
-\citep{Holland2008}.
+\emph{annotations}, including MIRIAM identifiers \citep{Novere2005} and
+SBO terms \citep{Novere2006b}.
+When building JSBML, the latest SBO OBO export can directly be downloaded and
+parsed \citep{Holland2008}.
 % Predefined units are automatically annotated with the correct
 % Unit Ontology terms.
 The \texttt{Model} class provides several methods, all beginning with the name
@@ -221,10 +253,16 @@ using the algorithm of \citet{Hopcroft1973}; this is
 also used to identify variables in algebraic rules. Further, JSBML can
 automatically derive the units of a mathematical expression.
 Whenever a property of some \texttt{SBase} is altered, an
-\texttt{SBaseChangeEvent} is fired that notifies dedicated listeners. In this
-way, graphical user interfaces can automatically react when the model is changed.
-Using modules, JSBML capabilites can be further
+\texttt{SBaseChangeEvent} is fired that notifies dedicated listeners.
+\ifthenelse{\boolean{final}}{%
+In this way, graphical user interfaces can automatically react when the model is
+changed. Using modules, JSBML capabilites can be further
 extended; this allows JSBML to be used as a communication layer
+}{%
+Graphical user interfaces can thus automatically react when the model is changed.
+Using modules, JSBML capabilities can be further
+extended; it can therefore be used as a communication layer
+}%
 between an application and libSBML or CellDesigner
 \citep{Funahashi2003}---this also facilitates turning an existing application
 into a plugin for CellDesigner.
@@ -252,8 +290,10 @@ JSBML is an ongoing project that provides comprehensive and entirely Java-based
 data structures to read, write, and manipulate SBML files. Its layered
 architecture allows for the creation of Java Web Start applications and
 CellDesigner plugins based on stand-alone programs with very little effort.
-SBMLsqueezer \citep{Draeger2008} and Biomodels Database \citep{Li2010} have 
-already been released using JSBML and many other projects are planned.
+%
+New versions of SBMLsqueezer \citep{Draeger2008} and Biomodels Database
+\citep{Li2010} have  already been released using JSBML. Many other projects are
+planned.
 
 \section*{Acknowledgement}
 

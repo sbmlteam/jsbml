@@ -45,14 +45,24 @@
 \makeindex
 
 \hyphenation{
+AST-Node
 Boo-lean
-Call-able-S-Base
 Cell-De-sig-n-er
-Event-Hand-l-er
+Call-able-S-Base
 Event-Listener
+Event-Hand-l-er
+Event-Object
+get-Ex-po-nent
+get-Spatial-Di-men-sions
+get-Spatial-Di-men-sions-As-Double
+J-SB-ML
+Ki-ne-tic-Law
+Lib-SB-ML-Reader
+Plug-in-Action
 plug-in
-PluginAction
 S-Base-Chang-ed-Listen-er
+time-Units
+Tree-Node
 }
 
 \title{User guide for JSBML}
@@ -78,18 +88,21 @@ of Technology, Pasadena, California, USA}\\[4ex]
 \maketitle
 
 \begin{abstract}
-The specifications of the Systems Biology Markup Language (SBML) define a standard for storing
-and exchanging biochemical models in XML-formatted text files. To perform higher-level operations
-on these models, e.g., numerical simulation or visual representation, an appropriate mapping to
-in-memory objects is required. To this end, the JSBML library has
-been developed. JSBML supports all SBML levels
-and versions that are available today. In addition, JSBML provides modules that facilitate
-the development of CellDesigner plugins or ease the migration from a libSBML backend.
+The specifications of the Systems Biology Markup Language (SBML) define a
+standard for storing and exchanging biochemical models in XML-formatted text
+files. To perform higher-level operations on these models, e.g., numerical
+simulation or visual representation, an appropriate mapping to in-memory objects
+is required. To this end, the JSBML library has been developed. JSBML supports
+all SBML levels and versions that are available today. In addition, JSBML
+provides modules that facilitate the development of CellDesigner plugins or ease
+the migration from a libSBML backend.
 
-This document should help you getting started with JSBML. It is not only intended for users,
-developing their applications from scratch, but also for users, switching from libSBML to JSBML.
+This document should help you getting started with JSBML. It is not only intended
+for users, developing their applications from scratch, but also for users,
+switching from libSBML to JSBML.
 
-%It includes instructions and descriptions of where and how to obtain the JSBML library and the JSBML modules.
+% It includes instructions and descriptions of where and how to obtain the JSBML
+% library and the JSBML modules.
 
 
 %
@@ -148,10 +161,10 @@ Subversion (SVN) as described below.
 Until today, libSBML has been the main library for developing Java applications
 that use SBML. Thus, many Java developers are used to the methods and commands,
 libSBML provides. The JSBML team made some effort to allow those developers a
-fast and easy switch to libSBML. For example, a libSBML compatibility module has
-developed, that implements existing libSBML methods and simply redirects the
-parameters to the corresponding JSBML methods. But it is important that
-developers, coming from libSBML, know the main differences between the two
+fast and easy switch to this new library. For example, a libSBML compatibility
+module has been developed, that implements existing libSBML methods and simply
+redirects the parameters to the corresponding JSBML methods. But it is important
+that developers, coming from libSBML, know the main differences between the two
 libraries. The following sections give a brief description of those main
 differences.
 
