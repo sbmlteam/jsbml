@@ -958,23 +958,40 @@ the operating system\hyp{}dependent new line character.
 
 \subsection{Logging functionality}
 
-JSBML makes use of the logger provided by the log4j project.
-Listing~\vref{lst:log4j1} gives a short overview about how to costumize the
-configuration file \texttt{log4j.properties}, which you can find in the package
-\texttt{org.sbml.jsbml.resources.cfg}.
+\paragraph{}JSBML makes use of the logger provided by the log4j project.
+Log4j allow to use six levels of logging (TRACE, DEBUG, INFO, WARN, ERROR and
+FATAL) but inside JSBML we are mainly using ERROR, WARN and DEBUG. The default 
+configuration of log4j used in JSBML can be found in the package
+\texttt{org.sbml.jsbml.resources.cfg} with the name \texttt{log4j.properties}.
+In this file, you will found some documentation of which JSBML classes do some 
+logging and at which levels. 
+ 
+If you do not change anything, all the log messages, starting at the info level 
+(meaning info, warn, error and fatal), will be printing on the console.
+Some of these messages might be usefull to the end-users to warn them that
+ they are doing something wrong.
 
-% TODO
+% TODO : should we changed the default to print in the jsbml.log file ???
 
-% what is done by default
+If you want to modify the default log4j behavior, you will need to create a customized 
+log4j configuration file. The best way of doing this, according to the log4j manual
+\footnote{\url{http://logging.apache.org/log4j/1.2/manual.html}}, is to define and use the
+`log4j.configuration' environement variable to point to the log4j configuration file to use. 
+One way of doing this is to add
+'-Dlog4j.configuration=/home/user/myLog4j.properties' to your java command.
 
-% see documentation there : http://logging.apache.org/log4j/1.2/manual.html
 
-% how to modify the default behavior
-% Use -Dlog4j.configuration=/home/user/myLog4j.properties
+\subsubsection{Some examples configurations}
 
-% some examples configurations
+% TODO : remove line numbers on the listings
 
-\begin{lstlisting}[language=bash,caption={A simple  log4j example.},
+\paragraph{}Listing~\vref{lst:log4j1} gives a short overview about how to customize the
+configuration file to log all the changes that happen to the SBML elements by
+putting the threshold of all the loggers in the \texttt{org.sbml.jsbml.util} package to DEBUG.
+The class \texttt{SimpleSBaseChangeListener} will then output the old value and the new value
+whenever a setter methods is used on the SBML elements.
+
+\begin{lstlisting}[language=bash,numbers=none,caption={A simple  log4j example.},
 label=lst:log4j1]
 
 # All logging output sent to the console
@@ -995,6 +1012,50 @@ log4j.logger.org.sbml.jsbml.util=DEBUG
 
 \end{lstlisting}
 
+When you enable the debug level on some loggers, the output can became quite large and
+the help of some log viewers software\footnote{\url{http://en.wikipedia.org/wiki/Log4j\#Log_Viewers}}
+ can become handy to filter the log output.
+
+\paragraph{}If you are deploying your application in an application server like Tomcat, you could define
+an appender that would send some messages by email, listing~\vref{lst:log4j2} give an example of that, were
+any messages from the error level are send by mail. All the messages are also written to a rolling log file.
+
+\begin{lstlisting}[language=bash,numbers=none,caption={SMTPAppender log4j example.},
+label=lst:log4j2]
+
+# Logging is sent to a file and by email from the info level.
+log4j.rootLogger=info, file, mail
+
+#
+# email appender definition
+# it will send by email all messages from the error level.
+#
+log4j.appender.mail=org.apache.log4j.net.SMTPAppender
+#defines how othen emails are send
+log4j.appender.mail.BufferSize=1
+log4j.appender.mail.SMTPHost="smtp.myservername.xx"
+log4j.appender.mail.From=fromemail@myservername.xx
+log4j.appender.mail.To=toemail@myservername.xx
+log4j.appender.mail.Subject=Log ...
+log4j.appender.mail.threshold=error
+log4j.appender.mail.layout=org.apache.log4j.PatternLayout
+log4j.appender.mail.layout.ConversionPattern=%d{ABSOLUTE} %5p %c{1}:%L - %m%n
+
+### file appender
+log4j.appender.file=org.apache.log4j.RollingFileAppender
+log4j.appender.file.maxFileSize=100KB
+log4j.appender.file.maxBackupIndex=5
+log4j.appender.file.File=test.log
+log4j.appender.file.threshold=info
+log4j.appender.file.layout=org.apache.log4j.PatternLayout
+log4j.appender.file.layout.ConversionPattern=%d{ISO8601} %5p %c{1}:%L - %m%n
+ 
+
+\end{lstlisting}
+
+Using XML instead of a properties file to define the log4j configuration, you can even send
+some log levels to one appender and others to an other appender, using the LevelRange filter. 
+This way, you could output the DEBUG messages only to a separate file.
 
 
 \subsection{JSBML modules}
