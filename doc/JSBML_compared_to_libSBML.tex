@@ -1003,8 +1003,8 @@ elements by putting the threshold of all the loggers in the
 \index{event!SimpleSBaseChangeListener@\texttt{SimpleSBaseChangeListener}}%
 will then output the old value and the new value whenever a setter methods is
 used on the SBML elements.
-\begin{lstlisting}[language=sh,numbers=none,caption={A simple log4j
-example.},label=lst:log4j1]
+\begin{lstlisting}[language=bash,%numbers=none,
+caption={A simple log4j example.},label=lst:log4j1]
 # All logging output sent to the console
 log4j.rootCategory=INFO, console
 
@@ -1036,8 +1036,8 @@ error level
 \index{logging}%
 are send by mail. All the messages are also written to a rolling log
 file.
-\begin{lstlisting}[language=sh,numbers=none,caption={SMTPAppender log4j
-example.}, label=lst:log4j2]
+\begin{lstlisting}[language=bash,%numbers=none,
+caption={SMTPAppender log4j example.}, label=lst:log4j2]
 # Logging is sent to a file and by email from the info level.
 log4j.rootLogger=info, file, mail
 
