@@ -37,7 +37,7 @@ writing abilities for SBML files. It is intended to be directly used as a
 flexible internal data structure for numerical computation, visualization and
 much more. With the help of its modules JSBML can also be used as a
 communication layer between applications, such as CellDesigner
-\citep{Funahashi2003}. The following sections will not only give a detailled
+\citep{Funahashi2003}. The following sections will not only give a detailed
 overview about the most important differences between JSBML and libSBML, but
 also provide some programming examples and hints about how to use and work with
 JSBML.
@@ -147,7 +147,7 @@ and \texttt{TreeNode}. As all elements defined in JSBML
 \index{cloning}%
 override the \texttt{clone()} method from the class \texttt{java.lang.Object},
 \index{Object@\texttt{Object}}%
-all JSBML elements can be deeply copied and are therefore \emph{cloneable}. By
+all JSBML elements can be deeply copied and are therefore \emph{clone-able}. By
 extending the interface \texttt{Serializable},
 \index{Serializable@\texttt{Serializable}}%
 it is possible to store JSBML
@@ -512,7 +512,7 @@ i.e., a \texttt{double} value. For this reason, the method
 always returns a \texttt{double} value. For consistency with libSBML, the
 \texttt{Compartment} class in JSBML also provides the redundant method
 \texttt{getSpatialDimensionsAsDouble()} that returns the identical value, but
-that is marked as a deprected method.
+that is marked as a deprecated method.
 \index{compartment}%
 \index{compartment!\texttt{getSpatialDimensions()}}%
 \index{compartment!\texttt{getSpatialDimensionsAsDouble()}}%
@@ -636,7 +636,7 @@ Unit.Kind myKind = Unit.Kind.valueOf(myString);
 \end{lstlisting}
 In a similar way, the \texttt{ASTNode}\index{ASTNode@\texttt{ASTNode}} class provides a method to parse
 \texttt{C}-like
-formula \texttt{String}s\index{String@\texttt{String}!formula} according to the specification of SBML Level 1\index{SBML!Level~1}
+formula \texttt{String}s\index{String@\texttt{String}!formula} according to the specification of SBML Level~1\index{SBML!Level~1}
 \citep{Hucka2003} into an abstract syntax tree\index{ASTNode@\texttt{ASTNode}}. Therefore, in contrast to the
 \texttt{libSBML} class, the class \texttt{JSBML}
 \index{JSBML!JSBML@\texttt{JSBML}}%
@@ -683,7 +683,7 @@ boundary of the reaction system.
 \subsection{Units and unit definitions}
 \subsubsection{The exponent attribute of units}
 
-Since SBML Level 3\index{SBML!Level~3} \citep{Hucka2010a} the data type of the
+Since SBML Level~3\index{SBML!Level~3} \citep{Hucka2010a} the data type of the
 exponent attribute in the \texttt{Unit} class has been changed from \texttt{int}
 to \texttt{double} values. JSBML
 \index{unit!Unit@\texttt{Unit}}%
@@ -927,7 +927,7 @@ the package \texttt{org.sbml.jsbml.util}. There you can also find a growing
 number of additional helpful classes.
 
 
-\subsubsection{Preimplemented mathematic functions and constants}
+\subsubsection{Pre-implemented mathematic functions and constants}
 
 The class \texttt{org.sbml.jsbml.util.Maths}
 \index{JSBML!Maths@\texttt{Maths}}%
@@ -950,50 +950,61 @@ The class \texttt{StringTools}
 provides several methods for convenient \texttt{String} manipulation. These
 methods are particularly useful when parsing or displaying \texttt{double}
 numbers in a \texttt{Locale}\hyp{}dependent way. To this end, this class
-predefines a selection of usefull number formats. It can also wrap
+predefines a selection of useful number formats. It can also wrap
 \texttt{String} elements into HTML code, mask non-ASCII characters using
 corresponding HTML codes, efficiently concatenate \texttt{String}s, or deliver
 the operating system\hyp{}dependent new line character.
 
 
 \subsection{Logging functionality}
+\index{logging}%
 
-\paragraph{}JSBML makes use of the logger provided by the log4j project.
-Log4j allow to use six levels of logging (TRACE, DEBUG, INFO, WARN, ERROR and
-FATAL) but inside JSBML we are mainly using ERROR, WARN and DEBUG. The default 
-configuration of log4j used in JSBML can be found in the package
+% \paragraph{}
+JSBML makes use of the logger provided by the log4j
+project\footnote{\url{http://logging.apache.org/log4j/}}.
+Log4j allow to use six levels
+of logging (\texttt{TRACE}, \texttt{DEBUG},
+\texttt{INFO}, \texttt{WARN}, \texttt{ERROR}, and \texttt{FATAL}) but inside
+JSBML we mainly use \texttt{ERROR}, \texttt{WARN}, and \texttt{DEBUG}. The
+default configuration of log4j used in JSBML can be found in the package
 \texttt{org.sbml.jsbml.resources.cfg} with the name \texttt{log4j.properties}.
 In this file, you will found some documentation of which JSBML classes do some 
 logging and at which levels. 
  
 If you do not change anything, all the log messages, starting at the info level 
-(meaning info, warn, error and fatal), will be printing on the console.
-Some of these messages might be usefull to the end-users to warn them that
- they are doing something wrong.
+(meaning info, warn, error and fatal), will be printe on the console.
+Some of these messages might be useful to warn the end-users to warn that
+something goes wrong.
 
 % TODO : should we changed the default to print in the jsbml.log file ???
 
-If you want to modify the default log4j behavior, you will need to create a customized 
-log4j configuration file. The best way of doing this, according to the log4j manual
-\footnote{\url{http://logging.apache.org/log4j/1.2/manual.html}}, is to define and use the
-`log4j.configuration' environement variable to point to the log4j configuration file to use. 
-One way of doing this is to add
-'-Dlog4j.configuration=/home/user/myLog4j.properties' to your java command.
+If you want to modify the default log4j behavior, you will need to create a
+customized log4j configuration file. The best way of doing this, according to
+the log4j
+manual\footnote{\url{http://logging.apache.org/log4j/1.2/manual.html}}, is to
+define and use the \texttt{log4j.configuration} environment variable to point to
+the log4j configuration file to use. One way of doing this is to add the
+following option to your \texttt{java} command:
+\begin{lstlisting}[language=bash,numbers=none,captionpos=t]
+-Dlog4j.configuration=/home/user/myLog4j.properties
+\end{lstlisting}
 
-
-\subsubsection{Some examples configurations}
+\subsubsection{Some example configurations}
+\ifthenelse{\boolean{includeCodeExample}}{}{\index{logging!configurtation}}%
 
 % TODO : remove line numbers on the listings
 
-\paragraph{}Listing~\vref{lst:log4j1} gives a short overview about how to customize the
-configuration file to log all the changes that happen to the SBML elements by
-putting the threshold of all the loggers in the \texttt{org.sbml.jsbml.util} package to DEBUG.
-The class \texttt{SimpleSBaseChangeListener} will then output the old value and the new value
-whenever a setter methods is used on the SBML elements.
-
-\begin{lstlisting}[language=bash,numbers=none,caption={A simple  log4j example.},
-label=lst:log4j1]
-
+% \paragraph{}
+Listing~\vref{lst:log4j1} gives a short overview about how to
+customize the configuration file to log all the changes that happen to the SBML
+elements by putting the threshold of all the loggers in the
+\texttt{org.sbml.jsbml.util} package to \texttt{DEBUG}. The class
+\texttt{SimpleSBaseChangeListener}
+\index{event!SimpleSBaseChangeListener@\texttt{SimpleSBaseChangeListener}}%
+will then output the old value and the new value whenever a setter methods is
+used on the SBML elements.
+\begin{lstlisting}[language=sh,numbers=none,caption={A simple log4j
+example.},label=lst:log4j1]
 # All logging output sent to the console
 log4j.rootCategory=INFO, console
 
@@ -1009,20 +1020,24 @@ log4j.appender.console.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} - %5p (%
 # Log the messages from the SimpleSBaseChangeListener at the DEBUG Level
 # Allow to see all the changes that hapenned to the SBML elements
 log4j.logger.org.sbml.jsbml.util=DEBUG
-
 \end{lstlisting}
 
-When you enable the debug level on some loggers, the output can became quite large and
-the help of some log viewers software\footnote{\url{http://en.wikipedia.org/wiki/Log4j\#Log_Viewers}}
- can become handy to filter the log output.
+When you enable the debug level
+\index{logging}%
+on some loggers, the output can became quite large and the help of some log
+viewers software\footnote{\url{http://en.wikipedia.org/wiki/Log4j\#Log_Viewers}}
+can become handy to filter the log output.
 
-\paragraph{}If you are deploying your application in an application server like Tomcat, you could define
-an appender that would send some messages by email, listing~\vref{lst:log4j2} give an example of that, were
-any messages from the error level are send by mail. All the messages are also written to a rolling log file.
-
-\begin{lstlisting}[language=bash,numbers=none,caption={SMTPAppender log4j example.},
-label=lst:log4j2]
-
+% \paragraph{}
+If you are deploying your application in an application server such as Tomcat,
+you could define an appender that would send some messages by e-mail,
+Listing~\vref{lst:log4j2} give an example of that, were any messages from the
+error level
+\index{logging}%
+are send by mail. All the messages are also written to a rolling log
+file.
+\begin{lstlisting}[language=sh,numbers=none,caption={SMTPAppender log4j
+example.}, label=lst:log4j2]
 # Logging is sent to a file and by email from the info level.
 log4j.rootLogger=info, file, mail
 
@@ -1049,13 +1064,14 @@ log4j.appender.file.File=test.log
 log4j.appender.file.threshold=info
 log4j.appender.file.layout=org.apache.log4j.PatternLayout
 log4j.appender.file.layout.ConversionPattern=%d{ISO8601} %5p %c{1}:%L - %m%n
- 
-
 \end{lstlisting}
 
-Using XML instead of a properties file to define the log4j configuration, you can even send
-some log levels to one appender and others to an other appender, using the LevelRange filter. 
-This way, you could output the DEBUG messages only to a separate file.
+Using XML instead of a properties file to define the log4j configuration, you
+can even send some log levels
+\index{logging}%
+to one appender and others to an other appender,
+using the \texttt{LevelRange} filter. This way, you could output the
+\texttt{DEBUG} messages only to a separate file.
 
 
 \subsection{JSBML modules}
@@ -1079,7 +1095,7 @@ SBML validation is not yet fully implemented. Furthermore, if the
 platform-dependency of libSBML does not hamper your application, or you want to
 slowly switch from libSBML to JSBML, you may want to be able to still read and
 write SBML models using libSBML. To this end, the JSBML module
-\texttt{libSBMLio} provies the classes \texttt{LibSBMLReader}
+\texttt{libSBMLio} privies the classes \texttt{LibSBMLReader}
 \index{JSBML!LibSBMLReader@\texttt{LibSBMLReader}}%
 and \texttt{LibSBMLWriter}.
 \index{JSBML!LibSBMLWriter@\texttt{LibSBMLWriter}}%
@@ -1202,8 +1218,8 @@ is sufficient to leave the implementation empty.
 
 The compatibility module of JSBML will use the same package structure as the
 libSBML java bindings and provides identically named classes and API. Using the
-module, it will be possible to swich an existing application from libSBML to
-JSBML or the other way arround without changing any code.
+module, it will be possible to switch an existing application from libSBML to
+JSBML or the other way around without changing any code.
 
 This module is in development and will be available with the version 1.0 of
 JSBML.

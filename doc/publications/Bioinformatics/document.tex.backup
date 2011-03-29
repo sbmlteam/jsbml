@@ -46,6 +46,9 @@ SBML-squeez-er
 Tree-Node
 }
 
+\newboolean{final}
+\setboolean{final}{true}
+
 \begin{document}
 \firstpage{1}
 \application
@@ -76,20 +79,31 @@ Pasadena, CA, USA}
 \begin{abstract}
 
 \section{Summary:}
+\ifthenelse{\boolean{final}}{%
 The specifications of the Systems Biology Markup Language (SBML) define
-standards for storing and exchanging computer models of biological processes in
-text files. In order to perform model simulations, graphical visualizations, and
-other software manipulations, an in-memory representation of SBML is required. We
-developed JSBML for this purpose. In contrast to prior implementations of SBML
-APIs, JSBML has been designed from the ground up for the Java\texttrademark{}
-programming language, and can therefore be used on all platforms supported by a
-Java Runtime Environment. This offers important benefits for Java users,
-including the ability to distribute software as Java Web Start applications.
-JSBML supports all SBML Levels and Versions through Level~3 Version~1, and we
-have strived to maintain the highest possible degree of compatibility with the
-popular library libSBML. JSBML also supports modules that can facilitate the
-development of plugins for end-user applications, as well as ease migration from
-a libSBML-based backend.
+standards for storing and exchanging models in XML-formatted text files. To
+perform model simulations, graphical visualizations, and other software
+manipulations, it is necessary to map the SBML representation to an in-memory
+form. We developed JSBML for this purpose. In contrast to earlier approaches,
+JSBML has been designed from the ground up}{%
+The Systems Biology Markup Language (SBML) is a community XML standard language
+for describing and exchanging mathematical models. In order to perform model
+simulations, graphical visualizations, and other software manipulations, it is
+necessary to interpret SBML files. In contrast to prior implementations of SBML
+APIs, JSBML has been designed from the ground up}%
+for the Java\texttrademark{} programming language, and can therefore be used on
+all platforms supported by a Java Runtime Environment. This offers important
+benefits for Java users, including the ability to distribute software as Java Web
+Start applications. JSBML supports all SBML Levels and Versions through Level~3
+Version~1, and we have strived to maintain the highest possible degree of
+compatibility with the popular library libSBML. JSBML also supports modules that
+can facilitate the development of plugins for
+\ifthenelse{\boolean{final}}{%
+applications such as CellDesigner,
+}{%
+end-user applications,
+}%
+as well as ease migration from a libSBML-based backend.
 
 \section{Availability:} Source code, binaries, and documentation for JSBML can
 be freely obtained under the terms of the LGPL 2.1 from the website
@@ -118,30 +132,47 @@ SBML files through its Application Programming Interface (API).
 Primarily written in C and C++, libSBML also provides automatically-generated
 language bindings for Java\texttrademark, among other programming languages.
 %, MATLAB\texttrademark, Perl, and many more}.
-However, the full platform independence brought by the use of Java is limited in
-libSBML because the binding is only a wrapper
+However, the full platform independence
+\ifthenelse{\boolean{final}}{%
+brought by the use of Java is limited in libSBML because the binding is only a
+wrapper
+}{%
+of Java is compromised in libSBML because the Java binding is essentially only a
+wrapper
+}%%%%%%%%%%%%
 around the C/C++ core, implemented using the Java Native Interface.
-As a consequence, some software developers experience difficulties
+As a consequence, many software developers experience difficulties
 deploying portable libSBML-based Java applications.
 % Furthermore, the libSBML API and type hierarchy are not sufficiently
 % intuitive from a Java programmer's perspective just because they were not
 % designed directly for Java.
+\ifthenelse{\boolean{final}}{%
 Several groups in the SBML community thus began to
 develop their own Java libraries for SBML. To avoid needless duplication, some of
 these groups recently pooled their efforts and created JSBML, an
+}{%
+For this and other reasons, several groups in the SBML community began to
+develop their own Java libraries for SBML. To avoid needless duplication of
+effort, some of these groups later pooled their efforts and created JSBML, an
+}%
 open-source project to develop a pure Java library for SBML.
 
 The primary aim of the project is to provide an API 
 that maps all SBML elements to a flexible and extended
 Java type hierarchy. Where possible, JSBML strives for
 100\,\% compatibility with libSBML's Java API, to ease the transition from
-one library to the other. There are currently no plans to re-implement 
+one library to the other. There are currently no plans to reimplement 
 the more complex functionalities of libSBML, such as model consistency checking,
 SBML validation, and conversion between different SBML Levels and Versions;
 separate community efforts are underway to provide such libSBML facilities
 via web services.
 
+\ifthenelse{\boolean{final}}{%
 The software produced by the project is freely available from
+}{%
+We describe JSBML in the rest of this article.  The fruits of 
+the project are freely available from
+}%
 \href{http://sbml.org/Software/JSBML}{http://sbml.org/Software/JSBML}.
 
 
@@ -177,7 +208,7 @@ The \texttt{Model} class provides several methods, all beginning with the name
 for elements that possess specific properties. All \texttt{ListOf*} elements in
 JSBML implement Java's \texttt{List} interface, making iteration and the use of
 generic Java types possible. Fig.~\ref{fig:JSBML} demonstrates how the
-hierarchically structured content of an SBML file can be easily visualized in form
+hierachically structured content of an SBML file can be easily visualized in form
 of a tree.
 \begin{figure*}
 \centerline{
@@ -223,11 +254,18 @@ also used to identify variables in algebraic rules. Further, JSBML can
 automatically derive the units of a mathematical expression.
 Whenever a property of some \texttt{SBase} is altered, an
 \texttt{SBaseChangeEvent} is fired that notifies dedicated listeners.
-As one possible application, graphical user interfaces could automatically
-react when the model is changed. Using modules, JSBML capabilities can be
-further extended; it can therefore be used as a communication layer between an
-application and libSBML or CellDesigner \citep{Funahashi2003}---this also
-facilitates turning an existing application into a plugin for CellDesigner.
+\ifthenelse{\boolean{final}}{%
+In this way, graphical user interfaces can automatically react when the model is
+changed. Using modules, JSBML capabilites can be further
+extended; this allows JSBML to be used as a communication layer
+}{%
+Graphical user interfaces can thus automatically react when the model is changed.
+Using modules, JSBML capabilities can be further
+extended; it can therefore be used as a communication layer
+}%
+between an application and libSBML or CellDesigner
+\citep{Funahashi2003}---this also facilitates turning an existing application
+into a plugin for CellDesigner.
 \end{methods}
 
 \section{Implementation}
