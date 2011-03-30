@@ -972,7 +972,7 @@ In this file, you will found some documentation of which JSBML classes do some
 logging and at which levels. 
  
 If you do not change anything, all the log messages, starting at the info level 
-(meaning info, warn, error and fatal), will be printe on the console.
+(meaning info, warn, error and fatal), will be printed on the console.
 Some of these messages might be useful to warn the end-users to warn that
 something goes wrong.
 
@@ -991,8 +991,6 @@ following option to your \texttt{java} command:
 
 \subsubsection{Some example configurations}
 \ifthenelse{\boolean{includeCodeExample}}{}{\index{logging!configurtation}}%
-
-% TODO : remove line numbers on the listings
 
 % \paragraph{}
 Listing~\vref{lst:log4j1} gives a short overview about how to
@@ -1095,7 +1093,7 @@ SBML validation is not yet fully implemented. Furthermore, if the
 platform-dependency of libSBML does not hamper your application, or you want to
 slowly switch from libSBML to JSBML, you may want to be able to still read and
 write SBML models using libSBML. To this end, the JSBML module
-\texttt{libSBMLio} privies the classes \texttt{LibSBMLReader}
+\texttt{libSBMLio} provides the classes \texttt{LibSBMLReader}
 \index{JSBML!LibSBMLReader@\texttt{LibSBMLReader}}%
 and \texttt{LibSBMLWriter}.
 \index{JSBML!LibSBMLWriter@\texttt{LibSBMLWriter}}%
