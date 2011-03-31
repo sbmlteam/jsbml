@@ -147,6 +147,10 @@ public class LocalParameter extends QuantityWithUnit {
 		} else if (attributeName.equals("units")) {
 			this.setUnits(value);
 			return true;
+		} else if ((getLevel() < 3) && attributeName.equals("constant")
+				&& value.equals("true")) {
+			// do nothing because this is always constant.
+			return true;
 		}
 		
 		return isAttributeRead;
