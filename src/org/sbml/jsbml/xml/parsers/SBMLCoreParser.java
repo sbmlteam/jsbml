@@ -353,7 +353,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 		if (!isAttributeRead) {
 			log4jLogger.warn("The attribute " + attributeName
-					+ " on the element " + elementName + " is not recognize." +
+					+ " on the element " + elementName + " is not recognized." +
 							" Please, check the SBML specifications");
 			//  TODO : Log the error to the ErrorLog object
 		}
