@@ -362,16 +362,17 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 		if (!isAttributeRead) {
-			if ((getLevel() == 1)
-					&& (attributeName.equals("compartment")
-							|| attributeName.equals("name") || attributeName
-							.equals("specie"))) {
-				setVariable(value);
-				return true;
-			} else if ((getLevel() == 1) && attributeName.equals("units")) {
-				setUnits(value);
-				return true;
-			} else if ((getLevel() > 1) && attributeName.equals("variable")) {
+			if (getLevel() == 1) {
+				if ((attributeName.equals("compartment")
+						|| attributeName.equals("name") || attributeName
+						.equals((getVersion() == 1) ? "specie" : "species"))) {
+					setVariable(value);
+					return true;
+				} else if (attributeName.equals("units")) {
+					setUnits(value);
+					return true;
+				}
+			} else if (attributeName.equals("variable")) {
 				setVariable(value);
 				return true;
 			}
