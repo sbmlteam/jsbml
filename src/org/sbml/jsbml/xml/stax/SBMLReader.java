@@ -596,7 +596,7 @@ public class SBMLReader {
 			return (SBMLDocument) readObject;
 		}
 		
-		throw new XMLStreamException("Your did not gave a correct SBMl file !");
+		throw new XMLStreamException("You did not gave a correct SBMl file!");
 	}
 
 	/**
