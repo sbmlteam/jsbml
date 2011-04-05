@@ -37,7 +37,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.EndDocument;
-import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.Namespace;
 import javax.xml.stream.events.StartDocument;
 import javax.xml.stream.events.StartElement;
@@ -46,6 +45,7 @@ import javax.xml.stream.events.XMLEvent;
 import org.apache.log4j.Logger;
 import org.codehaus.stax2.evt.XMLEvent2;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.Rule;
@@ -198,7 +198,6 @@ public class SBMLReader {
 	 */
 	public static void main(String[] args) throws IOException, XMLStreamException, SBMLException  {
 
-		
 		if (args.length < 1) {
 			System.out
 					.println("Usage: java org.sbml.jsbml.xml.stax.SBMLReader sbmlFileName");
@@ -217,11 +216,15 @@ public class SBMLReader {
 			System.out.println("URI = "+uri);
 		}
 
+		System.out.println("Model NoRDFAnnotation String = \n@" + testDocument.getModel().getAnnotation().getNonRDFannotation() + "@");
+
+		System.out.println("Model Annotation String = \n@" + testDocument.getModel().getAnnotationString() + "@");
+		
 		for (Species species : testDocument.getModel().getListOfSpecies()) {
 			species.getAnnotationString();
 		}
 		
-		// new SBMLWriter().write(testDocument, System.out);
+		new SBMLWriter().write(testDocument, System.out);
 		
 		/*
 		String mathMLString1 = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
@@ -426,6 +429,10 @@ public class SBMLReader {
 		Boolean isNested = false;
 		Boolean isText = false;
 		Boolean isHTML = false;
+		boolean isRDFSBMLSpecificAnnotation = false;
+		boolean isInsideAnnotation = false;
+		int rdfDescriptionIndex = -1;
+		int annotationDeepness = -1;
 		Integer level = -1, version = -1;
 		Object lastElement = null;
 		
@@ -482,7 +489,8 @@ public class SBMLReader {
 					}
 					sbmlElements.push(sbmlDocument);
 				} else if (lastElement == null) {
-					// We put a fake element that can take either math or notes
+					// We put a fake element in the stack that can take either math or notes.
+					// This a hack to be able to read some mathMl or notes by themselves.
 
 					if (currentNode.getLocalPart().equals("notes")) {
 						
@@ -503,9 +511,38 @@ public class SBMLReader {
 					AssignmentRule assignmentRule = new AssignmentRule();
 					sbmlElements.push(assignmentRule);
 					
+				} else if (currentNode.getLocalPart().equals("annotation")) {
+					isInsideAnnotation = true;
+					annotationDeepness++;
+					
+				} else if (isInsideAnnotation) {
+					// Count the number of open elements to know how deep we are in the annotation
+					// We should only parse the RDF is annotationDeepness == 1 && rdfDescriptionIndex == 0 
+					annotationDeepness++;
+				}
+				
+				if (currentNode.getLocalPart().equals("Description") && currentNode.getNamespaceURI().equals(Annotation.URI_RDF_SYNTAX_NS)) {
+					rdfDescriptionIndex++;
 				}
 
-				parser = processStartElement(startElement, currentNode, isHTML,	sbmlElements);
+				// TODO : set properly isRDFSBMLSpecificAnnotation 
+				if (currentNode.getLocalPart().equals("RDF") && currentNode.getNamespaceURI().equals(Annotation.URI_RDF_SYNTAX_NS) && annotationDeepness == 1) {
+					isRDFSBMLSpecificAnnotation = true;
+				}
+				if (isInsideAnnotation) {
+					logger.debug("startElement : local part = " + currentNode.getLocalPart());
+					logger.debug("startElement : annotation deepness = " + annotationDeepness);
+					logger.debug("startElement : rdf description index = " + rdfDescriptionIndex);
+					logger.debug("startElement : isRDFSBMLSpecificAnnotation = " + isRDFSBMLSpecificAnnotation);
+				}
+				
+//				if (isInsideAnnotation && annotationDeepness && isRDF && annotationDeepness...) {
+//					isRDFSBMLSpecificAnnotation = true
+//				} else {
+//					isRDFSBMLSpecificAnnotation = false;
+//				}
+
+				parser = processStartElement(startElement, currentNode, isHTML,	sbmlElements, isRDFSBMLSpecificAnnotation);
 				lastElement = sbmlElements.peek();
 
 			}
@@ -551,14 +588,34 @@ public class SBMLReader {
 
 				// the method  processEndElement will return null until we arrive at the end of the 'sbml' element.
 				lastElement = sbmlElements.peek();
+
+				currentNode = event.asEndElement().getName();
 				
-				SBMLDocument sbmlDocument = processEndElement(startElement, currentNode, isNested, isText, isHTML, event,
-						level, version, parser,	sbmlElements);
+				if (currentNode != null) {
+					if (currentNode.getLocalPart().equals("annotation")) {
+						isInsideAnnotation = false;
+						annotationDeepness = -1;
+						rdfDescriptionIndex = -1;
+
+					} else if (isInsideAnnotation) {
+						annotationDeepness--;
+					}
+
+					if (currentNode.getLocalPart().equals("Description") 
+							&& currentNode.getNamespaceURI().equals(Annotation.URI_RDF_SYNTAX_NS)) 
+					{
+						rdfDescriptionIndex--;
+					}
+				}
+
+				SBMLDocument sbmlDocument = processEndElement(currentNode, isNested, isText, isHTML, 
+						level, version, parser, sbmlElements, isInsideAnnotation, isRDFSBMLSpecificAnnotation);
 				
 				if (sbmlDocument != null) {
 					return sbmlDocument;
 				}
 				
+
 				currentNode = null;
 				isNested = false;
 				isText = false;
@@ -623,7 +680,7 @@ public class SBMLReader {
 	 * @return
 	 */
 	private ReadingParser processStartElement(StartElement startElement, QName currentNode, 
-			Boolean isHTML, Stack<Object> sbmlElements) 
+			Boolean isHTML, Stack<Object> sbmlElements, boolean isRDFSBMLspecificAnnotation) 
 	{		
 		Logger logger = Logger.getLogger(SBMLReader.class);		
 		ReadingParser parser = null;
@@ -664,6 +721,10 @@ public class SBMLReader {
 					boolean hasAttributes = att.hasNext();
 					boolean hasNamespace = nam.hasNext();
 
+					if (elementNamespace.equals(Annotation.URI_RDF_SYNTAX_NS) && !isRDFSBMLspecificAnnotation) {
+						parser = initializedParsers.get("anyAnnotation");
+					}
+					
 					// All the subNodes of SBML are processed.
 					if (!currentNode.getLocalPart().equals("sbml")) {
 						Object processedElement = parser.processStartElement(currentNode.getLocalPart(), 
@@ -678,10 +739,10 @@ public class SBMLReader {
 					}
 					
 					// process the namespaces
-					processNamespaces(nam, currentNode,sbmlElements, parser, hasAttributes);
+					processNamespaces(nam, currentNode,sbmlElements, parser, hasAttributes, isRDFSBMLspecificAnnotation);
 					
 					// Process the attributes
-					processAttributes(att, currentNode, sbmlElements, parser, hasAttributes);
+					processAttributes(att, currentNode, sbmlElements, parser, hasAttributes, isRDFSBMLspecificAnnotation);
 
 				} else {
 					logger.warn("Cannot find a parser for the " + elementNamespace + " namespace");				}
@@ -704,7 +765,7 @@ public class SBMLReader {
 	 * @param hasAttributes
 	 */
 	private void processNamespaces(Iterator<Namespace> nam, QName currentNode, 
-			Stack<Object> sbmlElements,	ReadingParser parser, boolean hasAttributes) 
+			Stack<Object> sbmlElements,	ReadingParser parser, boolean hasAttributes, boolean isRDFSBMLSpecificAnnotation) 
 	{
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		ReadingParser namespaceParser = null;
@@ -725,14 +786,14 @@ public class SBMLReader {
 					sbmlElements.peek());
 			
 			// Calling each corresponding parser, in case they want to initialize things for the currentNode
-			if (namespaceParser != null) {
+			if (namespaceParser != null && !namespaceParser.getClass().equals(parser.getClass())) {
 				namespaceParser.processNamespace(currentNode.getLocalPart(),
 						namespace.getNamespaceURI(),
 						namespace.getName().getPrefix(),
 						namespace.getName().getLocalPart(),
 						hasAttributes, isLastNamespace,
 						sbmlElements.peek());
-			} else {
+			} else if (namespaceParser == null) {
 				logger.warn("Cannot find a parser for the " + namespace.getNamespaceURI() + " namespace");
 			}
 		}
@@ -750,7 +811,7 @@ public class SBMLReader {
 	 * @param hasAttributes
 	 */
 	private void processAttributes(Iterator<Attribute> att, QName currentNode, 
-			Stack<Object> sbmlElements, ReadingParser parser, boolean hasAttributes) 
+			Stack<Object> sbmlElements, ReadingParser parser, boolean hasAttributes, boolean isRDFSBMLSpecificAnnotation) 
 	{
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		ReadingParser attributeParser = null;
@@ -762,8 +823,14 @@ public class SBMLReader {
 			QName attributeName = attribute.getName();
 
 			if (attribute.getName().getNamespaceURI().length() > 0) {
-				attributeParser = initializedParsers.get(attribute.getName()
-						.getNamespaceURI());
+				String attributeNamespaceURI = attribute.getName().getNamespaceURI();
+				
+				if (!isRDFSBMLSpecificAnnotation && attributeNamespaceURI.equals(Annotation.URI_RDF_SYNTAX_NS)) {
+					attributeParser = initializedParsers.get("anyAnnotation");
+				} else {
+					attributeParser = initializedParsers.get(attributeNamespaceURI);
+				}
+				
 			} else {
 				attributeParser = parser;
 			}
@@ -784,76 +851,67 @@ public class SBMLReader {
 	/**
 	 * Process the end of an element.
 	 * 
-	 * @param element
 	 * @param currentNode
 	 * @param isNested
 	 * @param isText
 	 * @param isHTML
-	 * @param event
 	 * @param level
 	 * @param version
 	 * @param parser
-	 * @param initializedParsers
 	 * @param sbmlElements
+	 * @param isRDFSBMLSpecificAnnotation
 	 * @return
 	 */
-	private SBMLDocument processEndElement(StartElement element, QName currentNode, Boolean isNested, Boolean isText, 
-			Boolean isHTML, XMLEvent event,	int level, int version, ReadingParser parser, 			
-			Stack<Object> sbmlElements) 
+	private SBMLDocument processEndElement(QName currentNode, Boolean isNested, Boolean isText, 
+			Boolean isHTML, int level, int version, ReadingParser parser, 			
+			Stack<Object> sbmlElements, boolean isInsideAnnotation, boolean isRDFSBMLSpecificAnnotation) 
 	{
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		
-		EndElement endElement = event.asEndElement();
-
 		logger.debug("event.isEndElement : stack.size = " + sbmlElements.size());
-		logger.debug("event.isEndElement : element name = " + endElement.getName().getLocalPart());
-		if (endElement.getName().getLocalPart().equals("kineticLaw") || endElement.getName().getLocalPart().startsWith("listOf")
-				|| endElement.getName().getLocalPart().equals("math")) 
+		logger.debug("event.isEndElement : element name = " + currentNode.getLocalPart());
+		
+		if (currentNode.getLocalPart().equals("kineticLaw") || currentNode.getLocalPart().startsWith("listOf")
+				|| currentNode.getLocalPart().equals("math")) 
 		{
 			logger.debug("event.isEndElement : stack = " + sbmlElements);
 		}
+		
 		// TODO : check that the stack did not increase before and after an element ?
 		
-		// If this element contains no text and doesn't have any
-		// subNodes, this element is nested.
-		if (!isText && currentNode != null) {
-			if (currentNode.getLocalPart().equals(
-					endElement.getName().getLocalPart())) 
-			{
-				isNested = true;
-			}
-		}
-
 		if (initializedParsers != null) {
-			parser = initializedParsers.get(endElement.getName().getNamespaceURI());
+				parser = initializedParsers.get(currentNode.getNamespaceURI());
+
+				if (!isRDFSBMLSpecificAnnotation && isInsideAnnotation) {
+					parser = initializedParsers.get("anyAnnotation");
+				}
 
 			// if the current node is a notes or message element and
 			// the matching ReadingParser is a StringParser, we need
 			// to set the typeOfNotes variable of the
 			// StringParser instance.
-			if (endElement.getName().getLocalPart().equals("notes")
-					|| endElement.getName().getLocalPart().equals(
-							"message")) {
+			// TODO : check, this should be done earlier !!
+			if (currentNode.getLocalPart().equals("notes")
+					|| currentNode.getLocalPart().equals("message"))
+			{
 				ReadingParser sbmlparser = initializedParsers
 						.get(JSBML.URI_XHTML_DEFINITION);
 				if (sbmlparser instanceof StringParser) {
 					StringParser notesParser = (StringParser) sbmlparser;
-					notesParser.setTypeOfNotes(endElement.getName()
-							.getLocalPart());
+					notesParser.setTypeOfNotes(currentNode.getLocalPart());
 				}
 			}
 			// process the end of the element.
 			if (!sbmlElements.isEmpty() && parser != null) {
 				logger.debug("event.isEndElement : calling parser.processEndElement " + parser.getClass());
 
-				boolean popElementFromTheStack = parser
-						.processEndElement(endElement.getName().getLocalPart(),
-								endElement.getName().getPrefix(), isNested,
+				boolean popElementFromTheStack = parser.processEndElement(currentNode.getLocalPart(),
+								currentNode.getPrefix(), isNested,
 								sbmlElements.peek());
 				// remove the top of the SBMLElements stack at the
 				// end of an element if this element is not the sbml
 				// element.
-				if (!endElement.getName().getLocalPart().equals("sbml")) {
+				if (!currentNode.getLocalPart().equals("sbml")) {
 					if (popElementFromTheStack) {
 						sbmlElements.pop();
 					}

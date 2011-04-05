@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml.xml.parsers;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.util.StringTools;
@@ -38,6 +39,8 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class AnnotationParser implements ReadingParser {
 
+	Logger logger = Logger.getLogger(AnnotationParser.class);
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -120,8 +123,11 @@ public class AnnotationParser implements ReadingParser {
 	 * elementName, String prefix, boolean isNested, Object contextObject)
 	 */
 	public boolean processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject) {
+			boolean isNested, Object contextObject) 
+	{
 
+		logger.debug("processEndDocument : elementName = " + elementName);
+		
 		// an AnnotationParser can only be used for the annotations of a SBML
 		// component. If the contextObject is not
 		// an Annotation instance, this parser doesn't process any elements.
@@ -169,16 +175,34 @@ public class AnnotationParser implements ReadingParser {
 	 */
 	public void processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) {
+			Object contextObject) 
+	{
 
+		logger.debug("processNamespace : elementName = " + elementName);
+		logger.debug("processNamespace : namespace uri = " + URI);
+		logger.debug("processNamespace : namespace prefix = " + prefix);
+		logger.debug("processNamespace : namespace localName = " + localName);
+		
 		// If the element is an annotation and the contextObject is an
 		// Annotation instance,
 		// we need to add the namespace to the 'annotationNamespaces' HashMap of
 		// annotation.
-		if (elementName.equals("annotation")
-				&& contextObject instanceof Annotation) {
+		if (contextObject instanceof Annotation) {
 			Annotation annotation = (Annotation) contextObject;
-			annotation.addAnnotationNamespace(localName, prefix, URI);
+
+			if (prefix.trim().length() == 0) {
+				annotation.appendNoRDFAnnotation(" " + localName + "=\"" + URI + "\"");
+			} else {
+				annotation.appendNoRDFAnnotation(" " + prefix + ":" + localName + "=\"" + URI + "\"");
+			}
+			annotation.appendNoRDFAnnotation("");
+			
+			
+			// If the attribute is the last attribute of its element, we need to
+			// close the element tag.
+			if (isLastNamespace && !hasAttributes) {
+				annotation.appendNoRDFAnnotation("> \n");
+			}
 		}
 		// If the namespaces are declared in the sbml node, we need to add the
 		// namespace to
