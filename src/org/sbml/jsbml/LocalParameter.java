@@ -41,6 +41,9 @@ public class LocalParameter extends QuantityWithUnit {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 57994535283502018L;
+	
+	
+	private boolean isSetConstant = false;
 
 	/**
 	 * 
@@ -148,7 +151,9 @@ public class LocalParameter extends QuantityWithUnit {
 			this.setUnits(value);
 			return true;
 		} else if ((getLevel() < 3) && attributeName.equals("constant")
-				&& value.equals("true")) {
+				&& value.equals("true")) 
+		{
+			isSetConstant  = true;
 			// do nothing because this is always constant.
 			return true;
 		}
@@ -172,7 +177,12 @@ public class LocalParameter extends QuantityWithUnit {
 		if (isSetUnits()) {
 			attributes.put("units", getUnits());
 		}
-
+		// Put back the constant attribute if it was set in the original file.
+		// The methods #readAttribute take care of doing all the needed tests.
+		if (isSetConstant) {
+			attributes.put("constant", "true");
+		}
+		
 		return attributes;
 	}
 
