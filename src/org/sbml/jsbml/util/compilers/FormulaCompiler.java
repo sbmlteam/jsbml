@@ -1009,13 +1009,16 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue pow(ASTNode left, ASTNode right) throws SBMLException {
+		
+		// Adding brackets all the time for the exponent/right ASTNode
+		
 		if (left.getNumChildren() < 2) {
-			return new ASTNodeValue(StringTools.concat(left.compile(this), "^",
-					right.compile(this)).toString(), this);
+			return new ASTNodeValue(StringTools.concat(left.compile(this), "^", "(",
+					right.compile(this), ")").toString(), this);
 		} else {
 			return new ASTNodeValue(StringTools.concat(Character.valueOf('('),
-					left.compile(this), Character.valueOf(')'), "^",
-					right.compile(this)).toString(), this);
+					left.compile(this), Character.valueOf(')'), "^", "(",
+					right.compile(this), ")").toString(), this);
 		}
 	
 	}
@@ -1043,8 +1046,14 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * , org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant)
-			throws SBMLException {
-		return function("root", rootExponent, radiant);
+			throws SBMLException 
+	{
+		// Writing the root function as '(radiant)^(1/(rootExponent))'
+		// TODO : need to reduce the number of parenthesis when possible
+		
+		return new ASTNodeValue(StringTools.concat(Character.valueOf('('),
+				radiant.compile(this), Character.valueOf(')'), "^", "(1/(",
+				rootExponent.compile(this), "))").toString(), this);
 	}
 
 	/*
@@ -1054,12 +1063,13 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue root(double rootExponent, ASTNode radiant)
-			throws SBMLException {
-		if (rootExponent == 2d) {
-			return sqrt(radiant);
-		}
-		return new ASTNodeValue(concat("root(", rootExponent,
-				radiant.compile(this), ")").toString(), this);
+			throws SBMLException 	
+	{
+		// Writing the root function as '(radiant)^(1/rootExponent)'				
+
+		return new ASTNodeValue(StringTools.concat(Character.valueOf('('),
+				radiant.compile(this), Character.valueOf(')'), "^", "(1/",
+				rootExponent, ")").toString(), this);
 	}
 
 	/*
@@ -1112,7 +1122,8 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * )
 	 */
 	public ASTNodeValue sqrt(ASTNode node) throws SBMLException {
-		return function("sqrt", node);
+		return new ASTNodeValue(StringTools.concat(Character.valueOf('('),
+				node.compile(this), Character.valueOf(')'), "^", "(0.5)").toString(), this);
 	}
 
 	/*
