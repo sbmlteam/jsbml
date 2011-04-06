@@ -247,7 +247,7 @@ public class SBML_L2V1Test {
 		assertTrue(pRB_synthesis != null);
 		System.out.println("pRB_synthesis additional annotation : " + pRB_synthesis.getAnnotation().getNonRDFannotation());
 
-		assertTrue(pRB_synthesis.getAnnotation().getNonRDFannotation().trim().equals("<jigcell:ratelaw jigcell:name=\"Local\"/>"));
+		assertTrue(pRB_synthesis.getAnnotation().getNonRDFannotation().trim().startsWith("<jigcell:ratelaw jigcell:name=\"Local\""));
 		
 		assertTrue(pRB_synthesis.getCVTerm(0).getResourceURI(0).equals("urn:miriam:obo.go:GO%3A0006412"));
 		// GO:3A0006412
