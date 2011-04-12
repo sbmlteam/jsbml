@@ -101,7 +101,7 @@ public class Species extends Symbol {
 		super();
 		initDefaults();
 	}
-	
+
 	/**
 	 * Creates a Species instance from a level and version. By default, the
 	 * charge, compartmentID, speciesTypeID, conversionFactorID,
@@ -113,7 +113,7 @@ public class Species extends Symbol {
 	public Species(int level, int version) {
 		this(null, null, level, version);
 	}
-	
+
 	/**
 	 * Creates a Species instance from a Species.
 	 * 
@@ -135,8 +135,8 @@ public class Species extends Symbol {
 			setSubstanceUnits(new String(species.getSubstanceUnits()));
 		}
 		if (species.isSetHasOnlySubstanceUnits()) {
-			setHasOnlySubstanceUnits(new Boolean(species
-					.getHasOnlySubstanceUnits()));
+			setHasOnlySubstanceUnits(new Boolean(
+					species.getHasOnlySubstanceUnits()));
 		}
 		if (species.isSetInitialAmount()) {
 			setInitialAmount(new Double(species.getInitialAmount()));
@@ -297,6 +297,7 @@ public class Species extends Symbol {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#getElementName()
 	 */
 	@Override
@@ -329,8 +330,8 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return the initialConcentration of this {@link Species} if it has been set, o
-	 *         otherwise.
+	 * @return the initialConcentration of this {@link Species} if it has been
+	 *         set, o otherwise.
 	 */
 	public double getInitialConcentration() {
 		if (isSetInitialConcentration()) {
@@ -341,6 +342,7 @@ public class Species extends Symbol {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getPredefinedUnitID()
 	 */
 	public String getPredefinedUnitID() {
@@ -373,8 +375,8 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return the speciesTypeID of this {@link Species}. The empty String if it is not
-	 *         set.
+	 * @return the speciesTypeID of this {@link Species}. The empty String if it
+	 *         is not set.
 	 */
 	@Deprecated
 	public String getSpeciesType() {
@@ -608,37 +610,78 @@ public class Species extends Symbol {
 				value);
 
 		if (!isAttributeRead) {
-			isAttributeRead = true;
-			
+
+			if (getLevel() == 1) {
+				if (attributeName.equals("units")) {
+					setUnits(value);
+					return true;
+				}
+			} else {
+				if (attributeName.equals("initialConcentration")) {
+					setInitialConcentration(StringTools.parseSBMLDouble(value));
+					return true;
+				} else if (attributeName.equals("substanceUnits")) {
+					setUnits(value);
+					return true;
+				}
+			}
+
+			if (getLevel() > 1) {
+				if (attributeName.equals("hasOnlySubstanceUnits")) {
+					setHasOnlySubstanceUnits(StringTools
+							.parseSBMLBoolean(value));
+					return true;
+				}
+				if (attributeName.equals("constant")) {
+					setConstant(StringTools.parseSBMLBoolean(value));
+					return true;
+				}
+			}
+
+			if (getLevel() == 2) {
+
+				if (getVersion() < 3) {
+					if (attributeName.equals("spatialSizeUnits")) {
+						setSpatialSizeUnits(value);
+						return true;
+					}
+				}
+
+				if (getVersion() > 1) {
+					if (attributeName.equals("speciesType")) {
+						setSpeciesType(value);
+						return true;
+					}
+				}
+			}
+
+			if (getLevel() < 3) {
+				if (attributeName.equals("charge")) {
+					setCharge(StringTools.parseSBMLInt(value));
+					return true;
+				}
+			}
+
+			if (getLevel() == 3) {
+				if (attributeName.equals("conversionFactor")) {
+					setConversionFactor(value);
+					return true;
+				}
+			}
+
 			if (attributeName.equals("compartment")) {
 				setCompartment(value);
+				return true;
 			} else if (attributeName.equals("initialAmount")) {
 				setInitialAmount(StringTools.parseSBMLDouble(value));
-			} else if (attributeName.equals("initialConcentration")
-					&& getLevel() > 1) {
-				setInitialConcentration(StringTools.parseSBMLDouble(value));
-			} else if (attributeName.equals("substanceUnits") && getLevel() > 1) {
-				setUnits(value);
-			} else if (attributeName.equals("spatialSizeUnits")) {
-				setSpatialSizeUnits(value);
-			} else if (attributeName.equals("hasOnlySubstanceUnits")) {
-				setHasOnlySubstanceUnits(StringTools.parseSBMLBoolean(value));
+				return true;
 			} else if (attributeName.equals("boundaryCondition")) {
 				setBoundaryCondition(StringTools.parseSBMLBoolean(value));
-			} else if (attributeName.equals("conversionFactor")) {
-				setConversionFactor(value);
-			} else if (attributeName.equals("charge")) {
-				setCharge(StringTools.parseSBMLInt(value));
-			} else if (attributeName.equals("speciesType")) {
-				setSpeciesType(value);
 				return true;
-			} else if (attributeName.equals("constant")) {
-				setConstant(StringTools.parseSBMLBoolean(value));
-			} else {
-				isAttributeRead = false;
+
 			}
 		}
-		
+
 		return isAttributeRead;
 	}
 
@@ -676,7 +719,8 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Sets the compartmentID of this {@link Species} to the id of 'compartment'.
+	 * Sets the compartmentID of this {@link Species} to the id of
+	 * 'compartment'.
 	 * 
 	 * @param compartment
 	 */
@@ -695,7 +739,8 @@ public class Species extends Symbol {
 	 */
 	public void setCompartment(String compartment) {
 		if (compartment != null && compartment.trim().length() == 0) {
-			compartment = null; // If we pass the empty String or null, the value is reset.
+			compartment = null; // If we pass the empty String or null, the
+								// value is reset.
 		}
 		if ((compartment == null) || checkIdentifier(compartment)) {
 			String oldCompartment = this.compartmentID;
@@ -704,7 +749,8 @@ public class Species extends Symbol {
 			} else {
 				this.compartmentID = compartment;
 			}
-			firePropertyChange(SBaseChangedEvent.compartment, oldCompartment, compartmentID);
+			firePropertyChange(SBaseChangedEvent.compartment, oldCompartment,
+					compartmentID);
 		}
 	}
 
@@ -715,13 +761,13 @@ public class Species extends Symbol {
 	 * @param conversionFactor
 	 */
 	public void setConversionFactor(Parameter conversionFactor) {
-		setConversionFactor(conversionFactor != null ? conversionFactor
-				.getId() : null);
+		setConversionFactor(conversionFactor != null ? conversionFactor.getId()
+				: null);
 	}
 
 	/**
-	 * Sets the conversionFactorID of this {@link Species} to 'conversionFactorID'.
-	 * This is only possible if Level >= 3.
+	 * Sets the conversionFactorID of this {@link Species} to
+	 * 'conversionFactorID'. This is only possible if Level >= 3.
 	 * 
 	 * @param conversionFactorID
 	 */
@@ -789,10 +835,12 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Sets the spatialSizeUnitsID of this {@link Species} to 'spatialSizeUnits'.
+	 * Sets the spatialSizeUnitsID of this {@link Species} to
+	 * 'spatialSizeUnits'.
 	 * 
 	 * @param spatialSizeUnits
-	 * @deprecated This property is only valid for SBML Level 2 Versions 1 and 2.
+	 * @deprecated This property is only valid for SBML Level 2 Versions 1 and
+	 *             2.
 	 */
 	@Deprecated
 	public void setSpatialSizeUnits(String spatialSizeUnits) {
@@ -801,7 +849,8 @@ public class Species extends Symbol {
 					SBaseChangedEvent.spatialSizeUnits, this);
 		}
 		String oldSpatialSizeUnits = this.spatialSizeUnitsID;
-		if ((spatialSizeUnits != null) && (spatialSizeUnits.trim().length() == 0)) {
+		if ((spatialSizeUnits != null)
+				&& (spatialSizeUnits.trim().length() == 0)) {
 			this.spatialSizeUnitsID = null;
 		} else {
 			this.spatialSizeUnitsID = spatialSizeUnits;
@@ -819,12 +868,13 @@ public class Species extends Symbol {
 	 */
 	@Deprecated
 	public void setSpatialSizeUnits(UnitDefinition spatialSizeUnits) {
-		setSpatialSizeUnits(spatialSizeUnits != null ? spatialSizeUnits
-				.getId() : null);
+		setSpatialSizeUnits(spatialSizeUnits != null ? spatialSizeUnits.getId()
+				: null);
 	}
 
 	/**
-	 * Sets the speciesTypeID of this {@link Species} to the id of 'speciesType'.
+	 * Sets the speciesTypeID of this {@link Species} to the id of
+	 * 'speciesType'.
 	 * 
 	 * @param speciesType
 	 * @deprecated
@@ -846,7 +896,8 @@ public class Species extends Symbol {
 			throw new PropertyNotAvailableError(SBaseChangedEvent.speciesType,
 					this);
 		}
-		if ((speciesType == null) || (speciesType.trim().length() == 0) || checkIdentifier(speciesType)) {
+		if ((speciesType == null) || (speciesType.trim().length() == 0)
+				|| checkIdentifier(speciesType)) {
 			String oldSpeciesType = this.speciesTypeID;
 			speciesType = ((speciesType != null) && (speciesType.trim()
 					.length() == 0)) ? null : speciesType;
@@ -893,6 +944,7 @@ public class Species extends Symbol {
 
 	/**
 	 * Unsets the charge of this Species
+	 * 
 	 * @deprecated
 	 */
 	@Deprecated
@@ -935,6 +987,7 @@ public class Species extends Symbol {
 
 	/**
 	 * Unsets the spatialSizeUnits of this Species
+	 * 
 	 * @deprecated
 	 */
 	@Deprecated
@@ -962,25 +1015,25 @@ public class Species extends Symbol {
 			attributes.put("compartment", getCompartment());
 		}
 		if (isSetInitialAmount()) {
-			attributes.put("initialAmount", StringTools.toString(en,
-					getInitialAmount()));
+			attributes.put("initialAmount",
+					StringTools.toString(en, getInitialAmount()));
 		}
 		if (isSetBoundaryCondition()) {
-			attributes.put("boundaryCondition", Boolean
-					.toString(getBoundaryCondition()));
+			attributes.put("boundaryCondition",
+					Boolean.toString(getBoundaryCondition()));
 		}
 
 		if (1 < getLevel()) {
 			if (isSetInitialConcentration() && !isSetInitialAmount()) {
-				attributes.put("initialConcentration", StringTools.toString(en,
-						getInitialConcentration()));
+				attributes.put("initialConcentration",
+						StringTools.toString(en, getInitialConcentration()));
 			}
 			if (isSetSubstanceUnits()) {
 				attributes.put("substanceUnits", getSubstanceUnits());
 			}
 			if (isSetHasOnlySubstanceUnits()) {
-				attributes.put("hasOnlySubstanceUnits", Boolean
-						.toString(getHasOnlySubstanceUnits()));
+				attributes.put("hasOnlySubstanceUnits",
+						Boolean.toString(getHasOnlySubstanceUnits()));
 			}
 			if (isSetConstant()) {
 				attributes.put("constant", Boolean.toString(getConstant()));
