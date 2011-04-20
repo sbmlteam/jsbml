@@ -1,10 +1,34 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ======================================================================
+Trunk
+======================================================================
+
+* New Features:
+
+  - A basic check to avoid setting the same meta identifier more than
+    once has been implemented. It maintains a set of metaIds on the
+    SBMLDocument. Limitation: When adding child elements with already
+    set metaId, this set is not updated for the sake of simplicity.
+    Thanks to Stefan Hoops for making clear that such a check is 
+    mandatory.
+    
+  - When adding an element with undefined Level/Version combination
+    or at least with undefined Version to an element whose L/V 
+    configuration has been defined, JSBML now recursively updates this
+    configuration for the child element. In case of differing L/V
+    configurations an exception will be thrown on adding the element.
+    
+* Bug Fixes:
+
+  - If the Level/Version combination was not set, the identifier of
+    NamedSBases was sometimes not written to an SBML file.
+
+======================================================================
 Version 0.8-b2 (18-04-2011)
 ======================================================================
 
-* New Features :
+* New Features:
 
   - The indentation was improved: There was often no indentation when
     writing the closing tag for any instances of MathContainer, such
@@ -26,7 +50,7 @@ Version 0.8-b2 (18-04-2011)
     with Level >= 3 and an undeclared value. Thanks to Roland Keller
     and Lucian Smith for pointing out this necessity.    
 
-* Bug Fixes :
+* Bug Fixes:
 
   - The class Maths, a compilation of useful mathematical functions,
     provided an implementation of the factorial function that took
@@ -113,13 +137,13 @@ libSBML.
 
 For more details, please visit http://sbml.org/Software/JSBML
 
-* Bug Fixes :
+* Bug Fixes:
   - [Tracker issue #3137967]
     Namespaces in the sbml element were incorrectly parsed, some known 
     namespaces like html were not kept for examples. This is fixed, thanks 
     to Paulo Maia for reporting this.
 
-* Known issues :
+* Known issues:
   - problem of output indentation for notes, when there is several top level 
     elements.
   
