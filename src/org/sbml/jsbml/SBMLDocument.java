@@ -24,8 +24,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -80,6 +82,13 @@ public class SBMLDocument extends AbstractSBase {
 	public static final transient String URI_NAMESPACE_L1 = "http://www.sbml.org/sbml/level1";
 	
 	/**
+	 * Stores all the meta identifiers within this {@link SBMLDocument} to avoid
+	 * the creation of multiple identical meta identifiers. These identifiers
+	 * have to be unique within the document.
+	 */
+	Set<String> setOfMetaIds;
+	
+	/**
 	 * Memorizes all {@link SBMLError} when parsing the file containing this
 	 * document.
 	 */
@@ -117,6 +126,7 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	public SBMLDocument() {
 		super();
+		this.setOfMetaIds = new HashSet<String>();
 		this.model = null;
 		SBMLDocumentAttributes = new HashMap<String, String>();
 		SBMLDocumentNamespaces = new HashMap<String, String>();
@@ -153,6 +163,7 @@ public class SBMLDocument extends AbstractSBase {
 		} else {
 			this.model = null;
 		}
+		this.setOfMetaIds = new HashSet<String>(sb.setOfMetaIds);
 		setParentSBML(this);
 		checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), false);		
 	}

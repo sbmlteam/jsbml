@@ -45,6 +45,13 @@ public class SimpleSBaseChangeListener implements SBaseChangedListener {
 	public SimpleSBaseChangeListener() {
 	}
 
+	/**
+	 * @return the logger
+	 */
+	public Logger getLogger() {
+		return logger;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

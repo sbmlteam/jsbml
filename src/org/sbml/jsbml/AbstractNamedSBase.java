@@ -344,7 +344,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
-		if (isSetId() && (getLevel() > 1)) {
+		if (isSetId() && (getLevel() != 1)) {
 			attributes.put("id", getId());
 		}
 		if (isSetName()) {

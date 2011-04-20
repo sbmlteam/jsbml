@@ -673,30 +673,35 @@ public abstract class AbstractSBase implements SBase {
 	/**
 	 * Checks whether or not the given {@link SBase} has the same level and
 	 * version configuration than this element. If the L/V combination for the
-	 * given sbase is not yet defined, this method sets it to the identical
-	 * values as it is for the current object.
+	 * given <code>sbase</code> is not yet defined, this method sets it to the
+	 * identical values as it is for the current object.
 	 * 
-	 * @param sbase the element to be checked.
-	 * @return true if the given sbase and this object have the same L/V
-	 *         configuration. False otherwise
+	 * @param sbase
+	 *            the element to be checked.
+	 * @return <code>true</code> if the given <code>sbase</code> and this object
+	 *         have the same L/V configuration. <code>false</code> otherwise
 	 */
 	private boolean checkLevelAndVersionCompatibility(SBase sbase) {
-		if (sbase.isSetLevel()) {
-			if (sbase.getLevel() != getLevel()) {
-				return false;
-			}
-		} else {
-			sbase.setLevel(getLevel());
+		if (sbase.getLevelAndVersion().equals(getLevelAndVersion())) {
+			return true;
 		}
+		if (isSetLevelAndVersion()
+				&& (!sbase.isSetLevelAndVersion() || (sbase.isSetLevel()
+						&& (sbase.getLevel() == getLevel()) && !sbase
+						.isSetVersion())) && (sbase instanceof AbstractSBase)) {
+			((AbstractSBase) sbase).setLevelAndVersion(getLevel(),
+					getVersion(), true);
+			return true;
+		}
+		throw new LevelVersionError(this, sbase);
+	}
 
-		if (sbase.isSetVersion()) {
-			if (sbase.getVersion() != getVersion()) {
-				return false;
-			}
-		} else {
-			sbase.setVersion(getVersion());
-		}
-		return true;
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#isSetLevelAndVersion()
+	 */
+	public boolean isSetLevelAndVersion() {
+		return isSetLevel() && isSetVersion();
 	}
 
 	/*
@@ -987,12 +992,9 @@ public abstract class AbstractSBase implements SBase {
 		return isSetLevel() ? this.lv.getL().intValue() : -1;
 	}
 
-	/**
-	 * Returns the Level and Version combination of this {@link SBase}.
-	 * 
-	 * @return A {@link ValuePair} with the Level and Version of this
-	 *         {@link SBase}. Note that the returned {@link ValuePair} is never
-	 *         null, but if undeclared it may contain elements set to -1.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#getLevelAndVersion()
 	 */
 	public ValuePair<Integer, Integer> getLevelAndVersion() {
 		if (this.lv == null) {
@@ -1339,6 +1341,14 @@ public abstract class AbstractSBase implements SBase {
 		if (getLevel() == 1) {
 			throw new PropertyNotAvailableError(SBaseChangedEvent.metaId, this);
 		}
+		SBMLDocument doc = getSBMLDocument();
+		if (doc != null) {
+			if (doc.setOfMetaIds.contains(metaId)) {
+				throw new IllegalArgumentException(String.format(
+						"Cannot set duplicate meta identifier \"%s\".", metaId));
+			}
+			doc.setOfMetaIds.add(metaId);
+		}
 		String oldMetaId = this.metaId;
 		this.metaId = metaId;
 		firePropertyChange(SBaseChangedEvent.metaId, oldMetaId, metaId);
@@ -1406,7 +1416,7 @@ public abstract class AbstractSBase implements SBase {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setThisAsParentSBMLObject(org.sbml.jsbml.SBase)
 	 */
-	public void setThisAsParentSBMLObject(SBase sbase) {
+	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError {
 		if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
 			if (sbase instanceof AbstractSBase) {
 				((AbstractSBase) sbase).parentSBMLObject = this;
@@ -1484,6 +1494,10 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void unsetMetaId() {
 		if (isSetMetaId()) {
+			SBMLDocument doc = getSBMLDocument();
+			if (doc != null) {
+				doc.setOfMetaIds.remove(metaId);
+			}
 			String oldMetaId = metaId; 
 			metaId = null;
 			firePropertyChange(SBaseChangedEvent.metaId, oldMetaId, getMetaId());

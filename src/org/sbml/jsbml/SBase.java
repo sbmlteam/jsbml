@@ -29,6 +29,7 @@ import java.util.SortedSet;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
+import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.xml.XMLNode;
 
 /**
@@ -56,7 +57,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * @param l
 	 */
 	public void addChangeListener(SBaseChangedListener l);
-
+	
 	/**
 	 * 
 	 * @param term
@@ -64,7 +65,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 *         this object.
 	 */
 	public boolean addCVTerm(CVTerm term);
-
+	
 	/**
 	 * add a SBase extension object 'sbase' associated with a name space
 	 * 'namespace'.
@@ -175,7 +176,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * String.
 	 */
 	public String getAnnotationString();
-	
+
 	/**
 	 * 
 	 * @param index
@@ -190,7 +191,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 *         initializes the annotation and returns an empty list.
 	 */
 	public List<CVTerm> getCVTerms();
-
+	
 	/**
 	 * 
 	 * @return the XML element name of this object.
@@ -224,6 +225,15 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * @see getVersion()
 	 */
 	public int getLevel();
+
+	/**
+	 * Returns the Level and Version combination of this {@link SBase}.
+	 * 
+	 * @return A {@link ValuePair} with the Level and Version of this
+	 *         {@link SBase}. Note that the returned {@link ValuePair} is never
+	 *         null, but if undeclared it may contain elements set to -1.
+	 */
+	public ValuePair<Integer, Integer> getLevelAndVersion();
 
 	/**
 	 * 
@@ -369,6 +379,15 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public boolean isSetLevel();
 
 	/**
+	 * Returns <code>true</code> if both, Level and Version are set for this
+	 * {@link SBase}.
+	 * 
+	 * @return <code>true</code> if {@link #isSetLevel()} and
+	 *         {@link #isSetVersion()}.
+	 */
+	public boolean isSetLevelAndVersion();
+
+	/**
 	 * Predicate returning true or false depending on whether this object's
 	 * 'metaid' attribute has been set.
 	 * 
@@ -450,18 +469,18 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public void setMetaId(String metaid);
 
 	/**
-	 * Sets the <code>XMLNode</code> containing the notes sub-element of
-	 * this object.
-	 * 
-	 */
-	public void setNotes(XMLNode notesXMLNode);
-
-	/**
 	 * Sets the notes with 'notes'.
 	 * 
 	 * @param notes
 	 */
 	public void setNotes(String notes);
+
+	/**
+	 * Sets the <code>XMLNode</code> containing the notes sub-element of
+	 * this object.
+	 * 
+	 */
+	public void setNotes(XMLNode notesXMLNode);
 
 	/**
 	 * Sets the value of the 'sboTerm' attribute.
