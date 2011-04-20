@@ -1418,6 +1418,21 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError {
 		if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
+			if (sbase.isSetMetaId()) {
+				SBMLDocument doc = getSBMLDocument();
+				if (doc != null) {
+					if (doc.setOfMetaIds.contains(metaId)) {
+						throw new IllegalArgumentException(String.format(
+												"Cannot add an element to model with duplicate meta identifier \"%s\".",
+												sbase.getMetaId()));
+					}
+					/*
+					 * We could now do a recursive check, but this could be
+					 * expensive. So we don't do it at the moment.
+					 */
+					doc.setOfMetaIds.add(sbase.getMetaId());
+				}
+			}
 			if (sbase instanceof AbstractSBase) {
 				((AbstractSBase) sbase).parentSBMLObject = this;
 				sbase.addAllChangeListeners(getSetOfSBaseChangedListeners());
