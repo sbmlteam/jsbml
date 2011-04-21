@@ -68,7 +68,7 @@ public class ExtendedLayoutModel extends Model {
 	 */
 	public ExtendedLayoutModel(Model model) {
 		this.model = model;
-		model.setThisAsParentSBMLObject(this);
+		this.model.setThisAsParentSBMLObject(this);
 	}
 
 	/**

@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -687,7 +688,7 @@ public abstract class AbstractSBase implements SBase {
 	 *             package-wide visible because it is not intended to be a
 	 *             "real" check, rather than to indicate potential errors.
 	 */
-	boolean checkLevelAndVersionCompatibility(SBase sbase) {
+	protected boolean checkLevelAndVersionCompatibility(SBase sbase) {
 		if (sbase.getLevelAndVersion().equals(getLevelAndVersion())) {
 			return true;
 		}
@@ -700,14 +701,6 @@ public abstract class AbstractSBase implements SBase {
 			return true;
 		}
 		throw new LevelVersionError(this, sbase);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#isSetLevelAndVersion()
-	 */
-	public boolean isSetLevelAndVersion() {
-		return isSetLevel() && isSetVersion();
 	}
 
 	/*
@@ -857,6 +850,25 @@ public abstract class AbstractSBase implements SBase {
 		for (SBaseChangedListener listener : setOfListeners) {
 			listener.sbaseRemoved(this);
 		}
+	}
+
+	/**
+	 * Recursively collects all meta identifiers of this {@link AbstractSBase} and
+	 * all of its sub-elements.
+	 * @return
+	 */
+	private Set<String> gatherMetaIds() {
+		Set<String> setOfMetaIds = new HashSet<String>();
+		if (isSetMetaId()) {
+			setOfMetaIds.add(getMetaId());
+		}
+		while (children().hasMoreElements()) {
+			TreeNode node = children().nextElement();
+			if (node instanceof AbstractSBase) {
+				setOfMetaIds.addAll(((AbstractSBase) node).gatherMetaIds());
+			}
+		}
+		return setOfMetaIds;
 	}
 
 	/*
@@ -1201,6 +1213,14 @@ public abstract class AbstractSBase implements SBase {
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#isSetLevelAndVersion()
+	 */
+	public boolean isSetLevelAndVersion() {
+		return isSetLevel() && isSetVersion();
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#isSetMetaId()
 	 */
 	public boolean isSetMetaId() {
@@ -1270,7 +1290,7 @@ public abstract class AbstractSBase implements SBase {
 			}
 		}
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setAnnotation(org.sbml.jsbml.Annotation)
@@ -1280,7 +1300,7 @@ public abstract class AbstractSBase implements SBase {
 		this.annotation = annotation;
 		firePropertyChange(SBaseChangedEvent.setAnnotation, oldAnnotation, this.annotation);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setHistory(org.sbml.jsbml.History)
@@ -1413,7 +1433,7 @@ public abstract class AbstractSBase implements SBase {
 	public void setSBOTerm(String sboid) {
 		setSBOTerm(SBO.stringToInt(sboid));
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setThisAsParentSBMLObject(org.sbml.jsbml.SBase)
@@ -1428,11 +1448,16 @@ public abstract class AbstractSBase implements SBase {
 												"Cannot add an element to model with duplicate meta identifier \"%s\".",
 												sbase.getMetaId()));
 					}
-					/*
-					 * We could now do a recursive check, but this could be
-					 * expensive. So we don't do it at the moment.
-					 */
-					doc.setOfMetaIds.add(sbase.getMetaId());
+					if ((sbase.getSBMLDocument() == null)
+							&& (sbase instanceof AbstractSBase)) {
+						/* 
+						 * sbase did not have access to the document.
+						 * We therefore have to recursively check the metaId property.
+						 */
+						doc.setOfMetaIds.addAll(((AbstractSBase) sbase).gatherMetaIds());
+					} else {
+						doc.setOfMetaIds.add(sbase.getMetaId());
+					}
 				}
 			}
 			if (sbase instanceof AbstractSBase) {
@@ -1442,7 +1467,7 @@ public abstract class AbstractSBase implements SBase {
 			sbase.fireSBaseAddedEvent();
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setVersion(int)
