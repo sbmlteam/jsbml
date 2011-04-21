@@ -6,6 +6,12 @@ Trunk
 
 * New Features:
 
+  - Where necessary, initDefaults has been complemented with an 
+    additional method, for which the level/version combination can be
+    directly specified, i.e., it is now possible for those elements to
+    set their defaults as these would be for the specified 
+    level/version combination.
+
   - A basic check to avoid setting the same meta identifier more than
     once has been implemented. It maintains a set of metaIds on the
     SBMLDocument. Thanks to Stefan Hoops for making clear that such a 

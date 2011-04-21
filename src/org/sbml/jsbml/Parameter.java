@@ -133,12 +133,19 @@ public class Parameter extends Symbol {
 	 * Initializes the default values of this {@link Parameter}, i.e., sets it to a
 	 * constant variable with a NaN value.
 	 */
-	public void initDefaults() {
+	public void initDefaults(int level, int version) {
 		setValue(Double.NaN);
 
-		if (getLevel() > 1) {
+		if (level > 1) {
 			constant = true;
 		}
+	}
+	
+	/**
+	 * Initializes the default values using the current Level/Version configuration.
+	 */
+	public void initDefaults() {
+		initDefaults(getLevel(), getVersion());
 	}
 
 	/*

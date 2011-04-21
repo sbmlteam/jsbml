@@ -423,12 +423,12 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Initialises the default values of this Species.
+	 * Initializes the default values of this Species.
 	 */
-	public void initDefaults() {
+	public void initDefaults(int level, int version) {
 		amount = true;
 		unitsID = null;
-		if (getLevel() < 3) {
+		if (level < 3) {
 			hasOnlySubstanceUnits = new Boolean(false);
 			boundaryCondition = new Boolean(false);
 			constant = new Boolean(false);
@@ -437,6 +437,13 @@ public class Species extends Symbol {
 			boundaryCondition = null;
 			constant = null;
 		}
+	}
+	
+	/**
+	 * Initializes the default values using the current Level/Version configuration.
+	 */
+	public void initDefaults() {
+		initDefaults(getLevel(), getVersion());
 	}
 
 	/**

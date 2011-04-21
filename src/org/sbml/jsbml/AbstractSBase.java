@@ -20,7 +20,6 @@
 
 package org.sbml.jsbml;
 
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,8 +43,8 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  * The base class for each {@link SBase} component.
  * 
  * @author Andreas Dr&auml;ger
- * @author rodrigue
- * @author marine
+ * @author Nicolas Rodrigues
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
@@ -53,7 +52,7 @@ public abstract class AbstractSBase implements SBase {
 
 	/**
 	 * 
-	 * @author rodrigue
+	 * @author Nicolas Rodrigues
 	 *
 	 */
 	enum NOTES_TYPE {

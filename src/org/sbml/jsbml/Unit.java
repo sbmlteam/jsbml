@@ -1498,9 +1498,9 @@ public class Unit extends AbstractSBase {
 	 * </ul>
 	 * The 'kind' attribute is left unchanged.
 	 */
-	public void initDefaults() {
+	public void initDefaults(int level, int version) {
 		kind = Kind.INVALID;
-		if (getLevel() < 3) {
+		if (level < 3) {
 			exponent = Double.valueOf(1d);
 			scale = Integer.valueOf(0);
 			multiplier = new Double(1);
@@ -1515,6 +1515,13 @@ public class Unit extends AbstractSBase {
 		isSetScale = false;
 		isSetMultiplier = false;
 		isSetOffset = false;
+	}
+	
+	/**
+	 * Initializes the default values using the current Level/Version configuration.
+	 */
+	public void initDefaults() {
+		initDefaults(getLevel(), getVersion());
 	}
 
 	/**
