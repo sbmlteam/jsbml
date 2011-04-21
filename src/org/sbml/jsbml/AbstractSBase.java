@@ -82,22 +82,18 @@ public abstract class AbstractSBase implements SBase {
 	 * @param version the SBML version
 	 * @return true is the level and version combination is a valid one, false otherwise.
 	 */
-	public static boolean isValidLevelAndVersionCombination(int level, int version) {
-		boolean has = false;
-		if (level == 1) {
-			if ((1 <= version) && (version <= 2)) {
-				has = true;
-			}
-		} else if (level == 2) {
-			if ((1 <= version) && (version <= 4)) {
-				has = true;
-			}
-		} else if (level == 3) {
-			if ((1 <= version) && (version <= 1)) {
-				has = true;
-			}
+	public static boolean isValidLevelAndVersionCombination(int level,
+			int version) {
+		switch (level) {
+		case 1:
+			return ((1 <= version) && (version <= 2));
+		case 2:
+			return ((1 <= version) && (version <= 4));
+		case 3:
+			return ((1 <= version) && (version <= 1));
+		default:
+			return false;
 		}
-		return has;
 	}
 	
 	/**
@@ -174,15 +170,19 @@ public abstract class AbstractSBase implements SBase {
 	}
 
 	/**
-	 * Creates an AbstractSBase instance from an id and name. 
+	 * Creates an {@link AbstractSBase} instance with the given Level and
+	 * Version.
 	 * 
-	 * <p>By default, the
-	 * sboTerm is -1, the metaid, notes, parentSBMLObject, annotation, 
-	 *  and notes are null. The setOfListeners list and the
-	 * extensions hash map are empty.
+	 * <p>
+	 * By default, the sboTerm is -1, the metaid, notes,
+	 * {@link #parentSBMLObject}, {@link #annotation}, and notes are null. The
+	 * {@link #setOfListeners} list and the {@link #extensions} {@link Map} are
+	 * empty.
 	 * 
-	 * @param level the SBML level
-	 * @param version the SBML version
+	 * @param level
+	 *            the SBML level
+	 * @param version
+	 *            the SBML version
 	 */
 	public AbstractSBase(int level, int version) {
 		this();
@@ -679,7 +679,13 @@ public abstract class AbstractSBase implements SBase {
 	 * @param sbase
 	 *            the element to be checked.
 	 * @return <code>true</code> if the given <code>sbase</code> and this object
-	 *         have the same L/V configuration. <code>false</code> otherwise
+	 *         have the same L/V configuration.
+	 * @throws LevelVersionError
+	 *             In case the given {@link SBase} has a different, but defined
+	 *             Level/Version combination than this current {@link SBase}, an
+	 *             {@link LevelVersionError} is thrown. This method is private
+	 *             because it is not intended to be a "real" check, rather than
+	 *             to indicate potential errors.
 	 */
 	private boolean checkLevelAndVersionCompatibility(SBase sbase) {
 		if (sbase.getLevelAndVersion().equals(getLevelAndVersion())) {
@@ -774,8 +780,7 @@ public abstract class AbstractSBase implements SBase {
 			if (equals && sbase.isSetSBOTerm()) {
 				equals &= sbase.getSBOTerm() == getSBOTerm();
 			}
-			equals &= sbase.getLevel() == getLevel();
-			equals &= sbase.getVersion() == getVersion();
+			equals &= sbase.getLevelAndVersion().equals(getLevelAndVersion());
 			equals &= sbase.isSetAnnotation() == isSetAnnotation();
 			if (equals && sbase.isSetAnnotation()) {
 				equals &= sbase.getAnnotation().equals(getAnnotation());
@@ -842,6 +847,13 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#fireSBaseRemovedEvent()
 	 */
 	public void fireSBaseRemovedEvent() {
+		if (isSetMetaId()) {
+			// update the set of meta identifiers within the SBMLDocument.
+			SBMLDocument doc = getSBMLDocument();
+			if (doc != null) {
+				doc.setOfMetaIds.remove(getMetaId());
+			}
+		}
 		for (SBaseChangedListener listener : setOfListeners) {
 			listener.sbaseRemoved(this);
 		}
@@ -868,21 +880,14 @@ public abstract class AbstractSBase implements SBase {
 	}
 
 	/**
-	 * Returns the annotation of this SBML object as a string.
+	 * Returns the {@link Annotation} of this SBML object as a {@link String}.
 	 * 
-	 * @return the annotation of this SBML object as a string or an empty string
-	 *         if there are no annotation.
+	 * @return the {@link Annotation} of this SBML object as a {@link String} or
+	 *         an empty {@link String} if there are no {@link Annotation}.
 	 * 
 	 */
 	public String getAnnotationString() {
-		
-		Annotation anno = getAnnotation();
-
-		if (anno != null) {
-			return new SBMLWriter().writeAnnotation(this);
-		}
-
-		return "";
+		return isSetAnnotation() ? (new SBMLWriter()).writeAnnotation(this) : "";
 	}
 
 	/*
@@ -912,7 +917,8 @@ public abstract class AbstractSBase implements SBase {
 		if (isSetAnnotation()) {
 			return annotation.getCVTerm(index);
 		}
-		return null;
+		throw new IndexOutOfBoundsException(String.format(
+				"No such controlled vocabulary term with index %d.", index));
 	}
 
 	/*
@@ -956,10 +962,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#getHistory()
 	 */
 	public History getHistory() {
-		if (isSetAnnotation()) {
-			return annotation.getHistory();
-		}
-		return null;
+		return isSetAnnotation() ? annotation.getHistory() : null;
 	}
 
 	/*
@@ -1088,7 +1091,7 @@ public abstract class AbstractSBase implements SBase {
 		if (this instanceof SBMLDocument) {
 			return (SBMLDocument) this;
 		}
-		return getParentSBMLObject() != null ? getParentSBMLObject()
+		return (getParentSBMLObject() != null) ? getParentSBMLObject()
 				.getSBMLDocument() : null;
 	}
 
@@ -1260,7 +1263,7 @@ public abstract class AbstractSBase implements SBase {
 	public void removeChangeListener(SBaseChangedListener l) {
 		setOfListeners.remove(l);
 		Enumeration<TreeNode> children = children();
-		for (int i = 0; children.hasMoreElements(); i++) {
+		while(children.hasMoreElements()) {
 			TreeNode node = children.nextElement();
 			if (node instanceof SBase) {
 				((SBase) node).removeChangeListener(l);
@@ -1275,7 +1278,7 @@ public abstract class AbstractSBase implements SBase {
 	public void setAnnotation(Annotation annotation) {
 		Annotation oldAnnotation = this.annotation;
 		this.annotation = annotation;
-		firePropertyChange(SBaseChangedEvent.setAnnotation, oldAnnotation, annotation);
+		firePropertyChange(SBaseChangedEvent.setAnnotation, oldAnnotation, this.annotation);
 	}
 	
 	/*
@@ -1360,8 +1363,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#setNotes(java.lang.String)
 	 */
 	public void setNotes(String notes) {
-		XMLNode newNotesXMLNode = XMLNode.convertStringToXMLNode(notes);
-		setNotes(newNotesXMLNode); 
+		setNotes(XMLNode.convertStringToXMLNode(notes)); 
 	}
 
 	/*
