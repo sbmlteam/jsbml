@@ -839,15 +839,22 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	/**
 	 * Initializes the default variables of this Reaction.
 	 */
-	public void initDefaults() {
-		if (isSetLevel() && isSetVersion()) {
-			if (getLevel() < 3) {
+	public void initDefaults(int level, int version) {
+		if ((0 < level) && (0 < version)) {
+			if (level < 3) {
 				reversible = new Boolean(true);
 				fast = new Boolean(false);
 			} else {
 				reversible = fast = null;
 			}
 		}
+	}
+	
+	/**
+	 * Initializes the default values using the current Level/Version configuration.
+	 */
+	public void initDefaults() {
+		initDefaults(getLevel(), getVersion());
 	}
 
 	/**

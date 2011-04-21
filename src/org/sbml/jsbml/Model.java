@@ -2704,7 +2704,7 @@ public class Model extends AbstractNamedSBase {
 	/**
 	 * Initializes the default values of the attributes of the {@link Model}
 	 */
-	public void initDefaults() {
+	public void initDefaults(int level, int version) {
 		listOfCompartments = null;
 		listOfCompartmentTypes = null;
 		listOfConstraints = null;
@@ -2717,9 +2717,9 @@ public class Model extends AbstractNamedSBase {
 		listOfSpecies = null;
 		listOfSpeciesTypes = null;
 		UnitDefinition ud;
-		listOfPredefinedUnitDefinitions = (getLevel() >= 3) ? null
+		listOfPredefinedUnitDefinitions = (level >= 3) ? null
 				: new ArrayList<UnitDefinition>(5);
-		switch (getLevel()) {
+		switch (level) {
 		case 1:
 			listOfUnitDefinitions = ListOf.newInstance(this,
 					UnitDefinition.class);
@@ -2776,6 +2776,13 @@ public class Model extends AbstractNamedSBase {
 			conversionFactorID = null;
 			break;
 		}
+	}
+	
+	/**
+	 * Initializes the default values using the current Level/Version configuration.
+	 */
+	public void initDefaults() {
+		initDefaults(getLevel(), getVersion());
 	}
 
 	/**

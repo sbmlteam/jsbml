@@ -370,10 +370,10 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	/**
 	 * Initializes the default values of this SpeciesReference.
 	 */
-	public void initDefaults() {
+	public void initDefaults(int level, int version) {
 		// See
 		// http://sbml.org/Community/Wiki/SBML_Level_3_Core/Reaction_changes/Changes_to_stoichiometry
-		if (getLevel() <= 2) {
+		if (level <= 2) {
 			constant = Boolean.valueOf(true);
 			stoichiometry = 1d;
 			denominator = 1;
@@ -382,6 +382,13 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 			isSetDenominator = false;
 			isSetStoichiometry = false;
 		}
+	}
+	
+	/**
+	 * Initializes the default values using the current Level/Version configuration.
+	 */
+	public void initDefaults() {
+		initDefaults(getLevel(), getVersion());
 	}
 
 	/*

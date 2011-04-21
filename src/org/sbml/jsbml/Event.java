@@ -571,19 +571,26 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	/**
 	 * Initializes the default values of this {@link Event}.
 	 */
-	public void initDefaults() {
+	public void initDefaults(int level, int version) {
 		this.trigger = null;
 		this.delay = null;
 		this.priority = null;
 		this.listOfEventAssignments = null;
-		if (isSetLevel() && (getLevel() < 3)) {
+		if ((0 < level) && (level < 3)) {
 			useValuesFromTriggerTime = new Boolean(true);
 		} else {
 			useValuesFromTriggerTime = null;
 		}
-		if (isSetLevel() && (getLevel() < 2)) {
+		if ((0 < level) && (level < 2)) {
 			throw new IllegalAccessError("Cannot create an Event with Level < 2.");
 		}
+	}
+	
+	/**
+	 * Initializes the default values using the current Level/Version configuration.
+	 */
+	public void initDefaults() {
+		initDefaults(getLevel(), getVersion());
 	}
 
 	/**

@@ -322,13 +322,23 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 * Initializes the default values.
+	 * Initializes the default values using the current Level/Version configuration.
 	 */
 	public void initDefaults() {
+		initDefaults(getLevel(), getVersion());
+	}
+	
+	/**
+	 * Initializes the default values using the current Level/Version configuration.
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public void initDefaults(int level, int version) {
 		compartmentTypeID = null;
 		outsideID = null;
 		unitsID = null;
-		if (getLevel() < 3) {
+		if (level < 3) {
 			spatialDimensions = Double.valueOf(3d);
 			constant = new Boolean(true);
 		} else {
