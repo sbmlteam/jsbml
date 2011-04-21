@@ -8,10 +8,8 @@ Trunk
 
   - A basic check to avoid setting the same meta identifier more than
     once has been implemented. It maintains a set of metaIds on the
-    SBMLDocument. Limitation: When adding child elements with already
-    set metaId, this set is not updated for the sake of simplicity.
-    Thanks to Stefan Hoops for making clear that such a check is 
-    mandatory.
+    SBMLDocument. Thanks to Stefan Hoops for making clear that such a 
+    check is mandatory.
     
   - When adding an element with undefined Level/Version combination
     or at least with undefined Version to an element whose L/V 

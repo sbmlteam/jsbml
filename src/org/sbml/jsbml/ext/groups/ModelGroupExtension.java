@@ -67,7 +67,7 @@ public class ModelGroupExtension extends Model {
 	 */
 	public ModelGroupExtension(Model model) {
 		this.model = model;
-		model.setThisAsParentSBMLObject(this);
+		this.model.setThisAsParentSBMLObject(this);
 	}
 	
 	/**
