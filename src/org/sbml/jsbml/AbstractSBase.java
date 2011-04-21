@@ -683,11 +683,11 @@ public abstract class AbstractSBase implements SBase {
 	 * @throws LevelVersionError
 	 *             In case the given {@link SBase} has a different, but defined
 	 *             Level/Version combination than this current {@link SBase}, an
-	 *             {@link LevelVersionError} is thrown. This method is private
-	 *             because it is not intended to be a "real" check, rather than
-	 *             to indicate potential errors.
+	 *             {@link LevelVersionError} is thrown. This method is only
+	 *             package-wide visible because it is not intended to be a
+	 *             "real" check, rather than to indicate potential errors.
 	 */
-	private boolean checkLevelAndVersionCompatibility(SBase sbase) {
+	boolean checkLevelAndVersionCompatibility(SBase sbase) {
 		if (sbase.getLevelAndVersion().equals(getLevelAndVersion())) {
 			return true;
 		}
