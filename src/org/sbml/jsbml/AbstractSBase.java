@@ -843,38 +843,15 @@ public abstract class AbstractSBase implements SBase {
 			// update the set of meta identifiers within the SBMLDocument.
 			SBMLDocument doc = getSBMLDocument();
 			if (doc != null) {
-				doc.setOfMetaIds.remove(getMetaId());
+				/*
+				 * Recursively remove pointers to this element's and all
+				 * sub-element's meta identifiers from the SBMLDocument.
+				 */
+				registerMetaIds(doc.setOfMetaIds, true, true);
 			}
 		}
 		for (SBaseChangedListener listener : setOfListeners) {
 			listener.sbaseRemoved(this);
-		}
-	}
-
-	/**
-	 * Collects all meta identifiers of this {@link AbstractSBase} and
-	 * all of its sub-elements if recursively is true.
-	 * 
-	 * @param setOfMetaIds
-	 * @param recursively
-	 */
-	private void gatherMetaIds(Set<String> setOfMetaIds, boolean recursively) {
-		if (isSetMetaId()) {
-			if (setOfMetaIds.contains(getMetaId())) {
-				throw new IllegalArgumentException(String.format(
-										"Cannot add an element to model with duplicate meta identifier \"%s\".",
-										getMetaId()));
-			}
-			setOfMetaIds.add(getMetaId());
-		}
-		if (recursively) {
-			while (children().hasMoreElements()) {
-				TreeNode node = children().nextElement();
-				if (node instanceof AbstractSBase) {
-					((AbstractSBase) node).gatherMetaIds(setOfMetaIds,
-							recursively);
-				}
-			}
 		}
 	}
 
@@ -1066,7 +1043,6 @@ public abstract class AbstractSBase implements SBase {
 		return notesXMLNode;
 	}
 
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getNotesString()
@@ -1074,6 +1050,7 @@ public abstract class AbstractSBase implements SBase {
 	public String getNotesString() {
 		return notesXMLNode != null ? notesXMLNode.toXMLString() : null;
 	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -1121,7 +1098,7 @@ public abstract class AbstractSBase implements SBase {
 	public int getSBOTerm() {
 		return sboTerm;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getSBOTermID()
@@ -1129,7 +1106,7 @@ public abstract class AbstractSBase implements SBase {
 	public String getSBOTermID() {
 		return SBO.intToString(sboTerm);
 	}
-
+	
 	/**
 	 * Returns all {@link SBaseChangedListener}s that are assigned to this
 	 * element.
@@ -1273,6 +1250,51 @@ public abstract class AbstractSBase implements SBase {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Collects all meta identifiers of this {@link AbstractSBase} and all of
+	 * its sub-elements if recursively is <code>true</code>. It can also be used
+	 * to delete meta identifiers from the given {@link Set}.
+	 * 
+	 * @param setOfMetaIds
+	 *            This is the {@link Set} in which references to meta
+	 *            identifiers are to be registered to avoid duplications.
+	 * @param recursively
+	 *            if <code>true</code>, this method will also consider all
+	 *            sub-elements of this {@link AbstractSBase}.
+	 * @param delete
+	 *            if <code>true</code> the purpose of this method will be to
+	 *            delete the meta identifier from the given {@link Set}.
+	 *            Otherwise, it will try to add it to the set.
+	 * @throws IllegalArgumentException
+	 *             However, duplications are not legal and an
+	 *             {@link IllegalArgumentException} will be thrown in such
+	 *             cases.
+	 */
+	private void registerMetaIds(Set<String> setOfMetaIds, boolean recursively,
+			boolean delete) {
+		if (isSetMetaId()) {
+			if (setOfMetaIds.contains(getMetaId())) {
+				if (delete) {
+					setOfMetaIds.remove(getMetaId());
+				} else {
+					throw new IllegalArgumentException(String.format(
+											"Cannot add an element to model with duplicate meta identifier \"%s\".",
+											getMetaId()));
+				}
+			}
+			setOfMetaIds.add(getMetaId());
+		}
+		if (recursively) {
+			while (children().hasMoreElements()) {
+				TreeNode node = children().nextElement();
+				if (node instanceof AbstractSBase) {
+					((AbstractSBase) node).registerMetaIds(setOfMetaIds,
+							recursively, delete);
+				}
+			}
+		}
 	}
 
 	/**
@@ -1453,9 +1475,9 @@ public abstract class AbstractSBase implements SBase {
 				 * In case that sbase did not have access to the document we
 				 * have to recursively check the metaId property.
 				 */
-				((AbstractSBase) sbase).gatherMetaIds(doc.setOfMetaIds, (sbase
+				((AbstractSBase) sbase).registerMetaIds(doc.setOfMetaIds, (sbase
 						.getSBMLDocument() == null)
-						&& (sbase instanceof AbstractSBase));
+						&& (sbase instanceof AbstractSBase), false);
 			}
 			if (sbase instanceof AbstractSBase) {
 				((AbstractSBase) sbase).parentSBMLObject = this;
