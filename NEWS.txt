@@ -6,6 +6,9 @@ Trunk
 
 * New Features:
 
+  - JSBML now provides a Maven script file. Thanks to Igor Rodchenkov
+    for contributing this file.
+
   - Where necessary, initDefaults has been complemented with an 
     additional method, for which the level/version combination can be
     directly specified, i.e., it is now possible for those elements to
