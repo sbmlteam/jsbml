@@ -22,6 +22,7 @@ package org.sbml.jsbml.test;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.junit.Ignore;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Event;
@@ -39,6 +40,7 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  * @since 0.8
  * @version $Rev$
  */
+@Ignore
 public class EventTest extends SimpleSBaseChangeListener {
 
 	/**
