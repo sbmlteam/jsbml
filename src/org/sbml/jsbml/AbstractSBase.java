@@ -852,22 +852,30 @@ public abstract class AbstractSBase implements SBase {
 	}
 
 	/**
-	 * Recursively collects all meta identifiers of this {@link AbstractSBase} and
-	 * all of its sub-elements.
-	 * @return
+	 * Collects all meta identifiers of this {@link AbstractSBase} and
+	 * all of its sub-elements if recursively is true.
+	 * 
+	 * @param setOfMetaIds
+	 * @param recursively
 	 */
-	private Set<String> gatherMetaIds() {
-		Set<String> setOfMetaIds = new HashSet<String>();
+	private void gatherMetaIds(Set<String> setOfMetaIds, boolean recursively) {
 		if (isSetMetaId()) {
+			if (setOfMetaIds.contains(getMetaId())) {
+				throw new IllegalArgumentException(String.format(
+										"Cannot add an element to model with duplicate meta identifier \"%s\".",
+										getMetaId()));
+			}
 			setOfMetaIds.add(getMetaId());
 		}
-		while (children().hasMoreElements()) {
-			TreeNode node = children().nextElement();
-			if (node instanceof AbstractSBase) {
-				setOfMetaIds.addAll(((AbstractSBase) node).gatherMetaIds());
+		if (recursively) {
+			while (children().hasMoreElements()) {
+				TreeNode node = children().nextElement();
+				if (node instanceof AbstractSBase) {
+					((AbstractSBase) node).gatherMetaIds(setOfMetaIds,
+							recursively);
+				}
 			}
 		}
-		return setOfMetaIds;
 	}
 
 	/*
@@ -1442,21 +1450,13 @@ public abstract class AbstractSBase implements SBase {
 			if (sbase.isSetMetaId()) {
 				SBMLDocument doc = getSBMLDocument();
 				if (doc != null) {
-					if (doc.setOfMetaIds.contains(metaId)) {
-						throw new IllegalArgumentException(String.format(
-												"Cannot add an element to model with duplicate meta identifier \"%s\".",
-												sbase.getMetaId()));
-					}
-					if ((sbase.getSBMLDocument() == null)
-							&& (sbase instanceof AbstractSBase)) {
-						/* 
-						 * sbase did not have access to the document.
-						 * We therefore have to recursively check the metaId property.
-						 */
-						doc.setOfMetaIds.addAll(((AbstractSBase) sbase).gatherMetaIds());
-					} else {
-						doc.setOfMetaIds.add(sbase.getMetaId());
-					}
+					/*
+					 * In case that sbase did not have access to the document we
+					 * have to recursively check the metaId property.
+					 */
+					((AbstractSBase) sbase).gatherMetaIds(doc.setOfMetaIds,
+							(sbase.getSBMLDocument() == null)
+									&& (sbase instanceof AbstractSBase));
 				}
 			}
 			if (sbase instanceof AbstractSBase) {
