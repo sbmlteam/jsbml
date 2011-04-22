@@ -23,12 +23,14 @@ package org.sbml.jsbml;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
@@ -86,7 +88,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * the creation of multiple identical meta identifiers. These identifiers
 	 * have to be unique within the document.
 	 */
-	Set<String> setOfMetaIds;
+	private Set<String> setOfMetaIds;
 	
 	/**
 	 * Memorizes all {@link SBMLError} when parsing the file containing this
@@ -150,7 +152,7 @@ public class SBMLDocument extends AbstractSBase {
 			throw new LevelVersionError(this);
 		}
 	}
-
+	
 	/**
 	 * Creates a SBMLDocument instance from a given SBMLDocument.
 	 * 
@@ -344,102 +346,6 @@ public class SBMLDocument extends AbstractSBase {
 		return listOfErrors.getNumErrors();
 	}
 
-	/**
-	 * Controls the consistency checks that are performed when
-	 * {@link SBMLDocument#checkConsistency()} is called.
-	 * <p>
-	 * This method works by adding or subtracting consistency checks from the
-	 * set of all possible checks that {@link SBMLDocument#checkConsistency()} knows
-	 * how to perform.  This method may need to be called multiple times in
-	 * order to achieve the desired combination of checks.  The first
-	 * argument (<code>category</code>) in a call to this method indicates the category
-	 * of consistency/error checks that are to be turned on or off, and the
-	 * second argument (<code>apply</code>, a boolean) indicates whether to turn it on
-	 * (value of <code>true</code>) or off (value of <code>false</code>).
-	 * <p>
-	 * * The possible categories (values to the argument <code>category</code>) are the
-	 * set of values from the {@link CHECK_CATEGORYH} enumeration.
-	 * The following are the possible choices:
-	 * <p>
-	 * <p>
-	 * <li> {@link GENERAL_CONSISTENCY}:
-	 * Correctness and consistency of specific SBML language constructs.
-	 * Performing this set of checks is highly recommended.  With respect to
-	 * the SBML specification, these concern failures in applying the
-	 * validation rules numbered 2xxxx in the Level&nbsp;2 Versions&nbsp;2, 3
-	 * and&nbsp;4 specifications.
-	 * <p>
-	 * <li> {@link IDENTIFIER_CONSISTENCY}:
-	 * Correctness and consistency of identifiers used for model entities.
-	 * An example of inconsistency would be using a species identifier in a
-	 * reaction rate formula without first having declared the species.  With
-	 * respect to the SBML specification, these concern failures in applying
-	 * the validation rules numbered 103xx in the Level&nbsp;2
-	 * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-	 * <p>
-	 * <li> {@link UNITS_CONSISTENCY}:
-	 * Consistency of measurement units associated with quantities in a
-	 * model.  With respect to the SBML specification, these concern failures
-	 * in applying the validation rules numbered 105xx in the Level&nbsp;2
-	 * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-	 * <p>
-	 * <li> {@link MATHML_CONSISTENCY}:
-	 * Syntax of MathML constructs.  With respect to the SBML specification,
-	 * these concern failures in applying the validation rules numbered 102xx
-	 * in the Level&nbsp;2 Versions&nbsp;2, 3 and&nbsp;4 specifications.
-	 * <p>
-	 * <li> {@link SBO_CONSISTENCY}:
-	 * Consistency and validity of SBO identifiers (if any) used in the
-	 * model.  With respect to the SBML specification, these concern failures
-	 * in applying the validation rules numbered 107xx in the Level&nbsp;2
-	 * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-	 * <p>
-	 * <li> {@link OVERDETERMINED_MODEL}:
-	 * Static analysis of whether the system of equations implied by a model
-	 * is mathematically overdetermined.  With respect to the SBML
-	 * specification, this is validation rule #10601 in the SBML Level&nbsp;2
-	 * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-	 * <p>
-	 * <li> {@link MODELING_PRACTICE}:
-	 * Additional checks for recommended good modeling practice. (These are
-	 * tests performed by libSBML and do not have equivalent SBML validation
-	 * rules.)
-	 * <p>
-	 * <em>By default, all validation checks are applied</em> to the model in
-	 * an {@link SBMLDocument} object <em>unless</em> {@link SBMLDocument#setConsistencyChecks(int, boolean)}  is called to
-	 * indicate that only a subset should be applied.  Further, this default
-	 * (i.e., performing all checks) applies separately to <em>each new
-	 * {@link SBMLDocument} object</em> created.  In other words, each time a model
-	 * is read using {@link SBMLReader#readSBML(String)} , {@link SBMLReader#readSBMLFromString(String)}, a new
-	 * {@link SBMLDocument} is created and for that document, a call to
-	 * {@link SBMLDocument#checkConsistency()} will default to applying all possible checks.
-	 * Calling programs must invoke {@link SBMLDocument#setConsistencyChecks(int, boolean)}  for each such new
-	 * model if they wish to change the consistency checks applied.
-	 * <p>
-	 * @param category a value drawn from JSBML#JSBML.SBML_VALIDATOR_* indicating the
-	 * consistency checking/validation to be turned on or off
-	 * <p>
-	 * @param apply a boolean indicating whether the checks indicated by
-	 * <code>category</code> should be applied or not.
-	 * <p>
-	 * @see SBMLDocument#checkConsistency()
-	 */
-	public void setConsistencyChecks(SBMLValidator.CHECK_CATEGORY category, boolean apply)
-	{		
-		checkConsistencyParameters.put(category.name(), apply);
-	}
-
-	
-	public void printErrors() {
-		int nbErrors = listOfErrors.getNumErrors();
-		
-		for (int i = 0; i < nbErrors; i++) {
-			System.out.println(listOfErrors.getError(i));
-		}
-	}
-	
-	
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -449,6 +355,18 @@ public class SBMLDocument extends AbstractSBase {
 	public SBMLDocument clone() {
 		return new SBMLDocument(this);
 	}
+
+	/**
+	 * A check to see whether elements have been registered to this
+	 * {@link SBMLDocument} with the given meta identifier.
+	 * 
+	 * @param metaId
+	 * @return
+	 */
+	public boolean containsMetaId(String metaId) {
+		return setOfMetaIds.contains(metaId);
+	}
+
 	
 	/**
 	 * Creates a new Model inside this {@link SBMLDocument}, and returns a
@@ -468,7 +386,9 @@ public class SBMLDocument extends AbstractSBase {
 		this.setModel(new Model(getLevel(), getVersion()));
 		return getModel();
 	}
-
+	
+	
+	
 	/**
 	 * Creates a new instance of Model from id and the level and version of this
 	 * SBMLDocument.
@@ -480,7 +400,7 @@ public class SBMLDocument extends AbstractSBase {
 		this.setModel(new Model(id, getLevel(), getVersion()));
 		return getModel();
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -590,11 +510,8 @@ public class SBMLDocument extends AbstractSBase {
 	 * 
 	 * @return
 	 */
-	public SBMLErrorLog getListOfErrors() {
-		if (listOfErrors == null) {
-			listOfErrors = new SBMLErrorLog();
-		}
-		return listOfErrors;
+	public SBMLErrorLog getErrorLog() {
+		return getListOfErrors();
 	}
 
 	/**
@@ -603,10 +520,13 @@ public class SBMLDocument extends AbstractSBase {
 	 * 
 	 * @return
 	 */
-	public SBMLErrorLog getErrorLog() {
-		return getListOfErrors();
+	public SBMLErrorLog getListOfErrors() {
+		if (listOfErrors == null) {
+			listOfErrors = new SBMLErrorLog();
+		}
+		return listOfErrors;
 	}
-	
+
 	/**
 	 * Returns the model of this {@link SBMLDocument}.
 	 * 
@@ -623,7 +543,7 @@ public class SBMLDocument extends AbstractSBase {
 	public int getNumErrors() {
 		return isSetListOfErrors() ? listOfErrors.getNumErrors() : 0;
 	}
-
+	
 	/**
 	 * 
 	 * @return the map SBMLDocumentAttributes of this SBMLDocument.
@@ -653,6 +573,14 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	public boolean isSetModel() {
 		return model != null;
+	}
+
+	public void printErrors() {
+		int nbErrors = listOfErrors.getNumErrors();
+		
+		for (int i = 0; i < nbErrors; i++) {
+			System.out.println(listOfErrors.getError(i));
+		}
 	}
 
 	/*
@@ -686,6 +614,151 @@ public class SBMLDocument extends AbstractSBase {
 	}
 
 	/**
+	 * Saves or removes the given meta identifier in this {@link SBMLDocument} 
+	 * 's {@link #setOfMetaIds}.
+	 * 
+	 * @param metaId
+	 *            the identifier whose value is to be registered.
+	 * @param add
+	 *            if <code>true</code> this will add the given meta identifier
+	 *            to this {@link SBMLDocument}'s {@link #setOfMetaIds}.
+	 *            Otherwise, the given identifier will be removed from this set.
+	 */
+	void registerMetaId(String metaId, boolean add) {
+		if (add) {
+			if (containsMetaId(metaId)) {
+				throw new IllegalArgumentException(String.format(
+						"Cannot set duplicate meta identifier \"%s\".", metaId));
+			}
+			setOfMetaIds.add(metaId);
+		} else {
+			setOfMetaIds.remove(metaId);
+		}
+	}
+
+	/**
+	 * Collects all meta identifiers of this {@link AbstractSBase} and all of
+	 * its sub-elements if recursively is <code>true</code>. It can also be used
+	 * to delete meta identifiers from the given {@link Set}.
+	 * 
+	 * @param sbase
+	 *            The {@link SBase} whose meta identifier is to be registered
+	 *            and from which we maybe have to recursively go through all
+	 *            of its childen.
+	 * @param recursively
+	 *            if <code>true</code>, this method will also consider all
+	 *            sub-elements of this {@link AbstractSBase}.
+	 * @param delete
+	 *            if <code>true</code> the purpose of this method will be to
+	 *            delete the meta identifier from the given {@link Set}.
+	 *            Otherwise, it will try to add it to the set.
+	 * @throws IllegalArgumentException
+	 *             However, duplications are not legal and an
+	 *             {@link IllegalArgumentException} will be thrown in such
+	 *             cases.
+	 */
+	@SuppressWarnings("unchecked")
+	void registerMetaIds(SBase sbase, boolean recursively, boolean delete) {
+		if (sbase.isSetMetaId()) {
+			registerMetaId(sbase.getMetaId(), !delete);
+		}
+		if (recursively) {
+			Enumeration<TreeNode> children = sbase.children(); 
+			while (children.hasMoreElements()) {
+				TreeNode node = children.nextElement();
+				if (node instanceof SBase) {
+					registerMetaIds((SBase) node, recursively, delete);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Controls the consistency checks that are performed when
+	 * {@link SBMLDocument#checkConsistency()} is called.
+	 * <p>
+	 * This method works by adding or subtracting consistency checks from the
+	 * set of all possible checks that {@link SBMLDocument#checkConsistency()} knows
+	 * how to perform.  This method may need to be called multiple times in
+	 * order to achieve the desired combination of checks.  The first
+	 * argument (<code>category</code>) in a call to this method indicates the category
+	 * of consistency/error checks that are to be turned on or off, and the
+	 * second argument (<code>apply</code>, a boolean) indicates whether to turn it on
+	 * (value of <code>true</code>) or off (value of <code>false</code>).
+	 * <p>
+	 * * The possible categories (values to the argument <code>category</code>) are the
+	 * set of values from the {@link CHECK_CATEGORYH} enumeration.
+	 * The following are the possible choices:
+	 * <p>
+	 * <p>
+	 * <li> {@link GENERAL_CONSISTENCY}:
+	 * Correctness and consistency of specific SBML language constructs.
+	 * Performing this set of checks is highly recommended.  With respect to
+	 * the SBML specification, these concern failures in applying the
+	 * validation rules numbered 2xxxx in the Level&nbsp;2 Versions&nbsp;2, 3
+	 * and&nbsp;4 specifications.
+	 * <p>
+	 * <li> {@link IDENTIFIER_CONSISTENCY}:
+	 * Correctness and consistency of identifiers used for model entities.
+	 * An example of inconsistency would be using a species identifier in a
+	 * reaction rate formula without first having declared the species.  With
+	 * respect to the SBML specification, these concern failures in applying
+	 * the validation rules numbered 103xx in the Level&nbsp;2
+	 * Versions&nbsp;2, 3 and&nbsp;4 specifications.
+	 * <p>
+	 * <li> {@link UNITS_CONSISTENCY}:
+	 * Consistency of measurement units associated with quantities in a
+	 * model.  With respect to the SBML specification, these concern failures
+	 * in applying the validation rules numbered 105xx in the Level&nbsp;2
+	 * Versions&nbsp;2, 3 and&nbsp;4 specifications.
+	 * <p>
+	 * <li> {@link MATHML_CONSISTENCY}:
+	 * Syntax of MathML constructs.  With respect to the SBML specification,
+	 * these concern failures in applying the validation rules numbered 102xx
+	 * in the Level&nbsp;2 Versions&nbsp;2, 3 and&nbsp;4 specifications.
+	 * <p>
+	 * <li> {@link SBO_CONSISTENCY}:
+	 * Consistency and validity of SBO identifiers (if any) used in the
+	 * model.  With respect to the SBML specification, these concern failures
+	 * in applying the validation rules numbered 107xx in the Level&nbsp;2
+	 * Versions&nbsp;2, 3 and&nbsp;4 specifications.
+	 * <p>
+	 * <li> {@link OVERDETERMINED_MODEL}:
+	 * Static analysis of whether the system of equations implied by a model
+	 * is mathematically overdetermined.  With respect to the SBML
+	 * specification, this is validation rule #10601 in the SBML Level&nbsp;2
+	 * Versions&nbsp;2, 3 and&nbsp;4 specifications.
+	 * <p>
+	 * <li> {@link MODELING_PRACTICE}:
+	 * Additional checks for recommended good modeling practice. (These are
+	 * tests performed by libSBML and do not have equivalent SBML validation
+	 * rules.)
+	 * <p>
+	 * <em>By default, all validation checks are applied</em> to the model in
+	 * an {@link SBMLDocument} object <em>unless</em> {@link SBMLDocument#setConsistencyChecks(int, boolean)}  is called to
+	 * indicate that only a subset should be applied.  Further, this default
+	 * (i.e., performing all checks) applies separately to <em>each new
+	 * {@link SBMLDocument} object</em> created.  In other words, each time a model
+	 * is read using {@link SBMLReader#readSBML(String)} , {@link SBMLReader#readSBMLFromString(String)}, a new
+	 * {@link SBMLDocument} is created and for that document, a call to
+	 * {@link SBMLDocument#checkConsistency()} will default to applying all possible checks.
+	 * Calling programs must invoke {@link SBMLDocument#setConsistencyChecks(int, boolean)}  for each such new
+	 * model if they wish to change the consistency checks applied.
+	 * <p>
+	 * @param category a value drawn from JSBML#JSBML.SBML_VALIDATOR_* indicating the
+	 * consistency checking/validation to be turned on or off
+	 * <p>
+	 * @param apply a boolean indicating whether the checks indicated by
+	 * <code>category</code> should be applied or not.
+	 * <p>
+	 * @see SBMLDocument#checkConsistency()
+	 */
+	public void setConsistencyChecks(SBMLValidator.CHECK_CATEGORY category, boolean apply)
+	{		
+		checkConsistencyParameters.put(category.name(), apply);
+	}
+
+	/**
 	 * <p>
 	 * Sets the SBML Level and Version of this {@link SBMLDocument} instance,
 	 * attempting to convert the model as needed.
@@ -709,6 +782,7 @@ public class SBMLDocument extends AbstractSBase {
 	public boolean setLevelAndVersion(int level, int version) {
 		return super.setLevelAndVersion(level, version, true);
 	}
+
 	
 	/**
 	 * <p>
@@ -758,24 +832,6 @@ public class SBMLDocument extends AbstractSBase {
 		setThisAsParentSBMLObject(this.model);
 	}
 
-	
-	/**
-	 * Sets the {@link Model} of this {@link SBMLDocument} to null and notifies
-	 * all {@link SBaseChangedListener} about changes.
-	 * 
-	 * @return <code>true</code> if calling this method changed the properties
-	 *         of this element.
-	 */
-	public boolean unsetModel() {
-		if (this.model != null) {
-			Model oldModel = this.model;
-			this.model = null;
-			oldModel.fireSBaseRemovedEvent();
-			return true;
-		}
-		return false;
-	}
-
 	/**
 	 * Sets the SBMLDocumentAttributes.
 	 * 
@@ -797,6 +853,23 @@ public class SBMLDocument extends AbstractSBase {
 	public String toString() {
 		return String.format("SBML Level %d Version %d", getLevel(),
 				getVersion());
+	}
+
+	/**
+	 * Sets the {@link Model} of this {@link SBMLDocument} to null and notifies
+	 * all {@link SBaseChangedListener} about changes.
+	 * 
+	 * @return <code>true</code> if calling this method changed the properties
+	 *         of this element.
+	 */
+	public boolean unsetModel() {
+		if (this.model != null) {
+			Model oldModel = this.model;
+			this.model = null;
+			oldModel.fireSBaseRemovedEvent();
+			return true;
+		}
+		return false;
 	}
 
 	/*
