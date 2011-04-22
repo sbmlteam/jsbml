@@ -1447,17 +1447,15 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError {
 		if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
-			if (sbase.isSetMetaId()) {
-				SBMLDocument doc = getSBMLDocument();
-				if (doc != null) {
-					/*
-					 * In case that sbase did not have access to the document we
-					 * have to recursively check the metaId property.
-					 */
-					((AbstractSBase) sbase).gatherMetaIds(doc.setOfMetaIds,
-							(sbase.getSBMLDocument() == null)
-									&& (sbase instanceof AbstractSBase));
-				}
+			SBMLDocument doc = getSBMLDocument();
+			if (doc != null) {
+				/*
+				 * In case that sbase did not have access to the document we
+				 * have to recursively check the metaId property.
+				 */
+				((AbstractSBase) sbase).gatherMetaIds(doc.setOfMetaIds, (sbase
+						.getSBMLDocument() == null)
+						&& (sbase instanceof AbstractSBase));
 			}
 			if (sbase instanceof AbstractSBase) {
 				((AbstractSBase) sbase).parentSBMLObject = this;
