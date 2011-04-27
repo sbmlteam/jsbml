@@ -1,7 +1,7 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ======================================================================
-Trunk
+Version 0.8 (xx-xx-2011)
 ======================================================================
 
 * New Features:
@@ -37,10 +37,6 @@ Version 0.8-b2 (18-04-2011)
 
 * New Features:
 
-  - The indentation was improved: There was often no indentation when
-    writing the closing tag for any instances of MathContainer, such
-    as EventAssignments or KineticLaws.
-    
   - The new interface CallableSBase ensures that only instances of this
     type may be referenced in ASTNodes. In this way, it is no longer
     possible to refer to Events from ASTNodes.
@@ -75,12 +71,12 @@ Version 0.8-b2 (18-04-2011)
     element. This has been fixed. Thanks to Sebastian Froh for reporting 
     this.
 
-  - [Tracker issue #3208903] : After parsing, Priority elements were 
-    not added to their event. Thanks to Sebastian Froh for reporting 
+  - [Tracker issue #3208903] : Priority elements were 
+    properly read and written. Thanks to Sebastian Froh for reporting 
     this.
 
   - [Tracker issue #3204275] : It was impossible to set the size of a 
-    compartment for models in Level 3 if the spatial dimensions are 
+    compartment for models in Level 3 if the spatial dimensions was 
     undefined, i.e., NaN. Since it is only prohibited to set the size 
     if the dimensions equal 0, we provided another test in the set 
     method in Compartment to allow for this.
@@ -128,10 +124,26 @@ Version 0.8-b2 (18-04-2011)
     the classes related to SBMLdocument.checkConsistency() so that is works 
     as expected.
     
-  - [Tracker issue #3199792 ] : localParameter were not parsed correctly in 
+  - [Tracker issue #3199792] : localParameter were not parsed correctly in 
     SBML level 3. Thanks for the persons who reported it.
       
+  - [Tracker issue #3216183] : all the XML elements that were belonging to
+    the RDF namespace were sent to a parser that understood only the 
+    specific SBML RDF annotations. This as been fixed and we can now have
+    some RDF elements anywhere in the annotation.   
+      
+* Known issues :
 
+  - SBML level 1 rules when the 'type' attribute is equal to 'rate' are 
+    created as AssignmentRule instead of RateRule.
+  
+  - The support for the mathML elements notanumber and infinity is not 
+    complete.
+  
+  - Reading of more than one RDF Description elements in the RDF annotation 
+    block (the official SBML annotation scheme) is not supported at the 
+    moment. 
+  
 ============================================================================
 Version 0.8-b1 (04-02-2011)
 ============================================================================
