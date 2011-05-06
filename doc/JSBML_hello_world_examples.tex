@@ -27,13 +27,13 @@ instances of \texttt{SBase} implement the interface \texttt{TreeNode}.}
 Fig.~\vref{fig:Visualization} shows an example output when applying the program
 to an SBML test model.
 \index{SBML!test cases}%
-Line 19 in Listing~\vref{lst:Visualization} shows how to read an
+Line 16 in Listing~\vref{lst:Visualization} shows how to read an
 \texttt{SBMLDocument} from a file, using the \texttt{SBMLReader}. Afterwards,
 the \texttt{JSBMLvisualizer} constructor is called, which first creates a new
-\texttt{JFrame} with the model's id as title (line 10). Since JSBML's
+\texttt{JFrame} with the model's id as title (line 9). Since JSBML's
 \texttt{SBase} object, and all derived elements, implement the \texttt{TreeNode}
 interface, it is possible to create a \texttt{JTree} from the information in the
-\texttt{SBMLDocument} only. This is done in line 11.
+\texttt{SBMLDocument} only. This is done in line 10.
 
 \subsection{Creating and writing an \texttt{SBMLDocument}}
 
