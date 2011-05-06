@@ -46,8 +46,6 @@ Tree-Node
 }
 
 %% JNI ref : http://download.oracle.com/javase/6/docs/technotes/guides/jni/ ??
-%% http://en.wikipedia.org/wiki/Java_Native_Interface ??
-%% http://java.sun.com/docs/books/jni/ ?? 
 
 \begin{document}
 \firstpage{1}
@@ -123,7 +121,7 @@ language bindings for Java\texttrademark, among other programming languages.
 %, MATLAB\texttrademark, Perl, and many more}.
 However, the full platform independence brought by the use of Java is limited in
 libSBML because the binding is only a wrapper
-around the C/C++ core, implemented using the Java Native Interface (JNI).
+around the C/C++ core, implemented using the Java Native Interface\textcolor{red}{(JNI)}.
 As a consequence, some software developers experience difficulties
 deploying portable libSBML-based Java applications.
 % Furthermore, the libSBML API and type hierarchy are not sufficiently
@@ -180,7 +178,7 @@ The \texttt{Model} class provides several methods, all beginning with the name
 for elements that possess specific properties. All \texttt{ListOf*} elements in
 JSBML implement Java's \texttt{List} interface, making iteration and the use of
 generic Java types possible. Fig.~\ref{fig:JSBML} demonstrates how the
-hierarchically structured content of an SBML file can be easily visualized in the form
+hierarchically structured content of an SBML file can be easily visualized in \textcolor{red}{the} form
 of a tree.
 \begin{figure*}
 \centerline{
