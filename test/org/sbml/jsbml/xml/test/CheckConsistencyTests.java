@@ -1,7 +1,4 @@
 /*
- * $Id$
- * $URL$
- * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
@@ -20,18 +17,49 @@
 
 package org.sbml.jsbml.xml.test;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.InvalidPropertiesFormatException;
+
+import javax.xml.stream.XMLStreamException;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLReader;
 
 /**
  * 
  * @author
- * @since 0.8
- * @version $Rev$
  */
-@RunWith(value=Suite.class)
-@SuiteClasses(value={SBML_L1VxTests.class, SBML_L2V1Test.class, CheckConsistencyTests.class})
-public class Tests {
+public class CheckConsistencyTests {
+	
+	
+	public static String DATA_FOLDER = null;
+	
+	static {
+		if (DATA_FOLDER == null) {
+			DATA_FOLDER = System.getenv("DATA_FOLDER"); 
+		}
+		if (DATA_FOLDER == null) {
+			DATA_FOLDER = System.getProperty("DATA_FOLDER"); 
+		}
+	}
 
+	/**
+	 * 
+	 */
+	@Before public void setUp() { 
+	}
+	
+	/**
+	 * Tries to validate biomodels file with id 228. 
+	 */
+	@Test public void checkConsistency() throws IOException, XMLStreamException {
+		String fileName = DATA_FOLDER + "/l2v4/BIOMD0000000228.xml";
+		
+		SBMLDocument doc = new SBMLReader().readSBML(fileName);
+		assertTrue(doc.checkConsistency() == 0);
+	}
 }
