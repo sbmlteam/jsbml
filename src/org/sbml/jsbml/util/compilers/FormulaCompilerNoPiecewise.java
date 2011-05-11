@@ -1,6 +1,7 @@
 package org.sbml.jsbml.util.compilers;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.sbml.jsbml.ASTNode;
@@ -18,7 +19,7 @@ import org.sbml.jsbml.SBMLException;
  */
 public class FormulaCompilerNoPiecewise extends FormulaCompiler {
 
-	private HashMap<String, String> piecewiseMap = new HashMap<String, String>();
+	private LinkedHashMap<String, String> piecewiseMap = new LinkedHashMap<String, String>();
 	
 	/*
 	 * (non-Javadoc)
@@ -28,7 +29,7 @@ public class FormulaCompilerNoPiecewise extends FormulaCompiler {
 	 */
 	public ASTNodeValue piecewise(List<ASTNode> nodes) throws SBMLException {
 		
-		// TODO : create the piecewise output with if/then/else
+		// create the piecewise output with if/then/else
 		// We need to compile each nodes, in case they contain some other piecewise
 		String piecewiseStr = "";
 		
@@ -38,6 +39,9 @@ public class FormulaCompilerNoPiecewise extends FormulaCompiler {
 
 		for (int i = 0; i < nbIfThen; i++) {
 			int index = i * 2;
+			if (i > 0) {
+				piecewiseStr += "(";
+			}
 			piecewiseStr += "if (" + nodes.get(index + 1).compile(this).toString() + ") then (" + nodes.get(index).compile(this).toString() + ") else ";
 		}
 		
@@ -45,11 +49,15 @@ public class FormulaCompilerNoPiecewise extends FormulaCompiler {
 			piecewiseStr += "(" + nodes.get(nbChildren - 1).compile(this).toString() + ")";
 		}
 		
-		/*
-		for (ASTNode astNode : nodes) {
-			piecewiseStr += "(" + astNode.compile(this).toString() + ") ite ";
+		// closing the opened parenthesis
+		if (nbIfThen > 1) {
+			for (int i = 1; i < nbIfThen; i++) {
+				piecewiseStr += ")";
+			}
 		}
-		*/
+		
+		piecewiseStr = piecewiseStr.replaceAll(" and ", " & ");
+		piecewiseStr = piecewiseStr.replaceAll(" or ", " | ");
 		
 		// get a unique identifier for the piecewise expression in this compiler.
 		int id = piecewiseMap.size() + 1;
