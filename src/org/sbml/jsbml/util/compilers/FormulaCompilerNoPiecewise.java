@@ -20,6 +20,9 @@ import org.sbml.jsbml.SBMLException;
 public class FormulaCompilerNoPiecewise extends FormulaCompiler {
 
 	private LinkedHashMap<String, String> piecewiseMap = new LinkedHashMap<String, String>();
+	private String andReplacement = " & ";
+	private String orReplacement = " | ";
+	
 	
 	/*
 	 * (non-Javadoc)
@@ -56,8 +59,12 @@ public class FormulaCompilerNoPiecewise extends FormulaCompiler {
 			}
 		}
 		
-		piecewiseStr = piecewiseStr.replaceAll(" and ", " & ");
-		piecewiseStr = piecewiseStr.replaceAll(" or ", " | ");
+		if (andReplacement != null) {
+			piecewiseStr = piecewiseStr.replaceAll(" and ", andReplacement);
+		}
+		if (orReplacement != null) {
+			piecewiseStr = piecewiseStr.replaceAll(" or ", orReplacement);
+		}
 		
 		// get a unique identifier for the piecewise expression in this compiler.
 		int id = piecewiseMap.size() + 1;
@@ -70,8 +77,61 @@ public class FormulaCompilerNoPiecewise extends FormulaCompiler {
 	}
 
 	
+	/**
+	 * Gets a Map of the piecewise expressions that have been transformed.
+	 * 
+	 * @return a Map of the piecewise expressions that have been transformed.
+	 */
 	public HashMap<String, String> getPiecewiseMap() {
 		return piecewiseMap;
+	}
+
+
+	/**
+	 * Gets the String that will be used to replace ' and ' (the mathML <and> element) 
+	 * in the boolean expressions.
+	 * 
+	 * @return the String that will be used to replace ' and ' (the mathML <and> element) 
+	 * in the boolean expressions.
+	 */
+	public String getAndReplacement() {
+		return andReplacement;
+	}
+
+
+	/**
+	 * Sets the String that will be used to replace ' and ' (the mathML <and> element) 
+	 * in the boolean expressions. The default value used is ' & '. If null is given, no replacement
+	 * will be performed.
+	 * 
+	 * @param andReplacement
+	 */
+	public void setAndReplacement(String andReplacement) {
+		this.andReplacement = andReplacement;
+	}
+
+
+	/**
+	 * Gets the String that will be used to replace ' or ' (the mathML <or> element) 
+	 * in the boolean expressions.
+	 * 
+	 * @return the String that will be used to replace ' or ' (the mathML <or> element) 
+	 * in the boolean expressions.
+	 */
+	public String getOrReplacement() {
+		return orReplacement;
+	}
+
+
+	/**
+	 *  Sets the String that will be used to replace ' or ' (the mathML <or> element) 
+	 * in the boolean expressions. The default value is ' | '. If null is given, no replacement
+	 * will be performed.
+	 * 
+	 * @param orReplacement
+	 */
+	public void setOrReplacement(String orReplacement) {
+		this.orReplacement = orReplacement;
 	}
 	
 }
