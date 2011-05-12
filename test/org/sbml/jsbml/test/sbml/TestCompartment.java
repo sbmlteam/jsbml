@@ -72,7 +72,7 @@ public class TestCompartment {
 //    assertTrue( C.getTypeCode() == libsbml.SBML_COMPARTMENT );
     assertTrue( C.getMetaId().equals("") == true );
     assertTrue( C.getNotes() == null );
-    assertTrue( C.getNotesString() == null );
+    assertTrue( C.getNotesString() == "" );
     // assertTrue( C.getAnnotation() == null );
     assertTrue( C.getId().equals("") == true );
     assertTrue( C.getName().equals("") == true );
