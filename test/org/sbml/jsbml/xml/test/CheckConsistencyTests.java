@@ -20,14 +20,15 @@ package org.sbml.jsbml.xml.test;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.InvalidPropertiesFormatException;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLError.SEVERITY;
 import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.validator.SBMLValidator;
 
 /**
  * 
@@ -61,5 +62,67 @@ public class CheckConsistencyTests {
 		
 		SBMLDocument doc = new SBMLReader().readSBML(fileName);
 		assertTrue(doc.checkConsistency() == 0);
+	}
+	
+	/**
+	 * Tries to validate biomodels file with id 025 with all checks on. 
+	 */
+	@Test public void checkConsistencyAllChecks() throws IOException, XMLStreamException {
+		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
+		
+		SBMLDocument doc = new SBMLReader().readSBML(fileName);
+		
+		doc.setConsistencyChecks(SBMLValidator.CHECK_CATEGORY.UNITS_CONSISTENCY, true);
+		
+		int nbErrors = doc.checkConsistency();
+		
+		assertTrue(nbErrors > 0);
+		System.out.println("Found " + nbErrors + " errors on Biomodels 025 with the unit checking turned on.");
+		
+		assertTrue(doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR) == 0);
+		
+		assertTrue(nbErrors == doc.getNumErrors());
+		assertTrue(nbErrors == doc.getErrorLog().getValidationErrors().size());
+		
+	}
+
+	// TODO : test that the different possible consistency checks can be put on or off.
+	// TODO : test the SBMLError class
+
+	
+	/**
+	 * Tries to validate biomodels file with id 228. 
+	 */
+	@Test public void checkConsistency228() throws IOException, XMLStreamException {
+		String fileName = DATA_FOLDER + "/l2v4/BIOMD0000000228.xml";
+		
+		SBMLDocument doc = new SBMLReader().readSBML(fileName);
+		try {
+			int nbErrors = doc.checkConsistency();
+
+			System.out.println("Found " + nbErrors + " errors on Biomodels 228 with the unit checking turned off.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);				
+		}
+	}
+
+	/**
+	 * Tries to validate biomodels file with id 228. 
+	 */
+	@Test public void checkConsistency025() throws IOException, XMLStreamException {
+		String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
+		
+		SBMLDocument doc = new SBMLReader().readSBML(fileName);
+		try {
+			int nbErrors = doc.checkConsistency();
+
+			System.out.println("Found " + nbErrors + " errors on Biomodels 025 with the unit checking turned off.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);				
+		}
 	}
 }

@@ -1048,7 +1048,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#getNotesString()
 	 */
 	public String getNotesString() {
-		return notesXMLNode != null ? notesXMLNode.toXMLString() : null;
+		return notesXMLNode != null ? notesXMLNode.toXMLString() : "";
 	}
 
 
