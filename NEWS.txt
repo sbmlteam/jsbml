@@ -31,6 +31,19 @@ Version 0.8 (xx-xx-2011)
   - If the Level/Version combination was not set, the identifier of
     NamedSBases was sometimes not written to an SBML file.
 
+  - [Tracker issue #3300430] : In some condition, the JVM was not checking
+    the type of an Object before adding it to a typed variable which later
+    lead to some ClassCastException that prevented jsbml to save some 
+    models. Thanks to Martin Graesslin to report the bugs alongside some 
+    unit tests and to help resolved it.
+    
+  - [Tracker issue #3300490] : The method SBase.getNotesString() was 
+    returning null instead of the empty string, as stated in the java 
+    documentation. This has been corrected and the empty String is returned
+    now. Thanks to Martin Graesslin to report the bugs alongside some 
+    unit tests.
+       
+
 ======================================================================
 Version 0.8-b2 (18-04-2011)
 ======================================================================

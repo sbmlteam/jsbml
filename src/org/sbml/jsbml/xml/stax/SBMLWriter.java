@@ -268,7 +268,9 @@ public class SBMLWriter {
 		
 		if (packageNamespaces != null) {
 			
+			
 			if (!packageNamespaces.contains(namespace)) {
+				
 				WritingParser sbmlParser = instantiatedSBMLParsers.get(namespace);
 				addWritingParser(sbmlParsers, sbmlParser, namespace);
 			}
@@ -321,8 +323,7 @@ public class SBMLWriter {
 
 		for (String namespace : packageParsers.keySet()) {
 			try {
-				instantiatedSBMLParsers.put(namespace,
-						packageParsers.get(namespace).newInstance());
+				instantiatedSBMLParsers.put(namespace, (WritingParser) packageParsers.get(namespace).newInstance());
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
