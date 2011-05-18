@@ -121,7 +121,7 @@ language bindings for Java\texttrademark, among other programming languages.
 %, MATLAB\texttrademark, Perl, and many more}.
 However, the full platform independence brought by the use of Java is limited in
 libSBML because the binding is only a wrapper
-around the C/C++ core, implemented using the Java Native Interface\textcolor{red}{(JNI)}.
+around the C/C++ core, implemented using the Java Native Interface \textcolor{red}{(JNI)}.
 As a consequence, some software developers experience difficulties
 deploying portable libSBML-based Java applications.
 % Furthermore, the libSBML API and type hierarchy are not sufficiently
@@ -148,9 +148,12 @@ The software produced by the project is freely available from
 
 %\section{Approach}
 
-\begin{methods}
+%\begin{methods}
 %\section{Methods}
-\section{A brief overview of JSBML}
+
+
+\section{\textcolor[rgb]{1,0,0}{Implementation}}
+%\textcolor{black}
 
 A key achievement of the JSBML project is the development of an extended type
 hierarchy, designed from scratch based on the SBML specifications, but still
@@ -229,11 +232,12 @@ react when the model is changed. Using modules, JSBML capabilities can be
 further extended; it can therefore be used as a communication layer between an
 application and libSBML or CellDesigner \citep{Funahashi2003}---this also
 facilitates turning an existing application into a plugin for CellDesigner.
-\end{methods}
+%\end{methods}
 
-\section{Implementation}
 
-JSBML is written entirely in Java version 1.5 and does
+%\section{Implementation}
+
+\textcolor{red}{(deleted text) JSBML is written entirely in Java version 1.5 and does
 not require additional non-Java software.
 % It was successfully tested under MacOS X, Windows 7, Vista, XP, and Linux
 % (openSuSE 11.2, Ubuntu 10.04).
@@ -243,7 +247,7 @@ third-party libraries are included. We also provide a convenient build
 file offering several options for users to easily create customized JAR files.
 Since it is distributed under the terms of the Lesser GNU Public License (LGPL), 
 JSBML can freely be used even in proprietary software.
-
+}
 %\section{Discussion}
 
 
