@@ -81,12 +81,12 @@ Version 0.8-b2 (18-04-2011)
   - [Tracker issue #3208887] : When trying to access the previously
     set value for  UseValuesFromTriggerTime it was possible that a
     NullPointerException could occur due to the attempt to clone this
-    element. This has been fixed. Thanks to Sebastian Froh for reporting 
-    this.
+    element. This has been fixed. Thanks to Sebastian Fröhlich for 
+    reporting this.
 
   - [Tracker issue #3208903] : Priority elements were 
-    properly read and written. Thanks to Sebastian Froh for reporting 
-    this.
+    properly read and written. Thanks to Sebastian Fröhlich for 
+    reporting this.
 
   - [Tracker issue #3204275] : It was impossible to set the size of a 
     compartment for models in Level 3 if the spatial dimensions was 
