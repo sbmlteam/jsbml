@@ -236,14 +236,22 @@ public class StringTools {
 	 * @return
 	 */
 	public static final String toString(Locale locale, double value) {
+		if (Double.isNaN(value)) {
+			return "NaN";
+		} else if (Double.isInfinite(value)) {
+			return "infinity";
+		}
+		
 		if (((int) value) - value == 0) {
 			return String.format("%d", Integer.valueOf((int) value));
 		}
+		
 		if ((Math.abs(value) < 1E-5) || (1E5 < Math.abs(value))) {
 			DecimalFormat df = new DecimalFormat(SCIENTIFIC_FORMAT,
 					new DecimalFormatSymbols(locale));
 			return df.format(value);
 		}
+		
 		DecimalFormat df = new DecimalFormat(DECIMAL_FORMAT,
 				new DecimalFormatSymbols(locale));
 		return df.format(value);

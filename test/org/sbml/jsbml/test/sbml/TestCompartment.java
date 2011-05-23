@@ -39,8 +39,6 @@ import org.junit.Test;
 import org.sbml.jsbml.Compartment;
 
 
-// TODO : test what libsbml is returning with getValue(), when the value is not set, probably not NaN ?
-
 /**
  * @since 0.8
  * @version $Rev$
@@ -67,7 +65,8 @@ public class TestCompartment {
 	  assertTrue( C.getNotes() == null );
   }
   
-  @Test public void test_Compartment_create()
+  @SuppressWarnings("deprecation")
+@Test public void test_Compartment_create()
   {
 //    assertTrue( C.getTypeCode() == libsbml.SBML_COMPARTMENT );
     assertTrue( C.getMetaId().equals("") == true );
@@ -129,7 +128,8 @@ public class TestCompartment {
     assertEquals( false, C.isSetCompartmentType() );
   }
 
-  @Test public void test_Compartment_initDefaults()
+  @SuppressWarnings("deprecation")
+@Test public void test_Compartment_initDefaults()
   {
     Compartment c = new  Compartment(2,4);
     c.setId( "A");
