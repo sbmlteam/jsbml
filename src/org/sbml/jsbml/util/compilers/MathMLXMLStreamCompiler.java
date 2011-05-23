@@ -136,7 +136,7 @@ public class MathMLXMLStreamCompiler {
 			compilePositiveInfinity(astNode);
 		} else if (astNode.isNegInfinity()) {
 			compileNegativeInfinity(astNode);
-		} else { // TODO : what about NaN ??
+		} else {
 			
 		
 			switch (astNode.getType()) {
@@ -280,17 +280,54 @@ public class MathMLXMLStreamCompiler {
 	
 
 	private void compileNegativeInfinity(ASTNode astNode) {
-		// TODO Auto-generated method stub
+
+		// TODO : check what write in MathML if we have a negative infinity
+		
+		try {
+
+			writer.writeCharacters(indent);
+			writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "infinity");
+			writer.writeCharacters("\n");
+
+		} catch (XMLStreamException e) {			
+			e.printStackTrace();
+		}
+
 		
 	}
 
 
 	private void compilePositiveInfinity(ASTNode astNode) {
-		// TODO Auto-generated method stub
+
+		try {
+
+			writer.writeCharacters(indent);
+			writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "infinity");
+			writer.writeCharacters("\n");
+
+		} catch (XMLStreamException e) {			
+			e.printStackTrace();
+		}
+
+
 		
 	}
 
+	private void compileNotANumber(ASTNode astNode) {
 
+		try {
+
+			writer.writeCharacters(indent);
+			writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "notanumber");
+			writer.writeCharacters("\n");
+
+		} catch (XMLStreamException e) {			
+			e.printStackTrace();
+		}
+
+	}
+
+	
 	private void compileCSymbol(ASTNode astNode) {
 		
 		try {
@@ -351,6 +388,15 @@ public class MathMLXMLStreamCompiler {
 	private void compileReal(ASTNode astNode) {
 
 		try {
+			
+			if (Double.isNaN(astNode.getReal())) {
+				compileNotANumber(astNode);
+				return;
+			} else if (Double.isInfinite(astNode.getReal())) {
+				compilePositiveInfinity(astNode);
+				return;
+			}
+			
 			writer.writeCharacters(indent);
 			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "cn");
 			if (astNode.isSetNumberType()) {
@@ -372,6 +418,7 @@ public class MathMLXMLStreamCompiler {
 		}
 		
 	}
+
 
 	private void compileReal_e(ASTNode astNode) {
 
@@ -737,6 +784,15 @@ public class MathMLXMLStreamCompiler {
 	}
 
 	public static void main(String[] args) {
+		
+		ASTNode formula_base = new ASTNode(Double.NaN);
+		
+		System.out.println(formula_base.toMathML());
+		try {
+			System.out.println(formula_base.toFormula());
+		} catch (SBMLException e) {
+			e.printStackTrace();
+		}
 		
 		double x = 0.0050;
 		double y = 1.0;
