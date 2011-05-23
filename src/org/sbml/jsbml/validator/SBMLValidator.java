@@ -458,11 +458,13 @@ public class SBMLValidator {
 		xstream.addImplicitCollection(SBMLErrorLog.class,
 				"validationErrors", "problem", SBMLError.class);
 
-		// TODO : possibility to get an internal-error element in the XML file !!
-		
 		xstream.aliasField("error", SBMLErrorLog.class, "status");
 		xstream.aliasField("warning", SBMLErrorLog.class, "status");
 		xstream.aliasField("no-errors", SBMLErrorLog.class, "status");
+		xstream.aliasField("file-not-readable", SBMLErrorLog.class, "status");
+		xstream.aliasField("out-of-memory", SBMLErrorLog.class, "status");
+		xstream.aliasField("segmentation-fault", SBMLErrorLog.class, "status");
+		xstream.aliasField("internal-error", SBMLErrorLog.class, "status");
 
 		xstream.useAttributeFor(File.class);
 
