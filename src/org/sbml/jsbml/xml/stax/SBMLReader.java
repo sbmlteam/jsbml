@@ -66,9 +66,9 @@ import com.ctc.wstx.stax.WstxInputFactory;
 /**
  * Provides all the methods to read a SBML file.
  * 
- * @author marine
+ * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */

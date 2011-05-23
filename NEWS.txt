@@ -6,6 +6,11 @@ Version 0.8 (xx-xx-2011)
 
 * New Features:
 
+  - The SBMLReader now follows the factory pattern by providing static
+    methods to directly read SBML content from Files, InputStreams, or
+    Strings. Thanks to Martin Gräßlin for this idea in tracker item 
+    3300433.
+
   - JSBML now provides a Maven script file. Thanks to Igor Rodchenkov
     for contributing this file.
 

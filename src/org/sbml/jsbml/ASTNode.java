@@ -3532,17 +3532,14 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * @return the representation of this node in MathML.
 	 */
 	public String toMathML() {
-		String mathML = "";
-
 		try {
-			mathML = MathMLXMLStreamCompiler.toMathML(this);
+			return MathMLXMLStreamCompiler.toMathML(this);
 		} catch (RuntimeException e) {
 			// added to prevent a crash when we cannot create the mathML
 			// TODO : log the exception
 			// e.printStackTrace();
 		}
-
-		return mathML;
+		return "";
 	}
 
 	/*
