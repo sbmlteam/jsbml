@@ -59,6 +59,7 @@ import org.sbml.jsbml.util.Option;
 import org.sbml.jsbml.xml.xstream.converter.MessageConverter;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.XStreamException;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
@@ -347,6 +348,7 @@ public class SBMLValidator {
 		destination.flush();
 	}
 
+	
 	/**
 	 * Validates an SBML model using the
 	 * SBML.org online validator (http://sbml.org/validator/).
@@ -369,8 +371,7 @@ public class SBMLValidator {
  	 * 
  	 * @see <a href="http://sbml.org/Facilities/Validator/Validator_Web_API">sbml.org Validator Web API</a>
  	 */
-	public static SBMLErrorLog checkConsistency(String fileName,
-			HashMap<String, String> parameters) 
+	public static SBMLErrorLog checkConsistency(String fileName, HashMap<String, String> parameters) 
 	{
 		Logger logger = Logger.getLogger(SBMLValidator.class);
 		
@@ -390,53 +391,93 @@ public class SBMLValidator {
 			// http://sbml.org/Facilities/Validator/Validator_Web_API
 			result = new InputStreamReader(Validator.validateSBML(fileName, parameters));
 
-			// DEBUG
-			if (logger.isDebugEnabled()) {
-				String resultString = new String();
-				StringWriter out = new StringWriter();
-				print(result, out);
-				
-				resultString = out.toString();
-				logger.debug(resultString);
-				
-				result = new StringReader(resultString);				
-				
-			}
+			String resultString = new String();
+			StringWriter out = new StringWriter();
+			print(result, out);
 			
-			XStream xstream = new XStream(new DomDriver()); // To parse XML using DOM
-			// XStream xstream = new XStream(new StaxDriver()); // To parse XML using Stax
+			resultString = out.toString();
 			
-			xstream.alias("validation-results", SBMLErrorLog.class);
-			xstream.alias("option", Option.class);
-			xstream.alias("problem", SBMLError.class);
-			xstream.alias("location", Location.class);
-			// xstream.registerConverter(new MessageConverter(), XStream.PRIORITY_VERY_HIGH);
-			xstream.registerLocalConverter(SBMLError.class, "message", new MessageConverter());
+			String xmlValidationString = resultString;
 			
-			xstream.alias("message", Message.class);
+			return SBMLValidator.checkConsistency(xmlValidationString);
 			
-			xstream.addImplicitCollection(SBMLErrorLog.class, "options",
-					"option", Option.class);
-			xstream.addImplicitCollection(SBMLErrorLog.class,
-					"validationErrors", "problem", SBMLError.class);
+		} catch (Exception e) {
+			
+		}
+		
+		return null;
+	}
+	
+	
+	/**
+	 * Parses the XML String returned by the libSBML online validator or web services.
+	 * 
+	 * <p>
+	 * It will fill the {@link SBMLErrorLog}
+	 * with {@link SBMLError}s for each problem within this whole model.
+	 * 
+	 * <p>
+	 * If this method returns a non empty {@link SBMLErrorLog}, the failures may be
+	 * due to warnings @em or errors.  Callers should inspect the severity
+	 * flag in the individual SBMLError objects to determine the nature of the failures.
+	 * 
+	 * @param fileName a file name
+	 * @param parameters parameters for the libsbml checkConsistency()
+ 	 * @return an {@link SBMLErrorLog} containing the list of errors.
+ 	 * 
+ 	 * @see <a href="http://sbml.org/Facilities/Validator/Validator_Web_API">sbml.org Validator Web API</a>
+ 	 */
+	public static SBMLErrorLog checkConsistency(String xmlValidationString) 
+	{
+		Logger logger = Logger.getLogger(SBMLValidator.class);
 
-			xstream.aliasField("error", SBMLErrorLog.class, "status");
-			xstream.aliasField("warning", SBMLErrorLog.class, "status");
-			xstream.aliasField("no-errors", SBMLErrorLog.class, "status");
-			
-			xstream.useAttributeFor(File.class);
+		if (xmlValidationString == null || xmlValidationString.trim().length() == 0) {
+			return new SBMLErrorLog();
+		}
 
-			xstream.useAttributeFor(Option.class, "name");
-			xstream.useAttributeFor(Option.class, "status");
+		StringReader reader = new StringReader(xmlValidationString); 
 
-			xstream.useAttributeFor(SBMLError.class, "category");
-			xstream.useAttributeFor(SBMLError.class, "code");
-			xstream.useAttributeFor(SBMLError.class, "severity");
-			
-			xstream.useAttributeFor(Location.class, "line");
-			xstream.useAttributeFor(Location.class, "column");
+		// DEBUG
+		logger.debug(xmlValidationString);			
 
-			SBMLErrorLog resultsObj = (SBMLErrorLog) xstream.fromXML(result);
+		// Defining all the rules to parse the XML 
+		XStream xstream = new XStream(new DomDriver()); // To parse XML using DOM
+		// XStream xstream = new XStream(new StaxDriver()); // To parse XML using Stax
+
+		xstream.alias("validation-results", SBMLErrorLog.class);
+		xstream.alias("option", Option.class);
+		xstream.alias("problem", SBMLError.class);
+		xstream.alias("location", Location.class);
+		// xstream.registerConverter(new MessageConverter(), XStream.PRIORITY_VERY_HIGH);
+		xstream.registerLocalConverter(SBMLError.class, "message", new MessageConverter());
+
+		xstream.alias("message", Message.class);
+
+		xstream.addImplicitCollection(SBMLErrorLog.class, "options",
+				"option", Option.class);
+		xstream.addImplicitCollection(SBMLErrorLog.class,
+				"validationErrors", "problem", SBMLError.class);
+
+		// TODO : possibility to get an internal-error element in the XML file !!
+		
+		xstream.aliasField("error", SBMLErrorLog.class, "status");
+		xstream.aliasField("warning", SBMLErrorLog.class, "status");
+		xstream.aliasField("no-errors", SBMLErrorLog.class, "status");
+
+		xstream.useAttributeFor(File.class);
+
+		xstream.useAttributeFor(Option.class, "name");
+		xstream.useAttributeFor(Option.class, "status");
+
+		xstream.useAttributeFor(SBMLError.class, "category");
+		xstream.useAttributeFor(SBMLError.class, "code");
+		xstream.useAttributeFor(SBMLError.class, "severity");
+
+		xstream.useAttributeFor(Location.class, "line");
+		xstream.useAttributeFor(Location.class, "column");
+
+		try {
+			SBMLErrorLog sbmlErrorLog = (SBMLErrorLog) xstream.fromXML(reader);
 
 			logger.debug("Call and Parsing of the results done !!!");
 
@@ -445,20 +486,22 @@ public class SBMLValidator {
 			// logger.debug("Nb Options = " + resultsObj.getOptions().size());
 			// logger.debug(resultsObj.getOptions());
 
-			logger.debug("Nb Problems = "	+ resultsObj.getValidationErrors().size());
-			
-			if (resultsObj.getValidationErrors().size() > 0) {
-				logger.debug("ValidationError(0) = "	+ resultsObj.getValidationErrors().get(0));
+			logger.debug("Nb Problems = "	+ sbmlErrorLog.getValidationErrors().size());
+
+			if (sbmlErrorLog.getValidationErrors().size() > 0) {
+				logger.debug("ValidationError(0) = "	+ sbmlErrorLog.getValidationErrors().get(0));
 			}
 
-			result.close();
-
-			return resultsObj;
-		} catch (IOException e) {
-			e.printStackTrace();
+			return sbmlErrorLog;
+		} catch (XStreamException e) {
+			logger.error("There has been an error parsing the consistency check XML result : " + e.getMessage());
+			
+			if (logger.isDebugEnabled()) {
+				e.printStackTrace();
+			}
 		}
 
-		return null;
+		return new SBMLErrorLog();
 	}
 
 	/**
