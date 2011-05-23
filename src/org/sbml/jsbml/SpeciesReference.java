@@ -246,7 +246,9 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 *         {@link #denominator}.
 	 */
 	public double getCalculatedStoichiometry() {
-		return getStoichiometry() / getDenominator();
+		int denominator = getDenominator();
+		return (denominator != 1) ? getStoichiometry() / denominator
+				: getStoichiometry();
 	}
 
 	/*
@@ -296,7 +298,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	@Deprecated
 	public int getDenominator() {
-		return isSetDenominator ? denominator : 1;
+		return isSetDenominator ? denominator.intValue() : 1;
 	}
 
 	/*

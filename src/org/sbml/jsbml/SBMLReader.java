@@ -52,18 +52,57 @@ import javax.xml.stream.XMLStreamException;
  * <p>
  * 
  * @author Andreas Dr&auml;ger
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
 public class SBMLReader {
 
 	/**
+	 * Factory method for reading SBML from a given {@link File}.
+	 * 
+	 * @param file
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws XMLStreamException
+	 */
+	public static SBMLDocument read(File file) throws FileNotFoundException,
+			XMLStreamException {
+		return new SBMLReader().readSBML(file);
+	}
+
+	/**
+	 * Factory method for reading SBML from a given {@link InputStream}.
+	 * 
+	 * @param stream
+	 * @return
+	 * @throws XMLStreamException
+	 */
+	public static SBMLDocument read(InputStream stream)
+			throws XMLStreamException {
+		return new SBMLReader().readSBMLFromStream(stream);
+	}
+
+	/**
+	 * Factory method for reading SBML from given XML code in its {@link String}
+	 * representation.
+	 * 
+	 * @param xml
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws XMLStreamException
+	 */
+	public static SBMLDocument read(String xml) throws FileNotFoundException,
+			XMLStreamException {
+		return new SBMLReader().readSBMLFromString(xml);
+	}
+
+	/**
 	 * Creates a new {@link SBMLReader}.
 	 */
 	public SBMLReader() {
 	}
-
+	
 	/**
 	 * Reads an SBML document from a {@link File}.
 	 * <p>
@@ -96,16 +135,16 @@ public class SBMLReader {
 	 * If the file named <code>filename</code> does not exist or its content is not
 	 * valid SBML, one {@link Exception} will be thrown.
 	 * <p>
-	 * @param filename  the name or full pathname of the file to be read.
+	 * @param fileName  the name or full pathname of the file to be read.
 	 * <p>
 	 * @return an {@link SBMLDocument} created from the SBML content.
 	 * @throws FileNotFoundException if the file does not exist.
 	 * @throws XMLStreamException if any other problems prevent to create a {@link SBMLDocument} 
 	 * 
 	 */
-	public SBMLDocument readSBML(String filename) throws FileNotFoundException,
+	public SBMLDocument readSBML(String fileName) throws FileNotFoundException,
 			XMLStreamException {
-		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBML(filename);
+		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBML(fileName);
 	}
 
 	/**
@@ -128,7 +167,7 @@ public class SBMLReader {
 			FileNotFoundException {
 		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBMLFile(filename);
 	}
-
+	
 	/**
 	 * Reads an SBML document from a data stream.
 	 * <p>
