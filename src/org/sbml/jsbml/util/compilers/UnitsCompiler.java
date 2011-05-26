@@ -99,9 +99,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		ASTNodeValue v = new ASTNodeValue(this);
 		if (value.isDifference() || value.isSum() || value.isUMinus()
 				|| value.isNumber()) {
-			v
-					.setValue(Double.valueOf(Math.abs(value.compile(this)
-							.toDouble())));
+			v.setValue(Double.valueOf(Math.abs(value.compile(this).toDouble())));
 		}
 		return v;
 	}
@@ -487,13 +485,11 @@ public class UnitsCompiler implements ASTNodeCompiler {
 					time)) {
 				throw new IllegalArgumentException(
 						new UnitException(
-								String
-										.format(
-												"Units of time in a delay function do not match. Given %s and %s.",
-												UnitDefinition
-														.printUnits(model
-																.getTimeUnitsInstance()),
-												UnitDefinition.printUnits(time))));
+								String.format(
+										"Units of time in a delay function do not match. Given %s and %s.",
+										UnitDefinition.printUnits(model
+												.getTimeUnitsInstance()),
+										UnitDefinition.printUnits(time))));
 			}
 		}
 		// not the correct value, need insight into time scale to return
@@ -551,8 +547,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue factorial(ASTNode value) throws SBMLException {
 
-		ASTNodeValue v = new ASTNodeValue(Maths.factorial((int) Math.round(value.compile(this)
-				.toDouble())), this);
+		ASTNodeValue v = new ASTNodeValue(Maths.factorial((int) Math
+				.round(value.compile(this).toDouble())), this);
 		if (value.isSetUnits()) {
 			v.setUnits(value.getUnitsInstance());
 		} else {
@@ -765,8 +761,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue lambda(List<ASTNode> values) throws SBMLException {
 		for (int i = 0; i < values.size() - 1; i++) {
-			namesToUnits.put(values.get(i).toString(), values.get(i).compile(
-					this));
+			namesToUnits.put(values.get(i).toString(),
+					values.get(i).compile(this));
 		}
 		return new ASTNodeValue(values.get(values.size() - 1).compile(this)
 				.getUnits(), this);
@@ -869,8 +865,6 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		ud.addUnit(Unit.Kind.INVALID);
 		value.setUnits(ud);
 
-		// value.getUnits().addUnit(Unit.Kind.INVALID);
-
 		i = 0;
 
 		while (i < compiledvalues.length) {
@@ -882,7 +876,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			}
 			i++;
 		}
-
+		
 		for (int j = i + 1; j < compiledvalues.length; j++) {
 			unifyUnits(value, compiledvalues[j]);
 			value.setValue(Double.valueOf(value.toDouble()
@@ -960,15 +954,13 @@ public class UnitsCompiler implements ASTNodeCompiler {
 						compiledvalues[i].getUnits())) {
 					throw new IllegalArgumentException(
 							new UnitException(
-									String
-											.format(
-													"Units of some return values in a piecewise function do not match. Given %s and %s.",
-													UnitDefinition
-															.printUnits(node
-																	.getUnits()),
-													UnitDefinition
-															.printUnits(compiledvalues[i]
-																	.getUnits()))));
+									String.format(
+											"Units of some return values in a piecewise function do not match. Given %s and %s.",
+											UnitDefinition.printUnits(node
+													.getUnits()),
+											UnitDefinition
+													.printUnits(compiledvalues[i]
+															.getUnits()))));
 
 				}
 			}
@@ -1006,7 +998,6 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		UnitDefinition ud = new UnitDefinition(this.level, this.version);
 		ud.addUnit(Unit.Kind.INVALID);
 		value.setUnits(ud);
-		// value.getUnits().addUnit(Unit.Kind.INVALID);
 
 		i = compiledvalues.length - 1;
 
@@ -1031,9 +1022,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	}
 
 	/**
-	 * This method tries to unfiy the units of two ASTNodeValues so that they
-	 * have the same units and their value thus also adjusted. If the units of
-	 * both ASTNodeValues are not compatible, an expception is thrown.
+	 * This method tries to unify the units of two ASTNodeValues so that they
+	 * have the same units and their value thus is also adjusted. If the units
+	 * of both ASTNodeValues are not compatible, an exception is thrown.
 	 * 
 	 * @param left
 	 * @param right
@@ -1074,13 +1065,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
 						if (scale1 > mean) {
 							v1 = v1
-									* Math
-											.pow(10.0, -scale1
-													* u1.getExponent());
+									* Math.pow(10.0, -scale1 * u1.getExponent());
 							v2 = v2
-									* Math
-											.pow(10.0, -scale2
-													* u2.getExponent());
+									* Math.pow(10.0, -scale2 * u2.getExponent());
 
 						} else {
 							v1 = v1 * Math.pow(10.0, scale1 * u1.getExponent());
@@ -1110,13 +1097,10 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		} else {
 			throw new IllegalArgumentException(
 					new UnitException(
-							String
-									.format(
-											"Can not apply the units %s against %s in an addition, subtraction, comparisson or an equivalent operation.",
-											UnitDefinition.printUnits(left
-													.getUnits()),
-											UnitDefinition.printUnits(right
-													.getUnits()))));
+							String.format(
+									"Can not apply the units %s against %s in an addition, subtraction, comparisson or an equivalent operation.",
+									UnitDefinition.printUnits(left.getUnits()),
+									UnitDefinition.printUnits(right.getUnits()))));
 
 		}
 
@@ -1190,9 +1174,11 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			illegal = units.toString();
 		}
 		if (illegal != null) {
-			throw new IllegalArgumentException(new UnitException(String.format(
-											"An invalid or dimensionless unit is required but given is %s.",
-											illegal)));
+			throw new IllegalArgumentException(
+					new UnitException(
+							String.format(
+									"An invalid or dimensionless unit is required but given is %s.",
+									illegal)));
 		}
 	}
 
@@ -1247,12 +1233,11 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			if (((u.getExponent() / rootExponent) % 1.0) != 0.0) {
 				throw new IllegalArgumentException(
 						new UnitException(
-								String
-										.format(
-												"Can not perform power or root operation due to incompatibility with a unit exponent. Given %s and %s.",
-												u.getExponent(), rootExponent)));
+								String.format(
+										"Can not perform power or root operation due to incompatibility with a unit exponent. Given %s and %s.",
+										u.getExponent(), rootExponent)));
 			}
-			
+
 			u.setExponent(u.getExponent() / rootExponent);
 		}
 		ASTNodeValue value = new ASTNodeValue(ud, this);

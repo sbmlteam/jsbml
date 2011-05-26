@@ -49,7 +49,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public static final UnitDefinition area(int level, int version) {
 		return getPredefinedUnit("area", level, version);
 	}
-	
+
 	/**
 	 * <p>
 	 * Predicate returning <code>true</code> or <code>false</code> depending on
@@ -96,7 +96,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				&& Unit.isUnitKind(units, ud.getLevel(), ud.getVersion())) {
 			return Unit.areEquivalent(ud.getUnit(0), units);
 		}
-		
+
 		return false;
 	}
 
@@ -128,8 +128,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if (ud1clone.getNumUnits() == ud2clone.getNumUnits()) {
 			boolean equivalent = true;
 			for (int i = 0; i < ud1clone.getNumUnits(); i++) {
-				equivalent &= Unit.areEquivalent(ud1clone.getUnit(i), ud2clone
-						.getUnit(i));
+				equivalent &= Unit.areEquivalent(ud1clone.getUnit(i),
+						ud2clone.getUnit(i));
 			}
 			return equivalent;
 		}
@@ -162,8 +162,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if (ud1clone.getNumUnits() == ud2clone.getNumUnits()) {
 			boolean identical = true;
 			for (int i = 0; i < ud1clone.getNumUnits(); i++) {
-				identical &= Unit.areIdentical(ud1clone.getUnit(i), ud2clone
-						.getUnit(i));
+				identical &= Unit.areIdentical(ud1clone.getUnit(i),
+						ud2clone.getUnit(i));
 			}
 			return identical;
 		}
@@ -316,8 +316,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 					sb.append(unit.getKind().getName().toLowerCase());
 					sb.append(String.format(
 							" (exponent = %f, multiplier = %s, scale = %d)",
-							unit.getExponent(), StringTools.toString(unit
-									.getMultiplier()), unit.getScale()));
+							unit.getExponent(),
+							StringTools.toString(unit.getMultiplier()),
+							unit.getScale()));
 				}
 			}
 		}
@@ -334,8 +335,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public static void reorder(UnitDefinition ud) {
 		if (1 < ud.getNumUnits()) {
 			ListOf<Unit> orig = ud.getListOfUnits();
-			ListOf<Unit> units = new ListOf<Unit>(ud.getLevel(), ud
-					.getVersion());
+			ListOf<Unit> units = new ListOf<Unit>(ud.getLevel(),
+					ud.getVersion());
 			units.setSBaseListType(Type.listOfUnits);
 			orig.removeAllSBaseChangedListeners();
 			units.add(orig.remove(orig.size() - 1));
@@ -411,7 +412,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public UnitDefinition(String id) {
 		super(id);
 	}
-	
+
 	/**
 	 * Creates an UnitDefinition instance from an id, level and version. By
 	 * default, the listOfUnit is null.
@@ -539,18 +540,33 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Devides this unit definition by the second unit definition.
+	 * Divides this unit definition by the second unit definition.
 	 * 
 	 * @param definition
 	 */
-	public UnitDefinition divideBy(UnitDefinition definition) {
-		if (definition.isSetListOfUnits()) {
+	public UnitDefinition divideBy(UnitDefinition definition) {		
+		if (!isSetListOfUnits()) {
+			this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
+		}
+			Unit twinunit;
+			
 			for (Unit unit1 : definition.getListOfUnits()) {
 				Unit unit = unit1.clone();
 				unit.setExponent(-unit1.getExponent());
-				addUnit(unit);
+				
+				// can not add the same unit twice to the list, raise exponent
+				// instead
+				if (listOfUnits.contains(unit)) {
+
+					twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
+					twinunit.setExponent(twinunit.getExponent()
+							+ unit.getExponent());
+
+				} else {
+					addUnit(unit.clone());
+				}				
+				
 			}
-		}
 		return this;
 	}
 
@@ -638,6 +654,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()
 	 */
 	@SuppressWarnings("unchecked")
@@ -666,22 +683,22 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public boolean isBuiltIn() {
 		return isBuiltIn(this);
 	}
-	
+
 	/**
-	 * This method checks, if this UnitDefinition only contains Invalid
-	 * as {@link Unit.Kind}.
+	 * This method checks, if this UnitDefinition only contains Invalid as
+	 * {@link Unit.Kind}.
 	 * 
 	 * @return
 	 */
-	public boolean isInvalid(){
+	public boolean isInvalid() {
 		UnitDefinition ud = this.clone().simplify();
-		
-		if(ud.getNumUnits() == 1){
+
+		if (ud.getNumUnits() == 1) {
 			return ud.getUnit(0).isInvalid();
 		}
-	
-		return false; 
-		
+
+		return false;
+
 	}
 
 	/**
@@ -738,7 +755,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * 
 	 * @param two
 	 * @return true if this UnitDefinition is a variant of the predefined unit
-	 *         length, meaning metres with only abritrary variations in scale or
+	 *         length, meaning metres with only arbitrary variations in scale or
 	 *         multiplier values; false otherwise.
 	 */
 	public boolean isVariantOfLength() {
@@ -757,7 +774,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * 
 	 * @return true if this UnitDefinition is a variant of the predefined unit
 	 *         substance, meaning moles or items (and grams or kilograms from
-	 *         SBML Level 2 Version 2 onwards) with only abritrary variations in
+	 *         SBML Level 2 Version 2 onwards) with only arbitrary variations in
 	 *         scale or multiplier values; false otherwise.
 	 */
 	public boolean isVariantOfSubstance() {
@@ -878,7 +895,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Convenience function for testing if a given unit definition is a variant
 	 * of the predefined unit identifier 'volume'.
@@ -910,8 +927,22 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if (!isSetListOfUnits()) {
 			this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
 		}
+		Unit twinunit;
+
 		for (Unit unit : definition.getListOfUnits()) {
-			addUnit(unit.clone());
+
+			// can not add the same unit twice to the list, raise exponent
+			// instead
+			if (listOfUnits.contains(unit)) {
+
+				twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
+				twinunit.setExponent(twinunit.getExponent()
+						+ unit.getExponent());
+
+			} else {
+				addUnit(unit.clone());
+			}
+
 		}
 		return this;
 	}
@@ -937,7 +968,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Removes the nth Unit object from this UnitDefinition object and returns a
 	 * pointer to it.
@@ -971,17 +1002,18 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public void setListOfUnits(ListOf<Unit> listOfUnits) {
 		unsetListOfUnits();
 		this.listOfUnits = listOfUnits;
-		if ((this.listOfUnits != null) && (this.listOfUnits.getSBaseListType() != ListOf.Type.listOfUnits)) {
+		if ((this.listOfUnits != null)
+				&& (this.listOfUnits.getSBaseListType() != ListOf.Type.listOfUnits)) {
 			this.listOfUnits.setSBaseListType(ListOf.Type.listOfUnits);
 		}
 		setThisAsParentSBMLObject(this.listOfUnits);
 	}
-	
+
 	/**
 	 * Simplifies the {@link UnitDefinition} so that any {@link Unit} objects
 	 * occurring within the {@link #listOfUnits} occurs only once. {@link Unit}s
 	 * of {@link Kind} {@link Kind.INVALID} are treated like
-	 * {@link Kind.DIMENSIONLESS} units and will therefore tend to disapear by
+	 * {@link Kind.DIMENSIONLESS} units and will therefore tend to disappear by
 	 * merging with other units.
 	 * 
 	 * @return a pointer to the simplified {@link UnitDefinition}.
@@ -993,10 +1025,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 				Unit u = getUnit(i); // current unit
 				Unit s = getUnit(i + 1); // successor unit
 				if (Unit.Kind.areEquivalent(u.getKind(), s.getKind())
-						|| u.isDimensionless() || s.isDimensionless() || u.isInvalid() || s.isInvalid()) {
-					Unit.merge(u, removeUnit(i + 1));
-					if (u.isDimensionless() && (i == 0) && (getNumUnits() > 1)) {
-						Unit.merge(getUnit(i + 1), removeUnit(i));
+						|| u.isDimensionless() || s.isDimensionless()
+						|| u.isInvalid() || s.isInvalid()) {
+					if (s.isDimensionless()) {
+						Unit.merge(u, removeUnit(i + 1));
+					} else {
+						Unit.merge(s, removeUnit(i));
+
 					}
 				}
 			}
@@ -1005,8 +1040,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Removes the {@link #listOfUnits} from this {@link UnitDefinition} and notifies 
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * Removes the {@link #listOfUnits} from this {@link UnitDefinition} and
+	 * notifies all registered instances of {@link SBaseChangedListener}.
 	 */
 	public void unsetListOfUnits() {
 		if (this.listOfUnits != null) {
