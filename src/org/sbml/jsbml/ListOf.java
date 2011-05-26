@@ -348,7 +348,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	@SuppressWarnings("unchecked")
 	public ListOf(ListOf<? extends SBase> listOf) {
 		super(listOf);
-		listOf.setSBaseListType(listOf.getSBaseListType());
+		setSBaseListType(listOf.getSBaseListType());
+		
 		for (SBase base : listOf) {
 			if (base != null) {
 				add((T) base.clone());
