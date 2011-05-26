@@ -21,7 +21,9 @@
 package org.sbml.jsbml.ext.layout;
 
 /**
- * @author
+ * @author Nicolas Rodriguez
+ * @author Sebastian Fr&ouml;lich
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
@@ -34,15 +36,25 @@ public class SpeciesGlyph extends GraphicalObject {
 	/**
 	 * 
 	 */
-	private String species;
+	private BoundingBox boundingBox;
 
+	/**
+	 * 
+	 */
+	private String id;
+	
+	/**
+	 * 
+	 */
+	private String species;
+	
 	/**
 	 * 
 	 */
 	public SpeciesGlyph() {
 
 	}
-
+	
 	/**
 	 * 
 	 * @param level
@@ -52,6 +64,7 @@ public class SpeciesGlyph extends GraphicalObject {
 		super(level, version);
 	}
 
+	
 	/**
 	 * 
 	 * @param speciesGlyph
@@ -84,6 +97,18 @@ public class SpeciesGlyph extends GraphicalObject {
 
 	/**
 	 * 
+	 */
+	public BoundingBox getBoundingBox()
+	{
+		return boundingBox;
+	}
+
+	public String getId(){
+		return this.id;
+	}
+
+	/**
+	 * 
 	 * @return
 	 */
 	public String getSpecies() {
@@ -92,12 +117,50 @@ public class SpeciesGlyph extends GraphicalObject {
 
 	/**
 	 * 
+	 * @param attributeName
+	 * @param prefix
+	 * @param value
+	 * @return
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		//boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+		//		value);
+
+		//if(!isAttributeRead)
+		{
+			//isAttributeRead = true;
+			if (attributeName.equals("species")) {
+				setSpecies(value);
+			}
+			else if(attributeName.equals("id"))
+			{				
+				this.id = value;				
+			}
+		}
+			return true;
+	}
+
+	/**
+	 * 
+	 */
+	public void setBoundingBox(BoundingBox boundingBox)
+	{
+		this.boundingBox = boundingBox;
+	}
+	
+	public void setId(String id){
+		this.id = id;
+	}
+	
+	/**
+	 * 
 	 * @param species
 	 */
 	public void setSpecies(String species) {
 		this.species = species;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -108,4 +171,5 @@ public class SpeciesGlyph extends GraphicalObject {
 		// TODO Auto-generated method stub
 		return super.toString();
 	}
+
 }

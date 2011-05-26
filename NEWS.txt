@@ -6,6 +6,10 @@ Version 0.8 (xx-xx-2011)
 
 * New Features:
 
+  - Sebastian FrÃ¶hlich strongly improved the parser for the SBML 
+    layout extension. JSBML now basically supports reading layout
+    information from a given SBML file.
+
   - The SBMLReader now follows the factory pattern by providing static
     methods to directly read SBML content from Files, InputStreams, or
     Strings. Thanks to Martin GrÃ¤ÃŸlin for this idea in tracker item 
@@ -86,11 +90,11 @@ Version 0.8-b2 (18-04-2011)
   - [Tracker issue #3208887] : When trying to access the previously
     set value for  UseValuesFromTriggerTime it was possible that a
     NullPointerException could occur due to the attempt to clone this
-    element. This has been fixed. Thanks to Sebastian Fröhlich for 
+    element. This has been fixed. Thanks to Sebastian Frï¿½hlich for 
     reporting this.
 
   - [Tracker issue #3208903] : Priority elements were 
-    properly read and written. Thanks to Sebastian Fröhlich for 
+    properly read and written. Thanks to Sebastian Frï¿½hlich for 
     reporting this.
 
   - [Tracker issue #3204275] : It was impossible to set the size of a 

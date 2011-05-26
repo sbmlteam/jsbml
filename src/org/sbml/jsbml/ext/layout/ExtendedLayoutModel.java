@@ -26,7 +26,7 @@ import org.sbml.jsbml.SBaseChangedListener;
 
 /**
  * 
- * @author
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */

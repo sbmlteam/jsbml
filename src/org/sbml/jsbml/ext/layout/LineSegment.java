@@ -23,7 +23,7 @@ package org.sbml.jsbml.ext.layout;
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
- * @author
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */

@@ -102,7 +102,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 */
 	public SBMLCoreParser() {
 		sbmlCoreElements = new HashMap<String, Class<? extends Object>>();
-		initializeCoreElements();
+		// Initializes the sbmlCoreElements of this parser.
+		JSBML.loadClasses("org/sbml/jsbml/resources/cfg/SBMLCoreElements.xml",
+				sbmlCoreElements);
 	}
 
 	/*
@@ -294,14 +296,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 */
 	public String getNamespaceURI() {
 		return SBMLDocument.URI_NAMESPACE_L3V1Core;
-	}
-
-	/**
-	 * Initializes the sbmlCoreElements of this parser.
-	 * 
-	 */
-	private void initializeCoreElements() {
-		JSBML.loadClasses("org/sbml/jsbml/resources/cfg/SBMLCoreElements.xml", sbmlCoreElements);
 	}
 
 	/*

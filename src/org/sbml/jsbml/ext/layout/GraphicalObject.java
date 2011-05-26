@@ -24,7 +24,9 @@ import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
  * 
- * @author 
+ * @author Nicolas Rodriguez
+ * @author Sebastian Fr&ouml;lich
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */

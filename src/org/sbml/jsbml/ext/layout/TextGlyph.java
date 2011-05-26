@@ -23,7 +23,9 @@ package org.sbml.jsbml.ext.layout;
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
- * @author
+ * @author Nicolas Rodriguez
+ * @author Sebastian Fr&ouml;lich
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
@@ -33,10 +35,23 @@ public class TextGlyph extends AbstractNamedSBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -2582985174711830815L;
+	
+	/**
+	 * 
+	 */
+	private BoundingBox boundingBox;
+	
 	/**
 	 * 
 	 */
 	private GraphicalObject graphicalObject;
+
+	/**
+	 * 
+	 */
+	private String originOfText;
+
+
 	/**
 	 * 
 	 */
@@ -44,19 +59,9 @@ public class TextGlyph extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
-	private String originOfText;
-
-	/**
-	 * 
-	 */
 	public TextGlyph() {
 		super();
 	}
-	
-	public TextGlyph(String id) {
-		super(id);
-	}
-
 	/**
 	 * 
 	 * @param level
@@ -66,6 +71,10 @@ public class TextGlyph extends AbstractNamedSBase {
 		super(level, version);
 	}
 
+	public TextGlyph(String id) {
+		super(id);
+	}
+	
 	/**
 	 * 
 	 * @param textGlyph
@@ -83,6 +92,14 @@ public class TextGlyph extends AbstractNamedSBase {
 	@Override
 	public TextGlyph clone() {
 		return new TextGlyph(this);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public BoundingBox getBoundingBox() {
+		return boundingBox;
 	}
 
 	/**
@@ -107,6 +124,14 @@ public class TextGlyph extends AbstractNamedSBase {
 	 */
 	public String getText() {
 		return text;
+	}
+
+	/**
+	 * 
+	 * @param boundingBox
+	 */
+	public void setBoundingBox(BoundingBox boundingBox) {
+		this.boundingBox = boundingBox;
 	}
 
 	/**

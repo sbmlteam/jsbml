@@ -24,7 +24,9 @@ import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
  * 
- * @author
+ * @author Nicolas Rodriguez
+ * @author Sebastian Fr&ouml;lich
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
@@ -41,11 +43,19 @@ public class BoundingBox extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
-	private Point point;
+	private Dimensions dimensions;
+	
+	// TODO : may be use directly java objects ??! See if we need metaid, notes,
+	// annotation for those.
+	/**
+	 * 
+	 * id of BoundingBox-Object
+	 */
+	private String id;
 	/**
 	 * 
 	 */
-	private Dimensions dimensions;
+	private Point point;
 
 	/**
 	 * 
@@ -91,6 +101,14 @@ public class BoundingBox extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 */
+	public String getId()
+	{
+		return id;
+	}
+
+	/**
+	 * 
 	 * @return
 	 */
 	public Point getPoint() {
@@ -99,12 +117,39 @@ public class BoundingBox extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @param attributeName
+	 * @param prefix
+	 * @param value
+	 * @return
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = false; // = super.readAttribute(attributeName, prefix,
+		//		value);		
+		if (!isAttributeRead) {
+			isAttributeRead = true;
+			if (attributeName.equals("id")) {
+				this.setId(value);
+				
+			}
+		}
+		return isAttributeRead;
+			
+	}
+	
+	/**
+	 * 
 	 * @param dimensions
 	 */
 	public void setDimensions(Dimensions dimensions) {
 		this.dimensions = dimensions;
 	}
-
+	
+	public void setId(String id)
+	{
+		this.id = id;
+	}
 	/**
 	 * 
 	 * @param point
@@ -112,4 +157,5 @@ public class BoundingBox extends AbstractNamedSBase {
 	public void setPoint(Point point) {
 		this.point = point;
 	}
+
 }
