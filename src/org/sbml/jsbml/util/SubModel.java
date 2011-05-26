@@ -38,7 +38,9 @@ import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.JSBML;
+import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
@@ -116,18 +118,21 @@ public class SubModel {
         //
         // initial
         //
-
+    	
         // submodel id
         Calendar current = Calendar.getInstance();
         String subModelId = "SUBMODEL" + Long.toString(current.getTimeInMillis());
 
-        // creating submodel object
-        Model subModel = new Model(2, 4);
-        subModel.setId(subModelId);
-        subModel.setMetaId(subModelId);
+        int modelLevel = model.getLevel();
+        int modelVersion = model.getVersion();
 
         // SBMLDocument object for submodel
-        SBMLDocument subModelSbmlDocument = new SBMLDocument(2, 4);
+        SBMLDocument subModelSbmlDocument = new SBMLDocument(modelLevel, modelVersion);
+
+        // creating submodel object
+        Model subModel = subModelSbmlDocument.createModel(subModelId);
+        subModel.setMetaId(subModelId);
+
         subModelSbmlDocument.setModel(subModel);
         subModel.setParentSBML(subModelSbmlDocument);
 
@@ -136,6 +141,7 @@ public class SubModel {
         
         Set<String> relatedFunctionsIdSet = new HashSet<String>();
         Set<String> allFunctionsIdSet = new HashSet<String>();
+        Map<String, UnitDefinition> unitsMap = new HashMap<String, UnitDefinition>();
         
         for (FunctionDefinition functionDefinition : model.getListOfFunctionDefinitions()) {
         	allFunctionsIdSet.add(functionDefinition.getId());
@@ -173,9 +179,12 @@ public class SubModel {
         if (reactsIds != null) {
             for (int i = 0; i < reactsIds.length; i++) {
                 Reaction relatedReaction = model.getReaction(reactsIds[i]);
-                subModel.addReaction(relatedReaction);
+                
+                subModel.addReaction(relatedReaction.clone());
+                
                 if (relatedReaction.getKineticLaw() != null) {
                     getRelatedFunctionsId(relatedFunctionsIdSet, allFunctionsIdSet, relatedReaction.getKineticLaw().getMath());
+                    processUnitsMap(unitsMap, model, relatedReaction.getKineticLaw());
                 }
             }
         }
@@ -187,17 +196,19 @@ public class SubModel {
 
         speciesIds = getRelatedSpecies(model, reactsIds, compartmentsIds, speciesIds);
         compartmentsIds = getRelatedCompartments(model, compartmentsIds, speciesIds);
-        Map<String, UnitDefinition> unitsMap = new HashMap<String, UnitDefinition>();
 
-        for (int i = 0; i < compartmentsIds.length; i++) {
-            Compartment relatedCompartment = model.getCompartment(compartmentsIds[i]);
-            subModel.addCompartment(relatedCompartment);
-            processUnitsMap(unitsMap, model, relatedCompartment.getUnits());
+        if (compartmentsIds != null) {
+        	for (int i = 0; i < compartmentsIds.length; i++) {
+        		Compartment relatedCompartment = model.getCompartment(compartmentsIds[i]);
 
-            // check compartment type
-            if (relatedCompartment.getCompartmentType() != null && subModel.getCompartmentType(relatedCompartment.getCompartmentType()) == null) {
-                subModel.addCompartmentType(relatedCompartment.getCompartmentTypeInstance());
-            }
+        		subModel.addCompartment(relatedCompartment.clone());
+        		processUnitsMap(unitsMap, model, relatedCompartment.getUnits());
+
+        		// check compartment type
+        		if (relatedCompartment.getCompartmentTypeInstance() != null && subModel.getCompartmentType(relatedCompartment.getCompartmentType()) == null) {
+        			subModel.addCompartmentType(relatedCompartment.getCompartmentTypeInstance().clone());
+        		}
+        	}
         }
 
 
@@ -205,14 +216,17 @@ public class SubModel {
         // species and species type
         //
 
-        for (int i = 0; i < speciesIds.length; i++) {
-            Species relatedSpecies = model.getSpecies(speciesIds[i]);
-            subModel.addSpecies(relatedSpecies);
-            processUnitsMap(unitsMap, model, relatedSpecies.getSubstanceUnits());
-            // check species type
-            if (relatedSpecies.getSpeciesType() != null && subModel.getSpeciesType(relatedSpecies.getSpeciesType()) == null) {
-                subModel.addSpeciesType(relatedSpecies.getSpeciesTypeInstance());
-            }
+        if (speciesIds != null) {
+        	for (int i = 0; i < speciesIds.length; i++) {
+        		Species relatedSpecies = model.getSpecies(speciesIds[i]);
+        		subModel.addSpecies(relatedSpecies.clone());
+        		processUnitsMap(unitsMap, model, relatedSpecies.getSubstanceUnits());
+
+        		// check species type
+        		if (relatedSpecies.getSpeciesTypeInstance() != null && subModel.getSpeciesType(relatedSpecies.getSpeciesType()) == null) {
+        			subModel.addSpeciesType(relatedSpecies.getSpeciesTypeInstance().clone());
+        		}
+        	}
         }
 
 
@@ -222,17 +236,19 @@ public class SubModel {
         
         rulesIds = getRelatedRules(model, rulesIds, compartmentsIds, speciesIds);
 
-        if (rulesIds != null && rulesIds.length > 0) {
-            for (String ruleId : rulesIds) {
-            	for (Rule modelRule : model.getListOfRules()) {
-            		if (modelRule.getMetaId().equals(ruleId)) {
-            			subModel.addRule(modelRule);
-            			if (modelRule.getMath() != null) {
-            				getRelatedFunctionsId(relatedFunctionsIdSet, allFunctionsIdSet, modelRule.getMath());
-            			}
-            		}
-            	}
-            }
+        if (rulesIds != null) {
+        	if (rulesIds != null && rulesIds.length > 0) {
+        		for (String ruleId : rulesIds) {
+        			for (Rule modelRule : model.getListOfRules()) {
+        				if (modelRule.getMetaId().equals(ruleId)) {
+        					subModel.addRule(modelRule.clone());
+        					if (modelRule.getMath() != null) {
+        						getRelatedFunctionsId(relatedFunctionsIdSet, allFunctionsIdSet, modelRule.getMath());
+        					}
+        				}
+        			}
+        		}
+        	}
         }
 
 
@@ -246,7 +262,7 @@ public class SubModel {
             for (int i = 0; i < eventsIds.length; i++) {
             	for (Event modelEvent : model.getListOfEvents()) {
             		if (modelEvent.getMetaId().equals(eventsIds[i])) {
-            			subModel.addEvent(modelEvent);
+            			subModel.addEvent(modelEvent.clone());
             			if (modelEvent.getTrigger() != null) {
             				getRelatedFunctionsId(relatedFunctionsIdSet, allFunctionsIdSet, modelEvent.getTrigger().getMath());
             			}
@@ -266,9 +282,9 @@ public class SubModel {
         // TODO : try not to add all the parameters !!
         // When we do getRelatedFunctions, we could search for the related species and parameter !!
         
-        for (int i = 0; i < model.getListOfParameters().size(); i++) {
-            subModel.addParameter(model.getListOfParameters().get(i));
-            processUnitsMap(unitsMap, model, model.getListOfParameters().get(i).getUnits());
+        for (Parameter parameter : model.getListOfParameters()) {
+            subModel.addParameter(parameter.clone());
+            processUnitsMap(unitsMap, model, parameter.getUnits());
         }
 
 
@@ -277,20 +293,22 @@ public class SubModel {
         //
 
         for (UnitDefinition unitDefinition : unitsMap.values()) {
-            subModel.addUnitDefinition(unitDefinition);
+            subModel.addUnitDefinition(unitDefinition.clone());
         }
 
 
         //
         // FunctionDefinition
         //
+        // TODO : if a function need an other function that in turn need an other function, the generated model will be invalid
+        // with the current code
 
         for (String functionDefinitionId : relatedFunctionsIdSet) {
             FunctionDefinition func = model.getFunctionDefinition(functionDefinitionId);
             getRelatedFunctionsId(relatedFunctionsIdSet, allFunctionsIdSet, func.getMath());
         }
         for (String functionDefinitionId : relatedFunctionsIdSet) {
-            subModel.addFunctionDefinition(model.getFunctionDefinition(functionDefinitionId));
+            subModel.addFunctionDefinition(model.getFunctionDefinition(functionDefinitionId).clone());
         }
 
         return subModelSbmlDocument;
@@ -298,14 +316,29 @@ public class SubModel {
 
     
     private static void processUnitsMap(Map<String, UnitDefinition> unitsMap, Model model, String elementUnits) {
-    	
+
+    	Logger debugLogger = Logger.getLogger(SubModel.class);
+        debugLogger.debug("processUnitsMap called with " + elementUnits);
+
         UnitDefinition unit = model.getUnitDefinition(elementUnits);
-        
+
+        debugLogger.debug("processUnitsMap : unit = " + elementUnits);
+
         if (unit != null && !unitsMap.containsKey(unit.getId())) {
             unitsMap.put(unit.getId(), unit);
         }
     }
 
+    private static void processUnitsMap(Map<String, UnitDefinition> unitsMap, Model model, KineticLaw kineticLaw) {
+
+    	if (kineticLaw.getNumLocalParameters() > 0) {
+    		for (LocalParameter parameter : kineticLaw.getListOfLocalParameters()) {
+    			processUnitsMap(unitsMap, model, parameter.getUnits());
+    		}
+    	}
+    	
+    	// TODO : the mathML can have some units as well, on the cn element in SBML L3V1
+    }
     //
     //
     //
@@ -315,7 +348,7 @@ public class SubModel {
     private static boolean contains(ListOf<? extends SimpleSpeciesReference> speciesReferences,	Species species) {
     	
     	for (SimpleSpeciesReference speciesReference : speciesReferences) {
-    		if (speciesReference.getSpecies().equals(species)) {
+    		if (speciesReference.getSpecies().equals(species.getId())) {
     			return true;
     		}
     	}
@@ -415,7 +448,8 @@ public class SubModel {
             Model model,
             String[] reactsIds,
             String[] compartmentsIds,
-            String[] speciesIds) {
+            String[] speciesIds) 
+    {
         
     	Logger debugLogger = Logger.getLogger(SubModel.class);
     	debugLogger.debug("getRelatedSpecies ");
@@ -456,6 +490,7 @@ public class SubModel {
                     	Reaction reaction = model.getReaction(reactsIds[j]);
                         
                         thisSpeciesSelected = contains(reaction.getListOfReactants(), species);
+                        
                         if ( !thisSpeciesSelected ) {
                             thisSpeciesSelected = contains(reaction.getListOfProducts(), species);
                         }
@@ -463,11 +498,15 @@ public class SubModel {
                             thisSpeciesSelected = contains(reaction.getListOfModifiers(), species);
                         }
                         
-                        if (thisSpeciesSelected) { break; }
+                        if (thisSpeciesSelected) {
+                        	break;
+                        }
                     }
                 }
                 
-                if (thisSpeciesSelected) { selectedSpecies.add(speciesId); }
+                if (thisSpeciesSelected) {
+                	selectedSpecies.add(speciesId); 
+                }
             }
         }
         // convert to array
@@ -515,14 +554,18 @@ public class SubModel {
         	
         		String variableId = ((ExplicitRule) rule).getVariable();
         		
-        		for (String speciesId : speciesIds) {
-        			if (speciesId.equals(variableId)) {
-        				selectedRules.add(rule.getMetaId());
+        		if (speciesIds != null) {
+        			for (String speciesId : speciesIds) {
+        				if (speciesId.equals(variableId)) {
+        					selectedRules.add(rule.getMetaId());
+        				}
         			}
         		}
-        		for (String compartmentId : compartmentsIds) {
-        			if (compartmentId.equals(variableId)) {
-        				selectedRules.add(rule.getMetaId());
+        		if (compartmentsIds != null) {
+        			for (String compartmentId : compartmentsIds) {
+        				if (compartmentId.equals(variableId)) {
+        					selectedRules.add(rule.getMetaId());
+        				}
         			}
         		}
         		for (Parameter parameter : model.getListOfParameters()) {
