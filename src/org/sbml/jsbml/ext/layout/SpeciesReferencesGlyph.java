@@ -23,7 +23,9 @@ package org.sbml.jsbml.ext.layout;
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
- * @author
+ * @author Nicolas Rodriguez
+ * @author Sebastian Fr&ouml;lich
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
@@ -36,11 +38,13 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
-	private SpeciesGlyph speciesGlyph;
+	private Curve curve;
+
 	/**
 	 * 
 	 */
-	private String speciesReference;
+	private String id;
+
 	/**
 	 * 
 	 */
@@ -48,17 +52,17 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
-	private Curve curve;
-
+	private SpeciesGlyph speciesGlyph;
+	/**
+	 * 
+	 */
+	private String speciesReference;
+	
 	/**
 	 * 
 	 */
 	public SpeciesReferencesGlyph() {
 		super();
-	}
-	
-	public SpeciesReferencesGlyph(String id) {
-		super(id);
 	}
 
 	/**
@@ -79,6 +83,10 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 		// TODO Auto-generated constructor stub
 	}
 
+	public SpeciesReferencesGlyph(String id) {
+		super(id);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -88,4 +96,96 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	public SpeciesReferencesGlyph clone() {
 		return new SpeciesReferencesGlyph(this);
 	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Curve getCurve() {
+		return curve;
+	}
+
+	/**
+	 * 
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public SpeciesGlyph getSpeciesGlyph() {
+		return speciesGlyph;
+	}
+
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getSpeciesReference() {
+		return speciesReference;
+	}
+	
+	/**
+	 * @param attributeName
+	 * @param prefix
+	 * @param value
+	 * @return
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = false; //super.readAttribute(attributeName, prefix,
+				//value);
+		System.out.println("readAttribute in SpeciesReference.class");
+		if(!isAttributeRead)
+		
+			isAttributeRead = true;			
+			if(attributeName.equals("speciesReference"))
+			{				
+				this.speciesReference = value;
+				System.out.println("SpeciesReference: speciesReference: "+speciesReference);
+			}
+			else if(attributeName.equals("id"))
+			{
+				this.id = value;
+				System.out.println("SpeciesReference: id: "+id);
+			}
+			return isAttributeRead;
+	}
+
+	/**
+	 * 
+	 * @param curve
+	 */
+	public void setCurve(Curve curve) {
+		this.curve = curve;
+	}
+
+	/**
+	 * 
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * 
+	 * @param speciesGlyph
+	 */
+	public void setSpeciesGlyph(SpeciesGlyph speciesGlyph) {
+		this.speciesGlyph = speciesGlyph;
+	}
+	
+	/**
+	 * 
+	 * @param speciesReference
+	 */
+	public void setSpeciesReference(String speciesReference) {
+		this.speciesReference = speciesReference;
+	}
+
 }

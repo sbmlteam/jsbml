@@ -436,7 +436,7 @@ public class SBMLReader {
 		Integer level = -1, version = -1;
 		Object lastElement = null;
 		
-		Logger logger = Logger.getLogger(SBMLReader.class);	
+		Logger logger = Logger.getLogger(SBMLReader.class);
 		
 		// Read all the elements of the file
 		while (xmlEventReader.hasNext()) {

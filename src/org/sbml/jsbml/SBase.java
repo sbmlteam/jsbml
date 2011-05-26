@@ -511,6 +511,12 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError;
 	
 	/**
+	 * 
+	 * @param parent
+	 */
+	public void setParentSBML(SBase parent);
+	
+	/**
 	 * Sets the version of this object with 'version'. If the SBML parent of this
 	 * object is set and 'version' is different with the SBMLparent version, an
 	 * {@link Exception} is thrown.

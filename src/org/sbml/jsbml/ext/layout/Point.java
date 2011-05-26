@@ -23,7 +23,9 @@ package org.sbml.jsbml.ext.layout;
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
- * @author
+ * @author Nicolas Rodriguez
+ * @author Sebastian Fr&ouml;lich
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
@@ -105,6 +107,55 @@ public class Point extends AbstractNamedSBase {
 	}
 
 	/**
+	* 
+	 * @param attributeName
+	 * @param prefix
+	 * @param value
+	 * @return
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		//boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+		//		value);
+
+		boolean isAttributeRead = true;
+			if (attributeName.equals("x")) {
+				try{
+					setX(Double.valueOf(value));
+				}
+				catch(NumberFormatException e)
+				{
+					System.err.println("todo by somebody: ");
+					e.printStackTrace();
+				}
+			}
+			else if(attributeName.equals("y"))
+			{
+				try{
+					setY(Double.valueOf(value));
+				}
+				catch(NumberFormatException e)
+				{
+					System.err.println("todo by somebody: ");
+					e.printStackTrace();
+				}
+			}
+			else if(attributeName.equals("z"))
+			{
+				try{
+					setZ(Double.valueOf(value));
+				}
+				catch(NumberFormatException e)
+				{
+					System.err.println("todo by somebody: ");
+					e.printStackTrace();
+				}
+			}
+			return isAttributeRead;
+	}
+
+	/**
 	 * 
 	 * @param x
 	 */
@@ -119,7 +170,7 @@ public class Point extends AbstractNamedSBase {
 	public void setY(double y) {
 		this.y = y;
 	}
-
+	
 	/**
 	 * 
 	 * @param z
@@ -127,4 +178,5 @@ public class Point extends AbstractNamedSBase {
 	public void setZ(double z) {
 		this.z = z;
 	}
+
 }

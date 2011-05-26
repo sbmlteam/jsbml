@@ -27,7 +27,8 @@ import org.sbml.jsbml.SBaseChangedListener;
 
 /**
  * 
- * @author 
+ * @author Nicolas Rodriguez
+ * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
@@ -38,6 +39,24 @@ public class Layout extends AbstractNamedSBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 8866612784809904674L;
+	
+	/*private String id;
+	/**
+	 * 
+	 */
+	/*public String getId()
+	{
+		return this.id;
+	}
+	
+	/**
+	 * 
+	 
+	public void setId(String id)
+	{
+		this.id = id;
+	}*/
+
 	/**
 	 * 
 	 */
@@ -202,6 +221,22 @@ public class Layout extends AbstractNamedSBase {
 	}
 
 	/**
+	 * @param attributeName
+	 * @param prefix
+	 * @param value
+	 * @return
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+		
+		
+			return isAttributeRead;
+	}
+
+	/**
 	 * 
 	 * @param addGraphicalObjects
 	 */
@@ -216,7 +251,7 @@ public class Layout extends AbstractNamedSBase {
 	public void setDimensions(Dimensions dimensions) {
 		this.dimensions = dimensions;
 	}
-
+	
 	/**
 	 * 
 	 * @param compartmentGlyphs
@@ -229,7 +264,7 @@ public class Layout extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfSpeciesGlyphs);
 	}
-	
+
 	/**
 	 * 
 	 * @param reactionGlyphs
@@ -242,7 +277,7 @@ public class Layout extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfReactionGlyphs);
 	}
-
+	
 	/**
 	 * 
 	 * @param speciesGlyphs
@@ -259,7 +294,7 @@ public class Layout extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfSpeciesGlyphs);
 	}
-	
+
 	/**
 	 * 
 	 * @param textGlyphs
@@ -272,17 +307,16 @@ public class Layout extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfTextGlyphs);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
 	 */
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return getElementName();
 	}
-	
+
 	/**
 	 * Removes the {@link #listOfCompartmentGlyphs} from this {@link Model} and notifies
 	 * all registered instances of {@link SBaseChangedListener}.
@@ -299,7 +333,7 @@ public class Layout extends AbstractNamedSBase {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Removes the {@link #listOfReactionGlyphs} from this {@link Model} and notifies
 	 * all registered instances of {@link SBaseChangedListener}.
@@ -316,7 +350,7 @@ public class Layout extends AbstractNamedSBase {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Removes the {@link #listOfSpeciesGlyphs} from this {@link Model} and notifies
 	 * all registered instances of {@link SBaseChangedListener}.
@@ -333,7 +367,7 @@ public class Layout extends AbstractNamedSBase {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Removes the {@link #listOfTextGlyphs} from this {@link Model} and notifies
 	 * all registered instances of {@link SBaseChangedListener}.
@@ -350,4 +384,5 @@ public class Layout extends AbstractNamedSBase {
 		}
 		return false;
 	}
+
 }

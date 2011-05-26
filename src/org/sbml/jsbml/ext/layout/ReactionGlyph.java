@@ -23,7 +23,9 @@ package org.sbml.jsbml.ext.layout;
 import org.sbml.jsbml.ListOf;
 
 /**
- * @author
+ * @author Nicolas Rodriguez
+ * @author Sebastian Fr&ouml;lich
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
@@ -37,7 +39,12 @@ public class ReactionGlyph extends GraphicalObject {
 	/**
 	 * 
 	 */
-	private String reaction;
+	private Curve curve;
+
+	/**
+	 * 
+	 */
+	private String id;
 
 	/**
 	 * 
@@ -47,7 +54,7 @@ public class ReactionGlyph extends GraphicalObject {
 	/**
 	 * 
 	 */
-	private Curve curve;
+	private String reaction;
 
 	/**
 	 * 
@@ -84,6 +91,7 @@ public class ReactionGlyph extends GraphicalObject {
 		return new ReactionGlyph(this);
 	}
 
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -99,8 +107,70 @@ public class ReactionGlyph extends GraphicalObject {
 	 * 
 	 * @return
 	 */
+	public Curve getCurve() {
+		return curve;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public ListOf<SpeciesReferencesGlyph> getListOfSpeciesReferencesGlyph() {
+		return listOfSpeciesReferencesGlyph;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public String getReaction() {
 		return reaction;
+	}
+
+	/**
+	 * @param attributeName
+	 * @param prefix
+	 * @param value
+	 * @return
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = false; //super.readAttribute(attributeName, prefix,
+		//value);
+		System.out.println("readAttribute in ReactionGlyph.class");
+		if(!isAttributeRead)
+		
+			isAttributeRead = true;			
+			if(attributeName.equals("reaction"))
+			{				
+				this.reaction = value;
+				System.out.println("ReactionGlyph: reaction: "+reaction);
+			}
+			else if(attributeName.equals("id"))
+			{
+				this.id = value;
+				System.out.println("ReactionGlyph: id: "+id);
+			}
+		
+			return isAttributeRead;
+	}
+
+	/**
+	 * 
+	 * @param curve
+	 */
+	public void setCurve(Curve curve) {
+		this.curve = curve;
+	}
+
+	/**
+	 * 
+	 * @param listOfSpeciesReferencesGlyph
+	 */
+	public void setListOfSpeciesReferencesGlyph(
+			ListOf<SpeciesReferencesGlyph> listOfSpeciesReferencesGlyph) {
+		this.listOfSpeciesReferencesGlyph = listOfSpeciesReferencesGlyph;
 	}
 
 	/**
@@ -110,7 +180,7 @@ public class ReactionGlyph extends GraphicalObject {
 	public void setReaction(String reaction) {
 		this.reaction = reaction;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -121,4 +191,5 @@ public class ReactionGlyph extends GraphicalObject {
 		// TODO Auto-generated method stub
 		return super.toString();
 	}
+
 }

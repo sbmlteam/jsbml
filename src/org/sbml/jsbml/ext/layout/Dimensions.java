@@ -23,7 +23,9 @@ package org.sbml.jsbml.ext.layout;
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
- * @author
+ * @author Nicolas Rodriguez
+ * @author Sebastian Fr&ouml;lich
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
@@ -36,7 +38,7 @@ public class Dimensions extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
-	private double width;
+	private double depth;
 	/**
 	 * 
 	 */
@@ -44,7 +46,7 @@ public class Dimensions extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
-	private double depth;
+	private double width;
 
 	/**
 	 * 
@@ -107,6 +109,43 @@ public class Dimensions extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @param attributeName
+	 * @param prefix
+	 * @param value
+	 * @return
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		//boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+		//		value);
+
+		//if(!isAttributeRead)
+		{
+		
+			//isAttributeRead = true;			
+			if(attributeName.equals("width"))
+			{	
+				try{
+					this.width = Integer.parseInt(value);
+					
+				}catch(Exception e){e.printStackTrace();}
+			}
+			if(attributeName.equals("height"))
+			{	
+				try{
+					this.height = Integer.parseInt(value);
+					
+				}catch(Exception e){e.printStackTrace();}
+			}
+		
+			return true;
+		}
+		//return isAttributeRead;
+	}
+
+	/**
+	 * 
 	 * @param depth
 	 */
 	public void setDepth(double depth) {
@@ -120,7 +159,7 @@ public class Dimensions extends AbstractNamedSBase {
 	public void setHeight(double height) {
 		this.height = height;
 	}
-
+	
 	/**
 	 * 
 	 * @param width
@@ -128,4 +167,5 @@ public class Dimensions extends AbstractNamedSBase {
 	public void setWidth(double width) {
 		this.width = width;
 	}
+
 }

@@ -1378,8 +1378,7 @@ public abstract class AbstractSBase implements SBase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jlibsbml.SBase#setAnnotation(java.lang.String)
+	 * @see org.sbml.jsbml.SBase#setParentSBML(org.sbml.jsbml.SBase)
 	 */
 	public void setParentSBML(SBase parent) {
 		SBase oldParent = this.parentSBMLObject;
