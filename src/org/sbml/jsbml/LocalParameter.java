@@ -42,16 +42,23 @@ public class LocalParameter extends QuantityWithUnit {
 	 */
 	private static final long serialVersionUID = 57994535283502018L;
 	
-	
-	private boolean isSetConstant = false;
+	/**
+	 * This field memorizes whether this {@link LocalParameter} has been
+	 * explicitly set to be constant. All instances of {@link LocalParameter}
+	 * are constant by definition, however, in earlier versions of SBML (before
+	 * Level 3) it was possible to explicitly state that a
+	 * {@link LocalParameter} is constant. Therefore, a special field has become
+	 * necessary to reflect this property.
+	 */
+	private boolean isExplicitlySetConstant = false;
 
 	/**
-	 * 
+	 * Creates a new instance of {@link LocalParameter}.
 	 */
 	public LocalParameter() {
 		super();
 	}
-	
+
 	/**
 	 * @param level
 	 * @param version
@@ -66,7 +73,7 @@ public class LocalParameter extends QuantityWithUnit {
 	public LocalParameter(LocalParameter lp) {
 		super(lp);
 	}
-
+	
 	/**
 	 * Creates a new local parameter that will have the same properties than the
 	 * given global parameter. However, the value of the constant attribute will
@@ -79,6 +86,8 @@ public class LocalParameter extends QuantityWithUnit {
 	}
 
 	/**
+	 * Creates a new instance of {@link LocalParameter} with the given
+	 * identifier.
 	 * 
 	 * @param id
 	 */
@@ -113,18 +122,14 @@ public class LocalParameter extends QuantityWithUnit {
 		return new LocalParameter(this);
 	}
 
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getElementName()
 	 */
 	public String getElementName() {
-		if (getLevel() < 3) {
-			return "parameter";
-		}
-		return super.getElementName();
+		return (getLevel() < 3) ? "parameter" : super.getElementName();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getPredefinedUnitID()
@@ -133,6 +138,24 @@ public class LocalParameter extends QuantityWithUnit {
 		return null;
 	}
 
+
+	/**
+	 * In SBML prior to Level 3 it was possible to explicitly state that a local
+	 * parameter represents a constant {@link Quantity}. However, per
+	 * definition, each local parameter has always been constant no matter if
+	 * its XML representation contains the <code>constant</code> attribute or
+	 * not. Hence, this attribute could set to <code>true</code> only. This
+	 * method checks if for this {@link LocalParameter} an explicit
+	 * <code>constant</code> flag has been set.
+	 * 
+	 * @return the isExplicitlySetConstant <code>true</code> if this
+	 *         {@link LocalParameter} contains an explicit <code>constant</code>
+	 *         flag, <code>false</code> otherwise.
+	 */
+	public boolean isExplicitlySetConstant() {
+		return isExplicitlySetConstant;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -153,12 +176,35 @@ public class LocalParameter extends QuantityWithUnit {
 		} else if ((getLevel() < 3) && attributeName.equals("constant")
 				&& value.equals("true")) 
 		{
-			isSetConstant  = true;
+			isExplicitlySetConstant = true;
 			// do nothing because this is always constant.
 			return true;
 		}
 		
 		return isAttributeRead;
+	}
+
+	/**
+	 * This method allows users to explicitly manipulate the
+	 * <code>constant</code> attribute of this {@link LocalParameter}. This
+	 * attribute can set to <code>true</code> only. Therefore, this method does
+	 * just decide whether or not the <code>constant</code> attribute should
+	 * occur in generated SBML code when serializing this {@link LocalParameter}
+	 * . Since this object always represents a constant {@link Quantity} this
+	 * method does only decide whether or not the resulting SBML code should
+	 * contain the attribute/value pair <code>constant = true</code>, it does
+	 * not decide on whether or not this object should be constant.
+	 * 
+	 * @param isExplicitlySetConstant
+	 *            the isExplicitlySetConstant to set
+	 * @deprecated Since SBML Level 3 it is no longer possible to explicitly set
+	 *             a {@link LocalParameter} to <code>constant = true</code>
+	 *             because {@link LocalParameter} instances always represent
+	 *             constant a {@link Quantity}.
+	 */
+	@Deprecated
+	public void setExplicitlyConstant(boolean isExplicitlySetConstant) {
+		this.isExplicitlySetConstant = isExplicitlySetConstant;
 	}
 
 	/*
@@ -179,7 +225,7 @@ public class LocalParameter extends QuantityWithUnit {
 		}
 		// Put back the constant attribute if it was set in the original file.
 		// The methods #readAttribute take care of doing all the needed tests.
-		if (isSetConstant) {
+		if (isExplicitlySetConstant) {
 			attributes.put("constant", "true");
 		}
 		
