@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.junit.Ignore;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
@@ -37,6 +38,7 @@ import org.sbml.jsbml.ext.layout.Layout;
  * @since 0.8
  * @date 26.05.2011
  */
+@Ignore
 public class LayoutTest {
 
 	/**
