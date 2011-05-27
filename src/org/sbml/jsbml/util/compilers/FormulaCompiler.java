@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.util.compilers;
 
 import java.text.DecimalFormat;
@@ -38,10 +37,11 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * This class creates C-like strings that represent the content of
- * {@link ASTNode}s. These can be used to save equations in SBML with older than
- * Level 2.
+ * This class creates C-like infix formula {@link String}s that represent the
+ * content of {@link ASTNode}s. These can be used to save equations in SBML with
+ * older than Level 2.
  * 
+ * @author Alexander D&ouml;rr
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
