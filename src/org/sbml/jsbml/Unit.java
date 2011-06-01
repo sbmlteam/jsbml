@@ -71,7 +71,9 @@ public class Unit extends AbstractSBase {
 		CANDELA,
 		/**
 		 * The Celsius unit.
+		 * @deprecated use {@link #KELVIN} instead (1 Celsius = 1 K + 271.15)
 		 */
+		@Deprecated
 		CELSIUS,
 		/**
 		 * The coulomb unit.
@@ -129,7 +131,9 @@ public class Unit extends AbstractSBase {
 		KILOGRAM,
 		/**
 		 * Alternate spelling of litre.
+		 * @deprecated use {@link #LITRE} instead.
 		 */
+		@Deprecated
 		LITER,
 		/**
 		 * The litre unit.
@@ -145,7 +149,9 @@ public class Unit extends AbstractSBase {
 		LUX,
 		/**
 		 * Alternate spelling of metre.
+		 * @deprecated use {@link #METRE} instead.
 		 */
+		@Deprecated
 		METER,
 		/**
 		 * The metre unit.
@@ -372,7 +378,7 @@ public class Unit extends AbstractSBase {
 				return "Bq";
 			case CANDELA:
 				return "cd";
-			case CELSIUS:
+			case CELSIUS: // °C in uni code
 				return "\u00B0C";
 			case COULOMB:
 				return "C";
@@ -410,7 +416,7 @@ public class Unit extends AbstractSBase {
 				return "mol";
 			case NEWTON:
 				return "N";
-			case OHM:
+			case OHM:  // upper case Omega character
 				return "\u03A9";
 			case PASCAL:
 				return "Pa";
