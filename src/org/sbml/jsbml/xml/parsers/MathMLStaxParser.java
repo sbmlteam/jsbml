@@ -20,8 +20,6 @@
 
 package org.sbml.jsbml.xml.parsers;
 
-import java.util.ArrayList;
-
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
@@ -78,19 +76,6 @@ public class MathMLStaxParser implements ReadingParser {
 		return indenting;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
-	 * sbase)
-	 */
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
-		// TODO : See how to do that and when we need it.
-		
-		System.out.println("MathMLStaxParser : getListOfSBMLElementsToWrite called");
-		
-		return null;
-	}
 
 	/**
 	 * 
