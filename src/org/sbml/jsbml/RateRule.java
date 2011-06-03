@@ -113,6 +113,15 @@ public class RateRule extends ExplicitRule {
 	public RateRule(Variable variable) {
 		super(variable);
 	}
+	
+	/**
+	 * Creates a RateRule instance cloned from the given {@link ExplicitRule}
+	 * 
+	 * @param rule
+	 */
+	public RateRule(ExplicitRule rule) {
+		super(rule);
+	}
 
 	/**
 	 * Creates a RateRule instance from a given Symbol and ASTNode. Takes level

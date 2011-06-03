@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -877,7 +878,7 @@ public class SBMLReader {
 			logger.debug("event.isEndElement : stack = " + sbmlElements);
 		}
 		
-		// TODO : check that the stack did not increase before and after an element ?
+		// check that the stack did not increase before and after an element ?
 		
 		if (initializedParsers != null) {
 				parser = initializedParsers.get(currentNode.getNamespaceURI());
@@ -888,14 +889,12 @@ public class SBMLReader {
 
 			// if the current node is a notes or message element and
 			// the matching ReadingParser is a StringParser, we need
-			// to set the typeOfNotes variable of the
+			// to reset the typeOfNotes variable of the
 			// StringParser instance.
-			// TODO : check, this should be done earlier !!
 			if (currentNode.getLocalPart().equals("notes")
 					|| currentNode.getLocalPart().equals("message"))
 			{
-				ReadingParser sbmlparser = initializedParsers
-						.get(JSBML.URI_XHTML_DEFINITION);
+				ReadingParser sbmlparser = initializedParsers.get(JSBML.URI_XHTML_DEFINITION);
 				if (sbmlparser instanceof StringParser) {
 					StringParser notesParser = (StringParser) sbmlparser;
 					notesParser.setTypeOfNotes(currentNode.getLocalPart());
@@ -926,46 +925,59 @@ public class SBMLReader {
 					// process the end of the document and return
 					// the final SBMLDocument
 					if (sbmlElements.peek() instanceof SBMLDocument) {
-						SBMLDocument sbmlDocument = (SBMLDocument) sbmlElements
-								.peek();
+						SBMLDocument sbmlDocument = (SBMLDocument) sbmlElements.peek();
 						
-						Iterator<Entry<String, ReadingParser>> iterator = initializedParsers
-								.entrySet().iterator();
+						Iterator<Entry<String, ReadingParser>> iterator = initializedParsers.entrySet().iterator();						
+						ArrayList<String> readingParserClasses = new ArrayList<String>();
 
+						// Calling endDocument for all parsers						
 						while (iterator.hasNext()) {
 							Entry<String, ReadingParser> entry = iterator.next();
-
 							ReadingParser sbmlParser = entry.getValue();
-							// TODO : calling endDocument for all parsers, can it be a problem ?
-							// sbmlParser.processEndDocument(sbmlDocument);
 							
-							// TODO : call endDocument only on the parser associated with the namespaces 
-							// declared on the sbml element.
-							// logger.debug("event.isEndElement : parser = " + sbmlParser.getClass());
+							if (! readingParserClasses.contains(sbmlParser.getClass().getCanonicalName())) {
+
+								readingParserClasses.add(sbmlParser.getClass().getCanonicalName());
+
+								logger.debug("event.isEndElement : EndDocument found : parser = " + sbmlParser.getClass());
+
+								sbmlParser.processEndDocument(sbmlDocument);
+
+								// call endDocument only on the parser associated with the namespaces
+								// declared on the sbml document ??.
+							}
 						}
+						
+						logger.debug("event.isEndElement : EndDocument returned.");
 						
 						return sbmlDocument;
 						
 					} else {
-						// TODO at the end of a sbml node, the
+						// At the end of a sbml node, the
 						// SBMLElements stack must contain only a
 						// SBMLDocument instance.
 						// Otherwise, there is a syntax error in the
-						// SBML document, Throw an error?
+						// SBML document
 						logger.warn("!!! event.isEndElement : there is a problem in your SBML file !!!!");
+						logger.warn("Found an element '" + sbmlElements.peek().getClass().getCanonicalName() + 
+								"', expected org.sbml.jsbml.SBMLDocument");
 					}
 				}
 			} else {
-				// TODO if SBMLElements.isEmpty => there is a syntax
-				// error in the SBMLDocument, throw an error?
-				// TODO if parser == null => there is no parser for
-				// the namespace of this element, throw an error?
+				// If SBMLElements.isEmpty => there is a syntax
+				// error in the SBMLDocument
+				// If parser == null => there is no parser for
+				// the namespace of this element
+				logger.warn("!!! event.isEndElement : there is a problem in your SBML file !!!!");
+				logger.warn("This should never happen, there is probably a problem with the parsers used." +
+						"\n Try to check if one needed parser is missing or if you are using a parser in development.");
 			}
 		} else {
-			// TODO The initialized parsers map should be
+			// The initialized parsers map should be
 			// initialized as soon as there is a sbml node.
-			// if it is null, there is an syntax error in the SBML
-			// file. Throw an error?
+			// If it is null, there is an syntax error in the SBML
+			// file.
+			logger.warn("The parsers are not initialized, this should not happen !!!");
 		}
 		
 		// We return null as long as we did not find the SBMLDocument closing tag

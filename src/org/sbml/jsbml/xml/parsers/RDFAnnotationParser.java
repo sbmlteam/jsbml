@@ -22,15 +22,30 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.CVTerm;
-import org.sbml.jsbml.Event;
-import org.sbml.jsbml.KineticLaw;
-import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.CompartmentType;
+import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.Creator;
+import org.sbml.jsbml.Event;
+import org.sbml.jsbml.EventAssignment;
+import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.History;
+import org.sbml.jsbml.InitialAssignment;
+import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.LocalParameter;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.ModifierSpeciesReference;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 
 /**
@@ -40,7 +55,10 @@ import org.sbml.jsbml.UnitDefinition;
  * @since 0.8
  * @version $Rev$
  */
+@SuppressWarnings("deprecation")
 public class RDFAnnotationParser implements ReadingParser{
+	
+	private transient Logger logger = Logger.getLogger(RDFAnnotationParser.class); 
 	
 	/**
 	 * The namespaceURI of this parser.
@@ -67,7 +85,8 @@ public class RDFAnnotationParser implements ReadingParser{
 	 */
 	public void processAttribute(String elementName, String attributeName,
 			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
+			Object contextObject) 
+	{
 		
 		boolean isReadAttribute = false;
 
@@ -108,7 +127,8 @@ public class RDFAnnotationParser implements ReadingParser{
 		}
 		
 		if (!isReadAttribute){
-			// TODO the attribute is not read, throw an error?
+			logger.warn("RDFAnnotationParser : processAttribute : found an unknown attribute '" + 
+					attributeName + "', the attribute is ignored.");
 		}
 		
 	}
@@ -119,170 +139,237 @@ public class RDFAnnotationParser implements ReadingParser{
 			Object contextObject)
 	 */
 	public void processCharactersOf(String elementName, String characters,
-			Object contextObject) {
-		// TODO : there is no text for element with the namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#".
-		// There is a syntax error, throw an exception?
+			Object contextObject) 
+	{
+		// there is no text for element with the namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#".
+		logger.warn("RDFAnnotationParser : processCharactersOf called !!!! Found some unexpected characters");
 	}
 
-	/* (non-Javadoc)
+	
+	/**
+	 * 
+	 * 
+	 * @param sbase
+	 */
+	private void setRDFAbout(SBase sbase) {
+		// We assume that the method is called only if there is an annotation defined.
+		if (sbase.isSetMetaId()) {
+			sbase.getAnnotation().setAbout("#" + sbase.getMetaId());
+		} else {
+			logger.warn("The element " + sbase.getElementName() + " has no metaid !!! " +
+					"So the rdf:about inside his annotation cannot be defined properly.");
+		}
+	}
+	
+	/**
+	 * Checks if the sbmlDocument and all the  SBML components have a valid rdf:about value.
 	 * 
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
 	 */
-	@SuppressWarnings("deprecation")
 	public void processEndDocument(SBMLDocument sbmlDocument) {
-		// Check if sbmlDocument and all the  SBML components have a valid Annotation.
-		if (sbmlDocument.hasValidAnnotation()){
-			Model model = sbmlDocument.getModel();
-			
-			if (model.hasValidAnnotation()){
-				if (model.isSetListOfCompartments()){
-					for (int i = 0; i < model.getNumCompartments(); i++){
-						if (!model.getCompartment(i).hasValidAnnotation()){
-							// TODO : change the about value of the annotation.
+		
+		if (!sbmlDocument.hasValidAnnotation()){
+			setRDFAbout(sbmlDocument);
+			logger.warn("The SBMLDocument element has an invalid rdf:about inside his annotation.");
+		}
+
+		Model model = sbmlDocument.getModel();
+
+		if (!model.hasValidAnnotation()){
+			setRDFAbout(model);
+			logger.warn("The Model element has an invalid rdf:about inside his annotation.");			
+		}
+
+		if (model.isSetListOfFunctionDefinitions()){
+			for (FunctionDefinition functionDefinition : model.getListOfFunctionDefinitions()){
+				if (!functionDefinition.hasValidAnnotation()){
+					setRDFAbout(functionDefinition);
+					logger.warn("The functionDefinition element '" + functionDefinition.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+				}
+			}
+		}
+		
+		if (model.isSetListOfCompartments()){
+			for (Compartment compartment : model.getListOfCompartments()){
+				if (!compartment.hasValidAnnotation()){
+					setRDFAbout(compartment);
+					logger.warn("The compartment '" + compartment.getId() + "' has an invalid rdf:about inside his annotation.");
+				}
+			}
+		}
+		
+		if (model.isSetListOfCompartmentTypes()){
+			for (CompartmentType compartmentType : model.getListOfCompartmentTypes()){
+				if (!compartmentType.hasValidAnnotation()){
+					setRDFAbout(compartmentType);
+					logger.warn("The compartmentType '" + compartmentType.getId() + "' has an invalid rdf:about inside his annotation.");
+				}
+			}
+		}
+		
+		logger.debug("compartments checked");
+		
+		
+		if (model.isSetListOfConstraints()){
+			for (Constraint constraint : model.getListOfConstraints()){
+				if (!constraint.hasValidAnnotation()){
+					setRDFAbout(constraint);
+					logger.warn("The constraint element '" + constraint.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+				}
+			}
+		}
+		
+		if (model.isSetListOfEvents()){
+			for (Event event : model.getListOfEvents()){
+				if (!event.hasValidAnnotation()){
+					setRDFAbout(event);
+					logger.warn("The event element '" + event.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+				}
+				if (event.isSetDelay()){
+					if (! event.getDelay().hasValidAnnotation()){
+						setRDFAbout(event.getDelay());
+						logger.warn("The delay element '" + event.getDelay().getMetaId() + "' has an invalid rdf:about inside his annotation.");
+					}
+				}
+				if (event.isSetListOfEventAssignments()){
+					for (EventAssignment eventAssignment : event.getListOfEventAssignments()){
+						if (!eventAssignment.hasValidAnnotation()){
+							setRDFAbout(eventAssignment);
+							logger.warn("The eventAssignment element '" + eventAssignment.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 						}
 					}
 				}
-				if (model.isSetListOfCompartmentTypes()){
-					for (int i = 0; i < model.getNumCompartmentTypes(); i++){
-						if (!model.getCompartmentType(i).hasValidAnnotation()){
-							// TODO : change the about value of the annotation.
-						}
+				if (event.isSetTrigger()){
+					if (! event.getTrigger().hasValidAnnotation()){
+						setRDFAbout(event.getTrigger());
+						logger.warn("The trigger element '" + event.getTrigger().getMetaId() + "' has an invalid rdf:about inside his annotation.");
 					}
 				}
-				if (model.isSetListOfEvents()){
-					for (int i = 0; i < model.getNumEvents(); i++){
-						if (model.getEvent(i).hasValidAnnotation()){
-							Event event = model.getEvent(i);
-							if (event.isSetDelay()){
-								if (! event.getDelay().hasValidAnnotation()){
-									// TODO : change the about value of the annotation.
-								}
-							}
-							if (event.isSetListOfEventAssignments()){
-								for (int j = 0; j < event.getNumEventAssignments(); j++){
-									if (!event.getEventAssignment(j).hasValidAnnotation()){
-										// TODO : change the about value of the annotation.
-									}
-								}
-							}
-							if (event.isSetTrigger()){
-								if (! event.getTrigger().hasValidAnnotation()){
-									// TODO : change the about value of the annotation.
-								}
-							}
-						}
-						else {
-							// TODO : change the about value of the annotation.
-						}
-					}
+			}			
+		}
+		
+		logger.debug("events checked");
+		
+		if (model.isSetListOfInitialAssignments()){
+			for (InitialAssignment initAssgnt : model.getListOfInitialAssignments()){
+				if (!initAssgnt.hasValidAnnotation()){
+					setRDFAbout(initAssgnt);
+					logger.warn("The initialAssignment element '" + initAssgnt.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 				}
-				if (model.isSetListOfInitialAssignments()){
-					for (int i = 0; i < model.getNumInitialAssignments(); i++){
-						if (!model.getInitialAssignment(i).hasValidAnnotation()){
-							// TODO : change the about value of the annotation.
-						}
-					}
+			}
+		}
+		
+		if (model.isSetListOfParameters()){
+			for (Parameter parameter : model.getListOfParameters()){
+				if (!parameter.hasValidAnnotation()){
+					setRDFAbout(parameter);
+					logger.warn("The parameter element '" + parameter.getId() + "' has an invalid rdf:about inside his annotation.");
 				}
-				if (model.isSetListOfParameters()){
-					for (int i = 0; i < model.getNumParameters(); i++){
-						if (!model.getParameter(i).hasValidAnnotation()){
-							// TODO : change the about value of the annotation.
-						}
-					}
+			}
+		}
+		
+		logger.debug("parameters checked");
+		
+		if (model.isSetListOfReactions()){
+			for (Reaction reaction : model.getListOfReactions()){
+
+				if (!reaction.hasValidAnnotation()){
+					setRDFAbout(reaction);
+					logger.warn("The reaction element '" + reaction.getId() + "' has an invalid rdf:about inside his annotation.");
 				}
-				if (model.isSetListOfReactions()){
-					for (int i = 0; i < model.getNumReactions(); i++){
-						Reaction reaction = model.getReaction(i);
-						
-						if (reaction.hasValidAnnotation()){
-							if (reaction.isSetKineticLaw()){
-								KineticLaw kineticLaw = reaction.getKineticLaw();
-								if (kineticLaw.hasValidAnnotation()){
-									if (kineticLaw.isSetListOfParameters()){
-										for (int j = 0; j < model.getNumParameters(); i++){
-											if (!kineticLaw.getParameter(j).hasValidAnnotation()){
-												// TODO : change the about value of the annotation.
-											}
-										}
-									}
-								}
-								else {
-									// TODO : change the about value of the annotation.
-								}
-							}
-							if (reaction.isSetListOfReactants()){
-								for (int j = 0; j < reaction.getNumReactants(); j++){
-									if (!reaction.getReactant(j).hasValidAnnotation()){
-										// TODO : change the about value of the annotation.
-									}
-								}
-							}
-							if (reaction.isSetListOfProducts()){
-								for (int j = 0; j < reaction.getNumProducts(); j++){
-									if (!reaction.getProduct(j).hasValidAnnotation()){
-										// TODO : change the about value of the annotation.
-									}
-								}
-							}
-							if (reaction.isSetListOfModifiers()){
-								for (int j = 0; j < reaction.getNumModifiers(); j++){
-									if (!reaction.getModifier(j).hasValidAnnotation()){
-										// TODO : change the about value of the annotation.
-									}
-								}
-							}
-						}
-						else {
-							// TODO : change the about value of the annotation.
-						}
+
+				if (reaction.isSetKineticLaw()){
+					KineticLaw kineticLaw = reaction.getKineticLaw();
+
+					if (!kineticLaw.hasValidAnnotation()){
+						setRDFAbout(kineticLaw);
+						logger.warn("The kineticLaw element '" + kineticLaw.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 					}
-				}
-				if (model.isSetListOfRules()){
-					for (int i = 0; i < model.getNumRules(); i++){
-						if (!model.getRule(i).hasValidAnnotation()){
-							// TODO : change the about value of the annotation.
-						}
-					}
-				}
-				if (model.isSetListOfSpecies()){
-					for (int i = 0; i < model.getNumSpecies(); i++){
-						if (!model.getSpecies(i).hasValidAnnotation()){
-							// TODO : change the about value of the annotation.
-						}
-					}
-				}
-				if (model.isSetListOfSpeciesTypes()){
-					for (int i = 0; i < model.getNumSpeciesTypes(); i++){
-						if (!model.getSpeciesType(i).hasValidAnnotation()){
-							// TODO : change the about value of the annotation.
-						}
-					}
-				}
-				if (model.isSetListOfUnitDefinitions()){
-					for (int i = 0; i < model.getNumUnitDefinitions(); i++){
-						UnitDefinition unitDefinition = model.getUnitDefinition(i);
-						if (unitDefinition.hasValidAnnotation()){
-							if (unitDefinition.isSetListOfUnits()){
-								for (int j = 0; j < model.getNumSpeciesTypes(); j++){
-									if (!unitDefinition.getUnit(j).hasValidAnnotation()){
-										// TODO : change the about value of the annotation.
-									}
-								}
+
+					if (kineticLaw.isSetListOfParameters()){
+						for (LocalParameter parameter : kineticLaw.getListOfLocalParameters()){
+							if (!parameter.hasValidAnnotation()){
+								setRDFAbout(parameter);
+								logger.warn("The local parameter element '" + parameter.getId() + "' has an invalid rdf:about inside his annotation.");
 							}
 						}
-						else {
-							// TODO : change the about value of the annotation.
+					}					
+				}
+
+				if (reaction.isSetListOfReactants()){
+					for (SpeciesReference reactant : reaction.getListOfReactants()){
+						if (!reactant.hasValidAnnotation()){
+							setRDFAbout(reactant);
+							logger.warn("The reactant element '" + reactant.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+						}
+					}
+				}
+				if (reaction.isSetListOfProducts()){
+					for (SpeciesReference product : reaction.getListOfProducts()){
+						if (!product.hasValidAnnotation()){
+							setRDFAbout(product);
+							logger.warn("The product element '" + product.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+						}
+					}
+				}
+				if (reaction.isSetListOfModifiers()){
+					for (ModifierSpeciesReference modifier : reaction.getListOfModifiers()){
+						if (!modifier.hasValidAnnotation()){
+							setRDFAbout(modifier);
+							logger.warn("The modifier element '" + modifier.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+						}
+					}
+				}
+			}			
+		}
+
+		logger.debug("reactions checked");
+		
+		if (model.isSetListOfRules()){
+			for (Rule rule : model.getListOfRules()){
+				if (!rule.hasValidAnnotation()){
+					setRDFAbout(rule);
+					logger.warn("The rule element '" + rule.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+				}
+			}
+		}
+		if (model.isSetListOfSpecies()){
+			for (Species species : model.getListOfSpecies()){
+				if (!species.hasValidAnnotation()){
+					setRDFAbout(species);
+					logger.warn("The species element '" + species.getId() + "' has an invalid rdf:about inside his annotation.");
+				}
+			}
+		}
+		if (model.isSetListOfSpeciesTypes()){
+			for (Species speciesType : model.getListOfSpecies()){
+				if (!speciesType.hasValidAnnotation()){
+					setRDFAbout(speciesType);
+					logger.warn("The speciesType element '" + speciesType.getId() + "' has an invalid rdf:about inside his annotation.");
+				}
+			}
+		}
+		
+		logger.debug("species checked");
+
+		if (model.isSetListOfUnitDefinitions()){
+			for (UnitDefinition unitDefinition : model.getListOfUnitDefinitions()){			
+
+				if (unitDefinition.hasValidAnnotation()){
+					setRDFAbout(unitDefinition);
+					logger.warn("The unitDefinition element '" + unitDefinition.getId() + "' has an invalid rdf:about inside his annotation.");
+				}
+				if (unitDefinition.isSetListOfUnits()){
+					for (Unit unit : unitDefinition.getListOfUnits()){
+						if (!unit.hasValidAnnotation()){
+							setRDFAbout(unit);
+							logger.warn("The unit element '" + unit.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 						}
 					}
 				}
 			}
-			else {
-				// TODO : change the about value of the annotation.
-			}
 		}
-		else {
-			// TODO : change the about value of the annotation.
-		}
+		
 	}
 
 	/* (non-Javadoc)
@@ -353,7 +440,8 @@ public class RDFAnnotationParser implements ReadingParser{
 	 */
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces,
-			Object contextObject) {
+			Object contextObject) 
+	{
 		// A RDFAnnotationParser can modify a ContextObject which is an Annotation instance.
 		if (contextObject instanceof Annotation){
 			
@@ -363,17 +451,13 @@ public class RDFAnnotationParser implements ReadingParser{
 			}
 			// The Description element should be the first child node of a RDF element.
 			// If the SBML specifications are respected, sets the value of the 'RDF' key to 'Description'.
-			else if(elementName.equals("Description") && previousElements.containsKey("RDF")){
-				if (this.previousElements.get("RDF") == null){
-					this.previousElements.put("RDF", "Description");
-				}
-				else {
-					this.previousElements.put("RDF", "error");
-					// TODO : a description is the unique child of RDF node, SBML syntax error, what to do?
-				}
-			}
-			else {
-				// TODO : SBML syntax error, what to do?
+			else if(elementName.equals("Description") && previousElements.containsKey("RDF"))
+			{
+				this.previousElements.put("RDF", "Description");
+			} 
+			else 
+			{
+				logger.warn("Found a RDF:Description that is not a child of the RDF:RDF element !!");
 			}
 		}
 		// If the contextObject is not an Annotation instance, we should be into the Description subNode of the RDF element.
@@ -393,11 +477,11 @@ public class RDFAnnotationParser implements ReadingParser{
 								this.previousElements.put("CVTerm", "li");
 							}
 							else {
-								// TODO : sbml syntax error, what to do?
+								logger.warn("Syntax error in your RDF annotation. An RDF:li element should be inside a RDF:Bag element.");
 							}
 						}
 						else {
-							// TODO : sbml syntax error, what to do?
+							logger.warn("Syntax error in your RDF annotation");
 						}
 					}
 					// A RDFAnnotation can modify a contextObject which is a ModelHistory instance.
@@ -418,23 +502,26 @@ public class RDFAnnotationParser implements ReadingParser{
 								return modelCreator;
 							}
 							else {
-								// TODO : sbml syntax error, what to do?
+								logger.warn("Syntax error in your RDF annotation");
 							}
 						}
 						else {
-							// TODO : sbml syntax error, what to do?
+							logger.warn("Syntax error in your RDF annotation");
 						}
 					}
 					else {
-						// TODO : sbml syntax error, what to do?
+						logger.warn("Syntax error in your RDF annotation");
 					}
 				}
 				else {
-					// TODO : sbml syntax error, what to do?
+					logger.warn("Syntax error in your RDF annotation");
 				}
 			}
 			else {
-				// TODO : the RDF element doesn't contain a unique Description child node. SBML syntax error, throw an exception?
+				logger.warn("Found several children for the RDF:RDF element. This is currently not well supported in JSBML");
+				// if the RDF element does contain several Description child nodes, they are passed to the StringParser but
+				// the whole annotation should be read into an XMLNode for the 1.0 release to make all of that a bit more
+				// robust
 			}
 		}
 		return contextObject;

@@ -365,13 +365,15 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 			if (getLevel() == 1) {
 				if ((attributeName.equals("compartment")
 						|| attributeName.equals("name") || attributeName
-						.equals((getVersion() == 1) ? "specie" : "species"))) {
+						.equals((getVersion() == 1) ? "specie" : "species"))) 
+				{
 					setVariable(value);
 					return true;
 				} else if (attributeName.equals("units")) {
 					setUnits(value);
 					return true;
-				}
+				} 
+				
 			} else if (attributeName.equals("variable")) {
 				setVariable(value);
 				return true;
