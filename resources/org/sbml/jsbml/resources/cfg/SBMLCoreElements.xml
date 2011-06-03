@@ -10,7 +10,7 @@
   <entry key="assignmentRule">org.sbml.jsbml.AssignmentRule</entry>
   <entry key="compartment">org.sbml.jsbml.Compartment</entry>
   <entry key="compartmentType">org.sbml.jsbml.CompartmentType</entry>
-  <entry key="compartmentVolumeRule">org.sbml.jsbml.AssignmentRule</entry>
+  <entry key="compartmentVolumeRule">org.sbml.jsbml.xml.parsers.SBMLLevel1Rule</entry>
   <entry key="constraint">org.sbml.jsbml.Constraint</entry>
   <entry key="delay">org.sbml.jsbml.Delay</entry>
   <entry key="event">org.sbml.jsbml.Event</entry>
@@ -43,15 +43,15 @@
   <entry key="modifierSpeciesReference">org.sbml.jsbml.ModifierSpeciesReference</entry>
   <entry key="notes">java.lang.StringBuffer</entry>
   <entry key="parameter">org.sbml.jsbml.Parameter</entry>
-  <entry key="parameterRule">org.sbml.jsbml.AssignmentRule</entry>
+  <entry key="parameterRule">org.sbml.jsbml.xml.parsers.SBMLLevel1Rule</entry>
   <entry key="priority">org.sbml.jsbml.Priority</entry>
   <entry key="rateRule">org.sbml.jsbml.RateRule</entry>
   <entry key="reaction">org.sbml.jsbml.Reaction</entry>
   <entry key="specie">org.sbml.jsbml.Species</entry>
-  <entry key="specieConcentrationRule">org.sbml.jsbml.AssignmentRule</entry>
+  <entry key="specieConcentrationRule">org.sbml.jsbml.xml.parsers.SBMLLevel1Rule</entry>
   <entry key="specieReference">org.sbml.jsbml.SpeciesReference</entry>
   <entry key="species">org.sbml.jsbml.Species</entry>
-  <entry key="speciesConcentrationRule">org.sbml.jsbml.AssignmentRule</entry>
+  <entry key="speciesConcentrationRule">org.sbml.jsbml.xml.parsers.SBMLLevel1Rule</entry>
   <entry key="speciesReference">org.sbml.jsbml.SpeciesReference</entry>
   <entry key="speciesType">org.sbml.jsbml.SpeciesType</entry>
   <entry key="stoichiometryMath">org.sbml.jsbml.StoichiometryMath</entry>

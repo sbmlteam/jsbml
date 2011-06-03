@@ -284,9 +284,16 @@ public class MathMLXMLStreamCompiler {
 		// TODO : check what write in MathML if we have a negative infinity
 		
 		try {
-
+			// <apply>/n    <minus/>\n    <infinity/>\n  </apply>/n"
 			writer.writeCharacters(indent);
+			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "apply");
+			writer.writeCharacters("\n");
+			writer.writeCharacters(indent + "  ");
+			writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "minus");
+			writer.writeCharacters("\n");
+			writer.writeCharacters(indent + "  ");
 			writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "infinity");
+			writer.writeEndElement();
 			writer.writeCharacters("\n");
 
 		} catch (XMLStreamException e) {			
