@@ -1,19 +1,20 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ======================================================================
-Version 0.8 (xx-xx-2011)
+Version 0.8-rc1 (xx-xx-2011)
 ======================================================================
 
 * New Features:
 
-  - Sebastian Fröhlich strongly improved the parser for the SBML 
-    layout extension. JSBML now basically supports reading layout
-    information from a given SBML file.
+  - Sebastian Fröhlich provided some contributions to the parser for the 
+    SBML level 3 layout extension package. JSBML now  supports experimental
+    reading for this package. The full stable API for reading/writing of
+    SBML level 3 packages is planned for the next release of JSBML.
 
   - The SBMLReader now follows the factory pattern by providing static
     methods to directly read SBML content from Files, InputStreams, or
-    Strings. Thanks to Martin Gräßlin for this idea in tracker item 
-    3300433.
+    Strings. Thanks to Martin Gräßlin for this idea in tracker issue 
+    #3300433.
 
   - JSBML now provides a Maven script file. Thanks to Igor Rodchenkov
     for contributing this file.
@@ -52,7 +53,31 @@ Version 0.8 (xx-xx-2011)
     now. Thanks to Martin Graesslin to report the bugs alongside some 
     unit tests.
        
+  - The SBML level 1 rules were incorrectly read, now when the 'type' 
+    attribute is set to 'rate', a RateRule is properly created.     
 
+  - The SubModel utility class was fixed and an example of how to use it 
+    added.
+
+  - Corrected the clone method for listOf objects. The typeOfList was
+    not set in the clone so it was not possible to save a model that contain
+    a cloned list.
+    
+  - [Tracker item #3306135] : the handling to the number NaN (NotANumber) has
+    been improved and the correct mathML element is created when saving the
+    formula to XML. 
+  
+  -    
+  
+* Known issues :
+
+  - ?? The support for the mathML elements notanumber and infinity is not 
+    complete. ?? NaN not read properly from formula !
+  
+  - Reading of more than one RDF Description elements in the RDF annotation 
+    block (the official SBML annotation scheme) is not supported at the 
+    moment. Planned for the next major release. 
+  
 ======================================================================
 Version 0.8-b2 (18-04-2011)
 ======================================================================
@@ -90,11 +115,11 @@ Version 0.8-b2 (18-04-2011)
   - [Tracker issue #3208887] : When trying to access the previously
     set value for  UseValuesFromTriggerTime it was possible that a
     NullPointerException could occur due to the attempt to clone this
-    element. This has been fixed. Thanks to Sebastian Fr�hlich for 
+    element. This has been fixed. Thanks to Sebastian Fröhlich for 
     reporting this.
 
   - [Tracker issue #3208903] : Priority elements were 
-    properly read and written. Thanks to Sebastian Fr�hlich for 
+    properly read and written. Thanks to Sebastian Fröhlich for 
     reporting this.
 
   - [Tracker issue #3204275] : It was impossible to set the size of a 

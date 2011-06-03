@@ -29,14 +29,17 @@ import javax.xml.stream.XMLStreamException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
@@ -72,8 +75,8 @@ public class SBML_L1VxTests {
 	 * @throws IOException 
 	 * @throws InvalidPropertiesFormatException 
 	 */
+	@SuppressWarnings("deprecation")
 	@Test public void readL1V2Branch() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
-		// URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
 		String fileName = DATA_FOLDER + "/libsbml-test-data/l1v2-branch.xml";
 		
 		SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
@@ -137,7 +140,6 @@ public class SBML_L1VxTests {
 	 * @throws InvalidPropertiesFormatException 
 	 */
 	@Test public void readL1V1Units() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
-		// URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
 		String fileName = DATA_FOLDER + "/libsbml-test-data/l1v1-units.xml";
 		
 		SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
@@ -178,6 +180,54 @@ public class SBML_L1VxTests {
 		assertTrue(vm != null);
 		assertTrue(vm.getUnits().equals("mls"));
 
+	}
+	
+	/**
+	 * 
+	 * @throws XMLStreamException
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws InvalidPropertiesFormatException 
+	 */
+	@Test public void readL1V1Rules() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
+
+		String fileName = DATA_FOLDER + "/libsbml-test-data/l1v1-rules.xml";
+		
+		SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
+		Model model = doc.getModel();
+		
+		assertTrue(doc.getLevel() == 1 && doc.getVersion() == 1);
+		
+		assertTrue(model.getLevel() == 1 && model.getVersion() == 1);
+		
+		assertTrue(model.getId().equals(""));
+		assertTrue(model.getName().equals(""));
+		
+		int nbRateRules = model.getListOfRules().filterList(new Filter() {
+			
+			public boolean accepts(Object o) {
+				if (o instanceof RateRule) {
+					return true;
+				}
+				
+				return false;
+			}
+		}).size();
+
+		int nbAssignmentRules = model.getListOfRules().filterList(new Filter() {
+			
+			public boolean accepts(Object o) {
+				if (o instanceof AssignmentRule) {
+					return true;
+				}
+				
+				return false;
+			}
+		}).size();
+		
+		assertTrue(model.getListOfRules().size() == 4);
+		assertTrue(nbRateRules == 1);
+		assertTrue(nbAssignmentRules == 3);
 	}
 
 }

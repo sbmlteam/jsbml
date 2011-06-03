@@ -34,6 +34,7 @@ import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.Delay;
 import org.sbml.jsbml.Event;
 import org.sbml.jsbml.EventAssignment;
+import org.sbml.jsbml.ExplicitRule;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.JSBML;
@@ -339,7 +340,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			} catch (IllegalArgumentException e) {
 				// TODO : Write from which element the error is coming from : astNode.getParentSBMLObject();
 				log4jLogger.info(e.getMessage());
-				// TODO : Log the error to the ErrorLog object
+				// Log the error to the ErrorLog object ??
 			}
 			
 			log4jLogger.debug("SBMLCoreParser : processAttribute : adding an unit to an ASTNode");
@@ -349,7 +350,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			log4jLogger.warn("The attribute " + attributeName
 					+ " on the element " + elementName + " is not recognized." +
 							" Please, check the SBML specifications");
-			//  TODO : Log the error to the ErrorLog object
+			//  Log the error to the ErrorLog object ??
 		}
 	}
 
@@ -382,6 +383,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 
+		log4jLogger.debug("SBMLCoreParser : processEndDocument");
+		
 		if (sbmlDocument.isSetModel()) {
 			Model model = sbmlDocument.getModel();
 
@@ -410,6 +413,33 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			}
 
 			if (model.isSetListOfRules()) {
+				
+				if (model.getLevel() == 1) {
+
+					log4jLogger.debug("Transformed SBMLLevel1Rule : processEndDocument : model is level 1");
+
+					int i = 0;
+					for (Rule rule : model.getListOfRules().clone()) {
+						if (rule instanceof SBMLLevel1Rule) {
+							Rule realRule;
+							
+							if (((SBMLLevel1Rule) rule).isScalar()) {
+								realRule = ((SBMLLevel1Rule) rule).cloneAsAssignmentRule();
+								log4jLogger.debug("Transformed SBMLLevel1Rule : " + ((SBMLLevel1Rule) rule).getVariable() + " into AssignmentRule.");
+							} else {
+								realRule = ((SBMLLevel1Rule) rule).cloneAsRateRule();
+								log4jLogger.debug("Transformed SBMLLevel1Rule : " + ((SBMLLevel1Rule) rule).getVariable() + " into RateRule.");
+							}
+							
+							log4jLogger.debug("Transformed SBMLLevel1Rule : realRule = " + realRule);
+
+							model.getListOfRules().remove(i);
+							model.getListOfRules().add(i, realRule);
+						}
+						i++;
+					}
+				}
+				
 				for (int i = 0; i < model.getNumRules(); i++) {
 					Rule rule = model.getRule(i);
 					if (rule instanceof AssignmentRule) {
@@ -638,14 +668,15 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
-		// TODO : most of the warning log can be added in the ErrorLog also
+		// some of the warning logs could be added in the ErrorLog also ??
 		
 		// All the possible elements name should be present in the HashMap
 		// sbmlCoreElements of this parser.
 		if (sbmlCoreElements.containsKey(elementName)) {
 			try {
-				Object newContextObject = sbmlCoreElements.get(elementName)
-						.newInstance();
+				
+				Object newContextObject = sbmlCoreElements.get(elementName).newInstance();
+				
 				if (contextObject instanceof SBase) {
 					setLevelAndVersionFor(newContextObject,
 							(SBase) contextObject);
@@ -835,38 +866,36 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 							return rule;
 						} else if (elementName.equals("parameterRule")
-								&& list.getSBaseListType().equals(
-										ListOf.Type.listOfRules)
-								&& model.getLevel() == 1) {
-							AssignmentRule rule = (AssignmentRule) newContextObject;
+								&& list.getSBaseListType().equals(ListOf.Type.listOfRules)
+								&& model.getLevel() == 1) 
+						{
+							ExplicitRule rule = (ExplicitRule) newContextObject;
 							model.addRule(rule);
 
 							return rule;
-						} else if (elementName
-								.equals("specieConcentrationRule")
-								&& list.getSBaseListType().equals(
-										ListOf.Type.listOfRules)
+						} else if (elementName.equals("specieConcentrationRule")
+								&& list.getSBaseListType().equals(ListOf.Type.listOfRules)
 								&& model.getLevel() == 1
-								&& model.getVersion() == 1) {
-							AssignmentRule rule = (AssignmentRule) newContextObject;
+								&& model.getVersion() == 1) 
+						{
+							ExplicitRule rule = (ExplicitRule) newContextObject;
 							model.addRule(rule);
 
 							return rule;
-						} else if (elementName
-								.equals("speciesConcentrationRule")
-								&& list.getSBaseListType().equals(
-										ListOf.Type.listOfRules)
+						} else if (elementName.equals("speciesConcentrationRule")
+								&& list.getSBaseListType().equals(ListOf.Type.listOfRules)
 								&& model.getLevel() == 1
-								&& model.getVersion() == 2) {
-							AssignmentRule rule = (AssignmentRule) newContextObject;
+								&& model.getVersion() == 2) 
+						{
+							ExplicitRule rule = (ExplicitRule) newContextObject;
 							model.addRule(rule);
 
 							return rule;
 						} else if (elementName.equals("compartmentVolumeRule")
-								&& list.getSBaseListType().equals(
-										ListOf.Type.listOfRules)
-								&& model.getLevel() == 1) {
-							AssignmentRule rule = (AssignmentRule) newContextObject;
+								&& list.getSBaseListType().equals(ListOf.Type.listOfRules)
+								&& model.getLevel() == 1) 
+						{
+							ExplicitRule rule = (ExplicitRule) newContextObject;
 							model.addRule(rule);
 
 							return rule;

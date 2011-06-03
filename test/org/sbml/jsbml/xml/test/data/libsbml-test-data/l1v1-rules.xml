@@ -22,9 +22,9 @@
       <parameter name="p" value="1"/>
    </listOfParameters>
     <listOfRules>
-      <parameterRule name="t" formula="s1 + s2"/>
+      <parameterRule name="t" formula="s1 + s2" type="rate"/>
       <parameterRule name="k" formula="k3/k2"/>
-      <specieConcentrationRule specie="x2" formula="k * (s1+s2)/(1 + k)"/>
+      <specieConcentrationRule specie="x2" formula="k * (s1+s2)/(1 + k)" type="scalar"/>
       <specieConcentrationRule specie="x3" formula="p*(t - s2)"/>
     </listOfRules>
     <listOfReactions>

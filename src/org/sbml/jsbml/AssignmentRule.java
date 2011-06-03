@@ -44,13 +44,23 @@ public class AssignmentRule extends ExplicitRule {
 	}
 
 	/**
-	 * Creates an AssignmentRule instance from a given AssignmentRule.
+	 * Creates a cloned AssignmentRule instance from a given AssignmentRule.
 	 * 
 	 * @param ar the AssignmentRule to clone.
 	 */
 	public AssignmentRule(AssignmentRule ar) {
 		super(ar);
 	}
+	
+	/**
+	 * Creates a cloned AssignmentRule instance from a given {@link ExplicitRule}.
+	 * 
+	 * @param rule the AssignmentRule to clone.
+	 */
+	public AssignmentRule(ExplicitRule rule) {
+		super(rule);
+	}
+	
 
 	/**
 	 * Creates an AssignmentRule instance from a given math, level and version.
