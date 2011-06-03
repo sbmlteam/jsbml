@@ -281,10 +281,7 @@ public class MathMLXMLStreamCompiler {
 
 	private void compileNegativeInfinity(ASTNode astNode) {
 
-		// TODO : check what write in MathML if we have a negative infinity
-		
 		try {
-			// <apply>/n    <minus/>\n    <infinity/>\n  </apply>/n"
 			writer.writeCharacters(indent);
 			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "apply");
 			writer.writeCharacters("\n");
@@ -298,9 +295,7 @@ public class MathMLXMLStreamCompiler {
 
 		} catch (XMLStreamException e) {			
 			e.printStackTrace();
-		}
-
-		
+		}		
 	}
 
 
@@ -314,10 +309,7 @@ public class MathMLXMLStreamCompiler {
 
 		} catch (XMLStreamException e) {			
 			e.printStackTrace();
-		}
-
-
-		
+		}		
 	}
 
 	private void compileNotANumber(ASTNode astNode) {
@@ -333,6 +325,35 @@ public class MathMLXMLStreamCompiler {
 		}
 
 	}
+
+	private void compilePi(ASTNode astNode) {
+
+		try {
+
+			writer.writeCharacters(indent);
+			writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "pi");
+			writer.writeCharacters("\n");
+
+		} catch (XMLStreamException e) {			
+			e.printStackTrace();
+		}
+
+	}
+	
+	private void compileExponentiale(ASTNode astNode) {
+
+		try {
+
+			writer.writeCharacters(indent);
+			writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "exponentiale");
+			writer.writeCharacters("\n");
+
+		} catch (XMLStreamException e) {			
+			e.printStackTrace();
+		}
+
+	}
+
 
 	
 	private void compileCSymbol(ASTNode astNode) {
@@ -402,7 +423,13 @@ public class MathMLXMLStreamCompiler {
 			} else if (Double.isInfinite(astNode.getReal())) {
 				compilePositiveInfinity(astNode);
 				return;
-			}
+			} else if (Math.PI == astNode.getReal()) {
+				compilePi(astNode);
+				return;
+			} else if (Math.E == astNode.getReal()) {
+				compileExponentiale(astNode);
+				return;
+			} 
 			
 			writer.writeCharacters(indent);
 			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "cn");
@@ -687,6 +714,10 @@ public class MathMLXMLStreamCompiler {
 
 	private void compileConstantElement(ASTNode astNode) {
 		String constantName = astNode.getType().toString().substring(9).toLowerCase();
+		
+		if (constantName.equals("e")) {
+			constantName = "exponentiale";
+		}
 		
 		try {
 			

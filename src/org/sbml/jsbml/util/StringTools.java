@@ -266,8 +266,6 @@ public class StringTools {
 	 * @return the String as a double. If the String is not a valid double
 	 *         number, {@link Double.NaN} is returned.
 	 */
-	// TODO : we need to take care of these INFINITY numbers when we write back
-	// the SBML file !!
 	public static double parseSBMLDouble(String valueAsStr) {
 
 		double value = Double.NaN;
