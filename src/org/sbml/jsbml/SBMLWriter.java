@@ -352,7 +352,7 @@ public class SBMLWriter {
 	 * @see #setProgramName(String)
 	 */
 	public String getProgramName() {
-		return programName;
+		return (programName != null) ? programName : "";
 	}
 	
 	/**
@@ -361,7 +361,7 @@ public class SBMLWriter {
 	 * @see #setProgramVersion(String)
 	 */
 	public String getProgramVersion() {
-		return programVersion;
+		return (programVersion != null) ? programVersion : "";
 	}
 	
 	/**
