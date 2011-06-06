@@ -206,7 +206,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				u.setKind(Kind.LITRE);
 			} else if (id.equals("area")) {
 				u.setKind(Kind.METRE);
-				u.setExponent(2);
+				u.setExponent(2d);
 			} else if (id.equals("length")) {
 				u.setKind(Kind.METRE);
 			} else if (id.equals("time")) {
