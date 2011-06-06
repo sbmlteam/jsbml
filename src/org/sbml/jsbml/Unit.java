@@ -1127,8 +1127,10 @@ public class Unit extends AbstractSBase {
 	 * Represents the 'multiplier' XML attribute of an unit element.
 	 */
 	private Double multiplier;
+	
 	/**
 	 * Represents the 'offset' XML attribute of an unit element.
+	 * @deprecated the offset attribute should no longer be used.
 	 */
 	@Deprecated
 	private Double offset;
@@ -1193,7 +1195,7 @@ public class Unit extends AbstractSBase {
 	 * @param version
 	 */
 	public Unit(int scale, Kind kind, double exponent, int level, int version) {
-		this(1, scale, kind, exponent, level, version);
+		this(1d, scale, kind, exponent, level, version);
 		isSetMultiplier = false;
 	}
 
@@ -1336,7 +1338,7 @@ public class Unit extends AbstractSBase {
 	 * @return the multiplier of this Unit if it is set, 1 otherwise.
 	 */
 	public double getMultiplier() {
-		return isSetMultiplier() ? multiplier : 1;
+		return isSetMultiplier() ? multiplier : 1d;
 	}
 
 	/**
@@ -1346,7 +1348,7 @@ public class Unit extends AbstractSBase {
 	 */
 	@Deprecated
 	public double getOffset() {
-		return isSetOffset() ? offset : 0;
+		return isSetOffset() ? offset : 0d;
 	}
 
 	/*
@@ -1570,7 +1572,9 @@ public class Unit extends AbstractSBase {
 	 * Predicate for testing whether this Unit is of the kind Celsius
 	 * 
 	 * @return
+	 * @deprecated {@link Kind#CELSIUS} should no longer be used.
 	 */
+	@Deprecated
 	public boolean isCelsius() {
 		return kind == Kind.CELSIUS;
 	}
@@ -1594,8 +1598,8 @@ public class Unit extends AbstractSBase {
 	 *         {@link Kind} is {@link DIMENSIONLESS} or offset = exponent = 0
 	 */
 	public boolean isDimensionless() {
-		return kind == Kind.DIMENSIONLESS
-				|| (getOffset() == 0 && getExponent() == 0);
+		return (kind == Kind.DIMENSIONLESS)
+				|| ((getOffset() == 0d) && (getExponent() == 0d));
 	}
 
 	/**
@@ -1704,7 +1708,7 @@ public class Unit extends AbstractSBase {
 	 *         otherwise.
 	 */
 	public boolean isLitre() {
-		return kind == Kind.LITRE || kind == Kind.LITER;
+		return (kind == Kind.LITRE) || (kind == Kind.LITER);
 	}
 
 	/**
@@ -1731,7 +1735,7 @@ public class Unit extends AbstractSBase {
 	 * @return
 	 */
 	public boolean isMetre() {
-		return kind == Kind.METRE || kind == Kind.METER;
+		return (kind == Kind.METRE) || (kind == Kind.METER);
 	}
 
 	/**
@@ -1816,6 +1820,7 @@ public class Unit extends AbstractSBase {
 	/**
 	 * 
 	 * @return
+	 * @deprecated the offset attribute should no longer be used.
 	 */
 	@Deprecated
 	public boolean isSetOffset() {
@@ -1872,8 +1877,8 @@ public class Unit extends AbstractSBase {
 	 */
 	public boolean isVariantOfArea() {
 		Kind kind = getKind();
-		return kind == Kind.METER || kind == Kind.METRE && getOffset() == 0
-				&& getExponent() == 2;
+		return (kind == Kind.METER) || (kind == Kind.METRE)
+				&& (getOffset() == 0d) && (getExponent() == 2d);
 	}
 
 	/**
@@ -1882,8 +1887,8 @@ public class Unit extends AbstractSBase {
 	 */
 	public boolean isVariantOfLength() {
 		Kind kind = getKind();
-		return kind == Kind.METER || kind == Kind.METRE && getOffset() == 0
-				&& getExponent() == 1;
+		return (kind == Kind.METER) || (kind == Kind.METRE)
+				&& (getOffset() == 0d) && (getExponent() == 1d);
 	}
 
 	/**
@@ -1892,10 +1897,10 @@ public class Unit extends AbstractSBase {
 	 */
 	public boolean isVariantOfSubstance() {
 		Kind kind = getKind();
-		if (kind == Kind.MOLE
-				|| kind == Kind.ITEM
+		if ((kind == Kind.MOLE)
+				|| (kind == Kind.ITEM)
 				|| ((((getLevel() == 2) && (getVersion() > 1)) || (getLevel() > 2)) && (kind == Kind.GRAM || isKilogram()))) {
-			return getOffset() == 0 && getExponent() == 1;
+			return (getOffset() == 0d) && (getExponent() == 1d);
 		}
 		return false;
 	}
@@ -1905,8 +1910,8 @@ public class Unit extends AbstractSBase {
 	 * @return
 	 */
 	public boolean isVariantOfTime() {
-		return (getKind() == Kind.SECOND) && (getOffset() == 0)
-				&& (getExponent() == 1);
+		return (getKind() == Kind.SECOND) && (getOffset() == 0d)
+				&& (getExponent() == 1d);
 	}
 
 	/**
@@ -1916,10 +1921,10 @@ public class Unit extends AbstractSBase {
 	public boolean isVariantOfVolume() {
 		Kind kind = getKind();
 		if ((kind == Kind.LITER) || (kind == Kind.LITRE)) {
-			return (getOffset() == 0) && (getExponent() == 1);
+			return (getOffset() == 0d) && (getExponent() == 1d);
 		}
 		if ((kind == Kind.METER) || (kind == Kind.METRE)) {
-			return (getOffset() == 0) && (getExponent() == 3);
+			return (getOffset() == 0d) && (getExponent() == 3d);
 		}
 		return false;
 	}
@@ -2033,7 +2038,7 @@ public class Unit extends AbstractSBase {
 	 */
 	public void setKind(Kind kind) {
 		Kind oldKind = this.kind;
-		this.kind = kind != null ? kind : Kind.INVALID;
+		this.kind = (kind != null) ? kind : Kind.INVALID;
 		firePropertyChange(SBaseChangedEvent.kind, oldKind, this.kind);
 	}
 
@@ -2043,7 +2048,8 @@ public class Unit extends AbstractSBase {
 	 * @param multiplier
 	 */
 	public void setMultiplier(double multiplier) {
-		if (getLevel() < 2 && multiplier != 1) { // added the multiplier test != 1 to prevent error being reported when it is not necessary
+		if ((getLevel() < 2) && (multiplier != 1d)) { 
+			// added the multiplier test != 1 to prevent error being reported when it is not necessary
 			throw new PropertyNotAvailableError(SBaseChangedEvent.multiplier, this);
 		}
 		Double oldMultiplyer = this.multiplier;
@@ -2103,7 +2109,7 @@ public class Unit extends AbstractSBase {
 			}
 			times = FormulaCompiler.times(times, pow);
 		}
-		if (offset != null && offset.doubleValue() != 0) {
+		if ((offset != null) && (offset.doubleValue() != 0d)) {
 			times = FormulaCompiler.sum(StringTools.toString(offset.doubleValue()),
 					times);
 		}
@@ -2141,7 +2147,7 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated the offset attribute should no longer be used.
 	 */
 	@Deprecated
 	public void unsetOffset() {

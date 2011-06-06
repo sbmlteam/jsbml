@@ -32,7 +32,7 @@ import org.sbml.jsbml.util.StringTools;
  * Represents the unitDefinition XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
@@ -677,7 +677,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * This method tests if this unit definition is a predefined unit.
 	 * 
 	 * @return
-	 * @deprecated use isPredefined()
+	 * @deprecated use {@link #isPredefined()}
 	 */
 	@Deprecated
 	public boolean isBuiltIn() {
