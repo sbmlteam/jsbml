@@ -31,7 +31,7 @@ import java.io.Serializable;
  * @since 0.8
  * @version $Rev$
  */
-public class ValuePair<L extends Comparable<L>, V extends Comparable<V>>
+public class ValuePair<L extends Comparable<? super L>, V extends Comparable<? super V>>
 		implements Cloneable, Comparable<ValuePair<L, V>>, Serializable {
 
 	/**
