@@ -86,13 +86,30 @@ import com.ctc.wstx.stax.WstxOutputFactory;
 /**
  * A SBMLWriter provides the methods to write a SBML file.
  * 
- * @author marine
- * @author rodrigue
+ * @author Marine Dumousseau
+ * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
 public class SBMLWriter {
+
+	/**
+	 * @return The default symbol to be used to indent new elements in the XML
+	 *         representation of SBML data structures.
+	 */
+	public static char getDefaultIndentChar() {
+		return ' ';
+	}
+	
+	/**
+	 * @return The default number of indent symbols to be concatenated at the
+	 *         beginning of a new block in an XML representation of SBML data
+	 *         structures.
+	 */
+	public static short getDefaultIndentCount() {
+		return (short) 2;
+	}
 
 	/**
 	 * Tests this class
@@ -131,17 +148,17 @@ public class SBMLWriter {
 	/**
 	 * The symbol for indentation.
 	 */
-	private char indentChar = ' ';
-
+	private char indentChar;
+	
 	/**
 	 * The number of indentation symbols.
 	 */
-	private short indentCount = 2;
-	
+	private short indentCount;
 	/**
 	 * contains the WritingParser instances of this class.
 	 */
 	private HashMap<String, WritingParser> instantiatedSBMLParsers = new HashMap<String, WritingParser>();
+
 	/**
 	 * Remember already issued warnings to avoid having multiple lines, saying
 	 * the same thing (Warning: Skipping detailed parsing of name space 'XYZ'.
@@ -155,6 +172,29 @@ public class SBMLWriter {
 	 * contains all the relationships name space URI <=> WritingParser class.
 	 */
 	private HashMap<String, Class<? extends WritingParser>> packageParsers = new HashMap<String, Class<? extends WritingParser>>();
+
+	/**
+	 * Creates a new {@link SBMLWriter} with default configuration for
+	 * {@link #indentChar} and {@link #indentCount}.
+	 */
+	public SBMLWriter() {
+		this(getDefaultIndentChar(), getDefaultIndentCount());
+	}
+
+	/**
+	 * Creates a new {@link SBMLWriter} with the given configuration for the
+	 * {@link #indentChar} and {@link #indentCount}, i.e., the symbol to be used
+	 * to indent elements in the XML representation of SBML data objects and the
+	 * number of these symbols to be concatenated at the beginning of each new
+	 * line for a new element.
+	 * 
+	 * @param indentChar
+	 * @param indentCount
+	 */
+	public SBMLWriter(char indentChar, short indentCount) {
+		setIndentationChar(indentChar);
+		setIndentationCount(indentCount);
+	}
 	
 	/**
 	 * Adds a {@link WritingParser} to the given list of {@link WritingParser} 
@@ -575,6 +615,51 @@ public class SBMLWriter {
 			throws XMLStreamException, FileNotFoundException, SBMLException {
 		write(sbmlDocument, new BufferedOutputStream(new FileOutputStream(
 				fileName)), programName, programVersion);
+	}
+
+	public String writeAnnotation(SBase sbase) {
+		
+		String annotationStr = "";
+
+		if (sbase == null || (!sbase.isSetAnnotation())) {
+			return annotationStr;
+		}
+		
+		StringWriter stream = new StringWriter();
+		
+		SMOutputFactory smFactory = new SMOutputFactory(WstxOutputFactory.newInstance());
+
+		try {
+			XMLStreamWriter2 writer = smFactory.createStax2Writer(stream);
+
+			// For this to work, the elements need to be completely empty (no whitespace or line return)
+			writer.setProperty(XMLOutputFactory2.P_AUTOMATIC_EMPTY_ELEMENTS, Boolean.TRUE);
+
+			// Create an xml fragment to avoid having the xml declaration
+			SMRootFragment outputDocument = SMOutputFactory.createOutputFragment(writer);
+
+			// create the sbmlNamespace variable
+			String sbmlNamespace = getNamespaceFrom(sbase.getLevel(), sbase.getVersion());
+			SMOutputContext context = outputDocument.getContext();
+			SMNamespace namespace = context.getNamespace(sbmlNamespace);
+			namespace.setPreferredPrefix("");
+			
+			// all the sbml element namespaces are registered to the writer in the writeAnnotation method
+
+			// call the writeAnnotation, indicating that we are building an xml fragment
+			writeAnnotation(sbase, outputDocument, writer, sbmlNamespace, 0, true);
+
+			writer.writeEndDocument();
+			writer.close();
+
+			annotationStr = stream.toString();
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		} catch (SBMLException e) {
+			e.printStackTrace();
+		}
+
+		return annotationStr;
 	}
 
 	/**
@@ -1313,6 +1398,7 @@ public class SBMLWriter {
 		return stream.toString();
 	}
 
+	
 	private void writeW3CDate(XMLStreamWriter writer, int indent,
 			String dateISO, String dcterm, String dctermPrefix, String rdfPrefix)
 			throws XMLStreamException {
@@ -1331,52 +1417,6 @@ public class SBMLWriter {
 		writer.writeCharacters(whiteSpace);
 		writer.writeEndElement();
 		writer.writeCharacters("\n");
-	}
-
-	
-	public String writeAnnotation(SBase sbase) {
-		
-		String annotationStr = "";
-
-		if (sbase == null || (!sbase.isSetAnnotation())) {
-			return annotationStr;
-		}
-		
-		StringWriter stream = new StringWriter();
-		
-		SMOutputFactory smFactory = new SMOutputFactory(WstxOutputFactory.newInstance());
-
-		try {
-			XMLStreamWriter2 writer = smFactory.createStax2Writer(stream);
-
-			// For this to work, the elements need to be completely empty (no whitespace or line return)
-			writer.setProperty(XMLOutputFactory2.P_AUTOMATIC_EMPTY_ELEMENTS, Boolean.TRUE);
-
-			// Create an xml fragment to avoid having the xml declaration
-			SMRootFragment outputDocument = SMOutputFactory.createOutputFragment(writer);
-
-			// create the sbmlNamespace variable
-			String sbmlNamespace = getNamespaceFrom(sbase.getLevel(), sbase.getVersion());
-			SMOutputContext context = outputDocument.getContext();
-			SMNamespace namespace = context.getNamespace(sbmlNamespace);
-			namespace.setPreferredPrefix("");
-			
-			// all the sbml element namespaces are registered to the writer in the writeAnnotation method
-
-			// call the writeAnnotation, indicating that we are building an xml fragment
-			writeAnnotation(sbase, outputDocument, writer, sbmlNamespace, 0, true);
-
-			writer.writeEndDocument();
-			writer.close();
-
-			annotationStr = stream.toString();
-		} catch (XMLStreamException e) {
-			e.printStackTrace();
-		} catch (SBMLException e) {
-			e.printStackTrace();
-		}
-
-		return annotationStr;
 	}
 	
 	// TODO : test a bit more Xstream and using Qname to see how it
