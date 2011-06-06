@@ -81,7 +81,7 @@ public class SBMLWriter {
 		new org.sbml.jsbml.xml.stax.SBMLWriter().write(sbmlDocument, file,
 				programName, programVersion);
 	}
-	
+
 	/**
 	 * Writes the given SBML document to a {@link File}.
 	 * <p>
@@ -147,7 +147,7 @@ public class SBMLWriter {
 		new org.sbml.jsbml.xml.stax.SBMLWriter().write(sbmlDocument, stream,
 				programName, programVersion);
 	}
-	
+
 	/**
 	 * Writes the given {@link SBMLDocument} to the {@link OutputStream}.
 	 * 
@@ -181,7 +181,7 @@ public class SBMLWriter {
 		new org.sbml.jsbml.xml.stax.SBMLWriter(indentChar, indentCount).write(
 				sbmlDocument, stream, programName, programVersion);
 	}
-	
+
 	/**
 	 * Writes the given {@link SBMLDocument} to file name.
 	 * <p>
@@ -252,14 +252,13 @@ public class SBMLWriter {
 		new org.sbml.jsbml.xml.stax.SBMLWriter(indentChar, indentCount).write(
 				sbmlDocument, fileName, programName, programVersion);
 	}
-
+	
 	/**
 	 * The name of the program that has been used to create an SBML
 	 * {@link String} representation (possibly in a {@link File}) with the help
 	 * of JSBML.
 	 */
 	private String programName;
-
 	
 	/**
 	 * The version of the program using JSBML to serialize a model in an SBML
@@ -271,15 +270,14 @@ public class SBMLWriter {
 	 * The actual writer.
 	 */
 	private org.sbml.jsbml.xml.stax.SBMLWriter sbmlWriter;
-
+	
 	/**
 	 * Creates a new {@link SBMLwriter}.
 	 */
 	public SBMLWriter() {
 		this(null, null);
 	}
-	 
-	 
+
 	/**
 	 * Creates a new {@link SBMLwriter} for the program with the given name and
 	 * version.
@@ -297,6 +295,7 @@ public class SBMLWriter {
 				.getDefaultIndentChar(), org.sbml.jsbml.xml.stax.SBMLWriter
 				.getDefaultIndentCount());
 	}
+
 	
 	/**
 	 * Creates a new {@link SBMLwriter} for the program with the given name and
@@ -323,6 +322,46 @@ public class SBMLWriter {
 		this.programVersion = programVersion;
 		this.sbmlWriter = new org.sbml.jsbml.xml.stax.SBMLWriter(indentChar,
 				indentCount);
+	}
+	
+	/**
+	 * Gives the symbol that is used to indent the SBML output for a better
+	 * structure and to improve human-readability.
+	 * 
+	 * @return the character to be used for indentation.
+	 */
+	public char getIndentationChar() {
+		return sbmlWriter.getIndentationChar();
+	}
+
+	/**
+	 * Gives the number of indent symbols that are inserted in a line to better
+	 * structure the SBML output.
+	 * 
+	 * @return the number of characters used for indentation in SBML
+	 *         serializations.
+	 */
+	public short getIndentationCount() {
+		return sbmlWriter.getIndentationCount();
+	}
+	 
+	 
+	/**
+	 * @return the name of the program that uses JSBML for writing SBML data
+	 *         objects.
+	 * @see #setProgramName(String)
+	 */
+	public String getProgramName() {
+		return programName;
+	}
+	
+	/**
+	 * @return the version of the program that uses JSBML for writing SBML data
+	 *         objects.
+	 * @see #setProgramVersion(String)
+	 */
+	public String getProgramVersion() {
+		return programVersion;
 	}
 	
 	/**
