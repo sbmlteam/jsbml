@@ -23,6 +23,7 @@ package org.sbml.jsbml;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.Serializable;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -56,7 +57,12 @@ import javax.xml.stream.XMLStreamException;
  * @since 0.8
  * @version $Rev$
  */
-public class SBMLReader {
+public class SBMLReader implements Cloneable, Serializable {
+
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -3313609137341424804L;
 
 	/**
 	 * Factory method for reading SBML from a given {@link File}.
@@ -104,6 +110,33 @@ public class SBMLReader {
 	}
 	
 	/**
+	 * Clone constructor.
+	 * 
+	 * @param sbmlReader
+	 */
+	public SBMLReader(SBMLReader sbmlReader) {
+		this();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public SBMLReader clone() {
+		return new SBMLReader(this);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		return (o instanceof SBMLReader) ? true : false;
+	}
+	
+	/**
 	 * Reads an SBML document from a {@link File}.
 	 * <p>
 	 * This method is identical to {@link SBMLReader#readSBMLFromFile(String filename)} 
@@ -125,7 +158,7 @@ public class SBMLReader {
 			XMLStreamException {
 		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBML(file);
 	}
-
+	
 	/**
 	 * Reads an SBML document from a file.
 	 * <p>
@@ -167,7 +200,7 @@ public class SBMLReader {
 			FileNotFoundException {
 		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBMLFile(filename);
 	}
-	
+
 	/**
 	 * Reads an SBML document from a data stream.
 	 * <p>
@@ -183,7 +216,7 @@ public class SBMLReader {
 			throws XMLStreamException {
 		return (SBMLDocument) new org.sbml.jsbml.xml.stax.SBMLReader().readSBMLFromStream(stream);
 	}
-
+	
 	/**
 	 * Reads an SBML document from the given XML string.
 	 * 
@@ -195,6 +228,15 @@ public class SBMLReader {
 	public SBMLDocument readSBMLFromString(String xml)
 			throws XMLStreamException {
 		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBMLFromString(xml);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return String.format("%s []", getClass().getSimpleName());
 	}
 
 }
