@@ -23,6 +23,7 @@ package org.sbml.jsbml;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
+import java.io.Serializable;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -47,7 +48,40 @@ import javax.xml.stream.XMLStreamException;
  * @since 0.8
  * @version $Rev$
  */
-public class SBMLWriter {
+public class SBMLWriter implements Cloneable, Serializable {
+
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 7320725236081166704L;
+
+	/**
+	 * Writes the given SBML document to a {@link File}.
+	 * 
+	 * @param sbmlDocument
+	 *            the {@link SBMLDocument} to be written
+	 * @param file
+	 *            the file where the SBML document is to be written.
+	 * @param indentChar
+	 *            The symbol to be used to indent new blocks within an XML
+	 *            representation of SBML data structures.
+	 * @param indentCount
+	 *            The number of indentation characters.
+	 * @throws FileNotFoundException
+	 *             if the file does not exist or cannot be created.
+	 * @throws XMLStreamException
+	 *             if any problems prevent to write the {@link SBMLDocument} as
+	 *             XML.
+	 * @throws SBMLException
+	 *             if any SBML problems prevent to write the
+	 *             {@link SBMLDocument}.
+	 */
+	public static void write(SBMLDocument sbmlDocument, File file,
+			char indentChar, short indentCount) throws FileNotFoundException,
+			XMLStreamException, SBMLException {
+		new org.sbml.jsbml.xml.stax.SBMLWriter(indentChar, indentCount).write(
+				sbmlDocument, file);
+	}
 
 	/**
 	 * Writes the given SBML document to a {@link File}.
@@ -81,7 +115,7 @@ public class SBMLWriter {
 		new org.sbml.jsbml.xml.stax.SBMLWriter().write(sbmlDocument, file,
 				programName, programVersion);
 	}
-
+	
 	/**
 	 * Writes the given SBML document to a {@link File}.
 	 * <p>
@@ -123,6 +157,25 @@ public class SBMLWriter {
 	/**
 	 * Writes the given {@link SBMLDocument} to the {@link OutputStream}.
 	 * 
+	 * @param sbmlDocument the SBML document to be written
+	 * @param stream the stream object where the SBML is to be written.
+	 * @param indentChar The symbol to be used to indent new blocks within an XML
+	 *            representation of SBML data structures.
+	 * @param indentCount The number of indentation characters.
+	 * @throws XMLStreamException  if any problems prevent to write the {@link SBMLDocument} as
+	 *             XML.
+	 * @throws SBMLException  if any SBML problems prevent to write the
+	 *             {@link SBMLDocument}.
+	 */
+	public static void write(SBMLDocument sbmlDocument, OutputStream stream,
+			char indentChar, short indentCount) throws XMLStreamException, SBMLException {
+		new org.sbml.jsbml.xml.stax.SBMLWriter(indentChar, indentCount).write(
+				sbmlDocument, stream);
+	}
+
+	/**
+	 * Writes the given {@link SBMLDocument} to the {@link OutputStream}.
+	 * 
 	 * @param sbmlDocument
 	 *            the SBML document to be written
 	 * @param stream
@@ -147,7 +200,7 @@ public class SBMLWriter {
 		new org.sbml.jsbml.xml.stax.SBMLWriter().write(sbmlDocument, stream,
 				programName, programVersion);
 	}
-
+	
 	/**
 	 * Writes the given {@link SBMLDocument} to the {@link OutputStream}.
 	 * 
@@ -182,6 +235,35 @@ public class SBMLWriter {
 				sbmlDocument, stream, programName, programVersion);
 	}
 
+	/**
+	 * Writes the given {@link SBMLDocument} to file name.
+	 * 
+	 * @param sbmlDocument
+	 *            the {@link SBMLDocument} to be written
+	 * @param fileName
+	 *            the name or full pathname of the file where the SBML document
+	 *            is to be written.
+	 * @param indentChar
+	 *            The symbol to be used to indent new blocks within an XML
+	 *            representation of SBML data structures.
+	 * @param indentCount
+	 *            The number of indentation characters.
+	 * @throws XMLStreamException
+	 *             if any problems prevent to write the {@link SBMLDocument} as
+	 *             XML.
+	 * @throws FileNotFoundException
+	 *             if the file does not exist or cannot be created.
+	 * @throws SBMLException
+	 *             if any SBML problems prevent to write the
+	 *             {@link SBMLDocument}.
+	 */
+	public static void write(SBMLDocument sbmlDocument, String fileName,
+			char indentChar, short indentCount) throws XMLStreamException,
+			FileNotFoundException, SBMLException {
+		new org.sbml.jsbml.xml.stax.SBMLWriter(indentChar, indentCount).write(
+				sbmlDocument, fileName);
+	}
+	
 	/**
 	 * Writes the given {@link SBMLDocument} to file name.
 	 * <p>
@@ -279,6 +361,32 @@ public class SBMLWriter {
 	}
 
 	/**
+	 * Creates a new {@link SBMLwriter} that uses the given character for
+	 * indentation of the XML representation of SBML data structures (with the
+	 * given number of such symbols).
+	 * 
+	 * @param indentChar
+	 *            The symbol to be used to indent new blocks within an XML
+	 *            representation of SBML data structures.
+	 * @param indentCount
+	 *            The number of indentation characters.
+	 */
+	public SBMLWriter(char indentChar, short indentCount) {
+		this(null, null, indentChar, indentCount);
+	}
+
+	/**
+	 * Clone constructor.
+	 * 
+	 * @param sbmlWriter
+	 */
+	public SBMLWriter(SBMLWriter sbmlWriter) {
+		this(sbmlWriter.getProgramName(), sbmlWriter.getProgramVersion(),
+				sbmlWriter.getIndentationChar(), sbmlWriter
+						.getIndentationCount());
+	}
+	
+	/**
 	 * Creates a new {@link SBMLwriter} for the program with the given name and
 	 * version.
 	 * 
@@ -295,7 +403,6 @@ public class SBMLWriter {
 				.getDefaultIndentChar(), org.sbml.jsbml.xml.stax.SBMLWriter
 				.getDefaultIndentCount());
 	}
-
 	
 	/**
 	 * Creates a new {@link SBMLwriter} for the program with the given name and
@@ -323,7 +430,33 @@ public class SBMLWriter {
 		this.sbmlWriter = new org.sbml.jsbml.xml.stax.SBMLWriter(indentChar,
 				indentCount);
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public SBMLWriter clone() {
+		return new SBMLWriter(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof SBMLWriter) {
+			SBMLWriter writer = (SBMLWriter) o;
+			return (writer.getIndentationChar() == getIndentationChar())
+					&& (writer.getIndentationCount() == getIndentationCount())
+					&& writer.getProgramName().equals(getProgramName())
+					&& writer.getProgramVersion().equals(getProgramVersion());
+		}
+		return false;
+	}
+	 
+	 
 	/**
 	 * Gives the symbol that is used to indent the SBML output for a better
 	 * structure and to improve human-readability.
@@ -333,7 +466,7 @@ public class SBMLWriter {
 	public char getIndentationChar() {
 		return sbmlWriter.getIndentationChar();
 	}
-
+	
 	/**
 	 * Gives the number of indent symbols that are inserted in a line to better
 	 * structure the SBML output.
@@ -344,8 +477,7 @@ public class SBMLWriter {
 	public short getIndentationCount() {
 		return sbmlWriter.getIndentationCount();
 	}
-	 
-	 
+	
 	/**
 	 * @return the name of the program that uses JSBML for writing SBML data
 	 *         objects.
@@ -354,7 +486,7 @@ public class SBMLWriter {
 	public String getProgramName() {
 		return (programName != null) ? programName : "";
 	}
-	
+
 	/**
 	 * @return the version of the program that uses JSBML for writing SBML data
 	 *         objects.
@@ -364,6 +496,24 @@ public class SBMLWriter {
 		return (programVersion != null) ? programVersion : "";
 	}
 	
+	/**
+	 * Check if a program name has been defined for this {@link SBMLWriter}.
+	 * 
+	 * @return
+	 */
+	public boolean isSetProgramName() {
+		return programName != null;
+	}
+
+	/**
+	 * Check if a program version has been defined for this {@link SBMLWriter}.
+	 * 
+	 * @return
+	 */
+	public boolean isSetProgramVersion() {
+		return programVersion != null;
+	}
+
 	/**
 	 * Influences the way how SBML data structures are represented in XML.
 	 * 
@@ -385,7 +535,7 @@ public class SBMLWriter {
 	public void setIndentationCount(short indentCount) {
 		sbmlWriter.setIndentationCount(indentCount);
 	}
-	
+
 	/**
 	 * Sets the name of this program, i.e., the program that is about to
 	 * write out the {@link SBMLDocument}.
@@ -442,6 +592,33 @@ public class SBMLWriter {
 		return JSBML.OPERATION_SUCCESS;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return String.format(
+						"%s [programName=%s, programVersion=%s, indentationChar=%c, indentationCount=%d]",
+						getClass().getSimpleName(), programName,
+						programVersion, sbmlWriter.getIndentationChar(),
+						sbmlWriter.getIndentationCount());
+	}
+
+	/**
+	 * 
+	 */
+	public void unsetProgramName() {
+		setProgramName(null);
+	}
+	
+	/**
+	 * 
+	 */
+	public void unsetProgramVersion() {
+		setProgramVersion(null);
+	}
+
 	/**
 	 * Writes the given SBML document to a {@link File}. If specified in the
 	 * constructor of this {@link SBMLWriter}, the {@link #programName} and
@@ -465,7 +642,7 @@ public class SBMLWriter {
 			throws FileNotFoundException, XMLStreamException, SBMLException {
 		sbmlWriter.write(sbmlDocument, file, programName, programVersion);
 	}
-
+	
 	/**
 	 * Writes the given SBML document to the {@link OutputStream}. If specified
 	 * in the constructor of this {@link SBMLWriter}, the {@link #programName}
@@ -489,7 +666,7 @@ public class SBMLWriter {
 			throws XMLStreamException, SBMLException {
 		sbmlWriter.write(sbmlDocument, stream, programName, programVersion);
 	}
-
+	
 	/**
 	 * Writes the given {@link SBMLDocument} to file name. If specified in the
 	 * constructor of this {@link SBMLWriter}, the {@link #programName} and
@@ -517,7 +694,7 @@ public class SBMLWriter {
 			throws XMLStreamException, FileNotFoundException, SBMLException {
 		sbmlWriter.write(sbmlDocument, fileName, programName, programVersion);
 	}
-
+	
 	/**
 	 * Writes the given SBML document to a {@link File}. If specified in the
 	 * constructor of this {@link SBMLWriter}, the {@link #programName} and
@@ -569,7 +746,7 @@ public class SBMLWriter {
 			throws FileNotFoundException, XMLStreamException, SBMLException {
 		write(sbmlDocument, fileName);
 	}
-
+	
 	/**
 	 * Writes the given SBML document to an in-memory {@link String} and returns
 	 * it. If specified in the constructor of this {@link SBMLWriter}, the
