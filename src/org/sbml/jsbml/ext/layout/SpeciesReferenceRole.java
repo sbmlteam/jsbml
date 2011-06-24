@@ -22,6 +22,7 @@ package org.sbml.jsbml.ext.layout;
 
 /**
  * @author Nicolas Rodriguez
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */

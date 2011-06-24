@@ -45,7 +45,6 @@ public class GraphicalObject extends AbstractNamedSBase {
 	 * 
 	 */
 	public GraphicalObject() {
-
 	}
 
 	/**
@@ -75,6 +74,24 @@ public class GraphicalObject extends AbstractNamedSBase {
 	public GraphicalObject clone() {
 		return new GraphicalObject(this);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof GraphicalObject) {
+			GraphicalObject go = (GraphicalObject) o;
+			boolean equals = super.equals(go);
+			equals &= go.isSetBoundingBox() == isSetBoundingBox();
+			if (equals && isSetBoundingBox()) {
+				equals &= go.getBoundingBox().equals(getBoundingBox());
+			}
+			return equals;
+		}
+		return false;
+	}
 
 	/**
 	 * 
@@ -82,6 +99,13 @@ public class GraphicalObject extends AbstractNamedSBase {
 	 */
 	public BoundingBox getBoundingBox() {
 		return boundingBox;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetBoundingBox() {
+		return boundingBox != null;
 	}
 
 	/**

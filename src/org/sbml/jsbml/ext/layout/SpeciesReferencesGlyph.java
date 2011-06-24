@@ -96,6 +96,40 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	public SpeciesReferencesGlyph clone() {
 		return new SpeciesReferencesGlyph(this);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof SpeciesReferencesGlyph) {
+			SpeciesReferencesGlyph s = (SpeciesReferencesGlyph) o;
+			boolean equals = super.equals(s);
+			equals &= s.isSetCurve() == isSetCurve();
+			if (equals && isSetCurve()) {
+				equals &= s.getCurve().equals(getCurve());
+			}
+			equals &= s.isSetId() == isSetId();
+			if (equals && isSetId()) {
+				equals &= s.getId().equals(getId());
+			}
+			equals &= s.isSetSpeciesReferenceRole() && isSetSpeciesReferenceRole();
+			if (equals && isSetSpeciesReferenceRole()) {
+				equals &= s.getSpeciesReferenceRole().equals(getSpeciesReferenceRole());
+			}
+			equals &= s.isSetSpeciesGlyph() == isSetSpeciesGlyph();
+			if (equals && isSetSpeciesGlyph()) {
+				equals &= s.getSpeciesGlyph().equals(getSpeciesGlyph());
+			}
+			equals &= s.isSetSpeciesReference() == isSetSpeciesReference();
+			if (equals && isSetSpeciesReference()) {
+				equals &= s.getSpeciesReference().equals(getSpeciesReference());
+			}
+			return equals;
+		}
+		return false;
+	}
 
 	/**
 	 * 
@@ -120,13 +154,48 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 		return speciesGlyph;
 	}
 
-
 	/**
 	 * 
 	 * @return
 	 */
 	public String getSpeciesReference() {
 		return speciesReference;
+	}
+
+	/**
+	 * @return
+	 */
+	public SpeciesReferenceRole getSpeciesReferenceRole() {
+		return role;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetCurve() {
+		return curve != null;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetSpeciesGlyph() {
+		return speciesGlyph != null;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetSpeciesReference() {
+		return speciesReference != null;
+	}
+
+
+	/**
+	 * @return
+	 */
+	public boolean isSetSpeciesReferenceRole() {
+		return role != null;
 	}
 	
 	/**

@@ -24,6 +24,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
  * @author Nicolas Rodriguez
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
@@ -36,11 +37,11 @@ public class LineSegment extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
-	private Point start;
+	private Point end;
 	/**
 	 * 
 	 */
-	private Point end;
+	private Point start;
 
 	/**
 	 * 
@@ -76,6 +77,28 @@ public class LineSegment extends AbstractNamedSBase {
 	public LineSegment clone() {
 		return new LineSegment(this);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof LineSegment) {
+			LineSegment l = (LineSegment) o;
+			boolean equals = super.equals(l);
+			equals &= l.isSetEnd() == isSetEnd();
+			if (equals && isSetEnd()) {
+				equals &= l.getEnd().equals(getEnd());
+			}
+			equals &= l.isSetStart() == isSetStart();
+			if (equals && isSetStart()) {
+				equals &= l.getStart().equals(getStart());
+			}
+			return equals;
+		}
+		return false;
+	}
 
 	/**
 	 * 
@@ -91,6 +114,20 @@ public class LineSegment extends AbstractNamedSBase {
 	 */
 	public Point getStart() {
 		return start;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetEnd() {
+		return end != null;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetStart() {
+		return start != null;
 	}
 
 	/**

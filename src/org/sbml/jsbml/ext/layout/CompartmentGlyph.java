@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.layout;
 /**
  * 
  * @author Nicolas Rodriguez
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
@@ -41,7 +42,6 @@ public class CompartmentGlyph extends GraphicalObject {
 	 * 
 	 */
 	public CompartmentGlyph() {
-
 	}
 
 	/**
@@ -62,6 +62,29 @@ public class CompartmentGlyph extends GraphicalObject {
 		super(level, version);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
+	 */
+	@Override
+	public CompartmentGlyph clone() {
+		return new CompartmentGlyph(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof CompartmentGlyph) {
+			CompartmentGlyph cg = (CompartmentGlyph) o;
+			boolean equals = super.equals(cg);
+			return equals;
+		}
+		return false;
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -69,7 +92,7 @@ public class CompartmentGlyph extends GraphicalObject {
 	public String getCompartment() {
 		return compartment;
 	}
-
+	
 	/**
 	 * 
 	 * @param compartment

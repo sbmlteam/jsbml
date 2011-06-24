@@ -94,13 +94,32 @@ public class ReactionGlyph extends GraphicalObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object o) {
-		// TODO Auto-generated method stub
-		return super.equals(o);
+		if (o instanceof ReactionGlyph) {
+			ReactionGlyph r = (ReactionGlyph) o;
+			boolean equals = super.equals(r);
+			equals &= r.isSetCurve() == isSetCurve();
+			if (equals && isSetCurve()) {
+				equals &= r.getCurve().equals(getCurve());
+			}
+			equals &= r.isSetId() == isSetId();
+			if (equals && isSetId()) {
+				equals &= r.getId().equals(getId());
+			}
+			equals &= r.isSetListOfSpeciesReferencesGlyph() == isSetListOfSpeciesReferencesGlyph();
+			if (equals && isSetListOfSpeciesReferencesGlyph()) {
+				equals &= r.getListOfSpeciesReferencesGlyph().equals(getListOfSpeciesReferencesGlyph());
+			}
+			equals &= r.isSetReaction() == isSetReaction();
+			if (equals && isSetReaction()) {
+				equals &= r.getReaction().equals(getReaction());
+			}
+			return equals;
+		}
+		return false;
 	}
 
 	/**
@@ -125,6 +144,27 @@ public class ReactionGlyph extends GraphicalObject {
 	 */
 	public String getReaction() {
 		return reaction;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetCurve() {
+		return curve != null;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetListOfSpeciesReferencesGlyph() {
+		return listOfSpeciesReferencesGlyph != null;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetReaction() {
+		return reaction != null;
 	}
 
 	/**

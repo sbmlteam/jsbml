@@ -86,13 +86,28 @@ public class SpeciesGlyph extends GraphicalObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object o) {
-		// TODO Auto-generated method stub
-		return super.equals(o);
+		if (o instanceof SpeciesGlyph) {
+			SpeciesGlyph s = (SpeciesGlyph) o;
+			boolean equals = super.equals(s);
+			equals &= s.isSetBoundingBox() == isSetBoundingBox();
+			if (equals && isSetBoundingBox()) {
+				equals &= s.getBoundingBox().equals(getBoundingBox());
+			}
+			equals &= s.isSetId() == isSetId();
+			if (equals && isSetId()) {
+				equals &= s.getId().equals(getId());
+			}
+			equals &= s.isSetSpecies() == isSetSpecies();
+			if (equals && isSetSpecies()) {
+				equals &= s.getSpecies().equals(getSpecies());
+			}
+			return equals;
+		}
+		return false;
 	}
 
 	/**
@@ -113,6 +128,13 @@ public class SpeciesGlyph extends GraphicalObject {
 	 */
 	public String getSpecies() {
 		return species;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetSpecies() {
+		return species != null;
 	}
 
 	/**

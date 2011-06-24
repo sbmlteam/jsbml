@@ -36,8 +36,9 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
  * 
- * 
- *
+ * @author Nicolas Rodriguez
+ * @version $Rev$
+ * @since 0.8
  */
 enum LayoutList {
 	/**

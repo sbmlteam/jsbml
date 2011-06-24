@@ -91,6 +91,28 @@ public class BoundingBox extends AbstractNamedSBase {
 		return new BoundingBox(this);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 */
+	public boolean equals(Object o) {
+		if (o instanceof BoundingBox) {
+			BoundingBox bb = (BoundingBox) o;
+			boolean equals = super.equals(bb);
+			equals &= bb.isSetDimensions() == isSetDimensions();
+			equals &= bb.getId().equals(getId());
+			if (equals && isSetDimensions()) {
+				equals &= bb.getDimensions().equals(getDimensions());
+			}
+			equals &= bb.isSetPoint() == isSetPoint();
+			if (equals && isSetPoint()) {
+				equals &= bb.getPoint().equals(getPoint());
+			}
+			return equals;
+		}
+		return false;
+	}
+
 	/**
 	 * 
 	 * @return
@@ -114,7 +136,21 @@ public class BoundingBox extends AbstractNamedSBase {
 	public Point getPoint() {
 		return point;
 	}
-
+	
+	/**
+	 * @return
+	 */
+	public boolean isSetDimensions() {
+		return dimensions != null;
+	}
+	
+	/**
+	 * @return
+	 */
+	public boolean isSetPoint() {
+		return point != null;
+	}
+	
 	/**
 	 * 
 	 * @param attributeName
@@ -145,11 +181,16 @@ public class BoundingBox extends AbstractNamedSBase {
 	public void setDimensions(Dimensions dimensions) {
 		this.dimensions = dimensions;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#setId(java.lang.String)
+	 */
 	public void setId(String id)
 	{
 		this.id = id;
 	}
+
 	/**
 	 * 
 	 * @param point
