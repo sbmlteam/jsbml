@@ -81,6 +81,32 @@ public class Point extends AbstractNamedSBase {
 	public Point clone() {
 		return new Point(this);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Point) {
+			Point p = (Point) o;
+			boolean equals = super.equals(p);
+			equals &= p.isSetX() == isSetX();
+			if (equals && isSetX()) {
+				equals &= p.getX() == getX();
+			}
+			equals &= p.isSetY() == isSetY();
+			if (equals && isSetY()) {
+				equals &= p.getY() == getY();
+			}
+			equals &= p.isSetZ() == isSetZ();
+			if (equals && isSetZ()) {
+				equals &= p.getZ() == getZ();
+			}
+			return equals;
+		}
+		return false;
+	}
 
 	/**
 	 * 
@@ -104,6 +130,27 @@ public class Point extends AbstractNamedSBase {
 	 */
 	public double getZ() {
 		return z;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetX() {
+		return !Double.isNaN(x);
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetY() {
+		return !Double.isNaN(y);
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetZ() {
+		return !Double.isNaN(z);
 	}
 
 	/**

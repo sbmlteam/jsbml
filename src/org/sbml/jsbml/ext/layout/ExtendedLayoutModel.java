@@ -27,6 +27,7 @@ import org.sbml.jsbml.SBaseChangedListener;
 /**
  * 
  * @author Nicolas Rodriguez
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
@@ -96,11 +97,7 @@ public class ExtendedLayoutModel extends Model {
 	 * @return
 	 */
 	public Layout getLayout(int i) {
-		if (i >= 0 && i < listOfLayouts.size()) {
-			return listOfLayouts.get(i);
-		}
-
-		return null;
+		return listOfLayouts.get(i);
 	}
 
 	/**
@@ -116,10 +113,8 @@ public class ExtendedLayoutModel extends Model {
 	 * @return
 	 */
 	public boolean isSetListOfLayouts() {
-		if ((listOfLayouts == null) || listOfLayouts.isEmpty()) {
-			return false;
-		}
-		return true;
+		return ((listOfLayouts == null) || listOfLayouts.isEmpty()) ? false
+				: true;
 	}
 
 	/**

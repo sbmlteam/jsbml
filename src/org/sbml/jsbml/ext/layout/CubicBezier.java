@@ -22,6 +22,7 @@ package org.sbml.jsbml.ext.layout;
 
 /**
  * @author Nicolas Rodriguez
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
@@ -48,6 +49,19 @@ public class CubicBezier extends LineSegment {
 	}
 	
 	/**
+	 * @param cubicBezier
+	 */
+	public CubicBezier(CubicBezier cubicBezier) {
+		super(cubicBezier);
+		if (cubicBezier.isSetBasePoint1()) {
+			basePoint1 = cubicBezier.getBasePoint1();
+		}
+		if (cubicBezier.isSetBasePoint2()) {
+			basePoint2 = cubicBezier.getBasePoint2();
+		}
+	}
+
+	/**
 	 * 
 	 * @param level
 	 * @param version
@@ -56,6 +70,37 @@ public class CubicBezier extends LineSegment {
 		super(level, version);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.LineSegment#clone()
+	 */
+	@Override
+	public CubicBezier clone() {
+		return new CubicBezier(this);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof CubicBezier) {
+			CubicBezier cb = (CubicBezier) o;
+			boolean equals = super.equals(cb);
+			equals &= cb.isSetBasePoint1() == isSetBasePoint1();
+			if (equals && isSetBasePoint1()) {
+				equals &= cb.getBasePoint1().equals(getBasePoint1());
+			}
+			equals &= cb.isSetBasePoint2() == isSetBasePoint2();
+			if (equals &= isSetBasePoint2()) {
+				equals &= cb.getBasePoint2().equals(getBasePoint2());
+			}
+			return equals;
+		}
+		return false;
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -73,13 +118,27 @@ public class CubicBezier extends LineSegment {
 	}
 	
 	/**
+	 * @return
+	 */
+	public boolean isSetBasePoint1() {
+		return basePoint1 != null;
+	}
+	
+	/**
+	 * @return
+	 */
+	public boolean isSetBasePoint2() {
+		return basePoint2 != null;
+	}
+
+	/**
 	 * 
 	 * @param basePoint1
 	 */
 	public void setBasePoint1(Point basePoint1) {
 		this.basePoint1 = basePoint1;
 	}
-	
+
 	/**
 	 * 
 	 * @param basePoint2
@@ -87,6 +146,5 @@ public class CubicBezier extends LineSegment {
 	public void setBasePoint2(Point basePoint2) {
 		this.basePoint2 = basePoint2;
 	}
-	
 	
 }

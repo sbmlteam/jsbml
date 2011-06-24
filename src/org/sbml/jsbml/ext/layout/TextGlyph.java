@@ -93,6 +93,36 @@ public class TextGlyph extends AbstractNamedSBase {
 	public TextGlyph clone() {
 		return new TextGlyph(this);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof TextGlyph) {
+			TextGlyph t = (TextGlyph) o;
+			boolean equals = super.equals(t);
+			equals &= t.isSetBoundingBox() == isSetBoundingBox();
+			if (equals && isSetBoundingBox()) {
+				equals &= t.getBoundingBox().equals(getBoundingBox());
+			}
+			equals &= t.isSetGraphicalObject() == isSetGraphicalObject();
+			if (equals && isSetGraphicalObject()) {
+				equals &= t.getGraphicalObject().equals(getGraphicalObject());
+			}
+			equals &= t.isSetOriginOfText() == isSetOriginOfText();
+			if (equals && isSetOriginOfText()) {
+				equals &= t.getOriginOfText().equals(getOriginOfText());
+			}
+			equals &= t.isSetText() == isSetText();
+			if (equals && isSetText()) {
+				equals &= t.getText().equals(getText());
+			}
+			return equals;
+		}
+		return false;
+	}
 
 	/**
 	 * 
@@ -101,7 +131,6 @@ public class TextGlyph extends AbstractNamedSBase {
 	public BoundingBox getBoundingBox() {
 		return boundingBox;
 	}
-
 	/**
 	 * 
 	 * @return
@@ -109,7 +138,6 @@ public class TextGlyph extends AbstractNamedSBase {
 	public GraphicalObject getGraphicalObject() {
 		return graphicalObject;
 	}
-
 	/**
 	 * 
 	 * @return
@@ -117,13 +145,39 @@ public class TextGlyph extends AbstractNamedSBase {
 	public String getOriginOfText() {
 		return originOfText;
 	}
-
 	/**
 	 * 
 	 * @return
 	 */
 	public String getText() {
 		return text;
+	}
+	/**
+	 * @return
+	 */
+	public boolean isSetBoundingBox() {
+		return boundingBox != null;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetGraphicalObject() {
+		return graphicalObject != null;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetOriginOfText() {
+		return originOfText != null;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetText() {
+		return text != null;
 	}
 
 	/**

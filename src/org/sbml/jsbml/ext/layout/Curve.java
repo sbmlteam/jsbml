@@ -29,6 +29,7 @@ import org.sbml.jsbml.SBaseChangedListener;
  * 
  * 
  * @author Nicolas Rodriguez
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
@@ -71,6 +72,24 @@ public class Curve extends AbstractNamedSBase {
 	@Override
 	public Curve clone() {
 		return new Curve(this);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Curve) {
+			Curve c = (Curve) o;
+			boolean equals = super.equals(c);
+			equals &= c.isSetListOfCurveSegments() == isSetListOfCurveSegments();
+			if (equals && isSetListOfCurveSegments()) {
+				equals &= c.getListOfCurveSegments().equals(getListOfCurveSegments());
+			}
+			return equals;
+		}
+		return false;
 	}
 
 	/**

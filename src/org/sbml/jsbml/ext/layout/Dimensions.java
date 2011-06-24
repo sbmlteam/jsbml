@@ -52,9 +52,8 @@ public class Dimensions extends AbstractNamedSBase {
 	 * 
 	 */
 	public Dimensions() {
-
 	}
-
+	
 	/**
 	 * 
 	 * @param dimensions
@@ -83,6 +82,32 @@ public class Dimensions extends AbstractNamedSBase {
 		return new Dimensions(this);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Dimensions) {
+			Dimensions d = (Dimensions) o;
+			boolean equals = super.equals(d);
+			equals &= d.isSetDepth() == isSetDepth();
+			if (equals && isSetDepth()) {
+				equals &= d.getDepth() == getDepth();
+			}
+			equals &= d.isSetHeight() == isSetHeight();
+			if (equals && isSetHeight()) {
+				equals &= d.getHeight() == getHeight();
+			}
+			equals &= d.isSetWidth() == isSetWidth();
+			if (equals && isSetWidth()) {
+				equals &= d.getWidth() == getWidth();
+			}
+			return equals;
+		}
+		return false;
+	}
+
 	/**
 	 * 
 	 * @return
@@ -105,6 +130,27 @@ public class Dimensions extends AbstractNamedSBase {
 	 */
 	public double getWidth() {
 		return width;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetDepth() {
+		return !Double.isNaN(depth);
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetHeight() {
+		return !Double.isNaN(height);
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetWidth() {
+		return !Double.isNaN(width);
 	}
 
 	/**
