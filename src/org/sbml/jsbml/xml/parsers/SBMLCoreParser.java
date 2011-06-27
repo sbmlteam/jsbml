@@ -367,9 +367,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		
 		// TODO : we have to check if we are in the context of a Notes or an Annotation
 		
-		if (elementName.equals("notes")) {
+		if (elementName != null && elementName.equals("notes")) {
 			
-		} else if (characters.trim().length() != 0) {
+		} else if (characters != null && characters.trim().length() != 0) {
 			// log4jLogger.warn("The SBML core XML element should not have any content, everything should be stored as attribute.");
 			// log4jLogger.warn("The Characters are : @" + characters.trim() + "@");
 		}
