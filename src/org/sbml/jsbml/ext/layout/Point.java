@@ -70,7 +70,15 @@ public class Point extends AbstractNamedSBase {
 	 */
 	public Point(Point point) {
 		super(point);
-		// TODO Auto-generated constructor stub
+		if (point.isSetX()) {
+			this.x = point.getX();
+		}
+		if (point.isSetY()) {
+			this.y = point.getY();
+		}
+		if (point.isSetZ()) {
+			this.z = point.getZ();
+		}
 	}
 
 	/*

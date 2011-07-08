@@ -26,6 +26,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.util.filters.NameFilter;
 
@@ -539,11 +541,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#get(int)
 	 */
 	public T get(int index) {
-		if (index >= 0 && index < listOf.size()) {
-			return listOf.get(index);			
-		}
-		
-		return null;
+		return listOf.get(index);
 	}
 	
 	/**
@@ -592,7 +590,16 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
-	public T getChildAt(int index) {
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(index + " < 0");
+		}
+		int count = super.getChildCount();
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
 		return get(index);
 	}
 
@@ -603,7 +610,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	@Override
 	public int getChildCount() {
-		return size();
+		return super.getChildCount() + size();
 	}
 
 	/*

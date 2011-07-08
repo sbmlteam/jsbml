@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
@@ -131,6 +133,53 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(Integer.toString(index));
+		}
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
+		if (isSetCurve()) {
+			if (pos == index) {
+				return getCurve();
+			}
+			pos++;
+		}
+		if (isSetSpeciesGlyph()) {
+			if (pos == index) {
+				return getSpeciesGlyph();
+			}
+			pos++;
+		}
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int count = super.getChildCount();
+		if (isSetCurve()) {
+			count++;
+		}
+		if (isSetSpeciesGlyph()) {
+			count++;
+		}
+		return count;
+	}
+
 	/**
 	 * 
 	 * @return
@@ -176,13 +225,14 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 		return curve != null;
 	}
 
+
 	/**
 	 * @return
 	 */
 	public boolean isSetSpeciesGlyph() {
 		return speciesGlyph != null;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -190,14 +240,13 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 		return speciesReference != null;
 	}
 
-
 	/**
 	 * @return
 	 */
 	public boolean isSetSpeciesReferenceRole() {
 		return role != null;
 	}
-	
+
 	/**
 	 * @param attributeName
 	 * @param prefix
@@ -233,14 +282,14 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	public void setCurve(Curve curve) {
 		this.curve = curve;
 	}
-
+	
 	/**
 	 * 
 	 */
 	public void setId(String id) {
 		this.id = id;
 	}
-
+	
 	/**
 	 * 
 	 * @param speciesGlyph

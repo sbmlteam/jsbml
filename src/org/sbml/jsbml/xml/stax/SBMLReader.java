@@ -154,15 +154,16 @@ public class SBMLReader {
 	}
 
 	/**
-	 * Returns true if there is no 'required' attribute for this namespace
-	 *         URI, false otherwise.
+	 * Returns <code>true</code> if there is no 'required' attribute for this
+	 * namespace URI, false otherwise.
 	 * 
 	 * @param namespaceURI
 	 * @param startElement
-	 *            : the StartElement instance representing the SBMLDocument element.
-	 * @return true if the package represented by the namespace URI is required
-	 *         to read the SBML file. If there is no 'required' attribute for
-	 *         this namespace URI, return false.
+	 *            : the StartElement instance representing the SBMLDocument
+	 *            element.
+	 * @return <code>true</code> if the package represented by the namespace URI
+	 *         is required to read the SBML file. If there is no 'required'
+	 *         attribute for this namespace URI, return <code>false</code>.
 	 */
 	private boolean isPackageRequired(String namespaceURI,
 			StartElement startElement) 
@@ -361,7 +362,7 @@ public class SBMLReader {
 	{
 		Object object = readXMLFromString(notesXHTML);
 
-		if (object != null && object instanceof Rule) {
+		if ((object != null) && (object instanceof Rule)) {
 			XMLNode notes = ((Rule) object).getNotes();
 
 			if (notes != null) {

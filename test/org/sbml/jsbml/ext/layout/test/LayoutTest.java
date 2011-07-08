@@ -23,6 +23,10 @@ package org.sbml.jsbml.ext.layout.test;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.UIManager;
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Ignore;
@@ -50,9 +54,14 @@ public class LayoutTest {
 			XMLStreamException {
 		SBMLDocument doc = SBMLReader.read(new File(args[0]));
 		Model model = doc.getModel();
-		ExtendedLayoutModel sbase = (ExtendedLayoutModel) model.getExtension("http://www.sbml.org/sbml/level3/version1/layout/version1");		
+		ExtendedLayoutModel sbase = (ExtendedLayoutModel) model.getExtension("http://www.sbml.org/sbml/level3/version1/layout/version1");
 		Layout layout = sbase.getListOfLayouts().get(0);
 		layout.getDimensions();
+		try {
+		  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception exc) {
+		}
+		JOptionPane.showMessageDialog(null, new JScrollPane(new JTree(doc)));
 	}
 
 }

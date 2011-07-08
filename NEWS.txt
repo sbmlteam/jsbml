@@ -6,6 +6,12 @@ Version 0.8-rc1 (xx-xx-2011)
 
 * New Features:
 
+  - Notes, annotations, and extension packages are now part of the tree
+    representation of the JSBML data structure.
+    
+  - The new super class AnnotationElement has been introduced to gather
+    all those elements that can be used to annotate instances of SBase.
+
   - Sebastian Fröhlich provided some contributions to the parser for the 
     SBML level 3 layout extension package. JSBML now  supports experimental
     reading for this package. The full stable API for reading/writing of

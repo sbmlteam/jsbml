@@ -50,7 +50,9 @@ public class CompartmentGlyph extends GraphicalObject {
 	 */
 	public CompartmentGlyph(CompartmentGlyph compartmentGlyph) {
 		super(compartmentGlyph);
-		// TODO Auto-generated constructor stub
+		if (compartmentGlyph.isSetCompartment()) {
+			this.compartment = new String(compartmentGlyph.getCompartment());
+		}
 	}
 
 	/**
@@ -80,6 +82,10 @@ public class CompartmentGlyph extends GraphicalObject {
 		if (o instanceof CompartmentGlyph) {
 			CompartmentGlyph cg = (CompartmentGlyph) o;
 			boolean equals = super.equals(cg);
+			equals &= isSetCompartment() && cg.isSetCompartment();
+			if (equals && isSetCompartment()) {
+				equals &= getCompartment().equals(cg.getCompartment());
+			}
 			return equals;
 		}
 		return false;
@@ -91,6 +97,13 @@ public class CompartmentGlyph extends GraphicalObject {
 	 */
 	public String getCompartment() {
 		return compartment;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetCompartment() {
+		return (compartment != null) && (compartment.length() > 0);
 	}
 	
 	/**

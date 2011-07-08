@@ -20,7 +20,7 @@
 
 package org.sbml.jsbml;
 
-import java.io.Serializable;
+import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
 
@@ -33,7 +33,7 @@ import org.sbml.jsbml.util.StringTools;
  * @since 0.8
  * @version $Rev$
  */
-public class Creator implements Cloneable, Serializable {
+public class Creator extends AnnotationElement {
 
 	/**
 	 * Generated serial version identifier.
@@ -470,5 +470,26 @@ public class Creator implements Cloneable, Serializable {
 					getOrganisation()).append("</vCard:Orgname> \n");
 			buffer.append(indent).append("</vCard:OrG> \n");
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int childIndex) {
+		throw new IndexOutOfBoundsException(Integer.toString(childIndex));
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		return 0;
 	}
 }

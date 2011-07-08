@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
@@ -92,6 +94,44 @@ public class Curve extends AbstractNamedSBase {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(Integer.toString(index));
+		}
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
+		if (isSetListOfCurveSegments()) {
+			if (pos == index) {
+				return getListOfCurveSegments();
+			}
+			pos++;
+		}
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int count = super.getChildCount();
+		if (isSetListOfCurveSegments()) {
+			count++;
+		}
+		return count;
+	}
+
 	/**
 	 * 
 	 * @return
@@ -99,7 +139,7 @@ public class Curve extends AbstractNamedSBase {
 	public ListOf<LineSegment> getListOfCurveSegments() {
 		return listOfCurveSegments;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -107,7 +147,7 @@ public class Curve extends AbstractNamedSBase {
 	public boolean isSetListOfCurveSegments() {
 		return (listOfCurveSegments != null) && (listOfCurveSegments.size() > 0);
 	}
-
+	
 	/**
 	 * 
 	 * @param listOfCurveSegments

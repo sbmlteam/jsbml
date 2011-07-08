@@ -440,18 +440,23 @@ public class SBMLDocument extends AbstractSBase {
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
-	public Model getChildAt(int index) {
-		int children = getChildCount();
-		if (index >= children) {
-			throw new IndexOutOfBoundsException(index + " >= " + children);
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(index + " < 0");
 		}
-		int pos = 0;
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
 		if (isSetModel()) {
 			if (pos == index) {
 				return getModel();
 			}
 		}
-		return null;
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
 	}
 
 	/*
@@ -461,7 +466,7 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	@Override
 	public int getChildCount() {
-		return isSetModel() ? 1 : 0;
+		return super.getChildCount() + (isSetModel() ? 1 : 0);
 	}
 
 	/**

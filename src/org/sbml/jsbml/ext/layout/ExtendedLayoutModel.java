@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBaseChangedListener;
@@ -50,7 +52,7 @@ public class ExtendedLayoutModel extends Model {
 	 * 
 	 */
 	public ExtendedLayoutModel() {
-
+		super();
 	}
 
 	/**
@@ -91,6 +93,31 @@ public class ExtendedLayoutModel extends Model {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Model#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		if (isSetListOfLayouts() && (index == getChildCount() - 1)) {
+			return getListOfLayouts();
+		}
+		return super.getChildAt(index);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Model#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int count = super.getChildCount();
+		if (isSetListOfLayouts()) {
+			count++;
+		}
+		return count;
+	}
+
 	/**
 	 * 
 	 * @param i
@@ -107,7 +134,7 @@ public class ExtendedLayoutModel extends Model {
 	public ListOf<Layout> getListOfLayouts() {
 		return listOfLayouts;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -116,7 +143,7 @@ public class ExtendedLayoutModel extends Model {
 		return ((listOfLayouts == null) || listOfLayouts.isEmpty()) ? false
 				: true;
 	}
-
+	
 	/**
 	 * 
 	 * @param listOfLayouts

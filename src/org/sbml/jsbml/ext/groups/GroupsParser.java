@@ -38,7 +38,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * able to read and write elements of the groups package (implements
  * ReadingParser and WritingParser).
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */

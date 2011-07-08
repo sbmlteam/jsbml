@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import javax.swing.tree.TreeNode;
+
 /**
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
@@ -117,20 +119,67 @@ public class CubicBezier extends LineSegment {
 		return basePoint2;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.LineSegment#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(Integer.toString(index));
+		}
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
+		if (isSetBasePoint1()) {
+			if (pos == index) {
+				return getBasePoint1();
+			}
+			pos++;
+		}
+		if (isSetBasePoint2()) {
+			if (pos == index) {
+				return getBasePoint2();
+			}
+			pos++;
+		}
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.LineSegment#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int count = super.getChildCount();
+		if (isSetBasePoint1()) {
+			count++;
+		}
+		if (isSetBasePoint2()) {
+			count++;
+		}
+		return count;
+	}
+
 	/**
 	 * @return
 	 */
 	public boolean isSetBasePoint1() {
 		return basePoint1 != null;
 	}
-	
+
 	/**
 	 * @return
 	 */
 	public boolean isSetBasePoint2() {
 		return basePoint2 != null;
 	}
-
+	
 	/**
 	 * 
 	 * @param basePoint1
@@ -138,7 +187,7 @@ public class CubicBezier extends LineSegment {
 	public void setBasePoint1(Point basePoint1) {
 		this.basePoint1 = basePoint1;
 	}
-
+	
 	/**
 	 * 
 	 * @param basePoint2
@@ -146,5 +195,4 @@ public class CubicBezier extends LineSegment {
 	public void setBasePoint2(Point basePoint2) {
 		this.basePoint2 = basePoint2;
 	}
-	
 }

@@ -22,6 +22,8 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
 
@@ -363,12 +365,16 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
-	public SBase getChildAt(int index) {
-		int children = getChildCount();
-		if (index >= children) {
-			throw new IndexOutOfBoundsException(index + " >= " + children);
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(index + " < 0");
 		}
-		int pos = 0;
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
 		if (isSetTrigger()) {
 			if (pos == index) {
 				return getTrigger();
@@ -393,7 +399,8 @@ public class Event extends AbstractNamedSBaseWithUnit {
 			}
 			pos++;
 		}
-		return null;
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
 	}
 
 	/*
@@ -403,7 +410,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	 */
 	@Override
 	public int getChildCount() {
-		int children = 0;
+		int children = super.getChildCount();
 		if (isSetTrigger()) {
 			children++;
 		}

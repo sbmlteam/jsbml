@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.SBase;
 
 /**
  * 
@@ -45,6 +46,7 @@ public class GraphicalObject extends AbstractNamedSBase {
 	 * 
 	 */
 	public GraphicalObject() {
+		super();
 	}
 
 	/**
@@ -53,7 +55,7 @@ public class GraphicalObject extends AbstractNamedSBase {
 	 */
 	public GraphicalObject(GraphicalObject graphicalObject) {
 		super(graphicalObject);
-		// TODO Auto-generated constructor stub
+		setBoundingBox(graphicalObject.getBoundingBox());
 	}
 
 	/**
@@ -63,6 +65,13 @@ public class GraphicalObject extends AbstractNamedSBase {
 	 */
 	public GraphicalObject(int level, int version) {
 		super(level, version);
+	}
+
+	/**
+	 * @param id
+	 */
+	public GraphicalObject(String id) {
+		super(id);
 	}
 
 	/*
@@ -101,13 +110,39 @@ public class GraphicalObject extends AbstractNamedSBase {
 		return boundingBox;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	@Override
+	public SBase getChildAt(int index) {
+		if ((index == 0) && isSetBoundingBox()) {
+			return getBoundingBox();
+		}
+		throw new IndexOutOfBoundsException(Integer.toString(index));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int count = 0;
+		if (isSetBoundingBox()) {
+			count++;
+		}
+		return count;
+	}
+	
 	/**
 	 * @return
 	 */
 	public boolean isSetBoundingBox() {
 		return boundingBox != null;
 	}
-
+	
 	/**
 	 * 
 	 * @param boundingBox

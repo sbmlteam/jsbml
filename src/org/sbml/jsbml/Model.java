@@ -25,6 +25,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.tree.TreeNode;
+
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
@@ -42,8 +44,8 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * </p>
  * 
  * @author Andreas Dr&auml;ger
- * @author Marine
- * @author rodrigue
+ * @author Marine Dumousseau
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
@@ -111,7 +113,7 @@ public class Model extends AbstractNamedSBase {
 	 * Represents the list of predefined UnitDefinitions for a given SBML level
 	 * and version.
 	 */
-	private ArrayList<UnitDefinition> listOfPredefinedUnitDefinitions;
+	private List<UnitDefinition> listOfPredefinedUnitDefinitions;
 
 	/**
 	 * Represents the listOfReactions subnode of a model element.
@@ -1541,12 +1543,16 @@ public class Model extends AbstractNamedSBase {
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
-	public SBase getChildAt(int index) {
-		int children = getChildCount();
-		if (index >= children) {
-			throw new IndexOutOfBoundsException(index + " >= " + children);
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(index + " < 0");
 		}
-		int pos = 0;
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
 		if (isSetListOfFunctionDefinitions()) {
 			if (pos == index) {
 				return getListOfFunctionDefinitions();
@@ -1619,7 +1625,8 @@ public class Model extends AbstractNamedSBase {
 			}
 			pos++;
 		}
-		return null;
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
 	}
 
 	/*
@@ -1629,7 +1636,7 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@Override
 	public int getChildCount() {
-		int children = 0;
+		int children = super.getChildCount();
 		if (isSetListOfFunctionDefinitions()) {
 			children++;
 		}
@@ -2487,6 +2494,15 @@ public class Model extends AbstractNamedSBase {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<UnitDefinition> getListOfPredefinedUnitDefinitions() {
+		return (listOfPredefinedUnitDefinitions != null) ? listOfPredefinedUnitDefinitions
+				: new ArrayList<UnitDefinition>(0);
 	}
 
 	/**

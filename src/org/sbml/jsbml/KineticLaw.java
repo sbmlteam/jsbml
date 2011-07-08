@@ -224,16 +224,19 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.MathContainer#getChildAt(int)
+	 * @see org.sbml.jsbml.AbstractMathContainer#getChildAt(int)
 	 */
 	@Override
 	public TreeNode getChildAt(int index) {
-		int children = getChildCount();
-		if (index >= children) {
-			throw new IndexOutOfBoundsException(index + " >= " + children);
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(index + " < 0");
 		}
-		int pos = 0;
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
 		if (isSetMath()) {
 			if (pos == index) {
 				return getMath();
@@ -246,7 +249,8 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 			}
 			pos++;
 		}
-		return null;
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
 	}
 
 	/*

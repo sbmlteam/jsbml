@@ -258,18 +258,23 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	@Override
 	public TreeNode getChildAt(int index) {
-		int children = getChildCount();
-		if (index >= children) {
-			throw new IndexOutOfBoundsException(index + " >= " + children);
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(index + " < 0");
 		}
-		int pos = 0;
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
 		if (isSetStoichiometryMath()) {
 			if (pos == index) {
 				return getStoichiometryMath();
 			}
 			pos++;
 		}
-		return null;
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
 	}
 
 	/*
@@ -279,7 +284,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	@Override
 	public int getChildCount() {
-		return isSetStoichiometryMath() ? 1 : 0;
+		return super.getChildCount() + (isSetStoichiometryMath() ? 1 : 0);
 	}
 
 	/*

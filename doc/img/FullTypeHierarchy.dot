@@ -65,6 +65,7 @@ strict digraph G{
   AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractNamedSBaseWithUnit               [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase<br/>WithUnit</font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AnnotationElement                        [label=<<font face="Helvetica-Oblique">Annotation<br/>Element</font>>, style="filled", fillcolor="#F0F8FF"];
   ExplicitRule                             [label=<<font face="Helvetica-Oblique">Explicit<br/>Rule</font>>, style="filled", fillcolor="#F0F8FF"];
   Rule                                     [label=<<font face="Helvetica-Oblique">Rule</font>>];
   SimpleSpeciesReference                   [label=<<font face="Helvetica-Oblique">Simple<br/>SpeciesReference</font>>];
@@ -112,7 +113,6 @@ strict digraph G{
   /*
    * Inheritance
    */
-
   AbstractNamedSBase         -> AbstractNamedSBaseWithUnit [dir=back,arrowtail=empty];
   AbstractNamedSBase         -> CompartmentType            [dir=back,arrowtail=empty];
   AbstractNamedSBase         -> Model                      [dir=back,arrowtail=empty];
@@ -138,17 +138,18 @@ strict digraph G{
   AbstractMathContainer      -> Rule                       [dir=back,arrowtail=empty];
   AbstractMathContainer      -> StoichiometryMath          [dir=back,arrowtail=empty];
   AbstractMathContainer      -> Trigger                    [dir=back,arrowtail=empty];
+  AnnotationElement          -> Annotation                 [dir=back,arrowtail=empty];
+  AnnotationElement          -> Creator                    [dir=back,arrowtail=empty];
+  AnnotationElement          -> CVTerm                     [dir=back,arrowtail=empty];
+  AnnotationElement          -> History                    [dir=back,arrowtail=empty];
   Assignment                 -> EventAssignment            [dir=back,arrowtail=empty,style=dashed];
   Assignment                 -> ExplicitRule               [dir=back,arrowtail=empty,style=dashed];
   Assignment                 -> InitialAssignment          [dir=back,arrowtail=empty,style=dashed];
   CallableSBase              -> Quantity                   [dir=back,arrowtail=empty,style=dashed];
   CallableSBase              -> FunctionDefinition         [dir=back,arrowtail=empty,style=dashed];
   CallableSBase              -> Reaction                   [dir=back,arrowtail=empty,style=dashed];
-  Cloneable                  -> Annotation                 [dir=back,arrowtail=empty,style=dashed];
+  Cloneable                  -> AnnotationElement          [dir=back,arrowtail=empty,style=dashed];
   Cloneable                  -> ASTNode                    [dir=back,arrowtail=empty,style=dashed];
-  Cloneable                  -> Creator                    [dir=back,arrowtail=empty,style=dashed];
-  Cloneable                  -> CVTerm                     [dir=back,arrowtail=empty,style=dashed];
-  Cloneable                  -> History                    [dir=back,arrowtail=empty,style=dashed];
   Cloneable                  -> SBase                      [dir=back,arrowtail=empty,style=dashed];
   Cloneable                  -> XMLNode                    [dir=back,arrowtail=empty,style=dashed];
   ExplicitRule               -> AssignmentRule             [dir=back,arrowtail=empty];
@@ -161,11 +162,8 @@ strict digraph G{
   NamedSBaseWithDerivedUnit  -> AbstractNamedSBaseWithUnit [dir=back,arrowtail=empty,style=dashed];
   NamedSBaseWithDerivedUnit  -> CallableSBase              [dir=back,arrowtail=empty,style=dashed];
   Object                     -> AbstractSBase              [dir=back,arrowtail=empty];
-  Object                     -> Annotation                 [dir=back,arrowtail=empty];
+  Object                     -> AnnotationElement          [dir=back,arrowtail=empty];
   Object                     -> ASTNode                    [dir=back,arrowtail=empty];
-  Object                     -> Creator                    [dir=back,arrowtail=empty];
-  Object                     -> CVTerm                     [dir=back,arrowtail=empty];
-  Object                     -> History                    [dir=back,arrowtail=empty];
   Object                     -> XMLNode                    [dir=back,arrowtail=empty];
   Quantity                   -> QuantityWithUnit           [dir=back,arrowtail=empty,style=dashed];
   Quantity                   -> Variable                   [dir=back,arrowtail=empty,style=dashed];
@@ -184,18 +182,17 @@ strict digraph G{
   SBaseWithUnit              -> KineticLaw                 [dir=back,arrowtail=empty,style=dashed];
   SimpleSpeciesReference     -> ModifierSpeciesReference   [dir=back,arrowtail=empty];
   SimpleSpeciesReference     -> SpeciesReference           [dir=back,arrowtail=empty];
-  Serializable               -> Annotation                 [dir=back,arrowtail=empty,style=dashed];
+  Serializable               -> AnnotationElement          [dir=back,arrowtail=empty,style=dashed];
   Serializable               -> ASTNode                    [dir=back,arrowtail=empty,style=dashed];
-  Serializable               -> Creator                    [dir=back,arrowtail=empty,style=dashed];
-  Serializable               -> CVTerm                     [dir=back,arrowtail=empty,style=dashed];
-  Serializable               -> History                    [dir=back,arrowtail=empty,style=dashed];
   Serializable               -> SBase                      [dir=back,arrowtail=empty,style=dashed];
   Serializable               -> XMLNode                    [dir=back,arrowtail=empty,style=dashed];
   Symbol                     -> Compartment                [dir=back,arrowtail=empty];
   Symbol                     -> Parameter                  [dir=back,arrowtail=empty];
   Symbol                     -> Species                    [dir=back,arrowtail=empty];
   TreeNode                   -> ASTNode                    [dir=back,arrowtail=empty,style=dashed];
+  TreeNode                   -> AnnotationElement          [dir=back,arrowtail=empty,style=dashed];
   TreeNode                   -> SBase                      [dir=back,arrowtail=empty,style=dashed];
+  TreeNode                   -> XMLNode                    [dir=back,arrowtail=empty,style=dashed];
   Variable                   -> SpeciesReference           [dir=back,arrowtail=empty,style=dashed];
   Variable                   -> Symbol                     [dir=back,arrowtail=empty,style=dashed];
 }

@@ -20,12 +20,14 @@
 
 package org.sbml.jsbml;
 
-import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.CVTerm.Type;
@@ -39,12 +41,12 @@ import org.w3c.dom.Node;
  * name space and a {@link String} containing all the annotation elements of
  * this name space.
  * 
- * @author marine
+ * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
-public class Annotation implements Cloneable, Serializable {
+public class Annotation extends AnnotationElement {
 	
 	/**
 	 * Generated serial version identifier.
@@ -55,7 +57,7 @@ public class Annotation implements Cloneable, Serializable {
 	 * The RDF syntax name space definition URI.
 	 */
 	public static final transient String URI_RDF_SYNTAX_NS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-
+	
 	/**
 	 * Copies one {@link Map} instance into another.
 	 * 
@@ -265,6 +267,7 @@ public class Annotation implements Cloneable, Serializable {
 			addRDFAnnotationNamespace(type.getElementNameEquivalent(), "", type
 					.getNamespaceURI());
 		}
+		cvTerm.parent = this;
 		return listOfCVTerms.add(cvTerm);
 	}
 	
@@ -727,6 +730,7 @@ public class Annotation implements Cloneable, Serializable {
 	 */
 	public void setHistory(History history) {
 		this.history = history;
+		this.history.parent = this;
 	}
 
 	/**
@@ -770,4 +774,61 @@ public class Annotation implements Cloneable, Serializable {
 			otherAnnotation = null;
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int childIndex) {
+		if (childIndex < 0) {
+			throw new IndexOutOfBoundsException(childIndex + " < 0");
+		}
+		int pos = 0;
+		if (isSetHistory()) {
+			if (childIndex == pos) {
+				return getHistory();
+			}
+			pos++;
+		}
+//		if (isSetListOfCVTerms()) {
+//			if (childIndex == pos) {
+//				return getListOfCVTerms();
+//			}
+//			pos++;
+//		}
+		if (extensions.size() > 0) {
+			String exts[] = extensions.keySet().toArray(new String[0]);
+			Arrays.sort(exts);
+			return extensions.get(exts[childIndex - pos]);
+		}
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				childIndex, +((int) Math.min(pos, 0))));
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		int count = 0;
+		if (isSetHistory()) {
+			count++;
+		}
+//		if (isSetListOfCVTerms()) {
+//			count++;
+//		}
+		if (extensions.size() > 0) {
+			count++;
+		}
+//		if (isSetNonRDFannotation()) {
+//			count++;
+//		}
+		return count;
+	}
+
 }

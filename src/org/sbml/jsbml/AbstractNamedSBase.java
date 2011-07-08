@@ -27,8 +27,8 @@ import java.util.regex.Pattern;
  * The base class for each SBML element with an optional id and name.
  * 
  * @author Andreas Dr&auml;ger
- * @author rodrigue
- * @author marine
+ * @author Nicolas Rodriguez
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
@@ -309,7 +309,6 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * the identifier is returned. If both is not possible, the class name of
 	 * this element is returned.
 	 */
-	@Override
 	public String toString() {
 		if (isSetName() && getName().length() > 0) {
 			return name;

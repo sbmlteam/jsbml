@@ -2144,13 +2144,7 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
 	 */
 	public int getIndex(TreeNode node) {
-		for (int i = 0; i < listOfNodes.size(); i++) {
-			TreeNode n = listOfNodes.get(i);
-			if ((node == n) || node.equals(n)) {
-				return i;
-			}
-		}
-		return -1;
+		return JSBML.indexOf(this, node);
 	}
 
 	/**

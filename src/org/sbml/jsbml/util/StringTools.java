@@ -239,6 +239,7 @@ public class StringTools {
 		if (Double.isNaN(value)) {
 			return "NaN";
 		} else if (Double.isInfinite(value)) {
+			// TODO: make this locale dependent.
 			return "infinity";
 		}
 		
