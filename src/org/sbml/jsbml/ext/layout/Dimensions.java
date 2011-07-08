@@ -60,7 +60,15 @@ public class Dimensions extends AbstractNamedSBase {
 	 */
 	public Dimensions(Dimensions dimensions) {
 		super(dimensions);
-		// TODO Auto-generated constructor stub
+		if (dimensions.isSetDepth()) {
+			this.depth = dimensions.getDepth();
+		}
+		if (dimensions.isSetHeight()) {
+			this.height = dimensions.getHeight();
+		}
+		if (dimensions.isSetWidth()) {
+			this.width = dimensions.getWidth();
+		}
 	}
 
 	/**

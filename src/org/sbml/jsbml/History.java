@@ -20,22 +20,23 @@
 
 package org.sbml.jsbml;
 
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.tree.TreeNode;
+
 /**
  * Contains all the history information about a {@link Model} (or other
  * {@link SBase} if level >= 3).
  * 
- * @author marine
+ * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
-public class History implements Cloneable, Serializable {
+public class History extends AnnotationElement {
 	/**
 	 * Generated serial version identifier.
 	 */
@@ -95,6 +96,7 @@ public class History implements Cloneable, Serializable {
 	 */
 	public void addCreator(Creator mc) {
 		listOfCreators.add(mc);
+		mc.parent = this;
 	}
 
 	/**
@@ -387,6 +389,46 @@ public class History implements Cloneable, Serializable {
 	 */
 	public void unsetCreatedDate() {
 		this.creation = null;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int childIndex) {
+		int pos = 0;
+//		if (isSetListOfCreators()) {
+//			if (pos == childIndex) {
+//				return getListOfCreators();
+//			}
+//		}
+//		if (isSetListOfModification()) {
+//			if (pos == childIndex) {
+//				return getListModifiedDates();
+//			}
+//		}
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				childIndex, +((int) Math.min(pos, 0))));
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		int count = 0;
+//		if (isSetListOfCreators()) {
+//			count++;
+//		}
+//		if (isSetListOfModification()) {
+//			count++;
+//		}
+		return count;
 	}
 
 }

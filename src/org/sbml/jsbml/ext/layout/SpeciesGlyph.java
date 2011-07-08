@@ -33,10 +33,6 @@ public class SpeciesGlyph extends GraphicalObject {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 1077785483575936434L;
-	/**
-	 * 
-	 */
-	private BoundingBox boundingBox;
 
 	/**
 	 * 
@@ -71,7 +67,12 @@ public class SpeciesGlyph extends GraphicalObject {
 	 */
 	public SpeciesGlyph(SpeciesGlyph speciesGlyph) {
 		super(speciesGlyph);
-		// TODO Auto-generated constructor stub
+		if (speciesGlyph.isSetId()) {
+			this.id = new String(speciesGlyph.getId());
+		}
+		if (speciesGlyph.isSetSpecies()) {
+			this.species = new String(speciesGlyph.getSpecies());
+		}
 	}
 
 	/*
@@ -109,15 +110,12 @@ public class SpeciesGlyph extends GraphicalObject {
 		}
 		return false;
 	}
-
-	/**
-	 * 
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#getId()
 	 */
-	public BoundingBox getBoundingBox()
-	{
-		return boundingBox;
-	}
-
+	@Override
 	public String getId(){
 		return this.id;
 	}
@@ -164,14 +162,11 @@ public class SpeciesGlyph extends GraphicalObject {
 			return true;
 	}
 
-	/**
-	 * 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#setId(java.lang.String)
 	 */
-	public void setBoundingBox(BoundingBox boundingBox)
-	{
-		this.boundingBox = boundingBox;
-	}
-	
+	@Override
 	public void setId(String id){
 		this.id = id;
 	}

@@ -22,10 +22,12 @@ package org.sbml.jsbml;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.resources.Resource;
@@ -351,5 +353,30 @@ public class JSBML {
 	{	 
 		SBMLWriter writer = new SBMLWriter();
 		return writer.writeSBMLToString(d);	 
+	}
+	
+	/**
+	 * Searches the given child in the list of sub-nodes of the parent element.
+	 * 
+	 * @param parent
+	 * @param child
+	 * @return the index of the child in the parent's list of childs or -1 if no
+	 *         such child can be found.
+	 */
+	@SuppressWarnings("unchecked")
+	public static int indexOf(TreeNode parent, TreeNode child) {
+		if (child == null) {
+			throw new IllegalArgumentException("Argument is null.");
+		}
+		// linear search
+		Enumeration<TreeNode> e = parent.children();
+		for (int i = 0; e.hasMoreElements(); i++) {
+			TreeNode elem = e.nextElement();
+			if ((child == elem) || child.equals(elem)) {
+				return i;
+			}
+		}
+		// not found => node is not a child.
+		return -1;
 	}
 }

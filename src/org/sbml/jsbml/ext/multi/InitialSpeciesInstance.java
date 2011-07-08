@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.multi;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.util.StringTools;
@@ -196,8 +197,8 @@ public class InitialSpeciesInstance extends AbstractNamedSBase {
 		HashMap<String, String> attributes = new HashMap<String, String>();
 
 		if (isSetInitialProportion()) {
-			attributes.put("initialProportion", Double
-					.toString(getInitialProportion()));
+			attributes.put("initialProportion", StringTools.toString(
+					Locale.ENGLISH, getInitialProportion()));
 		}
 		if (isSetSelector()) {
 			attributes.put("selector", getSelector());

@@ -154,18 +154,23 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	 */
 	@Override
 	public TreeNode getChildAt(int index) {
-		int children = getChildCount();
-		if (index >= children) {
-			throw new IndexOutOfBoundsException(index + " >= " + children);
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(index + " < 0");
 		}
-		int pos = 0;
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
 		if (isSetMath()) {
 			if (index == pos) {
 				return getMath();
 			}
 			pos++;
 		}
-		return null;
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
 	}
 
 	/*
@@ -175,7 +180,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	 */
 	@Override
 	public int getChildCount() {
-		return isSetMath() ? 1 : 0;
+		return super.getChildCount() + (isSetMath() ? 1 : 0);
 	}
 
 	/*

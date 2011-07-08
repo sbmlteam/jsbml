@@ -20,10 +20,11 @@
 
 package org.sbml.jsbml;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
 
@@ -37,7 +38,7 @@ import org.sbml.jsbml.util.StringTools;
  * @since 0.8
  * @version $Rev$
  */
-public class CVTerm implements Cloneable, Serializable {
+public class CVTerm extends AnnotationElement {
 
 	// TODO : it would be probably safer to try to load the list a qualifier
 	// from the web at http://www.ebi.ac.uk/miriam/main/qualifiers/xml/
@@ -778,6 +779,27 @@ public class CVTerm implements Cloneable, Serializable {
 						resourceURI, "\"/>\n");
 			}
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int childIndex) {
+		throw new IndexOutOfBoundsException(Integer.toString(childIndex));
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		return 0;
 	}
 
 }

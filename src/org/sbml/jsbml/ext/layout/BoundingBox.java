@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
@@ -69,7 +71,15 @@ public class BoundingBox extends AbstractNamedSBase {
 	 */
 	public BoundingBox(BoundingBox boundingBox) {
 		super(boundingBox);
-		// TODO Auto-generated constructor stub
+		if (boundingBox.isSetDimensions()) {
+			this.dimensions = boundingBox.getDimensions().clone();
+		}
+		if (boundingBox.isSetId()) {
+			this.id = new String(boundingBox.getId());
+		}
+		if (boundingBox.isSetPoint()) {
+			this.point = boundingBox.getPoint().clone();
+		}
 	}
 
 	/**
@@ -113,6 +123,53 @@ public class BoundingBox extends AbstractNamedSBase {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(Integer.toString(index));
+		}
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
+		if (isSetPoint()) {
+			if (pos == index) {
+				return getPoint();
+			}
+			pos++;
+		}
+		if (isSetDimensions()) {
+			if (pos == index) {
+				return getDimensions();
+			}
+			pos++;
+		}
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int count = super.getChildCount();
+		if (isSetPoint()) {
+			count++;
+		}
+		if (isSetDimensions()) {
+			count++;
+		}
+		return count;
+	}
+
 	/**
 	 * 
 	 * @return
@@ -120,15 +177,17 @@ public class BoundingBox extends AbstractNamedSBase {
 	public Dimensions getDimensions() {
 		return dimensions;
 	}
-
-	/**
-	 * 
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#getId()
 	 */
+	@Override
 	public String getId()
 	{
 		return id;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -150,13 +209,10 @@ public class BoundingBox extends AbstractNamedSBase {
 	public boolean isSetPoint() {
 		return point != null;
 	}
-	
-	/**
-	 * 
-	 * @param attributeName
-	 * @param prefix
-	 * @param value
-	 * @return
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -171,9 +227,8 @@ public class BoundingBox extends AbstractNamedSBase {
 			}
 		}
 		return isAttributeRead;
-			
 	}
-	
+
 	/**
 	 * 
 	 * @param dimensions
@@ -181,16 +236,17 @@ public class BoundingBox extends AbstractNamedSBase {
 	public void setDimensions(Dimensions dimensions) {
 		this.dimensions = dimensions;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#setId(java.lang.String)
 	 */
+	@Override
 	public void setId(String id)
 	{
 		this.id = id;
 	}
-
+	
 	/**
 	 * 
 	 * @param point

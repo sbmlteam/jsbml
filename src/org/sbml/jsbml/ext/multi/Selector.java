@@ -54,7 +54,6 @@ public class Selector extends AbstractNamedSBase {
 	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	@Override
 	public Selector clone() {
 		return new Selector(this);
 	}

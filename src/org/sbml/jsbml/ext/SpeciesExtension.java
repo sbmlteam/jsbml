@@ -33,7 +33,7 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
 
 /**
- * 
+ * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$ 
@@ -85,8 +85,8 @@ public class SpeciesExtension extends Species {
 	 * @see org.sbml.jsbml.Species#clone()
 	 */
 	@Override
-	public Species clone() {
-		return species.clone();
+	public SpeciesExtension clone() {
+		return new SpeciesExtension(species);
 	}
 
 	/*

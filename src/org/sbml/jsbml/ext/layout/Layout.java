@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
@@ -39,24 +41,6 @@ public class Layout extends AbstractNamedSBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 8866612784809904674L;
-	
-	/*private String id;
-	/**
-	 * 
-	 */
-	/*public String getId()
-	{
-		return this.id;
-	}
-	
-	/**
-	 * 
-	 
-	public void setId(String id)
-	{
-		this.id = id;
-	}*/
-
 	/**
 	 * 
 	 */
@@ -181,6 +165,70 @@ public class Layout extends AbstractNamedSBase {
 		return addGraphicalObjects;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		int pos = 0;
+		if (isSetListOfCompartmentGlyphs()) {
+			if (index == pos) {
+				return getListOfCompartmentGlyphs();
+			}
+			pos++;
+		}
+		if (isSetListOfSpeciesGlyphs()) {
+			if (index == pos) {
+				return getListOfSpeciesGlyphs();
+			}
+			pos++;
+		}
+		if (isSetListOfReactionGlyphs()) {
+			if (index == pos) {
+				return getListOfReactionGlyphs();
+			}
+			pos++;
+		}
+		if (isSetListOfTextGlyphs()) {
+			if (index == pos) {
+				return getListOfTextGlyphs();
+			}
+			pos++;
+		}
+		if (isSetAddGraphicalObjects()) {
+			if (index == pos) {
+				return getAddGraphicalObjects();
+			}
+		}
+		throw new IndexOutOfBoundsException(Integer.toString(index));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int count = 0;
+		if (isSetListOfCompartmentGlyphs()) {
+			count++;
+		}
+		if (isSetListOfSpeciesGlyphs()) {
+			count++;
+		}
+		if (isSetListOfReactionGlyphs()) {
+			count++;
+		}
+		if (isSetListOfTextGlyphs()) {
+			count++;
+		}
+		if (isSetAddGraphicalObjects()) {
+			count++;
+		}
+		return count;
+	}
+
 	/**
 	 * 
 	 * @param i
@@ -251,9 +299,9 @@ public class Layout extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isSetAddGraphicalObjects() {
-		return addGraphicalObjects != null;
+		return (addGraphicalObjects != null) && (addGraphicalObjects.size() > 0);
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -265,14 +313,14 @@ public class Layout extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isSetListOfCompartmentGlyphs() {
-		return listOfCompartmentGlyphs != null;
+		return (listOfCompartmentGlyphs != null) && (listOfCompartmentGlyphs.size() > 0);
 	}
-	
+
 	/**
 	 * @return
 	 */
 	public boolean isSetListOfReactionGlyphs() {
-		return listOfReactionGlyphs != null;
+		return (listOfReactionGlyphs != null) && (listOfReactionGlyphs.size() > 0);
 	}
 
 	/**
@@ -280,17 +328,14 @@ public class Layout extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isSetListOfSpeciesGlyphs() {
-		if ((listOfSpeciesGlyphs == null) || listOfSpeciesGlyphs.isEmpty()) {
-			return false;			
-		}
-		return true;
+		return (listOfSpeciesGlyphs != null) && (listOfSpeciesGlyphs.size() > 0);
 	}
 
 	/**
 	 * @return
 	 */
 	public boolean isSetListOfTextGlyphs() {
-		return listOfTextGlyphs != null;
+		return (listOfTextGlyphs != null) && (listOfTextGlyphs.size() > 0);
 	}
 
 	/**
@@ -308,7 +353,7 @@ public class Layout extends AbstractNamedSBase {
 		
 			return isAttributeRead;
 	}
-
+	
 	/**
 	 * 
 	 * @param addGraphicalObjects
@@ -423,7 +468,7 @@ public class Layout extends AbstractNamedSBase {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Removes the {@link #listOfSpeciesGlyphs} from this {@link Model} and notifies
 	 * all registered instances of {@link SBaseChangedListener}.

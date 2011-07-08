@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBase;
 
 /**
  * @author Nicolas Rodriguez
@@ -78,7 +79,19 @@ public class ReactionGlyph extends GraphicalObject {
 	 */
 	public ReactionGlyph(ReactionGlyph reactionGlyph) {
 		super(reactionGlyph);
-		// TODO Auto-generated constructor stub
+		if (reactionGlyph.isSetCurve()) {
+			this.curve = reactionGlyph.getCurve().clone();
+		}
+		if (reactionGlyph.isSetId()) {
+			this.id = new String(reactionGlyph.getId());
+		}
+		if (reactionGlyph.isSetListOfSpeciesReferencesGlyph()) {
+			this.listOfSpeciesReferencesGlyph = reactionGlyph
+					.getListOfSpeciesReferencesGlyph().clone();
+		}
+		if (reactionGlyph.isSetReaction()) {
+			this.reaction = new String(reactionGlyph.getReaction());
+		}
 	}
 
 	/*
@@ -120,6 +133,53 @@ public class ReactionGlyph extends GraphicalObject {
 			return equals;
 		}
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildAt(int)
+	 */
+	@Override
+	public SBase getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(Integer.toString(index));
+		}
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
+		if (isSetCurve()) {
+			if (pos == index) {
+				return getCurve();
+			}
+			pos++;
+		}
+		if (isSetListOfSpeciesReferencesGlyph()) {
+			if (pos == index) {
+				return getListOfSpeciesReferencesGlyph();
+			}
+			pos++;
+		}
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int count = super.getChildCount();
+		if (isSetCurve()) {
+			count++;
+		}
+		if (isSetListOfSpeciesReferencesGlyph()) {
+			count++;
+		}
+		return count;
 	}
 
 	/**
@@ -203,7 +263,7 @@ public class ReactionGlyph extends GraphicalObject {
 	public void setCurve(Curve curve) {
 		this.curve = curve;
 	}
-
+	
 	/**
 	 * 
 	 * @param listOfSpeciesReferencesGlyph
@@ -212,7 +272,7 @@ public class ReactionGlyph extends GraphicalObject {
 			ListOf<SpeciesReferencesGlyph> listOfSpeciesReferencesGlyph) {
 		this.listOfSpeciesReferencesGlyph = listOfSpeciesReferencesGlyph;
 	}
-
+	
 	/**
 	 * 
 	 * @param reaction
@@ -228,7 +288,6 @@ public class ReactionGlyph extends GraphicalObject {
 	 */
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return super.toString();
 	}
 

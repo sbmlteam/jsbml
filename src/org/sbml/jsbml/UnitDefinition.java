@@ -23,6 +23,8 @@ package org.sbml.jsbml;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.Unit.Kind;
@@ -604,19 +606,24 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
-	public ListOf<Unit> getChildAt(int index) {
-		int children = getChildCount();
-		if (index >= children) {
-			throw new IndexOutOfBoundsException(index + " >= " + children);
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(index + " < 0");
 		}
-		int pos = 0;
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
 		if (isSetListOfUnits()) {
 			if (index == pos) {
 				return getListOfUnits();
 			}
 			pos++;
 		}
-		return null;
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
 	}
 
 	/*
@@ -626,7 +633,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	@Override
 	public int getChildCount() {
-		int children = 0;
+		int children = super.getChildCount();
 		if (isSetListOfUnits()) {
 			children++;
 		}

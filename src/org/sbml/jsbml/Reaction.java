@@ -22,6 +22,8 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.filters.NameFilter;
 import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
@@ -482,12 +484,16 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
-	public SBase getChildAt(int index) {
-		int children = getChildCount();
-		if (index >= children) {
-			throw new IndexOutOfBoundsException(index + " >= " + children);
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(index + " < 0");
 		}
-		int pos = 0;
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
 		if (isSetListOfReactants()) {
 			if (pos == index) {
 				return getListOfReactants();
@@ -512,7 +518,8 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 			}
 			pos++;
 		}
-		return null;
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
 	}
 
 	/*
@@ -522,7 +529,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	 */
 	@Override
 	public int getChildCount() {
-		int children = 0;
+		int children = super.getChildCount();
 		if (isSetListOfReactants()) {
 			children++;
 		}

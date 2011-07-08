@@ -90,6 +90,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	 * org.sbml.jsbml.xml.stax.WritingParser#getListOfSBMLElementsToWrite(java
 	 * .lang.Object)
 	 */
+	@SuppressWarnings("unchecked")
 	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
 		ArrayList<Object> listOfElementsToWrite = null;
 		if (sbase instanceof SBase) {
@@ -412,6 +413,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	 * org.sbml.jsbml.xml.stax.ReadingParser#processStartElement(java.lang.String
 	 * , java.lang.String, boolean, boolean, java.lang.Object)
 	 */
+	@SuppressWarnings("unchecked")
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 		if (SBMLCoreElements.containsKey(elementName)) {
@@ -444,33 +446,32 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 					Model model = (Model) contextObject;
 					if (newContextObject instanceof ListOf<?>) {
 						if (elementName.equals("listOfUnitDefinitions")) {
-							ListOf listOfUnitDefinitions = (ListOf) newContextObject;
-							model
-									.setListOfUnitDefinitions(listOfUnitDefinitions);
+							ListOf<UnitDefinition> listOfUnitDefinitions = (ListOf<UnitDefinition>) newContextObject;
+							model.setListOfUnitDefinitions(listOfUnitDefinitions);
 
 							return listOfUnitDefinitions;
 						} else if (elementName.equals("listOfCompartments")) {
-							ListOf listofCompartments = (ListOf) newContextObject;
+							ListOf<Compartment> listofCompartments = (ListOf<Compartment>) newContextObject;
 							model.setListOfCompartments(listofCompartments);
 
 							return listofCompartments;
 						} else if (elementName.equals("listOfSpecies")) {
-							ListOf listOfSpecies = (ListOf) newContextObject;
+							ListOf<Species> listOfSpecies = (ListOf<Species>) newContextObject;
 							model.setListOfSpecies(listOfSpecies);
 
 							return listOfSpecies;
 						} else if (elementName.equals("listOfParameters")) {
-							ListOf listOfParameters = (ListOf) newContextObject;
+							ListOf<Parameter> listOfParameters = (ListOf<Parameter>) newContextObject;
 							model.setListOfParameters(listOfParameters);
 
 							return listOfParameters;
 						} else if (elementName.equals("listOfRules")) {
-							ListOf listOfRules = (ListOf) newContextObject;
+							ListOf<Rule> listOfRules = (ListOf<Rule>) newContextObject;
 							model.setListOfRules(listOfRules);
 
 							return listOfRules;
 						} else if (elementName.equals("listOfReactions")) {
-							ListOf listOfReactions = (ListOf) newContextObject;
+							ListOf<Reaction> listOfReactions = (ListOf<Reaction>) newContextObject;
 							model.setListOfReactions(listOfReactions);
 
 							return listOfReactions;

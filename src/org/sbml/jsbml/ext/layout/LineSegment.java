@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
@@ -65,7 +67,12 @@ public class LineSegment extends AbstractNamedSBase {
 	 */
 	public LineSegment(LineSegment lineSegment) {
 		super(lineSegment);
-		// TODO Auto-generated constructor stub
+		if (lineSegment.isSetStart()) {
+			this.start = lineSegment.getStart().clone();
+		}
+		if (lineSegment.isSetEnd()) {
+			this.end = lineSegment.getEnd().clone();
+		}
 	}
 
 	/*
@@ -100,6 +107,53 @@ public class LineSegment extends AbstractNamedSBase {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(Integer.toString(index));
+		}
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
+		if (isSetStart()) {
+			if (pos == index) {
+				return getStart();
+			}
+			pos++;
+		}
+		if (isSetEnd()) {
+			if (pos == index) {
+				return getEnd();
+			}
+			pos++;
+		}
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int count = super.getChildCount();
+		if (isSetStart()) {
+			count++;
+		}
+		if (isSetEnd()) {
+			count++;
+		}
+		return count;
+	}
+
 	/**
 	 * 
 	 * @return
@@ -129,7 +183,7 @@ public class LineSegment extends AbstractNamedSBase {
 	public boolean isSetStart() {
 		return start != null;
 	}
-
+	
 	/**
 	 * 
 	 * @param end
@@ -137,7 +191,7 @@ public class LineSegment extends AbstractNamedSBase {
 	public void setEnd(Point end) {
 		this.end = end;
 	}
-
+	
 	/**
 	 * 
 	 * @param start
