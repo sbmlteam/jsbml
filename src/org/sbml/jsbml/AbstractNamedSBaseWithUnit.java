@@ -60,8 +60,10 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 * @param nsbu
 	 */
 	public AbstractNamedSBaseWithUnit(AbstractNamedSBaseWithUnit nsbu) {
-		super(nsbu);
-		setUnits(nsbu.isSetUnits() ? new String(nsbu.getUnits()) : null);
+		super(nsbu);		
+		if (nsbu.isSetUnits()) {
+			setUnits(new String(nsbu.getUnits()));
+		}
 	}
 
 	/**
