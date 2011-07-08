@@ -56,8 +56,8 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	 */
 	public EventAssignment(EventAssignment eventAssignment) {
 		super(eventAssignment);
-		if (isSetVariable()) {
-			this.variableID = new String(eventAssignment.getVariable());
+		if (eventAssignment.isSetVariable()) {
+			this.variableID = new String(eventAssignment.getVariable());			
 		} else {
 			this.variableID = null;
 		}
