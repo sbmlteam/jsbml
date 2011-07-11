@@ -84,23 +84,19 @@ public class Event extends AbstractNamedSBaseWithUnit {
 		super(event);
 		if (event.isSetTrigger()) {
 			setTrigger(event.getTrigger().clone());
-		} else {
-			trigger = null;
 		}
-		if (isSetUseValuesFromTriggerTime()) {
-			this.useValuesFromTriggerTime = new Boolean(event
-					.isUseValuesFromTriggerTime());
+		if (event.isSetUseValuesFromTriggerTime()) {
+			setUseValuesFromTriggerTime(new Boolean(event.getUseValuesFromTriggerTime()));
 		}
 		if (event.isSetDelay()) {
 			setDelay(event.getDelay().clone());
-		} else {
-			this.delay = null;
 		}
-		if (isSetListOfEventAssignments()) {
+		if (event.isSetListOfEventAssignments()) {
 			setListOfEventAssignments((ListOf<EventAssignment>) event
 					.getListOfEventAssignments().clone());
-		} else {
-			this.listOfEventAssignments = null;
+		}
+		if (event.isSetPriority()) {
+			setPriority(event.getPriority().clone());
 		}
 	}
 

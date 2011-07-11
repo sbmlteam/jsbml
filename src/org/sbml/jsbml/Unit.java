@@ -1260,7 +1260,7 @@ public class Unit extends AbstractSBase {
 	 */
 	public Unit(Unit unit) {
 		super(unit);
-		initDefaults();
+
 		exponent = unit.exponent != null ? Double.valueOf(unit.getExponent())
 				: null;
 		multiplier = unit.multiplier != null ? new Double(unit.getMultiplier())

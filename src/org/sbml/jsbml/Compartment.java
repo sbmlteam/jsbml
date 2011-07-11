@@ -92,7 +92,7 @@ public class Compartment extends Symbol {
 	 */
 	public Compartment(Compartment compartment) {
 		super(compartment);
-		initDefaults();
+
 		if (compartment.isSetCompartmentType()) {
 			this.compartmentTypeID = new String(compartment
 					.getCompartmentType());

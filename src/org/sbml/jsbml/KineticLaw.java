@@ -102,7 +102,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 */
 	public KineticLaw(KineticLaw kineticLaw) {
 		super(kineticLaw);
-		initDefaults();
+
 		if (kineticLaw.isSetListOfParameters()) {
 			setListOfLocalParameters((ListOf<LocalParameter>) kineticLaw
 					.getListOfParameters().clone());
