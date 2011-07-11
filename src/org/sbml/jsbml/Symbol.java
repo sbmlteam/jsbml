@@ -124,7 +124,7 @@ public abstract class Symbol extends QuantityWithUnit implements
 	public Symbol(Symbol nsb) {
 		super(nsb);
 		if (nsb.isSetConstant()) {
-			setConstant(new Boolean(nsb.getConstant()));
+			setConstant(nsb.getConstant());
 		}
 	}
 

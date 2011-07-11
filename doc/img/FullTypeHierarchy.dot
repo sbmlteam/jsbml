@@ -70,7 +70,9 @@ strict digraph G{
   Rule                                     [label=<<font face="Helvetica-Oblique">Rule</font>>];
   SimpleSpeciesReference                   [label=<<font face="Helvetica-Oblique">Simple<br/>SpeciesReference</font>>];
   QuantityWithUnit                         [label=<<font face="Helvetica-Oblique">Quantity<br/>WithUnit</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractTreeNode                         [label=<<font face="Helvetica-Oblique">Abstract<br/>TreeNode</font>>, style="filled", fillcolor="#F0F8FF"];
   Symbol                                   [label=<<font face="Helvetica-Oblique">Symbol</font>>, style="filled", fillcolor="#F0F8FF"];
+  XMLToken                                 [label=<<font face="Helvetica-Oblique">XML<br/>Token</font>>];
 
   /*
    * Objects
@@ -109,7 +111,7 @@ strict digraph G{
   Unit                                     [label="Unit"];
   UnitDefinition                           [label="Unit\nDefinition"];
   XMLNode                                  [label="XML\nNode"];
-
+  
   /*
    * Inheritance
    */
@@ -138,6 +140,10 @@ strict digraph G{
   AbstractMathContainer      -> Rule                       [dir=back,arrowtail=empty];
   AbstractMathContainer      -> StoichiometryMath          [dir=back,arrowtail=empty];
   AbstractMathContainer      -> Trigger                    [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> AbstractSBase              [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> AnnotationElement          [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> ASTNode                    [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> XMLToken                   [dir=back,arrowtail=empty];
   AnnotationElement          -> Annotation                 [dir=back,arrowtail=empty];
   AnnotationElement          -> Creator                    [dir=back,arrowtail=empty];
   AnnotationElement          -> CVTerm                     [dir=back,arrowtail=empty];
@@ -148,10 +154,8 @@ strict digraph G{
   CallableSBase              -> Quantity                   [dir=back,arrowtail=empty,style=dashed];
   CallableSBase              -> FunctionDefinition         [dir=back,arrowtail=empty,style=dashed];
   CallableSBase              -> Reaction                   [dir=back,arrowtail=empty,style=dashed];
-  Cloneable                  -> AnnotationElement          [dir=back,arrowtail=empty,style=dashed];
-  Cloneable                  -> ASTNode                    [dir=back,arrowtail=empty,style=dashed];
+  Cloneable                  -> AbstractTreeNode           [dir=back,arrowtail=empty,style=dashed];
   Cloneable                  -> SBase                      [dir=back,arrowtail=empty,style=dashed];
-  Cloneable                  -> XMLNode                    [dir=back,arrowtail=empty,style=dashed];
   ExplicitRule               -> AssignmentRule             [dir=back,arrowtail=empty];
   ExplicitRule               -> RateRule                   [dir=back,arrowtail=empty];
   List                       -> ListOf                     [dir=back,arrowtail=empty,style=dashed];
@@ -161,10 +165,7 @@ strict digraph G{
   NamedSBase                 -> NamedSBaseWithDerivedUnit  [dir=back,arrowtail=empty,style=dashed];
   NamedSBaseWithDerivedUnit  -> AbstractNamedSBaseWithUnit [dir=back,arrowtail=empty,style=dashed];
   NamedSBaseWithDerivedUnit  -> CallableSBase              [dir=back,arrowtail=empty,style=dashed];
-  Object                     -> AbstractSBase              [dir=back,arrowtail=empty];
-  Object                     -> AnnotationElement          [dir=back,arrowtail=empty];
-  Object                     -> ASTNode                    [dir=back,arrowtail=empty];
-  Object                     -> XMLNode                    [dir=back,arrowtail=empty];
+  Object                     -> AbstractTreeNode           [dir=back,arrowtail=empty];
   Quantity                   -> QuantityWithUnit           [dir=back,arrowtail=empty,style=dashed];
   Quantity                   -> Variable                   [dir=back,arrowtail=empty,style=dashed];
   QuantityWithUnit           -> LocalParameter             [dir=back,arrowtail=empty];
@@ -182,17 +183,15 @@ strict digraph G{
   SBaseWithUnit              -> KineticLaw                 [dir=back,arrowtail=empty,style=dashed];
   SimpleSpeciesReference     -> ModifierSpeciesReference   [dir=back,arrowtail=empty];
   SimpleSpeciesReference     -> SpeciesReference           [dir=back,arrowtail=empty];
-  Serializable               -> AnnotationElement          [dir=back,arrowtail=empty,style=dashed];
-  Serializable               -> ASTNode                    [dir=back,arrowtail=empty,style=dashed];
+  Serializable               -> AbstractTreeNode           [dir=back,arrowtail=empty,style=dashed];
   Serializable               -> SBase                      [dir=back,arrowtail=empty,style=dashed];
-  Serializable               -> XMLNode                    [dir=back,arrowtail=empty,style=dashed];
   Symbol                     -> Compartment                [dir=back,arrowtail=empty];
   Symbol                     -> Parameter                  [dir=back,arrowtail=empty];
   Symbol                     -> Species                    [dir=back,arrowtail=empty];
-  TreeNode                   -> ASTNode                    [dir=back,arrowtail=empty,style=dashed];
-  TreeNode                   -> AnnotationElement          [dir=back,arrowtail=empty,style=dashed];
+  TreeNode                   -> AbstractTreeNode           [dir=back,arrowtail=empty,style=dashed];
   TreeNode                   -> SBase                      [dir=back,arrowtail=empty,style=dashed];
-  TreeNode                   -> XMLNode                    [dir=back,arrowtail=empty,style=dashed];
   Variable                   -> SpeciesReference           [dir=back,arrowtail=empty,style=dashed];
   Variable                   -> Symbol                     [dir=back,arrowtail=empty,style=dashed];
+  XMLToken                   -> XMLNode                    [dir=back,arrowtail=empty];
+
 }

@@ -20,9 +20,8 @@
 
 package org.sbml.jsbml.xml;
 
-import java.io.Serializable;
-
 import org.sbml.jsbml.JSBML;
+import org.sbml.jsbml.AbstractTreeNode;
 
 /**
  * Representation of a token in an XML stream.
@@ -39,7 +38,7 @@ import org.sbml.jsbml.JSBML;
  * @since 0.8
  * @version $Rev$
  */
-public class XMLToken implements Cloneable, Serializable {
+public abstract class XMLToken extends AbstractTreeNode {
 
 	/**
 	 * Generated serial version identifier
@@ -488,9 +487,7 @@ public class XMLToken implements Cloneable, Serializable {
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
-	public XMLToken clone() {
-		return new XMLToken(this);
-	}
+	public abstract XMLToken clone();
 
 
 	/*

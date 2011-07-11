@@ -20,14 +20,11 @@
 
 package org.sbml.jsbml;
 
-import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import javax.activity.InvalidActivityException;
@@ -57,7 +54,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * @since 0.8
  * @version $Rev$
  */
-public class ASTNode implements Cloneable, Serializable, TreeNode {
+public class ASTNode extends AbstractTreeNode {
 
 	/**
 	 * An enumeration of all possible types that can be represented by an
@@ -1207,11 +1204,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	private int numerator;
 
 	/**
-	 * important for the TreeNode interface.
-	 */
-	private ASTNode parent;
-
-	/**
 	 * The container that holds this ASTNode.
 	 */
 	private MathContainer parentSBMLObject;
@@ -1492,43 +1484,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 			throw new IllegalArgumentException(String.format(
 					INVALID_OPERATOR_MSG, operator));
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.tree.TreeNode#children()
-	 */
-	public Enumeration<ASTNode> children() {
-		return new Enumeration<ASTNode>() {
-			/**
-			 * The current position within the list of child nodes.
-			 */
-			private int pos = 0;
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see java.util.Enumeration#hasMoreElements()
-			 */
-			public boolean hasMoreElements() {
-				return pos < listOfNodes.size();
-			}
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see java.util.Enumeration#nextElement()
-			 */
-			public ASTNode nextElement() {
-				synchronized (listOfNodes) {
-					if (pos < listOfNodes.size()) {
-						return listOfNodes.get(pos++);
-					}
-				}
-				throw new NoSuchElementException("ASTNode Enumeration");
-			}
-		};
 	}
 
 	/*
@@ -2138,15 +2093,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 		return id;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
-	 */
-	public int getIndex(TreeNode node) {
-		return JSBML.indexOf(this, node);
-	}
-
 	/**
 	 * Gets the value of this node as an integer. This function should be called
 	 * only when getType() == INTEGER, otherwise an Exception is thrown.
@@ -2265,8 +2211,9 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 * 
 	 * @see javax.swing.tree.TreeNode#getParent()
 	 */
+	@Override
 	public ASTNode getParent() {
-		return parent;
+		return (ASTNode) parent;
 	}
 
 	/**
@@ -2578,15 +2525,6 @@ public class ASTNode implements Cloneable, Serializable, TreeNode {
 	 */
 	public boolean isLambda() {
 		return type == Type.LAMBDA;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.tree.TreeNode#isLeaf()
-	 */
-	public boolean isLeaf() {
-		return getNumChildren() == 0;
 	}
 
 	/**

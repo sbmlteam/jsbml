@@ -5,13 +5,21 @@ Version 0.8-rc1 (xx-xx-2011)
 ======================================================================
 
 * New Features:
-
+  
   - Notes, annotations, and extension packages are now part of the tree
     representation of the JSBML data structure.
     
   - The new super class AnnotationElement has been introduced to gather
     all those elements that can be used to annotate instances of SBase.
-
+      
+  - The new Type AbstractTreeNode implements basic recursive functions
+    and is now used as the new super class for ASTNode, AbstractSBase,
+    the new type AnnotationElement, and XMLToken (as the super class of
+    XMLNode). In this way, recursion and iteration over child elements
+    within the SBML data structure now follow a unified structure and
+    can be accessed uniquely within all such elements, including 
+    annotations and extensions.
+    
   - Sebastian Fröhlich provided some contributions to the parser for the 
     SBML level 3 layout extension package. JSBML now  supports experimental
     reading for this package. The full stable API for reading/writing of
