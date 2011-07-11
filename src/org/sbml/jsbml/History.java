@@ -403,11 +403,13 @@ public class History extends AnnotationElement {
 	 */
 	public TreeNode getChildAt(int childIndex) {
 		int pos = 0;
-//		if (isSetListOfCreators()) {
-//			if (pos == childIndex) {
-//				return getListOfCreators();
-//			}
-//		}
+		if (isSetListOfCreators()) {
+			int curr = childIndex - pos;
+			if ((0 <= curr) && (curr < getNumCreators())) {
+				return listOfCreators.get(curr);
+			}
+			pos += listOfCreators.size();
+		}
 //		if (isSetListOfModification()) {
 //			if (pos == childIndex) {
 //				return getListModifiedDates();
@@ -422,9 +424,9 @@ public class History extends AnnotationElement {
 	 */
 	public int getChildCount() {
 		int count = 0;
-//		if (isSetListOfCreators()) {
-//			count++;
-//		}
+		if (isSetListOfCreators()) {
+			count += listOfCreators.size();
+		}
 //		if (isSetListOfModification()) {
 //			count++;
 //		}

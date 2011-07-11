@@ -24,14 +24,10 @@ import static org.sbml.jsbml.JSBML.OPERATION_FAILED;
 import static org.sbml.jsbml.JSBML.OPERATION_SUCCESS;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
 
-import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
@@ -113,7 +109,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * @since 0.8
  * @version $Rev$
  */
-public class XMLNode extends XMLToken implements TreeNode {
+public class XMLNode extends XMLToken {
 
 	/**
 	 * Generated serial version identifier
@@ -204,12 +200,6 @@ public class XMLNode extends XMLToken implements TreeNode {
 	 * 
 	 */
 	private List<XMLNode> childrenElements = new ArrayList<XMLNode>();
-
-	/**
-	 * Pointer to the parent element of this {@link XMLNode}.
-	 */
-	private TreeNode parent;
-
 
 	/**
 	 * Creates a new empty {@link XMLNode} with no children.
@@ -452,15 +442,6 @@ public class XMLNode extends XMLToken implements TreeNode {
 		return OPERATION_SUCCESS;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#children()
-	 */
-	public Enumeration<XMLNode> children() {
-		return Collections.enumeration(childrenElements);
-	}
-
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.XMLToken#clone()
@@ -539,15 +520,6 @@ public class XMLNode extends XMLToken implements TreeNode {
 		return childrenElements.size();
 	}
 
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
-	 */
-	public int getIndex(TreeNode node) {
-		return JSBML.indexOf(this, node);
-	}
-
-
 	/**
 	 * Returns the number of children for this {@link XMLNode}.
 	 * <p>
@@ -557,14 +529,6 @@ public class XMLNode extends XMLToken implements TreeNode {
 	@Deprecated
 	public int getNumChildren() {
 		return getChildCount();
-	}
-
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getParent()
-	 */
-	public TreeNode getParent() {
-		return parent;
 	}
 
 	/*
@@ -613,13 +577,6 @@ public class XMLNode extends XMLToken implements TreeNode {
 		return node;
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#isLeaf()
-	 */
-	public boolean isLeaf() {
-		return getChildCount() == 0;
-	}
-
 	/**
 	 * Removes the <code>n</code>th child of this {@link XMLNode} and returns the
 	 * removed node.
@@ -658,14 +615,6 @@ public class XMLNode extends XMLToken implements TreeNode {
 		childrenElements.clear();
 		
 		return OPERATION_SUCCESS;
-	}
-
-	/**
-	 * 
-	 * @param parent
-	 */
-	public void setParent(TreeNode parent) {
-		this.parent = parent;
 	}
 
 	/**

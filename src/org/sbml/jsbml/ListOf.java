@@ -514,7 +514,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 				list.add(sbase);
 			}
 		}
-		list.parentSBMLObject = parentSBMLObject;
+		list.parent = parent;
 		return list;
 	}
 
@@ -726,7 +726,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public T remove(int index) {
 		T t = listOf.remove(index);
 		if (t instanceof AbstractSBase) {
-			((AbstractSBase) t).parentSBMLObject = null;
+			((AbstractSBase) t).parent = null;
 		}
 		t.fireSBaseRemovedEvent();
 		return t;
@@ -753,7 +753,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 				if (pos >= 0) {
 					T t = listOf.remove(pos);
 					if (t instanceof AbstractSBase) {
-						((AbstractSBase) t).parentSBMLObject = null;
+						((AbstractSBase) t).parent = null;
 					}
 					return true;
 				}

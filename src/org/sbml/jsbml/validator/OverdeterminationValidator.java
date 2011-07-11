@@ -29,6 +29,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AlgebraicRule;
 import org.sbml.jsbml.AssignmentRule;
@@ -876,9 +878,9 @@ public class OverdeterminationValidator {
 		// else found operator or function
 		else {
 			// carry on with all children
-			Enumeration<ASTNode> nodes = node.children();
+			Enumeration<TreeNode> nodes = node.children();
 			while (nodes.hasMoreElements()) {
-				getVariables(param, nodes.nextElement(), variables);
+				getVariables(param, (ASTNode) nodes.nextElement(), variables);
 			}
 		}
 

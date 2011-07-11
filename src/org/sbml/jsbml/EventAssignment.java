@@ -130,9 +130,10 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public Event getParent() {
-		return (Event) super.getParent();
+	public ListOf<EventAssignment> getParent() {
+		return (ListOf<EventAssignment>) super.getParent();
 	}
 
 	/*

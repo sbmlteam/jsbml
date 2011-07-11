@@ -20,12 +20,6 @@
  */ 
 package org.sbml.jsbml;
 
-import java.io.Serializable;
-import java.util.Enumeration;
-
-import javax.swing.tree.TreeNode;
-
-import org.sbml.jsbml.util.TreeNodeEnumeration;
 
 /**
  * A common super class for all those elements that can be part of an {@link Annotation}.
@@ -35,44 +29,11 @@ import org.sbml.jsbml.util.TreeNodeEnumeration;
  * @since 0.8
  * @date 08.07.2011
  */
-public abstract class AnnotationElement implements Serializable, Cloneable, TreeNode {
+public abstract class AnnotationElement extends AbstractTreeNode {
 
 	/**
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 495755171215798027L;
-
-	/**
-	 * The parent element of this {@link Annotation}.
-	 */
-	TreeNode parent;
 	
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#children()
-	 */
-	public Enumeration<TreeNode> children() {
-		return new TreeNodeEnumeration(this);
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
-	 */
-	public int getIndex(TreeNode node) {
-		return JSBML.indexOf(this, node);
-	}
-	
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getParent()
-	 */
-	public TreeNode getParent() {
-		return parent;
-	}
-	
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#isLeaf()
-	 */
-	public boolean isLeaf() {
-		return getChildCount() == 0;
-	}
 }

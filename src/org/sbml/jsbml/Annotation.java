@@ -796,12 +796,13 @@ public class Annotation extends AnnotationElement {
 			}
 			pos++;
 		}
-//		if (isSetListOfCVTerms()) {
-//			if (childIndex == pos) {
-//				return getListOfCVTerms();
-//			}
-//			pos++;
-//		}
+		if (isSetListOfCVTerms()) {
+			int curr = childIndex - pos;
+			if ((0 <= curr) && (curr < getNumCVTerms())) {
+				return listOfCVTerms.get(curr);
+			}
+			pos += getNumCVTerms();
+		}
 		if (extensions.size() > 0) {
 			String exts[] = extensions.keySet().toArray(new String[0]);
 			Arrays.sort(exts);
@@ -819,9 +820,9 @@ public class Annotation extends AnnotationElement {
 		if (isSetHistory()) {
 			count++;
 		}
-//		if (isSetListOfCVTerms()) {
-//			count++;
-//		}
+		if (isSetListOfCVTerms()) {
+			count += getNumCVTerms();
+		}
 		if (extensions.size() > 0) {
 			count++;
 		}

@@ -373,7 +373,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 */
 	@Override
 	public Reaction getParentSBMLObject() {
-		return (Reaction) parentSBMLObject;
+		return (Reaction) parent;
 	}
 
 	/**

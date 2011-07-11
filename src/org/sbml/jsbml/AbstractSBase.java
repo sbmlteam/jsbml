@@ -34,7 +34,6 @@ import java.util.TreeSet;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.util.TreeNodeEnumeration;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
@@ -49,7 +48,7 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  * @since 0.8
  * @version $Rev$
  */
-public abstract class AbstractSBase implements SBase {
+public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
 	/**
 	 * 
@@ -135,7 +134,7 @@ public abstract class AbstractSBase implements SBase {
 	/**
 	 * parent sbml component
 	 */
-	SBase parentSBMLObject;
+	protected SBase parent;
 	
 	/**
 	 * sbo term of the SBML component. Matches the sboTerm XML attribute of an
@@ -163,7 +162,7 @@ public abstract class AbstractSBase implements SBase {
 		metaId = null;
 		notesXMLNode = null;
 		lv = getLevelAndVersion();
-		parentSBMLObject = null;
+		parent = null;
 		annotation = null;
 		setOfListeners = new HashSet<SBaseChangedListener>();
 		extensions = new HashMap<String, SBase>();
@@ -176,7 +175,7 @@ public abstract class AbstractSBase implements SBase {
 	 * 
 	 * <p>
 	 * By default, the sboTerm is -1, the metaid, notes,
-	 * {@link #parentSBMLObject}, {@link #annotation}, and notes are null. The
+	 * {@link #parent}, {@link #annotation}, and notes are null. The
 	 * {@link #setOfListeners} list and the {@link #extensions} {@link Map} are
 	 * empty.
 	 * 
@@ -215,7 +214,7 @@ public abstract class AbstractSBase implements SBase {
 		if (sb.isSetVersion()) {
 			setVersion(sb.getVersion());
 		}
-		this.parentSBMLObject = sb.getParentSBMLObject();
+		this.parent = sb.getParentSBMLObject();
 		if (sb.isSetSBOTerm()) {
 			this.sboTerm = sb.getSBOTerm();
 		}
@@ -708,15 +707,6 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see javax.swing.tree.TreeNode#children()
-	 */
-	public Enumeration<TreeNode> children() {
-		return new TreeNodeEnumeration(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	public abstract AbstractSBase clone();
@@ -966,15 +956,6 @@ public abstract class AbstractSBase implements SBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
-	 */
-	public int getIndex(TreeNode node) {
-		return JSBML.indexOf(this, node);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jlibsbml.SBase#getLevel()
 	 */
 	public int getLevel() {
@@ -1057,8 +1038,9 @@ public abstract class AbstractSBase implements SBase {
 	 * @return the parent element of this element.
 	 * @see #getParentSBMLObject()
 	 */
+	@Override
 	public SBase getParent() {
-		return getParentSBMLObject();
+		return parent;
 	}
 
 	/*
@@ -1066,7 +1048,7 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#getParentSBMLObject()
 	 */
 	public SBase getParentSBMLObject() {
-		return parentSBMLObject;
+		return getParent();
 	}
 
 	/*
@@ -1146,15 +1128,6 @@ public abstract class AbstractSBase implements SBase {
 	 */
 	public boolean isExtendedByOtherPackages() {
 		return !this.extensions.isEmpty();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.tree.TreeNode#isLeaf()
-	 */
-	public boolean isLeaf() {
-		return (getChildCount() == 0);
 	}
 
 	/*
@@ -1291,10 +1264,10 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#setLevel(int)
 	 */
 	public void setLevel(int level) {
-		if ((parentSBMLObject != null) && (parentSBMLObject != this)
-				&& parentSBMLObject.isSetLevel()) {
-			if (level != parentSBMLObject.getLevel()) {
-				throw new LevelVersionError(this, parentSBMLObject);
+		if ((parent != null) && (parent != this)
+				&& parent.isSetLevel()) {
+			if (level != parent.getLevel()) {
+				throw new LevelVersionError(this, parent);
 			}
 		}
 		Integer oldLevel = getLevelAndVersion().getL();
@@ -1373,8 +1346,8 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#setParentSBML(org.sbml.jsbml.SBase)
 	 */
 	public void setParentSBML(SBase parent) {
-		SBase oldParent = this.parentSBMLObject;
-		this.parentSBMLObject = parent;
+		SBase oldParent = this.parent;
+		this.parent = parent;
 		firePropertyChange(SBaseChangedEvent.parentSBMLObject, oldParent, parent);
 	}
 
@@ -1421,7 +1394,7 @@ public abstract class AbstractSBase implements SBase {
 						&& (sbase instanceof AbstractSBase), false);
 			}
 			if (sbase instanceof AbstractSBase) {
-				((AbstractSBase) sbase).parentSBMLObject = this;
+				((AbstractSBase) sbase).parent = this;
 				sbase.addAllChangeListeners(getSetOfSBaseChangedListeners());
 			}
 			sbase.fireSBaseAddedEvent();
@@ -1433,10 +1406,10 @@ public abstract class AbstractSBase implements SBase {
 	 * @see org.sbml.jsbml.SBase#setVersion(int)
 	 */
 	public void setVersion(int version) {
-		if ((parentSBMLObject != null) && (parentSBMLObject != this)
-				&& parentSBMLObject.isSetVersion()) {
-			if (version != parentSBMLObject.getVersion()) {
-				throw new LevelVersionError(parentSBMLObject, this);
+		if ((parent != null) && (parent != this)
+				&& parent.isSetVersion()) {
+			if (version != parent.getVersion()) {
+				throw new LevelVersionError(parent, this);
 			}
 		}
 		Integer oldVersion = getLevelAndVersion().getV();
