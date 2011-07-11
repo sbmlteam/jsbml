@@ -75,7 +75,7 @@ public class Trigger extends AbstractMathContainer {
 	 */
 	public Trigger(Trigger trigger) {
 		super(trigger);
-		initDefaults();
+
 		if (trigger.isSetInitialValue()) {
 			this.initialValue = trigger.getInitialValue();
 		}

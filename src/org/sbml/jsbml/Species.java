@@ -121,7 +121,7 @@ public class Species extends Symbol {
 	 */
 	public Species(Species species) {
 		super(species);
-		initDefaults();
+
 		if (species.isSetBoundaryCondition()) {
 			setBoundaryCondition(species.getBoundaryCondition());
 		}
