@@ -22,8 +22,6 @@ package org.sbml.jsbml.util;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.SBaseChangedEvent;
-import org.sbml.jsbml.SBaseChangedListener;
 
 /**
  * This very simple implementation of an {@link SBaseChangedListener} writes all

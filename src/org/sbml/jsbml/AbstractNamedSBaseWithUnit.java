@@ -21,6 +21,7 @@
 package org.sbml.jsbml;
 
 import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.util.SBaseChangedEvent;
 
 /**
  * This simple implementation of the interfaces

@@ -22,6 +22,8 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
+import org.sbml.jsbml.util.SBaseChangedEvent;
+
 /**
  * Represents the eventAssignment XML element of a SBML file.
  * 

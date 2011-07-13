@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.sbml.jsbml.util.SBaseChangedEvent;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
 

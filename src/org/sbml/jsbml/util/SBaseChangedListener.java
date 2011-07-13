@@ -18,13 +18,16 @@
  * ----------------------------------------------------------------------------
  */
 
-package org.sbml.jsbml;
+package org.sbml.jsbml.util;
 
 import java.util.EventListener;
 
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBase;
+
 /**
  * A listener interface that allows applications to get notified if the state of
- * any SBase object changes.
+ * any {@link SBase} object changes.
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8

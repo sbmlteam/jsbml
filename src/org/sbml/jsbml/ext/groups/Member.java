@@ -25,7 +25,7 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangedEvent;
 
 /**
  * 

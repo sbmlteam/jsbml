@@ -24,7 +24,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangedListener;
 
 /**
  * 

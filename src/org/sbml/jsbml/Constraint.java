@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.util.SBaseChangedEvent;
 import org.sbml.jsbml.xml.XMLNode;
 
 

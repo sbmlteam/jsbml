@@ -31,6 +31,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.CVTerm.Type;
+import org.sbml.jsbml.util.AnnotationChangedEvent;
 import org.sbml.jsbml.util.filters.CVTermFilter;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -130,6 +131,7 @@ public class Annotation extends AnnotationElement {
 	 * 
 	 */
 	public Annotation() {
+		super();
 		this.annotationNamespaces = new HashMap<String, String>();
 		this.rdfAnnotationNamespaces = new HashMap<String, String>();
 		this.extensions = new HashMap<String, Annotation>();
@@ -143,7 +145,10 @@ public class Annotation extends AnnotationElement {
 	 * @param annotation the annotation to be cloned.
 	 */
 	public Annotation(Annotation annotation) {
-		this();
+		super(annotation);
+		this.annotationNamespaces = new HashMap<String, String>();
+		this.rdfAnnotationNamespaces = new HashMap<String, String>();
+		this.extensions = new HashMap<String, Annotation>();
 		copy(annotation.getAnnotationNamespaces(), this.annotationNamespaces);
 		copy(annotation.getRDFAnnotationNamespaces(), this.rdfAnnotationNamespaces);
 		for (Map.Entry<String, Annotation> entry : annotation.extensions.entrySet()) {
@@ -684,7 +689,9 @@ public class Annotation extends AnnotationElement {
 	 * @param about the about String to set.
 	 */
 	public void setAbout(String about) {
+		String oldAbout = this.about;
 		this.about = about;
+		firePropertyChange(AnnotationChangedEvent.about, oldAbout, this.about);
 	}
 	
 	// TODO : some fireSBaseChangedEvent are missing in this class.
@@ -695,7 +702,10 @@ public class Annotation extends AnnotationElement {
 	 * @param nonRDFAnnotation
 	 */
 	public void setNonRDFAnnotation(String nonRDFAnnotation) {
+		String oldNonRDFAnnotation = this.otherAnnotation.toString();
 		otherAnnotation = new StringBuilder(nonRDFAnnotation);
+		firePropertyChange(AnnotationChangedEvent.nonRDFAnnotation,
+				oldNonRDFAnnotation, otherAnnotation.toString());
 	}
 	
 	/**
@@ -824,7 +834,7 @@ public class Annotation extends AnnotationElement {
 			count += getNumCVTerms();
 		}
 		if (extensions.size() > 0) {
-			count++;
+			count += extensions.size();
 		}
 //		if (isSetNonRDFannotation()) {
 //			count++;

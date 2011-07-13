@@ -20,6 +20,12 @@
  */ 
 package org.sbml.jsbml;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.sbml.jsbml.util.AnnotationChangedEvent;
+import org.sbml.jsbml.util.AnnotationChangedListener;
+
 
 /**
  * A common super class for all those elements that can be part of an {@link Annotation}.
@@ -35,5 +41,84 @@ public abstract class AnnotationElement extends AbstractTreeNode {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 495755171215798027L;
+	
+	/**
+	 * {@link Set} of listeners for this component
+	 */
+	protected Set<AnnotationChangedListener> setOfListeners;
+	
+	/**
+	 * 
+	 */
+	public AnnotationElement() {
+		super();
+		setOfListeners = new HashSet<AnnotationChangedListener>();
+	}
+	
+	/**
+	 * 
+	 * @param annotation
+	 */
+	public AnnotationElement(AnnotationElement annotation) {
+		this();
+		setOfListeners.addAll(annotation.setOfListeners);
+	}
+
+	/**
+	 * All {@link AnnotationChangedListener} instances linked to this
+	 * {@link AnnotationElement} are informed about the adding of this object to
+	 * an owning {@link AnnotationElement} or to another new parent SBML object.
+	 */
+	public void fireAnnotationAddedEvent() {
+		for (AnnotationChangedListener listener : setOfListeners) {
+			listener.annotationAdded(this);
+		}
+	}
+	
+	/**
+	 * All {@link AnnotationChangedListener} instances linked to this
+	 * {@link Annotation} are informed about the deletion of this
+	 * {@link AnnotationElement} from another parent SBML object.
+	 */
+	public void fireAnnotationRemovedEvent() {
+		for (AnnotationChangedListener listener : setOfListeners) {
+			listener.annotationRemoved(this);
+		}
+	}
+
+	/**
+	 * All {@link AnnotationChangedListener}s are informed about the change in this
+	 * {@link AnnotationElement}.
+	 * 
+	 * @param propertyName
+	 *            Tells the {@link AnnotationChangedListener} the name of the
+	 *            property whose value has been changed.
+	 * @param oldValue
+	 *            This is the value before the change.
+	 * @param newValue
+	 *            This gives the new value that is now the new value for the
+	 *            given property..
+	 */
+	public void firePropertyChange(String propertyName, Object oldValue,
+			Object newValue) {
+		if ((setOfListeners.size() > 0)
+				&& (((oldValue == null) && (newValue != null))
+				|| ((oldValue != null) && (newValue == null))
+				|| (oldValue != null && !oldValue.equals(newValue)))) 
+		{
+			AnnotationChangedEvent changeEvent = new AnnotationChangedEvent(this,
+					propertyName, oldValue, newValue);
+			for (AnnotationChangedListener listener : setOfListeners) {
+				listener.stateChanged(changeEvent);
+			}
+		}
+	}
+
+	/**
+	 * @return
+	 */
+	public Set<AnnotationChangedListener> getSetOfAnnotationChangedListeners() {
+		return setOfListeners;
+	}
 	
 }

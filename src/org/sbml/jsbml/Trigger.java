@@ -22,6 +22,7 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
+import org.sbml.jsbml.util.SBaseChangedEvent;
 import org.sbml.jsbml.util.StringTools;
 
 

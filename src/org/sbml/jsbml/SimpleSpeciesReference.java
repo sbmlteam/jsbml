@@ -22,6 +22,8 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
+import org.sbml.jsbml.util.SBaseChangedEvent;
+
 /**
  * The base class of {@link SpeciesReference} and
  * {@link ModifierSpeciesReference}.

@@ -23,6 +23,7 @@ package org.sbml.jsbml;
 import java.util.Map;
 
 import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.util.SBaseChangedEvent;
 
 /**
  * An explicit {@link Rule} is a rule that explicitly declares its variable

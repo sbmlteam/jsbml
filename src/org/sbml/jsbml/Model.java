@@ -28,6 +28,8 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangedListener;
 import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
 import org.sbml.jsbml.util.filters.NameFilter;

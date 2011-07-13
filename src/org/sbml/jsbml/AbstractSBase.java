@@ -33,6 +33,8 @@ import java.util.TreeSet;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangedListener;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.xml.XMLNode;
@@ -894,10 +896,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		if (isSetAnnotation()) {
 			count++;
 		}
-		if (extensions.size() > 0) {
-			count++;
-		}
-		return count;
+		return count + extensions.size();
 	}
 
 	/*

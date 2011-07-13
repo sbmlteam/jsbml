@@ -22,7 +22,7 @@ package org.sbml.jsbml.ext.groups;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangedEvent;
 
 /**
  * This class represents the listOf extension for the group package
