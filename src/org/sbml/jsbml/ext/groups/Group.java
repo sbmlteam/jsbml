@@ -25,7 +25,7 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangedListener;
 
 /**
  * 

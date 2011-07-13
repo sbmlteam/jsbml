@@ -29,6 +29,7 @@ import java.util.SortedSet;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
+import org.sbml.jsbml.util.SBaseChangedListener;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.xml.XMLNode;
 

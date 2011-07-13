@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.util.SBaseChangedEvent;
+
 
 /**
  * The base class for {@link Compartment}, {@link Species}, {@link Parameter}. A

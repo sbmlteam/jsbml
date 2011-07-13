@@ -267,6 +267,7 @@ public class CVTerm extends AnnotationElement {
 	 * this {@link CVTerm} are null. The list of resourceURIS is empty.
 	 */
 	public CVTerm() {
+		super();
 		type = Type.UNKNOWN_QUALIFIER;
 		qualifier = null;
 		resourceURIs = new LinkedList<String>();
@@ -278,6 +279,7 @@ public class CVTerm extends AnnotationElement {
 	 * @param term the {@link CVTerm} to clone
 	 */
 	public CVTerm(CVTerm term) {
+		super(term);
 		this.type = term.getQualifierType();
 		switch (type) {
 		case MODEL_QUALIFIER:

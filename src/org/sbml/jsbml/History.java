@@ -63,6 +63,7 @@ public class History extends AnnotationElement {
 	 * are null. The {@link #listOfModification} and {@link #listOfCreators} are empty.
 	 */
 	public History() {
+		super();
 		listOfCreators = new LinkedList<Creator>();
 		listOfModification = new LinkedList<Date>();
 		creation = null;
@@ -75,9 +76,15 @@ public class History extends AnnotationElement {
 	 * @param modelHistory
 	 */
 	public History(History modelHistory) {
-		this();
-		listOfCreators.addAll(modelHistory.getListCreators());
-		listOfModification.addAll(modelHistory.getListModifiedDates());
+		super(modelHistory);
+		listOfCreators = new LinkedList<Creator>();
+		for (Creator c : modelHistory.getListCreators()) {
+			listOfCreators.add(c.clone());
+		}
+		listOfModification = new LinkedList<Date>();
+		for (Date d : modelHistory.getListModifiedDates()) {
+			listOfModification.add((Date) d.clone());
+		}
 		Calendar calendar = Calendar.getInstance();
 		if (modelHistory.isSetCreatedDate()) {
 			calendar.setTime(modelHistory.getCreatedDate());

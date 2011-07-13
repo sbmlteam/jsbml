@@ -23,6 +23,8 @@ package org.sbml.jsbml;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.sbml.jsbml.util.SBaseChangedEvent;
+
 /**
  * The base class for each SBML element with an optional id and name.
  * 

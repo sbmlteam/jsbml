@@ -27,10 +27,10 @@ import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.SBaseChangedEvent;
-import org.sbml.jsbml.SBaseChangedListener;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.CVTerm.Qualifier;
+import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangedListener;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 /**

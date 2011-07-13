@@ -18,9 +18,9 @@
  * ----------------------------------------------------------------------------
  */
 
-package org.sbml.jsbml;
+package org.sbml.jsbml.util;
 
-import java.util.EventObject;
+import org.sbml.jsbml.SBase;
 
 /**
  * This event tells an {@link SBaseChangedListener} which values have been
@@ -31,7 +31,7 @@ import java.util.EventObject;
  * @since 0.8
  * @version $Rev$
  */
-public class SBaseChangedEvent extends EventObject {
+public class SBaseChangedEvent extends ChangeEvent {
 	
 	/**
 	 * Generated serial version identifier
@@ -106,17 +106,6 @@ public class SBaseChangedEvent extends EventObject {
 	public static final String formula = "formula";
 	public static final String size = "size";
 	public static final String volume = "volume";
-	
-	
-	/**
-	 * The previous value and the new value of the changed property in the
-	 * {@link SBase}
-	 */
-	private Object oldValue, newValue;
-	/**
-	 * The name of the property that has changed.
-	 */
-	private String propertyName;
 
 	/**
 	 * @param source
@@ -126,10 +115,7 @@ public class SBaseChangedEvent extends EventObject {
 	 */
 	public SBaseChangedEvent(SBase source, String propertyName,
 			Object oldValue, Object newValue) {
-		super(source);
-		this.propertyName = propertyName;
-		this.oldValue = oldValue;
-		this.newValue = newValue;
+		super(source, propertyName, oldValue, newValue);
 	}
 
 	/**
@@ -151,44 +137,16 @@ public class SBaseChangedEvent extends EventObject {
 	public SBaseChangedEvent clone() {
 		return new SBaseChangedEvent(this);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
+	
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof SBaseChangedEvent) {
-			SBaseChangedEvent sbce = (SBaseChangedEvent) o;
-			boolean equal = sbce.getSource().equals(getSource());
-			equal |= sbce.getPropertyName().equals(getPropertyName());
-			equal |= sbce.getOldValue().equals(getOldValue());
-			equal |= sbce.getNewValue().equals(getNewValue());
-			return equal;
+	public boolean equals(Object obj) {
+		if (obj instanceof SBaseChangedEvent) {
+			return super.equals((SBaseChangedEvent) obj);
 		}
 		return false;
-	}
-
-	/**
-	 * @return the newValue
-	 */
-	public Object getNewValue() {
-		return newValue;
-	}
-
-	/**
-	 * @return the oldValue
-	 */
-	public Object getOldValue() {
-		return oldValue;
-	}
-
-	/**
-	 * @return the propertyName
-	 */
-	public String getPropertyName() {
-		return propertyName;
 	}
 
 	/*
@@ -199,20 +157,6 @@ public class SBaseChangedEvent extends EventObject {
 	@Override
 	public SBase getSource() {
 		return (SBase) super.getSource();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.EventObject#toString()
-	 */
-	@Override
-	public String toString() {
-		return String.format(
-				"[source=%s, property=%s, oldValue=%s, newValue=%s]",
-				getSource().toString(), getPropertyName(),
-				(getOldValue() != null ? getOldValue() : "null"),
-				getNewValue() != null ? getNewValue().toString() : "null");
 	}
 	
 }

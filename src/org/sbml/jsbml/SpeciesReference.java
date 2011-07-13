@@ -25,6 +25,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.util.SBaseChangedEvent;
 import org.sbml.jsbml.util.StringTools;
 
 /**

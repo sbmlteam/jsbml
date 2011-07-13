@@ -22,9 +22,9 @@ package org.sbml.jsbml.ext.multi;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBaseChangedListener;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.SpeciesExtension;
+import org.sbml.jsbml.util.SBaseChangedListener;
 
 /**
  * 

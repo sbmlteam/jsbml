@@ -28,6 +28,8 @@ import java.util.ListIterator;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangedListener;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.util.filters.NameFilter;
 

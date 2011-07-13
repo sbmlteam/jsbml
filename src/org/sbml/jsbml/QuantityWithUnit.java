@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.util.SBaseChangedEvent;
+
 
 /**
  * This object represents an element with identifier and name, a value, and a
