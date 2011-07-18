@@ -88,7 +88,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 			setTrigger(event.getTrigger().clone());
 		}
 		if (event.isSetUseValuesFromTriggerTime()) {
-			setUseValuesFromTriggerTime(new Boolean(event.getUseValuesFromTriggerTime()));
+			setUseValuesFromTriggerTime(event.getUseValuesFromTriggerTime());
 		}
 		if (event.isSetDelay()) {
 			setDelay(event.getDelay().clone());
