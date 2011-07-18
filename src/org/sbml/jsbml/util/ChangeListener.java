@@ -1,6 +1,6 @@
 /*
- * $Id:  AnnotationChangedListener.java 17:06:53 draeger $
- * $URL: AnnotationChangedListener.java $
+ * $Id:  ChangeListener.java 14:53:48 draeger $
+ * $URL: ChangeListener.java $
  *
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
@@ -21,37 +21,28 @@
 package org.sbml.jsbml.util;
 
 import java.util.EventListener;
-
-import org.sbml.jsbml.Annotation;
-import org.sbml.jsbml.AnnotationElement;
+import java.util.EventObject;
 
 /**
- * A listener interface that allows applications to get notified if the state of
- * any {@link Annotation} object changes.
+ * Common interface to gather all specialized change listeners.
  * 
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 0.8
- * @date 11.07.2011
+ * @date 18.07.2011
  */
-public interface AnnotationChangedListener extends EventListener {
-	
+public interface ChangeListener<E extends ChangeEvent<?>> extends EventListener {
+
 	/**
-	 * 
-	 * @param annotation
-	 */
-	public void annotationAdded(AnnotationElement annotation);
-	
-	/**
-	 * 
-	 * @param annotation
-	 */
-	public void annotationRemoved(AnnotationElement annotation);
-	
-	/**
+	 * This method indicates that some property of an element has been changed.
+	 * The given {@link EventObject} contains a pointer to the element, a
+	 * {@link String} representation of the name of the property, whose value
+	 * has been changed together with the previous and the new value. Casts may
+	 * be necessary, because the {@link EventObject} contains the values as
+	 * {@link Object} instances only.
 	 * 
 	 * @param event
 	 */
-	public void stateChanged(AnnotationChangedEvent event);
+	public void stateChanged(E event);
 
 }

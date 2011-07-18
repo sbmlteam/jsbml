@@ -24,7 +24,7 @@ import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.AnnotationElement;
 
 /**
- * This event tells an {@link AnnotationChangedListener} which values have been
+ * This event tells an {@link AnnotationChangeListener} which values have been
  * changed in an {@link Annotation} and also provides the old and the new value.
  * 
  * @author Andreas Dr&auml;ger
@@ -32,7 +32,7 @@ import org.sbml.jsbml.AnnotationElement;
  * @since 0.8
  * @date 11.07.2011
  */
-public class AnnotationChangedEvent extends ChangeEvent {
+public class AnnotationChangeEvent extends ChangeEvent<AnnotationElement> {
 
 	/**
 	 * Generated serial version identifier.
@@ -46,7 +46,7 @@ public class AnnotationChangedEvent extends ChangeEvent {
 	/**
 	 * @param annotationChangedEvent
 	 */
-	public AnnotationChangedEvent(AnnotationChangedEvent annotationChangedEvent) {
+	public AnnotationChangeEvent(AnnotationChangeEvent annotationChangedEvent) {
 		this(annotationChangedEvent.getSource(), annotationChangedEvent
 				.getPropertyName(), annotationChangedEvent.getOldValue(),
 				annotationChangedEvent.getNewValue());
@@ -55,7 +55,7 @@ public class AnnotationChangedEvent extends ChangeEvent {
 	/**
 	 * @param source
 	 */
-	public AnnotationChangedEvent(AnnotationElement source, String propertyName,
+	public AnnotationChangeEvent(AnnotationElement source, String propertyName,
 			Object oldValue, Object newValue) {
 		super(source, propertyName, oldValue, newValue);
 	}
@@ -65,9 +65,8 @@ public class AnnotationChangedEvent extends ChangeEvent {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
-	@Override
-	public AnnotationChangedEvent clone() {
-		return new AnnotationChangedEvent(this);
+	public AnnotationChangeEvent clone() {
+		return new AnnotationChangeEvent(this);
 	}
 
 	/*
@@ -76,8 +75,8 @@ public class AnnotationChangedEvent extends ChangeEvent {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof AnnotationChangedEvent) {
-			return super.equals((AnnotationChangedEvent) obj);
+		if (obj instanceof AnnotationChangeEvent) {
+			return super.equals((AnnotationChangeEvent) obj);
 		}
 		return false;
 	}

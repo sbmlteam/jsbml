@@ -234,10 +234,6 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	 */
 	@Override
 	public String toString() {
-		if (isSetName() && getName().length() > 0)
-			return getName();
-		if (isSetId())
-			return getId();
 		if (isSetSpeciesInstance()) {
 			return getSpeciesInstance().toString();
 		}

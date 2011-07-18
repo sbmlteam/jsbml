@@ -23,8 +23,8 @@ package org.sbml.jsbml;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.sbml.jsbml.util.AnnotationChangedEvent;
-import org.sbml.jsbml.util.AnnotationChangedListener;
+import org.sbml.jsbml.util.AnnotationChangeEvent;
+import org.sbml.jsbml.util.AnnotationChangeListener;
 
 
 /**
@@ -45,14 +45,14 @@ public abstract class AnnotationElement extends AbstractTreeNode {
 	/**
 	 * {@link Set} of listeners for this component
 	 */
-	protected Set<AnnotationChangedListener> setOfListeners;
+	protected Set<AnnotationChangeListener> setOfListeners;
 	
 	/**
 	 * 
 	 */
 	public AnnotationElement() {
 		super();
-		setOfListeners = new HashSet<AnnotationChangedListener>();
+		setOfListeners = new HashSet<AnnotationChangeListener>();
 	}
 	
 	/**
@@ -63,35 +63,37 @@ public abstract class AnnotationElement extends AbstractTreeNode {
 		this();
 		setOfListeners.addAll(annotation.setOfListeners);
 	}
+	
+	
 
 	/**
-	 * All {@link AnnotationChangedListener} instances linked to this
+	 * All {@link AnnotationChangeListener} instances linked to this
 	 * {@link AnnotationElement} are informed about the adding of this object to
 	 * an owning {@link AnnotationElement} or to another new parent SBML object.
 	 */
 	public void fireAnnotationAddedEvent() {
-		for (AnnotationChangedListener listener : setOfListeners) {
+		for (AnnotationChangeListener listener : setOfListeners) {
 			listener.annotationAdded(this);
 		}
 	}
 	
 	/**
-	 * All {@link AnnotationChangedListener} instances linked to this
+	 * All {@link AnnotationChangeListener} instances linked to this
 	 * {@link Annotation} are informed about the deletion of this
 	 * {@link AnnotationElement} from another parent SBML object.
 	 */
 	public void fireAnnotationRemovedEvent() {
-		for (AnnotationChangedListener listener : setOfListeners) {
+		for (AnnotationChangeListener listener : setOfListeners) {
 			listener.annotationRemoved(this);
 		}
 	}
 
 	/**
-	 * All {@link AnnotationChangedListener}s are informed about the change in this
+	 * All {@link AnnotationChangeListener}s are informed about the change in this
 	 * {@link AnnotationElement}.
 	 * 
 	 * @param propertyName
-	 *            Tells the {@link AnnotationChangedListener} the name of the
+	 *            Tells the {@link AnnotationChangeListener} the name of the
 	 *            property whose value has been changed.
 	 * @param oldValue
 	 *            This is the value before the change.
@@ -106,9 +108,9 @@ public abstract class AnnotationElement extends AbstractTreeNode {
 				|| ((oldValue != null) && (newValue == null))
 				|| (oldValue != null && !oldValue.equals(newValue)))) 
 		{
-			AnnotationChangedEvent changeEvent = new AnnotationChangedEvent(this,
+			AnnotationChangeEvent changeEvent = new AnnotationChangeEvent(this,
 					propertyName, oldValue, newValue);
-			for (AnnotationChangedListener listener : setOfListeners) {
+			for (AnnotationChangeListener listener : setOfListeners) {
 				listener.stateChanged(changeEvent);
 			}
 		}
@@ -117,7 +119,7 @@ public abstract class AnnotationElement extends AbstractTreeNode {
 	/**
 	 * @return
 	 */
-	public Set<AnnotationChangedListener> getSetOfAnnotationChangedListeners() {
+	public Set<AnnotationChangeListener> getSetOfAnnotationChangedListeners() {
 		return setOfListeners;
 	}
 	

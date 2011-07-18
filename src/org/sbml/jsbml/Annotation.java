@@ -31,7 +31,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.CVTerm.Type;
-import org.sbml.jsbml.util.AnnotationChangedEvent;
+import org.sbml.jsbml.util.AnnotationChangeEvent;
 import org.sbml.jsbml.util.filters.CVTermFilter;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -691,7 +691,7 @@ public class Annotation extends AnnotationElement {
 	public void setAbout(String about) {
 		String oldAbout = this.about;
 		this.about = about;
-		firePropertyChange(AnnotationChangedEvent.about, oldAbout, this.about);
+		firePropertyChange(AnnotationChangeEvent.about, oldAbout, this.about);
 	}
 	
 	// TODO : some fireSBaseChangedEvent are missing in this class.
@@ -704,7 +704,7 @@ public class Annotation extends AnnotationElement {
 	public void setNonRDFAnnotation(String nonRDFAnnotation) {
 		String oldNonRDFAnnotation = this.otherAnnotation.toString();
 		otherAnnotation = new StringBuilder(nonRDFAnnotation);
-		firePropertyChange(AnnotationChangedEvent.nonRDFAnnotation,
+		firePropertyChange(AnnotationChangeEvent.nonRDFAnnotation,
 				oldNonRDFAnnotation, otherAnnotation.toString());
 	}
 	

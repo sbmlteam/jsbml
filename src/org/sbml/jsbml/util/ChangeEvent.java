@@ -30,7 +30,7 @@ import org.sbml.jsbml.SBase;
  * @since 0.8
  * @date 11.07.2011
  */
-public abstract class ChangeEvent extends EventObject {
+public abstract class ChangeEvent<S> extends EventObject {
 
 	/**
 	 * Generated serial version identifier.
@@ -54,7 +54,7 @@ public abstract class ChangeEvent extends EventObject {
 	 * @param oldValue
 	 * @param newValue
 	 */
-	public ChangeEvent(Object source, String propertyName, Object oldValue,
+	public ChangeEvent(S source, String propertyName, Object oldValue,
 			Object newValue) {
 		super(source);
 		this.propertyName = propertyName;
@@ -67,7 +67,7 @@ public abstract class ChangeEvent extends EventObject {
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
-	public abstract ChangeEvent clone();
+	public abstract ChangeEvent<S> clone();
 
 	/*
 	 * (non-Javadoc)
@@ -76,8 +76,8 @@ public abstract class ChangeEvent extends EventObject {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof SBaseChangedEvent) {
-			ChangeEvent sbce = (ChangeEvent) o;
+		if (o instanceof ChangeEvent<?>) {
+			ChangeEvent<?> sbce = (ChangeEvent<?>) o;
 			if (sbce == this) {
 				return true;
 			}
@@ -109,6 +109,16 @@ public abstract class ChangeEvent extends EventObject {
 	 */
 	public String getPropertyName() {
 		return propertyName;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.EventObject#getSource()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public S getSource() {
+		return (S) super.getSource();
 	}
 	
 	/*

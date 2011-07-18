@@ -20,8 +20,6 @@
 
 package org.sbml.jsbml.util;
 
-import java.util.EventListener;
-
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 
@@ -33,7 +31,7 @@ import org.sbml.jsbml.SBase;
  * @since 0.8
  * @version $Rev$
  */
-public interface SBaseChangedListener extends EventListener {
+public interface SBaseChangedListener extends ChangeListener<SBaseChangedEvent> {
 
 	/**
 	 * The {@link SBase} passed to this method has just been added to the
@@ -53,16 +51,4 @@ public interface SBaseChangedListener extends EventListener {
 	 *            This element is not longer part of the {@link SBMLDocument}.
 	 */
 	public void sbaseRemoved(SBase sb);
-
-	/**
-	 * This method indicates that some property of an {@link SBase} has been
-	 * changed. The given {@link SBaseChangedEvent} contains a pointer to the
-	 * {@link SBase}, a {@link String} representation of the name of the
-	 * property, whose value has been changed together with the previous and the
-	 * new value. Casts may be necessary, because the {@link SBaseChangedEvent}
-	 * contains the values as {@link Object} instances only.
-	 * 
-	 * @param ev
-	 */
-	public void stateChanged(SBaseChangedEvent ev);
 }

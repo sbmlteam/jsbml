@@ -312,13 +312,13 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * this element is returned.
 	 */
 	public String toString() {
-		if (isSetName() && getName().length() > 0) {
+		if (isSetName() && (getName().length() > 0)) {
 			return name;
 		}
 		if (isSetId()) {
 			return id;
 		}
-		return getClass().getSimpleName();
+		return getElementName();
 	}
 
 	/*
