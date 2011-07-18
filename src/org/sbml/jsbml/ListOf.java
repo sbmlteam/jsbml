@@ -538,11 +538,19 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Returns the element at the specified position in this list or null if the index is negative or too big.
+	 * 
+	 * @param index index of the element to return.
+	 * @return the element at the specified position in this list or null if the index is negative or too big.
+	 * 
 	 * @see java.util.List#get(int)
 	 */
 	public T get(int index) {
+		if (index < 0 || index >= listOf.size()) {
+			return null;
+		}
+		
 		return listOf.get(index);
 	}
 	
