@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.util.Detail;
 import org.sbml.jsbml.util.Location;
 import org.sbml.jsbml.util.Message;
 import org.sbml.jsbml.util.StringTools;
@@ -65,10 +66,21 @@ public class SBMLError extends XMLError {
 	 * 
 	 */
 	private Message message;
+	
+	/**
+	 * 
+	 */
+	private Message shortmessage;
+	
+	/**
+	 * 
+	 */
+	private Detail detail;
 	/**
 	 * 
 	 */
 	private String severity;
+
 
 	/**
 	 * Constructs a new {@link SBMLError}.
@@ -287,6 +299,22 @@ public class SBMLError extends XMLError {
 	 */
 	public void setSeverity(String severity) {
 		this.severity = severity;
+	}
+
+	public Message getShortMessage() {
+		return shortmessage;
+	}
+
+	public void setShortMessage(Message shortmessage) {
+		this.shortmessage = shortmessage;
+	}
+
+	public Detail getDetail() {
+		return detail;
+	}
+
+	public void setDetail(Detail detail) {
+		this.detail = detail;
 	}
 
 	/*

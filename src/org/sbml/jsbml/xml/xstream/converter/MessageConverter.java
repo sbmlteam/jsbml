@@ -34,6 +34,13 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
  */
 public class MessageConverter implements Converter {
 
+	String elementName = "message";
+	
+	public MessageConverter(String elementName) {
+		super();
+		this.elementName = elementName; 
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -58,7 +65,7 @@ public class MessageConverter implements Converter {
 			MarshallingContext context) {
 		Message message = (Message) currentObject;
 
-		writer.startNode("message");
+		writer.startNode(elementName);
 		writer.setValue(message.getMessage());
 		writer.addAttribute("lang", message.getLang());
 		writer.endNode();

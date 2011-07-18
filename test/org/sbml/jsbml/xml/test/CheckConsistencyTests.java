@@ -75,9 +75,9 @@ public class CheckConsistencyTests {
 		doc.setConsistencyChecks(SBMLValidator.CHECK_CATEGORY.UNITS_CONSISTENCY, true);
 		
 		int nbErrors = doc.checkConsistency();
-		
-		assertTrue(nbErrors > 0);
+
 		System.out.println("Found " + nbErrors + " errors on Biomodels 025 with the unit checking turned on.");
+		assertTrue(nbErrors > 0);
 		
 		assertTrue(doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR) == 0);
 		

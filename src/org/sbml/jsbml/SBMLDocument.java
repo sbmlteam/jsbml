@@ -274,7 +274,7 @@ public class SBMLDocument extends AbstractSBase {
 			CHECK_CATEGORY typeOfCheck = CHECK_CATEGORY.valueOf(checkCategory);
 			boolean checkIsOn = checkConsistencyParameters.get(checkCategory); 
 			
-			logger.debug(" Type of check = " + typeOfCheck);
+			logger.debug(" Type of check = " + typeOfCheck + " is " + checkIsOn);
 			
 			switch (typeOfCheck)
 			{
@@ -330,6 +330,8 @@ public class SBMLDocument extends AbstractSBase {
 		}
 		if (offcheck != null) {
 			consistencyParameters.put("offcheck", offcheck);
+		} else {
+			consistencyParameters.put("offcheck", "z");
 		}
 
 		// Doing the actual check consistency
