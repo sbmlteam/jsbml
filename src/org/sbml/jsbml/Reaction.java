@@ -110,7 +110,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	public Reaction(Reaction reaction) {
 		super(reaction);
 		if (reaction.isSetFast()) {
-			this.fast = new Boolean(reaction.getFast());
+			setFast(new Boolean(reaction.getFast()));
 		}
 		if (reaction.isSetKineticLaw()) {
 			setKineticLaw(reaction.getKineticLaw().clone());
@@ -130,8 +130,8 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 					.getListOfModifiers().clone();
 			setThisAsParentSBMLObject(listOfModifiers);
 		}
-		if (isSetReversible()) {
-			this.reversible = new Boolean(reaction.getReversible());
+		if (reaction.isSetReversible()) {
+			setReversible(new Boolean(reaction.getReversible()));
 		}
 	}
 	

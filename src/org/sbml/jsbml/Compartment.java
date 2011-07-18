@@ -99,8 +99,8 @@ public class Compartment extends Symbol {
 					.getCompartmentType());
 		}
 		if (compartment.isSetSpatialDimensions()) {
-			this.spatialDimensions = Double.valueOf(compartment
-					.getSpatialDimensions());
+			setSpatialDimensions(Double.valueOf(compartment
+					.getSpatialDimensions()));
 		}
 		if (compartment.isSetOutside()) {
 			this.outsideID = new String(compartment.getOutside());
@@ -467,7 +467,7 @@ public class Compartment extends Symbol {
 		if (!isAttributeRead) {
 			isAttributeRead = true;
 			if (attributeName.equals("spatialDimensions")) {
-				setSpatialDimensions(StringTools.parseSBMLShort(value));
+				setSpatialDimensions(StringTools.parseSBMLDouble(value));
 			} else if (attributeName.equals("units")) {
 				setUnits(value);
 			} else if (attributeName.equals("size")) {
@@ -574,9 +574,10 @@ public class Compartment extends Symbol {
 			throw new PropertyNotAvailableError(
 					SBaseChangedEvent.spacialDimensions, this);
 		}
-		if (((0d <= spatialDimension) && (spatialDimension <= 3d) && (((int) spatialDimension)
-				- spatialDimension == 0d))
-				|| (getLevel() > 2)) {
+		if (((0d <= spatialDimension) && (spatialDimension <= 3d)  
+				&& (((int) spatialDimension) - spatialDimension == 0d))
+				|| (getLevel() > 2)) 
+		{
 			isSetSpatialDimensions = true;
 			Double oldSpatialDimensions = this.spatialDimensions;
 			this.spatialDimensions = Double.valueOf(spatialDimension);

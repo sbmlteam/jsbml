@@ -82,6 +82,10 @@ public class Parameter extends Symbol {
 	 */
 	public Parameter(Parameter p) {
 		super(p);
+		
+		if (!isSetConstant() && getLevel() > 1) {
+			constant = true;
+		}
 	}
 
 	/**
