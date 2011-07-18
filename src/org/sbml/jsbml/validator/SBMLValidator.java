@@ -53,6 +53,7 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
+import org.sbml.jsbml.util.Detail;
 import org.sbml.jsbml.util.Location;
 import org.sbml.jsbml.util.Message;
 import org.sbml.jsbml.util.Option;
@@ -448,10 +449,13 @@ public class SBMLValidator {
 		xstream.alias("option", Option.class);
 		xstream.alias("problem", SBMLError.class);
 		xstream.alias("location", Location.class);
+		xstream.alias("detail", Detail.class);
 		// xstream.registerConverter(new MessageConverter(), XStream.PRIORITY_VERY_HIGH);
-		xstream.registerLocalConverter(SBMLError.class, "message", new MessageConverter());
-
+		xstream.registerLocalConverter(SBMLError.class, "message", new MessageConverter("message"));
+		xstream.registerLocalConverter(SBMLError.class, "shortmessage", new MessageConverter("shortmessage"));
+		
 		xstream.alias("message", Message.class);
+		xstream.alias("shortmessage", Message.class);
 
 		xstream.addImplicitCollection(SBMLErrorLog.class, "options",
 				"option", Option.class);
@@ -477,6 +481,9 @@ public class SBMLValidator {
 
 		xstream.useAttributeFor(Location.class, "line");
 		xstream.useAttributeFor(Location.class, "column");
+
+		xstream.useAttributeFor(Detail.class, "category");
+		xstream.useAttributeFor(Detail.class, "severity");
 
 		try {
 			SBMLErrorLog sbmlErrorLog = (SBMLErrorLog) xstream.fromXML(reader);
