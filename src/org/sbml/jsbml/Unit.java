@@ -1356,9 +1356,10 @@ public class Unit extends AbstractSBase {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public UnitDefinition getParent() {
-		return (UnitDefinition) super.getParent();
+	public ListOf<Unit> getParent() {
+		return (ListOf<Unit>) super.getParent();
 	}
 
 	/**
