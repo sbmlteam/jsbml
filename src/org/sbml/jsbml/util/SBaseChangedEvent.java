@@ -31,7 +31,7 @@ import org.sbml.jsbml.SBase;
  * @since 0.8
  * @version $Rev$
  */
-public class SBaseChangedEvent extends ChangeEvent {
+public class SBaseChangedEvent extends ChangeEvent<SBase> {
 	
 	/**
 	 * Generated serial version identifier
@@ -147,16 +147,6 @@ public class SBaseChangedEvent extends ChangeEvent {
 			return super.equals((SBaseChangedEvent) obj);
 		}
 		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.EventObject#getSource()
-	 */
-	@Override
-	public SBase getSource() {
-		return (SBase) super.getSource();
 	}
 	
 }
