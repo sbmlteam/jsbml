@@ -348,11 +348,15 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 
 	/**
 	 * 
-	 * @return the stoichiometry value of this SpeciesReference if it is set, 1
-	 *         otherwise.
+	 * @return the stoichiometry value of this {@link SpeciesReference} if it is
+	 *         set, otherwise, depending on the Level attribute, 1 for Level < 3
+	 *         or {@link Double#NaN}.
 	 */
 	public double getStoichiometry() {
-		return isSetStoichiometry() ? stoichiometry : 1;
+		if (isSetStoichiometry()) {
+			return stoichiometry.doubleValue();
+		}
+		return (getLevel() < 3) ? 1d : Double.NaN;
 	}
 
 	/**
