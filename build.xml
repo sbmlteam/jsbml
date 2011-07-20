@@ -74,7 +74,8 @@
 		<echo message="   compile     --> compiles the source code"/>
 		<echo message="   jar         --> generates the ${name}.jar file"/>
 		<echo message="   bigjar      --> generates the ${name}-with-dependencies.jar file"/>
-		<echo message="   test        --> runs the Tests"/>
+		<echo message="   test        --> runs the tests"/>
+		<echo message="   checkConsistencyTest        --> runs the only tests for the sbml online validator"/>
 		<echo message="   update-sbo  --> Updates the SBO Ontology file "/>
 		<echo message="   javadoc     --> generates the API documentation"/>
 		<echo message="   clean       --> cleans up the directory"/>
@@ -124,8 +125,8 @@
 		<copy todir="${build.src}" overwrite="yes">
 			<fileset 
   	  	            dir="${resource.dir}"
-  	  	        	includes="org/sbml/jsbml/**"
-  	  	            excludes="**/.svn*, **/*~, **/*.tgz, **/*.zip ">
+  	  	        	includes="org/sbml/jsbml/**, **/*.properties"
+  	  	            excludes="**/.svn*, **/*~, **/*.tgz, **/*.zip">
 			</fileset>
 		</copy>
 
@@ -282,6 +283,35 @@
 	</target>
 
 	<!-- =================================================================== -->
+	<!-- Test the jsbml library                                      TestCheckConsistency        -->
+	<!-- =================================================================== -->
+	<target name="checkConsistencyTest" depends="jar">
+
+
+		<echo message="These tests are using the sbml online validator"/>
+		<echo message=""/>
+		<echo message="You can see a details of the tests on the two files : sbmlOnlineValidatorTestResults.txt"/>
+		<echo message=""/>
+
+		<junit printsummary="yes" >
+			<!-- showoutput="yes" -->
+			<jvmarg value="-DDATA_FOLDER=${build.dest}/org/sbml/jsbml/xml/test/data/"/>
+			<sysproperty key="DATA_FOLDER" value="${build.dest}/org/sbml/jsbml/xml/test/data"/>
+
+			<formatter type="plain"/>
+			<test name="org.sbml.jsbml.xml.test.CheckConsistencyTests" outfile="sbmlOnlineValidatorTestResults">
+				<formatter type="plain"/>
+			</test>
+			<classpath>
+				<path refid="classpath"/>
+				<pathelement location="${build.dir}/${name}-${version}.jar"/>
+			</classpath>
+		</junit>
+		<echo message=""/>
+	</target>
+		
+	
+	<!-- =================================================================== -->
 	<!-- Updates the SBO Ontology file                                       -->
 	<!-- =================================================================== -->
 	<target name="update-sbo">
@@ -323,7 +353,7 @@
 	</target>
 
 	<!-- =================================================================== -->
-	<!-- Creates the API documentation                                       -->
+	<!-- Creates the distribution                                            -->
 	<!-- =================================================================== -->
 	<target name="dist" depends="prepare-src">
 
