@@ -70,6 +70,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  */
 class Validator {
 	public static String validatorURL = "http://sbml.org/validator/";
+	// public static String validatorURL = "http://sbml-validator.caltech.edu:8888/validator_servlet/ValidatorServlet";
 
 	/**
 	 * Validates the given SBML filename (or http:// URL) by calling the

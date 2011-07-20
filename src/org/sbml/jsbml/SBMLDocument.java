@@ -330,8 +330,6 @@ public class SBMLDocument extends AbstractSBase {
 		}
 		if (offcheck != null) {
 			consistencyParameters.put("offcheck", offcheck);
-		} else {
-			consistencyParameters.put("offcheck", "z");
 		}
 
 		// Doing the actual check consistency
