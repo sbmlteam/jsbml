@@ -300,7 +300,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * ASTNode)
 	 */
 	public ASTNodeValue arccosh(ASTNode node) throws SBMLException {
-		return function("accos", node);
+		return function("acosh", node);
 	}
 
 	/*
@@ -311,7 +311,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * )
 	 */
 	public ASTNodeValue arccot(ASTNode node) throws SBMLException {
-		return function("accot", node);
+		return function("acot", node);
 	}
 
 	/*
@@ -322,7 +322,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * ASTNode)
 	 */
 	public ASTNodeValue arccoth(ASTNode node) throws SBMLException {
-		return function("accoth", node);
+		return function("acoth", node);
 	}
 
 	/*
@@ -333,7 +333,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * )
 	 */
 	public ASTNodeValue arccsc(ASTNode node) throws SBMLException {
-		return function("accsc", node);
+		return function("acsc", node);
 	}
 
 	/*
@@ -344,7 +344,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * ASTNode)
 	 */
 	public ASTNodeValue arccsch(ASTNode node) throws SBMLException {
-		return function("accsch", node);
+		return function("acsch", node);
 	}
 
 	/*
@@ -355,7 +355,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * )
 	 */
 	public ASTNodeValue arcsec(ASTNode node) throws SBMLException {
-		return function("acsec", node);
+		return function("asec", node);
 	}
 
 	/*
@@ -366,7 +366,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * ASTNode)
 	 */
 	public ASTNodeValue arcsech(ASTNode node) throws SBMLException {
-		return function("acsech", node);
+		return function("asech", node);
 	}
 
 	/*
@@ -377,7 +377,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * )
 	 */
 	public ASTNodeValue arcsin(ASTNode node) throws SBMLException {
-		return function("acsin", node);
+		return function("asin", node);
 	}
 
 	/*
@@ -388,7 +388,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * ASTNode)
 	 */
 	public ASTNodeValue arcsinh(ASTNode node) throws SBMLException {
-		return function("acsinh", node);
+		return function("asinh", node);
 	}
 
 	/*
@@ -399,7 +399,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * )
 	 */
 	public ASTNodeValue arctan(ASTNode node) throws SBMLException {
-		return function("actan", node);
+		return function("atan", node);
 	}
 
 	/*
@@ -410,7 +410,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * ASTNode)
 	 */
 	public ASTNodeValue arctanh(ASTNode node) throws SBMLException {
-		return function("actanh", node);
+		return function("atanh", node);
 	}
 
 	/*
@@ -1111,7 +1111,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * )
 	 */
 	public ASTNodeValue sinh(ASTNode node) throws SBMLException {
-		return function("sin", node);
+		return function("sinh", node);
 	}
 
 	/*
