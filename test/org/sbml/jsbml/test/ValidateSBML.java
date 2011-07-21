@@ -1,7 +1,7 @@
 package org.sbml.jsbml.test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -16,7 +16,7 @@ import org.sbml.jsbml.SBMLReader;
  */
 public class ValidateSBML {
 
-	public static void main (String[] args) throws FileNotFoundException, XMLStreamException
+	public static void main (String[] args) throws XMLStreamException, IOException
 	{
 		if (args.length < 1)
 		{

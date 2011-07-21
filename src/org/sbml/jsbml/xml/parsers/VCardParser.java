@@ -25,10 +25,10 @@ import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.SBMLDocument;
 
 /**
- * A VCardParser is used to parser the subNodes of an annotation which have this
+ * A {@link VCardParser} is used to parser the subNodes of an annotation which have this
  * namespace URI : "http://www.w3.org/2001/vcard-rdf/3.0#".
  * 
- * @author marine
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */

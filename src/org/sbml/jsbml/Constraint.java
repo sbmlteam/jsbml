@@ -20,7 +20,7 @@
 
 package org.sbml.jsbml;
 
-import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 import org.sbml.jsbml.xml.XMLNode;
 
 
@@ -155,7 +155,7 @@ public class Constraint extends AbstractMathContainer {
 	public void setMessage(XMLNode message) {
 		XMLNode oldMessage = this.message;
 		this.message = message;
-		firePropertyChange(SBaseChangedEvent.message, oldMessage, message);
+		firePropertyChange(SBaseChangeEvent.message, oldMessage, message);
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class Constraint extends AbstractMathContainer {
 	public void setMessage(String message) {
 		XMLNode oldMessage = this.message;
 		this.message = XMLNode.convertStringToXMLNode(message);
-		firePropertyChange(SBaseChangedEvent.message, oldMessage, message);
+		firePropertyChange(SBaseChangeEvent.message, oldMessage, message);
 	}
 
 	/**

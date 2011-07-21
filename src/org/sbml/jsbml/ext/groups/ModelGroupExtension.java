@@ -22,7 +22,7 @@ package org.sbml.jsbml.ext.groups;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.util.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangeListener;
 
 /**
  * 
@@ -130,7 +130,7 @@ public class ModelGroupExtension extends Model {
 
 	/**
 	 * Removes the {@link #listOfGroups} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.

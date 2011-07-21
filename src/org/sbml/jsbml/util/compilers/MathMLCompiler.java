@@ -51,6 +51,7 @@ import org.w3c.dom.Node;
  * @since 0.8
  * @version $Rev$
  */
+@SuppressWarnings("deprecation")
 public class MathMLCompiler implements ASTNodeCompiler {
 
 	/**

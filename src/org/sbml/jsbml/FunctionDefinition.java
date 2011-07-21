@@ -23,7 +23,7 @@ package org.sbml.jsbml;
 import java.util.Map;
 
 import org.sbml.jsbml.text.parser.ParseException;
-import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 
 /**
  * Represents the functionDefinition XML element of a SBML file.
@@ -321,11 +321,11 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 */
 	public void setId(String id) {
 		if (getLevel() < 2) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.id, this);
+			throw new PropertyNotAvailableError(SBaseChangeEvent.id, this);
 		}
 		String oldID = this.id;
 		this.id = id;
-		firePropertyChange(SBaseChangedEvent.id, oldID, id);
+		firePropertyChange(SBaseChangeEvent.id, oldID, id);
 	}
 
 	/*
@@ -353,11 +353,11 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 */
 	public void setName(String name) {
 		if (getLevel() < 2) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.id, this);
+			throw new PropertyNotAvailableError(SBaseChangeEvent.id, this);
 		}
 		String oldName = this.name;
 		this.name = name;
-		firePropertyChange(SBaseChangedEvent.name, oldName, name);
+		firePropertyChange(SBaseChangeEvent.name, oldName, name);
 	}
 
 	/*

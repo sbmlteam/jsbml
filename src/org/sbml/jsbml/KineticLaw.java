@@ -25,8 +25,8 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.Unit.Kind;
-import org.sbml.jsbml.util.SBaseChangedEvent;
-import org.sbml.jsbml.util.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.SBaseChangeListener;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
@@ -719,11 +719,11 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		if (((getLevel() == 2) && (getVersion() == 1)) || (getLevel() == 1)) {
 			String oldSubstanceUnits = this.substanceUnitsID;
 			this.substanceUnitsID = substanceUnits;
-			firePropertyChange(SBaseChangedEvent.substanceUnits,
+			firePropertyChange(SBaseChangeEvent.substanceUnits,
 					oldSubstanceUnits, substanceUnitsID);
 		} else {
 			throw new PropertyNotAvailableError(
-					SBaseChangedEvent.substanceUnits, this);
+					SBaseChangeEvent.substanceUnits, this);
 		}
 	}
 
@@ -748,10 +748,10 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		if (((getLevel() == 2) && (getVersion() == 1)) || (getLevel() == 1)) {
 			String oldTimeUnits = this.timeUnitsID;
 			this.timeUnitsID = timeUnits;
-			firePropertyChange(SBaseChangedEvent.timeUnits, oldTimeUnits,
+			firePropertyChange(SBaseChangeEvent.timeUnits, oldTimeUnits,
 					timeUnitsID);
 		} else {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.timeUnits,
+			throw new PropertyNotAvailableError(SBaseChangeEvent.timeUnits,
 					this);
 		}
 	}
@@ -816,7 +816,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 			}
 		}
 		if (oldUnits != unitsID) {
-			firePropertyChange(SBaseChangedEvent.units, oldUnits, unitsID);
+			firePropertyChange(SBaseChangeEvent.units, oldUnits, unitsID);
 		}
 	}
 
@@ -904,7 +904,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 
 	/**
 	 * Removes the {@link #listOfLocalParameters} from this {@link KineticLaw} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -936,7 +936,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	public void unsetSubstanceUnits() {
 		String oldSubstanceUnitsID = substanceUnitsID;
 		substanceUnitsID = null;
-		firePropertyChange(SBaseChangedEvent.substanceUnits,
+		firePropertyChange(SBaseChangeEvent.substanceUnits,
 				oldSubstanceUnitsID, substanceUnitsID);
 	}
 
@@ -949,7 +949,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	public void unsetTimeUnits() {
 		String oldTimeUnitsID = timeUnitsID;
 		timeUnitsID = null;
-		firePropertyChange(SBaseChangedEvent.timeUnits, oldTimeUnitsID,
+		firePropertyChange(SBaseChangeEvent.timeUnits, oldTimeUnitsID,
 				timeUnitsID);
 	}
 
@@ -964,7 +964,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		if (unitsID != null) {
 			String oldUnitID = unitsID;
 			unitsID = null;
-			firePropertyChange(SBaseChangedEvent.units, oldUnitID, unitsID);
+			firePropertyChange(SBaseChangeEvent.units, oldUnitID, unitsID);
 		}
 	}
 
@@ -978,10 +978,10 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		Map<String, String> attributes = super.writeXMLAttributes();
 		if ((getLevel() == 1) || ((getLevel() == 2) && (getVersion() == 1))) {
 			if (isSetTimeUnits()) {
-				attributes.put(SBaseChangedEvent.timeUnits, getTimeUnits());
+				attributes.put(SBaseChangeEvent.timeUnits, getTimeUnits());
 			}
 			if (isSetSubstanceUnits()) {
-				attributes.put(SBaseChangedEvent.substanceUnits,
+				attributes.put(SBaseChangeEvent.substanceUnits,
 						getSubstanceUnits());
 			}
 		}

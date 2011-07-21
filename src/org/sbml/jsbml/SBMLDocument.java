@@ -21,7 +21,6 @@
 package org.sbml.jsbml;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -34,8 +33,8 @@ import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.util.SBaseChangedEvent;
-import org.sbml.jsbml.util.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.SBaseChangeListener;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.validator.SBMLValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -162,14 +161,33 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	public SBMLDocument(SBMLDocument sb) {
 		super(sb);
+		this.setOfMetaIds = new HashSet<String>();
+		SBMLDocumentAttributes = new HashMap<String, String>();
+		SBMLDocumentNamespaces = new HashMap<String, String>();
 		if (sb.isSetModel()) {
 			setModel(sb.getModel().clone());
 		} else {
 			this.model = null;
 		}
-		this.setOfMetaIds = new HashSet<String>(sb.setOfMetaIds);
+		Iterator<Map.Entry<String, String>> entryIterator = sb.SBMLDocumentAttributes
+				.entrySet().iterator();
+		Map.Entry<String, String> entry;
+		while (entryIterator.hasNext()) {
+			entry = entryIterator.next();
+			this.SBMLDocumentAttributes.put(entry.getKey(), entry.getValue());
+		}
+		entryIterator = sb.SBMLDocumentNamespaces.entrySet().iterator();
+		while (entryIterator.hasNext()) {
+			entry = entryIterator.next();
+			this.SBMLDocumentNamespaces.put(entry.getKey(), entry.getValue());
+		}
+		Iterator<String> metaIdIterator = sb.setOfMetaIds.iterator();
+		while (metaIdIterator.hasNext()) {
+			this.setOfMetaIds.add(new String(metaIdIterator.next()));
+		}
 		setParentSBML(this);
-		checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), false);		
+		checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(),
+				false);
 	}
 
 	/**
@@ -228,7 +246,7 @@ public class SBMLDocument extends AbstractSBase {
 
 		try {
 			new SBMLWriter().writeSBML(this, tmpFile);
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			logger.error("There was an error creating a temporary file :" + e.getMessage());
 			
 			if (logger.isDebugEnabled()) {
@@ -848,7 +866,7 @@ public class SBMLDocument extends AbstractSBase {
 			Map<String, String> sBMLDocumentAttributes) {
 		Map<String, String> oldAttributes = this.SBMLDocumentAttributes;
 		SBMLDocumentAttributes = sBMLDocumentAttributes;
-		firePropertyChange(SBaseChangedEvent.SBMLDocumentAttributes,
+		firePropertyChange(SBaseChangeEvent.SBMLDocumentAttributes,
 				oldAttributes, this.SBMLDocumentAttributes);
 	}
 
@@ -864,7 +882,7 @@ public class SBMLDocument extends AbstractSBase {
 
 	/**
 	 * Sets the {@link Model} of this {@link SBMLDocument} to null and notifies
-	 * all {@link SBaseChangedListener} about changes.
+	 * all {@link SBaseChangeListener} about changes.
 	 * 
 	 * @return <code>true</code> if calling this method changed the properties
 	 *         of this element.

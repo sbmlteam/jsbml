@@ -28,7 +28,7 @@
 
 package org.sbml.jsbml.test.sbml;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -178,7 +178,7 @@ public class TestReadFromFile5 {
     filename += "l2v1-assignment.xml";
     try {
 		d = reader.readSBML(filename);
-	} catch (FileNotFoundException e) {
+	} catch (IOException e) {
 		e.printStackTrace();
 		assert(false);
 	} catch (XMLStreamException e) {

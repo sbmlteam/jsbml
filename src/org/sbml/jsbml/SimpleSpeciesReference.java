@@ -22,7 +22,7 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
-import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 
 /**
  * The base class of {@link SpeciesReference} and
@@ -223,7 +223,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 			String oldSpecies = this.speciesID;
 			speciesID = ((species != null) && (species.trim().length() == 0)) ? null
 					: species;
-			firePropertyChange(SBaseChangedEvent.species, oldSpecies, speciesID);
+			firePropertyChange(SBaseChangeEvent.species, oldSpecies, speciesID);
 		}
 	}
 

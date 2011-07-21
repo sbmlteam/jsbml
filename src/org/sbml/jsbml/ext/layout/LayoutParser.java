@@ -20,8 +20,9 @@
 
 package org.sbml.jsbml.ext.layout;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
@@ -126,6 +127,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 	 * 
 	 */
 	public LayoutParser() {
+		super();
 		sbmlLayoutElements = new HashMap<String, Class<? extends Object>>();
 		JSBML.loadClasses(
 				"org/sbml/jsbml/resources/cfg/SBMLLayoutElements.xml",
@@ -139,11 +141,11 @@ public class LayoutParser implements ReadingParser, WritingParser {
 	 * sbase)
 	 */
 	@SuppressWarnings("unchecked")
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
+	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
-		log4jLogger.debug("GroupsParser : getListOfSBMLElementsToWrite\n");
+		log4jLogger.debug(String.format("%s : getListOfSBMLElementsToWrite\n", getClass().getSimpleName()));
 
-		ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
+		List<Object> listOfElementsToWrite = new LinkedList<Object>();
 
 		if (sbase instanceof SBase) {
 			if (sbase instanceof ExtendedLayoutModel) {
@@ -157,7 +159,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 				ListOf<SBase> listOf = (ListOf<SBase>) sbase;
 
 				if (!listOf.isEmpty()) {
-					listOfElementsToWrite = new ArrayList<Object>();
+					listOfElementsToWrite = new LinkedList<Object>();
 					for (int i = 0; i < listOf.size(); i++) {
 						SBase element = listOf.get(i);
 
@@ -182,11 +184,9 @@ public class LayoutParser implements ReadingParser, WritingParser {
 		return listOfElementsToWrite;
 	}
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(String
-	 *      elementName, String attributeName, String value, String prefix,
-	 *      boolean isLastAttribute, Object contextObject)
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.Object)
 	 */
 	public void processAttribute(String elementName, String attributeName,
 			String value, String prefix, boolean isLastAttribute,
@@ -200,7 +200,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 				isAttributeRead = sbase.readAttribute(attributeName, prefix,
 						value);
 			} catch (Throwable exc) {
-				System.err.println(exc.getMessage());
+				log4jLogger.error(exc.getLocalizedMessage(), exc);
 			}
 		} else if (contextObject instanceof Annotation) {
 			Annotation annotation = (Annotation) contextObject;
@@ -229,19 +229,17 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 	}
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndDocument(SBMLDocument
-	 *      sbmlDocument)
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndDocument(org.sbml.jsbml.SBMLDocument)
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 		// Do some checking ??
 	}
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndElement(String
-	 *      elementName, String prefix, boolean isNested, Object contextObject)
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndElement(java.lang.String, java.lang.String, boolean, java.lang.Object)
 	 */
 	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
@@ -257,11 +255,9 @@ public class LayoutParser implements ReadingParser, WritingParser {
 		return true;
 	}
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processNamespace(String
-	 *      elementName, String URI, String prefix, String localName, boolean
-	 *      hasAttributes, boolean isLastNamespace, Object contextObject)
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processNamespace(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
 	 */
 	public void processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
@@ -270,11 +266,9 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 	}
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(String
-	 *      elementName, String prefix, boolean hasAttributes, boolean
-	 *      hasNamespaces, Object contextObject)
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
 	 */
 	// Create the proper object and link it to his parent.
 	@SuppressWarnings("unchecked")
@@ -296,8 +290,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 						listOfLayouts.addNamespace(namespaceURI);
 						this.groupList = LayoutList.listOfLayouts;
 
-						ExtendedLayoutModel layoutModel = new ExtendedLayoutModel(
-								model);
+						ExtendedLayoutModel layoutModel = new ExtendedLayoutModel(model);
 						layoutModel.setListOfLayouts(listOfLayouts);
 						layoutModel.addNamespace(namespaceURI);
 						model.addExtension(LayoutParser.namespaceURI,
@@ -305,7 +298,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 						listOfLayouts.setParentSBML(layoutModel);
 						return listOfLayouts;
 					} else {
-						log4jLogger.warn("Element "+elementName+" not recognized!");
+						log4jLogger.warn(String.format("Element %s not recognized!", elementName));
 					}
 				}
 
@@ -522,12 +515,12 @@ public class LayoutParser implements ReadingParser, WritingParser {
 				
 
 				else {
-					log4jLogger.warn("Classname: "+contextObject.getClass().getName());
-					log4jLogger.warn("Parsing-Error: Element " + elementName+" is not " +
-							"recognized!");
+					log4jLogger.warn(String.format("Classname: %s", contextObject.getClass().getName()));
+					log4jLogger.warn(String.format("Parsing-Error: Element %s is not recognized!", elementName));
 				}
 
 			} catch (Exception e) {
+				log4jLogger.error(e.getLocalizedMessage(), e);
 			}
 		}
 		return contextObject;
@@ -550,10 +543,9 @@ public class LayoutParser implements ReadingParser, WritingParser {
 		}
 	}
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeAttributes(SBMLObjectForXML
-	 *      xmlObject, Object sbmlElementToWrite)
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeAttributes(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
 	 */
 	public void writeAttributes(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
@@ -565,10 +557,9 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 	}
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeCharacters(SBMLObjectForXML
-	 *      xmlObject, Object sbmlElementToWrite)
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeCharacters(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
 	 */
 	public void writeCharacters(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
@@ -577,15 +568,14 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 	}
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(SBMLObjectForXML
-	 *      xmlObject, Object sbmlElementToWrite)
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
 	 */
 	public void writeElement(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
 
-		log4jLogger.warn("GroupsParser : writeElement");
+		log4jLogger.warn(String.format("%s : writeElement", getClass().getSimpleName()));
 
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
@@ -606,10 +596,9 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 	}
 	
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeNamespaces(SBMLObjectForXML
-	 *      xmlObject, Object sbmlElementToWrite)
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeNamespaces(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
 	 */
 	public void writeNamespaces(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {

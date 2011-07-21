@@ -23,7 +23,7 @@ package org.sbml.jsbml;
 import java.util.Map;
 
 import org.sbml.jsbml.Unit.Kind;
-import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 
 /**
  * An explicit {@link Rule} is a rule that explicitly declares its variable
@@ -407,7 +407,7 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	@Deprecated
 	public void setUnits(String unitsID) {
 		if (getLevel() != 1) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.units, this);
+			throw new PropertyNotAvailableError(SBaseChangeEvent.units, this);
 		}
 		if (isSetVariable() && !isParameter()) {
 			throw new IllegalArgumentException(String.format(
@@ -415,7 +415,7 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 		}
 		String oldUnitsID = this.unitsID;
 		this.unitsID = unitsID;
-		firePropertyChange(SBaseChangedEvent.units, oldUnitsID, unitsID);
+		firePropertyChange(SBaseChangeEvent.units, oldUnitsID, unitsID);
 	}
 
 	/*
@@ -477,7 +477,7 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 		
 		String oldVariable = variableID;
 		variableID = variable;
-		firePropertyChange(SBaseChangedEvent.variable, oldVariable, variableID);
+		firePropertyChange(SBaseChangeEvent.variable, oldVariable, variableID);
 		
 	}
 
@@ -505,7 +505,7 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 			if (variable.isSetId()) {
 				String oldVariable = this.variableID;
 				variableID = variable.getId();
-				firePropertyChange(SBaseChangedEvent.variable, oldVariable, variableID);
+				firePropertyChange(SBaseChangeEvent.variable, oldVariable, variableID);
 			} else {
 				unsetVariable();
 			}
@@ -526,7 +526,7 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	public void unsetUnits() {
 		String oldUnitsID = this.unitsID;
 		this.unitsID = null;
-		firePropertyChange(SBaseChangedEvent.variable, oldUnitsID, unitsID);
+		firePropertyChange(SBaseChangeEvent.variable, oldUnitsID, unitsID);
 	}
 
 	/*
@@ -536,7 +536,7 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	public void unsetVariable() {
 		String oldVariableID = this.variableID;
 		variableID = null;
-		firePropertyChange(SBaseChangedEvent.variable, oldVariableID,
+		firePropertyChange(SBaseChangeEvent.variable, oldVariableID,
 				variableID);
 	}
 

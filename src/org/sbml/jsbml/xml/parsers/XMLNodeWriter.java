@@ -35,7 +35,7 @@ import com.ctc.wstx.stax.WstxOutputFactory;
 /**
  *
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
@@ -150,10 +150,10 @@ public class XMLNodeWriter {
 		}
 		
 		
-		long nbChildren = xmlNode.getNumChildren();
+		long nbChildren = xmlNode.getChildCount();
 		
 		for (int i = 0; i < nbChildren; i++) {
-			XMLNode child = xmlNode.getChild(i);
+			XMLNode child = xmlNode.getChildAt(i);
 			write(child);
 		}
 

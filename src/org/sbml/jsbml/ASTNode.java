@@ -1232,6 +1232,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * to its containing {@link MathContainer}.
 	 */
 	public ASTNode() {
+		super();
 		this.parentSBMLObject = null;
 		this.listOfNodes = null;
 		this.initDefaults();

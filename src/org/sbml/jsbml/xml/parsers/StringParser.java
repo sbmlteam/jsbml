@@ -31,10 +31,10 @@ import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
 
 /**
- * A StringParser can be used to store the html expressions into an XMLNode in the
+ * A {@link StringParser} can be used to store the HTML expressions into an {@link XMLNode} in the
  * SBML component.
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
@@ -125,7 +125,7 @@ public class StringParser implements ReadingParser {
 		if (contextObject instanceof XMLNode) {
 			XMLNode xmlNode = (XMLNode) contextObject;
 			
-			if (xmlNode.getNumChildren() == 0) {
+			if (xmlNode.getChildCount() == 0) {
 				xmlNode.setEnd();
 			}
 		}

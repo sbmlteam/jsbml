@@ -30,7 +30,7 @@ import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
-import org.sbml.jsbml.util.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangeListener;
 
 /**
  * @author Nicolas Rodriguez
@@ -65,7 +65,7 @@ public class SpeciesExtension extends Species {
 	 * SBaseChangedListener)
 	 */
 	@Override
-	public void addChangeListener(SBaseChangedListener l) {
+	public void addChangeListener(SBaseChangeListener l) {
 		species.addChangeListener(l);
 	}
 

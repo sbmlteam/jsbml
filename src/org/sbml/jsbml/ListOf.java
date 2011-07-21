@@ -28,8 +28,8 @@ import java.util.ListIterator;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.util.SBaseChangedEvent;
-import org.sbml.jsbml.util.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.SBaseChangeListener;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.util.filters.NameFilter;
 
@@ -385,7 +385,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		} else if (contains(e)) {
 			return false;
 		}
-		for (SBaseChangedListener l : setOfListeners) {
+		for (SBaseChangeListener l : setOfListeners) {
 			e.addChangeListener(l);
 		}
 		boolean success = listOf.add(e);
@@ -425,7 +425,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#addChangeListener(org.sbml.jsbml.SBaseChangedListener)
 	 */
-	public void addChangeListener(SBaseChangedListener l) {
+	public void addChangeListener(SBaseChangeListener l) {
 		setOfListeners.add(l);
 		for (T element : listOf) {
 			element.addChangeListener(l);
@@ -904,7 +904,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public void setSBaseListType(Type currentList) {
 		Type oldType = this.listType;
 		this.listType = currentList;
-		firePropertyChange(SBaseChangedEvent.baseListType, oldType, listType);
+		firePropertyChange(SBaseChangeEvent.baseListType, oldType, listType);
 	}
 
 	/*

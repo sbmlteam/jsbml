@@ -28,8 +28,8 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.Unit.Kind;
-import org.sbml.jsbml.util.SBaseChangedEvent;
-import org.sbml.jsbml.util.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.SBaseChangeListener;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -507,7 +507,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public void convertToSIUnits() {
 		UnitDefinition ud[] = new UnitDefinition[getNumUnits()];
-		Set<SBaseChangedListener> listeners = new HashSet<SBaseChangedListener>(
+		Set<SBaseChangeListener> listeners = new HashSet<SBaseChangeListener>(
 				getSetOfSBaseChangedListeners());
 		removeAllSBaseChangedListeners();
 		ListOf<Unit> oldListOfUnits = getListOfUnits().clone();
@@ -519,7 +519,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 		simplify();
 		addAllChangeListeners(listeners);
-		firePropertyChange(SBaseChangedEvent.listOfUnits, oldListOfUnits,
+		firePropertyChange(SBaseChangeEvent.listOfUnits, oldListOfUnits,
 				getListOfUnits());
 	}
 
@@ -1050,7 +1050,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfUnits} from this {@link UnitDefinition} and
-	 * notifies all registered instances of {@link SBaseChangedListener}.
+	 * notifies all registered instances of {@link SBaseChangeListener}.
 	 */
 	public void unsetListOfUnits() {
 		if (this.listOfUnits != null) {

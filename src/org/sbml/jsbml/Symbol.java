@@ -20,7 +20,7 @@
 
 package org.sbml.jsbml;
 
-import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 
 
 /**
@@ -199,12 +199,12 @@ public abstract class Symbol extends QuantityWithUnit implements
 	 */
 	public void setConstant(boolean constant) {
 		if (getLevel() == 1) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.constant, this);
+			throw new PropertyNotAvailableError(SBaseChangeEvent.constant, this);
 		}
 		Boolean oldConstant = this.constant;
 		this.constant = Boolean.valueOf(constant);
 		isSetConstant = true;
-		firePropertyChange(SBaseChangedEvent.constant, oldConstant, constant);
+		firePropertyChange(SBaseChangeEvent.constant, oldConstant, constant);
 	}
 
 	/*
@@ -216,6 +216,6 @@ public abstract class Symbol extends QuantityWithUnit implements
 		Boolean oldConstant = this.constant;
 		this.constant = null;
 		isSetConstant = false;
-		firePropertyChange(SBaseChangedEvent.constant, oldConstant, constant);
+		firePropertyChange(SBaseChangeEvent.constant, oldConstant, constant);
 	}
 }

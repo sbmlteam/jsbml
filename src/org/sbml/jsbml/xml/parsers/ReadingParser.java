@@ -1,6 +1,6 @@
 /*
- * $Id: ReadingParser.java 543 2011-01-20 22:41:22Z mhucka $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/xml/stax/ReadingParser.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -25,7 +25,7 @@ import org.sbml.jsbml.SBMLDocument;
 /**
  * The interface to implement for the SBML parsers reading SBML files.
  * 
- * @author marine
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */

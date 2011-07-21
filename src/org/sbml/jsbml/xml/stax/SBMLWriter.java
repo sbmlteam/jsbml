@@ -140,7 +140,7 @@ public class SBMLWriter {
 			new SBMLWriter().write(testDocument, jsbmlWriteFileName);
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -421,10 +421,12 @@ public class SBMLWriter {
 	 * @param file
 	 * @throws SBMLException
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException
+	 * @throws IOException
+	 *             if it is not possible to write to the given file, e.g., due
+	 *             to an invalid file name or missing permissions.
 	 */
 	public void write(SBMLDocument document, File file)
-			throws FileNotFoundException, XMLStreamException, SBMLException {
+			throws XMLStreamException, SBMLException, IOException {
 		write(document, file, null, null);
 	}
 
@@ -435,15 +437,17 @@ public class SBMLWriter {
 	 * @param programName
 	 * @param programVersion
 	 * @return
-	 * @throws FileNotFoundException
 	 * @throws XMLStreamException
 	 * @throws SBMLException
+	 * @throws IOException
+	 *             if it is not possible to write to the given file, e.g., due
+	 *             to an invalid file name or missing permissions.
 	 */
 	public void write(SBMLDocument document, File file, String programName,
-			String programVersion) throws FileNotFoundException,
-			XMLStreamException, SBMLException {
+			String programVersion) throws XMLStreamException, SBMLException, IOException {
 		FileOutputStream stream = new FileOutputStream(file);
 		write(document, stream, programName, programVersion);
+		stream.close();
 	}
 
 	/**

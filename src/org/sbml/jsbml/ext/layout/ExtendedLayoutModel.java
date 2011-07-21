@@ -24,7 +24,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.util.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangeListener;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class ExtendedLayoutModel extends Model {
 	/**
 	 * 
 	 */
-	protected ListOf<Layout> listOfLayouts = new ListOf<Layout>();
+	protected ListOf<Layout> listOfLayouts;
 	/**
 	 * 
 	 */
@@ -53,6 +53,20 @@ public class ExtendedLayoutModel extends Model {
 	 */
 	public ExtendedLayoutModel() {
 		super();
+		listOfLayouts = new ListOf<Layout>();
+	}
+
+	/**
+	 * 
+	 * @param elm
+	 */
+	public ExtendedLayoutModel(ExtendedLayoutModel elm) {
+		super(elm);
+		// We don't clone the pointer to the containing model.
+		this.model = elm.model;
+		if (elm.listOfLayouts != null) {
+			this.listOfLayouts = elm.listOfLayouts.clone();
+		}
 	}
 
 	/**
@@ -63,13 +77,15 @@ public class ExtendedLayoutModel extends Model {
 	public ExtendedLayoutModel(int level, int version) {
 		// TODO : add package version as well
 		super(level, version);
+		listOfLayouts = new ListOf<Layout>();
 	}
-
+	
 	/**
 	 * 
 	 * @param model
 	 */
 	public ExtendedLayoutModel(Model model) {
+		this(model.getLevel(), model.getVersion());
 		this.model = model;
 		this.model.setThisAsParentSBMLObject(this);
 	}
@@ -91,6 +107,29 @@ public class ExtendedLayoutModel extends Model {
 			setThisAsParentSBMLObject(layout);
 			listOfLayouts.add(layout);
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.Model#clone()
+	 */
+	@Override
+	public ExtendedLayoutModel clone() {
+		return new ExtendedLayoutModel(this);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.Model#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof ExtendedLayoutModel) {
+			ExtendedLayoutModel elm = (ExtendedLayoutModel) o;
+			boolean equal = super.equals(elm);
+			equal &= getListOfLayouts().equals(elm.getListOfLayouts());
+			equal &= getModel().equals(elm.getModel());
+			return equal;
+		}
+		return false;
 	}
 
 	/*
@@ -117,7 +156,7 @@ public class ExtendedLayoutModel extends Model {
 		}
 		return count;
 	}
-
+	
 	/**
 	 * 
 	 * @param i
@@ -126,7 +165,7 @@ public class ExtendedLayoutModel extends Model {
 	public Layout getLayout(int i) {
 		return listOfLayouts.get(i);
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -134,6 +173,22 @@ public class ExtendedLayoutModel extends Model {
 	public ListOf<Layout> getListOfLayouts() {
 		return listOfLayouts;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getModel()
+	 */
+	@Override
+	public Model getModel() {
+		return model;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.Model#getParentSBMLObject()
+	 */
+	@Override
+	public Model getParentSBMLObject() {
+		return getModel();
+	}	
 	
 	/**
 	 * 
@@ -143,7 +198,7 @@ public class ExtendedLayoutModel extends Model {
 		return ((listOfLayouts == null) || listOfLayouts.isEmpty()) ? false
 				: true;
 	}
-	
+
 	/**
 	 * 
 	 * @param listOfLayouts
@@ -160,10 +215,10 @@ public class ExtendedLayoutModel extends Model {
 		}
 		setThisAsParentSBMLObject(listOfLayouts);
 	}
-	
+
 	/**
 	 * Removes the {@link #listOfLayouts} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -176,6 +231,6 @@ public class ExtendedLayoutModel extends Model {
 			return true;
 		}
 		return false;
-	}
+	}	
 
 }
