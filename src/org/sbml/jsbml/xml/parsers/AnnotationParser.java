@@ -32,8 +32,8 @@ import org.sbml.jsbml.util.StringTools;
  * allows to store the subelements of this annotation XML node into the
  * 'otherAnnotation' String of the matching Annotation instance.
  * 
- * @author marine
- * @author rodrigue
+ * @author Marine Dumousseau
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */

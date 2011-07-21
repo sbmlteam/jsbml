@@ -22,7 +22,7 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
-import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 
 /**
  * Represents the initialAssignment XML element of a SBML file.
@@ -270,11 +270,11 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 	 */
 	public void setVariable(String variable) {
 		if (getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)) < 0) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.variable, this);
+			throw new PropertyNotAvailableError(SBaseChangeEvent.variable, this);
 		}
 		String oldVariableID = this.variableID;
 		this.variableID = variable;
-		firePropertyChange(SBaseChangedEvent.variable, oldVariableID, variable);
+		firePropertyChange(SBaseChangeEvent.variable, oldVariableID, variable);
 	}
 
 	/*

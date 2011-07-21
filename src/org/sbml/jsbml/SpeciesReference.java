@@ -25,7 +25,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -490,13 +490,13 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	public void setConstant(boolean constant) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.constant,
+			throw new PropertyNotAvailableError(SBaseChangeEvent.constant,
 					this);
 		}
 		Boolean oldConstant = this.constant;
 		this.constant = Boolean.valueOf(constant);
 		isSetConstant = true;
-		firePropertyChange(SBaseChangedEvent.constant, oldConstant,
+		firePropertyChange(SBaseChangeEvent.constant, oldConstant,
 				this.constant);
 	}
 
@@ -518,7 +518,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		Integer oldDenominator = this.denominator;
 		this.denominator = denominator;
 		isSetDenominator = true;
-		firePropertyChange(SBaseChangedEvent.denominator, oldDenominator, this.denominator);
+		firePropertyChange(SBaseChangeEvent.denominator, oldDenominator, this.denominator);
 	}
 
 	/**
@@ -545,7 +545,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		} else {
 			isSetStoichiometry = true;
 		}
-		firePropertyChange(SBaseChangedEvent.stoichiometry, oldStoichiometry,
+		firePropertyChange(SBaseChangeEvent.stoichiometry, oldStoichiometry,
 				this.stoichiometry);
 	}
 

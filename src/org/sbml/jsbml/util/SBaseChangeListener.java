@@ -31,7 +31,7 @@ import org.sbml.jsbml.SBase;
  * @since 0.8
  * @version $Rev$
  */
-public interface SBaseChangedListener extends ChangeListener<SBaseChangedEvent> {
+public interface SBaseChangeListener extends ChangeListener<SBaseChangeEvent> {
 
 	/**
 	 * The {@link SBase} passed to this method has just been added to the

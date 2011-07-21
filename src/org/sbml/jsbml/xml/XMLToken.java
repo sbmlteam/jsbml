@@ -70,6 +70,7 @@ public abstract class XMLToken extends AbstractTreeNode {
 	 * Creates a new empty {@link XMLToken}.
 	 */
 	public XMLToken() {
+		super();
 	}
 
 	/**
@@ -115,6 +116,9 @@ public abstract class XMLToken extends AbstractTreeNode {
 	 */
 	public XMLToken(XMLToken orig) {
 		this();
+		if (orig.isSetParent()) {
+			this.parent = orig.getParent();
+		}
 		if (orig.triple != null) {
 			triple = orig.triple.clone();
 		}

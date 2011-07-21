@@ -28,8 +28,8 @@ import org.sbml.jsbml.SBMLDocument;
  * A CreatorParser is used to parser the subelements of an annotation element which have this namespaceURI :
  * http://purl.org/dc/elements/1.1/.
  * 
- * @author marine
- * @author rodrigue
+ * @author Marine Dumousseau 
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */

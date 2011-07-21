@@ -65,12 +65,12 @@ strict digraph G{
   AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractNamedSBaseWithUnit               [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase<br/>WithUnit</font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractTreeNode                         [label=<<font face="Helvetica-Oblique">Abstract<br/>TreeNode</font>>, style="filled", fillcolor="#F0F8FF"];
   AnnotationElement                        [label=<<font face="Helvetica-Oblique">Annotation<br/>Element</font>>, style="filled", fillcolor="#F0F8FF"];
   ExplicitRule                             [label=<<font face="Helvetica-Oblique">Explicit<br/>Rule</font>>, style="filled", fillcolor="#F0F8FF"];
   Rule                                     [label=<<font face="Helvetica-Oblique">Rule</font>>];
   SimpleSpeciesReference                   [label=<<font face="Helvetica-Oblique">Simple<br/>SpeciesReference</font>>];
   QuantityWithUnit                         [label=<<font face="Helvetica-Oblique">Quantity<br/>WithUnit</font>>, style="filled", fillcolor="#F0F8FF"];
-  AbstractTreeNode                         [label=<<font face="Helvetica-Oblique">Abstract<br/>TreeNode</font>>, style="filled", fillcolor="#F0F8FF"];
   Symbol                                   [label=<<font face="Helvetica-Oblique">Symbol</font>>, style="filled", fillcolor="#F0F8FF"];
   XMLToken                                 [label=<<font face="Helvetica-Oblique">XML<br/>Token</font>>];
 
@@ -84,7 +84,7 @@ strict digraph G{
   ASTNode                                  [label="AST\nNode"];
   Compartment                              [label="Compartment"];
   CompartmentType                          [label="Compartment\nType"];
-  Constraint                               [label="Constraint"];
+  Constraint                               [label="Constraint"]
   Creator                                  [label="Creator", style="filled", fillcolor="#FFFFE0"];
   CVTerm                                   [label="CV\nTerm"];
   Delay                                    [label="Delay"];
@@ -107,6 +107,7 @@ strict digraph G{
   SpeciesReference                         [label="Species\nReference"];
   SpeciesType                              [label="Species\nType"];
   StoichiometryMath                        [label="Stoichiometry\nMath"];
+  TreeNodeAdapter                          [label="TreeNode\nAdapter", style="filled", fillcolor="#F0F8FF"];
   Trigger                                  [label="Trigger"];
   Unit                                     [label="Unit"];
   UnitDefinition                           [label="Unit\nDefinition"];
@@ -143,6 +144,7 @@ strict digraph G{
   AbstractTreeNode           -> AbstractSBase              [dir=back,arrowtail=empty];
   AbstractTreeNode           -> AnnotationElement          [dir=back,arrowtail=empty];
   AbstractTreeNode           -> ASTNode                    [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> TreeNodeAdapter            [dir=back,arrowtail=empty];
   AbstractTreeNode           -> XMLToken                   [dir=back,arrowtail=empty];
   AnnotationElement          -> Annotation                 [dir=back,arrowtail=empty];
   AnnotationElement          -> Creator                    [dir=back,arrowtail=empty];

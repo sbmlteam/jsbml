@@ -26,6 +26,8 @@ import java.util.NoSuchElementException;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.util.StringTools;
+
 /**
  * @author Andreas Dr&auml;ger
  * @version $Rev$
@@ -64,11 +66,27 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 		// not found => node is not a child.
 		return -1;
 	}
-
+	
 	/**
 	 * The parent element of this {@link Annotation}.
 	 */
 	protected TreeNode parent;
+
+	/**
+	 * 
+	 */
+	public AbstractTreeNode() {
+		super();
+		this.parent = null;
+	}
+
+	/**
+	 * @param node
+	 */
+	public AbstractTreeNode(TreeNode node) {
+		this();
+		this.parent = node.getParent();
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -194,8 +212,8 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-    public String toString() {
-		return getClass().getSimpleName();
+	public String toString() {
+		return StringTools.firstLetterLowerCase(getClass().getSimpleName());
 	}
 
 }

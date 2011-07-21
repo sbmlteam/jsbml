@@ -24,7 +24,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.SpeciesExtension;
-import org.sbml.jsbml.util.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangeListener;
 
 /**
  * 
@@ -128,7 +128,7 @@ public class MultiSpecies extends SpeciesExtension {
 	
 	/**
 	 * Removes the {@link #listOfInitialSpeciesInstances} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.

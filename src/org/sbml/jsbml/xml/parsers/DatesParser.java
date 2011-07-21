@@ -35,8 +35,8 @@ import org.w3c.util.InvalidDateException;
  * A DatesParser is used to parse the subNodes of an annotation which have this
  * namespace URI : http://purl.org/dc/terms/.
  * 
- * @author marine
- * @author rodrigue
+ * @author Marine Dumousseau
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */

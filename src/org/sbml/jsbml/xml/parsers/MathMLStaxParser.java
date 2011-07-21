@@ -34,7 +34,7 @@ import org.sbml.jsbml.util.StringTools;
  * "http://www.w3.org/1998/Math/MathML". This parser is able to read and write
  * MathML expressions (implements ReadingParser and WritingParser).
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */

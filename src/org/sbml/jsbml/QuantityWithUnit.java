@@ -20,7 +20,7 @@
 
 package org.sbml.jsbml;
 
-import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 
 
 /**
@@ -173,7 +173,7 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 		if (!Double.isNaN(value)) {
 			isSetValue = true;
 		}
-		firePropertyChange(SBaseChangedEvent.value, oldValue, value);
+		firePropertyChange(SBaseChangeEvent.value, oldValue, value);
 	}
 
 	/*
@@ -185,6 +185,6 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 		Double oldValue = value;
 		value = Double.NaN;
 		isSetValue = false;
-		firePropertyChange(SBaseChangedEvent.value, oldValue, value);
+		firePropertyChange(SBaseChangeEvent.value, oldValue, value);
 	}
 }

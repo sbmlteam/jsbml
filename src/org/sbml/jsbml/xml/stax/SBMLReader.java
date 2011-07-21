@@ -23,14 +23,13 @@ package org.sbml.jsbml.xml.stax;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map.Entry;
 import java.util.Stack;
+import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
@@ -271,13 +270,14 @@ public class SBMLReader {
 	 *            A file containing SBML content.
 	 * @return the matching SBMLDocument instance.
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
 	public SBMLDocument readSBML(File file) throws XMLStreamException,
-			FileNotFoundException 
+			IOException 
 	{
-		Object readObject = readXMLFromStream(new FileInputStream(file));
-		
+		FileInputStream stream = new FileInputStream(file);
+		Object readObject = readXMLFromStream(stream);
+		stream.close();
 		if (readObject instanceof SBMLDocument) {
 			return (SBMLDocument) readObject;
 		}
@@ -291,10 +291,10 @@ public class SBMLReader {
 	 *            The path to an SBML file.
 	 * @return the matching SBMLDocument instance.
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
 	public SBMLDocument readSBML(String file) throws XMLStreamException,
-			FileNotFoundException {
+			IOException {
 		return readSBMLFile(file);
 	}
 
@@ -306,10 +306,10 @@ public class SBMLReader {
 	 *            : name of the SBML file to read.
 	 * @return the initialised SBMLDocument.
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
 	public SBMLDocument readSBMLFile(String fileName)
-			throws XMLStreamException, FileNotFoundException {
+			throws XMLStreamException, IOException {
 		return readSBML(new File(fileName));
 	}
 
@@ -428,14 +428,14 @@ public class SBMLReader {
 		ReadingParser parser = null;
 		Stack<Object> sbmlElements = new Stack<Object>();
 		QName currentNode = null;
-		Boolean isNested = false;
-		Boolean isText = false;
-		Boolean isHTML = false;
+		boolean isNested = false;
+		boolean isText = false;
+		boolean isHTML = false;
 		boolean isRDFSBMLSpecificAnnotation = false;
 		boolean isInsideAnnotation = false;
 		int rdfDescriptionIndex = -1;
 		int annotationDeepness = -1;
-		Integer level = -1, version = -1;
+		int level = -1, version = -1;
 		Object lastElement = null;
 		
 		Logger logger = Logger.getLogger(SBMLReader.class);
@@ -572,7 +572,7 @@ public class SBMLReader {
 								sbmlElements.peek());
 					}
 				} else if (isText) {
-					logger.warn("Some characters cannot be read : " + characters.getData());
+					logger.warn(String.format("Some characters cannot be read: %s", characters.getData()));
 					if (logger.isDebugEnabled()) {
 						logger.debug("Parser = " + parser);
 						if (sbmlElements.isEmpty()) {
@@ -747,9 +747,11 @@ public class SBMLReader {
 					processAttributes(att, currentNode, sbmlElements, parser, hasAttributes, isRDFSBMLspecificAnnotation);
 
 				} else {
-					logger.warn("Cannot find a parser for the " + elementNamespace + " namespace");				}
+					logger.warn(String.format("Cannot find a parser for the %s namespace", elementNamespace));				
+				}
 			} else {
-				logger.warn("Cannot find a parser for the " + elementNamespace + " namespace");			}
+				logger.warn(String.format("Cannot find a parser for the %s namespace", elementNamespace));			
+			}
 		}
 		
 		return parser;
@@ -788,7 +790,7 @@ public class SBMLReader {
 					sbmlElements.peek());
 			
 			// Calling each corresponding parser, in case they want to initialize things for the currentNode
-			if (namespaceParser != null && !namespaceParser.getClass().equals(parser.getClass())) {
+			if ((namespaceParser != null) && !namespaceParser.getClass().equals(parser.getClass())) {
 				namespaceParser.processNamespace(currentNode.getLocalPart(),
 						namespace.getNamespaceURI(),
 						namespace.getName().getPrefix(),
@@ -796,7 +798,7 @@ public class SBMLReader {
 						hasAttributes, isLastNamespace,
 						sbmlElements.peek());
 			} else if (namespaceParser == null) {
-				logger.warn("Cannot find a parser for the " + namespace.getNamespaceURI() + " namespace");
+				logger.warn(String.format("Cannot find a parser for the %s namespace", namespace.getNamespaceURI()));
 			}
 		}
 

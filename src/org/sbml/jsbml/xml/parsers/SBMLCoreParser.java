@@ -64,13 +64,12 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 import org.sbml.jsbml.xml.stax.XMLLogger;
 
 /**
- * Parses the SBML core elements of an SBML file. It
- * can read and write SBML core elements (implements ReadingParser and
- * WritingParser). 
+ * Parses the SBML core elements of an SBML file. It can read and write SBML
+ * core elements (implements {@link ReadingParser} and {@link WritingParser}).
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
- * @author marine
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
@@ -683,11 +682,11 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				}
 
 				if (elementName.equals("notes")
-						&& contextObject instanceof SBase) {
+						&& (contextObject instanceof SBase)) {
 					SBase sbase = (SBase) contextObject;
 					sbase.setNotes(new XMLNode(new XMLTriple("notes", null, null), new XMLAttributes()));
 				} else if (elementName.equals("annotation")
-						&& contextObject instanceof SBase) {
+						&& (contextObject instanceof SBase)) {
 					SBase sbase = (SBase) contextObject;
 					Annotation annotation = (Annotation) newContextObject;
 					sbase.setAnnotation(annotation);

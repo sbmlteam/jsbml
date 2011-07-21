@@ -32,8 +32,8 @@ import org.sbml.jsbml.CVTerm.Type;
  * A BiologicalQualifierParser is used to parse the XML elements and attributes
  * which have this namespace URI : http://biomodels.net/biology-qualifiers/.
  * 
- * @author marine
- * @author rodrigue
+ * @author Marine Dumousseau
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */

@@ -22,7 +22,7 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
-import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 
 /**
  * Represents the eventAssignment XML element of a SBML file.
@@ -198,7 +198,7 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	public void setVariable(String variable) {
 		String oldVariable = this.variableID;
 		this.variableID = variable;
-		firePropertyChange(SBaseChangedEvent.variable, oldVariable, variable);
+		firePropertyChange(SBaseChangeEvent.variable, oldVariable, variable);
 	}
 
 	/*

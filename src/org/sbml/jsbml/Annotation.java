@@ -20,7 +20,6 @@
 
 package org.sbml.jsbml;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +31,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.CVTerm.Type;
 import org.sbml.jsbml.util.AnnotationChangeEvent;
+import org.sbml.jsbml.util.TreeNodeAdapter;
 import org.sbml.jsbml.util.filters.CVTermFilter;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -807,17 +807,23 @@ public class Annotation extends AnnotationElement {
 			pos++;
 		}
 		if (isSetListOfCVTerms()) {
-			int curr = childIndex - pos;
-			if ((0 <= curr) && (curr < getNumCVTerms())) {
-				return listOfCVTerms.get(curr);
+			if (childIndex == pos) {
+				return new TreeNodeAdapter(getListOfCVTerms());
 			}
-			pos += getNumCVTerms();
+			pos++;
 		}
 		if (extensions.size() > 0) {
-			String exts[] = extensions.keySet().toArray(new String[0]);
-			Arrays.sort(exts);
-			return extensions.get(exts[childIndex - pos]);
+			if (childIndex == pos) {
+				return new TreeNodeAdapter(extensions);
+			}
+			pos++;
 		}
+//		if (isSetNonRDFannotation()) {
+//			if (childIndex == pos) {
+//				return new TreeNodeAdapter(getNonRDFannotation());
+//			}
+//			pos++;
+//		}
 		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
 				childIndex, +((int) Math.min(pos, 0))));
 	}
@@ -831,10 +837,10 @@ public class Annotation extends AnnotationElement {
 			count++;
 		}
 		if (isSetListOfCVTerms()) {
-			count += getNumCVTerms();
+			count++;
 		}
 		if (extensions.size() > 0) {
-			count += extensions.size();
+			count++;
 		}
 //		if (isSetNonRDFannotation()) {
 //			count++;

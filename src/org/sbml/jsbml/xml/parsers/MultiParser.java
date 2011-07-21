@@ -39,7 +39,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * able to read and write elements of the multi package (implements
  * ReadingParser and WritingParser).
  * 
- * @author marine
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */

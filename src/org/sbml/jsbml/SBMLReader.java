@@ -22,6 +22,7 @@ package org.sbml.jsbml;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 
@@ -69,11 +70,10 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * 
 	 * @param file
 	 * @return
-	 * @throws FileNotFoundException
 	 * @throws XMLStreamException
+	 * @throws IOException if the file does not exist or cannot be read.
 	 */
-	public static SBMLDocument read(File file) throws FileNotFoundException,
-			XMLStreamException {
+	public static SBMLDocument read(File file) throws XMLStreamException, IOException {
 		return new SBMLReader().readSBML(file);
 	}
 
@@ -107,6 +107,7 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * Creates a new {@link SBMLReader}.
 	 */
 	public SBMLReader() {
+		super();
 	}
 	
 	/**
@@ -150,12 +151,11 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * @param file the file to be read.
 	 * <p>
 	 * @return an {@link SBMLDocument} created from the SBML content.
-	 * @throws FileNotFoundException if the file does not exist.
 	 * @throws XMLStreamException if any other problems prevent to create a {@link SBMLDocument} 
+	 * @throws IOException if the file does not exist or cannot be read.
 	 * 
 	 */
-	public SBMLDocument readSBML(File file) throws FileNotFoundException,
-			XMLStreamException {
+	public SBMLDocument readSBML(File file) throws XMLStreamException, IOException {
 		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBML(file);
 	}
 	
@@ -171,12 +171,11 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * @param fileName  the name or full pathname of the file to be read.
 	 * <p>
 	 * @return an {@link SBMLDocument} created from the SBML content.
-	 * @throws FileNotFoundException if the file does not exist.
 	 * @throws XMLStreamException if any other problems prevent to create a {@link SBMLDocument} 
+	 * @throws IOException if the file does not exist or cannot be read.
 	 * 
 	 */
-	public SBMLDocument readSBML(String fileName) throws FileNotFoundException,
-			XMLStreamException {
+	public SBMLDocument readSBML(String fileName) throws XMLStreamException, IOException {
 		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBML(fileName);
 	}
 
@@ -192,12 +191,12 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * @param filename  the name or full pathname of the file to be read.
 	 * <p>
 	 * @return an {@link SBMLDocument} created from the SBML content.
-	 * @throws FileNotFoundException if the file does not exist.
 	 * @throws XMLStreamException if any other problems prevent to create a {@link SBMLDocument} 
+	 * @throws IOException if the file does not exist or cannot be read.
 	 * 
 	 */
 	public SBMLDocument readSBMLFromFile(String filename) throws XMLStreamException,
-			FileNotFoundException {
+			IOException {
 		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBMLFile(filename);
 	}
 

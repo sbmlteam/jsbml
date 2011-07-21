@@ -25,7 +25,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.util.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangeListener;
 
 /**
  * 
@@ -437,7 +437,7 @@ public class Layout extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfCompartmentGlyphs} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -454,7 +454,7 @@ public class Layout extends AbstractNamedSBase {
 	
 	/**
 	 * Removes the {@link #listOfReactionGlyphs} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -471,7 +471,7 @@ public class Layout extends AbstractNamedSBase {
 	
 	/**
 	 * Removes the {@link #listOfSpeciesGlyphs} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -488,7 +488,7 @@ public class Layout extends AbstractNamedSBase {
 	
 	/**
 	 * Removes the {@link #listOfTextGlyphs} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.

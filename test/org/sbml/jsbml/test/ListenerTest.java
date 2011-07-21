@@ -29,8 +29,8 @@ import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.CVTerm.Qualifier;
-import org.sbml.jsbml.util.SBaseChangedEvent;
-import org.sbml.jsbml.util.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.SBaseChangeListener;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 /**
@@ -39,7 +39,7 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  * @since 0.8
  * @version $Rev$
  */
-public class ListenerTest implements SBaseChangedListener {
+public class ListenerTest implements SBaseChangeListener {
 
 	public ListenerTest() {
 		SBMLDocument doc = new SBMLDocument(1, 2);
@@ -99,7 +99,7 @@ public class ListenerTest implements SBaseChangedListener {
 	 * @seeorg.sbml.jsbml.SBaseChangedListener#stateChanged(org.sbml.jsbml.
 	 * SBaseChangedEvent)
 	 */
-	public void stateChanged(SBaseChangedEvent ev) {
+	public void stateChanged(SBaseChangeEvent ev) {
 		System.out.printf("Change:\t%s\n", ev.toString());
 	}
 

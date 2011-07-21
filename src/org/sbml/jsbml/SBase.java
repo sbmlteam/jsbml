@@ -29,7 +29,7 @@ import java.util.SortedSet;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
-import org.sbml.jsbml.util.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangeListener;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.xml.XMLNode;
 
@@ -37,27 +37,27 @@ import org.sbml.jsbml.xml.XMLNode;
  * The interface to implement for each SBML component.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
+ * @author Marine Dumousseau 
  * @since 0.8
  * @version $Rev$
  */
 public interface SBase extends Cloneable, Serializable, TreeNode {
 
 	/**
-	 * Adds all {@link SBaseChangedListener}s in the given {@link Set} to this
+	 * Adds all {@link SBaseChangeListener}s in the given {@link Set} to this
 	 * element.
 	 * 
 	 * @param listeners
 	 * @return true if this operation was a success, false otherwise.
 	 */
-	public boolean addAllChangeListeners(Set<SBaseChangedListener> listeners);
+	public boolean addAllChangeListeners(Set<SBaseChangeListener> listeners);
 
 	/**
 	 * adds a listener to the SBase object. from now on changes will be saved
 	 * 
 	 * @param l
 	 */
-	public void addChangeListener(SBaseChangedListener l);
+	public void addChangeListener(SBaseChangeListener l);
 	
 	/**
 	 * 
@@ -131,11 +131,11 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public List<String> filterCVTerms(Qualifier qualifier, String pattern);
 
 	/**
-	 * All {@link SBaseChangedListener}s are informed about the change in this
+	 * All {@link SBaseChangeListener}s are informed about the change in this
 	 * {@link SBase}.
 	 * 
 	 * @param propertyName
-	 *            Tells the {@link SBaseChangedListener} the name of the
+	 *            Tells the {@link SBaseChangeListener} the name of the
 	 *            property whose value has been changed.
 	 * @param oldValue
 	 *            This is the value before the change.
@@ -147,14 +147,14 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 			Object newValue);
 
 	/**
-	 * All {@link SBaseChangedListener} instances linked to this {@link SBase}
+	 * All {@link SBaseChangeListener} instances linked to this {@link SBase}
 	 * are informed about the adding of this object to an owning {@link ListOf}
 	 * or to another new parent SBML object.
 	 */
 	public void fireSBaseAddedEvent();
 
 	/**
-	 * All {@link SBaseChangedListener} instances linked to this {@link SBase}
+	 * All {@link SBaseChangeListener} instances linked to this {@link SBase}
 	 * are informed about the deletion of this {@link SBase} from a
 	 * {@link ListOf} or from another parent SBML object.
 	 */
@@ -405,6 +405,16 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public boolean isSetNotes();
 
 	/**
+	 * Check whether this {@link SBase} has been linked to a parent within the
+	 * hierarchical SBML data structure.
+	 * 
+	 * @return <code>true</code> if this {@link SBase} has a parent SBML object,
+	 *         <code>false</code> otherwise.
+	 * @see #getParentSBMLObject()
+	 */
+	public boolean isSetParentSBMLObject();
+
+	/**
 	 * 
 	 * @return true if the SBOTerm is not -1.
 	 * @see SBO
@@ -433,11 +443,11 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 			String value);
 
 	/**
-	 * Removes the given {@link SBaseChangedListener} from this element.
+	 * Removes the given {@link SBaseChangeListener} from this element.
 	 * 
 	 * @param l
 	 */
-	public void removeChangeListener(SBaseChangedListener l);
+	public void removeChangeListener(SBaseChangeListener l);
 
 	/**
 	 * Sets the value of the 'annotation' sub-element of this SBML object to a
@@ -484,13 +494,19 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	public void setNotes(XMLNode notesXMLNode);
 
 	/**
+	 * 
+	 * @param parent
+	 */
+	public void setParentSBML(SBase parent);
+
+	/**
 	 * Sets the value of the 'sboTerm' attribute.
 	 * 
 	 * @param term
 	 * @see SBO
 	 */
 	public void setSBOTerm(int term);
-
+	
 	/**
 	 * Sets the value of the 'sboTerm' attribute.
 	 * 
@@ -498,7 +514,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * @see SBO
 	 */
 	public void setSBOTerm(String sboid);
-
+	
 	/**
 	 * Sets this object as SBML parent of 'sbase'. Check if the level and version
 	 * of sbase are set, otherwise sets the level and version of 'sbase' with
@@ -510,13 +526,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * thrown.
 	 */
 	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError;
-	
-	/**
-	 * 
-	 * @param parent
-	 */
-	public void setParentSBML(SBase parent);
-	
+
 	/**
 	 * Sets the version of this object with 'version'. If the SBML parent of this
 	 * object is set and 'version' is different with the SBMLparent version, an

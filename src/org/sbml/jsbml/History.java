@@ -27,6 +27,8 @@ import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.util.TreeNodeAdapter;
+
 /**
  * Contains all the history information about a {@link Model} (or other
  * {@link SBase} if level >= 3).
@@ -78,11 +80,11 @@ public class History extends AnnotationElement {
 	public History(History modelHistory) {
 		super(modelHistory);
 		listOfCreators = new LinkedList<Creator>();
-		for (Creator c : modelHistory.getListCreators()) {
+		for (Creator c : modelHistory.getListOfCreators()) {
 			listOfCreators.add(c.clone());
 		}
 		listOfModification = new LinkedList<Date>();
-		for (Date d : modelHistory.getListModifiedDates()) {
+		for (Date d : modelHistory.getListOfModifiedDates()) {
 			listOfModification.add((Date) d.clone());
 		}
 		Calendar calendar = Calendar.getInstance();
@@ -136,12 +138,12 @@ public class History extends AnnotationElement {
 		if (o instanceof History) {
 			boolean equal = super.equals(o);
 			History mh = (History) o;
-			equal &= listOfCreators.size() == mh.getListCreators().size();
+			equal &= listOfCreators.size() == mh.getListOfCreators().size();
 
 			if (equal) {
 				for (int i = 0; i < listOfCreators.size(); i++) {
 					Creator c1 = listOfCreators.get(i);
-					Creator c2 = mh.getListCreators().get(i);
+					Creator c2 = mh.getListOfCreators().get(i);
 
 					if (c1 != null && c2 != null) {
 						equal &= c1.equals(c2);
@@ -150,12 +152,12 @@ public class History extends AnnotationElement {
 						return false;
 					}
 				}
-				equal &= listOfModification.size() == mh.getListModifiedDates()
+				equal &= listOfModification.size() == mh.getListOfModifiedDates()
 						.size();
 				if (equal) {
 					for (int i = 0; i < listOfModification.size(); i++) {
 						Date d1 = listOfModification.get(i);
-						Date d2 = mh.getListModifiedDates().get(i);
+						Date d2 = mh.getListOfModifiedDates().get(i);
 
 						if (d1 != null && d2 != null) {
 							equal &= d1.equals(d2);
@@ -205,7 +207,7 @@ public class History extends AnnotationElement {
 	 * 
 	 * @return the list of {@link Creator}s for this {@link History}.
 	 */
-	public List<Creator> getListCreators() {
+	public List<Creator> getListOfCreators() {
 		return listOfCreators;
 	}
 
@@ -214,7 +216,7 @@ public class History extends AnnotationElement {
 	 * 
 	 * @return the list of ModifiedDates for this {@link History}.
 	 */
-	public List<Date> getListModifiedDates() {
+	public List<Date> getListOfModifiedDates() {
 		return listOfModification;
 	}
 
@@ -411,17 +413,17 @@ public class History extends AnnotationElement {
 	public TreeNode getChildAt(int childIndex) {
 		int pos = 0;
 		if (isSetListOfCreators()) {
-			int curr = childIndex - pos;
-			if ((0 <= curr) && (curr < getNumCreators())) {
-				return listOfCreators.get(curr);
+			if (pos == childIndex) {
+				return new TreeNodeAdapter(getListOfCreators());
 			}
-			pos += listOfCreators.size();
+			pos++;
 		}
-//		if (isSetListOfModification()) {
-//			if (pos == childIndex) {
-//				return getListModifiedDates();
-//			}
-//		}
+		if (isSetListOfModification()) {
+			if (pos == childIndex) {
+				return new TreeNodeAdapter(getListOfModifiedDates());
+			}
+			pos++;
+		}
 		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
 				childIndex, +((int) Math.min(pos, 0))));
 	}
@@ -432,11 +434,11 @@ public class History extends AnnotationElement {
 	public int getChildCount() {
 		int count = 0;
 		if (isSetListOfCreators()) {
-			count += listOfCreators.size();
+			count ++;
 		}
-//		if (isSetListOfModification()) {
-//			count++;
-//		}
+		if (isSetListOfModification()) {
+			count++;
+		}
 		return count;
 	}
 

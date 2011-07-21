@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.SBase;
 
 /**
- * This very simple implementation of an {@link SBaseChangedListener} writes all
+ * This very simple implementation of an {@link SBaseChangeListener} writes all
  * the events to the standard out stream.
  * 
  * @author Andreas Dr&auml;ger
@@ -32,12 +32,12 @@ import org.sbml.jsbml.SBase;
  * @since 0.8
  * @version $Rev$
  */
-public class SimpleSBaseChangeListener implements SBaseChangedListener {
+public class SimpleSBaseChangeListener implements SBaseChangeListener {
 
 	Logger logger = Logger.getLogger(SimpleSBaseChangeListener.class);
 
 	/**
-	 * Creates an {@link SBaseChangedListener} that writes all events to the
+	 * Creates an {@link SBaseChangeListener} that writes all events to the
 	 * standard output.
 	 */
 	public SimpleSBaseChangeListener() {
@@ -75,7 +75,7 @@ public class SimpleSBaseChangeListener implements SBaseChangedListener {
 	 * @seeorg.sbml.jsbml.SBaseChangedListener#stateChanged(org.sbml.jsbml.
 	 * SBaseChangedEvent)
 	 */
-	public void stateChanged(SBaseChangedEvent ev) {		
+	public void stateChanged(SBaseChangeEvent ev) {		
 		logger.debug(String.format("[CHG]\t%s", ev));
 	}
 

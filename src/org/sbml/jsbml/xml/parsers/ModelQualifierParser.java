@@ -29,9 +29,11 @@ import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.CVTerm.Type;
 
 /**
- * A ModelQualifierParser is used to parse the XML elements and attributes which have this
- * namespace URI : http://biomodels.net/model-qualifiers/.
- * @author marine
+ * A {@link ModelQualifierParser} is used to parse the XML elements and
+ * attributes which have this namespace URI :
+ * http://biomodels.net/model-qualifiers/.
+ * 
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */

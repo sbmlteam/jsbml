@@ -6,6 +6,14 @@ Version 0.8-rc1 (xx-xx-2011)
 
 * New Features:
   
+  - In order to get closer to the Java package structure, change 
+    listeners are now in the org.sbml.jsbml.util package. In this 
+    package, a super interface for ChangeListeners has been added that
+    is generically implemented. For the sake of more similarity to
+    standard Java classes, the SBaseChangedListener has been renamed
+    to SBaseChangeListener. The same holds for the corresponding
+    SBaseChangeEvent.
+  
   - Notes, annotations, and extension packages are now part of the tree
     representation of the JSBML data structure.
     
@@ -19,6 +27,17 @@ Version 0.8-rc1 (xx-xx-2011)
     within the SBML data structure now follow a unified structure and
     can be accessed uniquely within all such elements, including 
     annotations and extensions.
+    
+  - A simple implementation of AbstractTreeNode, the class 
+    TreeNodeAdapter has been implemented that contains some methods
+    also present in the interface MutableTreeNode. However, it does not
+    fully implement this interface because there are also some methods
+    that are not suitable for JSBML purposes. The TreeNodeAdapter works
+    as a wrapper class for elements that are part of the SBML data 
+    hierarchy but that do not implement the TreeNode interface. With this
+    adapter, it is possible to include the list of Creators within a 
+    history that is not a ListOf object, or the list of CVTerms in an
+    annotation in the hierarchy.
     
   - Sebastian Fröhlich provided some contributions to the parser for the 
     SBML level 3 layout extension package. JSBML now  supports experimental
@@ -51,6 +70,22 @@ Version 0.8-rc1 (xx-xx-2011)
     configurations an exception will be thrown on adding the element.
     
 * Bug Fixes:
+
+  - Cloning of SBMLDocuments was not done correctly: The set of already 
+    existing metaIds was initialized after adding the model to the document.
+    In the mean time, there could already be access to this set. 
+
+  - When reading SBML content from a file or writing JSBML data structures
+    as SBML to a file, the SBMLReader/Writer did not close streams after 
+    finishing. This caused that sometimes files could not be opened by other
+    programs although writing was already done. Unfortunately, by correcting
+    this bug, an IOException needs to be thrown, but previously, a 
+    FileNotFoundException was already sufficient. Hence, users need to catch
+    a different exception now when reading/writing SBML.
+
+  - Renamed the getters for Creator and ModifiedDates in History to
+    getListOfCreators() and getListOfModifiedDates (before it was spelled
+    without "Of", for the sake of having equal names for all such getters.
 
   - If the Level/Version combination was not set, the identifier of
     NamedSBases was sometimes not written to an SBML file.

@@ -255,11 +255,10 @@ public class JSBML {
      * @return an <code>SBMLDocument</code> object.	 
      * @throws XMLStreamException	 
      *             if any error occur while creating the XML document.	 
-     * @throws FileNotFoundException	 
-     *             if the file name is invalid	 
+     * @throws IOException if the file does not exist or cannot be read.
      */	 
     public static SBMLDocument readSBML(String fileName)	 
-                    throws XMLStreamException, FileNotFoundException {
+                    throws XMLStreamException, IOException {
     	SBMLReader reader = new SBMLReader();
     	
     	return reader.readSBML(fileName);	 
@@ -273,11 +272,10 @@ public class JSBML {
      * @return an <code>SBMLDocument</code> object.	 
      * @throws XMLStreamException	 
      *             if any error occur while creating the XML document.	 
-     * @throws FileNotFoundException	 
-     *             if the file name is invalid	 
+     * @throws IOException if the file does not exist or cannot be read.
      */	 
     public static SBMLDocument readSBMLFromFile(String fileName)	 
-                    throws XMLStreamException, FileNotFoundException {	 
+                    throws XMLStreamException, IOException {	 
     	SBMLReader reader = new SBMLReader();
     	
     	return reader.readSBML(fileName);	 

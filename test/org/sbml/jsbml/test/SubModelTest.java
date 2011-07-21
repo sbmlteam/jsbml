@@ -1,6 +1,6 @@
 package org.sbml.jsbml.test;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.xml.stream.XMLStreamException;
@@ -9,13 +9,13 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.util.SubModel;
-import org.sbml.jsbml.SBMLReader;
 
 public class SubModelTest {
 
-	public static void main(String[] args) throws FileNotFoundException, XMLStreamException, SBMLException {
+	public static void main(String[] args) throws XMLStreamException, SBMLException, IOException {
 		
 		if (args.length < 2) {
 			System.out.println("Usage: java org.sbml.jsbml.test.SubModelTest sbmlInputName sbmlOutputName");

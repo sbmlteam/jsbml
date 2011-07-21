@@ -21,7 +21,7 @@
 package org.sbml.jsbml.ext.layout.test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -48,10 +48,9 @@ public class LayoutTest {
 	/**
 	 * @param args
 	 * @throws XMLStreamException
-	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws FileNotFoundException,
-			XMLStreamException {
+	public static void main(String[] args) throws XMLStreamException, IOException {
 		SBMLDocument doc = SBMLReader.read(new File(args[0]));
 		Model model = doc.getModel();
 		ExtendedLayoutModel sbase = (ExtendedLayoutModel) model.getExtension("http://www.sbml.org/sbml/level3/version1/layout/version1");

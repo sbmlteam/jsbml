@@ -25,7 +25,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.text.parser.ParseException;
-import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -324,7 +324,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		ASTNode oldMath = this.math;
 		this.math = math;
 		ASTNode.setParentSBMLObject(math, this);
-		firePropertyChange(SBaseChangedEvent.math, oldMath, math);
+		firePropertyChange(SBaseChangeEvent.math, oldMath, math);
 	}
 
 	/*

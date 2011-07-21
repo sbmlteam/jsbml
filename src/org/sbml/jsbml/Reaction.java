@@ -24,8 +24,8 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.util.SBaseChangedEvent;
-import org.sbml.jsbml.util.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.SBaseChangeListener;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.filters.NameFilter;
 import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
@@ -1161,12 +1161,12 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	 */
 	public void setCompartment(String compartmentID) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.compartment,
+			throw new PropertyNotAvailableError(SBaseChangeEvent.compartment,
 					this);
 		}
 		String oldCompartmentID = this.compartmentID;
 		this.compartmentID = compartmentID;
-		firePropertyChange(SBaseChangedEvent.compartment, oldCompartmentID,
+		firePropertyChange(SBaseChangeEvent.compartment, oldCompartmentID,
 				compartmentID);
 	}
 
@@ -1179,7 +1179,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		Boolean oldFast = this.fast;
 		this.fast = Boolean.valueOf(fast);
 		isSetFast = true;
-		firePropertyChange(SBaseChangedEvent.fast, oldFast, fast);
+		firePropertyChange(SBaseChangeEvent.fast, oldFast, fast);
 	}
 
 	/**
@@ -1247,7 +1247,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		Boolean oldReversible = this.reversible;
 		this.reversible = Boolean.valueOf(reversible);
 		isSetReversible = true;
-		firePropertyChange(SBaseChangedEvent.reversible, oldReversible, reversible);
+		firePropertyChange(SBaseChangeEvent.reversible, oldReversible, reversible);
 	}
 
 	/**
@@ -1257,12 +1257,12 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		Boolean oldFast = this.fast;
 		isSetFast = false;
 		fast = null;
-		firePropertyChange(SBaseChangedEvent.fast, oldFast, fast);
+		firePropertyChange(SBaseChangeEvent.fast, oldFast, fast);
 	}
 
 	/**
 	 * Sets the {@link KineticLaw} of this {@link Reaction} to null and notifies
-	 * all {@link SBaseChangedListener} about changes.
+	 * all {@link SBaseChangeListener} about changes.
 	 * 
 	 * @return <code>true</code> if calling this method changed the properties
 	 *         of this element.
@@ -1279,7 +1279,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 
 	/**
 	 * Removes the {@link #listOfModifiers} from this {@link Reaction} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -1296,7 +1296,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 
 	/**
 	 * Removes the {@link #listOfProducts} from this {@link Reaction} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -1313,7 +1313,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 
 	/**
 	 * Removes the {@link #listOfReactants} from this {@link Reaction} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -1335,7 +1335,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		Boolean oldReversible = this.reversible;
 		isSetReversible = false;
 		reversible = null;
-		firePropertyChange(SBaseChangedEvent.reversible, oldReversible, reversible);
+		firePropertyChange(SBaseChangeEvent.reversible, oldReversible, reversible);
 	}
 
 	/*

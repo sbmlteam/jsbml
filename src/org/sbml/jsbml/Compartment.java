@@ -23,7 +23,7 @@ package org.sbml.jsbml;
 import java.util.Locale;
 import java.util.Map;
 
-import org.sbml.jsbml.util.SBaseChangedEvent;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -510,12 +510,12 @@ public class Compartment extends Symbol {
 	@Deprecated
 	public void setCompartmentType(String compartmentTypeID) {
 		if (getLevel() != 2) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.compartmentType,
+			throw new PropertyNotAvailableError(SBaseChangeEvent.compartmentType,
 					this);
 		}
 		String oldCompartmentTypeID = this.compartmentTypeID;
 		this.compartmentTypeID = compartmentTypeID;
-		firePropertyChange(SBaseChangedEvent.compartmentType,
+		firePropertyChange(SBaseChangeEvent.compartmentType,
 				oldCompartmentTypeID, this.compartmentTypeID);
 	}
 
@@ -539,7 +539,7 @@ public class Compartment extends Symbol {
 	@Deprecated
 	public void setOutside(String outside) {
 		if (getLevel() >= 3) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.outside, this);
+			throw new PropertyNotAvailableError(SBaseChangeEvent.outside, this);
 		}
 		String oldOutside = outsideID;
 		if ((outside != null) && (outside.trim().length() == 0)) {
@@ -547,7 +547,7 @@ public class Compartment extends Symbol {
 		} else {
 			this.outsideID = outside;
 		}
-		firePropertyChange(SBaseChangedEvent.outside, oldOutside, this.outsideID);
+		firePropertyChange(SBaseChangeEvent.outside, oldOutside, this.outsideID);
 	}
 
 	/**
@@ -557,7 +557,7 @@ public class Compartment extends Symbol {
 	 */
 	public void setSize(double size) {
 		if (getLevel() < 2) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.size, this);
+			throw new PropertyNotAvailableError(SBaseChangeEvent.size, this);
 		}
 		setValue(size);
 	}
@@ -572,7 +572,7 @@ public class Compartment extends Symbol {
 	public void setSpatialDimensions(double spatialDimension) {
 		if (getLevel() < 2) {
 			throw new PropertyNotAvailableError(
-					SBaseChangedEvent.spacialDimensions, this);
+					SBaseChangeEvent.spacialDimensions, this);
 		}
 		if (((0d <= spatialDimension) && (spatialDimension <= 3d)  
 				&& (((int) spatialDimension) - spatialDimension == 0d))
@@ -581,7 +581,7 @@ public class Compartment extends Symbol {
 			isSetSpatialDimensions = true;
 			Double oldSpatialDimensions = this.spatialDimensions;
 			this.spatialDimensions = Double.valueOf(spatialDimension);
-			firePropertyChange(SBaseChangedEvent.spatialDimensions,
+			firePropertyChange(SBaseChangeEvent.spatialDimensions,
 					oldSpatialDimensions, this.spatialDimensions);
 		} else {
 			throw new IllegalArgumentException(String.format(
@@ -743,7 +743,7 @@ public class Compartment extends Symbol {
 	@Deprecated
 	public void setVolume(double value) {
 		if (getLevel() != 1) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.volume, this);
+			throw new PropertyNotAvailableError(SBaseChangeEvent.volume, this);
 		}
 		setValue(value);
 	}
@@ -794,7 +794,7 @@ public class Compartment extends Symbol {
 		Double oldSpatialDim = this.spatialDimensions;
 		this.spatialDimensions = null;
 		isSetSpatialDimensions = false;
-		firePropertyChange(SBaseChangedEvent.spacialDimensions, oldSpatialDim,
+		firePropertyChange(SBaseChangeEvent.spacialDimensions, oldSpatialDim,
 				this.spatialDimensions);
 	}
 

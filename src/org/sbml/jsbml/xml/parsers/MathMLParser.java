@@ -43,17 +43,18 @@ import org.w3c.dom.Node;
 /**
  * A MathMLParser is used to parse the MathML expressions injected into a SBML
  * file. This class use DOM to parse the mathML. The name space URI of this
- * parser is {@link http://www.w3.org/1998/Math/MathML}. This parser is able to read
- * and write MathML expressions (implements ReadingParser and WritingParser).
+ * parser is {@link http://www.w3.org/1998/Math/MathML}. This parser is able to
+ * read and write MathML expressions (implements ReadingParser and
+ * WritingParser).
  * 
- * @author marine
+ * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  * 
  * @deprecated this class should not be used anymore, replaced by
- *             MathMLStaxParser. But we keep it in case somebody want to use
- *             org.w3c.dom.Document
+ *             {@link MathMLStaxParser}. But we keep it in case somebody want to
+ *             use {@link org.w3c.dom.Document}
  * 
  */
 public class MathMLParser implements ReadingParser, WritingParser {

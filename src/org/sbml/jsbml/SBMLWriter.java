@@ -22,6 +22,7 @@ package org.sbml.jsbml;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 
@@ -67,18 +68,18 @@ public class SBMLWriter implements Cloneable, Serializable {
 	 *            representation of SBML data structures.
 	 * @param indentCount
 	 *            The number of indentation characters.
-	 * @throws FileNotFoundException
-	 *             if the file does not exist or cannot be created.
 	 * @throws XMLStreamException
 	 *             if any problems prevent to write the {@link SBMLDocument} as
 	 *             XML.
 	 * @throws SBMLException
 	 *             if any SBML problems prevent to write the
 	 *             {@link SBMLDocument}.
+	 * @throws IOException
+	 *             if it is not possible to write to the given file, e.g., due
+	 *             to an invalid file name or missing permissions.
 	 */
 	public static void write(SBMLDocument sbmlDocument, File file,
-			char indentChar, short indentCount) throws FileNotFoundException,
-			XMLStreamException, SBMLException {
+			char indentChar, short indentCount) throws XMLStreamException, SBMLException, IOException {
 		new org.sbml.jsbml.xml.stax.SBMLWriter(indentChar, indentCount).write(
 				sbmlDocument, file);
 	}
@@ -98,24 +99,24 @@ public class SBMLWriter implements Cloneable, Serializable {
 	 *            the version of this program (where 'this program' refers to
 	 *            the program in which JSBML is embedded, not JSBML itself!)
 	 * 
-	 * @throws FileNotFoundException
-	 *             if the file does not exist or cannot be created.
 	 * @throws XMLStreamException
 	 *             if any problems prevent to write the {@link SBMLDocument} as
 	 *             XML.
 	 * @throws SBMLException
 	 *             if any SBML problems prevent to write the
 	 *             {@link SBMLDocument}.
-	 * 
+	 * @throws IOException
+	 *             if it is not possible to write to the given file, e.g., due
+	 *             to an invalid file name or missing permissions.
 	 */
 	public static void write(SBMLDocument sbmlDocument, File file, String programName,
 			String programVersion) 
-		throws FileNotFoundException, XMLStreamException, SBMLException 
+		throws XMLStreamException, SBMLException, IOException 
 	{
 		new org.sbml.jsbml.xml.stax.SBMLWriter().write(sbmlDocument, file,
 				programName, programVersion);
 	}
-	
+
 	/**
 	 * Writes the given SBML document to a {@link File}.
 	 * <p>
@@ -136,20 +137,20 @@ public class SBMLWriter implements Cloneable, Serializable {
 	 * @param indentCount
 	 *            The number of indentation characters.
 	 * 
-	 * @throws FileNotFoundException
-	 *             if the file does not exist or cannot be created.
 	 * @throws XMLStreamException
 	 *             if any problems prevent to write the {@link SBMLDocument} as
 	 *             XML.
 	 * @throws SBMLException
 	 *             if any SBML problems prevent to write the
 	 *             {@link SBMLDocument}.
+	 * @throws IOException
+	 *             if it is not possible to write to the given file, e.g., due
+	 *             to an invalid file name or missing permissions.
 	 * @see {@link #write(SBMLDocument, File, String, String)}
 	 */
 	public static void write(SBMLDocument sbmlDocument, File file,
 			String programName, String programVersion, char indentChar,
-			short indentCount) throws FileNotFoundException,
-			XMLStreamException, SBMLException {
+			short indentCount) throws XMLStreamException, SBMLException, IOException {
 		new org.sbml.jsbml.xml.stax.SBMLWriter(indentChar, indentCount).write(
 				sbmlDocument, file, programName, programVersion);
 	}
@@ -629,17 +630,18 @@ public class SBMLWriter implements Cloneable, Serializable {
 	 *            the {@link SBMLDocument} to be written
 	 * @param file
 	 *            the file where the SBML document is to be written.
-	 * @throws FileNotFoundException
-	 *             if the file does not exist or cannot be created.
 	 * @throws XMLStreamException
 	 *             if any problems prevent to write the {@link SBMLDocument} as
 	 *             XML.
 	 * @throws SBMLException
 	 *             if any SBML problems prevent to write the
 	 *             {@link SBMLDocument}.
+	 * @throws IOException
+	 *             if it is not possible to write to the given file, e.g., due
+	 *             to an invalid file name or missing permissions.
 	 */
 	public void write(SBMLDocument sbmlDocument, File file)
-			throws FileNotFoundException, XMLStreamException, SBMLException {
+			throws XMLStreamException, SBMLException, IOException {
 		sbmlWriter.write(sbmlDocument, file, programName, programVersion);
 	}
 	
@@ -694,7 +696,7 @@ public class SBMLWriter implements Cloneable, Serializable {
 			throws XMLStreamException, FileNotFoundException, SBMLException {
 		sbmlWriter.write(sbmlDocument, fileName, programName, programVersion);
 	}
-	
+
 	/**
 	 * Writes the given SBML document to a {@link File}. If specified in the
 	 * constructor of this {@link SBMLWriter}, the {@link #programName} and
@@ -706,17 +708,18 @@ public class SBMLWriter implements Cloneable, Serializable {
 	 * @param file
 	 *            the file where the SBML document is to be written.
 	 * 
-	 * @throws FileNotFoundException
-	 *             if the file does not exist or cannot be created.
 	 * @throws XMLStreamException
 	 *             if any problems prevent to write the {@link SBMLDocument} as
 	 *             XML.
 	 * @throws SBMLException
 	 *             if any SBML problems prevent to write the
 	 *             {@link SBMLDocument}.
+	 * @throws IOException
+	 *             if it is not possible to write to the given file, e.g., due
+	 *             to an invalid file name or missing permissions.
 	 */
 	public void writeSBML(SBMLDocument sbmlDocument, File file)
-			throws FileNotFoundException, XMLStreamException, SBMLException {
+			throws XMLStreamException, SBMLException, IOException {
 		sbmlWriter.write(sbmlDocument, file, programName, programVersion);
 	}
 

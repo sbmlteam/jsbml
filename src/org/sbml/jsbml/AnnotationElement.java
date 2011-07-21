@@ -61,6 +61,9 @@ public abstract class AnnotationElement extends AbstractTreeNode {
 	 */
 	public AnnotationElement(AnnotationElement annotation) {
 		this();
+		if (annotation.isSetParent()) {
+			this.parent = annotation.getParent();
+		}
 		setOfListeners.addAll(annotation.setOfListeners);
 	}
 	

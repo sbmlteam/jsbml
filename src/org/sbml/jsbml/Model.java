@@ -28,8 +28,8 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.util.SBaseChangedEvent;
-import org.sbml.jsbml.util.SBaseChangedListener;
+import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.SBaseChangeListener;
 import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
 import org.sbml.jsbml.util.filters.NameFilter;
@@ -1987,6 +1987,15 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	public List<UnitDefinition> getListOfPredefinedUnitDefinitions() {
+		return (listOfPredefinedUnitDefinitions != null) ? listOfPredefinedUnitDefinitions
+				: new ArrayList<UnitDefinition>(0);
+	}
+
+	/**
 	 * Returns the listOfReactions of this {@link Model}.
 	 * 
 	 * @return the listOfReactions of this {@link Model}.
@@ -2465,17 +2474,16 @@ public class Model extends AbstractNamedSBase {
 	public Parameter getParameter(String id) {
 		return getListOfParameters().firstHit(new NameFilter(id));
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()
 	 */
 	@Override
 	public SBMLDocument getParent() {
 		return (SBMLDocument) super.getParent();
 	}
-
+	
 	/**
 	 * Returns a UnitDefinition representing one of the predefined units of
 	 * SBML, returns null if the given unit kind is not a valid one for the SBML
@@ -2496,15 +2504,6 @@ public class Model extends AbstractNamedSBase {
 			}
 		}
 		return null;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public List<UnitDefinition> getListOfPredefinedUnitDefinitions() {
-		return (listOfPredefinedUnitDefinitions != null) ? listOfPredefinedUnitDefinitions
-				: new ArrayList<UnitDefinition>(0);
 	}
 
 	/**
@@ -2720,6 +2719,13 @@ public class Model extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Initializes the default values using the current Level/Version configuration.
+	 */
+	public void initDefaults() {
+		initDefaults(getLevel(), getVersion());
+	}
+	
+	/**
 	 * Initializes the default values of the attributes of the {@link Model}
 	 */
 	public void initDefaults(int level, int version) {
@@ -2794,13 +2800,6 @@ public class Model extends AbstractNamedSBase {
 			conversionFactorID = null;
 			break;
 		}
-	}
-	
-	/**
-	 * Initializes the default values using the current Level/Version configuration.
-	 */
-	public void initDefaults() {
-		initDefaults(getLevel(), getVersion());
 	}
 
 	/**
@@ -3407,12 +3406,12 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setAreaUnits(String areaUnitsID) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.areaUnits,
+			throw new PropertyNotAvailableError(SBaseChangeEvent.areaUnits,
 					this);
 		}
 		String oldAreaUnitsID = this.areaUnitsID;
 		this.areaUnitsID = areaUnitsID;
-		firePropertyChange(SBaseChangedEvent.areaUnits, oldAreaUnitsID,
+		firePropertyChange(SBaseChangeEvent.areaUnits, oldAreaUnitsID,
 				areaUnitsID);
 	}
 
@@ -3446,11 +3445,11 @@ public class Model extends AbstractNamedSBase {
 	public void setConversionFactor(String conversionFactorID) {
 		if (getLevel() < 3) {
 			throw new PropertyNotAvailableError(
-					SBaseChangedEvent.conversionFactor, this);
+					SBaseChangeEvent.conversionFactor, this);
 		}
 		String oldConversionFactorID = this.conversionFactorID;
 		this.conversionFactorID = conversionFactorID;
-		firePropertyChange(SBaseChangedEvent.conversionFactor,
+		firePropertyChange(SBaseChangeEvent.conversionFactor,
 				oldConversionFactorID, conversionFactorID);
 	}
 
@@ -3461,12 +3460,12 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setExtentUnits(String extentUnitsID) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.extentUnits,
+			throw new PropertyNotAvailableError(SBaseChangeEvent.extentUnits,
 					this);
 		}
 		String oldExtentUnits = this.extentUnitsID;
 		this.extentUnitsID = extentUnitsID;
-		firePropertyChange(SBaseChangedEvent.extentUnits, oldExtentUnits,
+		firePropertyChange(SBaseChangeEvent.extentUnits, oldExtentUnits,
 				extentUnitsID);
 	}
 
@@ -3487,12 +3486,12 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setLengthUnits(String lengthUnitsID) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.lengthUnits,
+			throw new PropertyNotAvailableError(SBaseChangeEvent.lengthUnits,
 					this);
 		}
 		String oldLengthUnits = this.lengthUnitsID;
 		this.lengthUnitsID = lengthUnitsID;
-		firePropertyChange(SBaseChangedEvent.lengthUnits, oldLengthUnits,
+		firePropertyChange(SBaseChangeEvent.lengthUnits, oldLengthUnits,
 				lengthUnitsID);
 	}
 
@@ -3748,11 +3747,11 @@ public class Model extends AbstractNamedSBase {
 	public void setSubstanceUnits(String substanceUnitsID) {
 		if (getLevel() < 3) {
 			throw new PropertyNotAvailableError(
-					SBaseChangedEvent.substanceUnits, this);
+					SBaseChangeEvent.substanceUnits, this);
 		}
 		String oldSubstanceUnitsID = this.substanceUnitsID;
 		this.substanceUnitsID = substanceUnitsID;
-		firePropertyChange(SBaseChangedEvent.substanceUnits,
+		firePropertyChange(SBaseChangeEvent.substanceUnits,
 				oldSubstanceUnitsID, substanceUnitsID);
 	}
 
@@ -3774,12 +3773,12 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setTimeUnits(String timeUnitsID) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.timeUnits,
+			throw new PropertyNotAvailableError(SBaseChangeEvent.timeUnits,
 					this);
 		}
 		String oldTimeUnitsID = this.timeUnitsID;
 		this.timeUnitsID = timeUnitsID;
-		firePropertyChange(SBaseChangedEvent.timeUnits, oldTimeUnitsID,
+		firePropertyChange(SBaseChangeEvent.timeUnits, oldTimeUnitsID,
 				timeUnitsID);
 	}
 
@@ -3800,12 +3799,12 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setVolumeUnits(String volumeUnitsID) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangedEvent.volumeUnits,
+			throw new PropertyNotAvailableError(SBaseChangeEvent.volumeUnits,
 					this);
 		}
 		String oldVolumeUnitsID = this.volumeUnitsID;
 		this.volumeUnitsID = volumeUnitsID;
-		firePropertyChange(SBaseChangedEvent.volumeUnits, oldVolumeUnitsID,
+		firePropertyChange(SBaseChangeEvent.volumeUnits, oldVolumeUnitsID,
 				this.volumeUnitsID);
 	}
 
@@ -3849,7 +3848,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfCompartments} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangedListener}.
+	 * notifies all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -3866,7 +3865,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfCompartmentTypes} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangedListener}.
+	 * notifies all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -3885,7 +3884,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfConstraints} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangedListener}.
+	 * notifies all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -3902,7 +3901,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfEvents} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -3919,7 +3918,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfFunctionDefinitions} from this {@link Model}
-	 * and notifies all registered instances of {@link SBaseChangedListener}.
+	 * and notifies all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -3936,7 +3935,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfInitialAssignments} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangedListener}.
+	 * notifies all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -3953,7 +3952,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfParameters} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangedListener}.
+	 * notifies all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -3970,7 +3969,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfReactions} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -3987,7 +3986,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfRules} from this {@link Model} and notifies all
-	 * registered instances of {@link SBaseChangedListener}.
+	 * registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -4004,7 +4003,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfSpecies} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangedListener}.
+	 * all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -4021,7 +4020,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfSpeciesTypes} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangedListener}.
+	 * notifies all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -4040,7 +4039,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfUnitDefinitions} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangedListener}.
+	 * notifies all registered instances of {@link SBaseChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.

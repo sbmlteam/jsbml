@@ -23,7 +23,7 @@ package org.sbml.jsbml.util;
 import org.sbml.jsbml.SBase;
 
 /**
- * This event tells an {@link SBaseChangedListener} which values have been
+ * This event tells an {@link SBaseChangeListener} which values have been
  * changed in an {@link SBase} and also provides the old and the new value.
  * 
  * @author Andreas Dr&auml;ger
@@ -31,7 +31,7 @@ import org.sbml.jsbml.SBase;
  * @since 0.8
  * @version $Rev$
  */
-public class SBaseChangedEvent extends ChangeEvent<SBase> {
+public class SBaseChangeEvent extends ChangeEvent<SBase> {
 	
 	/**
 	 * Generated serial version identifier
@@ -113,7 +113,7 @@ public class SBaseChangedEvent extends ChangeEvent<SBase> {
 	 * @param oldValue
 	 * @param propertyName
 	 */
-	public SBaseChangedEvent(SBase source, String propertyName,
+	public SBaseChangeEvent(SBase source, String propertyName,
 			Object oldValue, Object newValue) {
 		super(source, propertyName, oldValue, newValue);
 	}
@@ -122,7 +122,7 @@ public class SBaseChangedEvent extends ChangeEvent<SBase> {
 	 * 
 	 * @param sbaseChangedEvent
 	 */
-	public SBaseChangedEvent(SBaseChangedEvent sbaseChangedEvent) {
+	public SBaseChangeEvent(SBaseChangeEvent sbaseChangedEvent) {
 		this(sbaseChangedEvent.getSource(),
 				sbaseChangedEvent.getPropertyName(), sbaseChangedEvent
 						.getOldValue(), sbaseChangedEvent.getNewValue());
@@ -134,8 +134,8 @@ public class SBaseChangedEvent extends ChangeEvent<SBase> {
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
-	public SBaseChangedEvent clone() {
-		return new SBaseChangedEvent(this);
+	public SBaseChangeEvent clone() {
+		return new SBaseChangeEvent(this);
 	}
 	
 	/* (non-Javadoc)
@@ -143,8 +143,8 @@ public class SBaseChangedEvent extends ChangeEvent<SBase> {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof SBaseChangedEvent) {
-			return super.equals((SBaseChangedEvent) obj);
+		if (obj instanceof SBaseChangeEvent) {
+			return super.equals((SBaseChangeEvent) obj);
 		}
 		return false;
 	}
