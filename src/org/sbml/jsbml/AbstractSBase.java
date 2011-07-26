@@ -283,6 +283,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			this.annotation.parent = this;
 		}
 		boolean returnValue = annotation.addCVTerm(term);
+		// TODO: might be calling listeners twice.
 		firePropertyChange(SBaseChangeEvent.addCVTerm, null, term);
 		return returnValue;
 	}
