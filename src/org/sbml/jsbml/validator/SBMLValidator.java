@@ -170,7 +170,8 @@ class MultipartPost {
 
 		// Adding a line return, otherwise the xml content is considered
 		// invalid by libsbml
-		stream.write(System.getProperty ( "line.separator" ).getBytes());
+		// stream.write(System.getProperty ( "line.separator" ).getBytes());
+		writeln();
 		
 		stream.flush();
 		source.close();
