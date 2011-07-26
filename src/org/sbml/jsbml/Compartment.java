@@ -97,17 +97,24 @@ public class Compartment extends Symbol {
 		if (compartment.isSetCompartmentType()) {
 			this.compartmentTypeID = new String(compartment
 					.getCompartmentType());
+		} else {
+			compartmentTypeID = compartment.compartmentTypeID == null ? null : new String(compartment.compartmentTypeID);
 		}
+		
 		if (compartment.isSetSpatialDimensions()) {
 			setSpatialDimensions(Double.valueOf(compartment
 					.getSpatialDimensions()));
+		} else {
+			spatialDimensions = compartment.spatialDimensions == null ? null : new Double(compartment.spatialDimensions);
 		}
+		
 		if (compartment.isSetOutside()) {
-			this.outsideID = new String(compartment.getOutside());
+			setOutside(new String(compartment.getOutside()));
+		} else {
+			outsideID = compartment.outsideID == null ? null : new String(compartment.outsideID);
 		}
-		if (compartment.isSetSize()) {
-			setValue(compartment.getSize());
-		}
+		
+		// size is set in the super clone constructor
 	}
 
 	/**

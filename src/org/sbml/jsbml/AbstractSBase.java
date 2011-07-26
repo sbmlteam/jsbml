@@ -229,6 +229,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			this.annotation = sb.getAnnotation().clone();
 			this.annotation.parent = this;
 		}
+		// TODO : we need to clone these extensions objects !!
 		if (sb.isExtendedByOtherPackages()) {
 			this.extensions.putAll(sb.getExtensionPackages());
 		}

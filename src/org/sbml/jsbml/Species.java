@@ -125,9 +125,13 @@ public class Species extends Symbol {
 
 		if (species.isSetBoundaryCondition()) {
 			setBoundaryCondition(species.getBoundaryCondition());
+		} else {
+			boundaryCondition = species.boundaryCondition == null ? null : new Boolean(species.boundaryCondition);
 		}
 		if (species.isSetCharge()) {
 			setCharge(species.getCharge());
+		} else {
+			charge = species.charge == null ? null : new Integer(species.charge);
 		}
 		if (species.isSetCompartment()) {
 			setCompartment(new String(species.getCompartment()));
@@ -138,21 +142,18 @@ public class Species extends Symbol {
 		if (species.isSetHasOnlySubstanceUnits()) {
 			setHasOnlySubstanceUnits(new Boolean(
 					species.getHasOnlySubstanceUnits()));
+		} else {
+			hasOnlySubstanceUnits = species.hasOnlySubstanceUnits == null ? null : new Boolean(species.hasOnlySubstanceUnits);
 		}
 		if (species.isSetInitialAmount()) {
 			setInitialAmount(new Double(species.getInitialAmount()));
 		} else if (species.isSetInitialConcentration()) {
 			setInitialConcentration(species.getInitialConcentration());
-		} else {
-			setValue(Double.NaN);
-		}
-		if (species.isSetConstant()) {
-			setConstant(new Boolean(species.getConstant()));
-		}
+		}		
 		if (species.isSetSpatialSizeUnits()) {
 			setSpatialSizeUnits(new String(species.getSpatialSizeUnits()));
 		} else {
-			this.spatialSizeUnitsID = null;
+			this.spatialSizeUnitsID = species.spatialSizeUnitsID == null ? null : new String(species.spatialSizeUnitsID);
 		}
 	}
 

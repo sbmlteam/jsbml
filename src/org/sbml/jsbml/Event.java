@@ -84,12 +84,15 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	 */
 	public Event(Event event) {
 		super(event);
+		
 		if (event.isSetTrigger()) {
 			setTrigger(event.getTrigger().clone());
 		}
 		if (event.isSetUseValuesFromTriggerTime()) {
 			setUseValuesFromTriggerTime(event.getUseValuesFromTriggerTime());
-		}
+		} else {
+			useValuesFromTriggerTime = event.useValuesFromTriggerTime == null ? null : new Boolean(event.useValuesFromTriggerTime);
+		}		
 		if (event.isSetDelay()) {
 			setDelay(event.getDelay().clone());
 		}
