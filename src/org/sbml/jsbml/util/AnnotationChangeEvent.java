@@ -41,6 +41,10 @@ public class AnnotationChangeEvent extends ChangeEvent<AnnotationElement> {
 
 	public static final String about = "about";
 	public static String nonRDFAnnotation = "nonRDFAnnotation";
+	public static String annotationNameSpaces = "annotationNameSpaces";
+	public static String history = "history";
+	public static String rdfAnnotationNamespaces = "rdfAnnotationNamespaces";
+	public static String addCVTerm = "addCVTerm";
 	
 
 	/**

@@ -242,11 +242,10 @@ public class Annotation extends AnnotationElement {
 	 */
 	public void addAnnotationNamespace(String namespaceName, String prefix,
 			String URI) {
-		if (!prefix.equals("")) {
-			this.annotationNamespaces.put(prefix + ":" + namespaceName, URI);
-		} else {
-			this.annotationNamespaces.put(namespaceName, URI);
-		}
+		String key = (prefix.length() > 0) ? prefix + ":" + namespaceName
+				: namespaceName;
+		// TODO: Notify listener
+		this.annotationNamespaces.put(key, URI);
 	}
 
 	/**
@@ -273,7 +272,9 @@ public class Annotation extends AnnotationElement {
 					.getNamespaceURI());
 		}
 		cvTerm.parent = this;
-		return listOfCVTerms.add(cvTerm);
+		boolean success = listOfCVTerms.add(cvTerm);
+		firePropertyChange(AnnotationChangeEvent.addCVTerm, null, cvTerm);
+		return success;
 	}
 	
 	/**
@@ -283,6 +284,7 @@ public class Annotation extends AnnotationElement {
 	 * @param annotation the annotation extension object.
 	 */
 	public void addExtension(String namespace, Annotation annotation) {
+		// TODO: notify listener
 		this.extensions.put(namespace, annotation);
 	}
 
@@ -722,6 +724,7 @@ public class Annotation extends AnnotationElement {
 						attribute.getNodeValue());
 			}
 		}
+		// TODO: fire change event?
 	}
 
 	/**
@@ -729,8 +732,11 @@ public class Annotation extends AnnotationElement {
 	 * 
 	 * @param annotationNamespaces the annotationNamespaces to set
 	 */
-	public void setAnnotationNamespaces(HashMap<String, String> annotationNamespaces) {
+	public void setAnnotationNamespaces(Map<String, String> annotationNamespaces) {
+		Map<String, String> oldAnnotationNameSpaces = this.annotationNamespaces;
 		this.annotationNamespaces = annotationNamespaces;
+		firePropertyChange(AnnotationChangeEvent.annotationNameSpaces,
+				oldAnnotationNameSpaces, this.annotationNamespaces);
 	}
 
 	/**
@@ -739,8 +745,10 @@ public class Annotation extends AnnotationElement {
 	 * @param history the history to set.
 	 */
 	public void setHistory(History history) {
+		History oldHistory = this.history;
 		this.history = history;
 		this.history.parent = this;
+		firePropertyChange(AnnotationChangeEvent.history, oldHistory, this.history);
 	}
 
 	/**
@@ -748,8 +756,11 @@ public class Annotation extends AnnotationElement {
 	 * 
 	 * @param rdfAnnotationNamespaces the rdfAnnotationNamespace {@link Map} to set.
 	 */
-	public void setRdfAnnotationNamespaces(HashMap<String, String> rdfAnnotationNamespaces) {
+	public void setRdfAnnotationNamespaces(Map<String, String> rdfAnnotationNamespaces) {
+		Map<String, String> oldRdfAnnotationNameSpaces = this.rdfAnnotationNamespaces;
 		this.rdfAnnotationNamespaces = rdfAnnotationNamespaces;
+		firePropertyChange(AnnotationChangeEvent.rdfAnnotationNamespaces,
+				oldRdfAnnotationNameSpaces, this.rdfAnnotationNamespaces);
 	}
 
 

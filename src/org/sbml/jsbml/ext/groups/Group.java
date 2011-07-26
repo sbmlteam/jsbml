@@ -48,7 +48,7 @@ public class Group extends AbstractNamedSBase {
 	 * 
 	 */
 	public Group() {
-		
+		super();
 	}
 	
 	/**
@@ -56,7 +56,10 @@ public class Group extends AbstractNamedSBase {
 	 * @param group
 	 */
 	public Group(Group group) {
-		// TODO
+		super(group);
+		for (Member m : group.listOfMembers) {
+			listOfMembers.add(m.clone());
+		}
 	}
 	
 	/**

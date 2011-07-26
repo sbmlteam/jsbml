@@ -50,6 +50,7 @@ public class InitialSpeciesInstance extends AbstractNamedSBase {
 	 * 
 	 */
 	public InitialSpeciesInstance() {
+		super();
 		this.selectorID = null;
 		this.initialProportion = null;
 	}
@@ -59,6 +60,7 @@ public class InitialSpeciesInstance extends AbstractNamedSBase {
 	 * @param in
 	 */
 	public InitialSpeciesInstance(InitialSpeciesInstance in) {
+		super(in);
 		this.setSelector(in.getSelector());
 		this.setInitialProportion(in.getInitialProportion());
 	}
@@ -68,7 +70,6 @@ public class InitialSpeciesInstance extends AbstractNamedSBase {
 	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	@Override
 	public InitialSpeciesInstance clone() {
 		return new InitialSpeciesInstance(this);
 	}

@@ -49,7 +49,7 @@ public class ModelGroupExtension extends Model {
 	 * 
 	 */
 	public ModelGroupExtension() {
-		
+		super();
 	}
 	
 	/**
@@ -66,6 +66,7 @@ public class ModelGroupExtension extends Model {
 	 * @param model
 	 */
 	public ModelGroupExtension(Model model) {
+		this();
 		this.model = model;
 		this.model.setThisAsParentSBMLObject(this);
 	}
@@ -85,7 +86,7 @@ public class ModelGroupExtension extends Model {
 	 * @return
 	 */
 	public Group getGroup(int i) {
-		if (i >= 0 && i < listOfGroups.size()) {
+		if ((i >= 0) && (i < listOfGroups.size())) {
 			return listOfGroups.get(i);
 		}
 		

@@ -48,7 +48,7 @@ public class Member extends AbstractSBase {
 	 * 
 	 */
 	public Member() {
-		
+		super();
 	}
 	
 	/**
@@ -65,14 +65,14 @@ public class Member extends AbstractSBase {
 	 * @param member
 	 */
 	public Member(Member member) {
-		// TODO
+		super(member);
+		this.symbol = new String(member.getSymbol());
 	}
 	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	@Override
 	public Member clone() {
 		return new Member(this);
 	}
