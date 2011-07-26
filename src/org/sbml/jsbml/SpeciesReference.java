@@ -127,12 +127,18 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		}
 		if (speciesReference.isSetStoichiometry()) {
 			setStoichiometry(new Double(speciesReference.getStoichiometry()));
+		} else {
+			stoichiometry = speciesReference.stoichiometry == null ? null : new Double(speciesReference.stoichiometry);
 		}
 		if (speciesReference.isSetConstant()) {
 			setConstant(new Boolean(speciesReference.getConstant()));
+		} else {
+			constant = speciesReference.constant == null ? null : new Boolean(speciesReference.constant);
 		}
 		if (speciesReference.isSetDenominator) {
 			setDenominator(new Integer(speciesReference.getDenominator()));
+		} else {
+			denominator = speciesReference.denominator == null ? null : new Integer(speciesReference.denominator);
 		}
 	}
 

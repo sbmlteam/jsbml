@@ -83,7 +83,7 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 			this.value = new Double(qwdu.getValue());
 			isSetValue = true;
 		} else {
-			this.value = null;
+			this.value = qwdu.value == null ? null : new Double(qwdu.value);
 		}
 	}
 

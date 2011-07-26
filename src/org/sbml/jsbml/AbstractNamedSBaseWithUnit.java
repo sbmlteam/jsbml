@@ -64,6 +64,8 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		super(nsbu);		
 		if (nsbu.isSetUnits()) {
 			setUnits(new String(nsbu.getUnits()));
+		} else {
+			unitsID = nsbu.unitsID == null ? null : new String(nsbu.unitsID);
 		}
 	}
 
