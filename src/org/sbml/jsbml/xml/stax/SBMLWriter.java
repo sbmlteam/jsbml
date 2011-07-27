@@ -1025,6 +1025,8 @@ public class SBMLWriter {
 			// Creating an SMOutputElement to be sure that the previous nested element tag is closed properly.
 			SMNamespace mathMLNamespace = element.getNamespace(ASTNode.URI_MATHML_DEFINITION, ASTNode.URI_MATHML_PREFIX);
 			SMOutputElement mathElement = element.addElement(mathMLNamespace, "math");
+			
+			// TODO : add all other namespaces !!
 
 			mathElement.setIndentation(createIndentationString(indent + 2), indent + indentCount, indentCount);
 			

@@ -1254,6 +1254,8 @@ public class ASTNode extends AbstractTreeNode {
 		this.variable = astNode.variable;
 		this.numerator = astNode.numerator;
 		this.parent = astNode.getParent();
+		this.unitId = astNode.unitId == null ? null : new String(astNode.unitId);
+		
 		for (ASTNode child : astNode.listOfNodes) {
 			ASTNode c = child.clone();
 			c.parent = this;
@@ -3315,8 +3317,7 @@ public class ASTNode extends AbstractTreeNode {
 										"Unexpected attribute %s, only a valid unit kind or the identifier of a unit definition are allowed here.",
 										unitId));
 			}
-			if (parentSBMLObject.isSetLevel()
-					&& (2 < parentSBMLObject.getLevel())) {
+			if (parentSBMLObject.isSetLevel() && parentSBMLObject.getLevel() < 3) {
 				throw new IllegalArgumentException(String.format(
 										"Cannot set unit %s for a numbers in an ASTNode before SBML Level 3.",
 										unitId));
