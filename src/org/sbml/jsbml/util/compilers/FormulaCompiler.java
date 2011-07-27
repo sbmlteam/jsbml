@@ -694,7 +694,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * @return
 	 * @throws SBMLException
 	 */
-	private ASTNodeValue function(String name, ASTNode... nodes)
+	protected ASTNodeValue function(String name, ASTNode... nodes)
 			throws SBMLException {
 		LinkedList<ASTNode> l = new LinkedList<ASTNode>();
 		for (ASTNode node : nodes) {
@@ -711,7 +711,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * @return
 	 * @throws SBMLException
 	 */
-	private ASTNodeValue function(String name, List<ASTNode> nodes)
+	protected ASTNodeValue function(String name, List<ASTNode> nodes)
 			throws SBMLException {
 		return new ASTNodeValue(concat(name, brackets(lambdaBody(nodes)))
 				.toString(), this);
