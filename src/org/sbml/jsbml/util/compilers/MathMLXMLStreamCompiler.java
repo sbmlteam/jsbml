@@ -436,6 +436,9 @@ public class MathMLXMLStreamCompiler {
 			if (astNode.isSetNumberType()) {
 				writer.writeAttribute("type", "real");
 			}
+			if (astNode.isSetUnits()) {
+				writer.writeAttribute(" sbml:units", astNode.getUnits());
+			}
 			writer.writeCharacters(" ");
 			
 			// We need the DecimalFormat to have number like 0.000166, that get transformed into 1.66E-4 which is 
@@ -461,6 +464,9 @@ public class MathMLXMLStreamCompiler {
 			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "cn");
 			writer.writeAttribute("type", "e-notation");
 			writer.writeCharacters(" ");
+			if (astNode.isSetUnits()) {
+				writer.writeAttribute("sbml:units", astNode.getUnits());
+			}
 			writer.writeCharacters(realFormat.format(astNode.getMantissa()));
 			writer.writeCharacters(" ");
 			writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "sep");
@@ -483,6 +489,9 @@ public class MathMLXMLStreamCompiler {
 			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "cn");
 			writer.writeAttribute("type", "rational");
 			writer.writeCharacters(" ");
+			if (astNode.isSetUnits()) {
+				writer.writeAttribute("sbml:units", astNode.getUnits());
+			}
 			writer.writeCharacters(Integer.toString(astNode.getNumerator()));
 			writer.writeCharacters(" ");
 			writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "sep");
