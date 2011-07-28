@@ -67,6 +67,8 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	 */
 	private Boolean useValuesFromTriggerTime;
 
+	private boolean isSetUseValuesFromTriggerTime;
+	
 	/**
 	 * Creates an Event instance. By default, if the level is set and is
 	 * superior or equal to 3, the trigger, delay, listOfEventAssignemnts and
@@ -681,7 +683,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	 * @return true is the useValuesFromTriggerTime of this Event is not null.
 	 */
 	public boolean isSetUseValuesFromTriggerTime() {
-		return this.useValuesFromTriggerTime != null;
+		return isSetUseValuesFromTriggerTime;
 	}
 
 	/**
@@ -691,7 +693,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	 */
 	public boolean isUseValuesFromTriggerTime() {
 		return isSetUseValuesFromTriggerTime() ? useValuesFromTriggerTime
-				: false;
+				: true;
 	}
 	
 	/*
@@ -914,6 +916,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 		}
 		Boolean oldUsesValuesFromTriggerTime = this.useValuesFromTriggerTime;
 		this.useValuesFromTriggerTime = useValuesFromTriggerTime;
+		isSetUseValuesFromTriggerTime = true;
 		firePropertyChange(SBaseChangeEvent.useValuesFromTriggerTime,
 				oldUsesValuesFromTriggerTime, useValuesFromTriggerTime);
 	}
@@ -989,6 +992,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	public void unsetUseValuesFromTriggerTime() {
 		Boolean oldUseValuesFromTriggerTime = useValuesFromTriggerTime;
 		this.useValuesFromTriggerTime = null;
+		isSetUseValuesFromTriggerTime = false;
 		firePropertyChange(SBaseChangeEvent.useValuesFromTriggerTime,
 				oldUseValuesFromTriggerTime, null);
 	}
