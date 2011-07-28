@@ -481,7 +481,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 			} else if (attributeName.equals("constant")) {
 				setConstant(StringTools.parseSBMLBoolean(value));
 			} else if (attributeName.equals("denominator")) {
-				setDenominator(denominator);
+				setDenominator(StringTools.parseSBMLInt(value));
 			} else {
 				isAttributeRead = false;
 			}

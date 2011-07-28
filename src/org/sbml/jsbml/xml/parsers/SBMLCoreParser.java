@@ -307,8 +307,11 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 */
 	public void processAttribute(String elementName, String attributeName,
 			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
+			Object contextObject) 
+	{
 
+		log4jLogger.debug(" process the attribute : '" + attributeName + "' (value = " + value + ") on element '" + elementName + "' (" + contextObject + ").");
+		
 		boolean isAttributeRead = false;
 
 		// A SBMLCoreParser can modify a contextObject which is an instance of
