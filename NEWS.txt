@@ -116,7 +116,9 @@ Version 0.8-rc1 (xx-xx-2011)
     been improved and the correct mathML element is created when saving the
     formula to XML. 
   
-  -    
+  - The attribute denominator on level1v2 SpeciesReferences was never read.
+    Thanks to the numerus models in the SBML Test Suite to help us detecting 
+    this problem.
   
 * Known issues :
 
