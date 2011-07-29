@@ -704,7 +704,10 @@ public class Annotation extends AnnotationElement {
 	 * @param nonRDFAnnotation
 	 */
 	public void setNonRDFAnnotation(String nonRDFAnnotation) {
-		String oldNonRDFAnnotation = this.otherAnnotation.toString();
+		String oldNonRDFAnnotation = null;
+		if (otherAnnotation != null) {
+			oldNonRDFAnnotation = otherAnnotation.toString();
+		}
 		otherAnnotation = new StringBuilder(nonRDFAnnotation);
 		firePropertyChange(AnnotationChangeEvent.nonRDFAnnotation,
 				oldNonRDFAnnotation, otherAnnotation.toString());
