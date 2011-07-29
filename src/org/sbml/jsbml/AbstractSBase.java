@@ -203,27 +203,33 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @param sb an <code>AbstractSBase</code> object to clone
 	 */
 	public AbstractSBase(SBase sb) {
-		this();
+		super(sb);
+		
+		// setOfListeners is needed in all other setXX methods
+		setOfListeners = new HashSet<SBaseChangeListener>();
+		// extensions is needed when doing getChildCount
+		extensions = new HashMap<String, SBase>();
+
+		if (sb instanceof AbstractSBase) {
+			this.setOfListeners.addAll(((AbstractSBase) sb).setOfListeners);
+		}
+		
 		if (sb.isSetLevel()) {
 			setLevel(sb.getLevel());
 		}
 		if (sb.isSetVersion()) {
 			setVersion(sb.getVersion());
 		}
-		if (sb.isSetParentSBMLObject()) {
-			this.parent = sb.getParentSBMLObject();
-		}
 		if (sb.isSetSBOTerm()) {
 			this.sboTerm = sb.getSBOTerm();
+		} else {
+			sboTerm = -1;
 		}
 		if (sb.isSetMetaId()) {
 			this.metaId = new String(sb.getMetaId());
 		}
 		if (sb.isSetNotes()) {
 			this.notesXMLNode = sb.getNotes().clone();
-		}
-		if (sb instanceof AbstractSBase) {
-			this.setOfListeners.addAll(((AbstractSBase) sb).setOfListeners);
 		}
 		if (sb.isSetAnnotation()) {
 			this.annotation = sb.getAnnotation().clone();
@@ -233,6 +239,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		if (sb.isExtendedByOtherPackages()) {
 			this.extensions.putAll(sb.getExtensionPackages());
 		}
+		// TODO : clone namespaces
 	}
 		
 

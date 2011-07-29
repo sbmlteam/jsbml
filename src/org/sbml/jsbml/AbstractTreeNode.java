@@ -85,7 +85,10 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 	 */
 	public AbstractTreeNode(TreeNode node) {
 		this();
-		this.parent = node.getParent();
+		// the parent is not cloned and is left as null
+		// The Object will get a parent set as soon as it is added/linked
+		// again to a model somehow.		
+		// this.parent = node.getParent();
 	}
 
 	/*
