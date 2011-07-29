@@ -379,7 +379,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		if (e instanceof NamedSBase) {
 			NamedSBase nsb = (NamedSBase) e;
 			if (nsb.isSetId()
-					&& (firstHit(new NameFilter(nsb.getId())) != null)) {
+					&& (firstHit(new NameFilter(nsb.getId())) != null)) 
+			{
 				return false;
 			}
 		} else if (contains(e)) {
@@ -388,8 +389,13 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		for (SBaseChangeListener l : setOfListeners) {
 			e.addChangeListener(l);
 		}
-		boolean success = listOf.add(e);
+		// calling the method setThisAsParentSBMLObject before adding the object
+		// to the list as it can throw an Exception if the metaid or id is not 
+		// unique in the model
 		setThisAsParentSBMLObject(e);
+		
+		boolean success = listOf.add(e);
+		
 		return success;
 	}
 
