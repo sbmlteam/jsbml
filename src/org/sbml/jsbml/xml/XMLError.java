@@ -29,7 +29,7 @@ package org.sbml.jsbml.xml;
  * @since 0.8
  * @version $Rev$
  */
-public class XMLError extends Error {
+public class XMLError extends RuntimeException {
 
 	/**
 	 * Generated serial version identifier.
