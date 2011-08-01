@@ -75,7 +75,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 		} else {
 			this.id = null;
 		}
-		if (isSetName()) {
+		if (sb.isSetName()) {
 			this.name = new String(sb.getName());
 		} else {
 			this.name = null;
