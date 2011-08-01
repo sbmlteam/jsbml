@@ -893,13 +893,17 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 */
 	@Override
 	public String toString() {
-//		StringBuilder kineticLawStr = new StringBuilder();
-//		kineticLawStr.append("kineticLaw(");
-//		kineticLawStr.append(getParent().getId());
-//		kineticLawStr.append(") : ");
-//		kineticLawStr.append(super.toString());
-//		return kineticLawStr.toString();
-		return String.format("%s(%s)", getElementName(), getParent().getId());
+
+		String parentId = "";
+		
+		if (getParent() != null) {
+			// Can happen in the clone constructor when using the SimpleSBaseChangeListener
+			// The super constructor is called before parent is initialized and
+			// it is using the toString() method
+			parentId = getParent().getId();
+		}
+
+		return String.format("%s(%s)", getElementName(), parentId);
 	}
 
 	/**
