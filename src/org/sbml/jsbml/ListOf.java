@@ -955,6 +955,14 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		if (DEBUG_MODE) {
 			return listOf.toString();
 		}
+		
+		if (listType == null) {
+			// Can happen in the clone constructor when using the SimpleSBaseChangeListener
+			// The super constructor is called before listType is initialized and
+			// it is using the toString() method
+			return Type.none.toString();
+		}
+		
 		return listType.toString();
 	}
 
