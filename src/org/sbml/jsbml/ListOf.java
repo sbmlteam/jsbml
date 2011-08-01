@@ -726,11 +726,12 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
+			String value) 
+	{
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 		if (!isAttributeRead) {
-			// TODO: are there any special attributes?
+			// no special attributes for ListOf
 		}
 		return isAttributeRead;
 	}

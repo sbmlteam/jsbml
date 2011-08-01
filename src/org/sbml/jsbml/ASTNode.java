@@ -2247,8 +2247,11 @@ public class ASTNode extends AbstractTreeNode {
 			switch (type) {
 			case REAL:
 				return mantissa;
-			case REAL_E:
-				return mantissa * Math.pow(10, getExponent());
+			case REAL_E:{
+				//  mantissa * Math.pow(10, getExponent())) ==> this formula does not give exact values.
+				// for example : mantissa = 3.0, exponent = -17 ==> 2.9999999999999994E-17 instead of 3.0E-17
+				return Double.parseDouble(mantissa + "E" + getExponent());
+			}
 			case RATIONAL:
 				return ((double) getNumerator()) / ((double) getDenominator());
 			case CONSTANT_E:
