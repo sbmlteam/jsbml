@@ -1151,6 +1151,8 @@ public class ASTNode extends AbstractTreeNode {
 		return uMinus(new ASTNode(sbase, container));
 	}
 
+	private transient Logger logger = Logger.getLogger(this.getClass());
+	
 	/**
 	 * The value of the definitionURL for csymbol element. Level 3 extensions
 	 * can create new csymbol element that we would not necessary be aware of,
@@ -1246,7 +1248,10 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public ASTNode(ASTNode astNode) {
 		this(astNode.getParentSBMLObject());
-		setType(astNode.getType());
+		
+		logger.debug("Clone constructor : Origin type = " + astNode.type);
+		
+		setType(astNode.getType());		
 		this.denominator = astNode.denominator;
 		this.exponent = astNode.exponent;
 		this.mantissa = astNode.mantissa;
@@ -2382,7 +2387,10 @@ public class ASTNode extends AbstractTreeNode {
 						}
 					}
 				}
-				setVariable(variable);
+				// this call would change the 'type' of the ASTNode to NAME all the times !!!
+				// The ASTNode class is really a mess with call to setType all over the place...
+				// No need to call the setVariable as the variable attribute is already assigned
+				// setVariable(variable);
 			}
 			return variable;
 		}
@@ -2417,6 +2425,9 @@ public class ASTNode extends AbstractTreeNode {
 	 * 
 	 */
 	private void initDefaults() {
+		
+		logger.debug("initDefaults called !! type was " + (type == null ? Type.UNKNOWN : type));
+		
 		type = Type.UNKNOWN;
 
 		id = null;
@@ -2991,7 +3002,7 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	// TODO : should we return an exception to tell people that the method is
 	// not complete ?
-	public void reduceToBinary() {
+	private void reduceToBinary() {
 		if (getNumChildren() > 2) {
 			int i;
 			switch (type) {
@@ -3219,7 +3230,8 @@ public class ASTNode extends AbstractTreeNode {
 	public void setName(String name) {
 		this.name = name;
 		if ((!type.toString().startsWith("NAME")) && type != Type.FUNCTION
-				&& type != Type.FUNCTION_DELAY) {
+				&& type != Type.FUNCTION_DELAY) 
+		{
 			type = variable == null ? Type.FUNCTION : Type.NAME;
 		}
 	}
@@ -3276,6 +3288,9 @@ public class ASTNode extends AbstractTreeNode {
 		// type);
 
 		String sType = type.toString();
+		
+		logger.debug("setType called : typeBefore = " + this.type + " typeAfter= " + sType);
+		
 		if (sType.startsWith("NAME") || sType.startsWith("CONSTANT")) {
 			// TODO : check, a user might have set some values before calling
 			// the setType()

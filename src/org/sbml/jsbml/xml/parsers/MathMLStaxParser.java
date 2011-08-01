@@ -143,9 +143,8 @@ public class MathMLStaxParser implements ReadingParser {
 	public void processCharactersOf(String elementName, String characters, Object contextObject) {
 		// process the text content of the mathMl node, mainly ci, cn and csymbol should have content
 		
-		// System.out.println("MathMLStaxParser : processCharactersOf called");
-		// System.out.println("MathMLStaxParser : processCharactersOf : element name = " + elementName + ", characters = " + characters);
-		// + ", " + contextObject);
+		logger.debug("processCharactersOf called");
+		logger.debug("processCharactersOf : element name = " + elementName + ", characters = " + characters);
 		
 		// Depending of the type of ASTNode, we need to do different things
 		if (! (contextObject instanceof ASTNode)) {
@@ -168,12 +167,12 @@ public class MathMLStaxParser implements ReadingParser {
 			// functionDefinition are not properly recognized
 			logger.warn("WARNING : cannot recognize properly functionDefinition in mathML block !!!");
 		}
-		
+
 		if (functionDef != null) {
-			// System.out.println("MathMLStaxParser : processCharactersOf : function found !!");
+			logger.debug("MathMLStaxParser : processCharactersOf : function found !!");
 			astNode.setType(Type.FUNCTION);
 		}
-		
+
 		if (astNode.isName() || astNode.isFunction()) {
 			astNode.setName(characters.trim());
 		} else if (astNode.isInteger()) {
@@ -209,7 +208,7 @@ public class MathMLStaxParser implements ReadingParser {
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 
 		// System.out.println("MathMLStaxParser : processEndDocument called");
-		
+
 	}
 
 	/*
