@@ -170,9 +170,7 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 	public void setValue(double value) {
 		Double oldValue = this.value;
 		this.value = value;
-		if (!Double.isNaN(value)) {
-			isSetValue = true;
-		}
+		isSetValue = true;
 		firePropertyChange(SBaseChangeEvent.value, oldValue, value);
 	}
 

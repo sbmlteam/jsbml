@@ -134,7 +134,7 @@ public class Parameter extends Symbol {
 	 * constant variable with a NaN value.
 	 */
 	public void initDefaults(int level, int version) {
-		setValue(Double.NaN);
+		value = Double.NaN;
 
 		if (level > 1) {
 			constant = true;

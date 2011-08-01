@@ -3410,7 +3410,13 @@ public class ASTNode extends AbstractTreeNode {
 	 * @param variable
 	 */
 	public void setVariable(CallableSBase variable) {
-		type = Type.NAME;
+		
+		if (variable instanceof FunctionDefinition) {
+			type = Type.FUNCTION;
+		} else {
+			type = Type.NAME;
+		}
+			
 		this.variable = variable;
 	}
 
