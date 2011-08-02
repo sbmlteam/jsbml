@@ -117,7 +117,7 @@ public class Annotation extends AnnotationElement {
 	 * contains all the annotation information which are not RDF.
 	 * 
 	 */
-	private StringBuilder otherAnnotation;
+	private StringBuilder nonRDFannotation;
 
 	/**
 	 * contains all the name spaces of the matching XML RDF annotation node
@@ -135,7 +135,7 @@ public class Annotation extends AnnotationElement {
 		this.annotationNamespaces = new HashMap<String, String>();
 		this.rdfAnnotationNamespaces = new HashMap<String, String>();
 		this.extensions = new HashMap<String, Annotation>();
-		this.otherAnnotation = null;
+		this.nonRDFannotation = null;
 		this.history = null;
 	}
 	
@@ -154,8 +154,8 @@ public class Annotation extends AnnotationElement {
 		for (Map.Entry<String, Annotation> entry : annotation.extensions.entrySet()) {
 			this.extensions.put(new String(entry.getKey()), entry.getValue().clone());
 		}
-		if (annotation.otherAnnotation != null) {
-			this.otherAnnotation = new StringBuilder(annotation.otherAnnotation
+		if (annotation.nonRDFannotation != null) {
+			this.nonRDFannotation = new StringBuilder(annotation.nonRDFannotation
 					.toString());
 		}
 		for (CVTerm term : annotation.getListOfCVTerms()) {
@@ -210,7 +210,7 @@ public class Annotation extends AnnotationElement {
 	 */
 	public Annotation(String annotation) {
 		this();
-		this.otherAnnotation = new StringBuilder(annotation);
+		this.nonRDFannotation = new StringBuilder(annotation);
 	}
 
 	/**
@@ -229,7 +229,7 @@ public class Annotation extends AnnotationElement {
 	 */
 	public Annotation(String annotation, List<CVTerm> cvTerms) {
 		this();
-		this.otherAnnotation = new StringBuilder(annotation);
+		this.nonRDFannotation = new StringBuilder(annotation);
 		this.listOfCVTerms = cvTerms;
 	}
 
@@ -311,10 +311,10 @@ public class Annotation extends AnnotationElement {
 	 * @param annotation some non RDF annotations.
 	 */
 	public void appendNoRDFAnnotation(String annotation) {
-		if (this.otherAnnotation == null) {
-			this.otherAnnotation = new StringBuilder(annotation);
+		if (this.nonRDFannotation == null) {
+			this.nonRDFannotation = new StringBuilder(annotation);
 		} else {
-			this.otherAnnotation.append(annotation);
+			this.nonRDFannotation.append(annotation);
 		}
 	}
 
@@ -330,47 +330,30 @@ public class Annotation extends AnnotationElement {
 	}
 
 
-	/**
-	 * Checks if this object is equal to 'annotation'
-	 * 
-	 * @param annotation the annotation to compare to the current instance.
-	 * @return true if this object entirely matches 'annotation'
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
-	public boolean equals(Annotation annotation) {
-		boolean equals = isSetNonRDFannotation() == annotation.isSetNonRDFannotation();
-		if (equals && isSetOtherAnnotationThanRDF()) {
-			equals = otherAnnotation.equals(annotation.getNonRDFannotation());
-		}
-		equals &= isSetHistory() == annotation.isSetHistory();
-		if (equals && isSetHistory()) {
-			equals = this.history.equals(annotation.getHistory());
-		}
-		equals &= getListOfCVTerms().isEmpty() == annotation.getListOfCVTerms()
-				.isEmpty();
-		if (equals && !getListOfCVTerms().isEmpty()) {
-			if (listOfCVTerms.size() == annotation.getListOfCVTerms().size()) {
-				for (int i = 0; i < listOfCVTerms.size(); i++) {
-					CVTerm cvTerm1 = listOfCVTerms.get(i);
-					CVTerm cvTerm2 = annotation.getListOfCVTerms().get(i);
-
-					if (cvTerm1 != null && cvTerm2 != null) {
-						equals &= cvTerm1.equals(cvTerm2);
-						if (!equals) {
-							return false;
-						}
-					} else if ((cvTerm1 == null && cvTerm2 != null)
-							|| (cvTerm2 == null && cvTerm1 != null)) {
-						return false;
-					}
-				}
-			} else {
-				return false;
+	@Override
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			Annotation annotation = (Annotation) object;
+			// TODO: As soon as NonRDFannotation is also represented in form of XMLNodes, we won't have to check this here because this will also be done in the super class.
+			equals &= isSetNonRDFannotation() == annotation
+					.isSetNonRDFannotation();
+			if (equals && isSetNonRDFannotation()) {
+				equals = nonRDFannotation.equals(annotation
+						.getNonRDFannotation());
+			}
+			equals &= isSetAbout() == annotation.isSetAbout();
+			if (equals && isSetAbout()) {
+				equals &= getAbout().equals(annotation.getAbout());
 			}
 		}
-
 		return equals;
 	}
-
+	
 	/**
 	 * Returns a list of CVTerm having the given qualifier.
 	 * 
@@ -415,6 +398,13 @@ public class Annotation extends AnnotationElement {
 		return about == null ? "" : about;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
 
 	/**
 	 * Returns the StringBuilder representing non RDF annotations.
@@ -422,7 +412,7 @@ public class Annotation extends AnnotationElement {
 	 * @return the StringBuilder representing non RDF annotations.
 	 */
 	public StringBuilder getAnnotationBuilder() {
-		return this.otherAnnotation;
+		return this.nonRDFannotation;
 	}
 
 	/**
@@ -432,6 +422,62 @@ public class Annotation extends AnnotationElement {
 	 */
 	public Map<String, String> getAnnotationNamespaces() {
 		return annotationNamespaces;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int childIndex) {
+		if (childIndex < 0) {
+			throw new IndexOutOfBoundsException(childIndex + " < 0");
+		}
+		int pos = 0;
+		if (isSetHistory()) {
+			if (childIndex == pos) {
+				return getHistory();
+			}
+			pos++;
+		}
+		if (isSetListOfCVTerms()) {
+			if (childIndex == pos) {
+				return new TreeNodeAdapter(getListOfCVTerms());
+			}
+			pos++;
+		}
+		if (extensions.size() > 0) {
+			if (childIndex == pos) {
+				return new TreeNodeAdapter(extensions);
+			}
+			pos++;
+		}
+//		if (isSetNonRDFannotation()) {
+//			if (childIndex == pos) {
+//				return new TreeNodeAdapter(getNonRDFannotation());
+//			}
+//			pos++;
+//		}
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				childIndex, +((int) Math.min(pos, 0))));
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		int count = 0;
+		if (isSetHistory()) {
+			count++;
+		}
+		if (isSetListOfCVTerms()) {
+			count++;
+		}
+		if (extensions.size() > 0) {
+			count++;
+		}
+//		if (isSetNonRDFannotation()) {
+//			count++;
+//		}
+		return count;
 	}
 
 	/**
@@ -497,11 +543,12 @@ public class Annotation extends AnnotationElement {
 	 *         annotation. Return null if there are none.
 	 */
 	public String getNonRDFannotation() {
-		if (otherAnnotation != null) {
-			return otherAnnotation.toString();
+		if (nonRDFannotation != null) {
+			return nonRDFannotation.toString();
 		}
 		return null;
 	}
+
 
 	/**
 	 * Gives the number of {@link CVTerm}s in this {@link Annotation}.
@@ -524,6 +571,21 @@ public class Annotation extends AnnotationElement {
 		return rdfAnnotationNamespaces;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		if (isSetNonRDFannotation()) {
+			hashCode += prime * getNonRDFannotation().hashCode();
+		}
+		if (isSetAbout()) {
+			hashCode += prime * about.hashCode();
+		}
+		return hashCode;
+	}
 
 	/**
 	 * Inserts 'annotation' to the non RDF annotation StringBuilder
@@ -535,10 +597,10 @@ public class Annotation extends AnnotationElement {
 	// TODO : check if this method is used and needed. Could also be used to insert the missing namespaces 
 	// before creating the DOM tree. 
 	public void insertNoRDFAnnotation(String annotation, int offset) {
-		if (this.otherAnnotation == null) {
-			this.otherAnnotation = new StringBuilder(annotation);
+		if (this.nonRDFannotation == null) {
+			this.nonRDFannotation = new StringBuilder(annotation);
 		} else {
-			this.otherAnnotation.insert(offset, annotation);
+			this.nonRDFannotation.insert(offset, annotation);
 		}
 	}
 
@@ -549,7 +611,7 @@ public class Annotation extends AnnotationElement {
 	public boolean isEmpty() {
 		return (!isSetHistory() || history.isEmpty())
 				&& (getNumCVTerms() == 0)
-				&& (!isSetOtherAnnotationThanRDF() || (otherAnnotation.length() == 0));
+				&& (!isSetOtherAnnotationThanRDF() || (nonRDFannotation.length() == 0));
 	}
 
 	/**
@@ -559,24 +621,6 @@ public class Annotation extends AnnotationElement {
 	 */
 	public boolean isSetAbout() {
 		return about != null;
-	}
-
-	/**
-	 * Checks if the {@link History} is initialised
-	 * 
-	 * @return true if the {@link History} is initialised
-	 */
-	public boolean isSetHistory() {
-		return history != null;
-	}
-
-	/**
-	 * Checks if the list of {@link CVTerm} is not empty.
-	 * 
-	 * @return true if there is one or more {@link CVTerm} defined. 
-	 */
-	public boolean isSetListOfCVTerms() {
-		return (listOfCVTerms != null) && (listOfCVTerms.size() > 0);
 	}
 
 	/**
@@ -611,6 +655,27 @@ public class Annotation extends AnnotationElement {
 	}
 
 	/**
+	 * Checks if the {@link History} is initialised
+	 * 
+	 * @return true if the {@link History} is initialised
+	 */
+	public boolean isSetHistory() {
+		return history != null;
+	}
+
+	
+	/**
+	 * Checks if the list of {@link CVTerm} is not empty.
+	 * 
+	 * @return true if there is one or more {@link CVTerm} defined. 
+	 */
+	public boolean isSetListOfCVTerms() {
+		return (listOfCVTerms != null) && (listOfCVTerms.size() > 0);
+	}
+
+
+
+	/**
 	 * Checks if the non RDF part of the Annotation is initialised.
 	 *  
 	 * <p>An Annotation is initialised if
@@ -627,6 +692,20 @@ public class Annotation extends AnnotationElement {
 		return true;
 	}
 
+	/**
+	 * Returns true if there is some non RDF annotation.
+	 * <p>Same as {@link #isSetNonRDFannotation()}
+	 * 
+	 * @return true if there is some non RDF annotation.
+	 * @see #isSetNonRDFannotation()
+	 * @deprecated please use {@link #isSetNonRDFannotation()}
+	 */
+	public boolean isSetOtherAnnotationThanRDF() {
+		return isSetNonRDFannotation();
+	}
+	
+	// TODO : some fireSBaseChangedEvent are missing in this class.
+	
 	/**
 	 * Checks if the RDF part of the Annotation is initialised.
 	 *  
@@ -651,22 +730,7 @@ public class Annotation extends AnnotationElement {
 		}
 		return true;
 	}
-
 	
-	/**
-	 * Returns true if there is some non RDF annotation.
-	 * <p>Same as {@link #isSetNonRDFannotation()}
-	 * 
-	 * @return true if there is some non RDF annotation.
-	 * @see #isSetNonRDFannotation()
-	 * @deprecated please use {@link #isSetNonRDFannotation()}
-	 */
-	public boolean isSetOtherAnnotationThanRDF() {
-		return isSetNonRDFannotation();
-	}
-
-
-
 	/**
 	 * Sets the about instance of this object if the attributeName is equal to
 	 * 'about'.
@@ -695,24 +759,7 @@ public class Annotation extends AnnotationElement {
 		this.about = about;
 		firePropertyChange(AnnotationChangeEvent.about, oldAbout, this.about);
 	}
-	
-	// TODO : some fireSBaseChangedEvent are missing in this class.
-	
-	/**
-	 * Sets the value of the non RDF annotations
-	 * 
-	 * @param nonRDFAnnotation
-	 */
-	public void setNonRDFAnnotation(String nonRDFAnnotation) {
-		String oldNonRDFAnnotation = null;
-		if (otherAnnotation != null) {
-			oldNonRDFAnnotation = otherAnnotation.toString();
-		}
-		otherAnnotation = new StringBuilder(nonRDFAnnotation);
-		firePropertyChange(AnnotationChangeEvent.nonRDFAnnotation,
-				oldNonRDFAnnotation, otherAnnotation.toString());
-	}
-	
+
 	/**
 	 * Sets the annotationNamespaces.
 	 * 
@@ -742,6 +789,7 @@ public class Annotation extends AnnotationElement {
 				oldAnnotationNameSpaces, this.annotationNamespaces);
 	}
 
+
 	/**
 	 * Changes the {@link History} instance to 'history'
 	 * 
@@ -755,6 +803,21 @@ public class Annotation extends AnnotationElement {
 	}
 
 	/**
+	 * Sets the value of the non RDF annotations
+	 * 
+	 * @param nonRDFAnnotation
+	 */
+	public void setNonRDFAnnotation(String nonRDFAnnotation) {
+		String oldNonRDFAnnotation = null;
+		if (nonRDFannotation != null) {
+			oldNonRDFAnnotation = nonRDFannotation.toString();
+		}
+		nonRDFannotation = new StringBuilder(nonRDFAnnotation);
+		firePropertyChange(AnnotationChangeEvent.nonRDFAnnotation,
+				oldNonRDFAnnotation, nonRDFannotation.toString());
+	}
+
+	/**
 	 * Sets the rdfAnnotationNamespace map to 'rdfAnnotationNamespaces'.
 	 * 
 	 * @param rdfAnnotationNamespaces the rdfAnnotationNamespace {@link Map} to set.
@@ -765,7 +828,6 @@ public class Annotation extends AnnotationElement {
 		firePropertyChange(AnnotationChangeEvent.rdfAnnotationNamespaces,
 				oldRdfAnnotationNameSpaces, this.rdfAnnotationNamespaces);
 	}
-
 
 	/**
 	 * Clears the {@link List} of {@link CVTerm}s and removes unnecessary
@@ -795,71 +857,8 @@ public class Annotation extends AnnotationElement {
 	 */
 	public void unsetNonRDFannotation() {
 		if (isSetNonRDFannotation()) {
-			otherAnnotation = null;
+			nonRDFannotation = null;
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int childIndex) {
-		if (childIndex < 0) {
-			throw new IndexOutOfBoundsException(childIndex + " < 0");
-		}
-		int pos = 0;
-		if (isSetHistory()) {
-			if (childIndex == pos) {
-				return getHistory();
-			}
-			pos++;
-		}
-		if (isSetListOfCVTerms()) {
-			if (childIndex == pos) {
-				return new TreeNodeAdapter(getListOfCVTerms());
-			}
-			pos++;
-		}
-		if (extensions.size() > 0) {
-			if (childIndex == pos) {
-				return new TreeNodeAdapter(extensions);
-			}
-			pos++;
-		}
-//		if (isSetNonRDFannotation()) {
-//			if (childIndex == pos) {
-//				return new TreeNodeAdapter(getNonRDFannotation());
-//			}
-//			pos++;
-//		}
-		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-				childIndex, +((int) Math.min(pos, 0))));
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		int count = 0;
-		if (isSetHistory()) {
-			count++;
-		}
-		if (isSetListOfCVTerms()) {
-			count++;
-		}
-		if (extensions.size() > 0) {
-			count++;
-		}
-//		if (isSetNonRDFannotation()) {
-//			count++;
-//		}
-		return count;
 	}
 
 }

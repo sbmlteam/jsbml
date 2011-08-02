@@ -25,7 +25,7 @@ package org.sbml.jsbml;
  * Represents the rateRule XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */

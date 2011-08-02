@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.util.SBaseChangeEvent;
 import org.sbml.jsbml.xml.XMLNode;
 
@@ -28,8 +30,8 @@ import org.sbml.jsbml.xml.XMLNode;
  * Represents the constraint XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
- * @author rodrigue
+ * @author Marine Dumousseau
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
@@ -98,23 +100,40 @@ public class Constraint extends AbstractMathContainer {
 		return new Constraint(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#equals(java.lang.Object)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractMathContainer#getChildAt(int)
 	 */
-	// @Override
-	public boolean equals(Object o) {
-		if (o instanceof Constraint) {
-			boolean equal = super.equals(o);
-			Constraint c = (Constraint) o;
-			equal &= c.isSetMessage() == isSetMessage();
-			if (equal && isSetMessage()) {
-				equal &= c.getMessage().equals(getMessage());
-			}
-			return equal;
+	@Override
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(index + " < 0");
 		}
-		return false;
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
+		if (isSetMessage()) {
+			if (index == pos) {
+				return getMessage();
+			}
+			pos++;
+		}
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractMathContainer#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int count = super.getChildCount();
+		if (isSetMessage()) {
+			count++;
+		}
+		return count;
 	}
 
 	/**
@@ -137,6 +156,16 @@ public class Constraint extends AbstractMathContainer {
 		return message.toXMLString();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getParent()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public ListOf<Constraint> getParent() {
+		return (ListOf<Constraint>) super.getParent();
+	}
+
 	/**
 	 * Returns true if the message of this {@link Constraint} is not null.
 	 * 
@@ -152,9 +181,9 @@ public class Constraint extends AbstractMathContainer {
 	 * @param message
 	 *            : the message to set
 	 */
-	public void setMessage(XMLNode message) {
+	public void setMessage(String message) {
 		XMLNode oldMessage = this.message;
-		this.message = message;
+		this.message = XMLNode.convertStringToXMLNode(message);
 		firePropertyChange(SBaseChangeEvent.message, oldMessage, message);
 	}
 
@@ -164,9 +193,9 @@ public class Constraint extends AbstractMathContainer {
 	 * @param message
 	 *            : the message to set
 	 */
-	public void setMessage(String message) {
+	public void setMessage(XMLNode message) {
 		XMLNode oldMessage = this.message;
-		this.message = XMLNode.convertStringToXMLNode(message);
+		this.message = message;
 		firePropertyChange(SBaseChangeEvent.message, oldMessage, message);
 	}
 
@@ -175,15 +204,5 @@ public class Constraint extends AbstractMathContainer {
 	 */
 	public void unsetMessage() {
 		setMessage((XMLNode) null);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getParent()
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public ListOf<Constraint> getParent() {
-		return (ListOf<Constraint>) super.getParent();
 	}
 }

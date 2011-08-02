@@ -1162,144 +1162,45 @@ public class Model extends AbstractNamedSBase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Model) {
-			Model m = (Model) o;
-			boolean equal = super.equals(o);
-			if ((m.isSetListOfFunctionDefinitions() && !isSetListOfFunctionDefinitions())
-					|| (!m.isSetListOfFunctionDefinitions() && isSetListOfFunctionDefinitions())) {
-				return false;
-			} else if (m.isSetListOfFunctionDefinitions()
-					&& isSetListOfFunctionDefinitions()) {
-				equal &= getListOfFunctionDefinitions().equals(
-						m.getListOfFunctionDefinitions());
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			Model m = (Model) object;
+			equals &= m.isSetTimeUnits() == isSetTimeUnits();
+			if (equals && isSetTimeUnits()) {
+				equals &= getTimeUnits().equals(m.getTimeUnits());
 			}
-			if ((m.isSetListOfUnitDefinitions() && !isSetListOfUnitDefinitions())
-					|| (!m.isSetListOfUnitDefinitions() && isSetListOfUnitDefinitions())) {
-				return false;
-			} else if (m.isSetListOfUnitDefinitions()
-					&& isSetListOfUnitDefinitions()) {
-				equal &= getListOfUnitDefinitions().equals(
-						m.getListOfUnitDefinitions());
+			equals &= m.isSetAreaUnits() == isSetAreaUnits();
+			if (equals && isSetAreaUnits()) {
+				equals &= getAreaUnits().equals(m.getAreaUnits());
 			}
-			if ((m.isSetListOfCompartmentTypes() && !isSetListOfCompartmentTypes())
-					|| (!m.isSetListOfCompartmentTypes() && isSetListOfCompartmentTypes())) {
-				return false;
-			} else if (m.isSetListOfCompartmentTypes()
-					&& isSetListOfCompartmentTypes()) {
-				equal &= getListOfCompartmentTypes().equals(
-						m.getListOfCompartmentTypes());
+			equals &= m.isSetConversionFactor() == isSetConversionFactor();
+			if (equals && isSetConversionFactor()) {
+				equals &= getConversionFactor().equals(m.getConversionFactor());
 			}
-			if ((m.isSetListOfSpeciesTypes() && !isSetListOfSpeciesTypes())
-					|| (!m.isSetListOfSpeciesTypes() && isSetListOfSpeciesTypes())) {
-				return false;
-			} else if (m.isSetListOfSpeciesTypes() && isSetListOfSpeciesTypes()) {
-				equal &= getListOfSpeciesTypes().equals(
-						m.getListOfSpeciesTypes());
+			equals &= m.isSetExtentUnits() == isSetExtentUnits();
+			if (equals && isSetExtentUnits()) {
+				equals &= getExtentUnits().equals(m.getExtentUnits());
 			}
-			if ((m.isSetListOfCompartments() && !isSetListOfCompartments())
-					|| (!m.isSetListOfCompartments() && isSetListOfCompartments())) {
-				return false;
-			} else if (m.isSetListOfCompartments() && isSetListOfCompartments()) {
-				equal &= getListOfCompartments().equals(
-						m.getListOfCompartments());
+			equals &= m.isSetLengthUnits() == isSetLengthUnits();
+			if (equals && isSetLengthUnits()) {
+				equals &= getLengthUnits().equals(m.getLengthUnits());
 			}
-			if ((m.isSetListOfSpecies() && !isSetListOfSpecies())
-					|| (!m.isSetListOfSpecies() && isSetListOfSpecies())) {
-				return false;
-			} else if (m.isSetListOfSpecies() && isSetListOfSpecies()) {
-				equal &= getListOfSpecies().equals(m.getListOfSpecies());
+			equals &= m.isSetSubstanceUnits() == isSetSubstanceUnits();
+			if (equals && m.isSetSubstanceUnits()) {
+				equals &= getSubstanceUnits().equals(m.getSubstanceUnits());
 			}
-			if ((m.isSetListOfParameters() && !isSetListOfParameters())
-					|| (!m.isSetListOfParameters() && isSetListOfParameters())) {
-				return false;
-			} else if (m.isSetListOfParameters() && isSetListOfParameters()) {
-				equal &= getListOfParameters().equals(m.getListOfParameters());
+			equals &= m.isSetVolumeUnits() == isSetVolumeUnits();
+			if (equals && isSetVolumeUnits()) {
+				equals &= getVolumeUnits().equals(m.getVolumeUnits());
 			}
-			if ((m.isSetListOfInitialAssignments() && !isSetListOfInitialAssignments())
-					|| (!m.isSetListOfInitialAssignments() && isSetListOfInitialAssignments())) {
-				return false;
-			} else if (m.isSetListOfInitialAssignments()
-					&& isSetListOfInitialAssignments()) {
-				equal &= getListOfInitialAssignments().equals(
-						m.getListOfInitialAssignments());
-			}
-			if ((m.isSetListOfRules() && !isSetListOfRules())
-					|| (!m.isSetListOfRules() && isSetListOfRules())) {
-				return false;
-			} else if (m.isSetListOfRules() && isSetListOfRules()) {
-				equal &= getListOfRules().equals(m.getListOfRules());
-			}
-			if ((m.isSetListOfConstraints() && !isSetListOfConstraints())
-					|| (!m.isSetListOfConstraints() && isSetListOfConstraints())) {
-				return false;
-			} else if (m.isSetListOfConstraints() && isSetListOfConstraints()) {
-				equal &= getListOfConstraints()
-						.equals(m.getListOfConstraints());
-			}
-			if ((m.isSetListOfReactions() && !isSetListOfReactions())
-					|| (!m.isSetListOfReactions() && isSetListOfReactions())) {
-				return false;
-			} else if (m.isSetListOfReactions() && isSetListOfReactions()) {
-				equal &= getListOfReactions().equals(m.getListOfReactions());
-			}
-			if ((m.isSetListOfEvents() && !isSetListOfEvents())
-					|| (!m.isSetListOfEvents() && isSetListOfEvents())) {
-				return false;
-			} else if (m.isSetListOfEvents() && isSetListOfEvents()) {
-				equal &= getListOfEvents().equals(m.getListOfEvents());
-			}
-			if ((m.isSetTimeUnitsInstance() && !isSetTimeUnitsInstance())
-					|| (!m.isSetTimeUnitsInstance() && isSetTimeUnitsInstance())) {
-				return false;
-			} else if (m.isSetTimeUnits() && isSetTimeUnits()) {
-				equal &= getTimeUnits().equals(m.getTimeUnits());
-			}
-			if ((m.isSetAreaUnits() && !isSetAreaUnits())
-					|| (!m.isSetAreaUnits() && isSetAreaUnits())) {
-				return false;
-			} else if (m.isSetAreaUnits() && isSetAreaUnits()) {
-				equal &= getAreaUnits().equals(m.getAreaUnits());
-			}
-			if ((m.isSetConversionFactor() && !isSetConversionFactor())
-					|| (!m.isSetConversionFactor() && isSetConversionFactor())) {
-				return false;
-			} else if (m.isSetConversionFactor() && isSetConversionFactor()) {
-				equal &= getConversionFactor().equals(m.getConversionFactor());
-			}
-			if ((m.isSetExtentUnits() && !isSetExtentUnits())
-					|| (!m.isSetExtentUnits() && isSetExtentUnits())) {
-				return false;
-			} else if (m.isSetExtentUnits() && isSetExtentUnits()) {
-				equal &= getExtentUnits().equals(m.getExtentUnits());
-			}
-			if ((m.isSetLengthUnits() && !isSetLengthUnits())
-					|| (!m.isSetLengthUnits() && isSetLengthUnits())) {
-				return false;
-			} else if (m.isSetLengthUnits() && isSetLengthUnits()) {
-				equal &= getLengthUnits().equals(m.getLengthUnits());
-			}
-			if ((m.isSetSubstanceUnits() && !isSetSubstanceUnits())
-					|| (!m.isSetSubstanceUnits() && isSetSubstanceUnits())) {
-				return false;
-			} else if (m.isSetSubstanceUnits() && isSetSubstanceUnits()) {
-				equal &= getSubstanceUnits().equals(m.getSubstanceUnits());
-			}
-			if ((m.isSetVolumeUnits() && !isSetVolumeUnits())
-					|| (!m.isSetVolumeUnits() && isSetVolumeUnits())) {
-				return false;
-			} else if (m.isSetVolumeUnits() && isSetVolumeUnits()) {
-				equal &= getVolumeUnits().equals(m.getVolumeUnits());
-			}
-			return equal;
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/**
 	 * Returns a {@link CallableSBase} element of the {@link Model} that has the
 	 * given 'id' as identifier or null if no element is found.
@@ -2474,7 +2375,7 @@ public class Model extends AbstractNamedSBase {
 	public Parameter getParameter(String id) {
 		return getListOfParameters().firstHit(new NameFilter(id));
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()
@@ -2505,7 +2406,7 @@ public class Model extends AbstractNamedSBase {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Gets the n-th {@link Reaction} object in this Model.
 	 * 
@@ -2704,6 +2605,24 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public UnitDefinition getVolumeUnitsInstance() {
 		return getUnitDefinition(this.volumeUnitsID);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getTimeUnits().hashCode();
+		hashCode += prime * getAreaUnits().hashCode();
+		hashCode += prime * getConversionFactor().hashCode();
+		hashCode += prime * getExtentUnits().hashCode();
+		hashCode += prime * getLengthUnits().hashCode();
+		hashCode += prime * getSubstanceUnits().hashCode();
+		hashCode += prime * getVolumeUnits().hashCode();
+		return hashCode;
 	}
 
 	/**

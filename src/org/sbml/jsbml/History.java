@@ -130,56 +130,95 @@ public class History extends AnnotationElement {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof History) {
-			boolean equal = super.equals(o);
+		boolean equals = super.equals(o);
+		if (equals) {
 			History mh = (History) o;
-			equal &= listOfCreators.size() == mh.getListOfCreators().size();
+			equals &= listOfCreators.size() == mh.getListOfCreators().size();
 
-			if (equal) {
-				for (int i = 0; i < listOfCreators.size(); i++) {
-					Creator c1 = listOfCreators.get(i);
-					Creator c2 = mh.getListOfCreators().get(i);
-
-					if (c1 != null && c2 != null) {
-						equal &= c1.equals(c2);
-					} else if ((c1 == null && c2 != null)
-							|| (c2 == null && c1 != null)) {
-						return false;
-					}
-				}
-				equal &= listOfModification.size() == mh.getListOfModifiedDates()
-						.size();
-				if (equal) {
-					for (int i = 0; i < listOfModification.size(); i++) {
-						Date d1 = listOfModification.get(i);
-						Date d2 = mh.getListOfModifiedDates().get(i);
-
-						if (d1 != null && d2 != null) {
-							equal &= d1.equals(d2);
-						} else if ((d1 == null && d2 != null)
-								|| (d2 == null && d1 != null)) {
-							return false;
-						}
-					}
-				}
-				equal &= isSetModifiedDate() == mh.isSetModifiedDate();
-				if (equal) {
-					equal &= getModifiedDate().equals(mh.getModifiedDate());
-				}
-				equal &= isSetCreatedDate() == mh.isSetCreatedDate();
-				// isSetCreatedDate() may still be null.
-				if (equal && isSetCreatedDate()) {
-					equal &= getCreatedDate().equals(mh.getCreatedDate());
-				}
+			// This is already checked recursively by the super class:
+//			for (int i = 0; i < listOfCreators.size(); i++) {
+//				Creator c1 = listOfCreators.get(i);
+//				Creator c2 = mh.getListOfCreators().get(i);
+//
+//				if (c1 != null && c2 != null) {
+//					equals &= c1.equals(c2);
+//				} else if ((c1 == null && c2 != null)
+//						|| (c2 == null && c1 != null)) {
+//					return false;
+//				}
+//			}
+//			equals &= listOfModification.size() == mh.getListOfModifiedDates()
+//					.size();
+//			if (equals) {
+//				for (int i = 0; i < listOfModification.size(); i++) {
+//					Date d1 = listOfModification.get(i);
+//					Date d2 = mh.getListOfModifiedDates().get(i);
+//
+//					if (d1 != null && d2 != null) {
+//						equals &= d1.equals(d2);
+//					} else if ((d1 == null && d2 != null)
+//							|| (d2 == null && d1 != null)) {
+//						return false;
+//					}
+//				}
+//			}
+			equals &= isSetModifiedDate() == mh.isSetModifiedDate();
+			if (equals && isSetModifiedDate()) {
+				equals &= getModifiedDate().equals(mh.getModifiedDate());
 			}
-			return equal;
+			equals &= isSetCreatedDate() == mh.isSetCreatedDate();
+			// isSetCreatedDate() may still be null.
+			if (equals && isSetCreatedDate()) {
+				equals &= getCreatedDate().equals(mh.getCreatedDate());
+			}
 		}
-		return false;
+		return equals;
+	}
+	
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int childIndex) {
+		int pos = 0;
+		if (isSetListOfCreators()) {
+			if (pos == childIndex) {
+				return new TreeNodeAdapter(getListOfCreators());
+			}
+			pos++;
+		}
+		if (isSetListOfModification()) {
+			if (pos == childIndex) {
+				return new TreeNodeAdapter(getListOfModifiedDates());
+			}
+			pos++;
+		}
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				childIndex, +((int) Math.min(pos, 0))));
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		int count = 0;
+		if (isSetListOfCreators()) {
+			count ++;
+		}
+		if (isSetListOfModification()) {
+			count++;
+		}
+		return count;
 	}
 
 	/**
@@ -252,7 +291,7 @@ public class History extends AnnotationElement {
 	public int getNumCreators() {
 		return isSetListOfCreators() ? listOfCreators.size() : 0;
 	}
-
+	
 	/**
 	 * Get the number of ModifiedDate objects in this {@link History}.
 	 * 
@@ -260,6 +299,22 @@ public class History extends AnnotationElement {
 	 */
 	public int getNumModifiedDates() {
 		return isSetListOfModification() ? listOfModification.size() : 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		if (isSetModifiedDate()) {
+			hashCode += prime * getModifiedDate().hashCode();
+		}
+		if (isSetCreatedDate()) {
+			hashCode += prime * getCreatedDate().hashCode();
+		}
+		return hashCode;
 	}
 
 	/**
@@ -282,7 +337,7 @@ public class History extends AnnotationElement {
 		return !isSetCreatedDate() && (getNumCreators() == 0)
 				&& (getNumModifiedDates() == 0) && !isSetModifiedDate();
 	}
-	
+
 	/**
 	 * Predicate returning true or false depending on whether this
 	 * {@link History}'s createdDate has been set.
@@ -293,7 +348,7 @@ public class History extends AnnotationElement {
 	public boolean isSetCreatedDate() {
 		return creation != null;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -320,7 +375,7 @@ public class History extends AnnotationElement {
 	public boolean isSetModifiedDate() {
 		return modified != null;
 	}
-	
+
 	/**
 	 * 
 	 * @param nodeName
@@ -398,48 +453,6 @@ public class History extends AnnotationElement {
 	 */
 	public void unsetCreatedDate() {
 		this.creation = null;
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int childIndex) {
-		int pos = 0;
-		if (isSetListOfCreators()) {
-			if (pos == childIndex) {
-				return new TreeNodeAdapter(getListOfCreators());
-			}
-			pos++;
-		}
-		if (isSetListOfModification()) {
-			if (pos == childIndex) {
-				return new TreeNodeAdapter(getListOfModifiedDates());
-			}
-			pos++;
-		}
-		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-				childIndex, +((int) Math.min(pos, 0))));
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		int count = 0;
-		if (isSetListOfCreators()) {
-			count ++;
-		}
-		if (isSetListOfModification()) {
-			count++;
-		}
-		return count;
 	}
 
 }

@@ -405,25 +405,25 @@ public class CVTerm extends AnnotationElement {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof CVTerm) {
+		boolean equals = super.equals(o);
+		if (equals) {
 			CVTerm t = (CVTerm) o;
-			boolean eq = t.getQualifierType() == getQualifierType();
-			eq &= (t.getBiologicalQualifierType() == qualifier)
+			equals &= t.getQualifierType() == getQualifierType();
+			equals &= (t.getBiologicalQualifierType() == qualifier)
 					|| (t.getModelQualifierType() == qualifier);
-			eq &= t.getNumResources() == getNumResources();
+			equals &= t.getNumResources() == getNumResources();
 
-			if (eq) {
+			if (equals) {
 				for (int i = 0; i < t.getNumResources(); i++) {
 					String resource1 = getResourceURI(i);
 					String resource2 = t.getResourceURI(i);
 					if ((resource1 != null) && (resource2 != null)) {
 						if (!resource1.equals(resource2)) {
-							eq = false;
+							equals = false;
 							break;
 						}
 					} else if (((resource1 == null) && (resource2 != null))
@@ -432,11 +432,10 @@ public class CVTerm extends AnnotationElement {
 					}
 				}
 			}
-			return eq;
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/**
 	 * Returns a list of resources that contain the given pattern. This is
 	 * useful to obtain, e.g., all KEGG resources this term points to.
@@ -456,6 +455,13 @@ public class CVTerm extends AnnotationElement {
 		return l;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return false;
+	}
+
 	/**
 	 * Returns the Biological QualifierType code for this CVTerm.
 	 * 
@@ -466,6 +472,20 @@ public class CVTerm extends AnnotationElement {
 			return qualifier;
 		}
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int childIndex) {
+		throw new IndexOutOfBoundsException(Integer.toString(childIndex));
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		return 0;
 	}
 
 	/**
@@ -516,6 +536,21 @@ public class CVTerm extends AnnotationElement {
 	 */
 	public String getResourceURI(int i) {
 		return resourceURIs.get(i);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getQualifierType().hashCode();
+		hashCode += prime * getBiologicalQualifierType().hashCode();
+		for (String resource : getResources()) {
+			hashCode += prime * resource.hashCode();
+		}
+		return hashCode;
 	}
 
 	/**
@@ -781,27 +816,6 @@ public class CVTerm extends AnnotationElement {
 						resourceURI, "\"/>\n");
 			}
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int childIndex) {
-		throw new IndexOutOfBoundsException(Integer.toString(childIndex));
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		return 0;
 	}
 
 }

@@ -129,21 +129,20 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof QuantityWithUnit) {			
-			boolean equal = super.equals(o);
-			QuantityWithUnit v = (QuantityWithUnit) o;
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {			
+			QuantityWithUnit v = (QuantityWithUnit) object;
 			if (!(Double.isNaN(v.getValue()) && Double.isNaN(getValue()))) {
-				equal &= v.getValue() == getValue();
+				equals &= v.getValue() == getValue();
 			} else {
-				equal &= (Double.isNaN(v.getValue()) && Double
+				equals &= (Double.isNaN(v.getValue()) && Double
 						.isNaN(getValue()));
-			}			
-			return equal;
+			}
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -151,6 +150,18 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 	 */
 	public double getValue() {
 		return value != null ? value : 0;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * Double.valueOf(getValue()).hashCode();
+		return hashCode;
 	}
 
 	/*

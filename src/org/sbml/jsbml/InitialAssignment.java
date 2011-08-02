@@ -28,7 +28,7 @@ import org.sbml.jsbml.util.SBaseChangeEvent;
  * Represents the initialAssignment XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
@@ -147,26 +147,21 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof InitialAssignment) {
-			InitialAssignment in = (InitialAssignment) o;
-			boolean equals = super.equals(in);
-			if ((!in.isSetVariable() && isSetVariable())
-					|| (in.isSetVariable() && !isSetVariable())) {
-				return false;
-			}
-			if (in.isSetVariable() && isSetVariable()) {
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			InitialAssignment in = (InitialAssignment) object;
+			equals &= in.isSetVariable() == isSetVariable();
+			if (equals && isSetVariable()) {
 				equals &= in.getVariable().equals(getVariable());
 			}
-			return equals;
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()
@@ -203,6 +198,18 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 	public Variable getVariableInstance() {
 		Model m = getModel();
 		return m != null ? m.findVariable(this.variableID) : null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getVariable().hashCode();
+		return hashCode;
 	}
 
 	/**

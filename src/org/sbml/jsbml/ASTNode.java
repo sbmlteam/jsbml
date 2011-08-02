@@ -541,14 +541,15 @@ public class ASTNode extends AbstractTreeNode {
 	}
 	
 	/**
-	 * URI for the definition of MathML.
+	 * Message to indicate that an {@link ASTNode.Type} type has been chosen
+	 * which cannot be used as an operator.
 	 */
-	public static final transient String URI_MATHML_DEFINITION = "http://www.w3.org/1998/Math/MathML";
+	public static final transient String INVALID_OPERATOR_MSG = "Invalid operator %s. The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER.";
 
 	/**
-	 * URI prefix for the definition of MathML, it will be used to write the sbml file
+	 * Generated serial version identifier.
 	 */
-	public static final String URI_MATHML_PREFIX = "";
+	private static final long serialVersionUID = -1391327698196553142L;
 
 	/**
 	 * The URI for the definition of the csymbol for avogadro.
@@ -561,23 +562,22 @@ public class ASTNode extends AbstractTreeNode {
 	public static final transient String URI_DELAY_DEFINITION = "http://www.sbml.org/sbml/symbols/delay";
 	
 	/**
-	 * The URI for the definition of the csymbol for time.
+	 * URI for the definition of MathML.
 	 */
-	public static final transient String URI_TIME_DEFINITION = "http://www.sbml.org/sbml/symbols/time";
+	public static final transient String URI_MATHML_DEFINITION = "http://www.w3.org/1998/Math/MathML";
 	
 	
 	// TODO : check how we set the math in level 1
 
 	/**
-	 * Message to indicate that an {@link ASTNode.Type} type has been chosen
-	 * which cannot be used as an operator.
+	 * URI prefix for the definition of MathML, it will be used to write the sbml file
 	 */
-	public static final transient String INVALID_OPERATOR_MSG = "Invalid operator %s. The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER.";
+	public static final String URI_MATHML_PREFIX = "";
 
 	/**
-	 * Generated serial version identifier.
+	 * The URI for the definition of the csymbol for time.
 	 */
-	private static final long serialVersionUID = -1391327698196553142L;
+	public static final transient String URI_TIME_DEFINITION = "http://www.sbml.org/sbml/symbols/time";
 
 
 	/**
@@ -1151,15 +1151,13 @@ public class ASTNode extends AbstractTreeNode {
 		return uMinus(new ASTNode(sbase, container));
 	}
 
-	private transient Logger logger = Logger.getLogger(this.getClass());
-	
 	/**
 	 * The value of the definitionURL for csymbol element. Level 3 extensions
 	 * can create new csymbol element that we would not necessary be aware of,
 	 * so we need to store the attribute value.
 	 */
 	private String definitionURL;
-
+	
 	/**
 	 * 
 	 */
@@ -1186,6 +1184,8 @@ public class ASTNode extends AbstractTreeNode {
 	 * Child nodes.
 	 */
 	private LinkedList<ASTNode> listOfNodes;
+
+	private transient Logger logger = Logger.getLogger(this.getClass());
 
 	/**
 	 * 
@@ -1269,6 +1269,26 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
+	 * Creates and returns a new {@link ASTNode} referring to the given {@link CallableSBase}.
+	 * @param nsb
+	 */
+	public ASTNode(CallableSBase nsb) {
+		this(Type.NAME);
+		setVariable(nsb);
+	}
+	
+	/**
+	 * Creates and returns a new {@link ASTNode} referring to the given {@link CallableSBase}.
+	 * 
+	 * @param nsb
+	 * @param parent
+	 */
+	public ASTNode(CallableSBase nsb, MathContainer parent) {
+		this(Type.NAME, parent);
+		setVariable(nsb);
+	}
+
+	/**
 	 * Creates a new {@link ASTNode} representing an operator, i.e., an internal
 	 * node.
 	 * 
@@ -1343,7 +1363,7 @@ public class ASTNode extends AbstractTreeNode {
 		this(Type.INTEGER);
 		setValue(integer);
 	}
-	
+
 	/**
 	 * Creates and returns a new {@link ASTNode} with the given value.
 	 * 
@@ -1354,7 +1374,7 @@ public class ASTNode extends AbstractTreeNode {
 		this(Type.INTEGER, parent);
 		setValue(integer);
 	}
-
+	
 	/**
 	 * Creates and returns a new {@link ASTNode}.
 	 * 
@@ -1368,26 +1388,6 @@ public class ASTNode extends AbstractTreeNode {
 	public ASTNode(MathContainer parent) {
 		this();
 		parentSBMLObject = parent;
-	}
-
-	/**
-	 * Creates and returns a new {@link ASTNode} referring to the given {@link CallableSBase}.
-	 * @param nsb
-	 */
-	public ASTNode(CallableSBase nsb) {
-		this(Type.NAME);
-		setVariable(nsb);
-	}
-	
-	/**
-	 * Creates and returns a new {@link ASTNode} referring to the given {@link CallableSBase}.
-	 * 
-	 * @param nsb
-	 * @param parent
-	 */
-	public ASTNode(CallableSBase nsb, MathContainer parent) {
-		this(Type.NAME, parent);
-		setVariable(nsb);
 	}
 
 	/**
@@ -1883,14 +1883,14 @@ public class ASTNode extends AbstractTreeNode {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof ASTNode) {
-			ASTNode ast = (ASTNode) o;
-			boolean equal = ast.getType() == type;
+	public boolean equals(Object object) {
+		boolean equal = super.equals(object);
+		if (equal) {
+			ASTNode ast = (ASTNode) object;
+			equal &= ast.getType() == type;
 			
 			if (isInteger() && ast.isInteger()) {
 				equal &= ast.getInteger() == getInteger();
@@ -1902,34 +1902,46 @@ public class ASTNode extends AbstractTreeNode {
 				equal &= ast.getNumerator() == getNumerator()
 						&& ast.getDenominator() == getDenominator();
 			}
-			if (isReal() && ast.isReal()) {
-				equal &= ast.getReal() == getReal();
-			}
 			if ((ast.getType() == Type.REAL_E) && (type == Type.REAL_E)) {
 				equal &= ast.getMantissa() == getMantissa()
 						&& ast.getExponent() == getExponent();
+			} else if (isReal() && ast.isReal()) {
+				equal &= ast.getReal() == getReal();
 			}
-
+			
+			equal &= isSetClassName() == ast.isSetClassName();
+			if (equal && isSetClassName()) {
+				equal &= getClassName().equals(ast.getClassName());
+			}
+			equal &= isSetDefinitionURL() == ast.isSetDefinitionURL();
+			if (equal && isSetDefinitionURL()) {
+				equal &= getDefinitionURL().equals(ast.getDefinitionURL());
+			}
+			equal &= isSetEncoding() == ast.isSetEncoding();
+			if (equal && isSetEncoding()) {
+				equal &= getEncoding().equals(ast.getEncoding());
+			}
+			equal &= isSetId() == ast.isSetId();
+			if (equal && isSetId()) {
+				equal &= getId().equals(ast.getId());
+			}
+			equal &= isSetStyle() == ast.isSetStyle();
+			if (equal && isSetStyle()) {
+				equal &= getStyle().equals(ast.getStyle());
+			}
+			equal &= isSetUnits() == ast.isSetUnits();
+			if (equal && isSetUnits()) {
+				equal &= getUnits().equals(ast.getUnits());
+			}
+			
 			// TODO : test if listOfNodes == null ?
 			if (listOfNodes.size() != ast.getListOfNodes().size()) {
 				equal = false;
 			}
-			
-			if (equal) {
-				int i = 0;
-				for (ASTNode child : listOfNodes) {
-					equal &= child.equals(ast.getChild(i));
-					i++;
-					if (!equal) {
-						return false;
-					}
-				}
-			}
-			return equal;
 		}
-		return false;
+		return equal;
 	}
-
+	
 	/**
 	 * Goes through the formula and identifies all global parameters that are
 	 * referenced by this rate equation.
@@ -2258,7 +2270,8 @@ public class ASTNode extends AbstractTreeNode {
 				return Double.parseDouble(mantissa + "E" + getExponent());
 			}
 			case RATIONAL:
-				return ((double) getNumerator()) / ((double) getDenominator());
+				// One cast is enough; we don't need to cast twice here.
+				return ((double) getNumerator()) / getDenominator();
 			case CONSTANT_E:
 				return Math.E;
 			case CONSTANT_PI:
@@ -2396,6 +2409,41 @@ public class ASTNode extends AbstractTreeNode {
 		}
 		throw new IllegalAccessError(
 				"getVariable() should be called only when isName() == true.");
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getType().hashCode();
+		if (isInteger()) {
+			hashCode += prime * getInteger();
+		} else if (isString()) {
+			hashCode += prime * getName().hashCode();
+		} else if (isRational()) {
+			hashCode += prime * getNumerator() + prime * getDenominator();
+		} else if (isReal()) {
+			hashCode += prime * getReal();
+		}
+		if (isSetDefinitionURL()) {
+			hashCode += prime * getDefinitionURL().hashCode();
+		}
+		if (isSetEncoding()) {
+			hashCode += prime * getEncoding().hashCode();
+		}
+		if (isSetId()) {
+			hashCode += prime * getId().hashCode();
+		}
+		if (isSetStyle()) {
+			hashCode += prime * getStyle().hashCode();
+		}
+		if (isSetClassName()) {
+			hashCode += prime * getClassName().hashCode();
+		}
+		return hashCode;
 	}
 
 	/**
@@ -2701,14 +2749,31 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if this {@link ASTNode} is the root node of a tree, false
-	 * otherwise.
-	 * 
-	 * @return True if this {@link ASTNode} is the root node of a tree, false
-	 *         otherwise.
+	 * @return
 	 */
-	public boolean isRoot() {
-		return getParent() == null;
+	public boolean isSetClassName() {
+		return className != null;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetDefinitionURL() {
+		return definitionURL != null;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetEncoding() {
+		return encoding != null;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetId() {
+		return id != null;
 	}
 
 	/**
@@ -2718,6 +2783,13 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public boolean isSetNumberType() {
 		return isSetNumberType;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetStyle() {
+		return style != null;
 	}
 
 	/**
@@ -2907,6 +2979,18 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
+	 * Adds an SBML element to this node.
+	 * 
+	 * @param nsb
+	 *            an SBML element that can be represented by a value.
+	 * @return the current node for convenience.
+	 */
+	public ASTNode plus(CallableSBase nsb) {
+		plus(new ASTNode(nsb, getParentSBMLObject()));
+		return this;
+	}
+
+	/**
 	 * Adds a number to this node.
 	 * 
 	 * @param real
@@ -2927,18 +3011,6 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public ASTNode plus(int integer) {
 		plus(new ASTNode(integer, getParentSBMLObject()));
-		return this;
-	}
-
-	/**
-	 * Adds an SBML element to this node.
-	 * 
-	 * @param nsb
-	 *            an SBML element that can be represented by a value.
-	 * @return the current node for convenience.
-	 */
-	public ASTNode plus(CallableSBase nsb) {
-		plus(new ASTNode(nsb, getParentSBMLObject()));
 		return this;
 	}
 
@@ -2966,6 +3038,17 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
+	 * Raises this ASTNode by the power of the value of this named SBase object.
+	 * 
+	 * @param nsb
+	 *            an SBML element that can be represented by a value.
+	 * @return the current node for convenience.
+	 */
+	public ASTNode raiseByThePowerOf(CallableSBase nsb) {
+		return raiseByThePowerOf(new ASTNode(nsb, getParentSBMLObject()));
+	}
+
+	/**
 	 * Raises this ASTNode by the power of the given number.
 	 * 
 	 * @param exponent
@@ -2980,17 +3063,6 @@ public class ASTNode extends AbstractTreeNode {
 			raiseByThePowerOf(new ASTNode(exponent, getParentSBMLObject()));
 		}
 		return this;
-	}
-
-	/**
-	 * Raises this ASTNode by the power of the value of this named SBase object.
-	 * 
-	 * @param nsb
-	 *            an SBML element that can be represented by a value.
-	 * @return the current node for convenience.
-	 */
-	public ASTNode raiseByThePowerOf(CallableSBase nsb) {
-		return raiseByThePowerOf(new ASTNode(nsb, getParentSBMLObject()));
 	}
 
 	/**

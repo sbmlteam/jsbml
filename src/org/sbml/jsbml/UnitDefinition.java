@@ -577,24 +577,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#equals(Object o)
-	 */
-	public boolean equals(Object o) {
-		if (o instanceof UnitDefinition) {
-			UnitDefinition u = (UnitDefinition) o;
-			boolean equal = super.equals(o);
-			equal &= isSetListOfUnits() == u.isSetListOfUnits();
-			if (equal && isSetListOfUnits()) {
-				equal &= getListOfUnits().equals(u.getListOfUnits());
-			}
-			return equal;
-		}
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
 	 */
 	@Override

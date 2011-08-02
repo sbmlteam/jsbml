@@ -123,23 +123,21 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof AbstractNamedSBaseWithUnit) {
-			boolean equal = super.equals(o);
-			AbstractNamedSBaseWithUnit v = (AbstractNamedSBaseWithUnit) o;
-			equal &= v.isSetUnits() == isSetUnits();
-			if (v.isSetUnits() && isSetUnits()) {
-				equal &= v.getUnits().equals(getUnits());
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			AbstractNamedSBaseWithUnit v = (AbstractNamedSBaseWithUnit) object;
+			equals &= v.isSetUnits() == isSetUnits();
+			if (equals && isSetUnits()) {
+				equals &= v.getUnits().equals(getUnits());
 			}
-			return equal;
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -170,6 +168,15 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		return predef != null ? predef : "";
 	}
 
+	/**
+	 * Returns the predefined unit identifier for this data type with the
+	 * current level/version combination.
+	 * 
+	 * @return an identifier of a unit in the containing {@link Model}. This can
+	 *         be one of the predefined unit identifiers if there are any.
+	 */
+	public abstract String getPredefinedUnitID();
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -197,11 +204,14 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.SBaseWithUnit#isSetUnits()
+	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
-	public boolean isSetUnits() {
-		return (unitsID != null) /*&& !isPredefinedUnitsID(unitsID)*/;
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getUnits().hashCode();
+		return hashCode;
 	}
 	
 	/**
@@ -221,14 +231,14 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		return false;
 	}
 
-	/**
-	 * Returns the predefined unit identifier for this data type with the
-	 * current level/version combination.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return an identifier of a unit in the containing {@link Model}. This can
-	 *         be one of the predefined unit identifiers if there are any.
+	 * @see org.sbml.jsbml.SBaseWithUnit#isSetUnits()
 	 */
-	public abstract String getPredefinedUnitID();
+	public boolean isSetUnits() {
+		return (unitsID != null) /*&& !isPredefinedUnitsID(unitsID)*/;
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -721,36 +721,39 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof SBase) {
+		boolean equals = super.equals(o);
+		if (equals) {
 			SBase sbase = (SBase) o;
-			boolean equals = true; // super.equals(o) ???
 			equals &= sbase.isSetMetaId() == isSetMetaId();
 			if (equals && sbase.isSetMetaId()) {
 				equals &= sbase.getMetaId().equals(getMetaId());
 			}
-			equals &= sbase.isSetNotes() == isSetNotes();
-			if (equals && sbase.isSetNotes()) {
-				equals &= sbase.getNotesString().equals(getNotesString());
-			}
+			/*
+			 * The following checks are already covered by the recursive check
+			 * in AbstractTreeNode:
+			 */
+			// equals &= sbase.isSetNotes() == isSetNotes();
+			// if (equals && sbase.isSetNotes()) {
+			//  equals &= sbase.getNotesString().equals(getNotesString());
+			// }
+			// equals &= sbase.isSetAnnotation() == isSetAnnotation();
+			// if (equals && sbase.isSetAnnotation()) {
+			// 	equals &= sbase.getAnnotation().equals(getAnnotation());
+			// }
 			equals &= sbase.isSetSBOTerm() == isSetSBOTerm();
 			if (equals && sbase.isSetSBOTerm()) {
 				equals &= sbase.getSBOTerm() == getSBOTerm();
 			}
 			equals &= sbase.getLevelAndVersion().equals(getLevelAndVersion());
-			equals &= sbase.isSetAnnotation() == isSetAnnotation();
-			if (equals && sbase.isSetAnnotation()) {
-				equals &= sbase.getAnnotation().equals(getAnnotation());
-			}
-			return equals;
+			// TODO: Should listeners be considered here?
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1035,7 +1038,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return isSetAnnotation() ? annotation.getListOfCVTerms().size() : 0;
 	}
 
-
 	/**
 	 * This is equivalent to calling {@link #getParentSBMLObject()}, but this
 	 * method is needed for {@link TreeNode}.
@@ -1047,6 +1049,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public SBase getParent() {
 		return (SBase) super.getParent();
 	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -1094,13 +1097,29 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public Set<SBaseChangeListener> getSetOfSBaseChangedListeners() {
 		return setOfListeners;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getVersion()
 	 */
 	public int getVersion() {
 		return isSetVersion() ? this.lv.getV().intValue() : -1;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		if (isSetMetaId()) {
+			hashCode += prime * getMetaId().hashCode();
+		}
+		if (isSetSBOTerm()) {
+			hashCode += prime * getSBOTerm();
+		}
+		return hashCode + prime * getLevelAndVersion().hashCode();
 	}
 
 	/*
@@ -1110,7 +1129,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public boolean hasValidAnnotation() {
 		if (isSetAnnotation()) {
 			if (isSetMetaId()) {
-				if (getAnnotation().getAbout().equals("#" + getMetaId())) {
+				if (getAnnotation().getAbout().equals('#' + getMetaId())) {
 					return true;
 				}
 			}

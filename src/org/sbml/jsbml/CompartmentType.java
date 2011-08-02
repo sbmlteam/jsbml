@@ -22,12 +22,13 @@ package org.sbml.jsbml;
 
 
 /**
- * Represents the compartmentType XML element of a SBML file.
+ * Represents the compartmentType XML element of a SBML file. It is deprecated
+ * since level 3 and not defined in SBML before Level 2 Version 2.
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
- * @deprecated Level 3 Version 1
+ * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
  */
 @Deprecated
 public class CompartmentType extends AbstractNamedSBase {
