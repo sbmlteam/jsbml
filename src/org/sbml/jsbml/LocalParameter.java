@@ -122,13 +122,28 @@ public class LocalParameter extends QuantityWithUnit {
 		return new LocalParameter(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.QuantityWithUnit#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			LocalParameter lp = (LocalParameter) object;
+			equals &= isExplicitlySetConstant() == lp.isExplicitlySetConstant();
+		}
+		return equals;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getElementName()
 	 */
+	@Override
 	public String getElementName() {
 		return (getLevel() < 3) ? "parameter" : super.getElementName();
 	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -137,7 +152,17 @@ public class LocalParameter extends QuantityWithUnit {
 	public String getPredefinedUnitID() {
 		return null;
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.QuantityWithUnit#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * Boolean.valueOf(isExplicitlySetConstant()).hashCode();
+		return hashCode;
+	}
 
 	/**
 	 * In SBML prior to Level 3 it was possible to explicitly state that a local
@@ -156,6 +181,8 @@ public class LocalParameter extends QuantityWithUnit {
 		return isExplicitlySetConstant;
 	}
 	
+	
+
 	/*
 	 * (non-Javadoc)
 	 * 

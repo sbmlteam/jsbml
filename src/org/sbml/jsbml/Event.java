@@ -33,7 +33,7 @@ import org.sbml.jsbml.util.StringTools;
  * Represents the event XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
@@ -46,6 +46,8 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	 * Represents the delay sub-element of an event element.
 	 */
 	private Delay delay;
+	private boolean isSetUseValuesFromTriggerTime;
+
 	/**
 	 * Represents the listOfEventAssignments sub-element of an event element.
 	 */
@@ -66,8 +68,6 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	 * element.
 	 */
 	private Boolean useValuesFromTriggerTime;
-
-	private boolean isSetUseValuesFromTriggerTime;
 	
 	/**
 	 * Creates an Event instance. By default, if the level is set and is
@@ -317,41 +317,18 @@ public class Event extends AbstractNamedSBaseWithUnit {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Event) {
-			Event e = (Event) o;
-			boolean equal = super.equals(o);
-			equal &= e.getUseValuesFromTriggerTime() == getUseValuesFromTriggerTime();
-			equal &= e.isSetTrigger() == isSetTrigger();
-			equal &= e.isSetPriority() == isSetPriority();
-			equal &= e.isSetTimeUnits() == isSetTimeUnits();
-			equal &= e.isSetDelay() == isSetDelay();
-			equal &= e.isSetListOfEventAssignments() == isSetListOfEventAssignments();
-			if (equal && e.isSetDelay()) {
-				equal &= e.getDelay().equals(getDelay());
-			}
-			if (equal && e.isSetTrigger()) {
-				equal &= e.getTrigger().equals(getTrigger());
-			}
-			if (equal && e.isSetPriority()) {
-				equal &= e.getPriority().equals(getPriority());
-			}
-			if (equal && e.isSetTimeUnits()) {
-				equal &= e.getTimeUnits().equals(getTimeUnits());
-			}
-			if (equal && isSetListOfEventAssignments()) {
-				equal &= e.getListOfEventAssignments().equals(
-						getListOfEventAssignments());
-			}
-			return equal;
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			Event e = (Event) object;
+			equals &= e.getUseValuesFromTriggerTime() == getUseValuesFromTriggerTime();
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -501,6 +478,14 @@ public class Event extends AbstractNamedSBaseWithUnit {
 		return (ListOf<Event>) super.getParent();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getPredefinedUnitID()
+	 */
+	public String getPredefinedUnitID() {
+		return null;
+	}
+
 	/**
 	 * @return the priority
 	 */
@@ -578,6 +563,25 @@ public class Event extends AbstractNamedSBaseWithUnit {
 		return isUseValuesFromTriggerTime();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * Boolean.valueOf(getUseValuesFromTriggerTime()).hashCode();
+		return hashCode;
+	}
+	
+	/**
+	 * Initializes the default values using the current Level/Version configuration.
+	 */
+	public void initDefaults() {
+		initDefaults(getLevel(), getVersion());
+	}
+
 	/**
 	 * Initializes the default values of this {@link Event}.
 	 */
@@ -594,13 +598,6 @@ public class Event extends AbstractNamedSBaseWithUnit {
 		if ((0 < level) && (level < 2)) {
 			throw new IllegalAccessError("Cannot create an Event with Level < 2.");
 		}
-	}
-	
-	/**
-	 * Initializes the default values using the current Level/Version configuration.
-	 */
-	public void initDefaults() {
-		initDefaults(getLevel(), getVersion());
 	}
 
 	/**
@@ -685,7 +682,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	public boolean isSetUseValuesFromTriggerTime() {
 		return isSetUseValuesFromTriggerTime;
 	}
-
+	
 	/**
 	 * 
 	 * @return the boolean value of the useValuesFromTriggerTime of this {@link Event}
@@ -811,7 +808,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	public void setTimeUnits(String timeUnits) {
 		setUnits(timeUnits);
 	}
-	
+
 	/**
 	 * Sets the timeUnitsID of this {@link Event} to the id of the {@link UnitDefinition}
 	 * 'timeUnits'.
@@ -832,7 +829,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	public void setTimeUnitsID(String timeUnitsID) {
 		setTimeUnits(timeUnitsID);
 	}
-
+	
 	/**
 	 * Sets the trigger of this Event to 'trigger'. It automatically sets the
 	 * {@link Trigger} parentSBML object to this Event instance.
@@ -858,7 +855,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 		}
 		super.setUnits(timeUnitKind);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -873,7 +870,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 		}
 		super.setUnits(timeUnits);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#setUnits(org.sbml.jsbml.Unit)
@@ -887,7 +884,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 		}
 		super.setUnits(timeUnit);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#setUnits(org.sbml.jsbml.UnitDefinition)
@@ -1018,13 +1015,5 @@ public class Event extends AbstractNamedSBaseWithUnit {
 		}
 
 		return attributes;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getPredefinedUnitID()
-	 */
-	public String getPredefinedUnitID() {
-		return null;
 	}
 }

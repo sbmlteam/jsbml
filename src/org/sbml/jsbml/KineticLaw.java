@@ -33,21 +33,21 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * Represents the kineticLaw XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
 public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 
 	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 7528194464711501708L;
-	/**
 	 * Exception to be displayed in case that an illegal variant of unit is to
 	 * be set for this {@link SBaseWithUnit}.
 	 */
 	private static final String ILLEGAL_UNIT_KIND_EXCEPTION_MSG = "Cannot set unit %s because only variants of substance or time units are acceptable.";
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 7528194464711501708L;
 	/**
 	 * Represents the listOfLocalParameters or listOfParameters sub-element of a
 	 * kineticLaw element.
@@ -194,36 +194,26 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof KineticLaw) {
-			KineticLaw kl = (KineticLaw) o;
-			if ((!kl.isSetListOfLocalParameters() && isSetListOfLocalParameters())
-					|| (kl.isSetListOfLocalParameters() && !isSetListOfLocalParameters())) {
-				return false;
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			KineticLaw kl = (KineticLaw) object;
+			equals &= kl.isSetTimeUnits() == isSetTimeUnits();
+			if (equals && isSetTimeUnits()) {
+				equals &= kl.getTimeUnits().equals(getTimeUnits());
 			}
-			boolean equal = super.equals(o);
-			if (kl.isSetListOfLocalParameters() && isSetListOfLocalParameters()) {
-				equal &= kl.getListOfLocalParameters().equals(getListOfLocalParameters());
+			equals &= kl.isSetSubstanceUnits() == isSetSubstanceUnits();
+			if (equals && isSetSubstanceUnits()) {
+				equals &= kl.getSubstanceUnits().equals(getSubstanceUnits());
 			}
-			if ((!kl.isSetTimeUnits() && isSetTimeUnits())
-					|| (kl.isSetTimeUnits() && !isSetTimeUnits())) {
-				return false;
+			equals &= kl.isSetUnits() == isSetUnits();
+			if (equals && isSetUnits()) {
+				equals &= kl.getUnits().equals(getUnits());
 			}
-			if (kl.isSetTimeUnits() && isSetTimeUnits()) {
-				equal &= kl.getTimeUnits().equals(getTimeUnits());
-			}
-			if ((!kl.isSetSubstanceUnits() && isSetSubstanceUnits())
-					|| (kl.isSetSubstanceUnits() && !isSetSubstanceUnits())) {
-				return false;
-			}
-			if (kl.isSetSubstanceUnits() && isSetSubstanceUnits()) {
-				equal &= kl.getSubstanceUnits().equals(getSubstanceUnits());
-			}
-			return equal;
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractMathContainer#getChildAt(int)
@@ -485,6 +475,20 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 			substancePerTimeUnits.setId(getSubstanceUnits());
 		}
 		return substancePerTimeUnits;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getSubstanceUnits().hashCode();
+		hashCode += prime * getTimeUnits().hashCode();
+		hashCode += prime * getUnits().hashCode();
+		return hashCode;
 	}
 
 	/**

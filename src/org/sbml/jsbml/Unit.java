@@ -1287,22 +1287,20 @@ public class Unit extends AbstractSBase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#equals(Object o)
+	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
-	// @Override
-	public boolean equals(Object o) {
-		if (o instanceof Unit) {
-			Unit u = (Unit) o;
-			boolean equal = super.equals(o);
-			equal &= getMultiplier() == u.getMultiplier();
-			equal &= getScale() == u.getScale();
-			equal &= getExponent() == u.getExponent();
-			equal &= getOffset() == u.getOffset();
-			equal &= getKind() == u.getKind();
-			return equal;
+	@Override
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			Unit u = (Unit) object;
+			equals &= getMultiplier() == u.getMultiplier();
+			equals &= getScale() == u.getScale();
+			equals &= getExponent() == u.getExponent();
+			equals &= getOffset() == u.getOffset();
+			equals &= getKind() == u.getKind();
 		}
-		return false;
+		return equals;
 	}
 
 	/**
@@ -1485,6 +1483,21 @@ public class Unit extends AbstractSBase {
 		return isSetScale() ? scale : 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * Double.valueOf(getMultiplier()).hashCode();
+		hashCode += prime * getScale();
+		hashCode += prime * Double.valueOf(getExponent()).hashCode();
+		hashCode += prime * Double.valueOf(getOffset()).hashCode();
+		hashCode += prime * getKind().hashCode();
+		return hashCode;
+	}
+
 	/**
 	 * Predicate returning true or false depending on whether all the required
 	 * attributes for this Unit object have been set.
@@ -1496,6 +1509,13 @@ public class Unit extends AbstractSBase {
 		return isSetKind();
 	}
 
+	/**
+	 * Initializes the default values using the current Level/Version configuration.
+	 */
+	public void initDefaults() {
+		initDefaults(getLevel(), getVersion());
+	}
+	
 	/**
 	 * Initializes the attributes of this Unit (except for 'kind') to their
 	 * defaults values.
@@ -1525,13 +1545,6 @@ public class Unit extends AbstractSBase {
 		isSetScale = false;
 		isSetMultiplier = false;
 		isSetOffset = false;
-	}
-	
-	/**
-	 * Initializes the default values using the current Level/Version configuration.
-	 */
-	public void initDefaults() {
-		initDefaults(getLevel(), getVersion());
 	}
 
 	/**

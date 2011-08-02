@@ -32,7 +32,7 @@ import org.sbml.jsbml.util.StringTools;
  * Represents the speciesReference XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
+ * @author Marine Dumousseau
  * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
@@ -197,43 +197,29 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.SimpleSpeciesReference#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof SpeciesReference) {
-			SpeciesReference sr = (SpeciesReference) o;
-			boolean equal = super.equals(o);
-			if ((sr.isSetStoichiometryMath() && !isSetStoichiometryMath())
-					|| (!sr.isSetStoichiometryMath() && isSetStoichiometryMath())) {
-				return false;
-			} else if (sr.isSetStoichiometryMath() && isSetStoichiometryMath()) {
-				equal &= sr.getStoichiometryMath().equals(stoichiometryMath);
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			SpeciesReference sr = (SpeciesReference) object;
+			equals &= sr.isSetStoichiometry() == isSetStoichiometry();
+			if (equals && isSetStoichiometry()) {
+				equals &= sr.getStoichiometry() == getStoichiometry();
 			}
-			if ((sr.isSetStoichiometry() && !isSetStoichiometry())
-					|| (!sr.isSetStoichiometry() && isSetStoichiometry())) {
-				return false;
-			} else if (sr.isSetStoichiometry() && isSetStoichiometry()) {
-				equal &= sr.getStoichiometry() == stoichiometry;
+			equals &= sr.isSetConstant() == isSetConstant();
+			if (equals && isSetConstant()) {
+				equals &= sr.getConstant() == getConstant();
 			}
-			if ((sr.isSetConstant() && !isSetConstant())
-					|| (!sr.isSetConstant() && isSetConstant())) {
-				return false;
-			} else if (sr.isSetConstant() && isSetConstant()) {
-				equal &= sr.getConstant() == constant;
+			equals &= sr.isSetDenominator() == isSetDenominator();
+			if (equals && isSetDenominator()) {
+				equals &= sr.getDenominator() == getDenominator();
 			}
-			if ((sr.isSetDenominator() && !isSetDenominator())
-					|| (!sr.isSetDenominator() && isSetDenominator())) {
-				return false;
-			} else if (sr.isSetDenominator() && isSetDenominator()) {
-				equal &= sr.getDenominator() == denominator;
-			}
-			return equal;
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -243,7 +229,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	public boolean getAllowsChildren() {
 		return true;
 	}
-	
+
 	/**
 	 * This method computes the fraction of the stoichiometry and the
 	 * denominator. Actually, the denominator is only defined in SBML Level 1.
@@ -257,7 +243,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return (denominator != 1) ? getStoichiometry() / denominator
 				: getStoichiometry();
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -302,7 +288,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	public boolean getConstant() {
 		return constant != null ? constant : false;
 	}
-	
+
 	/**
 	 * 
 	 * @return the denominator value if it is set, 1 otherwise
@@ -312,7 +298,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	public int getDenominator() {
 		return isSetDenominator ? denominator.intValue() : 1;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -385,6 +371,31 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return getStoichiometry();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SimpleSpeciesReference#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		if (isSetStoichiometry()) {
+			hashCode += prime * Double.valueOf(getStoichiometry()).hashCode();
+		}
+		hashCode += prime * Boolean.valueOf(getConstant()).hashCode();
+		if (isSetDenominator()) {
+			hashCode += prime * Double.valueOf(getDenominator()).hashCode();
+		}
+		return hashCode;
+	}
+
+	/**
+	 * Initializes the default values using the current Level/Version configuration.
+	 */
+	public void initDefaults() {
+		initDefaults(getLevel(), getVersion());
+	}
+	
 	/**
 	 * Initializes the default values of this SpeciesReference.
 	 */
@@ -400,13 +411,6 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 			isSetDenominator = false;
 			isSetStoichiometry = false;
 		}
-	}
-	
-	/**
-	 * Initializes the default values using the current Level/Version configuration.
-	 */
-	public void initDefaults() {
-		initDefaults(getLevel(), getVersion());
 	}
 
 	/*

@@ -35,6 +35,7 @@ import org.sbml.jsbml.AbstractTreeNode;
  * 
  * <p>
  * @author Nicolas Rodriguez
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
@@ -496,20 +497,13 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 	/*
 	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
+		if (!super.equals(obj)) {
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		
 		XMLToken other = (XMLToken) obj;
 		if (attributes == null) {
 			if (other.attributes != null) {
@@ -1016,12 +1010,12 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 	/*
 	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
+	 * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result
 				+ ((attributes == null) ? 0 : attributes.hashCode());
 		result = prime * result

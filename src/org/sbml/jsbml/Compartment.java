@@ -33,7 +33,7 @@ import org.sbml.jsbml.util.StringTools;
  * 
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
- * @author marine
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
@@ -178,36 +178,37 @@ public class Compartment extends Symbol {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.Symbol#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Compartment) {
-			boolean equal = super.equals(o);
-			Compartment c = (Compartment) o;
-			equal &= c.isSetOutside() == isSetOutside();
-			if (c.isSetOutside() && isSetOutside()) {
-				equal &= c.getOutside().equals(getOutside());
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			Compartment c = (Compartment) object;
+			equals &= c.isSetOutside() == isSetOutside();
+			if (equals && isSetOutside()) {
+				equals &= c.getOutside().equals(getOutside());
 			}
-			equal &= c.isSetCompartmentType() == isSetCompartmentType();
-			if (c.isSetCompartmentType() && isSetCompartmentType()) {
-				equal &= c.getCompartmentType().equals(getCompartmentType());
+			equals &= c.isSetCompartmentType() == isSetCompartmentType();
+			if (equals && isSetCompartmentType()) {
+				equals &= c.getCompartmentType().equals(getCompartmentType());
 			}
-			equal &= c.getSize() == getSize();
-			equal &= c.getSpatialDimensions() == getSpatialDimensions();
-			return equal;
+			// already checked by super class:
+			// equals &= c.getSize() == getSize();
+			equals &= c.getSpatialDimensions() == getSpatialDimensions();
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/**
 	 * Returns the compartmentType id of this compartment. Return an empty
-	 *         String if it is not set.
+	 * String if it is not set.
 	 * 
 	 * @return the compartmentType id of this compartment. Return an empty
 	 *         String if it is not set.
+	 * @deprecated Only defined in SBML Level 2 Versions 2 through 4.
 	 */
+	@Deprecated
 	public String getCompartmentType() {
 		return isSetCompartmentType() ? this.compartmentTypeID : "";
 	}
@@ -300,7 +301,7 @@ public class Compartment extends Symbol {
 		}
 		return Double.NaN;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -309,7 +310,7 @@ public class Compartment extends Symbol {
 	public double getSpatialDimensionsAsDouble() {
 		return getSpatialDimensions();
 	}
-
+	
 	/**
 	 * Gets the volume of this Compartment
 	 * 
@@ -327,6 +328,20 @@ public class Compartment extends Symbol {
 	@Deprecated
 	public double getVolume() {
 		return getSize();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Symbol#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getOutside().hashCode();
+		hashCode += prime * getCompartmentType().hashCode();
+		hashCode += prime * Double.valueOf(getSpatialDimensions()).hashCode();
+		return hashCode;
 	}
 
 	/**

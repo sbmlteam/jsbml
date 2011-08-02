@@ -452,31 +452,6 @@ public class XMLNode extends XMLToken {
 	}
 
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.XMLToken#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!super.equals(obj) || (getClass() != obj.getClass())) {
-			return false;
-		}
-		XMLNode other = (XMLNode) obj;
-		if (childrenElements == null) {
-			if (other.childrenElements != null) {
-				return false;
-			}
-		} else if (!childrenElements.equals(other.childrenElements)) {
-			return false;
-		}
-
-		return true;
-	}
-
-
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
 	 */
@@ -506,9 +481,12 @@ public class XMLNode extends XMLToken {
 	 * @see javax.swing.tree.TreeNode#getChildAt(int)
 	 */
 	public XMLNode getChildAt(int childIndex) {
-//		if ((childIndex > getChildCount()) || (childIndex < 0)) {
-//			return new XMLNode();
-//		}
+        // if ((childIndex > getChildCount()) || (childIndex < 0)) {
+        //	return new XMLNode();
+        // }
+		if (childrenElements == null) {
+			throw new IndexOutOfBoundsException(Integer.toString(childIndex));
+		}
 		return childrenElements.get(childIndex);
 	}
 
@@ -517,7 +495,7 @@ public class XMLNode extends XMLToken {
 	 * @see javax.swing.tree.TreeNode#getChildCount()
 	 */
 	public int getChildCount() {
-		return childrenElements.size();
+		return childrenElements != null ? childrenElements.size() : 0;
 	}
 
 	/**
@@ -529,20 +507,6 @@ public class XMLNode extends XMLToken {
 	@Deprecated
 	public int getNumChildren() {
 		return getChildCount();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.XMLToken#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime
-				* result
-				+ ((childrenElements == null) ? 0 : childrenElements.hashCode());
-		return result;
 	}
 
 	/**

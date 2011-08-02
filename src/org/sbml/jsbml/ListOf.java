@@ -394,9 +394,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		// unique in the model
 		setThisAsParentSBMLObject(e);
 		
-		boolean success = listOf.add(e);
-		
-		return success;
+		return listOf.add(e);
 	}
 
 	/*
@@ -492,17 +490,16 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
-		if (o instanceof ListOf<?>) {
-			boolean equals = super.equals(o);
+		boolean equals = super.equals(o);
+		if (equals) {
 			ListOf<?> listOf = (ListOf<?>) o;
 			equals &= getSBaseListType() == listOf.getSBaseListType();
-			return listOf.containsAll(this) && equals;
 		}
-		return false;
+		return equals;
 	}
 
 	/**

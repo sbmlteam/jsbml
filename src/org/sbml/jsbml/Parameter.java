@@ -30,7 +30,7 @@ import org.sbml.jsbml.util.StringTools;
  * may change during a simulation or that provides a constant value.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
+ * @author Marine Dumousseau
  * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
@@ -109,16 +109,6 @@ public class Parameter extends Symbol {
 	 */
 	public Parameter clone() {
 		return new Parameter(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.Symbol#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object o) {
-		return (o instanceof Parameter) ? super.equals(o) : false;
 	}
 
 	/*

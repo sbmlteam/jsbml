@@ -32,7 +32,7 @@ import org.sbml.jsbml.util.SBaseChangeEvent;
  * name attributes.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
+ * @author Marine Dumousseau
  * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
@@ -84,6 +84,15 @@ public abstract class Symbol extends QuantityWithUnit implements
 	}
 
 	/**
+	 * 
+	 * @param id
+	 */
+	public Symbol(String id) {
+		this();
+		setId(id);
+	}
+	
+	/**
 	 * Creates a Symbol instance from an id, level and version. By default,
 	 * value, unitsID, constant are null.
 	 * 
@@ -93,15 +102,6 @@ public abstract class Symbol extends QuantityWithUnit implements
 	 */
 	public Symbol(String id, int level, int version) {
 		this(id, null, level, version);
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 */
-	public Symbol(String id) {
-		this();
-		setId(id);
 	}
 
 	/**
@@ -140,22 +140,21 @@ public abstract class Symbol extends QuantityWithUnit implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.AbstractNamedSBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.QuantityWithUnit#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
-		if (o instanceof Symbol) {
-			boolean equal = super.equals(o);
+		boolean equals = super.equals(o);
+		if (equals) {
 			Symbol v = (Symbol) o;
-			equal &= v.isSetConstant() == isSetConstant();
+			equals &= v.isSetConstant() == isSetConstant();
 			if (v.isSetConstant() && isSetConstant()) {
-				equal &= v.getConstant() == getConstant();
+				equals &= v.getConstant() == getConstant();
 			}
-			return equal;
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -170,6 +169,20 @@ public abstract class Symbol extends QuantityWithUnit implements
 		 */
 		// TODO : check if they are some other cases like that !!
 		return constant != null ? this.constant.booleanValue() : false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.QuantityWithUnit#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		if (isSetConstant()) {
+			hashCode += prime * Boolean.valueOf(getConstant()).hashCode();
+		}
+		return hashCode;
 	}
 
 	/*

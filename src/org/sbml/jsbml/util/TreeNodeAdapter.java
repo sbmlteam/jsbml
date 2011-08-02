@@ -62,14 +62,14 @@ import org.sbml.jsbml.ListOf;
 public class TreeNodeAdapter extends AbstractTreeNode {
 	
 	/**
-	 * 
-	 */
-	private Object userObject;
-
-	/**
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -6818272462908634740L;
+
+	/**
+	 * The object to be wrapped.
+	 */
+	private Object userObject;
 
 	/**
 	 * 
@@ -94,29 +94,6 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	public TreeNode clone() {
 		return new TreeNodeAdapter(this);
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof TreeNodeAdapter) {
-			TreeNodeAdapter node = (TreeNodeAdapter) o;
-			return super.equals(node)
-					&& userObject.equals(node.getUserObject());
-		}
-		return false;
-	}
-
-
-	/**
-	 * 
-	 * @param object
-	 */
-	public void setUserObject(Object object) {
-		this.userObject = object;
-	}
 
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
@@ -126,13 +103,6 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * @return
-	 */
-	public Object getUserObject() {
-		return userObject;
 	}
 
 	/* (non-Javadoc)
@@ -188,8 +158,28 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 		}
 		return 0;
 	}
-	
-	
+
+	/**
+	 * @return
+	 */
+	public Object getUserObject() {
+		return userObject;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetUserObject() {
+		return userObject != null;
+	}
+
+	/**
+	 * 
+	 * @param object
+	 */
+	public void setUserObject(Object object) {
+		this.userObject = object;
+	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractTreeNode#toString()
@@ -232,13 +222,6 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 			return userObject.toString();
 		}
 		return super.toString();
-	}
-
-	/**
-	 * @return
-	 */
-	public boolean isSetUserObject() {
-		return userObject != null;
 	}
 
 }

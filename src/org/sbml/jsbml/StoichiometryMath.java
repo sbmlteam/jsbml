@@ -24,10 +24,10 @@ package org.sbml.jsbml;
  * Contains the MathMl expression of the Stoichiometry.
  * 
  * @author Andreas Dr&auml;ger
- * @deprecated Use {@link AssignmentRule} with instances of
- *             {@link SpeciesReference} as {@link Variable} instead.
  * @since 0.8
  * @version $Rev$
+ * @deprecated Use {@link AssignmentRule} with instances of
+ *             {@link SpeciesReference} as {@link Variable} instead.
  */
 @Deprecated
 public class StoichiometryMath extends AbstractMathContainer {
@@ -40,6 +40,7 @@ public class StoichiometryMath extends AbstractMathContainer {
 	/**
 	 * Creates a StoichiometryMath instance.
 	 */
+	@Deprecated
 	public StoichiometryMath() {
 		super();
 	}
@@ -50,6 +51,7 @@ public class StoichiometryMath extends AbstractMathContainer {
 	 * @param level
 	 * @param version
 	 */
+	@Deprecated
 	public StoichiometryMath(int level, int version) {
 		super(level, version);
 	}
@@ -59,6 +61,7 @@ public class StoichiometryMath extends AbstractMathContainer {
 	 * 
 	 * @param stoichiometryMath
 	 */
+	@Deprecated
 	public StoichiometryMath(StoichiometryMath stoichiometryMath) {
 		super(stoichiometryMath);
 	}
@@ -67,6 +70,7 @@ public class StoichiometryMath extends AbstractMathContainer {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
+	@Deprecated
 	public StoichiometryMath clone() {
 		return new StoichiometryMath(this);
 	}

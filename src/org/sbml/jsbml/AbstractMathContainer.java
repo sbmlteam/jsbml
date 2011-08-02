@@ -119,28 +119,6 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object o) {
-		if (o.getClass().getName().equals(this.getClass().getName())) {
-			AbstractMathContainer c = (AbstractMathContainer) o;
-			if ((c.isSetMath() && !isSetMath())
-					|| (!c.isSetMath() && isSetMath())) {
-				return false;
-			}
-			boolean equal = super.equals(o);
-			if (c.isSetMath() && isSetMath()) {
-				equal &= getMath().equals(c.getMath());
-			}
-			return equal;
-		}
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
 	 */
 	@Override

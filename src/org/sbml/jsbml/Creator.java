@@ -74,22 +74,6 @@ public class Creator extends AnnotationElement {
 	}
 	
 	/**
-	 * Creates a {@link Creator} instance. 
-	 * 
-	 * @param givenName
-	 * @param familyName
-	 * @param organization
-	 * @param email
-	 */
-	public Creator(String givenName, String familyName, String organization, String email) {
-		this.givenName = givenName;
-		this.familyName = familyName;
-		this.organisation = organization;
-		this.email = email;
-		// this.otherXMLInformation = null;
-	}
-
-	/**
 	 * Creates a {@link Creator} instance from a given {@link Creator}.
 	 * 
 	 * @param modelCreator
@@ -117,6 +101,22 @@ public class Creator extends AnnotationElement {
 		}
 	}
 
+	/**
+	 * Creates a {@link Creator} instance. 
+	 * 
+	 * @param givenName
+	 * @param familyName
+	 * @param organization
+	 * @param email
+	 */
+	public Creator(String givenName, String familyName, String organization, String email) {
+		this.givenName = givenName;
+		this.familyName = familyName;
+		this.organisation = organization;
+		this.email = email;
+		// this.otherXMLInformation = null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -126,33 +126,107 @@ public class Creator extends AnnotationElement {
 		return new Creator(this);
 	}
 
+	/**
+	 * Writes the EMAIL element of the {@link Creator} in 'buffer'
+	 * 
+	 * @param indent
+	 * @param buffer
+	 */
+	private void createEMAILElement(String indent, StringBuffer buffer) {
+		if (isSetEmail()) {
+			buffer.append(indent).append("<vCard:EMAIL>").append(getEmail())
+					.append("</vCard:EMAIL> \n");
+		}
+	}
+
+	/**
+	 * Writes the N element of the {@link Creator} in 'buffer'
+	 * 
+	 * @param indent
+	 * @param buffer
+	 */
+	private void createNElement(String indent, StringBuffer buffer) {
+
+		if (isSetFamilyName() || isSetGivenName()) {
+			buffer.append(indent).append("<vCard:N rdf:parseType=").append('"')
+					.append("Resource").append('"').append("> \n");
+			if (isSetFamilyName()) {
+				buffer.append(indent).append("  <vCard:Family>").append(
+						getFamilyName()).append("</vCard:Family> \n");
+			}
+
+			if (isSetGivenName()) {
+				buffer.append(indent).append("  <vCard:Given>").append(
+						getGivenName()).append("</vCard:Given> \n");
+			}
+			buffer.append(indent).append("</vCard:N> \n");
+		}
+
+	}
+
+	/**
+	 * Writes the ORG element of the {@link Creator} in 'buffer'
+	 * 
+	 * @param indent
+	 * @param buffer
+	 */
+	private void createOrGElement(String indent, StringBuffer buffer) {
+		if (isSetOrganisation()) {
+			buffer.append(indent).append("<vCard:OrG> \n");
+			buffer.append(indent).append("  <vCard:Orgname>").append(
+					getOrganisation()).append("</vCard:Orgname> \n");
+			buffer.append(indent).append("</vCard:OrG> \n");
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
-	public boolean equals(Object sb) {
-		if (sb instanceof Creator) {
-			Creator m = (Creator) sb;
-			boolean equal = isSetEmail() == m.isSetEmail();
-			if (equal && isSetEmail()) {
-				equal &= getEmail().equals(m.getEmail());
+	@Override
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			Creator m = (Creator) object;
+			equals &= isSetEmail() == m.isSetEmail();
+			if (equals && isSetEmail()) {
+				equals &= getEmail().equals(m.getEmail());
 			}
-			equal &= isSetFamilyName() == m.isSetFamilyName();
-			if (equal && isSetFamilyName()) {
-				equal &= getFamilyName().equals(m.getFamilyName());
+			equals &= isSetFamilyName() == m.isSetFamilyName();
+			if (equals && isSetFamilyName()) {
+				equals &= getFamilyName().equals(m.getFamilyName());
 			}
-			equal &= isSetGivenName() == m.isSetGivenName();
-			if (equal && isSetGivenName()) {
-				equal &= getGivenName().equals(m.getGivenName());
+			equals &= isSetGivenName() == m.isSetGivenName();
+			if (equals && isSetGivenName()) {
+				equals &= getGivenName().equals(m.getGivenName());
 			}
-			equal &= isSetOrganisation() == m.isSetOrganisation();
-			if (equal && isSetOrganisation()) {
-				equal &= getOrganisation().equals(m.getOrganisation());
+			equals &= isSetOrganisation() == m.isSetOrganisation();
+			if (equals && isSetOrganisation()) {
+				equals &= getOrganisation().equals(m.getOrganisation());
 			}
-			return equal;
 		}
+		return equals;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
 		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
+	public TreeNode getChildAt(int childIndex) {
+		throw new IndexOutOfBoundsException(Integer.toString(childIndex));
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		return 0;
 	}
 
 	/**
@@ -210,6 +284,20 @@ public class Creator extends AnnotationElement {
 	 */
 	public String getOrganization() {
 		return getOrganisation();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getEmail().hashCode();
+		hashCode += prime * getFamilyName().hashCode();
+		hashCode += prime * getGivenName().hashCode();
+		hashCode += prime * getOrganisation().hashCode();
+		return hashCode;
 	}
 
 	/**
@@ -417,79 +505,5 @@ public class Creator extends AnnotationElement {
 	 */
 	public void unsetOrganization() {
 		organisation = null;
-	}
-
-	/**
-	 * Writes the EMAIL element of the {@link Creator} in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void createEMAILElement(String indent, StringBuffer buffer) {
-		if (isSetEmail()) {
-			buffer.append(indent).append("<vCard:EMAIL>").append(getEmail())
-					.append("</vCard:EMAIL> \n");
-		}
-	}
-
-	/**
-	 * Writes the N element of the {@link Creator} in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void createNElement(String indent, StringBuffer buffer) {
-
-		if (isSetFamilyName() || isSetGivenName()) {
-			buffer.append(indent).append("<vCard:N rdf:parseType=").append('"')
-					.append("Resource").append('"').append("> \n");
-			if (isSetFamilyName()) {
-				buffer.append(indent).append("  <vCard:Family>").append(
-						getFamilyName()).append("</vCard:Family> \n");
-			}
-
-			if (isSetGivenName()) {
-				buffer.append(indent).append("  <vCard:Given>").append(
-						getGivenName()).append("</vCard:Given> \n");
-			}
-			buffer.append(indent).append("</vCard:N> \n");
-		}
-
-	}
-
-	/**
-	 * Writes the ORG element of the {@link Creator} in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void createOrGElement(String indent, StringBuffer buffer) {
-		if (isSetOrganisation()) {
-			buffer.append(indent).append("<vCard:OrG> \n");
-			buffer.append(indent).append("  <vCard:Orgname>").append(
-					getOrganisation()).append("</vCard:Orgname> \n");
-			buffer.append(indent).append("</vCard:OrG> \n");
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int childIndex) {
-		throw new IndexOutOfBoundsException(Integer.toString(childIndex));
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		return 0;
 	}
 }

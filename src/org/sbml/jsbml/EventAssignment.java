@@ -28,7 +28,7 @@ import org.sbml.jsbml.util.SBaseChangeEvent;
  * Represents the eventAssignment XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
@@ -108,26 +108,21 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.MathContainer#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof EventAssignment) {
-			EventAssignment ea = (EventAssignment) o;
-			if ((!ea.isSetVariable() && isSetVariable())
-					|| (ea.isSetVariable() && !isSetVariable())) {
-				return false;
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			EventAssignment ea = (EventAssignment) object;
+			equals &= ea.isSetVariable() == isSetVariable();
+			if (equals && isSetVariable()) {
+				equals &= ea.getVariable().equals(getVariable());
 			}
-			boolean equal = super.equals(o);
-			if (ea.isSetVariable() && isSetVariable()) {
-				equal &= ea.getVariable().equals(getVariable());
-			}
-			return equal;
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()
@@ -153,6 +148,18 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	public Variable getVariableInstance() {
 		Model m = getModel();
 		return m != null ? m.findVariable(this.variableID) : null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getVariable().hashCode();
+		return hashCode;
 	}
 
 	/*

@@ -189,10 +189,10 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof NamedSBase) {
-			boolean equals = super.equals(o);
-			NamedSBase nsb = (NamedSBase) o;
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			NamedSBase nsb = (NamedSBase) object;
 			equals &= nsb.isSetId() == isSetId();
 			if (nsb.isSetId() && isSetId()) {
 				equals &= nsb.getId().equals(getId());
@@ -201,11 +201,10 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 			if (equals && nsb.isSetName()) {
 				equals &= nsb.getName().equals(getName());
 			}
-			return equals;
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.NamedSBase#getId()
@@ -220,6 +219,19 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 */
 	public String getName() {
 		return isSetName() ? this.name : "";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getId().hashCode();
+		hashCode += prime * getName().hashCode();
+		return hashCode;
 	}
 
 	/*

@@ -29,7 +29,7 @@ import org.sbml.jsbml.util.SBaseChangeEvent;
  * Represents the functionDefinition XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
@@ -37,14 +37,14 @@ public class FunctionDefinition extends AbstractMathContainer implements
 		CallableSBase {
 
 	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 5103621145642898899L;
-	/**
 	 * Error message to indicate that an incorrect {@link Type} has been passed
 	 * to a method.
 	 */
 	private static final String ILLEGAL_ASTNODE_TYPE_MSG = "Math element is expected to be of type %s, but given is %s.";
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = 5103621145642898899L;
 	/**
 	 * Represents the "id" attribute of a functionDefinition element.
 	 */
@@ -150,32 +150,25 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractMathContainer#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof FunctionDefinition) {
-			boolean equal = super.equals(o);
-			FunctionDefinition fd = (FunctionDefinition) o;
-			if ((!fd.isSetId() && isSetId()) || (fd.isSetId() && !isSetId())) {
-				return false;
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			FunctionDefinition fd = (FunctionDefinition) object;
+			equals &= fd.isSetId() == isSetId();
+			if (equals && isSetId()) {
+				equals &= fd.getId().equals(getId());
 			}
-			if (fd.isSetId() && isSetId()) {
-				equal &= fd.getId().equals(getId());
+			equals &= fd.isSetName() == isSetName();
+			if (equals && isSetName()) {
+				equals &= fd.getName().equals(getName());
 			}
-
-			if ((!fd.isSetName() && isSetName())
-					|| (fd.isSetName() && !isSetName())) {
-				return false;
-			}
-			if (fd.isSetName() && isSetName()) {
-				equal &= fd.getName().equals(getName());
-			}
-			return equal;
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/**
 	 * Get the nth argument to this function.
 	 * 
@@ -261,6 +254,19 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	@Override
 	public ListOf<FunctionDefinition> getParent() {
 		return (ListOf<FunctionDefinition>) super.getParent();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getId().hashCode();
+		hashCode += prime * getName().hashCode();
+		return hashCode;
 	}
 
 	/*

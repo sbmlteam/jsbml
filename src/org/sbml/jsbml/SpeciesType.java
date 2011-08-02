@@ -23,7 +23,7 @@ package org.sbml.jsbml;
 
 /**
  * Represents the speciesType XML element of a SBML file. It is deprecated
- * since level 3.
+ * since level 3 and not defined in SBML before Level 2 Version 2.
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8

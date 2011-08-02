@@ -187,14 +187,13 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.Rule#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o.getClass().getSimpleName().equals(getClass().getSimpleName())) {
-			ExplicitRule r = (ExplicitRule) o;
-			boolean equals = super.equals(o);
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			ExplicitRule r = (ExplicitRule) object;
 			equals &= isSetVariable() == r.isSetVariable();
 			if (equals && isSetVariable()) {
 				equals &= getVariable().equals(r.getVariable());
@@ -203,9 +202,8 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 			if (equals && isSetUnits()) {
 				equals &= getUnits().equals(r.getUnits());
 			}
-			return equals;
 		}
-		return false;
+		return equals;
 	}
 
 	/**
@@ -221,7 +219,7 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	public String getUnits() {
 		return isSetUnits() ? unitsID : "";
 	}
-
+	
 	/**
 	 * 
 	 * @return the UnitDefinition instance which matches the unitsID of this
@@ -252,6 +250,19 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	public Variable getVariableInstance() {
 		Model m = getModel();
 		return m != null ? m.findVariable(this.variableID) : null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getVariable().hashCode();
+		hashCode += prime * getUnits().hashCode();
+		return hashCode;
 	}
 
 	/**

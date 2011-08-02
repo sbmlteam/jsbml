@@ -34,8 +34,8 @@ import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
  * Represents the reaction XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * @author rodrigue
- * @author marine
+ * @author Nicolas Rodriguez
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
@@ -444,37 +444,37 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.NamedSBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Reaction) {
-			boolean equal = super.equals(o);
-			Reaction r = (Reaction) o;
-			equal &= r.getFast() == getFast();
-			equal &= r.isSetKineticLaw() == isSetKineticLaw();
-			if (equal && isSetKineticLaw()) {
-				equal &= r.getKineticLaw().equals(kineticLaw);
-			}
-			equal &= r.getReversible() == getReversible();
-			equal &= r.isSetListOfReactants() == isSetListOfReactants();
-			if (equal && isSetListOfReactants()) {
-				equal &= r.getListOfReactants().equals(listOfReactants);
-			}
-			equal &= r.isSetListOfProducts() == isSetListOfProducts();
-			if (equal && isSetListOfProducts()) {
-				equal &= r.getListOfProducts().equals(listOfProducts);
-			}
-			equal &= r.isSetListOfModifiers() == isSetListOfModifiers();
-			if (equal && isSetListOfModifiers()) {
-				equal &= r.getListOfModifiers().equals(listOfModifiers);
-			}
-			return equal;
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			Reaction r = (Reaction) object;
+			equals &= r.getFast() == getFast();
+			equals &= r.getReversible() == getReversible();
+			equals &= r.getCompartment().equals(getCompartment());
+			// all done in the super class:
+//			equals &= r.isSetKineticLaw() == isSetKineticLaw();
+//			if (equals && isSetKineticLaw()) {
+//				equals &= r.getKineticLaw().equals(kineticLaw);
+//			}
+//			equals &= r.isSetListOfReactants() == isSetListOfReactants();
+//			if (equals && isSetListOfReactants()) {
+//				equals &= r.getListOfReactants().equals(listOfReactants);
+//			}
+//			equals &= r.isSetListOfProducts() == isSetListOfProducts();
+//			if (equals && isSetListOfProducts()) {
+//				equals &= r.getListOfProducts().equals(listOfProducts);
+//			}
+//			equals &= r.isSetListOfModifiers() == isSetListOfModifiers();
+//			if (equals && isSetListOfModifiers()) {
+//				equals &= r.getListOfModifiers().equals(listOfModifiers);
+//			}
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -660,7 +660,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	public ModifierSpeciesReference getModifier(int i) {
 		return getListOfModifiers().get(i);
 	}
-	
+
 	/**
 	 * Searches the first {@link ModifierSpeciesReference} in the
 	 * {@link #listOfModifiers} of this {@link Reaction} with the given
@@ -676,7 +676,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	public ModifierSpeciesReference getModifier(String id) {
 		return getListOfModifiers().firstHit(new NameFilter(id));
 	}
-
+	
 	/**
 	 * Returns the first {@link ModifierSpeciesReference} in the
 	 * {@link #listOfModifiers} of this {@link Reaction} whose 'species'
@@ -728,7 +728,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	public ListOf<Reaction> getParent() {
 		return (ListOf<Reaction>) super.getParent();
 	}
-	
+
 	/**
 	 * 
 	 * @param i
@@ -753,7 +753,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	public SpeciesReference getProduct(String id) {
 		return getListOfProducts().firstHit(new NameFilter(id));
 	}
-
+	
 	/**
 	 * Returns the first {@link SpeciesReference} in the {@link #listOfProducts}
 	 * of this {@link Reaction} whose 'species' attribute points to a
@@ -823,6 +823,20 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		return reversible != null ? reversible : true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * Boolean.valueOf(getFast()).hashCode();
+		hashCode += prime * Boolean.valueOf(getReversible()).hashCode();
+		hashCode += prime * getCompartment().hashCode();
+		return hashCode;
+	}
+
 	/**
 	 * 
 	 * @param s
@@ -851,6 +865,13 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	}
 	
 	/**
+	 * Initializes the default values using the current Level/Version configuration.
+	 */
+	public void initDefaults() {
+		initDefaults(getLevel(), getVersion());
+	}
+	
+	/**
 	 * Initializes the default variables of this Reaction.
 	 */
 	public void initDefaults(int level, int version) {
@@ -862,13 +883,6 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 				reversible = fast = null;
 			}
 		}
-	}
-	
-	/**
-	 * Initializes the default values using the current Level/Version configuration.
-	 */
-	public void initDefaults() {
-		initDefaults(getLevel(), getVersion());
 	}
 
 	/**

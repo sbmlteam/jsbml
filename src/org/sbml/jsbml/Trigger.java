@@ -96,29 +96,25 @@ public class Trigger extends AbstractMathContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.MathContainer#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (super.equals(o) && (o instanceof Trigger)) {
-			Trigger t = (Trigger) o;
-			if (!(t.isSetInitialValue() == isSetInitialValue())
-					&& (t.isSetPersistent() == isSetPersistent())) {
-				return false;
-			}
-			boolean equal = true;
-			if (t.isSetInitialValue() && isSetInitialValue()) {
+	public boolean equals(Object object) {
+		boolean equal = super.equals(object);
+		if (equal) {
+			Trigger t = (Trigger) object;
+			equal &= t.isSetInitialValue() == isSetInitialValue();
+			if (equal && isSetInitialValue()) {
 				equal &= getInitialValue() == t.getInitialValue();
 			}
-			if (t.isSetPersistent() && isSetPersistent()) {
+			equal &= t.isSetPersistent() == isSetPersistent();
+			if (equal && isSetPersistent()) {
 				equal &= getPersistent() == t.getPersistent();
 			}
-			return equal;
 		}
-		return false;
+		return equal;
 	}
-
+	
 	/**
 	 * @return the initialValue
 	 */
@@ -152,6 +148,19 @@ public class Trigger extends AbstractMathContainer {
 			throw new PropertyUndefinedError("persistent", this);
 		}
 		return persistent.booleanValue();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * Boolean.valueOf(getInitialValue()).hashCode();
+		hashCode += prime * Boolean.valueOf(getPersistent()).hashCode();
+		return hashCode;
 	}
 
 	/**

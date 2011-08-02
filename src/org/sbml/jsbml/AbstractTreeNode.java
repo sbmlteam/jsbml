@@ -29,6 +29,8 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.util.StringTools;
 
 /**
+ * A basic implementation of the {@link TreeNode} interface.
+ * 
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 0.8
@@ -144,19 +146,40 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof AbstractTreeNode) {
-			AbstractTreeNode stn = (AbstractTreeNode) o;
-			if (stn == this) {
-				return true;
+	public boolean equals(Object object) {
+		// Check if the given object is a pointer to precisely the same object:
+		if (super.equals(object)) {
+			return true;
+		}
+		// Check if the given object is of identical class and not null: 
+		if ((object == null) || (!getClass().equals(object.getClass()))) {
+			return false;
+		}
+		// Check all child nodes recursively:
+		if (object instanceof TreeNode) {
+			TreeNode stn = (TreeNode) object;
+			int childCount = getChildCount();
+			boolean equal = stn.isLeaf() == isLeaf();
+			/*
+			 * This is not good because cloned AbstractTreeNodes may not point
+			 * to the same parent as the original and would hence not be equal
+			 * to the cloned object.
+			 */
+            //	equal &= ((stn.getParent() == null) && isRoot())
+            //           || (stn.getParent() == getParent());
+			equal &= stn.getChildCount() == childCount;
+			if (equal && (childCount > 0)) {
+				for (int i = 0; i < childCount; i++) {
+					if (!stn.getChildAt(i).equals(getChildAt(i))) {
+						return false;
+					}
+				}
 			}
-			boolean equal = stn.getChildCount() == getChildCount();
-			equal &= stn.getParent() == getParent();
 			return equal;
 		}
 		return false;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -174,6 +197,24 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 	public TreeNode getParent() {
 		return parent;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		/*
+		 * This method is implemented as suggested in the JavaDoc API
+		 * documentation of the List interface.
+		 */
+		int hashCode = super.hashCode();
+		TreeNode child;
+		for (int i = 0; i < getChildCount(); i++) {
+			child = getChildAt(i);
+			hashCode = 31 * hashCode + (child == null ? 0 : child.hashCode());
+		}
+		return hashCode;
+	}
 	
 	/*
 	 * (non-Javadoc)
@@ -187,10 +228,15 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 	/**
 	 * Opposite of {@link #isSetParent()}.
 	 * 
-	 * @return
+	 * Returns <code>true</code> if this {@link AbstractTreeNode} is the root
+	 * node of a tree, <code>false</code> otherwise.
+	 * 
+	 * @return <code>True</code> if this {@link AbstractTreeNode} is the root
+	 *         node of a tree, <code>false</code> otherwise.
+	 * 
 	 * @see #isSetParent()
 	 */
-	public boolean isRootNode() {
+	public boolean isRoot() {
 		return !isSetParent();
 	}
 	

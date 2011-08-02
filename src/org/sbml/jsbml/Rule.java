@@ -81,16 +81,6 @@ public abstract class Rule extends AbstractMathContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.MathContainer#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object o) {
-		return (o instanceof Rule) ? super.equals(o) : false;
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()
 	 */
 	@SuppressWarnings("unchecked")

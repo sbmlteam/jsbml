@@ -30,7 +30,7 @@ import org.sbml.jsbml.util.StringTools;
  * Represents the species XML element of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
@@ -203,40 +203,36 @@ public class Species extends Symbol {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.Symbol#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Species) {
-			boolean equal = super.equals(o);
-			Species s = (Species) o;
-			equal &= s.getBoundaryCondition() == getBoundaryCondition();
-			equal &= s.getHasOnlySubstanceUnits() == getHasOnlySubstanceUnits();
-			equal &= s.getCharge() == getCharge();
-			equal &= s.isSetCompartment() == isSetCompartment();
-			equal &= s.isSetSpeciesType() == isSetSpeciesType();
-
-			if (equal && isSetSpeciesType()) {
-				equal &= s.getSpeciesType().equals(getSpeciesType());
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			Species s = (Species) object;
+			equals &= s.getBoundaryCondition() == getBoundaryCondition();
+			equals &= s.getHasOnlySubstanceUnits() == getHasOnlySubstanceUnits();
+			equals &= s.getCharge() == getCharge();
+			
+			equals &= s.isSetSpeciesType() == isSetSpeciesType();
+			if (equals && isSetSpeciesType()) {
+				equals &= s.getSpeciesType().equals(getSpeciesType());
 			}
-			if (equal && isSetCompartment()) {
-				equal &= s.getCompartment().equals(getCompartment());
+			equals &= s.isSetCompartment() == isSetCompartment();
+			if (equals && isSetCompartment()) {
+				equals &= s.getCompartment().equals(getCompartment());
 			}
-			equal &= s.isSetInitialAmount() == isSetInitialAmount();
-			if (equal && isSetInitialAmount()) {
-				equal &= s.getInitialAmount() == getInitialAmount();
-			} else if (equal && isSetInitialConcentration()) {
-				equal &= s.getInitialConcentration() == getInitialConcentration();
+			
+			equals &= s.isSetInitialAmount() == isSetInitialAmount();
+			equals &= s.isSetInitialConcentration() == isSetInitialConcentration();
+			// value is already checked by super class.
+			
+			equals &= s.isSetSpatialSizeUnits() == isSetSpatialSizeUnits();
+			if (equals && isSetSpatialSizeUnits()) {
+				equals &= s.getSpatialSizeUnits().equals(getSpatialSizeUnits());
 			}
-			equal &= s.isSetSpatialSizeUnits() == isSetSpatialSizeUnits();
-
-			if (equal && isSetSpatialSizeUnits()) {
-				equal &= s.getSpatialSizeUnits().equals(getSpatialSizeUnits());
-			}
-			return equal;
 		}
-		return false;
+		return equals;
 	}
 
 	/**
@@ -246,7 +242,7 @@ public class Species extends Symbol {
 	public boolean getBoundaryCondition() {
 		return isSetBoundaryCondition() ? boundaryCondition : false;
 	}
-
+	
 	/**
 	 * 
 	 * @return the charge value of this Species if it is set, 0 otherwise.
@@ -415,6 +411,25 @@ public class Species extends Symbol {
 		return getUnitsInstance();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.Symbol#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * Boolean.valueOf(getBoundaryCondition()).hashCode();
+		hashCode += prime * Boolean.valueOf(getHasOnlySubstanceUnits()).hashCode();
+		hashCode += prime * Double.valueOf(getCharge()).hashCode();
+		hashCode += prime * getSpeciesType().hashCode();
+		hashCode += prime * getCompartment().hashCode();
+		hashCode += prime * Boolean.valueOf(isSetInitialAmount()).hashCode();
+		hashCode += prime * Boolean.valueOf(isSetInitialConcentration()).hashCode();
+		hashCode += prime * getSpatialSizeUnits().hashCode();
+		return hashCode;
+	}
+
 	/**
 	 * 
 	 * @return
@@ -424,6 +439,13 @@ public class Species extends Symbol {
 				: false;
 	}
 
+	/**
+	 * Initializes the default values using the current Level/Version configuration.
+	 */
+	public void initDefaults() {
+		initDefaults(getLevel(), getVersion());
+	}
+	
 	/**
 	 * Initializes the default values of this Species.
 	 */
@@ -439,13 +461,6 @@ public class Species extends Symbol {
 			boundaryCondition = null;
 			constant = null;
 		}
-	}
-	
-	/**
-	 * Initializes the default values using the current Level/Version configuration.
-	 */
-	public void initDefaults() {
-		initDefaults(getLevel(), getVersion());
 	}
 
 	/**

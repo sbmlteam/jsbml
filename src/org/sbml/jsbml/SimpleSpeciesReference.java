@@ -29,7 +29,7 @@ import org.sbml.jsbml.util.SBaseChangeEvent;
  * {@link ModifierSpeciesReference}.
  * 
  * @author Simon Sch&auml;fer
- * @author marine
+ * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
@@ -54,14 +54,6 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 		this.speciesID = null;
 	}
 	
-	/**
-	 * 
-	 * @param id
-	 */
-	public SimpleSpeciesReference(String id) {
-		super(id);
-	}
-
 	/**
 	 * 
 	 * @param level
@@ -96,6 +88,14 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	/**
 	 * 
 	 * @param id
+	 */
+	public SimpleSpeciesReference(String id) {
+		super(id);
+	}
+
+	/**
+	 * 
+	 * @param id
 	 * @param level
 	 * @param version
 	 */
@@ -117,28 +117,21 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof SimpleSpeciesReference) {
-			SimpleSpeciesReference ssr = (SimpleSpeciesReference) o;
-			boolean equal = super.equals(o);
-			if ((!isSetSpecies() && ssr.isSetSpecies())
-					|| (isSetSpecies() && !ssr.isSetSpecies())) {
-				return false;
-
-			} else if (isSetSpecies() && ssr.isSetSpecies()) {
-				equal &= ssr.getSpecies().equals(speciesID);
-				// System.out.println("SimplespeciesReference : speciesRef =  "
-				// + ssr.getSpecies() + ", " + speciesID);
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			SimpleSpeciesReference ssr = (SimpleSpeciesReference) object;
+			equals &= isSetSpecies() == ssr.isSetSpecies();
+			if (equals && isSetSpecies()) {
+				equals &= ssr.getSpecies().equals(speciesID);
 			}
-			return equal;
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/**
 	 * 
 	 * @return the speciesID of this {@link Species}. The empty String if it is not set.
@@ -155,6 +148,18 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
 	public Species getSpeciesInstance() {
 		Model m = getModel();
 		return m != null ? m.getSpecies(this.speciesID) : null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getSpecies().hashCode();
+		return hashCode;
 	}
 
 	/**

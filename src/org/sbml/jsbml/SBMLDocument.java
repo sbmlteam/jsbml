@@ -55,19 +55,14 @@ public class SBMLDocument extends AbstractSBase {
 	private static final long serialVersionUID = -3927709655186844513L;
 	
 	/**
-	 * The namespace URI of SBML Level 3 Version 1.
+	 * The namespace URI of SBML Level 1 Version 1 and 2.
 	 */
-	public static final transient String URI_NAMESPACE_L3V1Core = "http://www.sbml.org/sbml/level3/version1/core";
+	public static final transient String URI_NAMESPACE_L1 = "http://www.sbml.org/sbml/level1";
 	
 	/**
-	 * The namespace URI of SBML Level 2 Version 4.
+	 * The namespace URI of SBML Level 2 Version 1.
 	 */
-	public static final transient String URI_NAMESPACE_L2V4 = "http://www.sbml.org/sbml/level2/version4";
-
-	/**
-	 * The namespace URI of SBML Level 2 Version 3.
-	 */
-	public static final transient String URI_NAMESPACE_L2V3 = "http://www.sbml.org/sbml/level2/version3";
+	public static final transient String URI_NAMESPACE_L2V1 = "http://www.sbml.org/sbml/level2";
 
 	/**
 	 * The namespace URI of SBML Level 2 Version 2.
@@ -75,21 +70,24 @@ public class SBMLDocument extends AbstractSBase {
 	public static final String URI_NAMESPACE_L2V2 = "http://www.sbml.org/sbml/level2/version2";
 
 	/**
-	 * The namespace URI of SBML Level 2 Version 1.
+	 * The namespace URI of SBML Level 2 Version 3.
 	 */
-	public static final transient String URI_NAMESPACE_L2V1 = "http://www.sbml.org/sbml/level2";
+	public static final transient String URI_NAMESPACE_L2V3 = "http://www.sbml.org/sbml/level2/version3";
 
 	/**
-	 * The namespace URI of SBML Level 1 Version 1 and 2.
+	 * The namespace URI of SBML Level 2 Version 4.
 	 */
-	public static final transient String URI_NAMESPACE_L1 = "http://www.sbml.org/sbml/level1";
+	public static final transient String URI_NAMESPACE_L2V4 = "http://www.sbml.org/sbml/level2/version4";
+
+	/**
+	 * The namespace URI of SBML Level 3 Version 1.
+	 */
+	public static final transient String URI_NAMESPACE_L3V1Core = "http://www.sbml.org/sbml/level3/version1/core";
 	
 	/**
-	 * Stores all the meta identifiers within this {@link SBMLDocument} to avoid
-	 * the creation of multiple identical meta identifiers. These identifiers
-	 * have to be unique within the document.
+	 * Contains all the parameter to validate the SBML document
 	 */
-	private Set<String> setOfMetaIds;
+	private HashMap<String, Boolean> checkConsistencyParameters = new HashMap<String, Boolean>();
 	
 	/**
 	 * Memorizes all {@link SBMLError} when parsing the file containing this
@@ -98,9 +96,9 @@ public class SBMLDocument extends AbstractSBase {
 	private SBMLErrorLog listOfErrors;
 	
 	/**
-	 * Contains all the parameter to validate the SBML document
+	 * logger used to print messages
 	 */
-	private HashMap<String, Boolean> checkConsistencyParameters = new HashMap<String, Boolean>();
+	private transient Logger logger = Logger.getLogger(getClass());
 	
 	/**
 	 * Represents the 'model' XML subnode of a SBML file.
@@ -116,9 +114,11 @@ public class SBMLDocument extends AbstractSBase {
 	private Map<String, String> SBMLDocumentNamespaces;
 
 	/**
-	 * logger used to print messages
+	 * Stores all the meta identifiers within this {@link SBMLDocument} to avoid
+	 * the creation of multiple identical meta identifiers. These identifiers
+	 * have to be unique within the document.
 	 */
-	private transient Logger logger = Logger.getLogger(getClass());
+	private Set<String> setOfMetaIds;
 	
 	/**
 	 * Creates a {@link SBMLDocument} instance. By default, the parent SBML object of
@@ -423,14 +423,13 @@ public class SBMLDocument extends AbstractSBase {
 	
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.AbstractSBase#equals(Object o)
+	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
-		if (o instanceof SBMLDocument) {
+		boolean equals = super.equals(o);
+		if (equals) {
 			SBMLDocument d = (SBMLDocument) o;
-			boolean equals = super.equals(o);
-
 			if (!getSBMLDocumentAttributes().equals(
 					d.getSBMLDocumentAttributes())) {
 				return false;
@@ -439,9 +438,8 @@ public class SBMLDocument extends AbstractSBase {
 					d.getSBMLDocumentNamespaces())) {
 				return false;
 			}
-			return equals;
 		}
-		return false;
+		return equals;
 	}
 
 	/*
@@ -568,7 +566,7 @@ public class SBMLDocument extends AbstractSBase {
 	public int getNumErrors() {
 		return isSetListOfErrors() ? listOfErrors.getNumErrors() : 0;
 	}
-	
+
 	/**
 	 * 
 	 * @return the map SBMLDocumentAttributes of this SBMLDocument.
@@ -576,13 +574,25 @@ public class SBMLDocument extends AbstractSBase {
 	public Map<String, String> getSBMLDocumentAttributes() {
 		return SBMLDocumentAttributes;
 	}
-
+	
 	/**
 	 * 
 	 * @return the map SBMLDocumentNamespaces of this SBMLDocument.
 	 */
 	public Map<String, String> getSBMLDocumentNamespaces() {
 		return SBMLDocumentNamespaces;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getSBMLDocumentAttributes().hashCode();
+		hashCode += prime * getSBMLDocumentNamespaces().hashCode();
+		return hashCode;
 	}
 
 	/**
