@@ -195,7 +195,7 @@ public class Compartment extends Symbol {
 			}
 			// already checked by super class:
 			// equals &= c.getSize() == getSize();
-			equals &= c.getSpatialDimensions() == getSpatialDimensions();
+			equals &= Double.valueOf(c.getSpatialDimensions()).equals(getSpatialDimensions());
 		}
 		return equals;
 	}
