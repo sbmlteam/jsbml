@@ -24,8 +24,13 @@ package org.sbml.jsbml.test;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.text.parser.ParseException;
 
 /**
  * @author Andreas Dr&auml;ger
@@ -36,12 +41,16 @@ import org.sbml.jsbml.SBMLDocument;
 public class HashCodeTest {
 	
 	/**
+	 * @throws ParseException 
 	 * 
 	 */
-	@Test public void checkHashCode() {
+	@Test public void checkHashCode() throws ParseException {
 		SBMLDocument doc1 = new SBMLDocument(3, 1);
 		Model model = doc1.createModel("test_model");
-		model.createAlgebraicRule();
+		Compartment c = model.createCompartment("c1");
+		Species s = model.createSpecies("s1", c);
+		Rule r = model.createAlgebraicRule();
+		r.setMath(ASTNode.parseFormula("sin(3) + 1"));
 		
 		SBMLDocument doc2 = doc1.clone();
 		assertTrue(doc1.hashCode() == doc2.hashCode());
