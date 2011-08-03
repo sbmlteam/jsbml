@@ -207,7 +207,14 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 		 * This method is implemented as suggested in the JavaDoc API
 		 * documentation of the List interface.
 		 */
-		int hashCode = super.hashCode();
+		
+		// Compute the initial hashCode based on the name of the actual class.
+		int hashCode = getClass().getName().hashCode();
+		/*
+		 * The following start wouldn't work because it will compute the
+		 * hashCode from the address in memory of the object.
+		 */
+		// int hashCode = super.hashCode();
 		TreeNode child;
 		for (int i = 0; i < getChildCount(); i++) {
 			child = getChildAt(i);

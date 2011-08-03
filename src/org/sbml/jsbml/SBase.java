@@ -75,7 +75,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * @param sbase
 	 */
 	public void addExtension(String namespace, SBase sbase);
-
+	
 	/**
 	 * Appends 'notes' to the notes String of this object.
 	 *  
@@ -192,13 +192,13 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 *         initializes the annotation and returns an empty list.
 	 */
 	public List<CVTerm> getCVTerms();
-	
+
 	/**
 	 * 
 	 * @return the XML element name of this object.
 	 */
 	public String getElementName();
-
+	
 	/**
 	 * 
 	 * @param namespace
@@ -333,6 +333,13 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * @see getLevel()
 	 */
 	public int getVersion();
+
+	/**
+	 * 
+	 * @return
+	 * @see Object#hashCode()
+	 */
+	public int hashCode();
 
 	/**
 	 * 
