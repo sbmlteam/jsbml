@@ -81,28 +81,6 @@ public class CubicBezier extends LineSegment {
 		return new CubicBezier(this);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof CubicBezier) {
-			CubicBezier cb = (CubicBezier) o;
-			boolean equals = super.equals(cb);
-			equals &= cb.isSetBasePoint1() == isSetBasePoint1();
-			if (equals && isSetBasePoint1()) {
-				equals &= cb.getBasePoint1().equals(getBasePoint1());
-			}
-			equals &= cb.isSetBasePoint2() == isSetBasePoint2();
-			if (equals &= isSetBasePoint2()) {
-				equals &= cb.getBasePoint2().equals(getBasePoint2());
-			}
-			return equals;
-		}
-		return false;
-	}
-	
 	/**
 	 * 
 	 * @return

@@ -78,17 +78,16 @@ public class CompartmentGlyph extends GraphicalObject {
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof CompartmentGlyph) {
-			CompartmentGlyph cg = (CompartmentGlyph) o;
-			boolean equals = super.equals(cg);
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			CompartmentGlyph cg = (CompartmentGlyph) object;
 			equals &= isSetCompartment() && cg.isSetCompartment();
 			if (equals && isSetCompartment()) {
 				equals &= getCompartment().equals(cg.getCompartment());
 			}
-			return equals;
 		}
-		return false;
+		return equals;
 	}
 	
 	/**
@@ -97,6 +96,18 @@ public class CompartmentGlyph extends GraphicalObject {
 	 */
 	public String getCompartment() {
 		return compartment;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getCompartment().hashCode();
+		return hashCode;
 	}
 
 	/**

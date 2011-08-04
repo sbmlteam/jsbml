@@ -117,19 +117,25 @@ public class ExtendedLayoutModel extends Model {
 		return new ExtendedLayoutModel(this);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.Model#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof ExtendedLayoutModel) {
-			ExtendedLayoutModel elm = (ExtendedLayoutModel) o;
-			boolean equal = super.equals(elm);
-			equal &= getListOfLayouts().equals(elm.getListOfLayouts());
-			equal &= getModel().equals(elm.getModel());
-			return equal;
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			// ExtendedLayoutModel elm = (ExtendedLayoutModel) object;
+			// An equals call on the model would cause a cyclic check!
+			// Actually, I'm not sure if we should compare the model
+			// here at all because this would be like checking a pointer
+			// to the parent node in the SBML tree, which we never do.
+			// Therefore, there's also no hashCode method here, because
+			// nothing to check, in my opinion.
+			// Hence, we can delete this method here.
+			// equals &= getModel() == elm.getModel();
 		}
-		return false;
+		return equals;
 	}
 
 	/*

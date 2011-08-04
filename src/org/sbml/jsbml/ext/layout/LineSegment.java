@@ -87,28 +87,6 @@ public class LineSegment extends AbstractNamedSBase {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof LineSegment) {
-			LineSegment l = (LineSegment) o;
-			boolean equals = super.equals(l);
-			equals &= l.isSetEnd() == isSetEnd();
-			if (equals && isSetEnd()) {
-				equals &= l.getEnd().equals(getEnd());
-			}
-			equals &= l.isSetStart() == isSetStart();
-			if (equals && isSetStart()) {
-				equals &= l.getStart().equals(getStart());
-			}
-			return equals;
-		}
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override

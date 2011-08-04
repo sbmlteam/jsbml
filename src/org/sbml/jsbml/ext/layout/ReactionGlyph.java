@@ -20,8 +20,9 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.SBase;
 
 /**
  * @author Nicolas Rodriguez
@@ -107,40 +108,32 @@ public class ReactionGlyph extends GraphicalObject {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof ReactionGlyph) {
-			ReactionGlyph r = (ReactionGlyph) o;
-			boolean equals = super.equals(r);
-			equals &= r.isSetCurve() == isSetCurve();
-			if (equals && isSetCurve()) {
-				equals &= r.getCurve().equals(getCurve());
-			}
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			ReactionGlyph r = (ReactionGlyph) object;
 			equals &= r.isSetId() == isSetId();
 			if (equals && isSetId()) {
 				equals &= r.getId().equals(getId());
 			}
-			equals &= r.isSetListOfSpeciesReferencesGlyph() == isSetListOfSpeciesReferencesGlyph();
-			if (equals && isSetListOfSpeciesReferencesGlyph()) {
-				equals &= r.getListOfSpeciesReferencesGlyph().equals(getListOfSpeciesReferencesGlyph());
-			}
-			equals &= r.isSetReaction() == isSetReaction();
-			if (equals && isSetReaction()) {
-				equals &= r.getReaction().equals(getReaction());
-			}
-			return equals;
+			// This can lead to a cyclic check!
+			// equals &= r.isSetReaction() == isSetReaction();
+			// if (equals && isSetReaction()) {
+			// equals &= r.getReaction().equals(getReaction());
+			// }
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildAt(int)
 	 */
 	@Override
-	public SBase getChildAt(int index) {
+	public TreeNode getChildAt(int index) {
 		if (index < 0) {
 			throw new IndexOutOfBoundsException(Integer.toString(index));
 		}
@@ -204,6 +197,18 @@ public class ReactionGlyph extends GraphicalObject {
 	 */
 	public String getReaction() {
 		return reaction;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getId().hashCode();
+		return hashCode;
 	}
 
 	/**
