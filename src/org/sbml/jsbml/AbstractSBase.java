@@ -272,7 +272,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public void addChangeListener(SBaseChangeListener l) {
 		setOfListeners.add(l);
 		Enumeration<TreeNode> children = children();
-		for (int i = 0; children.hasMoreElements(); i++) {
+		for (; children.hasMoreElements(); ) {
 			TreeNode node = children.nextElement();
 			if (node instanceof SBase) {
 				((SBase) node).addChangeListener(l);
