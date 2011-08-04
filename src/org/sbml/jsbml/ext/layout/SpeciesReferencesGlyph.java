@@ -104,14 +104,10 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof SpeciesReferencesGlyph) {
-			SpeciesReferencesGlyph s = (SpeciesReferencesGlyph) o;
-			boolean equals = super.equals(s);
-			equals &= s.isSetCurve() == isSetCurve();
-			if (equals && isSetCurve()) {
-				equals &= s.getCurve().equals(getCurve());
-			}
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			SpeciesReferencesGlyph s = (SpeciesReferencesGlyph) object;
 			equals &= s.isSetId() == isSetId();
 			if (equals && isSetId()) {
 				equals &= s.getId().equals(getId());
@@ -120,19 +116,14 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 			if (equals && isSetSpeciesReferenceRole()) {
 				equals &= s.getSpeciesReferenceRole().equals(getSpeciesReferenceRole());
 			}
-			equals &= s.isSetSpeciesGlyph() == isSetSpeciesGlyph();
-			if (equals && isSetSpeciesGlyph()) {
-				equals &= s.getSpeciesGlyph().equals(getSpeciesGlyph());
-			}
 			equals &= s.isSetSpeciesReference() == isSetSpeciesReference();
 			if (equals && isSetSpeciesReference()) {
 				equals &= s.getSpeciesReference().equals(getSpeciesReference());
 			}
-			return equals;
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
@@ -216,6 +207,20 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	 */
 	public SpeciesReferenceRole getSpeciesReferenceRole() {
 		return role;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getId().hashCode();
+		hashCode += prime * getSpeciesReferenceRole().hashCode();
+		hashCode += prime * getSpeciesReference().hashCode();
+		return hashCode;
 	}
 
 	/**

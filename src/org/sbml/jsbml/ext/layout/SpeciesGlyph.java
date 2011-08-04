@@ -87,28 +87,24 @@ public class SpeciesGlyph extends GraphicalObject {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof SpeciesGlyph) {
-			SpeciesGlyph s = (SpeciesGlyph) o;
-			boolean equals = super.equals(s);
-			equals &= s.isSetBoundingBox() == isSetBoundingBox();
-			if (equals && isSetBoundingBox()) {
-				equals &= s.getBoundingBox().equals(getBoundingBox());
-			}
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			SpeciesGlyph s = (SpeciesGlyph) object;
 			equals &= s.isSetId() == isSetId();
 			if (equals && isSetId()) {
 				equals &= s.getId().equals(getId());
 			}
-			equals &= s.isSetSpecies() == isSetSpecies();
-			if (equals && isSetSpecies()) {
-				equals &= s.getSpecies().equals(getSpecies());
-			}
-			return equals;
+			// This can lead to a cyclic check!
+			// equals &= s.isSetSpecies() == isSetSpecies();
+			// if (equals && isSetSpecies()) {
+			// equals &= s.getSpecies().equals(getSpecies());
+			// }
 		}
-		return false;
+		return equals;
 	}
 	
 	/*
@@ -119,13 +115,25 @@ public class SpeciesGlyph extends GraphicalObject {
 	public String getId(){
 		return this.id;
 	}
-
+	
 	/**
 	 * 
 	 * @return
 	 */
 	public String getSpecies() {
 		return species;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getId().hashCode();
+		return hashCode;
 	}
 
 	/**

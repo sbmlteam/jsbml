@@ -75,24 +75,6 @@ public class Curve extends AbstractNamedSBase {
 	public Curve clone() {
 		return new Curve(this);
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Curve) {
-			Curve c = (Curve) o;
-			boolean equals = super.equals(c);
-			equals &= c.isSetListOfCurveSegments() == isSetListOfCurveSegments();
-			if (equals && isSetListOfCurveSegments()) {
-				equals &= c.getListOfCurveSegments().equals(getListOfCurveSegments());
-			}
-			return equals;
-		}
-		return false;
-	}
 
 	/*
 	 * (non-Javadoc)

@@ -105,24 +105,18 @@ public class BoundingBox extends AbstractNamedSBase {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
-	public boolean equals(Object o) {
-		if (o instanceof BoundingBox) {
-			BoundingBox bb = (BoundingBox) o;
-			boolean equals = super.equals(bb);
-			equals &= bb.isSetDimensions() == isSetDimensions();
+	@Override
+	public boolean equals(Object object) {
+		// Check all child elements recursively in super class first:
+		boolean equals = super.equals(object);
+		if (equals) {
+			// Cast is possible because super class checks the class attributes
+			BoundingBox bb = (BoundingBox) object;
 			equals &= bb.getId().equals(getId());
-			if (equals && isSetDimensions()) {
-				equals &= bb.getDimensions().equals(getDimensions());
-			}
-			equals &= bb.isSetPoint() == isSetPoint();
-			if (equals && isSetPoint()) {
-				equals &= bb.getPoint().equals(getPoint());
-			}
-			return equals;
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
@@ -177,7 +171,7 @@ public class BoundingBox extends AbstractNamedSBase {
 	public Dimensions getDimensions() {
 		return dimensions;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#getId()
@@ -194,6 +188,18 @@ public class BoundingBox extends AbstractNamedSBase {
 	 */
 	public Point getPoint() {
 		return point;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getId().hashCode();
+		return hashCode;
 	}
 	
 	/**

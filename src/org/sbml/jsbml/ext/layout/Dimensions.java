@@ -95,27 +95,26 @@ public class Dimensions extends AbstractNamedSBase {
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Dimensions) {
-			Dimensions d = (Dimensions) o;
-			boolean equals = super.equals(d);
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			Dimensions d = (Dimensions) object;
 			equals &= d.isSetDepth() == isSetDepth();
 			if (equals && isSetDepth()) {
-				equals &= d.getDepth() == getDepth();
+				equals &= Double.valueOf(d.getDepth()).equals(Double.valueOf(getDepth()));
 			}
 			equals &= d.isSetHeight() == isSetHeight();
 			if (equals && isSetHeight()) {
-				equals &= d.getHeight() == getHeight();
+				equals &= Double.valueOf(d.getHeight()).equals(Double.valueOf(getHeight()));
 			}
 			equals &= d.isSetWidth() == isSetWidth();
 			if (equals && isSetWidth()) {
-				equals &= d.getWidth() == getWidth();
+				equals &=  Double.valueOf(d.getWidth()).equals(Double.valueOf(getWidth()));
 			}
-			return equals;
 		}
-		return false;
+		return equals;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -138,6 +137,20 @@ public class Dimensions extends AbstractNamedSBase {
 	 */
 	public double getWidth() {
 		return width;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * Double.valueOf(getDepth()).hashCode();
+		hashCode += prime * Double.valueOf(getHeight()).hashCode();
+		hashCode += prime * Double.valueOf(getWidth()).hashCode();
+		return hashCode;
 	}
 
 	/**

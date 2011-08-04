@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import javax.swing.tree.TreeNode;
+
 
 /**
  * @author Nicolas Rodriguez
@@ -79,7 +81,9 @@ public class TextGlyph extends GraphicalObject {
 	 */
 	public TextGlyph(TextGlyph textGlyph) {
 		super(textGlyph);
-		// TODO Auto-generated constructor stub
+		this.graphicalObject = textGlyph.getGraphicalObject().clone();
+		this.originOfText = new String(textGlyph.getOriginOfText());
+		this.text = new String(textGlyph.getText());
 	}
 
 	/*
@@ -97,18 +101,10 @@ public class TextGlyph extends GraphicalObject {
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof TextGlyph) {
-			TextGlyph t = (TextGlyph) o;
-			boolean equals = super.equals(t);
-			equals &= t.isSetBoundingBox() == isSetBoundingBox();
-			if (equals && isSetBoundingBox()) {
-				equals &= t.getBoundingBox().equals(getBoundingBox());
-			}
-			equals &= t.isSetGraphicalObject() == isSetGraphicalObject();
-			if (equals && isSetGraphicalObject()) {
-				equals &= t.getGraphicalObject().equals(getGraphicalObject());
-			}
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			TextGlyph t = (TextGlyph) object;
 			equals &= t.isSetOriginOfText() == isSetOriginOfText();
 			if (equals && isSetOriginOfText()) {
 				equals &= t.getOriginOfText().equals(getOriginOfText());
@@ -117,11 +113,47 @@ public class TextGlyph extends GraphicalObject {
 			if (equals && isSetText()) {
 				equals &= t.getText().equals(getText());
 			}
-			return equals;
 		}
-		return false;
+		return equals;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(Integer.toString(index));
+		}
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
+		if (isSetGraphicalObject()) {
+			if (pos == index) {
+				return getGraphicalObject();
+			}
+			pos++;
+		}
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int count = super.getChildCount();
+		if (isSetGraphicalObject()) {
+			count++;
+		}
+		return count;
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -129,6 +161,7 @@ public class TextGlyph extends GraphicalObject {
 	public GraphicalObject getGraphicalObject() {
 		return graphicalObject;
 	}
+	
 	/**
 	 * 
 	 * @return
@@ -142,6 +175,18 @@ public class TextGlyph extends GraphicalObject {
 	 */
 	public String getText() {
 		return text;
+	}
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * getOriginOfText().hashCode();
+		hashCode += prime * getText().hashCode();
+		return hashCode;
 	}
 
 	/**

@@ -20,8 +20,9 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.SBase;
 
 /**
  * 
@@ -83,25 +84,15 @@ public class GraphicalObject extends AbstractNamedSBase {
 	public GraphicalObject clone() {
 		return new GraphicalObject(this);
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof GraphicalObject) {
-			GraphicalObject go = (GraphicalObject) o;
-			boolean equals = super.equals(go);
-			equals &= go.isSetBoundingBox() == isSetBoundingBox();
-			if (equals && isSetBoundingBox()) {
-				equals &= go.getBoundingBox().equals(getBoundingBox());
-			}
-			return equals;
-		}
-		return false;
+	public boolean getAllowsChildren() {
+		return true;
 	}
-
+		
 	/**
 	 * 
 	 * @return
@@ -115,11 +106,24 @@ public class GraphicalObject extends AbstractNamedSBase {
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
-	public SBase getChildAt(int index) {
-		if ((index == 0) && isSetBoundingBox()) {
-			return getBoundingBox();
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(Integer.toString(index));
 		}
-		throw new IndexOutOfBoundsException(Integer.toString(index));
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
+		if (isSetBoundingBox()) {
+			if (pos == index) {
+				return getBoundingBox();
+			}
+			pos++;
+		}
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
 	}
 
 	/*
@@ -129,7 +133,7 @@ public class GraphicalObject extends AbstractNamedSBase {
 	 */
 	@Override
 	public int getChildCount() {
-		int count = 0;
+		int count = super.getChildCount();
 		if (isSetBoundingBox()) {
 			count++;
 		}

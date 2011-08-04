@@ -52,7 +52,8 @@ public class Point extends AbstractNamedSBase {
 	 * 
 	 */
 	public Point() {
-
+		super();
+		x = y = z = Double.NaN;
 	}
 
 	/**
@@ -95,25 +96,24 @@ public class Point extends AbstractNamedSBase {
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Point) {
-			Point p = (Point) o;
-			boolean equals = super.equals(p);
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			Point p = (Point) object;
 			equals &= p.isSetX() == isSetX();
 			if (equals && isSetX()) {
-				equals &= p.getX() == getX();
+				equals &= Double.valueOf(p.getX()).equals(Double.valueOf(getX()));
 			}
 			equals &= p.isSetY() == isSetY();
 			if (equals && isSetY()) {
-				equals &= p.getY() == getY();
+				equals &= Double.valueOf(p.getY()).equals(Double.valueOf(getY()));
 			}
 			equals &= p.isSetZ() == isSetZ();
 			if (equals && isSetZ()) {
-				equals &= p.getZ() == getZ();
+				equals &= Double.valueOf(p.getZ()).equals(Double.valueOf(getZ()));
 			}
-			return equals;
 		}
-		return false;
+		return equals;
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class Point extends AbstractNamedSBase {
 	public double getX() {
 		return x;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -138,6 +138,20 @@ public class Point extends AbstractNamedSBase {
 	 */
 	public double getZ() {
 		return z;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		hashCode += prime * Double.valueOf(getX()).hashCode();
+		hashCode += prime * Double.valueOf(getY()).hashCode();
+		hashCode += prime * Double.valueOf(getZ()).hashCode();
+		return hashCode;
 	}
 
 	/**

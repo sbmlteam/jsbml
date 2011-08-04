@@ -118,44 +118,6 @@ public class Layout extends AbstractNamedSBase {
 	public Layout clone() {
 		return new Layout(this);
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Layout) {
-			Layout l = (Layout) o;
-			boolean equals = super.equals(l);
-			equals &= l.isSetAddGraphicalObjects() == isSetAddGraphicalObjects();
-			if (equals && isSetAddGraphicalObjects()) {
-				equals &= l.getAddGraphicalObjects().equals(getAddGraphicalObjects());
-			}
-			equals &= l.isSetDimensions() == isSetDimensions();
-			if (equals && isSetDimensions()) {
-				equals &= l.getDimensions().equals(getDimensions());
-			}
-			equals &= l.isSetListOfCompartmentGlyphs() == isSetListOfCompartmentGlyphs();
-			if (equals && isSetListOfCompartmentGlyphs()) {
-				equals &= l.getListOfCompartmentGlyphs().equals(getListOfCompartmentGlyphs());
-			}
-			equals &= l.isSetListOfReactionGlyphs() == isSetListOfReactionGlyphs();
-			if (equals && isSetListOfReactionGlyphs()) {
-				equals &= l.getListOfReactionGlyphs().equals(getListOfReactionGlyphs());
-			}
-			equals &= l.isSetListOfSpeciesGlyphs() == isSetListOfSpeciesGlyphs();
-			if (equals && isSetListOfSpeciesGlyphs()) {
-				equals &= l.getListOfSpeciesGlyphs().equals(getListOfSpeciesGlyphs());
-			}
-			equals &= l.isSetListOfTextGlyphs() == isSetListOfTextGlyphs();
-			if (equals && isSetListOfTextGlyphs()) {
-				equals &= l.getListOfTextGlyphs().equals(getListOfTextGlyphs());
-			}
-			return equals;
-		}
-		return false;
-	}
 
 	/**
 	 * 
@@ -171,7 +133,21 @@ public class Layout extends AbstractNamedSBase {
 	 */
 	@Override
 	public TreeNode getChildAt(int index) {
-		int pos = 0;
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(Integer.toString(index));
+		}
+		int count = super.getChildCount(), pos = 0;
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
+		if (isSetDimensions()) {
+			if (index == pos) {
+				return getDimensions();
+			}
+			pos++;
+		}
 		if (isSetListOfCompartmentGlyphs()) {
 			if (index == pos) {
 				return getListOfCompartmentGlyphs();
@@ -201,7 +177,8 @@ public class Layout extends AbstractNamedSBase {
 				return getAddGraphicalObjects();
 			}
 		}
-		throw new IndexOutOfBoundsException(Integer.toString(index));
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
 	}
 
 	/*
