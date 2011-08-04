@@ -1,6 +1,6 @@
 /*
- * $Id:  TreeNodeAdapter.java 08:35:34 draeger $
- * $URL: TreeNodeAdapter.java $
+ * $Id$
+ * $URL$
  *
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
@@ -103,8 +103,8 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 		boolean equals = super.equals(object);
 		if (equals) {
 			TreeNodeAdapter node = (TreeNodeAdapter) object;
-			equals &= node.userObjectIsRecursiveDataType() == userObjectIsRecursiveDataType();
-			if (equals && isSetUserObject() && !userObjectIsRecursiveDataType()) {
+			equals &= node.isUserObjectRecursiveDataType() == isUserObjectRecursiveDataType();
+			if (equals && isSetUserObject() && !isUserObjectRecursiveDataType()) {
 				equals &= node.getUserObject().equals(getUserObject());
 			}
 		}
@@ -189,7 +189,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	public int hashCode() {
 		final int prime = 7;
 		int hashCode = super.hashCode();
-		if (!userObjectIsRecursiveDataType()) {
+		if (!isUserObjectRecursiveDataType()) {
 			/*
 			 * We only have to check the user's object in case that it does not
 			 * belong to the things that would be returned by the getChildAt
@@ -205,6 +205,23 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	 */
 	public boolean isSetUserObject() {
 		return userObject != null;
+	}
+
+	/**
+	 * Checks whether or not the user's object has been set (see
+	 * {@link #isSetUserObject()}) and if so if it belongs to those elements
+	 * returned by the method {@link #getChildAt(int)}.
+	 * 
+	 * @return <code>true</code> if the user's object has been defined and
+	 *         belongs to those classes that are returned by the method
+	 *         {@link #getChildAt(int)}.
+	 * @see #getChildAt(int)
+	 * @see #isSetUserObject()
+	 */
+	public boolean isUserObjectRecursiveDataType() {
+		return isSetUserObject()
+				&& ((userObject instanceof Collection<?>)
+						|| (userObject instanceof Map<?, ?>) || (userObject instanceof TreeNode));
 	}
 
 	/**
@@ -256,23 +273,6 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 			return userObject.toString();
 		}
 		return super.toString();
-	}
-
-	/**
-	 * Checks whether or not the user's object has been set (see
-	 * {@link #isSetUserObject()}) and if so if it belongs to those elements
-	 * returned by the method {@link #getChildAt(int)}.
-	 * 
-	 * @return <code>true</code> if the user's object has been defined and
-	 *         belongs to those classes that are returned by the method
-	 *         {@link #getChildAt(int)}.
-	 * @see #getChildAt(int)
-	 * @see #isSetUserObject()
-	 */
-	public boolean userObjectIsRecursiveDataType() {
-		return isSetUserObject()
-				&& ((userObject instanceof Collection<?>)
-						|| (userObject instanceof Map<?, ?>) || (userObject instanceof TreeNode));
 	}
 
 }
