@@ -203,6 +203,8 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 	 */
 	@Override
 	public int hashCode() {
+		// A constant and arbitrary, sufficiently large prime number:
+		final int prime = 31;
 		/*
 		 * This method is implemented as suggested in the JavaDoc API
 		 * documentation of the List interface.
@@ -215,11 +217,14 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 		 * hashCode from the address in memory of the object.
 		 */
 		// int hashCode = super.hashCode();
+		
+		// Recursively compute the hashCode for each child node:
 		TreeNode child;
 		for (int i = 0; i < getChildCount(); i++) {
 			child = getChildAt(i);
-			hashCode = 31 * hashCode + (child == null ? 0 : child.hashCode());
+			hashCode = prime * hashCode + (child == null ? 0 : child.hashCode());
 		}
+		
 		return hashCode;
 	}
 	

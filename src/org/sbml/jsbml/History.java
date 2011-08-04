@@ -133,39 +133,13 @@ public class History extends AnnotationElement {
 	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		boolean equals = super.equals(o);
+	public boolean equals(Object object) {
+		// Check all child elements recursively in super class first:
+		boolean equals = super.equals(object);
 		if (equals) {
-			History mh = (History) o;
+			// Cast is possible because super class checks the class attributes
+			History mh = (History) object;
 			equals &= listOfCreators.size() == mh.getListOfCreators().size();
-
-			// This is already checked recursively by the super class:
-//			for (int i = 0; i < listOfCreators.size(); i++) {
-//				Creator c1 = listOfCreators.get(i);
-//				Creator c2 = mh.getListOfCreators().get(i);
-//
-//				if (c1 != null && c2 != null) {
-//					equals &= c1.equals(c2);
-//				} else if ((c1 == null && c2 != null)
-//						|| (c2 == null && c1 != null)) {
-//					return false;
-//				}
-//			}
-//			equals &= listOfModification.size() == mh.getListOfModifiedDates()
-//					.size();
-//			if (equals) {
-//				for (int i = 0; i < listOfModification.size(); i++) {
-//					Date d1 = listOfModification.get(i);
-//					Date d2 = mh.getListOfModifiedDates().get(i);
-//
-//					if (d1 != null && d2 != null) {
-//						equals &= d1.equals(d2);
-//					} else if ((d1 == null && d2 != null)
-//							|| (d2 == null && d1 != null)) {
-//						return false;
-//					}
-//				}
-//			}
 			equals &= isSetModifiedDate() == mh.isSetModifiedDate();
 			if (equals && isSetModifiedDate()) {
 				equals &= getModifiedDate().equals(mh.getModifiedDate());

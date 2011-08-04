@@ -724,32 +724,32 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		boolean equals = super.equals(o);
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
 		if (equals) {
-			SBase sbase = (SBase) o;
+			/*
+			 * Casting will be no problem because the super class has just
+			 * checked that the class of this Object equals the class of the
+			 * given object.
+			 */
+			SBase sbase = (SBase) object;
 			equals &= sbase.isSetMetaId() == isSetMetaId();
 			if (equals && sbase.isSetMetaId()) {
 				equals &= sbase.getMetaId().equals(getMetaId());
 			}
 			/*
-			 * The following checks are already covered by the recursive check
-			 * in AbstractTreeNode:
+			 * All child nodes are already checked by the recursive method in
+			 * AbstractTreeNode. We here have to check the following own items
+			 * only:
 			 */
-			// equals &= sbase.isSetNotes() == isSetNotes();
-			// if (equals && sbase.isSetNotes()) {
-			//  equals &= sbase.getNotesString().equals(getNotesString());
-			// }
-			// equals &= sbase.isSetAnnotation() == isSetAnnotation();
-			// if (equals && sbase.isSetAnnotation()) {
-			// 	equals &= sbase.getAnnotation().equals(getAnnotation());
-			// }
 			equals &= sbase.isSetSBOTerm() == isSetSBOTerm();
 			if (equals && sbase.isSetSBOTerm()) {
 				equals &= sbase.getSBOTerm() == getSBOTerm();
 			}
 			equals &= sbase.getLevelAndVersion().equals(getLevelAndVersion());
-			// TODO: Should listeners be considered here?
+			/*
+			 * Note: Listeners are not included in the equals check.
+			 */
 		}
 		return equals;
 	}
@@ -1132,6 +1132,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				if (getAnnotation().getAbout().equals('#' + getMetaId())) {
 					return true;
 				}
+			}
+			if (getAnnotation().isSetNonRDFannotation()) {
+				return true;
 			}
 			return false;
 		}
