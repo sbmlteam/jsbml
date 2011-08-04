@@ -148,12 +148,15 @@ public class Species extends Symbol {
 		if (species.isSetInitialAmount()) {
 			setInitialAmount(new Double(species.getInitialAmount()));
 		} else if (species.isSetInitialConcentration()) {
-			setInitialConcentration(species.getInitialConcentration());
+			setInitialConcentration(new Double(species.getInitialConcentration()));
 		}		
 		if (species.isSetSpatialSizeUnits()) {
 			setSpatialSizeUnits(new String(species.getSpatialSizeUnits()));
 		} else {
 			this.spatialSizeUnitsID = species.spatialSizeUnitsID == null ? null : new String(species.spatialSizeUnitsID);
+		}
+		if (species.isSetConversionFactor()) {
+			setConversionFactor(species.conversionFactorID);
 		}
 	}
 

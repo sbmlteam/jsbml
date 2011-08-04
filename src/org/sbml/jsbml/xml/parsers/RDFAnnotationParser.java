@@ -357,7 +357,7 @@ public class RDFAnnotationParser implements ReadingParser{
 		if (model.isSetListOfUnitDefinitions()){
 			for (UnitDefinition unitDefinition : model.getListOfUnitDefinitions()){			
 
-				if (unitDefinition.hasValidAnnotation()){
+				if (!unitDefinition.hasValidAnnotation()){
 					setRDFAbout(unitDefinition);
 					logger.warn("The unitDefinition element '" + unitDefinition.getId() + "' has an invalid rdf:about inside his annotation.");
 				}

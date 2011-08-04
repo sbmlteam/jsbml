@@ -2758,7 +2758,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id is not null.
 	 */
 	public boolean isSetConversionFactorInstance() {
-		return getUnitDefinition(this.conversionFactorID) != null;
+		return getParameter(this.conversionFactorID) != null;
 	}
 
 	/**
