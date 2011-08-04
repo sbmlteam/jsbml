@@ -448,29 +448,14 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	 */
 	@Override
 	public boolean equals(Object object) {
+		// Check all child elements recursively in super class first:
 		boolean equals = super.equals(object);
 		if (equals) {
+			// Cast is possible because super class checks the class attributes
 			Reaction r = (Reaction) object;
 			equals &= r.getFast() == getFast();
 			equals &= r.getReversible() == getReversible();
 			equals &= r.getCompartment().equals(getCompartment());
-			// all done in the super class:
-//			equals &= r.isSetKineticLaw() == isSetKineticLaw();
-//			if (equals && isSetKineticLaw()) {
-//				equals &= r.getKineticLaw().equals(kineticLaw);
-//			}
-//			equals &= r.isSetListOfReactants() == isSetListOfReactants();
-//			if (equals && isSetListOfReactants()) {
-//				equals &= r.getListOfReactants().equals(listOfReactants);
-//			}
-//			equals &= r.isSetListOfProducts() == isSetListOfProducts();
-//			if (equals && isSetListOfProducts()) {
-//				equals &= r.getListOfProducts().equals(listOfProducts);
-//			}
-//			equals &= r.isSetListOfModifiers() == isSetListOfModifiers();
-//			if (equals && isSetListOfModifiers()) {
-//				equals &= r.getListOfModifiers().equals(listOfModifiers);
-//			}
 		}
 		return equals;
 	}

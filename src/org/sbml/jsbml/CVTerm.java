@@ -27,14 +27,15 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeAdapter;
 
 /**
- * Contains all the miriam URIs for a miriam qualifier in the annotation element
+ * Contains all the MIRIAM URIs for a MIRIAM qualifier in the annotation element
  * of a SBML component.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
- * @author rodrigue
+ * @author Marine Dumousseau
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
@@ -408,30 +409,13 @@ public class CVTerm extends AnnotationElement {
 	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
-		boolean equals = super.equals(o);
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
 		if (equals) {
-			CVTerm t = (CVTerm) o;
+			CVTerm t = (CVTerm) object;
 			equals &= t.getQualifierType() == getQualifierType();
 			equals &= (t.getBiologicalQualifierType() == qualifier)
 					|| (t.getModelQualifierType() == qualifier);
-			equals &= t.getNumResources() == getNumResources();
-
-			if (equals) {
-				for (int i = 0; i < t.getNumResources(); i++) {
-					String resource1 = getResourceURI(i);
-					String resource2 = t.getResourceURI(i);
-					if ((resource1 != null) && (resource2 != null)) {
-						if (!resource1.equals(resource2)) {
-							equals = false;
-							break;
-						}
-					} else if (((resource1 == null) && (resource2 != null))
-							|| ((resource2 == null) && (resource1 != null))) {
-						return false;
-					}
-				}
-			}
 		}
 		return equals;
 	}
@@ -446,20 +430,20 @@ public class CVTerm extends AnnotationElement {
 	 *         can be empty.
 	 */
 	public List<String> filterResources(String pattern) {
-		LinkedList<String> l = new LinkedList<String>();
+		LinkedList<String> selectedResources = new LinkedList<String>();
 		for (String resource : resourceURIs) {
 			if (resource.contains(pattern)) {
-				l.add(resource);
+				selectedResources.add(resource);
 			}
 		}
-		return l;
+		return selectedResources;
 	}
 
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
 	 */
 	public boolean getAllowsChildren() {
-		return false;
+		return true;
 	}
 
 	/**
@@ -478,14 +462,14 @@ public class CVTerm extends AnnotationElement {
 	 * @see javax.swing.tree.TreeNode#getChildAt(int)
 	 */
 	public TreeNode getChildAt(int childIndex) {
-		throw new IndexOutOfBoundsException(Integer.toString(childIndex));
+		return new TreeNodeAdapter(getResourceURI(childIndex));
 	}
 
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildCount()
 	 */
 	public int getChildCount() {
-		return 0;
+		return getResources().size();
 	}
 
 	/**
@@ -547,9 +531,6 @@ public class CVTerm extends AnnotationElement {
 		int hashCode = super.hashCode();
 		hashCode += prime * getQualifierType().hashCode();
 		hashCode += prime * getBiologicalQualifierType().hashCode();
-		for (String resource : getResources()) {
-			hashCode += prime * resource.hashCode();
-		}
 		return hashCode;
 	}
 

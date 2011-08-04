@@ -1933,11 +1933,6 @@ public class ASTNode extends AbstractTreeNode {
 			if (equal && isSetUnits()) {
 				equal &= getUnits().equals(ast.getUnits());
 			}
-			
-			// TODO : test if listOfNodes == null ?
-			if (listOfNodes.size() != ast.getListOfNodes().size()) {
-				equal = false;
-			}
 		}
 		return equal;
 	}

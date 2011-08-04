@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Rule;
@@ -49,12 +50,15 @@ public class HashCodeTest {
 		Model model = doc1.createModel("test_model");
 		Compartment c = model.createCompartment("c1");
 		Species s = model.createSpecies("s1", c);
+		s.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:kegg.compound:C00001"));
 		Rule r = model.createAlgebraicRule();
 		r.setMath(ASTNode.parseFormula("sin(3) + 1"));
 		
 		SBMLDocument doc2 = doc1.clone();
 		assertTrue(doc1.hashCode() == doc2.hashCode());
 		assertTrue(model.hashCode() != doc2.hashCode());
+		assertTrue(s.getCVTerm(0).equals(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:kegg.compound:C00001")));
+		assertTrue(s.getCVTerm(0).hashCode() == (new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:kegg.compound:C00001")).hashCode());
 		assertTrue(doc1.equals(doc2));
 		assertTrue(doc2.equals(doc1));
 	}

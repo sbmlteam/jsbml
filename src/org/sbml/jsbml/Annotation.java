@@ -704,8 +704,6 @@ public class Annotation extends AnnotationElement {
 		return isSetNonRDFannotation();
 	}
 	
-	// TODO : some fireSBaseChangedEvent are missing in this class.
-	
 	/**
 	 * Checks if the RDF part of the Annotation is initialised.
 	 *  

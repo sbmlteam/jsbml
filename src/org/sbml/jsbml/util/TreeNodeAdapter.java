@@ -96,6 +96,22 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			TreeNodeAdapter node = (TreeNodeAdapter) object;
+			equals &= node.userObjectIsRecursiveDataType() == userObjectIsRecursiveDataType();
+			if (equals && isSetUserObject() && !userObjectIsRecursiveDataType()) {
+				equals &= node.getUserObject().equals(getUserObject());
+			}
+		}
+		return equals;
+	}
+
+	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
 	 */
 	public boolean getAllowsChildren() {
@@ -166,6 +182,24 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 		return userObject;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = super.hashCode();
+		if (!userObjectIsRecursiveDataType()) {
+			/*
+			 * We only have to check the user's object in case that it does not
+			 * belong to the things that would be returned by the getChildAt
+			 * method.
+			 */
+			hashCode += prime * userObject.hashCode();
+		}
+		return hashCode;
+	}
+
 	/**
 	 * @return
 	 */
@@ -222,6 +256,23 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 			return userObject.toString();
 		}
 		return super.toString();
+	}
+
+	/**
+	 * Checks whether or not the user's object has been set (see
+	 * {@link #isSetUserObject()}) and if so if it belongs to those elements
+	 * returned by the method {@link #getChildAt(int)}.
+	 * 
+	 * @return <code>true</code> if the user's object has been defined and
+	 *         belongs to those classes that are returned by the method
+	 *         {@link #getChildAt(int)}.
+	 * @see #getChildAt(int)
+	 * @see #isSetUserObject()
+	 */
+	public boolean userObjectIsRecursiveDataType() {
+		return isSetUserObject()
+				&& ((userObject instanceof Collection<?>)
+						|| (userObject instanceof Map<?, ?>) || (userObject instanceof TreeNode));
 	}
 
 }
