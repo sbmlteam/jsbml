@@ -1133,7 +1133,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 					return true;
 				}
 			}
-			if (getAnnotation().isSetNonRDFannotation()) {
+			if (getAnnotation().isSetNonRDFannotation() && !getAnnotation().isSetRDFannotation()) {
 				return true;
 			}
 			return false;
