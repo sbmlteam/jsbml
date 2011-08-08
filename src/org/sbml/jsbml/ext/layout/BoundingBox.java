@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.layout;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 
 /**
  * 
@@ -241,6 +242,7 @@ public class BoundingBox extends AbstractNamedSBase {
 	 */
 	public void setDimensions(Dimensions dimensions) {
 		this.dimensions = dimensions;
+		setThisAsParentSBMLObject(this.dimensions);
 	}
 	
 	/*
@@ -250,7 +252,9 @@ public class BoundingBox extends AbstractNamedSBase {
 	@Override
 	public void setId(String id)
 	{
+		String oldId = this.id;
 		this.id = id;
+		firePropertyChange(SBaseChangeEvent.id, oldId, this.id);
 	}
 	
 	/**

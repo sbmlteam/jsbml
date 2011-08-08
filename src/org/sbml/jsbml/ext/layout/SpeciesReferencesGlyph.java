@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.layout;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 
 /**
  * @author Nicolas Rodriguez
@@ -301,6 +302,7 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	 */
 	public void setSpeciesGlyph(SpeciesGlyph speciesGlyph) {
 		this.speciesGlyph = speciesGlyph;
+		setThisAsParentSBMLObject(this.speciesGlyph);
 	}
 	
 	/**
@@ -308,7 +310,9 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	 * @param speciesReference
 	 */
 	public void setSpeciesReference(String speciesReference) {
+		String oldSpeciesReference = this.speciesReference;
 		this.speciesReference = speciesReference;
+		firePropertyChange(SBaseChangeEvent.speciesReference, oldSpeciesReference, this.speciesReference);
 	}
 
 }

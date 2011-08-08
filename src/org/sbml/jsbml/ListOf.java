@@ -556,7 +556,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		
 		return listOf.get(index);
 	}
-	
+
 	/**
 	 * Gets the list element which has the id 'id'. 
 	 * 
@@ -587,8 +587,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		
 		return foundElement;
 	}
-
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()

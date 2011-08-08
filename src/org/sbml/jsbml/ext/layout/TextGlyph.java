@@ -22,6 +22,8 @@ package org.sbml.jsbml.ext.layout;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.util.SBaseChangeEvent;
+
 
 /**
  * @author Nicolas Rodriguez
@@ -216,6 +218,7 @@ public class TextGlyph extends GraphicalObject {
 	 */
 	public void setGraphicalObject(GraphicalObject graphicalObject) {
 		this.graphicalObject = graphicalObject;
+		setThisAsParentSBMLObject(this.graphicalObject);
 	}
 
 	/**
@@ -223,7 +226,9 @@ public class TextGlyph extends GraphicalObject {
 	 * @param originOfText
 	 */
 	public void setOriginOfText(String originOfText) {
+		String oldOriginOfText = this.originOfText;
 		this.originOfText = originOfText;
+		firePropertyChange(SBaseChangeEvent.originOfText, oldOriginOfText, this.originOfText);
 	}
 
 	/**
@@ -231,6 +236,8 @@ public class TextGlyph extends GraphicalObject {
 	 * @param text
 	 */
 	public void setText(String text) {
+		String oldText = this.text;
 		this.text = text;
+		firePropertyChange(SBaseChangeEvent.text, oldText, this.text);
 	}
 }

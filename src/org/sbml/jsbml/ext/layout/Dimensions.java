@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 
 /**
  * @author Nicolas Rodriguez
@@ -216,7 +217,9 @@ public class Dimensions extends AbstractNamedSBase {
 	 * @param depth
 	 */
 	public void setDepth(double depth) {
+		Double oldDepth = Double.valueOf(this.depth);
 		this.depth = depth;
+		firePropertyChange(SBaseChangeEvent.depth, oldDepth, Double.valueOf(this.depth));
 	}
 
 	/**
@@ -224,7 +227,9 @@ public class Dimensions extends AbstractNamedSBase {
 	 * @param height
 	 */
 	public void setHeight(double height) {
+		Double oldHeight = Double.valueOf(this.height);
 		this.height = height;
+		firePropertyChange(SBaseChangeEvent.height, oldHeight, Double.valueOf(this.height));
 	}
 	
 	/**
@@ -232,7 +237,9 @@ public class Dimensions extends AbstractNamedSBase {
 	 * @param width
 	 */
 	public void setWidth(double width) {
+		Double oldWidth = Double.valueOf(this.width);
 		this.width = width;
+		firePropertyChange(SBaseChangeEvent.width, oldWidth, Double.valueOf(this.width));
 	}
 
 }

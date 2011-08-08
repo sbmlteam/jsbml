@@ -168,6 +168,7 @@ public class LineSegment extends AbstractNamedSBase {
 	 */
 	public void setEnd(Point end) {
 		this.end = end;
+		setThisAsParentSBMLObject(this.end);
 	}
 	
 	/**
@@ -176,5 +177,6 @@ public class LineSegment extends AbstractNamedSBase {
 	 */
 	public void setStart(Point start) {
 		this.start = start;
+		setThisAsParentSBMLObject(this.start);
 	}
 }

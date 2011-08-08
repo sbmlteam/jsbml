@@ -106,6 +106,20 @@ public class SBaseChangeEvent extends ChangeEvent<SBase> {
 	public static final String formula = "formula";
 	public static final String size = "size";
 	public static final String volume = "volume";
+    // Layout extension
+	public static final String dimensions = "dimensions";
+	public static final String basePoint1 = "basePoint1";
+	public static final String basePoint2 = "basePoint2";
+	public static final String depth = "depth";
+	public static final String height = "height";
+	public static final String width = "width";
+	public static final String x = "x";
+	public static final String y = "y";
+	public static final String z = "z";
+	public static final String reaction = "reaction";
+	public static final String speciesReference = "speciesReference";
+	public static final String originOfText = "originOfText";
+	public static final String text = "text";
 
 	/**
 	 * @param source

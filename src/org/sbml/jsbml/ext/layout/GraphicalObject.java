@@ -153,5 +153,6 @@ public class GraphicalObject extends AbstractNamedSBase {
 	 */
 	public void setBoundingBox(BoundingBox boundingBox) {
 		this.boundingBox = boundingBox;
+		setThisAsParentSBMLObject(this.boundingBox);
 	}
 }
