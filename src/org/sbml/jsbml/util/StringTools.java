@@ -45,7 +45,10 @@ public class StringTools {
 	 * New line separator of this operating system
 	 */
 	private static final String newLine = System.getProperty("line.separator");
-
+	/**
+	 * The {@link Character} <code>'_'</code> as a {@link String}.
+	 */
+	public static final String underscore = Character.valueOf('_').toString();
 	/**
 	 * 
 	 */
