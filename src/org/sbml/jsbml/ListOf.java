@@ -375,7 +375,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#add(java.lang.Object)
 	 */
 	public boolean add(T e) {
-		checkLevelAndVersionCompatibility(e);
+		// This is done when registering this as the parent of e anyway:
+		// checkLevelAndVersionCompatibility(e);
 		if (e instanceof NamedSBase) {
 			NamedSBase nsb = (NamedSBase) e;
 			if (nsb.isSetId()

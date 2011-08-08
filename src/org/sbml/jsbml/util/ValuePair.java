@@ -132,12 +132,11 @@ public class ValuePair<L extends Comparable<? super L>, V extends Comparable<? s
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof ValuePair) {
+	public boolean equals(Object object) {
+		if (object.getClass().equals(getClass())) {
 			try {
-				ValuePair<L, V> v = (ValuePair<L, V>) o;
-				boolean equal = true;
-				equal &= isSetL() == v.isSetL();
+				ValuePair<L, V> v = (ValuePair<L, V>) object;
+				boolean equal = isSetL() == v.isSetL();
 				equal &= isSetV() == v.isSetV();
 				if (equal && isSetL() && isSetV()) {
 					equal &= v.getL().equals(getL()) && v.getV().equals(getV());

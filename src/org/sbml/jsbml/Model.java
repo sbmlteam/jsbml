@@ -1967,6 +1967,7 @@ public class Model extends AbstractNamedSBase {
 	 * @see SBase#getHistory
 	 * @deprecated use {@link SBase#getHistory()}
 	 */
+	@Deprecated
 	public History getModelHistory() {
 		return getHistory();
 	}
