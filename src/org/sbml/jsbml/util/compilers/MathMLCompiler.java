@@ -588,6 +588,13 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode(compile(functionDefinition).toNode(), args);
 	}
 
+
+	public ASTNodeValue function(String functionDefinitionName,
+			List<ASTNode> args) throws SBMLException 
+	{
+		return createApplyNode(compile(functionDefinitionName).toNode(), args);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#geq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
