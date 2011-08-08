@@ -113,7 +113,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		if (reaction.isSetFast()) {
 			setFast(new Boolean(reaction.getFast()));
 		} else {
-			fast = reaction.fast == null ? null : new Boolean(reaction.fast);
+			fast = reaction.fast == null ? null : new Boolean(reaction.fast.booleanValue());
 		}
 		if (reaction.isSetKineticLaw()) {
 			setKineticLaw(reaction.getKineticLaw().clone());
@@ -136,7 +136,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		if (reaction.isSetReversible()) {
 			setReversible(new Boolean(reaction.getReversible()));
 		} else {
-			reversible = reaction.reversible == null ? null : new Boolean(reaction.reversible);
+			reversible = reaction.reversible == null ? null : new Boolean(reaction.reversible.booleanValue());
 		}
 	}
 	
