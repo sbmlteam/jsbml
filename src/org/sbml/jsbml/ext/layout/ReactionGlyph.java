@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.layout;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 
 /**
  * @author Nicolas Rodriguez
@@ -267,6 +268,7 @@ public class ReactionGlyph extends GraphicalObject {
 	 */
 	public void setCurve(Curve curve) {
 		this.curve = curve;
+		setThisAsParentSBMLObject(this.curve);
 	}
 	
 	/**
@@ -276,6 +278,7 @@ public class ReactionGlyph extends GraphicalObject {
 	public void setListOfSpeciesReferencesGlyph(
 			ListOf<SpeciesReferencesGlyph> listOfSpeciesReferencesGlyph) {
 		this.listOfSpeciesReferencesGlyph = listOfSpeciesReferencesGlyph;
+		setThisAsParentSBMLObject(this.listOfSpeciesReferencesGlyph);
 	}
 	
 	/**
@@ -283,7 +286,9 @@ public class ReactionGlyph extends GraphicalObject {
 	 * @param reaction
 	 */
 	public void setReaction(String reaction) {
+		String oldReaction = this.reaction;
 		this.reaction = reaction;
+		firePropertyChange(SBaseChangeEvent.reaction, oldReaction, this.reaction);
 	}
 	
 	/*

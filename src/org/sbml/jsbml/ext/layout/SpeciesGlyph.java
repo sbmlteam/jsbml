@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import org.sbml.jsbml.util.SBaseChangeEvent;
+
 /**
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
@@ -184,7 +186,9 @@ public class SpeciesGlyph extends GraphicalObject {
 	 * @param species
 	 */
 	public void setSpecies(String species) {
+		String oldSpecies = this.species;
 		this.species = species;
+		firePropertyChange(SBaseChangeEvent.species, oldSpecies, this.species);
 	}
 	/*
 	 * (non-Javadoc)

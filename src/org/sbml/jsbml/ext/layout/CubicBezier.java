@@ -164,6 +164,7 @@ public class CubicBezier extends LineSegment {
 	 */
 	public void setBasePoint1(Point basePoint1) {
 		this.basePoint1 = basePoint1;
+		setThisAsParentSBMLObject(this.basePoint1);
 	}
 	
 	/**
@@ -172,5 +173,6 @@ public class CubicBezier extends LineSegment {
 	 */
 	public void setBasePoint2(Point basePoint2) {
 		this.basePoint2 = basePoint2;
+		setThisAsParentSBMLObject(this.basePoint2);
 	}
 }

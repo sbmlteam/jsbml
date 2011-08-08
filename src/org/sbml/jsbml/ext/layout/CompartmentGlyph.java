@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import org.sbml.jsbml.util.SBaseChangeEvent;
+
 /**
  * 
  * @author Nicolas Rodriguez
@@ -122,6 +124,8 @@ public class CompartmentGlyph extends GraphicalObject {
 	 * @param compartment
 	 */
 	public void setCompartment(String compartment) {
+		String oldCompartment = this.compartment;
 		this.compartment = compartment;
+		firePropertyChange(SBaseChangeEvent.compartment, oldCompartment, this.compartment);
 	}
 }

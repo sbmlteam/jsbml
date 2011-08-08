@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.util.SBaseChangeEvent;
 
 /**
  * @author Nicolas Rodriguez
@@ -229,7 +230,9 @@ public class Point extends AbstractNamedSBase {
 	 * @param x
 	 */
 	public void setX(double x) {
+		Double oldX = Double.valueOf(this.x);
 		this.x = x;
+		firePropertyChange(SBaseChangeEvent.x, oldX, Double.valueOf(this.x));
 	}
 
 	/**
@@ -237,7 +240,9 @@ public class Point extends AbstractNamedSBase {
 	 * @param y
 	 */
 	public void setY(double y) {
+		Double oldY = Double.valueOf(this.y);
 		this.y = y;
+		firePropertyChange(SBaseChangeEvent.y, oldY, Double.valueOf(this.y));
 	}
 	
 	/**
@@ -245,7 +250,9 @@ public class Point extends AbstractNamedSBase {
 	 * @param z
 	 */
 	public void setZ(double z) {
+		Double oldZ = Double.valueOf(this.z);
 		this.z = z;
+		firePropertyChange(SBaseChangeEvent.z, oldZ, Double.valueOf(this.z));
 	}
 
 }

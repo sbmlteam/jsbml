@@ -337,6 +337,7 @@ public class Layout extends AbstractNamedSBase {
 	 */
 	public void setAddGraphicalObjects(ListOf<GraphicalObject> addGraphicalObjects) {
 		this.addGraphicalObjects = addGraphicalObjects;
+		setThisAsParentSBMLObject(this.addGraphicalObjects);
 	}
 
 	/**
@@ -345,6 +346,7 @@ public class Layout extends AbstractNamedSBase {
 	 */
 	public void setDimensions(Dimensions dimensions) {
 		this.dimensions = dimensions;
+		setThisAsParentSBMLObject(this.dimensions);
 	}
 	
 	/**
