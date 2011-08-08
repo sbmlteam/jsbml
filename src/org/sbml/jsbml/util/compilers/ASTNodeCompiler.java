@@ -368,11 +368,23 @@ public interface ASTNodeCompiler {
 	 * @param functionDefinition
 	 * @param args
 	 *            Values to be inserted into the parameter list of the
-	 *            function's body.
+	 *            function.
 	 * @return
 	 * @throws SBMLException
 	 */
 	public ASTNodeValue function(FunctionDefinition functionDefinition,
+			List<ASTNode> args) throws SBMLException;
+
+	/**
+	 * 
+	 * @param functionDefinition name
+	 * @param args
+	 *            Values to be inserted into the parameter list of the
+	 *            function.
+	 * @return
+	 * @throws SBMLException
+	 */
+	public ASTNodeValue function(String functionDefinitionName,
 			List<ASTNode> args) throws SBMLException;
 
 	/**

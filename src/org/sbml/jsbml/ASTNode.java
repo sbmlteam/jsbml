@@ -27,7 +27,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import javax.activity.InvalidActivityException;
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
@@ -1516,9 +1515,9 @@ public class ASTNode extends AbstractTreeNode {
 	 *         However, this {@link ASTNode} will ensure that level and version
 	 *         are set appropriately according to this node's parent SBML
 	 *         object.
-	 * @throws InvalidActivityException
-	 *             Thrown if an error occurs during the compilation process.
 	 * @throws SBMLException
+	 *             Thrown if an error occurs during the compilation process.
+	 * 
 	 */
 	public ASTNodeValue compile(ASTNodeCompiler compiler) throws SBMLException {
 		ASTNodeValue value;
@@ -1742,10 +1741,29 @@ public class ASTNode extends AbstractTreeNode {
 			case FUNCTION_TANH:
 				value = compiler.tanh(getLeftChild());
 				break;
-			case FUNCTION:
-				value = compiler.function((FunctionDefinition) getVariable(),
-						getChildren());
+			case FUNCTION:{
+				if (variable == null) {
+					variable = getVariable();
+				}
+				if (variable != null) {
+					if (variable instanceof FunctionDefinition) {
+						value = compiler.function(
+								(FunctionDefinition) variable, getChildren());
+					} else {
+						logger.warn("ASTNode of type FUNCTION but the variable is not a FunctionDefinition !! ("
+								+ getName() + ", " + getParentSBMLObject() + ")");
+						throw new SBMLException("ASTNode of type FUNCTION but the variable is not a FunctionDefinition !! ("
+								+ getName() + ", " + getParentSBMLObject() + ")");
+						// value = compiler.compile(variable);
+					}
+				} else {
+					logger.warn("ASTNode of type FUNCTION but the variable is null !! (" + 
+							getName() + ", " + getParentSBMLObject() + "). " +
+							"Check that your object is linked to a Model.");
+					value = compiler.function(getName(), getChildren());
+				}
 				break;
+			}
 			case FUNCTION_PIECEWISE:
 				value = compiler.piecewise(getChildren());
 				value.setUIFlag(getNumChildren() <= 1);
@@ -2377,7 +2395,6 @@ public class ASTNode extends AbstractTreeNode {
 	 *             if {@link #isString()} returns false.
 	 */
 	public CallableSBase getVariable() {
-		// TODO: Improve: Case distinction with functions!
 		if ((type == Type.NAME) || (type == Type.FUNCTION)) {
 			if ((variable == null) && (getParentSBMLObject() != null)) {
 				if (getParentSBMLObject() instanceof KineticLaw) {
@@ -2393,17 +2410,15 @@ public class ASTNode extends AbstractTreeNode {
 							// different kinetic law.
 							variable = null;
 						}
+					} else {
+						logger.warn("This ASTNode with name '" + getName() + "' is not linked" +
+								" to a Model, the variable attribute is left to null !!");
 					}
 				}
-				// this call would change the 'type' of the ASTNode to NAME all the times !!!
-				// The ASTNode class is really a mess with call to setType all over the place...
-				// No need to call the setVariable as the variable attribute is already assigned
-				// setVariable(variable);
 			}
 			return variable;
 		}
-		throw new IllegalAccessError(
-				"getVariable() should be called only when isName() == true.");
+		throw new IllegalArgumentException("getVariable() should be called only when isName() == true.");
 	}
 
 	/* (non-Javadoc)
@@ -3579,14 +3594,14 @@ public class ASTNode extends AbstractTreeNode {
 		try {
 			formula = compile(new FormulaCompiler()).toString();
 		} catch (SBMLException e) {
-			// TODO : log the exception
-			Logger logger = Logger.getLogger(ASTNode.class);
+			// log the exception
 			if (logger.isDebugEnabled()) {
 				logger.error("Could not compile ASTNode to formula.", e);
+			} else {
+				logger.error("Could not compile ASTNode to formula.");
 			}
 		} catch (RuntimeException e) {
 			// added to prevent a crash when we cannot create the formula
-			Logger logger = Logger.getLogger(ASTNode.class);
 			if (logger.isDebugEnabled()) {
 				logger.error("Could not compile ASTNode to formula.", e);
 			}

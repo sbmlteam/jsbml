@@ -896,6 +896,32 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 		return new ASTNodeValue(value.toString(), this);
 	}
 
+
+	public ASTNodeValue function(String functionDefinitionName,
+			List<ASTNode> args) throws SBMLException 
+	{
+		StringBuffer value = new StringBuffer();
+		int length = args.size();
+		
+		value.append(mathtt(LaTeXCompiler.maskSpecialChars(functionDefinitionName)));
+		
+		StringBuilder argList = new StringBuilder();
+
+		for (int i = 0; i < length; i++) {
+			if (i > 0) {
+				argList.append(", ");
+			}
+			argList.append(args.get(i).compile(this));
+		}
+
+		if (length > 0) {
+			value.append(brackets(argList));
+		}
+
+		return new ASTNodeValue(value.toString(), this);
+	}
+
+	
 	/**
 	 * Decides whether to produce brackets.
 	 * 

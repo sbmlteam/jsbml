@@ -313,10 +313,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	@Override
 	public String toString() {
 		if (isSetMath()) {
-			try {
-				return math.toString();
-			} catch (Throwable exc) {
-			}
+			return math.toString();
 		}
 		return StringTools.firstLetterLowerCase(getElementName());
 	}

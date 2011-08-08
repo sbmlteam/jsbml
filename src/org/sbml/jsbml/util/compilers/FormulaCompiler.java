@@ -711,8 +711,9 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * @return
 	 * @throws SBMLException
 	 */
-	protected ASTNodeValue function(String name, List<ASTNode> nodes)
-			throws SBMLException {
+	public ASTNodeValue function(String name, List<ASTNode> nodes)
+			throws SBMLException 
+	{
 		return new ASTNodeValue(concat(name, brackets(lambdaBody(nodes)))
 				.toString(), this);
 	}
