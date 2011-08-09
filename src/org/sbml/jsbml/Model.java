@@ -2661,8 +2661,9 @@ public class Model extends AbstractNamedSBase {
 		listOfSpecies = null;
 		listOfSpeciesTypes = null;
 		UnitDefinition ud;
-		listOfPredefinedUnitDefinitions = (level >= 3) ? null
-				: new ArrayList<UnitDefinition>(5);
+		listOfPredefinedUnitDefinitions = new ArrayList<UnitDefinition>();
+		addPredefinedUnits();
+		
 		switch (level) {
 		case 1:
 			listOfUnitDefinitions = ListOf.newInstance(this,
@@ -2722,6 +2723,74 @@ public class Model extends AbstractNamedSBase {
 		}
 	}
 
+	
+	/**
+	 * Adds all the possible unit kinds as {@link UnitDefinition}, so that the method 
+	 * {@link Model#getUnitDefinition(String)} would be able to return a valid
+	 * {@link UnitDefinition} even if one of these kinds is passed as parameter.
+	 * 
+	 */
+	private void addPredefinedUnits() {
+
+		if (getLevel() == -1 || getVersion() == -1) {
+			return;
+		}
+		
+		// ampere farad joule lux radian volt
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("ampere", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("farad", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("joule", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("lux", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("radian", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("volt", getLevel(), getVersion()));
+
+		// avogadro gram katal metre second watt 		
+		if (getLevel() >= 3) {
+			listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("avogadro", getLevel(), getVersion()));
+		}		
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("gram", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("katal", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("metre", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("second", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("watt", getLevel(), getVersion()));
+
+		// becquerel gray kelvin mole siemens weber 
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("becquerel", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("gray", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("kelvin", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("mole", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("siemens", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("weber", getLevel(), getVersion()));
+
+		// candela henry kilogram newton sievert
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("candela", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("henry", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("kilogram", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("newton", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("sievert", getLevel(), getVersion()));
+
+		// coulomb hertz litre ohm steradian
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("coulomb", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("hertz", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("litre", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("ohm", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("steradian", getLevel(), getVersion()));
+
+		// dimensionless item lumen pascal tesla
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("dimensionless", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("item", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("lumen", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("pascal", getLevel(), getVersion()));
+		listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("tesla", getLevel(), getVersion()));
+
+		// meter liter celsius
+		if (getLevel() == 1) {
+			listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("meter", getLevel(), getVersion()));
+			listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("liter", getLevel(), getVersion()));
+			listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("celsius", getLevel(), getVersion()));
+		}
+	}
+	
 	/**
 	 * Returns true if the area units ID of this Model is not null.
 	 * 
