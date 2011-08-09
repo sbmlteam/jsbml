@@ -34,12 +34,12 @@ import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
- * This list implementation is a java List that extends AbstractSBase. It
- * represents the listOfxxx XML elements in a SBML file. Unfortunately, there is
- * no way for multiple inheritance in Java.
+ * This list implementation is a Java {@link List} that extends
+ * {@link AbstractSBase}. It represents the listOfxxx XML elements in a SBML
+ * file. Unfortunately, there is no way for multiple inheritance in Java.
  * 
- * @author rodrigue
- * @author marine
+ * @author Nicolas Rodriguez
+ * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
@@ -375,8 +375,10 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#add(java.lang.Object)
 	 */
 	public boolean add(T e) {
-		// This is done when registering this as the parent of e anyway:
-		// checkLevelAndVersionCompatibility(e);
+		/*
+		 * In case that the given element has an identifier, we want it to be
+		 * unique whithin this listOf*.
+		 */
 		if (e instanceof NamedSBase) {
 			NamedSBase nsb = (NamedSBase) e;
 			if (nsb.isSetId()
@@ -390,9 +392,13 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		for (SBaseChangeListener l : setOfListeners) {
 			e.addChangeListener(l);
 		}
-		// calling the method setThisAsParentSBMLObject before adding the object
-		// to the list as it can throw an Exception if the metaid or id is not 
-		// unique in the model
+		/*
+		 * Calling the method setThisAsParentSBMLObject before adding the object
+		 * to the list as it can throw an Exception if the metaid or id is not
+		 * unique in the model; it also checks if the given element has the same
+		 * Level/Version configuration as this listOf* element and will throw an
+		 * exception if this is not the case.
+		 */
 		setThisAsParentSBMLObject(e);
 		
 		return listOf.add(e);
