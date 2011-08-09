@@ -18,7 +18,7 @@ public class TestClone {
     SBMLDocument doc=new SBMLDocument(2,4);
     Model m=doc.createModel("model1");
     Reaction r = m.createReaction("id1");
-    SpeciesReference s=new SpeciesReference();
+    SpeciesReference s = new SpeciesReference();
     s.setMetaId("meta2");
     r.addReactant(s);
     r.setMetaId("meta");
@@ -35,6 +35,7 @@ public class TestClone {
     System.out.println("Cloned reaction metaid of the first reactant : " + clonedReaction.getReactant(0).getMetaId());
     System.out.println("Cloned reaction parent and model             : " + clonedReaction.getParent() + " " + clonedReaction.getModel() + "\n");
     
+    System.out.println("Trying to add the cloned reaction to the model, which should not be possible");
     // Trying to add the 
     boolean operationSuccessful = m.addReaction(clonedReaction);
 
@@ -48,6 +49,7 @@ public class TestClone {
     // setting a new unit id the the cloned reaction
     clonedReaction.setId("id2");
     
+    System.out.println("Trying to add the cloned reaction to the model, with a new unique id. It is still not possible as the metaids are not unique.");
     try {
     	m.addReaction(clonedReaction);
     	throw new SBMLException("It should not be possible to add two elements with the same metaid in a SBML document !!");
@@ -55,21 +57,40 @@ public class TestClone {
     	// success, the exception should be thrown there
     }
 
-    // setting a new unique metaid to the reaction
+    // setting a new unique metaid to the reaction but not it's sub-elements
     clonedReaction.setMetaId("meta3");    
 
-    System.out.println("Cloned reaction metaid and id                : " + clonedReaction.getMetaId() + " " + clonedReaction.getId());
-    
-    operationSuccessful = m.addReaction(clonedReaction);
-    
-    if (operationSuccessful != true) {
-    	throw new SBMLException("It should be possible to add a reaction with an unique id and metaid to a model !!");
+    System.out.println("Trying to add the cloned reaction to the model, with a new unique id and metaid. It is still not possible as the metaids are not unique.");
+    try {
+    	operationSuccessful = m.addReaction(clonedReaction);
+    	throw new SBMLException("It should not be possible to add a reaction that has any sub-elements with a non unique metaid !!");
+    } catch (IllegalArgumentException e) {
+    	// success, the exception should be thrown there
     }
-    
+
+    System.out.println("Trying to add the cloned reaction to the model, with a new unique id and metaid for all sub-elements.");
+    // setting a new unique metaid to the reaction and all it's sub-elements
+    clonedReaction.getReactant(0).setMetaId("meta4");
+
+    // At the moment (rev 768), the reaction cannot be added to the model as the metaid 'meta3' as
+    // been added in the list of metaids in the previous call to addReaction() where only the speciesReference id
+    // was invalid
+    try {
+    	operationSuccessful = m.addReaction(clonedReaction);
+
+    	if (operationSuccessful != true) {
+    		throw new SBMLException("It should be possible to add a reaction with an unique ids and metaids to a model !!");
+    	}
+    } catch (IllegalArgumentException e) {
+    	// bug here
+    	System.out.println("Bug detected : there is a problem in the recursive adding of metaids !!!");
+    	System.out.println("The reaction was not added to the model where it should have been");
+    }
+
     System.out.println("Cloned reaction parent and model should be set  : " + clonedReaction.getParent() + " " + clonedReaction.getModel());
     System.out.println("Model.getReaction(0) id                         : " + m.getReaction(0).getId());
-    System.out.println("Model.getReaction(1) id                         : " + m.getReaction(1).getId());
-    System.out.println("Model.getReaction(1) parent                     : " + m.getReaction(1).getParent());
+    System.out.println("Model.getReaction(1)                            : " + m.getReaction(1));
+    // System.out.println("Model.getReaction(1) parent                     : " + m.getReaction(1).getParent());
 
     
     // At the moment (rev 744), the species can be created and added to the model
@@ -77,8 +98,12 @@ public class TestClone {
     // from the first reaction !!
     Species s1 = m.createSpecies("id1");
 
-    System.out.println("NB species in the model (Should be 0)          : " + m.getNumSpecies());
+    System.out.println("\n\nNB species in the model (Should be 0)          : " + m.getNumSpecies());
     System.out.println(s1.getParent() + " " + s1.getModel());
 
+    if (m.getNumSpecies() > 0) {
+    	// bug here
+    	System.out.println("Bug detected :  it should no be possible as the id of the species is the same as the one from the first reaction !!!");    	
+    }
   }
 }

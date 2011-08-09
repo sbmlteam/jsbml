@@ -662,6 +662,8 @@ public class SBMLDocument extends AbstractSBase {
 	void registerMetaId(String metaId, boolean add) {
 		if (add) {
 			if (containsMetaId(metaId)) {
+				logger.error("An element with the metaid '" + metaId + "' is already present in the SBML document." +
+						" The new element will not get added to it.");
 				throw new IllegalArgumentException(String.format(
 						"Cannot set duplicate meta identifier \"%s\".", metaId));
 			}
