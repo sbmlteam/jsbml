@@ -28,6 +28,7 @@ import java.util.ListIterator;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.SBaseChangeEvent;
 import org.sbml.jsbml.util.SBaseChangeListener;
 import org.sbml.jsbml.util.filters.Filter;
@@ -375,18 +376,23 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#add(java.lang.Object)
 	 */
 	public boolean add(T e) {
+		Logger logger = Logger.getLogger(getClass());
 		/*
 		 * In case that the given element has an identifier, we want it to be
-		 * unique whithin this listOf*.
+		 * unique within this listOf*.
 		 */
 		if (e instanceof NamedSBase) {
 			NamedSBase nsb = (NamedSBase) e;
 			if (nsb.isSetId()
 					&& (firstHit(new NameFilter(nsb.getId())) != null)) 
 			{
+				logger.error("An element with the id '" + nsb.getId() + "' is already present in the " +
+						listType + ". The new element will not get added to the list.");
 				return false;
 			}
 		} else if (contains(e)) {
+			logger.error("The " + listType + ". already contains an element similar to '" + e + 
+					"'. The new element will not get added to the list.");
 			return false;
 		}
 		for (SBaseChangeListener l : setOfListeners) {
