@@ -794,13 +794,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			}
 			if (0 <= changeType) {
 				if ((changeType == 0) && (newValue instanceof SBase)) {
-					for (SBaseChangeListener listener : setOfListeners) {
-						listener.sbaseAdded((SBase) newValue);
-					}
+					((SBase) newValue).fireSBaseAddedEvent();
 				} else if ((changeType == 1) && (oldValue instanceof SBase)) {
-					for (SBaseChangeListener listener : setOfListeners) {
-						listener.sbaseRemoved((SBase) oldValue);
-					}
+					((SBase) oldValue).fireSBaseRemovedEvent();
 				} else {
 					SBaseChangeEvent changeEvent = new SBaseChangeEvent(this,
 							propertyName, oldValue, newValue);
