@@ -189,6 +189,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 *            <li>area</li>
 	 *            <li>length</li>
 	 *            <li>time</li>
+	 *            <li>any of the basic kind</li>
 	 *            </ul>
 	 * @param level
 	 *            a number greater than zero.
@@ -200,36 +201,44 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public static final UnitDefinition getPredefinedUnit(String id, int level,
 			int version) {
-		if (level < 3) {
-			id = id.toLowerCase();
-			Unit u = new Unit(level, version);
-			UnitDefinition ud = new UnitDefinition(id, level, version);
-			if (id.equals("substance")) {
-				u.setKind(Kind.MOLE);
-			} else if (id.equals("volume")) {
-				u.setKind(Kind.LITRE);
-			} else if (id.equals("area")) {
-				u.setKind(Kind.METRE);
-				u.setExponent(2d);
-			} else if (id.equals("length")) {
-				u.setKind(Kind.METRE);
-			} else if (id.equals("time")) {
-				u.setKind(Kind.SECOND);
-			} else {
+		
+		if (id == null) {
+			return null;
+		}
+
+		id = id.toLowerCase();
+		Unit u = new Unit(level, version);
+		UnitDefinition ud = new UnitDefinition(id, level, version);
+		if (id.equals("substance")) {
+			u.setKind(Kind.MOLE);
+		} else if (id.equals("volume")) {
+			u.setKind(Kind.LITRE);
+		} else if (id.equals("area")) {
+			u.setKind(Kind.METRE);
+			u.setExponent(2d);
+		} else if (id.equals("length")) {
+			u.setKind(Kind.METRE);
+		} else if (id.equals("time")) {
+			u.setKind(Kind.SECOND);
+		} else {
+			Kind kind = null;
+			try {
+				kind = Kind.valueOf(id.toUpperCase());
+			} catch (IllegalArgumentException exc) {
 				return null;
 			}
-			if ((level > 1) && (version > 1)) {
-				String resource = u.getKind().getUnitOntologyResource();
-				if (resource != null) {
-					u.setMetaId("meta_" + id);
-					u.addCVTerm(new CVTerm(Qualifier.BQB_IS, resource));
-				}
-			}
-			ud.setName("Predefined unit " + id);
-			ud.addUnit(u);
-			return ud;
+			u.setKind(kind);
 		}
-		return null;
+		if ((level > 1) && (version > 1)) {
+			String resource = u.getKind().getUnitOntologyResource();
+			if (resource != null) {
+				u.setMetaId("meta_" + id);
+				u.addCVTerm(new CVTerm(Qualifier.BQB_IS, resource));
+			}
+		}
+		ud.setName("Predefined unit " + id);
+		ud.addUnit(u);
+		return ud;
 	}
 
 	/**
