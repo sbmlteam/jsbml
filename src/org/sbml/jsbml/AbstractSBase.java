@@ -800,6 +800,23 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				} else {
 					SBaseChangeEvent changeEvent = new SBaseChangeEvent(this,
 							propertyName, oldValue, newValue);
+					if (oldValue instanceof SBase) {
+						SBMLDocument doc = getSBMLDocument();
+						if (doc != null) {
+							/*
+							 * Recursively remove pointers to oldValue's and all
+							 * sub-element's meta identifiers from the
+							 * SBMLDocument.
+							 */
+							doc.registerMetaIds((SBase) oldValue, true, true);
+						}
+					}
+					/*
+					 * It is not necessary to add the metaId of the new value to
+					 * the SBMLDocument because this is already done in the
+					 * method setThisAsParentSBMLObject, a method that is called
+					 * to link a new element to an existing SBML tree.
+					 */
 					for (SBaseChangeListener listener : setOfListeners) {
 						listener.stateChanged(changeEvent);
 					}
