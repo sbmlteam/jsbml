@@ -783,15 +783,31 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public void firePropertyChange(String propertyName, Object oldValue,
 			Object newValue) {
-		if ((setOfListeners.size() > 0)
-				&& (((oldValue == null) && (newValue != null))
-				|| ((oldValue != null) && (newValue == null))
-				|| (oldValue != null && !oldValue.equals(newValue)))) 
-		{
-			SBaseChangeEvent changeEvent = new SBaseChangeEvent(this,
-					propertyName, oldValue, newValue);
-			for (SBaseChangeListener listener : setOfListeners) {
-				listener.stateChanged(changeEvent);
+		if (setOfListeners.size() > 0) {
+			short changeType = -1; // no property change at all
+			if ((oldValue == null) && (newValue != null)) {
+				changeType = 0; // element added
+			} else if ((oldValue != null) && (newValue == null)) {
+				changeType = 1; // element removed
+			} else if ((oldValue != null) && !oldValue.equals(newValue)) {
+				changeType = 2; // real property change
+			}
+			if (0 <= changeType) {
+				if ((changeType == 0) && (newValue instanceof SBase)) {
+					for (SBaseChangeListener listener : setOfListeners) {
+						listener.sbaseAdded((SBase) newValue);
+					}
+				} else if ((changeType == 1) && (oldValue instanceof SBase)) {
+					for (SBaseChangeListener listener : setOfListeners) {
+						listener.sbaseRemoved((SBase) oldValue);
+					}
+				} else {
+					SBaseChangeEvent changeEvent = new SBaseChangeEvent(this,
+							propertyName, oldValue, newValue);
+					for (SBaseChangeListener listener : setOfListeners) {
+						listener.stateChanged(changeEvent);
+					}
+				}
 			}
 		}
 	}
