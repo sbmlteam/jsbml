@@ -1426,7 +1426,15 @@ public class Model extends AbstractNamedSBase {
 	 *         {@link String} if it is not set.
 	 */
 	public String getAreaUnits() {
-		return isSetAreaUnits() ? areaUnitsID : "";
+		String areaUnits = "";
+		
+		if (isSetAreaUnits()) {
+			areaUnits = areaUnitsID;
+		} else if (getLevel() == 2) {
+			areaUnits = "area";
+		}
+		
+		return areaUnits;
 	}
 
 	/**
@@ -1437,7 +1445,7 @@ public class Model extends AbstractNamedSBase {
 	 *         of this Model as id. Null if it doesn't exist
 	 */
 	public UnitDefinition getAreaUnitsInstance() {
-		return getUnitDefinition(this.areaUnitsID);
+		return getUnitDefinition(getAreaUnits());
 	}
 
 	/*
@@ -1784,7 +1792,15 @@ public class Model extends AbstractNamedSBase {
 	 *         {@link String} if it is not set.
 	 */
 	public String getLengthUnits() {
-		return isSetLengthUnits() ? lengthUnitsID : "";
+		String lengthUnits = "";
+		
+		if (isSetLengthUnits()) {
+			lengthUnits = lengthUnitsID;
+		} else if (getLevel() == 2) {
+			lengthUnits = "length";
+		}
+		
+		return lengthUnits;
 	}
 
 	/**
@@ -1795,7 +1811,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id. Null if it doesn't exist
 	 */
 	public UnitDefinition getLengthUnitsInstance() {
-		return getUnitDefinition(this.lengthUnitsID);
+		return getUnitDefinition(getLengthUnits());
 	}
 
 	/**
@@ -2516,7 +2532,15 @@ public class Model extends AbstractNamedSBase {
 	 *         {@link String} if it is not set.
 	 */
 	public String getSubstanceUnits() {
-		return isSetSubstanceUnits() ? this.substanceUnitsID : "";
+		String substanceUnits = "";
+		
+		if (isSetSubstanceUnits()) {
+			substanceUnits = substanceUnitsID;
+		} else if (getLevel() < 3) {
+			substanceUnits = "substance";
+		}
+		
+		return substanceUnits;
 	}
 
 	/**
@@ -2527,7 +2551,7 @@ public class Model extends AbstractNamedSBase {
 	 *         Model as id. Null if it doesn't exist.
 	 */
 	public UnitDefinition getSubstanceUnitsInstance() {
-		return getUnitDefinition(this.substanceUnitsID);
+		return getUnitDefinition(getSubstanceUnits());
 	}
 
 	/**
@@ -2537,7 +2561,15 @@ public class Model extends AbstractNamedSBase {
 	 *         {@link String} if it is not set.
 	 */
 	public String getTimeUnits() {
-		return isSetTimeUnits() ? timeUnitsID : "";
+		String timeUnits = "";
+		
+		if (isSetTimeUnits()) {
+			timeUnits = timeUnitsID;
+		} else if (getLevel() < 3) {
+			timeUnits = "time";
+		}
+		
+		return timeUnits;
 	}
 
 	/**
@@ -2548,7 +2580,7 @@ public class Model extends AbstractNamedSBase {
 	 *         {@link Model}, null if it is not defined in this {@link Model}
 	 */
 	public UnitDefinition getTimeUnitsInstance() {
-		return getUnitDefinition(this.timeUnitsID);
+		return getUnitDefinition(getTimeUnits());
 	}
 
 	/**
@@ -2594,7 +2626,15 @@ public class Model extends AbstractNamedSBase {
 	 *         if it is not set.
 	 */
 	public String getVolumeUnits() {
-		return isSetVolumeUnits() ? volumeUnitsID : "";
+		String volumeUnits = "";
+		
+		if (isSetVolumeUnits()) {
+			volumeUnits = volumeUnitsID;
+		} else if (getLevel() < 3) {
+			volumeUnits = "volume";
+		}
+		
+		return volumeUnits;
 	}
 
 	/**
@@ -2605,7 +2645,7 @@ public class Model extends AbstractNamedSBase {
 	 *         of this {@link Model} as id. Null if it doesn't exist
 	 */
 	public UnitDefinition getVolumeUnitsInstance() {
-		return getUnitDefinition(this.volumeUnitsID);
+		return getUnitDefinition(getVolumeUnits());
 	}
 
 	/*
@@ -2666,17 +2706,18 @@ public class Model extends AbstractNamedSBase {
 		
 		switch (level) {
 		case 1:
-			listOfUnitDefinitions = ListOf.newInstance(this,
-					UnitDefinition.class);
+			// substance
 			ud = UnitDefinition.substance(getLevel(), getVersion());
-			substanceUnitsID = ud.getId();
 			listOfPredefinedUnitDefinitions.add(ud);
-			ud = UnitDefinition.time(getLevel(), getVersion());
-			timeUnitsID = ud.getId();
+
+			// time
+			ud = UnitDefinition.time(getLevel(), getVersion());			
 			listOfPredefinedUnitDefinitions.add(ud);
+
+			// volume
 			ud = UnitDefinition.volume(getLevel(), getVersion());
-			volumeUnitsID = ud.getId();
 			listOfPredefinedUnitDefinitions.add(ud);
+			
 			areaUnitsID = null;
 			lengthUnitsID = null;
 			extentUnitsID = null;
@@ -2685,27 +2726,22 @@ public class Model extends AbstractNamedSBase {
 		case 2:
 			// substance
 			ud = UnitDefinition.substance(getLevel(), getVersion());
-			substanceUnitsID = ud.getId();
 			listOfPredefinedUnitDefinitions.add(ud);
 
 			// volume
 			ud = UnitDefinition.volume(getLevel(), getVersion());
-			volumeUnitsID = ud.getId();
 			listOfPredefinedUnitDefinitions.add(ud);
 
 			// area
 			ud = UnitDefinition.area(getLevel(), getVersion());
-			areaUnitsID = ud.getId();
 			listOfPredefinedUnitDefinitions.add(ud);
 
 			// length
 			ud = UnitDefinition.length(getLevel(), getVersion());
-			lengthUnitsID = ud.getId();
 			listOfPredefinedUnitDefinitions.add(ud);
 
 			// time
 			ud = UnitDefinition.time(getLevel(), getVersion());
-			timeUnitsID = ud.getId();
 			listOfPredefinedUnitDefinitions.add(ud);
 
 			extentUnitsID = null;
