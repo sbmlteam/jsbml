@@ -14,6 +14,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccos(org.sbml.jsbml.ASTNode
 	 * )
 	 */
+	@Override
 	public ASTNodeValue arccos(ASTNode node) throws SBMLException {
 		return function("acos", node);
 	}
@@ -25,6 +26,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccosh(org.sbml.jsbml.
 	 * ASTNode)
 	 */
+	@Override
 	public ASTNodeValue arccosh(ASTNode node) throws SBMLException {
 		return function("arccosh", node);
 	}
@@ -36,6 +38,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccot(org.sbml.jsbml.ASTNode
 	 * )
 	 */
+	@Override
 	public ASTNodeValue arccot(ASTNode node) throws SBMLException {
 		return function("arccot", node);
 	}
@@ -47,6 +50,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccoth(org.sbml.jsbml.
 	 * ASTNode)
 	 */
+	@Override
 	public ASTNodeValue arccoth(ASTNode node) throws SBMLException {
 		return function("arccoth", node);
 	}
@@ -69,6 +73,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccsch(org.sbml.jsbml.
 	 * ASTNode)
 	 */
+	@Override
 	public ASTNodeValue arccsch(ASTNode node) throws SBMLException {
 		return function("arccsch", node);
 	}
@@ -80,6 +85,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsec(org.sbml.jsbml.ASTNode
 	 * )
 	 */
+	@Override
 	public ASTNodeValue arcsec(ASTNode node) throws SBMLException {
 		return function("arcsec", node);
 	}
@@ -91,6 +97,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsech(org.sbml.jsbml.
 	 * ASTNode)
 	 */
+	@Override
 	public ASTNodeValue arcsech(ASTNode node) throws SBMLException {
 		return function("arcsech", node);
 	}
@@ -102,6 +109,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsin(org.sbml.jsbml.ASTNode
 	 * )
 	 */
+	@Override
 	public ASTNodeValue arcsin(ASTNode node) throws SBMLException {
 		return function("asin", node);
 	}
@@ -113,6 +121,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsinh(org.sbml.jsbml.
 	 * ASTNode)
 	 */
+	@Override
 	public ASTNodeValue arcsinh(ASTNode node) throws SBMLException {
 		return function("arcsinh", node);
 	}
@@ -124,6 +133,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arctan(org.sbml.jsbml.ASTNode
 	 * )
 	 */
+	@Override
 	public ASTNodeValue arctan(ASTNode node) throws SBMLException {
 		return function("atan", node);
 	}
@@ -135,6 +145,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#arctanh(org.sbml.jsbml.
 	 * ASTNode)
 	 */
+	@Override
 	public ASTNodeValue arctanh(ASTNode node) throws SBMLException {
 		return function("arctanh", node);
 	}
@@ -144,6 +155,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * 
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#and(java.util.List)
 	 */
+	@Override
 	public ASTNodeValue and(List<ASTNode> nodes) throws SBMLException {
 		return function("and", nodes);
 	}
@@ -153,6 +165,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * 
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#or(java.util.List)
 	 */
+	@Override
 	public ASTNodeValue or(List<ASTNode> nodes) throws SBMLException {
 		return function("or", nodes);
 	}
@@ -162,6 +175,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * 
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#xor(java.util.List)
 	 */
+	@Override
 	public ASTNodeValue xor(List<ASTNode> nodes) throws SBMLException {
 		return function("xor", nodes);
 	}
@@ -174,6 +188,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#eq(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
+	@Override
 	public ASTNodeValue eq(ASTNode left, ASTNode right) throws SBMLException {
 		return function("eq", left, right);
 	}
@@ -185,6 +200,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#neq(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
+	@Override
 	public ASTNodeValue neq(ASTNode left, ASTNode right) throws SBMLException {
 		return function("neq", left, right);
 	}
@@ -196,6 +212,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#geq(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
+	@Override
 	public ASTNodeValue geq(ASTNode left, ASTNode right) throws SBMLException {
 		return function("geq", left, right);
 	}
@@ -207,6 +224,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#eq(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
+	@Override
 	public ASTNodeValue gt(ASTNode left, ASTNode right) throws SBMLException {
 		return function("gt", left, right);
 	}
@@ -218,6 +236,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#eq(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
+	@Override
 	public ASTNodeValue leq(ASTNode left, ASTNode right) throws SBMLException {
 		return function("leq", left, right);
 	}
@@ -229,6 +248,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#eq(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
+	@Override
 	public ASTNodeValue lt(ASTNode left, ASTNode right) throws SBMLException {
 		return function("lt", left, right);
 	}
@@ -238,6 +258,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * 
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getNegativeInfinity()
 	 */
+	@Override
 	public ASTNodeValue getNegativeInfinity() {
 		return new ASTNodeValue("-INF", this);
 	}
@@ -247,6 +268,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * 
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getPositiveInfinity()
 	 */
+	@Override
 	public ASTNodeValue getPositiveInfinity() {
 		return new ASTNodeValue("INF", this);
 	}
@@ -258,6 +280,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#pow(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
+	@Override
 	public ASTNodeValue pow(ASTNode left, ASTNode right) throws SBMLException {
 		return function("pow", left, right);		
 	}
@@ -268,6 +291,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * @see
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#ln(org.sbml.jsbml.ASTNode)
 	 */
+	@Override
 	public ASTNodeValue ln(ASTNode node) throws SBMLException {
 		return function("log", node);
 	}
@@ -278,6 +302,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * @see
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode)
 	 */
+	@Override
 	public ASTNodeValue log(ASTNode node) throws SBMLException {
 		return function("log10", node);
 	}
@@ -289,6 +314,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode,
 	 * org.sbml.jsbml.ASTNode)
 	 */
+	@Override
 	public ASTNodeValue log(ASTNode left, ASTNode right) throws SBMLException {
 		if (left.getReal() == 10) {
 			return function("log10", right);
@@ -302,6 +328,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * 
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantE()
 	 */
+	@Override
 	public ASTNodeValue getConstantE() {
 		return new ASTNodeValue("exponentiale", this);
 	}
@@ -313,6 +340,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#factorial(org.sbml.jsbml
 	 * .ASTNode)
 	 */
+	@Override
 	public ASTNodeValue factorial(ASTNode node) {
 		try {
 			return function("factorial", node);
@@ -329,6 +357,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#root(org.sbml.jsbml.ASTNode
 	 * , org.sbml.jsbml.ASTNode)
 	 */
+	@Override
 	public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant)
 			throws SBMLException 
 	{
@@ -341,6 +370,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#root(double,
 	 * org.sbml.jsbml.ASTNode)
 	 */
+	@Override
 	public ASTNodeValue root(double rootExponent, ASTNode radiant)
 			throws SBMLException 	
 	{
@@ -354,6 +384,7 @@ public class LibSBMLFormulaCompiler extends FormulaCompiler {
 	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#sqrt(org.sbml.jsbml.ASTNode
 	 * )
 	 */
+	@Override
 	public ASTNodeValue sqrt(ASTNode node) throws SBMLException {
 		return function("sqrt", node);
 	}

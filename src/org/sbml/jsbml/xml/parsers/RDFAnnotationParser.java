@@ -158,8 +158,9 @@ public class RDFAnnotationParser implements ReadingParser{
 		if (sbase.isSetMetaId()) {
 			sbase.getAnnotation().setAbout("#" + sbase.getMetaId());
 		} else {
-			logger.warn("The element " + sbase.getElementName() + " has no metaid !!! " +
-					"So the rdf:about inside his annotation cannot be defined properly.");
+			logger.warn(String.format(
+				"The element %s has no metaid, so the rdf:about inside his annotation cannot be defined properly.",
+				sbase.getElementName()));
 		}
 	}
 	
