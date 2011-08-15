@@ -25,6 +25,7 @@ import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.Unit.Kind;
@@ -45,13 +46,42 @@ public class UnitDefinition extends AbstractNamedSBase {
 	/**
 	 * Generated serial version identifier.
 	 */
-	private static final long serialVersionUID = -4705380036260408123L;
+	public static final long serialVersionUID = -4705380036260408123L;
+	/**
+	 * Identifier of the (for SBML Level 2) predefined
+	 * {@link UnitDefinition} <code>area</code>.
+	 */
+	public static final String AREA = "area";
+	/**
+	 * Identifier of the (for SBML Level 2) predefined
+	 * {@link UnitDefinition} <code>length</code>.
+	 */
+	public static final String LENGTH = "length";
+	/**
+	 * Identifier of the (for the SBML Levels 1 and 2) predefined
+	 * {@link UnitDefinition} <code>substance</code>.
+	 */
+	public static final String SUBSTANCE = "substance";
+	/**
+	 * Identifier of the (for the SBML Levels 1 and 2) predefined
+	 * {@link UnitDefinition} <code>time</code>.
+	 */
+	public static final String TIME = "time";
+	/**
+	 * Identifier of the (for some SBML Levels 1 and 2) predefined
+	 * {@link UnitDefinition} <code>volume</code>.
+	 */
+	public static final String VOLUME = "volume";
+	/**
+	 * The logger for this class.
+	 */
+	private static final Logger logger = Logger.getLogger(UnitDefinition.class);
 
 	/**
 	 * Predefined unit for area.
 	 */
 	public static final UnitDefinition area(int level, int version) {
-		return getPredefinedUnit("area", level, version);
+		return getPredefinedUnit(AREA, level, version);
 	}
 
 	/**
@@ -203,22 +233,26 @@ public class UnitDefinition extends AbstractNamedSBase {
 			int version) {
 		
 		if (id == null) {
+			logger.warn("Cannot create predefined unit object with id = null.");
 			return null;
+		} else if (!isPredefined(id, level)) {
+			logger.warn(String.format(
+					"No such predefined unit %s in SBML Level %d.", id, level));
 		}
 
 		id = id.toLowerCase();
 		Unit u = new Unit(level, version);
 		UnitDefinition ud = new UnitDefinition(id, level, version);
-		if (id.equals("substance")) {
+		if (id.equals(SUBSTANCE)) {
 			u.setKind(Kind.MOLE);
-		} else if (id.equals("volume")) {
+		} else if (id.equals(VOLUME)) {
 			u.setKind(Kind.LITRE);
-		} else if (id.equals("area")) {
+		} else if (id.equals(AREA)) {
 			u.setKind(Kind.METRE);
 			u.setExponent(2d);
-		} else if (id.equals("length")) {
+		} else if (id.equals(LENGTH)) {
 			u.setKind(Kind.METRE);
-		} else if (id.equals("time")) {
+		} else if (id.equals(TIME)) {
 			u.setKind(Kind.SECOND);
 		} else {
 			Kind kind = null;
@@ -287,7 +321,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * Predefined unit for length.
 	 */
 	public static final UnitDefinition length(int level, int version) {
-		return getPredefinedUnit("length", level, version);
+		return getPredefinedUnit(LENGTH, level, version);
 	}
 
 	/**
@@ -380,21 +414,21 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * Predefined unit for substance.
 	 */
 	public static final UnitDefinition substance(int level, int version) {
-		return getPredefinedUnit("substance", level, version);
+		return getPredefinedUnit(SUBSTANCE, level, version);
 	}
 
 	/**
 	 * Predefined unit for time.
 	 */
 	public static final UnitDefinition time(int level, int version) {
-		return getPredefinedUnit("time", level, version);
+		return getPredefinedUnit(TIME, level, version);
 	}
 
 	/**
 	 * Predefined unit for volume.
 	 */
 	public static final UnitDefinition volume(int level, int version) {
-		return getPredefinedUnit("volume", level, version);
+		return getPredefinedUnit(VOLUME, level, version);
 	}
 
 	/**

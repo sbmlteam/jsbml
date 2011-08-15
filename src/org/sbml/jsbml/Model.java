@@ -1426,15 +1426,12 @@ public class Model extends AbstractNamedSBase {
 	 *         {@link String} if it is not set.
 	 */
 	public String getAreaUnits() {
-		String areaUnits = "";
-		
 		if (isSetAreaUnits()) {
-			areaUnits = areaUnitsID;
+			return areaUnitsID;
 		} else if (getLevel() == 2) {
-			areaUnits = "area";
+			return UnitDefinition.AREA;
 		}
-		
-		return areaUnits;
+		return "";
 	}
 
 	/**
@@ -1792,15 +1789,12 @@ public class Model extends AbstractNamedSBase {
 	 *         {@link String} if it is not set.
 	 */
 	public String getLengthUnits() {
-		String lengthUnits = "";
-		
 		if (isSetLengthUnits()) {
-			lengthUnits = lengthUnitsID;
+			return lengthUnitsID;
 		} else if (getLevel() == 2) {
-			lengthUnits = "length";
+			return UnitDefinition.LENGTH;
 		}
-		
-		return lengthUnits;
+		return "";
 	}
 
 	/**
@@ -2532,15 +2526,12 @@ public class Model extends AbstractNamedSBase {
 	 *         {@link String} if it is not set.
 	 */
 	public String getSubstanceUnits() {
-		String substanceUnits = "";
-		
 		if (isSetSubstanceUnits()) {
-			substanceUnits = substanceUnitsID;
+			return substanceUnitsID;
 		} else if (getLevel() < 3) {
-			substanceUnits = "substance";
+			return UnitDefinition.SUBSTANCE;
 		}
-		
-		return substanceUnits;
+		return "";
 	}
 
 	/**
@@ -2561,15 +2552,12 @@ public class Model extends AbstractNamedSBase {
 	 *         {@link String} if it is not set.
 	 */
 	public String getTimeUnits() {
-		String timeUnits = "";
-		
 		if (isSetTimeUnits()) {
-			timeUnits = timeUnitsID;
+			return timeUnitsID;
 		} else if (getLevel() < 3) {
-			timeUnits = "time";
+			return UnitDefinition.TIME;
 		}
-		
-		return timeUnits;
+		return "";
 	}
 
 	/**
@@ -2626,15 +2614,12 @@ public class Model extends AbstractNamedSBase {
 	 *         if it is not set.
 	 */
 	public String getVolumeUnits() {
-		String volumeUnits = "";
-		
 		if (isSetVolumeUnits()) {
-			volumeUnits = volumeUnitsID;
+			return volumeUnitsID;
 		} else if (getLevel() < 3) {
-			volumeUnits = "volume";
+			return UnitDefinition.VOLUME;
 		}
-		
-		return volumeUnits;
+		return "";
 	}
 
 	/**
