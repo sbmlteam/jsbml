@@ -28,6 +28,7 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.resources.Resource;
 
 /**
@@ -35,32 +36,32 @@ import org.sbml.jsbml.resources.Resource;
  * Strings.
  * 
  * @author Andreas Dr&auml;ger
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
 public class StringTools {
 
 	/**
+	 * 
+	 */
+	public static final String DECIMAL_FORMAT = "#############0.##############";
+	/**
 	 * New line separator of this operating system
 	 */
 	private static final String newLine = System.getProperty("line.separator");
 	/**
-	 * The {@link Character} <code>'_'</code> as a {@link String}.
+	 * 
 	 */
-	public static final String underscore = Character.valueOf('_').toString();
+	public static final String REAL_FORMAT = "#########################.#########################";
 	/**
 	 * 
 	 */
 	public static final String SCIENTIFIC_FORMAT = "########0.#########E0";
 	/**
-	 * 
+	 * The {@link Character} <code>'_'</code> as a {@link String}.
 	 */
-	public static final String DECIMAL_FORMAT = "#############0.##############";
-	/**
-	 * 
-	 */
-	public static final String REAL_FORMAT = "#########################.#########################";
+	public static final String underscore = Character.valueOf('_').toString();
 
 	/**
 	 * Takes the given StringBuffer as input and appends every further Object to
@@ -76,6 +77,7 @@ public class StringTools {
 		}
 		return k;
 	}
+	
 
 	/**
 	 * 
@@ -217,121 +219,6 @@ public class StringTools {
 	}
 
 	/**
-	 * Returns a {@link String} from the given value that does not contain a
-	 * point zero at the end if the given value represents an integer number.
-	 * The returned {@link String} displays the number in a {@link Locale}
-	 * -dependent way, i.e., the decimal separator and the symbols to represent
-	 * the digits are chosen from the system's configuration. Furthermore, a
-	 * scientific style including 'E' will be used if the value is smaller than
-	 * 1E-5 or greater than 1E5.
-	 * 
-	 * @param value
-	 * @return
-	 */
-	public static final String toString(double value) {
-		return toString(Locale.getDefault(), value);
-	}
-	
-	/**
-	 * Allows for {@link Locale}-dependent number formatting.
-	 * @param locale
-	 * @param value
-	 * @return
-	 */
-	public static final String toString(Locale locale, double value) {
-		if (Double.isNaN(value)) {
-			return "NaN";
-		} else if (Double.isInfinite(value)) {
-			// TODO: make this locale dependent.
-			return "infinity";
-		}
-		
-		if (((int) value) - value == 0) {
-			return String.format("%d", Integer.valueOf((int) value));
-		}
-		
-		if ((Math.abs(value) < 1E-5) || (1E5 < Math.abs(value))) {
-			DecimalFormat df = new DecimalFormat(SCIENTIFIC_FORMAT,
-					new DecimalFormatSymbols(locale));
-			return df.format(value);
-		}
-		
-		DecimalFormat df = new DecimalFormat(DECIMAL_FORMAT,
-				new DecimalFormatSymbols(locale));
-		return df.format(value);
-	}
-
-	/**
-	 * Parses a String into a double number following the rules of the SBML
-	 * specifications, section 3.1.5.
-	 * 
-	 * @param valueAsStr
-	 *            a double as a String
-	 * @return the String as a double. If the String is not a valid double
-	 *         number, {@link Double.NaN} is returned.
-	 */
-	public static double parseSBMLDouble(String valueAsStr) {
-
-		double value = Double.NaN;
-		String toTest = valueAsStr.trim();
-
-		try {
-			value = Double.parseDouble(toTest);
-		} catch (NumberFormatException e) {
-			if (toTest.equalsIgnoreCase("INF")) {
-				value = Double.POSITIVE_INFINITY;
-			} else if (toTest.equalsIgnoreCase("-INF")) {
-				value = Double.NEGATIVE_INFINITY;
-			} else {
-				Logger logger = Logger.getLogger(StringTools.class);
-				logger.warn("Could not create a double from the string " + valueAsStr);
-			}
-		}
-
-		return value;
-	}
-
-	/**
-	 * Parses a {@link String} into an int number following the rules of the SBML
-	 * specifications, section 3.1.3.
-	 * 
-	 * @param valueAsStr
-	 *            an int as a {@link String}
-	 * @return the {@link String} as an int. If the {@link String} is not a valid int number, 0
-	 *         is returned.
-	 */
-	public static int parseSBMLInt(String valueAsStr) {
-		int value = 0;
-		try {
-			value = Integer.parseInt(valueAsStr.trim());
-		} catch (NumberFormatException e) {
-			Logger logger = Logger.getLogger(StringTools.class);
-			logger.warn("Could not create an integer from the string " + valueAsStr);
-		}
-		return value;
-	}
-	
-	/**
-	 * Parses a {@link String} into an short number following the rules of the
-	 * SBML specifications, section 3.1.3.
-	 * 
-	 * @param value
-	 *            an int as a String
-	 * @return the {@link String} as an short. If the {@link String} is not a
-	 *         valid short number, 0 is returned.
-	 */
-	public static int parseSBMLShort(String value) {
-		short v = 0;
-		try {
-			v = Short.parseShort(value.trim());
-		} catch (NumberFormatException e) {
-			Logger logger = Logger.getLogger(StringTools.class);
-			logger.warn("Could not create a short from the string " + value);
-		}
-		return v;
-	}
-
-	/**
 	 * Parses a String into a boolean following the rules of the SBML
 	 * specifications, section 3.1.2.
 	 * 
@@ -363,6 +250,76 @@ public class StringTools {
 	}
 
 	/**
+	 * Parses a String into a double number following the rules of the SBML
+	 * specifications, section 3.1.5.
+	 * 
+	 * @param valueAsStr
+	 *            a double as a String
+	 * @return the String as a double. If the String is not a valid double
+	 *         number, {@link Double.NaN} is returned.
+	 */
+	public static double parseSBMLDouble(String valueAsStr) {
+
+		double value = Double.NaN;
+		String toTest = valueAsStr.trim();
+
+		try {
+			value = Double.parseDouble(toTest);
+		} catch (NumberFormatException e) {
+			if (toTest.equalsIgnoreCase("INF")) {
+				value = Double.POSITIVE_INFINITY;
+			} else if (toTest.equalsIgnoreCase("-INF")) {
+				value = Double.NEGATIVE_INFINITY;
+			} else {
+				Logger logger = Logger.getLogger(StringTools.class);
+				logger.warn("Could not create a double from the string " + valueAsStr);
+			}
+		}
+
+		return value;
+	}
+	
+	/**
+	 * Parses a {@link String} into an int number following the rules of the SBML
+	 * specifications, section 3.1.3.
+	 * 
+	 * @param valueAsStr
+	 *            an int as a {@link String}
+	 * @return the {@link String} as an int. If the {@link String} is not a valid int number, 0
+	 *         is returned.
+	 */
+	public static int parseSBMLInt(String valueAsStr) {
+		int value = 0;
+		try {
+			value = Integer.parseInt(valueAsStr.trim());
+		} catch (NumberFormatException e) {
+			Logger logger = Logger.getLogger(StringTools.class);
+			logger.warn("Could not create an integer from the string " + valueAsStr);
+		}
+		return value;
+	}
+
+	/**
+	 * Parses a {@link String} into an short number following the rules of the
+	 * SBML specifications, section 3.1.3.
+	 * 
+	 * @param value
+	 *            an int as a String
+	 * @return the {@link String} as an short. If the {@link String} is not a
+	 *         valid short number, 0 is returned.
+	 */
+	public static int parseSBMLShort(String value) {
+		short v = 0;
+		try {
+			v = Short.parseShort(value.trim());
+		} catch (NumberFormatException e) {
+			Logger logger = Logger.getLogger(StringTools.class);
+			logger.warn("Could not create a short from the string " + value);
+		}
+		return v;
+	}
+
+	/**
 	 * Returns a HTML formated String, in which each line is at most lineBreak
 	 * symbols long.
 	 * 
@@ -372,7 +329,7 @@ public class StringTools {
 	public static String toHTML(String string) {
 		return toHTML(string, Integer.MAX_VALUE);
 	}
-
+	
 	/**
 	 * Returns a HTML formated String, in which each line is at most lineBreak
 	 * symbols long.
@@ -401,6 +358,99 @@ public class StringTools {
 		}
 		sb.append("</body></html>");
 		return sb.toString();
+	}
+
+	/**
+	 * Returns a {@link String} from the given value that does not contain a
+	 * point zero at the end if the given value represents an integer number.
+	 * The returned {@link String} displays the number in a {@link Locale}
+	 * -dependent way, i.e., the decimal separator and the symbols to represent
+	 * the digits are chosen from the system's configuration. Furthermore, a
+	 * scientific style including 'E' will be used if the value is smaller than
+	 * 1E-5 or greater than 1E5.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static final String toString(double value) {
+		return toString(Locale.getDefault(), value);
+	}
+
+	/**
+	 * Allows for {@link Locale}-dependent number formatting.
+	 * @param locale
+	 * @param value
+	 * @return
+	 */
+	public static final String toString(Locale locale, double value) {
+		if (Double.isNaN(value)) {
+			return "NaN";
+		} else if (Double.isInfinite(value)) {
+			// TODO: make this locale dependent.
+			return "infinity";
+		}
+		
+		if (((int) value) - value == 0) {
+			return String.format("%d", Integer.valueOf((int) value));
+		}
+		
+		if ((Math.abs(value) < 1E-5) || (1E5 < Math.abs(value))) {
+			DecimalFormat df = new DecimalFormat(SCIENTIFIC_FORMAT,
+					new DecimalFormatSymbols(locale));
+			return df.format(value);
+		}
+		
+		DecimalFormat df = new DecimalFormat(DECIMAL_FORMAT,
+				new DecimalFormatSymbols(locale));
+		return df.format(value);
+	}
+
+	/**
+	 * Checks whether a given {@link String} fits into the definition of the XML
+	 * notes {@link String} in SBML. If not, this method will surround the given
+	 * {@link String} with the minimal definition of a valid notes
+	 * {@link String}.
+	 * 
+	 * @param notes
+	 *            the {@link String} to be checked and possibly modified.
+	 * @return A {@link String} that will be surrounded by the XML definition of
+	 *         a notes {@link String} in SBML, i.e.,
+	 * 
+	 *         <pre>
+	 * &lt;notes&gt;
+	 *   &lt;body xmlns="http://www.w3.org/1999/xhtml"&gt;
+	 *     &lt;p&gt;the original notes&lt;/p&gt;
+	 *   &lt;/body&gt;
+	 * </pre>
+	 * 
+	 *         If the given argument already suffices the definition of XML
+	 *         {@link String}s in SBML, nothing will be changed.
+	 */
+	public static String toXMLNotesString(String notes) {
+		// TODO : We need to perform plenty of check to see of which form are the notes given to this method
+		// and perform the necessary conversion to append or set the notes correctly.
+				
+		if (!notes.trim().startsWith("<")) { // we assume that this is free text
+			StringBuilder sb = new StringBuilder();
+			sb.append("<notes>\n");
+			sb.append("  <body xmlns=\"");
+			sb.append(JSBML.URI_XHTML_DEFINITION);
+			sb.append("\">\n ");
+			sb.append("    <p>");
+			sb.append(notes);
+			sb.append("</p>\n");
+			sb.append("  </body>\n");
+			sb.append("</notes>");
+			return sb.toString();
+		} else if (!notes.trim().startsWith("<notes")) { 
+			// we assume the <notes> XML tag is missing
+			StringBuilder sb = new StringBuilder();
+			sb.append("<notes>\n  ");
+			sb.append(notes);
+			sb.append("\n</notes>");
+			return sb.toString();
+		} 
+		return notes;
 	}
 
 }

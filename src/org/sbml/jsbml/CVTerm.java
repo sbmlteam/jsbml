@@ -529,8 +529,12 @@ public class CVTerm extends AnnotationElement {
 	public int hashCode() {
 		final int prime = 7;
 		int hashCode = super.hashCode();
-		hashCode += prime * getQualifierType().hashCode();
-		hashCode += prime * getBiologicalQualifierType().hashCode();
+		if (isSetQualifierType()) {
+			hashCode += prime * getQualifierType().hashCode();
+		}
+		if (isSetBiologicalQualifierType()) {
+			hashCode += prime * getBiologicalQualifierType().hashCode();
+		}
 		return hashCode;
 	}
 
@@ -550,6 +554,23 @@ public class CVTerm extends AnnotationElement {
 	 */
 	public boolean isModelQualifier() {
 		return type.equals(Type.MODEL_QUALIFIER);
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetBiologicalQualifierType() {
+		return getBiologicalQualifierType() != null;
+	}
+
+	/**
+	 * Checks whether or not the {@link Qualifier} has been set for this
+	 * {@link CVTerm}.
+	 * 
+	 * @return
+	 */
+	public boolean isSetQualifierType() {
+		return getQualifierType() != null;
 	}
 
 	/**

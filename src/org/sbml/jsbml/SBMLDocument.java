@@ -555,6 +555,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * 
 	 * @return the model of this {@link SBMLDocument}. Can be null if it is not set.
 	 */
+	@Override
 	public Model getModel() {
 		return model;
 	}

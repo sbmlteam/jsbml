@@ -323,26 +323,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jlibsbml.SBase#appendNotes(java.lang.String)
 	 */
 	public void appendNotes(String notes) {
-
-		// TODO : We need to perform plenty of check to see of which form are the notes given to this method
-		// and perform the necessary conversion to append or set the notes correctly.
-		
-		if (!notes.trim().startsWith("<")) { // we assume that this is free text
-			notes = "<notes>\n" +
-			"  <body xmlns=\"" + JSBML.URI_XHTML_DEFINITION + "\">\n " +
-			"    <p>" + notes + "</p>\n" +
-			"  </body>\n" +
-			"</notes>";
-		} else if (!notes.trim().startsWith("<notes")) { 
-			// we assume the <notes> XML tag is missing
-			notes = "<notes>\n" +
-			"  " + notes + "\n" +
-			"</notes>";
-			
-		}
-		
-		XMLNode addedNotes = XMLNode.convertStringToXMLNode(notes);
-		
+		XMLNode addedNotes = XMLNode.convertStringToXMLNode(StringTools
+				.toXMLNotesString(notes));
 		if (isSetNotes()) {
 			XMLNode oldNotes = notesXMLNode.clone();
 			appendNotes(addedNotes);
@@ -1393,8 +1375,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#setNotes(java.lang.String)
 	 */
 	public void setNotes(String notes) {
-		// This will wrap the given String in XML code if necessary:
-		appendNotes(notes); 
+		setNotes(XMLNode.convertStringToXMLNode(StringTools
+				.toXMLNotesString(notes)));
 	}
 
 	/*
