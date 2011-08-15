@@ -333,7 +333,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			"    <p>" + notes + "</p>\n" +
 			"  </body>\n" +
 			"</notes>";
-		} else if (!notes.trim().startsWith("<notes")) { // we assume the <notes> XML tag is missing
+		} else if (!notes.trim().startsWith("<notes")) { 
+			// we assume the <notes> XML tag is missing
 			notes = "<notes>\n" +
 			"  " + notes + "\n" +
 			"</notes>";
@@ -798,8 +799,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				} else if ((changeType == 1) && (oldValue instanceof SBase)) {
 					((SBase) oldValue).fireSBaseRemovedEvent();
 				} else {
-					SBaseChangeEvent changeEvent = new SBaseChangeEvent(this,
-							propertyName, oldValue, newValue);
 					if (oldValue instanceof SBase) {
 						SBMLDocument doc = getSBMLDocument();
 						if (doc != null) {
@@ -817,6 +816,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 					 * method setThisAsParentSBMLObject, a method that is called
 					 * to link a new element to an existing SBML tree.
 					 */
+					// Now we can notify all listeners about the change:
+					SBaseChangeEvent changeEvent = new SBaseChangeEvent(this,
+							propertyName, oldValue, newValue);
 					for (SBaseChangeListener listener : setOfListeners) {
 						listener.stateChanged(changeEvent);
 					}
@@ -1391,7 +1393,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jsbml.element.SBase#setNotes(java.lang.String)
 	 */
 	public void setNotes(String notes) {
-		setNotes(XMLNode.convertStringToXMLNode(notes)); 
+		// This will wrap the given String in XML code if necessary:
+		appendNotes(notes); 
 	}
 
 	/*
