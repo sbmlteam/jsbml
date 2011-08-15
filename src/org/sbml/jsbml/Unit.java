@@ -913,11 +913,14 @@ public class Unit extends AbstractSBase {
 	 */
 	public static boolean isPredefined(String name, int level) {
 		if (level < 3) {
-			if ((level == 2) && (name.equals("length") || name.equals("area"))) {
+			if ((level == 2)
+					&& (name.equals(UnitDefinition.AREA) || name
+							.equals(UnitDefinition.LENGTH))) {
 				return true;
 			}
-			if (name.equals("substance") || name.equals("volume")
-					|| name.equals("time")) {
+			if (name.equals(UnitDefinition.SUBSTANCE)
+					|| name.equals(UnitDefinition.VOLUME)
+					|| name.equals(UnitDefinition.TIME)) {
 				return true;
 			}
 		}
