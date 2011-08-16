@@ -1750,16 +1750,16 @@ public class ASTNode extends AbstractTreeNode {
 						value = compiler.function(
 								(FunctionDefinition) variable, getChildren());
 					} else {
-						logger.warn("ASTNode of type FUNCTION but the variable is not a FunctionDefinition !! ("
+						logger.warn("ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
 								+ getName() + ", " + getParentSBMLObject() + ")");
-						throw new SBMLException("ASTNode of type FUNCTION but the variable is not a FunctionDefinition !! ("
+						throw new SBMLException("ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
 								+ getName() + ", " + getParentSBMLObject() + ")");
 						// value = compiler.compile(variable);
 					}
 				} else {
-					logger.warn("ASTNode of type FUNCTION but the variable is null !! (" + 
-							getName() + ", " + getParentSBMLObject() + "). " +
-							"Check that your object is linked to a Model.");
+					logger.warn(String.format(
+							"ASTNode of type FUNCTION but the variable is null: (%s, %s)! Check that your object is linked to a Model.", 
+							getName(), getParentSBMLObject()));
 					value = compiler.function(getName(), getChildren());
 				}
 				break;
@@ -2409,10 +2409,22 @@ public class ASTNode extends AbstractTreeNode {
 							// in this case the parameter originates from a
 							// different kinetic law.
 							variable = null;
+						} else if (variable == null) {
+							/*
+							 * Possibly the name is just from the argument list
+							 * of some function definition. Hence, it won't be
+							 * possible to determine an element with the same
+							 * identifier within the model. In this case, this
+							 * warning is kind of senseless.
+							 */
+							logger.debug(String.format(
+								"This ASTNode with name '%s' is not linked to the model, the variable attribute is left to null!",
+								getName()));
 						}
 					} else {
-						logger.warn("This ASTNode with name '" + getName() + "' is not linked" +
-								" to a Model, the variable attribute is left to null !!");
+						logger.debug(String.format(
+							"This ASTNode is not yet linked to a model and can therefore not determine its variable '%s'.",
+							getName()));
 					}
 				}
 			}

@@ -3432,6 +3432,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param areaUnits
 	 */
 	public void setAreaUnits(UnitDefinition areaUnits) {
+		if (!getListOfUnitDefinitions().contains(areaUnits)) {
+			addUnitDefinition(areaUnits);
+		}
 		setAreaUnits(areaUnits != null ? areaUnits.getId() : null);
 	}
 
@@ -3486,6 +3489,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param extentUnits
 	 */
 	public void setExtentUnits(UnitDefinition extentUnits) {
+		if (!getListOfUnitDefinitions().contains(extentUnits)) {
+			addUnitDefinition(extentUnits);
+		}
 		setExtentUnits(extentUnits != null ? extentUnits.getId() : null);
 	}
 
@@ -3512,6 +3518,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param lengthUnits
 	 */
 	public void setLengthUnits(UnitDefinition lengthUnits) {
+		if (!getListOfUnitDefinitions().contains(lengthUnits)) {
+			addUnitDefinition(lengthUnits);
+		}
 		setLengthUnits(lengthUnits != null ? lengthUnits.getId() : null);
 	}
 
@@ -3772,6 +3781,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param substanceUnits
 	 */
 	public void setSubstanceUnits(UnitDefinition substanceUnits) {
+		if (!getListOfUnitDefinitions().contains(substanceUnits)) {
+			addUnitDefinition(substanceUnits);
+		}
 		setSubstanceUnits(substanceUnits != null ? substanceUnits.getId()
 				: null);
 	}
@@ -3799,6 +3811,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param timeUnits
 	 */
 	public void setTimeUnits(UnitDefinition timeUnits) {
+		if (!getListOfUnitDefinitions().contains(timeUnits)) {
+			addUnitDefinition(timeUnits);
+		}
 		setTimeUnits(timeUnits != null ? timeUnits.getId() : null);
 	}
 
@@ -3825,6 +3840,9 @@ public class Model extends AbstractNamedSBase {
 	 * @param volumeUnits
 	 */
 	public void setVolumeUnits(UnitDefinition volumeUnits) {
+		if (!getListOfUnitDefinitions().contains(volumeUnits)) {
+			addUnitDefinition(volumeUnits);
+		}
 		setVolumeUnits(volumeUnits != null ? volumeUnits.getId() : null);
 	}
 

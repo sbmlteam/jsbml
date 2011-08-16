@@ -235,7 +235,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if (id == null) {
 			logger.warn("Cannot create predefined unit object with id = null.");
 			return null;
-		} else if (!(isPredefined(id, level) && (Unit.isUnitKind(id, level,
+		} else if (!(isPredefined(id, level) || (Unit.isUnitKind(id, level,
 				version)))) {
 			logger.warn(String.format(
 					"No such predefined unit %s in SBML Level %d.", id, level));
@@ -260,6 +260,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 			try {
 				kind = Kind.valueOf(id.toUpperCase());
 			} catch (IllegalArgumentException exc) {
+				logger.warn(String.format("No such unit kind %s in SBML Level %d Version %d", id, level, version));
 				return null;
 			}
 			u.setKind(kind);
