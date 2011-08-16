@@ -24,6 +24,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.SBaseChangeEvent;
 import org.sbml.jsbml.util.StringTools;
@@ -43,6 +44,10 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -6630349025482311163L;
+	/**
+	 * A logger for user-messages.
+	 */
+	private static final Logger logger = Logger.getLogger(AbstractMathContainer.class);
 
 	/**
 	 * The math formula as an abstract syntax tree.
@@ -172,8 +177,9 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		if (isSetMath()) {
 			try {
 				ud = math.deriveUnit();
-			} catch (SBMLException e) {
+			} catch (Throwable e) {
 				// Doesn't matter. We'll simply return an undefined unit.
+				logger.warn("Could not derive unit from syntax tree.", e);
 			}
 		}
 		if (ud != null) {
@@ -223,7 +229,8 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	public String getFormula() {
 		try {
 			return isSetMath() ? getMath().toFormula() : "";
-		} catch (SBMLException e) {
+		} catch (Throwable e) {
+			logger.warn("Could not create infix formula from syntax tree.", e);
 			return "invalid";
 		}
 	}

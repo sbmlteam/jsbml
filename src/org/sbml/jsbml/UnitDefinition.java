@@ -235,7 +235,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if (id == null) {
 			logger.warn("Cannot create predefined unit object with id = null.");
 			return null;
-		} else if (!isPredefined(id, level)) {
+		} else if (!(isPredefined(id, level) && (Unit.isUnitKind(id, level,
+				version)))) {
 			logger.warn(String.format(
 					"No such predefined unit %s in SBML Level %d.", id, level));
 		}
