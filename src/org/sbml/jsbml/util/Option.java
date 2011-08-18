@@ -21,6 +21,11 @@
 package org.sbml.jsbml.util;
 
 /**
+ * Stores the options sent by the SBML online validator.
+ * 
+ * <p/>
+ * see the <a href="http://sbml.org/Facilities/Documentation/Validator_Web_API">SBML Online Validator web API</a> page.
+ * 
  * @since 0.8
  * @version $Rev$
  */
