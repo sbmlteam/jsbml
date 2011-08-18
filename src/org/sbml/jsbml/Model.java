@@ -2595,7 +2595,6 @@ public class Model extends AbstractNamedSBase {
 	 *         doesn't exist.
 	 */
 	public UnitDefinition getUnitDefinition(String id) {
-
 		UnitDefinition unitDefinition = getListOfUnitDefinitions().firstHit(
 				new NameFilter(id));
 
