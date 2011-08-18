@@ -726,22 +726,26 @@ public class SBMLWriter {
 			}
 
 			// Adding the name spaces of the sbml element
-			otherNamespaces = sbase.getSBMLDocument()
-					.getSBMLDocumentNamespaces();
-			it = otherNamespaces.entrySet().iterator();
+			if (sbase.getSBMLDocument() != null) {
+				otherNamespaces = sbase.getSBMLDocument().getSBMLDocumentNamespaces();
+				it = otherNamespaces.entrySet().iterator();
 
-			while (it.hasNext()) {
-				Entry<String, String> entry = it.next();
-				StringTools.append(annotationBeginning, " ", entry.getKey(),
-						"=\"", entry.getValue(), "\"");
-				if (entry.getKey().contains(":")) {
-					String[] key = entry.getKey().split(":");
-					annotationElement.getNamespace(key[1], entry.getValue());
-				} else {
-					// does nothing, we don't need the sbml namespace here
+				while (it.hasNext()) {
+					Entry<String, String> entry = it.next();
+					StringTools.append(annotationBeginning, " ", entry.getKey(),
+							"=\"", entry.getValue(), "\"");
+					if (entry.getKey().contains(":")) {
+						String[] key = entry.getKey().split(":");
+						annotationElement.getNamespace(key[1], entry.getValue());
+					} else {
+						// does nothing, we don't need the sbml namespace here
+					}
 				}
+			} else {				
+				// Can happen when displaying the annotation from an SBase object
+				// that is not  yet linked to a SBMLDocument.
 			}
-
+				
 			StringTools.append(annotationBeginning, Character.valueOf('>'),
 					Character.valueOf('\n'), annotation.getNonRDFannotation(),
 					whiteSpaces, "</annotation>", Character.valueOf('\n'));

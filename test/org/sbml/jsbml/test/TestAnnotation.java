@@ -17,9 +17,10 @@ public class TestAnnotation {
 		// The junit test file would test the Annotation class methods.  
 		  
 		// Setup : creating some simple objects 
-	    SBMLDocument doc=new SBMLDocument(2,4);
-	    Model m=doc.createModel("model1");
+	    SBMLDocument doc = new SBMLDocument(2,4);
 
+	    Model m = doc.createModel("model1");
+	    Model m2 = new Model("model1", 2, 4);
 	    
 	    Species s1 = m.createSpecies("id1");
 	    
@@ -40,6 +41,52 @@ public class TestAnnotation {
 	    System.out.println("After adding a metaid on the species, the Annotation String get generated as it should.");
 	    System.out.println("@" + s1.getAnnotationString() + "@");
 	    
+
+
+	    String urn_id = "C00001";
+	    
+	    Species specie = m2.createSpecies();
+	    specie.setId("S2");
+	    specie.setName("S2");
+	    // specie.setCompartment(compartment);
+	    specie.setInitialAmount(1);
+
+	    annotation = new Annotation();
+	    CVTerm cvTerm = new CVTerm(Qualifier.BQB_IS);
+	    cvTerm.setQualifierType(Type.BIOLOGICAL_QUALIFIER);
+	    
+	    if(urn_id.startsWith("C"))
+	    {
+	    cvTerm.addResource("urn:miriam:kegg.compound:" + urn_id);
+	    annotation.addCVTerm(cvTerm);
+	    annotation.appendNoRDFAnnotation("http://www.genome.jp/dbget-bin/www_bget?cpd:"+urn_id);
+	    }
+	    
+	    if(urn_id.startsWith("G"))
+	    {
+	    cvTerm.addResource("urn:miriam:kegg.glycan:" + urn_id);
+	    annotation.addCVTerm(cvTerm);
+	    annotation.appendNoRDFAnnotation("<myApp:xxx>http://www.genome.jp/dbget-bin/www_bget?gl:"+urn_id + "</myApp:xxx>");
+	    }
+	    
+	    if (urn_id.contains("."))
+	    {
+	    cvTerm.addResource("urn:miriam:ec-code:" + urn_id);
+	    annotation.addCVTerm(cvTerm);
+	    annotation.appendNoRDFAnnotation("http://www.genome.jp/dbget-bin/www_bget?ec:"+urn_id);
+	    }
+
+	    System.out.println("The Annotation is still empty as there is no metaid defined on the species !!");
+	    System.out.println("@" + specie.getAnnotationString() + "@");
+
+	    specie.setMetaId("S1");
+	    specie.setAnnotation(annotation);
+
+
+	    System.out.println("After adding a metaid on the species, the Annotation String get generated as it should.");
+	    System.out.println("@" + specie.getAnnotationString() + "@");
+
+	    // this.sbmlModel.addSpecies(specie);
 
 	}
 }
