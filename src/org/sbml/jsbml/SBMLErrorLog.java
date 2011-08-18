@@ -22,13 +22,14 @@ package org.sbml.jsbml;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.sbml.jsbml.util.Option;
 
 /**
  * Log of errors and other events encountered during SBML processing. 
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
@@ -42,11 +43,11 @@ public class SBMLErrorLog {
 	/**
 	 * 
 	 */
-	private ArrayList<Option> options = new ArrayList<Option>();
+	private List<Option> options = new ArrayList<Option>();
 	/**
 	 * 
 	 */
-	private ArrayList<SBMLError> validationErrors = new ArrayList<SBMLError>();
+	private List<SBMLError> validationErrors = new ArrayList<SBMLError>();
 
 	/**
 	 * 
@@ -187,7 +188,7 @@ public class SBMLErrorLog {
 	 * 
 	 * @return the list of options.
 	 */
-	ArrayList<Option> getOptions() {
+	List<Option> getOptions() {
 		if (options == null) {
 			options = new ArrayList<Option>();
 		}
@@ -208,7 +209,7 @@ public class SBMLErrorLog {
 	 * 
 	 * @return the list of {@link SBMLError}
 	 */
-	public ArrayList<SBMLError> getValidationErrors() {
+	public List<SBMLError> getValidationErrors() {
 		if (validationErrors == null) {
 			// This is to prevent NullPointerException, if there is no errors, xstream set the collection to null. 
 			validationErrors = new ArrayList<SBMLError>();
@@ -231,7 +232,7 @@ public class SBMLErrorLog {
 	 * 
 	 * @param options
 	 */
-	public void setOptions(ArrayList<Option> options) {
+	public void setOptions(List<Option> options) {
 		this.options = options;
 	}
 
@@ -249,7 +250,7 @@ public class SBMLErrorLog {
 	 * 
 	 * @param validationErrors
 	 */
-	void setValidationErrors(ArrayList<SBMLError> validationErrors) {
+	void setValidationErrors(List<SBMLError> validationErrors) {
 		if (validationErrors == null) {
 			clearLog();
 			return;
