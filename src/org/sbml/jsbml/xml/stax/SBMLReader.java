@@ -283,7 +283,7 @@ public class SBMLReader {
 		} catch (XMLStreamException exc) {
 			/*
 			 * Catching this exception makes sure that we have still the chance
-			 * to close the stream. Otherwise it will stay opened as soon as the
+			 * to close the stream. Otherwise it will stay opened although the
 			 * execution of this method is over.
 			 */
 			exc1 = exc;
@@ -300,12 +300,15 @@ public class SBMLReader {
 				}
 				throw exc2;
 			}
+			if (exc1 != null) {
+				throw exc1;
+			}
 		}
 		if (readObject instanceof SBMLDocument) {
 			return (SBMLDocument) readObject;
 		}
 		throw new XMLStreamException(String.format(
-				"File %s is not in accordance with any SBML specification.",
+				"JSBML could not properly read file %s. Please check if it contains valid SBML. If you think it is valid, please submit a bug report to the bug tracker of JSBML.",
 				(file.getPath() == null) ? "null" : file.getAbsolutePath()));
 	}
 
