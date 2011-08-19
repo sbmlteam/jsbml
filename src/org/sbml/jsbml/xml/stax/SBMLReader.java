@@ -276,12 +276,37 @@ public class SBMLReader {
 			IOException 
 	{
 		FileInputStream stream = new FileInputStream(file);
-		Object readObject = readXMLFromStream(stream);
-		stream.close();
+		XMLStreamException exc1 = null;
+		Object readObject = null;
+		try {
+			readObject = readXMLFromStream(stream);
+		} catch (XMLStreamException exc) {
+			/*
+			 * Catching this exception makes sure that we have still the chance
+			 * to close the stream. Otherwise it will stay opened as soon as the
+			 * execution of this method is over.
+			 */
+			exc1 = exc;
+		} finally {
+			try {
+				stream.close();
+			} catch (IOException exc2) {
+				/*
+				 * Ok, we lost. No chance to really close this stream. Heavy
+				 * error.
+				 */
+				if (exc1 != null) {
+					exc2.initCause(exc1);
+				}
+				throw exc2;
+			}
+		}
 		if (readObject instanceof SBMLDocument) {
 			return (SBMLDocument) readObject;
 		}
-		throw new XMLStreamException("Your did not provide a correct SBMl file!");
+		throw new XMLStreamException(String.format(
+				"File %s is not in accordance with any SBML specification.",
+				(file.getPath() == null) ? "null" : file.getAbsolutePath()));
 	}
 
 	/**

@@ -1179,11 +1179,11 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 		StringBuffer value = new StringBuffer();
 		int i = 0;
 		for (ASTNode v : values) {
-			if (v.getNumChildren() > 0) {
+			if (v.getChildCount() > 0) {
 				value.append(leftBrace);
 			}
 			value.append(v.compile(this).toString());
-			if (v.getNumChildren() > 0) {
+			if (v.getChildCount() > 0) {
 				value.append(rightBrace);
 			}
 			if (i < values.size() - 1) {
@@ -1352,7 +1352,7 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 	public ASTNodeValue not(ASTNode node) throws SBMLException {
 		return new ASTNodeValue(concat(
 				"\\neg ",
-				(node.getNumChildren() == 0) ? node.compile(this)
+				(node.getChildCount() == 0) ? node.compile(this)
 						: brackets(node.compile(this))).toString(), this);
 	}
 
@@ -1419,7 +1419,7 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 			throws SBMLException {
 		StringBuilder value = new StringBuilder();
 		value.append(base.compile(this));
-		if (!(base.getNumChildren() < 2)) {
+		if (!(base.getChildCount() < 2)) {
 			value = brackets(value);
 		}
 		value.append('^');

@@ -799,7 +799,7 @@ public class SubModel {
             return;
         }
 
-        for (int i = 0; i < mathNode.getNumChildren(); i++) {
+        for (int i = 0; i < mathNode.getChildCount(); i++) {
 
             getRelatedFunctions(relatedFunctionsSet, allFunctionsIdSet, mathNode.getChild(i));
         }
