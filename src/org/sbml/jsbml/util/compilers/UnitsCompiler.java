@@ -1072,10 +1072,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 						}
 
 						if (scale1 > mean) {
-							v1 = v1
-									* Math.pow(10.0, -scale1 * u1.getExponent());
-							v2 = v2
-									* Math.pow(10.0, -scale2 * u2.getExponent());
+							v1 = v1 * Math.pow(10.0, -scale1 * u1.getExponent());
+							v2 = v2 * Math.pow(10.0, -scale2 * u2.getExponent());
 
 						} else {
 							v1 = v1 * Math.pow(10.0, scale1 * u1.getExponent());
@@ -1103,11 +1101,10 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			}
 
 		} else {
-			throw new IllegalArgumentException(
-					new UnitException(String.format(
-						"Can not apply the units %s against %s in an addition, subtraction, comparisson or an equivalent operation.",
-						UnitDefinition.printUnits(left.getUnits()),
-						UnitDefinition.printUnits(right.getUnits()))));
+			throw new UnitException(String.format(
+						"Cannot combine the units %s and %s in addition, subtraction, comparisson or any equivalent operation.",
+						UnitDefinition.printUnits(left.getUnits(), true),
+						UnitDefinition.printUnits(right.getUnits(), true)));
 
 		}
 

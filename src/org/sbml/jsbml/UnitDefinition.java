@@ -364,8 +364,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 				} else {
 					sb.append(unit.getKind().getName().toLowerCase());
 					sb.append(String.format(
-							" (exponent = %f, multiplier = %s, scale = %d)",
-							unit.getExponent(),
+							" (exponent = %s, multiplier = %s, scale = %d)",
+							StringTools.toString(unit.getExponent()),
 							StringTools.toString(unit.getMultiplier()),
 							unit.getScale()));
 				}
@@ -597,25 +597,25 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if (!isSetListOfUnits()) {
 			this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
 		}
-			Unit twinunit;
-			
-			for (Unit unit1 : definition.getListOfUnits()) {
-				Unit unit = unit1.clone();
-				unit.setExponent(-unit1.getExponent());
-				
-				// can not add the same unit twice to the list, raise exponent
-				// instead
-				if (listOfUnits.contains(unit)) {
+		Unit twinunit;
 
-					twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
-					twinunit.setExponent(twinunit.getExponent()
-							+ unit.getExponent());
+		for (Unit unit1 : definition.getListOfUnits()) {
+			Unit unit = unit1.clone();
+			unit.setExponent(-unit1.getExponent());
 
-				} else {
-					addUnit(unit.clone());
-				}				
-				
+			// can not add the same unit twice to the list, raise exponent
+			// instead
+			if (listOfUnits.contains(unit)) {
+
+				twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
+				twinunit.setExponent(twinunit.getExponent()
+						+ unit.getExponent());
+
+			} else {
+				addUnit(unit.clone());
 			}
+
+		}
 		return this;
 	}
 

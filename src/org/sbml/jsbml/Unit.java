@@ -2131,7 +2131,7 @@ public class Unit extends AbstractSBase {
 			times = FormulaCompiler.sum(StringTools.toString(offset.doubleValue()),
 					times);
 		}
-		return FormulaCompiler.pow(times, Double.valueOf(getExponent())).toString();
+		return FormulaCompiler.pow(times, StringTools.toString(getExponent())).toString();
 	}
 
 	/**

@@ -6,6 +6,9 @@ Version 0.8-rc1 (xx-xx-2011)
 
 * New Features:
   
+  - The compile method in ASTNode has become more efficient now by
+    restructuring its case distinctions.
+  
   - Implemented the hashCode method for all elements belonging to the
     hierarchical SBML data structure (SBase, Annotation, ASTNode 
     etc.).
@@ -75,6 +78,13 @@ Version 0.8-rc1 (xx-xx-2011)
     
 * Bug Fixes:
 
+  - [Tracker issue #3323886]: The units of Species were not derived
+    correctly because if the units were not explicitly defined, the method
+    getDerivedUnitsInstance() always returned the predefined unit 
+    "substance", or null for models in Level 3. Now it considers the
+    surrounding compartment, the hasOnlySubstanceUnits, and spatialSizeUnits
+    attributes depending on the Level/Version configuration.
+
   - Cloning of SBMLDocuments was not done correctly: The set of already 
     existing metaIds was initialized after adding the model to the document.
     In the mean time, there could already be access to this set. 
@@ -94,7 +104,7 @@ Version 0.8-rc1 (xx-xx-2011)
   - If the Level/Version combination was not set, the identifier of
     NamedSBases was sometimes not written to an SBML file.
 
-  - [Tracker issue #3300430] : In some condition, the JVM was not checking
+  - [Tracker issue #3300430]: In some condition, the JVM was not checking
     the type of an Object before adding it to a typed variable which later
     lead to some ClassCastException that prevented jsbml to save some 
     models. Thanks to Martin Graesslin to report the bugs alongside some 
