@@ -894,7 +894,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 			} else {
 				first = false;
 			}
-			if (node.getNumChildren() > 0) {
+			if (node.getChildCount() > 0) {
 				append(value, Character.valueOf('('), node.compile(this)
 						.toString(), Character.valueOf(')'));
 			} else {
@@ -1013,7 +1013,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 		
 		// Adding brackets all the time for the exponent/right ASTNode
 		
-		if (left.getNumChildren() < 2) {
+		if (left.getChildCount() < 2) {
 			return new ASTNodeValue(StringTools.concat(left.compile(this), "^", "(",
 					right.compile(this), ")").toString(), this);
 		} else {

@@ -128,12 +128,14 @@ public abstract class ChangeEvent<S> extends EventObject {
 	 */
 	@Override
 	public String toString() {
+		Object oldValue = getOldValue();
+		Object newValue = getNewValue();
 		return String.format(
-				"%s [source=%s, property=%s, oldValue=%s, newValue=%s]",
+				"%s[source=%s, property=%s, oldValue=%s, newValue=%s]",
 				getClass().getSimpleName(), getSource().toString(),
-				getPropertyName(), (getOldValue() != null ? getOldValue()
-						: "null"), getNewValue() != null ? getNewValue()
-						.toString() : "null");
+				getPropertyName(), ((oldValue != null) ? oldValue.toString()
+						: "null"), ((newValue != null) ? newValue.toString()
+						: "null"));
 	}
 
 }

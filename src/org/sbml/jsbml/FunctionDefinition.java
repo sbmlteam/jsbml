@@ -242,8 +242,8 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 *         this {@link FunctionDefinition}.
 	 */
 	public int getNumArguments() {
-		return isSetMath() && (getMath().getNumChildren() > 1) ? getMath()
-				.getNumChildren() - 1 : 0;
+		return isSetMath() && (getMath().getChildCount() > 1) ? getMath()
+				.getChildCount() - 1 : 0;
 	}
 
 	/*

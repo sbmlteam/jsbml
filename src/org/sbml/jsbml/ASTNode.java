@@ -641,7 +641,7 @@ public class ASTNode extends AbstractTreeNode {
 				arithmetic.addChild(nodes);
 				setParentSBMLObject(nodes, mc, 0);
 			}
-			if (arithmetic.getNumChildren() > 2) {
+			if (arithmetic.getChildCount() > 2) {
 				arithmetic.reduceToBinary();
 			}
 			return arithmetic;
@@ -1551,21 +1551,21 @@ public class ASTNode extends AbstractTreeNode {
 				break;
 			case PLUS:
 				value = compiler.plus(getChildren());
-				value.setUIFlag(getNumChildren() <= 1);
+				value.setUIFlag(getChildCount() <= 1);
 				break;
 			case MINUS:
 				value = compiler.minus(getChildren());
-				value.setUIFlag(getNumChildren() <= 1);
+				value.setUIFlag(getChildCount() <= 1);
 				break;
 			case TIMES:
 				value = compiler.times(getChildren());
-				value.setUIFlag(getNumChildren() <= 1);
+				value.setUIFlag(getChildCount() <= 1);
 				break;
 			case DIVIDE:
-				if (getNumChildren() != 2) {
+				if (getChildCount() != 2) {
 					throw new SBMLException(String.format(
 											"Fractions must have one numerator and one denominator, here %s elements are given.",
-											getNumChildren()));
+											getChildCount()));
 				}
 				value = compiler.frac(getLeftChild(), getRightChild());
 				break;
@@ -1623,7 +1623,7 @@ public class ASTNode extends AbstractTreeNode {
 			 * Basic Functions
 			 */
 			case FUNCTION_LOG:
-				if (getNumChildren() == 2) {
+				if (getChildCount() == 2) {
 					value = compiler.log(getLeftChild(), getRightChild());
 				} else {
 					value = compiler.log(getRightChild());
@@ -1706,7 +1706,7 @@ public class ASTNode extends AbstractTreeNode {
 				break;
 			case FUNCTION_ROOT:
 				ASTNode left = getLeftChild();
-				if ((getNumChildren() == 2)
+				if ((getChildCount() == 2)
 						&& ((left.isInteger() && (left.getInteger() != 2)))
 						|| (left.isReal() && (left.getReal() != 2d))) {
 					if (left.isInteger() && (left.getInteger() != 2)) {
@@ -1717,7 +1717,7 @@ public class ASTNode extends AbstractTreeNode {
 						value = compiler.root(getLeftChild().getReal(),
 								getRightChild());
 					}
-				} else if (getNumChildren() == 1) {
+				} else if (getChildCount() == 1) {
 					value = compiler.sqrt(getRightChild());
 				} else {
 					value = compiler.root(getLeftChild(), getRightChild());
@@ -1766,26 +1766,26 @@ public class ASTNode extends AbstractTreeNode {
 			}
 			case FUNCTION_PIECEWISE:
 				value = compiler.piecewise(getChildren());
-				value.setUIFlag(getNumChildren() <= 1);
+				value.setUIFlag(getChildCount() <= 1);
 				break;
 			case LAMBDA:
 				value = compiler.lambda(getChildren());
-				value.setUIFlag(getNumChildren() <= 1);
+				value.setUIFlag(getChildCount() <= 1);
 				break;
 			/*
 			 * Logical and relational functions
 			 */
 			case LOGICAL_AND:
 				value = compiler.and(getChildren());
-				value.setUIFlag(getNumChildren() <= 1);
+				value.setUIFlag(getChildCount() <= 1);
 				break;
 			case LOGICAL_XOR:
 				value = compiler.xor(getChildren());
-				value.setUIFlag(getNumChildren() <= 1);
+				value.setUIFlag(getChildCount() <= 1);
 				break;
 			case LOGICAL_OR:
 				value = compiler.or(getChildren());
-				value.setUIFlag(getNumChildren() <= 1);
+				value.setUIFlag(getChildCount() <= 1);
 				break;
 			case LOGICAL_NOT:
 				value = compiler.not(getLeftChild());
@@ -2044,7 +2044,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * @see javax.swing.tree.TreeNode#getChildCount()
 	 */
 	public int getChildCount() {
-		return getNumChildren();
+		return listOfNodes == null ? 0 : listOfNodes.size();
 	}
 
 	/**
@@ -2211,15 +2211,6 @@ public class ASTNode extends AbstractTreeNode {
 		}
 		throw new IllegalArgumentException(
 				"getName() should be called only when !isNumber() || !isOperator()");
-	}
-
-	/**
-	 * Gets the number of children that this node has.
-	 * 
-	 * @return the number of children of this ASTNode.
-	 */
-	public int getNumChildren() {
-		return listOfNodes == null ? 0 : listOfNodes.size();
 	}
 
 	/**
@@ -2874,7 +2865,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * @return true if this ASTNode is a unary minus, false otherwise.
 	 */
 	public boolean isUMinus() {
-		return (type == Type.MINUS) && (getNumChildren() == 1);
+		return (type == Type.MINUS) && (getChildCount() == 1);
 	}
 
 	/**
@@ -2883,7 +2874,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * @return true if the number of child nodes is exactly one.
 	 */
 	public boolean isUnary() {
-		return getNumChildren() == 1;
+		return getChildCount() == 1;
 	}
 
 	/**
@@ -3097,12 +3088,12 @@ public class ASTNode extends AbstractTreeNode {
 	// TODO : should we return an exception to tell people that the method is
 	// not complete ?
 	private void reduceToBinary() {
-		if (getNumChildren() > 2) {
+		if (getChildCount() > 2) {
 			int i;
 			switch (type) {
 			case PLUS:
 				ASTNode plus = new ASTNode(Type.PLUS, parentSBMLObject);
-				for (i = getNumChildren() - 1; i > 0; i--) {
+				for (i = getChildCount() - 1; i > 0; i--) {
 					plus.addChild(listOfNodes.remove(i));
 				}
 				addChild(plus);
@@ -3112,7 +3103,7 @@ public class ASTNode extends AbstractTreeNode {
 				break;
 			case TIMES:
 				ASTNode times = new ASTNode(Type.TIMES, parentSBMLObject);
-				for (i = getNumChildren() - 1; i > 0; i--) {
+				for (i = getChildCount() - 1; i > 0; i--) {
 					times.addChild(listOfNodes.remove(i));
 				}
 				addChild(times);
@@ -3126,14 +3117,14 @@ public class ASTNode extends AbstractTreeNode {
 				break;
 			case LOGICAL_AND:
 				ASTNode and = new ASTNode(Type.LOGICAL_AND, parentSBMLObject);
-				for (i = getNumChildren() - 1; i > 0; i--) {
+				for (i = getChildCount() - 1; i > 0; i--) {
 					and.addChild(listOfNodes.remove(i));
 				}
 				addChild(and);
 				break;
 			case LOGICAL_OR:
 				ASTNode or = new ASTNode(Type.LOGICAL_OR, parentSBMLObject);
-				for (i = getNumChildren() - 1; i > 0; i--) {
+				for (i = getChildCount() - 1; i > 0; i--) {
 					or.addChild(listOfNodes.remove(i));
 				}
 				addChild(or);
@@ -3211,7 +3202,7 @@ public class ASTNode extends AbstractTreeNode {
 		for (ASTNode child : listOfNodes) {
 			if (child.isString() && child.getName().equals(bvar)) {
 				replaceChild(n, arg.clone());
-			} else if (child.getNumChildren() > 0) {
+			} else if (child.getChildCount() > 0) {
 				child.replaceArgument(bvar, arg);
 			}
 			n++;
@@ -3602,20 +3593,20 @@ public class ASTNode extends AbstractTreeNode {
 	@Override
 	public String toString() {
 		String formula = "";
-
+		String errorMsg = "Could not compile ASTNode to formula.";
 		try {
 			formula = compile(new FormulaCompiler()).toString();
 		} catch (SBMLException e) {
 			// log the exception
 			if (logger.isDebugEnabled()) {
-				logger.error("Could not compile ASTNode to formula.", e);
+				logger.error(errorMsg, e);
 			} else {
-				logger.error("Could not compile ASTNode to formula.");
+				logger.error(errorMsg);
 			}
 		} catch (RuntimeException e) {
 			// added to prevent a crash when we cannot create the formula
 			if (logger.isDebugEnabled()) {
-				logger.error("Could not compile ASTNode to formula.", e);
+				logger.error(errorMsg, e);
 			}
 		}
 		return formula;

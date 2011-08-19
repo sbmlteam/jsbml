@@ -1104,11 +1104,10 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
 		} else {
 			throw new IllegalArgumentException(
-					new UnitException(
-							String.format(
-									"Can not apply the units %s against %s in an addition, subtraction, comparisson or an equivalent operation.",
-									UnitDefinition.printUnits(left.getUnits()),
-									UnitDefinition.printUnits(right.getUnits()))));
+					new UnitException(String.format(
+						"Can not apply the units %s against %s in an addition, subtraction, comparisson or an equivalent operation.",
+						UnitDefinition.printUnits(left.getUnits()),
+						UnitDefinition.printUnits(right.getUnits()))));
 
 		}
 

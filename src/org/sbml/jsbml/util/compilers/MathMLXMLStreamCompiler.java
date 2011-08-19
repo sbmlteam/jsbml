@@ -153,9 +153,11 @@ public class MathMLXMLStreamCompiler {
 			 * Operators
 			 */
 			case DIVIDE:
-				if (astNode.getNumChildren() != 2) {
+				if (astNode.getChildCount() != 2) {
 					// TODO : add it to an error log like libsbml ?
-					logger.warn("compile : Type.DIVIDE : getNumChildren() != 2 !!!");
+					logger.warn(String.format(
+						"compile : Type.DIVIDE : getChildCount() = %d but required is 2!",
+						astNode.getChildCount()));
 				}
 			case POWER:
 			case PLUS:
@@ -540,9 +542,9 @@ public class MathMLXMLStreamCompiler {
 
 	private void compileRootElement(ASTNode astNode) {
 
-		if (astNode.getNumChildren() == 1) {
+		if (astNode.getChildCount() == 1) {
 			compileFunctionElement(astNode);
-		} else if (astNode.getNumChildren() == 2) {
+		} else if (astNode.getChildCount() == 2) {
 			try {
 				
 				writer.writeCharacters(indent);
@@ -631,7 +633,7 @@ public class MathMLXMLStreamCompiler {
 
 	private void compilePiecewise(ASTNode astNode) {
 
-		int nbChildren = astNode.getNumChildren();
+		int nbChildren = astNode.getChildCount();
 		boolean writeOtherwise = true;
 		
 		if (nbChildren % 2 != 1) {
@@ -682,9 +684,9 @@ public class MathMLXMLStreamCompiler {
 
 	private void compileLog(ASTNode astNode) {
 		
-		if (astNode.getNumChildren() == 1) {
+		if (astNode.getChildCount() == 1) {
 			compileFunctionElement(astNode);
-		} else if (astNode.getNumChildren() == 2) {
+		} else if (astNode.getChildCount() == 2) {
 			try {
 				
 				writer.writeCharacters(indent);
