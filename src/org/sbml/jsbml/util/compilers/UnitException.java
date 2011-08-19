@@ -20,6 +20,9 @@
 
 package org.sbml.jsbml.util.compilers;
 
+import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.SBMLException;
+
 /**
  * Exception to be thrown if inconsistent units are used in mathematical
  * expressions, i.e., instances of {@link ASTNode}.
@@ -29,7 +32,7 @@ package org.sbml.jsbml.util.compilers;
  * @since 0.8
  * @version $Rev$
  */
-public class UnitException extends Exception {
+public class UnitException extends SBMLException {
 
 	/**
 	 * Generated serial version identifier.

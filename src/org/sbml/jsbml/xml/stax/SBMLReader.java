@@ -299,9 +299,10 @@ public class SBMLReader {
 					exc2.initCause(exc1);
 				}
 				throw exc2;
-			}
-			if (exc1 != null) {
-				throw exc1;
+			} finally {
+				if (exc1 != null) {
+					throw exc1;
+				}
 			}
 		}
 		if (readObject instanceof SBMLDocument) {

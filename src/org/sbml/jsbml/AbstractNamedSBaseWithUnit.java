@@ -192,14 +192,19 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.SBaseWithUnit#getUnitsInstance()
 	 */
 	public UnitDefinition getUnitsInstance() {
-		if (Unit.isUnitKind(unitsID, getLevel(), getVersion())) {
-			UnitDefinition ud = new UnitDefinition(unitsID, getLevel(),
-					getVersion());
-			ud.addUnit(Unit.Kind.valueOf(unitsID.toUpperCase()));
-			return ud;
+		String unitsId = this.unitsID;
+		if (isSetUnits()) {
+			if (Unit.isUnitKind(unitsId, getLevel(), getVersion())) {
+				UnitDefinition ud = new UnitDefinition(unitsId, getLevel(),
+						getVersion());
+				ud.addUnit(Unit.Kind.valueOf(unitsId.toUpperCase()));
+				return ud;
+			}
+		} else {
+			unitsId = getPredefinedUnitID();
 		}
 		Model model = getModel();
-		return model == null ? null : model.getUnitDefinition(unitsID);
+		return model == null ? null : model.getUnitDefinition(unitsId);
 	}
 
 	/*
@@ -246,12 +251,15 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.SBaseWithUnit#isSetUnitsInstance()
 	 */
 	public boolean isSetUnitsInstance() {
-		if (Unit.isUnitKind(this.unitsID, getLevel(), getVersion())) {
-			return true;
+		if (isSetUnits()) {
+			if (Unit.isUnitKind(this.unitsID, getLevel(), getVersion())) {
+				return true;
+			}
+			Model model = getModel();
+			return model == null ? false : model
+					.getUnitDefinition(this.unitsID) != null;
 		}
-		Model model = getModel();
-		return model == null ? false
-				: model.getUnitDefinition(this.unitsID) != null;
+		return false;
 	}
 
 	/*

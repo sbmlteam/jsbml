@@ -245,7 +245,7 @@ public class Species extends Symbol {
 	public boolean getBoundaryCondition() {
 		return isSetBoundaryCondition() ? boundaryCondition : false;
 	}
-	
+
 	/**
 	 * 
 	 * @return the charge value of this Species if it is set, 0 otherwise.
@@ -254,7 +254,7 @@ public class Species extends Symbol {
 	public int getCharge() {
 		return isSetCharge() ? this.charge : 0;
 	}
-
+	
 	/**
 	 * 
 	 * @return the compartmentID of this Species. The empty String if it is not
@@ -294,6 +294,34 @@ public class Species extends Symbol {
 			return null;
 		}
 		return getModel().getParameter(this.conversionFactorID);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getDerivedUnitDefinition()
+	 */
+	@Override
+	public UnitDefinition getDerivedUnitDefinition() {
+		UnitDefinition specUnit = super.getDerivedUnitDefinition();
+		if ((specUnit != null) && (!isSetUnits())
+				&& isSetInitialConcentration() && !hasOnlySubstanceUnits()) {
+			Compartment compartment = getCompartmentInstance();
+			if ((compartment == null)
+					|| (compartment.getSpatialDimensions() == 0d)) {
+				return specUnit;
+			}
+			UnitDefinition sizeUnit = getSpatialSizeUnitsInstance();
+			if (sizeUnit != null) {
+				UnitDefinition derivedUD = specUnit.clone().divideBy(sizeUnit);
+				derivedUD.setId(derivedUD.getId() + "_per_" + sizeUnit.getId());
+				if (derivedUD.isSetName()) {
+					derivedUD.setName(derivedUD.getName() + " per "
+							+ (sizeUnit.isSetName() ? sizeUnit.getName()
+									: sizeUnit.getId()));
+				}
+				return derivedUD;
+			}
+		}
+		return specUnit;
 	}
 
 	/*
@@ -347,37 +375,67 @@ public class Species extends Symbol {
 	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getPredefinedUnitID()
 	 */
 	public String getPredefinedUnitID() {
-		if (getLevel() < 3) {
+		int level = getLevel();
+		if (level < 3) {
+//			if (level == 2) {
+//				Compartment compartment = getCompartmentInstance();
+//				if ((compartment != null)
+//						&& (compartment.getSpatialDimensions() > 0d)) {
+//					return null;
+//				}
+//			}
+			/* L1V1: default "substance"; also "volume" or any base unit
+			 * L1V2: default "substance"; also any base unit
+			 */
 			return "substance";
 		}
 		return null;
 	}
 
 	/**
+	 * If determined, this method first checks the explicitly set spatial size
+	 * units of this {@link Species}. If no such value is defined, it will
+	 * return the units of the surrounding {@link Compartment}. Only if this is
+	 * also not possible, an empty {@link String} will be returned.
 	 * 
-	 * @return the spatialSizeUnits of this Species.
+	 * @return the spatialSizeUnits of this {@link Species}.
 	 */
-	@Deprecated
 	public String getSpatialSizeUnits() {
-		return isSetSpatialSizeUnits() ? spatialSizeUnitsID : "";
+		if (isSetSpatialSizeUnits()) {
+			return spatialSizeUnitsID;
+		}
+		Compartment c = getCompartmentInstance();
+		return c != null ? c.getUnits() : "";
 	}
 
 	/**
+	 * Determines the spatial units of this {@link Species}. If the spatial
+	 * units have been set explicitly using {@link #spatialSizeUnitsID} the
+	 * corresponding {@link UnitDefinition} from the {@link Model} to which this
+	 * {@link Species} belongs will be returned. Otherwise, the size unit from
+	 * the surrounding {@link Compartment} of this {@link Species} will be
+	 * returned. If this also fails, <code>null</code> will be returned.
 	 * 
-	 * @return The UnitDefinition instance which as the spatialSizeUnitsID of
-	 *         this Species as id. Null if it doesn't exist.
+	 * @return The {@link UnitDefinition} instance which as the
+	 *         {@link #spatialSizeUnitsID} of this {@link Species} as id or the
+	 *         size unit of the surrounding {@link Compartment}.
+	 *         <code>Null</code> if it doesn't exist.
 	 */
 	public UnitDefinition getSpatialSizeUnitsInstance() {
-		if (getModel() == null) {
-			return null;
+		if (isSetSpatialSizeUnits()) {
+			Model model = getModel();
+			return model != null ? model
+					.getUnitDefinition(this.spatialSizeUnitsID) : null;
 		}
-		return getModel().getUnitDefinition(this.spatialSizeUnitsID);
+		Compartment compartment = getCompartmentInstance();
+		return compartment != null ? compartment.getUnitsInstance() : null;
 	}
 
 	/**
 	 * 
 	 * @return the speciesTypeID of this {@link Species}. The empty String if it
 	 *         is not set.
+	 * @deprecated Only valid for SBML Level 2 Versions 2, 3, and 4.
 	 */
 	@Deprecated
 	public String getSpeciesType() {
@@ -388,6 +446,7 @@ public class Species extends Symbol {
 	 * 
 	 * @return the SpeciesType instance which has the speciesTypeID of this
 	 *         Species as id. Null if it doesn't exist.
+	 * @deprecated Only valid for SBML Level 2 Versions 2, 3, and 4.
 	 */
 	@Deprecated
 	public SpeciesType getSpeciesTypeInstance() {
@@ -568,6 +627,7 @@ public class Species extends Symbol {
 	/**
 	 * 
 	 * @return true if the spatialSizeUnits of this Species is not null.
+	 * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
 	 */
 	@Deprecated
 	public boolean isSetSpatialSizeUnits() {
@@ -590,6 +650,7 @@ public class Species extends Symbol {
 	 * 
 	 * @return true if the speciesTypeID of this Species is not null.
 	 */
+	@Deprecated
 	public boolean isSetSpeciesType() {
 		return speciesTypeID != null;
 	}

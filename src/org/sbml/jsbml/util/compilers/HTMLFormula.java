@@ -103,10 +103,10 @@ public class HTMLFormula extends MathMLCompiler {
 	 */
 	public static final StringBuffer pow(Object basis, Object exponent) {
 		try {
-			if (Double.parseDouble(exponent.toString()) == 0f) {
+			if (Double.parseDouble(exponent.toString()) == 0d) {
 				return new StringBuffer("1");
 			}
-			if (Double.parseDouble(exponent.toString()) == 1f) {
+			if (Double.parseDouble(exponent.toString()) == 1d) {
 				return basis instanceof StringBuffer ? (StringBuffer) basis
 						: new StringBuffer(basis.toString());
 			}
@@ -170,7 +170,7 @@ public class HTMLFormula extends MathMLCompiler {
 		if (u.getOffset() != 0) {
 			times = HTMLFormula.sum(StringTools.toString(u.getOffset()), times);
 		}
-		return HTMLFormula.pow(times, Double.valueOf(u.getExponent()))
+		return HTMLFormula.pow(times, StringTools.toString(u.getExponent()))
 				.toString();
 	}
 
