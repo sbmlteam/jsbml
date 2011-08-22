@@ -483,11 +483,17 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 857;
 		int hashCode = super.hashCode();
-		hashCode += prime * getSubstanceUnits().hashCode();
-		hashCode += prime * getTimeUnits().hashCode();
-		hashCode += prime * getUnits().hashCode();
+		if (isSetSubstanceUnits()) {
+			hashCode += prime * getSubstanceUnits().hashCode();
+		}
+		if (isSetTimeUnits()) {
+			hashCode += prime * getTimeUnits().hashCode();
+		}
+		if (isSetUnits()) {
+			hashCode += prime * getUnits().hashCode();
+		}
 		return hashCode;
 	}
 

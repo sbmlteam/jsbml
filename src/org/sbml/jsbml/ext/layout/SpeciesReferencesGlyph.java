@@ -216,11 +216,17 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 953;
 		int hashCode = super.hashCode();
-		hashCode += prime * getId().hashCode();
-		hashCode += prime * getSpeciesReferenceRole().hashCode();
-		hashCode += prime * getSpeciesReference().hashCode();
+		if (isSetId()) {
+			hashCode += prime * getId().hashCode();
+		}
+		if (isSetSpeciesReferenceRole()) {
+			hashCode += prime * getSpeciesReferenceRole().hashCode();
+		}
+		if (isSetSpeciesReference()) {
+			hashCode += prime * getSpeciesReference().hashCode();
+		}
 		return hashCode;
 	}
 

@@ -336,11 +336,17 @@ public class Compartment extends Symbol {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 991;
 		int hashCode = super.hashCode();
-		hashCode += prime * getOutside().hashCode();
-		hashCode += prime * getCompartmentType().hashCode();
-		hashCode += prime * Double.valueOf(getSpatialDimensions()).hashCode();
+		if (isSetOutside()) {
+			hashCode += prime * getOutside().hashCode();
+		}
+		if (isSetCompartmentType()) {
+			hashCode += prime * getCompartmentType().hashCode();
+		}
+		if (isSetSpatialDimensions()) {
+			hashCode += prime * spatialDimensions.hashCode();
+		}
 		return hashCode;
 	}
 

@@ -227,10 +227,14 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 829;
 		int hashCode = super.hashCode();
-		hashCode += prime * getId().hashCode();
-		hashCode += prime * getName().hashCode();
+		if (isSetId()) {
+			hashCode += prime * getId().hashCode();
+		}
+		if (isSetName()) {
+			hashCode += prime * getName().hashCode();
+		}
 		return hashCode;
 	}
 

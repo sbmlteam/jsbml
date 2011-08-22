@@ -1,6 +1,6 @@
 /*
- * $Id:  SimpleTreeNode.java 10:02:52 draeger $
- * $URL: SimpleTreeNode.java $
+ * $Id$
+ * $URL$
  *
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
@@ -215,7 +215,7 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 	@Override
 	public int hashCode() {
 		// A constant and arbitrary, sufficiently large prime number:
-		final int prime = 31;
+		final int prime = 769;
 		/*
 		 * This method is implemented as suggested in the JavaDoc API
 		 * documentation of the List interface.

@@ -291,12 +291,20 @@ public class Creator extends AnnotationElement {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 797;
 		int hashCode = super.hashCode();
-		hashCode += prime * getEmail().hashCode();
-		hashCode += prime * getFamilyName().hashCode();
-		hashCode += prime * getGivenName().hashCode();
-		hashCode += prime * getOrganisation().hashCode();
+		if (isSetEmail()) {
+			hashCode += prime * getEmail().hashCode();
+		}
+		if (isSetFamilyName()) {
+			hashCode += prime * getFamilyName().hashCode();
+		}
+		if (isSetGivenName()) {
+			hashCode += prime * getGivenName().hashCode();
+		}
+		if (isSetOrganization()) {
+			hashCode += prime * getOrganization().hashCode();
+		}
 		return hashCode;
 	}
 

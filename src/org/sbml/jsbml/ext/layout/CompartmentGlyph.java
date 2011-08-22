@@ -106,9 +106,11 @@ public class CompartmentGlyph extends GraphicalObject {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 983;
 		int hashCode = super.hashCode();
-		hashCode += prime * getCompartment().hashCode();
+		if (isSetCompartment()) {
+			hashCode += prime * getCompartment().hashCode();
+		}
 		return hashCode;
 	}
 

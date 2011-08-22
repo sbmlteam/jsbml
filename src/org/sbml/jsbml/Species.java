@@ -479,16 +479,27 @@ public class Species extends Symbol {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 997;
 		int hashCode = super.hashCode();
-		hashCode += prime * Boolean.valueOf(getBoundaryCondition()).hashCode();
-		hashCode += prime * Boolean.valueOf(getHasOnlySubstanceUnits()).hashCode();
-		hashCode += prime * Double.valueOf(getCharge()).hashCode();
-		hashCode += prime * getSpeciesType().hashCode();
-		hashCode += prime * getCompartment().hashCode();
-		hashCode += prime * Boolean.valueOf(isSetInitialAmount()).hashCode();
-		hashCode += prime * Boolean.valueOf(isSetInitialConcentration()).hashCode();
-		hashCode += prime * getSpatialSizeUnits().hashCode();
+		hashCode += prime * Boolean.valueOf(amount).hashCode();
+		if (isSetBoundaryCondition()) {
+			hashCode += prime * boundaryCondition.hashCode();
+		}
+		if (isSetHasOnlySubstanceUnits()) {
+			hashCode += prime * hasOnlySubstanceUnits.hashCode();
+		}
+		if (isSetCharge()) {
+			hashCode += prime * charge.hashCode();
+		}
+		if (isSetSpeciesType()) {
+			hashCode += prime * getSpeciesType().hashCode();
+		}
+		if (isSetCompartment()) {
+			hashCode += prime * getCompartment().hashCode();
+		}
+		if (isSetSpatialSizeUnits()) {
+			hashCode += prime * getSpatialSizeUnits().hashCode();
+		}
 		return hashCode;
 	}
 

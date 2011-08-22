@@ -146,11 +146,11 @@ public class Dimensions extends AbstractNamedSBase {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 941;
 		int hashCode = super.hashCode();
-		hashCode += prime * Double.valueOf(getDepth()).hashCode();
-		hashCode += prime * Double.valueOf(getHeight()).hashCode();
-		hashCode += prime * Double.valueOf(getWidth()).hashCode();
+		hashCode += prime * Double.valueOf(depth).hashCode();
+		hashCode += prime * Double.valueOf(height).hashCode();
+		hashCode += prime * Double.valueOf(width).hashCode();
 		return hashCode;
 	}
 

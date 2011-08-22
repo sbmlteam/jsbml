@@ -147,11 +147,11 @@ public class Point extends AbstractNamedSBase {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 947;
 		int hashCode = super.hashCode();
-		hashCode += prime * Double.valueOf(getX()).hashCode();
-		hashCode += prime * Double.valueOf(getY()).hashCode();
-		hashCode += prime * Double.valueOf(getZ()).hashCode();
+		hashCode += prime * Double.valueOf(x).hashCode();
+		hashCode += prime * Double.valueOf(y).hashCode();
+		hashCode += prime * Double.valueOf(z).hashCode();
 		return hashCode;
 	}
 

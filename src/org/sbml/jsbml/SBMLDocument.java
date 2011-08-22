@@ -589,10 +589,16 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 827;
 		int hashCode = super.hashCode();
-		hashCode += prime * getSBMLDocumentAttributes().hashCode();
-		hashCode += prime * getSBMLDocumentNamespaces().hashCode();
+		Map<String, String> map = getSBMLDocumentAttributes();
+		if (map != null) {
+			hashCode += prime * map.hashCode();
+		}
+		map = getSBMLDocumentNamespaces();
+		if (map != null) {
+			hashCode += prime * map.hashCode();
+		}
 		return hashCode;
 	}
 

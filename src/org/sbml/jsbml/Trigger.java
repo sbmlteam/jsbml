@@ -156,10 +156,14 @@ public class Trigger extends AbstractMathContainer {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 863;
 		int hashCode = super.hashCode();
-		hashCode += prime * Boolean.valueOf(getInitialValue()).hashCode();
-		hashCode += prime * Boolean.valueOf(getPersistent()).hashCode();
+		if (isSetInitialValue()) {
+			hashCode += prime * initialValue.hashCode();
+		}
+		if (isSetPersistent()) {
+			hashCode += prime * persistent.hashCode();
+		}
 		return hashCode;
 	}
 

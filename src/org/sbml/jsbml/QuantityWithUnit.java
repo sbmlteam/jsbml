@@ -158,9 +158,11 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 907;
 		int hashCode = super.hashCode();
-		hashCode += prime * Double.valueOf(getValue()).hashCode();
+		if (isSetValue()) {
+			hashCode += prime * value.hashCode();
+		}
 		return hashCode;
 	}
 
