@@ -258,10 +258,14 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 919;
 		int hashCode = super.hashCode();
-		hashCode += prime * getVariable().hashCode();
-		hashCode += prime * getUnits().hashCode();
+		if (isSetVariable()) {
+			hashCode += prime * getVariable().hashCode();
+		}
+		if (isSetUnits()) {
+			hashCode += prime * getUnits().hashCode();
+		}
 		return hashCode;
 	}
 

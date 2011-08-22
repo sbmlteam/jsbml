@@ -184,10 +184,14 @@ public class TextGlyph extends GraphicalObject {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 967;
 		int hashCode = super.hashCode();
-		hashCode += prime * getOriginOfText().hashCode();
-		hashCode += prime * getText().hashCode();
+		if (isSetOriginOfText()) {
+			hashCode += prime * getOriginOfText().hashCode();
+		}
+		if (isSetText()) {
+			hashCode += prime * getText().hashCode();
+		}
 		return hashCode;
 	}
 

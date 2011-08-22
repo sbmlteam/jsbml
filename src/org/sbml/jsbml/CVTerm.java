@@ -527,7 +527,7 @@ public class CVTerm extends AnnotationElement {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 821;
 		int hashCode = super.hashCode();
 		if (isSetQualifierType()) {
 			hashCode += prime * getQualifierType().hashCode();

@@ -377,14 +377,16 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 937;
 		int hashCode = super.hashCode();
 		if (isSetStoichiometry()) {
-			hashCode += prime * Double.valueOf(getStoichiometry()).hashCode();
+			hashCode += prime * stoichiometry.hashCode();
 		}
-		hashCode += prime * Boolean.valueOf(getConstant()).hashCode();
+		if (isSetConstant()) {
+			hashCode += prime * constant.hashCode();
+		}
 		if (isSetDenominator()) {
-			hashCode += prime * Double.valueOf(getDenominator()).hashCode();
+			hashCode += prime * denominator.hashCode();
 		}
 		return hashCode;
 	}

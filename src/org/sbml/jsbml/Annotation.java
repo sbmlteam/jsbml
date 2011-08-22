@@ -576,7 +576,7 @@ public class Annotation extends AnnotationElement {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 809;
 		int hashCode = super.hashCode();
 		if (isSetNonRDFannotation()) {
 			hashCode += prime * getNonRDFannotation().hashCode();

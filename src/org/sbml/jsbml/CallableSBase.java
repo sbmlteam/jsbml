@@ -1,6 +1,6 @@
 /*
- * $Id:  CallableSBase.java 19:30:39 draeger $
- * $URL: CallableSBase.java $
+ * $Id$
+ * $URL$
  *
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 

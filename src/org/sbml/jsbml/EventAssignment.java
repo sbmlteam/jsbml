@@ -156,9 +156,11 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 839;
 		int hashCode = super.hashCode();
-		hashCode += prime * getVariable().hashCode();
+		if (isSetVariable()) {
+			hashCode += prime * getVariable().hashCode();
+		}
 		return hashCode;
 	}
 

@@ -2638,15 +2638,29 @@ public class Model extends AbstractNamedSBase {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 887;
 		int hashCode = super.hashCode();
-		hashCode += prime * getTimeUnits().hashCode();
-		hashCode += prime * getAreaUnits().hashCode();
-		hashCode += prime * getConversionFactor().hashCode();
+		if (isSetTimeUnits()) {
+			hashCode += prime * getTimeUnits().hashCode();
+		}
+		if (isSetAreaUnits()) {
+			hashCode += prime * getAreaUnits().hashCode();
+		}
+		if (isSetConversionFactor()) {
+			hashCode += prime * getConversionFactor().hashCode();
+		}
+		if (isSetExtentUnits()) {
 		hashCode += prime * getExtentUnits().hashCode();
-		hashCode += prime * getLengthUnits().hashCode();
-		hashCode += prime * getSubstanceUnits().hashCode();
-		hashCode += prime * getVolumeUnits().hashCode();
+		}
+		if (isSetLengthUnits()) {
+			hashCode += prime * getLengthUnits().hashCode();
+		}
+		if (isSetSubstanceUnits()) {
+			hashCode += prime * getSubstanceUnits().hashCode();
+		}
+		if (isSetVolumeUnits()) {
+			hashCode += prime * getVolumeUnits().hashCode();
+		}
 		return hashCode;
 	}
 

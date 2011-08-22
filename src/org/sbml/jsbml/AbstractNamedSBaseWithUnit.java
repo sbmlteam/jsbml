@@ -213,9 +213,11 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 859;
 		int hashCode = super.hashCode();
-		hashCode += prime * getUnits().hashCode();
+		if (isSetUnits()) {
+			hashCode += prime * getUnits().hashCode();
+		}
 		return hashCode;
 	}
 	

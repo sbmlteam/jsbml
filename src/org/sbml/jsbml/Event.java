@@ -569,9 +569,11 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 911;
 		int hashCode = super.hashCode();
-		hashCode += prime * Boolean.valueOf(getUseValuesFromTriggerTime()).hashCode();
+		if (isSetUseValuesFromTriggerTime()) {
+			hashCode += prime * useValuesFromTriggerTime.hashCode();
+		}
 		return hashCode;
 	}
 	

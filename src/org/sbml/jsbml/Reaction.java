@@ -809,11 +809,17 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 881;
 		int hashCode = super.hashCode();
-		hashCode += prime * Boolean.valueOf(getFast()).hashCode();
-		hashCode += prime * Boolean.valueOf(getReversible()).hashCode();
-		hashCode += prime * getCompartment().hashCode();
+		if (isSetFast()) {
+			hashCode += prime * fast.hashCode();
+		}
+		if (isSetReversible()) {
+			hashCode += prime * reversible.hashCode();
+		}
+		if (isSetCompartment()) {
+			hashCode += prime * getCompartment().hashCode();
+		}
 		return hashCode;
 	}
 

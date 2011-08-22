@@ -280,7 +280,7 @@ public class History extends AnnotationElement {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 811;
 		int hashCode = super.hashCode();
 		if (isSetModifiedDate()) {
 			hashCode += prime * getModifiedDate().hashCode();

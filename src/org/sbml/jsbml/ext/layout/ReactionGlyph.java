@@ -206,9 +206,11 @@ public class ReactionGlyph extends GraphicalObject {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 971;
 		int hashCode = super.hashCode();
-		hashCode += prime * getId().hashCode();
+		if (isSetId()) {
+			hashCode += prime * getId().hashCode();
+		}
 		return hashCode;
 	}
 

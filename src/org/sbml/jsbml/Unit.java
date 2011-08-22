@@ -1491,13 +1491,15 @@ public class Unit extends AbstractSBase {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 7;
+		final int prime = 823;
 		int hashCode = super.hashCode();
 		hashCode += prime * Double.valueOf(getMultiplier()).hashCode();
 		hashCode += prime * getScale();
 		hashCode += prime * Double.valueOf(getExponent()).hashCode();
 		hashCode += prime * Double.valueOf(getOffset()).hashCode();
-		hashCode += prime * getKind().hashCode();
+		if (isSetKind()) {
+			hashCode += prime * getKind().hashCode();
+		}
 		return hashCode;
 	}
 
