@@ -72,7 +72,10 @@ public class Parameter extends Symbol {
 	 */
 	public Parameter(LocalParameter localParameter) {
 		super(localParameter);
-		setConstant(true);
+		if (getLevel() != 1) {
+			// This is necessary because in Level 1 this attribute is not defined.
+			setConstant(true);
+		}
 	}
 
 	/**
