@@ -700,6 +700,7 @@ public class Annotation extends AnnotationElement {
 	 * @see #isSetNonRDFannotation()
 	 * @deprecated please use {@link #isSetNonRDFannotation()}
 	 */
+	@Deprecated
 	public boolean isSetOtherAnnotationThanRDF() {
 		return isSetNonRDFannotation();
 	}

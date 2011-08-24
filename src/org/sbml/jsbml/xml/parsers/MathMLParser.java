@@ -57,6 +57,7 @@ import org.w3c.dom.Node;
  *             use {@link org.w3c.dom.Document}
  * 
  */
+@Deprecated
 public class MathMLParser implements ReadingParser, WritingParser {
 
 	/**

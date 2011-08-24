@@ -78,6 +78,9 @@ Version 0.8-rc1 (xx-xx-2011)
     
 * Bug Fixes:
 
+  - In SBML Level 1 MathML code was written in KineticLaws although
+    in this SBML version formulas are represented in infix notation only.
+
   - When creating a Parameter object using the constructor that takes
     a LocalParameter as its only argument, a call to setConstant(true)
     was always performed, irrespective of the fact that for Level = 1

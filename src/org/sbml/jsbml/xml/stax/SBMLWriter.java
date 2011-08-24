@@ -1347,9 +1347,14 @@ public class SBMLWriter {
 						}
 						if (nextObjectToWrite instanceof MathContainer) {
 							MathContainer mathContainer = (MathContainer) nextObjectToWrite;
-							writeMathML(mathContainer, newOutPutElement,
-									streamWriter, indent + indentCount);
-							elementIsNested = isClosedMathContainer = true;
+							if (mathContainer.getLevel() > 1) {
+								writeMathML(mathContainer, newOutPutElement,
+										streamWriter, indent + indentCount);
+								elementIsNested = true;
+							} else {
+								elementIsNested = false;
+							}
+							isClosedMathContainer = true;
 						}
 						if (!elementIsNested
 								&& ((nextObjectToWrite instanceof Model) || (nextObjectToWrite instanceof UnitDefinition))) {
