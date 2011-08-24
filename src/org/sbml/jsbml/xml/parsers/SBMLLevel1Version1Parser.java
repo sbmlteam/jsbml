@@ -482,7 +482,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 						// TODO : SBML syntax error, throw an exception?
 					}
 				} else if (contextObject instanceof ListOf<?>) {
-					ListOf list = (ListOf) contextObject;
+					ListOf<?> list = (ListOf<?>) contextObject;
 					if (list.getParentSBMLObject() instanceof Model) {
 
 						Model model = (Model) list.getParentSBMLObject();

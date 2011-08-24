@@ -58,26 +58,30 @@ public final class Resource {
 	 */
 	public static Properties readProperties(String resourceName)
 			throws IOException {
-		Properties prop = new Properties();
+		Properties prop = null;
 		Resource loader = getInstance();
 
 		byte bytes[] = loader.getBytesFromResourceLocation(resourceName);
 		if (bytes != null) {
 			ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+			prop = new Properties();
 			prop.load(bais);
 		}
-		if (prop != null)
+		if (prop != null) {
 			return prop;
+		}
 		// ///////////
 
 		int slInd = resourceName.lastIndexOf('/');
-		if (slInd != -1)
+		if (slInd != -1) {
 			resourceName = resourceName.substring(slInd + 1);
+		}
 		Properties userProps = new Properties();
 		File propFile = new File(File.separatorChar + "resources"
 				+ File.separatorChar + resourceName);
-		if (propFile.exists())
+		if (propFile.exists()) {
 			userProps.load(new FileInputStream(propFile));
+		}
 		return userProps;
 	}
 

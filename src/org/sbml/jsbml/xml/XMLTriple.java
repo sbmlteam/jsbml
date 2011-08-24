@@ -269,6 +269,7 @@ public class XMLTriple {
 		   <p>
 	 * @deprecated libSBML internal
 	 */
+	@Deprecated
 	public boolean isEmpty() {
 		return ( getName().length() == 0
 		        && getURI().length() == 0

@@ -78,6 +78,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * 
 	 * @deprecated
 	 */
+	@Deprecated
 	private StoichiometryMath stoichiometryMath;
 
 	/**
@@ -406,8 +407,8 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		// http://sbml.org/Community/Wiki/SBML_Level_3_Core/Reaction_changes/Changes_to_stoichiometry
 		if (level <= 2) {
 			constant = Boolean.valueOf(true);
-			stoichiometry = 1d;
-			denominator = 1;
+			stoichiometry = Double.valueOf(1d);
+			denominator = Integer.valueOf(1);
 		} else {
 			isSetConstant = false;
 			isSetDenominator = false;
@@ -641,7 +642,10 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 			attributes.put("constant", Boolean.toString(getConstant()));
 		}
 		if (isSetDenominator() && (getLevel() == 1)) {
-			attributes.put("denominator", Integer.toString(getDenominator()));
+			int denominator = getDenominator();
+			if (denominator != 1) {
+				attributes.put("denominator", Integer.toString(denominator));
+			}
 		}
 
 		return attributes;

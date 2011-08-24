@@ -307,6 +307,7 @@ public class Compartment extends Symbol {
 	 * @return
 	 * @deprecated use {@link #getSpatialDimensions()}
 	 */
+	@Deprecated
 	public double getSpatialDimensionsAsDouble() {
 		return getSpatialDimensions();
 	}

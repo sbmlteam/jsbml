@@ -179,6 +179,7 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 	 *         {@link String} if it is not set.
 	 * @deprecated use {@link #getVariable()}
 	 */
+	@Deprecated
 	public String getSymbol() {
 		return getVariable();
 	}
