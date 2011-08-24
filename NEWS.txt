@@ -78,6 +78,12 @@ Version 0.8-rc1 (xx-xx-2011)
     
 * Bug Fixes:
 
+  - When creating a Parameter object using the constructor that takes
+    a LocalParameter as its only argument, a call to setConstant(true)
+    was always performed, irrespective of the fact that for Level = 1
+    models this method throws a PropertyNotAvailableError. Thanks to
+    Sarah R. Müller vom Hagen for reporting this problem.
+
   - [Tracker issue #3323886]: The units of Species were not derived
     correctly because if the units were not explicitly defined, the method
     getDerivedUnitsInstance() always returned the predefined unit 
