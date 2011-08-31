@@ -593,17 +593,9 @@ public class XMLAttributes {
    * attribute with the given local name and namespace.
    */
  public String getValue(String name) {
-
-	 XMLTriple triple = new XMLTriple(name, null, null);
-	 
+	 XMLTriple triple = new XMLTriple(name, null, null); 
 	 int index = attributeNames.indexOf(triple);
-	 
-	 if (index != -1) {
-		 return "";
-	 } 
-	 
-	 return attributeValues.get(index);
-
+	 return index == -1 ? "" : attributeValues.get(index);
   }
 
   

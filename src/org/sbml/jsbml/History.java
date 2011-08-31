@@ -108,7 +108,7 @@ public class History extends AnnotationElement {
 		boolean success = listOfCreators.add(mc);
 		mc.parent = this;
 		if (success) {
-			this.firePropertyChange(TreeNodeChangeEvent.created, null, mc);
+			firePropertyChange(TreeNodeChangeEvent.created, null, mc);
 		}		
 	}
 
@@ -382,7 +382,7 @@ public class History extends AnnotationElement {
 	public Creator removeCreator(int i) {
 		Creator c = listOfCreators.remove(i);
 		if(c != null){
-			this.firePropertyChange(TreeNodeChangeEvent.creator, c, null);
+			firePropertyChange(TreeNodeChangeEvent.creator, c, null);
 		}
 		return c;
 	}
@@ -404,7 +404,7 @@ public class History extends AnnotationElement {
 			}
 			Date d = listOfModification.remove(i);
 			if(d != null){
-				this.firePropertyChange(TreeNodeChangeEvent.modified, d.toString(), null);
+				firePropertyChange(TreeNodeChangeEvent.modified, d, null);
 			}
 			return d;
 		}
@@ -419,9 +419,9 @@ public class History extends AnnotationElement {
 	 *            created.
 	 */
 	public void setCreatedDate(Date date) {
-		String oldValue = this.creation.toString();
+		Date oldValue = creation;
 		creation = date;
-		this.firePropertyChange(TreeNodeChangeEvent.created, oldValue, date.toString());
+		firePropertyChange(TreeNodeChangeEvent.created, oldValue, date);
 	}
 
 	/**
@@ -432,11 +432,11 @@ public class History extends AnnotationElement {
 	 *            modified.
 	 */
 	public void setModifiedDate(Date date) {
-		String oldValue = this.modified.toString();
+		Date oldValue = modified;
 		boolean success = listOfModification.add(date);
 		modified = date;
 		if (success) {
-			this.firePropertyChange(TreeNodeChangeEvent.modified, oldValue, date.toString());
+			firePropertyChange(TreeNodeChangeEvent.modified, oldValue, modified);
 		}
 	}
 
@@ -445,9 +445,9 @@ public class History extends AnnotationElement {
 	 */
 	public void unsetCreatedDate() {
 		if(this.creation != null){
-			String oldValue = this.creation.toString();
-			this.creation = null;
-			this.firePropertyChange(TreeNodeChangeEvent.created, oldValue, "");
+			Date oldValue = this.creation;
+			creation = null;
+			firePropertyChange(TreeNodeChangeEvent.created, oldValue, creation);
 		}
 	}
 
