@@ -27,7 +27,8 @@ Version 0.8-rc1 (xx-xx-2011)
     are now organized in a list instead of a set to make sure that
     they are always called in the same order. The management of these
     listeners is now performed in AbstractTreeNode, the new super 
-    class for all recursive elements in JSBML.
+    class for all recursive elements in JSBML. Thanks to Sarah Rachel
+    Müller vom Hagen to support this effort.
   
   - Notes, annotations, and extension packages are now part of the tree
     representation of the JSBML data structure.
