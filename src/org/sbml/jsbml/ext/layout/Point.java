@@ -21,7 +21,7 @@
 package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * @author Nicolas Rodriguez
@@ -230,9 +230,9 @@ public class Point extends AbstractNamedSBase {
 	 * @param x
 	 */
 	public void setX(double x) {
-		Double oldX = Double.valueOf(this.x);
+		Double oldX = this.x;
 		this.x = x;
-		firePropertyChange(SBaseChangeEvent.x, oldX, Double.valueOf(this.x));
+		firePropertyChange(TreeNodeChangeEvent.x, oldX, this.x);
 	}
 
 	/**
@@ -240,9 +240,9 @@ public class Point extends AbstractNamedSBase {
 	 * @param y
 	 */
 	public void setY(double y) {
-		Double oldY = Double.valueOf(this.y);
+		Double oldY = this.y;
 		this.y = y;
-		firePropertyChange(SBaseChangeEvent.y, oldY, Double.valueOf(this.y));
+		firePropertyChange(TreeNodeChangeEvent.y, oldY, this.y);
 	}
 	
 	/**
@@ -250,9 +250,9 @@ public class Point extends AbstractNamedSBase {
 	 * @param z
 	 */
 	public void setZ(double z) {
-		Double oldZ = Double.valueOf(this.z);
+		Double oldZ = this.z;
 		this.z = z;
-		firePropertyChange(SBaseChangeEvent.z, oldZ, Double.valueOf(this.z));
+		firePropertyChange(TreeNodeChangeEvent.z, oldZ, this.z);
 	}
 
 }

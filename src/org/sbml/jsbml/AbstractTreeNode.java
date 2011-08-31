@@ -21,12 +21,17 @@
 package org.sbml.jsbml;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * A basic implementation of the {@link TreeNode} interface.
@@ -43,7 +48,7 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 8629109724566600238L;
-
+		
 	/**
 	 * Searches the given child in the list of sub-nodes of the parent element.
 	 * 
@@ -68,6 +73,11 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 		// not found => node is not a child.
 		return -1;
 	}
+
+	/**
+	 * {@link List} of listeners for this component
+	 */
+	protected List<TreeNodeChangeListener> listOfListeners;
 	
 	/**
 	 * The parent element of this {@link Annotation}.
@@ -79,6 +89,7 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 	 */
 	public AbstractTreeNode() {
 		super();
+		this.listOfListeners = new LinkedList<TreeNodeChangeListener>();
 		this.parent = null;
 	}
 
@@ -91,8 +102,57 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 		// The Object will get a parent set as soon as it is added/linked
 		// again to a model somehow.		
 		// this.parent = node.getParent();
+		
+		// listOfListeners is needed in all other setXX() methods.
+		if (node instanceof AbstractTreeNode) {
+			this.listOfListeners.addAll(((AbstractTreeNode) node).listOfListeners);
+		}
 	}
 
+	/**
+	 * Adds recursively all given {@link TreeNodeChangeListener} instances to
+	 * this element.
+	 * 
+	 * @param listeners
+	 *            the set of listeners to add
+	 * @return true if the set of listeners is added with success.
+	 * 
+	 */
+	public boolean addAllChangeListeners(
+			Collection<TreeNodeChangeListener> listeners) {
+		boolean success = listOfListeners.addAll(listeners);
+		Enumeration<TreeNode> children = children();
+		while (children.hasMoreElements()) {
+			TreeNode node = children.nextElement();
+			if (node instanceof AbstractTreeNode) {
+				success &= ((AbstractTreeNode) node)
+						.addAllChangeListeners(listeners);
+			}
+		}
+		return success;
+	}
+	
+
+	/**
+	 * Adds recursively a listener to the {@link AbstractTreeNode} object and
+	 * all of its sub-elements.
+	 * 
+	 * @param listener
+	 *            the listener to add
+	 */
+	public void addTreeNodeChangeListener(TreeNodeChangeListener listener) {
+		if (!listOfListeners.contains(listener)) {
+			listOfListeners.add(listener);
+		}
+		Enumeration<TreeNode> children = children();
+		while (children.hasMoreElements()) {
+			TreeNode node = children.nextElement();
+			if (node instanceof AbstractTreeNode) {
+				((AbstractTreeNode) node).addTreeNodeChangeListener(listener);
+			}
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -180,6 +240,83 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 		return false;
 	}
 	
+	/**
+	 * All {@link TreeNodeChangeListener} instances linked to this
+	 * {@link TreeNode} are informed about the adding of this {@link Object} to
+	 * an owning parent {@link Object}.
+	 */
+	public void fireNodeAddedEvent() {
+		for (TreeNodeChangeListener listener : listOfListeners) {
+			listener.nodeAdded(this);
+		}
+	}
+	
+	/**
+	 * All {@link TreeNodeChangeListener} instances linked to this
+	 * {@link TreeNode} are informed about the deletion of this {@link TreeNode}
+	 * from a parent {@link Object}.
+	 */
+	public void fireNodeRemovedEvent() {
+		for (TreeNodeChangeListener listener : listOfListeners) {
+			listener.nodeRemoved(this);
+		}
+	}
+
+	/**
+	 * All {@link TreeNodeChangeListener}s are informed about the change in this
+	 * {@link AbstractTreeNode}.
+	 * 
+	 * @param propertyName
+	 *            Tells the {@link TreeNodeChangeListener} the name of the
+	 *            property whose value has been changed.
+	 * @param oldValue
+	 *            This is the value before the change.
+	 * @param newValue
+	 *            This gives the new value that is now the new value for the
+	 *            given property..
+	 */
+	public void firePropertyChange(String propertyName, Object oldValue,
+			Object newValue) {
+		if (listOfListeners.size() > 0) {
+			short changeType = -1; // no property change at all
+			if ((oldValue == null) && (newValue != null)) {
+				changeType = 0; // element added
+			} else if ((oldValue != null) && (newValue == null)) {
+				changeType = 1; // element removed
+			} else if ((oldValue != null) && !oldValue.equals(newValue)) {
+				changeType = 2; // real property change
+			}
+			if (-1 < changeType) {
+				boolean newValTreeNode = newValue instanceof AbstractTreeNode;
+				boolean oldValTreeNode = oldValue instanceof AbstractTreeNode;
+				if ((changeType == 0) && newValTreeNode) {
+					((AbstractTreeNode) newValue).fireNodeAddedEvent();
+				} else if ((changeType == 1) && oldValTreeNode) {
+					((AbstractTreeNode) oldValue).fireNodeRemovedEvent();
+				} else {
+					// TODO: check if notifying and updating the metaId is necessary
+					// because of the method AbstractSBase.setThisAsParentSBMLObject
+					if (oldValTreeNode && newValTreeNode) {
+						notifyChildChange((TreeNode) oldValue,
+								(TreeNode) newValue);
+					}
+					/*
+					 * It is not necessary to add the metaId of the new value to
+					 * the SBMLDocument because this is already done in the
+					 * method setThisAsParentSBMLObject, a method that is called
+					 * to link a new element to an existing SBML tree.
+					 */
+					// Now we can notify all listeners about the change:
+					TreeNodeChangeEvent changeEvent = new TreeNodeChangeEvent(this,
+							propertyName, oldValue, newValue);
+					for (TreeNodeChangeListener listener : listOfListeners) {
+						listener.propertyChange(changeEvent);
+					}
+				}
+			}
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -187,6 +324,17 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 	 */
 	public int getIndex(TreeNode node) {
 		return indexOf(this, node);
+	}
+
+	/**
+	 * Returns all {@link TreeNodeChangeListener}s that are assigned to this
+	 * element.
+	 * 
+	 * @return all {@link TreeNodeChangeListener}s that are assigned to this
+	 * element.
+	 */
+	public List<TreeNodeChangeListener> getListOfTreeNodeChangeListeners() {
+		return listOfListeners;
 	}
 
 	/**
@@ -208,7 +356,7 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 	public TreeNode getParent() {
 		return parent;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -272,13 +420,52 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 	}
 	
 	/**
+	 * This method is called when one child has been swapped with another one
+	 * and can be used to check certain properties of the resulting changed
+	 * tree.
+	 * 
+	 * @param oldChild
+	 *            the element that was a child of this node before the change.
+	 * @param newChild
+	 *            the new child whose new parent is this node.
+	 */
+	protected void notifyChildChange(TreeNode oldChild, TreeNode newChild) {
+		// default: empty body, nothing to do.
+	}
+
+	/**
+	 * Removes all SBase change listeners from this element.
+	 */
+	public void removeAllTreeNodeChangeListeners() {
+		listOfListeners.clear();
+	}
+	
+	/**
+	 * Removes recursively the given change listener from this element.
+	 * 
+	 * @param l the listener to remove.
+	 */
+	public void removeTreeNodeChangeListener(TreeNodeChangeListener l) {
+		listOfListeners.remove(l);
+		Enumeration<TreeNode> children = children();
+		while (children.hasMoreElements()) {
+			TreeNode node = children.nextElement();
+			if (node instanceof AbstractTreeNode) {
+				((AbstractTreeNode) node).removeTreeNodeChangeListener(l);
+			}
+		}
+	}
+	
+	/**
 	 * @param parent
 	 *            the parent to set
 	 */
 	protected void setParent(TreeNode parent) {
+		TreeNode oldValue = this.parent;
 		this.parent = parent;
+		this.firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldValue, this.parent);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()

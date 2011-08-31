@@ -24,6 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * A local parameter can only be used to specify a constant within a
@@ -231,7 +232,12 @@ public class LocalParameter extends QuantityWithUnit {
 	 */
 	@Deprecated
 	public void setExplicitlyConstant(boolean isExplicitlySetConstant) {
-		this.isExplicitlySetConstant = isExplicitlySetConstant;
+		if(this.isExplicitlySetConstant != isExplicitlySetConstant){
+			Boolean oldValue = this.isExplicitlySetConstant;
+			this.isExplicitlySetConstant = Boolean.valueOf(isExplicitlySetConstant);
+			firePropertyChange(TreeNodeChangeEvent.isExplicitlySetConstant, 
+					oldValue, this.isExplicitlySetConstant);
+		}
 	}
 
 	/*

@@ -25,7 +25,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.util.SBaseChangeListener;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * 
@@ -336,6 +336,9 @@ public class Layout extends AbstractNamedSBase {
 	 * @param addGraphicalObjects
 	 */
 	public void setAddGraphicalObjects(ListOf<GraphicalObject> addGraphicalObjects) {
+		if(this.addGraphicalObjects != null){
+			this.addGraphicalObjects.fireNodeRemovedEvent();
+		}
 		this.addGraphicalObjects = addGraphicalObjects;
 		setThisAsParentSBMLObject(this.addGraphicalObjects);
 	}
@@ -345,6 +348,9 @@ public class Layout extends AbstractNamedSBase {
 	 * @param dimensions
 	 */
 	public void setDimensions(Dimensions dimensions) {
+		if(this.dimensions != null){
+			this.dimensions.fireNodeRemovedEvent();
+		}
 		this.dimensions = dimensions;
 		setThisAsParentSBMLObject(this.dimensions);
 	}
@@ -371,8 +377,8 @@ public class Layout extends AbstractNamedSBase {
 		this.listOfReactionGlyphs = reactionGlyphs;
 		if (this.listOfReactionGlyphs != null) {
 			this.listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
+			setThisAsParentSBMLObject(this.listOfReactionGlyphs);
 		}
-		setThisAsParentSBMLObject(this.listOfReactionGlyphs);
 	}
 	
 	/**
@@ -388,8 +394,8 @@ public class Layout extends AbstractNamedSBase {
 		}
 		if (this.listOfSpeciesGlyphs != null) {
 			this.listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
+			setThisAsParentSBMLObject(this.listOfSpeciesGlyphs);
 		}
-		setThisAsParentSBMLObject(this.listOfSpeciesGlyphs);
 	}
 
 	/**
@@ -401,8 +407,8 @@ public class Layout extends AbstractNamedSBase {
 		this.listOfTextGlyphs = textGlyphs;
 		if (this.listOfTextGlyphs != null) {
 			this.listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
+			setThisAsParentSBMLObject(this.listOfTextGlyphs);
 		}
-		setThisAsParentSBMLObject(this.listOfTextGlyphs);
 	}
 	
 	/*
@@ -416,7 +422,7 @@ public class Layout extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfCompartmentGlyphs} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangeListener}.
+	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -425,7 +431,7 @@ public class Layout extends AbstractNamedSBase {
 		if (this.listOfCompartmentGlyphs != null) {
 			ListOf<CompartmentGlyph> oldListOfCompartmentGlyphs = this.listOfCompartmentGlyphs;
 			this.listOfCompartmentGlyphs = null;
-			oldListOfCompartmentGlyphs.fireSBaseRemovedEvent();
+			oldListOfCompartmentGlyphs.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -433,7 +439,7 @@ public class Layout extends AbstractNamedSBase {
 	
 	/**
 	 * Removes the {@link #listOfReactionGlyphs} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangeListener}.
+	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -442,7 +448,7 @@ public class Layout extends AbstractNamedSBase {
 		if (this.listOfReactionGlyphs != null) {
 			ListOf<ReactionGlyph> oldListOfReactionGlyphs = this.listOfReactionGlyphs;
 			this.listOfReactionGlyphs = null;
-			oldListOfReactionGlyphs.fireSBaseRemovedEvent();
+			oldListOfReactionGlyphs.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -450,7 +456,7 @@ public class Layout extends AbstractNamedSBase {
 	
 	/**
 	 * Removes the {@link #listOfSpeciesGlyphs} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangeListener}.
+	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -459,7 +465,7 @@ public class Layout extends AbstractNamedSBase {
 		if (this.listOfSpeciesGlyphs != null) {
 			ListOf<SpeciesGlyph> oldListOfSpeciesGlyphs = this.listOfSpeciesGlyphs;
 			this.listOfSpeciesGlyphs = null;
-			oldListOfSpeciesGlyphs.fireSBaseRemovedEvent();
+			oldListOfSpeciesGlyphs.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -467,7 +473,7 @@ public class Layout extends AbstractNamedSBase {
 	
 	/**
 	 * Removes the {@link #listOfTextGlyphs} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangeListener}.
+	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -476,7 +482,7 @@ public class Layout extends AbstractNamedSBase {
 		if (this.listOfTextGlyphs != null) {
 			ListOf<TextGlyph> oldListOfTextGlyphs = this.listOfTextGlyphs;
 			this.listOfTextGlyphs = null;
-			oldListOfTextGlyphs.fireSBaseRemovedEvent();
+			oldListOfTextGlyphs.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;

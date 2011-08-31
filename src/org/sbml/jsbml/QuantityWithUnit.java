@@ -20,7 +20,7 @@
 
 package org.sbml.jsbml;
 
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
@@ -181,10 +181,12 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 	 * @see org.sbml.jsbml.Quantity#setValue(double)
 	 */
 	public void setValue(double value) {
-		Double oldValue = this.value;
-		this.value = value;
-		isSetValue = true;
-		firePropertyChange(SBaseChangeEvent.value, oldValue, value);
+		if(value != this.value){
+			Double oldValue = this.value;
+			this.value = value;
+			isSetValue = true;
+			firePropertyChange(TreeNodeChangeEvent.value, oldValue, value);
+		}
 	}
 
 	/*
@@ -193,9 +195,11 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 	 * @see org.sbml.jsbml.Quantity#unsetValue()
 	 */
 	public void unsetValue() {
-		Double oldValue = value;
-		value = Double.NaN;
-		isSetValue = false;
-		firePropertyChange(SBaseChangeEvent.value, oldValue, value);
+		if(!Double.isNaN(this.value)){
+			Double oldValue = value;
+			value = Double.NaN;
+			isSetValue = false;
+			firePropertyChange(TreeNodeChangeEvent.value, oldValue, value);
+		}
 	}
 }

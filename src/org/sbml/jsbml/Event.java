@@ -25,8 +25,8 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.Unit.Kind;
-import org.sbml.jsbml.util.SBaseChangeEvent;
-import org.sbml.jsbml.util.SBaseChangeListener;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -206,7 +206,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	 */
 	public Delay createDelay() {
 		Delay d = new Delay(getLevel(), getVersion());
-		d.addAllChangeListeners(getSetOfSBaseChangedListeners());
+		d.addAllChangeListeners(getListOfTreeNodeChangeListeners());
 		setDelay(d);
 		return d;
 	}
@@ -708,10 +708,10 @@ public class Event extends AbstractNamedSBaseWithUnit {
 				value);
 		if (!isAttributeRead) {
 			if (attributeName
-					.equals(SBaseChangeEvent.useValuesFromTriggerTime)) {
+					.equals(TreeNodeChangeEvent.useValuesFromTriggerTime)) {
 				setUseValuesFromTriggerTime(StringTools.parseSBMLBoolean(value));
 				return true;
-			} else if (attributeName.equals(SBaseChangeEvent.timeUnits)) {
+			} else if (attributeName.equals(TreeNodeChangeEvent.timeUnits)) {
 				setTimeUnits(value);
 				return true;
 			}
@@ -782,8 +782,8 @@ public class Event extends AbstractNamedSBaseWithUnit {
 		this.listOfEventAssignments = listOfEventAssignments;
 		if ((this.listOfEventAssignments != null) && (this.listOfEventAssignments.getSBaseListType() != ListOf.Type.listOfEventAssignments)) {
 			this.listOfEventAssignments.setSBaseListType(ListOf.Type.listOfEventAssignments);
+			setThisAsParentSBMLObject(this.listOfEventAssignments);
 		}
-		setThisAsParentSBMLObject(this.listOfEventAssignments);
 	}
 	
 	/**
@@ -792,7 +792,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	 */
 	public void setPriority(Priority priority) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.priority,
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.priority,
 					this);
 		}
 		unsetPriority();
@@ -852,7 +852,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	@Deprecated
 	public void setUnits(Kind timeUnitKind) {
 		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.timeUnits,
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.timeUnits,
 					this);
 		}
 		super.setUnits(timeUnitKind);
@@ -867,7 +867,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	@Deprecated
 	public void setUnits(String timeUnits) {
 		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.timeUnits,
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.timeUnits,
 					this);
 		}
 		super.setUnits(timeUnits);
@@ -881,7 +881,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	@Deprecated
 	public void setUnits(Unit timeUnit) {
 		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.timeUnits,
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.timeUnits,
 					this);
 		}
 		super.setUnits(timeUnit);
@@ -895,7 +895,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	@Deprecated
 	public void setUnits(UnitDefinition timeUnits) {
 		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.timeUnits,
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.timeUnits,
 					this);
 		}
 		super.setUnits(timeUnits);
@@ -911,12 +911,12 @@ public class Event extends AbstractNamedSBaseWithUnit {
 		if (getLevelAndVersion().compareTo(Integer.valueOf(2),
 				Integer.valueOf(4)) < 0) {
 			throw new PropertyNotAvailableError(
-					SBaseChangeEvent.useValuesFromTriggerTime, this);
+					TreeNodeChangeEvent.useValuesFromTriggerTime, this);
 		}
 		Boolean oldUsesValuesFromTriggerTime = this.useValuesFromTriggerTime;
 		this.useValuesFromTriggerTime = useValuesFromTriggerTime;
 		isSetUseValuesFromTriggerTime = true;
-		firePropertyChange(SBaseChangeEvent.useValuesFromTriggerTime,
+		firePropertyChange(TreeNodeChangeEvent.useValuesFromTriggerTime,
 				oldUsesValuesFromTriggerTime, useValuesFromTriggerTime);
 	}
 
@@ -927,7 +927,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 		if (this.delay != null) {
 			Delay oldDelay = this.delay;
 			this.delay = null;
-			oldDelay.fireSBaseRemovedEvent();
+			oldDelay.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -935,7 +935,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 
 	/**
 	 * Removes the {@link #listOfEventAssignments} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangeListener}.
+	 * notifies all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -944,7 +944,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 		if (this.listOfEventAssignments != null) {
 			ListOf<EventAssignment> oldListOfEventAssignments = this.listOfEventAssignments;
 			this.listOfEventAssignments = null;
-			oldListOfEventAssignments.fireSBaseRemovedEvent();
+			oldListOfEventAssignments.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -952,13 +952,13 @@ public class Event extends AbstractNamedSBaseWithUnit {
 
 	/**
 	 * Sets the {@link Priority} of this {@link Event} to null and notifies
-	 * {@link SBaseChangeListener}s.
+	 * {@link TreeNodeChangeListener}s.
 	 */
 	public boolean unsetPriority() {
 		if (this.priority != null) {
 			Priority oldPriority = this.priority;
 			this.priority = null;
-			oldPriority.fireSBaseRemovedEvent();
+			oldPriority.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -973,13 +973,13 @@ public class Event extends AbstractNamedSBaseWithUnit {
 
 	/**
 	 * Sets the trigger of this {@link Event} to null and notifies
-	 * {@link SBaseChangeListener}s.
+	 * {@link TreeNodeChangeListener}s.
 	 */
 	public boolean unsetTrigger() {
 		if (this.trigger != null) {
 			Trigger oldTrigger = this.trigger;
 			this.trigger = null;
-			oldTrigger.fireSBaseRemovedEvent();
+			oldTrigger.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -989,11 +989,13 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	 * Sets the useValuesFromTriggerTime of this Event to null.
 	 */
 	public void unsetUseValuesFromTriggerTime() {
-		Boolean oldUseValuesFromTriggerTime = useValuesFromTriggerTime;
-		this.useValuesFromTriggerTime = null;
-		isSetUseValuesFromTriggerTime = false;
-		firePropertyChange(SBaseChangeEvent.useValuesFromTriggerTime,
-				oldUseValuesFromTriggerTime, null);
+		if(this.useValuesFromTriggerTime != null){
+			Boolean oldUseValuesFromTriggerTime = useValuesFromTriggerTime;
+			this.useValuesFromTriggerTime = null;
+			isSetUseValuesFromTriggerTime = false;
+			firePropertyChange(TreeNodeChangeEvent.useValuesFromTriggerTime,
+					oldUseValuesFromTriggerTime, null);
+		}
 	}
 
 	/*
@@ -1007,13 +1009,13 @@ public class Event extends AbstractNamedSBaseWithUnit {
 
 		if (isSetUseValuesFromTriggerTime()
 				&& (((getLevel() == 2) && (getVersion() == 4)) || (getLevel() >= 3))) {
-			attributes.put(SBaseChangeEvent.useValuesFromTriggerTime, Boolean
+			attributes.put(TreeNodeChangeEvent.useValuesFromTriggerTime, Boolean
 					.toString(getUseValuesFromTriggerTime()));
 		}
 
 		if (isSetTimeUnits()
 				&& ((getLevel() == 1) || ((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2))))) {
-			attributes.put(SBaseChangeEvent.timeUnits, getTimeUnits());
+			attributes.put(TreeNodeChangeEvent.timeUnits, getTimeUnits());
 		}
 
 		return attributes;

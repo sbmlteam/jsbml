@@ -23,6 +23,7 @@ package org.sbml.jsbml;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * Contains all the information about a creator of a {@link Model} (or other {@link SBase} in level
@@ -384,7 +385,9 @@ public class Creator extends AnnotationElement {
 	 * @return {@link JSBML#OPERATION_SUCCESS}
 	 */
 	public int setEmail(String email) {
+		String oldValue = this.email;
 		this.email = email;
+		this.firePropertyChange(TreeNodeChangeEvent.email, oldValue, email);
 		return JSBML.OPERATION_SUCCESS;
 	}
 
@@ -395,7 +398,9 @@ public class Creator extends AnnotationElement {
 	 * @return {@link JSBML#OPERATION_SUCCESS}
 	 */
 	public int setFamilyName(String familyName) {
+		String oldValue = this.familyName;
 		this.familyName = familyName;
+		this.firePropertyChange(TreeNodeChangeEvent.familyName, oldValue, familyName);
 		return JSBML.OPERATION_SUCCESS;
 	}
 
@@ -406,7 +411,9 @@ public class Creator extends AnnotationElement {
 	 * @return {@link JSBML#OPERATION_SUCCESS}
 	 */
 	public int setGivenName(String givenName) {
+		String oldValue = this.givenName;
 		this.givenName = givenName;
+		this.firePropertyChange(TreeNodeChangeEvent.givenName, oldValue, givenName);
 		return JSBML.OPERATION_SUCCESS;
 	}
 
@@ -416,7 +423,9 @@ public class Creator extends AnnotationElement {
 	 * @param organisation
 	 */
 	public void setOrganisation(String organisation) {
+		String oldValue = this.organisation;
 		this.organisation = organisation;
+		this.firePropertyChange(TreeNodeChangeEvent.organisation, oldValue, organisation);
 	}
 
 	/**
@@ -483,7 +492,9 @@ public class Creator extends AnnotationElement {
 	 * @return {@link JSBML#OPERATION_SUCCESS}
 	 */
 	public int unsetEmail() {
+		String oldValue = this.email;
 		email = null;
+		this.firePropertyChange(TreeNodeChangeEvent.email, oldValue, email);
 		return JSBML.OPERATION_SUCCESS;
 	}
 
@@ -493,7 +504,9 @@ public class Creator extends AnnotationElement {
 	 * @return {@link JSBML#OPERATION_SUCCESS}
 	 */
 	public int unsetFamilyName() {
-		familyName = null;
+		String oldValue = this.familyName;
+		this.familyName = null;
+		this.firePropertyChange(TreeNodeChangeEvent.familyName, oldValue, familyName);
 		return JSBML.OPERATION_SUCCESS;
 	}
 
@@ -503,7 +516,9 @@ public class Creator extends AnnotationElement {
 	 * @return {@link JSBML#OPERATION_SUCCESS}
 	 */
 	public int unsetGivenName() {
-		givenName = null;
+		String oldValue = this.givenName;
+		this.givenName = null;
+		this.firePropertyChange(TreeNodeChangeEvent.givenName, oldValue, givenName);
 		return JSBML.OPERATION_SUCCESS;
 	}
 
@@ -512,6 +527,8 @@ public class Creator extends AnnotationElement {
 	 * 
 	 */
 	public void unsetOrganization() {
-		organisation = null;
+		String oldValue = this.organisation;
+		this.organisation = null;
+		this.firePropertyChange(TreeNodeChangeEvent.organisation, oldValue, organisation);
 	}
 }

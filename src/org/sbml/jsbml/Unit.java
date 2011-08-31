@@ -25,7 +25,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
 
@@ -2037,7 +2037,7 @@ public class Unit extends AbstractSBase {
 		Double oldExponent = this.exponent;
 		isSetExponent = true;
 		this.exponent = Double.valueOf(exponent);
-		firePropertyChange(SBaseChangeEvent.exponent, oldExponent, this.exponent);
+		firePropertyChange(TreeNodeChangeEvent.exponent, oldExponent, this.exponent);
 	}
 	
 	/**
@@ -2059,7 +2059,7 @@ public class Unit extends AbstractSBase {
 	public void setKind(Kind kind) {
 		Kind oldKind = this.kind;
 		this.kind = (kind != null) ? kind : Kind.INVALID;
-		firePropertyChange(SBaseChangeEvent.kind, oldKind, this.kind);
+		firePropertyChange(TreeNodeChangeEvent.kind, oldKind, this.kind);
 	}
 
 	/**
@@ -2070,12 +2070,12 @@ public class Unit extends AbstractSBase {
 	public void setMultiplier(double multiplier) {
 		if ((getLevel() < 2) && (multiplier != 1d)) { 
 			// added the multiplier test != 1 to prevent error being reported when it is not necessary
-			throw new PropertyNotAvailableError(SBaseChangeEvent.multiplier, this);
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.multiplier, this);
 		}
 		Double oldMultiplyer = this.multiplier;
 		isSetMultiplier = true;
 		this.multiplier = multiplier;
-		firePropertyChange(SBaseChangeEvent.multiplier, oldMultiplyer, this.multiplier);
+		firePropertyChange(TreeNodeChangeEvent.multiplier, oldMultiplyer, this.multiplier);
 	}
 
 	/**
@@ -2090,9 +2090,9 @@ public class Unit extends AbstractSBase {
 			Double oldOffset = this.offset;
 			isSetOffset = true;
 			this.offset = Double.valueOf(offset);
-			firePropertyChange(SBaseChangeEvent.offset, oldOffset, this.offset);
+			firePropertyChange(TreeNodeChangeEvent.offset, oldOffset, this.offset);
 		} else {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.offset, this);
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.offset, this);
 		}
 	}
 
@@ -2105,7 +2105,7 @@ public class Unit extends AbstractSBase {
 		Integer oldScale = this.scale;
 		isSetScale = true;
 		this.scale = scale;
-		firePropertyChange(SBaseChangeEvent.scale, oldScale, scale);
+		firePropertyChange(TreeNodeChangeEvent.scale, oldScale, scale);
 	}
 
 	/**
@@ -2143,7 +2143,7 @@ public class Unit extends AbstractSBase {
 		Double oldExponent = this.exponent;
 		exponent = null;
 		isSetExponent = false;
-		firePropertyChange(SBaseChangeEvent.exponent, oldExponent, this.exponent);
+		firePropertyChange(TreeNodeChangeEvent.exponent, oldExponent, this.exponent);
 	}
 
 	/**
@@ -2152,7 +2152,7 @@ public class Unit extends AbstractSBase {
 	public void unsetKind() {
 		Kind oldKind = this.kind;
 		kind = Kind.INVALID;
-		firePropertyChange(SBaseChangeEvent.kind, oldKind, this.kind);
+		firePropertyChange(TreeNodeChangeEvent.kind, oldKind, this.kind);
 	}
 
 	/**
@@ -2162,7 +2162,7 @@ public class Unit extends AbstractSBase {
 		Double oldMultipler = this.multiplier;
 		multiplier = null;
 		isSetMultiplier = false;
-		firePropertyChange(SBaseChangeEvent.multiplier, oldMultipler,
+		firePropertyChange(TreeNodeChangeEvent.multiplier, oldMultipler,
 				this.multiplier);
 	}
 
@@ -2174,7 +2174,7 @@ public class Unit extends AbstractSBase {
 		Double oldOffset = this.offset;
 		offset = null;
 		isSetOffset = false;
-		firePropertyChange(SBaseChangeEvent.offset, oldOffset, this.offset);
+		firePropertyChange(TreeNodeChangeEvent.offset, oldOffset, this.offset);
 	}
 
 	/**
@@ -2184,7 +2184,7 @@ public class Unit extends AbstractSBase {
 		Integer oldScale = this.scale;
 		scale = null;
 		isSetScale = false;
-		firePropertyChange(SBaseChangeEvent.scale, oldScale, scale);
+		firePropertyChange(TreeNodeChangeEvent.scale, oldScale, scale);
 	}
 	
 	/*

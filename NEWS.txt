@@ -13,13 +13,21 @@ Version 0.8-rc1 (xx-xx-2011)
     hierarchical SBML data structure (SBase, Annotation, ASTNode 
     etc.).
   
-  - In order to get closer to the Java package structure, change 
-    listeners are now in the org.sbml.jsbml.util package. In this 
-    package, a super interface for ChangeListeners has been added that
-    is generically implemented. For the sake of more similarity to
-    standard Java classes, the SBaseChangedListener has been renamed
-    to SBaseChangeListener. The same holds for the corresponding
-    SBaseChangeEvent.
+  - In order to get closer to the Java package structure, the change 
+    listener for SBML objects is now located in the package 
+    org.sbml.jsbml.util package. For the sake of more similarity to
+    standard Java classes and a greater flexibility, the 
+    SBaseChangedListener has been renamed to TreeNodeChangeListener
+    and now extends the PropertyChangeListener in the package 
+    java.beans. The same holds for the corresponding
+    SBaseChangedEvent that is now called TreeNodeChangeEvent and also
+    located in the package org.sbml.jsbml.util. Furthermore, all 
+    elements of the SBML tree, including annotations, ASTNodes etc.
+    now make use of change events and notify their listeners, which
+    are now organized in a list instead of a set to make sure that
+    they are always called in the same order. The management of these
+    listeners is now performed in AbstractTreeNode, the new super 
+    class for all recursive elements in JSBML.
   
   - Notes, annotations, and extension packages are now part of the tree
     representation of the JSBML data structure.

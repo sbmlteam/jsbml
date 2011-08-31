@@ -28,8 +28,8 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.util.SBaseChangeEvent;
-import org.sbml.jsbml.util.SBaseChangeListener;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
 import org.sbml.jsbml.util.filters.NameFilter;
@@ -885,7 +885,6 @@ public class Model extends AbstractNamedSBase {
 	public Parameter createParameter(String id) {
 		Parameter parameter = new Parameter(id, getLevel(), getVersion());
 		addParameter(parameter);
-
 		return parameter;
 	}
 
@@ -2765,7 +2764,9 @@ public class Model extends AbstractNamedSBase {
 	 * 
 	 */
 	private void addPredefinedUnits() {
-
+		
+		List<UnitDefinition> oldValue = new ArrayList<UnitDefinition>(this.listOfPredefinedUnitDefinitions);
+		
 		if (getLevel() == -1 || getVersion() == -1) {
 			return;
 		}
@@ -2823,6 +2824,7 @@ public class Model extends AbstractNamedSBase {
 			listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("liter", getLevel(), getVersion()));
 			listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("celsius", getLevel(), getVersion()));
 		}
+		this.firePropertyChange(TreeNodeChangeEvent.units, oldValue, listOfPredefinedUnitDefinitions);
 	}
 	
 	/**
@@ -3429,12 +3431,12 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setAreaUnits(String areaUnitsID) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.areaUnits,
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.areaUnits,
 					this);
 		}
 		String oldAreaUnitsID = this.areaUnitsID;
 		this.areaUnitsID = areaUnitsID;
-		firePropertyChange(SBaseChangeEvent.areaUnits, oldAreaUnitsID,
+		firePropertyChange(TreeNodeChangeEvent.areaUnits, oldAreaUnitsID,
 				areaUnitsID);
 	}
 
@@ -3471,11 +3473,11 @@ public class Model extends AbstractNamedSBase {
 	public void setConversionFactor(String conversionFactorID) {
 		if (getLevel() < 3) {
 			throw new PropertyNotAvailableError(
-					SBaseChangeEvent.conversionFactor, this);
+					TreeNodeChangeEvent.conversionFactor, this);
 		}
 		String oldConversionFactorID = this.conversionFactorID;
 		this.conversionFactorID = conversionFactorID;
-		firePropertyChange(SBaseChangeEvent.conversionFactor,
+		firePropertyChange(TreeNodeChangeEvent.conversionFactor,
 				oldConversionFactorID, conversionFactorID);
 	}
 
@@ -3486,12 +3488,12 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setExtentUnits(String extentUnitsID) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.extentUnits,
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.extentUnits,
 					this);
 		}
 		String oldExtentUnits = this.extentUnitsID;
 		this.extentUnitsID = extentUnitsID;
-		firePropertyChange(SBaseChangeEvent.extentUnits, oldExtentUnits,
+		firePropertyChange(TreeNodeChangeEvent.extentUnits, oldExtentUnits,
 				extentUnitsID);
 	}
 
@@ -3515,12 +3517,12 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setLengthUnits(String lengthUnitsID) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.lengthUnits,
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.lengthUnits,
 					this);
 		}
 		String oldLengthUnits = this.lengthUnitsID;
 		this.lengthUnitsID = lengthUnitsID;
-		firePropertyChange(SBaseChangeEvent.lengthUnits, oldLengthUnits,
+		firePropertyChange(TreeNodeChangeEvent.lengthUnits, oldLengthUnits,
 				lengthUnitsID);
 	}
 
@@ -3551,8 +3553,8 @@ public class Model extends AbstractNamedSBase {
 				&& (this.listOfCompartments.getSBaseListType() != ListOf.Type.listOfCompartments)) {
 			this.listOfCompartments
 					.setSBaseListType(ListOf.Type.listOfCompartments);
+			setThisAsParentSBMLObject(this.listOfCompartments);
 		}
-		setThisAsParentSBMLObject(this.listOfCompartments);
 	}
 
 	/**
@@ -3565,16 +3567,15 @@ public class Model extends AbstractNamedSBase {
 	 * @deprecated
 	 */
 	@Deprecated
-	public void setListOfCompartmentTypes(
-			ListOf<CompartmentType> listOfCompartmentTypes) {
+	public void setListOfCompartmentTypes(ListOf<CompartmentType> listOfCompartmentTypes) {
 		unsetListOfCompartmentTypes();
 		this.listOfCompartmentTypes = listOfCompartmentTypes;
 		if ((this.listOfCompartmentTypes != null)
 				&& (this.listOfCompartmentTypes.getSBaseListType() != ListOf.Type.listOfCompartmentTypes)) {
 			this.listOfCompartmentTypes
 					.setSBaseListType(ListOf.Type.listOfCompartmentTypes);
+			setThisAsParentSBMLObject(this.listOfCompartmentTypes);
 		}
-		setThisAsParentSBMLObject(this.listOfCompartmentTypes);
 	}
 
 	/**
@@ -3592,8 +3593,8 @@ public class Model extends AbstractNamedSBase {
 				&& (this.listOfConstraints.getSBaseListType() != ListOf.Type.listOfConstraints)) {
 			this.listOfConstraints
 					.setSBaseListType(ListOf.Type.listOfConstraints);
+			setThisAsParentSBMLObject(this.listOfConstraints);
 		}
-		setThisAsParentSBMLObject(this.listOfConstraints);
 	}
 
 	/**
@@ -3609,8 +3610,8 @@ public class Model extends AbstractNamedSBase {
 		if ((this.listOfEvents != null)
 				&& (this.listOfEvents.getSBaseListType() != ListOf.Type.listOfEvents)) {
 			this.listOfEvents.setSBaseListType(ListOf.Type.listOfEvents);
+			setThisAsParentSBMLObject(this.listOfEvents);
 		}
-		setThisAsParentSBMLObject(this.listOfEvents);
 	}
 
 	/**
@@ -3629,8 +3630,8 @@ public class Model extends AbstractNamedSBase {
 				&& (this.listOfFunctionDefinitions.getSBaseListType() != ListOf.Type.listOfFunctionDefinitions)) {
 			this.listOfFunctionDefinitions
 					.setSBaseListType(ListOf.Type.listOfFunctionDefinitions);
+			setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
 		}
-		setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
 	}
 
 	/**
@@ -3649,8 +3650,8 @@ public class Model extends AbstractNamedSBase {
 				&& (this.listOfInitialAssignments.getSBaseListType() != ListOf.Type.listOfInitialAssignments)) {
 			this.listOfInitialAssignments
 					.setSBaseListType(ListOf.Type.listOfInitialAssignments);
+			setThisAsParentSBMLObject(this.listOfInitialAssignments);
 		}
-		setThisAsParentSBMLObject(this.listOfInitialAssignments);
 	}
 
 	/**
@@ -3667,8 +3668,8 @@ public class Model extends AbstractNamedSBase {
 				&& (this.listOfParameters.getSBaseListType() != ListOf.Type.listOfParameters)) {
 			this.listOfParameters
 					.setSBaseListType(ListOf.Type.listOfParameters);
+			setThisAsParentSBMLObject(listOfParameters);
 		}
-		setThisAsParentSBMLObject(listOfParameters);
 	}
 
 	/**
@@ -3684,8 +3685,8 @@ public class Model extends AbstractNamedSBase {
 		if ((this.listOfReactions != null)
 				&& (this.listOfReactions.getSBaseListType() != ListOf.Type.listOfReactions)) {
 			this.listOfReactions.setSBaseListType(ListOf.Type.listOfReactions);
+			setThisAsParentSBMLObject(this.listOfReactions);
 		}
-		setThisAsParentSBMLObject(this.listOfReactions);
 	}
 
 	/**
@@ -3700,8 +3701,8 @@ public class Model extends AbstractNamedSBase {
 		if ((this.listOfRules != null)
 				&& (this.listOfRules.getSBaseListType() != ListOf.Type.listOfRules)) {
 			this.listOfRules.setSBaseListType(ListOf.Type.listOfRules);
+			setThisAsParentSBMLObject(this.listOfRules);
 		}
-		setThisAsParentSBMLObject(this.listOfRules);
 	}
 
 	/**
@@ -3717,8 +3718,8 @@ public class Model extends AbstractNamedSBase {
 		if ((this.listOfSpecies != null)
 				&& (this.listOfSpecies.getSBaseListType() != ListOf.Type.listOfSpecies)) {
 			this.listOfSpecies.setSBaseListType(ListOf.Type.listOfSpecies);
+			setThisAsParentSBMLObject(this.listOfSpecies);
 		}
-		setThisAsParentSBMLObject(this.listOfSpecies);
 	}
 
 	/**
@@ -3738,8 +3739,8 @@ public class Model extends AbstractNamedSBase {
 				&& (this.listOfSpeciesTypes.getSBaseListType() != ListOf.Type.listOfSpeciesTypes)) {
 			this.listOfSpeciesTypes
 					.setSBaseListType(ListOf.Type.listOfSpeciesTypes);
+			setThisAsParentSBMLObject(this.listOfSpeciesTypes);
 		}
-		setThisAsParentSBMLObject(this.listOfSpeciesTypes);
 	}
 
 	/**
@@ -3757,8 +3758,8 @@ public class Model extends AbstractNamedSBase {
 				&& (this.listOfUnitDefinitions.getSBaseListType() != ListOf.Type.listOfUnitDefinitions)) {
 			this.listOfUnitDefinitions
 					.setSBaseListType(ListOf.Type.listOfUnitDefinitions);
+			setThisAsParentSBMLObject(this.listOfUnitDefinitions);
 		}
-		setThisAsParentSBMLObject(this.listOfUnitDefinitions);
 	}
 
 	/**
@@ -3779,11 +3780,11 @@ public class Model extends AbstractNamedSBase {
 	public void setSubstanceUnits(String substanceUnitsID) {
 		if (getLevel() < 3) {
 			throw new PropertyNotAvailableError(
-					SBaseChangeEvent.substanceUnits, this);
+					TreeNodeChangeEvent.substanceUnits, this);
 		}
 		String oldSubstanceUnitsID = this.substanceUnitsID;
 		this.substanceUnitsID = substanceUnitsID;
-		firePropertyChange(SBaseChangeEvent.substanceUnits,
+		firePropertyChange(TreeNodeChangeEvent.substanceUnits,
 				oldSubstanceUnitsID, substanceUnitsID);
 	}
 
@@ -3808,12 +3809,12 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setTimeUnits(String timeUnitsID) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.timeUnits,
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.timeUnits,
 					this);
 		}
 		String oldTimeUnitsID = this.timeUnitsID;
 		this.timeUnitsID = timeUnitsID;
-		firePropertyChange(SBaseChangeEvent.timeUnits, oldTimeUnitsID,
+		firePropertyChange(TreeNodeChangeEvent.timeUnits, oldTimeUnitsID,
 				timeUnitsID);
 	}
 
@@ -3837,12 +3838,12 @@ public class Model extends AbstractNamedSBase {
 	 */
 	public void setVolumeUnits(String volumeUnitsID) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.volumeUnits,
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.volumeUnits,
 					this);
 		}
 		String oldVolumeUnitsID = this.volumeUnitsID;
 		this.volumeUnitsID = volumeUnitsID;
-		firePropertyChange(SBaseChangeEvent.volumeUnits, oldVolumeUnitsID,
+		firePropertyChange(TreeNodeChangeEvent.volumeUnits, oldVolumeUnitsID,
 				this.volumeUnitsID);
 	}
 
@@ -3889,7 +3890,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfCompartments} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangeListener}.
+	 * notifies all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -3898,7 +3899,7 @@ public class Model extends AbstractNamedSBase {
 		if (this.listOfCompartments != null) {
 			ListOf<Compartment> oldListOfCompartments = this.listOfCompartments;
 			this.listOfCompartments = null;
-			oldListOfCompartments.fireSBaseRemovedEvent();
+			oldListOfCompartments.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -3906,7 +3907,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfCompartmentTypes} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangeListener}.
+	 * notifies all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -3917,7 +3918,7 @@ public class Model extends AbstractNamedSBase {
 		if (this.listOfCompartmentTypes != null) {
 			ListOf<CompartmentType> oldListOfCompartmentTypes = this.listOfCompartmentTypes;
 			this.listOfCompartmentTypes = null;
-			oldListOfCompartmentTypes.fireSBaseRemovedEvent();
+			oldListOfCompartmentTypes.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -3925,7 +3926,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfConstraints} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangeListener}.
+	 * notifies all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -3934,7 +3935,7 @@ public class Model extends AbstractNamedSBase {
 		if (this.listOfConstraints != null) {
 			ListOf<Constraint> oldListOfConstraints = this.listOfConstraints;
 			this.listOfConstraints = null;
-			oldListOfConstraints.fireSBaseRemovedEvent();
+			oldListOfConstraints.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -3942,7 +3943,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfEvents} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangeListener}.
+	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -3951,7 +3952,7 @@ public class Model extends AbstractNamedSBase {
 		if (this.listOfEvents != null) {
 			ListOf<Event> oldListOfEvents = this.listOfEvents;
 			this.listOfEvents = null;
-			oldListOfEvents.fireSBaseRemovedEvent();
+			oldListOfEvents.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -3959,7 +3960,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfFunctionDefinitions} from this {@link Model}
-	 * and notifies all registered instances of {@link SBaseChangeListener}.
+	 * and notifies all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -3968,7 +3969,7 @@ public class Model extends AbstractNamedSBase {
 		if (this.listOfFunctionDefinitions != null) {
 			ListOf<FunctionDefinition> oldListOfFunctionDefinitions = this.listOfFunctionDefinitions;
 			this.listOfFunctionDefinitions = null;
-			oldListOfFunctionDefinitions.fireSBaseRemovedEvent();
+			oldListOfFunctionDefinitions.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -3976,7 +3977,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfInitialAssignments} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangeListener}.
+	 * notifies all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -3985,7 +3986,7 @@ public class Model extends AbstractNamedSBase {
 		if (this.listOfInitialAssignments != null) {
 			ListOf<InitialAssignment> oldListOfInitialAssignments = this.listOfInitialAssignments;
 			this.listOfInitialAssignments = null;
-			oldListOfInitialAssignments.fireSBaseRemovedEvent();
+			oldListOfInitialAssignments.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -3993,7 +3994,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfParameters} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangeListener}.
+	 * notifies all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -4002,7 +4003,7 @@ public class Model extends AbstractNamedSBase {
 		if (this.listOfParameters != null) {
 			ListOf<Parameter> oldListOfParameters = this.listOfParameters;
 			this.listOfParameters = null;
-			oldListOfParameters.fireSBaseRemovedEvent();
+			oldListOfParameters.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -4010,7 +4011,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfReactions} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangeListener}.
+	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -4019,7 +4020,7 @@ public class Model extends AbstractNamedSBase {
 		if (this.listOfReactions != null) {
 			ListOf<Reaction> oldListOfReactions = this.listOfReactions;
 			this.listOfReactions = null;
-			oldListOfReactions.fireSBaseRemovedEvent();
+			oldListOfReactions.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -4027,7 +4028,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfRules} from this {@link Model} and notifies all
-	 * registered instances of {@link SBaseChangeListener}.
+	 * registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -4036,7 +4037,7 @@ public class Model extends AbstractNamedSBase {
 		if (this.listOfRules != null) {
 			ListOf<Rule> oldListOfRules = this.listOfRules;
 			this.listOfRules = null;
-			oldListOfRules.fireSBaseRemovedEvent();
+			oldListOfRules.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -4044,7 +4045,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfSpecies} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangeListener}.
+	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -4053,7 +4054,7 @@ public class Model extends AbstractNamedSBase {
 		if (this.listOfSpecies != null) {
 			ListOf<Species> oldListOfSpecies = this.listOfSpecies;
 			this.listOfSpecies = null;
-			oldListOfSpecies.fireSBaseRemovedEvent();
+			oldListOfSpecies.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -4061,7 +4062,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfSpeciesTypes} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangeListener}.
+	 * notifies all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -4072,7 +4073,7 @@ public class Model extends AbstractNamedSBase {
 		if (this.listOfSpeciesTypes != null) {
 			ListOf<SpeciesType> oldListOfSpeciesTypes = this.listOfSpeciesTypes;
 			this.listOfSpeciesTypes = null;
-			oldListOfSpeciesTypes.fireSBaseRemovedEvent();
+			oldListOfSpeciesTypes.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -4080,7 +4081,7 @@ public class Model extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfUnitDefinitions} from this {@link Model} and
-	 * notifies all registered instances of {@link SBaseChangeListener}.
+	 * notifies all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -4089,7 +4090,7 @@ public class Model extends AbstractNamedSBase {
 		if (this.listOfUnitDefinitions != null) {
 			ListOf<UnitDefinition> oldListOfUnitDefinitions = this.listOfUnitDefinitions;
 			this.listOfUnitDefinitions = null;
-			oldListOfUnitDefinitions.fireSBaseRemovedEvent();
+			oldListOfUnitDefinitions.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;

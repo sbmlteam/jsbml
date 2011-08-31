@@ -31,7 +31,7 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.text.parser.ParseException;
-import org.sbml.jsbml.util.SimpleSBaseChangeListener;
+import org.sbml.jsbml.util.SimpleTreeNodeChangeListener;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 /**
@@ -41,7 +41,7 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  * @version $Rev$
  */
 @Ignore
-public class EventTest extends SimpleSBaseChangeListener {
+public class EventTest extends SimpleTreeNodeChangeListener {
 
 	/**
 	 * 
@@ -51,7 +51,7 @@ public class EventTest extends SimpleSBaseChangeListener {
 	 */
 	public EventTest() throws ParseException, XMLStreamException, SBMLException {
 		SBMLDocument doc = new SBMLDocument(3, 1);
-		doc.addChangeListener(this);
+		doc.addTreeNodeChangeListener(this);
 		Model model = doc.createModel("event_model");
 		Compartment c = model.createCompartment("compartment");
 		model.createSpecies("s1", c);

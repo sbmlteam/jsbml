@@ -25,7 +25,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -503,13 +503,13 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	public void setConstant(boolean constant) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.constant,
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.constant,
 					this);
 		}
 		Boolean oldConstant = this.constant;
 		this.constant = Boolean.valueOf(constant);
 		isSetConstant = true;
-		firePropertyChange(SBaseChangeEvent.constant, oldConstant,
+		firePropertyChange(TreeNodeChangeEvent.constant, oldConstant,
 				this.constant);
 	}
 
@@ -531,7 +531,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		Integer oldDenominator = this.denominator;
 		this.denominator = denominator;
 		isSetDenominator = true;
-		firePropertyChange(SBaseChangeEvent.denominator, oldDenominator, this.denominator);
+		firePropertyChange(TreeNodeChangeEvent.denominator, oldDenominator, this.denominator);
 	}
 
 	/**
@@ -558,7 +558,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		} else {
 			isSetStoichiometry = true;
 		}
-		firePropertyChange(SBaseChangeEvent.stoichiometry, oldStoichiometry,
+		firePropertyChange(TreeNodeChangeEvent.stoichiometry, oldStoichiometry,
 				this.stoichiometry);
 	}
 
@@ -590,14 +590,26 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * @see org.sbml.jsbml.Variable#unsetConstant()
 	 */
 	public void unsetConstant() {
-		this.constant = null;
+		if(this.constant != null){
+			Boolean oldConstant = this.constant;
+			this.constant = null;
+			isSetConstant = false;
+			firePropertyChange(TreeNodeChangeEvent.constant, oldConstant,
+					this.constant);
+		}
 	}
 
 	/**
 	 * Unsets the stoichiometry property of this element.
 	 */
 	public void unsetStoichiometry() {
-		this.stoichiometry = null;
+		if(this.stoichiometry != null){
+			Double oldStoichiometry = this.stoichiometry;
+			this.stoichiometry = null;
+			isSetStoichiometry = false;
+			firePropertyChange(TreeNodeChangeEvent.stoichiometry, oldStoichiometry,
+					this.stoichiometry);
+		}
 	}
 
 	/**
@@ -610,7 +622,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		if (this.stoichiometryMath != null) {
 			StoichiometryMath oldStoichiometryMath = this.stoichiometryMath;
 			this.stoichiometryMath = null;
-			oldStoichiometryMath.fireSBaseRemovedEvent();
+			oldStoichiometryMath.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;

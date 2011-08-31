@@ -20,11 +20,14 @@
 
 package org.sbml.jsbml.util;
 
+import java.beans.PropertyChangeEvent;
+
+import javax.swing.tree.TreeNode;
+
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.SBase;
 
 /**
- * This very simple implementation of an {@link SBaseChangeListener} writes all
+ * This very simple implementation of an {@link TreeNodeChangeListener} writes all
  * the events to the standard out stream.
  * 
  * @author Andreas Dr&auml;ger
@@ -32,15 +35,15 @@ import org.sbml.jsbml.SBase;
  * @since 0.8
  * @version $Rev$
  */
-public class SimpleSBaseChangeListener implements SBaseChangeListener {
+public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 
-	Logger logger = Logger.getLogger(SimpleSBaseChangeListener.class);
+	Logger logger = Logger.getLogger(SimpleTreeNodeChangeListener.class);
 
 	/**
-	 * Creates an {@link SBaseChangeListener} that writes all events to the
+	 * Creates an {@link TreeNodeChangeListener} that writes all events to the
 	 * standard output.
 	 */
-	public SimpleSBaseChangeListener() {
+	public SimpleTreeNodeChangeListener() {
 	}
 
 	/**
@@ -52,30 +55,25 @@ public class SimpleSBaseChangeListener implements SBaseChangeListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.SBaseChangedListener#sbaseAdded(org.sbml.jsbml.SBase)
+	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree.TreeNode)
 	 */
-	public void sbaseAdded(SBase sb) {
+	public void nodeAdded(TreeNode sb) {
 		logger.debug(String.format("[ADD]\t%s", sb));		
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.SBaseChangedListener#sbaseRemoved(org.sbml.jsbml.SBase)
+	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(javax.swing.tree.TreeNode)
 	 */
-	public void sbaseRemoved(SBase sb) {
+	public void nodeRemoved(TreeNode sb) {
 		logger.debug(String.format("[DEL]\t%s", sb));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @seeorg.sbml.jsbml.SBaseChangedListener#stateChanged(org.sbml.jsbml.
-	 * SBaseChangedEvent)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
-	public void stateChanged(SBaseChangeEvent ev) {		
+	public void propertyChange(PropertyChangeEvent ev) {		
 		logger.debug(String.format("[CHG]\t%s", ev));
 	}
 

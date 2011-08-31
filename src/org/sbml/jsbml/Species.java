@@ -23,7 +23,7 @@ package org.sbml.jsbml;
 import java.util.Locale;
 import java.util.Map;
 
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -793,7 +793,7 @@ public class Species extends Symbol {
 		Boolean oldBoundaryCondition = this.boundaryCondition;
 		this.boundaryCondition = boundaryCondition;
 		isSetBoundaryCondition = true;
-		firePropertyChange(SBaseChangeEvent.boundaryCondition,
+		firePropertyChange(TreeNodeChangeEvent.boundaryCondition,
 				oldBoundaryCondition, this.boundaryCondition);
 	}
 
@@ -809,12 +809,12 @@ public class Species extends Symbol {
 	@Deprecated
 	public void setCharge(int charge) {
 		if (3 <= getLevel()) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.charge, this);
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.charge, this);
 		}
 		Integer oldCharge = this.charge;
 		this.charge = Integer.valueOf(charge);
 		isSetCharge = true;
-		firePropertyChange(SBaseChangeEvent.charge, oldCharge, this.charge);
+		firePropertyChange(TreeNodeChangeEvent.charge, oldCharge, this.charge);
 	}
 
 	/**
@@ -848,7 +848,7 @@ public class Species extends Symbol {
 			} else {
 				this.compartmentID = compartment;
 			}
-			firePropertyChange(SBaseChangeEvent.compartment, oldCompartment,
+			firePropertyChange(TreeNodeChangeEvent.compartment, oldCompartment,
 					compartmentID);
 		}
 	}
@@ -873,7 +873,7 @@ public class Species extends Symbol {
 	public void setConversionFactor(String conversionFactorID) {
 		if (getLevel() < 3) {
 			throw new PropertyNotAvailableError(
-					SBaseChangeEvent.conversionFactor, this);
+					TreeNodeChangeEvent.conversionFactor, this);
 		}
 		String oldConversionFactor = this.conversionFactorID;
 		if ((conversionFactorID != null)
@@ -882,7 +882,7 @@ public class Species extends Symbol {
 		} else {
 			this.conversionFactorID = conversionFactorID;
 		}
-		firePropertyChange(SBaseChangeEvent.conversionFactor,
+		firePropertyChange(TreeNodeChangeEvent.conversionFactor,
 				oldConversionFactor, conversionFactorID);
 	}
 
@@ -894,12 +894,12 @@ public class Species extends Symbol {
 	public void setHasOnlySubstanceUnits(boolean hasOnlySubstanceUnits) {
 		if (getLevel() < 2) {
 			throw new PropertyNotAvailableError(
-					SBaseChangeEvent.hasOnlySubstanceUnits, this);
+					TreeNodeChangeEvent.hasOnlySubstanceUnits, this);
 		}
 		Boolean oldHasOnlySubstanceUnits = this.hasOnlySubstanceUnits;
 		this.hasOnlySubstanceUnits = Boolean.valueOf(hasOnlySubstanceUnits);
 		isSetHasOnlySubstanceUnits = true;
-		firePropertyChange(SBaseChangeEvent.hasOnlySubstanceUnits,
+		firePropertyChange(TreeNodeChangeEvent.hasOnlySubstanceUnits,
 				oldHasOnlySubstanceUnits, this.hasOnlySubstanceUnits);
 	}
 
@@ -909,10 +909,9 @@ public class Species extends Symbol {
 	 * @param initialAmount
 	 */
 	public void setInitialAmount(double initialAmount) {
-		boolean amount = this.amount;
-		this.amount = true;
-		if (!amount) {
-			firePropertyChange(SBaseChangeEvent.initialAmount, Boolean.FALSE,
+		if (!this.amount) {
+			this.amount = true;
+			firePropertyChange(TreeNodeChangeEvent.initialAmount, Boolean.FALSE,
 					Boolean.TRUE);
 		}
 		setValue(initialAmount);
@@ -924,10 +923,9 @@ public class Species extends Symbol {
 	 * @param initialConcentration
 	 */
 	public void setInitialConcentration(double initialConcentration) {
-		boolean amount = this.amount;
-		this.amount = false;
-		if (amount) {
-			firePropertyChange(SBaseChangeEvent.initialAmount, Boolean.TRUE,
+		if (this.amount) {
+			this.amount = false;
+			firePropertyChange(TreeNodeChangeEvent.initialAmount, Boolean.TRUE,
 					Boolean.FALSE);
 		}
 		setValue(initialConcentration);
@@ -945,7 +943,7 @@ public class Species extends Symbol {
 	public void setSpatialSizeUnits(String spatialSizeUnits) {
 		if ((getLevel() != 2) && ((1 != getVersion()) || (2 != getVersion()))) {
 			throw new PropertyNotAvailableError(
-					SBaseChangeEvent.spatialSizeUnits, this);
+					TreeNodeChangeEvent.spatialSizeUnits, this);
 		}
 		String oldSpatialSizeUnits = this.spatialSizeUnitsID;
 		if ((spatialSizeUnits != null)
@@ -954,7 +952,7 @@ public class Species extends Symbol {
 		} else {
 			this.spatialSizeUnitsID = spatialSizeUnits;
 		}
-		firePropertyChange(SBaseChangeEvent.spatialSizeUnits,
+		firePropertyChange(TreeNodeChangeEvent.spatialSizeUnits,
 				oldSpatialSizeUnits, this.spatialSizeUnitsID);
 	}
 
@@ -992,7 +990,7 @@ public class Species extends Symbol {
 	@Deprecated
 	public void setSpeciesType(String speciesType) {
 		if ((getLevel() != 2) && ((getVersion() < 2) || (4 < getVersion()))) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.speciesType,
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.speciesType,
 					this);
 		}
 		if ((speciesType == null) || (speciesType.trim().length() == 0)
@@ -1000,7 +998,7 @@ public class Species extends Symbol {
 			String oldSpeciesType = this.speciesTypeID;
 			speciesType = ((speciesType != null) && (speciesType.trim()
 					.length() == 0)) ? null : speciesType;
-			firePropertyChange(SBaseChangeEvent.speciesType, oldSpeciesType,
+			firePropertyChange(TreeNodeChangeEvent.speciesType, oldSpeciesType,
 					this.speciesTypeID);
 		}
 	}
@@ -1051,7 +1049,7 @@ public class Species extends Symbol {
 		Integer oldCharge = charge;
 		charge = null;
 		isSetCharge = false;
-		firePropertyChange(SBaseChangeEvent.charge, oldCharge, this.charge);
+		firePropertyChange(TreeNodeChangeEvent.charge, oldCharge, this.charge);
 	}
 
 	/**

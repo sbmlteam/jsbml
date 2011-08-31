@@ -20,7 +20,7 @@
 
 package org.sbml.jsbml.ext.layout;
 
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * @author Nicolas Rodriguez
@@ -180,7 +180,9 @@ public class SpeciesGlyph extends GraphicalObject {
 	 */
 	@Override
 	public void setId(String id){
+		String oldID = this.id;
 		this.id = id;
+		firePropertyChange(TreeNodeChangeEvent.id, oldID, this.id);
 	}
 	
 	/**
@@ -190,7 +192,7 @@ public class SpeciesGlyph extends GraphicalObject {
 	public void setSpecies(String species) {
 		String oldSpecies = this.species;
 		this.species = species;
-		firePropertyChange(SBaseChangeEvent.species, oldSpecies, this.species);
+		firePropertyChange(TreeNodeChangeEvent.species, oldSpecies, this.species);
 	}
 	/*
 	 * (non-Javadoc)

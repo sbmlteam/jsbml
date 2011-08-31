@@ -23,7 +23,7 @@ package org.sbml.jsbml.ext.layout;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * @author Nicolas Rodriguez
@@ -269,6 +269,11 @@ public class ReactionGlyph extends GraphicalObject {
 	 * @param curve
 	 */
 	public void setCurve(Curve curve) {
+		if(this.curve != null){
+			Curve oldValue = this.curve;
+			this.curve = null;
+			oldValue.fireNodeRemovedEvent();
+		}
 		this.curve = curve;
 		setThisAsParentSBMLObject(this.curve);
 	}
@@ -279,6 +284,7 @@ public class ReactionGlyph extends GraphicalObject {
 	 */
 	public void setListOfSpeciesReferencesGlyph(
 			ListOf<SpeciesReferencesGlyph> listOfSpeciesReferencesGlyph) {
+		unsetListOfSpeciesReferencesGlyph();
 		this.listOfSpeciesReferencesGlyph = listOfSpeciesReferencesGlyph;
 		setThisAsParentSBMLObject(this.listOfSpeciesReferencesGlyph);
 	}
@@ -290,7 +296,7 @@ public class ReactionGlyph extends GraphicalObject {
 	public void setReaction(String reaction) {
 		String oldReaction = this.reaction;
 		this.reaction = reaction;
-		firePropertyChange(SBaseChangeEvent.reaction, oldReaction, this.reaction);
+		firePropertyChange(TreeNodeChangeEvent.reaction, oldReaction, this.reaction);
 	}
 	
 	/*
@@ -301,6 +307,14 @@ public class ReactionGlyph extends GraphicalObject {
 	@Override
 	public String toString() {
 		return super.toString();
+	}
+
+	private void unsetListOfSpeciesReferencesGlyph() {
+		if(this.listOfSpeciesReferencesGlyph != null){
+			ListOf<SpeciesReferencesGlyph> oldValue = this.listOfSpeciesReferencesGlyph;
+			this.listOfSpeciesReferencesGlyph = null;
+			oldValue.fireNodeRemovedEvent();
+		}
 	}
 
 }

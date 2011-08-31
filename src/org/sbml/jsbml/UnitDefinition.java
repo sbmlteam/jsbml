@@ -29,9 +29,8 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.Unit.Kind;
-import org.sbml.jsbml.util.SBaseChangeEvent;
-import org.sbml.jsbml.util.SBaseChangeListener;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * Represents the unitDefinition XML element of a SBML file.
@@ -387,7 +386,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 			ListOf<Unit> units = new ListOf<Unit>(ud.getLevel(),
 					ud.getVersion());
 			units.setSBaseListType(Type.listOfUnits);
-			orig.removeAllSBaseChangedListeners();
+			orig.removeAllTreeNodeChangeListeners();
 			units.add(orig.remove(orig.size() - 1));
 			int i, j;
 			for (i = orig.size() - 1; i >= 0; i--) {
@@ -552,10 +551,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public void convertToSIUnits() {
 		UnitDefinition ud[] = new UnitDefinition[getNumUnits()];
-		Set<SBaseChangeListener> listeners = new HashSet<SBaseChangeListener>(
-				getSetOfSBaseChangedListeners());
-		removeAllSBaseChangedListeners();
-		ListOf<Unit> oldListOfUnits = getListOfUnits().clone();
+		Set<TreeNodeChangeListener> listeners = new HashSet<TreeNodeChangeListener>(
+				getListOfTreeNodeChangeListeners());
+		removeAllTreeNodeChangeListeners();
 		for (int i = ud.length - 1; i >= 0; i--) {
 			ud[i] = Unit.convertToSI(removeUnit(i));
 		}
@@ -564,8 +562,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 		}
 		simplify();
 		addAllChangeListeners(listeners);
-		firePropertyChange(SBaseChangeEvent.listOfUnits, oldListOfUnits,
-				getListOfUnits());
 	}
 
 	/**
@@ -596,6 +592,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public UnitDefinition divideBy(UnitDefinition definition) {		
 		if (!isSetListOfUnits()) {
 			this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
+			this.listOfUnits.fireNodeAddedEvent();
 		}
 		Unit twinunit;
 
@@ -676,6 +673,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public ListOf<Unit> getListOfUnits() {
 		if (listOfUnits == null) {
 			listOfUnits = ListOf.newInstance(this, Unit.class);
+			listOfUnits.fireNodeAddedEvent();
 		}
 		return listOfUnits;
 	}
@@ -962,6 +960,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public UnitDefinition multiplyWith(UnitDefinition definition) {
 		if (!isSetListOfUnits()) {
 			this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
+			this.listOfUnits.fireNodeAddedEvent();
 		}
 		Unit twinunit;
 
@@ -1020,9 +1019,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public Unit removeUnit(int i) {
 		if (isSetListOfUnits()) {
 			Unit u = listOfUnits.remove(i);
-			if (u != null) {
-				u.fireSBaseRemovedEvent();
-			}
 			return u;
 		}
 		return null;
@@ -1077,13 +1073,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfUnits} from this {@link UnitDefinition} and
-	 * notifies all registered instances of {@link SBaseChangeListener}.
+	 * notifies all registered instances of {@link TreeNodeChangeListener}.
 	 */
 	public void unsetListOfUnits() {
 		if (this.listOfUnits != null) {
 			ListOf<Unit> oldListOfUnits = this.listOfUnits;
 			this.listOfUnits = null;
-			oldListOfUnits.fireSBaseRemovedEvent();
+			oldListOfUnits.fireNodeRemovedEvent();
 		}
 	}
 

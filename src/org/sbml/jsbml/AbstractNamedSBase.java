@@ -23,7 +23,7 @@ package org.sbml.jsbml;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * The base class for each SBML element with an optional id and name.
@@ -290,8 +290,8 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
-		String property = getLevel() == 1 ? SBaseChangeEvent.name
-				: SBaseChangeEvent.id;
+		String property = getLevel() == 1 ? TreeNodeChangeEvent.name
+				: TreeNodeChangeEvent.id;
 		String oldId = this.id;
 		if ((id == null) || (id.trim().length() == 0)) {
 			this.id = null;
@@ -318,7 +318,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 			setId(name);
 		} else {
 			// else part to avoid calling this method twice.
-			firePropertyChange(SBaseChangeEvent.name, oldName, name);
+			firePropertyChange(TreeNodeChangeEvent.name, oldName, name);
 		}
 	}
 

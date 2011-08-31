@@ -22,7 +22,7 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.StringTools;
 
 
@@ -234,11 +234,11 @@ public class Trigger extends AbstractMathContainer {
 	 */
 	public void setInitialValue(boolean initialValue) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.initialValue, this);
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.initialValue, this);
 		}
 		Boolean oldInitialValue = this.initialValue;
 		this.initialValue = Boolean.valueOf(initialValue);
-		firePropertyChange(SBaseChangeEvent.initialValue, oldInitialValue, this.initialValue);
+		firePropertyChange(TreeNodeChangeEvent.initialValue, oldInitialValue, this.initialValue);
 	}
 	
 	/**
@@ -248,11 +248,11 @@ public class Trigger extends AbstractMathContainer {
 	 */
 	public void setPersistent(boolean persistent) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.persistent, this);
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.persistent, this);
 		}
 		Boolean oldPersistent = this.persistent;
 		this.persistent = Boolean.valueOf(persistent);
-		firePropertyChange(SBaseChangeEvent.persistent, oldPersistent, this.persistent);
+		firePropertyChange(TreeNodeChangeEvent.persistent, oldPersistent, this.persistent);
 	}
 	
 	/*

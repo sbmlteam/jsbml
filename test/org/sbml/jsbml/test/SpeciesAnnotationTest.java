@@ -28,7 +28,7 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.test.gui.JTreeOfSBML;
-import org.sbml.jsbml.util.SimpleSBaseChangeListener;
+import org.sbml.jsbml.util.SimpleTreeNodeChangeListener;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 /**
@@ -36,11 +36,11 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  * @since 0.8
  * @version $Rev$
  */
-public class SpeciesAnnotationTest extends SimpleSBaseChangeListener {
+public class SpeciesAnnotationTest extends SimpleTreeNodeChangeListener {
 
 	public SpeciesAnnotationTest() throws XMLStreamException, SBMLException {
 		SBMLDocument doc = new SBMLDocument(2, 4);
-		doc.addChangeListener(this);
+		doc.addTreeNodeChangeListener(this);
 		Model model = doc.createModel("model_test");
 		Species s1 = model.createSpecies("s1", model.createCompartment("c1"));
 		s1.setMetaId("meta_" + s1.getId());

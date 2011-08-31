@@ -20,17 +20,19 @@
 
 package org.sbml.jsbml.test;
 
+import java.beans.PropertyChangeEvent;
+
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.CVTerm;
+import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBO;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
-import org.sbml.jsbml.CVTerm.Qualifier;
-import org.sbml.jsbml.util.SBaseChangeEvent;
-import org.sbml.jsbml.util.SBaseChangeListener;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 /**
@@ -39,11 +41,11 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  * @since 0.8
  * @version $Rev$
  */
-public class ListenerTest implements SBaseChangeListener {
+public class ListenerTest implements TreeNodeChangeListener {
 
 	public ListenerTest() {
-		SBMLDocument doc = new SBMLDocument(1, 2);
-		doc.addChangeListener(this);
+		SBMLDocument doc = new SBMLDocument(2, 2);
+		doc.addTreeNodeChangeListener(this);
 		Model model = doc.createModel("test_model");
 		Parameter p1 = model.createParameter("p1");
 		p1.setId("p2");
@@ -76,31 +78,26 @@ public class ListenerTest implements SBaseChangeListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.SBaseChangedListener#sbaseAdded(org.sbml.jsbml.SBase)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
-	public void sbaseAdded(SBase sb) {
-		System.out.printf("Added:\t%s\n", sb);
+	public void propertyChange(PropertyChangeEvent evt) {
+		System.out.printf("Change:\t%s\n", evt.toString());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.SBaseChangedListener#sbaseRemoved(org.sbml.jsbml.SBase)
+	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree.TreeNode)
 	 */
-	public void sbaseRemoved(SBase sb) {
-		System.out.printf("Removed:\t%s\n", sb);
+	public void nodeAdded(TreeNode node) {
+		System.out.printf("Added:\t%s\n", node);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @seeorg.sbml.jsbml.SBaseChangedListener#stateChanged(org.sbml.jsbml.
-	 * SBaseChangedEvent)
+	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(javax.swing.tree.TreeNode)
 	 */
-	public void stateChanged(SBaseChangeEvent ev) {
-		System.out.printf("Change:\t%s\n", ev.toString());
+	public void nodeRemoved(TreeNode node) {
+		System.out.printf("Removed:\t%s\n", node);
 	}
 
 }

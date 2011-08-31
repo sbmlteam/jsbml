@@ -23,19 +23,16 @@ package org.sbml.jsbml;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.util.SBaseChangeEvent;
-import org.sbml.jsbml.util.SBaseChangeListener;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
@@ -140,11 +137,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	private int sboTerm;
 
 	/**
-	 * {@link Set} of listeners for this component
-	 */
-	protected Set<SBaseChangeListener> setOfListeners;
-
-	/**
 	 * Creates an AbstractSBase instance. 
 	 * 
 	 * <p>By default, the sboTerm is -1, the
@@ -160,7 +152,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		notesXMLNode = null;
 		lv = getLevelAndVersion();
 		annotation = null;
-		setOfListeners = new HashSet<SBaseChangeListener>();
 		extensions = new HashMap<String, SBase>();
 		namespaces = new TreeSet<String>();
 	}
@@ -205,15 +196,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public AbstractSBase(SBase sb) {
 		super(sb);
 		
-		// setOfListeners is needed in all other setXX methods
-		setOfListeners = new HashSet<SBaseChangeListener>();
-		// extensions is needed when doing getChildCount
+		// extensions is needed when doing getChildCount()
 		extensions = new HashMap<String, SBase>();
 
-		if (sb instanceof AbstractSBase) {
-			this.setOfListeners.addAll(((AbstractSBase) sb).setOfListeners);
-		}
-		
 		if (sb.isSetLevel()) {
 			setLevel(sb.getLevel());
 		}
@@ -241,58 +226,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		// TODO : clone namespaces
 	}
-		
-
-	/**
-	 * Adds recursively all given {@link SBaseChangeListener} instances to this
-	 * element.
-	 * 
-	 * @param listeners the set of listeners to add
-	 * @return true if the set of listeners is added with success.
-	 * 
-	 */
-	public boolean addAllChangeListeners(Set<SBaseChangeListener> listeners) {
-		boolean success = setOfListeners.addAll(listeners);
-		Enumeration<TreeNode> children = children();
-		while (children.hasMoreElements()) {
-			TreeNode node = children.nextElement();
-			if (node instanceof SBase) {
-				success &= ((SBase) node).addAllChangeListeners(listeners);
-			}
-		}
-		return success;
-	}
-
-	/**
-	 * Adds recursively a listener to the {@link SBase} object and all of its
-	 * sub-elements.
-	 * 
-	 * @param l the listener to add
-	 */
-	public void addChangeListener(SBaseChangeListener l) {
-		setOfListeners.add(l);
-		Enumeration<TreeNode> children = children();
-		for (; children.hasMoreElements(); ) {
-			TreeNode node = children.nextElement();
-			if (node instanceof SBase) {
-				((SBase) node).addChangeListener(l);
-			}
-		}
-	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#addCVTerm(org.sbml.jsbml.CVTerm)
 	 */
 	public boolean addCVTerm(CVTerm term) {
-		if (!isSetAnnotation()) {
-			this.annotation = new Annotation();
-			this.annotation.parent = this;
-		}
-		boolean returnValue = annotation.addCVTerm(term);
-		// TODO: might be calling listeners twice.
-		firePropertyChange(SBaseChangeEvent.addCVTerm, null, term);
-		return returnValue;
+		return getAnnotation().addCVTerm(term);
 	}
 
 	/*
@@ -302,7 +242,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public void addExtension(String namespace, SBase sbase) {
 		this.extensions.put(namespace, sbase);
 		addNamespace(namespace);
-		firePropertyChange(SBaseChangeEvent.addExtension, null, this.extensions);
+		firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbase);
 	}
 
 	/**
@@ -314,7 +254,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public void addNamespace(String namespace) {
 		this.namespaces.add(namespace);
-		firePropertyChange(SBaseChangeEvent.addNamespace, null, namespace);
+		firePropertyChange(TreeNodeChangeEvent.addNamespace, null, namespace);
 	}
 
 	/*
@@ -328,7 +268,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		if (isSetNotes()) {
 			XMLNode oldNotes = notesXMLNode.clone();
 			appendNotes(addedNotes);
-			firePropertyChange(SBaseChangeEvent.notes, oldNotes, notesXMLNode);
+			firePropertyChange(TreeNodeChangeEvent.notes, oldNotes, notesXMLNode);
 		} else {
 			setNotes(addedNotes);
 		}
@@ -760,70 +700,31 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return l;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#firePropertyChange(java.lang.String, java.lang.Object, java.lang.Object)
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractTreeNode#notifyChildChange(javax.swing.tree.TreeNode, javax.swing.tree.TreeNode)
 	 */
-	public void firePropertyChange(String propertyName, Object oldValue,
-			Object newValue) {
-		if (setOfListeners.size() > 0) {
-			short changeType = -1; // no property change at all
-			if ((oldValue == null) && (newValue != null)) {
-				changeType = 0; // element added
-			} else if ((oldValue != null) && (newValue == null)) {
-				changeType = 1; // element removed
-			} else if ((oldValue != null) && !oldValue.equals(newValue)) {
-				changeType = 2; // real property change
-			}
-			if (0 <= changeType) {
-				if ((changeType == 0) && (newValue instanceof SBase)) {
-					((SBase) newValue).fireSBaseAddedEvent();
-				} else if ((changeType == 1) && (oldValue instanceof SBase)) {
-					((SBase) oldValue).fireSBaseRemovedEvent();
-				} else {
-					if (oldValue instanceof SBase) {
-						SBMLDocument doc = getSBMLDocument();
-						if (doc != null) {
-							/*
-							 * Recursively remove pointers to oldValue's and all
-							 * sub-element's meta identifiers from the
-							 * SBMLDocument.
-							 */
-							doc.registerMetaIds((SBase) oldValue, true, true);
-						}
-					}
-					/*
-					 * It is not necessary to add the metaId of the new value to
-					 * the SBMLDocument because this is already done in the
-					 * method setThisAsParentSBMLObject, a method that is called
-					 * to link a new element to an existing SBML tree.
-					 */
-					// Now we can notify all listeners about the change:
-					SBaseChangeEvent changeEvent = new SBaseChangeEvent(this,
-							propertyName, oldValue, newValue);
-					for (SBaseChangeListener listener : setOfListeners) {
-						listener.stateChanged(changeEvent);
-					}
-				}
+	@Override
+	protected void notifyChildChange(TreeNode oldChild, TreeNode newChild) {
+		if (oldChild instanceof SBase) {
+			SBMLDocument doc = getSBMLDocument();
+			if (doc != null) {
+				/*
+				 * Recursively remove pointers to oldValue's and all
+				 * sub-element's meta identifiers from the
+				 * SBMLDocument.
+				 */
+				doc.registerMetaIds((SBase) oldChild, true, true);
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#fireSBaseAddedEvent()
+	 * @see org.sbml.jsbml.AbstractTreeNode#fireNodeRemovedEvent()
 	 */
-	public void fireSBaseAddedEvent() {
-		for (SBaseChangeListener listener : setOfListeners) {
-			listener.sbaseAdded(this);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#fireSBaseRemovedEvent()
-	 */
-	public void fireSBaseRemovedEvent() {
+	@Override
+	public void fireNodeRemovedEvent() {
 		if (isSetMetaId()) {
 			// update the set of meta identifiers within the SBMLDocument.
 			SBMLDocument doc = getSBMLDocument();
@@ -835,9 +736,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				doc.registerMetaIds(this, true, true);
 			}
 		}
-		for (SBaseChangeListener listener : setOfListeners) {
-			listener.sbaseRemoved(this);
-		}
+		super.fireNodeRemovedEvent();
 	}
 
 	/*
@@ -857,6 +756,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		if (!isSetAnnotation()) {
 			annotation = new Annotation();
 			annotation.parent = this;
+			annotation.addAllChangeListeners(getListOfTreeNodeChangeListeners());
 		}
 		return annotation;
 	}
@@ -1100,17 +1000,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return SBO.intToString(sboTerm);
 	}
 
-	/**
-	 * Returns all {@link SBaseChangeListener}s that are assigned to this
-	 * element.
-	 * 
-	 * @return all {@link SBaseChangeListener}s that are assigned to this
-	 * element.
-	 */
-	public Set<SBaseChangeListener> getSetOfSBaseChangedListeners() {
-		return setOfListeners;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getVersion()
@@ -1261,29 +1150,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		return false;
 	}
-
-	/**
-	 * Removes all SBase change listeners from this element.
-	 */
-	public void removeAllSBaseChangedListeners() {
-		setOfListeners.clear();
-	}
-
-	/**
-	 * Removes recursively the given change listener from this element.
-	 * 
-	 * @param l the listener to remove.
-	 */
-	public void removeChangeListener(SBaseChangeListener l) {
-		setOfListeners.remove(l);
-		Enumeration<TreeNode> children = children();
-		while(children.hasMoreElements()) {
-			TreeNode node = children.nextElement();
-			if (node instanceof SBase) {
-				((SBase) node).removeChangeListener(l);
-			}
-		}
-	}
 	
 	/*
 	 * (non-Javadoc)
@@ -1293,7 +1159,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		Annotation oldAnnotation = this.annotation;
 		this.annotation = annotation;
 		this.annotation.parent = this;
-		firePropertyChange(SBaseChangeEvent.setAnnotation, oldAnnotation, this.annotation);
+		firePropertyChange(TreeNodeChangeEvent.setAnnotation, oldAnnotation, this.annotation);
 	}
 
 	/*
@@ -1303,7 +1169,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public void setHistory(History history) {
 		History oldHistory = getAnnotation().getHistory();
 		annotation.setHistory(history);
-		firePropertyChange(SBaseChangeEvent.history, oldHistory, history);
+		firePropertyChange(TreeNodeChangeEvent.history, oldHistory, history);
 	}
 
 	/*
@@ -1320,7 +1186,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		Integer oldLevel = getLevelAndVersion().getL();
 		this.lv.setL(Integer.valueOf(level));
-		firePropertyChange(SBaseChangeEvent.level, oldLevel, this.lv.getL());
+		firePropertyChange(TreeNodeChangeEvent.level, oldLevel, this.lv.getL());
 	}
 
 	/**
@@ -1358,7 +1224,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public void setMetaId(String metaId) {
 		if (getLevel() == 1) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.metaId, this);
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.metaId, this);
 		}
 		SBMLDocument doc = getSBMLDocument();
 		if (doc != null) {
@@ -1366,7 +1232,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		String oldMetaId = this.metaId;
 		this.metaId = metaId;
-		firePropertyChange(SBaseChangeEvent.metaId, oldMetaId, metaId);
+		firePropertyChange(TreeNodeChangeEvent.metaId, oldMetaId, metaId);
 	}
 
 	/*
@@ -1387,7 +1253,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		XMLNode oldNotes = this.notesXMLNode;
 		this.notesXMLNode = notes;
 		this.notesXMLNode.setParent(this);
-		firePropertyChange(SBaseChangeEvent.notes, oldNotes, this.notesXMLNode);
+		firePropertyChange(TreeNodeChangeEvent.notes, oldNotes, this.notesXMLNode);
 	}
 
 	/*
@@ -1397,7 +1263,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public void setParentSBML(SBase parent) {
 		SBase oldParent = getParent();
 		this.parent = parent;
-		firePropertyChange(SBaseChangeEvent.parentSBMLObject, oldParent, parent);
+		firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldParent, parent);
 	}
 
 	/*
@@ -1407,7 +1273,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public void setSBOTerm(int term) {
 		if (getLevelAndVersion().compareTo(Integer.valueOf(2),
 				Integer.valueOf(2)) < 0) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.sboTerm, this);
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.sboTerm, this);
 		}
 		if (!SBO.checkTerm(term)) {
 			throw new IllegalArgumentException(String.format(
@@ -1415,7 +1281,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		Integer oldTerm = Integer.valueOf(sboTerm);
 		sboTerm = term;
-		firePropertyChange(SBaseChangeEvent.sboTerm, oldTerm, sboTerm);
+		firePropertyChange(TreeNodeChangeEvent.sboTerm, oldTerm, sboTerm);
 	}
 
 	/*
@@ -1442,11 +1308,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				doc.registerMetaIds(sbase, (sbase.getSBMLDocument() == null)
 						&& (sbase instanceof AbstractSBase), false);
 			}
-			if (sbase instanceof AbstractSBase) {
-				((AbstractSBase) sbase).parent = this;
-				sbase.addAllChangeListeners(getSetOfSBaseChangedListeners());
+			if (sbase instanceof AbstractTreeNode) {
+				AbstractTreeNode node = (AbstractTreeNode) sbase;
+				node.parent = this;
+				node.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+				node.fireNodeAddedEvent();
 			}
-			sbase.fireSBaseAddedEvent();
 		}
 	}
 
@@ -1464,7 +1331,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		Integer oldVersion = getLevelAndVersion().getV();
 		this.lv.setV(Integer.valueOf(version));
-		firePropertyChange(SBaseChangeEvent.version, oldVersion, version);
+		firePropertyChange(TreeNodeChangeEvent.version, oldVersion, version);
 	}
 
 	/*
@@ -1483,7 +1350,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		if (isSetAnnotation()) {
 			Annotation oldAnnotation = annotation;
 			annotation = null;
-			firePropertyChange(SBaseChangeEvent.annotation, oldAnnotation,
+			firePropertyChange(TreeNodeChangeEvent.annotation, oldAnnotation,
 					annotation);
 		}
 	}
@@ -1496,7 +1363,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		if (isSetAnnotation() && getAnnotation().isSetListOfCVTerms()) {
 			List<CVTerm> list = annotation.getListOfCVTerms();
 			annotation.unsetCVTerms();
-			firePropertyChange(SBaseChangeEvent.unsetCVTerms, list, null);
+			firePropertyChange(TreeNodeChangeEvent.unsetCVTerms, list, null);
 		}
 	}
 
@@ -1508,7 +1375,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		if (isSetAnnotation()) {
 			History history = getHistory();
 			this.annotation.unsetHistory();
-			firePropertyChange(SBaseChangeEvent.history, history, getHistory());
+			firePropertyChange(TreeNodeChangeEvent.history, history, getHistory());
 		}
 	}
 
@@ -1525,7 +1392,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			}
 			String oldMetaId = metaId; 
 			metaId = null;
-			firePropertyChange(SBaseChangeEvent.metaId, oldMetaId, getMetaId());
+			firePropertyChange(TreeNodeChangeEvent.metaId, oldMetaId, null);
 		}
 	}
 
@@ -1538,7 +1405,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		if (isSetNotes()) {
 			XMLNode oldNotes = notesXMLNode;
 			notesXMLNode = null;
-			firePropertyChange(SBaseChangeEvent.notes, oldNotes, getNotes());
+			firePropertyChange(TreeNodeChangeEvent.notes, oldNotes, getNotes());
 		}
 	}
 
@@ -1551,7 +1418,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		if (isSetSBOTerm()) {
 			Integer oldSBOTerm = Integer.valueOf(sboTerm);
 			sboTerm = -1;
-			firePropertyChange(SBaseChangeEvent.sboTerm, oldSBOTerm, Integer
+			firePropertyChange(TreeNodeChangeEvent.sboTerm, oldSBOTerm, Integer
 					.valueOf(getSBOTerm()));
 		}
 	}
