@@ -25,7 +25,7 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * 
@@ -146,7 +146,7 @@ public class Member extends AbstractSBase {
 		} else {
 			this.symbol = symbolId;
 		}
-		firePropertyChange(SBaseChangeEvent.symbol, oldSymbol, this.symbol);
+		firePropertyChange(TreeNodeChangeEvent.symbol, oldSymbol, this.symbol);
 	}
 
 	/*

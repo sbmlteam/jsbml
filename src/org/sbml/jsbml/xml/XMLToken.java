@@ -20,8 +20,11 @@
 
 package org.sbml.jsbml.xml;
 
-import org.sbml.jsbml.JSBML;
+import java.util.ArrayList;
+
 import org.sbml.jsbml.AbstractTreeNode;
+import org.sbml.jsbml.JSBML;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * Representation of a token in an XML stream.
@@ -290,12 +293,16 @@ public abstract class XMLToken extends AbstractTreeNode {
 	 * <p>
 	 */
 	public int addAttr(String name, String value) {
-		
 		if (!isStartElement) {
 			return JSBML.OPERATION_FAILED;
 		}
-
-		return attributes.add(name, value);
+		
+		String oldValue = attributes.getValue(name);
+		int success = attributes.add(name, value);
+		if (success == JSBML.OPERATION_SUCCESS) {
+			firePropertyChange(name, oldValue, value);
+		} 
+		return success;
 	}
 
 
@@ -323,8 +330,13 @@ public abstract class XMLToken extends AbstractTreeNode {
 		if (!isStartElement) {
 			return JSBML.OPERATION_FAILED;
 		}
-
-		return attributes.add(name, value, namespaceURI);
+		
+		String oldValue = attributes.getValue(name);
+		int success = attributes.add(name, value, namespaceURI);
+		if (success == JSBML.OPERATION_SUCCESS) {
+			firePropertyChange(name, oldValue, value);
+		}
+		return success;
 	}
 
 
@@ -352,8 +364,12 @@ public abstract class XMLToken extends AbstractTreeNode {
 		if (!isStartElement) {
 			return JSBML.OPERATION_FAILED;
 		}
-
-		return attributes.add(name, value, namespaceURI, prefix);
+		String oldValue = attributes.getValue(name);
+		int success = attributes.add(name, value, namespaceURI, prefix);
+		if (success == JSBML.OPERATION_SUCCESS) {
+			firePropertyChange(name, oldValue, value);
+		} 
+		return success;
 	}
 
 
@@ -380,7 +396,12 @@ public abstract class XMLToken extends AbstractTreeNode {
 			return JSBML.OPERATION_FAILED;
 		}
 
-		return attributes.add(triple, value);
+		String oldValue = attributes.getValue(triple.getName());
+		int success = attributes.add(triple, value);
+		if (success == JSBML.OPERATION_SUCCESS) {
+			firePropertyChange(triple.getName(), oldValue, value);
+		}
+		return success;
 	}
 
 
@@ -405,7 +426,16 @@ public abstract class XMLToken extends AbstractTreeNode {
 			return JSBML.OPERATION_FAILED;
 		}
 		
-		return namespaces.add(uri);
+		String oldUri = null;
+		if(namespaces.hasURI(uri)){
+			oldUri = uri;
+		}
+		
+		int success = namespaces.add(uri);
+		if (success == JSBML.OPERATION_SUCCESS) {
+			firePropertyChange(TreeNodeChangeEvent.namespace, oldUri, uri);
+		}
+		return success;
 	}
 
 
@@ -430,8 +460,18 @@ public abstract class XMLToken extends AbstractTreeNode {
 		if (!isStartElement) {
 			return JSBML.OPERATION_FAILED;
 		}
+		String oldUri = null;
+		if(namespaces.hasURI(uri)){
+			oldUri = uri;
+		}else if(namespaces.hasPrefix(prefix)){
+			oldUri = namespaces.getURI(prefix);
+		}
 		
-		return namespaces.add(uri, prefix);
+		int success = namespaces.add(uri, prefix);
+		if (success == JSBML.OPERATION_SUCCESS) {
+			firePropertyChange(TreeNodeChangeEvent.namespace, oldUri, uri);
+		}
+		return success;
 	}
 
 
@@ -442,7 +482,9 @@ public abstract class XMLToken extends AbstractTreeNode {
 		if (characters == null) {
 			characters = new StringBuffer();
 		}
+		String oldValue = characters.toString();
 		characters.append(chars);
+		this.firePropertyChange(TreeNodeChangeEvent.text, oldValue, characters.toString());
 	}
 
 
@@ -461,8 +503,15 @@ public abstract class XMLToken extends AbstractTreeNode {
 		if (!isStartElement) {
 			return JSBML.OPERATION_FAILED;
 		}
-
-		return attributes.clear();
+		ArrayList<XMLTriple> oldNames = this.attributes.attributeNames;
+		ArrayList<String> oldValues = this.attributes.attributeValues;
+		
+		int success = attributes.clear();
+		
+		for(int i=0; i < this.attributes.getLength(); i++){
+			this.firePropertyChange(oldNames.get(i).getName(), oldValues.get(i), null);
+		}	
+		return success;
 	}
 
 
@@ -482,8 +531,14 @@ public abstract class XMLToken extends AbstractTreeNode {
 		if (!isStartElement) {
 			return JSBML.OPERATION_FAILED;
 		}
-
-		return namespaces.clear();
+		XMLNamespaces oldValues = namespaces;
+		
+		int success = namespaces.clear();
+		
+		for(int i=0; i < this.attributes.getLength(); i++){
+			this.firePropertyChange(TreeNodeChangeEvent.namespace, oldValues.getURI(i), null);
+		}	
+		return success;
 	}
 
 
@@ -1193,8 +1248,11 @@ public abstract class XMLToken extends AbstractTreeNode {
 		if (!isStartElement) {
 			return JSBML.OPERATION_FAILED;
 		}
-
-		return attributes.remove(n);
+		String oldValue = attributes.getValue(n);
+		String name = attributes.getName(n);
+		int success = attributes.remove(n);
+		this.firePropertyChange(name, oldValue, null);
+		return success;
 	}
 
 
@@ -1217,7 +1275,10 @@ public abstract class XMLToken extends AbstractTreeNode {
 			return JSBML.OPERATION_FAILED;
 		}
 
-		return attributes.remove(name);
+		String oldValue = attributes.getValue(name);
+		int success = attributes.remove(name);
+		this.firePropertyChange(name, oldValue, null);
+		return success;
 	}
 
 
@@ -1241,7 +1302,10 @@ public abstract class XMLToken extends AbstractTreeNode {
 			return JSBML.OPERATION_FAILED;
 		}
 
-		return attributes.remove(name, uri);
+		String oldValue = attributes.getValue(name, uri);
+		int success = attributes.remove(name, uri);
+		this.firePropertyChange(name, oldValue, null);
+		return success;
 	}
 
 
@@ -1263,8 +1327,12 @@ public abstract class XMLToken extends AbstractTreeNode {
 		if (!isStartElement) {
 			return JSBML.OPERATION_FAILED;
 		}
-
-		return attributes.remove(triple);
+		
+		String oldValue = attributes.getValue(triple);
+		String name = triple.getName();
+		int success = attributes.remove(triple);
+		this.firePropertyChange(name, oldValue, null);
+		return success;
 	}
 
 
@@ -1287,8 +1355,10 @@ public abstract class XMLToken extends AbstractTreeNode {
 		if (!isStartElement) {
 			return JSBML.OPERATION_FAILED;
 		}
-		
-		return namespaces.remove(index);
+		String oldValue = namespaces.getURI(index);
+		int success = namespaces.remove(index);
+		this.firePropertyChange(TreeNodeChangeEvent.namespace, oldValue, null);
+		return success;
 	}
 
 	/**
@@ -1308,8 +1378,10 @@ public abstract class XMLToken extends AbstractTreeNode {
 		if (!isStartElement) {
 			return JSBML.OPERATION_FAILED;
 		}
-		
-		return namespaces.remove(prefix);
+		String oldValue = namespaces.getURI(prefix);
+		int success = namespaces.remove(prefix);
+		this.firePropertyChange(TreeNodeChangeEvent.namespace, oldValue, null);
+		return success;
 	}
 
 	
@@ -1332,9 +1404,19 @@ public abstract class XMLToken extends AbstractTreeNode {
 		if (!isStartElement) {
 			return JSBML.OPERATION_FAILED;
 		}
-
+		
+		ArrayList<XMLTriple> names = this.attributes.attributeNames;
+		ArrayList<String> values = this.attributes.attributeValues;
+		for(int i=0; i < this.attributes.getLength(); i++){
+			this.firePropertyChange(names.get(i).getName(), values.get(i), null);
+		}	
 		this.attributes = attributes;
 
+		names = attributes.attributeNames;
+		values = attributes.attributeValues;
+		for(int i=0; i < attributes.getLength(); i++){
+			this.firePropertyChange(names.get(i).getName(), null, values.get(i));
+		}	
 		return JSBML.OPERATION_SUCCESS;
 	}
 
@@ -1343,8 +1425,10 @@ public abstract class XMLToken extends AbstractTreeNode {
 	 * @param chars the characters to set
 	 */
 	public void setCharacters(String chars) {
+		String oldValue = characters.toString();
 		characters = new StringBuffer();
 		characters.append(chars);
+		this.firePropertyChange(TreeNodeChangeEvent.text, oldValue, characters.toString());
 	}
 
 	/**
@@ -1373,9 +1457,9 @@ public abstract class XMLToken extends AbstractTreeNode {
 	 * <li> OPERATION_FAILED
 	 */
 	public int setEOF() {
-		
+		boolean oldValue = isEOF;
 		isEOF = true;
-		
+		this.firePropertyChange(TreeNodeChangeEvent.isEOF, oldValue, isEOF);
 		return JSBML.OPERATION_SUCCESS;
 	}
 
@@ -1401,8 +1485,17 @@ public abstract class XMLToken extends AbstractTreeNode {
 			return JSBML.OPERATION_FAILED;
 		}
 		
+		XMLNamespaces values = this.namespaces;
+		for(int i=0; i < this.attributes.getLength(); i++){
+			this.firePropertyChange(TreeNodeChangeEvent.namespace, values.getURI(i), null);
+		}
+		
 		this.namespaces = namespaces;
 		
+		values = this.namespaces;
+		for(int i=0; i < this.attributes.getLength(); i++){
+			this.firePropertyChange(TreeNodeChangeEvent.namespace, null, values.getURI(i));
+		}
 		return JSBML.OPERATION_SUCCESS;
 	}
 
@@ -1424,9 +1517,9 @@ public abstract class XMLToken extends AbstractTreeNode {
 		if (isText) {
 			return JSBML.OPERATION_FAILED;
 		}
-		
+		XMLTriple oldValue = this.triple;
 		this.triple = triple;
-		
+		this.firePropertyChange(TreeNodeChangeEvent.xmlTriple, oldValue, triple);
 		return JSBML.OPERATION_SUCCESS;
 	}
 

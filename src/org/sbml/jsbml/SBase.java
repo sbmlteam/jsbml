@@ -23,13 +23,12 @@ package org.sbml.jsbml;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedSet;
 
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
-import org.sbml.jsbml.util.SBaseChangeListener;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.xml.XMLNode;
 
@@ -42,22 +41,6 @@ import org.sbml.jsbml.xml.XMLNode;
  * @version $Rev$
  */
 public interface SBase extends Cloneable, Serializable, TreeNode {
-
-	/**
-	 * Adds all {@link SBaseChangeListener}s in the given {@link Set} to this
-	 * element.
-	 * 
-	 * @param listeners
-	 * @return true if this operation was a success, false otherwise.
-	 */
-	public boolean addAllChangeListeners(Set<SBaseChangeListener> listeners);
-
-	/**
-	 * adds a listener to the SBase object. from now on changes will be saved
-	 * 
-	 * @param l
-	 */
-	public void addChangeListener(SBaseChangeListener l);
 	
 	/**
 	 * 
@@ -129,36 +112,6 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * @return
 	 */
 	public List<String> filterCVTerms(Qualifier qualifier, String pattern);
-
-	/**
-	 * All {@link SBaseChangeListener}s are informed about the change in this
-	 * {@link SBase}.
-	 * 
-	 * @param propertyName
-	 *            Tells the {@link SBaseChangeListener} the name of the
-	 *            property whose value has been changed.
-	 * @param oldValue
-	 *            This is the value before the change.
-	 * @param newValue
-	 *            This gives the new value that is now the new value for the
-	 *            given property..
-	 */
-	public void firePropertyChange(String propertyName, Object oldValue,
-			Object newValue);
-
-	/**
-	 * All {@link SBaseChangeListener} instances linked to this {@link SBase}
-	 * are informed about the adding of this object to an owning {@link ListOf}
-	 * or to another new parent SBML object.
-	 */
-	public void fireSBaseAddedEvent();
-
-	/**
-	 * All {@link SBaseChangeListener} instances linked to this {@link SBase}
-	 * are informed about the deletion of this {@link SBase} from a
-	 * {@link ListOf} or from another parent SBML object.
-	 */
-	public void fireSBaseRemovedEvent();
 
 	/**
 	 * Returns the content of the 'annotation' sub-element of this object as an
@@ -450,11 +403,11 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 			String value);
 
 	/**
-	 * Removes the given {@link SBaseChangeListener} from this element.
+	 * Removes the given {@link TreeNodeChangeListener} from this element.
 	 * 
 	 * @param l
 	 */
-	public void removeChangeListener(SBaseChangeListener l);
+	public void removeTreeNodeChangeListener(TreeNodeChangeListener l);
 
 	/**
 	 * Sets the value of the 'annotation' sub-element of this SBML object to a

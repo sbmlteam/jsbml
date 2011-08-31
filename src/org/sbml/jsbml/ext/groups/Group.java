@@ -25,7 +25,7 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.util.SBaseChangeListener;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * 
@@ -141,7 +141,7 @@ public class Group extends AbstractNamedSBase {
 
 	/**
 	 * Removes the {@link #listOfMembers} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangeListener}.
+	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -150,7 +150,7 @@ public class Group extends AbstractNamedSBase {
 		if (this.listOfMembers != null) {
 			ListOf<Member> oldListOfMembers = this.listOfMembers;
 			this.listOfMembers = null;
-			oldListOfMembers.fireSBaseRemovedEvent();
+			oldListOfMembers.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;

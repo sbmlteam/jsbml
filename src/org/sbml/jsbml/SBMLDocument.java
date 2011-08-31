@@ -33,8 +33,8 @@ import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.util.SBaseChangeEvent;
-import org.sbml.jsbml.util.SBaseChangeListener;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.validator.SBMLValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -53,12 +53,12 @@ public class SBMLDocument extends AbstractSBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -3927709655186844513L;
-	
+
 	/**
 	 * The namespace URI of SBML Level 1 Version 1 and 2.
 	 */
 	public static final transient String URI_NAMESPACE_L1 = "http://www.sbml.org/sbml/level1";
-	
+
 	/**
 	 * The namespace URI of SBML Level 2 Version 1.
 	 */
@@ -83,23 +83,23 @@ public class SBMLDocument extends AbstractSBase {
 	 * The namespace URI of SBML Level 3 Version 1.
 	 */
 	public static final transient String URI_NAMESPACE_L3V1Core = "http://www.sbml.org/sbml/level3/version1/core";
-	
+
 	/**
 	 * Contains all the parameter to validate the SBML document
 	 */
 	private HashMap<String, Boolean> checkConsistencyParameters = new HashMap<String, Boolean>();
-	
+
 	/**
 	 * Memorizes all {@link SBMLError} when parsing the file containing this
 	 * document.
 	 */
 	private SBMLErrorLog listOfErrors;
-	
+
 	/**
 	 * logger used to print messages
 	 */
 	private transient Logger logger = Logger.getLogger(getClass());
-	
+
 	/**
 	 * Represents the 'model' XML subnode of a SBML file.
 	 */
@@ -119,7 +119,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * have to be unique within the document.
 	 */
 	private Set<String> setOfMetaIds;
-	
+
 	/**
 	 * Creates a {@link SBMLDocument} instance. By default, the parent SBML object of
 	 * this object is itself. The model is null. The SBMLDocumentAttributes and
@@ -136,7 +136,7 @@ public class SBMLDocument extends AbstractSBase {
 		setParentSBML(this);
 		checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), false);
 	}
-	
+
 	/**
 	 * Creates a SBMLDocument instance from a level and version. By default, the
 	 * parent SBML object of this object is itself. The model is null. The
@@ -153,7 +153,7 @@ public class SBMLDocument extends AbstractSBase {
 			throw new LevelVersionError(this);
 		}
 	}
-	
+
 	/**
 	 * Creates a SBMLDocument instance from a given SBMLDocument.
 	 * 
@@ -170,7 +170,7 @@ public class SBMLDocument extends AbstractSBase {
 			this.model = null;
 		}
 		Iterator<Map.Entry<String, String>> entryIterator = sb.SBMLDocumentAttributes
-				.entrySet().iterator();
+		.entrySet().iterator();
 		Map.Entry<String, String> entry;
 		while (entryIterator.hasNext()) {
 			entry = entryIterator.next();
@@ -205,6 +205,7 @@ public class SBMLDocument extends AbstractSBase {
 			this.SBMLDocumentNamespaces.put(namespaceName, URI);
 		}
 		this.addNamespace(URI);
+		this.firePropertyChange(TreeNodeChangeEvent.addNamespace, null, URI);
 	}
 
 	/**
@@ -230,14 +231,14 @@ public class SBMLDocument extends AbstractSBase {
 	 * @see #setConsistencyChecks(CHECK_CATEGORY, boolean)
 	 */
 	public int checkConsistency() {
-		
+
 		File tmpFile = null;
-		
+
 		try {
 			tmpFile = File.createTempFile("jsbml-", ".xml");
 		} catch (IOException e) {
 			logger.error("There was an error creating a temporary file :" + e.getMessage());
-			
+
 			if (logger.isDebugEnabled()) {
 				e.printStackTrace();
 			}
@@ -248,27 +249,27 @@ public class SBMLDocument extends AbstractSBase {
 			new SBMLWriter().writeSBML(this, tmpFile);
 		} catch (IOException e) {
 			logger.error("There was an error creating a temporary file :" + e.getMessage());
-			
+
 			if (logger.isDebugEnabled()) {
 				e.printStackTrace();
 			}
 			return -1;
 		} catch (XMLStreamException e) {
 			logger.error("There was an error creating a temporary file :" + e.getMessage());
-			
+
 			if (logger.isDebugEnabled()) {
 				e.printStackTrace();
 			}
 			return -1;
 		} catch (SBMLException e) {
 			logger.error("There was an error creating a temporary file :" + e.getMessage());
-			
+
 			if (logger.isDebugEnabled()) {
 				e.printStackTrace();
 			}
 			return -1;
 		}
-		
+
 		/*
 		 * u --> Disable checking the consistency of measurement units associated with quantities (SBML L2V3 rules 105nn) 
 		 * i --> Disable checking the correctness and consistency of identifiers used for model entities (SBML L2V3 rules 103nn) 
@@ -282,18 +283,18 @@ public class SBMLDocument extends AbstractSBase {
 
 		// checkConsistencyParameters.put("offcheck", "u");
 		// checkConsistencyParameters.put("offcheck", "u,p,o");
-		
+
 		// System.out.println("SBMLDocument.checkConsistency : tmp file = " + tmpFile.getAbsolutePath());
-		
+
 		HashMap<String, String> consistencyParameters = new HashMap<String, String>(); 
 		String offcheck = null;
-		
+
 		for (String checkCategory : checkConsistencyParameters.keySet()) {
 			CHECK_CATEGORY typeOfCheck = CHECK_CATEGORY.valueOf(checkCategory);
 			boolean checkIsOn = checkConsistencyParameters.get(checkCategory); 
-			
+
 			logger.debug(" Type of check = " + typeOfCheck + " is " + checkIsOn);
-			
+
 			switch (typeOfCheck)
 			{
 			case IDENTIFIER_CONSISTENCY: {
@@ -302,49 +303,49 @@ public class SBMLDocument extends AbstractSBase {
 				}
 				break;
 			}
-		  case GENERAL_CONSISTENCY: {
+			case GENERAL_CONSISTENCY: {
 				if (!checkIsOn) {
 					offcheck = (offcheck == null) ? "g" : offcheck + ",g"; 
 				}
 				break;
 			}
-		  case SBO_CONSISTENCY: {
+			case SBO_CONSISTENCY: {
 				if (!checkIsOn) {
 					offcheck = (offcheck == null) ? "s" : offcheck + ",s"; 
 				}
 				break;
 			}
-		  case MATHML_CONSISTENCY: {
+			case MATHML_CONSISTENCY: {
 				if (!checkIsOn) {
 					offcheck = (offcheck == null) ? "m" : offcheck + ",m"; 
 				}
 				break;
 			}
-		  case UNITS_CONSISTENCY: {
+			case UNITS_CONSISTENCY: {
 				if (!checkIsOn) {
 					offcheck = (offcheck == null) ? "u" : offcheck + ",u"; 
 				}
 				break;
 			}
-		  case OVERDETERMINED_MODEL: {
+			case OVERDETERMINED_MODEL: {
 				if (!checkIsOn) {
 					offcheck = (offcheck == null) ? "o" : offcheck + ",o"; 
 				}
 				break;
 			}
-		  case MODELING_PRACTICE: {
+			case MODELING_PRACTICE: {
 				if (!checkIsOn) {
 					offcheck = (offcheck == null) ? "p" : offcheck + ",p"; 
 				}
 				break;
 			}
-		  default: {
-			  // If it's a category for which we don't have validators, ignore it.
-			  // Should not happen as checkConsistencyParameters is only modified through
-			  // setConsistencyChecks(CHECK_CATEGORY, boolean)
-			  break;
-		  }
-		  }
+			default: {
+				// If it's a category for which we don't have validators, ignore it.
+				// Should not happen as checkConsistencyParameters is only modified through
+				// setConsistencyChecks(CHECK_CATEGORY, boolean)
+				break;
+			}
+			}
 		}
 		if (offcheck != null) {
 			consistencyParameters.put("offcheck", offcheck);
@@ -357,7 +358,7 @@ public class SBMLDocument extends AbstractSBase {
 			tmpFile.delete();
 		} catch (SecurityException e) {
 			logger.error("There was an error removing a temporary file :" + e.getMessage());
-			
+
 			if (logger.isDebugEnabled()) {
 				e.printStackTrace();
 			}
@@ -387,7 +388,7 @@ public class SBMLDocument extends AbstractSBase {
 		return setOfMetaIds.contains(metaId);
 	}
 
-	
+
 	/**
 	 * Creates a new Model inside this {@link SBMLDocument}, and returns a
 	 * pointer to it.
@@ -403,12 +404,14 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	@Deprecated
 	public Model createModel() {
+		Model oldValue = getModel();
 		this.setModel(new Model(getLevel(), getVersion()));
+		this.firePropertyChange(TreeNodeChangeEvent.model, oldValue, getModel());
 		return getModel();
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Creates a new instance of Model from id and the level and version of this
 	 * SBMLDocument.
@@ -417,10 +420,10 @@ public class SBMLDocument extends AbstractSBase {
 	 * @return the new {@link Model} instance.
 	 */
 	public Model createModel(String id) {
-		this.setModel(new Model(id, getLevel(), getVersion()));
+		setModel(new Model(id, getLevel(), getVersion()));
 		return getModel();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
@@ -523,7 +526,7 @@ public class SBMLDocument extends AbstractSBase {
 		if (!isSetListOfErrors() || i < 0 || i >= getNumErrors()) {
 			throw new IndexOutOfBoundsException("You are trying to access the error number " + i + ", which is invalid.");	
 		}
-		
+
 		return listOfErrors.getError(i);
 	}
 
@@ -575,7 +578,7 @@ public class SBMLDocument extends AbstractSBase {
 	public Map<String, String> getSBMLDocumentAttributes() {
 		return SBMLDocumentAttributes;
 	}
-	
+
 	/**
 	 * 
 	 * @return the map SBMLDocumentNamespaces of this SBMLDocument.
@@ -619,7 +622,7 @@ public class SBMLDocument extends AbstractSBase {
 
 	public void printErrors() {
 		int nbErrors = listOfErrors.getNumErrors();
-		
+
 		for (int i = 0; i < nbErrors; i++) {
 			System.out.println(listOfErrors.getError(i));
 		}
@@ -636,10 +639,10 @@ public class SBMLDocument extends AbstractSBase {
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-		
+
 		if (!isAttributeRead) {
 			isAttributeRead = true;
-			
+
 			if (attributeName.equals("level")) {
 				setLevel(StringTools.parseSBMLInt(value));
 			} else if (attributeName.equals("version")) {
@@ -667,12 +670,12 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	private void checkMetaId(String metaId) {
 
-			if (containsMetaId(metaId)) {
-				logger.error("An element with the metaid '" + metaId + "' is already present in the SBML document." +
-						" The new element will not get added to it.");
-				throw new IllegalArgumentException(String.format(
-						"Cannot set duplicate meta identifier \"%s\".", metaId));
-			}
+		if (containsMetaId(metaId)) {
+			logger.error("An element with the metaid '" + metaId + "' is already present in the SBML document." +
+			" The new element will not get added to it.");
+			throw new IllegalArgumentException(String.format(
+					"Cannot set duplicate meta identifier \"%s\".", metaId));
+		}
 	}
 
 	/**
@@ -693,7 +696,7 @@ public class SBMLDocument extends AbstractSBase {
 		if (add) {
 			if (containsMetaId(metaId)) {
 				logger.error("An element with the metaid '" + metaId + "' is already present in the SBML document." +
-						" The new element will not get added to it.");
+				" The new element will not get added to it.");
 				throw new IllegalArgumentException(String.format(
 						"Cannot set duplicate meta identifier \"%s\".", metaId));
 			}
@@ -725,11 +728,11 @@ public class SBMLDocument extends AbstractSBase {
 	 *             cases.
 	 */
 	void registerMetaIds(SBase sbase, boolean recursively, boolean delete) {
-		
+
 		Set<String> metaIds = new HashSet<String>();
-		
+
 		collectMetaIds(metaIds, sbase, recursively, delete);
-		
+
 		if (delete) {
 			setOfMetaIds.removeAll(metaIds);
 		} else {
@@ -759,7 +762,7 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	@SuppressWarnings("unchecked")
 	private void collectMetaIds(Set<String> metaIds, SBase sbase, boolean recursively, boolean delete) {
-		
+
 		if (sbase.isSetMetaId()) {
 			if (!delete) {
 				// checks if the metaid can be added, throws an exception if not.
@@ -778,7 +781,7 @@ public class SBMLDocument extends AbstractSBase {
 		}
 	}
 
-	
+
 	/**
 	 * Controls the consistency checks that are performed when
 	 * {@link SBMLDocument#checkConsistency()} is called.
@@ -889,7 +892,7 @@ public class SBMLDocument extends AbstractSBase {
 		return super.setLevelAndVersion(level, version, true);
 	}
 
-	
+
 	/**
 	 * <p>
 	 * Sets the SBML Level and Version of this {@link SBMLDocument} instance,
@@ -947,7 +950,7 @@ public class SBMLDocument extends AbstractSBase {
 			Map<String, String> sBMLDocumentAttributes) {
 		Map<String, String> oldAttributes = this.SBMLDocumentAttributes;
 		SBMLDocumentAttributes = sBMLDocumentAttributes;
-		firePropertyChange(SBaseChangeEvent.SBMLDocumentAttributes,
+		firePropertyChange(TreeNodeChangeEvent.SBMLDocumentAttributes,
 				oldAttributes, this.SBMLDocumentAttributes);
 	}
 
@@ -963,7 +966,7 @@ public class SBMLDocument extends AbstractSBase {
 
 	/**
 	 * Sets the {@link Model} of this {@link SBMLDocument} to null and notifies
-	 * all {@link SBaseChangeListener} about changes.
+	 * all {@link TreeNodeChangeListener} about changes.
 	 * 
 	 * @return <code>true</code> if calling this method changed the properties
 	 *         of this element.
@@ -972,7 +975,7 @@ public class SBMLDocument extends AbstractSBase {
 		if (this.model != null) {
 			Model oldModel = this.model;
 			this.model = null;
-			oldModel.fireSBaseRemovedEvent();
+			oldModel.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -997,7 +1000,7 @@ public class SBMLDocument extends AbstractSBase {
 		}
 
 		Iterator<Map.Entry<String, String>> it = this
-				.getSBMLDocumentNamespaces().entrySet().iterator();
+		.getSBMLDocumentNamespaces().entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, String> entry = it.next();
 			if (!entry.getKey().equals("xmlns")) {

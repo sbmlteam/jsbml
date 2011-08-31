@@ -152,7 +152,16 @@ public class GraphicalObject extends AbstractNamedSBase {
 	 * @param boundingBox
 	 */
 	public void setBoundingBox(BoundingBox boundingBox) {
+		unsetBoundingBox();
 		this.boundingBox = boundingBox;
 		setThisAsParentSBMLObject(this.boundingBox);
+	}
+	
+	private void unsetBoundingBox(){
+		if(isSetBoundingBox()){
+			BoundingBox oldValue = this.boundingBox;
+			this.boundingBox = null;
+			oldValue.fireNodeRemovedEvent();
+		}		
 	}
 }

@@ -58,8 +58,8 @@ public class TestClone {
     }
 
     // setting a new unique metaid to the reaction but not it's sub-elements
-    clonedReaction.setMetaId("meta3");    
-
+    clonedReaction.setMetaId("meta3");   
+    
     System.out.println("Trying to add the cloned reaction to the model, with a new unique id and metaid. It is still not possible as the metaids are not unique.");
     try {
     	operationSuccessful = m.addReaction(clonedReaction);

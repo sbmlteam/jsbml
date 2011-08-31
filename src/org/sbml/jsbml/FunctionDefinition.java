@@ -23,7 +23,7 @@ package org.sbml.jsbml;
 import java.util.Map;
 
 import org.sbml.jsbml.text.parser.ParseException;
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * Represents the functionDefinition XML element of a SBML file.
@@ -317,11 +317,6 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	@Override
 	public void setFormula(String formula) throws ParseException {
 		ASTNode math = ASTNode.parseFormula(formula);
-		if (!math.isLambda()) {
-			throw new IllegalArgumentException(String.format(
-					ILLEGAL_ASTNODE_TYPE_MSG, ASTNode.Type.LAMBDA, math
-							.getType()));
-		}
 		setMath(math);
 	}
 
@@ -331,11 +326,11 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 */
 	public void setId(String id) {
 		if (getLevel() < 2) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.id, this);
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.id, this);
 		}
 		String oldID = this.id;
 		this.id = id;
-		firePropertyChange(SBaseChangeEvent.id, oldID, id);
+		firePropertyChange(TreeNodeChangeEvent.id, oldID, id);
 	}
 
 	/*
@@ -363,11 +358,11 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 */
 	public void setName(String name) {
 		if (getLevel() < 2) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.id, this);
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.id, this);
 		}
 		String oldName = this.name;
 		this.name = name;
-		firePropertyChange(SBaseChangeEvent.name, oldName, name);
+		firePropertyChange(TreeNodeChangeEvent.name, oldName, name);
 	}
 
 	/*
@@ -391,7 +386,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 * @see org.sbml.jsbml.NamedSBase#unsetId()
 	 */
 	public void unsetId() {
-		this.id = null;
+		setId(null);
 	}
 
 	/*
@@ -399,7 +394,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 * @see org.sbml.jsbml.NamedSBase#unsetName()
 	 */
 	public void unsetName() {
-		this.name = null;
+		setName(null);
 	}
 	
 	/*

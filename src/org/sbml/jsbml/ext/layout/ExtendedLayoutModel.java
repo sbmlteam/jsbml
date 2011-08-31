@@ -24,7 +24,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.util.SBaseChangeListener;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * 
@@ -104,7 +104,6 @@ public class ExtendedLayoutModel extends Model {
 	 */
 	public void addLayout(Layout layout) {
 		if (layout != null) {
-			setThisAsParentSBMLObject(layout);
 			listOfLayouts.add(layout);
 		}
 	}
@@ -224,7 +223,7 @@ public class ExtendedLayoutModel extends Model {
 
 	/**
 	 * Removes the {@link #listOfLayouts} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangeListener}.
+	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -233,7 +232,7 @@ public class ExtendedLayoutModel extends Model {
 		if (this.listOfLayouts != null) {
 			ListOf<Layout> oldListOfLayouts = this.listOfLayouts;
 			this.listOfLayouts = null;
-			oldListOfLayouts.fireSBaseRemovedEvent();
+			oldListOfLayouts.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;

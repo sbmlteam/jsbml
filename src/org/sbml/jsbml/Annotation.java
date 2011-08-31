@@ -30,8 +30,8 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.CVTerm.Type;
-import org.sbml.jsbml.util.AnnotationChangeEvent;
 import org.sbml.jsbml.util.TreeNodeAdapter;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.filters.CVTermFilter;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -244,8 +244,11 @@ public class Annotation extends AnnotationElement {
 			String URI) {
 		String key = (prefix.length() > 0) ? prefix + ":" + namespaceName
 				: namespaceName;
-		// TODO: Notify listener
-		this.annotationNamespaces.put(key, URI);
+		
+		this.annotationNamespaces.put(key, URI);			
+		//TreeNodeAdapter adapter = new TreeNodeAdapter(URI, this);
+		//adapter.fireNodeAddedEvent();
+		this.firePropertyChange(TreeNodeChangeEvent.annotationNameSpaces, null, URI);
 	}
 
 	/**
@@ -273,7 +276,7 @@ public class Annotation extends AnnotationElement {
 		}
 		cvTerm.parent = this;
 		boolean success = listOfCVTerms.add(cvTerm);
-		firePropertyChange(AnnotationChangeEvent.addCVTerm, null, cvTerm);
+		firePropertyChange(TreeNodeChangeEvent.addCVTerm, null, cvTerm);
 		return success;
 	}
 	
@@ -284,8 +287,8 @@ public class Annotation extends AnnotationElement {
 	 * @param annotation the annotation extension object.
 	 */
 	public void addExtension(String namespace, Annotation annotation) {
-		// TODO: notify listener
 		this.extensions.put(namespace, annotation);
+	    firePropertyChange(TreeNodeChangeEvent.addExtension, null, annotation);
 	}
 
 	/**
@@ -303,6 +306,7 @@ public class Annotation extends AnnotationElement {
 			String URI) {
 		// TODO : prefix is ignored, is it normal ??
 		this.rdfAnnotationNamespaces.put(URI, namespaceName);
+		firePropertyChange(TreeNodeChangeEvent.rdfAnnotationNamespaces, null, URI);
 	}
 
 	/**
@@ -311,11 +315,17 @@ public class Annotation extends AnnotationElement {
 	 * @param annotation some non RDF annotations.
 	 */
 	public void appendNoRDFAnnotation(String annotation) {
+		String oldNonRDFAnnotation = null;		
+		
 		if (this.nonRDFannotation == null) {
 			this.nonRDFannotation = new StringBuilder(annotation);
 		} else {
+			oldNonRDFAnnotation = nonRDFannotation.toString();
 			this.nonRDFannotation.append(annotation);
 		}
+		
+		firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
+					oldNonRDFAnnotation, nonRDFannotation.toString());
 	}
 
 	
@@ -440,13 +450,13 @@ public class Annotation extends AnnotationElement {
 		}
 		if (isSetListOfCVTerms()) {
 			if (childIndex == pos) {
-				return new TreeNodeAdapter(getListOfCVTerms());
+				return new TreeNodeAdapter(getListOfCVTerms(), this);
 			}
 			pos++;
 		}
 		if (extensions.size() > 0) {
 			if (childIndex == pos) {
-				return new TreeNodeAdapter(extensions);
+				return new TreeNodeAdapter(extensions, this);
 			}
 			pos++;
 		}
@@ -597,11 +607,17 @@ public class Annotation extends AnnotationElement {
 	// TODO : check if this method is used and needed. Could also be used to insert the missing namespaces 
 	// before creating the DOM tree. 
 	public void insertNoRDFAnnotation(String annotation, int offset) {
+		String oldNonRDFAnnotation = null;	
+		
 		if (this.nonRDFannotation == null) {
 			this.nonRDFannotation = new StringBuilder(annotation);
 		} else {
+			oldNonRDFAnnotation = nonRDFannotation.toString();
 			this.nonRDFannotation.insert(offset, annotation);
 		}
+		
+		firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
+					oldNonRDFAnnotation, nonRDFannotation.toString());
 	}
 
 	/**
@@ -756,7 +772,7 @@ public class Annotation extends AnnotationElement {
 	public void setAbout(String about) {
 		String oldAbout = this.about;
 		this.about = about;
-		firePropertyChange(AnnotationChangeEvent.about, oldAbout, this.about);
+		firePropertyChange(TreeNodeChangeEvent.about, oldAbout, this.about);
 	}
 
 	/**
@@ -769,11 +785,12 @@ public class Annotation extends AnnotationElement {
 		if (annotationNamespaces != null) {
 			for (int i = 0; i < annotationNamespaces.getLength(); i++) {
 				Node attribute = annotationNamespaces.item(i);
+				String oldValue = this.getAnnotationNamespaces().get(attribute.getNodeName());
 				getAnnotationNamespaces().put(attribute.getNodeName(),
 						attribute.getNodeValue());
+				firePropertyChange(TreeNodeChangeEvent.annotationNameSpaces, oldValue, attribute.getNodeValue());
 			}
 		}
-		// TODO: fire change event?
 	}
 
 	/**
@@ -784,7 +801,7 @@ public class Annotation extends AnnotationElement {
 	public void setAnnotationNamespaces(Map<String, String> annotationNamespaces) {
 		Map<String, String> oldAnnotationNameSpaces = this.annotationNamespaces;
 		this.annotationNamespaces = annotationNamespaces;
-		firePropertyChange(AnnotationChangeEvent.annotationNameSpaces,
+		firePropertyChange(TreeNodeChangeEvent.annotationNameSpaces,
 				oldAnnotationNameSpaces, this.annotationNamespaces);
 	}
 
@@ -798,7 +815,7 @@ public class Annotation extends AnnotationElement {
 		History oldHistory = this.history;
 		this.history = history;
 		this.history.parent = this;
-		firePropertyChange(AnnotationChangeEvent.history, oldHistory, this.history);
+		firePropertyChange(TreeNodeChangeEvent.history, oldHistory, this.history);
 	}
 
 	/**
@@ -812,7 +829,7 @@ public class Annotation extends AnnotationElement {
 			oldNonRDFAnnotation = nonRDFannotation.toString();
 		}
 		nonRDFannotation = new StringBuilder(nonRDFAnnotation);
-		firePropertyChange(AnnotationChangeEvent.nonRDFAnnotation,
+		firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
 				oldNonRDFAnnotation, nonRDFannotation.toString());
 	}
 
@@ -824,7 +841,7 @@ public class Annotation extends AnnotationElement {
 	public void setRdfAnnotationNamespaces(Map<String, String> rdfAnnotationNamespaces) {
 		Map<String, String> oldRdfAnnotationNameSpaces = this.rdfAnnotationNamespaces;
 		this.rdfAnnotationNamespaces = rdfAnnotationNamespaces;
-		firePropertyChange(AnnotationChangeEvent.rdfAnnotationNamespaces,
+		firePropertyChange(TreeNodeChangeEvent.rdfAnnotationNamespaces,
 				oldRdfAnnotationNameSpaces, this.rdfAnnotationNamespaces);
 	}
 
@@ -834,29 +851,43 @@ public class Annotation extends AnnotationElement {
 	 */
 	public void unsetCVTerms() {
 		if (listOfCVTerms != null) {
+			List<CVTerm> oldListOfCVTerms = this.listOfCVTerms;
 			listOfCVTerms.clear();
 			for (Type type : CVTerm.Type.values()) {
 				if (rdfAnnotationNamespaces.containsKey(type.getNamespaceURI())) {
 					rdfAnnotationNamespaces.remove(type.getNamespaceURI());
 				}
 			}
+			listOfCVTerms = null;
+			firePropertyChange(TreeNodeChangeEvent.unsetCVTerms,
+					oldListOfCVTerms, listOfCVTerms);
 		}
-		listOfCVTerms = null;
 	}
 
 	/**
 	 * Sets the {@link History} instance of this object to null.
 	 */
 	public void unsetHistory() {
+		History oldHistory = null;
+		if (history != null) {
+			oldHistory = history;
+		}
 		this.history = null;
+		firePropertyChange(TreeNodeChangeEvent.history, oldHistory, history);
 	}
 
 	/**
 	 * Sets the non RDF annotation String to null.
 	 */
 	public void unsetNonRDFannotation() {
-		if (isSetNonRDFannotation()) {
+		String oldNonRDFAnnotation = null;
+		if (nonRDFannotation != null) {
+			oldNonRDFAnnotation = nonRDFannotation.toString();
+		}
+		if (isSetNonRDFannotation()) {	
 			nonRDFannotation = null;
+			firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
+					oldNonRDFAnnotation, nonRDFannotation.toString());
 		}
 	}
 

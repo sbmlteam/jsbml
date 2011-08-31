@@ -23,7 +23,7 @@ package org.sbml.jsbml;
 import java.util.Locale;
 import java.util.Map;
 
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -539,12 +539,12 @@ public class Compartment extends Symbol {
 	@Deprecated
 	public void setCompartmentType(String compartmentTypeID) {
 		if (getLevel() != 2) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.compartmentType,
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.compartmentType,
 					this);
 		}
 		String oldCompartmentTypeID = this.compartmentTypeID;
 		this.compartmentTypeID = compartmentTypeID;
-		firePropertyChange(SBaseChangeEvent.compartmentType,
+		firePropertyChange(TreeNodeChangeEvent.compartmentType,
 				oldCompartmentTypeID, this.compartmentTypeID);
 	}
 
@@ -568,7 +568,7 @@ public class Compartment extends Symbol {
 	@Deprecated
 	public void setOutside(String outside) {
 		if (getLevel() >= 3) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.outside, this);
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.outside, this);
 		}
 		String oldOutside = outsideID;
 		if ((outside != null) && (outside.trim().length() == 0)) {
@@ -576,17 +576,19 @@ public class Compartment extends Symbol {
 		} else {
 			this.outsideID = outside;
 		}
-		firePropertyChange(SBaseChangeEvent.outside, oldOutside, this.outsideID);
+		firePropertyChange(TreeNodeChangeEvent.outside, oldOutside, this.outsideID);
 	}
 
 	/**
 	 * Sets the size of this compartment to 'size'.
 	 * 
 	 * @param size
+	 * @throws PropertyNotAvailableError
+	 *             in case of Level < 2.
 	 */
 	public void setSize(double size) {
 		if (getLevel() < 2) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.size, this);
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.size, this);
 		}
 		setValue(size);
 	}
@@ -601,7 +603,7 @@ public class Compartment extends Symbol {
 	public void setSpatialDimensions(double spatialDimension) {
 		if (getLevel() < 2) {
 			throw new PropertyNotAvailableError(
-					SBaseChangeEvent.spacialDimensions, this);
+					TreeNodeChangeEvent.spacialDimensions, this);
 		}
 		if (((0d <= spatialDimension) && (spatialDimension <= 3d)  
 				&& (((int) spatialDimension) - spatialDimension == 0d))
@@ -610,7 +612,7 @@ public class Compartment extends Symbol {
 			isSetSpatialDimensions = true;
 			Double oldSpatialDimensions = this.spatialDimensions;
 			this.spatialDimensions = Double.valueOf(spatialDimension);
-			firePropertyChange(SBaseChangeEvent.spatialDimensions,
+			firePropertyChange(TreeNodeChangeEvent.spatialDimensions,
 					oldSpatialDimensions, this.spatialDimensions);
 		} else {
 			throw new IllegalArgumentException(String.format(
@@ -716,12 +718,12 @@ public class Compartment extends Symbol {
 	 */
 	@Override
 	public void setUnits(UnitDefinition unitDefinition) {
-		if (0 < getSpatialDimensions()) {
-			super.setUnits(unitDefinition);
-		} else {
-			throw new IllegalArgumentException(String.format(
-					ERROR_MESSAGE_ZERO_DIM, "unit definition", getId()));
-		}
+		/*
+		 * No test for spatial dimensions is necessary here because the super
+		 * method will finally refer to the other setUnits method in this class
+		 * in which we will check the spatial dimensions.
+		 */
+		super.setUnits(unitDefinition);
 	}
 
 	/*
@@ -772,7 +774,7 @@ public class Compartment extends Symbol {
 	@Deprecated
 	public void setVolume(double value) {
 		if (getLevel() != 1) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.volume, this);
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.volume, this);
 		}
 		setValue(value);
 	}
@@ -823,7 +825,7 @@ public class Compartment extends Symbol {
 		Double oldSpatialDim = this.spatialDimensions;
 		this.spatialDimensions = null;
 		isSetSpatialDimensions = false;
-		firePropertyChange(SBaseChangeEvent.spacialDimensions, oldSpatialDim,
+		firePropertyChange(TreeNodeChangeEvent.spacialDimensions, oldSpatialDim,
 				this.spatialDimensions);
 	}
 

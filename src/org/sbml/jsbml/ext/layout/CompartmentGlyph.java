@@ -20,7 +20,7 @@
 
 package org.sbml.jsbml.ext.layout;
 
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * 
@@ -128,6 +128,6 @@ public class CompartmentGlyph extends GraphicalObject {
 	public void setCompartment(String compartment) {
 		String oldCompartment = this.compartment;
 		this.compartment = compartment;
-		firePropertyChange(SBaseChangeEvent.compartment, oldCompartment, this.compartment);
+		firePropertyChange(TreeNodeChangeEvent.compartment, oldCompartment, this.compartment);
 	}
 }

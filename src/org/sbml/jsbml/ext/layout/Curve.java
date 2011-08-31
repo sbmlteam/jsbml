@@ -25,7 +25,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.util.SBaseChangeListener;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * 
@@ -145,7 +145,7 @@ public class Curve extends AbstractNamedSBase {
 	
 	/**
 	 * Removes the {@link #listOfLineSegments} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangeListener}.
+	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -154,7 +154,7 @@ public class Curve extends AbstractNamedSBase {
 		if (this.listOfCurveSegments != null) {
 			ListOf<LineSegment> oldListOfCurveSegments = this.listOfCurveSegments;
 			this.listOfCurveSegments = null;
-			oldListOfCurveSegments.fireSBaseRemovedEvent();
+			oldListOfCurveSegments.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;

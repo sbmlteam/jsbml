@@ -52,7 +52,7 @@ import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
-import org.sbml.jsbml.util.SimpleSBaseChangeListener;
+import org.sbml.jsbml.util.SimpleTreeNodeChangeListener;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.AnnotationParser;
@@ -504,7 +504,7 @@ public class SBMLReader {
 					SBMLDocument sbmlDocument = new SBMLDocument();
 
 					// the output of the change listener is activated or not via log4j.properties
-					sbmlDocument.addChangeListener(new SimpleSBaseChangeListener());
+					sbmlDocument.addTreeNodeChangeListener(new SimpleTreeNodeChangeListener());
 
 					for (@SuppressWarnings("unchecked")
 							Iterator<Attribute> iterator = startElement.getAttributes(); iterator.hasNext();) 

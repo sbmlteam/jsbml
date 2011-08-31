@@ -28,6 +28,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeAdapter;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * Contains all the MIRIAM URIs for a MIRIAM qualifier in the annotation element
@@ -360,7 +361,12 @@ public class CVTerm extends AnnotationElement {
 	 * @return true as specified in {@link Collection#add(Object)}
 	 */
 	public boolean addResource(String urn) {
-		return resourceURIs.add(urn);
+		boolean contains = resourceURIs.contains(urn);
+		boolean success = resourceURIs.add(urn);
+		if (success && !contains) {
+		    (new TreeNodeAdapter(urn, this)).fireNodeAddedEvent();
+		}
+		return success;
 	}
 
 	/**
@@ -391,7 +397,7 @@ public class CVTerm extends AnnotationElement {
 	 *         CVTerm.
 	 */
 	public boolean addResourceURI(String uri) {
-		return resourceURIs.add(uri);
+		return addResource(uri);
 	}
 
 	/*
@@ -462,7 +468,7 @@ public class CVTerm extends AnnotationElement {
 	 * @see javax.swing.tree.TreeNode#getChildAt(int)
 	 */
 	public TreeNode getChildAt(int childIndex) {
-		return new TreeNodeAdapter(getResourceURI(childIndex));
+		return new TreeNodeAdapter(getResourceURI(childIndex), this);
 	}
 
 	/* (non-Javadoc)
@@ -617,7 +623,8 @@ public class CVTerm extends AnnotationElement {
 	public void removeResource(String resource) {
 		for (int i = resourceURIs.size(); i >= 0; i--) {
 			if (resourceURIs.get(i).equals(resource)) {
-				resourceURIs.remove(i);
+				String urn = resourceURIs.remove(i);
+				(new TreeNodeAdapter(urn, this)).fireNodeRemovedEvent();
 			}
 		}
 	}
@@ -640,7 +647,9 @@ public class CVTerm extends AnnotationElement {
 		if (qualifier != null) {
 			if (qualifier.toString().startsWith("BQB")) {
 				if (this.type == Type.BIOLOGICAL_QUALIFIER) {
+					Qualifier oldValue = this.qualifier;
 					this.qualifier = qualifier;
+					this.firePropertyChange(TreeNodeChangeEvent.qualifier, oldValue, qualifier);
 				} else {
 					throw new IllegalArgumentException(String.format(
 							INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG, type,
@@ -674,7 +683,9 @@ public class CVTerm extends AnnotationElement {
 		if (qualifier != null) {
 			if (qualifier.toString().startsWith("BQM")) {
 				if (this.type == Type.MODEL_QUALIFIER) {
+					Qualifier oldValue = this.qualifier;
 					this.qualifier = qualifier;
+					this.firePropertyChange(TreeNodeChangeEvent.qualifier, oldValue, qualifier);
 				} else {
 					throw new IllegalArgumentException(
 							"Model qualifier types can only be applyed if the type is set to Model Qualifier.");
@@ -707,9 +718,14 @@ public class CVTerm extends AnnotationElement {
 		if ((type == Type.MODEL_QUALIFIER)
 				|| (type == Type.BIOLOGICAL_QUALIFIER)
 				|| (type == Type.UNKNOWN_QUALIFIER)) {
+			Qualifier oldQualifier = this.qualifier;
+			Type oldType = this.type;
 			this.type = type;
+			
 			this.qualifier = type == Type.MODEL_QUALIFIER ? Qualifier.BQM_UNKNOWN
 					: Qualifier.BQB_UNKNOWN;
+			this.firePropertyChange(TreeNodeChangeEvent.type, oldType, this.type);
+			this.firePropertyChange(TreeNodeChangeEvent.qualifier, oldQualifier, this.qualifier);
 		} else {
 			throw new IllegalArgumentException(String.format(
 					"%s is not a valid qualifier.", type.toString()));
@@ -819,5 +835,5 @@ public class CVTerm extends AnnotationElement {
 			}
 		}
 	}
-
+	
 }

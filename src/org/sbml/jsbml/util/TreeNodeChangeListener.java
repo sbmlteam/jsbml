@@ -20,35 +20,39 @@
 
 package org.sbml.jsbml.util;
 
+import java.beans.PropertyChangeListener;
+
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBase;
 
 /**
  * A listener interface that allows applications to get notified if the state of
- * any {@link SBase} object changes.
+ * any {@link TreeNode} object changes.
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
-public interface SBaseChangeListener extends ChangeListener<SBaseChangeEvent> {
+public interface TreeNodeChangeListener extends PropertyChangeListener {
 
 	/**
-	 * The {@link SBase} passed to this method has just been added to the
+	 * The {@link T} passed to this method has just been added to the
 	 * {@link SBMLDocument} or another containing element.
 	 * 
-	 * @param sb
+	 * @param node
 	 *            This element is now part of the {@link SBMLDocument}.
 	 */
-	public void sbaseAdded(SBase sb);
+	public void nodeAdded(TreeNode node);
 
 	/**
-	 * The {@link SBase} passed to this method has been removed from a
+	 * The {@link T} passed to this method has been removed from a
 	 * containing parent and does hence no longer belong to the
 	 * {@link SBMLDocument} anymore.
 	 * 
-	 * @param sb
+	 * @param node
 	 *            This element is not longer part of the {@link SBMLDocument}.
 	 */
-	public void sbaseRemoved(SBase sb);
+	public void nodeRemoved(TreeNode node);
+	
 }

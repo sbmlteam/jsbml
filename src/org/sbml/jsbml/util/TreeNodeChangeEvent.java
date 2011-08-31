@@ -20,10 +20,14 @@
 
 package org.sbml.jsbml.util;
 
+import java.beans.PropertyChangeEvent;
+
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.SBase;
 
 /**
- * This event tells an {@link SBaseChangeListener} which values have been
+ * This event tells an {@link TreeNodeChangeListener} which values have been
  * changed in an {@link SBase} and also provides the old and the new value.
  * 
  * @author Andreas Dr&auml;ger
@@ -31,7 +35,7 @@ import org.sbml.jsbml.SBase;
  * @since 0.8
  * @version $Rev$
  */
-public class SBaseChangeEvent extends ChangeEvent<SBase> {
+public class TreeNodeChangeEvent extends PropertyChangeEvent {
 	
 	/**
 	 * Generated serial version identifier
@@ -41,9 +45,9 @@ public class SBaseChangeEvent extends ChangeEvent<SBase> {
 	/*
 	 * Property names that can change in the life time of an SBML document.
 	 */
-	public static final String addCVTerm = "addCVTerm";
 	public static final String addExtension="addExtension";
 	public static final String addNamespace="addNamespace";
+	public static final String namespace = "namespace";
 	public static final String notes="notes";
 	public static final String setAnnotation="setAnnotation";
 	public static final String level = "level";	
@@ -54,7 +58,6 @@ public class SBaseChangeEvent extends ChangeEvent<SBase> {
 	public static final String sboTerm = "sboTerm";
 	public static final String annotation = "annotation";
 	public static final String unsetCVTerms = "unsetCVTerms";
-	public static final String history = "history";
 	public static final String currentList = "currentList";
 	public static final String symbol = "symbol";
 	public static final String math = "math";
@@ -106,7 +109,27 @@ public class SBaseChangeEvent extends ChangeEvent<SBase> {
 	public static final String formula = "formula";
 	public static final String size = "size";
 	public static final String volume = "volume";
-    // Layout extension
+	public static final String className = "className";
+	public static final String definitionURL = "definitionURL";
+	public static final String childNode = "childNode";
+	public static final String numerator = "numerator";
+	public static final String mantissa = "mantissa";
+	public static final String type = "type";
+	public static final String style = "style";
+	public static final String isSetNumberType = "isSetNumberType";
+	public static final String encoding = "encoding";
+	public static final String xmlTriple = "xmlTriple";
+	public static final String isEOF = "isEOF";
+	public static final String resource = "resource";
+	public static final String qualifier = "qualifier";
+	public static final String modified = "modified";
+	public static final String created = "created";
+	public static final String creator = "creator";
+	public static final String isExplicitlySetConstant = "isExplicitlySetConstant";
+    
+	/* 
+     * Layout extension
+     */
 	public static final String dimensions = "dimensions";
 	public static final String basePoint1 = "basePoint1";
 	public static final String basePoint2 = "basePoint2";
@@ -120,6 +143,21 @@ public class SBaseChangeEvent extends ChangeEvent<SBase> {
 	public static final String speciesReference = "speciesReference";
 	public static final String originOfText = "originOfText";
 	public static final String text = "text";
+	
+	/*
+	 * Annotation
+	 */
+	public static final String about = "about";
+	public static String nonRDFAnnotation = "nonRDFAnnotation";
+	public static String annotationNameSpaces = "annotationNameSpaces";
+	public static String history = "history";
+	public static String rdfAnnotationNamespaces = "rdfAnnotationNamespaces";
+	public static String addCVTerm = "addCVTerm";
+	
+	public static final String email = "email";
+	public static final String familyName = "familyName";
+	public static final String givenName = "givenName";
+	public static final String organisation = "organisation";
 
 	/**
 	 * @param source
@@ -127,19 +165,19 @@ public class SBaseChangeEvent extends ChangeEvent<SBase> {
 	 * @param oldValue
 	 * @param propertyName
 	 */
-	public SBaseChangeEvent(SBase source, String propertyName,
+	public TreeNodeChangeEvent(TreeNode source, String propertyName,
 			Object oldValue, Object newValue) {
 		super(source, propertyName, oldValue, newValue);
 	}
 
 	/**
 	 * 
-	 * @param sbaseChangedEvent
+	 * @param treeNodeChangeEvent
 	 */
-	public SBaseChangeEvent(SBaseChangeEvent sbaseChangedEvent) {
-		this(sbaseChangedEvent.getSource(),
-				sbaseChangedEvent.getPropertyName(), sbaseChangedEvent
-						.getOldValue(), sbaseChangedEvent.getNewValue());
+	public TreeNodeChangeEvent(TreeNodeChangeEvent treeNodeChangeEvent) {
+		this((TreeNode) treeNodeChangeEvent.getSource(), treeNodeChangeEvent
+				.getPropertyName(), treeNodeChangeEvent.getOldValue(),
+				treeNodeChangeEvent.getNewValue());
 	}
 
 	/*
@@ -148,19 +186,83 @@ public class SBaseChangeEvent extends ChangeEvent<SBase> {
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
-	public SBaseChangeEvent clone() {
-		return new SBaseChangeEvent(this);
+	public TreeNodeChangeEvent clone() {
+		return new TreeNodeChangeEvent(this);
 	}
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof SBaseChangeEvent) {
-			return super.equals((SBaseChangeEvent) obj);
+	public boolean equals(Object object) {
+		if (object.getClass().equals(getClass())) {
+			TreeNodeChangeEvent tnce = (TreeNodeChangeEvent) object;
+			boolean equals = tnce.isSetSource() == isSetSource();
+			if (equals && isSetSource()) {
+				equals &= tnce.getSource().equals(getSource());
+			}
+			equals &= tnce.isSetOldValue() == isSetOldValue();
+			if (equals && isSetOldValue()) {
+				equals &= tnce.getOldValue().equals(getOldValue());
+			}
+			equals &= tnce.isSetNewValue() == isSetNewValue();
+			if (equals && isSetNewValue()) {
+				equals &= tnce.getNewValue().equals(getNewValue());
+			}
+			return equals;
 		}
 		return false;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.util.EventObject#getSource()
+	 */
+	@Override
+	public TreeNode getSource() {
+		return (TreeNode) super.getSource();
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int hashCode = getClass().getName().hashCode();
+		if (isSetSource()) {
+			hashCode += prime * getSource().hashCode();
+		}
+		if (isSetOldValue()) {
+			hashCode += prime * getOldValue().hashCode();
+		}
+		if (isSetNewValue()) {
+			hashCode += prime * getNewValue().hashCode();
+		}
+		return hashCode;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetNewValue() {
+		return getNewValue() != null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetOldValue() {
+		return getOldValue() != null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetSource() {
+		return getSource() != null;
 	}
 	
 }

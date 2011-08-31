@@ -24,8 +24,8 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.util.SBaseChangeEvent;
-import org.sbml.jsbml.util.SBaseChangeListener;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.filters.NameFilter;
 import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
@@ -1092,9 +1092,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	 * @param specref
 	 */
 	public void removeProduct(SpeciesReference specref) {
-		if (listOfProducts.remove(specref)) {
-			specref.fireSBaseRemovedEvent();
-		}
+		listOfProducts.remove(specref);
 	}
 
 	/**
@@ -1166,12 +1164,12 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	 */
 	public void setCompartment(String compartmentID) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(SBaseChangeEvent.compartment,
+			throw new PropertyNotAvailableError(TreeNodeChangeEvent.compartment,
 					this);
 		}
 		String oldCompartmentID = this.compartmentID;
 		this.compartmentID = compartmentID;
-		firePropertyChange(SBaseChangeEvent.compartment, oldCompartmentID,
+		firePropertyChange(TreeNodeChangeEvent.compartment, oldCompartmentID,
 				compartmentID);
 	}
 
@@ -1184,7 +1182,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		Boolean oldFast = this.fast;
 		this.fast = Boolean.valueOf(fast);
 		isSetFast = true;
-		firePropertyChange(SBaseChangeEvent.fast, oldFast, fast);
+		firePropertyChange(TreeNodeChangeEvent.fast, oldFast, fast);
 	}
 
 	/**
@@ -1252,7 +1250,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		Boolean oldReversible = this.reversible;
 		this.reversible = Boolean.valueOf(reversible);
 		isSetReversible = true;
-		firePropertyChange(SBaseChangeEvent.reversible, oldReversible, reversible);
+		firePropertyChange(TreeNodeChangeEvent.reversible, oldReversible, reversible);
 	}
 
 	/**
@@ -1262,12 +1260,12 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		Boolean oldFast = this.fast;
 		isSetFast = false;
 		fast = null;
-		firePropertyChange(SBaseChangeEvent.fast, oldFast, fast);
+		firePropertyChange(TreeNodeChangeEvent.fast, oldFast, fast);
 	}
 
 	/**
 	 * Sets the {@link KineticLaw} of this {@link Reaction} to null and notifies
-	 * all {@link SBaseChangeListener} about changes.
+	 * all {@link TreeNodeChangeListener} about changes.
 	 * 
 	 * @return <code>true</code> if calling this method changed the properties
 	 *         of this element.
@@ -1276,7 +1274,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		if (this.kineticLaw != null) {
 			KineticLaw oldKinticLaw = this.kineticLaw;
 			this.kineticLaw = null;
-			oldKinticLaw.fireSBaseRemovedEvent();
+			oldKinticLaw.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -1284,7 +1282,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 
 	/**
 	 * Removes the {@link #listOfModifiers} from this {@link Reaction} and notifies
-	 * all registered instances of {@link SBaseChangeListener}.
+	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -1293,7 +1291,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		if (this.listOfModifiers != null) {
 			ListOf<ModifierSpeciesReference> oldListOfModifiers = this.listOfModifiers;
 			this.listOfModifiers = null;
-			oldListOfModifiers.fireSBaseRemovedEvent();
+			oldListOfModifiers.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -1301,7 +1299,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 
 	/**
 	 * Removes the {@link #listOfProducts} from this {@link Reaction} and notifies
-	 * all registered instances of {@link SBaseChangeListener}.
+	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -1310,7 +1308,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		if (this.listOfProducts != null) {
 			ListOf<SpeciesReference> oldListOfProducts = this.listOfProducts;
 			this.listOfProducts = null;
-			oldListOfProducts.fireSBaseRemovedEvent();
+			oldListOfProducts.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -1318,7 +1316,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 
 	/**
 	 * Removes the {@link #listOfReactants} from this {@link Reaction} and notifies
-	 * all registered instances of {@link SBaseChangeListener}.
+	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -1327,7 +1325,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		if (this.listOfReactants != null) {
 			ListOf<SpeciesReference> oldListOfReactants = this.listOfReactants;
 			this.listOfReactants = null;
-			oldListOfReactants.fireSBaseRemovedEvent();
+			oldListOfReactants.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -1340,7 +1338,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 		Boolean oldReversible = this.reversible;
 		isSetReversible = false;
 		reversible = null;
-		firePropertyChange(SBaseChangeEvent.reversible, oldReversible, reversible);
+		firePropertyChange(TreeNodeChangeEvent.reversible, oldReversible, reversible);
 	}
 
 	/*

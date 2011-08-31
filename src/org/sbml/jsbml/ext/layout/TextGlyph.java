@@ -22,7 +22,7 @@ package org.sbml.jsbml.ext.layout;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
@@ -221,6 +221,10 @@ public class TextGlyph extends GraphicalObject {
 	 * @param graphicalObject
 	 */
 	public void setGraphicalObject(GraphicalObject graphicalObject) {
+		if(this.graphicalObject != null){
+			GraphicalObject oldValue = this.graphicalObject;
+			oldValue.fireNodeRemovedEvent();
+		}
 		this.graphicalObject = graphicalObject;
 		setThisAsParentSBMLObject(this.graphicalObject);
 	}
@@ -232,7 +236,7 @@ public class TextGlyph extends GraphicalObject {
 	public void setOriginOfText(String originOfText) {
 		String oldOriginOfText = this.originOfText;
 		this.originOfText = originOfText;
-		firePropertyChange(SBaseChangeEvent.originOfText, oldOriginOfText, this.originOfText);
+		firePropertyChange(TreeNodeChangeEvent.originOfText, oldOriginOfText, this.originOfText);
 	}
 
 	/**
@@ -242,6 +246,6 @@ public class TextGlyph extends GraphicalObject {
 	public void setText(String text) {
 		String oldText = this.text;
 		this.text = text;
-		firePropertyChange(SBaseChangeEvent.text, oldText, this.text);
+		firePropertyChange(TreeNodeChangeEvent.text, oldText, this.text);
 	}
 }

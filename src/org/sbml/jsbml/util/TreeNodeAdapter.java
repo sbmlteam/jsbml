@@ -72,15 +72,31 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	private Object userObject;
 
 	/**
+	 * Creates a new {@link TreeNode} wrapper for the given {@link #userObject}
+	 * that will be linked to the given {@link #parent} within an exisiting
+	 * tree.
 	 * 
 	 * @param userObject
+	 *            the element to be wrapped in a {@link TreeNode}; may be null.
+	 * @param parent
+	 *            the parent {@link TreeNode} of this new node, i.e., the
+	 *            position within an existing tree where to link this new node.
+	 *            May be null.
 	 */
-	public TreeNodeAdapter(Object userObject) {
+	public TreeNodeAdapter(Object userObject, TreeNode parent) {
 		super();
 		this.userObject = userObject;
+		this.parent = parent;
+		if (parent instanceof AbstractTreeNode) {
+			this.addAllChangeListeners(((AbstractTreeNode) parent)
+					.getListOfTreeNodeChangeListeners());
+		}
 	}
 
 	/**
+	 * Copy constructor for the given node. Note that the pointer to the parent
+	 * will not be cloned.
+	 * 
 	 * @param node
 	 */
 	public TreeNodeAdapter(TreeNodeAdapter node) {
@@ -152,7 +168,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 				if (child instanceof TreeNode) {
 					return (TreeNode) child;
 				} else {
-					return new TreeNodeAdapter(child);
+					return new TreeNodeAdapter(child, this);
 				}
 			}
 		}

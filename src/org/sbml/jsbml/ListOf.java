@@ -29,8 +29,7 @@ import java.util.ListIterator;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.util.SBaseChangeEvent;
-import org.sbml.jsbml.util.SBaseChangeListener;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.util.filters.NameFilter;
 
@@ -395,9 +394,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 					"'. The new element will not get added to the list.");
 			return false;
 		}
-		for (SBaseChangeListener l : setOfListeners) {
-			e.addChangeListener(l);
-		}
 		/*
 		 * Calling the method setThisAsParentSBMLObject before adding the object
 		 * to the list as it can throw an Exception if the metaid or id is not
@@ -438,17 +434,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#addChangeListener(org.sbml.jsbml.SBaseChangedListener)
-	 */
-	public void addChangeListener(SBaseChangeListener l) {
-		setOfListeners.add(l);
-		for (T element : listOf) {
-			element.addChangeListener(l);
-		}
-	}
-
 	/**
 	 * Adds item to the end of this ListOf.
 	 * 
@@ -471,10 +456,11 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#clear()
 	 */
 	public void clear() {
-		for (T t : listOf) {
-			t.fireSBaseRemovedEvent();
-		}
+		LinkedList<T> removedElements = listOf;
 		listOf.clear();
+		for( T element : removedElements){
+			((AbstractTreeNode) element).fireNodeRemovedEvent();
+		}
 	}
 
 	/*
@@ -751,10 +737,10 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public T remove(int index) {
 		T t = listOf.remove(index);
+		((AbstractTreeNode) t).fireNodeRemovedEvent();
 		if (t instanceof AbstractSBase) {
 			((AbstractSBase) t).parent = null;
 		}
-		t.fireSBaseRemovedEvent();
 		return t;
 	}
 
@@ -778,6 +764,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 				}
 				if (pos >= 0) {
 					T t = listOf.remove(pos);
+					((AbstractTreeNode) t).fireNodeRemovedEvent();
 					if (t instanceof AbstractSBase) {
 						((AbstractSBase) t).parent = null;
 					}
@@ -785,7 +772,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 				}
 			}
 		} else {
-			nsb.fireSBaseRemovedEvent();
+			((AbstractTreeNode) nsb).fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -801,7 +788,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		}
 		SBase sbase = (SBase) o;
 		if (listOf.remove(sbase)) {
-			sbase.fireSBaseRemovedEvent();
+			((AbstractTreeNode) o).fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -828,7 +815,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 				}
 			}
 			if (pos >= 0) {
-				listOf.remove(pos);
+				T element = listOf.remove(pos);
+				((AbstractTreeNode) element).fireNodeRemovedEvent();
 				return (T) sbase;
 			}
 		}
@@ -840,7 +828,14 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#removeAll(java.util.Collection)
 	 */
 	public boolean removeAll(Collection<?> c) {
-		return listOf.removeAll(c);
+		boolean success = listOf.removeAll(c);
+		if(success){
+			 for(Iterator<?> i = c.iterator(); i.hasNext();){
+				 AbstractTreeNode element = (AbstractTreeNode) i.next();
+				 element.fireNodeRemovedEvent();
+			 }
+		}
+		return success;
 	}
 
 	/**
@@ -873,7 +868,15 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#retainAll(java.util.Collection)
 	 */
 	public boolean retainAll(Collection<?> c) {
-		return listOf.retainAll(c);
+		boolean modified = false;
+		for(T element : listOf){
+			if (!c.contains(element)) {
+				listOf.remove(element);
+				((AbstractTreeNode) element).fireNodeRemovedEvent();
+				modified = true;
+			}
+		}
+		return modified;
 	}
 
 	/*
@@ -882,7 +885,10 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public T set(int index, T element) {
 		T prevElem = listOf.set(index, element);
-		prevElem.fireSBaseRemovedEvent();
+		// TODO: this should rather be a firePropertyChangedEvent, as the 
+		// element is first removed and then added again. But the method
+		// setThisAsParentSBMLObject fires a NodeAddedEvent
+		((AbstractTreeNode) element).fireNodeRemovedEvent();
 		setThisAsParentSBMLObject(element);
 		return prevElem;
 	}
@@ -895,10 +901,10 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public void setListOf(List<T> listOf) {
 		if (!this.listOf.isEmpty()) {
-			this.listOf.clear();
+			this.clear();
 		}
 		if ((listOf != null) && (listOf.size() > 0)) {
-			this.listOf.addAll(listOf);
+			this.addAll(listOf);
 		}
 	}
 
@@ -920,7 +926,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public void setSBaseListType(Type currentList) {
 		Type oldType = this.listType;
 		this.listType = currentList;
-		firePropertyChange(SBaseChangeEvent.baseListType, oldType, listType);
+		firePropertyChange(TreeNodeChangeEvent.baseListType, oldType, listType);
 	}
 
 	/*
@@ -980,7 +986,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * Sets the SBaseListType of this ListOf to SBaseListType.none.
 	 */
 	public void unsetSBaseListType() {
+		Type oldType = this.listType;
 		this.listType = Type.none;
+		firePropertyChange(TreeNodeChangeEvent.baseListType, oldType, listType);
 	}
 
 }

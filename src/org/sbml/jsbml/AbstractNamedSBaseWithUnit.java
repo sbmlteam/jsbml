@@ -21,7 +21,7 @@
 package org.sbml.jsbml;
 
 import org.sbml.jsbml.Unit.Kind;
-import org.sbml.jsbml.util.SBaseChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * This simple implementation of the interfaces
@@ -310,7 +310,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 			}
 		}
 		if (oldUnits != unitsID) {
-			firePropertyChange(SBaseChangeEvent.units, oldUnits, unitsID);
+			firePropertyChange(TreeNodeChangeEvent.units, oldUnits, unitsID);
 		}
 	}
 

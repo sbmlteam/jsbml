@@ -30,7 +30,7 @@ import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
-import org.sbml.jsbml.util.SBaseChangeListener;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * @author Nicolas Rodriguez
@@ -65,8 +65,8 @@ public class SpeciesExtension extends Species {
 	 * SBaseChangedListener)
 	 */
 	@Override
-	public void addChangeListener(SBaseChangeListener l) {
-		species.addChangeListener(l);
+	public void addTreeNodeChangeListener(TreeNodeChangeListener l) {
+		species.addTreeNodeChangeListener(l);
 	}
 
 	/*
@@ -540,8 +540,8 @@ public class SpeciesExtension extends Species {
 	 * @see org.sbml.jsbml.AbstractSBase#sbaseAdded()
 	 */
 	@Override
-	public void fireSBaseAddedEvent() {
-		species.fireSBaseAddedEvent();
+	public void fireNodeAddedEvent() {
+		species.fireNodeAddedEvent();
 	}
 
 	/*
@@ -550,8 +550,8 @@ public class SpeciesExtension extends Species {
 	 * @see org.sbml.jsbml.AbstractSBase#sbaseRemoved()
 	 */
 	@Override
-	public void fireSBaseRemovedEvent() {
-		species.fireSBaseRemovedEvent();
+	public void fireNodeRemovedEvent() {
+		species.fireNodeRemovedEvent();
 	}
 
 	/*

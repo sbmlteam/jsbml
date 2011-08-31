@@ -425,7 +425,7 @@ public class XMLNode extends XMLToken {
 	 * @jsbml.note The given node is added at the end of the children list.
 	 */
 	public int addChild(XMLNode node) {
-
+		
 		if (node == null) {
 			return OPERATION_FAILED;
 		}
@@ -437,6 +437,7 @@ public class XMLNode extends XMLToken {
 		// TODO : there are more tests in libsbml XMLNode.cpp, check if we need them, like isEOF()
 
 		childrenElements.add(node);
+		node.fireNodeAddedEvent();
 		node.parent = this;
 
 		return OPERATION_SUCCESS;
@@ -535,6 +536,7 @@ public class XMLNode extends XMLToken {
 			throw new IndexOutOfBoundsException(Integer.toString(n));
 		} else {		
 			childrenElements.add(n, node);
+			node.fireNodeAddedEvent();
 		}
 		node.parent = this;
 		
@@ -559,12 +561,13 @@ public class XMLNode extends XMLToken {
 	 * @jsbml.note The caller owns the returned node and is responsible for deleting it.
 	 */
 	public XMLNode removeChild(long n) {
-		
 		if (n > getNumChildren() || n < 0) {
 			return null;
 		}
 		
-		return childrenElements.remove((int) n);
+		XMLNode oldNode =  childrenElements.remove((int) n);
+		oldNode.fireNodeRemovedEvent();
+		return oldNode;
 	}
 
 	/**
@@ -576,7 +579,11 @@ public class XMLNode extends XMLToken {
 	 */
 	public int removeChildren() {
 
+		List<XMLNode> removedChildren = childrenElements;
 		childrenElements.clear();
+		for(XMLNode child : removedChildren){
+			child.fireNodeRemovedEvent();
+		}
 		
 		return OPERATION_SUCCESS;
 	}

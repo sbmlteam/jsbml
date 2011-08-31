@@ -22,7 +22,7 @@ package org.sbml.jsbml.ext.groups;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.util.SBaseChangeListener;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * 
@@ -131,7 +131,7 @@ public class ModelGroupExtension extends Model {
 
 	/**
 	 * Removes the {@link #listOfGroups} from this {@link Model} and notifies
-	 * all registered instances of {@link SBaseChangeListener}.
+	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
@@ -140,7 +140,7 @@ public class ModelGroupExtension extends Model {
 		if (this.listOfGroups != null) {
 			ListOf<Group> oldListOfGroups = this.listOfGroups;
 			this.listOfGroups = null;
-			oldListOfGroups.fireSBaseRemovedEvent();
+			oldListOfGroups.fireNodeRemovedEvent();
 			return true;
 		}
 		return false;

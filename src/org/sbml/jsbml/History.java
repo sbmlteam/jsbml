@@ -28,6 +28,7 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.TreeNodeAdapter;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * Contains all the history information about a {@link Model} (or other
@@ -104,8 +105,11 @@ public class History extends AnnotationElement {
 	 * @param mc
 	 */
 	public void addCreator(Creator mc) {
-		listOfCreators.add(mc);
+		boolean success = listOfCreators.add(mc);
 		mc.parent = this;
+		if (success) {
+			this.firePropertyChange(TreeNodeChangeEvent.created, null, mc);
+		}		
 	}
 
 	/**
@@ -167,13 +171,13 @@ public class History extends AnnotationElement {
 		int pos = 0;
 		if (isSetListOfCreators()) {
 			if (pos == childIndex) {
-				return new TreeNodeAdapter(getListOfCreators());
+				return new TreeNodeAdapter(getListOfCreators(), this);
 			}
 			pos++;
 		}
 		if (isSetListOfModification()) {
 			if (pos == childIndex) {
-				return new TreeNodeAdapter(getListOfModifiedDates());
+				return new TreeNodeAdapter(getListOfModifiedDates(), this);
 			}
 			pos++;
 		}
@@ -376,7 +380,11 @@ public class History extends AnnotationElement {
 	 * @return the {@link Creator} removed from the {@link #listOfCreators}.
 	 */
 	public Creator removeCreator(int i) {
-		return listOfCreators.remove(i);
+		Creator c = listOfCreators.remove(i);
+		if(c != null){
+			this.firePropertyChange(TreeNodeChangeEvent.creator, c, null);
+		}
+		return c;
 	}
 
 	/**
@@ -394,7 +402,11 @@ public class History extends AnnotationElement {
 					this.modified = null;
 				}
 			}
-			return listOfModification.remove(i);
+			Date d = listOfModification.remove(i);
+			if(d != null){
+				this.firePropertyChange(TreeNodeChangeEvent.modified, d.toString(), null);
+			}
+			return d;
 		}
 		throw new IndexOutOfBoundsException(String.format("No modified date %d available.", i));
 	}
@@ -407,7 +419,9 @@ public class History extends AnnotationElement {
 	 *            created.
 	 */
 	public void setCreatedDate(Date date) {
+		String oldValue = this.creation.toString();
 		creation = date;
+		this.firePropertyChange(TreeNodeChangeEvent.created, oldValue, date.toString());
 	}
 
 	/**
@@ -418,15 +432,23 @@ public class History extends AnnotationElement {
 	 *            modified.
 	 */
 	public void setModifiedDate(Date date) {
-		listOfModification.add(date);
+		String oldValue = this.modified.toString();
+		boolean success = listOfModification.add(date);
 		modified = date;
+		if (success) {
+			this.firePropertyChange(TreeNodeChangeEvent.modified, oldValue, date.toString());
+		}
 	}
 
 	/**
 	 * Sets the created of this {@link History} to null.
 	 */
 	public void unsetCreatedDate() {
-		this.creation = null;
+		if(this.creation != null){
+			String oldValue = this.creation.toString();
+			this.creation = null;
+			this.firePropertyChange(TreeNodeChangeEvent.created, oldValue, "");
+		}
 	}
 
 }
