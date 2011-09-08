@@ -265,6 +265,6 @@ strict digraph G{
    AbstractNamedSBase -> Layout                 [dir=back,arrowtail=empty];
    AbstractNamedSBase -> LineSegment            [dir=back,arrowtail=empty];
    AbstractNamedSBase -> Point                  [dir=back,arrowtail=empty];
-   Model              -> ExtendedLayoutModel    [dir=back,arrowtail=empty];     
+   AbstractSBase      -> ExtendedLayoutModel    [dir=back,arrowtail=empty];     
    
 }

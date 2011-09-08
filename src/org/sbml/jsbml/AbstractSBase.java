@@ -20,13 +20,15 @@
 
 package org.sbml.jsbml;
 
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.swing.tree.TreeNode;
@@ -105,7 +107,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * map containing the SBML extension object of additional packages with the
 	 * appropriate name space of the package.
 	 */
-	private Map<String, SBase> extensions;
+	private SortedMap<String, SBase> extensions;
 	
 	/**
 	 * Level and version of the SBML component. Matches the level XML attribute of a SBML
@@ -152,7 +154,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		notesXMLNode = null;
 		lv = getLevelAndVersion();
 		annotation = null;
-		extensions = new HashMap<String, SBase>();
+		extensions = new TreeMap<String, SBase>();
 		namespaces = new TreeSet<String>();
 	}
 
@@ -197,7 +199,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		super(sb);
 		
 		// extensions is needed when doing getChildCount()
-		extensions = new HashMap<String, SBase>();
+		extensions = new TreeMap<String, SBase>();
 
 		if (sb.isSetLevel()) {
 			setLevel(sb.getLevel());
@@ -794,10 +796,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			}
 			pos++;
 		}
-		if (extensions.size() > 0) {
-			String exts[] = extensions.keySet().toArray(new String[0]);
-			Arrays.sort(exts);
-			return extensions.get(exts[childIndex - pos]);
+		if ((0 < extensions.size()) && (childIndex - pos < extensions.size())) {
+			Iterator<SBase> iterator = extensions.values().iterator();
+			int i = 0;
+			while (iterator.hasNext() && (i < childIndex - pos)) {
+				iterator.next();
+				i++;
+			}
+			return iterator.next();
 		}
 		throw new IndexOutOfBoundsException((getChildCount() == 0) ? String
 				.format("Node %s has no children.", getElementName())
