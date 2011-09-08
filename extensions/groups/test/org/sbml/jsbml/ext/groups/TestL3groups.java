@@ -28,7 +28,7 @@
  * ----------------------------------------------------------------------------
  */
 
-package org.sbml.jsbml.test.sbml;
+package org.sbml.jsbml.ext.groups;
 
 import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;

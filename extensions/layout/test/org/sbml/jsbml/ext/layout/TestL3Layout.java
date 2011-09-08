@@ -28,7 +28,7 @@
  * ----------------------------------------------------------------------------
  */
 
-package org.sbml.jsbml.test.sbml;
+package org.sbml.jsbml.ext.layout;
 
 
 import java.io.IOException;
