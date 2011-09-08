@@ -2,12 +2,32 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
   <comment>
-   This file maps the name spaces of the supported levels and version and other
-   content of SBML files to parsers for the creation of JSBML data objects.
+    $Id$
+    $URL$
+    ----------------------------------------------------------------------------
+    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+    for the latest version of JSBML and more information about SBML.
+
+    Copyright (C) 2009-2011 jointly by the following organizations:
+    1. The University of Tuebingen, Germany
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+    3. The California Institute of Technology, Pasadena, CA, USA
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation. A copy of the license agreement is provided
+    in the file named "LICENSE.txt" included with this software distribution
+    and also available online as http://sbml.org/Software/JSBML/License.
+    ----------------------------------------------------------------------------
+  
+    This file maps the name spaces of the supported levels and version and other
+    content of SBML files to parsers for the creation of JSBML data objects.
+  
+    Version: $Rev$
   </comment>
   <entry key="http://www.sbml.org/sbml/level3/version1/multi/version1">org.sbml.jsbml.xml.parsers.MultiParser</entry>
-  <entry key="http://www.sbml.org/sbml/level3/version1/groups/version1">org.sbml.jsbml.ext.groups.GroupsParser</entry>
-  <entry key="http://www.sbml.org/sbml/level3/version1/layout/version1">org.sbml.jsbml.ext.layout.LayoutParser</entry>
+  <entry key="http://www.sbml.org/sbml/level3/version1/groups/version1">org.sbml.jsbml.xml.parsers.GroupsParser</entry>
+  <entry key="http://www.sbml.org/sbml/level3/version1/layout/version1">org.sbml.jsbml.xml.parsers.LayoutParser</entry>
   <entry key="http://www.sbml.org/sbml/level3/version1/core">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
   <entry key="http://www.sbml.org/sbml/level2/version2">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
   <entry key="http://www.sbml.org/sbml/level2/version3">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
