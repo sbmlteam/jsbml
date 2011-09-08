@@ -153,6 +153,11 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
 	public static String history = "history";
 	public static String rdfAnnotationNamespaces = "rdfAnnotationNamespaces";
 	public static String addCVTerm = "addCVTerm";
+
+	/*
+	 * ASTNode
+	 */
+	public static String userObject = "userObject";
 	
 	public static final String email = "email";
 	public static final String familyName = "familyName";

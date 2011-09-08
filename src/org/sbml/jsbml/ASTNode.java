@@ -1175,6 +1175,12 @@ public class ASTNode extends AbstractTreeNode {
 	private String id, style, className, encoding;
 
 	/**
+	 * Any kind of {@link Object} that can be stored in addition to all other
+	 * features of this {@link ASTNode}.
+	 */
+	private Object userObject;
+
+	/**
 	 * Tells if the type attribute of the cn element was set and we need to
 	 * write it back or if it is set to the default (REAL).
 	 * 
@@ -1185,9 +1191,9 @@ public class ASTNode extends AbstractTreeNode {
 	 * Child nodes.
 	 */
 	private LinkedList<ASTNode> listOfNodes;
-
+	
 	private transient Logger logger = Logger.getLogger(this.getClass());
-
+	
 	/**
 	 * 
 	 */
@@ -1277,7 +1283,7 @@ public class ASTNode extends AbstractTreeNode {
 		this(Type.NAME);
 		setVariable(nsb);
 	}
-	
+
 	/**
 	 * Creates and returns a new {@link ASTNode} referring to the given {@link CallableSBase}.
 	 * 
@@ -1299,7 +1305,7 @@ public class ASTNode extends AbstractTreeNode {
 		this();
 		setCharacter(operator);
 	}
-	
+
 	/**
 	 * Creates a new {@link ASTNode} representing an operator, i.e., an internal
 	 * node.
@@ -1364,7 +1370,7 @@ public class ASTNode extends AbstractTreeNode {
 		this(Type.INTEGER);
 		setValue(integer);
 	}
-
+	
 	/**
 	 * Creates and returns a new {@link ASTNode} with the given value.
 	 * 
@@ -1375,7 +1381,7 @@ public class ASTNode extends AbstractTreeNode {
 		this(Type.INTEGER, parent);
 		setValue(integer);
 	}
-	
+
 	/**
 	 * Creates and returns a new {@link ASTNode}.
 	 * 
@@ -1392,7 +1398,7 @@ public class ASTNode extends AbstractTreeNode {
 		parentSBMLObject = parent;
 		this.firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldValue, parent);
 	}
-
+	
 	/**
 	 * Creates and returns a new {@link ASTNode} with the given name.
 	 * 
@@ -1402,7 +1408,7 @@ public class ASTNode extends AbstractTreeNode {
 		this(Type.NAME);
 		setName(name);
 	}
-	
+
 	/**
 	 * Creates and returns a new {@link ASTNode} with the given name.
 	 * 
@@ -1425,7 +1431,7 @@ public class ASTNode extends AbstractTreeNode {
 		this();
 		setType(type);
 	}
-
+	
 	/**
 	 * Creates and returns a new ASTNode.
 	 * 
@@ -1450,7 +1456,7 @@ public class ASTNode extends AbstractTreeNode {
 		child.parent = this;
 		child.fireNodeAddedEvent();
 	}
-
+	
 	/**
 	 * Creates a new node with the type of this node, moves all children of this
 	 * node to this new node, sets the type of this node to the given operator,
@@ -1971,7 +1977,7 @@ public class ASTNode extends AbstractTreeNode {
 		}
 		return equal;
 	}
-	
+
 	/**
 	 * Goes through the formula and identifies all global parameters that are
 	 * referenced by this rate equation.
@@ -2045,7 +2051,7 @@ public class ASTNode extends AbstractTreeNode {
 	public ASTNode getChild(int index) {
 		return listOfNodes.get(index);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -2392,6 +2398,13 @@ public class ASTNode extends AbstractTreeNode {
 			return null;
 		}
 		return getParentSBMLObject().getModel().getUnitDefinition(getUnits());
+	}
+
+	/**
+	 * @return the userObject
+	 */
+	public Object getUserObject() {
+		return userObject;
 	}
 
 	/**
@@ -2831,6 +2844,14 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public boolean isSetUnits() {
 		return unitId != null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetUserObject() {
+		return userObject != null;
 	}
 
 	/**
@@ -3473,6 +3494,17 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
+	 * @param userObject
+	 *            the userObject to set
+	 */
+	public void setUserObject(Object userObject) {
+		Object oldObject = this.userObject;
+		this.userObject = userObject;
+		firePropertyChange(TreeNodeChangeEvent.userObject, oldObject,
+				this.userObject);
+	}
+
+	/**
 	 * Sets the value of this ASTNode to the given double number and sets the
 	 * node type to REAL.
 	 * 
@@ -3691,6 +3723,13 @@ public class ASTNode extends AbstractTreeNode {
 		String oldValue = this.unitId;
 		unitId = null;
 		this.firePropertyChange(TreeNodeChangeEvent.units, oldValue, null);
+	}
+
+	/**
+	 * 
+	 */
+	public void unsetUserObject() {
+		setUserObject(null);
 	}
 
 	/**
