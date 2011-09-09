@@ -1,6 +1,6 @@
 /*
- * $Id:  DomainType.java 15:24:02 draeger $
- * $URL: DomainType.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -28,9 +28,6 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import javax.swing.tree.TreeNode;
-
-import org.sbml.jsbml.SBase;
 
 /**
  * @author Andreas Dr&auml;ger
@@ -47,31 +44,31 @@ public class DomainType extends NamedSpatialElement {
 	/**
 	 * 
 	 */
-	private Integer spatialDomain;
+	private Short spatialDimension;
 
 	/**
 	 * 
 	 */
 	public DomainType() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * @param sb
+	 */
+	public DomainType(DomainType sb) {
+		super(sb);
+		if (sb.isSetSpatialDimension()) {
+			this.spatialDimension = Short.valueOf(sb.getSpatialDimension());
+		}
+	}
+	
 	/**
 	 * @param level
 	 * @param version
 	 */
 	public DomainType(int level, int version) {
 		super(level, version);
-		// TODO Auto-generated constructor stub
-	}
-	
-	/**
-	 * @param sb
-	 */
-	public DomainType(SBase sb) {
-		super(sb);
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
@@ -87,58 +84,53 @@ public class DomainType extends NamedSpatialElement {
 	 */
 	@Override
 	public boolean equals(Object object) {
-		// TODO Auto-generated method stub
-		return super.equals(object);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return super.getChildAt(childIndex);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return super.getChildCount();
+		boolean equal = super.equals(object);
+		if (equal) {
+			DomainType dt = (DomainType) object;
+			equal &= dt.isSetSpatialDimension() == isSetSpatialDimension();
+			if (equal && isSetSpatialDimension()) {
+				equal &= dt.getSpatialDimension() == getSpatialDimension();
+			}
+		}
+		return equal;
 	}
 
 	/**
-	 * @return the spatialDomain
+	 * @return the spatialDimension
 	 */
-	public int getSpatialDomain() {
-		return spatialDomain.intValue();
+	public short getSpatialDimension() {
+		return spatialDimension.shortValue();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
+		final int prime = 937;
+		int hashCode = super.hashCode();
+		if (isSetSpatialDimension()) {
+			hashCode += prime * getSpatialDimension();
+		}
+		return hashCode;
+	}
+	
+	/**
+	 * @return
+	 */
+	public boolean isSetSpatialDimension() {
+		return spatialDimension != null;
 	}
 
 	/**
-	 * @param spatialDomain the spatialDomain to set
+	 * @param spatialDimension the spatialDimension to set
 	 */
-	public void setSpatialDomain(Integer spatialDomain) {
-		this.spatialDomain = spatialDomain;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setSpatialDimension(short spatialDimension) {
+		if ((spatialDimension < 0) || (3 < spatialDimension)) {
+			throw new IllegalArgumentException(
+					"Spatial dimension must be selected from the set {0, 1, 2, 3}");
+		}
+		this.spatialDimension = Short.valueOf(spatialDimension);
 	}
 
 }

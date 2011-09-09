@@ -1,6 +1,6 @@
 /*
- * $Id:  SampledFieldGeometry.java 16:04:54 draeger $
- * $URL: SampledFieldGeometry.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

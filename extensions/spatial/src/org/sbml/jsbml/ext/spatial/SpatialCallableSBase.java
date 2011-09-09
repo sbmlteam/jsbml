@@ -1,6 +1,6 @@
 /*
- * $Id:  SpatialCallableSBase.java 14:31:08 draeger $
- * $URL: SpatialCallableSBase.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -46,13 +46,13 @@ public abstract class SpatialCallableSBase extends AbstractSBase {
 	/**
 	 * 
 	 */
-	String mathOverridden;
+	Boolean coreHasAlternateMath;
 
 	/**
 	 * 
 	 */
-	Boolean coreHasAlternateMath;
-	
+	String mathOverridden;
+
 	/**
 	 * 
 	 */
@@ -60,7 +60,7 @@ public abstract class SpatialCallableSBase extends AbstractSBase {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	/**
 	 * @param level
 	 * @param version
@@ -69,7 +69,6 @@ public abstract class SpatialCallableSBase extends AbstractSBase {
 		super(level, version);
 		// TODO Auto-generated constructor stub
 	}
-	
 
 	/**
 	 * @param sb
@@ -88,18 +87,69 @@ public abstract class SpatialCallableSBase extends AbstractSBase {
 		return null;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			SpatialCallableSBase sb = (SpatialCallableSBase) object;
+			equals &= sb.isSetMathOverridden() == isSetMathOverridden();
+			if (equals && isSetMathOverridden()) {
+				equals &= sb.getMathOverridden().equals(getMathOverridden());
+			}
+			equals &= sb.isSetCoreHasAlternateMath() == isSetCoreHasAlternateMath();
+			if (equals && isSetCoreHasAlternateMath()) {
+				equals &= sb.getCoreHasAlternateMath() == getCoreHasAlternateMath();
+			}
+		}
+		return equals;
+	}
+	
 	/**
 	 * @return the coreHasAlternateMath
 	 */
 	public boolean getCoreHasAlternateMath() {
 		return coreHasAlternateMath.booleanValue();
 	}
+	
 
 	/**
 	 * @return the mathOverridden
 	 */
 	public String getMathOverridden() {
 		return mathOverridden;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 997;
+		int hashCode = super.hashCode();
+		if (isSetMathOverridden()) {
+			hashCode += prime * mathOverridden.hashCode();
+		}
+		if (isSetCoreHasAlternateMath()) {
+			hashCode += prime * coreHasAlternateMath.hashCode();
+		}
+		return hashCode;
+	}
+	
+	/**
+	 * @return
+	 */
+	public boolean isSetCoreHasAlternateMath() {
+		return coreHasAlternateMath != null;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetMathOverridden() {
+		return mathOverridden != null;
 	}
 
 	/**
@@ -116,13 +166,12 @@ public abstract class SpatialCallableSBase extends AbstractSBase {
 		this.mathOverridden = mathOverridden;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#toString()
 	 */
-	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return getClass().getName();
 	}
 
 }

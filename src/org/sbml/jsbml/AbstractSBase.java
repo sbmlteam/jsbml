@@ -805,10 +805,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			}
 			return iterator.next();
 		}
-		throw new IndexOutOfBoundsException((getChildCount() == 0) ? String
-				.format("Node %s has no children.", getElementName())
-				: String.format("Index %d >= %d", childIndex, +((int) Math.min(
-						pos, 0))));
+		throw new IndexOutOfBoundsException(isLeaf() ? String.format(
+				"Node %s has no children.", getElementName()) : String.format(
+				"Index %d >= %d", childIndex, +((int) Math.min(pos, 0))));
 	}
 
 	/*

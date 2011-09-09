@@ -1,6 +1,6 @@
 /*
- * $Id:  SpatialCompartment.java 15:07:11 draeger $
- * $URL: SpatialCompartment.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -106,8 +106,20 @@ public class SpatialCompartment extends SpatialCallableSBase {
 	 */
 	@Override
 	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return super.getChildAt(childIndex);
+		if (childIndex < 0) {
+			throw new IndexOutOfBoundsException(childIndex + " < 0");
+		}
+		int pos = 0;
+		if (isSetListOfCompartmentMappings()) {
+			if (childIndex == pos)  {
+				return getListOfCompartmentMappings();
+			}
+			pos++;
+		}
+		throw new IndexOutOfBoundsException(isLeaf() ? String
+				.format("Node %s has no children.", getElementName())
+				: String.format("Index %d >= %d", childIndex, +((int) Math.min(
+						pos, 0))));
 	}
 
 	/* (non-Javadoc)
@@ -115,8 +127,11 @@ public class SpatialCompartment extends SpatialCallableSBase {
 	 */
 	@Override
 	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return super.getChildCount();
+		int childCount = super.getChildCount();
+		if (isSetListOfCompartmentMappings()) {
+			childCount++;
+		}
+		return childCount;
 	}
 
 	/**
@@ -165,14 +180,4 @@ public class SpatialCompartment extends SpatialCallableSBase {
 		this.listOfCompartmentMappings = listOfCompartmentMappings;
 		setThisAsParentSBMLObject(listOfCompartmentMappings);
 	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		// TODO
-		return getClass().getName();
-	}
-
 }

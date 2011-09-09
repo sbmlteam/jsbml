@@ -1,6 +1,6 @@
 /*
- * $Id:  BoundaryCondition.java 15:19:27 draeger $
- * $URL: BoundaryCondition.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -30,16 +30,30 @@ package org.sbml.jsbml.ext.spatial;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.SBase;
-
 /**
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
-public class BoundaryCondition extends AbstractSBase {
+public class BoundaryCondition extends VariableReference {
 
+	/**
+	 * 
+	 * @author Andreas Dr&auml;ger
+	 * @version $Rev$
+	 * @since 0.8
+	 */
+	public static enum Type {
+		/**
+		 * Neumann
+		 */
+		FLUX,
+		/**
+		 * Dirichlet
+		 */
+		VALUE;
+	}
+	
 	/**
 	 * Generated serial version identifier.
 	 */
@@ -48,12 +62,7 @@ public class BoundaryCondition extends AbstractSBase {
 	/**
 	 * 
 	 */
-	private String variable;
-
-	/**
-	 * 
-	 */
-	private String type;
+	private String boundaryDomainType;
 
 	/**
 	 * 
@@ -63,12 +72,20 @@ public class BoundaryCondition extends AbstractSBase {
 	/**
 	 * 
 	 */
-	private String boundaryDomainType;
+	private Type type;
 
 	/**
 	 * 
 	 */
 	public BoundaryCondition() {
+		super();
+	}
+	
+	/**
+	 * @param sb
+	 */
+	public BoundaryCondition(BoundaryCondition sb) {
+		super(sb);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -81,18 +98,9 @@ public class BoundaryCondition extends AbstractSBase {
 		// TODO Auto-generated constructor stub
 	}
 	
-	/**
-	 * @param sb
-	 */
-	public BoundaryCondition(SBase sb) {
-		super(sb);
-		// TODO Auto-generated constructor stub
-	}
-	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	@Override
 	public BoundaryCondition clone() {
 		return new BoundaryCondition(this);
 	}
@@ -102,8 +110,23 @@ public class BoundaryCondition extends AbstractSBase {
 	 */
 	@Override
 	public boolean equals(Object object) {
-		// TODO Auto-generated method stub
-		return super.equals(object);
+		boolean equal = super.equals(object);
+		if (equal) {
+			BoundaryCondition bc = (BoundaryCondition) object;
+			equal &= bc.isSetBoundaryDomainType() == isSetBoundaryDomainType();
+			if (equal && isSetBoundaryDomainType()) {
+				equal &= bc.getBoundaryDomainType().equals(getBoundaryDomainType());
+			}
+			equal &= bc.isSetCoordinateBoundary() == isSetCoordinateBoundary();
+			if (equal && isSetCoordinateBoundary()) {
+				equal &= bc.getCoordinateBoundary().equals(getCoordinateBoundary());
+			}
+			equal &= bc.isSetType() == isSetType();
+			if (equal && isSetType()) {
+				equal &= bc.getType().equals(getType());
+			}
+		}
+		return equal;
 	}
 
 	/**
@@ -141,15 +164,8 @@ public class BoundaryCondition extends AbstractSBase {
 	/**
 	 * @return the type
 	 */
-	public String getType() {
-		return isSetType() ? type : "";
-	}
-
-	/**
-	 * @return the variable
-	 */
-	public String getVariable() {
-		return variable;
+	public Type getType() {
+		return type;
 	}
 
 	/* (non-Javadoc)
@@ -157,8 +173,18 @@ public class BoundaryCondition extends AbstractSBase {
 	 */
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
+		final int prime = 971;
+		int hashCode = super.hashCode();
+		if (isSetBoundaryDomainType()) {
+			hashCode += prime * getBoundaryDomainType().hashCode();
+		}
+		if (isSetCoordinateBoundary()) {
+			hashCode += prime * getCoordinateBoundary().hashCode();
+		}
+		if (isSetType()) {
+			hashCode += prime * getType().hashCode();
+		}
+		return hashCode;
 	}
 
 	/**
@@ -202,24 +228,8 @@ public class BoundaryCondition extends AbstractSBase {
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(String type) {
+	public void setType(Type type) {
 		this.type = type;
-	}
-
-	/**
-	 * @param variable the variable to set
-	 */
-	public void setVariable(String variable) {
-		this.variable = variable;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

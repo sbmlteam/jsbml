@@ -1,6 +1,6 @@
 /*
- * $Id:  SpatialParameter.java 15:15:07 draeger $
- * $URL: SpatialParameter.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -30,8 +30,6 @@ package org.sbml.jsbml.ext.spatial;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.SBase;
-
 /**
  * @author Andreas Dr&auml;ger
  * @since 0.8
@@ -47,8 +45,13 @@ public class SpatialParameter extends SpatialCallableSBase {
 	/**
 	 * 
 	 */
+	private SpatialParameterQualifier qualifier;
+	
+	/**
+	 * 
+	 */
 	public SpatialParameter() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 	
 	/**
@@ -57,15 +60,16 @@ public class SpatialParameter extends SpatialCallableSBase {
 	 */
 	public SpatialParameter(int level, int version) {
 		super(level, version);
-		// TODO Auto-generated constructor stub
 	}
-
+	
 	/**
 	 * @param sb
 	 */
-	public SpatialParameter(SBase sb) {
+	public SpatialParameter(SpatialParameter sb) {
 		super(sb);
-		// TODO Auto-generated constructor stub
+		if (sb.isSetQualifier()) {
+			this.qualifier = sb.getQualifier().clone();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -81,8 +85,15 @@ public class SpatialParameter extends SpatialCallableSBase {
 	 */
 	@Override
 	public boolean equals(Object object) {
-		// TODO Auto-generated method stub
-		return super.equals(object);
+		boolean equals = super.equals(object);
+		if (equals) {
+			SpatialParameter sp = (SpatialParameter) object;
+			equals &= sp.isSetQualifier() == isSetQualifier();
+			if (equals && isSetQualifier()) {
+				equals &= sp.getQualifier().equals(getQualifier());
+			}
+		}
+		return equals;
 	}
 
 	/* (non-Javadoc)
@@ -90,8 +101,19 @@ public class SpatialParameter extends SpatialCallableSBase {
 	 */
 	@Override
 	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return super.getChildAt(childIndex);
+		if (childIndex < 0) {
+			throw new IndexOutOfBoundsException(childIndex + " < 0");
+		}
+		int pos = 0;
+		if (isSetQualifier())  {
+			if (childIndex == pos) {
+				return getQualifier();
+			}
+			pos++;
+		}
+		throw new IndexOutOfBoundsException(isLeaf() ? String.format(
+				"Node %s has no children.", getElementName()) : String.format(
+				"Index %d >= %d", childIndex, +((int) Math.min(pos, 0))));
 	}
 
 	/* (non-Javadoc)
@@ -99,8 +121,14 @@ public class SpatialParameter extends SpatialCallableSBase {
 	 */
 	@Override
 	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return super.getChildCount();
+		return super.getChildCount() + (isSetQualifier() ? 1 : 0);
+	}
+
+	/**
+	 * @return the qualifier
+	 */
+	public SpatialParameterQualifier getQualifier() {
+		return qualifier;
 	}
 
 	/* (non-Javadoc)
@@ -108,17 +136,27 @@ public class SpatialParameter extends SpatialCallableSBase {
 	 */
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
+		final int prime = 991;
+		int hashCode = super.hashCode();
+		if (isSetQualifier()) {
+			hashCode += prime * getQualifier().hashCode();
+		}
+		return hashCode;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#toString()
+	/**
+	 * 
+	 * @return
 	 */
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean isSetQualifier() {
+		return qualifier != null;
+	}
+
+	/**
+	 * @param qualifier the qualifier to set
+	 */
+	public void setQualifier(SpatialParameterQualifier qualifier) {
+		this.qualifier = qualifier;
 	}
 
 }

@@ -812,7 +812,7 @@
             </speciesReferenceGlyph>
           </listOfSpeciesReferenceGlyphs>
         </layout:reactionGlyph>
-      </listOfReactionGlyphs>
+      </layout:listOfReactionGlyphs>
       <listOfTextGlyphs>
         <textGlyph id="TextGlyph_01" graphicalObject="glyph_Gluc" originOfText="Glucose">
           <layout:boundingBox id="bbT_01">

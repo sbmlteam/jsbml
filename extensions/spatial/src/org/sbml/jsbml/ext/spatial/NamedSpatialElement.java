@@ -1,6 +1,6 @@
 /*
- * $Id:  NamedSpatialElement.java 20:45:02 draeger $
- * $URL: NamedSpatialElement.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -29,7 +29,6 @@
 package org.sbml.jsbml.ext.spatial;
 
 import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.SBase;
 
 /**
  * @author Andreas Dr&auml;ger
@@ -61,25 +60,53 @@ public abstract class NamedSpatialElement extends AbstractSBase {
 	 */
 	public NamedSpatialElement(int level, int version) {
 		super(level, version);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param sb
+	 * @param nse
 	 */
-	public NamedSpatialElement(SBase sb) {
-		super(sb);
-		// TODO Auto-generated constructor stub
+	public NamedSpatialElement(NamedSpatialElement nse) {
+		super(nse);
+		if (nse.isSetSpatialId()) {
+			this.spatialId = new String(nse.getSpatialId());
+		}
 	}
 	
 	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object object) {
+		boolean equal = super.equals(object);
+		if (equal) {
+			NamedSpatialElement nse = (NamedSpatialElement) object;
+			equal &= nse.isSetSpatialId() == isSetSpatialId();
+			if (equal && isSetSpatialId()) {
+				equal &= nse.getSpatialId().equals(getSpatialId());
+			}
+		}
+		return equal;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 983;
+		int hashCode = super.hashCode();
+		if (isSetSpatialId()) {
+			hashCode += prime * getSpatialId().hashCode();
+		}
+		return hashCode;
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	@Override
-	public AbstractSBase clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract NamedSpatialElement clone();
 
 	/**
 	 * @return the spatialId
@@ -103,13 +130,12 @@ public abstract class NamedSpatialElement extends AbstractSBase {
 		this.spatialId = spatialId;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#toString()
 	 */
-	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return getClass().getSimpleName();
 	}
 
 }

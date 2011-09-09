@@ -3,6 +3,10 @@
 # dot -Tpdf FullTypeHierarchy.dot -oFullTypeHierarchy.pdf && acroread FullTypeHierarchy.pdf &
 # dot -Tpng FullTypeHierarchy.dot -oFullTypeHierarchy.png
 
+/*
+ * Overview of the core type hierarchy
+ */
+
 strict digraph G{
 
 	nodesep=0.25;
@@ -201,70 +205,4 @@ strict digraph G{
   Variable                   -> Symbol                     [dir=back,arrowtail=empty,style=dashed];
   XMLToken                   -> XMLNode                    [dir=back,arrowtail=empty];
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  /**********************
-   * Extension packages *
-   **********************/
-
-
-  /*
-   * Layout extension
-   */
-   
-  subgraph clusterLayout {
-    fontname="Helvetica";
-    fontsize=12;
-    style="filled";
-    fillcolor="#d2ffd2"
-    color="#ffffff"
-    label="Layout extension";
-    labelloc=b;
-    labeljust=r;
-
-    // Interfaces
-
-    // Enums
-    //SpeciesReferenceRole                   [label="SpeciesReference\nRole"];
-    
-    // Objects
-    BoundingBox                            [label="Bounding\nBox"];
-    CompartmentGlyph                       [label="Compartment\nGlyph"];
-    CubicBezier                            [label="Cubic\nBezier"];
-    Curve                                  [label="Curve"];
-    Dimensions                             [label="Dimensions"];
-    ExtendedLayoutModel                    [label="Extended\nLayoutModel"];
-    GraphicalObject                        [label="Graphical\nObject"];
-    Layout                                 [label="Layout"];
-    // LayoutParser                        [label="Layout\nParser"];
-    LineSegment                            [label="Line\nSegment"];
-    Point                                  [label="Point"];
-    ReactionGlyph                          [label="Reaction\nGlyph"];
-    SpeciesReferencesGlyph                 [label="SpeciesReferences\nGlyph"];
-    TextGlyph                              [label="Text\nGlyph"];
-    
-    /*
-     * Inheritance graph
-     */
-     GraphicalObject    -> CompartmentGlyph       [dir=back,arrowtail=empty];
-     GraphicalObject    -> ReactionGlyph          [dir=back,arrowtail=empty];
-     GraphicalObject    -> SpeciesGlyph           [dir=back,arrowtail=empty];
-     GraphicalObject    -> TextGlyph              [dir=back,arrowtail=empty];
-     LineSegment        -> CubicBezier            [dir=back,arrowtail=empty];
-   }
-   
-   /*********************
-    * Inheritance graph *
-    *********************/
-   
-   AbstractNamedSBase -> BoundingBox            [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> Curve                  [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> Dimensions             [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> GraphicalObject        [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> SpeciesReferencesGlyph [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> Layout                 [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> LineSegment            [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> Point                  [dir=back,arrowtail=empty];
-   AbstractSBase      -> ExtendedLayoutModel    [dir=back,arrowtail=empty];     
-   
 }

@@ -213,30 +213,30 @@
         <listOfReactants>
           <speciesReference species="Glucose">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_Gluc"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_Gluc"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="ATP">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ATP_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ATP_1"/>
+            </annotation>
           </speciesReference>
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="Glucose-6-phosphate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_G6P_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_G6P_1"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="ADP">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ADP_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ADP_1"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="H+">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_1"/>
+            </annotation>
           </speciesReference>
         </listOfProducts>
       </reaction>
@@ -244,15 +244,15 @@
         <listOfReactants>
           <speciesReference species="Glucose-6-phosphate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_G6P_2"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_G6P_2"/>
+            </annotation>
           </speciesReference>
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="Fructose-6-phosphate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_F6P_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_F6P_1"/>
+            </annotation>
           </speciesReference>
         </listOfProducts>
       </reaction>
@@ -260,30 +260,30 @@
         <listOfReactants>
           <speciesReference species="Fructose-6-phosphate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_F6P_2"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_F6P_2"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="ATP">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ATP_2"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ATP_2"/>
+            </annotation>
           </speciesReference>
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="Fructose-1_6-bisphosphate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_F16BP_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_F16BP_1"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="ADP">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ADP_2"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ADP_2"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="H+">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_2"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_2"/>
+            </annotation>
           </speciesReference>
         </listOfProducts>
       </reaction>
@@ -291,20 +291,20 @@
         <listOfReactants>
           <speciesReference species="Fructose-1_6-bisphosphate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_F16BP_2"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_F16BP_2"/>
+            </annotation>
           </speciesReference>
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="Dihydroxyacetonephosphate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_DHAP_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_DHAP_1"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="Glyceraldehyd-3-phosphate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_GAP_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_GAP_1"/>
+            </annotation>
           </speciesReference>
         </listOfProducts>
       </reaction>
@@ -312,15 +312,15 @@
         <listOfReactants>
           <speciesReference species="Dihydroxyacetonephosphate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_DHAP_2"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_DHAP_2"/>
+            </annotation>
           </speciesReference>
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="Glyceraldehyd-3-phosphate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_GAP_2"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_GAP_2"/>
+            </annotation>
           </speciesReference>
         </listOfProducts>
       </reaction>
@@ -328,35 +328,35 @@
         <listOfReactants>
           <speciesReference species="Glyceraldehyd-3-phosphate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_GAP_3"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_GAP_3"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="NAD+">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_NAD_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_NAD_1"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="Pi">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_PI_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_PI_1"/>
+            </annotation>
           </speciesReference>
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="1_3-Bisphosphoglycerate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_BPG_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_BPG_1"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="NADH">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_NADH_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_NADH_1"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="H+">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_5"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_5"/>
+            </annotation>
           </speciesReference>
         </listOfProducts>
       </reaction>
@@ -364,30 +364,30 @@
         <listOfReactants>
           <speciesReference species="1_3-Bisphosphoglycerate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_BPG_2"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_BPG_2"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="ADP">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ADP_3"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ADP_3"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="H+">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_3"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_3"/>
+            </annotation>
           </speciesReference>
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="3-Phosphoglycerate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_3PG_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_3PG_1"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="ATP">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ATP_3"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ATP_3"/>
+            </annotation>
           </speciesReference>
         </listOfProducts>
       </reaction>
@@ -395,15 +395,15 @@
         <listOfReactants>
           <speciesReference species="3-Phosphoglycerate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_3PG_2"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_3PG_2"/>
+            </annotation>
           </speciesReference>
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="2-Phosphoglycerate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_2PG_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_2PG_1"/>
+            </annotation>
           </speciesReference>
         </listOfProducts>
       </reaction>
@@ -411,20 +411,20 @@
         <listOfReactants>
           <speciesReference species="3-Phosphoglycerate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_2PG_2"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_2PG_2"/>
+            </annotation>
           </speciesReference>
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="2-Phosphoglycerate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_PEP_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_PEP_1"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="H2O">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H2O_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H2O_1"/>
+            </annotation>
           </speciesReference>
         </listOfProducts>
       </reaction>
@@ -432,30 +432,30 @@
         <listOfReactants>
           <speciesReference species="3-Phosphoglycerate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_PEP_2"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_PEP_2"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="ADP">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ADP_4"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ADP_4"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="H+">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_4"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_H_4"/>
+            </annotation>
           </speciesReference>
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="2-Phosphoglycerate">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_Pyr_1"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_Pyr_1"/>
+            </annotation>
           </speciesReference>
           <speciesReference species="ATP">
             <annotation>
-  <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ATP_4"/>
-</annotation>
+              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="ref_ATP_4"/>
+            </annotation>
           </speciesReference>
         </listOfProducts>
       </reaction>

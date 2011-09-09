@@ -1,6 +1,6 @@
 /*
- * $Id:  AnalyticGeometry.java 16:05:33 draeger $
- * $URL: AnalyticGeometry.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

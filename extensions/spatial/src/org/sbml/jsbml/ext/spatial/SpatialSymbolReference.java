@@ -1,6 +1,6 @@
 /*
- * $Id:  SpatialSymbolReference.java 15:16:24 draeger $
- * $URL: SpatialSymbolReference.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -28,27 +28,25 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import javax.swing.tree.TreeNode;
-
-import org.sbml.jsbml.SBase;
 
 /**
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
-public class SpatialSymbolReference extends NamedSpatialElement {
+public class SpatialSymbolReference extends NamedSpatialElement implements
+		SpatialParameterQualifier {
 
 	/**
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -8906622500258765056L;
-
+	
 	/**
 	 * 
 	 */
 	public SpatialSymbolReference() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	/**
@@ -57,15 +55,13 @@ public class SpatialSymbolReference extends NamedSpatialElement {
 	 */
 	public SpatialSymbolReference(int level, int version) {
 		super(level, version);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @param sb
 	 */
-	public SpatialSymbolReference(SBase sb) {
+	public SpatialSymbolReference(SpatialSymbolReference sb) {
 		super(sb);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/* (non-Javadoc)
@@ -74,51 +70,6 @@ public class SpatialSymbolReference extends NamedSpatialElement {
 	@Override
 	public SpatialSymbolReference clone() {
 		return new SpatialSymbolReference(this);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-		// TODO Auto-generated method stub
-		return super.equals(object);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return super.getChildAt(childIndex);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return super.getChildCount();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

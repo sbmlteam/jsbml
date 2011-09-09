@@ -1,6 +1,6 @@
 /*
- * $Id:  SpatialReaction.java 15:20:31 draeger $
- * $URL: SpatialReaction.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -28,9 +28,6 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import javax.swing.tree.TreeNode;
-
-import org.sbml.jsbml.SBase;
 
 /**
  * @author Andreas Dr&auml;ger
@@ -53,7 +50,7 @@ public class SpatialReaction extends SpatialCallableSBase {
 	 * 
 	 */
 	public SpatialReaction() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	/**
@@ -62,15 +59,23 @@ public class SpatialReaction extends SpatialCallableSBase {
 	 */
 	public SpatialReaction(int level, int version) {
 		super(level, version);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
-	 * @param sb
+	 * @param sr
 	 */
-	public SpatialReaction(SBase sb) {
-		super(sb);
-		// TODO Auto-generated constructor stub
+	public SpatialReaction(SpatialReaction sr) {
+		super(sr);
+		if (sr.isSetIsLocal()) {
+			this.isLocal = Boolean.valueOf(sr.getIsLocal());
+		}
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetIsLocal() {
+		return isLocal != null;
 	}
 
 	/* (non-Javadoc)
@@ -86,26 +91,15 @@ public class SpatialReaction extends SpatialCallableSBase {
 	 */
 	@Override
 	public boolean equals(Object object) {
-		// TODO Auto-generated method stub
-		return super.equals(object);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return super.getChildAt(childIndex);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return super.getChildCount();
+		boolean equal = super.equals(object);
+		if (equal) {
+			SpatialReaction sr = (SpatialReaction) object;
+			equal &= sr.isSetIsLocal() == isSetIsLocal();
+			if (equal && isSetIsLocal()) {
+				equal &= sr.getIsLocal() == getIsLocal();
+			}
+		}
+		return equal;
 	}
 
 	/**
@@ -120,8 +114,12 @@ public class SpatialReaction extends SpatialCallableSBase {
 	 */
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
+		final int prime = 953;
+		int hashCode = super.hashCode();
+		if (isSetIsLocal()) {
+			hashCode += prime * isLocal.hashCode();
+		}
+		return hashCode;
 	}
 	
 	/**
@@ -129,15 +127,6 @@ public class SpatialReaction extends SpatialCallableSBase {
 	 */
 	public void setIsLocal(Boolean isLocal) {
 		this.isLocal = isLocal;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
