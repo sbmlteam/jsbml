@@ -1,6 +1,6 @@
 /*
- * $Id:  DiffusionCoefficient.java 15:17:31 draeger $
- * $URL: DiffusionCoefficient.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -28,17 +28,13 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import javax.swing.tree.TreeNode;
-
-import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.SBase;
 
 /**
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
-public class DiffusionCoefficient extends AbstractSBase {
+public class DiffusionCoefficient extends Coefficient {
 
 	/**
 	 * Generated serial version identifier.
@@ -48,23 +44,8 @@ public class DiffusionCoefficient extends AbstractSBase {
 	/**
 	 * 
 	 */
-	private String variable;
-
-	/**
-	 * 
-	 */
-	private String domain;
-
-	/**
-	 * 
-	 */
-	private Integer coordinateIndex;
-
-	/**
-	 * 
-	 */
 	public DiffusionCoefficient() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 	
 	/**
@@ -73,126 +54,20 @@ public class DiffusionCoefficient extends AbstractSBase {
 	 */
 	public DiffusionCoefficient(int level, int version) {
 		super(level, version);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
 	 * @param sb
 	 */
-	public DiffusionCoefficient(SBase sb) {
+	public DiffusionCoefficient(DiffusionCoefficient sb) {
 		super(sb);
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	@Override
 	public DiffusionCoefficient clone() {
 		return new DiffusionCoefficient(this);
 	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-		// TODO Auto-generated method stub
-		return super.equals(object);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return super.getChildAt(childIndex);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return super.getChildCount();
-	}
-
-	/**
-	 * @return the coordinateIndex
-	 */
-	public int getCoordinateIndex() {
-		return coordinateIndex.intValue();
-	}
-
-	/**
-	 * @return the domain
-	 */
-	public String getDomain() {
-		return isSetDomain() ? domain : "";
-	}
-
-	/**
-	 * @return the variable
-	 */
-	public String getVariable() {
-		return isSetVariable() ? variable : "";
-	}
 	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetDomain() {
-		return domain != null;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetVariable() {
-		return variable != null;
-	}
-
-	/**
-	 * @param coordinateIndex the coordinateIndex to set
-	 */
-	public void setCoordinateIndex(Integer coordinateIndex) {
-		this.coordinateIndex = coordinateIndex;
-	}
-
-	/**
-	 * @param domain the domain to set
-	 */
-	public void setDomain(String domain) {
-		this.domain = domain;
-	}
-
-	/**
-	 * @param variable the variable to set
-	 */
-	public void setVariable(String variable) {
-		this.variable = variable;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

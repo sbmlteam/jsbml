@@ -1,6 +1,6 @@
 /*
- * $Id:  CompartmentMapping.java 15:11:29 draeger $
- * $URL: CompartmentMapping.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -28,10 +28,8 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.Model;
 
 /**
  * @author Andreas Dr&auml;ger
@@ -74,15 +72,22 @@ public class CompartmentMapping extends NamedSpatialElement {
 	 */
 	public CompartmentMapping(int level, int version) {
 		super(level, version);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
-	 * @param sb
+	 * @param cm
 	 */
-	public CompartmentMapping(SBase sb) {
-		super(sb);
-		// TODO Auto-generated constructor stub
+	public CompartmentMapping(CompartmentMapping cm) {
+		super(cm);
+		if (cm.isSetCompartment()) {
+			this.compartment = new String(cm.getCompartment());
+		}
+		if (cm.isSetDomainType()) {
+			this.domainType = new String(cm.getDomainType());
+		}
+		if (cm.isSetUnitSize()) {
+			this.unitSize = Double.valueOf(cm.getUnitSize());
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -102,24 +107,6 @@ public class CompartmentMapping extends NamedSpatialElement {
 		return super.equals(object);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return super.getChildAt(childIndex);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return super.getChildCount();
-	}
-
 	/**
 	 * @return the compartment
 	 */
@@ -132,7 +119,8 @@ public class CompartmentMapping extends NamedSpatialElement {
 	 * @return
 	 */
 	public Compartment getCompartmentInstance() {
-		return getModel().getCompartment(getCompartment());
+		Model m = getModel();
+		return m != null ? m.getCompartment(getCompartment()) : null;
 	}
 	
 	/**
@@ -140,6 +128,16 @@ public class CompartmentMapping extends NamedSpatialElement {
 	 */
 	public String getDomainType() {
 		return domainType;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public DomainType getDomainTypeInstance() {
+		Model m = getModel();
+		// TODO
+		return null;
 	}
 
 	/**
@@ -164,6 +162,14 @@ public class CompartmentMapping extends NamedSpatialElement {
 	 */
 	public boolean isSetCompartment() {
 		return compartment != null;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetDomainType() {
+		return domainType != null;
 	}
 
 	/**
@@ -193,15 +199,6 @@ public class CompartmentMapping extends NamedSpatialElement {
 	 */
 	public void setUnitSize(Double unitSize) {
 		this.unitSize = unitSize;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

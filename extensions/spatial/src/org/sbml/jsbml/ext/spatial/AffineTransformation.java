@@ -1,6 +1,6 @@
 /*
- * $Id:  AffineTransformation.java 16:23:28 draeger $
- * $URL: AffineTransformation.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

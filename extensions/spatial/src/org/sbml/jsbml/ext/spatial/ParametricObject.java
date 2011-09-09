@@ -1,6 +1,6 @@
 /*
- * $Id:  ParametricObject.java 16:28:09 draeger $
- * $URL: ParametricObject.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

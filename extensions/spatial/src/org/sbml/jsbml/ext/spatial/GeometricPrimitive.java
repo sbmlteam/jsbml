@@ -1,6 +1,6 @@
 /*
- * $Id:  GeometricPrimitive.java 16:21:39 draeger $
- * $URL: GeometricPrimitive.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

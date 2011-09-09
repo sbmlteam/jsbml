@@ -1,6 +1,6 @@
 /*
- * $Id:  AdjacentDomains.java 15:56:15 draeger $
- * $URL: AdjacentDomains.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

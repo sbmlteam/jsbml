@@ -1,6 +1,6 @@
 /*
- * $Id:  SpatialSpecies.java 15:13:05 draeger $
- * $URL: SpatialSpecies.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -28,17 +28,13 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import javax.swing.tree.TreeNode;
-
-import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.SBase;
 
 /**
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
-public class SpatialSpecies extends AbstractSBase {
+public class SpatialSpecies extends SpatialCallableSBase {
 
 	/**
 	 * Generated serial version identifier.
@@ -49,16 +45,6 @@ public class SpatialSpecies extends AbstractSBase {
 	 * 
 	 */
 	private Boolean isSpatial;
-
-	/**
-	 * 
-	 */
-	private String mathOverridden;
-
-	/**
-	 * 
-	 */
-	private Boolean coreHasAlternateMath;
 	
 	/**
 	 * 
@@ -79,9 +65,11 @@ public class SpatialSpecies extends AbstractSBase {
 	/**
 	 * @param sb
 	 */
-	public SpatialSpecies(SBase sb) {
+	public SpatialSpecies(SpatialSpecies sb) {
 		super(sb);
-		// TODO Auto-generated constructor stub
+		if (sb.isSetIsSpatial()) {
+			this.isSpatial = Boolean.valueOf(sb.isSpatial());
+		}
 	}
 
 	/* (non-Javadoc)
@@ -97,33 +85,15 @@ public class SpatialSpecies extends AbstractSBase {
 	 */
 	@Override
 	public boolean equals(Object object) {
-		// TODO Auto-generated method stub
-		return super.equals(object);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return super.getChildAt(childIndex);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return super.getChildCount();
-	}
-
-	/**
-	 * @return the coreHasAlternateMath
-	 */
-	public boolean getCoreHasAlternateMath() {
-		return coreHasAlternateMath.booleanValue();
+		boolean equal = super.equals(object);
+		if (equal) {
+			SpatialSpecies ss = (SpatialSpecies) object;
+			equal &= ss.isSetIsSpatial() == isSetIsSpatial();
+			if (equal && isSetIsSpatial()) {
+				equal &= ss.isSpatial() == isSpatial();
+			}
+		}
+		return equal;
 	}
 
 	/**
@@ -133,58 +103,40 @@ public class SpatialSpecies extends AbstractSBase {
 		return isSpatial;
 	}
 
-	/**
-	 * @return the mathOverridden
-	 */
-	public String getMathOverridden() {
-		return isSetMathOverridden() ? mathOverridden : "";
-	}
-	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
+		final int prime = 997;
+		int hashCode = super.hashCode();
+		if (isSetIsSpatial()) {
+			hashCode += prime * isSpatial.hashCode();
+		}
+		return hashCode;
 	}
 	
 	/**
-	 * 
 	 * @return
 	 */
-	public boolean isSetMathOverridden() {
-		return mathOverridden != null;
+	public boolean isSetIsSpatial() {
+		return isSpatial != null;
 	}
 
 	/**
-	 * @param coreHasAlternateMath the coreHasAlternateMath to set
+	 * 
+	 * @return
+	 * @see #getIsSpatial()
 	 */
-	public void setCoreHasAlternateMath(boolean coreHasAlternateMath) {
-		this.coreHasAlternateMath = Boolean.valueOf(coreHasAlternateMath);
+	public boolean isSpatial() {
+		return getIsSpatial();
 	}
-
+	
 	/**
 	 * @param isSpatial the isSpatial to set
 	 */
 	public void setIsSpatial(boolean isSpatial) {
 		this.isSpatial = Boolean.valueOf(isSpatial);
-	}
-
-	/**
-	 * @param mathOverridden the mathOverridden to set
-	 */
-	public void setMathOverridden(String mathOverridden) {
-		this.mathOverridden = mathOverridden;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

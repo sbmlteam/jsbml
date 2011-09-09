@@ -1,6 +1,6 @@
 /*
- * $Id:  GeometryDefinition.java 16:25:45 draeger $
- * $URL: GeometryDefinition.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

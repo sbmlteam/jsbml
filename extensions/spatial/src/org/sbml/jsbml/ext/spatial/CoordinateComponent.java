@@ -1,6 +1,6 @@
 /*
- * $Id:  CoordinateComponent.java 15:22:16 draeger $
- * $URL: CoordinateComponent.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -30,14 +30,19 @@ package org.sbml.jsbml.ext.spatial;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBaseWithUnit;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.Unit.Kind;
 
 /**
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
-public class CoordinateComponent extends NamedSpatialElement {
+public class CoordinateComponent extends NamedSpatialElement implements
+		SBaseWithUnit {
 
 	/**
 	 * Generated serial version identifier.
@@ -47,13 +52,23 @@ public class CoordinateComponent extends NamedSpatialElement {
 	/**
 	 * 
 	 */
+	private String componentType;
+
+	/**
+	 * 
+	 */
 	private Integer coordinateIndex;
 
 	/**
 	 * 
 	 */
-	private String componentType;
-
+	private Boundary maximum;
+	
+	/**
+	 * 
+	 */
+	private Boundary minimum;
+	
 	/**
 	 * 
 	 */
@@ -63,32 +78,51 @@ public class CoordinateComponent extends NamedSpatialElement {
 	 * 
 	 */
 	public CoordinateComponent() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
-
+	
+	/**
+	 * @param coordComp
+	 */
+	public CoordinateComponent(CoordinateComponent coordComp) {
+		super(coordComp);
+		if (coordComp.isSetComponentType()) {
+			this.componentType = new String(coordComp.getComponentType());
+		}
+		if (coordComp.isSetCoordinateIndex()) {
+			this.coordinateIndex = Integer.valueOf(coordComp.getCoordinateIndex());
+		}
+		if (coordComp.isSetUnits()) {
+			this.unit = new String(coordComp.getUnits());
+		}
+		if (coordComp.isSetMinimum()) {
+			this.minimum = coordComp.getMinimum().clone();
+		}
+		if (coordComp.isSetMaximum()) {
+			this.maximum = coordComp.getMaximum().clone();
+		}
+	}
+	
 	/**
 	 * @param level
 	 * @param version
 	 */
 	public CoordinateComponent(int level, int version) {
 		super(level, version);
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @param sb
-	 */
-	public CoordinateComponent(SBase sb) {
-		super(sb);
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	@Override
 	public CoordinateComponent clone() {
 		return new CoordinateComponent(this);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
+	 */
+	public boolean containsUndeclaredUnits() {
+		return !isSetUnits();
 	}
 
 	/* (non-Javadoc)
@@ -96,8 +130,31 @@ public class CoordinateComponent extends NamedSpatialElement {
 	 */
 	@Override
 	public boolean equals(Object object) {
-		// TODO Auto-generated method stub
-		return super.equals(object);
+		boolean equal = super.equals(object);
+		if (equal) {
+			CoordinateComponent cc = (CoordinateComponent) object;
+			equal &= cc.isSetComponentType() == isSetComponentType();
+			if (equal && isSetComponentType()) {
+				equal &= cc.getComponentType().equals(getComponentType());
+			}
+			equal &= cc.isSetCoordinateIndex() == isSetCoordinateIndex();
+			if (equal && isSetCoordinateIndex()) {
+				equal &= cc.getCoordinateIndex() == getCoordinateIndex();
+			}
+			equal &= cc.isSetMinimum() == isSetMinimum();
+			if (equal && isSetMinimum()) {
+				equal &= cc.getMinimum().equals(getMinimum());
+			}
+			equal &= cc.isSetMaximum() == isSetMaximum();
+			if (equal && isSetMaximum()) {
+				equal &= cc.getMaximum().equals(getMaximum());
+			}
+			equal &= cc.isSetUnits() == isSetUnits();
+			if (equal && isSetUnits()) {
+				equal &= cc.getUnits().equals(getUnits());
+			}
+		}
+		return equal;
 	}
 
 	/* (non-Javadoc)
@@ -105,8 +162,25 @@ public class CoordinateComponent extends NamedSpatialElement {
 	 */
 	@Override
 	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return super.getChildAt(childIndex);
+		if (childIndex < 0) {
+			throw new IndexOutOfBoundsException(childIndex + " < 0");
+		}
+		int pos = 0;
+		if (isSetMinimum()) {
+			if (childIndex == pos)  {
+				return getMinimum();
+			}
+			pos++;
+		}
+		if (isSetMaximum()) {
+			if (childIndex == pos) {
+				return getMaximum();
+			}
+			pos++;
+		}
+		throw new IndexOutOfBoundsException(isLeaf() ? String.format(
+				"Node %s has no children.", getElementName()) : String.format(
+				"Index %d >= %d", childIndex, +((int) Math.min(pos, 0))));
 	}
 
 	/* (non-Javadoc)
@@ -114,8 +188,14 @@ public class CoordinateComponent extends NamedSpatialElement {
 	 */
 	@Override
 	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return super.getChildCount();
+		int childCount = super.getChildCount();
+		if (isSetMinimum()) {
+			childCount++;
+		}
+		if (isSetMaximum()) {
+			childCount++;
+		}
+		return childCount;
 	}
 
 	/**
@@ -132,38 +212,117 @@ public class CoordinateComponent extends NamedSpatialElement {
 		return coordinateIndex;
 	}
 
-	/**
-	 * @return the unit
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
 	 */
-	public String getUnit() {
-		return isSetUnit() ? unit : "";
+	public UnitDefinition getDerivedUnitDefinition() {
+		if (isSetUnits()) {
+			return getUnitsInstance();
+		}
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
+	 */
+	public String getDerivedUnits() {
+		return getUnits();
+	}
+
+	/**
+	 * @return the maximum
+	 */
+	public Boundary getMaximum() {
+		return maximum;
 	}
 	
+	/**
+	 * @return the minimum
+	 */
+	public Boundary getMinimum() {
+		return minimum;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#getUnits()
+	 */
+	public String getUnits() {
+		return isSetUnits() ? unit : "";
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#getUnitsInstance()
+	 */
+	public UnitDefinition getUnitsInstance() {
+		Model model = getModel();
+		return model != null ? model.getUnitDefinition(getUnits()) : null;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
+		final int prime = 947;
+		int hashCode = super.hashCode();
+		if (isSetComponentType()) {
+			hashCode += prime * getComponentType().hashCode();
+		}
+		if (isSetCoordinateIndex()) {
+			hashCode += prime * getCoordinateIndex();
+		}
+		if (isSetUnits()) {
+			hashCode += prime * getUnits().hashCode();
+		}
+		return hashCode;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	private boolean isSetComponentType() {
+	public boolean isSetComponentType() {
 		return componentType != null;
 	}
-	
+
+	/**
+	 * @return
+	 */
+	public boolean isSetCoordinateIndex() {
+		return coordinateIndex != null;
+	}
+
 	/**
 	 * 
 	 * @return
 	 */
-	public boolean isSetUnit() {
+	public boolean isSetMaximum() {
+		return maximum != null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetMinimum() {
+		return minimum != null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#isSetUnits()
+	 */
+	public boolean isSetUnits() {
 		return unit != null;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#isSetUnitsInstance()
+	 */
+	public boolean isSetUnitsInstance() {
+		Model model = getModel();
+		return model != null ? model.containsUnitDefinition(getUnits()) : false;
+	}
+
 	/**
 	 * @param componentType the componentType to set
 	 */
@@ -179,19 +338,55 @@ public class CoordinateComponent extends NamedSpatialElement {
 	}
 
 	/**
-	 * @param unit the unit to set
+	 * @param maximum the maximum to set
 	 */
-	public void setUnit(String unit) {
-		this.unit = unit;
+	public void setMaximum(Boundary maximum) {
+		this.maximum = maximum;
+	}
+
+	/**
+	 * @param minimum the minimum to set
+	 */
+	public void setMinimum(Boundary minimum) {
+		this.minimum = minimum;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#toString()
+	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.Unit.Kind)
 	 */
-	@Override
-	public String toString() {
+	public void setUnits(Kind unitKind) {
+		setUnits(unitKind.toString());
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(java.lang.String)
+	 */
+	public void setUnits(String units) {
+		this.unit = units;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.Unit)
+	 */
+	public void setUnits(Unit unit) {
 		// TODO Auto-generated method stub
-		return null;
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.UnitDefinition)
+	 */
+	public void setUnits(UnitDefinition units) {
+		if (units.isSetId()) {
+			setUnits(units.getId());
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithUnit#unsetUnits()
+	 */
+	public void unsetUnits() {
+		setUnits((String) null);
 	}
 
 }

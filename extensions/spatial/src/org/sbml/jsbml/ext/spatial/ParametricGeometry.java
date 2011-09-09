@@ -1,6 +1,6 @@
 /*
- * $Id:  ParametricGeometry.java 16:06:30 draeger $
- * $URL: ParametricGeometry.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================

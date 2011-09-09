@@ -10,9 +10,12 @@ Version 0.8-rc1 (xx-xx-2011)
     computation result or other additional information can be stored
     in the tree.
   
-  - Restructured the extension package: There is now one extra source
-    folder for each extension. The core does no longer contain the
-    ext package.
+  - Restructured the extension package: There is now one extra 
+    directory including a specialized source folder for each extension. 
+    The core does no longer contain the ext package. Besides the source
+    folder, there is also an extra doc folder that contains the 
+    description of the type hierarchy of the implementation for this
+    package.
     
   - Data structures for the spatial extension are implemented.
   

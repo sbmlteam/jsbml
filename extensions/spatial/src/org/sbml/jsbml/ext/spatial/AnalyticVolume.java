@@ -1,6 +1,6 @@
 /*
- * $Id:  AnalyticVolume.java 16:15:51 draeger $
- * $URL: AnalyticVolume.java $
+ * $Id$
+ * $URL$
  *
  * 
  *==================================================================================
@@ -30,14 +30,14 @@ package org.sbml.jsbml.ext.spatial;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.AbstractTreeNode;
+import org.sbml.jsbml.AbstractMathContainer;
 
 /**
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
-public class AnalyticVolume extends AbstractTreeNode {
+public class AnalyticVolume extends AbstractMathContainer {
 
 	/**
 	 * Generated serial version identifier.
