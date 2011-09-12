@@ -280,7 +280,7 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 	 */
 	public void setVariable(String variable) {
 		if (getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)) < 0) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.variable, this);
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.variable, this);
 		}
 		String oldVariableID = this.variableID;
 		this.variableID = variable;

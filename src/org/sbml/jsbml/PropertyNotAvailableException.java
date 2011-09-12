@@ -29,7 +29,7 @@ package org.sbml.jsbml;
  * @since 0.8
  * @version $Rev$
  */
-public class PropertyNotAvailableError extends PropertyError {
+public class PropertyNotAvailableException extends PropertyException {
 
 	/**
 	 * Generated serial version identifier.
@@ -47,7 +47,7 @@ public class PropertyNotAvailableError extends PropertyError {
 	 * @param property
 	 * @param sbase
 	 */
-	public PropertyNotAvailableError(String property, SBase sbase) {
+	public PropertyNotAvailableException(String property, SBase sbase) {
 		super(createMessage(PROPERTY_UNDEFINED_EXCEPTION_MSG, property, sbase));
 	}
 	

@@ -33,14 +33,37 @@ import org.sbml.jsbml.xml.XMLError;
  * "http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/SBMLError.html"
  * >libSBML SBMLError javadoc</a>
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
 public class SBMLError extends XMLError {
 
-	public enum SEVERITY {INFO, WARNING, ERROR, FATAL}; 
+	/**
+	 * 
+	 * @author Nicolas Rodriguez
+	 * @version $Rev$
+	 * @since 0.8
+	 */
+	public enum SEVERITY {
+		/**
+		 * 
+		 */
+		INFO, 
+		/**
+		 * 
+		 */
+		WARNING,
+		/**
+		 * 
+		 */
+		ERROR,
+		/**
+		 * 
+		 */
+		FATAL
+	}; 
 	
 	/**
 	 * Generated serial version identifier.

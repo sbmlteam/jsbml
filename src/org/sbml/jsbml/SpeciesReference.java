@@ -503,7 +503,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	public void setConstant(boolean constant) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.constant,
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.constant,
 					this);
 		}
 		Boolean oldConstant = this.constant;

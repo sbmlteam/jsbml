@@ -534,12 +534,13 @@ public class Compartment extends Symbol {
 	 * Sets the compartmentTypeID of this compartment to 'compartmentTypeID'
 	 * 
 	 * @param compartmentTypeID
-	 * @deprecated
+	 * @deprecated Only valid in Level 2.
+	 * @throws PropertyNotAvailableException if Level is not 2.
 	 */
 	@Deprecated
 	public void setCompartmentType(String compartmentTypeID) {
 		if (getLevel() != 2) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.compartmentType,
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.compartmentType,
 					this);
 		}
 		String oldCompartmentTypeID = this.compartmentTypeID;
@@ -563,12 +564,13 @@ public class Compartment extends Symbol {
 	 * Sets the outsideID of this compartment to 'outside'.
 	 * 
 	 * @param outside
-	 * @sbml.deprecated Level 3 Version 1
+	 * @deprecated since Level 3 Version 1
+	 * @throws PropertyNotAvailableException if Level greater than 2.
 	 */
 	@Deprecated
 	public void setOutside(String outside) {
-		if (getLevel() >= 3) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.outside, this);
+		if (getLevel() > 2) {
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.outside, this);
 		}
 		String oldOutside = outsideID;
 		if ((outside != null) && (outside.trim().length() == 0)) {
@@ -583,12 +585,12 @@ public class Compartment extends Symbol {
 	 * Sets the size of this compartment to 'size'.
 	 * 
 	 * @param size
-	 * @throws PropertyNotAvailableError
+	 * @throws PropertyNotAvailableException
 	 *             in case of Level < 2.
 	 */
 	public void setSize(double size) {
 		if (getLevel() < 2) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.size, this);
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.size, this);
 		}
 		setValue(size);
 	}
@@ -599,10 +601,11 @@ public class Compartment extends Symbol {
 	 * @param spatialDimension
 	 * @throws IllegalArgumentException
 	 *             if spatialDimension < 0 or if spatialDimension > 3
+	 * @throws PropertyNotAvailableException if Level < 2.
 	 */
 	public void setSpatialDimensions(double spatialDimension) {
 		if (getLevel() < 2) {
-			throw new PropertyNotAvailableError(
+			throw new PropertyNotAvailableException(
 					TreeNodeChangeEvent.spacialDimensions, this);
 		}
 		if (((0d <= spatialDimension) && (spatialDimension <= 3d)  
@@ -770,11 +773,12 @@ public class Compartment extends Symbol {
 	 * @deprecated This method is only available for SBML Level 1. You should
 	 *             either use {@link #setSize(double)} or
 	 *             {@link #setValue(double)}.
+	 * @throws PropertyNotAvailableException if Level is not 1.
 	 */
 	@Deprecated
 	public void setVolume(double value) {
 		if (getLevel() != 1) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.volume, this);
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.volume, this);
 		}
 		setValue(value);
 	}

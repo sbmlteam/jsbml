@@ -87,7 +87,7 @@ public interface MathContainer extends SBaseWithDerivedUnit {
 	 *             {@link ASTNode} object from your formula {@link String}.
 	 * @throws ParseException
 	 *             If the given formula is invalid or cannot be parsed properly.
-	 * @throws PropertyNotAvailableError
+	 * @throws PropertyNotAvailableException
 	 *             When trying to set this attribute and the Level is set to a
 	 *             value other than 1, this will throw an error.
 	 */

@@ -29,7 +29,7 @@ package org.sbml.jsbml;
  * @since 0.8
  * @date 24.03.2011
  */
-public abstract class PropertyError extends SBMLError {
+public abstract class PropertyException extends SBMLError {
 
 	/**
 	 * Generated serial version identifier
@@ -39,14 +39,14 @@ public abstract class PropertyError extends SBMLError {
 	/**
 	 * 
 	 */
-	public PropertyError() {
+	public PropertyException() {
 		super();
 	}
 
 	/**
 	 * @param message
 	 */
-	public PropertyError(String message) {
+	public PropertyException(String message) {
 		super(message);
 	}
 

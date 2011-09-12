@@ -2066,11 +2066,13 @@ public class Unit extends AbstractSBase {
 	 * Sets the multiplier of this {@link Unit}
 	 * 
 	 * @param multiplier
+	 * @throws PropertyNotAvailableException
+	 *             if Level < 2 and the given <code>multiplier != 1</code>.
 	 */
 	public void setMultiplier(double multiplier) {
 		if ((getLevel() < 2) && (multiplier != 1d)) { 
 			// added the multiplier test != 1 to prevent error being reported when it is not necessary
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.multiplier, this);
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.multiplier, this);
 		}
 		Double oldMultiplyer = this.multiplier;
 		isSetMultiplier = true;
@@ -2083,6 +2085,8 @@ public class Unit extends AbstractSBase {
 	 * 
 	 * @param offset
 	 * @deprecated Only defined for SBML Level 2 Version 1.
+	 * @throws PropertyNotAvailableException
+	 *             if Level/Version combination is not 2.1.
 	 */
 	@Deprecated
 	public void setOffset(double offset) {
@@ -2092,7 +2096,7 @@ public class Unit extends AbstractSBase {
 			this.offset = Double.valueOf(offset);
 			firePropertyChange(TreeNodeChangeEvent.offset, oldOffset, this.offset);
 		} else {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.offset, this);
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.offset, this);
 		}
 	}
 

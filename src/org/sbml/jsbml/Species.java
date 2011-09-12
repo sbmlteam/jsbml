@@ -805,11 +805,12 @@ public class Species extends Symbol {
 	 *             Version 1. Since Level 2 Version 2 it has been marked as a
 	 *             deprecated property, but has been completely removed in SBML
 	 *             Level 3.
+	 * @throws PropertyNotAvailableException if Level >= 3.
 	 */
 	@Deprecated
 	public void setCharge(int charge) {
 		if (3 <= getLevel()) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.charge, this);
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.charge, this);
 		}
 		Integer oldCharge = this.charge;
 		this.charge = Integer.valueOf(charge);
@@ -869,10 +870,11 @@ public class Species extends Symbol {
 	 * 'conversionFactorID'. This is only possible if Level >= 3.
 	 * 
 	 * @param conversionFactorID
+	 * @throws PropertyNotAvailableException if Level < 3.
 	 */
 	public void setConversionFactor(String conversionFactorID) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(
+			throw new PropertyNotAvailableException(
 					TreeNodeChangeEvent.conversionFactor, this);
 		}
 		String oldConversionFactor = this.conversionFactorID;
@@ -890,10 +892,11 @@ public class Species extends Symbol {
 	 * Sets hasOnlySubstanceUnits Boolean
 	 * 
 	 * @param hasOnlySubstanceUnits
+	 * @throws PropertyNotAvailableException if Level < 2.
 	 */
 	public void setHasOnlySubstanceUnits(boolean hasOnlySubstanceUnits) {
 		if (getLevel() < 2) {
-			throw new PropertyNotAvailableError(
+			throw new PropertyNotAvailableException(
 					TreeNodeChangeEvent.hasOnlySubstanceUnits, this);
 		}
 		Boolean oldHasOnlySubstanceUnits = this.hasOnlySubstanceUnits;
@@ -938,11 +941,13 @@ public class Species extends Symbol {
 	 * @param spatialSizeUnits
 	 * @deprecated This property is only valid for SBML Level 2 Versions 1 and
 	 *             2.
+	 * @throws PropertyNotAvailableException
+	 *             for inapropriate Level/Version combinations.
 	 */
 	@Deprecated
 	public void setSpatialSizeUnits(String spatialSizeUnits) {
 		if ((getLevel() != 2) && ((1 != getVersion()) || (2 != getVersion()))) {
-			throw new PropertyNotAvailableError(
+			throw new PropertyNotAvailableException(
 					TreeNodeChangeEvent.spatialSizeUnits, this);
 		}
 		String oldSpatialSizeUnits = this.spatialSizeUnitsID;
@@ -986,11 +991,13 @@ public class Species extends Symbol {
 	 * 
 	 * @param speciesType
 	 * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
+	 * @throws PropertyNotAvailableException
+	 *             for inapropriate Level/Version combinations.
 	 */
 	@Deprecated
 	public void setSpeciesType(String speciesType) {
 		if ((getLevel() != 2) && ((getVersion() < 2) || (4 < getVersion()))) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.speciesType,
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.speciesType,
 					this);
 		}
 		if ((speciesType == null) || (speciesType.trim().length() == 0)

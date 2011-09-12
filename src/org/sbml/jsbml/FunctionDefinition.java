@@ -140,6 +140,27 @@ public class FunctionDefinition extends AbstractMathContainer implements
 		this.name = null;
 	}
 
+	/**
+	 * Checks if the sID is a valid identifier.
+	 * 
+	 * @param sID
+	 *            the identifier to be checked. If null or an invalid
+	 *            identifier, an exception will be thrown.
+	 * @return <code>true</code> only if the sID is a valid identifier.
+	 *         Otherwise this method throws an {@link IllegalArgumentException}.
+	 *         This is an intended behavior.
+	 * @throws IllegalArgumentException
+	 *             if the given id is not valid in this model.
+	 */
+	boolean checkIdentifier(String sID) {
+		if ((sID == null)
+				|| !AbstractNamedSBase.isValidId(sID, getLevel(), getVersion())) {
+			throw new IllegalArgumentException(String.format(
+					"\"%s\" is not a valid identifier.", sID));
+		}
+		return true;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
@@ -147,7 +168,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	public FunctionDefinition clone() {
 		return new FunctionDefinition(this);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
@@ -168,7 +189,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 		}
 		return equals;
 	}
-	
+
 	/**
 	 * Get the nth argument to this function.
 	 * 
@@ -319,18 +340,22 @@ public class FunctionDefinition extends AbstractMathContainer implements
 		ASTNode math = ASTNode.parseFormula(formula);
 		setMath(math);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
 		if (getLevel() < 2) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.id, this);
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.id, this);
 		}
-		String oldID = this.id;
-		this.id = id;
-		firePropertyChange(TreeNodeChangeEvent.id, oldID, id);
+		String oldId = this.id;
+		if ((id == null) || (id.trim().length() == 0)) {
+			this.id = null;
+		} else if ((getLevel() == 3) || checkIdentifier(id)) {
+			this.id = id;
+		}
+		firePropertyChange(TreeNodeChangeEvent.id, oldId, this.id);
 	}
 
 	/*
@@ -358,10 +383,14 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 */
 	public void setName(String name) {
 		if (getLevel() < 2) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.id, this);
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.id, this);
 		}
 		String oldName = this.name;
-		this.name = name;
+		if ((name == null) || (name.length() == 0)) {
+			this.name = null;
+		} else {
+			this.name = name;
+		}
 		firePropertyChange(TreeNodeChangeEvent.name, oldName, name);
 	}
 

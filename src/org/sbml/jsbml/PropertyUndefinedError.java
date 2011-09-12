@@ -21,7 +21,7 @@
 package org.sbml.jsbml;
 
 /**
- * This {@link PropertyError} indicates that the value belonging to a mandatory
+ * This {@link PropertyException} indicates that the value belonging to a mandatory
  * property, for which there is no default value, has not been declared by the
  * user.
  * 
@@ -30,7 +30,7 @@ package org.sbml.jsbml;
  * @since 0.8
  * @date 24.03.2011
  */
-public class PropertyUndefinedError extends PropertyError {
+public class PropertyUndefinedError extends PropertyException {
 
 	/**
 	 * Generated serial version identifier.

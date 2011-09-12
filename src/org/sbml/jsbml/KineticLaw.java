@@ -717,12 +717,14 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 			getMath().updateVariables();
 		}
 	}
-	
+
 	/**
 	 * Sets the substanceUnitsID of this {@link KineticLaw}.
 	 * 
 	 * @param substanceUnits
 	 * @deprecated Only defined for SBML Level 1 and Level 2 Version 1 and 2.
+	 * @throws PropertyNotAvailableException
+	 *             for inappropriate Level/Version combinations.
 	 */
 	@Deprecated
 	public void setSubstanceUnits(String substanceUnits) {
@@ -732,7 +734,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 			firePropertyChange(TreeNodeChangeEvent.substanceUnits,
 					oldSubstanceUnits, substanceUnitsID);
 		} else {
-			throw new PropertyNotAvailableError(
+			throw new PropertyNotAvailableException(
 					TreeNodeChangeEvent.substanceUnits, this);
 		}
 	}
@@ -752,6 +754,8 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 * 
 	 * @param timeUnits
 	 * @deprecated Only defined for Level 1 and Level 2 Version 1.
+	 * @throws PropertyNotAvailableException
+	 *             for inappropriate Level/Version combinations.
 	 */
 	@Deprecated
 	public void setTimeUnits(String timeUnits) {
@@ -761,7 +765,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 			firePropertyChange(TreeNodeChangeEvent.timeUnits, oldTimeUnits,
 					timeUnitsID);
 		} else {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.timeUnits,
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.timeUnits,
 					this);
 		}
 	}
