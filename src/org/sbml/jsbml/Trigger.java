@@ -229,12 +229,15 @@ public class Trigger extends AbstractMathContainer {
 
 	/**
 	 * Can only be set if Level >= 3.
+	 * 
 	 * @param initialValue
 	 *            the initialValue to set
+	 * @throws PropertyNotAvailableException
+	 *             if Level < 3.
 	 */
 	public void setInitialValue(boolean initialValue) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.initialValue, this);
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.initialValue, this);
 		}
 		Boolean oldInitialValue = this.initialValue;
 		this.initialValue = Boolean.valueOf(initialValue);
@@ -243,12 +246,15 @@ public class Trigger extends AbstractMathContainer {
 	
 	/**
 	 * Can only be set if Level >= 3.
+	 * 
 	 * @param persistent
 	 *            the persistent to set
+	 * @throws PropertyNotAvailableException
+	 *             if Level < 3.
 	 */
 	public void setPersistent(boolean persistent) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.persistent, this);
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.persistent, this);
 		}
 		Boolean oldPersistent = this.persistent;
 		this.persistent = Boolean.valueOf(persistent);

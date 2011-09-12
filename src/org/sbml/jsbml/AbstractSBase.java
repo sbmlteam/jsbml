@@ -1229,7 +1229,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public void setMetaId(String metaId) {
 		if (getLevel() == 1) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.metaId, this);
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId, this);
 		}
 		SBMLDocument doc = getSBMLDocument();
 		if (doc != null) {
@@ -1278,7 +1278,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public void setSBOTerm(int term) {
 		if (getLevelAndVersion().compareTo(Integer.valueOf(2),
 				Integer.valueOf(2)) < 0) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.sboTerm, this);
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.sboTerm, this);
 		}
 		if (!SBO.checkTerm(term)) {
 			throw new IllegalArgumentException(String.format(

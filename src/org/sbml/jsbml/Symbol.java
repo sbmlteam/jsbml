@@ -214,7 +214,7 @@ public abstract class Symbol extends QuantityWithUnit implements
 	 */
 	public void setConstant(boolean constant) {
 		if (getLevel() == 1) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.constant, this);
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.constant, this);
 		}
 		Boolean oldConstant = this.constant;
 		this.constant = Boolean.valueOf(constant);

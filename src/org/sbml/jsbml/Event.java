@@ -789,10 +789,11 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	/**
 	 * @param priority
 	 *            the priority to set
+	 * @throws PropertyNotAvailableException if Level < 3.
 	 */
 	public void setPriority(Priority priority) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.priority,
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.priority,
 					this);
 		}
 		unsetPriority();
@@ -852,7 +853,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	@Deprecated
 	public void setUnits(Kind timeUnitKind) {
 		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.timeUnits,
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.timeUnits,
 					this);
 		}
 		super.setUnits(timeUnitKind);
@@ -867,7 +868,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	@Deprecated
 	public void setUnits(String timeUnits) {
 		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.timeUnits,
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.timeUnits,
 					this);
 		}
 		super.setUnits(timeUnits);
@@ -881,7 +882,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	@Deprecated
 	public void setUnits(Unit timeUnit) {
 		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.timeUnits,
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.timeUnits,
 					this);
 		}
 		super.setUnits(timeUnit);
@@ -895,7 +896,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	@Deprecated
 	public void setUnits(UnitDefinition timeUnits) {
 		if (!((getLevel() == 2) && ((getVersion() == 1) || (getVersion() == 2)))) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.timeUnits,
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.timeUnits,
 					this);
 		}
 		super.setUnits(timeUnits);
@@ -906,11 +907,12 @@ public class Event extends AbstractNamedSBaseWithUnit {
 	 * 'useValuesFromTriggerTime'.
 	 * 
 	 * @param useValuesFromTriggerTime
+	 * @throws PropertyNotAvailableException if the Level/Version combination is lower than 2.4.
 	 */
 	public void setUseValuesFromTriggerTime(boolean useValuesFromTriggerTime) {
 		if (getLevelAndVersion().compareTo(Integer.valueOf(2),
 				Integer.valueOf(4)) < 0) {
-			throw new PropertyNotAvailableError(
+			throw new PropertyNotAvailableException(
 					TreeNodeChangeEvent.useValuesFromTriggerTime, this);
 		}
 		Boolean oldUsesValuesFromTriggerTime = this.useValuesFromTriggerTime;

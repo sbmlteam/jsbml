@@ -295,16 +295,20 @@ public class Model extends AbstractNamedSBase {
   public boolean addConstraint(Constraint constraint) {
     return getListOfConstraints().add(constraint);
   }
-  
-  /**
-   * Adds an {@link Event} instance to the listOfEvents of this Model.
-   * 
-   * @param event
-   * @return <code>true</code> if the {@link #listOfEvents} was changed as a
-   *         result of this call.
-   */
+
+	/**
+	 * Adds an {@link Event} instance to the listOfEvents of this Model.
+	 * 
+	 * @param event
+	 * @return <code>true</code> if the {@link #listOfEvents} was changed as a
+	 *         result of this call.
+	 * @throws PropertyNotAvailableException
+	 *             for inappropriate Level/Version combinations.
+	 */
   public boolean addEvent(Event event) {
-    if (getLevel() < 2) { throw new PropertyNotAvailableError("event", this); }
+    if (getLevel() < 2) { 
+    	throw new PropertyNotAvailableException("event", this); 
+    }
     return getListOfEvents().add(event);
   }
   
@@ -3380,19 +3384,23 @@ public class Model extends AbstractNamedSBase {
     return getListOfUnitDefinitions().remove(unitDefininition);
   }
   
-  /**
-   * Sets the areaUnitsID of this {@link Model} to 'areaUnitsID'
-   * 
-   * @param areaUnitsID
-   */
-  public void setAreaUnits(String areaUnitsID) {
-    if (getLevel() < 3) { throw new PropertyNotAvailableError(
-      TreeNodeChangeEvent.areaUnits, this); }
-    String oldAreaUnitsID = this.areaUnitsID;
-    this.areaUnitsID = areaUnitsID;
-    firePropertyChange(TreeNodeChangeEvent.areaUnits, oldAreaUnitsID,
-      areaUnitsID);
-  }
+	/**
+	 * Sets the areaUnitsID of this {@link Model} to 'areaUnitsID'
+	 * 
+	 * @param areaUnitsID
+	 * @throws PropertyNotAvailableException
+	 *             if Level < 3.
+	 */
+	public void setAreaUnits(String areaUnitsID) {
+		if (getLevel() < 3) {
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.areaUnits,
+					this);
+		}
+		String oldAreaUnitsID = this.areaUnitsID;
+		this.areaUnitsID = areaUnitsID;
+		firePropertyChange(TreeNodeChangeEvent.areaUnits, oldAreaUnitsID,
+				areaUnitsID);
+	}
   
   /**
    * Sets the areaUnitsID of this {@link Model} to the id of the
@@ -3417,28 +3425,33 @@ public class Model extends AbstractNamedSBase {
     setConversionFactor(conversionFactor != null ? conversionFactor.getId()
         : null);
   }
-  
-  /**
-   * Sets the conversionFactorID of this {@link Model} to 'conversionFactorID'.
-   * 
-   * @param conversionFactorID
-   */
+
+	/**
+	 * Sets the conversionFactorID of this {@link Model} to
+	 * 'conversionFactorID'.
+	 * 
+	 * @param conversionFactorID
+	 * @throws PropertyNotAvailableException
+	 *             if Level < 3.
+	 */
   public void setConversionFactor(String conversionFactorID) {
-    if (getLevel() < 3) { throw new PropertyNotAvailableError(
+    if (getLevel() < 3) { throw new PropertyNotAvailableException(
       TreeNodeChangeEvent.conversionFactor, this); }
     String oldConversionFactorID = this.conversionFactorID;
     this.conversionFactorID = conversionFactorID;
     firePropertyChange(TreeNodeChangeEvent.conversionFactor,
       oldConversionFactorID, conversionFactorID);
   }
-  
-  /**
-   * Sets the extendUnitsID of this {@link Model} to 'extentUnitsID'.
-   * 
-   * @param extentUnitsID
-   */
+
+	/**
+	 * Sets the extendUnitsID of this {@link Model} to 'extentUnitsID'.
+	 * 
+	 * @param extentUnitsID
+	 * @throws PropertyNotAvailableException
+	 *             if Level < 3.
+	 */
   public void setExtentUnits(String extentUnitsID) {
-    if (getLevel() < 3) { throw new PropertyNotAvailableError(
+    if (getLevel() < 3) { throw new PropertyNotAvailableException(
       TreeNodeChangeEvent.extentUnits, this); }
     String oldExtentUnits = this.extentUnitsID;
     this.extentUnitsID = extentUnitsID;
@@ -3459,13 +3472,15 @@ public class Model extends AbstractNamedSBase {
     setExtentUnits(extentUnits != null ? extentUnits.getId() : null);
   }
   
-  /**
-   * Sets the lengthUnitsID of this {@link Model} to 'lengthUnitsID'.
-   * 
-   * @param lengthUnitsID
-   */
+	/**
+	 * Sets the lengthUnitsID of this {@link Model} to 'lengthUnitsID'.
+	 * 
+	 * @param lengthUnitsID
+	 * @throws PropertyNotAvailableException
+	 *             if Level < 3.
+	 */
   public void setLengthUnits(String lengthUnitsID) {
-    if (getLevel() < 3) { throw new PropertyNotAvailableError(
+    if (getLevel() < 3) { throw new PropertyNotAvailableException(
       TreeNodeChangeEvent.lengthUnits, this); }
     String oldLengthUnits = this.lengthUnitsID;
     this.lengthUnitsID = lengthUnitsID;
@@ -3725,13 +3740,15 @@ public class Model extends AbstractNamedSBase {
     setHistory(history);
   }
   
-  /**
-   * Sets the substanceUnitsID of this {@link Model} to 'substanceUnitsID'
-   * 
-   * @param substanceUnitsID
-   */
+	/**
+	 * Sets the substanceUnitsID of this {@link Model} to 'substanceUnitsID'
+	 * 
+	 * @param substanceUnitsID
+	 * @throws PropertyNotAvailableException
+	 *             if Level < 3.
+	 */
   public void setSubstanceUnits(String substanceUnitsID) {
-    if (getLevel() < 3) { throw new PropertyNotAvailableError(
+    if (getLevel() < 3) { throw new PropertyNotAvailableException(
       TreeNodeChangeEvent.substanceUnits, this); }
     String oldSubstanceUnitsID = this.substanceUnitsID;
     this.substanceUnitsID = substanceUnitsID;
@@ -3752,13 +3769,15 @@ public class Model extends AbstractNamedSBase {
     setSubstanceUnits(substanceUnits != null ? substanceUnits.getId() : null);
   }
   
-  /**
-   * Sets the timeUnits of this {@link Model} to 'timeUnistID'
-   * 
-   * @param timeUnitsID
-   */
+	/**
+	 * Sets the timeUnits of this {@link Model} to 'timeUnistID'
+	 * 
+	 * @param timeUnitsID
+	 * @throws PropertyNotAvailableException
+	 *             if Level < 3.
+	 */
   public void setTimeUnits(String timeUnitsID) {
-    if (getLevel() < 3) { throw new PropertyNotAvailableError(
+    if (getLevel() < 3) { throw new PropertyNotAvailableException(
       TreeNodeChangeEvent.timeUnits, this); }
     String oldTimeUnitsID = this.timeUnitsID;
     this.timeUnitsID = timeUnitsID;
@@ -3779,13 +3798,15 @@ public class Model extends AbstractNamedSBase {
     setTimeUnits(timeUnits != null ? timeUnits.getId() : null);
   }
   
-  /**
-   * Sets the volumeUnitsID of this {@link Model} to 'volumeUnitsID'
-   * 
-   * @param volumeUnitsID
-   */
+	/**
+	 * Sets the volumeUnitsID of this {@link Model} to 'volumeUnitsID'
+	 * 
+	 * @param volumeUnitsID
+	 * @throws PropertyNotAvailableException
+	 *             if Level < 3.
+	 */
   public void setVolumeUnits(String volumeUnitsID) {
-    if (getLevel() < 3) { throw new PropertyNotAvailableError(
+    if (getLevel() < 3) { throw new PropertyNotAvailableException(
       TreeNodeChangeEvent.volumeUnits, this); }
     String oldVolumeUnitsID = this.volumeUnitsID;
     this.volumeUnitsID = volumeUnitsID;

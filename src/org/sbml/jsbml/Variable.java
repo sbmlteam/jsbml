@@ -55,6 +55,9 @@ public interface Variable extends Quantity {
 	 * Sets the constant boolean of this Variable.
 	 * 
 	 * @param constant
+	 * @throws PropertyNotAvailableException
+	 *             for inappropriate Level/Version combinations depending on the
+	 *             implementing class.
 	 */
 	public void setConstant(boolean constant);
 

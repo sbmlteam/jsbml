@@ -418,11 +418,12 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	 *             but can only be used in conjunction with {@link Parameter}s.
 	 *             In this case this {@link AssignmentRule} represents the SBML
 	 *             element ParameterRule.
+	 * @throws PropertyNotAvailableException if Level is not 1.
 	 */
 	@Deprecated
 	public void setUnits(String unitsID) {
 		if (getLevel() != 1) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.units, this);
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.units, this);
 		}
 		if (isSetVariable() && !isParameter()) {
 			throw new IllegalArgumentException(String.format(

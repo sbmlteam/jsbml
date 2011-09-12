@@ -296,7 +296,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		if ((id == null) || (id.trim().length() == 0)) {
 			this.id = null;
 		} else if ((getLevel() == 3) || checkIdentifier(id)) {
-			this.id = new String(id);
+			this.id = id;
 		}
 		firePropertyChange(property, oldId, this.id);
 	}
@@ -312,7 +312,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		if ((name == null) || (name.length() == 0)) {
 			this.name = null;
 		} else {
-			this.name = new String(name);
+			this.name = name;
 		}
 		if (!isSetId() && (getLevel() == 1)) {
 			setId(name);

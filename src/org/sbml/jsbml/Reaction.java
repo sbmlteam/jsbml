@@ -1157,14 +1157,16 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	}
 
 	/**
-	 * Sets the compartmentID of this Reaction to 'compartmentID'. This
-	 * method is only available for Level >= 3.
+	 * Sets the compartmentID of this Reaction to 'compartmentID'. This method
+	 * is only available for Level >= 3.
 	 * 
 	 * @param compartmentID
+	 * @throws PropertyNotAvailableException
+	 *             if Level < 3.
 	 */
 	public void setCompartment(String compartmentID) {
 		if (getLevel() < 3) {
-			throw new PropertyNotAvailableError(TreeNodeChangeEvent.compartment,
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.compartment,
 					this);
 		}
 		String oldCompartmentID = this.compartmentID;

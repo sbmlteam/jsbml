@@ -5,6 +5,11 @@ Version 0.8-rc1 (xx-xx-2011)
 ======================================================================
 
 * New Features:
+
+  - The JavaDoc has been extended: It now also includes a statement
+    when ever a method might throw a PropertyNotAvailableException.
+    This class was called PropertyNotAvailableError before. In order
+    to avoid confusion with Java Errors, this class has been renamed.
   
   - ASTNode has now a userObject attribute through which any 
     computation result or other additional information can be stored

@@ -436,6 +436,8 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * Sets the metaid value with 'metaid'.
 	 * 
 	 * @param metaid
+	 * @throws PropertyNotAvailableException
+	 *             in Level 1.
 	 */
 	public void setMetaId(String metaid);
 
@@ -464,6 +466,7 @@ public interface SBase extends Cloneable, Serializable, TreeNode {
 	 * 
 	 * @param term
 	 * @see SBO
+	 * @throws PropertyNotAvailableException in Level 1.
 	 */
 	public void setSBOTerm(int term);
 	
