@@ -29,7 +29,7 @@ package org.sbml.jsbml.xml;
  * @since 0.8
  * @version $Rev$
  */
-public class XMLError extends RuntimeException {
+public class XMLException extends RuntimeException {
 
 	/**
 	 * Generated serial version identifier.
@@ -39,7 +39,7 @@ public class XMLError extends RuntimeException {
 	/**
 	 * 
 	 */
-	public XMLError() {
+	public XMLException() {
 		super();
 	}
 
@@ -47,7 +47,7 @@ public class XMLError extends RuntimeException {
 	/**
 	 * @param message
 	 */
-	public XMLError(String message) {
+	public XMLException(String message) {
 		super(message);
 	}
 
@@ -55,14 +55,14 @@ public class XMLError extends RuntimeException {
 	 * @param message
 	 * @param cause
 	 */
-	public XMLError(String message, Throwable cause) {
+	public XMLException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
 	/**
 	 * @param cause
 	 */
-	public XMLError(Throwable cause) {
+	public XMLException(Throwable cause) {
 		super(cause);
 	}
 

@@ -24,7 +24,7 @@ import org.sbml.jsbml.util.Detail;
 import org.sbml.jsbml.util.Location;
 import org.sbml.jsbml.util.Message;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.XMLError;
+import org.sbml.jsbml.xml.XMLException;
 
 /**
  * Representation of errors, warnings and other diagnostics. <br/>
@@ -38,7 +38,7 @@ import org.sbml.jsbml.xml.XMLError;
  * @since 0.8
  * @version $Rev$
  */
-public class SBMLError extends XMLError {
+public class SBMLError extends XMLException {
 
 	/**
 	 * 
