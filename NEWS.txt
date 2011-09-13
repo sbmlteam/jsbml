@@ -10,6 +10,9 @@ Version 0.8-rc1 (xx-xx-2011)
     when ever a method might throw a PropertyNotAvailableException.
     This class was called PropertyNotAvailableError before. In order
     to avoid confusion with Java Errors, this class has been renamed.
+    Also the super type XMLError has been renamed to XMLException in
+    order to come closer to the default Java naming convention in
+    JSBML.
   
   - ASTNode has now a userObject attribute through which any 
     computation result or other additional information can be stored
