@@ -111,8 +111,7 @@ public class SBMLWriter implements Cloneable, Serializable {
 	 */
 	public static void write(SBMLDocument sbmlDocument, File file, String programName,
 			String programVersion) 
-		throws XMLStreamException, SBMLException, IOException 
-	{
+		throws XMLStreamException, SBMLException, IOException {
 		new org.sbml.jsbml.xml.stax.SBMLWriter().write(sbmlDocument, file,
 				programName, programVersion);
 	}
