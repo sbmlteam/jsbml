@@ -5,6 +5,10 @@ Version 0.8-rc1 (xx-xx-2011)
 ======================================================================
 
 * New Features:
+
+  - The SBMLReader can now be used in connection with a 
+    TreeNodeChangeListener. This allows users to keep track about the
+    parsing process of XML files.
   
   - The new interface TreeNodeWithChangeSupport separates manipulation
     of change listeners from SBase, allowing multiple implementations.

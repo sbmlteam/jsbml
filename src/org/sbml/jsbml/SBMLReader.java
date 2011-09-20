@@ -28,6 +28,8 @@ import java.io.Serializable;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.util.TreeNodeChangeListener;
+
 /**
  * Provides methods for reading SBML from files, text strings or streams.
  * <p>
@@ -74,10 +76,34 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * @throws IOException if the file does not exist or cannot be read.
 	 */
 	public static SBMLDocument read(File file) throws XMLStreamException, IOException {
-		return new SBMLReader().readSBML(file);
+		return read(file, null);
 	}
+	
+	 /**
+   * Factory method for reading SBML from a given {@link File}.
+   * 
+   * @param file
+   * @param listener
+   * @return
+   * @throws XMLStreamException
+   * @throws IOException if the file does not exist or cannot be read.
+   */
+  public static SBMLDocument read(File file, TreeNodeChangeListener listener) throws XMLStreamException, IOException {
+    return new SBMLReader().readSBML(file, listener);
+  }
 
 	/**
+   * @param file
+   * @param listener
+   * @return
+	 * @throws IOException 
+	 * @throws XMLStreamException 
+   */
+  public SBMLDocument readSBML(File file, TreeNodeChangeListener listener) throws XMLStreamException, IOException {
+    return new org.sbml.jsbml.xml.stax.SBMLReader().readSBML(file, listener);
+  }
+
+  /**
 	 * Factory method for reading SBML from a given {@link InputStream}.
 	 * 
 	 * @param stream
@@ -156,7 +182,7 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * 
 	 */
 	public SBMLDocument readSBML(File file) throws XMLStreamException, IOException {
-		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBML(file);
+		return readSBML(file, null);
 	}
 	
 	/**

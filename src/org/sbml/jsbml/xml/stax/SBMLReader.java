@@ -54,6 +54,7 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.SimpleTreeNodeChangeListener;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.AnnotationParser;
 import org.sbml.jsbml.xml.parsers.MathMLStaxParser;
@@ -165,8 +166,7 @@ public class SBMLReader {
 	 *         attribute for this namespace URI, return <code>false</code>.
 	 */
 	private boolean isPackageRequired(String namespaceURI,
-			StartElement startElement) 
-	{
+			StartElement startElement) {
 		@SuppressWarnings("unchecked")
 		Iterator<Attribute> att = startElement.getAttributes();
 
@@ -264,22 +264,31 @@ public class SBMLReader {
 	}
 
 	/**
+	 * 
+	 * @param file
+	 * @return
+	 * @throws XMLStreamException 
+	 * @throws IOException 
+	 */
+	public SBMLDocument readSBML(File file) throws IOException, XMLStreamException {
+	  return readSBML(file, null);
+	}
+	
+	/**
 	 * Reads a SBML String from the given file.
 	 * 
 	 * @param file
 	 *            A file containing SBML content.
 	 * @return the matching SBMLDocument instance.
-	 * @throws XMLStreamException
 	 * @throws IOException 
+	 * @throws XMLStreamException
 	 */
-	public SBMLDocument readSBML(File file) throws XMLStreamException,
-			IOException 
-	{
+  public SBMLDocument readSBML(File file, TreeNodeChangeListener listener) throws IOException, XMLStreamException {
 		FileInputStream stream = new FileInputStream(file);
 		XMLStreamException exc1 = null;
 		Object readObject = null;
 		try {
-			readObject = readXMLFromStream(stream);
+			readObject = readXMLFromStream(stream, listener);
 		} catch (XMLStreamException exc) {
 			/*
 			 * Catching this exception makes sure that we have still the chance
@@ -347,76 +356,108 @@ public class SBMLReader {
 	 * Reads an {@link SBMLDocument} from the given {@link XMLEventReader}
 	 * 
 	 * @param xmlEventReader
+	 * @param listener 
 	 * @return
 	 * @throws XMLStreamException
 	 */
-	public SBMLDocument readSBML(XMLEventReader xmlEventReader)
-		throws XMLStreamException 
-	{
-		return (SBMLDocument) readXMLFromXMLEventReader(xmlEventReader);		
+	public SBMLDocument readSBML(XMLEventReader xmlEventReader, TreeNodeChangeListener listener)
+		throws XMLStreamException {
+		return (SBMLDocument) readXMLFromXMLEventReader(xmlEventReader, listener);		
+	}
+	
+	/**
+	 * 
+	 * @param xmlEventReader
+	 * @return
+	 * @throws XMLStreamException
+	 */
+	public SBMLDocument readSBML(XMLEventReader xmlEventReader) throws XMLStreamException {
+	  return readSBML(xmlEventReader, new SimpleTreeNodeChangeListener());
 	}
 	
 	/**
 	 * Reads a mathML String into an {@link ASTNode}.
 	 * 
 	 * @param mathML
+	 * @param listener 
 	 * @return an {@link ASTNode} representing the given mathML String.
 	 * @throws XMLStreamException
 	 */
-	public ASTNode readMathML(String mathML)
-		throws XMLStreamException 
-	{
-		Object object = readXMLFromString(mathML);
-		
+	public ASTNode readMathML(String mathML, TreeNodeChangeListener listener)
+		throws XMLStreamException	{
+		Object object = readXMLFromString(mathML, listener);		
 		if (object != null && object instanceof Rule) {
-			ASTNode math = ((Rule) object).getMath();
-			
+			ASTNode math = ((Rule) object).getMath();			
 			if (math != null) {
 				return math;
 			}
-		}
-		
+		}		
 		return null;
+	}
+	
+	/**
+	 * 
+	 * @param mathML
+	 * @return
+	 * @throws XMLStreamException 
+	 */
+	public ASTNode readMathML(String mathML) throws XMLStreamException {
+	  return readMathML(mathML, new SimpleTreeNodeChangeListener());
 	}
 
 	/**
 	 * Reads a notes XML String into an {@link XMLNode}.
 	 * 
 	 * @param notesXHTML
+	 * @param listener 
 	 * @return an {@link XMLNode} representing the given notes String.
 	 * @throws XMLStreamException
 	 */
-	public XMLNode readNotes(String notesXHTML)
-		throws XMLStreamException 
-	{
-		Object object = readXMLFromString(notesXHTML);
-
+	public XMLNode readNotes(String notesXHTML, TreeNodeChangeListener listener)
+		throws XMLStreamException {
+		Object object = readXMLFromString(notesXHTML, listener);
 		if ((object != null) && (object instanceof Rule)) {
 			XMLNode notes = ((Rule) object).getNotes();
-
 			if (notes != null) {
 				return notes;
 			}
 		}
-
 		return null;
+	}
+	
+	/**
+	 * 
+	 * @param notesXHTML
+	 * @return
+	 * @throws XMLStreamException 
+	 */
+	public XMLNode readNotes(String notesXHTML) throws XMLStreamException {
+	  return readNotes(notesXHTML, new SimpleTreeNodeChangeListener());
 	}
 
 	/**
 	 * Reads a SBML document from the given <code>stream</code>. 
 	 * 
 	 * @param stream
+	 * @param listener 
 	 * @return
 	 * @throws XMLStreamException
 	 */
-	public SBMLDocument readSBMLFromStream(InputStream stream)
-			throws XMLStreamException 
-	{
+	public SBMLDocument readSBMLFromStream(InputStream stream, TreeNodeChangeListener listener)
+			throws XMLStreamException {
 		WstxInputFactory inputFactory = new WstxInputFactory();
-
 		XMLEventReader xmlEventReader = inputFactory.createXMLEventReader(stream);
-		
-		return (SBMLDocument) readXMLFromXMLEventReader(xmlEventReader);		
+		return (SBMLDocument) readXMLFromXMLEventReader(xmlEventReader, listener);		
+	}
+	
+	/**
+	 * 
+	 * @param stream
+	 * @return
+	 * @throws XMLStreamException 
+	 */
+	public SBMLDocument readSBMLFromStream(InputStream stream) throws XMLStreamException {
+	  return readSBMLFromStream(stream, new SimpleTreeNodeChangeListener());
 	}
 
 	/**
@@ -424,17 +465,15 @@ public class SBMLReader {
 	 * an SBML document. 
 	 * 
 	 * @param stream
+	 * @param listener 
 	 * @return
 	 * @throws XMLStreamException
 	 */
-	private Object readXMLFromStream(InputStream stream)
-			throws XMLStreamException 
-	{
+	private Object readXMLFromStream(InputStream stream, TreeNodeChangeListener listener)
+			throws XMLStreamException {
 		WstxInputFactory inputFactory = new WstxInputFactory();
-
 		XMLEventReader xmlEventReader = inputFactory.createXMLEventReader(stream);
-		
-		return readXMLFromXMLEventReader(xmlEventReader);		
+		return readXMLFromXMLEventReader(xmlEventReader, listener);		
 	}
 	
 		
@@ -445,10 +484,11 @@ public class SBMLReader {
 	 * 
 	 * 
 	 * @param xmlEventReader
+	 * @param listener 
 	 * @return an <code>Object</code> representing the given XML.
 	 * @throws XMLStreamException
 	 */
-	private Object readXMLFromXMLEventReader(XMLEventReader xmlEventReader)  throws XMLStreamException {
+	private Object readXMLFromXMLEventReader(XMLEventReader xmlEventReader, TreeNodeChangeListener listener)  throws XMLStreamException {
 
 		initializePackageParsers();
 
@@ -504,7 +544,7 @@ public class SBMLReader {
 					SBMLDocument sbmlDocument = new SBMLDocument();
 
 					// the output of the change listener is activated or not via log4j.properties
-					sbmlDocument.addTreeNodeChangeListener(new SimpleTreeNodeChangeListener());
+					sbmlDocument.addTreeNodeChangeListener(listener);
 
 					for (@SuppressWarnings("unchecked")
 							Iterator<Attribute> iterator = startElement.getAttributes(); iterator.hasNext();) 
@@ -673,30 +713,37 @@ public class SBMLReader {
 	 * Reads a SBML model from the given XML String.
 	 * 
 	 * @param xml
+	 * @param listener 
 	 * @return
 	 */
-	public SBMLDocument readSBMLFromString(String xml)
-		throws XMLStreamException 
-	{
-		Object readObject = readXMLFromStream(new ByteArrayInputStream(xml.getBytes()));
-		
+	public SBMLDocument readSBMLFromString(String xml, TreeNodeChangeListener listener) throws XMLStreamException {
+		Object readObject = readXMLFromStream(new ByteArrayInputStream(xml.getBytes()), listener);
 		if (readObject instanceof SBMLDocument) {
 			return (SBMLDocument) readObject;
-		}
-		
-		throw new XMLStreamException("You did not gave a correct SBMl file!");
+		}		
+		throw new XMLStreamException("The given file seems not to be a valid SBMl file. Please check it using the SBML online validator.");
+	}
+	
+	/**
+	 * 
+	 * @param xml
+	 * @return
+	 * @throws XMLStreamException 
+	 */
+	public SBMLDocument readSBMLFromString(String xml) throws XMLStreamException {
+	  return readSBMLFromString(xml, new SimpleTreeNodeChangeListener());
 	}
 
 	/**
 	 * Reads an XML String that should the part of a SBML model.
 	 * 
 	 * @param xml
+	 * @param listener 
 	 * @return
 	 */
-	private Object readXMLFromString(String xml)
-		throws XMLStreamException 
-	{
-		return readXMLFromStream(new ByteArrayInputStream(xml.getBytes()));
+	private Object readXMLFromString(String xml, TreeNodeChangeListener listener)
+		throws XMLStreamException {
+		return readXMLFromStream(new ByteArrayInputStream(xml.getBytes()), listener);
 	}
 
 	
@@ -1014,7 +1061,6 @@ public class SBMLReader {
 		
 		// We return null as long as we did not find the SBMLDocument closing tag
 		return null;
-	}
-	
+	}	
 	
 }
