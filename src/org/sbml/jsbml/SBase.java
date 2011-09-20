@@ -20,15 +20,13 @@
 
 package org.sbml.jsbml;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.xml.XMLNode;
 
@@ -40,7 +38,7 @@ import org.sbml.jsbml.xml.XMLNode;
  * @since 0.8
  * @version $Rev$
  */
-public interface SBase extends Cloneable, Serializable, TreeNode {
+public interface SBase extends TreeNodeWithChangeSupport {
 	
 	/**
 	 * 

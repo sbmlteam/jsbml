@@ -34,7 +34,8 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 0.8
  * @version $Rev$
  */
-public abstract class SimpleSpeciesReference extends AbstractNamedSBase {
+public abstract class SimpleSpeciesReference extends AbstractNamedSBase
+  implements UniqueNamedSBase {
 
 	/**
 	 * Generated serial version identifier.

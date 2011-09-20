@@ -718,6 +718,19 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				 */
 				doc.registerMetaIds((SBase) oldChild, true, true);
 			}
+			if (oldChild instanceof NamedSBase) {
+			  /*
+			   * Do the same for all identifiers under the old value.
+			   */
+        Model model = getModel();
+        if (model != null) {
+          model.registerIds(this, (NamedSBase) oldChild, true, true);
+          NamedSBase newNsb = (NamedSBase) newChild;
+          if (!model.registerIds(this, newNsb, true, false)) {
+            throw new IdentifierException(newNsb, newNsb.getId());
+          }
+        }
+      }
 		}
 	}
 
@@ -738,6 +751,15 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				doc.registerMetaIds(this, true, true);
 			}
 		}
+		if ((this instanceof NamedSBase) || (getChildCount() > 0)) {
+      /*
+       * Do the same for all identifiers below this element.
+       */
+      Model model = getModel();
+      if (model != null) {
+          model.registerIds(getParent(), this, true, true);
+      }
+    }
 		super.fireNodeRemovedEvent();
 	}
 
@@ -1228,12 +1250,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jsbml.SBase#setMetaId(java.lang.String)
 	 */
 	public void setMetaId(String metaId) {
-		if (getLevel() == 1) {
-			throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId, this);
-		}
+    if ((metaId != null) && (getLevel() == 1)) {
+      throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId, this);
+    }
 		SBMLDocument doc = getSBMLDocument();
 		if (doc != null) {
-			doc.registerMetaId(metaId, true);
+			if (!doc.registerMetaId(metaId, true)) {
+			  throw new IdentifierException(this, metaId);
+			}
 		}
 		String oldMetaId = this.metaId;
 		this.metaId = metaId;
@@ -1303,23 +1327,30 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jsbml.SBase#setThisAsParentSBMLObject(org.sbml.jsbml.SBase)
 	 */
 	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError {
-		if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
-			SBMLDocument doc = getSBMLDocument();
-			if (doc != null) {
-				/*
-				 * In case that sbase did not have access to the document we
-				 * have to recursively check the metaId property.
-				 */
-				doc.registerMetaIds(sbase, (sbase.getSBMLDocument() == null)
-						&& (sbase instanceof AbstractSBase), false);
-			}
-			if (sbase instanceof AbstractTreeNode) {
-				AbstractTreeNode node = (AbstractTreeNode) sbase;
-				node.parent = this;
-				node.addAllChangeListeners(getListOfTreeNodeChangeListeners());
-				node.fireNodeAddedEvent();
-			}
-		}
+    if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
+      SBMLDocument doc = getSBMLDocument();
+      if (doc != null) {
+        /*
+         * In case that sbase did not have access to the document we
+         * have to recursively check the metaId property.
+         */
+        doc.registerMetaIds(sbase, (sbase.getSBMLDocument() == null)
+                                   && (sbase instanceof AbstractSBase), false);
+      }
+      Model model = getModel();
+      if ((model != null)
+        && !model.registerIds(this, sbase, sbase.getModel() != model, false)) {
+        throw new IllegalArgumentException(String.format("Cannot register %s.",
+          sbase.getElementName()));
+      }
+      sbase.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+      if (sbase instanceof AbstractSBase) {
+        ((AbstractSBase) sbase).parent = this;
+        sbase.fireNodeAddedEvent();
+      } else {
+        sbase.setParentSBML(this);
+      }
+    }
 	}
 
 	/*
@@ -1391,13 +1422,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public void unsetMetaId() {
 		if (isSetMetaId()) {
-			SBMLDocument doc = getSBMLDocument();
-			if (doc != null) {
-				doc.registerMetaId(metaId, false);
-			}
-			String oldMetaId = metaId; 
-			metaId = null;
-			firePropertyChange(TreeNodeChangeEvent.metaId, oldMetaId, null);
+			setMetaId(null);
 		}
 	}
 

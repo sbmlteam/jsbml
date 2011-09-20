@@ -31,7 +31,7 @@ package org.sbml.jsbml;
  * @since 0.8
  * @version $Rev$
  */
-public interface Variable extends Quantity {
+public interface Variable extends Quantity, UniqueNamedSBase {
 
 	/**
 	 * 

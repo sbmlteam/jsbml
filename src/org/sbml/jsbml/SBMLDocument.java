@@ -669,41 +669,40 @@ public class SBMLDocument extends AbstractSBase {
 	 * registered metaids.             
 	 */
 	private void checkMetaId(String metaId) {
-
 		if (containsMetaId(metaId)) {
-			logger.error("An element with the metaid '" + metaId + "' is already present in the SBML document." +
-			" The new element will not get added to it.");
+      logger.error(String.format(
+        "An element with the metaid '%s' is already present in the SBML document. The new element will not get added to it.",
+        metaId));
 			throw new IllegalArgumentException(String.format(
-					"Cannot set duplicate meta identifier \"%s\".", metaId));
+					"Cannot set duplicate meta identifier '%s'.", metaId));
 		}
 	}
 
-	/**
-	 * Saves or removes the given meta identifier in this {@link SBMLDocument} 
-	 * 's {@link #setOfMetaIds}.
-	 * 
-	 * @param metaId
-	 *            the identifier whose value is to be registered.
-	 * @param add
-	 *            if <code>true</code> this will add the given meta identifier
-	 *            to this {@link SBMLDocument}'s {@link #setOfMetaIds}.
-	 *            Otherwise, the given identifier will be removed from this set.
-	 *            
-	 * @throws IllegalArgumentException if a metaid to add is already present in the list of
-	 * registered metaids.           
-	 */
-	void registerMetaId(String metaId, boolean add) {
-		if (add) {
-			if (containsMetaId(metaId)) {
-				logger.error("An element with the metaid '" + metaId + "' is already present in the SBML document." +
-				" The new element will not get added to it.");
-				throw new IllegalArgumentException(String.format(
-						"Cannot set duplicate meta identifier \"%s\".", metaId));
-			}
-			setOfMetaIds.add(metaId);
-		} else {
-			setOfMetaIds.remove(metaId);
-		}
+
+  /**
+   * Saves or removes the given meta identifier in this {@link SBMLDocument}'s
+   * {@link #setOfMetaIds}.
+   * 
+   * @param metaId
+   *        the identifier whose value is to be registered.
+   * @param add
+   *        if <code>true</code> this will add the given meta identifier
+   *        to this {@link SBMLDocument}'s {@link #setOfMetaIds}.
+   *        Otherwise, the given identifier will be removed from this set.
+   * @return <ul>
+   *         <li>if add is <code>true</code>, then this method returns
+   *         <code>true</code> if this set did not already contain the specified
+   *         element, <code>false</code> otherwise.</li>
+   *         <li>if add is not <code>true</code>, this method returns
+   *         <code>true</code> if this set contained the specified element,
+   *         <code>false</code> otherwise.</li>
+   *         </ul>
+   * @throws IllegalArgumentException
+   *         if a metaid to add is already present in the list of
+   *         registered metaids.
+   */
+	boolean registerMetaId(String metaId, boolean add) {
+	  return add ? setOfMetaIds.add(metaId) : setOfMetaIds.remove(metaId);
 	}
 
 	/**
@@ -740,29 +739,31 @@ public class SBMLDocument extends AbstractSBase {
 		}		
 	}
 
-	/**
-	 * Collects all meta identifiers of this {@link AbstractSBase} and all of
-	 * its sub-elements if recursively is <code>true</code>.
-	 * 
-	 * @param 
-	 * @param sbase
-	 *            The {@link SBase} whose meta identifier is to be collected
-	 *            and from which we maybe have to recursively go through all
-	 *            of its children.
-	 * @param recursively
-	 *            if <code>true</code>, this method will also consider all
-	 *            sub-elements of this {@link AbstractSBase}.
-	 * @param delete
-	 *            if <code>true</code> this method will not check if
-	 *            the meta identifier can be added to the model.
-	 * @throws IllegalArgumentException
-	 *             However, duplications are not legal and an
-	 *             {@link IllegalArgumentException} will be thrown in such
-	 *             cases.
-	 */
-	@SuppressWarnings("unchecked")
-	private void collectMetaIds(Set<String> metaIds, SBase sbase, boolean recursively, boolean delete) {
 
+  /**
+   * Collects all meta identifiers of this {@link AbstractSBase} and all of
+   * its sub-elements if recursively is <code>true</code>.
+   * 
+   * @param metaIds
+   *        the set that gathers the result.
+   * @param sbase
+   *        The {@link SBase} whose meta identifier is to be collected
+   *        and from which we maybe have to recursively go through all
+   *        of its children.
+   * @param recursively
+   *        if <code>true</code>, this method will also consider all
+   *        sub-elements of this {@link AbstractSBase}.
+   * @param delete
+   *        if <code>true</code> this method will not check if
+   *        the meta identifier can be added to the model.
+   * @throws IllegalArgumentException
+   *         However, duplications are not legal and an
+   *         {@link IllegalArgumentException} will be thrown in such
+   *         cases.
+   */
+	@SuppressWarnings("unchecked")
+  private void collectMetaIds(Set<String> metaIds, SBase sbase,
+                              boolean recursively, boolean delete) {
 		if (sbase.isSetMetaId()) {
 			if (!delete) {
 				// checks if the metaid can be added, throws an exception if not.

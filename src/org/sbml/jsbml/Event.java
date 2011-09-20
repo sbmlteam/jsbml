@@ -37,7 +37,9 @@ import org.sbml.jsbml.util.StringTools;
  * @since 0.8
  * @version $Rev$
  */
-public class Event extends AbstractNamedSBaseWithUnit {
+public class Event extends AbstractNamedSBaseWithUnit implements
+  UniqueNamedSBase {
+  
 	/**
 	 * Generated serial version identifier.
 	 */
@@ -947,6 +949,7 @@ public class Event extends AbstractNamedSBaseWithUnit {
 			ListOf<EventAssignment> oldListOfEventAssignments = this.listOfEventAssignments;
 			this.listOfEventAssignments = null;
 			oldListOfEventAssignments.fireNodeRemovedEvent();
+			oldListOfEventAssignments.parent = null;
 			return true;
 		}
 		return false;
