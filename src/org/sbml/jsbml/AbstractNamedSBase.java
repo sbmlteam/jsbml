@@ -293,12 +293,22 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		String property = getLevel() == 1 ? TreeNodeChangeEvent.name
 				: TreeNodeChangeEvent.id;
 		String oldId = this.id;
-		if ((id == null) || (id.trim().length() == 0)) {
-			this.id = null;
-		} else if ((getLevel() == 3) || checkIdentifier(id)) {
-			this.id = id;
-		}
-		firePropertyChange(property, oldId, this.id);
+		Model model = getModel();
+    if ((oldId != null) && (model != null)) {
+      // Delete previous identifier only if defined.
+      model.registerId(this, false);
+    }
+    if ((id == null) || (id.trim().length() == 0)) {
+      this.id = null;
+    } else if ((getLevel() == 3) || checkIdentifier(id)) {
+      this.id = id;
+    }
+		if ((model != null) && !model.registerId(this, true)) {
+        IdentifierException exc = new IdentifierException(this, this.id);
+        this.id = oldId; // restore the previous setting!
+        throw new IllegalArgumentException(exc);
+    }
+    firePropertyChange(property, oldId, this.id);
 	}
 
 	/*

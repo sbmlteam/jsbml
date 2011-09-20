@@ -5,6 +5,9 @@ Version 0.8-rc1 (xx-xx-2011)
 ======================================================================
 
 * New Features:
+  
+  - The new interface TreeNodeWithChangeSupport separates manipulation
+    of change listeners from SBase, allowing multiple implementations.
 
   - The JavaDoc has been extended: It now also includes a statement
     when ever a method might throw a PropertyNotAvailableException.
@@ -67,7 +70,11 @@ Version 0.8-rc1 (xx-xx-2011)
     XMLNode). In this way, recursion and iteration over child elements
     within the SBML data structure now follow a unified structure and
     can be accessed uniquely within all such elements, including 
-    annotations and extensions.
+    annotations and extensions. Furthermore, the new interface
+    TreeNodeWithChangeSupport that is extended by SBase and 
+    AbstractTreeNode gathers methods to add, remove, and notify listeners
+    about changes within the data structure (such as adding, removing
+    or exchanging child nodes, or change of any attributes).
     
   - A simple implementation of AbstractTreeNode, the class 
     TreeNodeAdapter has been implemented that contains some methods
@@ -104,6 +111,14 @@ Version 0.8-rc1 (xx-xx-2011)
     SBMLDocument. Thanks to Stefan Hoops for making clear that such a 
     check is mandatory.
     
+  - A check for duplicate identifiers has been implemented. JSBML now
+    registers all elements that might have an identifier in hashes
+    mapping the id to the object itself. Different rules depending on
+    the specifications of the levels and versions of SBML ensure that
+    only allowable identifiers can be accepted. To this end, the new
+    interface UniqueNamedSBase tags all those elements whose id is
+    intended to be unique within one model.
+        
   - When adding an element with undefined Level/Version combination
     or at least with undefined Version to an element whose L/V 
     configuration has been defined, JSBML now recursively updates this

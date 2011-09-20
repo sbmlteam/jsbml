@@ -34,7 +34,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @version $Rev$
  */
 public class FunctionDefinition extends AbstractMathContainer implements
-		CallableSBase {
+		CallableSBase, UniqueNamedSBase {
 
 	/**
 	 * Error message to indicate that an incorrect {@link Type} has been passed
@@ -350,11 +350,21 @@ public class FunctionDefinition extends AbstractMathContainer implements
 			throw new PropertyNotAvailableException(TreeNodeChangeEvent.id, this);
 		}
 		String oldId = this.id;
-		if ((id == null) || (id.trim().length() == 0)) {
-			this.id = null;
-		} else if ((getLevel() == 3) || checkIdentifier(id)) {
-			this.id = id;
-		}
+    Model model = getModel();
+    if ((oldId != null) && (model != null)) {
+      // Delete previous identifier only if defined.
+      model.registerId(this, false);
+    }
+    if ((id == null) || (id.trim().length() == 0)) {
+      this.id = null;
+    } else if ((getLevel() == 3) || checkIdentifier(id)) {
+      this.id = id;
+    }
+    if ((model != null) && !model.registerId(this, true)) {
+        IdentifierException exc = new IdentifierException(this, this.id);
+        this.id = oldId; // restore the previous setting!
+        throw new IllegalArgumentException(exc);
+    }
 		firePropertyChange(TreeNodeChangeEvent.id, oldId, this.id);
 	}
 

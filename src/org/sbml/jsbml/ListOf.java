@@ -30,8 +30,8 @@ import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.filters.Filter;
-import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * This list implementation is a Java {@link List} that extends
@@ -376,24 +376,13 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public boolean add(T e) {
 		Logger logger = Logger.getLogger(getClass());
-		/*
-		 * In case that the given element has an identifier, we want it to be
-		 * unique within this listOf*.
-		 */
-		if (e instanceof NamedSBase) {
-			NamedSBase nsb = (NamedSBase) e;
-			if (nsb.isSetId()
-					&& (firstHit(new NameFilter(nsb.getId())) != null)) 
-			{
-				logger.error("An element with the id '" + nsb.getId() + "' is already present in the " +
-						listType + ". The new element will not get added to the list.");
-				return false;
-			}
-		} else if (contains(e)) {
-			logger.error("The " + listType + ". already contains an element similar to '" + e + 
-					"'. The new element will not get added to the list.");
+		if (contains(e)) {
+      logger.error(String.format(
+        "The %s already contains an element similar to '%s'. The new element will not get added to the list.",
+        listType, e));
 			return false;
 		}
+		
 		/*
 		 * Calling the method setThisAsParentSBMLObject before adding the object
 		 * to the list as it can throw an Exception if the metaid or id is not
@@ -755,7 +744,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		if (!listOf.remove(nsb)) {
 			if (nsb.isSetId()) {
 				int pos = -1;
-				for (int i = 0; i < size() && pos < 0; i++) {
+				for (int i = 0; (i < size()) && (pos < 0); i++) {
 					NamedSBase sb = (NamedSBase) get(i);
 					if (sb.isSetId() && nsb.isSetId()
 							&& sb.getId().equals(nsb.getId())) {
@@ -764,7 +753,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 				}
 				if (pos >= 0) {
 					T t = listOf.remove(pos);
-					((AbstractTreeNode) t).fireNodeRemovedEvent();
+					((TreeNodeWithChangeSupport) t).fireNodeRemovedEvent();
 					if (t instanceof AbstractSBase) {
 						((AbstractSBase) t).parent = null;
 					}
@@ -772,7 +761,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 				}
 			}
 		} else {
-			((AbstractTreeNode) nsb).fireNodeRemovedEvent();
+			((TreeNodeWithChangeSupport) nsb).fireNodeRemovedEvent();
 			return true;
 		}
 		return false;

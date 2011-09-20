@@ -11,6 +11,7 @@ strict digraph G{
 
 	nodesep=0.25;
 	ranksep=0.5;
+	margin=0.01;
 
 	edge [
 	  fontname="Helvetica",
@@ -63,6 +64,8 @@ strict digraph G{
   SBaseWithDerivedUnit                     [label="<<interface>>\nSBase\nWithDerivedUnit", style="filled", fillcolor="#F0F8FF"];
   SBaseWithUnit                            [label="<<interface>>\nSBaseWithUnit", style="filled", fillcolor="#F0F8FF"];
   SBase                                    [label="<<interface>>\nSBase"];
+  TreeNodeWithChangeSupport                [label="<<interface>>\nTreeNode\nWithChangeSupport", style="filled", fillcolor="#F0F8FF"];
+  UniqueNamedSBase                         [label="<<interface>>\nUnique\nNamedSBase", style="filled", fillcolor="#F0F8FF"];
   Variable                                 [label="<<interface>>\nVariable", style="filled", fillcolor="#F0F8FF"];
 
   /*
@@ -165,8 +168,7 @@ strict digraph G{
   CallableSBase              -> Quantity                   [dir=back,arrowtail=empty,style=dashed];
   CallableSBase              -> FunctionDefinition         [dir=back,arrowtail=empty,style=dashed];
   CallableSBase              -> Reaction                   [dir=back,arrowtail=empty,style=dashed];
-  Cloneable                  -> AbstractTreeNode           [dir=back,arrowtail=empty,style=dashed];
-  Cloneable                  -> SBase                      [dir=back,arrowtail=empty,style=dashed];
+  Cloneable                  -> TreeNodeWithChangeSupport  [dir=back,arrowtail=empty,style=dashed];
   ExplicitRule               -> AssignmentRule             [dir=back,arrowtail=empty];
   ExplicitRule               -> RateRule                   [dir=back,arrowtail=empty];
   List                       -> ListOf                     [dir=back,arrowtail=empty,style=dashed];
@@ -174,6 +176,7 @@ strict digraph G{
   MathContainer              -> Assignment                 [dir=back,arrowtail=empty,style=dashed];
   NamedSBase                 -> AbstractNamedSBase         [dir=back,arrowtail=empty,style=dashed];
   NamedSBase                 -> NamedSBaseWithDerivedUnit  [dir=back,arrowtail=empty,style=dashed];
+  NamedSBase                 -> UniqueNamedSBase           [dir=back,arrowtail=empty,style=dashed];
   NamedSBaseWithDerivedUnit  -> AbstractNamedSBaseWithUnit [dir=back,arrowtail=empty,style=dashed];
   NamedSBaseWithDerivedUnit  -> CallableSBase              [dir=back,arrowtail=empty,style=dashed];
   Object                     -> AbstractTreeNode           [dir=back,arrowtail=empty];
@@ -194,13 +197,21 @@ strict digraph G{
   SBaseWithUnit              -> KineticLaw                 [dir=back,arrowtail=empty,style=dashed];
   SimpleSpeciesReference     -> ModifierSpeciesReference   [dir=back,arrowtail=empty];
   SimpleSpeciesReference     -> SpeciesReference           [dir=back,arrowtail=empty];
-  Serializable               -> AbstractTreeNode           [dir=back,arrowtail=empty,style=dashed];
-  Serializable               -> SBase                      [dir=back,arrowtail=empty,style=dashed];
+  Serializable               -> TreeNodeWithChangeSupport  [dir=back,arrowtail=empty,style=dashed];
   Symbol                     -> Compartment                [dir=back,arrowtail=empty];
   Symbol                     -> Parameter                  [dir=back,arrowtail=empty];
   Symbol                     -> Species                    [dir=back,arrowtail=empty];
-  TreeNode                   -> AbstractTreeNode           [dir=back,arrowtail=empty,style=dashed];
-  TreeNode                   -> SBase                      [dir=back,arrowtail=empty,style=dashed];
+  TreeNode                   -> TreeNodeWithChangeSupport  [dir=back,arrowtail=empty,style=dashed];
+  TreeNodeWithChangeSupport  -> AbstractTreeNode           [dir=back,arrowtail=empty,style=dashed];
+  TreeNodeWithChangeSupport  -> SBase                      [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> CompartmentType            [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> Event                      [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> FunctionDefinition         [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> Model                      [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> Reaction                   [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> SimpleSpeciesReference     [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> SpeciesType                [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> Variable                   [dir=back,arrowtail=empty,style=dashed];
   Variable                   -> SpeciesReference           [dir=back,arrowtail=empty,style=dashed];
   Variable                   -> Symbol                     [dir=back,arrowtail=empty,style=dashed];
   XMLToken                   -> XMLNode                    [dir=back,arrowtail=empty];

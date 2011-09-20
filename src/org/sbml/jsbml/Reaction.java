@@ -39,7 +39,8 @@ import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
  * @since 0.8
  * @version $Rev$
  */
-public class Reaction extends AbstractNamedSBase implements CallableSBase {
+public class Reaction extends AbstractNamedSBase implements CallableSBase,
+  UniqueNamedSBase {
 
 	/**
 	 * Generated serial version identifier.
@@ -54,12 +55,13 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	 */
 	private Boolean fast;
 	/**
-	 * 
+	 * Checks whether the {@link #fast} attribute has been set by using a default or
+	 * by changing its value.
 	 */
 	private boolean isSetFast = false;
-
 	/**
-	 * 
+	 * Checks whether the {@link #reversible} attribute has been set by using a default or
+   * by changing its value.
 	 */
 	private boolean isSetReversible = false;
 	/**
@@ -77,7 +79,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	/**
 	 * Represents the 'listOfReactants' XML subNode of a reaction element.
 	 */
-	private ListOf<SpeciesReference> listOfReactants;
+	private ListOf<SpeciesReference> listOfReactants;	
 	/**
 	 * Represents the 'reversible' XML attribute of a reaction element.
 	 */
@@ -226,7 +228,6 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 	 */
 	public KineticLaw createKineticLaw() {
 		KineticLaw kl = new KineticLaw(this);
-		setKineticLaw(kl);
 		return kl;
 	}
 
@@ -1294,6 +1295,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 			ListOf<ModifierSpeciesReference> oldListOfModifiers = this.listOfModifiers;
 			this.listOfModifiers = null;
 			oldListOfModifiers.fireNodeRemovedEvent();
+			oldListOfModifiers.parent = null;
 			return true;
 		}
 		return false;
@@ -1311,6 +1313,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 			ListOf<SpeciesReference> oldListOfProducts = this.listOfProducts;
 			this.listOfProducts = null;
 			oldListOfProducts.fireNodeRemovedEvent();
+			oldListOfProducts.parent = null;
 			return true;
 		}
 		return false;
@@ -1328,6 +1331,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 			ListOf<SpeciesReference> oldListOfReactants = this.listOfReactants;
 			this.listOfReactants = null;
 			oldListOfReactants.fireNodeRemovedEvent();
+			oldListOfReactants.parent = null;
 			return true;
 		}
 		return false;
@@ -1367,4 +1371,5 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase {
 
 		return attributes;
 	}
+	
 }

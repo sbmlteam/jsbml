@@ -136,7 +136,7 @@ public class LocalParameter extends QuantityWithUnit {
 		return equals;
 	}
 
-	/*
+  /*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getElementName()
 	 */
@@ -144,6 +144,24 @@ public class LocalParameter extends QuantityWithUnit {
 	public String getElementName() {
 		return (getLevel() < 3) ? "parameter" : super.getElementName();
 	}
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getParent()
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public ListOf<LocalParameter> getParent() {
+    return (ListOf<LocalParameter>) super.getParent();
+  }
+
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getParentSBMLObject()
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public ListOf<LocalParameter> getParentSBMLObject() {
+    return (ListOf<LocalParameter>) super.getParentSBMLObject();
+  }
 
 
 	/*

@@ -22,9 +22,12 @@
 package org.sbml.jsbml;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.swing.tree.TreeNode;
 
@@ -52,13 +55,17 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @since 0.8
  * @version $Rev$
  */
-public class Model extends AbstractNamedSBase {
+public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   
   /**
    * Error message to indicate that an element could not be created.
    */
   private static final String COULD_NOT_CREATE_ELEMENT_MSG = "Could not create %s because no %s have been defined yet.\n";
   
+  /**
+   * 
+   */
+  private static final transient Logger logger = Logger.getLogger(Model.class);
   /**
    * Generated serial version identifier.
    */
@@ -92,6 +99,7 @@ public class Model extends AbstractNamedSBase {
    * Represents the listOfConstraints subnode of a model element.
    */
   private ListOf<Constraint> listOfConstraints;
+  
   /**
    * Represents the listOfEvents subnode of a model element.
    */
@@ -144,7 +152,23 @@ public class Model extends AbstractNamedSBase {
    */
   private ListOf<UnitDefinition> listOfUnitDefinitions;
   
-  private Logger logger = Logger.getLogger("Model");
+  /**
+   * A mapping between the identifiers of {@link LocalParameter}s and the
+   * identifiers
+   * of containing {@link Reaction} objects.
+   */
+  private Map<String, SortedSet<String>> mapOfLocalParameters;
+  
+  /**
+   * For internal computation: a mapping between their identifiers and
+   * the {@link UniqueNamedSBase}s in {@link Model}s themself:
+   */
+  private Map<String, UniqueNamedSBase> mapOfUniqueNamedSBases;
+  
+  /**
+   * A mapping between their identifiers and associated {@link UnitDefinition} objects.
+   */
+  private Map<String, UnitDefinition> mapOfUnitDefinitions;
   
   /**
    * Represents the 'substanceUnits' XML attribute of a model element.
@@ -258,8 +282,8 @@ public class Model extends AbstractNamedSBase {
     super(id, level, version);
     initDefaults();
   }
-  
-  /**
+
+	/**
    * Adds a Compartment instance to the listOfCompartments of this Model.
    * 
    * @param compartment
@@ -295,8 +319,8 @@ public class Model extends AbstractNamedSBase {
   public boolean addConstraint(Constraint constraint) {
     return getListOfConstraints().add(constraint);
   }
-
-	/**
+  
+  /**
 	 * Adds an {@link Event} instance to the listOfEvents of this Model.
 	 * 
 	 * @param event
@@ -345,6 +369,113 @@ public class Model extends AbstractNamedSBase {
    */
   public boolean addParameter(Parameter parameter) {
     return getListOfParameters().add(parameter);
+  }
+  
+  /**
+   * Adds all the possible unit kinds as {@link UnitDefinition}, so that the
+   * method {@link Model#getUnitDefinition(String)} would be able to return a
+   * valid {@link UnitDefinition} even if one of these kinds is passed as
+   * parameter.
+   * 
+   */
+  private void addPredefinedUnits() {
+    
+    List<UnitDefinition> oldValue = new ArrayList<UnitDefinition>(
+      this.listOfPredefinedUnitDefinitions);
+    
+    if (getLevel() == -1 || getVersion() == -1) { return; }
+    
+    // ampere farad joule lux radian volt
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "ampere", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "farad", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "joule", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("lux",
+      getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "radian", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "volt", getLevel(), getVersion()));
+    
+    // avogadro gram katal metre second watt 		
+    if (getLevel() >= 3) {
+      listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+        "avogadro", getLevel(), getVersion()));
+    }
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "gram", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "katal", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "metre", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "second", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "watt", getLevel(), getVersion()));
+    
+    // becquerel gray kelvin mole siemens weber 
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "becquerel", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "gray", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "kelvin", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "mole", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "siemens", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "weber", getLevel(), getVersion()));
+    
+    // candela henry kilogram newton sievert
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "candela", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "henry", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "kilogram", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "newton", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "sievert", getLevel(), getVersion()));
+    
+    // coulomb hertz litre ohm steradian
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "coulomb", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "hertz", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "litre", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("ohm",
+      getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "steradian", getLevel(), getVersion()));
+    
+    // dimensionless item lumen pascal tesla
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "dimensionless", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "item", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "lumen", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "pascal", getLevel(), getVersion()));
+    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+      "tesla", getLevel(), getVersion()));
+    
+    // meter liter celsius
+    if (getLevel() == 1) {
+      listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+        "meter", getLevel(), getVersion()));
+      listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+        "liter", getLevel(), getVersion()));
+      listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
+        "celsius", getLevel(), getVersion()));
+    }
+    this.firePropertyChange(TreeNodeChangeEvent.units, oldValue,
+      listOfPredefinedUnitDefinitions);
   }
   
   /**
@@ -2685,113 +2816,6 @@ public class Model extends AbstractNamedSBase {
   }
   
   /**
-   * Adds all the possible unit kinds as {@link UnitDefinition}, so that the
-   * method {@link Model#getUnitDefinition(String)} would be able to return a
-   * valid {@link UnitDefinition} even if one of these kinds is passed as
-   * parameter.
-   * 
-   */
-  private void addPredefinedUnits() {
-    
-    List<UnitDefinition> oldValue = new ArrayList<UnitDefinition>(
-      this.listOfPredefinedUnitDefinitions);
-    
-    if (getLevel() == -1 || getVersion() == -1) { return; }
-    
-    // ampere farad joule lux radian volt
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "ampere", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "farad", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "joule", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("lux",
-      getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "radian", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "volt", getLevel(), getVersion()));
-    
-    // avogadro gram katal metre second watt 		
-    if (getLevel() >= 3) {
-      listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-        "avogadro", getLevel(), getVersion()));
-    }
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "gram", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "katal", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "metre", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "second", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "watt", getLevel(), getVersion()));
-    
-    // becquerel gray kelvin mole siemens weber 
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "becquerel", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "gray", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "kelvin", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "mole", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "siemens", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "weber", getLevel(), getVersion()));
-    
-    // candela henry kilogram newton sievert
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "candela", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "henry", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "kilogram", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "newton", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "sievert", getLevel(), getVersion()));
-    
-    // coulomb hertz litre ohm steradian
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "coulomb", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "hertz", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "litre", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit("ohm",
-      getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "steradian", getLevel(), getVersion()));
-    
-    // dimensionless item lumen pascal tesla
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "dimensionless", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "item", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "lumen", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "pascal", getLevel(), getVersion()));
-    listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-      "tesla", getLevel(), getVersion()));
-    
-    // meter liter celsius
-    if (getLevel() == 1) {
-      listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-        "meter", getLevel(), getVersion()));
-      listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-        "liter", getLevel(), getVersion()));
-      listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
-        "celsius", getLevel(), getVersion()));
-    }
-    this.firePropertyChange(TreeNodeChangeEvent.units, oldValue,
-      listOfPredefinedUnitDefinitions);
-  }
-  
-  /**
    * Returns true if the area units ID of this Model is not null.
    * 
    * @return true if the area units ID of this Model is not null.
@@ -3113,6 +3137,191 @@ public class Model extends AbstractNamedSBase {
     }
     return isAttributeRead;
   }
+
+  /**
+   * Registration of {@link LocalParameter} instances in the {@link Model}.
+   * 
+   * @param kl
+   *        the {@link KineticLaw} that contains the given
+   *        {@link LocalParameter}
+   * @param lp
+   *        the {@link LocalParameter} whose identifier is to be registered.
+   * @param delete
+   * @return <code>true</code> in case of success, otherwise <code>false</code>.
+   */
+  private boolean registerId(KineticLaw kl, LocalParameter lp, boolean delete) {
+    // Register local parameter within its kinetic law first.
+    if (kl.registerLocalParameter(lp, delete)) {
+      /*
+       * If this works register the local parameter and its reaction also
+       * in the model. This is necessary because of the restriction that since
+       * L2V3 the ids local parameters may at most override the ids of Species,
+       * Compartments, and global Parameters. Before that, there was no such 
+       * restriction.
+       */
+      Reaction r = kl.getParentSBMLObject();
+      String pId = lp.getId();
+      if (r.isSetId()) {
+        if (delete) {
+          if (mapOfLocalParameters != null) {
+            SortedSet<String> reactionSet = mapOfLocalParameters.get(pId);
+            if (reactionSet != null) {
+              reactionSet.remove(r.getId());
+              if (reactionSet.isEmpty()) {
+                mapOfLocalParameters.remove(pId);
+              }
+            }
+          }
+          return true;
+        } else {
+          // add new key or reaction for this local parameter.
+          if (0 < lp.getLevelAndVersion().compareTo(Integer.valueOf(2),
+            Integer.valueOf(3))) {
+            /*
+             * Since L2V3 only Compartments, Species, or global Parameters
+             * may be overridden by LocalParameters.
+             */
+            UniqueNamedSBase unsb = mapOfUniqueNamedSBases != null ? 
+              mapOfUniqueNamedSBases.get(pId) : null;
+            if (((mapOfUnitDefinitions != null) && mapOfUnitDefinitions.containsKey(pId))
+              || ((unsb != null) && !(unsb instanceof Symbol))) {
+              kl.removeLocalParameter(lp);
+              return false;
+            }
+          }
+          if (mapOfLocalParameters == null) {
+            mapOfLocalParameters = new HashMap<String, SortedSet<String>>();
+          }
+          if (!mapOfLocalParameters.containsKey(pId)) {
+            mapOfLocalParameters.put(pId, new TreeSet<String>());
+          }
+          mapOfLocalParameters.get(pId).add(r.getId());
+          return true;          
+        }        
+      }      
+    }
+    return false;
+  }
+
+  /**
+   * Registers the identifier of a {@link NamedSBase} and its associated object
+   * in this {@link Model}.
+   * 
+   * @param nsb
+   *        the element, whose identifier is to be registered.
+   * @param add
+   *        If <code>true</code> the identifier of the given {@link NamedSBase}
+   *        will be registered in this {@link Model} Otherwise, the given
+   *        identifier will be removed from this {@link Model}'s hash.
+   */
+  boolean registerId(NamedSBase nsb, boolean add) {
+    return registerIds(nsb.getParentSBMLObject(), nsb, true, !add);
+  }
+  
+  /**
+   * 
+   * @param unsb
+   * @param recursively
+   * @param delete
+   * @return
+   */
+  private boolean registerId(UniqueNamedSBase unsb, boolean recursively, boolean delete) {
+    String id = unsb.getId();
+    if (delete && (mapOfUniqueNamedSBases != null)) {
+      mapOfUniqueNamedSBases.remove(id);
+      logger.debug(String.format("removed id=%s from model%s",
+        id, (isSetId() ? " " + getId() : "")));
+    } else if (unsb.isSetId()) {
+      if (mapOfUniqueNamedSBases == null) {
+        mapOfUniqueNamedSBases = new HashMap<String, UniqueNamedSBase>();
+      }
+      /*
+       * Three reasons for non acceptance:
+       * (1) another UniqueNamedSBase is already registered with the identical id.
+       * (2) some Reaction refers to a LocalParameter with this id, but LV >= 2.3 and the
+       *     overridden element is not an instance of Species, Compartment, or Parameter.
+       * (3) In Level 1 UnitDefinitions and UniqueNamedSBases use the same namespace.
+       */
+      if ((mapOfUniqueNamedSBases.containsKey(id) && 
+          (mapOfUniqueNamedSBases.get(id) != unsb))
+        || ((0 < unsb.getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)))
+          && (mapOfLocalParameters != null)
+          && mapOfLocalParameters.containsKey(id) && !(unsb instanceof Symbol))
+        || ((unsb.getLevel() == 1) && (mapOfUnitDefinitions != null) && 
+            (mapOfUnitDefinitions.containsKey(id)))) {
+        logger.error(String.format(
+          "An element with the id '%s' is already present in this model%s. The new element will not be added to the model.",
+          id, (isSetId() ? " " + getId() : "")));
+        return false;
+      }
+      mapOfUniqueNamedSBases.put(id, unsb);
+      logger.debug(String.format("registered id=%s in model%s",
+        id, (isSetId() ? " " + getId() : "")));
+    }
+    return true;
+  }
+  
+  /**
+   * Registers the identifier and the corresponding {@link UnitDefinition}
+   * itself
+   * in this {@link Model}.
+   * 
+   * @param ud
+   *        the {@link UnitDefinition} to be registered.
+   * @param add
+   * @return
+   */
+  private boolean registerId(UnitDefinition ud, boolean add) {
+    if (mapOfUnitDefinitions == null) {
+      mapOfUnitDefinitions = new HashMap<String, UnitDefinition>();
+    }
+    if (add) {
+      return mapOfUnitDefinitions.put(ud.getId(), ud) == null;
+    }
+    return mapOfUnitDefinitions.remove(ud.getId()) != null;    
+  }
+  
+  /**
+   * Registers the given element in this model.
+   * @param parent
+   * @param newElem
+   * @param recursively
+   * @param delete
+   * @return
+   */
+  boolean registerIds(SBase parent, SBase newElem, boolean recursively,
+                      boolean delete) {
+    if (newElem instanceof NamedSBase) {
+      NamedSBase newNsb = (NamedSBase) newElem;
+      if (newNsb.isSetId()) {
+        if (newNsb instanceof UniqueNamedSBase) {
+          return registerId((UniqueNamedSBase) newNsb, recursively, delete);
+        } else if ((newNsb instanceof LocalParameter)
+                   && (parent.getParent() != null)) {
+          return registerId((KineticLaw) parent.getParent(),
+                            (LocalParameter) newNsb, delete);
+        } else {
+          // must be UnitDefinition..!
+          return registerId((UnitDefinition) newNsb, !delete);
+        }
+      }
+    } 
+    if (recursively) {
+      boolean success = true;
+      for (int i=0; i<newElem.getChildCount() && success; i++) {
+        TreeNode child = newElem.getChildAt(i);
+        if (child instanceof SBase) {
+          if ((parent instanceof KineticLaw) && (child instanceof LocalParameter)) {
+            success &= registerId((KineticLaw) parent, (LocalParameter) child, delete);
+          } else {
+            success &= registerIds(newElem, (SBase) child, recursively, delete);
+          }
+        }
+      }
+      return success;
+    }
+    return false;
+  }
   
   /**
    * Removes the i-th {@link Compartment} of the {@link Model}.
@@ -3373,7 +3582,7 @@ public class Model extends AbstractNamedSBase {
     return getListOfUnitDefinitions().removeFirst(new NameFilter(id));
   }
   
-  /**
+	/**
    * Removes a {@link UnitDefinition} of the {@link Model}.
    * 
    * @param unitDefininition
@@ -3384,7 +3593,7 @@ public class Model extends AbstractNamedSBase {
     return getListOfUnitDefinitions().remove(unitDefininition);
   }
   
-	/**
+  /**
 	 * Sets the areaUnitsID of this {@link Model} to 'areaUnitsID'
 	 * 
 	 * @param areaUnitsID
@@ -3414,8 +3623,8 @@ public class Model extends AbstractNamedSBase {
     }
     setAreaUnits(areaUnits != null ? areaUnits.getId() : null);
   }
-  
-  /**
+
+	/**
    * Sets the conversionFactorID of this {@link Model} to the id of the
    * {@link Parameter} 'conversionFactor'.
    * 
@@ -3442,8 +3651,8 @@ public class Model extends AbstractNamedSBase {
     firePropertyChange(TreeNodeChangeEvent.conversionFactor,
       oldConversionFactorID, conversionFactorID);
   }
-
-	/**
+  
+  /**
 	 * Sets the extendUnitsID of this {@link Model} to 'extentUnitsID'.
 	 * 
 	 * @param extentUnitsID
@@ -3459,7 +3668,7 @@ public class Model extends AbstractNamedSBase {
       extentUnitsID);
   }
   
-  /**
+	/**
    * Sets the extentUnitsID of this {@link Model} to the id of the
    * {@link UnitDefinition} 'extentUnits'.
    * 
@@ -3472,7 +3681,7 @@ public class Model extends AbstractNamedSBase {
     setExtentUnits(extentUnits != null ? extentUnits.getId() : null);
   }
   
-	/**
+  /**
 	 * Sets the lengthUnitsID of this {@link Model} to 'lengthUnitsID'.
 	 * 
 	 * @param lengthUnitsID
@@ -3515,8 +3724,7 @@ public class Model extends AbstractNamedSBase {
         && (this.listOfCompartments.getSBaseListType() != ListOf.Type.listOfCompartments)) {
       this.listOfCompartments.setSBaseListType(ListOf.Type.listOfCompartments);    
     }
-    setThisAsParentSBMLObject(this.listOfCompartments);
-    
+    setThisAsParentSBMLObject(this.listOfCompartments);    
   }
   
   /**
@@ -3730,7 +3938,7 @@ public class Model extends AbstractNamedSBase {
     
   }
   
-  /**
+	/**
    * @see #setHistory(History history)
    * @param history
    * @deprecated use {@link #setHistory(History)}
@@ -3740,7 +3948,7 @@ public class Model extends AbstractNamedSBase {
     setHistory(history);
   }
   
-	/**
+  /**
 	 * Sets the substanceUnitsID of this {@link Model} to 'substanceUnitsID'
 	 * 
 	 * @param substanceUnitsID
@@ -3756,7 +3964,7 @@ public class Model extends AbstractNamedSBase {
       substanceUnitsID);
   }
   
-  /**
+	/**
    * Sets the substanceUnitsID of this {@link Model} to the id of
    * 'substanceUnits'.
    * 
@@ -3769,7 +3977,7 @@ public class Model extends AbstractNamedSBase {
     setSubstanceUnits(substanceUnits != null ? substanceUnits.getId() : null);
   }
   
-	/**
+  /**
 	 * Sets the timeUnits of this {@link Model} to 'timeUnistID'
 	 * 
 	 * @param timeUnitsID
@@ -3785,7 +3993,7 @@ public class Model extends AbstractNamedSBase {
       timeUnitsID);
   }
   
-  /**
+	/**
    * Sets the timeUnitsID of this {@link Model} to the id of the
    * {@link UnitDefinition} 'timeUnits'.
    * 
@@ -3798,7 +4006,7 @@ public class Model extends AbstractNamedSBase {
     setTimeUnits(timeUnits != null ? timeUnits.getId() : null);
   }
   
-	/**
+  /**
 	 * Sets the volumeUnitsID of this {@link Model} to 'volumeUnitsID'
 	 * 
 	 * @param volumeUnitsID
@@ -3867,6 +4075,7 @@ public class Model extends AbstractNamedSBase {
       ListOf<Compartment> oldListOfCompartments = this.listOfCompartments;
       this.listOfCompartments = null;
       oldListOfCompartments.fireNodeRemovedEvent();
+      oldListOfCompartments.parent = null;
       return true;
     }
     return false;
@@ -3886,6 +4095,7 @@ public class Model extends AbstractNamedSBase {
       ListOf<CompartmentType> oldListOfCompartmentTypes = this.listOfCompartmentTypes;
       this.listOfCompartmentTypes = null;
       oldListOfCompartmentTypes.fireNodeRemovedEvent();
+      oldListOfCompartmentTypes.parent = null;
       return true;
     }
     return false;
@@ -3903,6 +4113,7 @@ public class Model extends AbstractNamedSBase {
       ListOf<Constraint> oldListOfConstraints = this.listOfConstraints;
       this.listOfConstraints = null;
       oldListOfConstraints.fireNodeRemovedEvent();
+      oldListOfConstraints.parent = null;
       return true;
     }
     return false;
@@ -3920,6 +4131,7 @@ public class Model extends AbstractNamedSBase {
       ListOf<Event> oldListOfEvents = this.listOfEvents;
       this.listOfEvents = null;
       oldListOfEvents.fireNodeRemovedEvent();
+      oldListOfEvents.parent = null;
       return true;
     }
     return false;
@@ -3937,6 +4149,7 @@ public class Model extends AbstractNamedSBase {
       ListOf<FunctionDefinition> oldListOfFunctionDefinitions = this.listOfFunctionDefinitions;
       this.listOfFunctionDefinitions = null;
       oldListOfFunctionDefinitions.fireNodeRemovedEvent();
+      oldListOfFunctionDefinitions.parent = null;
       return true;
     }
     return false;
@@ -3954,6 +4167,7 @@ public class Model extends AbstractNamedSBase {
       ListOf<InitialAssignment> oldListOfInitialAssignments = this.listOfInitialAssignments;
       this.listOfInitialAssignments = null;
       oldListOfInitialAssignments.fireNodeRemovedEvent();
+      oldListOfInitialAssignments.parent = null;
       return true;
     }
     return false;
@@ -3971,6 +4185,7 @@ public class Model extends AbstractNamedSBase {
       ListOf<Parameter> oldListOfParameters = this.listOfParameters;
       this.listOfParameters = null;
       oldListOfParameters.fireNodeRemovedEvent();
+      oldListOfParameters.parent = null;
       return true;
     }
     return false;
@@ -3988,6 +4203,7 @@ public class Model extends AbstractNamedSBase {
       ListOf<Reaction> oldListOfReactions = this.listOfReactions;
       this.listOfReactions = null;
       oldListOfReactions.fireNodeRemovedEvent();
+      oldListOfReactions.parent = null;
       return true;
     }
     return false;
@@ -4005,6 +4221,7 @@ public class Model extends AbstractNamedSBase {
       ListOf<Rule> oldListOfRules = this.listOfRules;
       this.listOfRules = null;
       oldListOfRules.fireNodeRemovedEvent();
+      oldListOfRules.parent = null;
       return true;
     }
     return false;
@@ -4022,6 +4239,7 @@ public class Model extends AbstractNamedSBase {
       ListOf<Species> oldListOfSpecies = this.listOfSpecies;
       this.listOfSpecies = null;
       oldListOfSpecies.fireNodeRemovedEvent();
+      oldListOfSpecies.parent = null;
       return true;
     }
     return false;
@@ -4041,6 +4259,7 @@ public class Model extends AbstractNamedSBase {
       ListOf<SpeciesType> oldListOfSpeciesTypes = this.listOfSpeciesTypes;
       this.listOfSpeciesTypes = null;
       oldListOfSpeciesTypes.fireNodeRemovedEvent();
+      oldListOfSpeciesTypes.parent = null;
       return true;
     }
     return false;
@@ -4058,6 +4277,7 @@ public class Model extends AbstractNamedSBase {
       ListOf<UnitDefinition> oldListOfUnitDefinitions = this.listOfUnitDefinitions;
       this.listOfUnitDefinitions = null;
       oldListOfUnitDefinitions.fireNodeRemovedEvent();
+      oldListOfUnitDefinitions.parent = null;
       return true;
     }
     return false;
@@ -4085,7 +4305,7 @@ public class Model extends AbstractNamedSBase {
   public void unsetVolumeUnits() {
     setVolumeUnits((String) null);
   }
-  
+
   /*
    * (non-Javadoc)
    * 
@@ -4120,4 +4340,5 @@ public class Model extends AbstractNamedSBase {
     }
     return attributes;
   }
+
 }

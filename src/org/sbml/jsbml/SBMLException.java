@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.xml.XMLException;
+
 /**
  * This class roughly corresponds to libSBML's SBMLError class.
  * 
@@ -27,7 +29,7 @@ package org.sbml.jsbml;
  * @since 0.8
  * @version $Rev$
  */
-public class SBMLException extends Exception {
+public class SBMLException extends XMLException {
 
 	/**
 	 * Category of this exception.

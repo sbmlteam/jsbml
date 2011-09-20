@@ -31,7 +31,7 @@ package org.sbml.jsbml;
  * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
  */
 @Deprecated
-public class SpeciesType extends AbstractNamedSBase {
+public class SpeciesType extends AbstractNamedSBase implements UniqueNamedSBase {
 
 	/**
 	 * Generated serial version identifier.

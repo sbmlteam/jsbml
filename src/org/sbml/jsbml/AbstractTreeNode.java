@@ -20,7 +20,6 @@
  */ 
 package org.sbml.jsbml;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.LinkedList;
@@ -32,6 +31,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 
 /**
  * A basic implementation of the {@link TreeNode} interface.
@@ -41,8 +41,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * @since 0.8
  * @date 11.07.2011
  */
-public abstract class AbstractTreeNode implements TreeNode, Serializable,
-		Cloneable {
+public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 
 	/**
 	 * Generated serial version identifier.
@@ -109,14 +108,9 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 		}
 	}
 
-	/**
-	 * Adds recursively all given {@link TreeNodeChangeListener} instances to
-	 * this element.
-	 * 
-	 * @param listeners
-	 *            the set of listeners to add
-	 * @return true if the set of listeners is added with success.
-	 * 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#addAllChangeListeners(java.util.Collection)
 	 */
 	public boolean addAllChangeListeners(
 			Collection<TreeNodeChangeListener> listeners) {
@@ -133,12 +127,9 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 	}
 	
 
-	/**
-	 * Adds recursively a listener to the {@link AbstractTreeNode} object and
-	 * all of its sub-elements.
-	 * 
-	 * @param listener
-	 *            the listener to add
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#addTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener)
 	 */
 	public void addTreeNodeChangeListener(TreeNodeChangeListener listener) {
 		if (!listOfListeners.contains(listener)) {
@@ -240,10 +231,9 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 		return false;
 	}
 	
-	/**
-	 * All {@link TreeNodeChangeListener} instances linked to this
-	 * {@link TreeNode} are informed about the adding of this {@link Object} to
-	 * an owning parent {@link Object}.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#fireNodeAddedEvent()
 	 */
 	public void fireNodeAddedEvent() {
 		for (TreeNodeChangeListener listener : listOfListeners) {
@@ -251,10 +241,9 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 		}
 	}
 	
-	/**
-	 * All {@link TreeNodeChangeListener} instances linked to this
-	 * {@link TreeNode} are informed about the deletion of this {@link TreeNode}
-	 * from a parent {@link Object}.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#fireNodeRemovedEvent()
 	 */
 	public void fireNodeRemovedEvent() {
 		for (TreeNodeChangeListener listener : listOfListeners) {
@@ -262,18 +251,9 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 		}
 	}
 
-	/**
-	 * All {@link TreeNodeChangeListener}s are informed about the change in this
-	 * {@link AbstractTreeNode}.
-	 * 
-	 * @param propertyName
-	 *            Tells the {@link TreeNodeChangeListener} the name of the
-	 *            property whose value has been changed.
-	 * @param oldValue
-	 *            This is the value before the change.
-	 * @param newValue
-	 *            This gives the new value that is now the new value for the
-	 *            given property..
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#firePropertyChange(java.lang.String, java.lang.Object, java.lang.Object)
 	 */
 	public void firePropertyChange(String propertyName, Object oldValue,
 			Object newValue) {
@@ -326,24 +306,21 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 		return indexOf(this, node);
 	}
 
-	/**
-	 * Returns all {@link TreeNodeChangeListener}s that are assigned to this
-	 * element.
-	 * 
-	 * @return all {@link TreeNodeChangeListener}s that are assigned to this
-	 * element.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getListOfTreeNodeChangeListeners()
 	 */
 	public List<TreeNodeChangeListener> getListOfTreeNodeChangeListeners() {
 		return listOfListeners;
 	}
 
 	/**
-	 * Returns the number of child elements of this {@link TreeNode}.
-	 * 
-	 * @return the number of children TreeNodes the receiver contains.
-	 * @deprecated use {@link #getChildCount()}
-	 */
-	@Deprecated
+   * Returns the number of child elements of this {@link TreeNode}.
+   * 
+   * @return the number of children TreeNodes the receiver contains.
+   * @deprecated use {@link #getChildCount()}
+   */
+  @Deprecated
 	public int getNumChildren() {
 		return getChildCount();
 	}
@@ -433,17 +410,17 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable,
 		// default: empty body, nothing to do.
 	}
 
-	/**
-	 * Removes all SBase change listeners from this element.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeAllTreeNodeChangeListeners()
 	 */
 	public void removeAllTreeNodeChangeListeners() {
 		listOfListeners.clear();
 	}
 	
-	/**
-	 * Removes recursively the given change listener from this element.
-	 * 
-	 * @param l the listener to remove.
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener)
 	 */
 	public void removeTreeNodeChangeListener(TreeNodeChangeListener l) {
 		listOfListeners.remove(l);

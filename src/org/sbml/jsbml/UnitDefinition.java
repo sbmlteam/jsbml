@@ -1071,16 +1071,22 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return this;
 	}
 
-	/**
-	 * Removes the {@link #listOfUnits} from this {@link UnitDefinition} and
-	 * notifies all registered instances of {@link TreeNodeChangeListener}.
-	 */
-	public void unsetListOfUnits() {
+  /**
+   * Removes the {@link #listOfUnits} from this {@link UnitDefinition} and
+   * notifies all registered instances of {@link TreeNodeChangeListener}.
+   * 
+   * @return <code>true</code> if calling this method lead to a change in this
+   *         data structure.
+   */
+	public boolean unsetListOfUnits() {
 		if (this.listOfUnits != null) {
 			ListOf<Unit> oldListOfUnits = this.listOfUnits;
 			this.listOfUnits = null;
 			oldListOfUnits.fireNodeRemovedEvent();
+			oldListOfUnits.parent = null;
+			return true;
 		}
+		return false;
 	}
 
 }
