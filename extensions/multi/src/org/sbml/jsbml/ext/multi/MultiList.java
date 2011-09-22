@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.multi;
 
 /**
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */

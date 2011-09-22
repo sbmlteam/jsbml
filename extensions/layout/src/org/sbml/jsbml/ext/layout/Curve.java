@@ -122,6 +122,14 @@ public class Curve extends AbstractNamedSBase {
 		return listOfCurveSegments;
 	}
 	
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+	
 	/**
 	 * 
 	 * @return
@@ -142,8 +150,8 @@ public class Curve extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfCurveSegments);
 	}
-	
-	/**
+
+  /**
 	 * Removes the {@link #listOfLineSegments} from this {@link Model} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 

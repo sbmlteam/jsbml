@@ -49,6 +49,7 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
 import org.xml.sax.SAXException;
 
 /**
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  *

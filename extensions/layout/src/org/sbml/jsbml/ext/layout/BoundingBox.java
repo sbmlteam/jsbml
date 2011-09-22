@@ -203,13 +203,21 @@ public class BoundingBox extends AbstractNamedSBase {
 		return hashCode;
 	}
 	
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+	
 	/**
 	 * @return
 	 */
 	public boolean isSetDimensions() {
 		return dimensions != null;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -235,7 +243,7 @@ public class BoundingBox extends AbstractNamedSBase {
 		}
 		return isAttributeRead;
 	}
-
+	
 	/**
 	 * 
 	 * @param dimensions
@@ -261,8 +269,8 @@ public class BoundingBox extends AbstractNamedSBase {
 		this.id = id;
 		firePropertyChange(TreeNodeChangeEvent.id, oldId, this.id);
 	}
-	
-	/**
+
+  /**
 	 * 
 	 * @param point
 	 */

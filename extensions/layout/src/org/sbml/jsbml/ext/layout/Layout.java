@@ -272,13 +272,21 @@ public class Layout extends AbstractNamedSBase {
 		return null;
 	}
 
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+	
 	/**
 	 * @return
 	 */
 	public boolean isSetAddGraphicalObjects() {
 		return (addGraphicalObjects != null) && (addGraphicalObjects.size() > 0);
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -314,7 +322,7 @@ public class Layout extends AbstractNamedSBase {
 	public boolean isSetListOfTextGlyphs() {
 		return (listOfTextGlyphs != null) && (listOfTextGlyphs.size() > 0);
 	}
-
+	
 	/**
 	 * @param attributeName
 	 * @param prefix
@@ -330,7 +338,7 @@ public class Layout extends AbstractNamedSBase {
 		
 			return isAttributeRead;
 	}
-	
+
 	/**
 	 * 
 	 * @param addGraphicalObjects
@@ -342,7 +350,7 @@ public class Layout extends AbstractNamedSBase {
 		this.addGraphicalObjects = addGraphicalObjects;
 		setThisAsParentSBMLObject(this.addGraphicalObjects);
 	}
-
+	
 	/**
 	 * 
 	 * @param dimensions
@@ -354,7 +362,7 @@ public class Layout extends AbstractNamedSBase {
 		this.dimensions = dimensions;
 		setThisAsParentSBMLObject(this.dimensions);
 	}
-	
+
 	/**
 	 * 
 	 * @param compartmentGlyphs
@@ -367,7 +375,7 @@ public class Layout extends AbstractNamedSBase {
 		}
 		setThisAsParentSBMLObject(this.listOfSpeciesGlyphs);
 	}
-
+	
 	/**
 	 * 
 	 * @param reactionGlyphs
@@ -380,7 +388,7 @@ public class Layout extends AbstractNamedSBase {
 			setThisAsParentSBMLObject(this.listOfReactionGlyphs);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param speciesGlyphs
@@ -397,7 +405,7 @@ public class Layout extends AbstractNamedSBase {
 			setThisAsParentSBMLObject(this.listOfSpeciesGlyphs);
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param textGlyphs
@@ -410,7 +418,7 @@ public class Layout extends AbstractNamedSBase {
 			setThisAsParentSBMLObject(this.listOfTextGlyphs);
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
@@ -419,7 +427,7 @@ public class Layout extends AbstractNamedSBase {
 	public String toString() {
 		return getElementName();
 	}
-
+	
 	/**
 	 * Removes the {@link #listOfCompartmentGlyphs} from this {@link Model} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
@@ -470,8 +478,8 @@ public class Layout extends AbstractNamedSBase {
 		}
 		return false;
 	}
-	
-	/**
+
+  /**
 	 * Removes the {@link #listOfTextGlyphs} from this {@link Model} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 

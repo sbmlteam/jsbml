@@ -148,13 +148,21 @@ public class LineSegment extends AbstractNamedSBase {
 		return start;
 	}
 
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
 	/**
 	 * @return
 	 */
 	public boolean isSetEnd() {
 		return end != null;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -173,8 +181,8 @@ public class LineSegment extends AbstractNamedSBase {
 		this.end = end;
 		setThisAsParentSBMLObject(this.end);
 	}
-	
-	/**
+
+  /**
 	 * 
 	 * @param start
 	 */

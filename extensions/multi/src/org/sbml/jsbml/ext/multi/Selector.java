@@ -23,7 +23,8 @@ package org.sbml.jsbml.ext.multi;
 import org.sbml.jsbml.AbstractNamedSBase;
 
 /**
- * @author
+ * @author Marine Dumousseau
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
@@ -57,4 +58,12 @@ public class Selector extends AbstractNamedSBase {
 	public Selector clone() {
 		return new Selector(this);
 	}
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    // TODO Auto-generated method stub
+    return false;
+  }
 }
