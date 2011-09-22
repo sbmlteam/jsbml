@@ -123,4 +123,12 @@ public class SpeciesType extends AbstractNamedSBase implements UniqueNamedSBase 
 	public ListOf<SpeciesType> getParent() {
 		return (ListOf<SpeciesType>) super.getParent();
 	}
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+	@Deprecated
+  public boolean isIdMandatory() {
+    return true;
+  }
 }

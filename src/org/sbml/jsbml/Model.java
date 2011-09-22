@@ -2815,6 +2815,13 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
   }
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    return false;
+  }
+  
   /**
    * Returns true if the area units ID of this Model is not null.
    * 
@@ -3100,7 +3107,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetVolumeUnitsInstance() {
     return getVolumeUnitsInstance() != null;
   }
-  
+
   /*
    * (non-Javadoc)
    * 
@@ -3202,7 +3209,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-
+  
   /**
    * Registers the identifier of a {@link NamedSBase} and its associated object
    * in this {@link Model}.
@@ -3304,6 +3311,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
           // must be UnitDefinition..!
           return registerId((UnitDefinition) newNsb, !delete);
         }
+      } else if (!newNsb.isIdMandatory()) {
+        return true;
       }
     } 
     if (recursively) {
@@ -3572,7 +3581,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return getListOfUnitDefinitions().remove(n);
   }
   
-  /**
+	/**
    * Removes the {@link UnitDefinition} of the {@link Model} with 'id' as id.
    * 
    * @param id
@@ -3582,7 +3591,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return getListOfUnitDefinitions().removeFirst(new NameFilter(id));
   }
   
-	/**
+  /**
    * Removes a {@link UnitDefinition} of the {@link Model}.
    * 
    * @param unitDefininition
@@ -3610,8 +3619,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
 		firePropertyChange(TreeNodeChangeEvent.areaUnits, oldAreaUnitsID,
 				areaUnitsID);
 	}
-  
-  /**
+
+	/**
    * Sets the areaUnitsID of this {@link Model} to the id of the
    * {@link UnitDefinition} 'areaUnits'.
    * 
@@ -3634,8 +3643,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     setConversionFactor(conversionFactor != null ? conversionFactor.getId()
         : null);
   }
-
-	/**
+  
+  /**
 	 * Sets the conversionFactorID of this {@link Model} to
 	 * 'conversionFactorID'.
 	 * 
@@ -3652,7 +3661,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       oldConversionFactorID, conversionFactorID);
   }
   
-  /**
+	/**
 	 * Sets the extendUnitsID of this {@link Model} to 'extentUnitsID'.
 	 * 
 	 * @param extentUnitsID
@@ -3668,7 +3677,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       extentUnitsID);
   }
   
-	/**
+  /**
    * Sets the extentUnitsID of this {@link Model} to the id of the
    * {@link UnitDefinition} 'extentUnits'.
    * 
@@ -3918,7 +3927,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     
   }
   
-  /**
+	/**
    * Sets the listOfUnitDefinitions of this {@link Model} to
    * 'listOfUnitDefinitions'. Automatically sets the parentSBML objects of
    * 'listOfUnitDefinitions' to this Model.
@@ -3938,7 +3947,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     
   }
   
-	/**
+  /**
    * @see #setHistory(History history)
    * @param history
    * @deprecated use {@link #setHistory(History)}
@@ -3948,7 +3957,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     setHistory(history);
   }
   
-  /**
+	/**
 	 * Sets the substanceUnitsID of this {@link Model} to 'substanceUnitsID'
 	 * 
 	 * @param substanceUnitsID
@@ -3964,7 +3973,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       substanceUnitsID);
   }
   
-	/**
+  /**
    * Sets the substanceUnitsID of this {@link Model} to the id of
    * 'substanceUnits'.
    * 
@@ -3977,7 +3986,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     setSubstanceUnits(substanceUnits != null ? substanceUnits.getId() : null);
   }
   
-  /**
+	/**
 	 * Sets the timeUnits of this {@link Model} to 'timeUnistID'
 	 * 
 	 * @param timeUnitsID
@@ -3993,7 +4002,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       timeUnitsID);
   }
   
-	/**
+  /**
    * Sets the timeUnitsID of this {@link Model} to the id of the
    * {@link UnitDefinition} 'timeUnits'.
    * 
@@ -4298,7 +4307,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public void unsetTimeUnits() {
     setTimeUnits((String) null);
   }
-  
+
   /**
    * Sets the volumeUnitsID of this {@link Model} to null.
    */

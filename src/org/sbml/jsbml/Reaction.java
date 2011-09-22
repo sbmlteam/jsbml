@@ -891,6 +891,13 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		return getFast();
 	}
 
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    return true;
+  }
+
 	/**
 	 * 
 	 * @return the value of reversible if it is set, false otherwise.
@@ -1318,7 +1325,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Removes the {@link #listOfReactants} from this {@link Reaction} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
@@ -1336,7 +1343,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Sets the reversible Boolean of this {@link Reaction} to null.
 	 */
@@ -1347,7 +1354,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		firePropertyChange(TreeNodeChangeEvent.reversible, oldReversible, reversible);
 	}
 
-	/*
+  /*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()

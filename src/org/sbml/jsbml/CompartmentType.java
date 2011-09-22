@@ -125,4 +125,12 @@ public class CompartmentType extends AbstractNamedSBase implements
 	public ListOf<CompartmentType> getParent() {
 		return (ListOf<CompartmentType>) super.getParent();
 	}
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+	@Deprecated
+  public boolean isIdMandatory() {
+    return true;
+  }
 }

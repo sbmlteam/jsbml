@@ -30,7 +30,9 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * Represents the event XML element of a SBML file.
+ * Represents the event XML element of a SBML file. Since {@link Event}s were
+ * introduced to SBML in Level 2, this class must not be used for models in 
+ * Level 1.
  * 
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
@@ -604,6 +606,13 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 		}
 	}
 
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    return false;
+  }
+
 	/**
 	 * 
 	 * @return true if the delay of this Event is not null.
@@ -678,7 +687,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	public boolean isSetUnitsInstance() {
 		return super.isSetUnitsInstance();
 	}
-
+	
 	/**
 	 * 
 	 * @return true is the useValuesFromTriggerTime of this Event is not null.
@@ -802,7 +811,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 		this.priority = priority;
 		setThisAsParentSBMLObject(this.priority);
 	}
-	
+
 	/**
 	 * Sets the timeUnitsID of this {@link Event} to 'timeUnits'.
 	 * 
@@ -824,7 +833,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	public void setTimeUnits(UnitDefinition timeUnits) {
 		setTimeUnits(timeUnits != null ? timeUnits.getId() : null);
 	}
-
+	
 	/**
 	 * @param timeUnitsID
 	 *            the timeUnitsID to set
@@ -846,7 +855,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 		this.trigger = trigger;
 		setThisAsParentSBMLObject(this.trigger);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#setUnits(org.sbml.jsbml.Unit.Kind)
@@ -860,7 +869,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 		}
 		super.setUnits(timeUnitKind);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -875,7 +884,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 		}
 		super.setUnits(timeUnits);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#setUnits(org.sbml.jsbml.Unit)
@@ -1003,7 +1012,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 		}
 	}
 
-	/*
+  /*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()

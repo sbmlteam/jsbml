@@ -28,6 +28,7 @@ import java.io.Serializable;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.util.SimpleTreeNodeChangeListener;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
@@ -182,7 +183,7 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * 
 	 */
 	public SBMLDocument readSBML(File file) throws XMLStreamException, IOException {
-		return readSBML(file, null);
+		return readSBML(file, new SimpleTreeNodeChangeListener());
 	}
 	
 	/**
