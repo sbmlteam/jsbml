@@ -27,7 +27,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * @author
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
@@ -99,6 +99,14 @@ public class InitialSpeciesInstance extends AbstractNamedSBase {
 		// methods
 		return null;
 	}
+
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    // TODO Auto-generated method stub
+    return false;
+  }
 
 	/**
 	 * 
@@ -188,7 +196,7 @@ public class InitialSpeciesInstance extends AbstractNamedSBase {
 		return null;
 	}
 
-	/*
+  /*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()

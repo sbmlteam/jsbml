@@ -47,7 +47,7 @@ import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
- * 
+ * @author Nicolas Rodriguez
  * @author
  * @since 0.8
  * @version $Rev$

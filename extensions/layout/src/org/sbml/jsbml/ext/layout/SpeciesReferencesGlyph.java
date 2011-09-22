@@ -230,21 +230,29 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 		return hashCode;
 	}
 
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+
 	/**
 	 * @return
 	 */
 	public boolean isSetCurve() {
 		return curve != null;
 	}
-
-
+	
 	/**
 	 * @return
 	 */
 	public boolean isSetSpeciesGlyph() {
 		return speciesGlyph != null;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -286,7 +294,7 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 			}
 			return isAttributeRead;
 	}
-
+	
 	/**
 	 * 
 	 * @param curve
@@ -315,8 +323,8 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 		this.speciesGlyph = speciesGlyph;
 		setThisAsParentSBMLObject(this.speciesGlyph);
 	}
-	
-	/**
+
+  /**
 	 * 
 	 * @param speciesReference
 	 */

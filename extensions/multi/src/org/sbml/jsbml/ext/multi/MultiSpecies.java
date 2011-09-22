@@ -27,8 +27,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * 
- * 
- * @author
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */

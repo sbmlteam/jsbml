@@ -155,6 +155,14 @@ public class Point extends AbstractNamedSBase {
 		return hashCode;
 	}
 
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
 	/**
 	 * @return
 	 */
@@ -234,7 +242,7 @@ public class Point extends AbstractNamedSBase {
 		this.x = x;
 		firePropertyChange(TreeNodeChangeEvent.x, oldX, this.x);
 	}
-
+	
 	/**
 	 * 
 	 * @param y
@@ -244,8 +252,8 @@ public class Point extends AbstractNamedSBase {
 		this.y = y;
 		firePropertyChange(TreeNodeChangeEvent.y, oldY, this.y);
 	}
-	
-	/**
+
+  /**
 	 * 
 	 * @param z
 	 */

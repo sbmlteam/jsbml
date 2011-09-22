@@ -25,7 +25,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
- * 
+ * @author Nicolas Rodriguez
  * @author 
  * @since 0.8
  * @version $Rev$

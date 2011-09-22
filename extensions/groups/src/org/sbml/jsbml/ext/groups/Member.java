@@ -28,7 +28,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
- * 
+ * @author Nicolas Rodriguez
  * @author 
  * @since 0.8
  * @version $Rev$

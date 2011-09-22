@@ -154,6 +154,14 @@ public class Dimensions extends AbstractNamedSBase {
 		return hashCode;
 	}
 
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
 	/**
 	 * @return
 	 */
@@ -221,7 +229,7 @@ public class Dimensions extends AbstractNamedSBase {
 		this.depth = depth;
 		firePropertyChange(TreeNodeChangeEvent.depth, oldDepth, this.depth);
 	}
-
+	
 	/**
 	 * 
 	 * @param height
@@ -231,8 +239,8 @@ public class Dimensions extends AbstractNamedSBase {
 		this.height = height;
 		firePropertyChange(TreeNodeChangeEvent.height, oldHeight, this.height);
 	}
-	
-	/**
+
+  /**
 	 * 
 	 * @param width
 	 */

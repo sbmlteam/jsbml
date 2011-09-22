@@ -140,6 +140,14 @@ public class GraphicalObject extends AbstractNamedSBase {
 		return count;
 	}
 	
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+	
 	/**
 	 * @return
 	 */
@@ -156,8 +164,8 @@ public class GraphicalObject extends AbstractNamedSBase {
 		this.boundingBox = boundingBox;
 		setThisAsParentSBMLObject(this.boundingBox);
 	}
-	
-	private void unsetBoundingBox(){
+
+  private void unsetBoundingBox(){
 		if(isSetBoundingBox()){
 			BoundingBox oldValue = this.boundingBox;
 			this.boundingBox = null;

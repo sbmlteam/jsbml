@@ -29,7 +29,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * 
- * 
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
@@ -100,6 +100,14 @@ public class Group extends AbstractNamedSBase {
 		return null;
 	}
 	
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
 	/**
 	 * 
 	 * @return
@@ -139,6 +147,16 @@ public class Group extends AbstractNamedSBase {
 		setThisAsParentSBMLObject(this.listOfMembers);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
+	 */
+	@Override
+	public String toString() {
+		// TODO 
+		return null;
+	}
+
 	/**
 	 * Removes the {@link #listOfMembers} from this {@link Model} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
@@ -156,17 +174,7 @@ public class Group extends AbstractNamedSBase {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		// TODO 
-		return null;
-	}
-
-	/*
+  /*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
