@@ -326,7 +326,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 * @return a {@link LocalParameter} based on its identifier.
 	 */
 	public LocalParameter getLocalParameter(String id) {
-		return mapOfLocalParameters.get(id);
+		return mapOfLocalParameters != null ? mapOfLocalParameters.get(id) : null;
 	}
 
 	/**

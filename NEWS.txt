@@ -6,6 +6,10 @@ Version 0.8-rc1 (xx-xx-2011)
 
 * New Features:
 
+  - NamedSBase has now the new method isIdMandatory in order to check
+    whether the identifier of this element must be defined in the SBML
+    representation.
+
   - The SBMLReader can now be used in connection with a 
     TreeNodeChangeListener. This allows users to keep track about the
     parsing process of XML files.

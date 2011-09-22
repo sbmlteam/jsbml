@@ -36,17 +36,17 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 		implements Quantity {
-
-	/**
+  
+  /**
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -9088772458214208160L;
+
 	/**
 	 * a boolean to help knowing is the value as been set by the user or is the
 	 * default one.
 	 */
 	private boolean isSetValue = false;
-
 	/**
 	 * The size, initial amount or concentration, or the actual value of this
 	 * variable.
@@ -63,7 +63,7 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 	public QuantityWithUnit() {
 		super();
 	}
-	
+
 	/**
 	 * 
 	 * @param level
@@ -72,7 +72,7 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 	public QuantityWithUnit(int level, int version) {
 		this(null, null, level, version);
 	}
-
+	
 	/**
 	 * 
 	 * @param qwdu
@@ -142,7 +142,7 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 		}
 		return equals;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -151,7 +151,7 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 	public double getValue() {
 		return value != null ? value : 0;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#hashCode()
@@ -165,6 +165,13 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 		}
 		return hashCode;
 	}
+
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    return true;
+  }
 
 	/*
 	 * (non-Javadoc)

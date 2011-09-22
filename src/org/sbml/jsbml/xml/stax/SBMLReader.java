@@ -544,7 +544,8 @@ public class SBMLReader {
 					SBMLDocument sbmlDocument = new SBMLDocument();
 
 					// the output of the change listener is activated or not via log4j.properties
-					sbmlDocument.addTreeNodeChangeListener(listener);
+          sbmlDocument.addTreeNodeChangeListener(listener == null
+            ? new SimpleTreeNodeChangeListener() : listener);
 
 					for (@SuppressWarnings("unchecked")
 							Iterator<Attribute> iterator = startElement.getAttributes(); iterator.hasNext();) 

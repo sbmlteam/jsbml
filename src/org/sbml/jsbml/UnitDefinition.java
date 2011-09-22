@@ -31,6 +31,7 @@ import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.ValuePair;
 
 /**
  * Represents the unitDefinition XML element of a SBML file.
@@ -43,10 +44,6 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
-	 * Generated serial version identifier.
-	 */
-	public static final long serialVersionUID = -4705380036260408123L;
-	/**
 	 * Identifier of the (for SBML Level 2) predefined
 	 * {@link UnitDefinition} <code>area</code>.
 	 */
@@ -56,6 +53,14 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * {@link UnitDefinition} <code>length</code>.
 	 */
 	public static final String LENGTH = "length";
+	/**
+	 * The logger for this class.
+	 */
+	private static final Logger logger = Logger.getLogger(UnitDefinition.class);
+	/**
+	 * Generated serial version identifier.
+	 */
+	public static final long serialVersionUID = -4705380036260408123L;
 	/**
 	 * Identifier of the (for the SBML Levels 1 and 2) predefined
 	 * {@link UnitDefinition} <code>substance</code>.
@@ -71,10 +76,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * {@link UnitDefinition} <code>volume</code>.
 	 */
 	public static final String VOLUME = "volume";
-	/**
-	 * The logger for this class.
-	 */
-	private static final Logger logger = Logger.getLogger(UnitDefinition.class);
 
 	/**
 	 * Predefined unit for area.
@@ -203,7 +204,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return false;
 	}
 
-	/**
+  /**
 	 * This method returns the predefined unit with the given identifier for the
 	 * specified level and version combination or null if either for the given
 	 * combination of level and version there is no such predefined unit or the
@@ -718,6 +719,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return isBuiltIn(this);
 	}
 
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    return true;
+  }
+
 	/**
 	 * This method checks, if this UnitDefinition only contains Invalid as
 	 * {@link Unit.Kind}.
@@ -1024,6 +1032,22 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return null;
 	}
 
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#setId(java.lang.String)
+   */
+  @Override
+  public void setId(String id) {
+    ValuePair<Integer, Integer> lv = getLevelAndVersion();
+    if ((0 <= lv.compareTo(Integer.valueOf(2), Integer.valueOf(3)))
+      && Unit.Kind.isValidUnitKindString(id, lv.getL().intValue(),
+        lv.getV().intValue())) {
+      throw new IllegalArgumentException(String.format(
+                "Cannot use the name %s of a unit base kind as an identifier for a UnitDefinition.",
+                id));
+    }
+    super.setId(id);
+  }
+
 	/**
 	 * Sets the {@link #listOfUnits} of this {@link UnitDefinition}.
 	 * Automatically sets the parent SBML object of the list to this
@@ -1041,7 +1065,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		setThisAsParentSBMLObject(this.listOfUnits);
 	}
 
-	/**
+  /**
 	 * Simplifies the {@link UnitDefinition} so that any {@link Unit} objects
 	 * occurring within the {@link #listOfUnits} occurs only once. {@link Unit}s
 	 * of {@link Kind} {@link Kind.INVALID} are treated like

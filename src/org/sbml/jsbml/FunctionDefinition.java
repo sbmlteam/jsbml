@@ -26,7 +26,9 @@ import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
- * Represents the functionDefinition XML element of a SBML file.
+ * Represents the functionDefinition XML element of a SBML file. Since
+ * {@link FunctionDefinition}s were introduced to SBML in Level 2, this 
+ * class must not be used for models in Level 1.
  * 
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
@@ -294,6 +296,13 @@ public class FunctionDefinition extends AbstractMathContainer implements
 		return hashCode;
 	}
 
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    return true;
+  }
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.NamedSBase#isSetId()
@@ -330,7 +339,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 		}
 		return isAttributeRead;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractMathContainer#setFormula(java.lang.String)
@@ -340,7 +349,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 		ASTNode math = ASTNode.parseFormula(formula);
 		setMath(math);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.NamedSBase#setId(java.lang.String)
@@ -427,7 +436,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	public void unsetId() {
 		setId(null);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.NamedSBase#unsetName()
@@ -435,8 +444,8 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	public void unsetName() {
 		setName(null);
 	}
-	
-	/*
+
+  /*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractMathContainer#writeXMLAttributes()
 	 */

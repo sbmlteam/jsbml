@@ -37,15 +37,15 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 public abstract class SimpleSpeciesReference extends AbstractNamedSBase
   implements UniqueNamedSBase {
 
-	/**
+  /**
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -504780573593345060L;
+  
 	/**
 	 * Represents the 'species' XML attribute.
 	 */
 	private String speciesID;
-
 	/**
 	 * Creates a SimpleSpeciesReference instance. By default, the speciesId is
 	 * null.
@@ -54,7 +54,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase
 		super();
 		this.speciesID = null;
 	}
-	
+
 	/**
 	 * 
 	 * @param level
@@ -63,7 +63,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase
 	public SimpleSpeciesReference(int level, int version) {
 		this(null, level, version);
 	}
-
+	
 	/**
 	 * Creates a SimpleSpeciesReference instance from a given
 	 * SimpleSpeciesReference.
@@ -132,7 +132,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase
 		}
 		return equals;
 	}
-	
+
 	/**
 	 * 
 	 * @return the speciesID of this {@link Species}. The empty String if it is not set.
@@ -140,7 +140,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase
 	public String getSpecies() {
 		return isSetSpecies() ? speciesID : "";
 	}
-
+	
 	/**
 	 * 
 	 * @return The Species instance which has the speciesID of this
@@ -164,6 +164,13 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase
 		}
 		return hashCode;
 	}
+
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    return false;
+  }
 
 	/**
 	 * 

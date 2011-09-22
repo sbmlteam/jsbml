@@ -43,7 +43,19 @@ public interface NamedSBase extends SBase {
 	 */
 	public String getName();
 
-	/**
+  /**
+   * This method can be used to query if the identifier of this
+   * {@link NamedSBase} is
+   * required to be defined (i.e., not null) in the definition of SBML.
+   * 
+   * @return <code>true</code> if the identifier of this element must be set in
+   *         order to create a valid SBML representation. <code>false</code>
+   *         otherwise, i.e., if the identifier can be understood as an optional
+   *         attribute.
+   */
+	public boolean isIdMandatory();
+	
+  /**
 	 * 
 	 * @return true if the id is not null.
 	 */
