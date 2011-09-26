@@ -182,7 +182,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 							boolean add = true;
 							if (element instanceof UnitDefinition) {
 								UnitDefinition ud = (UnitDefinition) element;
-								if (ud.isBuiltIn()) {
+								if (ud.isPredefined()) {
 									add = false;
 								}
 							}
@@ -225,9 +225,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			} else if (sbase instanceof KineticLaw) {
 				KineticLaw kineticLaw = (KineticLaw) sbase;
 
-				if (kineticLaw.isSetListOfParameters()) {
+				if (kineticLaw.isSetListOfLocalParameters()) {
 					listOfElementsToWrite = new ArrayList<Object>();
-					listOfElementsToWrite.add(kineticLaw.getListOfParameters());
+					listOfElementsToWrite.add(kineticLaw.getListOfLocalParameters());
 				}
 			} else if (sbase instanceof SpeciesReference) {
 				SpeciesReference speciesReference = (SpeciesReference) sbase;

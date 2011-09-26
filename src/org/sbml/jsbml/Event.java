@@ -25,9 +25,9 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
-import org.sbml.jsbml.util.StringTools;
 
 /**
  * Represents the event XML element of a SBML file. Since {@link Event}s were
@@ -1019,7 +1019,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetUseValuesFromTriggerTime()
 				&& (((getLevel() == 2) && (getVersion() == 4)) || (getLevel() >= 3))) {

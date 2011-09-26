@@ -262,7 +262,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 		if (isSetSpecies()) {
 			if (((getLevel() == 1) && (getVersion() == 2)) || (getLevel() > 1)) {
 				attributes.put("species", getSpecies());

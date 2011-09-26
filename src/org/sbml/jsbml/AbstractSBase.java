@@ -21,7 +21,6 @@
 package org.sbml.jsbml;
 
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -1458,7 +1457,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jsbml.SBase#writeXMLAttributes()
 	 */
 	public Map<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = new HashMap<String, String>();
+	  Map<String, String> attributes = new TreeMap<String, String>();
 
 		if (1 < getLevel()) {
 			if (isSetMetaId()) {

@@ -264,7 +264,7 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 		if (isSetVariable() && getLevel() >= 2) {
 			attributes.put("variable", getVariable());
 		}

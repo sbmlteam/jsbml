@@ -25,8 +25,8 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * Represents the speciesReference XML element of a SBML file.
@@ -644,7 +644,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetStoichiometry()) {
 			attributes.put("stoichiometry", StringTools.toString(
