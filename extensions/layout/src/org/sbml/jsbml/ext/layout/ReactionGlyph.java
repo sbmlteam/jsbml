@@ -52,7 +52,7 @@ public class ReactionGlyph extends GraphicalObject {
 	/**
 	 * 
 	 */
-	private ListOf<SpeciesReferencesGlyph> listOfSpeciesReferencesGlyph = new ListOf<SpeciesReferencesGlyph>();
+	private ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph = new ListOf<SpeciesReferenceGlyph>();
 
 	/**
 	 * 
@@ -188,7 +188,7 @@ public class ReactionGlyph extends GraphicalObject {
 	 * 
 	 * @return
 	 */
-	public ListOf<SpeciesReferencesGlyph> getListOfSpeciesReferencesGlyph() {
+	public ListOf<SpeciesReferenceGlyph> getListOfSpeciesReferencesGlyph() {
 		return listOfSpeciesReferencesGlyph;
 	}
 
@@ -283,7 +283,7 @@ public class ReactionGlyph extends GraphicalObject {
 	 * @param listOfSpeciesReferencesGlyph
 	 */
 	public void setListOfSpeciesReferencesGlyph(
-			ListOf<SpeciesReferencesGlyph> listOfSpeciesReferencesGlyph) {
+			ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph) {
 		unsetListOfSpeciesReferencesGlyph();
 		this.listOfSpeciesReferencesGlyph = listOfSpeciesReferencesGlyph;
 		setThisAsParentSBMLObject(this.listOfSpeciesReferencesGlyph);
@@ -311,7 +311,7 @@ public class ReactionGlyph extends GraphicalObject {
 
 	private void unsetListOfSpeciesReferencesGlyph() {
 		if(this.listOfSpeciesReferencesGlyph != null){
-			ListOf<SpeciesReferencesGlyph> oldValue = this.listOfSpeciesReferencesGlyph;
+			ListOf<SpeciesReferenceGlyph> oldValue = this.listOfSpeciesReferencesGlyph;
 			this.listOfSpeciesReferencesGlyph = null;
 			oldValue.fireNodeRemovedEvent();
 		}
