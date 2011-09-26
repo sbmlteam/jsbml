@@ -25,9 +25,13 @@
   
     Version: $Rev$
   </comment>
+<!-- 
+     The extensions are not part of the core jsbml code now so will need to be added by hand later or
+     with some different(s) configuration file(s)
+
   <entry key="http://www.sbml.org/sbml/level3/version1/multi/version1">org.sbml.jsbml.xml.parsers.MultiParser</entry>
   <entry key="http://www.sbml.org/sbml/level3/version1/groups/version1">org.sbml.jsbml.xml.parsers.GroupsParser</entry>
-  <entry key="http://www.sbml.org/sbml/level3/version1/layout/version1">org.sbml.jsbml.xml.parsers.LayoutParser</entry>
+  <entry key="http://www.sbml.org/sbml/level3/version1/layout/version1">org.sbml.jsbml.xml.parsers.LayoutParser</entry> -->
   <entry key="http://www.sbml.org/sbml/level3/version1/core">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
   <entry key="http://www.sbml.org/sbml/level2/version2">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
   <entry key="http://www.sbml.org/sbml/level2/version3">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
