@@ -739,7 +739,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	@Override
 	public void fireNodeRemovedEvent() {
-		if (isSetMetaId()) {
+		if (isSetMetaId() || !isLeaf()) {
 			// update the set of meta identifiers within the SBMLDocument.
 			SBMLDocument doc = getSBMLDocument();
 			if (doc != null) {

@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -63,23 +64,33 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		final String idChar = "[" + letter + digit + underscore + "]";
 
 		if (level == 1) {
-			if (version == 1) {
-				String SNameL1V1 = underscore + "*[" + letter + "]" + idChar
-						+ '*';
-				return Pattern.matches(SNameL1V1, idCandidate);
-
-			} else if (version == 2) {
-				String SNameL1V2 = "[" + letter + underscore + "]" + idChar
-						+ '*';
-				return Pattern.matches(SNameL1V2, idCandidate);
-			}
+      String reservedNames[] = {"abs", "acos", "and", "asin", "atan", "ceil",
+        "cos", "exp", "floor", "hilli", "hillmmr", "hillmr", "hillr", "isouur",
+        "log", "log10", "massi", "massr", "not", "or", "ordbbr", "ordbur",
+        "ordubr", "pow", "ppbr", "sin", "sqr", "sqrt", "substance", "tan",
+        "time", "uai", "ualii", "uar", "ucii", "ucir", "ucti", "uctr", "uhmi",
+        "uhmr", "umai", "umar", "umi", "umr", "unii", "unir", "usii", "usir",
+        "uuci", "uucr", "uuhr", "uui", "uur", "volume", "xor"};
+      if (Arrays.binarySearch(reservedNames, idCandidate) < 0) {
+        if (version == 1) {
+          String SNameL1V1 = underscore + "*[" + letter + "]" + idChar + '*';
+          return Pattern.matches(SNameL1V1, idCandidate);
+        } else if (version == 2) {
+          String SNameL1V2 = "[" + letter + underscore + "]" + idChar + '*';
+          return !idCandidate.equals("uaii") /* a reserved name in L1V2 */
+            && Pattern.matches(SNameL1V2, idCandidate);
+        }
+      } else {
+        // id is one of the reserved names.
+        return false;
+      }
 		}
-
+		
 		// level undefined or level > 1
 		String SIdL2 = "[" + letter + underscore + "]" + idChar + '*';
 		return Pattern.matches(SIdL2, idCandidate);
 	}
-
+	
 	/**
 	 * id of the SBML component (can be optional depending on the level and
 	 * version). Matches the id attribute of an element in a SBML file.
