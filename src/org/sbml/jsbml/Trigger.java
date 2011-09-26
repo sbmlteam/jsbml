@@ -22,8 +22,8 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
@@ -267,7 +267,7 @@ public class Trigger extends AbstractMathContainer {
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 		if (isSetLevel() && (2 < getLevel())) {
 			if (isSetInitialValue()) {
 				attributes.put("initialValue", Boolean

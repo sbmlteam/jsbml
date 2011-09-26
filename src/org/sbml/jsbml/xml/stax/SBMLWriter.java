@@ -38,8 +38,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -65,13 +65,13 @@ import org.sbml.jsbml.History;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
@@ -120,16 +120,16 @@ public class SBMLWriter {
 	public static void main(String[] args) throws SBMLException {
 
 		if (args.length < 1) {
-			System.out
-					.println("Usage : java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
+			System.out.println(
+			  "Usage : java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
 			System.exit(0);
 		}
 
 		String fileName = args[0];
 		String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
 
-		System.out.println("Reading " + fileName + " and writing "
-				+ jsbmlWriteFileName);
+		System.out.printf("Reading %s and writing %s\n", 
+		  fileName, jsbmlWriteFileName);
 
 		SBMLDocument testDocument;
 		try {
@@ -346,8 +346,7 @@ public class SBMLWriter {
 	 * 
 	 */
 	public void initializePackageParserNamespaces() {
-		JSBML.loadClasses(
-				"org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml",
+		JSBML.loadClasses("org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml",
 				packageParsers);
 	}
 
@@ -356,7 +355,7 @@ public class SBMLWriter {
 	 * 
 	 * @return the map containing the ReadingParser instances.
 	 */
-	private HashMap<String, WritingParser> initializePackageParsers() {
+	private Map<String, WritingParser> initializePackageParsers() {
 		if (packageParsers.size() == 0) {
 			initializePackageParserNamespaces();
 		}
@@ -518,8 +517,8 @@ public class SBMLWriter {
 			String date = String.format("%1$tY-%1$tm-%1$td %1$tR", Calendar
 					.getInstance().getTime());
 			String msg = " Created by %s version %s on %s with jsbml version %s. ";
-			outputDocument.addComment(String
-					.format(msg, programName, (programVersion != null)
+			outputDocument.addComment(
+			  String.format(msg, programName, (programVersion != null)
 							&& (programVersion.length() > 0) ? programVersion
 							: "?", date, JSBML.getJSBMLDottedVersion()));
 			outputDocument.addCharacters("\n");
@@ -835,16 +834,16 @@ public class SBMLWriter {
 				}
 				if ((namespaceURI != null) && (elementName != null)
 						&& (prefix != null)) {
-					writer.writeCharacters(whiteSpace + "  ");
+					writer.writeCharacters(whiteSpace + createIndentationString(indentCount));
 					writer.writeStartElement(prefix, elementName, namespaceURI);
 					writer.writeCharacters("\n");
 					if (cvTerm.getNumResources() > 0) {
-						writer.writeCharacters(whiteSpace + "    ");
+						writer.writeCharacters(whiteSpace + createIndentationString(2 * indentCount));
 						writer.writeStartElement(rdfPrefix, "Bag",
 								Annotation.URI_RDF_SYNTAX_NS);
 						writer.writeCharacters("\n");
 						for (int j = 0; j < cvTerm.getNumResources(); j++) {
-							writer.writeCharacters(whiteSpace + "      ");
+							writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
 							writer.writeStartElement(rdfPrefix, "li",
 									Annotation.URI_RDF_SYNTAX_NS);
 							writer.writeAttribute(rdfPrefix,
@@ -853,10 +852,10 @@ public class SBMLWriter {
 							writer.writeEndElement();
 							writer.writeCharacters("\n");
 						}
-						writer.writeCharacters(whiteSpace + "    ");
+						writer.writeCharacters(whiteSpace + createIndentationString(2 * indentCount));
 						writer.writeEndElement();
 						writer.writeCharacters("\n");
-						writer.writeCharacters(whiteSpace + "  ");
+						writer.writeCharacters(whiteSpace + createIndentationString(indentCount));
 						writer.writeEndElement();
 						writer.writeCharacters("\n");
 					}
@@ -890,14 +889,14 @@ public class SBMLWriter {
 			writer.writeStartElement(creatorPrefix, "creator",
 					JSBML.URI_PURL_ELEMENTS);
 			writer.writeCharacters("\n");
-			writer.writeCharacters(whiteSpace + "  ");
+			writer.writeCharacters(whiteSpace + createIndentationString(indentCount));
 			writer.writeStartElement(rdfPrefix, "Bag",
 					Annotation.URI_RDF_SYNTAX_NS);
 			writer.writeCharacters("\n");
 
 			for (int i = 0; i < history.getNumCreators(); i++) {
 				Creator modelCreator = history.getCreator(i);
-				writer.writeCharacters(whiteSpace + "    ");
+				writer.writeCharacters(whiteSpace + createIndentationString(2 * indentCount));
 				writer.writeStartElement(rdfPrefix, "li",
 						Annotation.URI_RDF_SYNTAX_NS);
 				writer.writeAttribute(rdfPrefix, Annotation.URI_RDF_SYNTAX_NS,
@@ -907,7 +906,7 @@ public class SBMLWriter {
 				if (modelCreator.isSetFamilyName()
 						|| modelCreator.isSetGivenName()) {
 					writer.writeCharacters("\n");
-					writer.writeCharacters(whiteSpace + "      ");
+					writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
 					writer.writeStartElement(vCardPrefix, "N",
 							Creator.URI_RDF_VCARD_NS);
 					writer.writeAttribute(Annotation.URI_RDF_SYNTAX_NS,
@@ -915,7 +914,7 @@ public class SBMLWriter {
 					writer.writeCharacters("\n");
 
 					if (modelCreator.isSetFamilyName()) {
-						writer.writeCharacters(whiteSpace + "        ");
+						writer.writeCharacters(whiteSpace + createIndentationString(4 * indentCount));
 						writer.writeStartElement(vCardPrefix, "Family",
 								Creator.URI_RDF_VCARD_NS);
 						writer.writeCharacters(modelCreator.getFamilyName());
@@ -923,20 +922,20 @@ public class SBMLWriter {
 						writer.writeCharacters("\n");
 					}
 					if (modelCreator.isSetGivenName()) {
-						writer.writeCharacters(whiteSpace + "        ");
+						writer.writeCharacters(whiteSpace + createIndentationString(4 * indentCount));
 						writer.writeStartElement(vCardPrefix, "Given",
 								Creator.URI_RDF_VCARD_NS);
 						writer.writeCharacters(modelCreator.getGivenName());
 						writer.writeEndElement();
 						writer.writeCharacters("\n");
 					}
-					writer.writeCharacters(whiteSpace + "      ");
+					writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
 					writer.writeEndElement();
 					writer.writeCharacters("\n");
 				}
 
 				if (modelCreator.isSetEmail()) {
-					writer.writeCharacters(whiteSpace + "      ");
+					writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
 					writer.writeStartElement(vCardPrefix, "EMAIL",
 							Creator.URI_RDF_VCARD_NS);
 					writer.writeCharacters(modelCreator.getEmail());
@@ -944,28 +943,28 @@ public class SBMLWriter {
 					writer.writeCharacters("\n");
 				}
 				if (modelCreator.isSetOrganisation()) {
-					writer.writeCharacters(whiteSpace + "      ");
+					writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
 					writer.writeStartElement(vCardPrefix, "ORG",
 							Creator.URI_RDF_VCARD_NS);
 					writer.writeAttribute(rdfPrefix,
 							Annotation.URI_RDF_SYNTAX_NS, "parseType",
 							"Resource");
 					writer.writeCharacters("\n");
-					writer.writeCharacters(whiteSpace + "        ");
+					writer.writeCharacters(whiteSpace + createIndentationString(4 * indentCount));
 					writer.writeStartElement(vCardPrefix, "Orgname",
 							Creator.URI_RDF_VCARD_NS);
 					writer.writeCharacters(modelCreator.getOrganisation());
 					writer.writeEndElement();
 					writer.writeCharacters("\n");
-					writer.writeCharacters(whiteSpace + "      ");
+					writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
 					writer.writeEndElement();
 					writer.writeCharacters("\n");
 				}
-				writer.writeCharacters(whiteSpace + "    ");
+				writer.writeCharacters(whiteSpace + createIndentationString(2* indentCount));
 				writer.writeEndElement();
 				writer.writeCharacters("\n");
 			}
-			writer.writeCharacters(whiteSpace + "  ");
+			writer.writeCharacters(whiteSpace + createIndentationString(indentCount));
 			writer.writeEndElement();
 			writer.writeCharacters("\n");
 			writer.writeCharacters(whiteSpace);
@@ -1139,7 +1138,7 @@ public class SBMLWriter {
 			}
 		}
 		rdfElement.addCharacters("\n");
-		rdfElement.setIndentation(whiteSpace + "  ", indent + indentCount, indentCount);
+		rdfElement.setIndentation(whiteSpace + createIndentationString(indentCount), indent + indentCount, indentCount);
 		SMOutputElement descriptionElement = rdfElement.addElement(namespace,
 				"Description");
 		descriptionElement.addAttribute(namespace, "about",
@@ -1153,8 +1152,8 @@ public class SBMLWriter {
 			writeCVTerms(annotation.getListOfCVTerms(), rdfNamespaces, writer,
 					indent + indentCount);
 		}
-		descriptionElement.setIndentation(whiteSpace + "  ", indent + indentCount, indentCount);
-		descriptionElement.addCharacters(whiteSpace + "  ");
+		descriptionElement.setIndentation(whiteSpace + createIndentationString(indentCount), indent + indentCount, indentCount);
+		descriptionElement.addCharacters(whiteSpace + createIndentationString(indentCount));
 		annotationElement.setIndentation(whiteSpace, indent, indentCount);
 		rdfElement.addCharacters("\n");
 		rdfElement.addCharacters(whiteSpace);
@@ -1373,6 +1372,7 @@ public class SBMLWriter {
 						smOutputParentElement.addCharacters("\n");
 					}
 				}
+				// write the indent before closing the element
 				streamWriter.writeCharacters(whiteSpaces.substring(0,
 						indent - indentCount));
 			}
@@ -1423,7 +1423,7 @@ public class SBMLWriter {
 		writer.writeAttribute(rdfPrefix, Annotation.URI_RDF_SYNTAX_NS,
 				"parseType", "Resource");
 		writer.writeCharacters("\n");
-		writer.writeCharacters(whiteSpace + "  ");
+		writer.writeCharacters(whiteSpace + createIndentationString(indentCount));
 		writer.writeStartElement(dctermPrefix, "W3CDTF", JSBML.URI_PURL_TERMS);
 		writer.writeCharacters(dateISO);
 		writer.writeEndElement();

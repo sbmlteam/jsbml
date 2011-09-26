@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Stack;
 import java.util.Map.Entry;
 
@@ -79,13 +80,13 @@ public class SBMLReader {
 	 * Contains all the relationships namespace URI <=> {@link ReadingParser}
 	 * implementation classes.
 	 */
-	private HashMap<String, Class<? extends ReadingParser>> packageParsers = new HashMap<String, Class<? extends ReadingParser>>();
+	private Map<String, Class<? extends ReadingParser>> packageParsers = new HashMap<String, Class<? extends ReadingParser>>();
 
 	
 	/**
 	 * Contains all the initialized parsers.
 	 */
-	private HashMap<String, ReadingParser> initializedParsers = new HashMap<String, ReadingParser>();
+	private Map<String, ReadingParser> initializedParsers = new HashMap<String, ReadingParser>();
 
 
 	
@@ -95,12 +96,10 @@ public class SBMLReader {
 	 * 
 	 * @return the map containing the ReadingParser instances.
 	 */
-	private HashMap<String, ReadingParser> initializePackageParsers() 
-	{
+	private Map<String, ReadingParser> initializePackageParsers() {
 		if (packageParsers.size() == 0) {
 			initializePackageParserNamespaces();
 		}
-		
 		for (String namespace : packageParsers.keySet()) {
 			try {
 				initializedParsers.put(namespace, packageParsers.get(namespace).newInstance());
@@ -593,7 +592,8 @@ public class SBMLReader {
 					annotationDeepness++;
 				}
 				
-				if (currentNode.getLocalPart().equals("Description") && currentNode.getNamespaceURI().equals(Annotation.URI_RDF_SYNTAX_NS)) {
+				if (currentNode.getLocalPart().equals("Description") 
+				    && currentNode.getNamespaceURI().equals(Annotation.URI_RDF_SYNTAX_NS)) {
 					rdfDescriptionIndex++;
 				}
 
@@ -945,16 +945,14 @@ public class SBMLReader {
 	 */
 	private SBMLDocument processEndElement(QName currentNode, Boolean isNested, Boolean isText, 
 			Boolean isHTML, int level, int version, ReadingParser parser, 			
-			Stack<Object> sbmlElements, boolean isInsideAnnotation, boolean isRDFSBMLSpecificAnnotation) 
-	{
+			Stack<Object> sbmlElements, boolean isInsideAnnotation, boolean isRDFSBMLSpecificAnnotation) {
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		
 		logger.debug("event.isEndElement : stack.size = " + sbmlElements.size());
 		logger.debug("event.isEndElement : element name = " + currentNode.getLocalPart());
 		
 		if (currentNode.getLocalPart().equals("kineticLaw") || currentNode.getLocalPart().startsWith("listOf")
-				|| currentNode.getLocalPart().equals("math")) 
-		{
+				|| currentNode.getLocalPart().equals("math")) {
 			logger.debug("event.isEndElement : stack = " + sbmlElements);
 		}
 		
@@ -972,8 +970,7 @@ public class SBMLReader {
 			// to reset the typeOfNotes variable of the
 			// StringParser instance.
 			if (currentNode.getLocalPart().equals("notes")
-					|| currentNode.getLocalPart().equals("message"))
-			{
+					|| currentNode.getLocalPart().equals("message")) {
 				ReadingParser sbmlparser = initializedParsers.get(JSBML.URI_XHTML_DEFINITION);
 				if (sbmlparser instanceof StringParser) {
 					StringParser notesParser = (StringParser) sbmlparser;
@@ -981,12 +978,11 @@ public class SBMLReader {
 				}
 			}
 			// process the end of the element.
-			if (!sbmlElements.isEmpty() && parser != null) {
+			if (!sbmlElements.isEmpty() && (parser != null)) {
 				logger.debug("event.isEndElement : calling parser.processEndElement " + parser.getClass());
 
 				boolean popElementFromTheStack = parser.processEndElement(currentNode.getLocalPart(),
-								currentNode.getPrefix(), isNested,
-								sbmlElements.peek());
+								currentNode.getPrefix(), isNested, sbmlElements.peek());
 				// remove the top of the SBMLElements stack at the
 				// end of an element if this element is not the sbml
 				// element.
@@ -1015,7 +1011,7 @@ public class SBMLReader {
 							Entry<String, ReadingParser> entry = iterator.next();
 							ReadingParser sbmlParser = entry.getValue();
 							
-							if (! readingParserClasses.contains(sbmlParser.getClass().getCanonicalName())) {
+							if (!readingParserClasses.contains(sbmlParser.getClass().getCanonicalName())) {
 
 								readingParserClasses.add(sbmlParser.getClass().getCanonicalName());
 

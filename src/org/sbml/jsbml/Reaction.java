@@ -24,9 +24,9 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
-import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.filters.NameFilter;
 import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
 
@@ -1361,7 +1361,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetReversible()) {
 			attributes.put("reversible", Boolean.toString(getReversible()));

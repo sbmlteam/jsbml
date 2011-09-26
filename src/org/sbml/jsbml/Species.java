@@ -23,8 +23,8 @@ package org.sbml.jsbml;
 import java.util.Locale;
 import java.util.Map;
 
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * Represents the species XML element of a SBML file.
@@ -1113,7 +1113,7 @@ public class Species extends Symbol {
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 		Locale en = Locale.ENGLISH;
 		if (isSetCompartment()) {
 			attributes.put("compartment", getCompartment());

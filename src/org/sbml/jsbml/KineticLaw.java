@@ -1055,7 +1055,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 		if ((getLevel() == 1) || ((getLevel() == 2) && (getVersion() == 1))) {
 			if (isSetTimeUnits()) {
 				attributes.put(TreeNodeChangeEvent.timeUnits, getTimeUnits());

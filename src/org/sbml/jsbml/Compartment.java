@@ -23,8 +23,8 @@ package org.sbml.jsbml;
 import java.util.Locale;
 import java.util.Map;
 
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * Represents the compartment in a model, i.e., a variable element with name,
@@ -871,7 +871,7 @@ public class Compartment extends Symbol {
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 		int level = getLevel();
 		Locale en = Locale.ENGLISH;
 		if (level == 1) {

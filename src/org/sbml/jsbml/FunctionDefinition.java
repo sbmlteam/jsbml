@@ -451,7 +451,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetId() && (getLevel() > 1)) {
 			attributes.put("id", getId());

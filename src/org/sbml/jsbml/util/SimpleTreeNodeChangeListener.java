@@ -37,13 +37,18 @@ import org.apache.log4j.Logger;
  */
 public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 
-	Logger logger = Logger.getLogger(SimpleTreeNodeChangeListener.class);
+  /**
+   * 
+   */
+	private Logger logger;
 
 	/**
 	 * Creates an {@link TreeNodeChangeListener} that writes all events to the
 	 * standard output.
 	 */
 	public SimpleTreeNodeChangeListener() {
+	  super();
+	  logger = Logger.getLogger(SimpleTreeNodeChangeListener.class);
 	}
 
 	/**

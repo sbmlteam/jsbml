@@ -265,7 +265,7 @@ public class LocalParameter extends QuantityWithUnit {
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetValue()) {
 			attributes.put("value", StringTools.toString(Locale.ENGLISH,

@@ -25,8 +25,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
 
 /**
@@ -2199,7 +2199,7 @@ public class Unit extends AbstractSBase {
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 		
 		Locale en = Locale.ENGLISH;
 		if (isSetKind()) {

@@ -33,9 +33,9 @@ import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
-import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.validator.SBMLValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 
@@ -989,7 +989,7 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 
 		attributes.putAll(SBMLDocumentAttributes);
 

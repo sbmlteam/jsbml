@@ -563,7 +563,7 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 		if (isSetVariable()) {
 			if (getLevel() > 1) {
 				attributes.put("variable", getVariable());

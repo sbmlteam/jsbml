@@ -383,7 +383,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     List<UnitDefinition> oldValue = new ArrayList<UnitDefinition>(
       this.listOfPredefinedUnitDefinitions);
     
-    if (getLevel() == -1 || getVersion() == -1) { return; }
+    if ((getLevel() == -1) || (getVersion() == -1)) { 
+      return; 
+    }
     
     // ampere farad joule lux radian volt
     listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(

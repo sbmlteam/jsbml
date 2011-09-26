@@ -28,6 +28,7 @@ import java.util.Properties;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.text.parser.ParseException;
 
@@ -55,7 +56,7 @@ public class JSBML {
 	/**
 	 * The current version number of JSBML.
 	 */
-	private static final String jsbmlVersion = "0.8-b1"; // TODO : replace automatically this version number with [BUILD.NUMBER]
+	private static final String jsbmlVersion = "0.8-rc1"; // TODO : replace automatically this version number with [BUILD.NUMBER]
 	
 	public static final int LEVEL_MISMATCH = -7;
 	public static final int OPERATION_FAILED = -3;
@@ -198,25 +199,26 @@ public class JSBML {
     @SuppressWarnings("unchecked")
     public static <T> void loadClasses(String path,
     		Map<String, Class<? extends T>> whereToPutProperties) {
+      Logger logger = Logger.getLogger(JSBML.class);
     	Properties p = new Properties();
     	try {
     		p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
     				path));
     		for (Map.Entry<Object, Object> entry : p.entrySet()) {
-    			whereToPutProperties.put(entry.getKey().toString(),
-    					(Class<T>) Class.forName(entry.getValue().toString()));
+    			try {
+            whereToPutProperties.put(entry.getKey().toString(),
+            		(Class<T>) Class.forName(entry.getValue().toString()));
+          } catch (ClassNotFoundException e) {
+            logger.debug(String.format("Could not load class %s.", e.getMessage()));
+          }
     		}
     	} catch (InvalidPropertiesFormatException e) {
     		throw new IllegalArgumentException(String.format(
     				"The format of the file %s is incorrect.", path));
     	} catch (IOException e) {
     		throw new IllegalArgumentException(String.format(
-    				"There was a problem opening the file %s.", path));
-    	} catch (ClassNotFoundException e) {
-    		throw new IllegalArgumentException(
-    				String.format(
-    								"There was a problem loading the file %s: %s. Please make sure the resources directory is included in the Java class path.",
-    								path, e.getMessage()));
+    				"There was a problem opening the file %s. Please make sure the resources directory is included in the Java class path.", 
+    				path));
     	}
     }	 
  
