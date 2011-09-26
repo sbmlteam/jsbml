@@ -41,7 +41,7 @@ import org.sbml.jsbml.ext.layout.LineSegment;
 import org.sbml.jsbml.ext.layout.Point;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
-import org.sbml.jsbml.ext.layout.SpeciesReferencesGlyph;
+import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 import org.sbml.jsbml.xml.parsers.ReadingParser;
 import org.sbml.jsbml.xml.parsers.WritingParser;
@@ -338,8 +338,8 @@ public class LayoutParser implements ReadingParser, WritingParser {
 					}
 					else if(elementName.equals("speciesReferenceGlyph") /*&& this.groupList.equals(LayoutList.listOfSpeciesReferenceGlyphs)*/)
 					{
-						ListOf<SpeciesReferencesGlyph> listOfSpeciesReferenceGlyph = (ListOf<SpeciesReferencesGlyph>) listOf;
-						SpeciesReferencesGlyph speicesReferenceGlyph = (SpeciesReferencesGlyph) newContextObject;
+						ListOf<SpeciesReferenceGlyph> listOfSpeciesReferenceGlyph = (ListOf<SpeciesReferenceGlyph>) listOf;
+						SpeciesReferenceGlyph speicesReferenceGlyph = (SpeciesReferenceGlyph) newContextObject;
 						listOfSpeciesReferenceGlyph.add(speicesReferenceGlyph);
 						return speicesReferenceGlyph;
 					}
@@ -431,7 +431,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 					else if(elementName.equals("listOfSpeciesReferenceGlyphs")  /*&& this.groupList.equals(LayoutList.listOfReactionGlyphs)*/)
 					{
 						this.groupList = LayoutList.listOfSpeciesReferenceGlyphs;
-						ListOf<SpeciesReferencesGlyph> listOfSpeciesReferencesGlyph = (ListOf<SpeciesReferencesGlyph>) newContextObject;
+						ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph = (ListOf<SpeciesReferenceGlyph>) newContextObject;
 						listOfSpeciesReferencesGlyph.addNamespace(namespaceURI);
 						reactionGlyph.setListOfSpeciesReferencesGlyph(listOfSpeciesReferencesGlyph);
 						return listOfSpeciesReferencesGlyph;
@@ -444,8 +444,8 @@ public class LayoutParser implements ReadingParser, WritingParser {
 						curve.setListOfCurveSegments(listOfCurveSegments);
 						return listOfCurveSegments;
 					}					
-				} else if(contextObject instanceof SpeciesReferencesGlyph){
-					SpeciesReferencesGlyph speciesReferenceGlyph = (SpeciesReferencesGlyph) contextObject;
+				} else if(contextObject instanceof SpeciesReferenceGlyph){
+					SpeciesReferenceGlyph speciesReferenceGlyph = (SpeciesReferenceGlyph) contextObject;
 					if(elementName.equals("curve") )
 					{
 						Curve curve = (Curve) newContextObject;

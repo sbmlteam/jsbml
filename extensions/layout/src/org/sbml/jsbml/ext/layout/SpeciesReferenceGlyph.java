@@ -32,7 +32,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 0.8
  * @version $Rev$
  */
-public class SpeciesReferencesGlyph extends AbstractNamedSBase {
+public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 
 	/**
 	 * Generated serial version identifier.
@@ -64,7 +64,7 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
-	public SpeciesReferencesGlyph() {
+	public SpeciesReferenceGlyph() {
 		super();
 	}
 
@@ -73,7 +73,7 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	 * @param level
 	 * @param version
 	 */
-	public SpeciesReferencesGlyph(int level, int version) {
+	public SpeciesReferenceGlyph(int level, int version) {
 		super(level, version);
 	}
 
@@ -81,12 +81,12 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	 * 
 	 * @param speciesReferencesGlyph
 	 */
-	public SpeciesReferencesGlyph(SpeciesReferencesGlyph speciesReferencesGlyph) {
+	public SpeciesReferenceGlyph(SpeciesReferenceGlyph speciesReferencesGlyph) {
 		super(speciesReferencesGlyph);
 		// TODO Auto-generated constructor stub
 	}
 
-	public SpeciesReferencesGlyph(String id) {
+	public SpeciesReferenceGlyph(String id) {
 		super(id);
 	}
 	
@@ -96,8 +96,8 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	@Override
-	public SpeciesReferencesGlyph clone() {
-		return new SpeciesReferencesGlyph(this);
+	public SpeciesReferenceGlyph clone() {
+		return new SpeciesReferenceGlyph(this);
 	}
 	
 	/*
@@ -108,7 +108,7 @@ public class SpeciesReferencesGlyph extends AbstractNamedSBase {
 	public boolean equals(Object object) {
 		boolean equals = super.equals(object);
 		if (equals) {
-			SpeciesReferencesGlyph s = (SpeciesReferencesGlyph) object;
+			SpeciesReferenceGlyph s = (SpeciesReferenceGlyph) object;
 			equals &= s.isSetId() == isSetId();
 			if (equals && isSetId()) {
 				equals &= s.getId().equals(getId());

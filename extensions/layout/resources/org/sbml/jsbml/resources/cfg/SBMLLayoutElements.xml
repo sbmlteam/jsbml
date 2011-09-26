@@ -38,7 +38,7 @@
   <entry key="layout">org.sbml.jsbml.ext.layout.Layout</entry>  
   <entry key="reactionGlyph">org.sbml.jsbml.ext.layout.ReactionGlyph</entry>
   <entry key="curve">org.sbml.jsbml.ext.layout.Curve</entry>
-  <entry key="speciesReferenceGlyph">org.sbml.jsbml.ext.layout.SpeciesReferencesGlyph</entry>
+  <entry key="speciesReferenceGlyph">org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph</entry>
   <entry key="lineSegment">org.sbml.jsbml.ext.layout.LineSegment</entry>
   <entry key="start">org.sbml.jsbml.ext.layout.Point</entry>
   <entry key="end">org.sbml.jsbml.ext.layout.Point</entry>
