@@ -270,7 +270,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				u.addCVTerm(new CVTerm(Qualifier.BQB_IS, resource));
 			}
 		}
-		UnitDefinition ud = new UnitDefinition(id, level, version);
+		UnitDefinition ud = new UnitDefinition(id + "_predefined", level, version);
 		ud.setName("Predefined unit " + id);
 		ud.addUnit(u);
 		return ud;
