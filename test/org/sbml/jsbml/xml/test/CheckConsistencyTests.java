@@ -32,7 +32,11 @@ import org.sbml.jsbml.validator.SBMLValidator;
 
 /**
  * 
- * @author
+ * @author  Nicolas Rodriguez
+ * @author  Akiya Jouraku
+ * @author  Sarah Keating 
+ * @since 0.8
+ * @version $Rev$
  */
 public class CheckConsistencyTests {
 	
@@ -46,6 +50,9 @@ public class CheckConsistencyTests {
 		if (DATA_FOLDER == null) {
 			DATA_FOLDER = System.getProperty("DATA_FOLDER"); 
 		}
+		if (DATA_FOLDER == null) {
+      DATA_FOLDER = System.getProperty("user.dir") + "/test/org/sbml/jsbml/xml/test/data";
+    }
 	}
 
 	/**

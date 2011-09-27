@@ -3,10 +3,6 @@
  * @file    TestL3Parameter.java
  * @brief   L3 Parameter unit tests
  *
- * @author  Nicolas Rodriguez (JSBML conversion)
- * @author  Akiya Jouraku (Java conversion)
- * @author  Sarah Keating 
- *
  * This test file was converted from libsbml http://sbml.org/software/libsbml
  *
  * $Id$

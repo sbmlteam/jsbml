@@ -3,10 +3,6 @@
  * @file    TestReadFromFile1.java
  * @brief   Reads tests/l1v1-branch.xml into memory and tests it.
  *
- * @author  Nicolas Rodriguez (JSBML conversion)
- * @author  Akiya Jouraku (Java conversion)
- * @author  Ben Bornstein 
- *
  * This test file was converted from libsbml http://sbml.org/software/libsbml
  *
  * $Id$
@@ -51,7 +47,9 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
  * 
- * @author
+ * @author  Nicolas Rodriguez
+ * @author  Akiya Jouraku
+ * @author  Ben Bornstein 
  * @since 0.8
  * @version $Rev$
  */
@@ -60,14 +58,15 @@ public class TestReadFromFile1 {
 	public static String DATA_FOLDER = null;
 
 	static {
-
 		if (DATA_FOLDER == null) {
 			DATA_FOLDER = System.getenv("DATA_FOLDER");
 		}
 		if (DATA_FOLDER == null) {
 			DATA_FOLDER = System.getProperty("DATA_FOLDER");
 		}
-
+		if (DATA_FOLDER == null) {
+		  DATA_FOLDER = System.getProperty("user.dir") + "/test/org/sbml/jsbml/xml/test/data";
+		}
 	}
 
 	/**

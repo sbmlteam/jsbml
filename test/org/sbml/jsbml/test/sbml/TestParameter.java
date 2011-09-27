@@ -3,10 +3,6 @@
  * @file    TestParameter.java
  * @brief   Parameter unit tests
  *
- * @author  Nicolas Rodriguez (JSBML conversion)
- * @author  Akiya Jouraku (Java conversion)
- * @author  Ben Bornstein 
- *
  * This test file was converted libsbml http://sbml.org/software/libsbml
  *
  * $Id$
@@ -43,7 +39,9 @@ import org.sbml.jsbml.Parameter;
 
 /**
  * 
- * @author
+ * @author  Nicolas Rodriguez
+ * @author  Akiya Jouraku
+ * @author  Ben Bornstein 
  * @since 0.8
  * @version $Rev$
  *

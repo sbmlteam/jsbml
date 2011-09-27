@@ -375,13 +375,20 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#add(java.lang.Object)
 	 */
 	public boolean add(T e) {
-		Logger logger = Logger.getLogger(getClass());
-		if (contains(e)) {
-      logger.error(String.format(
-        "The %s already contains an element similar to '%s'. The new element will not get added to the list.",
-        listType, e));
-			return false;
-		}
+	  /*
+	   * Test if another pointer to the given element has already been added to this list:
+	   */
+		int i = 0;
+    for (T curr : listOf) {
+      if (curr == e) {
+        Logger logger = Logger.getLogger(getClass());
+        logger.error(String.format(
+          "The %s already contains the given element '%s'. The new element will not be added twice to the list.",
+          listType, e));
+        return false;
+      }
+      i++;
+    }
 		
 		/*
 		 * Calling the method setThisAsParentSBMLObject before adding the object
@@ -391,7 +398,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		 * exception if this is not the case.
 		 */
 		setThisAsParentSBMLObject(e);
-		
 		return listOf.add(e);
 	}
 

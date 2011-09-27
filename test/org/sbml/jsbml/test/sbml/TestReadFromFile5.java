@@ -2,9 +2,6 @@
  * @file    TestReadFromFile5.java
  * @brief   Reads test-data/l2v1-assignment.xml into memory and tests it.
  *
- * @author  Akiya Jouraku (Java conversion)
- * @author  Ben Bornstein 
- *
  * This test file was converted from libsbml http://sbml.org/software/libsbml
  *
  * $Id$
@@ -50,7 +47,8 @@ import org.sbml.jsbml.UnitDefinition;
 
 /**
  * 
- * @author
+ * @author  Akiya Jouraku
+ * @author  Ben Bornstein
  * @since 0.8
  * @version $Rev$
  */
@@ -59,18 +57,23 @@ public class TestReadFromFile5 {
 	public static String DATA_FOLDER = null;
 
 	static {
-
 		if (DATA_FOLDER == null) {
 			DATA_FOLDER = System.getenv("DATA_FOLDER");
 		}
 		if (DATA_FOLDER == null) {
 			DATA_FOLDER = System.getProperty("DATA_FOLDER");
 		}
-
+		if (DATA_FOLDER == null) {
+      DATA_FOLDER = System.getProperty("user.dir") + "/test/org/sbml/jsbml/xml/test/data";
+    }
 	}
 
 
-
+  /**
+   * 
+   * @param condition
+   * @throws AssertionError
+   */
   static void assertTrue(boolean condition) throws AssertionError
   {
     if (condition == true)
@@ -80,6 +83,12 @@ public class TestReadFromFile5 {
     throw new AssertionError();
   }
 
+  /**
+   * 
+   * @param a
+   * @param b
+   * @throws AssertionError
+   */
   static void assertEquals(Object a, Object b) throws AssertionError
   {
     if ( (a == null) && (b == null) )
@@ -98,6 +107,12 @@ public class TestReadFromFile5 {
     throw new AssertionError();
   }
 
+  /**
+   * 
+   * @param a
+   * @param b
+   * @throws AssertionError
+   */
   static void assertNotEquals(Object a, Object b) throws AssertionError
   {
     if ( (a == null) && (b == null) )
@@ -114,6 +129,12 @@ public class TestReadFromFile5 {
     }
   }
 
+  /**
+   * 
+   * @param a
+   * @param b
+   * @throws AssertionError
+   */
   static void assertEquals(boolean a, boolean b) throws AssertionError
   {
     if ( a == b )
@@ -123,6 +144,12 @@ public class TestReadFromFile5 {
     throw new AssertionError();
   }
 
+  /**
+   * 
+   * @param a
+   * @param b
+   * @throws AssertionError
+   */
   static void assertNotEquals(boolean a, boolean b) throws AssertionError
   {
     if ( a != b )
@@ -132,6 +159,12 @@ public class TestReadFromFile5 {
     throw new AssertionError();
   }
 
+  /**
+   * 
+   * @param a
+   * @param b
+   * @throws AssertionError
+   */
   static void assertEquals(int a, int b) throws AssertionError
   {
     if ( a == b )
@@ -141,6 +174,12 @@ public class TestReadFromFile5 {
     throw new AssertionError();
   }
 
+  /**
+   * 
+   * @param a
+   * @param b
+   * @throws AssertionError
+   */
   static void assertNotEquals(int a, int b) throws AssertionError
   {
     if ( a != b )
@@ -150,6 +189,9 @@ public class TestReadFromFile5 {
     throw new AssertionError();
   }
 
+  /**
+   * 
+   */
   @SuppressWarnings("deprecation")
 @Test public void test_read_l2v1_assignment()
   {
@@ -288,20 +330,20 @@ public class TestReadFromFile5 {
     kl = r.getKineticLaw();
     assertTrue( kl != null );
     assertTrue( kl.getFormula().equals( "k1*X0") );
-    assertTrue( kl.getNumParameters() == 1 );
+    assertTrue( kl.getLocalParameterCount() == 1 );
     r1 = (Reaction) kl.getParentSBMLObject();
     assertTrue( r1 != null );
     assertTrue( r1.getId().equals( "in") );
     assertTrue( r1.getNumReactants() == 1 );
     assertTrue( r1.getNumProducts() == 1 );
-    lp = kl.getParameter(0);
+    lp = kl.getLocalParameter(0);
     assertTrue( lp != null );
     assertTrue( lp.getId().equals( "k1") );
     assertTrue( lp.getValue() == 0.1 );
     kl = (KineticLaw) lp.getParentSBMLObject().getParentSBMLObject();
     assertTrue( kl != null );
     assertTrue( kl.getFormula().equals( "k1*X0") );
-    assertTrue( kl.getNumParameters() == 1 );
+    assertTrue( kl.getLocalParameterCount() == 1 );
     r = m.getReaction(1);
     assertTrue( r != null );
     assertTrue( r.getId().equals( "out") );
@@ -316,8 +358,8 @@ public class TestReadFromFile5 {
     kl = r.getKineticLaw();
     assertTrue( kl != null );
     assertTrue( kl.getFormula().equals( "k2*T") );
-    assertTrue( kl.getNumParameters() == 1 );
-    lp = kl.getParameter(0);
+    assertTrue( kl.getLocalParameterCount() == 1 );
+    lp = kl.getLocalParameter(0);
     assertTrue( lp != null );
     assertTrue( lp.getId().equals( "k2") );
     assertTrue( lp.getValue() == 0.15 );

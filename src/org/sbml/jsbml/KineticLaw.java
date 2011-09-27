@@ -330,19 +330,29 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	}
 
 	/**
-	 * 
-	 * @return the number of {@link LocalParameter} instances in this
-	 *         {@link KineticLaw} instance.
-	 */
-	public int getNumLocalParameters() {
-		return isSetListOfLocalParameters() ? listOfLocalParameters.size() : 0;
-	}
+   * @return the number of {@link LocalParameter} instances in this
+   *         {@link KineticLaw} instance.
+   */
+  public int getLocalParameterCount() {
+    return isSetListOfLocalParameters() ? listOfLocalParameters.size() : 0;
+  }
 
 	/**
 	 * 
 	 * @return the number of {@link LocalParameter} instances in this
 	 *         {@link KineticLaw} instance.
-	 * @deprecated use {@link #getNumLocalParameters()}
+	 * @deprecated use {@link #getLocalParameterCount()}
+	 */
+	@Deprecated
+	public int getNumLocalParameters() {
+		return getLocalParameterCount();
+	}
+
+  /**
+	 * 
+	 * @return the number of {@link LocalParameter} instances in this
+	 *         {@link KineticLaw} instance.
+	 * @deprecated use {@link #getLocalParameterCount()}
 	 */
 	@Deprecated
 	public int getNumParameters() {

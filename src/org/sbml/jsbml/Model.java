@@ -60,7 +60,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Error message to indicate that an element could not be created.
    */
-  private static final String COULD_NOT_CREATE_ELEMENT_MSG = "Could not create %s because no %s have been defined yet.\n";
+  private static final String COULD_NOT_CREATE_ELEMENT_MSG = "Could not create %s because no %s have been defined yet.";
   
   /**
    * 
@@ -887,7 +887,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the {@link KineticLaw} object created
    */
   public KineticLaw createKineticLaw() {
-    
     Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
     
     if (lastReaction == null) {
@@ -938,11 +937,13 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     
     if (lastReaction == null) {
       logger.warn(String.format(COULD_NOT_CREATE_ELEMENT_MSG,
-        "Parameter for KineticLaw", "reactions"));
+        "LocalParameter for KineticLaw", "reactions"));
       return null;
     } else {
       lastKineticLaw = lastReaction.getKineticLaw();
-      if (lastKineticLaw == null) { return null; }
+      if (lastKineticLaw == null) { 
+        return null; 
+      }
     }
     
     LocalParameter parameter = new LocalParameter(id, getLevel(), getVersion());
@@ -1030,6 +1031,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return createProduct(null);
   }
   
+  /**
+   * 
+   * @param id
+   * @return
+   */
   public SpeciesReference createProduct(String id) {
     Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
     

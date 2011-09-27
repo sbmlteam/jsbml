@@ -44,7 +44,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
  * 
- * @author
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
@@ -60,6 +60,9 @@ public class SBML_L1VxTests {
 		if (DATA_FOLDER == null) {
 			DATA_FOLDER = System.getProperty("DATA_FOLDER"); 
 		}
+		if (DATA_FOLDER == null) {
+      DATA_FOLDER = System.getProperty("user.dir") + "/test/org/sbml/jsbml/xml/test/data";
+    }
 	}
 
 	/**
@@ -126,8 +129,8 @@ public class SBML_L1VxTests {
 		KineticLaw rdClkKL = r1.getKineticLaw();
 
 		assertTrue(rdClkKL != null);
-		assertTrue(rdClkKL.getListOfParameters().size() == 1);
-		assertTrue(rdClkKL.getListOfParameters().get(0).getName().equals("k1"));
+		assertTrue(rdClkKL.getListOfLocalParameters().size() == 1);
+		assertTrue(rdClkKL.getListOfLocalParameters().get(0).getName().equals("k1"));
 		
 		System.out.println("L1V2 formula = " + rdClkKL.getFormula());
 	}
@@ -205,6 +208,10 @@ public class SBML_L1VxTests {
 		
 		int nbRateRules = model.getListOfRules().filterList(new Filter() {
 			
+		  /*
+		   * (non-Javadoc)
+		   * @see org.sbml.jsbml.util.filters.Filter#accepts(java.lang.Object)
+		   */
 			public boolean accepts(Object o) {
 				if (o instanceof RateRule) {
 					return true;
@@ -216,6 +223,10 @@ public class SBML_L1VxTests {
 
 		int nbAssignmentRules = model.getListOfRules().filterList(new Filter() {
 			
+		  /*
+		   * (non-Javadoc)
+		   * @see org.sbml.jsbml.util.filters.Filter#accepts(java.lang.Object)
+		   */
 			public boolean accepts(Object o) {
 				if (o instanceof AssignmentRule) {
 					return true;
