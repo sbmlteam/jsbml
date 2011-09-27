@@ -31,6 +31,7 @@ import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.ValuePair;
 
 /**
  * Represents the unitDefinition XML element of a SBML file.
@@ -270,10 +271,17 @@ public class UnitDefinition extends AbstractNamedSBase {
 				u.addCVTerm(new CVTerm(Qualifier.BQB_IS, resource));
 			}
 		}
-		UnitDefinition ud = new UnitDefinition(id + "_predefined", level, version);
-		ud.setName("Predefined unit " + id);
-		ud.addUnit(u);
-		return ud;
+    String name = " unit" + id;
+    if (!Unit.isPredefined(id, level)) {
+      id += "_base";
+      name = "Base" + name;
+    } else {
+      name = "Predefined" + name;
+    }
+    UnitDefinition ud = new UnitDefinition(id, level, version);
+    ud.setName(name);
+    ud.addUnit(u);
+    return ud;
 	}
 
 	/**
@@ -1037,14 +1045,14 @@ public class UnitDefinition extends AbstractNamedSBase {
   @Override
   public void setId(String id) {
     // This test should be performed in order to ensure valid identifiers for Units:
-    /*ValuePair<Integer, Integer> lv = getLevelAndVersion();
+    ValuePair<Integer, Integer> lv = getLevelAndVersion();
     if ((0 <= lv.compareTo(Integer.valueOf(2), Integer.valueOf(3)))
       && Unit.Kind.isValidUnitKindString(id, lv.getL().intValue(),
         lv.getV().intValue())) {
       throw new IllegalArgumentException(String.format(
                 "Cannot use the name %s of a unit base kind as an identifier for a UnitDefinition.",
                 id));
-    }*/
+    }
     super.setId(id);
   }
 
