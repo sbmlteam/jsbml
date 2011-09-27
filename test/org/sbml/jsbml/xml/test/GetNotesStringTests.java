@@ -17,11 +17,10 @@
 
 package org.sbml.jsbml.xml.test;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.InvalidPropertiesFormatException;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -32,7 +31,7 @@ import org.sbml.jsbml.SBMLReader;
 
 /**
  * 
- * @author
+ * @author Nicolas Rodriguez
  */
 public class GetNotesStringTests {
 	
@@ -46,6 +45,9 @@ public class GetNotesStringTests {
 		if (DATA_FOLDER == null) {
 			DATA_FOLDER = System.getProperty("DATA_FOLDER"); 
 		}
+		if (DATA_FOLDER == null) {
+      DATA_FOLDER = System.getProperty("user.dir") + "/test/org/sbml/jsbml/xml/test/data";
+    }
 	}
 
 	/**

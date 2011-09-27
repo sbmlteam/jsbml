@@ -47,7 +47,7 @@ import org.xml.sax.SAXException;
 
 /**
  * 
- * @author
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  *
@@ -69,7 +69,9 @@ public class SBML_L2V1Test {
 		if (DATA_FOLDER == null) {
 			DATA_FOLDER = System.getProperty("DATA_FOLDER"); 
 		}
-		
+		if (DATA_FOLDER == null) {
+      DATA_FOLDER = System.getProperty("user.dir") + "/test/org/sbml/jsbml/xml/test/data";
+    }
 	}
 	
 	@BeforeClass public static void initialSetUp() {

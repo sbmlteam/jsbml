@@ -3,10 +3,6 @@
  * @file    TestReaction.java
  * @brief   SBML Reaction unit tests
  *
- * @author  Nicolas Rodriguez (JSBML conversion)
- * @author  Akiya Jouraku (Java conversion)
- * @author  Ben Bornstein 
- *
  * This test file was converted from libsbml http://sbml.org/software/libsbml
  *
  * $Id$
@@ -43,8 +39,9 @@ import org.sbml.jsbml.SpeciesReference;
 
 
 /**
- * 
- * @author
+ * @author  Nicolas Rodriguez
+ * @author  Akiya Jouraku
+ * @author  Ben Bornstein 
  * @since 0.8
  * @version $Rev$
  */

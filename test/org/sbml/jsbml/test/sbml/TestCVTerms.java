@@ -2,9 +2,6 @@
  * @file    TestCVTerms.java
  * @brief   CVTerms unit tests
  *
- * @author  Akiya Jouraku (Java conversion)
- * @author  Sarah Keating 
- *
  * This test file was converted from libsbml http://sbml.org/software/libsbml
  *
  * $Id$
@@ -34,6 +31,8 @@ import org.junit.Test;
 import org.sbml.jsbml.CVTerm;
 
 /**
+ * @author  Akiya Jouraku
+ * @author  Sarah Keating
  * @since 0.8
  * @version $Rev$
  */

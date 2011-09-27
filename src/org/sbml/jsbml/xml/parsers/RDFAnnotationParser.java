@@ -180,7 +180,7 @@ public class RDFAnnotationParser implements ReadingParser{
 
 		if (!model.hasValidAnnotation()){
 			setRDFAbout(model);
-			logger.warn("The Model element has an invalid rdf:about inside his annotation.");			
+			logger.warn(String.format("The model element with metaid = '%s' has an invalid rdf:about = '%s' inside his annotation.", model.getMetaId(), model.getAnnotation().getAbout()));	
 		}
 
 		if (model.isSetListOfFunctionDefinitions()){

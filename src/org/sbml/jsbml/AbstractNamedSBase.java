@@ -67,10 +67,14 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
       String reservedNames[] = {"abs", "acos", "and", "asin", "atan", "ceil",
         "cos", "exp", "floor", "hilli", "hillmmr", "hillmr", "hillr", "isouur",
         "log", "log10", "massi", "massr", "not", "or", "ordbbr", "ordbur",
-        "ordubr", "pow", "ppbr", "sin", "sqr", "sqrt", "substance", "tan",
-        "time", "uai", "ualii", "uar", "ucii", "ucir", "ucti", "uctr", "uhmi",
-        "uhmr", "umai", "umar", "umi", "umr", "unii", "unir", "usii", "usir",
-        "uuci", "uucr", "uuhr", "uui", "uur", "volume", "xor"};
+        "ordubr", "pow", "ppbr", "sin", "sqr", "sqrt", "tan", "uai", "ualii",
+        "uar", "ucii", "ucir", "ucti", "uctr", "uhmi", "uhmr", "umai", "umar",
+        "umi", "umr", "unii", "unir", "usii", "usir", "uuci", "uucr", "uuhr",
+        "uui", "uur", "xor"};
+      /*
+       * These reserved words can occur in case of UnitDefinitions:
+       * "substance", "time", "volume"
+       */
       if (Arrays.binarySearch(reservedNames, idCandidate) < 0) {
         if (version == 1) {
           String SNameL1V1 = underscore + "*[" + letter + "]" + idChar + '*';
@@ -188,10 +192,10 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 *             if the given id is not valid in this model.
 	 */
 	boolean checkIdentifier(String sID) {
-		if ((sID == null) || !isValidId(sID, getLevel(), getVersion())) {
-			throw new IllegalArgumentException(String.format(
-					"\"%s\" is not a valid identifier.", sID));
-		}
+    if ((sID == null) || !isValidId(sID, getLevel(), getVersion())) {
+      throw new IllegalArgumentException(String.format(
+        "\"%s\" is not a valid identifier for this %s.", sID, getElementName()));
+    }
 		return true;
 	}
 	

@@ -1054,20 +1054,33 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#hasValidAnnotation()
 	 */
-	public boolean hasValidAnnotation() {
-		if (isSetAnnotation()) {
-			if (isSetMetaId()) {
-				if (getAnnotation().getAbout().equals('#' + getMetaId())) {
-					return true;
-				}
-			}
-			if (getAnnotation().isSetNonRDFannotation() && !getAnnotation().isSetRDFannotation()) {
-				return true;
-			}
-			return false;
-		}
-		return true;
-	}
+  public boolean hasValidAnnotation() {
+    if (isSetAnnotation()) {
+      if (isSetMetaId()) {
+        Annotation annotation = getAnnotation();
+        if (!annotation.isSetAbout()) {
+          /* 
+           * Ok, let's set this about tag silently because
+           * when writing SBML, we would set this tag anyway.
+           * This method just complains incorrectly set about
+           * tags.
+           */
+          annotation.setAbout('#' + getMetaId());
+          return true;
+        }
+        if (annotation.getAbout().equals('#' + getMetaId())) {
+          return true;
+        }
+      }
+      if (getAnnotation().isSetNonRDFannotation()
+        && !getAnnotation().isSetRDFannotation()) {
+        return true;
+      }
+      return false;
+    }
+    return true;
+  }
+
 
 	/*
 	 * (non-Javadoc)
