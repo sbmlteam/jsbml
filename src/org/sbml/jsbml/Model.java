@@ -92,6 +92,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   private ListOf<Compartment> listOfCompartments;
   /**
    * Represents the listOfCompartmentTypes subnode of a model element.
+   * @deprecated only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   private ListOf<CompartmentType> listOfCompartmentTypes;
@@ -143,6 +144,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   
   /**
    * Represents the listOfSpeciesTypes subnode of a model element.
+   * @deprecated only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   private ListOf<SpeciesType> listOfSpeciesTypes;
@@ -2592,7 +2594,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public String getSubstanceUnits() {
     if (isSetSubstanceUnits()) {
       return substanceUnitsID;
-    } else if (getLevel() < 3) { return UnitDefinition.SUBSTANCE; }
+    } else if (getLevel() < 3) { 
+      return UnitDefinition.SUBSTANCE; 
+    }
     return "";
   }
   
@@ -2616,7 +2620,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public String getTimeUnits() {
     if (isSetTimeUnits()) {
       return timeUnitsID;
-    } else if (getLevel() < 3) { return UnitDefinition.TIME; }
+    } else if (getLevel() < 3) {
+      return UnitDefinition.TIME; 
+    }
     return "";
   }
   
@@ -2675,7 +2681,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public String getVolumeUnits() {
     if (isSetVolumeUnits()) {
       return volumeUnitsID;
-    } else if (getLevel() < 3) { return UnitDefinition.VOLUME; }
+    } else if (getLevel() < 3) {
+      return UnitDefinition.VOLUME;
+    }
     return "";
   }
   

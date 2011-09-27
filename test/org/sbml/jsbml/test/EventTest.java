@@ -65,7 +65,7 @@ public class EventTest extends SimpleTreeNodeChangeListener {
 		ev.createEventAssignment("s1", ASTNode.parseFormula("s2"));
 		System.out.println("==================================");
 		new SBMLWriter().write(doc, System.out);
-		System.out.println("==================================");
+		System.out.println("\n==================================");
 		doc.setLevelAndVersion(2, 4);
 		System.out.println("==================================");
 		new SBMLWriter().write(doc, System.out);

@@ -270,7 +270,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.Unit.Kind)
 	 */
 	public void setUnits(Kind unitKind) {
-		setUnits(new Unit(unitKind, getLevel(), getVersion()));
+		setUnits(unitKind.toString());
 	}
 
 	/*

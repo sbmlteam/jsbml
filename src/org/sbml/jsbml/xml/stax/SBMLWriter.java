@@ -504,7 +504,7 @@ public class SBMLWriter {
 		String SBMLNamespace = getNamespaceFrom(sbmlDocument.getLevel(),
 				sbmlDocument.getVersion());
 		SMOutputContext context = outputDocument.getContext();
-		context.setIndentation("\n  ", 1, 2);
+		context.setIndentation("\n" + createIndentationString(indentCount), 1, 2);
 		SMNamespace namespace = context.getNamespace(SBMLNamespace);
 		namespace.setPreferredPrefix("");
 		outputDocument.addCharacters("\n");
@@ -619,6 +619,11 @@ public class SBMLWriter {
 				fileName)), programName, programVersion);
 	}
 
+	/**
+	 * 
+	 * @param sbase
+	 * @return
+	 */
 	public String writeAnnotation(SBase sbase) {
 		
 		String annotationStr = "";
@@ -683,8 +688,8 @@ public class SBMLWriter {
 	 */
 	private void writeAnnotation(SBase sbase, SMOutputContainer element,
 			XMLStreamWriter writer, String sbmlNamespace, int indent, boolean xmlFragment)
-		throws XMLStreamException, SBMLException 
-	{
+		throws XMLStreamException, SBMLException {
+	  
 		SMNamespace namespace = element.getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
 		Annotation annotation = sbase.getAnnotation();
@@ -777,8 +782,7 @@ public class SBMLWriter {
 		if (sbase.isSetMetaId()	&& ((annotation.isSetHistory()
 				&& !annotation.getHistory().isEmpty()
 				&& ((sbase.getLevel() >= 3)	|| (sbase instanceof Model))) 
-				|| annotation.getListOfCVTerms().size() > 0)) 
-		{
+				|| annotation.getListOfCVTerms().size() > 0))	{
 			if (!annotation.isSetAbout()) {
 				// add required missing tag
 				annotation.setAbout("#" + sbase.getMetaId());
@@ -1109,9 +1113,7 @@ public class SBMLWriter {
 	 */
 	private void writeRDFAnnotation(Annotation annotation,
 			SMOutputElement annotationElement, XMLStreamWriter writer,
-			int indent) 
-		throws XMLStreamException 
-	{
+			int indent) throws XMLStreamException {
 		// Logger logger = Logger.getLogger(SBMLWriter.class);
 
 		String whiteSpace = createIndentationString(indent);
