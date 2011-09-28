@@ -1175,12 +1175,6 @@ public class ASTNode extends AbstractTreeNode {
 	private String id, style, className, encoding;
 
 	/**
-	 * Any kind of {@link Object} that can be stored in addition to all other
-	 * features of this {@link ASTNode}.
-	 */
-	private Object userObject;
-
-	/**
 	 * Tells if the type attribute of the cn element was set and we need to
 	 * write it back or if it is set to the default (REAL).
 	 * 
@@ -1191,14 +1185,14 @@ public class ASTNode extends AbstractTreeNode {
 	 * Child nodes.
 	 */
 	private LinkedList<ASTNode> listOfNodes;
-	
+
 	private transient Logger logger = Logger.getLogger(this.getClass());
 	
 	/**
 	 * 
 	 */
 	private double mantissa;
-
+	
 	/**
 	 * If no NamedSBase object exists or can be identified when
 	 * {@link #setName(String)} is called, the given name is stored in this
@@ -1228,6 +1222,12 @@ public class ASTNode extends AbstractTreeNode {
 	 * model can be stored here.
 	 */
 	private String unitId;
+
+	/**
+	 * Any kind of {@link Object} that can be stored in addition to all other
+	 * features of this {@link ASTNode}.
+	 */
+	private Object userObject;
 
 	/**
 	 * A direct pointer to a referenced variable. This can save a lot of
@@ -1937,7 +1937,10 @@ public class ASTNode extends AbstractTreeNode {
 				equal &= ast.getInteger() == getInteger();
 			}
 			if (isString() && ast.isString()) {
-				equal &= ast.getName().equals(getName());
+			  equal &= ast.isSetName() == isSetName();
+        if (equal && isSetName()) {
+          equal &= ast.getName().equals(getName());
+        }
 			}
 			if (isRational() && ast.isRational()) {
 				equal &= ast.getNumerator() == getNumerator()
@@ -1998,7 +2001,7 @@ public class ASTNode extends AbstractTreeNode {
 		return pList;
 	}
 
-	/*
+  /*
 	 * (non-Javadoc)
 	 * 
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
@@ -2051,7 +2054,7 @@ public class ASTNode extends AbstractTreeNode {
 	public ASTNode getChild(int index) {
 		return listOfNodes.get(index);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -2060,7 +2063,7 @@ public class ASTNode extends AbstractTreeNode {
 	public TreeNode getChildAt(int i) {
 		return getChild(i);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -2820,6 +2823,13 @@ public class ASTNode extends AbstractTreeNode {
 	public boolean isSetId() {
 		return id != null;
 	}
+
+	/**
+   * @return
+   */
+  public boolean isSetName() {
+    return name != null;
+  }
 
 	/**
 	 * Returns true if the number type is set.
