@@ -5,7 +5,14 @@ import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 
 public class QualitativeSpecies extends AbstractNamedSBase {
+	
+	// TODO : QualitativeSpecies id can be used in AssigmentRule or EventAssignment variable attribute.
+	// here we have a potential problem with striping the package stuff as we would have dangling ids
+	// If the package continue like this, we have a problem for example with method like Model.findVariable(variable); that
+	// need to be updated/replaced/modified by extension packages ?? 
 
+	// Potentially, the QualitativeSpecies would have to be a Variable and a CallableSBase to be able to be used in math expression and/or EventAssignment/Rules
+	
 	private String compartment;
 	private boolean boundaryCondition;
 
