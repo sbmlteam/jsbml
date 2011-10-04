@@ -375,8 +375,10 @@ public class Compartment extends Symbol {
 			spatialDimensions = null;
 			constant = null;
 		}
-		// TODO : There is no default value for compartment size (only for level 1 apparently) ??
-		value = Double.valueOf(1d);
+
+		if (level == 1) {
+			value = Double.valueOf(1d);
+		}
 	}
 
 	/**
