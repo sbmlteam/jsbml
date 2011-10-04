@@ -188,10 +188,10 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 	 * @see org.sbml.jsbml.Quantity#setValue(double)
 	 */
 	public void setValue(double value) {
+		Double oldValue = this.value;
+		this.value = value;
+		isSetValue = true;
 		if(value != this.value){
-			Double oldValue = this.value;
-			this.value = value;
-			isSetValue = true;
 			firePropertyChange(TreeNodeChangeEvent.value, oldValue, value);
 		}
 	}
