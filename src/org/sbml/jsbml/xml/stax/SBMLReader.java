@@ -48,6 +48,8 @@ import org.codehaus.stax2.evt.XMLEvent2;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.AssignmentRule;
+import org.sbml.jsbml.CVTerm;
+import org.sbml.jsbml.History;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
@@ -58,7 +60,10 @@ import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.AnnotationParser;
+import org.sbml.jsbml.xml.parsers.BiologicalQualifierParser;
 import org.sbml.jsbml.xml.parsers.MathMLStaxParser;
+import org.sbml.jsbml.xml.parsers.ModelQualifierParser;
+import org.sbml.jsbml.xml.parsers.RDFAnnotationParser;
 import org.sbml.jsbml.xml.parsers.ReadingParser;
 import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.sbml.jsbml.xml.parsers.StringParser;
@@ -583,8 +588,18 @@ public class SBMLReader {
 					sbmlElements.push(assignmentRule);
 					
 				} else if (currentNode.getLocalPart().equals("annotation")) {
-					isInsideAnnotation = true;
-					annotationDeepness++;
+
+					// check the namespace as some annotation element can be named 'annotation' as well !!
+					SBMLDocument sbmlDoc = (SBMLDocument) sbmlElements.firstElement();
+					String sbmlNamespace = sbmlDoc.getSBMLDocumentNamespaces().get("xmlns");
+					
+					if (currentNode.getNamespaceURI().equals(sbmlNamespace)) {
+						if (isInsideAnnotation) {
+							logger.warn("Starting to read a new annotation element while the previous annotation element is not finished.");
+						}
+						isInsideAnnotation = true;
+						annotationDeepness++;
+					} 
 					
 				} else if (isInsideAnnotation) {
 					// Count the number of open elements to know how deep we are in the annotation
@@ -592,27 +607,24 @@ public class SBMLReader {
 					annotationDeepness++;
 				}
 				
-				if (currentNode.getLocalPart().equals("Description") 
-				    && currentNode.getNamespaceURI().equals(Annotation.URI_RDF_SYNTAX_NS)) {
+				// setting isRDFSBMLSpecificAnnotation 
+				if (currentNode.getLocalPart().equals("RDF") && currentNode.getNamespaceURI().equals(Annotation.URI_RDF_SYNTAX_NS) && annotationDeepness == 1) {
+					isRDFSBMLSpecificAnnotation = true;
+				} else if (currentNode.getLocalPart().equals("RDF") && currentNode.getNamespaceURI().equals(Annotation.URI_RDF_SYNTAX_NS)) {
+					isRDFSBMLSpecificAnnotation = false;
+					rdfDescriptionIndex = -1;
+				}
+
+				if (currentNode.getLocalPart().equals("Description") && currentNode.getNamespaceURI().equals(Annotation.URI_RDF_SYNTAX_NS) && isRDFSBMLSpecificAnnotation) {
 					rdfDescriptionIndex++;
 				}
 
-				// TODO : set properly isRDFSBMLSpecificAnnotation 
-				if (currentNode.getLocalPart().equals("RDF") && currentNode.getNamespaceURI().equals(Annotation.URI_RDF_SYNTAX_NS) && annotationDeepness == 1) {
-					isRDFSBMLSpecificAnnotation = true;
-				}
 				if (isInsideAnnotation) {
 					logger.debug("startElement : local part = " + currentNode.getLocalPart());
 					logger.debug("startElement : annotation deepness = " + annotationDeepness);
 					logger.debug("startElement : rdf description index = " + rdfDescriptionIndex);
 					logger.debug("startElement : isRDFSBMLSpecificAnnotation = " + isRDFSBMLSpecificAnnotation);
 				}
-				
-//				if (isInsideAnnotation && annotationDeepness && isRDF && annotationDeepness...) {
-//					isRDFSBMLSpecificAnnotation = true
-//				} else {
-//					isRDFSBMLSpecificAnnotation = false;
-//				}
 
 				parser = processStartElement(startElement, currentNode, isHTML,	sbmlElements, isRDFSBMLSpecificAnnotation);
 				lastElement = sbmlElements.peek();
@@ -630,7 +642,11 @@ public class SBMLReader {
 				}
 
 				// process the text of a XML element.
-				if ((parser != null) && !sbmlElements.isEmpty()	&& isText) {
+				if ((parser != null) && !sbmlElements.isEmpty()	&& (isText || isInsideAnnotation)) {
+					
+					logger.debug(" Parser = " + parser.getClass().getName());
+					logger.debug(" Characters = @" + characters.getData() + "@");
+					
 					if (currentNode != null) {
 						
 						// logger.debug("isCharacter : elementName = " + currentNode.getLocalPart());
@@ -665,9 +681,17 @@ public class SBMLReader {
 				
 				if (currentNode != null) {
 					if (currentNode.getLocalPart().equals("annotation")) {
-						isInsideAnnotation = false;
-						annotationDeepness = -1;
-						rdfDescriptionIndex = -1;
+
+						// check the namespace as some annotation element can be named 'annotation' as well !!
+						SBMLDocument sbmlDoc = (SBMLDocument) sbmlElements.firstElement();
+						String sbmlNamespace = sbmlDoc.getSBMLDocumentNamespaces().get("xmlns");
+						
+						if (currentNode.getNamespaceURI().equals(sbmlNamespace)) {
+							isInsideAnnotation = false;
+							annotationDeepness = -1;
+							rdfDescriptionIndex = -1;
+							isRDFSBMLSpecificAnnotation = false;
+						}
 
 					} else if (isInsideAnnotation) {
 						annotationDeepness--;
@@ -800,8 +824,14 @@ public class SBMLReader {
 					boolean hasAttributes = att.hasNext();
 					boolean hasNamespace = nam.hasNext();
 
-					if (elementNamespace.equals(Annotation.URI_RDF_SYNTAX_NS) && !isRDFSBMLspecificAnnotation) {
-						parser = initializedParsers.get("anyAnnotation");
+					if ((elementNamespace.equals(Annotation.URI_RDF_SYNTAX_NS) 
+							|| elementNamespace.equals(JSBML.URI_PURL_ELEMENTS)
+							|| elementNamespace.equals(JSBML.URI_PURL_TERMS)
+							|| elementNamespace.equals(ModelQualifierParser.getNamespaceURI())
+							|| elementNamespace.equals(BiologicalQualifierParser.getNamespaceURI()))
+							&& !isRDFSBMLspecificAnnotation) 
+					{
+						parser = initializedParsers.get("anyAnnotation");						
 					}
 					
 					// All the subNodes of SBML are processed.
@@ -868,6 +898,9 @@ public class SBMLReader {
 			
 			// Calling each corresponding parser, in case they want to initialize things for the currentNode
 			if ((namespaceParser != null) && !namespaceParser.getClass().equals(parser.getClass())) {
+				
+				logger.debug("processNamespaces 2e parser : " + namespaceParser);
+				
 				namespaceParser.processNamespace(currentNode.getLocalPart(),
 						namespace.getNamespaceURI(),
 						namespace.getName().getPrefix(),
@@ -905,8 +938,14 @@ public class SBMLReader {
 
 			if (attribute.getName().getNamespaceURI().length() > 0) {
 				String attributeNamespaceURI = attribute.getName().getNamespaceURI();
-				
-				if (!isRDFSBMLSpecificAnnotation && attributeNamespaceURI.equals(Annotation.URI_RDF_SYNTAX_NS)) {
+
+				if ((attributeNamespaceURI.equals(Annotation.URI_RDF_SYNTAX_NS) 
+						|| attributeNamespaceURI.equals(JSBML.URI_PURL_ELEMENTS)
+						|| attributeNamespaceURI.equals(JSBML.URI_PURL_TERMS)
+						|| attributeNamespaceURI.equals(ModelQualifierParser.getNamespaceURI())
+						|| attributeNamespaceURI.equals(BiologicalQualifierParser.getNamespaceURI()))
+						&& !isRDFSBMLSpecificAnnotation) 
+				{
 					attributeParser = initializedParsers.get("anyAnnotation");
 				} else {
 					attributeParser = initializedParsers.get(attributeNamespaceURI);
@@ -959,11 +998,19 @@ public class SBMLReader {
 		// check that the stack did not increase before and after an element ?
 		
 		if (initializedParsers != null) {
-				parser = initializedParsers.get(currentNode.getNamespaceURI());
+			String elementNamespaceURI = currentNode.getNamespaceURI();
+			parser = initializedParsers.get(elementNamespaceURI);
 
-				if (!isRDFSBMLSpecificAnnotation && isInsideAnnotation) {
-					parser = initializedParsers.get("anyAnnotation");
-				}
+			// if (!isRDFSBMLSpecificAnnotation && isInsideAnnotation) { // This would be safer to use but would prevent any specific parsing of the annotation
+			if ((elementNamespaceURI.equals(Annotation.URI_RDF_SYNTAX_NS) 
+					|| elementNamespaceURI.equals(JSBML.URI_PURL_ELEMENTS)
+					|| elementNamespaceURI.equals(JSBML.URI_PURL_TERMS)
+					|| elementNamespaceURI.equals(ModelQualifierParser.getNamespaceURI())
+					|| elementNamespaceURI.equals(BiologicalQualifierParser.getNamespaceURI()))
+					&& !isRDFSBMLSpecificAnnotation) 
+			{
+				parser = initializedParsers.get("anyAnnotation");
+			}
 
 			// if the current node is a notes or message element and
 			// the matching ReadingParser is a StringParser, we need

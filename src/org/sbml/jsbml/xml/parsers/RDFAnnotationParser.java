@@ -144,7 +144,9 @@ public class RDFAnnotationParser implements ReadingParser{
 			Object contextObject) 
 	{
 		// there is no text for element with the namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#".
-		logger.warn("RDFAnnotationParser : processCharactersOf called !!!! Found some unexpected characters");
+		if (characters.trim().length() > 0) {
+			logger.warn("RDFAnnotationParser : processCharactersOf called !!!! Found some unexpected characters");
+		}
 	}
 
 	

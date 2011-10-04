@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -714,39 +715,28 @@ public class SBMLWriter {
 			Map<String, String> otherNamespaces = annotation
 					.getAnnotationNamespaces();
 
-			Iterator<Entry<String, String>> it = otherNamespaces.entrySet()
-					.iterator();
-			while (it.hasNext()) {
-				Entry<String, String> entry = it.next();
-				StringTools.append(annotationBeginning, " ", entry.getKey(),
-						"=\"", entry.getValue(), "\"");
-				if (entry.getKey().contains(":")) {
-					String[] key = entry.getKey().split(":");
-					annotationElement.getNamespace(key[1], entry.getValue());
-				} else {
-					annotationElement.getNamespace("", entry.getValue());
-				}
+			for (String namespacePrefix : otherNamespaces.keySet()) {
+				StringTools.append(annotationBeginning, " ", namespacePrefix,
+						"=\"", otherNamespaces.get(namespacePrefix), "\"");
+				annotationElement.addAttribute(namespacePrefix, otherNamespaces.get(namespacePrefix));
 			}
-
+						
+			boolean allNamespacesDefined = true;
+			
 			// Adding the name spaces of the sbml element
 			if (sbase.getSBMLDocument() != null) {
 				otherNamespaces = sbase.getSBMLDocument().getSBMLDocumentNamespaces();
-				it = otherNamespaces.entrySet().iterator();
 
-				while (it.hasNext()) {
-					Entry<String, String> entry = it.next();
-					StringTools.append(annotationBeginning, " ", entry.getKey(),
-							"=\"", entry.getValue(), "\"");
-					if (entry.getKey().contains(":")) {
-						String[] key = entry.getKey().split(":");
-						annotationElement.getNamespace(key[1], entry.getValue());
-					} else {
-						// does nothing, we don't need the sbml namespace here
-					}
+				for (String namespacePrefix : otherNamespaces.keySet()) {
+					StringTools.append(annotationBeginning, " ", namespacePrefix,
+							"=\"", otherNamespaces.get(namespacePrefix), "\"");
+					
 				}
+
 			} else {				
 				// Can happen when displaying the annotation from an SBase object
 				// that is not  yet linked to a SBMLDocument.
+				allNamespacesDefined = false;
 			}
 				
 			StringTools.append(annotationBeginning, Character.valueOf('>'),
@@ -759,15 +749,37 @@ public class SBMLWriter {
 					.replaceAll("&", "&amp;");
 			// here indent gets lost.
 			Document domDocument = null;
+			boolean domConversionDone = false;
+
 			try {
 				domDocument = JAXPFacade.getInstance().create(
-						new BufferedReader(new StringReader(annotationString)),
-						true);
-				converter.writeFragment(domDocument.getFirstChild()
-						.getChildNodes(), writer);
+						new BufferedReader(new StringReader(annotationString)),	allNamespacesDefined);
+				domConversionDone = true;
 			} catch (SAXException e) {
 				e.printStackTrace();
 				// TODO : log error or send SBMLException
+
+				logger.warn("Cannot parse the following XML\n@" + annotationString + "@");
+				logger.warn("NonRDFannotation =\n@" + annotation.getNonRDFannotation() + "@");
+				
+				// trying to read the XML without namespace awareness as the XML can be wrong and we still want to
+				// write it back as it is.
+				if (allNamespacesDefined) {
+					
+					try {
+						domDocument = JAXPFacade.getInstance().create(
+								new BufferedReader(new StringReader(annotationString)),	false);
+						domConversionDone = true;
+					} catch (SAXException e2) {
+						e.printStackTrace();
+						// TODO : log error or send SBMLException
+					}
+				}
+			} finally {
+				if (domConversionDone) {
+					converter.writeFragment(domDocument.getFirstChild()
+							.getChildNodes(), writer);
+				}
 			}
 		} else {
 			writer.writeCharacters("\n");
@@ -777,20 +789,23 @@ public class SBMLWriter {
 		// no history can be written.
 		// Annotation cannot be written without metaid tag.
 		
-		// TODO : create an automatic metaid ???
-		
-		if (sbase.isSetMetaId()	&& ((annotation.isSetHistory()
-				&& !annotation.getHistory().isEmpty()
-				&& ((sbase.getLevel() >= 3)	|| (sbase instanceof Model))) 
-				|| annotation.getListOfCVTerms().size() > 0))	{
+		if (sbase.getAnnotation().isSetRDFannotation()) 
+		{
 			if (!annotation.isSetAbout()) {
 				// add required missing tag
 				annotation.setAbout("#" + sbase.getMetaId());
 			}
 			writeRDFAnnotation(annotation, annotationElement, writer,
 					indent + indentCount);
-		} else {
-			logger.warn("Some annotations will be lost as there is no metaid defined on " + sbase.getElementName());
+		} 
+		if (!sbase.hasValidAnnotation()) {
+
+			// creating an automatic metaid
+			
+			logger.info("Some annotations might get lost as there is no metaid defined on " + sbase.getElementName() + ". An automatic metaid as been generated.");
+			UUID idOne = UUID.randomUUID();
+			System.out.println("new metaid = _" + idOne.toString());
+			sbase.setMetaId("_" + idOne.toString());
 		}
 		
 		// set the indentation for the closing tag

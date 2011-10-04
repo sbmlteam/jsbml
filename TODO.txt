@@ -1,59 +1,8 @@
-********************* SBML elements ********************************************************
 
-- Add boolean value to test if the variable is set and not a default value.
-Maybe not necessary if the getxxx() returns a default value if the variable is not set.
-Ex : by default, the spatialDimension of Compartment is 3.
 
-	 public short getSpatialDimension(){
-	 	return isSetSpatialDimension ? spatialDimension : 3;
-	 }
-	 
-- Add a method toString() for each SBML component class if it is missing. (for Annotation too)
+L3 mathml units output
 
-- Add methods appendMessage() for Constraint and change StringParser in consequence.
+ASTNode :	public String toString() ==> Do not print this message if parsing the file !!! Or remove it
 
-- Maybe change all the StringBuffer in StringBuilder? (NotesBuffer in AbstractSBase, MessageBuffer in Constraint)
+check the reading/writing of NaN both from and to mathML or infix formula
 
-- Add a type variable for each SBML component class.
-
-- Change the methods addxxx(Object object) in Model, KineticLaw, Event : we don't want to test if 
-'object' is already in the list before adding it as the list can contain several similar Objects (empty for instance)
-
-- Change the Symbol class and the findSymbol methods of Model : add a level and version test to know if a SpeciesReference
-can be a Symbol or not. Maybe change the SimplSpeciesReference which extends Symbol because ModifierSpeciesReference which extends
-SimpleSpeciesReference can't be a Symbol (no constant, units, etc.)
-
-- Add stateChanged() in each setxxx(Object object), unsetxxx(), addxxx(Object object), removexxx(Object object) methods?
-
-- Some calls to the addSBase method are missing.
-
-********************* XML parsing ********************************************************
-
-- where there are // TODO comments, need to log an error or warning message or to throw an exception.
-
-- try to divide the SBMLReader read method and the SBMLWriter write method into several shorter methods to
-be easily read and changed in the future.
-
-- Create the metaID if it is not set in the processEndDocument method of RDFAnnotationParser.
-
-- What to do if the package is required but no parser exist for this package?
-
-- 
-
-********************* Extension parsing ********************************************************
-
-- Change the initialisexxx() methods of SBMLReader, SBMLWriter and all the parsers : we shoud load the configuration data from a file.
-- Need to change the tests if (object instanceOf xxx) with if (object.getClass().getName().equals(xxx.getClass.getName())) in
-the SBMLCoreParser methods which implement WritingParser.
-
-- Test if the method writeSBMLElements(SBMLObjectForXML xmlObject, SMOutputElement parentElement, XMLStreamWriter2 streamWriter, Object objectToWrite, ReadingParser notesParser, ReadingParser MathMLParser)
- and writeAnnotation(SBase sbase, SMOutputElement element, XMLStreamWriter2 writer, String sbmlNamespace) of SBMLWriter are working properly when several packages are extending the basic SBML element classes.
- 
-- Create an abstract extension class for each SBML component which can be extended by a package in the sbmlExtension package.
-There is an example with the class Species (the extension class is SpeciesExtension).
-
-- Change the method writeNamespaces(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) of SBMLCoreParser. We should set the namespace
-of xmlObject to the namespace of this element (depending on level and version) and the prefix. NOT add the namespace to the attributes map of
-xmlObject. Anyway, do we need to keep this method in WritingParser? It is never used as the namespace are directly processed in SBMLWriter.
-
-- do we need to keep the method writeCharacters in WritingParser? It is never used as the annotation and notes which contain text characters are directly processed in SBMLWriter.

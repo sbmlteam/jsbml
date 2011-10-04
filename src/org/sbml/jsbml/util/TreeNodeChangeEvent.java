@@ -47,6 +47,7 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
 	 */
 	public static final String addExtension="addExtension";
 	public static final String addNamespace="addNamespace";
+	public static final String addDeclaredNamespace="addDeclaredNamespace";
 	public static final String namespace = "namespace";
 	public static final String notes="notes";
 	public static final String setAnnotation="setAnnotation";

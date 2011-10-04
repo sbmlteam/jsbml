@@ -58,6 +58,25 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	public void addExtension(String namespace, SBase sbase);
 	
 	/**
+	 * Adds an additional name space to the set of name spaces of this
+	 * {@link SBase} if the given name space is not yet present within this
+	 * {@link SortedSet}.
+	 * 
+	 * @param namespace the namespace to add
+	 */
+	public void addNamespace(String namespace);
+	
+	/**
+	 * Adds an additional name space to the set of declared namespaces of this
+	 * {@link SBase}.
+	 * 
+	 * @param prefix the prefix of the namespace to add
+	 * @param namespace the namespace to add
+	 * 
+	 */
+	public void addDeclaredNamespace(String prefix, String namespace);
+
+	/**
 	 * Appends 'notes' to the notes String of this object.
 	 *  
 	 * @param notes
@@ -201,12 +220,23 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	public Model getModel();
 
 	/**
-	 * 
+	 * Returns all the namespaces of all the packages which are currently
+	 *         extending this object.
+	 *         
 	 * @return all the name spaces of all the packages which are currently
 	 *         extending this object.
 	 */
 	public SortedSet<String> getNamespaces();
 
+	/**
+	 * Returns all the namespaces declared on this object. These will be written on the
+	 * resulting XML element.
+	 * 
+	 * @return all the namespaces declared on this object. These will be written on the
+	 * resulting XML element.
+	 */
+	public Map<String, String> getDeclaredNamespaces();
+	
 	/**
 	 * Returns the <code>XMLNode</code> containing the notes sub-element of
 	 * this object.

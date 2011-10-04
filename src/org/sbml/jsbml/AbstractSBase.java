@@ -21,6 +21,7 @@
 package org.sbml.jsbml;
 
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,7 +44,7 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  * The base class for each {@link SBase} component.
  * 
  * @author Andreas Dr&auml;ger
- * @author Nicolas Rodrigues
+ * @author Nicolas Rodriguez
  * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
@@ -121,10 +122,15 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	private String metaId;
 	
 	/**
-	 * 
+	 * Contains all the namespaces used by this SBase element.
 	 */
-	private SortedSet<String> namespaces;
-
+	private SortedSet<String> usedNamespaces;
+	
+	/**
+	 * Contains all the namespaces declared on the XML node with their prefixes.
+	 */
+	private Map<String, String> declaredNamespaces;
+	
 	/**
 	 * notes of the SBML component. Matches the notes XML node in a SBML file.
 	 *
@@ -154,7 +160,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		lv = getLevelAndVersion();
 		annotation = null;
 		extensions = new TreeMap<String, SBase>();
-		namespaces = new TreeSet<String>();
+		usedNamespaces = new TreeSet<String>();
+		declaredNamespaces = new HashMap<String, String>();
 	}
 
 	/**
@@ -199,6 +206,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		
 		// extensions is needed when doing getChildCount()
 		extensions = new TreeMap<String, SBase>();
+		usedNamespaces = new TreeSet<String>();
+		declaredNamespaces = new HashMap<String, String>();
 
 		if (sb.isSetLevel()) {
 			setLevel(sb.getLevel());
@@ -225,7 +234,18 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		if (sb.isExtendedByOtherPackages()) {
 			this.extensions.putAll(sb.getExtensionPackages());
 		}
-		// TODO : clone namespaces
+		// cloning namespaces
+		if (sb.getNamespaces().size() > 0) {
+			for (String namespace : sb.getNamespaces()) {
+				usedNamespaces.add(new String(namespace));
+			}
+		}
+		if (sb.getDeclaredNamespaces().size() > 0) {
+			for (String namespacePrefix : sb.getDeclaredNamespaces().keySet()) {
+				declaredNamespaces.put(new String(namespacePrefix), new String(sb.getDeclaredNamespaces().get(namespacePrefix)));
+			}
+		}
+		
 	}
 
 	/*
@@ -247,15 +267,28 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	}
 
 	/**
-	 * Adds an additional name space to the set of name spaces of this
-	 * {@link SBase} if the given name space is not yet present within this
+	 * Adds an additional namespace to the set of namespaces of this
+	 * {@link SBase} if the given namespace is not yet present within this
 	 * {@link SortedSet}.
 	 * 
 	 * @param namespace the namespace to add
 	 */
 	public void addNamespace(String namespace) {
-		this.namespaces.add(namespace);
+		this.usedNamespaces.add(namespace);
 		firePropertyChange(TreeNodeChangeEvent.addNamespace, null, namespace);
+	}
+
+	/**
+	 * Adds an additional name space to the set of declared namespaces of this
+	 * {@link SBase}.
+	 * 
+	 * @param prefix the prefix of the namespace to add
+	 * @param namespace the namespace to add
+	 * 
+	 */
+	public void addDeclaredNamespace(String prefix, String namespace) {
+		this.declaredNamespaces.put(prefix, namespace);
+		firePropertyChange(TreeNodeChangeEvent.addDeclaredNamespace, null, namespace);
 	}
 
 	/*
@@ -949,7 +982,18 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		// Need to separate the list of name spaces from the extensions.
 		// SBase object directly from the extension need to set their name space.
 
-		return this.namespaces;
+		return this.usedNamespaces;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#getNamespaces()
+	 */
+	public Map<String, String> getDeclaredNamespaces() {
+		// Need to separate the list of name spaces from the extensions.
+		// SBase object directly from the extension need to set their name space.
+
+		return this.declaredNamespaces;
 	}
 
 	/**
