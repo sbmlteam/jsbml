@@ -531,7 +531,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 							if (speciesReference.isSetSpecies()
 									&& !speciesReference.isSetSpeciesInstance()) {
-								log4jLogger.warn("No Species matches the speciesID of speciesReference.");
+								log4jLogger.warn(String.format("No Species matches the speciesID '%s' of %s.", 
+										speciesReference.getId(), speciesReference.getElementName()));
 							}
 						}
 					}
@@ -542,7 +543,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 							if (speciesReference.isSetSpecies()
 									&& !speciesReference.isSetSpeciesInstance()) {
-								log4jLogger.warn("No Species matches the speciesID of speciesReference.");
+								log4jLogger.warn(String.format("No Species matches the speciesID '%s' of %s.", 
+										speciesReference.getId(), speciesReference.getElementName()));
 							}
 						}
 					}
@@ -554,7 +556,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 							if (modifierSpeciesReference.isSetSpecies()
 									&& !modifierSpeciesReference
 											.isSetSpeciesInstance()) {
-								log4jLogger.warn("No Species matches the speciesID of modifierSpeciesReference.");
+								log4jLogger.warn(String.format("No Species matches the speciesID '%s' of %s.", 
+										modifierSpeciesReference.getId(), modifierSpeciesReference.getElementName()));
 							}
 						}
 					}
@@ -648,13 +651,28 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			Object contextObject) 
 	{
 
-		// TODO : for SBML level 3, there will probably be some namespace in other places than in the sbml element
-		
 		if (contextObject instanceof SBMLDocument) {
 			SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
 			if (!URI.equals(SBMLDocument.URI_NAMESPACE_L3V1Core)) {
 				sbmlDocument.addNamespace(localName, prefix, URI);
 			}
+			
+			log4jLogger.debug("processNamespace : " + prefix + " = " + URI);
+		} 
+		else if (contextObject instanceof SBase) {
+			SBase sbase = (SBase) contextObject;
+			
+			if (prefix != null && prefix.length() > 0) {
+				sbase.addDeclaredNamespace(prefix + ":" + localName, URI);
+			} else {
+				sbase.addDeclaredNamespace(localName, URI);
+			}
+
+			log4jLogger.debug("processNamespace : " + prefix + " = " + URI);
+		} 
+		else if (contextObject instanceof Annotation) {
+			Annotation sbase = (Annotation) contextObject;
+			sbase.addAnnotationNamespace(localName, prefix, URI);
 			
 			log4jLogger.debug("processNamespace : " + prefix + " = " + URI);
 		}

@@ -74,7 +74,7 @@ public class AnnotationParser implements ReadingParser {
 			// If the attribute is the last attribute of its element, we need to
 			// close the element tag.
 			if (isLastAttribute) {
-				annotation.appendNoRDFAnnotation("> \n");
+				annotation.appendNoRDFAnnotation(">");
 			}
 		} else {
 			// There is a syntax error, the attribute can't be read?
@@ -88,22 +88,21 @@ public class AnnotationParser implements ReadingParser {
 	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String
 	 * elementName, String characters, Object contextObject)
 	 */
-	public void processCharactersOf(String elementName, String characters,
-			Object contextObject) {
-		// characters = characters.replaceAll("&", "&amp;").replaceAll("<",
-		// "&lt;").replaceAll(">", "&gt;");
-		characters = StringTools.encodeForHTML(characters);
+	public void processCharactersOf(String elementName, String characters, Object contextObject) 
+	{
+
+		// characters = StringTools.encodeForHTML(characters);
 
 		// an AnnotationParser can only be used for the annotations of a SBML
 		// component. If the contextObject is not
 		// an Annotation instance, this parser doesn't process any texts.
 		if (contextObject instanceof Annotation) {
 			Annotation annotation = (Annotation) contextObject;
-			annotation.appendNoRDFAnnotation(characters + " \n");
+			annotation.appendNoRDFAnnotation(characters);
 
 		} else {
 			// There is a syntax error, the text can't be read?
-			// TODO : log the problem 
+			logger.warn("some characters migth be lost !! (element name = " + elementName + ", characters = " + characters); 
 		}
 	}
 
@@ -126,7 +125,7 @@ public class AnnotationParser implements ReadingParser {
 			boolean isNested, Object contextObject) 
 	{
 
-		logger.debug("processEndDocument : elementName = " + elementName);
+		logger.debug("processEndElement : elementName = " + elementName);
 		
 		// an AnnotationParser can only be used for the annotations of a SBML
 		// component. If the contextObject is not
@@ -137,7 +136,7 @@ public class AnnotationParser implements ReadingParser {
 
 			// If the element is nested, we need to remove the default ending
 			// tag of the element.
-			if (isNested && annotation.getNonRDFannotation().endsWith("> \n")) {
+			if (isNested && annotation.getNonRDFannotation().endsWith(">")) {
 				int builderLength = builder.length();
 				builder.delete(builderLength - 3, builderLength);
 			}
@@ -145,17 +144,17 @@ public class AnnotationParser implements ReadingParser {
 			// If the element is nested, we need to add a nested element ending
 			// tag.
 			if (isNested) {
-				annotation.appendNoRDFAnnotation("/> \n");
+				annotation.appendNoRDFAnnotation("/>");
 			}
 			// else, write a entire ending tag with the name of the element
 			// (Store the prefix too into the String).
 			else {
 				if (!prefix.equals("")) {
 					annotation.appendNoRDFAnnotation("</" + prefix + ":"
-							+ elementName + "> \n");
+							+ elementName + ">");
 				} else {
 					annotation.appendNoRDFAnnotation("</" + elementName
-							+ "> \n");
+							+ ">");
 				}
 			}
 		} else {
@@ -181,7 +180,12 @@ public class AnnotationParser implements ReadingParser {
 		logger.debug("processNamespace : elementName = " + elementName);
 		logger.debug("processNamespace : namespace uri = " + URI);
 		logger.debug("processNamespace : namespace prefix = " + prefix);
-		logger.debug("processNamespace : namespace localName = " + localName);
+		logger.debug("processNamespace : namespace localName = " + localName);				
+		
+		if (elementName.equals("annotation")) {
+			// The namespaces are store using the SBMLCoreParser for the annotation element
+			return;
+		}
 		
 		// If the element is an annotation and the contextObject is an
 		// Annotation instance,
@@ -201,7 +205,7 @@ public class AnnotationParser implements ReadingParser {
 			// If the attribute is the last attribute of its element, we need to
 			// close the element tag.
 			if (isLastNamespace && !hasAttributes) {
-				annotation.appendNoRDFAnnotation("> \n");
+				annotation.appendNoRDFAnnotation(">");
 			}
 		}
 		// If the namespaces are declared in the sbml node, we need to add the
@@ -222,8 +226,10 @@ public class AnnotationParser implements ReadingParser {
 	 * Object contextObject)
 	 */
 	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
-
+			boolean hasAttributes, boolean hasNamespaces, Object contextObject) 
+	{
+		logger.debug(String.format("processing startElement %s.", elementName));
+		
 		// an AnnotationParser can only be used for the annotations of a SBML
 		// component. If the contextObject is not
 		// an Annotation instance, this parser doesn't process any elements.
@@ -245,12 +251,12 @@ public class AnnotationParser implements ReadingParser {
 			// If the element has no attributes and namespaces, we need to close
 			// the element tag.
 			if (!hasAttributes && !hasNamespaces) {
-				annotation.appendNoRDFAnnotation("> \n");
+				annotation.appendNoRDFAnnotation(">");
 			}
 			return annotation;
 		} else {
 			// There is a syntax error, the node can't be read ?
-			// TODO : log the problem 
+			logger.error(String.format("Cannot read the element %s as the context object is not of the type Annotation", elementName)); 
 		}
 		return contextObject;
 	}

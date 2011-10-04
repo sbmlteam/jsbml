@@ -3706,15 +3706,18 @@ public class ASTNode extends AbstractTreeNode {
 	@Override
 	public String toString() {
 		String formula = "";
-		String errorMsg = "Could not compile ASTNode to formula.";
+		String errorMsg = "Could not compile ASTNode to formula : ";
 		try {
 			formula = compile(new FormulaCompiler()).toString();
 		} catch (SBMLException e) {
 			// log the exception
+			e.printStackTrace();
+			
 			if (logger.isDebugEnabled()) {
 				logger.error(errorMsg, e);
 			} else {
-				logger.error(errorMsg);
+				// TODO : Do not print this message if parsing the file !!! Or remove it
+				logger.warn(errorMsg + e.getMessage());
 			}
 		} catch (RuntimeException e) {
 			// added to prevent a crash when we cannot create the formula

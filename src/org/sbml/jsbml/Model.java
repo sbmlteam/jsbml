@@ -2180,7 +2180,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the number of parameters that are contained within kineticLaws in
    *         the reactions of this model.
    */
-  public int getNumLocalParameters() {
+  @SuppressWarnings("deprecation")
+public int getNumLocalParameters() {
     int count = 0;
     if (isSetListOfReactions()) {
       for (Reaction reaction : getListOfReactions()) {
@@ -2487,7 +2488,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public UnitDefinition getPredefinedUnitDefinition(String unitKind) {
     if (listOfPredefinedUnitDefinitions != null) {
       for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) {
-        if (unitDefinition.getId().equals(unitKind)) { return unitDefinition; }
+        if (unitDefinition.getId().equals(unitKind)
+        		|| unitDefinition.getId().equals(unitKind + "_base")) 
+        { 
+        	return unitDefinition; 
+        }
       }
     }
     return null;
