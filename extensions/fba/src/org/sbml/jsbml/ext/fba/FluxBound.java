@@ -1,4 +1,4 @@
-package org.sbml.jsbml.extension.fba;
+package org.sbml.jsbml.ext.fba;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;

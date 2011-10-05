@@ -1,4 +1,4 @@
-package org.sbml.jsbml.extension.adapter;
+package org.sbml.jsbml.ext.adapter;
 
 import org.sbml.jsbml.Model;
 
