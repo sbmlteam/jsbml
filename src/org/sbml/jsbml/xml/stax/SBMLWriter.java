@@ -725,12 +725,16 @@ public class SBMLWriter {
 			
 			// Adding the name spaces of the sbml element
 			if (sbase.getSBMLDocument() != null) {
-				otherNamespaces = sbase.getSBMLDocument().getSBMLDocumentNamespaces();
+				Map<String, String> sbmlDocumentNamespaces = sbase.getSBMLDocument().getSBMLDocumentNamespaces();
 
-				for (String namespacePrefix : otherNamespaces.keySet()) {
-					StringTools.append(annotationBeginning, " ", namespacePrefix,
-							"=\"", otherNamespaces.get(namespacePrefix), "\"");
+				for (String namespacePrefix : sbmlDocumentNamespaces.keySet()) {
 					
+					// Checking if the namespace declaration is not done twice 
+					// in the SBMLDocument and the annotation element.
+					if (otherNamespaces.get(namespacePrefix) == null) {
+						StringTools.append(annotationBeginning, " ", namespacePrefix,
+								"=\"", sbmlDocumentNamespaces.get(namespacePrefix), "\"");
+					}
 				}
 
 			} else {				

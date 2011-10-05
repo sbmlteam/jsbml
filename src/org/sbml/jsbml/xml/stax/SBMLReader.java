@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Stack;
 import java.util.Map.Entry;
+import java.util.Stack;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
@@ -48,8 +48,6 @@ import org.codehaus.stax2.evt.XMLEvent2;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.AssignmentRule;
-import org.sbml.jsbml.CVTerm;
-import org.sbml.jsbml.History;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
@@ -63,7 +61,6 @@ import org.sbml.jsbml.xml.parsers.AnnotationParser;
 import org.sbml.jsbml.xml.parsers.BiologicalQualifierParser;
 import org.sbml.jsbml.xml.parsers.MathMLStaxParser;
 import org.sbml.jsbml.xml.parsers.ModelQualifierParser;
-import org.sbml.jsbml.xml.parsers.RDFAnnotationParser;
 import org.sbml.jsbml.xml.parsers.ReadingParser;
 import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.sbml.jsbml.xml.parsers.StringParser;
@@ -626,7 +623,7 @@ public class SBMLReader {
 					logger.debug("startElement : isRDFSBMLSpecificAnnotation = " + isRDFSBMLSpecificAnnotation);
 				}
 
-				parser = processStartElement(startElement, currentNode, isHTML,	sbmlElements, isRDFSBMLSpecificAnnotation);
+				parser = processStartElement(startElement, currentNode, isHTML,	sbmlElements, isInsideAnnotation, isRDFSBMLSpecificAnnotation);
 				lastElement = sbmlElements.peek();
 
 			}
@@ -783,7 +780,7 @@ public class SBMLReader {
 	 * @return
 	 */
 	private ReadingParser processStartElement(StartElement startElement, QName currentNode, 
-			Boolean isHTML, Stack<Object> sbmlElements, boolean isRDFSBMLspecificAnnotation) 
+			Boolean isHTML, Stack<Object> sbmlElements, boolean isInsideAnnotation, boolean isRDFSBMLspecificAnnotation) 
 	{		
 		Logger logger = Logger.getLogger(SBMLReader.class);		
 		ReadingParser parser = null;
@@ -831,7 +828,11 @@ public class SBMLReader {
 							|| elementNamespace.equals(BiologicalQualifierParser.getNamespaceURI()))
 							&& !isRDFSBMLspecificAnnotation) 
 					{
-						parser = initializedParsers.get("anyAnnotation");						
+						parser = initializedParsers.get("anyAnnotation");
+					}
+					
+					if (isInsideAnnotation && elementNamespace.equals(JSBML.URI_XHTML_DEFINITION)) {
+						parser = initializedParsers.get("anyAnnotation");
 					}
 					
 					// All the subNodes of SBML are processed.
@@ -848,10 +849,10 @@ public class SBMLReader {
 					}
 					
 					// process the namespaces
-					processNamespaces(nam, currentNode,sbmlElements, parser, hasAttributes, isRDFSBMLspecificAnnotation);
+					processNamespaces(nam, currentNode,sbmlElements, parser, hasAttributes);
 					
 					// Process the attributes
-					processAttributes(att, currentNode, sbmlElements, parser, hasAttributes, isRDFSBMLspecificAnnotation);
+					processAttributes(att, currentNode, sbmlElements, parser, hasAttributes, isInsideAnnotation, isRDFSBMLspecificAnnotation);
 
 				} else {
 					logger.warn(String.format("Cannot find a parser for the %s namespace", elementNamespace));				
@@ -876,7 +877,7 @@ public class SBMLReader {
 	 * @param hasAttributes
 	 */
 	private void processNamespaces(Iterator<Namespace> nam, QName currentNode, 
-			Stack<Object> sbmlElements,	ReadingParser parser, boolean hasAttributes, boolean isRDFSBMLSpecificAnnotation) 
+			Stack<Object> sbmlElements,	ReadingParser parser, boolean hasAttributes) 
 	{
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		ReadingParser namespaceParser = null;
@@ -925,7 +926,8 @@ public class SBMLReader {
 	 * @param hasAttributes
 	 */
 	private void processAttributes(Iterator<Attribute> att, QName currentNode, 
-			Stack<Object> sbmlElements, ReadingParser parser, boolean hasAttributes, boolean isRDFSBMLSpecificAnnotation) 
+			Stack<Object> sbmlElements, ReadingParser parser, boolean hasAttributes, 
+			boolean isInsideAnnotation, boolean isRDFSBMLSpecificAnnotation) 
 	{
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		ReadingParser attributeParser = null;
@@ -947,7 +949,13 @@ public class SBMLReader {
 						&& !isRDFSBMLSpecificAnnotation) 
 				{
 					attributeParser = initializedParsers.get("anyAnnotation");
-				} else {
+				} 
+				else if (isInsideAnnotation && attributeNamespaceURI.equals(JSBML.URI_XHTML_DEFINITION)) 
+				{
+					attributeParser = initializedParsers.get("anyAnnotation");
+				}
+				else 
+				{
 					attributeParser = initializedParsers.get(attributeNamespaceURI);
 				}
 				
@@ -1011,7 +1019,9 @@ public class SBMLReader {
 			{
 				parser = initializedParsers.get("anyAnnotation");
 			}
-
+			if (isInsideAnnotation && elementNamespaceURI.equals(JSBML.URI_XHTML_DEFINITION)) {
+				parser = initializedParsers.get("anyAnnotation");
+			}
 			// if the current node is a notes or message element and
 			// the matching ReadingParser is a StringParser, we need
 			// to reset the typeOfNotes variable of the
