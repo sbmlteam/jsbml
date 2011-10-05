@@ -2488,6 +2488,7 @@ public int getNumLocalParameters() {
   public UnitDefinition getPredefinedUnitDefinition(String unitKind) {
     if (listOfPredefinedUnitDefinitions != null) {
       for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) {
+        // TODO: It can never happen that a unitDef has the id that is a unit kind.
         if (unitDefinition.getId().equals(unitKind)
         		|| unitDefinition.getId().equals(unitKind + "_base")) 
         { 

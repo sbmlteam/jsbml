@@ -1,4 +1,4 @@
-package org.sbml.jsbml.extension.qual;
+package org.sbml.jsbml.ext.qual;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
