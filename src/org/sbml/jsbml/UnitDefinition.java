@@ -44,13 +44,13 @@ import org.sbml.jsbml.util.ValuePair;
 public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
-	 * Identifier of the (for SBML Level 2) predefined
-	 * {@link UnitDefinition} <code>area</code>.
+	 * Identifier of the (for SBML Level 2) predefined {@link UnitDefinition}
+	 * <code>area</code>.
 	 */
 	public static final String AREA = "area";
 	/**
-	 * Identifier of the (for SBML Level 2) predefined
-	 * {@link UnitDefinition} <code>length</code>.
+	 * Identifier of the (for SBML Level 2) predefined {@link UnitDefinition}
+	 * <code>length</code>.
 	 */
 	public static final String LENGTH = "length";
 	/**
@@ -204,7 +204,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return false;
 	}
 
-  /**
+	/**
 	 * This method returns the predefined unit with the given identifier for the
 	 * specified level and version combination or null if either for the given
 	 * combination of level and version there is no such predefined unit or the
@@ -231,7 +231,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 */
 	public static final UnitDefinition getPredefinedUnit(String id, int level,
 			int version) {
-		
+
 		if (id == null) {
 			logger.warn("Cannot create predefined unit object with id = null.");
 			return null;
@@ -259,7 +259,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 			try {
 				kind = Kind.valueOf(id.toUpperCase());
 			} catch (IllegalArgumentException exc) {
-				logger.warn(String.format("No such unit kind %s in SBML Level %d Version %d", id, level, version));
+				logger.warn(String.format(
+						"No such unit kind %s in SBML Level %d Version %d", id,
+						level, version));
 				return null;
 			}
 			u.setKind(kind);
@@ -271,17 +273,17 @@ public class UnitDefinition extends AbstractNamedSBase {
 				u.addCVTerm(new CVTerm(Qualifier.BQB_IS, resource));
 			}
 		}
-    String name = " unit" + id;
-    if (!Unit.isPredefined(id, level)) {
-      id += "_base";
-      name = "Base" + name;
-    } else {
-      name = "Predefined" + name;
-    }
-    UnitDefinition ud = new UnitDefinition(id, level, version);
-    ud.setName(name);
-    ud.addUnit(u);
-    return ud;
+		String name = " unit" + id;
+		if (!Unit.isPredefined(id, level)) {
+			id += "_base";
+			name = "Base" + name;
+		} else {
+			name = "Predefined" + name;
+		}
+		UnitDefinition ud = new UnitDefinition(id, level, version);
+		ud.setName(name);
+		ud.addUnit(u);
+		return ud;
 	}
 
 	/**
@@ -597,7 +599,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * 
 	 * @param definition
 	 */
-	public UnitDefinition divideBy(UnitDefinition definition) {		
+	public UnitDefinition divideBy(UnitDefinition definition) {
 		if (!isSetListOfUnits()) {
 			this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
 			this.listOfUnits.fireNodeAddedEvent();
@@ -606,20 +608,22 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 		for (Unit unit1 : definition.getListOfUnits()) {
 			Unit unit = unit1.clone();
-			unit.setExponent(-unit1.getExponent());
+			if (!(unit.isDimensionless() || unit.isInvalid())) {
+				unit.setExponent(-unit1.getExponent());
 
-			// can not add the same unit twice to the list, raise exponent
-			// instead
-			if (listOfUnits.contains(unit)) {
+				// can not add the same unit twice to the list, raise exponent
+				// instead
+				if (listOfUnits.contains(unit)) {
 
-				twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
-				twinunit.setExponent(twinunit.getExponent()
-						+ unit.getExponent());
+					twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
 
-			} else {
-				addUnit(unit.clone());
+					twinunit.setExponent(twinunit.getExponent()
+							+ unit.getExponent());
+
+				} else {
+					addUnit(unit.clone());
+				}
 			}
-
 		}
 		return this;
 	}
@@ -726,12 +730,14 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return isBuiltIn(this);
 	}
 
-	/* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-   */
-  public boolean isIdMandatory() {
-    return true;
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+	 */
+	public boolean isIdMandatory() {
+		return true;
+	}
 
 	/**
 	 * This method checks, if this UnitDefinition only contains Invalid as
@@ -986,8 +992,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 			if (listOfUnits.contains(unit)) {
 
 				twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
-				twinunit.setExponent(twinunit.getExponent()
-						+ unit.getExponent());
+
+				if (!(twinunit.isDimensionless() || twinunit.isInvalid())) {
+					twinunit.setExponent(twinunit.getExponent()
+							+ unit.getExponent());
+				}
 
 			} else {
 				addUnit(unit.clone());
@@ -1039,22 +1048,26 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return null;
 	}
 
-	/* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractNamedSBase#setId(java.lang.String)
-   */
-  @Override
-  public void setId(String id) {
-    // This test should be performed in order to ensure valid identifiers for Units:
-    ValuePair<Integer, Integer> lv = getLevelAndVersion();
-    if ((0 <= lv.compareTo(Integer.valueOf(2), Integer.valueOf(3)))
-      && Unit.Kind.isValidUnitKindString(id, lv.getL().intValue(),
-        lv.getV().intValue())) {
-      throw new IllegalArgumentException(String.format(
-                "Cannot use the name %s of a unit base kind as an identifier for a UnitDefinition.",
-                id));
-    }
-    super.setId(id);
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractNamedSBase#setId(java.lang.String)
+	 */
+	@Override
+	public void setId(String id) {
+		// This test should be performed in order to ensure valid identifiers
+		// for Units:
+		ValuePair<Integer, Integer> lv = getLevelAndVersion();
+		if ((0 <= lv.compareTo(Integer.valueOf(2), Integer.valueOf(3)))
+				&& Unit.Kind.isValidUnitKindString(id, lv.getL().intValue(), lv
+						.getV().intValue())) {
+			throw new IllegalArgumentException(
+					String.format(
+							"Cannot use the name %s of a unit base kind as an identifier for a UnitDefinition.",
+							id));
+		}
+		super.setId(id);
+	}
 
 	/**
 	 * Sets the {@link #listOfUnits} of this {@link UnitDefinition}.
@@ -1073,7 +1086,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		setThisAsParentSBMLObject(this.listOfUnits);
 	}
 
-  /**
+	/**
 	 * Simplifies the {@link UnitDefinition} so that any {@link Unit} objects
 	 * occurring within the {@link #listOfUnits} occurs only once. {@link Unit}s
 	 * of {@link Kind} {@link Kind.INVALID} are treated like
@@ -1103,13 +1116,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return this;
 	}
 
-  /**
-   * Removes the {@link #listOfUnits} from this {@link UnitDefinition} and
-   * notifies all registered instances of {@link TreeNodeChangeListener}.
-   * 
-   * @return <code>true</code> if calling this method lead to a change in this
-   *         data structure.
-   */
+	/**
+	 * Removes the {@link #listOfUnits} from this {@link UnitDefinition} and
+	 * notifies all registered instances of {@link TreeNodeChangeListener}.
+	 * 
+	 * @return <code>true</code> if calling this method lead to a change in this
+	 *         data structure.
+	 */
 	public boolean unsetListOfUnits() {
 		if (this.listOfUnits != null) {
 			ListOf<Unit> oldListOfUnits = this.listOfUnits;

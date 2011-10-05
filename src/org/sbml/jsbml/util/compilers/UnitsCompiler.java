@@ -629,12 +629,10 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	}
 
 	public ASTNodeValue function(String functionDefinitionName,
-			List<ASTNode> args) throws SBMLException 
-	{
+			List<ASTNode> args) throws SBMLException {
 		// TODO : Not sure what to do
 		return new ASTNodeValue(this);
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -884,7 +882,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			}
 			i++;
 		}
-		
+
 		for (int j = i + 1; j < compiledvalues.length; j++) {
 			unifyUnits(value, compiledvalues[j]);
 			value.setValue(Double.valueOf(value.toDouble()
@@ -1072,8 +1070,10 @@ public class UnitsCompiler implements ASTNodeCompiler {
 						}
 
 						if (scale1 > mean) {
-							v1 = v1 * Math.pow(10.0, -scale1 * u1.getExponent());
-							v2 = v2 * Math.pow(10.0, -scale2 * u2.getExponent());
+							v1 = v1
+									* Math.pow(10.0, -scale1 * u1.getExponent());
+							v2 = v2
+									* Math.pow(10.0, -scale2 * u2.getExponent());
 
 						} else {
 							v1 = v1 * Math.pow(10.0, scale1 * u1.getExponent());
@@ -1100,11 +1100,12 @@ public class UnitsCompiler implements ASTNodeCompiler {
 				right.setValue(v2);
 			}
 
-		} else {
-			throw new UnitException(String.format(
-						"Cannot combine the units %s and %s in addition, subtraction, comparisson or any equivalent operation.",
-						UnitDefinition.printUnits(left.getUnits(), true),
-						UnitDefinition.printUnits(right.getUnits(), true)));
+		} else {			
+			throw new UnitException(
+					String.format(
+							"Cannot combine the units %s and %s in addition, subtraction, comparisson or any equivalent operation.",
+							UnitDefinition.printUnits(left.getUnits(), true),
+							UnitDefinition.printUnits(right.getUnits(), true)));
 
 		}
 
@@ -1241,8 +1242,11 @@ public class UnitsCompiler implements ASTNodeCompiler {
 										"Can not perform power or root operation due to incompatibility with a unit exponent. Given %s and %s.",
 										u.getExponent(), rootExponent)));
 			}
+			
+			if (!(u.isDimensionless() || u.isInvalid())) {
+				u.setExponent(u.getExponent() / rootExponent);
+			}
 
-			u.setExponent(u.getExponent() / rootExponent);
 		}
 		ASTNodeValue value = new ASTNodeValue(ud, this);
 		value.setValue(Double.valueOf(Math.pow(radiant.toDouble(),
@@ -1386,6 +1390,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		UnitDefinition ud = new UnitDefinition(level, version);
 		UnitDefinition v;
 		double d = 1d;
+
 		for (ASTNode value : values) {
 			ASTNodeValue av = value.compile(this);
 			v = av.getUnits().clone();
@@ -1395,6 +1400,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		}
 		ASTNodeValue value = new ASTNodeValue(ud, this);
 		value.setValue(Double.valueOf(d));
+
 		return value;
 	}
 
