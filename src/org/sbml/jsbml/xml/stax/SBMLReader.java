@@ -503,6 +503,7 @@ public class SBMLReader {
 		boolean isHTML = false;
 		boolean isRDFSBMLSpecificAnnotation = false;
 		boolean isInsideAnnotation = false;
+		boolean isInsideNotes = false;
 		int rdfDescriptionIndex = -1;
 		int annotationDeepness = -1;
 		int level = -1, version = -1;
@@ -535,7 +536,7 @@ public class SBMLReader {
 				isText = false;
 				
 				addAnnotationParsers(startElement);
-				
+
 				// If the XML element is the sbml element, creates the
 				// necessary ReadingParser instances.
 				// Creates an empty SBMLDocument instance and pushes it on
@@ -586,10 +587,10 @@ public class SBMLReader {
 					
 				} else if (currentNode.getLocalPart().equals("annotation")) {
 
-					// check the namespace as some annotation element can be named 'annotation' as well !!
+					// get the sbml namespace as some element can have similar names in different namespaces
 					SBMLDocument sbmlDoc = (SBMLDocument) sbmlElements.firstElement();
 					String sbmlNamespace = sbmlDoc.getSBMLDocumentNamespaces().get("xmlns");
-					
+
 					if (currentNode.getNamespaceURI().equals(sbmlNamespace)) {
 						if (isInsideAnnotation) {
 							logger.warn("Starting to read a new annotation element while the previous annotation element is not finished.");
@@ -602,6 +603,16 @@ public class SBMLReader {
 					// Count the number of open elements to know how deep we are in the annotation
 					// We should only parse the RDF is annotationDeepness == 1 && rdfDescriptionIndex == 0 
 					annotationDeepness++;
+				} 
+				else if (currentNode.getLocalPart().equals("notes")) 
+				{
+					// get the sbml namespace as some element can have similar names in different namespaces
+					SBMLDocument sbmlDoc = (SBMLDocument) sbmlElements.firstElement();
+					String sbmlNamespace = sbmlDoc.getSBMLDocumentNamespaces().get("xmlns");
+
+					if (currentNode.getNamespaceURI().equals(sbmlNamespace)) {
+						isInsideNotes = true;
+					}
 				}
 				
 				// setting isRDFSBMLSpecificAnnotation 
@@ -634,12 +645,16 @@ public class SBMLReader {
 				if (!characters.isWhiteSpace()) {
 					isText = true; // the characters are not only 'white spaces'
 				}
-				if (sbmlElements.peek() instanceof XMLNode) {
+				if (sbmlElements.peek() instanceof XMLNode || isInsideNotes) {
 					isText = true; // We want to keep the whitespace/formatting when reading html block
 				}
 
 				// process the text of a XML element.
 				if ((parser != null) && !sbmlElements.isEmpty()	&& (isText || isInsideAnnotation)) {
+					
+					if (isInsideNotes) {
+						parser = initializedParsers.get(JSBML.URI_XHTML_DEFINITION);
+					}
 					
 					logger.debug(" Parser = " + parser.getClass().getName());
 					logger.debug(" Characters = @" + characters.getData() + "@");
@@ -677,11 +692,12 @@ public class SBMLReader {
 				currentNode = event.asEndElement().getName();
 				
 				if (currentNode != null) {
-					if (currentNode.getLocalPart().equals("annotation")) {
+					
+					// get the sbml namespace as some element can have similar names in differents namespaces
+					SBMLDocument sbmlDoc = (SBMLDocument) sbmlElements.firstElement();
+					String sbmlNamespace = sbmlDoc.getSBMLDocumentNamespaces().get("xmlns");
 
-						// check the namespace as some annotation element can be named 'annotation' as well !!
-						SBMLDocument sbmlDoc = (SBMLDocument) sbmlElements.firstElement();
-						String sbmlNamespace = sbmlDoc.getSBMLDocumentNamespaces().get("xmlns");
+					if (currentNode.getLocalPart().equals("annotation")) {
 						
 						if (currentNode.getNamespaceURI().equals(sbmlNamespace)) {
 							isInsideAnnotation = false;
@@ -693,7 +709,11 @@ public class SBMLReader {
 					} else if (isInsideAnnotation) {
 						annotationDeepness--;
 					}
-
+					else if (currentNode.getLocalPart().equals("notes") && (currentNode.getNamespaceURI().equals(sbmlNamespace))) 
+					{
+						isInsideNotes = false;
+					}
+					
 					if (currentNode.getLocalPart().equals("Description") 
 							&& currentNode.getNamespaceURI().equals(Annotation.URI_RDF_SYNTAX_NS)) 
 					{
