@@ -99,7 +99,8 @@ public class XMLNodeWriter {
 		
 		boolean isRoot = false;
 		
-		if (xmlNode.getName().equals("notes") || xmlNode.getName().equals("message")) {
+		// Notes are handled correctly when reading
+		if (xmlNode.getName().equals("message")) {
 			writer.writeCharacters(indent);
 			isRoot = true;
 		}
@@ -148,8 +149,7 @@ public class XMLNodeWriter {
 				writer.writeAttribute(attrName, attrValue);
 			}
 		}
-		
-		
+
 		long nbChildren = xmlNode.getChildCount();
 		
 		for (int i = 0; i < nbChildren; i++) {

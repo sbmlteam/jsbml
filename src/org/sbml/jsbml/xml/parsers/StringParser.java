@@ -21,7 +21,6 @@
 package org.sbml.jsbml.xml.parsers;
 
 import org.apache.log4j.Logger;
-
 import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
@@ -92,15 +91,39 @@ public class StringParser implements ReadingParser {
 		
 		// characters = StringTools.encodeForHTML(characters); // TODO : use an apache util for that.
 
+		XMLNode textNode = new XMLNode(characters);
+
 		if (contextObject instanceof XMLNode) {
 			
 			XMLNode xmlNode = (XMLNode) contextObject;
-			XMLNode textNode = new XMLNode(characters);
 
 			xmlNode.addChild(textNode);
 			
-		} else {
-			logger.debug("processCharactersOf : context Object is not an XMLNode !!! " + contextObject);
+		} else if (contextObject instanceof SBase) {
+			SBase parentSBMLElement = (SBase) contextObject;
+			
+			XMLNode xmlNode = null;
+
+			if (parentSBMLElement.isSetNotes() && typeOfNotes.equals("notes")) 
+			{
+				xmlNode = parentSBMLElement.getNotes(); 
+			}
+			else if (typeOfNotes.equals("message") && parentSBMLElement instanceof Constraint
+					&& ((Constraint) parentSBMLElement).isSetMessage())
+			{
+				xmlNode = ((Constraint) parentSBMLElement).getMessage();
+			} 
+			else 
+			{
+				logger.warn("The type of String " + typeOfNotes + " on the element " + 
+						parentSBMLElement.getElementName() + " is unknown !! Some data might be lost");
+				return;
+			}
+
+			xmlNode.addChild(textNode);
+			
+		} else {	
+			logger.debug("processCharactersOf : context Object is not an XMLNode or SBase !!! " + contextObject);
 		}
 
 		
