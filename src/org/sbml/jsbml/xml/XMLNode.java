@@ -117,6 +117,14 @@ public class XMLNode extends XMLToken {
 	private static final long serialVersionUID = -7699595383368237593L;
 	
 	/**
+	 * This reader is used to parse all notes-Strings.
+	 * It takes a lot of time to re-initialize the {@link SBMLReader}
+	 * every time notes are being set or appended, thus, this instance
+	 * is static and should be used to parse all notes.
+	 */
+	private static SBMLReader notesReader = new SBMLReader();
+	
+	/**
 	 * Returns an {@link XMLNode} which is derived from a string containing XML
 	 * content.
 	 * <p>
@@ -140,7 +148,11 @@ public class XMLNode extends XMLToken {
 	 */
 	public static XMLNode convertStringToXMLNode(String xmlstr) {
 		try {
-			return new SBMLReader().readNotes(xmlstr);
+		  /* Initializing the SBMLReader again and again
+		   * for every time we append notes takes a lot of time
+		   * (especially calling the initializePackageParsers()
+		   * method) => use a static instance here */
+			return notesReader.readNotes(xmlstr);
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		}
@@ -175,7 +187,7 @@ public class XMLNode extends XMLToken {
 		// TODO : check how to use the xmlns arguments inside the SBMLReader.readNotes.
 		
 		try {
-			return new SBMLReader().readNotes(xmlstr);
+			return notesReader.readNotes(xmlstr);
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		}

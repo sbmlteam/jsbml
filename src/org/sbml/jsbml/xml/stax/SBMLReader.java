@@ -103,6 +103,8 @@ public class SBMLReader {
 			initializePackageParserNamespaces();
 		}
 		for (String namespace : packageParsers.keySet()) {
+		  // Skip already existing Namespaces
+		  if (initializedParsers.containsKey(namespace)) continue;
 			try {
 				initializedParsers.put(namespace, packageParsers.get(namespace).newInstance());
 			} catch (InstantiationException e) {
