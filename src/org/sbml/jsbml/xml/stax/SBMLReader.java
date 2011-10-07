@@ -693,13 +693,20 @@ public class SBMLReader {
 				
 				if (currentNode != null) {
 					
-					// get the sbml namespace as some element can have similar names in differents namespaces
-					SBMLDocument sbmlDoc = (SBMLDocument) sbmlElements.firstElement();
-					String sbmlNamespace = sbmlDoc.getSBMLDocumentNamespaces().get("xmlns");
-
+					boolean isSBMLelement = true;
+					
+					// get the sbml namespace as some element can have similar names in different namespaces
+					if (sbmlElements.firstElement() instanceof SBMLDocument) {
+						SBMLDocument sbmlDoc = (SBMLDocument) sbmlElements.firstElement();
+						String sbmlNamespace = sbmlDoc.getSBMLDocumentNamespaces().get("xmlns");
+						if (!currentNode.getNamespaceURI().equals(sbmlNamespace)) {
+							isSBMLelement = false;
+						}
+					}
+					
 					if (currentNode.getLocalPart().equals("annotation")) {
 						
-						if (currentNode.getNamespaceURI().equals(sbmlNamespace)) {
+						if (isSBMLelement) {
 							isInsideAnnotation = false;
 							annotationDeepness = -1;
 							rdfDescriptionIndex = -1;
@@ -709,7 +716,7 @@ public class SBMLReader {
 					} else if (isInsideAnnotation) {
 						annotationDeepness--;
 					}
-					else if (currentNode.getLocalPart().equals("notes") && (currentNode.getNamespaceURI().equals(sbmlNamespace))) 
+					else if (currentNode.getLocalPart().equals("notes") && isSBMLelement) 
 					{
 						isInsideNotes = false;
 					}

@@ -25,6 +25,7 @@ import java.io.StringWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.log4j.Logger;
 import org.codehaus.staxmate.SMOutputFactory;
 import org.sbml.jsbml.xml.XMLNode;
 
@@ -44,7 +45,7 @@ public class XMLNodeWriter {
 	private String indent;
 	private XMLStreamWriter writer;
 	
-	
+	private Logger logger = Logger.getLogger(XMLNodeWriter.class);
 
 	/**
 	 * 
@@ -117,6 +118,9 @@ public class XMLNodeWriter {
 				writer.writeCharacters(indent + "  ");				
 			}
 		} else if (xmlNode.isText()) {
+			
+			logger.debug("writing some text : characters = @" + xmlNode.getCharacters() + "@");
+			
 			writer.writeCharacters(xmlNode.getCharacters());
 		}
 

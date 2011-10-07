@@ -87,7 +87,7 @@ public class StringParser implements ReadingParser {
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		
-		logger.debug("processCharactersOf called.");
+		logger.debug("processCharactersOf called : characters = @" + characters + "@");
 		
 		// characters = StringTools.encodeForHTML(characters); // TODO : use an apache util for that.
 
