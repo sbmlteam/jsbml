@@ -239,6 +239,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				version)))) {
 			logger.warn(String.format(
 					"No such predefined unit %s in SBML Level %d.", id, level));
+			return null;
 		}
 
 		id = id.toLowerCase();
