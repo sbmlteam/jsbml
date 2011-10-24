@@ -184,8 +184,7 @@ public class MultiParser implements ReadingParser, WritingParser {
 				this.multiList = MultiList.listOfInitialSpeciesInstances;
 
 				MultiSpecies multiSpecies = new MultiSpecies();
-				multiSpecies
-						.setListOfInitialSpeciesInstance(listOfInitialSpeciesInstances);
+				multiSpecies.setListOfInitialSpeciesInstance(listOfInitialSpeciesInstances);
 				species.addExtension(MultiParser.namespaceURI, multiSpecies);
 
 				return listOfInitialSpeciesInstances;

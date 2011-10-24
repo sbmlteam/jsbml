@@ -34,7 +34,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.groups.Group;
 import org.sbml.jsbml.ext.groups.GroupList;
 import org.sbml.jsbml.ext.groups.Member;
-import org.sbml.jsbml.ext.groups.ModelGroupExtension;
+import org.sbml.jsbml.ext.groups.GroupModel;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -90,7 +90,7 @@ public class GroupsParser implements ReadingParser, WritingParser {
 			// TODO : the 'required' attribute is written even if there is no plugin class for the SBMLDocument, so I am not totally sure how this is done.
 		} 
 		else if (sbase instanceof Model) {
-			ModelGroupExtension modelGE = (ModelGroupExtension) ((Model) sbase).getExtension(namespaceURI);
+			GroupModel modelGE = (GroupModel) ((Model) sbase).getExtension(namespaceURI);
 
 			if (modelGE != null && modelGE.isSetListOfGroups()) {
 				listOfElementsToWrite.add(modelGE.getListOfGroups());
@@ -98,26 +98,13 @@ public class GroupsParser implements ReadingParser, WritingParser {
 			}
 
 		} 
-		else if (sbase instanceof ModelGroupExtension) {
-			ModelGroupExtension modelGE = (ModelGroupExtension) sbase;
+		else if (sbase instanceof GroupModel) {
+			GroupModel modelGE = (GroupModel) sbase;
 			
 			if (modelGE.isSetListOfGroups()) {
 				listOfElementsToWrite.add(modelGE.getListOfGroups());
 				groupList = GroupList.listOfGroups;
 			}
-			
-/*			Enumeration<TreeNode> children = ((SBasePlugin) sbase).children();
-
-			if (sbase instanceof ModelGroupExtension) {
-				groupList = GroupList.listOfGroups;
-			}
-
-			while (children.hasMoreElements()) {
-				listOfElementsToWrite.add(children.nextElement());
-			}
-			*/
-			
-			
 		}
 		else if (sbase instanceof TreeNode) {
 			Enumeration<TreeNode> children = ((TreeNode) sbase).children();
@@ -131,38 +118,6 @@ public class GroupsParser implements ReadingParser, WritingParser {
 			}
 		}
 		
-		/*
-		if (sbase instanceof SBase) {
-			if (sbase instanceof ModelGroupExtension) {
-
-				ModelGroupExtension model = (ModelGroupExtension) sbase;
-
-				if (model.isSetListOfGroups()) {
-					listOfElementsToWrite.add(model.getListOfGroups());
-				}
-			} else if (sbase instanceof ListOf) {
-				ListOf<SBase> listOf = (ListOf<SBase>) sbase;
-
-				if (!listOf.isEmpty()) {
-					listOfElementsToWrite = new ArrayList<Object>();
-					for (int i = 0; i < listOf.size(); i++) {
-						SBase element = listOf.get(i);
-
-						if (element != null) {
-							listOfElementsToWrite.add(element);
-						}
-					}
-				}
-			} else if (sbase instanceof Group) {
-				Group group = (Group) sbase;
-
-				if (group.isSetListOfMembers()) {
-					listOfElementsToWrite.add(group.getListOfMembers());
-				}
-			}
-		}
-		 */
-
 		if (listOfElementsToWrite.isEmpty()) {
 			listOfElementsToWrite = null;
 		} else {
@@ -289,7 +244,7 @@ public class GroupsParser implements ReadingParser, WritingParser {
 				listOfGroups.addNamespace(namespaceURI);
 				this.groupList = GroupList.listOfGroups;
 
-				ModelGroupExtension groupModel = new ModelGroupExtension(model);
+				GroupModel groupModel = new GroupModel(model);
 				groupModel.setListOfGroups(listOfGroups);
 				// groupModel.addNamespace(namespaceURI);
 				model.addExtension(namespaceURI, groupModel);
@@ -316,7 +271,7 @@ public class GroupsParser implements ReadingParser, WritingParser {
 			if (elementName.equals("group")
 					&& this.groupList.equals(GroupList.listOfGroups)) {
 				Model model = (Model) listOf.getParentSBMLObject();
-				ModelGroupExtension extendeModel = (ModelGroupExtension) model.getExtension(namespaceURI); 
+				GroupModel extendeModel = (GroupModel) model.getExtension(namespaceURI); 
 				
 				Group group = new Group();
 				group.addNamespace(namespaceURI);

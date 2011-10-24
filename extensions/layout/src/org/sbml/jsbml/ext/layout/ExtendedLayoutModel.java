@@ -20,11 +20,13 @@
 
 package org.sbml.jsbml.ext.layout;
 
+import java.util.Map;
+
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
@@ -34,7 +36,9 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * @since 0.8
  * @version $Rev$
  */
-public class ExtendedLayoutModel extends AbstractSBase {
+public class ExtendedLayoutModel implements SBasePlugin {
+
+	// TODO : need to be adapted to the new way of dealing with L3 packages
 
 	/**
 	 * Generated serial version identifier.
@@ -45,6 +49,8 @@ public class ExtendedLayoutModel extends AbstractSBase {
 	 */
 	protected ListOf<Layout> listOfLayouts;
 
+	private Model model;
+	
 	/**
 	 * 
 	 */
@@ -58,7 +64,6 @@ public class ExtendedLayoutModel extends AbstractSBase {
 	 * @param elm
 	 */
 	public ExtendedLayoutModel(ExtendedLayoutModel elm) {
-		super(elm);
 		// We don't clone the pointer to the containing model.
 		if (elm.listOfLayouts != null) {
 			this.listOfLayouts = elm.listOfLayouts.clone();
@@ -72,7 +77,6 @@ public class ExtendedLayoutModel extends AbstractSBase {
 	 */
 	public ExtendedLayoutModel(int level, int version) {
 		// TODO : add package version as well
-		super(level, version);
 		listOfLayouts = new ListOf<Layout>();
 	}
 
@@ -123,25 +127,15 @@ public class ExtendedLayoutModel extends AbstractSBase {
 		return equals;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Model#getChildAt(int)
-	 */
-	@Override
 	public TreeNode getChildAt(int index) {
 		if (isSetListOfLayouts() && (index == getChildCount() - 1)) {
 			return getListOfLayouts();
 		}
-		return super.getChildAt(index);
+		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.Model#getChildCount()
-	 */
-	@Override
 	public int getChildCount() {
-		int count = super.getChildCount();
+		int count = 0;
 		if (isSetListOfLayouts()) {
 			count++;
 		}
@@ -165,21 +159,15 @@ public class ExtendedLayoutModel extends AbstractSBase {
 		return listOfLayouts;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getParent()
-	 */
-	@Override
+
 	public Model getParent() {
-		return (Model) super.getParent();
+		// TODO
+		return null;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.Model#getParentSBMLObject()
-	 */
-	@Override
 	public Model getParentSBMLObject() {
-		return (Model) super.getParentSBMLObject();
+		// TODO
+		return null;
 	}
 	
 	/**
@@ -205,7 +193,7 @@ public class ExtendedLayoutModel extends AbstractSBase {
 		if ((this.listOfLayouts != null) && (this.listOfLayouts.getSBaseListType() != ListOf.Type.other)) {
 			this.listOfLayouts.setSBaseListType(ListOf.Type.other);
 		}
-		setThisAsParentSBMLObject(listOfLayouts);
+		model.setThisAsParentSBMLObject(listOfLayouts);
 	}
 
 	@Override
@@ -229,6 +217,15 @@ public class ExtendedLayoutModel extends AbstractSBase {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		return false;
+	}
+
+	public Map<String, String> writeXMLAttributes() {
+		return null;
 	}	
 
 }

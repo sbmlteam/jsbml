@@ -304,10 +304,11 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
 						ExtendedLayoutModel layoutModel = new ExtendedLayoutModel();
 						layoutModel.setListOfLayouts(listOfLayouts);
-						layoutModel.addNamespace(namespaceURI);
+						// layoutModel.addNamespace(namespaceURI);
 						model.addExtension(LayoutParser.namespaceURI,
 								layoutModel);
-						listOfLayouts.setParentSBML(layoutModel);
+						// TODO : check what to do for the parent of the listOfLayout !!
+						listOfLayouts.setParentSBML(model);
 						return listOfLayouts;
 					} else {
 						log4jLogger.warn(String.format("Element %s not recognized!", elementName));
