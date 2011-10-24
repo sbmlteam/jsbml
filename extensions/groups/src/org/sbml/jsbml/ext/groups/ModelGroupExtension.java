@@ -20,8 +20,14 @@
 
 package org.sbml.jsbml.ext.groups;
 
+import java.util.Enumeration;
+import java.util.Map;
+
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
@@ -30,7 +36,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * @since 0.8
  * @version $Rev$
  */
-public class ModelGroupExtension extends Model {
+public class ModelGroupExtension implements SBasePlugin {
 
 	/**
 	 * Generated serial version identifier.
@@ -45,30 +51,13 @@ public class ModelGroupExtension extends Model {
 	 */
 	protected Model model;
 	
-	/**
-	 * 
-	 */
-	public ModelGroupExtension() {
-		super();
-	}
-	
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public ModelGroupExtension(int level, int version) {
-		super(level, version);
-	}
 	
 	/**
 	 * 
 	 * @param model
 	 */
 	public ModelGroupExtension(Model model) {
-		this();
 		this.model = model;
-		this.model.setThisAsParentSBMLObject(this);
 	}
 	
 	/**
@@ -76,7 +65,9 @@ public class ModelGroupExtension extends Model {
 	 * @param group
 	 */
 	public void addGroup(Group group) {
-		setThisAsParentSBMLObject(group);
+		
+		group.setParentSBMLObject(model);
+		
 		listOfGroups.add(group);		
 	}
 
@@ -126,7 +117,7 @@ public class ModelGroupExtension extends Model {
 		if ((this.listOfGroups != null) && (this.listOfGroups.getSBaseListType() != ListOf.Type.other)) {
 			this.listOfGroups.setSBaseListType(ListOf.Type.other);
 		}
-		setThisAsParentSBMLObject(listOfGroups);
+		listOfGroups.setParentSBMLObject(model);
 	}
 
 	/**
@@ -144,6 +135,46 @@ public class ModelGroupExtension extends Model {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public ModelGroupExtension clone() {
+		// TODO 
+		return null;
+	}
+
+	@Override
+	public String toString() {
+		// TODO 
+		return null;
+	}
+
+	public boolean readAttribute(String attributeName, String prefix, String value) {
+		// No attribute define on this plugin
+		return false;
+	}
+
+	public Map<String, String> writeXMLAttributes() {
+		// No attribute define on this plugin
+		return null;
+	}
+
+	public TreeNode getChildAt(int childIndex) {
+		if (childIndex < 0 || childIndex >= 1) {
+			return null;
+		}
+		return listOfGroups;
+	}
+
+	public int getChildCount() {		
+		if (isSetListOfGroups()) {
+			return 1;
+		}
+		return 0;
+	}
+
+	public TreeNode getParent() {
+		return model;
 	}
 		
 }

@@ -3329,9 +3329,12 @@ public int getNumLocalParameters() {
                    && (parent.getParent() != null)) {
           return registerId((KineticLaw) parent.getParent(),
                             (LocalParameter) newNsb, delete);
-        } else {
-          // must be UnitDefinition..!
+        } else if (newNsb instanceof UnitDefinition) {
           return registerId((UnitDefinition) newNsb, !delete);
+        } else {
+        	// in L3 packages we might have different id namespaces
+        	logger.error("registerIds : the object " + newNsb.getClass().getCanonicalName() + " is neither " +
+        			"a UniqueNamedSBase, a LocalParameter or a UnitDefinition so it's id will not be registered in the Model.");
         }
       } else if (!newNsb.isIdMandatory()) {
         return true;
