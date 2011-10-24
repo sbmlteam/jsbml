@@ -21,7 +21,11 @@
 package org.sbml.jsbml.xml.parsers;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 
+import javax.swing.tree.TreeNode;
+
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
@@ -31,8 +35,6 @@ import org.sbml.jsbml.ext.groups.Group;
 import org.sbml.jsbml.ext.groups.GroupList;
 import org.sbml.jsbml.ext.groups.Member;
 import org.sbml.jsbml.ext.groups.ModelGroupExtension;
-import org.sbml.jsbml.xml.parsers.ReadingParser;
-import org.sbml.jsbml.xml.parsers.WritingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -67,6 +69,8 @@ public class GroupsParser implements ReadingParser, WritingParser {
 	 * 
 	 */
 	private GroupList groupList = GroupList.none;
+	
+	private Logger logger = Logger.getLogger(GroupsParser.class);
 
 	/*
 	 * (non-Javadoc)
@@ -77,10 +81,57 @@ public class GroupsParser implements ReadingParser, WritingParser {
 	@SuppressWarnings("unchecked")
 	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
-		System.out.println("GroupsParser : getListOfSBMLElementsToWrite\n");
+		logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
 
 		ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
 
+		if (sbase instanceof SBMLDocument) {
+			// nothing to do
+			// TODO : the 'required' attribute is written even if there is no plugin class for the SBMLDocument, so I am not totally sure how this is done.
+		} 
+		else if (sbase instanceof Model) {
+			ModelGroupExtension modelGE = (ModelGroupExtension) ((Model) sbase).getExtension(namespaceURI);
+
+			if (modelGE != null && modelGE.isSetListOfGroups()) {
+				listOfElementsToWrite.add(modelGE.getListOfGroups());
+				groupList = GroupList.listOfGroups;
+			}
+
+		} 
+		else if (sbase instanceof ModelGroupExtension) {
+			ModelGroupExtension modelGE = (ModelGroupExtension) sbase;
+			
+			if (modelGE.isSetListOfGroups()) {
+				listOfElementsToWrite.add(modelGE.getListOfGroups());
+				groupList = GroupList.listOfGroups;
+			}
+			
+/*			Enumeration<TreeNode> children = ((SBasePlugin) sbase).children();
+
+			if (sbase instanceof ModelGroupExtension) {
+				groupList = GroupList.listOfGroups;
+			}
+
+			while (children.hasMoreElements()) {
+				listOfElementsToWrite.add(children.nextElement());
+			}
+			*/
+			
+			
+		}
+		else if (sbase instanceof TreeNode) {
+			Enumeration<TreeNode> children = ((TreeNode) sbase).children();
+			
+			if (sbase instanceof Group) {
+				groupList = GroupList.listOfMembers;
+			}
+			
+			while (children.hasMoreElements()) {
+				listOfElementsToWrite.add(children.nextElement());
+			}
+		}
+		
+		/*
 		if (sbase instanceof SBase) {
 			if (sbase instanceof ModelGroupExtension) {
 
@@ -110,9 +161,12 @@ public class GroupsParser implements ReadingParser, WritingParser {
 				}
 			}
 		}
+		 */
 
 		if (listOfElementsToWrite.isEmpty()) {
 			listOfElementsToWrite = null;
+		} else {
+			logger.debug("getListOfSBMLElementsToWrite size = " + listOfElementsToWrite.size());
 		}
 
 		return listOfElementsToWrite;
@@ -128,10 +182,18 @@ public class GroupsParser implements ReadingParser, WritingParser {
 			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) {
 
+		logger.debug("processAttribute\n");
+		
+		// TODO : create a upper interface with the readAttribute method at least to be able to have a simpler code here.
+		
 		boolean isAttributeRead = false;
 
 		if (contextObject instanceof SBase) {
+
 			SBase sbase = (SBase) contextObject;
+			
+			logger.debug("processAttribute : level, version = " + sbase.getLevel() + ", " + sbase.getVersion());
+
 			try {
 				isAttributeRead = sbase.readAttribute(attributeName, prefix,
 						value);
@@ -145,6 +207,10 @@ public class GroupsParser implements ReadingParser, WritingParser {
 		}
 
 		if (!isAttributeRead) {
+			logger.warn("processAttribute : The attribute " + attributeName
+					+ " on the element " + elementName +
+					" is not part of the SBML specifications");
+					
 			// TODO : throw new SBMLException ("The attribute " + attributeName
 			// + " on the element " + elementName +
 			// "is not part of the SBML specifications");
@@ -157,9 +223,11 @@ public class GroupsParser implements ReadingParser, WritingParser {
 	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
+		
 		// TODO : the basic Groups elements don't have any text. SBML syntax
 		// error, throw an exception, log en error ?
-
+		logger.debug("processCharactersOf : the basic Groups elements don't have any text. " +
+				"SBML syntax error. characters lost = " + characters);
 	}
 
 	/**
@@ -177,10 +245,12 @@ public class GroupsParser implements ReadingParser, WritingParser {
 	 *      elementName, String prefix, boolean isNested, Object contextObject)
 	 */
 	public boolean processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject) {
+			boolean isNested, Object contextObject) 
+	{
 
 		if (elementName.equals("listOfMembers")
-				|| elementName.equals("listOfGroups")) {
+				|| elementName.equals("listOfGroups")) 
+		{
 			this.groupList = GroupList.none;
 		}
 		
@@ -195,8 +265,9 @@ public class GroupsParser implements ReadingParser, WritingParser {
 	 */
 	public void processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) {
-		// Nothing to be done
+			Object contextObject) 
+	{
+		// TODO : read the namespace, it could be some other extension objects
 	}
 
 	/**
@@ -208,7 +279,8 @@ public class GroupsParser implements ReadingParser, WritingParser {
 	// Create the proper object and link it to his parent.
 	@SuppressWarnings("unchecked")
 	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
+			boolean hasAttributes, boolean hasNamespaces, Object contextObject) 
+	{
 		if (contextObject instanceof Model) {
 			Model model = (Model) contextObject;
 			if (elementName.equals("listOfGroups")) {
@@ -219,8 +291,8 @@ public class GroupsParser implements ReadingParser, WritingParser {
 
 				ModelGroupExtension groupModel = new ModelGroupExtension(model);
 				groupModel.setListOfGroups(listOfGroups);
-				groupModel.addNamespace(namespaceURI);
-				model.addExtension(GroupsParser.namespaceURI, groupModel);
+				// groupModel.addNamespace(namespaceURI);
+				model.addExtension(namespaceURI, groupModel);
 
 				return listOfGroups;
 			}
@@ -243,8 +315,9 @@ public class GroupsParser implements ReadingParser, WritingParser {
 
 			if (elementName.equals("group")
 					&& this.groupList.equals(GroupList.listOfGroups)) {
-				ModelGroupExtension extendeModel = (ModelGroupExtension) listOf
-						.getParentSBMLObject();
+				Model model = (Model) listOf.getParentSBMLObject();
+				ModelGroupExtension extendeModel = (ModelGroupExtension) model.getExtension(namespaceURI); 
+				
 				Group group = new Group();
 				group.addNamespace(namespaceURI);
 				extendeModel.addGroup(group);
@@ -284,10 +357,9 @@ public class GroupsParser implements ReadingParser, WritingParser {
 	 *      xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO : Group elements do not have any characters in the XML file.
-		// what to do?
-
+			Object sbmlElementToWrite) 
+	{
+		logger.error("writeCharacters : Group elements do not have any characters !!");
 	}
 
 	/**
@@ -298,14 +370,14 @@ public class GroupsParser implements ReadingParser, WritingParser {
 	public void writeElement(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
 
-		System.out.println("GroupsParser : writeElement");
+		logger.debug("GroupsParser : writeElement");
 
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
 
 			if (!xmlObject.isSetName()) {
 				if (sbase instanceof ListOf<?>) {
-					xmlObject.setName(GroupList.listOfGroups.toString());
+					xmlObject.setName(groupList.toString());
 				} else {
 					xmlObject.setName(sbase.getElementName());
 				}
@@ -325,13 +397,14 @@ public class GroupsParser implements ReadingParser, WritingParser {
 	 *      xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
+			Object sbmlElementToWrite) 
+	{
 		if (sbmlElementToWrite instanceof SBase) {
 			// SBase sbase = (SBase) sbmlElementToWrite;
 
 			xmlObject.setPrefix("groups");
 		}
-
+		// TODO : write all namespaces
 	}
 
 }

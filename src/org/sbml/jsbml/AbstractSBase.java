@@ -22,7 +22,6 @@ package org.sbml.jsbml;
 
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +106,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * map containing the SBML extension object of additional packages with the
 	 * appropriate name space of the package.
 	 */
-	private SortedMap<String, SBase> extensions;
+	private SortedMap<String, SBasePlugin> extensions;
 	
 	/**
 	 * Level and version of the SBML component. Matches the level XML attribute of a SBML
@@ -159,7 +158,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		notesXMLNode = null;
 		lv = getLevelAndVersion();
 		annotation = null;
-		extensions = new TreeMap<String, SBase>();
+		extensions = new TreeMap<String, SBasePlugin>();
 		usedNamespaces = new TreeSet<String>();
 		declaredNamespaces = new HashMap<String, String>();
 	}
@@ -205,7 +204,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		super(sb);
 		
 		// extensions is needed when doing getChildCount()
-		extensions = new TreeMap<String, SBase>();
+		extensions = new TreeMap<String, SBasePlugin>();
 		usedNamespaces = new TreeSet<String>();
 		declaredNamespaces = new HashMap<String, String>();
 
@@ -260,7 +259,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#addExtension(java.lang.String, org.sbml.jsbml.SBase)
 	 */
-	public void addExtension(String namespace, SBase sbase) {
+	public void addExtension(String namespace, SBasePlugin sbase) {
 		this.extensions.put(namespace, sbase);
 		addNamespace(namespace);
 		firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbase);
@@ -850,15 +849,23 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			}
 			pos++;
 		}
-		if ((0 < extensions.size()) && (childIndex - pos < extensions.size())) {
-			Iterator<SBase> iterator = extensions.values().iterator();
-			int i = 0;
-			while (iterator.hasNext() && (i < childIndex - pos)) {
-				iterator.next();
-				i++;
+		
+		// TODO : check this to get correctly the extensions children
+		
+		if (extensions.size() > 0) {
+
+			for (SBasePlugin sbasePlugin : extensions.values()) {
+				int sbasePluginNbChildren = sbasePlugin.getChildCount();
+				
+				if ((pos + sbasePluginNbChildren) > childIndex) {
+					return sbasePlugin.getChildAt(childIndex - pos);
+				} else {
+					pos += sbasePluginNbChildren;
+				}
 			}
-			return iterator.next();
+			
 		}
+		
 		throw new IndexOutOfBoundsException(isLeaf() ? String.format(
 				"Node %s has no children.", getElementName()) : String.format(
 				"Index %d >= %d", childIndex, +((int) Math.min(pos, 0))));
@@ -877,7 +884,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		if (isSetAnnotation()) {
 			count++;
 		}
-		return count + extensions.size();
+		
+		for (SBasePlugin sbasePlugin : extensions.values()) {
+			count += sbasePlugin.getChildCount();
+		}
+		
+		return count;
 	}
 
 	/*
@@ -913,7 +925,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getExtension(java.lang.String)
 	 */
-	public SBase getExtension(String namespace) {
+	public SBasePlugin getExtension(String namespace) {
 		return this.extensions.get(namespace);
 	}
 
@@ -921,7 +933,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getExtensionPackages()
 	 */
-	public Map<String, SBase> getExtensionPackages() {
+	public Map<String, SBasePlugin> getExtensionPackages() {
 		return extensions;
 	}
 
@@ -1409,6 +1421,25 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#setThisAsParentSBMLObject(org.sbml.jsbml.SBase)
+	 */
+	public void setParentSBMLObject(SBase sbase) throws LevelVersionError {
+
+		if (sbase instanceof AbstractSBase) {
+			((AbstractSBase) sbase).checkLevelAndVersionCompatibility(this);
+		}
+
+		this.addAllChangeListeners(sbase.getListOfTreeNodeChangeListeners());
+
+		this.fireNodeAddedEvent();
+
+		setParentSBML(sbase);
+
+	}
+
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setVersion(int)

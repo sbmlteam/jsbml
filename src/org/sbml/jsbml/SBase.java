@@ -55,7 +55,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 * @param namespace
 	 * @param sbase
 	 */
-	public void addExtension(String namespace, SBase sbase);
+	public void addExtension(String namespace, SBasePlugin sbase);
 	
 	/**
 	 * Adds an additional name space to the set of name spaces of this
@@ -174,13 +174,13 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 * @param namespace
 	 * @return the SBase extension object which matches this name space.
 	 */
-	public SBase getExtension(String namespace);
+	public SBasePlugin getExtension(String namespace);
 
 	/**
 	 * 
 	 * @return the map containing all the extension objects of this object.
 	 */
-	public Map<String, SBase> getExtensionPackages();
+	public Map<String, SBasePlugin> getExtensionPackages();
 
 	/**
 	 * 

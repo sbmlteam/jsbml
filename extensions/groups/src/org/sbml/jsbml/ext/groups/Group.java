@@ -22,9 +22,12 @@ package org.sbml.jsbml.ext.groups;
 
 import java.util.Map;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
@@ -33,7 +36,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * @since 0.8
  * @version $Rev$
  */
-public class Group extends AbstractNamedSBase {
+public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 
 	/**
 	 * Generated serial version identifier.
@@ -185,4 +188,25 @@ public class Group extends AbstractNamedSBase {
 
 		return attributes;
 	}
+	
+	public int getChildCount() {
+		if (isSetListOfMembers()) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	public TreeNode getChildAt(int index) {
+		if (index < 0 || index >= 1) {
+			return null;
+		}
+		
+		if (isSetListOfMembers()) {
+			return listOfMembers;
+		}
+		
+		return null;
+	}
+	
+	
 }
