@@ -1,6 +1,6 @@
 /*
- * $Id$
- * $URL$
+ * $Id: GroupModel.java 834 2011-10-24 13:10:20Z niko-rodrigue $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions/groups/src/org/sbml/jsbml/ext/groups/GroupModel.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -20,7 +20,6 @@
 
 package org.sbml.jsbml.ext.groups;
 
-import java.util.Enumeration;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -34,9 +33,9 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * @author Nicolas Rodriguez
  * @author 
  * @since 0.8
- * @version $Rev$
+ * @version $Rev: 834 $
  */
-public class ModelGroupExtension implements SBasePlugin {
+public class GroupModel implements SBasePlugin {
 
 	/**
 	 * Generated serial version identifier.
@@ -56,7 +55,7 @@ public class ModelGroupExtension implements SBasePlugin {
 	 * 
 	 * @param model
 	 */
-	public ModelGroupExtension(Model model) {
+	public GroupModel(Model model) {
 		this.model = model;
 	}
 	
@@ -138,7 +137,7 @@ public class ModelGroupExtension implements SBasePlugin {
 	}
 
 	@Override
-	public ModelGroupExtension clone() {
+	public GroupModel clone() {
 		// TODO 
 		return null;
 	}

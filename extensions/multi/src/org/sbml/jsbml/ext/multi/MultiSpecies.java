@@ -20,9 +20,15 @@
 
 package org.sbml.jsbml.ext.multi;
 
+import java.util.Map;
+
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBasePlugin;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
@@ -31,7 +37,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * @since 0.8
  * @version $Rev$
  */
-public class MultiSpecies extends AbstractSBase {
+public class MultiSpecies implements SBasePlugin {
 
 	/**
 	 * Generated serial version identifier.
@@ -42,12 +48,13 @@ public class MultiSpecies extends AbstractSBase {
 	 */
 	private ListOf<InitialSpeciesInstance> listOfInitialSpeciesInstances;
 
+	private Species species;
+	
 	/**
 	 * 
 	 * @param species
 	 */
 	public MultiSpecies(MultiSpecies species) {
-		super(species);
 		this.setListOfInitialSpeciesInstance(null);
 	}
 	
@@ -68,16 +75,13 @@ public class MultiSpecies extends AbstractSBase {
 			this.listOfInitialSpeciesInstances = new ListOf<InitialSpeciesInstance>();
 		}
 		if (!listOfInitialSpeciesInstances.contains(initialSpecies)) {
-			initialSpecies.setParentSBML(this);
+			initialSpecies.setParentSBML(species);
 			listOfInitialSpeciesInstances.add(initialSpecies);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
-	 */
-	public AbstractSBase clone() {
+
+	public MultiSpecies clone() {
 		return new MultiSpecies(this);
 	}
 
@@ -137,7 +141,7 @@ public class MultiSpecies extends AbstractSBase {
 		if ((this.listOfInitialSpeciesInstances != null) && (this.listOfInitialSpeciesInstances.getSBaseListType() != ListOf.Type.other)) {
 			this.listOfInitialSpeciesInstances.setSBaseListType(ListOf.Type.other);
 		}
-		setThisAsParentSBMLObject(this.listOfInitialSpeciesInstances);
+		species.setThisAsParentSBMLObject(this.listOfInitialSpeciesInstances);
 	}
 
 	/*
@@ -163,6 +167,32 @@ public class MultiSpecies extends AbstractSBase {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Map<String, String> writeXMLAttributes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public TreeNode getChildAt(int childIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getChildCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public TreeNode getParent() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
