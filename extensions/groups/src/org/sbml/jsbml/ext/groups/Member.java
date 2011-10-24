@@ -26,6 +26,7 @@ import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.xml.parsers.GroupsParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -169,7 +170,7 @@ public class Member extends AbstractSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetSymbol()) {
-			attributes.put("symbol", symbol);
+			attributes.put(GroupsParser.shortLabel + ":symbol", symbol);
 		}
 		
 		return attributes;

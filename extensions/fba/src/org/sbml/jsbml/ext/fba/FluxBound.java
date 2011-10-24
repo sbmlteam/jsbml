@@ -1,14 +1,21 @@
 package org.sbml.jsbml.ext.fba;
 
+import java.util.Map;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.FBAParser;
 
-public class FluxBound extends AbstractNamedSBase {
+public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
 
 	
 	private String reaction;
 	private String operation;
 	private double value;
+	
+	private boolean isSetValue = false;
 	
 	@Override
 	public AbstractSBase clone() {
@@ -64,11 +71,74 @@ public class FluxBound extends AbstractNamedSBase {
 	 */
 	public void setValue(double value) {
 		this.value = value;
+		isSetValue = true;
 	}
+	
+	public boolean isSetValue() {
+		return isSetValue;
+	}
+	
 
 	public boolean isIdMandatory() {
-		return true;
+		return false;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
+	 * String prefix, String value)
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix, String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+		
+		if (!isAttributeRead) {
+			isAttributeRead = true;
+
+			if (attributeName.equals("reaction")) {
+				setReaction(value);
+			} else if (attributeName.equals("operation")) {
+				 setOperation(value);
+			} else if (attributeName.equals("value")) {
+				setValue(StringTools.parseSBMLDouble(value));
+			} else {
+				isAttributeRead = false;
+			}
+			
+		}
+		
+		return isAttributeRead;
+	}
+
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+	 */
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
+
+		if (reaction != null) {
+			attributes.put(FBAParser.shortLabel+ ":reaction", getReaction());			
+		}
+		if (operation != null) {
+			attributes.put(FBAParser.shortLabel+ ":operation", getOperation());
+		}
+		if (isSetValue()) {
+			attributes.put(FBAParser.shortLabel+ ":value", StringTools.toString(getValue()));
+		}
+		if (isSetId()) {
+			attributes.remove("id");
+			attributes.put(FBAParser.shortLabel+ ":id", getId());
+		}
+		
+		return attributes;
+	}
+
 
 	
 }

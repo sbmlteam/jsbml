@@ -29,6 +29,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.xml.parsers.GroupsParser;
 
 /**
  * 
@@ -186,6 +187,15 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
+		if (isSetId()) {
+			attributes.remove("id");
+			attributes.put(GroupsParser.shortLabel+ ":id", getId());
+		}
+		if (isSetName()) {
+			attributes.remove("name");
+			attributes.put(GroupsParser.shortLabel+ ":name", getName());
+		}
+		
 		return attributes;
 	}
 	

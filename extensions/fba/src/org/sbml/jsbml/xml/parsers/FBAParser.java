@@ -1,6 +1,6 @@
 /*
- * $Id$
- * $URL$
+ * $Id: FBAParser.java 835 2011-10-24 13:32:22Z niko-rodrigue $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions/groups/src/org/sbml/jsbml/xml/parsers/FBAParser.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -31,32 +31,36 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.ext.groups.Group;
-import org.sbml.jsbml.ext.groups.GroupList;
-import org.sbml.jsbml.ext.groups.Member;
-import org.sbml.jsbml.ext.groups.GroupModel;
+import org.sbml.jsbml.SBasePlugin;
+import org.sbml.jsbml.ext.fba.FBAList;
+import org.sbml.jsbml.ext.fba.FBAModel;
+import org.sbml.jsbml.ext.fba.FluxBound;
+import org.sbml.jsbml.ext.fba.FluxObjective;
+import org.sbml.jsbml.ext.fba.Objective;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
- * This class is used to parse the groups extension package elements and
+ * This class is used to parse the fba extension package elements and
  * attributes. The namespaceURI URI of this parser is
- * "http://www.sbml.org/sbml/level3/version1/groups/version1". This parser is
- * able to read and write elements of the groups package (implements
+ * "http://www.sbml.org/sbml/level3/version1/fba/version1". This parser is
+ * able to read and write elements of the fba package (implements
  * ReadingParser and WritingParser).
  * 
  * @author Nicolas Rodriguez
  * @since 0.8
- * @version $Rev$
+ * @version $Rev: 835 $
  */
-public class GroupsParser implements ReadingParser, WritingParser {
+public class FBAParser implements ReadingParser, WritingParser {
 
 	/**
 	 * The namespace URI of this parser.
 	 */
-	private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/groups/version1";
-
-	public static final String shortLabel = "groups";
-
+	// private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/fba/version1";
+	private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
+	
+	public static final String shortLabel = "fbc";
+	
+	
 	/**
 	 * 
 	 * @return the namespaceURI of this parser.
@@ -66,13 +70,13 @@ public class GroupsParser implements ReadingParser, WritingParser {
 	}
 
 	/**
-	 * The GroupList enum which represents the name of the list this parser is
+	 * The FBAList enum which represents the name of the list this parser is
 	 * currently reading.
 	 * 
 	 */
-	private GroupList groupList = GroupList.none;
+	private FBAList groupList = FBAList.none;
 	
-	private Logger logger = Logger.getLogger(GroupsParser.class);
+	private Logger logger = Logger.getLogger(FBAParser.class);
 
 	/*
 	 * (non-Javadoc)
@@ -92,28 +96,19 @@ public class GroupsParser implements ReadingParser, WritingParser {
 			// TODO : the 'required' attribute is written even if there is no plugin class for the SBMLDocument, so I am not totally sure how this is done.
 		} 
 		else if (sbase instanceof Model) {
-			GroupModel modelGE = (GroupModel) ((Model) sbase).getExtension(namespaceURI);
+			FBAModel modelGE = (FBAModel) ((Model) sbase).getExtension(namespaceURI);
 
-			if (modelGE != null && modelGE.isSetListOfGroups()) {
-				listOfElementsToWrite.add(modelGE.getListOfGroups());
-				groupList = GroupList.listOfGroups;
+			if (modelGE != null && modelGE.isSetListOfFluxBounds()) {
+				listOfElementsToWrite.add(modelGE.getListOfFluxBounds());
+				groupList = FBAList.listOfFluxBounds;
 			}
-
-		} 
-		else if (sbase instanceof GroupModel) {
-			GroupModel modelGE = (GroupModel) sbase;
+			if (modelGE != null && modelGE.isSetListOfObjectives()) {
+				listOfElementsToWrite.add(modelGE.getListOfObjectives());
+			}
 			
-			if (modelGE.isSetListOfGroups()) {
-				listOfElementsToWrite.add(modelGE.getListOfGroups());
-				groupList = GroupList.listOfGroups;
-			}
-		}
+		} 
 		else if (sbase instanceof TreeNode) {
 			Enumeration<TreeNode> children = ((TreeNode) sbase).children();
-			
-			if (sbase instanceof Group) {
-				groupList = GroupList.listOfMembers;
-			}
 			
 			while (children.hasMoreElements()) {
 				listOfElementsToWrite.add(children.nextElement());
@@ -141,8 +136,6 @@ public class GroupsParser implements ReadingParser, WritingParser {
 
 		logger.debug("processAttribute\n");
 		
-		// TODO : create a upper interface with the readAttribute method at least to be able to have a simpler code here.
-		
 		boolean isAttributeRead = false;
 
 		if (contextObject instanceof SBase) {
@@ -161,12 +154,14 @@ public class GroupsParser implements ReadingParser, WritingParser {
 			Annotation annotation = (Annotation) contextObject;
 			isAttributeRead = annotation.readAttribute(attributeName, prefix,
 					value);
+		} else if (contextObject instanceof SBasePlugin) {
+			isAttributeRead = ((SBasePlugin) contextObject).readAttribute(attributeName, prefix, value);
 		}
 
 		if (!isAttributeRead) {
 			logger.warn("processAttribute : The attribute " + attributeName
 					+ " on the element " + elementName +
-					" is not part of the SBML specifications");
+					" is not part of the SBML specifications");					
 		}
 	}
 
@@ -177,9 +172,9 @@ public class GroupsParser implements ReadingParser, WritingParser {
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		
-		// TODO : the basic Groups elements don't have any text. SBML syntax
+		// TODO : the basic fba elements don't have any text. SBML syntax
 		// error, throw an exception, log en error ?
-		logger.debug("processCharactersOf : the basic Groups elements don't have any text. " +
+		logger.debug("processCharactersOf : the basic FBA elements don't have any text. " +
 				"SBML syntax error. characters lost = " + characters);
 	}
 
@@ -201,10 +196,10 @@ public class GroupsParser implements ReadingParser, WritingParser {
 			boolean isNested, Object contextObject) 
 	{
 
-		if (elementName.equals("listOfMembers")
-				|| elementName.equals("listOfGroups")) 
+		if (elementName.equals("listOfFluxBounds")
+				|| elementName.equals("listOfObjectives")) 
 		{
-			this.groupList = GroupList.none;
+			this.groupList = FBAList.none;
 		}
 		
 		return true;
@@ -236,54 +231,79 @@ public class GroupsParser implements ReadingParser, WritingParser {
 	{
 		if (contextObject instanceof Model) {
 			Model model = (Model) contextObject;
-			if (elementName.equals("listOfGroups")) {
-				ListOf<Group> listOfGroups = new ListOf<Group>();
-				listOfGroups.setSBaseListType(ListOf.Type.other);
-				listOfGroups.addNamespace(namespaceURI);
-				this.groupList = GroupList.listOfGroups;
-
-				GroupModel groupModel = new GroupModel(model);
-				groupModel.setListOfGroups(listOfGroups);
-				// groupModel.addNamespace(namespaceURI);
-				model.addExtension(namespaceURI, groupModel);
-
-				return listOfGroups;
+			FBAModel fbaModel = null;
+			
+			if (model.getExtension(namespaceURI) != null) {
+				fbaModel = (FBAModel) model.getExtension(namespaceURI);
+			} else {
+				fbaModel = new FBAModel(model);
+				model.addExtension(namespaceURI, fbaModel);
 			}
-		} else if (contextObject instanceof Group) {
-			Group group = (Group) contextObject;
-			if (elementName.equals("listOfMembers")) {
-				ListOf<Member> listOfMembers = new ListOf<Member>();
-				listOfMembers.setSBaseListType(ListOf.Type.other);
-				listOfMembers.addNamespace(namespaceURI);
-				this.groupList = GroupList.listOfMembers;
 
-				group.setListOfMembers(listOfMembers);
+			if (elementName.equals("listOfFluxBounds")) {
+					
+				ListOf<FluxBound> listOfFluxBounds = fbaModel.getListOfFluxBounds();
+				listOfFluxBounds.setSBaseListType(ListOf.Type.other);
+				listOfFluxBounds.addNamespace(namespaceURI);
+				model.setThisAsParentSBMLObject(listOfFluxBounds);
+				this.groupList = FBAList.listOfFluxBounds;
+				return listOfFluxBounds;
+			} 
+			else if (elementName.equals("listOfObjectives")) {
 
-				return listOfMembers;
+				ListOf<Objective> listOfObjectives = fbaModel.getListOfObjectives();
+				listOfObjectives.setSBaseListType(ListOf.Type.other);
+				listOfObjectives.addNamespace(namespaceURI);
+				model.setThisAsParentSBMLObject(listOfObjectives);
+				this.groupList = FBAList.listOfObjectives;
+				return listOfObjectives;
+			}
+		} else if (contextObject instanceof Objective) {
+			Objective objective = (Objective) contextObject;
+			if (elementName.equals("listOfFluxes")) {				
+				ListOf<FluxObjective> listOfFluxObjectives = objective.getListOfFluxObjectives();
+				listOfFluxObjectives.setSBaseListType(ListOf.Type.other);
+				listOfFluxObjectives.addNamespace(namespaceURI);
+				objective.setThisAsParentSBMLObject(listOfFluxObjectives);
+				this.groupList = FBAList.listOfFluxObjectives;
+				return listOfFluxObjectives;
 			}
 		}
 
 		else if (contextObject instanceof ListOf<?>) {
 			ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
-			if (elementName.equals("group")
-					&& this.groupList.equals(GroupList.listOfGroups)) {
+			if (elementName.equals("fluxBound")
+					&& this.groupList.equals(FBAList.listOfFluxBounds)) {
 				Model model = (Model) listOf.getParentSBMLObject();
-				GroupModel extendeModel = (GroupModel) model.getExtension(namespaceURI); 
+				FBAModel extendeModel = (FBAModel) model.getExtension(namespaceURI); 
 				
-				Group group = new Group();
-				group.addNamespace(namespaceURI);
-				extendeModel.addGroup(group);
+				FluxBound fluxBound = new FluxBound();
+				fluxBound.addNamespace(namespaceURI);
+				extendeModel.addFluxBound(fluxBound);
+				return fluxBound;
+				
+			} else if (elementName.equals("objective")
+					&& this.groupList.equals(FBAList.listOfObjectives)) {
+				Model model = (Model) listOf.getParentSBMLObject();
+				FBAModel extendeModel = (FBAModel) model.getExtension(namespaceURI); 
 
-				return group;
-			} else if (elementName.equals("member")
-					&& this.groupList.equals(GroupList.listOfMembers)) {
-				Member member = new Member();
-				member.addNamespace(namespaceURI);
-				listOf.add(member);
+				Objective objective = new Objective();
+				objective.addNamespace(namespaceURI);
+				extendeModel.addObjective(objective);
 
-				return member;
+				return objective;
+			} else if (elementName.equals("fluxObjective")
+					&& this.groupList.equals(FBAList.listOfFluxObjectives)) {
+				Objective objective = (Objective) listOf.getParentSBMLObject();
+
+				FluxObjective fluxObjective = new FluxObjective();
+				fluxObjective.addNamespace(namespaceURI);
+				objective.addFluxObjective(fluxObjective);
+
+				return fluxObjective;
 			}
+
 
 		}
 		return contextObject;
@@ -323,20 +343,30 @@ public class GroupsParser implements ReadingParser, WritingParser {
 	public void writeElement(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
 
-		logger.debug("GroupsParser : writeElement");
+		logger.debug("FBAParser : writeElement");
 
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
 
 			if (!xmlObject.isSetName()) {
 				if (sbase instanceof ListOf<?>) {
-					xmlObject.setName(groupList.toString());
+					ListOf<?> listOf = (ListOf<?>) sbase;
+					
+					if (listOf.size() > 0) {
+						if (listOf.get(0) instanceof FluxBound) {
+							xmlObject.setName(FBAList.listOfFluxBounds.toString());
+						} else if (listOf.get(0) instanceof Objective) {
+							xmlObject.setName(FBAList.listOfObjectives.toString());
+						} else if (listOf.get(0) instanceof FluxObjective) {
+							xmlObject.setName(FBAList.listOfFluxObjectives.toString());
+						}
+					}
 				} else {
 					xmlObject.setName(sbase.getElementName());
 				}
 			}
 			if (!xmlObject.isSetPrefix()) {
-				xmlObject.setPrefix("groups");
+				xmlObject.setPrefix(shortLabel);
 			}
 			xmlObject.setNamespace(namespaceURI);
 
@@ -355,7 +385,7 @@ public class GroupsParser implements ReadingParser, WritingParser {
 		if (sbmlElementToWrite instanceof SBase) {
 			// SBase sbase = (SBase) sbmlElementToWrite;
 
-			xmlObject.setPrefix("groups");
+			xmlObject.setPrefix(shortLabel);
 		}
 		// TODO : write all namespaces
 	}
