@@ -1,126 +1,471 @@
+/*
+ * $Id: QualitativeSpecies.java 811 2011-09-27 12:36:49Z niko-rodrigue $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/KineticLaw.java $
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ *
+ * Copyright (C) 2009-2011 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
 package org.sbml.jsbml.ext.qual;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
-
+import org.sbml.jsbml.PropertyUndefinedError;
+/**
+ * @author Nicolas Rodriguez
+ * @author Finja B&uuml;chel
+ * @version $$Rev$$
+ * @since 0.8
+ * @date ${date}
+ * ${tags}
+ */
 public class QualitativeSpecies extends AbstractNamedSBase {
-	
-	// TODO : QualitativeSpecies id can be used in AssigmentRule or EventAssignment variable attribute.
-	// here we have a potential problem with striping the package stuff as we would have dangling ids
-	// If the package continue like this, we have a problem for example with method like Model.findVariable(variable); that
-	// need to be updated/replaced/modified by extension packages ?? 
 
-	// Potentially, the QualitativeSpecies would have to be a Variable and a CallableSBase to be able to be used in math expression and/or EventAssignment/Rules
-	
-	private String compartment;
-	private boolean boundaryCondition;
+  // TODO : QualitativeSpecies id can be used in AssigmentRule or
+  // EventAssignment variable attribute.
+  // here we have a potential problem with striping the package stuff as we
+  // would have dangling ids
+  // If the package continue like this, we have a problem for example with
+  // method like Model.findVariable(variable); that
+  // need to be updated/replaced/modified by extension packages ??
+  // Potentially, the QualitativeSpecies would have to be a Variable and a
+  // CallableSBase to be able to be used in math expression and/or
+  // EventAssignment/Rules
+  /**
+   * 
+   */
+  private static final long     serialVersionUID = -6048861420699176889L;
+  private String                compartment;
+  private Boolean               boundaryCondition;
+  private Boolean               constant;                                // TODO
+                                                                          // :
+                                                                          // extends/implements
+                                                                          // the
+                                                                          // jsbml
+                                                                          // interface
+                                                                          // that
+                                                                          // has
+                                                                          // the
+                                                                          // constant
+                                                                          // attribute.
+  private Integer               initialLevel;
+  private Integer               maxLevel;
+  private ListOf<SymbolicValue> listOfSymbolicValues;
 
-	private boolean constant; // TODO : extends/implements the jsbml interface that has the constant attribute.
-	
-	private int initialLevel;
-	private int maxLevel;
 
-	private ListOf<SymbolicValue> listOfSymbolicValues = new ListOf<SymbolicValue>();
-	
-	@Override
-	public AbstractSBase clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public AbstractSBase clone() {
+    return null;
+  }
 
-	public boolean isIdMandatory() {
-		return true;
-	}
 
-	/**
-	 * @return the compartment
-	 */
-	public String getCompartment() {
-		return compartment;
-	}
+  /**
+   * @return true
+   */
+  public boolean isIdMandatory() {
+    return true;
+  }
 
-	/**
-	 * @param compartment the compartment to set
-	 */
-	public void setCompartment(String compartment) {
-		this.compartment = compartment;
-	}
 
-	/**
-	 * @return the boundaryCondition
-	 */
-	public boolean isBoundaryCondition() {
-		return boundaryCondition;
-	}
+  /**
+   * @return if boundaryCondition attribute is set
+   */
+  public boolean isSetCompartment() {
+    return compartment != null;
+  }
 
-	/**
-	 * @param boundaryCondition the boundaryCondition to set
-	 */
-	public void setBoundaryCondition(boolean boundaryCondition) {
-		this.boundaryCondition = boundaryCondition;
-	}
 
-	/**
-	 * @return the constant
-	 */
-	public boolean isConstant() {
-		return constant;
-	}
+  /**
+   * @return the compartment
+   */
+  public String getCompartment() {
+    return isSetCompartment() ? compartment : "";
+  }
 
-	/**
-	 * @param constant the constant to set
-	 */
-	public void setConstant(boolean constant) {
-		this.constant = constant;
-	}
 
-	/**
-	 * @return the initialLevel
-	 */
-	public int getInitialLevel() {
-		return initialLevel;
-	}
+  /**
+   * @param compartment
+   *        the compartment to set
+   */
+  public void setCompartment(String compartment) {
+    String oldCompartment = this.compartment;
+    if ((compartment == null) || (compartment.length() == 0)) {
+      this.compartment = null;
+    } else {
+      this.compartment = compartment;
+    }
+    firePropertyChange(QualChangeEvent.compartment, oldCompartment,
+      this.compartment);
+  }
 
-	/**
-	 * @param initialLevel the initialLevel to set
-	 */
-	public void setInitialLevel(int initialLevel) {
-		this.initialLevel = initialLevel;
-	}
 
-	/**
-	 * @return the maxLevel
-	 */
-	public int getMaxLevel() {
-		return maxLevel;
-	}
+  /**
+   * @return true if the unset of the compartment attribute was successful
+   */
+  public boolean unsetCompartment() {
+    if (compartment != null) {
+      setCompartment(null);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * @param maxLevel the maxLevel to set
-	 */
-	public void setMaxLevel(int maxLevel) {
-		this.maxLevel = maxLevel;
-	}
 
-	
-	// TODO : add all the necessary methods to manipulate the list
-	
-	/**
-	 * @return the listOfSymbolicValues
-	 */
-	public ListOf<SymbolicValue> getListOfSymbolicValues() {
-		return listOfSymbolicValues;
-	}
+  /**
+   * @return true
+   */
+  public boolean isBoundaryConditionMandatory() {
+    return true;
+  }
 
-	/**
-	 * @param listOfSymbolicValues the listOfSymbolicValues to set
-	 */
-	public void addSymbolicValue(SymbolicValue symbolicValue) {
-		this.listOfSymbolicValues.add(symbolicValue);
-	}
 
-	
-	// TODO : add the unset methods
-	
+  /**
+   * @return if boundaryCondition attribute is set
+   */
+  public boolean isSetBoundaryCondition() {
+    return boundaryCondition != null;
+  }
+
+
+  /**
+   * @return the boundaryCondition
+   */
+  public boolean getBoundaryCondition() {
+    if (isSetBoundaryCondition()) {
+      return boundaryCondition.booleanValue();
+    }
+    throw new PropertyUndefinedError(QualChangeEvent.boundaryCondition, this);
+  }
+
+
+  /**
+   * @param boundaryCondition
+   *        the boundaryCondition to set
+   */
+  public void setBoundaryCondition(boolean boundaryCondition) {
+    boolean oldBoundaryCondition = this.boundaryCondition;
+    this.boundaryCondition = boundaryCondition;
+    firePropertyChange(QualChangeEvent.boundaryCondition, oldBoundaryCondition,
+      this.boundaryCondition);
+  }
+
+
+  /**
+   * @return true if the unset of the boundaryCondition attribute was successful
+   */
+  public boolean unsetBoundaryCondition() {
+    if (isSetBoundaryCondition()) {
+      boolean oldBoundaryCondition = boundaryCondition;
+      boundaryCondition = null;
+      firePropertyChange(QualChangeEvent.boundaryCondition,
+        oldBoundaryCondition, this.boundaryCondition);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  /**
+   * @return true
+   */
+  public boolean isSetConstantMandatory() {
+    return true;
+  }
+
+
+  public boolean isSetConstant() {
+    return constant != null;
+  }
+
+
+  /**
+   * @return the constant
+   */
+  public boolean getConstant() {
+    if (isSetConstant()) {
+      return constant.booleanValue();
+    }
+    throw new PropertyUndefinedError(QualChangeEvent.constant, this);
+  }
+
+
+  /**
+   * @param constant
+   *        the constant to set
+   */
+  public void setConstant(boolean constant) {
+    boolean oldConstant = this.constant;
+    this.constant = constant;
+    firePropertyChange(QualChangeEvent.constant, oldConstant, this.constant);
+  }
+
+
+  /**
+   * @return true if the unset of the constant attribute was successful
+   */
+  public boolean unsetConstant() {
+    if (isSetConstant()) {
+      boolean oldConstant = this.constant;
+      this.constant = null;
+      firePropertyChange(QualChangeEvent.constant, oldConstant, this.constant);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  /**
+   * @return false
+   */
+  public boolean isInitialLevelMandatory() {
+    return false;
+  }
+
+
+  public boolean isSetInitialLevel() {
+    return initialLevel != null;
+  }
+
+
+  /**
+   * @return the initialLevel
+   */
+  public int getInitialLevel() {
+    if (isSetInitialLevel()) {
+      return initialLevel.intValue();
+    }
+    throw new PropertyUndefinedError(QualChangeEvent.initialLevel, this);
+  }
+
+
+  /**
+   * @param initialLevel
+   *        the initialLevel to set
+   */
+  public void setInitialLevel(int initialLevel) {
+    Integer oldInitialLevel = this.initialLevel;
+    this.initialLevel = initialLevel;
+    firePropertyChange(QualChangeEvent.initialLevel, oldInitialLevel,
+      this.initialLevel);
+  }
+
+
+  /**
+   * @return true if unset initialLevel attribute was successful
+   */
+  public boolean unsetInitialLevel() {
+    if (isSetInitialLevel()) {
+      Integer oldInitialLevel = this.initialLevel;
+      this.initialLevel = null;
+      firePropertyChange(QualChangeEvent.initialLevel, oldInitialLevel,
+        this.initialLevel);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  /**
+   * @return false
+   */
+  public boolean isMaxLevelMandatory() {
+    return false;
+  }
+
+
+  public boolean isSetMaxLevel() {
+    return this.maxLevel != null;
+  }
+
+
+  /**
+   * @return the maxLevel
+   */
+  public int getMaxLevel() {
+    if (isSetMaxLevel()) {
+      return maxLevel.intValue();
+    }
+    throw new PropertyUndefinedError(QualChangeEvent.maxLevel, this);
+  }
+
+
+  /**
+   * @param maxLevel
+   *        the maxLevel to set
+   */
+  public void setMaxLevel(int maxLevel) {
+    Integer oldMaxLevel = this.maxLevel;
+    this.maxLevel = maxLevel;
+    firePropertyChange(QualChangeEvent.maxLevel, oldMaxLevel, this.maxLevel);
+  }
+
+
+  /**
+   * @return true if unset maxLevel attribute was successful
+   */
+  public boolean unsetMaxLevel() {
+    if (isSetMaxLevel()) {
+      Integer oldMaxLevel = this.maxLevel;
+      this.maxLevel = null;
+      firePropertyChange(QualChangeEvent.maxLevel, oldMaxLevel, this.maxLevel);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  // TODO : add all the necessary methods to manipulate the list
+  // did I miss something?
+  public boolean isSetListOfSymbolicValues() {
+    return listOfSymbolicValues != null;
+  }
+
+
+  public void setListOfSymbolicValues(ListOf<SymbolicValue> los) {
+    unsetListOfSymbolicValues();
+    this.listOfSymbolicValues = los;
+    setThisAsParentSBMLObject(this.listOfSymbolicValues);
+  }
+
+
+  public boolean unsetListOfSymbolicValues() {
+    if (isSetListOfSymbolicValues()) {
+      ListOf<SymbolicValue> oldLos = this.listOfSymbolicValues;
+      this.listOfSymbolicValues = null;
+      oldLos.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * @return the listOfSymbolicValues
+   */
+  public ListOf<SymbolicValue> getListOfSymbolicValues() {
+    if (!isSetListOfSymbolicValues()) {
+      this.listOfSymbolicValues = new ListOf<SymbolicValue>();
+    }
+    return this.listOfSymbolicValues;
+  }
+
+
+  /**
+   * @param listOfSymbolicValues
+   *        the listOfSymbolicValues to set
+   */
+  public boolean addSymbolicValue(SymbolicValue symbolicValue) {
+    if (getListOfSymbolicValues().add(symbolicValue)) {
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * 
+   * @param symbolicValue to remove from the listOfSymbolicValues
+   * @return true if the operation was successful
+   */
+  public boolean removeSymbolicValue(SymbolicValue symbolicValue) {
+    if (isSetListOfSymbolicValues()) {
+      return listOfSymbolicValues.remove(symbolicValue);
+    }
+    return false;
+  }
+
+  /**
+   * 
+   * @param position in the listOfSymbolicValues which should be deleted
+   * @return true if the operation was successful
+   */
+  public void removeSymbolicValue(int i) {
+    if (!isSetListOfSymbolicValues()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    listOfSymbolicValues.remove(i);
+  }
+  
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      QualitativeSpecies qs = (QualitativeSpecies) object;
+      equals &= qs.isSetBoundaryCondition() == isSetBoundaryCondition();
+      if (equals && isSetBoundaryCondition()) {
+        equals &= (qs.getBoundaryCondition()==getBoundaryCondition());
+      }
+      equals &= qs.isSetConstant() == isSetConstant();
+      if (equals && isSetConstant()) {
+        equals &= (qs.getConstant()==getConstant());
+      }
+      equals &= qs.isSetCompartment() == isSetCompartment();
+      if (equals && isSetCompartment()) {
+        equals &= qs.getCompartment().equals(getCompartment());
+      }
+    }
+    return equals;
+  }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 971;
+    int hashCode = super.hashCode();
+    if (isSetBoundaryCondition()) {
+      hashCode += prime + (getBoundaryCondition() ? 1 : -1);
+    }
+    if (isSetConstant()) {
+      hashCode += prime + (getConstant() ? 1 : -1);
+    }
+    if (isSetCompartment()) {
+      hashCode += prime * getCompartment().hashCode();
+    }
+    return hashCode;
+  }
+  
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.sbml.jsbml.MathContainer#toString()
+   */
+  @Override
+  public String toString() {
+
+    String parentId = "";
+    
+    if (getParent() != null) {
+      // Can happen in the clone constructor when using the SimpleSBaseChangeListener
+      // The super constructor is called before parent is initialized and
+      // it is using the toString() method
+      parentId = getParent().getMetaId();
+    }
+
+    return String.format("%s(%s)", getElementName(), parentId);
+  }
+  
 }
