@@ -41,10 +41,12 @@ public class QualChangeEvent extends TreeNodeChangeEvent {
   
   public static final String initialLevel        = "initialLevel";
   public static final String maxLevel            = "maxLevel";
+  public static final String qualitativeSpecies  = "qualitativeSpecies";
   public static final String rank                = "rank";
   public static final String resultLevel         = "resultLevel";
   public static final String resultSymbol        = "resultSymbol";
   public static final String sign                = "sign";
+  public static final String temporisationMath   = "temporisationMath";
   public static final String temporisationType   = "temporisationType";
   public static final String temporisationValue  = "temporisationValue";
   public static final String transitionEffect    = "transitionEffect";

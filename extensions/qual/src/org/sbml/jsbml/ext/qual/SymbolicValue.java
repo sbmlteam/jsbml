@@ -22,6 +22,7 @@ package org.sbml.jsbml.ext.qual;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.PropertyUndefinedError;
 /**
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
@@ -29,35 +30,125 @@ import org.sbml.jsbml.AbstractSBase;
  * @version $$Rev$$
  * @since 0.8
  * @date ${date}
- * ${tags}
+ *       ${tags}
  */
 public class SymbolicValue extends AbstractNamedSBase {
 
-	private int rank;
-	
-	public boolean isIdMandatory() {
-		return true;
-	}
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -214835834453944834L;
+  private Integer           rank;
 
-	@Override
-	public AbstractSBase clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	/**
-	 * @return the rank
-	 */
-	public int getRank() {
-		return rank;
-	}
+  public boolean isIdMandatory() {
+    return true;
+  }
 
-	/**
-	 * @param rank the rank to set
-	 */
-	public void setRank(int rank) {
-		this.rank = rank;
-	}
 
-	// TODO : add the unset methods
+  @Override
+  public AbstractSBase clone() {
+    return null;
+  }
+
+
+  /**
+   * @return false
+   */
+  public boolean isRankMandatory() {
+    return false;
+  }
+
+
+  /**
+   * @return the rank
+   */
+  public int getRank() {
+    if (isSetRank()) {
+      return rank.intValue();
+    }
+    throw new PropertyUndefinedError(QualChangeEvent.rank, this);
+  }
+
+
+  public boolean isSetRank() {
+    return this.rank != null;
+  }
+
+
+  /**
+   * @param rank
+   *        the rank to set
+   */
+  public void setRank(int rank) {
+    Integer oldRank = this.rank;
+    this.rank = rank;
+    firePropertyChange(QualChangeEvent.rank, oldRank, this.rank);
+  }
+
+
+  /**
+   * @return true if unset rank attribute was successful
+   */
+  public boolean unsetRank() {
+    if (isSetRank()) {
+      Integer oldRank = this.rank;
+      this.rank = null;
+      firePropertyChange(QualChangeEvent.rank, oldRank, this.rank);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      SymbolicValue sv = (SymbolicValue) object;
+      equals &= sv.isSetRank() == isSetRank();
+      if (equals && isSetRank()) {
+        equals &= (sv.getRank() == (getRank()));
+      }
+    }
+    return equals;
+  }
+
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 983;
+    int hashCode = super.hashCode();
+    if (isSetRank()) {
+      hashCode += prime + getRank();
+    }
+    return hashCode;
+  }
+
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.MathContainer#toString()
+   */
+  @Override
+  public String toString() {
+    String parentId = "";
+    if (getParent() != null) {
+      // Can happen in the clone constructor when using the
+      // SimpleSBaseChangeListener
+      // The super constructor is called before parent is initialized and
+      // it is using the toString() method
+      parentId = getParent().getMetaId();
+    }
+    return String.format("%s(%s)", getElementName(), parentId);
+  }
 }

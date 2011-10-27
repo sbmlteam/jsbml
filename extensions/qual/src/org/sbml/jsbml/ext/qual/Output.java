@@ -21,75 +21,226 @@ package org.sbml.jsbml.ext.qual;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.PropertyUndefinedError;
 /**
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
- * @author Florian Mittag
  * @version $$Rev$$
  * @since 0.8
  * @date ${date}
- * ${tags}
+ *       ${tags}
  */
 public class Output extends AbstractNamedSBase {
 
-	private String qualitativeSpecies;
-	
-	private OutputTransitionEffect transitionEffect;
+  /**
+   * 
+   */
+  private static final long      serialVersionUID = -6392002023918667156L;
+  private String                 qualitativeSpecies;
+  private OutputTransitionEffect transitionEffect;
+  private Integer                level;
 
-	private int level;
-	
-	@Override
-	public AbstractSBase clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	public boolean isIdMandatory() {
-		return false;
-	}
+  @Override
+  public AbstractSBase clone() {
+    return null;
+  }
 
-	/**
-	 * @return the qualitativeSpecies
-	 */
-	public String getQualitativeSpecies() {
-		return qualitativeSpecies;
-	}
 
-	/**
-	 * @param qualitativeSpecies the qualitativeSpecies to set
-	 */
-	public void setQualitativeSpecies(String qualitativeSpecies) {
-		this.qualitativeSpecies = qualitativeSpecies;
-	}
+  public boolean isIdMandatory() {
+    return false;
+  }
 
-	/**
-	 * @return the transitionEffect
-	 */
-	public OutputTransitionEffect getTransitionEffect() {
-		return transitionEffect;
-	}
 
-	/**
-	 * @param transitionEffect the transitionEffect to set
-	 */
-	public void setTransitionEffect(OutputTransitionEffect transitionEffect) {
-		this.transitionEffect = transitionEffect;
-	}
+  /**
+   * @return true
+   */
+  public boolean isQualitativeSpeciesMandatory() {
+    return true;
+  }
 
-	/**
-	 * @return the level
-	 */
-	public int getLevel() {
-		return level;
-	}
 
-	/**
-	 * @param level the level to set
-	 */
-	public void setLevel(int level) {
-		this.level = level;
-	}
+  public boolean isSetQualitativeSpecies() {
+    return this.qualitativeSpecies != null;
+  }
 
-	
-	
+
+  /**
+   * @return the qualitativeSpecies
+   */
+  public String getQualitativeSpecies() {
+    if (isSetQualitativeSpecies()) {
+      return qualitativeSpecies;
+    } else {
+      throw new PropertyUndefinedError(QualChangeEvent.qualitativeSpecies, this);
+    }
+  }
+
+
+  /**
+   * @param qualitativeSpecies
+   *        the qualitativeSpecies to set
+   */
+  public void setQualitativeSpecies(String qualitativeSpecies) {
+    String oldQualitativeSpecies = this.qualitativeSpecies;
+    this.qualitativeSpecies = qualitativeSpecies;
+    firePropertyChange(QualChangeEvent.qualitativeSpecies,
+      oldQualitativeSpecies, this.qualitativeSpecies);
+  }
+
+
+  public boolean unsetQualitativeSpecies() {
+    if (isSetQualitativeSpecies()) {
+      setQualitativeSpecies(null);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  /**
+   * @return false
+   */
+  public boolean isTransitionEffectMandatory() {
+    return true;
+  }
+
+
+  public boolean isSetTransitionEffect() {
+    return this.transitionEffect != null;
+  }
+
+
+  /**
+   * @return the transitionEffect
+   */
+  public OutputTransitionEffect getTransitionEffect() {
+    if (isSetTransitionEffect()) {
+      return transitionEffect;
+    } else {
+      throw new PropertyUndefinedError(QualChangeEvent.transitionEffect, this);
+    }
+  }
+
+
+  /**
+   * @param transitionEffect
+   *        the transitionEffect to set
+   */
+  public void setTransitionEffect(OutputTransitionEffect transitionEffect) {
+    OutputTransitionEffect oldTransitionEffect = this.transitionEffect;
+    this.transitionEffect = transitionEffect;
+    firePropertyChange(QualChangeEvent.transitionEffect, oldTransitionEffect,
+      this.transitionEffect);
+  }
+
+
+  public boolean unsetTransitionEffect() {
+    if (isSetTransitionEffect()) {
+      setTransitionEffect(null);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  /**
+   * @return false
+   */
+  public boolean isLevelMandatory() {
+    return false;
+  }
+
+
+  public boolean isSetLevel() {
+    return level != null;
+  }
+
+
+  /**
+   * @return the level
+   */
+  public int getLevel() {
+    if (isSetLevel()) {
+      return level.intValue();
+    } else {
+      throw new PropertyUndefinedError(QualChangeEvent.level, this);
+    }
+  }
+
+
+  /**
+   * @param level
+   *        the level to set
+   */
+  public void setLevel(int level) {
+    Integer oldLevel = this.level;
+    this.level = level;
+    firePropertyChange(QualChangeEvent.level, oldLevel, this.level);
+  }
+
+
+  public boolean unsetLevel() {
+    if (isSetLevel()) {
+      Integer oldLevel = this.level;
+      this.level = null;
+      firePropertyChange(QualChangeEvent.level, oldLevel, this.level);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      Output o = (Output) object;
+      equals &= o.isSetQualitativeSpecies() == isSetQualitativeSpecies();
+      if (equals && isSetQualitativeSpecies()) {
+        equals &= (o.getQualitativeSpecies().equals(getQualitativeSpecies()));
+      }
+    }
+    return equals;
+  }
+
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 991;
+    int hashCode = super.hashCode();
+    if (isSetQualitativeSpecies()) {
+      hashCode += prime * getQualitativeSpecies().hashCode();
+    }
+    return hashCode;
+  }
+
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.MathContainer#toString()
+   */
+  @Override
+  public String toString() {
+    String parentId = "";
+    if (getParent() != null) {
+      // Can happen in the clone constructor when using the
+      // SimpleSBaseChangeListener
+      // The super constructor is called before parent is initialized and
+      // it is using the toString() method
+      parentId = getParent().getMetaId();
+    }
+    return String.format("%s(%s)", getElementName(), parentId);
+  }
 }
