@@ -31,9 +31,13 @@ import org.sbml.jsbml.AbstractMathContainer;
  */
 public class TemporisationMath extends AbstractMathContainer {
 
-	@Override
+	/**
+   * 
+   */
+  private static final long serialVersionUID = -5022093506579924630L;
+
+  @Override
 	public AbstractMathContainer clone() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
