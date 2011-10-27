@@ -23,6 +23,8 @@ package org.sbml.jsbml.test;
 
 import static org.junit.Assert.assertTrue;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.CVTerm;
@@ -30,6 +32,8 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.text.parser.ParseException;
 
@@ -55,6 +59,15 @@ public class HashCodeTest {
 		r.setMath(ASTNode.parseFormula("sin(3) + 1"));
 		
 		SBMLDocument doc2 = doc1.clone();
+		try {
+      (new SBMLWriter()).write(doc1, System.out);
+      System.out.println("\n==================");
+      (new SBMLWriter()).write(doc2, System.out);
+    } catch (SBMLException e) {
+      e.printStackTrace();
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
+    }
 		assertTrue(doc1.hashCode() == doc2.hashCode());
 		assertTrue(model.hashCode() != doc2.hashCode());
 		assertTrue(s.getCVTerm(0).equals(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:kegg.compound:C00001")));

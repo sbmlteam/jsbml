@@ -1302,7 +1302,6 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 			ListOf<ModifierSpeciesReference> oldListOfModifiers = this.listOfModifiers;
 			this.listOfModifiers = null;
 			oldListOfModifiers.fireNodeRemovedEvent();
-			oldListOfModifiers.parent = null;
 			return true;
 		}
 		return false;
@@ -1320,7 +1319,6 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 			ListOf<SpeciesReference> oldListOfProducts = this.listOfProducts;
 			this.listOfProducts = null;
 			oldListOfProducts.fireNodeRemovedEvent();
-			oldListOfProducts.parent = null;
 			return true;
 		}
 		return false;
@@ -1338,7 +1336,6 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 			ListOf<SpeciesReference> oldListOfReactants = this.listOfReactants;
 			this.listOfReactants = null;
 			oldListOfReactants.fireNodeRemovedEvent();
-			oldListOfReactants.parent = null;
 			return true;
 		}
 		return false;

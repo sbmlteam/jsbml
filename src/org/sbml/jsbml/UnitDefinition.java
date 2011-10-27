@@ -270,7 +270,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if ((level > 1) && (version > 1)) {
 			String resource = u.getKind().getUnitOntologyResource();
 			if (resource != null) {
-				u.setMetaId("meta_" + id);
+			  // metaid will be created upon nessesity.
 				u.addCVTerm(new CVTerm(Qualifier.BQB_IS, resource));
 			}
 		}
@@ -1129,7 +1129,6 @@ public class UnitDefinition extends AbstractNamedSBase {
 			ListOf<Unit> oldListOfUnits = this.listOfUnits;
 			this.listOfUnits = null;
 			oldListOfUnits.fireNodeRemovedEvent();
-			oldListOfUnits.parent = null;
 			return true;
 		}
 		return false;

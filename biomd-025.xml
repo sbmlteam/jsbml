@@ -1,0 +1,345 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<sbml xmlns="http://www.sbml.org/sbml/level2" level="2" metaid="metaid_0000001" version="1">
+  <model id="Smolen2002" name="Smolen2002_CircClock" metaid="metaid_0000002">
+    <notes>
+      <body xmlns="http://www.w3.org/1999/xhtml">
+        <p>This model originates from BioModels Database: A Database of Annotated Published Models. It is copyright (c) 2005-2009 The BioModels Team.<br/>For more information see the <a href="http://www.ebi.ac.uk/biomodels/legal.html" target="_blank">terms of use</a>.<br/>To cite BioModels Database, please use <a href="http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pubmed&amp;pubmedid=16381960" target="_blank">Le Novère N., Bornstein B., Broicher A., Courtot M., Donizelli M., Dharuri H., Li L., Sauro H., Schilstra M., Shapiro B., Snoep J.L., Hucka M. (2006) BioModels Database: A Free, Centralized Database of Curated, Published, Quantitative Kinetic Models of Biochemical and Cellular Systems Nucleic Acids Res., 34: D689-D691.</a>
+      </p>
+    </body>
+    </notes>
+    <annotation>
+      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+        <rdf:Description rdf:about="#metaid_0000002">
+          <dc:creator>
+            <rdf:Bag>
+              <rdf:li rdf:parseType="Resource">
+                <vCard:N rdf:parseType="Resource">
+                  <vCard:Family>Le Novère</vCard:Family>
+                  <vCard:Given>Nicolas</vCard:Given>
+                </vCard:N>
+                <vCard:EMAIL>lenov@ebi.ac.uk</vCard:EMAIL>
+                <vCard:ORG rdf:parseType="Resource">
+                  <vCard:Orgname>EMBL-EBI</vCard:Orgname>
+                </vCard:ORG>
+              </rdf:li>
+            </rdf:Bag>
+          </dc:creator>
+          <dcterms:created rdf:parseType="Resource">
+            <dcterms:W3CDTF>2005-06-29T11:01:49Z</dcterms:W3CDTF>
+          </dcterms:created>
+          <dcterms:modified rdf:parseType="Resource">
+            <dcterms:W3CDTF>2008-08-21T11:47:14Z</dcterms:W3CDTF>
+          </dcterms:modified>
+          <dcterms:modified rdf:parseType="Resource">
+            <dcterms:W3CDTF>2011-09-28T13:16:13Z</dcterms:W3CDTF>
+          </dcterms:modified>
+          <bqmodel:is>
+            <rdf:Bag>
+              <rdf:li rdf:resource="urn:miriam:biomodels.db:BIOMD0000000025"/>
+            </rdf:Bag>
+          </bqmodel:is>
+          <bqmodel:isDescribedBy>
+            <rdf:Bag>
+              <rdf:li rdf:resource="urn:miriam:pubmed:12414672"/>
+            </rdf:Bag>
+          </bqmodel:isDescribedBy>
+          <bqbiol:isVersionOf>
+            <rdf:Bag>
+              <rdf:li rdf:resource="urn:miriam:obo.go:GO%3A0007623"/>
+            </rdf:Bag>
+          </bqbiol:isVersionOf>
+          <bqbiol:is>
+            <rdf:Bag>
+              <rdf:li rdf:resource="urn:miriam:taxonomy:7227"/>
+              <rdf:li rdf:resource="urn:miriam:kegg.pathway:dme04710"/>
+            </rdf:Bag>
+          </bqbiol:is>
+        </rdf:Description>
+      </rdf:RDF>
+    </annotation>
+    <listOfUnitDefinitions>
+      <unitDefinition id="time" name="hour (new default)" metaid="metaid_0000017">
+        <listOfUnits>
+          <unit multiplier="3600" kind="second"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="substance" name="nanomole (new default)" metaid="metaid_0000018">
+        <listOfUnits>
+          <unit scale="-9" kind="mole"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="CELL" metaid="metaid_0000005" size="1000E-18">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000005">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="urn:miriam:obo.go:GO%3A0005623"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+</compartment>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="EmptySet" constant="true" initialAmount="0" metaid="metaid_0000007" boundaryCondition="true" compartment="CELL"/>
+      <species id="Per" initialAmount="500E-18" metaid="metaid_0000008" compartment="CELL">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000008">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="urn:miriam:uniprot:P07663"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+</species>
+      <species id="dClk" initialAmount="100E-18" metaid="metaid_0000009" compartment="CELL">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000009">
+              <bqbiol:hasPart>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="urn:miriam:uniprot:O61735"/>
+                  <rdf:li rdf:resource="urn:miriam:uniprot:P07663"/>
+                </rdf:Bag>
+              </bqbiol:hasPart>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+</species>
+      <species id="dClkF" initialAmount="0" name="free dClk" metaid="metaid_0000010" compartment="CELL">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000010">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="urn:miriam:uniprot:O61735"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+</species>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="rPer" name="Per production" metaid="metaid_0000011">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000011">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="urn:miriam:obo.go:GO%3A0043037"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="EmptySet"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Per"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="dClkF"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> V </ci>
+              <apply>
+                <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/delay"> delay </csymbol>
+                <apply>
+                  <divide/>
+                  <ci> dClkF </ci>
+                  <apply>
+                    <plus/>
+                    <ci> K </ci>
+                    <ci> dClkF </ci>
+                  </apply>
+                </apply>
+                <ci> parameter_0000008 </ci>
+              </apply>
+              <ci> CELL </ci>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="V" name="Vsp" value="0.5"/>
+            <parameter id="K" name="K1" value="0.3"/>
+            <parameter id="parameter_0000008" name="tau1" value="10"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="rdClk" name="dClk production" metaid="metaid_0000012">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000012">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="urn:miriam:obo.go:GO%3A0043037"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="EmptySet"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="dClk"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="dClkF"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> CELL </ci>
+              <ci> V </ci>
+              <apply>
+                <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/delay"> delay </csymbol>
+                <apply>
+                  <divide/>
+                  <ci> K </ci>
+                  <apply>
+                    <plus/>
+                    <ci> K </ci>
+                    <ci> dClkF </ci>
+                  </apply>
+                </apply>
+                <ci> parameter_0000009 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="V" name="Vsc" value="0.25"/>
+            <parameter id="K" name="K2" value="0.1"/>
+            <parameter id="parameter_0000009" name="tau2" value="10"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="rPerD" name="Per degradation" metaid="metaid_0000013">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000013">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="urn:miriam:obo.go:GO%3A0030163"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="Per"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="EmptySet"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> D </ci>
+              <ci> Per </ci>
+              <ci> CELL </ci>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="D" name="kdc" value="0.5"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="rdClkD" name="dClk degradation" metaid="metaid_0000014">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000014">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="urn:miriam:obo.go:GO%3A0030163"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="dClk"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="EmptySet"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> D </ci>
+              <ci> dClk </ci>
+              <ci> CELL </ci>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="D" name="kdp" value="0.5"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+    <listOfEvents>
+      <event metaid="metaid_0000015">
+        <trigger>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <lt/>
+              <apply>
+                <minus/>
+                <ci> dClk </ci>
+                <ci> Per </ci>
+              </apply>
+              <cn> 0 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <listOfEventAssignments>
+          <eventAssignment variable="dClkF">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">            
+              <cn> 0 </cn>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+      <event metaid="metaid_0000016">
+        <trigger>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <geq/>
+              <apply>
+                <minus/>
+                <ci> dClk </ci>
+                <ci> Per </ci>
+              </apply>
+              <cn> 0 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <listOfEventAssignments>
+          <eventAssignment variable="dClkF">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">            
+              <apply>
+                <minus/>
+                <ci> dClk </ci>
+                <ci> Per </ci>
+              </apply>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+    </listOfEvents>
+  </model>
+</sbml>

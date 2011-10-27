@@ -23,6 +23,7 @@ package org.sbml.jsbml.test;
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.Event;
 import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.Model;
@@ -30,6 +31,7 @@ import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Trigger;
+import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.SimpleTreeNodeChangeListener;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 
@@ -45,9 +47,10 @@ public class Test {
 	 * @param args
 	 * @throws SBMLException
 	 * @throws XMLStreamException
+	 * @throws ParseException 
 	 */
 	public static void main(String[] args) throws XMLStreamException,
-			SBMLException {
+			SBMLException, ParseException {
 		SBMLDocument doc = new SBMLDocument(2, 4);
 		doc.addTreeNodeChangeListener(new SimpleTreeNodeChangeListener());
 		Model model = doc.createModel("test_model");
@@ -58,11 +61,14 @@ public class Test {
 		k1.setConstant(false);
 		k2.setConstant(false);
 		
+		k1.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "test"));
+		
 		Event event = model.createEvent("test_event");
 		
 		Trigger trigger = event.createTrigger();
-		trigger.setMath(ASTNode.geq(new ASTNode(ASTNode.Type.NAME_TIME),
-				new ASTNode(10)));
+//		trigger.setMath(ASTNode.geq(new ASTNode(ASTNode.Type.NAME_TIME),
+//				new ASTNode(10)));
+		trigger.setMath(ASTNode.parseFormula("time >= 10"));
 		
 		EventAssignment assignment1 = event.createEventAssignment();
 		assignment1.setVariable(k1);

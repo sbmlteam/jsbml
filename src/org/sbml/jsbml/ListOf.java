@@ -733,9 +733,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public T remove(int index) {
 		T t = listOf.remove(index);
 		((AbstractTreeNode) t).fireNodeRemovedEvent();
-		if (t instanceof AbstractSBase) {
-			((AbstractSBase) t).parent = null;
-		}
 		return t;
 	}
 
@@ -760,9 +757,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 				if (pos >= 0) {
 					T t = listOf.remove(pos);
 					((TreeNodeWithChangeSupport) t).fireNodeRemovedEvent();
-					if (t instanceof AbstractSBase) {
-						((AbstractSBase) t).parent = null;
-					}
 					return true;
 				}
 			}

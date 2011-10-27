@@ -26,7 +26,7 @@
  */ </template><template autoinsert="false" context="typecomment_context" deleted="false" description="Comment for created types" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.typecomment" name="typecomment">/**
  * @author ???
  * @version $$Rev$$
- * @since 0.8
+ * @since 1.0
  * @date ${date}
  * ${tags}
  */</template><template autoinsert="true" context="fieldcomment_context" deleted="false" description="Comment for fields" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.fieldcomment" name="fieldcomment">/**

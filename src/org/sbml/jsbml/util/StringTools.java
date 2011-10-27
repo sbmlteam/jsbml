@@ -210,6 +210,32 @@ public class StringTools {
 		}
 	}
 
+  /**
+   * This method creates a {@link String} representation of the given number and
+   * inserts as many zero characters as the prefix of this {@link String} as
+   * needed
+   * to result in a {@link String} of the given length.
+   * 
+   * @param length
+   *        the total desired length of the given number {@link String}.
+   * @param number
+   * @return a {@link String} of the given length consisting of a suffix defined
+   *         by the given number and as many leading zeros as necessary to reach
+   *         the desired length.
+   */
+  public static String leadingZeros(int length, int number) {
+    StringBuilder string = new StringBuilder();
+    string.append(Integer.toString(number));
+    if (string.length() > length) {
+      throw new IllegalArgumentException(String.format(
+        "Number %d is longer than %d digits", number, length));
+    }
+    while (string.length() < length) {
+      string.insert(0, '0');
+    }
+    return string.toString();
+  }
+
 	/**
 	 * 
 	 * @return
@@ -248,7 +274,7 @@ public class StringTools {
 
 		return value;
 	}
-
+	
 	/**
 	 * Parses a String into a double number following the rules of the SBML
 	 * specifications, section 3.1.5.
@@ -278,7 +304,7 @@ public class StringTools {
 
 		return value;
 	}
-	
+
 	/**
 	 * Parses a {@link String} into an int number following the rules of the SBML
 	 * specifications, section 3.1.3.
@@ -318,7 +344,7 @@ public class StringTools {
 		}
 		return v;
 	}
-
+	
 	/**
 	 * Returns a HTML formated String, in which each line is at most lineBreak
 	 * symbols long.
@@ -329,7 +355,7 @@ public class StringTools {
 	public static String toHTML(String string) {
 		return toHTML(string, Integer.MAX_VALUE);
 	}
-	
+
 	/**
 	 * Returns a HTML formated String, in which each line is at most lineBreak
 	 * symbols long.
@@ -405,7 +431,7 @@ public class StringTools {
 		return df.format(value);
 	}
 
-	/**
+  /**
 	 * Checks whether a given {@link String} fits into the definition of the XML
 	 * notes {@link String} in SBML. If not, this method will surround the given
 	 * {@link String} with the minimal definition of a valid notes
