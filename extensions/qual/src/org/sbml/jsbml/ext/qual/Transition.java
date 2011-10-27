@@ -1,5 +1,5 @@
 /*
- * $Id: Transition.java 811 2011-09-27 12:36:49Z niko-rodrigue $
+ * $Id$
  * $URL:
  * https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml
  * /KineticLaw.java $
