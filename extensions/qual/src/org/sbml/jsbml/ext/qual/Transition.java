@@ -157,24 +157,27 @@ public class Transition extends AbstractNamedSBase {
     }
   }
 
+
   /**
-   * 
    * @return true
    */
-  public boolean isListOfOutputsMandatory(){
+  public boolean isListOfOutputsMandatory() {
     return true;
   }
-  
-  public boolean isSetListOfOutputs(){
-    return listOfOutputs!=null;
+
+
+  public boolean isSetListOfOutputs() {
+    return listOfOutputs != null;
   }
-  
-  public void setListOfOutputs(ListOf<Output> loo){
+
+
+  public void setListOfOutputs(ListOf<Output> loo) {
     unsetListOfOutputs();
     this.listOfOutputs = loo;
     setThisAsParentSBMLObject(this.listOfOutputs);
   }
-  
+
+
   public boolean unsetListOfOutputs() {
     if (isSetListOfOutputs()) {
       ListOf<Output> oldLoo = this.listOfOutputs;
@@ -185,15 +188,17 @@ public class Transition extends AbstractNamedSBase {
     return false;
   }
 
+
   /**
    * @return the listOfOutputs
    */
   public ListOf<Output> getListOfOutputs() {
-    if(!isSetListOfOutputs()){
+    if (!isSetListOfOutputs()) {
       listOfOutputs = new ListOf<Output>();
     }
     return listOfOutputs;
   }
+
 
   /**
    * @param listOfOutputs
@@ -205,10 +210,11 @@ public class Transition extends AbstractNamedSBase {
     }
     return false;
   }
-  
+
+
   /**
-   * 
-   * @param input to remove from the listOfOutputs
+   * @param input
+   *        to remove from the listOfOutputs
    * @return true if the operation was successful
    */
   public boolean removeOutput(Output output) {
@@ -218,9 +224,10 @@ public class Transition extends AbstractNamedSBase {
     return false;
   }
 
+
   /**
-   * 
-   * @param position in the listOfOutputs which should be deleted
+   * @param position
+   *        in the listOfOutputs which should be deleted
    * @return true if the operation was successful
    */
   public void removeOutput(int i) {
@@ -232,23 +239,25 @@ public class Transition extends AbstractNamedSBase {
 
 
   /**
-   * 
    * @return false
    */
-  public boolean isListOfFunctionTermsMandatory(){
+  public boolean isListOfFunctionTermsMandatory() {
     return false;
   }
-  
-  public boolean isSetListOfFunctionTerms(){
-    return listOfFunctionTerms!=null;
+
+
+  public boolean isSetListOfFunctionTerms() {
+    return listOfFunctionTerms != null;
   }
-  
-  public void setListOfFunctionTerms(ListOf<FunctionTerm> loft){
+
+
+  public void setListOfFunctionTerms(ListOf<FunctionTerm> loft) {
     unsetListOfFunctionTerms();
     this.listOfFunctionTerms = loft;
     setThisAsParentSBMLObject(this.listOfFunctionTerms);
   }
-  
+
+
   public boolean unsetListOfFunctionTerms() {
     if (isSetListOfFunctionTerms()) {
       ListOf<FunctionTerm> oldLoft = this.listOfFunctionTerms;
@@ -259,15 +268,17 @@ public class Transition extends AbstractNamedSBase {
     return false;
   }
 
+
   /**
    * @return the listOfFunctionTerms
    */
   public ListOf<FunctionTerm> getListOfFunctionTerms() {
-    if(!isSetListOfFunctionTerms()){
+    if (!isSetListOfFunctionTerms()) {
       listOfFunctionTerms = new ListOf<FunctionTerm>();
     }
     return listOfFunctionTerms;
   }
+
 
   /**
    * @param listOfFunctionTerms
@@ -279,10 +290,11 @@ public class Transition extends AbstractNamedSBase {
     }
     return false;
   }
-  
+
+
   /**
-   * 
-   * @param input to remove from the listOfFunctionTerms
+   * @param input
+   *        to remove from the listOfFunctionTerms
    * @return true if the operation was successful
    */
   public boolean removeFunctionTerm(FunctionTerm functionTerm) {
@@ -292,9 +304,10 @@ public class Transition extends AbstractNamedSBase {
     return false;
   }
 
+
   /**
-   * 
-   * @param position in the listOfFunctionTerms which should be deleted
+   * @param position
+   *        in the listOfFunctionTerms which should be deleted
    * @return true if the operation was successful
    */
   public void removeFunctionTerm(int i) {
@@ -306,23 +319,25 @@ public class Transition extends AbstractNamedSBase {
 
 
   /**
-   * 
    * @return false
    */
-  public boolean isListOfInputsMandatory(){
+  public boolean isListOfInputsMandatory() {
     return false;
   }
-  
-  public boolean isSetListOfInputs(){
-    return listOfInputs!=null;
+
+
+  public boolean isSetListOfInputs() {
+    return listOfInputs != null;
   }
-  
-  public void setListOfInputs(ListOf<Input> loi){
+
+
+  public void setListOfInputs(ListOf<Input> loi) {
     unsetListOfInputs();
     this.listOfInputs = loi;
     setThisAsParentSBMLObject(this.listOfInputs);
   }
-  
+
+
   public boolean unsetListOfInputs() {
     if (isSetListOfInputs()) {
       ListOf<Input> oldLoi = this.listOfInputs;
@@ -333,15 +348,17 @@ public class Transition extends AbstractNamedSBase {
     return false;
   }
 
+
   /**
    * @return the listOfInputs
    */
   public ListOf<Input> getListOfInputs() {
-    if(!isSetListOfInputs()){
+    if (!isSetListOfInputs()) {
       listOfInputs = new ListOf<Input>();
     }
     return listOfInputs;
   }
+
 
   /**
    * @param listOfInputs
@@ -353,10 +370,11 @@ public class Transition extends AbstractNamedSBase {
     }
     return false;
   }
-  
+
+
   /**
-   * 
-   * @param input to remove from the listOfInputs
+   * @param input
+   *        to remove from the listOfInputs
    * @return true if the operation was successful
    */
   public boolean removeInput(Input input) {
@@ -366,9 +384,10 @@ public class Transition extends AbstractNamedSBase {
     return false;
   }
 
+
   /**
-   * 
-   * @param position in the listOfInputs which should be deleted
+   * @param position
+   *        in the listOfInputs which should be deleted
    * @return true if the operation was successful
    */
   public void removeInput(int i) {
@@ -377,5 +396,62 @@ public class Transition extends AbstractNamedSBase {
     }
     listOfInputs.remove(i);
   }
-  // TODO : add all the necessary methods to manipulate the lists
+
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      Transition t = (Transition) object;
+      equals &= t.isSetTemporisationType() == isSetTemporisationType();
+      if (equals && isSetTemporisationType()) {
+        equals &= (t.getTemporisationType().equals(getTemporisationType()));
+      }
+      equals &= t.isSetSign() == isSetSign();
+      if (equals && isSetSign()) {
+        equals &= (t.getSign() == getSign());
+      }
+    }
+    return equals;
+  }
+
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 977;
+    int hashCode = super.hashCode();
+    if (isSetTemporisationType()) {
+      hashCode += prime * getTemporisationType().hashCode();
+    }
+    if (isSetSign()) {
+      hashCode += prime * getSign().hashCode();
+    }
+    return hashCode;
+  }
+
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.MathContainer#toString()
+   */
+  @Override
+  public String toString() {
+    String parentId = "";
+    if (getParent() != null) {
+      // Can happen in the clone constructor when using the
+      // SimpleSBaseChangeListener
+      // The super constructor is called before parent is initialized and
+      // it is using the toString() method
+      parentId = getParent().getMetaId();
+    }
+    return String.format("%s(%s)", getElementName(), parentId);
+  }
 }
