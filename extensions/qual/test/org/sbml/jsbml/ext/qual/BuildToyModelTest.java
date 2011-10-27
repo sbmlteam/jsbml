@@ -21,6 +21,7 @@ package org.sbml.jsbml.ext.qual;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.test.gui.JSBMLvisualizer;
 import org.sbml.jsbml.xml.parsers.QualParser;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
@@ -142,7 +143,7 @@ public class BuildToyModelTest {
     }
     QualParser qp = new QualParser();
     
-    
+    new JSBMLvisualizer(sbmlDoc); //XXX: Wird funktionieren, sobald die getChildCount Methoden geschrieben sind.
   }
 
 }

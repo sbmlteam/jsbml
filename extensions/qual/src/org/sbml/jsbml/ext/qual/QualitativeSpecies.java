@@ -431,6 +431,14 @@ public class QualitativeSpecies extends AbstractNamedSBase {
       if (equals && isSetCompartment()) {
         equals &= qs.getCompartment().equals(getCompartment());
       }
+      equals &= qs.isSetInitialLevel() == isSetInitialLevel();
+      if (equals && isSetInitialLevel()) {
+        equals &= qs.getInitialLevel()==getInitialLevel();
+      }
+      equals &= qs.isSetMaxLevel() == isSetMaxLevel();
+      if (equals && isSetMaxLevel()) {
+        equals &= qs.getMaxLevel() == getMaxLevel();
+      }
     }
     return equals;
   }
@@ -452,27 +460,14 @@ public class QualitativeSpecies extends AbstractNamedSBase {
     if (isSetCompartment()) {
       hashCode += prime * getCompartment().hashCode();
     }
+    if (isSetInitialLevel()) {
+      hashCode += prime * getInitialLevel();
+    }
+    if (isSetMaxLevel()) {
+      hashCode += prime * getMaxLevel();
+    }
+    
     return hashCode;
   }
-  
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.sbml.jsbml.MathContainer#toString()
-   */
-  @Override
-  public String toString() {
 
-    String parentId = "";
-    
-    if (getParent() != null) {
-      // Can happen in the clone constructor when using the SimpleSBaseChangeListener
-      // The super constructor is called before parent is initialized and
-      // it is using the toString() method
-      parentId = getParent().getMetaId();
-    }
-
-    return String.format("%s(%s)", getElementName(), parentId);
-  }
-  
 }

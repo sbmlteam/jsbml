@@ -29,14 +29,10 @@ strict digraph G{
   AbstractMathContainer                      [label=<<font><I>Abstract<br/>MathContainer</I></font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractNamedSBase                         [label=<<font><I>Abstract<br/>NamedSBase</I></font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractSBase                              [label=<<font><I>Abstract<br/>SBase</I></font>>, style="filled", fillcolor="#F0F8FF"];
-  AbstractTreeNode                           [label=<<font><I>Abstract<br/>TreeNode</I></font>>, style="filled", fillcolor="#F0F8FF"];
-
-
+  
   /*
    * Objects
    */
-  ASTNode                                    [label="ASTNode", style="filled", fillcolor="#F0F8FF"];
-  DefaultTerm                                [label="Default\nTerm"];
   FunctionTerm                               [label="Function\nTerm"];
   Input                                      [label="Input"];
   Output                                     [label="Output"];
@@ -57,11 +53,7 @@ strict digraph G{
   AbstractNamedSBase -> SymbolValue          [dir=back,arrowtail=empty];
 
   AbstractSBase -> AbstractNamedSBase        [dir=back,arrowtail=empty];
-  AbstractSBase -> DefaultTerm               [dir=back,arrowtail=empty];
   AbstractSBase -> AbstractMathContainer     [dir=back,arrowtail=empty];
 
-  AbstractTreeNode -> AbstractSBase          [dir=back,arrowtail=empty]; 
-  AbstractTreeNode -> ASTNode                [dir=back,arrowtail=empty]; 
-
-  ASTNode -> TemporisationMath               [dir=back,arrowtail=empty]
+  AbstractMathContainer -> TemporisationMath [dir=back,arrowtail=empty]
 }

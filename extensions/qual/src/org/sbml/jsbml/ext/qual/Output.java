@@ -207,6 +207,14 @@ public class Output extends AbstractNamedSBase {
       if (equals && isSetQualitativeSpecies()) {
         equals &= (o.getQualitativeSpecies().equals(getQualitativeSpecies()));
       }
+      equals &= o.isSetTransitionEffect() == isSetTransitionEffect();
+      if (equals && isSetTransitionEffect()) {
+        equals &= (o.getTransitionEffect().equals(getTransitionEffect()));
+      }
+      equals &= o.isSetLevel() == isSetLevel();
+      if (equals && isSetLevel()) {
+        equals &= o.getLevel()==getLevel();
+      }
     }
     return equals;
   }
@@ -223,24 +231,12 @@ public class Output extends AbstractNamedSBase {
     if (isSetQualitativeSpecies()) {
       hashCode += prime * getQualitativeSpecies().hashCode();
     }
-    return hashCode;
-  }
-
-
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.MathContainer#toString()
-   */
-  @Override
-  public String toString() {
-    String parentId = "";
-    if (getParent() != null) {
-      // Can happen in the clone constructor when using the
-      // SimpleSBaseChangeListener
-      // The super constructor is called before parent is initialized and
-      // it is using the toString() method
-      parentId = getParent().getMetaId();
+    if (isSetTransitionEffect()){
+      hashCode += prime * getTransitionEffect().hashCode();
     }
-    return String.format("%s(%s)", getElementName(), parentId);
+    if (isSetLevel()) {
+      hashCode += prime * getLevel();
+    }
+    return hashCode;
   }
 }
