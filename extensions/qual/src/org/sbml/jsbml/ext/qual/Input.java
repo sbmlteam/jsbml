@@ -29,8 +29,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @author Florian Mittag
  * @version $$Rev$$
  * @since 0.8
- * @date ${date}
- *       ${tags}
+ * @date 29.09.2011
  */
 public class Input extends AbstractNamedSBase {
 
@@ -209,7 +208,8 @@ public class Input extends AbstractNamedSBase {
     }
   }
 
-
+  
+  
   /**
    * @return false
    */

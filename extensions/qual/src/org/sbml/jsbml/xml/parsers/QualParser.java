@@ -140,7 +140,7 @@ public class QualParser implements ReadingParser, WritingParser {
 
 			SBase sbase = (SBase) contextObject;
 			
-			logger.debug("processAttribute : level, version = " + sbase.getLevel() + ", " + sbase.getVersion());
+			logger.debug("processAttribute : level, version = " + sbase.getResultLevel() + ", " + sbase.getVersion());
 
 			try {
 				isAttributeRead = sbase.readAttribute(attributeName, prefix,

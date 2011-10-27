@@ -24,8 +24,7 @@ package org.sbml.jsbml.ext.qual;
  * @author Finja B&uuml;chel
  * @version $$Rev$$
  * @since 0.8
- * @date ${date}
- * ${tags}
+ * @date 29.09.2011
  */
 public enum Sign {
   /**

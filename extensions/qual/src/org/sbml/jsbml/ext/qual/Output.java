@@ -27,8 +27,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @author Finja B&uuml;chel
  * @version $$Rev$$
  * @since 0.8
- * @date ${date}
- *       ${tags}
+ * @date 29.09.2011
  */
 public class Output extends AbstractNamedSBase {
 

@@ -28,8 +28,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @author Finja B&uuml;chel
  * @version $$Rev$$
  * @since 0.8
- * @date ${date}
- * ${tags}
+ * @date 29.09.2011
  */
 public class FunctionTerm extends AbstractMathContainer {
 
@@ -76,21 +75,21 @@ public class FunctionTerm extends AbstractMathContainer {
 
 
   /**
-   * @param level
+   * @param resultLevel
    *        the resultLevel to set
    */
-  public void setLevel(int level) {
-    Integer oldLevel = this.resultLevel;
-    this.resultLevel = level;
-    firePropertyChange(QualChangeEvent.resultLevel, oldLevel, this.resultLevel);
+  public void setResultLevel(int resultLevel) {
+    Integer oldResultLevel = this.resultLevel;
+    this.resultLevel = resultLevel;
+    firePropertyChange(QualChangeEvent.resultLevel, oldResultLevel, this.resultLevel);
   }
 
 
-  public boolean unsetLevel() {
-    if (isSetLevel()) {
-      Integer oldLevel = this.resultLevel;
+  public boolean unsetResultLevel() {
+    if (isSetResultLevel()) {
+      Integer oldResultLevel = this.resultLevel;
       this.resultLevel = null;
-      firePropertyChange(QualChangeEvent.resultLevel, oldLevel, this.resultLevel);
+      firePropertyChange(QualChangeEvent.resultLevel, oldResultLevel, this.resultLevel);
       return true;
     } else {
       return false;
@@ -184,7 +183,7 @@ public class FunctionTerm extends AbstractMathContainer {
 
 
   public boolean unsetTemporisationValue() {
-    if (isSetLevel()) {
+    if (isSetResultLevel()) {
       Double oldTempValue = this.temporisationValue;
       this.temporisationValue = null;
       firePropertyChange(QualChangeEvent.temporisationValue, oldTempValue, this.temporisationValue);
