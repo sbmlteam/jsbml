@@ -237,7 +237,62 @@ public class FunctionTerm extends AbstractMathContainer {
 	  
 	}
 	
-	/**
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      FunctionTerm ft = (FunctionTerm) object;
+      equals &= ft.isDefaultTerm() == isDefaultTerm();
+      equals &= ft.isSetResultLevel() == isSetResultLevel();
+      if (equals && isSetResultLevel()) {
+        equals &= (ft.getResultLevel() == getResultLevel());
+      }
+      equals &= ft.isSetResultSymbol() == isSetResultSymbol();
+      if (equals && isSetResultSymbol()) {
+        equals &= (ft.getResultSymbol().equals(getResultSymbol()));
+      }
+      equals &= ft.isSetTemporisationValue() == isSetTemporisationValue();
+      if (equals && isSetTemporisationValue()) {
+        equals &= (ft.getTemporisationValue() == getTemporisationValue());
+      }
+      equals &= ft.isSetTemporisationMath() == isSetTemporisationMath();
+      if (equals && isSetTemporisationMath()) {
+        equals &= (ft.getTemporisationMath().equals(getTemporisationMath()));
+      }
+    }
+    return equals;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+    final int prime = 953;
+    int hashCode = super.hashCode();
+    if (isDefaultTerm()) {
+      hashCode *= 2;
+    }
+    if (isSetResultLevel()) {
+      hashCode += prime * resultLevel.hashCode();
+    }
+    if (isSetResultSymbol()) {
+      hashCode += prime * resultSymbol.hashCode();
+    }
+    if (isSetTemporisationValue()) {
+      hashCode += prime * temporisationValue.hashCode();
+    }
+    if (isSetTemporisationMath()) {
+      hashCode += prime * temporisationMath.hashCode();
+    }
+    return hashCode;
+	}
+	
+
+  /**
 	 * @return the defaultTerm
 	 */
 	public boolean isDefaultTerm() {
