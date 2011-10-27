@@ -47,12 +47,16 @@ public class BuildToyModelTest {
     
     SBMLDocument sbmlDoc = new SBMLDocument(3, 1);
     sbmlDoc.addDeclaredNamespace(QUAL_NS, QUAL_NS_PREFIX);
+    //sbmlDoc.readAttribute("required", QUAL_NS_PREFIX, "true");
     
     Model model = new Model("m_default_name");
     QualitativeModel qModel = new QualitativeModel(model);
     // TODO: or add it to the document?
-    model.addExtension(QUAL_NS_PREFIX, qModel);
-    qModel.readAttribute("required", QUAL_NS_PREFIX, "true");
+    //model.addExtension(QUAL_NS, qModel);
+    sbmlDoc.addExtension(QUAL_NS, qModel);
+    //qModel.readAttribute("required", QUAL_NS_PREFIX, "true");
+
+    sbmlDoc.setModel(model);
 
     // ListOfCompartments
     Compartment comp1 = model.createCompartment("comp1");
@@ -141,7 +145,10 @@ public class BuildToyModelTest {
       
 //      ASTNode n1 = ASTNode.readMathMLFromString("");
     }
-    QualParser qp = new QualParser();
+    
+    qModel.addTransition(tr_g1);
+    
+    //QualParser qp = new QualParser();
     
     new JSBMLvisualizer(sbmlDoc); //XXX: Wird funktionieren, sobald die getChildCount Methoden geschrieben sind.
   }
