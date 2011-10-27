@@ -22,8 +22,7 @@ package org.sbml.jsbml.ext.qual;
  * @author Nicolas Rodriguez
  * @version $$Rev$$
  * @since 0.8
- * @date ${date}
- * ${tags}
+ * @date 29.09.2011
  */
 public enum QualList {
 	listOfQualitativeSpecies,

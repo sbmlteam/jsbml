@@ -31,8 +31,7 @@ import org.sbml.jsbml.SBasePlugin;
  * @author Nicolas Rodriguez
  * @version $$Rev$$
  * @since 0.8
- * @date ${date}
- * ${tags}
+ * @date 29.09.2011
  */
 public class QualitativeModel implements SBasePlugin {
 
