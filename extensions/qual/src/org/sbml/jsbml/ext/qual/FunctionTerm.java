@@ -237,8 +237,6 @@ public class FunctionTerm extends AbstractMathContainer {
 	  
 	}
 	
-//=========================================================================================
-	
 	/**
 	 * @return the defaultTerm
 	 */
@@ -253,7 +251,6 @@ public class FunctionTerm extends AbstractMathContainer {
 		this.defaultTerm = defaultTerm;
 	}
 	
-//=========================================================================================
 	
 	
 	

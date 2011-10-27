@@ -261,10 +261,22 @@ public class Input extends AbstractNamedSBase {
   public boolean equals(Object object) {
     boolean equals = super.equals(object);
     if (equals) {
-      Output o = (Output) object;
-      equals &= o.isSetQualitativeSpecies() == isSetQualitativeSpecies();
+      Input i = (Input) object;
+      equals &= i.isSetQualitativeSpecies() == isSetQualitativeSpecies();
       if (equals && isSetQualitativeSpecies()) {
-        equals &= (o.getQualitativeSpecies().equals(getQualitativeSpecies()));
+        equals &= (i.getQualitativeSpecies().equals(getQualitativeSpecies()));
+      }
+      equals &= i.isSetTransitionEffect() == isSetTransitionEffect();
+      if (equals && isSetTransitionEffect()) {
+        equals &= (i.getTransitionEffect().equals(getTransitionEffect()));
+      }
+      equals &= i.isSetThresholdLevel() == isSetThresholdLevel();
+      if (equals && isSetThresholdLevel()) {
+        equals &= i.getThresholdLevel()==getThresholdLevel();
+      }
+      equals &= i.isSetThresholdSymbol() == isSetThresholdSymbol();
+      if (equals && isSetThresholdSymbol()) {
+        equals &= i.getThresholdSymbol().equals(getThresholdSymbol());
       }
     }
     return equals;
@@ -281,24 +293,16 @@ public class Input extends AbstractNamedSBase {
     if (isSetQualitativeSpecies()) {
       hashCode += prime * getQualitativeSpecies().hashCode();
     }
+    if (isSetTransitionEffect()) {
+      hashCode += prime * getTransitionEffect().hashCode();
+    }
+    if (isSetThresholdLevel()){
+      hashCode += prime * getThresholdLevel();
+    }
+    if (isSetThresholdSymbol()){
+      hashCode += prime * getThresholdSymbol().hashCode();
+    }
     return hashCode;
   }
 
-
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.MathContainer#toString()
-   */
-  @Override
-  public String toString() {
-    String parentId = "";
-    if (getParent() != null) {
-      // Can happen in the clone constructor when using the
-      // SimpleSBaseChangeListener
-      // The super constructor is called before parent is initialized and
-      // it is using the toString() method
-      parentId = getParent().getMetaId();
-    }
-    return String.format("%s(%s)", getElementName(), parentId);
-  }
 }

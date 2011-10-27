@@ -37,7 +37,7 @@ public class JSBMLvisualizer extends JFrame {
 	
 	/** @param document The sbml root node of an SBML file */
 	public JSBMLvisualizer(SBMLDocument document) {
-		super(document.getModel().getId());
+		super("JSBML viz");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().add(new JScrollPane(new JTree(document)));
 		pack();
