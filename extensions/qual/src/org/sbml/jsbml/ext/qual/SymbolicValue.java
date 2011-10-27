@@ -100,7 +100,6 @@ public class SymbolicValue extends AbstractNamedSBase {
     }
   }
 
-
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
@@ -128,26 +127,8 @@ public class SymbolicValue extends AbstractNamedSBase {
     final int prime = 983;
     int hashCode = super.hashCode();
     if (isSetRank()) {
-      hashCode += prime + getRank();
+      hashCode += prime * getRank();
     }
     return hashCode;
-  }
-
-
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.MathContainer#toString()
-   */
-  @Override
-  public String toString() {
-    String parentId = "";
-    if (getParent() != null) {
-      // Can happen in the clone constructor when using the
-      // SimpleSBaseChangeListener
-      // The super constructor is called before parent is initialized and
-      // it is using the toString() method
-      parentId = getParent().getMetaId();
-    }
-    return String.format("%s(%s)", getElementName(), parentId);
   }
 }
