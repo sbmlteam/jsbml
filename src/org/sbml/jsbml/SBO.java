@@ -2156,17 +2156,13 @@ public class SBO {
 	 * @return a 7 digit SBO number for the given {@link Term} identifier (if
 	 * this is a valid identifier). The returned {@link String} will not contain the
 	 * SBO prefix.
+	 * @throws IllegalArgumentException if the given value is no valid SBO term number.
 	 */
 	public static String sboNumberString(int sboTerm) {
 		if (!checkTerm(sboTerm)) {
-			return "";
+			throw new IllegalArgumentException("Illegal sboTerm " + sboTerm);
 		}
-		StringBuilder sbo = new StringBuilder();
-		sbo.append(Integer.toString(sboTerm));
-		while (sbo.length() < 7) {
-			sbo.insert(0, '0');
-		}
-		return sbo.toString();
+		return StringTools.leadingZeros(7, sboTerm);
 	}
 	
 	/**

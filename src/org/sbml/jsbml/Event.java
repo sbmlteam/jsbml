@@ -958,7 +958,6 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 			ListOf<EventAssignment> oldListOfEventAssignments = this.listOfEventAssignments;
 			this.listOfEventAssignments = null;
 			oldListOfEventAssignments.fireNodeRemovedEvent();
-			oldListOfEventAssignments.parent = null;
 			return true;
 		}
 		return false;

@@ -315,7 +315,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
     }
     if ((id == null) || (id.trim().length() == 0)) {
       this.id = null;
-    } else if ((getLevel() == 3) || checkIdentifier(id)) {
+    } else if (checkIdentifier(id)) {
       this.id = id;
     }
 		if ((model != null) && !model.registerId(this, true)) {

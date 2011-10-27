@@ -40,12 +40,11 @@ import org.sbml.jsbml.xml.XMLNode;
  */
 public interface SBase extends TreeNodeWithChangeSupport {
 	
-	/**
-	 * 
-	 * @param term
-	 * @return true if a CVTerm instance has been added to the list of CVTerm of
-	 *         this object.
-	 */
+  /**
+   * @param term
+   * @return <code>true</code> if a {@link CVTerm} instance has been added to
+   *         the list of {@link CVTerm} of this object.
+   */
 	public boolean addCVTerm(CVTerm term);
 	
 	/**

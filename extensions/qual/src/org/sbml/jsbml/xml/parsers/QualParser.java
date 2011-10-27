@@ -327,7 +327,6 @@ public class QualParser implements ReadingParser, WritingParser {
 			Object sbmlElementToWrite) {
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
-
 			xmlObject.addAttributes(sbase.writeXMLAttributes());
 		}
 
