@@ -26,8 +26,8 @@ import org.sbml.jsbml.PropertyUndefinedError;
 /**
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
- * @version $$Rev$$
- * @since 0.8
+ * @version $Rev$
+ * @since 1.0
  * @date 29.09.2011
  */
 public class FunctionTerm extends AbstractMathContainer {

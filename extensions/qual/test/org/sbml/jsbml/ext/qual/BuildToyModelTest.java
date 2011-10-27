@@ -22,6 +22,7 @@ package org.sbml.jsbml.ext.qual;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.xml.parsers.QualParser;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
@@ -138,8 +139,10 @@ public class BuildToyModelTest {
       // TODO: not sure here
       ASTNode mathNode = new ASTNode(Type.FUNCTION, ft1);
       
-      ASTNode n1 = ASTNode.readMathMLFromString("");
+//      ASTNode n1 = ASTNode.readMathMLFromString("");
     }
+    QualParser qp = new QualParser();
+    
     
   }
 
