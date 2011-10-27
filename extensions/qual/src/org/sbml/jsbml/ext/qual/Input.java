@@ -1,6 +1,6 @@
 /*
- * $Id: Input.java 811 2011-09-27 12:36:49Z niko-rodrigue $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/KineticLaw.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -47,9 +47,43 @@ public class Input extends AbstractNamedSBase {
 		return null;
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+	 */
 	public boolean isIdMandatory() {
 		return false;
 	}
+	
+
+  /**
+   * @return true
+   */
+  public boolean isQualitativeSpeciesMandatory() {
+    return true;
+  }
+
+
+  /**
+   * @return true
+   */
+  public boolean isTransitionEffectMandatory() {
+    return true;
+  }
+  
+  /**
+   * @return false 
+   */
+  public boolean isThresholdLevelMandatory() {
+    return false;
+  }
+
+  /**
+   * @return false
+   */
+  public boolean isThresholdSymbolMandatory() {
+    return false;
+  }
 
 	/**
 	 * @return the qualitativeSpecies
@@ -66,6 +100,24 @@ public class Input extends AbstractNamedSBase {
 	}
 
 	/**
+	 * @return if the qualitative species is set
+	 */
+	public boolean isSetQualitativeSpecies() {
+	  return qualitativeSpecies != null;
+	}
+	
+  /**
+   * @return if the qualitative species was unset
+   */
+  public boolean unsetQualitativeSpecies() {
+    if (qualitativeSpecies != null) {
+      setQualitativeSpecies(null);
+      return true;
+    }
+    return false;
+  }
+	
+	/**
 	 * @return the transitionEffect
 	 */
 	public InputTransitionEffect getTransitionEffect() {
@@ -79,6 +131,24 @@ public class Input extends AbstractNamedSBase {
 		this.transitionEffect = inputTransitionEffect;
 	}
 
+	/**
+	 * @return if the transitionEffect is set
+	 */
+	public boolean isSetTransitionEffect() {
+	  return transitionEffect != null;
+	}
+
+	/**
+   * @return true if the unset of the transitionEffect attribute was successful
+   */
+  public boolean unsetTransitionEffect() {
+    if (transitionEffect != null) {
+      setTransitionEffect(null);
+      return true;
+    }
+    return false;
+  }
+	
 	/**
 	 * @return the thresholdLevel
 	 */
@@ -110,5 +180,22 @@ public class Input extends AbstractNamedSBase {
 		this.thresholdSymbol = thresholdSymbol;
 	}
 
+	/**
+   * @return if thresholdSymbol attribute is set
+   */
+  public boolean isSetThresholdSymbol() {
+    return thresholdSymbol != null;
+  }
+	
+	/**
+   * @return true if the unset of the thresholdSymbol attribute was successful
+   */
+  public boolean unsetThresholdSymbol() {
+    if (isSetThresholdSymbol()) {
+      setThresholdSymbol(null);
+      return true;
+    }
+    return false;
+  }
 	
 }
