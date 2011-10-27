@@ -78,7 +78,14 @@ public class QualitativeSpecies extends AbstractNamedSBase {
     return true;
   }
 
-
+  /**
+   * 
+   * @return true
+   */
+  public boolean isCompartmentMandatory(){
+    return true;
+  }
+  
   /**
    * @return if boundaryCondition attribute is set
    */

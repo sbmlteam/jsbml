@@ -21,11 +21,11 @@
 package org.sbml.jsbml.ext.qual;
 
 import org.sbml.jsbml.AbstractMathContainer;
+import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
- * @author Florian Mittag
  * @version $$Rev$$
  * @since 0.8
  * @date ${date}
@@ -33,76 +33,214 @@ import org.sbml.jsbml.AbstractMathContainer;
  */
 public class FunctionTerm extends AbstractMathContainer {
 
-	private int resultLevel;
+	/**
+   * 
+   */
+  private static final long serialVersionUID = -3456373304133826017L;
+  
+  private Integer resultLevel;
 	private String resultSymbol;
 	
-	private double temporisationValue;
+	private Double temporisationValue;
 	private TemporisationMath temporisationMath;
 	
 	private boolean defaultTerm;
 	
 	@Override
 	public AbstractMathContainer clone() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/**
-	 * @return the resultLevel
+	 * 
+	 * @return false
 	 */
-	public int getResultLevel() {
-		return resultLevel;
+	public boolean isResultLevelMandatory(){
+	  return false;
 	}
-
-	/**
-	 * @param resultLevel the resultLevel to set
-	 */
-	public void setResultLevel(int resultLevel) {
-		this.resultLevel = resultLevel;
+	
+	public boolean isSetResultLevel(){
+	  return this.resultLevel!= null;
 	}
-
+	
 	/**
-	 * @return the resultSymbol
-	 */
-	public String getResultSymbol() {
-		return resultSymbol;
-	}
+   * @return the level
+   */
+  public int getResultLevel() {
+    if (isSetResultLevel()) {
+      return resultLevel.intValue();
+    } else {
+      throw new PropertyUndefinedError(QualChangeEvent.resultLevel, this);
+    }
+  }
 
-	/**
-	 * @param resultSymbol the resultSymbol to set
-	 */
-	public void setResultSymbol(String resultSymbol) {
-		this.resultSymbol = resultSymbol;
-	}
 
-	/**
-	 * @return the temporisationValue
-	 */
-	public double getTemporisationValue() {
-		return temporisationValue;
-	}
+  /**
+   * @param level
+   *        the resultLevel to set
+   */
+  public void setLevel(int level) {
+    Integer oldLevel = this.resultLevel;
+    this.resultLevel = level;
+    firePropertyChange(QualChangeEvent.resultLevel, oldLevel, this.resultLevel);
+  }
 
-	/**
-	 * @param temporisationValue the temporisationValue to set
-	 */
-	public void setTemporisationValue(double temporisationValue) {
-		this.temporisationValue = temporisationValue;
-	}
 
-	/**
+  public boolean unsetLevel() {
+    if (isSetLevel()) {
+      Integer oldLevel = this.resultLevel;
+      this.resultLevel = null;
+      firePropertyChange(QualChangeEvent.resultLevel, oldLevel, this.resultLevel);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * 
+   * @return true
+   */
+  public boolean isResultSymbolMandatory(){
+    return true;
+  }
+  
+  /**
+   * @return if boundaryCondition attribute is set
+   */
+  public boolean isSetResultSymbol() {
+    return resultSymbol != null;
+  }
+
+
+  /**
+   * @return the resultSymbol
+   */
+  public String getResultSymbol() {
+    return isSetResultSymbol() ? resultSymbol : "";
+  }
+
+
+  /**
+   * @param resultSymbol
+   *        the resultSymbol to set
+   */
+  public void setResultSymbol(String resultSymbol) {
+    String oldresultSymbol = this.resultSymbol;
+    if ((resultSymbol == null) || (resultSymbol.length() == 0)) {
+      this.resultSymbol = null;
+    } else {
+      this.resultSymbol = resultSymbol;
+    }
+    firePropertyChange(QualChangeEvent.resultSymbol, oldresultSymbol,
+      this.resultSymbol);
+  }
+
+
+  /**
+   * @return true if the unset of the resultSymbol attribute was successful
+   */
+  public boolean unsetResultSymbol() {
+    if (resultSymbol != null) {
+      setResultSymbol(null);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * 
+   * @return false
+   */
+  public boolean isTemporisationValueMandatory(){
+    return false;
+  }
+  
+  public boolean isSetTemporisationValue(){
+    return this.temporisationValue!= null;
+  }
+  
+  /**
+   * @return the level
+   */
+  public double getTemporisationValue() {
+    if (isSetTemporisationValue()) {
+      return temporisationValue.doubleValue();
+    } else {
+      throw new PropertyUndefinedError(QualChangeEvent.temporisationValue, this);
+    }
+  }
+
+
+  /**
+   * @param level
+   *        the remporisationValue to set
+   */
+  public void setTemporisationValue(double tempValue) {
+    Double oldTempValue = this.temporisationValue;
+    this.temporisationValue = tempValue;
+    firePropertyChange(QualChangeEvent.temporisationValue, oldTempValue, this.temporisationValue);
+  }
+
+
+  public boolean unsetTemporisationValue() {
+    if (isSetLevel()) {
+      Double oldTempValue = this.temporisationValue;
+      this.temporisationValue = null;
+      firePropertyChange(QualChangeEvent.temporisationValue, oldTempValue, this.temporisationValue);
+      return true;
+    } else {
+      return false;
+    }
+  }
+	
+  /**
+   * @return false
+   */
+  public boolean isTemporisationMathMandatory(){
+    return false;
+  }
+  
+  public boolean isSetTemporisationMath(){
+    return this.temporisationMath!=null;
+  }
+  
+  /**
 	 * @return the temporisationMath
 	 */
 	public TemporisationMath getTemporisationMath() {
-		return temporisationMath;
+	  if(isSetTemporisationMath()){
+	    return temporisationMath;
+	  } else{
+	    throw new PropertyUndefinedError(QualChangeEvent.temporisationMath, this);
+	  }
 	}
 
 	/**
 	 * @param temporisationMath the temporisationMath to set
 	 */
 	public void setTemporisationMath(TemporisationMath temporisationMath) {
-		this.temporisationMath = temporisationMath;
+		TemporisationMath oldTM = this.temporisationMath;
+	  this.temporisationMath = temporisationMath;
+	  firePropertyChange(QualChangeEvent.temporisationMath, oldTM, this.temporisationMath);
 	}
 
+	/**
+	 * 
+	 * @return true if the unset of the attribute temporisationMath was successful
+	 */
+	public boolean unsetTemporisationMath(){
+	  if(isSetTemporisationMath()){
+	    setTemporisationMath(null);
+	    return true;
+	  } else {
+	    return false;
+	  }
+	  
+	}
+	
+//=========================================================================================
+	
 	/**
 	 * @return the defaultTerm
 	 */
@@ -116,6 +254,8 @@ public class FunctionTerm extends AbstractMathContainer {
 	public void setDefaultTerm(boolean defaultTerm) {
 		this.defaultTerm = defaultTerm;
 	}
+	
+//=========================================================================================
 	
 	
 	
