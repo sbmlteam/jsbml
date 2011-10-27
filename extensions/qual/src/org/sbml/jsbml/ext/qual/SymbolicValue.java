@@ -17,12 +17,12 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.qual;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
+
 /**
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
@@ -34,7 +34,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
 public class SymbolicValue extends AbstractNamedSBase {
 
   /**
-   * 
+   * Generated serial version identifier.
    */
   private static final long serialVersionUID = -214835834453944834L;
   private Integer           rank;

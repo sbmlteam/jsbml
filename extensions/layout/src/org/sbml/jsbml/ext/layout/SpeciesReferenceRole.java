@@ -17,13 +17,12 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.layout;
 
 /**
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
- * @since 0.8
+ * @since 1.0
  * @version $Rev$
  */
 public enum SpeciesReferenceRole {

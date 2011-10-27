@@ -17,14 +17,12 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.multi;
 
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBasePlugin;
@@ -34,7 +32,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 /**
  * 
  * @author Marine Dumousseau
- * @since 0.8
+ * @since 1.0
  * @version $Rev$
  */
 public class MultiSpecies implements SBasePlugin {

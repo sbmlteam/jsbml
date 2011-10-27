@@ -18,6 +18,7 @@
  * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.ext.qual;
+
 /**
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -25,11 +26,32 @@ package org.sbml.jsbml.ext.qual;
  * @date 29.09.2011
  */
 public enum QualList {
-	listOfQualitativeSpecies,
-	listOfTransitions,
-	listOfInputs,
-	listOfOutputs,
+  /**
+	 * 
+	 */
 	listOfFunctionTerms,
+	/**
+	 * 
+	 */
+	listOfInputs,
+	/**
+	 * 
+	 */
+	listOfOutputs,
+	/**
+   * 
+   */
+	listOfQualitativeSpecies,
+	/**
+	 * 
+	 */
 	listOfSymbolicValues,
+	/**
+	 * 
+	 */
+	listOfTransitions,
+	/**
+	 * 
+	 */
 	none
 }

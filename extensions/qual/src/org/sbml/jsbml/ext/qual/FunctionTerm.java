@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.qual;
 
 import org.sbml.jsbml.AbstractMathContainer;
@@ -33,7 +32,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
 public class FunctionTerm extends AbstractMathContainer {
 
 	/**
-   * 
+   * Generated serial version identifier.
    */
   private static final long serialVersionUID = -3456373304133826017L;
   

@@ -1,6 +1,6 @@
 /*
- * $Id:  LaoutTest.java 11:29:35 draeger $
- * $URL: LaoutTest.java $
+ * $Id$
+ * $URL$
  *
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
@@ -39,7 +39,7 @@ import org.sbml.jsbml.ext.layout.Layout;
 /**
  * @author Andreas Dr&auml;ger
  * @version $Rev$
- * @since 0.8
+ * @since 1.0
  * @date 26.05.2011
  */
 @Ignore

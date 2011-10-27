@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml.parsers;
 
 import java.util.HashMap;
@@ -51,7 +50,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
- * @since 0.8
+ * @since 1.0
  */
 enum LayoutList {
 	/**
@@ -98,7 +97,7 @@ enum LayoutList {
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
- * @since 0.8
+ * @since 1.0
  * @version $Rev$
  * 
  */

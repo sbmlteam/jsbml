@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.multi;
 
 import java.util.HashMap;
@@ -28,7 +27,7 @@ import org.sbml.jsbml.util.StringTools;
 
 /**
  * @author Marine Dumousseau
- * @since 0.8
+ * @since 1.0
  * @version $Rev$
  */
 public class InitialSpeciesInstance extends AbstractNamedSBase {

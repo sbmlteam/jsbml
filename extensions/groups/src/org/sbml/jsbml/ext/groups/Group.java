@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.groups;
 
 import java.util.Map;
@@ -34,7 +33,7 @@ import org.sbml.jsbml.xml.parsers.GroupsParser;
 /**
  * 
  * @author Nicolas Rodriguez
- * @since 0.8
+ * @since 1.0
  * @version $Rev$
  */
 public class Group extends AbstractNamedSBase implements UniqueNamedSBase {

@@ -35,7 +35,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
 public class Transition extends AbstractNamedSBase {
 
   /**
-   * 
+   * Generated serial version identifier.
    */
   private static final long    serialVersionUID = 8343744362262634585L;
   private TemporisationType    temporisationType;
@@ -45,7 +45,10 @@ public class Transition extends AbstractNamedSBase {
   private ListOf<FunctionTerm> listOfFunctionTerms;
 
 
-  @Override
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   public AbstractSBase clone() {
     return null;
   }

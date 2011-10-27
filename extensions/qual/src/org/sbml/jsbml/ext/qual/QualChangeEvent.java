@@ -17,12 +17,12 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.qual;
 
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+
 /**
  * @author Finja B&uuml;chel
  * @version $Rev$
@@ -33,7 +33,7 @@ public class QualChangeEvent extends TreeNodeChangeEvent {
   
  
   /**
-   * 
+   * Generated serial version identifier. 
    */
   private static final long serialVersionUID = 944717095818356337L;
   

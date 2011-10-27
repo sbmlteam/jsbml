@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.adapter;
 
 import org.sbml.jsbml.Annotation;
@@ -34,10 +33,9 @@ import org.sbml.jsbml.Unit.Kind;
 
 /**
  * 
- * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
- * @since 0.8
+ * @since 1.0
  * @version $Rev: 721 $ 
  */
 @SuppressWarnings("deprecation")

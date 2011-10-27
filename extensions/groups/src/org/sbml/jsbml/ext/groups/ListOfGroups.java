@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.groups;
 
 import org.sbml.jsbml.ListOf;
@@ -28,7 +27,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * This class represents the listOf extension for the group package
  *
  * @author Marine Dumousseau
- * @since 0.8
+ * @since 1.0
  * @version $Rev$
  */
 public class ListOfGroups<T extends SBase> extends ListOf<T>{
