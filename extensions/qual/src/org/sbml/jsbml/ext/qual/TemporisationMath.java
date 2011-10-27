@@ -24,8 +24,8 @@ import org.sbml.jsbml.AbstractMathContainer;
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
  * @author Florian Mittag
- * @version $$Rev$$
- * @since 0.8
+ * @version $Rev$
+ * @since 1.0
  * @date 29.09.2011
  */
 public class TemporisationMath extends AbstractMathContainer {

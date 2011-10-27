@@ -21,8 +21,8 @@
 package org.sbml.jsbml.ext.qual;
 /**
  * @author Nicolas Rodriguez
- * @version $$Rev$$
- * @since 0.8
+ * @version $Rev$
+ * @since 1.0
  * @date 29.09.2011
  */
 public enum OutputTransitionEffect {production, assignmentLevel, assignmentSymbol}

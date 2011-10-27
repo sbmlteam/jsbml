@@ -26,8 +26,8 @@ import org.sbml.jsbml.PropertyUndefinedError;
 /**
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
- * @version $$Rev$$
- * @since 0.8
+ * @version $Rev$
+ * @since 1.0
  * @date 29.09.2011
  */
 public class QualitativeSpecies extends AbstractNamedSBase {
@@ -160,8 +160,8 @@ public class QualitativeSpecies extends AbstractNamedSBase {
    * @param boundaryCondition
    *        the boundaryCondition to set
    */
-  public void setBoundaryCondition(boolean boundaryCondition) {
-    boolean oldBoundaryCondition = this.boundaryCondition;
+  public void setBoundaryCondition(boolean boundaryCondition) {    
+    Boolean oldBoundaryCondition = this.boundaryCondition;
     this.boundaryCondition = boundaryCondition;
     firePropertyChange(QualChangeEvent.boundaryCondition, oldBoundaryCondition,
       this.boundaryCondition);
@@ -213,7 +213,7 @@ public class QualitativeSpecies extends AbstractNamedSBase {
    *        the constant to set
    */
   public void setConstant(boolean constant) {
-    boolean oldConstant = this.constant;
+    Boolean oldConstant = this.constant;
     this.constant = constant;
     firePropertyChange(QualChangeEvent.constant, oldConstant, this.constant);
   }

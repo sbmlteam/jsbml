@@ -29,8 +29,8 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBasePlugin;
 /**
  * @author Nicolas Rodriguez
- * @version $$Rev$$
- * @since 0.8
+ * @version $Rev$
+ * @since 1.0
  * @date 29.09.2011
  */
 public class QualitativeModel implements SBasePlugin {
