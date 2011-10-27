@@ -19,6 +19,8 @@
  */
 package org.sbml.jsbml.ext.qual;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
@@ -70,6 +72,7 @@ public class QualitativeSpecies extends AbstractNamedSBase {
     return null;
   }
 
+  
 
   /**
    * @return true
@@ -407,6 +410,44 @@ public class QualitativeSpecies extends AbstractNamedSBase {
       throw new IndexOutOfBoundsException(Integer.toString(i));
     }
     listOfSymbolicValues.remove(i);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
+  @Override
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
+    }
+      
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+    if (isSetListOfSymbolicValues()) {
+      if (pos == index) {
+        return getListOfSymbolicValues();
+      }
+      pos++;
+    }
+    throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+        index, +((int) Math.min(pos, 0))));
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    int count = super.getChildCount();
+    if (isSetListOfSymbolicValues()) {
+      count++;
+    }
+    return count;
   }
   
   /*

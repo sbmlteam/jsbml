@@ -19,6 +19,8 @@
  */
 package org.sbml.jsbml.ext.qual;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
@@ -51,6 +53,63 @@ public class Transition extends AbstractNamedSBase {
    */
   public AbstractSBase clone() {
     return null;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
+  @Override
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
+    }
+      
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+    if (isSetListOfInputs()) {
+      if (pos == index) {
+        return getListOfInputs();
+      }
+      pos++;
+    }
+    if (isSetListOfOutputs()) {
+      if (pos == index) {
+        return getListOfOutputs();
+      }
+      pos++;
+    }
+    if (isSetListOfFunctionTerms()) {
+      if (pos == index) {
+        return getListOfFunctionTerms();
+      }
+      pos++;
+    }
+    throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+        index, +((int) Math.min(pos, 0))));
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    int count = super.getChildCount();
+    if (isSetListOfInputs()) {
+      count++;
+    }
+    if (isSetListOfOutputs()) {
+      count++;
+    }
+    if (isSetListOfFunctionTerms()) {
+      count++;
+    }
+    return count;
   }
 
 
