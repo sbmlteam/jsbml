@@ -29,15 +29,7 @@ public enum TemporisationType {
   /**
    * 
    */
-  timer,
-  /**
-   * 
-   */
   priority,
-  /**
-   * 
-   */
-  sustain,
   /**
    * 
    */
@@ -45,5 +37,13 @@ public enum TemporisationType {
   /**
    * 
    */
-  rate
+  rate,
+  /**
+   * 
+   */
+  sustain,
+  /**
+   * 
+   */
+  timer
 }

@@ -27,7 +27,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.groups;
 
 import java.io.IOException;
@@ -41,18 +40,14 @@ import org.junit.Test;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.ext.groups.Group;
-import org.sbml.jsbml.ext.groups.Member;
-import org.sbml.jsbml.ext.groups.ModelGroupExtension;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 import org.xml.sax.SAXException;
 
 /**
  * @author Nicolas Rodriguez
- * @since 0.8
+ * @since 1.0
  * @version $Rev$
- *
  */
 public class TestL3groups {
 

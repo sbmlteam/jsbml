@@ -17,12 +17,21 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.qual;
+
 /**
  * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
  * @date 29.09.2011
  */
-public enum InputTransitionEffect {none, consumption}
+public enum InputTransitionEffect {
+  /**
+   * 
+   */
+  consumption,
+  /**
+   * 
+   */
+  none
+}

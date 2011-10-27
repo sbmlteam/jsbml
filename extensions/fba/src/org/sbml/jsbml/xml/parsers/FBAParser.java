@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml.parsers;
 
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * ReadingParser and WritingParser).
  * 
  * @author Nicolas Rodriguez
- * @since 0.8
+ * @since 1.0
  * @version $Rev: 835 $
  */
 public class FBAParser implements ReadingParser, WritingParser {

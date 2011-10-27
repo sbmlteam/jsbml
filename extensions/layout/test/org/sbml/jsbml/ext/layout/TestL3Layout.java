@@ -27,7 +27,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.layout;
 
 
@@ -48,8 +47,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
  * @author Nicolas Rodriguez
- * @author
- * @since 0.8
+ * @since 1.0
  * @version $Rev$
  */
 public class TestL3Layout {

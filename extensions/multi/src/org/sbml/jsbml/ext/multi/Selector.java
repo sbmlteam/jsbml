@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.multi;
 
 import org.sbml.jsbml.AbstractNamedSBase;
@@ -25,7 +24,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 /**
  * @author Marine Dumousseau
  * @author Nicolas Rodriguez
- * @since 0.8
+ * @since 1.0
  * @version $Rev$
  */
 public class Selector extends AbstractNamedSBase {

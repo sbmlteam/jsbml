@@ -17,21 +17,20 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.multi;
 
 /**
  * @author Marine Dumousseau
- * @since 0.8
+ * @since 1.0
  * @version $Rev$
  */
 public enum MultiList {
 	/**
 	 * 
 	 */
-	none,
+	listOfInitialSpeciesInstances,
 	/**
 	 * 
 	 */
-	listOfInitialSpeciesInstances;
+	none;
 }

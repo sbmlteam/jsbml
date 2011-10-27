@@ -23,6 +23,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+
 /**
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
@@ -43,7 +44,7 @@ public class QualitativeSpecies extends AbstractNamedSBase {
   // CallableSBase to be able to be used in math expression and/or
   // EventAssignment/Rules
   /**
-   * 
+   * Generated serial version identifier.
    */
   private static final long     serialVersionUID = -6048861420699176889L;
   private String                compartment;

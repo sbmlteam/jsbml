@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.layout;
 
 import javax.swing.tree.TreeNode;
@@ -29,7 +28,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
- * @since 0.8
+ * @since 1.0
  * @version $Rev$
  */
 public class ReactionGlyph extends GraphicalObject {

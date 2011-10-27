@@ -17,7 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.qual;
 
 import org.sbml.jsbml.ASTNode;
@@ -30,7 +29,7 @@ import org.sbml.jsbml.SBMLDocument;
 /**
  * @author Florian Mittag
  * @version $Rev$
- * @since 0.8
+ * @since 1.0
  * @date 27.10.2011
  */
 public class BuildToyModelTest {

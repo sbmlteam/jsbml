@@ -34,7 +34,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
 public class Input extends AbstractNamedSBase {
 
   /**
-   * 
+   * Generated serial version identifier.
    */
   private static final long     serialVersionUID = -3370025650545068132L;
   private String                qualitativeSpecies;
