@@ -33,6 +33,7 @@ import java.util.TreeSet;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.ValuePair;
@@ -70,6 +71,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		 */
 		NotesHTML 
 	};
+	
+  /**
+   * A logger for this class.
+   */
+  private static final Logger logger = Logger.getLogger(AbstractSBase.class);
+
 
 	/**
 	 * Generated serial version identifier.
@@ -1517,6 +1524,23 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	  Map<String, String> attributes = new TreeMap<String, String>();
 
 		if (1 < getLevel()) {
+		  /* This ensures that the metaid of this element is always defined if
+       * there is an annotation present.
+       */
+      if (isSetAnnotation() && getAnnotation().isSetRDFannotation()
+        && !isSetMetaId()) {
+        SBMLDocument doc = getSBMLDocument();
+        if (doc != null) {
+          setMetaId(doc.nextMetaId());
+          logger.info(String.format(
+            "Some annotations would get lost because there was no metaid defined on %s. To avoid this, automatic metaid '%s' as been generated.",
+            getElementName(), getMetaId()));
+        } else {
+          logger.warn(String.format(
+            "Some annotations can get lost because no metaid is defined on %s.",
+            getElementName()));
+        }
+      }
 			if (isSetMetaId()) {
 				attributes.put("metaid", getMetaId());
 			}

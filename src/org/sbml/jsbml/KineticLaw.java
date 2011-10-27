@@ -1003,7 +1003,6 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 			ListOf<LocalParameter> oldListOfLocalParameters = this.listOfLocalParameters;
 			this.listOfLocalParameters = null;
 			oldListOfLocalParameters.fireNodeRemovedEvent();
-	    oldListOfLocalParameters.parent = null;
 			return true;
 		}
 		return false;

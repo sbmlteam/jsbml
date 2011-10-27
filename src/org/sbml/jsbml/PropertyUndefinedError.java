@@ -47,7 +47,7 @@ public class PropertyUndefinedError extends PropertyException {
 	 * @param property 
 	 * @param sbase
 	 */
-	public PropertyUndefinedError(String property, Trigger sbase) {
+	public PropertyUndefinedError(String property, SBase sbase) {
 		super(createMessage(PROPERTY_UNDEFINED_EXCEPTION_MSG, property, sbase));
 	}
 

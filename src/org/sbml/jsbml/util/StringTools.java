@@ -42,10 +42,12 @@ import org.sbml.jsbml.resources.Resource;
  */
 public class StringTools {
 
-	/**
+  /**
 	 * 
 	 */
 	public static final String DECIMAL_FORMAT = "#############0.##############";
+
+  
 	/**
 	 * New line separator of this operating system
 	 */
@@ -62,7 +64,6 @@ public class StringTools {
 	 * The {@link Character} <code>'_'</code> as a {@link String}.
 	 */
 	public static final String underscore = Character.valueOf('_').toString();
-
 	/**
 	 * Takes the given StringBuffer as input and appends every further Object to
 	 * it.
@@ -77,7 +78,6 @@ public class StringTools {
 		}
 		return k;
 	}
-	
 
 	/**
 	 * 
@@ -89,6 +89,7 @@ public class StringTools {
 			sb.append(e);
 		}
 	}
+	
 
 	/**
 	 * This method concatenates two or more object strings into a new
@@ -209,6 +210,32 @@ public class StringTools {
 			return Long.toString(number);
 		}
 	}
+
+	/**
+   * This method creates a {@link String} representation of the given number and
+   * inserts as many zero characters as the prefix of this {@link String} as
+   * needed
+   * to result in a {@link String} of the given length.
+   * 
+   * @param length
+   *        the total desired length of the given number {@link String}.
+   * @param number
+   * @return a {@link String} of the given length consisting of a suffix defined
+   *         by the given number and as many leading zeros as necessary to reach
+   *         the desired length.
+   */
+  public static String leadingZeros(int length, int number) {
+    StringBuilder string = new StringBuilder();
+    string.append(Integer.toString(number));
+    if (string.length() > length) {
+      throw new IllegalArgumentException(String.format(
+        "Number %d is longer than %d digits", number, length));
+    }
+    while (string.length() < length) {
+      string.insert(0, '0');
+    }
+    return string.toString();
+  }
 
 	/**
 	 * 

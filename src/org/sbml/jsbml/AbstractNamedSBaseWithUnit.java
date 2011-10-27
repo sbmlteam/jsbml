@@ -195,7 +195,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		String unitsId = this.unitsID;
 		if (isSetUnits()) {
 			if (Unit.isUnitKind(unitsId, getLevel(), getVersion())) {
-				UnitDefinition ud = new UnitDefinition(unitsId, getLevel(),
+				UnitDefinition ud = new UnitDefinition(unitsId + "_base", getLevel(),
 						getVersion());
 				ud.addUnit(Unit.Kind.valueOf(unitsId.toUpperCase()));
 				return ud;
@@ -270,7 +270,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.Unit.Kind)
 	 */
 	public void setUnits(Kind unitKind) {
-		setUnits(unitKind.toString());
+		setUnits(unitKind.toString().toLowerCase());
 	}
 
 	/*
@@ -321,12 +321,10 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 */
 	@SuppressWarnings("deprecation")
 	public void setUnits(Unit unit) {
-		UnitDefinition ud = new UnitDefinition(unit.getKind().toString(),
-				getLevel(), getVersion());
-		ud.addUnit(unit);
 		if ((unit.getExponent() != 1) || (unit.getScale() != 0)
 				|| (unit.getMultiplier() != 1d) || (unit.getOffset() != 0d)) {
 			StringBuilder sb = new StringBuilder();
+			sb.append('_');
 			sb.append(unit.getMultiplier());
 			sb.append('_');
 			sb.append(unit.getScale());
@@ -334,13 +332,19 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 			sb.append(unit.getKind().toString());
 			sb.append('_');
 			sb.append(unit.getExponent());
+		  UnitDefinition ud = new UnitDefinition(unit.getKind().toString(),
+	        getLevel(), getVersion());
+	    ud.addUnit(unit);
 			ud.setId(sb.toString());
 			Model m = getModel();
 			if (m != null) {
 				m.addUnitDefinition(ud);
 			}
-		}
-		setUnits(ud);
+		  setUnits(ud);
+		} else {
+      // must be a base unit
+      setUnits(unit.getKind().toString().toLowerCase());
+    }
 	}
 
 	/*

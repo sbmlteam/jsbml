@@ -2147,27 +2147,23 @@ public class SBO {
 		}		
 	}
 	
-	/**
-	 * Creates and returns a 7 digit SBO number for the given {@link Term} identifier (if
-	 * this is a valid identifier). The returned {@link String} will not contain the
-	 * SBO prefix.
-	 * 
-	 * @param sboTerm
-	 * @return a 7 digit SBO number for the given {@link Term} identifier (if
-	 * this is a valid identifier). The returned {@link String} will not contain the
-	 * SBO prefix.
-	 */
-	public static String sboNumberString(int sboTerm) {
-		if (!checkTerm(sboTerm)) {
-			return "";
-		}
-		StringBuilder sbo = new StringBuilder();
-		sbo.append(Integer.toString(sboTerm));
-		while (sbo.length() < 7) {
-			sbo.insert(0, '0');
-		}
-		return sbo.toString();
-	}
+  /**
+   * Creates and returns a 7 digit SBO number for the given {@link Term} identifier (if
+   * this is a valid identifier). The returned {@link String} will not contain the
+   * SBO prefix.
+   * 
+   * @param sboTerm
+   * @return a 7 digit SBO number for the given {@link Term} identifier (if
+   * this is a valid identifier). The returned {@link String} will not contain the
+   * SBO prefix.
+   * @throws IllegalArgumentException if the given value is no valid SBO term number.
+   */
+  public static String sboNumberString(int sboTerm) {
+    if (!checkTerm(sboTerm)) {
+      throw new IllegalArgumentException("Illegal sboTerm " + sboTerm);
+    }
+    return StringTools.leadingZeros(7, sboTerm);
+  }
 	
 	/**
 	 * Returns the string as a correctly formatted SBO integer portion.

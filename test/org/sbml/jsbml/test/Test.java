@@ -23,6 +23,7 @@ package org.sbml.jsbml.test;
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.Event;
 import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.Model;
@@ -54,7 +55,9 @@ public class Test {
 		
 		Parameter k1 = model.createParameter("k1");
 		Parameter k2 = model.createParameter("k2");
-		
+
+    k1.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "test"));
+    
 		k1.setConstant(false);
 		k2.setConstant(false);
 		

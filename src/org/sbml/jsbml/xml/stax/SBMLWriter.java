@@ -40,7 +40,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
-import java.util.UUID;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -792,29 +791,28 @@ public class SBMLWriter {
 		// if the given SBase is not a model and the level is smaller than 3,
 		// no history can be written.
 		// Annotation cannot be written without metaid tag.
-		
-		if (sbase.getAnnotation().isSetRDFannotation()) 
-		{
-			if (!annotation.isSetAbout()) {
-				// add required missing tag
-				annotation.setAbout("#" + sbase.getMetaId());
-			}
-			writeRDFAnnotation(annotation, annotationElement, writer,
-					indent + indentCount);
-		} 
-		if (!sbase.hasValidAnnotation()) {
-
-			// creating an automatic metaid
-			
-			logger.info("Some annotations might get lost as there is no metaid defined on " + sbase.getElementName() + ". An automatic metaid as been generated.");
-			UUID idOne = UUID.randomUUID();
-			System.out.println("new metaid = _" + idOne.toString());
-			sbase.setMetaId("_" + idOne.toString());
-		}
-		
+    if (sbase.getAnnotation().isSetRDFannotation()) {
+      if (sbase.isSetMetaId()) {
+        if (!annotation.isSetAbout()) {
+          // add required missing tag
+          annotation.setAbout("#" + sbase.getMetaId());
+        }
+        writeRDFAnnotation(annotation, annotationElement, writer, indent
+          + indentCount);
+      } else {
+        /*
+         * This shouldn't actually happen because a metaid will be created
+         * if missing in AbstractSBase. Only if no SBMLDocument is available,
+         * or the SBase is derived from a diffent SBase implementation, it 
+         * could fail.
+         */
+        logger.info(String.format(
+          "Could not write RDF annotation of %s due to missing metaid.",
+          sbase.getElementName()));
+      }
+    }
 		// set the indentation for the closing tag
 		element.setIndentation(whiteSpaces, indent + indentCount, indentCount);
-
 	}
 
 	/**
@@ -1310,7 +1308,7 @@ public class SBMLWriter {
 					
 					SMOutputElement newOutPutElement = null;
 					if (parentXmlObject.isSetName()) {
-						boolean isClosedMathContainer = false;
+					  boolean isClosedMathContainer = false, isClosedAnnotation = false;
 						
 						if (parentXmlObject.isSetNamespace()) {
 							SMNamespace namespaceContext = smOutputParentElement
@@ -1340,7 +1338,7 @@ public class SBMLWriter {
 								writeNotes(s, newOutPutElement, streamWriter,
 										newOutPutElement.getNamespace()
 												.getURI(), indent + indentCount);
-								elementIsNested = true;
+								elementIsNested = isClosedAnnotation = true;
 							}
 							if (s.isSetAnnotation()) {
 								writeAnnotation(s, newOutPutElement,
@@ -1383,7 +1381,7 @@ public class SBMLWriter {
 						// to allow the XML parser to prune empty element, this line should not be added in all the cases.
 						if (elementIsNested) {
 							newOutPutElement.addCharacters("\n");
-							if (isClosedMathContainer) {
+							if (isClosedMathContainer || isClosedAnnotation) {
 								newOutPutElement.addCharacters(whiteSpaces);
 							}
 						}

@@ -3182,11 +3182,9 @@ public int getNumLocalParameters() {
     // Register local parameter within its kinetic law first.
     if (kl.registerLocalParameter(lp, delete)) {
       /*
-       * If this works register the local parameter and its reaction also
-       * in the model. This is necessary because of the restriction that since
-       * L2V3 the ids local parameters may at most override the ids of Species,
-       * Compartments, and global Parameters. Before that, there was no such 
-       * restriction.
+       * If this works, register the local parameter and its reaction also
+       * in the model. This is necessary because of the restriction that the 
+       * ids local parameters may not override the ids of UnitDefinitions.
        */
       Reaction r = kl.getParentSBMLObject();
       String pId = lp.getId();
@@ -3204,20 +3202,6 @@ public int getNumLocalParameters() {
           return true;
         } else {
           // add new key or reaction for this local parameter.
-          if (0 < lp.getLevelAndVersion().compareTo(Integer.valueOf(2),
-            Integer.valueOf(3))) {
-            /*
-             * Since L2V3 only Compartments, Species, or global Parameters
-             * may be overridden by LocalParameters.
-             */
-            UniqueNamedSBase unsb = mapOfUniqueNamedSBases != null ? 
-              mapOfUniqueNamedSBases.get(pId) : null;
-            if (((mapOfUnitDefinitions != null) && mapOfUnitDefinitions.containsKey(pId))
-              || ((unsb != null) && !(unsb instanceof Symbol))) {
-              kl.removeLocalParameter(lp);
-              return false;
-            }
-          }
           if (mapOfLocalParameters == null) {
             mapOfLocalParameters = new HashMap<String, SortedSet<String>>();
           }
@@ -4106,7 +4090,6 @@ public int getNumLocalParameters() {
       ListOf<Compartment> oldListOfCompartments = this.listOfCompartments;
       this.listOfCompartments = null;
       oldListOfCompartments.fireNodeRemovedEvent();
-      oldListOfCompartments.parent = null;
       return true;
     }
     return false;
@@ -4126,7 +4109,6 @@ public int getNumLocalParameters() {
       ListOf<CompartmentType> oldListOfCompartmentTypes = this.listOfCompartmentTypes;
       this.listOfCompartmentTypes = null;
       oldListOfCompartmentTypes.fireNodeRemovedEvent();
-      oldListOfCompartmentTypes.parent = null;
       return true;
     }
     return false;
@@ -4144,7 +4126,6 @@ public int getNumLocalParameters() {
       ListOf<Constraint> oldListOfConstraints = this.listOfConstraints;
       this.listOfConstraints = null;
       oldListOfConstraints.fireNodeRemovedEvent();
-      oldListOfConstraints.parent = null;
       return true;
     }
     return false;
@@ -4162,7 +4143,6 @@ public int getNumLocalParameters() {
       ListOf<Event> oldListOfEvents = this.listOfEvents;
       this.listOfEvents = null;
       oldListOfEvents.fireNodeRemovedEvent();
-      oldListOfEvents.parent = null;
       return true;
     }
     return false;
@@ -4180,7 +4160,6 @@ public int getNumLocalParameters() {
       ListOf<FunctionDefinition> oldListOfFunctionDefinitions = this.listOfFunctionDefinitions;
       this.listOfFunctionDefinitions = null;
       oldListOfFunctionDefinitions.fireNodeRemovedEvent();
-      oldListOfFunctionDefinitions.parent = null;
       return true;
     }
     return false;
@@ -4198,7 +4177,6 @@ public int getNumLocalParameters() {
       ListOf<InitialAssignment> oldListOfInitialAssignments = this.listOfInitialAssignments;
       this.listOfInitialAssignments = null;
       oldListOfInitialAssignments.fireNodeRemovedEvent();
-      oldListOfInitialAssignments.parent = null;
       return true;
     }
     return false;
@@ -4216,7 +4194,6 @@ public int getNumLocalParameters() {
       ListOf<Parameter> oldListOfParameters = this.listOfParameters;
       this.listOfParameters = null;
       oldListOfParameters.fireNodeRemovedEvent();
-      oldListOfParameters.parent = null;
       return true;
     }
     return false;
@@ -4234,7 +4211,6 @@ public int getNumLocalParameters() {
       ListOf<Reaction> oldListOfReactions = this.listOfReactions;
       this.listOfReactions = null;
       oldListOfReactions.fireNodeRemovedEvent();
-      oldListOfReactions.parent = null;
       return true;
     }
     return false;
@@ -4252,7 +4228,6 @@ public int getNumLocalParameters() {
       ListOf<Rule> oldListOfRules = this.listOfRules;
       this.listOfRules = null;
       oldListOfRules.fireNodeRemovedEvent();
-      oldListOfRules.parent = null;
       return true;
     }
     return false;
@@ -4270,7 +4245,6 @@ public int getNumLocalParameters() {
       ListOf<Species> oldListOfSpecies = this.listOfSpecies;
       this.listOfSpecies = null;
       oldListOfSpecies.fireNodeRemovedEvent();
-      oldListOfSpecies.parent = null;
       return true;
     }
     return false;
@@ -4290,7 +4264,6 @@ public int getNumLocalParameters() {
       ListOf<SpeciesType> oldListOfSpeciesTypes = this.listOfSpeciesTypes;
       this.listOfSpeciesTypes = null;
       oldListOfSpeciesTypes.fireNodeRemovedEvent();
-      oldListOfSpeciesTypes.parent = null;
       return true;
     }
     return false;
@@ -4308,7 +4281,6 @@ public int getNumLocalParameters() {
       ListOf<UnitDefinition> oldListOfUnitDefinitions = this.listOfUnitDefinitions;
       this.listOfUnitDefinitions = null;
       oldListOfUnitDefinitions.fireNodeRemovedEvent();
-      oldListOfUnitDefinitions.parent = null;
       return true;
     }
     return false;
