@@ -25,7 +25,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBasePlugin;
+import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
@@ -33,7 +33,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * @since 1.0
  * @version $Rev: 834 $
  */
-public class GroupModel implements SBasePlugin {
+public class GroupModel extends AbstractSBasePlugin {
 
 	/**
 	 * Generated serial version identifier.
@@ -173,5 +173,13 @@ public class GroupModel implements SBasePlugin {
 	public TreeNode getParent() {
 		return model;
 	}
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  public boolean getAllowsChildren() {
+    // TODO Auto-generated method stub
+    return false;
+  }
 		
 }

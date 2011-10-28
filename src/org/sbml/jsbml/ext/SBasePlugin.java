@@ -1,8 +1,8 @@
-package org.sbml.jsbml;
+package org.sbml.jsbml.ext;
 
 import java.util.Map;
 
-import javax.swing.tree.TreeNode;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 
 /**
  * Defines the methods necessary for an SBase Plugin. When a SBML level 3 is extending 
@@ -13,7 +13,7 @@ import javax.swing.tree.TreeNode;
  * @author rodrigue
  *
  */
-public interface SBasePlugin {
+public interface SBasePlugin extends TreeNodeWithChangeSupport {
 
 	/**
 	 * Reads and sets the attribute if it is know from this {@link SBasePlugin}.
@@ -40,13 +40,5 @@ public interface SBasePlugin {
 	
 	public int hashCode();
 	
-	public SBasePlugin clone();
-	
-	TreeNode getChildAt(int childIndex);
-	
-	int getChildCount();
-	
-	TreeNode getParent();
-	
-	
+	public Object clone();
 }

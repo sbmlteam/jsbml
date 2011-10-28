@@ -25,8 +25,8 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBasePlugin;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
@@ -35,7 +35,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * @since 1.0
  * @version $Rev$
  */
-public class MultiSpecies implements SBasePlugin {
+public class MultiSpecies extends AbstractSBasePlugin {
 
 	/**
 	 * Generated serial version identifier.
@@ -50,17 +50,17 @@ public class MultiSpecies implements SBasePlugin {
 	
 	/**
 	 * 
-	 * @param species
 	 */
-	public MultiSpecies(MultiSpecies species) {
+	public MultiSpecies() {
+		super();
 		this.setListOfInitialSpeciesInstance(null);
 	}
 	
 	/**
 	 * 
+	 * @param species
 	 */
-	public MultiSpecies() {
-		super();
+	public MultiSpecies(MultiSpecies species) {
 		this.setListOfInitialSpeciesInstance(null);
 	}
 
@@ -83,6 +83,23 @@ public class MultiSpecies implements SBasePlugin {
 		return new MultiSpecies(this);
 	}
 
+	/* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+	public TreeNode getChildAt(int childIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getChildCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	/**
 	 * 
 	 * @param n
@@ -94,7 +111,7 @@ public class MultiSpecies implements SBasePlugin {
 		}
 		throw new IndexOutOfBoundsException(Integer.toString(n));
 	}
-
+	
 	/**
 	 * 
 	 * @param id
@@ -119,6 +136,11 @@ public class MultiSpecies implements SBasePlugin {
 		return listOfInitialSpeciesInstances;
 	}
 
+	public TreeNode getParent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * 
 	 * @return
@@ -127,7 +149,13 @@ public class MultiSpecies implements SBasePlugin {
 		return (listOfInitialSpeciesInstances != null)
 				&& (listOfInitialSpeciesInstances.size() > 0);
 	}
-	
+
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	/**
 	 * 
 	 * @param listOfInitialSpeciesInstance
@@ -167,28 +195,11 @@ public class MultiSpecies implements SBasePlugin {
 		return false;
 	}
 
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public Map<String, String> writeXMLAttributes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public TreeNode getParent() {
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+	 */
+  public Map<String, String> writeXMLAttributes() {
 		// TODO Auto-generated method stub
 		return null;
 	}

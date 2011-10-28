@@ -30,7 +30,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.SBasePlugin;
+import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.qual.Input;
 import org.sbml.jsbml.ext.qual.QualList;
 import org.sbml.jsbml.ext.qual.QualitativeModel;

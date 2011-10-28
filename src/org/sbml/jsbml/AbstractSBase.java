@@ -33,6 +33,7 @@ import java.util.TreeSet;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.ValuePair;

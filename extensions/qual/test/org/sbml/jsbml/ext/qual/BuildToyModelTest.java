@@ -52,8 +52,8 @@ public class BuildToyModelTest {
     Model model = new Model("m_default_name");
     QualitativeModel qModel = new QualitativeModel(model);
     // TODO: or add it to the document?
-    //model.addExtension(QUAL_NS, qModel);
-    sbmlDoc.addExtension(QUAL_NS, qModel);
+    model.addExtension(QUAL_NS, qModel);
+    //sbmlDoc.addExtension(QUAL_NS, qModel);
     //qModel.readAttribute("required", QUAL_NS_PREFIX, "true");
 
     sbmlDoc.setModel(model);
@@ -118,7 +118,7 @@ public class BuildToyModelTest {
     in2.setTransitionEffect(InputTransitionEffect.none);
 
     Input in3 = new Input();
-    in3.setQualitativeSpecies(g2.getId());
+    in3.setQualitativeSpecies(g3.getId());
     in3.setTransitionEffect(InputTransitionEffect.none);
     
     tr_g1.addInput(in0);

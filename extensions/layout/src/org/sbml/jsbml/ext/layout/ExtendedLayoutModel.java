@@ -25,7 +25,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBasePlugin;
+import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
@@ -35,7 +35,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * @since 1.0
  * @version $Rev$
  */
-public class ExtendedLayoutModel implements SBasePlugin {
+public class ExtendedLayoutModel extends AbstractSBasePlugin {
 
 	// TODO : need to be adapted to the new way of dealing with L3 packages
 
@@ -126,13 +126,20 @@ public class ExtendedLayoutModel implements SBasePlugin {
 		return equals;
 	}
 
+	/* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
 	public TreeNode getChildAt(int index) {
 		if (isSetListOfLayouts() && (index == getChildCount() - 1)) {
 			return getListOfLayouts();
 		}
 		return null;
 	}
-
+	
 	public int getChildCount() {
 		int count = 0;
 		if (isSetListOfLayouts()) {
@@ -149,7 +156,8 @@ public class ExtendedLayoutModel implements SBasePlugin {
 	public Layout getLayout(int i) {
 		return listOfLayouts.get(i);
 	}
-	
+
+
 	/**
 	 * 
 	 * @return
@@ -157,8 +165,7 @@ public class ExtendedLayoutModel implements SBasePlugin {
 	public ListOf<Layout> getListOfLayouts() {
 		return listOfLayouts;
 	}
-
-
+	
 	public Model getParent() {
 		// TODO
 		return null;
@@ -168,7 +175,7 @@ public class ExtendedLayoutModel implements SBasePlugin {
 		// TODO
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -176,6 +183,11 @@ public class ExtendedLayoutModel implements SBasePlugin {
 	public boolean isSetListOfLayouts() {
 		return ((listOfLayouts == null) || listOfLayouts.isEmpty()) ? false
 				: true;
+	}
+
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		return false;
 	}
 
 	/**
@@ -218,12 +230,7 @@ public class ExtendedLayoutModel implements SBasePlugin {
 		return false;
 	}
 
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		return false;
-	}
-
-	public Map<String, String> writeXMLAttributes() {
+  public Map<String, String> writeXMLAttributes() {
 		return null;
 	}	
 
