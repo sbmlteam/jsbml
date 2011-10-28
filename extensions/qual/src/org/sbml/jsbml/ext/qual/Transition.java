@@ -255,6 +255,7 @@ public class Transition extends AbstractNamedSBase {
    */
   public ListOf<Output> getListOfOutputs() {
     if (!isSetListOfOutputs()) {
+      // TODO: initialize the ListOf correctly
       listOfOutputs = new ListOf<Output>();
     }
     return listOfOutputs;
@@ -335,6 +336,7 @@ public class Transition extends AbstractNamedSBase {
    */
   public ListOf<FunctionTerm> getListOfFunctionTerms() {
     if (!isSetListOfFunctionTerms()) {
+      // TODO: initialize the ListOf correctly
       listOfFunctionTerms = new ListOf<FunctionTerm>();
     }
     return listOfFunctionTerms;
@@ -415,6 +417,7 @@ public class Transition extends AbstractNamedSBase {
    */
   public ListOf<Input> getListOfInputs() {
     if (!isSetListOfInputs()) {
+      // TODO: initialize the ListOf correctly
       listOfInputs = new ListOf<Input>();
     }
     return listOfInputs;

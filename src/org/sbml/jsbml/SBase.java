@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.SortedSet;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
+import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.ValuePair;

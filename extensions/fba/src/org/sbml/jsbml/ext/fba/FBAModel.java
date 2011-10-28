@@ -25,7 +25,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBasePlugin;
+import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
  * 
@@ -34,9 +34,13 @@ import org.sbml.jsbml.SBasePlugin;
  * @since 1.0
  * @date 27.10.2011
  */
-public class FBAModel implements SBasePlugin {
+public class FBAModel extends AbstractSBasePlugin {
 
-	private ListOf<FluxBound> listOfFluxBounds = new ListOf<FluxBound>();
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -7451190347195219863L;
+  private ListOf<FluxBound> listOfFluxBounds = new ListOf<FluxBound>();
 	private ListOf<Objective> listOfObjectives = new ListOf<Objective>();
 	
 	private Model model;
@@ -142,6 +146,14 @@ public class FBAModel implements SBasePlugin {
 		model.setThisAsParentSBMLObject(objective);
 		this.listOfObjectives.add(objective);
 	}
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  public boolean getAllowsChildren() {
+    // TODO Auto-generated method stub
+    return false;
+  }
 	
 	// TODO : implement !!
 }

@@ -30,7 +30,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.SBasePlugin;
+import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.fba.FBAList;
 import org.sbml.jsbml.ext.fba.FBAModel;
 import org.sbml.jsbml.ext.fba.FluxBound;
