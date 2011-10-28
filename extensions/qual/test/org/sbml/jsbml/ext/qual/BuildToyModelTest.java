@@ -150,7 +150,7 @@ public class BuildToyModelTest {
     
     //QualParser qp = new QualParser();
     
-    new JSBMLvisualizer(sbmlDoc); //XXX: Wird funktionieren, sobald die getChildCount Methoden geschrieben sind.
+    new JSBMLvisualizer(sbmlDoc); 
   }
 
 }
