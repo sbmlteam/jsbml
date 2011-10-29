@@ -14,10 +14,11 @@ immediately display its content on a \texttt{JFrame}.
 \index{graphical user interface!\texttt{JFrame}}%
 \lstinputlisting[language=Java,float,caption={Parsing and visualizing the
 content of an SBML file},
-label=lst:Visualization]{publications/Bioinformatics2011ApplicationNote/src/JSBMLvisualizer.java}
+label=lst:Visualization]{%
+../publications/Bioinformatics2011ApplicationNote/src/JSBMLvisualizer.java}
 \begin{SCfigure}[][h]
 \includegraphics[width=.35\textwidth]{%
-posters/2010_ICSB_and_COMBINE/JSBMLvisualizerTransparent}
+../posters/2010_ICSB_and_COMBINE/JSBMLvisualizerTransparent.png}
 \caption[Tree representation of an SBML file]{A tree representation of the
 content of SBML test model \texttt{case00026}. In JSBML, the hierarchically
 structured \texttt{SBMLDocument} can be traversed recursively because all
@@ -39,7 +40,7 @@ interface, it is possible to create a \texttt{JTree} from the information in the
 
 \lstinputlisting[language=Java,float,caption={Creating a new
 \texttt{SBMLDocument} and writing its content into a file},
-label=lst:Creation]{../src/JSBMLexample.java}
+label=lst:Creation]{src/JSBMLexample.java}
 Listing~\vref{lst:Creation} shows a more complex example. A new
 \texttt{SBMLDocument} is created from scratch. It mainly consists of one
 \texttt{Compartment}, one \texttt{Model}, two \texttt{Species}, and a

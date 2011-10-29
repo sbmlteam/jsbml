@@ -47,7 +47,7 @@ JSBML.
 
 \begin{sidewaysfigure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{img/FullTypeHierarchy.pdf}
+\includegraphics[width=\textwidth]{../img/FullTypeHierarchy.pdf}
 \caption[The type hierarchy of the main SBML constructs in JSBML]{The type
 hierarchy of the main SBML constructs in JSBML.
 % N�chster satz auch schon oben verwendet.
@@ -62,7 +62,7 @@ in libSBML.}
 \end{sidewaysfigure}
 \begin{figure}[htb]
  \centering
- \includegraphics[width=\textwidth]{img/SBase}
+ \includegraphics[width=\textwidth]{img/SBase.pdf}
  % SBase.pdf: 1001x568 pixel, 72dpi, 35.31x20.04 cm, bb=0 0 1001 568
  \caption[The interface \texttt{SBase}]{The interface \texttt{SBase}, adapted
 from \citet{Draeger2011}. This figure displays the most important top-level data
@@ -78,7 +78,7 @@ all methods in the UML diagram.}
 \end{figure}
 \begin{figure}[p]
  \centering
- \includegraphics[width=\textwidth]{img/Symbol}
+ \includegraphics[width=\textwidth]{img/Symbol.pdf}
  % Symbol.pdf: 596x587 pixel, 72dpi, 21.03x20.71 cm, bb=0 0 596 587
  \caption[The interface \texttt{Variable}]{The interface \texttt{Variable},
  adapted from \citet{Draeger2011}. JSBML refers to those components of a model
@@ -94,7 +94,7 @@ all methods in the UML diagram.}
 \end{figure}
 \begin{figure}[t!]
  \centering
- \includegraphics[width=.8\textwidth]{img/MathContainerClass1}
+ \includegraphics[width=.8\textwidth]{img/MathContainerClass1.pdf}
  % MathContainerClass.pdf: 557x396 pixel, 72dpi, 19.65x13.97 cm, bb=0 0 557 396
  \caption[Abstract syntax trees]{Abstract syntax trees, adapted from
  \citet{Draeger2011}. The class \texttt{AbstractMathContainer} serves as the
@@ -109,7 +109,7 @@ all methods in the UML diagram.}
 \end{figure}
 \begin{figure}[htb]
  \centering
- \includegraphics[width=\textwidth]{img/MathContainer}
+ \includegraphics[width=\textwidth]{img/MathContainer.pdf}
  % MathContainerClass.pdf: 557x396 pixel, 72dpi, 19.65x13.97 cm, bb=0 0 557 396
  \caption[\texttt{MathContainer}]{\texttt{MathContainer}, adapted from
  \citet{Draeger2011}. Instances of the interface \texttt{MathContainer},
@@ -177,20 +177,19 @@ and to immediately display its content on a \texttt{JFrame}.
 \ifthenelse{\boolean{includeCodeExample}}{%
   \lstinputlisting[language=Java,float,caption={Parsing and visualizing the
   content of an SBML file},label=lst:Visualization]{%
-  posters/2010_ICSB_and_COMBINE/org/sbml/gui/JSBMLvisualizer.java}
+../posters/2010_ICSB_and_COMBINE/org/sbml/gui/JSBMLvisualizer.java}
   Fig.~\vref{fig:Visualization} shows an example output when applying the
   program to an SBML test model\index{SBML!Test cases}.
   \begin{SCfigure}[][t]
   \includegraphics[width=.35\textwidth]{%
-posters/2010_ICSB_and_COMBINE/JSBMLvisualizerTransparent}
+../posters/2010_ICSB_and_COMBINE/JSBMLvisualizerTransparent.png}
   \caption[Tree representation of an SBML file]{A tree representation of the
     content of SBML test model \texttt{case00026}. In JSBML, the hierarchically
     structured \texttt{SBMLDocument} can be traversed recursively because all
     instances of \texttt{SBase} implement the interface \texttt{TreeNode}.}
   \label{fig:Visualization}
   \end{SCfigure}
-}{%
-}%
+}{}%
 The \texttt{ASTNode} class in JSBML\index{ASTNode@\texttt{ASTNode}} also
 implements all these three interfaces and can hence be cloned, serialized, and
 visualized in the same way.
@@ -1147,7 +1146,8 @@ which creates then a JSBML \texttt{Model}\index{model!\texttt{Model}} data struc
 \index{CellDesigner!\texttt{PluginAction}}%
 \lstinputlisting[language=Java,float,caption={A simple implementation of
 CellDesigner's abstract class \texttt{PluginAction}},
-label=lst:PluginAction]{SimpleCellDesignerPlugin/org/sbml/jsbml/cdplugin/SimpleCellDesignerPluginAction.java}
+label=lst:PluginAction]{%
+../SimpleCellDesignerPlugin/org/sbml/jsbml/cdplugin/SimpleCellDesignerPluginAction.java}
 % \lstinputlisting[language=Java,float,caption={SimpleCellDesignerPlugin},
 % label=lst:Plugin]{SimpleCellDesignerPlugin/org/sbml/jsbml/cdplugin/SimpleCellDesignerPlugin.java}
 \begin{lstlisting}[language=Java,float,caption={A simple example for a
