@@ -19,12 +19,15 @@
  */
 package org.sbml.jsbml.ext.qual;
 
+import java.util.Map;
+
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.xml.parsers.QualParser;
 import org.sbml.jsbml.Reaction;
 
 /**
@@ -42,7 +45,10 @@ public class Transition extends AbstractNamedSBase {
    */
   private static final long    serialVersionUID = 8343744362262634585L;
   private TemporisationType    temporisationType;
+  
+  // TODO : the sign attribute seems to be on the Input class in the current specifications ??
   private Sign                 sign;
+  
   private ListOf<Input>        listOfInputs;
   private ListOf<Output>       listOfOutputs;
   private ListOf<FunctionTerm> listOfFunctionTerms;
@@ -68,11 +74,17 @@ public class Transition extends AbstractNamedSBase {
     setSign(sign);    
   }
 
+  public Transition() {
+	  super();
+	  addNamespace(QualParser.getNamespaceURI());
+  }
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   public AbstractSBase clone() {
+	  // TODO
     return null;
   }
 
@@ -276,8 +288,11 @@ public class Transition extends AbstractNamedSBase {
    */
   public ListOf<Output> getListOfOutputs() {
     if (!isSetListOfOutputs()) {
-      // TODO: initialize the ListOf correctly
       listOfOutputs = new ListOf<Output>();
+      listOfOutputs.setSBaseListType(ListOf.Type.other);
+      listOfOutputs.addNamespace(QualParser.getNamespaceURI());
+      setThisAsParentSBMLObject(listOfOutputs);
+
     }
     return listOfOutputs;
   }
@@ -357,8 +372,10 @@ public class Transition extends AbstractNamedSBase {
    */
   public ListOf<FunctionTerm> getListOfFunctionTerms() {
     if (!isSetListOfFunctionTerms()) {
-      // TODO: initialize the ListOf correctly
       listOfFunctionTerms = new ListOf<FunctionTerm>();
+      listOfFunctionTerms.setSBaseListType(ListOf.Type.other);
+      listOfFunctionTerms.addNamespace(QualParser.getNamespaceURI());
+      setThisAsParentSBMLObject(listOfFunctionTerms);
     }
     return listOfFunctionTerms;
   }
@@ -438,8 +455,10 @@ public class Transition extends AbstractNamedSBase {
    */
   public ListOf<Input> getListOfInputs() {
     if (!isSetListOfInputs()) {
-      // TODO: initialize the ListOf correctly
       listOfInputs = new ListOf<Input>();
+      listOfInputs.setSBaseListType(ListOf.Type.other);
+      listOfInputs.addNamespace(QualParser.getNamespaceURI());
+      setThisAsParentSBMLObject(listOfInputs);
     }
     return listOfInputs;
   }
@@ -522,4 +541,39 @@ public class Transition extends AbstractNamedSBase {
     return hashCode;
   }
 
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+		  String value) 
+  {
+	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+	  if (!isAttributeRead && attributeName.equals(QualChangeEvent.temporisationType)) {
+		  isAttributeRead = true;
+		  setTemporisationType(TemporisationType.valueOf(attributeName));
+	  }	  
+	  
+	  return isAttributeRead;
+  }
+
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+	  Map<String, String> attributes = super.writeXMLAttributes();
+	  
+	  if (isSetId()) {
+		  attributes.remove("id");
+		  attributes.put(QualParser.shortLabel+ ":id", getId());
+	  }
+	  if (isSetName()) {
+		  attributes.remove("name");
+		  attributes.put(QualParser.shortLabel+ ":name", getName());
+	  }
+	  if (isSetTemporisationType()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.temporisationType, getTemporisationType().toString());
+	  }
+
+	  
+	  return attributes;
+  }
+
+  
 }

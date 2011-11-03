@@ -19,12 +19,19 @@
  */
 package org.sbml.jsbml.ext.qual;
 
+import java.io.FileNotFoundException;
+
+import javax.xml.stream.XMLStreamException;
+
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.test.gui.JSBMLvisualizer;
+import org.sbml.jsbml.text.parser.ParseException;
 
 /**
  * @author Florian Mittag
@@ -46,13 +53,16 @@ public class BuildToyModelTest {
     
     SBMLDocument sbmlDoc = new SBMLDocument(3, 1);
     sbmlDoc.addDeclaredNamespace(QUAL_NS, QUAL_NS_PREFIX);
+    sbmlDoc.addNamespace(QUAL_NS_PREFIX, "xmlns", QUAL_NS);
+    
     //sbmlDoc.readAttribute("required", QUAL_NS_PREFIX, "true");
     
     Model model = new Model("m_default_name");
+    model.addNamespace(QUAL_NS);
     QualitativeModel qModel = new QualitativeModel(model);
-    // TODO: or add it to the document?
+
     model.addExtension(QUAL_NS, qModel);
-    //sbmlDoc.addExtension(QUAL_NS, qModel);
+
     //qModel.readAttribute("required", QUAL_NS_PREFIX, "true");
 
     sbmlDoc.setModel(model);
@@ -73,9 +83,9 @@ public class BuildToyModelTest {
 
     QualitativeSpecies g1 = new QualitativeSpecies();
     g1.setId("G1");
-    g1.setName("");
-    g1.setMaxLevel(1);
-    g1.setInitialLevel(0);
+    g1.setName("G1 name");
+    g1.setMaxLevel(3);
+    g1.setInitialLevel(1);
     g1.setBoundaryCondition(false);
     g1.setCompartment(comp1.getName());
     g1.setConstant(false);
@@ -83,8 +93,8 @@ public class BuildToyModelTest {
     QualitativeSpecies g2 = new QualitativeSpecies();
     g2.setId("G2");
     g2.setName("");
-    g2.setMaxLevel(1);
-    g2.setInitialLevel(0);
+    g2.setMaxLevel(2);
+    g2.setInitialLevel(2);
     g2.setBoundaryCondition(false);
     g2.setCompartment(comp1.getName());
     g2.setConstant(false);
@@ -93,10 +103,10 @@ public class BuildToyModelTest {
     g3.setId("G3");
     g3.setName("");
     g3.setMaxLevel(1);
-    g3.setInitialLevel(0);
+    g3.setInitialLevel(1);
     g3.setBoundaryCondition(false);
     g3.setCompartment(comp1.getName());
-    g3.setConstant(false);
+    g3.setConstant(true);
 
     qModel.addQualitativeSpecies(g0);
     qModel.addQualitativeSpecies(g1);
@@ -105,11 +115,12 @@ public class BuildToyModelTest {
 
     // ListOfTransitions
     Transition tr_g1 = qModel.createTransition("tr_G1");
+    tr_g1.setTemporisationType(TemporisationType.priority);
     
     //// ListOfInputs
     Input in0 = new Input();
     in0.setQualitativeSpecies(g0.getId());
-    in0.setTransitionEffect(InputTransitionEffect.none);
+    in0.setTransitionEffect(InputTransitionEffect.consumption);
 
     Input in2 = new Input();
     in2.setQualitativeSpecies(g2.getId());
@@ -137,16 +148,29 @@ public class BuildToyModelTest {
 
     FunctionTerm ft1 = new FunctionTerm();
     ft1.setResultLevel(1);
-    {
-      // TODO: not sure here
-      ASTNode mathNode = new ASTNode(Type.FUNCTION, ft1);
-      
-//      ASTNode n1 = ASTNode.readMathMLFromString("");
+
+    ASTNode mathNode = null;
+    try {
+    	mathNode = ASTNode.parseFormula("G0 + 2");
+        ft1.setMath(mathNode);
+    } catch (ParseException e) {
+    	e.printStackTrace();
     }
+      
+    tr_g1.addFunctionTerm(defTerm);
+    tr_g1.addFunctionTerm(ft1);
     
     qModel.addTransition(tr_g1);
     
-    //QualParser qp = new QualParser();
+    try {
+		new SBMLWriter().write(sbmlDoc, "testQual.xml");
+	} catch (SBMLException e) {
+		e.printStackTrace();
+	} catch (FileNotFoundException e) {
+		e.printStackTrace();
+	} catch (XMLStreamException e) {
+		e.printStackTrace();
+	}
     
     new JSBMLvisualizer(sbmlDoc); 
   }

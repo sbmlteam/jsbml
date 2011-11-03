@@ -19,12 +19,16 @@
  */
 package org.sbml.jsbml.ext.qual;
 
+import java.util.Map;
+
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.QualParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -67,6 +71,11 @@ public class QualitativeSpecies extends AbstractNamedSBase {
   private ListOf<SymbolicValue> listOfSymbolicValues;
 
 
+  public QualitativeSpecies() {
+	  super();
+	  addNamespace(QualParser.getNamespaceURI());
+  }
+  
   @Override
   public AbstractSBase clone() {
     return null;
@@ -371,6 +380,10 @@ public class QualitativeSpecies extends AbstractNamedSBase {
   public ListOf<SymbolicValue> getListOfSymbolicValues() {
     if (!isSetListOfSymbolicValues()) {
       this.listOfSymbolicValues = new ListOf<SymbolicValue>();
+      listOfSymbolicValues.setSBaseListType(ListOf.Type.other);
+      listOfSymbolicValues.addNamespace(QualParser.getNamespaceURI());
+      setThisAsParentSBMLObject(listOfSymbolicValues);
+
     }
     return this.listOfSymbolicValues;
   }
@@ -511,4 +524,61 @@ public class QualitativeSpecies extends AbstractNamedSBase {
     return hashCode;
   }
 
+  @Override
+	public boolean readAttribute(String attributeName, String prefix, String value) {
+	  
+	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+	  if (!isAttributeRead) {
+		  isAttributeRead = true;
+		  
+		  if (attributeName.equals(QualChangeEvent.boundaryCondition)) {
+			  setBoundaryCondition(StringTools.parseSBMLBoolean(value));
+		  }	else if (attributeName.equals(QualChangeEvent.constant)) {
+			  setConstant(StringTools.parseSBMLBoolean(value));
+		  } else if (attributeName.equals(QualChangeEvent.compartment)) {
+			  setCompartment(value);
+		  } else if (attributeName.equals(QualChangeEvent.initialLevel)) {
+			  setInitialLevel(StringTools.parseSBMLInt(value));
+		  } else if (attributeName.equals(QualChangeEvent.maxLevel)) {
+			  setMaxLevel(StringTools.parseSBMLInt(value));
+		  } else {
+			  isAttributeRead = false;
+		  }
+	  }
+	  
+	  return isAttributeRead;
+	}
+  
+  @Override
+	public Map<String, String> writeXMLAttributes() {
+	  Map<String, String> attributes = super.writeXMLAttributes();
+
+	  if (isSetId()) {
+		  attributes.remove("id");
+		  attributes.put(QualParser.shortLabel+ ":id", getId());
+	  }
+	  if (isSetName()) {
+		  attributes.remove("name");
+		  attributes.put(QualParser.shortLabel+ ":name", getName());
+	  }
+	  if (isSetBoundaryCondition()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.boundaryCondition, Boolean.toString(getBoundaryCondition()));
+	  }
+	  if (isSetConstant()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.constant, Boolean.toString(getConstant()));
+	  }
+	  if (isSetCompartment()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.compartment, getCompartment());
+	  }
+	  if (isSetInitialLevel()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.initialLevel, Integer.toString(getInitialLevel()));
+	  }	  
+	  if (isSetMaxLevel()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.maxLevel, Integer.toString(getMaxLevel()));
+	  }
+	  
+	  return attributes;
+	}
+  
 }

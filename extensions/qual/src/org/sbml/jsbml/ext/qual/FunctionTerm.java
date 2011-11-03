@@ -19,8 +19,12 @@
  */
 package org.sbml.jsbml.ext.qual;
 
+import java.util.Map;
+
 import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.QualParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -34,16 +38,22 @@ public class FunctionTerm extends AbstractMathContainer {
 	/**
    * Generated serial version identifier.
    */
-  private static final long serialVersionUID = -3456373304133826017L;
-  
-  private Integer resultLevel;
+	private static final long serialVersionUID = -3456373304133826017L;
+
+	private Integer resultLevel;
 	private String resultSymbol;
-	
+
 	private Double temporisationValue;
 	private TemporisationMath temporisationMath;
-	
+
 	private boolean defaultTerm;
-	
+
+
+	public FunctionTerm() {
+		super();
+		addNamespace(QualParser.getNamespaceURI());
+	}
+
 	@Override
 	public AbstractMathContainer clone() {
 		return null;
@@ -305,8 +315,45 @@ public class FunctionTerm extends AbstractMathContainer {
 	public void setDefaultTerm(boolean defaultTerm) {
 		this.defaultTerm = defaultTerm;
 	}
-	
-	
-	
+
+	@Override
+	public boolean readAttribute(String attributeName, String prefix, String value) {
+
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+		if (!isAttributeRead) {
+			isAttributeRead = true;
+
+			if (attributeName.equals(QualChangeEvent.resultLevel)) {
+				setResultLevel(StringTools.parseSBMLInt(value));
+			} else if (attributeName.equals(QualChangeEvent.resultSymbol)) {
+				setResultSymbol(value);
+			} else if (attributeName.equals(QualChangeEvent.temporisationValue)) {
+				setTemporisationValue(StringTools.parseSBMLDouble(value));
+			} else {
+				isAttributeRead = false;
+			}
+		}
+
+		return isAttributeRead;
+	}
+
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
+
+		if (isSetResultLevel()) {
+			attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.resultLevel, Integer.toString(getResultLevel()));
+		}	  
+		if (isSetResultSymbol()) {
+			attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.resultSymbol, getResultSymbol());
+		}
+		if (isSetTemporisationValue()) {
+			attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.temporisationValue, Double.toString(getTemporisationValue()));
+		}
+
+		return attributes;
+	}
+
 	
 }

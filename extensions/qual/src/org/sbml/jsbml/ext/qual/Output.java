@@ -19,9 +19,13 @@
  */
 package org.sbml.jsbml.ext.qual;
 
+import java.util.Map;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.QualParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -40,6 +44,10 @@ public class Output extends AbstractNamedSBase {
   private OutputTransitionEffect transitionEffect;
   private Integer                level;
 
+  public Output() {
+	  super();
+	  addNamespace(QualParser.getNamespaceURI());
+  }
 
   @Override
   public AbstractSBase clone() {
@@ -239,4 +247,52 @@ public class Output extends AbstractNamedSBase {
     }
     return hashCode;
   }
+  
+  @Override
+	public boolean readAttribute(String attributeName, String prefix, String value) {
+	  
+	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+	  if (!isAttributeRead) {
+		  isAttributeRead = true;
+		  
+		  if (attributeName.equals(QualChangeEvent.qualitativeSpecies)) {
+			  setQualitativeSpecies(value);
+		  } else if (attributeName.equals(QualChangeEvent.level)) {
+			  setLevel(StringTools.parseSBMLInt(value));
+		  } else if (attributeName.equals(QualChangeEvent.transitionEffect)) {
+			  setTransitionEffect(OutputTransitionEffect.valueOf(value));
+		  } else {
+			  isAttributeRead = false;
+		  }
+	  }
+	  
+	  return isAttributeRead;
+	}
+  
+  @Override
+	public Map<String, String> writeXMLAttributes() {
+	  Map<String, String> attributes = super.writeXMLAttributes();
+
+	  if (isSetId()) {
+		  attributes.remove("id");
+		  attributes.put(QualParser.shortLabel+ ":id", getId());
+	  }
+	  if (isSetName()) {
+		  attributes.remove("name");
+		  attributes.put(QualParser.shortLabel+ ":name", getName());
+	  }
+	  if (isSetQualitativeSpecies()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.qualitativeSpecies, getQualitativeSpecies());
+	  }
+	  if (isSetLevel()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.level, Integer.toString(getLevel()));
+	  }	  
+	  if (isSetTransitionEffect()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.transitionEffect, getTransitionEffect().toString());
+	  }
+	  
+	  return attributes;
+	}
+  
 }
