@@ -37,5 +37,9 @@ public enum Sign {
   /**
    * 
    */
+  dual,
+  /**
+   * 
+   */
   unknown
 }
