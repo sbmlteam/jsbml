@@ -31,10 +31,15 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.qual.FunctionTerm;
 import org.sbml.jsbml.ext.qual.Input;
+import org.sbml.jsbml.ext.qual.Output;
+import org.sbml.jsbml.ext.qual.QualChangeEvent;
 import org.sbml.jsbml.ext.qual.QualList;
 import org.sbml.jsbml.ext.qual.QualitativeModel;
 import org.sbml.jsbml.ext.qual.QualitativeSpecies;
+import org.sbml.jsbml.ext.qual.SymbolicValue;
+import org.sbml.jsbml.ext.qual.TemporisationMath;
 import org.sbml.jsbml.ext.qual.Transition;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
@@ -68,7 +73,7 @@ public class QualParser implements ReadingParser, WritingParser {
 	}
 
 	/**
-	 * The FBAList enum which represents the name of the list this parser is
+	 * The QualList enum which represents the name of the list this parser is
 	 * currently reading.
 	 * 
 	 */
@@ -169,7 +174,7 @@ public class QualParser implements ReadingParser, WritingParser {
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		
-		// TODO : the basic qual elements don't have any text. SBML syntax
+		// the basic qual elements don't have any text. SBML syntax
 		// error, throw an exception, log en error ?
 		logger.debug("processCharactersOf : the basic FBA elements don't have any text. " +
 				"SBML syntax error. characters lost = " + characters);
@@ -244,18 +249,12 @@ public class QualParser implements ReadingParser, WritingParser {
 			if (elementName.equals("listOfQualitativeSpecies")) {
 					
 				ListOf<QualitativeSpecies> listOfQualitativeSpecies = qualModel.getListOfQualitativeSpecies();
-				listOfQualitativeSpecies.setSBaseListType(ListOf.Type.other);
-				listOfQualitativeSpecies.addNamespace(namespaceURI);
-				model.setThisAsParentSBMLObject(listOfQualitativeSpecies);
 				this.groupList = QualList.listOfQualitativeSpecies;
 				return listOfQualitativeSpecies;
 			} 
 			else if (elementName.equals("listOfTransitions")) {
 
 				ListOf<Transition> listOfObjectives = qualModel.getListOfTransitions();
-				listOfObjectives.setSBaseListType(ListOf.Type.other);
-				listOfObjectives.addNamespace(namespaceURI);
-				model.setThisAsParentSBMLObject(listOfObjectives);
 				this.groupList = QualList.listOfTransitions;
 				return listOfObjectives;
 			}
@@ -263,56 +262,94 @@ public class QualParser implements ReadingParser, WritingParser {
 			Transition transition = (Transition) contextObject;
 			
 			if (elementName.equals("listOfInputs")) {				
-				ListOf<Input> listOfFluxInputs = transition.getListOfInputs();
-				listOfFluxInputs.setSBaseListType(ListOf.Type.other);
-				listOfFluxInputs.addNamespace(namespaceURI);
-				transition.setThisAsParentSBMLObject(listOfFluxInputs);
+				ListOf<Input> listOfInputs = transition.getListOfInputs();
 				this.groupList = QualList.listOfInputs;
-				return listOfFluxInputs;
-			} else {
-				// TODO : listOfOutputs, listOfFunctionTerm
+				return listOfInputs;
+			} else if (elementName.equals("listOfOutputs")) {
+				ListOf<Output> listOfOutputs = transition.getListOfOutputs();
+				this.groupList = QualList.listOfOutputs;
+				return listOfOutputs;
+			} else if (elementName.equals("listOfFunctionTerms")) {
+				ListOf<FunctionTerm> listOfFunctionTerms = transition.getListOfFunctionTerms();
+				this.groupList = QualList.listOfFunctionTerms;
+				return listOfFunctionTerms;
 			}
 		} else if (contextObject instanceof QualitativeSpecies) {
-			// TODO : listOfSymbolicValue
+			QualitativeSpecies qualSpecies = (QualitativeSpecies) contextObject;
+		
+			if (elementName.equals("listOfSymbolicValues")) {				
+				ListOf<SymbolicValue> listOfSymbolicValues = qualSpecies.getListOfSymbolicValues();
+				this.groupList = QualList.listOfSymbolicValues;
+				return listOfSymbolicValues;
+			}
+		} else if (contextObject instanceof FunctionTerm) {
+			
+			if (elementName.equals("temporisationMath")) {
+
+				FunctionTerm qualSpecies = (FunctionTerm) contextObject;
+
+				TemporisationMath temporisationMath = new TemporisationMath();
+				qualSpecies.setTemporisationMath(temporisationMath);
+				return temporisationMath;
+			}
 		}
 		else if (contextObject instanceof ListOf<?>) 
 		{
 			ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
-			// TODO 
-			/*
-			if (elementName.equals("fluxBound")
-					&& this.groupList.equals(FBAList.listOfFluxBounds)) {
+			if (elementName.equals("transition") && this.groupList.equals(QualList.listOfTransitions)) {
 				Model model = (Model) listOf.getParentSBMLObject();
-				FBAModel extendeModel = (FBAModel) model.getExtension(namespaceURI); 
+				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(namespaceURI); 
 				
-				FluxBound fluxBound = new FluxBound();
-				fluxBound.addNamespace(namespaceURI);
-				extendeModel.addFluxBound(fluxBound);
-				return fluxBound;
+				Transition transition = new Transition();				
+				extendeModel.addTransition(transition);
+				return transition;
 				
-			} else if (elementName.equals("objective")
-					&& this.groupList.equals(FBAList.listOfObjectives)) {
+			} else if (elementName.equals("qualitativeSpecies") && this.groupList.equals(QualList.listOfQualitativeSpecies)) {
 				Model model = (Model) listOf.getParentSBMLObject();
-				FBAModel extendeModel = (FBAModel) model.getExtension(namespaceURI); 
-
-				Objective objective = new Objective();
-				objective.addNamespace(namespaceURI);
-				extendeModel.addObjective(objective);
-
-				return objective;
-			} else if (elementName.equals("fluxObjective")
-					&& this.groupList.equals(FBAList.listOfFluxObjectives)) {
-				Objective objective = (Objective) listOf.getParentSBMLObject();
-
-				FluxObjective fluxObjective = new FluxObjective();
-				fluxObjective.addNamespace(namespaceURI);
-				objective.addFluxObjective(fluxObjective);
-
-				return fluxObjective;
+				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(namespaceURI); 
+				
+				QualitativeSpecies qualSpecies = new QualitativeSpecies();
+				extendeModel.addQualitativeSpecies(qualSpecies);
+				return qualSpecies;
+				
+			} else if (elementName.equals("input") && this.groupList.equals(QualList.listOfInputs)) {
+				Transition transition = (Transition) listOf.getParentSBMLObject();
+				
+				Input input = new Input();
+				transition.addInput(input);
+				return input;
+				
+			} else if (elementName.equals("output") && this.groupList.equals(QualList.listOfOutputs)) {
+				Transition transition = (Transition) listOf.getParentSBMLObject();
+				
+				Output output = new Output();
+				transition.addOutput(output);
+				return output;
+				
+			} else if (elementName.equals("functionTerm") && this.groupList.equals(QualList.listOfFunctionTerms)) {
+				Transition transition = (Transition) listOf.getParentSBMLObject();
+				
+				FunctionTerm functionTerm = new FunctionTerm();
+				transition.addFunctionTerm(functionTerm);
+				return functionTerm;
+				
+			} else if (elementName.equals("defaultTerm") && this.groupList.equals(QualList.listOfFunctionTerms)) {
+				Transition transition = (Transition) listOf.getParentSBMLObject();
+				
+//				FunctionTerm functionTerm = new FunctionTerm();
+//				transition.addFunctionTerm(functionTerm);
+//				return functionTerm;
+				// TODO 
+				
+			} else if (elementName.equals("symbolicValue") && this.groupList.equals(QualList.listOfSymbolicValues)) {
+				QualitativeSpecies qualSpecies = (QualitativeSpecies) listOf.getParentSBMLObject();
+				
+				SymbolicValue symbolicValue = new SymbolicValue();
+				qualSpecies.addSymbolicValue(symbolicValue);
+				return symbolicValue;
+				
 			}
-			 */
-
 		}
 		return contextObject;
 	}
@@ -350,26 +387,36 @@ public class QualParser implements ReadingParser, WritingParser {
 	public void writeElement(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
 
-		logger.debug("FBAParser : writeElement");
+		logger.debug("writeElement + " + sbmlElementToWrite);
 
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
 
+			if (sbmlElementToWrite instanceof FunctionTerm &&
+					((FunctionTerm) sbmlElementToWrite).isDefaultTerm())
+			{
+				xmlObject.setName("defaultTerm");
+			}
+			
 			if (!xmlObject.isSetName()) {
 				if (sbase instanceof ListOf<?>) {
 					ListOf<?> listOf = (ListOf<?>) sbase;
 					
 					if (listOf.size() > 0) {
-						// TODO 
-						/*
-						if (listOf.get(0) instanceof FluxBound) {
-							xmlObject.setName(FBAList.listOfFluxBounds.toString());
-						} else if (listOf.get(0) instanceof Objective) {
-							xmlObject.setName(FBAList.listOfObjectives.toString());
-						} else if (listOf.get(0) instanceof FluxObjective) {
-							xmlObject.setName(FBAList.listOfFluxObjectives.toString());
+
+						if (listOf.get(0) instanceof Transition) {
+							xmlObject.setName(QualList.listOfTransitions.toString());
+						} else if (listOf.get(0) instanceof QualitativeSpecies) {
+							xmlObject.setName(QualList.listOfQualitativeSpecies.toString());
+						} else if (listOf.get(0) instanceof Input) {
+							xmlObject.setName(QualList.listOfInputs.toString());
+						} else if (listOf.get(0) instanceof Output) {
+							xmlObject.setName(QualList.listOfOutputs.toString());
+						} else if (listOf.get(0) instanceof FunctionTerm) {
+							xmlObject.setName(QualList.listOfFunctionTerms.toString());
+						} else if (listOf.get(0) instanceof SymbolicValue) {
+							xmlObject.setName(QualList.listOfSymbolicValues.toString());
 						}
-						*/
 					}
 				} else {
 					xmlObject.setName(sbase.getElementName());

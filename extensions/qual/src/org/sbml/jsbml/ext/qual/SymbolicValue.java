@@ -19,9 +19,13 @@
  */
 package org.sbml.jsbml.ext.qual;
 
+import java.util.Map;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.QualParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -39,6 +43,10 @@ public class SymbolicValue extends AbstractNamedSBase {
   private static final long serialVersionUID = -214835834453944834L;
   private Integer           rank;
 
+  public SymbolicValue() {
+	super();
+	addNamespace(QualParser.getNamespaceURI());
+  }
 
   public boolean isIdMandatory() {
     return true;
@@ -131,4 +139,42 @@ public class SymbolicValue extends AbstractNamedSBase {
     }
     return hashCode;
   }
+  
+  @Override
+	public boolean readAttribute(String attributeName, String prefix, String value) {
+	  
+	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+	  if (!isAttributeRead) {
+		  isAttributeRead = true;
+		  
+		  if (attributeName.equals(QualChangeEvent.rank)) {
+			  setRank(StringTools.parseSBMLInt(value));
+		  } else {
+			  isAttributeRead = false;
+		  }
+	  }
+	  
+	  return isAttributeRead;
+	}
+  
+  @Override
+	public Map<String, String> writeXMLAttributes() {
+	  Map<String, String> attributes = super.writeXMLAttributes();
+
+	  if (isSetId()) {
+		  attributes.remove("id");
+		  attributes.put(QualParser.shortLabel+ ":id", getId());
+	  }
+	  if (isSetName()) {
+		  attributes.remove("name");
+		  attributes.put(QualParser.shortLabel+ ":name", getName());
+	  }
+	  if (isSetRank()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.rank, Integer.toString(getRank()));
+	  }	  
+	  
+	  return attributes;
+	}
+  
 }

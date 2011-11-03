@@ -19,9 +19,13 @@
  */
 package org.sbml.jsbml.ext.qual;
 
+import java.util.Map;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.parsers.QualParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -42,6 +46,10 @@ public class Input extends AbstractNamedSBase {
   private Integer               thresholdLevel;
   private String                thresholdSymbol;
 
+  public Input() {
+	  super();
+	  addNamespace(QualParser.getNamespaceURI());
+  }
 
   @Override
   public AbstractSBase clone() {
@@ -305,4 +313,56 @@ public class Input extends AbstractNamedSBase {
     return hashCode;
   }
 
+  @Override
+	public boolean readAttribute(String attributeName, String prefix, String value) {
+	  
+	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+	  if (!isAttributeRead) {
+		  isAttributeRead = true;
+		  
+		  if (attributeName.equals(QualChangeEvent.qualitativeSpecies)) {
+			  setQualitativeSpecies(value);
+		  } else if (attributeName.equals(QualChangeEvent.thresholdLevel)) {
+			  setThresholdLevel(StringTools.parseSBMLInt(value));
+		  } else if (attributeName.equals(QualChangeEvent.thresholdSymbol)) {
+			  setThresholdSymbol(value);
+		  } else if (attributeName.equals(QualChangeEvent.transitionEffect)) {
+			  setTransitionEffect(InputTransitionEffect.valueOf(value));
+		  } else {
+			  isAttributeRead = false;
+		  }
+	  }
+	  
+	  return isAttributeRead;
+	}
+  
+  @Override
+	public Map<String, String> writeXMLAttributes() {
+	  Map<String, String> attributes = super.writeXMLAttributes();
+
+	  if (isSetId()) {
+		  attributes.remove("id");
+		  attributes.put(QualParser.shortLabel+ ":id", getId());
+	  }
+	  if (isSetName()) {
+		  attributes.remove("name");
+		  attributes.put(QualParser.shortLabel+ ":name", getName());
+	  }
+	  if (isSetQualitativeSpecies()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.qualitativeSpecies, getQualitativeSpecies());
+	  }
+	  if (isSetThresholdLevel()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.thresholdLevel, Integer.toString(getThresholdLevel()));
+	  }	  
+	  if (isSetThresholdSymbol()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.thresholdSymbol, getThresholdSymbol());
+	  }
+	  if (isSetTransitionEffect()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.transitionEffect, getTransitionEffect().toString());
+	  }
+	  
+	  return attributes;
+	}
+  
 }

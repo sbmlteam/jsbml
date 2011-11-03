@@ -25,6 +25,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.xml.parsers.QualParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -53,6 +54,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	 */
 	public void addQualitativeSpecies(QualitativeSpecies qualitativeSpecies) {
 		getListOfQualitativeSpecies().add(qualitativeSpecies);
+		
 	}
 	
 	
@@ -164,8 +166,10 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	 */
 	public ListOf<QualitativeSpecies> getListOfQualitativeSpecies() {
 	  if (!isSetListOfQualitativeSpecies()) {
-	    // TODO: initialize the ListOf correctly
 	    listOfQualitativeSpecies = new ListOf<QualitativeSpecies>();
+		listOfQualitativeSpecies.addNamespace(QualParser.getNamespaceURI());
+		model.setThisAsParentSBMLObject(listOfQualitativeSpecies);
+		listOfQualitativeSpecies.setSBaseListType(ListOf.Type.other);
 	  }
 		return listOfQualitativeSpecies;
 	}
@@ -176,8 +180,11 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	 */
 	public ListOf<Transition> getListOfTransitions() {
 	  if (!isSetListOfTransitions()) {
-      // TODO: initialize the ListOf correctly
 	    listOfTransitions = new ListOf<Transition>();
+	    listOfTransitions.addNamespace(QualParser.getNamespaceURI());
+		model.setThisAsParentSBMLObject(listOfTransitions);
+		listOfTransitions.setSBaseListType(ListOf.Type.other);
+
 	  }
 		return listOfTransitions;
 	}
@@ -221,7 +228,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	}
 	
 	public boolean readAttribute(String attributeName, String prefix, String value) {
-	  // TODO:
+	  // no attribute to read
 		return false;
 	}
 	
@@ -238,8 +245,8 @@ public class QualitativeModel extends AbstractSBasePlugin {
 
 
   public Map<String, String> writeXMLAttributes() {
-	  // TODO
-		return null;
+	  // no attribute to read
+	  return null;
 	}
   
   public boolean unsetListOfTransitions(){
