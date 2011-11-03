@@ -25,6 +25,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
@@ -90,7 +91,11 @@ public class MultiSpecies extends AbstractSBasePlugin {
     return true;
   }
 
-	public TreeNode getChildAt(int childIndex) {
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
+   */
+	public SBase getChildAt(int childIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}

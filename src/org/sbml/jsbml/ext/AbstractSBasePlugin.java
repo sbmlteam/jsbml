@@ -1,6 +1,6 @@
 /*
- * $Id:  AbstractSBasePlugin.java 10:18:30 draeger $
- * $URL: AbstractSBasePlugin.java $
+ * $Id$
+ * $URL$
  *
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
@@ -35,37 +35,70 @@ import org.sbml.jsbml.SBase;
  */
 public abstract class AbstractSBasePlugin implements SBasePlugin {
 
+  /**
+   * Generated serial version identifier.
+   */
   private static final long serialVersionUID = 3741496965840142920L;
 
-
-  @Override
-  public int hashCode() {
-    // A constant and arbitrary, sufficiently large prime number:
-    final int prime = 769;
-    /*
-     * This method is implemented as suggested in the JavaDoc API
-     * documentation of the List interface.
-     */
-    
-    // Compute the initial hashCode based on the name of the actual class.
-    int hashCode = getClass().getName().hashCode();
-    /*
-     * The following start wouldn't work because it will compute the
-     * hashCode from the address in memory of the object.
-     */
-    // int hashCode = super.hashCode();
-    
-    // Recursively compute the hashCode for each child node:
-    SBase child;
-    for (int i = 0; i < getChildCount(); i++) {
-      child = getChildAt(i);
-      hashCode = prime * hashCode + (child == null ? 0 : child.hashCode());
-    }
-    
-    return hashCode;
+  /**
+   * 
+   */
+  public AbstractSBasePlugin() {
+    super();
   }
 
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#children()
+   */
+  public Enumeration<SBase> children() {
+    return new Enumeration<SBase>() {
+      /**
+       * Total number of children in this enumeration.
+       */
+      private int childCount = getChildCount();
+      /**
+       * Current position in the list of children.
+       */
+      private int index;
+
+      /*
+       * (non-Javadoc)
+       * 
+       * @see java.util.Enumeration#hasMoreElements()
+       */
+      public boolean hasMoreElements() {
+        return index < childCount;
+      }
+
+      /*
+       * (non-Javadoc)
+       * 
+       * @see java.util.Enumeration#nextElement()
+       */
+      public SBase nextElement() {
+        synchronized (this) {
+          if (index < childCount) {
+            return getChildAt(index++);
+          }
+        }
+        throw new NoSuchElementException("Enumeration");
+      }
+    };
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see java.lang.Object#clone()
+   */
+  @Override
+  public abstract SBasePlugin clone();
+
+  /*
+   * (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object object) {
     // Check if the given object is a pointer to precisely the same object:
@@ -102,64 +135,53 @@ public abstract class AbstractSBasePlugin implements SBasePlugin {
   }
 
 
-  @Override
-  public abstract SBasePlugin clone();
-
-  /**
-   * 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getIndex(org.sbml.jsbml.SBase)
    */
-  public AbstractSBasePlugin() {
-    super();
-  }
-
-
-  @Override
   public int getIndex(SBase node) {
     // TODO Auto-generated method stub
     return 0;
   }
 
+  /*
+   * (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
   @Override
-  public boolean isLeaf() {    
-    return getChildCount() == 0;
+  public int hashCode() {
+    // A constant and arbitrary, sufficiently large prime number:
+    final int prime = 769;
+    /*
+     * This method is implemented as suggested in the JavaDoc API
+     * documentation of the List interface.
+     */
+    
+    // Compute the initial hashCode based on the name of the actual class.
+    int hashCode = getClass().getName().hashCode();
+    /*
+     * The following start wouldn't work because it will compute the
+     * hashCode from the address in memory of the object.
+     */
+    // int hashCode = super.hashCode();
+    
+    // Recursively compute the hashCode for each child node:
+    SBase child;
+    for (int i = 0; i < getChildCount(); i++) {
+      child = getChildAt(i);
+      hashCode = prime * hashCode + (child == null ? 0 : child.hashCode());
+    }
+    
+    return hashCode;
   }
 
 
-  @Override
-  public Enumeration<SBase> children() {
-    return new Enumeration<SBase>() {
-      /**
-       * Total number of children in this enumeration.
-       */
-      private int childCount = getChildCount();
-      /**
-       * Current position in the list of children.
-       */
-      private int index;
-
-      /*
-       * (non-Javadoc)
-       * 
-       * @see java.util.Enumeration#hasMoreElements()
-       */
-      public boolean hasMoreElements() {
-        return index < childCount;
-      }
-
-      /*
-       * (non-Javadoc)
-       * 
-       * @see java.util.Enumeration#nextElement()
-       */
-      public SBase nextElement() {
-        synchronized (this) {
-          if (index < childCount) {
-            return getChildAt(index++);
-          }
-        }
-        throw new NoSuchElementException("Enumeration");
-      }
-    };
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#isLeaf()
+   */
+  public boolean isLeaf() {    
+    return getChildCount() == 0;
   }
 
 
