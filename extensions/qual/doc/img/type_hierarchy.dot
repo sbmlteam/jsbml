@@ -30,7 +30,6 @@ strict digraph G{
   AbstractNamedSBase                         [label=<<font><I>Abstract<br/>NamedSBase</I></font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractSBase                              [label=<<font><I>Abstract<br/>SBase</I></font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractSBasePlugin                        [label=<<font><I>AbstractSBase<br/>Plugin</I></font>>, style="filled", fillcolor="#F0F8FF"];
-  AbstractTreeNode                           [label=<<font><I>Abstract<br/>TreeNode</I></font>>, style="filled", fillcolor="#F0F8FF"];
   
   /*
    * Objects
@@ -57,11 +56,9 @@ strict digraph G{
 
   AbstractSBase -> AbstractNamedSBase        [dir=back,arrowtail=empty];
   AbstractSBase -> AbstractMathContainer     [dir=back,arrowtail=empty];
+  AbstractSBase -> AbstractSBasePlugin       [dir=back,arrowtail=empty,style=dashed];
   
   AbstractSBasePlugin -> QualitativeModel    [dir=back,arrowtail=empty];
-  
-  AbstractTreeNode -> AbstractSBasePlugin    [dir=back,arrowtail=empty];
-  AbstractTreeNode -> AbstractSBase          [dir=back,arrowtail=empty];
 
   AbstractMathContainer -> TemporisationMath [dir=back,arrowtail=empty]
 }

@@ -20,9 +20,10 @@
  */ 
 package org.sbml.jsbml.ext;
 
-import javax.swing.tree.TreeNode;
+import java.util.Enumeration;
+import java.util.NoSuchElementException;
 
-import org.sbml.jsbml.AbstractTreeNode;
+import org.sbml.jsbml.SBase;
 
 
 /**
@@ -32,11 +33,77 @@ import org.sbml.jsbml.AbstractTreeNode;
  * @since 1.0
  * @date 28.10.2011
  */
-public abstract class AbstractSBasePlugin extends AbstractTreeNode implements
-  SBasePlugin {
+public abstract class AbstractSBasePlugin implements SBasePlugin {
 
   private static final long serialVersionUID = 3741496965840142920L;
 
+
+  @Override
+  public int hashCode() {
+    // A constant and arbitrary, sufficiently large prime number:
+    final int prime = 769;
+    /*
+     * This method is implemented as suggested in the JavaDoc API
+     * documentation of the List interface.
+     */
+    
+    // Compute the initial hashCode based on the name of the actual class.
+    int hashCode = getClass().getName().hashCode();
+    /*
+     * The following start wouldn't work because it will compute the
+     * hashCode from the address in memory of the object.
+     */
+    // int hashCode = super.hashCode();
+    
+    // Recursively compute the hashCode for each child node:
+    SBase child;
+    for (int i = 0; i < getChildCount(); i++) {
+      child = getChildAt(i);
+      hashCode = prime * hashCode + (child == null ? 0 : child.hashCode());
+    }
+    
+    return hashCode;
+  }
+
+
+  @Override
+  public boolean equals(Object object) {
+    // Check if the given object is a pointer to precisely the same object:
+    if (super.equals(object)) {
+      return true;
+    }
+    // Check if the given object is of identical class and not null: 
+    if ((object == null) || (!getClass().equals(object.getClass()))) {
+      return false;
+    }
+    // Check all child nodes recursively:
+    if (object instanceof SBase) {
+      SBase stn = (SBase) object;
+      int childCount = getChildCount();
+      boolean equal = stn.isLeaf() == isLeaf();
+      /*
+       * This is not good because cloned SBase may not point
+       * to the same parent as the original and would hence not be equal
+       * to the cloned object.
+       */
+            //  equal &= ((stn.getParent() == null) && isRoot())
+            //           || (stn.getParent() == getParent());
+      equal &= stn.getChildCount() == childCount;
+      if (equal && (childCount > 0)) {
+        for (int i = 0; i < childCount; i++) {
+          if (!stn.getChildAt(i).equals(getChildAt(i))) {
+            return false;
+          }
+        }
+      }
+      return equal;
+    }
+    return false;
+  }
+
+
+  @Override
+  public abstract SBasePlugin clone();
 
   /**
    * 
@@ -46,11 +113,53 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements
   }
 
 
-  /**
-   * @param node
-   */
-  public AbstractSBasePlugin(TreeNode node) {
-    super(node);
+  @Override
+  public int getIndex(SBase node) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public boolean isLeaf() {    
+    return getChildCount() == 0;
+  }
+
+
+  @Override
+  public Enumeration<SBase> children() {
+    return new Enumeration<SBase>() {
+      /**
+       * Total number of children in this enumeration.
+       */
+      private int childCount = getChildCount();
+      /**
+       * Current position in the list of children.
+       */
+      private int index;
+
+      /*
+       * (non-Javadoc)
+       * 
+       * @see java.util.Enumeration#hasMoreElements()
+       */
+      public boolean hasMoreElements() {
+        return index < childCount;
+      }
+
+      /*
+       * (non-Javadoc)
+       * 
+       * @see java.util.Enumeration#nextElement()
+       */
+      public SBase nextElement() {
+        synchronized (this) {
+          if (index < childCount) {
+            return getChildAt(index++);
+          }
+        }
+        throw new NoSuchElementException("Enumeration");
+      }
+    };
   }
 
 

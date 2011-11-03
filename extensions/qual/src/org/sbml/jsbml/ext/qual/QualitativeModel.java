@@ -21,10 +21,9 @@ package org.sbml.jsbml.ext.qual;
 
 import java.util.Map;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
@@ -41,41 +40,13 @@ public class QualitativeModel extends AbstractSBasePlugin {
   
   private ListOf<QualitativeSpecies> listOfQualitativeSpecies;
 	private ListOf<Transition> listOfTransitions;
-
+	private Model model;
 	
 	public QualitativeModel(Model model) {
 	  super();
-		setParent(model);
-		addAllChangeListeners(model.getListOfTreeNodeChangeListeners());
+		this.model = model;
 	}
 
-
-	public boolean isSetListOfQualitativeSpecies() {
-		if ((listOfQualitativeSpecies == null) || listOfQualitativeSpecies.isEmpty()) {
-			return false;			
-		}		
-		return true;
-	}
-
-	
-	/**
-	 * @return the listOfQualitativeSpecies
-	 */
-	public ListOf<QualitativeSpecies> getListOfQualitativeSpecies() {
-	  if (!isSetListOfQualitativeSpecies()) {
-	    // TODO: initialize the ListOf correctly
-	    listOfQualitativeSpecies = new ListOf<QualitativeSpecies>();
-	  }
-		return listOfQualitativeSpecies;
-	}
-
-	public QualitativeSpecies getQualitativeSpecies(int i) {
-		if ((i >= 0) && (i < listOfQualitativeSpecies.size())) {
-			return listOfQualitativeSpecies.get(i);
-		}
-
-		return null;
-	}
 
 	/**
 	 * @param listOfQualitativeSpecies the listOfQualitativeSpecies to set
@@ -85,59 +56,31 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	}
 	
 	
-	public boolean isSetListOfTransitions() {
-		if ((listOfTransitions == null) || listOfTransitions.isEmpty()) {
-			return false;			
-		}		
-		return true;
-	}
-
-
-
-	/**
-	 * @return the listOTransitions
-	 */
-	public ListOf<Transition> getListOfTransitions() {
-	  if (!isSetListOfTransitions()) {
-      // TODO: initialize the ListOf correctly
-	    listOfTransitions = new ListOf<Transition>();
-	  }
-		return listOfTransitions;
-	}
-
-	public Transition getTransition(int i) {
-		if ((i >= 0) && (i < listOfTransitions.size())) {
-			return listOfTransitions.get(i);
-		}
-
-		return null;
-	}
-
-	public void addTransition(Transition transition) {
+  public void addTransition(Transition transition) {
 		getListOfTransitions().add(transition);
 	}
 
 
-	public QualitativeModel clone() {
+  
+  public QualitativeModel clone() {
 		// TODO
 		return null;
 	}
-	
-	
-	public boolean readAttribute(String attributeName, String prefix, String value) {
-	  // TODO:
-		return false;
-	}
-	
-	public Map<String, String> writeXMLAttributes() {
-	  // TODO
-		return null;
-	}
-	
-	/* (non-Javadoc)
+
+
+  
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+
+  /* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildAt(int)
 	 */
-	public TreeNode getChildAt(int childIndex) {
+	public SBase getChildAt(int childIndex) {
     if (childIndex < 0) {
       throw new IndexOutOfBoundsException(childIndex + " < 0");
     }
@@ -158,7 +101,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
     throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
         childIndex, +((int) Math.min(pos, 0))));	  
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildCount()
 	 */
@@ -172,19 +115,105 @@ public class QualitativeModel extends AbstractSBasePlugin {
     }
     return count;
   }
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractTreeNode#getParent()
+
+	/**
+	 * @return the listOfQualitativeSpecies
 	 */
-	public Model getParent() {
-		return (Model)super.getParent();
+	public ListOf<QualitativeSpecies> getListOfQualitativeSpecies() {
+	  if (!isSetListOfQualitativeSpecies()) {
+	    // TODO: initialize the ListOf correctly
+	    listOfQualitativeSpecies = new ListOf<QualitativeSpecies>();
+	  }
+		return listOfQualitativeSpecies;
+	}
+	
+	
+	/**
+	 * @return the listOTransitions
+	 */
+	public ListOf<Transition> getListOfTransitions() {
+	  if (!isSetListOfTransitions()) {
+      // TODO: initialize the ListOf correctly
+	    listOfTransitions = new ListOf<Transition>();
+	  }
+		return listOfTransitions;
 	}
 
 
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getAllowsChildren()
-   */
-  public boolean getAllowsChildren() {
-    return true;
+
+	public Model getModel() {
+    return model;
+  }
+
+	public QualitativeSpecies getQualitativeSpecies(int i) {
+		if ((i >= 0) && (i < listOfQualitativeSpecies.size())) {
+			return listOfQualitativeSpecies.get(i);
+		}
+
+		return null;
+	}
+
+	public Transition getTransition(int i) {
+		if ((i >= 0) && (i < listOfTransitions.size())) {
+			return listOfTransitions.get(i);
+		}
+
+		return null;
+	}
+
+
+	public boolean isSetListOfQualitativeSpecies() {
+		if ((listOfQualitativeSpecies == null) || listOfQualitativeSpecies.isEmpty()) {
+			return false;			
+		}		
+		return true;
+	}
+	
+	
+	public boolean isSetListOfTransitions() {
+		if ((listOfTransitions == null) || listOfTransitions.isEmpty()) {
+			return false;			
+		}		
+		return true;
+	}
+	
+	public boolean readAttribute(String attributeName, String prefix, String value) {
+	  // TODO:
+		return false;
+	}
+	
+	public void setListOfQualitativeSpecies(
+    ListOf<QualitativeSpecies> listOfQualitativeSpecies) {
+    this.listOfQualitativeSpecies = listOfQualitativeSpecies;
+    model.setThisAsParentSBMLObject(this.listOfQualitativeSpecies);
+  }
+	
+	public void setListOfTransitions(ListOf<Transition> listOfTransitions) {
+    this.listOfTransitions = listOfTransitions;
+    model.setThisAsParentSBMLObject(this.listOfTransitions);
+  }
+
+
+  public Map<String, String> writeXMLAttributes() {
+	  // TODO
+		return null;
+	}
+  
+  public boolean unsetListOfTransitions(){
+    if(isSetListOfTransitions()) {
+      this.listOfTransitions = null;
+      model.setThisAsParentSBMLObject(this.listOfTransitions);
+      return true;
+    }
+    return false;
+  }
+  
+  public boolean unsetListOfQualitativeSpecies() {
+    if(isSetListOfQualitativeSpecies()) {
+      this.listOfQualitativeSpecies = null;
+      model.setThisAsParentSBMLObject(this.listOfQualitativeSpecies);
+      return true;
+    }
+    return false;
   }
 }
