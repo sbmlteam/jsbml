@@ -60,7 +60,11 @@ Ki-ne-tic-Law
 Lib-SB-ML-Reader
 Plug-in-Action
 plug-in
-S-Base-Chang-ed-Listen-er
+SBML-Document
+Tree-Node
+Tree-Node-Change-Event
+Tree-Node-Change-Listen-er
+Tree-Node-With-Change-Support
 time-Units
 Tree-Node
 }
@@ -158,15 +162,15 @@ Subversion (SVN) as described below.
 
 \chapter{Main differences between JSBML and libSBML}
 
-Until today, libSBML has been the main library for developing Java applications
-that use SBML. Thus, many Java developers are used to the methods and commands,
-libSBML provides. The JSBML team made some effort to allow those developers a
-fast and easy switch to this new library. For example, a libSBML compatibility
-module has been developed, that implements existing libSBML methods and simply
-redirects the parameters to the corresponding JSBML methods. But it is important
-that developers, coming from libSBML, know the main differences between the two
-libraries. The following sections give a brief description of those main
-differences.
+Until today, the Java binding of libSBML has been the main library for
+developing Java applications that use SBML. Thus, many Java developers are used
+to the methods and commands, libSBML provides. The JSBML team made some effort
+to allow those developers a fast and easy switch to this new library. For
+example, a libSBML compatibility module has been developed, that implements
+existing libSBML methods and simply redirects the parameters to the
+corresponding JSBML methods. But it is important that developers, coming from
+libSBML, know the main differences between the two libraries. The following
+sections give a brief description of those main differences.
 
 \input{tex/JSBML_compared_to_libSBML}
 
