@@ -13,7 +13,7 @@ libSBML. Similarly to the SBML specifications,
 \index{SBML!specification}%
 the libSBML library has grown historically. The implementation of JSBML
 permitted to entirely re-design the type hierarchy of the SBML elements and the
-way to implement what is specified in the SBML specifications. However, it is
+way to implement what is specified in the SBML documents. However, it is
 important to keep in mind that SBML is a language that defines how to store of
 biological processes and how to exchange these models between
 \index{model!storage and exchange}%
@@ -36,7 +36,8 @@ developed as a library that does not ``only" provide reading, manipulating, and
 writing abilities for SBML files. It is intended to be directly used as a
 flexible internal data structure for numerical computation, visualization and
 much more. With the help of its modules JSBML can also be used as a
-communication layer between applications, such as CellDesigner
+communication layer between applications. For instance, JSBML facilitates the
+implementation of plugins for the program know as CellDesigner
 \citep{Funahashi2003}. The following sections will not only give a detailed
 overview about the most important differences between JSBML and libSBML, but
 also provide some programming examples and hints about how to use and work with
@@ -49,15 +50,18 @@ JSBML.
 \centering
 \includegraphics[width=\textwidth]{../img/FullTypeHierarchy.pdf}
 \caption[The type hierarchy of the main SBML constructs in JSBML]{The type
-hierarchy of the main SBML constructs in JSBML.
-% N�chster satz auch schon oben verwendet.
-With letting \texttt{SBase} implement the Java interfaces
-\texttt{Cloneable}, \texttt{Serializable}, and \texttt{TreeNode}, all derived
-elements also implement these types. Elements colored in blue have been
-introduced as additional, in most cases abstract, data types in JSBML but do not
-have a corresponding element in libSBML. The yellow types \texttt{Creator} and
-\texttt{History} correspond to \texttt{ModelCreator} and \texttt{ModelHistory}
-in libSBML.}
+hierarchy of the main SBML constructs in JSBML. With letting \texttt{SBase}
+extend the interface \texttt{TreeNodeWithChangeSupport} that in turn extends the
+Java interfaces \texttt{Cloneable}, \texttt{Serializable}, and
+\texttt{TreeNode}, all derived elements of \texttt{SBase} also implement these
+types. In this way, derivatives of \texttt{SBase} can be used wherever an
+instance of \texttt{TreeNode} is requested. Furthermore, SBML elements that do
+not extend \texttt{SBase} are also derived from the identical base type
+\texttt{TreeNodeWithChangeSupport}, hence sharing several common methods and
+attributes. Elements colored in blue have been introduced as additional, in most
+cases abstract, data types in JSBML but do not have a corresponding element in
+libSBML. The yellow types \texttt{Creator} and \texttt{History} correspond to
+\texttt{ModelCreator} and \texttt{ModelHistory} in libSBML.}
 \label{fig:TypeHierarchy}
 \end{sidewaysfigure}
 \begin{figure}[htb]
@@ -141,9 +145,10 @@ all elements extend the abstract type \texttt{SBase},
 \index{SBase@\texttt{SBase}}%
 but in JSBML, \texttt{SBase} has become an interface. This allows more complex
 relations between derived data types. In contrast to libSBML, \texttt{SBase} in
-JSBML extends three other interfaces: \texttt{Cloneable}, \texttt{Serializable},
-\index{Serializable@\texttt{Serializable}}%
-and \texttt{TreeNode}. As all elements defined in JSBML
+JSBML extends the interface \texttt{TreeNodeWithChangeSupport}%
+\index{TreeNodeWithChangeSupport@\texttt{TreeNodeWithChangeSupport}} 
+that in turn extends three other interfaces: \texttt{Cloneable},
+\texttt{Serializable}, \index{Serializable@\texttt{Serializable}}% and \texttt{TreeNode}. As all elements defined in JSBML
 \index{cloning}%
 override the \texttt{clone()} method from the class \texttt{java.lang.Object},
 \index{Object@\texttt{Object}}%
@@ -157,14 +162,15 @@ elements in binary form without explicitly writing them to an SBML file.
 In this way, programs can easily load and save their in-memory objects or send
 complex data structures through a network connection without the need of
 additional file encoding and subsequent parsing. The third interface,
-\texttt{TreeNode} is actually defined in Java's \texttt{swing}
+\texttt{TreeNode}%
+\index{TreeNode@\texttt{TreeNode}} 
+is actually defined in Java's \texttt{swing}
 \index{graphical user interface!\texttt{swing}}%
 package.
 \texttt{TreeNode} is a type that is independent of any graphical information. It
 basically defines recursive methods on hierarchically structured data types,
 such as iteration over all of its successors. In this way, all instances of
-JSBML's
-\index{SBase@\texttt{SBase}}%
+JSBML's\index{SBase@\texttt{SBase}}%
 \texttt{SBase} interface can be directly passed to the \texttt{swing}
 \index{graphical user interface!\texttt{swing}}%
 class \texttt{JTree}
@@ -190,9 +196,49 @@ and to immediately display its content on a \texttt{JFrame}.
   \label{fig:Visualization}
   \end{SCfigure}
 }{}%
-The \texttt{ASTNode} class in JSBML\index{ASTNode@\texttt{ASTNode}} also
-implements all these three interfaces and can hence be cloned, serialized, and
+The \texttt{ASTNode} class in JSBML\index{ASTNode@\texttt{ASTNode}} is also
+derived from all these three interfaces and can hence be cloned, serialized, and
 visualized in the same way.
+
+However, it is important to note that JSBML does not depend on any particular
+graphical user interface because no other classes from \texttt{swing} are
+initialized when loading the interface
+\texttt{TreeNode}\index{TreeNode@\texttt{TreeNode}}.
+
+\subsection{\texttt{AbstractTreeNode}}%
+\index{TreeNode!AbstractTreeNode@\texttt{AbstractTreeNode}}
+
+When looking at the SBML specification, one may notice that SBML defines a data
+structure in an an entirely tree-based manner. Besides
+\texttt{SBase}\index{SBase@\texttt{SBase}}, SBML contains also other kinds of
+tree nodes that are hierarchically linked within the \texttt{SBMLDocument}. 
+In order to unify the programming interface, JSBML defines abstract data types
+as top-level ancestors for its \texttt{SBase} implementation as well as all
+other hierarchical elements, such as \texttt{Annotation},
+\texttt{ASTNode}\index{ASTNode@\texttt{ASTNode}},
+\texttt{Creator}\index{annotation!Creator@\texttt{Creator}},
+\texttt{CVTerm}\index{annotation!CVTerm@\texttt{CVTerm}},
+\texttt{History}\index{annotation!History@\texttt{History}}, and
+\texttt{XMLNode}\index{XML!XMLNode@\texttt{XMLNode}} (for notes in
+XHTML\index{XHTML} format).
+
+First, the interface \texttt{TreeNodeWithChangeSupport}%
+\index{TreeNodeWithChangeSupport@\texttt{TreeNodeWithChangeSupport}}
+defines a \emph{cloneable} and \emph{serializable} version of
+\texttt{TreeNode}. In addition, it also provides methods to notify dedicated
+\texttt{TreeNodeChangeListener}s%
+\index{TreeNodeChangeListener@\texttt{TreeNodeChangeListener}}
+about any changes within the data structure.
+
+Its abstract implementation, \texttt{AbstractTreeNode}, does already implement
+many of the methods inherited from \texttt{TreeNodeWithChangeSupport} and also
+maintains a list of \texttt{TreeNodeChangeListener}s. Furthermore, this class
+contains a basic implementation of the methods \texttt{equals} and
+\texttt{hashCode}, which both already make use of a recursive call over all
+descendants within the hierarchical SBML data structure. Based on this class,
+the implementation of all derived data types has become much simpler. The
+abstract implementation of \texttt{SBase} is also an instance of
+\texttt{AbstractTreeNode}.
 
 
 \subsection{Characteristic features of \texttt{SBase}s}
@@ -204,7 +250,7 @@ interface and most elements therefore extend its abstract implementation
 \texttt{AbstractSBase}\index{SBase@\texttt{SBase}!\texttt{AbstractSBase}}.
 
 In contrast to libSBML, the Level and Version of such an \texttt{AbstractSBase}
-is stored in a special object, a \texttt{ValuePair}.
+is stored in a special generic object, a \texttt{ValuePair}.
 \index{JSBML!ValuePair@\texttt{ValuePair}}%
 The class \texttt{ValuePair} takes two values of any type that both implement
 the interface \texttt{Comparable}.
@@ -227,12 +273,23 @@ delivers an instance of \texttt{ValuePair}
 \index{JSBML!ValuePair@\texttt{ValuePair}}%
 with the Level and Version combination for the respective element.
 
-Some types derived from \texttt{SBase} contain a unique identifier, an
+Some types derived from \texttt{SBase} contain an identifier, a so-called
 \texttt{id}. JSBML gathers all these elements under the common interface
 \texttt{NamedSBase}. The class \texttt{AbstractNamedSBase}, which extends
 \texttt{AbstractSBase}, implements this interface.
 \index{SBase@\texttt{SBase}!\texttt{NamedSBase}}%
 \index{SBase@\texttt{SBase}!\texttt{AbstractNamedSBase}}%
+The interface \texttt{UniqueNamedSBase} markes all those elements whose
+identifier must be unique within the model, i.e., no other element within the
+model may have the same identifier. The identifiers of all instances of
+\texttt{NamedSBase} must be unique if these are defined. The Boolean method
+\texttt{isIdMandatory()} in \texttt{NamedSBase} indicates if an identifier must
+be defined for an element in order to create a valid SBML data structure. The
+only two elements with not-unique identifiers are
+\texttt{UnitDefinition}s\index{unit!UnitDefinition@\texttt{UnitDefinition}},
+whose identifiers exist in a separate namespace, and
+\texttt{LocalParameter}s\index{parameter!LocalParameter@\texttt{LocalParameter}},
+whose identifiers may shaddow the identifiers of global elements.
 
 Many SBML elements represent some quantitative value, which is associated with a
 unit. However, the value does not necessarily have to be defined explicitly. In
@@ -839,19 +896,26 @@ This section briefly introduces its most important additional capabilities.
 
 JSBML introduces the possibility to listen to change events in the life of an
 SBML document. To benefit from this advantage, simply let your class implement
-the interface \texttt{SBaseChangedListener}\index{event!\texttt{SBaseChangedListener}} and add it to the list of listeners in
-your instance of \texttt{SBMLDocument}\index{SBML!\texttt{SBMLDocument}}. You only have to implement three methods
+the interface
+\texttt{TreeNodeChangeListener}\index{event!\texttt{TreeNodeChangeListener}}
+and add it to the list of listeners in your instance of
+\texttt{SBMLDocument}\index{SBML!\texttt{SBMLDocument}}. You only have to
+implement three methods
 \begin{description}
- \item[\texttt{sbaseAdded(SBase sbase)}] This method notifies the listener that the given \texttt{SBase}\index{SBase@\texttt{SBase}}
-   has just been added to the \texttt{SBMLDocument}
- \item[\texttt{sbaseRemoved(SBase sbase)}] The \texttt{SBase} instance passed to this method is no
-   longer part of the \texttt{SBMLDocument} as it has just been removed.
- \item[\texttt{stateChanged(SBaseChangedEvent event)}] This method provides detailed information about some value
-   change within the \texttt{SBMLDocument}. The object passed to this method is
-   an \texttt{SBaseChangedEvent}\index{event!\texttt{SBaseChangedEvent}}, which provides information about the \texttt{SBase}\index{SBase@\texttt{SBase}}
-   that has been changed, its property whose value has been changed (this is a
-   \texttt{String}\index{String@\texttt{String}} representation of the name of the property), along with the
-   previous value and the new value.
+ \item[\texttt{nodeAdded(TreeNode sbase)}] This method notifies the listener
+ that the given \texttt{TreeNode}\index{TreeNode@\texttt{TreeNode}} has just
+ been added to the \texttt{SBMLDocument}
+ \item[\texttt{nodeRemoved(TreeNode sbase)}] The \texttt{TreeNode} instance
+ passed to this method is no longer part of the \texttt{SBMLDocument} as it has
+ just been removed.
+ \item[\texttt{propertyChange(PropertyChangeEvent event)}] This method provides
+ detailed information about some value change within the \texttt{SBMLDocument}.
+ The object passed to this method is an
+ \texttt{TreeNodeChangeEvent}\index{event!\texttt{TreeNodeChangeEvent}}, which
+ provides information about the \texttt{SBase}\index{SBase@\texttt{SBase}} that
+ has been changed, its property whose value has been changed (this is a
+ \texttt{String}\index{String@\texttt{String}} representation of the name of
+ the property), along with the previous value and the new value.
 \end{description}
 With the help of these methods, you can keep track of what your
 \texttt{SBMLDocument}\index{SBML!\texttt{SBMLDocument}} does at any time.
@@ -861,27 +925,30 @@ if he or she really wants to delete some element or to approve changes before
 making these persistent. Another idea of using this, would be to write log
 files\index{logging!log file} of the model\index{model} building process
 automatically. To this end, JSBML already provides the implementation
-\texttt{SimpleSBaseChangedListener},
-\index{event!\texttt{SimpleSBaseChangedListener}}%
+\texttt{SimpleTreeNodeChangeListener},
+\index{event!\texttt{SimpleTreeNodeChangeListener}}%
 which notifies a logger about each change.
 
-Note that the class \texttt{SBaseChangedEvent}
-\index{event!\texttt{SBaseChangedEvent}}%
-extends the class
+Note that the class
+\texttt{TreeNodeChangeEvent}\index{event!\texttt{TreeNodeChangeEvent}} extends
+the class
 \texttt{java.util.EventObject}\index{event!\texttt{EventObject}}
-and that the interface \texttt{SBaseChangedListener}
-\index{event!\texttt{SBaseChangedListener}}%
-\index{event!\texttt{SBaseChangedListener}}%
-extends the interface \texttt{EventListener}
-\index{event!\texttt{EventListener}}%
+and that the interface \texttt{TreeNodeChangeListener}%
+\index{event!\texttt{TreeNodeChangeListener}}%
+\index{event!\texttt{TreeNodeChangeListener}}
+extends the interface \texttt{EventListener}%
+\index{event!\texttt{EventListener}}
 in the \texttt{java.util} package. In this way, the event and listener data
-structures fit into the common Java\texttrademark{} API (Application Programming Interface)\index{application programming interface!Java} and
-allow users also to make use of, e.g., \texttt{EventHandler}s\index{event!\texttt{EventHandler}} to deal with
-changes in a model\index{model}. It should also be noted that \texttt{SBaseChangedListener}s
-only keep track of changes in instances of \texttt{SBase} directly. This means
-that changes inside of, e.g., \texttt{CVTerm}\index{annotation!\texttt{CVTerm}}
-or \texttt{History}\index{annotation!\texttt{History}} may not be
-traced with the current implementation.
+structures fit into the common Java\texttrademark{} API (Application
+Programming Interface)\index{application programming interface!Java} and allow
+users also to make use of, e.g.,
+\texttt{EventHandler}s\index{event!\texttt{EventHandler}} to deal with changes
+in a model\index{model}. It should also be noted that
+\texttt{TreeNodeChangeListener}s only keep track of changes in instances of
+\texttt{SBase} directly. This means that changes inside of, e.g.,
+\texttt{CVTerm}\index{annotation!\texttt{CVTerm}} or
+\texttt{History}\index{annotation!\texttt{History}} may not be traced with the
+current implementation.
 
 
 \subsection{Determination of the variable in \texttt{AlgebraicRule}s}
