@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml;
 
+import java.util.regex.Pattern;
+
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
@@ -385,6 +387,11 @@ public class Creator extends AnnotationElement {
 	 * @return {@link JSBML#OPERATION_SUCCESS}
 	 */
 	public int setEmail(String email) {
+	  final String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    if (!Pattern.matches(emailPattern, email)) {
+      throw new IllegalArgumentException(String.format(
+        "Invalid e-mail address %s", email));
+    }
 		String oldValue = this.email;
 		this.email = email;
 		this.firePropertyChange(TreeNodeChangeEvent.email, oldValue, email);

@@ -21,10 +21,9 @@ package org.sbml.jsbml.ext.groups;
 
 import java.util.Map;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
@@ -134,44 +133,62 @@ public class GroupModel extends AbstractSBasePlugin {
 		return false;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
+	 */
 	public GroupModel clone() {
 		// TODO 
 		return null;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		// TODO 
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public boolean readAttribute(String attributeName, String prefix, String value) {
 		// No attribute define on this plugin
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+	 */
 	public Map<String, String> writeXMLAttributes() {
 		// No attribute define on this plugin
 		return null;
 	}
 
-	public TreeNode getChildAt(int childIndex) {
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
+	 */
+	public SBase getChildAt(int childIndex) {
 		if (childIndex < 0 || childIndex >= 1) {
 			return null;
 		}
 		return listOfGroups;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildCount()
+	 */
 	public int getChildCount() {		
 		if (isSetListOfGroups()) {
 			return 1;
 		}
 		return 0;
-	}
-
-	public TreeNode getParent() {
-		return model;
 	}
 
   /* (non-Javadoc)

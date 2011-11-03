@@ -25,6 +25,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
@@ -66,7 +67,7 @@ public class FBAModel extends AbstractSBasePlugin {
 		return null;
 	}
 
-	public TreeNode getChildAt(int childIndex) {
+	public SBase getChildAt(int childIndex) {
 		return null;
 	}
 	public int getChildCount() {

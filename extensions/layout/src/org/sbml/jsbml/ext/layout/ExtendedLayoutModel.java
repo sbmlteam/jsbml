@@ -21,10 +21,9 @@ package org.sbml.jsbml.ext.layout;
 
 import java.util.Map;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
@@ -133,13 +132,21 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
     return true;
   }
 
-	public TreeNode getChildAt(int index) {
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
+   */
+	public SBase getChildAt(int index) {
 		if (isSetListOfLayouts() && (index == getChildCount() - 1)) {
 			return getListOfLayouts();
 		}
 		return null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildCount()
+	 */
 	public int getChildCount() {
 		int count = 0;
 		if (isSetListOfLayouts()) {
@@ -207,6 +214,10 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		model.setThisAsParentSBMLObject(listOfLayouts);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
@@ -230,6 +241,10 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+	 */
   public Map<String, String> writeXMLAttributes() {
 		return null;
 	}	
