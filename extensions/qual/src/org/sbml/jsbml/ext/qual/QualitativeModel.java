@@ -115,6 +115,49 @@ public class QualitativeModel extends AbstractSBasePlugin {
     }
     return count;
   }
+	
+	/**
+   * Creates a new {@link Transition} inside this {@link QualitativeModel} and returns it.
+   * <p>
+   * 
+   * @return the {@link Transition} object created
+   *         <p>
+   * @see #addTransition(Transition r)
+   */
+  public Transition createTransition() {
+    return createTransition(null);
+  }
+	
+	/**
+   * Creates a new {@link Transition} inside this {@link QualitativeModel} and returns it.
+   * 
+   * @param id
+   *        the id of the new element to create
+   * @return the {@link Transition} object created
+   */
+  public Transition createTransition(String id) {
+    Transition transition = new Transition(id);
+    addTransition(transition);
+    
+    return transition;
+  }
+  
+  public Transition createTransition(String id, Input in,
+    Output out) {
+    Transition transition = new Transition(id, in, out);
+    addTransition(transition);
+    
+    return transition;
+  }
+  
+
+  public Transition createTransition(String id, Sign sign, Input in,
+    Output out) {
+    Transition transition = new Transition(id, sign, in, out);
+    addTransition(transition);
+    
+    return transition;
+  }
 
 	/**
 	 * @return the listOfQualitativeSpecies
@@ -216,4 +259,5 @@ public class QualitativeModel extends AbstractSBasePlugin {
     }
     return false;
   }
+
 }

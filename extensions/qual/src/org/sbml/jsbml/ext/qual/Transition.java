@@ -25,6 +25,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.Reaction;
 
 /**
  * @author Nicolas Rodriguez
@@ -46,6 +47,26 @@ public class Transition extends AbstractNamedSBase {
   private ListOf<Output>       listOfOutputs;
   private ListOf<FunctionTerm> listOfFunctionTerms;
 
+  /**
+   * Creates a {@link Reaction} Transition from an id. 
+   * 
+   * @param id
+   */
+  public Transition(String id) {
+    super(id);
+  }
+  
+  public Transition(String id, Input in, Output out) {
+    this(id);
+    setSign(sign);
+    addInput(in);
+    addOutput(out);
+  }
+  
+  public Transition(String id, Sign sign, Input in, Output out) {
+    this(id, in, out);
+    setSign(sign);    
+  }
 
   /*
    * (non-Javadoc)

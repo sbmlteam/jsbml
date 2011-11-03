@@ -104,8 +104,7 @@ public class BuildToyModelTest {
     qModel.addQualitativeSpecies(g3);
 
     // ListOfTransitions
-    Transition tr_g1 = new Transition();
-    tr_g1.setId("tr_G1");
+    Transition tr_g1 = qModel.createTransition("tr_G1");
     
     //// ListOfInputs
     Input in0 = new Input();
