@@ -34,7 +34,6 @@ import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.qual.FunctionTerm;
 import org.sbml.jsbml.ext.qual.Input;
 import org.sbml.jsbml.ext.qual.Output;
-import org.sbml.jsbml.ext.qual.QualChangeEvent;
 import org.sbml.jsbml.ext.qual.QualList;
 import org.sbml.jsbml.ext.qual.QualitativeModel;
 import org.sbml.jsbml.ext.qual.QualitativeSpecies;
@@ -136,21 +135,18 @@ public class QualParser implements ReadingParser, WritingParser {
 			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) {
 
-		logger.debug("processAttribute\n");
+		// logger.debug("processAttribute -> " + prefix + " : " + attributeName + " = " + value + " (" + contextObject.getClass().getName() + ")");
 		
 		boolean isAttributeRead = false;
 
 		if (contextObject instanceof SBase) {
 
 			SBase sbase = (SBase) contextObject;
-			
-			logger.debug("processAttribute : level, version = " + sbase.getLevel() + ", " + sbase.getVersion());
 
 			try {
-				isAttributeRead = sbase.readAttribute(attributeName, prefix,
-						value);
+				isAttributeRead = sbase.readAttribute(attributeName, prefix, value);
 			} catch (Throwable exc) {
-				System.err.println(exc.getMessage());
+				logger.error(exc.getMessage());
 			}
 		} else if (contextObject instanceof Annotation) {
 			Annotation annotation = (Annotation) contextObject;
@@ -176,7 +172,7 @@ public class QualParser implements ReadingParser, WritingParser {
 		
 		// the basic qual elements don't have any text. SBML syntax
 		// error, throw an exception, log en error ?
-		logger.debug("processCharactersOf : the basic FBA elements don't have any text. " +
+		logger.debug("processCharactersOf : the basic qual elements don't have any text. " +
 				"SBML syntax error. characters lost = " + characters);
 	}
 
@@ -297,7 +293,9 @@ public class QualParser implements ReadingParser, WritingParser {
 		{
 			ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
-			if (elementName.equals("transition") && this.groupList.equals(QualList.listOfTransitions)) {
+			if (elementName.equals("transition")) { 
+				//  && this.groupList.equals(QualList.listOfTransitions) // the ListOf inside the transition elements made this test wrong
+				// if we want to have this kind of test, we would have to maintain a list of listOf type !
 				Model model = (Model) listOf.getParentSBMLObject();
 				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(namespaceURI); 
 				
@@ -305,7 +303,7 @@ public class QualParser implements ReadingParser, WritingParser {
 				extendeModel.addTransition(transition);
 				return transition;
 				
-			} else if (elementName.equals("qualitativeSpecies") && this.groupList.equals(QualList.listOfQualitativeSpecies)) {
+			} else if (elementName.equals("qualitativeSpecies")) { //  && this.groupList.equals(QualList.listOfQualitativeSpecies)
 				Model model = (Model) listOf.getParentSBMLObject();
 				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(namespaceURI); 
 				
@@ -337,10 +335,10 @@ public class QualParser implements ReadingParser, WritingParser {
 			} else if (elementName.equals("defaultTerm") && this.groupList.equals(QualList.listOfFunctionTerms)) {
 				Transition transition = (Transition) listOf.getParentSBMLObject();
 				
-//				FunctionTerm functionTerm = new FunctionTerm();
-//				transition.addFunctionTerm(functionTerm);
-//				return functionTerm;
-				// TODO 
+				FunctionTerm functionTerm = new FunctionTerm();
+				functionTerm.setDefaultTerm(true);
+				transition.addFunctionTerm(functionTerm);
+				return functionTerm;
 				
 			} else if (elementName.equals("symbolicValue") && this.groupList.equals(QualList.listOfSymbolicValues)) {
 				QualitativeSpecies qualSpecies = (QualitativeSpecies) listOf.getParentSBMLObject();
