@@ -73,36 +73,29 @@ public class Creator extends AnnotationElement {
 	 * givenName, organisation are null.
 	 */
 	public Creator() {
-		this(null, null, null, null);
+	  super();
+    this.givenName = null;
+    this.familyName = null;
+    this.organisation = null;
+    this.email = null;
+    // this.otherXMLInformation = null;
 	}
 	
 	/**
 	 * Creates a {@link Creator} instance from a given {@link Creator}.
 	 * 
-	 * @param modelCreator
+	 * @param creator
 	 */
-	public Creator(Creator modelCreator) {
-		if (modelCreator.isSetEmail()) {
-			this.email = new String(modelCreator.getEmail());
-		} else {
-			this.email = null;
-		}
-		if (modelCreator.isSetFamilyName()) {
-			this.familyName = new String(modelCreator.getFamilyName());
-		} else {
-			this.familyName = null;
-		}
-		if (modelCreator.isSetGivenName()) {
-			this.givenName = new String(modelCreator.getGivenName());
-		} else {
-			this.givenName = null;
-		}
-		if (modelCreator.isSetOrganisation()) {
-			this.organisation = new String(modelCreator.getOrganisation());
-		} else {
-			this.organisation = null;
-		}
-	}
+  public Creator(Creator creator) {
+    super(creator);
+    this.email = creator.isSetEmail() ? new String(creator.getEmail()) : null;
+    this.familyName = creator.isSetFamilyName() ? new String(
+      creator.getFamilyName()) : null;
+    this.givenName = creator.isSetGivenName() ? new String(
+      creator.getGivenName()) : null;
+    this.organisation = creator.isSetOrganisation() ? new String(
+      creator.getOrganisation()) : null;
+  }
 
 	/**
 	 * Creates a {@link Creator} instance. 
@@ -112,13 +105,14 @@ public class Creator extends AnnotationElement {
 	 * @param organization
 	 * @param email
 	 */
-	public Creator(String givenName, String familyName, String organization, String email) {
-		this.givenName = givenName;
-		this.familyName = familyName;
-		this.organisation = organization;
-		this.email = email;
-		// this.otherXMLInformation = null;
-	}
+  public Creator(String givenName, String familyName, String organization,
+    String email) {
+    this();
+    setGivenName(givenName);
+    setFamilyName(familyName);
+    setOrganization(organization);
+    setEmail(email);
+  }
 
 	/*
 	 * (non-Javadoc)
@@ -136,10 +130,10 @@ public class Creator extends AnnotationElement {
 	 * @param buffer
 	 */
 	private void createEMAILElement(String indent, StringBuffer buffer) {
-		if (isSetEmail()) {
-			buffer.append(indent).append("<vCard:EMAIL>").append(getEmail())
-					.append("</vCard:EMAIL> \n");
-		}
+    if (isSetEmail()) {
+      StringTools.append(buffer, indent, "<vCard:EMAIL>", getEmail(),
+        "</vCard:EMAIL>\n");
+    }
 	}
 
 	/**
@@ -148,24 +142,21 @@ public class Creator extends AnnotationElement {
 	 * @param indent
 	 * @param buffer
 	 */
-	private void createNElement(String indent, StringBuffer buffer) {
-
-		if (isSetFamilyName() || isSetGivenName()) {
-			buffer.append(indent).append("<vCard:N rdf:parseType=").append('"')
-					.append("Resource").append('"').append("> \n");
-			if (isSetFamilyName()) {
-				buffer.append(indent).append("  <vCard:Family>").append(
-						getFamilyName()).append("</vCard:Family> \n");
-			}
-
-			if (isSetGivenName()) {
-				buffer.append(indent).append("  <vCard:Given>").append(
-						getGivenName()).append("</vCard:Given> \n");
-			}
-			buffer.append(indent).append("</vCard:N> \n");
-		}
-
-	}
+  private void createNElement(String indent, StringBuffer buffer) {
+    if (isSetFamilyName() || isSetGivenName()) {
+      StringTools.append(buffer, indent,
+        "<vCard:N rdf:parseType=\"Resource\">\n");
+      if (isSetFamilyName()) {
+        StringTools.append(buffer, indent, "  <vCard:Family>", getFamilyName(),
+          "</vCard:Family>\n");
+      }
+      if (isSetGivenName()) {
+        StringTools.append(buffer, indent, "  <vCard:Given>", getGivenName(),
+          "</vCard:Given>\n");
+      }
+      StringTools.append(buffer, indent, "</vCard:N>\n");
+    }
+  }
 
 	/**
 	 * Writes the ORG element of the {@link Creator} in 'buffer'
@@ -174,12 +165,11 @@ public class Creator extends AnnotationElement {
 	 * @param buffer
 	 */
 	private void createOrGElement(String indent, StringBuffer buffer) {
-		if (isSetOrganisation()) {
-			buffer.append(indent).append("<vCard:OrG> \n");
-			buffer.append(indent).append("  <vCard:Orgname>").append(
-					getOrganisation()).append("</vCard:Orgname> \n");
-			buffer.append(indent).append("</vCard:OrG> \n");
-		}
+    if (isSetOrganization()) {
+      StringTools.append(buffer, indent, "<vCard:OrG>\n", indent,
+        "  <vCard:Orgname>", getOrganization(), "</vCard:Orgname>\n", indent,
+        "</vCard:OrG>\n");
+    }
 	}
 
 	/*
@@ -370,7 +360,6 @@ public class Creator extends AnnotationElement {
 	 */
 	public boolean readAttribute(String elementName, String attributeName,
 			String prefix, String value) {
-
 		if (elementName.equals("li") || elementName.equals("N")
 				|| elementName.equals("ORG")) {
 			if (attributeName.equals("parseType") && value.equals("Resource")) {
@@ -380,14 +369,33 @@ public class Creator extends AnnotationElement {
 		return false;
 	}
 
-	/**
-	 * Sets the email
-	 * 
-	 * @param email
-	 * @return {@link JSBML#OPERATION_SUCCESS}
-	 */
+
+  /**
+   * Sets the email if it follows the syntax rules of valid e-mail addresses
+   * according to 
+   * <a href="http://en.wikipedia.org/wiki/E-mail_address">http://en.wikipedia.org/wiki/E-mail_address</a>.
+   * 
+   * @param email
+   * @return {@link JSBML#OPERATION_SUCCESS}
+   */
 	public int setEmail(String email) {
-	  final String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+	  /*
+	   * ^                     # start of the line
+	   *   [_A-Za-z0-9-]+      # must start with string in the bracket [ ], must contains one or more (+)
+	   *   (                   # start of group #1
+	   *     \\.[_A-Za-z0-9-]+ # follow by a dot "." and string in the bracket [ ], must contains one or more (+)
+	   *   )*                  # end of group #1, this group is optional (*)
+	   *   @                   # must contains a "@" symbol
+	   *   [A-Za-z0-9-]+       # follow by string in the bracket [ ], must contains one or more (+)
+	   *   (                   # start of group #2 - first level TLD checking
+	   *     \\.[A-Za-z0-9-]+  # follow by a dot "." and string in the bracket [ ], must contains one or more (+)
+	   *   )*                  # end of group #2, this group is optional (*)
+	   *   (                   # start of group #3 - second level TLD checking
+	   *     \\.[A-Za-z]{2,}   # follow by a dot "." and string in the bracket [ ], with minimum length of 2
+	   *   )                   # end of group #3
+	   *$                      # end of the line
+	   */
+    final String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     if (!Pattern.matches(emailPattern, email)) {
       throw new IllegalArgumentException(String.format(
         "Invalid e-mail address %s", email));
@@ -490,7 +498,7 @@ public class Creator extends AnnotationElement {
 		createEMAILElement(indent + "  ", buffer);
 		createOrGElement(indent + "  ", buffer);
 		// createOtherElement(indent, buffer);
-		StringTools.append(buffer, indent, "</rdf:li>", StringTools.newLine());
+		StringTools.append(buffer, indent, "</rdf:li>\n");
 	}
 
 	/**

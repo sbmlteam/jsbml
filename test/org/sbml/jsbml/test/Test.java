@@ -24,8 +24,10 @@ import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.CVTerm;
+import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.Event;
 import org.sbml.jsbml.EventAssignment;
+import org.sbml.jsbml.History;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLDocument;
@@ -51,9 +53,16 @@ public class Test {
 	 */
 	public static void main(String[] args) throws XMLStreamException,
 			SBMLException, ParseException {
+	  	  
 		SBMLDocument doc = new SBMLDocument(2, 4);
 		doc.addTreeNodeChangeListener(new SimpleTreeNodeChangeListener());
 		Model model = doc.createModel("test_model");
+		
+    Creator c = new Creator("Hans", "Wurst",
+      "Institute for Interesting Biology", "ovidiu.radulescu@univ-rennes1.fr");
+    History h = new History();
+    h.addCreator(c);
+		model.setHistory(h);
 		
 		Parameter k1 = model.createParameter("k1");
 		Parameter k2 = model.createParameter("k2");
