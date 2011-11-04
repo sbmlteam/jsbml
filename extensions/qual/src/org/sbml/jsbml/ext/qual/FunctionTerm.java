@@ -21,6 +21,8 @@ package org.sbml.jsbml.ext.qual;
 
 import java.util.Map;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
@@ -231,6 +233,7 @@ public class FunctionTerm extends AbstractMathContainer {
 		TemporisationMath oldTM = this.temporisationMath;
 	  this.temporisationMath = temporisationMath;
 	  firePropertyChange(QualChangeEvent.temporisationMath, oldTM, this.temporisationMath);
+	  this.setThisAsParentSBMLObject(temporisationMath);
 	}
 
 	/**
@@ -246,6 +249,51 @@ public class FunctionTerm extends AbstractMathContainer {
 	  }
 	  
 	}
+	
+	
+	  /* (non-Javadoc)
+	   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	   */
+	  @Override
+	  public TreeNode getChildAt(int index) {
+	    if (index < 0) {
+	      throw new IndexOutOfBoundsException(index + " < 0");
+	    }
+	      
+	    int count = super.getChildCount();
+	    int pos = 0;
+
+	    if (index < count) {
+	      return super.getChildAt(index);
+	    } else {
+	      index -= count;
+	    }
+	    
+	    if (isSetTemporisationMath()) {
+	      if (pos == index) {
+	        return temporisationMath;
+	      }
+	      pos++;
+	    }
+	    throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+	        index, +((int) Math.min(pos, 0))));
+	  }
+
+
+	  /* (non-Javadoc)
+	   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	   */
+	  @Override
+	  public int getChildCount() {
+	    int count = super.getChildCount();;
+
+	    if (isSetTemporisationMath()) {
+	    	count++;
+	    }
+	    
+	    return count;
+	  }
+
 	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
