@@ -27,6 +27,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.xml.parsers.QualParser;
 import org.sbml.jsbml.Reaction;
 
@@ -548,10 +549,14 @@ public class Transition extends AbstractNamedSBase {
 	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
 	  if (!isAttributeRead && attributeName.equals(QualChangeEvent.temporisationType)) {
+		  try {
+			  setTemporisationType(TemporisationType.valueOf(value));  
+		  } catch (Exception e) {
+			  throw new SBMLException("Could not recognized the value '" + value + "' for the attribute " + QualChangeEvent.temporisationType);
+		  }
 		  isAttributeRead = true;
-		  setTemporisationType(TemporisationType.valueOf(attributeName));
 	  }	  
-	  
+
 	  return isAttributeRead;
   }
 

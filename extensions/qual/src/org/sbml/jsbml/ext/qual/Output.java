@@ -24,6 +24,7 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.parsers.QualParser;
 
@@ -261,7 +262,13 @@ public class Output extends AbstractNamedSBase {
 		  } else if (attributeName.equals(QualChangeEvent.level)) {
 			  setLevel(StringTools.parseSBMLInt(value));
 		  } else if (attributeName.equals(QualChangeEvent.transitionEffect)) {
-			  setTransitionEffect(OutputTransitionEffect.valueOf(value));
+			  try {
+				  setTransitionEffect(OutputTransitionEffect.valueOf(value));
+			  } catch (Exception e) {
+				  throw new SBMLException("Could not recognized the value '" + value + "' for the attribute " + 
+						  QualChangeEvent.transitionEffect + " on the 'output' element.");
+			  }
+
 		  } else {
 			  isAttributeRead = false;
 		  }
