@@ -71,35 +71,28 @@ public class Creator extends AnnotationElement {
 	 * givenName, organisation are null.
 	 */
 	public Creator() {
-		this(null, null, null, null);
+    super();
+    this.givenName = null;
+    this.familyName = null;
+    this.organisation = null;
+    this.email = null;
+    // this.otherXMLInformation = null;
 	}
 	
 	/**
 	 * Creates a {@link Creator} instance from a given {@link Creator}.
 	 * 
-	 * @param modelCreator
+	 * @param creator
 	 */
-	public Creator(Creator modelCreator) {
-		if (modelCreator.isSetEmail()) {
-			this.email = new String(modelCreator.getEmail());
-		} else {
-			this.email = null;
-		}
-		if (modelCreator.isSetFamilyName()) {
-			this.familyName = new String(modelCreator.getFamilyName());
-		} else {
-			this.familyName = null;
-		}
-		if (modelCreator.isSetGivenName()) {
-			this.givenName = new String(modelCreator.getGivenName());
-		} else {
-			this.givenName = null;
-		}
-		if (modelCreator.isSetOrganisation()) {
-			this.organisation = new String(modelCreator.getOrganisation());
-		} else {
-			this.organisation = null;
-		}
+	public Creator(Creator creator) {
+	  super(creator);
+    this.email = creator.isSetEmail() ? new String(creator.getEmail()) : null;
+    this.familyName = creator.isSetFamilyName() ? new String(
+      creator.getFamilyName()) : null;
+    this.givenName = creator.isSetGivenName() ? new String(
+      creator.getGivenName()) : null;
+    this.organisation = creator.isSetOrganisation() ? new String(
+      creator.getOrganisation()) : null;
 	}
 
 	/**
@@ -111,11 +104,11 @@ public class Creator extends AnnotationElement {
 	 * @param email
 	 */
 	public Creator(String givenName, String familyName, String organization, String email) {
-		this.givenName = givenName;
-		this.familyName = familyName;
-		this.organisation = organization;
-		this.email = email;
-		// this.otherXMLInformation = null;
+	  this();
+    setGivenName(givenName);
+    setFamilyName(familyName);
+    setOrganization(organization);
+    setEmail(email);
 	}
 
 	/*
