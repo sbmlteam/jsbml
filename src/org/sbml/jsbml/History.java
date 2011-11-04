@@ -76,25 +76,25 @@ public class History extends AnnotationElement {
 	/**
 	 * Creates a {@link History} instance from a given {@link History}.
 	 * 
-	 * @param modelHistory
+	 * @param history
 	 */
-	public History(History modelHistory) {
-		super(modelHistory);
+	public History(History history) {
+		super(history);
 		listOfCreators = new LinkedList<Creator>();
-		for (Creator c : modelHistory.getListOfCreators()) {
+		for (Creator c : history.getListOfCreators()) {
 			listOfCreators.add(c.clone());
 		}
 		listOfModification = new LinkedList<Date>();
-		for (Date d : modelHistory.getListOfModifiedDates()) {
+		for (Date d : history.getListOfModifiedDates()) {
 			listOfModification.add((Date) d.clone());
 		}
 		Calendar calendar = Calendar.getInstance();
-		if (modelHistory.isSetCreatedDate()) {
-			calendar.setTime(modelHistory.getCreatedDate());
+		if (history.isSetCreatedDate()) {
+			calendar.setTime(history.getCreatedDate());
 			creation = calendar.getTime();
 		}
-		if (modelHistory.isSetModifiedDate()) {
-			calendar.setTime(modelHistory.getModifiedDate());
+		if (history.isSetModifiedDate()) {
+			calendar.setTime(history.getModifiedDate());
 			modified = calendar.getTime();
 		}
 	}
