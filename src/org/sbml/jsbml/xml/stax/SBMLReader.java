@@ -47,9 +47,8 @@ import org.apache.log4j.Logger;
 import org.codehaus.stax2.evt.XMLEvent2;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Annotation;
-import org.sbml.jsbml.AssignmentRule;
+import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.JSBML;
-import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
@@ -389,8 +388,8 @@ public class SBMLReader {
 	public ASTNode readMathML(String mathML, TreeNodeChangeListener listener)
 		throws XMLStreamException	{
 		Object object = readXMLFromString(mathML, listener);		
-		if (object != null && object instanceof Rule) {
-			ASTNode math = ((Rule) object).getMath();			
+		if (object != null && object instanceof Constraint) {
+			ASTNode math = ((Constraint) object).getMath();			
 			if (math != null) {
 				return math;
 			}
@@ -419,10 +418,19 @@ public class SBMLReader {
 	public XMLNode readNotes(String notesXHTML, TreeNodeChangeListener listener)
 		throws XMLStreamException {
 		Object object = readXMLFromString(notesXHTML, listener);
-		if ((object != null) && (object instanceof Rule)) {
-			XMLNode notes = ((Rule) object).getNotes();
-			if (notes != null) {
-				return notes;
+		if ((object != null) && (object instanceof Constraint)) {
+			Constraint constraint = ((Constraint) object);
+			
+			if (constraint.isSetNotes()) {
+				XMLNode notes = constraint.getNotes();
+				if (notes != null) {
+					return notes;
+				}
+			} else if (constraint.isSetMessage()) {
+				XMLNode message = constraint.getMessage();
+				if (message != null) {
+					return message;
+				}
 			}
 		}
 		return null;
@@ -565,10 +573,10 @@ public class SBMLReader {
 					}
 					sbmlElements.push(sbmlDocument);
 				} else if (lastElement == null) {
-					// We put a fake element in the stack that can take either math or notes.
+					// We put a fake Constraint element in the stack that can take either math, notes or message.
 					// This a hack to be able to read some mathMl or notes by themselves.
 
-					if (currentNode.getLocalPart().equals("notes")) {
+					if (currentNode.getLocalPart().equals("notes") || currentNode.getLocalPart().equals("message")) {
 						
 						initializedParsers.put("", new SBMLCoreParser());
 						
@@ -584,8 +592,8 @@ public class SBMLReader {
 					// TODO : we need to be able, somehow, to set the Model element in the AssignmentRule
 					// to be able to have a fully functional parsing. Without it the functionDefinition, for examples, are
 					// not properly recognized.
-					AssignmentRule assignmentRule = new AssignmentRule();
-					sbmlElements.push(assignmentRule);
+					Constraint constraint = new Constraint(3,1);
+					sbmlElements.push(constraint);
 					
 				} else if (currentNode.getLocalPart().equals("annotation")) {
 
