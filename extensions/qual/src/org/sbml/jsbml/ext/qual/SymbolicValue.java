@@ -23,7 +23,9 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.parsers.QualParser;
 
@@ -35,7 +37,7 @@ import org.sbml.jsbml.xml.parsers.QualParser;
  * @since 1.0
  * @date 29.09.2011
  */
-public class SymbolicValue extends AbstractNamedSBase {
+public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBase{
 
   /**
    * Generated serial version identifier.
@@ -45,8 +47,26 @@ public class SymbolicValue extends AbstractNamedSBase {
 
   public SymbolicValue() {
 	super();
-	addNamespace(QualParser.getNamespaceURI());
+	initDefaults();
   }
+  
+  /**
+  * 
+  * @param level
+  * @param version
+  */
+ public SymbolicValue(int level, int version){
+   super(level, version);
+   if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
+     throw new LevelVersionError(getElementName(), level, version);
+   }
+   initDefaults();
+ }
+ 
+ public void initDefaults() {
+   addNamespace(QualParser.getNamespaceURI());
+   rank = null;
+ }
 
   public boolean isIdMandatory() {
     return true;

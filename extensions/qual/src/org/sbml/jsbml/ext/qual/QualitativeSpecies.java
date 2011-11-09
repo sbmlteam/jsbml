@@ -25,8 +25,12 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.parsers.QualParser;
 
@@ -37,7 +41,7 @@ import org.sbml.jsbml.xml.parsers.QualParser;
  * @since 1.0
  * @date 29.09.2011
  */
-public class QualitativeSpecies extends AbstractNamedSBase {
+public class QualitativeSpecies extends AbstractNamedSBase implements UniqueNamedSBase{
 
   // TODO : QualitativeSpecies id can be used in AssigmentRule or
   // EventAssignment variable attribute.
@@ -55,33 +59,62 @@ public class QualitativeSpecies extends AbstractNamedSBase {
   private static final long     serialVersionUID = -6048861420699176889L;
   private String                compartment;
   private Boolean               boundaryCondition;
-  private Boolean               constant;                                // TODO
-                                                                          // :
-                                                                          // extends/implements
-                                                                          // the
-                                                                          // jsbml
-                                                                          // interface
-                                                                          // that
-                                                                          // has
-                                                                          // the
-                                                                          // constant
-                                                                          // attribute.
+  private Boolean               constant;             // TODO: extends/implements the jsbml interface
+                                                      // that has the constant attribute.
   private Integer               initialLevel;
   private Integer               maxLevel;
   private ListOf<SymbolicValue> listOfSymbolicValues;
 
-
+  /**
+   * 
+   */
   public QualitativeSpecies() {
-	  super();
-	  addNamespace(QualParser.getNamespaceURI());
+    super();
+    initDefaults();
   }
   
+  /**
+   * 
+   * @param id
+   */
+  public QualitativeSpecies(String id) {
+    super(id);
+    initDefaults();
+  }
+  
+  /**
+   * 
+   * @param level
+   * @param version
+   */
+  public QualitativeSpecies(int level, int version){
+    super(level, version);
+    if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
+  }
+
+  public QualitativeSpecies(String id, boolean boundaryCondition,
+    String compartment, boolean constant) {
+    this(id);
+    setBoundaryCondition(boundaryCondition);
+    setCompartment(compartment);
+    setConstant(constant);
+  }
+
+  public void initDefaults() {
+    addNamespace(QualParser.getNamespaceURI());
+    boundaryCondition = null;
+    compartment = null;
+    constant = null;
+  }
+
   @Override
   public AbstractSBase clone() {
     return null;
   }
 
-  
 
   /**
    * @return true
@@ -128,14 +161,28 @@ public class QualitativeSpecies extends AbstractNamedSBase {
     firePropertyChange(QualChangeEvent.compartment, oldCompartment,
       this.compartment);
   }
+  
+  /**
+   * Sets the compartmentID of this {@link Species} to the id of
+   * 'compartment'.
+   * 
+   * @param compartment
+   */
+  public void setCompartment(Compartment compartment) {
+    if (compartment != null) {
+      setCompartment(compartment.getId());
+    } else {
+      unsetCompartment();
+    }
+  }
 
 
   /**
    * @return true if the unset of the compartment attribute was successful
    */
   public boolean unsetCompartment() {
-    if (compartment != null) {
-      setCompartment(null);
+    if (isSetCompartment()) {
+      this.compartment = null;
       return true;
     }
     return false;

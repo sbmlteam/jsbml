@@ -47,4 +47,5 @@
   <entry key="http://biomodels.net/model-qualifiers/">org.sbml.jsbml.xml.parsers.ModelQualifierParser</entry>
   <entry key="http://www.w3.org/1998/Math/MathML">org.sbml.jsbml.xml.parsers.MathMLStaxParser</entry>
   <entry key="anyAnnotation">org.sbml.jsbml.xml.parsers.AnnotationParser</entry>
+  <entry key="http://www.sbml.org/sbml/level3/version1/qual/version1">org.sbml.jsbml.xml.parsers.QualParser</entry> 
 </properties>
