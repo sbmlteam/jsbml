@@ -45,7 +45,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
   private static final long      serialVersionUID = -6392002023918667156L;
   private String                 qualitativeSpecies;
   private OutputTransitionEffect transitionEffect;
-  private Integer                level;
+  private Integer                outputLevel;
 
   public Output() {
 	  super();
@@ -74,7 +74,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
    addNamespace(QualParser.getNamespaceURI());
    qualitativeSpecies = null;
    transitionEffect = null;
-   level = null;   
+   outputLevel = null;   
  }
   
   @Override
@@ -185,44 +185,44 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
   /**
    * @return false
    */
-  public boolean isLevelMandatory() {
+  public boolean isOutputLevelMandatory() {
     return false;
   }
 
 
-  public boolean isSetLevel() {
-    return level != null;
+  public boolean isSetOutputLevel() {
+    return outputLevel != null;
   }
 
 
   /**
-   * @return the level
+   * @return the outputLevel
    */
-  public int getLevel() {
-    if (isSetLevel()) {
-      return level.intValue();
+  public int getOutputLevel() {
+    if (isSetOutputLevel()) {
+      return outputLevel.intValue();
     } else {
-      throw new PropertyUndefinedError(QualChangeEvent.level, this);
+      throw new PropertyUndefinedError(QualChangeEvent.outputLevel, this);
     }
   }
 
 
   /**
-   * @param level
+   * @param outputLevel
    *        the level to set
    */
-  public void setLevel(int level) {
-    Integer oldLevel = this.level;
-    this.level = level;
-    firePropertyChange(QualChangeEvent.level, oldLevel, this.level);
+  public void setOutputLevel(int level) {
+    Integer oldLevel = this.outputLevel;
+    this.outputLevel = level;
+    firePropertyChange(QualChangeEvent.level, oldLevel, this.outputLevel);
   }
 
 
-  public boolean unsetLevel() {
-    if (isSetLevel()) {
-      Integer oldLevel = this.level;
-      this.level = null;
-      firePropertyChange(QualChangeEvent.level, oldLevel, this.level);
+  public boolean unsetOutputLevel() {
+    if (isSetOutputLevel()) {
+      Integer oldLevel = this.outputLevel;
+      this.outputLevel = null;
+      firePropertyChange(QualChangeEvent.outputLevel, oldLevel, this.outputLevel);
       return true;
     } else {
       return false;
@@ -247,8 +247,8 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
       if (equals && isSetTransitionEffect()) {
         equals &= (o.getTransitionEffect().equals(getTransitionEffect()));
       }
-      equals &= o.isSetLevel() == isSetLevel();
-      if (equals && isSetLevel()) {
+      equals &= o.isSetOutputLevel() == isSetOutputLevel();
+      if (equals && isSetOutputLevel()) {
         equals &= o.getLevel()==getLevel();
       }
     }
@@ -270,7 +270,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
     if (isSetTransitionEffect()){
       hashCode += prime * getTransitionEffect().hashCode();
     }
-    if (isSetLevel()) {
+    if (isSetOutputLevel()) {
       hashCode += prime * getLevel();
     }
     return hashCode;
@@ -286,7 +286,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
 		  
 		  if (attributeName.equals(QualChangeEvent.qualitativeSpecies)) {
 			  setQualitativeSpecies(value);
-		  } else if (attributeName.equals(QualChangeEvent.level)) {
+		  } else if (attributeName.equals(QualChangeEvent.outputLevel)) {
 			  setLevel(StringTools.parseSBMLInt(value));
 		  } else if (attributeName.equals(QualChangeEvent.transitionEffect)) {
 			  try {
@@ -319,8 +319,8 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
 	  if (isSetQualitativeSpecies()) {
 		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.qualitativeSpecies, getQualitativeSpecies());
 	  }
-	  if (isSetLevel()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.level, Integer.toString(getLevel()));
+	  if (isSetOutputLevel()) {
+		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.outputLevel, Integer.toString(getOutputLevel()));
 	  }	  
 	  if (isSetTransitionEffect()) {
 		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.transitionEffect, getTransitionEffect().toString());

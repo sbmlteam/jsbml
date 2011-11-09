@@ -40,6 +40,7 @@ public class QualChangeEvent extends TreeNodeChangeEvent {
   
   public static final String initialLevel        = "initialLevel";
   public static final String maxLevel            = "maxLevel";
+  public static final String outputLevel         = "outputLevel";
   public static final String qualitativeSpecies  = "qualitativeSpecies";
   public static final String rank                = "rank";
   public static final String resultLevel         = "resultLevel";
