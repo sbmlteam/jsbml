@@ -432,7 +432,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   public ListOf<Input> getListOfInputs() {
     if (!isSetListOfInputs()) {
       listOfInputs = new ListOf<Input>();
-      listOfInputs.setSBaseListType(ListOf.Type.other);
+      listOfInputs.setSBaseListType(ListOf.Type.other); //TODO: vermutlich ist das der Fehler?
       listOfInputs.addNamespace(QualParser.getNamespaceURI());
       setThisAsParentSBMLObject(listOfInputs);
     }

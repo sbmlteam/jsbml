@@ -97,12 +97,19 @@ public class BuildToyModelTest {
     tr_g1.setTemporisationType(TemporisationType.priority);
     
     //// ListOfInputs
-    Input in0 = tr_g1.createInput(g0.getId(), InputTransitionEffect.consumption, Sign.dual);
-    Input in2 = tr_g1.createInput(g2.getId(), InputTransitionEffect.none);
-    Input in3 = tr_g1.createInput(g3.getId(), InputTransitionEffect.none);
+//    Input in0 = tr_g1.createInput(g0.getId(), InputTransitionEffect.consumption, Sign.dual); 
+//    Input in2 = tr_g1.createInput(g2.getId(), InputTransitionEffect.none);
+//    Input in3 = tr_g1.createInput(g3.getId(), InputTransitionEffect.none);
+    //TODO: it's not allowed to reference to the ids, is this due to the implements UniqueSBase?
+//    
+    Input in0 = tr_g1.createInput("i1", InputTransitionEffect.consumption, Sign.dual);
+    Input in2 = tr_g1.createInput("i2", InputTransitionEffect.none);
+    Input in3 = tr_g1.createInput("i3", InputTransitionEffect.none);
+    
     
     //// ListOfOutputs
-    Output out1 = tr_g1.createOutput(g1.getId(), OutputTransitionEffect.assignmentLevel);
+//    Output out1 = tr_g1.createOutput(g1.getId(), OutputTransitionEffect.assignmentLevel);
+    Output out1 = tr_g1.createOutput("o1", OutputTransitionEffect.assignmentLevel);
     
     //// ListOfFunctionTerms
     FunctionTerm defTerm = new FunctionTerm();
@@ -123,7 +130,8 @@ public class BuildToyModelTest {
     tr_g1.addFunctionTerm(defTerm);
     tr_g1.addFunctionTerm(ft1);
     
-    Transition tr2 = qModel.createTransition("tr2", Sign.negative, in3, out1);
+    Transition tr2 = qModel.createTransition("tr2", Sign.negative, in3, out1); 
+    // TODO: Problems with the versions
     
     try {
 		new SBMLWriter().write(sbmlDoc, "testQual.xml");
