@@ -25,11 +25,11 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.xml.parsers.QualParser;
-import org.sbml.jsbml.Reaction;
 
 /**
  * @author Nicolas Rodriguez
@@ -39,7 +39,7 @@ import org.sbml.jsbml.Reaction;
  * @since 1.0
  * @date 29.09.2011
  */
-public class Transition extends AbstractNamedSBase {
+public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 
   /**
    * Generated serial version identifier.
@@ -47,37 +47,54 @@ public class Transition extends AbstractNamedSBase {
   private static final long    serialVersionUID = 8343744362262634585L;
   private TemporisationType    temporisationType;
   
-  // TODO : the sign attribute seems to be on the Input class in the current specifications ??
-  private Sign                 sign;
+
   
   private ListOf<Input>        listOfInputs;
   private ListOf<Output>       listOfOutputs;
   private ListOf<FunctionTerm> listOfFunctionTerms;
 
   /**
-   * Creates a {@link Reaction} Transition from an id. 
+   * 
+   */
+  public Transition() {
+    super();
+    initDefaults();
+  }
+  
+  /**
    * 
    * @param id
    */
   public Transition(String id) {
     super(id);
+    initDefaults();
+  }
+  
+  /**
+   * 
+   * @param level
+   * @param version
+   */
+  public Transition(int level, int version){
+    super(level, version);
+    if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
   }
   
   public Transition(String id, Input in, Output out) {
     this(id);
-    setSign(sign);
     addInput(in);
     addOutput(out);
   }
   
-  public Transition(String id, Sign sign, Input in, Output out) {
-    this(id, in, out);
-    setSign(sign);    
-  }
-
-  public Transition() {
-	  super();
-	  addNamespace(QualParser.getNamespaceURI());
+  public void initDefaults() {
+    addNamespace(QualParser.getNamespaceURI());
+    temporisationType = null;
+    listOfFunctionTerms = null;
+    listOfInputs = null;
+    listOfOutputs = null;
   }
   
   /*
@@ -210,48 +227,6 @@ public class Transition extends AbstractNamedSBase {
   public boolean isSignMandatory() {
     return false;
   }
-
-
-  public boolean isSetSign() {
-    return sign != null;
-  }
-
-
-  /**
-   * @return the sign
-   */
-  public Sign getSign() {
-    if (isSetSign()) {
-      return sign;
-    } else {
-      throw new PropertyUndefinedError(QualChangeEvent.sign, this);
-    }
-  }
-
-
-  /**
-   * @param sign
-   *        the sign to set
-   */
-  public void setSign(Sign sign) {
-    Sign oldSign = this.sign;
-    this.sign = sign;
-    firePropertyChange(QualChangeEvent.sign, oldSign, this.sign);
-  }
-
-
-  /**
-   * @return true if unset the sign attribute was successful
-   */
-  public boolean unsetSign() {
-    if (isSetSign()) {
-      setSign(null);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
 
   /**
    * @return true
@@ -516,10 +491,6 @@ public class Transition extends AbstractNamedSBase {
       if (equals && isSetTemporisationType()) {
         equals &= (t.getTemporisationType().equals(getTemporisationType()));
       }
-      equals &= t.isSetSign() == isSetSign();
-      if (equals && isSetSign()) {
-        equals &= (t.getSign() == getSign());
-      }
     }
     return equals;
   }
@@ -536,9 +507,6 @@ public class Transition extends AbstractNamedSBase {
     if (isSetTemporisationType()) {
       hashCode += prime * getTemporisationType().hashCode();
     }
-    if (isSetSign()) {
-      hashCode += prime * getSign().hashCode();
-    }
     return hashCode;
   }
 
@@ -548,16 +516,18 @@ public class Transition extends AbstractNamedSBase {
   {
 	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
-	  if (!isAttributeRead && attributeName.equals(QualChangeEvent.temporisationType)) {
-		  try {
-			  setTemporisationType(TemporisationType.valueOf(value));  
-		  } catch (Exception e) {
-			  throw new SBMLException("Could not recognized the value '" + value + "' for the attribute " + QualChangeEvent.temporisationType);
-		  }
+	  if (!isAttributeRead) {
 		  isAttributeRead = true;
+		  
+		  if (attributeName.equals(QualChangeEvent.temporisationType)){
+		    setTemporisationType(TemporisationType.valueOf(attributeName));
+		  } else {
+		    isAttributeRead = false;
+		  }
 	  }	  
-
+	  
 	  return isAttributeRead;
+	  
   }
 
   @Override
@@ -578,6 +548,25 @@ public class Transition extends AbstractNamedSBase {
 
 	  
 	  return attributes;
+  }
+
+  public Output createOutput(String id, OutputTransitionEffect assignmentlevel) {
+    Output output = new Output(id, assignmentlevel);
+    addOutput(output);
+    return output;
+  }
+
+  public Input createInput(String id, InputTransitionEffect consumption) {
+    Input input = new Input(id, consumption);
+    addInput(input);
+    return input;
+  }
+
+  public Input createInput(String id, InputTransitionEffect consumption,
+    Sign sign) {
+    Input input = createInput(id, consumption);
+    input.setSign(sign);
+    return input;
   }
 
   

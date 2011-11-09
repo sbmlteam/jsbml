@@ -21,9 +21,11 @@ package org.sbml.jsbml.ext.qual;
 
 import java.util.Map;
 
+import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.xml.parsers.QualParser;
 
@@ -155,12 +157,76 @@ public class QualitativeModel extends AbstractSBasePlugin {
 
   public Transition createTransition(String id, Sign sign, Input in,
     Output out) {
-    Transition transition = new Transition(id, sign, in, out);
+    Transition transition = new Transition(id, in, out);
     addTransition(transition);
     
     return transition;
   }
 
+  /**
+   * Creates a new {@link QualitativeSpecies} inside this {@link QualitativeModel} and returns it.
+   * <p>
+   * 
+   * @return the {@link QualitativeSpecies} object created
+   *         <p>
+   * @see #addSpecies(QualitativeSpecies s)
+   */
+  public QualitativeSpecies createSpecies() {
+    return createSpecies(null);
+  }
+  
+  /**
+   * Creates a new {@link QualitativeSpecies} inside this {@link QualitativeModel} and returns it.
+   * 
+   * @param id
+   *        the id of the new element to create
+   * @return the {@link QualitativeSpecies} object created
+   */
+  public QualitativeSpecies createSpecies(String id) {
+    QualitativeSpecies species = new QualitativeSpecies(id);
+    addSpecies(species);
+    return species;
+  }
+  
+  /**
+   * Creates a new {@link QualitativeSpecies} inside this {@link QualitativeModel} and returns it.
+   * 
+   * @param id
+   *        the id of the new element to create
+   * @return the {@link QualitativeSpecies} object created
+   */
+  public QualitativeSpecies createSpecies(String id, boolean boundaryCondition, String compartment, boolean constant) {
+    QualitativeSpecies species = new QualitativeSpecies(id, boundaryCondition, compartment, constant);
+    addSpecies(species);
+    return species;
+  }
+  
+  /**
+   * Adds a Species instance to the listOfSpecies of this Model.
+   * 
+   * @param spec
+   * @return <code>true</code> if the {@link #listOfSpecies} was changed as a
+   *         result of this call.
+   */
+  public boolean addSpecies(QualitativeSpecies spec) {
+    return getListOfQualitativeSpecies().add(spec);
+  }
+  
+  /**
+   * Creates a new {@link Species} inside this {@link Model} and returns it.
+   * 
+   * @param id
+   *        the id of the new element to create
+   * @param c
+   *        the Compartment of the new {@link Species}
+   * @return the {@link Species} object created
+   */
+  public QualitativeSpecies createSpecies(String id, Compartment c) {
+    QualitativeSpecies s = createSpecies(id);
+    s.setCompartment(c);
+    return s;
+  }
+  
 	/**
 	 * @return the listOfQualitativeSpecies
 	 */

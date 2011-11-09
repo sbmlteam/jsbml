@@ -23,8 +23,10 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.parsers.QualParser;
 
@@ -35,7 +37,7 @@ import org.sbml.jsbml.xml.parsers.QualParser;
  * @since 1.0
  * @date 29.09.2011
  */
-public class Output extends AbstractNamedSBase {
+public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
 
   /**
    * Generated serial version identifier.
@@ -47,9 +49,34 @@ public class Output extends AbstractNamedSBase {
 
   public Output() {
 	  super();
-	  addNamespace(QualParser.getNamespaceURI());
+	  initDefaults();
   }
 
+  public Output(String id, OutputTransitionEffect assignmentlevel) {
+    super(id);
+    setTransitionEffect(assignmentlevel);
+  }
+
+  /**
+  * 
+  * @param level
+  * @param version
+  */
+ public Output(int level, int version){
+   super(level, version);
+   if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
+     throw new LevelVersionError(getElementName(), level, version);
+   }
+   initDefaults();
+ }
+ 
+ public void initDefaults() {
+   addNamespace(QualParser.getNamespaceURI());
+   qualitativeSpecies = null;
+   transitionEffect = null;
+   level = null;   
+ }
+  
   @Override
   public AbstractSBase clone() {
     return null;

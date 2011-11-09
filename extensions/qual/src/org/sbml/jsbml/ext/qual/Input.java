@@ -23,8 +23,10 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.parsers.QualParser;
 
@@ -36,7 +38,7 @@ import org.sbml.jsbml.xml.parsers.QualParser;
  * @since 1.0
  * @date 29.09.2011
  */
-public class Input extends AbstractNamedSBase {
+public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
 
   /**
    * Generated serial version identifier.
@@ -46,15 +48,87 @@ public class Input extends AbstractNamedSBase {
   private InputTransitionEffect transitionEffect;
   private Integer               thresholdLevel;
   private String                thresholdSymbol;
+  private Sign                  sign;
+
 
   public Input() {
-	  super();
-	  addNamespace(QualParser.getNamespaceURI());
+    super();
+    initDefaults();
   }
+
+
+  public Input(String id, InputTransitionEffect consumption) {
+    super(id);
+    setTransitionEffect(consumption);
+  }
+   
+  /**
+   * 
+   * @param level
+   * @param version
+   */
+  public Input(int level, int version){
+    super(level, version);
+    if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
+  }
+  
+  public void initDefaults() {
+    addNamespace(QualParser.getNamespaceURI());
+    qualitativeSpecies = null;
+    transitionEffect = null;
+    thresholdLevel = null;
+    thresholdSymbol = null;
+    sign = null;
+  }
+
 
   @Override
   public AbstractSBase clone() {
     return null;
+  }
+
+
+  /**
+   * @param sign
+   *        the sign to set
+   */
+  public void setSign(Sign sign) {
+    Sign oldSign = this.sign;
+    this.sign = sign;
+    firePropertyChange(QualChangeEvent.sign, oldSign, this.sign);
+  }
+
+
+  public boolean isSetSign() {
+    return sign != null;
+  }
+
+
+  /**
+   * @return the sign
+   */
+  public Sign getSign() {
+    if (isSetSign()) {
+      return sign;
+    } else {
+      throw new PropertyUndefinedError(QualChangeEvent.sign, this);
+    }
+  }
+
+
+  /**
+   * @return true if unset the sign attribute was successful
+   */
+  public boolean unsetSign() {
+    if (isSetSign()) {
+      setSign(null);
+      return true;
+    } else {
+      return false;
+    }
   }
 
 
@@ -217,8 +291,7 @@ public class Input extends AbstractNamedSBase {
     }
   }
 
-  
-  
+
   /**
    * @return false
    */
@@ -226,12 +299,14 @@ public class Input extends AbstractNamedSBase {
     return false;
   }
 
+
   /**
    * @return if thresholdSymbol attribute is set
    */
   public boolean isSetThresholdSymbol() {
     return thresholdSymbol != null;
   }
+
 
   /**
    * @return the thresholdSymbol
@@ -248,8 +323,10 @@ public class Input extends AbstractNamedSBase {
   public void setThresholdSymbol(String thresholdSymbol) {
     String oldSymbol = this.thresholdSymbol;
     this.thresholdSymbol = thresholdSymbol;
-    firePropertyChange(QualChangeEvent.thresholdSymbol, oldSymbol, this.thresholdSymbol);
+    firePropertyChange(QualChangeEvent.thresholdSymbol, oldSymbol,
+      this.thresholdSymbol);
   }
+
 
   /**
    * @return true if the unset of the thresholdSymbol attribute was successful
@@ -261,6 +338,7 @@ public class Input extends AbstractNamedSBase {
     }
     return false;
   }
+
 
   /*
    * (non-Javadoc)
@@ -281,15 +359,20 @@ public class Input extends AbstractNamedSBase {
       }
       equals &= i.isSetThresholdLevel() == isSetThresholdLevel();
       if (equals && isSetThresholdLevel()) {
-        equals &= i.getThresholdLevel()==getThresholdLevel();
+        equals &= i.getThresholdLevel() == getThresholdLevel();
       }
       equals &= i.isSetThresholdSymbol() == isSetThresholdSymbol();
       if (equals && isSetThresholdSymbol()) {
         equals &= i.getThresholdSymbol().equals(getThresholdSymbol());
       }
+      equals &= i.isSetSign() == isSetSign();
+      if (equals && isSetSign()) {
+        equals &= (i.getSign() == getSign());
+      }
     }
     return equals;
   }
+
 
   /*
    * (non-Javadoc)
@@ -305,71 +388,75 @@ public class Input extends AbstractNamedSBase {
     if (isSetTransitionEffect()) {
       hashCode += prime * getTransitionEffect().hashCode();
     }
-    if (isSetThresholdLevel()){
+    if (isSetThresholdLevel()) {
       hashCode += prime * getThresholdLevel();
     }
-    if (isSetThresholdSymbol()){
+    if (isSetThresholdSymbol()) {
       hashCode += prime * getThresholdSymbol().hashCode();
+    }
+    if (isSetSign()) {
+      hashCode += prime * getSign().hashCode();
     }
     return hashCode;
   }
 
+
   @Override
-	public boolean readAttribute(String attributeName, String prefix, String value) {
-	  
-	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(QualChangeEvent.qualitativeSpecies)) {
+        setQualitativeSpecies(value);
+      } else if (attributeName.equals(QualChangeEvent.thresholdLevel)) {
+        setThresholdLevel(StringTools.parseSBMLInt(value));
+      } else if (attributeName.equals(QualChangeEvent.thresholdSymbol)) {
+        setThresholdSymbol(value);
+      } else if (attributeName.equals(QualChangeEvent.sign)) {
+        setSign(Sign.valueOf(attributeName));
+      } else if (attributeName.equals(QualChangeEvent.transitionEffect)) {
+        try {
+          setTransitionEffect(InputTransitionEffect.valueOf(value));
+        } catch (Exception e) {
+          throw new SBMLException("Could not recognized the value '" + value
+            + "' for the attribute " + QualChangeEvent.transitionEffect
+            + " on the 'input' element.");
+        }
+      } else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
 
-	  if (!isAttributeRead) {
-		  isAttributeRead = true;
-		  
-		  if (attributeName.equals(QualChangeEvent.qualitativeSpecies)) {
-			  setQualitativeSpecies(value);
-		  } else if (attributeName.equals(QualChangeEvent.thresholdLevel)) {
-			  setThresholdLevel(StringTools.parseSBMLInt(value));
-		  } else if (attributeName.equals(QualChangeEvent.thresholdSymbol)) {
-			  setThresholdSymbol(value);
-		  } else if (attributeName.equals(QualChangeEvent.transitionEffect)) {
-			  try {
-				  setTransitionEffect(InputTransitionEffect.valueOf(value));
-			  } catch (Exception e) {
-				  throw new SBMLException("Could not recognized the value '" + value + "' for the attribute " + 
-						  QualChangeEvent.transitionEffect + " on the 'input' element.");
-			  }
 
-		  } else {
-			  isAttributeRead = false;
-		  }
-	  }
-	  
-	  return isAttributeRead;
-	}
-  
   @Override
-	public Map<String, String> writeXMLAttributes() {
-	  Map<String, String> attributes = super.writeXMLAttributes();
-
-	  if (isSetId()) {
-		  attributes.remove("id");
-		  attributes.put(QualParser.shortLabel+ ":id", getId());
-	  }
-	  if (isSetName()) {
-		  attributes.remove("name");
-		  attributes.put(QualParser.shortLabel+ ":name", getName());
-	  }
-	  if (isSetQualitativeSpecies()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.qualitativeSpecies, getQualitativeSpecies());
-	  }
-	  if (isSetThresholdLevel()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.thresholdLevel, Integer.toString(getThresholdLevel()));
-	  }	  
-	  if (isSetThresholdSymbol()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.thresholdSymbol, getThresholdSymbol());
-	  }
-	  if (isSetTransitionEffect()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.transitionEffect, getTransitionEffect().toString());
-	  }
-	  
-	  return attributes;
-	}
-  
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(QualParser.shortLabel + ":id", getId());
+    }
+    if (isSetName()) {
+      attributes.remove("name");
+      attributes.put(QualParser.shortLabel + ":name", getName());
+    }
+    if (isSetQualitativeSpecies()) {
+      attributes.put(QualParser.shortLabel + ":"
+        + QualChangeEvent.qualitativeSpecies, getQualitativeSpecies());
+    }
+    if (isSetThresholdLevel()) {
+      attributes.put(QualParser.shortLabel + ":"
+        + QualChangeEvent.thresholdLevel, Integer.toString(getThresholdLevel()));
+    }
+    if (isSetThresholdSymbol()) {
+      attributes.put(QualParser.shortLabel + ":"
+        + QualChangeEvent.thresholdSymbol, getThresholdSymbol());
+    }
+    if (isSetTransitionEffect()) {
+      attributes.put(QualParser.shortLabel + ":"
+        + QualChangeEvent.transitionEffect, getTransitionEffect().toString());
+    }
+    return attributes;
+  }
 }
