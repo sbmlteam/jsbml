@@ -192,7 +192,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
     if (isSetTemporisationType()) {
       return temporisationType;
     } else {
-      throw new PropertyUndefinedError(QualChangeEvent.temporisationType, this);
+      throw new PropertyUndefinedError(QualConstant.temporisationType, this);
     }
   }
 
@@ -204,7 +204,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   public void setTemporisationType(TemporisationType temporisationType) {
     TemporisationType oldType = this.temporisationType;
     this.temporisationType = temporisationType;
-    firePropertyChange(QualChangeEvent.temporisationType, oldType,
+    firePropertyChange(QualConstant.temporisationType, oldType,
       this.temporisationType);
   }
 
@@ -213,7 +213,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
     if (isSetTemporisationType()) {
       TemporisationType oldType = this.temporisationType;
       this.temporisationType = null;
-      firePropertyChange(QualChangeEvent.initialLevel, oldType,
+      firePropertyChange(QualConstant.initialLevel, oldType,
         this.temporisationType);
       return true;
     }
@@ -519,7 +519,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 	  if (!isAttributeRead) {
 		  isAttributeRead = true;
 		  
-		  if (attributeName.equals(QualChangeEvent.temporisationType)){
+		  if (attributeName.equals(QualConstant.temporisationType)){
 		    setTemporisationType(TemporisationType.valueOf(attributeName));
 		  } else {
 		    isAttributeRead = false;
@@ -543,7 +543,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 		  attributes.put(QualParser.shortLabel+ ":name", getName());
 	  }
 	  if (isSetTemporisationType()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.temporisationType, getTemporisationType().toString());
+		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.temporisationType, getTemporisationType().toString());
 	  }
 
 	  

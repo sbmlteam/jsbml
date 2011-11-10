@@ -80,7 +80,7 @@ public class FunctionTerm extends AbstractMathContainer {
     if (isSetResultLevel()) {
       return resultLevel.intValue();
     } else {
-      throw new PropertyUndefinedError(QualChangeEvent.resultLevel, this);
+      throw new PropertyUndefinedError(QualConstant.resultLevel, this);
     }
   }
 
@@ -92,7 +92,7 @@ public class FunctionTerm extends AbstractMathContainer {
   public void setResultLevel(int resultLevel) {
     Integer oldResultLevel = this.resultLevel;
     this.resultLevel = resultLevel;
-    firePropertyChange(QualChangeEvent.resultLevel, oldResultLevel, this.resultLevel);
+    firePropertyChange(QualConstant.resultLevel, oldResultLevel, this.resultLevel);
   }
 
 
@@ -100,7 +100,7 @@ public class FunctionTerm extends AbstractMathContainer {
     if (isSetResultLevel()) {
       Integer oldResultLevel = this.resultLevel;
       this.resultLevel = null;
-      firePropertyChange(QualChangeEvent.resultLevel, oldResultLevel, this.resultLevel);
+      firePropertyChange(QualConstant.resultLevel, oldResultLevel, this.resultLevel);
       return true;
     } else {
       return false;
@@ -142,7 +142,7 @@ public class FunctionTerm extends AbstractMathContainer {
     } else {
       this.resultSymbol = resultSymbol;
     }
-    firePropertyChange(QualChangeEvent.resultSymbol, oldresultSymbol,
+    firePropertyChange(QualConstant.resultSymbol, oldresultSymbol,
       this.resultSymbol);
   }
 
@@ -177,7 +177,7 @@ public class FunctionTerm extends AbstractMathContainer {
     if (isSetTemporisationValue()) {
       return temporisationValue.doubleValue();
     } else {
-      throw new PropertyUndefinedError(QualChangeEvent.temporisationValue, this);
+      throw new PropertyUndefinedError(QualConstant.temporisationValue, this);
     }
   }
 
@@ -189,7 +189,7 @@ public class FunctionTerm extends AbstractMathContainer {
   public void setTemporisationValue(double tempValue) {
     Double oldTempValue = this.temporisationValue;
     this.temporisationValue = tempValue;
-    firePropertyChange(QualChangeEvent.temporisationValue, oldTempValue, this.temporisationValue);
+    firePropertyChange(QualConstant.temporisationValue, oldTempValue, this.temporisationValue);
   }
 
 
@@ -197,7 +197,7 @@ public class FunctionTerm extends AbstractMathContainer {
     if (isSetResultLevel()) {
       Double oldTempValue = this.temporisationValue;
       this.temporisationValue = null;
-      firePropertyChange(QualChangeEvent.temporisationValue, oldTempValue, this.temporisationValue);
+      firePropertyChange(QualConstant.temporisationValue, oldTempValue, this.temporisationValue);
       return true;
     } else {
       return false;
@@ -222,7 +222,7 @@ public class FunctionTerm extends AbstractMathContainer {
 	  if(isSetTemporisationMath()){
 	    return temporisationMath;
 	  } else{
-	    throw new PropertyUndefinedError(QualChangeEvent.temporisationMath, this);
+	    throw new PropertyUndefinedError(QualConstant.temporisationMath, this);
 	  }
 	}
 
@@ -232,7 +232,7 @@ public class FunctionTerm extends AbstractMathContainer {
 	public void setTemporisationMath(TemporisationMath temporisationMath) {
 		TemporisationMath oldTM = this.temporisationMath;
 	  this.temporisationMath = temporisationMath;
-	  firePropertyChange(QualChangeEvent.temporisationMath, oldTM, this.temporisationMath);
+	  firePropertyChange(QualConstant.temporisationMath, oldTM, this.temporisationMath);
 	  this.setThisAsParentSBMLObject(temporisationMath);
 	}
 
@@ -372,11 +372,11 @@ public class FunctionTerm extends AbstractMathContainer {
 		if (!isAttributeRead) {
 			isAttributeRead = true;
 
-			if (attributeName.equals(QualChangeEvent.resultLevel)) {
+			if (attributeName.equals(QualConstant.resultLevel)) {
 				setResultLevel(StringTools.parseSBMLInt(value));
-			} else if (attributeName.equals(QualChangeEvent.resultSymbol)) {
+			} else if (attributeName.equals(QualConstant.resultSymbol)) {
 				setResultSymbol(value);
-			} else if (attributeName.equals(QualChangeEvent.temporisationValue)) {
+			} else if (attributeName.equals(QualConstant.temporisationValue)) {
 				setTemporisationValue(StringTools.parseSBMLDouble(value));
 			} else {
 				isAttributeRead = false;
@@ -391,13 +391,13 @@ public class FunctionTerm extends AbstractMathContainer {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetResultLevel()) {
-			attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.resultLevel, Integer.toString(getResultLevel()));
+			attributes.put(QualParser.shortLabel+ ":"+QualConstant.resultLevel, Integer.toString(getResultLevel()));
 		}	  
 		if (isSetResultSymbol()) {
-			attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.resultSymbol, getResultSymbol());
+			attributes.put(QualParser.shortLabel+ ":"+QualConstant.resultSymbol, getResultSymbol());
 		}
 		if (isSetTemporisationValue()) {
-			attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.temporisationValue, Double.toString(getTemporisationValue()));
+			attributes.put(QualParser.shortLabel+ ":"+QualConstant.temporisationValue, Double.toString(getTemporisationValue()));
 		}
 
 		return attributes;

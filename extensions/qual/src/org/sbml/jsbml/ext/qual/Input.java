@@ -98,7 +98,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
   public void setSign(Sign sign) {
     Sign oldSign = this.sign;
     this.sign = sign;
-    firePropertyChange(QualChangeEvent.sign, oldSign, this.sign);
+    firePropertyChange(QualConstant.sign, oldSign, this.sign);
   }
 
 
@@ -114,7 +114,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     if (isSetSign()) {
       return sign;
     } else {
-      throw new PropertyUndefinedError(QualChangeEvent.sign, this);
+      throw new PropertyUndefinedError(QualConstant.sign, this);
     }
   }
 
@@ -164,7 +164,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     if (isSetQualitativeSpecies()) {
       return qualitativeSpecies;
     } else {
-      throw new PropertyUndefinedError(QualChangeEvent.qualitativeSpecies, this);
+      throw new PropertyUndefinedError(QualConstant.qualitativeSpecies, this);
     }
   }
 
@@ -176,7 +176,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
   public void setQualitativeSpecies(String qualitativeSpecies) {
     String oldQualitativeSpecies = this.qualitativeSpecies;
     this.qualitativeSpecies = qualitativeSpecies;
-    firePropertyChange(QualChangeEvent.qualitativeSpecies,
+    firePropertyChange(QualConstant.qualitativeSpecies,
       oldQualitativeSpecies, this.qualitativeSpecies);
   }
 
@@ -213,7 +213,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     if (isSetTransitionEffect()) {
       return transitionEffect;
     } else {
-      throw new PropertyUndefinedError(QualChangeEvent.transitionEffect, this);
+      throw new PropertyUndefinedError(QualConstant.transitionEffect, this);
     }
   }
 
@@ -225,7 +225,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
   public void setTransitionEffect(InputTransitionEffect transitionEffect) {
     InputTransitionEffect oldTransitionEffect = this.transitionEffect;
     this.transitionEffect = transitionEffect;
-    firePropertyChange(QualChangeEvent.transitionEffect, oldTransitionEffect,
+    firePropertyChange(QualConstant.transitionEffect, oldTransitionEffect,
       this.transitionEffect);
   }
 
@@ -260,7 +260,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     if (isSetThresholdLevel()) {
       return thresholdLevel.intValue();
     }
-    throw new PropertyUndefinedError(QualChangeEvent.thresholdLevel, this);
+    throw new PropertyUndefinedError(QualConstant.thresholdLevel, this);
   }
 
 
@@ -271,7 +271,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
   public void setThresholdLevel(int thresholdLevel) {
     Integer oldThresholdLevel = this.thresholdLevel;
     this.thresholdLevel = thresholdLevel;
-    firePropertyChange(QualChangeEvent.thresholdLevel, oldThresholdLevel,
+    firePropertyChange(QualConstant.thresholdLevel, oldThresholdLevel,
       this.thresholdLevel);
   }
 
@@ -283,7 +283,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     if (isSetThresholdLevel()) {
       Integer oldThresholdLevel = this.thresholdLevel;
       this.thresholdLevel = null;
-      firePropertyChange(QualChangeEvent.thresholdLevel, oldThresholdLevel,
+      firePropertyChange(QualConstant.thresholdLevel, oldThresholdLevel,
         this.thresholdLevel);
       return true;
     } else {
@@ -323,7 +323,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
   public void setThresholdSymbol(String thresholdSymbol) {
     String oldSymbol = this.thresholdSymbol;
     this.thresholdSymbol = thresholdSymbol;
-    firePropertyChange(QualChangeEvent.thresholdSymbol, oldSymbol,
+    firePropertyChange(QualConstant.thresholdSymbol, oldSymbol,
       this.thresholdSymbol);
   }
 
@@ -406,20 +406,20 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
-      if (attributeName.equals(QualChangeEvent.qualitativeSpecies)) {
+      if (attributeName.equals(QualConstant.qualitativeSpecies)) {
         setQualitativeSpecies(value);
-      } else if (attributeName.equals(QualChangeEvent.thresholdLevel)) {
+      } else if (attributeName.equals(QualConstant.thresholdLevel)) {
         setThresholdLevel(StringTools.parseSBMLInt(value));
-      } else if (attributeName.equals(QualChangeEvent.thresholdSymbol)) {
+      } else if (attributeName.equals(QualConstant.thresholdSymbol)) {
         setThresholdSymbol(value);
-      } else if (attributeName.equals(QualChangeEvent.sign)) {
+      } else if (attributeName.equals(QualConstant.sign)) {
         setSign(Sign.valueOf(attributeName));
-      } else if (attributeName.equals(QualChangeEvent.transitionEffect)) {
+      } else if (attributeName.equals(QualConstant.transitionEffect)) {
         try {
           setTransitionEffect(InputTransitionEffect.valueOf(value));
         } catch (Exception e) {
           throw new SBMLException("Could not recognized the value '" + value
-            + "' for the attribute " + QualChangeEvent.transitionEffect
+            + "' for the attribute " + QualConstant.transitionEffect
             + " on the 'input' element.");
         }
       } else {
@@ -443,19 +443,19 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     }
     if (isSetQualitativeSpecies()) {
       attributes.put(QualParser.shortLabel + ":"
-        + QualChangeEvent.qualitativeSpecies, getQualitativeSpecies());
+        + QualConstant.qualitativeSpecies, getQualitativeSpecies());
     }
     if (isSetThresholdLevel()) {
       attributes.put(QualParser.shortLabel + ":"
-        + QualChangeEvent.thresholdLevel, Integer.toString(getThresholdLevel()));
+        + QualConstant.thresholdLevel, Integer.toString(getThresholdLevel()));
     }
     if (isSetThresholdSymbol()) {
       attributes.put(QualParser.shortLabel + ":"
-        + QualChangeEvent.thresholdSymbol, getThresholdSymbol());
+        + QualConstant.thresholdSymbol, getThresholdSymbol());
     }
     if (isSetTransitionEffect()) {
       attributes.put(QualParser.shortLabel + ":"
-        + QualChangeEvent.transitionEffect, getTransitionEffect().toString());
+        + QualConstant.transitionEffect, getTransitionEffect().toString());
     }
     return attributes;
   }
