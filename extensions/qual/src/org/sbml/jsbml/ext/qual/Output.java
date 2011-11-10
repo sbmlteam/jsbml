@@ -108,7 +108,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
     if (isSetQualitativeSpecies()) {
       return qualitativeSpecies;
     } else {
-      throw new PropertyUndefinedError(QualChangeEvent.qualitativeSpecies, this);
+      throw new PropertyUndefinedError(QualConstant.qualitativeSpecies, this);
     }
   }
 
@@ -120,7 +120,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
   public void setQualitativeSpecies(String qualitativeSpecies) {
     String oldQualitativeSpecies = this.qualitativeSpecies;
     this.qualitativeSpecies = qualitativeSpecies;
-    firePropertyChange(QualChangeEvent.qualitativeSpecies,
+    firePropertyChange(QualConstant.qualitativeSpecies,
       oldQualitativeSpecies, this.qualitativeSpecies);
   }
 
@@ -155,7 +155,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
     if (isSetTransitionEffect()) {
       return transitionEffect;
     } else {
-      throw new PropertyUndefinedError(QualChangeEvent.transitionEffect, this);
+      throw new PropertyUndefinedError(QualConstant.transitionEffect, this);
     }
   }
 
@@ -167,7 +167,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
   public void setTransitionEffect(OutputTransitionEffect transitionEffect) {
     OutputTransitionEffect oldTransitionEffect = this.transitionEffect;
     this.transitionEffect = transitionEffect;
-    firePropertyChange(QualChangeEvent.transitionEffect, oldTransitionEffect,
+    firePropertyChange(QualConstant.transitionEffect, oldTransitionEffect,
       this.transitionEffect);
   }
 
@@ -202,7 +202,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
     if (isSetOutputLevel()) {
       return outputLevel.intValue();
     } else {
-      throw new PropertyUndefinedError(QualChangeEvent.outputLevel, this);
+      throw new PropertyUndefinedError(QualConstant.outputLevel, this);
     }
   }
 
@@ -214,7 +214,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
   public void setOutputLevel(int level) {
     Integer oldLevel = this.outputLevel;
     this.outputLevel = level;
-    firePropertyChange(QualChangeEvent.level, oldLevel, this.outputLevel);
+    firePropertyChange(QualConstant.outputLevel, oldLevel, this.outputLevel);
   }
 
 
@@ -222,7 +222,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
     if (isSetOutputLevel()) {
       Integer oldLevel = this.outputLevel;
       this.outputLevel = null;
-      firePropertyChange(QualChangeEvent.outputLevel, oldLevel, this.outputLevel);
+      firePropertyChange(QualConstant.outputLevel, oldLevel, this.outputLevel);
       return true;
     } else {
       return false;
@@ -284,16 +284,16 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
 	  if (!isAttributeRead) {
 		  isAttributeRead = true;
 		  
-		  if (attributeName.equals(QualChangeEvent.qualitativeSpecies)) {
+		  if (attributeName.equals(QualConstant.qualitativeSpecies)) {
 			  setQualitativeSpecies(value);
-		  } else if (attributeName.equals(QualChangeEvent.outputLevel)) {
+		  } else if (attributeName.equals(QualConstant.outputLevel)) {
 			  setLevel(StringTools.parseSBMLInt(value));
-		  } else if (attributeName.equals(QualChangeEvent.transitionEffect)) {
+		  } else if (attributeName.equals(QualConstant.transitionEffect)) {
 			  try {
 				  setTransitionEffect(OutputTransitionEffect.valueOf(value));
 			  } catch (Exception e) {
 				  throw new SBMLException("Could not recognized the value '" + value + "' for the attribute " + 
-						  QualChangeEvent.transitionEffect + " on the 'output' element.");
+						  QualConstant.transitionEffect + " on the 'output' element.");
 			  }
 
 		  } else {
@@ -317,13 +317,13 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
 		  attributes.put(QualParser.shortLabel+ ":name", getName());
 	  }
 	  if (isSetQualitativeSpecies()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.qualitativeSpecies, getQualitativeSpecies());
+		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.qualitativeSpecies, getQualitativeSpecies());
 	  }
 	  if (isSetOutputLevel()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.outputLevel, Integer.toString(getOutputLevel()));
+		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.outputLevel, Integer.toString(getOutputLevel()));
 	  }	  
 	  if (isSetTransitionEffect()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.transitionEffect, getTransitionEffect().toString());
+		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.transitionEffect, getTransitionEffect().toString());
 	  }
 	  
 	  return attributes;

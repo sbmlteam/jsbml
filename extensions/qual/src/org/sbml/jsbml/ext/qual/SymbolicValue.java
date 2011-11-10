@@ -94,7 +94,7 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
     if (isSetRank()) {
       return rank.intValue();
     }
-    throw new PropertyUndefinedError(QualChangeEvent.rank, this);
+    throw new PropertyUndefinedError(QualConstant.rank, this);
   }
 
 
@@ -110,7 +110,7 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
   public void setRank(int rank) {
     Integer oldRank = this.rank;
     this.rank = rank;
-    firePropertyChange(QualChangeEvent.rank, oldRank, this.rank);
+    firePropertyChange(QualConstant.rank, oldRank, this.rank);
   }
 
 
@@ -121,7 +121,7 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
     if (isSetRank()) {
       Integer oldRank = this.rank;
       this.rank = null;
-      firePropertyChange(QualChangeEvent.rank, oldRank, this.rank);
+      firePropertyChange(QualConstant.rank, oldRank, this.rank);
       return true;
     } else {
       return false;
@@ -168,7 +168,7 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
 	  if (!isAttributeRead) {
 		  isAttributeRead = true;
 		  
-		  if (attributeName.equals(QualChangeEvent.rank)) {
+		  if (attributeName.equals(QualConstant.rank)) {
 			  setRank(StringTools.parseSBMLInt(value));
 		  } else {
 			  isAttributeRead = false;
@@ -191,7 +191,7 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
 		  attributes.put(QualParser.shortLabel+ ":name", getName());
 	  }
 	  if (isSetRank()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualChangeEvent.rank, Integer.toString(getRank()));
+		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.rank, Integer.toString(getRank()));
 	  }	  
 	  
 	  return attributes;
