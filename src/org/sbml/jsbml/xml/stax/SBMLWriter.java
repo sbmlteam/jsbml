@@ -481,7 +481,7 @@ public class SBMLWriter {
 	public void write(SBMLDocument sbmlDocument, OutputStream stream,
 			String programName, String programVersion)
 			throws XMLStreamException, SBMLException {
-		if (!sbmlDocument.isSetOutputLevel() || !sbmlDocument.isSetVersion()) {
+		if (!sbmlDocument.isSetLevel() || !sbmlDocument.isSetVersion()) {
 			throw new IllegalArgumentException(
 					"Unable to write SBML output for documents with undefined SBML Level and Version flag.");
 		}
