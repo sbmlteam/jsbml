@@ -415,7 +415,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   public void setListOfSymbolicValues(ListOf<SymbolicValue> los) {
     unsetListOfSymbolicValues();
     this.listOfSymbolicValues = los;
-    setThisAsParentSBMLObject(this.listOfSymbolicValues);
+    registerChild(this.listOfSymbolicValues);
   }
 
 
@@ -438,7 +438,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
       this.listOfSymbolicValues = new ListOf<SymbolicValue>();
       listOfSymbolicValues.setSBaseListType(ListOf.Type.other);
       listOfSymbolicValues.addNamespace(QualParser.getNamespaceURI());
-      setThisAsParentSBMLObject(listOfSymbolicValues);
+      registerChild(listOfSymbolicValues);
 
     }
     return this.listOfSymbolicValues;

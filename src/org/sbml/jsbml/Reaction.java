@@ -123,17 +123,17 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		if (reaction.isSetListOfReactants()) {
 			this.listOfReactants = (ListOf<SpeciesReference>) reaction
 					.getListOfReactants().clone();
-			setThisAsParentSBMLObject(listOfReactants);
+			registerChild(listOfReactants);
 		}
 		if (reaction.isSetListOfProducts()) {
 			this.listOfProducts = (ListOf<SpeciesReference>) reaction
 					.getListOfProducts().clone();
-			setThisAsParentSBMLObject(listOfProducts);
+			registerChild(listOfProducts);
 		}
 		if (reaction.isSetListOfModifiers()) {
 			this.listOfModifiers = (ListOf<ModifierSpeciesReference>) reaction
 					.getListOfModifiers().clone();
-			setThisAsParentSBMLObject(listOfModifiers);
+			registerChild(listOfModifiers);
 		}
 		if (reaction.isSetReversible()) {
 			setReversible(new Boolean(reaction.getReversible()));
@@ -1203,7 +1203,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	public void setKineticLaw(KineticLaw kineticLaw) {
 		unsetKineticLaw();
 		this.kineticLaw = kineticLaw;
-		setThisAsParentSBMLObject(this.kineticLaw);
+		registerChild(this.kineticLaw);
 	}
 
 	/**
@@ -1218,7 +1218,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		if ((this.listOfModifiers != null) && (this.listOfModifiers.getSBaseListType() != ListOf.Type.listOfModifiers)) {
 			this.listOfModifiers.setSBaseListType(ListOf.Type.listOfModifiers);
 		}
-		setThisAsParentSBMLObject(this.listOfModifiers);
+		registerChild(this.listOfModifiers);
 	}
 
 	/**
@@ -1233,7 +1233,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		if ((this.listOfProducts != null) && (this.listOfProducts.getSBaseListType() != ListOf.Type.listOfProducts)) {
 			this.listOfProducts.setSBaseListType(ListOf.Type.listOfProducts);
 		}
-		setThisAsParentSBMLObject(this.listOfProducts);
+		registerChild(this.listOfProducts);
 	}
 
 	/**
@@ -1248,7 +1248,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		if ((this.listOfReactants != null) && (this.listOfReactants.getSBaseListType() != ListOf.Type.listOfReactants)) {
 			this.listOfReactants.setSBaseListType(ListOf.Type.listOfReactants);
 		}
-		setThisAsParentSBMLObject(this.listOfReactants);
+		registerChild(this.listOfReactants);
 	}
 
 	/**

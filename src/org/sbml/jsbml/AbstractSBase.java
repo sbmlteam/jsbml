@@ -1401,33 +1401,41 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setThisAsParentSBMLObject(org.sbml.jsbml.SBase)
 	 */
+	@Deprecated
 	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError {
-    if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
-      SBMLDocument doc = getSBMLDocument();
-      if (doc != null) {
-        /*
-         * In case that sbase did not have access to the document we
-         * have to recursively check the metaId property.
-         */
-        doc.registerMetaIds(sbase, (sbase.getSBMLDocument() == null)
-                                   && (sbase instanceof AbstractSBase), false);
-      }
-      Model model = getModel();
-      if ((model != null)
-        && !model.registerIds(this, sbase, sbase.getModel() != model, false)) {
-        throw new IllegalArgumentException(String.format("Cannot register %s.",
-          sbase.getElementName()));
-      }
-      sbase.addAllChangeListeners(getListOfTreeNodeChangeListeners());
-      if (sbase instanceof AbstractSBase) {
-        ((AbstractSBase) sbase).parent = this;
-        sbase.fireNodeAddedEvent();
-      } else {
-        sbase.setParentSBML(this);
-      }
-    }
+	  registerChild(sbase);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#registerChild(org.sbml.jsbml.SBase)
+	 */
+	public void registerChild(SBase sbase) throws LevelVersionError {
+	  if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
+	    SBMLDocument doc = getSBMLDocument();
+	    if (doc != null) {
+	      /*
+	       * In case that sbase did not have access to the document we
+	       * have to recursively check the metaId property.
+	       */
+	      doc.registerMetaIds(sbase, (sbase.getSBMLDocument() == null)
+	        && (sbase instanceof AbstractSBase), false);
+	    }
+	    Model model = getModel();
+	    if ((model != null)
+	        && !model.registerIds(this, sbase, sbase.getModel() != model, false)) {
+	      throw new IllegalArgumentException(String.format("Cannot register %s.",
+	        sbase.getElementName()));
+	    }
+	    sbase.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+	    if (sbase instanceof AbstractSBase) {
+	      ((AbstractSBase) sbase).parent = this;
+	      sbase.fireNodeAddedEvent();
+	    } else {
+	      sbase.setParentSBML(this);
+	    }
+	  }
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setThisAsParentSBMLObject(org.sbml.jsbml.SBase)
