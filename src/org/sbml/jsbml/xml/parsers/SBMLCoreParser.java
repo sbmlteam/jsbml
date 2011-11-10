@@ -1051,17 +1051,17 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 										ListOf.Type.listOfLocalParameters)
 								&& kineticLaw.getLevel() >= 3) {
 							LocalParameter localParameter = (LocalParameter) newContextObject;
-							kineticLaw.addParameter(localParameter);
+							kineticLaw.addLocalParameter(localParameter);
 
 							return localParameter;
 						} else if (elementName.equals("parameter")
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfLocalParameters)
-								&& kineticLaw.isSetOutputLevel()
+								&& kineticLaw.isSetLevel()
 								&& kineticLaw.getLevel() < 3) {
 							LocalParameter localParameter = new LocalParameter(
 									(Parameter) newContextObject);
-							kineticLaw.addParameter(localParameter);
+							kineticLaw.addLocalParameter(localParameter);
 
 							return localParameter;
 						} else {
@@ -1167,7 +1167,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 						return listOfLocalParameters;
 					} else if (elementName.equals("listOfParameters")
-							&& kineticLaw.isSetOutputLevel() && kineticLaw.getLevel() < 3) {
+							&& kineticLaw.isSetLevel() && kineticLaw.getLevel() < 3) {
 						ListOf<LocalParameter> listOfLocalParameters = (ListOf<LocalParameter>) newContextObject;
 						kineticLaw.setListOfLocalParameters(listOfLocalParameters);
 						listOfLocalParameters.setSBaseListType(ListOf.Type.listOfLocalParameters);
