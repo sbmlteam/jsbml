@@ -46,27 +46,58 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
   private Integer           rank;
 
   public SymbolicValue() {
-	super();
-	initDefaults();
+  	super();
+  	initDefaults();
   }
   
+  /**
+   * @param id
+   */
+  public SymbolicValue(String id) {
+    super(id);
+    initDefaults();
+  }
+
   /**
   * 
   * @param level
   * @param version
   */
  public SymbolicValue(int level, int version){
-   super(level, version);
-   if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
-     throw new LevelVersionError(getElementName(), level, version);
-   }
-   initDefaults();
+   this(null, null, level, version);
  }
  
- public void initDefaults() {
-   addNamespace(QualParser.getNamespaceURI());
-   rank = null;
- }
+ 
+ 
+ /**
+   * @param id
+   * @param level
+   * @param version
+   */
+  public SymbolicValue(String id, int level, int version) {
+    this(id, null, level, version);
+  }
+
+  /**
+   * @param id
+   * @param name
+   * @param level
+   * @param version
+   */
+  public SymbolicValue(String id, String name, int level, int version) {
+    super(id, name, level, version);
+    // TODO: replace level/version check with call to helper method
+    if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
+  }
+
+  
+  public void initDefaults() {
+     addNamespace(QualParser.getNamespaceURI());
+     rank = null;
+  }
 
   public boolean isIdMandatory() {
     return true;

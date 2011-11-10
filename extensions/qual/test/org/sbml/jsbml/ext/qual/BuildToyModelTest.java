@@ -68,23 +68,23 @@ public class BuildToyModelTest {
     comp1.setConstant(true);
     
     // ListOfQualitativeSpecies
-    QualitativeSpecies g0 = qModel.createSpecies("GO", true, comp1.getName(), false);
+    QualitativeSpecies g0 = qModel.createQualitativeSpecies("GO", true, comp1.getName(), false);
     g0.setName("");
     g0.setMaxLevel(1);
     g0.setInitialLevel(0);
     
-    QualitativeSpecies g1 = qModel.createSpecies("G1", false, comp1.getName(), false);
+    QualitativeSpecies g1 = qModel.createQualitativeSpecies("G1", false, comp1.getName(), false);
     g1.setName("G1 name");
     g1.setMaxLevel(3);
     g1.setInitialLevel(1);
 
 
-    QualitativeSpecies g2 = qModel.createSpecies("G2", false, comp1.getName(), false);
+    QualitativeSpecies g2 = qModel.createQualitativeSpecies("G2", false, comp1.getName(), false);
     g2.setName("");
     g2.setMaxLevel(2);
     g2.setInitialLevel(2);
 
-    QualitativeSpecies g3 = qModel.createSpecies("G3", false, comp1.getName(), true);
+    QualitativeSpecies g3 = qModel.createQualitativeSpecies("G3", false, comp1.getName(), true);
     g3.setName("");
     g3.setMaxLevel(1);
     g3.setInitialLevel(1);
@@ -94,9 +94,10 @@ public class BuildToyModelTest {
     tr_g1.setTemporisationType(TemporisationType.priority);
     
     //// ListOfInputs
-    Input in0 = tr_g1.createInput(g0.getId(), InputTransitionEffect.consumption, Sign.dual); 
-    Input in2 = tr_g1.createInput(g2.getId(), InputTransitionEffect.none);
-    Input in3 = tr_g1.createInput(g3.getId(), InputTransitionEffect.none);
+    Input in0 = tr_g1.createInput("in0", g0, InputTransitionEffect.consumption);
+    in0.setSign(Sign.dual);
+    Input in2 = tr_g1.createInput("in2", g2, InputTransitionEffect.none);
+    Input in3 = tr_g1.createInput(g3, InputTransitionEffect.none);
     //TODO: it's not allowed to reference to the ids, is this due to the implements UniqueSBase?
 //    
 //    Input in0 = tr_g1.createInput("i1", InputTransitionEffect.consumption, Sign.dual);
@@ -105,8 +106,7 @@ public class BuildToyModelTest {
     
     
     //// ListOfOutputs
-//    Output out1 = tr_g1.createOutput(g1.getId(), OutputTransitionEffect.assignmentLevel);
-    Output out1 = tr_g1.createOutput("o1", OutputTransitionEffect.assignmentLevel);
+    Output out1 = tr_g1.createOutput("o1", g1, OutputTransitionEffect.assignmentLevel);
     
     //// ListOfFunctionTerms
     FunctionTerm defTerm = new FunctionTerm();

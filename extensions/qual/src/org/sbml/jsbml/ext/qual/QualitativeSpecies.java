@@ -88,7 +88,25 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    * @param version
    */
   public QualitativeSpecies(int level, int version){
-    this(null, level, version);
+    this(null, null, level, version);
+  }
+
+  public QualitativeSpecies(String id, int level, int version) {
+    this(id, null, level, version);
+  }
+
+  /**
+   * @param id
+   * @param level
+   * @param version
+   */
+  public QualitativeSpecies(String id, String name, int level, int version) {
+    super(id, name, level, version);
+    // TODO: replace level/version check with call to helper method
+    if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
   }
 
   public QualitativeSpecies(String id, boolean boundaryCondition,
@@ -99,18 +117,6 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     setConstant(constant);
   }
 
-  /**
-   * @param id
-   * @param level
-   * @param version
-   */
-  public QualitativeSpecies(String id, int level, int version) {
-    super(id, level, version);
-    if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
-      throw new LevelVersionError(getElementName(), level, version);
-    }
-    initDefaults();
-  }
 
   public void initDefaults() {
     addNamespace(QualParser.getNamespaceURI());
@@ -435,7 +441,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    */
   public ListOf<SymbolicValue> getListOfSymbolicValues() {
     if (!isSetListOfSymbolicValues()) {
-      this.listOfSymbolicValues = new ListOf<SymbolicValue>();
+      this.listOfSymbolicValues = new ListOf<SymbolicValue>(getLevel(), getVersion());
       listOfSymbolicValues.setSBaseListType(ListOf.Type.other);
       listOfSymbolicValues.addNamespace(QualParser.getNamespaceURI());
       registerChild(listOfSymbolicValues);

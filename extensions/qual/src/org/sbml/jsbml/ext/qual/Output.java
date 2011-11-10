@@ -52,9 +52,25 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
 	  initDefaults();
   }
 
-  public Output(String id, OutputTransitionEffect assignmentlevel) {
+  /**
+   * @param id
+   */
+  public Output(String id) {
     super(id);
-    setTransitionEffect(assignmentlevel);
+    initDefaults();
+  }
+  
+  /**
+   * @param qualitativeSpecies
+   */
+  public Output(QualitativeSpecies qualitativeSpecies, OutputTransitionEffect transitionEffect) {
+    this(null, qualitativeSpecies, transitionEffect);
+  }
+
+  public Output(String id, QualitativeSpecies qualitativeSpecies, OutputTransitionEffect transitionEffect) {
+    this(id);
+    setQualitativeSpecies(qualitativeSpecies.getId());
+    setTransitionEffect(transitionEffect);
   }
 
   /**
@@ -63,19 +79,42 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
   * @param version
   */
  public Output(int level, int version){
-   super(level, version);
-   if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
-     throw new LevelVersionError(getElementName(), level, version);
-   }
-   initDefaults();
+   this(null, null, level, version);
  }
  
- public void initDefaults() {
-   addNamespace(QualParser.getNamespaceURI());
-   qualitativeSpecies = null;
-   transitionEffect = null;
-   outputLevel = null;   
- }
+ 
+ 
+ /**
+   * @param id
+   * @param level
+   * @param version
+   */
+  public Output(String id, int level, int version) {
+    this(id, null, level, version);
+  }
+
+  /**
+   * @param id
+   * @param name
+   * @param level
+   * @param version
+   */
+  public Output(String id, String name, int level, int version) {
+    super(id, name, level, version);
+    // TODO: replace level/version check with call to helper method
+    if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
+  }
+
+
+  public void initDefaults() {
+     addNamespace(QualParser.getNamespaceURI());
+     qualitativeSpecies = null;
+     transitionEffect = null;
+     outputLevel = null;   
+   }
   
   @Override
   public AbstractSBase clone() {
