@@ -156,24 +156,6 @@ public class QualitativeModel extends AbstractSBasePlugin {
 
 
   /**
-   * 
-   * @param id
-   * @param sign
-   * @param in
-   * @param out
-   * @return
-   */
-  public Transition createTransition(String id, Sign sign, Input in,
-    Output out) {
-    Transition transition = new Transition(id, getModel().getLevel(),
-      getModel().getVersion());
-    transition.addInput(in);
-    transition.addOutput(out);
-    addTransition(transition);    
-    return transition;
-  }
-
-  /**
    * Creates a new {@link QualitativeSpecies} inside this {@link QualitativeModel} and returns it.
    * <p>
    * 

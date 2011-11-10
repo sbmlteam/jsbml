@@ -559,33 +559,40 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
-  public Output createOutput(String id, QualitativeSpecies qualitativeSpecies,
-      OutputTransitionEffect transitionEffect) {
-    Output output = new Output(id, qualitativeSpecies, transitionEffect);
+  public Output createOutput() {
+    return createOutput(null);
+  }
+  
+  public Output createOutput(String id) {
+    Output output = new Output(id);
     addOutput(output);
     return output;
   }
+  
+  public Output createOutput(String id, QualitativeSpecies qualitativeSpecies,
+      OutputTransitionEffect transitionEffect) {
+    Output output = createOutput(id);
+    output.setQualitativeSpecies(qualitativeSpecies.getId());
+    output.setTransitionEffect(transitionEffect);
+    return output;
+  }
 
-
-  public Input createInput(String id, QualitativeSpecies qualitativeSpecies,
-    InputTransitionEffect transitionEffect) {
-    Input input = new Input(id, qualitativeSpecies, transitionEffect);
+  public Input createInput() {
+    return createInput(null);
+  }
+  
+  public Input createInput(String id) {
+    Input input = new Input(id);
     addInput(input);
     return input;
   }
-
-
-  public Input createInput(QualitativeSpecies qs) {
-    Input input = createInput(null, qs.getId(), qs.getLevel(), qs.getVersion());
+  
+  public Input createInput(String id, QualitativeSpecies qualitativeSpecies,
+    InputTransitionEffect transitionEffect) {
+    Input input = createInput(id);
+    input.setQualitativeSpecies(qualitativeSpecies.getId());
+    input.setTransitionEffect(transitionEffect);
     return input;
-  }
-
-  public Input createInput(String id, String qualitativeSpecies, int level, int version) {
-    Input input = new Input(level, version);
-    input.setId(id);
-    input.setQualitativeSpecies(qualitativeSpecies);
-    getListOfInputs().add(input);
-    return null;
   }
   
 }

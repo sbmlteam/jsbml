@@ -68,8 +68,7 @@ public class BuildToyModelTest {
     comp1.setConstant(true);
     
     // ListOfQualitativeSpecies
-    QualitativeSpecies g0 = qModel.createQualitativeSpecies("GO", true, comp1.getName(), false);
-    g0.setName("");
+    QualitativeSpecies g0 = qModel.createQualitativeSpecies("G0", true, comp1.getName(), false);
     g0.setMaxLevel(1);
     g0.setInitialLevel(0);
     
@@ -80,12 +79,10 @@ public class BuildToyModelTest {
 
 
     QualitativeSpecies g2 = qModel.createQualitativeSpecies("G2", false, comp1.getName(), false);
-    g2.setName("");
     g2.setMaxLevel(2);
     g2.setInitialLevel(2);
 
     QualitativeSpecies g3 = qModel.createQualitativeSpecies("G3", false, comp1.getName(), true);
-    g3.setName("");
     g3.setMaxLevel(1);
     g3.setInitialLevel(1);
 
@@ -97,12 +94,7 @@ public class BuildToyModelTest {
     Input in0 = tr_g1.createInput("in0", g0, InputTransitionEffect.consumption);
     in0.setSign(Sign.dual);
     Input in2 = tr_g1.createInput("in2", g2, InputTransitionEffect.none);
-    Input in3 = tr_g1.createInput(g3, InputTransitionEffect.none);
-    //TODO: it's not allowed to reference to the ids, is this due to the implements UniqueSBase?
-//    
-//    Input in0 = tr_g1.createInput("i1", InputTransitionEffect.consumption, Sign.dual);
-//    Input in2 = tr_g1.createInput("i2", InputTransitionEffect.none);
-//    Input in3 = tr_g1.createInput("i3", InputTransitionEffect.none);
+    Input in3 = tr_g1.createInput("in3", g3, InputTransitionEffect.none);
     
     
     //// ListOfOutputs
