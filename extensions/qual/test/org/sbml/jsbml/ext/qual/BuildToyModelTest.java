@@ -56,15 +56,12 @@ public class BuildToyModelTest {
     
     //sbmlDoc.readAttribute("required", QUAL_NS_PREFIX, "true");
     
-    Model model = new Model("m_default_name");
-    model.addNamespace(QUAL_NS);
+    Model model = sbmlDoc.createModel("m_default_name");
     QualitativeModel qModel = new QualitativeModel(model);
 
     model.addExtension(QUAL_NS, qModel);
 
     //qModel.readAttribute("required", QUAL_NS_PREFIX, "true");
-
-    sbmlDoc.setModel(model);
 
     // ListOfCompartments
     Compartment comp1 = model.createCompartment("comp1");

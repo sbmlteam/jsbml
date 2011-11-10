@@ -88,11 +88,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    * @param version
    */
   public QualitativeSpecies(int level, int version){
-    super(level, version);
-    if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
-      throw new LevelVersionError(getElementName(), level, version);
-    }
-    initDefaults();
+    this(null, level, version);
   }
 
   public QualitativeSpecies(String id, boolean boundaryCondition,
@@ -101,6 +97,19 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     setBoundaryCondition(boundaryCondition);
     setCompartment(compartment);
     setConstant(constant);
+  }
+
+  /**
+   * @param id
+   * @param level
+   * @param version
+   */
+  public QualitativeSpecies(String id, int level, int version) {
+    super(id, level, version);
+    if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
   }
 
   public void initDefaults() {

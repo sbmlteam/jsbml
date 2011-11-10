@@ -76,11 +76,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
    * @param version
    */
   public Transition(int level, int version){
-    super(level, version);
-    if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
-      throw new LevelVersionError(getElementName(), level, version);
-    }
-    initDefaults();
+    this(null, level, version);
   }
   
   public Transition(String id, Input in, Output out) {
@@ -89,6 +85,22 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
     addOutput(out);
   }
   
+  /**
+   * @param id
+   * @param level
+   * @param version
+   */
+  public Transition(String id, int level, int version) {
+    super(id, level, version);
+    if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
+  }
+
+  /**
+   * 
+   */
   public void initDefaults() {
     addNamespace(QualParser.getNamespaceURI());
     temporisationType = null;

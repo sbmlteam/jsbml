@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<!-- Created by BuildToyModelTest version 1 on 2011-11-10 11:36 with jsbml version 0.8-rc1. -->
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" xmlns:qual="http://www.sbml.org/sbml/level3/version1/qual/version1" version="1">
+  <model id="m_default_name">
+    <listOfCompartments>
+      <compartment id="comp1" constant="true"/>
+    </listOfCompartments>
+  </model>
+</sbml>
