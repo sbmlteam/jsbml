@@ -90,6 +90,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 
   public Transition(String id, String name, int level, int version) {
     super(id, name, level, version);
+    // TODO: replace level/version check with call to helper method
     if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
     }
@@ -271,7 +272,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
    */
   public ListOf<Output> getListOfOutputs() {
     if (!isSetListOfOutputs()) {
-      listOfOutputs = new ListOf<Output>();
+      listOfOutputs = new ListOf<Output>(getLevel(), getVersion());
       listOfOutputs.setSBaseListType(ListOf.Type.other);
       listOfOutputs.addNamespace(QualParser.getNamespaceURI());
       registerChild(listOfOutputs);
@@ -355,7 +356,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
    */
   public ListOf<FunctionTerm> getListOfFunctionTerms() {
     if (!isSetListOfFunctionTerms()) {
-      listOfFunctionTerms = new ListOf<FunctionTerm>();
+      listOfFunctionTerms = new ListOf<FunctionTerm>(getLevel(), getVersion());
       listOfFunctionTerms.setSBaseListType(ListOf.Type.other);
       listOfFunctionTerms.addNamespace(QualParser.getNamespaceURI());
       registerChild(listOfFunctionTerms);
@@ -438,8 +439,8 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
    */
   public ListOf<Input> getListOfInputs() {
     if (!isSetListOfInputs()) {
-      listOfInputs = new ListOf<Input>();
-      listOfInputs.setSBaseListType(ListOf.Type.other); //TODO: vermutlich ist das der Fehler?
+      listOfInputs = new ListOf<Input>(getLevel(), getVersion());
+      listOfInputs.setSBaseListType(ListOf.Type.other);
       listOfInputs.addNamespace(QualParser.getNamespaceURI());
       registerChild(listOfInputs);
     }
@@ -557,24 +558,22 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 	  return attributes;
   }
 
-  public Output createOutput(String id, OutputTransitionEffect assignmentlevel) {
-    Output output = new Output(id, assignmentlevel);
+
+  public Output createOutput(String id, QualitativeSpecies qualitativeSpecies,
+      OutputTransitionEffect transitionEffect) {
+    Output output = new Output(id, qualitativeSpecies, transitionEffect);
     addOutput(output);
     return output;
   }
 
-  public Input createInput(String id, InputTransitionEffect consumption) {
-    Input input = new Input(id, consumption);
+
+  public Input createInput(String id, QualitativeSpecies qualitativeSpecies,
+    InputTransitionEffect transitionEffect) {
+    Input input = new Input(id, qualitativeSpecies, transitionEffect);
     addInput(input);
     return input;
   }
 
-  public Input createInput(String id, InputTransitionEffect consumption,
-    Sign sign) {
-    Input input = createInput(id, consumption);
-    input.setSign(sign);
-    return input;
-  }
 
   public Input createInput(QualitativeSpecies qs) {
     Input input = createInput(null, qs.getId(), qs.getLevel(), qs.getVersion());

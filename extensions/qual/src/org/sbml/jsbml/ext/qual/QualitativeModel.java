@@ -181,8 +181,8 @@ public class QualitativeModel extends AbstractSBasePlugin {
    *         <p>
    * @see #addSpecies(QualitativeSpecies s)
    */
-  public QualitativeSpecies createSpecies() {
-    return createSpecies(null);
+  public QualitativeSpecies createQualitativeSpecies() {
+    return createQualitativeSpecies(null);
   }
   
   /**
@@ -192,7 +192,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
    *        the id of the new element to create
    * @return the {@link QualitativeSpecies} object created
    */
-  public QualitativeSpecies createSpecies(String id) {
+  public QualitativeSpecies createQualitativeSpecies(String id) {
     QualitativeSpecies species = new QualitativeSpecies(id);
     addSpecies(species);
     return species;
@@ -205,7 +205,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
    *        the id of the new element to create
    * @return the {@link QualitativeSpecies} object created
    */
-  public QualitativeSpecies createSpecies(String id, boolean boundaryCondition, String compartment, boolean constant) {
+  public QualitativeSpecies createQualitativeSpecies(String id, boolean boundaryCondition, String compartment, boolean constant) {
     QualitativeSpecies species = new QualitativeSpecies(id,
       getModel().getLevel(), getModel().getVersion());
     species.setBoundaryCondition(boundaryCondition);
@@ -235,8 +235,8 @@ public class QualitativeModel extends AbstractSBasePlugin {
    *        the Compartment of the new {@link Species}
    * @return the {@link Species} object created
    */
-  public QualitativeSpecies createSpecies(String id, Compartment c) {
-    QualitativeSpecies s = createSpecies(id);
+  public QualitativeSpecies createQualitativeSpecies(String id, Compartment c) {
+    QualitativeSpecies s = createQualitativeSpecies(id);
     s.setCompartment(c);
     return s;
   }

@@ -233,7 +233,7 @@ public class FunctionTerm extends AbstractMathContainer {
 		TemporisationMath oldTM = this.temporisationMath;
 	  this.temporisationMath = temporisationMath;
 	  firePropertyChange(QualConstant.temporisationMath, oldTM, this.temporisationMath);
-	  this.setThisAsParentSBMLObject(temporisationMath);
+	  registerChild(temporisationMath);
 	}
 
 	/**
