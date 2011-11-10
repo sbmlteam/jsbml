@@ -782,7 +782,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
       if (this.listOfLocalParameters.getSBaseListType() != ListOf.Type.listOfLocalParameters) {
         this.listOfLocalParameters.setSBaseListType(ListOf.Type.listOfLocalParameters);
       }
-      setThisAsParentSBMLObject(this.listOfLocalParameters);
+      registerChild(this.listOfLocalParameters);
     }
 		if (isSetMath()) {
 			getMath().updateVariables();

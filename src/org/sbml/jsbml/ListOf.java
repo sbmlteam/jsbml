@@ -273,7 +273,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		}
 		list.setSBaseListType(type);
 		if (parent instanceof AbstractSBase) {
-			((AbstractSBase) parent).setThisAsParentSBMLObject(list);
+			((AbstractSBase) parent).registerChild(list);
 		}
 		return list;
 	}
@@ -367,7 +367,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public void add(int index, T element) {
 		listOf.add(index, element);
-		setThisAsParentSBMLObject(element);
+    registerChild(element);
 	}
 
 	/*
@@ -391,13 +391,13 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
     }
 		
 		/*
-		 * Calling the method setThisAsParentSBMLObject before adding the object
+		 * Calling the method registerChild before adding the object
 		 * to the list as it can throw an Exception if the metaid or id is not
 		 * unique in the model; it also checks if the given element has the same
 		 * Level/Version configuration as this listOf* element and will throw an
 		 * exception if this is not the case.
 		 */
-		setThisAsParentSBMLObject(e);
+    registerChild(e);
 		return listOf.add(e);
 	}
 
@@ -408,7 +408,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public boolean addAll(Collection<? extends T> c) {
 		if (listOf.addAll(c)) {
 			for (T element : c) {
-				setThisAsParentSBMLObject(element);
+			  registerChild(element);
 			}
 			return true;
 		}
@@ -422,7 +422,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public boolean addAll(int index, Collection<? extends T> c) {
 		if (listOf.addAll(index, c)) {
 			for (T element : c) {
-				setThisAsParentSBMLObject(element);
+        registerChild(element);
 			}
 			return true;
 		}
@@ -876,9 +876,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		T prevElem = listOf.set(index, element);
 		// TODO: this should rather be a firePropertyChangedEvent, as the 
 		// element is first removed and then added again. But the method
-		// setThisAsParentSBMLObject fires a NodeAddedEvent
+		// registerChild fires a NodeAddedEvent
 		((AbstractTreeNode) element).fireNodeRemovedEvent();
-		setThisAsParentSBMLObject(element);
+    registerChild(element);
 		return prevElem;
 	}
 

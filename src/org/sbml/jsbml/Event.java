@@ -776,7 +776,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	public void setDelay(Delay delay) {
 		unsetDelay();
 		this.delay = delay;
-		setThisAsParentSBMLObject(this.delay);
+		registerChild(this.delay);
 	}
 	
 	/**
@@ -793,7 +793,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 		this.listOfEventAssignments = listOfEventAssignments;
 		if ((this.listOfEventAssignments != null) && (this.listOfEventAssignments.getSBaseListType() != ListOf.Type.listOfEventAssignments)) {
 			this.listOfEventAssignments.setSBaseListType(ListOf.Type.listOfEventAssignments);
-			setThisAsParentSBMLObject(this.listOfEventAssignments);
+			registerChild(this.listOfEventAssignments);
 		}
 	}
 	
@@ -809,7 +809,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 		}
 		unsetPriority();
 		this.priority = priority;
-		setThisAsParentSBMLObject(this.priority);
+		registerChild(this.priority);
 	}
 
 	/**
@@ -853,7 +853,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	public void setTrigger(Trigger trigger) {
 		unsetTrigger();
 		this.trigger = trigger;
-		setThisAsParentSBMLObject(this.trigger);
+		registerChild(this.trigger);
 	}
 
 	/*

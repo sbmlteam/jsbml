@@ -515,8 +515,23 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 * 
 	 * If the level and version of sbase are set but not valid, an {@link Exception} is
 	 * thrown.
+	 * 
+	 * @deprecated use {@link #registerChild(SBase)}
 	 */
+	@Deprecated
 	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError;
+
+  /**
+   * Sets this object as SBML parent of 'sbase'. Check if the level and version
+   * of sbase are set, otherwise sets the level and version of 'sbase' with
+   * those of this object. This method should actually not be called by any tool 
+   * as it is used internally within JSBML to maintain the hierarchical document
+   * structure.
+   * 
+   * If the level and version of sbase are set but not valid, an {@link Exception} is
+   * thrown.
+   */
+  public void registerChild(SBase sbase) throws LevelVersionError;
 
 	/**
 	 * Sets the version of this object with 'version'. If the SBML parent of this

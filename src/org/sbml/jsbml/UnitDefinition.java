@@ -1084,7 +1084,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				&& (this.listOfUnits.getSBaseListType() != ListOf.Type.listOfUnits)) {
 			this.listOfUnits.setSBaseListType(ListOf.Type.listOfUnits);
 		}
-		setThisAsParentSBMLObject(this.listOfUnits);
+		registerChild(this.listOfUnits);
 	}
 
 	/**

@@ -76,13 +76,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
    * @param version
    */
   public Transition(int level, int version){
-    this(null, level, version);
-  }
-  
-  public Transition(String id, Input in, Output out) {
-    this(id);
-    addInput(in);
-    addOutput(out);
+    this(null, null, level, version);
   }
   
   /**
@@ -91,16 +85,17 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
    * @param version
    */
   public Transition(String id, int level, int version) {
-    super(id, level, version);
+    this(id, null, level, version);
+  }
+
+  public Transition(String id, String name, int level, int version) {
+    super(id, name, level, version);
     if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
     }
     initDefaults();
   }
 
-  /**
-   * 
-   */
   public void initDefaults() {
     addNamespace(QualParser.getNamespaceURI());
     temporisationType = null;
@@ -256,7 +251,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   public void setListOfOutputs(ListOf<Output> loo) {
     unsetListOfOutputs();
     this.listOfOutputs = loo;
-    setThisAsParentSBMLObject(this.listOfOutputs);
+    registerChild(this.listOfOutputs);
   }
 
 
@@ -279,7 +274,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
       listOfOutputs = new ListOf<Output>();
       listOfOutputs.setSBaseListType(ListOf.Type.other);
       listOfOutputs.addNamespace(QualParser.getNamespaceURI());
-      setThisAsParentSBMLObject(listOfOutputs);
+      registerChild(listOfOutputs);
 
     }
     return listOfOutputs;
@@ -340,7 +335,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   public void setListOfFunctionTerms(ListOf<FunctionTerm> loft) {
     unsetListOfFunctionTerms();
     this.listOfFunctionTerms = loft;
-    setThisAsParentSBMLObject(this.listOfFunctionTerms);
+    registerChild(this.listOfFunctionTerms);
   }
 
 
@@ -363,7 +358,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
       listOfFunctionTerms = new ListOf<FunctionTerm>();
       listOfFunctionTerms.setSBaseListType(ListOf.Type.other);
       listOfFunctionTerms.addNamespace(QualParser.getNamespaceURI());
-      setThisAsParentSBMLObject(listOfFunctionTerms);
+      registerChild(listOfFunctionTerms);
     }
     return listOfFunctionTerms;
   }
@@ -423,7 +418,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   public void setListOfInputs(ListOf<Input> loi) {
     unsetListOfInputs();
     this.listOfInputs = loi;
-    setThisAsParentSBMLObject(this.listOfInputs);
+    registerChild(this.listOfInputs);
   }
 
 
@@ -446,7 +441,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
       listOfInputs = new ListOf<Input>();
       listOfInputs.setSBaseListType(ListOf.Type.other); //TODO: vermutlich ist das der Fehler?
       listOfInputs.addNamespace(QualParser.getNamespaceURI());
-      setThisAsParentSBMLObject(listOfInputs);
+      registerChild(listOfInputs);
     }
     return listOfInputs;
   }
@@ -581,5 +576,17 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
     return input;
   }
 
+  public Input createInput(QualitativeSpecies qs) {
+    Input input = createInput(null, qs.getId(), qs.getLevel(), qs.getVersion());
+    return input;
+  }
+
+  public Input createInput(String id, String qualitativeSpecies, int level, int version) {
+    Input input = new Input(level, version);
+    input.setId(id);
+    input.setQualitativeSpecies(qualitativeSpecies);
+    getListOfInputs().add(input);
+    return null;
+  }
   
 }

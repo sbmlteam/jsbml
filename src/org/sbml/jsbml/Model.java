@@ -3742,7 +3742,7 @@ public int getNumLocalParameters() {
         && (this.listOfCompartments.getSBaseListType() != ListOf.Type.listOfCompartments)) {
       this.listOfCompartments.setSBaseListType(ListOf.Type.listOfCompartments);    
     }
-    setThisAsParentSBMLObject(this.listOfCompartments);    
+    registerChild(this.listOfCompartments);    
   }
   
   /**
@@ -3764,7 +3764,7 @@ public int getNumLocalParameters() {
       this.listOfCompartmentTypes
           .setSBaseListType(ListOf.Type.listOfCompartmentTypes);
     }
-    setThisAsParentSBMLObject(this.listOfCompartmentTypes);
+    registerChild(this.listOfCompartmentTypes);
     
   }
   
@@ -3783,7 +3783,7 @@ public int getNumLocalParameters() {
         && (this.listOfConstraints.getSBaseListType() != ListOf.Type.listOfConstraints)) {
       this.listOfConstraints.setSBaseListType(ListOf.Type.listOfConstraints);
     }
-    setThisAsParentSBMLObject(this.listOfConstraints);
+    registerChild(this.listOfConstraints);
   }
   
   /**
@@ -3800,7 +3800,7 @@ public int getNumLocalParameters() {
         && (this.listOfEvents.getSBaseListType() != ListOf.Type.listOfEvents)) {
       this.listOfEvents.setSBaseListType(ListOf.Type.listOfEvents);
     }
-    setThisAsParentSBMLObject(this.listOfEvents);
+    registerChild(this.listOfEvents);
     
   }
   
@@ -3821,7 +3821,7 @@ public int getNumLocalParameters() {
       this.listOfFunctionDefinitions
           .setSBaseListType(ListOf.Type.listOfFunctionDefinitions);
     }
-    setThisAsParentSBMLObject(this.listOfFunctionDefinitions);
+    registerChild(this.listOfFunctionDefinitions);
   }
   
   /**
@@ -3841,7 +3841,7 @@ public int getNumLocalParameters() {
       this.listOfInitialAssignments
           .setSBaseListType(ListOf.Type.listOfInitialAssignments);
     }
-    setThisAsParentSBMLObject(this.listOfInitialAssignments);
+    registerChild(this.listOfInitialAssignments);
     
   }
   
@@ -3859,7 +3859,7 @@ public int getNumLocalParameters() {
         && (this.listOfParameters.getSBaseListType() != ListOf.Type.listOfParameters)) {
       this.listOfParameters.setSBaseListType(ListOf.Type.listOfParameters);
     }
-    setThisAsParentSBMLObject(listOfParameters);
+    registerChild(listOfParameters);
     
   }
   
@@ -3877,7 +3877,7 @@ public int getNumLocalParameters() {
         && (this.listOfReactions.getSBaseListType() != ListOf.Type.listOfReactions)) {
       this.listOfReactions.setSBaseListType(ListOf.Type.listOfReactions);
     }
-    setThisAsParentSBMLObject(this.listOfReactions);
+    registerChild(this.listOfReactions);
     
   }
   
@@ -3894,7 +3894,7 @@ public int getNumLocalParameters() {
         && (this.listOfRules.getSBaseListType() != ListOf.Type.listOfRules)) {
       this.listOfRules.setSBaseListType(ListOf.Type.listOfRules);
     }
-    setThisAsParentSBMLObject(this.listOfRules);
+    registerChild(this.listOfRules);
     
   }
   
@@ -3911,7 +3911,7 @@ public int getNumLocalParameters() {
         && (this.listOfSpecies.getSBaseListType() != ListOf.Type.listOfSpecies)) {
       this.listOfSpecies.setSBaseListType(ListOf.Type.listOfSpecies);
     }
-    setThisAsParentSBMLObject(this.listOfSpecies);
+    registerChild(this.listOfSpecies);
     
   }
   
@@ -3932,7 +3932,7 @@ public int getNumLocalParameters() {
         && (this.listOfSpeciesTypes.getSBaseListType() != ListOf.Type.listOfSpeciesTypes)) {
       this.listOfSpeciesTypes.setSBaseListType(ListOf.Type.listOfSpeciesTypes);
     }
-    setThisAsParentSBMLObject(this.listOfSpeciesTypes);
+    registerChild(this.listOfSpeciesTypes);
     
   }
   
@@ -3952,7 +3952,7 @@ public int getNumLocalParameters() {
       this.listOfUnitDefinitions
           .setSBaseListType(ListOf.Type.listOfUnitDefinitions);
     }
-    setThisAsParentSBMLObject(this.listOfUnitDefinitions);
+    registerChild(this.listOfUnitDefinitions);
     
   }
   

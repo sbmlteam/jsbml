@@ -951,7 +951,7 @@ public class SBMLDocument extends AbstractSBase {
 	public void setModel(Model model) {
 		unsetModel();
 		this.model = model;
-		setThisAsParentSBMLObject(this.model);
+		registerChild(this.model);
 	}
 
 	/**
