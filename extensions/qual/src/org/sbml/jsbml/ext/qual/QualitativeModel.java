@@ -154,12 +154,21 @@ public class QualitativeModel extends AbstractSBasePlugin {
     return transition;
   }
   
-
+  /**
+   * 
+   * @param id
+   * @param sign
+   * @param in
+   * @param out
+   * @return
+   */
   public Transition createTransition(String id, Sign sign, Input in,
     Output out) {
-    Transition transition = new Transition(id, in, out);
-    addTransition(transition);
-    
+    Transition transition = new Transition(id, getModel().getLevel(),
+      getModel().getVersion());
+    transition.addInput(in);
+    transition.addOutput(out);
+    addTransition(transition);    
     return transition;
   }
 
@@ -196,7 +205,11 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * @return the {@link QualitativeSpecies} object created
    */
   public QualitativeSpecies createSpecies(String id, boolean boundaryCondition, String compartment, boolean constant) {
-    QualitativeSpecies species = new QualitativeSpecies(id, boundaryCondition, compartment, constant);
+    QualitativeSpecies species = new QualitativeSpecies(id,
+      getModel().getLevel(), getModel().getVersion());
+    species.setBoundaryCondition(boundaryCondition);
+    species.setCompartment(compartment);
+    species.setConstant(constant);
     addSpecies(species);
     return species;
   }
@@ -231,12 +244,13 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	 * @return the listOfQualitativeSpecies
 	 */
 	public ListOf<QualitativeSpecies> getListOfQualitativeSpecies() {
-	  if (!isSetListOfQualitativeSpecies()) {
-	    listOfQualitativeSpecies = new ListOf<QualitativeSpecies>();
-		listOfQualitativeSpecies.addNamespace(QualParser.getNamespaceURI());
-		model.setThisAsParentSBMLObject(listOfQualitativeSpecies);
-		listOfQualitativeSpecies.setSBaseListType(ListOf.Type.other);
-	  }
+    if (!isSetListOfQualitativeSpecies()) {
+      listOfQualitativeSpecies = new ListOf<QualitativeSpecies>(
+        getModel().getLevel(), getModel().getVersion());
+      listOfQualitativeSpecies.addNamespace(QualParser.getNamespaceURI());
+      model.setThisAsParentSBMLObject(listOfQualitativeSpecies);
+      listOfQualitativeSpecies.setSBaseListType(ListOf.Type.other);
+    }
 		return listOfQualitativeSpecies;
 	}
 	
@@ -245,13 +259,13 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	 * @return the listOTransitions
 	 */
 	public ListOf<Transition> getListOfTransitions() {
-	  if (!isSetListOfTransitions()) {
-	    listOfTransitions = new ListOf<Transition>();
-	    listOfTransitions.addNamespace(QualParser.getNamespaceURI());
-		model.setThisAsParentSBMLObject(listOfTransitions);
-		listOfTransitions.setSBaseListType(ListOf.Type.other);
-
-	  }
+    if (!isSetListOfTransitions()) {
+      listOfTransitions = new ListOf<Transition>(getModel().getLevel(),
+        getModel().getVersion());
+      listOfTransitions.addNamespace(QualParser.getNamespaceURI());
+      model.setThisAsParentSBMLObject(listOfTransitions);
+      listOfTransitions.setSBaseListType(ListOf.Type.other);
+    }
 		return listOfTransitions;
 	}
 
