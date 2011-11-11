@@ -1,8 +1,8 @@
 For questions regarding SBML, please see the SBML FAQ at
 \url{http://sbml.org/Documents/FAQ}.
 \begin{description}
-\item[Why does the class \texttt{LocalParameter} not inherit from
-\texttt{Parameter}?]
+\item[\parbox{\textwidth}{Why does the class \texttt{LocalParameter} not inherit
+from \texttt{Parameter}?}]
 \index{parameter!\texttt{LocalParameter}}
 \index{parameter!\texttt{Parameter}}
 The reason is the Boolean
@@ -24,9 +24,8 @@ changes its value during the evaluation of a model\index{model}. It would
 therefore only be possible to let \texttt{Parameter} inherit from
 \texttt{LocalParameter} but this could lead to a semantic misinterpretation.
 
-
-\item[Does JSBML depend on SWING or any particular graphical user interface
-implementation?]
+\item[\parbox{\textwidth}{Does JSBML depend on SWING or any particular graphical
+user interface implementation?}]
 Although all classes in JSBML implement the \texttt{TreeNode} interface, which
 is located in the package \texttt{javax.swing.tree}, all classes in JSBML are
 entirely independent from any graphical user interface, such as the SWING
@@ -43,9 +42,9 @@ Java\texttrademark{} distribution, it is ensured that the \texttt{TreeNode}
 interface can always be localized by the Java Virtual Machine,
 independent from the specific hardware or system.
 
-\item[Does the usuage of the the \texttt{java.beens} package for the
-\texttt{TreeNodeChangeListener} lead to an incompatibility with light-weight
-Java installations?]
+\item[\parbox{\textwidth}{Does the usuage of the the \texttt{java.beens} package
+for the \texttt{TreeNodeChangeListener} lead to an incompatibility with light-weight
+Java installations?}]
 With the \texttt{java.beens} package being part of the standard Java
 distribution, such an incompatibility will not occur. Extending existing
 standard Java classes leads to a higher compatibility with other libraries and

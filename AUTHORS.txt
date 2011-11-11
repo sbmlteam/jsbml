@@ -11,10 +11,12 @@
                            -- Contributors --
 
          Alexander Doerr, University of Tuebingen, Germany
-         Clemens Wrzodek, University of Tuebingen, Germany
+         Sebastian Froehlich, IKP Gatersleben, Germany
          Michael Hucka, California Institute of Technology, USA
-
+         Clemens Wrzodek, University of Tuebingen, Germany
+         
                                -- Alumni --
          
          Marine Dumousseau, European Bioinformatics Institute, UK
+         Sarah Rachel Mueller vom Hagen, University of Tuebingen, Germany
          Simon Schaefer, University of Tuebingen, Germany
