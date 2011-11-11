@@ -566,7 +566,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
   
   public Output createOutput(String id) {
-    Output output = new Output(id);
+    Output output = new Output(id, getModel().getLevel(), getModel().getVersion());
     addOutput(output);
     return output;
   }
@@ -584,7 +584,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
   
   public Input createInput(String id) {
-    Input input = new Input(id);
+    Input input = new Input(id, getModel().getLevel(), getModel().getVersion());
     addInput(input);
     return input;
   }
