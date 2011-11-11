@@ -6,7 +6,6 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 /** Creates an {@link SBMLDocument} and writes it's content to disk. **/ 
 public class JSBMLexample implements TreeNodeChangeListener {
   public JSBMLexample() throws Exception  {
-    
     // Create a new SBMLDocument, using SBML level 2 version 4.
     SBMLDocument doc = new SBMLDocument(2, 4);
     doc.addTreeNodeChangeListener(this);
