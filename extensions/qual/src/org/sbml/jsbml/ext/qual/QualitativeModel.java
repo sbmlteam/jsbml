@@ -61,7 +61,9 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	
 	
   public void addTransition(Transition transition) {
-		getListOfTransitions().add(transition);
+    if(!getListOfTransitions().contains(transition)){
+      getListOfTransitions().add(transition);
+    }
 	}
 
 
@@ -146,7 +148,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
     return transition;
   }
   
-  public Transition createTransition(String id, Input in, Output out) {
+  public Transition createTransition(String id, Input in, Output out) {    
     Transition transition = createTransition(id);
     transition.addInput(in);
     transition.addOutput(out);
@@ -265,6 +267,26 @@ public class QualitativeModel extends AbstractSBasePlugin {
 		}
 
 		return null;
+	}
+	
+	public QualitativeSpecies getQualitativeSpeciesWithID(String id){
+	  if(isSetListOfQualitativeSpecies()){
+  	  for (QualitativeSpecies qs : listOfQualitativeSpecies) {
+        if(qs.getId().equals(id)) {
+          return qs;
+        }
+      }
+	  }
+	  
+	  return null;
+	}
+	
+	public boolean containsQualitativeSpecies(QualitativeSpecies qs){
+	  if(isSetListOfQualitativeSpecies() && listOfQualitativeSpecies.contains(qs)){
+	    return true;
+	  } else {
+	    return false;
+	  }
 	}
 
 	public Transition getTransition(int i) {
