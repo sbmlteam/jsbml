@@ -489,6 +489,10 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
       attributes.put(QualParser.shortLabel + ":"
         + QualConstant.transitionEffect, getTransitionEffect().toString());
     }
+    if (isSetSign()) {
+      attributes.put(QualParser.shortLabel + ":"
+        + QualConstant.sign, getSign().toString());
+    }
     return attributes;
   }
 }
