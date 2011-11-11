@@ -120,7 +120,6 @@ public class BuildToyModelTest {
     tr_g1.addFunctionTerm(ft1);
     
     Transition tr2 = qModel.createTransition("tr2", in3, out1); 
-    // TODO: Problems with the versions
     
     try {
 		new SBMLWriter().write(sbmlDoc, "testQual.xml");
