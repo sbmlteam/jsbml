@@ -1369,7 +1369,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		if (!SBO.checkTerm(term)) {
 			throw new IllegalArgumentException(String.format(
-					"Cannot set invalid SBO term %d because it must not be smaller than zero or larger than 9999999."));
+					"Cannot set invalid SBO term %d because it must not be smaller than zero or larger than 9999999.", 
+					term));
 		}
 		Integer oldTerm = Integer.valueOf(sboTerm);
 		sboTerm = term;
