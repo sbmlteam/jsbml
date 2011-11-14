@@ -287,11 +287,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
    *        the listOfOutputs to set
    */
   public boolean addOutput(Output output) {
-    if (!getListOfOutputs().contains(output)) {
-      getListOfOutputs().add(output);
-      return true;
-    }
-    return false;
+      return getListOfOutputs().add(output);
   }
 
 
@@ -454,11 +450,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
    *        the listOfInputs to set
    */
   public boolean addInput(Input input) {
-    if (!getListOfInputs().contains(input)) {
-      getListOfInputs().add(input);
-      return true;
-    }
-    return false;
+      return getListOfInputs().add(input);
   }
 
 
