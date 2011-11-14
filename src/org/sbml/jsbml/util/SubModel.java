@@ -364,7 +364,7 @@ public class SubModel {
      * @param speciesIds
      * @return
      */
-    private static String[] getRelatedCompartments(
+    public static String[] getRelatedCompartments(
             Model model,
             String[] compartmentsIds,
             String[] speciesIds) {
@@ -444,7 +444,7 @@ public class SubModel {
      * @param speciesIds
      * @return an array of related species id or null if no related species are found.
      */
-    private static String[] getRelatedSpecies(
+    public static String[] getRelatedSpecies(
             Model model,
             String[] reactsIds,
             String[] compartmentsIds,
@@ -687,7 +687,7 @@ public class SubModel {
      * @param speciesIds the list of species selected by the user to create a sub-model
      * @return an array of related reactions id or null if no related reactions are found.
      */
-    private static String[] getRelatedReactions(
+    public static String[] getRelatedReactions(
             Model model,
             String[] reactsIds,
             String[] speciesIds) {
