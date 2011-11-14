@@ -269,7 +269,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
 		return null;
 	}
 	
-	public QualitativeSpecies getQualitativeSpeciesWithID(String id){
+	public QualitativeSpecies getQualitativeSpecies(String id){
 	  if(isSetListOfQualitativeSpecies()){
   	  for (QualitativeSpecies qs : listOfQualitativeSpecies) {
         if(qs.getId().equals(id)) {
