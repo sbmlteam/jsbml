@@ -27,6 +27,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.util.filters.NameFilter;
 import org.sbml.jsbml.xml.parsers.QualParser;
 
 /**
@@ -271,11 +272,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	
 	public QualitativeSpecies getQualitativeSpecies(String id){
 	  if(isSetListOfQualitativeSpecies()){
-  	  for (QualitativeSpecies qs : listOfQualitativeSpecies) {
-        if(qs.getId().equals(id)) {
-          return qs;
-        }
-      }
+  	  return listOfQualitativeSpecies.firstHit(new NameFilter(id));	    
 	  }
 	  
 	  return null;
