@@ -51,17 +51,16 @@ public class BuildToyModelTest {
   public static void main(String[] args) {
     
     SBMLDocument sbmlDoc = new SBMLDocument(3, 1);
-    sbmlDoc.addDeclaredNamespace(QUAL_NS, QUAL_NS_PREFIX);
     sbmlDoc.addNamespace(QUAL_NS_PREFIX, "xmlns", QUAL_NS);
     
-    //sbmlDoc.readAttribute("required", QUAL_NS_PREFIX, "true");
+    // sbmlDoc.readAttribute("required", QUAL_NS_PREFIX, "true");
+    sbmlDoc.getSBMLDocumentAttributes().put(QUAL_NS_PREFIX + ":required", "true");
+    
     
     Model model = sbmlDoc.createModel("m_default_name");
     QualitativeModel qModel = new QualitativeModel(model);
 
     model.addExtension(QUAL_NS, qModel);
-
-    //qModel.readAttribute("required", QUAL_NS_PREFIX, "true");
 
     // ListOfCompartments
     Compartment comp1 = model.createCompartment("comp1");
@@ -110,8 +109,10 @@ public class BuildToyModelTest {
 
     ASTNode mathNode = null;
     try {
-    	mathNode = ASTNode.parseFormula("G0 + 2");
+    	mathNode = ASTNode.parseFormula("G0 > 2");
         ft1.setMath(mathNode);
+        ft1.setTemporisationMath(new TemporisationMath());
+        ft1.getTemporisationMath().setMath(ASTNode.parseFormula("G0 == 1"));
     } catch (ParseException e) {
     	e.printStackTrace();
     }
@@ -120,16 +121,6 @@ public class BuildToyModelTest {
     tr_g1.addFunctionTerm(ft1);
     
     Transition tr2 = qModel.createTransition("tr2", in3, out1); 
-    
-    try {
-		new SBMLWriter().write(sbmlDoc, "testQual.xml");
-	} catch (SBMLException e) {
-		e.printStackTrace();
-	} catch (FileNotFoundException e) {
-		e.printStackTrace();
-	} catch (XMLStreamException e) {
-		e.printStackTrace();
-	}
     
     new JSBMLvisualizer(sbmlDoc); 
     
