@@ -48,8 +48,13 @@ public class Member extends AbstractSBase {
 	 */
 	public Member() {
 		super();
+		initDefaults();
 	}
 	
+	private void initDefaults() {
+		addNamespace(GroupsParser.namespaceURI);		
+	}
+
 	/**
 	 * 
 	 * @param level

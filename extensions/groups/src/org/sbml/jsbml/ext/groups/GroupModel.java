@@ -26,6 +26,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.xml.parsers.GroupsParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -54,6 +55,13 @@ public class GroupModel extends AbstractSBasePlugin {
 	 */
 	public GroupModel(Model model) {
 		this.model = model;
+		initDefaults();
+	}
+	
+	private void initDefaults() {
+		listOfGroups.addNamespace(GroupsParser.namespaceURI);
+		listOfGroups.setSBaseListType(ListOf.Type.other);
+		model.registerChild(listOfGroups);
 	}
 	
 	/**
@@ -62,7 +70,7 @@ public class GroupModel extends AbstractSBasePlugin {
 	 */
 	public void addGroup(Group group) {
 		
-		group.setParentSBMLObject(model);
+		model.registerChild(group);
 		
 		listOfGroups.add(group);		
 	}
@@ -191,12 +199,13 @@ public class GroupModel extends AbstractSBasePlugin {
 		return 0;
 	}
 
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getAllowsChildren()
-   */
-  public boolean getAllowsChildren() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-		
+
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
 }

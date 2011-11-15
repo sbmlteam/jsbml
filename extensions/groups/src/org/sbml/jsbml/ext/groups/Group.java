@@ -45,15 +45,20 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	/**
 	 * 
 	 */
-	protected ListOf<Member> listOfMembers = new ListOf<Member>(); 
+	protected ListOf<Member> listOfMembers = null; 
 
 	/**
 	 * 
 	 */
 	public Group() {
 		super();
+		initDefaults();
 	}
 	
+	private void initDefaults() {
+		addNamespace(GroupsParser.namespaceURI);		
+	}
+
 	/**
 	 * 
 	 * @param group
@@ -87,6 +92,13 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * @return
 	 */
 	public ListOf<Member> getListOfMembers() {
+		if (!isSetListOfMembers()) {
+			listOfMembers = new ListOf<Member>();
+			listOfMembers.addNamespace(GroupsParser.namespaceURI);
+			registerChild(listOfMembers);
+			listOfMembers.setSBaseListType(ListOf.Type.other);
+		}
+
 		return listOfMembers;
 	}
 
@@ -96,18 +108,21 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * @return
 	 */
 	public Member getMember(int i) {
-		if (i >= 0 && i < listOfMembers.size()) {
-			return listOfMembers.get(i);
+		if (i >= 0 && i < getListOfMembers().size()) {
+			return getListOfMembers().get(i);
 		}
 		
 		return null;
+	}
+	
+	public boolean addMember(Member member) {
+		return getListOfMembers().add(member);
 	}
 	
 	/* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   public boolean isIdMandatory() {
-    // TODO Auto-generated method stub
     return false;
   }
 
@@ -116,7 +131,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * @return
 	 */
 	public boolean isSetListOfMembers() {
-		if ((listOfMembers == null) || listOfMembers.isEmpty()) {
+		if (listOfMembers == null) {
 			return false;			
 		}
 		return true;
@@ -137,19 +152,6 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 		return isAttributeRead;
 	}
 
-	/**
-	 * 
-	 * @param listOfMembers
-	 */
-	public void setListOfMembers(ListOf<Member> listOfMembers) {
-		unsetListOfMembers();
-		this.listOfMembers = listOfMembers;
-		if ((this.listOfMembers != null) && (this.listOfMembers.getSBaseListType() != ListOf.Type.other)) {
-			this.listOfMembers.setSBaseListType(ListOf.Type.other);
-		}
-		setThisAsParentSBMLObject(this.listOfMembers);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
@@ -168,7 +170,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	 *         data structure.
 	 */
 	public boolean unsetListOfMembers() {
-		if (this.listOfMembers != null) {
+		if (isSetListOfMembers()) {
 			ListOf<Member> oldListOfMembers = this.listOfMembers;
 			this.listOfMembers = null;
 			oldListOfMembers.fireNodeRemovedEvent();

@@ -462,7 +462,8 @@ public class RDFAnnotationParser implements ReadingParser{
 			} 
 			else 
 			{
-				logger.warn("Found a RDF:Description that is not a child of the RDF:RDF element !!");
+				logger.warn("Found a RDF:Description that is not a child of the RDF:RDF element !! Element prefix:name = " + prefix + ":" + elementName);
+				
 			}
 		}
 		// If the contextObject is not an Annotation instance, we should be into the Description subNode of the RDF element.
