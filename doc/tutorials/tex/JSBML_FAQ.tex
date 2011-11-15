@@ -28,19 +28,23 @@ therefore only be possible to let \texttt{Parameter} inherit from
 user interface implementation?}]
 Although all classes in JSBML implement the \texttt{TreeNode} interface, which
 is located in the package \texttt{javax.swing.tree}, all classes in JSBML are
-entirely independent from any graphical user interface, such as the SWING
-implementation. When loading the \texttt{TreeNode} interface, no other class
-from SWING will be initialized or loaded; hence JSBML can also be used on
-computers that do not provide any graphical system without the necessity of
-catching a \texttt{HeadlessException}. The \texttt{TreeNode} interface only
-defines methods and properties that all recursive tree data structures have to
+entirely independent from any graphical user interface, such as the
+SWING\index{graphical user interface!swing@\texttt{swing}} implementation. When
+loading the \texttt{TreeNode} interface, no other class from SWING will be
+initialized or loaded; hence JSBML can also be used on computers that do not
+provide any graphical system without the necessity of catching a
+\texttt{HeadlessException}. The \texttt{TreeNode} interface only defines
+methods and properties that all recursive tree data structures have to
 implement anyway. Letting JSBML classes extend this interface makes JSBML
 compatible with many other Java classes and methods that make use of the
 standard \texttt{TreeNode} interface, hence ensuring a high compatibility with
 other Java libraries. Since the SWING package belongs to the standard
-Java\texttrademark{} distribution, it is ensured that the \texttt{TreeNode}
-interface can always be localized by the Java Virtual Machine,
-independent from the specific hardware or system.
+Java\texttrademark{} distribution, the \texttt{TreeNode} interface should
+always be localized by the Java Virtual Machine, independent from the specific
+hardware or system. An exception might Android\index{Andoroid} systems, which
+do not provide any parts from the SWING package of Java. Therefore, the JSBML
+team is currently developing a specialized \texttt{android} compatibility
+module for JSBML.
 
 \item[\parbox{\textwidth}{Does the usuage of the the \texttt{java.beens} package
 for the \texttt{TreeNodeChangeListener} lead to an incompatibility with light-weight

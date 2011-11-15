@@ -4,9 +4,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.JMenuItem;
 import jp.sbi.celldesigner.plugin.PluginAction;
 
-/** A simple implementation of an action for a CellDesigner plug-in */
+/** A simple implementation of an action for a CellDesigner plug-in,
+ *  which invokes the actual plug-in program. */
 public class SimpleCellDesignerPluginAction extends PluginAction {
 
+  /** Memorizes a pointer to the actual plug-in program. */
 	private SimpleCellDesignerPlugin plugin;
 
 	/** Constructor memorizes the plug-in data structure. */
