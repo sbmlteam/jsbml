@@ -74,13 +74,14 @@ structures of JSBML with main focus on the differences to libSBML. All data
 types that represent SBML constructs in JSBML extend \texttt{AbstractTreeNode}. 
 Derivatives of \texttt{SBase} extend either one of the two abstract classes
 \texttt{AbstractSBase} or \texttt{AbstractNamedSBase}, which inturn also extend
-\texttt{AbstractTreeNode}. The class \texttt{SBO} parses the ontology file
-provided on the SBO web site (\url{http://www.ebi.ac.uk/sbo/main/}) in OBO
-format (Open Biomedical Ontologies) using a parser provided by the BioJava
-project \citep{Holland2008}. For the sake of a clear arrangement, this figure
-omits all methods in the UML diagram. \texttt{SBO} stores its ontology in the
-classes \texttt{Term} that are interrelated in \texttt{Triples} consisting of
-subject, predicate, and object (each being an instance of \texttt{Term}).}
+\texttt{AbstractTreeNode}. The class \texttt{SBO} parses the
+ontology\index{Ontology} file provided on the SBO web site
+(\url{http://www.ebi.ac.uk/sbo/main/}) in OBO format (Open Biomedical
+Ontologies) using a parser provided by the BioJava project \citep{Holland2008}.
+For the sake of a clear arrangement, this figure omits all methods in the UML
+diagram. \texttt{SBO} stores its ontology in the classes \texttt{Term} that are
+interrelated in \texttt{Triples} consisting of subject, predicate, and object
+(each being an instance of \texttt{Term}).}
  \label{fig:SBase}
 \end{figure}
 \begin{figure}[p]
@@ -166,7 +167,7 @@ additional file encoding and subsequent parsing. The third interface,
 \texttt{TreeNode}%
 \index{TreeNode@\texttt{TreeNode}} 
 is actually defined in Java's \texttt{swing}
-\index{graphical user interface!\texttt{swing}}%
+\index{graphical user interface!swing@\texttt{swing}}%
 package.
 \texttt{TreeNode} is a type that is independent of any graphical information. It
 basically defines recursive methods on hierarchically structured data types,
@@ -803,7 +804,7 @@ These can be accessed from an instance of \texttt{Model} by calling the method
 
 MIRIAM annotations\index{annotation!MIRIAM} \citep{Novere2005} have become an integral part of SBML models
 since Level~2 Version~2\index{SBML!Level~2 Version~2}. Recently, the Unit
-Ontology\footnote{\url{http://www.obofoundry.org/cgi-bin/detail.cgi?id=unit}}
+Ontology\index{Ontology}\footnote{\url{http://www.obofoundry.org/cgi-bin/detail.cgi?id=unit}}
 \index{annotation!unit ontology}%
 (UO) has been included in the set of supported ontology and online resources of
 MIRIAM. Since all the predefined units in SBML have corresponding entries in the
@@ -942,18 +943,24 @@ and add it to the list of listeners in your instance of
 \texttt{SBMLDocument}\index{SBML!\texttt{SBMLDocument}}. You only have to
 implement three methods
 \begin{description}
- \item[\texttt{nodeAdded(TreeNode sbase)}] This method notifies the listener
+ \item[\texttt{nodeAdded(TreeNode node)}] This method notifies the listener
  that the given \texttt{TreeNode}\index{TreeNode@\texttt{TreeNode}} has just
- been added to the \texttt{SBMLDocument}
- \item[\texttt{nodeRemoved(TreeNode sbase)}] The \texttt{TreeNode} instance
+ been added to the \texttt{SBMLDocument}. When this method is called, the given
+ node is already fully linked to the \texttt{SBMLDocument}, i.e., it has a valid
+ parent that in turn points to the given node.
+ \item[\texttt{nodeRemoved(TreeNode node)}] The \texttt{TreeNode} instance
  passed to this method is no longer part of the \texttt{SBMLDocument} as it has
- just been removed.
- \item[\texttt{propertyChange(PropertyChangeEvent event)}] This method provides
+ just been removed. This means that the entire \texttt{SBMLDocument} does not
+ contain any pointers to this node anymore, but the node itself still contains a
+ pointer to its former parent. In this way, it is possible to recognize where
+ in the tree this node was located and even to revert the deletion of the node.
+ \item[\texttt{propertyChange(PropertyChangeEvent node)}] This method provides
  detailed information about some value change within the \texttt{SBMLDocument}.
  The object passed to this method is an
  \texttt{TreeNodeChangeEvent}\index{event!\texttt{TreeNodeChangeEvent}}, which
- provides information about the \texttt{SBase}\index{SBase@\texttt{SBase}} that
- has been changed, its property whose value has been changed (this is a
+ provides information about the
+ \texttt{TreeNode}\index{TreeNode@\texttt{TreeNode}} that has been changed, its
+ property whose value has been changed (this is a
  \texttt{String}\index{String@\texttt{String}} representation of the name of
  the property), along with the previous value and the new value.
 \end{description}
@@ -971,24 +978,35 @@ which notifies a logger about each change.
 
 Note that the class
 \texttt{TreeNodeChangeEvent}\index{event!\texttt{TreeNodeChangeEvent}} extends
-the class
-\texttt{java.util.EventObject}\index{event!\texttt{EventObject}}
-and that the interface \texttt{TreeNodeChangeListener}%
-\index{event!\texttt{TreeNodeChangeListener}}%
-\index{event!\texttt{TreeNodeChangeListener}}
-extends the interface \texttt{EventListener}%
-\index{event!\texttt{EventListener}}
-in the \texttt{java.util} package. In this way, the event and listener data
+the class \texttt{java.beans.Property\-Change\-Event},%
+\index{event!PropertyChangeEvent@\texttt{PropertyChangeEvent}}
+which is derived from 
+\texttt{java.util.EventObject}\index{event!EventObject@\texttt{EventObject}}.
+It should also be pointed out that the interface
+\texttt{TreeNodeChangeListener}%
+\index{event!TreeNodeChangeListener@\texttt{TreeNodeChangeListener}}
+extends the interface \texttt{java.beans.Pro\-perty\-Change\-Listener}
+\index{event!PropertyChangeListener@\texttt{PropertyChangeListener}}
+which in turn extends the interface \texttt{EventListener}%
+\index{event!EventListener@\texttt{EventListener}}
+in the package \texttt{java.util}. In this way, the event and listener data
 structures fit into the common Java\texttrademark{} API (Application
 Programming Interface)\index{application programming interface!Java} and allow
 users also to make use of, e.g.,
 \texttt{EventHandler}s\index{event!\texttt{EventHandler}} to deal with changes
-in a model\index{model}. It should also be noted that
-\texttt{TreeNodeChangeListener}s only keep track of changes in instances of
-\texttt{SBase} directly. This means that changes inside of, e.g.,
+in a model\index{model}. 
+
+Since in JSBML all major data objects implement the interface \texttt{TreeNode},
+these listeners are notified about any kind of change in any implementing data
+structure. The interface \texttt{TreeNodeWithChangeSupport} extends Java's
+standard \texttt{TreeNode} interface by adding methods that maintain a list of
+\texttt{TreeNodeChangeListeners} and notify these whenever some property changes
+or nodes are added/deleted from the tree. In this way, the
+\texttt{TreeNodeChangeListener}s do not only keep track of changes in instances
+of \texttt{SBase}. This means that changes inside of, e.g.,
 \texttt{CVTerm}\index{annotation!\texttt{CVTerm}} or
-\texttt{History}\index{annotation!\texttt{History}} may not be traced with the
-current implementation.
+\texttt{History}\index{annotation!\texttt{History}} may can also be traced with
+this implementation.
 
 
 \subsection{Determination of the variable in \texttt{AlgebraicRule}s}
@@ -1040,11 +1058,11 @@ The class \texttt{org.sbml.jsbml.util.Maths}
 contains several \texttt{static} methods for mathematic operations not provided
 by the standard Java class \texttt{java.lang.Math}. Most of these methods are
 basic operations, for instance, \texttt{cot(double x)} or \texttt{ln(double x)}.
-However, the class \texttt{Maths} also provides some less commonly used methods,
+The class \texttt{Maths} also provides some less commonly used methods,
 such as \texttt{csc(double x)} or \texttt{sech(double x)} as well as
 \texttt{double} constants representing Avogadro's number ($6.02214199 \cdot
-10^{23}\,\mathrm{mol}^{-1}$) and the universal gas constant
-$R = 8.314472\,\mathrm{J}\cdot\mathrm{mol}^{-1}\cdot\mathrm{K}^{-1}$. In this
+10^{23}\;\mathrm{mol}^{-1}$) and the universal gas constant
+$R = 8.314472\;\mathrm{J}\cdot\mathrm{mol}^{-1}\cdot\mathrm{K}^{-1}$. In this
 way, the functions and constants implemented in class \texttt{Maths} complement
 standard Java with methods and numbers required by the SBML specifications
 \citep{Hucka2003, Hucka2008, Hucka2010a}.
@@ -1067,20 +1085,19 @@ the operating system\hyp{}dependent new line character.
 
 % \paragraph{}
 JSBML makes use of the logger provided by the log4j
-project\footnote{\url{http://logging.apache.org/log4j/}}.
-Log4j allow to use six levels
-of logging (\texttt{TRACE}, \texttt{DEBUG},
-\texttt{INFO}, \texttt{WARN}, \texttt{ERROR}, and \texttt{FATAL}) but inside
-JSBML we mainly use \texttt{ERROR}, \texttt{WARN}, and \texttt{DEBUG}. The
-default configuration of log4j used in JSBML can be found in the package
+project\footnote{\url{http://logging.apache.org/log4j/}}. Log4j allows us to
+use six levels of logging (\texttt{TRACE}, \texttt{DEBUG}, \texttt{INFO},
+\texttt{WARN}, \texttt{ERROR}, and \texttt{FATAL}) but inside JSBML we mainly
+use \texttt{ERROR}, \texttt{WARN}, and \texttt{DEBUG}. The default
+configuration of log4j used in JSBML can be found in the package
 \texttt{org.sbml.jsbml.resources.cfg} with the name \texttt{log4j.properties}.
-In this file, you will found some documentation of which JSBML classes do some 
-logging and at which levels. 
+In this file, you will found some documentation of which JSBML classes do some
+logging and at which levels.
  
 If you do not change anything, all the log messages, starting at the info level 
 (meaning info, warn, error and fatal), will be printed on the console.
-Some of these messages might be useful to warn the end-users to warn that
-something goes wrong.
+Some of these messages might be useful to warn the end-users that something
+goes wrong.
 
 % TODO : should we changed the default to print in the jsbml.log file ???
 
@@ -1103,8 +1120,8 @@ Listing~\vref{lst:log4j1} gives a short overview about how to
 customize the configuration file to log all the changes that happen to the SBML
 elements by putting the threshold of all the loggers in the
 \texttt{org.sbml.jsbml.util} package to \texttt{DEBUG}. The class
-\texttt{SimpleSBaseChangeListener}
-\index{event!SimpleSBaseChangeListener@\texttt{SimpleSBaseChangeListener}}%
+\texttt{SimpleTreeNodeChangeListener}
+\index{event!SimpleTreeNodeChangeListener@\texttt{SimpleTreeNodeChangeListener}}%
 will then output the old value and the new value whenever a setter methods is
 used on the SBML elements.
 \begin{lstlisting}[language=bash,%numbers=none,
@@ -1121,7 +1138,7 @@ log4j.appender.console.layout=org.apache.log4j.PatternLayout
 # Pattern to output the caller's file name and line number.
 log4j.appender.console.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} - %5p (%F:%L) - %m%n
 
-# Log the messages from the SimpleSBaseChangeListener at the DEBUG Level
+# Log the messages from the SimpleTreeNodeChangeListener at the DEBUG Level
 # Allow to see all the changes that hapenned to the SBML elements
 log4j.logger.org.sbml.jsbml.util=DEBUG
 \end{lstlisting}
@@ -1134,8 +1151,8 @@ can become handy to filter the log output.
 
 % \paragraph{}
 If you are deploying your application in an application server such as Tomcat,
-you could define an appender that would send some messages by e-mail,
-Listing~\vref{lst:log4j2} give an example of that, were any messages from the
+you could define an appender that would send some messages by e-mail.
+Listing~\vref{lst:log4j2} gives an example of that, were any messages from the
 error level
 \index{logging}%
 are send by mail. All the messages are also written to a rolling log
@@ -1171,11 +1188,9 @@ log4j.appender.file.layout.ConversionPattern=%d{ISO8601} %5p %c{1}:%L - %m%n
 \end{lstlisting}
 
 Using XML instead of a properties file to define the log4j configuration, you
-can even send some log levels
-\index{logging}%
-to one appender and others to an other appender,
-using the \texttt{LevelRange} filter. This way, you could output the
-\texttt{DEBUG} messages only to a separate file.
+can even send some log levels\index{logging} to one appender and others to an
+other appender, using the \texttt{LevelRange} filter. In this way, you could
+output the \texttt{DEBUG} messages only to a separate file.
 
 
 \subsection{JSBML modules}
@@ -1194,8 +1209,9 @@ of these modules.
 \subsubsection{How to use libSBML for parsing SBML into JSBML data structures?}
 
 The capabilities of the SBML validator\index{SBML!validator} constitute the
-major strength of libSBML \citep{Bornstein2008} in comparison to JSBML, whose
-SBML validation is not yet fully implemented. Furthermore, if the
+major strength of libSBML \citep{Bornstein2008} in comparison to JSBML, which
+does not yet contain a stand-alone validator for SBML, but makes use of the
+online validation provided at \url{http://sbml.org}. Furthermore, if the
 platform-dependency of libSBML does not hamper your application, or you want to
 slowly switch from libSBML to JSBML, you may want to be able to still read and
 write SBML models using libSBML. To this end, the JSBML module
@@ -1237,20 +1253,22 @@ converting libSBML data structures into JSBML data objects},label=lst:LibSBMLio]
     }
   }
 \end{lstlisting}
-Writing SBML works similarly. This example will display the content of an SBML
-file in a \texttt{JTree}, similar as shown in Fig.~\vref{fig:Visualization}.
+Writing SBML works similarly. Example~\vref{lst:LibSBMLio} will display the
+content of an SBML file in a \texttt{JTree}, similar as shown in
+Fig.~\vref{fig:Visualization}.
 
 \subsubsection{How to turn a JSBML-based application into a CellDesigner plugin?}
 
 Once an application has been implemented based on JSBML, it can easily be
 accessed from CellDesigner's plugin menu \citep{Funahashi2003}. To this end,
 it is necessary to extend two classes that are defined in CellDesigner's plugin
-API (Application Programming Interface)\index{application programming interface!CellDesigner}. The Listings~\vrefrange{lst:PluginAction}
-{lst:Plugin} show a very simple example of how to pass CellDesigner plugin
-\index{CellDesigner!plugin}%
+API (Application Programming Interface).%
+\index{application programming interface!CellDesigner} 
+The Listings~\vrefrange{lst:PluginAction} {lst:Plugin} show a very simple example
+of how to pass CellDesigner plugin\index{CellDesigner!plugin}
 model\index{model!CellDesigner} data structures to the translator in JSBML,
-which creates then a JSBML \texttt{Model}\index{model!\texttt{Model}} data structure.
-\index{CellDesigner!\texttt{PluginAction}}%
+which creates then a JSBML \texttt{Model}\index{model!\texttt{Model}} data
+structure.\index{CellDesigner!\texttt{PluginAction}}%
 \lstinputlisting[language=Java,float,caption={A simple implementation of
 CellDesigner's abstract class \texttt{PluginAction}},
 label=lst:PluginAction]{%
@@ -1315,11 +1333,13 @@ shows how to translate a plugin data structure
 from CellDesigner into a corresponding JSBML data structure. With the help of
 the class \texttt{PluginSBMLWriter} it is possible to notify CellDesigner about
 changes in the model data structure. Note that Listing~\vref{lst:Plugin} is only
-completed by implementing the methods from the superclass. In this example it
-is sufficient to leave the implementation empty.
+completed by implementing the methods from the superclass,
+\texttt{CellDesignerPlugin}. In this example it is sufficient to leave the
+implementation of several methods empty.
 
 
-\subsubsection{libSBMLcompat, the JSBML compatibility module for libSBML}
+\subsubsection{\texttt{libSBMLcompat}, the JSBML compatibility module for
+libSBML}
 
 The compatibility module of JSBML will use the same package structure as the
 libSBML java bindings and provides identically named classes and API. Using the
@@ -1329,3 +1349,10 @@ JSBML or the other way around without changing any code.
 This module is in development and will be available with the version 1.0 of
 JSBML.
 \index{libSBML!compatibility module}%
+
+\subsubsection{\texttt{android}, a compatibility module for Android systems}
+\index{Andoroid}
+This module is inteded to povide all those classes from the Java\texttrademark{}
+standard distribution that are required for JSBML, but might be missing on
+Android systems. Since this module is currently under development, it can be
+expected to be available with the release of JSBML version 1.0.
