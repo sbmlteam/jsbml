@@ -23,6 +23,8 @@ package org.sbml.jsbml.ext;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.SBase;
 
 
@@ -52,8 +54,8 @@ public abstract class AbstractSBasePlugin implements SBasePlugin {
    * (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#children()
    */
-  public Enumeration<SBase> children() {
-    return new Enumeration<SBase>() {
+  public Enumeration<TreeNode> children() {
+    return new Enumeration<TreeNode>() {
       /**
        * Total number of children in this enumeration.
        */
@@ -77,7 +79,7 @@ public abstract class AbstractSBasePlugin implements SBasePlugin {
        * 
        * @see java.util.Enumeration#nextElement()
        */
-      public SBase nextElement() {
+      public TreeNode nextElement() {
         synchronized (this) {
           if (index < childCount) {
             return getChildAt(index++);
@@ -166,7 +168,7 @@ public abstract class AbstractSBasePlugin implements SBasePlugin {
     // int hashCode = super.hashCode();
     
     // Recursively compute the hashCode for each child node:
-    SBase child;
+    TreeNode child;
     for (int i = 0; i < getChildCount(); i++) {
       child = getChildAt(i);
       hashCode = prime * hashCode + (child == null ? 0 : child.hashCode());

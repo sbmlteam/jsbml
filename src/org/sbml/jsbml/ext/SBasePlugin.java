@@ -24,6 +24,8 @@ import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Map;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.SBase;
 
 /**
@@ -56,35 +58,35 @@ public interface SBasePlugin extends Cloneable, Serializable {
    * Returns the child <code>TreeNode</code> at index 
    * <code>childIndex</code>.
    */
-  SBase getChildAt(int childIndex);
+  public TreeNode getChildAt(int childIndex);
 	
   /**
    * Returns the number of children <code>TreeNode</code>s the receiver
    * contains.
    */
-  int getChildCount();
+  public int getChildCount();
   
   /**
    * Returns the index of <code>node</code> in the receivers children.
    * If the receiver does not contain <code>node</code>, -1 will be
    * returned.
    */
-  int getIndex(SBase node);
+  public int getIndex(SBase node);
   
   /**
    * Returns true if the receiver allows children.
    */
-  boolean getAllowsChildren();
+  public boolean getAllowsChildren();
 
   /**
    * Returns true if the receiver is a leaf.
    */
-  boolean isLeaf();
+  public boolean isLeaf();
 
   /**
    * Returns the children of the receiver as an <code>Enumeration</code>.
    */
-  Enumeration<SBase> children();
+  public Enumeration<TreeNode> children();
 	
 	/**
 	 * Returns a {@link Map} containing the XML attributes of this object.
