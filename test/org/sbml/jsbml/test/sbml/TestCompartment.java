@@ -77,7 +77,7 @@ public class TestCompartment {
     assertTrue( C.getUnits().equals("") == true );
     assertTrue( C.getOutside().equals("") == true );
     assertTrue( C.getSpatialDimensions() == 3d );
-    assertTrue( C.getVolume() == 1d );
+    // assertTrue( C.getVolume() == 1d ); // There is no default for the volume/size in L2 !!
     assertTrue( C.getConstant() == true );
     assertEquals( false, C.isSetId() );
     assertEquals( false, C.isSetName() );
@@ -138,7 +138,8 @@ public class TestCompartment {
     assertTrue( c.getUnits().equals("") == true );
     assertTrue( c.getOutside().equals("") == true );
     assertTrue( c.getSpatialDimensions() == 3d );
-    assertTrue( c.getVolume() == 1.0 );
+    // assertTrue( c.getVolume() == 1.0 ); // There is no default for the volume/size in L2 !!
+    assertTrue( Double.isNaN(c.getVolume()));
     assertTrue( c.getConstant() == true );
     assertEquals( true, c.isSetId() );
     assertEquals( false, c.isSetName() );

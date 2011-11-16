@@ -239,6 +239,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				version)))) {
 			logger.warn(String.format(
 					"No such predefined unit %s in SBML Level %d.", id, level));
+			return null;
 		}
 
 		id = id.toLowerCase();
@@ -273,12 +274,12 @@ public class UnitDefinition extends AbstractNamedSBase {
 				u.addCVTerm(new CVTerm(Qualifier.BQB_IS, resource));
 			}
 		}
-		String name = " unit" + id;
+		String name = " unit " + id;
 		if (!Unit.isPredefined(id, level)) {
 			id += "_base";
-			name = "Base" + name;
+			name = "Base " + name;
 		} else {
-			name = "Predefined" + name;
+			name = "Predefined " + name;
 		}
 		UnitDefinition ud = new UnitDefinition(id, level, version);
 		ud.setName(name);
