@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
@@ -70,6 +71,9 @@ public class BuildToyModelTest {
     QualitativeSpecies g0 = qModel.createQualitativeSpecies("G0", true, comp1.getName(), false);
     g0.setMaxLevel(1);
     g0.setInitialLevel(0);
+    
+    g0.getAnnotation().addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:obo.go:GO%3A1234567"));
+    g0.setNotes("<notes>\n\t<body xmlns=\"http://www.w3.org/1999/xhtml\">\n\t\t<p>TestNotes parsing</p>\n\t</body>\n</notes>");
     
     QualitativeSpecies g1 = qModel.createQualitativeSpecies("G1", false, comp1.getName(), false);
     g1.setName("G1 name");
@@ -119,8 +123,11 @@ public class BuildToyModelTest {
       
     tr_g1.addFunctionTerm(defTerm);
     tr_g1.addFunctionTerm(ft1);
-    
-    Transition tr2 = qModel.createTransition("tr2", in3, out1); 
+
+    Input in4 = new Input("in4", g3, InputTransitionEffect.none);
+    Output out2 = new Output("o2", g1, OutputTransitionEffect.assignmentLevel);
+
+    Transition tr2 = qModel.createTransition("tr2", in4, out2); 
     
     new JSBMLvisualizer(sbmlDoc); 
     

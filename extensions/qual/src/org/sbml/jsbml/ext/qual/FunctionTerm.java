@@ -26,7 +26,6 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.parsers.QualParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -53,7 +52,7 @@ public class FunctionTerm extends AbstractMathContainer {
 
 	public FunctionTerm() {
 		super();
-		addNamespace(QualParser.getNamespaceURI());
+		addNamespace(QualConstant.namespaceURI);
 	}
 
 	@Override
@@ -364,6 +363,20 @@ public class FunctionTerm extends AbstractMathContainer {
 		this.defaultTerm = defaultTerm;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractSBase#toString()
+	 */
+	@Override
+	public String toString() {
+		if (isDefaultTerm()) {
+			return "defaultTerm";
+		}
+		return super.toString();
+	}
+
+	
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value) {
 
@@ -391,13 +404,13 @@ public class FunctionTerm extends AbstractMathContainer {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetResultLevel()) {
-			attributes.put(QualParser.shortLabel+ ":"+QualConstant.resultLevel, Integer.toString(getResultLevel()));
+			attributes.put(QualConstant.shortLabel + ":"+QualConstant.resultLevel, Integer.toString(getResultLevel()));
 		}	  
 		if (isSetResultSymbol()) {
-			attributes.put(QualParser.shortLabel+ ":"+QualConstant.resultSymbol, getResultSymbol());
+			attributes.put(QualConstant.shortLabel + ":"+QualConstant.resultSymbol, getResultSymbol());
 		}
 		if (isSetTemporisationValue()) {
-			attributes.put(QualParser.shortLabel+ ":"+QualConstant.temporisationValue, Double.toString(getTemporisationValue()));
+			attributes.put(QualConstant.shortLabel+ ":"+QualConstant.temporisationValue, Double.toString(getTemporisationValue()));
 		}
 
 		return attributes;

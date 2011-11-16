@@ -35,7 +35,18 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public class QualConstant  extends PropertyChangeEvent {
   
- 
+	/**
+	 * The namespace URI of this parser.
+	 */
+	public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/qual/version1";
+
+	
+	/**
+	 * The short name/label of the package
+	 */
+	public static final String shortLabel = "qual";
+	
+
   /**
    * Generated serial version identifier. 
    */
@@ -59,7 +70,8 @@ public class QualConstant  extends PropertyChangeEvent {
   public static final String transitionEffect    = "transitionEffect";
   public static final String thresholdLevel      = "thresholdLevel";
   public static final String thresholdSymbol     = "thresholdSymbol";
-  
+
+
 
   /**
    * Constructs a new <code>PropertyChangeEvent</code>.

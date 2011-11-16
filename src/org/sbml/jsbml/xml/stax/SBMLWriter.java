@@ -38,8 +38,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -65,13 +65,13 @@ import org.sbml.jsbml.History;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
@@ -127,14 +127,14 @@ public class SBMLWriter {
 
 		String fileName = args[0];
 		String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
-
+		
 		System.out.printf("Reading %s and writing %s\n", 
 		  fileName, jsbmlWriteFileName);
 
 		SBMLDocument testDocument;
 		try {
 			testDocument = new SBMLReader().readSBMLFile(fileName);
-			
+
 			// testDocument.checkConsistency();
 			
 			new SBMLWriter().write(testDocument, jsbmlWriteFileName);
@@ -569,7 +569,7 @@ public class SBMLWriter {
 		}
 		if (sbmlDocument.isSetAnnotation()) {
 			writeAnnotation(sbmlDocument, smOutputElement, streamWriter,
-					SBMLNamespace, indent, false);
+					indent, false);
 		}
 		smOutputElement.addCharacters("\n");
 
@@ -645,16 +645,10 @@ public class SBMLWriter {
 			// Create an xml fragment to avoid having the xml declaration
 			SMRootFragment outputDocument = SMOutputFactory.createOutputFragment(writer);
 
-			// create the sbmlNamespace variable
-			String sbmlNamespace = getNamespaceFrom(sbase.getLevel(), sbase.getVersion());
-			SMOutputContext context = outputDocument.getContext();
-			SMNamespace namespace = context.getNamespace(sbmlNamespace);
-			namespace.setPreferredPrefix("");
-			
 			// all the sbml element namespaces are registered to the writer in the writeAnnotation method
 
 			// call the writeAnnotation, indicating that we are building an xml fragment
-			writeAnnotation(sbase, outputDocument, writer, sbmlNamespace, 0, true);
+			writeAnnotation(sbase, outputDocument, writer, 0, true);
 
 			writer.writeEndDocument();
 			writer.close();
@@ -687,11 +681,14 @@ public class SBMLWriter {
 	 * @throws SAXException
 	 */
 	private void writeAnnotation(SBase sbase, SMOutputContainer element,
-			XMLStreamWriter writer, String sbmlNamespace, int indent, boolean xmlFragment)
+			XMLStreamWriter writer, int indent, boolean xmlFragment)
 		throws XMLStreamException, SBMLException {
 	  
-		SMNamespace namespace = element.getNamespace(sbmlNamespace);
+		// create the sbmlNamespace variable
+		String sbmlNamespace = getNamespaceFrom(sbase.getLevel(), sbase.getVersion());
+		SMNamespace namespace = element.getContext().getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
+
 		Annotation annotation = sbase.getAnnotation();
 		SMOutputElement annotationElement;
 		String whiteSpaces = createIndentationString(indent);
@@ -791,6 +788,7 @@ public class SBMLWriter {
 		// if the given SBase is not a model and the level is smaller than 3,
 		// no history can be written.
 		// Annotation cannot be written without metaid tag.
+
 		if (sbase.getAnnotation().isSetRDFannotation()) {
       if (sbase.isSetMetaId()) {
         if (!annotation.isSetAbout()) {
@@ -1311,6 +1309,9 @@ public class SBMLWriter {
 					if (parentXmlObject.isSetName()) {
 						boolean isClosedMathContainer = false, isClosedAnnotation = false;
 						
+						// TODO : problem here as a children does not have the same namespace as his parent all the time !!
+						// use ((SBase) nextObjectToWrite).getNamespaces(); ??
+						
 						if (parentXmlObject.isSetNamespace()) {
 							SMNamespace namespaceContext = smOutputParentElement
 									.getNamespace(
@@ -1343,8 +1344,7 @@ public class SBMLWriter {
 							}
 							if (s.isSetAnnotation()) {
 								writeAnnotation(s, newOutPutElement,
-										streamWriter, newOutPutElement
-												.getNamespace().getURI(),
+										streamWriter, 
 										indent + indentCount, false);
 								elementIsNested = isClosedAnnotation = true;
 							}

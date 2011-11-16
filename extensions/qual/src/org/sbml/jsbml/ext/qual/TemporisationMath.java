@@ -20,7 +20,6 @@
 package org.sbml.jsbml.ext.qual;
 
 import org.sbml.jsbml.AbstractMathContainer;
-import org.sbml.jsbml.xml.parsers.QualParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -39,7 +38,7 @@ public class TemporisationMath extends AbstractMathContainer {
 
   public TemporisationMath() {
 	  super();
-	  addNamespace(QualParser.getNamespaceURI());
+	  addNamespace(QualConstant.namespaceURI);
   }
   
   
