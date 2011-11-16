@@ -435,6 +435,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(QualConstant.qualitativeSpecies)) {
@@ -445,7 +446,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
         setThresholdSymbol(value);
       } else if (attributeName.equals(QualConstant.sign)) {
     	  try {
-    		  setSign(Sign.valueOf(attributeName));
+    		  setSign(Sign.valueOf(value));
     	  } catch (Exception e) {
     		  throw new SBMLException("Could not recognized the value '" + value
     				  + "' for the attribute " + QualConstant.sign

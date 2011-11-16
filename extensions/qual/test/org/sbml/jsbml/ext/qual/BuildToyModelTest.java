@@ -68,24 +68,24 @@ public class BuildToyModelTest {
     comp1.setConstant(true);
     
     // ListOfQualitativeSpecies
-    QualitativeSpecies g0 = qModel.createQualitativeSpecies("G0", true, comp1.getName(), false);
+    QualitativeSpecies g0 = qModel.createQualitativeSpecies("G0", true, comp1.getId(), false);
     g0.setMaxLevel(1);
     g0.setInitialLevel(0);
     
     g0.getAnnotation().addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:obo.go:GO%3A1234567"));
     g0.setNotes("<notes>\n\t<body xmlns=\"http://www.w3.org/1999/xhtml\">\n\t\t<p>TestNotes parsing</p>\n\t</body>\n</notes>");
     
-    QualitativeSpecies g1 = qModel.createQualitativeSpecies("G1", false, comp1.getName(), false);
+    QualitativeSpecies g1 = qModel.createQualitativeSpecies("G1", false, comp1.getId(), false);
     g1.setName("G1 name");
     g1.setMaxLevel(3);
     g1.setInitialLevel(1);
 
 
-    QualitativeSpecies g2 = qModel.createQualitativeSpecies("G2", false, comp1.getName(), false);
+    QualitativeSpecies g2 = qModel.createQualitativeSpecies("G2", false, comp1.getId(), false);
     g2.setMaxLevel(2);
     g2.setInitialLevel(2);
 
-    QualitativeSpecies g3 = qModel.createQualitativeSpecies("G3", false, comp1.getName(), true);
+    QualitativeSpecies g3 = qModel.createQualitativeSpecies("G3", false, comp1.getId(), true);
     g3.setMaxLevel(1);
     g3.setInitialLevel(1);
 
