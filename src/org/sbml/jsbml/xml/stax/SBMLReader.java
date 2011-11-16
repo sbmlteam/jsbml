@@ -501,6 +501,11 @@ public class SBMLReader {
 	 */
 	private Object readXMLFromXMLEventReader(XMLEventReader xmlEventReader, TreeNodeChangeListener listener)  throws XMLStreamException {
 
+		// Making sure that we use the good XML library
+		System.setProperty("javax.xml.stream.XMLOutputFactory", "com.ctc.wstx.stax.WstxOutputFactory");
+		System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
+		System.setProperty("javax.xml.stream.XMLEventFactory", "com.ctc.wstx.stax.WstxEventFactory");
+
 		initializePackageParsers();
 
 		XMLEvent event;
@@ -589,7 +594,7 @@ public class SBMLReader {
 					}
 					
 					// TODO : will not work with arbitrary SBML part
-					// TODO : we need to be able, somehow, to set the Model element in the AssignmentRule
+					// TODO : we need to be able, somehow, to set the Model element in the Constraint
 					// to be able to have a fully functional parsing. Without it the functionDefinition, for examples, are
 					// not properly recognized.
 					Constraint constraint = new Constraint(3,1);
@@ -664,7 +669,10 @@ public class SBMLReader {
 					
 					if (isInsideNotes) {
 						parser = initializedParsers.get(JSBML.URI_XHTML_DEFINITION);
-					}
+					} 
+//					else if (isInsideAnnotation) {
+//						parser = initializedParsers.get("anyAnnotation");
+//					}
 					
 					logger.debug(" Parser = " + parser.getClass().getName());
 					logger.debug(" Characters = @" + characters.getData() + "@");
