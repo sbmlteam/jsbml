@@ -28,7 +28,6 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.parsers.QualParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -110,7 +109,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
 
 
   public void initDefaults() {
-     addNamespace(QualParser.getNamespaceURI());
+     addNamespace(QualConstant.namespaceURI);
      qualitativeSpecies = null;
      transitionEffect = null;
      outputLevel = null;   
@@ -349,20 +348,20 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
 
 	  if (isSetId()) {
 		  attributes.remove("id");
-		  attributes.put(QualParser.shortLabel+ ":id", getId());
+		  attributes.put(QualConstant.shortLabel+ ":id", getId());
 	  }
 	  if (isSetName()) {
 		  attributes.remove("name");
-		  attributes.put(QualParser.shortLabel+ ":name", getName());
+		  attributes.put(QualConstant.shortLabel+ ":name", getName());
 	  }
 	  if (isSetQualitativeSpecies()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.qualitativeSpecies, getQualitativeSpecies());
+		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.qualitativeSpecies, getQualitativeSpecies());
 	  }
 	  if (isSetOutputLevel()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.outputLevel, Integer.toString(getOutputLevel()));
+		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.outputLevel, Integer.toString(getOutputLevel()));
 	  }	  
 	  if (isSetTransitionEffect()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.transitionEffect, getTransitionEffect().toString());
+		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.transitionEffect, getTransitionEffect().toString());
 	  }
 	  
 	  return attributes;

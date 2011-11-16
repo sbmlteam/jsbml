@@ -25,15 +25,14 @@ import java.util.Enumeration;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.qual.FunctionTerm;
 import org.sbml.jsbml.ext.qual.Input;
 import org.sbml.jsbml.ext.qual.Output;
+import org.sbml.jsbml.ext.qual.QualConstant;
 import org.sbml.jsbml.ext.qual.QualList;
 import org.sbml.jsbml.ext.qual.QualitativeModel;
 import org.sbml.jsbml.ext.qual.QualitativeSpecies;
@@ -53,24 +52,9 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @since 1.0
  * @version $Rev$
  */
-public class QualParser implements ReadingParser, WritingParser {
+public class QualParser extends AbstractReaderWriter {
 
-	/**
-	 * The namespace URI of this parser.
-	 */
-	private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/qual/version1";
 	
-	public static final String shortLabel = "qual";
-	
-	
-	/**
-	 * 
-	 * @return the namespaceURI of this parser.
-	 */
-	public static String getNamespaceURI() {
-		return namespaceURI;
-	}
-
 	/**
 	 * The QualList enum which represents the name of the list this parser is
 	 * currently reading.
@@ -98,15 +82,13 @@ public class QualParser implements ReadingParser, WritingParser {
 			// TODO : the 'required' attribute is written even if there is no plugin class for the SBMLDocument, so I am not totally sure how this is done.
 		} 
 		else if (sbase instanceof Model) {
-			QualitativeModel modelGE = (QualitativeModel) ((Model) sbase).getExtension(namespaceURI);
-
-			if (modelGE != null && modelGE.isSetListOfQualitativeSpecies()) {
-				listOfElementsToWrite.add(modelGE.getListOfQualitativeSpecies());
-			}
-			if (modelGE != null && modelGE.isSetListOfTransitions()) {
-				listOfElementsToWrite.add(modelGE.getListOfTransitions());
-			}
+			QualitativeModel modelGE = (QualitativeModel) ((Model) sbase).getExtension(QualConstant.namespaceURI);
 			
+			Enumeration<TreeNode> children = modelGE.children();
+			
+			while (children.hasMoreElements()) {
+				listOfElementsToWrite.add(children.nextElement());
+			}						
 		} 
 		else if (sbase instanceof TreeNode) {
 			Enumeration<TreeNode> children = ((TreeNode) sbase).children();
@@ -125,65 +107,6 @@ public class QualParser implements ReadingParser, WritingParser {
 		return listOfElementsToWrite;
 	}
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(String
-	 *      elementName, String attributeName, String value, String prefix,
-	 *      boolean isLastAttribute, Object contextObject)
-	 */
-	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
-
-		// logger.debug("processAttribute -> " + prefix + " : " + attributeName + " = " + value + " (" + contextObject.getClass().getName() + ")");
-		
-		boolean isAttributeRead = false;
-
-		if (contextObject instanceof SBase) {
-
-			SBase sbase = (SBase) contextObject;
-
-			try {
-				isAttributeRead = sbase.readAttribute(attributeName, prefix, value);
-			} catch (Throwable exc) {
-				logger.error(exc.getMessage());
-			}
-		} else if (contextObject instanceof Annotation) {
-			Annotation annotation = (Annotation) contextObject;
-			isAttributeRead = annotation.readAttribute(attributeName, prefix,
-					value);
-		} else if (contextObject instanceof SBasePlugin) {
-			isAttributeRead = ((SBasePlugin) contextObject).readAttribute(attributeName, prefix, value);
-		}
-
-		if (!isAttributeRead) {
-			logger.warn("processAttribute : The attribute " + attributeName
-					+ " on the element " + elementName +
-					" is not part of the SBML specifications");					
-		}
-	}
-
-	/*
-	 * 	(non-Javadoc)
-	 * @see org.sbml.jsbml.xml.stax.ReadingParser#processCharactersOf(java.lang.String, java.lang.String, java.lang.Object)
-	 */
-	public void processCharactersOf(String elementName, String characters,
-			Object contextObject) {
-		
-		// the basic qual elements don't have any text. SBML syntax
-		// error, throw an exception, log en error ?
-		logger.debug("processCharactersOf : the basic qual elements don't have any text. " +
-				"SBML syntax error. characters lost = " + characters);
-	}
-
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndDocument(SBMLDocument
-	 *      sbmlDocument)
-	 */
-	public void processEndDocument(SBMLDocument sbmlDocument) {
-		// Do some checking ??
-	}
 
 	/**
 	 * 
@@ -195,29 +118,24 @@ public class QualParser implements ReadingParser, WritingParser {
 	{
 
 		if (elementName.equals("listOfQualitativeSpecies")
-				|| elementName.equals("listOfTransitions")
-				|| elementName.equals("listOfInputs")
-				|| elementName.equals("listOfOutputs")
-				|| elementName.equals("listOfFunctionTerms")
-				|| elementName.equals("listOfSymbolicValues")) 
+				|| elementName.equals("listOfTransitions"))
 		{
 			this.groupList = QualList.none;
 		}
-		
-		return true;
-	}
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processNamespace(String
-	 *      elementName, String URI, String prefix, String localName, boolean
-	 *      hasAttributes, boolean isLastNamespace, Object contextObject)
-	 */
-	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) 
-	{
-		// TODO : read the namespace, it could be some other extension objects
+		if (elementName.equals("listOfInputs")
+				|| elementName.equals("listOfOutputs")
+				|| elementName.equals("listOfFunctionTerms"))
+		{
+			this.groupList = QualList.listOfTransitions;
+		}
+
+		if (elementName.equals("listOfSymbolicValues")) 
+		{
+			this.groupList = QualList.listOfQualitativeSpecies;
+		}
+
+		return true;
 	}
 
 	/**
@@ -231,15 +149,18 @@ public class QualParser implements ReadingParser, WritingParser {
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) 
 	{
+		
+		// logger.debug("processStartElement : elementName = " + elementName + " (" + contextObject.getClass().getSimpleName() + ")");
+		
 		if (contextObject instanceof Model) {
 			Model model = (Model) contextObject;
 			QualitativeModel qualModel = null;
 			
-			if (model.getExtension(namespaceURI) != null) {
-				qualModel = (QualitativeModel) model.getExtension(namespaceURI);
+			if (model.getExtension(QualConstant.namespaceURI) != null) {
+				qualModel = (QualitativeModel) model.getExtension(QualConstant.namespaceURI);
 			} else {
 				qualModel = new QualitativeModel(model);
-				model.addExtension(namespaceURI, qualModel);
+				model.addExtension(QualConstant.namespaceURI, qualModel);
 			}
 
 			if (elementName.equals("listOfQualitativeSpecies")) {
@@ -293,19 +214,19 @@ public class QualParser implements ReadingParser, WritingParser {
 		{
 			ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
-			if (elementName.equals("transition")) { 
+			if (elementName.equals("transition") && this.groupList.equals(QualList.listOfTransitions)) { 
 				//  && this.groupList.equals(QualList.listOfTransitions) // the ListOf inside the transition elements made this test wrong
 				// if we want to have this kind of test, we would have to maintain a list of listOf type !
 				Model model = (Model) listOf.getParentSBMLObject();
-				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(namespaceURI); 
+				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(QualConstant.namespaceURI); 
 				
 				Transition transition = new Transition();				
 				extendeModel.addTransition(transition);
 				return transition;
 				
-			} else if (elementName.equals("qualitativeSpecies")) { //  && this.groupList.equals(QualList.listOfQualitativeSpecies)
+			} else if ((elementName.equals("qualitativeSpecies")) && this.groupList.equals(QualList.listOfQualitativeSpecies)) {
 				Model model = (Model) listOf.getParentSBMLObject();
-				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(namespaceURI); 
+				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(QualConstant.namespaceURI); 
 				
 				QualitativeSpecies qualSpecies = new QualitativeSpecies();
 				extendeModel.addQualitativeSpecies(qualSpecies);
@@ -352,30 +273,6 @@ public class QualParser implements ReadingParser, WritingParser {
 		return contextObject;
 	}
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeAttributes(SBMLObjectForXML
-	 *      xmlObject, Object sbmlElementToWrite)
-	 */
-	public void writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		if (sbmlElementToWrite instanceof SBase) {
-			SBase sbase = (SBase) sbmlElementToWrite;
-			xmlObject.addAttributes(sbase.writeXMLAttributes());
-		}
-
-	}
-
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeCharacters(SBMLObjectForXML
-	 *      xmlObject, Object sbmlElementToWrite)
-	 */
-	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) 
-	{
-		logger.error("writeCharacters : Group elements do not have any characters !!");
-	}
 
 	/**
 	 * 
@@ -383,66 +280,29 @@ public class QualParser implements ReadingParser, WritingParser {
 	 *      xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeElement(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
+			Object sbmlElementToWrite) 
+	{
+		super.writeElement(xmlObject, sbmlElementToWrite);
+		
+		logger.debug("writeElement : " + sbmlElementToWrite.getClass().getSimpleName());
 
-		logger.debug("writeElement : " + sbmlElementToWrite);
-
-		if (sbmlElementToWrite instanceof SBase) {
-			SBase sbase = (SBase) sbmlElementToWrite;
-
-			if (sbmlElementToWrite instanceof FunctionTerm &&
-					((FunctionTerm) sbmlElementToWrite).isDefaultTerm())
-			{
-				xmlObject.setName("defaultTerm");
-			}
-			
-			if (!xmlObject.isSetName()) {
-				if (sbase instanceof ListOf<?>) {
-					ListOf<?> listOf = (ListOf<?>) sbase;
-					
-					if (listOf.size() > 0) {
-
-						if (listOf.get(0) instanceof Transition) {
-							xmlObject.setName(QualList.listOfTransitions.toString());
-						} else if (listOf.get(0) instanceof QualitativeSpecies) {
-							xmlObject.setName(QualList.listOfQualitativeSpecies.toString());
-						} else if (listOf.get(0) instanceof Input) {
-							xmlObject.setName(QualList.listOfInputs.toString());
-						} else if (listOf.get(0) instanceof Output) {
-							xmlObject.setName(QualList.listOfOutputs.toString());
-						} else if (listOf.get(0) instanceof FunctionTerm) {
-							xmlObject.setName(QualList.listOfFunctionTerms.toString());
-						} else if (listOf.get(0) instanceof SymbolicValue) {
-							xmlObject.setName(QualList.listOfSymbolicValues.toString());
-						}
-					}
-				} else {
-					xmlObject.setName(sbase.getElementName());
-				}
-			}
-			if (!xmlObject.isSetPrefix()) {
-				xmlObject.setPrefix(shortLabel);
-			}
-			xmlObject.setNamespace(namespaceURI);
-
+		if (sbmlElementToWrite instanceof FunctionTerm &&
+				((FunctionTerm) sbmlElementToWrite).isDefaultTerm())
+		{
+			xmlObject.setName("defaultTerm");
 		}
 
 	}
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeNamespaces(SBMLObjectForXML
-	 *      xmlObject, Object sbmlElementToWrite)
-	 */
-	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) 
-	{
-		if (sbmlElementToWrite instanceof SBase) {
-			// SBase sbase = (SBase) sbmlElementToWrite;
 
-			xmlObject.setPrefix(shortLabel);
-		}
-		// TODO : write all namespaces
+	@Override
+	public String getShortLabel() {
+		return QualConstant.shortLabel;
+	}
+
+	@Override
+	public String getNamespaceURI() {
+		return QualConstant.namespaceURI;
 	}
 
 }

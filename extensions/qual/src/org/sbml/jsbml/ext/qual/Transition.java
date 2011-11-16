@@ -29,7 +29,6 @@ import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.xml.parsers.QualParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -98,7 +97,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
   public void initDefaults() {
-    addNamespace(QualParser.getNamespaceURI());
+    addNamespace(QualConstant.namespaceURI);
     temporisationType = null;
     listOfFunctionTerms = null;
     listOfInputs = null;
@@ -274,7 +273,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
     if (!isSetListOfOutputs()) {
       listOfOutputs = new ListOf<Output>(getLevel(), getVersion());
       listOfOutputs.setSBaseListType(ListOf.Type.other);
-      listOfOutputs.addNamespace(QualParser.getNamespaceURI());
+      listOfOutputs.addNamespace(QualConstant.namespaceURI);
       registerChild(listOfOutputs);
 
     }
@@ -355,7 +354,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
     if (!isSetListOfFunctionTerms()) {
       listOfFunctionTerms = new ListOf<FunctionTerm>(getLevel(), getVersion());
       listOfFunctionTerms.setSBaseListType(ListOf.Type.other);
-      listOfFunctionTerms.addNamespace(QualParser.getNamespaceURI());
+      listOfFunctionTerms.addNamespace(QualConstant.namespaceURI);
       registerChild(listOfFunctionTerms);
     }
     return listOfFunctionTerms;
@@ -438,7 +437,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
     if (!isSetListOfInputs()) {
       listOfInputs = new ListOf<Input>(getLevel(), getVersion());
       listOfInputs.setSBaseListType(ListOf.Type.other);
-      listOfInputs.addNamespace(QualParser.getNamespaceURI());
+      listOfInputs.addNamespace(QualConstant.namespaceURI);
       registerChild(listOfInputs);
     }
     return listOfInputs;
@@ -538,14 +537,14 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 	  
 	  if (isSetId()) {
 		  attributes.remove("id");
-		  attributes.put(QualParser.shortLabel+ ":id", getId());
+		  attributes.put(QualConstant.shortLabel+ ":id", getId());
 	  }
 	  if (isSetName()) {
 		  attributes.remove("name");
-		  attributes.put(QualParser.shortLabel+ ":name", getName());
+		  attributes.put(QualConstant.shortLabel+ ":name", getName());
 	  }
 	  if (isSetTemporisationType()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.temporisationType, getTemporisationType().toString());
+		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.temporisationType, getTemporisationType().toString());
 	  }
 
 	  

@@ -27,7 +27,6 @@ import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.parsers.QualParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -95,7 +94,7 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
 
   
   public void initDefaults() {
-     addNamespace(QualParser.getNamespaceURI());
+     addNamespace(QualConstant.namespaceURI);
      rank = null;
   }
 
@@ -215,14 +214,14 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
 
 	  if (isSetId()) {
 		  attributes.remove("id");
-		  attributes.put(QualParser.shortLabel+ ":id", getId());
+		  attributes.put(QualConstant.shortLabel+ ":id", getId());
 	  }
 	  if (isSetName()) {
 		  attributes.remove("name");
-		  attributes.put(QualParser.shortLabel+ ":name", getName());
+		  attributes.put(QualConstant.shortLabel+ ":name", getName());
 	  }
 	  if (isSetRank()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.rank, Integer.toString(getRank()));
+		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.rank, Integer.toString(getRank()));
 	  }	  
 	  
 	  return attributes;

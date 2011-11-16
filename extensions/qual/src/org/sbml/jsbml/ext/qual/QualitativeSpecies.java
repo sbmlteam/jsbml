@@ -32,7 +32,6 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.parsers.QualParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -119,7 +118,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
 
   public void initDefaults() {
-    addNamespace(QualParser.getNamespaceURI());
+    addNamespace(QualConstant.namespaceURI);
     boundaryCondition = null;
     compartment = null;
     constant = null;
@@ -443,7 +442,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     if (!isSetListOfSymbolicValues()) {
       this.listOfSymbolicValues = new ListOf<SymbolicValue>(getLevel(), getVersion());
       listOfSymbolicValues.setSBaseListType(ListOf.Type.other);
-      listOfSymbolicValues.addNamespace(QualParser.getNamespaceURI());
+      listOfSymbolicValues.addNamespace(QualConstant.namespaceURI);
       registerChild(listOfSymbolicValues);
 
     }
@@ -618,26 +617,26 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
 	  if (isSetId()) {
 		  attributes.remove("id");
-		  attributes.put(QualParser.shortLabel+ ":id", getId());
+		  attributes.put(QualConstant.shortLabel+ ":id", getId());
 	  }
 	  if (isSetName()) {
 		  attributes.remove("name");
-		  attributes.put(QualParser.shortLabel+ ":name", getName());
+		  attributes.put(QualConstant.shortLabel+ ":name", getName());
 	  }
 	  if (isSetBoundaryCondition()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.boundaryCondition, Boolean.toString(getBoundaryCondition()));
+		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.boundaryCondition, Boolean.toString(getBoundaryCondition()));
 	  }
 	  if (isSetConstant()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.constant, Boolean.toString(getConstant()));
+		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.constant, Boolean.toString(getConstant()));
 	  }
 	  if (isSetCompartment()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.compartment, getCompartment());
+		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.compartment, getCompartment());
 	  }
 	  if (isSetInitialLevel()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.initialLevel, Integer.toString(getInitialLevel()));
+		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.initialLevel, Integer.toString(getInitialLevel()));
 	  }	  
 	  if (isSetMaxLevel()) {
-		  attributes.put(QualParser.shortLabel+ ":"+QualConstant.maxLevel, Integer.toString(getMaxLevel()));
+		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.maxLevel, Integer.toString(getMaxLevel()));
 	  }
 	  
 	  return attributes;

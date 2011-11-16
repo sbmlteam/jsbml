@@ -70,7 +70,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 				isAttributeRead = sbase.readAttribute(attributeName, prefix,
 						value);
 			} catch (Throwable exc) {
-				System.err.println(exc.getMessage());
+				logger.error(exc.getMessage());
 			}
 		}
 		else if (contextObject instanceof Annotation) 
@@ -228,7 +228,11 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 					ListOf<?> listOf = (ListOf<?>) sbase;
 					
 					if (listOf.size() > 0) {
-						xmlObject.setName("listOf" + listOf.get(0).getClass().getSimpleName() + "s");
+						String listOfName = "listOf" + listOf.get(0).getClass().getSimpleName();
+						if (!listOfName.endsWith("s")) {
+							listOfName += "s";
+						}
+						xmlObject.setName(listOfName);
 					}
 					
 				} else {
