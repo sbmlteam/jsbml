@@ -28,6 +28,7 @@ import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
@@ -521,7 +522,13 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 		  isAttributeRead = true;
 		  
 		  if (attributeName.equals(QualConstant.temporisationType)){
-		    setTemporisationType(TemporisationType.valueOf(attributeName));
+			  try {
+				  setTemporisationType(TemporisationType.valueOf(value));
+			  } catch (Exception e) {
+				  throw new SBMLException("Could not recognized the value '" + value
+						  + "' for the attribute " + QualConstant.temporisationType
+						  + " on the 'transition' element.");
+			  }
 		  } else {
 		    isAttributeRead = false;
 		  }
