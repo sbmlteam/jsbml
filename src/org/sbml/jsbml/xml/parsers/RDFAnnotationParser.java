@@ -58,8 +58,11 @@ import org.sbml.jsbml.UnitDefinition;
  * @version $Rev$
  */
 @SuppressWarnings("deprecation")
-public class RDFAnnotationParser implements ReadingParser{
+public class RDFAnnotationParser implements ReadingParser {
 	
+  /**
+   * 
+   */
 	private transient Logger logger = Logger.getLogger(RDFAnnotationParser.class); 
 	
 	/**
@@ -291,7 +294,7 @@ public class RDFAnnotationParser implements ReadingParser{
 						logger.warn("The kineticLaw element '" + kineticLaw.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 					}
 
-					if (kineticLaw.isSetListOfParameters()){
+					if (kineticLaw.isSetListOfLocalParameters()){
 						for (LocalParameter parameter : kineticLaw.getListOfLocalParameters()){
 							if (!parameter.hasValidAnnotation()){
 								setRDFAbout(parameter);
@@ -431,7 +434,7 @@ public class RDFAnnotationParser implements ReadingParser{
 			Object contextObject) {
 
 		// Adds the namespace to the RDFAnnotationNamespaces HashMap of annotation.
-		if (elementName.equals("RDF") && contextObject instanceof Annotation){
+		if (elementName.equals("RDF") && (contextObject instanceof Annotation)) {
 			Annotation annotation = (Annotation) contextObject;
 			annotation.addRDFAnnotationNamespace(localName, prefix, URI);;
 		}
@@ -467,7 +470,7 @@ public class RDFAnnotationParser implements ReadingParser{
 			}
 		}
 		// If the contextObject is not an Annotation instance, we should be into the Description subNode of the RDF element.
-		else if (this.previousElements.containsKey("RDF")){
+		else if (this.previousElements.containsKey("RDF")) {
 			if (this.previousElements.get("RDF") != null){
 				// The Description subNode of RDF has been read.
 				if (this.previousElements.get("RDF").equals("Description")){

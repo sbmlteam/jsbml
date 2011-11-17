@@ -37,7 +37,7 @@ import org.sbml.jsbml.CVTerm.Type;
  * @since 0.8
  * @version $Rev$
  */
-public class ModelQualifierParser implements ReadingParser{
+public class ModelQualifierParser implements ReadingParser {
 
 	/**
 	 * The namespace URI of this ReadingParser.

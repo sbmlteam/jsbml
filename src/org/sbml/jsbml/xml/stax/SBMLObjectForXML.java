@@ -48,7 +48,7 @@ public class SBMLObjectForXML {
 	/**
 	 * Contains the XML attributes of a SBML component to write.
 	 */
-	private HashMap<String, String> attributes = new HashMap<String, String>();
+	private Map<String, String> attributes = new HashMap<String, String>();
 	/**
 	 * Represents the text of a SBML component to write.
 	 */
@@ -81,7 +81,7 @@ public class SBMLObjectForXML {
 	/**
 	 * @return the attributes
 	 */
-	public HashMap<String, String> getAttributes() {
+	public Map<String, String> getAttributes() {
 		return attributes;
 	}
 
@@ -185,6 +185,10 @@ public class SBMLObjectForXML {
 		this.prefix = prefix;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "SBMLObjectForXML [attributes=" + attributes + ", name=" + name

@@ -224,19 +224,54 @@ public class StringTools {
    *         the desired length.
    */
   public static String leadingZeros(int length, int number) {
-    StringBuilder string = new StringBuilder();
-    string.append(Integer.toString(number));
-    if (string.length() > length) {
-      throw new IllegalArgumentException(String.format(
-        "Number %d is longer than %d digits", number, length));
+    return fill(length, '0', Integer.toString(number));
+  }
+  
+  /**
+   * 
+   * @param length the desired length of the resulting {@link String}
+   * @param symbol the symbol to be inserted at the beginning of the initial {@link String} multiple times.
+   * @param initialString can be null or empty.
+   * @return
+   */
+  public static String fill(int length, char symbol, String initialString) {
+    StringBuilder sb = new StringBuilder();
+    if (initialString != null) {
+      if (initialString.length() > length) {
+        throw new IllegalArgumentException(String.format(
+          "Initial String %s is already longer than %d digits.", initialString,
+          length));
+      }
+      sb.append(initialString);
     }
-    while (string.length() < length) {
-      string.insert(0, '0');
-    }
-    return string.toString();
+    return fill(length, symbol, sb);
+  }
+  
+  /**
+   * 
+   * @param length
+   * @param symbol
+   * @return
+   */
+  public static String fill(int length, char symbol) {
+    return fill(length, symbol, new StringBuilder());
   }
 
 	/**
+   * @param length
+   * @param symbol
+   * @param stringBuilder
+   * @return
+   */
+  private static String fill(int length, char symbol, StringBuilder sb) {
+    while (sb.length() < length) {
+      sb.insert(0, symbol);
+    }
+    return sb.toString();
+  }
+
+
+  /**
 	 * 
 	 * @return
 	 */

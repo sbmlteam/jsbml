@@ -100,7 +100,7 @@ public class CreatorParser implements ReadingParser {
 		
 		// The namespace of this parser is declared in a RDF subnode of an annotation.
 		// adds the namespace to the RDFAnnotationNamespaces HashMap of annotation.
-		if (elementName.equals("RDF") && contextObject instanceof Annotation){
+		if (elementName.equals("RDF") && (contextObject instanceof Annotation)) {
 			Annotation annotation = (Annotation) contextObject;
 			
 			annotation.addRDFAnnotationNamespace(localName, prefix, URI);
@@ -120,7 +120,7 @@ public class CreatorParser implements ReadingParser {
 		// A CreatorParser can only modify a contextObject which is an Annotation instance.
 		// The namespace of this parser should be associated with the creator subnode of an annotation.
 		// Creates a ModelHistory instance and set the modelHistory of annotation.
-		if (elementName.equals("creator") && contextObject instanceof Annotation){
+		if (elementName.equals("creator") && (contextObject instanceof Annotation)) {
 			Annotation annotation = (Annotation) contextObject;
 			History modelHistory = new History();
 			annotation.setHistory(modelHistory);

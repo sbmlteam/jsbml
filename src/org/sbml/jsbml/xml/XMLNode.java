@@ -203,7 +203,6 @@ public class XMLNode extends XMLToken {
 	 * @return a string-form representation of <code>node</code>
 	 */
 	public static String convertXMLNodeToString(XMLNode node) {
-		
 		return node.toXMLString();
 	}
 
@@ -217,6 +216,7 @@ public class XMLNode extends XMLToken {
 	 * Creates a new empty {@link XMLNode} with no children.
 	 */
 	public XMLNode() {
+	  super();
 	}
 
 
@@ -262,7 +262,6 @@ public class XMLNode extends XMLToken {
 	 * @param orig the {@link XMLNode} instance to copy.
 	 */
 	public XMLNode(XMLNode orig) {
-
 		super((XMLToken) orig);
 		
 		if (orig.childrenElements.size() > 0) {
@@ -279,7 +278,6 @@ public class XMLNode extends XMLToken {
 	 * @param token {@link XMLToken} to be copied to {@link XMLNode}
 	 */
 	public XMLNode(XMLToken orig) {
-
 		if (orig.triple != null) {
 			triple = orig.triple.clone();
 		}
@@ -360,7 +358,6 @@ public class XMLNode extends XMLToken {
 	 */
 	public XMLNode(XMLTriple triple, XMLAttributes attributes, long line) {
 		super(triple, attributes, line, 0);
-
 	}
 
 
@@ -402,8 +399,10 @@ public class XMLNode extends XMLToken {
 	 * @param line a long integer, the line number (default = 0).
 	 * 
 	 */
-	public XMLNode(XMLTriple triple, XMLAttributes attributes, XMLNamespaces namespaces, long line) {
-		super(triple, attributes, namespaces, line);	  }
+  public XMLNode(XMLTriple triple, XMLAttributes attributes,
+    XMLNamespaces namespaces, long line) {
+    super(triple, attributes, namespaces, line);
+  }
 
 
 	/**
@@ -459,7 +458,6 @@ public class XMLNode extends XMLToken {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.XMLToken#clone()
 	 */
-	@Override
 	public XMLNode clone() {
 		return new XMLNode(this);
 	}
@@ -473,30 +471,10 @@ public class XMLNode extends XMLToken {
 	}
 
 
-	/**
-	 * Returns the <code>n</code>th child of this {@link XMLNode}.
-	 * <p>
-	 * If the index <code>n</code> is greater than the number of child nodes, or it is
-	 * 0 or less, this method returns an empty node.
-	 * <p>
-	 * @param n the index of the node to return
-	 * <p>
-	 * @return the  <code>n</code>th child of this {@link XMLNode}.
-	 * @deprecated use {@link #getChildAt(int)}
-	 */
-	@Deprecated
-	public XMLNode getChild(int n) {
-		return getChildAt(n);
-	}
-
-
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildAt(int)
 	 */
 	public XMLNode getChildAt(int childIndex) {
-        // if ((childIndex > getChildCount()) || (childIndex < 0)) {
-        //	return new XMLNode();
-        // }
 		if (childrenElements == null) {
 			throw new IndexOutOfBoundsException(Integer.toString(childIndex));
 		}
@@ -509,17 +487,6 @@ public class XMLNode extends XMLToken {
 	 */
 	public int getChildCount() {
 		return childrenElements != null ? childrenElements.size() : 0;
-	}
-
-	/**
-	 * Returns the number of children for this {@link XMLNode}.
-	 * <p>
-	 * @return the number of children for this {@link XMLNode}.
-	 * @deprecated use {@link #getChildCount()}
-	 */
-	@Deprecated
-	public int getNumChildren() {
-		return getChildCount();
 	}
 
 	/**
@@ -573,10 +540,9 @@ public class XMLNode extends XMLToken {
 	 * @jsbml.note The caller owns the returned node and is responsible for deleting it.
 	 */
 	public XMLNode removeChild(long n) {
-		if (n > getNumChildren() || n < 0) {
+		if ((n < 0) || (getChildCount() < n)) {
 			return null;
-		}
-		
+		}		
 		XMLNode oldNode =  childrenElements.remove((int) n);
 		oldNode.fireNodeRemovedEvent();
 		return oldNode;
