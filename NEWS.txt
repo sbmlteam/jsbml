@@ -237,6 +237,8 @@ Version 0.8-b2 (18-04-2011)
     and Lucian Smith for pointing out this necessity.    
 
 * Bug Fixes:
+  - Corrected mistakes in the org.sbml.jsbml.util.Maths class, where
+    some trigonometric functions were incorrectly calculated.
 
   - The class Maths, a compilation of useful mathematical functions,
     provided an implementation of the factorial function that took
