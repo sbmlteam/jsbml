@@ -949,9 +949,27 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jsbml.SBase#getHistory()
 	 */
 	public History getHistory() {
-		return isSetAnnotation() ? annotation.getHistory() : null;
+		if (!isSetHistory()) {
+			createHistory();
+		}
+		return annotation.getHistory();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#getHistory()
+	 */
+	private History createHistory() {
+		// The method call below is to make sure that the annotation is defined 
+		getAnnotation();
+		
+		History history = new History();
+		annotation.setHistory(history);
+		
+		return history;
+	}
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 

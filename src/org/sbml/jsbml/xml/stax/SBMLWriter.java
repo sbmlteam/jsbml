@@ -1150,16 +1150,53 @@ public class SBMLWriter {
 		 * kind of RDF annotation, which name spaces are needed, these should be
 		 * added automatically here.
 		 */
-		Map<String, String> rdfNamespaces = annotation
-				.getRDFAnnotationNamespaces();
-		Iterator<Entry<String, String>> it = rdfNamespaces.entrySet()
-				.iterator();
-		while (it.hasNext()) {
-			Entry<String, String> entry = it.next();
-			if (!entry.getKey().equals(namespace.getURI())) {
-				writer.writeNamespace(entry.getValue(), entry.getKey());
+		Map<String, String> rdfNamespaces = annotation.getRDFAnnotationNamespaces();
+
+		for (String namespaceURI : rdfNamespaces.keySet()) {
+			
+			if (!namespaceURI.equals(namespace.getURI())) {
+				writer.writeNamespace(rdfNamespaces.get(namespaceURI), namespaceURI);
 			}
 		}
+
+		// Checking if all the necessary namespaces are defined 
+		// In fact, we could remove the rdfNamespaces map ?
+		
+		if (annotation.getHistory().getNumCreators() > 0) 
+		{
+			if (rdfNamespaces.get(JSBML.URI_PURL_ELEMENTS) == null) {
+				writer.writeNamespace("dc", JSBML.URI_PURL_ELEMENTS);
+				rdfNamespaces.put(JSBML.URI_PURL_ELEMENTS, "dc");
+			}
+
+			if (rdfNamespaces.get(Creator.URI_RDF_VCARD_NS) == null) {
+				writer.writeNamespace("vCard", Creator.URI_RDF_VCARD_NS);
+				rdfNamespaces.put(Creator.URI_RDF_VCARD_NS, "vCard");
+			}
+		}
+		
+		if ((annotation.getHistory().isSetCreatedDate() || annotation.getHistory().isSetModifiedDate())  
+				&& rdfNamespaces.get(JSBML.URI_PURL_TERMS) == null)
+		{
+			writer.writeNamespace("dcterms", JSBML.URI_PURL_TERMS);
+			rdfNamespaces.put(JSBML.URI_PURL_TERMS, "dcterms");
+		}
+		
+		if (annotation.getNumCVTerms() > 0) 
+		{
+			if (rdfNamespaces.get(CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS) == null) {
+				writer.writeNamespace("bqbiol", CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS);
+				rdfNamespaces.put(CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS, "bqbiol");
+			}
+
+			if (rdfNamespaces.get(CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS) == null) {
+				writer.writeNamespace("bqmodel", CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS);
+				rdfNamespaces.put(CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS, "bqmodel");
+			}
+			
+		}
+		
+		
 		rdfElement.addCharacters("\n");
 		rdfElement.setIndentation(whiteSpace + createIndentationString(indentCount), indent + indentCount, indentCount);
 		SMOutputElement descriptionElement = rdfElement.addElement(namespace,

@@ -519,9 +519,26 @@ public class Annotation extends AnnotationElement {
 	 * @return the {@link History} of the Annotation.
 	 */
 	public History getHistory() {
+		if (!isSetHistory()) {
+			createHistory();
+		}
+		
 		return history;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#getHistory()
+	 */
+	private History createHistory() {
+		history = new History();
+		history.parent = this;
+		history.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+		
+		return history;
+	}
+
+	
 	/**
 	 * Returns the list of CVTerms. If they are no CVTerm, an empty list is returned.
 	 * 
@@ -815,6 +832,7 @@ public class Annotation extends AnnotationElement {
 		History oldHistory = this.history;
 		this.history = history;
 		this.history.parent = this;
+		this.history.addAllChangeListeners(getListOfTreeNodeChangeListeners());
 		firePropertyChange(TreeNodeChangeEvent.history, oldHistory, this.history);
 	}
 

@@ -42,6 +42,10 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public class CVTerm extends AnnotationElement {
 
+	public static final String URI_BIOMODELS_NET_MODEL_QUALIFIERS = "http://biomodels.net/model-qualifiers/";
+	public static final String URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS = "http://biomodels.net/biology-qualifiers/";
+
+	
 	// TODO : it would be probably safer to try to load the list a qualifier
 	// from the web at http://www.ebi.ac.uk/miriam/main/qualifiers/xml/
 	// We can have a copy of the file in the jar in case the web access fail but
@@ -200,6 +204,7 @@ public class CVTerm extends AnnotationElement {
 		 */
 		UNKNOWN_QUALIFIER;
 
+
 		/**
 		 * Returns a name corresponding to this Type of qualifier Object.
 		 * 
@@ -225,9 +230,9 @@ public class CVTerm extends AnnotationElement {
 		public String getNamespaceURI() {
 			switch (this) {
 			case BIOLOGICAL_QUALIFIER:
-				return "http://biomodels.net/biology-qualifiers/";
+				return URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS;
 			case MODEL_QUALIFIER:
-				return "http://biomodels.net/model-qualifiers/";
+				return URI_BIOMODELS_NET_MODEL_QUALIFIERS;
 			default:
 				return null;
 			}
