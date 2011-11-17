@@ -23,7 +23,6 @@ package org.sbml.jsbml.xml.parsers;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.util.StringTools;
 
 /**
  * The AnnotationParser is used when some subelements of an annotation XML node

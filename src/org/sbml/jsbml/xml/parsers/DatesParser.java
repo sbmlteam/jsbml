@@ -208,10 +208,10 @@ public class DatesParser implements ReadingParser {
 				}
 			} else if (!elementName.equals("W3CDTF")) {
 				logger.debug("Found an element other than 'created', 'modified' or 'W3CDTF', " +
-						"does not know what to do with '" + elementName + "'");
+						"do not know what to do with '" + elementName + "'");
 			}
 		} else {
-			logger.debug("Does not now what to do with the element '" + elementName + "'.");
+			logger.debug("Do not know what to do with the element '" + elementName + "'.");
 		}
 		
 		return true;

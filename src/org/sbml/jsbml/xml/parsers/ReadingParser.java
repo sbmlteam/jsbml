@@ -123,4 +123,5 @@ public interface ReadingParser {
 	 * 
 	 */
 	public Object processStartElement(String elementName, String prefix, boolean hasAttributes, boolean hasNamespaces, Object contextObject);
+	
 }

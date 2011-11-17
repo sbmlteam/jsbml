@@ -226,11 +226,7 @@ public class SBMLWriter {
 	 * @return
 	 */
 	private String createIndentationString(int indent) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < indent; i++) {
-			sb.append(indentChar);
-		}
-		return sb.toString();
+	  return StringTools.fill(indent, indentChar);
 	}
 
 	/**
@@ -956,8 +952,8 @@ public class SBMLWriter {
 					}
 					writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
 					writer.writeEndElement();
-					writer.writeCharacters("\n");
-				}
+				} 
+				writer.writeCharacters("\n");
 
 				if (modelCreator.isSetEmail()) {
 					writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
@@ -1024,7 +1020,6 @@ public class SBMLWriter {
 						rdfPrefix);
 			}
 		}
-
 		if (isModelHistory) {
 			// We need to add a new modified date
 			writeW3CDate(writer, indent, now, "modified", dctermPrefix, rdfPrefix);
@@ -1090,12 +1085,9 @@ public class SBMLWriter {
 	private void writeMessage(Constraint sbase, SMOutputElement element,
 			XMLStreamWriter writer, String sbmlNamespace, int indent)
 			throws XMLStreamException {
-
 		writer.writeCharacters("\n");
-
-		XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer,
-				createIndentationString(indent));
-
+    XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, indent,
+      indentCount, indentChar);
 		xmlNodeWriter.write(sbase.getMessage());
 	}
 
@@ -1116,14 +1108,10 @@ public class SBMLWriter {
 	private void writeNotes(SBase sbase, SMOutputElement element,
 			XMLStreamWriter writer, String sbmlNamespace, int indent)
 			throws XMLStreamException {
-
 		writer.writeCharacters("\n");
-
-		XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer,
-				createIndentationString(indent));
-
+    XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, indent,
+      indentCount, indentChar);
 		xmlNodeWriter.write(sbase.getNotes());
-
 	}
 
 	/**

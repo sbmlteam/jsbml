@@ -27,6 +27,8 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.log4j.Logger;
 import org.codehaus.staxmate.SMOutputFactory;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLNode;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
@@ -42,24 +44,44 @@ import com.ctc.wstx.stax.WstxOutputFactory;
  */
 public class XMLNodeWriter {
 
-	private String indent;
+  /**
+   * 
+   */
+  private int nodeDepth;
+  /**
+   * 
+   */
+	private int indentCount;
+	/**
+	 * 
+	 */
+	private char indentChar;
+	/**
+	 * 
+	 */
 	private XMLStreamWriter writer;
 	
-	private Logger logger = Logger.getLogger(XMLNodeWriter.class);
+	/**
+	 * 
+	 */
+	private static transient final Logger logger = Logger.getLogger(XMLNodeWriter.class);
 
 	/**
 	 * 
 	 * @param writer
-	 * @param indent
+	 * @param depth
+	 * @param indentCount
+	 * @param indentChar
 	 */
-	public XMLNodeWriter(XMLStreamWriter writer, String indent) { 
+	public XMLNodeWriter(XMLStreamWriter writer, int depth, int indentCount, char indentChar) { 
 		if (writer == null) {
 			throw new IllegalArgumentException(
 					"Cannot create a XMLNodeWriter with a null writer.");
 		}
-
 		this.writer = writer;
-		this.indent = indent;
+		this.nodeDepth = depth;
+		this.indentCount = indentCount;
+		this.indentChar = indentChar;
 	}
 
 	/**
@@ -68,7 +90,6 @@ public class XMLNodeWriter {
 	 * @return
 	 */
 	public static String toXML(XMLNode xmlNode) {
-
 		String xml = "";
 		StringWriter stream = new StringWriter();
 		
@@ -80,7 +101,7 @@ public class XMLNodeWriter {
 			
 //			writer.writeCharacters("\n");
 
-			XMLNodeWriter xmlNodewriter = new XMLNodeWriter(writer, "");
+			XMLNodeWriter xmlNodewriter = new XMLNodeWriter(writer, 0, 2, ' ');
 
 			xmlNodewriter.write(xmlNode);
 
@@ -95,81 +116,105 @@ public class XMLNodeWriter {
 		return xml;
 	}
 	
-	
+	/**
+	 * 
+	 * @param xmlNode
+	 * @throws XMLStreamException
+	 */
 	public void write(XMLNode xmlNode) throws XMLStreamException {
-		
-		boolean isRoot = false;
-		
-		// Notes are handled correctly when reading
-		if (xmlNode.getName().equals("message")) {
-			writer.writeCharacters(indent);
-			isRoot = true;
-		}
-		
-		if (xmlNode.isElement()) {
-			if (xmlNode.getPrefix() != null) {
-				writer.writeStartElement(xmlNode.getPrefix(), xmlNode.getName(), xmlNode.getURI());
-			} else {
-				writer.writeStartElement(xmlNode.getName());
-			}
-			
-			if (isRoot) {
-				writer.writeCharacters("\n");
-				writer.writeCharacters(indent + "  ");				
-			}
-		} else if (xmlNode.isText()) {
-			
-			logger.debug("writing some text : characters = @" + xmlNode.getCharacters() + "@");
-			
-			writer.writeCharacters(xmlNode.getCharacters());
-		}
-
-		int nbNamespaces = xmlNode.getNamespacesLength();
-		
-		for (int i = 0; i < nbNamespaces; i++) {
-			
-			String uri = xmlNode.getNamespaceURI(i);
-			String prefix = xmlNode.getNamespacePrefix(i);
-			
-			writer.writeNamespace(prefix, uri);
-			
-		}
-		
-		// write the xmlNode attributes
-		int nbAttributes = xmlNode.getAttributesLength();
-		
-		for (int i = 0; i < nbAttributes; i++) {
-			String attrName = xmlNode.getAttrName(i);
-			String attrURI = xmlNode.getAttrURI(i);
-			String attrPrefix = xmlNode.getAttrPrefix(i);
-			String attrValue = xmlNode.getAttrValue(i);
-			
-			if (attrPrefix.length() != 0) {
-				// TODO : check if we need to pass null for URI if not defined and if we could use only one method
-				writer.writeAttribute(attrPrefix, attrURI, attrName, attrValue);
-			} else if (attrURI.length() != 0) {
-				writer.writeAttribute(attrURI, attrName, attrValue);
-			} else {
-				writer.writeAttribute(attrName, attrValue);
-			}
-		}
-
-		long nbChildren = xmlNode.getChildCount();
-		
-		for (int i = 0; i < nbChildren; i++) {
-			XMLNode child = xmlNode.getChildAt(i);
-			write(child);
-		}
-
-		if (xmlNode.isElement()) {
-			if (isRoot) {
-				writer.writeCharacters("\n");
-				writer.writeCharacters(indent);				
-			}
-			
-			writer.writeEndElement();
-		}
+	  writer.writeCharacters(StringTools.fill(nodeDepth, indentChar));
+	  write(xmlNode, nodeDepth);
 	}
+
+  /**
+   * @param xmlNode
+   * @param length
+   * @throws XMLStreamException 
+   */
+  private void write(XMLNode xmlNode, int depth) throws XMLStreamException {
+    boolean isRoot = false, isTopElement = false;
+    
+    if (xmlNode.getName().equals("message") || (!xmlNode.isSetParent())) {
+      isRoot = true;
+    }
+    if (!isRoot && (!(xmlNode.getParent() instanceof XMLNode))) {
+      isTopElement = true;
+    }
+    
+    if (xmlNode.isElement()) {
+      if (!(isRoot || isTopElement)) {
+        writer.writeCharacters(StringTools.fill(indentCount - depth, indentChar));
+      }
+      if (xmlNode.getPrefix() != null) {
+        writer.writeStartElement(xmlNode.getPrefix(), xmlNode.getName(), xmlNode.getURI());
+      } else {
+        writer.writeStartElement(xmlNode.getName());
+      }      
+      if (isRoot || isTopElement) {
+        writer.writeCharacters("\n");
+        writer.writeCharacters(StringTools.fill(depth + indentCount, indentChar));        
+      }
+    } else if (xmlNode.isText()) {
+      logger.debug("writing some text : characters = @" + xmlNode.getCharacters().trim() + "@");
+      writer.writeCharacters(xmlNode.getCharacters().trim());
+    }
+
+    int nbNamespaces = xmlNode.getNamespacesLength();
+    
+    for (int i = 0; i < nbNamespaces; i++) {      
+      String uri = xmlNode.getNamespaceURI(i);
+      String prefix = xmlNode.getNamespacePrefix(i);
+      writer.writeNamespace(prefix, uri);
+      writer.writeCharacters("\n");
+      writer.writeCharacters(StringTools.fill(depth - indentCount, indentChar));
+    }
+    
+    // write the xmlNode attributes
+    int nbAttributes = xmlNode.getAttributesLength();
+    
+    for (int i = 0; i < nbAttributes; i++) {
+      String attrName = xmlNode.getAttrName(i);
+      String attrURI = xmlNode.getAttrURI(i);
+      String attrPrefix = xmlNode.getAttrPrefix(i);
+      String attrValue = xmlNode.getAttrValue(i);
+      
+      if (attrPrefix.length() != 0) {
+        // TODO : check if we need to pass null for URI if not defined and if we could use only one method
+        writer.writeAttribute(attrPrefix, attrURI, attrName, attrValue);
+      } else if (attrURI.length() != 0) {
+        writer.writeAttribute(attrURI, attrName, attrValue);
+      } else {
+        writer.writeAttribute(attrName, attrValue);
+      }
+    }
+
+    boolean isNested = false;
+    long nbChildren = xmlNode.getChildCount();
+    for (int i = 0; i < nbChildren; i++) {
+      XMLNode child = xmlNode.getChildAt(i);
+      if (!child.isText() && !(isRoot || isTopElement)) {
+        isNested = true;
+        writer.writeCharacters(StringTools.fill((depth - indentCount),
+          indentChar));
+      }
+      write(child, depth + indentCount);
+    }
+    
+    if (xmlNode.isElement()) {
+      if (isRoot || isTopElement) {
+        writer.writeCharacters("\n");
+        writer.writeCharacters(StringTools.fill(depth, indentChar));
+      } else if (isNested) {
+        writer.writeCharacters(StringTools.fill(
+          ((depth - indentCount) / indentCount) * indentCount, indentChar));
+      }
+      writer.writeEndElement();
+      if (!(isRoot || isTopElement)) {
+        writer.writeCharacters("\n");
+        writer.writeCharacters(StringTools.fill(depth, indentChar));
+      }
+    }
+  }
 	
 	
 }

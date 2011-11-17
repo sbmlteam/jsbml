@@ -23,6 +23,8 @@ package org.sbml.jsbml.xml.parsers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.sbml.jsbml.AlgebraicRule;
@@ -71,7 +73,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	/**
 	 * 
 	 */
-	protected HashMap<String, Class<? extends Object>> SBMLCoreElements;
+	protected Map<String, Class<? extends Object>> SBMLCoreElements;
 
     /**
      * @throws ClassNotFoundException
@@ -91,7 +93,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	 * .lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
+	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 		ArrayList<Object> listOfElementsToWrite = null;
 		if (sbase instanceof SBase) {
 			if (sbase instanceof SBMLDocument) {
@@ -190,17 +192,16 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    private void initializeCoreElements() throws IOException,
-	ClassNotFoundException {
-	Properties p = new Properties();
-	p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
-	    "org/sbml/jsbml/resources/cfg/SBMLElementsLevel1Version1.xml"));
-	for (Object k : p.keySet()) {
-	    String key = k.toString();
-	    SBMLCoreElements.put(key, Class.forName(p.getProperty(key)
-		    .toString()));
-	}
+  private void initializeCoreElements() throws IOException,
+    ClassNotFoundException {
+    Properties p = new Properties();
+    p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
+      "org/sbml/jsbml/resources/cfg/SBMLElementsLevel1Version1.xml"));
+    for (Object k : p.keySet()) {
+      String key = k.toString();
+      SBMLCoreElements.put(key, Class.forName(p.getProperty(key).toString()));
     }
+  }
 
 	/*
 	 * (non-Javadoc)
@@ -256,7 +257,6 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	 * .SBMLDocument)
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
-
 		if (sbmlDocument.isSetModel()) {
 			Model model = sbmlDocument.getModel();
 
@@ -339,11 +339,10 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 					}
 					if (reaction.isSetKineticLaw()) {
 						KineticLaw kineticLaw = reaction.getKineticLaw();
-						if (kineticLaw.isSetListOfParameters()) {
-							for (int j = 0; j < kineticLaw.getNumParameters(); j++) {
+						if (kineticLaw.isSetListOfLocalParameters()) {
+							for (int j = 0; j < kineticLaw.getLocalParameterCount(); j++) {
 								LocalParameter parameter = kineticLaw
-										.getParameter(j);
-
+										.getLocalParameter(j);
 								setParameterUnits(parameter, model);
 							}
 						}
@@ -353,7 +352,6 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			if (model.isSetListOfSpecies()) {
 				for (int i = 0; i < model.getNumSpecies(); i++) {
 					Species species = model.getSpecies(i);
-
 					setSpeciesSubstanceUnits(species, model);
 					setSpeciesSpeciesType(species, model);
 					setSpeciesConversionFactor(species, model);
@@ -363,7 +361,6 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			if (model.isSetListOfParameters()) {
 				for (int i = 0; i < model.getNumParameters(); i++) {
 					Parameter parameter = model.getParameter(i);
-
 					setParameterUnits(parameter, model);
 				}
 			}
@@ -382,7 +379,6 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	 */
 	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
-
 		return true;
 	}
 
@@ -397,7 +393,6 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	public void processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
 			Object contextObject) {
-
 		if (contextObject instanceof SBMLDocument) {
 			SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
 			if (!URI.equals(SBMLDocument.URI_NAMESPACE_L1)) {
@@ -583,7 +578,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfParameters)) {
 							LocalParameter localParameter = (LocalParameter) newContextObject;
-							kineticLaw.addParameter(localParameter);
+							kineticLaw.addLocalParameter(localParameter);
 
 							return localParameter;
 						} else {

@@ -22,6 +22,8 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
@@ -83,7 +85,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 * This map contains all the relationships XML element name <=> matching
 	 * java class.
 	 */
-	private HashMap<String, Class<? extends Object>> sbmlCoreElements;
+	private Map<String, Class<? extends Object>> sbmlCoreElements;
 
 	/**
 	 * The logger of this parser
@@ -114,7 +116,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 * sbase)
 	 */
 	@SuppressWarnings("unchecked")
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
+	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 		ArrayList<Object> listOfElementsToWrite = null;
 		if (sbase instanceof SBase) {
 			if (sbase instanceof SBMLDocument) {
