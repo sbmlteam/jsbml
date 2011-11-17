@@ -3271,10 +3271,10 @@ public class ASTNode extends AbstractTreeNode {
 	 * @return the element previously at the specified position
 	 */
 	public ASTNode replaceChild(int n, ASTNode newChild) {
-		newChild.parent = this;
-		setParentSBMLObject(newChild, parentSBMLObject, 0);
-		return listOfNodes.set(n, newChild);
-	}
+    setParentSBMLObject(newChild, parentSBMLObject, 0);
+    newChild.parent = this;
+    return listOfNodes.set(n, newChild);
+  }
 
 	/**
 	 * Sets the value of this ASTNode to the given character. If character is
