@@ -3271,8 +3271,8 @@ public class ASTNode extends AbstractTreeNode {
 	 * @return the element previously at the specified position
 	 */
 	public ASTNode replaceChild(int n, ASTNode newChild) {
-		newChild.parent = this;
 		setParentSBMLObject(newChild, parentSBMLObject, 0);
+		newChild.parent = this;
 		return listOfNodes.set(n, newChild);
 	}
 
