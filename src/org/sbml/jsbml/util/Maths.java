@@ -60,16 +60,13 @@ public class Maths {
 	}
 
 	/**
-	 * This method computes the arccot of n
+	 * This method computes the arcus-cotangens of a double value.
 	 * 
-	 * @param n
+	 * @param x
 	 * @return
 	 */
-	public static final double arccot(double n) {
-		if (n == 0) {
-			throw new ArithmeticException("arccot(0) undefined");
-		}
-		return Math.atan(1 / n);
+	public static final double arccot(double x) {
+		return Math.PI / 2d - Math.atan(x);
 	}
 
 	/**
@@ -86,17 +83,21 @@ public class Maths {
 	}
 
 	/**
-	 * This method computes the arccsc of n
+	 * This method computes the arcus-cosecans of a double value
 	 * 
-	 * @param n
+	 * @param x
 	 * @return
 	 */
-	public static final double arccsc(double n) {
-		double asin = Math.asin(n);
-		if (asin == 0) {
-			throw new ArithmeticException(String.format("arccsc(%s) undefined",
-					StringTools.toString(n)));
-		}
+	public static final double arccsc(double x) {
+	  if (x == 0) {
+      throw new ArithmeticException(String.format("arccsc(%s) undefined",
+          StringTools.toString(x)));
+    }
+    double asin = Math.asin(1d / x);
+    if (asin == 0) {
+      throw new ArithmeticException(String.format("arccsc(%s) undefined",
+        StringTools.toString(x)));
+    }
 		return 1 / asin;
 	}
 
@@ -290,17 +291,13 @@ public class Maths {
 	}
 
 	/**
-	 * This method computes the sec of n
+	 * This method computes the secant of a double value.
 	 * 
-	 * @param n
+	 * @param x
 	 * @return
 	 */
-	public static final double sec(double n) {
-		if (n == 0) {
-			throw new ArithmeticException(String.format("sec(%s) undefined",
-					StringTools.toString(n)));
-		}
-		return 1 / n;
+	public static final double sec(double x) {
+		return 1d / Math.cos(x);
 	}
 
 	/**
