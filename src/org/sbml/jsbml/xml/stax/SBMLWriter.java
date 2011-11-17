@@ -893,7 +893,7 @@ public class SBMLWriter {
 	 * Writes the history represented by this History instance.
 	 * 
 	 * @param history
-	 *            : the model history to write
+	 *            : the history to write
 	 * @param rdfNamespaces
 	 *            : contains the RDF namespaces and their prefixes.
 	 * @param writer
@@ -998,18 +998,22 @@ public class SBMLWriter {
 		}
 
 		String dctermPrefix = rdfNamespaces.get(JSBML.URI_PURL_TERMS);
-
-		String creationDate;
-		String now = creationDate = DateParser.getIsoDateNoMillis(new Date());
-
+		String creationDate = DateParser.getIsoDateNoMillis(new Date());
+		String now = creationDate;
+		boolean writeCreationDate = false;
+		boolean isModelHistory = history.getParent().getParent() instanceof Model;
+		
 		if (history.isSetCreatedDate()) {
-			creationDate = DateParser.getIsoDateNoMillis(history
-					.getCreatedDate());
-		} else { // We need to add a creation date
-			creationDate = now;
+			creationDate = DateParser.getIsoDateNoMillis(history.getCreatedDate());
+			writeCreationDate = true;
+		} else if (isModelHistory) { // We need to add a creation date
+			writeCreationDate = true;
 		}
-		writeW3CDate(writer, indent, creationDate, "created", dctermPrefix,
-				rdfPrefix);
+		
+		if (writeCreationDate) {
+			writeW3CDate(writer, indent, creationDate, "created", dctermPrefix,
+					rdfPrefix);
+		}
 
 		// Writing the current modified dates.
 		if (history.isSetModifiedDate()) {
@@ -1020,9 +1024,11 @@ public class SBMLWriter {
 						rdfPrefix);
 			}
 		}
-		// We need to add a new modified date
-		writeW3CDate(writer, indent, now, "modified", dctermPrefix, rdfPrefix);
 
+		if (isModelHistory) {
+			// We need to add a new modified date
+			writeW3CDate(writer, indent, now, "modified", dctermPrefix, rdfPrefix);
+		}
 	}
 
 	/**
