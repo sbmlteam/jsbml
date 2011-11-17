@@ -143,6 +143,9 @@ Version 0.8-rc1 (xx-xx-2011)
     
 * Bug Fixes:
 
+  - Corrected mistakes in the org.sbml.jsbml.util.Maths class, where
+    some trigonometric functions were incorrectly calculated.
+
   - When writing SBML Level 1 the name attribute (which has become the
     id attribute in later SBML versions) was never written because JSBML
     uses the id only as an internal representation. The check for 
