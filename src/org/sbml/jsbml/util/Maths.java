@@ -83,7 +83,7 @@ public class Maths {
 	}
 
 	/**
-	 * This method computes the arcus-cosecans of a double value
+	 * This method computes the arccosecant of a double value
 	 * 
 	 * @param x
 	 * @return
@@ -94,11 +94,7 @@ public class Maths {
           StringTools.toString(x)));
     }
     double asin = Math.asin(1d / x);
-    if (asin == 0) {
-      throw new ArithmeticException(String.format("arccsc(%s) undefined",
-        StringTools.toString(x)));
-    }
-		return 1 / asin;
+    return asin;
 	}
 
 	/**
@@ -115,16 +111,18 @@ public class Maths {
 	}
 
 	/**
-	 * This method computes the arcsec of n
+	 * This method computes the arcsecant of a double value
 	 * 
-	 * @param n
+	 * @param x
 	 * @return
 	 */
-	public static final double arcsec(double n) {
-		if (n == 0) {
-			throw new ArithmeticException("arcsec(0) undefined");
-		}
-		return 1 / n;
+	public static final double arcsec(double x) {
+	  if (x == 0) {
+      throw new ArithmeticException(String.format("arccsc(%s) undefined",
+          StringTools.toString(x)));
+    }
+    double acos = Math.acos(1d / x);
+    return acos;
 	}
 
 	/**
