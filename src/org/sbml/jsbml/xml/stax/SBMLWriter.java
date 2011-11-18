@@ -248,34 +248,6 @@ public class SBMLWriter {
 		return indentCount;
 	}
 
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 * @return the name space matching the level and version.
-	 */
-	private String getNamespaceFrom(int level, int version) {
-		if (level == 3) {
-			if (version == 1) {
-				return SBMLDocument.URI_NAMESPACE_L3V1Core;
-			}
-		} else if (level == 2) {
-			if (version == 4) {
-				return SBMLDocument.URI_NAMESPACE_L2V4;
-			} else if (version == 3) {
-				return SBMLDocument.URI_NAMESPACE_L2V3;
-			} else if (version == 2) {
-				return SBMLDocument.URI_NAMESPACE_L2V2;
-			} else if (version == 1) {
-				return SBMLDocument.URI_NAMESPACE_L2V1;
-			}
-		} else if (level == 1) {
-			if ((version == 1) || (version == 2)) {
-				return SBMLDocument.URI_NAMESPACE_L1;
-			}
-		}
-		return null;
-	}
 
 	/**
 	 * Gets all the writing parsers necessary to write the given object.
@@ -502,7 +474,7 @@ public class SBMLWriter {
 		// to have the automatic indentation working, we should probably only be using StaxMate classes and not directly StAX
 		// outputDocument.setIndentation("\n  ", 1, 1);
 
-		String SBMLNamespace = getNamespaceFrom(sbmlDocument.getLevel(),
+		String SBMLNamespace = JSBML.getNamespaceFrom(sbmlDocument.getLevel(),
 				sbmlDocument.getVersion());
 		SMOutputContext context = outputDocument.getContext();
 		context.setIndentation("\n" + createIndentationString(indentCount), 1, 2);
@@ -686,7 +658,7 @@ public class SBMLWriter {
 		throws XMLStreamException, SBMLException {
 	  
 		// create the sbmlNamespace variable
-		String sbmlNamespace = getNamespaceFrom(sbase.getLevel(), sbase.getVersion());
+		String sbmlNamespace = JSBML.getNamespaceFrom(sbase.getLevel(), sbase.getVersion());
 		SMNamespace namespace = element.getContext().getNamespace(sbmlNamespace);
 		namespace.setPreferredPrefix("");
 
@@ -1053,16 +1025,37 @@ public class SBMLWriter {
 			// Creating an SMOutputElement to be sure that the previous nested element tag is closed properly.
 			SMNamespace mathMLNamespace = element.getNamespace(ASTNode.URI_MATHML_DEFINITION, ASTNode.URI_MATHML_PREFIX);
 			SMOutputElement mathElement = element.addElement(mathMLNamespace, "math");
-			
+			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
+					writer, createIndentationString(indent + indentCount));
+			boolean isSBMLNamespaceNeeded = compiler.isSBMLNamespaceNeeded(m.getMath());
+
 			// TODO : add all other namespaces !!
 
+			if (isSBMLNamespaceNeeded) {
+				// writing the SBML namespace
+				SBMLDocument doc = null;
+				SBase sbase = m.getMath().getParentSBMLObject();
+				String sbmlNamespace = SBMLDocument.URI_NAMESPACE_L3V1Core;
+				
+				if (sbase != null) {
+					doc = sbase.getSBMLDocument();
+					sbmlNamespace = doc.getSBMLDocumentNamespaces().get("xmlns");
+					
+					if (sbmlNamespace == null) {
+						logger.warn("writeMathML : the SBML namespace of this SBMLDocument" +
+								" could not be found, using the default namespace (" +
+								SBMLDocument.URI_NAMESPACE_L3V1Core + ") instead.");
+						sbmlNamespace = SBMLDocument.URI_NAMESPACE_L3V1Core;
+					}
+				}
+				writer.writeNamespace("sbml", sbmlNamespace);
+			}
+			
 			mathElement.setIndentation(createIndentationString(indent + 2), indent + indentCount, indentCount);
 			
 			writer.writeCharacters(whitespaces);
 			writer.writeCharacters("\n");
 
-			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
-					writer, createIndentationString(indent + indentCount));
 			compiler.compile(m.getMath());
 
 			writer.writeCharacters(whitespaces);

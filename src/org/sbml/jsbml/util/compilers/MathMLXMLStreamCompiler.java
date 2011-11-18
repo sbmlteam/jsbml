@@ -33,7 +33,9 @@ import org.apache.log4j.Logger;
 import org.codehaus.staxmate.SMOutputFactory;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.StringTools;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
@@ -53,6 +55,8 @@ public class MathMLXMLStreamCompiler {
 	private String indent;
 	private XMLStreamWriter writer;
 	private Logger logger = Logger.getLogger(MathMLXMLStreamCompiler.class);
+	
+	private FindUnitsCompiler findUnitsCompiler = new FindUnitsCompiler();
 	
 	/**
 	 * Formats the real number in a valid way for mathML.
@@ -93,19 +97,34 @@ public class MathMLXMLStreamCompiler {
 		
 		SMOutputFactory smFactory = new SMOutputFactory(WstxOutputFactory
 				.newInstance());
-
+		
 		try {
 			XMLStreamWriter writer = smFactory.createStax2Writer(stream);
+			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(writer, "  ");
+			boolean isSBMLNamespaceNeeded = compiler.isSBMLNamespaceNeeded(astNode);
 			
 			writer.writeStartDocument();
 			writer.writeCharacters("\n");
 			writer.writeStartElement("math");
-			writer.writeNamespace(null, ASTNode.URI_MATHML_DEFINITION);			
+			writer.writeNamespace(null, ASTNode.URI_MATHML_DEFINITION);	
+			
+			if (isSBMLNamespaceNeeded) {
+				// writing the SBML namespace
+				SBMLDocument doc = null;
+				SBase sbase = astNode.getParentSBMLObject();
+				String sbmlNamespace = SBMLDocument.URI_NAMESPACE_L3V1Core;
+				
+				if (sbase != null) {
+					doc = sbase.getSBMLDocument();
+					sbmlNamespace = doc.getSBMLDocumentNamespaces().get("xmlns");					
+				}
+				writer.writeNamespace("sbml", sbmlNamespace);
+			}
+			
 			writer.writeCharacters("\n");
 
 			writer.setPrefix("math", ASTNode.URI_MATHML_DEFINITION);
 			
-			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(writer, "  ");
 			compiler.compile(astNode);
 
 			writer.writeEndElement();
@@ -122,6 +141,27 @@ public class MathMLXMLStreamCompiler {
 	}
 	
 	
+	public boolean isSBMLNamespaceNeeded(ASTNode astNode) {
+
+		SBase sbase = astNode.getParentSBMLObject();
+		
+		if (sbase != null && sbase.getLevel() < 3) {
+			return false;
+		}
+
+		findUnitsCompiler.reset();
+		
+		try {
+			astNode.compile(findUnitsCompiler);
+		} catch (SBMLException e) {
+			// normal behavior, we use Exception to stop the recursion
+			// as soon as a units is found
+		}
+		
+		return findUnitsCompiler.isUnitsDefined();
+	}
+
+
 	/**
 	 * Compiles this {@link ASTNode} and produce an XMLStreamWriter representing this node in mathML.
 	 * 
@@ -402,6 +442,10 @@ public class MathMLXMLStreamCompiler {
 			writer.writeCharacters(indent);
 			writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "cn");
 			writer.writeAttribute("type", "integer"); // writer.writeAttribute(ASTNode.URI_MATHML_DEFINITION, "type", "integer");
+			
+			if (astNode.isSetUnits()) {
+				writer.writeAttribute("sbml:units", astNode.getUnits());
+			}
 			writer.writeCharacters(" ");
 			writer.writeCharacters(Integer.toString(astNode.getInteger()));
 			writer.writeCharacters(" ");
