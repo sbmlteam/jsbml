@@ -29,33 +29,33 @@ public enum SpeciesReferenceRole {
 	/**
 	 * 
 	 */
-	SPECIES_ROLE_ACTIVATOR,
+	ACTIVATOR,
 	/**
 	 * 
 	 */
-	SPECIES_ROLE_INHIBITOR,
+	INHIBITOR,
 	/**
 	 * 
 	 */
-	SPECIES_ROLE_MODIFIER,
+	MODIFIER,
 	/**
 	 * 
 	 */
-	SPECIES_ROLE_PRODUCT,
+	PRODUCT,
 	/**
 	 * 
 	 */
-	SPECIES_ROLE_SIDEPRODUCT,
+	SIDEPRODUCT,
 	/**
 	 * 
 	 */
-	SPECIES_ROLE_SIDESUBSTRATE,
+	SIDESUBSTRATE,
 	/**
 	 * 
 	 */
-	SPECIES_ROLE_SUBSTRATE,
+	SUBSTRATE,
 	/**
 	 * 
 	 */
-	SPECIES_ROLE_UNDEFINED
+	UNDEFINED
 }

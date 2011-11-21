@@ -37,6 +37,7 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -8810905237933499989L;
+	
 	/**
 	 * 
 	 */
@@ -51,10 +52,12 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 	 * 
 	 */
 	private SpeciesReferenceRole role;
+	
 	/**
 	 * 
 	 */
 	private SpeciesGlyph speciesGlyph;
+	
 	/**
 	 * 
 	 */
@@ -85,6 +88,10 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * 
+	 * @param id
+	 */
 	public SpeciesReferenceGlyph(String id) {
 		super(id);
 	}
@@ -94,7 +101,6 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	@Override
 	public SpeciesReferenceGlyph clone() {
 		return new SpeciesReferenceGlyph(this);
 	}
@@ -179,8 +185,9 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 		return curve;
 	}
 
-	/**
-	 * 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#getId()
 	 */
 	public String getId() {
 		return id;
@@ -266,11 +273,9 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 		return role != null;
 	}
 
-	/**
-	 * @param attributeName
-	 * @param prefix
-	 * @param value
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -302,8 +307,9 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 		this.curve = curve;
 	}
 	
-	/**
-	 * 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
 		this.id = id;
@@ -320,7 +326,7 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 			oldValue.fireNodeRemovedEvent();
 		}
 		this.speciesGlyph = speciesGlyph;
-		setThisAsParentSBMLObject(this.speciesGlyph);
+		registerChild(this.speciesGlyph);
 	}
 
   /**

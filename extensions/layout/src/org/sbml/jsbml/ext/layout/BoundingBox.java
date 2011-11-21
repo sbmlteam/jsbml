@@ -254,7 +254,7 @@ public class BoundingBox extends AbstractNamedSBase {
 			oldValue.fireNodeRemovedEvent();
 		}
 		this.dimensions = dimensions;
-		setThisAsParentSBMLObject(this.dimensions);
+		registerChild(this.dimensions);
 	}
 	
 	/*

@@ -52,11 +52,16 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  */
 public class TestL3Layout {
 
+  /**
+   * 
+   */
 	public static String DATA_FOLDER = null;
+	/**
+	 * 
+	 */
 	public static String LAYOUT_NAMESPACE = "http://www.sbml.org/sbml/level3/version1/layout/version1";
 	
 	static {
-		
 		if (DATA_FOLDER == null) {
 			DATA_FOLDER = System.getenv("DATA_FOLDER"); 
 		}
@@ -66,16 +71,28 @@ public class TestL3Layout {
 		
 	}
 
-
+	/**
+	 * 
+	 * @param x
+	 * @return
+	 */
   public boolean isNaN(double x)
   {
     return Double.isNaN(x);
   }
 
+  /**
+   * 
+   * @throws Exception
+   */
   @Before public void setUp() throws Exception
   {
   }
 
+  /**
+   * 
+   * @throws Exception
+   */
   @After public void tearDown() throws Exception
   {
   }
@@ -110,6 +127,9 @@ public class TestL3Layout {
 		
   }
 
+  /**
+   * 
+   */
   @Test public void test_L3_Layout_write1()
   {
 	  String fileName = DATA_FOLDER + "/layout/GlycolysisLayout_small.xml";

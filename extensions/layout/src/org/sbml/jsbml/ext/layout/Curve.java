@@ -43,7 +43,7 @@ public class Curve extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
-	ListOf<LineSegment> listOfCurveSegments = new ListOf<LineSegment>();
+	ListOf<CurveSegment> listOfCurveSegments = new ListOf<CurveSegment>();
 
 	/**
 	 * @param curve
@@ -117,7 +117,7 @@ public class Curve extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public ListOf<LineSegment> getListOfCurveSegments() {
+	public ListOf<CurveSegment> getListOfCurveSegments() {
 		return listOfCurveSegments;
 	}
 	
@@ -141,13 +141,13 @@ public class Curve extends AbstractNamedSBase {
 	 * 
 	 * @param listOfCurveSegments
 	 */
-	public void setListOfCurveSegments(ListOf<LineSegment> listOfCurveSegments) {
+	public void setListOfCurveSegments(ListOf<CurveSegment> listOfCurveSegments) {
 		unsetListOfCurveSegments();
 		this.listOfCurveSegments = listOfCurveSegments;
 		if ((this.listOfCurveSegments != null) && (this.listOfCurveSegments.getSBaseListType() != ListOf.Type.other)) {
 			this.listOfCurveSegments.setSBaseListType(ListOf.Type.other);
 		}
-		setThisAsParentSBMLObject(this.listOfCurveSegments);
+		registerChild(this.listOfCurveSegments);
 	}
 
   /**
@@ -159,7 +159,7 @@ public class Curve extends AbstractNamedSBase {
 	 */
 	public boolean unsetListOfCurveSegments() {
 		if (this.listOfCurveSegments != null) {
-			ListOf<LineSegment> oldListOfCurveSegments = this.listOfCurveSegments;
+			ListOf<CurveSegment> oldListOfCurveSegments = this.listOfCurveSegments;
 			this.listOfCurveSegments = null;
 			oldListOfCurveSegments.fireNodeRemovedEvent();
 			return true;

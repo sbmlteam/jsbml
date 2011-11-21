@@ -19,9 +19,12 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
@@ -30,62 +33,26 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.layout.BasePoint1;
+import org.sbml.jsbml.ext.layout.BasePoint2;
 import org.sbml.jsbml.ext.layout.BoundingBox;
+import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.CubicBezier;
 import org.sbml.jsbml.ext.layout.Curve;
+import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.Dimensions;
+import org.sbml.jsbml.ext.layout.End;
 import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
 import org.sbml.jsbml.ext.layout.Layout;
-import org.sbml.jsbml.ext.layout.LineSegment;
 import org.sbml.jsbml.ext.layout.Point;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
+import org.sbml.jsbml.ext.layout.Start;
 import org.sbml.jsbml.ext.layout.TextGlyph;
-import org.sbml.jsbml.xml.parsers.ReadingParser;
-import org.sbml.jsbml.xml.parsers.WritingParser;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
-/**
- * 
- * @author Nicolas Rodriguez
- * @version $Rev$
- * @since 1.0
- */
-enum LayoutList {
-	/**
-	 * 
-	 */
-	listOfCompartmentGlyphs,
-	/**
-	 * 
-	 */
-	listOfCurves,
-	/**
-	 * 
-	 */
-	listOfLayouts,
-	/**
-	 * 
-	 */
-	listOfReactionGlyphs,
-	/**
-	 * 
-	 */
-	listOfSpeciesGlyphs,
-	/**
-	 * 
-	 */
-	listOfSpeciesReferenceGlyphs,
-	/**
-	 * 
-	 */
-	listOfTextGlyphs,
-	/**
-	 * 
-	 */
-	none;
-}
 
 /**
  * This class is used to parse the layout extension package elements and
@@ -102,525 +69,658 @@ enum LayoutList {
  * 
  */
 public class LayoutParser implements ReadingParser, WritingParser {
+  enum LayoutList {
+    listOfLayouts, listOfSpeciesGlyphs, listOfReactionGlyphs, listOfTextGlyphs, listOfCompartmentGlyphs, none, listOfCurveSegments, listOfSpeciesReferenceGlyphs
+  }
 
-	/**
-	 * The namespace URI of this parser.
-	 */
-	private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/layout/version1";
+  /**
+   * The namespace URI of this parser.
+   */
+  private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/layout/version1";
 
-	/**
-	 * 
-	 * @return the namespaceURI of this parser.
-	 */
-	public static String getNamespaceURI() {
-		return namespaceURI;
-	}
+  /**
+   * 
+   * @return the namespaceURI of this parser.
+   */
+  public static String getNamespaceURI() {
+    return namespaceURI;
+  }
 
-	/**
-	 * The layoutList enum which represents the name of the list this parser is
-	 * currently reading.
-	 * 
-	 */
-	private LayoutList groupList = LayoutList.none;
+  /**
+   * The layoutList enum which represents the name of the list this parser is
+   * currently reading.
+   * 
+   */
+  private LayoutList groupList = LayoutList.none;
 
-	/**
-	 * Log4j logger
-	 */
-	private Logger log4jLogger = Logger.getLogger(LayoutParser.class);
+  /**
+   * Log4j logger
+   */
+  private Logger log4jLogger = Logger.getLogger(LayoutParser.class);
 
-	/**
-	 * This map contains all the relationships XML element name <=> matching
-	 * java class.
-	 */
-	private HashMap<String, Class<? extends Object>> sbmlLayoutElements;
-	
-	/**
-	 * 
-	 */
-	public LayoutParser() {
-		super();
-		sbmlLayoutElements = new HashMap<String, Class<? extends Object>>();
-		JSBML.loadClasses(
-				"org/sbml/jsbml/resources/cfg/SBMLLayoutElements.xml",
-				sbmlLayoutElements);
-	}
+  /**
+   * This map contains all the relationships XML element name <=> matching
+   * java class.
+   */
+  private HashMap<String, Class<? extends Object>> sbmlLayoutElements;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
-	 * sbase)
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
+  /**
+   * 
+   */
+  public LayoutParser() {
+    super();
+    sbmlLayoutElements = new HashMap<String, Class<? extends Object>>();
+    JSBML.loadClasses(
+        "org/sbml/jsbml/resources/cfg/SBMLLayoutElements.xml",
+        sbmlLayoutElements);
+  }
 
-		log4jLogger.debug(String.format("%s : getListOfSBMLElementsToWrite\n", getClass().getSimpleName()));
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.WritingParser#getListOfSBMLElementsToWrite(java.lang.Object)
+   */
+  public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
+    log4jLogger.debug(String.format("%s : getListOfSBMLElementsToWrite\n",
+        getClass().getSimpleName()));
 
-		List<Object> listOfElementsToWrite = new LinkedList<Object>();
+    List<Object> listOfElementsToWrite = new LinkedList<Object>();
 
-		if (sbase instanceof SBase) {
-			if (sbase instanceof ExtendedLayoutModel) {
+    if (sbase instanceof SBMLDocument) {
+      // nothing to do
+      // TODO : the 'required' attribute is written even if there is no
+      // plugin class for the SBMLDocument, so I am not totally sure how
+      // this is done.
+    } else if (sbase instanceof Model) {
+      ExtendedLayoutModel layoutModel = (ExtendedLayoutModel) ((Model) sbase)
+          .getExtension(namespaceURI);
 
-				ExtendedLayoutModel model = (ExtendedLayoutModel) sbase;
+      if (layoutModel != null && layoutModel.isSetListOfLayouts()) {
+        listOfElementsToWrite.add(layoutModel.getListOfLayouts());
+      }
 
-				if (model.isSetListOfLayouts()) {
-					listOfElementsToWrite.add(model.getListOfLayouts());
-				}
-			} else if (sbase instanceof ListOf) {
-				ListOf<SBase> listOf = (ListOf<SBase>) sbase;
+    } else if (sbase instanceof TreeNode) {
+      Enumeration<?> children = ((TreeNode) sbase).children();
+      while (children.hasMoreElements()) {
+        listOfElementsToWrite.add(children.nextElement());
+      }
+    }
 
-				if (!listOf.isEmpty()) {
-					listOfElementsToWrite = new LinkedList<Object>();
-					for (int i = 0; i < listOf.size(); i++) {
-						SBase element = listOf.get(i);
+    if (sbase instanceof SBase) {
+      SBase elem = (SBase) sbase;
+      log4jLogger.info("add to write: " + elem.getElementName()
+          + " namespace: " + elem.getNamespaces().toString());
+      if (sbase instanceof ListOf<?>) {
+        log4jLogger.info("process a ListOf instance");
+        ListOf<SBase> listOf = (ListOf<SBase>) sbase;
+        if (!listOf.isEmpty()) {
+          listOfElementsToWrite = new LinkedList<Object>();
+          for (int i = 0; i < listOf.size(); i++) {
+            SBase element = listOf.get(i);
+            if (element != null) {
+              listOfElementsToWrite.add(element);
+            }
+          }
+        }
+      } else if (sbase instanceof Layout) {
+        Layout layout = (Layout) sbase;
 
-						if (element != null) {
-							listOfElementsToWrite.add(element);
-						}
-					}
-				}
-			} else if (sbase instanceof Layout) {
-				Layout layout = (Layout) sbase;
+        if (layout.isSetListOfSpeciesGlyphs()) {
+          listOfElementsToWrite.add(layout.getListOfSpeciesGlyphs());
+          ListOf<SpeciesGlyph> listOfSpeciesGlyph = layout
+              .getListOfSpeciesGlyphs();
+          log4jLogger.info("found list of species glyph");
+          log4jLogger.info("list of species glyph: "
+              + listOfSpeciesGlyph.getElementName());
+        } else if (layout.isSetListOfCompartmentGlyphs()) {
+          listOfElementsToWrite.add(layout
+              .getListOfCompartmentGlyphs());
+        } else if (layout.isSetListOfReactionGlyphs()) {
+          listOfElementsToWrite.add(layout.getListOfReactionGlyphs());
+        } else if (layout.isSetListOfTextGlyphs()) {
+          listOfElementsToWrite.add(layout.getListOfTextGlyphs());
+        }
+      } else if (sbase instanceof Point) {
+        Point point = (Point) sbase;
+        SBase parent = point.getParentSBMLObject();
+        if (parent instanceof CurveSegment) {
+          log4jLogger.debug(" curveSegment: point element name: "
+              + point.getElementName());
+        }
+      }
+    }
 
-				if (layout.isSetListOfSpeciesGlyphs()) {
-					listOfElementsToWrite.add(layout.getListOfSpeciesGlyphs());
-				}
-			}
-		}
+    if (listOfElementsToWrite.isEmpty()) {
+      listOfElementsToWrite = null;
+    }
 
-		if (listOfElementsToWrite.isEmpty()) {
-			listOfElementsToWrite = null;
-		}
+    return listOfElementsToWrite;
+  }
 
-		return listOfElementsToWrite;
-	}
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.WritingParser#writeAttributes(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
+   */
+  public void writeAttributes(SBMLObjectForXML xmlObject,
+      Object sbmlElementToWrite) {
+    if (sbmlElementToWrite instanceof SBase) {
+      SBase sbase = (SBase) sbmlElementToWrite;
+      xmlObject.addAttributes(sbase.writeXMLAttributes());
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.Object)
-	 */
-	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.WritingParser#writeCharacters(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
+   */
+  public void writeCharacters(SBMLObjectForXML xmlObject,
+      Object sbmlElementToWrite) {
+    // TODO Auto-generated method stub
 
-		boolean isAttributeRead = false;
+  }
 
-		if (contextObject instanceof SBase) {
-			SBase sbase = (SBase) contextObject;
-			try {
-				isAttributeRead = sbase.readAttribute(attributeName, prefix,
-						value);
-			} catch (Throwable exc) {
-				log4jLogger.error(exc.getLocalizedMessage(), exc);
-			}
-		} else if (contextObject instanceof Annotation) {
-			Annotation annotation = (Annotation) contextObject;
-			isAttributeRead = annotation.readAttribute(attributeName, prefix,
-					value);
-		}
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
+   */
+  public void writeElement(SBMLObjectForXML xmlObject,
+      Object sbmlElementToWrite) {
+    log4jLogger.warn(String.format("%s : writeElement", getClass()
+        .getSimpleName()));
 
-		if (!isAttributeRead) {
-			// TODO : throw new SBMLException ("The attribute " + attributeName
-			// + " on the element " + elementName +
-			// "is not part of the SBML specifications");
-			log4jLogger.debug(String.format(
-									"atribute not read: elementName: %s\tattributeName: %s\t value: %s\n",
-									elementName, attributeName, value));
-		}
-	}
+    if (sbmlElementToWrite instanceof SBase) {
+      SBase sbase = (SBase) sbmlElementToWrite;
+      log4jLogger.info(String.format("%s ", sbase.getElementName()));
+      if (!xmlObject.isSetName()) {
+        if (sbase instanceof ListOf<?>) {
+          xmlObject.setName(LayoutList.listOfLayouts.toString());
+        } else {
+          xmlObject.setName(sbase.getElementName());
+        }
+      }
+      if (!xmlObject.isSetPrefix()) {
+        xmlObject.setPrefix("layout");
+      }
+      xmlObject.setNamespace(namespaceURI);
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.stax.ReadingParser#processCharactersOf(java.lang.String, java.lang.String, java.lang.Object)
-	 */
-	public void processCharactersOf(String elementName, String characters,
-			Object contextObject) {
-		// TODO : the basic Groups elements don't have any text. SBML syntax
-		// error, throw an exception, log en error ?
+    }
 
-	}
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndDocument(org.sbml.jsbml.SBMLDocument)
-	 */
-	public void processEndDocument(SBMLDocument sbmlDocument) {
-		// Do some checking ??
-	}
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.WritingParser#writeNamespaces(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
+   */
+  public void writeNamespaces(SBMLObjectForXML xmlObject,
+      Object sbmlElementToWrite) {
+    // TODO Auto-generated method stub
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndElement(java.lang.String, java.lang.String, boolean, java.lang.Object)
-	 */
-	public boolean processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject) {
+  }
 
-		if (elementName.equals("listOfLayouts")
-				|| elementName.equals("listOfSpeciesGlyphs")
-				|| elementName.equals("listOfReactionGlyphs")
-				|| elementName.equals("listOfSpeciesReferenceGlyphs")
-				|| elementName.equals("listOfCurveSegments")) {
-			this.groupList = LayoutList.none;
-		}
-		
-		return true;
-	}
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.Object)
+   */
+  public void processAttribute(String elementName, String attributeName,
+      String value, String prefix, boolean isLastAttribute,
+      Object contextObject) {
+    log4jLogger.debug("processAttribute\n");
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processNamespace(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
-	 */
-	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) {
-		// Nothing to be done
+    boolean isAttributeRead = false;
 
-	}
+    if (contextObject instanceof SBase) {
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
-	 */
-	// Create the proper object and link it to his parent.
-	@SuppressWarnings("unchecked")
-	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
-		if (sbmlLayoutElements.containsKey(elementName)) {
-			try {
-				Object newContextObject = sbmlLayoutElements.get(elementName)
-						.newInstance();
-				if (contextObject instanceof SBase) {					
-					setLevelAndVersionFor(newContextObject,
-							(SBase) contextObject);
-				}
-				if (contextObject instanceof Model) {					
-					Model model = (Model) contextObject;
-					if (elementName.equals("listOfLayouts")) {
-						ListOf<Layout> listOfLayouts = (ListOf<Layout>) newContextObject;
-						listOfLayouts.setSBaseListType(ListOf.Type.other);
-						listOfLayouts.addNamespace(namespaceURI);
-						this.groupList = LayoutList.listOfLayouts;
+      SBase sbase = (SBase) contextObject;
 
-						ExtendedLayoutModel layoutModel = new ExtendedLayoutModel();
-						layoutModel.setListOfLayouts(listOfLayouts);
-						// layoutModel.addNamespace(namespaceURI);
-						model.addExtension(LayoutParser.namespaceURI,
-								layoutModel);
-						// TODO : check what to do for the parent of the listOfLayout !!
-						listOfLayouts.setParentSBML(model);
-						return listOfLayouts;
-					} else {
-						log4jLogger.warn(String.format("Element %s not recognized!", elementName));
-					}
-				}
+      log4jLogger.debug("processAttribute : level, version = "
+          + sbase.getLevel() + ", " + sbase.getVersion());
 
-				else if (contextObject instanceof ListOf<?>) {
-					ListOf<?> listOf = (ListOf<?>) contextObject;
-					if (elementName.equals("layout") && this.groupList.equals(LayoutList.listOfLayouts)) {
-						ListOf<Layout> listOfLayouts = (ListOf<Layout>) listOf;
-						Layout layout = (Layout) newContextObject;
-						layout.addNamespace(namespaceURI);
-						listOfLayouts.add(layout);
-						return layout;
-					} else if (elementName.equals("speciesGlyph")
-							&& this.groupList
-									.equals(LayoutList.listOfSpeciesGlyphs)) {
-						ListOf<SpeciesGlyph> listOfSpeciesGlyphs = (ListOf<SpeciesGlyph>) listOf;
-						SpeciesGlyph speicesGlyph = (SpeciesGlyph) newContextObject;
-						listOfSpeciesGlyphs.add(speicesGlyph);
-						return speicesGlyph;
-					}else if(elementName.equals("reactionGlyph") /*&& this.groupList.equals(LayoutList.listOfReactionGlyphs)*/)
-					{
-						ListOf<ReactionGlyph> listOfReactionGlyphs = (ListOf<ReactionGlyph>)listOf;
-						ReactionGlyph reactionGlyph = (ReactionGlyph) newContextObject;
-						listOfReactionGlyphs.add(reactionGlyph);
-						return reactionGlyph;
-					}
-					else if(elementName.equals("speciesReferenceGlyph") /*&& this.groupList.equals(LayoutList.listOfSpeciesReferenceGlyphs)*/)
-					{
-						ListOf<SpeciesReferenceGlyph> listOfSpeciesReferenceGlyph = (ListOf<SpeciesReferenceGlyph>) listOf;
-						SpeciesReferenceGlyph speicesReferenceGlyph = (SpeciesReferenceGlyph) newContextObject;
-						listOfSpeciesReferenceGlyph.add(speicesReferenceGlyph);
-						return speicesReferenceGlyph;
-					}
-					else if(elementName.equals("lineSegment") /*&& this.groupList.equals(LayoutList.listOfCurves)*/)
-					{
-						ListOf<LineSegment> listOfLineSegments = (ListOf<LineSegment>)listOf;
-						LineSegment	lineSegment = (LineSegment)newContextObject;
-						listOfLineSegments.add(lineSegment);
-						return lineSegment;
-						
-					}
-					else if(elementName.equals("cubicBezier") /*&& this.groupList.equals(LayoutList.listOfCurves)*/)
-					{
-						ListOf<LineSegment> listOfLineSegments = (ListOf<LineSegment>)listOf;
-						CubicBezier	cubicBezier = (CubicBezier)newContextObject;
-						listOfLineSegments.add(cubicBezier);
-						return cubicBezier;						
-					}
-					else if(elementName.equals("textGlyph"))
-					{
-						ListOf<TextGlyph> listOfTextGlyphs = (ListOf<TextGlyph>)listOf;
-						TextGlyph textGlyph = (TextGlyph) newContextObject;
-						listOfTextGlyphs.add(textGlyph);
-						return textGlyph;
-					}
-				} else if (contextObject instanceof BoundingBox) {
-					BoundingBox boundingBox = (BoundingBox) contextObject;
-					if (elementName.equals("point") && this.groupList.equals(LayoutList.listOfSpeciesGlyphs)) {
-						Point point = (Point) newContextObject;
-						point.addNamespace(namespaceURI);
-						boundingBox.setPoint(point);
-						return point;
-					}
-					else if(elementName.equals("dimensions") && this.groupList.equals(LayoutList.listOfSpeciesGlyphs)){
-						Dimensions dimensions = (Dimensions) newContextObject;
-						dimensions.addNamespace(namespaceURI);
-						boundingBox.setDimensions(dimensions);
-						return dimensions;
-					}
-				} else if (contextObject instanceof Layout) {
-					Layout layout = (Layout) contextObject;
-					if (elementName.equals("dimensions")
-							&& this.groupList.equals(LayoutList.listOfLayouts)) {
-						Dimensions dimensions = (Dimensions) newContextObject;
-						dimensions.addNamespace(namespaceURI);
-						layout.setDimensions(dimensions);
-						return dimensions;
-					} else if (elementName.equals("listOfSpeciesGlyphs")
-							&& this.groupList.equals(LayoutList.listOfLayouts)) {
-						ListOf<SpeciesGlyph> listofSpeciesGlyph = (ListOf<SpeciesGlyph>) newContextObject;
-						layout.setListOfSpeciesGlyphs(listofSpeciesGlyph);
-						this.groupList = LayoutList.listOfSpeciesGlyphs;
-						return listofSpeciesGlyph;
-					} 
-					else if(elementName.equals("listOfReactionGlyphs") && this.groupList.equals(LayoutList.listOfSpeciesGlyphs))
-					{
-						ListOf<ReactionGlyph> listOfReactionGlyphs = (ListOf<ReactionGlyph>) newContextObject;
-						layout.setListOfReactionGlyphs(listOfReactionGlyphs);
-						this.groupList = LayoutList.listOfReactionGlyphs;
-						return listOfReactionGlyphs;
-					}
-					else if(elementName.equals("listOfTextGlyphs"))
-					{
-						ListOf<TextGlyph> listOfTextGlyphs = (ListOf<TextGlyph>) newContextObject;
-						layout.setListOfTextGlyphs(listOfTextGlyphs);
-						this.groupList = LayoutList.listOfTextGlyphs;
-						return listOfTextGlyphs;
-					}
-				} 
-				else if (contextObject instanceof SpeciesGlyph) {
-					SpeciesGlyph speciesGlyph = (SpeciesGlyph) contextObject;
-					if(elementName.equals("boundingBox") && this.groupList.equals(LayoutList.listOfSpeciesGlyphs))
-					{
-						BoundingBox boundingBox = (BoundingBox) newContextObject;
-						boundingBox.addNamespace(namespaceURI);
-						speciesGlyph.setBoundingBox(boundingBox);
-						return boundingBox;
-					}					
-				} else if (contextObject instanceof ReactionGlyph){
-					ReactionGlyph reactionGlyph = (ReactionGlyph) contextObject;
-					///TODO unsure why the curve is not parsing
-					if(elementName.equals("curve")  )
-					{
-						Curve curve = (Curve) newContextObject;
-						curve.addNamespace(namespaceURI);
-						reactionGlyph.setCurve(curve);
-						return curve;
-					}
-					else if(elementName.equals("listOfSpeciesReferenceGlyphs")  /*&& this.groupList.equals(LayoutList.listOfReactionGlyphs)*/)
-					{
-						this.groupList = LayoutList.listOfSpeciesReferenceGlyphs;
-						ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph = (ListOf<SpeciesReferenceGlyph>) newContextObject;
-						listOfSpeciesReferencesGlyph.addNamespace(namespaceURI);
-						reactionGlyph.setListOfSpeciesReferencesGlyph(listOfSpeciesReferencesGlyph);
-						return listOfSpeciesReferencesGlyph;
-					}
-					else if(elementName.equals("listOfCurveSegments"))
-					{
-						Curve curve = new Curve(reactionGlyph.getLevel(), reactionGlyph.getVersion());
-						reactionGlyph.setCurve(curve);
-						ListOf<LineSegment> listOfCurveSegments = (ListOf<LineSegment>) newContextObject;
-						curve.setListOfCurveSegments(listOfCurveSegments);
-						return listOfCurveSegments;
-					}					
-				} else if(contextObject instanceof SpeciesReferenceGlyph){
-					SpeciesReferenceGlyph speciesReferenceGlyph = (SpeciesReferenceGlyph) contextObject;
-					if(elementName.equals("curve") )
-					{
-						Curve curve = (Curve) newContextObject;
-						curve.addNamespace(namespaceURI);
-						speciesReferenceGlyph.setCurve(curve);
-						return curve;
-					}
-					///TODO unsure why the curve is not parsing
-					else if(elementName.equals("listOfCurveSegments"))
-					{
-						log4jLogger.warn("parsing: listOfCurveSegments");
-						Curve curve = new Curve(speciesReferenceGlyph.getLevel(), speciesReferenceGlyph.getVersion());
-						speciesReferenceGlyph.setCurve(curve);
-						ListOf<LineSegment> listOfCurveSegments = (ListOf<LineSegment>) newContextObject;
-						curve.setListOfCurveSegments(listOfCurveSegments);
-						return listOfCurveSegments;
-					}					
-				} else if(contextObject instanceof Curve){
-					Curve curve = (Curve) contextObject;
-					log4jLogger.warn("parsing instaceof Curve");
-					if(elementName.equals("listOfCurveSegments") )
-					{
-						log4jLogger.warn("parsing: listOfCurveSegments");
-						ListOf<LineSegment> listOfLineSegments = (ListOf<LineSegment>) newContextObject;
-						curve.setListOfCurveSegments(listOfLineSegments);
-						return listOfLineSegments;
-					}					
-				} else if (contextObject instanceof LineSegment)
-				{
-					LineSegment lineSegment = (LineSegment) contextObject;
-					if(elementName.equals("start"))
-					{
-						Point start = (Point) newContextObject;
-						lineSegment.setStart(start);
-						return start;
-					}
-					else if(elementName.equals("end"))
-					{
-						Point end = (Point) newContextObject;
-						lineSegment.setEnd(end);
-						return end;
-					}
-				} else if (contextObject instanceof CubicBezier){
-					CubicBezier cubicBezier = (CubicBezier) contextObject;
-					if(elementName.equals("start"))
-					{
-						Point start = (Point) newContextObject;
-						cubicBezier.setStart(start);
-						return start;
-					}
-					else if(elementName.equals("end"))
-					{
-						Point end = (Point) newContextObject;
-						cubicBezier.setEnd(end);
-						return end;
-					}
-					else if(elementName.equals("basePoint1"))
-					{
-						Point basePoint1 = (Point) newContextObject;
-						cubicBezier.setBasePoint1(basePoint1);
-						return basePoint1;
-					}
-					else if(elementName.equals("basePoint2")){
-						Point basePoint2 = (Point) newContextObject;
-						cubicBezier.setBasePoint2(basePoint2);
-						return basePoint2;
-					}
-				} else if (contextObject instanceof TextGlyph)
-				{
-					TextGlyph textGlyph = (TextGlyph) contextObject;
-					if(elementName.equals("boundingBox"))
-					{
-						BoundingBox boundingBox = (BoundingBox)newContextObject;
-						textGlyph.setBoundingBox(boundingBox);
-						return boundingBox;
-					}
-					
-				}
-				
+      try {
+        isAttributeRead = sbase.readAttribute(attributeName, prefix,
+            value);
+      } catch (Throwable exc) {
+        System.err.println(exc.getMessage());
+      }
+    } else if (contextObject instanceof Annotation) {
+      Annotation annotation = (Annotation) contextObject;
+      isAttributeRead = annotation.readAttribute(attributeName, prefix,
+          value);
+    } else if (contextObject instanceof SBasePlugin) {
+      isAttributeRead = ((SBasePlugin) contextObject).readAttribute(
+          attributeName, prefix, value);
+    }
 
-				else {
-					log4jLogger.warn(String.format("Classname: %s", contextObject.getClass().getName()));
-					log4jLogger.warn(String.format("Parsing-Error: Element %s is not recognized!", elementName));
-				}
+    if (!isAttributeRead) {
+      log4jLogger.warn("processAttribute : The attribute "
+          + attributeName + " on the element " + elementName
+          + " is not part of the SBML specifications");
+    }
+  }
 
-			} catch (Exception e) {
-				log4jLogger.error(e.getLocalizedMessage(), e);
-			}
-		}
-		return contextObject;
-	}
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#processCharactersOf(java.lang.String, java.lang.String, java.lang.Object)
+   */
+  public void processCharactersOf(String elementName, String characters,
+      Object contextObject) {
+    // TODO Auto-generated method stub
 
-	/**
-	 * Sets level and version properties of the new object according to the
-	 * value in the model.
-	 * 
-	 * @param newContextObject
-	 * @param parent
-	 */
-	private void setLevelAndVersionFor(Object newContextObject, SBase parent) {
-		if (newContextObject instanceof SBase) {
-			SBase sb = (SBase) newContextObject;
-			// Level and version will be -1 if not set, so we don't
-			// have to check.
-			sb.setLevel(parent.getLevel());
-			sb.setVersion(parent.getVersion());
-		}
-	}
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeAttributes(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
-	 */
-	public void writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		if (sbmlElementToWrite instanceof SBase) {
-			SBase sbase = (SBase) sbmlElementToWrite;
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndDocument(org.sbml.jsbml.SBMLDocument)
+   */
+  public void processEndDocument(SBMLDocument sbmlDocument) {
+    // TODO Auto-generated method stub
 
-			xmlObject.addAttributes(sbase.writeXMLAttributes());
-		}
+  }
 
-	}
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#processNamespace(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
+   */
+  public void processNamespace(String elementName, String URI, String prefix,
+      String localName, boolean hasAttributes, boolean isLastNamespace,
+      Object contextObject) {
+    // TODO Auto-generated method stub
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeCharacters(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
-	 */
-	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO : Group elements do not have any characters in the XML file.
-		// what to do?
+  }
 
-	}
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
+   */
+  public Object processStartElement(String elementName, String prefix,
+      boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
+    if (elementName.equals("basePoint1")) {
+      log4jLogger.debug("processing basePoint1");
+    }
+    if (sbmlLayoutElements.containsKey(elementName)) {
+      try {
+        Object newContextObject = sbmlLayoutElements.get(elementName)
+            .newInstance();
+        if (contextObject instanceof Annotation) {
+          Annotation annotation = (Annotation) contextObject;
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
-	 */
-	public void writeElement(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
+          Model model = (Model) annotation.getParent();
+          ExtendedLayoutModel layoutModel = null;
 
-		log4jLogger.warn(String.format("%s : writeElement", getClass().getSimpleName()));
+          if (model.getExtension(namespaceURI) != null) {
+            layoutModel = (ExtendedLayoutModel) model
+                .getExtension(namespaceURI);
+          } else {
+            layoutModel = new ExtendedLayoutModel(model);
+            model.addExtension(namespaceURI, layoutModel);
+          }
+        }
+        if (contextObject instanceof SBase) {
+          setLevelAndVersionFor(newContextObject,
+              (SBase) contextObject);
+        }
+        if (contextObject instanceof Annotation) {
+          Annotation annotation = (Annotation) contextObject;
+          if (elementName.equals("listOfLayouts")) {
+            ListOf<Layout> listOfLayouts = (ListOf<Layout>) newContextObject;
+            listOfLayouts.addNamespace(namespaceURI);
+            this.groupList = LayoutList.listOfLayouts;
+            Model model = (Model) annotation.getParent();
+            ExtendedLayoutModel layoutModel = (ExtendedLayoutModel) model
+                .getExtension(namespaceURI);
+            layoutModel.setListOfLayouts(listOfLayouts);
+            return listOfLayouts;
+          } else {
+            log4jLogger.warn(String.format(
+                "Element %s not recognized!", elementName));
+          }
+        } else if (contextObject instanceof ListOf<?>) {
+          ListOf<?> listOf = (ListOf<?>) contextObject;
+          if (listOf.getParentSBMLObject() instanceof Model) {
+            if (elementName.equals("layout")
+                && this.groupList
+                    .equals(LayoutList.listOfLayouts)) {
+              ListOf<Layout> listOflayouts = (ListOf<Layout>) listOf;
+              Layout layout = (Layout) newContextObject;
+              layout.addNamespace(namespaceURI);
+              listOflayouts.add(layout);
+              return layout;
+            }
+          } else if (listOf.getParentSBMLObject() instanceof Layout) {
+            if (elementName.equals("compartmentGlyph")
+                && this.groupList
+                    .equals(LayoutList.listOfCompartmentGlyphs)) {
+              ListOf<CompartmentGlyph> listOfCompartmentGlyph = (ListOf<CompartmentGlyph>) contextObject;
+              CompartmentGlyph compartmentGlyph = (CompartmentGlyph) newContextObject;
+              listOfCompartmentGlyph.addNamespace(namespaceURI);
+              listOfCompartmentGlyph.add(compartmentGlyph);
+              this.groupList = LayoutList.listOfCompartmentGlyphs;
+              return compartmentGlyph;
+            } else if (elementName.equals("textGlyph")
+                && this.groupList
+                    .equals(LayoutList.listOfTextGlyphs)) {
+              ListOf<TextGlyph> listOfTextGlyph = (ListOf<TextGlyph>) contextObject;
+              TextGlyph textGlyph = (TextGlyph) newContextObject;
+              listOfTextGlyph.addNamespace(namespaceURI);
+              listOfTextGlyph.add(textGlyph);
+              this.groupList = LayoutList.listOfTextGlyphs;
+              return textGlyph;
+            } else if (elementName.equals("speciesGlyph")
+                && this.groupList
+                    .equals(LayoutList.listOfSpeciesGlyphs)) {
+              ListOf<SpeciesGlyph> listOfSpeciesGlyph = (ListOf<SpeciesGlyph>) contextObject;
+              SpeciesGlyph speciesGlyph = (SpeciesGlyph) newContextObject;
+              listOfSpeciesGlyph.addNamespace(namespaceURI);
+              listOfSpeciesGlyph.add(speciesGlyph);
+              this.groupList = LayoutList.listOfSpeciesGlyphs;
+              return speciesGlyph;
+            } else if (elementName.equals("reactionGlyph")
+                && this.groupList
+                    .equals(LayoutList.listOfReactionGlyphs)) {
+              ListOf<ReactionGlyph> listOfReactionGlyph = (ListOf<ReactionGlyph>) contextObject;
+              ReactionGlyph reactionGlyph = (ReactionGlyph) newContextObject;
+              reactionGlyph.addNamespace(namespaceURI);
+              listOfReactionGlyph.add(reactionGlyph);
+              this.groupList = LayoutList.listOfReactionGlyphs;
+              return reactionGlyph;
+            } else if (elementName.equals("boundingBox")
+                && this.groupList
+                    .equals(LayoutList.listOfCompartmentGlyphs)) {
+              CompartmentGlyph compartmentGlyph = (CompartmentGlyph) contextObject;
+              BoundingBox boundingBox = (BoundingBox) newContextObject;
+              compartmentGlyph.setBoundingBox(boundingBox);
+              return boundingBox;
+            }
+          } else if (listOf.getParentSBMLObject() instanceof ReactionGlyph) {
+            if (elementName.equals("speciesReferenceGlyph")
+                && this.groupList
+                    .equals(LayoutList.listOfSpeciesReferenceGlyphs)) {
+              SpeciesReferenceGlyph speciesReferenceGlyph = (SpeciesReferenceGlyph) newContextObject;
+              ListOf<SpeciesReferenceGlyph> listOfSpeciesReferenceGlyph = (ListOf<SpeciesReferenceGlyph>) contextObject;
+              listOfSpeciesReferenceGlyph
+                  .add(speciesReferenceGlyph);
+              return speciesReferenceGlyph;
+            }
+          } else if (elementName.equals("curveSegment")
+              && this.groupList
+                  .equals(LayoutList.listOfCurveSegments)) {
+            ListOf<CurveSegment> listOfLineSegment = (ListOf<CurveSegment>) contextObject;
+            CurveSegment lineSegment = (CurveSegment) newContextObject;
+            lineSegment.addNamespace(namespaceURI);
+            listOfLineSegment.add(lineSegment);
+            this.groupList = LayoutList.listOfCurveSegments;
+            return lineSegment;
+          } else if (listOf.getParentSBMLObject() instanceof Curve) {
 
-		if (sbmlElementToWrite instanceof SBase) {
-			SBase sbase = (SBase) sbmlElementToWrite;
+            if (elementName.equals("curveSegment")
+                && this.groupList
+                    .equals(LayoutList.listOfReactionGlyphs)) {
+              ListOf<CurveSegment> listOfLineSegment = (ListOf<CurveSegment>) contextObject;
+              CurveSegment lineSegment = (CurveSegment) newContextObject;
+              listOfLineSegment.add(lineSegment);
+              return lineSegment;
+            } else if (elementName.equals("curveSegment")
+                && this.groupList
+                    .equals(LayoutList.listOfSpeciesReferenceGlyphs)) {
+              ListOf<CurveSegment> listOfLineSegment = (ListOf<CurveSegment>) contextObject;
+              CurveSegment lineSegment = (CurveSegment) newContextObject;
+              listOfLineSegment.add(lineSegment);
+              return lineSegment;
+            } else if (elementName.equals("cubicBezier")
+                && this.groupList
+                    .equals(LayoutList.listOfSpeciesReferenceGlyphs)) {
+              ListOf<CurveSegment> listOfLineSegment = (ListOf<CurveSegment>) contextObject;
+              CubicBezier lineSegment = (CubicBezier) newContextObject;
+              listOfLineSegment.add((CurveSegment) lineSegment);
+              return lineSegment;
+            } else if (elementName.equals("cubicBezier")
+                && this.groupList
+                    .equals(LayoutList.listOfReactionGlyphs)) {
+              ListOf<CurveSegment> listOfLineSegment = (ListOf<CurveSegment>) contextObject;
+              CubicBezier lineSegment = (CubicBezier) newContextObject;
+              listOfLineSegment.add((CurveSegment) lineSegment);
+              return lineSegment;
+            }
+          }
 
-			if (!xmlObject.isSetName()) {
-				if (sbase instanceof ListOf<?>) {
-					xmlObject.setName(LayoutList.listOfLayouts.toString());
-				} else {
-					xmlObject.setName(sbase.getElementName());
-				}
-			}
-			if (!xmlObject.isSetPrefix()) {
-				xmlObject.setPrefix("groups");
-			}
-			xmlObject.setNamespace(namespaceURI);
+        } else if (contextObject instanceof Layout) {
+          Layout layout = (Layout) contextObject;
+          this.groupList = LayoutList.listOfLayouts;
+          if (elementName.equals("dimensions")
+              && this.groupList.equals(LayoutList.listOfLayouts)) {
+            Dimensions dimensions = (Dimensions) newContextObject;
+            dimensions.addNamespace(namespaceURI);
+            layout.setDimensions(dimensions);
+            return dimensions;
+          } else if (elementName.equals("listOfCompartmentGlyphs")
+              && this.groupList.equals(LayoutList.listOfLayouts)) {
+            ListOf<CompartmentGlyph> listOfCompartmentGlyphs = (ListOf<CompartmentGlyph>) newContextObject;
+            layout.setListOfCompartmentGlyphs(listOfCompartmentGlyphs);
+            this.groupList = LayoutList.listOfCompartmentGlyphs;
+            return listOfCompartmentGlyphs;
+          } else if (elementName.equals("listOfSpeciesGlyphs")
+              && this.groupList.equals(LayoutList.listOfLayouts)) {
+            ListOf<SpeciesGlyph> listofSpeciesGlyph = (ListOf<SpeciesGlyph>) newContextObject;
+            layout.setListOfSpeciesGlyphs(listofSpeciesGlyph);
+            this.groupList = LayoutList.listOfSpeciesGlyphs;
+            return listofSpeciesGlyph;
+          } else if (elementName.equals("listOfReactionGlyphs")
+              && this.groupList.equals(LayoutList.listOfLayouts)) {
+            ListOf<ReactionGlyph> listOfReactionGlyphs = (ListOf<ReactionGlyph>) newContextObject;
+            layout.setListOfReactionGlyphs(listOfReactionGlyphs);
+            this.groupList = LayoutList.listOfReactionGlyphs;
+            return listOfReactionGlyphs;
+          } else if (elementName.equals("listOfTextGlyphs")
+              && this.groupList.equals(LayoutList.listOfLayouts)) {
+            ListOf<TextGlyph> listOfTextGlyphs = (ListOf<TextGlyph>) newContextObject;
+            layout.setListOfTextGlyphs(listOfTextGlyphs);
+            this.groupList = LayoutList.listOfTextGlyphs;
+            return listOfTextGlyphs;
+          }
+        } else if (contextObject instanceof ReactionGlyph) {
+          ReactionGlyph reactionGlyph = (ReactionGlyph) contextObject;
+          if (elementName.equals("curve")
+              && this.groupList
+                  .equals(LayoutList.listOfReactionGlyphs)) {
+            Curve curve = (Curve) newContextObject;
+            curve.addNamespace(namespaceURI);
+            reactionGlyph.setCurve(curve);
+            return curve;
+          } else if (elementName
+              .equals("listOfSpeciesReferenceGlyphs")
+              && this.groupList
+                  .equals(LayoutList.listOfReactionGlyphs)) {
+            ListOf<SpeciesReferenceGlyph> listOfSpeciesReferenceGlyphs = (ListOf<SpeciesReferenceGlyph>) newContextObject;
+            reactionGlyph
+                .setListOfSpeciesReferencesGlyph(listOfSpeciesReferenceGlyphs);
+            this.groupList = LayoutList.listOfSpeciesReferenceGlyphs;
+            return listOfSpeciesReferenceGlyphs;
+          }
+        } else if (contextObject instanceof SpeciesGlyph) {
+          SpeciesGlyph speciesGlyph = (SpeciesGlyph) contextObject;
+          if (elementName.equals("boundingBox")) {
+            BoundingBox boundingBox = (BoundingBox) newContextObject;
+            boundingBox.addNamespace(namespaceURI);
+            speciesGlyph.setBoundingBox(boundingBox);
+            return boundingBox;
+          }
+        } else if (contextObject instanceof CompartmentGlyph) {
+          if (elementName.equals("boundingBox")
+              && this.groupList
+                  .equals(LayoutList.listOfCompartmentGlyphs)) {
+            CompartmentGlyph compartmentGlyph = (CompartmentGlyph) contextObject;
+            BoundingBox boundingBox = (BoundingBox) newContextObject;
+            boundingBox.addNamespace(namespaceURI);
+            compartmentGlyph.setBoundingBox(boundingBox);
+            return boundingBox;
+          }
+        } else if (contextObject instanceof TextGlyph) {
+          if (elementName.equals("boundingBox")
+              && this.groupList
+                  .equals(LayoutList.listOfTextGlyphs)) {
+            TextGlyph textGlyph = (TextGlyph) contextObject;
+            BoundingBox boundingBox = (BoundingBox) newContextObject;
+            boundingBox.addNamespace(namespaceURI);
+            textGlyph.setBoundingBox(boundingBox);
+            return boundingBox;
+          }
+        } else if (contextObject instanceof Curve) {
+          if (elementName.equals("listOfCurveSegments")
+              && this.groupList
+                  .equals(LayoutList.listOfReactionGlyphs)) {
+            Curve curve = (Curve) contextObject;
+            ListOf<CurveSegment> listOfCurveSegments = (ListOf<CurveSegment>) newContextObject;
+            curve.setListOfCurveSegments(listOfCurveSegments);
+            this.groupList = LayoutList.listOfReactionGlyphs;
+            return listOfCurveSegments;
+          } else if (elementName.equals("listOfCurveSegments")
+              && this.groupList
+                  .equals(LayoutList.listOfSpeciesReferenceGlyphs)) {
+            Curve curve = (Curve) contextObject;
+            ListOf<CurveSegment> listOfCurveSegments = (ListOf<CurveSegment>) newContextObject;
+            curve.setListOfCurveSegments(listOfCurveSegments);
+            this.groupList = LayoutList.listOfSpeciesReferenceGlyphs;
+            return listOfCurveSegments;
+          }
+        } else if (contextObject instanceof BoundingBox) {
+          BoundingBox boundingBox = (BoundingBox) contextObject;
+          if (elementName.equals("position")) {
+            Point point = (Point) newContextObject;
+            boundingBox.setPoint(point);
+            return point;
+          } else if (elementName.equals("dimensions")) {
+            Dimensions dimensions = (Dimensions) newContextObject;
+            boundingBox.setDimensions(dimensions);
+            return dimensions;
+          }
+        } else if (contextObject instanceof CurveSegment
+            && this.groupList
+                .equals(LayoutList.listOfReactionGlyphs)) {
+          if (elementName.equals("curveSegment")) {
+            ListOf<CurveSegment> lineSegments = (ListOf<CurveSegment>) contextObject;
+            CurveSegment lineSegment = (CurveSegment) newContextObject;
+            lineSegments.add(lineSegment);
+            lineSegment.addNamespace(namespaceURI);
+            return lineSegment;
+          } else if (elementName.equals("start")) {
+            CurveSegment lineSegment = (CurveSegment) contextObject;
+            Start start = (Start) newContextObject;
+            lineSegment.setStart(start);
+            start.addNamespace(namespaceURI);
+            return start;
+          } else if (elementName.equals("end")) {
+            CurveSegment lineSegment = (CurveSegment) contextObject;
+            End end = (End) newContextObject;
+            lineSegment.setEnd(end);
+            end.addNamespace(namespaceURI);
+            return end;
+          }
+        } else if (contextObject instanceof CubicBezier
+            && this.groupList
+                .equals(LayoutList.listOfSpeciesReferenceGlyphs)) {
+          if (elementName.equals("cubicBezier")) {
+            ListOf<CurveSegment> lineSegments = (ListOf<CurveSegment>) contextObject;
+            CubicBezier lineSegment = (CubicBezier) newContextObject;
+            lineSegments.add((CurveSegment) lineSegment);
+            lineSegment.addNamespace(namespaceURI);
+            return lineSegment;
+          } else if (elementName.equals("curveSegment")) {
+            ListOf<CurveSegment> lineSegments = (ListOf<CurveSegment>) contextObject;
+            CurveSegment lineSegment = (CurveSegment) newContextObject;
+            lineSegments.add(lineSegment);
+            lineSegment.addNamespace(namespaceURI);
+            return lineSegment;
+          } else if (elementName.equals("start")) {
+            CubicBezier lineSegment = (CubicBezier) contextObject;
+            Point start = (Point) newContextObject;
+            lineSegment.setStart(start);
+            start.addNamespace(namespaceURI);
+            return start;
+          } else if (elementName.equals("end")) {
+            CubicBezier lineSegment = (CubicBezier) contextObject;
+            Point end = (Point) newContextObject;
+            lineSegment.setEnd(end);
+            end.addNamespace(namespaceURI);
+            return end;
+          } else if (elementName.equals("basePoint1")) {
+            CubicBezier lineSegment = (CubicBezier) contextObject;
 
-		}
+            BasePoint1 basePoint1 = (BasePoint1) newContextObject;
+            lineSegment.setBasePoint1(basePoint1);
+            basePoint1.addNamespace(namespaceURI);
+            return basePoint1;
+          } else if (elementName.equals("basePoint2")) {
+            CubicBezier lineSegment = (CubicBezier) contextObject;
+            BasePoint2 basePoint2 = (BasePoint2) newContextObject;
+            lineSegment.setBasePoint2(basePoint2);
+            basePoint2.addNamespace(namespaceURI);
+            return basePoint2;
+          }
+        } else if (contextObject instanceof SpeciesReferenceGlyph
+            && this.groupList
+                .equals(LayoutList.listOfSpeciesReferenceGlyphs)) {
+          if (elementName.equals("curve")) {
+            SpeciesReferenceGlyph speciesReferenceGlyph = (SpeciesReferenceGlyph) contextObject;
+            Curve curve = (Curve) newContextObject;
+            speciesReferenceGlyph.setCurve(curve);
+            curve.addNamespace(namespaceURI);
+            return curve;
+          }
+        } else {
+          log4jLogger.info("Tag " + elementName
+              + " could not be recognized.");
+          log4jLogger.info("contextObject: "
+              + contextObject.toString());
+          log4jLogger.info("newContextObject: "
+              + newContextObject.toString());
+        }
+      } catch (Exception e) {
+        log4jLogger.error(e.getLocalizedMessage(), e);
+      }
+    }
+    return contextObject;
+  }
 
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeNamespaces(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
-	 */
-	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		if (sbmlElementToWrite instanceof SBase) {
-			// SBase sbase = (SBase) sbmlElementToWrite;
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * org.sbml.jsbml.xml.parsers.ReadingParser#processEndElement(java.lang.
+   * String, java.lang.String, boolean, java.lang.Object)
+   */
+  public boolean processEndElement(String elementName, String prefix,
+      boolean isNested, Object contextObject) {
+    log4jLogger
+        .debug("contetObject: " + contextObject.getClass().getName());
+    log4jLogger.debug("elementName: " + elementName);
+    if (elementName.equals("listOfLayouts")
+        || elementName.equals("listOfSpeciesGlyphs")
+        || elementName.equals("listOfReactionGlyphs")
+        || elementName.equals("listOfCompartmentGlyphs")
+        || elementName.equals("listOfTextGlyphs")) {
+      this.groupList = LayoutList.none;
+      log4jLogger.debug("set listType to: none");
+    } else if (elementName.equals("listOfSpeciesReferenceGlyphs")) {
+      this.groupList = LayoutList.listOfReactionGlyphs;
+      log4jLogger.debug("set listType to: listOfReactionGlyphs");
+    }
 
-			xmlObject.setPrefix("groups");
-		}
+    return true;
+  }
 
-	}
+  /**
+   * Sets level and version properties of the new object according to the
+   * value in the model.
+   * 
+   * @param newContextObject
+   * @param parent
+   */
+  private void setLevelAndVersionFor(Object newContextObject, SBase parent) {
+    if (newContextObject instanceof SBase) {
+      SBase sb = (SBase) newContextObject;
+      // Level and version will be -1 if not set, so we don't
+      // have to check.
+      sb.setLevel(parent.getLevel());
+      sb.setVersion(parent.getVersion());
+    }
+  }
 
-
-};
+}

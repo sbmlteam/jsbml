@@ -47,13 +47,16 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	 */
 	protected ListOf<Layout> listOfLayouts;
 
+	/**
+	 * 
+	 */
 	private Model model;
 	
 	/**
 	 * 
 	 */
-	public ExtendedLayoutModel() {
-		super();
+	public ExtendedLayoutModel(Model model) {
+		super(model);
 		listOfLayouts = new ListOf<Layout>();
 	}
 
@@ -211,7 +214,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		if ((this.listOfLayouts != null) && (this.listOfLayouts.getSBaseListType() != ListOf.Type.other)) {
 			this.listOfLayouts.setSBaseListType(ListOf.Type.other);
 		}
-		model.setThisAsParentSBMLObject(listOfLayouts);
+		model.registerChild(listOfLayouts);
 	}
 
 	/*

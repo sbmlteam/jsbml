@@ -48,17 +48,18 @@ public class TextGlyph extends GraphicalObject {
 	 */
 	private String originOfText;
 
-
 	/**
 	 * 
 	 */
 	private String text;
+	
 	/**
 	 * 
 	 */
 	public TextGlyph() {
 		super();
 	}
+	
 	/**
 	 * 
 	 * @param level
@@ -170,6 +171,7 @@ public class TextGlyph extends GraphicalObject {
 	public String getOriginOfText() {
 		return originOfText;
 	}
+	
 	/**
 	 * 
 	 * @return
@@ -177,6 +179,7 @@ public class TextGlyph extends GraphicalObject {
 	public String getText() {
 		return text;
 	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
@@ -225,7 +228,7 @@ public class TextGlyph extends GraphicalObject {
 			oldValue.fireNodeRemovedEvent();
 		}
 		this.graphicalObject = graphicalObject;
-		setThisAsParentSBMLObject(this.graphicalObject);
+		registerChild(this.graphicalObject);
 	}
 
 	/**
@@ -247,4 +250,5 @@ public class TextGlyph extends GraphicalObject {
 		this.text = text;
 		firePropertyChange(TreeNodeChangeEvent.text, oldText, this.text);
 	}
+
 }

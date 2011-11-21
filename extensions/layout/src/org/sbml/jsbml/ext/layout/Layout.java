@@ -104,7 +104,7 @@ public class Layout extends AbstractNamedSBase {
 	 */
 	public void addSpeciesGlyph(SpeciesGlyph speciesGlyph) {
 		if (speciesGlyph != null) {
-			setThisAsParentSBMLObject(speciesGlyph);
+			registerChild(speciesGlyph);
 			listOfSpeciesGlyphs.add(speciesGlyph);
 		}
 	}
@@ -347,7 +347,7 @@ public class Layout extends AbstractNamedSBase {
 			this.addGraphicalObjects.fireNodeRemovedEvent();
 		}
 		this.addGraphicalObjects = addGraphicalObjects;
-		setThisAsParentSBMLObject(this.addGraphicalObjects);
+		registerChild(this.addGraphicalObjects);
 	}
 	
 	/**
@@ -359,7 +359,7 @@ public class Layout extends AbstractNamedSBase {
 			this.dimensions.fireNodeRemovedEvent();
 		}
 		this.dimensions = dimensions;
-		setThisAsParentSBMLObject(this.dimensions);
+		registerChild(this.dimensions);
 	}
 
 	/**
@@ -372,7 +372,7 @@ public class Layout extends AbstractNamedSBase {
 		if ((this.listOfCompartmentGlyphs != null) && (this.listOfCompartmentGlyphs.getSBaseListType() != ListOf.Type.other)) {
 			this.listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
 		}
-		setThisAsParentSBMLObject(this.listOfSpeciesGlyphs);
+		registerChild(this.listOfSpeciesGlyphs);
 	}
 	
 	/**
@@ -384,7 +384,7 @@ public class Layout extends AbstractNamedSBase {
 		this.listOfReactionGlyphs = reactionGlyphs;
 		if (this.listOfReactionGlyphs != null) {
 			this.listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
-			setThisAsParentSBMLObject(this.listOfReactionGlyphs);
+			registerChild(this.listOfReactionGlyphs);
 		}
 	}
 
@@ -401,7 +401,7 @@ public class Layout extends AbstractNamedSBase {
 		}
 		if (this.listOfSpeciesGlyphs != null) {
 			this.listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
-			setThisAsParentSBMLObject(this.listOfSpeciesGlyphs);
+			registerChild(this.listOfSpeciesGlyphs);
 		}
 	}
 	
@@ -414,7 +414,7 @@ public class Layout extends AbstractNamedSBase {
 		this.listOfTextGlyphs = textGlyphs;
 		if (this.listOfTextGlyphs != null) {
 			this.listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
-			setThisAsParentSBMLObject(this.listOfTextGlyphs);
+			registerChild(this.listOfTextGlyphs);
 		}
 	}
 

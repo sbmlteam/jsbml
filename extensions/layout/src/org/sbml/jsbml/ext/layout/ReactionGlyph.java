@@ -62,7 +62,7 @@ public class ReactionGlyph extends GraphicalObject {
 	 * 
 	 */
 	public ReactionGlyph() {
-
+	  super();
 	}
 
 	/**
@@ -234,11 +234,9 @@ public class ReactionGlyph extends GraphicalObject {
 		return reaction != null;
 	}
 
-	/**
-	 * @param attributeName
-	 * @param prefix
-	 * @param value
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -274,7 +272,7 @@ public class ReactionGlyph extends GraphicalObject {
 			oldValue.fireNodeRemovedEvent();
 		}
 		this.curve = curve;
-		setThisAsParentSBMLObject(this.curve);
+		registerChild(this.curve);
 	}
 	
 	/**
@@ -285,7 +283,7 @@ public class ReactionGlyph extends GraphicalObject {
 			ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph) {
 		unsetListOfSpeciesReferencesGlyph();
 		this.listOfSpeciesReferencesGlyph = listOfSpeciesReferencesGlyph;
-		setThisAsParentSBMLObject(this.listOfSpeciesReferencesGlyph);
+		registerChild(this.listOfSpeciesReferencesGlyph);
 	}
 	
 	/**
