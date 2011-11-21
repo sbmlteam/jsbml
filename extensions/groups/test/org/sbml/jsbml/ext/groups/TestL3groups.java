@@ -99,7 +99,7 @@ public class TestL3groups {
 
 		System.out.println("Model extension objects : "
 				+ model.getExtension(GROUPS_NAMESPACE));
-		ModelGroupExtension extendedModel = (ModelGroupExtension) model
+		GroupModel extendedModel = (GroupModel) model
 				.getExtension(GROUPS_NAMESPACE);
 
 		System.out.println("Nb Groups = "

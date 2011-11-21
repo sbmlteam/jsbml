@@ -2,15 +2,15 @@
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1" xmlns:qual="http://www.sbml.org/sbml/level3/version1/qual/version1" qual:required="true">
   <model id="m_default_name">
     <listOfCompartments>
-	  <compartment constant="true" id="comp1"/>
-	</listOfCompartments>
+	     <compartment constant="true" id="comp1"/>
+	   </listOfCompartments>
     <listOfQualitativeSpecies xmlns="http://www.sbml.org/sbml/level3/version1/qual/version1">
       <qualitativeSpecies id="G0" name="G0" maxLevel="1" initialLevel="0" boundaryCondition="true" compartment="comp1" constant="false">
 	    <listOfSymbolicValues>
-		  <symbolicValue id="val1" rank="1" name="inactive"/>
-		  <symbolicValue id="val1" rank="2" name="active"/>
-		</listOfSymbolicValues>
-	  </qualitativeSpecies>
+		    <symbolicValue id="val1" rank="1" name="inactive"/>
+  		  <symbolicValue id="val1" rank="2" name="active"/>
+  		</listOfSymbolicValues>
+ 	  </qualitativeSpecies>
       <qualitativeSpecies id="G1" name="G1" maxLevel="1" initialLevel="0" boundaryCondition="false" compartment="comp1" constant="false"/>
       <qualitativeSpecies id="G2" name="G2" maxLevel="1" initialLevel="0" boundaryCondition="false" compartment="comp1" constant="false"/>
       <qualitativeSpecies id="G3" name="G3" maxLevel="1" initialLevel="0" boundaryCondition="false" compartment="comp1" constant="false"/>
@@ -91,33 +91,33 @@
                 </apply>
               </apply>
             </math>
-			<temporisationMath>
-				<math xmlns="http://www.w3.org/1998/Math/MathML">
-				  <apply>
-					<or/>
-					<apply>
-					  <and/>
-					  <apply>
-						<lt/>
-						<ci>G3</ci>
-						<cn>3</cn>
-					  </apply>
-					  <apply>
-						<geq/>
-						<ci>G3</ci>
-						<cn>1</cn>
-					  </apply>
-					</apply>
-					<apply>
-					  <and/>
-					  <apply>
-						<eq/>
-						<ci>G0</ci>
-						<cn>1</cn>
-					  </apply>
-					</apply>
-				  </apply>
-				</math>
+	       		<temporisationMath>
+				    		<math xmlns="http://www.w3.org/1998/Math/MathML">
+				    		  <apply>
+			    				   <or/>
+			    				   <apply>
+			    				     <and/>
+			    				   <apply>
+			    					    <lt/>
+				    				    <ci>G3</ci>
+			    					    <cn>3</cn>
+			    				   </apply>
+			    				   <apply>
+		    						    <geq/>
+		    						    <ci>G3</ci>
+		    						    <cn>1</cn>
+		    					   </apply>
+	    						     </apply>
+	    						       <apply>
+		    					         <and/>
+		    					         <apply>
+		    						          <eq/>
+		    						          <ci>G0</ci>
+		    						          <cn>1</cn>
+		    					         </apply>
+			    				       </apply>
+			    			      </apply>
+		    		    		</math>
             </temporisationMath>
           </functionTerm>
         </listOfFunctionTerms>
