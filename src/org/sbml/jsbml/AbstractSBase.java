@@ -1287,8 +1287,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jsbml.SBase#setHistory(org.sbml.jsbml.History)
 	 */
 	public void setHistory(History history) {
-		History oldHistory = getAnnotation().getHistory();
-		annotation.setHistory(history);
+		History oldHistory = isSetHistory() ? getHistory() : null;
+		getAnnotation().setHistory(history);
 		firePropertyChange(TreeNodeChangeEvent.history, oldHistory, history);
 	}
 
@@ -1528,10 +1528,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jsbml.SBase#unsetHistory()
 	 */
 	public void unsetHistory() {
-		if (isSetAnnotation()) {
-			History history = getHistory();
+		if (isSetHistory()) {
 			this.annotation.unsetHistory();
-			firePropertyChange(TreeNodeChangeEvent.history, history, getHistory());
 		}
 	}
 
