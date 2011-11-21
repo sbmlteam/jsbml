@@ -146,12 +146,9 @@ public class SpeciesGlyph extends GraphicalObject {
 		return species != null;
 	}
 
-	/**
-	 * 
-	 * @param attributeName
-	 * @param prefix
-	 * @param value
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,

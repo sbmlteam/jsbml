@@ -45,10 +45,23 @@ public abstract class AbstractSBasePlugin implements SBasePlugin {
   /**
    * 
    */
+  protected SBase extendedSBase;
+  
+  /**
+   * 
+   */
   public AbstractSBasePlugin() {
     super();
   }
 
+
+  /**
+   * @param extendedSBase
+   */
+  public AbstractSBasePlugin(SBase extendedSBase) {
+    this();
+    this.extendedSBase = extendedSBase;
+  }
 
   /*
    * (non-Javadoc)

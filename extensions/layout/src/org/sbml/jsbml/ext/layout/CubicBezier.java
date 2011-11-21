@@ -33,10 +33,12 @@ public class CubicBezier extends LineSegment {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -6747242964512145076L;
+	
 	/**
 	 * 
 	 */
 	private Point basePoint1;
+	
 	/**
 	 * 
 	 */
@@ -168,7 +170,7 @@ public class CubicBezier extends LineSegment {
 			oldValue.fireNodeRemovedEvent();
 		}
 		this.basePoint1 = basePoint1;
-		setThisAsParentSBMLObject(this.basePoint1);
+		registerChild(this.basePoint1);
 	}
 	
 	/**
@@ -182,6 +184,7 @@ public class CubicBezier extends LineSegment {
 			oldValue.fireNodeRemovedEvent();
 		}
 		this.basePoint2 = basePoint2;
-		setThisAsParentSBMLObject(this.basePoint2);
+		registerChild(this.basePoint2);
 	}
+
 }

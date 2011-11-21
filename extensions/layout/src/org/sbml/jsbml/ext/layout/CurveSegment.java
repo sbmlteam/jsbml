@@ -19,38 +19,40 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.util.Map;
+
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.AbstractNamedSBase;
+import org.apache.log4j.Logger;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
- * @author Nicolas Rodriguez
- * @author Andreas Dr&auml;ger
+ * @author Sebastian Fr&oum;hlich
  * @since 1.0
  * @version $Rev$
  */
-public class LineSegment extends AbstractNamedSBase {
+public class CurveSegment extends CubicBezier {
 
 	/**
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -5085246314333062152L;
-	
-	/**
-	 * 
-	 */
-	Point end;
-	
-	/**
-	 * 
-	 */
-	Point start;
 
 	/**
 	 * 
 	 */
-	public LineSegment() {
+	private String type;
 
+	/**
+	 * 
+	 */
+	private Logger logger = Logger.getLogger(CurveSegment.class);
+
+	/**
+	 * 
+	 */
+	public CurveSegment() {
+	  super();
 	}
 
 	/**
@@ -58,7 +60,7 @@ public class LineSegment extends AbstractNamedSBase {
 	 * @param level
 	 * @param version
 	 */
-	public LineSegment(int level, int version) {
+	public CurveSegment(int level, int version) {
 		super(level, version);
 	}
 
@@ -66,13 +68,16 @@ public class LineSegment extends AbstractNamedSBase {
 	 * 
 	 * @param lineSegment
 	 */
-	public LineSegment(LineSegment lineSegment) {
+	public CurveSegment(CurveSegment lineSegment) {
 		super(lineSegment);
 		if (lineSegment.isSetStart()) {
 			this.start = lineSegment.getStart().clone();
 		}
 		if (lineSegment.isSetEnd()) {
 			this.end = lineSegment.getEnd().clone();
+		}
+		if (lineSegment.isSetType()) {
+			this.type = lineSegment.getType();
 		}
 	}
 
@@ -81,12 +86,14 @@ public class LineSegment extends AbstractNamedSBase {
 	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	public LineSegment clone() {
-		return new LineSegment(this);
+	@Override
+	public CurveSegment clone() {
+		return new CurveSegment(this);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
@@ -118,6 +125,7 @@ public class LineSegment extends AbstractNamedSBase {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
 	 */
 	@Override
@@ -148,13 +156,33 @@ public class LineSegment extends AbstractNamedSBase {
 		return start;
 	}
 
-	/* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-   */
-  public boolean isIdMandatory() {
-    // TODO Auto-generated method stub
-    return false;
-  }
+	/**
+	 * 
+	 * @return
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * 
+	 * @param type
+	 */
+	public void setType(String type) {
+		String oldType = this.type;
+		this.type = type;
+		firePropertyChange(TreeNodeChangeEvent.type, oldType, this.type);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+	 */
+	public boolean isIdMandatory() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	/**
 	 * @return
@@ -162,36 +190,82 @@ public class LineSegment extends AbstractNamedSBase {
 	public boolean isSetEnd() {
 		return end != null;
 	}
-	
+
 	/**
 	 * @return
 	 */
 	public boolean isSetStart() {
 		return start != null;
 	}
-	
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetType() {
+		return type != null;
+	}
+
 	/**
 	 * 
 	 * @param end
 	 */
 	public void setEnd(Point end) {
-		if(this.end != null){
+		if (this.end != null) {
 			this.end.fireNodeRemovedEvent();
 		}
 		this.end = end;
 		registerChild(this.end);
 	}
 
-  /**
+	/**
 	 * 
 	 * @param start
 	 */
 	public void setStart(Point start) {
-		if(this.start != null){
+		if (this.start != null) {
 			this.start.fireNodeRemovedEvent();
 		}
 		this.start = start;
 		registerChild(this.start);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sbml.jsbml.AbstractMathContainer#readAttribute(java.lang.String,
+	 * java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+		logger.debug("reading CurveSegment: " + prefix + " : " + attributeName);
+		if (!isAttributeRead) {
+			isAttributeRead = true;
+			if ((prefix.equals("xsi") || prefix.equals(""))
+					&& attributeName.equals("type")) {
+				setType(value);
+				return true;
+			}
+		}
+		return isAttributeRead;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+	 */
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
+		logger.debug("process attributes of CurveSegment");
+		logger.debug("isSetType: " + isSetType());
+		if (isSetType()) {
+			attributes.put("xsi:type", getType());
+		}
+		return attributes;
 	}
 
 }

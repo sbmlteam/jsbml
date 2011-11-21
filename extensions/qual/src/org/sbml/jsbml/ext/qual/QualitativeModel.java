@@ -28,7 +28,6 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.filters.NameFilter;
-import org.sbml.jsbml.xml.parsers.QualParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -44,11 +43,9 @@ public class QualitativeModel extends AbstractSBasePlugin {
   
   private ListOf<QualitativeSpecies> listOfQualitativeSpecies;
 	private ListOf<Transition> listOfTransitions;
-	private Model model;
 	
 	public QualitativeModel(Model model) {
-	  super();
-		this.model = model;
+	  super(model);
 	}
 
 
@@ -56,8 +53,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	 * @param listOfQualitativeSpecies the listOfQualitativeSpecies to set
 	 */
 	public void addQualitativeSpecies(QualitativeSpecies qualitativeSpecies) {
-		getListOfQualitativeSpecies().add(qualitativeSpecies);
-		
+		getListOfQualitativeSpecies().add(qualitativeSpecies);		
 	}
 	
 	
@@ -234,12 +230,11 @@ public class QualitativeModel extends AbstractSBasePlugin {
       listOfQualitativeSpecies = new ListOf<QualitativeSpecies>(
           getModel().getLevel(), getModel().getVersion());
 		listOfQualitativeSpecies.addNamespace(QualConstant.namespaceURI);
-		model.registerChild(listOfQualitativeSpecies);
+		getModel().registerChild(listOfQualitativeSpecies);
 		listOfQualitativeSpecies.setSBaseListType(ListOf.Type.other);
 	  }
 		return listOfQualitativeSpecies;
 	}
-	
 	
 	/**
 	 * @return the listOTransitions
@@ -249,52 +244,65 @@ public class QualitativeModel extends AbstractSBasePlugin {
       listOfTransitions = new ListOf<Transition>(getModel().getLevel(),
           getModel().getVersion());
 	    listOfTransitions.addNamespace(QualConstant.namespaceURI);
-		model.registerChild(listOfTransitions);
+		getModel().registerChild(listOfTransitions);
 		listOfTransitions.setSBaseListType(ListOf.Type.other);
 
 	  }
 		return listOfTransitions;
 	}
 
-
-
+  /**
+   * 
+   * @return
+   */
 	public Model getModel() {
-    return model;
+    return (Model) extendedSBase;
   }
 
-	public QualitativeSpecies getQualitativeSpecies(int i) {
-		if ((i >= 0) && (i < listOfQualitativeSpecies.size())) {
-			return listOfQualitativeSpecies.get(i);
-		}
-
-		return null;
-	}
+  /**
+   * 
+   * @param i
+   * @return
+   */
+  public QualitativeSpecies getQualitativeSpecies(int i) {
+    return getListOfQualitativeSpecies().get(i);
+  }
 	
+  /**
+   * 
+   * @param id
+   * @return
+   */
 	public QualitativeSpecies getQualitativeSpecies(String id){
-	  if(isSetListOfQualitativeSpecies()){
+	  if(isSetListOfQualitativeSpecies()) {
   	  return listOfQualitativeSpecies.firstHit(new NameFilter(id));	    
-	  }
-	  
+	  } 
 	  return null;
 	}
 	
+	/**
+	 * 
+	 * @param qs
+	 * @return
+	 */
 	public boolean containsQualitativeSpecies(QualitativeSpecies qs){
-	  if(isSetListOfQualitativeSpecies() && listOfQualitativeSpecies.contains(qs)){
-	    return true;
-	  } else {
-	    return false;
-	  }
+    return isSetListOfQualitativeSpecies()
+      && listOfQualitativeSpecies.contains(qs);
 	}
 
-	public Transition getTransition(int i) {
-		if ((i >= 0) && (i < listOfTransitions.size())) {
-			return listOfTransitions.get(i);
-		}
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+  public Transition getTransition(int i) {
+    return getListOfTransitions().get(i);
+  }
 
-		return null;
-	}
-
-
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isSetListOfQualitativeSpecies() {
 		if ((listOfQualitativeSpecies == null) || listOfQualitativeSpecies.isEmpty()) {
 			return false;			
@@ -302,7 +310,10 @@ public class QualitativeModel extends AbstractSBasePlugin {
 		return true;
 	}
 	
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isSetListOfTransitions() {
 		if ((listOfTransitions == null) || listOfTransitions.isEmpty()) {
 			return false;			
@@ -310,41 +321,65 @@ public class QualitativeModel extends AbstractSBasePlugin {
 		return true;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public boolean readAttribute(String attributeName, String prefix, String value) {
 	  // no attribute to read
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param listOfQualitativeSpecies
+	 */
 	public void setListOfQualitativeSpecies(
     ListOf<QualitativeSpecies> listOfQualitativeSpecies) {
     this.listOfQualitativeSpecies = listOfQualitativeSpecies;
-    model.registerChild(this.listOfQualitativeSpecies);
+    getModel().registerChild(this.listOfQualitativeSpecies);
   }
 	
+	/**
+	 * 
+	 * @param listOfTransitions
+	 */
 	public void setListOfTransitions(ListOf<Transition> listOfTransitions) {
     this.listOfTransitions = listOfTransitions;
-    model.registerChild(this.listOfTransitions);
+    getModel().registerChild(this.listOfTransitions);
   }
 
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+	 */
   public Map<String, String> writeXMLAttributes() {
 	  // no attribute to read
 	  return null;
 	}
   
+  /**
+   * 
+   * @return
+   */
   public boolean unsetListOfTransitions(){
     if(isSetListOfTransitions()) {
       this.listOfTransitions = null;
-      model.registerChild(this.listOfTransitions);
+      getModel().registerChild(this.listOfTransitions);
       return true;
     }
     return false;
   }
   
+  /**
+   * 
+   * @return
+   */
   public boolean unsetListOfQualitativeSpecies() {
     if(isSetListOfQualitativeSpecies()) {
       this.listOfQualitativeSpecies = null;
-      model.registerChild(this.listOfQualitativeSpecies);
+      getModel().registerChild(this.listOfQualitativeSpecies);
       return true;
     }
     return false;
