@@ -46,16 +46,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    *         the list of {@link CVTerm} of this object.
    */
 	public boolean addCVTerm(CVTerm term);
-	
-	/**
-	 * add a SBase extension object 'sbase' associated with a name space
-	 * 'namespace'.
-	 * 
-	 * @param namespace
-	 * @param sbase
-	 */
-	public void addExtension(String namespace, SBase sbase);
-	
+		
 	/**
 	 * Adds an additional name space to the set of name spaces of this
 	 * {@link SBase} if the given name space is not yet present within this
@@ -168,19 +159,6 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 */
 	public String getElementName();
 	
-	/**
-	 * 
-	 * @param namespace
-	 * @return the SBase extension object which matches this name space.
-	 */
-	public SBase getExtension(String namespace);
-
-	/**
-	 * 
-	 * @return the map containing all the extension objects of this object.
-	 */
-	public Map<String, SBase> getExtensionPackages();
-
 	/**
 	 * 
 	 * @return the {@link History} instance of this object.
@@ -336,12 +314,6 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 * @return
 	 */
 	public boolean hasValidLevelVersionNamespaceCombination();
-
-	/**
-	 * 
-	 * @return true if this object is extended by other packages.
-	 */
-	public boolean isExtendedByOtherPackages();
 
 	/**
 	 * Predicate returning true or false depending on whether this object's
@@ -560,4 +532,5 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 * @return a {@link Map} containing the XML attributes of this object.
 	 */
 	public Map<String, String> writeXMLAttributes();
+
 }

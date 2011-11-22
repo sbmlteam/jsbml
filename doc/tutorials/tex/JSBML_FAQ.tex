@@ -53,4 +53,22 @@ With the \texttt{java.beens} package being part of the standard Java
 distribution, such an incompatibility will not occur. Extending existing
 standard Java classes leads to a higher compatibility with other libraries and
 should therefore be the preferred way to go in the development of JSBML.
+
+\item[\parbox{\textwidth}{Does JSBML support SBML extension packages?}]
+In version 0.8, JSBML does not provide an abstract programming interface for
+extension packages.%
+\index{extension packages}
+However, the JSBML community is actively developing extension packages for the
+following SBML extensions: \texttt{fba}, \texttt{groups}, \texttt{layout},
+\texttt{multi}, \texttt{qual}, and \texttt{spatial}. The release 1.0 of JSBML
+will support at least these packages. If you want to make use of SBML
+extensions in JSBML before an official release of version 1.0, please checkout
+the latest copy from the \texttt{trunk} of 
+\ifthenelse{\boolean{includeCodeExample}}{%
+  JSBML. To this end, please follow the instructions at
+  \url{http://sourceforge.net/projects/jsbml/develop}.
+}{
+  JSBML (see the description~\vpageref{SVN} for details).
+}%
+
 \end{description}

@@ -22,11 +22,9 @@ package org.sbml.jsbml;
 
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -109,13 +107,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * SBML file.
 	 */
 	private Annotation annotation;
-	
-	/**
-	 * map containing the SBML extension object of additional packages with the
-	 * appropriate name space of the package.
-	 */
-	private SortedMap<String, SBase> extensions;
-	
+		
 	/**
 	 * Level and version of the SBML component. Matches the level XML attribute of a SBML
 	 * node.
@@ -156,8 +148,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * <p>By default, the sboTerm is -1, the
 	 * metaid, notes, parentSBMLObject, annotation, and
 	 * notes are null. The level and version are set to -1.
-	 * The setOfListeners list and the extensions hash map
-	 * are empty.
+	 * The setOfListeners list is empty.
 	 */
 	public AbstractSBase() {
 		super();
@@ -166,7 +157,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		notesXMLNode = null;
 		lv = getLevelAndVersion();
 		annotation = null;
-		extensions = new TreeMap<String, SBase>();
 		usedNamespaces = new TreeSet<String>();
 		declaredNamespaces = new HashMap<String, String>();
 	}
@@ -178,8 +168,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * <p>
 	 * By default, the sboTerm is -1, the metaid, notes,
 	 * {@link #parent}, {@link #annotation}, and notes are null. The
-	 * {@link #setOfListeners} list and the {@link #extensions} {@link Map} are
-	 * empty.
+	 * {@link #setOfListeners} list is empty.
 	 * 
 	 * @param level
 	 *            the SBML level
@@ -212,7 +201,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		super(sb);
 		
 		// extensions is needed when doing getChildCount()
-		extensions = new TreeMap<String, SBase>();
 		usedNamespaces = new TreeSet<String>();
 		declaredNamespaces = new HashMap<String, String>();
 
@@ -237,10 +225,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			this.annotation = sb.getAnnotation().clone();
 			this.annotation.parent = this;
 		}
-		// TODO : we need to clone these extensions objects !!
-		if (sb.isExtendedByOtherPackages()) {
-			this.extensions.putAll(sb.getExtensionPackages());
-		}
 		// cloning namespaces
 		if (sb.getNamespaces().size() > 0) {
 			for (String namespace : sb.getNamespaces()) {
@@ -261,16 +245,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public boolean addCVTerm(CVTerm term) {
 		return getAnnotation().addCVTerm(term);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#addExtension(java.lang.String, org.sbml.jsbml.SBase)
-	 */
-	public void addExtension(String namespace, SBase sbase) {
-		this.extensions.put(namespace, sbase);
-		addNamespace(namespace);
-		firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbase);
 	}
 
 	/**
@@ -857,15 +831,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			}
 			pos++;
 		}
-		if ((0 < extensions.size()) && (childIndex - pos < extensions.size())) {
-			Iterator<SBase> iterator = extensions.values().iterator();
-			int i = 0;
-			while (iterator.hasNext() && (i < childIndex - pos)) {
-				iterator.next();
-				i++;
-			}
-			return iterator.next();
-		}
 		throw new IndexOutOfBoundsException(isLeaf() ? String.format(
 				"Node %s has no children.", getElementName()) : String.format(
 				"Index %d >= %d", childIndex, +((int) Math.min(pos, 0))));
@@ -884,7 +849,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		if (isSetAnnotation()) {
 			count++;
 		}
-		return count + extensions.size();
+		return count;
 	}
 
 	/*
@@ -914,22 +879,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public String getElementName() {
 		return StringTools.firstLetterLowerCase(getClass().getSimpleName());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#getExtension(java.lang.String)
-	 */
-	public SBase getExtension(String namespace) {
-		return this.extensions.get(namespace);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#getExtensionPackages()
-	 */
-	public Map<String, SBase> getExtensionPackages() {
-		return extensions;
 	}
 
 	/*
@@ -1139,14 +1088,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public boolean hasValidLevelVersionNamespaceCombination() {
 		return isValidLevelAndVersionCombination(getLevel(), getVersion());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#isExtendedByOtherPackages()
-	 */
-	public boolean isExtendedByOtherPackages() {
-		return !this.extensions.isEmpty();
 	}
 
 	/*
