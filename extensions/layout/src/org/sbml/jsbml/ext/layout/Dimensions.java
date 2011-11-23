@@ -19,8 +19,11 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.util.Map;
+
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.ext.qual.QualConstant;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * @author Nicolas Rodriguez
@@ -52,6 +55,7 @@ public class Dimensions extends AbstractNamedSBase {
 	 * 
 	 */
 	public Dimensions() {
+		addNamespace(LayoutConstant.namespaceURI);
 	}
 	
 	/**
@@ -71,14 +75,6 @@ public class Dimensions extends AbstractNamedSBase {
 		}
 	}
 
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public Dimensions(int level, int version) {
-		super(level, version);
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -157,7 +153,6 @@ public class Dimensions extends AbstractNamedSBase {
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   public boolean isIdMandatory() {
-    // TODO Auto-generated method stub
     return false;
   }
 
@@ -192,31 +187,34 @@ public class Dimensions extends AbstractNamedSBase {
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
-		//boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-		//		value);
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
 
-		//if(!isAttributeRead)
+		if(!isAttributeRead)
 		{
 		
 			//isAttributeRead = true;			
-			if(attributeName.equals("width"))
+			if(attributeName.equals(LayoutConstant.width))
 			{	
-				try{
-					this.width = Integer.parseInt(value);
-					
-				}catch(Exception e){e.printStackTrace();}
+				setWidth(StringTools.parseSBMLDouble(value));
 			}
-			if(attributeName.equals("height"))
+			else if(attributeName.equals(LayoutConstant.height))
 			{	
-				try{
-					this.height = Integer.parseInt(value);
-					
-				}catch(Exception e){e.printStackTrace();}
+				setHeight(StringTools.parseSBMLDouble(value));
+			}
+			else if(attributeName.equals(LayoutConstant.depth))
+			{	
+				setDepth(StringTools.parseSBMLDouble(value));
+			} 
+			else
+			{
+				return false;
 			}
 		
 			return true;
 		}
-		//return isAttributeRead;
+		
+		return isAttributeRead;
 	}
 
 	/**
@@ -226,7 +224,7 @@ public class Dimensions extends AbstractNamedSBase {
 	public void setDepth(double depth) {
 		Double oldDepth = this.depth;
 		this.depth = depth;
-		firePropertyChange(TreeNodeChangeEvent.depth, oldDepth, this.depth);
+		firePropertyChange(LayoutConstant.depth, oldDepth, this.depth);
 	}
 	
 	/**
@@ -236,7 +234,7 @@ public class Dimensions extends AbstractNamedSBase {
 	public void setHeight(double height) {
 		Double oldHeight = this.height;
 		this.height = height;
-		firePropertyChange(TreeNodeChangeEvent.height, oldHeight, this.height);
+		firePropertyChange(LayoutConstant.height, oldHeight, this.height);
 	}
 
   /**
@@ -246,7 +244,37 @@ public class Dimensions extends AbstractNamedSBase {
 	public void setWidth(double width) {
 		Double oldWidth = this.width;
 		this.width = width;
-		firePropertyChange(TreeNodeChangeEvent.width, oldWidth, this.width);
+		firePropertyChange(LayoutConstant.width, oldWidth, this.width);
 	}
+	
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
+
+		if (isSetId()) {
+			attributes.remove("id");
+			attributes.put(QualConstant.shortLabel + ":id", getId());
+		}
+/*		if (isSetName()) { // error to report !!
+			attributes.remove("name");
+			attributes.put(QualConstant.shortLabel + ":name", getName());
+		} */
+		
+		if (isSetDepth()) {
+			attributes.put(LayoutConstant.shortLabel + ":"
+					+ LayoutConstant.depth, StringTools.toString(depth));
+		}
+		if (isSetHeight()) {
+			attributes.put(LayoutConstant.shortLabel + ":"
+					+ LayoutConstant.height, StringTools.toString(height));
+		}
+		if (isSetWidth()) {
+			attributes.put(LayoutConstant.shortLabel + ":"
+					+ LayoutConstant.width, StringTools.toString(width));
+		}
+
+		return attributes;
+	}
+
 
 }

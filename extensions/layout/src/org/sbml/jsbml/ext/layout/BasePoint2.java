@@ -34,18 +34,4 @@ public class BasePoint2 extends Point {
    */
   private static final long serialVersionUID = -7781069728939292255L;
 
-  /**
-	 * 
-	 * @param attributeName
-	 * @param prefix
-	 * @param value
-	 * @return
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-		return isAttributeRead;
-	}
 }

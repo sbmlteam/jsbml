@@ -58,11 +58,14 @@ public class Curve extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @param level
-	 * @param version
 	 */
-	public Curve(int level, int version) {
-		super(level, version);
+	public Curve() {
+		super();
+		addNamespace(LayoutConstant.namespaceURI);
+		
+		listOfCurveSegments.addNamespace(LayoutConstant.namespaceURI);
+		listOfCurveSegments.setSBaseListType(ListOf.Type.other);
+		registerChild(listOfCurveSegments);
 	}
 
 	/*
@@ -125,7 +128,6 @@ public class Curve extends AbstractNamedSBase {
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   public boolean isIdMandatory() {
-    // TODO Auto-generated method stub
     return false;
   }
 	

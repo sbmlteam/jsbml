@@ -19,8 +19,11 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.util.Map;
+
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.ext.qual.QualConstant;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * @author Nicolas Rodriguez
@@ -53,17 +56,11 @@ public class Point extends AbstractNamedSBase {
 	 */
 	public Point() {
 		super();
+		addNamespace(LayoutConstant.namespaceURI);
 		x = y = z = Double.NaN;
 	}
 
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public Point(int level, int version) {
-		super(level, version);
-	}
+
 
 	/**
 	 * 
@@ -154,14 +151,6 @@ public class Point extends AbstractNamedSBase {
 		return hashCode;
 	}
 
-	/* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-   */
-  public boolean isIdMandatory() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
 	/**
 	 * @return
 	 */
@@ -193,43 +182,30 @@ public class Point extends AbstractNamedSBase {
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
-		//boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-		//		value);
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
 
-		boolean isAttributeRead = true;
-			if (attributeName.equals("x")) {
-				try{
-					setX(Double.valueOf(value));
-				}
-				catch(NumberFormatException e)
-				{
-					System.err.println("todo by somebody: ");
-					e.printStackTrace();
-				}
+		if (!isAttributeRead) {
+			
+			isAttributeRead = true;
+		
+			if (attributeName.equals(LayoutConstant.x)) {
+				setX(StringTools.parseSBMLDouble(value));
 			}
-			else if(attributeName.equals("y"))
+			else if(attributeName.equals(LayoutConstant.y))
 			{
-				try{
-					setY(Double.valueOf(value));
-				}
-				catch(NumberFormatException e)
-				{
-					System.err.println("todo by somebody: ");
-					e.printStackTrace();
-				}
+				setY(StringTools.parseSBMLDouble(value));
 			}
-			else if(attributeName.equals("z"))
+			else if(attributeName.equals(LayoutConstant.z))
 			{
-				try{
-					setZ(Double.valueOf(value));
-				}
-				catch(NumberFormatException e)
-				{
-					System.err.println("todo by somebody: ");
-					e.printStackTrace();
-				}
+				setZ(StringTools.parseSBMLDouble(value));
 			}
-			return isAttributeRead;
+			else {
+				return false;
+			}
+		}
+		
+		return isAttributeRead;
 	}
 
 	/**
@@ -239,7 +215,7 @@ public class Point extends AbstractNamedSBase {
 	public void setX(double x) {
 		Double oldX = this.x;
 		this.x = x;
-		firePropertyChange(TreeNodeChangeEvent.x, oldX, this.x);
+		firePropertyChange(LayoutConstant.x, oldX, this.x);
 	}
 	
 	/**
@@ -249,7 +225,7 @@ public class Point extends AbstractNamedSBase {
 	public void setY(double y) {
 		Double oldY = this.y;
 		this.y = y;
-		firePropertyChange(TreeNodeChangeEvent.y, oldY, this.y);
+		firePropertyChange(LayoutConstant.y, oldY, this.y);
 	}
 
   /**
@@ -259,7 +235,50 @@ public class Point extends AbstractNamedSBase {
 	public void setZ(double z) {
 		Double oldZ = this.z;
 		this.z = z;
-		firePropertyChange(TreeNodeChangeEvent.z, oldZ, this.z);
+		firePropertyChange(LayoutConstant.z, oldZ, this.z);
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "Point [" + x + ", " + y + ", " + z + "]";
+	}
+
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
+
+		if (isSetId()) {
+			attributes.remove("id");
+			attributes.put(QualConstant.shortLabel + ":id", getId());
+		}
+/*		if (isSetName()) { // error to report !!
+			attributes.remove("name");
+			attributes.put(QualConstant.shortLabel + ":name", getName());
+		} */
+		
+		if (isSetX()) {
+			attributes.put(LayoutConstant.shortLabel + ":"
+					+ LayoutConstant.x, StringTools.toString(x));
+		}
+		if (isSetY()) {
+			attributes.put(LayoutConstant.shortLabel + ":"
+					+ LayoutConstant.y, StringTools.toString(y));
+		}
+		if (isSetZ()) {
+			attributes.put(LayoutConstant.shortLabel + ":"
+					+ LayoutConstant.z, StringTools.toString(y));
+		}
+
+		return attributes;
+	}
+
+
+
+	public boolean isIdMandatory() {
+		return false;
+	}
+
 
 }

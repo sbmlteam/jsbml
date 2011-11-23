@@ -19,6 +19,8 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.util.Map;
+
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
@@ -43,6 +45,7 @@ public class CompartmentGlyph extends GraphicalObject {
 	 * 
 	 */
 	public CompartmentGlyph() {
+		addNamespace(LayoutConstant.namespaceURI);
 	}
 
 	/**
@@ -54,15 +57,6 @@ public class CompartmentGlyph extends GraphicalObject {
 		if (compartmentGlyph.isSetCompartment()) {
 			this.compartment = new String(compartmentGlyph.getCompartment());
 		}
-	}
-
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public CompartmentGlyph(int level, int version) {
-		super(level, version);
 	}
 
 	/*
@@ -129,4 +123,50 @@ public class CompartmentGlyph extends GraphicalObject {
 		this.compartment = compartment;
 		firePropertyChange(TreeNodeChangeEvent.compartment, oldCompartment, this.compartment);
 	}
+	
+	/**
+	 * 
+	 * @param attributeName
+	 * @param prefix
+	 * @param value
+	 * @return
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+		
+		if(!isAttributeRead)
+		{
+		
+			if(attributeName.equals(LayoutConstant.compartment))
+			{	
+				setCompartment(value);
+			}
+			else
+			{
+				return false;
+			}
+		
+			return true;
+		}
+		
+		return isAttributeRead;
+	}
+
+	
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetCompartment()) {
+			attributes.put(LayoutConstant.shortLabel + ":"
+					+ LayoutConstant.compartment, compartment);
+		}
+
+		return attributes;
+	}
+
+
 }
