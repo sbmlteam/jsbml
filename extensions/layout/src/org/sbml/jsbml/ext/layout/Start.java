@@ -55,16 +55,5 @@ public class Start extends Point {
     return new Start(this);
   }
 
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.ext.layout.Point#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-   */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-		return isAttributeRead;
-	}
 
 }

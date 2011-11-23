@@ -19,10 +19,11 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.util.Map;
+
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * @author Nicolas Rodriguez
@@ -46,11 +47,6 @@ public class ReactionGlyph extends GraphicalObject {
 	/**
 	 * 
 	 */
-	private String id;
-
-	/**
-	 * 
-	 */
 	private ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph = new ListOf<SpeciesReferenceGlyph>();
 
 	/**
@@ -63,16 +59,13 @@ public class ReactionGlyph extends GraphicalObject {
 	 */
 	public ReactionGlyph() {
 	  super();
+	  addNamespace(LayoutConstant.namespaceURI);
+	  
+	  listOfSpeciesReferencesGlyph.addNamespace(LayoutConstant.namespaceURI);
+	  listOfSpeciesReferencesGlyph.setSBaseListType(ListOf.Type.other);
+	  registerChild(listOfSpeciesReferencesGlyph);
 	}
 
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public ReactionGlyph(int level, int version) {
-		super(level, version);
-	}
 
 	/**
 	 * 
@@ -83,12 +76,9 @@ public class ReactionGlyph extends GraphicalObject {
 		if (reactionGlyph.isSetCurve()) {
 			this.curve = reactionGlyph.getCurve().clone();
 		}
-		if (reactionGlyph.isSetId()) {
-			this.id = new String(reactionGlyph.getId());
-		}
 		if (reactionGlyph.isSetListOfSpeciesReferencesGlyph()) {
 			this.listOfSpeciesReferencesGlyph = reactionGlyph
-					.getListOfSpeciesReferencesGlyph().clone();
+					.getListOfSpeciesReferenceGlyphs().clone();
 		}
 		if (reactionGlyph.isSetReaction()) {
 			this.reaction = new String(reactionGlyph.getReaction());
@@ -151,7 +141,7 @@ public class ReactionGlyph extends GraphicalObject {
 		}
 		if (isSetListOfSpeciesReferencesGlyph()) {
 			if (pos == index) {
-				return getListOfSpeciesReferencesGlyph();
+				return getListOfSpeciesReferenceGlyphs();
 			}
 			pos++;
 		}
@@ -187,7 +177,7 @@ public class ReactionGlyph extends GraphicalObject {
 	 * 
 	 * @return
 	 */
-	public ListOf<SpeciesReferenceGlyph> getListOfSpeciesReferencesGlyph() {
+	public ListOf<SpeciesReferenceGlyph> getListOfSpeciesReferenceGlyphs() {
 		return listOfSpeciesReferencesGlyph;
 	}
 
@@ -241,24 +231,22 @@ public class ReactionGlyph extends GraphicalObject {
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
-		boolean isAttributeRead = false; //super.readAttribute(attributeName, prefix,
-		//value);
-		System.out.println("readAttribute in ReactionGlyph.class");
-		if(!isAttributeRead)
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if(!isAttributeRead) {
 		
 			isAttributeRead = true;			
 			if(attributeName.equals("reaction"))
 			{				
 				this.reaction = value;
-				System.out.println("ReactionGlyph: reaction: "+reaction);
+			} 
+			else {
+				return false;
 			}
-			else if(attributeName.equals("id"))
-			{
-				this.id = value;
-				System.out.println("ReactionGlyph: id: "+id);
-			}
+		}
 		
-			return isAttributeRead;
+		return isAttributeRead;
 	}
 
 	/**
@@ -293,7 +281,7 @@ public class ReactionGlyph extends GraphicalObject {
 	public void setReaction(String reaction) {
 		String oldReaction = this.reaction;
 		this.reaction = reaction;
-		firePropertyChange(TreeNodeChangeEvent.reaction, oldReaction, this.reaction);
+		firePropertyChange(LayoutConstant.reaction, oldReaction, this.reaction);
 	}
 	
 	/*
@@ -313,5 +301,19 @@ public class ReactionGlyph extends GraphicalObject {
 			oldValue.fireNodeRemovedEvent();
 		}
 	}
+	
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetReaction()) {
+			attributes.put(LayoutConstant.shortLabel + ":"
+					+ LayoutConstant.reaction, reaction);
+		}
+
+		return attributes;
+	}
+
+
 
 }

@@ -57,7 +57,11 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	 */
 	public ExtendedLayoutModel(Model model) {
 		super(model);
+
 		listOfLayouts = new ListOf<Layout>();
+		listOfLayouts.addNamespace(LayoutConstant.namespaceURI);
+		listOfLayouts.setSBaseListType(ListOf.Type.other);
+		model.registerChild(listOfLayouts);
 	}
 
 	/**
@@ -71,15 +75,6 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		}
 	}
 
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public ExtendedLayoutModel(int level, int version) {
-		// TODO : add package version as well
-		listOfLayouts = new ListOf<Layout>();
-	}
 
 	/**
 	 * 
@@ -177,13 +172,11 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	}
 	
 	public Model getParent() {
-		// TODO
-		return null;
+		return model;
 	}
 	
 	public Model getParentSBMLObject() {
-		// TODO
-		return null;
+		return model;
 	}
 
 	/**

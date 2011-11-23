@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1"  layout:required="false" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" >
+  <model name="Untitled">
+      <listOfLayouts xmlns="http://www.sbml.org/sbml/level3/version1/layout/version1">
+        <layout id="layout1">
+          <dimensions width="320" height="270"/>
+          <listOfCompartmentGlyphs>
+            <compartmentGlyph id="compGlyph" compartment="compartment">
+              <boundingBox>
+                <position x="10.0" y="10.0"/>
+                <dimensions width="60" height="50"/>
+              </boundingBox>
+            </compartmentGlyph>
+          </listOfCompartmentGlyphs>
+          <listOfSpeciesGlyphs>
+            <speciesGlyph id="ATP_Glyph" species="ATP">
+              <boundingBox>
+                <position x="295.0" y="123.0"/>
+                <dimensions width="16.0" height="16.0"/>
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="P_iGlyph" species="P_i">
+              <boundingBox>
+                <position x="63.0" y="124.0"/> 
+                <dimensions width="16.0" height="16.0"/>
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="Glucose_Glyph1" species="Glucose">
+              <boundingBox>
+                <position x="146.0" y="106.0"/> 
+                <dimensions width="16.0" height="16.0"/>
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="Glucose_Glyph2" species="Glucose">
+              <boundingBox>
+                <position x="209.0" y="107.0"/> 
+                <dimensions width="16.0" height="16.0"/>
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="ADP_Glyph" species="ADP">
+              <boundingBox>
+                <position x="298.0" y="214.0"/>
+                <dimensions width="16.0" height="16.0"/>
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="H2O_Glyph" species="H2O">
+              <boundingBox>
+                <position x="67.0" y="224.0"/>
+                <dimensions width="16.0" height="16.0"/>
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="G6P_Glyph" species="G6P">
+              <boundingBox>
+                  <position x="180.0" y="241.0"/> 
+                  <dimensions width="15.0" height="16.0"/>
+              </boundingBox>
+            </speciesGlyph>
+          </listOfSpeciesGlyphs>
+          <listOfReactionGlyphs>
+            <reactionGlyph id="reaction_0_Glyph" reaction="reaction_0">
+              <curve>
+                <listOfCurveSegments>
+                  <curveSegment xsi:type="CubicBezier">
+                    <start x="120.0" y="183.0"/> 
+                    <end x="119.0" y="169.0"/>
+                  </curveSegment>
+                </listOfCurveSegments>
+              </curve> 
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SP1_Glyph" speciesGlyph="P_i_Glyph" speciesReference="P_i_sr1"/>
+                <speciesReferenceGlyph id="SP2_Glyph" speciesGlyph="Glucose_Glyph1" speciesReference="Glucose_1" role="substrate"/>
+                <speciesReferenceGlyph id="SP3_Glyph" speciesGlyph="H2O_Glyph" speciesReference="H2O"/>
+                <speciesReferenceGlyph id="SP4_Glyph" speciesGlyph="G6P_Glyph" speciesReference="G6P_1">
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier">
+                        <start x="180" y="241"/> 
+                        <end x="120" y="183"/>
+                        <basePoint1 x="155" y="230"/>
+                        <basePoint2 x="120" y="200"/>
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="reaction_1_Glyph" reaction="reaction_1">
+              <curve>
+                <listOfCurveSegments>
+                  <curveSegment xsi:type="CubicBezier">
+                    <start x="256.0" y="166.0"/> 
+                    <end x="257.0" y="183.0"/>
+                  </curveSegment>
+                </listOfCurveSegments>
+              </curve> 
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SP5_Glyph" speciesGlyph="ATP_Glyph" speciesReference="ATP"/>
+                <speciesReferenceGlyph id="SP6_Glyph" speciesGlyph="Glucose_Glyph2" speciesReference="Glucose_2"/>
+                <speciesReferenceGlyph id="SP7_Glyph" speciesGlyph="ADP_Glyph" speciesReference="ADP"/>
+                <speciesReferenceGlyph id="SP8_Glyph" speciesGlyph="G6P_Glyph" speciesReference="G6P_2">
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier">
+                        <start x="257" y="183"/>
+                        <end x="180" y="241"/>
+                        <basePoint1 x="257" y="200"/>
+                        <basePoint2 x="210" y="230"/>
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+          </listOfReactionGlyphs>
+          <listOfTextGlyphs>
+            <textGlyph id="label1" text="Reaction Layout">
+              <boundingBox>
+                <position x="100.0" y="85.0"/>
+                <dimensions width="180.0" height="25.0"/>
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="label_h2o" graphicalObject="H2O_Glyph" originOfText="H2O">
+              <boundingBox>
+                <position x="85.0" y="220.0"/>
+                <dimensions width="50.0" height="16.0"/>
+              </boundingBox>
+            </textGlyph>
+          </listOfTextGlyphs>
+        </layout>
+      </listOfLayouts>
+    <listOfCompartments>
+      <compartment id="compartment" size="1.0" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="ATP" compartment="compartment" initialAmount="0" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="P_i" compartment="compartment" initialAmount="0" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Glucose" compartment="compartment" initialAmount="0" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="ADP" compartment="compartment" initialAmount="0" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="H2O" compartment="compartment" initialAmount="0" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="G6P" compartment="compartment" initialAmount="0" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="reaction_0" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference id="H2O_1" species="H2O" stoichiometry="1"  constant="true"/>
+          <speciesReference id="G6P_1" species="G6P" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference id="P_i_sr1" species="P_i" stoichiometry="1" constant="true"/>
+          <speciesReference id="Glucose_1" species="Glucose" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="reaction_1" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference id="ATP_2" species="ATP" stoichiometry="1" constant="true"/>
+          <speciesReference id="Glucose_2" species="Glucose" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference id="ADP_2" species="ADP" stoichiometry="1" constant="true"/>
+          <speciesReference id="G6P_2" species="G6P" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

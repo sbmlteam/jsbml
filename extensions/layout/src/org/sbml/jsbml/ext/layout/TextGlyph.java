@@ -19,9 +19,8 @@
  */
 package org.sbml.jsbml.ext.layout;
 
-import javax.swing.tree.TreeNode;
+import java.util.Map;
 
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
@@ -41,7 +40,7 @@ public class TextGlyph extends GraphicalObject {
 	/**
 	 * 
 	 */
-	private GraphicalObject graphicalObject;
+	private String graphicalObject;
 
 	/**
 	 * 
@@ -58,16 +57,9 @@ public class TextGlyph extends GraphicalObject {
 	 */
 	public TextGlyph() {
 		super();
+		addNamespace(LayoutConstant.namespaceURI);
 	}
 	
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public TextGlyph(int level, int version) {
-		super(level, version);
-	}
 
 	/**
 	 * 
@@ -75,6 +67,7 @@ public class TextGlyph extends GraphicalObject {
 	 */
 	public TextGlyph(String id) {
 		super(id);
+		addNamespace(LayoutConstant.namespaceURI);
 	}
 	
 	/**
@@ -83,7 +76,10 @@ public class TextGlyph extends GraphicalObject {
 	 */
 	public TextGlyph(TextGlyph textGlyph) {
 		super(textGlyph);
-		this.graphicalObject = textGlyph.getGraphicalObject().clone();
+
+		// TODO : use the iSet methods
+		
+		this.graphicalObject = new String(textGlyph.getGraphicalObject());
 		this.originOfText = new String(textGlyph.getOriginOfText());
 		this.text = new String(textGlyph.getText());
 	}
@@ -115,52 +111,20 @@ public class TextGlyph extends GraphicalObject {
 			if (equals && isSetText()) {
 				equals &= t.getText().equals(getText());
 			}
+			equals &= t.isSetGraphicalObject() == isSetGraphicalObject();
+			if (equals && isSetGraphicalObject()) {
+				equals &= t.getGraphicalObject().equals(getGraphicalObject());
+			}
 		}
 		return equals;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int index) {
-		if (index < 0) {
-			throw new IndexOutOfBoundsException(Integer.toString(index));
-		}
-		int count = super.getChildCount(), pos = 0;
-		if (index < count) {
-			return super.getChildAt(index);
-		} else {
-			index -= count;
-		}
-		if (isSetGraphicalObject()) {
-			if (pos == index) {
-				return getGraphicalObject();
-			}
-			pos++;
-		}
-		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-				index, +((int) Math.min(pos, 0))));
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		int count = super.getChildCount();
-		if (isSetGraphicalObject()) {
-			count++;
-		}
-		return count;
-	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public GraphicalObject getGraphicalObject() {
+	public String getGraphicalObject() {
 		return graphicalObject;
 	}
 	
@@ -194,6 +158,10 @@ public class TextGlyph extends GraphicalObject {
 		if (isSetText()) {
 			hashCode += prime * getText().hashCode();
 		}
+		if (isSetGraphicalObject()) {
+			hashCode += prime * getGraphicalObject().hashCode();
+		}
+		
 		return hashCode;
 	}
 
@@ -222,13 +190,10 @@ public class TextGlyph extends GraphicalObject {
 	 * 
 	 * @param graphicalObject
 	 */
-	public void setGraphicalObject(GraphicalObject graphicalObject) {
-		if(this.graphicalObject != null){
-			GraphicalObject oldValue = this.graphicalObject;
-			oldValue.fireNodeRemovedEvent();
-		}
+	public void setGraphicalObject(String graphicalObject) {
+		String oldValue = this.graphicalObject;
 		this.graphicalObject = graphicalObject;
-		registerChild(this.graphicalObject);
+		firePropertyChange(LayoutConstant.graphicalObject, oldValue, this.graphicalObject);
 	}
 
 	/**
@@ -238,7 +203,7 @@ public class TextGlyph extends GraphicalObject {
 	public void setOriginOfText(String originOfText) {
 		String oldOriginOfText = this.originOfText;
 		this.originOfText = originOfText;
-		firePropertyChange(TreeNodeChangeEvent.originOfText, oldOriginOfText, this.originOfText);
+		firePropertyChange(LayoutConstant.originOfText, oldOriginOfText, this.originOfText);
 	}
 
 	/**
@@ -248,7 +213,68 @@ public class TextGlyph extends GraphicalObject {
 	public void setText(String text) {
 		String oldText = this.text;
 		this.text = text;
-		firePropertyChange(TreeNodeChangeEvent.text, oldText, this.text);
+		firePropertyChange(LayoutConstant.text, oldText, this.text);
 	}
+	
+	/**
+	 * 
+	 * @param attributeName
+	 * @param prefix
+	 * @param value
+	 * @return
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if(!isAttributeRead)
+		{
+		
+			if(attributeName.equals(LayoutConstant.graphicalObject))
+			{	
+				setGraphicalObject(value);
+			}
+			else if(attributeName.equals(LayoutConstant.text))
+			{	
+				setText(value);
+			}
+			else if(attributeName.equals(LayoutConstant.originOfText))
+			{	
+				setOriginOfText(value);
+			}
+			else
+			{
+				return false;
+			}
+		
+			return true;
+		}
+		
+		return isAttributeRead;
+	}
+
+	
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetGraphicalObject()) {
+			attributes.put(LayoutConstant.shortLabel + ":"
+					+ LayoutConstant.graphicalObject, graphicalObject);
+		}
+		if (isSetText()) {
+			attributes.put(LayoutConstant.shortLabel + ":"
+					+ LayoutConstant.text, text);
+		}
+		if (isSetOriginOfText()) {
+			attributes.put(LayoutConstant.shortLabel + ":"
+					+ LayoutConstant.originOfText, originOfText);
+		}
+
+		return attributes;
+	}
+
 
 }

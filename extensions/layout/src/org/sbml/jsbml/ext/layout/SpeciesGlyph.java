@@ -34,11 +34,6 @@ public class SpeciesGlyph extends GraphicalObject {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 1077785483575936434L;
-
-	/**
-	 * 
-	 */
-	private String id;
 	
 	/**
 	 * 
@@ -49,18 +44,8 @@ public class SpeciesGlyph extends GraphicalObject {
 	 * 
 	 */
 	public SpeciesGlyph() {
-
-	}
-	
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public SpeciesGlyph(int level, int version) {
-		super(level, version);
-	}
-
+		addNamespace(LayoutConstant.namespaceURI);
+	}	
 	
 	/**
 	 * 
@@ -68,9 +53,7 @@ public class SpeciesGlyph extends GraphicalObject {
 	 */
 	public SpeciesGlyph(SpeciesGlyph speciesGlyph) {
 		super(speciesGlyph);
-		if (speciesGlyph.isSetId()) {
-			this.id = new String(speciesGlyph.getId());
-		}
+
 		if (speciesGlyph.isSetSpecies()) {
 			this.species = new String(speciesGlyph.getSpecies());
 		}
@@ -95,27 +78,15 @@ public class SpeciesGlyph extends GraphicalObject {
 		boolean equals = super.equals(object);
 		if (equals) {
 			SpeciesGlyph s = (SpeciesGlyph) object;
-			equals &= s.isSetId() == isSetId();
-			if (equals && isSetId()) {
-				equals &= s.getId().equals(getId());
-			}
-			// This can lead to a cyclic check!
-			// equals &= s.isSetSpecies() == isSetSpecies();
-			// if (equals && isSetSpecies()) {
-			// equals &= s.getSpecies().equals(getSpecies());
-			// }
+
+			 equals &= s.isSetSpecies() == isSetSpecies();
+			 if (equals && isSetSpecies()) {
+			 equals &= s.getSpecies().equals(getSpecies());
+			 }
 		}
 		return equals;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#getId()
-	 */
-	@Override
-	public String getId(){
-		return this.id;
-	}
 	
 	/**
 	 * 
@@ -133,8 +104,8 @@ public class SpeciesGlyph extends GraphicalObject {
 	public int hashCode() {
 		final int prime = 977;
 		int hashCode = super.hashCode();
-		if (isSetId()) {
-			hashCode += prime * getId().hashCode();
+		if (isSetSpecies()) {
+			hashCode += prime * getSpecies().hashCode();
 		}
 		return hashCode;
 	}
@@ -153,33 +124,22 @@ public class SpeciesGlyph extends GraphicalObject {
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
-		//boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-		//		value);
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
 
-		//if(!isAttributeRead)
+		if(!isAttributeRead)
 		{
-			//isAttributeRead = true;
 			if (attributeName.equals("species")) {
 				setSpecies(value);
 			}
-			else if(attributeName.equals("id"))
+			else
 			{				
-				this.id = value;				
+				return false;
 			}
 		}
 			return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#setId(java.lang.String)
-	 */
-	@Override
-	public void setId(String id){
-		String oldID = this.id;
-		this.id = id;
-		firePropertyChange(TreeNodeChangeEvent.id, oldID, this.id);
-	}
 	
 	/**
 	 * 
@@ -197,8 +157,7 @@ public class SpeciesGlyph extends GraphicalObject {
 	 */
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		return "speciesGlyph [" + (isSetSpecies() ? getSpecies() : "") + "]";
 	}
 
 }

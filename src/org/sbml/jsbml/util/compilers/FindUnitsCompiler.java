@@ -44,9 +44,6 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	private final ASTNodeValue dummyValue = new ASTNodeValue("dummy", null);
 	
 	public boolean isUnitsDefined() {
-
-		System.out.println("FindUnitsCompiler : isUnitsDefined = " + isUnitsDefined);
-		
 		return isUnitsDefined;
 	}
 	

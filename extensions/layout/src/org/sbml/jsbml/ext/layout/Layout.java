@@ -43,7 +43,7 @@ public class Layout extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
-	private ListOf<GraphicalObject> addGraphicalObjects = new ListOf<GraphicalObject>();
+	private ListOf<GraphicalObject> listOfAdditionalGraphicalObjects = new ListOf<GraphicalObject>();
 	/**
 	 * 
 	 */
@@ -70,6 +70,7 @@ public class Layout extends AbstractNamedSBase {
 	 */
 	public Layout() {
 		super();
+		initDefault();
 	}
 	 
 	/**
@@ -79,8 +80,33 @@ public class Layout extends AbstractNamedSBase {
 	 */
 	public Layout(int level, int version) {
 		super(level, version);
+		initDefault();
 	}
 	
+	private void initDefault() {
+		addNamespace(LayoutConstant.namespaceURI);
+
+		listOfCompartmentGlyphs.addNamespace(LayoutConstant.namespaceURI);
+		listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
+		registerChild(listOfCompartmentGlyphs);
+		
+		listOfSpeciesGlyphs.addNamespace(LayoutConstant.namespaceURI);
+		listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
+		registerChild(listOfSpeciesGlyphs);
+
+		listOfReactionGlyphs.addNamespace(LayoutConstant.namespaceURI);
+		listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
+		registerChild(listOfReactionGlyphs);
+
+		listOfTextGlyphs.addNamespace(LayoutConstant.namespaceURI);
+		listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
+		registerChild(listOfTextGlyphs);
+
+		listOfAdditionalGraphicalObjects.addNamespace(LayoutConstant.namespaceURI);
+		listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
+		registerChild(listOfAdditionalGraphicalObjects);
+
+	}
 	/**
 	 * @param layout 
 	 * 
@@ -122,8 +148,8 @@ public class Layout extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public ListOf<GraphicalObject> getAddGraphicalObjects() {
-		return addGraphicalObjects;
+	public ListOf<GraphicalObject> getListOfAdditionalGraphicalObjects() {
+		return listOfAdditionalGraphicalObjects;
 	}
 
 	/*
@@ -173,7 +199,7 @@ public class Layout extends AbstractNamedSBase {
 		}
 		if (isSetAddGraphicalObjects()) {
 			if (index == pos) {
-				return getAddGraphicalObjects();
+				return getListOfAdditionalGraphicalObjects();
 			}
 		}
 		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
@@ -186,7 +212,10 @@ public class Layout extends AbstractNamedSBase {
 	 */
 	@Override
 	public int getChildCount() {
-		int count = 0;
+		int count = super.getChildCount();
+		if (isSetDimensions()) {
+			count++;
+		}
 		if (isSetListOfCompartmentGlyphs()) {
 			count++;
 		}
@@ -283,7 +312,7 @@ public class Layout extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isSetAddGraphicalObjects() {
-		return (addGraphicalObjects != null) && (addGraphicalObjects.size() > 0);
+		return (listOfAdditionalGraphicalObjects != null) && (listOfAdditionalGraphicalObjects.size() > 0);
 	}
 
 	/**
@@ -340,14 +369,14 @@ public class Layout extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @param addGraphicalObjects
+	 * @param listOfAdditionalGraphicalObjects
 	 */
 	public void setAddGraphicalObjects(ListOf<GraphicalObject> addGraphicalObjects) {
-		if(this.addGraphicalObjects != null){
-			this.addGraphicalObjects.fireNodeRemovedEvent();
+		if(this.listOfAdditionalGraphicalObjects != null){
+			this.listOfAdditionalGraphicalObjects.fireNodeRemovedEvent();
 		}
-		this.addGraphicalObjects = addGraphicalObjects;
-		registerChild(this.addGraphicalObjects);
+		this.listOfAdditionalGraphicalObjects = addGraphicalObjects;
+		registerChild(this.listOfAdditionalGraphicalObjects);
 	}
 	
 	/**

@@ -19,10 +19,11 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.util.Map;
+
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * 
@@ -39,30 +40,21 @@ public class BoundingBox extends AbstractNamedSBase {
 	 */
 	private static final long serialVersionUID = -6371039558611201798L;
 	
-	// TODO : may be use directly java objects ??! See if we need metaid, notes,
-	// annotation for those.
-
 	/**
 	 * 
 	 */
 	private Dimensions dimensions;
 	
-	// TODO : may be use directly java objects ??! See if we need metaid, notes,
-	// annotation for those.
-	/**
-	 * 
-	 * id of BoundingBox-Object
-	 */
-	private String id;
 	/**
 	 * 
 	 */
-	private Point point;
+	private Point position;
 
 	/**
 	 * 
 	 */
 	public BoundingBox() {
+		addNamespace(LayoutConstant.namespaceURI);
 	}
 
 	/**
@@ -74,21 +66,10 @@ public class BoundingBox extends AbstractNamedSBase {
 		if (boundingBox.isSetDimensions()) {
 			this.dimensions = boundingBox.getDimensions().clone();
 		}
-		if (boundingBox.isSetId()) {
-			this.id = new String(boundingBox.getId());
-		}
-		if (boundingBox.isSetPoint()) {
-			this.point = boundingBox.getPoint().clone();
-		}
-	}
 
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public BoundingBox(int level, int version) {
-		super(level, version);
+		if (boundingBox.isSetPosition()) {
+			this.position = boundingBox.getPoint().clone();
+		}
 	}
 
 	/*
@@ -106,13 +87,25 @@ public class BoundingBox extends AbstractNamedSBase {
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object object) {
+	public boolean equals(Object object) {		
 		// Check all child elements recursively in super class first:
 		boolean equals = super.equals(object);
+
 		if (equals) {
 			// Cast is possible because super class checks the class attributes
 			BoundingBox bb = (BoundingBox) object;
-			equals &= bb.getId().equals(getId());
+
+			// compare position and dimensions 
+			equals &= bb.isSetPosition() == isSetPosition();
+			if (equals && isSetPosition()) {
+				equals &=  bb.getPosition().equals(getPosition());
+			}
+			
+			equals &= bb.isSetDimensions() == isSetDimensions();
+			if (equals && isSetDimensions()) {
+				equals &=  bb.getDimensions().equals(getDimensions());
+			}
+
 		}
 		return equals;
 	}
@@ -132,7 +125,7 @@ public class BoundingBox extends AbstractNamedSBase {
 		} else {
 			index -= count;
 		}
-		if (isSetPoint()) {
+		if (isSetPosition()) {
 			if (pos == index) {
 				return getPoint();
 			}
@@ -155,7 +148,7 @@ public class BoundingBox extends AbstractNamedSBase {
 	@Override
 	public int getChildCount() {
 		int count = super.getChildCount();
-		if (isSetPoint()) {
+		if (isSetPosition()) {
 			count++;
 		}
 		if (isSetDimensions()) {
@@ -172,22 +165,21 @@ public class BoundingBox extends AbstractNamedSBase {
 		return dimensions;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#getId()
-	 */
-	@Override
-	public String getId()
-	{
-		return id;
-	}
 	
 	/**
 	 * 
 	 * @return
 	 */
 	public Point getPoint() {
-		return point;
+		return position;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Point getPosition() {
+		return position;
 	}
 	
 	/*
@@ -206,7 +198,6 @@ public class BoundingBox extends AbstractNamedSBase {
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   public boolean isIdMandatory() {
-    // TODO Auto-generated method stub
     return false;
   }
 	
@@ -220,29 +211,18 @@ public class BoundingBox extends AbstractNamedSBase {
 	/**
 	 * @return
 	 */
-	public boolean isSetPoint() {
-		return point != null;
+	public boolean isSetPosition() {
+		return position != null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	/**
+	 * @return
 	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = false; // = super.readAttribute(attributeName, prefix,
-		//		value);		
-		if (!isAttributeRead) {
-			isAttributeRead = true;
-			if (attributeName.equals("id")) {
-				this.setId(value);
-				
-			}
-		}
-		return isAttributeRead;
+	public boolean isSetPoint() {
+		return position != null;
 	}
-	
+
+
 	/**
 	 * 
 	 * @param dimensions
@@ -257,31 +237,40 @@ public class BoundingBox extends AbstractNamedSBase {
 		registerChild(this.dimensions);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#setId(java.lang.String)
-	 */
-	@Override
-	public void setId(String id)
-	{
-		String oldId = this.id;
-		this.id = id;
-		firePropertyChange(TreeNodeChangeEvent.id, oldId, this.id);
+	public void setPosition(Point point) {
+		setPoint(point);
 	}
-
   /**
 	 * 
-	 * @param point
+	 * @param position
 	 */
 	public void setPoint(Point point) {
-		Point oldValue = this.point;
-		this.point = point;
+		Point oldValue = this.position;
+		this.position = point;
 		if(oldValue != null){
 			oldValue.fireNodeRemovedEvent();
 		}
-		if(this.point != null){
-			this.point.fireNodeAddedEvent();
+		if(this.position != null){
+			this.position.fireNodeAddedEvent();
 		}
 	}
 
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
+
+		if (isSetId()) {
+			attributes.remove("id");
+			attributes.put(LayoutConstant.shortLabel + ":id", getId());
+		}
+		if (isSetName()) {
+			// Problem !!! no name defined officially
+			// write an error message ?
+			// TODO : override the setName method to report an error ?
+			attributes.remove("name");
+			// attributes.put(LayoutConstant.shortLabel + ":name", getName());
+		} 
+		
+		return attributes;
+	}
 }

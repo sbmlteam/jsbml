@@ -21,8 +21,6 @@ package org.sbml.jsbml.ext.layout;
 
 import java.util.Map;
 
-import javax.swing.tree.TreeNode;
-
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -53,15 +51,7 @@ public class CurveSegment extends CubicBezier {
 	 */
 	public CurveSegment() {
 	  super();
-	}
-
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public CurveSegment(int level, int version) {
-		super(level, version);
+	  addNamespace(LayoutConstant.namespaceURI);
 	}
 
 	/**
@@ -79,6 +69,7 @@ public class CurveSegment extends CubicBezier {
 		if (lineSegment.isSetType()) {
 			this.type = lineSegment.getType();
 		}
+		// TODO : basePoint1 and basePoint2 
 	}
 
 	/*
@@ -91,70 +82,6 @@ public class CurveSegment extends CubicBezier {
 		return new CurveSegment(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int index) {
-		if (index < 0) {
-			throw new IndexOutOfBoundsException(Integer.toString(index));
-		}
-		int count = super.getChildCount(), pos = 0;
-		if (index < count) {
-			return super.getChildAt(index);
-		} else {
-			index -= count;
-		}
-		if (isSetStart()) {
-			if (pos == index) {
-				return getStart();
-			}
-			pos++;
-		}
-		if (isSetEnd()) {
-			if (pos == index) {
-				return getEnd();
-			}
-			pos++;
-		}
-		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-				index, +((int) Math.min(pos, 0))));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		int count = super.getChildCount();
-		if (isSetStart()) {
-			count++;
-		}
-		if (isSetEnd()) {
-			count++;
-		}
-		return count;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public Point getEnd() {
-		return end;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public Point getStart() {
-		return start;
-	}
 
 	/**
 	 * 
@@ -180,22 +107,7 @@ public class CurveSegment extends CubicBezier {
 	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
 	 */
 	public boolean isIdMandatory() {
-		// TODO Auto-generated method stub
 		return false;
-	}
-
-	/**
-	 * @return
-	 */
-	public boolean isSetEnd() {
-		return end != null;
-	}
-
-	/**
-	 * @return
-	 */
-	public boolean isSetStart() {
-		return start != null;
 	}
 
 	/**
@@ -204,30 +116,6 @@ public class CurveSegment extends CubicBezier {
 	 */
 	public boolean isSetType() {
 		return type != null;
-	}
-
-	/**
-	 * 
-	 * @param end
-	 */
-	public void setEnd(Point end) {
-		if (this.end != null) {
-			this.end.fireNodeRemovedEvent();
-		}
-		this.end = end;
-		registerChild(this.end);
-	}
-
-	/**
-	 * 
-	 * @param start
-	 */
-	public void setStart(Point start) {
-		if (this.start != null) {
-			this.start.fireNodeRemovedEvent();
-		}
-		this.start = start;
-		registerChild(this.start);
 	}
 
 	/*
@@ -242,6 +130,7 @@ public class CurveSegment extends CubicBezier {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 		logger.debug("reading CurveSegment: " + prefix + " : " + attributeName);
+
 		if (!isAttributeRead) {
 			isAttributeRead = true;
 			if ((prefix.equals("xsi") || prefix.equals(""))

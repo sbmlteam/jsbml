@@ -3338,7 +3338,7 @@ public int getNumLocalParameters() {
       }
       return success;
     }
-    return false;
+    return true;
   }
   
   /**

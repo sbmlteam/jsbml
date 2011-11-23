@@ -19,6 +19,8 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.util.Map;
+
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
@@ -47,6 +49,7 @@ public class GraphicalObject extends AbstractNamedSBase {
 	 */
 	public GraphicalObject() {
 		super();
+		addNamespace(LayoutConstant.namespaceURI);
 	}
 
 	/**
@@ -59,19 +62,11 @@ public class GraphicalObject extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public GraphicalObject(int level, int version) {
-		super(level, version);
-	}
-
-	/**
 	 * @param id
 	 */
 	public GraphicalObject(String id) {
 		super(id);
+		addNamespace(LayoutConstant.namespaceURI);
 	}
 
 	/*
@@ -143,7 +138,6 @@ public class GraphicalObject extends AbstractNamedSBase {
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   public boolean isIdMandatory() {
-    // TODO Auto-generated method stub
     return false;
   }
 	
@@ -173,6 +167,18 @@ public class GraphicalObject extends AbstractNamedSBase {
 			this.boundingBox = null;
 			oldValue.fireNodeRemovedEvent();
 		}		
+	}
+
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
+
+		if (isSetId()) {
+			attributes.remove("id");
+			attributes.put(LayoutConstant.shortLabel + ":id", getId());
+		}
+		
+		return attributes;
 	}
 
 }
