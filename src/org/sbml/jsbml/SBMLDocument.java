@@ -153,6 +153,12 @@ public class SBMLDocument extends AbstractSBase {
 		if (!hasValidLevelVersionNamespaceCombination()) {
 			throw new LevelVersionError(this);
 		}
+		initDefaults();
+	}
+
+	private void initDefaults() {
+		String sbmlNamespace = JSBML.getNamespaceFrom(getLevel(), getVersion());
+		SBMLDocumentNamespaces.put("xmlns", sbmlNamespace);
 	}
 
 	/**

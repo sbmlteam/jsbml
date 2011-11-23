@@ -161,7 +161,7 @@ public class Annotation extends AnnotationElement {
 		for (CVTerm term : annotation.getListOfCVTerms()) {
 			getListOfCVTerms().add(term.clone());
 		}
-		if (annotation.getHistory() != null) {
+		if (annotation.isSetHistory()) {
 			this.history = annotation.getHistory().clone();
 		}
 	}
@@ -519,9 +519,26 @@ public class Annotation extends AnnotationElement {
 	 * @return the {@link History} of the Annotation.
 	 */
 	public History getHistory() {
+		if (!isSetHistory()) {
+			createHistory();
+		}
+		
 		return history;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#getHistory()
+	 */
+	private History createHistory() {
+		history = new History();
+		history.parent = this;
+		history.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+		
+		return history;
+	}
+
+	
 	/**
 	 * Returns the list of CVTerms. If they are no CVTerm, an empty list is returned.
 	 * 
@@ -653,11 +670,11 @@ public class Annotation extends AnnotationElement {
 	 */
 	public boolean isSetAnnotation() {
 		if ((getNonRDFannotation() == null) && getListOfCVTerms().isEmpty()
-				&& (getHistory() == null)) 
+				&& (!isSetHistory())) 
 		{
 			return false;
 			
-		} else if ((getNonRDFannotation() == null) && (getHistory() == null)
+		} else if ((getNonRDFannotation() == null) && (!isSetHistory())
 				&& !getListOfCVTerms().isEmpty()) 
 		{
 
@@ -733,9 +750,9 @@ public class Annotation extends AnnotationElement {
 	 * @return true if the RDF part of the Annotation is initialised
 	 */
 	public boolean isSetRDFannotation() {
-		if (getListOfCVTerms().isEmpty() && (getHistory() == null)) {
+		if (getListOfCVTerms().isEmpty() && (!isSetHistory())) {
 			return false;
-		} else if ((getHistory() == null) && !getListOfCVTerms().isEmpty()) {
+		} else if ((!isSetHistory()) && !getListOfCVTerms().isEmpty()) {
 
 			for (int i = 0; i < getListOfCVTerms().size(); i++) {
 				if (getCVTerm(i) != null) {
@@ -815,6 +832,7 @@ public class Annotation extends AnnotationElement {
 		History oldHistory = this.history;
 		this.history = history;
 		this.history.parent = this;
+		this.history.addAllChangeListeners(getListOfTreeNodeChangeListeners());
 		firePropertyChange(TreeNodeChangeEvent.history, oldHistory, this.history);
 	}
 

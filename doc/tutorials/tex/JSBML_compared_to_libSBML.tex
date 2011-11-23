@@ -1085,12 +1085,13 @@ the operating system\hyp{}dependent new line character.
 
 % \paragraph{}
 JSBML makes use of the logger provided by the log4j
-project\footnote{\url{http://logging.apache.org/log4j/}}. Log4j allows us to
-use six levels of logging (\texttt{TRACE}, \texttt{DEBUG}, \texttt{INFO},
-\texttt{WARN}, \texttt{ERROR}, and \texttt{FATAL}) but inside JSBML we mainly
-use \texttt{ERROR}, \texttt{WARN}, and \texttt{DEBUG}. The default
-configuration of log4j used in JSBML can be found in the package
-\texttt{org.sbml.jsbml.resources.cfg} with the name \texttt{log4j.properties}.
+project\footnote{\url{http://logging.apache.org/log4j/}}.
+Log4j allows us to use six levels
+of logging (\texttt{TRACE}, \texttt{DEBUG},
+\texttt{INFO}, \texttt{WARN}, \texttt{ERROR}, and \texttt{FATAL}) but inside
+JSBML we mainly use \texttt{ERROR}, \texttt{WARN}, and \texttt{DEBUG}. The
+default configuration of log4j used in JSBML can be found in the folder
+\texttt{resources} with the name \texttt{log4j.properties}.
 In this file, you will found some documentation of which JSBML classes do some
 logging and at which levels.
  
@@ -1352,7 +1353,7 @@ JSBML.
 
 \subsubsection{\texttt{android}, a compatibility module for Android systems}
 \index{Andoroid}
-This module is inteded to povide all those classes from the Java\texttrademark{}
+This module is intended to provide all those classes from the Java\texttrademark{}
 standard distribution that are required for JSBML, but might be missing on
 Android systems. Since this module is currently under development, it can be
 expected to be available with the release of JSBML version 1.0.

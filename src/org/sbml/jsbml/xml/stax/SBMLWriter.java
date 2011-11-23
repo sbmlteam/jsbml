@@ -252,34 +252,6 @@ public class SBMLWriter {
 		return indentCount;
 	}
 
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 * @return the name space matching the level and version.
-	 */
-	private String getNamespaceFrom(int level, int version) {
-		if (level == 3) {
-			if (version == 1) {
-				return SBMLDocument.URI_NAMESPACE_L3V1Core;
-			}
-		} else if (level == 2) {
-			if (version == 4) {
-				return SBMLDocument.URI_NAMESPACE_L2V4;
-			} else if (version == 3) {
-				return SBMLDocument.URI_NAMESPACE_L2V3;
-			} else if (version == 2) {
-				return SBMLDocument.URI_NAMESPACE_L2V2;
-			} else if (version == 1) {
-				return SBMLDocument.URI_NAMESPACE_L2V1;
-			}
-		} else if (level == 1) {
-			if ((version == 1) || (version == 2)) {
-				return SBMLDocument.URI_NAMESPACE_L1;
-			}
-		}
-		return null;
-	}
 
 	/**
 	 * Gets all the writing parsers necessary to write the given object.
@@ -506,7 +478,7 @@ public class SBMLWriter {
 		// to have the automatic indentation working, we should probably only be using StaxMate classes and not directly StAX
 		// outputDocument.setIndentation("\n  ", 1, 1);
 
-		String SBMLNamespace = getNamespaceFrom(sbmlDocument.getLevel(),
+		String SBMLNamespace = JSBML.getNamespaceFrom(sbmlDocument.getLevel(),
 				sbmlDocument.getVersion());
 		SMOutputContext context = outputDocument.getContext();
 		context.setIndentation("\n" + createIndentationString(indentCount), 1, 2);
@@ -695,7 +667,10 @@ public class SBMLWriter {
 			XMLStreamWriter writer, String sbmlNamespace, int indent, boolean xmlFragment)
 		throws XMLStreamException, SBMLException {
 	  
-		SMNamespace namespace = element.getNamespace(sbmlNamespace);
+		// create the sbmlNamespace variable
+		String sbmlNamespace = JSBML.getNamespaceFrom(sbase.getLevel(), sbase.getVersion());
+		SMNamespace namespace = element.getContext().getNamespace(sbmlNamespace);
+
 		namespace.setPreferredPrefix("");
 		Annotation annotation = sbase.getAnnotation();
 		SMOutputElement annotationElement;
@@ -894,7 +869,7 @@ public class SBMLWriter {
 	 * Writes the history represented by this History instance.
 	 * 
 	 * @param history
-	 *            : the model history to write
+	 *            : the history to write
 	 * @param rdfNamespaces
 	 *            : contains the RDF namespaces and their prefixes.
 	 * @param writer
@@ -999,18 +974,22 @@ public class SBMLWriter {
 		}
 
 		String dctermPrefix = rdfNamespaces.get(JSBML.URI_PURL_TERMS);
-
-		String creationDate;
-		String now = creationDate = DateParser.getIsoDateNoMillis(new Date());
-
+		String creationDate = DateParser.getIsoDateNoMillis(new Date());
+		String now = creationDate;
+		boolean writeCreationDate = false;
+		boolean isModelHistory = history.getParent().getParent() instanceof Model;
+		
 		if (history.isSetCreatedDate()) {
-			creationDate = DateParser.getIsoDateNoMillis(history
-					.getCreatedDate());
-		} else { // We need to add a creation date
-			creationDate = now;
+			creationDate = DateParser.getIsoDateNoMillis(history.getCreatedDate());
+			writeCreationDate = true;
+		} else if (isModelHistory) { // We need to add a creation date
+			writeCreationDate = true;
 		}
-		writeW3CDate(writer, indent, creationDate, "created", dctermPrefix,
-				rdfPrefix);
+		
+		if (writeCreationDate) {
+			writeW3CDate(writer, indent, creationDate, "created", dctermPrefix,
+					rdfPrefix);
+		}
 
 		// Writing the current modified dates.
 		if (history.isSetModifiedDate()) {
@@ -1021,9 +1000,11 @@ public class SBMLWriter {
 						rdfPrefix);
 			}
 		}
-		// We need to add a new modified date
-		writeW3CDate(writer, indent, now, "modified", dctermPrefix, rdfPrefix);
 
+		if (isModelHistory) {
+			// We need to add a new modified date
+			writeW3CDate(writer, indent, now, "modified", dctermPrefix, rdfPrefix);
+		}
 	}
 
 	/**
@@ -1053,16 +1034,37 @@ public class SBMLWriter {
 			// Creating an SMOutputElement to be sure that the previous nested element tag is closed properly.
 			SMNamespace mathMLNamespace = element.getNamespace(ASTNode.URI_MATHML_DEFINITION, ASTNode.URI_MATHML_PREFIX);
 			SMOutputElement mathElement = element.addElement(mathMLNamespace, "math");
-			
+			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
+					writer, createIndentationString(indent + indentCount));
+			boolean isSBMLNamespaceNeeded = compiler.isSBMLNamespaceNeeded(m.getMath());
+
 			// TODO : add all other namespaces !!
 
+			if (isSBMLNamespaceNeeded) {
+				// writing the SBML namespace
+				SBMLDocument doc = null;
+				SBase sbase = m.getMath().getParentSBMLObject();
+				String sbmlNamespace = SBMLDocument.URI_NAMESPACE_L3V1Core;
+				
+				if (sbase != null) {
+					doc = sbase.getSBMLDocument();
+					sbmlNamespace = doc.getSBMLDocumentNamespaces().get("xmlns");
+					
+					if (sbmlNamespace == null) {
+						logger.warn("writeMathML : the SBML namespace of this SBMLDocument" +
+								" could not be found, using the default namespace (" +
+								SBMLDocument.URI_NAMESPACE_L3V1Core + ") instead.");
+						sbmlNamespace = SBMLDocument.URI_NAMESPACE_L3V1Core;
+					}
+				}
+				writer.writeNamespace("sbml", sbmlNamespace);
+			}
+			
 			mathElement.setIndentation(createIndentationString(indent + 2), indent + indentCount, indentCount);
 			
 			writer.writeCharacters(whitespaces);
 			writer.writeCharacters("\n");
 
-			MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
-					writer, createIndentationString(indent + indentCount));
 			compiler.compile(m.getMath());
 
 			writer.writeCharacters(whitespaces);
@@ -1151,16 +1153,53 @@ public class SBMLWriter {
 		 * kind of RDF annotation, which name spaces are needed, these should be
 		 * added automatically here.
 		 */
-		Map<String, String> rdfNamespaces = annotation
-				.getRDFAnnotationNamespaces();
-		Iterator<Entry<String, String>> it = rdfNamespaces.entrySet()
-				.iterator();
-		while (it.hasNext()) {
-			Entry<String, String> entry = it.next();
-			if (!entry.getKey().equals(namespace.getURI())) {
-				writer.writeNamespace(entry.getValue(), entry.getKey());
+		Map<String, String> rdfNamespaces = annotation.getRDFAnnotationNamespaces();
+
+		for (String namespaceURI : rdfNamespaces.keySet()) {
+			
+			if (!namespaceURI.equals(namespace.getURI())) {
+				writer.writeNamespace(rdfNamespaces.get(namespaceURI), namespaceURI);
 			}
 		}
+
+		// Checking if all the necessary namespaces are defined 
+		// In fact, we could remove the rdfNamespaces map ?
+		
+		if (annotation.getHistory().getNumCreators() > 0) 
+		{
+			if (rdfNamespaces.get(JSBML.URI_PURL_ELEMENTS) == null) {
+				writer.writeNamespace("dc", JSBML.URI_PURL_ELEMENTS);
+				rdfNamespaces.put(JSBML.URI_PURL_ELEMENTS, "dc");
+			}
+
+			if (rdfNamespaces.get(Creator.URI_RDF_VCARD_NS) == null) {
+				writer.writeNamespace("vCard", Creator.URI_RDF_VCARD_NS);
+				rdfNamespaces.put(Creator.URI_RDF_VCARD_NS, "vCard");
+			}
+		}
+		
+		if ((annotation.getHistory().isSetCreatedDate() || annotation.getHistory().isSetModifiedDate())  
+				&& rdfNamespaces.get(JSBML.URI_PURL_TERMS) == null)
+		{
+			writer.writeNamespace("dcterms", JSBML.URI_PURL_TERMS);
+			rdfNamespaces.put(JSBML.URI_PURL_TERMS, "dcterms");
+		}
+		
+		if (annotation.getNumCVTerms() > 0) 
+		{
+			if (rdfNamespaces.get(CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS) == null) {
+				writer.writeNamespace("bqbiol", CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS);
+				rdfNamespaces.put(CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS, "bqbiol");
+			}
+
+			if (rdfNamespaces.get(CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS) == null) {
+				writer.writeNamespace("bqmodel", CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS);
+				rdfNamespaces.put(CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS, "bqmodel");
+			}
+			
+		}
+		
+		
 		rdfElement.addCharacters("\n");
 		rdfElement.setIndentation(whiteSpace + createIndentationString(indentCount), indent + indentCount, indentCount);
 		SMOutputElement descriptionElement = rdfElement.addElement(namespace,

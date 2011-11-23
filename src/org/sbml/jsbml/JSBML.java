@@ -353,4 +353,34 @@ public class JSBML {
 		return writer.writeSBMLToString(d);	 
 	}
 	
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 * @return the name space matching the level and version.
+	 */
+	public static String getNamespaceFrom(int level, int version) {
+		if (level == 3) {
+			if (version == 1) {
+				return SBMLDocument.URI_NAMESPACE_L3V1Core;
+			}
+		} else if (level == 2) {
+			if (version == 4) {
+				return SBMLDocument.URI_NAMESPACE_L2V4;
+			} else if (version == 3) {
+				return SBMLDocument.URI_NAMESPACE_L2V3;
+			} else if (version == 2) {
+				return SBMLDocument.URI_NAMESPACE_L2V2;
+			} else if (version == 1) {
+				return SBMLDocument.URI_NAMESPACE_L2V1;
+			}
+		} else if (level == 1) {
+			if ((version == 1) || (version == 2)) {
+				return SBMLDocument.URI_NAMESPACE_L1;
+			}
+		}
+		return null;
+	}
+
+	
 }
