@@ -73,7 +73,7 @@ This figure displays the most important top-level data
 structures of JSBML with main focus on the differences to libSBML. All data
 types that represent SBML constructs in JSBML extend \texttt{AbstractTreeNode}. 
 Derivatives of \texttt{SBase} extend either one of the two abstract classes
-\texttt{AbstractSBase} or \texttt{AbstractNamedSBase}, which inturn also extend
+\texttt{AbstractSBase} or \texttt{AbstractNamedSBase}, which in turn also extend
 \texttt{AbstractTreeNode}. The class \texttt{SBO} parses the
 ontology\index{Ontology} file provided on the SBO web site
 (\url{http://www.ebi.ac.uk/sbo/main/}) in OBO format (Open Biomedical
@@ -281,7 +281,7 @@ Some types derived from \texttt{SBase} contain an identifier, a so-called
 \texttt{AbstractSBase}, implements this interface.
 \index{SBase@\texttt{SBase}!\texttt{NamedSBase}}%
 \index{SBase@\texttt{SBase}!\texttt{AbstractNamedSBase}}%
-The interface \texttt{UniqueNamedSBase} markes all those elements whose
+The interface \texttt{UniqueNamedSBase} indicates all those elements whose
 identifier must be unique within the model, i.e., no other element within the
 model may have the same identifier. The identifiers of all instances of
 \texttt{NamedSBase} must be unique if these are defined. The Boolean method
@@ -291,7 +291,7 @@ only two elements with not-unique identifiers are
 \texttt{UnitDefinition}s\index{unit!UnitDefinition@\texttt{UnitDefinition}},
 whose identifiers exist in a separate namespace, and
 \texttt{LocalParameter}s\index{parameter!LocalParameter@\texttt{LocalParameter}},
-whose identifiers may shaddow the identifiers of global elements.
+whose identifiers may shadow the identifiers of global elements.
 
 Many SBML elements represent some quantitative value, which is associated with a
 unit. However, the value does not necessarily have to be defined explicitly. In
@@ -552,7 +552,7 @@ instances of \texttt{SBase}\index{SBase@\texttt{SBase}} and also
 \texttt{CVTerm}\index{annotation!\texttt{CVTerm}}, and
 \texttt{History}\index{annotation!\texttt{History}} extend
 \texttt{AbstractTreeNode}\index{AbstractTreeNode@\texttt{AbstractTreeNode}},
-which inturn implements the interface \texttt{Cloneable}\index{cloning} (see
+which in turn implements the interface \texttt{Cloneable}\index{cloning} (see
 Fig.~\vref{fig:TypeHierarchy}), all these elements can be naturally cloned.
 However, when cloning an object in JSBML\index{cloning}, such as an
 \texttt{AbstractNamedSBase},
@@ -636,24 +636,24 @@ if inappropriate values are passed to methods. For instance,
  \item JSBML keeps track of all identifiers within a model. For each namespace
  it contains a separate set of identifiers within the
  \texttt{Model}\index{Model@\texttt{Model}}. It is therefore not possible to
- assign dupcliate identifiers in case of elements that implememt the interface
+ assign duplicate identifiers in case of elements that implement the interface
  \texttt{UniqueNamedSBase}\index{UniqueNamedSBase@\texttt{UniqueNamedSBase}}.
  For \texttt{UnitDefinition}s\index{Unit!UnitDefinition@\texttt{UnitDefinition}}
  and \texttt{LocalParameter}s separate sets are maintained. Since local
  parameters are only visible within the
- \texttt{KineticLaw}\index{KineticLaw@\texttt{KineticLaw}} containg these,
+ \texttt{KineticLaw}\index{KineticLaw@\texttt{KineticLaw}} that contain these,
  JSBML will only prohibit having more than one local parameter within the same
  list that has the identical identifier. All these sets are updated upon any
  changes within the model. When adding an element with an already existing
  identifier for its namespace, or changing some identifier to a value that is
  already defined within this namespace, JSBML will throw an exception.
- \item Meta identifiers must be unique through the entire SBML file. To enusre
+ \item Meta identifiers must be unique through the entire SBML file. To ensure
  that no duplicate meta identifiers are created, JSBML keeps a set of all meta
  identifiers on the level of the
  \texttt{SBMLDocument}\index{SBML!SBMLDocument@\texttt{SBMLDocument}}, which is
  updated upon any change of elements within the data structure. In this way, it
  is not possible to set the meta identifier of some element to an already
- exisitng value or to add nodes to the SBML tree that contain a meta identifier
+ existing value or to add nodes to the SBML tree that contain a meta identifier
  defined somewhere else within the tree. In both cases, JSBML will throw an
  exception. Since meta identifiers can be generated in a fully automatic way
  (method \texttt{nextMetaId()} on \texttt{SBMLDocument}), users of JSBML should
@@ -1051,11 +1051,11 @@ the package \texttt{org.sbml.jsbml.util}. There you can also find a growing
 number of additional helpful classes.
 
 
-\subsubsection{Pre-implemented mathematic functions and constants}
+\subsubsection{Pre-implemented mathematical functions and constants}
 
 The class \texttt{org.sbml.jsbml.util.Maths}
 \index{JSBML!Maths@\texttt{Maths}}%
-contains several \texttt{static} methods for mathematic operations not provided
+contains several \texttt{static} methods for mathematics operations not provided
 by the standard Java class \texttt{java.lang.Math}. Most of these methods are
 basic operations, for instance, \texttt{cot(double x)} or \texttt{ln(double x)}.
 The class \texttt{Maths} also provides some less commonly used methods,
@@ -1074,7 +1074,7 @@ The class \texttt{StringTools}
 provides several methods for convenient \texttt{String} manipulation. These
 methods are particularly useful when parsing or displaying \texttt{double}
 numbers in a \texttt{Locale}\hyp{}dependent way. To this end, this class
-predefines a selection of useful number formats. It can also wrap
+predefined a selection of useful number formats. It can also wrap
 \texttt{String} elements into HTML code, mask non-ASCII characters using
 corresponding HTML codes, efficiently concatenate \texttt{String}s, or deliver
 the operating system\hyp{}dependent new line character.
@@ -1114,7 +1114,7 @@ following option to your \texttt{java} command:
 \end{lstlisting}
 
 \subsubsection{Some example configurations}
-\ifthenelse{\boolean{includeCodeExample}}{}{\index{logging!configurtation}}%
+\ifthenelse{\boolean{includeCodeExample}}{}{\index{logging!configuration}}%
 
 % \paragraph{}
 Listing~\vref{lst:log4j1} gives a short overview about how to
@@ -1140,7 +1140,7 @@ log4j.appender.console.layout=org.apache.log4j.PatternLayout
 log4j.appender.console.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} - %5p (%F:%L) - %m%n
 
 # Log the messages from the SimpleTreeNodeChangeListener at the DEBUG Level
-# Allow to see all the changes that hapenned to the SBML elements
+# Allow to see all the changes that happened to the SBML elements
 log4j.logger.org.sbml.jsbml.util=DEBUG
 \end{lstlisting}
 
@@ -1168,7 +1168,7 @@ log4j.rootLogger=info, file, mail
 # it will send by email all messages from the error level.
 #
 log4j.appender.mail=org.apache.log4j.net.SMTPAppender
-#defines how othen emails are send
+#defines how often emails are send
 log4j.appender.mail.BufferSize=1
 log4j.appender.mail.SMTPHost="smtp.myservername.xx"
 log4j.appender.mail.From=fromemail@myservername.xx
@@ -1352,7 +1352,7 @@ JSBML.
 \index{libSBML!compatibility module}%
 
 \subsubsection{\texttt{android}, a compatibility module for Android systems}
-\index{Andoroid}
+\index{Android}
 This module is intended to provide all those classes from the Java\texttrademark{}
 standard distribution that are required for JSBML, but might be missing on
 Android systems. Since this module is currently under development, it can be

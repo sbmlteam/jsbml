@@ -41,15 +41,15 @@ standard \texttt{TreeNode} interface, hence ensuring a high compatibility with
 other Java libraries. Since the SWING package belongs to the standard
 Java\texttrademark{} distribution, the \texttt{TreeNode} interface should
 always be localized by the Java Virtual Machine, independent from the specific
-hardware or system. An exception might Android\index{Andoroid} systems, which
+hardware or system. An exception might Android\index{Android} systems, which
 do not provide any parts from the SWING package of Java. Therefore, the JSBML
 team is currently developing a specialized \texttt{android} compatibility
 module for JSBML.
 
-\item[\parbox{\textwidth}{Does the usuage of the the \texttt{java.beens} package
+\item[\parbox{\textwidth}{Does the usage of the the \texttt{java.beans} package
 for the \texttt{TreeNodeChangeListener} lead to an incompatibility with light-weight
 Java installations?}]
-With the \texttt{java.beens} package being part of the standard Java
+With the \texttt{java.beans} package being part of the standard Java
 distribution, such an incompatibility will not occur. Extending existing
 standard Java classes leads to a higher compatibility with other libraries and
 should therefore be the preferred way to go in the development of JSBML.
