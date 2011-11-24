@@ -739,7 +739,25 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		return l;
 	}
-
+	
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier, java.lang.String, boolean)
+   */
+  public List<String> filterCVTerms(CVTerm.Qualifier qualifier, String pattern,
+    boolean recursive) {
+    List<String> l = filterCVTerms(qualifier, pattern);
+    if (recursive) {
+      TreeNode child;
+      for (int i = 0; i < getChildCount(); i++) {
+        child = getChildAt(i);
+        if (child instanceof SBase) {
+          l.addAll(((SBase) child).filterCVTerms(qualifier, pattern, recursive));
+        }
+      }
+    }
+    return l;
+  }
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractTreeNode#notifyChildChange(javax.swing.tree.TreeNode, javax.swing.tree.TreeNode)

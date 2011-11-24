@@ -49,6 +49,16 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	public boolean addCVTerm(CVTerm term);
 	
 	/**
+	 * Adds an additional name space to the set of declared namespaces of this
+	 * {@link SBase}.
+	 * 
+	 * @param prefix the prefix of the namespace to add
+	 * @param namespace the namespace to add
+	 * 
+	 */
+	public void addDeclaredNamespace(String prefix, String namespace);
+	
+	/**
 	 * add a SBase extension object 'sbase' associated with a name space
 	 * 'namespace'.
 	 * 
@@ -65,16 +75,6 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 * @param namespace the namespace to add
 	 */
 	public void addNamespace(String namespace);
-	
-	/**
-	 * Adds an additional name space to the set of declared namespaces of this
-	 * {@link SBase}.
-	 * 
-	 * @param prefix the prefix of the namespace to add
-	 * @param namespace the namespace to add
-	 * 
-	 */
-	public void addDeclaredNamespace(String prefix, String namespace);
 
 	/**
 	 * Appends 'notes' to the notes String of this object.
@@ -130,6 +130,26 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 */
 	public List<String> filterCVTerms(Qualifier qualifier, String pattern);
 
+
+  /**
+   * A recursive implementation of {@link #filterCVTerms(Qualifier, String)}
+   * that considers all child elements of the current instance of {@link SBase}
+   * as well.
+   * 
+   * @param qualifier
+   * @param pattern
+   * @param recursive
+   *        decides whether or not considering all child elements of this
+   *        {@link SBase} and collecting the matching {@link CVTerm}s of all
+   *        children recursively. If this argument is false, the behavior of the
+   *        method will be equivalent to calling
+   *        {@link #filterCVTerms(Qualifier, String)}.
+   * @return
+   * @see #filterCVTerms(Qualifier, String)
+   */
+  public List<String> filterCVTerms(Qualifier qualifier,
+    String pattern, boolean recursive);
+
 	/**
 	 * Returns the content of the 'annotation' sub-element of this object as an
 	 *         {@link Annotation} instance.
@@ -162,13 +182,22 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 *         initializes the annotation and returns an empty list.
 	 */
 	public List<CVTerm> getCVTerms();
+	
+	/**
+	 * Returns all the namespaces declared on this object. These will be written on the
+	 * resulting XML element.
+	 * 
+	 * @return all the namespaces declared on this object. These will be written on the
+	 * resulting XML element.
+	 */
+	public Map<String, String> getDeclaredNamespaces();
 
 	/**
 	 * 
 	 * @return the XML element name of this object.
 	 */
 	public String getElementName();
-	
+
 	/**
 	 * 
 	 * @param namespace
@@ -218,7 +247,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 * @return
 	 */
 	public Model getModel();
-
+	
 	/**
 	 * Returns all the namespaces of all the packages which are currently
 	 *         extending this object.
@@ -228,15 +257,6 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 */
 	public SortedSet<String> getNamespaces();
 
-	/**
-	 * Returns all the namespaces declared on this object. These will be written on the
-	 * resulting XML element.
-	 * 
-	 * @return all the namespaces declared on this object. These will be written on the
-	 * resulting XML element.
-	 */
-	public Map<String, String> getDeclaredNamespaces();
-	
 	/**
 	 * Returns the <code>XMLNode</code> containing the notes sub-element of
 	 * this object.
@@ -431,6 +451,18 @@ public interface SBase extends TreeNodeWithChangeSupport {
 			String value);
 
 	/**
+   * Sets this object as SBML parent of 'sbase'. Check if the level and version
+   * of sbase are set, otherwise sets the level and version of 'sbase' with
+   * those of this object. This method should actually not be called by any tool 
+   * as it is used internally within JSBML to maintain the hierarchical document
+   * structure.
+   * 
+   * If the level and version of sbase are set but not valid, an {@link Exception} is
+   * thrown.
+   */
+  public void registerChild(SBase sbase) throws LevelVersionError;
+
+	/**
 	 * Removes the given {@link TreeNodeChangeListener} from this element.
 	 * 
 	 * @param l
@@ -482,13 +514,13 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 * 
 	 */
 	public void setNotes(XMLNode notesXMLNode);
-
+	
 	/**
 	 * 
 	 * @param parent
 	 */
 	public void setParentSBML(SBase parent);
-
+	
 	/**
 	 * Sets the value of the 'sboTerm' attribute.
 	 * 
@@ -497,15 +529,15 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 * @throws PropertyNotAvailableException in Level 1.
 	 */
 	public void setSBOTerm(int term);
-	
-	/**
+
+  /**
 	 * Sets the value of the 'sboTerm' attribute.
 	 * 
 	 * @param sboid
 	 * @see SBO
 	 */
 	public void setSBOTerm(String sboid);
-	
+
 	/**
 	 * Sets this object as SBML parent of 'sbase'. Check if the level and version
 	 * of sbase are set, otherwise sets the level and version of 'sbase' with
@@ -520,18 +552,6 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 */
 	@Deprecated
 	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError;
-
-  /**
-   * Sets this object as SBML parent of 'sbase'. Check if the level and version
-   * of sbase are set, otherwise sets the level and version of 'sbase' with
-   * those of this object. This method should actually not be called by any tool 
-   * as it is used internally within JSBML to maintain the hierarchical document
-   * structure.
-   * 
-   * If the level and version of sbase are set but not valid, an {@link Exception} is
-   * thrown.
-   */
-  public void registerChild(SBase sbase) throws LevelVersionError;
 
 	/**
 	 * Sets the version of this object with 'version'. If the SBML parent of this
@@ -572,7 +592,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 */
 	public void unsetSBOTerm();
 
-	/**
+  /**
 	 * @return a {@link Map} containing the XML attributes of this object.
 	 */
 	public Map<String, String> writeXMLAttributes();
