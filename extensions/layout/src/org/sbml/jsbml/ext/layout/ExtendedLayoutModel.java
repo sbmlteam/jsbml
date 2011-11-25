@@ -59,12 +59,19 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	public ExtendedLayoutModel(Model model) {
 		super(model);
 
-		listOfLayouts = new ListOf<Layout>();
+		this.model = model;
+		createListOfLayout();
+	}
+
+  /**
+   * Creates a new list of layout
+   */
+  private void createListOfLayout() {
+    listOfLayouts = new ListOf<Layout>();
 		listOfLayouts.addNamespace(LayoutConstant.namespaceURI);
 		listOfLayouts.setSBaseListType(ListOf.Type.other);
-		this.model = model;
 		model.registerChild(listOfLayouts);
-	}
+  }
 
 	/**
 	 * 
@@ -92,7 +99,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	 */
 	public void addLayout(Layout layout) {
 		if (layout != null) {
-			listOfLayouts.add(layout);
+			getListOfLayouts().add(layout);
 		}
 	}
 
@@ -170,8 +177,12 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	 * @return
 	 */
 	public ListOf<Layout> getListOfLayouts() {
-		return listOfLayouts;
+	  if (listOfLayouts == null) {
+	    createListOfLayout();
+	  }
+	  return listOfLayouts;
 	}
+	
 	
 	public Model getParent() {
 		return model;
@@ -246,6 +257,16 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
   public Map<String, String> writeXMLAttributes() {
 		return null;
 	}
+  
+
+  /**
+   * 
+   * @return
+   */
+  public Model getModel() {
+    return (Model) extendedSBase;
+  }
+
 
   /**
    * Creates a new layout and adds it to the current list of layouts.
