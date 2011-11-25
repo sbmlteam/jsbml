@@ -29,6 +29,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
+ * @author Clemens Wrzodek
  * @since 1.0
  * @version $Rev$
  */
@@ -268,7 +269,7 @@ public class Point extends AbstractNamedSBase {
 		}
 		if (isSetZ()) {
 			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.z, StringTools.toString(y));
+					+ LayoutConstant.z, StringTools.toString(z));
 		}
 
 		return attributes;
