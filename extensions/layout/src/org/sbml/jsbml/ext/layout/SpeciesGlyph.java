@@ -19,14 +19,13 @@
  */
 package org.sbml.jsbml.ext.layout;
 
-import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
+ * @author Clemens Wrzodek
  * @since 1.0
  * @version $Rev$
  */
@@ -38,11 +37,9 @@ public class SpeciesGlyph extends GraphicalObject {
 	private static final long serialVersionUID = 1077785483575936434L;
 	
 	/**
-	 * TODO: Wouldn't it be better to store a reference to the actual
-	 * {@link AbstractNamedSBase} here (thats more generic than {@link Species}.
-	 * If not, shound't we rename it to species_id or something more clear?
+	 * Reference to species id, described by this {@link SpeciesGlyph}.
 	 */
-	private String species;
+	private String speciesId;
 	
 	/**
 	 * 
@@ -59,7 +56,7 @@ public class SpeciesGlyph extends GraphicalObject {
 		super(speciesGlyph);
 
 		if (speciesGlyph.isSetSpecies()) {
-			this.species = new String(speciesGlyph.getSpecies());
+			this.speciesId = new String(speciesGlyph.getSpecies());
 		}
 	}
 
@@ -97,7 +94,7 @@ public class SpeciesGlyph extends GraphicalObject {
 	 * @return
 	 */
 	public String getSpecies() {
-		return species;
+		return speciesId;
 	}
 
 	/*
@@ -118,7 +115,7 @@ public class SpeciesGlyph extends GraphicalObject {
 	 * @return
 	 */
 	public boolean isSetSpecies() {
-		return species != null;
+		return speciesId != null;
 	}
 
 	/*
@@ -150,9 +147,9 @@ public class SpeciesGlyph extends GraphicalObject {
 	 * @param species
 	 */
 	public void setSpecies(String species) {
-		String oldSpecies = this.species;
-		this.species = species;
-		firePropertyChange(TreeNodeChangeEvent.species, oldSpecies, this.species);
+		String oldSpecies = this.speciesId;
+		this.speciesId = species;
+		firePropertyChange(TreeNodeChangeEvent.species, oldSpecies, this.speciesId);
 	}
 	/*
 	 * (non-Javadoc)
