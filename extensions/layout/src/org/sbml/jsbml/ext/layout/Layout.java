@@ -31,6 +31,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
+ * @author Clemens Wrzodek
  * @since 1.0
  * @version $Rev$
  */
@@ -523,5 +524,16 @@ public class Layout extends AbstractNamedSBase {
 		}
 		return false;
 	}
+
+  /**
+   * Creates and adds a new {@link SpeciesGlyph}.
+   * @return new {@link SpeciesGlyph}.
+   */
+  public SpeciesGlyph createSpeciesGlyph(String species) {
+    SpeciesGlyph glyph = new SpeciesGlyph();
+    glyph.setSpecies(species);
+    addSpeciesGlyph(glyph);
+    return glyph;
+  }
 
 }
