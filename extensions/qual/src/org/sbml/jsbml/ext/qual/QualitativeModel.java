@@ -33,6 +33,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
  * @author Florian Mittag
+ * @author Clemens Wrzodek
  * @version $Rev$
  * @since 1.0
  * @date 29.09.2011
@@ -194,6 +195,24 @@ public class QualitativeModel extends AbstractSBasePlugin {
     species.setConstant(constant);
     addSpecies(species);
     return species;
+  }
+  
+  /**
+   * Creates a new {@link QualitativeSpecies}, based on an existing {@link Species},
+   * adds it to this {@link QualitativeModel} and returns it.
+   * @param id the id of the new element to create
+   * @param metaId the metaId of the new element to create
+   * @param species a template to copy fields from
+   * @return the {@link QualitativeSpecies} object created
+   */
+  public QualitativeSpecies createQualitativeSpecies(String id, String metaId, Species species) {
+    QualitativeSpecies qualSpecies = new QualitativeSpecies(species);
+    qualSpecies.setId(id);
+    qualSpecies.setMetaId(metaId);
+    qualSpecies.setLevel(getModel().getLevel());
+    qualSpecies.setVersion(getModel().getVersion());
+    addSpecies(qualSpecies);
+    return qualSpecies;
   }
   
   /**

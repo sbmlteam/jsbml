@@ -36,6 +36,7 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
+ * @author Clemens Wrzodek
  * @version $Rev$
  * @since 1.0
  * @date 29.09.2011
@@ -107,6 +108,53 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     }
     initDefaults();
   }
+  
+  /**
+   * Copy constructor that clones all values from the input
+   * <code>species</code> that are also available in
+   * {@link QualitativeSpecies}.
+   * <p>You should consider setting a new id and meta_id afterwards
+   * to avoid duplicate identifiers.
+   * @param species
+   */
+  public QualitativeSpecies(Species species) {
+    super(species);
+    initDefaults();
+    
+    if (species.isSetCompartment()) {
+      compartment = species.getCompartment();
+    }
+    if (species.isSetBoundaryCondition()) {
+      boundaryCondition = species.getBoundaryCondition();
+    }
+    if (species.isSetConstant()) {
+      constant = species.getConstant();
+    }
+    
+    /* initialLevel, maxLevel and listOfSymbolicValues
+     * are only for qual species.
+     */
+  }
+  
+  /**
+   * Copy constructor that clones all variables of
+   * <code>qualSpecies</code>.
+   * @param qualSpecies
+   */
+  public QualitativeSpecies(QualitativeSpecies qualSpecies) {
+    super(qualSpecies);
+
+
+    compartment = qualSpecies.compartment;
+    boundaryCondition = qualSpecies.boundaryCondition;
+    constant = qualSpecies.constant;
+    initialLevel = qualSpecies.initialLevel;
+    maxLevel = qualSpecies.maxLevel;
+    if (qualSpecies.isSetListOfSymbolicValues()) {
+      listOfSymbolicValues = qualSpecies.listOfSymbolicValues.clone();
+    }
+  }
+  
 
   public QualitativeSpecies(String id, boolean boundaryCondition,
     String compartment, boolean constant) {
@@ -126,7 +174,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
   @Override
   public AbstractSBase clone() {
-    return null;
+    return new QualitativeSpecies(this);
   }
 
 
