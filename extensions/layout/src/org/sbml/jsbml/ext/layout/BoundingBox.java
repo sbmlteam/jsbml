@@ -30,6 +30,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
+ * @author Clemens Wrzodek
  * @since 1.0
  * @version $Rev$
  */
@@ -273,4 +274,40 @@ public class BoundingBox extends AbstractNamedSBase {
 		
 		return attributes;
 	}
+
+  /**
+   * Creates, sets and returns {@link Dimensions} based on the
+   * given values.
+   * @param width
+   * @param height
+   * @param depth
+   * @return new {@link Dimensions} object.
+   */
+  public Dimensions createDimensions(double width, double height, double depth) {
+    Dimensions d = new Dimensions();
+    d.setWidth(width);
+    d.setHeight(height);
+    d.setDepth(depth);
+    setDimensions(d);
+    return d;
+  }
+  
+  
+  /**
+   * Creates, sets and returns a {@link Point} based on the
+   * given values.
+   * @param x
+   * @param y
+   * @param z
+   * @return new {@link Point} object.
+   */
+  public Point createPoint(double x, double y, double z) {
+    Point p = new Point();
+    p.setX(x);
+    p.setY(y);
+    p.setZ(z);
+    setPoint(p);
+    return p;
+  }
+  
 }

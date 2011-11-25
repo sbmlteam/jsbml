@@ -19,6 +19,8 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
@@ -36,7 +38,9 @@ public class SpeciesGlyph extends GraphicalObject {
 	private static final long serialVersionUID = 1077785483575936434L;
 	
 	/**
-	 * 
+	 * TODO: Wouldn't it be better to store a reference to the actual
+	 * {@link AbstractNamedSBase} here (thats more generic than {@link Species}.
+	 * If not, shound't we rename it to species_id or something more clear?
 	 */
 	private String species;
 	

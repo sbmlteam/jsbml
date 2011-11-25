@@ -30,6 +30,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
+ * @author Clemens Wrzodek
  * @since 1.0
  * @version $Rev$
  */
@@ -180,5 +181,41 @@ public class GraphicalObject extends AbstractNamedSBase {
 		
 		return attributes;
 	}
+	
+	/**
+	 * Creates and sets a {@link BoundingBox} for this object.
+	 * @return {@link BoundingBox}.
+	 */
+	public BoundingBox createBoundingBox() {
+	  BoundingBox bb = new BoundingBox();
+	  setBoundingBox(bb);
+	  return bb;
+	}
+	
+	public BoundingBox createBoundingBox(Dimensions dimensions) {
+	  BoundingBox bb = createBoundingBox();
+	  bb.setDimensions(dimensions);
+	  return bb;
+	}
+	
+	/**
+	 * Creates and sets a {@link BoundingBox} for this object, with the
+	 * given parameters for {@link Dimensions} and {@link Point}.
+	 * @param width
+	 * @param height
+	 * @param depth
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return {@link BoundingBox}.
+	 */
+	public BoundingBox createBoundingBox(double width, double height, double depth,
+	  double x, double y, double z) {
+	  BoundingBox bb = createBoundingBox();
+	  bb.createDimensions(width, height, depth);
+	  bb.createPoint(x, y, z);
+	  return bb;
+	}
+	
 
 }

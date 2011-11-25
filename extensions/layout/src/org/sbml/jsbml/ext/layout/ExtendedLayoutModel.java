@@ -31,6 +31,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
+ * @author Clemens Wrzodek
  * @since 1.0
  * @version $Rev$
  */
@@ -61,6 +62,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		listOfLayouts = new ListOf<Layout>();
 		listOfLayouts.addNamespace(LayoutConstant.namespaceURI);
 		listOfLayouts.setSBaseListType(ListOf.Type.other);
+		this.model = model;
 		model.registerChild(listOfLayouts);
 	}
 
@@ -243,6 +245,16 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	 */
   public Map<String, String> writeXMLAttributes() {
 		return null;
-	}	
+	}
+
+  /**
+   * Creates a new layout and adds it to the current list of layouts.
+   * @return new layout.
+   */
+  public Layout createLayout() {
+    Layout layout = new Layout(model.getLevel(), model.getVersion());
+    addLayout(layout);
+    return layout;
+  }	
 
 }
