@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
@@ -329,6 +330,7 @@ public class Unit extends AbstractSBase {
 		 */
 		public static boolean isValidUnitKindString(String unitKind, int level,
 				int version) {
+			Logger logger = Logger.getLogger(Unit.class);
 			Kind uk = null;
 			if ((unitKind != null) && (unitKind.length() > 0)) {
 				try {
@@ -336,6 +338,7 @@ public class Unit extends AbstractSBase {
 					// kind are lower case in the SBML XML representation.
 					uk = Kind.valueOf(unitKind.toUpperCase());
 				} catch (IllegalArgumentException exc) {
+					logger.debug("isValidUnitKindString exception : " + exc.getMessage());
 				}
 			}
 
@@ -1011,6 +1014,8 @@ public class Unit extends AbstractSBase {
 					isValidUnit = true;
 				}
 			}
+		} else if (model == null && unit != null) {
+			isValidUnit = true;
 		}
 
 		return isValidUnit;

@@ -546,7 +546,7 @@ public class SBMLWriter {
 		}
 		if (sbmlDocument.isSetAnnotation()) {
 			writeAnnotation(sbmlDocument, smOutputElement, streamWriter,
-					SBMLNamespace, indent, false);
+					indent, false);
 		}
 		smOutputElement.addCharacters("\n");
 
@@ -623,7 +623,7 @@ public class SBMLWriter {
 			SMRootFragment outputDocument = SMOutputFactory.createOutputFragment(writer);
 
 			// create the sbmlNamespace variable
-			String sbmlNamespace = getNamespaceFrom(sbase.getLevel(), sbase.getVersion());
+			String sbmlNamespace = JSBML.getNamespaceFrom(sbase.getLevel(), sbase.getVersion());
 			SMOutputContext context = outputDocument.getContext();
 			SMNamespace namespace = context.getNamespace(sbmlNamespace);
 			namespace.setPreferredPrefix("");
@@ -631,7 +631,7 @@ public class SBMLWriter {
 			// all the sbml element namespaces are registered to the writer in the writeAnnotation method
 
 			// call the writeAnnotation, indicating that we are building an xml fragment
-			writeAnnotation(sbase, outputDocument, writer, sbmlNamespace, 0, true);
+			writeAnnotation(sbase, outputDocument, writer, 0, true);
 
 			writer.writeEndDocument();
 			writer.close();
@@ -664,7 +664,7 @@ public class SBMLWriter {
 	 * @throws SAXException
 	 */
 	private void writeAnnotation(SBase sbase, SMOutputContainer element,
-			XMLStreamWriter writer, String sbmlNamespace, int indent, boolean xmlFragment)
+			XMLStreamWriter writer, int indent, boolean xmlFragment)
 		throws XMLStreamException, SBMLException {
 	  
 		// create the sbmlNamespace variable
@@ -1386,8 +1386,7 @@ public class SBMLWriter {
 							}
 							if (s.isSetAnnotation()) {
 								writeAnnotation(s, newOutPutElement,
-										streamWriter, newOutPutElement
-												.getNamespace().getURI(),
+										streamWriter,
 										indent + indentCount, false);
 								elementIsNested = true;
 							}
