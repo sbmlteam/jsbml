@@ -317,6 +317,17 @@ public class QualitativeModel extends AbstractSBasePlugin {
   public Transition getTransition(int i) {
     return getListOfTransitions().get(i);
   }
+  
+  /**
+   * @param id
+   * @return
+   */
+  public SBase getTransition(String id) {
+    if(isSetListOfTransitions()) {
+      return listOfTransitions.firstHit(new NameFilter(id));     
+    } 
+    return null;
+  }
 
 	/**
 	 * 
