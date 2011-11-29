@@ -47,6 +47,7 @@ public class CharsetTest {
 		 * Level 2 and beyond
 		 */
 		String SIdL2 = "[" + letter + underscore + "][" + idChar + "]*";
+		System.out.println(SIdL2);
 		
 		String testId = "Z_1_a_q3_c9";
 		System.out.printf("%s\t%s\t%s\n", testId, SNameL1V1, Pattern.matches(

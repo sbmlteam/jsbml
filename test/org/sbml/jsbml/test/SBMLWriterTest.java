@@ -64,7 +64,7 @@ public class SBMLWriterTest {
 		history.addCreator(creator);
 		history.setCreatedDate(Calendar.getInstance().getTime());
 		history.addModifiedDate(Calendar.getInstance().getTime());
-		m.setModelHistory(history);
+		m.setHistory(history);
 
 		m
 				.setNotes("<body>A senseless test model with a senseless notes element.</body>");

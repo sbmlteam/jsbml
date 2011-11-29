@@ -3,13 +3,12 @@
   letterpaper,
   11pt,
   headsepline,
-  pointlessnumbers,
-  tablecaptionabove,
-  onelinecaption,
+  numbers=noenddot,
+  caption=oneline,
   headinclude,
   appendixprefix,
-  idxtotoc,
-  bibtotoc,
+  index=totoc,
+  bibliography=totoc,
   twoside,
   titlepage
 ]{scrreprt}
@@ -17,19 +16,16 @@
 \usepackage{JSBMLstyle}
 
 \hypersetup{
-  bookmarks={true},
-  bookmarksopen={true},
   bookmarksopenlevel={1},
   bookmarksnumbered={true},
   breaklinks={true},
   colorlinks={false},
   pdfpagemode={UseOutlines},
   pdftitle={User guide for JSBML},
-  pdfauthor={Andreas Dr\"ager} {Nicolas Rodriguez} { Marine Dumousseau} { Alexander D\"orr} {Clemens Wrzodek} {Nicolas Le Nov{\`e}re} {Andreas Zell} {Michael Hucka},,
+  pdfauthor={Andreas Dr\"ager} {Nicolas Rodriguez} {Marine Dumousseau} {Alexander D\"orr} {Clemens Wrzodek} {Nicolas Le Nov{\`e}re} {Andreas Zell} {Michael Hucka},
   pdfsubject={Software guide},
   pdfkeywords={JSBML} {libSBML} {Java} {SBML} {API} {LaTeX} {documentation} {manual} {guide} {code examples},
   pdfview={FitV},
-  pdftex,
   pdffitwindow={true},
   pdfstartview={FitV},
   pdfnewwindow={false},
