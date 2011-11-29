@@ -47,7 +47,8 @@ public class PriorityTest {
 	 * @throws SBMLException
 	 * @throws XMLStreamException
 	 */
-	public static void main(String[] args) throws ParseException,
+	@SuppressWarnings("deprecation")
+  public static void main(String[] args) throws ParseException,
 			XMLStreamException, SBMLException {
 		SBMLDocument doc = new SBMLDocument(3, 1);
 		Model model = doc.createModel("test_model");
@@ -60,6 +61,7 @@ public class PriorityTest {
 		t.setFormula("time == 1");
 		EventAssignment ea = e.createEventAssignment(p, ASTNode
 				.parseFormula("3"));
+		e.addEventAssignment(ea);
 		System.out.println((new SBMLWriter()).writeSBMLToString(doc));
 	}
 

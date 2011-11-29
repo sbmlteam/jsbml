@@ -275,7 +275,7 @@ public class StringTools {
 
 		return value;
 	}
-
+	
 	/**
 	 * Parses a String into a double number following the rules of the SBML
 	 * specifications, section 3.1.5.
@@ -305,7 +305,7 @@ public class StringTools {
 
 		return value;
 	}
-	
+
 	/**
 	 * Parses a {@link String} into an int number following the rules of the SBML
 	 * specifications, section 3.1.3.
@@ -345,7 +345,7 @@ public class StringTools {
 		}
 		return v;
 	}
-
+	
 	/**
 	 * Returns a HTML formated String, in which each line is at most lineBreak
 	 * symbols long.
@@ -356,7 +356,7 @@ public class StringTools {
 	public static String toHTML(String string) {
 		return toHTML(string, Integer.MAX_VALUE);
 	}
-	
+
 	/**
 	 * Returns a HTML formated String, in which each line is at most lineBreak
 	 * symbols long.

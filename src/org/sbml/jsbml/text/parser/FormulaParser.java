@@ -62,15 +62,13 @@ public class FormulaParser implements FormulaParserConstants {
       jj_consume_token(-1);
       throw new ParseException();
     }
-    {if (true) return t;}
-    throw new Error("Missing return statement in function");
+    return t;
   }
 
   final public ASTNode parse() throws ParseException {
   ASTNode node = null;
     node = Expression();
-    {if (true) return node;}
-    throw new Error("Missing return statement in function");
+    return node;
   }
 
   final private ASTNode Expression() throws ParseException {
@@ -88,8 +86,7 @@ public class FormulaParser implements FormulaParserConstants {
       jj_consume_token(-1);
       throw new ParseException();
     }
-    {if (true) return value;}
-    throw new Error("Missing return statement in function");
+    return value;
   }
 
   final private ASTNode TermLvl3() throws ParseException {
@@ -129,8 +126,7 @@ public class FormulaParser implements FormulaParserConstants {
         throw new ParseException();
       }
     }
-    {if (true) return leftChild;}
-    throw new Error("Missing return statement in function");
+    return leftChild;
   }
 
   final private ASTNode TermLvl2() throws ParseException {
@@ -184,8 +180,7 @@ public class FormulaParser implements FormulaParserConstants {
         throw new ParseException();
       }
     }
-    {if (true) return leftChild;}
-    throw new Error("Missing return statement in function");
+    return leftChild;
   }
 
   final private ASTNode TermLvl1() throws ParseException {
@@ -286,8 +281,7 @@ public class FormulaParser implements FormulaParserConstants {
         throw new ParseException();
       }
     }
-    {if (true) return leftChild;}
-    throw new Error("Missing return statement in function");
+    return leftChild;
   }
 
   final private ASTNode Primary() throws ParseException, NumberFormatException {
@@ -304,14 +298,12 @@ public class FormulaParser implements FormulaParserConstants {
       t = jj_consume_token(INTEGER);
     i = Integer.parseInt(t.image);
     node.setValue(i);
-    {if (true) return node;}
-      break;
+    return node;
     case NUMBER:
       t = jj_consume_token(NUMBER);
     d = Double.parseDouble(t.image);
     node.setValue(d);
-    {if (true) return node;}
-      break;
+    return node;
     case EXPNUMBER:
       t = jj_consume_token(EXPNUMBER);
     s = t.image;
@@ -325,8 +317,7 @@ public class FormulaParser implements FormulaParserConstants {
       i = Integer.parseInt(vals [ 1 ]);
     }
     node.setValue(Double.parseDouble(vals [ 0 ]), i);
-    {if (true) return node;}
-      break;
+    return node;
     default:
       jj_la1[9] = jj_gen;
       if (jj_2_1(2)) {
@@ -430,29 +421,25 @@ public class FormulaParser implements FormulaParserConstants {
           jj_consume_token(OPEN_PAR);
           node = TermLvl1();
           jj_consume_token(CLOSE_PAR);
-    {if (true) return node;}
-          break;
+    return node;
         case MINUS:
           jj_consume_token(MINUS);
           node = Primary();
     ASTNode uiMinus = new ASTNode('-');
     uiMinus.addChild(node);
-    {if (true) return uiMinus;}
-          break;
+    return uiMinus;
         case NOT:
           jj_consume_token(NOT);
           node = TermLvl1();
     ASTNode not = new ASTNode(Type.LOGICAL_NOT);
     not.addChild(node);
-    {if (true) return not;}
-          break;
+    return not;
         case LOG:
           jj_consume_token(LOG);
           child = Primary();
     node = new ASTNode(Type.FUNCTION_LN);
     node.addChild(child);
-    {if (true) return node;}
-          break;
+    return node;
         case STRING:
           t = jj_consume_token(STRING);
     s = t.image;
@@ -492,8 +479,7 @@ public class FormulaParser implements FormulaParserConstants {
     {
       node = new ASTNode(s);
     }
-    {if (true) return node;}
-          break;
+    return node;
         default:
           jj_la1[10] = jj_gen;
           jj_consume_token(-1);
@@ -646,7 +632,12 @@ public class FormulaParser implements FormulaParserConstants {
     throw generateParseException();
   }
 
-  static private final class LookaheadSuccess extends java.lang.Error { }
+  static private final class LookaheadSuccess extends java.lang.Error {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6125196619039674231L; }
   final private LookaheadSuccess jj_ls = new LookaheadSuccess();
   private boolean jj_scan_token(int kind) {
     if (jj_scanpos == jj_lastpos) {

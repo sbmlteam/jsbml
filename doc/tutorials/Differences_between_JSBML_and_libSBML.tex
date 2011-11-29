@@ -3,13 +3,12 @@
   letterpaper,
   11pt,
   headsepline,
-  pointlessnumbers,
-  tablecaptionabove,
-  onelinecaption,
+  numbers=noenddot,
+  caption=oneline,
   headinclude,
   appendixprefix,
-  idxtotoc,
-  bibtotoc,
+  index=totoc,
+  bibliography=totoc,
   twoside,
   titlepage
 ]{scrartcl}
@@ -17,7 +16,6 @@
 \usepackage{JSBMLstyle}
 
 \hypersetup{
-  bookmarksopen={true},
   bookmarksopenlevel={2},
   bookmarksnumbered={true},
   breaklinks={true},
@@ -25,7 +23,7 @@
   pdfpagemode={UseOutlines},
   pdftitle={A short description of the main differences between
   JSBML and libSBML},
-  pdfauthor={Andreas Dr\"ager} {Nicolas Rodriguez} { Marine Dumousseau} { Alexander D\"orr} {Clemens Wrzodek} {Nicolas Le Nov{\`e}re} {Andreas Zell} {Michael Hucka},
+  pdfauthor={Andreas Dr\"ager} {Nicolas Rodriguez} {Marine Dumousseau} {Alexander D\"orr} {Clemens Wrzodek} {Nicolas Le Nov{\`e}re} {Andreas Zell} {Michael Hucka},
   pdfsubject={Software guide},
   pdfkeywords={JSBML} {libSBML} {Java} {SBML} {API} {LaTeX} {code examples},
   pdfview={FitV},

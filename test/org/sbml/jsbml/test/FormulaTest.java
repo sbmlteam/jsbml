@@ -21,7 +21,6 @@
 package org.sbml.jsbml.test;
 
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLException;
@@ -92,7 +91,7 @@ public class FormulaTest {
 			System.out.printf("[OUT]:\t%s\n", testNode.toFormula());
 			System.out.printf("[LTX]:\t%s\n", testNode.toLaTeX());
 
-			AssignmentRule as = new AssignmentRule(2, 4);
+//			AssignmentRule as = new AssignmentRule(2, 4);
 			Model m = new Model(2, 4);
 			FunctionDefinition fd = new FunctionDefinition("f", 2, 4);
 			m.addFunctionDefinition(fd);
