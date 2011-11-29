@@ -711,6 +711,8 @@ public class SBMLWriter {
 				// that is not  yet linked to a SBMLDocument.
 				allNamespacesDefined = false;
 			}
+			// TODO : to be able to write broken annotations where the namespace declaration is missing
+			// we need to add dummy namespace here !! Or remove the namespace awareness on the writer !!
 				
 			StringTools.append(annotationBeginning, Character.valueOf('>'),
 					Character.valueOf('\n'), annotation.getNonRDFannotation(),
@@ -749,7 +751,7 @@ public class SBMLWriter {
 					}
 				}
 			} finally {
-				if (domConversionDone) {
+				if (domConversionDone) {	
 					converter.writeFragment(domDocument.getFirstChild()
 							.getChildNodes(), writer);
 				}
@@ -1077,11 +1079,27 @@ public class SBMLWriter {
 	 */
 	private void writeMessage(Constraint sbase, SMOutputElement element,
 			XMLStreamWriter writer, String sbmlNamespace, int indent)
-			throws XMLStreamException {
+			throws XMLStreamException 
+	{
+	
+		String whitespaces = createIndentationString(indent);
+		element.addCharacters("\n");
+		// set the indentation for the math opening tag			
+		element.setIndentation(whitespaces, indent + indentCount, indentCount);
+
+		// Creating an SMOutputElement to be sure that the previous nested element tag is closed properly.
+		SMNamespace sbmlSMNamespace = element.getNamespace();
+		SMOutputElement messageElement = element.addElement(sbmlSMNamespace, "message");
+		messageElement.setIndentation(createIndentationString(indent + 2), indent + indentCount, indentCount);
+		
+		writer.writeCharacters(whitespaces);
 		writer.writeCharacters("\n");
-    XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, indent,
-      indentCount, indentChar);
+		
+		XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, indent,
+				indentCount, indentChar);
 		xmlNodeWriter.write(sbase.getMessage());
+		
+		writer.writeCharacters(whitespaces);
 	}
 
 	/**
