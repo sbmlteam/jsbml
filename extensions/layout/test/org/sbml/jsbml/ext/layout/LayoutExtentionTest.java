@@ -117,14 +117,14 @@ public class LayoutExtentionTest {
 		assertEquals("15.0", Double.toString(end.getY()));
 		assertEquals("12.0", Double.toString(end.getZ()));
 		SpeciesReferenceGlyph speciesReferenceGlyph = reactionGlyph
-				.getListOfSpeciesReferencesGlyph().get(0);
+				.getListOfSpeciesReferenceGlyphs().get(0);
 		assertEquals("SpeciesGlyph_1", speciesReferenceGlyph.getSpeciesGlyph());
     assertEquals("SpeciesReference_1",
       speciesReferenceGlyph.getSpeciesReference());
 		assertEquals("SpeciesReferenceGlyph_1", speciesReferenceGlyph.getId());
 		assertEquals("substrate",
 				speciesReferenceGlyph.getSpeciesReferenceRole());
-		assertEquals(2, reactionGlyph.getListOfSpeciesReferencesGlyph().size());
+		assertEquals(2, reactionGlyph.getListOfSpeciesReferenceGlyphs().size());
 		curve = speciesReferenceGlyph.getCurve();
 		ListOf<CurveSegment> listOfCurveSegments = curve
 				.getListOfCurveSegments();
