@@ -202,7 +202,8 @@ public class TestIncompatibilities {
 
 	  }
 	  
-	  @Test public void test_Compartment_unsetVolume()
+	  @SuppressWarnings("deprecation")
+    @Test public void test_Compartment_unsetVolume()
 	  {
 		C.setLevel(1);
 		C.setVersion(2);

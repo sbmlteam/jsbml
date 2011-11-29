@@ -94,6 +94,7 @@ public class FormulaTest {
 
 			AssignmentRule as = new AssignmentRule(2, 4);
 			Model m = new Model(2, 4);
+			m.addRule(as);
 			FunctionDefinition fd = new FunctionDefinition("f", 2, 4);
 			m.addFunctionDefinition(fd);
 			//as.setMath(ASTNode.parseFormula("f(a, b, c, d)"));

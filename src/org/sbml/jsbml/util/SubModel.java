@@ -331,7 +331,7 @@ public class SubModel {
 
     private static void processUnitsMap(Map<String, UnitDefinition> unitsMap, Model model, KineticLaw kineticLaw) {
 
-    	if (kineticLaw.getNumLocalParameters() > 0) {
+    	if (kineticLaw.getLocalParameterCount() > 0) {
     		for (LocalParameter parameter : kineticLaw.getListOfLocalParameters()) {
     			processUnitsMap(unitsMap, model, parameter.getUnits());
     		}
