@@ -1056,7 +1056,6 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	private static void setParentSBMLObject(ASTNode node, MathContainer parent,
 			int depth) {
-		node.setParent(null);
 		node.parentSBMLObject = parent;
 		for (ASTNode child : node.listOfNodes) {
 			setParentSBMLObject(child, parent, depth + 1);
