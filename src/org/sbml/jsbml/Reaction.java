@@ -1011,11 +1011,13 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 */
 	private boolean references(ListOf<? extends SimpleSpeciesReference> list,
 			Species s) {
-		for (SimpleSpeciesReference specRef : list) {
-			if (specRef.getSpecies().equals(s.getId())) {
-				return true;
-			}
-		}
+    if (list != null) {
+      for (SimpleSpeciesReference specRef : list) {
+        if (specRef.getSpecies().equals(s.getId())) {
+          return true;
+        }
+      }
+    }
 		return false;
 	}
 
