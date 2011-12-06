@@ -19,6 +19,8 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.util.Map;
+
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
@@ -139,6 +141,22 @@ public class SpeciesGlyph extends GraphicalObject {
 			}
 		}
 			return true;
+	}
+	
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+	  Map<String, String> attributes = super.writeXMLAttributes();
+	  
+	  if (isSetId()) {
+	    attributes.remove("id");
+	    attributes.put(LayoutConstant.shortLabel + ":id", getId());
+	  }
+	  if (isSetSpecies()) {
+	    attributes.remove("species");
+	    attributes.put(LayoutConstant.shortLabel + ":species", getSpecies());
+	  } 
+	  
+	  return attributes;
 	}
 
 	
