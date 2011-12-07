@@ -43,17 +43,19 @@ public class Start extends Point {
   /**
    * @param start
    */
-  public Start(Start start) {
-    super(start);
+  public Start(Point point) {
+	  super(point);
+	  clonePointAttributes(point, this);
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.layout.Point#clone()
    */
   @Override
-  public Point clone() {
+  public Start clone() {
     return new Start(this);
   }
 
-
+   
+ 
 }

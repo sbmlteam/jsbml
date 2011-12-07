@@ -43,8 +43,9 @@ public class End extends Point {
   /**
    * @param end
    */
-  public End(End end) {
-    super(end);
+  public End(Point end) {
+	  super(end);
+	  clonePointAttributes(end, this);
   }
 
   /* (non-Javadoc)
@@ -55,4 +56,5 @@ public class End extends Point {
     return new End(this);
   }
 
+  
 }

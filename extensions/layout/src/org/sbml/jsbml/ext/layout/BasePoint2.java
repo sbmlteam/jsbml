@@ -34,4 +34,18 @@ public class BasePoint2 extends Point {
    */
   private static final long serialVersionUID = -7781069728939292255L;
 
+  public BasePoint2() {
+	super();
+  }
+  
+  public BasePoint2(Point point) {
+	  super(point);
+	  clonePointAttributes(point, this);
+	}
+
+@Override
+  public BasePoint2 clone() {
+	return new BasePoint2(this);
+  }
+ 
 }

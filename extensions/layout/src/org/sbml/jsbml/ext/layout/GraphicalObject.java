@@ -213,7 +213,7 @@ public class GraphicalObject extends AbstractNamedSBase {
 	  double x, double y, double z) {
 	  BoundingBox bb = createBoundingBox();
 	  bb.createDimensions(width, height, depth);
-	  bb.createPoint(x, y, z);
+	  bb.createPosition(x, y, z);
 	  return bb;
 	}
 	

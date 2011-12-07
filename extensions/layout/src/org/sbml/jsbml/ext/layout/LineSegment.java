@@ -152,7 +152,6 @@ public class LineSegment extends AbstractNamedSBase {
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   public boolean isIdMandatory() {
-    // TODO Auto-generated method stub
     return false;
   }
 
@@ -178,6 +177,9 @@ public class LineSegment extends AbstractNamedSBase {
 		if(this.end != null){
 			this.end.fireNodeRemovedEvent();
 		}
+		if (!(end instanceof End)) {
+			end = new End(end);
+		}
 		this.end = end;
 		registerChild(this.end);
 	}
@@ -190,8 +192,70 @@ public class LineSegment extends AbstractNamedSBase {
 		if(this.start != null){
 			this.start.fireNodeRemovedEvent();
 		}
+		if (!(start instanceof Start)) {
+			start = new Start(start);
+		}
 		this.start = start;
 		registerChild(this.start);
+	}
+
+	/**
+	 * Creates, sets and returns a {@link Point}
+	 *
+	 * @return new {@link Point} object.
+	 */
+	public Point createStart() {
+		Point p = new Start();
+		setStart(p);
+		return p;
+	}
+	
+	/**
+	 * Creates, sets and returns a {@link Point} based on the
+	 * given values.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return new {@link Point} object.
+	 */
+	public Point createStart(double x, double y, double z) {
+		Point p = new Start();
+		p.setX(x);
+		p.setY(y);
+		p.setZ(z);
+		setStart(p);
+		return p;
+	}
+
+	
+	/**
+	 * Creates, sets and returns a {@link Point}
+	 *
+	 * @return new {@link Point} object.
+	 */
+	public Point createEnd() {
+		Point p = new End();
+		setStart(p);
+		return p;
+
+	}
+	
+
+	/**
+	 * Creates, sets and returns a {@link Point} based on the
+	 * given values.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return new {@link Point} object.
+	 */
+	public Point createEnd(double x, double y, double z) {
+		Point p = new End();
+		p.setX(x);
+		p.setY(y);
+		p.setZ(z);
+		setEnd(p);
+		return p;
 	}
 
 }

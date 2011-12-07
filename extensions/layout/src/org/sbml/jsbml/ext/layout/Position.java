@@ -33,4 +33,18 @@ public class Position extends Point {
    */
   private static final long serialVersionUID = 2969810879942863084L;
 
+  public Position() {
+	super();
+  }
+  
+  public Position(Point point) {
+	  super(point);
+	  clonePointAttributes(point, this);
+	}
+
+@Override
+  public Position clone() {
+	return new Position(this);
+  }
+  
 }

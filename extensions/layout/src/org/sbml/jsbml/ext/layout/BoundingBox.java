@@ -252,10 +252,14 @@ public class BoundingBox extends AbstractNamedSBase {
 			oldValue.fireNodeRemovedEvent();
 		}
 		if(this.position != null){
+			if (! (this.position instanceof Position)) {
+				this.position = new Position(this.position);
+			}
 			this.position.fireNodeAddedEvent();
 		}
 	}
 
+		
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
@@ -291,7 +295,18 @@ public class BoundingBox extends AbstractNamedSBase {
     setDimensions(d);
     return d;
   }
-  
+
+  /**
+   * Creates, sets and returns a {@link Dimensions}
+   *	
+   * @return new {@link Dimensions} object.
+   */
+  public Dimensions createDimensions() {
+    Dimensions d = new Dimensions();
+    setDimensions(d);
+    return d;
+  }
+
   
   /**
    * Creates, sets and returns a {@link Point} based on the
@@ -301,13 +316,24 @@ public class BoundingBox extends AbstractNamedSBase {
    * @param z
    * @return new {@link Point} object.
    */
-  public Point createPoint(double x, double y, double z) {
-    Point p = new Point();
+  public Point createPosition(double x, double y, double z) {
+    Point p = new Position();
     p.setX(x);
     p.setY(y);
     p.setZ(z);
     setPoint(p);
     return p;
   }
-  
+
+  /**
+   * Creates, sets and returns a {@link Point}
+   * 
+   * @return new {@link Point} object.
+   */
+  public Point createPosition() {
+    Point p = new Position();
+    setPoint(p);
+    return p;
+  }
+
 }
