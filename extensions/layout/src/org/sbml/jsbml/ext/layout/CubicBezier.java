@@ -169,6 +169,9 @@ public class CubicBezier extends LineSegment {
 			this.basePoint1 = null;
 			oldValue.fireNodeRemovedEvent();
 		}
+		if (!(basePoint1 instanceof BasePoint1)) {
+			basePoint1 = new BasePoint1(basePoint1);
+		}
 		this.basePoint1 = basePoint1;
 		registerChild(this.basePoint1);
 	}
@@ -183,8 +186,68 @@ public class CubicBezier extends LineSegment {
 			this.basePoint2 = null;
 			oldValue.fireNodeRemovedEvent();
 		}
+		if (!(basePoint2 instanceof BasePoint1)) {
+			basePoint2 = new BasePoint2(basePoint2);
+		}
 		this.basePoint2 = basePoint2;
 		registerChild(this.basePoint2);
 	}
 
+	/**
+	 * Creates, sets and returns a {@link Point}
+	 *
+	 * @return new {@link Point} object.
+	 */
+	public Point createBasePoint1() {
+		Point p = new BasePoint1();
+		setBasePoint1(p);
+		return p;
+	}
+	
+	/**
+	 * Creates, sets and returns a {@link Point} based on the
+	 * given values.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return new {@link Point} object.
+	 */
+	public Point createBasePoint1(double x, double y, double z) {
+		Point p = new BasePoint1();
+		p.setX(x);
+		p.setY(y);
+		p.setZ(z);
+		setBasePoint1(p);
+		return p;
+	}
+
+	/**
+	 * Creates, sets and returns a {@link Point}
+	 *
+	 * @return new {@link Point} object.
+	 */
+	public Point createBasePoint2() {
+		Point p = new BasePoint2();
+		setBasePoint2(p);
+		return p;
+	}
+	
+	/**
+	 * Creates, sets and returns a {@link Point} based on the
+	 * given values.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return new {@link Point} object.
+	 */
+	public Point createBasePoint2(double x, double y, double z) {
+		Point p = new BasePoint2();
+		p.setX(x);
+		p.setY(y);
+		p.setZ(z);
+		setBasePoint2(p);
+		return p;
+	}
+
+	
 }

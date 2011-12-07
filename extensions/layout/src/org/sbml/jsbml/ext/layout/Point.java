@@ -69,16 +69,17 @@ public class Point extends AbstractNamedSBase {
 	 */
 	public Point(Point point) {
 		super(point);
-		if (point.isSetX()) {
-			this.x = point.getX();
-		}
-		if (point.isSetY()) {
-			this.y = point.getY();
-		}
-		if (point.isSetZ()) {
-			this.z = point.getZ();
-		}
+		clonePointAttributes(point, this);
 	}
+
+	public Point(double x, double y, double z) {
+		this();
+		setX(x);
+		setY(y);
+		setZ(z);
+	}
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -89,6 +90,19 @@ public class Point extends AbstractNamedSBase {
 		return new Point(this);
 	}
 	
+	protected void clonePointAttributes(Point point, Point cloned) {
+
+		if (point.isSetX()) {
+			cloned.setX(point.getX());
+		}
+		if (point.isSetY()) {
+			cloned.setY(point.getY());
+		}
+		if (point.isSetZ()) {
+			cloned.setZ(point.getZ());
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
