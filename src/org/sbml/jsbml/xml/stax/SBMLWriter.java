@@ -1088,12 +1088,24 @@ public class SBMLWriter {
 			XMLStreamWriter writer, String sbmlNamespace, int indent)
 			throws XMLStreamException {
 
+		String whitespaces = createIndentationString(indent);
+		element.addCharacters("\n");
+		// set the indentation for the next element
+		element.setIndentation(whitespaces, indent + indentCount, indentCount);
+
+		// Creating an SMOutputElement to be sure that the previous nested element tag is closed properly.
+		SMNamespace sbmlSMNamespace = element.getNamespace();
+		SMOutputElement messageElement = element.addElement(sbmlSMNamespace, "message");
+		messageElement.setIndentation(createIndentationString(indent + 2), indent + indentCount, indentCount);
+
+		writer.writeCharacters(whitespaces);
 		writer.writeCharacters("\n");
 
 		XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer,
 				createIndentationString(indent));
 
 		xmlNodeWriter.write(sbase.getMessage());
+		writer.writeCharacters(whitespaces);
 	}
 
 	/**

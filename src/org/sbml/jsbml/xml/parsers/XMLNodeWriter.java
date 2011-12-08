@@ -106,7 +106,7 @@ public class XMLNodeWriter {
 			isRoot = true;
 		}
 		
-		if (xmlNode.isElement()) {
+		if (xmlNode.isElement() && !xmlNode.getName().equals("message")) {
 			if (xmlNode.getPrefix() != null) {
 				writer.writeStartElement(xmlNode.getPrefix(), xmlNode.getName(), xmlNode.getURI());
 			} else {
@@ -117,59 +117,60 @@ public class XMLNodeWriter {
 				writer.writeCharacters("\n");
 				writer.writeCharacters(indent + "  ");				
 			}
+
+			int nbNamespaces = xmlNode.getNamespacesLength();
+
+			for (int i = 0; i < nbNamespaces; i++) {
+
+				String uri = xmlNode.getNamespaceURI(i);
+				String prefix = xmlNode.getNamespacePrefix(i);
+
+				writer.writeNamespace(prefix, uri);
+
+			}
+
+			// write the xmlNode attributes
+			int nbAttributes = xmlNode.getAttributesLength();
+
+			for (int i = 0; i < nbAttributes; i++) {
+				String attrName = xmlNode.getAttrName(i);
+				String attrURI = xmlNode.getAttrURI(i);
+				String attrPrefix = xmlNode.getAttrPrefix(i);
+				String attrValue = xmlNode.getAttrValue(i);
+
+				if (attrPrefix.length() != 0) {
+					// TODO : check if we need to pass null for URI if not defined and if we could use only one method
+					writer.writeAttribute(attrPrefix, attrURI, attrName, attrValue);
+				} else if (attrURI.length() != 0) {
+					writer.writeAttribute(attrURI, attrName, attrValue);
+				} else {
+					writer.writeAttribute(attrName, attrValue);
+				}
+			}
 		} else if (xmlNode.isText()) {
-			
+
 			logger.debug("writing some text : characters = @" + xmlNode.getCharacters() + "@");
-			
+
 			writer.writeCharacters(xmlNode.getCharacters());
 		}
 
-		int nbNamespaces = xmlNode.getNamespacesLength();
-		
-		for (int i = 0; i < nbNamespaces; i++) {
-			
-			String uri = xmlNode.getNamespaceURI(i);
-			String prefix = xmlNode.getNamespacePrefix(i);
-			
-			writer.writeNamespace(prefix, uri);
-			
-		}
-		
-		// write the xmlNode attributes
-		int nbAttributes = xmlNode.getAttributesLength();
-		
-		for (int i = 0; i < nbAttributes; i++) {
-			String attrName = xmlNode.getAttrName(i);
-			String attrURI = xmlNode.getAttrURI(i);
-			String attrPrefix = xmlNode.getAttrPrefix(i);
-			String attrValue = xmlNode.getAttrValue(i);
-			
-			if (attrPrefix.length() != 0) {
-				// TODO : check if we need to pass null for URI if not defined and if we could use only one method
-				writer.writeAttribute(attrPrefix, attrURI, attrName, attrValue);
-			} else if (attrURI.length() != 0) {
-				writer.writeAttribute(attrURI, attrName, attrValue);
-			} else {
-				writer.writeAttribute(attrName, attrValue);
-			}
-		}
 
 		long nbChildren = xmlNode.getChildCount();
-		
+
 		for (int i = 0; i < nbChildren; i++) {
 			XMLNode child = xmlNode.getChildAt(i);
 			write(child);
 		}
 
-		if (xmlNode.isElement()) {
+		if (xmlNode.isElement() && !xmlNode.getName().equals("message")) {
 			if (isRoot) {
 				writer.writeCharacters("\n");
 				writer.writeCharacters(indent);				
 			}
-			
+
 			writer.writeEndElement();
 		}
 	}
-	
+
 	
 }
