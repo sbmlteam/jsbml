@@ -1,153 +1,85 @@
 	       JSBML NEWS -- History of user-visible changes
 
+
 ======================================================================
-Version 0.8-rc1 (xx-xx-2011)
+Version 0.8-rc1 (08-12-2011)
 ======================================================================
 
 * New Features:
 
-  - NamedSBase has now the new method isIdMandatory in order to check
-    whether the identifier of this element must be defined in the SBML
-    representation.
-
-  - The SBMLReader can now be used in connection with a 
-    TreeNodeChangeListener. This allows users to keep track about the
-    parsing process of XML files.
   
-  - The new interface TreeNodeWithChangeSupport separates manipulation
-    of change listeners from SBase, allowing multiple implementations.
-
-  - The JavaDoc has been extended: It now also includes a statement
-    when ever a method might throw a PropertyNotAvailableException.
-    This class was called PropertyNotAvailableError before. In order
-    to avoid confusion with Java Errors, this class has been renamed.
-    Also the super type XMLError has been renamed to XMLException in
-    order to come closer to the default Java naming convention in
-    JSBML.
-  
-  - ASTNode has now a userObject attribute through which any 
-    computation result or other additional information can be stored
-    in the tree.
-  
-  - Restructured the extension package: There is now one extra 
-    directory including a specialized source folder for each extension. 
-    The core does no longer contain the ext package. Besides the source
-    folder, there is also an extra doc folder that contains the 
-    description of the type hierarchy of the implementation for this
-    package.
-    
-  - Data structures for the spatial extension are implemented.
-  
-  - When accessing the i-th child of an AbstractSBase, it is no longer
-    necessary to sort all extension packages as these are now 
-    maintained in a sorted data structure.
-  
-  - The compile method in ASTNode has become more efficient now by
-    restructuring its case distinctions.
-  
-  - Implemented the hashCode method for all elements belonging to the
-    hierarchical SBML data structure (SBase, Annotation, ASTNode 
-    etc.).
-  
-  - In order to get closer to the Java package structure, the change 
-    listener for SBML objects is now located in the package 
-    org.sbml.jsbml.util package. For the sake of more similarity to
-    standard Java classes and a greater flexibility, the 
-    SBaseChangedListener has been renamed to TreeNodeChangeListener
-    and now extends the PropertyChangeListener in the package 
-    java.beans. The same holds for the corresponding
-    SBaseChangedEvent that is now called TreeNodeChangeEvent and also
-    located in the package org.sbml.jsbml.util. Furthermore, all 
-    elements of the SBML tree, including annotations, ASTNodes etc.
-    now make use of change events and notify their listeners, which
-    are now organized in a list instead of a set to make sure that
-    they are always called in the same order. The management of these
-    listeners is now performed in AbstractTreeNode, the new super 
-    class for all recursive elements in JSBML. Thanks to Sarah Rachel
-    Müller vom Hagen to support this effort.
-  
-  - Notes, annotations, and extension packages are now part of the tree
-    representation of the JSBML data structure.
-    
-  - The new super class AnnotationElement has been introduced to gather
-    all those elements that can be used to annotate instances of SBase.
-      
-  - The new Type AbstractTreeNode implements basic recursive functions
-    and is now used as the new super class for ASTNode, AbstractSBase,
-    the new type AnnotationElement, and XMLToken (as the super class of
-    XMLNode). In this way, recursion and iteration over child elements
-    within the SBML data structure now follow a unified structure and
-    can be accessed uniquely within all such elements, including 
-    annotations and extensions. Furthermore, the new interface
-    TreeNodeWithChangeSupport that is extended by SBase and 
-    AbstractTreeNode gathers methods to add, remove, and notify listeners
-    about changes within the data structure (such as adding, removing
-    or exchanging child nodes, or change of any attributes).
-    
-  - A simple implementation of AbstractTreeNode, the class 
-    TreeNodeAdapter has been implemented that contains some methods
-    also present in the interface MutableTreeNode. However, it does not
-    fully implement this interface because there are also some methods
-    that are not suitable for JSBML purposes. The TreeNodeAdapter works
-    as a wrapper class for elements that are part of the SBML data 
-    hierarchy but that do not implement the TreeNode interface. With this
-    adapter, it is possible to include the list of Creators within a 
-    history that is not a ListOf object, or the list of CVTerms in an
-    annotation in the hierarchy.
-    
-  - Sebastian Fröhlich provided some contributions to the parser for the 
-    SBML level 3 layout extension package. JSBML now  supports experimental
-    reading for this package. The full stable API for reading/writing of
-    SBML level 3 packages is planned for the next release of JSBML.
-
-  - The SBMLReader now follows the factory pattern by providing static
-    methods to directly read SBML content from Files, InputStreams, or
-    Strings. Thanks to Martin Gräßlin for this idea in tracker issue 
-    #3300433.
-
-  - JSBML now provides a Maven script file. Thanks to Igor Rodchenkov
-    for contributing this file.
-
   - Where necessary, initDefaults has been complemented with an 
     additional method, for which the level/version combination can be
     directly specified, i.e., it is now possible for those elements to
     set their defaults as these would be for the specified 
     level/version combination.
 
-  - A basic check to avoid setting the same meta identifier more than
-    once has been implemented. It maintains a set of metaIds on the
-    SBMLDocument. Thanks to Stefan Hoops for making clear that such a 
-    check is mandatory.
-    
-  - A check for duplicate identifiers has been implemented. JSBML now
-    registers all elements that might have an identifier in hashes
-    mapping the id to the object itself. Different rules depending on
-    the specifications of the levels and versions of SBML ensure that
-    only allowable identifiers can be accepted. To this end, the new
-    interface UniqueNamedSBase tags all those elements whose id is
-    intended to be unique within one model.
+  - A check for duplicate id and metaid has been implemented. The new
+    interface UniqueNamedSBase as been added to tag all the elements 
+    whose id is intended to be unique within one model.
         
   - When adding an element with undefined Level/Version combination
     or at least with undefined Version to an element whose L/V 
     configuration has been defined, JSBML now recursively updates this
     configuration for the child element. In case of differing L/V
     configurations an exception will be thrown on adding the element.
+
+  - The SBMLReader now provides static methods to directly read SBML content
+    from Files, InputStreams, or Strings. Thanks to Martin Gräßlin for this
+    idea in tracker issue #3300433.
+
+  - ASTNode has now a userObject attribute through which any 
+    computation result or any additional information can be stored
+    in the tree.  
+  
+  - The compile method in ASTNode has become more efficient now by
+    restructuring its case distinctions.
+
+  - JSBML now provides a Maven script file. Thanks to Igor Rodchenkov
+    for contributing this file.
+    
+  - Every exceptions in JSBML are now extending the java.lang.Exception 
+    class even if they are named XXXError to be closer to the libSBML API.
+      
+  - The utilities classes that helped to catch changes in SBase elements 
+    have been updated to work on TreeNode instead of SBase to make them more
+    generic. Now changes in annotation, notes or ASTNode can be watched.
+    Thanks to Sarah Rachel Müller vom Hagen to support this effort.
+  
     
 * Bug Fixes:
 
-  - When writing SBML Level 1 the name attribute (which has become the
-    id attribute in later SBML versions) was never written because JSBML
-    uses the id only as an internal representation. The check for 
+  - [Tracker item #3434930]: the constraint message element should be 
+    written properly to XML now. 
+  
+  - Corrected the way created and modified dates where written and made them
+    mandatory only for the model element.
+  
+  - Added the java system properties 
+    javax.xml.stream.XML[Output|Event|Input]Factory directly before starting
+    to write or read an SBML file. This will ensure that the correct XML
+    parser is used and prevent some exceptions to happen if a different
+    parser was present in the java classpath.  
+  
+  - [Tracker item #3380106]: the getAnnotationString() should now always
+    return the same XML as when the model is written to a file.
+  
+  - Corrected the org.sbml.jsbml.util.Maths class, where some trigonometric
+    functions were incorrectly calculated.
+
+  - When writing SBML Level 1 the name attribute was never written because
+    JSBML uses the id only as an internal representation. The check for 
     Level 1 name attributes was not correct.
 
-  - In SBML Level 1 MathML code was written in KineticLaws although
-    in this SBML version formulas are represented in infix notation only.
+  - In SBML Level 1 math code was written in MathML although
+    in this SBML version math are represented in infix notation only
+    and are stored in the 'formula' attribute.
 
   - When creating a Parameter object using the constructor that takes
     a LocalParameter as its only argument, a call to setConstant(true)
     was always performed, irrespective of the fact that for Level = 1
     models this method throws a PropertyNotAvailableError. Thanks to
-    Sarah R. Müller vom Hagen for reporting this problem.
+    Sarah Rachel Müller vom Hagen for reporting this problem.
 
   - [Tracker issue #3323886]: The units of Species were not derived
     correctly because if the units were not explicitly defined, the method
@@ -156,21 +88,16 @@ Version 0.8-rc1 (xx-xx-2011)
     surrounding compartment, the hasOnlySubstanceUnits, and spatialSizeUnits
     attributes depending on the Level/Version configuration.
 
-  - Cloning of SBMLDocuments was not done correctly: The set of already 
-    existing metaIds was initialized after adding the model to the document.
-    In the mean time, there could already be access to this set. 
-
   - When reading SBML content from a file or writing JSBML data structures
     as SBML to a file, the SBMLReader/Writer did not close streams after 
     finishing. This caused that sometimes files could not be opened by other
     programs although writing was already done. Unfortunately, by correcting
-    this bug, an IOException needs to be thrown, but previously, a 
-    FileNotFoundException was already sufficient. Hence, users need to catch
+    this bug, an IOException needs to be thrown, previously only a 
+    FileNotFoundException was thrown. Hence, users need to catch
     a different exception now when reading/writing SBML.
 
   - Renamed the getters for Creator and ModifiedDates in History to
-    getListOfCreators() and getListOfModifiedDates (before it was spelled
-    without "Of", for the sake of having equal names for all such getters.
+    getListOfCreators() and getListOfModifiedDates.
 
   - If the Level/Version combination was not set, the identifier of
     NamedSBases was sometimes not written to an SBML file.
@@ -178,13 +105,13 @@ Version 0.8-rc1 (xx-xx-2011)
   - [Tracker issue #3300430]: In some condition, the JVM was not checking
     the type of an Object before adding it to a typed variable which later
     lead to some ClassCastException that prevented jsbml to save some 
-    models. Thanks to Martin Graesslin to report the bugs alongside some 
+    models. Thanks to Martin Gräßlin to report the bugs alongside some 
     unit tests and to help resolved it.
     
   - [Tracker issue #3300490] : The method SBase.getNotesString() was 
-    returning null instead of the empty string, as stated in the java 
+    returning null instead of the empty String, as stated in the Java 
     documentation. This has been corrected and the empty String is returned
-    now. Thanks to Martin Graesslin to report the bugs alongside some 
+    now. Thanks to Martin Gräßlin to report the bugs alongside some 
     unit tests.
        
   - The SBML level 1 rules were incorrectly read, now when the 'type' 
@@ -201,19 +128,23 @@ Version 0.8-rc1 (xx-xx-2011)
     been improved and the correct mathML element is created when saving the
     formula to XML. 
   
-  - The attribute denominator on level1v2 SpeciesReferences was never read.
-    Thanks to the numerus models in the SBML Test Suite to help us detecting 
-    this problem.
+  - The attribute denominator on SpeciesReferences, in SBML Level 1 
+    Version 2, was never read. Thanks to the many models in the SBML Test
+    Suite to help us detecting this problem.
+  
+  - Implemented the hashCode method for all elements belonging to the
+    hierarchical SBML data structure (SBase, Annotation, ASTNode 
+    etc.).
+  
+  - The ASTNode.setParentSBMLObject has been corrected.
   
 * Known issues :
 
-  - ?? The support for the mathML elements notanumber and infinity is not 
-    complete. ?? NaN not read properly from formula !
-  
   - Reading of more than one RDF Description elements in the RDF annotation 
     block (the official SBML annotation scheme) is not supported at the 
     moment. Planned for the next major release. 
   
+
 ======================================================================
 Version 0.8-b2 (18-04-2011)
 ======================================================================
@@ -363,6 +294,7 @@ For more details, please visit http://sbml.org/Software/JSBML
     functionDefinition but the id is not a valid id, the type of the ASTNode
     is not set properly, so there are some errors when trying to use the
     corresponding ASTNode tree. (cf model generated by COBRA) 
+
 
 -----------------------------------------------------------------------------
 $URL$
