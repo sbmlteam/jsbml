@@ -69,7 +69,7 @@ public class BoundingBox extends AbstractNamedSBase {
 		}
 
 		if (boundingBox.isSetPosition()) {
-			this.position = boundingBox.getPoint().clone();
+			this.position = boundingBox.getPosition().clone();
 		}
 	}
 
@@ -128,7 +128,7 @@ public class BoundingBox extends AbstractNamedSBase {
 		}
 		if (isSetPosition()) {
 			if (pos == index) {
-				return getPoint();
+				return getPosition();
 			}
 			pos++;
 		}
@@ -171,14 +171,6 @@ public class BoundingBox extends AbstractNamedSBase {
 	 * 
 	 * @return
 	 */
-	public Point getPoint() {
-		return position;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
 	public Point getPosition() {
 		return position;
 	}
@@ -216,13 +208,6 @@ public class BoundingBox extends AbstractNamedSBase {
 		return position != null;
 	}
 
-	/**
-	 * @return
-	 */
-	public boolean isSetPoint() {
-		return position != null;
-	}
-
 
 	/**
 	 * 
@@ -237,26 +222,23 @@ public class BoundingBox extends AbstractNamedSBase {
 		this.dimensions = dimensions;
 		registerChild(this.dimensions);
 	}
-	
-	public void setPosition(Point point) {
-		setPoint(point);
-	}
-  /**
+
+	/**
 	 * 
-	 * @param position
+	 * @param point
 	 */
-	public void setPoint(Point point) {
-		Point oldValue = this.position;
-		this.position = point;
-		if(oldValue != null){
-			oldValue.fireNodeRemovedEvent();
-		}
-		if(this.position != null){
-			if (! (this.position instanceof Position)) {
-				this.position = new Position(this.position);
-			}
-			this.position.fireNodeAddedEvent();
-		}
+	public void setPosition(Point point) {
+	  Point oldValue = this.position;
+	  this.position = point;
+	  if(oldValue != null){
+	    oldValue.fireNodeRemovedEvent();
+	  }
+	  if(this.position != null){
+	    if (! (this.position instanceof Position)) {
+	      this.position = new Position(this.position);
+	    }
+	    this.position.fireNodeAddedEvent();
+	  }
 	}
 
 		
@@ -309,30 +291,30 @@ public class BoundingBox extends AbstractNamedSBase {
 
   
   /**
-   * Creates, sets and returns a {@link Point} based on the
+   * Creates, sets and returns a {@link Position} based on the
    * given values.
    * @param x
    * @param y
    * @param z
-   * @return new {@link Point} object.
+   * @return new {@link Position} object.
    */
-  public Point createPosition(double x, double y, double z) {
-    Point p = new Position();
+  public Position createPosition(double x, double y, double z) {
+    Position p = new Position();
     p.setX(x);
     p.setY(y);
     p.setZ(z);
-    setPoint(p);
+    setPosition(p);
     return p;
   }
 
   /**
-   * Creates, sets and returns a {@link Point}
+   * Creates, sets and returns a {@link Position}
    * 
-   * @return new {@link Point} object.
+   * @return new {@link Position} object.
    */
-  public Point createPosition() {
-    Point p = new Position();
-    setPoint(p);
+  public Position createPosition() {
+    Position p = new Position();
+    setPosition(p);
     return p;
   }
 
