@@ -152,7 +152,6 @@ public class SpeciesGlyph extends GraphicalObject {
 	    attributes.put(LayoutConstant.shortLabel + ":id", getId());
 	  }
 	  if (isSetSpecies()) {
-	    attributes.remove("species");
 	    attributes.put(LayoutConstant.shortLabel + ":species", getSpecies());
 	  } 
 	  
