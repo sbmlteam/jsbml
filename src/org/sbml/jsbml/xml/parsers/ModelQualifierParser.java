@@ -22,11 +22,12 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.CVTerm;
-import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.CVTerm.Type;
+import org.sbml.jsbml.SBMLDocument;
 
 /**
  * A {@link ModelQualifierParser} is used to parse the XML elements and
@@ -39,6 +40,8 @@ import org.sbml.jsbml.CVTerm.Type;
  */
 public class ModelQualifierParser implements ReadingParser{
 
+	private Logger logger = Logger.getLogger(ModelQualifierParser.class);
+	
 	/**
 	 * The namespace URI of this ReadingParser.
 	 */
@@ -68,8 +71,13 @@ public class ModelQualifierParser implements ReadingParser{
 	 */
 	private void initialisesModelQualifierMap(){
 		// TODO maybe loading from a file would be better.
-		modelQualifierMap.put("is", Qualifier.BQM_IS);
-		modelQualifierMap.put("isDescribedBy", Qualifier.BQM_IS_DESCRIBED_BY);
+		
+		for (CVTerm.Qualifier qualifier : CVTerm.Qualifier.values()) {
+			if (qualifier.isModelQualifier()) {
+				modelQualifierMap.put(qualifier.getElementNameEquivalent(), qualifier);
+				logger.debug("initialisesModelQualifierMap : " + qualifier.getElementNameEquivalent());
+			}			
+		}
 	}
 
 	/*
