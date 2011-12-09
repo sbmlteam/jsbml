@@ -135,7 +135,7 @@ public class SBMLWriter {
 		try {
 			testDocument = new SBMLReader().readSBMLFile(fileName);
 			
-			// testDocument.checkConsistency();
+			// testDocument.checkConsistency(); 
 			
 			new SBMLWriter().write(testDocument, jsbmlWriteFileName);
 		} catch (XMLStreamException e) {
@@ -1177,7 +1177,7 @@ public class SBMLWriter {
 		// Checking if all the necessary namespaces are defined 
 		// In fact, we could remove the rdfNamespaces map ?
 		
-		if (annotation.getHistory().getNumCreators() > 0) 
+		if (annotation.isSetHistory() && annotation.getHistory().getNumCreators() > 0) 
 		{
 			if (rdfNamespaces.get(JSBML.URI_PURL_ELEMENTS) == null) {
 				writer.writeNamespace("dc", JSBML.URI_PURL_ELEMENTS);
@@ -1190,7 +1190,7 @@ public class SBMLWriter {
 			}
 		}
 		
-		if ((annotation.getHistory().isSetCreatedDate() || annotation.getHistory().isSetModifiedDate())  
+		if (annotation.isSetHistory() && (annotation.getHistory().isSetCreatedDate() || annotation.getHistory().isSetModifiedDate())  
 				&& rdfNamespaces.get(JSBML.URI_PURL_TERMS) == null)
 		{
 			writer.writeNamespace("dcterms", JSBML.URI_PURL_TERMS);
