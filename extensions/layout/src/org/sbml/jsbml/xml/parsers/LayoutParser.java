@@ -584,7 +584,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
           BoundingBox boundingBox = (BoundingBox) contextObject;
           if (elementName.equals("position")) {
             Point point = (Point) newContextObject;
-            boundingBox.setPoint(point);
+            boundingBox.setPosition(point);
             return point;
           } else if (elementName.equals("dimensions")) {
             Dimensions dimensions = (Dimensions) newContextObject;

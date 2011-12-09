@@ -22,7 +22,6 @@ package org.sbml.jsbml.ext.layout;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.ext.qual.QualConstant;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -266,12 +265,8 @@ public class Point extends AbstractNamedSBase {
 
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(QualConstant.shortLabel + ":id", getId());
+			attributes.put(LayoutConstant.shortLabel + ":id", getId());
 		}
-/*		if (isSetName()) { // error to report !!
-			attributes.remove("name");
-			attributes.put(QualConstant.shortLabel + ":name", getName());
-		} */
 		
 		if (isSetX()) {
 			attributes.put(LayoutConstant.shortLabel + ":"
