@@ -162,7 +162,7 @@ public class CVTerm extends AnnotationElement {
 			case BQM_IS_DESCRIBED_BY:
 				return "isDescribedBy";
 			case BQM_IS_DERIVED_FROM:
-				return "isDescribedBy";
+				return "isDerivedFrom";
 			default:
 				return "unknownQualifier";
 			}

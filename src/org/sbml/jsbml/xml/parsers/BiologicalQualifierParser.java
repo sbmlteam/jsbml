@@ -22,6 +22,7 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.SBMLDocument;
@@ -39,6 +40,8 @@ import org.sbml.jsbml.CVTerm.Type;
  */
 public class BiologicalQualifierParser implements ReadingParser {
 
+	private Logger logger = Logger.getLogger(BiologicalQualifierParser.class);
+	
 	/**
 	 * The namespace URI of this ReadingParser.
 	 */
@@ -73,16 +76,12 @@ public class BiologicalQualifierParser implements ReadingParser {
 		
 		// TODO : We need to try to make it work with qualifier that we do not know !!!
 		
-		biologicalQualifierMap.put("encodes", Qualifier.BQB_ENCODES);
-		biologicalQualifierMap.put("hasPart", Qualifier.BQB_HAS_PART);
-		biologicalQualifierMap.put("hasVersion", Qualifier.BQB_HAS_VERSION);
-		biologicalQualifierMap.put("is", Qualifier.BQB_IS);
-		biologicalQualifierMap.put("isDescribedBy", Qualifier.BQB_IS_DESCRIBED_BY);
-		biologicalQualifierMap.put("isEncodedBy", Qualifier.BQB_IS_ENCODED_BY);
-		biologicalQualifierMap.put("isHomologTo", Qualifier.BQB_IS_HOMOLOG_TO);
-		biologicalQualifierMap.put("isPartOf", Qualifier.BQB_IS_PART_OF);
-		biologicalQualifierMap.put("isVersionOf", Qualifier.BQB_IS_VERSION_OF);
-		biologicalQualifierMap.put("occursIn", Qualifier.BQB_OCCURS_IN);
+		for (CVTerm.Qualifier qualifier : CVTerm.Qualifier.values()) {
+			if (qualifier.isBiologicalQualifier()) {
+				biologicalQualifierMap.put(qualifier.getElementNameEquivalent(), qualifier);
+				logger.debug("initialisesBiologicalQualifierMap : " + qualifier.getElementNameEquivalent());
+			}			
+		}
 	}
 
 	/*
