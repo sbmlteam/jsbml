@@ -237,7 +237,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 			return null;
 		} else if (!(isPredefined(id, level) || (Unit.isUnitKind(id, level,
 				version)))) {
-			logger.warn(String.format(
+			logger.debug(String.format(
 					"No such predefined unit %s in SBML Level %d.", id, level));
 			return null;
 		}
@@ -270,7 +270,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if ((level > 1) && (version > 1)) {
 			String resource = u.getKind().getUnitOntologyResource();
 			if (resource != null) {
-			  // metaid will be created upon nessesity.
+			  // metaid will be created upon necessity.
 				u.addCVTerm(new CVTerm(Qualifier.BQB_IS, resource));
 			}
 		}
