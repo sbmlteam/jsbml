@@ -91,7 +91,7 @@ public class LayoutExtentionTest {
 		Dimensions dimensions = boundingBox.getDimensions();
 		assertEquals("390.0", Double.toString(dimensions.getWidth()));
 		assertEquals("210.0", Double.toString(dimensions.getHeight()));
-		Point position = boundingBox.getPoint();
+		Point position = boundingBox.getPosition();
 		assertEquals("5.0", Double.toString(position.getX()));
 		assertEquals("6.0", Double.toString(position.getY()));
 	}
@@ -160,7 +160,7 @@ public class LayoutExtentionTest {
 		Dimensions dimensions = boundingBox1.getDimensions();
 		assertEquals("228.0", Double.toString(dimensions.getWidth()));
 		assertEquals("24.0", Double.toString(dimensions.getHeight()));
-		Point position = boundingBox1.getPoint();
+		Point position = boundingBox1.getPosition();
 		assertEquals("92.0", Double.toString(position.getX()));
 		assertEquals("26.0", Double.toString(position.getY()));
 		TextGlyph textGlyph_2 = textGlyphs.get(1);
@@ -172,7 +172,7 @@ public class LayoutExtentionTest {
 		Dimensions dimensions2 = boundingBox2.getDimensions();
 		assertEquals("229.0", Double.toString(dimensions2.getWidth()));
 		assertEquals("25.0", Double.toString(dimensions2.getHeight()));
-		Point position2 = boundingBox2.getPoint();
+		Point position2 = boundingBox2.getPosition();
 		assertEquals("93.0", Double.toString(position2.getX()));
 		assertEquals("170.0", Double.toString(position2.getY()));
 	}
@@ -193,7 +193,7 @@ public class LayoutExtentionTest {
 		Dimensions dimensions = boundingBox1.getDimensions();
 		assertEquals("240.0", Double.toString(dimensions.getWidth()));
 		assertEquals("25.0", Double.toString(dimensions.getHeight()));
-		Point position = boundingBox1.getPoint();
+		Point position = boundingBox1.getPosition();
 		assertEquals("80.0", Double.toString(position.getX()));
 		assertEquals("26.0", Double.toString(position.getY()));
 	}
