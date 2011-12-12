@@ -996,14 +996,14 @@ public class Species extends Symbol {
 	 */
 	@Deprecated
 	public void setSpeciesType(String speciesType) {
-		if ((getLevel() != 2) && ((getVersion() < 2) || (4 < getVersion()))) {
+		if ((getLevel() != 2) || (getLevel() == 2 && getVersion() == 1)) {
 			throw new PropertyNotAvailableException(TreeNodeChangeEvent.speciesType,
 					this);
 		}
 		if ((speciesType == null) || (speciesType.trim().length() == 0)
 				|| checkIdentifier(speciesType)) {
 			String oldSpeciesType = this.speciesTypeID;
-			speciesType = ((speciesType != null) && (speciesType.trim()
+			this.speciesTypeID = ((speciesType != null) && (speciesType.trim()
 					.length() == 0)) ? null : speciesType;
 			firePropertyChange(TreeNodeChangeEvent.speciesType, oldSpeciesType,
 					this.speciesTypeID);
@@ -1154,7 +1154,7 @@ public class Species extends Symbol {
 					attributes.put("spatialSizeUnits", getSpatialSizeUnits());
 				}
 			}
-			if (getVersion() <= 2) {
+			if (getVersion() >= 2) {
 				if (isSetSpeciesType()) {
 					attributes.put("speciesType", getSpeciesType());
 				}
