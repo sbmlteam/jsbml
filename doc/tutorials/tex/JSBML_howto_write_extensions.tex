@@ -1,0 +1,286 @@
+\section{How to implement extensions in JSBML}
+
+This section presents an example for implementing SBML extensions in JSBML.
+For this, we define the \emph{Example} extension specification and use it to explain the necessary steps to implement it in JSBML.
+
+\subsection{Extending an \texttt{SBase}}
+
+In most cases, you probably want to extend a model.
+Listing~\vref{lst:ModelExtClass} shows the beginning of the class \texttt{ExampleModel} that is an extension to the standard Model of the SBML core.
+\begin{lstlisting}[language=Java,caption={Extending \texttt{AbstractSBasePlugin}},label=lst:ModelExtClass]
+public class ExampleMode extends AbstractSBasePlugin {
+
+  public ExampleModel(Model model) {
+    super(model);
+  }
+
+}
+\end{lstlisting}
+Technically, an extension needs to implement the \texttt{SBasePlugin} interface,
+but since the abstract class \texttt{AbstractSBasePlugin} already implements some important methods, extending that one should be preferred.
+
+In this example, the constructor accepts an object that is a \texttt{Model}, because that is what we want to extend.
+The call to the super constructor will save the given model as the \texttt{SBase} that is being extended in the \texttt{extendedSBase} attribute.
+For convenience, a getModel() method to retrieve the extended model should also be added
+\begin{lstlisting}[language=Java,caption={Convenience method to retrieve the extended model},label=lst:ModelExtGetModel]
+  public Model getModel() {
+    return (Model)extendedSBase;
+  }
+\end{lstlisting}
+
+
+\subsection{Adding new classes}
+
+In almost all cases, extensions introduce new classes.
+Since those new classes are no extensions to existing ones, no extension-specific work has to be done here.
+In the \emph{Example} extension, there is the new \texttt{Foo} class that is an \texttt{SBase} and extends \texttt{AbstractNamedSBase}.
+It has the three attributes \emph{id}, \emph{name}, and \emph{bar}.
+For each attribute, there need to be the following five methods, shown here for the \emph{bar} attribute, which is an integer:
+\begin{lstlisting}[language=Java,float,caption={Convenience method to retrieve the extended model},label=lst:ModelExtFooBar]
+  public int getBar();
+  public boolean isBarMandatory();
+  public boolean isSetBar();
+  public void setBar(int value);
+  public boolean unsetBar();
+\end{lstlisting}
+
+In this special case, \emph{id} and \emph{name} should be unique, so it also implements the \texttt{UniqueNamedSBase} interface.
+Because of that, you will be required to implement the above mentioned methods for \emph{id} anyway, those for \emph{name} are already present in the abstract super class.
+Listing~\vref{lst:ModelExtFooBarDefault} show how those methods should be implemented in general.
+
+\begin{lstlisting}[language=Java,caption={Convenience method to retrieve the extended model},label=lst:ModelExtFooBarDefault]
+  // use Integer, so we can denote unset values as null
+  public Integer bar;
+
+  public int getBar() {
+    if (isSetBar()) {
+      return bar.intValue();
+    }
+    throw new PropertyUndefinedError(ExampleConstant.bar, this);
+  }
+
+  public boolean isBarMandatory() {
+    return true;
+  }
+
+  public boolean isSetBar() {
+    return this.bar != null;
+  }
+
+  public void setBar(int value) {
+    Integer oldBar = this.bar;
+    this.bar = bar;
+    firePropertyChange(ExampleConstant.bar, oldBar, this.bar);
+  }
+
+  public boolean unsetBar() {
+    if (isSetBar()) {
+      Integer oldBar = this.bar;
+      this.bar = null;
+      firePropertyChange(ExampleConstant.bar, oldBar, this.bar);
+      return true;
+    }
+    return false;
+  }
+\end{lstlisting}
+
+Even though some or all of the attributes of a class are mandatory, the default constructor without arguments needs to be defined.
+This is due to the internal working of parsers that read SBML files and create the data structure in memory.
+All attributes can be set after the object has been created.
+
+Nevertheless, some cases are more frequent than other and one can define constructors for those cases.
+On the other hand, creating a separate constructor for each combination of possible passed argument will probably create to many lines of code
+that are confusing and more difficult to maintain.
+
+You should at least have the constructors listed in Listing ~\vref{lst:ModelExtFooConstructors}.
+As you can see, constructors for id only, level and version only, and all together are implemented.
+If you delegate the constructor call to the super class, you have to take care of the initialization of your custom attributes yourself (by calling a method like \texttt{initDefaults()}).
+If you delegate to another constructor in your class, you only have to do that at the last one in the delegation chain.
+Also, as you can see, this class requires at minimum SBML level 3, version 1.
+
+\begin{lstlisting}[language=Java,caption={Constructors for \texttt{Foo}},label=lst:ModelExtFooConstructors]
+  public Foo() {
+    super();
+    initDefaults();
+  }
+
+  public Foo(String id) {
+    super(id);
+    initDefaults();
+  }
+
+  public Foo(int level, int version){
+    this(null, null, level, version);
+  }
+ 
+  public Foo(String id, int level, int version) {
+    this(id, null, level, version);
+  }
+
+  public Foo(String id, String name, int level, int version) {
+    super(id, name, level, version);
+    if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
+  }
+
+  public void initDefaults() {
+    addNamespace(ExampleConstant.namespaceURI);
+    bar = null;   
+  }
+\end{lstlisting}
+
+As stated above, you may also have additional constructors like this one:
+
+\begin{lstlisting}[language=Java,float,caption={Additional constructors for \texttt{Foo}},label=lst:ModelExtFooConstructorsAdditional]
+  public Foo(String id, int bar) {
+    this(id);
+    setBar(bar);
+  }
+\end{lstlisting}
+
+
+
+\subsection{\texttt{ListOf}s}
+
+The \emph{Example} extension adds no new attributes to the extended model,
+but it introduces a new child in form of a list, in this case a \texttt{ListOfFoos},
+for the new class \texttt{Foo}.
+Instances of \texttt{Foo} can be children of the extended model via a newly defined \texttt{ListOfFoos}.
+For this, the methods \texttt{isSetListOfFoos()}, \texttt{getListOfFoos()}, \texttt{setListOfFoos(ListOf<Foo>)}, and \texttt{unsetListOfFoos()} need to be implemented.
+
+\begin{lstlisting}[language=Java,caption={ListOf methods and their implementation},label=lst:ModelExtListOfFoos]
+public boolean isSetListOfFoos() {
+    if ((listOfFoos == null) || listOfFoos.isEmpty()) {
+      return false;     
+    }   
+    return true;
+  }
+
+  public ListOf<Transition> getListOfFoos() {
+    if (!isSetListOfFoos()) {
+      listOfFoos = new ListOf<Foo>(getModel().getLevel(), getModel().getVersion());
+      listOfFoos.addNamespace(ExampleConstants.namespaceURI);
+    getModel().registerChild(listOfFoos);
+    listOfFoos.setSBaseListType(ListOf.Type.other);
+
+    }
+    return ListOfFoos;
+  }
+
+  public void setListOfFoos(ListOf<Foo> listOfFoos) {
+    unsetListOfFoos();
+    this.listOfFoos = listOfFoos;
+    getModel().registerChild(this.listOfFoos);
+  }
+
+  public boolean unsetListOfFoos(){
+    if(isSetListOfFoos()) {
+      ListOf<Foos> oldFoos = this.listOfFoos;
+      this.listOfFoos = null;
+      oldFoos.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+\end{lstlisting}
+
+When adding and removing Foo objects to the model, direct access to the ListOfs should not be necessary.
+Therefore, convenience methods for adding and removing object should be added to the model, which will also do additional consistency checking.
+
+\begin{lstlisting}[language=Java,caption={ListOf methods and their implementation},label=lst:ModelExtAddRemoveFoos]
+  public boolean addFoo(Foo foo) {
+      return getListOfFoos().add(foo);
+  }
+
+  public boolean removeFoo(Foo foo) {
+    if (isSetListOfFoos()) {
+      return listOfFoos.remove(foo);
+    }
+    return false;
+  }
+
+  public void removeFoo(int i) {
+    if (!isSetListOfFoos()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    listOfFoos.remove(i);
+  }
+\end{lstlisting}
+
+To let the additional \texttt{ListOfFoo} appear as a child of the standard model, the important methods for the \texttt{JTree} need to be implemented.
+\texttt{getAllowsChildren()} should return \texttt{true} in this case, since this extension obviously allows children.
+The child count and the indices of the children is bit more complicated, because it varies with the number of \texttt{ListOf}s that actually contain elements.
+So, for every non-empty \texttt{ListOf} child of our model extension, we increase the counter by one.
+If a child is queried by its index, the possibility of an index shift needs to be taken into account.
+
+\begin{lstlisting}[language=Java,caption={Convenience method to retrieve the extended model},label=lst:ModelExtChildren]
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+  public int getChildCount() {
+    int count = 0;
+
+    if (isSetListOfFoos()) {
+      count++;
+    }
+    // same for each additional ListOf* in this extension
+    return count;
+  }
+
+  public SBase getChildAt(int childIndex) {
+    if (childIndex < 0) {
+      throw new IndexOutOfBoundsException(childIndex + " < 0");
+    }
+      
+    int pos = 0;
+    if (isSetListOfFoos()) {
+      if (pos == childIndex) {
+        return getListOfFoos();
+      }
+      pos++;
+    }
+    // same for each additional ListOf* in this extension
+    throw new IndexOutOfBoundsException(String.format("Index %d >= %d", childIndex, +((int) Math.min(pos, 0))));    
+  }
+\end{lstlisting}
+
+
+
+\subsection{Create methods}
+
+Because a newly created instance of type Foo is not part of the model unless it is added,
+\texttt{create*} methods should be provided that take care of all that.
+These create methods should be part of the model to which the Foo instance should be added, in this case ExampleModel.
+
+\begin{lstlisting}[language=Java,caption={Convenience method to retrieve the extended model},label=lst:ModelExtCreateMethods]
+public class ExampleMode extends AbstractSBasePlugin {
+
+  ...
+
+  public Foo createFoo() {
+    return createFoo(null);
+  }
+
+  public Foo createFoo(String id) {
+    Foo foo = new Foo(id);
+    addFoo(foo);
+    return foo;
+  }
+
+  public Foo createFoo(String id, int bar) {
+    Foo foo = new QualitativeSpecies(id,
+      getModel().getLevel(), getModel().getVersion());
+    foo.setBar(bar);
+    addFoo(foo);
+    return foo;
+  }
+}
+\end{lstlisting}
+
+
+\subsection{\texttt{equals}, \texttt{hashCode} and \texttt{clone}}
+
+TODO
