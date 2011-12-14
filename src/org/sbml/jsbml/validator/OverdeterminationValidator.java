@@ -702,8 +702,11 @@ public class OverdeterminationValidator {
 				variable = variableHash.get(((AssignmentRule) r)
 						.getVariableInstance());
 				// link
-				variable.addNode(equation);
-				equation.addNode(variable);
+				if(variable!=null) {
+          equations.add(equation);
+          variable.addNode(equation);
+          equation.addNode(variable);
+        }
 
 			}
 		}
