@@ -698,12 +698,15 @@ public class OverdeterminationValidator {
 			}
 
 			else if (r instanceof AssignmentRule) {
-				equations.add(equation);
+				
 				variable = variableHash.get(((AssignmentRule) r)
 						.getVariableInstance());
 				// link
-				variable.addNode(equation);
-				equation.addNode(variable);
+				if(variable!=null) {
+				  equations.add(equation);
+				  variable.addNode(equation);
+				  equation.addNode(variable);
+				}
 
 			}
 		}
