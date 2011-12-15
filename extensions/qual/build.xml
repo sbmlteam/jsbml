@@ -60,6 +60,7 @@
 		<path id="classpath">
 			<fileset dir="${jars.dir}" includes="*.jar *.zip"/>
 			<fileset dir="${jsbml.build.dir}" includes="*.jar *.zip"/>
+			<fileset dir="${jsbml.jars.dir}" includes="*.jar *.zip"/>
 		</path>
 	</target>
 
