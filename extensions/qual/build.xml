@@ -13,8 +13,13 @@
 
 		<property name="Name" value="JSBML Qualitative L3 package"/>
 		<property name="name" value="jsbml-qual"/>
-		<property name="version" value="1.0-a1"/>
-		<property name="api.version" value="1.0"/>
+		
+		<!-- This version number reflect the version number of the specifications
+			used to develop the package.
+			See http://sbml.org/Community/Wiki/SBML_Level_3_Proposals/Qualitative_Models
+		-->
+		<property name="version" value="2.1-a1"/>  
+		<property name="api.version" value="2.1"/>
 
 		<property name="year" value="${YEAR}"/>
 
@@ -218,9 +223,7 @@
 	<!-- =================================================================== -->
 	<target name="javadoc" depends="prepare-src">
 		<mkdir dir="${build.javadocs}"/>
-		<javadoc packagenames="org.*"
-    		 excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*"
-             sourcepath="${build.src}"
+		<javadoc 
              destdir="${build.javadocs}"
              classpathref="classpath"
              maxmemory="96m"
@@ -234,13 +237,26 @@
     	     breakiterator="yes"
     		 access="public"
     >
+			<!-- sourcepath="${build.src}" 
+						packagenames="org.*"
+    		 excludepackagenames="**.test.*"
+			
+			--> 
+		   <fileset dir="${build.src}" defaultexcludes="yes">		   		
+		      	<exclude name="**/test/*"/>
+	      		<exclude name="**/*Test.java"/>	
+		   		<exclude name="**/*.xml"/>
+		   		<exclude name="**/*.html"/>
+		    </fileset>
+
 			<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
 			<link href="http://www.biojava.org/docs/api17"/>
-			<link href="http://sbml.org/Special/Software/JSBML/build/apidocs/index.html"/>
+			<link href="http://sbml.org/Special/Software/JSBML/build/apidocs"/>
 			<tag name="sbml.deprecated" description="Deprecated in SBML since :"/>
 			<tag name="jsbml.note" description="Note"/>
 			<tag name="jsbml.warning"/>
 			<tag name="doc.note"  description="Documentation note"/>
+			<tag name="date"  description="Date" />
 
 		</javadoc>
 	</target>
@@ -286,11 +302,12 @@
 			<fileset dir="${basedir}/" includes="LICENSE.txt NEWS.txt README AUTHORS.txt">
 			</fileset>
 		</copy>
-		<copy todir="${dist.dir}/licenses">
+<!--		<copy todir="${dist.dir}/licenses">
 			<fileset dir="${basedir}/licenses" includes="**/*">
 			</fileset>
 		</copy>
-
+-->
+		
 		<copy todir="${dist.dir}/doc">
 			<fileset dir="${basedir}/doc" includes="**/*.pdf **/*.jpg **/*.java" excludes="posters/** publications/** templates/**">
 

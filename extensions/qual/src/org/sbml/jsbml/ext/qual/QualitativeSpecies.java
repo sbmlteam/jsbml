@@ -39,20 +39,10 @@ import org.sbml.jsbml.util.StringTools;
  * @author Clemens Wrzodek
  * @version $Rev$
  * @since 1.0
- * @date 29.09.2011
+ * @date $Date$
  */
 public class QualitativeSpecies extends AbstractNamedSBase implements UniqueNamedSBase{
 
-  // TODO : QualitativeSpecies id can be used in AssigmentRule or
-  // EventAssignment variable attribute.
-  // here we have a potential problem with striping the package stuff as we
-  // would have dangling ids
-  // If the package continue like this, we have a problem for example with
-  // method like Model.findVariable(variable); that
-  // need to be updated/replaced/modified by extension packages ??
-  // Potentially, the QualitativeSpecies would have to be a Variable and a
-  // CallableSBase to be able to be used in math expression and/or
-  // EventAssignment/Rules
   /**
    * Generated serial version identifier.
    */
@@ -499,8 +489,8 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
 
   /**
-   * @param listOfSymbolicValues
-   *        the listOfSymbolicValues to set
+   * @param symbolicValue
+   *        the symbolicValue to add
    */
   public boolean addSymbolicValue(SymbolicValue symbolicValue) {
     if (getListOfSymbolicValues().add(symbolicValue)) {
@@ -524,8 +514,8 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
   /**
    * 
-   * @param position in the listOfSymbolicValues which should be deleted
-   * @return true if the operation was successful
+   * @param i position in the listOfSymbolicValues which should be deleted
+   * @throws IndexOutOfBoundsException if the index is invalid.
    */
   public void removeSymbolicValue(int i) {
     if (!isSetListOfSymbolicValues()) {

@@ -31,7 +31,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @author Finja B&uuml;chel
  * @version $Rev$
  * @since 1.0
- * @date 29.09.2011
+ * @date $Date$
  */
 public class QualConstant  extends PropertyChangeEvent {
   
@@ -88,8 +88,10 @@ public class QualConstant  extends PropertyChangeEvent {
   }
 
   /**
+   * Constructs a new <code>PropertyChangeEvent</code>, cloned from 
+   * the given <code>qualChangeEvent</code>.
    * 
-   * @param treeNodeChangeEvent
+   * @param qualChangeEvent the event to clone.
    */
   public QualConstant(QualConstant qualChangeEvent) {
     this((SBase) qualChangeEvent.getSource(), qualChangeEvent
@@ -159,24 +161,27 @@ public class QualConstant  extends PropertyChangeEvent {
   }
 
   /**
-   * 
-   * @return
+   * Returns true is the new value is set.
+   *  
+   * @return true is the new value is set.
    */
   public boolean isSetNewValue() {
     return getNewValue() != null;
   }
 
   /**
+   * Returns true is the old value is set.
    * 
-   * @return
+   * @return true is the old value is set.
    */
   public boolean isSetOldValue() {
     return getOldValue() != null;
   }
 
   /**
-   * 
-   * @return
+   * Returns true is the source is set.
+   *  
+   * @return  true is the source is set.
    */
   public boolean isSetSource() {
     return getSource() != null;

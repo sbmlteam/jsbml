@@ -35,7 +35,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Florian Mittag
  * @version $Rev$
  * @since 1.0
- * @date 29.09.2011
+ * @date $Date$
  */
 public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
 

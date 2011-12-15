@@ -37,7 +37,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * @author Florian Mittag
  * @version $Rev$
  * @since 1.0
- * @date 29.09.2011
+ * @date $Date$
  */
 public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 
@@ -283,8 +283,8 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 
 
   /**
-   * @param listOfOutputs
-   *        the listOfOutputs to set
+   * @param output
+   *        the output to add
    */
   public boolean addOutput(Output output) {
       return getListOfOutputs().add(output);
@@ -292,7 +292,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 
 
   /**
-   * @param input
+   * @param output
    *        to remove from the listOfOutputs
    * @return true if the operation was successful
    */
@@ -305,9 +305,9 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 
 
   /**
-   * @param position
+   * @param i position
    *        in the listOfOutputs which should be deleted
-   * @return true if the operation was successful
+   * @throws IndexOutOfBoundsException if the index is not valid
    */
   public void removeOutput(int i) {
     if (!isSetListOfOutputs()) {
@@ -363,8 +363,8 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 
 
   /**
-   * @param listOfFunctionTerms
-   *        the listOfFunctionTerms to set
+   * @param functionTerm
+   *        the functionTerm to add
    */
   public boolean addFunctionTerm(FunctionTerm functionTerm) {
     if (getListOfFunctionTerms().add(functionTerm)) {
@@ -375,7 +375,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 
 
   /**
-   * @param input
+   * @param functionTerm
    *        to remove from the listOfFunctionTerms
    * @return true if the operation was successful
    */
@@ -388,9 +388,9 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 
 
   /**
-   * @param position
+   * @param i position
    *        in the listOfFunctionTerms which should be deleted
-   * @return true if the operation was successful
+   * @throws IndexOutOfBoundsException if the index is invalid.
    */
   public void removeFunctionTerm(int i) {
     if (!isSetListOfFunctionTerms()) {
@@ -446,8 +446,8 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 
 
   /**
-   * @param listOfInputs
-   *        the listOfInputs to set
+   * @param input
+   *        the input to add
    */
   public boolean addInput(Input input) {
       return getListOfInputs().add(input);
@@ -468,9 +468,9 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 
 
   /**
-   * @param position
+   * @param i position
    *        in the listOfInputs which should be deleted
-   * @return true if the operation was successful
+   * @throws IndexOutOfBoundsException if the index is invalid.
    */
   public void removeInput(int i) {
     if (!isSetListOfInputs()) {

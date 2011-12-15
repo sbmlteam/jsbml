@@ -28,11 +28,14 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 
 /**
+ * Represents the FunctionTerm element from the SBML Qualitative models package,
+ * see http://sbml.org/Community/Wiki/SBML_Level_3_Proposals/Qualitative_Models.
+ * 
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
  * @version $Rev$
  * @since 1.0
- * @date 29.09.2011
+ * @date $Date$
  */
 public class FunctionTerm extends AbstractMathContainer {
 
@@ -50,6 +53,10 @@ public class FunctionTerm extends AbstractMathContainer {
 	private boolean defaultTerm;
 
 
+	/**
+	 * Default constructor
+	 * 
+	 */
 	public FunctionTerm() {
 		super();
 		addNamespace(QualConstant.namespaceURI);
@@ -61,6 +68,7 @@ public class FunctionTerm extends AbstractMathContainer {
 	}
 
 	/**
+	 * Return false, resultLevel is not mandatory.
 	 * 
 	 * @return false
 	 */
@@ -68,23 +76,34 @@ public class FunctionTerm extends AbstractMathContainer {
 	  return false;
 	}
 	
+	/**
+	 * Returns true if resultLevel is set.
+	 * 
+	 * @return true if resultLevel is set.
+	 */
 	public boolean isSetResultLevel(){
 	  return this.resultLevel!= null;
 	}
 	
 	/**
-   * @return the level
-   */
-  public int getResultLevel() {
-    if (isSetResultLevel()) {
-      return resultLevel.intValue();
-    } else {
-      throw new PropertyUndefinedError(QualConstant.resultLevel, this);
-    }
-  }
+	 * Returns the resultLevel if it is set, otherwise throw a {@link PropertyUndefinedError}
+	 * Exception.
+	 * 
+	 * @return the resultLevel if it is set.
+	 * @throws PropertyUndefinedError
+	 */
+	public int getResultLevel() {
+		if (isSetResultLevel()) {
+			return resultLevel.intValue();
+		} else {
+			throw new PropertyUndefinedError(QualConstant.resultLevel, this);
+		}
+	}
 
 
   /**
+   * Sets the resultLevel.
+   * 
    * @param resultLevel
    *        the resultLevel to set
    */
@@ -95,18 +114,24 @@ public class FunctionTerm extends AbstractMathContainer {
   }
 
 
+  /**
+   * Unsets the resultLevel.
+   * 
+   * @return true is the resultLevel was set beforehand.
+   */
   public boolean unsetResultLevel() {
-    if (isSetResultLevel()) {
-      Integer oldResultLevel = this.resultLevel;
-      this.resultLevel = null;
-      firePropertyChange(QualConstant.resultLevel, oldResultLevel, this.resultLevel);
-      return true;
-    } else {
-      return false;
-    }
+	  if (isSetResultLevel()) {
+		  Integer oldResultLevel = this.resultLevel;
+		  this.resultLevel = null;
+		  firePropertyChange(QualConstant.resultLevel, oldResultLevel, this.resultLevel);
+		  return true;
+	  } else {
+		  return false;
+	  }
   }
 
   /**
+   * Returns true.
    * 
    * @return true
    */
@@ -115,7 +140,9 @@ public class FunctionTerm extends AbstractMathContainer {
   }
   
   /**
-   * @return if boundaryCondition attribute is set
+   * Returns true if resultSymbol is set.
+   * 
+   * @return true if resultSymbol is set.
    */
   public boolean isSetResultSymbol() {
     return resultSymbol != null;
@@ -123,6 +150,8 @@ public class FunctionTerm extends AbstractMathContainer {
 
 
   /**
+   * Returns the resultSymbol.
+   * 
    * @return the resultSymbol
    */
   public String getResultSymbol() {
@@ -131,6 +160,8 @@ public class FunctionTerm extends AbstractMathContainer {
 
 
   /**
+   * Sets the resultSymbol.
+   * 
    * @param resultSymbol
    *        the resultSymbol to set
    */
@@ -147,6 +178,8 @@ public class FunctionTerm extends AbstractMathContainer {
 
 
   /**
+   * Unset the resultSymbol.
+   * 
    * @return true if the unset of the resultSymbol attribute was successful
    */
   public boolean unsetResultSymbol() {
@@ -158,6 +191,7 @@ public class FunctionTerm extends AbstractMathContainer {
   }
 
   /**
+   * Returns false, temporisationValue is not mandatory.
    * 
    * @return false
    */
@@ -165,12 +199,19 @@ public class FunctionTerm extends AbstractMathContainer {
     return false;
   }
   
-  public boolean isSetTemporisationValue(){
-    return this.temporisationValue!= null;
-  }
-  
   /**
-   * @return the level
+   * Returns true if the temporisationValue is set.
+   * 
+   * @return true if the temporisationValue is set
+   */
+  public boolean isSetTemporisationValue(){
+	  return this.temporisationValue!= null;
+  }
+
+  /**
+   * Returns the temporisationValue.
+   * 
+   * @return the temporisationValue.
    */
   public double getTemporisationValue() {
     if (isSetTemporisationValue()) {
@@ -182,8 +223,10 @@ public class FunctionTerm extends AbstractMathContainer {
 
 
   /**
-   * @param level
-   *        the remporisationValue to set
+   * Sets the temporisationValue.
+   * 
+   * @param tempValue
+   *        the temporisationValue to set
    */
   public void setTemporisationValue(double tempValue) {
     Double oldTempValue = this.temporisationValue;
@@ -192,40 +235,56 @@ public class FunctionTerm extends AbstractMathContainer {
   }
 
 
+  /**
+   * Unsets the temporisationValue.
+   * 
+   * @return true if the temporisationValue is unset.
+   */
   public boolean unsetTemporisationValue() {
-    if (isSetResultLevel()) {
-      Double oldTempValue = this.temporisationValue;
-      this.temporisationValue = null;
-      firePropertyChange(QualConstant.temporisationValue, oldTempValue, this.temporisationValue);
-      return true;
-    } else {
-      return false;
-    }
+	  if (isSetTemporisationValue()) {
+		  Double oldTempValue = this.temporisationValue;
+		  this.temporisationValue = null;
+		  firePropertyChange(QualConstant.temporisationValue, oldTempValue, this.temporisationValue);
+		  return true;
+	  } else {
+		  return false;
+	  }
   }
 	
   /**
+   * Returns false, temporisationMath is not mandatory.
+   * 
    * @return false
    */
   public boolean isTemporisationMathMandatory(){
     return false;
   }
   
-  public boolean isSetTemporisationMath(){
-    return this.temporisationMath!=null;
-  }
-  
   /**
-	 * @return the temporisationMath
-	 */
-	public TemporisationMath getTemporisationMath() {
+   * Returns true is temporisationMath is set.
+   * 
+   * @return true is temporisationMath is set.
+   */
+  public boolean isSetTemporisationMath(){
+	  return this.temporisationMath!=null;
+  }
+
+  /**
+   * Returns the temporisationMath. 
+   * 
+   * @return the temporisationMath
+   */
+  public TemporisationMath getTemporisationMath() {
 	  if(isSetTemporisationMath()){
-	    return temporisationMath;
+		  return temporisationMath;
 	  } else{
-	    throw new PropertyUndefinedError(QualConstant.temporisationMath, this);
+		  throw new PropertyUndefinedError(QualConstant.temporisationMath, this);
 	  }
-	}
+  }
 
 	/**
+	 * Sets the temporisationMath 
+	 * 
 	 * @param temporisationMath the temporisationMath to set
 	 */
 	public void setTemporisationMath(TemporisationMath temporisationMath) {
@@ -236,7 +295,8 @@ public class FunctionTerm extends AbstractMathContainer {
 	}
 
 	/**
-	 * 
+	 * Unset the temporisationMath.
+	 *  
 	 * @return true if the unset of the attribute temporisationMath was successful
 	 */
 	public boolean unsetTemporisationMath(){
@@ -349,14 +409,18 @@ public class FunctionTerm extends AbstractMathContainer {
 	}
 	
 
-  /**
-	 * @return the defaultTerm
+	/**
+	 * Returns  true if it is a defaultTerm.
+	 * 
+	 * @return true if it is a defaultTerm.
 	 */
 	public boolean isDefaultTerm() {
 		return defaultTerm;
 	}
 
 	/**
+	 * Sets defaultTerm.
+	 * 
 	 * @param defaultTerm the defaultTerm to set
 	 */
 	public void setDefaultTerm(boolean defaultTerm) {
