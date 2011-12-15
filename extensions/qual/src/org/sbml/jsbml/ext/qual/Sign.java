@@ -23,7 +23,7 @@ package org.sbml.jsbml.ext.qual;
  * @author Finja B&uuml;chel
  * @version $Rev$
  * @since 1.0
- * @date 29.09.2011
+ * @date $Date$
  */
 public enum Sign {
   /**

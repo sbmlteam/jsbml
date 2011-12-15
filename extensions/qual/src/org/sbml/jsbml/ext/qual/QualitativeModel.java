@@ -36,7 +36,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Clemens Wrzodek
  * @version $Rev$
  * @since 1.0
- * @date 29.09.2011
+ * @date $Date$
  */
 public class QualitativeModel extends AbstractSBasePlugin {
 
@@ -51,7 +51,9 @@ public class QualitativeModel extends AbstractSBasePlugin {
 
 
 	/**
-	 * @param listOfQualitativeSpecies the listOfQualitativeSpecies to set
+	 * Adds a {@link QualitativeSpecies} to the model.
+	 * 
+	 * @param qualitativeSpecies the qualitativeSpecies to add.
 	 */
 	public void addQualitativeSpecies(QualitativeSpecies qualitativeSpecies) {
 		getListOfQualitativeSpecies().add(qualitativeSpecies);		
@@ -216,11 +218,10 @@ public class QualitativeModel extends AbstractSBasePlugin {
   }
   
   /**
-   * Adds a Species instance to the listOfSpecies of this Model.
+   * Adds a {@link QualitativeSpecies} instance to the listOfSpecies of this Model.
    * 
    * @param spec
-   * @return <code>true</code> if the {@link #listOfSpecies} was changed as a
-   *         result of this call.
+   * @return <code>true</code> if the {@link QualitativeSpecies} was added successfully.
    */
   public boolean addSpecies(QualitativeSpecies spec) {
     return getListOfQualitativeSpecies().add(spec);
@@ -270,39 +271,46 @@ public class QualitativeModel extends AbstractSBasePlugin {
 		return listOfTransitions;
 	}
 
-  /**
-   * 
-   * @return
-   */
+	/**
+	 * Returns the {@link Model}
+	 * 
+	 * @return the {@link Model}
+	 */
 	public Model getModel() {
-    return (Model) extendedSBase;
-  }
+		return (Model) extendedSBase;
+	}
 
   /**
+   * Gets the ith {@link QualitativeSpecies}.
    * 
    * @param i
-   * @return
+   * 
+   * @return the ith {@link QualitativeSpecies}
+   * @throws IndexOutOfBoundsException is the index is invalid.
    */
   public QualitativeSpecies getQualitativeSpecies(int i) {
     return getListOfQualitativeSpecies().get(i);
   }
 	
   /**
+   * Gets the {@link QualitativeSpecies} that has the given id. 
    * 
    * @param id
-   * @return
+   * @return the {@link QualitativeSpecies} that has the given id or null if
+   * no {@link QualitativeSpecies} are found that match <code>id</code>.
    */
-	public QualitativeSpecies getQualitativeSpecies(String id){
+  public QualitativeSpecies getQualitativeSpecies(String id){
 	  if(isSetListOfQualitativeSpecies()) {
-  	  return listOfQualitativeSpecies.firstHit(new NameFilter(id));	    
+		  return listOfQualitativeSpecies.firstHit(new NameFilter(id));	    
 	  } 
 	  return null;
-	}
+  }
 	
 	/**
+	 * Returns true if <code>qs</code> is already part of this {@link QualitativeModel}
 	 * 
 	 * @param qs
-	 * @return
+	 * @return true if <code>qs</code> is already part of this {@link QualitativeModel}
 	 */
 	public boolean containsQualitativeSpecies(QualitativeSpecies qs){
     return isSetListOfQualitativeSpecies()
@@ -310,17 +318,22 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	}
 
 	/**
+	 * Gets the ith {@link Transition}.
 	 * 
 	 * @param i
-	 * @return
+	 * @return the ith {@link Transition}.
+	 * @throws IndexOutOfBoundsException is the index is invalid.
 	 */
-  public Transition getTransition(int i) {
-    return getListOfTransitions().get(i);
-  }
+	public Transition getTransition(int i) {
+		return getListOfTransitions().get(i);
+	}
   
   /**
+   * Gets the {@link Transition} that has the given id. 
+   * 
    * @param id
-   * @return
+   * @return the {@link Transition} that has the given id or null if
+   * no {@link Transition} are found that match <code>id</code>.
    */
   public SBase getTransition(String id) {
     if(isSetListOfTransitions()) {
@@ -330,8 +343,9 @@ public class QualitativeModel extends AbstractSBasePlugin {
   }
 
 	/**
+	 * Returns true if the listOfQualitativeSpecies is set.
 	 * 
-	 * @return
+	 * @return true if the listOfQualitativeSpecies is set.
 	 */
 	public boolean isSetListOfQualitativeSpecies() {
 		if ((listOfQualitativeSpecies == null) || listOfQualitativeSpecies.isEmpty()) {
@@ -341,8 +355,9 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	}
 	
 	/**
+	 * Returns true if the listOfTransitions is set.
 	 * 
-	 * @return
+	 * @return true if the listOfTransitions is set.
 	 */
 	public boolean isSetListOfTransitions() {
 		if ((listOfTransitions == null) || listOfTransitions.isEmpty()) {
@@ -391,7 +406,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
   
   /**
    * 
-   * @return
+   * @return true is successful
    */
   public boolean unsetListOfTransitions(){
     if(isSetListOfTransitions()) {
@@ -404,7 +419,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
   
   /**
    * 
-   * @return
+   * @return true is successful
    */
   public boolean unsetListOfQualitativeSpecies() {
     if(isSetListOfQualitativeSpecies()) {

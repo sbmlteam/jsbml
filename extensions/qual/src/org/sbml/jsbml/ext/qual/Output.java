@@ -34,7 +34,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Finja B&uuml;chel
  * @version $Rev$
  * @since 1.0
- * @date 29.09.2011
+ * @date $Date$
  */
 public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
 
@@ -246,7 +246,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
 
 
   /**
-   * @param outputLevel
+   * @param level
    *        the level to set
    */
   public void setOutputLevel(int level) {
