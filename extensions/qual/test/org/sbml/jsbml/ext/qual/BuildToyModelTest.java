@@ -19,16 +19,13 @@
  */
 package org.sbml.jsbml.ext.qual;
 
-import java.io.FileNotFoundException;
-
-import javax.xml.stream.XMLStreamException;
+import java.util.Calendar;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.test.gui.JSBMLvisualizer;
 import org.sbml.jsbml.text.parser.ParseException;
@@ -49,7 +46,7 @@ public class BuildToyModelTest {
   /**
    * @param args
    */
-  public static void main(String[] args) {
+public static void main(String[] args) {
     
     SBMLDocument sbmlDoc = new SBMLDocument(3, 1);
     sbmlDoc.addNamespace(QUAL_NS_PREFIX, "xmlns", QUAL_NS);
@@ -57,8 +54,11 @@ public class BuildToyModelTest {
     // sbmlDoc.readAttribute("required", QUAL_NS_PREFIX, "true");
     sbmlDoc.getSBMLDocumentAttributes().put(QUAL_NS_PREFIX + ":required", "true");
     
-    
     Model model = sbmlDoc.createModel("m_default_name");
+    
+    model.getHistory().addModifiedDate(Calendar.getInstance().getTime());
+    model.getAnnotation().addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:obo.go:GO%3A1234567"));
+    
     QualitativeModel qModel = new QualitativeModel(model);
 
     model.addExtension(QUAL_NS, qModel);
@@ -73,7 +73,7 @@ public class BuildToyModelTest {
     g0.setInitialLevel(0);
     
     g0.getAnnotation().addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:obo.go:GO%3A1234567"));
-    g0.setNotes("<notes>\n\t<body xmlns=\"http://www.w3.org/1999/xhtml\">\n\t\t<p>TestNotes parsing</p>\n\t</body>\n</notes>");
+    g0.setNotes("<notes>\n\t<body xmlns=\"http://www.w3.org/1999/xhtml\">\n\t\t<p>TestNotes parsing &#285; &#65;</p>\n\t</body>\n</notes>");
     
     QualitativeSpecies g1 = qModel.createQualitativeSpecies("G1", false, comp1.getId(), false);
     g1.setName("G1 name");
@@ -85,6 +85,9 @@ public class BuildToyModelTest {
     g2.setMaxLevel(2);
     g2.setInitialLevel(2);
 
+    g2.getAnnotation().addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:obo.go:GO%3A1234567"));
+    g2.getHistory().addModifiedDate(Calendar.getInstance().getTime());
+    
     QualitativeSpecies g3 = qModel.createQualitativeSpecies("G3", false, comp1.getId(), true);
     g3.setMaxLevel(1);
     g3.setInitialLevel(1);
@@ -129,16 +132,34 @@ public class BuildToyModelTest {
 
     Transition tr2 = qModel.createTransition("tr2", in4, out2); 
     
-    new JSBMLvisualizer(sbmlDoc); 
+    FunctionTerm ft2 = new FunctionTerm();
+
+    mathNode = null;
+    try {
+    	mathNode = ASTNode.parseFormula("7");
+        ft2.setMath(mathNode);
+    	mathNode.setUnits("dimensionless");
+    	
+    	System.out.println(mathNode.toMathML());
+    	
+    } catch (ParseException e) {
+    	e.printStackTrace();
+    }
+
+    tr2.addFunctionTerm(ft2);
     
     String outFile = "testFile.xml";
-   
+
     try {
-       
-       SBMLWriter.write(sbmlDoc, outFile, "BuildToyModelTest", "1");
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+        
+        SBMLWriter.write(sbmlDoc, outFile, "BuildToyModelTest", "1");
+     } catch (Exception e) {
+       e.printStackTrace();
+     }
+
+    new JSBMLvisualizer(sbmlDoc); 
+    
+   
 
   }
 
