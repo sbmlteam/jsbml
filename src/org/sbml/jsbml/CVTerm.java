@@ -168,20 +168,22 @@ public class CVTerm extends AnnotationElement {
 			}
 		}
 
-		/**
-		 * Returns true if this qualifier is a biological qualifier.
-		 * 
-		 * @return true if this qualifier is a biological qualifier, false otherwise.
-		 */
+    /**
+     * Returns <code>true</code> if this qualifier is a biological qualifier.
+     * 
+     * @return <code>true</code> if this qualifier is a biological qualifier,
+     *         false otherwise.
+     */
 		public boolean isBiologicalQualifier() {
 			return !isModelQualifier();
 		}
 
-		/**
-		 * Returns true if this qualifier is a model qualifier.
-		 * 
-		 * @return true if this qualifier is a model qualifier, false otherwise.
-		 */
+    /**
+     * Returns <code>true</code> if this qualifier is a model qualifier.
+     * 
+     * @return <code>true</code> if this qualifier is a model qualifier,
+     *         <code>false</code> otherwise.
+     */
 		public boolean isModelQualifier() {
 			return toString().startsWith("BQM_");
 		}
@@ -363,7 +365,7 @@ public class CVTerm extends AnnotationElement {
 	 * @param urn
 	 *            string representing the resource; e.g.,
 	 *            'urn:miriam:kegg.reaction:R00351'
-	 * @return true as specified in {@link Collection#add(Object)}
+	 * @return <code>true</code> as specified in {@link Collection#add(Object)}
 	 */
 	public boolean addResource(String urn) {
 		boolean contains = resourceURIs.contains(urn);
@@ -379,7 +381,7 @@ public class CVTerm extends AnnotationElement {
 	 * 
 	 * @param resources a list of strings representing the resources; e.g.,
 	 *            'urn:miriam:kegg.reaction:R00351'
-	 * @return true if all the resources have been added properly.
+	 * @return <code>true</code> if all the resources have been added properly.
 	 */
 	public boolean addResources(String... resources) {
 		boolean success = true;
@@ -398,25 +400,21 @@ public class CVTerm extends AnnotationElement {
 	 *            string representing the resource; e.g.,
 	 *            'urn:miriam:kegg.reaction:R00351'
 	 *            
-	 * @return true if 'uri' has been added to the list of resourceURI of this
+	 * @return <code>true</code> if 'uri' has been added to the list of resourceURI of this
 	 *         CVTerm.
 	 */
 	public boolean addResourceURI(String uri) {
 		return addResource(uri);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
-	@Override
 	public CVTerm clone() {
 		return new CVTerm(this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
 	@Override
@@ -549,20 +547,22 @@ public class CVTerm extends AnnotationElement {
 		return hashCode;
 	}
 
-	/**
-	 * Returns true if this qualifier is a biological qualifier.
-	 * 
-	 * @return true if this qualifier is a biological qualifier, false otherwise.
-	 */
+  /**
+   * Returns <code>true</code> if this qualifier is a biological qualifier.
+   * 
+   * @return <code>true</code> if this qualifier is a biological qualifier,
+   *         <code>false</code> otherwise.
+   */
 	public boolean isBiologicalQualifier() {
 		return type.equals(Type.BIOLOGICAL_QUALIFIER);
 	}
 
-	/**
-	 * Returns true if this qualifier is a model qualifier.
-	 * 
-	 * @return true if this qualifier is a model qualifier, false otherwise.
-	 */
+  /**
+   * Returns <code>true</code> if this qualifier is a model qualifier.
+   * 
+   * @return <code>true</code> if this qualifier is a model qualifier,
+   *         <code>false</code> otherwise.
+   */
 	public boolean isModelQualifier() {
 		return type.equals(Type.MODEL_QUALIFIER);
 	}
@@ -584,29 +584,28 @@ public class CVTerm extends AnnotationElement {
 		return getQualifierType() != null;
 	}
 
-	/**
-	 * Returns true if the Type of this CVTerm is set.
-	 * 
-	 * @return true if the Type of this CVTerm is set.
-	 */
+  /**
+   * Returns <code>true</code> if the Type of this CVTerm is set.
+   * 
+   * @return <code>true</code> if the Type of this CVTerm is set.
+   */
 	public boolean isSetType() {
 		return (type != null) && !type.equals(Type.UNKNOWN_QUALIFIER);
 	}
 
-	/**
-	 * Returns true if the Qualifier of this CVTerm is set.
-	 * 
-	 * @return true if the Qualifier of this CVTerm is set.
-	 */
+  /**
+   * Returns <code>true</code> if the {@link Qualifier} of this {@link CVTerm}
+   * is set.
+   * 
+   * @return <code>true</code> if the {@link Qualifier} of this {@link CVTerm}
+   *         is set.
+   */
 	public boolean isSetTypeQualifier() {
 		return qualifier != null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String elementName,
-	 * String attributeName, String prefix, String value)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String elementName, String attributeName, String prefix, String value)
 	 */
 	public boolean readAttribute(String elementName, String attributeName,
 			String prefix, String value) {
@@ -621,7 +620,7 @@ public class CVTerm extends AnnotationElement {
 	}
 
 	/**
-	 * Removes a resource from the CVTerm.
+	 * Removes a resource from the {@link CVTerm}.
 	 * 
 	 * @param resource
 	 */
@@ -644,7 +643,7 @@ public class CVTerm extends AnnotationElement {
 	}
 
 	/**
-	 * Sets the biological qualifier type of this CVTerm.
+	 * Sets the biological qualifier type of this {@link CVTerm}.
 	 * 
 	 * @param qualifier
 	 */
@@ -669,7 +668,7 @@ public class CVTerm extends AnnotationElement {
 	}
 
 	/**
-	 * Sets the model qualifier type of this CVTerm.
+	 * Sets the model qualifier type of this {@link CVTerm}.
 	 * 
 	 * @param specificQualifierType
 	 */
@@ -680,7 +679,7 @@ public class CVTerm extends AnnotationElement {
 	}
 
 	/**
-	 * Sets the model qualifier type of this CVTerm.
+	 * Sets the model qualifier type of this {@link CVTerm}.
 	 * 
 	 * @param qualifier
 	 */
@@ -705,17 +704,19 @@ public class CVTerm extends AnnotationElement {
 
 	// TODO : check that this 3 functions are doing the good things and
 	// selecting the proper qualifier
-	/**
-	 * Sets the type of this CVTerm to the Type represented by 'qualifierType'.
-	 * 
-	 * @param qualifierType the Type to set as an integer.
-	 */
+  /**
+   * Sets the type of this {@link CVTerm} to the {@link Type} represented by
+   * 'qualifierType'.
+   * 
+   * @param qualifierType
+   *        the Type to set as an integer.
+   */
 	public void setQualifierType(int qualifierType) {
 		setQualifierType(Type.values()[qualifierType]);
 	}
 
 	/**
-	 * Sets the type of this CVTerm to 'type'
+	 * Sets the type of this {@link CVTerm} to 'type'
 	 * 
 	 * @param type
 	 */
@@ -744,6 +745,7 @@ public class CVTerm extends AnnotationElement {
 	 * @return a {@link String} containing the qualifier and all the resource
 	 *         URIs of this {@link CVTerm}.
 	 */
+	@Override
 	public String toString() {
 		StringBuilder buffer = new StringBuilder();
 		switch (getQualifierType()) {
