@@ -32,6 +32,7 @@ import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
+import org.sbml.jsbml.util.filters.Filter;
 
 /**
  * A basic implementation of the {@link TreeNode} interface.
@@ -108,8 +109,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#addAllChangeListeners(java.util.Collection)
 	 */
 	public boolean addAllChangeListeners(
@@ -127,8 +127,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 	}
 	
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#addTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener)
 	 */
 	public void addTreeNodeChangeListener(TreeNodeChangeListener listener) {
@@ -143,10 +142,26 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 			}
 		}
 	}
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#filter(org.sbml.jsbml.util.filters.Filter)
+   */
+  public List<TreeNode> filter(Filter filter) {
+    List<TreeNode> list = new LinkedList<TreeNode>();
+    TreeNode child;
+    for (int i = 0; i < getChildCount(); i++) {
+      child = getChildAt(i);
+      if (filter.accepts(child)) {
+        list.add(child);
+      }
+      if (child instanceof TreeNodeWithChangeSupport) {
+        list.addAll(((TreeNodeWithChangeSupport) child).filter(filter));
+      }
+    }
+    return list;
+  }
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#children()
 	 */
 	public Enumeration<TreeNode> children() {
@@ -160,18 +175,14 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 			 */
 			private int index;
 
-			/*
-			 * (non-Javadoc)
-			 * 
+			/* (non-Javadoc)
 			 * @see java.util.Enumeration#hasMoreElements()
 			 */
 			public boolean hasMoreElements() {
 				return index < childCount;
 			}
 
-			/*
-			 * (non-Javadoc)
-			 * 
+			/* (non-Javadoc)
 			 * @see java.util.Enumeration#nextElement()
 			 */
 			public TreeNode nextElement() {
@@ -185,15 +196,13 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		};
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
 	public abstract TreeNode clone();
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -231,8 +240,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		return false;
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#fireNodeAddedEvent()
 	 */
 	public void fireNodeAddedEvent() {
@@ -241,8 +249,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		}
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#fireNodeRemovedEvent()
 	 */
 	public void fireNodeRemovedEvent() {
@@ -251,8 +258,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#firePropertyChange(java.lang.String, java.lang.Object, java.lang.Object)
 	 */
 	public void firePropertyChange(String propertyName, Object oldValue,
@@ -297,17 +303,14 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		}
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
 	 */
 	public int getIndex(TreeNode node) {
 		return indexOf(this, node);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getListOfTreeNodeChangeListeners()
 	 */
 	public List<TreeNodeChangeListener> getListOfTreeNodeChangeListeners() {
@@ -325,9 +328,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		return getChildCount();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getParent()
 	 */
 	public TreeNode getParent() {
@@ -364,9 +365,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		return hashCode;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#isLeaf()
 	 */
 	public boolean isLeaf() {
@@ -410,16 +409,14 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		// default: empty body, nothing to do.
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeAllTreeNodeChangeListeners()
 	 */
 	public void removeAllTreeNodeChangeListeners() {
 		listOfListeners.clear();
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener)
 	 */
 	public void removeTreeNodeChangeListener(TreeNodeChangeListener l) {
@@ -443,8 +440,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		this.firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldValue, this.parent);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

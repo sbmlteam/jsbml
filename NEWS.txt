@@ -5,6 +5,9 @@ Version 1.0-rc1 (xx-xx-2012)
 ======================================================================
 
 * New Features
+  
+  - Filter method on TreeNodeWithChangeSupport, which allows for
+    recursive queries in the entire data structure.
 
   - Validation check for e-mail addresses in Creator.  
 

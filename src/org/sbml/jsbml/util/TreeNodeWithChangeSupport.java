@@ -27,6 +27,7 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractTreeNode;
+import org.sbml.jsbml.util.filters.Filter;
 
 /**
  * This interface extends the regular recursively defined {@link TreeNode} by
@@ -43,25 +44,48 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
   Serializable {
   
   /**
-   * Removes all SBase change listeners from this element.
+   * Adds recursively all given {@link TreeNodeChangeListener} instances to
+   * this element.
+   * 
+   * @param listeners
+   *            the set of listeners to add
+   * @return <code>true</code> if the set of listeners is added with success.
+   * 
    */
-  public void removeAllTreeNodeChangeListeners();
+  public boolean addAllChangeListeners(
+      Collection<TreeNodeChangeListener> listeners);
   
   /**
-   * Removes recursively the given change listener from this element.
+   * Adds recursively a listener to the {@link AbstractTreeNode} object and
+   * all of its sub-elements.
    * 
-   * @param l the listener to remove.
+   * @param listener
+   *            the listener to add
    */
-  public void removeTreeNodeChangeListener(TreeNodeChangeListener l);
+  public void addTreeNodeChangeListener(TreeNodeChangeListener listener);
     
   /**
-   * Returns all {@link TreeNodeChangeListener}s that are assigned to this
-   * element.
+   * Filters this tree data structure recursively and returns a list of all
+   * {@link Object}s that are accepted by the {@link Filter}.
    * 
-   * @return all {@link TreeNodeChangeListener}s that are assigned to this
-   * element.
+   * @param filter
+   * @return
    */
-  public List<TreeNodeChangeListener> getListOfTreeNodeChangeListeners();
+  public List<TreeNode> filter(Filter filter);
+
+  /**
+   * All {@link TreeNodeChangeListener} instances linked to this
+   * {@link TreeNode} are informed about the adding of this {@link Object} to
+   * an owning parent {@link Object}.
+   */
+  public void fireNodeAddedEvent();
+  
+  /**
+   * All {@link TreeNodeChangeListener} instances linked to this
+   * {@link TreeNode} are informed about the deletion of this {@link TreeNode}
+   * from a parent {@link Object}.
+   */
+  public void fireNodeRemovedEvent();
   
   /**
    * All {@link TreeNodeChangeListener}s are informed about the change in this
@@ -80,37 +104,24 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
       Object newValue);
   
   /**
-   * All {@link TreeNodeChangeListener} instances linked to this
-   * {@link TreeNode} are informed about the deletion of this {@link TreeNode}
-   * from a parent {@link Object}.
+   * Returns all {@link TreeNodeChangeListener}s that are assigned to this
+   * element.
+   * 
+   * @return all {@link TreeNodeChangeListener}s that are assigned to this
+   * element.
    */
-  public void fireNodeRemovedEvent();
+  public List<TreeNodeChangeListener> getListOfTreeNodeChangeListeners();
   
   /**
-   * All {@link TreeNodeChangeListener} instances linked to this
-   * {@link TreeNode} are informed about the adding of this {@link Object} to
-   * an owning parent {@link Object}.
+   * Removes all SBase change listeners from this element.
    */
-  public void fireNodeAddedEvent();
+  public void removeAllTreeNodeChangeListeners();
   
   /**
-   * Adds recursively a listener to the {@link AbstractTreeNode} object and
-   * all of its sub-elements.
+   * Removes recursively the given change listener from this element.
    * 
-   * @param listener
-   *            the listener to add
+   * @param l the listener to remove.
    */
-  public void addTreeNodeChangeListener(TreeNodeChangeListener listener);
-  
-  /**
-   * Adds recursively all given {@link TreeNodeChangeListener} instances to
-   * this element.
-   * 
-   * @param listeners
-   *            the set of listeners to add
-   * @return <code>true</code> if the set of listeners is added with success.
-   * 
-   */
-  public boolean addAllChangeListeners(
-      Collection<TreeNodeChangeListener> listeners);
+  public void removeTreeNodeChangeListener(TreeNodeChangeListener l);
+
 }
