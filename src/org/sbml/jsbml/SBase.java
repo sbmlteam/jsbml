@@ -130,25 +130,24 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 */
 	public List<String> filterCVTerms(Qualifier qualifier, String pattern);
 
-
-  /**
-   * A recursive implementation of {@link #filterCVTerms(Qualifier, String)}
-   * that considers all child elements of the current instance of {@link SBase}
-   * as well.
-   * 
-   * @param qualifier
-   * @param pattern
-   * @param recursive
-   *        decides whether or not considering all child elements of this
-   *        {@link SBase} and collecting the matching {@link CVTerm}s of all
-   *        children recursively. If this argument is false, the behavior of the
-   *        method will be equivalent to calling
-   *        {@link #filterCVTerms(Qualifier, String)}.
-   * @return
-   * @see #filterCVTerms(Qualifier, String)
-   */
-  public List<String> filterCVTerms(Qualifier qualifier,
-    String pattern, boolean recursive);
+	/**
+	 * A recursive implementation of {@link #filterCVTerms(Qualifier, String)}
+	 * that considers all child elements of the current instance of
+	 * {@link SBase} as well.
+	 * 
+	 * @param qualifier
+	 * @param pattern
+	 * @param recursive
+	 *            decides whether or not considering all child elements of this
+	 *            {@link SBase} and collecting the matching {@link CVTerm}s of
+	 *            all children recursively. If this argument is false, the
+	 *            behavior of the method will be equivalent to calling
+	 *            {@link #filterCVTerms(Qualifier, String)}.
+	 * @return
+	 * @see #filterCVTerms(Qualifier, String)
+	 */
+	public List<String> filterCVTerms(Qualifier qualifier, String pattern,
+			boolean recursive);
 
 	/**
 	 * Returns the content of the 'annotation' sub-element of this object as an

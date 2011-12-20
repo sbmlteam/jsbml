@@ -675,15 +675,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	}
 	
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
 	public abstract AbstractSBase clone();
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
 	@Override
@@ -716,21 +713,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		return equals;
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier)
 	 */
 	public List<CVTerm> filterCVTerms(CVTerm.Qualifier qualifier) {
 		return getAnnotation().filterCVTerms(qualifier);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier,
-	 * java.lang.String)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier, java.lang.String)
 	 */
 	public List<String> filterCVTerms(CVTerm.Qualifier qualifier, String pattern) {
 		List<String> l = new LinkedList<String>();
@@ -740,8 +732,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return l;
 	}
 	
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier, java.lang.String, boolean)
    */
   public List<String> filterCVTerms(CVTerm.Qualifier qualifier, String pattern,
@@ -790,8 +781,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractTreeNode#fireNodeRemovedEvent()
 	 */
 	@Override
@@ -819,17 +809,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		super.fireNodeRemovedEvent();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
 	 */
 	public boolean getAllowsChildren() {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getAnnotation()
 	 */
 	public Annotation getAnnotation() {
@@ -852,9 +839,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return isSetAnnotation() ? (new SBMLWriter()).writeAnnotation(this) : "";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildAt(int)
 	 */
 	public TreeNode getChildAt(int childIndex) {
@@ -896,9 +881,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				"Index %d >= %d", childIndex, +((int) Math.min(pos, 0))));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildCount()
 	 */
 	public int getChildCount() {
@@ -917,8 +900,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return count;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getCVTerm(int)
 	 */
 	public CVTerm getCVTerm(int index) {
@@ -929,41 +911,35 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				"No such controlled vocabulary term with index %d.", index));
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getCVTerms()
 	 */
 	public List<CVTerm> getCVTerms() {
 		return getAnnotation().getListOfCVTerms();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jlibsbml.SBase#getElementName()
 	 */
 	public String getElementName() {
 		return StringTools.firstLetterLowerCase(getClass().getSimpleName());
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getExtension(java.lang.String)
 	 */
 	public SBasePlugin getExtension(String namespace) {
 		return this.extensions.get(namespace);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getExtensionPackages()
 	 */
 	public Map<String, SBasePlugin> getExtensionPackages() {
 		return extensions;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getHistory()
 	 */
 	public History getHistory() {
@@ -973,8 +949,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return annotation.getHistory();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getHistory()
 	 */
 	private History createHistory() {
@@ -988,17 +963,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	}
 	
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jlibsbml.SBase#getLevel()
 	 */
 	public int getLevel() {
 		return isSetLevel() ? this.lv.getL().intValue() : -1;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getLevelAndVersion()
 	 */
 	public ValuePair<Integer, Integer> getLevelAndVersion() {
@@ -1009,16 +981,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return this.lv;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getMetaId()
 	 */
 	public String getMetaId() {
 		return isSetMetaId() ? metaId : "";
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getModel()
 	 */
 	public Model getModel() {
@@ -1029,8 +999,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				: null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getNamespaces()
 	 */
 	public SortedSet<String> getNamespaces() {
@@ -1040,8 +1009,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return this.usedNamespaces;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getNamespaces()
 	 */
 	public Map<String, String> getDeclaredNamespaces() {
@@ -1060,16 +1028,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return notesXMLNode;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getNotesString()
 	 */
 	public String getNotesString() {
 		return notesXMLNode != null ? notesXMLNode.toXMLString() : "";
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getNumCVTerms()
 	 */
 	public int getNumCVTerms() {
@@ -1088,17 +1054,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return (SBase) super.getParent();
 	}
 
-
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getParentSBMLObject()
 	 */
 	public SBase getParentSBMLObject() {
 		return getParent();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getSBMLDocument()
 	 */
 	public SBMLDocument getSBMLDocument() {
@@ -1109,24 +1072,21 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return (parent != null) ? parent.getSBMLDocument() : null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getSBOTerm()
 	 */
 	public int getSBOTerm() {
 		return sboTerm;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getSBOTermID()
 	 */
 	public String getSBOTermID() {
 		return SBO.intToString(sboTerm);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getVersion()
 	 */
 	public int getVersion() {
@@ -1149,8 +1109,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return hashCode + prime * getLevelAndVersion().hashCode();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#hasValidAnnotation()
 	 */
   public boolean hasValidAnnotation() {
@@ -1181,32 +1140,28 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   }
 
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#hasValidLevelVersionNamespaceCombination()
 	 */
 	public boolean hasValidLevelVersionNamespaceCombination() {
 		return isValidLevelAndVersionCombination(getLevel(), getVersion());
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#isExtendedByOtherPackages()
 	 */
 	public boolean isExtendedByOtherPackages() {
 		return !this.extensions.isEmpty();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#isSetAnnotation()
 	 */
 	public boolean isSetAnnotation() {
 		return (annotation != null) && annotation.isSetAnnotation();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#isSetHistory()
 	 */
 	public boolean isSetHistory() {
@@ -1216,8 +1171,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#isSetLevel()
 	 */
 	public boolean isSetLevel() {
@@ -1225,24 +1179,21 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				&& (lv.getL().intValue() > -1);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#isSetLevelAndVersion()
 	 */
 	public boolean isSetLevelAndVersion() {
 		return isSetLevel() && isSetVersion();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#isSetMetaId()
 	 */
 	public boolean isSetMetaId() {
 		return metaId != null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#isSetNotes()
 	 */
 	public boolean isSetNotes() {
@@ -1256,16 +1207,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return isSetParent();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#isSetSBOTerm()
 	 */
 	public boolean isSetSBOTerm() {
 		return sboTerm != -1;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#isSetVersion()
 	 */
 	public boolean isSetVersion() {
@@ -1273,8 +1222,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				&& (lv.getV().intValue() > -1);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public boolean readAttribute(String attributeName, String prefix,
@@ -1289,8 +1237,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return false;
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setAnnotation(org.sbml.jsbml.Annotation)
 	 */
 	public void setAnnotation(Annotation annotation) {
@@ -1300,8 +1247,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		firePropertyChange(TreeNodeChangeEvent.setAnnotation, oldAnnotation, this.annotation);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setHistory(org.sbml.jsbml.History)
 	 */
 	public void setHistory(History history) {
@@ -1310,8 +1256,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		firePropertyChange(TreeNodeChangeEvent.history, oldHistory, history);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setLevel(int)
 	 */
 	public void setLevel(int level) {
@@ -1356,8 +1301,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setMetaId(java.lang.String)
 	 */
 	public void setMetaId(String metaId) {
@@ -1375,9 +1319,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		firePropertyChange(TreeNodeChangeEvent.metaId, oldMetaId, metaId);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#setNotes(java.lang.String)
 	 */
 	public void setNotes(String notes) {
@@ -1385,8 +1327,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				.toXMLNotesString(notes)));
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setNotes(java.lang.String)
 	 */
 	public void setNotes(XMLNode notes) {
@@ -1396,8 +1337,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		firePropertyChange(TreeNodeChangeEvent.notes, oldNotes, this.notesXMLNode);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setParentSBML(org.sbml.jsbml.SBase)
 	 */
 	public void setParentSBML(SBase parent) {
@@ -1406,8 +1346,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldParent, parent);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setSBOTerm(int)
 	 */
 	public void setSBOTerm(int term) {
@@ -1424,17 +1363,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		firePropertyChange(TreeNodeChangeEvent.sboTerm, oldTerm, sboTerm);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jlibsbml.SBase#setSBOTerm(java.lang.String)
 	 */
 	public void setSBOTerm(String sboid) {
 		setSBOTerm(SBO.stringToInt(sboid));
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setThisAsParentSBMLObject(org.sbml.jsbml.SBase)
 	 */
 	@Deprecated
@@ -1472,8 +1408,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	  }
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setThisAsParentSBMLObject(org.sbml.jsbml.SBase)
 	 */
 	public void setParentSBMLObject(SBase sbase) throws LevelVersionError {
@@ -1490,9 +1425,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
 	}
 
-	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setVersion(int)
 	 */
 	public void setVersion(int version) {
@@ -1508,16 +1441,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		firePropertyChange(TreeNodeChangeEvent.version, oldVersion, version);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public abstract String toString();
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#unsetAnnotation()
 	 */
 	public void unsetAnnotation() {
@@ -1529,8 +1459,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#unsetCVTerms()
 	 */
 	public void unsetCVTerms() {
@@ -1541,8 +1470,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#unsetHistory()
 	 */
 	public void unsetHistory() {
@@ -1551,9 +1479,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jlibsbml.SBase#unsetMetaId()
 	 */
 	public void unsetMetaId() {
@@ -1562,9 +1488,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jlibsbml.SBase#unsetNotes()
 	 */
 	public void unsetNotes() {
@@ -1575,9 +1499,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jlibsbml.SBase#unsetSBOTerm()
 	 */
 	public void unsetSBOTerm() {
@@ -1589,8 +1511,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#writeXMLAttributes()
 	 */
 	public Map<String, String> writeXMLAttributes() {

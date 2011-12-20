@@ -361,8 +361,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#add(int, java.lang.Object)
 	 */
 	public void add(int index, T element) {
@@ -370,15 +369,13 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
     registerChild(element);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#add(java.lang.Object)
 	 */
 	public boolean add(T e) {
 	  /*
 	   * Test if another pointer to the given element has already been added to this list:
 	   */
-		int i = 0;
     for (T curr : listOf) {
       if (curr == e) {
         Logger logger = Logger.getLogger(getClass());
@@ -387,7 +384,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
           listType, e));
         return false;
       }
-      i++;
     }
 		
 		/*
@@ -401,8 +397,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return listOf.add(e);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#addAll(java.util.Collection)
 	 */
 	public boolean addAll(Collection<? extends T> c) {
@@ -415,8 +410,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#addAll(int, java.util.Collection)
 	 */
 	public boolean addAll(int index, Collection<? extends T> c) {
@@ -446,8 +440,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return add((T) e.clone());
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#clear()
 	 */
 	public void clear() {
@@ -458,32 +451,28 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	public ListOf<T> clone() {
 		return new ListOf<T>(this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#contains(java.lang.Object)
 	 */
 	public boolean contains(Object o) {
 		return listOf.contains(o);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#containsAll(java.util.Collection)
 	 */
 	public boolean containsAll(Collection<?> c) {
 		return listOf.containsAll(c);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
 	@Override
@@ -582,8 +571,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return foundElement;
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
 	 */
 	@Override
@@ -591,8 +579,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
@@ -609,9 +596,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return get(index);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
 	 */
 	@Override
@@ -619,9 +604,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return super.getChildCount() + size();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getElementName()
 	 */
 	@Override
@@ -660,59 +643,50 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return listType;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#indexOf(java.lang.Object)
 	 */
 	public int indexOf(Object o) {
 		return listOf.indexOf(o);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#isEmpty()
 	 */
 	public boolean isEmpty() {
 		return listOf.isEmpty();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#iterator()
 	 */
 	public Iterator<T> iterator() {
 		return listOf.iterator();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#lastIndexOf(java.lang.Object)
 	 */
 	public int lastIndexOf(Object o) {
 		return listOf.lastIndexOf(o);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#listIterator()
 	 */
 	public ListIterator<T> listIterator() {
 		return listOf.listIterator();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#listIterator(int)
 	 */
 	public ListIterator<T> listIterator(int index) {
 		return listOf.listIterator(index);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String,
-	 * java.lang.String, java.lang.String)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -726,8 +700,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return isAttributeRead;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#remove(int)
 	 */
 	public T remove(int index) {
@@ -767,8 +740,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#remove(java.lang.Object)
 	 */
 	public boolean remove(Object o) {
@@ -812,8 +784,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#removeAll(java.util.Collection)
 	 */
 	public boolean removeAll(Collection<?> c) {
@@ -852,8 +823,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#retainAll(java.util.Collection)
 	 */
 	public boolean retainAll(Collection<?> c) {
@@ -868,8 +838,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return modified;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#set(int, java.lang.Object)
 	 */
 	public T set(int index, T element) {
@@ -918,32 +887,28 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		firePropertyChange(TreeNodeChangeEvent.baseListType, oldType, listType);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#size()
 	 */
 	public int size() {
 		return listOf.size();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#subList(int, int)
 	 */
 	public List<T> subList(int fromIndex, int toIndex) {
 		return listOf.subList(fromIndex, toIndex);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#toArray()
 	 */
 	public Object[] toArray() {
 		return listOf.toArray();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.util.List#toArray(T[])
 	 */
 	@SuppressWarnings("hiding")
@@ -951,8 +916,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		return listOf.toArray(a);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#toString()
 	 */
 	@Override
