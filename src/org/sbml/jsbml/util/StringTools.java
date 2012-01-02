@@ -23,6 +23,7 @@ package org.sbml.jsbml.util;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -37,6 +38,7 @@ import org.sbml.jsbml.resources.Resource;
  * 
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
+ * @author Clemens Wrzodek
  * @since 0.8
  * @version $Rev$
  */
@@ -49,7 +51,7 @@ public class StringTools {
 	/**
 	 * New line separator of this operating system
 	 */
-	private static final String newLine = System.getProperty("line.separator");
+	private static final String newLine = "\n";
 	/**
 	 * 
 	 */
@@ -264,10 +266,19 @@ public class StringTools {
    * @return
    */
   private static String fill(int length, char symbol, StringBuilder sb) {
-    while (sb.length() < length) {
-      sb.insert(0, symbol);
+    if (length<=0) return sb.toString();
+    
+    // Create a char array of given length with native methods
+    char[] ret = new char[length];
+    Arrays.fill(ret, symbol);
+    
+    // Copy previous content into array
+    if(sb.length()>0) {
+      char[] sbArray = sb.toString().toCharArray();
+      System.arraycopy(sbArray, 0, ret, 0, sbArray.length);
     }
-    return sb.toString();
+    
+    return new String(ret);
   }
 
 
