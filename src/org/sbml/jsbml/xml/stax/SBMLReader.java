@@ -72,6 +72,7 @@ import com.ctc.wstx.stax.WstxInputFactory;
  * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
+ * @author Clemens Wrzodek
  * @since 0.8
  * @version $Rev$
  */
@@ -88,7 +89,14 @@ public class SBMLReader {
 	 * Contains all the initialized parsers.
 	 */
 	private Map<String, ReadingParser> initializedParsers = new HashMap<String, ReadingParser>();
-
+	
+	/**
+	 * Initialize a static instance of the core parser.
+	 * This is much more efficient than intializing it again and again every
+	 * time we need it (Core bottleneck is the loadFromXML() method, called
+	 * from the SBMLCoreParser() constructor each time).
+	 */
+	private static SBMLCoreParser sbmlCoreParser = new SBMLCoreParser();
 
 	
 	/**
@@ -582,11 +590,11 @@ public class SBMLReader {
 					// This a hack to be able to read some mathMl or notes by themselves.
 
 					if (currentNode.getLocalPart().equals("notes") || currentNode.getLocalPart().equals("message")) {
-						
-						initializedParsers.put("", new SBMLCoreParser());
+						// Initializing the core parser again and again is a hughe bottleneck
+					  // when appending notes!
+						initializedParsers.put("", sbmlCoreParser);
 						
 					} else if (currentNode.getLocalPart().equals("math")) {
-						
 						initializedParsers.put("", new MathMLStaxParser());
 						initializedParsers.put(ASTNode.URI_MATHML_DEFINITION, new MathMLStaxParser());
 						currentNode = new QName(ASTNode.URI_MATHML_DEFINITION, "math");
