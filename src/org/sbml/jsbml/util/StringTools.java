@@ -260,22 +260,28 @@ public class StringTools {
   }
 
 	/**
+	 * Ensures a minimum size of <code>length</code> for the given
+	 * <code>stringBuilder</code>. Therefore, the given
+	 * <code>symbol</code> will be put at the beginning of the
+	 * string, until it reaches the given <code>length</code>.
    * @param length
    * @param symbol
    * @param stringBuilder
    * @return
    */
   private static String fill(int length, char symbol, StringBuilder sb) {
-    if (length<=0) return sb.toString();
+    if (length<=sb.length()) {
+      return sb.toString();
+    }
     
     // Create a char array of given length with native methods
     char[] ret = new char[length];
     Arrays.fill(ret, symbol);
     
-    // Copy previous content into array
+    // Copy previous content at the end of the array
     if(sb.length()>0) {
       char[] sbArray = sb.toString().toCharArray();
-      System.arraycopy(sbArray, 0, ret, 0, sbArray.length);
+      System.arraycopy(sbArray, 0, ret, length-sb.length(), sbArray.length);
     }
     
     return new String(ret);
