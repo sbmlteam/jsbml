@@ -414,7 +414,8 @@ public class StringTools {
 			return "NaN";
 		} else if (Double.isInfinite(value)) {
 			// TODO: make this locale dependent.
-			return "infinity";
+			String infinity = "infinity";
+			return value < 0 ? '-' + infinity : infinity;
 		}
 		
 		if (((int) value) - value == 0) {
