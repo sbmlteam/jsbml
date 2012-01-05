@@ -156,8 +156,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   
   /**
    * A mapping between the identifiers of {@link LocalParameter}s and the
-   * identifiers
-   * of containing {@link Reaction} objects.
+   * identifiers of containing {@link Reaction} objects.
    */
   private Map<String, SortedSet<String>> mapOfLocalParameters;
   
@@ -1375,7 +1374,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param id
    *        an id indicating an element of the model.
    * @return a {@link NamedSBase} element of the model that has the given 'id'
-   *         as id or null if no element is found.
+   *         as id or <code>null</code> if no element is found.
    */
   public NamedSBase findNamedSBase(String id) {
     if (id.equals(getId())) { return this; }
@@ -1392,7 +1391,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     if (nsb == null) {
       for (Reaction r : getListOfReactions()) {
         nsb = r.getModifier(id);
-        if (nsb != null) { return nsb; }
+        if (nsb != null) { 
+          return nsb; 
+        }
       }
     }
     return nsb == null ? findNamedSBaseWithDerivedUnit(id) : nsb;
@@ -1415,7 +1416,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     NamedSBaseWithDerivedUnit nsb = findCallableSBase(id);
     return nsb == null ? getEvent(id) : nsb;
   }
-  
+
   /**
    * Searches for an instance of {@link Quantity} within all of this
    * {@link Model}'s components that has the given identifier or name attribute
@@ -1439,7 +1440,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return nsb;
   }
-  
+
   /**
    * Searches for an instance of {@link QuantityWithUnit} within all of this
    * {@link Model}'s components that has the given identifier or name attribute
@@ -1460,6 +1461,26 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       if (!list.isEmpty()) { return list.get(0); }
     }
     return q;
+  }
+  
+  /**
+   * Returns a {@link SortedSet} of identifiers of all {@link Reaction} elements
+   * within
+   * this {@link Model} whose {@link KineticLaw}s contain a
+   * {@link LocalParameter} that has the given 'id' or <code>null</code> if no
+   * element cannot be found.
+   * 
+   * @param id
+   *        an id indicating an {@link LocalParameter} element of the
+   *        {@link Model}.
+   * @return a {@link SortedSet} of the identifiers of all {@link Reaction}
+   *         elements within this {@link Model} whose {@link KineticLaw}
+   *         contains a {@link LocalParameter} that has the given 'id' as id 
+   *         or <code>null</code> if no such element with this 'id' can be
+   *         found.
+   */
+  public SortedSet<String> findReactionsForLocalParameter(String id) {
+    return mapOfLocalParameters == null ? null : mapOfLocalParameters.get(id);
   }
   
   /**
@@ -1507,6 +1528,36 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       symbol = getParameter(id);
     }
     return symbol;
+  }
+  
+  /**
+   * Returns a {@link UniqueNamedSBase} element that has the given 'id' within
+   * this {@link Model} or <code>null</code> if no such element can be found.
+   * 
+   * @param id
+   *        an id indicating an {@link UniqueNamedSBase} element of the
+   *        {@link Model}.
+   * @return a {@link UniqueNamedSBase} element of the {@link Model} that has
+   *         the given 'id' as id or <code>null</code> if no element with this
+   *         'id' can be found.
+   */
+  public UniqueNamedSBase findUniqueNamedSBase(String id) {
+    return mapOfUniqueNamedSBases == null ? null : mapOfUniqueNamedSBases.get(id);
+  }
+  
+  /**
+   * Returns a {@link UnitDefinition} element that has the given 'id' within
+   * this {@link Model} or <code>null</code> if no such element can be found.
+   * 
+   * @param id
+   *        an id indicating an {@link UnitDefinition} element of the
+   *        {@link Model}.
+   * @return a {@link UniqueNamedSBase} element of the {@link Model} that has
+   *         the given 'id' as id or <code>null</code> if no such element with
+   *         this 'id' can be found.
+   */
+  public UnitDefinition findUnitDefinition(String id) {
+    return mapOfUnitDefinitions == null ? null : mapOfUnitDefinitions.get(id);
   }
   
   /**
