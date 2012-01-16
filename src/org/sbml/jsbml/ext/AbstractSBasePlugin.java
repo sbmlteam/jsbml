@@ -63,6 +63,15 @@ public abstract class AbstractSBasePlugin implements SBasePlugin {
     this.extendedSBase = extendedSBase;
   }
 
+  /**
+   * Returns the SBase object that is extended by this plug-in.
+   * 
+   * @return the SBase object that is extended by this plug-in.
+   */
+  public SBase getExtendedSBase() {
+    return extendedSBase;
+  }
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#children()

@@ -10,7 +10,7 @@ For this, we define the \emph{Example} extension specification and use it to exp
 In most cases, you probably want to extend a model.
 Listing~\vref{lst:ModelExtClass} shows the beginning of the class \texttt{ExampleModel} that is an extension to the standard Model of the SBML core.
 \begin{lstlisting}[language=Java,caption={Extending \texttt{AbstractSBasePlugin}},label={lst:ModelExtClass}]
-public class ExampleMode extends AbstractSBasePlugin {
+public class ExampleModel extends AbstractSBasePlugin {
 
   public ExampleModel(Model model) {
     super(model);
@@ -26,14 +26,14 @@ The call to the super constructor will save the given model as the \texttt{SBase
 For convenience, a getModel() method to retrieve the extended model should also be added
 \begin{lstlisting}[language=Java,caption={Convenience method to retrieve the extended model},label={lst:ModelExtGetModel}]
   public Model getModel() {
-    return (Model)extendedSBase;
+    return (Model)getExtendedSBase();
   }
 \end{lstlisting}
 
 
 \subsection{Adding new classes}
 \label{subsec:addingClasses}
-In almost all cases, extensions introduce new classes.
+In almost all cases, extensions introduce new classes that have no counterpart in the SBML core.
 Since those new classes are no extensions to existing ones, no extension-specific work has to be done here.
 In the \emph{Example} extension, there is the new \texttt{Foo} class that is an \texttt{SBase} and extends \texttt{AbstractNamedSBase}.
 It has the three attributes \emph{id}, \emph{name}, and \emph{bar}.
@@ -149,7 +149,7 @@ The \emph{Example} extension adds no new attributes to the extended model,
 but it introduces a new child in form of a list, in this case a \texttt{ListOfFoos},
 for the new class \texttt{Foo}.
 Instances of \texttt{Foo} can be children of the extended model via a newly defined \texttt{ListOfFoos}.
-For this, the methods \texttt{isSetListOfFoos()}, \texttt{getListOfFoos()}, \texttt{setListOfFoos(ListOf<Foo>)}, and \texttt{unsetListOfFoos()} need to be implemented.
+For this, the methods \texttt{isSetListOfFoos()}, \texttt{getListOfFoos()}, \texttt{setListOfFoos(ListOf<Foo>)}, and \texttt{unsetListOfFoos()} need to be implemented (see Listing ~\vref{lst:ModelExtListOfFoosBasic}).
 
 \begin{lstlisting}[language=Java,caption={Implementation of ListOf the methods: \texttt{isSetListOfFoos()}, \texttt{getListOfFoos()}, \texttt{setListOfFoos()}},label={lst:ModelExtListOfFoosBasic}]
 public boolean isSetListOfFoos() {
@@ -159,13 +159,13 @@ public boolean isSetListOfFoos() {
     return true;
   }
 
-  public ListOf<Transition> getListOfFoos() {
+  public ListOf<Foo> getListOfFoos() {
     if (!isSetListOfFoos()) {
-      listOfFoos = new ListOf<Foo>(getModel().getLevel(), getModel().getVersion());
+      Model m = getModel();
+      listOfFoos = new ListOf<Foo>(m.getLevel(), m.getVersion());
       listOfFoos.addNamespace(ExampleConstants.namespaceURI);
-    getModel().registerChild(listOfFoos);
-    listOfFoos.setSBaseListType(ListOf.Type.other);
-
+      m.registerChild(listOfFoos);
+      listOfFoos.setSBaseListType(ListOf.Type.other);
     }
     return ListOfFoos;
   }
@@ -176,7 +176,7 @@ public boolean isSetListOfFoos() {
     getModel().registerChild(this.listOfFoos);
   }
 
-  public boolean unsetListOfFoos(){
+  public boolean unsetListOfFoos() {
     if(isSetListOfFoos()) {
       ListOf<Foos> oldFoos = this.listOfFoos;
       this.listOfFoos = null;
@@ -188,7 +188,7 @@ public boolean isSetListOfFoos() {
 \end{lstlisting}
 
 When adding and removing Foo objects to the model, direct access to the ListOfs should not be necessary.
-Therefore, convenience methods for adding and removing object should be added to the model, which will also do additional consistency checking.
+Therefore, convenience methods for adding and removing an object should be added to the model, which will also do additional consistency checking (Listing ~\vref{lst:ModelExtAddRemoveFoos}).
 
 \begin{lstlisting}[language=Java,caption={Implementaion of ListOf methods \texttt{addFoo(Foo foo)}, \texttt{removeFoo(Foo foo)}, \texttt{removeFoo(int i)}},label={lst:ModelExtAddRemoveFoos}]
   public boolean addFoo(Foo foo) {
@@ -210,7 +210,7 @@ Therefore, convenience methods for adding and removing object should be added to
   }
 \end{lstlisting}
 
-To let the additional \texttt{ListOfFoo} appear as a child of the standard model, the important methods for the \texttt{JTree} need to be implemented.
+To let the additional \texttt{ListOfFoo} appear as a child of the standard model, the important methods for the \texttt{TreeNode} need to be implemented (see Listing ~\vref{lst:ModelExtChildren}).
 \texttt{getAllowsChildren()} should return \texttt{true} in this case, since this extension obviously allows children.
 The child count and the indices of the children is bit more complicated, because it varies with the number of \texttt{ListOf}s that actually contain elements.
 So, for every non-empty \texttt{ListOf} child of our model extension, we increase the counter by one.
@@ -252,8 +252,8 @@ If a child is queried by its index, the possibility of an index shift needs to b
 
 \subsection{Create methods}
 
-Because a newly created instance of type Foo is not part of the model unless it is added,
-\texttt{create*} methods should be provided that take care of all that.
+Because a newly created instance of type Foo is not part of the model unless it is added to it,
+\texttt{create*} methods should be provided that take care of all that (see Listing ~\vref{lst:ModelExtCreateMethods}). 
 These create methods should be part of the model to which the Foo instance should be added, in this case ExampleModel.
 
 \begin{lstlisting}[language=Java,caption={Convenience method to retrieve the extended model},label={lst:ModelExtCreateMethods}]
@@ -282,8 +282,9 @@ public class ExampleMode extends AbstractSBasePlugin {
 \end{lstlisting}
 
 
-\subsection{\texttt{equals}, \texttt{hashCode} and \texttt{clone}}
-There are three further methods which should be written in an extension class: \texttt{equals}, \texttt{hashCode} and \texttt{clone}. In the Listing \ref{lst:ModelExtEquals}, \ref{lst:ModelExtHashCode}, and \ref{lst:ModelExtClone} are examples how to write these methods for the class \texttt{Foo} with the attribute \texttt{bar}.
+\subsection{\texttt{equals}, \texttt{hashCode}, and \texttt{clone}}
+There are three further methods which should be implemented in an extension class: \texttt{equals}, \texttt{hashCode} and \texttt{clone}.
+In Listing \ref{lst:ModelExtEquals}, \ref{lst:ModelExtHashCode}, and \ref{lst:ModelExtClone} are examples how to write these methods for the class \texttt{Foo} with the attribute \texttt{bar}.
 
 \begin{lstlisting}[language=Java,caption={Example of the \texttt{equals} method},label={lst:ModelExtEquals}]
 @Override
@@ -326,7 +327,8 @@ There are three further methods which should be written in an extension class: \
 
 
 \subsection{\texttt{writeXMLAttributes}}
-To write the xml attributes of each class of the extensions in the SBML document the \texttt{writeXMLAttributes()} method must be written in each class. An example is shown in Listing \ref{lst:ModelExtCreateXMLAttributes}.
+To write the xml attributes of each class of the extensions in the SBML document the \texttt{writeXMLAttributes()} method must be written in each class.
+An example is shown in Listing \ref{lst:ModelExtCreateXMLAttributes}.
 
 \begin{lstlisting}[language=Java,caption={Method to create the XML attributes},label={lst:ModelExtCreateXMLAttributes}]
   public Map<String, String> writeXMLAttributes() {
@@ -355,11 +357,11 @@ To write the xml attributes of each class of the extensions in the SBML document
               \item [$\Box$] \texttt{unsetBar()}
             \end{itemize}
         \item [$\Box$] Added the default constructors (see Listing \ref{lst:ModelExtFooConstructors})
-        \item [$\Box$] If the class has children are all list methods implemented (see Listing \ref{lst:ModelExtChildren}, \ref{lst:ModelExtListOfFoosBasic}, \ref{lst:ModelExtAddRemoveFoos}, \ref{lst:ModelExtChildren}):
+        \item [$\Box$] If the class has children, check if all list methods are implemented (see Listing \ref{lst:ModelExtChildren}, \ref{lst:ModelExtListOfFoosBasic}, \ref{lst:ModelExtAddRemoveFoos}, \ref{lst:ModelExtChildren}):
             \begin{itemize}
               \item [$\Box$] \texttt{isSetListOfFoos()}
-              \item [$\Box$] \texttt{getSetListOfFoos()}
-              \item [$\Box$] \texttt{setSetListOfFoos(ListOf<Foo> listOfFoos)}
+              \item [$\Box$] \texttt{getListOfFoos()}
+              \item [$\Box$] \texttt{setListOfFoos(ListOf<Foo> listOfFoos)}
               \item [$\Box$] \texttt{addFoo(Foo foo)}
               \item [$\Box$] \texttt{removeFoo(Foo foo)}
               \item [$\Box$] \texttt{removeFoo(int i)}
