@@ -8,6 +8,11 @@ Version 0.8-rc2 (xx-xx-2012)
 
   - JSBML could not write negative infinity into SBML files correctly.
   
+  - The units of formulae containing Advogadro's number could not
+    be derived because in the UnitsCompiler a UnitDefinition object 
+    was created with undefined level/version configuration. Furhtermore,
+    there was a bug in the method containsUndeclaredUnits() in ASTNode.
+  
   - Meike Aichele removed in TreeNodeChangeEvent the event spacialDimension, 
     because there is already a spatialDimension-event, which means 
     exactly the same and removed also in TreeNodeChangeEvent the events resource, kineticLaw 

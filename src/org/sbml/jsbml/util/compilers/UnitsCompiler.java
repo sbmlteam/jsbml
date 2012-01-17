@@ -31,8 +31,8 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Quantity;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Unit;
-import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.Maths;
 
 /**
@@ -659,7 +659,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue getConstantAvogadro(String name) {
 		ASTNodeValue value = new ASTNodeValue(Maths.AVOGADRO, this);
-		UnitDefinition perMole = new UnitDefinition();
+		UnitDefinition perMole = new UnitDefinition(level, version);
 		perMole.setLevel(level);
 		perMole.setId("per_mole");
 		perMole.addUnit(new Unit(Kind.MOLE, -1, level, version));

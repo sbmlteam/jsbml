@@ -1863,11 +1863,16 @@ public class ASTNode extends AbstractTreeNode {
 				return true;
 			}
 			if (isString()) {
-				if ((getVariable() != null)
-						&& (!getVariable().containsUndeclaredUnits())) {
-					return false;
-				}
-				return true;
+				if ((type == Type.NAME_TIME) && (isSetParentSBMLObject())) {
+			          Model model = getParentSBMLObject().getModel();
+			          if ((model != null) && model.isSetTimeUnits()) {
+			            return false;
+			          }
+			        } else if ((type == Type.NAME_AVOGADRO) || (getVariable() != null)
+			          && (!getVariable().containsUndeclaredUnits())) {
+			          return false;
+			        }
+			        return true;
 			}
 		} else {
 			for (ASTNode child : getListOfNodes()) {
@@ -1878,7 +1883,7 @@ public class ASTNode extends AbstractTreeNode {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Evaluates recursively this ASTNode and creates a new UnitDefinition with
 	 * respect of all referenced elements.
@@ -2000,7 +2005,7 @@ public class ASTNode extends AbstractTreeNode {
 		return pList;
 	}
 
-  /*
+	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
@@ -2010,7 +2015,7 @@ public class ASTNode extends AbstractTreeNode {
 				|| isNaN() || isRational());
 	}
 
-	/**
+  /**
 	 * Gets the value of this node as a single character. This function should
 	 * be called only when ASTNode.getType() is one of PLUS, MINUS, TIMES,
 	 * DIVIDE or POWER.
@@ -2062,7 +2067,7 @@ public class ASTNode extends AbstractTreeNode {
 	public TreeNode getChildAt(int i) {
 		return getChild(i);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -2071,7 +2076,7 @@ public class ASTNode extends AbstractTreeNode {
 	public int getChildCount() {
 		return listOfNodes == null ? 0 : listOfNodes.size();
 	}
-
+	
 	/**
 	 * Returns the list of children of the current ASTNode.
 	 * 
@@ -2838,6 +2843,16 @@ public class ASTNode extends AbstractTreeNode {
 	public boolean isSetNumberType() {
 		return isSetNumberType;
 	}
+
+	/**
+	   * Checks if a parent SBML object, i.e., a {@link MathContainer}, is set as a
+	   * parent SBML object for this {@link ASTNode}.
+	   * 
+	   * @return
+	   */
+		public boolean isSetParentSBMLObject() {
+	    return parentSBMLObject != null;
+	  }
 
 	/**
 	 * @return
