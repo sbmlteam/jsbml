@@ -66,7 +66,6 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
 	public static final String id = "id";
 	public static final String compartmentType = "compartmentType";
 	public static final String outside = "outside";
-	public static final String spacialDimensions = "spacialDimensions";
 	public static final String message = "message";
 	public static final String messageBuffer = "messageBuffer";
 	public static final String timeUnits = "timeUnits";
@@ -99,13 +98,11 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
 	public static final String multiplier = "multiplier";
 	public static final String offset = "offset";
 	public static final String scale = "scale";
-	public static final String listOfUnits = "listOfUnits";
 	public static final String priority = "priority";
 	public static final String initialValue = "initialValue";
 	public static final String persistent = "persistent";
 	public static final String SBMLDocumentAttributes = "SBMLDocumentAttributes";
 	public static final String model = "model";
-	public static final String kineticLaw = "kineticLaw";
 	public static final String spatialDimensions = "spatialDimensions";
 	public static final String formula = "formula";
 	public static final String size = "size";
@@ -121,7 +118,6 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
 	public static final String encoding = "encoding";
 	public static final String xmlTriple = "xmlTriple";
 	public static final String isEOF = "isEOF";
-	public static final String resource = "resource";
 	public static final String qualifier = "qualifier";
 	public static final String modified = "modified";
 	public static final String created = "created";

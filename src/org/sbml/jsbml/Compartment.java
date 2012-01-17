@@ -608,7 +608,7 @@ public class Compartment extends Symbol {
 	public void setSpatialDimensions(double spatialDimension) {
 		if (getLevel() < 2) {
 			throw new PropertyNotAvailableException(
-					TreeNodeChangeEvent.spacialDimensions, this);
+					TreeNodeChangeEvent.spatialDimensions, this);
 		}
 		if (((0d <= spatialDimension) && (spatialDimension <= 3d)  
 				&& (((int) spatialDimension) - spatialDimension == 0d))
@@ -831,7 +831,7 @@ public class Compartment extends Symbol {
 		Double oldSpatialDim = this.spatialDimensions;
 		this.spatialDimensions = null;
 		isSetSpatialDimensions = false;
-		firePropertyChange(TreeNodeChangeEvent.spacialDimensions, oldSpatialDim,
+		firePropertyChange(TreeNodeChangeEvent.spatialDimensions, oldSpatialDim,
 				this.spatialDimensions);
 	}
 
