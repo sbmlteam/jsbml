@@ -3293,8 +3293,10 @@ public int getNumLocalParameters() {
     String id = unsb.getId();
     if (delete && (mapOfUniqueNamedSBases != null)) {
       mapOfUniqueNamedSBases.remove(id);
+      if (logger.isDebugEnabled()) {
       logger.debug(String.format("removed id=%s from model%s",
         id, (isSetId() ? " " + getId() : "")));
+      }
     } else if (unsb.isSetId()) {
       if (mapOfUniqueNamedSBases == null) {
         mapOfUniqueNamedSBases = new HashMap<String, UniqueNamedSBase>();
