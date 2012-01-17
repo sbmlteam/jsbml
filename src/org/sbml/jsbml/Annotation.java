@@ -315,17 +315,17 @@ public class Annotation extends AnnotationElement {
 	 * @param annotation some non RDF annotations.
 	 */
 	public void appendNoRDFAnnotation(String annotation) {
-		String oldNonRDFAnnotation = null;		
+		StringBuilder oldNonRDFAnnotation = null;		
 		
 		if (this.nonRDFannotation == null) {
 			this.nonRDFannotation = new StringBuilder(annotation);
 		} else {
-			oldNonRDFAnnotation = nonRDFannotation.toString();
+			oldNonRDFAnnotation = nonRDFannotation;
 			this.nonRDFannotation.append(annotation);
 		}
 		
 		firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
-					oldNonRDFAnnotation, nonRDFannotation.toString());
+					oldNonRDFAnnotation, nonRDFannotation);
 	}
 
 	
