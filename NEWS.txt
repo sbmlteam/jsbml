@@ -8,6 +8,11 @@ Version 0.8-rc2 (xx-xx-2012)
 
   - JSBML could not write negative infinity into SBML files correctly.
   
+  - Meike Aichele removed in TreeNodeChangeEvent the event spacialDimension, 
+    because there is already a spatialDimension-event, which means 
+    exactly the same and removed also in TreeNodeChangeEvent the events resource, kineticLaw 
+    and listOfUnits, because they are nowhere called at this time
+  
 ======================================================================
 Version 0.8-rc1 (08-12-2011)
 ======================================================================
