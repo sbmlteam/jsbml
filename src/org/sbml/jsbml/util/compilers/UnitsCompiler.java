@@ -659,7 +659,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue getConstantAvogadro(String name) {
 		ASTNodeValue value = new ASTNodeValue(Maths.AVOGADRO, this);
-		UnitDefinition perMole = new UnitDefinition();
+		UnitDefinition perMole = new UnitDefinition(level, version);
 		perMole.setLevel(level);
 		perMole.setId("per_mole");
 		perMole.addUnit(new Unit(Kind.MOLE, -1, level, version));

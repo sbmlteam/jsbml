@@ -22,6 +22,11 @@ Version 1.0-rc1 (xx-xx-2012)
     because there is already a spatialDimension-event, which means 
     exactly the same and removed also in TreeNodeChangeEvent the events resource, kineticLaw 
     and listOfUnits, because they are nowhere called at this time
+    
+  - The units of formulae containing Advogadro's number could not
+    be derived because in the UnitsCompiler a UnitDefinition object 
+    was created with undefined level/version configuration. Furhtermore,
+    there was a bug in the method containsUndeclaredUnits() in ASTNode.
 
 ======================================================================
 Version 0.8-rc1 (xx-xx-2011)
