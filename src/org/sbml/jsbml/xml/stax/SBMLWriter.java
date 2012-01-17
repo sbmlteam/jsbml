@@ -125,6 +125,9 @@ public class SBMLWriter {
 			System.exit(0);
 		}
 
+		long init = Calendar.getInstance().getTimeInMillis();
+		System.out.println(Calendar.getInstance().getTime());
+		
 		String fileName = args[0];
 		String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
 		
@@ -132,10 +135,16 @@ public class SBMLWriter {
 		  fileName, jsbmlWriteFileName);
 
 		SBMLDocument testDocument;
+		long afterRead = 0;
 		try {
 			testDocument = new SBMLReader().readSBMLFile(fileName);
-
+			System.out.printf("Reading done\n");
+			System.out.println(Calendar.getInstance().getTime());
+			afterRead = Calendar.getInstance().getTimeInMillis();
+			
 			// testDocument.checkConsistency(); 
+			
+			System.out.printf("Starting writing\n");
 			
 			new SBMLWriter().write(testDocument, jsbmlWriteFileName);
 		} catch (XMLStreamException e) {
@@ -143,6 +152,19 @@ public class SBMLWriter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println(Calendar.getInstance().getTime());
+		long end = Calendar.getInstance().getTimeInMillis();
+		long nbSecondes = (end - init)/1000;
+		long nbSecondesRead = (afterRead - init)/1000;
+		long nbSecondesWrite = (end - afterRead)/1000;
+		
+		if (nbSecondes > 120) {
+			System.out.println("It took " + nbSecondes/60 + " minutes.");
+		} else {
+			System.out.println("It took " + nbSecondes + " secondes.");			
+		}
+		System.out.println("Reading : " + nbSecondesRead + " secondes.");
+		System.out.println("Writing : " + nbSecondesWrite + " secondes.");
 	}
 
 	/**
