@@ -176,9 +176,22 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		if (isSetMath()) {
 			try {
 				ud = math.deriveUnit();
-			} catch (Throwable e) {
+			} catch (Throwable exc) {
 				// Doesn't matter. We'll simply return an undefined unit.
-				logger.warn("Could not derive unit from syntax tree.", e);
+			  String name; 
+			  if (this instanceof NamedSBase) {
+			    name = toString();
+			  } else {
+			    name = getElementName();
+			    SBase parent = getParentSBMLObject(); 
+			    if ((parent != null) && (parent instanceof NamedSBase)) {
+			      name += " in " + parent.toString();
+			    }
+			  }
+        logger.warn(String.format(
+          "Could not derive unit from syntax tree of %s: %s", name,
+          exc.getLocalizedMessage()));
+        logger.debug(exc.getLocalizedMessage(), exc);
 			}
 		}
 		if (ud != null) {
