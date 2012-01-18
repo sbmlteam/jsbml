@@ -15,8 +15,7 @@ Version 0.8-rc2 (xx-xx-2012)
   
   - Meike Aichele removed in TreeNodeChangeEvent the event spacialDimension, 
     because there is already a spatialDimension-event, which means 
-    exactly the same and removed also in TreeNodeChangeEvent the events resource, kineticLaw 
-    and listOfUnits, because they are nowhere called at this time
+    exactly the same
   
 ======================================================================
 Version 0.8-rc1 (08-12-2011)
