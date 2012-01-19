@@ -593,7 +593,7 @@ public class OverdeterminationValidator {
 
 		// Build vertices for compartments and hash them
 		for (Compartment c : model.getListOfCompartments()) {
-			if (!c.isConstant()) {
+			if ((model.getLevel()==1) || !(c.isConstant())) {
 				variable = new InnerNode<SBase>(c);
 				variables.add(variable);
 				variableHash.put(variable.getValue(), variable);
@@ -719,7 +719,7 @@ public class OverdeterminationValidator {
 				equations.add(equation);
 				// all identifiers withn the MathML of this AlgebraicRule
 				svariables.clear();
-				getVariables(null, model.getRule(i).getMath(), svariables);
+				getVariables(null, model.getRule(i).getMath(), svariables, model.getLevel());
 				// link rule with its variables
 				for (int j = 0; j < svariables.size(); j++) {
 					variable = variableHash.get(svariables.get(j));
@@ -864,15 +864,39 @@ public class OverdeterminationValidator {
 	 * @param variables
 	 */
 	private void getVariables(ListOf<LocalParameter> param, ASTNode node,
-			List<SBase> variables) {
+			List<SBase> variables, int level) {
 		// found node with species	
 		if (node.getChildCount() == 0 && node.isString()) {
 			if (!node.isConstant()) {				
 				if (param == null) {
-					variables.add(node.getVariable());
+				  SBase variable=node.getVariable();
+				  if(level==1) {
+				    int insertingPosition=0;
+				    for(SBase element:variables) {
+				      if(!(element instanceof Parameter) || (!((Parameter)element).isSetValue())) {
+				        insertingPosition++;
+				      }
+				    }
+				    variables.add(insertingPosition, variable);
+				  }
+				  else {
+				    variables.add(variable);
+				  }
 				} else {
 					if (!param.contains(node.getVariable())) {
-						variables.add(node.getVariable());
+					  SBase variable=node.getVariable();
+	          if(level==1) {
+	            int insertingPosition=0;
+	            for(SBase element:variables) {
+	              if(!(element instanceof Parameter) || (!((Parameter)element).isSetValue())) {
+	                insertingPosition++;
+	              }
+	            }
+	            variables.add(insertingPosition, variable);
+	          }
+	          else {
+	            variables.add(variable);
+	          }
 					}
 				}
 			}
@@ -883,7 +907,7 @@ public class OverdeterminationValidator {
 			// carry on with all children
 			Enumeration<TreeNode> nodes = node.children();
 			while (nodes.hasMoreElements()) {
-				getVariables(param, (ASTNode) nodes.nextElement(), variables);
+				getVariables(param, (ASTNode) nodes.nextElement(), variables, level);
 			}
 		}
 
