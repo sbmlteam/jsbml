@@ -2617,7 +2617,28 @@ public int getNumLocalParameters() {
    *         name depending on the level and version). Null if it doesn't exist.
    */
   public Species getSpecies(String id) {
-    return getListOfSpecies().firstHit(new NameFilter(id));
+      
+      SBase foundSBase = findUniqueNamedSBase(id);
+      
+      if (foundSBase != null && foundSBase instanceof Species) {
+          return (Species) foundSBase;
+      }
+ 
+      /*     
+      ListOf<Species> ls = getListOfSpecies();
+      Species tmp = ls.firstHit(new NameFilter(id));
+      
+      Species speciesFound = null;
+      for (Species species : ls) {
+          if (species.isSetId() && species.getId().equals(id)) {
+              speciesFound = species;
+              break;
+          }
+      }
+      * 
+      */
+      
+    return null;
   }
   
   /**
