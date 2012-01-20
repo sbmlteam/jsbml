@@ -164,7 +164,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * For internal computation: a mapping between their identifiers and
    * the {@link UniqueNamedSBase}s in {@link Model}s themself:
    */
-  private Map<String, UniqueNamedSBase> mapOfUniqueNamedSBases;
+  Map<String, UniqueNamedSBase> mapOfUniqueNamedSBases;
   
   /**
    * A mapping between their identifiers and associated {@link UnitDefinition} objects.
