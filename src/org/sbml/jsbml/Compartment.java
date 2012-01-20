@@ -370,7 +370,12 @@ public class Compartment extends Symbol {
 		unitsID = null;
 		if (level < 3) {
 			spatialDimensions = Double.valueOf(3d);
-			constant = new Boolean(true);
+			if (level >= 2) {
+				  constant = new Boolean(true);
+			}
+			else {
+				 constant = null;
+			}
 		} else {
 			spatialDimensions = null;
 			constant = null;
