@@ -20,9 +20,9 @@
 
 package org.sbml.jsbml;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -320,7 +320,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	/**
 	 * list containing all the SBase elements of this object.
 	 */
-	protected LinkedList<T> listOf = new LinkedList<T>();
+	protected ArrayList<T> listOf = new ArrayList<T>();
 
 	/**
 	 * name of the list at it appears in the SBMLFile. By default, it is
@@ -467,7 +467,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#clear()
 	 */
 	public void clear() {
-		LinkedList<T> removedElements = listOf;
+		ArrayList<T> removedElements = listOf;
 		listOf.clear();
 		for( T element : removedElements){
 			((AbstractTreeNode) element).fireNodeRemovedEvent();
@@ -646,7 +646,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @return
 	 */
 	public T getFirst() {
-		return listOf.getFirst();
+		return listOf.get(0);
 	}
 
 	/**
@@ -655,7 +655,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @return
 	 */
 	public T getLast() {
-		return listOf.getLast();
+		return listOf.get(listOf.size() - 1);
 	}
 
 	/**
