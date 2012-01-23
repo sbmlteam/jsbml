@@ -569,8 +569,8 @@ public class SBMLReader {
 					SBMLDocument sbmlDocument = new SBMLDocument();
 
 					// the output of the change listener is activated or not via log4j.properties
-          sbmlDocument.addTreeNodeChangeListener(listener == null
-            ? new SimpleTreeNodeChangeListener() : listener);
+					sbmlDocument.addTreeNodeChangeListener(listener == null
+							? new SimpleTreeNodeChangeListener() : listener);
 
 					for (@SuppressWarnings("unchecked")
 							Iterator<Attribute> iterator = startElement.getAttributes(); iterator.hasNext();) 
@@ -650,7 +650,7 @@ public class SBMLReader {
 					rdfDescriptionIndex++;
 				}
 
-				if (isInsideAnnotation) {
+				if (isInsideAnnotation && logger.isDebugEnabled()) {
 					logger.debug("startElement : local part = " + currentNode.getLocalPart());
 					logger.debug("startElement : annotation deepness = " + annotationDeepness);
 					logger.debug("startElement : rdf description index = " + rdfDescriptionIndex);
@@ -682,8 +682,10 @@ public class SBMLReader {
 //						parser = initializedParsers.get("anyAnnotation");
 //					}
 					
-					logger.debug(" Parser = " + parser.getClass().getName());
-					logger.debug(" Characters = @" + characters.getData() + "@");
+					if (logger.isDebugEnabled()) {
+						logger.debug(" Parser = " + parser.getClass().getName());
+						logger.debug(" Characters = @" + characters.getData() + "@");
+					}
 					
 					if (currentNode != null) {
 						
@@ -771,9 +773,11 @@ public class SBMLReader {
 		// We reach the end of the XML fragment and no 'sbml' have been found
 		// so we are probably parsing some math or notes String.
 		
-		logger.debug("no more XMLEvent : stack.size = " + sbmlElements.size());
+		if (logger.isDebugEnabled()) {
+			logger.debug("no more XMLEvent : stack.size = " + sbmlElements.size());
 		
-		logger.debug("no more XMLEvent : stack = " + sbmlElements);
+			logger.debug("no more XMLEvent : stack = " + sbmlElements);
+		}
 		
 		initializedParsers.remove("");
 		
@@ -840,7 +844,9 @@ public class SBMLReader {
 
 		String elementNamespace = currentNode.getNamespaceURI();
 
-		logger.debug("processStartElement : " + currentNode.getLocalPart() + ", " + elementNamespace);
+		if (logger.isDebugEnabled()) {
+			logger.debug("processStartElement : " + currentNode.getLocalPart() + ", " + elementNamespace);
+		}
 		
 		// To be able to parse all the SBML file, the sbml node
 		// should have been read first.
@@ -1048,14 +1054,15 @@ public class SBMLReader {
 			Stack<Object> sbmlElements, boolean isInsideAnnotation, boolean isRDFSBMLSpecificAnnotation) {
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		
-		logger.debug("event.isEndElement : stack.size = " + sbmlElements.size());
-		logger.debug("event.isEndElement : element name = " + currentNode.getLocalPart());
-		
-		if (currentNode.getLocalPart().equals("kineticLaw") || currentNode.getLocalPart().startsWith("listOf")
-				|| currentNode.getLocalPart().equals("math")) {
-			logger.debug("event.isEndElement : stack = " + sbmlElements);
-		}
-		
+		if (logger.isDebugEnabled()) {
+			logger.debug("event.isEndElement : stack.size = " + sbmlElements.size());
+			logger.debug("event.isEndElement : element name = " + currentNode.getLocalPart());
+			
+			if (currentNode.getLocalPart().equals("kineticLaw") || currentNode.getLocalPart().startsWith("listOf")
+					|| currentNode.getLocalPart().equals("math")) {
+				logger.debug("event.isEndElement : stack = " + sbmlElements);
+			}
+		}		
 		// check that the stack did not increase before and after an element ?
 		
 		if (initializedParsers != null) {
@@ -1089,7 +1096,10 @@ public class SBMLReader {
 			}
 			// process the end of the element.
 			if (!sbmlElements.isEmpty() && (parser != null)) {
-				logger.debug("event.isEndElement : calling parser.processEndElement " + parser.getClass());
+
+				if (logger.isDebugEnabled()) {
+					logger.debug("event.isEndElement : calling parser.processEndElement " + parser.getClass());
+				}
 
 				boolean popElementFromTheStack = parser.processEndElement(currentNode.getLocalPart(),
 								currentNode.getPrefix(), isNested, sbmlElements.peek());
