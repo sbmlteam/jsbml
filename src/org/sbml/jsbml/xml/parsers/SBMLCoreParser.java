@@ -312,7 +312,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			Object contextObject) 
 	{
 
-		log4jLogger.debug(" process the attribute : '" + attributeName + "' (value = " + value + ") on element '" + elementName + "' (" + contextObject + ").");
+		if (log4jLogger.isDebugEnabled()) {
+			log4jLogger.debug(" process the attribute : '" + attributeName + "' (value = " + value + ") on element '" + elementName + "' (" + contextObject + ").");
+		}
 		
 		boolean isAttributeRead = false;
 
@@ -352,9 +354,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		}
 
 		if (!isAttributeRead) {
-      log4jLogger.warn(String.format(
-        "Could not recognize the attribute '%s' on the element %s. Please check the SBML specifications.",
-        attributeName, elementName));
+			log4jLogger.warn(String.format(
+					"Could not recognize the attribute '%s' on the element %s. Please check the SBML specifications.",
+					attributeName, elementName));
 			//  Log the error to the ErrorLog object ??
 		}
 	}

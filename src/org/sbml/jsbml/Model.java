@@ -3315,8 +3315,8 @@ public int getNumLocalParameters() {
     if (delete && (mapOfUniqueNamedSBases != null)) {
       mapOfUniqueNamedSBases.remove(id);
       if (logger.isDebugEnabled()) {
-      logger.debug(String.format("removed id=%s from model%s",
-        id, (isSetId() ? " " + getId() : "")));
+    	  logger.debug(String.format("removed id=%s from model%s",
+    			  id, (isSetId() ? " " + getId() : "")));
       }
     } else if (unsb.isSetId()) {
       if (mapOfUniqueNamedSBases == null) {
@@ -3325,25 +3325,33 @@ public int getNumLocalParameters() {
       /*
        * Three reasons for non acceptance:
        * (1) another UniqueNamedSBase is already registered with the identical id.
-       * (2) some Reaction refers to a LocalParameter with this id, but LV >= 2.3 and the
+       * 
+       * No need to test this case (2) some Reaction refers to a LocalParameter
+       *  with this id, but LV >= 2.3 and the
        *     overridden element is not an instance of Species, Compartment, or Parameter.
+       *            
+         || ((0 < unsb.getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)))
+          && (mapOfLocalParameters != null)
+          && mapOfLocalParameters.containsKey(id) && !(unsb instanceof Symbol))
+
        * (3) In Level 1 UnitDefinitions and UniqueNamedSBases use the same namespace.
        */
       if ((mapOfUniqueNamedSBases.containsKey(id) && 
           (mapOfUniqueNamedSBases.get(id) != unsb))
-        || ((0 < unsb.getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)))
-          && (mapOfLocalParameters != null)
-          && mapOfLocalParameters.containsKey(id) && !(unsb instanceof Symbol))
         || ((unsb.getLevel() == 1) && (mapOfUnitDefinitions != null) && 
-            (mapOfUnitDefinitions.containsKey(id)))) {
+            (mapOfUnitDefinitions.containsKey(id)))) 
+      {
         logger.error(String.format(
           "An element with the id '%s' is already present in this model%s. The new element will not be added to the model.",
           id, (isSetId() ? " " + getId() : "")));
         return false;
       }
       mapOfUniqueNamedSBases.put(id, unsb);
-      logger.debug(String.format("registered id=%s in model%s",
-        id, (isSetId() ? " " + getId() : "")));
+
+      if (logger.isDebugEnabled()) {      
+    	  logger.debug(String.format("registered id=%s in model%s",
+    			  id, (isSetId() ? " " + getId() : "")));
+      }
     }
     return true;
   }

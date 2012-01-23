@@ -47,9 +47,9 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	private static final String letter = "a-zA-Z";
 	private static final String digit = "0-9";
 	private static final String idChar = "[" + letter + digit + underscore + "]";
-	private static final String SIdL2 = "[" + letter + underscore + "]" + idChar + '*';
+	private static final String SIdL2 = "^[" + letter + underscore + "]" + idChar + '*';
 	private static final Pattern SIdL2Pattern = Pattern.compile(SIdL2);
-	
+		
 	/**
 	 * Checks whether the given idCandidate is a valid identifier according to
 	 * the SBML specifications.
