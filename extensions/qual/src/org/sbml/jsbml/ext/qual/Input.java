@@ -43,13 +43,31 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
    * Generated serial version identifier.
    */
   private static final long     serialVersionUID = -3370025650545068132L;
+  /**
+   * 
+   */
   private String                qualitativeSpecies;
+  /**
+   * 
+   */
   private InputTransitionEffect transitionEffect;
+  /**
+   * 
+   */
   private Integer               thresholdLevel;
+  /**
+   * 
+   */
   private String                thresholdSymbol;
+  /**
+   * 
+   */
   private Sign                  sign;
 
 
+  /**
+   * 
+   */
   public Input() {
     super();
     initDefaults();
@@ -64,7 +82,12 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
-
+  /**
+   * 
+   * @param id
+   * @param qualitativeSpecies
+   * @param transitionEffect
+   */
   public Input(String id, QualitativeSpecies qualitativeSpecies, InputTransitionEffect transitionEffect) {
     this(id);
     setQualitativeSpecies(qualitativeSpecies.getId());
@@ -105,7 +128,9 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     initDefaults();
   }
 
-  
+  /**
+   * 
+   */
   public void initDefaults() {
     addNamespace(QualConstant.namespaceURI);
     qualitativeSpecies = null;
@@ -116,7 +141,9 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
-  @Override
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   public AbstractSBase clone() {
     return null;
   }
@@ -132,7 +159,10 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     firePropertyChange(QualConstant.sign, oldSign, this.sign);
   }
 
-
+  /**
+   * 
+   * @return
+   */
   public boolean isSetSign() {
     return sign != null;
   }
@@ -163,8 +193,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   public boolean isIdMandatory() {
@@ -223,7 +252,10 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     return false;
   }
 
-
+  /**
+   * 
+   * @return
+   */
   public boolean isTransitionEffectMandatory() {
     return false;
   }
@@ -260,7 +292,10 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
       this.transitionEffect);
   }
 
-
+  /**
+   * 
+   * @return
+   */
   public boolean unsetTransitionEffect() {
     if (isSetTransitionEffect()) {
       setTransitionEffect(null);
@@ -278,7 +313,10 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     return false;
   }
 
-
+  /**
+   * 
+   * @return
+   */
   public boolean isSetThresholdLevel() {
     return this.thresholdLevel != null;
   }
@@ -371,8 +409,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
    */
   @Override
@@ -405,8 +442,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
   @Override
@@ -431,7 +467,9 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
@@ -467,7 +505,9 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     return isAttributeRead;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();

@@ -40,39 +40,56 @@ import org.sbml.jsbml.util.filters.NameFilter;
  */
 public class QualitativeModel extends AbstractSBasePlugin {
 
+  /**
+   * Generated serial version identifier.
+   */
   private static final long serialVersionUID = 1861588578911387944L;
   
+  /**
+   * 
+   */
   private ListOf<QualitativeSpecies> listOfQualitativeSpecies;
-	private ListOf<Transition> listOfTransitions;
-	
-	public QualitativeModel(Model model) {
+  /**
+   * 
+   */
+  private ListOf<Transition> listOfTransitions;
+
+  /**
+   * 
+   * @param model
+   */
+  public QualitativeModel(Model model) {
 	  super(model);
-	}
+  }
 
 
-	/**
-	 * Adds a {@link QualitativeSpecies} to the model.
-	 * 
-	 * @param qualitativeSpecies the qualitativeSpecies to add.
-	 */
-	public void addQualitativeSpecies(QualitativeSpecies qualitativeSpecies) {
-		getListOfQualitativeSpecies().add(qualitativeSpecies);		
-	}
-	
-	
-  public void addTransition(Transition transition) {
-    if(!getListOfTransitions().contains(transition)){
-      getListOfTransitions().add(transition);
-    }
-	}
-
+  /**
+   * Adds a {@link QualitativeSpecies} to the model.
+   * 
+   * @param qualitativeSpecies the qualitativeSpecies to add.
+   */
+  public void addQualitativeSpecies(QualitativeSpecies qualitativeSpecies) {
+	  getListOfQualitativeSpecies().add(qualitativeSpecies);		
+  }
 
   
-  public QualitativeModel clone() {
-		// TODO
-		return null;
-	}
+  /**
+   * 
+   * @param transition
+   */
+  public void addTransition(Transition transition) {
+	  if(!getListOfTransitions().contains(transition)){
+		  getListOfTransitions().add(transition);
+	  }
+  }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
+   */
+  public QualitativeModel clone() {
+	  // TODO
+	  return null;
+  }
 
   
   /* (non-Javadoc)
@@ -84,45 +101,45 @@ public class QualitativeModel extends AbstractSBasePlugin {
 
 
   /* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public SBase getChildAt(int childIndex) {
-    if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(childIndex + " < 0");
-    }
-      
-    int pos = 0;
-    if (isSetListOfQualitativeSpecies()) {
-      if (pos == childIndex) {
-        return getListOfQualitativeSpecies();
-      }
-      pos++;
-    }
-    if (isSetListOfTransitions()) {
-      if (pos == childIndex) {
-        return getListOfTransitions();
-      }
-      pos++;
-    }
-    throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-        childIndex, +((int) Math.min(pos, 0))));	  
-	}
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
+   */
+  public SBase getChildAt(int childIndex) {
+	  if (childIndex < 0) {
+		  throw new IndexOutOfBoundsException(childIndex + " < 0");
+	  }
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-    int count = 0;
-    if (isSetListOfQualitativeSpecies()) {
-      count++;
-    }
-    if (isSetListOfTransitions()) {
-      count++;
-    }
-    return count;
+	  int pos = 0;
+	  if (isSetListOfQualitativeSpecies()) {
+		  if (pos == childIndex) {
+			  return getListOfQualitativeSpecies();
+		  }
+		  pos++;
+	  }
+	  if (isSetListOfTransitions()) {
+		  if (pos == childIndex) {
+			  return getListOfTransitions();
+		  }
+		  pos++;
+	  }
+	  throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+			  childIndex, +((int) Math.min(pos, 0))));	  
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
+  public int getChildCount() {
+	  int count = 0;
+	  if (isSetListOfQualitativeSpecies()) {
+		  count++;
+	  }
+	  if (isSetListOfTransitions()) {
+		  count++;
+	  }
+	  return count;
   }
 	
-	/**
+  /**
    * Creates a new {@link Transition} inside this {@link QualitativeModel} and returns it.
    * <p>
    * 
@@ -131,10 +148,10 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * @see #addTransition(Transition r)
    */
   public Transition createTransition() {
-    return createTransition(null);
+	  return createTransition(null);
   }
 	
-	/**
+  /**
    * Creates a new {@link Transition} inside this {@link QualitativeModel} and returns it.
    * 
    * @param id
@@ -142,12 +159,19 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * @return the {@link Transition} object created
    */
   public Transition createTransition(String id) {
-    Transition transition = new Transition(id, getModel().getLevel(), getModel().getVersion());
-    addTransition(transition);
-    
-    return transition;
+	  Transition transition = new Transition(id, getModel().getLevel(), getModel().getVersion());
+	  addTransition(transition);
+
+	  return transition;
   }
   
+  /**
+   * 
+   * @param id
+   * @param in
+   * @param out
+   * @return
+   */
   public Transition createTransition(String id, Input in, Output out) {    
     Transition transition = createTransition(id);
     transition.addInput(in);
@@ -241,44 +265,44 @@ public class QualitativeModel extends AbstractSBasePlugin {
     s.setCompartment(c);
     return s;
   }
-  
-	/**
-	 * @return the listOfQualitativeSpecies
-	 */
-	public ListOf<QualitativeSpecies> getListOfQualitativeSpecies() {
+
+  /**
+   * @return the listOfQualitativeSpecies
+   */
+  public ListOf<QualitativeSpecies> getListOfQualitativeSpecies() {
 	  if (!isSetListOfQualitativeSpecies()) {
-      listOfQualitativeSpecies = new ListOf<QualitativeSpecies>(
-          getModel().getLevel(), getModel().getVersion());
-		listOfQualitativeSpecies.addNamespace(QualConstant.namespaceURI);
-		getModel().registerChild(listOfQualitativeSpecies);
-		listOfQualitativeSpecies.setSBaseListType(ListOf.Type.other);
+		  listOfQualitativeSpecies = new ListOf<QualitativeSpecies>(
+				  getModel().getLevel(), getModel().getVersion());
+		  listOfQualitativeSpecies.addNamespace(QualConstant.namespaceURI);
+		  getModel().registerChild(listOfQualitativeSpecies);
+		  listOfQualitativeSpecies.setSBaseListType(ListOf.Type.other);
 	  }
-		return listOfQualitativeSpecies;
-	}
-	
-	/**
-	 * @return the listOTransitions
-	 */
-	public ListOf<Transition> getListOfTransitions() {
+	  return listOfQualitativeSpecies;
+  }
+
+  /**
+   * @return the listOTransitions
+   */
+  public ListOf<Transition> getListOfTransitions() {
 	  if (!isSetListOfTransitions()) {
-      listOfTransitions = new ListOf<Transition>(getModel().getLevel(),
-          getModel().getVersion());
-	    listOfTransitions.addNamespace(QualConstant.namespaceURI);
-		getModel().registerChild(listOfTransitions);
-		listOfTransitions.setSBaseListType(ListOf.Type.other);
+		  listOfTransitions = new ListOf<Transition>(getModel().getLevel(),
+				  getModel().getVersion());
+		  listOfTransitions.addNamespace(QualConstant.namespaceURI);
+		  getModel().registerChild(listOfTransitions);
+		  listOfTransitions.setSBaseListType(ListOf.Type.other);
 
 	  }
-		return listOfTransitions;
-	}
+	  return listOfTransitions;
+  }
 
-	/**
-	 * Returns the {@link Model}
-	 * 
-	 * @return the {@link Model}
-	 */
-	public Model getModel() {
-		return (Model) extendedSBase;
-	}
+  /**
+   * Returns the {@link Model}
+   * 
+   * @return the {@link Model}
+   */
+  public Model getModel() {
+	  return (Model) extendedSBase;
+  }
 
   /**
    * Gets the ith {@link QualitativeSpecies}.
@@ -305,28 +329,28 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	  } 
 	  return null;
   }
-	
-	/**
-	 * Returns true if <code>qs</code> is already part of this {@link QualitativeModel}
-	 * 
-	 * @param qs
-	 * @return true if <code>qs</code> is already part of this {@link QualitativeModel}
-	 */
-	public boolean containsQualitativeSpecies(QualitativeSpecies qs){
-    return isSetListOfQualitativeSpecies()
-      && listOfQualitativeSpecies.contains(qs);
-	}
 
-	/**
-	 * Gets the ith {@link Transition}.
-	 * 
-	 * @param i
-	 * @return the ith {@link Transition}.
-	 * @throws IndexOutOfBoundsException is the index is invalid.
-	 */
-	public Transition getTransition(int i) {
-		return getListOfTransitions().get(i);
-	}
+  /**
+   * Returns true if <code>qs</code> is already part of this {@link QualitativeModel}
+   * 
+   * @param qs
+   * @return true if <code>qs</code> is already part of this {@link QualitativeModel}
+   */
+  public boolean containsQualitativeSpecies(QualitativeSpecies qs){
+	  return isSetListOfQualitativeSpecies()
+			  && listOfQualitativeSpecies.contains(qs);
+  }
+
+  /**
+   * Gets the ith {@link Transition}.
+   * 
+   * @param i
+   * @return the ith {@link Transition}.
+   * @throws IndexOutOfBoundsException is the index is invalid.
+   */
+  public Transition getTransition(int i) {
+	  return getListOfTransitions().get(i);
+  }
   
   /**
    * Gets the {@link Transition} that has the given id. 
@@ -342,79 +366,76 @@ public class QualitativeModel extends AbstractSBasePlugin {
     return null;
   }
 
-	/**
-	 * Returns true if the listOfQualitativeSpecies is set.
-	 * 
-	 * @return true if the listOfQualitativeSpecies is set.
-	 */
-	public boolean isSetListOfQualitativeSpecies() {
-		if ((listOfQualitativeSpecies == null) || listOfQualitativeSpecies.isEmpty()) {
-			return false;			
-		}		
-		return true;
-	}
-	
-	/**
-	 * Returns true if the listOfTransitions is set.
-	 * 
-	 * @return true if the listOfTransitions is set.
-	 */
-	public boolean isSetListOfTransitions() {
-		if ((listOfTransitions == null) || listOfTransitions.isEmpty()) {
-			return false;			
-		}		
-		return true;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	public boolean readAttribute(String attributeName, String prefix, String value) {
+  /**
+   * Returns true if the listOfQualitativeSpecies is set.
+   * 
+   * @return true if the listOfQualitativeSpecies is set.
+   */
+  public boolean isSetListOfQualitativeSpecies() {
+	  if ((listOfQualitativeSpecies == null) || listOfQualitativeSpecies.isEmpty()) {
+		  return false;			
+	  }		
+	  return true;
+  }
+
+  /**
+   * Returns true if the listOfTransitions is set.
+   * 
+   * @return true if the listOfTransitions is set.
+   */
+  public boolean isSetListOfTransitions() {
+	  if ((listOfTransitions == null) || listOfTransitions.isEmpty()) {
+		  return false;			
+	  }		
+	  return true;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  public boolean readAttribute(String attributeName, String prefix, String value) {
 	  // no attribute to read
-		return false;
-	}
-	
-	/**
-	 * 
-	 * @param listOfQualitativeSpecies
-	 */
-	public void setListOfQualitativeSpecies(
-    ListOf<QualitativeSpecies> listOfQualitativeSpecies) {
-    this.listOfQualitativeSpecies = listOfQualitativeSpecies;
-    getModel().registerChild(this.listOfQualitativeSpecies);
-  }
-	
-	/**
-	 * 
-	 * @param listOfTransitions
-	 */
-	public void setListOfTransitions(ListOf<Transition> listOfTransitions) {
-    this.listOfTransitions = listOfTransitions;
-    getModel().registerChild(this.listOfTransitions);
+	  return false;
   }
 
+  /**
+   * 
+   * @param listOfQualitativeSpecies
+   */
+  public void setListOfQualitativeSpecies(
+		  ListOf<QualitativeSpecies> listOfQualitativeSpecies) {
+	  this.listOfQualitativeSpecies = listOfQualitativeSpecies;
+	  getModel().registerChild(this.listOfQualitativeSpecies);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
-	 */
+  /**
+   * 
+   * @param listOfTransitions
+   */
+  public void setListOfTransitions(ListOf<Transition> listOfTransitions) {
+	  this.listOfTransitions = listOfTransitions;
+	  getModel().registerChild(this.listOfTransitions);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+   */
   public Map<String, String> writeXMLAttributes() {
 	  // no attribute to read
 	  return null;
-	}
+  }
   
   /**
    * 
    * @return true is successful
    */
   public boolean unsetListOfTransitions(){
-    if(isSetListOfTransitions()) {
-      this.listOfTransitions = null;
-      getModel().registerChild(this.listOfTransitions);
-      return true;
-    }
-    return false;
+	  if(isSetListOfTransitions()) {
+		  this.listOfTransitions = null;
+		  getModel().registerChild(this.listOfTransitions);
+		  return true;
+	  }
+	  return false;
   }
   
   /**
@@ -422,12 +443,12 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * @return true is successful
    */
   public boolean unsetListOfQualitativeSpecies() {
-    if(isSetListOfQualitativeSpecies()) {
-      this.listOfQualitativeSpecies = null;
-      getModel().registerChild(this.listOfQualitativeSpecies);
-      return true;
-    }
-    return false;
+	  if(isSetListOfQualitativeSpecies()) {
+		  this.listOfQualitativeSpecies = null;
+		  getModel().registerChild(this.listOfQualitativeSpecies);
+		  return true;
+	  }
+	  return false;
   }
 
 }

@@ -44,12 +44,25 @@ public class FunctionTerm extends AbstractMathContainer {
    */
 	private static final long serialVersionUID = -3456373304133826017L;
 
+	/**
+	 * 
+	 */
 	private Integer resultLevel;
+	/**
+	 * 
+	 */
 	private String resultSymbol;
-
+    /**
+     * 
+     */
 	private Double temporisationValue;
+	/**
+	 * 
+	 */
 	private TemporisationMath temporisationMath;
-
+    /**
+     * 
+     */
 	private boolean defaultTerm;
 
 
@@ -62,7 +75,9 @@ public class FunctionTerm extends AbstractMathContainer {
 		addNamespace(QualConstant.namespaceURI);
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
+	 */
 	public AbstractMathContainer clone() {
 		return null;
 	}
@@ -308,79 +323,79 @@ public class FunctionTerm extends AbstractMathContainer {
 	  }
 	  
 	}
-	
-	
-	  /* (non-Javadoc)
-	   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	   */
-	  @Override
-	  public TreeNode getChildAt(int index) {
-	    if (index < 0) {
-	      throw new IndexOutOfBoundsException(index + " < 0");
-	    }
-	      
-	    int count = super.getChildCount();
-	    int pos = 0;
-
-	    if (index < count) {
-	      return super.getChildAt(index);
-	    } else {
-	      index -= count;
-	    }
-	    
-	    if (isSetTemporisationMath()) {
-	      if (pos == index) {
-	        return temporisationMath;
-	      }
-	      pos++;
-	    }
-	    throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-	        index, +((int) Math.min(pos, 0))));
-	  }
 
 
-	  /* (non-Javadoc)
-	   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	   */
-	  @Override
-	  public int getChildCount() {
-	    int count = super.getChildCount();;
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(index + " < 0");
+		}
 
-	    if (isSetTemporisationMath()) {
-	    	count++;
-	    }
-	    
-	    return count;
-	  }
+		int count = super.getChildCount();
+		int pos = 0;
 
-	
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
+
+		if (isSetTemporisationMath()) {
+			if (pos == index) {
+				return temporisationMath;
+			}
+			pos++;
+		}
+		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+				index, +((int) Math.min(pos, 0))));
+	}
+
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		int count = super.getChildCount();;
+
+		if (isSetTemporisationMath()) {
+			count++;
+		}
+
+		return count;
+	}
+
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object object) {
-    boolean equals = super.equals(object);
-    if (equals) {
-      FunctionTerm ft = (FunctionTerm) object;
-      equals &= ft.isDefaultTerm() == isDefaultTerm();
-      equals &= ft.isSetResultLevel() == isSetResultLevel();
-      if (equals && isSetResultLevel()) {
-        equals &= (ft.getResultLevel() == getResultLevel());
-      }
-      equals &= ft.isSetResultSymbol() == isSetResultSymbol();
-      if (equals && isSetResultSymbol()) {
-        equals &= (ft.getResultSymbol().equals(getResultSymbol()));
-      }
-      equals &= ft.isSetTemporisationValue() == isSetTemporisationValue();
-      if (equals && isSetTemporisationValue()) {
-        equals &= (ft.getTemporisationValue() == getTemporisationValue());
-      }
-      equals &= ft.isSetTemporisationMath() == isSetTemporisationMath();
-      if (equals && isSetTemporisationMath()) {
-        equals &= (ft.getTemporisationMath().equals(getTemporisationMath()));
-      }
-    }
-    return equals;
+		boolean equals = super.equals(object);
+		if (equals) {
+			FunctionTerm ft = (FunctionTerm) object;
+			equals &= ft.isDefaultTerm() == isDefaultTerm();
+			equals &= ft.isSetResultLevel() == isSetResultLevel();
+			if (equals && isSetResultLevel()) {
+				equals &= (ft.getResultLevel() == getResultLevel());
+			}
+			equals &= ft.isSetResultSymbol() == isSetResultSymbol();
+			if (equals && isSetResultSymbol()) {
+				equals &= (ft.getResultSymbol().equals(getResultSymbol()));
+			}
+			equals &= ft.isSetTemporisationValue() == isSetTemporisationValue();
+			if (equals && isSetTemporisationValue()) {
+				equals &= (ft.getTemporisationValue() == getTemporisationValue());
+			}
+			equals &= ft.isSetTemporisationMath() == isSetTemporisationMath();
+			if (equals && isSetTemporisationMath()) {
+				equals &= (ft.getTemporisationMath().equals(getTemporisationMath()));
+			}
+		}
+		return equals;
 	}
 	
 	/* (non-Javadoc)
@@ -388,24 +403,24 @@ public class FunctionTerm extends AbstractMathContainer {
 	 */
 	@Override
 	public int hashCode() {
-    final int prime = 953;
-    int hashCode = super.hashCode();
-    if (isDefaultTerm()) {
-      hashCode *= 2;
-    }
-    if (isSetResultLevel()) {
-      hashCode += prime * resultLevel.hashCode();
-    }
-    if (isSetResultSymbol()) {
-      hashCode += prime * resultSymbol.hashCode();
-    }
-    if (isSetTemporisationValue()) {
-      hashCode += prime * temporisationValue.hashCode();
-    }
-    if (isSetTemporisationMath()) {
-      hashCode += prime * temporisationMath.hashCode();
-    }
-    return hashCode;
+		final int prime = 953;
+		int hashCode = super.hashCode();
+		if (isDefaultTerm()) {
+			hashCode *= 2;
+		}
+		if (isSetResultLevel()) {
+			hashCode += prime * resultLevel.hashCode();
+		}
+		if (isSetResultSymbol()) {
+			hashCode += prime * resultSymbol.hashCode();
+		}
+		if (isSetTemporisationValue()) {
+			hashCode += prime * temporisationValue.hashCode();
+		}
+		if (isSetTemporisationMath()) {
+			hashCode += prime * temporisationMath.hashCode();
+		}
+		return hashCode;
 	}
 	
 
@@ -427,9 +442,7 @@ public class FunctionTerm extends AbstractMathContainer {
 		this.defaultTerm = defaultTerm;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#toString()
 	 */
 	@Override
@@ -440,7 +453,9 @@ public class FunctionTerm extends AbstractMathContainer {
 		return super.toString();
 	}
 
-	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractMathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value) {
 
@@ -463,6 +478,9 @@ public class FunctionTerm extends AbstractMathContainer {
 		return isAttributeRead;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractMathContainer#writeXMLAttributes()
+	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();

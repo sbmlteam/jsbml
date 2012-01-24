@@ -58,17 +58,15 @@ public class QualParser extends AbstractReaderWriter {
 	/**
 	 * The QualList enum which represents the name of the list this parser is
 	 * currently reading.
-	 * 
 	 */
 	private QualList groupList = QualList.none;
-	
+	/**
+	 * 
+	 */
 	private Logger logger = Logger.getLogger(QualParser.class);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
-	 * sbase)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
@@ -108,10 +106,8 @@ public class QualParser extends AbstractReaderWriter {
 	}
 
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndElement(String
-	 *      elementName, String prefix, boolean isNested, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processEndElement(java.lang.String, java.lang.String, boolean, java.lang.Object)
 	 */
 	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) 
@@ -274,10 +270,8 @@ public class QualParser extends AbstractReaderWriter {
 	}
 
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(SBMLObjectForXML
-	 *      xmlObject, Object sbmlElementToWrite)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
 	 */
 	public void writeElement(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) 
@@ -295,12 +289,16 @@ public class QualParser extends AbstractReaderWriter {
 	}
 
 
-	@Override
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
+	 */
 	public String getShortLabel() {
 		return QualConstant.shortLabel;
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
+	 */
 	public String getNamespaceURI() {
 		return QualConstant.namespaceURI;
 	}
