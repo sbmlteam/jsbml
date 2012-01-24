@@ -368,21 +368,19 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
     registerChild(element);
 	}
 
-    /*
-     * (non-Javadoc) @see java.util.List#add(java.lang.Object)
-     */
-    public boolean add(T e) {
-        
-        /*
-         * Calling the method registerChild before adding the object to the list
-         * as it can throw an Exception if the metaid or id is not unique in the
-         * model; it also checks if the given element has the same Level/Version
-         * configuration as this listOf* element and will throw an exception if
-         * this is not the case.
-         */
-        registerChild(e);
-        return listOf.add(e);
-    }
+	/* (non-Javadoc) @see java.util.List#add(java.lang.Object)
+	 */
+	public boolean add(T e) {
+	  /*
+	   * Calling the method registerChild before adding the object to the list
+	   * as it can throw an Exception if the metaid or id is not unique in the
+	   * model; it also checks if the given element has the same Level/Version
+	   * configuration as this listOf* element and will throw an exception if
+	   * this is not the case.
+	   */
+	  registerChild(e);
+	  return listOf.add(e);
+	}
 
 	/* (non-Javadoc)
 	 * @see java.util.List#addAll(java.util.Collection)

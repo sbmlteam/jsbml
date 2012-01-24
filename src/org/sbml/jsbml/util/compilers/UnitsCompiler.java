@@ -628,6 +628,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#function(java.lang.String, java.util.List)
+	 */
 	public ASTNodeValue function(String functionDefinitionName,
 			List<ASTNode> args) throws SBMLException {
 		// TODO : Not sure what to do
@@ -1044,16 +1047,14 @@ public class UnitsCompiler implements ASTNodeCompiler {
 				left.getUnits().simplify();
 				right.getUnits().simplify();
 				int mean, scale1, scale2;
-				double v1 = left.toNumber().doubleValue(), v2 = right
-						.toNumber().doubleValue();
+				double v1 = left.toNumber().doubleValue(), v2 = right.toNumber().doubleValue();
 				for (int i = 0; i < left.getUnits().getNumUnits(); i++) {
 					Unit u1 = left.getUnits().getUnit(i);
 					Unit u2 = right.getUnits().getUnit(i);
 					if ((u1.getMultiplier() != 0d)
 							&& (u2.getMultiplier() != 0d)) {
 
-						mean = (Math.abs(u1.getScale()) + Math.abs(u2
-								.getScale())) / 2;
+						mean = (Math.abs(u1.getScale()) + Math.abs(u2.getScale())) / 2;
 
 						if (u1.getScale() > mean) {
 							scale1 = Math.abs(u1.getScale()) - mean;
@@ -1070,14 +1071,12 @@ public class UnitsCompiler implements ASTNodeCompiler {
 						}
 
 						if (scale1 > mean) {
-							v1 = v1
-									* Math.pow(10.0, -scale1 * u1.getExponent());
-							v2 = v2
-									* Math.pow(10.0, -scale2 * u2.getExponent());
+							v1 = v1 * Math.pow(10d, -scale1 * u1.getExponent());
+							v2 = v2 * Math.pow(10d, -scale2 * u2.getExponent());
 
 						} else {
-							v1 = v1 * Math.pow(10.0, scale1 * u1.getExponent());
-							v2 = v2 * Math.pow(10.0, scale2 * u2.getExponent());
+							v1 = v1 * Math.pow(10d, scale1 * u1.getExponent());
+							v2 = v2 * Math.pow(10d, scale2 * u2.getExponent());
 						}
 
 						if (u1.getMultiplier() > 1d) {
@@ -1103,7 +1102,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		} else {			
 			throw new UnitException(
 					String.format(
-							"Cannot combine the units %s and %s in addition, subtraction, comparisson or any equivalent operation.",
+							"Cannot combine the units %s and %s in addition, subtraction, comparison or any equivalent operation.",
 							UnitDefinition.printUnits(left.getUnits(), true),
 							UnitDefinition.printUnits(right.getUnits(), true)));
 
@@ -1235,10 +1234,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			throws SBMLException {
 		UnitDefinition ud = radiant.getUnits().clone();
 		for (Unit u : ud.getListOfUnits()) {
-			if (((u.getExponent() / rootExponent) % 1.0) != 0.0) {
+			if (((u.getExponent() / rootExponent) % 1d) != 0d) {
 				throw new IllegalArgumentException(
-						new UnitException(
-								String.format(
+						new UnitException(String.format(
 										"Can not perform power or root operation due to incompatibility with a unit exponent. Given %s and %s.",
 										u.getExponent(), rootExponent)));
 			}
