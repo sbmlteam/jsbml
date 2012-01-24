@@ -42,8 +42,14 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -214835834453944834L;
-  private Integer           rank;
+  /**
+   * 
+   */
+  private Integer rank;
 
+  /**
+   * 
+   */
   public SymbolicValue() {
   	super();
   	initDefaults();
@@ -58,23 +64,22 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
   }
 
   /**
-  * 
-  * @param level
-  * @param version
-  */
- public SymbolicValue(int level, int version){
-   this(null, null, level, version);
- }
+   * 
+   * @param level
+   * @param version
+   */
+  public SymbolicValue(int level, int version){
+	  this(null, null, level, version);
+  }
  
  
- 
- /**
+  /**
    * @param id
    * @param level
    * @param version
    */
   public SymbolicValue(String id, int level, int version) {
-    this(id, null, level, version);
+	  this(id, null, level, version);
   }
 
   /**
@@ -84,26 +89,32 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
    * @param version
    */
   public SymbolicValue(String id, String name, int level, int version) {
-    super(id, name, level, version);
-    // TODO: replace level/version check with call to helper method
-    if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
-      throw new LevelVersionError(getElementName(), level, version);
-    }
-    initDefaults();
+	  super(id, name, level, version);
+	  // TODO: replace level/version check with call to helper method
+	  if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
+		  throw new LevelVersionError(getElementName(), level, version);
+	  }
+	  initDefaults();
   }
 
-  
+  /**
+   * 
+   */
   public void initDefaults() {
      addNamespace(QualConstant.namespaceURI);
      rank = null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
   public boolean isIdMandatory() {
     return true;
   }
 
-
-  @Override
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   public AbstractSBase clone() {
     return null;
   }
@@ -121,13 +132,17 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
    * @return the rank
    */
   public int getRank() {
-    if (isSetRank()) {
-      return rank.intValue();
-    }
-    throw new PropertyUndefinedError(QualConstant.rank, this);
+	  if (isSetRank()) {
+		  return rank.intValue();
+	  }
+	  throw new PropertyUndefinedError(QualConstant.rank, this);
   }
 
 
+  /**
+   * 
+   * @return
+   */
   public boolean isSetRank() {
     return this.rank != null;
   }
@@ -153,13 +168,11 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
       this.rank = null;
       firePropertyChange(QualConstant.rank, oldRank, this.rank);
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
    */
   @Override
@@ -176,8 +189,7 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
   }
 
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
   @Override
@@ -190,41 +202,45 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
     return hashCode;
   }
   
-  @Override
-	public boolean readAttribute(String attributeName, String prefix, String value) {
-	  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+
 	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
 	  if (!isAttributeRead) {
 		  isAttributeRead = true;
-		  
+
 		  if (attributeName.equals(QualConstant.rank)) {
 			  setRank(StringTools.parseSBMLInt(value));
 		  } else {
 			  isAttributeRead = false;
 		  }
 	  }
-	  
+
 	  return isAttributeRead;
-	}
+  }
   
-  @Override
-	public Map<String, String> writeXMLAttributes() {
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
+  public Map<String, String> writeXMLAttributes() {
 	  Map<String, String> attributes = super.writeXMLAttributes();
 
 	  if (isSetId()) {
 		  attributes.remove("id");
-		  attributes.put(QualConstant.shortLabel+ ":id", getId());
+		  attributes.put(QualConstant.shortLabel + ":id", getId());
 	  }
 	  if (isSetName()) {
 		  attributes.remove("name");
-		  attributes.put(QualConstant.shortLabel+ ":name", getName());
+		  attributes.put(QualConstant.shortLabel + ":name", getName());
 	  }
 	  if (isSetRank()) {
-		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.rank, Integer.toString(getRank()));
+		  attributes.put(QualConstant.shortLabel + ":" + QualConstant.rank, Integer.toString(getRank()));
 	  }	  
-	  
+
 	  return attributes;
-	}
+  }
   
 }

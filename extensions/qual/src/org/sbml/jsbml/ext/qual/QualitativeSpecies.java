@@ -47,12 +47,30 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    * Generated serial version identifier.
    */
   private static final long     serialVersionUID = -6048861420699176889L;
+  /**
+   * 
+   */
   private String                compartment;
+  /**
+   * 
+   */
   private Boolean               boundaryCondition;
+  /**
+   * 
+   */
   private Boolean               constant;             // TODO: extends/implements the jsbml interface
                                                       // that has the constant attribute.
+  /**
+   * 
+   */
   private Integer               initialLevel;
+  /**
+   * 
+   */
   private Integer               maxLevel;
+  /**
+   * 
+   */
   private ListOf<SymbolicValue> listOfSymbolicValues;
 
   /**
@@ -81,6 +99,12 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     this(null, null, level, version);
   }
 
+  /**
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
   public QualitativeSpecies(String id, int level, int version) {
     this(id, null, level, version);
   }
@@ -145,7 +169,13 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     }
   }
   
-
+  /**
+   * 
+   * @param id
+   * @param boundaryCondition
+   * @param compartment
+   * @param constant
+   */
   public QualitativeSpecies(String id, boolean boundaryCondition,
     String compartment, boolean constant) {
     this(id);
@@ -154,7 +184,9 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     setConstant(constant);
   }
 
-
+  /**
+   * 
+   */
   public void initDefaults() {
     addNamespace(QualConstant.namespaceURI);
     boundaryCondition = null;
@@ -162,14 +194,16 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     constant = null;
   }
 
-  @Override
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   public AbstractSBase clone() {
     return new QualitativeSpecies(this);
   }
 
 
-  /**
-   * @return true
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   public boolean isIdMandatory() {
     return true;
@@ -303,7 +337,10 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     return true;
   }
 
-
+  /**
+   * 
+   * @return
+   */
   public boolean isSetConstant() {
     return constant != null;
   }
@@ -353,7 +390,11 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     return false;
   }
 
-
+  
+  /**
+   * 
+   * @return
+   */
   public boolean isSetInitialLevel() {
     return initialLevel != null;
   }
@@ -406,6 +447,10 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   }
 
 
+  /**
+   * 
+   * @return
+   */
   public boolean isSetMaxLevel() {
     return this.maxLevel != null;
   }
@@ -448,6 +493,10 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   }
 
 
+  /**
+   * 
+   * @return
+   */
   // TODO : add all the necessary methods to manipulate the list
   // did I miss something?
   public boolean isSetListOfSymbolicValues() {
@@ -455,6 +504,10 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   }
 
 
+  /**
+   * 
+   * @param los
+   */
   public void setListOfSymbolicValues(ListOf<SymbolicValue> los) {
     unsetListOfSymbolicValues();
     this.listOfSymbolicValues = los;
@@ -462,6 +515,10 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   }
 
 
+  /**
+   * 
+   * @return
+   */
   public boolean unsetListOfSymbolicValues() {
     if (isSetListOfSymbolicValues()) {
       ListOf<SymbolicValue> oldLos = this.listOfSymbolicValues;
@@ -596,8 +653,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     return equals;
   }
   
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
   @Override
@@ -623,14 +679,17 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     return hashCode;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
-	public boolean readAttribute(String attributeName, String prefix, String value) {
-	  
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+
 	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
 	  if (!isAttributeRead) {
 		  isAttributeRead = true;
-		  
+
 		  if (attributeName.equals(QualConstant.boundaryCondition)) {
 			  setBoundaryCondition(StringTools.parseSBMLBoolean(value));
 		  }	else if (attributeName.equals(QualConstant.constant)) {
@@ -645,12 +704,15 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 			  isAttributeRead = false;
 		  }
 	  }
-	  
+
 	  return isAttributeRead;
-	}
+  }
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
   @Override
-	public Map<String, String> writeXMLAttributes() {
+  public Map<String, String> writeXMLAttributes() {
 	  Map<String, String> attributes = super.writeXMLAttributes();
 
 	  if (isSetId()) {
@@ -676,8 +738,8 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 	  if (isSetMaxLevel()) {
 		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.maxLevel, Integer.toString(getMaxLevel()));
 	  }
-	  
+
 	  return attributes;
-	}
+  }
   
 }

@@ -32,17 +32,22 @@ import org.sbml.jsbml.AbstractMathContainer;
 public class TemporisationMath extends AbstractMathContainer {
 
 	/**
-   * Generated serial version identifier.
-   */
-  private static final long serialVersionUID = -5022093506579924630L;
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -5022093506579924630L;
 
-  public TemporisationMath() {
-	  super();
-	  addNamespace(QualConstant.namespaceURI);
-  }
-  
-  
-  @Override
+	/**
+	 * 
+	 */
+	public TemporisationMath() {
+		super();
+		addNamespace(QualConstant.namespaceURI);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
+	 */
 	public AbstractMathContainer clone() {
 		return null;
 	}

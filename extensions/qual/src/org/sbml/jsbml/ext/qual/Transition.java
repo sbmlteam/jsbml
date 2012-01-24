@@ -45,12 +45,21 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
    * Generated serial version identifier.
    */
   private static final long    serialVersionUID = 8343744362262634585L;
+  /**
+   * 
+   */
   private TemporisationType    temporisationType;
-  
-
-  
+  /**
+   * 
+   */
   private ListOf<Input>        listOfInputs;
+  /**
+   * 
+   */
   private ListOf<Output>       listOfOutputs;
+  /**
+   * 
+   */
   private ListOf<FunctionTerm> listOfFunctionTerms;
 
   /**
@@ -88,6 +97,13 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
     this(id, null, level, version);
   }
 
+  /**
+   * 
+   * @param id
+   * @param name
+   * @param level
+   * @param version
+   */
   public Transition(String id, String name, int level, int version) {
     super(id, name, level, version);
     // TODO: replace level/version check with call to helper method
@@ -97,6 +113,9 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
     initDefaults();
   }
 
+  /**
+   * 
+   */
   public void initDefaults() {
     addNamespace(QualConstant.namespaceURI);
     temporisationType = null;
@@ -188,6 +207,10 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
+  /**
+   * 
+   * @return
+   */
   public boolean isSetTemporisationType() {
     return temporisationType != null;
   }
@@ -217,6 +240,10 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
+  /**
+   * 
+   * @return
+   */
   public boolean unsetTemporisationType() {
     if (isSetTemporisationType()) {
       TemporisationType oldType = this.temporisationType;
@@ -244,11 +271,19 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
+  /**
+   * 
+   * @return
+   */
   public boolean isSetListOfOutputs() {
     return listOfOutputs != null;
   }
 
 
+  /**
+   * 
+   * @param loo
+   */
   public void setListOfOutputs(ListOf<Output> loo) {
     unsetListOfOutputs();
     this.listOfOutputs = loo;
@@ -256,6 +291,10 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
+  /**
+   * 
+   * @return
+   */
   public boolean unsetListOfOutputs() {
     if (isSetListOfOutputs()) {
       ListOf<Output> oldLoo = this.listOfOutputs;
@@ -325,11 +364,19 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
+  /**
+   * 
+   * @return
+   */
   public boolean isSetListOfFunctionTerms() {
     return listOfFunctionTerms != null;
   }
 
 
+  /**
+   * 
+   * @param loft
+   */
   public void setListOfFunctionTerms(ListOf<FunctionTerm> loft) {
     unsetListOfFunctionTerms();
     this.listOfFunctionTerms = loft;
@@ -337,6 +384,10 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
+  /**
+   * 
+   * @return
+   */
   public boolean unsetListOfFunctionTerms() {
     if (isSetListOfFunctionTerms()) {
       ListOf<FunctionTerm> oldLoft = this.listOfFunctionTerms;
@@ -408,11 +459,19 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
+  /**
+   * 
+   * @return
+   */
   public boolean isSetListOfInputs() {
     return listOfInputs != null;
   }
 
 
+  /**
+   * 
+   * @param loi
+   */
   public void setListOfInputs(ListOf<Input> loi) {
     unsetListOfInputs();
     this.listOfInputs = loi;
@@ -420,6 +479,10 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
+  /**
+   * 
+   * @return
+   */
   public boolean unsetListOfInputs() {
     if (isSetListOfInputs()) {
       ListOf<Input> oldLoi = this.listOfInputs;
@@ -480,8 +543,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
    */
   @Override
@@ -498,8 +560,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
   @Override
@@ -512,6 +573,9 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
     return hashCode;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix,
 		  String value) 
@@ -538,6 +602,9 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
 	  
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
 	  Map<String, String> attributes = super.writeXMLAttributes();
@@ -559,16 +626,32 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
 
+  /**
+   * 
+   * @return
+   */
   public Output createOutput() {
     return createOutput(null);
   }
   
+  /**
+   * 
+   * @param id
+   * @return
+   */
   public Output createOutput(String id) {
     Output output = new Output(id, getModel().getLevel(), getModel().getVersion());
     addOutput(output);
     return output;
   }
   
+  /**
+   * 
+   * @param id
+   * @param qualitativeSpecies
+   * @param transitionEffect
+   * @return
+   */
   public Output createOutput(String id, QualitativeSpecies qualitativeSpecies,
       OutputTransitionEffect transitionEffect) {
     Output output = createOutput(id);
@@ -577,16 +660,32 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
     return output;
   }
 
+  /**
+   * 
+   * @return
+   */
   public Input createInput() {
     return createInput(null);
   }
   
+  /**
+   * 
+   * @param id
+   * @return
+   */
   public Input createInput(String id) {
     Input input = new Input(id, getModel().getLevel(), getModel().getVersion());
     addInput(input);
     return input;
   }
   
+  /**
+   * 
+   * @param id
+   * @param qualitativeSpecies
+   * @param transitionEffect
+   * @return
+   */
   public Input createInput(String id, QualitativeSpecies qualitativeSpecies,
     InputTransitionEffect transitionEffect) {
     Input input = createInput(id);

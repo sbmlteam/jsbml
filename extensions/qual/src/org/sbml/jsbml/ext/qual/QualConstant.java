@@ -99,9 +99,7 @@ public class QualConstant  extends PropertyChangeEvent {
         qualChangeEvent.getNewValue());
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see java.lang.Object#clone()
    */
   @Override
