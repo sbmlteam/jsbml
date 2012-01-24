@@ -1103,7 +1103,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		} else {			
 			throw new UnitException(
 					String.format(
-							"Cannot combine the units %s and %s in addition, subtraction, comparisson or any equivalent operation.",
+							"Cannot combine the units %s and %s in addition, subtraction, comparison or any equivalent operation.",
 							UnitDefinition.printUnits(left.getUnits(), true),
 							UnitDefinition.printUnits(right.getUnits(), true)));
 
