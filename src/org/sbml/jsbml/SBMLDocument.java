@@ -118,7 +118,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * the creation of multiple identical meta identifiers. These identifiers
 	 * have to be unique within the document.
 	 */
-	Set<String> setOfMetaIds;
+	private Set<String> setOfMetaIds;
 	
 	/**
 	 * Creates a {@link SBMLDocument} instance. By default, the parent SBML object of

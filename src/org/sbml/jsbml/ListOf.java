@@ -28,7 +28,6 @@ import java.util.ListIterator;
 
 import javax.swing.tree.TreeNode;
 
-import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.filters.Filter;
@@ -373,41 +372,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
      * (non-Javadoc) @see java.util.List#add(java.lang.Object)
      */
     public boolean add(T e) {
-        /*
-         * Test if another pointer to the given element has already been added
-         * to this list:
-         */
-        /*
-         * // this too slow for large models
-        for (T curr : listOf) {
-            if (curr == e) {
-                Logger logger = Logger.getLogger(getClass());
-                logger.error(String.format(
-                        "The %s already contains the given element '%s'. The new element will not be added twice to the list.",
-                        listType, e));
-                return false;
-            }
-        }
-        */
-        Model model = getModel();
-        if (e instanceof NamedSBase) {
-            String id = ((NamedSBase) e).getId();
-            
-            if (id.trim().length() != 0 && model.mapOfUniqueNamedSBases.get(id) != null) {
-                Logger logger = Logger.getLogger(getClass());
-                logger.error(String.format(
-                        "The %s already contains the given id '%s'. The new element will not be added to the list.",
-                        listType, e));
-            }
-        } 
-        else if (e.getMetaId().trim().length() != 0 
-                && model.getSBMLDocument().setOfMetaIds.contains(e.getMetaId())) 
-        {
-                Logger logger = Logger.getLogger(getClass());
-                logger.error(String.format(
-                        "The %s already contains the given metaid '%s'. The new element will not be added to the list.",
-                        listType, e));            
-        }
         
         /*
          * Calling the method registerChild before adding the object to the list
