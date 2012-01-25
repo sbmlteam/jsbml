@@ -1296,9 +1296,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return unitDefinition;
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
    */
   @Override
@@ -1366,7 +1364,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public List<LocalParameter> findLocalParameters(String id) {
     List<LocalParameter> list = new LinkedList<LocalParameter>();
-    SortedSet<String> rList = mapOfLocalParameters.get(id);
+    SortedSet<String> rList = findReactionsForLocalParameter(id);
     if ((rList == null) || rList.isEmpty()) {
       return list;
     }
@@ -1374,6 +1372,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     Reaction r;
     for (String rId : rList) {
       r = getReaction(rId);
+      // This must always be true, otherwise there is an error elsewhere:
       if (r.isSetKineticLaw()) {
         p = r.getKineticLaw().getLocalParameter(id);
         if (p != null) {
@@ -1625,9 +1624,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return nsb;
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
    */
   @Override
@@ -1659,9 +1656,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return getUnitDefinition(getAreaUnits());
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
    */
   @Override
@@ -1725,9 +1720,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       +((int) Math.min(pos, 0))));
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildCount()
    */
   @Override
@@ -2580,9 +2573,7 @@ public int getNumLocalParameters() {
     return getListOfParameters().firstHit(new NameFilter(id));
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getParent()
    */
   @Override
@@ -2801,7 +2792,7 @@ public int getNumLocalParameters() {
    *         exist.
    */
   public UnitDefinition getUnitDefinition(String id) {
-    UnitDefinition unitDefinition = mapOfUnitDefinitions.get(id);
+    UnitDefinition unitDefinition = mapOfUnitDefinitions != null ? mapOfUnitDefinitions.get(id) : null;
     // Checking if it is not one of the predefined default units.
     if (unitDefinition == null) {
       unitDefinition = getPredefinedUnitDefinition(id);
@@ -2835,9 +2826,7 @@ public int getNumLocalParameters() {
     return getUnitDefinition(getVolumeUnits());
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
    */
   @Override
@@ -3255,11 +3244,8 @@ public int getNumLocalParameters() {
     return getVolumeUnitsInstance() != null;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-   * String prefix, String value)
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
