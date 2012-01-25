@@ -148,7 +148,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase
 	 */
 	public Species getSpeciesInstance() {
 		Model m = getModel();
-		return m != null ? m.getSpecies(this.speciesID) : null;
+		return m != null ? m.getSpecies(speciesID) : null;
 	}
 
 	/*
