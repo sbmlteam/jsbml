@@ -12,7 +12,8 @@ Version 1.0-rc1 (xx-xx-2012)
   - Validation check for e-mail addresses in Creator.
   
   - A quick Hash-based search method to access elements in a model
-    based on their identifier.
+    based on their identifier. In the same way, any SBase can be
+    found in the SBMLDocument based on its metaId.
 
 * Bug Fixes:
 

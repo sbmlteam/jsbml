@@ -567,12 +567,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return units.getId();
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#clone()
    */
-  // @Override
   public Model clone() {
     return new Model(this);
   }
@@ -614,25 +611,27 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if this model contains a reference to the given
+   * Returns <code>true</code> if this {@link Model} contains a reference to the given
    * {@link Quantity}.
    * 
    * @param quantity
-   * @return true if this model contains a reference to the given
+   * @return <code>true</code> if this {@link Model} contains a reference to the given
    *         {@link Quantity}.
    */
   public boolean containsQuantity(Quantity quantity) {
     Model model = quantity.getModel();
-    if (!quantity.isSetId() || (model == null) || (this != model)) { return false; }
+    if (!quantity.isSetId() || (model == null) || (this != model)) { 
+      return false; 
+    }
     return findQuantity(quantity.getId()) != null;
   }
   
   /**
-   * Returns true if this model contains a reference to the given
+   * Returns <code>true</code> if this {@link Model} contains a reference to the given
    * {@link Species}.
    * 
    * @param id
-   * @return true if this model contains a reference to the given
+   * @return <code>true</code> if this {@link Model} contains a reference to the given
    *         {@link Species}.
    */
   public boolean containsSpecies(String id) {
@@ -640,15 +639,27 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if this model contains a reference to the given
+   * Returns <code>true</code> if this {@link Model} contains a reference to the given
    * {@link UnitDefinition}.
    * 
    * @param units
-   * @return true if this model contains a reference to the given
+   * @return <code>true</code> if this {@link Model} contains a reference to the given
    *         {@link UnitDefinition}.
    */
   public boolean containsUnitDefinition(String units) {
     return getUnitDefinition(units) != null;
+  }
+  
+  /**
+   * Returns <code>true</code> if this {@link Model} contains a reference to the given
+   * {@link UniqueNamedSBase}.
+   * 
+   * @param units
+   * @return <code>true</code> if this {@link Model} contains a reference to the given
+   *         {@link UniqueNamedSBase}.
+   */
+  public boolean containsUniqueNamedSBase(String id) {
+    return mapOfUniqueNamedSBases.containsKey(id);
   }
   
   /**

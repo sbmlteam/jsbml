@@ -55,7 +55,7 @@ public class ValidateSBML {
 		if (document.getNumErrors() > 0)
 		{
 			print("Encountered the following errors while reading the SBML file:\n");
-			document.printErrors();
+			document.printErrors(System.out);
 			print("\nFurther consistency checking and validation aborted.\n");
 			System.exit(1);
 		}
@@ -71,7 +71,7 @@ public class ValidateSBML {
 
 			if (errors > 0)
 			{
-				document.printErrors();
+				document.printErrors(System.out);
 				System.exit(1);
 			}
 		}

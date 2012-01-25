@@ -315,7 +315,6 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
       listOfOutputs.setSBaseListType(ListOf.Type.other);
       listOfOutputs.addNamespace(QualConstant.namespaceURI);
       registerChild(listOfOutputs);
-
     }
     return listOfOutputs;
   }

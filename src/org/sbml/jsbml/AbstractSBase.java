@@ -1308,14 +1308,15 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if ((metaId != null) && (getLevel() == 1)) {
       throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId, this);
     }
-		SBMLDocument doc = getSBMLDocument();
-		if (doc != null) {
-			if (!doc.registerMetaId(metaId, true)) {
-			  throw new IdentifierException(this, metaId);
-			}
-		}
-		String oldMetaId = this.metaId;
-		this.metaId = metaId;
+    SBMLDocument doc = getSBMLDocument();
+    if ((doc != null) && doc.containsMetaId(metaId)) {
+      throw new IdentifierException(this, metaId);
+    }
+    String oldMetaId = this.metaId;
+    this.metaId = metaId;
+    if (doc != null) {
+      doc.registerMetaId(this, true);
+    }
 		firePropertyChange(TreeNodeChangeEvent.metaId, oldMetaId, metaId);
 	}
 

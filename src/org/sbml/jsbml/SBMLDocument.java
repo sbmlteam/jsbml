@@ -22,9 +22,9 @@ package org.sbml.jsbml;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -88,7 +88,7 @@ public class SBMLDocument extends AbstractSBase {
 	/**
 	 * Contains all the parameter to validate the SBML document
 	 */
-	private HashMap<String, Boolean> checkConsistencyParameters = new HashMap<String, Boolean>();
+	private Map<String, Boolean> checkConsistencyParameters = new HashMap<String, Boolean>();
 
 	/**
 	 * Memorizes all {@link SBMLError} when parsing the file containing this
@@ -102,6 +102,12 @@ public class SBMLDocument extends AbstractSBase {
 	private transient Logger logger = Logger.getLogger(getClass());
 
 	/**
+	 * Stores all the meta identifiers within this {@link SBMLDocument} to avoid
+	 * the creation of multiple identical meta identifiers. These identifiers
+	 * have to be unique within the document.
+	 */
+	private Map<String, SBase> mappingFromMetaId2SBase;
+	/**
 	 * Represents the 'model' XML subnode of a SBML file.
 	 */
 	private Model model;
@@ -113,12 +119,6 @@ public class SBMLDocument extends AbstractSBase {
 	 * Contains all the namespaces of the sbml XML node and their prefixes.
 	 */
 	private Map<String, String> SBMLDocumentNamespaces;
-	/**
-	 * Stores all the meta identifiers within this {@link SBMLDocument} to avoid
-	 * the creation of multiple identical meta identifiers. These identifiers
-	 * have to be unique within the document.
-	 */
-	private Set<String> setOfMetaIds;
 	
 	/**
 	 * Creates a {@link SBMLDocument} instance. By default, the parent SBML object of
@@ -129,7 +129,7 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	public SBMLDocument() {
 		super();
-		this.setOfMetaIds = new HashSet<String>();
+		this.mappingFromMetaId2SBase = new HashMap<String, SBase>();
 		this.model = null;
 		SBMLDocumentAttributes = new HashMap<String, String>();
 		SBMLDocumentNamespaces = new HashMap<String, String>();
@@ -155,28 +155,23 @@ public class SBMLDocument extends AbstractSBase {
 		initDefaults();
 	}
 
-	private void initDefaults() {
-		String sbmlNamespace = JSBML.getNamespaceFrom(getLevel(), getVersion());
-		SBMLDocumentNamespaces.put("xmlns", sbmlNamespace);
-	}
-
 	/**
-	 * Creates a SBMLDocument instance from a given SBMLDocument.
+	 * Creates a new {@link SBMLDocument} instance from a given {@link SBMLDocument}.
 	 * 
 	 * @param sb
 	 */
 	public SBMLDocument(SBMLDocument sb) {
 		super(sb);
-		this.setOfMetaIds = new HashSet<String>();
-		SBMLDocumentAttributes = new HashMap<String, String>();
-		SBMLDocumentNamespaces = new HashMap<String, String>();
+		this.mappingFromMetaId2SBase = new HashMap<String, SBase>();
+		this.SBMLDocumentAttributes = new HashMap<String, String>();
+		this.SBMLDocumentNamespaces = new HashMap<String, String>();
 		if (sb.isSetModel()) {
+		  // This will also cause that all metaIds are registered correctly.
 			setModel(sb.getModel().clone());
 		} else {
 			this.model = null;
 		}
-		Iterator<Map.Entry<String, String>> entryIterator = sb.SBMLDocumentAttributes
-		.entrySet().iterator();
+		Iterator<Map.Entry<String, String>> entryIterator = sb.SBMLDocumentAttributes.entrySet().iterator();
 		Map.Entry<String, String> entry;
 		while (entryIterator.hasNext()) {
 			entry = entryIterator.next();
@@ -187,13 +182,8 @@ public class SBMLDocument extends AbstractSBase {
 			entry = entryIterator.next();
 			this.SBMLDocumentNamespaces.put(entry.getKey(), entry.getValue());
 		}
-		Iterator<String> metaIdIterator = sb.setOfMetaIds.iterator();
-		while (metaIdIterator.hasNext()) {
-			this.setOfMetaIds.add(new String(metaIdIterator.next()));
-		}
 		setParentSBML(this);
-		checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(),
-				false);
+		checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), Boolean.valueOf(false));
 	}
 
 	/**
@@ -297,7 +287,7 @@ public class SBMLDocument extends AbstractSBase {
 
 		for (String checkCategory : checkConsistencyParameters.keySet()) {
 			CHECK_CATEGORY typeOfCheck = CHECK_CATEGORY.valueOf(checkCategory);
-			boolean checkIsOn = checkConsistencyParameters.get(checkCategory); 
+			boolean checkIsOn = checkConsistencyParameters.get(checkCategory).booleanValue(); 
 
 			logger.debug(" Type of check = " + typeOfCheck + " is " + checkIsOn);
 
@@ -372,10 +362,10 @@ public class SBMLDocument extends AbstractSBase {
 
 		return listOfErrors.getNumErrors();
 	}
-
+	
 	/**
 	 * Checks if the given meta identifier can be added in this {@link SBMLDocument} 
-	 * 's {@link #setOfMetaIds}.
+	 * 's {@link #mappingFromMetaId2SBase}.
 	 * 
 	 * @param metaId
 	 *            the identifier whose value is to be checked.
@@ -408,7 +398,7 @@ public class SBMLDocument extends AbstractSBase {
    * its sub-elements if recursively is <code>true</code>.
    * 
    * @param metaIds
-   *        the set that gathers the result.
+   *        the {@link Map} that gathers the result.
    * @param sbase
    *        The {@link SBase} whose meta identifier is to be collected
    *        and from which we maybe have to recursively go through all
@@ -418,21 +408,21 @@ public class SBMLDocument extends AbstractSBase {
    *        sub-elements of this {@link AbstractSBase}.
    * @param delete
    *        if <code>true</code> this method will not check if
-   *        the meta identifier can be added to the model.
+   *        the meta identifier can be added to the {@link SBMLDocument}.
    * @throws IllegalArgumentException
    *         However, duplications are not legal and an
    *         {@link IllegalArgumentException} will be thrown in such
    *         cases.
    */
 	@SuppressWarnings("unchecked")
-  private void collectMetaIds(Set<String> metaIds, SBase sbase,
+  private void collectMetaIds(Map<String, SBase> metaIds, SBase sbase,
                               boolean recursively, boolean delete) {
 		if (sbase.isSetMetaId()) {
 			if (!delete) {
 				// checks if the metaid can be added, throws an exception if not.
 				checkMetaId(sbase.getMetaId());
 			}
-			metaIds.add(sbase.getMetaId());
+			metaIds.put(sbase.getMetaId(), sbase);
 		}
 		if (recursively) {
 			Enumeration<TreeNode> children = sbase.children(); 
@@ -445,7 +435,6 @@ public class SBMLDocument extends AbstractSBase {
 		}
 	}
 
-
 	/**
 	 * A check to see whether elements have been registered to this
 	 * {@link SBMLDocument} with the given meta identifier.
@@ -454,10 +443,8 @@ public class SBMLDocument extends AbstractSBase {
 	 * @return
 	 */
 	public boolean containsMetaId(String metaId) {
-		return setOfMetaIds.contains(metaId);
+		return mappingFromMetaId2SBase.containsKey(metaId);
 	}
-
-
 
 	/**
 	 * Creates a new Model inside this {@link SBMLDocument}, and returns a
@@ -480,6 +467,7 @@ public class SBMLDocument extends AbstractSBase {
 		return getModel();
 	}
 
+
 	/**
 	 * Creates a new instance of Model from id and the level and version of this
 	 * SBMLDocument.
@@ -491,6 +479,8 @@ public class SBMLDocument extends AbstractSBase {
 		setModel(new Model(id, getLevel(), getVersion()));
 		return getModel();
 	}
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -511,6 +501,17 @@ public class SBMLDocument extends AbstractSBase {
 			}
 		}
 		return equals;
+	}
+
+  /**
+   * Looks up the {@link SBase} registered in this {@link SBMLDocument} for the
+   * given metaId.
+   * 
+   * @param metaId
+   * @return
+   */
+	public SBase findSBase(String metaId) {
+	  return mappingFromMetaId2SBase.get(metaId);
 	}
 
 	/*
@@ -673,6 +674,11 @@ public class SBMLDocument extends AbstractSBase {
 		return hashCode;
 	}
 
+	private void initDefaults() {
+		String sbmlNamespace = JSBML.getNamespaceFrom(getLevel(), getVersion());
+		SBMLDocumentNamespaces.put("xmlns", sbmlNamespace);
+	}
+
 	/**
 	 * 
 	 * @return
@@ -696,15 +702,18 @@ public class SBMLDocument extends AbstractSBase {
 	  String idOne;
 	  do {
 	    idOne = '_' + UUID.randomUUID().toString();
-	  } while (setOfMetaIds.contains(idOne));
+	  } while (containsMetaId(idOne));
 	  return idOne;
 	}
 
-	public void printErrors() {
+	/**
+	 * 
+	 */
+	public void printErrors(PrintStream stream) {
 		int nbErrors = listOfErrors.getNumErrors();
 
 		for (int i = 0; i < nbErrors; i++) {
-			System.out.println(listOfErrors.getError(i));
+			stream.println(listOfErrors.getError(i));
 		}
 	}
 
@@ -741,13 +750,13 @@ public class SBMLDocument extends AbstractSBase {
 
 	/**
    * Saves or removes the given meta identifier in this {@link SBMLDocument}'s
-   * {@link #setOfMetaIds}.
+   * {@link #mappingFromMetaId2SBase}.
    * 
-   * @param metaId
-   *        the identifier whose value is to be registered.
+   * @param sbase
+   *        the element whose meta identifier is to be registered (if it is set).
    * @param add
    *        if <code>true</code> this will add the given meta identifier
-   *        to this {@link SBMLDocument}'s {@link #setOfMetaIds}.
+   *        to this {@link SBMLDocument}'s {@link #mappingFromMetaId2SBase}.
    *        Otherwise, the given identifier will be removed from this set.
    * @return <ul>
    *         <li>if add is <code>true</code>, then this method returns
@@ -756,13 +765,21 @@ public class SBMLDocument extends AbstractSBase {
    *         <li>if add is not <code>true</code>, this method returns
    *         <code>true</code> if this set contained the specified element,
    *         <code>false</code> otherwise.</li>
+   *         <li>This method also returns <code>false</code> if the given
+   *         {@link SBase} does not have a defined metaId</li>
    *         </ul>
    * @throws IllegalArgumentException
    *         if a metaid to add is already present in the list of
    *         registered metaids.
    */
-	boolean registerMetaId(String metaId, boolean add) {
-	  return add ? setOfMetaIds.add(metaId) : setOfMetaIds.remove(metaId);
+	boolean registerMetaId(SBase sbase, boolean add) {
+	  if (sbase.isSetMetaId()) {
+      if (add) {
+        return mappingFromMetaId2SBase.put(sbase.getMetaId(), sbase) == null;
+      } else {
+        return mappingFromMetaId2SBase.remove(sbase.getMetaId()) != null;
+      }
+	  } return false;
 	}
 
 
@@ -789,14 +806,16 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	void registerMetaIds(SBase sbase, boolean recursively, boolean delete) {
 
-		Set<String> metaIds = new HashSet<String>();
+		Map<String, SBase> metaIds = new HashMap<String, SBase>();
 
 		collectMetaIds(metaIds, sbase, recursively, delete);
 
 		if (delete) {
-			setOfMetaIds.removeAll(metaIds);
+      for (String key : metaIds.keySet()) {
+        mappingFromMetaId2SBase.remove(key);
+      }
 		} else {
-			setOfMetaIds.addAll(metaIds);
+			mappingFromMetaId2SBase.putAll(metaIds);
 		}		
 	}
 
@@ -883,7 +902,7 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	public void setConsistencyChecks(SBMLValidator.CHECK_CATEGORY category, boolean apply)
 	{		
-		checkConsistencyParameters.put(category.name(), apply);
+		checkConsistencyParameters.put(category.name(), Boolean.valueOf(apply));
 	}
 
 	/**
@@ -1018,8 +1037,7 @@ public class SBMLDocument extends AbstractSBase {
 			attributes.put("version", Integer.toString(this.getVersion()));
 		}
 
-		Iterator<Map.Entry<String, String>> it = this
-		.getSBMLDocumentNamespaces().entrySet().iterator();
+		Iterator<Map.Entry<String, String>> it = getSBMLDocumentNamespaces().entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, String> entry = it.next();
 			if (!entry.getKey().equals("xmlns")) {
