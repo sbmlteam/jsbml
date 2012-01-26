@@ -65,9 +65,12 @@ public class Maths {
    * @param x
    * @return
    */
-  public static final double arccot(double x) {
-    return Math.PI / 2d - Math.atan(x);
-  }
+	public static final double arccot(double x) {
+		if (x == 0) {
+			return Math.PI/2;
+		}
+		return Math.atan(1 / x);
+	}
 
 	/**
 	 * This method computes the arccoth of n
