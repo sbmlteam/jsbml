@@ -1552,7 +1552,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         <code>null</code> if it doesn't exist.
    */
   public SpeciesReference findSpeciesReference(String id) {
-    SpeciesReference ssr = findSpeciesReference(id);
+    SimpleSpeciesReference ssr = findSimpleSpeciesReference(id);
     if ((ssr != null) && (ssr instanceof SpeciesReference)) {
       return (SpeciesReference) ssr;
     }
