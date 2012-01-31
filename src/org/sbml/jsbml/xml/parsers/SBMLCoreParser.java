@@ -657,9 +657,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 		if (contextObject instanceof SBMLDocument) {
 			SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
-			if (!URI.equals(SBMLDocument.URI_NAMESPACE_L3V1Core)) {
-				sbmlDocument.addNamespace(localName, prefix, URI);
-			}
+
+			sbmlDocument.addNamespace(localName, prefix, URI);
 			
 			log4jLogger.debug("processNamespace : " + prefix + " = " + URI);
 		} 
