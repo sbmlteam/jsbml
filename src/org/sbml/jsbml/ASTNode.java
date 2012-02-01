@@ -2240,7 +2240,7 @@ public class ASTNode extends AbstractTreeNode {
 			return variable == null ? name : variable.getId();
 		}
 		throw new IllegalArgumentException(
-				"getName() should be called only when !isNumber() || !isOperator()");
+				"getName() should be called only when !isNumber() && !isOperator()");
 	}
 
 	/**
@@ -2471,7 +2471,7 @@ public class ASTNode extends AbstractTreeNode {
 		hashCode += prime * getType().hashCode();
 		if (isInteger()) {
 			hashCode += prime * getInteger();
-		} else if (isSetName()) {
+		} else if (!isNumber() && !isOperator() && (isSetName() || (variable != null))) {
 			hashCode += prime * getName().hashCode();
 		} else if (isRational()) {
 			hashCode += prime * getNumerator() + prime * getDenominator();

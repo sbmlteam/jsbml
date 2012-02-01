@@ -340,6 +340,12 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 			this.name = name;
 		}
 		if (!isSetId() && (getLevel() == 1)) {
+			/*
+			 * Note: In Level 1 there is no id attribute but the name is actually the
+			 * id. Since Level 2 the name attribute has been intended to be a human-readable
+			 * name, not a unique identifier (this was the meaning in Level 1). JSBML therefore
+			 * has to set the id (and not the name) when calling this method in Level 1 models.
+			 */
 			setId(name);
 		} else {
 			// else part to avoid calling this method twice.

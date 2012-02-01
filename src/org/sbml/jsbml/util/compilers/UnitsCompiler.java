@@ -34,6 +34,7 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.Maths;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * Derives the units from mathematical operations.
@@ -1235,12 +1236,11 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			throws SBMLException {
 		UnitDefinition ud = radiant.getUnits().clone();
 		for (Unit u : ud.getListOfUnits()) {
-			if (((u.getExponent() / rootExponent) % 1.0) != 0.0) {
+			if (((u.getExponent() / rootExponent) % 1d) != 0d) {
 				throw new IllegalArgumentException(
-						new UnitException(
-								String.format(
-										"Can not perform power or root operation due to incompatibility with a unit exponent. Given %s and %s.",
-										u.getExponent(), rootExponent)));
+						new UnitException(String.format(
+								"Cannot perform power or root operation due to incompatibility with a unit exponent. Given are %s and %s.",
+								StringTools.toString(u.getExponent()), StringTools.toString(rootExponent))));
 			}
 			
 			if (!(u.isDimensionless() || u.isInvalid())) {
