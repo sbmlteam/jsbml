@@ -2471,7 +2471,7 @@ public class ASTNode extends AbstractTreeNode {
 		hashCode += prime * getType().hashCode();
 		if (isInteger()) {
 			hashCode += prime * getInteger();
-		} else if (isString()) {
+		} else if (isSetName()) {
 			hashCode += prime * getName().hashCode();
 		} else if (isRational()) {
 			hashCode += prime * getNumerator() + prime * getDenominator();

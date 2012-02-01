@@ -27,6 +27,9 @@ Version 1.0-rc1 (xx-xx-2012)
     be derived because in the UnitsCompiler a UnitDefinition object 
     was created with undefined level/version configuration. Furhtermore,
     there was a bug in the method containsUndeclaredUnits() in ASTNode.
+    
+  - Detected and fixed a source of possible NullPointerExceptions within 
+    the hashCode method in ASTNode.
 
 ======================================================================
 Version 0.8-rc1 (xx-xx-2011)
