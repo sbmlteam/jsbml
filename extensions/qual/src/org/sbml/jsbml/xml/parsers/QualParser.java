@@ -71,8 +71,10 @@ public class QualParser extends AbstractReaderWriter {
 	@SuppressWarnings("unchecked")
 	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
-		logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
-
+		if (logger.isDebugEnabled()) {
+			logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
+		}
+		
 		ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
 
 		if (sbase instanceof SBMLDocument) {
@@ -98,7 +100,7 @@ public class QualParser extends AbstractReaderWriter {
 		
 		if (listOfElementsToWrite.isEmpty()) {
 			listOfElementsToWrite = null;
-		} else {
+		} else if (logger.isDebugEnabled()) {
 			logger.debug("getListOfSBMLElementsToWrite size = " + listOfElementsToWrite.size());
 		}
 
@@ -211,8 +213,6 @@ public class QualParser extends AbstractReaderWriter {
 			ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
 			if (elementName.equals("transition") && this.groupList.equals(QualList.listOfTransitions)) { 
-				//  && this.groupList.equals(QualList.listOfTransitions) // the ListOf inside the transition elements made this test wrong
-				// if we want to have this kind of test, we would have to maintain a list of listOf type !
 				Model model = (Model) listOf.getParentSBMLObject();
 				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(QualConstant.namespaceURI); 
 				
@@ -278,7 +278,9 @@ public class QualParser extends AbstractReaderWriter {
 	{
 		super.writeElement(xmlObject, sbmlElementToWrite);
 		
-		logger.debug("writeElement : " + sbmlElementToWrite.getClass().getSimpleName());
+		if (logger.isDebugEnabled()) {
+			logger.debug("writeElement : " + sbmlElementToWrite.getClass().getSimpleName());
+		}
 
 		if (sbmlElementToWrite instanceof FunctionTerm &&
 				((FunctionTerm) sbmlElementToWrite).isDefaultTerm())

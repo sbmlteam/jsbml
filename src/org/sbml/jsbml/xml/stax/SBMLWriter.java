@@ -125,6 +125,10 @@ public class SBMLWriter {
 			System.exit(0);
 		}
 
+		// this JOptionPane is added here to be able to start visualVM profiling
+		// before the reading or writing is started.
+		// JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");
+		
 		long init = Calendar.getInstance().getTimeInMillis();
 		System.out.println(Calendar.getInstance().getTime());
 		
@@ -912,7 +916,7 @@ public class SBMLWriter {
 			writer.writeCharacters("\n");
 
 			for (int i = 0; i < history.getNumCreators(); i++) {
-				Creator modelCreator = history.getCreator(i);
+				Creator creator = history.getCreator(i);
 				writer.writeCharacters(whiteSpace + createIndentationString(2 * indentCount));
 				writer.writeStartElement(rdfPrefix, "li",
 						Annotation.URI_RDF_SYNTAX_NS);
@@ -920,8 +924,8 @@ public class SBMLWriter {
 						"parseType", "Resource");
 				String vCardPrefix = rdfNamespaces.get(Creator.URI_RDF_VCARD_NS);
 
-				if (modelCreator.isSetFamilyName()
-						|| modelCreator.isSetGivenName()) {
+				if (creator.isSetFamilyName()
+						|| creator.isSetGivenName()) {
 					writer.writeCharacters("\n");
 					writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
 					writer.writeStartElement(vCardPrefix, "N",
@@ -930,19 +934,19 @@ public class SBMLWriter {
 							"parseType", "Resource");
 					writer.writeCharacters("\n");
 
-					if (modelCreator.isSetFamilyName()) {
+					if (creator.isSetFamilyName()) {
 						writer.writeCharacters(whiteSpace + createIndentationString(4 * indentCount));
 						writer.writeStartElement(vCardPrefix, "Family",
 								Creator.URI_RDF_VCARD_NS);
-						writer.writeCharacters(modelCreator.getFamilyName());
+						writer.writeCharacters(creator.getFamilyName());
 						writer.writeEndElement();
 						writer.writeCharacters("\n");
 					}
-					if (modelCreator.isSetGivenName()) {
+					if (creator.isSetGivenName()) {
 						writer.writeCharacters(whiteSpace + createIndentationString(4 * indentCount));
 						writer.writeStartElement(vCardPrefix, "Given",
 								Creator.URI_RDF_VCARD_NS);
-						writer.writeCharacters(modelCreator.getGivenName());
+						writer.writeCharacters(creator.getGivenName());
 						writer.writeEndElement();
 						writer.writeCharacters("\n");
 					}
@@ -951,15 +955,15 @@ public class SBMLWriter {
 				} 
 				writer.writeCharacters("\n");
 
-				if (modelCreator.isSetEmail()) {
+				if (creator.isSetEmail()) {
 					writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
 					writer.writeStartElement(vCardPrefix, "EMAIL",
 							Creator.URI_RDF_VCARD_NS);
-					writer.writeCharacters(modelCreator.getEmail());
+					writer.writeCharacters(creator.getEmail());
 					writer.writeEndElement();
 					writer.writeCharacters("\n");
 				}
-				if (modelCreator.isSetOrganisation()) {
+				if (creator.isSetOrganisation()) {
 					writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
 					writer.writeStartElement(vCardPrefix, "ORG",
 							Creator.URI_RDF_VCARD_NS);
@@ -970,13 +974,26 @@ public class SBMLWriter {
 					writer.writeCharacters(whiteSpace + createIndentationString(4 * indentCount));
 					writer.writeStartElement(vCardPrefix, "Orgname",
 							Creator.URI_RDF_VCARD_NS);
-					writer.writeCharacters(modelCreator.getOrganisation());
+					writer.writeCharacters(creator.getOrganisation());
 					writer.writeEndElement();
 					writer.writeCharacters("\n");
 					writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
 					writer.writeEndElement();
 					writer.writeCharacters("\n");
 				}
+				// adding any additional element/value
+				if (creator.isSetOtherAttributes()) {
+					for (String elementName : creator.getOtherAttributes().keySet()) {
+						String characters = creator.getOtherAttribute(elementName);
+						
+						writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
+						writer.writeStartElement(vCardPrefix, elementName, Creator.URI_RDF_VCARD_NS);
+						writer.writeCharacters(characters);
+						writer.writeEndElement();
+						writer.writeCharacters("\n");
+					}
+				}
+				
 				writer.writeCharacters(whiteSpace + createIndentationString(2* indentCount));
 				writer.writeEndElement();
 				writer.writeCharacters("\n");

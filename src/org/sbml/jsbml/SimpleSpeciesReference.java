@@ -233,6 +233,8 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase
 	 * @param species
 	 */
 	public void setSpecies(String species) {
+		// TODO : make the checkIdentifier(String) optional
+		// For performance and not to loose any data when reading
 		if ((species == null) || (species.trim().length() == 0)
 				|| checkIdentifier(species)) {
 			String oldSpecies = this.speciesID;

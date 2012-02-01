@@ -20,11 +20,13 @@
 
 package org.sbml.jsbml;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.util.StringTools;
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
@@ -38,6 +40,9 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public class Creator extends AnnotationElement {
 
+	Logger logger = Logger.getLogger(Creator.class);
+	
+	
 	/**
 	 * Generated serial version identifier.
 	 */
@@ -66,36 +71,51 @@ public class Creator extends AnnotationElement {
 	 */
 	private String organisation;
 
-	// private String otherXMLInformation;
+	/**
+	 * Holding any additional vCard elements.
+	 * This is a quick and dirty solution as the vCard can contain
+	 * many elements that have sub-elements.
+	 * 
+	 * TODO : use an XMLNode to hold all the additional informations
+	 * 
+	 */
+	private Map<String, String> otherAttributes;
 
 	/**
 	 * Creates a {@link Creator} instance. By default, the email, familyName,
 	 * givenName, organisation are null.
 	 */
 	public Creator() {
-	  super();
-    this.givenName = null;
-    this.familyName = null;
-    this.organisation = null;
-    this.email = null;
-    // this.otherXMLInformation = null;
+		super();
+		this.givenName = null;
+		this.familyName = null;
+		this.organisation = null;
+		this.email = null;
+		this.otherAttributes = null;
 	}
-	
+
 	/**
 	 * Creates a {@link Creator} instance from a given {@link Creator}.
 	 * 
 	 * @param creator
 	 */
-  public Creator(Creator creator) {
-    super(creator);
-    this.email = creator.isSetEmail() ? new String(creator.getEmail()) : null;
-    this.familyName = creator.isSetFamilyName() ? new String(
-      creator.getFamilyName()) : null;
-    this.givenName = creator.isSetGivenName() ? new String(
-      creator.getGivenName()) : null;
-    this.organisation = creator.isSetOrganisation() ? new String(
-      creator.getOrganisation()) : null;
-  }
+	public Creator(Creator creator) {
+		super(creator);
+		this.email = creator.isSetEmail() ? new String(creator.getEmail()) : null;
+		this.familyName = creator.isSetFamilyName() ? new String(creator.getFamilyName()) : null;
+		this.givenName = creator.isSetGivenName() ? new String(creator.getGivenName()) : null;
+		this.organisation = creator.isSetOrganisation() ? new String(creator.getOrganisation()) : null;
+
+		if (creator.isSetOtherAttributes()) {
+			this.otherAttributes = new LinkedHashMap<String,String>();
+
+			for (String key : creator.getOtherAttributes().keySet()) {
+				this.otherAttributes.put(new String(key), new String(creator.getOtherAttribute(key)));
+			}
+		} else {
+			this.otherAttributes = null;
+		}
+	}
 
 	/**
 	 * Creates a {@link Creator} instance. 
@@ -123,54 +143,7 @@ public class Creator extends AnnotationElement {
 		return new Creator(this);
 	}
 
-	/**
-	 * Writes the EMAIL element of the {@link Creator} in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void createEMAILElement(String indent, StringBuffer buffer) {
-    if (isSetEmail()) {
-      StringTools.append(buffer, indent, "<vCard:EMAIL>", getEmail(),
-        "</vCard:EMAIL>\n");
-    }
-	}
 
-	/**
-	 * Writes the N element of the {@link Creator} in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-  private void createNElement(String indent, StringBuffer buffer) {
-    if (isSetFamilyName() || isSetGivenName()) {
-      StringTools.append(buffer, indent,
-        "<vCard:N rdf:parseType=\"Resource\">\n");
-      if (isSetFamilyName()) {
-        StringTools.append(buffer, indent, "  <vCard:Family>", getFamilyName(),
-          "</vCard:Family>\n");
-      }
-      if (isSetGivenName()) {
-        StringTools.append(buffer, indent, "  <vCard:Given>", getGivenName(),
-          "</vCard:Given>\n");
-      }
-      StringTools.append(buffer, indent, "</vCard:N>\n");
-    }
-  }
-
-	/**
-	 * Writes the ORG element of the {@link Creator} in 'buffer'
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	private void createOrGElement(String indent, StringBuffer buffer) {
-    if (isSetOrganization()) {
-      StringTools.append(buffer, indent, "<vCard:OrG>\n", indent,
-        "  <vCard:Orgname>", getOrganization(), "</vCard:Orgname>\n", indent,
-        "</vCard:OrG>\n");
-    }
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -196,6 +169,10 @@ public class Creator extends AnnotationElement {
 			equals &= isSetOrganisation() == m.isSetOrganisation();
 			if (equals && isSetOrganisation()) {
 				equals &= getOrganisation().equals(m.getOrganisation());
+			}
+			equals &= isSetOtherAttributes() == m.isSetOtherAttributes();
+			if (equals && isSetOtherAttributes()) {
+				equals &= getOtherAttributes().equals(m.getOtherAttributes());
 			}
 		}
 		return equals;
@@ -298,6 +275,9 @@ public class Creator extends AnnotationElement {
 		if (isSetOrganization()) {
 			hashCode += prime * getOrganization().hashCode();
 		}
+		if (isSetOtherAttributes()) {
+			hashCode += prime * getOtherAttributes().hashCode();
+		}
 		return hashCode;
 	}
 
@@ -397,8 +377,8 @@ public class Creator extends AnnotationElement {
 	   */
     final String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     if ((email != null) && !Pattern.matches(emailPattern, email)) {
-      throw new IllegalArgumentException(String.format(
-        "Invalid e-mail address %s", email));
+    	logger.warn(String.format("Invalid e-mail address %s", email));
+    	throw new IllegalArgumentException(String.format("Invalid e-mail address %s", email));
     }
 		String oldValue = this.email;
 		this.email = email;
@@ -452,6 +432,34 @@ public class Creator extends AnnotationElement {
 	public void setOrganization(String organization) {
 		setOrganisation(organization);
 	}
+	
+	public void setOtherAttribute(String attributeName, String attributeValue) {
+		if (attributeName == null) {
+			return;
+		}
+		getOtherAttributes().put(attributeName, attributeValue);
+	}
+	
+
+	public Map<String, String> getOtherAttributes() {
+
+		if (!isSetOtherAttributes()) {
+			otherAttributes = new LinkedHashMap<String, String>();
+		}
+		return otherAttributes;
+	}
+
+	public boolean isSetOtherAttributes() {
+		return otherAttributes != null;
+	}
+	
+	public String getOtherAttribute(String attributeName) {
+		if (attributeName == null) {
+			return null;
+		}
+		return getOtherAttributes().get(attributeName);
+	}
+	
 
 	/**
 	 * Returns the information about the creator as a String.
@@ -485,21 +493,6 @@ public class Creator extends AnnotationElement {
 		return sb.toString();
 	}
 
-	/**
-	 * Converts the {@link Creator} into XML
-	 * 
-	 * @param indent
-	 * @param buffer
-	 */
-	public void toXML(String indent, StringBuffer buffer) {
-		StringTools.append(buffer, indent, "<rdf:li rdf:parseType=", '"',
-				"Resource", '"', ">", StringTools.newLine());
-		createNElement(indent + "  ", buffer);
-		createEMAILElement(indent + "  ", buffer);
-		createOrGElement(indent + "  ", buffer);
-		// createOtherElement(indent, buffer);
-		StringTools.append(buffer, indent, "</rdf:li>\n");
-	}
 
 	/**
 	 * Unsets the email of this {@link Creator}.

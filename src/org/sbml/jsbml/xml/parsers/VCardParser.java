@@ -20,13 +20,18 @@
 
 package org.sbml.jsbml.xml.parsers;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.SBMLDocument;
 
 /**
- * A {@link VCardParser} is used to parser the subNodes of an annotation which have this
+ * A {@link VCardParser} is used to parse the subNodes of an annotation which have this
  * namespace URI : "http://www.w3.org/2001/vcard-rdf/3.0#".
+ * 
+ * <p/>
+ * To know more about vCard ==> <a href="http://www.ietf.org/rfc/rfc2426.txt">vCard MIME Directory Profile, 
+ * F. Dawson and T. Howes, Internet RFC 2426, September 1998</a>
  * 
  * @author Marine Dumousseau
  * @since 0.8
@@ -60,6 +65,8 @@ public class VCardParser implements ReadingParser {
 	 */
 	private boolean hasReadORGNode = false;
 
+	private Logger logger = Logger.getLogger(VCardParser.class);
+	
 	/**
 	 * @return the namespaceURI
 	 */
@@ -76,10 +83,11 @@ public class VCardParser implements ReadingParser {
 	 */
 	public void processAttribute(String elementName, String attributeName,
 			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
-		// TODO : There is no attribute with a namespace
-		// "http://www.w3.org/2001/vcard-rdf/3.0#", SBML syntax error.
-		// Throw an exception?
+			Object contextObject) 
+	{
+		// There is no attribute with this namespace although the Creator class as a readAttribute that accept
+		// the parseType attribute (without doing anything with it)
+		
 	}
 
 	/*
@@ -95,30 +103,33 @@ public class VCardParser implements ReadingParser {
 		// tag.
 		if (elementName != null) {
 			// A VCardParser can only modify a contextObject which is a
-			// ModelCreator instance.
+			// Creator instance.
 			if (contextObject instanceof Creator) {
-				Creator modelCreator = (Creator) contextObject;
+				Creator creator = (Creator) contextObject;
 
 				// Sets the familyName String of modelCreator.
 				if (elementName.equals("Family") && hasReadFamilyName) {
-					modelCreator.setFamilyName(characters);
+					creator.setFamilyName(characters);
 				}
 				// Sets the givenName String of modelCreator.
 				else if (elementName.equals("Given") && hasReadGivenName) {
-					modelCreator.setGivenName(characters);
+					creator.setGivenName(characters);
 				}
 				// Sets the email String of modelCreator.
 				else if (elementName.equals("EMAIL") && hasReadEMAIL) {
-					modelCreator.setEmail(characters);
+					creator.setEmail(characters);
 				}
 				// Sets the orgname String of modelCreator.
 				else if (elementName.equals("Orgname") && hasReadOrgName) {
-					modelCreator.setOrganisation(characters);
-				} else {
-					// TODO : SBML syntax error, throw an exception?
+					creator.setOrganisation(characters);
+				} else if (!elementName.equals("ORG") && !elementName.equals("N")) {
+					// Storing additional VCard elements in a map to write them back
+					
+					creator.setOtherAttribute(elementName, characters);
 				}
 			} else {
-				// TODO : SBML syntax error, throw an exception?
+				logger.warn("Lost Information : the characters '" + characters + "' on the element '" + elementName + "' might be lost"
+						+ " as the context object is not a Creator.");
 			}
 		}
 	}
@@ -166,12 +177,8 @@ public class VCardParser implements ReadingParser {
 				hasReadORGNode = false;
 				hasReadOrgName = false;
 
-			} else {
-				// TODO : SBML syntax error, throw an exception?
-			}
-		} else {
-			// TODO : SBML syntax error, throw an exception?
-		}
+			} 
+		} 
 		
 		return true;
 	}
@@ -237,10 +244,11 @@ public class VCardParser implements ReadingParser {
 					&& !hasReadOrgName) {
 				hasReadOrgName = true;
 			} else {
-				// TODO : SBML syntax error, throw an exception?
+				logger.warn("The element 'vCard:" + elementName + "' is an additional vCard element not described in the SBML specs.");
 			}
 		} else {
-			// TODO : SBML syntax error, throw an exception?
+			logger.warn("Lost Information : the element '" + elementName + "' might be lost"
+					+ " as the context object is not a Creator.");
 		}
 		return contextObject;
 	}
