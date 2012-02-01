@@ -264,7 +264,7 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 	 * @return
 	 */
 	public static String maskSpecialChars(String string, boolean hyphen) {
-		StringBuffer masked = new StringBuffer();
+		StringBuilder masked = new StringBuilder();
 		for (int i = 0; i < string.length(); i++) {
 			char atI = string.charAt(i);
 			if (atI == '<') {
@@ -276,11 +276,12 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 						|| (atI == '&') || (atI == '#') || (atI == '{')
 						|| (atI == '}') || (atI == '~') || (atI == '%')
 						|| (atI == '^')) {
-					if ((i == 0) || (!hyphen))
+					if ((i == 0) || (!hyphen)) {
 						masked.append('\\');
-					else if (hyphen && (string.charAt(i - 1) != '\\'))
+					} else if (hyphen && (string.charAt(i - 1) != '\\')) {
 						masked.append("\\-\\"); // masked.append('\\');
 					// } else if ((atI == '[') || (atI == ']')) {
+					}
 				}
 				masked.append(atI);
 			}

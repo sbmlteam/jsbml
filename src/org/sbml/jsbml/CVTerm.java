@@ -639,9 +639,7 @@ public class CVTerm extends AnnotationElement {
 	 * @param resource
 	 */
 	public void removeResource(int index) {
-		if (index > 0 && index < resourceURIs.size()) {
-			resourceURIs.remove(index);
-		}
+	  resourceURIs.remove(index);
 	}
 
 	/**
