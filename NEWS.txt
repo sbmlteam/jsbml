@@ -16,6 +16,9 @@ Version 0.8-rc2 (xx-xx-2012)
   - Meike Aichele removed in TreeNodeChangeEvent the event spacialDimension, 
     because there is already a spatialDimension-event, which means 
     exactly the same
+    
+  - Detected and fixed a source of possible NullPointerExceptions within 
+    the hashCode method in ASTNode.
   
 ======================================================================
 Version 0.8-rc1 (08-12-2011)
