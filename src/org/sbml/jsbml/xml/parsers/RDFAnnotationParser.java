@@ -160,9 +160,12 @@ public class RDFAnnotationParser implements ReadingParser {
 	 */
 	private void setRDFAbout(SBase sbase) {
 		// We assume that the method is called only if there is an annotation defined.
+		
 		if (sbase.isSetMetaId()) {
 			sbase.getAnnotation().setAbout("#" + sbase.getMetaId());
 		} else {
+			// TODO : generate the metaid at this point ??
+			
 			logger.warn(String.format(
 				"The element %s has no metaid, so the rdf:about inside his annotation cannot be defined properly.",
 				sbase.getElementName()));
@@ -177,22 +180,22 @@ public class RDFAnnotationParser implements ReadingParser {
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 		
 		if (!sbmlDocument.hasValidAnnotation()){
-			setRDFAbout(sbmlDocument);
 			logger.warn("The SBMLDocument element has an invalid rdf:about inside his annotation.");
+			setRDFAbout(sbmlDocument);
 		}
 
 		Model model = sbmlDocument.getModel();
 
 		if (!model.hasValidAnnotation()){
-			setRDFAbout(model);
 			logger.warn(String.format("The model element with metaid = '%s' has an invalid rdf:about = '%s' inside his annotation.", model.getMetaId(), model.getAnnotation().getAbout()));	
+			setRDFAbout(model);
 		}
 
 		if (model.isSetListOfFunctionDefinitions()){
 			for (FunctionDefinition functionDefinition : model.getListOfFunctionDefinitions()){
 				if (!functionDefinition.hasValidAnnotation()){
-					setRDFAbout(functionDefinition);
 					logger.warn("The functionDefinition element '" + functionDefinition.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+					setRDFAbout(functionDefinition);
 				}
 			}
 		}
@@ -200,8 +203,8 @@ public class RDFAnnotationParser implements ReadingParser {
 		if (model.isSetListOfCompartments()){
 			for (Compartment compartment : model.getListOfCompartments()){
 				if (!compartment.hasValidAnnotation()){
-					setRDFAbout(compartment);
 					logger.warn("The compartment '" + compartment.getId() + "' has an invalid rdf:about inside his annotation.");
+					setRDFAbout(compartment);
 				}
 			}
 		}
@@ -209,8 +212,8 @@ public class RDFAnnotationParser implements ReadingParser {
 		if (model.isSetListOfCompartmentTypes()){
 			for (CompartmentType compartmentType : model.getListOfCompartmentTypes()){
 				if (!compartmentType.hasValidAnnotation()){
-					setRDFAbout(compartmentType);
 					logger.warn("The compartmentType '" + compartmentType.getId() + "' has an invalid rdf:about inside his annotation.");
+					setRDFAbout(compartmentType);
 				}
 			}
 		}
@@ -221,8 +224,8 @@ public class RDFAnnotationParser implements ReadingParser {
 		if (model.isSetListOfConstraints()){
 			for (Constraint constraint : model.getListOfConstraints()){
 				if (!constraint.hasValidAnnotation()){
-					setRDFAbout(constraint);
 					logger.warn("The constraint element '" + constraint.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+					setRDFAbout(constraint);
 				}
 			}
 		}
@@ -230,27 +233,27 @@ public class RDFAnnotationParser implements ReadingParser {
 		if (model.isSetListOfEvents()){
 			for (Event event : model.getListOfEvents()){
 				if (!event.hasValidAnnotation()){
-					setRDFAbout(event);
 					logger.warn("The event element '" + event.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+					setRDFAbout(event);
 				}
 				if (event.isSetDelay()){
 					if (! event.getDelay().hasValidAnnotation()){
-						setRDFAbout(event.getDelay());
 						logger.warn("The delay element '" + event.getDelay().getMetaId() + "' has an invalid rdf:about inside his annotation.");
+						setRDFAbout(event.getDelay());
 					}
 				}
 				if (event.isSetListOfEventAssignments()){
 					for (EventAssignment eventAssignment : event.getListOfEventAssignments()){
 						if (!eventAssignment.hasValidAnnotation()){
-							setRDFAbout(eventAssignment);
 							logger.warn("The eventAssignment element '" + eventAssignment.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+							setRDFAbout(eventAssignment);
 						}
 					}
 				}
 				if (event.isSetTrigger()){
 					if (! event.getTrigger().hasValidAnnotation()){
-						setRDFAbout(event.getTrigger());
 						logger.warn("The trigger element '" + event.getTrigger().getMetaId() + "' has an invalid rdf:about inside his annotation.");
+						setRDFAbout(event.getTrigger());
 					}
 				}
 			}			
@@ -261,8 +264,8 @@ public class RDFAnnotationParser implements ReadingParser {
 		if (model.isSetListOfInitialAssignments()){
 			for (InitialAssignment initAssgnt : model.getListOfInitialAssignments()){
 				if (!initAssgnt.hasValidAnnotation()){
-					setRDFAbout(initAssgnt);
 					logger.warn("The initialAssignment element '" + initAssgnt.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+					setRDFAbout(initAssgnt);
 				}
 			}
 		}
@@ -270,8 +273,8 @@ public class RDFAnnotationParser implements ReadingParser {
 		if (model.isSetListOfParameters()){
 			for (Parameter parameter : model.getListOfParameters()){
 				if (!parameter.hasValidAnnotation()){
-					setRDFAbout(parameter);
 					logger.warn("The parameter element '" + parameter.getId() + "' has an invalid rdf:about inside his annotation.");
+					setRDFAbout(parameter);
 				}
 			}
 		}
@@ -282,23 +285,23 @@ public class RDFAnnotationParser implements ReadingParser {
 			for (Reaction reaction : model.getListOfReactions()){
 
 				if (!reaction.hasValidAnnotation()){
-					setRDFAbout(reaction);
 					logger.warn("The reaction element '" + reaction.getId() + "' has an invalid rdf:about inside his annotation.");
+					setRDFAbout(reaction);
 				}
 
 				if (reaction.isSetKineticLaw()){
 					KineticLaw kineticLaw = reaction.getKineticLaw();
 
 					if (!kineticLaw.hasValidAnnotation()){
-						setRDFAbout(kineticLaw);
 						logger.warn("The kineticLaw element '" + kineticLaw.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+						setRDFAbout(kineticLaw);
 					}
 
 					if (kineticLaw.isSetListOfLocalParameters()){
 						for (LocalParameter parameter : kineticLaw.getListOfLocalParameters()){
 							if (!parameter.hasValidAnnotation()){
-								setRDFAbout(parameter);
 								logger.warn("The local parameter element '" + parameter.getId() + "' has an invalid rdf:about inside his annotation.");
+								setRDFAbout(parameter);
 							}
 						}
 					}					
@@ -307,24 +310,24 @@ public class RDFAnnotationParser implements ReadingParser {
 				if (reaction.isSetListOfReactants()){
 					for (SpeciesReference reactant : reaction.getListOfReactants()){
 						if (!reactant.hasValidAnnotation()){
-							setRDFAbout(reactant);
 							logger.warn("The reactant element '" + reactant.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+							setRDFAbout(reactant);
 						}
 					}
 				}
 				if (reaction.isSetListOfProducts()){
 					for (SpeciesReference product : reaction.getListOfProducts()){
 						if (!product.hasValidAnnotation()){
-							setRDFAbout(product);
 							logger.warn("The product element '" + product.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+							setRDFAbout(product);
 						}
 					}
 				}
 				if (reaction.isSetListOfModifiers()){
 					for (ModifierSpeciesReference modifier : reaction.getListOfModifiers()){
 						if (!modifier.hasValidAnnotation()){
-							setRDFAbout(modifier);
 							logger.warn("The modifier element '" + modifier.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+							setRDFAbout(modifier);
 						}
 					}
 				}
@@ -336,24 +339,24 @@ public class RDFAnnotationParser implements ReadingParser {
 		if (model.isSetListOfRules()){
 			for (Rule rule : model.getListOfRules()){
 				if (!rule.hasValidAnnotation()){
-					setRDFAbout(rule);
 					logger.warn("The rule element '" + rule.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+					setRDFAbout(rule);
 				}
 			}
 		}
 		if (model.isSetListOfSpecies()){
 			for (Species species : model.getListOfSpecies()){
 				if (!species.hasValidAnnotation()){
-					setRDFAbout(species);
 					logger.warn("The species element '" + species.getId() + "' has an invalid rdf:about inside his annotation.");
+					setRDFAbout(species);
 				}
 			}
 		}
 		if (model.isSetListOfSpeciesTypes()){
 			for (Species speciesType : model.getListOfSpecies()){
 				if (!speciesType.hasValidAnnotation()){
-					setRDFAbout(speciesType);
 					logger.warn("The speciesType element '" + speciesType.getId() + "' has an invalid rdf:about inside his annotation.");
+					setRDFAbout(speciesType);
 				}
 			}
 		}
@@ -364,14 +367,14 @@ public class RDFAnnotationParser implements ReadingParser {
 			for (UnitDefinition unitDefinition : model.getListOfUnitDefinitions()){			
 
 				if (!unitDefinition.hasValidAnnotation()){
-					setRDFAbout(unitDefinition);
 					logger.warn("The unitDefinition element '" + unitDefinition.getId() + "' has an invalid rdf:about inside his annotation.");
+					setRDFAbout(unitDefinition);
 				}
 				if (unitDefinition.isSetListOfUnits()){
 					for (Unit unit : unitDefinition.getListOfUnits()){
 						if (!unit.hasValidAnnotation()){
-							setRDFAbout(unit);
 							logger.warn("The unit element '" + unit.getMetaId() + "' has an invalid rdf:about inside his annotation.");
+							setRDFAbout(unit);
 						}
 					}
 				}

@@ -634,6 +634,17 @@ public class CVTerm extends AnnotationElement {
 	}
 
 	/**
+	 * Removes the ith resource from the {@link CVTerm}.
+	 * 
+	 * @param resource
+	 */
+	public void removeResource(int index) {
+		if (index > 0 && index < resourceURIs.size()) {
+			resourceURIs.remove(index);
+		}
+	}
+
+	/**
 	 * Sets the biological qualifier type.
 	 * 
 	 * @param specificQualifierType
