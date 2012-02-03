@@ -1474,7 +1474,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     Quantity nsb = findVariable(id);
     if (nsb == null) {
       List<LocalParameter> list = findLocalParameters(id);
-      if (!list.isEmpty()) { return list.get(0); }
+      if (!list.isEmpty()) { 
+      	return list.get(0); 
+      }
     }
     return nsb;
   }

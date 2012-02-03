@@ -105,24 +105,19 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		this.unitsID = null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	public abstract AbstractNamedSBaseWithUnit clone();
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
 	 */
 	public boolean containsUndeclaredUnits() {
 		return !isSetUnits();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
@@ -138,9 +133,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		return equals;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
 	 */
 	public UnitDefinition getDerivedUnitDefinition() {
@@ -155,9 +148,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
 	 */
 	public String getDerivedUnits() {
@@ -177,18 +168,14 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 */
 	public abstract String getPredefinedUnitID();
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#getUnits()
 	 */
 	public String getUnits() {
 		return isSetUnits() ? unitsID : "";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#getUnitsInstance()
 	 */
 	public UnitDefinition getUnitsInstance() {
@@ -207,8 +194,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		return model == null ? null : model.getUnitDefinition(unitsId);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
 	@Override
@@ -238,18 +224,14 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#isSetUnits()
 	 */
 	public boolean isSetUnits() {
 		return (unitsID != null) /*&& !isPredefinedUnitsID(unitsID)*/;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#isSetUnitsInstance()
 	 */
 	public boolean isSetUnitsInstance() {
@@ -264,18 +246,14 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.Unit.Kind)
 	 */
 	public void setUnits(Kind unitKind) {
 		setUnits(unitKind.toString().toLowerCase());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(java.lang.String)
 	 */
 	public void setUnits(String units) {
@@ -314,9 +292,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.Unit)
 	 */
 	@SuppressWarnings("deprecation")
@@ -346,9 +322,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
     }
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.UnitDefinition)
 	 */
 	public void setUnits(UnitDefinition units) {
@@ -359,9 +333,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#unsetUnits()
 	 */
 	public void unsetUnits() {
