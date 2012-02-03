@@ -23,9 +23,11 @@ package org.sbml.jsbml;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -2328,6 +2330,22 @@ public int getNumLocalParameters() {
       count += r.getNumModifiers();
     }
     return count;
+  }
+  
+  /**
+   * Returns all {@link ModifierSpeciesReference}s, registered in
+   * any {@link Reaction}.
+   * @return 
+   * @return all {@link ModifierSpeciesReference} contained in this {@link Model}.
+   */
+  public Set<ModifierSpeciesReference> getModifierSpeciesReferences() {
+    Set<ModifierSpeciesReference> listOfModifiers = new HashSet<ModifierSpeciesReference>();
+    for (Reaction r : getListOfReactions()) {
+      if (r.isSetListOfModifiers()) {
+        listOfModifiers.addAll( r.getListOfModifiers() );
+      }
+    }
+    return listOfModifiers;
   }
   
   /**
