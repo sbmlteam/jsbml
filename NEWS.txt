@@ -19,6 +19,10 @@ Version 0.8-rc2 (xx-xx-2012)
     
   - Detected and fixed a source of possible NullPointerExceptions within 
     the hashCode method in ASTNode.
+    
+  - Improved the units derivation: There were multiple problems in 
+    re-scaling and merging of units and also when determining the actual
+    unit of a species.
   
 ======================================================================
 Version 0.8-rc1 (08-12-2011)

@@ -1236,7 +1236,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			throws SBMLException {
 		UnitDefinition ud = radiant.getUnits().clone();
 		for (Unit u : ud.getListOfUnits()) {
-			if (((u.getExponent() / rootExponent) % 1d) != 0d) {
+			if ((((u.getExponent() / rootExponent) % 1d) != 0d) && !u.isDimensionless() && !u.isInvalid()) {
 				throw new IllegalArgumentException(
 						new UnitException(String.format(
 								"Cannot perform power or root operation due to incompatibility with a unit exponent. Given are %s and %s.",

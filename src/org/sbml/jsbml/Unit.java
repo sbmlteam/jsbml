@@ -1032,60 +1032,95 @@ public class Unit extends AbstractSBase {
 	 *            the second {@link Unit} object to merge with the first
 	 */
 	public static void merge(Unit unit1, Unit unit2) {
-		if (Kind.areEquivalent(unit1.getKind(), unit2.getKind())
-				|| unit1.isDimensionless() || unit2.isDimensionless()) {
-			// let's get rid of this offset if there is any...
-			double m1 = unit1.getOffset() / Math.pow(10, unit1.getScale())
-					+ unit1.getMultiplier();
-			double m2 = unit2.getOffset() / Math.pow(10, unit2.getScale())
-					+ unit2.getMultiplier();
+		Kind k1 = unit1.getKind();
+		Kind k2 = unit2.getKind();
+		boolean equivalent = Kind.areEquivalent(k1, k2); 
+		if (equivalent || unit1.isDimensionless() || unit2.isDimensionless()) {
 			int s1 = unit1.getScale(), s2 = unit2.getScale();
-			double e1 = unit1.getKind() == Kind.DIMENSIONLESS
-					&& unit1.getExponent() != 1 ? 1 : unit1.getExponent();
-			double e2 = unit2.getKind() == Kind.DIMENSIONLESS
-					&& unit2.getExponent() != 1 ? 1 : unit2.getExponent();
+			// let's get rid of this offset if there is any...
+			double m1 = unit1.getOffset() / Math.pow(10, s1)
+					+ unit1.getMultiplier();
+			double m2 = unit2.getOffset() / Math.pow(10, s2)
+					+ unit2.getMultiplier();
+			double e1 = k1 == Kind.DIMENSIONLESS
+					&& unit1.getExponent() != 1d ? 1d : unit1.getExponent();
+			double e2 = k2 == Kind.DIMENSIONLESS
+					&& unit2.getExponent() != 1d ? 1d : unit2.getExponent();
 			if (unit1.getOffset() != 0d) {
 				unit1.setOffset(0);
 			}
-			unit1.setMultiplier(Math.pow(m1, e1) * Math.pow(m2, e2));
-			unit1.setScale((int) Math.round(s1 * e1 + s2 * e2));
-			if (Kind.areEquivalent(unit1.getKind(), unit2.getKind())) {
-				unit1.setExponent(e1 + e2);
-				if (unit1.getExponent() != 0) {
-					unit1.setMultiplier(Math.pow(unit1.getMultiplier(),
-							1 / unit1.getExponent()));
-					unit1.setScale((int) Math.round(unit1.getScale()
-							/ unit1.getExponent()));
+
+			double newScale = s1;
+			double newMultiplier = m1;
+			double newExponent = e1 + e2;
+
+			if (newExponent != 0) {
+				if (m1 != m2) {
+					newMultiplier = Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1 / newExponent);
 				}
-			} else if (e1 != 0) {
-				unit1.setMultiplier(Math.pow(unit1.getMultiplier(),
-						1 / (double) e1));
-				unit1.setScale((int) Math
-						.round((unit1.getScale() / (double) e1)));
+				if (s1 != s2) {
+					if (s1 == 0) {
+						newScale = s2 * e2 / newExponent;
+						if (newScale - ((int) newScale) != 0d) {
+							// If rounding fails, just keep the previous scale:
+							newScale = s2;
+						}
+					} else if (s2 == 0) {
+						newScale = s1 * e1 / newExponent;
+						if (newScale - ((int) newScale) != 0d) {
+							// If rounding fails, just keep the previous scale:
+							newScale = s1;
+						}
+					} else if ((e1 != 0d) && (1 + e2 != 0d)) {
+						newScale = (s1 + e2 * s2 / e1) / (1 + e2);
+					} else {
+						// This is the method from libSBML:
+						removeScale(unit1);
+						removeScale(unit2);
+						newScale = 0;
+						newExponent = unit1.getExponent() + unit2.getExponent();
+						if (newExponent == 0) {
+							newMultiplier = 1;
+						} else if (unit1.getMultiplier() != unit2.getMultiplier()) {
+							m1 = unit1.getMultiplier();
+							m2 = unit2.getMultiplier();
+							e1 = unit1.getExponent();
+							e2 = unit2.getExponent();
+							newMultiplier = Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1 / newExponent);
+						}
+					}
+				}
 			}
-			if (unit1.getExponent() == 0) {
-				unit1.setExponent(1);
-				unit1.setKind(Kind.DIMENSIONLESS);
-			}
-			if (unit1.getKind() == Kind.METER) {
+
+			// Adapt unit kind if necessary
+			if (k1 == Kind.METER) {
 				unit1.setKind(Kind.METRE);
-			} else if (unit1.getKind() == Kind.LITER) {
+			} else if (k1 == Kind.LITER) {
 				unit1.setKind(Kind.LITRE);
 			}
-		} else if (unit1.getKind().equals(Kind.INVALID) || unit2.getKind().equals(Kind.INVALID)) {
-			if (!unit2.getKind().equals(Kind.INVALID)) {
+			// If the unit has become dimentionless, mark it accordingly
+			if (newExponent == 0) {
+				newExponent = 1;
+				unit1.setKind(Kind.DIMENSIONLESS);
+			}
+			unit1.setMultiplier(newMultiplier);
+			unit1.setScale((int) newScale);
+			unit1.setExponent(newExponent);
+
+		} else if (k1.equals(Kind.INVALID) || k2.equals(Kind.INVALID)) {
+			if (!k2.equals(Kind.INVALID)) {
 				if (unit2.isSetOffset) {
 					unit1.setOffset(unit2.getOffset());
 				}
 				unit1.setMultiplier(unit2.getMultiplier());
 				unit1.setScale(unit2.getScale());
-				unit1.setKind(unit2.getKind());
+				unit1.setKind(k2);
 				unit1.setExponent(unit2.getExponent());
 			}
 		} else {
 			throw new IllegalArgumentException(String.format(
-									"Cannot merge units with different kind properties %s and %s. Units can only be merged if both have the same kind attribute or if one of them is dimensionless.",
-									unit1.getKind(), unit2.getKind()));
+					"Cannot merge units with different kind properties %s and %s. Units can only be merged if both have the same kind attribute or if one of them is dimensionless.",
+					k1, k2));
 		}
 	}
 

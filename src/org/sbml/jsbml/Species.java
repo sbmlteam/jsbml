@@ -302,21 +302,16 @@ public class Species extends Symbol {
 	@Override
 	public UnitDefinition getDerivedUnitDefinition() {
 		UnitDefinition specUnit = super.getDerivedUnitDefinition();
-		if ((specUnit != null) && (!isSetUnits())
-				&& isSetInitialConcentration() && !hasOnlySubstanceUnits()) {
-			Compartment compartment = getCompartmentInstance();
-			if ((compartment == null)
-					|| (compartment.getSpatialDimensions() == 0d)) {
-				return specUnit;
-			}
+		Compartment compartment = getCompartmentInstance();
+		if ((specUnit != null) && !hasOnlySubstanceUnits() && (compartment != null)
+				&& (0d < compartment.getSpatialDimensions())) {
 			UnitDefinition sizeUnit = getSpatialSizeUnitsInstance();
 			if (sizeUnit != null) {
 				UnitDefinition derivedUD = specUnit.clone().divideBy(sizeUnit);
 				derivedUD.setId(derivedUD.getId() + "_per_" + sizeUnit.getId());
 				if (derivedUD.isSetName()) {
 					derivedUD.setName(derivedUD.getName() + " per "
-							+ (sizeUnit.isSetName() ? sizeUnit.getName()
-									: sizeUnit.getId()));
+							+ (sizeUnit.isSetName() ? sizeUnit.getName() : sizeUnit.getId()));
 				}
 				return derivedUD;
 			}
