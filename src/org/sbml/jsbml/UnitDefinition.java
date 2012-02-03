@@ -404,8 +404,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 			for (i = orig.size() - 1; i >= 0; i--) {
 				Unit u = orig.remove(i);
 				j = 0;
-				while (j < units.size()
-						&& 0 < u.getKind().compareTo(units.get(j).getKind())) {
+				while ((j < units.size())
+						&& (0 < u.getKind().compareTo(units.get(j).getKind()))) {
 					j++;
 				}
 				units.add(j, u);
@@ -1100,6 +1100,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public UnitDefinition simplify() {
 		if (isSetListOfUnits()) {
 			reorder(this);
+			// Merge units with equivalent or similar kinds if possible:
 			for (int i = getNumUnits() - 2; i >= 0; i--) {
 				Unit u = getUnit(i); // current unit
 				Unit s = getUnit(i + 1); // successor unit
@@ -1110,10 +1111,42 @@ public class UnitDefinition extends AbstractNamedSBase {
 						Unit.merge(u, removeUnit(i + 1));
 					} else {
 						Unit.merge(s, removeUnit(i));
-
 					}
 				}
 			}
+			// Shift scales and multipliers to the front if possible:
+			for (int i = getNumUnits() - 2; i >= 0; i--) {
+        Unit u = getUnit(i); // current unit
+        Unit s = getUnit(i + 1); // successor unit
+        if (!Unit.Kind.areEquivalent(u.getKind(), s.getKind())
+            && !u.isDimensionless() && !s.isDimensionless()
+            && !u.isInvalid() && !s.isInvalid()) {
+          double m1 = u.getMultiplier();
+          double m2 = s.getMultiplier();
+          int s1 = u.getScale();
+          int s2 = s.getScale();
+          double e1 = u.getExponent();
+          double e2 = s.getExponent();
+          double p1 = s1 * e1;
+          double p2 = s2 * e2;
+          // Try re-scaling by merging the scale of the second unit into the first unit:
+          if ((Math.signum(p1) != Math.signum(p2)) && (e1 != 0d)) {
+            double newScale = s1 + p2 / e1;
+            if (newScale - ((int) newScale) == 0) {
+              // Only re-scale if we can obtain an integer, i.e., loss-free rounding.
+              u.setScale((int) newScale);
+              s.setScale(0);
+            }
+          }
+          // Try to remove the multiplier from the second unit:
+          if ((m1 != m2) && (m2 != 0d) && (e1 + e2 != 0d)) {
+            double newMultiplier = Math.pow(m1, e1 / (e1 + e2)) *  Math.pow(m2, e2 / (e1 + e2));
+            u.setMultiplier(newMultiplier);
+            // This is actually the result of a division by m2, so m2 must not be zero:
+            s.setMultiplier(1d);
+          }
+        }
+      }
 		}
 		return this;
 	}

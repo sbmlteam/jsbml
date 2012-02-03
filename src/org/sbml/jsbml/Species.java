@@ -194,9 +194,7 @@ public class Species extends Symbol {
 		initDefaults();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Symbol#clone()
 	 */
 	@Override
@@ -204,8 +202,7 @@ public class Species extends Symbol {
 		return new Species(this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Symbol#equals(java.lang.Object)
 	 */
 	@Override
@@ -302,31 +299,24 @@ public class Species extends Symbol {
 	@Override
 	public UnitDefinition getDerivedUnitDefinition() {
 		UnitDefinition specUnit = super.getDerivedUnitDefinition();
-		if ((specUnit != null) && (!isSetUnits())
-				&& isSetInitialConcentration() && !hasOnlySubstanceUnits()) {
-			Compartment compartment = getCompartmentInstance();
-			if ((compartment == null)
-					|| (compartment.getSpatialDimensions() == 0d)) {
-				return specUnit;
-			}
-			UnitDefinition sizeUnit = getSpatialSizeUnitsInstance();
-			if (sizeUnit != null) {
-				UnitDefinition derivedUD = specUnit.clone().divideBy(sizeUnit);
-				derivedUD.setId(derivedUD.getId() + "_per_" + sizeUnit.getId());
-				if (derivedUD.isSetName()) {
-					derivedUD.setName(derivedUD.getName() + " per "
-							+ (sizeUnit.isSetName() ? sizeUnit.getName()
-									: sizeUnit.getId()));
-				}
-				return derivedUD;
-			}
+		Compartment compartment = getCompartmentInstance();
+    if ((specUnit != null) && !hasOnlySubstanceUnits() && (compartment != null)
+      && (0d < compartment.getSpatialDimensions())) {
+      UnitDefinition sizeUnit = getSpatialSizeUnitsInstance();
+      if (sizeUnit != null) {
+        UnitDefinition derivedUD = specUnit.clone().divideBy(sizeUnit);
+        derivedUD.setId(derivedUD.getId() + "_per_" + sizeUnit.getId());
+        if (derivedUD.isSetName()) {
+          derivedUD.setName(derivedUD.getName() + " per "
+            + (sizeUnit.isSetName() ? sizeUnit.getName() : sizeUnit.getId()));
+        }
+        return derivedUD;
+      }
 		}
 		return specUnit;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getElementName()
 	 */
 	@Override
@@ -369,9 +359,7 @@ public class Species extends Symbol {
 		return Double.NaN;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getPredefinedUnitID()
 	 */
 	public String getPredefinedUnitID() {
@@ -473,8 +461,7 @@ public class Species extends Symbol {
 		return getUnitsInstance();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Symbol#hashCode()
 	 */
 	@Override
@@ -696,11 +683,8 @@ public class Species extends Symbol {
 		return isSetUnitsInstance();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)(
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)(
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -1106,9 +1090,7 @@ public class Species extends Symbol {
 		unsetUnits();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes(
 	 */
 	@Override

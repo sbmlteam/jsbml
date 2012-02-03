@@ -104,25 +104,19 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		math = null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	public abstract AbstractMathContainer clone();
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
 	 */
 	public boolean containsUndeclaredUnits() {
 		return isSetMath() ? math.containsUndeclaredUnits() : false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
 	 */
 	@Override
@@ -130,9 +124,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
@@ -156,9 +148,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 				index, +((int) Math.min(pos, 0))));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildCount()
 	 */
 	@Override
@@ -166,9 +156,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		return super.getChildCount() + (isSetMath() ? 1 : 0);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
 	 */
 	public UnitDefinition getDerivedUnitDefinition() {
@@ -210,9 +198,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		return ud;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
 	 */
 	@SuppressWarnings("deprecation")
@@ -232,9 +218,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.MathContainer#getFormula()
 	 */
 	@Deprecated
@@ -247,18 +231,14 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		}
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.MathContainer#getMath()
 	 */
 	public ASTNode getMath() {
 		return math;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.MathContainer#getMathMLString()
 	 */
 	public String getMathMLString() {
@@ -268,20 +248,15 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		return "";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.MathContainer#isSetMath()
 	 */
 	public boolean isSetMath() {
 		return math != null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -302,9 +277,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		return isAttributeRead;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.MathContainer#setFormula(java.lang.String)
 	 */
 	@Deprecated
@@ -312,9 +285,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		setMath(ASTNode.parseFormula(formula));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.MathContainer#setMath(org.sbml.jsbml.ASTNode)
 	 */
 	public void setMath(ASTNode math) {
@@ -328,9 +299,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#toString()
 	 */
 	@Override
@@ -341,8 +310,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		return StringTools.firstLetterLowerCase(getElementName());
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.MathContainer#unsetFormula()
 	 */
 	@Deprecated
@@ -350,17 +318,14 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		unsetMath();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.MathContainer#unsetMath()
 	 */
 	public void unsetMath() {
 		setMath(null);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override

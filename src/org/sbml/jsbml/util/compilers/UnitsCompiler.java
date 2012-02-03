@@ -31,8 +31,8 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Quantity;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Unit;
-import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.StringTools;
 
@@ -91,9 +91,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		this.model = model;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue abs(ASTNode value) throws SBMLException {
@@ -105,9 +103,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#and(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue and(List<ASTNode> values) throws SBMLException {
@@ -120,9 +116,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return value;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arccos(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arccos(ASTNode value) throws SBMLException {
@@ -133,9 +127,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arccosh(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arccosh(ASTNode value) throws SBMLException {
@@ -146,9 +138,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arccot(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arccot(ASTNode value) throws SBMLException {
@@ -159,9 +149,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arccoth(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arccoth(ASTNode value) throws SBMLException {
@@ -172,9 +160,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arccsc(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arccsc(ASTNode value) throws SBMLException {
@@ -185,9 +171,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arccsch(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arccsch(ASTNode value) throws SBMLException {
@@ -198,9 +182,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsec(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arcsec(ASTNode value) throws SBMLException {
@@ -211,9 +193,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsech(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arcsech(ASTNode value) throws SBMLException {
@@ -224,9 +204,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsin(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arcsin(ASTNode value) throws SBMLException {
@@ -237,9 +215,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arcsinh(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arcsinh(ASTNode value) throws SBMLException {
@@ -250,9 +226,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arctan(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arctan(ASTNode value) throws SBMLException {
@@ -263,9 +237,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#arctanh(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue arctanh(ASTNode value) throws SBMLException {
@@ -276,9 +248,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#ceiling(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue ceiling(ASTNode value) throws SBMLException {
@@ -302,28 +272,21 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return value;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(org.sbml.jsbml.Compartment)
 	 */
 	public ASTNodeValue compile(Compartment c) {
 		return compile((CallableSBase) c);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double, int,
-	 * java.lang.String)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double, int, java.lang.String)
 	 */
 	public ASTNodeValue compile(double mantissa, int exponent, String units) {
 		return compile(mantissa * Math.pow(10, exponent), units);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(double, java.lang.String)
 	 */
 	public ASTNodeValue compile(double real, String units) {
@@ -342,21 +305,15 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(int, java.lang.String)
 	 */
 	public ASTNodeValue compile(int integer, String units) {
 		return compile((double) integer, units);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.
-	 * CallableSBase)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.CallableSBase)
 	 */
 	public ASTNodeValue compile(CallableSBase variable) {
 		ASTNodeValue value = new ASTNodeValue(variable, this);
@@ -370,9 +327,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return value;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#compile(java.lang.String)
 	 */
 	public ASTNodeValue compile(String name) {
@@ -382,9 +337,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return new ASTNodeValue(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#cos(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue cos(ASTNode value) throws SBMLException {
@@ -395,9 +348,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#cosh(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue cosh(ASTNode value) throws SBMLException {
@@ -408,9 +359,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#cot(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue cot(ASTNode value) throws SBMLException {
@@ -421,9 +370,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#coth(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue coth(ASTNode value) throws SBMLException {
@@ -434,9 +381,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#csc(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue csc(ASTNode value) throws SBMLException {
@@ -447,9 +392,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#csch(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue csch(ASTNode value) throws SBMLException {
@@ -460,11 +403,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#delay(java.lang.String,
-	 * org.sbml.jsbml.ASTNodeValue, double, java.lang.String)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#delay(java.lang.String, org.sbml.jsbml.ASTNodeValue, double, java.lang.String)
 	 */
 	public ASTNodeValue delay(String delayName, ASTNode x, ASTNode delay,
 			String units) throws SBMLException {
@@ -511,11 +451,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return new ASTNodeValue(ud, this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#equal(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#equal(org.sbml.jsbml.ASTNodeValue, org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue eq(ASTNode left, ASTNode right) throws SBMLException {
 		ASTNodeValue v = dimensionless(), leftvalue, rightvalue;
@@ -528,9 +465,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#exp(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue exp(ASTNode value) throws SBMLException {
@@ -540,11 +475,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return pow(getConstantE(), v);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#factorial(org.sbml.jsbml.ASTNodeValue)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#factorial(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue factorial(ASTNode value) throws SBMLException {
 
@@ -560,9 +492,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#floor(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue floor(ASTNode value) throws SBMLException {
@@ -572,11 +502,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#frac(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#frac(org.sbml.jsbml.ASTNodeValue, org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue frac(ASTNode numerator, ASTNode denominator)
 			throws SBMLException {
@@ -591,9 +518,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return value;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#frac(int, int)
 	 */
 	public ASTNodeValue frac(int numerator, int denominator) {
@@ -603,12 +528,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return value;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#function(org.sbml.jsbml.FunctionDefinition
-	 * , org.sbml.jsbml.ASTNodeValue[])
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#function(org.sbml.jsbml.FunctionDefinition, org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue function(FunctionDefinition function, List<ASTNode> args)
 			throws SBMLException {
@@ -638,12 +559,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return new ASTNodeValue(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#greaterEqual(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#greaterEqual(org.sbml.jsbml.ASTNodeValue, org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue geq(ASTNode left, ASTNode right) throws SBMLException {
 		ASTNodeValue v = dimensionless(), leftvalue, rightvalue;
@@ -656,9 +573,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantAvogadro(java.lang.String)
 	 */
 	public ASTNodeValue getConstantAvogadro(String name) {
@@ -671,9 +586,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return value;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantE()
 	 */
 	public ASTNodeValue getConstantE() {
@@ -682,9 +595,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantFalse()
 	 */
 	public ASTNodeValue getConstantFalse() {
@@ -693,9 +604,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantPi()
 	 */
 	public ASTNodeValue getConstantPi() {
@@ -704,9 +613,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantTrue()
 	 */
 	public ASTNodeValue getConstantTrue() {
@@ -715,9 +622,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getNegativeInfinity()
 	 */
 	public ASTNodeValue getNegativeInfinity() {
@@ -725,9 +630,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 				.toString().toLowerCase());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getPositiveInfinity()
 	 */
 	public ASTNodeValue getPositiveInfinity() {
@@ -735,12 +638,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 				.toString().toLowerCase());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#greaterThan(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#greaterThan(org.sbml.jsbml.ASTNodeValue, org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue gt(ASTNode left, ASTNode right) throws SBMLException {
 		ASTNodeValue v = dimensionless(), leftvalue, rightvalue;
@@ -764,9 +663,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return new ASTNodeValue(ud, this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#lambda(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue lambda(List<ASTNode> values) throws SBMLException {
@@ -778,12 +675,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 				.getUnits(), this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#lessEqual(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#lessEqual(org.sbml.jsbml.ASTNodeValue, org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue leq(ASTNode left, ASTNode right) throws SBMLException {
 		ASTNodeValue v = dimensionless(), leftvalue, rightvalue;
@@ -796,9 +689,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#ln(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue ln(ASTNode value) throws SBMLException {
@@ -809,9 +700,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue log(ASTNode value) throws SBMLException {
@@ -822,11 +711,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNodeValue, org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue log(ASTNode number, ASTNode base) throws SBMLException {
 		ASTNodeValue v = number.compile(this);
@@ -838,11 +724,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#lessThan(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#lessThan(org.sbml.jsbml.ASTNodeValue, org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue lt(ASTNode left, ASTNode right) throws SBMLException {
 		ASTNodeValue v = dimensionless(), leftvalue, rightvalue;
@@ -855,9 +738,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#minus(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue minus(List<ASTNode> values) throws SBMLException {
@@ -898,11 +779,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#notEqual(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#notEqual(org.sbml.jsbml.ASTNodeValue, org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue neq(ASTNode left, ASTNode right) throws SBMLException {
 		ASTNodeValue v = dimensionless(), leftvalue, rightvalue;
@@ -915,9 +793,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#not(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue not(ASTNode value) throws SBMLException {
@@ -926,9 +802,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#or(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue or(List<ASTNode> values) throws SBMLException {
@@ -943,35 +817,27 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.ASTNodeCompiler#piecewise(org.sbml.jsbml.ASTNodeValue[])
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#piecewise(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue piecewise(List<ASTNode> values) throws SBMLException {
 		int i = 0;
-
+		
 		ASTNodeValue compiledvalues[] = new ASTNodeValue[values.size()];
 		for (ASTNode node : values) {
 			compiledvalues[i++] = node.compile(this);
 		}
 		if (values.size() > 2) {
 			ASTNodeValue node = compiledvalues[0];
-
 			for (i = 2; i < values.size(); i += 2) {
 				if (!UnitDefinition.areEquivalent(node.getUnits(),
 						compiledvalues[i].getUnits())) {
-					throw new IllegalArgumentException(
-							new UnitException(
-									String.format(
-											"Units of some return values in a piecewise function do not match. Given %s and %s.",
-											UnitDefinition.printUnits(node
-													.getUnits()),
-											UnitDefinition
-													.printUnits(compiledvalues[i]
-															.getUnits()))));
-
+				  throw new IllegalArgumentException(
+				    new UnitException(
+				      String.format(
+				        "Units of some return values in a piecewise function do not match. Given %s and %s.",
+				        UnitDefinition.printUnits(node.getUnits(), true),
+				        UnitDefinition.printUnits(compiledvalues[i].getUnits(), true))));
 				}
 			}
 		}
@@ -986,9 +852,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#plus(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue plus(List<ASTNode> values) throws SBMLException {
@@ -1111,11 +975,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#pow(org.sbml.jsbml.ASTNodeValue,
-	 * org.sbml.jsbml.ASTNodeValue)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#pow(org.sbml.jsbml.ASTNodeValue, org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue pow(ASTNode base, ASTNode exponent)
 			throws SBMLException {
@@ -1187,12 +1048,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#root(org.sbml.jsbml.ASTNode
-	 * , org.sbml.jsbml.ASTNode)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#root(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant)
 			throws SBMLException {
@@ -1212,11 +1069,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return new ASTNodeValue(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.ASTNodeCompiler#root(double,
-	 * org.sbml.jsbml.ASTNodeValue)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ASTNodeCompiler#root(double, org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue root(double rootExponent, ASTNode radiant)
 			throws SBMLException {
@@ -1235,7 +1089,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			throws SBMLException {
 		UnitDefinition ud = radiant.getUnits().clone();
 		for (Unit u : ud.getListOfUnits()) {
-			if (((u.getExponent() / rootExponent) % 1d) != 0d) {
+			if ((((u.getExponent() / rootExponent) % 1d) != 0d) && !u.isDimensionless() && !u.isInvalid()) {
 				throw new IllegalArgumentException(
 						new UnitException(String.format(
 										"Cannot perform power or root operation due to incompatibility with a unit exponent. Given are %s and %s.",
@@ -1248,14 +1102,11 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
 		}
 		ASTNodeValue value = new ASTNodeValue(ud, this);
-		value.setValue(Double.valueOf(Math.pow(radiant.toDouble(),
-				1 / rootExponent)));
+		value.setValue(Double.valueOf(Math.pow(radiant.toDouble(), 1d / rootExponent)));
 		return value;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#sec(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue sec(ASTNode value) throws SBMLException {
@@ -1266,9 +1117,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#sech(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue sech(ASTNode value) throws SBMLException {
@@ -1298,9 +1147,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#sin(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue sin(ASTNode value) throws SBMLException {
@@ -1311,9 +1158,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#sinh(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue sinh(ASTNode value) throws SBMLException {
@@ -1324,18 +1169,14 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#sqrt(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue sqrt(ASTNode value) throws SBMLException {
 		return root(2d, value);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#symbolTime(java.lang.String)
 	 */
 	public ASTNodeValue symbolTime(String time) {
@@ -1354,9 +1195,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return value;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#tan(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue tan(ASTNode value) throws SBMLException {
@@ -1367,9 +1206,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#tanh(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue tanh(ASTNode value) throws SBMLException {
@@ -1380,9 +1217,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#times(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue times(List<ASTNode> values) throws SBMLException {
@@ -1403,9 +1238,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return value;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue uMinus(ASTNode value) throws SBMLException {
@@ -1415,18 +1248,14 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#unknownValue()
 	 */
 	public ASTNodeValue unknownValue() {
 		return invalid();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#xor(org.sbml.jsbml.ASTNodeValue[])
 	 */
 	public ASTNodeValue xor(List<ASTNode> values) throws SBMLException {

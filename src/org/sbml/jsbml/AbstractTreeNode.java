@@ -283,8 +283,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 					// TODO: check if notifying and updating the metaId is necessary
 					// because of the method AbstractSBase.setThisAsParentSBMLObject
 					if (oldValTreeNode && newValTreeNode) {
-						notifyChildChange((TreeNode) oldValue,
-								(TreeNode) newValue);
+						notifyChildChange((TreeNode) oldValue, (TreeNode) newValue);
 					}
 					/*
 					 * It is not necessary to add the metaId of the new value to

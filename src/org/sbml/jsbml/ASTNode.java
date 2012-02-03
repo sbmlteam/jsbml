@@ -3770,12 +3770,17 @@ public class ASTNode extends AbstractTreeNode {
 	 * pointers within {@link ASTNode} constructs as well.
 	 */
 	public void updateVariables() {
-		if (isString() && (variable != null)) {
-			CallableSBase oldValue = this.getVariable();
-			name = variable.getId();
-			variable = null;
-			variable = getVariable();
-			this.firePropertyChange(TreeNodeChangeEvent.variable, oldValue, variable);
+		if (isString()) {
+      if (variable != null) {
+        CallableSBase oldValue = this.getVariable();
+        name = variable.getId();
+        variable = null;
+        variable = getVariable();
+        this.firePropertyChange(TreeNodeChangeEvent.variable, oldValue, variable);
+      } else {
+        // Try to register a direct link to the variable (if the name represent one).
+        variable = getVariable();
+      }
 		}
 		for (ASTNode child : getChildren()) {
 			child.updateVariables();

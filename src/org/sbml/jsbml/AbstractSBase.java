@@ -1409,8 +1409,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	  }
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#setThisAsParentSBMLObject(org.sbml.jsbml.SBase)
+	/**
+	 * 
+	 * @param sbase
+	 * @throws LevelVersionError
 	 */
 	public void setParentSBMLObject(SBase sbase) throws LevelVersionError {
 
