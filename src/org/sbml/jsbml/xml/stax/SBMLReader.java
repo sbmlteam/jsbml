@@ -48,6 +48,7 @@ import org.codehaus.stax2.evt.XMLEvent2;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.Constraint;
+import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
@@ -883,6 +884,7 @@ public class SBMLReader {
 					if ((elementNamespace.equals(Annotation.URI_RDF_SYNTAX_NS) 
 							|| elementNamespace.equals(JSBML.URI_PURL_ELEMENTS)
 							|| elementNamespace.equals(JSBML.URI_PURL_TERMS)
+							|| elementNamespace.equals(Creator.URI_RDF_VCARD_NS)
 							|| elementNamespace.equals(ModelQualifierParser.getNamespaceURI())
 							|| elementNamespace.equals(BiologicalQualifierParser.getNamespaceURI()))
 							&& !isRDFSBMLspecificAnnotation) 
@@ -1003,6 +1005,7 @@ public class SBMLReader {
 				if ((attributeNamespaceURI.equals(Annotation.URI_RDF_SYNTAX_NS) 
 						|| attributeNamespaceURI.equals(JSBML.URI_PURL_ELEMENTS)
 						|| attributeNamespaceURI.equals(JSBML.URI_PURL_TERMS)
+						|| attributeNamespaceURI.equals(Creator.URI_RDF_VCARD_NS)
 						|| attributeNamespaceURI.equals(ModelQualifierParser.getNamespaceURI())
 						|| attributeNamespaceURI.equals(BiologicalQualifierParser.getNamespaceURI()))
 						&& !isRDFSBMLSpecificAnnotation) 
@@ -1073,6 +1076,7 @@ public class SBMLReader {
 			if ((elementNamespaceURI.equals(Annotation.URI_RDF_SYNTAX_NS) 
 					|| elementNamespaceURI.equals(JSBML.URI_PURL_ELEMENTS)
 					|| elementNamespaceURI.equals(JSBML.URI_PURL_TERMS)
+					|| elementNamespaceURI.equals(Creator.URI_RDF_VCARD_NS)
 					|| elementNamespaceURI.equals(ModelQualifierParser.getNamespaceURI())
 					|| elementNamespaceURI.equals(BiologicalQualifierParser.getNamespaceURI()))
 					&& !isRDFSBMLSpecificAnnotation) 
