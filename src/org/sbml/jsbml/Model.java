@@ -1348,11 +1348,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         given 'id' as id or null if no element is found.
    */
   public CallableSBase findCallableSBase(String id) {
-    CallableSBase csb = getReaction(id);
-    if (csb == null) {
-      csb = getFunctionDefinition(id);
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof CallableSBase)) {
+      return (CallableSBase) found;
     }
-    return csb == null ? findQuantity(id) : csb;
+    return null;
   }
   
   /**
@@ -1415,26 +1415,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         as id or <code>null</code> if no element is found.
    */
   public NamedSBase findNamedSBase(String id) {
-    if (id.equals(getId())) { return this; }
-    NamedSBase nsb = getCompartmentType(id);
-    if (nsb == null) {
-      nsb = getEvent(id);
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof NamedSBase)) {
+      return (NamedSBase) found;
     }
-    if (nsb == null) {
-      nsb = getSpeciesType(id);
-    }
-    if (nsb == null) {
-      nsb = getUnitDefinition(id);
-    }
-    if (nsb == null) {
-      for (Reaction r : getListOfReactions()) {
-        nsb = r.getModifier(id);
-        if (nsb != null) { 
-          return nsb; 
-        }
-      }
-    }
-    return nsb == null ? findNamedSBaseWithDerivedUnit(id) : nsb;
+    return null;
   }
 
   /**
@@ -1451,8 +1436,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @see #findCallableSBase(String)
    */
   public NamedSBaseWithDerivedUnit findNamedSBaseWithDerivedUnit(String id) {
-    NamedSBaseWithDerivedUnit nsb = findCallableSBase(id);
-    return nsb == null ? getEvent(id) : nsb;
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof NamedSBaseWithDerivedUnit)) {
+      return (NamedSBaseWithDerivedUnit) found;
+    }
+    return null;
   }
 
   /**
@@ -1498,7 +1486,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     QuantityWithUnit q = findSymbol(idOrName);
     if (q == null) {
       List<LocalParameter> list = findLocalParameters(idOrName);
-      if (!list.isEmpty()) { return list.get(0); }
+      if (!list.isEmpty()) { 
+        return list.get(0); 
+      }
     }
     return q;
   }
@@ -1572,14 +1562,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         is no such element.
    */
   public Symbol findSymbol(String id) {
-    Symbol symbol = getCompartment(id);
-    if (symbol == null) {
-      symbol = getSpecies(id);
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof Symbol)) {
+      return (Symbol) found;
     }
-    if (symbol == null) {
-      symbol = getParameter(id);
-    }
-    return symbol;
+    return null;
   }
   
   /**
@@ -1621,11 +1608,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         or {@link Parameter}, which has 'variable' as id.
    */
   public Variable findVariable(String id) {
-    Variable nsb = findSymbol(id);
-    if (nsb == null) {
-      nsb = findSpeciesReference(id);
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof Variable)) {
+      return (Variable) found;
     }
-    return nsb;
+    return null;
   }
   
   /* (non-Javadoc)
@@ -2800,16 +2787,17 @@ public int getNumLocalParameters() {
     return getListOfUnitDefinitions().get(n);
   }
   
+
   /**
-   * Returns the UnitDefinition of the listOfUnitDefinitions which has 'id' as
-   * id. If no UnitDefinition are found, we check in the
-   * listOfPredefinedUnitDefinition. If we still did not find a UnitDefinition,
-   * null is returned.
+   * Returns the {@link UnitDefinition} of the {@link #listOfUnitDefinitions}
+   * which has 'id' as id. If no {@link UnitDefinition} are found, we check in the
+   * {@link #listOfPredefinedUnitDefinitions}. If we still did not find a
+   * {@link UnitDefinition}, <code>null</code> is returned.
    * 
    * @param id
-   * @return the UnitDefinition of the listOfUnitDefinitions which has 'id' as
-   *         id (or name depending on the level and version). Null if it doesn't
-   *         exist.
+   * @return the {@link UnitDefinition} of the {@link #listOfUnitDefinitions}s
+   *         which has 'id' as id (or name depending on the level and version). 
+   *         Null if it doesn't exist.
    */
   public UnitDefinition getUnitDefinition(String id) {
     UnitDefinition unitDefinition = mapOfUnitDefinitions != null ? mapOfUnitDefinitions.get(id) : null;

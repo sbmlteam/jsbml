@@ -383,12 +383,9 @@ public class SBMLDocument extends AbstractSBase {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.AbstractSBase#clone()
 	 */
-	// @Override
 	public SBMLDocument clone() {
 		return new SBMLDocument(this);
 	}
