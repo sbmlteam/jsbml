@@ -23,6 +23,17 @@ Version 0.8-rc2 (xx-xx-2012)
   - Improved the units derivation: There were multiple problems in 
     re-scaling and merging of units and also when determining the actual
     unit of a species.
+    
+  - There was a bug in KineticLaw that prevented a correct iteration
+    through all child elements: Instead of looking at the 
+    listOfLocalParameters it did return the math element twice (if there
+    was one).
+    
+  - When cloning entire models or SBMLDocuments, JSBML also did assign
+    the identical TreeNodeChangeListeners to the new data structure. This
+    could lead to unexpected behavior because listeners were receiving
+    change events from data structures to which these have not been 
+    explicitely added by a user.
   
 ======================================================================
 Version 0.8-rc1 (08-12-2011)

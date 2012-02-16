@@ -261,12 +261,6 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		} else {
 			index -= count;
 		}
-		if (isSetMath()) {
-			if (pos == index) {
-				return getMath();
-			}
-			pos++;
-		}
 		if (isSetListOfLocalParameters()) {
 			if (pos == index) {
 				return getListOfLocalParameters();

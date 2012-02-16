@@ -1120,8 +1120,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 				if (!Unit.Kind.areEquivalent(u.getKind(), s.getKind())
 						&& !u.isDimensionless() && !s.isDimensionless()
 						&& !u.isInvalid() && !s.isInvalid()) {
-					double m1 = u.getMultiplier();
-					double m2 = s.getMultiplier();
+					// double m1 = u.getMultiplier();
+					// double m2 = s.getMultiplier();
 					int s1 = u.getScale();
 					int s2 = s.getScale();
 					double e1 = u.getExponent();
@@ -1137,13 +1137,13 @@ public class UnitDefinition extends AbstractNamedSBase {
 							s.setScale(0);
 						}
 					}
-					// Try to remove the multiplier from the second unit:
-					if ((m1 != m2) && (m2 != 0d) && (e1 + e2 != 0d)) {
-						double newMultiplier = Math.pow(m1, e1 / (e1 + e2)) *  Math.pow(m2, e2 / (e1 + e2));
-						u.setMultiplier(newMultiplier);
-						// This is actually the result of a division by m2, so m2 must not be zero:
-						s.setMultiplier(1d);
-					}
+					/*
+					 * Better do not try to remove the multiplier from the second unit
+					 * because this can lead to very strange numbers. Often multipliers
+					 * are strictly bound to one unit, for instance, 3600 * second (which
+					 * is hour). When shifting the multiplier to the next unit in the
+					 * front, the result might become very strange.
+					 */
 				}
 			}
 		}
