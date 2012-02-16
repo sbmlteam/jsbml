@@ -62,16 +62,40 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * @param listener
    *            the listener to add
    */
-  public void addTreeNodeChangeListener(TreeNodeChangeListener listener);
-    
+  public void addTreeNodeChangeListener(TreeNodeChangeListener listener); 
+  
   /**
    * Filters this tree data structure recursively and returns a list of all
-   * {@link Object}s that are accepted by the {@link Filter}.
+   * {@link TreeNode}s that are accepted by the {@link Filter}. Although
+   * internal nodes that do not satisfy the filter criterion by themselves
+   * are not contained in the resulting list, the recursion continues at
+   * their children.
    * 
    * @param filter
-   * @return
+   *        A criterion to select a sub-set of nodes of this tree.
+   * @return A {@link List} of {@link TreeNode}s that do all satisfy the
+   *         criterion of the given {@link Filter}.
+   * @see #filter(Filter, boolean)
    */
   public List<TreeNode> filter(Filter filter);
+  
+  /**
+   * Filters this tree data structure recursively and returns a list of all
+   * {@link TreeNode}s that are accepted by the {@link Filter}. The second
+   * argument decides whether or not internal nodes that do not by themselves
+   * satisfy the filter criterion should still be retained in the result list.
+   * 
+   * @param filter
+   *        A criterion to select a sub-set of nodes of this tree.
+   * @param retainInternalNodes
+   *        Decides if internal nodes should also be included in the resulting
+   *        {@link List} if they do not by themselves satisfy the {@link Filter}
+   *        but if these do have child elements that do so. This might be useful
+   *        in order to obtain a complete tree path to interesting sub-elements.
+   * @return
+   * @see #filter(Filter)
+   */
+  public List<TreeNode> filter(Filter filter, boolean retainInternalNodes);
 
   /**
    * All {@link TreeNodeChangeListener} instances linked to this
