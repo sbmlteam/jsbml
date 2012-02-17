@@ -34,6 +34,9 @@ Version 0.8-rc2 (xx-xx-2012)
     could lead to unexpected behavior because listeners were receiving
     change events from data structures to which these have not been 
     explicitely added by a user.
+    
+  - QuantityWithUnit did not fire update events when changing its value
+    because of an incorrect comparison of the previous and the new value.
   
 ======================================================================
 Version 0.8-rc1 (08-12-2011)

@@ -191,7 +191,7 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 		Double oldValue = this.value;
 		this.value = value;
 		isSetValue = true;
-		if(value != this.value){
+		if(value != oldValue){
 			firePropertyChange(TreeNodeChangeEvent.value, oldValue, value);
 		}
 	}

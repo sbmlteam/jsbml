@@ -557,10 +557,29 @@ Fig.~\vref{fig:TypeHierarchy}), all these elements can be naturally cloned.
 However, when cloning an object in JSBML\index{cloning}, such as an
 \texttt{AbstractNamedSBase},
 \index{SBase@\texttt{SBase}!\texttt{AbstractNamedSBase}}
-% all children of this element will recursively be cloned before adding them to
-% the new element. This is necessary, because the data structures specified in
-% SBML \index{SBML!hierarchical structure}
-define a tree, in which each element has exactly one parental node.
+all children of this element will recursively be cloned before adding them to
+the new element. This is necessary, because the data structures specified in
+SBML \index{SBML!hierarchical structure}
+define a tree, in which each element has exactly one parental node. It is
+important to note that some properties of the elements must not be copied when
+cloning:
+\begin{enumerate}
+  \item The pointer to the parent node of the top level element
+  that is recursively cloned is not copied and is left as \texttt{null}
+  because the cloned object will get a parent set as soon as it is added or
+  linked again to an existing tree somehow, but cloning the parent could lead
+  to an infinite loop.
+  \item The list of
+  \texttt{TreeNodeChangeListener}s\index{event!\texttt{TreeNodeChangeListener}}
+  is needed in all other \texttt{setXX()} methods. Copying pointers to these
+  might lead to strange and unexpected behavior, because when doing a deep
+  cloning, the listeners of the old object would suddenly be informed about all
+  value changes within this new object.
+  Since we are cloning, all values of all child elements have to be touched,
+  i.e., all listeners would be informed many times, but each time receive the
+  identical value as it was before. Since it is totally unclear of which type
+  listeners are, a deep cloning of these is not possible.
+\end{enumerate}
 
 \subsection{Deprecation}
 
