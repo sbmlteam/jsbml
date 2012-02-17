@@ -118,14 +118,12 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 		super(id, name, level, version);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#clone()
 	 */
 	public abstract QuantityWithUnit clone();
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#equals(java.lang.Object)
 	 */
 	@Override
@@ -143,17 +141,14 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 		return equals;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Quantity#getValue()
 	 */
 	public double getValue() {
 		return value != null ? value : 0;
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#hashCode()
 	 */
 	@Override
@@ -173,36 +168,30 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
     return true;
   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Quantity#isSetValue()
 	 */
 	public boolean isSetValue() {
 		return isSetValue;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Quantity#setValue(double)
 	 */
 	public void setValue(double value) {
 		Double oldValue = this.value;
 		this.value = value;
 		isSetValue = true;
-		if(value != this.value){
+		if (value != oldValue) {
 			firePropertyChange(TreeNodeChangeEvent.value, oldValue, value);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Quantity#unsetValue()
 	 */
 	public void unsetValue() {
-		if(!Double.isNaN(this.value)){
+		if (!Double.isNaN(this.value)) {
 			Double oldValue = value;
 			value = Double.NaN;
 			isSetValue = false;
