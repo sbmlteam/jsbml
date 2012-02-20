@@ -375,7 +375,7 @@ public class Creator extends AnnotationElement {
 	   *   )                   # end of group #3
 	   *$                      # end of the line
 	   */
-    final String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    final String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
     if ((email != null) && !Pattern.matches(emailPattern, email)) {
     	logger.warn(String.format("Invalid e-mail address %s", email));
     	throw new IllegalArgumentException(String.format("Invalid e-mail address %s", email));
