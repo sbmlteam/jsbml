@@ -118,11 +118,6 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		if (kineticLaw.isSetListOfParameters()) {
 			setListOfLocalParameters((ListOf<LocalParameter>) kineticLaw
 					.getListOfParameters().clone());
-			if (mapOfLocalParameters == null) {
-				for (LocalParameter lp : listOfLocalParameters) {
-					this.registerLocalParameter(lp, false);
-				}
-			}
 		}
 		if (kineticLaw.isSetTimeUnits()) {
 			this.timeUnitsID = new String(kineticLaw.getTimeUnits());

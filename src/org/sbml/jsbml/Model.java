@@ -3271,7 +3271,17 @@ public int getNumLocalParameters() {
       logger.debug(String.format("registered id=%s in model%s",
         id, (isSetId() ? " " + getId() : "")));
     }
-    return true;
+    boolean success = true;
+    if (recursively) {
+      TreeNode child;
+      for (int i = 0; i < unsb.getChildCount(); i++) {
+        child = unsb.getChildAt(i);
+        if (child instanceof SBase) {
+          success &= registerIds(unsb, (SBase) child, recursively, delete);
+        }
+      }
+    }
+    return success;
   }
   
   /**
