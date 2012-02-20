@@ -32,6 +32,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * 
+ * @author rodrigue
  * @author Marine Dumousseau
  * @since 1.0
  * @version $Rev$
@@ -45,43 +46,22 @@ public class MultiSpecies extends AbstractSBasePlugin {
 	/**
 	 * 
 	 */
-	private ListOf<InitialSpeciesInstance> listOfInitialSpeciesInstances;
+	private ListOf<SpeciesTypeInstance> listOfSpeciesTypeInstances;
 
-	private Species species;
-	
-	/**
-	 * 
-	 */
-	public MultiSpecies() {
-		super();
-		this.setListOfInitialSpeciesInstance(null);
-	}
+	private Species species; // Do we need this anymore ?
 	
 	/**
 	 * 
 	 * @param species
 	 */
-	public MultiSpecies(MultiSpecies species) {
-		this.setListOfInitialSpeciesInstance(null);
-	}
-
-	/**
-	 * 
-	 * @param initialSpecies
-	 */
-	public void addInitialSpeciesInstance(InitialSpeciesInstance initialSpecies) {
-		if (listOfInitialSpeciesInstances == null) {
-			this.listOfInitialSpeciesInstances = new ListOf<InitialSpeciesInstance>();
-		}
-		if (!listOfInitialSpeciesInstances.contains(initialSpecies)) {
-			initialSpecies.setParentSBML(species);
-			listOfInitialSpeciesInstances.add(initialSpecies);
-		}
+	public MultiSpecies(Species species) {
+		this.species = species;
 	}
 
 
 	public MultiSpecies clone() {
-		return new MultiSpecies(this);
+		// TODO
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -105,16 +85,26 @@ public class MultiSpecies extends AbstractSBasePlugin {
 		return 0;
 	}
 
+	public TreeNode getParent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param speciesTypeInstance
+	 */
+	public void addSpeciesTypeInstance(SpeciesTypeInstance speciesTypeInstance) {
+		getListOfSpeciesTypeInstances().add(speciesTypeInstance);		
+	}
+
 	/**
 	 * 
 	 * @param n
 	 * @return
 	 */
-	public InitialSpeciesInstance getInitialSpeciesInstance(int n) {
-		if (isSetListOfSpeciesInstances()) {
-			return listOfInitialSpeciesInstances.get(n);
-		}
-		throw new IndexOutOfBoundsException(Integer.toString(n));
+	public SpeciesTypeInstance getSpeciesTypeInstance(int n) {
+		return getListOfSpeciesTypeInstances().get(n);
 	}
 	
 	/**
@@ -122,9 +112,9 @@ public class MultiSpecies extends AbstractSBasePlugin {
 	 * @param id
 	 * @return
 	 */
-	public InitialSpeciesInstance getInitialSpeciesInstance(String id) {
+	public SpeciesTypeInstance getInitialSpeciesInstance(String id) {
 		if (isSetListOfSpeciesInstances()) {
-			for (InitialSpeciesInstance comp : listOfInitialSpeciesInstances) {
+			for (SpeciesTypeInstance comp : listOfSpeciesTypeInstances) {
 				if (comp.getId().equals(id)) {
 					return comp;
 				}
@@ -137,13 +127,12 @@ public class MultiSpecies extends AbstractSBasePlugin {
 	 * 
 	 * @return
 	 */
-	public ListOf<InitialSpeciesInstance> getListOfInitialSpeciesInstance() {
-		return listOfInitialSpeciesInstances;
-	}
+	public ListOf<SpeciesTypeInstance> getListOfSpeciesTypeInstances() {
+		if (listOfSpeciesTypeInstances == null) {
+			this.listOfSpeciesTypeInstances = new ListOf<SpeciesTypeInstance>();
+		}
 
-	public TreeNode getParent() {
-		// TODO Auto-generated method stub
-		return null;
+		return listOfSpeciesTypeInstances;
 	}
 
 	/**
@@ -151,28 +140,14 @@ public class MultiSpecies extends AbstractSBasePlugin {
 	 * @return
 	 */
 	public boolean isSetListOfSpeciesInstances() {
-		return (listOfInitialSpeciesInstances != null)
-				&& (listOfInitialSpeciesInstances.size() > 0);
+		return (listOfSpeciesTypeInstances != null)
+				&& (listOfSpeciesTypeInstances.size() > 0); // TODO : should we do that or not (and in general for other listOf that should not be empty) ?
 	}
 
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
-		// TODO Auto-generated method stub
+		// TODO 
 		return false;
-	}
-
-	/**
-	 * 
-	 * @param listOfInitialSpeciesInstance
-	 */
-	public void setListOfInitialSpeciesInstance(
-			ListOf<InitialSpeciesInstance> listOfInitialSpeciesInstance) {
-		unsetListOfInitialSpeciesInstances();
-		this.listOfInitialSpeciesInstances = listOfInitialSpeciesInstance;
-		if ((this.listOfInitialSpeciesInstances != null) && (this.listOfInitialSpeciesInstances.getSBaseListType() != ListOf.Type.other)) {
-			this.listOfInitialSpeciesInstances.setSBaseListType(ListOf.Type.other);
-		}
-		species.setThisAsParentSBMLObject(this.listOfInitialSpeciesInstances);
 	}
 
 	/*
@@ -184,16 +159,17 @@ public class MultiSpecies extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * Removes the {@link #listOfInitialSpeciesInstances} from this {@link Model} and notifies
+	 * Removes the {@link #listOfSpeciesTypeInstances} from this {@link Model} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
 	 * @return <code>true</code> if calling this method lead to a change in this
 	 *         data structure.
 	 */
 	public boolean unsetListOfInitialSpeciesInstances() {
-		if (this.listOfInitialSpeciesInstances != null) {
-			ListOf<InitialSpeciesInstance> oldListOfInitialSpeciesInstances = this.listOfInitialSpeciesInstances;
-			this.listOfInitialSpeciesInstances = null;
+		// TODO : check if we need to do any additional call to have everything properly unregistered
+		if (this.listOfSpeciesTypeInstances != null) {
+			ListOf<SpeciesTypeInstance> oldListOfInitialSpeciesInstances = this.listOfSpeciesTypeInstances;
+			this.listOfSpeciesTypeInstances = null;
 			oldListOfInitialSpeciesInstances.fireNodeRemovedEvent();
 			return true;
 		}

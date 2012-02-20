@@ -27,7 +27,6 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.multi.InitialSpeciesInstance;
-import org.sbml.jsbml.ext.multi.MultiList;
 import org.sbml.jsbml.ext.multi.MultiSpecies;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
@@ -42,7 +41,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @since 1.0
  * @version $Rev$
  */
-public class MultiParser implements ReadingParser, WritingParser {
+public class MultiParser extends AbstractReaderWriter {
 
 	/**
 	 * The namespace URI of this parser.
@@ -53,17 +52,10 @@ public class MultiParser implements ReadingParser, WritingParser {
 	 * 
 	 * @return the namespaceURI of this parser.
 	 */
-	public static String getNamespaceURI() {
+	public String getNamespaceURI() {
 		return namespaceURI;
 	}
 
-	/**
-	 * The MultiList enum which represents the name of the list this parser is
-	 * currently reading. If the Multi package have some lists included into
-	 * other lists, it is maybe better to extend the ListOf class and add an new
-	 * enum instance with the names of the possible lists of the multi package.
-	 */
-	private MultiList multiList = MultiList.none;
 
 	/*
 	 * (non-Javadoc)
@@ -143,7 +135,6 @@ public class MultiParser implements ReadingParser, WritingParser {
 			boolean isNested, Object contextObject) {
 
 		if (elementName.equals("listOfSpeciesInstances")) {
-			this.multiList = MultiList.none;
 		}
 		
 		return true;
@@ -174,16 +165,17 @@ public class MultiParser implements ReadingParser, WritingParser {
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
+		// TODO 
+		
 		if (contextObject instanceof Species) {
 			Species species = (Species) contextObject;
 			if (elementName.equals("listOfInitialSpeciesInstances")) {
 				ListOf<InitialSpeciesInstance> listOfInitialSpeciesInstances = new ListOf<InitialSpeciesInstance>();
 				listOfInitialSpeciesInstances
 						.setSBaseListType(ListOf.Type.other);
-				this.multiList = MultiList.listOfInitialSpeciesInstances;
 
-				MultiSpecies multiSpecies = new MultiSpecies();
-				multiSpecies.setListOfInitialSpeciesInstance(listOfInitialSpeciesInstances);
+				MultiSpecies multiSpecies = new MultiSpecies(null);
+				// multiSpecies.setListOfInitialSpeciesInstance(listOfInitialSpeciesInstances);
 				species.addExtension(MultiParser.namespaceURI, multiSpecies);
 
 				return listOfInitialSpeciesInstances;
@@ -191,9 +183,7 @@ public class MultiParser implements ReadingParser, WritingParser {
 		} else if (contextObject instanceof ListOf<?>) {
 			ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
-			if (elementName.equals("initialSpeciesInstance")
-					&& this.multiList
-							.equals(MultiList.listOfInitialSpeciesInstances)) {
+			if (elementName.equals("initialSpeciesInstance")) {
 				InitialSpeciesInstance initialSpeciesInstance = new InitialSpeciesInstance();
 				listOf.add(initialSpeciesInstance);
 
@@ -250,6 +240,11 @@ public class MultiParser implements ReadingParser, WritingParser {
 			Object sbmlElementToWrite) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String getShortLabel() {
+		return "multi";
 	}
 
 }
