@@ -3400,7 +3400,17 @@ public int getNumLocalParameters() {
     			  id, (isSetId() ? " " + getId() : "")));
       }
     }
-    return true;
+    boolean success = true;
+    if (recursively) {
+      TreeNode child;
+      for (int i = 0; i < unsb.getChildCount(); i++) {
+        child = unsb.getChildAt(i);
+        if (child instanceof SBase) {
+          success &= registerIds(unsb, (SBase) child, recursively, delete);
+        }
+      }
+    }
+    return success;
   }
   
   /**
@@ -3455,7 +3465,7 @@ public int getNumLocalParameters() {
     } 
     if (recursively) {
       boolean success = true;
-      for (int i=0; i<newElem.getChildCount() && success; i++) {
+      for (int i = 0; (i < newElem.getChildCount()) && success; i++) {
         TreeNode child = newElem.getChildAt(i);
         if (child instanceof SBase) {
           if ((parent instanceof KineticLaw) && (child instanceof LocalParameter)) {
@@ -4006,8 +4016,7 @@ public int getNumLocalParameters() {
         && (this.listOfReactions.getSBaseListType() != ListOf.Type.listOfReactions)) {
       this.listOfReactions.setSBaseListType(ListOf.Type.listOfReactions);
     }
-    registerChild(this.listOfReactions);
-    
+    registerChild(this.listOfReactions); 
   }
   
   /**

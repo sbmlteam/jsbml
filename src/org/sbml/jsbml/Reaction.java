@@ -203,7 +203,6 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#clone()
 	 */
-	// @Override
 	public Reaction clone() {
 		return new Reaction(this);
 	}
