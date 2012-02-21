@@ -35,6 +35,12 @@ Version 0.8-rc2 (xx-xx-2012)
     change events from data structures to which these have not been 
     explicitely added by a user.
     
+  - Cloning also caused problems because in some cases the recursive
+    method that registers all local parameters and other entities with
+    an id did in some cases not do a full recursion. Hence, some entities
+    could not be found in the model later on when searching for a certain
+    id.
+    
   - QuantityWithUnit did not fire update events when changing its value
     because of an incorrect comparison of the previous and the new value.
   
