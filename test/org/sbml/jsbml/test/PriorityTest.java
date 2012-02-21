@@ -6,7 +6,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
  * 
- * Copyright (C) 2009-2011 jointly by the following organizations: 
+ * Copyright (C) 2009-2012 jointly by the following organizations: 
  * 1. The University of Tuebingen, Germany 
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
  * 3. The California Institute of Technology, Pasadena, CA, USA 

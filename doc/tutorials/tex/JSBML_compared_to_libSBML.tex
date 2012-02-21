@@ -567,8 +567,9 @@ the elements must not be copied when cloning:
   \item The pointer to the parent node of the top level element
   that is recursively cloned is not copied and is left as \texttt{null}
   because the cloned object will get a parent set as soon as it is added or
-  linked again to an existing tree somehow, but cloning the parent could lead
-  to an infinite loop.
+  linked again to an existing tree. Note that only the top-level
+  element of the cloned sub-tree will have a \texttt{null} value as its
+  parent. All sub-element will point to their correct parent element.
   \item The list of
   \texttt{TreeNodeChangeListener}s\index{event!\texttt{TreeNodeChangeListener}}
   is needed in all other \texttt{setXX()} methods. Copying pointers to these

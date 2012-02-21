@@ -6,7 +6,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
  * 
- * Copyright (C) 2009-2011 jointly by the following organizations: 
+ * Copyright (C) 2009-2012 jointly by the following organizations: 
  * 1. The University of Tuebingen, Germany 
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
  * 3. The California Institute of Technology, Pasadena, CA, USA 
@@ -93,31 +93,32 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		this.parent = null;
 	}
 
-	 /**
+	 
+  /**
    * Constructor for cloning. {@link AbstractTreeNode} has two properties:
    * {@link #parent} and {@link #listOfListeners}. Both of them are not cloned
    * by this method, for two reasons:
    * <ul>
-   * <li>
-   * The {@link #parent} is not cloned and is left as <code>null</code>
+   * <li>The {@link #parent} is not cloned and is left as <code>null</code>
    * because the new {@link AbstractTreeNode} will get a parent set as soon as
-   * it is added/linked again to a {@link Model} somehow, but cloning the
-   * parent could lead to an infinite loop.</li>
+   * it is added/linked again to a {@link Model}. Note that only the top-level
+   * element of the cloned sub-tree will have a <code>null</code> value as its
+   * parent. All sub-element will point to their correct parent element.</li>
    * <li>{@link #listOfListeners} is needed in all other setXX() methods.
    * Cloning these might lead to strange and unexpected behavior, because when
    * doing a deep cloning, the listeners of the old object would suddenly be
    * informed about all value changes within this new object. Since we do
    * cloning, all values of all child elements have to be touched, i.e., all
-   * listeners would be informed many times, but each time receive the
-   * identical value as it was before. Since it is totally unclear of which
-   * type listeners are, a deep cloning of these is not possible.</li>
+   * listeners would be informed many times, but each time receive the identical
+   * value as it was before. Since it is totally unclear of which type listeners
+   * are, a deep cloning of these is not possible.</li>
    * </ul>
    * Therefore, it is necessary to keep in mind that the parent of the clone
    * will be null and that you have to care by yourself if you are using
    * {@link TreeNodeChangeListener}s.
    * 
    * @param node
-   *            The original {@link TreeNode} to be cloned.
+   *        The original {@link TreeNode} to be cloned.
    */
 	public AbstractTreeNode(TreeNode node) {
 		this();
