@@ -4459,7 +4459,7 @@ public int getNumLocalParameters() {
     
     if (getLevel() > 2) {
       if (isSetSubstanceUnits()) {
-        attributes.put("substanceUnitsID", getSubstanceUnits());
+        attributes.put("substanceUnits", getSubstanceUnits());
       }
       if (isSetTimeUnits()) {
         attributes.put("timeUnits", getTimeUnits());
