@@ -557,18 +557,14 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		return m != null ? m.getCompartment(this.compartmentID) : null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
 	 */
 	public UnitDefinition getDerivedUnitDefinition() {
 		return isSetKineticLaw() ? kineticLaw.getDerivedUnitDefinition() : null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
 	 */
 	public String getDerivedUnits() {
@@ -699,8 +695,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		return listOfReactants == null ? 0 : listOfReactants.size();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()
 	 */
 	@SuppressWarnings("unchecked")
@@ -803,8 +798,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		return reversible != null ? reversible : true;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
 	@Override
@@ -974,11 +968,8 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		return isSetReversible;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -1205,14 +1196,23 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		unsetKineticLaw();
 		this.kineticLaw = kineticLaw;
 		if (this.kineticLaw.isSetListOfLocalParameters()) {
-		  // Clear the mapping from the kinetic law to its local parameters:
+      /*
+       * Before we can register the new kineticLaw as a child of this
+       * reaction, we first have to clear the mapping from the kineticLaw 
+       * to its local parameters (if there are any). Local parameters are 
+       * registered at the level of the kineticLaw, i.e., besides all maps 
+       * on the level of the model, kineticLaw contains its own map. 
+       * Clearing this map is required because the registerChild method 
+       * would recursively find all elements that have an id and try to 
+       * the mapping. However, since all these local parameters have been 
+       * existing already, this would cause an exception. The reason is 
+       * that we could not distinguish between already correctly registered 
+       * local parameters and new local parameters with an identical 
+       * identifier.
+       */
 		  for (LocalParameter lp : this.kineticLaw.getListOfLocalParameters()) {
 		    this.kineticLaw.registerLocalParameter(lp, true);
 		  }
-		  /* 
-		   * This is required because in the next step we would register
-		   * all local parameters again, which would cause an exception.
-		   */
 		}
 		registerChild(this.kineticLaw);
 	}
@@ -1362,9 +1362,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		firePropertyChange(TreeNodeChangeEvent.reversible, oldReversible, reversible);
 	}
 
-  /*
-	 * (non-Javadoc)
-	 * 
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
