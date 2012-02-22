@@ -1204,6 +1204,16 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	public void setKineticLaw(KineticLaw kineticLaw) {
 		unsetKineticLaw();
 		this.kineticLaw = kineticLaw;
+		if (this.kineticLaw.isSetListOfLocalParameters()) {
+		  // Clear the mapping from the kinetic law to its local parameters:
+		  for (LocalParameter lp : this.kineticLaw.getListOfLocalParameters()) {
+		    this.kineticLaw.registerLocalParameter(lp, true);
+		  }
+		  /* 
+		   * This is required because in the next step we would register
+		   * all local parameters again, which would cause an exception.
+		   */
+		}
 		registerChild(this.kineticLaw);
 	}
 
