@@ -644,13 +644,14 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
    * @return
    */
   boolean registerLocalParameter(LocalParameter parameter, boolean delete) {
+    boolean success = false;
     if (parameter.isSetId()) {
       String id = parameter.getId();
-      if (delete && (mapOfLocalParameters != null)) {
-        if (mapOfLocalParameters.remove(id) == null) {
-          return false;
+      if (delete) {
+        if (mapOfLocalParameters != null) {
+          success = mapOfLocalParameters.remove(id) != null;
+          logger.debug(String.format("removed id=%s from %s", id, toString()));
         }
-        logger.debug(String.format("removed id=%s from %s", id, toString()));
       } else {
         if (mapOfLocalParameters == null) {
           mapOfLocalParameters = new HashMap<String, LocalParameter>();
@@ -663,11 +664,11 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
             "Cannot set duplicate identifier '%s'.", id));
         }
         mapOfLocalParameters.put(id, parameter);
+        success = true;
         logger.debug(String.format("registered id=%s in %s", id, toString()));
       }
-      return true;
     }
-    return false;
+    return success;
   }
 
 	/**

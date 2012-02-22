@@ -395,8 +395,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public static void reorder(UnitDefinition ud) {
 		if (1 < ud.getNumUnits()) {
 			ListOf<Unit> orig = ud.getListOfUnits();
-			ListOf<Unit> units = new ListOf<Unit>(ud.getLevel(),
-					ud.getVersion());
+			ListOf<Unit> units = new ListOf<Unit>(ud.getLevel(), ud.getVersion());
 			units.setSBaseListType(Type.listOfUnits);
 			orig.removeAllTreeNodeChangeListeners();
 			units.add(orig.remove(orig.size() - 1));
@@ -1115,6 +1114,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				}
 			}
 			// Shift scales and multipliers to the front if possible:
+			// TODO: Reorder all units first to have all those with a positive exponent in the front!
 			for (int i = getNumUnits() - 2; i >= 0; i--) {
         Unit u = getUnit(i); // current unit
         Unit s = getUnit(i + 1); // successor unit

@@ -36,6 +36,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
@@ -110,6 +111,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	private Annotation annotation;
 	
 	/**
+	 * Contains all the namespaces declared on the XML node with their prefixes.
+	 */
+	private Map<String, String> declaredNamespaces;
+	
+	/**
 	 * map containing the SBML extension object of additional packages with the
 	 * appropriate name space of the package.
 	 */
@@ -128,16 +134,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	private String metaId;
 	
 	/**
-	 * Contains all the namespaces used by this SBase element.
-	 */
-	private SortedSet<String> usedNamespaces;
-	
-	/**
-	 * Contains all the namespaces declared on the XML node with their prefixes.
-	 */
-	private Map<String, String> declaredNamespaces;
-	
-	/**
 	 * notes of the SBML component. Matches the notes XML node in a SBML file.
 	 *
 	 */
@@ -148,6 +144,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * element in a SBML file.
 	 */
 	private int sboTerm;
+	
+	/**
+	 * Contains all the namespaces used by this SBase element.
+	 */
+	private SortedSet<String> usedNamespaces;
 
 	/**
 	 * Creates an AbstractSBase instance. 
@@ -262,6 +263,19 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return getAnnotation().addCVTerm(term);
 	}
 
+	/**
+	 * Adds an additional name space to the set of declared namespaces of this
+	 * {@link SBase}.
+	 * 
+	 * @param prefix the prefix of the namespace to add
+	 * @param namespace the namespace to add
+	 * 
+	 */
+	public void addDeclaredNamespace(String prefix, String namespace) {
+		this.declaredNamespaces.put(prefix, namespace);
+		firePropertyChange(TreeNodeChangeEvent.addDeclaredNamespace, null, namespace);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#addExtension(java.lang.String, org.sbml.jsbml.SBase)
@@ -282,19 +296,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public void addNamespace(String namespace) {
 		this.usedNamespaces.add(namespace);
 		firePropertyChange(TreeNodeChangeEvent.addNamespace, null, namespace);
-	}
-
-	/**
-	 * Adds an additional name space to the set of declared namespaces of this
-	 * {@link SBase}.
-	 * 
-	 * @param prefix the prefix of the namespace to add
-	 * @param namespace the namespace to add
-	 * 
-	 */
-	public void addDeclaredNamespace(String prefix, String namespace) {
-		this.declaredNamespaces.put(prefix, namespace);
-		firePropertyChange(TreeNodeChangeEvent.addDeclaredNamespace, null, namespace);
 	}
 
 	/*
@@ -681,6 +682,19 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public abstract AbstractSBase clone();
 
 	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#getHistory()
+	 */
+	private History createHistory() {
+		// The method call below is to make sure that the annotation is defined 
+		getAnnotation();
+		
+		History history = new History();
+		annotation.setHistory(history);
+		
+		return history;
+	}
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
 	@Override
@@ -720,8 +734,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public List<CVTerm> filterCVTerms(CVTerm.Qualifier qualifier) {
 		return getAnnotation().filterCVTerms(qualifier);
 	}
-
-	/* (non-Javadoc)
+	
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier, java.lang.String)
 	 */
 	public List<String> filterCVTerms(CVTerm.Qualifier qualifier, String pattern) {
@@ -731,8 +745,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		return l;
 	}
-	
-  /* (non-Javadoc)
+
+	/* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier, java.lang.String, boolean)
    */
   public List<String> filterCVTerms(CVTerm.Qualifier qualifier, String pattern,
@@ -749,37 +763,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
     return l;
   }
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractTreeNode#notifyChildChange(javax.swing.tree.TreeNode, javax.swing.tree.TreeNode)
-	 */
-	@Override
-	protected void notifyChildChange(TreeNode oldChild, TreeNode newChild) {
-		if (oldChild instanceof SBase) {
-			SBMLDocument doc = getSBMLDocument();
-			if (doc != null) {
-				/*
-				 * Recursively remove pointers to oldValue's and all
-				 * sub-element's meta identifiers from the
-				 * SBMLDocument.
-				 */
-				doc.registerMetaIds((SBase) oldChild, true, true);
-			}
-			if (oldChild instanceof NamedSBase) {
-			  /*
-			   * Do the same for all identifiers under the old value.
-			   */
-        Model model = getModel();
-        if (model != null) {
-          model.registerIds(this, (NamedSBase) oldChild, true, true);
-          NamedSBase newNsb = (NamedSBase) newChild;
-          if (!model.registerIds(this, newNsb, true, false)) {
-            throw new IdentifierException(newNsb, newNsb.getId());
-          }
-        }
-      }
-		}
-	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractTreeNode#fireNodeRemovedEvent()
@@ -919,6 +902,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#getNamespaces()
+	 */
+	public Map<String, String> getDeclaredNamespaces() {
+		// Need to separate the list of name spaces from the extensions.
+		// SBase object directly from the extension need to set their name space.
+
+		return this.declaredNamespaces;
+	}
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jlibsbml.SBase#getElementName()
 	 */
 	public String getElementName() {
@@ -947,19 +940,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			createHistory();
 		}
 		return annotation.getHistory();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#getHistory()
-	 */
-	private History createHistory() {
-		// The method call below is to make sure that the annotation is defined 
-		getAnnotation();
-		
-		History history = new History();
-		annotation.setHistory(history);
-		
-		return history;
 	}
 	
 	
@@ -1007,16 +987,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		// SBase object directly from the extension need to set their name space.
 
 		return this.usedNamespaces;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#getNamespaces()
-	 */
-	public Map<String, String> getDeclaredNamespaces() {
-		// Need to separate the list of name spaces from the extensions.
-		// SBase object directly from the extension need to set their name space.
-
-		return this.declaredNamespaces;
 	}
 
 	/**
@@ -1092,7 +1062,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public int getVersion() {
 		return isSetVersion() ? this.lv.getV().intValue() : -1;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
 	 */
@@ -1108,7 +1078,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		return hashCode + prime * getLevelAndVersion().hashCode();
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#hasValidAnnotation()
 	 */
@@ -1139,13 +1109,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return true;
   }
 
-
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#hasValidLevelVersionNamespaceCombination()
 	 */
 	public boolean hasValidLevelVersionNamespaceCombination() {
 		return isValidLevelAndVersionCombination(getLevel(), getVersion());
 	}
+
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#isExtendedByOtherPackages()
@@ -1223,6 +1193,37 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractTreeNode#notifyChildChange(javax.swing.tree.TreeNode, javax.swing.tree.TreeNode)
+	 */
+	@Override
+	protected void notifyChildChange(TreeNode oldChild, TreeNode newChild) {
+		if (oldChild instanceof SBase) {
+			SBMLDocument doc = getSBMLDocument();
+			if (doc != null) {
+				/*
+				 * Recursively remove pointers to oldValue's and all
+				 * sub-element's meta identifiers from the
+				 * SBMLDocument.
+				 */
+				doc.registerMetaIds((SBase) oldChild, true, true);
+			}
+			if (oldChild instanceof NamedSBase) {
+			  /*
+			   * Do the same for all identifiers under the old value.
+			   */
+        Model model = getModel();
+        if (model != null) {
+          model.registerIds(this, (NamedSBase) oldChild, true, true);
+          NamedSBase newNsb = (NamedSBase) newChild;
+          if (!model.registerIds(this, newNsb, true, false)) {
+            throw new IdentifierException(newNsb, newNsb.getId());
+          }
+        }
+      }
+		}
+	}
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public boolean readAttribute(String attributeName, String prefix,
@@ -1237,6 +1238,68 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return false;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#registerChild(org.sbml.jsbml.SBase)
+	 */
+	public void registerChild(SBase sbase) throws LevelVersionError {
+	  if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
+	    SBMLDocument doc = getSBMLDocument();
+	    if (doc != null) {
+	      /*
+	       * In case that sbase did not have access to the document we
+	       * have to recursively check the metaId property.
+	       */
+	      doc.registerMetaIds(sbase, (sbase.getSBMLDocument() == null)
+	        && (sbase instanceof AbstractSBase), false);
+	    }
+	    Model model = getModel();
+      /*
+       * Check if the model to which this node is assigned equals the one to
+       * which the given SBase belongs. This is important because if both 
+       * belong to the identical model, we don't have to register all 
+       * identifiers recursively.
+       * In this case, it will be enough to check this one new node only.
+       */
+	    boolean recursively = (model == null) || (sbase.getModel() != model);
+	    
+	    /* Memorize all TreeNodeChangeListeners that are currently assigned to the new
+	     * SBase in order to re-use these later. For now we must remove all those to
+	     * avoid listeners to be called before we could really add the SBase to this
+	     * subtree.
+	     */
+	    List<TreeNodeChangeListener> listeners = sbase.getListOfTreeNodeChangeListeners();
+	    sbase.removeAllTreeNodeChangeListeners();
+      
+      /*
+       * Make sure the new SBase is part of the subtree rooted at this element
+       * before (recursively) registering all ids:
+       */
+	    if (sbase instanceof AbstractSBase) {
+        ((AbstractSBase) sbase).parent = this;
+      } else {
+        sbase.setParentSBML(this);
+      }
+	    
+      /*
+       * Now, we cann add all previous listeners. The next change will
+       * be fired after registering all ids.
+       */
+      sbase.addAllChangeListeners(listeners);
+      
+      // If possible, recursively register all ids of the SBase in our model:
+      if ((model != null)
+        && !model.registerIds(this, sbase, recursively, false)) {
+        throw new IllegalArgumentException(String.format("Cannot register %s.",
+          sbase.getElementName()));
+      }
+      
+      // Add all TreeNodeChangeListeners from this current node also to the new SBase:
+	    sbase.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+	    // Notify all listeners that a new node has been added to this subtree:
+	    sbase.fireNodeAddedEvent();
+	  }
+	}
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setAnnotation(org.sbml.jsbml.Annotation)
 	 */
@@ -1347,6 +1410,25 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldParent, parent);
 	}
 
+	/**
+	 * 
+	 * @param sbase
+	 * @throws LevelVersionError
+	 */
+	public void setParentSBMLObject(SBase sbase) throws LevelVersionError {
+
+		if (sbase instanceof AbstractSBase) {
+			((AbstractSBase) sbase).checkLevelAndVersionCompatibility(this);
+		}
+
+		this.addAllChangeListeners(sbase.getListOfTreeNodeChangeListeners());
+
+		this.fireNodeAddedEvent();
+
+		setParentSBML(sbase);
+
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setSBOTerm(int)
 	 */
@@ -1377,55 +1459,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	@Deprecated
 	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError {
 	  registerChild(sbase);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#registerChild(org.sbml.jsbml.SBase)
-	 */
-	public void registerChild(SBase sbase) throws LevelVersionError {
-	  if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
-	    SBMLDocument doc = getSBMLDocument();
-	    if (doc != null) {
-	      /*
-	       * In case that sbase did not have access to the document we
-	       * have to recursively check the metaId property.
-	       */
-	      doc.registerMetaIds(sbase, (sbase.getSBMLDocument() == null)
-	        && (sbase instanceof AbstractSBase), false);
-	    }
-	    Model model = getModel();
-	    if ((model != null)
-	        && !model.registerIds(this, sbase, sbase.getModel() != model, false)) {
-	      throw new IllegalArgumentException(String.format("Cannot register %s.",
-	        sbase.getElementName()));
-	    }
-	    sbase.addAllChangeListeners(getListOfTreeNodeChangeListeners());
-	    if (sbase instanceof AbstractSBase) {
-	      ((AbstractSBase) sbase).parent = this;
-	      sbase.fireNodeAddedEvent();
-	    } else {
-	      sbase.setParentSBML(this);
-	    }
-	  }
-	}
-	
-	/**
-	 * 
-	 * @param sbase
-	 * @throws LevelVersionError
-	 */
-	public void setParentSBMLObject(SBase sbase) throws LevelVersionError {
-
-		if (sbase instanceof AbstractSBase) {
-			((AbstractSBase) sbase).checkLevelAndVersionCompatibility(this);
-		}
-
-		this.addAllChangeListeners(sbase.getListOfTreeNodeChangeListeners());
-
-		this.fireNodeAddedEvent();
-
-		setParentSBML(sbase);
-
 	}
 
 	/* (non-Javadoc)
