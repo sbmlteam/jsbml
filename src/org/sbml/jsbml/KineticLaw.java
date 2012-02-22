@@ -659,30 +659,31 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
    * @return
    */
   boolean registerLocalParameter(LocalParameter parameter, boolean delete) {
-    if (parameter.isSetId()) {
-      String id = parameter.getId();
-      if (delete && (mapOfLocalParameters != null)) {
-        if (mapOfLocalParameters.remove(id) == null) {
-          return false;
-        }
-        logger.debug(String.format("removed id=%s from %s", id, toString()));
-      } else {
-        if (mapOfLocalParameters == null) {
-          mapOfLocalParameters = new HashMap<String, LocalParameter>();
-        }
-        if (mapOfLocalParameters.containsKey(id)) {
-          logger.error(String.format(
-            "A local parameter with the id '%s' is already present in the %s. The new element will not be added to the list.",
-            id, getListOfLocalParameters().getElementName()));
-          throw new IllegalArgumentException(String.format(
-            "Cannot set duplicate identifier '%s'.", id));
-        }
-        mapOfLocalParameters.put(id, parameter);
-        logger.debug(String.format("registered id=%s in %s", id, toString()));
-      }
-      return true;
-    }
-    return false;
+	  boolean success = false;
+	  if (parameter.isSetId()) {
+		  String id = parameter.getId();
+		  if (delete) {
+			  if (mapOfLocalParameters != null) {
+				  success = mapOfLocalParameters.remove(id) != null;
+				  logger.debug(String.format("removed id=%s from %s", id, toString()));
+			  }
+		  } else {
+			  if (mapOfLocalParameters == null) {
+				  mapOfLocalParameters = new HashMap<String, LocalParameter>();
+			  }
+			  if (mapOfLocalParameters.containsKey(id)) {
+				  logger.error(String.format(
+						  "A local parameter with the id '%s' is already present in the %s. The new element will not be added to the list.",
+						  id, getListOfLocalParameters().getElementName()));
+				  throw new IllegalArgumentException(String.format(
+						  "Cannot set duplicate identifier '%s'.", id));
+			  }
+			  mapOfLocalParameters.put(id, parameter);
+			  success = true;
+			  logger.debug(String.format("registered id=%s in %s", id, toString()));
+		  }
+	  }
+	  return success;
   }
 
 	/**

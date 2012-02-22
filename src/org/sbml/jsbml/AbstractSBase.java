@@ -34,6 +34,7 @@ import javax.swing.tree.TreeNode;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
@@ -1350,30 +1351,62 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jsbml.SBase#setThisAsParentSBMLObject(org.sbml.jsbml.SBase)
 	 */
 	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError {
-    if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
-      SBMLDocument doc = getSBMLDocument();
-      if (doc != null) {
-        /*
-         * In case that sbase did not have access to the document we
-         * have to recursively check the metaId property.
-         */
-        doc.registerMetaIds(sbase, (sbase.getSBMLDocument() == null)
-                                   && (sbase instanceof AbstractSBase), false);
-      }
-      Model model = getModel();
-      if ((model != null)
-        && !model.registerIds(this, sbase, sbase.getModel() != model, false)) {
-        throw new IllegalArgumentException(String.format("Cannot register %s.",
-          sbase.getElementName()));
-      }
-      sbase.addAllChangeListeners(getListOfTreeNodeChangeListeners());
-      if (sbase instanceof AbstractSBase) {
-        ((AbstractSBase) sbase).parent = this;
-        sbase.fireNodeAddedEvent();
-      } else {
-        sbase.setParentSBML(this);
-      }
-    }
+		if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
+			SBMLDocument doc = getSBMLDocument();
+			if (doc != null) {
+				/*
+				 * In case that sbase did not have access to the document we
+				 * have to recursively check the metaId property.
+				 */
+				doc.registerMetaIds(sbase, (sbase.getSBMLDocument() == null)
+						&& (sbase instanceof AbstractSBase), false);
+			}
+			Model model = getModel();
+			/*
+			 * Check if the model to which this node is assigned equals the one to
+			 * which the given SBase belongs. This is important because if both 
+			 * belong to the identical model, we don't have to register all 
+			 * identifiers recursively.
+			 * In this case, it will be enough to check this one new node only.
+			 */
+			boolean recursively = (model == null) || (sbase.getModel() != model);
+
+			/* Memorize all TreeNodeChangeListeners that are currently assigned to the new
+			 * SBase in order to re-use these later. For now we must remove all those to
+			 * avoid listeners to be called before we could really add the SBase to this
+			 * subtree.
+			 */
+			List<TreeNodeChangeListener> listeners = sbase.getListOfTreeNodeChangeListeners();
+			sbase.removeAllTreeNodeChangeListeners();
+
+			/*
+			 * Make sure the new SBase is part of the subtree rooted at this element
+			 * before (recursively) registering all ids:
+			 */
+			if (sbase instanceof AbstractSBase) {
+				((AbstractSBase) sbase).parent = this;
+			} else {
+				sbase.setParentSBML(this);
+			}
+
+			/*
+			 * Now, we cann add all previous listeners. The next change will
+			 * be fired after registering all ids.
+			 */
+			sbase.addAllChangeListeners(listeners);
+
+			// If possible, recursively register all ids of the SBase in our model:
+			if ((model != null)
+					&& !model.registerIds(this, sbase, recursively, false)) {
+				throw new IllegalArgumentException(String.format("Cannot register %s.",
+						sbase.getElementName()));
+			}
+
+			// Add all TreeNodeChangeListeners from this current node also to the new SBase:
+			sbase.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+			// Notify all listeners that a new node has been added to this subtree:
+			sbase.fireNodeAddedEvent();
+		}
 	}
 
 	/*

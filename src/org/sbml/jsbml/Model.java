@@ -3188,7 +3188,7 @@ public int getNumLocalParameters() {
        */
       Reaction r = kl.getParentSBMLObject();
       String pId = lp.getId();
-      if (r.isSetId()) {
+      if ((r != null) && r.isSetId()) {
         if (delete) {
           if (mapOfLocalParameters != null) {
             SortedSet<String> reactionSet = mapOfLocalParameters.get(pId);

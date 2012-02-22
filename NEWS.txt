@@ -50,6 +50,13 @@ Version 0.8-rc2 (xx-xx-2012)
     were already registered. This was the case for the previous model to
     which the kinetic law belonged. Hence, it was necessary to unregister
     all local parameters first.
+    
+  - Subsequent registration and unregistration of local parameters did 
+    not work. In case of reactions it was assumed that the kinetic law 
+    that was to be added to some SBML subtree had already a parent SBML 
+    element (this could be null). Furthermore, when trying to unregister 
+    local parameters in a kinetic law, the put method was called on the
+    map between ids and local parameters, instead of the remove method.
   
 ======================================================================
 Version 0.8-rc1 (08-12-2011)
