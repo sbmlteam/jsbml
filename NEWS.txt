@@ -43,6 +43,13 @@ Version 0.8-rc2 (xx-xx-2012)
     
   - QuantityWithUnit did not fire update events when changing its value
     because of an incorrect comparison of the previous and the new value.
+    
+  - Detected a bug that made it impossible to set a kinetic law with an 
+    exisiting list of local parameters as the new kinetic law in a 
+    different reaction. JSBML always complained that all local parameters
+    were already registered. This was the case for the previous model to
+    which the kinetic law belonged. Hence, it was necessary to unregister
+    all local parameters first.
   
 ======================================================================
 Version 0.8-rc1 (08-12-2011)
