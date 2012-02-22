@@ -60,7 +60,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	private ListOf<LocalParameter> listOfLocalParameters;
   /**
    * For internal computation: a mapping between their identifiers and
-   * the {@link LocalParameter}s in {@link KineticLaw}s themself:
+   * the {@link LocalParameter}s in {@link KineticLaw}s themselves:
    */
   private Map<String, LocalParameter> mapOfLocalParameters;
 	/**
@@ -190,8 +190,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		addParameter(new LocalParameter(p));
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
 	public KineticLaw clone() {
@@ -215,9 +214,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
     return parameter;
   }
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
 	 */
 	@Override
@@ -241,8 +238,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		return equals;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractMathContainer#getChildAt(int)
 	 */
 	@Override
@@ -266,9 +262,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 				index, +((int) Math.min(pos, 0))));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.MathContainer#getChildCount()
 	 */
 	@Override
@@ -377,8 +371,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		return getLocalParameter(id);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()
 	 */
 	@Override
@@ -469,8 +462,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#getUnits()
 	 */
 	@Deprecated
@@ -478,8 +470,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		return isSetUnits() ? unitsID : "";
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#getUnitsInstance()
 	 */
 	@Deprecated
@@ -508,8 +499,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		return substancePerTimeUnits;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
 	 */
 	@Override
@@ -601,8 +591,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 				: false;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#isSetUnits()
 	 */
 	@Deprecated
@@ -610,8 +599,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		return (isSetSubstanceUnits() && isSetTimeUnits()) || (unitsID != null);
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#isSetUnitsInstance()
 	 */
 	@Deprecated
@@ -630,11 +618,8 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.MathContainer#readAttribute(java.lang.String,
-	 * java.lang.String, java.lang.String)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.MathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -856,8 +841,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		setTimeUnits(timeUnits.isSetId() ? timeUnits.getId() : null);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.Unit.Kind)
 	 */
 	@Deprecated
@@ -865,8 +849,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		setUnits(new Unit(unitKind, getLevel(), getVersion()));
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(java.lang.String)
 	 */
 	@Deprecated
@@ -899,8 +882,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.Unit)
 	 */
 	@Deprecated
@@ -932,8 +914,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#setUnits(org.sbml.jsbml.UnitDefinition)
 	 */
 	@Deprecated
@@ -965,9 +946,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.MathContainer#toString()
 	 */
 	@Override
@@ -1036,8 +1015,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 				timeUnitsID);
 	}
 
-  /*
-	 * (non-Javadoc)
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithUnit#unsetUnits()
 	 */
 	@Deprecated
@@ -1051,9 +1029,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 		}
 	}
 
-  /*
-	 * (non-Javadoc)
-	 * 
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.MathContainer#writeXMLAttributes()
 	 */
 	@Override
