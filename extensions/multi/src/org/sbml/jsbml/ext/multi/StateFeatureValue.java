@@ -1,11 +1,18 @@
 package org.sbml.jsbml.ext.multi;
 
+import java.util.Map;
+
 import org.sbml.jsbml.AbstractSBase;
 
 public class StateFeatureValue extends AbstractSBase {
 
 	private String possibleValue;
 
+	public StateFeatureValue() {
+		super();
+		initDefaults();
+	}
+	
 	@Override
 	public AbstractSBase clone() {
 		// TODO 
@@ -32,6 +39,14 @@ public class StateFeatureValue extends AbstractSBase {
 		this.possibleValue = possibleValue;
 	}
 
+	/**
+	 * Returns true if possibleValue is set.
+	 * 
+	 * @return true if possibleValue is set.
+	 */
+	public boolean isSetPossibleValue() {
+		return possibleValue != null;
+	}
 
 	@Override
 	public String toString() {
@@ -39,5 +54,49 @@ public class StateFeatureValue extends AbstractSBase {
 		return null;
 	}
 	
+	
+	/**
+	 * 
+	 */
+	public void initDefaults() {
+		addNamespace(MultiConstant.namespaceURI);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) 
+	{
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+		if (!isAttributeRead) {
+
+			if (attributeName.equals(MultiConstant.possibleValue)){
+				setPossibleValue(value);
+				isAttributeRead = true;
+			} 
+		}	  
+
+		return isAttributeRead;
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+	 */
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
+
+		if (isSetPossibleValue()) {
+			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.possibleValue, getPossibleValue());
+		} 
+
+		return attributes;
+	}
+
 	
 }

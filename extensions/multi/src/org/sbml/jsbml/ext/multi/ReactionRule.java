@@ -4,7 +4,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 public class ReactionRule extends AbstractNamedSBase {
 

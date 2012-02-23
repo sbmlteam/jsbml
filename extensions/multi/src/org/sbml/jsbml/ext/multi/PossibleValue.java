@@ -1,7 +1,10 @@
 package org.sbml.jsbml.ext.multi;
 
+import java.util.Map;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * Each state feature ({@link StateFeature}) also requires the definition of all the possible values it can take. Those values
@@ -13,16 +16,54 @@ import org.sbml.jsbml.AbstractSBase;
  * @author rodrigue
  *
  */
-public class PossibleValue extends AbstractNamedSBase {
+public class PossibleValue extends AbstractNamedSBase  implements UniqueNamedSBase {
+
+	public PossibleValue() {
+		super();
+		initDefaults();
+	}
+
+	public PossibleValue(PossibleValue possibleValue) {
+		super(possibleValue);
+		initDefaults();
+	}
+
+
+	@Override
+	public AbstractSBase clone() {
+		return new PossibleValue(this);
+	}
 
 	public boolean isIdMandatory() {
 		return false;
 	}
 
-	@Override
-	public AbstractSBase clone() {
-		// TODO
-		return null;
+	/**
+	 * 
+	 */
+	public void initDefaults() {
+		addNamespace(MultiConstant.namespaceURI);
 	}
+
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+	 */
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
+
+		if (isSetId()) {
+			attributes.remove("id");
+			attributes.put(MultiConstant.shortLabel+ ":id", getId());
+		}
+		if (isSetName()) {
+			attributes.remove("name");
+			attributes.put(MultiConstant.shortLabel+ ":name", getName());
+		}
+
+		return attributes;
+	}
+
 
 }
