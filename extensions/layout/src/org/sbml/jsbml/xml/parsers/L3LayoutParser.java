@@ -107,7 +107,9 @@ public class L3LayoutParser extends AbstractReaderWriter {
 	 */
 	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
-		logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
+		if (logger.isDebugEnabled()) {
+			logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
+		}
 		
 		ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
 		

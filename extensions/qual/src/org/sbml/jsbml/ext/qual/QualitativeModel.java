@@ -421,7 +421,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
    */
   public Map<String, String> writeXMLAttributes() {
-	  // no attribute to read
+	  // no attribute to write
 	  return null;
   }
   
@@ -431,8 +431,9 @@ public class QualitativeModel extends AbstractSBasePlugin {
    */
   public boolean unsetListOfTransitions(){
 	  if(isSetListOfTransitions()) {
+		  // unregister the ids.
+		  listOfTransitions.unregister(this.listOfTransitions);
 		  this.listOfTransitions = null;
-		  getModel().registerChild(this.listOfTransitions);
 		  return true;
 	  }
 	  return false;
@@ -444,8 +445,9 @@ public class QualitativeModel extends AbstractSBasePlugin {
    */
   public boolean unsetListOfQualitativeSpecies() {
 	  if(isSetListOfQualitativeSpecies()) {
+		  // unregister the ids
+		  listOfQualitativeSpecies.unregister(listOfQualitativeSpecies);
 		  this.listOfQualitativeSpecies = null;
-		  getModel().registerChild(this.listOfQualitativeSpecies);
 		  return true;
 	  }
 	  return false;

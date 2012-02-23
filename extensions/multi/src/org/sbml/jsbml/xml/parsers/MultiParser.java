@@ -19,15 +19,37 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
+import static org.sbml.jsbml.ext.multi.MultiConstant.bindingSiteReference;
+import static org.sbml.jsbml.ext.multi.MultiConstant.listOfBonds;
+import static org.sbml.jsbml.ext.multi.MultiConstant.listOfContainedSpeciesTypes;
+import static org.sbml.jsbml.ext.multi.MultiConstant.listOfPossibleValues;
+import static org.sbml.jsbml.ext.multi.MultiConstant.listOfSelectors;
+import static org.sbml.jsbml.ext.multi.MultiConstant.listOfSpeciesTypeStates;
+import static org.sbml.jsbml.ext.multi.MultiConstant.listOfSpeciesTypes;
+import static org.sbml.jsbml.ext.multi.MultiConstant.listOfStateFeatureInstances;
+import static org.sbml.jsbml.ext.multi.MultiConstant.listOfStateFeatureValues;
+import static org.sbml.jsbml.ext.multi.MultiConstant.listOfStateFeatures;
+import static org.sbml.jsbml.ext.multi.MultiConstant.listOfUnboundBindingSites;
+import static org.sbml.jsbml.ext.multi.MultiConstant.namespaceURI;
+import static org.sbml.jsbml.ext.multi.MultiConstant.shortLabel;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import org.sbml.jsbml.Annotation;
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.Species;
-import org.sbml.jsbml.ext.multi.InitialSpeciesInstance;
-import org.sbml.jsbml.ext.multi.MultiSpecies;
+import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.multi.BindingSiteReference;
+import org.sbml.jsbml.ext.multi.Bond;
+import org.sbml.jsbml.ext.multi.MultiModel;
+import org.sbml.jsbml.ext.multi.Selector;
+import org.sbml.jsbml.ext.multi.SpeciesType;
+import org.sbml.jsbml.ext.multi.SpeciesTypeState;
+import org.sbml.jsbml.ext.multi.StateFeature;
+import org.sbml.jsbml.ext.multi.StateFeatureInstance;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -37,17 +59,14 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * able to read and write elements of the multi package (implements
  * ReadingParser and WritingParser).
  * 
- * @author Marine Dumousseau
+ * @author rodrigue
  * @since 1.0
  * @version $Rev$
  */
 public class MultiParser extends AbstractReaderWriter {
 
-	/**
-	 * The namespace URI of this parser.
-	 */
-	private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/multi/version1";
-
+	private Logger logger = Logger.getLogger(MultiParser.class);
+	
 	/**
 	 * 
 	 * @return the namespaceURI of this parser.
@@ -56,103 +75,41 @@ public class MultiParser extends AbstractReaderWriter {
 		return namespaceURI;
 	}
 
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
-	 * sbase)
-	 */
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
-		if (sbase instanceof Species) {
-			// TODO return the listOf..
-		}
-		return null;
+	@Override
+	public String getShortLabel() {
+		return shortLabel;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String
-	 * elementName, String attributeName, String value, String prefix, boolean
-	 * isLastAttribute, Object contextObject)
-	 */
-	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
-
-		boolean isAttributeRead = false;
-		if (contextObject instanceof SBase) {
-			SBase sbase = (SBase) contextObject;
-			try {
-				isAttributeRead = sbase.readAttribute(attributeName, prefix,
-						value);
-			} catch (Throwable exc) {
-				System.err.println(exc.getMessage());
-			}
-		} else if (contextObject instanceof Annotation) {
-			Annotation annotation = (Annotation) contextObject;
-			isAttributeRead = annotation.readAttribute(attributeName, prefix,
-					value);
-		}
-
-		if (!isAttributeRead) {
-			// TODO : throw new SBMLException ("The attribute " + attributeName
-			// + " on the element " + elementName +
-			// "is not part of the SBML specifications");
-		}
-	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String
-	 * elementName, String attributeName, String value, String prefix, boolean
-	 * isLastAttribute, Object contextObject)
-	 */
-	public void processCharactersOf(String elementName, String characters,
-			Object contextObject) {
-	}
-
-	/*
-	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
 	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument
-	 * sbmlDocument)
 	 */
-	public void processEndDocument(SBMLDocument sbmlDocument) {
-		// TODO Auto-generated method stub
+	public ArrayList<Object> getListOfSBMLElementsToWrite(Object treeNode) {
 
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
-	 * elementName, String prefix, boolean isNested, Object contextObject)
-	 */
-	public boolean processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject) {
-
-		if (elementName.equals("listOfSpeciesInstances")) {
-		}
+		if (logger.isDebugEnabled()) {
+			logger.debug("getListOfSBMLElementsToWrite : " + treeNode.getClass().getCanonicalName());
+		}	
 		
-		return true;
+		ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
+		
+		// test if this treeNode is an extended SBase.
+		if (treeNode instanceof SBase && ((SBase) treeNode).getExtension(getNamespaceURI()) != null) {
+			SBasePlugin sbasePlugin = (SBasePlugin) ((Model) treeNode).getExtension(getNamespaceURI());
+			
+			if (sbasePlugin != null) {
+				listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbasePlugin);
+				logger.debug("getListOfSBMLElementsToWrite : nb children = " + sbasePlugin.getChildCount());
+			}
+		} else {
+			listOfElementsToWrite = super.getListOfSBMLElementsToWrite(treeNode);
+		}
+
+		return listOfElementsToWrite;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String
-	 * elementName, String URI, String prefix, String localName, boolean
-	 * hasAttributes, boolean isLastNamespace, Object contextObject)
-	 */
-	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) {
-		// TODO Auto-generated method stub
-
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -161,90 +118,185 @@ public class MultiParser extends AbstractReaderWriter {
 	 * elementName, String prefix, boolean hasAttributes, boolean hasNamespaces,
 	 * Object contextObject)
 	 */
-	@SuppressWarnings("unchecked")
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
-		// TODO 
+		// TODO : make it generic by using reflection on the contextObject
 		
-		if (contextObject instanceof Species) {
-			Species species = (Species) contextObject;
-			if (elementName.equals("listOfInitialSpeciesInstances")) {
-				ListOf<InitialSpeciesInstance> listOfInitialSpeciesInstances = new ListOf<InitialSpeciesInstance>();
-				listOfInitialSpeciesInstances
-						.setSBaseListType(ListOf.Type.other);
-
-				MultiSpecies multiSpecies = new MultiSpecies(null);
-				// multiSpecies.setListOfInitialSpeciesInstance(listOfInitialSpeciesInstances);
-				species.addExtension(MultiParser.namespaceURI, multiSpecies);
-
-				return listOfInitialSpeciesInstances;
-			}
-		} else if (contextObject instanceof ListOf<?>) {
-			ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
-
-			if (elementName.equals("initialSpeciesInstance")) {
-				InitialSpeciesInstance initialSpeciesInstance = new InitialSpeciesInstance();
-				listOf.add(initialSpeciesInstance);
-
-				return initialSpeciesInstance;
+		if (contextObject instanceof Model) 
+		{
+			Model model = (Model) contextObject;
+			MultiModel multiModel = null;
+			
+			if (model.getExtension(namespaceURI) != null) {
+				multiModel = (MultiModel) model.getExtension(namespaceURI);
+			} else {
+				multiModel = new MultiModel(model);
+				model.addExtension(namespaceURI, multiModel);
 			}
 
+			if (elementName.equals(listOfSpeciesTypes)) 
+			{
+				return multiModel.getListOfSpeciesTypes();
+			} 
+			else if (elementName.equals(listOfSelectors)) 
+			{
+				return multiModel.getListOfSelectors();
+			}
+		} // end Model
+		else if (contextObject instanceof SpeciesType)
+		{
+			SpeciesType speciesType = (SpeciesType) contextObject;
+			
+			if (elementName.equals(listOfStateFeatures)) {
+				return speciesType.getListOfStateFeatures();
+			}			
+		} // end SpeciesType
+		else if (contextObject instanceof StateFeature)
+		{
+			StateFeature stateFeature = (StateFeature) contextObject;
+			
+			if (elementName.equals(listOfPossibleValues)) {
+				return stateFeature.getListOfPossibleValues();
+			}			
+		} // end StateFeature
+		else if (contextObject instanceof Selector)
+		{
+			Selector selector = (Selector) contextObject;
+			
+			if (elementName.equals(listOfSpeciesTypeStates)) 
+			{
+				return selector.getListOfSpeciesTypeStates();
+			}
+			else if (elementName.equals(listOfBonds)) 
+			{
+				return selector.getListOfBonds();
+			} 
+			else if (elementName.equals(listOfUnboundBindingSites)) 
+			{
+				return selector.getListOfUnboundBindingSites();
+			} 
+		} // end Selector
+		else if (contextObject instanceof SpeciesTypeState)
+		{
+			SpeciesTypeState speciesTypeState = (SpeciesTypeState) contextObject;
+			
+			if (elementName.equals(listOfStateFeatureInstances)) 
+			{
+				return speciesTypeState.getListOfStateFeatureInstances();
+			}			
+			else if (elementName.equals(listOfContainedSpeciesTypes)) 
+			{
+				return speciesTypeState.getListOfContainedSpeciesTypes();
+			} 
+		} // end SpeciesTypeState
+		else if (contextObject instanceof StateFeatureInstance)
+		{
+			StateFeatureInstance stateFeatureInstance = (StateFeatureInstance) contextObject;
+			
+			if (elementName.equals(listOfStateFeatureValues)) {
+				return stateFeatureInstance.getListOfStateFeatureValues();
+			}			
+		} // end StateFeatureInstance
+		else if (contextObject instanceof Bond)
+		{
+			Bond bond = (Bond) contextObject;
+			
+			if (elementName.equals(bindingSiteReference)) 
+			{
+				BindingSiteReference bindingSiteReference = new BindingSiteReference();
+				bond.addBindingSiteReference(bindingSiteReference);
+				return bindingSiteReference;
+			} 
+		} // end Bond
+		else if (contextObject instanceof ListOf<?>) 
+		{
+			ListOf<?> listOf = (ListOf<?>) contextObject;
+			
+			Object newElement = createListOfChild(listOf, elementName);
+			
+			return newElement;
+			
+			// TODO : SpeciesTypeInstance, SelectorReference, ....
 		}
+		
 		return contextObject;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeAttributes(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
+	 * @param listOf
+	 * @param elementName
+	 * @return
 	 */
-	public void writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
+	private Object createListOfChild(ListOf<?> listOf, String elementName) {
 
+		Object parentSBase = listOf.getParent();
+		
+		if (parentSBase == null) {
+			return null;
+		} else if (parentSBase instanceof Model) {
+			parentSBase = ((Model) parentSBase).getExtension(namespaceURI);
+		}
+
+		String createMethodName = "create" + elementName.substring(0, 1).toUpperCase() + elementName.substring(1);  
+		Method createMethod = null;
+
+		if ((parentSBase instanceof Selector) && (elementName.equals(bindingSiteReference))) {
+			createMethodName = "createUnboundBindingSite";
+		}
+		if (logger.isDebugEnabled()) {
+			logger.debug("Method '" + createMethodName + "' will be used");
+		}
+		
+		try {
+			createMethod = parentSBase.getClass().getMethod(createMethodName, (Class<?>[]) null);
+			
+			return createMethod.invoke(parentSBase, (Object[]) null);
+			
+		} catch (SecurityException e) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Method '" + createMethodName + "' is not accessible on " + parentSBase.getClass().getSimpleName());
+				e.printStackTrace();
+			}
+		} catch (NoSuchMethodException e) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Method '" + createMethodName + "' does not exist on " + parentSBase.getClass().getSimpleName());
+			}
+		} catch (IllegalArgumentException e) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+				logger.debug(e.getMessage());
+			}
+		} catch (IllegalAccessException e) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+				logger.debug(e.getMessage());
+			}
+		} catch (InvocationTargetException e) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+				logger.debug(e.getMessage());
+			}
+		}
+		
+		// TODO : try to use the default constructor + the addXX method
+		
+		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeCharacters(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
-	 */
-	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
 	 */
 	public void writeElement(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-
+			Object sbmlElementToWrite) 
+	{
+		super.writeElement(xmlObject, sbmlElementToWrite);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("writeElement : " + sbmlElementToWrite.getClass().getSimpleName());
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
-	 */
-	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getShortLabel() {
-		return "multi";
-	}
 
 }
