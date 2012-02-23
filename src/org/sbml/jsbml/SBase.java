@@ -461,6 +461,13 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   public void registerChild(SBase sbase) throws LevelVersionError;
 
+  /**
+   * Unregisters recursively the given SBase from the {@link Model}
+   * and {@link SBMLDocument}.
+   * 
+   */
+  public void unregister(SBase sbase);
+
 	/**
 	 * Removes the given {@link TreeNodeChangeListener} from this element.
 	 * 

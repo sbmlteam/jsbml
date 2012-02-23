@@ -1301,6 +1301,36 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#unregisterChild(org.sbml.jsbml.SBase)
+	 */
+	public void unregister(SBase sbase)  {
+		if ((sbase != null)) {
+			SBMLDocument doc = getSBMLDocument();
+
+			if (doc != null) {
+				// unregister recursively all metaIds.
+				doc.registerMetaIds(sbase, true, true);
+			}
+			
+			Model model = getModel();
+
+			// remove all changeListeners
+			sbase.removeAllTreeNodeChangeListeners();
+
+			// If possible, recursively unregister all ids of the SBase in our model:
+			if ((model != null)
+					&& !model.registerIds(this, sbase, true, true)) {
+				throw new IllegalArgumentException(String.format("Cannot unregister %s.",
+						sbase.getElementName()));
+			}
+
+			// Notify all listeners that a new node has been added to this subtree:
+			sbase.fireNodeRemovedEvent();
+		}
+	}
+
+	
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setAnnotation(org.sbml.jsbml.Annotation)
 	 */
 	public void setAnnotation(Annotation annotation) {
