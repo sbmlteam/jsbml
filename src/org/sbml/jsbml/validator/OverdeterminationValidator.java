@@ -32,6 +32,7 @@ import java.util.Stack;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.AlgebraicRule;
 import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.Compartment;
@@ -865,7 +866,7 @@ public class OverdeterminationValidator {
 	private void getVariables(ListOf<LocalParameter> param, ASTNode node,
 			List<SBase> variables, int level) {
 		// found node with species	
-		if (node.getChildCount() == 0 && node.isString()) {
+		if (node.getChildCount() == 0 && node.isString() && node.getType() != Type.NAME_TIME) {
 			if (!node.isConstant()) {				
 				if (param == null) {
 				  SBase variable=node.getVariable();
