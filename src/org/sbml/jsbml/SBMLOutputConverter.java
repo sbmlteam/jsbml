@@ -47,8 +47,17 @@ public interface SBMLOutputConverter {
 	/**
 	 * 
 	 * @return
+	 * @deprecated use {@link #getErrorCount(Object)}
 	 */
+	@Deprecated
 	public int getNumErrors(Object sbase);
+	
+	/**
+	 * 
+	 * @param sbase
+	 * @return
+	 */
+	public int getErrorCount(Object sbase);
 
 	/**
 	 * 

@@ -77,7 +77,7 @@ public class TestEvent {
     assertEquals(E.getTrigger(),null);
     assertEquals(E.getDelay(),null);
     assertTrue( E.getTimeUnits().equals("") == true );
-    assertTrue( E.getNumEventAssignments() == 0 );
+    assertTrue( E.getEventAssignmentCount() == 0 );
   }
 
   /*
@@ -115,7 +115,7 @@ public class TestEvent {
     e.setId( "e1");
     e.setName( "Set k2 to zero when P1 <= t");
     e.addEventAssignment(ea);
-    assertTrue( e.getNumEventAssignments() == 1 );
+    assertTrue( e.getEventAssignmentCount() == 1 );
     assertTrue(e.getEventAssignment(0) == ea);
     math = null;
     e = null;
@@ -135,11 +135,11 @@ public class TestEvent {
     o3 = E.createEventAssignment("t3", math);
     o3.setVariable("test");
     assertTrue( E.removeEventAssignment(0).equals(o1) );
-    assertTrue( E.getNumEventAssignments() == 2 );
+    assertTrue( E.getEventAssignmentCount() == 2 );
     assertTrue( E.removeEventAssignment(0).equals(o2) );
-    assertTrue( E.getNumEventAssignments() == 1 );
+    assertTrue( E.getEventAssignmentCount() == 1 );
     assertTrue( E.removeEventAssignment("test").equals(o3) );
-    assertTrue( E.getNumEventAssignments() == 0 );
+    assertTrue( E.getEventAssignmentCount() == 0 );
     o1 = null;
     o2 = null;
     o3 = null;

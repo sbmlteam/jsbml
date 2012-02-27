@@ -835,7 +835,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     lastEvent.addEventAssignment(eventAssgnt);
     
     return eventAssgnt;
-    
   }
   
   /**
@@ -2165,39 +2164,84 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the number of {@link Compartment}s of this Model.
+   * Returns the number of {@link Compartment}s of this {@link Model}.
    * 
-   * @return the number of {@link Compartment}s of this Model.
+   * @return the number of {@link Compartment}s of this {@link Model}.
+   * @deprecated use {@link #getCompartmentCount()}
    */
+  @Deprecated
   public int getNumCompartments() {
+    return getCompartmentCount();
+  }
+  
+  /**
+   * Returns the number of {@link Compartment}s of this {@link Model}.
+   * 
+   * @return the number of {@link Compartment}s of this {@link Model}.
+   */
+  public int getCompartmentCount() {
     return isSetListOfCompartments() ? listOfCompartments.size() : 0;
   }
   
   /**
-   * Returns the number of {@link CompartmentType}s of this Model.
+   * Returns the number of {@link CompartmentType}s of this {@link Model}.
    * 
-   * @return the number of {@link CompartmentType}s of this Model.
+   * @return the number of {@link CompartmentType}s of this {@link Model}.
+   * @deprecated use {@link #getCompartmentTypeCount()}
    */
   @Deprecated
   public int getNumCompartmentTypes() {
+    return getCompartmentTypeCount();
+  }
+  
+  /**
+   * Returns the number of {@link CompartmentType}s of this {@link Model}.
+   * 
+   * @return the number of {@link CompartmentType}s of this {@link Model}.
+   * @deprecated using {@link CompartmentType} is not recommended.
+   */
+  @Deprecated
+  public int getCompartmentTypeCount() {
     return isSetListOfCompartmentTypes() ? listOfCompartmentTypes.size() : 0;
   }
   
   /**
-   * Returns the number of {@link Constraint}s of this Model.
+   * Returns the number of {@link Constraint}s of this {@link Model}.
    * 
-   * @return the number of {@link Constraint}s of this Model.
+   * @return the number of {@link Constraint}s of this {@link Model}.
+   * @deprecated use {@link #getConstraintCount()}
    */
+  @Deprecated
   public int getNumConstraints() {
+    return getConstraintCount();
+  }
+  
+  /**
+   * Returns the number of {@link Constraint}s of this {@link Model}.
+   * 
+   * @return the number of {@link Constraint}s of this {@link Model}.
+   */
+  public int getConstraintCount() {
     return isSetListOfConstraints() ? listOfConstraints.size() : 0;
   }
   
   /**
-   * Returns the number of {@link Delay}s of this Model.
+   * Returns the number of {@link Delay}s of this {@link Model}.
    * 
-   * @return the number of {@link Delay}s of this Model.
+   * @return the number of {@link Delay}s of this {@link Model}.
+   * @deprecated use {@link #getDelayCount()}
    */
+  @Deprecated
   public int getNumDelays() {
+    return getDelayCount();
+  }
+  
+  /**
+   * Returns the number of {@link Delay}s of this {@link Model}.
+   * 
+   * @return the number of {@link Delay}s of this {@link Model}.
+   */
+  public int getDelayCount() {
     int count = 0;
     for (Event e : getListOfEvents()) {
       if (e.isSetDelay()) {
@@ -2208,53 +2252,108 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the number of {@link EventAssignment}s of this Model.
+   * Returns the number of {@link EventAssignment}s of this {@link Model}.
    * 
-   * @return return the number of {@link EventAssignment}s of this Model.
+   * @return return the number of {@link EventAssignment}s of this {@link Model}.
+   * @deprecated use {@link #getEventAssignmentCount()}
    */
+  @Deprecated
   public int getNumEventAssignments() {
+    return getEventAssignmentCount();
+  }
+  
+  /**
+   * Returns the number of {@link EventAssignment}s of this {@link Model}.
+   * 
+   * @return return the number of {@link EventAssignment}s of this {@link Model}.
+   */
+  public int getEventAssignmentCount() {
     int count = 0;
     for (Event e : getListOfEvents()) {
-      count += e.getNumEventAssignments();
+      count += e.getEventAssignmentCount();
     }
     return count;
   }
   
   /**
-   * Returns the number of {@link Event}s of this Model.
+   * Returns the number of {@link Event}s of this {@link Model}.
    * 
-   * @return the number of {@link Event}s of this Model.
+   * @return the number of {@link Event}s of this {@link Model}.
+   * @deprecated use {@link #getEventCount()}
    */
+  @Deprecated
   public int getNumEvents() {
+    return getEventCount();
+  }
+  
+  /**
+   * Returns the number of {@link Event}s of this {@link Model}.
+   * 
+   * @return the number of {@link Event}s of this {@link Model}.
+   */
+  public int getEventCount() {
     return isSetListOfEvents() ? listOfEvents.size() : 0;
   }
   
   /**
-   * Returns the number of {@link FunctionDefinition}s of this Model.
+   * Returns the number of {@link FunctionDefinition}s of this {@link Model}.
    * 
-   * @return the number of {@link FunctionDefinition}s of this Model.
+   * @return the number of {@link FunctionDefinition}s of this {@link Model}.
+   * @deprecated use {@link #getFunctionDefinitionCount()}
    */
+  @Deprecated
   public int getNumFunctionDefinitions() {
+    return getFunctionDefinitionCount();
+  }
+  
+  /**
+   * Returns the number of {@link FunctionDefinition}s of this {@link Model}.
+   * 
+   * @return the number of {@link FunctionDefinition}s of this {@link Model}.
+   */
+  public int getFunctionDefinitionCount() {
     return isSetListOfFunctionDefinitions() ? listOfFunctionDefinitions.size()
-        : 0;
+      : 0;
   }
   
   /**
-   * Returns the number of {@link InitialAssignment}s of this Model.
+   * Returns the number of {@link InitialAssignment}s of this {@link Model}.
    * 
-   * @return the number of {@link InitialAssignment}s of this Model.
+   * @return the number of {@link InitialAssignment}s of this {@link Model}.
+   * @deprecated use {@link #getInitialAssignmentCount()}
    */
+  @Deprecated
   public int getNumInitialAssignments() {
-    return isSetListOfInitialAssignments() ? listOfInitialAssignments.size()
-        : 0;
+    return getInitialAssignmentCount();
   }
   
   /**
-   * Returns the number of {@link KineticLaw}s of this Model.
+   * Returns the number of {@link InitialAssignment}s of this {@link Model}.
    * 
-   * @return the number of {@link KineticLaw}s of this Model.
+   * @return the number of {@link InitialAssignment}s of this {@link Model}.
    */
+  public int getInitialAssignmentCount() {
+    return isSetListOfInitialAssignments() ? listOfInitialAssignments.size()
+      : 0;
+  }
+  
+  /**
+   * Returns the number of {@link KineticLaw}s of this {@link Model}.
+   * 
+   * @return the number of {@link KineticLaw}s of this {@link Model}.
+   * @deprecated use {@link #getKineticLawCount()}
+   */
+  @Deprecated
   public int getNumKineticLaws() {
+    return getKineticLawCount();
+  }
+  
+  /**
+   * Returns the number of {@link KineticLaw}s of this {@link Model}.
+   * 
+   * @return the number of {@link KineticLaw}s of this {@link Model}.
+   */
+  public int getKineticLawCount() {
     int count = 0;
     for (Reaction r : getListOfReactions()) {
       if (r.isSetKineticLaw()) {
@@ -2265,11 +2364,22 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the number of {@link ListOf}s of this Model.
+   * Returns the number of {@link ListOf}s of this {@link Model}.
    * 
-   * @return the number of {@link ListOf}s of this Model.
+   * @return the number of {@link ListOf}s of this {@link Model}.
+   * @deprecated use {@link #getListOfCount()}
    */
+  @Deprecated
   public int getNumListsOf() {
+    return getListOfCount();
+  }
+  
+  /**
+   * Returns the number of {@link ListOf}s of this {@link Model}.
+   * 
+   * @return the number of {@link ListOf}s of this {@link Model}.
+   */
+  public int getListOfCount() {
     return getChildCount();
   }
   
@@ -2279,14 +2389,26 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return the number of parameters that are contained within kineticLaws in
    *         the reactions of this model.
+   * @deprecated use {@link #getLocalParameterCount()}
    */
-  @SuppressWarnings("deprecation")
-public int getNumLocalParameters() {
+  @Deprecated
+  public int getNumLocalParameters() {
+    return getLocalParameterCount();
+  }
+  
+  /**
+   * Returns the number of parameters that are contained within kineticLaws in
+   * the reactions of this model.
+   * 
+   * @return the number of parameters that are contained within kineticLaws in
+   *         the reactions of this model.
+   */
+  public int getLocalParameterCount() {
     int count = 0;
     if (isSetListOfReactions()) {
       for (Reaction reaction : getListOfReactions()) {
         if (reaction.isSetKineticLaw()) {
-          count += reaction.getKineticLaw().getNumLocalParameters();
+          count += reaction.getKineticLaw().getLocalParameterCount();
         }
       }
     }
@@ -2298,12 +2420,37 @@ public int getNumLocalParameters() {
    * 
    * @return the number of elements that can contain math in the {@link Model} .
    * @see MathContainer
+   * @deprecated use {@link #getMathContainerCount()}
    */
+  @Deprecated
   public int getNumMathContainers() {
-    return getNumFunctionDefinitions() + getNumInitialAssignments()
-        + getNumEventAssignments() + getNumDelays() + getNumConstraints()
-        + getNumRules() + getNumTriggers() + getNumStoichiometryMath()
-        + getNumKineticLaws();
+    return getMathContainerCount();
+  }
+  
+  /**
+   * Returns the number of elements that can contain math in the {@link Model} .
+   * 
+   * @return the number of elements that can contain math in the {@link Model} .
+   * @see MathContainer
+   */
+  public int getMathContainerCount() {
+    return getFunctionDefinitionCount() + getInitialAssignmentCount()
+        + getEventAssignmentCount() + getDelayCount() + getConstraintCount()
+        + getRuleCount() + getTriggerCount() + getStoichiometryMathCount()
+        + getKineticLawCount();
+  }
+  
+  /**
+   * Returns the number of {@link ModifierSpeciesReference}s in the
+   * {@link Model}.
+   * 
+   * @return the number of {@link ModifierSpeciesReference}s in the
+   *         {@link Model}.
+   * @deprecated use {@link #getModifierSpeciesReferenceCount()}
+   */
+  @Deprecated
+  public int getNumModifierSpeciesReferences() {
+    return getModifierSpeciesReferenceCount();
   }
   
   /**
@@ -2313,10 +2460,10 @@ public int getNumLocalParameters() {
    * @return the number of {@link ModifierSpeciesReference}s in the
    *         {@link Model}.
    */
-  public int getNumModifierSpeciesReferences() {
+  public int getModifierSpeciesReferenceCount() {
     int count = 0;
     for (Reaction r : getListOfReactions()) {
-      count += r.getNumModifiers();
+      count += r.getModifierCount();
     }
     return count;
   }
@@ -2343,12 +2490,25 @@ public int getNumLocalParameters() {
    * 
    * @return the number of {@link NamedSBase}s in the {@link Model}, so elements
    *         that can have a name.
+   * @deprecated use {@link #getNamedSBaseCount()}
    */
+  @Deprecated
   public int getNumNamedSBases() {
-    return getNumNamedSBasesWithDerivedUnit() + 1 /* this model */
-        + getNumSpeciesTypes() + getNumCompartmentTypes()
-        + getNumUnitDefinitions() + getNumEvents()
-        + getNumModifierSpeciesReferences();
+    return getNamedSBaseCount();
+  }
+  
+  /**
+   * Returns the number of {@link NamedSBase}s in the {@link Model}, so elements
+   * that can have a name.
+   * 
+   * @return the number of {@link NamedSBase}s in the {@link Model}, so elements
+   *         that can have a name.
+   */
+  public int getNamedSBaseCount() {
+    return getNamedSBaseWithDerivedUnitCount() + 1 /* this model */
+        + getSpeciesTypeCount() + getCompartmentTypeCount()
+        + getUnitDefinitionCount() + getEventCount()
+        + getModifierSpeciesReferenceCount();
   }
   
   /**
@@ -2359,64 +2519,136 @@ public int getNumLocalParameters() {
    * @return the number of {@link NamedSBaseWithDerivedUnit}s in the
    *         {@link Model}, so elements that can have a name and a unit that can
    *         be derived.
+   * @deprecated use {@link #getNamedSBaseWithDerivedUnitCount()}
    */
+  @Deprecated
   public int getNumNamedSBasesWithDerivedUnit() {
-    return getNumQuantities() + getNumFunctionDefinitions() + getNumReactions();
+    return getNamedSBaseWithDerivedUnitCount();
+  }
+  
+  public int getNamedSBaseWithDerivedUnitCount() {
+    return getQuantityCount() + getFunctionDefinitionCount() + getReactionCount();
   }
   
   /**
-   * Returns the number of {@link Parameter}s of this Model.
+   * Returns the number of {@link Parameter}s of this {@link Model}.
    * 
-   * @return the number of {@link Parameter}s of this Model.
+   * @return the number of {@link Parameter}s of this {@link Model}.
+   * @deprecated use {@link #getParameterCount()}
    */
+  @Deprecated
   public int getNumParameters() {
+    return getParameterCount();
+  }
+  
+  /**
+   * Returns the number of {@link Parameter}s of this {@link Model}.
+   * 
+   * @return the number of {@link Parameter}s of this {@link Model}.
+   */
+  public int getParameterCount() {
     return isSetListOfParameters() ? listOfParameters.size() : 0;
   }
   
   /**
-   * Returns the number of {@link Quantity}s of this Model.
+   * Returns the number of {@link Quantity}s of this {@link Model}.
    * 
-   * @return the number of {@link Quantity}s of this Model.
+   * @return the number of {@link Quantity}s of this {@link Model}.
+   * @deprecated use {@link #getQuantityCount()}
    */
+  @Deprecated
   public int getNumQuantities() {
-    return getNumVariables() + getNumLocalParameters();
+    return getQuantityCount();
   }
   
   /**
-   * Returns the number of {@link QuantityWithUnit}s of this Model.
+   * Returns the number of {@link Quantity}s of this {@link Model}.
    * 
-   * @return the number of {@link QuantityWithUnit}s of this Model.
+   * @return the number of {@link Quantity}s of this {@link Model}.
    */
+  public int getQuantityCount() {
+    return getNumVariables() + getLocalParameterCount();
+  }
+  
+  /**
+   * Returns the number of {@link QuantityWithUnit}s of this {@link Model}.
+   * 
+   * @return the number of {@link QuantityWithUnit}s of this {@link Model}.
+   * @deprecated use {@link #getQuantityWithUnitCount()}
+   */
+  @Deprecated
   public int getNumQuantitiesWithUnit() {
-    return getNumSymbols() + getNumLocalParameters();
+    return getQuantityWithUnitCount();
   }
   
   /**
-   * Returns the number of {@link Reaction}s of this Model.
+   * Returns the number of {@link QuantityWithUnit}s of this {@link Model}.
    * 
-   * @return the number of {@link Reaction}s of this Model.
+   * @return the number of {@link QuantityWithUnit}s of this {@link Model}.
    */
+  public int getQuantityWithUnitCount() {
+    return getNumSymbols() + getLocalParameterCount();
+  }
+  
+  /**
+   * Returns the number of {@link Reaction}s of this {@link Model}.
+   * 
+   * @return the number of {@link Reaction}s of this {@link Model}.
+   * @deprecated use {@link #getReactionCount()}
+   */
+  @Deprecated
   public int getNumReactions() {
+    return getReactionCount();
+  }
+  
+  /**
+   * Returns the number of {@link Reaction}s of this {@link Model}.
+   * 
+   * @return the number of {@link Reaction}s of this {@link Model}.
+   */
+  public int getReactionCount() {
     return isSetListOfReactions() ? listOfReactions.size() : 0;
   }
   
   /**
-   * Returns the number of {@link Rule}s of this model.
+   * Returns the number of {@link Rule}s of this {@link Model}.
    * 
-   * @return the number of {@link Rule}s of this model.
+   * @return the number of {@link Rule}s of this {@link Model}.
+   * @deprecated use {@link #getRuleCount()}
    */
+  @Deprecated
   public int getNumRules() {
+    return getRuleCount();
+  }
+  
+  /**
+   * Returns the number of {@link Rule}s of this {@link Model}.
+   * 
+   * @return the number of {@link Rule}s of this {@link Model}.
+   */
+  public int getRuleCount() {
     return isSetListOfRules() ? listOfRules.size() : 0;
   }
   
   /**
-   * Returns the number of {@link SBase}s of this model.
+   * Returns the number of {@link SBase}s of this {@link Model}.
    * 
-   * @return the number of {@link SBase}s of this model.
+   * @return the number of {@link SBase}s of this {@link Model}.
+   * @deprecated use {@link #getSBaseCount()}
    */
+  @Deprecated
   public int getNumSBases() {
-    int count = getNumNamedSBases() - getNumFunctionDefinitions()
-        + getNumMathContainers() + getNumListsOf() + getNumUnits() + 1;
+    return getSBaseCount();
+  }
+  
+  /**
+   * Returns the number of {@link SBase}s of this {@link Model}.
+   * 
+   * @return the number of {@link SBase}s of this {@link Model}.
+   */
+  public int getSBaseCount() {
+    int count = getNamedSBaseCount() - getFunctionDefinitionCount()
+        + getMathContainerCount() + getListOfCount() + getUnitCount() + 1;
     // one for this model
     if (getParent() != null) {
       count++; // the owning SBML document.
@@ -2425,55 +2657,113 @@ public int getNumLocalParameters() {
   }
   
   /**
-   * Returns the number of {@link SBaseWithDerivedUnit}s of this model.
+   * Returns the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
    * 
-   * @return the number of {@link SBaseWithDerivedUnit}s of this model.
+   * @return the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
+   * @deprecated use {@link #getSBaseWithDerivedUnitCount()}
    */
+  @Deprecated
   public int getNumSBasesWithDerivedUnit() {
-    return getNumNamedSBasesWithDerivedUnit() + getNumMathContainers()
-        - getNumFunctionDefinitions();
+    return getSBaseWithDerivedUnitCount(); 
   }
   
   /**
-   * Returns the number of {@link Species} of this Model.
+   * Returns the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
    * 
-   * @return the number of {@link Species} of this Model.
+   * @return the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
    */
+  public int getSBaseWithDerivedUnitCount() {
+    return getNamedSBaseWithDerivedUnitCount() + getMathContainerCount()
+        - getFunctionDefinitionCount();
+  }
+  
+  /**
+   * Returns the number of {@link Species} of this {@link Model}.
+   * 
+   * @return the number of {@link Species} of this {@link Model}.
+   * @deprecated use {@link #getSpeciesCount()}
+   */
+  @Deprecated
   public int getNumSpecies() {
+    return getSpeciesCount();
+  }
+  
+  /**
+   * Returns the number of {@link Species} of this {@link Model}.
+   * 
+   * @return the number of {@link Species} of this {@link Model}.
+   */
+  public int getSpeciesCount() {
     return isSetListOfSpecies() ? listOfSpecies.size() : 0;
   }
   
   /**
-   * Returns the number of {@link SpeciesReferences}s of this Model.
+   * Returns the number of {@link SpeciesReferences}s of this {@link Model}.
    * 
-   * @return the number of {@link SpeciesReferences}s of this Model.
+   * @return the number of {@link SpeciesReferences}s of this {@link Model}.
+   * @deprecated use {@link #getSpeciesReferenceCount()}
    */
+  @Deprecated
   public int getNumSpeciesReferences() {
+    return getSpeciesReferenceCount();
+  }
+  
+  /**
+   * Returns the number of {@link SpeciesReferences}s of this {@link Model}.
+   * 
+   * @return the number of {@link SpeciesReferences}s of this {@link Model}.
+   */
+  public int getSpeciesReferenceCount() {
     int count = 0;
     for (Reaction r : getListOfReactions()) {
-      count += r.getNumReactants() + r.getNumProducts();
+      count += r.getReactantCount() + r.getProductCount();
     }
     return count;
   }
   
   /**
-   * Returns the number of {@link SpeciesType}s of this Model.
+   * Returns the number of {@link SpeciesType}s of this {@link Model}.
    * 
-   * @return the number of {@link SpeciesType}s of this Model.
+   * @return the number of {@link SpeciesType}s of this {@link Model}.
+   * @deprecated use {@link #getSpeciesTypeCount()}
    */
   @Deprecated
   public int getNumSpeciesTypes() {
+    return getSpeciesTypeCount();
+  }
+  
+  /**
+   * Returns the number of {@link SpeciesType}s of this {@link Model}.
+   * 
+   * @return the number of {@link SpeciesType}s of this {@link Model}.
+   * @deprecated the use of {@link SpeciesType} is not recommended.
+   */
+  @Deprecated
+  public int getSpeciesTypeCount() {
     return isSetListOfSpeciesTypes() ? listOfSpeciesTypes.size() : 0;
   }
   
   /**
    * Returns the number of {@link Species} whose boundary condition is set to
-   * true.
+   * <code>true</code>.
    * 
    * @return the number of {@link Species} whose boundary condition is set to
-   *         true.
+   *         <code>true</code>.
+   * @deprecated use {@link #getSpeciesWithBoundaryConditionCount()}
    */
+  @Deprecated
   public int getNumSpeciesWithBoundaryCondition() {
+    return getSpeciesWithBoundaryConditionCount();
+  }
+  
+  /**
+   * Returns the number of {@link Species} whose boundary condition is set to
+   * <code>true</code>.
+   * 
+   * @return the number of {@link Species} whose boundary condition is set to
+   *         <code>true</code>.
+   */
+  public int getSpeciesWithBoundaryConditionCount() {
     return getListOfSpecies().filterList(new BoundaryConditionFilter()).size();
   }
   
@@ -2481,8 +2771,19 @@ public int getNumLocalParameters() {
    * Returns the number of {@link StoichiometryMath} in the {@link Model}.
    * 
    * @return the number of {@link StoichiometryMath} in the {@link Model}.
+   * @deprecated use {@link #getStoichiometryMathCount()}
    */
+  @Deprecated
   public int getNumStoichiometryMath() {
+    return getStoichiometryMathCount();
+  }
+  
+  /**
+   * Returns the number of {@link StoichiometryMath} in the {@link Model}.
+   * 
+   * @return the number of {@link StoichiometryMath} in the {@link Model}.
+   */
+  public int getStoichiometryMathCount() {
     int count = 0;
     for (Reaction r : getListOfReactions()) {
       for (SpeciesReference sr : r.getListOfReactants()) {
@@ -2506,17 +2807,42 @@ public int getNumLocalParameters() {
    * 
    * @return The number of {@link Compartment}s, {@link Species}, and
    *         {@link Parameter}s in the model.
+   * @deprecated use {@link #getSymbolCount()}
    */
+  @Deprecated
   public int getNumSymbols() {
-    return getNumParameters() + getNumSpecies() + getNumCompartments();
+    return getSymbolCount();
   }
   
   /**
-   * Returns the number of {@link Trigger} of this Model.
+   * Returns the number of all instances of {@link Symbol} referenced within the
+   * model. There is no dedicated list for {@link Symbol}s. This is a convenient
+   * method to support working with the model data structure.
    * 
-   * @return the number of {@link Trigger} of this Model.
+   * @return The number of {@link Compartment}s, {@link Species}, and
+   *         {@link Parameter}s in the model.
    */
+  public int getSymbolCount() {
+    return getParameterCount() + getSpeciesCount() + getCompartmentCount();
+  }
+  
+  /**
+   * Returns the number of {@link Trigger} of this {@link Model}.
+   * 
+   * @return the number of {@link Trigger} of this {@link Model}.
+   * @deprecated use {@link #getTriggerCount()}
+   */
+  @Deprecated
   public int getNumTriggers() {
+    return getTriggerCount();
+  }
+  
+  /**
+   * Returns the number of {@link Trigger} of this {@link Model}.
+   * 
+   * @return the number of {@link Trigger} of this {@link Model}.
+   */
+  public int getTriggerCount() {
     int count = 0;
     for (Event e : getListOfEvents()) {
       if (e.isSetTrigger()) {
@@ -2527,34 +2853,67 @@ public int getNumLocalParameters() {
   }
   
   /**
-   * Returns the number of {@link UnitDefinition}s of this Model.
+   * Returns the number of {@link UnitDefinition}s of this {@link Model}.
    * 
-   * @return the number of {@link UnitDefinition}s of this Model.
+   * @return the number of {@link UnitDefinition}s of this {@link Model}.
+   * @deprecated use {@link #getUnitDefinitionCount()}
    */
+  @Deprecated
   public int getNumUnitDefinitions() {
+    return getUnitDefinitionCount();
+  }
+  
+  /**
+   * Returns the number of {@link UnitDefinition}s of this {@link Model}.
+   * 
+   * @return the number of {@link UnitDefinition}s of this {@link Model}.
+   */
+  public int getUnitDefinitionCount() {
     return isSetListOfUnitDefinitions() ? listOfUnitDefinitions.size() : 0;
   }
   
   /**
-   * Returns the number of {@link Unit}s of this Model.
+   * Returns the number of {@link Unit}s of this {@link Model}.
    * 
-   * @return the number of {@link Unit}s of this Model.
+   * @return the number of {@link Unit}s of this {@link Model}.
+   * @deprecated use {@link #getUnitCount()}
    */
+  @Deprecated
   public int getNumUnits() {
+    return getUnitCount();
+  }
+  
+  /**
+   * Returns the number of {@link Unit}s of this {@link Model}.
+   * 
+   * @return the number of {@link Unit}s of this {@link Model}.
+   */
+  public int getUnitCount() {
     int count = 0;
     for (UnitDefinition ud : getListOfUnitDefinitions()) {
-      count += ud.getNumUnits();
+      count += ud.getUnitCount();
     }
     return count;
   }
   
   /**
-   * Returns the number of {@link Variable}s of this Model.
+   * Returns the number of {@link Variable}s of this {@link Model}.
    * 
-   * @return the number of {@link Variable}s of this Model.
+   * @return the number of {@link Variable}s of this {@link Model}.
+   * @deprecated use {@link #getVariableCount()}
    */
+  @Deprecated
   public int getNumVariables() {
-    return getNumSymbols() + getNumSpeciesReferences();
+    return getVariableCount();
+  }
+  
+  /**
+   * Returns the number of {@link Variable}s of this {@link Model}.
+   * 
+   * @return the number of {@link Variable}s of this {@link Model}.
+   */
+  public int getVariableCount() {
+    return getSymbolCount() + getSpeciesReferenceCount();
   }
   
   /**
@@ -2775,18 +3134,18 @@ public int getNumLocalParameters() {
     return getUnitDefinition(getTimeUnits());
   }
   
+
   /**
    * Gets the nth {@link UnitDefinition} object in this {@link Model}.
    * 
    * @param n
-   * @return the nth {@link UnitDefinition} of this Model. Returns null if there
-   *         are no UnitDefinition defined or if the index n is too big or lower
-   *         than zero.
+   * @return the nth {@link UnitDefinition} of this {@link Model}. Returns
+   *         <code>null</code> if there are no {@link UnitDefinition}s defined 
+   *         or if the index n is too big or lower than zero.
    */
   public UnitDefinition getUnitDefinition(int n) {
     return getListOfUnitDefinitions().get(n);
   }
-  
 
   /**
    * Returns the {@link UnitDefinition} of the {@link #listOfUnitDefinitions}
@@ -4170,8 +4529,10 @@ public int getNumLocalParameters() {
 	 *             if Level < 3.
 	 */
   public void setVolumeUnits(String volumeUnitsID) {
-    if (getLevel() < 3) { throw new PropertyNotAvailableException(
-      TreeNodeChangeEvent.volumeUnits, this); }
+    if (getLevel() < 3) { 
+      throw new PropertyNotAvailableException(TreeNodeChangeEvent.volumeUnits,
+        this);
+    }
     String oldVolumeUnitsID = this.volumeUnitsID;
     this.volumeUnitsID = volumeUnitsID;
     firePropertyChange(TreeNodeChangeEvent.volumeUnits, oldVolumeUnitsID,

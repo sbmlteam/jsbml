@@ -40,7 +40,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * <p>
  * An {@link XMLNode} can contain any number of children. Each child is another
  * {@link XMLNode}, thereby forming a tree. The methods
- * {@link XMLNode#getNumChildren()} and {@link XMLNode#getChild(long n)} can be
+ * {@link XMLNode#getChildCount()} and {@link XMLNode#getChild(long n)} can be
  * used to access the tree structure starting from a given node.
  * <p>
  * <p>
@@ -88,7 +88,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * else if ( xn.isEOF() )
  * {
  *   // root node is a dummy node
- *   for (int i=0; i &lt; xn.getNumChildren(); i++)
+ *   for (int i=0; i &lt; xn.getChildCount(); i++)
  *   {
  *     // access to each child node of the dummy node.
  *     {@link XMLNode} xnChild = xn.getChild(i);

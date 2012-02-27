@@ -272,8 +272,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 			} else {
 				Model model = getModel();
 				if ((model == null)
-						|| (Kind.isValidUnitKindString(units, getLevel(),
-								getVersion()))) {
+						|| (Kind.isValidUnitKindString(units, getLevel(), getVersion()))) {
 					unitsID = units;
 				} else if ((model != null)
 						&& (model.getUnitDefinition(units) != null)) {

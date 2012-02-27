@@ -124,10 +124,10 @@ public class TestClone {
     // from the first reaction !!
     Species s1 = m.createSpecies("id1");
 
-    System.out.println("\n\nNB species in the model (Should be 0)          : " + m.getNumSpecies());
+    System.out.println("\n\nNB species in the model (Should be 0)          : " + m.getSpeciesCount());
     System.out.println(s1.getParent() + " " + s1.getModel());
 
-    if (m.getNumSpecies() > 0) {
+    if (m.getSpeciesCount() > 0) {
     	// bug here
     	System.out.println("Bug detected :  it should no be possible as the id of the species is the same as the one from the first reaction !!!");    	
     }

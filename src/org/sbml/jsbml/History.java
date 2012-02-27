@@ -265,19 +265,41 @@ public class History extends AnnotationElement {
 	 * Get the number of {@link Creator} objects in this {@link History}.
 	 * 
 	 * @return the number of {@link Creator}s in this {@link History}.
+	 * @deprecated use {@link #getCreatorCount()}
 	 */
+	@Deprecated
 	public int getNumCreators() {
-		return isSetListOfCreators() ? listOfCreators.size() : 0;
+		return getCreatorCount();
+	}
+	
+	/**
+	 * Get the number of {@link Creator} objects in this {@link History}.
+	 * 
+	 * @return the number of {@link Creator}s in this {@link History}.
+	 */
+	public int getCreatorCount() {
+	  return isSetListOfCreators() ? listOfCreators.size() : 0;
 	}
 	
 	/**
 	 * Get the number of ModifiedDate objects in this {@link History}.
 	 * 
 	 * @return the number of ModifiedDates in this {@link History}.
+	 * @deprecated use {@link #getModifiedDateCount()}
 	 */
+	@Deprecated
 	public int getNumModifiedDates() {
-		return isSetListOfModification() ? listOfModification.size() : 0;
+		return getModifiedDateCount();
 	}
+
+  /**
+   * Get the number of ModifiedDate objects in this {@link History}.
+   * 
+   * @return the number of ModifiedDates in this {@link History}.
+   */
+  public int getModifiedDateCount() {
+    return isSetListOfModification() ? listOfModification.size() : 0;
+  }
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
@@ -312,8 +334,8 @@ public class History extends AnnotationElement {
 	 *         </ul>
 	 */
 	public boolean isEmpty() {
-		return !isSetCreatedDate() && (getNumCreators() == 0)
-				&& (getNumModifiedDates() == 0) && !isSetModifiedDate();
+		return !isSetCreatedDate() && (getCreatorCount() == 0)
+				&& (getModifiedDateCount() == 0) && !isSetModifiedDate();
 	}
 
 	/**

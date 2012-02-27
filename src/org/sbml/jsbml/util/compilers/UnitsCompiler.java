@@ -913,7 +913,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 				right.getUnits().simplify();
 				int mean, scale1, scale2;
 				double v1 = left.toNumber().doubleValue(), v2 = right.toNumber().doubleValue();
-				for (int i = 0; i < left.getUnits().getNumUnits(); i++) {
+				for (int i = 0; i < left.getUnits().getUnitCount(); i++) {
 					Unit u1 = left.getUnits().getUnit(i);
 					Unit u2 = right.getUnits().getUnit(i);
 					if ((u1.getMultiplier() != 0d)
@@ -1028,7 +1028,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		units.simplify();
 		String illegal = null;
 
-		if (units.getNumUnits() == 1) {
+		if (units.getUnitCount() == 1) {
 			Kind kind = units.getUnit(0).getKind();
 
 			if ((kind != Kind.DIMENSIONLESS) && (kind != Kind.ITEM)

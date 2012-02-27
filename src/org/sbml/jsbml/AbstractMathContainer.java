@@ -27,6 +27,7 @@ import javax.swing.tree.TreeNode;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * Base class for all the SBML components which contain MathML nodes.
@@ -209,7 +210,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 			if (m.getUnitDefinition(ud.getId()) != null)
 				return ud.getId();
 		}
-		if (ud.getNumUnits() == 1) {
+		if (ud.getUnitCount() == 1) {
 			Unit u = ud.getUnit(0);
 			if (u.getOffset() == 0 && u.getMultiplier() == 1
 					&& u.getScale() == 0 && u.getExponent() == 1)
@@ -296,6 +297,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		}
 		if (this.math != null) {
 			ASTNode.setParentSBMLObject(math, this);
+			firePropertyChange(TreeNodeChangeEvent.math, oldMath, this.math);
 		}
 	}
 

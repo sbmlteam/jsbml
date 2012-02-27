@@ -275,8 +275,16 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	/**
 	 * 
 	 * @return the number of {@link CVTerm}s of this {@link SBase}.
+	 * @deprecated use {@link #getCVTermCount()}
 	 */
+	@Deprecated
 	public int getNumCVTerms();
+	
+	/**
+	 * 
+	 * @return the number of {@link CVTerm}s of this {@link SBase}.
+	 */
+	public int getCVTermCount();
 
 	/**
 	 * This method is convenient when holding an object nested inside other

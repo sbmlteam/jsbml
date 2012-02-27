@@ -447,7 +447,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					}
 				}
 				
-				for (int i = 0; i < model.getNumRules(); i++) {
+				for (int i = 0; i < model.getRuleCount(); i++) {
 					Rule rule = model.getRule(i);
 					if (rule instanceof AssignmentRule) {
 						AssignmentRule assignmentRule = (AssignmentRule) rule;
@@ -470,7 +470,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				}
 			}
 			if (model.isSetListOfCompartments()) {
-				for (int i = 0; i < model.getNumCompartments(); i++) {
+				for (int i = 0; i < model.getCompartmentCount(); i++) {
 					Compartment compartment = model.getCompartment(i);
 					if (compartment.isSetCompartmentType()
 							&& !compartment.isSetCompartmentTypeInstance()) {
@@ -487,7 +487,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				}
 			}
 			if (model.isSetListOfEvents()) {
-				for (int i = 0; i < model.getNumEvents(); i++) {
+				for (int i = 0; i < model.getEventCount(); i++) {
 					Event event = model.getEvent(i);
 
 					if (event.isSetTimeUnits()
@@ -497,7 +497,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 					if (event.isSetListOfEventAssignments()) {
 
-						for (int j = 0; j < event.getNumEventAssignments(); j++) {
+						for (int j = 0; j < event.getEventAssignmentCount(); j++) {
 							EventAssignment eventAssignment = event
 									.getEventAssignment(j);
 
@@ -510,7 +510,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				}
 			}
 			if (model.isSetListOfInitialAssignments()) {
-				for (int i = 0; i < model.getNumInitialAssignments(); i++) {
+				for (int i = 0; i < model.getInitialAssignmentCount(); i++) {
 					InitialAssignment initialAssignment = model
 							.getInitialAssignment(i);
 
@@ -521,7 +521,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				}
 			}
 			if (model.isSetListOfReactions()) {
-				for (int i = 0; i < model.getNumReactions(); i++) {
+				for (int i = 0; i < model.getReactionCount(); i++) {
 					Reaction reaction = model.getReaction(i);
 					if (reaction.isSetCompartment()
 							&& !reaction.isSetCompartmentInstance()) {
@@ -529,7 +529,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					}
 
 					if (reaction.isSetListOfReactants()) {
-						for (int j = 0; j < reaction.getNumReactants(); j++) {
+						for (int j = 0; j < reaction.getReactantCount(); j++) {
 							SpeciesReference speciesReference = reaction
 									.getReactant(j);
 
@@ -541,7 +541,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 						}
 					}
 					if (reaction.isSetListOfProducts()) {
-						for (int j = 0; j < reaction.getNumProducts(); j++) {
+						for (int j = 0; j < reaction.getProductCount(); j++) {
 							SpeciesReference speciesReference = reaction
 									.getProduct(j);
 
@@ -553,7 +553,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 						}
 					}
 					if (reaction.isSetListOfModifiers()) {
-						for (int j = 0; j < reaction.getNumModifiers(); j++) {
+						for (int j = 0; j < reaction.getModifierCount(); j++) {
 							ModifierSpeciesReference modifierSpeciesReference = reaction
 									.getModifier(j);
 
@@ -576,7 +576,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 							log4jLogger.warn("No UnitDefinition matches the substanceUnitsID of kineticLaw.");
 						}
 						if (kineticLaw.isSetListOfLocalParameters()) {
-							for (int j = 0; j < kineticLaw.getNumLocalParameters(); j++) {
+							for (int j = 0; j < kineticLaw.getLocalParameterCount(); j++) {
 								LocalParameter parameter = kineticLaw
 										.getLocalParameter(j);
 								if (parameter.isSetUnits()
@@ -591,7 +591,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				}
 			}
 			if (model.isSetListOfSpecies()) {
-				for (int i = 0; i < model.getNumSpecies(); i++) {
+				for (int i = 0; i < model.getSpeciesCount(); i++) {
 					Species species = model.getSpecies(i);
 
 					if (species.isSetSubstanceUnits()
@@ -617,7 +617,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				}
 			}
 			if (model.isSetListOfParameters()) {
-				for (int i = 0; i < model.getNumParameters(); i++) {
+				for (int i = 0; i < model.getParameterCount(); i++) {
 					Parameter parameter = model.getParameter(i);
 					if (parameter.isSetUnits()
 							&& !parameter.isSetUnitsInstance()) {

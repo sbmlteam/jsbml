@@ -234,12 +234,12 @@ public class TestReadFromFile5 {
     assertTrue( d.getVersion() == 1 );
     m = d.getModel();
     assertTrue( m != null );
-    assertTrue( m.getNumCompartments() == 1 );
+    assertTrue( m.getCompartmentCount() == 1 );
     c = m.getCompartment(0);
     assertTrue( c != null );
     assertTrue( c.getId().equals( "cell") );
 /*    ud = c.getDerivedUnitDefinition();
-    assertTrue( ud.getNumUnits() == 1 );
+    assertTrue( ud.getUnitCount() == 1 );
     assertTrue( ud.getUnit(0).getKind() == Kind.LITRE );
     */
     loc = m.getListOfCompartments();
@@ -247,7 +247,7 @@ public class TestReadFromFile5 {
     assertTrue( c1.equals(c) );
     c1 = loc.get("cell");
     assertTrue( c1.equals(c) );
-    assertTrue( m.getNumSpecies() == 5 );
+    assertTrue( m.getSpeciesCount() == 5 );
     s = m.getSpecies(0);
     assertTrue( s != null );
     assertTrue( s.getId().equals( "X0"  ) );
@@ -278,7 +278,7 @@ public class TestReadFromFile5 {
     assertTrue( s.getId().equals( "S2"  ) );
     assertTrue( s.getCompartment().equals( "cell") );
     assertTrue( s.getInitialConcentration() == 0.0 );
-    assertTrue( m.getNumParameters() == 1 );
+    assertTrue( m.getParameterCount() == 1 );
     gp = m.getParameter(0);
     assertTrue( gp != null );
     assertTrue( gp.getId().equals( "Keq") );
@@ -290,8 +290,8 @@ public class TestReadFromFile5 {
     assertTrue( p1.equals(gp) );
     /*
     ud = gp.getDerivedUnitDefinition();
-    assertTrue( ud.getNumUnits() == 0 );
-    assertTrue( m.getNumRules() == 2 );
+    assertTrue( ud.getUnitCount() == 0 );
+    assertTrue( m.getRuleCount() == 2 );
     */
     ar = (AssignmentRule)  m.getRule(0);
     assertTrue( ar != null );
@@ -299,7 +299,7 @@ public class TestReadFromFile5 {
     assertTrue( ar.getFormula().equals( "T/(1+Keq)") );
     /*
     ud = ar.getDerivedUnitDefinition();
-    assertTrue( ud.getNumUnits() == 2 );
+    assertTrue( ud.getUnitCount() == 2 );
     assertTrue( ud.getUnit(0).getKind() == Kind.MOLE );
     assertTrue( ud.getUnit(0).getExponent() == 1 );
     assertTrue( ud.getUnit(1).getKind() == Kind.LITRE );
@@ -315,12 +315,12 @@ public class TestReadFromFile5 {
     assertTrue( ar != null );
     assertTrue( ar.getVariable().equals( "S2"      ) );
     assertTrue( ar.getFormula().equals( "Keq*S1") );
-    assertTrue( m.getNumReactions() == 2 );
+    assertTrue( m.getReactionCount() == 2 );
     r = m.getReaction(0);
     assertTrue( r != null );
     assertTrue( r.getId().equals( "in") );
-    assertTrue( r.getNumReactants() == 1 );
-    assertTrue( r.getNumProducts() == 1 );
+    assertTrue( r.getReactantCount() == 1 );
+    assertTrue( r.getProductCount() == 1 );
     sr = r.getReactant(0);
     assertTrue( sr != null );
     assertTrue( sr.getSpecies().equals( "X0") );
@@ -334,8 +334,8 @@ public class TestReadFromFile5 {
     r1 = (Reaction) kl.getParentSBMLObject();
     assertTrue( r1 != null );
     assertTrue( r1.getId().equals( "in") );
-    assertTrue( r1.getNumReactants() == 1 );
-    assertTrue( r1.getNumProducts() == 1 );
+    assertTrue( r1.getReactantCount() == 1 );
+    assertTrue( r1.getProductCount() == 1 );
     lp = kl.getLocalParameter(0);
     assertTrue( lp != null );
     assertTrue( lp.getId().equals( "k1") );
@@ -347,8 +347,8 @@ public class TestReadFromFile5 {
     r = m.getReaction(1);
     assertTrue( r != null );
     assertTrue( r.getId().equals( "out") );
-    assertTrue( r.getNumReactants() == 1 );
-    assertTrue( r.getNumProducts() == 1 );
+    assertTrue( r.getReactantCount() == 1 );
+    assertTrue( r.getProductCount() == 1 );
     sr = r.getReactant(0);
     assertTrue( sr != null );
     assertTrue( sr.getSpecies().equals( "T" ) );

@@ -78,9 +78,9 @@ public class TestReaction {
     ModifierSpeciesReference msr = new  ModifierSpeciesReference(2,4);
     msr.setSpecies( "s");
     R.addModifier(msr);
-    assertTrue( R.getNumReactants() == 0 );
-    assertTrue( R.getNumProducts() == 0 );
-    assertTrue( R.getNumModifiers() == 1 );
+    assertTrue( R.getReactantCount() == 0 );
+    assertTrue( R.getProductCount() == 0 );
+    assertTrue( R.getModifierCount() == 1 );
   }
 
   @Test public void test_Reaction_addProduct()
@@ -88,9 +88,9 @@ public class TestReaction {
     SpeciesReference sr = new  SpeciesReference(2,4);
     sr.setSpecies( "s");
     R.addProduct(sr);
-    assertTrue( R.getNumReactants() == 0 );
-    assertTrue( R.getNumProducts() == 1 );
-    assertTrue( R.getNumModifiers() == 0 );
+    assertTrue( R.getReactantCount() == 0 );
+    assertTrue( R.getProductCount() == 1 );
+    assertTrue( R.getModifierCount() == 0 );
     sr = null;
   }
 
@@ -99,9 +99,9 @@ public class TestReaction {
     SpeciesReference sr = new  SpeciesReference(2,4);
     sr.setSpecies( "s");
     R.addReactant(sr);
-    assertTrue( R.getNumReactants() == 1 );
-    assertTrue( R.getNumProducts() == 0 );
-    assertTrue( R.getNumModifiers() == 0 );
+    assertTrue( R.getReactantCount() == 1 );
+    assertTrue( R.getProductCount() == 0 );
+    assertTrue( R.getModifierCount() == 0 );
     sr = null;
   }
 
@@ -119,9 +119,9 @@ public class TestReaction {
     assertEquals( false, R.isSetId() );
     assertEquals( false, R.isSetName() );
     assertEquals( false, R.isSetKineticLaw() );
-    assertTrue( R.getNumReactants() == 0 );
-    assertTrue( R.getNumProducts() == 0 );
-    assertTrue( R.getNumModifiers() == 0 );
+    assertTrue( R.getReactantCount() == 0 );
+    assertTrue( R.getProductCount() == 0 );
+    assertTrue( R.getModifierCount() == 0 );
   }
 
   /*
@@ -134,7 +134,7 @@ public class TestReaction {
     Reaction object = new  Reaction(sbmlns);
     assertTrue( object.getTypeCode() == libsbml.SBML_REACTION );
     assertTrue( object.getMetaId().equals("") == true );
-    assertTrue( object.getNotes() == null );
+    assertTrue( object.getNoteCount() == null );
     assertTrue( object.getAnnotation() == null );
     assertTrue( object.getLevel() == 2 );
     assertTrue( object.getVersion() == 1 );
@@ -154,9 +154,9 @@ public class TestReaction {
     R.addModifier(msr2);
     msr1 = null;
     msr2 = null;
-    assertTrue( R.getNumReactants() == 0 );
-    assertTrue( R.getNumProducts() == 0 );
-    assertTrue( R.getNumModifiers() == 2 );
+    assertTrue( R.getReactantCount() == 0 );
+    assertTrue( R.getProductCount() == 0 );
+    assertTrue( R.getModifierCount() == 2 );
     msr1 = R.getModifier(0);
     msr2 = R.getModifier(1);
     assertTrue(msr1.getSpecies().equals( "M1"));
@@ -171,9 +171,9 @@ public class TestReaction {
     msr2.setSpecies( "M2");
     R.addModifier(msr1);
     R.addModifier(msr2);
-    assertTrue( R.getNumReactants() == 0 );
-    assertTrue( R.getNumProducts() == 0 );
-    assertTrue( R.getNumModifiers() == 2 );
+    assertTrue( R.getReactantCount() == 0 );
+    assertTrue( R.getProductCount() == 0 );
+    assertTrue( R.getModifierCount() == 2 );
     assertNotEquals(R.getModifier( "M1"),msr1);
     assertNotEquals(R.getModifier( "M2"),msr2);
     assertEquals(R.getModifier( "M3"),null);
@@ -191,9 +191,9 @@ public class TestReaction {
     R.addProduct(sr2);
     sr1 = null;
     sr2 = null;
-    assertTrue( R.getNumReactants() == 0 );
-    assertTrue( R.getNumProducts() == 2 );
-    assertTrue( R.getNumModifiers() == 0 );
+    assertTrue( R.getReactantCount() == 0 );
+    assertTrue( R.getProductCount() == 2 );
+    assertTrue( R.getModifierCount() == 0 );
     sr1 = R.getProduct(0);
     sr2 = R.getProduct(1);
     assertTrue(sr1.getSpecies().equals( "P1"));
@@ -208,9 +208,9 @@ public class TestReaction {
     sr2.setSpecies( "P1");
     R.addProduct(sr1);
     R.addProduct(sr2);
-    assertTrue( R.getNumReactants() == 0 );
-    assertTrue( R.getNumProducts() == 2 );
-    assertTrue( R.getNumModifiers() == 0 );
+    assertTrue( R.getReactantCount() == 0 );
+    assertTrue( R.getProductCount() == 2 );
+    assertTrue( R.getModifierCount() == 0 );
     assertNotEquals(R.getProduct( "P1"),sr1);
     assertNotEquals(R.getProduct( "P2"),sr2);
     assertEquals(R.getProduct( "P3"),null);
@@ -228,9 +228,9 @@ public class TestReaction {
     R.addReactant(sr2);
     sr1 = null;
     sr2 = null;
-    assertTrue( R.getNumReactants() == 2 );
-    assertTrue( R.getNumProducts() == 0 );
-    assertTrue( R.getNumModifiers() == 0 );
+    assertTrue( R.getReactantCount() == 2 );
+    assertTrue( R.getProductCount() == 0 );
+    assertTrue( R.getModifierCount() == 0 );
     sr1 = R.getReactant(0);
     sr2 = R.getReactant(1);
     assertTrue(sr1.getSpecies().equals( "R1"));
@@ -245,9 +245,9 @@ public class TestReaction {
     sr2.setSpecies( "R2");
     R.addReactant(sr1);
     R.addReactant(sr2);
-    assertTrue( R.getNumReactants() == 2 );
-    assertTrue( R.getNumProducts() == 0 );
-    assertTrue( R.getNumModifiers() == 0 );
+    assertTrue( R.getReactantCount() == 2 );
+    assertTrue( R.getProductCount() == 0 );
+    assertTrue( R.getModifierCount() == 0 );
     assertNotEquals(R.getReactant( "R1"),sr1);
     assertNotEquals(R.getReactant( "R2"),sr2);
     assertEquals(R.getReactant( "R3"),null);
@@ -263,11 +263,11 @@ public class TestReaction {
     o3 = R.createModifier();
     o3.setSpecies("test");
     assertTrue( R.removeModifier(0).equals(o1) );
-    assertTrue( R.getNumModifiers() == 2 );
+    assertTrue( R.getModifierCount() == 2 );
     assertTrue( R.removeModifier(0).equals(o2) );
-    assertTrue( R.getNumModifiers() == 1 );
+    assertTrue( R.getModifierCount() == 1 );
     assertTrue( R.removeModifier("test").equals(o3) );
-    assertTrue( R.getNumModifiers() == 0 );
+    assertTrue( R.getModifierCount() == 0 );
     o1 = null;
     o2 = null;
     o3 = null;
@@ -281,11 +281,11 @@ public class TestReaction {
     o3 = R.createProduct();
     o3.setSpecies("test");
     assertTrue( R.removeProduct(0).equals(o1) );
-    assertTrue( R.getNumProducts() == 2 );
+    assertTrue( R.getProductCount() == 2 );
     assertTrue( R.removeProduct(0).equals(o2) );
-    assertTrue( R.getNumProducts() == 1 );
+    assertTrue( R.getProductCount() == 1 );
     assertTrue( R.removeProduct("test").equals(o3) );
-    assertTrue( R.getNumProducts() == 0 );
+    assertTrue( R.getProductCount() == 0 );
     o1 = null;
     o2 = null;
     o3 = null;
@@ -299,11 +299,11 @@ public class TestReaction {
     o3 = R.createReactant();
     o3.setSpecies("test");
     assertTrue( R.removeReactant(0).equals(o1) );
-    assertTrue( R.getNumReactants() == 2 );
+    assertTrue( R.getReactantCount() == 2 );
     assertTrue( R.removeReactant(0).equals(o2) );
-    assertTrue( R.getNumReactants() == 1 );
+    assertTrue( R.getReactantCount() == 1 );
     assertTrue( R.removeReactant("test").equals(o3) );
-    assertTrue( R.getNumReactants() == 0 );
+    assertTrue( R.getReactantCount() == 0 );
     o1 = null;
     o2 = null;
     o3 = null;

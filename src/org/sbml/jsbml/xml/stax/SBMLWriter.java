@@ -863,13 +863,13 @@ public class SBMLWriter {
 				writer.writeStartElement(prefix, elementName, namespaceURI);
 				writer.writeCharacters("\n");
 				
-				if (cvTerm.getNumResources() > 0) {
+				if (cvTerm.getResourceCount() > 0) {
 					writer.writeCharacters(whiteSpace + createIndentationString(2 * indentCount));
 					writer.writeStartElement(rdfPrefix, "Bag",
 							Annotation.URI_RDF_SYNTAX_NS);
 					writer.writeCharacters("\n");
 					
-					for (int j = 0; j < cvTerm.getNumResources(); j++) {
+					for (int j = 0; j < cvTerm.getResourceCount(); j++) {
 						writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
 						writer.writeStartElement(rdfPrefix, "li",
 								Annotation.URI_RDF_SYNTAX_NS);
@@ -883,7 +883,7 @@ public class SBMLWriter {
 					writer.writeEndElement();
 					writer.writeCharacters("\n");
 					
-				} else { // cvTerm.getNumResources() == 0
+				} else { // cvTerm.getReourceCount() == 0
 					
 					writer.writeCharacters(whiteSpace + createIndentationString(2 * indentCount));
 					writer.writeEmptyElement(rdfPrefix, "Bag", Annotation.URI_RDF_SYNTAX_NS);
@@ -917,7 +917,7 @@ public class SBMLWriter {
 
 		String whiteSpace = createIndentationString(indent);
 		String rdfPrefix = rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS);
-		if (history.getNumCreators() > 0) {
+		if (history.getCreatorCount() > 0) {
 			String creatorPrefix = rdfNamespaces.get(JSBML.URI_PURL_ELEMENTS);
 			writer.writeCharacters(whiteSpace);
 			writer.writeStartElement(creatorPrefix, "creator",
@@ -928,7 +928,7 @@ public class SBMLWriter {
 					Annotation.URI_RDF_SYNTAX_NS);
 			writer.writeCharacters("\n");
 
-			for (int i = 0; i < history.getNumCreators(); i++) {
+			for (int i = 0; i < history.getCreatorCount(); i++) {
 				Creator creator = history.getCreator(i);
 				writer.writeCharacters(whiteSpace + createIndentationString(2 * indentCount));
 				writer.writeStartElement(rdfPrefix, "li",
@@ -1219,7 +1219,7 @@ public class SBMLWriter {
 		// Checking if all the necessary namespaces are defined 
 		// In fact, we could remove the rdfNamespaces map ?
 		
-		if (annotation.isSetHistory() && annotation.getHistory().getNumCreators() > 0) 
+		if (annotation.isSetHistory() && annotation.getHistory().getCreatorCount() > 0) 
 		{
 			if (rdfNamespaces.get(JSBML.URI_PURL_ELEMENTS) == null) {
 				writer.writeNamespace("dc", JSBML.URI_PURL_ELEMENTS);
@@ -1239,7 +1239,7 @@ public class SBMLWriter {
 			rdfNamespaces.put(JSBML.URI_PURL_TERMS, "dcterms");
 		}
 		
-		if (annotation.getNumCVTerms() > 0) 
+		if (annotation.getCVTermCount() > 0) 
 		{
 			if (rdfNamespaces.get(CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS) == null) {
 				writer.writeNamespace("bqbiol", CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS);

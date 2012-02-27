@@ -298,22 +298,34 @@ public class Species extends Symbol {
 	 */
 	@Override
 	public UnitDefinition getDerivedUnitDefinition() {
-		UnitDefinition specUnit = super.getDerivedUnitDefinition();
-		Compartment compartment = getCompartmentInstance();
-    if ((specUnit != null) && !hasOnlySubstanceUnits() && (compartment != null)
-      && (0d < compartment.getSpatialDimensions())) {
-      UnitDefinition sizeUnit = getSpatialSizeUnitsInstance();
-      if (sizeUnit != null) {
-        UnitDefinition derivedUD = specUnit.clone().divideBy(sizeUnit);
-        derivedUD.setId(derivedUD.getId() + "_per_" + sizeUnit.getId());
-        if (derivedUD.isSetName()) {
-          derivedUD.setName(derivedUD.getName() + " per "
-            + (sizeUnit.isSetName() ? sizeUnit.getName() : sizeUnit.getId()));
-        }
-        return derivedUD;
-      }
-		}
-		return specUnit;
+	  UnitDefinition specUnit = super.getDerivedUnitDefinition();
+	  Compartment compartment = getCompartmentInstance();
+	  if ((specUnit != null) && !hasOnlySubstanceUnits() && (compartment != null)
+	      && (0d < compartment.getSpatialDimensions())) {
+	    UnitDefinition sizeUnit = getSpatialSizeUnitsInstance();
+	    if (sizeUnit != null) {
+	      UnitDefinition derivedUD = specUnit.clone().divideBy(sizeUnit);
+	      derivedUD.setId(derivedUD.getId() + "_per_" + sizeUnit.getId());
+	      if (derivedUD.isSetName()) {
+	        derivedUD.setName(derivedUD.getName() + " per "
+	            + (sizeUnit.isSetName() ? sizeUnit.getName() : sizeUnit.getId()));
+	      }
+	      /* 
+	       * If possible, let's return an equivalent unit that is already part of the model
+	       * rather than returning some newly created UnitDefinition:
+	       */
+	      // TODO: There might not be another unit with the same id, but that has an identical listOfUnits. This should be checked here!
+	      Model model = getModel();
+	      if (model != null) {
+	        UnitDefinition ud = model.getUnitDefinition(derivedUD.getId());
+	        if ((ud != null) && (UnitDefinition.areEquivalent(ud, derivedUD))) {
+	          return ud;
+	        }
+	      }
+	      return derivedUD;
+	    }
+	  }
+	  return specUnit;
 	}
 
 	/* (non-Javadoc)

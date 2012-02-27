@@ -625,7 +625,7 @@ public class OverdeterminationValidator {
 		}
 
 		// Create edges with reactions
-		for (i = 0; i < model.getNumReactions(); i++) {
+		for (i = 0; i < model.getReactionCount(); i++) {
 			Reaction r = model.getReaction(i);
 
 			// Create vertices and edges for products
@@ -685,7 +685,7 @@ public class OverdeterminationValidator {
 		}
 
 		// Create vertices and edges for assignment and rate rules
-		for (i = 0; i < model.getNumRules(); i++) {
+		for (i = 0; i < model.getRuleCount(); i++) {
 			equation = new InnerNode<SBase>(model.getRule(i));
 			Rule r = model.getRule(i);
 			if (r instanceof RateRule) {
@@ -712,7 +712,7 @@ public class OverdeterminationValidator {
 		}
 
 		// Create vertices and edges for algebraic rules
-		for (i = 0; i < model.getNumRules(); i++) {
+		for (i = 0; i < model.getRuleCount(); i++) {
 			equation = new InnerNode<SBase>(model.getRule(i));
 			Rule r = model.getRule(i);
 			if (r instanceof AlgebraicRule) {
@@ -920,7 +920,7 @@ public class OverdeterminationValidator {
 		this.svariables = new ArrayList<SBase>();
 		this.reactants = new HashSet<String>();
 
-		for (int i = 0; i < model.getNumReactions(); i++) {
+		for (int i = 0; i < model.getReactionCount(); i++) {
 
 			for (SpeciesReference sref : model.getReaction(i)
 					.getListOfProducts()) {

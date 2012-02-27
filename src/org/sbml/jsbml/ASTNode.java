@@ -618,38 +618,38 @@ public class ASTNode extends AbstractTreeNode {
 	 * @return a new ASTNode of type <code>operator</code> and adds the given nodes as children.
 	 */
 	private static ASTNode arithmethicOperation(Type operator, ASTNode... ast) {
-		LinkedList<ASTNode> astList = new LinkedList<ASTNode>();
-		if (ast != null) {
-			for (ASTNode node : ast) {
-				if (node != null
-						&& !(operator == Type.TIMES && node.isOne() && ast.length > 1)) {
-					astList.add(node);
-				}
-			}
-		}
-		if (astList.size() == 0) {
-			return null;
-		}
-		if (astList.size() == 1) {
-			return astList.getFirst().clone();
-		}
-		if (operator == Type.PLUS || operator == Type.MINUS
-				|| operator == Type.TIMES || operator == Type.DIVIDE
-				|| operator == Type.POWER) {
-			MathContainer mc = astList.getFirst().parentSBMLObject;
-			ASTNode arithmetic = new ASTNode(operator, mc);
-			for (ASTNode nodes : astList) {
-				arithmetic.addChild(nodes);
-				setParentSBMLObject(nodes, mc, 0);
-			}
-			if (arithmetic.getChildCount() > 2) {
-				arithmetic.reduceToBinary();
-			}
-			return arithmetic;
-		} else {
-			throw new IllegalArgumentException(String.format(
-					INVALID_OPERATOR_MSG, operator));
-		}
+	  LinkedList<ASTNode> astList = new LinkedList<ASTNode>();
+	  if (ast != null) {
+	    for (ASTNode node : ast) {
+	      if ((node != null)
+	          && !((operator == Type.TIMES) && node.isOne() && (ast.length > 1))) {
+	        astList.add(node);
+	      }
+	    }
+	  }
+	  if (astList.size() == 0) {
+	    return null;
+	  }
+	  if (astList.size() == 1) {
+	    return astList.getFirst().clone();
+	  }
+	  if ((operator == Type.PLUS) || (operator == Type.MINUS)
+	      || (operator == Type.TIMES) || (operator == Type.DIVIDE)
+	      || (operator == Type.POWER)) {
+	    MathContainer mc = astList.getFirst().parentSBMLObject;
+	    ASTNode arithmetic = new ASTNode(operator, mc);
+	    for (ASTNode nodes : astList) {
+	      arithmetic.addChild(nodes);
+	      setParentSBMLObject(nodes, mc, 0);
+	    }
+	    if (arithmetic.getChildCount() > 2) {
+	      arithmetic.reduceToBinary();
+	    }
+	    return arithmetic;
+	  } else {
+	    throw new IllegalArgumentException(String.format(
+	      INVALID_OPERATOR_MSG, operator));
+	  }
 	}
 
 	/**

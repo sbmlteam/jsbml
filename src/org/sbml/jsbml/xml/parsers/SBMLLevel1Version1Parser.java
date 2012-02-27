@@ -261,7 +261,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			Model model = sbmlDocument.getModel();
 
 			if (model.isSetListOfRules()) {
-				for (int i = 0; i < model.getNumRules(); i++) {
+				for (int i = 0; i < model.getRuleCount(); i++) {
 					Rule rule = model.getRule(i);
 					if (rule instanceof AssignmentRule) {
 						AssignmentRule assignmentRule = (AssignmentRule) rule;
@@ -273,7 +273,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 				}
 			}
 			if (model.isSetListOfCompartments()) {
-				for (int i = 0; i < model.getNumCompartments(); i++) {
+				for (int i = 0; i < model.getCompartmentCount(); i++) {
 					Compartment compartment = model.getCompartment(i);
 
 					setCompartmentCompartmentType(compartment, model);
@@ -282,14 +282,14 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 				}
 			}
 			if (model.isSetListOfEvents()) {
-				for (int i = 0; i < model.getNumEvents(); i++) {
+				for (int i = 0; i < model.getEventCount(); i++) {
 					Event event = model.getEvent(i);
 
 					setEventTimeUnits(event, model);
 
 					if (event.isSetListOfEventAssignments()) {
 
-						for (int j = 0; j < event.getNumEventAssignments(); j++) {
+						for (int j = 0; j < event.getEventAssignmentCount(); j++) {
 							EventAssignment eventAssignment = event
 									.getEventAssignment(j);
 
@@ -299,7 +299,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 				}
 			}
 			if (model.isSetListOfInitialAssignments()) {
-				for (int i = 0; i < model.getNumInitialAssignments(); i++) {
+				for (int i = 0; i < model.getInitialAssignmentCount(); i++) {
 					InitialAssignment initialAssignment = model
 							.getInitialAssignment(i);
 
@@ -307,13 +307,13 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 				}
 			}
 			if (model.isSetListOfReactions()) {
-				for (int i = 0; i < model.getNumReactions(); i++) {
+				for (int i = 0; i < model.getReactionCount(); i++) {
 					Reaction reaction = model.getReaction(i);
 
 					setReactionCompartment(reaction, model);
 
 					if (reaction.isSetListOfReactants()) {
-						for (int j = 0; j < reaction.getNumReactants(); j++) {
+						for (int j = 0; j < reaction.getReactantCount(); j++) {
 							SpeciesReference speciesReference = reaction
 									.getReactant(j);
 
@@ -321,7 +321,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 						}
 					}
 					if (reaction.isSetListOfProducts()) {
-						for (int j = 0; j < reaction.getNumProducts(); j++) {
+						for (int j = 0; j < reaction.getProductCount(); j++) {
 							SpeciesReference speciesReference = reaction
 									.getProduct(j);
 
@@ -329,7 +329,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 						}
 					}
 					if (reaction.isSetListOfModifiers()) {
-						for (int j = 0; j < reaction.getNumModifiers(); j++) {
+						for (int j = 0; j < reaction.getModifierCount(); j++) {
 							ModifierSpeciesReference modifierSpeciesReference = reaction
 									.getModifier(j);
 
@@ -350,7 +350,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 				}
 			}
 			if (model.isSetListOfSpecies()) {
-				for (int i = 0; i < model.getNumSpecies(); i++) {
+				for (int i = 0; i < model.getSpeciesCount(); i++) {
 					Species species = model.getSpecies(i);
 					setSpeciesSubstanceUnits(species, model);
 					setSpeciesSpeciesType(species, model);
@@ -359,7 +359,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 				}
 			}
 			if (model.isSetListOfParameters()) {
-				for (int i = 0; i < model.getNumParameters(); i++) {
+				for (int i = 0; i < model.getParameterCount(); i++) {
 					Parameter parameter = model.getParameter(i);
 					setParameterUnits(parameter, model);
 				}
@@ -370,12 +370,8 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.xml.stax.ReadingParser#processEndElement(java.lang.String,
-	 * java.lang.String, boolean, java.lang.Object)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.stax.ReadingParser#processEndElement(java.lang.String, java.lang.String, boolean, java.lang.Object)
 	 */
 	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
@@ -676,7 +672,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 							int i = 0;
 							SpeciesReference sr = null;
 
-							while (i <= model.getNumReactions() - 1
+							while (i <= model.getReactionCount() - 1
 									&& sr == null) {
 								Reaction reaction = model.getReaction(i);
 
@@ -801,7 +797,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 							int i = 0;
 							SpeciesReference sr = null;
 
-							while (i <= model.getNumReactions() - 1
+							while (i <= model.getReactionCount() - 1
 									&& sr == null) {
 								Reaction reaction = model.getReaction(i);
 
@@ -884,7 +880,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 							int i = 0;
 							SpeciesReference sr = null;
 
-							while (i <= model.getNumReactions() - 1
+							while (i <= model.getReactionCount() - 1
 									&& sr == null) {
 								Reaction reaction = model.getReaction(i);
 
@@ -965,7 +961,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 							int i = 0;
 							SpeciesReference sr = null;
 
-							while (i <= model.getNumReactions() - 1
+							while (i <= model.getReactionCount() - 1
 									&& sr == null) {
 								Reaction reaction = model.getReaction(i);
 
