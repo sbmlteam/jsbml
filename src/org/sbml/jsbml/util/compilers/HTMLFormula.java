@@ -182,7 +182,7 @@ public class HTMLFormula extends MathMLCompiler {
 	public static String toHTML(UnitDefinition ud) {
 		StringBuilder sb = new StringBuilder();
 		if (ud != null) {
-			for (int i = 0; i < ud.getNumUnits(); i++) {
+			for (int i = 0; i < ud.getUnitCount(); i++) {
 				Unit unit = ud.getUnit(i);
 				if (i > 0) {
 					sb.append(' ');
@@ -226,7 +226,7 @@ public class HTMLFormula extends MathMLCompiler {
 					.append(StringTools.encodeForHTML(reactant.getSpecies()));
 			count++;
 		}
-		if (reaction.getNumReactants() == 0) {
+		if (reaction.getReactantCount() == 0) {
 			reactionEqn.append(EMPTY_SET);
 		}
 		reactionEqn.append(' ');
@@ -248,7 +248,7 @@ public class HTMLFormula extends MathMLCompiler {
 			reactionEqn.append(StringTools.encodeForHTML(product.getSpecies()));
 			count++;
 		}
-		if (reaction.getNumProducts() == 0) {
+		if (reaction.getProductCount() == 0) {
 			reactionEqn.append(EMPTY_SET);
 		}
 		return StringTools.toHTML(reactionEqn.toString());

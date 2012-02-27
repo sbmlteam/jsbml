@@ -360,7 +360,7 @@ public class SBMLDocument extends AbstractSBase {
 			}
 		}
 
-		return listOfErrors.getNumErrors();
+		return listOfErrors.getErrorCount();
 	}
 	
 	/**
@@ -632,9 +632,19 @@ public class SBMLDocument extends AbstractSBase {
 	/**
 	 * 
 	 * @return
+	 * @deprecated use {@link #getErrorCount()}
 	 */
+	@Deprecated
 	public int getNumErrors() {
-		return isSetListOfErrors() ? listOfErrors.getNumErrors() : 0;
+		return getErrorCount();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getErrorCount() {
+	  return isSetListOfErrors() ? listOfErrors.getErrorCount() : 0;
 	}
 
 	/**
@@ -681,7 +691,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * @return
 	 */
 	private boolean isSetListOfErrors() {
-		return (listOfErrors != null) && (listOfErrors.getNumErrors() > 0);
+		return (listOfErrors != null) && (listOfErrors.getErrorCount() > 0);
 	}
 
 	/**
@@ -707,7 +717,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * 
 	 */
 	public void printErrors(PrintStream stream) {
-		int nbErrors = listOfErrors.getNumErrors();
+		int nbErrors = listOfErrors.getErrorCount();
 
 		for (int i = 0; i < nbErrors; i++) {
 			stream.println(listOfErrors.getError(i));
@@ -943,7 +953,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * Calling this method will not necessarily lead to a successful conversion.
 	 * If the conversion fails, it will be logged in the error list associated
 	 * with this {@link SBMLDocument}. Callers should consult
-	 * {@link #getNumErrors()} to find out if the conversion succeeded
+	 * {@link #getErrorCount()} to find out if the conversion succeeded
 	 * without problems. For conversions from Level 2 to Level 1, callers can
 	 * also check the Level of the model after calling this method to find out
 	 * whether it is Level 1. (If the conversion to Level 1 failed, the Level of

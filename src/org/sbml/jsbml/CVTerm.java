@@ -494,12 +494,23 @@ public class CVTerm extends AnnotationElement {
 	}
 
 	/**
-	 * Returns the number of resources for this CVTerm.
+	 * Returns the number of resources for this {@link CVTerm}.
 	 * 
-	 * @return the number of resources for this CVTerm.
+	 * @return the number of resources for this {@link CVTerm}.
+	 * @use {@link #getResourceCount()}
 	 */
+	@Deprecated
 	public int getNumResources() {
-		return resourceURIs.size();
+		return getResourceCount();
+	}
+	
+	 /**
+   * Returns the number of resources for this {@link CVTerm}.
+   * 
+   * @return the number of resources for this {@link CVTerm}.
+   */
+	public int getResourceCount() {
+	  return resourceURIs.size();
 	}
 
 	/**
@@ -844,7 +855,7 @@ public class CVTerm extends AnnotationElement {
 	 */
 	public void toXML(String indent, StringBuffer buffer) {
 		if (resourceURIs != null) {
-			for (int i = 0; i < getNumResources(); i++) {
+			for (int i = 0; i < getResourceCount(); i++) {
 				String resourceURI = getResourceURI(i);
 				StringTools.append(buffer, "<rdf:li rdf:resource=\"",
 						resourceURI, "\"/>\n");

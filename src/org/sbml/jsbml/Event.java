@@ -462,13 +462,22 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 		return listOfEventAssignments;
 	}
 
-	/**
-	 * 
-	 * @return the number of EventAssignments in the list of EventAssignements
-	 *         of this Event.
-	 */
+  /**
+   * @return the number of EventAssignments in the list of EventAssignements
+   *         of this Event.
+   * @deprecated use {@link #getEventAssignmentCount()}
+   */
+	@Deprecated
 	public int getNumEventAssignments() {
-		return listOfEventAssignments == null ? 0 : listOfEventAssignments.size();
+		return getEventAssignmentCount();
+	}
+	
+  /**
+   * @return the number of EventAssignments in the list of EventAssignements
+   *         of this Event.
+   */
+	public int getEventAssignmentCount() {
+	  return listOfEventAssignments == null ? 0 : listOfEventAssignments.size();
 	}
 
 	/*

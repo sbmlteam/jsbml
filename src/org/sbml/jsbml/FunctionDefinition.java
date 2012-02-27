@@ -196,7 +196,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 * Get the nth argument to this function.
 	 * 
 	 * Callers should first find out the number of arguments to the function by
-	 * calling {@link #getNumArguments()}.
+	 * calling {@link #getArgumentCount()}.
 	 * 
 	 * @param n
 	 *            an integer index for the argument sought.
@@ -204,7 +204,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 *         {@link FunctionDefinition}.
 	 */
 	public ASTNode getArgument(int n) {
-		if (getNumArguments() < n) {
+		if (getArgumentCount() < n) {
 			throw new IndexOutOfBoundsException(String.format(
 					"No such argument with index %d.", n));
 		}
@@ -221,7 +221,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 */
 	public ASTNode getArgument(String name) {
 		ASTNode arg = null;
-		for (int i=0; i<getNumArguments(); i++) {
+		for (int i = 0; i < getArgumentCount(); i++) {
 			arg = getArgument(i);
 			if (arg.getName().equals(name)) {
 				return arg;
@@ -263,11 +263,24 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 * 
 	 * @return the number of arguments (bound variables) that must be passed to
 	 *         this {@link FunctionDefinition}.
+	 * @deprecated use {@link #getArgumentCount()}
 	 */
+	@Deprecated
 	public int getNumArguments() {
-		return isSetMath() && (getMath().getChildCount() > 1) ? getMath()
-				.getChildCount() - 1 : 0;
+		return getArgumentCount();
 	}
+
+  /**
+   * Get the number of arguments (bound variables) taken by this
+   * {@link FunctionDefinition}.
+   * 
+   * @return the number of arguments (bound variables) that must be passed to
+   *         this {@link FunctionDefinition}.
+   */
+  public int getArgumentCount() {
+    return isSetMath() && (getMath().getChildCount() > 1)
+      ? getMath().getChildCount() - 1 : 0;
+  }
 
 	/*
 	 * (non-Javadoc)

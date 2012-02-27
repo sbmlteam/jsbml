@@ -131,9 +131,23 @@ public class SBMLErrorLog {
 	 * {@link #getError(long n)}.
 	 * <p>
 	 * @return the number of errors that have been logged.
+	 * @deprecated use {@link #getErrorCount()}
 	 */
+	@Deprecated
 	public int getNumErrors() {
-		return validationErrors.size();
+		return getErrorCount();
+	}
+	
+	 /**
+   * Returns the number of errors that have been logged.
+   * <p>
+   * To retrieve individual errors from the log, callers may use
+   * {@link #getError(long n)}.
+   * <p>
+   * @return the number of errors that have been logged.
+   */
+	public int getErrorCount() {
+	  return validationErrors.size();
 	}
 
 	/**

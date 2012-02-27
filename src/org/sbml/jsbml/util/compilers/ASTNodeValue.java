@@ -206,7 +206,7 @@ public class ASTNodeValue {
 	 * @return
 	 */
 	public boolean containsUndeclaredUnits() {
-		return !isSetUnit() || (getUnits().getNumUnits() == 0);
+		return !isSetUnit() || (getUnits().getUnitCount() == 0);
 	}
 
 	/**

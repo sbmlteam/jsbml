@@ -127,7 +127,7 @@ public class TestModel {
 		Compartment c = new Compartment(2, 4);
 		c.setId("c");
 		M.addCompartment(c);
-		assertTrue(M.getNumCompartments() == 1);
+		assertTrue(M.getCompartmentCount() == 1);
 	}
 
 	@Test
@@ -135,7 +135,7 @@ public class TestModel {
 		Parameter p = new Parameter(2, 4);
 		p.setId("p");
 		M.addParameter(p);
-		assertTrue(M.getNumParameters() == 1);
+		assertTrue(M.getParameterCount() == 1);
 	}
 
 	@Test
@@ -143,7 +143,7 @@ public class TestModel {
 		Reaction r = new Reaction(2, 4);
 		r.setId("r");
 		M.addReaction(r);
-		assertTrue(M.getNumReactions() == 1);
+		assertTrue(M.getReactionCount() == 1);
 	}
 
 	@Test
@@ -159,7 +159,7 @@ public class TestModel {
 		M.addRule(r1);
 		M.addRule(r2);
 		M.addRule(r3);
-		assertTrue(M.getNumRules() == 3);
+		assertTrue(M.getRuleCount() == 3);
 	}
 
 	@Test
@@ -168,7 +168,7 @@ public class TestModel {
 		s.setId("s");
 		s.setCompartment("c");
 		M.addSpecies(s);
-		assertTrue(M.getNumSpecies() == 1);
+		assertTrue(M.getSpeciesCount() == 1);
 	}
 
 	@Test
@@ -189,7 +189,7 @@ public class TestModel {
 		e2.createEventAssignment("k2", math);
 		M.addEvent(e1);
 		M.addEvent(e2);
-		assertTrue(M.getNumEvents() == 2);
+		assertTrue(M.getEventCount() == 2);
 		// assertTrue(!M.getEvent(0).equals(e1)); // the eventAssignement would be the same in jsbml
 		// assertTrue(!M.getEvent(1).equals(e2));
 		assertEquals(M.getEvent(2), null);
@@ -206,7 +206,7 @@ public class TestModel {
 		fd2.setMath(ASTNode.parseFormula("lambda(x, x+2)"));
 		M.addFunctionDefinition(fd1);
 		M.addFunctionDefinition(fd2);
-		assertTrue(M.getNumFunctionDefinitions() == 2);
+		assertTrue(M.getFunctionDefinitionCount() == 2);
 		// assertTrue(!M.getFunctionDefinition(0).equals(fd1)); // would be the same in jsbml
 		// assertTrue(!M.getFunctionDefinition(1).equals(fd2));
 		assertEquals(M.getFunctionDefinition(2), null);
@@ -223,7 +223,7 @@ public class TestModel {
 		ud2.createUnit(Kind.METRE);
 		M.addUnitDefinition(ud1);
 		M.addUnitDefinition(ud2);
-		assertTrue(M.getNumUnitDefinitions() == 2);
+		assertTrue(M.getUnitDefinitionCount() == 2);
 		// assertTrue(!M.getUnitDefinition(0).equals(ud1)); // would be the same in jsbml
 		// assertTrue(!M.getUnitDefinition(1).equals(ud2));
 		assertEquals(M.getUnitDefinition(2), null);
@@ -240,18 +240,18 @@ public class TestModel {
 		assertTrue(M.getName().equals("") == true);
 		assertEquals(false, M.isSetId());
 		assertEquals(false, M.isSetName());
-		assertTrue(M.getNumUnitDefinitions() == 0);
-		assertTrue(M.getNumCompartments() == 0);
-		assertTrue(M.getNumSpecies() == 0);
-		assertTrue(M.getNumParameters() == 0);
-		assertTrue(M.getNumReactions() == 0);
+		assertTrue(M.getUnitDefinitionCount() == 0);
+		assertTrue(M.getCompartmentCount() == 0);
+		assertTrue(M.getSpeciesCount() == 0);
+		assertTrue(M.getParameterCount() == 0);
+		assertTrue(M.getReactionCount() == 0);
 	}
 
 	@Test
 	public void test_Model_createAlgebraicRule() {
 		Rule ar = M.createAlgebraicRule();
 		assertTrue(ar != null);
-		assertTrue(M.getNumRules() == 1);
+		assertTrue(M.getRuleCount() == 1);
 		assertEquals(M.getRule(0), ar);
 	}
 
@@ -259,7 +259,7 @@ public class TestModel {
 	public void test_Model_createAssignmentRule() {
 		Rule ar = M.createAssignmentRule();
 		assertTrue(ar != null);
-		assertTrue(M.getNumRules() == 1);
+		assertTrue(M.getRuleCount() == 1);
 		assertEquals(M.getRule(0), ar);
 	}
 
@@ -267,7 +267,7 @@ public class TestModel {
 	public void test_Model_createCompartment() {
 		Compartment c = M.createCompartment();
 		assertTrue(c != null);
-		assertTrue(M.getNumCompartments() == 1);
+		assertTrue(M.getCompartmentCount() == 1);
 		assertTrue(c.equals(c));
 		assertTrue(M.getCompartment(0).equals(c)); // TODO : check why this is failing
 	}
@@ -276,7 +276,7 @@ public class TestModel {
 	public void test_Model_createCompartmentType() {
 		CompartmentType c = M.createCompartmentType();
 		assertTrue(c != null);
-		assertTrue(M.getNumCompartmentTypes() == 1);
+		assertTrue(M.getCompartmentTypeCount() == 1);
 		assertEquals(M.getCompartmentType(0), c);
 	}
 
@@ -284,7 +284,7 @@ public class TestModel {
 	public void test_Model_createConstraint() {
 		Constraint c = M.createConstraint();
 		assertTrue(c != null);
-		assertTrue(M.getNumConstraints() == 1);
+		assertTrue(M.getConstraintCount() == 1);
 		assertEquals(M.getConstraint(0), c);
 	}
 
@@ -292,7 +292,7 @@ public class TestModel {
 	public void test_Model_createEvent() {
 		Event e = M.createEvent();
 		assertTrue(e != null);
-		assertTrue(M.getNumEvents() == 1);
+		assertTrue(M.getEventCount() == 1);
 		assertEquals(M.getEvent(0), e);
 	}
 
@@ -304,15 +304,15 @@ public class TestModel {
 		M.createEvent();
 		ea = M.createEventAssignment();
 		assertTrue(ea != null);
-		assertTrue(M.getNumEvents() == 2);
+		assertTrue(M.getEventCount() == 2);
 		e = M.getEvent(1);
-		assertTrue(e.getNumEventAssignments() == 1);
+		assertTrue(e.getEventAssignmentCount() == 1);
 		assertEquals(e.getEventAssignment(0), ea);
 	}
 
 	@Test
 	public void test_Model_createEventAssignment_noEvent() {
-		assertTrue(M.getNumEvents() == 0);
+		assertTrue(M.getEventCount() == 0);
 		assertTrue(M.createEventAssignment() == null);
 	}
 
@@ -320,7 +320,7 @@ public class TestModel {
 	public void test_Model_createFunctionDefinition() {
 		FunctionDefinition fd = M.createFunctionDefinition();
 		assertTrue(fd != null);
-		assertTrue(M.getNumFunctionDefinitions() == 1);
+		assertTrue(M.getFunctionDefinitionCount() == 1);
 		assertEquals(M.getFunctionDefinition(0), fd);
 	}
 
@@ -328,7 +328,7 @@ public class TestModel {
 	public void test_Model_createInitialAssignment() {
 		InitialAssignment c = M.createInitialAssignment();
 		assertTrue(c != null);
-		assertTrue(M.getNumInitialAssignments() == 1);
+		assertTrue(M.getInitialAssignmentCount() == 1);
 		assertEquals(M.getInitialAssignment(0), c);
 	}
 
@@ -340,7 +340,7 @@ public class TestModel {
 		M.createReaction();
 		kl = M.createKineticLaw();
 		assertTrue(kl != null);
-		assertTrue(M.getNumReactions() == 2);
+		assertTrue(M.getReactionCount() == 2);
 		r = M.getReaction(0);
 		assertEquals(r.getKineticLaw(), null);
 		r = M.getReaction(1);
@@ -356,14 +356,14 @@ public class TestModel {
 		M.createReaction();
 		M.createKineticLaw();
 		p = M.createKineticLawParameter();
-		assertTrue(M.getNumReactions() == 2);
+		assertTrue(M.getReactionCount() == 2);
 		r = M.getReaction(0);
 		assertEquals(r.getKineticLaw(), null);
 		r = M.getReaction(1);
 		assertTrue(r.getKineticLaw() != null);
 		kl = r.getKineticLaw();
-		assertTrue(kl.getNumParameters() == 1);
-		assertEquals(kl.getParameter(0), p);
+		assertTrue(kl.getLocalParameterCount() == 1);
+		assertEquals(kl.getLocalParameter(0), p);
 	}
 
 	@Test
@@ -376,7 +376,7 @@ public class TestModel {
 
 	@Test
 	public void test_Model_createKineticLawParameter_noReaction() {
-		assertTrue(M.getNumReactions() == 0);
+		assertTrue(M.getReactionCount() == 0);
 		assertTrue(M.createKineticLawParameter() == null);
 	}
 
@@ -391,7 +391,7 @@ public class TestModel {
 
 	@Test
 	public void test_Model_createKineticLaw_noReaction() {
-		assertTrue(M.getNumReactions() == 0);
+		assertTrue(M.getReactionCount() == 0);
 		assertTrue(M.createKineticLaw() == null);
 	}
 
@@ -403,15 +403,15 @@ public class TestModel {
 		M.createReaction();
 		msr = M.createModifier();
 		assertTrue(msr != null);
-		assertTrue(M.getNumReactions() == 2);
+		assertTrue(M.getReactionCount() == 2);
 		r = M.getReaction(1);
-		assertTrue(r.getNumModifiers() == 1);
+		assertTrue(r.getModifierCount() == 1);
 		assertEquals(r.getModifier(0), msr);
 	}
 
 	@Test
 	public void test_Model_createModifier_noReaction() {
-		assertTrue(M.getNumReactions() == 0);
+		assertTrue(M.getReactionCount() == 0);
 		assertTrue(M.createModifier() == null);
 	}
 
@@ -419,7 +419,7 @@ public class TestModel {
 	public void test_Model_createParameter() {
 		Parameter p = M.createParameter();
 		assertTrue(p != null);
-		assertTrue(M.getNumParameters() == 1);
+		assertTrue(M.getParameterCount() == 1);
 		assertEquals(M.getParameter(0), p); // TODO : check why this failing
 	}
 
@@ -431,15 +431,15 @@ public class TestModel {
 		M.createReaction();
 		sr = M.createProduct();
 		assertTrue(sr != null);
-		assertTrue(M.getNumReactions() == 2);
+		assertTrue(M.getReactionCount() == 2);
 		r = M.getReaction(1);
-		assertTrue(r.getNumProducts() == 1);
+		assertTrue(r.getProductCount() == 1);
 		assertEquals(r.getProduct(0), sr);
 	}
 
 	@Test
 	public void test_Model_createProduct_noReaction() {
-		assertTrue(M.getNumReactions() == 0);
+		assertTrue(M.getReactionCount() == 0);
 		assertTrue(M.createProduct() == null);
 	}
 
@@ -447,7 +447,7 @@ public class TestModel {
 	public void test_Model_createRateRule() {
 		Rule rr = M.createRateRule();
 		assertTrue(rr != null);
-		assertTrue(M.getNumRules() == 1);
+		assertTrue(M.getRuleCount() == 1);
 		assertEquals(M.getRule(0), rr);
 	}
 
@@ -459,15 +459,15 @@ public class TestModel {
 		M.createReaction();
 		sr = M.createReactant();
 		assertTrue(sr != null);
-		assertTrue(M.getNumReactions() == 2);
+		assertTrue(M.getReactionCount() == 2);
 		r = M.getReaction(1);
-		assertTrue(r.getNumReactants() == 1);
+		assertTrue(r.getReactantCount() == 1);
 		assertEquals(r.getReactant(0), sr);
 	}
 
 	@Test
 	public void test_Model_createReactant_noReaction() {
-		assertTrue(M.getNumReactions() == 0);
+		assertTrue(M.getReactionCount() == 0);
 		assertTrue(M.createReactant() == null);
 	}
 
@@ -475,7 +475,7 @@ public class TestModel {
 	public void test_Model_createReaction() {
 		Reaction r = M.createReaction();
 		assertTrue(r != null);
-		assertTrue(M.getNumReactions() == 1);
+		assertTrue(M.getReactionCount() == 1);
 		assertEquals(M.getReaction(0), r);
 	}
 
@@ -483,7 +483,7 @@ public class TestModel {
 	public void test_Model_createSpecies() {
 		Species s = M.createSpecies();
 		assertTrue(s != null);
-		assertTrue(M.getNumSpecies() == 1);
+		assertTrue(M.getSpeciesCount() == 1);
 		assertTrue(M.getSpecies(0).equals(s) == true);
 	}
 
@@ -491,7 +491,7 @@ public class TestModel {
 	public void test_Model_createSpeciesType() {
 		SpeciesType c = M.createSpeciesType();
 		assertTrue(c != null);
-		assertTrue(M.getNumSpeciesTypes() == 1);
+		assertTrue(M.getSpeciesTypeCount() == 1);
 		assertEquals(M.getSpeciesType(0), c);
 	}
 
@@ -503,9 +503,9 @@ public class TestModel {
 		M.createUnitDefinition();
 		u = M.createUnit(Kind.LITRE);
 		assertTrue(u != null);
-		assertTrue(M.getNumUnitDefinitions() == 2);
+		assertTrue(M.getUnitDefinitionCount() == 2);
 		ud = M.getUnitDefinition(1);
-		assertTrue(ud.getNumUnits() == 1);
+		assertTrue(ud.getUnitCount() == 1);
 		assertEquals(ud.getUnit(0), u);
 	}
 
@@ -513,13 +513,13 @@ public class TestModel {
 	public void test_Model_createUnitDefinition() {
 		UnitDefinition ud = M.createUnitDefinition();
 		assertTrue(ud != null);
-		assertTrue(M.getNumUnitDefinitions() == 1);
+		assertTrue(M.getUnitDefinitionCount() == 1);
 		assertEquals(M.getUnitDefinition(0), ud);
 	}
 
 	@Test
 	public void test_Model_createUnit_noUnitDefinition() {
-		assertTrue(M.getNumUnitDefinitions() == 0);
+		assertTrue(M.getUnitDefinitionCount() == 0);
 		assertTrue(M.createUnit() == null);
 	}
 
@@ -544,7 +544,7 @@ public class TestModel {
 		c2.setId("B");
 		M.addCompartment(c1);
 		M.addCompartment(c2);
-		assertTrue(M.getNumCompartments() == 2);
+		assertTrue(M.getCompartmentCount() == 2);
 		c1 = M.getCompartment(0);
 		c2 = M.getCompartment(1);
 		assertTrue(c1.getId().equals("A"));
@@ -559,7 +559,7 @@ public class TestModel {
 		c2.setId("B");
 		M.addCompartment(c1);
 		M.addCompartment(c2);
-		assertTrue(M.getNumCompartments() == 2);
+		assertTrue(M.getCompartmentCount() == 2);
 		// assertTrue(!M.getCompartment("A").equals(c1)); // would be the same in jsbml
 		// assertTrue(!M.getCompartment("B").equals(c2));
 		assertTrue(M.getCompartment("B").equals(c2));
@@ -579,7 +579,7 @@ public class TestModel {
 		e2.setId("e2");
 		M.addEvent(e1);
 		M.addEvent(e2);
-		assertTrue(M.getNumEvents() == 2);
+		assertTrue(M.getEventCount() == 2);
 		// assertTrue(!M.getEvent("e1").equals(e1));
 		// assertTrue(!M.getEvent("e2").equals(e2));
 		assertEquals(M.getEvent("e3"), null);
@@ -595,14 +595,14 @@ public class TestModel {
 		fd2.setMath(ASTNode.parseFormula("lambda(2)"));
 		M.addFunctionDefinition(fd1);
 		M.addFunctionDefinition(fd2);
-		assertTrue(M.getNumFunctionDefinitions() == 2);
+		assertTrue(M.getFunctionDefinitionCount() == 2);
 		//assertTrue(!M.getFunctionDefinition("sin").equals(fd1));
 		// assertTrue(!M.getFunctionDefinition("cos").equals(fd2));
 		assertEquals(M.getFunctionDefinition("tan"), null);
 	}
 
 	@Test
-	public void test_Model_getNumSpeciesWithBoundaryCondition() {
+	public void test_Model_getSpeciesWithBoundaryCondition() {
 		Species s1 = new Species(2, 4);
 		Species s2 = new Species(2, 4);
 		Species s3 = new Species(2, 4);
@@ -615,17 +615,17 @@ public class TestModel {
 		s1.setBoundaryCondition(true);
 		s2.setBoundaryCondition(false);
 		s3.setBoundaryCondition(true);
-		assertTrue(M.getNumSpecies() == 0);
-		assertTrue(M.getNumSpeciesWithBoundaryCondition() == 0);
+		assertTrue(M.getSpeciesCount() == 0);
+		assertTrue(M.getSpeciesWithBoundaryConditionCount() == 0);
 		M.addSpecies(s1);
-		assertTrue(M.getNumSpecies() == 1);
-		assertTrue(M.getNumSpeciesWithBoundaryCondition() == 1);
+		assertTrue(M.getSpeciesCount() == 1);
+		assertTrue(M.getSpeciesWithBoundaryConditionCount() == 1);
 		M.addSpecies(s2);
-		assertTrue(M.getNumSpecies() == 2);
-		assertTrue(M.getNumSpeciesWithBoundaryCondition() == 1);
+		assertTrue(M.getSpeciesCount() == 2);
+		assertTrue(M.getSpeciesWithBoundaryConditionCount() == 1);
 		M.addSpecies(s3);
-		assertTrue(M.getNumSpecies() == 3);
-		assertTrue(M.getNumSpeciesWithBoundaryCondition() == 2);
+		assertTrue(M.getSpeciesCount() == 3);
+		assertTrue(M.getSpeciesWithBoundaryConditionCount() == 2);
 	}
 
 	@Test
@@ -636,7 +636,7 @@ public class TestModel {
 		p2.setId("Km2");
 		M.addParameter(p1);
 		M.addParameter(p2);
-		assertTrue(M.getNumParameters() == 2);
+		assertTrue(M.getParameterCount() == 2);
 		p1 = M.getParameter(0);
 		p2 = M.getParameter(1);
 		assertTrue(p1.getId().equals("Km1"));
@@ -651,7 +651,7 @@ public class TestModel {
 		p2.setId("Km2");
 		M.addParameter(p1);
 		M.addParameter(p2);
-		assertTrue(M.getNumParameters() == 2);
+		assertTrue(M.getParameterCount() == 2);
 		// assertNotEquals(M.getParameter("Km1"), p1);
 		// assertNotEquals(M.getParameter("Km2"), p2);
 		assertEquals(M.getParameter("Km3"), null);
@@ -665,7 +665,7 @@ public class TestModel {
 		r2.setId("reaction_2");
 		M.addReaction(r1);
 		M.addReaction(r2);
-		assertTrue(M.getNumReactions() == 2);
+		assertTrue(M.getReactionCount() == 2);
 		r1 = M.getReaction(0);
 		r2 = M.getReaction(1);
 		assertTrue(r1.getId().equals("reaction_1"));
@@ -680,7 +680,7 @@ public class TestModel {
 		r2.setId("reaction_2");
 		M.addReaction(r1);
 		M.addReaction(r2);
-		assertTrue(M.getNumReactions() == 2);
+		assertTrue(M.getReactionCount() == 2);
 		// assertNotEquals(M.getReaction("reaction_1"), r1);
 		// assertNotEquals(M.getReaction("reaction_2"), r2);
 		assertEquals(M.getReaction("reaction_2"), r2);
@@ -706,7 +706,7 @@ public class TestModel {
 		M.addRule(scr);
 		M.addRule(cvr);
 		M.addRule(pr);
-		assertTrue(M.getNumRules() == 4);
+		assertTrue(M.getRuleCount() == 4);
 		ar = M.getRule(0);
 		scr = (AssignmentRule) M.getRule(1);
 		cvr = (AssignmentRule) M.getRule(2);
@@ -727,7 +727,7 @@ public class TestModel {
 		s2.setCompartment("c");
 		M.addSpecies(s1);
 		M.addSpecies(s2);
-		assertTrue(M.getNumSpecies() == 2);
+		assertTrue(M.getSpeciesCount() == 2);
 		s1 = M.getSpecies(0);
 		s2 = M.getSpecies(1);
 		assertTrue(s1.getId().equals("Glucose"));
@@ -744,7 +744,7 @@ public class TestModel {
 		s2.setCompartment("c");
 		M.addSpecies(s1);
 		M.addSpecies(s2);
-		assertTrue(M.getNumSpecies() == 2);
+		assertTrue(M.getSpeciesCount() == 2);
 		// assertTrue(M.getSpecies("Glucose").equals(s1) != true);
 		// assertTrue(M.getSpecies("Glucose_6_P").equals(s2) != true);
 		assertTrue(M.getSpecies("Glucose_6_P").equals(s2));
@@ -761,7 +761,7 @@ public class TestModel {
 		ud2.createUnit(Kind.LITRE);
 		M.addUnitDefinition(ud1);
 		M.addUnitDefinition(ud2);
-		assertTrue(M.getNumUnitDefinitions() == 2);
+		assertTrue(M.getUnitDefinitionCount() == 2);
 		ud1 = M.getUnitDefinition(0);
 		ud2 = M.getUnitDefinition(1);
 		assertTrue(ud1.getId().equals("mmls"));
@@ -778,7 +778,7 @@ public class TestModel {
 		ud2.createUnit(Kind.LITRE);
 		M.addUnitDefinition(ud1);
 		M.addUnitDefinition(ud2);
-		assertTrue(M.getNumUnitDefinitions() == 2);
+		assertTrue(M.getUnitDefinitionCount() == 2);
 		// assertNotEquals(M.getUnitDefinition("mmls"), ud1);
 		// assertNotEquals(M.getUnitDefinition("volume"), ud2);
 		assertEquals(M.getUnitDefinition("rototillers"), null);
@@ -792,11 +792,11 @@ public class TestModel {
 		o3 = M.createCompartment();
 		o3.setId("test");
 		assertTrue(M.removeCompartment(0).equals(o1));
-		assertTrue(M.getNumCompartments() == 2);
+		assertTrue(M.getCompartmentCount() == 2);
 		assertTrue(M.removeCompartment(0).equals(o2));
-		assertTrue(M.getNumCompartments() == 1);
+		assertTrue(M.getCompartmentCount() == 1);
 		assertTrue(M.removeCompartment("test").equals(o3));
-		assertTrue(M.getNumCompartments() == 0);
+		assertTrue(M.getCompartmentCount() == 0);
 		o1 = null;
 		o2 = null;
 		o3 = null;
@@ -810,11 +810,11 @@ public class TestModel {
 		o3 = M.createCompartmentType();
 		o3.setId("test");
 		assertTrue(M.removeCompartmentType(0).equals(o1));
-		assertTrue(M.getNumCompartmentTypes() == 2);
+		assertTrue(M.getCompartmentTypeCount() == 2);
 		assertTrue(M.removeCompartmentType(0).equals(o2));
-		assertTrue(M.getNumCompartmentTypes() == 1);
+		assertTrue(M.getCompartmentTypeCount() == 1);
 		assertTrue(M.removeCompartmentType("test").equals(o3));
-		assertTrue(M.getNumCompartmentTypes() == 0);
+		assertTrue(M.getCompartmentTypeCount() == 0);
 		o1 = null;
 		o2 = null;
 		o3 = null;
@@ -830,11 +830,11 @@ public class TestModel {
 		o3 = M.createConstraint();
 		o3.setMetaId("c3");
 		assertTrue(M.removeConstraint(0).equals(o1));
-		assertTrue(M.getNumConstraints() == 2);
+		assertTrue(M.getConstraintCount() == 2);
 		assertTrue(M.removeConstraint(0).equals(o2));
-		assertTrue(M.getNumConstraints() == 1);
+		assertTrue(M.getConstraintCount() == 1);
 		assertTrue(M.removeConstraint(0).equals(o3));
-		assertTrue(M.getNumConstraints() == 0);
+		assertTrue(M.getConstraintCount() == 0);
 		o1 = null;
 		o2 = null;
 		o3 = null;
@@ -848,11 +848,11 @@ public class TestModel {
 		o3 = M.createEvent();
 		o3.setId("test");
 		assertTrue(M.removeEvent(0).equals(o1));
-		assertTrue(M.getNumEvents() == 2);
+		assertTrue(M.getEventCount() == 2);
 		assertTrue(M.removeEvent(0).equals(o2));
-		assertTrue(M.getNumEvents() == 1);
+		assertTrue(M.getEventCount() == 1);
 		assertTrue(M.removeEvent("test").equals(o3));
-		assertTrue(M.getNumEvents() == 0);
+		assertTrue(M.getEventCount() == 0);
 		o1 = null;
 		o2 = null;
 		o3 = null;
@@ -866,11 +866,11 @@ public class TestModel {
 		o3 = M.createFunctionDefinition();
 		o3.setId("test");
 		assertTrue(M.removeFunctionDefinition(0).equals(o1));
-		assertTrue(M.getNumFunctionDefinitions() == 2);
+		assertTrue(M.getFunctionDefinitionCount() == 2);
 		assertTrue(M.removeFunctionDefinition(0).equals(o2));
-		assertTrue(M.getNumFunctionDefinitions() == 1);
+		assertTrue(M.getFunctionDefinitionCount() == 1);
 		assertTrue(M.removeFunctionDefinition("test").equals(o3));
-		assertTrue(M.getNumFunctionDefinitions() == 0);
+		assertTrue(M.getFunctionDefinitionCount() == 0);
 		o1 = null;
 		o2 = null;
 		o3 = null;
@@ -887,11 +887,11 @@ public class TestModel {
 		o3.setMetaId("c3");
 		o3.setVariable("test");
 		assertTrue(M.removeInitialAssignment(0).equals(o1));
-		assertTrue(M.getNumInitialAssignments() == 2);
+		assertTrue(M.getInitialAssignmentCount() == 2);
 		assertTrue(M.removeInitialAssignment(0).equals(o2));
-		assertTrue(M.getNumInitialAssignments() == 1);
+		assertTrue(M.getInitialAssignmentCount() == 1);
 //		assertTrue(M.removeInitialAssignment("test").equals(o2));
-//		assertTrue(M.getNumInitialAssignments() == 0);
+//		assertTrue(M.getInitialAssignmentCount() == 0);
 		o1 = null;
 		o2 = null;
 		o3 = null;
@@ -905,11 +905,11 @@ public class TestModel {
 		o3 = M.createParameter();
 		o3.setId("test");
 		assertTrue(M.removeParameter(0).equals(o1));
-		assertTrue(M.getNumParameters() == 2);
+		assertTrue(M.getParameterCount() == 2);
 		assertTrue(M.removeParameter(0).equals(o2));
-		assertTrue(M.getNumParameters() == 1);
+		assertTrue(M.getParameterCount() == 1);
 		assertTrue(M.removeParameter("test").equals(o3));
-		assertTrue(M.getNumParameters() == 0);
+		assertTrue(M.getParameterCount() == 0);
 		o1 = null;
 		o2 = null;
 		o3 = null;
@@ -923,11 +923,11 @@ public class TestModel {
 		o3 = M.createReaction();
 		o3.setId("test");
 		assertTrue(M.removeReaction(0).equals(o1));
-		assertTrue(M.getNumReactions() == 2);
+		assertTrue(M.getReactionCount() == 2);
 		assertTrue(M.removeReaction(0).equals(o2));
-		assertTrue(M.getNumReactions() == 1);
+		assertTrue(M.getReactionCount() == 1);
 		assertTrue(M.removeReaction("test").equals(o3));
-		assertTrue(M.getNumReactions() == 0);
+		assertTrue(M.getReactionCount() == 0);
 		o1 = null;
 		o2 = null;
 		o3 = null;
@@ -942,11 +942,11 @@ public class TestModel {
 		o3 = M.createRateRule();
 		o3.setVariable("test");
 		assertTrue(M.removeRule(0).equals(o1));
-		assertTrue(M.getNumRules() == 2);
+		assertTrue(M.getRuleCount() == 2);
 		assertTrue(M.removeRule(0).equals(o2));
-		assertTrue(M.getNumRules() == 1);
+		assertTrue(M.getRuleCount() == 1);
 		assertTrue( M.removeRule("test").equals(o3) );
-		assertTrue(M.getNumRules() == 0);
+		assertTrue(M.getRuleCount() == 0);
 		o1 = null;
 		o2 = null;
 		o3 = null;
@@ -960,11 +960,11 @@ public class TestModel {
 		o3 = M.createSpecies();
 		o3.setId("test");
 		assertTrue(M.removeSpecies(0).equals(o1));
-		assertTrue(M.getNumSpecies() == 2);
+		assertTrue(M.getSpeciesCount() == 2);
 		assertTrue(M.removeSpecies(0).equals(o2));
-		assertTrue(M.getNumSpecies() == 1);
+		assertTrue(M.getSpeciesCount() == 1);
 		assertTrue(M.removeSpecies("test").equals(o3));
-		assertTrue(M.getNumSpecies() == 0);
+		assertTrue(M.getSpeciesCount() == 0);
 		o1 = null;
 		o2 = null;
 		o3 = null;
@@ -978,11 +978,11 @@ public class TestModel {
 		o3 = M.createSpeciesType();
 		o3.setId("test");
 		assertTrue(M.removeSpeciesType(0).equals(o1));
-		assertTrue(M.getNumSpeciesTypes() == 2);
+		assertTrue(M.getSpeciesTypeCount() == 2);
 		assertTrue(M.removeSpeciesType(0).equals(o2));
-		assertTrue(M.getNumSpeciesTypes() == 1);
+		assertTrue(M.getSpeciesTypeCount() == 1);
 		assertTrue(M.removeSpeciesType("test").equals(o3));
-		assertTrue(M.getNumSpeciesTypes() == 0);
+		assertTrue(M.getSpeciesTypeCount() == 0);
 		o1 = null;
 		o2 = null;
 		o3 = null;
@@ -996,11 +996,11 @@ public class TestModel {
 		o3 = M.createUnitDefinition();
 		o3.setId("test");
 		assertTrue(M.removeUnitDefinition(0).equals(o1));
-		assertTrue(M.getNumUnitDefinitions() == 2);
+		assertTrue(M.getUnitDefinitionCount() == 2);
 		assertTrue(M.removeUnitDefinition(0).equals(o2));
-		assertTrue(M.getNumUnitDefinitions() == 1);
+		assertTrue(M.getUnitDefinitionCount() == 1);
 		assertTrue(M.removeUnitDefinition("test").equals(o3));
-		assertTrue(M.getNumUnitDefinitions() == 0);
+		assertTrue(M.getUnitDefinitionCount() == 0);
 		o1 = null;
 		o2 = null;
 		o3 = null;

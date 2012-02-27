@@ -315,10 +315,10 @@ public class SBMLValidator {
 
 		SBMLErrorLog sbmlErrorLog = checkConsistency(filename, parameters);
 		
-		System.out.println("There is " + sbmlErrorLog.getNumErrors() + " errors in the model.\n");
+		System.out.println("There is " + sbmlErrorLog.getErrorCount() + " errors in the model.\n");
 		
 		// printErrors
-		for (int j = 0; j < sbmlErrorLog.getNumErrors(); j++) {
+		for (int j = 0; j < sbmlErrorLog.getErrorCount(); j++) {
 			SBMLError error = sbmlErrorLog.getError(j);
 			
 			System.out.println(error.toString() + "\n");

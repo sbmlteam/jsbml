@@ -654,6 +654,15 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	}
 	
 	/**
+	 * 
+	 * @return the number of {@link ModifierSpeciesReference}s of this
+	 *         {@link Reaction}.
+	 */
+	public int getModifierCount() {
+	  return listOfModifiers == null ? 0 : listOfModifiers.size();
+	}
+
+  /**
 	 * Returns the first {@link ModifierSpeciesReference} in the
 	 * {@link #listOfModifiers} of this {@link Reaction} whose 'species'
 	 * attribute points to a {@link Species} with the given identifier.
@@ -672,27 +681,33 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	}
 
 	/**
-	 * 
-	 * @return the number of ModifierSpeciesReferences of this Reaction.
+	 * @return the number of {@link ModifierSpeciesReference}s of this
+	 *         {@link Reaction}.
+	 * @deprecated use {@link #getModifierCount()}
 	 */
+	@Deprecated
 	public int getNumModifiers() {
-		return listOfModifiers == null ? 0 : listOfModifiers.size();
+	  return getModifierCount();
 	}
 
 	/**
 	 * 
-	 * @return the number of products SpeciesReference.
+	 * @return the number of products {@link SpeciesReference}.
+	 * @deprecated use {@link #getProductCount()}
 	 */
+	@Deprecated
 	public int getNumProducts() {
-		return listOfProducts == null ? 0 : listOfProducts.size();
+	  return getProductCount();
 	}
 
 	/**
 	 * 
-	 * @return the number of reactants SpeciesReference.
+	 * @return the number of reactants {@link SpeciesReference}.
+	 * @deprecated use {@link #getReactantCount()}
 	 */
+	@Deprecated
 	public int getNumReactants() {
-		return listOfReactants == null ? 0 : listOfReactants.size();
+	  return getReactantCount();
 	}
 
 	/* (non-Javadoc)
@@ -713,7 +728,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	public SpeciesReference getProduct(int i) {
 		return getListOfProducts().get(i);
 	}
-	
+
 	/**
 	 * Searches the first {@link SpeciesReference} in the listOfProducts of this
 	 * {@link Reaction} with the given identifier.
@@ -729,6 +744,14 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		return getListOfProducts().firstHit(new NameFilter(id));
 	}
 	
+	/**
+	 * 
+	 * @return the number of products {@link SpeciesReference}.
+	 */
+	public int getProductCount() {
+	  return listOfProducts == null ? 0 : listOfProducts.size();
+	}
+
 	/**
 	 * Returns the first {@link SpeciesReference} in the {@link #listOfProducts}
 	 * of this {@link Reaction} whose 'species' attribute points to a
@@ -769,6 +792,14 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 */
 	public SpeciesReference getReactant(String id) {
 		return getListOfReactants().firstHit(new NameFilter(id));
+	}
+
+	/**
+	 * 
+	 * @return the number of reactants {@link SpeciesReference}.
+	 */
+	public int getReactantCount() {
+	  return listOfReactants == null ? 0 : listOfReactants.size();
 	}
 
 	/**
@@ -850,7 +881,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	public void initDefaults() {
 		initDefaults(getLevel(), getVersion());
 	}
-	
+
 	/**
 	 * Initializes the default variables of this Reaction.
 	 */
@@ -1334,7 +1365,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Removes the {@link #listOfReactants} from this {@link Reaction} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
@@ -1362,7 +1393,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		firePropertyChange(TreeNodeChangeEvent.reversible, oldReversible, reversible);
 	}
 
-  /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override

@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -134,34 +135,35 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return false;
 	}
 
-	/**
-	 * <p>
-	 * Predicate returning true or false depending on whether two UnitDefinition
-	 * objects are equivalent.
-	 * </p>
-	 * <p>
-	 * For the purposes of performing this comparison, two UnitDefinition
-	 * objects are considered equivalent when they contain equivalent list of
-	 * Unit objects. Unit objects are in turn considered equivalent if they
-	 * satisfy the predicate Unit.areEquivalent(). The predicate tests a subset
-	 * of the objects's attributes.
-	 * </p>
-	 * 
-	 * @param ud1
-	 *            the first UnitDefinition object to compare
-	 * @param ud2
-	 *            the second UnitDefinition object to compare
-	 * @return true if all the Unit objects in ud1 are equivalent to the Unit
-	 *         objects in ud2, false otherwise.
-	 * @see areIdentical
-	 * @see Unit.areEquivalent
-	 */
+  /**
+   * <p>
+   * Predicate returning true or false depending on whether two
+   * {@link UnitDefinition} objects are equivalent.
+   * </p>
+   * <p>
+   * For the purposes of performing this comparison, two {@link UnitDefinition}
+   * objects are considered equivalent when they contain equivalent list of
+   * {@link Unit} objects. {@link Unit} objects are in turn considered
+   * equivalent if they satisfy the predicate
+   * {@link Unit#areEquivalent(Unit, Unit)}. The predicate tests a subset of the
+   * objects's attributes.
+   * </p>
+   * 
+   * @param ud1
+   *        the first {@link UnitDefinition} object to compare
+   * @param ud2
+   *        the second {@link UnitDefinition} object to compare
+   * @return <code>true</code> if all the Unit objects in ud1 are equivalent to
+   *         the {@link Unit} objects in ud2, <code>false</code> otherwise.
+   * @see #areIdentical(UnitDefinition, UnitDefinition)
+   * @see Unit#areEquivalent(Unit, String)
+   */
 	public static boolean areEquivalent(UnitDefinition ud1, UnitDefinition ud2) {
 		UnitDefinition ud1clone = ud1.clone().simplify();
 		UnitDefinition ud2clone = ud2.clone().simplify();
-		if (ud1clone.getNumUnits() == ud2clone.getNumUnits()) {
+		if (ud1clone.getUnitCount() == ud2clone.getUnitCount()) {
 			boolean equivalent = true;
-			for (int i = 0; i < ud1clone.getNumUnits(); i++) {
+			for (int i = 0; i < ud1clone.getUnitCount(); i++) {
 				equivalent &= Unit.areEquivalent(ud1clone.getUnit(i),
 						ud2clone.getUnit(i));
 			}
@@ -170,32 +172,34 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return false;
 	}
 
-	/**
-	 * <p>
-	 * Predicate returning true or false depending on whether two UnitDefinition
-	 * objects are identical.
-	 * </p>
-	 * <p>
-	 * For the purposes of performing this comparison, two UnitDefinition
-	 * objects are considered identical when they contain identical lists of
-	 * Unit objects. Pairs of Unit objects in the lists are in turn considered
-	 * identical if they satisfy the predicate Unit.areIdentical(). The
-	 * predicate compares every attribute of the Unit objects.
-	 * </p>
-	 * 
-	 * @param ud1
-	 *            the first UnitDefinition object to compare
-	 * @param ud2
-	 *            the second UnitDefinition object to compare
-	 * @return true if all the Unit objects in ud1 are identical to the Unit
-	 *         objects of ud2, false otherwise.
-	 */
+  /**
+   * <p>
+   * Predicate returning <code>true</code> or <code>false</code> depending on
+   * whether two {@link UnitDefinition} objects are identical.
+   * </p>
+   * <p>
+   * For the purposes of performing this comparison, two {@link UnitDefinition}
+   * objects are considered identical when they contain identical lists of
+   * {@link Unit} objects. Pairs of {@link Unit} objects in the lists are in
+   * turn considered identical if they satisfy the predicate
+   * {@link Unit#areIdentical(Unit, Unit)}. The predicate compares every
+   * attribute of the {@link Unit} objects.
+   * </p>
+   * 
+   * @param ud1
+   *        the first {@link UnitDefinition} object to compare
+   * @param ud2
+   *        the second {@link UnitDefinition} object to compare
+   * @return <code>true</code> if all the {@link Unit} objects in ud1 are
+   *         identical to the {@link Unit} objects of ud2, <code>false</code>
+   *         otherwise.
+   */
 	public static boolean areIdentical(UnitDefinition ud1, UnitDefinition ud2) {
 		UnitDefinition ud1clone = ud1.clone().simplify();
 		UnitDefinition ud2clone = ud2.clone().simplify();
-		if (ud1clone.getNumUnits() == ud2clone.getNumUnits()) {
+		if (ud1clone.getUnitCount() == ud2clone.getUnitCount()) {
 			boolean identical = true;
-			for (int i = 0; i < ud1clone.getNumUnits(); i++) {
+			for (int i = 0; i < ud1clone.getUnitCount(); i++) {
 				identical &= Unit.areIdentical(ud1clone.getUnit(i),
 						ud2clone.getUnit(i));
 			}
@@ -278,9 +282,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 		String name = " unit " + id;
 		if (!Unit.isPredefined(id, level)) {
 			id += "_base";
-			name = "Base " + name;
+			name = "Base" + name;
 		} else {
-			name = "Predefined " + name;
+			name = "Predefined" + name;
 		}
 		UnitDefinition ud = new UnitDefinition(id, level, version);
 		ud.setName(name);
@@ -319,7 +323,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if (ud.getLevel() > 2) {
 			return false;
 		}
-		if (ud.getNumUnits() == 1) {
+		if (ud.getUnitCount() == 1) {
 			UnitDefinition predef = getPredefinedUnit(ud.getId(),
 					ud.getLevel(), ud.getVersion());
 			if ((predef != null)
@@ -365,7 +369,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if (ud == null) {
 			sb.append("null");
 		} else {
-			for (int i = 0; i < ud.getNumUnits(); i++) {
+			for (int i = 0; i < ud.getUnitCount(); i++) {
 				Unit unit = ud.getUnit(i);
 				if (i > 0) {
 					sb.append('*'); // multiplication dot \u22c5.
@@ -393,7 +397,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 *            the UnitDefinition object whose units are to be reordered.
 	 */
 	public static void reorder(UnitDefinition ud) {
-		if (1 < ud.getNumUnits()) {
+		if (1 < ud.getUnitCount()) {
 			ListOf<Unit> orig = ud.getListOfUnits();
 			ListOf<Unit> units = new ListOf<Unit>(ud.getLevel(), ud.getVersion());
 			units.setSBaseListType(Type.listOfUnits);
@@ -561,7 +565,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * This method converts this unit definition to a
 	 */
 	public void convertToSIUnits() {
-		UnitDefinition ud[] = new UnitDefinition[getNumUnits()];
+		UnitDefinition ud[] = new UnitDefinition[getUnitCount()];
 		Set<TreeNodeChangeListener> listeners = new HashSet<TreeNodeChangeListener>(
 				getListOfTreeNodeChangeListeners());
 		removeAllTreeNodeChangeListeners();
@@ -601,10 +605,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @param definition
 	 */
 	public UnitDefinition divideBy(UnitDefinition definition) {
-		if (!isSetListOfUnits()) {
-			this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
-			this.listOfUnits.fireNodeAddedEvent();
-		}
+		ListOf<Unit> listOfUnits = getListOfUnits();
 		Unit twinunit;
 
 		for (Unit unit1 : definition.getListOfUnits()) {
@@ -694,9 +695,19 @@ public class UnitDefinition extends AbstractNamedSBase {
 	/**
 	 * 
 	 * @return the number of Unit.
+	 * @deprecated use {@link #getUnitCount()}
 	 */
+	@Deprecated
 	public int getNumUnits() {
-		return isSetListOfUnits() ? listOfUnits.size() : 0;
+		return getUnitCount();
+	}
+	
+	/**
+	 * 
+	 * @return the number of Unit.
+	 */
+	public int getUnitCount() {
+	  return isSetListOfUnits() ? listOfUnits.size() : 0;
 	}
 
 	/*
@@ -749,7 +760,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public boolean isInvalid() {
 		UnitDefinition ud = this.clone().simplify();
 
-		if (ud.getNumUnits() == 1) {
+		if (ud.getUnitCount() == 1) {
 			return ud.getUnit(0).isInvalid();
 		}
 
@@ -784,7 +795,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return
 	 */
 	public boolean isUnitKind() {
-		if (getNumUnits() == 1) {
+		if (getUnitCount() == 1) {
 			return Unit.isUnitKind(getUnit(0).getKind(), getLevel(),
 					getVersion());
 		}
@@ -980,10 +991,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return
 	 */
 	public UnitDefinition multiplyWith(UnitDefinition definition) {
-		if (!isSetListOfUnits()) {
-			this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
-			this.listOfUnits.fireNodeAddedEvent();
-		}
+		ListOf<Unit> listOfUnits = getListOfUnits();
 		Unit twinunit;
 
 		for (Unit unit : definition.getListOfUnits()) {
@@ -1013,9 +1021,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * with the given exponent.
 	 * 
 	 * @param exponent
-	 * @return a pointer to this UnitDefinition.
+	 * @return a pointer to this {@link UnitDefinition}.
 	 */
-	public UnitDefinition raiseByThePowerOf(int exponent) {
+	public UnitDefinition raiseByThePowerOf(double exponent) {
 		if (isSetListOfUnits()) {
 			Unit u;
 			for (int i = listOfUnits.size() - 1; i >= 0; i--) {
@@ -1049,9 +1057,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#setId(java.lang.String)
 	 */
 	@Override
@@ -1063,8 +1069,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 				&& Unit.Kind.isValidUnitKindString(id, lv.getL().intValue(), lv
 						.getV().intValue())) {
 			throw new IllegalArgumentException(
-					String.format(
-							"Cannot use the name %s of a unit base kind as an identifier for a UnitDefinition.",
+					MessageFormat.format(
+							"Cannot use the name {0} of a unit base kind as an identifier for a UnitDefinition.",
 							id));
 		}
 		super.setId(id);
@@ -1100,7 +1106,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if (isSetListOfUnits()) {
 			reorder(this);
 			// Merge units with equivalent or similar kinds if possible:
-			for (int i = getNumUnits() - 2; i >= 0; i--) {
+			for (int i = getUnitCount() - 2; i >= 0; i--) {
 				Unit u = getUnit(i); // current unit
 				Unit s = getUnit(i + 1); // successor unit
 				if (Unit.Kind.areEquivalent(u.getKind(), s.getKind())
@@ -1115,7 +1121,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 			}
 			// Shift scales and multipliers to the front if possible:
 			// TODO: Reorder all units first to have all those with a positive exponent in the front!
-			for (int i = getNumUnits() - 2; i >= 0; i--) {
+			for (int i = getUnitCount() - 2; i >= 0; i--) {
         Unit u = getUnit(i); // current unit
         Unit s = getUnit(i + 1); // successor unit
         if (!Unit.Kind.areEquivalent(u.getKind(), s.getKind())
@@ -1132,8 +1138,12 @@ public class UnitDefinition extends AbstractNamedSBase {
           // Try re-scaling by merging the scale of the second unit into the first unit:
           if ((Math.signum(p1) != Math.signum(p2)) && (e1 != 0d)) {
             double newScale = s1 + p2 / e1;
-            if (newScale - ((int) newScale) == 0) {
-              // Only re-scale if we can obtain an integer, i.e., loss-free rounding.
+            if (((i > 1) || ((s1 != 0) && (s2 != 0))) && (newScale - ((int) newScale) == 0)) {
+              /*
+               * Only re-scale if we can obtain an integer and if there is more
+               * than two units in the list (otherwise it is not necessary to
+               * simplify these units), i.e., loss-free rounding.
+               */
               u.setScale((int) newScale);
               s.setScale(0);
             }

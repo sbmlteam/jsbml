@@ -98,15 +98,15 @@ public class TestReadFromFile1 {
 		assertTrue(d.getVersion() == 1);
 		m = d.getModel();
 		assertTrue(m.getName().equals("Branch"));
-		assertTrue(m.getNumCompartments() == 1);
+		assertTrue(m.getCompartmentCount() == 1);
 		c = m.getCompartment(0);
 		assertTrue(c.getName().equals("compartmentOne"));
 		assertTrue(c.getVolume() == 1);
 		ud = c.getDerivedUnitDefinition();
-		assertTrue(ud.getNumUnits() == 1);
+		assertTrue(ud.getUnitCount() == 1);
 
 		// assertTrue(ud.getUnit(0).getKind() == Unit.Kind.LITRE); // getDerivedUnitDefinition not working properly
-		assertTrue(m.getNumSpecies() == 4);
+		assertTrue(m.getSpeciesCount() == 4);
 		s = m.getSpecies(0);
 		assertTrue(s.getName().equals("S1"));
 		assertTrue(s.getCompartment().equals("compartmentOne"));
@@ -114,7 +114,7 @@ public class TestReadFromFile1 {
 		assertTrue(s.getBoundaryCondition() == false);
 
 		//		ud = s.getDerivedUnitDefinition(); // getDerivedUnitDefinition not working properly
-//		assertTrue(ud.getNumUnits() == 2);
+//		assertTrue(ud.getUnitCount() == 2);
 //		assertTrue(ud.getUnit(0).getKind() == Unit.Kind.MOLE);
 //		assertTrue(ud.getUnit(0).getExponent() == 1);
 //		assertTrue(ud.getUnit(1).getKind() == Unit.Kind.LITRE);
@@ -135,14 +135,14 @@ public class TestReadFromFile1 {
 		assertTrue(s.getCompartment().equals("compartmentOne"));
 		assertTrue(s.getInitialAmount() == 0);
 		assertTrue(s.getBoundaryCondition() == true);
-		assertTrue(m.getNumReactions() == 3);
+		assertTrue(m.getReactionCount() == 3);
 		r = m.getReaction(0);
 		assertTrue(r.getName().equals("reaction_1"));
 		assertTrue(r.getReversible() == false);
 		assertTrue(r.getFast() == false);
 		ud = r.getKineticLaw().getDerivedUnitDefinition();
 
-		//		assertTrue(ud.getNumUnits() == 2);
+		//		assertTrue(ud.getUnitCount() == 2);
 //		assertTrue(ud.getUnit(0).getKind() == Unit.Kind.MOLE);
 //		assertTrue(ud.getUnit(0).getExponent() == 1);
 //		assertTrue(ud.getUnit(1).getKind() == Unit.Kind.LITRE);
@@ -158,8 +158,8 @@ public class TestReadFromFile1 {
 		assertTrue(r.getReversible() == false);
 		assertTrue(r.getFast() == false);
 		r = m.getReaction(0);
-		assertTrue(r.getNumReactants() == 1);
-		assertTrue(r.getNumProducts() == 1);
+		assertTrue(r.getReactantCount() == 1);
+		assertTrue(r.getProductCount() == 1);
 		sr = r.getReactant(0);
 		assertTrue(sr.getSpecies().equals("X0"));
 		assertTrue(sr.getStoichiometry() == 1);
@@ -170,13 +170,13 @@ public class TestReadFromFile1 {
 		assertTrue(sr.getDenominator() == 1);
 		kl = r.getKineticLaw();
 		assertTrue(kl.getFormula().equals("k1*X0")); // We are not putting the same space in the formula
-		assertTrue(kl.getNumParameters() == 1);
+		assertTrue(kl.getLocalParameterCount() == 1);
 		p = kl.getParameter(0);
 		assertTrue(p.getName().equals("k1"));
 		assertTrue(p.getValue() == 0);
 		r = m.getReaction(1);
-		assertTrue(r.getNumReactants() == 1);
-		assertTrue(r.getNumProducts() == 1);
+		assertTrue(r.getReactantCount() == 1);
+		assertTrue(r.getProductCount() == 1);
 		sr = r.getReactant(0);
 		assertTrue(sr.getSpecies().equals("S1"));
 		assertTrue(sr.getStoichiometry() == 1);
@@ -187,13 +187,13 @@ public class TestReadFromFile1 {
 		assertTrue(sr.getDenominator() == 1);
 		kl = r.getKineticLaw();
 		assertTrue(kl.getFormula().equals("k2*S1")); // equals("k2 * S1")
-		assertTrue(kl.getNumParameters() == 1);
+		assertTrue(kl.getLocalParameterCount() == 1);
 		p = kl.getParameter(0);
 		assertTrue(p.getName().equals("k2"));
 		assertTrue(p.getValue() == 0);
 		r = m.getReaction(2);
-		assertTrue(r.getNumReactants() == 1);
-		assertTrue(r.getNumProducts() == 1);
+		assertTrue(r.getReactantCount() == 1);
+		assertTrue(r.getProductCount() == 1);
 		sr = r.getReactant(0);
 		assertTrue(sr.getSpecies().equals("S1"));
 		assertTrue(sr.getStoichiometry() == 1);
@@ -204,7 +204,7 @@ public class TestReadFromFile1 {
 		assertTrue(sr.getDenominator() == 1);
 		kl = r.getKineticLaw();
 		assertTrue(kl.getFormula().equals("k3*S1")); // equals("k3 * S1")
-		assertTrue(kl.getNumParameters() == 1);
+		assertTrue(kl.getLocalParameterCount() == 1);
 		p = kl.getParameter(0);
 		assertTrue(p.getName().equals("k3"));
 		assertTrue(p.getValue() == 0);

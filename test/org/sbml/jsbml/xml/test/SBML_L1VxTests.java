@@ -99,7 +99,7 @@ public class SBML_L1VxTests {
 		
 		assertTrue(s1.getName().equals("S1"));
 		assertTrue(s1.getId().equals("S1")); // changed, was assertTrue(s1.getId().equals("")); cf comment above.
-		assertTrue(s1.getNumCVTerms() == 0);
+		assertTrue(s1.getCVTermCount() == 0);
 		
 		assertTrue(s1.getInitialAmount() == 0);
 		assertTrue(s1.getBoundaryCondition() == false);
@@ -161,7 +161,7 @@ public class SBML_L1VxTests {
 		
 		assertTrue(s1.getName().equals("s1"));
 		assertTrue(s1.getId().equals("s1")); // changed, was :  assertTrue(s1.getId().equals(""));
-		assertTrue(s1.getNumCVTerms() == 0);
+		assertTrue(s1.getCVTermCount() == 0);
 		
 		assertTrue(s1.getInitialAmount() == 1);
 		
@@ -169,7 +169,7 @@ public class SBML_L1VxTests {
 		UnitDefinition mls = model.getUnitDefinition(1);
 		
 		assertTrue(mls != null);
-		assertTrue(mls.getNumUnits() == 3);
+		assertTrue(mls.getUnitCount() == 3);
 		assertTrue(mls.getName().equals("mls"));
 		assertTrue(mls.getUnit(0).getScale() == -3);
 		assertTrue(mls.getUnit(0).getKind().getName().equals("mole"));

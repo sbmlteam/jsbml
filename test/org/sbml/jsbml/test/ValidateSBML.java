@@ -52,7 +52,7 @@ public class ValidateSBML {
 		document = reader.readSBML(filename);
 		stop     = System.currentTimeMillis();
 
-		if (document.getNumErrors() > 0)
+		if (document.getErrorCount() > 0)
 		{
 			print("Encountered the following errors while reading the SBML file:\n");
 			document.printErrors(System.out);

@@ -94,7 +94,7 @@ public class CheckConsistencyTests {
 		
 		assertTrue(doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR) == 0);
 		
-		assertTrue(nbErrors == doc.getNumErrors());
+		assertTrue(nbErrors == doc.getErrorCount());
 		assertTrue(nbErrors == doc.getErrorLog().getValidationErrors().size());
 		
 	}

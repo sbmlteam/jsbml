@@ -1008,8 +1008,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getNumCVTerms()
 	 */
+	@Deprecated
 	public int getNumCVTerms() {
-		return isSetAnnotation() ? annotation.getListOfCVTerms().size() : 0;
+		return getCVTermCount();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#getCVTermCount()
+	 */
+	public int getCVTermCount() {
+	  return isSetAnnotation() ? annotation.getListOfCVTerms().size() : 0;
 	}
 
 	/**
@@ -1253,15 +1261,15 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	        && (sbase instanceof AbstractSBase), false);
 	    }
 	    Model model = getModel();
-      /*
-       * Check if the model to which this node is assigned equals the one to
-       * which the given SBase belongs. This is important because if both 
-       * belong to the identical model, we don't have to register all 
-       * identifiers recursively.
-       * In this case, it will be enough to check this one new node only.
-       */
+	    /*
+	     * Check if the model to which this node is assigned equals the one to
+	     * which the given SBase belongs. This is important because if both 
+	     * belong to the identical model, we don't have to register all 
+	     * identifiers recursively.
+	     * In this case, it will be enough to check this one new node only.
+	     */
 	    boolean recursively = (model == null) || (sbase.getModel() != model);
-	    
+
 	    /* Memorize all TreeNodeChangeListeners that are currently assigned to the new
 	     * SBase in order to re-use these later. For now we must remove all those to
 	     * avoid listeners to be called before we could really add the SBase to this
@@ -1269,31 +1277,36 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	     */
 	    List<TreeNodeChangeListener> listeners = sbase.getListOfTreeNodeChangeListeners();
 	    sbase.removeAllTreeNodeChangeListeners();
-      
-      /*
-       * Make sure the new SBase is part of the subtree rooted at this element
-       * before (recursively) registering all ids:
-       */
-	    if (sbase instanceof AbstractSBase) {
-        ((AbstractSBase) sbase).parent = this;
-      } else {
-        sbase.setParentSBML(this);
-      }
-	    
-      /*
-       * Now, we cann add all previous listeners. The next change will
-       * be fired after registering all ids.
-       */
-      sbase.addAllChangeListeners(listeners);
-      
-      // If possible, recursively register all ids of the SBase in our model:
-      if ((model != null)
-        && !model.registerIds(this, sbase, recursively, false)) {
-        throw new IllegalArgumentException(String.format("Cannot register %s.",
-          sbase.getElementName()));
-      }
-      
-      // Add all TreeNodeChangeListeners from this current node also to the new SBase:
+
+	    /*
+	     * Make sure the new SBase is part of the subtree rooted at this element
+	     * before (recursively) registering all ids:
+	     */
+	    TreeNode oldParent = sbase.getParent(); // Memorize the old parent (may be null).
+	    sbase.setParentSBML(this);
+
+	    // If possible, recursively register all ids of the SBase in our model:
+	    if ((model != null)
+	        && !model.registerIds(this, sbase, recursively, false)) {
+	      // Something went wrong: We have to restore the previous state:
+	      if (oldParent == null) {
+	        sbase.setParentSBML(null);
+	      } else if (oldParent instanceof SBase) {
+	        sbase.setParentSBML((SBase) oldParent);
+	      }
+	      sbase.addAllChangeListeners(listeners);
+
+	      throw new IllegalArgumentException(String.format("Cannot register %s.",
+	        sbase.getElementName()));
+	    }
+
+	    /*
+	     * Now, we cann add all previous listeners. The next change will
+	     * be fired after registering all ids.
+	     */
+	    sbase.addAllChangeListeners(listeners); 
+
+	    // Add all TreeNodeChangeListeners from this current node also to the new SBase:
 	    sbase.addAllChangeListeners(getListOfTreeNodeChangeListeners());
 	    // Notify all listeners that a new node has been added to this subtree:
 	    sbase.fireNodeAddedEvent();
@@ -1440,23 +1453,30 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldParent, parent);
 	}
 
-	/**
-	 * 
-	 * @param sbase
-	 * @throws LevelVersionError
-	 */
+  /**
+   * Checks the Level/Version configuration of the new parent (if it is
+   * compliant to the one of this {@link SBase}), adds all changeListeners from
+   * the parent to this {@link SBase}, fires a
+   * {@link TreeNodeChangeListener#nodeAdded(TreeNode)} event, and and finally,
+   * it will forward the new parent to {@link #setParentSBML(SBase)}.
+   * Note that this will cause another event to be triggered:
+   * {@link TreeNodeChangeListener#propertyChange(java.beans.PropertyChangeEvent)}
+   * with the old and the new parent.
+   * 
+   * @param sbase
+   *        the new parent element.
+   * @throws LevelVersionError
+   *         if the SBML Level and Version configuration of the new parent
+   *         differs from the one of this {@link SBase}.
+   * @see {@link #setParentSBML(SBase)}
+   */
 	public void setParentSBMLObject(SBase sbase) throws LevelVersionError {
-
 		if (sbase instanceof AbstractSBase) {
 			((AbstractSBase) sbase).checkLevelAndVersionCompatibility(this);
 		}
-
-		this.addAllChangeListeners(sbase.getListOfTreeNodeChangeListeners());
-
-		this.fireNodeAddedEvent();
-
+		addAllChangeListeners(sbase.getListOfTreeNodeChangeListeners());
+		fireNodeAddedEvent();
 		setParentSBML(sbase);
-
 	}
 	
 	/* (non-Javadoc)

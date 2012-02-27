@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
@@ -596,6 +597,11 @@ public class Unit extends AbstractSBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -6335465287728562136L;
+	
+	/**
+	 * A {@link Logger} for this class.
+	 */
+	private static final transient Logger logger = Logger.getLogger(Unit.class);
 
 	/**
 	 * Checks whether the given {@link Unit} and the {@link Unit} represented by
@@ -1034,43 +1040,44 @@ public class Unit extends AbstractSBase {
 	public static void merge(Unit unit1, Unit unit2) {
 	  Kind k1 = unit1.getKind();
 	  Kind k2 = unit2.getKind();
-	  boolean equivalent = Kind.areEquivalent(k1, k2); 
-    if (equivalent || unit1.isDimensionless() || unit2.isDimensionless()) {
-      int s1 = unit1.getScale(), s2 = unit2.getScale();
-			// let's get rid of this offset if there is any...
-			double m1 = unit1.getOffset() / Math.pow(10, s1)
-					+ unit1.getMultiplier();
-			double m2 = unit2.getOffset() / Math.pow(10, s2)
-					+ unit2.getMultiplier();
-			double e1 = k1 == Kind.DIMENSIONLESS
-					&& unit1.getExponent() != 1d ? 1d : unit1.getExponent();
-			double e2 = k2 == Kind.DIMENSIONLESS
-					&& unit2.getExponent() != 1d ? 1d : unit2.getExponent();
-			if (unit1.getOffset() != 0d) {
-				unit1.setOffset(0);
-			}
-			
-			double newScale = s1;
-			double newMultiplier = m1;
-			double newExponent = e1 + e2;
-			
-			if (newExponent != 0) {
-			  if (m1 != m2) {
-			    newMultiplier = Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1 / newExponent);
-			  }
+	  boolean equivalent = Kind.areEquivalent(k1, k2);
+	  if (equivalent || unit1.isDimensionless() || unit2.isDimensionless()) {
+	    int s1 = unit1.getScale(), s2 = unit2.getScale();
+	    // let's get rid of this offset if there is any...
+	    double m1 = unit1.getOffset() / Math.pow(10, s1)
+	        + unit1.getMultiplier();
+	    double m2 = unit2.getOffset() / Math.pow(10, s2)
+	        + unit2.getMultiplier();
+	    double e1 = k1 == Kind.DIMENSIONLESS
+	        && unit1.getExponent() != 0d ? 0d : unit1.getExponent();
+	    double e2 = k2 == Kind.DIMENSIONLESS
+	        && unit2.getExponent() != 0d ? 0d : unit2.getExponent();
+	    if (unit1.getOffset() != 0d) {
+	      unit1.setOffset(0);
+	    }
+
+	    double newScale = s1;
+	    double newMultiplier = m1;
+	    double newExponent = e1 + e2;
+
+	    if (newExponent != 0d) {
+
+	      if (m1 != m2) {
+	        newMultiplier = Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1 / newExponent);
+	      }
 	      if (s1 != s2) {
 	        if (s1 == 0) {
 	          newScale = s2 * e2 / newExponent;
 	          if (newScale - ((int) newScale) != 0d) {
-	             // If rounding fails, just keep the previous scale:
+	            // If rounding fails, just keep the previous scale:
 	            newScale = s2;
 	          }
 	        } else if (s2 == 0) {
 	          newScale = s1 * e1 / newExponent;
 	          if (newScale - ((int) newScale) != 0d) {
 	            // If rounding fails, just keep the previous scale:
-              newScale = s1;
-            }
+	            newScale = s1;
+	          }
 	        } else if ((e1 != 0d) && (1 + e2 != 0d)) {
 	          newScale = (s1 + e2 * s2 / e1) / (1 + e2);
 	        } else {
@@ -1090,38 +1097,41 @@ public class Unit extends AbstractSBase {
 	          }
 	        }
 	      }
-			}
-			
-			// Adapt unit kind if necessary
-			if (k1 == Kind.METER) {
-			  unit1.setKind(Kind.METRE);
-			} else if (k1 == Kind.LITER) {
-			  unit1.setKind(Kind.LITRE);
-			}
-			// If the unit has become dimentionless, mark it accordingly
-			if (newExponent == 0) {
-			  newExponent = 1;
-				unit1.setKind(Kind.DIMENSIONLESS);
-			}
-			unit1.setMultiplier(newMultiplier);
-			unit1.setScale((int) newScale);
-      unit1.setExponent(newExponent);
-			
-		} else if (k1.equals(Kind.INVALID) || k2.equals(Kind.INVALID)) {
-			if (!k2.equals(Kind.INVALID)) {
-				if (unit2.isSetOffset) {
-					unit1.setOffset(unit2.getOffset());
-				}
-				unit1.setMultiplier(unit2.getMultiplier());
-				unit1.setScale(unit2.getScale());
-				unit1.setKind(k2);
-				unit1.setExponent(unit2.getExponent());
-			}
-		} else {
-			throw new IllegalArgumentException(String.format(
-									"Cannot merge units with different kind properties %s and %s. Units can only be merged if both have the same kind attribute or if one of them is dimensionless.",
-									k1, k2));
-		}
+
+	      // Adapt unit kind if necessary
+	      if (k1 == Kind.METER) {
+	        unit1.setKind(Kind.METRE);
+	      } else if (k1 == Kind.LITER) {
+	        unit1.setKind(Kind.LITRE);
+	      }
+
+	    } else {
+	      // If the unit has become dimentionless, mark it accordingly
+	      newMultiplier = 1d;
+	      newScale = 0d;
+	      newExponent = 1d;
+	      unit1.setKind(Kind.DIMENSIONLESS);
+	    }
+
+	    unit1.setMultiplier(newMultiplier);
+	    unit1.setScale((int) newScale);
+	    unit1.setExponent(newExponent);
+
+	  } else if (k1.equals(Kind.INVALID) || k2.equals(Kind.INVALID)) {
+	    if (!k2.equals(Kind.INVALID)) {
+	      if (unit2.isSetOffset) {
+	        unit1.setOffset(unit2.getOffset());
+	      }
+	      unit1.setMultiplier(unit2.getMultiplier());
+	      unit1.setScale(unit2.getScale());
+	      unit1.setKind(k2);
+	      unit1.setExponent(unit2.getExponent());
+	    }
+	  } else {
+	    throw new IllegalArgumentException(MessageFormat.format(
+	      "Cannot merge units with different kind properties {0} and {1}. Units can only be merged if both have the same kind attribute or if one of them is dimensionless.",
+	      k1, k2));
+	  }
 	}
 
 	/**
@@ -2255,12 +2265,11 @@ public class Unit extends AbstractSBase {
 						getExponent()));
 			} else {
 				int exponent = (int) getExponent();
-				attributes.put("exponent", Integer
-						.toString((int) getExponent()));
+				attributes.put("exponent", Integer.toString((int) getExponent()));
 				if (exponent - getExponent() != 0d) {
-					// TODO: Throw Exception?
-					System.err.printf("Illegal non-integer exponent %d.\n",
-							getExponent());
+				  logger.warn(MessageFormat.format(
+				    "Loss of information because the illegal non-integer exponent {0,number} has been rounded to {1,number,integer}.",
+				    getExponent(), exponent));
 				}
 			}
 		}

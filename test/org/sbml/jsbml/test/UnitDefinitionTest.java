@@ -103,6 +103,16 @@ public class UnitDefinitionTest {
     ud.simplify();
     System.out.println(UnitDefinition.printUnits(ud, true));
     
+    ud = new UnitDefinition(level, version);
+    ud.addUnit(new Unit(-3, Unit.Kind.MOLE, 1d, level, version));
+    ud.addUnit(new Unit(Unit.Kind.LITRE, -1d, level, version));
+    ud2 = new UnitDefinition(level, version);
+    ud2.addUnit(new Unit(-3, Unit.Kind.MOLE, 1d, level, version));
+    ud2.addUnit(new Unit(Unit.Kind.LITRE, -1d, level, version));
+    ud.divideBy(ud2);
+    System.out.println(UnitDefinition.printUnits(ud, true));
+    ud.simplify();
+    System.out.println(UnitDefinition.printUnits(ud, true));
 	}
 
 }

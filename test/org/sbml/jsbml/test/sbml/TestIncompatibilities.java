@@ -122,7 +122,7 @@ public class TestIncompatibilities {
 	    o2 = E.createEventAssignment();
 	    o3 = E.createEventAssignment();
 	    o3.setVariable("test");
-	    assertTrue( E.getNumEventAssignments() == 3 );
+	    assertTrue( E.getEventAssignmentCount() == 3 );
 	    
 	  }
 	  

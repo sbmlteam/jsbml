@@ -195,7 +195,7 @@ public class TestCVTerms {
     long number;
     term.addResource(resource);
     term.addResource(resource1);
-    number = term.getNumResources();
+    number = term.getResourceCount();
     assertTrue( number == 2 );
     assertTrue(term.getResourceURI(0).equals( "GO6666"));
     assertTrue(term.getResourceURI(1).equals( "OtherURI"));

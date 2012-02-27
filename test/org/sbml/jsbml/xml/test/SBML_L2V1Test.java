@@ -136,7 +136,7 @@ public class SBML_L2V1Test {
 		assertTrue(dClk != null);
 		
 		assertTrue(dClk.getName().length() == 0);
-		assertTrue(dClk.getNumCVTerms() == 1);
+		assertTrue(dClk.getCVTermCount() == 1);
 		
 		assertTrue(dClk.getInitialAmount() == Double.parseDouble("1e-16"));
 		
@@ -170,7 +170,7 @@ public class SBML_L2V1Test {
 		Event event = model.getEvent(0);
 		
 		assertTrue(event.getMetaId().equals("metaid_0000015"));
-		assertTrue(event.getNumEventAssignments() == 1);
+		assertTrue(event.getEventAssignmentCount() == 1);
 		assertTrue(event.getEventAssignment(0).getVariable().equals("dClkF"));
 		
 		System.out.println("First Trigger = " + event.getTrigger().getFormula());
@@ -237,7 +237,7 @@ public class SBML_L2V1Test {
 		
 		//Model libsbmlAdapterModel = libSBMLAdapterReader.readModel(libsbmlDoc.getModel());
 		
-		// System.out.println("nb global parameters = " + libsbmlDoc.getModel().getNumParameters());
+		// System.out.println("nb global parameters = " + libsbmlDoc.getModel().getParameters());
 		
 		Parameter J18 = model.getParameter("J18");
 		
@@ -281,7 +281,7 @@ public class SBML_L2V1Test {
 		assertTrue(model.getHistory().getCreator(1).getGivenName().equals("Lan"));
 		assertTrue(model.getHistory().getCreator(1).getEmail().equals("lma@jhu.edu"));
 		assertTrue(model.getHistory().getCreator(0).getOrganisation().equals("EMBL-EBI"));
-		assertTrue(model.getNumCVTerms() == 5);
+		assertTrue(model.getCVTermCount() == 5);
 		
 		Species erk2 = model.getSpecies("ERK2");
 		
@@ -291,7 +291,7 @@ public class SBML_L2V1Test {
 		assertTrue(erk2.isSetInitialAmount() == false);
 		assertTrue(erk2.isSetInitialConcentration() == true);
 		assertTrue(erk2.getInitialConcentration() == 1.13);
-		assertTrue(erk2.getCVTerm(0).getNumResources() == 2);
+		assertTrue(erk2.getCVTerm(0).getResourceCount() == 2);
 		assertTrue(erk2.getCompartment().equals("compartment"));
 		assertTrue(erk2.getCompartmentInstance().getId().equals("compartment"));
 		
@@ -314,14 +314,14 @@ public class SBML_L2V1Test {
 		
 		assertTrue(doc.getLevel() == 2 && doc.getVersion() == 3);
 		
-		assertTrue(model.getNumUnitDefinitions() == 4);
+		assertTrue(model.getUnitDefinitionCount() == 4);
 		
 		UnitDefinition microM = model.getUnitDefinition(2);
 		UnitDefinition microMById = model.getUnitDefinition("microM");
 		
 		assertTrue(microM.equals(microMById));
 		
-		assertTrue(microM.getNumUnits() == 2);
+		assertTrue(microM.getUnitCount() == 2);
 		assertTrue(microM.getName().equals("microM"));
 		assertTrue(microM.getUnit(0).getScale() == -6);
 		assertTrue(microM.getUnit(0).getKind().getName().equals("mole"));

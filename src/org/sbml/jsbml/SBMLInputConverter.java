@@ -54,8 +54,16 @@ public interface SBMLInputConverter {
 	/**
 	 * 
 	 * @return
+	 * @deprecated use {@link #getErrorCount()}
 	 */
+	@Deprecated
 	public int getNumErrors();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getErrorCount();
 
 	/**
 	 * 
@@ -69,4 +77,5 @@ public interface SBMLInputConverter {
 	 * @return
 	 */
 	public List<SBMLException> getWarnings();
+
 }
