@@ -1352,61 +1352,66 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError {
 		if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
-			SBMLDocument doc = getSBMLDocument();
-			if (doc != null) {
-				/*
-				 * In case that sbase did not have access to the document we
-				 * have to recursively check the metaId property.
-				 */
-				doc.registerMetaIds(sbase, (sbase.getSBMLDocument() == null)
-						&& (sbase instanceof AbstractSBase), false);
-			}
-			Model model = getModel();
-			/*
-			 * Check if the model to which this node is assigned equals the one to
-			 * which the given SBase belongs. This is important because if both 
-			 * belong to the identical model, we don't have to register all 
-			 * identifiers recursively.
-			 * In this case, it will be enough to check this one new node only.
-			 */
-			boolean recursively = (model == null) || (sbase.getModel() != model);
+		    SBMLDocument doc = getSBMLDocument();
+		    if (doc != null) {
+		      /*
+		       * In case that sbase did not have access to the document we
+		       * have to recursively check the metaId property.
+		       */
+		      doc.registerMetaIds(sbase, (sbase.getSBMLDocument() == null)
+		        && (sbase instanceof AbstractSBase), false);
+		    }
+		    Model model = getModel();
+		    /*
+		     * Check if the model to which this node is assigned equals the one to
+		     * which the given SBase belongs. This is important because if both 
+		     * belong to the identical model, we don't have to register all 
+		     * identifiers recursively.
+		     * In this case, it will be enough to check this one new node only.
+		     */
+		    boolean recursively = (model == null) || (sbase.getModel() != model);
 
-			/* Memorize all TreeNodeChangeListeners that are currently assigned to the new
-			 * SBase in order to re-use these later. For now we must remove all those to
-			 * avoid listeners to be called before we could really add the SBase to this
-			 * subtree.
-			 */
-			List<TreeNodeChangeListener> listeners = sbase.getListOfTreeNodeChangeListeners();
-			sbase.removeAllTreeNodeChangeListeners();
+		    /* Memorize all TreeNodeChangeListeners that are currently assigned to the new
+		     * SBase in order to re-use these later. For now we must remove all those to
+		     * avoid listeners to be called before we could really add the SBase to this
+		     * subtree.
+		     */
+		    List<TreeNodeChangeListener> listeners = sbase.getListOfTreeNodeChangeListeners();
+		    sbase.removeAllTreeNodeChangeListeners();
 
-			/*
-			 * Make sure the new SBase is part of the subtree rooted at this element
-			 * before (recursively) registering all ids:
-			 */
-			if (sbase instanceof AbstractSBase) {
-				((AbstractSBase) sbase).parent = this;
-			} else {
-				sbase.setParentSBML(this);
-			}
+		    /*
+		     * Make sure the new SBase is part of the subtree rooted at this element
+		     * before (recursively) registering all ids:
+		     */
+		    TreeNode oldParent = sbase.getParent(); // Memorize the old parent (may be null).
+		    sbase.setParentSBML(this);
 
-			/*
-			 * Now, we cann add all previous listeners. The next change will
-			 * be fired after registering all ids.
-			 */
-			sbase.addAllChangeListeners(listeners);
+		    // If possible, recursively register all ids of the SBase in our model:
+		    if ((model != null)
+		        && !model.registerIds(this, sbase, recursively, false)) {
+		      // Something went wrong: We have to restore the previous state:
+		      if (oldParent == null) {
+		        sbase.setParentSBML(null);
+		      } else if (oldParent instanceof SBase) {
+		        sbase.setParentSBML((SBase) oldParent);
+		      }
+		      sbase.addAllChangeListeners(listeners);
 
-			// If possible, recursively register all ids of the SBase in our model:
-			if ((model != null)
-					&& !model.registerIds(this, sbase, recursively, false)) {
-				throw new IllegalArgumentException(String.format("Cannot register %s.",
-						sbase.getElementName()));
-			}
+		      throw new IllegalArgumentException(String.format("Cannot register %s.",
+		        sbase.getElementName()));
+		    }
 
-			// Add all TreeNodeChangeListeners from this current node also to the new SBase:
-			sbase.addAllChangeListeners(getListOfTreeNodeChangeListeners());
-			// Notify all listeners that a new node has been added to this subtree:
-			sbase.fireNodeAddedEvent();
-		}
+		    /*
+		     * Now, we cann add all previous listeners. The next change will
+		     * be fired after registering all ids.
+		     */
+		    sbase.addAllChangeListeners(listeners); 
+
+		    // Add all TreeNodeChangeListeners from this current node also to the new SBase:
+		    sbase.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+		    // Notify all listeners that a new node has been added to this subtree:
+		    sbase.fireNodeAddedEvent();
+		  }
 	}
 
 	/*

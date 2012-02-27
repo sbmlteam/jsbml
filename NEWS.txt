@@ -57,6 +57,10 @@ Version 0.8-rc2 (xx-xx-2012)
     element (this could be null). Furthermore, when trying to unregister 
     local parameters in a kinetic law, the put method was called on the
     map between ids and local parameters, instead of the remove method.
+    
+  - The simplify and the merge method of UnitDefinition and Unit did not
+    yield correct results and had to be updated as well as the 
+    getDerivedUnitDefinition() method in Species.
   
 ======================================================================
 Version 0.8-rc1 (08-12-2011)

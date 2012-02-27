@@ -277,9 +277,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 		String name = " unit " + id;
 		if (!Unit.isPredefined(id, level)) {
 			id += "_base";
-			name = "Base " + name;
+			name = "Base" + name;
 		} else {
-			name = "Predefined " + name;
+			name = "Predefined" + name;
 		}
 		UnitDefinition ud = new UnitDefinition(id, level, version);
 		ud.setName(name);
@@ -601,10 +601,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @param definition
 	 */
 	public UnitDefinition divideBy(UnitDefinition definition) {
-		if (!isSetListOfUnits()) {
-			this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
-			this.listOfUnits.fireNodeAddedEvent();
-		}
+		ListOf<Unit> listOfUnits = getListOfUnits();
 		Unit twinunit;
 
 		for (Unit unit1 : definition.getListOfUnits()) {
@@ -980,10 +977,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return
 	 */
 	public UnitDefinition multiplyWith(UnitDefinition definition) {
-		if (!isSetListOfUnits()) {
-			this.listOfUnits = new ListOf<Unit>(getLevel(), getVersion());
-			this.listOfUnits.fireNodeAddedEvent();
-		}
+		ListOf<Unit> listOfUnits = getListOfUnits();
 		Unit twinunit;
 
 		for (Unit unit : definition.getListOfUnits()) {
@@ -1015,7 +1009,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @param exponent
 	 * @return a pointer to this UnitDefinition.
 	 */
-	public UnitDefinition raiseByThePowerOf(int exponent) {
+	public UnitDefinition raiseByThePowerOf(double exponent) {
 		if (isSetListOfUnits()) {
 			Unit u;
 			for (int i = listOfUnits.size() - 1; i >= 0; i--) {
@@ -1131,8 +1125,12 @@ public class UnitDefinition extends AbstractNamedSBase {
 					// Try re-scaling by merging the scale of the second unit into the first unit:
 					if ((Math.signum(p1) != Math.signum(p2)) && (e1 != 0d)) {
 						double newScale = s1 + p2 / e1;
-						if (newScale - ((int) newScale) == 0) {
-							// Only re-scale if we can obtain an integer, i.e., loss-free rounding.
+						if (((i > 1) || ((s1 != 0) && (s2 != 0))) && (newScale - ((int) newScale) == 0)) {
+							/*
+							 * Only re-scale if we can obtain an integer and if there is more
+							 * than two units in the list (otherwise it is not necessary to
+							 * simplify these units), i.e., loss-free rounding.
+							 */
 							u.setScale((int) newScale);
 							s.setScale(0);
 						}

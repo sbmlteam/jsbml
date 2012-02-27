@@ -313,6 +313,18 @@ public class Species extends Symbol {
 					derivedUD.setName(derivedUD.getName() + " per "
 							+ (sizeUnit.isSetName() ? sizeUnit.getName() : sizeUnit.getId()));
 				}
+				/* 
+				 * If possible, let's return an equivalent unit that is already part of the model
+				 * rather than returning some newly created UnitDefinition:
+				 */
+				// TODO: There might not be another unit with the same id, but that has an identical listOfUnits. This should be checked here!
+				Model model = getModel();
+				if (model != null) {
+					UnitDefinition ud = model.getUnitDefinition(derivedUD.getId());
+					if ((ud != null) && (UnitDefinition.areEquivalent(ud, derivedUD))) {
+						return ud;
+					}
+				}
 				return derivedUD;
 			}
 		}
