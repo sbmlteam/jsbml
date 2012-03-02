@@ -48,7 +48,8 @@ public class TemporisationMath extends AbstractMathContainer {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
-	public AbstractMathContainer clone() {
+	public TemporisationMath clone() {
+	  // TODO
 		return null;
 	}
 

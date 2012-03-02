@@ -33,6 +33,7 @@ import org.sbml.jsbml.util.StringTools;
  * 
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
+ * @author Florian Mittag
  * @version $Rev$
  * @since 1.0
  * @date $Date$
@@ -75,11 +76,34 @@ public class FunctionTerm extends AbstractMathContainer {
 		addNamespace(QualConstant.namespaceURI);
 	}
 
+	/**
+	 * Creates a FunctionTerm instance from a given FunctionTerm.
+   * 
+   * @param ft an <code>FunctionTerm</code> object to clone
+	 */
+	public FunctionTerm(FunctionTerm ft) {
+	  super(ft);
+	  
+	  setDefaultTerm(ft.isDefaultTerm());
+    if (ft.isSetResultLevel()) {
+      setResultLevel(ft.getResultLevel());
+    }
+    if (ft.isSetResultSymbol()) {
+      setResultSymbol(ft.getResultSymbol());
+    }
+    if (ft.isSetTemporisationMath()) {
+      setTemporisationMath(ft.getTemporisationMath().clone());
+    }
+    if (ft.isSetTemporisationValue()) {
+      setTemporisationValue(ft.getTemporisationValue());
+    }
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
-	public AbstractMathContainer clone() {
-		return null;
+	public FunctionTerm clone() {
+	  return new FunctionTerm(this);
 	}
 
 	/**
