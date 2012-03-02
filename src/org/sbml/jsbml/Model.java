@@ -624,7 +624,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public boolean containsQuantity(Quantity quantity) {
     Model model = quantity.getModel();
-    if (!quantity.isSetId() || (model == null) || (this != model)) { return false; }
+    if (!quantity.isSetId() || (model == null) || (this != model)) { 
+    	return false; 
+    }
     return findQuantity(quantity.getId()) != null;
   }
   
@@ -1338,8 +1340,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         given 'id' as id or null if no element is found.
    */
   public CallableSBase findCallableSBase(String id) {
-    CallableSBase csb = getReaction(id);
-    if (csb == null) {
+    CallableSBase csb = null;
+    if (isSetListOfReactions()) {
+    	csb = getReaction(id);
+    }
+    if ((csb == null) && (isSetListOfFunctionDefinitions())) {
       csb = getFunctionDefinition(id);
     }
     return csb == null ? findQuantity(id) : csb;
@@ -1356,14 +1361,16 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public List<LocalParameter> findLocalParameters(String idOrName) {
     List<LocalParameter> list = new LinkedList<LocalParameter>();
-    LocalParameter p;
-    for (Reaction r : getListOfReactions()) {
-      if (r.isSetKineticLaw()) {
-        p = r.getKineticLaw().getLocalParameter(idOrName);
-        if (p != null) {
-          list.add(p);
-        }
-      }
+    if (isSetListOfReactions()) {
+    	LocalParameter p;
+    	for (Reaction r : getListOfReactions()) {
+    		if (r.isSetKineticLaw()) {
+    			p = r.getKineticLaw().getLocalParameter(idOrName);
+    			if (p != null) {
+    				list.add(p);
+    			}
+    		}
+    	}
     }
     return list;
   }
@@ -1380,16 +1387,16 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public NamedSBase findNamedSBase(String id) {
     if (id.equals(getId())) { return this; }
     NamedSBase nsb = getCompartmentType(id);
-    if (nsb == null) {
+    if ((nsb == null) && isSetListOfEvents()) {
       nsb = getEvent(id);
     }
-    if (nsb == null) {
+    if ((nsb == null) && isSetListOfSpeciesTypes()) {
       nsb = getSpeciesType(id);
     }
-    if (nsb == null) {
+    if ((nsb == null) && isSetListOfUnitDefinitions()) {
       nsb = getUnitDefinition(id);
     }
-    if (nsb == null) {
+    if ((nsb == null) && isSetListOfReactions()) {
       for (Reaction r : getListOfReactions()) {
         nsb = r.getModifier(id);
         if (nsb != null) { return nsb; }
@@ -1413,7 +1420,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public NamedSBaseWithDerivedUnit findNamedSBaseWithDerivedUnit(String id) {
     NamedSBaseWithDerivedUnit nsb = findCallableSBase(id);
-    return nsb == null ? getEvent(id) : nsb;
+    if ((nsb == null) && isSetListOfEvents()) {
+    	return getEvent(id);
+    }
+    return nsb;
   }
   
   /**
@@ -1435,7 +1445,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     Quantity nsb = findVariable(id);
     if (nsb == null) {
       List<LocalParameter> list = findLocalParameters(id);
-      if (!list.isEmpty()) { return list.get(0); }
+      if (!list.isEmpty()) { 
+    	  return list.get(0); 
+      }
     }
     return nsb;
   }
@@ -1457,7 +1469,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     QuantityWithUnit q = findSymbol(idOrName);
     if (q == null) {
       List<LocalParameter> list = findLocalParameters(idOrName);
-      if (!list.isEmpty()) { return list.get(0); }
+      if (!list.isEmpty()) { 
+    	  return list.get(0); 
+      }
     }
     return q;
   }
@@ -1478,12 +1492,16 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     if (isSetListOfReactions()) {
       for (int i = 0; i < getNumReactions(); i++) {
         Reaction reaction = getReaction(i);
-        specRef = reaction.getReactant(id);
+        if (reaction.isSetListOfReactants()) {
+        	specRef = reaction.getReactant(id);
+        }
         if (specRef != null) {
           return specRef;
-        } else {
+        } else if (reaction.isSetListOfProducts()) {
           specRef = reaction.getProduct(id);
-          if (specRef != null) { return specRef; }
+          if (specRef != null) { 
+        	  return specRef; 
+          }
         }
       }
     }
@@ -1499,11 +1517,14 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         is no such element.
    */
   public Symbol findSymbol(String id) {
-    Symbol symbol = getCompartment(id);
-    if (symbol == null) {
+    Symbol symbol = null;
+    if (isSetListOfCompartments()) {
+    	symbol = getCompartment(id);
+    }
+    if ((symbol == null) && isSetListOfSpecies()) {
       symbol = getSpecies(id);
     }
-    if (symbol == null) {
+    if ((symbol == null) && isSetListOfParameters()) {
       symbol = getParameter(id);
     }
     return symbol;

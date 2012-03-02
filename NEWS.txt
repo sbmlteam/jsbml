@@ -61,6 +61,9 @@ Version 0.8-rc2 (xx-xx-2012)
   - The simplify and the merge method of UnitDefinition and Unit did not
     yield correct results and had to be updated as well as the 
     getDerivedUnitDefinition() method in Species.
+    
+  - Meike Aichele detected and fixed the problem that some Listeners were 
+    set too soon in the Model class, so that no Event was detected.
   
 ======================================================================
 Version 0.8-rc1 (08-12-2011)
