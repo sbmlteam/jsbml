@@ -22,6 +22,7 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -227,7 +228,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 				return arg;
 			}
 		}
-		return arg;
+		return null;
 	}
 
 	/**
