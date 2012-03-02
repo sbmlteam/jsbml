@@ -32,6 +32,7 @@ import org.sbml.jsbml.util.StringTools;
 /**
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
+ * @author Florian Mittag
  * @version $Rev$
  * @since 1.0
  * @date $Date$
@@ -115,6 +116,21 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
 	  initDefaults();
   }
 
+  public Output(Output out) {
+    super(out);
+    // TODO: initDefaults() here?
+    
+    if (out.isSetQualitativeSpecies()) {
+      setQualitativeSpecies(out.getQualitativeSpecies());
+    }
+    if (out.isSetTransitionEffect()) {
+      setTransitionEffect(out.getTransitionEffect());
+    }
+    if (out.isSetOutputLevel()) {
+      setOutputLevel(out.getOutputLevel());
+    }
+  }
+
   /**
    * 
    */
@@ -129,8 +145,8 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   @Override
-  public AbstractSBase clone() {
-    return null;
+  public Output clone() {
+    return new Output(this);
   }
 
   /* (non-Javadoc)

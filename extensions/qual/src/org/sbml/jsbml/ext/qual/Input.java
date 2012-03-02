@@ -128,6 +128,27 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     initDefaults();
   }
 
+  public Input(Input in) {
+    super(in);
+    // TODO: initDefaults() here?
+    
+    if (in.isSetQualitativeSpecies()) {
+      setQualitativeSpecies(in.getQualitativeSpecies());
+    }
+    if (in.isSetSign()) {
+      setSign(in.getSign());
+    }
+    if (in.isSetThresholdLevel()) {
+      setThresholdLevel(in.getThresholdLevel());
+    }
+    if (in.isSetThresholdSymbol()) {
+      setThresholdSymbol(in.getThresholdSymbol());
+    }
+    if (in.isSetTransitionEffect()) {
+      setTransitionEffect(in.getTransitionEffect());
+    }
+  }
+  
   /**
    * 
    */
@@ -145,7 +166,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   public AbstractSBase clone() {
-    return null;
+    return new Input(this);
   }
 
 
