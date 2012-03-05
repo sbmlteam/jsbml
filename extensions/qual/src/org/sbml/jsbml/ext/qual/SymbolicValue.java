@@ -22,7 +22,6 @@ package org.sbml.jsbml.ext.qual;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.UniqueNamedSBase;
@@ -97,6 +96,12 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
 	  initDefaults();
   }
 
+  public SymbolicValue(SymbolicValue sv) {
+    super(sv);
+    
+    rank = sv.rank;
+  }
+  
   /**
    * 
    */
@@ -115,8 +120,8 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
-  public AbstractSBase clone() {
-    return null;
+  public SymbolicValue clone() {
+    return new SymbolicValue(this);
   }
 
 

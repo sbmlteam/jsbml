@@ -22,7 +22,6 @@ package org.sbml.jsbml.ext.qual;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
@@ -118,7 +117,6 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
 
   public Output(Output out) {
     super(out);
-    // TODO: initDefaults() here?
     
     if (out.isSetQualitativeSpecies()) {
       setQualitativeSpecies(out.getQualitativeSpecies());
