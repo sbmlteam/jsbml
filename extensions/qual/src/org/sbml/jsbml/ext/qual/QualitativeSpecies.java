@@ -24,7 +24,6 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
@@ -197,7 +196,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
-  public AbstractSBase clone() {
+  public QualitativeSpecies clone() {
     return new QualitativeSpecies(this);
   }
 

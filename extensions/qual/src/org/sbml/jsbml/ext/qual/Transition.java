@@ -24,7 +24,6 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
@@ -113,6 +112,21 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
     initDefaults();
   }
 
+  public Transition(Transition t) {
+    super(t);
+    
+    temporisationType = t.temporisationType;
+    if (t.isSetListOfFunctionTerms()) {
+      listOfFunctionTerms = t.listOfFunctionTerms.clone();
+    }
+    if (t.isSetListOfInputs()) {
+      listOfInputs = t.listOfInputs.clone();
+    }
+    if (t.isSetListOfOutputs()) {
+      listOfOutputs = t.listOfOutputs.clone();
+    }
+  }
+  
   /**
    * 
    */
@@ -128,9 +142,8 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
    * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
-  public AbstractSBase clone() {
-	  // TODO
-    return null;
+  public Transition clone() {
+    return new Transition(this);
   }
 
 

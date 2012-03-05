@@ -130,7 +130,6 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
 
   public Input(Input in) {
     super(in);
-    // TODO: initDefaults() here?
     
     if (in.isSetQualitativeSpecies()) {
       setQualitativeSpecies(in.getQualitativeSpecies());
