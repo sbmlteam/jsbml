@@ -44,10 +44,12 @@ public abstract class Symbol extends QuantityWithUnit implements
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 3061467418198640109L;
+
 	/**
 	 * The constant attribute of this variable.
 	 */
 	protected Boolean constant;
+
 	/**
 	 * 
 	 */
@@ -126,20 +128,18 @@ public abstract class Symbol extends QuantityWithUnit implements
 	public Symbol(Symbol nsb) {
 		super(nsb);
 		if (nsb.isSetConstant()) {
-			setConstant(nsb.getConstant());
+			setConstant(nsb.isConstant());
 		} else {
 			constant = nsb.constant == null ? null : new Boolean(nsb.constant);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.QuantityWithUnit#clone()
 	 */
 	public abstract Symbol clone();
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.QuantityWithUnit#equals(java.lang.Object)
 	 */
 	@Override
@@ -149,30 +149,20 @@ public abstract class Symbol extends QuantityWithUnit implements
 			Symbol v = (Symbol) o;
 			equals &= v.isSetConstant() == isSetConstant();
 			if (v.isSetConstant() && isSetConstant()) {
-				equals &= v.getConstant() == getConstant();
+				equals &= v.isConstant() == isConstant();
 			}
 		}
 		return equals;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Variable#getConstant()
 	 */
 	public boolean getConstant() {
-		/*
-		 * Cannot use the method isSetConstant here as for level 2 we put a
-		 * value in constant but without using the setConstant method, so the
-		 * boolean isSetConstant is false and the value set, corresponding to
-		 * the default value in the specs, is never returned.
-		 */
-		// TODO : check if they are some other cases like that !!
-		return constant != null ? this.constant.booleanValue() : false;
+		return isConstant();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.QuantityWithUnit#hashCode()
 	 */
 	@Override
@@ -185,31 +175,28 @@ public abstract class Symbol extends QuantityWithUnit implements
 		return hashCode;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Variable#isConstant()
 	 */
 	public boolean isConstant() {
 		/*
-		 * For the same reason as in the getConstant method, we cannot use the
-		 * isSetConstant method.
+		 * Cannot use the method isSetConstant here as for level 2 we put a
+		 * value in constant but without using the setConstant method, so the
+		 * boolean isSetConstant is false and the value set, corresponding to
+		 * the default value in the specs, is never returned.
 		 */
-		return constant != null ? constant : false;
+		// TODO : check if they are some other cases like that !!
+		return constant != null ? constant.booleanValue() : false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Variable#isSetConstant()
 	 */
 	public boolean isSetConstant() {
 		return isSetConstant;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Variable#setConstant(boolean)
 	 */
 	public void setConstant(boolean constant) {
@@ -222,9 +209,7 @@ public abstract class Symbol extends QuantityWithUnit implements
 		firePropertyChange(TreeNodeChangeEvent.constant, oldConstant, constant);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Variable#unsetConstant()
 	 */
 	public void unsetConstant() {
@@ -233,4 +218,5 @@ public abstract class Symbol extends QuantityWithUnit implements
 		isSetConstant = false;
 		firePropertyChange(TreeNodeChangeEvent.constant, oldConstant, constant);
 	}
+
 }

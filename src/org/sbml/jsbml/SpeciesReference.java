@@ -132,7 +132,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 			stoichiometry = speciesReference.stoichiometry == null ? null : new Double(speciesReference.stoichiometry);
 		}
 		if (speciesReference.isSetConstant()) {
-			setConstant(new Boolean(speciesReference.getConstant()));
+			setConstant(new Boolean(speciesReference.isConstant()));
 		} else {
 			constant = speciesReference.constant == null ? null : new Boolean(speciesReference.constant);
 		}
@@ -174,9 +174,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		initDefaults();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#clone()
 	 */
 	@Override
@@ -184,9 +182,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return new SpeciesReference(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
 	 */
 	public boolean containsUndeclaredUnits() {
@@ -196,8 +192,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return isSetStoichiometry() ? false : true;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SimpleSpeciesReference#equals(java.lang.Object)
 	 */
 	@Override
@@ -211,7 +206,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 			}
 			equals &= sr.isSetConstant() == isSetConstant();
 			if (equals && isSetConstant()) {
-				equals &= sr.getConstant() == getConstant();
+				equals &= sr.isConstant() == isConstant();
 			}
 			equals &= sr.isSetDenominator() == isSetDenominator();
 			if (equals && isSetDenominator()) {
@@ -221,9 +216,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return equals;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
 	 */
 	@Override
@@ -245,9 +238,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 				: getStoichiometry();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
@@ -271,9 +262,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 				index, +((int) Math.min(pos, 0))));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
 	 */
 	@Override
@@ -281,13 +270,11 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return super.getChildCount() + (isSetStoichiometryMath() ? 1 : 0);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.State#getConstant()
 	 */
 	public boolean getConstant() {
-		return constant != null ? constant : false;
+		return isConstant();
 	}
 
 	/**
@@ -300,9 +287,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return isSetDenominator ? denominator.intValue() : 1;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Quantity#getDerivedUnitInstance()
 	 */
 	public UnitDefinition getDerivedUnitDefinition() {
@@ -314,9 +299,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return ud;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Quantity#getDerivedUnit()
 	 */
 	public String getDerivedUnits() {
@@ -326,9 +309,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return Unit.Kind.DIMENSIONLESS.toString();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getElementName()
 	 */
 	@Override
@@ -363,17 +344,14 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return stoichiometryMath;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Quantity#getValue()
 	 */
 	public double getValue() {
 		return getStoichiometry();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SimpleSpeciesReference#hashCode()
 	 */
 	@Override
@@ -416,18 +394,14 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.State#isConstant()
 	 */
 	public boolean isConstant() {
 		return constant != null ? constant.booleanValue() : false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.State#isSetConstant()
 	 */
 	public boolean isSetConstant() {
@@ -459,20 +433,15 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return stoichiometryMath != null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Quantity#isSetValue()
 	 */
 	public boolean isSetValue() {
 		return isSetStoichiometry();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -496,9 +465,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return isAttributeRead;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.State#setConstant(boolean)
 	 */
 	public void setConstant(boolean constant) {
@@ -575,18 +542,14 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		setThisAsParentSBMLObject(this.stoichiometryMath);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Quantity#setValue(double)
 	 */
 	public void setValue(double value) {
 		setStoichiometry(value);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Variable#unsetConstant()
 	 */
 	public void unsetConstant() {
@@ -628,18 +591,14 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Quantity#unsetValue()
 	 */
 	public void unsetValue() {
 		unsetStoichiometry();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
@@ -651,7 +610,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 					Locale.ENGLISH, getStoichiometry()));
 		}
 		if (isSetConstant()) {
-			attributes.put("constant", Boolean.toString(getConstant()));
+			attributes.put("constant", Boolean.toString(isConstant()));
 		}
 		if (isSetDenominator() && (getLevel() == 1)) {
 			int denominator = getDenominator();
@@ -662,4 +621,5 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 
 		return attributes;
 	}
+
 }
