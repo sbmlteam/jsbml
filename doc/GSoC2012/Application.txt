@@ -10,7 +10,7 @@ Deadline: March 9, 2012.
 
 JSBML is an international community-driven open-source project striving to attain 
 a full implementation of the SBML standard (Systems Biology Markup Language) in 
-Javaª. Currently, the consortium of developers consists of the University of 
+Java. Currently, the consortium of developers consists of the University of 
 Tuebingen, Germany, the EMBL European Bioinformatics Institute (EBML-EBI), Hinxton,
 UK, and the California Institute of Technology, Pasadena, CA, USA.
 Being a community project, other institutions are welcome to join the consortium.
@@ -57,7 +57,7 @@ be the first time.
 4. If your organization has not previously participated in Google Summer of Code, 
    have you applied in the past? If so, for what year(s)?
    
-There was no application for participation of the JSBML consortium until now.
+There was no application for participation of the JSBML project until now.
 
 
 5. What Open Source Initiative approved license(s) does your project use?
@@ -67,7 +67,6 @@ GNU LESSER GENERAL PUBLIC LICENSE Version 2.1, February 1999
     
 6. What is the URL for your Ideas page?
 
-TODO:
 http://sbml.org/Software/JSBML/Ideas_GSoC2012
 
 
@@ -90,7 +89,7 @@ None yet.
 
 10. Who will be your backup organization administrator?
 
-Dr. Andreas DrŠger, Nicolas Rodriguez, and Dr. Michal Hucka
+Dr. Andreas Draeger, Nicolas Rodriguez, and Dr. Michael Hucka
 
 
 11. What criteria did you use to select your mentors for this year's program? Please be as
@@ -100,8 +99,10 @@ The mentors selected are the current core developers of JSBML.
 
 12. What is your plan for dealing with disappearing students?
 
-
 TODO
+- chose a student with good communication during the bonding period (March 17-25)
+- be aware of the period where the student will have less time for the project (because of vacations and/or exam)
+- having a phone number to contact them ??
 
 
 13. What is your plan for dealing with disappearing mentors?
@@ -113,12 +114,17 @@ All JSBML core developers can act as a substitutional mentor to fill the gap.
     before, during and after the program?
 
 TODO
+- be nice with them
+- be quick to answer their requests
+- having several mentors to avoid unanawered questions.
+- use the public dev mailing list so that anybody in the community can help
 
 
 15. Are you a new organization who has a Googler or other organization to vouch for you?
     If so, please list their name(s) here.
 
-TODO
+NRNB (http://nrnb.org/gsoc/) ??
+TODO : check for the Reactome application or other EBI ones
 
 
 16. Are you an established or larger organization who would like to vouch for a new organization
@@ -171,8 +177,8 @@ Brief explanation:
   To facilitate the development of the life sciences from a descriptive to a predictive field of research, 
   mathematical modeling playes a central role. Creating models of cellular or other  biochemical processes 
   requires a well-suited software implementation. The project JSBML is a community-driven approach to 
-  implement a standard Javaª library for the recent research in the young field in systems biology. 
-  JSBML is a Javaª library that implements the SBML standard (Systems Biology Markup Language).
+  implement a standard Javaï¿½ library for the recent research in the young field in systems biology. 
+  JSBML is a Javaï¿½ library that implements the SBML standard (Systems Biology Markup Language).
   SBML itself is a XML-based language (eXtensible Markup Language). In this project, a validation routine
   will be developed that checks whether an SBML file is syntactically (and semantically) valid.
 
@@ -181,10 +187,10 @@ Expected results:
   data structures fulfill the requirements and satisfy all restrictions defined in the SBML specifications.
 
 Knowledge Prerequisite:
-  Javaª programming. XML parsing, and biochemical modeling would be of advantage.
+  Javaï¿½ programming. XML parsing, and biochemical modeling would be of advantage.
 
 Any of these are optional but not all of them.
 
 Skill level: medium to high.
 
-Mentor: Dr. Andreas DrŠger, Nicolas Rodriguez
+Mentor: Dr. Andreas Drï¿½ger, Nicolas Rodriguez
