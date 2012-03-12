@@ -91,7 +91,7 @@ This is due to the internal working of parsers that read SBML files and create t
 All attributes can be set after the object has been created.
 
 Nevertheless, some cases are more frequent than other and one can define constructors for those cases.
-On the other hand, creating a separate constructor for each combination of possible passed argument will probably create to many lines of code
+On the other hand, creating a separate constructor for each combination of possible passed argument will probably create too many lines of code
 that are confusing and more difficult to maintain.
 
 You should at least have the constructors listed in Listing ~\vref{lst:ModelExtFooConstructors}.
@@ -212,7 +212,7 @@ Therefore, convenience methods for adding and removing an object should be added
 
 To let the additional \texttt{ListOfFoo} appear as a child of the standard model, the important methods for the \texttt{TreeNode} need to be implemented (see Listing ~\vref{lst:ModelExtChildren}).
 \texttt{getAllowsChildren()} should return \texttt{true} in this case, since this extension obviously allows children.
-The child count and the indices of the children is bit more complicated, because it varies with the number of \texttt{ListOf}s that actually contain elements.
+The child count and the indices of the children is a bit more complicated, because it varies with the number of \texttt{ListOf}s that actually contain elements.
 So, for every non-empty \texttt{ListOf} child of our model extension, we increase the counter by one.
 If a child is queried by its index, the possibility of an index shift needs to be taken into account.
 
@@ -272,8 +272,7 @@ public class ExampleMode extends AbstractSBasePlugin {
   }
 
   public Foo createFoo(String id, int bar) {
-    Foo foo = new QualitativeSpecies(id,
-      getModel().getLevel(), getModel().getVersion());
+    Foo foo = new Foo(id, getModel().getLevel(), getModel().getVersion());
     foo.setBar(bar);
     addFoo(foo);
     return foo;
