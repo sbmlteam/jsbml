@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1"
+      xmlns:multi="http://www.sbml.org/sbml/level3/version1/multi/version1"
+      multi:required="true">
+  <model name="phosphoreceptor">
+    <listOfCompartments>
+      <compartment id="cell" constant="true" size="1" />
+    </listOfCompartments>
+
+    <!-- We need to define two species types to be able to describe all the reactions. -->
+    <!-- There is not species type for the kinase, that is not used in selectors. -->
+    
+    <multi:listOfSpeciesTypes>
+      <multi:speciesType xmlns:multi="http://www.sbml.org/sbml/level3/version1/multi/version1"
+			 xmlns:xhtml="http://www.w3.org/1999/xhtml"
+			 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			 xmlns:bqbiol="http://biomodels.net/biology-qualifiers/"
+			 multi:id="speciesType1"
+			 multi:bindingSite="false"
+			 multi:name="LGIC">
+	<notes>
+	  <xhtml:body>
+	    <xhtml:p>
+	      LGIC is a Ligand-Gated Ion Channel. It contains a pore that can be open or closed.
+	    </xhtml:p>
+	  </xhtml:body>
+	</notes>
+	<annotation>
+	  <rdf:RDF>
+	    <rdf:Description rdf:about="#_000003">
+	      <bqbiol:isVersionOf>
+		<rdf:Bag>
+		  <rdf:li rdf:resource="urn:miriam:interpro:IPR002394"/>
+		</rdf:Bag>
+	      </bqbiol:isVersionOf>
+	    </rdf:Description>
+	  </rdf:RDF>
+	</annotation>
+	<multi:listOfStateFeatures>
+	  <multi:stateFeature multi:id="stateFeature1"
+			      multi:name="pore"
+			      multi:sboTerm="SBO:0000497">
+	    <multi:listOfPossibleValues>
+	      <multi:possibleValue id="possibleValue1"
+				   multi:name="open"
+				   multi:sboTerm="SBO:0000416" />
+	      <multi:possibleValue id="possibleValue2"
+				   multi:name="closed"
+				   multi:sboTerm="SBO:0000417" />
+	      <multi:possibleValue id="possibleValue3"
+				   multi:name="desensitised"
+				   multi:sboTerm="SBO:0000417" />
+	    </multi:listOfPossibleValues>
+	  </multi:stateFeature>
+	</multi:listOfStateFeatures>
+      </multi:speciesType>
+      <multi:speciesType multi:id="st_recept"
+			 multi:name="receptor"
+			 multi:bindingSite="true">
+	<multi:listOfStateFeatures>
+	  <multi:stateFeature multi:id="Y" multi:name="tyrosine">
+	    <multi:listOfPossibleValues>
+	      <multi:possibleValue multi:id="P" multi:name="phosphorylated" />
+	      <multi:possibleValue multi:id="nonP" multi:name="nonphosphorylated" />
+	    </multi:listOfPossibleValues>
+	  </multi:stateFeature>
+	</multi:listOfStateFeatures>
+      </multi:speciesType>
+      <multi:speciesType multi:id="st_lig" multi:name="ligand" multi:bindingSite="true" />
+    </multi:listOfSpeciesTypes>
+
+    <multi:listOfSelectors>
+      <!-- **************************************************************** -->
+      <!-- Description of receptor, unbound, unphosphorylated -->
+      <!-- **************************************************************** -->
+      <multi:selector multi:id="sel_freereceptor_nonP">
+	<multi:listOfSpeciesTypeStates>
+	  <multi:speciesTypeState multi:id="sts_recept_nonP" multi:speciesType="st_recept"
+				  multi:minOccur="0" multi:maxOccur="1">
+	    <multi:listOfStateFeatureInstances>
+	      <multi:stateFeatureInstance multi:stateFeature="Y">
+		<multi:listOfStateFeatureValues>
+		  <multi:stateFeatureValue multi:possibleValue="nonphosphorylated" />
+		</multi:listOfStateFeatureValues>
+	      </multi:stateFeatureInstance>
+	    </multi:listOfStateFeatureInstances>
+	  </multi:speciesTypeState>
+	</multi:listOfSpeciesTypeStates>
+	<multi:listOfUnboundBindingSites>
+	  <multi:bindingSiteReference multi:speciesTypeState="sts_recept_nonP" />
+	</multi:listOfUnboundBindingSites>
+      </multi:selector>
+      <!-- **************************************************************** -->
+      <!-- Description of receptor, unbound, phosphorylated -->
+      <!-- **************************************************************** -->
+      <multi:selector multi:id="sel_freereceptor_P">
+	<multi:listOfSpeciesTypeStates>
+	  <multi:speciesTypeState multi:id="sts_recept_P" multi:speciesType="st_recept"
+				  multi:minOccur="1" multi:maxOccur="2">
+	    <multi:listOfStateFeatureInstances>
+	      <multi:stateFeatureInstance multi:stateFeature="Y">
+		<multi:listOfStateFeatureValues>
+		  <multi:stateFeatureValue multi:possibleValue="phosphorylated" />
+		</multi:listOfStateFeatureValues>
+	      </multi:stateFeatureInstance>
+	    </multi:listOfStateFeatureInstances>
+	  </multi:speciesTypeState>
+	</multi:listOfSpeciesTypeStates>
+	<multi:listOfUnboundBindingSites>
+	  <multi:bindingSiteReference multi:speciesTypeState="sts_recept_P" />
+	</multi:listOfUnboundBindingSites>
+      </multi:selector>
+      <!-- **************************************************************** -->
+      <!-- Description of ligand, unbound -->
+      <!-- **************************************************************** -->
+      <multi:selector multi:id="sel_freeligand">
+	<multi:listOfSpeciesTypeStates>
+	  <multi:speciesTypeState multi:id="sts_lig" multi:speciesType="st_lig"
+				  multi:minOccur="1" multi:maxOccur="1" />
+	</multi:listOfSpeciesTypeStates>
+	<multi:listOfUnboundBindingSites>
+	  <multi:bindingSiteReference multi:speciesTypeState="sts_lig" />
+	</multi:listOfUnboundBindingSites>
+      </multi:selector>
+      <!-- **************************************************************** -->
+      <!-- Description of the ligand-receptor complex -->
+      <!-- **************************************************************** -->
+      <multi:selector multi:id="sel_complex">
+	<multi:listOfSpeciesTypeStates>
+	  <multi:speciesTypeState multi:id="sts_recept_sc" multi:speciesType="st_recept"
+				  multi:minOccur="1" multi:maxOccur="1" />
+	  <multi:speciesTypeState multi:id="sts_lig_sc" multi:speciesType="st_lig"
+				  multi:minOccur="1" multi:maxOccur="1" />
+	</multi:listOfSpeciesTypeStates>
+	<multi:listOfBonds>
+	  <multi:bond multi:occurrence="required">
+	    <multi:bindingSiteReference multi:speciesTypeState="sts_lig_sc" />
+	    <multi:bindingSiteReference multi:speciesTypeState="sts_recept_sc" />
+	  </multi:bond>
+	</multi:listOfBonds>
+      </multi:selector>
+    </multi:listOfSelectors>
+  </model>
+</sbml>
