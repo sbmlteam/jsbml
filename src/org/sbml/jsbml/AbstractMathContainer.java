@@ -212,8 +212,8 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		}
 		if (ud.getUnitCount() == 1) {
 			Unit u = ud.getUnit(0);
-			if (u.getOffset() == 0 && u.getMultiplier() == 1
-					&& u.getScale() == 0 && u.getExponent() == 1)
+			if ((u.getOffset() == 0) && (u.getMultiplier() == 1)
+					&& (u.getScale() == 0) && (u.getExponent() == 1))
 				return u.getKind().toString();
 		}
 		return null;

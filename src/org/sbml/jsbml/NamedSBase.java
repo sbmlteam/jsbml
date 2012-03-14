@@ -45,8 +45,8 @@ public interface NamedSBase extends SBase {
 
   /**
    * This method can be used to query if the identifier of this
-   * {@link NamedSBase} is
-   * required to be defined (i.e., not null) in the definition of SBML.
+   * {@link NamedSBase} is required to be defined (i.e., not <code>null</code>)
+   * in the definition of SBML.
    * 
    * @return <code>true</code> if the identifier of this element must be set in
    *         order to create a valid SBML representation. <code>false</code>

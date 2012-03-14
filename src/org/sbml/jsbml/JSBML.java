@@ -22,6 +22,7 @@ package org.sbml.jsbml;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
 import java.util.Properties;
@@ -202,22 +203,21 @@ public class JSBML {
       Logger logger = Logger.getLogger(JSBML.class);
     	Properties p = new Properties();
     	try {
-    		p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(
-    				path));
+    		p.loadFromXML(Resource.getInstance().getStreamFromResourceLocation(path));
     		for (Map.Entry<Object, Object> entry : p.entrySet()) {
     			try {
             whereToPutProperties.put(entry.getKey().toString(),
             		(Class<T>) Class.forName(entry.getValue().toString()));
           } catch (ClassNotFoundException e) {
-            logger.debug(String.format("Could not load class %s.", e.getMessage()));
+            logger.debug(MessageFormat.format("Could not load class {0}.", e.getLocalizedMessage()));
           }
     		}
     	} catch (InvalidPropertiesFormatException e) {
-    		throw new IllegalArgumentException(String.format(
-    				"The format of the file %s is incorrect.", path));
+    		throw new IllegalArgumentException(MessageFormat.format(
+    				"The format of the file {0} is incorrect.", path));
     	} catch (IOException e) {
-    		throw new IllegalArgumentException(String.format(
-    				"There was a problem opening the file %s. Please make sure the resources directory is included in the Java class path.", 
+    		throw new IllegalArgumentException(MessageFormat.format(
+    				"There was a problem opening the file {0}. Please make sure the resources directory is included in the Java class path.", 
     				path));
     	}
     }	 

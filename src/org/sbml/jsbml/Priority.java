@@ -72,8 +72,7 @@ public class Priority extends AbstractMathContainer {
 		super(sb);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
 	 */
 	@Override
@@ -81,8 +80,7 @@ public class Priority extends AbstractMathContainer {
 		return new Priority(this);
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()
 	 */
 	@Override
