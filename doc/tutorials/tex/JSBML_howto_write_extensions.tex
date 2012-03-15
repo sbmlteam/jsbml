@@ -266,7 +266,7 @@ If a child is queried by its index, the possibility of an index shift needs to b
 \subsection{Create methods}
 
 Because a newly created instance of type Foo is not part of the model unless it is added to it,
-\texttt{create*} methods should be provided that take care of all that (see Listing ~\vref{lst:ModelExtCreateMethods}). 
+\texttt{create*} methods should be provided that take care of all that (see Listing ~\ref{lst:ModelExtCreateMethods}). 
 These create methods should be part of the model to which the Foo instance should be added, in this case ExampleModel.
 
 \begin{lstlisting}[language=Java,caption={Convenience method to create elements},label={lst:ModelExtCreateMethods}]
@@ -369,23 +369,6 @@ There, all the elements of the class must be copied, which may require recursive
 
     // Integer objects are immutable, so they can be copied
     bar = f.bar;
-  }
-\end{lstlisting}
-
-\subsection{\texttt{writeXMLAttributes}}
-To write the xml attributes of each class of the extensions in the SBML document the \texttt{writeXMLAttributes()} method must be written in each class.
-An example is shown in Listing \ref{lst:ModelExtCreateXMLAttributes}.
-
-\begin{lstlisting}[language=Java,caption={Method to create the XML attributes},label={lst:ModelExtCreateXMLAttributes}]
-  public Map<String, String> writeXMLAttributes() {
-    Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetBar()) {
-      attributes.remove("bar");
-      attributes.put(Foo.shortLabel + ":bar", getBar());
-    }
-    
-    // ...
-    // further class attributes
   }
 \end{lstlisting}
 
@@ -496,6 +479,26 @@ In some cases it may be necessary to modify the \texttt{writeElement()} method.
 For example, this can happen when the same Java class is mapped to different XML tags, e.g., a default element and multiple additional tags.
 If this would be represented not via an attribute, but by using different tags, one could alter the name of the XML object in this method.
 
+The actual writing of XML attributes must be implemented in each of the classes in the \texttt{writeXMLAttributes()}.
+An example is shown in Listing \ref{lst:ModelExtCreateXMLAttributes} for the class \texttt{Foo}.
+
+\begin{lstlisting}[language=Java,caption={Method to write the XML attributes},label={lst:ModelExtCreateXMLAttributes}]
+public class Foo extends AbstractNamedSBase {
+  ...
+
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetBar()) {
+      attributes.remove("bar");
+      attributes.put(Foo.shortLabel + ":bar", getBar());
+    }
+    
+    // ...
+    // further class attributes
+  }
+}
+\end{lstlisting}
+
 
 \subsubsection{Parsing}
 
@@ -578,6 +581,29 @@ Of course, more complicated extensions with lots of nested lists need a more ela
     }
 
     return true;
+  }
+\end{lstlisting}
+
+Attributes of a tag are read into the corresponding object via the \texttt{readAttributes()} method that must be implemented for each class.
+An example is shown in Listing \ref{lst:ModelExtReadAttributes} for the class \texttt{Foo}.
+
+\begin{lstlisting}[language=Java,caption={Method to read the XML attributes},label={lst:ModelExtReadAttributes}]
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+
+      if (attributeName.equals(ExampleConstant.bar)) {
+        setBar(StringTools.parseSBMLInt(value));
+      } else {
+        isAttributeRead = false;
+      }
+    }
+
+    return isAttributeRead;
   }
 \end{lstlisting}
 
