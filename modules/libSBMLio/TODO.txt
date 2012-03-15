@@ -1,0 +1,6 @@
+This file contains open tasks in this project.
+
+For the current libSBML version the exponent in units needs to be rounded
+to an int number because JSBML already works with double exponents according
+to the specification of SBML Level 3. In the future the rounding should be
+removed because otherwise the results will be misleading.
