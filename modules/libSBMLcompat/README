@@ -1,0 +1,5 @@
+
+This module is not working, it contains mainly the structure of the project with few test classes.
+
+It will provides some adapter classes that are as close as possible to the libsbml API. Several branches could be developed to correspond to the different major versions of the libsbml API.
+

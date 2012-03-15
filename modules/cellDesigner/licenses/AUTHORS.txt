@@ -1,0 +1,20 @@
+                           -------------
+                  JSBML CellDesigner bridge Authors
+                           -------------
+
+                           -- Core developers --
+
+         Andreas Draeger, University of Tuebingen, Germany
+         Nicolas Rodriguez, European Bioinformatics Institute, UK
+         
+
+                           -- Contributors --
+
+         Alexander Doerr, University of Tuebingen, Germany
+         Clemens Wrzodek, University of Tuebingen, Germany
+         Michael Hucka, California Institute of Technology, USA
+
+                               -- Alumni --
+         
+         Marine Dumousseau, European Bioinformatics Institute, UK
+         Simon Schaefer, University of Tuebingen, Germany

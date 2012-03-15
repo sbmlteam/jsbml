@@ -1,0 +1,48 @@
+#!/usr/local/bin/dot
+#
+# dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
+# dot -Tpng type_hierarchy.dot -otype_hierarchy.png
+#
+# $Id$
+# $URL$
+# $Rev$
+
+strict digraph G{
+
+ 	nodesep=0.25;
+	 ranksep=0.5;
+
+	 edge [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   labelfontname="Helvetica",
+	   labelfontsize=10
+	 ];
+	 node [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   shape=box
+	 ];
+
+  /*
+   * Interfaces
+   */
+  SBMLInputConverter  [label="SBML\nInputConverter"];
+  SBMLOutputConverter [label="SBML\nOutputConverter"];
+
+  /*
+   * Objects
+   */
+   
+  LibSBMLReader       [label="Lib\nSBMLReader"];
+  LibSBMLWriter       [label="Lib\nSBMLWriter"];
+  
+         
+  /*********************
+   * Inheritance graph *
+   *********************/
+  
+  SBMLInputConverter         -> LibSBMLReader [dir=back,arrowtail=empty,style=dashed];
+  SBMLOutputConverter        -> LibSBMLWriter [dir=back,arrowtail=empty,style=dashed];
+
+}
