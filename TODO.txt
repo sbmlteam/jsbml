@@ -1,0 +1,8 @@
+
+
+L3 mathml units output
+
+ASTNode :	public String toString() ==> Do not print this message if parsing the file !!! Or remove it
+
+check the reading/writing of NaN both from and to mathML or infix formula
+

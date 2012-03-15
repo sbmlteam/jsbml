@@ -1,0 +1,202 @@
+\documentclass[
+  BCOR12mm,
+  letterpaper,
+  11pt,
+  headsepline,
+  numbers=noenddot,
+  caption=oneline,
+  headinclude,
+  appendixprefix,
+  index=totoc,
+  bibliography=totoc,
+  twoside,
+  titlepage
+]{scrreprt}
+
+\usepackage{JSBMLstyle}
+
+\hypersetup{
+  bookmarksopenlevel={1},
+  bookmarksnumbered={true},
+  breaklinks={true},
+  colorlinks={false},
+  pdfpagemode={UseOutlines},
+  pdftitle={User guide for JSBML},
+  pdfauthor={Andreas Dr\"ager} {Nicolas Rodriguez} {Marine Dumousseau} {Alexander D\"orr} {Clemens Wrzodek} {Nicolas Le Nov{\`e}re} {Andreas Zell} {Michael Hucka},
+  pdfsubject={Software guide},
+  pdfkeywords={JSBML} {libSBML} {Java} {SBML} {API} {LaTeX} {documentation} {manual} {guide} {code examples},
+  pdfview={FitV},
+  pdffitwindow={true},
+  pdfstartview={FitV},
+  pdfnewwindow={false},
+  pdfdisplaydoctitle={true},
+  pdfhighlight={/P},
+  plainpages={false},
+  unicode={true},
+  urlcolor={blue}
+}
+
+% for index
+\usepackage{makeidx}
+\makeindex
+
+\hyphenation{
+AST-Node
+Boo-lean
+Cell-De-sig-n-er
+Call-able-S-Base
+Event-Listener
+Event-Hand-l-er
+Event-Object
+get-Ex-po-nent
+get-Ex-po-nent-As-Double
+get-Spatial-Di-men-sions
+get-Spatial-Di-men-sions-As-Double
+J-SB-ML
+Ki-ne-tic-Law
+lib-SBML-Constants
+Lib-SB-ML-Reader
+Local-Pa-ra-meter
+Plug-in-Action
+plug-in
+Property-Change-Event
+SBML-Document
+Tree-Node
+Tree-Node-Change-Event
+Tree-Node-Change-Listen-er
+Tree-Node-With-Change-Support
+time-Units
+Tree-Node
+}
+
+\title{User guide for JSBML}
+\author{Andreas Dr\"ager\thanks{Center for Bioinformatics Tuebingen, University
+of Tuebingen, T\"ubingen, Germany}\and%
+Nicolas Rodriguez\thanks{European Bioinformatics Institute, Wellcome Trust
+Genome Campus, Hinxton, Cambridge, UK}\and%
+Marine Dumousseau\footnotemark[2]\and%
+Alexander D\"orr\footnotemark[1]\and%
+Clemens Wrzodek\footnotemark[1]\and%
+Finja B\"uchel\footnotemark[1]\and%
+Florian Mittag\footnotemark[1]}
+\date{Principal Investigators:\\
+Nicolas Le Nov{\`e}re\footnotemark[2],
+Andreas Zell\footnotemark[1], and
+Michael Hucka\thanks{Computing and Mathematical Sciences, California Institute
+of Technology, Pasadena, California, USA}\\[4ex]
+\today}
+
+\newboolean{includeCodeExample}
+\setboolean{includeCodeExample}{false}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+The specifications of the Systems Biology Markup Language (SBML) define a
+standard for storing and exchanging biochemical models in XML-formatted text
+files. To perform higher-level operations on these models, e.g., numerical
+simulation or visual representation, an appropriate mapping to in-memory objects
+is required. To this end, the JSBML library has been developed. JSBML supports
+all SBML levels and versions that are available today. In addition, JSBML
+provides modules that facilitate the development of CellDesigner plugins or ease
+the migration from a libSBML backend.
+
+This document should help you getting started with JSBML. It is not only intended
+for users, developing their applications from scratch, but also for users,
+switching from libSBML to JSBML.
+
+% It includes instructions and descriptions of where and how to obtain the JSBML
+% library and the JSBML modules.
+
+
+%
+%
+%Although the libraries JSBML and libSBML, used to work with files and data
+%structures defined in SBML (Systems Biology Markup Language), are
+%very similar and share a common scope, users should be informed about their
+%major differences to help switch more easily from one library to the other. To
+%this end, the document at hand gives a brief overview of the main differences
+%between the Java\texttrademark{} application programming interfaces (API) of
+%both libraries.
+%
+%In addition, JSBML can be used as a communication layer between the widespread
+%application CellDesigner and any application that works with JSBML as its
+%internal data structure. An example is given, that demonstrates how to
+%convert between CellDesigner's plugin data structures and JSBML objects.
+%
+%In the same way, it is possible to inter-convert between data structures
+%obtained from libSBML and JSBML \textcolor{red}{No need to mention the
+%specific versions in the abstract, I think}. We provides an example of how to
+%read SBML files with libSBML, turn them into JSBML data structures, manipulate
+% them and turn them back to libSBML for writing.
+%
+%Furthermore, JSBML will provides a compatibility module, whose member classes
+%show an identical API as defined in libSBML. In this way, the
+%compatibility module will facilitate a switch from libSBML to JSBML and vice
+%versa by simply exchanging the included JAR file in the project.
+%
+%\textcolor{red}{This document gives an example for the usage of the
+%compatibility module.}
+% Not sure we need to mention in the abstract that we gives examples code for
+% each point and anyway, there is not example at the moment for this module.
+
+% I removed the line return for the \index to try to remove the extra spaces
+% that were added.
+
+\end{abstract}
+
+
+\tableofcontents
+
+\chapter{Getting started with JSBML}
+
+The following are quick-start instructions for getting started with JSBML. This
+document is based on JSBML version 1.0. Before doing any of the steps below,
+you will need to obtain a copy of JSBML either via the SourceForge download
+page\footnote{\url{https://sourceforge.net/projects/jsbml/files/jsbml/}} or using
+Subversion (SVN) as described below.
+
+\input{tex/JSBML_getting_started}
+
+\input{tex/JSBML_hello_world_examples}
+
+\chapter{Main differences between JSBML and libSBML}
+
+Until today, the Java binding of libSBML has been the main library for
+developing Java applications that use SBML. Thus, many Java developers are used
+to the methods and commands, libSBML provides. The JSBML team made some effort
+to allow those developers a fast and easy switch to this new library. For
+example, a libSBML compatibility module has been developed, that implements
+existing libSBML methods and simply redirects the parameters to the
+corresponding JSBML methods. But it is important that developers, coming from
+libSBML, know the main differences between the two libraries. The following
+sections give a brief description of those main differences.
+
+\input{tex/JSBML_compared_to_libSBML}
+
+\chapter{Howto write extensions}
+\input{tex/JSBML_howto_write_extensions}
+
+\chapter{Open tasks in JSBML}
+
+\input{tex/JSBML_open_tasks}
+
+\appendix
+
+\chapter{Frequently Asked Questions (FAQ)}
+\input{tex/JSBML_FAQ}
+
+\chapter{Acknowledgments and funding}
+\input{tex/JSBML_Acknowledgments}
+
+
+% \clearpage
+\bibliographystyle{natbib}
+\bibliography{literature}
+
+% Index
+\printindex
+
+\end{document}

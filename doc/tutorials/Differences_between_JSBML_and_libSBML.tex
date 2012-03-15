@@ -1,0 +1,142 @@
+\documentclass[
+  BCOR12mm,
+  letterpaper,
+  11pt,
+  headsepline,
+  numbers=noenddot,
+  caption=oneline,
+  headinclude,
+  appendixprefix,
+  index=totoc,
+  bibliography=totoc,
+  twoside,
+  titlepage
+]{scrartcl}
+
+\usepackage{JSBMLstyle}
+
+\hypersetup{
+  bookmarksopenlevel={2},
+  bookmarksnumbered={true},
+  breaklinks={true},
+  colorlinks={false},
+  pdfpagemode={UseOutlines},
+  pdftitle={A short description of the main differences between
+  JSBML and libSBML},
+  pdfauthor={Andreas Dr\"ager} {Nicolas Rodriguez} {Marine Dumousseau} {Alexander D\"orr} {Clemens Wrzodek} {Nicolas Le Nov{\`e}re} {Andreas Zell} {Michael Hucka},
+  pdfsubject={Software guide},
+  pdfkeywords={JSBML} {libSBML} {Java} {SBML} {API} {LaTeX} {code examples},
+  pdfview={FitV},
+  pdffitwindow={true},
+  pdfstartview={FitV},
+  pdfnewwindow={false},
+  pdfdisplaydoctitle={true},
+  pdfhighlight={/P},
+  plainpages={false},
+  unicode={true},
+  urlcolor={blue}
+}
+
+% for index
+\usepackage{makeidx}
+\makeindex
+
+\hyphenation{
+AST-Node
+Boo-lean
+Cell-De-sig-n-er
+Call-able-S-Base
+Event-Listener
+Event-Hand-l-er
+Event-Object
+get-Ex-po-nent
+get-Ex-po-nent-As-Double
+get-Spatial-Di-men-sions
+get-Spatial-Di-men-sions-As-Double
+J-SB-ML
+Ki-ne-tic-Law
+lib-SBML-Constants
+Lib-SB-ML-Reader
+Local-Pa-ra-meter
+Plug-in-Action
+plug-in
+Property-Change-Event
+S-Base-Chang-ed-Listen-er
+time-Units
+Tree-Node
+}
+
+\title{A short description of the main differences between JSBML and libSBML}
+\author{Andreas Dr\"ager\thanks{Center for Bioinformatics Tuebingen, University
+of Tuebingen, T\"ubingen, Germany}\and%
+Nicolas Rodriguez\thanks{European Bioinformatics Institute, Wellcome Trust
+Genome Campus, Hinxton, Cambridge, UK}\and%
+Marine Dumousseau\footnotemark[2]\and%
+Alexander D\"orr\footnotemark[1]\and%
+Clemens Wrzodek\footnotemark[1]}
+\date{Principal Investigators:\\
+Nicolas Le Nov{\`e}re\footnotemark[2], Andreas Zell\footnotemark[1], and Michael
+Hucka\thanks{Computing and Mathematical Sciences, California Institute of
+Technology, Pasadena, California, USA}\\[4ex]
+\today}
+
+\newboolean{includeCodeExample}
+\setboolean{includeCodeExample}{true}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Although the libraries JSBML and libSBML, used to work with files and data
+structures definedin SBML (Systems Biology Markup Language), are
+very similar and share a common scope, users should be informed about their
+major differences to help switch more easily from one library to the other. To
+this end, the document at hand gives a brief overview of the main differences
+between the Java\texttrademark{} application programming interfaces (API) of
+both libraries.
+
+In addition, JSBML can be used as a communication layer between the widespread
+application CellDesigner and any application that works with JSBML as its
+internal data structure. An example is given, that demonstrates how to
+convert between CellDesigner's plug-in data structures and JSBML objects.
+
+In the same way, it is possible to inter-convert between data structures
+obtained from libSBML and JSBML. We provide an example of how to read SBML files
+with libSBML, turn them into JSBML data structures, manipulate them and turn
+them back to libSBML for writing.
+
+Furthermore, JSBML will provides a compatibility module, whose member classes
+show an identical API as defined in libSBML. In this way, the
+compatibility module will facilitate a switch from libSBML to JSBML and vice
+versa by simply exchanging the included JAR file in the project.
+
+%\textcolor{red}{This document gives an example for the usage of the
+%compatibility module.}
+% Not sure we need to mention in the abstract that we gives examples code for
+% each point and anyway, there is not example at the moment for this module.
+
+% I removed the line return for the \index to try to remove the extra spaces
+% that were added.
+\end{abstract}
+
+\tableofcontents
+
+\input{tex/JSBML_compared_to_libSBML}
+\appendix
+
+\section{tex/Frequently Asked Questions (FAQ)}
+\input{tex/JSBML_FAQ}
+
+\section{Acknowledgments and funding}
+\input{tex/JSBML_Acknowledgments}
+
+
+% \clearpage
+\bibliographystyle{natbib}
+\bibliography{literature}
+
+% Index
+\printindex
+
+\end{document}

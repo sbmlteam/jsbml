@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    $Id$
+    $URL$
+    ----------------------------------------------------------------------------
+    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+    for the latest version of JSBML and more information about SBML.
+
+    Copyright (C) 2009-2011 jointly by the following organizations:
+    1. The University of Tuebingen, Germany
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+    3. The California Institute of Technology, Pasadena, CA, USA
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation. A copy of the license agreement is provided
+    in the file named "LICENSE.txt" included with this software distribution
+    and also available online as http://sbml.org/Software/JSBML/License.
+    ----------------------------------------------------------------------------
+  
+    This file maps the name spaces of the supported levels and version and other
+    content of SBML files to parsers for the creation of JSBML data objects.
+  
+    Version: $Rev$
+  </comment>
+  
+  <!-- 
+     Extension parsers
+  
+     The extensions are not part of the JSBML core. Note that SBML extension packages can only
+     be parsed by JSBML if the required extension package parser along with all of its required
+     data structures has been included into the Java build path.  
+  -->
+  
+  <entry key="http://www.sbml.org/sbml/level3/version1/multi/version1">org.sbml.jsbml.xml.parsers.MultiParser</entry>
+  <entry key="http://www.sbml.org/sbml/level3/version1/groups/version1">org.sbml.jsbml.xml.parsers.GroupsParser</entry>
+  <entry key="http://projects.eml.org/bcb/sbml/level2">org.sbml.jsbml.xml.parsers.LayoutParser</entry>
+  <entry key="http://www.sbml.org/sbml/level3/version1/groups/version1">org.sbml.jsbml.xml.parsers.GroupsParser</entry>
+  <entry key="http://www.sbml.org/sbml/level3/version1/fbc/version1">org.sbml.jsbml.xml.parsers.FBAParser</entry>
+  <entry key="http://www.sbml.org/sbml/level3/version1/qual/version1">org.sbml.jsbml.xml.parsers.QualParser</entry>
+  <entry key="http://www.sbml.org/sbml/level3/version1/layout/version1">org.sbml.jsbml.xml.parsers.L3LayoutParser</entry>
+  <entry key="http://www.sbml.org/sbml/level3/version1/multi/version1">org.sbml.jsbml.xml.parsers.MultiParser</entry>
+
+  <!-- Core parsers
+  
+       Changes in the following lines may cause that JSBML cannot parse valid SBML files anymore, so
+       please be careful when performing changes here.
+   -->
+  
+  <entry key="http://www.sbml.org/sbml/level3/version1/core">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
+  <entry key="http://www.sbml.org/sbml/level2/version2">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
+  <entry key="http://www.sbml.org/sbml/level2/version3">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
+  <entry key="http://www.sbml.org/sbml/level2/version4">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
+  <entry key="http://www.sbml.org/sbml/level2">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
+  <entry key="http://www.sbml.org/sbml/level1">org.sbml.jsbml.xml.parsers.SBMLCoreParser</entry>
+  <entry key="http://www.w3.org/1999/xhtml">org.sbml.jsbml.xml.parsers.StringParser</entry>
+  <entry key="http://www.w3.org/1999/02/22-rdf-syntax-ns#">org.sbml.jsbml.xml.parsers.RDFAnnotationParser</entry>
+  <entry key="http://purl.org/dc/elements/1.1/">org.sbml.jsbml.xml.parsers.CreatorParser</entry>
+  <entry key="http://purl.org/dc/terms/">org.sbml.jsbml.xml.parsers.DatesParser</entry>
+  <entry key="http://www.w3.org/2001/vcard-rdf/3.0#">org.sbml.jsbml.xml.parsers.VCardParser</entry>
+  <entry key="http://biomodels.net/biology-qualifiers/">org.sbml.jsbml.xml.parsers.BiologicalQualifierParser</entry>
+  <entry key="http://biomodels.net/model-qualifiers/">org.sbml.jsbml.xml.parsers.ModelQualifierParser</entry>
+  <entry key="http://www.w3.org/1998/Math/MathML">org.sbml.jsbml.xml.parsers.MathMLStaxParser</entry>
+  <entry key="anyAnnotation">org.sbml.jsbml.xml.parsers.AnnotationParser</entry>
+
+</properties>

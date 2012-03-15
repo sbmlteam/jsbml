@@ -1,0 +1,27 @@
+                           -------------
+                           JSBML Authors
+                           -------------
+
+                           -- Core developers --
+
+         Andreas Draeger, University of Tuebingen, Germany
+         Nicolas Rodriguez, European Bioinformatics Institute, UK
+         
+
+                           -- Contributors --
+
+         Meike Aichele, University of Tuebingen, Germany
+         Finja Buechel, University of Tuebingen, Germany
+         Alexander Doerr, University of Tuebingen, Germany
+         Sebastian Froehlich, IKP Gatersleben, Germany
+         Michael Hucka, California Institute of Technology, USA
+         Florian Mittag, University of Tuebingen, Germany
+         Alexander Peltzer, University of Tuebingen, Germany
+         Clemens Wrzodek, University of Tuebingen, Germany
+         
+                               -- Alumni --
+         
+         Marine Dumousseau, European Bioinformatics Institute, UK
+         Sarah Rachel Mueller vom Hagen, University of Tuebingen, Germany
+         Simon Schaefer, University of Tuebingen, Germany
+         

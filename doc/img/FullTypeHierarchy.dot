@@ -1,0 +1,231 @@
+#!/usr/local/bin/dot
+#
+# dot -Tpdf FullTypeHierarchy.dot -oFullTypeHierarchy.pdf && acroread FullTypeHierarchy.pdf &
+# dot -Tpng FullTypeHierarchy.dot -oFullTypeHierarchy.png
+
+/*
+ * Overview of the core type hierarchy
+ */
+
+strict digraph G{
+
+	nodesep=0.25;
+	ranksep=0.5;
+	margin=0.01;
+
+	edge [
+	  fontname="Helvetica",
+	  fontsize=10,
+	  labelfontname="Helvetica",
+	  labelfontsize=10
+	];
+	node [
+	  fontname="Helvetica",
+	  fontsize=10,
+	  shape=box
+	];
+
+
+  /*******************
+   * Java base types *
+   *******************/
+
+  subgraph clusterJava {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#FFE4E1"
+    color="#ffffff"
+    label="Java data types";
+    labelloc=t;
+    labeljust=c;
+
+    // Interfaces
+    Cloneable                              [label="<<interface>>\nCloneable"];
+    List                                   [label="<<interface>>\nList"];
+    PropertyChangeListener                 [label="<<interface>>\nProperty\nChangeListener"];
+    Serializable                           [label="<<interface>>\nSerializable"];
+    TreeNode                               [label="<<interface>>\nTreeNode"];
+
+    // Objects
+    Object                                 [label="Object"];
+    PropertyChangeEvent                    [label="Property\nChangeEvent"];
+  }
+
+  /*
+   * Interfaces
+   */
+
+  Assignment                               [label="<<interface>>\nAssignment", style="filled", fillcolor="#F0F8FF"];
+  CallableSBase                            [label="<<interface>>\nCallableSBase", style="filled", fillcolor="#F0F8FF"];
+  MathContainer                            [label="<<interface>>\nMathContainer", style="filled", fillcolor="#F0F8FF"];
+  NamedSBase                               [label="<<interface>>\nNamedSBase", style="filled", fillcolor="#F0F8FF"];
+  NamedSBaseWithDerivedUnit                [label="<<interface>>\nNamedSBase\nWithDerivedUnit", style="filled", fillcolor="#F0F8FF"];
+  Quantity                                 [label="<<interface>>\nQuantity", style="filled", fillcolor="#F0F8FF"];
+  SBaseWithDerivedUnit                     [label="<<interface>>\nSBase\nWithDerivedUnit", style="filled", fillcolor="#F0F8FF"];
+  SBaseWithUnit                            [label="<<interface>>\nSBaseWithUnit", style="filled", fillcolor="#F0F8FF"];
+  SBase                                    [label="<<interface>>\nSBase"];
+  SBasePlugin                              [label="<<interface>>\nSBase\nPlugin"];
+  TreeNodeChangeListener                   [label="<<interface>>\nTreeNode\nChangeListener", style="filled", fillcolor="#F0F8FF"];
+  TreeNodeWithChangeSupport                [label="<<interface>>\nTreeNode\nWithChangeSupport", style="filled", fillcolor="#F0F8FF"];
+  UniqueNamedSBase                         [label="<<interface>>\nUnique\nNamedSBase", style="filled", fillcolor="#F0F8FF"];
+  Variable                                 [label="<<interface>>\nVariable", style="filled", fillcolor="#F0F8FF"];
+
+  /*
+   * Abstract data types
+   */
+
+  AbstractMathContainer                    [label=<<font face="Helvetica-Oblique">Abstract<br/>MathContainer</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractNamedSBaseWithUnit               [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase<br/>WithUnit</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBasePlugin                      [label=<<font face="Helvetica-Oblique">AbstractSBase<br/>Plugin</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractTreeNode                         [label=<<font face="Helvetica-Oblique">Abstract<br/>TreeNode</font>>, style="filled", fillcolor="#F0F8FF"];
+  AnnotationElement                        [label=<<font face="Helvetica-Oblique">Annotation<br/>Element</font>>, style="filled", fillcolor="#F0F8FF"];
+  ExplicitRule                             [label=<<font face="Helvetica-Oblique">Explicit<br/>Rule</font>>, style="filled", fillcolor="#F0F8FF"];
+  Rule                                     [label=<<font face="Helvetica-Oblique">Rule</font>>];
+  SimpleSpeciesReference                   [label=<<font face="Helvetica-Oblique">Simple<br/>SpeciesReference</font>>];
+  QuantityWithUnit                         [label=<<font face="Helvetica-Oblique">Quantity<br/>WithUnit</font>>, style="filled", fillcolor="#F0F8FF"];
+  Symbol                                   [label=<<font face="Helvetica-Oblique">Symbol</font>>, style="filled", fillcolor="#F0F8FF"];
+  XMLToken                                 [label=<<font face="Helvetica-Oblique">XML<br/>Token</font>>];
+
+  /*
+   * Objects
+   */
+
+  AlgebraicRule                            [label="Algebraic\nRule"];
+  Annotation                               [label="Annotation", style="filled", fillcolor="#F0F8FF"];
+  AssignmentRule                           [label="Assignment\nRule"];
+  ASTNode                                  [label="AST\nNode"];
+  Compartment                              [label="Compartment"];
+  CompartmentType                          [label="Compartment\nType"];
+  Constraint                               [label="Constraint"]
+  Creator                                  [label="Creator", style="filled", fillcolor="#FFFFE0"];
+  CVTerm                                   [label="CV\nTerm"];
+  Delay                                    [label="Delay"];
+  Event                                    [label="Event"];
+  EventAssignment                          [label="Event\nAssignment"];
+  FunctionDefinition                       [label="Function\nDefinition"];
+  History                                  [label="History", style="filled", fillcolor="#FFFFE0"];
+  InitialAssignment                        [label="Initial\nAssignment"];
+  KineticLaw                               [label="Kinetic\nLaw"];
+  ListOf                                   [label="List\nOf"];
+  LocalParameter                           [label="Local\nParameter"];
+  Model                                    [label="Model"];
+  ModifierSpeciesReference                 [label="Modifier\nSpeciesReference"];
+  Parameter                                [label="Parameter"];
+  Priority                                 [label="Priority"];
+  RateRule                                 [label="Rate\nRule"];
+  Reaction                                 [label="Reaction"];
+  SBMLDocument                             [label="SBML\nDocument"];
+  SimpleTreeNodeChangeListener             [label="Simple\nTreeNode\nChangeListener", fillcolor="#FFFFE0"];
+  Species                                  [label="Species"];
+  SpeciesReference                         [label="Species\nReference"];
+  SpeciesType                              [label="Species\nType"];
+  StoichiometryMath                        [label="Stoichiometry\nMath"];
+  TreeNodeAdapter                          [label="TreeNode\nAdapter", style="filled", fillcolor="#F0F8FF"];
+  TreeNodeChangeEvent                      [label="TreeNode\nChangeEvent", style="filled", fillcolor="#F0F8FF"];
+  Trigger                                  [label="Trigger"];
+  Unit                                     [label="Unit"];
+  UnitDefinition                           [label="Unit\nDefinition"];
+  XMLNode                                  [label="XML\nNode"];
+  
+  /*********************
+   * Inheritance graph *
+   *********************/
+   
+  AbstractNamedSBase         -> AbstractNamedSBaseWithUnit   [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> CompartmentType              [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> Model                        [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> Reaction                     [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> SimpleSpeciesReference       [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> SpeciesType                  [dir=back,arrowtail=empty];
+  AbstractNamedSBase         -> UnitDefinition               [dir=back,arrowtail=empty];
+  AbstractNamedSBaseWithUnit -> Event                        [dir=back,arrowtail=empty];
+  AbstractNamedSBaseWithUnit -> QuantityWithUnit             [dir=back,arrowtail=empty];
+  AbstractSBase              -> AbstractMathContainer        [dir=back,arrowtail=empty];
+  AbstractSBase              -> AbstractNamedSBase           [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> FunctionDefinition           [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> KineticLaw                   [dir=back,arrowtail=empty];
+  AbstractSBase              -> ListOf                       [dir=back,arrowtail=empty];
+  AbstractSBase              -> SBMLDocument                 [dir=back,arrowtail=empty];
+  AbstractSBase              -> Unit                         [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> Constraint                   [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> Delay                        [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> EventAssignment              [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> InitialAssignment            [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> KineticLaw                   [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> Priority                     [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> Rule                         [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> StoichiometryMath            [dir=back,arrowtail=empty];
+  AbstractMathContainer      -> Trigger                      [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> AbstractSBase                [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> AnnotationElement            [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> ASTNode                      [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> TreeNodeAdapter              [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> XMLToken                     [dir=back,arrowtail=empty];
+  AnnotationElement          -> Annotation                   [dir=back,arrowtail=empty];
+  AnnotationElement          -> Creator                      [dir=back,arrowtail=empty];
+  AnnotationElement          -> CVTerm                       [dir=back,arrowtail=empty];
+  AnnotationElement          -> History                      [dir=back,arrowtail=empty];
+  Assignment                 -> EventAssignment              [dir=back,arrowtail=empty,style=dashed];
+  Assignment                 -> ExplicitRule                 [dir=back,arrowtail=empty,style=dashed];
+  Assignment                 -> InitialAssignment            [dir=back,arrowtail=empty,style=dashed];
+  CallableSBase              -> Quantity                     [dir=back,arrowtail=empty,style=dashed];
+  CallableSBase              -> FunctionDefinition           [dir=back,arrowtail=empty,style=dashed];
+  CallableSBase              -> Reaction                     [dir=back,arrowtail=empty,style=dashed];
+  Cloneable                  -> SBasePlugin                  [dir=back,arrowtail=empty,style=dashed];
+  Cloneable                  -> TreeNodeWithChangeSupport    [dir=back,arrowtail=empty,style=dashed];
+  ExplicitRule               -> AssignmentRule               [dir=back,arrowtail=empty];
+  ExplicitRule               -> RateRule                     [dir=back,arrowtail=empty];
+  List                       -> ListOf                       [dir=back,arrowtail=empty,style=dashed];
+  MathContainer              -> AbstractMathContainer        [dir=back,arrowtail=empty,style=dashed];
+  MathContainer              -> Assignment                   [dir=back,arrowtail=empty,style=dashed];
+  NamedSBase                 -> AbstractNamedSBase           [dir=back,arrowtail=empty,style=dashed];
+  NamedSBase                 -> NamedSBaseWithDerivedUnit    [dir=back,arrowtail=empty,style=dashed];
+  NamedSBase                 -> UniqueNamedSBase             [dir=back,arrowtail=empty,style=dashed];
+  NamedSBaseWithDerivedUnit  -> AbstractNamedSBaseWithUnit   [dir=back,arrowtail=empty,style=dashed];
+  NamedSBaseWithDerivedUnit  -> CallableSBase                [dir=back,arrowtail=empty,style=dashed];
+  Object                     -> AbstractTreeNode             [dir=back,arrowtail=empty];
+  PropertyChangeEvent        -> TreeNodeChangeEvent          [dir=back,arrowtail=empty];
+  PropertyChangeListener     -> TreeNodeChangeListener       [dir=back,arrowtail=empty,style=dashed];
+  Quantity                   -> QuantityWithUnit             [dir=back,arrowtail=empty,style=dashed];
+  Quantity                   -> Variable                     [dir=back,arrowtail=empty,style=dashed];
+  QuantityWithUnit           -> LocalParameter               [dir=back,arrowtail=empty];
+  QuantityWithUnit           -> Symbol                       [dir=back,arrowtail=empty];
+  Rule                       -> AlgebraicRule                [dir=back,arrowtail=empty];
+  Rule                       -> ExplicitRule                 [dir=back,arrowtail=empty];
+  SBase                      -> AbstractSBase                [dir=back,arrowtail=empty,style=dashed];
+  SBase                      -> NamedSBase                   [dir=back,arrowtail=empty,style=dashed];
+  SBase                      -> SBaseWithDerivedUnit         [dir=back,arrowtail=empty,style=dashed];
+  SBasePlugin                -> AbstractSBasePlugin          [dir=back,arrowtail=empty,style=dashed];
+  SBaseWithDerivedUnit       -> MathContainer                [dir=back,arrowtail=empty,style=dashed];
+  SBaseWithDerivedUnit       -> NamedSBaseWithDerivedUnit    [dir=back,arrowtail=empty,style=dashed];
+  SBaseWithDerivedUnit       -> SBaseWithUnit                [dir=back,arrowtail=empty,style=dashed];
+  SBaseWithUnit              -> AbstractNamedSBaseWithUnit   [dir=back,arrowtail=empty,style=dashed];
+  SBaseWithUnit              -> ExplicitRule                 [dir=back,arrowtail=empty,style=dashed];
+  SBaseWithUnit              -> KineticLaw                   [dir=back,arrowtail=empty,style=dashed];
+  SimpleSpeciesReference     -> ModifierSpeciesReference     [dir=back,arrowtail=empty];
+  SimpleSpeciesReference     -> SpeciesReference             [dir=back,arrowtail=empty];
+  Serializable               -> SBasePlugin                  [dir=back,arrowtail=empty,style=dashed];
+  Serializable               -> TreeNodeWithChangeSupport    [dir=back,arrowtail=empty,style=dashed];
+  Symbol                     -> Compartment                  [dir=back,arrowtail=empty];
+  Symbol                     -> Parameter                    [dir=back,arrowtail=empty];
+  Symbol                     -> Species                      [dir=back,arrowtail=empty];
+  TreeNode                   -> TreeNodeWithChangeSupport    [dir=back,arrowtail=empty,style=dashed];
+  TreeNodeChangeListener     -> SimpleTreeNodeChangeListener [dir=back,arrowtail=empty,style=dashed];
+  TreeNodeWithChangeSupport  -> AbstractTreeNode             [dir=back,arrowtail=empty,style=dashed];
+  TreeNodeWithChangeSupport  -> SBase                        [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> CompartmentType              [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> Event                        [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> FunctionDefinition           [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> Model                        [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> Reaction                     [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> SimpleSpeciesReference       [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> SpeciesType                  [dir=back,arrowtail=empty,style=dashed];
+  UniqueNamedSBase           -> Variable                     [dir=back,arrowtail=empty,style=dashed];
+  Variable                   -> SpeciesReference             [dir=back,arrowtail=empty,style=dashed];
+  Variable                   -> Symbol                       [dir=back,arrowtail=empty,style=dashed];
+  XMLToken                   -> XMLNode                      [dir=back,arrowtail=empty];
+
+}
