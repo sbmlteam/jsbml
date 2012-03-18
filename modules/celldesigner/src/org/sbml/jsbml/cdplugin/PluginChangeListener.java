@@ -14,7 +14,7 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-package org.sbml.jsbml.cdplugin;
+package src.org.sbml.jsbml.cdplugin;
 
 import java.beans.PropertyChangeEvent;
 import java.util.Enumeration;
