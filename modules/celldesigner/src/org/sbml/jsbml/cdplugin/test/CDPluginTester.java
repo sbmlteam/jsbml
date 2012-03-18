@@ -17,7 +17,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.cdplugin.test;
+package src.org.sbml.jsbml.cdplugin.test;
 
 import jp.sbi.celldesigner.plugin.CellDesignerPlugin;
 import jp.sbi.celldesigner.plugin.PluginMenu;
@@ -27,9 +27,10 @@ import jp.sbi.celldesigner.plugin.PluginSBase;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBO;
-import org.sbml.jsbml.cdplugin.PluginChangeListener;
-import org.sbml.jsbml.cdplugin.PluginSBMLReader;
 import org.sbml.jsbml.test.gui.JSBMLvisualizer;
+
+import src.org.sbml.jsbml.cdplugin.PluginChangeListener;
+import src.org.sbml.jsbml.cdplugin.PluginSBMLReader;
 
 /**
  * This class is used to test the synchronization between Celldesigner and JSBML.

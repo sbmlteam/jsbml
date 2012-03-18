@@ -17,7 +17,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.cdplugin;
+package src.org.sbml.jsbml.cdplugin;
 
 import java.util.Date;
 import java.util.HashSet;
