@@ -95,6 +95,7 @@ import org.sbml.jsbml.Symbol;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.xml.XMLToken;
@@ -407,7 +408,10 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		} else if (prop.equals(TreeNodeChangeEvent.priority)) {
 			logger.log(Level.DEBUG, String.format("Changing %s in the Model not supported.", eventsource.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.qualifier)) {
-			//CVterm - libsbml
+			CVTerm cv = (CVTerm) eventsource;
+			cv.setQualifierType((Integer) event.getNewValue());
+			PluginSBase base = getCorrespondingElementInJSBML(cv.getParent());
+			plugin.notifySBaseChanged(base);
 		} else if (prop.equals(TreeNodeChangeEvent.rdfAnnotationNamespaces)) {
 			logger.log(Level.DEBUG, String.format("Changing %s in the Model not supported.", eventsource.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.resource)) {
@@ -518,7 +522,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				MathContainer mc = n.getParentSBMLObject();
 				plugin.notifySBaseChanged(getCorrespondingElementInJSBML(mc));
 			} else if (eventsource instanceof Model){
-				//can be ignored, since we can't change the model in Celldesigner?
+				//TODO This can be potentially ignored, since we're not able to change the model in CellDesigner anyway.
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.unsetCVTerms)) {
 			if (eventsource instanceof AbstractSBase){
@@ -545,16 +549,26 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		} else if (prop.equals(TreeNodeChangeEvent.variable)) {
 			Object evtSrc = event.getSource();
 			if (evtSrc instanceof EventAssignment){
-				//TODO
+				EventAssignment ea = (EventAssignment) eventsource;
+				ea.setVariable((Variable) event.getNewValue());
+				PluginSBase base = getCorrespondingElementInJSBML(ea);
+				plugin.notifySBaseChanged(base);
 			} else if (evtSrc instanceof ExplicitRule){
-				//TODO
+				ExplicitRule er = (ExplicitRule) eventsource;
+				er.setVariable((Variable) event.getNewValue());
+				PluginSBase base = getCorrespondingElementInJSBML(er);
+				plugin.notifySBaseChanged(base);
 			} else if (evtSrc instanceof InitialAssignment){
 				InitialAssignment ia = (InitialAssignment) evtSrc;
-				PluginInitialAssignment plI = plugModel.getInitialAssignment(ia.getSymbol());
-				//TODO Can't call setVariable on PluginInitialAssignment object
+				ia.setVariable((Variable) event.getNewValue());
+				PluginSBase base = getCorrespondingElementInJSBML(ia);
+				plugin.notifySBaseChanged(base);
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.version)) {
-			//TODO Search method required
+			AbstractSBase asb = (AbstractSBase) eventsource;
+			asb.setVersion((int) event.getNewValue());
+			PluginSBase base = getCorrespondingElementInJSBML(asb);
+			plugin.notifySBaseChanged(base);
 		} else if (prop.equals(TreeNodeChangeEvent.volume)) {
 			Compartment c = (Compartment) event.getSource();
 			PluginCompartment plugC = plugModel.getCompartment(c.getId());
@@ -604,10 +618,20 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				logger.log(Level.DEBUG, String.format("Couldn't save math properties of %s", initAss.getClass().getSimpleName()));
 			}
 		} else if (mathcontainer instanceof EventAssignment){
-			EventAssignment eventAss = (EventAssignment) mathcontainer;
-			//TODO Unclear how to get the EventAssignment
+			EventAssignment ea = (EventAssignment) mathcontainer;
+			Event e = (Event) ea.getParent().getParent();
+			PluginEvent pe = (PluginEvent) plugModel.getEvent(e.getId());
+			int eaindex = getEventAssignmentIndex(e, ea);
+			PluginEventAssignment plea = pe.getEventAssignment(eaindex);
+			boolean equals = (ea.getMath() != null) && ea.isSetMath();
+			if (ea.isSetMath() && !equals){
+				plea.setMath(PluginUtils.convert(ea.getMath()));
+				plugin.notifySBaseChanged(plea);
+			} else {
+				logger.log(Level.DEBUG, String.format("Couldn't save math properties of %s", ea.getClass().getSimpleName()));
+			}
 		} else if (mathcontainer instanceof StoichiometryMath){
-			//TODO Does not exist in Celldesigner or ?
+			//TODO This does not exist in CellDesigner and therefore can be ignored.
 		} else if (mathcontainer instanceof Trigger){
 			Trigger trig = (Trigger) mathcontainer;
 			PluginEvent plugEvent = plugModel.getEvent(trig.getParent().getId());
@@ -619,15 +643,14 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				logger.log(Level.DEBUG, String.format("Couldn't save math properties of %s", trig.getClass().getSimpleName()));
 			}
 		} else if (mathcontainer instanceof Rule){
-			Rule r = (Rule) mathcontainer;
 			if (mathcontainer instanceof AlgebraicRule){
-				//TODO how to get the proper Algebraic Rule ?
+				//TODO AlgebraicRules are not accessible that easily. How to do that ?
 				
 			} else if (mathcontainer instanceof ExplicitRule){
 				if (mathcontainer instanceof RateRule){
-					//TODO how to get the Right Rate Rule
+					//TODO RateRules are not accessible that easily. How to do that ?
 				}else if (mathcontainer instanceof AssignmentRule){
-					//TODO
+					//TODO AssignmentRules are not accessible that easily. How to do that ?
 				}
 			}
 		} else if (mathcontainer instanceof Constraint) {
@@ -662,7 +685,9 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		}
 	}
 
-	/*
+	/**
+	 * This method is called when a TreeNode has been Added. It calls the plugin.notifySBaseAdded method for this specificially added element, to notify our model from the change
+	 * in Celldesigner.
 	 * (non-Javadoc)
 	 * 
 	 * @see
@@ -785,9 +810,6 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 									.getParentSBMLObject();
 							KineticLaw kl = (KineticLaw) lop
 									.getParentSBMLObject();
-							/*
-							 * TODO Crosscheck if this is okay.
-							 */
 							for (LocalParameter p : kl
 									.getListOfLocalParameters()) {
 								if (p.isSetUnits()
@@ -800,7 +822,6 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 									plugModel
 											.addUnitDefinition(plugUnitDefinition);
 									plugin.notifySBaseAdded(plugUnitDefinition);
-
 								}
 							}
 
@@ -870,10 +891,6 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				}
 			}
 			if (node instanceof Unit) {
-				/*
-				 * TODO This needs to be crosschecked if thats the way it should
-				 * work.
-				 */
 				Unit ut = (Unit) node;
 				PluginUnitDefinition plugUnitDef = new PluginUnitDefinition(
 						((UnitDefinition) ut.getParentSBMLObject()).getId());
@@ -993,24 +1010,18 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				plugut.setOffset(ut.getOffset());
 				plugut.setScale(ut.getScale());
 				plugin.notifySBaseAdded(plugut);
-
 			} else if (node instanceof SBMLDocument) {
 				SBMLDocument doc = (SBMLDocument) node;
 				logger.log(Level.DEBUG, "No counter class in CellDesigner"
 						+ node.getClass().getSimpleName());
-				// TODO
 			} else if (node instanceof ListOf<?>) {
 				ListOf<?> listOf = (ListOf<?>) node;
 				PluginListOf pluli = new PluginListOf();
 				PluginReaction ro = (PluginReaction) listOf
 						.getParentSBMLObject();
-
 				switch (listOf.getSBaseListType()) {
+				//TODO This has to be fixed somehow, the usual way like in PluginSBMLWriter does not work at all....
 				case listOfCompartments:
-					// FIXME
-					//ListOfCompartments ll = new ListOfCompartments();
-					
-					break;
 				case listOfCompartmentTypes:
 					break;
 				case listOfConstraints:
@@ -1082,9 +1093,14 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 					plugiassign.setNotes(iAssign.getNotesString());
 					plugin.notifySBaseAdded(plugiassign);
 				} else if (node instanceof EventAssignment) {
-					EventAssignment eassign = (EventAssignment) node;
-					// TODO PluginEventAssignemnt requires a new PluginEvent -
-					// we do not know this event. What shall we do here ?
+					EventAssignment ea = (EventAssignment) node;
+					Event e = (Event) ea.getParent().getParent();
+					PluginEvent pevent = (PluginEvent) getCorrespondingElementInJSBML(e);
+					int eaindex = getEventAssignmentIndex(e, ea);
+					PluginEventAssignment pea = pevent.getEventAssignment(eaindex);
+					pea.setMath(PluginUtils.convert(ea.getMath()));
+					pea.setNotes(ea.getNotesString());
+					plugin.notifySBaseAdded(pea);
 				} else if (node instanceof StoichiometryMath) {
 					logger.log(Level.DEBUG, String.format(
 							"No counter class for %s in CellDesigner.", node
@@ -1168,9 +1184,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 								.getSimpleName()));
 			} else if (node instanceof AnnotationElement) {
 				if (node instanceof CVTerm) {
-
-					// TODO This has to be done with the libsbml.CVTerm Class,
-					// fix this.
+					//TODO this has to be done using libsbml - I couldn't get libsbml to run on my machine however :/
 				} else if (node instanceof History) {
 					logger.log(Level.DEBUG, "No counter class in CellDesigner"
 							+ node.getClass().getSimpleName());
@@ -1185,7 +1199,8 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		}
 	}
 
-	/*
+	/**
+	 * This method is called whenever an element has been removed from our tree, and removes it from our model respectively.
 	 * (non-Javadoc)
 	 * 
 	 * @see
@@ -1250,10 +1265,10 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 						plugin.notifySBaseDeleted(plugEvent);
 					} else if (node instanceof QuantityWithUnit) {
 						if (node instanceof LocalParameter) {
-							/*
-							 * TODO: What to do with Localparameters? There are
-							 * no LocalParameters in CD available.
-							 */
+							LocalParameter loc = (LocalParameter) node;
+							PluginParameter ppam = plugModel.getParameter(loc.getId());
+							plugModel.removeParameter(loc.getId());
+							plugin.notifySBaseDeleted(ppam);
 						} else if (node instanceof Symbol) {
 							if (node instanceof Compartment) {
 								Compartment comp = (Compartment) node;
@@ -1279,17 +1294,14 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				}
 			}
 			if (node instanceof Unit) {
-				Unit ut = (Unit) node;
-				// TODO
+				//TODO Units can not be accessed this easily
 			} else if (node instanceof SBMLDocument) {
-				SBMLDocument doc = (SBMLDocument) node;
-				// TODO This needs to be hashed somehow.
+				// Check if we can access the SBMLDocument. In my opinion we can't access this due to a limitation of CellDesigner.
 			} else if (node instanceof ListOf<?>) {
+				//TODO How to parse the lists -- same problem as in nodeAddedMethod, can be probably outsourced into a common method for generic ListOf<?>
 				ListOf<?> listOf = (ListOf<?>) node;
 				switch (listOf.getSBaseListType()) {
 				case listOfCompartments:
-//					ListOfCompartments ll = new ListOfCompartments();
-
 					break;
 				case listOfCompartmentTypes:
 					break;
@@ -1396,19 +1408,16 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				} else if (node instanceof Rule) {
 					if (node instanceof AlgebraicRule) {
 						AlgebraicRule alrule = (AlgebraicRule) node;
-						// TODO how to get the right algebraic rule ?
+						//TODO How to find the corresponding element in the model to remove it?
 					} else if (node instanceof ExplicitRule) {
 						if (node instanceof RateRule) {
 							RateRule rrule = (RateRule) node;
-							// TODO howto get the right Rate Rule ?
+							//TODO How to find the corresponding element in the model to remove it?
 						} else if (node instanceof AssignmentRule) {
 							AssignmentRule assignRule = (AssignmentRule) node;
-							// TODO howto get the right AssignmentRule?
+							//TODO How to find the corresponding element in the model to remove it?
 						}
-					} else {
-						// TODO case when we only have a "Rule" without anything
-						// else
-					}
+					} 
 				}
 			}
 		} else if (node instanceof AbstractTreeNode) {
@@ -1425,7 +1434,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			} else if (node instanceof AnnotationElement) {
 				if (node instanceof CVTerm) {
 					CVTerm term = (CVTerm) node;
-					// TODO Here I dont know how to get the right CVTerm
+					// TODO use libsbml to get the corresponding CVTerm
 				} else if (node instanceof History) {
 					logger.log(Level.DEBUG, "No counter class in CellDesigner"
 							+ node.getClass().getSimpleName());
@@ -1604,16 +1613,15 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 					EventAssignment ea = (EventAssignment) evtSrc;
 					Event e = (Event) ea.getParentSBMLObject();
 					if (ea.isSetVariable()) {
-						// TODO index access required, string using the variable
-						// doesnt help here...
+						int eaindex = getEventAssignmentIndex(e, ea);
+						return plugModel.getEvent(e.getId()).getEventAssignment(eaindex);
 					}
 				} else if (evtSrc instanceof StoichiometryMath) {
 					StoichiometryMath sm = (StoichiometryMath) evtSrc;
 					SpeciesReference sp = (SpeciesReference) sm
 							.getParentSBMLObject();
 					if (sp != null) {
-						// TODO get SpeciesReference in plugmodel...return
-						// plugModel.getSp
+						// TODO Get The Proper speciesReference
 					} else {
 						logger.log(Level.DEBUG, String.format(
 								"Couldn't find node %s", evtSrc.getClass()
@@ -1623,8 +1631,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 					Trigger t = (Trigger) evtSrc;
 					Event e = (Event) t.getParentSBMLObject();
 					if (e != null) {
-						// TODO check which return type is required now return
-						// plugModel.getEvent(e.getId()).getTrigger();
+						// TODO Return type wrong ?
 					} else {
 						logger.log(Level.DEBUG, String.format(
 								"Couldn't find node %s", evtSrc.getClass()
@@ -1636,8 +1643,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 					} else if (evtSrc instanceof RateRule) {
 						RateRule rr = (RateRule) evtSrc;
 						if (rr.isSetVariable()) {
-							// TODO only indexed access available through :
-							// return plugModel.getRule(index)
+							// TODO Get correspondingRateRule ?
 						} else {
 							logger.log(Level.DEBUG, String.format(
 									"Couldn't find node %s", evtSrc.getClass()
@@ -1656,8 +1662,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 						Delay d = (Delay) evtSrc;
 						if (d.isSetParent()) {
 							Event e = d.getParent();
-							// TODO Return Type needs to be fixed return
-							// plugModel.getEvent(e.getId()).getDelay();
+							// TODO getDelay does not work since not of type PluginSBase which is in turn required for our search method. What shall we do here ?
 						} else {
 							logger.log(Level.DEBUG, String.format(
 									"Couldn't find node %s", evtSrc.getClass()
@@ -1681,6 +1686,12 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		return null;
 	}
 	
+	/**
+	 * Searches a mathcontainer object for a specific ASTNode n and returns its index
+	 * @param c
+	 * @param n
+	 * @return
+	 */
 	public int searchMathContainerASTNode(MathContainer c, ASTNode n){
 		int counter = 0;
 		Enumeration<TreeNode> e = c.children();
@@ -1695,6 +1706,12 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		return 0;
 	}
 	
+	/**
+	 * Searches a kineticlaw and returns the index of a specific localparameter p
+	 * @param k
+	 * @param p
+	 * @return
+	 */
 	public int searchKineticLaw(KineticLaw k, LocalParameter p){
 		ListOf<LocalParameter> lp = k.getListOfParameters();
 		int temp = 0;
@@ -1710,6 +1727,12 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		return temp;
 	}
 	
+	/**
+	 * Searches a reaction and returns the index of a specific modifierspeciesreference m
+	 * @param r
+	 * @param m
+	 * @return
+	 */
 	public int getModifier(Reaction r, ModifierSpeciesReference m){
 		ListOf<ModifierSpeciesReference> lmod = r.getListOfModifiers();
 		int temp = 0;
@@ -1726,6 +1749,12 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		return temp;
 	}
 	
+	/**
+	 * Searches an UnitDefinition and returns the index of a specific unit u
+	 * @param ud
+	 * @param u
+	 * @return
+	 */
 	public int getUnitIndex(UnitDefinition ud, Unit u){
 		ListOf<Unit> lu = ud.getListOfUnits();
 		int temp = 0;
@@ -1738,5 +1767,26 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			}
 		}
 		return temp;
+	}
+	
+	/**
+	 * Searches through an Event's ListOf<EventAssignments> and returns the index of an EventAssignment ea
+	 * @param e
+	 * @param ea
+	 * @return
+	 */
+	public int getEventAssignmentIndex(Event e, EventAssignment ea){
+		ListOf<EventAssignment> lea = e.getListOfEventAssignments();
+		int temp = 0;
+		for (int i = 0; i < lea.size(); i++){
+			EventAssignment checkme = lea.get(i);
+			if (checkme.isSetMath() && ea.isSetMath()){
+				if (checkme.getMathMLString().equals(ea.getMathMLString())){
+					temp = i;
+					break;
+				}
+			}
+		}return temp;
+		
 	}
 }
