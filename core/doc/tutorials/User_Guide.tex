@@ -89,6 +89,8 @@ of Technology, Pasadena, California, USA}\\[4ex]
 \newboolean{includeCodeExample}
 \setboolean{includeCodeExample}{false}
 
+\input{macros.tex}
+
 \begin{document}
 
 \maketitle
@@ -103,8 +105,8 @@ all SBML levels and versions that are available today. In addition, JSBML
 provides modules that facilitate the development of CellDesigner plugins or ease
 the migration from a libSBML backend.
 
-This document should help you getting started with JSBML. It is not only intended
-for users, developing their applications from scratch, but also for users,
+This document should help you getting started with JSBML. It is not only
+intended for users, developing their applications from scratch, but also for users,
 switching from libSBML to JSBML.
 
 % It includes instructions and descriptions of where and how to obtain the JSBML
@@ -176,7 +178,6 @@ sections give a brief description of those main differences.
 
 \input{tex/JSBML_compared_to_libSBML}
 
-\chapter{Howto write extensions}
 \input{tex/JSBML_howto_write_extensions}
 
 \chapter{Open tasks in JSBML}
