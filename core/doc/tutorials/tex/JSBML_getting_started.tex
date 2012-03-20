@@ -75,6 +75,7 @@ ready to work with JSBML.
 
 
 \subsection{Download and usage of the source distribution}
+\label{sec:SourceDistribution}
 
 As an alternative to using the JAR files, you can check out the source tree from
 SVN and compile JSBML yourself. To do that, you will need to have a Java
@@ -90,6 +91,17 @@ Subversion\footref{fn:svn}):}]
 svn co "https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk" jsbml
 cd jsbml
 \end{lstlisting}
+
+The command above downloads the entire \texttt{trunk} that is structured into
+the sub-directories \texttt{core}, \texttt{extensions}, \texttt{modules}. Each
+of these sub-folders can separately be checked out. The \texttt{core} folder
+contains all classes, libraries, and other resources that are needed to work
+with the SBML core, i.e., without extensions. For working with extension
+packages, the \texttt{extensions} folder contains a separate repository for each
+currently implemented extension package. You can either do an individual
+checkout each such package, or obtain the complete \texttt{extensions}
+repository. Finally, the \texttt{modules} provide additional functionality for
+JSBML and are described in more detail in the next paragraph.
 
 %# to compile and create the library JAR file
 \begin{lstlisting}[language=bash,numbers=none,captionpos=t,
@@ -112,29 +124,50 @@ your build or class path and start using JSBML.
 
 \subsection{Download and usage of the JSBML modules}
 
-JSBML provides today, two additional modules. Binary versions of the modules can
-be found at the download site of JSBML. In order to obtain the most recent
+JSBML provides today, five additional modules. Binary versions of the modules
+can be found at the download site of JSBML. In order to obtain the most recent
 version of the modules, please type the following Subversion\footref{fn:svn}
 commands on your command line.
 
 \begin{lstlisting}[language=bash,numbers=none,captionpos=t,
+title={The Android-compatibility module provides interfaces needed to run
+your JSBML-based program on Android OS.}]
+svn co \
+"https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/modules/android" \
+Android
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash,numbers=none,captionpos=t,
 title={The CellDesigner bridge module should help CellDesigner plugin developers
 to use JSBML as internal data structure.}]
-svn co "https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/cellDesigner" cellDesigner
+svn co \
+"https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/modules/celldesigner" \
+CellDesigner
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash,numbers=none,captionpos=t,
+title={The compare module can be used to draw comparisons between libSBML and
+JSBML.}]
+svn co \
+"https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/modules/compare" \
+Compare
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash,numbers=none,captionpos=t,
+title={The libSBMLcompat module allows a slow and easy switch between libSBML
+and JSBML by providing wrapper classes with the identical API as in libSBML.}]
+svn co \
+"https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/modules/libSBMLcompat" \
+libSBMLcompat
 \end{lstlisting}
 
 \begin{lstlisting}[language=bash,numbers=none,captionpos=t,
 title={Developers, who still want to make use of libSBML, might want to have a
 look at the libSBML communication layer.}]
-svn co "https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/libSBMLio/" libSBMLio
+svn co \
+"https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/modules/libSBMLio/" \
+libSBMLio
 \end{lstlisting}
 
-% There is not module yet, so nothing the checkout. 
-% \begin{lstlisting}[language=bash,numbers=none,captionpos=t,
-% title={The third module is a compatibility module to ease switching from libSBML
-% to JSBML.}]
-% svn co "https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/libSBMLcompat" libSBMLcompat
-% \end{lstlisting}
-
-%\noindent All these modules can be compiled and included into your project in
-% the same way as described for the JSBML main library.
+Note that currently only the celldesigner and the libSBMLio module are
+extensively tested.

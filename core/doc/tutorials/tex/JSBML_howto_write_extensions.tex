@@ -1,14 +1,46 @@
-\section{How to implement extensions in JSBML}
+\chapter{How to implement extensions in JSBML}
 \label{sec:howToExtension}
 
-This section presents an example for implementing SBML extensions in JSBML.
-For this, we define the \emph{Example} extension specification and use it to explain the necessary steps to implement it in JSBML.
+This chapter presents an example for implementing SBML extensions in JSBML.
+For this, we define the \emph{Example} extension specification and use it to
+explain the necessary steps to implement it in JSBML.
 
-\subsection{Extending an \texttt{SBase}}
+Before we actually start implementing a specific extension, let us first
+consider the package structure in JSBML. All extension packages can be found in
+the \texttt{trunk} folder in the directory \texttt{extensions}. How to checout
+all or any sepcific extension packages is described in
+Section~\vref{sec:SourceDistribution}. It is important to know that each
+extension package in \SBML{} has an abbreviated name in addition to its title.
+For each already implemented package you will find one corresponding folder
+labeled with the abbreviated name (short name) of the package. Each such
+extension package contains a folder \texttt{src}, in which you can find at
+least the two Java packages \texttt{org.sbml.jsbml.ext.SHORT\_NAME} that
+contains all the data structures of the package and \texttt{org.sbml.jsbml.xml.parsers}
+where the parsers for reading and writing SBML files with the extension of
+interest are defined. The extension folder should also contain an ant script
+file \texttt{build.xml} to facilitate compilation of the package.
+In addition, there are also the folders
+\begin{itemize}
+  \item \texttt{doc} for implementation documentation of the SBML package, 
+  \item \texttt{lib} for package-specific third-party libraries, 
+  \item \texttt{resources} for non-source files that are required for
+  parsing/writing or more complex operations,
+  \item \texttt{test} for JUnit testing of the package.
+\end{itemize}
+The documentation folder \texttt{doc} is supposed to at least contain a sub
+folder \texttt{img}, in which an UML diagram of the type hierarchy of the
+package can be found (for instance, by providing a
+graphViz file \texttt{type\_hierarchy.dot} that allows creating such an image).
+
+If you like to implement your own package for JSBML, we reccomend to follow this
+structure.
+
+\section{Extending an \SBase}
 \label{subsec:extendingSBase}
 
-In most cases, you probably want to extend a model.
-Listing~\vref{lst:ModelExtClass} shows the beginning of the class \texttt{ExampleModel} that is an extension to the standard Model of the SBML core.
+In most cases, you probably want to extend a \Model.
+Listing~\vref{lst:ModelExtClass} shows the beginning of the class
+\texttt{ExampleModel} that is an extension to the standard Model of the SBML core.
 \begin{lstlisting}[language=Java,caption={Extending \texttt{AbstractSBasePlugin}},label={lst:ModelExtClass}]
 public class ExampleModel extends AbstractSBasePlugin {
 
@@ -21,9 +53,11 @@ public class ExampleModel extends AbstractSBasePlugin {
 Technically, an extension needs to implement the \texttt{SBasePlugin} interface,
 but since the abstract class \texttt{AbstractSBasePlugin} already implements some important methods, extending that one should be preferred.
 
-In this example, the constructor accepts an object that is a \texttt{Model}, because that is what we want to extend.
-The call to the super constructor will save the given model as the \texttt{SBase} that is being extended in the \texttt{extendedSBase} attribute.
-For convenience, a getModel() method to retrieve the extended model should also be added
+In this example, the constructor accepts an object that is a \Model, because that is what we want to extend.
+The call to the super constructor will save the given model as the
+\SBase{} that is being extended in the \texttt{extendedSBase} attribute.
+For convenience, a \texttt{getModel()} method to retrieve the extended model
+should also be added 
 \begin{lstlisting}[language=Java,caption={Convenience method to retrieve the extended model},label={lst:ModelExtGetModel}]
   public Model getModel() {
     return (Model) getExtendedSBase();
@@ -31,14 +65,18 @@ For convenience, a getModel() method to retrieve the extended model should also 
 \end{lstlisting}
 
 
-\subsection{Adding new classes}
+\section{Adding new classes}
 \label{subsec:addingClasses}
-In almost all cases, extensions introduce new classes that have no counterpart in the SBML core.
-Since those new classes are no extensions to existing ones, no extension-specific work has to be done here.
-In the \emph{Example} extension, there is the new \texttt{Foo} class that is an \texttt{SBase} and extends \texttt{AbstractNamedSBase}.
-It has the three attributes \emph{id}, \emph{name}, and \emph{bar}.
-For each attribute, there need to be the following five methods, shown here for the \emph{bar} attribute, which is an integer:
-\begin{lstlisting}[language=Java,float,caption={Five necessary methods that should be created for each \texttt{Foo} class attribute},label={lst:ModelExtFooBar}]
+
+In almost all cases, extensions introduce new classes that have no counterpart
+in the SBML core. Since those new classes are no extensions to existing ones,
+no extension-specific work has to be done here. In the \emph{Example}
+extension, there is the new \texttt{Foo} class that is an \SBase{} and extends
+\AbstractNamedSBase. It has the three attributes \emph{id}, \emph{name}, and
+\emph{bar}. For each attribute, there need to be the following five methods,
+shown here for the \emph{bar} attribute, which is an integer:
+\begin{lstlisting}[language=Java,float,caption={Five necessary methods that
+should be created for each \texttt{Foo} class attribute},label={lst:ModelExtFooBar}]
   public int getBar();
   public boolean isSetBar();
   public void setBar(int value);
@@ -49,18 +87,29 @@ For each attribute, there need to be the following five methods, shown here for 
 \end{lstlisting}
 Note, that if \emph{bar} would be a boolean type, we should also provide the method \texttt{isBar()}, which delegates to \texttt{getBar()}.
 
-In this special case, \emph{id} and \emph{name} should be unique, so it also implements the \texttt{UniqueNamedSBase} interface.
-Because of that, you will be required to implement the above mentioned methods for \emph{id} anyway, those for \emph{name} are already present in the abstract super class.
-Listing~\vref{lst:ModelExtFooBarDefault} show how those methods should be implemented in general. It is very important to call the \texttt{FirePropertyChange} listener in the set and unset methods and to throw the \texttt{PropertyUndefineError} in the \texttt{method} if the attribute is not set.
+In this special case, \emph{id} and \emph{name} should be unique, so it also
+implements the \texttt{UniqueNamedSBase} interface.
+Because of that, you will be required to implement the above mentioned methods
+for \emph{id} anyway, those for \emph{name} are already present in the abstract super class.
+Listing~\vref{lst:DefaultModelExtFooBar} show how those methods should be
+implemented in general. It is very important to call the
+\texttt{firePropertyChange} method within the set and unset
+methods in order to notify all registered listener about changes. In cases that
+the return type is a Java base type, such as \texttt{int} or \texttt{boolean},
+but the corresponding internal element (e.g., \texttt{Integer} or
+\texttt{Boolean}) is set to \texttt{null}, the program must throw the
+\texttt{PropertyUndefineError} in the get method to prevent incorrect results.
 
-\begin{lstlisting}[language=Java,caption={Five necessary methods that should be created for each \texttt{Foo} class attribute in detail},label={lst:ModelExtFooBarDefault}]
-  // use Integer, so we can denote unset values as null
-  public Integer bar;
+\begin{lstlisting}[language=Java,caption={Five necessary methods that should be
+created for each \texttt{Foo} class attribute in detail},
+label={lst:DefaultModelExtFooBar}]
+  // use Integer, so we can denote unset values as null public Integer bar;
 
   public int getBar() {
     if (isSetBar()) {
       return bar.intValue();
     }
+    // This is necessary because we cannot return null here.
     throw new PropertyUndefinedError(ExampleConstant.bar, this);
   }
 
@@ -151,16 +200,21 @@ As stated above, you may also have additional constructors like this one:
 
 
 
-\subsection{\texttt{ListOf}s}
+\section{\texttt{ListOf}s}
 
 The \emph{Example} extension adds no new attributes to the extended model,
 but it introduces a new child in form of a list, in this case a \texttt{ListOfFoos},
 for the new class \texttt{Foo}.
-Instances of \texttt{Foo} can be children of the extended model via a newly defined \texttt{ListOfFoos}.
-For this, the methods \texttt{isSetListOfFoos()}, \texttt{getListOfFoos()}, \texttt{setListOfFoos(ListOf<Foo>)}, and \texttt{unsetListOfFoos()} need to be implemented (see Listing ~\vref{lst:ModelExtListOfFoosBasic}).
+Instances of \texttt{Foo} can be children of the extended model via a newly
+defined \texttt{ListOfFoos}. For this, the methods \texttt{isSetListOfFoos()},
+\texttt{getListOfFoos()}, \texttt{setListOfFoos(ListOf<Foo>)}, and
+\texttt{unsetListOfFoos()} need to be implemented (see
+Listing~\vref{lst:ModelExtListOfFoosBasic}).
 
-\begin{lstlisting}[language=Java,caption={Implementation of the ListOf methods: \texttt{isSetListOfFoos()}, \texttt{getListOfFoos()}, \texttt{setListOfFoos()}},label={lst:ModelExtListOfFoosBasic}]
-public boolean isSetListOfFoos() {
+\begin{lstlisting}[language=Java,caption={Implementation of the \texttt{ListOf}
+methods: \texttt{isSetListOfFoos()}, \texttt{getListOfFoos()}, 
+\texttt{setListOfFoos()}},label={lst:ModelExtListOfFoosBasic}]
+  public boolean isSetListOfFoos() {
     if ((listOfFoos == null) || listOfFoos.isEmpty()) {
       return false;
     }
@@ -195,10 +249,12 @@ public boolean isSetListOfFoos() {
   }
 \end{lstlisting}
 
-When adding and removing Foo objects to the model, direct access to the ListOfs should not be necessary.
-Therefore, convenience methods for adding and removing an object should be added to the model, which will also do additional consistency checking (Listing ~\vref{lst:ModelExtAddRemoveFoos}).
+When adding and removing Foo objects to the model, direct access to the
+\texttt{ListOf}s should not be necessary. Therefore, convenience methods for
+adding and removing an object should be added to the model, which will also do
+additional consistency checking (Listing ~\vref{lst:ModelExtAddRemoveFoos}).
 
-\begin{lstlisting}[language=Java,caption={Implementation of ListOf methods \texttt{addFoo(Foo foo)}, \texttt{removeFoo(Foo foo)}, \texttt{removeFoo(int i)}},label={lst:ModelExtAddRemoveFoos}]
+\begin{lstlisting}[language=Java,caption={Implementation of \texttt{ListOf} methods \texttt{addFoo(Foo foo)}, \texttt{removeFoo(Foo foo)}, \texttt{removeFoo(int i)}},label={lst:ModelExtAddRemoveFoos}]
   public boolean addFoo(Foo foo) {
       return getListOfFoos().add(foo);
   }
@@ -263,16 +319,16 @@ If a child is queried by its index, the possibility of an index shift needs to b
 
 
 
-\subsection{Create methods}
+\section{Create methods}
 
-Because a newly created instance of type Foo is not part of the model unless it is added to it,
-\texttt{create*} methods should be provided that take care of all that (see Listing ~\ref{lst:ModelExtCreateMethods}).
+Since a newly created instance of type Foo is not part of the model unless it is
+added to it, \texttt{create*} methods should be provided that take care of all that (see Listing ~\ref{lst:ModelExtCreateMethods}).
 These create methods should be part of the model to which the Foo instance should be added, in this case ExampleModel.
 
 \begin{lstlisting}[language=Java,caption={Convenience method to create elements},label={lst:ModelExtCreateMethods}]
 public class ExampleModel extends AbstractSBasePlugin {
 
-  ...
+  // ...
 
   // only, if ID is not mandatory in Foo
   public Foo createFoo() {
@@ -294,23 +350,35 @@ public class ExampleModel extends AbstractSBasePlugin {
 \end{lstlisting}
 
 
-\subsection{\texttt{equals}, \texttt{hashCode}, and \texttt{clone}}
-There are three further methods which should be implemented in an extension class: \texttt{equals}, \texttt{hashCode} and \texttt{clone}.
-This is no different than in any other Java class, but since mistakes here can lead to bugs that are very hard to find, we will go through the basics anyway.
+\section{The methods \texttt{equals}, \texttt{hashCode}, and \texttt{clone}}
 
-Whenever two objects \texttt{o1} and \texttt{o2} should be regarded as equal, i.e., all their attributes are equal, the \texttt{o1.equals(o2)} and the symmetric case \texttt{o2.equals(o1)} must return \texttt{true}, and otherwise \texttt{false}.
-The \texttt{hashCode} method has two purposes here, namely allowing for a quick check if two objects might be equal or not, and providing hash values for hash maps or hash sets and such.
-The relationship between \texttt{equals} and \texttt{hashCode} is that whenever \texttt{o1} is equal to \texttt{o2}, their hash codes must be the same.
-Vice versa, whenever their hash codes are different, they cannot be equal.
+There are three further methods which should be implemented in an extension
+class: \texttt{equals}, \texttt{hashCode} and \texttt{clone}.
+This is not different than in any other Java class, but since mistakes here can
+lead to bugs that are very hard to find, we will go through the basics anyway.
 
-Listing \ref{lst:ModelExtEquals} and \ref{lst:ModelExtHashCode} are examples how to write these methods for the class \texttt{Foo} with the attribute \texttt{bar}.
-Since \texttt{equals} accepts general objects, it first needs to check if the passed object is of the same class as the object it is called on.
-Luckily, this has been implemented in \texttt{AbstractTreeNode}, the super class of \texttt{AbstractSBase}.
-Each class only checks the attributes it adds to the super class when extending it, but not the \texttt{ListOf}s,
-because they are automatically checked in the \texttt{AbstractTreeNode} class, the super class of \texttt{AbstractSBase}.
+Whenever two objects \texttt{o1} and \texttt{o2} should be regarded as equal,
+i.e., all their attributes are equal, the \texttt{o1.equals(o2)} and the
+symmetric case \texttt{o2.equals(o1)} must return \texttt{true}, and otherwise
+\texttt{false}. The \texttt{hashCode} method has two purposes here, namely
+allowing for a quick check if two objects might be equal or not, and providing
+hash values for hash maps or hash sets and such. The relationship between
+\texttt{equals} and \texttt{hashCode} is that whenever \texttt{o1} is equal to
+\texttt{o2}, their hash codes must be the same. Vice versa, whenever their hash
+codes are different, they cannot be equal.
+
+Listing \ref{lst:ModelExtEquals} and \ref{lst:ModelExtHashCode} are examples
+how to write these methods for the class \texttt{Foo} with the attribute \texttt{bar}.
+Since \texttt{equals} accepts general objects, it first needs to check if the
+passed object is of the same class as the object it is called on.
+Luckily, this has been implemented in \texttt{AbstractTreeNode}, the super
+class of \texttt{AbstractSBase}. Each class only checks the attributes it adds
+to the super class when extending it, but not the \texttt{ListOf}s, because
+they are automatically checked in the \texttt{AbstractTreeNode} class, the
+super class of \texttt{AbstractSBase}.
 
 \begin{lstlisting}[language=Java,caption={Example of the \texttt{equals} method},label={lst:ModelExtEquals}]
-@Override
+  @Override
   public boolean equals(Object object) {
     boolean equals = super.equals(object);    // recursively checks all children
     if (equals) {
@@ -327,8 +395,10 @@ because they are automatically checked in the \texttt{AbstractTreeNode} class, t
 \end{lstlisting}
 
 
-\begin{lstlisting}[language=Java,caption={Example of the \texttt{hashCode} method. The variable \texttt{prime} should be a big prime number to prevent collisions},label={lst:ModelExtHashCode}]
-  @Override
+\begin{lstlisting}[language=Java,caption={Example of the \texttt{hashCode}
+method. The variable \texttt{prime} should be a large prime number to prevent
+collisions},label={lst:ModelExtHashCode}] 
+  @Override 
   public int hashCode() {
     final int prime = 491;
     int hashCode = super.hashCode();    // recursively checks all children
@@ -342,24 +412,27 @@ because they are automatically checked in the \texttt{AbstractTreeNode} class, t
   }
 \end{lstlisting}
 
-To clone an object, the call to the \texttt{clone()} method is delegated to a constructor of that class that takes an object of itself as argument.
+To clone an object, the call to the \texttt{clone()} method is delegated to a
+constructor of that class that takes an instance of itself as argument.
 There, all the elements of the class must be copied, which may require recursive cloning.
 
-\begin{lstlisting}[language=Java,caption={Example of the \texttt{clone} method for the \texttt{ExampleModel} class},label={lst:ModelExtClone}]
+\begin{lstlisting}[language=Java,caption={Example of the \texttt{clone} method
+for the \texttt{ExampleModel} class},label={lst:ModelExtClone}] 
   public ExampleModel clone() {
     return new ExampleModel(this);
   }
 
   public ExampleModel(ExampleModel model) {
     super();
-
+    // deep cloning of all elements:
     if (model.isSetListOfFoos()) {
       listOfFoos = model.listOfFoos.clone();
     }
   }
 \end{lstlisting}
 
-\begin{lstlisting}[language=Java,caption={Example of the \texttt{clone} method for the \texttt{Foo} class},label={lst:ModelExtCloneFoo}]
+\begin{lstlisting}[language=Java,caption={Example of the \texttt{clone} method
+for the \texttt{Foo} class},label={lst:ModelExtCloneFoo}] 
   public Foo clone() {
     return new Foo(this);
   }
@@ -367,19 +440,21 @@ There, all the elements of the class must be copied, which may require recursive
   public Foo(Foo f) {
     super();
 
-    // Integer objects are immutable, so they can be copied
+    // Integer objects are immutable, so it is sufficient to copy the pointer
     bar = f.bar;
   }
 \end{lstlisting}
 
 
-\subsection{Writing the parser/writer}
+\section{Implementing the parser and writer for an SBML package}
 
-One last thing is missing to be able to properly read and write SBML files using the new extension: a parser and a writer.
-An easy way to do that is to extend the \texttt{AbstractReaderWriter} and implement the required methods.
-To implement the parser, in this case the \texttt{ExamplePaser}, one should start with two members and two simple methods, as shown in Listing \ref{lst:ModelExtParserClass}.
+One last thing is missing to be able to properly read and write SBML files
+using the new extension: a parser and a writer. An easy way to do that is to
+extend the \texttt{AbstractReaderWriter} and implement the required methods. To
+implement the parser, in this case the \texttt{ExamplePaser}, one should start with two members and two simple methods, as shown in Listing \ref{lst:ModelExtParserClass}.
 
-As can be seen from this code snippet, an additional class \texttt{ExampleConstant} and an enum \texttt{ExampleList} are used.
+As can be seen from this code snippet, an additional class
+\texttt{ExampleConstant} and an enum \texttt{ExampleList} are used.
 
 TODO
 
@@ -418,22 +493,31 @@ public class ExampleParser extends AbstractReaderWriter {
 
 \subsubsection{Writing}
 
-The method \texttt{getListOfSBMLElementsToWrite()} (see \ref{lst:ModelExtParserListSBMLToWrite}) has to return a list of all objects that have to be written because of the passed object.
-This way, the writer can traverse the XML tree to write all nodes.
+The method \texttt{getListOfSBMLElementsToWrite()}
+(see~\vref{lst:ModelExtParserListSBMLToWrite}) has to return a list of all
+objects that have to be written because of the passed object.
+In this way, the writer can traverse the XML tree to write all nodes.
 Basically, there are three classes of objects that need to be distinguished:
 \begin{itemize}
  \item \texttt{SBMLDocument}
  \item extended classes
  \item \texttt{TreeNode}
 \end{itemize}
-TODO: SBMLDocument.
-After that we need to check if the current object is extendable using our extension.
-In our example extension, a model can be extended using ExampleModel to also have a list of Foos as children.
-In Java, this ListOfFoos is not a children of the original model, but of the example model.
-The example model, on the other hand, is just an SBasePlugin, which is not an SBase and also not a children of the original model.
-To ``inject'' the ListOfFoos in the right place, all children of the example model in Java become direct children of the original model in XML.
 
-All other objects that implement SBase also implement TreeNode, so we just add all of their children to the list of elements to write.
+TODO: SBMLDocument.
+
+After that we need to check if the current object is extendable using our extension.
+In our example extension, a \Model{} can be extended using ExampleModel to also
+have a list of Foos as children.
+In Java, this ListOfFoos is not a children of the original model, but of the
+example model.
+The example model, on the other hand, is just an SBasePlugin, which is not an
+\SBase{} and also not a children of the original model.
+To ``inject'' the ListOfFoos in the right place, all children of the example
+model in Java become direct children of the original model in XML.
+
+All other objects that implement \SBase{} also implement \TreeNode, so we just add
+all of their children to the list of elements to write.
 
 \begin{lstlisting}[language=Java,caption={Extension parser: \texttt{getListOfSBMLElementsToWrite()}},label={lst:ModelExtParserListSBMLToWrite}]
   public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
@@ -505,9 +589,9 @@ public class Foo extends AbstractNamedSBase {
 The \texttt{processStartElement()} method is responsible for handling start elements, such as \texttt{<listOfFoos>}, and creating the appropriate objects.
 The \texttt{contextObject} is the object representing the parent node of the tag the parser just encountered.
 First, you need to check for every class that may be a parent node of the classes in your extension.
-In this case, those are objects of the classes \texttt{Model}, \texttt{Foo} and \texttt{ListOf}.
+In this case, those are objects of the classes \Model, \texttt{Foo} and \texttt{ListOf}.
 Note, that the \texttt{ExampleModel} has no corresponding XML tag and the core model is already handled by the core parser.
-This also means that the context object of a ListOfFoos is not of the type \texttt{ExampleModel}, but of type \texttt{Model}.
+This also means that the context object of a ListOfFoos is not of the type \texttt{ExampleModel}, but of type \Model.
 But since the \texttt{ListOfFoos} can only be added to an \texttt{ExampleModel}, the extension is retrieved or created on the fly.
 
 The \texttt{groupList} variable is used to keep track of where we are in nested structures.
@@ -567,13 +651,10 @@ The groupList attribute needs to be updated to reflect the step up in the tree o
 In this example, if the end of \texttt{</listOfFoos>} is reached, we certainly are inside the model tags again, which is denoted by \emph{none}.
 Of course, more complicated extensions with lots of nested lists need a more elaborate handling here, but it should still be straight-forward.
 
-\begin{lstlisting}[language=Java,caption={Extension parser: \texttt{processEndElement()}},label={lst:ModelExtParserEndElement}]
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processEndElement(java.lang.String, java.lang.String, boolean, java.lang.Object)
-   */
+\begin{lstlisting}[language=Java,caption={Extension parser:
+\texttt{processEndElement()}},label={lst:ModelExtParserEndElement}]
   public boolean processEndElement(String elementName, String prefix,
-      boolean isNested, Object contextObject)
-  {
+    boolean isNested, Object contextObject) {
 
     if (elementName.equals("listOfFoos")
     {
@@ -584,8 +665,10 @@ Of course, more complicated extensions with lots of nested lists need a more ela
   }
 \end{lstlisting}
 
-Attributes of a tag are read into the corresponding object via the \texttt{readAttributes()} method that must be implemented for each class.
-An example is shown in Listing \ref{lst:ModelExtReadAttributes} for the class \texttt{Foo}.
+Attributes of a tag are read into the corresponding object via the
+\texttt{readAttributes()} method that must be implemented for each class.
+An example is shown in Listing \ref{lst:ModelExtReadAttributes} for the class
+\texttt{Foo}.
 
 \begin{lstlisting}[language=Java,caption={Method to read the XML attributes},label={lst:ModelExtReadAttributes}]
   @Override
@@ -611,32 +694,34 @@ An example is shown in Listing \ref{lst:ModelExtReadAttributes} for the class \t
 
 \section{Implementation checklist}
     \begin{itemize}
-        \item [$\Box$] Add the extension to an existing model (see Listing \ref{lst:ModelExtClass})
-        \item [$\Box$] Add the five necessary methods for each class attribute (see Listing \ref{lst:ModelExtFooBar}, \ref{lst:ModelExtFooBarDefault}):
+      \renewcommand{\labelitemi}{$\Box$}
+      \renewcommand{\labelitemii}{$\Box$}
+        \item Add the extension to an existing model (see Listing \ref{lst:ModelExtClass})
+        \item Add the five necessary methods for each class attribute (see Listing \ref{lst:ModelExtFooBar}, \ref{lst:ModelExtFooBarDefault}):
             \begin{itemize}
-              \item [$\Box$] \texttt{getBar()}
-              \item [$\Box$] \texttt{isBarMandatory()}
-              \item [$\Box$] \texttt{isSetBarFoo()} (only required if the attribute is an id)
-              \item [$\Box$] \texttt{setBar(int value)}
-              \item [$\Box$] \texttt{unsetBar()}
+              \item \texttt{getBar()}
+              \item \texttt{isBarMandatory()}
+              \item \texttt{isSetBarFoo()} (only required if the attribute is an id)
+              \item \texttt{setBar(int value)}
+              \item \texttt{unsetBar()}
             \end{itemize}
-        \item [$\Box$] Add the default constructors (see Listing \ref{lst:ModelExtFooConstructors})
-        \item [$\Box$] If the class has children, check if all list methods are implemented (see Listing \ref{lst:ModelExtChildren}, \ref{lst:ModelExtListOfFoosBasic}, \ref{lst:ModelExtAddRemoveFoos}, \ref{lst:ModelExtChildren}):
+        \item Add the default constructors (see Listing \ref{lst:ModelExtFooConstructors})
+        \item If the class has children, check if all list methods are implemented (see Listing \ref{lst:ModelExtChildren}, \ref{lst:ModelExtListOfFoosBasic}, \ref{lst:ModelExtAddRemoveFoos}, \ref{lst:ModelExtChildren}):
             \begin{itemize}
-              \item [$\Box$] \texttt{isSetListOfFoos()}
-              \item [$\Box$] \texttt{getListOfFoos()}
-              \item [$\Box$] \texttt{setListOfFoos(ListOf<Foo> listOfFoos)}
-              \item [$\Box$] \texttt{addFoo(Foo foo)}
-              \item [$\Box$] \texttt{removeFoo(Foo foo)}
-              \item [$\Box$] \texttt{removeFoo(int i)}
-              \item [$\Box$] \texttt{getAllowsChildren()}
-              \item [$\Box$] \texttt{getChildCount()}
+              \item \texttt{isSetListOfFoos()}
+              \item \texttt{getListOfFoos()}
+              \item \texttt{setListOfFoos(ListOf<Foo> listOfFoos)}
+              \item \texttt{addFoo(Foo foo)}
+              \item \texttt{removeFoo(Foo foo)}
+              \item \texttt{removeFoo(int i)}
+              \item \texttt{getAllowsChildren()}
+              \item \texttt{getChildCount()}
             \end{itemize}
-        \item [$\Box$] All necessary create methods are implemented (see Listing \ref{lst:ModelExtCreateMethods})
-        \item [$\Box$] Implement the \texttt{equals()} method (see Listing \ref{lst:ModelExtEquals})
-        \item [$\Box$] Implement the \texttt{hashCode()} method (see Listing \ref{lst:ModelExtHashCode})
-        \item [$\Box$] Implement the \texttt{clone()} method (see Listing \ref{lst:ModelExtClone} and \ref{lst:ModelExtCloneFoo})
-        \item [$\Box$] Implement the \texttt{toString()} method
-        \item [$\Box$] Implement the \texttt{writeXMLAttribute()} method (see Listing \ref{lst:ModelExtCreateXMLAttributes})
-        \item [$\Box$] Implement the parser/writer method (see Listing \ref{lst:ModelExtParserClass}, \ref{lst:ModelExtParserListSBMLToWrite}, \ref{lst:ModelExtParserStartElement}, \ref{lst:ModelExtParserEndElement}):
+        \item All necessary create methods are implemented (see Listing \ref{lst:ModelExtCreateMethods})
+        \item Implement the \texttt{equals()} method (see Listing \ref{lst:ModelExtEquals})
+        \item Implement the \texttt{hashCode()} method (see Listing \ref{lst:ModelExtHashCode})
+        \item Implement the \texttt{clone()} method (see Listing \ref{lst:ModelExtClone} and \ref{lst:ModelExtCloneFoo})
+        \item Implement the \texttt{toString()} method
+        \item Implement the \texttt{writeXMLAttribute()} method (see Listing \ref{lst:ModelExtCreateXMLAttributes})
+        \item Implement the parser/writer method (see Listing \ref{lst:ModelExtParserClass}, \ref{lst:ModelExtParserListSBMLToWrite}, \ref{lst:ModelExtParserStartElement}, \ref{lst:ModelExtParserEndElement}):
    \end{itemize}

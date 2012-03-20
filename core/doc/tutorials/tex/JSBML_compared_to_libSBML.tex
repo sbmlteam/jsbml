@@ -53,9 +53,9 @@ JSBML.
 hierarchy of the main SBML constructs in JSBML. With letting \texttt{SBase}
 extend the interface \texttt{TreeNodeWithChangeSupport} that in turn extends the
 Java interfaces \texttt{Cloneable}, \texttt{Serializable}, and
-\texttt{TreeNode}, all derived elements of \texttt{SBase} also implement these
+\TreeNode, all derived elements of \texttt{SBase} also implement these
 types. In this way, derivatives of \texttt{SBase} can be used wherever an
-instance of \texttt{TreeNode} is requested. Furthermore, SBML elements that do
+instance of \TreeNode is requested. Furthermore, SBML elements that do
 not extend \texttt{SBase} are also derived from the identical base type
 \texttt{TreeNodeWithChangeSupport}, hence sharing several common methods and
 attributes. Elements colored in blue have been introduced as additional, in most
@@ -106,9 +106,9 @@ interrelated in \texttt{Triples} consisting of subject, predicate, and object
  \caption[Abstract syntax trees]{Abstract syntax trees. The class
  \texttt{AbstractMathContainer} serves as the superclass for several model
  components in JSBML. It provides methods to manipulate and access an instance 
- of \texttt{ASTNode}, which can be converted to or read from \texttt{C}-like
+ of \ASTNode, which can be converted to or read from \texttt{C}-like
  formula \texttt{String}s. Internally, \texttt{AbstractMathContainer}s only
- deal with instances of \texttt{ASTNode}. It should be noted that these
+ deal with instances of \ASTNode. It should be noted that these
  abstract syntax trees do not implement the \texttt{SBase} interface, but
  extend \texttt{AbstractTreeNode}.}
  \label{fig:MathContainer}
@@ -121,15 +121,14 @@ interrelated in \texttt{Triples} consisting of subject, predicate, and object
  expressions. The interface \texttt{MathContainer}, particularly
  its directly derived class \texttt{AbstractMathContainer}, constitutes the
  superclass for all elements that store and manipulate mathematical formulas in
- JSBML, which is done in form of \texttt{ASTNode} objects. These can be
+ JSBML, which is done in form of \ASTNode{} objects. These can be
  evaluated using an implementation of \texttt{ASTNodeCompiler}. Note that some
  classes that extend \texttt{AbstractMathContainer} do not contain any own
  fields or methods: \texttt{Delay}, \texttt{Priority},
  \texttt{StoichiometryMath}, or \texttt{AlgebraicRule}.}
  \label{fig:MathContainerHierarchy}
 \end{sidewaysfigure}
-Whenever multiple elements defined in at least one of the SBML
-\index{SBML}%
+Whenever multiple elements defined in at least one of the \SBML{}
 specifications
 \index{SBML!specification}%
 share some attributes, JSBML
@@ -149,7 +148,7 @@ relations between derived data types. In contrast to libSBML, \texttt{SBase} in
 JSBML extends the interface \texttt{TreeNodeWithChangeSupport}%
 \index{TreeNodeWithChangeSupport@\texttt{TreeNodeWithChangeSupport}} 
 that in turn extends three other interfaces: \texttt{Cloneable},
-\texttt{Serializable}, \index{Serializable@\texttt{Serializable}}% and \texttt{TreeNode}. As all elements defined in JSBML
+\Serializable, % and \TreeNode. As all elements defined in JSBML
 \index{cloning}%
 override the \texttt{clone()} method from the class \texttt{java.lang.Object},
 \index{Object@\texttt{Object}}%
@@ -163,12 +162,10 @@ elements in binary form without explicitly writing them to an SBML file.
 In this way, programs can easily load and save their in-memory objects or send
 complex data structures through a network connection without the need of
 additional file encoding and subsequent parsing. The third interface,
-\texttt{TreeNode}%
-\index{TreeNode@\texttt{TreeNode}} 
-is actually defined in Java's \texttt{swing}
+\TreeNode{} is actually defined in Java's \texttt{swing}
 \index{graphical user interface!swing@\texttt{swing}}%
 package.
-\texttt{TreeNode} is a type that is independent of any graphical information. It
+\TreeNode{} is a type that is independent of any graphical information. It
 basically defines recursive methods on hierarchically structured data types,
 such as iteration over all of its successors. In this way, all instances of
 JSBML's \texttt{SBase}\index{SBase@\texttt{SBase}}%
@@ -193,19 +190,19 @@ and to immediately display its content on a \texttt{JFrame}.
   \caption[Tree representation of an SBML file]{A tree representation of the
     content of SBML test model \texttt{case00026}. In JSBML, the hierarchically
     structured \texttt{SBMLDocument} can be traversed recursively because all
-    instances of \texttt{SBase} implement the interface \texttt{TreeNode}.}
+    instances of \texttt{SBase} implement the interface \TreeNode.}
   \label{fig:Visualization}
   \end{SCfigure}
 }{%
 }%
-The \texttt{ASTNode} class in JSBML\index{ASTNode@\texttt{ASTNode}} is also
+The \ASTNode{} class in JSBML is also
 derived from all these three interfaces and can hence be cloned, serialized, and
 visualized in the same way.
 
 However, it is important to note that JSBML does not depend on any particular
 graphical user interface because no other classes from \texttt{swing} are
 initialized when loading the interface
-\texttt{TreeNode}\index{TreeNode@\texttt{TreeNode}}.
+\TreeNode.
 
 \subsection{\texttt{AbstractTreeNode}}%
 \index{TreeNode!AbstractTreeNode@\texttt{AbstractTreeNode}}
@@ -217,7 +214,7 @@ tree nodes that are hierarchically linked within the \texttt{SBMLDocument}.
 In order to unify the programming interface, JSBML defines abstract data types
 as top-level ancestors for its \texttt{SBase} implementation as well as all
 other hierarchical elements, such as \texttt{Annotation},
-\texttt{ASTNode}\index{ASTNode@\texttt{ASTNode}},
+\ASTNode,
 \texttt{Creator}\index{annotation!Creator@\texttt{Creator}},
 \texttt{CVTerm}\index{annotation!CVTerm@\texttt{CVTerm}},
 \texttt{History}\index{annotation!History@\texttt{History}}, and
@@ -227,7 +224,7 @@ XHTML\index{XHTML} format).
 First, the interface \texttt{TreeNodeWithChangeSupport}%
 \index{TreeNodeWithChangeSupport@\texttt{TreeNodeWithChangeSupport}}
 defines a \emph{cloneable} and \emph{serializable} version of
-\texttt{TreeNode}. In addition, it also provides methods to notify dedicated
+\TreeNode. In addition, it also provides methods to notify dedicated
 \texttt{TreeNodeChangeListener}s%
 \index{TreeNodeChangeListener@\texttt{TreeNodeChangeListener}}
 about any changes within the data structure.
@@ -275,17 +272,15 @@ delivers an instance of \texttt{ValuePair}
 \index{JSBML!ValuePair@\texttt{ValuePair}}%
 with the Level and Version combination for the respective element.
 
-Some types derived from \texttt{SBase} contain an identifier, a so-called
+Some types derived from \SBase{} contain an identifier, a so-called
 \texttt{id}. JSBML gathers all these elements under the common interface
-\texttt{NamedSBase}. The class \texttt{AbstractNamedSBase}, which extends
+\NamedSBase. The class \AbstractNamedSBase, which extends
 \texttt{AbstractSBase}, implements this interface.
-\index{SBase@\texttt{SBase}!\texttt{NamedSBase}}%
-\index{SBase@\texttt{SBase}!\texttt{AbstractNamedSBase}}%
 The interface \texttt{UniqueNamedSBase} indicates all those elements whose
 identifier must be unique within the model, i.e., no other element within the
 model may have the same identifier. The identifiers of all instances of
-\texttt{NamedSBase} must be unique if these are defined. The Boolean method
-\texttt{isIdMandatory()} in \texttt{NamedSBase} indicates if an identifier must
+\NamedSBase{} must be unique if these are defined. The Boolean method
+\texttt{isIdMandatory()} in \NamedSBase{} indicates if an identifier must
 be defined for an element in order to create a valid SBML data structure. The
 only two elements with not-unique identifiers are
 \texttt{UnitDefinition}s\index{unit!UnitDefinition@\texttt{UnitDefinition}},
@@ -296,8 +291,7 @@ whose identifiers may shadow the identifiers of global elements.
 Many SBML elements represent some quantitative value, which is associated with a
 unit. However, the value does not necessarily have to be defined explicitly. In
 many cases, it needs to be computed from a formula contained in the instance of
-\texttt{SBase} in form of an abstract syntax tree, i.e., \texttt{ASTNode}.
-\index{ASTNode@\texttt{ASTNode}}%
+\texttt{SBase} in form of an abstract syntax tree, i.e., \ASTNode.
 Therefore, also the associated unit may not be set explicitly but can be derived
 when evaluating the formula. In JSBML, the interface
 \texttt{SBaseWithDerivedUnit}
@@ -307,7 +301,7 @@ that either explicitly or implicitly contain some unit. If these elements can
 also be addressed using an identifier, they also implement the interface
 \texttt{NamedSBaseWithDerivedUnit}.
 \index{SBase@\texttt{SBase}!\texttt{NamedSBaseWithDerivedUnit}}%
-Within formulas, i.e., \texttt{ASTNode}s,
+Within formulas, i.e., \ASTNode{}s,
 references can only be made to instances of \texttt{CallableSBase},
 \index{JSBML!CallableSBase@\texttt{CallableSBase}}%
 which is a special case of \texttt{NamedSBaseWithDerivedUnit}.
@@ -322,7 +316,7 @@ be explicitly equipped with a unit. The convenient class
 \texttt{AbstractNamedSBaseWithUnit}
 \index{SBase@\texttt{SBase}!\texttt{AbstractNamedSBaseWithUnit}}%
 \index{SBase@\texttt{SBase}!\texttt{AbstractNamedSBase}}%
-extends \texttt{AbstractNamedSBase} and
+extends \AbstractNamedSBase{} and
 implements both interfaces \texttt{SBaseWithUnit} and
 \index{SBase@\texttt{SBase}!\texttt{SBaseWithUnit}}%
 \texttt{NamedSBaseWithDerivedUnit}.
@@ -371,7 +365,7 @@ but not a \texttt{Variable}, because it is always constant.
 
 This interface gathers all those elements that may contain mathematical
 expressions encoded in abstract syntax trees (instances of
-\texttt{ASTNode}\index{ASTNode@\texttt{ASTNode}}).
+\ASTNode).
 The abstract class \texttt{AbstractMathContainer}
 \index{JSBML!MathContainer@\texttt{MathContainer}}%
 serves as actual superclass
@@ -431,40 +425,35 @@ and libSBML.
 
 \subsection{Abstract syntax trees}
 
-Both libraries define a class \texttt{ASTNode}\index{ASTNode@\texttt{ASTNode}}
+Both libraries define a class \ASTNode{}
 for in-memory manipulation and evaluation of abstract syntax trees that represent
 mathematical formulas and equations. These can either be parsed from a representation in \texttt{C}
-language-like \texttt{String}s\index{String@\texttt{String}!formula}, or from a MathML\index{MathML} representation. The JSBML\index{ASTNode@\texttt{ASTNode}}
-\texttt{ASTNode} provides various methods to transform these trees to other
-formats, for instance, \LaTeX{}
-\index{LaTeX@\LaTeX} \texttt{String}s. In JSBML, several static
-methods allow easy creation of new syntax trees, for instance, the following
-code
+language-like \texttt{String}s\index{String@\texttt{String}!formula}, or from a
+MathML\index{MathML} representation. The JSBML
+\ASTNode{} provides various methods to transform these trees to other
+formats, for instance, \LaTeX{}\index{LaTeX@\LaTeX} \texttt{String}s. In JSBML,
+several static methods allow easy creation of new syntax trees, for instance,
+the following code
 \begin{lstlisting}[language=Java,numbers=none]
 ASTNode myNode = ASTNode.plus(myLeftAstNode, myRightASTNode);
 \end{lstlisting}
-creates a new instance of \texttt{ASTNode} which represents the sum of the two
-other \texttt{ASTNode}s. In this way, even complex trees can be easily
+creates a new instance of \ASTNode{} which represents the sum of the two
+other {\ASTNode}s. In this way, even complex trees can be easily
 manipulated.
 
 In SBML, abstract syntax trees may refer to the following elements:
 \texttt{Parameter}s, \texttt{LocalParameter}s, \texttt{FunctionDefinition}s,
 \texttt{Reaction}s, \texttt{Compartment}s, \texttt{Species}, and, since Level~3,
 also \texttt{SpeciesReference}s. JSBML gathers all these elements under the
-common interface \texttt{CallableSBase},
-\index{JSBML!CallableSBase@\texttt{CallableSBase}}%
-\index{SBase@\texttt{SBase}!CallableSBase@\texttt{CallableSBase}}%
+common interface \CallableSBase,
 which extends the interface \texttt{NamedSBaseWithDerivedUnit}.
 \index{JSBML!NamedSBaseWithDerivedUnit@\texttt{NamedSBaseWithDerivedUnit}}%
 \index{SBase@\texttt{SBase}!%
 NamedSBaseWithDerivedUnit@\texttt{NamedSBaseWithDerivedUnit}}%
 In this way, JSBML ensures that only identifiers of those elements can be set in
-instances of \texttt{ASTNode}.
-\index{ASTNode@\texttt{ASTNode}}%
+instances of \ASTNode.
 JSBML provides a set of convenient constructors and methods to work with
-instances of \texttt{CallableSBase},
-\index{JSBML!CallableSBase@\texttt{CallableSBase}}%
-\index{SBase@\texttt{SBase}!CallableSBase@\texttt{CallableSBase}}%
+instances of \CallableSBase,
 of which we here give a short overview.
 \begin{lstlisting}[language=Java,numbers=none,float=h,captionpos=t,
 title={Getter and setter:}]
@@ -472,19 +461,16 @@ public void setVariable(CallableSBase variable) { ... }
 
 public CallableSBase getVariable() { ... }
 \end{lstlisting}
-The set method allows users to change the type of an \texttt{ASTNode} to
+The set method allows users to change the type of an \ASTNode{} to
 \texttt{ASTNode.Type.NAME}
 \index{ASTNode@\texttt{ASTNode}!ASTNode.Type@\texttt{ASTNode.Type}}%
 and to directly set the name to the identifier of the
-given \texttt{CallableSBase}.
-\index{JSBML!CallableSBase@\texttt{CallableSBase}}%
-\index{SBase@\texttt{SBase}!CallableSBase@\texttt{CallableSBase}}%
+given \CallableSBase.
 The \texttt{get} method directly looks for the corresponding element in the
-\texttt{Model}\index{model!Model@\texttt{Model}}%
+\Model{}
 and returns this element. If no such element can be found or the type of the
-\texttt{ASTNode} is something different from \texttt{ASTNode.Type.NAME}, an
+\ASTNode{} is something different from \texttt{ASTNode.Type.NAME}, an
 \index{ASTNode@\texttt{ASTNode}!ASTNode.Type@\texttt{ASTNode.Type}}%
-\index{ASTNode@\texttt{ASTNode}}%
 exception will be thrown.
 
 \begin{lstlisting}[language=Java,numbers=none,float=h,captionpos=t,
@@ -512,22 +498,20 @@ With these constructors, dedicated single nodes can be created whose type
 (from the enumeration \texttt{ASTNode.Type}) will be \texttt{NAME}
 \index{ASTNode@\texttt{ASTNode}!ASTNode.Type@\texttt{ASTNode.Type}}%
 and whose name will be set to the identifier of the given
-\texttt{CallableSBase}.
-\index{JSBML!CallableSBase@\texttt{CallableSBase}}%
-\index{SBase@\texttt{SBase}!CallableSBase@\texttt{CallableSBase}}%
+\CallableSBase.
 
 
 \subsection{The \texttt{ASTNodeCompiler} class}
 
 This interface allows users to create customized interpreters for the
 content of mathematical equations encoded in abstract syntax trees. It
-is directly and recursively called from the \texttt{ASTNode} class and returns
+is directly and recursively called from the \ASTNode{} class and returns
 an \texttt{ASTNodeValue}
 \index{ASTNode@\texttt{ASTNode}!\texttt{ASTNodeValue}}%
 \index{ASTNode@\texttt{ASTNode}!\texttt{ASTNodeCompiler}}%
 object, which wraps the possible evaluation results of the interpretation.
-JSBML\index{ASTNode@\texttt{ASTNode}} already provides several implementations of this
-interface, for instance, \texttt{ASTNode} objects can be directly translated to
+JSBML already provides several implementations of this
+interface, for instance, \ASTNode{} objects can be directly translated to
 \texttt{C} language-like \texttt{String}s\index{String@\texttt{String}!formula},
 \LaTeX,\index{LaTeX@\LaTeX} or MathML\index{MathML} for further processing.
 Furthermore, the class \texttt{UnitsCompiler},
@@ -539,7 +523,7 @@ this interface.
 
 When adding elements such as a \texttt{Species}
 \index{species!\texttt{Species}}%
-to a \texttt{Model}\index{model!\texttt{Model}}, libSBML\index{cloning} will
+to a \Model, libSBML\index{cloning} will
 clone the object and add the clone to the \texttt{Model}. In contrast,
 JSBML\index{cloning} does
 not automatically perform cloning. The advantage is that modifications on the
@@ -549,15 +533,14 @@ the run time and also more intuitive for Java programmers. If cloning is
 necessary, users should call the \texttt{clone()} method manually. Since all
 instances of \texttt{SBase}\index{SBase@\texttt{SBase}} and also
 \texttt{Annotation}\index{annotation},
-\texttt{ASTNode}\index{ASTNode@\texttt{ASTNode}},
+\ASTNode,
 \texttt{CVTerm}\index{annotation!\texttt{CVTerm}}, and
 \texttt{History}\index{annotation!\texttt{History}} extend
 \texttt{AbstractTreeNode}\index{AbstractTreeNode@\texttt{AbstractTreeNode}},
 which in turn implements the interface \texttt{Cloneable}\index{cloning} (see
 Fig.~\vref{fig:TypeHierarchy}), all these elements can be naturally cloned.
 However, when cloning an object in JSBML\index{cloning}, such as an
-\texttt{AbstractNamedSBase},
-\index{SBase@\texttt{SBase}!\texttt{AbstractNamedSBase}}
+\AbstractNamedSBase,
 all children of this element will recursively be cloned before adding them to
 the new element. This is necessary, because the data structures specified in
 SBML \index{SBML!hierarchical structure} define a tree, in which each element
@@ -632,8 +615,7 @@ can be aware of potential sources of problems already at the time of writing the
 source code. Examples are the \texttt{ParseException}
 \index{exception!\texttt{ParseException}}%
 that may be thrown if a given formula cannot be parsed properly into an
-\texttt{ASTNode}
-\index{ASTNode@\texttt{ASTNode}}%
+\ASTNode{}
 data structure, or \texttt{InvalidArgumentException}s
 \index{exception!\texttt{InvalidArgumentException}}%
 if inappropriate values are passed to methods. For instance,
@@ -649,19 +631,19 @@ if inappropriate values are passed to methods. For instance,
  \item An instance of \texttt{Priority}\index{event!\texttt{Priority}} can only
  be assigned to an \texttt{Event}s\index{event!\texttt{Event}} if its
  \texttt{level}\index{SBML!Level~3} attribute has at least been set to
- three.\index{SBase@\texttt{SBase}!\texttt{AbstractNamedSBase}}
+ three.
  \item Another example is the \texttt{InvalidArgumentException} that
  is thrown when trying to set an invalid identifier \texttt{String} for an
- instance of \texttt{AbstractNamedSBase}.
+ instance of \AbstractNamedSBase.
  \item JSBML keeps track of all identifiers within a model. For each namespace
  it contains a separate set of identifiers within the
  \texttt{Model}\index{Model@\texttt{Model}}. It is therefore not possible to
  assign duplicate identifiers in case of elements that implement the interface
  \texttt{UniqueNamedSBase}\index{UniqueNamedSBase@\texttt{UniqueNamedSBase}}.
- For \texttt{UnitDefinition}s\index{Unit!UnitDefinition@\texttt{UnitDefinition}}
+ For {\UnitDefinition}s
  and \texttt{LocalParameter}s separate sets are maintained. Since local
  parameters are only visible within the
- \texttt{KineticLaw}\index{KineticLaw@\texttt{KineticLaw}} that contain these,
+ \KineticLaw{} that contain these,
  JSBML will only prohibit having more than one local parameter within the same
  list that has the identical identifier. All these sets are updated upon any
  changes within the model. When adding an element with an already existing
@@ -670,7 +652,7 @@ if inappropriate values are passed to methods. For instance,
  \item Meta identifiers must be unique through the entire SBML file. To ensure
  that no duplicate meta identifiers are created, JSBML keeps a set of all meta
  identifiers on the level of the
- \texttt{SBMLDocument}\index{SBML!SBMLDocument@\texttt{SBMLDocument}}, which is
+ \SBMLDocument, which is
  updated upon any change of elements within the data structure. In this way, it
  is not possible to set the meta identifier of some element to an already
  existing value or to add nodes to the SBML tree that contain a meta identifier
@@ -679,6 +661,9 @@ if inappropriate values are passed to methods. For instance,
  (method \texttt{nextMetaId()} on \texttt{SBMLDocument}), users of JSBML should
  not care about these identifiers at all. JSBML will automatically create meta
  identifiers where missing upon writing an SBML file.
+ \item In case that spatial dimension units of a \Species{} are defined whose
+ surrounding \Compartment{} has zero dimensions or that has only substance
+ units, JSBML also throws an exception.
 \end{itemize}
 Hence, you have to be aware of potential exceptions and errors when using JSBML,
 \index{exception}%
@@ -690,22 +675,16 @@ files. JSBML follows the rule that illegal or invalid properties are not set.
 
 \subsection{Model history}
 
-In earlier versions of SBML\index{SBML}, only the model itself could be
+In earlier versions of \SBML, only the model itself could be
 associated with a history, i.e., a description about the person(s) who build
 this model, including names, e-mail addresses, modification and creation dates.
 Nowadays, it has become possible to annotate each individual construct of an
 SBML model with such a history. This is reflected by naming the corresponding
-object \texttt{History}\index{annotation!\texttt{History}}
-in JSBML\index{annotation!\texttt{ModelHistory}}, whereas it is still called
-\texttt{ModelHistory} in libSBML\index{annotation!\texttt{ModelHistory}}. Hence,
-all instances of \texttt{SBase}\index{SBase@\texttt{SBase}} in JSBML
-\index{annotation!\texttt{ModelHistory}} contain methods to access and
-manipulate its \texttt{History}. Furthermore, you will not find the classes
-\texttt{ModelCreator} and \texttt{ModelCreatorList} because
-JSBML\index{annotation!\texttt{ModelCreator}}
-gathers its \texttt{Creator} objects
-in a generic \texttt{List<Creator>} in the
-\texttt{History}\index{annotation!\texttt{History}}.
+object \History{} in JSBML, whereas it is still called \ModelHistory{} in
+libSBML. Hence, all instances of \SBase{} in JSBML contain methods to access
+and manipulate its \History. Furthermore, you will not find the classes
+\ModelCreator{} and \texttt{ModelCreatorList} because JSBML gathers its
+\texttt{Creator} objects in a generic \texttt{List<Creator>} in the \History.
 
 
 \subsection{Replacement of the interface \texttt{libSBMLConstants} by Java \texttt{enum}s}
@@ -715,9 +694,8 @@ You will not find an implementation corresponding to the interface
 encode constants
 \index{constant!\texttt{enum}}%
 using the Java construct \texttt{enum}. For instance, all the fields starting
-with the prefix \texttt{AST\_TYPE\_*}
-\index{ASTNode@\texttt{ASTNode}!\texttt{AST\_TYPE\_*}}%
-have a corresponding field in the \texttt{ASTNode} class itself. There you can
+with the prefix \ASTtype{}
+have a corresponding field in the \ASTNode{} class itself. There you can
 find the \texttt{enum} \texttt{Type}.
 \index{ASTNode@\texttt{ASTNode}!\texttt{ASTNode.Type}}%
 Instead of typing \texttt{libSBMLConstants.AST\_TYPE\_PLUS}, you would therefore
@@ -750,11 +728,11 @@ can be done by using the method
 \begin{lstlisting}[language=Java,numbers=none]
 Unit.Kind myKind = Unit.Kind.valueOf(myString);
 \end{lstlisting}
-In a similar way, the \texttt{ASTNode}\index{ASTNode@\texttt{ASTNode}} class
+In a similar way, the \ASTNode{} class
 provides a method to parse \texttt{C}-like infix formula
 \texttt{String}s\index{String@\texttt{String}!formula} according to the
 specification of SBML Level~1\index{SBML!Level~1} \citep{Hucka2003} into an
-abstract syntax tree\index{ASTNode@\texttt{ASTNode}}. Therefore, in contrast to
+abstract syntax tree. Therefore, in contrast to
 the \texttt{libSBML} class, the class \texttt{JSBML}\index{JSBML!JSBML@\texttt{JSBML}}
 contains only a few methods.
 
@@ -919,10 +897,10 @@ because it might happen that the model\index{model} containing this
 does actually not contain the required instance of \texttt{UnitDefinition} and
 the method returns a \texttt{UnitDefinition} that has just been created for
 convenience from the information provided by the class. It might therefore be
-useful to either check if the \texttt{Model}\index{model!\texttt{Model}}
+useful to either check if the \Model{}
 contains this \texttt{UnitDefinition}
 \index{unit!UnitDefinition@\texttt{UnitDefinition}}%
-or to add it to the \texttt{Model}\index{model!\texttt{Model}}.
+or to add it to the \Model.
 
 In case of \texttt{KineticLaw}
 \index{KineticLaw@\texttt{KineticLaw}}%
@@ -942,7 +920,7 @@ representing a variant of substance per time directly. In this case, the
 will memorize a direct link to this \texttt{UnitDefinition}
 in the model\index{model} and also try to save separate links to the time unit and the
 substance unit. However, this may cause a problem if the containing
-\texttt{Model}\index{model!\texttt{Model}} does not contain separate \texttt{UnitDefinition}s for both
+\Model{} does not contain separate \texttt{UnitDefinition}s for both
 entries.
 
 Generally, this approach provides a more general way to access and to manipulate
@@ -964,11 +942,11 @@ and add it to the list of listeners in your instance of
 implement three methods
 \begin{description}
  \item[\texttt{nodeAdded(TreeNode node)}] This method notifies the listener
- that the given \texttt{TreeNode}\index{TreeNode@\texttt{TreeNode}} has just
+ that the given \TreeNode{} has just
  been added to the \texttt{SBMLDocument}. When this method is called, the given
  node is already fully linked to the \texttt{SBMLDocument}, i.e., it has a valid
  parent that in turn points to the given node.
- \item[\texttt{nodeRemoved(TreeNode node)}] The \texttt{TreeNode} instance
+ \item[\texttt{nodeRemoved(TreeNode node)}] The \TreeNode{} instance
  passed to this method is no longer part of the \texttt{SBMLDocument} as it has
  just been removed. This means that the entire \texttt{SBMLDocument} does not
  contain any pointers to this node anymore, but the node itself still contains a
@@ -979,7 +957,7 @@ implement three methods
  The object passed to this method is an
  \texttt{TreeNodeChangeEvent}\index{event!\texttt{TreeNodeChangeEvent}}, which
  provides information about the
- \texttt{TreeNode}\index{TreeNode@\texttt{TreeNode}} that has been changed, its
+ \TreeNode{} that has been changed, its
  property whose value has been changed (this is a
  \texttt{String}\index{String@\texttt{String}} representation of the name of
  the property), along with the previous value and the new value.
@@ -1016,10 +994,10 @@ users also to make use of, e.g.,
 \texttt{EventHandler}s\index{event!\texttt{EventHandler}} to deal with changes
 in a model\index{model}. 
 
-Since in JSBML all major data objects implement the interface \texttt{TreeNode},
+Since in JSBML all major data objects implement the interface \TreeNode,
 these listeners are notified about any kind of change in any implementing data
 structure. The interface \texttt{TreeNodeWithChangeSupport} extends Java's
-standard \texttt{TreeNode} interface by adding methods that maintain a list of
+standard \TreeNode{} interface by adding methods that maintain a list of
 \texttt{TreeNodeChangeListeners} and notify these whenever some property changes
 or nodes are added/deleted from the tree. In this way, the
 \texttt{TreeNodeChangeListener}s do not only keep track of changes in instances
@@ -1050,10 +1028,7 @@ on a \texttt{Model}
 \index{model!\texttt{Model}}%
 to quickly query for elements, based on their identifier or name. Developers can
 search for various instances of \texttt{SBase} (for instance,
-\texttt{CallableSBase},
-\index{SBase@\texttt{SBase}!\texttt{CallableSBase}}%
-\texttt{NamedSBase},
-\index{SBase@\texttt{SBase}!\texttt{NamedSBase}}%
+\CallableSBase, \NamedSBase,
 \texttt{NamedSBaseWithDerivedUnit})
 \index{SBase@\texttt{SBase}!\texttt{NamedSBaseWithDerivedUnit}}%
 or use the methods \texttt{findLocalParameters}, \texttt{findQuantity},
@@ -1289,7 +1264,7 @@ API (Application Programming Interface)\index{application programming interface!
 {lst:Plugin} show a very simple example of how to pass CellDesigner plugin
 \index{CellDesigner!plugin}%
 model\index{model!CellDesigner} data structures to the translator in JSBML,
-which creates then a JSBML \texttt{Model}\index{model!\texttt{Model}} data structure.
+which creates then a JSBML \Model{} data structure.
 \index{CellDesigner!\texttt{PluginAction}}%
 \lstinputlisting[language=Java,float,caption={A simple implementation of
 CellDesigner's abstract class \texttt{PluginAction}},
