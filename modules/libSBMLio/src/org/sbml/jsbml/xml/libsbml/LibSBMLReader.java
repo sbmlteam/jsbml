@@ -503,7 +503,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 			exc.setCode(SBMLException.Code.NoSpeciesTypesInL1);
 		} else if (error.getErrorId() == libsbmlConstants.NoCompartmentTypeInL1) {
 			exc.setCode(SBMLException.Code.NoCompartmentTypeInL1);
-		} else if (error.getErrorId() == libsbmlConstants.NoNon3DComparmentsInL1) {
+		} else if (error.getErrorId() == libsbmlConstants.NoNon3DCompartmentsInL1) {
 			exc.setCode(SBMLException.Code.NoNon3DComparmentsInL1);
 		} else if (error.getErrorId() == libsbmlConstants.NoFancyStoichiometryMathInL1) {
 			exc.setCode(SBMLException.Code.NoFancyStoichiometryMathInL1);
@@ -620,8 +620,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		} else if (error.getErrorId() == libsbmlConstants.ObseleteSBOTerm) {
 			exc.setCode(SBMLException.Code.ObseleteSBOTerm);
 		} else if (error.getErrorId() == libsbmlConstants.IncorrectCompartmentSpatialDimensions) {
-			exc
-					.setCode(SBMLException.Code.IncorrectCompartmentSpatialDimensions);
+			exc.setCode(SBMLException.Code.IncorrectCompartmentSpatialDimensions);
 		} else if (error.getErrorId() == libsbmlConstants.CompartmentTypeNotValidAttribute) {
 			exc.setCode(SBMLException.Code.CompartmentTypeNotValidAttribute);
 		} else if (error.getErrorId() == libsbmlConstants.ConstantNotValidAttribute) {
@@ -728,11 +727,8 @@ public class LibSBMLReader implements SBMLInputConverter {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.sbml.jsbml.SBMLReader#addIOProgressListener(org.sbml.jsbml.io.
-	 * IOProgressListener)
+	/* (non-Javadoc)
+	 * @seeorg.sbml.jsbml.SBMLReader#addIOProgressListener(org.sbml.jsbml.io.IOProgressListener)
 	 */
 	public void addIOProgressListener(IOProgressListener listener) {
 		setEventListeners.add(listener);
@@ -1090,9 +1086,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return this.model;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readModel(java.lang.Object)
 	 */
 	public Model convertModel(Object model) throws Exception {
@@ -1125,9 +1119,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return doc;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jlibsbml.SBMLReader#convertDate(java.lang.Object)
 	 */
 	private Date convertDate(Object date) {
@@ -1320,18 +1312,14 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return (int) doc.getNumErrors();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.squeezer.io.AbstractSBMLReader#getOriginalModel()
 	 */
 	public org.sbml.libsbml.Model getOriginalModel() {
 		return originalModel;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jlibsbml.SBMLReader#getWarnings()
 	 */
 	public List<SBMLException> getWarnings() {
@@ -1343,9 +1331,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return excl;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readCompartment(java.lang.Object)
 	 */
 	private Compartment readCompartment(Object compartment) {
@@ -1589,9 +1575,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return ev;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readFunctionDefinition(java.lang.Object)
 	 */
 	private FunctionDefinition readFunctionDefinition(Object functionDefinition) {
@@ -1609,9 +1593,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return f;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readInitialAssignment(java.lang.Object)
 	 */
 	private InitialAssignment readInitialAssignment(Object initialAssignment) {
@@ -1630,9 +1612,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return ia;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readKineticLaw(java.lang.Object)
 	 */
 	private KineticLaw readKineticLaw(Object kineticLaw) {
@@ -1663,9 +1643,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return new LocalParameter(readParameter(parameter));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readModifierSpeciesReference(java.lang.Object)
 	 */
 	private ModifierSpeciesReference readModifierSpeciesReference(
@@ -1690,9 +1668,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return mod;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readParameter(java.lang.Object)
 	 */
 	private Parameter readParameter(Object parameter) {
@@ -1717,9 +1693,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return para;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readReaction(java.lang.Object)
 	 */
 	private Reaction readReaction(Object reac) {
@@ -1743,9 +1717,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return reaction;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readRule(java.lang.Object)
 	 */
 	private Rule readRule(Object rule) {
@@ -1778,9 +1750,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return r;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readSpecies(java.lang.Object)
 	 */
 	private Species readSpecies(Object species) {
@@ -1815,9 +1785,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return s;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readSpeciesReference(java.lang.Object)
 	 */
 	private SpeciesReference readSpeciesReference(Object speciesReference) {
@@ -1839,9 +1807,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return spec;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readSpeciesType(java.lang.Object)
 	 */
 	private SpeciesType readSpeciesType(Object speciesType) {
@@ -1855,9 +1821,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return st;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readStoichiometricMath(java.lang.Object)
 	 */
 	private StoichiometryMath readStoichiometricMath(Object stoichiometryMath) {
@@ -1896,9 +1860,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readUnit(java.lang.Object)
 	 */
 	private Unit readUnit(Object unit) {
@@ -2027,9 +1989,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		return u;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.SBMLReader#readUnitDefinition(java.lang.Object)
 	 */
 	private UnitDefinition readUnitDefinition(Object unitDefinition) {

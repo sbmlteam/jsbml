@@ -17,7 +17,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package src.org.sbml.jsbml.cdplugin.test;
+package org.sbml.jsbml.cdplugin.test;
 
 import java.awt.event.ActionEvent;
 

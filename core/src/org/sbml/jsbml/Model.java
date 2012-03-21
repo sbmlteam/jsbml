@@ -38,6 +38,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
+import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
@@ -65,7 +66,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   private static final String COULD_NOT_CREATE_ELEMENT_MSG = "Could not create %s because no %s have been defined yet.";
   
   /**
-   * 
+   * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(Model.class);
   /**
@@ -587,7 +588,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean containsCompartment(String id) {
     return getCompartment(id) != null;
   }
-  
+
   /**
    * Returns true if this model contains a reference to a
    * {@link FunctionDefinition} with the given identifier.
@@ -718,7 +719,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     addCompartment(compartment);
     return compartment;
   }
-  
+
   /**
    * Creates a new {@link CompartmentType} inside this {@link Model} and returns
    * it.
@@ -727,13 +728,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the {@link CompartmentType} object created
    *         <p>
    * @see #addCompartmentType(CompartmentType ct)
-   * @deprecated {@link CompartmentType}s should no longer be used.
+   * @deprecated {@link CompartmentType}s should no longer be used, because this
+   *             data structure is only valid in SBML Level 2 for Versions 2
+   *             through 4.
    */
   @Deprecated
   public CompartmentType createCompartmentType() {
     return createCompartmentType(null);
   }
-  
+
   /**
    * Creates a new {@link CompartmentType} inside this {@link Model} and returns
    * it.
@@ -741,7 +744,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param id
    *        the id of the new element to create
    * @return the {@link CompartmentType} object created
-   * @deprecated {@link CompartmentType}s should no longer be used.
+   * @deprecated {@link CompartmentType}s should no longer be used, because this
+   *             data structure is only valid in SBML Level 2 for Versions 2
+   *             through 4.
    */
   @Deprecated
   public CompartmentType createCompartmentType(String id) {
@@ -1185,12 +1190,30 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
+   * Creates a new {@link Species} inside this {@link Model} and returns it.
+   * 
+   * @param id
+   *        the id of the new element to create
+   * @param name
+   *        the name of the new element to create
+   * @param c
+   *        the Compartment of the new {@link Species}
+   * @return the {@link Species} object created
+   */
+  public Species createSpecies(String id, String name, Compartment c) {
+    Species s = createSpecies(id, c);
+    s.setName(name);
+    return s;
+  }
+  
+  /**
    * Creates a new {@link SpeciesType} inside this {@link Model} and returns it.
    * <p>
    * 
    * @return the {@link SpeciesType} object created
    *         <p>
    * @see #addSpeciesType(SpeciesType st)
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public SpeciesType createSpeciesType() {
@@ -1203,6 +1226,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param id
    *        the id of the new element to create
    * @return the {@link SpeciesType} object created
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public SpeciesType createSpeciesType(String id) {
@@ -1354,6 +1378,26 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       return (CallableSBase) found;
     }
     return null;
+  }
+  
+  /**
+   * Searches the first {@link UnitDefinition} within this {@link Model}'s
+   * {@link #listOfUnitDefinitions} that
+   * is identical to the given {@link UnitDefinition}. If no element can be
+   * found that satisfies the method
+   * {@link UnitDefinition#areIdentical(UnitDefinition, UnitDefinition)},
+   * <code>null</code> will be returned.
+   * 
+   * @param unitDefinition
+   * @return A {@link UnitDefinition} object that is already part of this
+   *         {@link Model}'s {@link #listOfUnitDefinitions} and satisfies the
+   *         condition of
+   *         {@link UnitDefinition#areIdentical(UnitDefinition, UnitDefinition)}
+   *         in comparison to the given {@link UnitDefinition}, or
+   *         <code>null</code> if no such element can be found.
+   */
+  public UnitDefinition findIdentical(UnitDefinition unitDefinition) {
+    return getListOfUnitDefinitions().firstHit(new IdenticalUnitDefinitionFilter(unitDefinition));
   }
   
   /**
@@ -1633,27 +1677,31 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public String getAreaUnits() {
     if (isSetAreaUnits()) {
       return areaUnitsID;
-    } else if (getLevel() == 2) { return UnitDefinition.AREA; }
+    } else if (getLevel() == 2) {
+      return UnitDefinition.AREA;
+    }
     return "";
   }
   
   /**
-   * Returns the {@link UnitDefinition} instance which has the area units ID of
-   * this Model as id.
+   * Returns the {@link UnitDefinition} instance which has the {@link #areaUnitsID} of
+   * this {@link Model} as id.
    * 
-   * @return the {@link UnitDefinition} instance which has the area Units ID of
-   *         this Model as id. Null if it doesn't exist
+   * @return the {@link UnitDefinition} instance which has the {@link #areaUnitsID} of
+   *         this {@link Model} as id. <code>null</code> if it doesn't exist.
    */
   public UnitDefinition getAreaUnitsInstance() {
     return getUnitDefinition(getAreaUnits());
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
    */
   @Override
   public TreeNode getChildAt(int index) {
-    if (index < 0) { throw new IndexOutOfBoundsException(index + " < 0"); }
+    if (index < 0) {
+    	throw new IndexOutOfBoundsException(index + " < 0");
+    }
     int count = super.getChildCount(), pos = 0;
     if (index < count) {
       return super.getChildAt(index);
@@ -1661,57 +1709,81 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       index -= count;
     }
     if (isSetListOfFunctionDefinitions()) {
-      if (pos == index) { return getListOfFunctionDefinitions(); }
+      if (pos == index) {
+    	  return getListOfFunctionDefinitions();
+      }
       pos++;
     }
     if (isSetListOfUnitDefinitions()) {
-      if (pos == index) { return getListOfUnitDefinitions(); }
+      if (pos == index) {
+    	  return getListOfUnitDefinitions();
+      }
       pos++;
     }
     if (isSetListOfCompartmentTypes()) {
-      if (pos == index) { return getListOfCompartmentTypes(); }
+      if (pos == index) {
+    	  return getListOfCompartmentTypes();
+      }
       pos++;
     }
     if (isSetListOfSpeciesTypes()) {
-      if (pos == index) { return getListOfSpeciesTypes(); }
+      if (pos == index) {
+    	  return getListOfSpeciesTypes();
+      }
       pos++;
     }
     if (isSetListOfCompartments()) {
-      if (pos == index) { return getListOfCompartments(); }
+      if (pos == index) {
+    	  return getListOfCompartments();
+      }
       pos++;
     }
     if (isSetListOfSpecies()) {
-      if (pos == index) { return getListOfSpecies(); }
+      if (pos == index) {
+    	  return getListOfSpecies();
+      }
       pos++;
     }
     if (isSetListOfParameters()) {
-      if (pos == index) { return getListOfParameters(); }
+      if (pos == index) {
+    	  return getListOfParameters();
+      }
       pos++;
     }
     if (isSetListOfInitialAssignments()) {
-      if (pos == index) { return getListOfInitialAssignments(); }
+      if (pos == index) {
+    	  return getListOfInitialAssignments();
+      }
       pos++;
     }
     if (isSetListOfRules()) {
-      if (pos == index) { return getListOfRules(); }
+      if (pos == index) {
+    	  return getListOfRules();
+      }
       pos++;
     }
     if (isSetListOfConstraints()) {
-      if (pos == index) { return getListOfConstraints(); }
+      if (pos == index) {
+    	  return getListOfConstraints();
+      }
       pos++;
     }
     if (isSetListOfReactions()) {
-      if (pos == index) { return getListOfReactions(); }
+      if (pos == index) {
+    	  return getListOfReactions();
+      }
       pos++;
     }
     if (isSetListOfEvents()) {
-      if (pos == index) { return getListOfEvents(); }
+      if (pos == index) {
+    	  return getListOfEvents();
+      }
       pos++;
     }
     throw new IndexOutOfBoundsException(String.format("Index %d >= %d", index,
       +((int) Math.min(pos, 0))));
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildCount()
    */
@@ -1786,6 +1858,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
+   * Returns the number of {@link Compartment}s of this {@link Model}.
+   * 
+   * @return the number of {@link Compartment}s of this {@link Model}.
+   */
+  public int getCompartmentCount() {
+    return isSetListOfCompartments() ? listOfCompartments.size() : 0;
+  }
+  
+  /**
    * Gets the nth CompartmentType object in this Model.
    * 
    * @param n
@@ -1793,6 +1874,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the nth CompartmentType of this Model. Returns null if there are no
    *         compartmentType defined or if the index n is too big or lower than
    *         zero.
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public CompartmentType getCompartmentType(int n) {
@@ -1806,6 +1888,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the CompartmentType of the {@link #listOfCompartmentTypes} which has 'id' as
    *         id (or name depending on the level and version). Null if the
    *         {@link #listOfCompartmentTypes} is not set or the id is not found.
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public CompartmentType getCompartmentType(String id) {
@@ -1817,6 +1900,19 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
+   * Returns the number of {@link CompartmentType}s of this {@link Model}.
+   * 
+   * @return the number of {@link CompartmentType}s of this {@link Model}.
+   * @deprecated using {@link CompartmentType} is not recommended, because this
+   *             data structure is only valid in SBML Level 2 for Versions 2
+   *             through 4.
+   */
+  @Deprecated
+  public int getCompartmentTypeCount() {
+    return isSetListOfCompartmentTypes() ? listOfCompartmentTypes.size() : 0;
+  }
+
+  /**
    * Gets the nth Constraint object in this Model.
    * 
    * @param n
@@ -1825,6 +1921,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Constraint getConstraint(int n) {
     return getListOfConstraints().get(n);
+  }
+  
+  /**
+   * Returns the number of {@link Constraint}s of this {@link Model}.
+   * 
+   * @return the number of {@link Constraint}s of this {@link Model}.
+   */
+  public int getConstraintCount() {
+    return isSetListOfConstraints() ? listOfConstraints.size() : 0;
   }
   
   /**
@@ -1846,6 +1951,21 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Parameter getConversionFactorInstance() {
     return getParameter(this.conversionFactorID);
+  }
+  
+  /**
+   * Returns the number of {@link Delay}s of this {@link Model}.
+   * 
+   * @return the number of {@link Delay}s of this {@link Model}.
+   */
+  public int getDelayCount() {
+    int count = 0;
+    for (Event e : getListOfEvents()) {
+      if (e.isSetDelay()) {
+        count++;
+      }
+    }
+    return count;
   }
   
   /**
@@ -1876,6 +1996,28 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
+   * Returns the number of {@link EventAssignment}s of this {@link Model}.
+   * 
+   * @return return the number of {@link EventAssignment}s of this {@link Model}.
+   */
+  public int getEventAssignmentCount() {
+    int count = 0;
+    for (Event e : getListOfEvents()) {
+      count += e.getEventAssignmentCount();
+    }
+    return count;
+  }
+  
+  /**
+   * Returns the number of {@link Event}s of this {@link Model}.
+   * 
+   * @return the number of {@link Event}s of this {@link Model}.
+   */
+  public int getEventCount() {
+    return isSetListOfEvents() ? listOfEvents.size() : 0;
+  }
+  
+  /**
    * Returns the extent units ID of this {@link Model}.
    * 
    * @return the extent units ID of this {@link Model}. Returns an empty
@@ -1893,7 +2035,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         of this Model as id. Null if it doesn't exist
    */
   public UnitDefinition getExtentUnitsInstance() {
-    return getUnitDefinition(this.extentUnitsID);
+    return getUnitDefinition(getExtentUnits());
   }
   
   /**
@@ -1927,6 +2069,16 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
+   * Returns the number of {@link FunctionDefinition}s of this {@link Model}.
+   * 
+   * @return the number of {@link FunctionDefinition}s of this {@link Model}.
+   */
+  public int getFunctionDefinitionCount() {
+    return isSetListOfFunctionDefinitions() ? listOfFunctionDefinitions.size()
+      : 0;
+  }
+  
+  /**
    * Gets the nth {@link InitialAssignment} object in this {@link Model}.
    * 
    * @param n
@@ -1954,6 +2106,31 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public InitialAssignment getInitialAssignment(String variable) {
     return getListOfInitialAssignments().firstHit(
       new AssignmentVariableFilter(variable));
+  }
+  
+  /**
+   * Returns the number of {@link InitialAssignment}s of this {@link Model}.
+   * 
+   * @return the number of {@link InitialAssignment}s of this {@link Model}.
+   */
+  public int getInitialAssignmentCount() {
+    return isSetListOfInitialAssignments() ? listOfInitialAssignments.size()
+      : 0;
+  }
+  
+  /**
+   * Returns the number of {@link KineticLaw}s of this {@link Model}.
+   * 
+   * @return the number of {@link KineticLaw}s of this {@link Model}.
+   */
+  public int getKineticLawCount() {
+    int count = 0;
+    for (Reaction r : getListOfReactions()) {
+      if (r.isSetKineticLaw()) {
+        count++;
+      }
+    }
+    return count;
   }
   
   /**
@@ -1986,8 +2163,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Returns the length units of this {@link Model} as a {@link UnitDefinition}.
    * 
-   * @return the UnitDefinition instance which has the length units ID of this
-   *         Model as id. Null if it doesn't exist
+   * @return the {@link UnitDefinition} instance which has the {@link #lengthUnitsID} of this
+   *         {@link Model} as id. <code>null</code> if it doesn't exist.
    */
   public UnitDefinition getLengthUnitsInstance() {
     return getUnitDefinition(getLengthUnits());
@@ -2009,7 +2186,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the listOfCompartmentTypes of this {@link Model}.
    * 
    * @return the listOfCompartmentTypes of this {@link Model}.
-   * @deprecated
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public ListOf<CompartmentType> getListOfCompartmentTypes() {
@@ -2029,6 +2206,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfConstraints = ListOf.newInstance(this, Constraint.class);
     }
     return listOfConstraints;
+  }
+  
+  /**
+   * Returns the number of {@link ListOf}s of this {@link Model}.
+   * 
+   * @return the number of {@link ListOf}s of this {@link Model}.
+   */
+  public int getListOfCount() {
+    return getChildCount();
   }
   
   /**
@@ -2130,7 +2316,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the listOfSpeciesTypes of this {@link Model}.
    * 
    * @return the listOfSpeciesTypes of this {@link Model}.
-   * @deprecated
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public ListOf<SpeciesType> getListOfSpeciesTypes() {
@@ -2150,252 +2336,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfUnitDefinitions = ListOf.newInstance(this, UnitDefinition.class);
     }
     return listOfUnitDefinitions;
-  }
-  
-  /**
-   * Returns {@link History} of this model.
-   * 
-   * @return the {@link History} of this model.
-   * 
-   * @see SBase#getHistory
-   * @deprecated use {@link SBase#getHistory()}
-   */
-  @Deprecated
-  public History getModelHistory() {
-    return getHistory();
-  }
-  
-  /**
-   * Returns the number of {@link Compartment}s of this {@link Model}.
-   * 
-   * @return the number of {@link Compartment}s of this {@link Model}.
-   * @deprecated use {@link #getCompartmentCount()}
-   */
-  @Deprecated
-  public int getNumCompartments() {
-    return getCompartmentCount();
-  }
-  
-  /**
-   * Returns the number of {@link Compartment}s of this {@link Model}.
-   * 
-   * @return the number of {@link Compartment}s of this {@link Model}.
-   */
-  public int getCompartmentCount() {
-    return isSetListOfCompartments() ? listOfCompartments.size() : 0;
-  }
-  
-  /**
-   * Returns the number of {@link CompartmentType}s of this {@link Model}.
-   * 
-   * @return the number of {@link CompartmentType}s of this {@link Model}.
-   * @deprecated use {@link #getCompartmentTypeCount()}
-   */
-  @Deprecated
-  public int getNumCompartmentTypes() {
-    return getCompartmentTypeCount();
-  }
-  
-  /**
-   * Returns the number of {@link CompartmentType}s of this {@link Model}.
-   * 
-   * @return the number of {@link CompartmentType}s of this {@link Model}.
-   * @deprecated using {@link CompartmentType} is not recommended.
-   */
-  @Deprecated
-  public int getCompartmentTypeCount() {
-    return isSetListOfCompartmentTypes() ? listOfCompartmentTypes.size() : 0;
-  }
-  
-  /**
-   * Returns the number of {@link Constraint}s of this {@link Model}.
-   * 
-   * @return the number of {@link Constraint}s of this {@link Model}.
-   * @deprecated use {@link #getConstraintCount()}
-   */
-  @Deprecated
-  public int getNumConstraints() {
-    return getConstraintCount();
-  }
-  
-  /**
-   * Returns the number of {@link Constraint}s of this {@link Model}.
-   * 
-   * @return the number of {@link Constraint}s of this {@link Model}.
-   */
-  public int getConstraintCount() {
-    return isSetListOfConstraints() ? listOfConstraints.size() : 0;
-  }
-  
-  /**
-   * Returns the number of {@link Delay}s of this {@link Model}.
-   * 
-   * @return the number of {@link Delay}s of this {@link Model}.
-   * @deprecated use {@link #getDelayCount()}
-   */
-  @Deprecated
-  public int getNumDelays() {
-    return getDelayCount();
-  }
-  
-  /**
-   * Returns the number of {@link Delay}s of this {@link Model}.
-   * 
-   * @return the number of {@link Delay}s of this {@link Model}.
-   */
-  public int getDelayCount() {
-    int count = 0;
-    for (Event e : getListOfEvents()) {
-      if (e.isSetDelay()) {
-        count++;
-      }
-    }
-    return count;
-  }
-  
-  /**
-   * Returns the number of {@link EventAssignment}s of this {@link Model}.
-   * 
-   * @return return the number of {@link EventAssignment}s of this {@link Model}.
-   * @deprecated use {@link #getEventAssignmentCount()}
-   */
-  @Deprecated
-  public int getNumEventAssignments() {
-    return getEventAssignmentCount();
-  }
-  
-  /**
-   * Returns the number of {@link EventAssignment}s of this {@link Model}.
-   * 
-   * @return return the number of {@link EventAssignment}s of this {@link Model}.
-   */
-  public int getEventAssignmentCount() {
-    int count = 0;
-    for (Event e : getListOfEvents()) {
-      count += e.getEventAssignmentCount();
-    }
-    return count;
-  }
-  
-  /**
-   * Returns the number of {@link Event}s of this {@link Model}.
-   * 
-   * @return the number of {@link Event}s of this {@link Model}.
-   * @deprecated use {@link #getEventCount()}
-   */
-  @Deprecated
-  public int getNumEvents() {
-    return getEventCount();
-  }
-  
-  /**
-   * Returns the number of {@link Event}s of this {@link Model}.
-   * 
-   * @return the number of {@link Event}s of this {@link Model}.
-   */
-  public int getEventCount() {
-    return isSetListOfEvents() ? listOfEvents.size() : 0;
-  }
-  
-  /**
-   * Returns the number of {@link FunctionDefinition}s of this {@link Model}.
-   * 
-   * @return the number of {@link FunctionDefinition}s of this {@link Model}.
-   * @deprecated use {@link #getFunctionDefinitionCount()}
-   */
-  @Deprecated
-  public int getNumFunctionDefinitions() {
-    return getFunctionDefinitionCount();
-  }
-  
-  /**
-   * Returns the number of {@link FunctionDefinition}s of this {@link Model}.
-   * 
-   * @return the number of {@link FunctionDefinition}s of this {@link Model}.
-   */
-  public int getFunctionDefinitionCount() {
-    return isSetListOfFunctionDefinitions() ? listOfFunctionDefinitions.size()
-      : 0;
-  }
-  
-  /**
-   * Returns the number of {@link InitialAssignment}s of this {@link Model}.
-   * 
-   * @return the number of {@link InitialAssignment}s of this {@link Model}.
-   * @deprecated use {@link #getInitialAssignmentCount()}
-   */
-  @Deprecated
-  public int getNumInitialAssignments() {
-    return getInitialAssignmentCount();
-  }
-  
-  /**
-   * Returns the number of {@link InitialAssignment}s of this {@link Model}.
-   * 
-   * @return the number of {@link InitialAssignment}s of this {@link Model}.
-   */
-  public int getInitialAssignmentCount() {
-    return isSetListOfInitialAssignments() ? listOfInitialAssignments.size()
-      : 0;
-  }
-  
-  /**
-   * Returns the number of {@link KineticLaw}s of this {@link Model}.
-   * 
-   * @return the number of {@link KineticLaw}s of this {@link Model}.
-   * @deprecated use {@link #getKineticLawCount()}
-   */
-  @Deprecated
-  public int getNumKineticLaws() {
-    return getKineticLawCount();
-  }
-  
-  /**
-   * Returns the number of {@link KineticLaw}s of this {@link Model}.
-   * 
-   * @return the number of {@link KineticLaw}s of this {@link Model}.
-   */
-  public int getKineticLawCount() {
-    int count = 0;
-    for (Reaction r : getListOfReactions()) {
-      if (r.isSetKineticLaw()) {
-        count++;
-      }
-    }
-    return count;
-  }
-  
-  /**
-   * Returns the number of {@link ListOf}s of this {@link Model}.
-   * 
-   * @return the number of {@link ListOf}s of this {@link Model}.
-   * @deprecated use {@link #getListOfCount()}
-   */
-  @Deprecated
-  public int getNumListsOf() {
-    return getListOfCount();
-  }
-  
-  /**
-   * Returns the number of {@link ListOf}s of this {@link Model}.
-   * 
-   * @return the number of {@link ListOf}s of this {@link Model}.
-   */
-  public int getListOfCount() {
-    return getChildCount();
-  }
-  
-  /**
-   * Returns the number of parameters that are contained within kineticLaws in
-   * the reactions of this model.
-   * 
-   * @return the number of parameters that are contained within kineticLaws in
-   *         the reactions of this model.
-   * @deprecated use {@link #getLocalParameterCount()}
-   */
-  @Deprecated
-  public int getNumLocalParameters() {
-    return getLocalParameterCount();
   }
   
   /**
@@ -2422,18 +2362,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return the number of elements that can contain math in the {@link Model} .
    * @see MathContainer
-   * @deprecated use {@link #getMathContainerCount()}
-   */
-  @Deprecated
-  public int getNumMathContainers() {
-    return getMathContainerCount();
-  }
-  
-  /**
-   * Returns the number of elements that can contain math in the {@link Model} .
-   * 
-   * @return the number of elements that can contain math in the {@link Model} .
-   * @see MathContainer
    */
   public int getMathContainerCount() {
     return getFunctionDefinitionCount() + getInitialAssignmentCount()
@@ -2443,16 +2371,16 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the number of {@link ModifierSpeciesReference}s in the
-   * {@link Model}.
+   * Returns {@link History} of this model.
    * 
-   * @return the number of {@link ModifierSpeciesReference}s in the
-   *         {@link Model}.
-   * @deprecated use {@link #getModifierSpeciesReferenceCount()}
+   * @return the {@link History} of this model.
+   * 
+   * @see SBase#getHistory
+   * @deprecated use {@link SBase#getHistory()}
    */
   @Deprecated
-  public int getNumModifierSpeciesReferences() {
-    return getModifierSpeciesReferenceCount();
+  public History getModelHistory() {
+    return getHistory();
   }
   
   /**
@@ -2492,11 +2420,164 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return the number of {@link NamedSBase}s in the {@link Model}, so elements
    *         that can have a name.
-   * @deprecated use {@link #getNamedSBaseCount()}
+   */
+  public int getNamedSBaseCount() {
+    return getNamedSBaseWithDerivedUnitCount() + 1 /* this model */
+        + getSpeciesTypeCount() + getCompartmentTypeCount()
+        + getUnitDefinitionCount() + getEventCount()
+        + getModifierSpeciesReferenceCount();
+  }
+  
+  public int getNamedSBaseWithDerivedUnitCount() {
+    return getQuantityCount() + getFunctionDefinitionCount() + getReactionCount();
+  }
+  
+  /**
+   * Returns the number of {@link Compartment}s of this {@link Model}.
+   * 
+   * @return the number of {@link Compartment}s of this {@link Model}.
+   * @deprecated use {@link #getCompartmentCount()}
    */
   @Deprecated
-  public int getNumNamedSBases() {
-    return getNamedSBaseCount();
+  public int getNumCompartments() {
+    return getCompartmentCount();
+  }
+  
+  /**
+   * Returns the number of {@link CompartmentType}s of this {@link Model}.
+   * 
+   * @return the number of {@link CompartmentType}s of this {@link Model}.
+   * @deprecated use {@link #getCompartmentTypeCount()}
+   */
+  @Deprecated
+  public int getNumCompartmentTypes() {
+    return getCompartmentTypeCount();
+  }
+  
+  /**
+   * Returns the number of {@link Constraint}s of this {@link Model}.
+   * 
+   * @return the number of {@link Constraint}s of this {@link Model}.
+   * @deprecated use {@link #getConstraintCount()}
+   */
+  @Deprecated
+  public int getNumConstraints() {
+    return getConstraintCount();
+  }
+  
+  /**
+   * Returns the number of {@link Delay}s of this {@link Model}.
+   * 
+   * @return the number of {@link Delay}s of this {@link Model}.
+   * @deprecated use {@link #getDelayCount()}
+   */
+  @Deprecated
+  public int getNumDelays() {
+    return getDelayCount();
+  }
+  
+  /**
+   * Returns the number of {@link EventAssignment}s of this {@link Model}.
+   * 
+   * @return return the number of {@link EventAssignment}s of this {@link Model}.
+   * @deprecated use {@link #getEventAssignmentCount()}
+   */
+  @Deprecated
+  public int getNumEventAssignments() {
+    return getEventAssignmentCount();
+  }
+  
+  /**
+   * Returns the number of {@link Event}s of this {@link Model}.
+   * 
+   * @return the number of {@link Event}s of this {@link Model}.
+   * @deprecated use {@link #getEventCount()}
+   */
+  @Deprecated
+  public int getNumEvents() {
+    return getEventCount();
+  }
+  
+  /**
+   * Returns the number of {@link FunctionDefinition}s of this {@link Model}.
+   * 
+   * @return the number of {@link FunctionDefinition}s of this {@link Model}.
+   * @deprecated use {@link #getFunctionDefinitionCount()}
+   */
+  @Deprecated
+  public int getNumFunctionDefinitions() {
+    return getFunctionDefinitionCount();
+  }
+  
+  /**
+   * Returns the number of {@link InitialAssignment}s of this {@link Model}.
+   * 
+   * @return the number of {@link InitialAssignment}s of this {@link Model}.
+   * @deprecated use {@link #getInitialAssignmentCount()}
+   */
+  @Deprecated
+  public int getNumInitialAssignments() {
+    return getInitialAssignmentCount();
+  }
+  
+  /**
+   * Returns the number of {@link KineticLaw}s of this {@link Model}.
+   * 
+   * @return the number of {@link KineticLaw}s of this {@link Model}.
+   * @deprecated use {@link #getKineticLawCount()}
+   */
+  @Deprecated
+  public int getNumKineticLaws() {
+    return getKineticLawCount();
+  }
+  
+  /**
+   * Returns the number of {@link ListOf}s of this {@link Model}.
+   * 
+   * @return the number of {@link ListOf}s of this {@link Model}.
+   * @deprecated use {@link #getListOfCount()}
+   */
+  @Deprecated
+  public int getNumListsOf() {
+    return getListOfCount();
+  }
+  
+  /**
+   * Returns the number of parameters that are contained within kineticLaws in
+   * the reactions of this model.
+   * 
+   * @return the number of parameters that are contained within kineticLaws in
+   *         the reactions of this model.
+   * @deprecated use {@link #getLocalParameterCount()}
+   */
+  @Deprecated
+  public int getNumLocalParameters() {
+    return getLocalParameterCount();
+  }
+  
+  /**
+   * Returns the number of elements that can contain math in the {@link Model} .
+   * 
+   * @return the number of elements that can contain math in the {@link Model} .
+   * @see MathContainer
+   * @deprecated use {@link #getMathContainerCount()}
+   */
+  @Deprecated
+  public int getNumMathContainers() {
+    return getMathContainerCount();
+  }
+  
+  /**
+   * Returns the number of {@link ModifierSpeciesReference}s in the
+   * {@link Model}.
+   * 
+   * @return the number of {@link ModifierSpeciesReference}s in the
+   *         {@link Model}.
+   * @deprecated use {@link #getModifierSpeciesReferenceCount()}
+   */
+  @Deprecated
+  public int getNumModifierSpeciesReferences() {
+    return getModifierSpeciesReferenceCount();
   }
   
   /**
@@ -2505,12 +2586,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return the number of {@link NamedSBase}s in the {@link Model}, so elements
    *         that can have a name.
+   * @deprecated use {@link #getNamedSBaseCount()}
    */
-  public int getNamedSBaseCount() {
-    return getNamedSBaseWithDerivedUnitCount() + 1 /* this model */
-        + getSpeciesTypeCount() + getCompartmentTypeCount()
-        + getUnitDefinitionCount() + getEventCount()
-        + getModifierSpeciesReferenceCount();
+  @Deprecated
+  public int getNumNamedSBases() {
+    return getNamedSBaseCount();
   }
   
   /**
@@ -2528,10 +2608,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return getNamedSBaseWithDerivedUnitCount();
   }
   
-  public int getNamedSBaseWithDerivedUnitCount() {
-    return getQuantityCount() + getFunctionDefinitionCount() + getReactionCount();
-  }
-  
   /**
    * Returns the number of {@link Parameter}s of this {@link Model}.
    * 
@@ -2541,15 +2617,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   @Deprecated
   public int getNumParameters() {
     return getParameterCount();
-  }
-  
-  /**
-   * Returns the number of {@link Parameter}s of this {@link Model}.
-   * 
-   * @return the number of {@link Parameter}s of this {@link Model}.
-   */
-  public int getParameterCount() {
-    return isSetListOfParameters() ? listOfParameters.size() : 0;
   }
   
   /**
@@ -2564,15 +2631,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the number of {@link Quantity}s of this {@link Model}.
-   * 
-   * @return the number of {@link Quantity}s of this {@link Model}.
-   */
-  public int getQuantityCount() {
-    return getNumVariables() + getLocalParameterCount();
-  }
-  
-  /**
    * Returns the number of {@link QuantityWithUnit}s of this {@link Model}.
    * 
    * @return the number of {@link QuantityWithUnit}s of this {@link Model}.
@@ -2581,15 +2639,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   @Deprecated
   public int getNumQuantitiesWithUnit() {
     return getQuantityWithUnitCount();
-  }
-  
-  /**
-   * Returns the number of {@link QuantityWithUnit}s of this {@link Model}.
-   * 
-   * @return the number of {@link QuantityWithUnit}s of this {@link Model}.
-   */
-  public int getQuantityWithUnitCount() {
-    return getNumSymbols() + getLocalParameterCount();
   }
   
   /**
@@ -2604,15 +2653,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the number of {@link Reaction}s of this {@link Model}.
-   * 
-   * @return the number of {@link Reaction}s of this {@link Model}.
-   */
-  public int getReactionCount() {
-    return isSetListOfReactions() ? listOfReactions.size() : 0;
-  }
-  
-  /**
    * Returns the number of {@link Rule}s of this {@link Model}.
    * 
    * @return the number of {@link Rule}s of this {@link Model}.
@@ -2621,15 +2661,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   @Deprecated
   public int getNumRules() {
     return getRuleCount();
-  }
-  
-  /**
-   * Returns the number of {@link Rule}s of this {@link Model}.
-   * 
-   * @return the number of {@link Rule}s of this {@link Model}.
-   */
-  public int getRuleCount() {
-    return isSetListOfRules() ? listOfRules.size() : 0;
   }
   
   /**
@@ -2644,21 +2675,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the number of {@link SBase}s of this {@link Model}.
-   * 
-   * @return the number of {@link SBase}s of this {@link Model}.
-   */
-  public int getSBaseCount() {
-    int count = getNamedSBaseCount() - getFunctionDefinitionCount()
-        + getMathContainerCount() + getListOfCount() + getUnitCount() + 1;
-    // one for this model
-    if (getParent() != null) {
-      count++; // the owning SBML document.
-    }
-    return count;
-  }
-  
-  /**
    * Returns the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
    * 
    * @return the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
@@ -2667,16 +2683,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   @Deprecated
   public int getNumSBasesWithDerivedUnit() {
     return getSBaseWithDerivedUnitCount(); 
-  }
-  
-  /**
-   * Returns the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
-   * 
-   * @return the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
-   */
-  public int getSBaseWithDerivedUnitCount() {
-    return getNamedSBaseWithDerivedUnitCount() + getMathContainerCount()
-        - getFunctionDefinitionCount();
   }
   
   /**
@@ -2691,15 +2697,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the number of {@link Species} of this {@link Model}.
-   * 
-   * @return the number of {@link Species} of this {@link Model}.
-   */
-  public int getSpeciesCount() {
-    return isSetListOfSpecies() ? listOfSpecies.size() : 0;
-  }
-  
-  /**
    * Returns the number of {@link SpeciesReferences}s of this {@link Model}.
    * 
    * @return the number of {@link SpeciesReferences}s of this {@link Model}.
@@ -2711,19 +2708,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the number of {@link SpeciesReferences}s of this {@link Model}.
-   * 
-   * @return the number of {@link SpeciesReferences}s of this {@link Model}.
-   */
-  public int getSpeciesReferenceCount() {
-    int count = 0;
-    for (Reaction r : getListOfReactions()) {
-      count += r.getReactantCount() + r.getProductCount();
-    }
-    return count;
-  }
-  
-  /**
    * Returns the number of {@link SpeciesType}s of this {@link Model}.
    * 
    * @return the number of {@link SpeciesType}s of this {@link Model}.
@@ -2732,17 +2716,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   @Deprecated
   public int getNumSpeciesTypes() {
     return getSpeciesTypeCount();
-  }
-  
-  /**
-   * Returns the number of {@link SpeciesType}s of this {@link Model}.
-   * 
-   * @return the number of {@link SpeciesType}s of this {@link Model}.
-   * @deprecated the use of {@link SpeciesType} is not recommended.
-   */
-  @Deprecated
-  public int getSpeciesTypeCount() {
-    return isSetListOfSpeciesTypes() ? listOfSpeciesTypes.size() : 0;
   }
   
   /**
@@ -2759,17 +2732,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the number of {@link Species} whose boundary condition is set to
-   * <code>true</code>.
-   * 
-   * @return the number of {@link Species} whose boundary condition is set to
-   *         <code>true</code>.
-   */
-  public int getSpeciesWithBoundaryConditionCount() {
-    return getListOfSpecies().filterList(new BoundaryConditionFilter()).size();
-  }
-  
-  /**
    * Returns the number of {@link StoichiometryMath} in the {@link Model}.
    * 
    * @return the number of {@link StoichiometryMath} in the {@link Model}.
@@ -2778,28 +2740,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   @Deprecated
   public int getNumStoichiometryMath() {
     return getStoichiometryMathCount();
-  }
-  
-  /**
-   * Returns the number of {@link StoichiometryMath} in the {@link Model}.
-   * 
-   * @return the number of {@link StoichiometryMath} in the {@link Model}.
-   */
-  public int getStoichiometryMathCount() {
-    int count = 0;
-    for (Reaction r : getListOfReactions()) {
-      for (SpeciesReference sr : r.getListOfReactants()) {
-        if (sr.isSetStoichiometryMath()) {
-          count++;
-        }
-      }
-      for (SpeciesReference sr : r.getListOfProducts()) {
-        if (sr.isSetStoichiometryMath()) {
-          count++;
-        }
-      }
-    }
-    return count;
   }
   
   /**
@@ -2817,18 +2757,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the number of all instances of {@link Symbol} referenced within the
-   * model. There is no dedicated list for {@link Symbol}s. This is a convenient
-   * method to support working with the model data structure.
-   * 
-   * @return The number of {@link Compartment}s, {@link Species}, and
-   *         {@link Parameter}s in the model.
-   */
-  public int getSymbolCount() {
-    return getParameterCount() + getSpeciesCount() + getCompartmentCount();
-  }
-  
-  /**
    * Returns the number of {@link Trigger} of this {@link Model}.
    * 
    * @return the number of {@link Trigger} of this {@link Model}.
@@ -2837,21 +2765,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   @Deprecated
   public int getNumTriggers() {
     return getTriggerCount();
-  }
-  
-  /**
-   * Returns the number of {@link Trigger} of this {@link Model}.
-   * 
-   * @return the number of {@link Trigger} of this {@link Model}.
-   */
-  public int getTriggerCount() {
-    int count = 0;
-    for (Event e : getListOfEvents()) {
-      if (e.isSetTrigger()) {
-        count++;
-      }
-    }
-    return count;
   }
   
   /**
@@ -2866,15 +2779,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the number of {@link UnitDefinition}s of this {@link Model}.
-   * 
-   * @return the number of {@link UnitDefinition}s of this {@link Model}.
-   */
-  public int getUnitDefinitionCount() {
-    return isSetListOfUnitDefinitions() ? listOfUnitDefinitions.size() : 0;
-  }
-  
-  /**
    * Returns the number of {@link Unit}s of this {@link Model}.
    * 
    * @return the number of {@link Unit}s of this {@link Model}.
@@ -2886,19 +2790,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the number of {@link Unit}s of this {@link Model}.
-   * 
-   * @return the number of {@link Unit}s of this {@link Model}.
-   */
-  public int getUnitCount() {
-    int count = 0;
-    for (UnitDefinition ud : getListOfUnitDefinitions()) {
-      count += ud.getUnitCount();
-    }
-    return count;
-  }
-  
-  /**
    * Returns the number of {@link Variable}s of this {@link Model}.
    * 
    * @return the number of {@link Variable}s of this {@link Model}.
@@ -2907,15 +2798,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   @Deprecated
   public int getNumVariables() {
     return getVariableCount();
-  }
-  
-  /**
-   * Returns the number of {@link Variable}s of this {@link Model}.
-   * 
-   * @return the number of {@link Variable}s of this {@link Model}.
-   */
-  public int getVariableCount() {
-    return getSymbolCount() + getSpeciesReferenceCount();
   }
   
   /**
@@ -2941,6 +2823,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return getListOfParameters().firstHit(new NameFilter(id));
   }
   
+  /**
+   * Returns the number of {@link Parameter}s of this {@link Model}.
+   * 
+   * @return the number of {@link Parameter}s of this {@link Model}.
+   */
+  public int getParameterCount() {
+    return isSetListOfParameters() ? listOfParameters.size() : 0;
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getParent()
    */
@@ -2952,7 +2843,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Returns a UnitDefinition representing one of the predefined units of SBML,
    * returns null if the given unit kind is not a valid one for the SBML level
-   * and version of this <code>Model</code>.
+   * and version of this {@link Model}.
    * 
    * @param unitKind
    *        a unit kind for one of the predefined units from the SBML
@@ -2961,6 +2852,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         null if the unitKind is invalid.
    */
   public UnitDefinition getPredefinedUnitDefinition(String unitKind) {
+    // TODO: This might be more efficient than ALWAYS storing ALL base units in the listOfPredefinedUnits:
+//    if ((unitKind != null) && !unitKind.isEmpty()) {
+//      int level = getLevel(), version = getVersion();
+//      if (Unit.isUnitKind(unitKind, level, version)) {
+//        UnitDefinition ud = new UnitDefinition(unitKind + "_base", level, version);
+//        ud.addUnit(Unit.Kind.valueOf(unitKind.toUpperCase()));
+//        return ud;
+//      }
+//    }
     if (listOfPredefinedUnitDefinitions != null) {
       for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) {
         // TODO: It can never happen that a unitDef has the id that is a unit kind.
@@ -2973,7 +2873,25 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return null;
   }
-
+  
+  /**
+   * Returns the number of {@link Quantity}s of this {@link Model}.
+   * 
+   * @return the number of {@link Quantity}s of this {@link Model}.
+   */
+  public int getQuantityCount() {
+    return getNumVariables() + getLocalParameterCount();
+  }
+  
+  /**
+   * Returns the number of {@link QuantityWithUnit}s of this {@link Model}.
+   * 
+   * @return the number of {@link QuantityWithUnit}s of this {@link Model}.
+   */
+  public int getQuantityWithUnitCount() {
+    return getNumSymbols() + getLocalParameterCount();
+  }
+  
   /**
    * Gets the n-th {@link Reaction} object in this Model.
    * 
@@ -2983,7 +2901,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Reaction getReaction(int n) {
     return getListOfReactions().get(n);
   }
-
+  
   /**
    * Returns the {@link Reaction} of the {@link #listOfReactions} which has 'id' as id.
    * 
@@ -2998,6 +2916,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       return (Reaction) found;
     }
     return null;
+  }
+  
+  /**
+   * Returns the number of {@link Reaction}s of this {@link Model}.
+   * 
+   * @return the number of {@link Reaction}s of this {@link Model}.
+   */
+  public int getReactionCount() {
+    return isSetListOfReactions() ? listOfReactions.size() : 0;
   }
   
   /**
@@ -3023,6 +2950,40 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     Rule rule = listOfRules.firstHit(new AssignmentVariableFilter(variable));
     return (rule != null) && (rule instanceof ExplicitRule) ? (ExplicitRule) rule
         : null;
+  }
+  
+  /**
+   * Returns the number of {@link Rule}s of this {@link Model}.
+   * 
+   * @return the number of {@link Rule}s of this {@link Model}.
+   */
+  public int getRuleCount() {
+    return isSetListOfRules() ? listOfRules.size() : 0;
+  }
+  
+  /**
+   * Returns the number of {@link SBase}s of this {@link Model}.
+   * 
+   * @return the number of {@link SBase}s of this {@link Model}.
+   */
+  public int getSBaseCount() {
+    int count = getNamedSBaseCount() - getFunctionDefinitionCount()
+        + getMathContainerCount() + getListOfCount() + getUnitCount() + 1;
+    // one for this model
+    if (getParent() != null) {
+      count++; // the owning SBML document.
+    }
+    return count;
+  }
+  
+  /**
+   * Returns the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
+   * 
+   * @return the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
+   */
+  public int getSBaseWithDerivedUnitCount() {
+    return getNamedSBaseWithDerivedUnitCount() + getMathContainerCount()
+        - getFunctionDefinitionCount();
   }
   
   /**
@@ -3053,6 +3014,28 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
+   * Returns the number of {@link Species} of this {@link Model}.
+   * 
+   * @return the number of {@link Species} of this {@link Model}.
+   */
+  public int getSpeciesCount() {
+    return isSetListOfSpecies() ? listOfSpecies.size() : 0;
+  }
+  
+  /**
+   * Returns the number of {@link SpeciesReferences}s of this {@link Model}.
+   * 
+   * @return the number of {@link SpeciesReferences}s of this {@link Model}.
+   */
+  public int getSpeciesReferenceCount() {
+    int count = 0;
+    for (Reaction r : getListOfReactions()) {
+      count += r.getReactantCount() + r.getProductCount();
+    }
+    return count;
+  }
+  
+  /**
    * Gets the nth {@link SpeciesType} object in this Model.
    * 
    * @param n
@@ -3060,6 +3043,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the nth {@link SpeciesType} of this Model. Returns null if there
    *         are no speciesType defined or if the index n is too big or lower
    *         than zero.
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public SpeciesType getSpeciesType(int n) {
@@ -3074,6 +3058,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the {@link SpeciesType} of the {@link #listOfSpeciesTypes} which has 'id' as
    *         id (or name depending on the level and version). <code>null</code> if it doesn't
    *         exist.
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public SpeciesType getSpeciesType(String id) {
@@ -3082,6 +3067,52 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       return (SpeciesType) found;
     }
     return null;
+  }
+  
+  /**
+   * Returns the number of {@link SpeciesType}s of this {@link Model}.
+   * 
+   * @return the number of {@link SpeciesType}s of this {@link Model}.
+   * @deprecated the use of {@link SpeciesType} is not recommended, because this
+   *             data structure is only valid in SBML Level 2 for Versions 2
+   *             through 4.
+   */
+  @Deprecated
+  public int getSpeciesTypeCount() {
+    return isSetListOfSpeciesTypes() ? listOfSpeciesTypes.size() : 0;
+  }
+
+  /**
+   * Returns the number of {@link Species} whose boundary condition is set to
+   * <code>true</code>.
+   * 
+   * @return the number of {@link Species} whose boundary condition is set to
+   *         <code>true</code>.
+   */
+  public int getSpeciesWithBoundaryConditionCount() {
+    return getListOfSpecies().filterList(new BoundaryConditionFilter()).size();
+  }
+
+  /**
+   * Returns the number of {@link StoichiometryMath} in the {@link Model}.
+   * 
+   * @return the number of {@link StoichiometryMath} in the {@link Model}.
+   */
+  public int getStoichiometryMathCount() {
+    int count = 0;
+    for (Reaction r : getListOfReactions()) {
+      for (SpeciesReference sr : r.getListOfReactants()) {
+        if (sr.isSetStoichiometryMath()) {
+          count++;
+        }
+      }
+      for (SpeciesReference sr : r.getListOfProducts()) {
+        if (sr.isSetStoichiometryMath()) {
+          count++;
+        }
+      }
+    }
+    return count;
   }
   
   /**
@@ -3100,14 +3131,26 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the {@link UnitDefinition} which has the substance units ID of this
-   * Model as id.
+   * Returns the {@link UnitDefinition} which has the {@link #substanceUnitsID} of this
+   * {@link Model} as id.
    * 
-   * @return the {@link UnitDefinition} which has the substanceUnitsID of this
-   *         Model as id. Null if it doesn't exist.
+   * @return the {@link UnitDefinition} which has the {@link #substanceUnitsID} of this
+   *         {@link Model} as id. <code>null</code> if it doesn't exist.
    */
   public UnitDefinition getSubstanceUnitsInstance() {
     return getUnitDefinition(getSubstanceUnits());
+  }
+  
+  /**
+   * Returns the number of all instances of {@link Symbol} referenced within the
+   * model. There is no dedicated list for {@link Symbol}s. This is a convenient
+   * method to support working with the model data structure.
+   * 
+   * @return The number of {@link Compartment}s, {@link Species}, and
+   *         {@link Parameter}s in the model.
+   */
+  public int getSymbolCount() {
+    return getParameterCount() + getSpeciesCount() + getCompartmentCount();
   }
   
   /**
@@ -3130,13 +3173,40 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * {@link Model}.
    * 
    * @return the {@link UnitDefinition} representing the time units of this
-   *         {@link Model}, null if it is not defined in this {@link Model}
+   *         {@link Model}, <code>null</code> if it is not defined in this {@link Model}
    */
   public UnitDefinition getTimeUnitsInstance() {
     return getUnitDefinition(getTimeUnits());
   }
   
-
+  /**
+   * Returns the number of {@link Trigger} of this {@link Model}.
+   * 
+   * @return the number of {@link Trigger} of this {@link Model}.
+   */
+  public int getTriggerCount() {
+    int count = 0;
+    for (Event e : getListOfEvents()) {
+      if (e.isSetTrigger()) {
+        count++;
+      }
+    }
+    return count;
+  }
+  
+  /**
+   * Returns the number of {@link Unit}s of this {@link Model}.
+   * 
+   * @return the number of {@link Unit}s of this {@link Model}.
+   */
+  public int getUnitCount() {
+    int count = 0;
+    for (UnitDefinition ud : getListOfUnitDefinitions()) {
+      count += ud.getUnitCount();
+    }
+    return count;
+  }
+  
   /**
    * Gets the nth {@link UnitDefinition} object in this {@link Model}.
    * 
@@ -3148,7 +3218,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public UnitDefinition getUnitDefinition(int n) {
     return getListOfUnitDefinitions().get(n);
   }
-
+  
   /**
    * Returns the {@link UnitDefinition} of the {@link #listOfUnitDefinitions}
    * which has 'id' as id. If no {@link UnitDefinition} are found, we check in the
@@ -3170,6 +3240,24 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
+   * Returns the number of {@link UnitDefinition}s of this {@link Model}.
+   * 
+   * @return the number of {@link UnitDefinition}s of this {@link Model}.
+   */
+  public int getUnitDefinitionCount() {
+    return isSetListOfUnitDefinitions() ? listOfUnitDefinitions.size() : 0;
+  }
+
+  /**
+   * Returns the number of {@link Variable}s of this {@link Model}.
+   * 
+   * @return the number of {@link Variable}s of this {@link Model}.
+   */
+  public int getVariableCount() {
+    return getSymbolCount() + getSpeciesReferenceCount();
+  }
+  
+  /**
    * Returns the volume units ID of this {@link Model}.
    * 
    * @return the volume nits ID of this {@link Model}. Returns an empty String
@@ -3185,11 +3273,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the {@link UnitDefinition} instance which has the volume units ID
+   * Returns the {@link UnitDefinition} instance which has the {@link #volumeUnitsID}
    * of this {@link Model} as id.
    * 
-   * @return the {@link UnitDefinition} instance which has the volume units ID
-   *         of this {@link Model} as id. Null if it doesn't exist
+   * @return the {@link UnitDefinition} instance which has the {@link #volumeUnitsID}
+   *         of this {@link Model} as id. <code>null</code> if it doesn't exist.
    */
   public UnitDefinition getVolumeUnitsInstance() {
     return getUnitDefinition(getVolumeUnits());
@@ -3424,7 +3512,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return true if the listOfCompartmentTypes of this Model is not null and
    *         not empty.
-   * @deprecated
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public boolean isSetListOfCompartmentTypes() {
@@ -3522,7 +3610,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return true if the listOfSpeciesTypes of this Model is not null and not
    *         empty.
-   * @deprecated
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public boolean isSetListOfSpeciesTypes() {
@@ -3574,9 +3662,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if the timeUnitsID of this Model is not null.
+   * Returns <code>true</code> if the timeUnitsID of this {@link Model} is not <code>null</code>.
    * 
-   * @return true if the timeUnitsID of this Model is not null.
+   * @return <code>true</code> if the timeUnitsID of this {@link Model} is not <code>null</code>.
    */
   public boolean isSetTimeUnits() {
     return this.timeUnitsID != null;
@@ -3868,6 +3956,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param n
    *        the index of the {@link Compartment} to remove
    * @return the removed {@link CompartmentType}.
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public CompartmentType removeCompartmentType(int n) {
@@ -3879,6 +3968,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param id
    * @return the removed element.
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public CompartmentType removeCompartmentType(String id) {
@@ -4063,6 +4153,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param n
    * @return the removed element.
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public SpeciesType removeSpeciesType(int n) {
@@ -4074,6 +4165,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param id
    * @return the removed element.
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public SpeciesType removeSpeciesType(String id) {
@@ -4254,7 +4346,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param listOfCompartmentTypes
    *        the listOfCompartmentTypes to set
-   * @deprecated
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public void setListOfCompartmentTypes(
@@ -4417,7 +4509,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param listOfSpeciesTypes
    *        the listOfSpeciesTypes to set
-   * @deprecated
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public void setListOfSpeciesTypes(ListOf<SpeciesType> listOfSpeciesTypes) {
@@ -4551,28 +4643,28 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Sets the areaUnitsID of this {@link Model} to null.
+   * Sets the {@link #areaUnitsID} of this {@link Model} to <code>null</code>.
    */
   public void unsetAreaUnits() {
     setAreaUnits((String) null);
   }
   
   /**
-   * Sets the conversionFactorID of this {@link Model} to null.
+   * Sets the {@link #conversionFactorID} of this {@link Model} to <code>null</code>.
    */
   public void unsetConversionFactor() {
     setConversionFactor((String) null);
   }
   
   /**
-   * Sets the extentUnitsID of this {@link Model} to null.
+   * Sets the {@link #extentUnitsID} of this {@link Model} to <code>null</code>.
    */
   public void unsetExtentUnits() {
     setExtentUnits((String) null);
   }
   
   /**
-   * Sets the lengthUnitsID of this {@link Model} to null.
+   * Sets the {@link #lengthUnitsID} of this {@link Model} to <code>null</code>.
    */
   public void unsetLengthUnits() {
     setLengthUnits((String) null);
@@ -4601,7 +4693,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return <code>true</code> if calling this method lead to a change in this
    *         data structure.
-   * @deprecated
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public boolean unsetListOfCompartmentTypes() {
@@ -4756,7 +4848,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return <code>true</code> if calling this method lead to a change in this
    *         data structure.
-   * @deprecated
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public boolean unsetListOfSpeciesTypes() {
@@ -4796,14 +4888,21 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Sets the timeUnitsID of this {@link Model} to null.
+   * Sets the {@link #substanceUnitsID} of this {@link Model} to <code>null</code>.
+   */
+  public void unsetSubstanceUnits() {
+    setSubstanceUnits((String) null);
+  }
+
+  /**
+   * Sets the timeUnitsID of this {@link Model} to <code>null</code>.
    */
   public void unsetTimeUnits() {
     setTimeUnits((String) null);
   }
-
+  
   /**
-   * Sets the volumeUnitsID of this {@link Model} to null.
+   * Sets the {@link #volumeUnitsID} of this {@link Model} to <code>null</code>.
    */
   public void unsetVolumeUnits() {
     setVolumeUnits((String) null);
@@ -4815,7 +4914,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    
+
     if (getLevel() > 2) {
       if (isSetSubstanceUnits()) {
         attributes.put("substanceUnits", getSubstanceUnits());

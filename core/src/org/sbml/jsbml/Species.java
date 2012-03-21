@@ -20,9 +20,11 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -40,6 +42,11 @@ public class Species extends Symbol {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 4427015656530890393L;
+	
+	/**
+	 * A {@link Logger} for this class.
+	 */
+	private static final Logger logger = Logger.getLogger(Species.class);
 
 	/**
 	 * True means initial amount is set. False means that an initial
@@ -83,6 +90,7 @@ public class Species extends Symbol {
 	private boolean isSetHasOnlySubstanceUnits = false;
 	/**
 	 * Represents the 'spatialSizeUnits' attribute of a Species element.
+	 * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
 	 */
 	@Deprecated
 	private String spatialSizeUnitsID;
@@ -197,6 +205,7 @@ public class Species extends Symbol {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Symbol#clone()
 	 */
+	@Override
 	public Species clone() {
 		return new Species(this);
 	}
@@ -298,10 +307,20 @@ public class Species extends Symbol {
 	@Override
 	public UnitDefinition getDerivedUnitDefinition() {
 	  UnitDefinition specUnit = super.getDerivedUnitDefinition();
+	  Model model = getModel();
+	  if ((specUnit == null) && (getLevel() > 2) && (model != null) && (model.isSetSubstanceUnits())) {
+	    // According to SBML specification of Level 3 Version 1, page 44, lines 20-22:
+	    specUnit = model.getSubstanceUnitsInstance();
+	  }
 	  Compartment compartment = getCompartmentInstance();
 	  if ((specUnit != null) && !hasOnlySubstanceUnits() && (compartment != null)
 	      && (0d < compartment.getSpatialDimensions())) {
-	    UnitDefinition sizeUnit = getSpatialSizeUnitsInstance();
+	    UnitDefinition sizeUnit; // = getSpatialSizeUnitsInstance();
+	    if ((model != null) && isSetSpatialSizeUnits()) {
+	      sizeUnit = model.getUnitDefinition(getSpatialSizeUnits());
+	    } else {
+	      sizeUnit = compartment.getDerivedUnitDefinition();
+	    }
 	    if (sizeUnit != null) {
 	      UnitDefinition derivedUD = specUnit.clone().divideBy(sizeUnit);
 	      derivedUD.setId(derivedUD.getId() + "_per_" + sizeUnit.getId());
@@ -313,11 +332,9 @@ public class Species extends Symbol {
 	       * If possible, let's return an equivalent unit that is already part of the model
 	       * rather than returning some newly created UnitDefinition:
 	       */
-	      // TODO: There might not be another unit with the same id, but that has an identical listOfUnits. This should be checked here!
-	      Model model = getModel();
 	      if (model != null) {
-	        UnitDefinition ud = model.getUnitDefinition(derivedUD.getId());
-	        if ((ud != null) && (UnitDefinition.areEquivalent(ud, derivedUD))) {
+	        UnitDefinition ud = model.findIdentical(derivedUD);
+	        if (ud != null) {
 	          return ud;
 	        }
 	      }
@@ -398,7 +415,9 @@ public class Species extends Symbol {
 	 * also not possible, an empty {@link String} will be returned.
 	 * 
 	 * @return the spatialSizeUnits of this {@link Species}.
+	 * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
 	 */
+	@Deprecated
 	public String getSpatialSizeUnits() {
 		if (isSetSpatialSizeUnits()) {
 			return spatialSizeUnitsID;
@@ -419,7 +438,9 @@ public class Species extends Symbol {
 	 *         {@link #spatialSizeUnitsID} of this {@link Species} as id or the
 	 *         size unit of the surrounding {@link Compartment}.
 	 *         <code>Null</code> if it doesn't exist.
+	 * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
 	 */
+	@Deprecated
 	public UnitDefinition getSpatialSizeUnitsInstance() {
 		if (isSetSpatialSizeUnits()) {
 			Model model = getModel();
@@ -633,21 +654,23 @@ public class Species extends Symbol {
 		return !amount && isSetValue();
 	}
 
-	/**
-	 * 
-	 * @return true if the spatialSizeUnits of this Species is not null.
-	 * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
-	 */
+  /**
+   * @return <code>true</code> if the spatialSizeUnits of this {@link Species}
+   *         is not <code>null</code>.
+   * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
+   */
 	@Deprecated
 	public boolean isSetSpatialSizeUnits() {
 		return this.spatialSizeUnitsID != null;
 	}
 
-	/**
-	 * 
-	 * @return true if the UnitDefinition which has the spatialSizeUnitsID of
-	 *         this Species as id is not null.
-	 */
+  /**
+   * @return <code>true</code> if the {@link UnitDefinition} which has the
+   *         spatialSizeUnitsID of
+   *         this {@link Species} as id is not <code>null</code>.
+   * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
+   */
+	@Deprecated
 	public boolean isSetSpatialSizeUnitsInstance() {
 		if (getModel() == null) {
 			return false;
@@ -814,7 +837,7 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Sets the compartmentID of this {@link Species} to the id of
+	 * Sets the {@link #compartmentID} of this {@link Species} to the id of
 	 * 'compartment'.
 	 * 
 	 * @param compartment
@@ -828,15 +851,16 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Sets the compartmentID of this {@link Species} to 'compartment'.
+	 * Sets the {@link #compartmentID} of this {@link Species} to 'compartment'.
 	 * 
 	 * @param compartment
 	 */
 	public void setCompartment(String compartment) {
-		if (compartment != null && compartment.trim().length() == 0) {
-			compartment = null; // If we pass the empty String or null, the
-								// value is reset.
+		if ((compartment != null) && (compartment.trim().length() == 0)) {
+			compartment = null; 
+			// If we pass the empty String or null, the value is reset.
 		}
+		// TODO: Check for dimensions of the compartment with respect to spatialDimensions units in this class!
 		if ((compartment == null) || checkIdentifier(compartment)) {
 			String oldCompartment = this.compartmentID;
 			if ((compartment != null) && (compartment.trim().length() == 0)) {
@@ -894,6 +918,13 @@ public class Species extends Symbol {
 			throw new PropertyNotAvailableException(
 					TreeNodeChangeEvent.hasOnlySubstanceUnits, this);
 		}
+		if (hasOnlySubstanceUnits && isSetSpatialSizeUnits()) {
+		  String ud = isSetUnitsInstance() ? UnitDefinition.printUnits(
+		    getSpatialSizeUnitsInstance(), true) : getSpatialSizeUnits();
+		    throw new SBMLException(MessageFormat.format(
+		      "Cannot define that species {0} with spatial size units {1} has only substance units.",
+		      toString(), ud));
+		}
 		Boolean oldHasOnlySubstanceUnits = this.hasOnlySubstanceUnits;
 		this.hasOnlySubstanceUnits = Boolean.valueOf(hasOnlySubstanceUnits);
 		isSetHasOnlySubstanceUnits = true;
@@ -937,23 +968,46 @@ public class Species extends Symbol {
 	 * @deprecated This property is only valid for SBML Level 2 Versions 1 and
 	 *             2.
 	 * @throws PropertyNotAvailableException
-	 *             for inapropriate Level/Version combinations.
+	 *         for inapropriate Level/Version combinations.
+	 * @throws SBMLException
+	 *         in case that {@link #hasOnlySubstanceUnits()} is set to
+	 *         <code>true</code> or the spatial dimensions of the surrounding
+	 *         compartment are zero.
 	 */
 	@Deprecated
-	public void setSpatialSizeUnits(String spatialSizeUnits) {
-		if ((getLevel() != 2) && ((1 != getVersion()) || (2 != getVersion()))) {
-			throw new PropertyNotAvailableException(
-					TreeNodeChangeEvent.spatialSizeUnits, this);
-		}
-		String oldSpatialSizeUnits = this.spatialSizeUnitsID;
-		if ((spatialSizeUnits != null)
-				&& (spatialSizeUnits.trim().length() == 0)) {
-			this.spatialSizeUnitsID = null;
-		} else {
-			this.spatialSizeUnitsID = spatialSizeUnits;
-		}
-		firePropertyChange(TreeNodeChangeEvent.spatialSizeUnits,
-				oldSpatialSizeUnits, this.spatialSizeUnitsID);
+	public void setSpatialSizeUnits(String spatialSizeUnits)
+	    throws PropertyNotAvailableException, SBMLException {
+	  if ((getLevel() != 2) && ((1 != getVersion()) || (2 != getVersion()))) {
+	    throw new PropertyNotAvailableException(
+	      TreeNodeChangeEvent.spatialSizeUnits, this);
+	  }
+	  /* 
+	   * For the rules for semantic check of this attribute see specifications of 
+	   * SBML Level 2 Version 1, page 20, and 
+	   * SBML Level 2 Version 2, page 45, line 5
+	   */
+	  if (hasOnlySubstanceUnits()) {
+	    throw new SBMLException(MessageFormat.format(
+	      "Cannot set spatial size units on species {0} because it has only substance units.",
+	      toString()));
+	  }
+	  Compartment c = getCompartmentInstance();
+	  if ((c != null) && (c.getSpatialDimensions() == 0d)) {
+	    // Note that it is still possible to change the dimensions of the
+	    // compartment later on or to change the entire compartment.
+	    throw new SBMLException(MessageFormat.format(
+	      "Cannot set spatial size units on species {0} because its surrounding compartment has zero dimensions.",
+	      toString()));
+	  }
+	  String oldSpatialSizeUnits = this.spatialSizeUnitsID;
+	  if ((spatialSizeUnits != null)
+	      && (spatialSizeUnits.trim().length() == 0)) {
+	    this.spatialSizeUnitsID = null;
+	  } else {
+	    this.spatialSizeUnitsID = spatialSizeUnits;
+	  }
+	  firePropertyChange(TreeNodeChangeEvent.spatialSizeUnits,
+	    oldSpatialSizeUnits, this.spatialSizeUnitsID);
 	}
 
 	/**
@@ -961,12 +1015,18 @@ public class Species extends Symbol {
 	 * 'spatialSizeUnits'.
 	 * 
 	 * @param spatialSizeUnits
-	 * @deprecated
+	 * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
+	 * @throws PropertyNotAvailableException
+	 *         for inapropriate Level/Version combinations.
+	 * @throws SBMLException
+	 *         in case that {@link #hasOnlySubstanceUnits()} is set to
+	 *         <code>true</code> or the spatial dimensions of the surrounding
+	 *         compartment are zero.
 	 */
 	@Deprecated
-	public void setSpatialSizeUnits(UnitDefinition spatialSizeUnits) {
-		setSpatialSizeUnits(spatialSizeUnits != null ? spatialSizeUnits.getId()
-				: null);
+	public void setSpatialSizeUnits(UnitDefinition spatialSizeUnits)
+	    throws PropertyNotAvailableException, SBMLException {
+	  setSpatialSizeUnits(spatialSizeUnits != null ? spatialSizeUnits.getId() : null);
 	}
 
 	/**
@@ -1055,21 +1115,21 @@ public class Species extends Symbol {
 	}
 
 	/**
-	 * Remove the reference to a {@link Compartment}.
+	 * Remove the reference to a comparmtent.
 	 */
 	public void unsetCompartment() {
 		setCompartment((String) null);
 	}
 
 	/**
-	 * Unsets the conversionFactorID of this {@link Species}.
+	 * Unsets the conversionFactorID of this Species.
 	 */
 	public void unsetConversionFactor() {
 		setConversionFactor((String) null);
 	}
 
 	/**
-	 * Unsets the initialAmount of this {@link Species}.
+	 * Unsets the initialAmount of this Species.
 	 */
 	public void unsetInitialAmount() {
 		amount = false;
@@ -1087,7 +1147,7 @@ public class Species extends Symbol {
 	/**
 	 * Unsets the spatialSizeUnits of this Species
 	 * 
-	 * @deprecated
+	 * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
 	 */
 	@Deprecated
 	public void unsetSpatialSizeUnits() {
@@ -1144,7 +1204,17 @@ public class Species extends Symbol {
 		if (getLevel() == 2) {
 			if ((getVersion() == 1) || (getVersion() == 2)) {
 				if (isSetSpatialSizeUnits()) {
-					attributes.put("spatialSizeUnits", getSpatialSizeUnits());
+				  if (hasOnlySubstanceUnits()) {
+				    logger.warn(MessageFormat.format(
+				      "Attribute spatialSizeUnits got lost because species {0} has only substance units.",
+				      toString()));
+				  } else if (isSetCompartmentInstance() && (getCompartmentInstance().getSpatialDimensions() == 0d)) {
+				    logger.warn(MessageFormat.format(
+				      "Attribute spatialSizeUnits got lost because species {0} is surrounded by a compartment of zero dimensions.",
+				      toString()));
+				  } else {
+				    attributes.put("spatialSizeUnits", getSpatialSizeUnits());
+				  }
 				}
 			}
 			if (getVersion() >= 2) {

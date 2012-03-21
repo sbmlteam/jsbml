@@ -18,8 +18,50 @@ Version 1.0-rc1 (xx-xx-2012)
   - In order to make the API more Java-like, for each getNumXXX method
     a corresponding getXXXCount method has been created and the older
     method has become deprecated now.
+    
+  - The Species class now ensures that its spatial dimensions can only
+    be set if its surrounding compartment does not have zero dimensions
+    and if its hasOnlySubstanceUnits attribute is false. This behavior
+    is specified by the SBML documents for Level 2 Versions 1 and 2, but
+    was not yet implemented.
+    
+  - When trying to derive its UnitDefinition, the Species class now 
+    tries to find an existing unit from the model, rather than returning
+    some UnitDefinition that has not yet been linked to the model.
+
+  - A new JUnitTestClass helps to check if simplification and merging
+    of Units and UnitDefinitions works correctly.
 
 * Bug Fixes:
+
+  - It was forgotten to implement an unsetSubstanceUnits method on the Model
+    class. Thanks to Robert Byrnes for reporting this problem.
+  
+  - The Compartment class did not override the getDerivedUnitDefinition
+    method from its superclass. Hence, it was not possible to inherit
+    Level 3 units from the model.
+    
+  - Also, the Species class did not take inherited Level 3 units from the
+    Model into account. The getDerivedUnitDefinition method now has been
+    corrected.
+
+  - In the Reaction class, the setReversible method only accepted Boolean,
+    no boolean.
+    
+  - Merging of Units was not correct: In cases that scales of two units 
+    could not be evenly merged, just one of both was used, the second scale
+    was ignored. In these cases, however, the scales must be removed and
+    the double-valued multiplier must be used for representation. This is
+    now implemented.
+    
+  - If during the simplification of UnitDefinitions a dimensionless unit
+    was created by canceling terms, scale and multiplier were not merged
+    correctly with other units because in dimensionless units scale was
+    always 0 and multiplier was 1. Now, if some unit cancel, but a number
+    of non-dimensionless units remain, the simplify method checks again
+    the listOfUnits and tries to merge as many units as possible.
+    
+  - Removed old note comment from the SubModel class.
 
   - JSBML could not write negative infinity into SBML files correctly.
   
