@@ -20,9 +20,11 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -38,53 +40,58 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @version $Rev$
  */
 public class Compartment extends Symbol {
+  
+  /**
+   * This message will be displayed if the user tries to set the spatial
+   * dimensions of this element to a value other than 0, 1, 2, or 3.
+   */
+  private static final String ERROR_MESSAGE_INVALID_DIM = "Spatial dimensions must be within {0, 3}, but %f was given.";
 
-	/**
-	 * This message will be displayed if the user tries to set the spatial
-	 * dimensions of this element to a value other than 0, 1, 2, or 3.
-	 */
-	private static final String ERROR_MESSAGE_INVALID_DIM = "Spatial dimensions must be within {0, 3}, but %f was given.";
-	/**
-	 * This is the error message to be displayed if an application tries to set
-	 * units or size attribute for this compartment but the spatial dimensions
-	 * have been set to zero.
-	 */
-	private static final String ERROR_MESSAGE_ZERO_DIM = "Cannot set %s for compartment %s if the spatial dimensions are zero.";
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -1117854029388326636L;
-	/**
-	 * Represents the compartmentType XML attribute of a compartment element. It
-	 * matches a compartmentType id in the model.
-	 */
-	@Deprecated
-	private String compartmentTypeID;
-	/**
-	 * Helper variable to check if spatial dimensions has been set by the user.
-	 */
-	private boolean isSetSpatialDimensions = false;
-	/**
-	 * Represents the outside XML attribute of a compartment element. It matches
-	 * a compartment id in the model instance.
-	 */
-	@Deprecated
-	private String outsideID;
+  /**
+   * This is the error message to be displayed if an application tries to set
+   * units or size attribute for this compartment but the spatial dimensions
+   * have been set to zero.
+   */
+  private static final String ERROR_MESSAGE_ZERO_DIM = "Cannot set %s for compartment %s if the spatial dimensions are zero.";
 
-	/**
-	 * Represents the spatialDimensions XML attribute of a compartment element.
-	 */
-	private Double spatialDimensions;
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final transient Logger logger = Logger.getLogger(Compartment.class);
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -1117854029388326636L;
+  /**
+   * Represents the compartmentType XML attribute of a compartment element. It
+   * matches a compartmentType id in the model.
+   */
+  @Deprecated
+  private String compartmentTypeID;
+  /**
+   * Helper variable to check if spatial dimensions has been set by the user.
+   */
+  private boolean isSetSpatialDimensions = false;
+  /**
+   * Represents the outside XML attribute of a compartment element. It matches
+   * a compartment id in the model instance.
+   */
+  @Deprecated
+  private String outsideID;
+  /**
+   * Represents the spatialDimensions XML attribute of a compartment element.
+   */
+  private Double spatialDimensions;
 
-	/**
-	 * Creates a Compartment instance. By default, if the level is set and is
-	 * superior or equal to 3, sets the compartmentType, outsideID and
-	 * spatialDimension to null.
-	 */
-	public Compartment() {
-		super();
-		initDefaults();
-	}
+  /**
+   * Creates a Compartment instance. By default, if the level is set and is
+   * superior or equal to 3, sets the compartmentType, outsideID and
+   * spatialDimension to null.
+   */
+  public Compartment() {
+    super();
+    initDefaults();
+  }
 
 	/**
 	 * Creates a Compartment instance from a given compartment.
@@ -128,7 +135,7 @@ public class Compartment extends Symbol {
 	public Compartment(int level, int version) {
 		this(null, null, level, version);
 	}
-	
+
 	/**
 	 * Creates a Compartment instance with the given id. 
 	 * 
@@ -138,7 +145,7 @@ public class Compartment extends Symbol {
 		this();
 		setId(id);
 	}
-
+	
 	/**
 	 * Creates a Compartment instance from an id, level and version. By default,
 	 * sets the compartmentType, outsideID and spatialDimension to null.
@@ -195,7 +202,7 @@ public class Compartment extends Symbol {
 		}
 		return equals;
 	}
-	
+
 	/**
 	 * Returns the compartmentType id of this compartment. Return an empty
 	 * String if it is not set.
@@ -208,7 +215,7 @@ public class Compartment extends Symbol {
 	public String getCompartmentType() {
 		return isSetCompartmentType() ? this.compartmentTypeID : "";
 	}
-
+	
 	/**
 	 * Returns the compartmentType instance in Model for this compartment
 	 *         compartmentTypeID. Return null if there is no compartmentType
@@ -222,6 +229,35 @@ public class Compartment extends Symbol {
 	public CompartmentType getCompartmentTypeInstance() {
 		Model m = getModel();
 		return m != null ? m.getCompartmentType(this.compartmentTypeID) : null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getDerivedUnitDefinition()
+	 */
+	@Override
+	public UnitDefinition getDerivedUnitDefinition() {
+	  if ((getLevel() < 3) || isSetUnitsInstance()) {
+	    return super.getDerivedUnitDefinition();
+	  } else if (isSetSpatialDimensions()) { 
+	    double dim = getSpatialDimensions();
+	    if ((dim - ((short) dim) == 0d)) {
+	      Model model = getModel();
+	      if (model != null) {
+	        // Look into the model for inherited units
+	        switch ((short) dim) {
+	        case 1:
+	          return model.isSetLengthUnitsInstance() ? model.getLengthUnitsInstance() : null;
+	        case 2:
+	          return model.isSetAreaUnitsInstance() ? model.getAreaUnitsInstance() : null;
+	        case 3:
+	          return model.isSetVolumeUnitsInstance() ? model.getVolumeUnitsInstance() : null;
+	        default:
+	          break;
+	        }
+	      }
+	    }
+	  }
+	  return null;
 	}
 
 	/**
@@ -879,12 +915,11 @@ public class Compartment extends Symbol {
 						.toString((short) getSpatialDimensions()) : StringTools
 						.toString(en, getSpatialDimensions()));
 				if ((level < 3)
-						&& (((short) getSpatialDimensions())
-								- getSpatialDimensions() != 0d)) {
-					// TODO: Throw Exception?
-					System.err.printf(
-							"Illegal non-integer spatial dimensions %d.\n",
-							getSpatialDimensions());
+				    && (((short) getSpatialDimensions())
+				        - getSpatialDimensions() != 0d)) {
+				  logger.warn(MessageFormat.format(
+				    "Illegal non-integer spatial dimensions {0,number}.",
+				    getSpatialDimensions()));
 				}
 			}
 			if (isSetSize()) {

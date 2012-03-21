@@ -241,8 +241,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 			return null;
 		} else if (!(isPredefined(id, level) || (Unit.isUnitKind(id, level,
 				version)))) {
-			logger.debug(String.format(
-					"No such predefined unit %s in SBML Level %d.", id, level));
+		  logger.warn(MessageFormat.format(
+		    "No such predefined unit {0} in SBML Level {1,number,integer}.", id, level));
 			
 			return null;
 		}
@@ -265,9 +265,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 			try {
 				kind = Kind.valueOf(id.toUpperCase());
 			} catch (IllegalArgumentException exc) {
-				logger.warn(String.format(
-						"No such unit kind %s in SBML Level %d Version %d", id,
-						level, version));
+			  logger.warn(MessageFormat.format(
+			    "No such unit kind {0} in SBML Level {1,number,integer} Version {1,number,integer}", id,
+			    level, version));
 				return null;
 			}
 			u.setKind(kind);
@@ -378,8 +378,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 					sb.append(unit.toString());
 				} else {
 					sb.append(unit.getKind().getName().toLowerCase());
-					sb.append(String.format(
-							" (exponent = %s, multiplier = %s, scale = %d)",
+					sb.append(MessageFormat.format(
+							" (exponent = {0}, multiplier = {1}, scale = {2})",
 							StringTools.toString(unit.getExponent()),
 							StringTools.toString(unit.getMultiplier()),
 							unit.getScale()));
@@ -390,31 +390,32 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Orders alphabetically the Unit objects within the ListOfUnits of a
-	 * UnitDefinition.
+	 * Orders alphabetically the {@link Unit} objects within the
+	 * {@link #listOfUnits} of a {@link UnitDefinition}.
 	 * 
 	 * @param ud
-	 *            the UnitDefinition object whose units are to be reordered.
+	 *        the {@link UnitDefinition} object whose {@link Unit}s are to be
+	 *        reordered.
 	 */
 	public static void reorder(UnitDefinition ud) {
-		if (1 < ud.getUnitCount()) {
-			ListOf<Unit> orig = ud.getListOfUnits();
-			ListOf<Unit> units = new ListOf<Unit>(ud.getLevel(), ud.getVersion());
-			units.setSBaseListType(Type.listOfUnits);
-			orig.removeAllTreeNodeChangeListeners();
-			units.add(orig.remove(orig.size() - 1));
-			int i, j;
-			for (i = orig.size() - 1; i >= 0; i--) {
-				Unit u = orig.remove(i);
-				j = 0;
-				while ((j < units.size())
-						&& (0 < u.getKind().compareTo(units.get(j).getKind()))) {
-					j++;
-				}
-				units.add(j, u);
-			}
-			ud.setListOfUnits(units);
-		}
+	  if (1 < ud.getUnitCount()) {
+	    ListOf<Unit> orig = ud.getListOfUnits();
+	    ListOf<Unit> units = new ListOf<Unit>(ud.getLevel(), ud.getVersion());
+	    units.setSBaseListType(Type.listOfUnits);
+	    orig.removeAllTreeNodeChangeListeners();
+	    units.add(orig.remove(orig.size() - 1));
+	    int i, j;
+	    for (i = orig.size() - 1; i >= 0; i--) {
+	      Unit u = orig.remove(i);
+	      j = 0;
+	      while ((j < units.size())
+	          && (0 < u.getKind().compareTo(units.get(j).getKind()))) {
+	        j++;
+	      }
+	      units.add(j, u);
+	    }
+	    ud.setListOfUnits(units);
+	  }
 	}
 
 	/**
@@ -605,25 +606,28 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public UnitDefinition divideBy(UnitDefinition definition) {
 		ListOf<Unit> listOfUnits = getListOfUnits();
 		Unit twinunit;
+	    // Avoid creation of not needed empty list:
+	    if (definition.isSetListOfUnits()) {
+		  for (Unit unit1 : definition.getListOfUnits()) {
+		    Unit unit = unit1.clone();
+		    if (!(unit.isDimensionless() || unit.isInvalid())) {
+		      unit.setExponent(-unit1.getExponent());
 
-		for (Unit unit1 : definition.getListOfUnits()) {
-			Unit unit = unit1.clone();
-			if (!(unit.isDimensionless() || unit.isInvalid())) {
-				unit.setExponent(-unit1.getExponent());
+		      // can not add the same unit twice to the list, raise exponent
+		      // instead
+		      // TODO: Instead of a simple contains, look for units of same kind and perform merge!
+		      if (listOfUnits.contains(unit)) {
 
-				// can not add the same unit twice to the list, raise exponent
-				// instead
-				if (listOfUnits.contains(unit)) {
+		        twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
 
-					twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
+		        twinunit.setExponent(twinunit.getExponent()
+		          + unit.getExponent());
 
-					twinunit.setExponent(twinunit.getExponent()
-							+ unit.getExponent());
-
-				} else {
-					addUnit(unit.clone());
-				}
-			}
+		      } else {
+		        addUnit(unit.clone());
+		      }
+		    }
+		  }
 		}
 		return this;
 	}
@@ -981,24 +985,27 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public UnitDefinition multiplyWith(UnitDefinition definition) {
 		ListOf<Unit> listOfUnits = getListOfUnits();
 		Unit twinunit;
+	    // Avoid creation of not needed empty list:
+	    if (definition.isSetListOfUnits()) {
+		  for (Unit unit : definition.getListOfUnits()) {
 
-		for (Unit unit : definition.getListOfUnits()) {
+		    // can not add the same unit twice to the list, raise exponent
+		    // instead
+		    // TODO: Instead of a simple contains, look for units of same kind and perform merge!
+		    if (listOfUnits.contains(unit)) {
 
-			// can not add the same unit twice to the list, raise exponent
-			// instead
-			if (listOfUnits.contains(unit)) {
+		      twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
 
-				twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
+		      if (!(twinunit.isDimensionless() || twinunit.isInvalid())) {
+		        twinunit.setExponent(twinunit.getExponent()
+		          + unit.getExponent());
+		      }
 
-				if (!(twinunit.isDimensionless() || twinunit.isInvalid())) {
-					twinunit.setExponent(twinunit.getExponent()
-							+ unit.getExponent());
-				}
+		    } else {
+		      addUnit(unit.clone());
+		    }
 
-			} else {
-				addUnit(unit.clone());
-			}
-
+		  }
 		}
 		return this;
 	}
@@ -1017,7 +1024,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 			for (int i = listOfUnits.size() - 1; i >= 0; i--) {
 				u = listOfUnits.get(i);
 				u.setExponent(u.getExponent() * exponent);
-				if (u.getExponent() == 0) {
+				if (u.getExponent() == 0d) {
 					listOfUnits.remove(i);
 				}
 			}
@@ -1091,62 +1098,71 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return a pointer to the simplified {@link UnitDefinition}.
 	 */
 	public UnitDefinition simplify() {
-		if (isSetListOfUnits()) {
-			reorder(this);
-			// Merge units with equivalent or similar kinds if possible:
-			for (int i = getUnitCount() - 2; i >= 0; i--) {
-				Unit u = getUnit(i); // current unit
-				Unit s = getUnit(i + 1); // successor unit
-				if (Unit.Kind.areEquivalent(u.getKind(), s.getKind())
-						|| u.isDimensionless() || s.isDimensionless()
-						|| u.isInvalid() || s.isInvalid()) {
-					if (s.isDimensionless()) {
-						Unit.merge(u, removeUnit(i + 1));
-					} else {
-						Unit.merge(s, removeUnit(i));
-					}
-				}
-			}
-			// Shift scales and multipliers to the front if possible:
-			// TODO: Reorder all units first to have all those with a positive exponent in the front!
-			for (int i = getUnitCount() - 2; i >= 0; i--) {
-        Unit u = getUnit(i); // current unit
-        Unit s = getUnit(i + 1); // successor unit
-        if (!Unit.Kind.areEquivalent(u.getKind(), s.getKind())
-            && !u.isDimensionless() && !s.isDimensionless()
-            && !u.isInvalid() && !s.isInvalid()) {
-          //          double m1 = u.getMultiplier();
-          //          double m2 = s.getMultiplier();
-          int s1 = u.getScale();
-          int s2 = s.getScale();
-          double e1 = u.getExponent();
-          double e2 = s.getExponent();
-          double p1 = s1 * e1;
-          double p2 = s2 * e2;
-          // Try re-scaling by merging the scale of the second unit into the first unit:
-          if ((Math.signum(p1) != Math.signum(p2)) && (e1 != 0d)) {
-            double newScale = s1 + p2 / e1;
-            if (((i > 1) || ((s1 != 0) && (s2 != 0))) && (newScale - ((int) newScale) == 0)) {
-              /*
-               * Only re-scale if we can obtain an integer and if there is more
-               * than two units in the list (otherwise it is not necessary to
-               * simplify these units), i.e., loss-free rounding.
-               */
-              u.setScale((int) newScale);
-              s.setScale(0);
-            }
-          }
-          /*
-           * Better do not try to remove the multiplier from the second unit
-           * because this can lead to very strange numbers. Often multipliers
-           * are strictly bound to one unit, for instance, 3600 * second (which
-           * is hour). When shifting the multiplier to the next unit in the
-           * front, the result might become very strange.
-           */
-        }
-      }
-		}
-		return this;
+	  if (isSetListOfUnits()) {
+	    reorder(this);
+	    Unit u, s;
+	    // Merge units with equivalent or similar kinds if possible:
+	    for (int i = getUnitCount() - 2; i >= 0; i--) {
+	      u = getUnit(i); // current unit
+	      s = getUnit(i + 1); // successor unit
+	      if (Unit.Kind.areEquivalent(u.getKind(), s.getKind())
+	          || u.isDimensionless() || s.isDimensionless()
+	          || u.isInvalid() || s.isInvalid()) {
+	        if (s.isDimensionless()) {
+	          Unit.merge(u, removeUnit(i + 1));
+	        } else {
+	          Unit.merge(s, removeUnit(i));
+	        }
+	      }
+	    }
+
+	    // Remove units that have become dimensionless by merging with subsequent units
+	    while ((getUnitCount() > 1) && (getUnit(0).getKind().equals(Kind.DIMENSIONLESS))) {
+	      u = removeUnit(0);
+	      Unit.merge(getUnit(0), u);
+	    }
+
+	    // TODO: Reorder all units first to have all those with a positive exponent in the front!
+
+	    // Shift scales and multipliers to the front if possible:
+	    for (int i = getUnitCount() - 2; i >= 0; i--) {
+	      u = getUnit(i); // current unit
+	      s = getUnit(i + 1); // successor unit
+	      if (!Unit.Kind.areEquivalent(u.getKind(), s.getKind())
+	          && !u.isDimensionless() && !s.isDimensionless()
+	          && !u.isInvalid() && !s.isInvalid()) {
+	        //          double m1 = u.getMultiplier();
+	        //          double m2 = s.getMultiplier();
+	        int s1 = u.getScale();
+	        int s2 = s.getScale();
+	        double e1 = u.getExponent();
+	        double e2 = s.getExponent();
+	        double p1 = s1 * e1;
+	        double p2 = s2 * e2;
+	        // Try re-scaling by merging the scale of the second unit into the first unit:
+	        if ((Math.signum(p1) != Math.signum(p2)) && (e1 != 0d)) {
+	          double newScale = s1 + p2 / e1;
+	          if (((i > 1) || ((s1 != 0) && (s2 != 0))) && (newScale - ((int) newScale) == 0)) {
+	            /*
+	             * Only re-scale if we can obtain an integer and if there is more
+	             * than two units in the list (otherwise it is not necessary to
+	             * simplify these units), i.e., loss-free rounding.
+	             */
+	            u.setScale((int) newScale);
+	            s.setScale(0);
+	          }
+	        }
+	        /*
+	         * Better do not try to remove the multiplier from the second unit
+	         * because this can lead to very strange numbers. Often multipliers
+	         * are strictly bound to one unit, for instance, 3600 * second (which
+	         * is hour). When shifting the multiplier to the next unit in the
+	         * front, the result might become very strange.
+	         */
+	      }
+	    }
+	  }
+	  return this;
 	}
 
 	/**

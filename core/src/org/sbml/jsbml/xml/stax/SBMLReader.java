@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -916,10 +917,10 @@ public class SBMLReader {
 					processAttributes(att, currentNode, sbmlElements, parser, hasAttributes, isInsideAnnotation, isRDFSBMLspecificAnnotation);
 
 				} else {
-					logger.warn(String.format("Cannot find a parser for the %s namespace", elementNamespace));				
+					logger.warn(MessageFormat.format("Cannot find a parser for the {0} namespace", elementNamespace));				
 				}
 			} else {
-				logger.warn(String.format("Cannot find a parser for the %s namespace", elementNamespace));			
+				logger.warn(MessageFormat.format("Cannot find a parser for the {0} namespace", elementNamespace));			
 			}
 		}
 		

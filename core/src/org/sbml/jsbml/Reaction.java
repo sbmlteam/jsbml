@@ -136,7 +136,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 			registerChild(listOfModifiers);
 		}
 		if (reaction.isSetReversible()) {
-			setReversible(new Boolean(reaction.getReversible()));
+			setReversible(reaction.getReversible());
 		} else {
 			reversible = reaction.reversible == null ? null : new Boolean(reaction.reversible.booleanValue());
 		}
@@ -1286,7 +1286,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 * 
 	 * @param reversible
 	 */
-	public void setReversible(Boolean reversible) {
+	public void setReversible(boolean reversible) {
 		Boolean oldReversible = this.reversible;
 		this.reversible = Boolean.valueOf(reversible);
 		isSetReversible = true;

@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml.xml.parsers;
 
+import java.text.MessageFormat;
+
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.Creator;
@@ -74,12 +76,8 @@ public class VCardParser implements ReadingParser {
 		return Creator.URI_RDF_VCARD_NS;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String
-	 * elementName, String attributeName, String value, String prefix, boolean
-	 * isLastAttribute, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String elementName, String attributeName, String value, String prefix, boolean isLastAttribute, Object contextObject)
 	 */
 	public void processAttribute(String elementName, String attributeName,
 			String value, String prefix, boolean isLastAttribute,
@@ -90,11 +88,8 @@ public class VCardParser implements ReadingParser {
 		
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String
-	 * elementName, String characters, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String elementName, String characters, Object contextObject)
 	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
@@ -134,11 +129,8 @@ public class VCardParser implements ReadingParser {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument
-	 * sbmlDocument)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 		hasReadEMAIL = false;
@@ -149,11 +141,8 @@ public class VCardParser implements ReadingParser {
 		hasReadOrgName = false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
-	 * elementName, String prefix, boolean isNested, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String elementName, String prefix, boolean isNested, Object contextObject)
 	 */
 	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
@@ -183,12 +172,8 @@ public class VCardParser implements ReadingParser {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String
-	 * elementName, String URI, String prefix, String localName, boolean
-	 * hasAttributes, boolean isLastNamespace, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix, String localName, boolean hasAttributes, boolean isLastNamespace, Object contextObject)
 	 */
 	public void processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
@@ -204,12 +189,8 @@ public class VCardParser implements ReadingParser {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String
-	 * elementName, String prefix, boolean hasAttribute, boolean hasNamespaces,
-	 * Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix, boolean hasAttribute, boolean hasNamespaces, Object contextObject)
 	 */
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttribute, boolean hasNamespaces, Object contextObject) {
@@ -244,12 +225,16 @@ public class VCardParser implements ReadingParser {
 					&& !hasReadOrgName) {
 				hasReadOrgName = true;
 			} else {
-				logger.warn("The element 'vCard:" + elementName + "' is an additional vCard element not described in the SBML specs.");
+				logger.warn(MessageFormat.format(
+				  "The element 'vCard:{0}' is an additional vCard element not described in the SBML specifications.", 
+				  elementName));
 			}
 		} else {
-			logger.warn("Lost Information : the element '" + elementName + "' might be lost"
-					+ " as the context object is not a Creator.");
+		  logger.warn(MessageFormat.format(
+		    "Lost Information: the element '{0}' might be lost as the context object is not a Creator.", 
+		    elementName));
 		}
 		return contextObject;
 	}
+
 }

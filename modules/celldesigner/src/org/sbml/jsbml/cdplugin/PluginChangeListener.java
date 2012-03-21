@@ -14,7 +14,7 @@
  * <http://www.gnu.org/licenses/lgpl-3.0-standalone.html>.
  * ---------------------------------------------------------------------
  */
-package src.org.sbml.jsbml.cdplugin;
+package org.sbml.jsbml.cdplugin;
 
 import java.beans.PropertyChangeEvent;
 import java.util.Enumeration;
@@ -566,7 +566,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.version)) {
 			AbstractSBase asb = (AbstractSBase) eventsource;
-			asb.setVersion((int) event.getNewValue());
+			asb.setVersion(((Integer) event.getNewValue()).intValue());
 			PluginSBase base = getCorrespondingElementInJSBML(asb);
 			plugin.notifySBaseChanged(base);
 		} else if (prop.equals(TreeNodeChangeEvent.volume)) {

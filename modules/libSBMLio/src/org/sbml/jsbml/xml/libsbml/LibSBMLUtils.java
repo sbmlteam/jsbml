@@ -390,7 +390,7 @@ public class LibSBMLUtils {
 		default:
 			break;
 		}
-		for (int j = 0; j < t.getNumResources(); j++) {
+		for (int j = 0; j < t.getResourceCount(); j++) {
 			libCVt.addResource(t.getResourceURI(j));
 		}
 		return libCVt;
@@ -464,7 +464,7 @@ public class LibSBMLUtils {
 			boolean contains = false;
 			boolean nothingSet = true;
 			org.sbml.libsbml.ModelCreator moc = mo.getCreator(i);
-			for (int j = 0; j < history.getNumCreators() && !contains; j++) {
+			for (int j = 0; (j < history.getCreatorCount()) && !contains; j++) {
 				Creator mc = history.getCreator(j);
 				contains = moc.isSetEmail() == mc.isSetEmail();
 				if (moc.isSetEmail() && mc.isSetEmail()) {
@@ -532,9 +532,9 @@ public class LibSBMLUtils {
 	 */
 	public static int getContraintIndex(Constraint con, org.sbml.jsbml.SBMLDocument doc) {
 		int index = 0;
-		for (int k=0; k<doc.getModel().getListOfConstraints().size(); k++){
+		for (int k = 0; k < doc.getModel().getListOfConstraints().size(); k++){
 			Constraint c = doc.getModel().getConstraint(k);
-			if(c.equals(con)){
+			if (c.equals(con)){
 				index = k;
 				break;
 			}
@@ -573,9 +573,9 @@ public class LibSBMLUtils {
 	 */
 	public static long getCreatorIndex(Creator creator, org.sbml.jsbml.SBMLDocument doc) {
 		int index = 0;
-		for (int k=0; k<doc.getHistory().getNumCreators(); k++){
+		for (int k = 0; k < doc.getHistory().getCreatorCount(); k++){
 			Creator c = doc.getHistory().getCreator(k);
-			if(c.equals(creator)){
+			if (c.equals(creator)){
 				index = k;
 				break;
 			}
@@ -591,9 +591,9 @@ public class LibSBMLUtils {
 	 */
 	public static int getUnitIndex(Unit unit, UnitDefinition udef) {
 		int index = 0;
-		for (int k=0; k<udef.getListOfUnits().size();k++){
+		for (int k = 0; k < udef.getListOfUnits().size();k++){
 			Unit u = udef.getUnit(k);
-			if(u.equals(unit)){
+			if (u.equals(unit)){
 				index = k;
 				break;
 			}
@@ -762,7 +762,6 @@ public class LibSBMLUtils {
 	 * @param sbase
 	 * @param libSBase
 	 */
-	@SuppressWarnings("deprecation")
 	public static void transferNamedSBaseProperties(SBase sbase, org.sbml.libsbml.SBase libSBase){
 		if (((org.sbml.jsbml.NamedSBase) sbase).isSetName()){
 			libSBase.setName(((org.sbml.jsbml.NamedSBase) sbase).getName());

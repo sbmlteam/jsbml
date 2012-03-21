@@ -1059,41 +1059,68 @@ public class Unit extends AbstractSBase {
 	    double newScale = s1;
 	    double newMultiplier = m1;
 	    double newExponent = e1 + e2;
+	    boolean removeScale = false;
 
 	    if (newExponent != 0d) {
 
+	      /*
+	       * Now that we know how the new exponent must look like we have to reset
+	       * exponents of dimensionless units as these are defined. Otherwise
+	       * scales and multipliers might get lost.
+	       */
+	      if (k1 == Kind.DIMENSIONLESS) {
+	        e1 = unit1.getExponent();
+	      }
+	      if (k2 == Kind.DIMENSIONLESS) {
+	        e2 = unit2.getExponent();
+	      }
+	      
 	      if (m1 != m2) {
-	        newMultiplier = Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1 / newExponent);
+	        newMultiplier = Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1d / newExponent);
 	      }
 	      if (s1 != s2) {
 	        if (s1 == 0) {
-	          newScale = s2 * e2 / newExponent;
-	          if (newScale - ((int) newScale) != 0d) {
-	            // If rounding fails, just keep the previous scale:
-	            newScale = s2;
+	          double ns = s2 * e2 / newExponent;
+	          if (ns - ((int) ns) == 0d) {
+	            newScale = ns;
+	          } else {
+	            /*
+	             * If rounding fails, we have to remove the scale and shift it to
+	             * the multiplier. Otherwise, it would be too inaccurate.
+	             */
+	            removeScale = true;
 	          }
 	        } else if (s2 == 0) {
-	          newScale = s1 * e1 / newExponent;
-	          if (newScale - ((int) newScale) != 0d) {
-	            // If rounding fails, just keep the previous scale:
-	            newScale = s1;
+	          double ns = s1 * e1 / newExponent;
+	          if (ns - ((int) ns) == 0d) {
+	            newScale = ns;
+	          } else {
+	            // Rounding failed, so we have to remove the scale and use multipliers.
+	            removeScale = true;
 	          }
 	        } else if ((e1 != 0d) && (1 + e2 != 0d)) {
 	          newScale = (s1 + e2 * s2 / e1) / (1 + e2);
 	        } else {
-	          // This is the method from libSBML:
+	          removeScale = true;
+	        }
+	        if (removeScale) {
+	          /*
+	           * This is a bit ugly, but there's no other choice,
+	           * because the scale can only be an integer number. This
+	           * is the method from libSBML:
+	           */
 	          removeScale(unit1);
 	          removeScale(unit2);
-	          newScale = 0;
+	          newScale = 0d;
 	          newExponent = unit1.getExponent() + unit2.getExponent();
-	          if (newExponent == 0) {
-	            newMultiplier = 1;
+	          if (newExponent == 0d) {
+	            newMultiplier = 1d;
 	          } else if (unit1.getMultiplier() != unit2.getMultiplier()) {
 	            m1 = unit1.getMultiplier();
 	            m2 = unit2.getMultiplier();
 	            e1 = unit1.getExponent();
 	            e2 = unit2.getExponent();
-	            newMultiplier = Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1 / newExponent);
+	            newMultiplier = Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1d / newExponent);
 	          }
 	        }
 	      }
@@ -1106,9 +1133,13 @@ public class Unit extends AbstractSBase {
 	      }
 
 	    } else {
-	      // If the unit has become dimentionless, mark it accordingly
-	      newMultiplier = 1d;
-	      newScale = 0d;
+	      /*
+	       * If the unit has become dimentionless, mark it accordingly
+	       * However, we must keep scale and multiplier even in dimensionless
+	       * units because these could become important in later operations.
+	       */
+	      newMultiplier = Math.pow(m1, e1) * Math.pow(m2, e2); // 1d;
+	      newScale = s1 * e1 + s2 * e2; // 0d;
 	      newExponent = 1d;
 	      unit1.setKind(Kind.DIMENSIONLESS);
 	    }
@@ -1409,12 +1440,15 @@ public class Unit extends AbstractSBase {
 		return (ListOf<Unit>) super.getParent();
 	}
 
-	/**
-	 * 
-	 * @return This method returns the prefix of this unit, for instance, "m"
-	 *         for milli, if the scale is -3.
-	 */
-
+  /**
+   * @return This method returns the abbreviated prefix of this {@link Unit},
+   *         for instance, "m" for milli, i.e., if the scale is -3. In case
+   *         that the {@link #scale} equals zero, an empty {@link String} is
+   *         returned. If no defined prefix exists for the current {@link #scale},
+   *         the {@link String} <code>10^(%d)</code> is returned, where 
+   *         <code>%d</code>  denotes the {@link #scale}.
+   * @see #getPrefixAsWord()
+   */
 	public String getPrefix() {
 		if (!isDimensionless()) {
 			switch (getScale()) {
@@ -1439,7 +1473,7 @@ public class Unit extends AbstractSBase {
 			case 1:
 				return "da";
 			case 0:
-				break;
+				return "";
 			case -1:
 				return Character.valueOf('d').toString();
 			case -2:
@@ -1466,11 +1500,14 @@ public class Unit extends AbstractSBase {
 		}
 		return String.format("10^(%d)", getScale());
 	}
-
+	
 	/**
-	 * 
-	 * @return the prefix of this unit, for instance, "m" for milli, if the
-	 *         scale is -3.
+	 * @return the prefix of this {@link Unit}, for instance, "milli" if the {@link #scale} is -3.
+	 *         In case that the {@link #scale} equals zero, an empty {@link String} is
+	 *         returned. If no defined prefix exists for the current {@link #scale},
+	 *         the {@link String} <code>10^(%d)</code> is returned, where 
+	 *         <code>%d</code>  denotes the {@link #scale}.
+	 * @see #getPrefix()
 	 */
 	public String getPrefixAsWord() {
 		if (!isDimensionless()) {
@@ -1496,7 +1533,7 @@ public class Unit extends AbstractSBase {
 			case 1:
 				return "deca";
 			case 0:
-				break;
+				return "";
 			case -1:
 				return "deci";
 			case -2:
@@ -1521,7 +1558,7 @@ public class Unit extends AbstractSBase {
 				break;
 			}
 		}
-		return "";
+		return String.format("10^(%d)", getScale());
 	}
 
 	/**
@@ -2161,8 +2198,8 @@ public class Unit extends AbstractSBase {
 	@Override
 	public String toString() {
 		StringBuffer times = new StringBuffer();
-		if (getMultiplier() != 0) {
-			if (getMultiplier() != 1) {
+		if (getMultiplier() != 0d) {
+			if (getMultiplier() != 1d) {
 				times.append(StringTools.toString(getMultiplier()));
 			}
 			StringBuffer pow = new StringBuffer();
