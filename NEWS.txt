@@ -6,6 +6,35 @@ Version 0.8-rc2 (xx-xx-2012)
 
 * Bug Fixes:
 
+  - It was forgotten to implement an unsetSubstanceUnits method on the Model
+    class. Thanks to Robert Byrnes for reporting this problem.
+  
+  - The Compartment class did not override the getDerivedUnitDefinition
+    method from its superclass. Hence, it was not possible to inherit
+    Level 3 units from the model.
+    
+  - Also, the Species class did not take inherited Level 3 units from the
+    Model into account. The getDerivedUnitDefinition method now has been
+    corrected.
+
+  - In the Reaction class, the setReversible method only accepted Boolean,
+    no boolean.
+    
+  - Merging of Units was not correct: In cases that scales of two units 
+    could not be evenly merged, just one of both was used, the second scale
+    was ignored. In these cases, however, the scales must be removed and
+    the double-valued multiplier must be used for representation. This is
+    now implemented.
+    
+  - If during the simplification of UnitDefinitions a dimensionless unit
+    was created by canceling terms, scale and multiplier were not merged
+    correctly with other units because in dimensionless units scale was
+    always 0 and multiplier was 1. Now, if some unit cancel, but a number
+    of non-dimensionless units remain, the simplify method checks again
+    the listOfUnits and tries to merge as many units as possible.
+    
+  - Removed old note comment from the SubModel class.
+
   - JSBML could not write negative infinity into SBML files correctly.
   
   - The units of formulae containing Advogadro's number could not

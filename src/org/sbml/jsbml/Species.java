@@ -302,10 +302,20 @@ public class Species extends Symbol {
 	@Override
 	public UnitDefinition getDerivedUnitDefinition() {
 		UnitDefinition specUnit = super.getDerivedUnitDefinition();
+		Model model = getModel();
+		if ((specUnit == null) && (getLevel() > 2) && (model != null) && (model.isSetSubstanceUnits())) {
+			// According to SBML specification of Level 3 Version 1, page 44, lines 20-22:
+			specUnit = model.getSubstanceUnitsInstance();
+		}
 		Compartment compartment = getCompartmentInstance();
 		if ((specUnit != null) && !hasOnlySubstanceUnits() && (compartment != null)
 				&& (0d < compartment.getSpatialDimensions())) {
-			UnitDefinition sizeUnit = getSpatialSizeUnitsInstance();
+			UnitDefinition sizeUnit; // = getSpatialSizeUnitsInstance();
+			if ((model != null) && isSetSpatialSizeUnits()) {
+				sizeUnit = model.getUnitDefinition(getSpatialSizeUnits());
+			} else {
+				sizeUnit = compartment.getDerivedUnitDefinition();
+			}
 			if (sizeUnit != null) {
 				UnitDefinition derivedUD = specUnit.clone().divideBy(sizeUnit);
 				derivedUD.setId(derivedUD.getId() + "_per_" + sizeUnit.getId());
@@ -318,7 +328,6 @@ public class Species extends Symbol {
 				 * rather than returning some newly created UnitDefinition:
 				 */
 				// TODO: There might not be another unit with the same id, but that has an identical listOfUnits. This should be checked here!
-				Model model = getModel();
 				if (model != null) {
 					UnitDefinition ud = model.getUnitDefinition(derivedUD.getId());
 					if ((ud != null) && (UnitDefinition.areEquivalent(ud, derivedUD))) {

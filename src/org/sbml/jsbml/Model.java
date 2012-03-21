@@ -4108,7 +4108,7 @@ public int getNumLocalParameters() {
   public void unsetLengthUnits() {
     setLengthUnits((String) null);
   }
-  
+
   /**
    * Removes the {@link #listOfCompartments} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
@@ -4324,6 +4324,13 @@ public int getNumLocalParameters() {
   @Deprecated
   public void unsetModelHistory() {
     unsetHistory();
+  }
+  
+  /**
+   * Sets the {@link #substanceUnitsID} of this {@link Model} to <code>null</code>.
+   */
+  public void unsetSubstanceUnits() {
+    setSubstanceUnits((String) null);
   }
   
   /**

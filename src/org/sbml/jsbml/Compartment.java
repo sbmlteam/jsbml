@@ -227,6 +227,35 @@ public class Compartment extends Symbol {
 		Model m = getModel();
 		return m != null ? m.getCompartmentType(this.compartmentTypeID) : null;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getDerivedUnitDefinition()
+	 */
+	@Override
+	public UnitDefinition getDerivedUnitDefinition() {
+	  if ((getLevel() < 3) || isSetUnitsInstance()) {
+	    return super.getDerivedUnitDefinition();
+	  } else if (isSetSpatialDimensions()) { 
+	    double dim = getSpatialDimensions();
+	    if ((dim - ((short) dim) == 0d)) {
+	      Model model = getModel();
+	      if (model != null) {
+	        // Look into the model for inherited units
+	        switch ((short) dim) {
+	        case 1:
+	          return model.isSetLengthUnitsInstance() ? model.getLengthUnitsInstance() : null;
+	        case 2:
+	          return model.isSetAreaUnitsInstance() ? model.getAreaUnitsInstance() : null;
+	        case 3:
+	          return model.isSetVolumeUnitsInstance() ? model.getVolumeUnitsInstance() : null;
+	        default:
+	          break;
+	        }
+	      }
+	    }
+	  }
+	  return null;
+	}
 
 	/**
 	 * Returns the outside id of this compartment. Return "" if it is not set.

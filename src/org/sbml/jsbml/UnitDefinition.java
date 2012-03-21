@@ -603,23 +603,25 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public UnitDefinition divideBy(UnitDefinition definition) {
 		ListOf<Unit> listOfUnits = getListOfUnits();
 		Unit twinunit;
+		// Avoid creation of not needed empty list:
+		if (definition.isSetListOfUnits()) {
+			for (Unit unit1 : definition.getListOfUnits()) {
+				Unit unit = unit1.clone();
+				if (!(unit.isDimensionless() || unit.isInvalid())) {
+					unit.setExponent(-unit1.getExponent());
 
-		for (Unit unit1 : definition.getListOfUnits()) {
-			Unit unit = unit1.clone();
-			if (!(unit.isDimensionless() || unit.isInvalid())) {
-				unit.setExponent(-unit1.getExponent());
+					// can not add the same unit twice to the list, raise exponent
+					// instead
+					if (listOfUnits.contains(unit)) {
 
-				// can not add the same unit twice to the list, raise exponent
-				// instead
-				if (listOfUnits.contains(unit)) {
+						twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
 
-					twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
+						twinunit.setExponent(twinunit.getExponent()
+								+ unit.getExponent());
 
-					twinunit.setExponent(twinunit.getExponent()
-							+ unit.getExponent());
-
-				} else {
-					addUnit(unit.clone());
+					} else {
+						addUnit(unit.clone());
+					}
 				}
 			}
 		}
@@ -979,24 +981,26 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public UnitDefinition multiplyWith(UnitDefinition definition) {
 		ListOf<Unit> listOfUnits = getListOfUnits();
 		Unit twinunit;
+		
+		// Avoid creation of not needed empty list:
+		if (definition.isSetListOfUnits()) {
+			for (Unit unit : definition.getListOfUnits()) {
 
-		for (Unit unit : definition.getListOfUnits()) {
+				// can not add the same unit twice to the list, raise exponent
+				// instead
+				if (listOfUnits.contains(unit)) {
 
-			// can not add the same unit twice to the list, raise exponent
-			// instead
-			if (listOfUnits.contains(unit)) {
+					twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
 
-				twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
+					if (!(twinunit.isDimensionless() || twinunit.isInvalid())) {
+						twinunit.setExponent(twinunit.getExponent()
+								+ unit.getExponent());
+					}
 
-				if (!(twinunit.isDimensionless() || twinunit.isInvalid())) {
-					twinunit.setExponent(twinunit.getExponent()
-							+ unit.getExponent());
+				} else {
+					addUnit(unit.clone());
 				}
-
-			} else {
-				addUnit(unit.clone());
 			}
-
 		}
 		return this;
 	}
@@ -1015,7 +1019,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 			for (int i = listOfUnits.size() - 1; i >= 0; i--) {
 				u = listOfUnits.get(i);
 				u.setExponent(u.getExponent() * exponent);
-				if (u.getExponent() == 0) {
+				if (u.getExponent() == 0d) {
 					listOfUnits.remove(i);
 				}
 			}
@@ -1093,10 +1097,11 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public UnitDefinition simplify() {
 		if (isSetListOfUnits()) {
 			reorder(this);
+			Unit u, s;
 			// Merge units with equivalent or similar kinds if possible:
 			for (int i = getNumUnits() - 2; i >= 0; i--) {
-				Unit u = getUnit(i); // current unit
-				Unit s = getUnit(i + 1); // successor unit
+				u = getUnit(i); // current unit
+				s = getUnit(i + 1); // successor unit
 				if (Unit.Kind.areEquivalent(u.getKind(), s.getKind())
 						|| u.isDimensionless() || s.isDimensionless()
 						|| u.isInvalid() || s.isInvalid()) {
@@ -1107,10 +1112,19 @@ public class UnitDefinition extends AbstractNamedSBase {
 					}
 				}
 			}
+
+			// Remove units that have become dimensionless by merging with subsequent units
+			while ((getNumUnits() > 1) && (getUnit(0).getKind().equals(Kind.DIMENSIONLESS))) {
+				u = removeUnit(0);
+				Unit.merge(getUnit(0), u);
+			}
+
+			// TODO: Reorder all units first to have all those with a positive exponent in the front!
+
 			// Shift scales and multipliers to the front if possible:
 			for (int i = getNumUnits() - 2; i >= 0; i--) {
-				Unit u = getUnit(i); // current unit
-				Unit s = getUnit(i + 1); // successor unit
+				u = getUnit(i); // current unit
+				s = getUnit(i + 1); // successor unit
 				if (!Unit.Kind.areEquivalent(u.getKind(), s.getKind())
 						&& !u.isDimensionless() && !s.isDimensionless()
 						&& !u.isInvalid() && !s.isInvalid()) {
