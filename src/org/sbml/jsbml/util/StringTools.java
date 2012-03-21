@@ -92,23 +92,46 @@ public class StringTools {
 			sb.append(e);
 		}
 	}
-
+  
 	/**
-	 * This method concatenates two or more object strings into a new
-	 * StringBuffer.
+	 * This method concatenates two or more {@link Object} {@link String}s
+	 * (obtained by calling {@link Object#toString()} if the current
+	 * {@link Object} is not <code>null</code>) into a new {@link StringBuffer}.
 	 * 
-	 * @param buffers
-	 * @return
+	 * @param things
+	 *        to be concatenated
+	 * @return a new {@link StringBuffer} containing all the
+	 *         string-representations of all given {@link Object}s.
 	 */
-	public static final StringBuffer concat(Object... buffers) {
+	public static final StringBuffer concat(Object... things) {
 		StringBuffer res = new StringBuffer();
-		for (Object buffer : buffers) {
-			if (buffer != null) {
-				res.append(buffer.toString());
+		for (Object thing : things) {
+			if (thing != null) {
+				res.append(thing.toString());
 			}
 		}
 		return res;
 	}
+	
+	/**
+	 * This method concatenates two or more {@link Object} {@link String}s
+	 * (obtained by calling {@link Object#toString()} if the current
+	 * {@link Object} is not <code>null</code>) into a new {@link StringBuilder}.
+	 * 
+	 * @param things
+	 *        to be concatenated
+	 * @return a new {@link StringBuilder} containing all the
+	 *         string-representations of all given {@link Object}s.
+	 */
+	 public static final StringBuilder concatStringBuilder(Object... things) {
+	    StringBuilder res = new StringBuilder();
+	    for (Object thing : things) {
+	      if (thing != null) {
+	        res.append(thing.toString());
+	      }
+	    }
+	    return res;
+	  }
 
 	/**
 	 * 

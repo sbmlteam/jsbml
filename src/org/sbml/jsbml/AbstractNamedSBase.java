@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -194,11 +195,11 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 *             if the given id is not valid in this model.
 	 */
 	boolean checkIdentifier(String sID) {
-    if ((sID == null) || !isValidId(sID, getLevel(), getVersion())) {
-      throw new IllegalArgumentException(String.format(
-        "\"%s\" is not a valid identifier for this %s.", sID, getElementName()));
-    }
-		return true;
+	  if ((sID == null) || !isValidId(sID, getLevel(), getVersion())) {
+	    throw new IllegalArgumentException(MessageFormat.format(
+	      "\"{0}\" is not a valid identifier for this {1}.", sID, getElementName()));
+	  }
+	  return true;
 	}
 	
 	/* (non-Javadoc)

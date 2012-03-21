@@ -183,9 +183,9 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	public UnitDefinition getUnitsInstance() {
 		String unitsId = this.unitsID;
 		if (isSetUnits()) {
-			if (Unit.isUnitKind(unitsId, getLevel(), getVersion())) {
-				UnitDefinition ud = new UnitDefinition(unitsId + "_base", getLevel(),
-						getVersion());
+		  int level = getLevel(), version = getVersion();
+			if (Unit.isUnitKind(unitsId, level, version)) {
+				UnitDefinition ud = new UnitDefinition(unitsId + "_base", level, version);
 				ud.addUnit(Unit.Kind.valueOf(unitsId.toUpperCase()));
 				return ud;
 			}
