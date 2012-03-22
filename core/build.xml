@@ -14,7 +14,7 @@
 		<property name="Name" value="JSBML"/>
 		<property name="name" value="jsbml"/>
 		<property name="version" value="1.0-a1"/>
-		<property name="api.version" value="0.8"/>
+		<property name="api.version" value="1.0"/>
 
 		<property name="year" value="${YEAR}"/>
 
@@ -26,7 +26,7 @@
 		<property name="build.compiler" value="modern"/>
 		<property name="build.sysclasspath" value="ignore"/>
 		<property name="debug" value="on"/>
-		<property name="optimize" value="off"/>
+		<property name="optimize" value="on"/>
 		<property name="deprecation" value="false"/>
 		<property name="depend" value="true"/>
 		<property name="verbose" value="false"/>
@@ -147,7 +147,7 @@
 	</target>
 
 	<!-- =================================================================== -->
-	<!-- Modify back somes files                                                  -->
+	<!-- Modify back somes files                                             -->
 	<!-- =================================================================== -->
 	<target name="gen-build-number-back" depends="jar" unless="dev.mode">
 		<echo message="Updating back the files with [BUILD.NUMBER]..."/>
@@ -199,8 +199,8 @@
 	</target>
 
 	<!-- =================================================================== -->
-	<!-- Creates the class package and include all the dependencies jars      -->
-	<!-- into a big jsbml jar file.                                                                    -->
+	<!-- Creates the class package and include all the dependencies jars     -->
+	<!-- into a big jsbml jar file.                                          -->
 	<!-- =================================================================== -->
 	<target name="bigjar" depends="compile">
 
@@ -283,7 +283,7 @@
 	</target>
 
 	<!-- =================================================================== -->
-	<!-- Test the jsbml library                                      TestCheckConsistency        -->
+	<!-- Test the jsbml library                                              -->
 	<!-- =================================================================== -->
 	<target name="checkConsistencyTest" depends="jar">
 
