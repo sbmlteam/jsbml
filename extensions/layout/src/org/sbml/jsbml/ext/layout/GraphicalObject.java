@@ -162,7 +162,7 @@ public class GraphicalObject extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
-  private void unsetBoundingBox(){
+  public void unsetBoundingBox(){
 		if(isSetBoundingBox()){
 			BoundingBox oldValue = this.boundingBox;
 			this.boundingBox = null;
@@ -198,6 +198,20 @@ public class GraphicalObject extends AbstractNamedSBase {
 	  return bb;
 	}
 	
+	 /**
+   * Creates and sets a {@link BoundingBox} for this object, with the
+   * given parameters for {@link Dimensions}.
+   * @param width
+   * @param height
+   * @param depth
+   * @return {@link BoundingBox}.
+   */
+  public BoundingBox createBoundingBox(double width, double height, double depth) {
+    BoundingBox bb = createBoundingBox();
+    bb.createDimensions(width, height, depth);
+    return bb;
+  }
+  
 	/**
 	 * Creates and sets a {@link BoundingBox} for this object, with the
 	 * given parameters for {@link Dimensions} and {@link Point}.
@@ -211,8 +225,7 @@ public class GraphicalObject extends AbstractNamedSBase {
 	 */
 	public BoundingBox createBoundingBox(double width, double height, double depth,
 	  double x, double y, double z) {
-	  BoundingBox bb = createBoundingBox();
-	  bb.createDimensions(width, height, depth);
+	  BoundingBox bb = createBoundingBox(width, height, depth);
 	  bb.createPosition(x, y, z);
 	  return bb;
 	}

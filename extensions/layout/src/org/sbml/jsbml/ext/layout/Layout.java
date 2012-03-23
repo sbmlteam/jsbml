@@ -24,6 +24,8 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
@@ -124,6 +126,14 @@ public class Layout extends AbstractNamedSBase {
 	public void add(SpeciesGlyph speciesGlyph) {
 		addSpeciesGlyph(speciesGlyph);
 	}
+	
+	 /**
+   * 
+   * @param reactionGlyph
+   */
+  public void add(ReactionGlyph reactionGlyph) {
+    addReactionGlyph(reactionGlyph);
+  }
 
 	/**
 	 * 
@@ -135,6 +145,17 @@ public class Layout extends AbstractNamedSBase {
 			listOfSpeciesGlyphs.add(speciesGlyph);
 		}
 	}
+	
+	 /**
+   * 
+   * @param speciesGlyph
+   */
+  public void addReactionGlyph(ReactionGlyph reactionGlyph) {
+    if (reactionGlyph != null) {
+      registerChild(reactionGlyph);
+      listOfReactionGlyphs.add(reactionGlyph);
+    }
+  }
 
 	/*
 	 * (non-Javadoc)
@@ -294,12 +315,59 @@ public class Layout extends AbstractNamedSBase {
 	 * @return
 	 */
 	public SpeciesGlyph getSpeciesGlyph(int i) {
-		if (i >= 0 && i < listOfSpeciesGlyphs.size()) {
+		if (isSetListOfSpeciesGlyphs() && i >= 0 && i < listOfSpeciesGlyphs.size()) {
 			return listOfSpeciesGlyphs.get(i);
 		}
 		
 		return null;
 	}
+	
+  /**
+   * 
+   * @param speciesID
+   * @return
+   */
+  public SpeciesGlyph getSpeciesGlyph(String speciesID) {
+    if (isSetListOfSpeciesGlyphs()) {
+      for (SpeciesGlyph g : listOfSpeciesGlyphs) {
+        if (g.getSpecies().equals(speciesID)) {
+          return g;
+        }
+      }  
+    }
+    
+    return null;
+  }
+	
+	 /**
+   * 
+   * @param i
+   * @return
+   */
+  public ReactionGlyph getReactionGlyph(int i) {
+    if (!isSetListOfReactionGlyphs() || i < 0 || i >= listOfReactionGlyphs.size()) {
+      return null;
+    }
+    
+    return listOfReactionGlyphs.get(i);
+  }
+  
+  /**
+   * 
+   * @param reactionID
+   * @return
+   */
+  public ReactionGlyph getReactionGlyph(String reactionID) {
+    if (isSetListOfReactionGlyphs()) {
+      for (ReactionGlyph g : listOfReactionGlyphs) {
+        if (g.getReaction().equals(reactionID)) {
+          return g;
+        }
+      }  
+    }
+    
+    return null;
+  }
 
 	/* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
@@ -527,12 +595,25 @@ public class Layout extends AbstractNamedSBase {
 
   /**
    * Creates and adds a new {@link SpeciesGlyph}.
+   * @param species {@link Species} ID.
    * @return new {@link SpeciesGlyph}.
    */
   public SpeciesGlyph createSpeciesGlyph(String species) {
     SpeciesGlyph glyph = new SpeciesGlyph();
     glyph.setSpecies(species);
     addSpeciesGlyph(glyph);
+    return glyph;
+  }
+  
+  /**
+   * Creates and adds a new {@link ReactionGlyph}.
+   * @param reaction {@link Reaction} ID.
+   * @return new {@link ReactionGlyph}.
+   */
+  public ReactionGlyph createReactionGlyph(String reaction) {
+    ReactionGlyph glyph = new ReactionGlyph();
+    glyph.setReaction(reaction);
+    addReactionGlyph(glyph);
     return glyph;
   }
 
