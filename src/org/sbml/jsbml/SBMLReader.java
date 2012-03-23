@@ -21,7 +21,6 @@
 package org.sbml.jsbml;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -122,11 +121,9 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * 
 	 * @param xml
 	 * @return
-	 * @throws FileNotFoundException
 	 * @throws XMLStreamException
 	 */
-	public static SBMLDocument read(String xml) throws FileNotFoundException,
-			XMLStreamException {
+	public static SBMLDocument read(String xml) throws XMLStreamException {
 		return new SBMLReader().readSBMLFromString(xml);
 	}
 
@@ -259,7 +256,7 @@ public class SBMLReader implements Cloneable, Serializable {
 	 */
 	@Override
 	public String toString() {
-		return String.format("%s []", getClass().getSimpleName());
+		return String.format("%s[]", getClass().getSimpleName());
 	}
 
 }
