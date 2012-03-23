@@ -1365,25 +1365,43 @@ public class ASTNode extends AbstractTreeNode {
 		this(Type.REAL, parent);
 		setValue(real);
 	}
-
-	/**
-	 * Creates and returns a new {@link ASTNode} with the given value.
-	 * @param integer
-	 */
+	
+  /**
+   * Creates and returns a new {@link ASTNode} with the given integer value.
+   * 
+   * @param integer
+   */
 	public ASTNode(int integer) {
-		this(Type.INTEGER);
-		setValue(integer);
+		this(integer, null);
+	}
+  
+  /**
+   * Creates and returns a new {@link ASTNode} with the given integer value for
+   * the
+   * given {@link MathContainer} as its parent SBML object.
+   * 
+   * @param integer
+   * @param parent
+   */
+	public ASTNode(int integer, MathContainer parent) {
+		this(integer, null, parent);
 	}
 	
-	/**
-	 * Creates and returns a new {@link ASTNode} with the given value.
-	 * 
-	 * @param integer
-	 * @param parent
-	 */
-	public ASTNode(int integer, MathContainer parent) {
-		this(Type.INTEGER, parent);
-		setValue(integer);
+  /**
+   * Creates and returns a new {@link ASTNode} with the given integer value with
+   * the given associated {@link #unitId} for the
+   * given {@link MathContainer} as its parent SBML object.
+   * 
+   * @param integer
+   * @param unitsID
+   * @param parent
+   */
+	public ASTNode(int integer, String unitsID, MathContainer parent) {
+	  this(Type.INTEGER, parent);
+    setValue(integer);
+	  if (unitsID != null) {
+	    setUnits(unitsID);
+	  }
 	}
 
 	/**
@@ -1398,9 +1416,10 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public ASTNode(MathContainer parent) {
 		this();
-		MathContainer oldValue = this.parentSBMLObject;
 		parentSBMLObject = parent;
-		this.firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldValue, parent);
+		if (parentSBMLObject != null) {
+		  addAllChangeListeners(parent.getListOfTreeNodeChangeListeners());
+		}
 	}
 	
 	/**
@@ -2993,8 +3012,18 @@ public class ASTNode extends AbstractTreeNode {
 	 * @return the current node for convenience.
 	 */
 	public ASTNode minus(int integer) {
-		minus(new ASTNode(integer, getParentSBMLObject()));
-		return this;
+		return minus(integer, null);
+	}
+	
+	/**
+	 * 
+	 * @param integer
+	 * @param unitsID
+	 * @return
+	 */
+	public ASTNode minus(int integer, String unitsID) {
+	  minus(new ASTNode(integer, unitsID, getParentSBMLObject()));
+	  return this;
 	}
 
 	/**
@@ -3129,6 +3158,9 @@ public class ASTNode extends AbstractTreeNode {
 	public ASTNode raiseByThePowerOf(double exponent) {
 		if (exponent == 0d) {
 			setValue(1);
+			if (isSetParentSBMLObject() && (getParentSBMLObject().getLevel() > 2)) {
+			  setUnits(Unit.Kind.DIMENSIONLESS.toString().toLowerCase());
+			}
 			listOfNodes.clear();
 		} else if (exponent != 1d) {
 			raiseByThePowerOf(new ASTNode(exponent, getParentSBMLObject()));
@@ -3499,7 +3531,7 @@ public class ASTNode extends AbstractTreeNode {
 										"Unexpected attribute %s, only a valid unit kind or the identifier of a unit definition are allowed here.",
 										unitId));
 			}
-			if (parentSBMLObject.isSetLevel() && parentSBMLObject.getLevel() < 3) {
+			if (parentSBMLObject.isSetLevel() && (parentSBMLObject.getLevel() < 3)) {
 				throw new IllegalArgumentException(String.format(
 										"Cannot set unit %s for a numbers in an ASTNode before SBML Level 3.",
 										unitId));
