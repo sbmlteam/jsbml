@@ -125,8 +125,7 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * @throws FileNotFoundException
 	 * @throws XMLStreamException
 	 */
-	public static SBMLDocument read(String xml) throws FileNotFoundException,
-			XMLStreamException {
+	public static SBMLDocument read(String xml) throws XMLStreamException {
 		return new SBMLReader().readSBMLFromString(xml);
 	}
 
@@ -251,8 +250,7 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * @throws XMLStreamException if any problems prevent to create a {@link SBMLDocument} 
 	 * 
 	 */
-	public SBMLDocument readSBMLFromString(String xml)
-			throws XMLStreamException {
+	public SBMLDocument readSBMLFromString(String xml) throws XMLStreamException {
 		return new org.sbml.jsbml.xml.stax.SBMLReader().readSBMLFromString(xml);
 	}
 
@@ -262,7 +260,7 @@ public class SBMLReader implements Cloneable, Serializable {
 	 */
 	@Override
 	public String toString() {
-		return String.format("%s []", getClass().getSimpleName());
+		return String.format("%s[]", getClass().getSimpleName());
 	}
 
 }
