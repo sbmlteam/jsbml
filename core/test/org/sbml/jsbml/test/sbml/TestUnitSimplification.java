@@ -107,6 +107,7 @@ public class TestUnitSimplification {
    */
   @Test
   public void testSimplify() {
+    // TODO: add more test cases!
     UnitDefinition udef = ud1.clone().divideBy(ud1).simplify();
     printTask('/', ud1, ud1, udef);
     assertTrue(UnitDefinition.printUnits(udef, true).equals("dimensionless"));
