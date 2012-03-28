@@ -424,10 +424,10 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
     return listOfFunctionTerms;
   }
 
-
   /**
    * @param functionTerm
-   *        the functionTerm to add
+   *            the functionTerm to add or <code>null</code> if adding the new
+   *            {@link FunctionTerm} was not successful.
    */
   public boolean addFunctionTerm(FunctionTerm functionTerm) {
     if (getListOfFunctionTerms().add(functionTerm)) {
@@ -436,6 +436,17 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
     return false;
   }
 
+  /**
+   * 
+   * @return
+   */
+  public FunctionTerm createFunctionTerm() {
+	  FunctionTerm ft = new FunctionTerm(getLevel(), getVersion());
+	  if (addFunctionTerm(ft)) {
+		  return ft;
+	  }
+	  return null;
+  }
 
   /**
    * @param functionTerm
