@@ -41,8 +41,8 @@ import org.sbml.jsbml.util.StringTools;
 public class FunctionTerm extends AbstractMathContainer {
 
 	/**
-   * Generated serial version identifier.
-   */
+	 * Generated serial version identifier.
+	 */
 	private static final long serialVersionUID = -3456373304133826017L;
 
 	/**
@@ -66,7 +66,6 @@ public class FunctionTerm extends AbstractMathContainer {
      */
 	private boolean defaultTerm;
 
-
 	/**
 	 * Default constructor
 	 * 
@@ -75,11 +74,21 @@ public class FunctionTerm extends AbstractMathContainer {
 		super();
 		addNamespace(QualConstant.namespaceURI);
 	}
+	
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public FunctionTerm(int level, int version) {
+		super(level, version);
+		addNamespace(QualConstant.namespaceURI);
+	}
 
 	/**
 	 * Creates a FunctionTerm instance from a given FunctionTerm.
-   * 
-   * @param ft an <code>FunctionTerm</code> object to clone
+	 * 
+	 * @param ft an <code>FunctionTerm</code> object to clone
 	 */
 	public FunctionTerm(FunctionTerm ft) {
 	  super(ft);
@@ -521,6 +530,5 @@ public class FunctionTerm extends AbstractMathContainer {
 
 		return attributes;
 	}
-
 	
 }
