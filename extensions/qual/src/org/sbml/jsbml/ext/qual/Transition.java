@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
@@ -438,16 +439,34 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
   }
 
   /**
+   * Creates a new instance of {@link FunctionTerm} and adds it to this
+   * {@link Transition}'s {@link #listOfFunctionTerms}. In case that this
+   * operation fails, <code>null</code> will be returned. In case of success,
+   * this method will return the newly created {@link FunctionTerm}.
    * 
    * @return the newly created {@link FunctionTerm} or <code>null</code> if
    *         adding the new {@link FunctionTerm} was not successful.
+   * @see #createFunctionTerm(ASTNode)
    */
   public FunctionTerm createFunctionTerm() {
-	  FunctionTerm ft = new FunctionTerm(getLevel(), getVersion());
-	  if (addFunctionTerm(ft)) {
-		  return ft;
-	  }
-	  return null;
+	  return createFunctionTerm(null);
+  }
+  
+  /**
+   * Creates a new instance of {@link FunctionTerm} with the given
+   * mathematical expression (encoded in an {@link ASTNode}) and adds it to
+   * this {@link Transition}'s {@link #listOfFunctionTerms}. In case that this
+   * operation fails, <code>null</code> will be returned. In case of success,
+   * this method will return the newly created {@link FunctionTerm}.
+   * 
+   * @param math
+   *            The mathematical expression for the new {@link FunctionTerm}.
+   * @return newly created {@link FunctionTerm} or <code>null</code> if adding
+   *         the new {@link FunctionTerm} was not successful.
+   */
+  public FunctionTerm createFunctionTerm(ASTNode math) {
+	  FunctionTerm ft = new FunctionTerm(math, getLevel(), getVersion());
+	  return addFunctionTerm(ft) ? ft : null;
   }
 
   /**
