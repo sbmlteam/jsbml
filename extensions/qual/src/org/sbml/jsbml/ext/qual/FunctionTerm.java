@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
@@ -84,6 +85,17 @@ public class FunctionTerm extends AbstractMathContainer {
 		super(level, version);
 		addNamespace(QualConstant.namespaceURI);
 	}
+	
+	/**
+	 * 
+	 * @param math
+	 * @param level
+	 * @param version
+	 */
+	public FunctionTerm(ASTNode math, int level, int version) {
+		super(math, level, version);
+		addNamespace(QualConstant.namespaceURI);
+	}
 
 	/**
 	 * Creates a FunctionTerm instance from a given FunctionTerm.
@@ -91,21 +103,21 @@ public class FunctionTerm extends AbstractMathContainer {
 	 * @param ft an <code>FunctionTerm</code> object to clone
 	 */
 	public FunctionTerm(FunctionTerm ft) {
-	  super(ft);
-	  
-	  setDefaultTerm(ft.isDefaultTerm());
-    if (ft.isSetResultLevel()) {
-      setResultLevel(ft.getResultLevel());
-    }
-    if (ft.isSetResultSymbol()) {
-      setResultSymbol(ft.getResultSymbol());
-    }
-    if (ft.isSetTemporisationMath()) {
-      setTemporisationMath(ft.getTemporisationMath().clone());
-    }
-    if (ft.isSetTemporisationValue()) {
-      setTemporisationValue(ft.getTemporisationValue());
-    }
+		super(ft);
+
+		setDefaultTerm(ft.isDefaultTerm());
+		if (ft.isSetResultLevel()) {
+			setResultLevel(ft.getResultLevel());
+		}
+		if (ft.isSetResultSymbol()) {
+			setResultSymbol(ft.getResultSymbol());
+		}
+		if (ft.isSetTemporisationMath()) {
+			setTemporisationMath(ft.getTemporisationMath().clone());
+		}
+		if (ft.isSetTemporisationValue()) {
+			setTemporisationValue(ft.getTemporisationValue());
+		}
 	}
 	
 	/* (non-Javadoc)
