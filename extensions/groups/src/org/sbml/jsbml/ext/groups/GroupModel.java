@@ -30,6 +30,7 @@ import org.sbml.jsbml.xml.parsers.GroupsParser;
 
 /**
  * @author Nicolas Rodriguez
+ * @author Clemens Wrzodek
  * @since 1.0
  * @version $Rev: 834 $
  */
@@ -58,7 +59,17 @@ public class GroupModel extends AbstractSBasePlugin {
 		initDefaults();
 	}
 	
-	private void initDefaults() {
+	/**
+   * @param groupModel
+   */
+  public GroupModel(GroupModel groupModel) {
+    // We don't clone the pointer to the containing model.
+    if (groupModel.listOfGroups != null) {
+      this.listOfGroups = groupModel.listOfGroups.clone();
+    }
+  }
+
+  private void initDefaults() {
 		listOfGroups.addNamespace(GroupsParser.namespaceURI);
 		listOfGroups.setSBaseListType(ListOf.Type.other);
 		model.registerChild(listOfGroups);
@@ -73,6 +84,12 @@ public class GroupModel extends AbstractSBasePlugin {
 		model.registerChild(group);
 		
 		listOfGroups.add(group);		
+	}
+	
+	public void addGroup(String... symbol_of_members) {
+	  Group group = Group.createGroup(symbol_of_members);
+	  model.registerChild(group);
+	  listOfGroups.add(group);  
 	}
 
 	/**
@@ -146,19 +163,18 @@ public class GroupModel extends AbstractSBasePlugin {
 	 * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
 	 */
 	public GroupModel clone() {
-		// TODO 
-		return null;
+		return new GroupModel(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		// TODO 
-		return null;
-	}
-
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "GroupModel [listOfGroups=" + listOfGroups + ", model=" + model
+        + "]";
+  }
+  
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
