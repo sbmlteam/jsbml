@@ -226,12 +226,12 @@ public class VCardParser implements ReadingParser {
 				hasReadOrgName = true;
 			} else {
 				logger.warn(MessageFormat.format(
-				  "The element 'vCard:{0}' is an additional vCard element not described in the SBML specifications.", 
+				  "The element ''vCard:{0}'' is an additional vCard element not described in the SBML specifications.", 
 				  elementName));
 			}
 		} else {
 		  logger.warn(MessageFormat.format(
-		    "Lost Information: the element '{0}' might be lost as the context object is not a Creator.", 
+		    "Lost Information: the element ''{0}'' might be lost as the context object is not a Creator.", 
 		    elementName));
 		}
 		return contextObject;

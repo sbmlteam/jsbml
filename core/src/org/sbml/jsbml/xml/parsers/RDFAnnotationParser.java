@@ -133,7 +133,7 @@ public class RDFAnnotationParser implements ReadingParser {
 		
 		if (!isReadAttribute){
 			logger.warn("RDFAnnotationParser : processAttribute : found an unknown attribute '" + 
-					attributeName + "', the attribute is ignored.");
+					attributeName + "', the attribute is ignored (elementName = " + elementName + ").");
 		}
 		
 	}
