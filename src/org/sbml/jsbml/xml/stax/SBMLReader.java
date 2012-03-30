@@ -208,6 +208,7 @@ public class SBMLReader {
 	 * @throws SBMLException if there are any problems reading or writing the SBML model.
 	 * @throws XMLStreamException if there are any problems reading or writing the XML file.
 	 */
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws IOException, XMLStreamException, SBMLException  {
 
 		if (args.length < 1) {
@@ -232,11 +233,17 @@ public class SBMLReader {
 
 		System.out.println("Model Annotation String = \n@" + testDocument.getModel().getAnnotationString() + "@");
 		
+		int i = 0;
 		for (Species species : testDocument.getModel().getListOfSpecies()) {
-			species.getAnnotationString();
+			// species.getAnnotationString(); // /scratch/rodrigue/src/jsbml/jsbml_trunk/data/yeast_4.02.xml
+			System.out.println("SpeciesType Object = " + species.getSpeciesTypeInstance());
+			System.out.println("SpeciesType ID = " + species.getSpeciesType());
+			if (i++ > 30) {
+				break;
+			}
 		}
 		
-		new SBMLWriter().write(testDocument, System.out);
+		// new SBMLWriter().write(testDocument, System.out);
 		
 		/*
 		String mathMLString1 = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
