@@ -22,6 +22,7 @@ package org.sbml.jsbml.ext.layout;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
@@ -43,6 +44,8 @@ public class Layout extends AbstractNamedSBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 8866612784809904674L;
+	
+	
 	/**
 	 * 
 	 */
@@ -116,7 +119,26 @@ public class Layout extends AbstractNamedSBase {
 	 */
 	public Layout(Layout layout) {
 		super(layout);
-		// TODO: not fully implemented!
+    
+    if (layout.listOfAdditionalGraphicalObjects != null) {
+      listOfAdditionalGraphicalObjects = layout.listOfAdditionalGraphicalObjects.clone();
+    }
+    if (layout.dimensions != null) {
+      dimensions = layout.dimensions.clone();
+    }
+    if (layout.listOfCompartmentGlyphs != null) {
+      listOfCompartmentGlyphs = layout.listOfCompartmentGlyphs.clone();
+    }
+    if (layout.listOfReactionGlyphs != null) {
+      listOfReactionGlyphs = layout.listOfReactionGlyphs.clone();
+    }
+    if (layout.listOfSpeciesGlyphs != null) {
+      listOfSpeciesGlyphs = layout.listOfSpeciesGlyphs.clone();
+    }
+    if (layout.listOfTextGlyphs != null) {
+      listOfTextGlyphs = layout.listOfTextGlyphs.clone();
+    }
+
 	}
 
 	/**
@@ -147,13 +169,46 @@ public class Layout extends AbstractNamedSBase {
 	}
 	
 	 /**
-   * 
-   * @param speciesGlyph
+   * Add an arbitrary additional graphical object.
+   * @param object
    */
-  public void addReactionGlyph(ReactionGlyph reactionGlyph) {
-    if (reactionGlyph != null) {
-      registerChild(reactionGlyph);
-      listOfReactionGlyphs.add(reactionGlyph);
+  public void addAdditionalGraphical(GraphicalObject object) {
+    if (object != null) {
+      registerChild(object);
+      listOfAdditionalGraphicalObjects.add(object);
+    }
+  }
+	
+	/**
+	 * 
+	 * @param reactionGlyph
+	 */
+	public void addReactionGlyph(ReactionGlyph reactionGlyph) {
+	  if (reactionGlyph != null) {
+	    registerChild(reactionGlyph);
+	    listOfReactionGlyphs.add(reactionGlyph);
+	  }
+	}
+	
+  /**
+   * 
+   * @param compartmentGlyph
+   */
+  public void addCompartmentGlyph(CompartmentGlyph compartmentGlyph) {
+    if (compartmentGlyph != null) {
+      registerChild(compartmentGlyph);
+      listOfCompartmentGlyphs.add(compartmentGlyph);
+    }
+  }
+  
+  /**
+   * 
+   * @param TextGlyph
+   */
+  public void addTextGlyph(TextGlyph TextGlyph) {
+    if (TextGlyph != null) {
+      registerChild(TextGlyph);
+      listOfTextGlyphs.add(TextGlyph);
     }
   }
 
@@ -308,6 +363,19 @@ public class Layout extends AbstractNamedSBase {
 	public ListOf<TextGlyph> getListOfTextGlyphs() {
 		return listOfTextGlyphs;
 	}
+	
+	 /**
+   * 
+   * @param i
+   * @return
+   */
+  public GraphicalObject getAdditionalGraphicalObject(int i) {
+    if (isSetListOfAdditionalGraphicalObjects() && i >= 0 && i < listOfAdditionalGraphicalObjects.size()) {
+      return listOfAdditionalGraphicalObjects.get(i);
+    }
+    
+    return null;
+  }
 
 	/**
 	 * 
@@ -373,7 +441,7 @@ public class Layout extends AbstractNamedSBase {
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   public boolean isIdMandatory() {
-    // TODO Auto-generated method stub
+    // TODO Is it?
     return false;
   }
 	
@@ -413,6 +481,13 @@ public class Layout extends AbstractNamedSBase {
 		return (listOfSpeciesGlyphs != null) && (listOfSpeciesGlyphs.size() > 0);
 	}
 
+	 /**
+   * @return
+   */
+  public boolean isSetListOfAdditionalGraphicalObjects() {
+    return (listOfAdditionalGraphicalObjects != null) && (listOfAdditionalGraphicalObjects.size() > 0);
+  }
+  
 	/**
 	 * @return
 	 */
@@ -470,7 +545,7 @@ public class Layout extends AbstractNamedSBase {
 		if ((this.listOfCompartmentGlyphs != null) && (this.listOfCompartmentGlyphs.getSBaseListType() != ListOf.Type.other)) {
 			this.listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
 		}
-		registerChild(this.listOfSpeciesGlyphs);
+		registerChild(this.listOfCompartmentGlyphs);
 	}
 	
 	/**
@@ -516,6 +591,19 @@ public class Layout extends AbstractNamedSBase {
 		}
 	}
 
+	 /**
+   * 
+   * @param AdditionalGraphicalObjects
+   */
+  public void setListOfAdditionalGraphicalObjects(ListOf<GraphicalObject> additionalGraphicalObjects) {
+    unsetListOfAdditionalGraphicalObjects();
+    this.listOfAdditionalGraphicalObjects = additionalGraphicalObjects;
+    if (this.listOfAdditionalGraphicalObjects != null) {
+      this.listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
+      registerChild(this.listOfAdditionalGraphicalObjects);
+    }
+  }
+  
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
@@ -594,6 +682,23 @@ public class Layout extends AbstractNamedSBase {
 	}
 
   /**
+   * Removes the {@link #listOfAdditionalGraphicalObjects} from this {@link Model} and notifies
+   * all registered instances of {@link TreeNodeChangeListener}.
+   * 
+   * @return <code>true</code> if calling this method lead to a change in this
+   *         data structure.
+   */
+  public boolean unsetListOfAdditionalGraphicalObjects() {
+    if (this.listOfAdditionalGraphicalObjects != null) {
+      ListOf<GraphicalObject> oldListOfAdditionalGraphicalObjects = this.listOfAdditionalGraphicalObjects;
+      this.listOfAdditionalGraphicalObjects = null;
+      oldListOfAdditionalGraphicalObjects.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+  
+  /**
    * Creates and adds a new {@link SpeciesGlyph}.
    * @param species {@link Species} ID.
    * @return new {@link SpeciesGlyph}.
@@ -614,6 +719,30 @@ public class Layout extends AbstractNamedSBase {
     ReactionGlyph glyph = new ReactionGlyph();
     glyph.setReaction(reaction);
     addReactionGlyph(glyph);
+    return glyph;
+  }
+  
+  /**
+   * Creates and adds a new {@link CompartmentGlyph}.
+   * @param compartment {@link Compartment} ID.
+   * @return new {@link CompartmentGlyph}.
+   */
+  public CompartmentGlyph createCompartmentGlyph(String compartment) {
+    CompartmentGlyph glyph = new CompartmentGlyph();
+    glyph.setCompartment(compartment);
+    addCompartmentGlyph(glyph);
+    return glyph;
+  }
+  
+  /**
+   * Creates and adds a new {@link TextGlyph}.
+   * @param text the text for the new glyph
+   * @return new {@link TextGlyph}.
+   */
+  public TextGlyph createTextGlyph(String text) {
+    TextGlyph glyph = new TextGlyph();
+    glyph.setText(text);
+    addTextGlyph(glyph);
     return glyph;
   }
 

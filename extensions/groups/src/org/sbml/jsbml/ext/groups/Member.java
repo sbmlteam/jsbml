@@ -29,6 +29,7 @@ import org.sbml.jsbml.xml.parsers.GroupsParser;
 
 /**
  * @author Nicolas Rodriguez
+ * @author Clemens Wrzodek
  * @since 1.0
  * @version $Rev$
  */
@@ -98,8 +99,15 @@ public class Member extends AbstractSBase {
 			return null;
 		}
 		
-		// TODO or remove method
-		return null; // getModel().getCompartment(this.compartmentID);
+		SBase instance = getModel().getSpecies(symbol);
+		if (instance == null) {
+		  instance = getModel().getReaction(symbol);
+		}
+		if (instance == null) {
+		  instance = getModel().getCompartment(symbol);
+		}
+		
+		return instance;
 	}
 
 	/**
@@ -153,17 +161,15 @@ public class Member extends AbstractSBase {
 		firePropertyChange(TreeNodeChangeEvent.symbol, oldSymbol, this.symbol);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		// TODO
-		return null;
-	}
+	/* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "Member [symbol=" + symbol + "]";
+  }
 
-	/*
+  /*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
@@ -177,5 +183,11 @@ public class Member extends AbstractSBase {
 		}
 		
 		return attributes;
+	}
+	
+	public static Member createMember(String symbol) {
+	  Member m = new Member();
+	  m.setSymbol(symbol);
+	  return m;
 	}
 }

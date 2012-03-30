@@ -33,6 +33,7 @@ import org.sbml.jsbml.xml.parsers.GroupsParser;
 /**
  * 
  * @author Nicolas Rodriguez
+ * @author Clemens Wrzodek
  * @since 1.0
  * @version $Rev$
  */
@@ -119,6 +120,11 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 		return getListOfMembers().add(member);
 	}
 	
+	 
+  public boolean addMember(String symbol) {
+    return getListOfMembers().add(Member.createMember(symbol));
+  }
+	
 	/* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
@@ -152,17 +158,17 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 		return isAttributeRead;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		// TODO 
-		return null;
-	}
+	
+	/* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "Group [id=" + getId() + ", name=" + getName()
+        + ", listOfMembers=" + listOfMembers + "]";
+  }
 
-	/**
+  /**
 	 * Removes the {@link #listOfMembers} from this {@link Model} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
@@ -218,6 +224,30 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 		
 		return null;
 	}
+
+  /**
+   * @param symbol_of_members
+   * @return
+   */
+  public static Group createGroup(String... symbol_of_members) {
+    Group g = new Group();
+    for (String s_member: symbol_of_members) {
+      g.addMember(Member.createMember(s_member));
+    }
+    return g;
+  }
+  
+  /**
+   * @param members
+   * @return
+   */
+  public static Group createGroup(Member... members) {
+    Group g = new Group();
+    for (Member member: members) {
+      g.addMember(member);
+    }
+    return g;
+  }
 	
 	
 }
