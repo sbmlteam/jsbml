@@ -80,16 +80,8 @@ public class GroupModel extends AbstractSBasePlugin {
 	 * @param group
 	 */
 	public void addGroup(Group group) {
-		
 		model.registerChild(group);
-		
 		listOfGroups.add(group);		
-	}
-	
-	public void addGroup(String... symbol_of_members) {
-	  Group group = Group.createGroup(symbol_of_members);
-	  model.registerChild(group);
-	  listOfGroups.add(group);  
 	}
 
 	/**

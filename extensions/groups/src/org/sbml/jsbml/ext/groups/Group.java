@@ -120,11 +120,6 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 		return getListOfMembers().add(member);
 	}
 	
-	 
-  public boolean addMember(String symbol) {
-    return getListOfMembers().add(Member.createMember(symbol));
-  }
-	
 	/* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
