@@ -185,9 +185,4 @@ public class Member extends AbstractSBase {
 		return attributes;
 	}
 	
-	public static Member createMember(String symbol) {
-	  Member m = new Member();
-	  m.setSymbol(symbol);
-	  return m;
-	}
 }
