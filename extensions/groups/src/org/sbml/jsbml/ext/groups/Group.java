@@ -226,28 +226,15 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	}
 
   /**
-   * @param symbol_of_members
+   * @param symbol
    * @return
    */
-  public static Group createGroup(String... symbol_of_members) {
-    Group g = new Group();
-    for (String s_member: symbol_of_members) {
-      g.addMember(Member.createMember(s_member));
-    }
-    return g;
-  }
-  
-  /**
-   * @param members
-   * @return
-   */
-  public static Group createGroup(Member... members) {
-    Group g = new Group();
-    for (Member member: members) {
-      g.addMember(member);
-    }
-    return g;
-  }
+	public Member createMember(String symbol) {
+	  Member m = new Member();
+	  m.setSymbol(symbol);
+	  addMember(m);
+	  return m;
+	}
 	
 	
 }

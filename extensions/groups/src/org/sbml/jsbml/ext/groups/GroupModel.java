@@ -224,4 +224,17 @@ public class GroupModel extends AbstractSBasePlugin {
 		return true;
 	}
 
+  /**
+   * @param symbol_of_members
+   * @return
+   */
+  public Group createGroup(String... symbol_of_members) {
+    Group g = new Group();
+    for (String s_member: symbol_of_members) {
+      g.createMember(s_member);
+    }
+    addGroup(g);
+    return g;
+  }
+  
 }
