@@ -156,8 +156,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   
   /**
    * A mapping between the identifiers of {@link LocalParameter}s and the
-   * identifiers
-   * of containing {@link Reaction} objects.
+   * identifiers of containing {@link Reaction} objects.
    */
   private Map<String, SortedSet<String>> mapOfLocalParameters;
   
@@ -1382,7 +1381,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param id
    *        an id indicating an element of the model.
    * @return a {@link NamedSBase} element of the model that has the given 'id'
-   *         as id or null if no element is found.
+   *         as id or <code>null</code> if no element is found.
    */
   public NamedSBase findNamedSBase(String id) {
     if (id.equals(getId())) { return this; }
@@ -1399,7 +1398,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     if ((nsb == null) && isSetListOfReactions()) {
       for (Reaction r : getListOfReactions()) {
         nsb = r.getModifier(id);
-        if (nsb != null) { return nsb; }
+        if (nsb != null) { 
+          return nsb; 
+        }
       }
     }
     return nsb == null ? findNamedSBaseWithDerivedUnit(id) : nsb;
@@ -1425,7 +1426,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return nsb;
   }
-  
+
   /**
    * Searches for an instance of {@link Quantity} within all of this
    * {@link Model}'s components that has the given identifier or name attribute
@@ -1451,7 +1452,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return nsb;
   }
-  
+
   /**
    * Searches for an instance of {@link QuantityWithUnit} within all of this
    * {@link Model}'s components that has the given identifier or name attribute
@@ -1474,6 +1475,26 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       }
     }
     return q;
+  }
+  
+  /**
+   * Returns a {@link SortedSet} of identifiers of all {@link Reaction} elements
+   * within
+   * this {@link Model} whose {@link KineticLaw}s contain a
+   * {@link LocalParameter} that has the given 'id' or <code>null</code> if no
+   * element cannot be found.
+   * 
+   * @param id
+   *        an id indicating an {@link LocalParameter} element of the
+   *        {@link Model}.
+   * @return a {@link SortedSet} of the identifiers of all {@link Reaction}
+   *         elements within this {@link Model} whose {@link KineticLaw}
+   *         contains a {@link LocalParameter} that has the given 'id' as id 
+   *         or <code>null</code> if no such element with this 'id' can be
+   *         found.
+   */
+  public SortedSet<String> findReactionsForLocalParameter(String id) {
+    return mapOfLocalParameters == null ? null : mapOfLocalParameters.get(id);
   }
   
   /**
@@ -1528,6 +1549,36 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       symbol = getParameter(id);
     }
     return symbol;
+  }
+  
+  /**
+   * Returns a {@link UniqueNamedSBase} element that has the given 'id' within
+   * this {@link Model} or <code>null</code> if no such element can be found.
+   * 
+   * @param id
+   *        an id indicating an {@link UniqueNamedSBase} element of the
+   *        {@link Model}.
+   * @return a {@link UniqueNamedSBase} element of the {@link Model} that has
+   *         the given 'id' as id or <code>null</code> if no element with this
+   *         'id' can be found.
+   */
+  public UniqueNamedSBase findUniqueNamedSBase(String id) {
+    return mapOfUniqueNamedSBases == null ? null : mapOfUniqueNamedSBases.get(id);
+  }
+  
+  /**
+   * Returns a {@link UnitDefinition} element that has the given 'id' within
+   * this {@link Model} or <code>null</code> if no such element can be found.
+   * 
+   * @param id
+   *        an id indicating an {@link UnitDefinition} element of the
+   *        {@link Model}.
+   * @return a {@link UniqueNamedSBase} element of the {@link Model} that has
+   *         the given 'id' as id or <code>null</code> if no such element with
+   *         this 'id' can be found.
+   */
+  public UnitDefinition findUnitDefinition(String id) {
+    return mapOfUnitDefinitions == null ? null : mapOfUnitDefinitions.get(id);
   }
   
   /**
@@ -2587,7 +2638,28 @@ public int getNumLocalParameters() {
    *         name depending on the level and version). Null if it doesn't exist.
    */
   public Species getSpecies(String id) {
-    return getListOfSpecies().firstHit(new NameFilter(id));
+      
+      SBase foundSBase = findUniqueNamedSBase(id);
+      
+      if (foundSBase != null && foundSBase instanceof Species) {
+          return (Species) foundSBase;
+      }
+ 
+      /*     
+      ListOf<Species> ls = getListOfSpecies();
+      Species tmp = ls.firstHit(new NameFilter(id));
+      
+      Species speciesFound = null;
+      for (Species species : ls) {
+          if (species.isSetId() && species.getId().equals(id)) {
+              speciesFound = species;
+              break;
+          }
+      }
+      * 
+      */
+      
+    return null;
   }
   
   /**
@@ -3263,8 +3335,10 @@ public int getNumLocalParameters() {
     String id = unsb.getId();
     if (delete && (mapOfUniqueNamedSBases != null)) {
       mapOfUniqueNamedSBases.remove(id);
-      logger.debug(String.format("removed id=%s from model%s",
-        id, (isSetId() ? " " + getId() : "")));
+      if (logger.isDebugEnabled()) {
+    	  logger.debug(String.format("removed id=%s from model%s",
+    			  id, (isSetId() ? " " + getId() : "")));
+      }
     } else if (unsb.isSetId()) {
       if (mapOfUniqueNamedSBases == null) {
         mapOfUniqueNamedSBases = new HashMap<String, UniqueNamedSBase>();
@@ -3272,25 +3346,33 @@ public int getNumLocalParameters() {
       /*
        * Three reasons for non acceptance:
        * (1) another UniqueNamedSBase is already registered with the identical id.
-       * (2) some Reaction refers to a LocalParameter with this id, but LV >= 2.3 and the
+       * 
+       * No need to test this case (2) some Reaction refers to a LocalParameter
+       *  with this id, but LV >= 2.3 and the
        *     overridden element is not an instance of Species, Compartment, or Parameter.
+       *            
+         || ((0 < unsb.getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)))
+          && (mapOfLocalParameters != null)
+          && mapOfLocalParameters.containsKey(id) && !(unsb instanceof Symbol))
+
        * (3) In Level 1 UnitDefinitions and UniqueNamedSBases use the same namespace.
        */
       if ((mapOfUniqueNamedSBases.containsKey(id) && 
           (mapOfUniqueNamedSBases.get(id) != unsb))
-        || ((0 < unsb.getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)))
-          && (mapOfLocalParameters != null)
-          && mapOfLocalParameters.containsKey(id) && !(unsb instanceof Symbol))
         || ((unsb.getLevel() == 1) && (mapOfUnitDefinitions != null) && 
-            (mapOfUnitDefinitions.containsKey(id)))) {
+            (mapOfUnitDefinitions.containsKey(id)))) 
+      {
         logger.error(String.format(
           "An element with the id '%s' is already present in this model%s. The new element will not be added to the model.",
           id, (isSetId() ? " " + getId() : "")));
         return false;
       }
       mapOfUniqueNamedSBases.put(id, unsb);
-      logger.debug(String.format("registered id=%s in model%s",
-        id, (isSetId() ? " " + getId() : "")));
+
+      if (logger.isDebugEnabled()) {      
+    	  logger.debug(String.format("registered id=%s in model%s",
+    			  id, (isSetId() ? " " + getId() : "")));
+      }
     }
     boolean success = true;
     if (recursively) {

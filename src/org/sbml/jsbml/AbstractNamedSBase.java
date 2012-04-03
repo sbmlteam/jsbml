@@ -43,6 +43,13 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 */
 	private static final long serialVersionUID = -9186483076164094500L;
 
+	private static final String underscore = "_";
+	private static final String letter = "a-zA-Z";
+	private static final String digit = "0-9";
+	private static final String idChar = "[" + letter + digit + underscore + "]";
+	private static final String SIdL2 = "^[" + letter + underscore + "]" + idChar + '*';
+	private static final Pattern SIdL2Pattern = Pattern.compile(SIdL2);
+		
 	/**
 	 * Checks whether the given idCandidate is a valid identifier according to
 	 * the SBML specifications.
@@ -58,41 +65,36 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 */
 	public static final boolean isValidId(String idCandidate, int level,
 			int version) {
-		final String underscore = "_";
-		final String letter = "a-zA-Z";
-		final String digit = "0-9";
-		final String idChar = "[" + letter + digit + underscore + "]";
 
 		if (level == 1) {
-      String reservedNames[] = {"abs", "acos", "and", "asin", "atan", "ceil",
-        "cos", "exp", "floor", "hilli", "hillmmr", "hillmr", "hillr", "isouur",
-        "log", "log10", "massi", "massr", "not", "or", "ordbbr", "ordbur",
-        "ordubr", "pow", "ppbr", "sin", "sqr", "sqrt", "tan", "uai", "ualii",
-        "uar", "ucii", "ucir", "ucti", "uctr", "uhmi", "uhmr", "umai", "umar",
-        "umi", "umr", "unii", "unir", "usii", "usir", "uuci", "uucr", "uuhr",
-        "uui", "uur", "xor"};
-      /*
-       * These reserved words can occur in case of UnitDefinitions:
-       * "substance", "time", "volume"
-       */
-      if (Arrays.binarySearch(reservedNames, idCandidate) < 0) {
-        if (version == 1) {
-          String SNameL1V1 = underscore + "*[" + letter + "]" + idChar + '*';
-          return Pattern.matches(SNameL1V1, idCandidate);
-        } else if (version == 2) {
-          String SNameL1V2 = "[" + letter + underscore + "]" + idChar + '*';
-          return !idCandidate.equals("uaii") /* a reserved name in L1V2 */
-            && Pattern.matches(SNameL1V2, idCandidate);
-        }
-      } else {
-        // id is one of the reserved names.
-        return false;
-      }
+			String reservedNames[] = {"abs", "acos", "and", "asin", "atan", "ceil",
+					"cos", "exp", "floor", "hilli", "hillmmr", "hillmr", "hillr", "isouur",
+					"log", "log10", "massi", "massr", "not", "or", "ordbbr", "ordbur",
+					"ordubr", "pow", "ppbr", "sin", "sqr", "sqrt", "tan", "uai", "ualii",
+					"uar", "ucii", "ucir", "ucti", "uctr", "uhmi", "uhmr", "umai", "umar",
+					"umi", "umr", "unii", "unir", "usii", "usir", "uuci", "uucr", "uuhr",
+					"uui", "uur", "xor"};
+			/*
+			 * These reserved words can occur in case of UnitDefinitions:
+			 * "substance", "time", "volume"
+			 */
+			if (Arrays.binarySearch(reservedNames, idCandidate) < 0) {
+				if (version == 1) {
+					String SNameL1V1 = underscore + "*[" + letter + "]" + idChar + '*';
+					return Pattern.matches(SNameL1V1, idCandidate);
+				} else if (version == 2) {
+					String SNameL1V2 = "[" + letter + underscore + "]" + idChar + '*';
+					return !idCandidate.equals("uaii") /* a reserved name in L1V2 */
+							&& Pattern.matches(SNameL1V2, idCandidate);
+				}
+			} else {
+				// id is one of the reserved names.
+				return false;
+			}
 		}
-		
+
 		// level undefined or level > 1
-		String SIdL2 = "[" + letter + underscore + "]" + idChar + '*';
-		return Pattern.matches(SIdL2, idCandidate);
+		return SIdL2Pattern.matcher(idCandidate).matches();
 	}
 	
 	/**
@@ -367,6 +369,8 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		}
 		return getElementName();
 	}
+	
+	
 
 	/*
 	 * (non-Javadoc)

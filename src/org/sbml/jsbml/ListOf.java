@@ -20,15 +20,14 @@
 
 package org.sbml.jsbml;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
 import javax.swing.tree.TreeNode;
 
-import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.filters.Filter;
@@ -320,7 +319,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	/**
 	 * list containing all the SBase elements of this object.
 	 */
-	protected LinkedList<T> listOf = new LinkedList<T>();
+	protected ArrayList<T> listOf = new ArrayList<T>();
 
 	/**
 	 * name of the list at it appears in the SBMLFile. By default, it is
@@ -370,36 +369,22 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		setThisAsParentSBMLObject(element);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.List#add(java.lang.Object)
-	 */
-	public boolean add(T e) {
-	  /*
-	   * Test if another pointer to the given element has already been added to this list:
-	   */
-		int i = 0;
-    for (T curr : listOf) {
-      if (curr == e) {
-        Logger logger = Logger.getLogger(getClass());
-        logger.error(String.format(
-          "The %s already contains the given element '%s'. The new element will not be added twice to the list.",
-          listType, e));
-        return false;
-      }
-      i++;
-    }
-		
-		/*
-		 * Calling the method setThisAsParentSBMLObject before adding the object
-		 * to the list as it can throw an Exception if the metaid or id is not
-		 * unique in the model; it also checks if the given element has the same
-		 * Level/Version configuration as this listOf* element and will throw an
-		 * exception if this is not the case.
-		 */
-		setThisAsParentSBMLObject(e);
-		return listOf.add(e);
-	}
+
+    /*
+     * (non-Javadoc) @see java.util.List#add(java.lang.Object)
+     */
+    public boolean add(T e) {
+        
+        /*
+         * Calling the method setThisAsParentSBMLObject (registerChild) before adding the object to the list
+         * as it can throw an Exception if the metaid or id is not unique in the
+         * model; it also checks if the given element has the same Level/Version
+         * configuration as this listOf* element and will throw an exception if
+         * this is not the case.
+         */
+    	setThisAsParentSBMLObject(e);
+        return listOf.add(e);
+   }
 
 	/*
 	 * (non-Javadoc)
@@ -451,7 +436,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#clear()
 	 */
 	public void clear() {
-		LinkedList<T> removedElements = listOf;
+		ArrayList<T> removedElements = listOf;
 		listOf.clear();
 		for( T element : removedElements){
 			((AbstractTreeNode) element).fireNodeRemovedEvent();
@@ -641,7 +626,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @return
 	 */
 	public T getFirst() {
-		return listOf.getFirst();
+		return listOf.get(0);
 	}
 
 	/**
@@ -650,7 +635,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @return
 	 */
 	public T getLast() {
-		return listOf.getLast();
+		return listOf.get(listOf.size() - 1);
 	}
 
 	/**

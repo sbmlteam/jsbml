@@ -698,7 +698,6 @@ public class OverdeterminationValidator {
 			}
 
 			else if (r instanceof AssignmentRule) {
-				
 				variable = variableHash.get(((AssignmentRule) r)
 						.getVariableInstance());
 				// link

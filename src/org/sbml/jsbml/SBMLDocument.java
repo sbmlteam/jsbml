@@ -980,8 +980,8 @@ public class SBMLDocument extends AbstractSBase {
 	 * @see org.sbml.jsbml.AbstractSBase#toString()
 	 */
 	public String toString() {
-		return String.format("SBML Level %d Version %d", getLevel(),
-				getVersion());
+		//return String.format("SBML Level %d Version %d", getLevel(), getVersion());
+		return "SBML Level " + getLevel() + " Version " + getVersion();
 	}
 
 	/**
