@@ -58,5 +58,11 @@ also included in the SBML Bar Graph subdirectory "lib/licenses".
 3. GNU getopt Java port
    [checked 2012-03-31]
    http://www.urbanophile.com/arenn/hacking/download.html
-   Copyright (C) unclear
+   Copyright (C) 1998-2012 Aaron M. Renn.
    Distributed under the LGPL 2.1.
+
+4. Jar-in-Jar Classloader
+   [checked 2012-04-03]
+   https://bugs.eclipse.org/bugs/show_bug.cgi?id=219530
+   Copyright (C) Ferenc Hechler.
+   Distributed under the Eclipse Public License v1.0.
