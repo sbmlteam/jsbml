@@ -13,7 +13,7 @@
 
 		<property name="Name" value="JSBML"/>
 		<property name="name" value="jsbml"/>
-		<property name="version" value="0.8-rc1"/>
+		<property name="version" value="0.8-rc2"/>
 		<property name="api.version" value="0.8"/>
 
 		<property name="year" value="${YEAR}"/>

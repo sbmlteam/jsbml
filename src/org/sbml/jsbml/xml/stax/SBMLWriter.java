@@ -783,7 +783,7 @@ public class SBMLWriter {
 				/*
 				 * This shouldn't actually happen because a metaid will be created
 				 * if missing in AbstractSBase. Only if no SBMLDocument is available,
-				 * or the SBase is derived from a diffent SBase implementation, it 
+				 * or the SBase is derived from a different SBase implementation, it 
 				 * could fail.
 				 */
 				logger.info(String.format(
@@ -1188,8 +1188,13 @@ public class SBMLWriter {
 		}
 
 		// Checking if all the necessary namespaces are defined 
-		// In fact, we could remove the rdfNamespaces map ?
-		
+		// TODO : In fact, we could remove the rdfNamespaces map ?
+
+		if (rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS) == null) {
+			// writer.writeNamespace("rdf", Annotation.URI_RDF_SYNTAX_NS); // already registered previously
+			rdfNamespaces.put(Annotation.URI_RDF_SYNTAX_NS, "rdf");
+		}
+
 		if (annotation.isSetHistory() && annotation.getHistory().getNumCreators() > 0) 
 		{
 			if (rdfNamespaces.get(JSBML.URI_PURL_ELEMENTS) == null) {
@@ -1203,11 +1208,14 @@ public class SBMLWriter {
 			}
 		}
 		
-		if (annotation.isSetHistory() && (annotation.getHistory().isSetCreatedDate() || annotation.getHistory().isSetModifiedDate())  
-				&& rdfNamespaces.get(JSBML.URI_PURL_TERMS) == null)
+		if (annotation.isSetHistory() && rdfNamespaces.get(JSBML.URI_PURL_TERMS) == null)
 		{
-			writer.writeNamespace("dcterms", JSBML.URI_PURL_TERMS);
-			rdfNamespaces.put(JSBML.URI_PURL_TERMS, "dcterms");
+			boolean isModelHistory = annotation.getParent() instanceof Model;
+			
+			if (isModelHistory || (annotation.getHistory().isSetCreatedDate() || annotation.getHistory().isSetModifiedDate())) {
+				writer.writeNamespace("dcterms", JSBML.URI_PURL_TERMS);
+				rdfNamespaces.put(JSBML.URI_PURL_TERMS, "dcterms");
+			}			
 		}
 		
 		if (annotation.getNumCVTerms() > 0) 

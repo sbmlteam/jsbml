@@ -20,6 +20,9 @@
 
 package org.sbml.jsbml.xml.parsers;
 
+import java.text.MessageFormat;
+
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.SBMLDocument;
@@ -60,6 +63,8 @@ public class VCardParser implements ReadingParser {
 	 */
 	private boolean hasReadORGNode = false;
 
+	private Logger logger = Logger.getLogger(VCardParser.class);
+	
 	/**
 	 * @return the namespaceURI
 	 */
@@ -237,10 +242,14 @@ public class VCardParser implements ReadingParser {
 					&& !hasReadOrgName) {
 				hasReadOrgName = true;
 			} else {
-				// TODO : SBML syntax error, throw an exception?
+				logger.warn(MessageFormat.format(
+				  "The element ''vCard:{0}'' is an additional vCard element not described in the SBML specifications.", 
+				  elementName));
 			}
 		} else {
-			// TODO : SBML syntax error, throw an exception?
+		  logger.warn(MessageFormat.format(
+		    "Lost Information: the element ''{0}'' might be lost as the context object is not a Creator.", 
+		    elementName));
 		}
 		return contextObject;
 	}

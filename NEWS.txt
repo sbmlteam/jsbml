@@ -4,22 +4,32 @@
 Version 0.8-rc2 (xx-xx-2012)
 ======================================================================
 
+* User visible changes :
+
+  - major improvements of the reading and writing speed for large models.
+
 * Bug Fixes:
 
   - It was forgotten to implement an unsetSubstanceUnits method on the Model
     class. Thanks to Robert Byrnes for reporting this problem.
   
+  - In the Reaction class, the setReversible method only accepted Boolean,
+    no boolean.
+  
+-- unit improvements
+  
   - The Compartment class did not override the getDerivedUnitDefinition
     method from its superclass. Hence, it was not possible to inherit
     Level 3 units from the model.
     
-  - Also, the Species class did not take inherited Level 3 units from the
+  - The Species class did not take inherited Level 3 units from the
     Model into account. The getDerivedUnitDefinition method now has been
     corrected.
+        
+  - The simplify and the merge method of UnitDefinition and Unit did not
+    yield correct results and had to be updated as well as the 
+    getDerivedUnitDefinition() method in Species.
 
-  - In the Reaction class, the setReversible method only accepted Boolean,
-    no boolean.
-    
   - Merging of Units was not correct: In cases that scales of two units 
     could not be evenly merged, just one of both was used, the second scale
     was ignored. In these cases, however, the scales must be removed and
@@ -33,67 +43,52 @@ Version 0.8-rc2 (xx-xx-2012)
     of non-dimensionless units remain, the simplify method checks again
     the listOfUnits and tries to merge as many units as possible.
     
-  - Removed old note comment from the SubModel class.
-
-  - JSBML could not write negative infinity into SBML files correctly.
-  
   - The units of formulae containing Advogadro's number could not
     be derived because in the UnitsCompiler a UnitDefinition object 
-    was created with undefined level/version configuration. Furhtermore,
+    was created with undefined level/version configuration. Furthermore,
     there was a bug in the method containsUndeclaredUnits() in ASTNode.
-  
-  - Meike Aichele removed in TreeNodeChangeEvent the event spacialDimension, 
-    because there is already a spatialDimension-event, which means 
-    exactly the same
-    
-  - Detected and fixed a source of possible NullPointerExceptions within 
-    the hashCode method in ASTNode.
     
   - Improved the units derivation: There were multiple problems in 
     re-scaling and merging of units and also when determining the actual
     unit of a species.
+
+-- end of unit improvements
     
   - There was a bug in KineticLaw that prevented a correct iteration
-    through all child elements: Instead of looking at the 
-    listOfLocalParameters it did return the math element twice (if there
-    was one).
+    through all child elements.
     
-  - When cloning entire models or SBMLDocuments, JSBML also did assign
-    the identical TreeNodeChangeListeners to the new data structure. This
-    could lead to unexpected behavior because listeners were receiving
-    change events from data structures to which these have not been 
-    explicitely added by a user.
+  - When cloning JSBML wrongly assigned the same 
+    TreeNodeChangeListeners to the new data structure.
     
-  - Cloning also caused problems because in some cases the recursive
-    method that registers all local parameters and other entities with
-    an id did in some cases not do a full recursion. Hence, some entities
-    could not be found in the model later on when searching for a certain
-    id.
+  - The clone methods were corrected to register properly all entities
+  	with an id.
     
   - QuantityWithUnit did not fire update events when changing its value
-    because of an incorrect comparison of the previous and the new value.
+    because of an incorrect comparison between the previous and the new
+    value.
     
-  - Detected a bug that made it impossible to set a kinetic law with an 
-    exisiting list of local parameters as the new kinetic law in a 
-    different reaction. JSBML always complained that all local parameters
-    were already registered. This was the case for the previous model to
-    which the kinetic law belonged. Hence, it was necessary to unregister
-    all local parameters first.
-    
-  - Subsequent registration and unregistration of local parameters did 
-    not work. In case of reactions it was assumed that the kinetic law 
-    that was to be added to some SBML subtree had already a parent SBML 
-    element (this could be null). Furthermore, when trying to unregister 
-    local parameters in a kinetic law, the put method was called on the
-    map between ids and local parameters, instead of the remove method.
-    
-  - The simplify and the merge method of UnitDefinition and Unit did not
-    yield correct results and had to be updated as well as the 
-    getDerivedUnitDefinition() method in Species.
+  - Corrected a bug that made it impossible to set a kinetic law with an 
+    existing list of local parameters as the new kinetic law in a 
+    different reaction.
     
   - Meike Aichele detected and fixed the problem that some Listeners were 
     set too soon in the Model class, so that no Event was detected.
   
+  - TODO : 
+  - rdf namespace missing (when starting from scratch) 
+  - Model.getSpeciesReference(String) corrected
+  - annotation in the sbml namespace correctly read.
+  
+  
+  * Known issues :
+
+  - Reading of more than one RDF Description elements in the RDF annotation 
+    block (the official SBML annotation scheme) is not supported at the 
+    moment. Planned for the next major release. 
+  - The RDF block at the top level of the annotation is considered to be the
+    official SBML annotation.
+    
+    
 ======================================================================
 Version 0.8-rc1 (08-12-2011)
 ======================================================================

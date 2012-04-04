@@ -99,9 +99,11 @@ public class AnnotationParser implements ReadingParser {
 			Annotation annotation = (Annotation) contextObject;
 			annotation.appendNoRDFAnnotation(characters);
 
-		} else {
+		} else if (characters.trim().length() > 0) {
 			// There is a syntax error, the text can't be read?
-			logger.warn("some characters migth be lost !! (element name = " + elementName + ", characters = " + characters); 
+			logger.warn("some characters migth be lost !! (element name = " + elementName + ", characters = " + characters + ", context = " + contextObject); 			
+		} else {
+			logger.debug("some characters migth be lost !! (element name = " + elementName + ", characters = " + characters);
 		}
 	}
 

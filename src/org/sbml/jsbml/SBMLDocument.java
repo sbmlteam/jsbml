@@ -360,6 +360,11 @@ public class SBMLDocument extends AbstractSBase {
 			}
 		}
 
+		if (listOfErrors == null) {                                                                                      
+			logger.error("There was an error accessing the sbml online validator !!");                               
+			return -1;                                                                                               
+		}
+
 		return listOfErrors.getNumErrors();
 	}
 	
