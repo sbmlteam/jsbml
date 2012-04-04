@@ -45,7 +45,7 @@ public class StringTools {
   /**
 	 * 
 	 */
-	public static final String DECIMAL_FORMAT = "#############0.##############";
+	public static final String DECIMAL_FORMAT = "#.###########################################";
 
   
 	/**
@@ -55,11 +55,12 @@ public class StringTools {
 	/**
 	 * 
 	 */
-	public static final String REAL_FORMAT = "#########################.#########################";
+	public static final String REAL_FORMAT = "#.###############################################";
 	/**
 	 * 
 	 */
-	public static final String SCIENTIFIC_FORMAT = "########0.#########E0";
+	public static final String SCIENTIFIC_FORMAT = "#.###########################################E0";
+	
 	/**
 	 * The {@link Character} <code>'_'</code> as a {@link String}.
 	 */
@@ -413,16 +414,15 @@ public class StringTools {
 		if (Double.isNaN(value)) {
 			return "NaN";
 		} else if (Double.isInfinite(value)) {
-			// TODO: make this locale dependent.
-			String infinity = "infinity";
-			return value < 0 ? '-' + infinity : infinity;
+		  String infinity = "INF";
+    		  return value < 0 ? '-' + infinity : infinity;
 		}
 		
 		if (((int) value) - value == 0) {
 			return String.format("%d", Integer.valueOf((int) value));
 		}
-		
-		if ((Math.abs(value) < 1E-5) || (1E5 < Math.abs(value))) {
+
+		if ((Math.abs(value) < 1E-4) || (1E4 < Math.abs(value))) {
 			DecimalFormat df = new DecimalFormat(SCIENTIFIC_FORMAT,
 					new DecimalFormatSymbols(locale));
 			return df.format(value);

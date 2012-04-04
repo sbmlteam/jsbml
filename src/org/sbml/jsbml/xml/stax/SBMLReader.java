@@ -48,10 +48,10 @@ import org.codehaus.stax2.evt.XMLEvent2;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.Constraint;
+import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.SimpleTreeNodeChangeListener;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
@@ -92,7 +92,7 @@ public class SBMLReader {
 	
 	/**
 	 * Initialize a static instance of the core parser.
-	 * This is much more efficient than intializing it again and again every
+	 * This is much more efficient than initializing it again and again every
 	 * time we need it (Core bottleneck is the loadFromXML() method, called
 	 * from the SBMLCoreParser() constructor each time).
 	 */
@@ -217,7 +217,7 @@ public class SBMLReader {
 
 		String fileName = args[0];
 
-		SBMLDocument testDocument = new SBMLReader().readSBML(fileName);
+		SBMLDocument testDocument = new org.sbml.jsbml.SBMLReader().readSBMLFromFile(fileName);
 		
 		System.out.println("Number of namespaces: " + testDocument.getSBMLDocumentNamespaces().size());
 
@@ -653,7 +653,7 @@ public class SBMLReader {
 					logger.debug("startElement : isRDFSBMLSpecificAnnotation = " + isRDFSBMLSpecificAnnotation);
 				}
 
-				parser = processStartElement(startElement, currentNode, isHTML,	sbmlElements, isInsideAnnotation, isRDFSBMLSpecificAnnotation);
+				parser = processStartElement(startElement, currentNode, isHTML,	sbmlElements, annotationDeepness, isRDFSBMLSpecificAnnotation);
 				lastElement = sbmlElements.peek();
 
 			}
@@ -753,7 +753,7 @@ public class SBMLReader {
 				}
 
 				SBMLDocument sbmlDocument = processEndElement(currentNode, isNested, isText, isHTML, 
-						level, version, parser, sbmlElements, isInsideAnnotation, isRDFSBMLSpecificAnnotation);
+						level, version, parser, sbmlElements, annotationDeepness, isRDFSBMLSpecificAnnotation);
 				
 				if (sbmlDocument != null) {
 					return sbmlDocument;
@@ -833,7 +833,7 @@ public class SBMLReader {
 	 * @return
 	 */
 	private ReadingParser processStartElement(StartElement startElement, QName currentNode, 
-			Boolean isHTML, Stack<Object> sbmlElements, boolean isInsideAnnotation, boolean isRDFSBMLspecificAnnotation) 
+			Boolean isHTML, Stack<Object> sbmlElements, int annotationDeepness, boolean isRDFSBMLspecificAnnotation) 
 	{		
 		Logger logger = Logger.getLogger(SBMLReader.class);		
 		ReadingParser parser = null;
@@ -879,14 +879,21 @@ public class SBMLReader {
 					if ((elementNamespace.equals(Annotation.URI_RDF_SYNTAX_NS) 
 							|| elementNamespace.equals(JSBML.URI_PURL_ELEMENTS)
 							|| elementNamespace.equals(JSBML.URI_PURL_TERMS)
+							|| elementNamespace.equals(Creator.URI_RDF_VCARD_NS)
 							|| elementNamespace.equals(ModelQualifierParser.getNamespaceURI())
 							|| elementNamespace.equals(BiologicalQualifierParser.getNamespaceURI()))
 							&& !isRDFSBMLspecificAnnotation) 
 					{
 						parser = initializedParsers.get("anyAnnotation");
 					}
+					else if (annotationDeepness > 0 && elementNamespace.startsWith("http://www.sbml.org/sbml/level")) 
+					{
+						// This is probably a mistake in the annotation
+						// Sending it to the any parser
+						parser = initializedParsers.get("anyAnnotation");
+					}
 					
-					if (isInsideAnnotation && elementNamespace.equals(JSBML.URI_XHTML_DEFINITION)) {
+					if (annotationDeepness > 0 && elementNamespace.equals(JSBML.URI_XHTML_DEFINITION)) {
 						parser = initializedParsers.get("anyAnnotation");
 					}
 					
@@ -907,7 +914,7 @@ public class SBMLReader {
 					processNamespaces(nam, currentNode,sbmlElements, parser, hasAttributes);
 					
 					// Process the attributes
-					processAttributes(att, currentNode, sbmlElements, parser, hasAttributes, isInsideAnnotation, isRDFSBMLspecificAnnotation);
+					processAttributes(att, currentNode, sbmlElements, parser, hasAttributes, annotationDeepness, isRDFSBMLspecificAnnotation);
 
 				} else {
 					logger.warn(String.format("Cannot find a parser for the %s namespace", elementNamespace));				
@@ -982,7 +989,7 @@ public class SBMLReader {
 	 */
 	private void processAttributes(Iterator<Attribute> att, QName currentNode, 
 			Stack<Object> sbmlElements, ReadingParser parser, boolean hasAttributes, 
-			boolean isInsideAnnotation, boolean isRDFSBMLSpecificAnnotation) 
+			int annotationDeepness, boolean isRDFSBMLSpecificAnnotation) 
 	{
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		ReadingParser attributeParser = null;
@@ -999,15 +1006,22 @@ public class SBMLReader {
 				if ((attributeNamespaceURI.equals(Annotation.URI_RDF_SYNTAX_NS) 
 						|| attributeNamespaceURI.equals(JSBML.URI_PURL_ELEMENTS)
 						|| attributeNamespaceURI.equals(JSBML.URI_PURL_TERMS)
+						|| attributeNamespaceURI.equals(Creator.URI_RDF_VCARD_NS)
 						|| attributeNamespaceURI.equals(ModelQualifierParser.getNamespaceURI())
 						|| attributeNamespaceURI.equals(BiologicalQualifierParser.getNamespaceURI()))
 						&& !isRDFSBMLSpecificAnnotation) 
 				{
 					attributeParser = initializedParsers.get("anyAnnotation");
 				} 
-				else if (isInsideAnnotation && attributeNamespaceURI.equals(JSBML.URI_XHTML_DEFINITION)) 
+				else if (annotationDeepness > 0 && attributeNamespaceURI.equals(JSBML.URI_XHTML_DEFINITION)) 
 				{
 					attributeParser = initializedParsers.get("anyAnnotation");
+				}
+				else if (annotationDeepness > 0 && attributeNamespaceURI.startsWith("http://www.sbml.org/sbml/level")) 
+				{
+					// This is probably a mistake in the annotation
+					// Sending it to the any parser
+					parser = initializedParsers.get("anyAnnotation");
 				}
 				else 
 				{
@@ -1047,7 +1061,7 @@ public class SBMLReader {
 	 */
 	private SBMLDocument processEndElement(QName currentNode, Boolean isNested, Boolean isText, 
 			Boolean isHTML, int level, int version, ReadingParser parser, 			
-			Stack<Object> sbmlElements, boolean isInsideAnnotation, boolean isRDFSBMLSpecificAnnotation) {
+			Stack<Object> sbmlElements, int annotationDeepness, boolean isRDFSBMLSpecificAnnotation) {
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		
 		if (logger.isDebugEnabled()) {
@@ -1069,13 +1083,21 @@ public class SBMLReader {
 			if ((elementNamespaceURI.equals(Annotation.URI_RDF_SYNTAX_NS) 
 					|| elementNamespaceURI.equals(JSBML.URI_PURL_ELEMENTS)
 					|| elementNamespaceURI.equals(JSBML.URI_PURL_TERMS)
+					|| elementNamespaceURI.equals(Creator.URI_RDF_VCARD_NS)
 					|| elementNamespaceURI.equals(ModelQualifierParser.getNamespaceURI())
 					|| elementNamespaceURI.equals(BiologicalQualifierParser.getNamespaceURI()))
 					&& !isRDFSBMLSpecificAnnotation) 
 			{
 				parser = initializedParsers.get("anyAnnotation");
 			}
-			if (isInsideAnnotation && elementNamespaceURI.equals(JSBML.URI_XHTML_DEFINITION)) {
+			else if (annotationDeepness > 0 && elementNamespaceURI.startsWith("http://www.sbml.org/sbml/level")) 
+			{
+				// This is probably a mistake in the annotation
+				// Sending it to the any parser
+				parser = initializedParsers.get("anyAnnotation");
+			}
+			else if (annotationDeepness > 0 && elementNamespaceURI.equals(JSBML.URI_XHTML_DEFINITION)) 
+			{
 				parser = initializedParsers.get("anyAnnotation");
 			}
 			// if the current node is a notes or message element and

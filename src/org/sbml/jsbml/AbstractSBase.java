@@ -1203,6 +1203,36 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	
 	/*
 	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#unregisterChild(org.sbml.jsbml.SBase)
+	 */
+	public void unregister(SBase sbase)  {
+		if ((sbase != null)) {
+			SBMLDocument doc = getSBMLDocument();
+
+			if (doc != null) {
+				// unregister recursively all metaIds.
+				doc.registerMetaIds(sbase, true, true);
+			}
+			
+			Model model = getModel();
+
+			// remove all changeListeners
+			sbase.removeAllTreeNodeChangeListeners();
+
+			// If possible, recursively unregister all ids of the SBase in our model:
+			if ((model != null)
+					&& !model.registerIds(this, sbase, true, true)) {
+				throw new IllegalArgumentException(String.format("Cannot unregister %s.",
+						sbase.getElementName()));
+			}
+
+			// Notify all listeners that a new node has been added to this subtree:
+			sbase.fireNodeRemovedEvent();
+		}
+	}
+
+	
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setAnnotation(org.sbml.jsbml.Annotation)
 	 */
 	public void setAnnotation(Annotation annotation) {
@@ -1276,14 +1306,15 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if ((metaId != null) && (getLevel() == 1)) {
       throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId, this);
     }
-		SBMLDocument doc = getSBMLDocument();
-		if (doc != null) {
-			if (!doc.registerMetaId(metaId, true)) {
-			  throw new IdentifierException(this, metaId);
-			}
-		}
-		String oldMetaId = this.metaId;
-		this.metaId = metaId;
+    SBMLDocument doc = getSBMLDocument();
+    if ((doc != null) && doc.containsMetaId(metaId)) {
+      throw new IdentifierException(this, metaId);
+    }
+    String oldMetaId = this.metaId;
+    this.metaId = metaId;
+    if (doc != null) {
+      doc.registerMetaId(this, true);
+    }
 		firePropertyChange(TreeNodeChangeEvent.metaId, oldMetaId, metaId);
 	}
 
@@ -1346,11 +1377,18 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		setSBOTerm(SBO.stringToInt(sboid));
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#setThisAsParentSBMLObject(org.sbml.jsbml.SBase)
+	 */
+	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError {
+	  registerChild(sbase);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setThisAsParentSBMLObject(org.sbml.jsbml.SBase)
 	 */
-	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError {
+	public void registerChild(SBase sbase) throws LevelVersionError {
 		if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
 		    SBMLDocument doc = getSBMLDocument();
 		    if (doc != null) {

@@ -402,6 +402,25 @@ public interface SBase extends TreeNodeWithChangeSupport {
 			String value);
 
 	/**
+   * Sets this object as SBML parent of 'sbase'. Check if the level and version
+   * of sbase are set, otherwise sets the level and version of 'sbase' with
+   * those of this object. This method should actually not be called by any tool 
+   * as it is used internally within JSBML to maintain the hierarchical document
+   * structure.
+   * 
+   * If the level and version of sbase are set but not valid, an {@link Exception} is
+   * thrown.
+   */
+  public void registerChild(SBase sbase) throws LevelVersionError;
+
+  /**
+   * Unregisters recursively the given SBase from the {@link Model}
+   * and {@link SBMLDocument}.
+   * 
+   */
+  public void unregister(SBase sbase);
+
+	/**
 	 * Removes the given {@link TreeNodeChangeListener} from this element.
 	 * 
 	 * @param l

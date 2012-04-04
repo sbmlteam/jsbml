@@ -458,15 +458,15 @@ public class ASTNode extends AbstractTreeNode {
 			// for cn, we pass the type attribute to this function to determine the
 			// proper astNode type
 			// for csymbol, we pass the definitionURL
-			else if (type.equals("real") || type.equals("cn")) {
+			else if (type.equalsIgnoreCase("real") || type.equals("cn")) {
 				// we put the type by default to real in case the type attribute is
 				// not define on the cn element.
 				return REAL;
-			} else if (type.equals("e-notation")) {
+			} else if (type.equalsIgnoreCase("e-notation")) {
 				return REAL_E;
-			} else if (type.equals("integer")) {
+			} else if (type.equalsIgnoreCase("integer")) {
 				return INTEGER;
-			} else if (type.equals("rational")) {
+			} else if (type.equalsIgnoreCase("rational")) {
 				return RATIONAL;
 			} else if (type.equals("ci")) {
 				return NAME;
@@ -3802,12 +3802,17 @@ public class ASTNode extends AbstractTreeNode {
 	 * pointers within {@link ASTNode} constructs as well.
 	 */
 	public void updateVariables() {
-		if (isString() && (variable != null)) {
-			CallableSBase oldValue = this.getVariable();
-			name = variable.getId();
-			variable = null;
-			variable = getVariable();
-			this.firePropertyChange(TreeNodeChangeEvent.variable, oldValue, variable);
+		if (isString()) {
+			if (variable != null) {
+				CallableSBase oldValue = this.getVariable();
+				name = variable.getId();
+				variable = null;
+				variable = getVariable();
+				this.firePropertyChange(TreeNodeChangeEvent.variable, oldValue, variable);
+			} else if ((type != Type.NAME_TIME) && (type != Type.NAME_AVOGADRO)){
+				// Try to register a direct link to the variable (if the name represent one).
+				variable = getVariable();
+			}
 		}
 		for (ASTNode child : getChildren()) {
 			child.updateVariables();

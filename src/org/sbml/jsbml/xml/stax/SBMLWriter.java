@@ -772,24 +772,24 @@ public class SBMLWriter {
 		// no history can be written.
 		// Annotation cannot be written without metaid tag.
     if (sbase.getAnnotation().isSetRDFannotation()) {
-      if (sbase.isSetMetaId()) {
-        if (!annotation.isSetAbout()) {
-          // add required missing tag
-          annotation.setAbout("#" + sbase.getMetaId());
-        }
-        writeRDFAnnotation(annotation, annotationElement, writer, indent
-          + indentCount);
-      } else {
-        /*
-         * This shouldn't actually happen because a metaid will be created
-         * if missing in AbstractSBase. Only if no SBMLDocument is available,
-         * or the SBase is derived from a diffent SBase implementation, it 
-         * could fail.
-         */
-        logger.info(String.format(
-          "Could not write RDF annotation of %s due to missing metaid.",
-          sbase.getElementName()));
-      }
+			if (sbase.isSetMetaId()) {
+				if (!annotation.isSetAbout()) {
+					// add required missing tag
+					annotation.setAbout("#" + sbase.getMetaId());
+				}
+				writeRDFAnnotation(annotation, annotationElement, writer, indent
+						+ indentCount);
+			} else {
+				/*
+				 * This shouldn't actually happen because a metaid will be created
+				 * if missing in AbstractSBase. Only if no SBMLDocument is available,
+				 * or the SBase is derived from a diffent SBase implementation, it 
+				 * could fail.
+				 */
+				logger.info(String.format(
+						"Could not write RDF annotation of %s due to missing metaid.",
+						sbase.getElementName()));
+			}
     }
 		// set the indentation for the closing tag
 		element.setIndentation(whiteSpaces, indent + indentCount, indentCount);
@@ -809,61 +809,74 @@ public class SBMLWriter {
 	 */
 	private void writeCVTerms(List<CVTerm> listOfCVTerms,
 			Map<String, String> rdfNamespaces, XMLStreamWriter writer,
-			int indent) throws XMLStreamException {
+			int indent) throws XMLStreamException 
+	{
+		if (listOfCVTerms == null || listOfCVTerms.size() == 0) {
+			return;
+		}
+		
 		String rdfPrefix = rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS);
 		String whiteSpace = createIndentationString(indent);
-		if (listOfCVTerms.size() > 0) {
-			for (int i = 0; i < listOfCVTerms.size(); i++) {
-				CVTerm cvTerm = listOfCVTerms.get(i);
-				String namespaceURI = null;
-				String prefix = null;
-				String elementName = null;
-				if (cvTerm.getQualifierType().equals(
-						CVTerm.Type.BIOLOGICAL_QUALIFIER)) {
-					namespaceURI = CVTerm.Type.BIOLOGICAL_QUALIFIER
-							.getNamespaceURI();
-					prefix = rdfNamespaces.get(namespaceURI);
-					elementName = cvTerm.getBiologicalQualifierType()
-							.getElementNameEquivalent();
-				} else if (cvTerm.getQualifierType().equals(
-						CVTerm.Type.MODEL_QUALIFIER)) {
-					namespaceURI = cvTerm.getQualifierType().getNamespaceURI();
-					prefix = rdfNamespaces.get(namespaceURI);
-					elementName = Annotation
-							.getElementNameEquivalentToQualifier(cvTerm
-									.getModelQualifierType());
-				}
-				if ((namespaceURI != null) && (elementName != null)
-						&& (prefix != null)) {
-					writer.writeCharacters(whiteSpace + createIndentationString(indentCount));
-					writer.writeStartElement(prefix, elementName, namespaceURI);
+
+		for (int i = 0; i < listOfCVTerms.size(); i++) {
+			CVTerm cvTerm = listOfCVTerms.get(i);
+			String namespaceURI = null;
+			String prefix = null;
+			String elementName = null;
+			
+			if (cvTerm.getQualifierType().equals(CVTerm.Type.BIOLOGICAL_QUALIFIER)) {
+				namespaceURI = CVTerm.Type.BIOLOGICAL_QUALIFIER.getNamespaceURI();
+				prefix = rdfNamespaces.get(namespaceURI);
+				elementName = cvTerm.getBiologicalQualifierType()
+						.getElementNameEquivalent();
+			} else if (cvTerm.getQualifierType().equals(CVTerm.Type.MODEL_QUALIFIER)) {
+				namespaceURI = cvTerm.getQualifierType().getNamespaceURI();
+				prefix = rdfNamespaces.get(namespaceURI);
+				elementName = Annotation
+						.getElementNameEquivalentToQualifier(cvTerm
+								.getModelQualifierType());
+			}
+			if ((namespaceURI != null) && (elementName != null)
+					&& (prefix != null)) 
+			{
+				writer.writeCharacters(whiteSpace + createIndentationString(indentCount));
+				writer.writeStartElement(prefix, elementName, namespaceURI);
+				writer.writeCharacters("\n");
+				
+				if (cvTerm.getNumResources() > 0) {
+					writer.writeCharacters(whiteSpace + createIndentationString(2 * indentCount));
+					writer.writeStartElement(rdfPrefix, "Bag",
+							Annotation.URI_RDF_SYNTAX_NS);
 					writer.writeCharacters("\n");
-					if (cvTerm.getNumResources() > 0) {
-						writer.writeCharacters(whiteSpace + createIndentationString(2 * indentCount));
-						writer.writeStartElement(rdfPrefix, "Bag",
+					
+					for (int j = 0; j < cvTerm.getNumResources(); j++) {
+						writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
+						writer.writeStartElement(rdfPrefix, "li",
 								Annotation.URI_RDF_SYNTAX_NS);
-						writer.writeCharacters("\n");
-						for (int j = 0; j < cvTerm.getNumResources(); j++) {
-							writer.writeCharacters(whiteSpace + createIndentationString(3 * indentCount));
-							writer.writeStartElement(rdfPrefix, "li",
-									Annotation.URI_RDF_SYNTAX_NS);
-							writer.writeAttribute(rdfPrefix,
-									Annotation.URI_RDF_SYNTAX_NS, "resource",
-									cvTerm.getResourceURI(j));
-							writer.writeEndElement();
-							writer.writeCharacters("\n");
-						}
-						writer.writeCharacters(whiteSpace + createIndentationString(2 * indentCount));
-						writer.writeEndElement();
-						writer.writeCharacters("\n");
-						writer.writeCharacters(whiteSpace + createIndentationString(indentCount));
+						writer.writeAttribute(rdfPrefix,
+								Annotation.URI_RDF_SYNTAX_NS, "resource",
+								cvTerm.getResourceURI(j));
 						writer.writeEndElement();
 						writer.writeCharacters("\n");
 					}
-				}
+					writer.writeCharacters(whiteSpace + createIndentationString(2 * indentCount));
+					writer.writeEndElement();
+					writer.writeCharacters("\n");
+					
+				} else { // cvTerm.getNumResources() == 0
+					
+					writer.writeCharacters(whiteSpace + createIndentationString(2 * indentCount));
+					writer.writeEmptyElement(rdfPrefix, "Bag", Annotation.URI_RDF_SYNTAX_NS);
+					writer.writeCharacters("\n");
+				}				
+
+				writer.writeCharacters(whiteSpace + createIndentationString(indentCount));
+				writer.writeEndElement();
+				writer.writeCharacters("\n");
 			}
 		}
 	}
+
 
 	/**
 	 * Writes the history represented by this History instance.
@@ -1266,28 +1279,26 @@ public class SBMLWriter {
 		ArrayList<WritingParser> listOfPackages = getWritingParsers(
 				objectToWrite, smOutputParentElement.getNamespace().getURI());
 
-		// System.out.println("SBMLWriter : writeSBMLElements : xmlObject = " +
-		// xmlObject);
-		// System.out.println("SBMLWriter : writeSBMLElements : parentElement = "
-		// + parentElement.getLocalName() + ", "
-		// + parentElement.getNamespace().getURI());
-		// System.out.println("SBMLWriter : writeSBMLElements : objectToWrite = "
-		// + objectToWrite + '\n');
-		// System.out.println("SBMLWriter : writeSBMLElements : listOfPackages = "
-		// + listOfPackages + '\n');
-
+		if (logger.isDebugEnabled()) {
+			logger.debug("writeSBMLElements : xmlObject = " + parentXmlObject);
+			logger.debug("writeSBMLElements : parentElement = "
+					+ smOutputParentElement.getLocalName() + ", "
+					+ smOutputParentElement.getNamespace().getURI());
+			logger.debug("writeSBMLElements : objectToWrite = "	+ objectToWrite + '\n');
+			logger.debug("writeSBMLElements : listOfPackages = " + listOfPackages + '\n');
+		}
+		
 		Iterator<WritingParser> iterator = listOfPackages.iterator();
 		while (iterator.hasNext()) {
 			WritingParser parser = iterator.next();
 			List<Object> sbmlElementsToWrite = parser
 					.getListOfSBMLElementsToWrite(objectToWrite);
 
-			// System.out.println("SBMLWriter : writeSBMLElements : parser = "
-			// + parser);
-			// System.out
-			// .println("SBMLWriter : writeSBMLElements : elementsToWrite = "
-			// + sbmlElementsToWrite);
-
+			if (logger.isDebugEnabled()) {
+				logger.debug("writeSBMLElements : parser = " + parser);
+				logger.debug("writeSBMLElements : elementsToWrite = " + sbmlElementsToWrite);
+			}
+			
 			if (sbmlElementsToWrite == null) {
 				// TODO : test if there are some characters to write ?
 				

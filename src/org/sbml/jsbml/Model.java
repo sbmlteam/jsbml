@@ -567,12 +567,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return units.getId();
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#clone()
    */
-  // @Override
   public Model clone() {
     return new Model(this);
   }
@@ -614,27 +611,27 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if this model contains a reference to the given
+   * Returns <code>true</code> if this {@link Model} contains a reference to the given
    * {@link Quantity}.
    * 
    * @param quantity
-   * @return true if this model contains a reference to the given
+   * @return <code>true</code> if this {@link Model} contains a reference to the given
    *         {@link Quantity}.
    */
   public boolean containsQuantity(Quantity quantity) {
     Model model = quantity.getModel();
     if (!quantity.isSetId() || (model == null) || (this != model)) { 
-    	return false; 
+      return false; 
     }
     return findQuantity(quantity.getId()) != null;
   }
   
   /**
-   * Returns true if this model contains a reference to the given
+   * Returns <code>true</code> if this {@link Model} contains a reference to the given
    * {@link Species}.
    * 
    * @param id
-   * @return true if this model contains a reference to the given
+   * @return <code>true</code> if this {@link Model} contains a reference to the given
    *         {@link Species}.
    */
   public boolean containsSpecies(String id) {
@@ -642,11 +639,23 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if this model contains a reference to the given
+   * Returns <code>true</code> if this {@link Model} contains a reference to the given
+   * {@link UniqueNamedSBase}.
+   * 
+   * @param units
+   * @return <code>true</code> if this {@link Model} contains a reference to the given
+   *         {@link UniqueNamedSBase}.
+   */
+  public boolean containsUniqueNamedSBase(String id) {
+    return mapOfUniqueNamedSBases.containsKey(id);
+  }
+  
+  /**
+   * Returns <code>true</code> if this {@link Model} contains a reference to the given
    * {@link UnitDefinition}.
    * 
    * @param units
-   * @return true if this model contains a reference to the given
+   * @return <code>true</code> if this {@link Model} contains a reference to the given
    *         {@link UnitDefinition}.
    */
   public boolean containsUnitDefinition(String units) {
@@ -1287,9 +1296,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return unitDefinition;
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
    */
   @Override
@@ -1353,25 +1360,50 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Finds all instances of {@link LocalParameter} in this {@link Model} and
    * adds them to a {@link List}.
    * 
-   * @param idOrName
+   * @param id
    * @return A {@link List} of all {@link LocalParameter} instances with the
    *         given name or identifier. This {@link List} can be empty, but never
    *         null.
    */
-  public List<LocalParameter> findLocalParameters(String idOrName) {
+  public List<LocalParameter> findLocalParameters(String id) {
     List<LocalParameter> list = new LinkedList<LocalParameter>();
-    if (isSetListOfReactions()) {
-    	LocalParameter p;
-    	for (Reaction r : getListOfReactions()) {
-    		if (r.isSetKineticLaw()) {
-    			p = r.getKineticLaw().getLocalParameter(idOrName);
-    			if (p != null) {
-    				list.add(p);
-    			}
-    		}
-    	}
+    SortedSet<String> rList = findReactionsForLocalParameter(id);
+    if ((rList == null) || rList.isEmpty()) {
+      return list;
+    }
+    LocalParameter p;
+    Reaction r;
+    for (String rId : rList) {
+      r = getReaction(rId);
+      // This must always be true, otherwise there is an error elsewhere:
+      if (r.isSetKineticLaw()) {
+        p = r.getKineticLaw().getLocalParameter(id);
+        if (p != null) {
+          list.add(p);
+        }
+      }
     }
     return list;
+  }
+  
+  /**
+   * Returns the {@link ModifierSpeciesReference} with all {@link Reaction}s
+   * of this {@link Model} that has 'id' as id.
+   * 
+   * @param id
+   *        the identifier of the {@link ModifierSpeciesReference} of interest.
+   *        Note that this is not the identifier of the {@link Species} instance
+   *        referred to by the {@link ModifierSpeciesReference}.
+   * @return the {@link ModifierSpeciesReference} out of all {@link Reaction}s
+   *         which has 'id' as id (or name depending on level and version).
+   *         <code>null</code> if it doesn't exist.
+   */
+  public ModifierSpeciesReference findModifierSpeciesReference(String id) {
+    SimpleSpeciesReference ssr = findSimpleSpeciesReference(id);
+    if ((ssr != null) && (ssr instanceof ModifierSpeciesReference)) {
+      return (ModifierSpeciesReference) ssr;
+    }
+    return null;
   }
   
   /**
@@ -1405,7 +1437,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return nsb == null ? findNamedSBaseWithDerivedUnit(id) : nsb;
   }
-  
+
   /**
    * Returns a {@link NamedSBaseWithDerivedUnit} element of the {@link Model}
    * that has the given 'id' as id or null if no element is found. It first
@@ -1452,7 +1484,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return nsb;
   }
-
+  
   /**
    * Searches for an instance of {@link QuantityWithUnit} within all of this
    * {@link Model}'s components that has the given identifier or name attribute
@@ -1498,35 +1530,43 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Searches for all references to {@link Species} in the reactions assigned to
-   * this {@link Model}, i.e., reactants and products.
+   * Returns the {@link SimpleSpeciesReference} within all {@link Reaction}s of
+   * this {@link Model} that has 'id' as id.
    * 
    * @param id
-   *        the identifier of the {@link SpeciesReference} of interest. Note
-   *        that this is not the identifier of the {@link Species} instance
+   *        the identifier of the {@link SimpleSpeciesReference} of interest.
+   *        Note that this is not the identifier of the {@link Species} instance
+   *        referred to by the {@link SimpleSpeciesReference}.
+   * @return the {@link SimpleSpeciesReference} out of all {@link Reaction}s
+   *         which has 'id' as id (or name depending on level and version).
+   *         <code>null</code> if it doesn't exist.
+   */
+  public SimpleSpeciesReference findSimpleSpeciesReference(String id) {
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof SimpleSpeciesReference)) {
+      return (SimpleSpeciesReference) found;
+    }
+    return null;
+  }
+  
+  /**
+   * Returns the {@link SpeciesReference} with all {@link Reaction}s
+   * of this {@link Model} that has 'id' as id.
+   * 
+   * @param id
+   *        the identifier of the {@link SpeciesReference} of interest.
+   *        Note that this is not the identifier of the {@link Species} instance
    *        referred to by the {@link SpeciesReference}.
-   * @return The first {@link SpeciesReference} with the given identifier or
-   *         null if there is no such element.
+   * @return the {@link SpeciesReference} out of all {@link Reaction}s
+   *         which has 'id' as id (or name depending on level and version).
+   *         <code>null</code> if it doesn't exist.
    */
   public SpeciesReference findSpeciesReference(String id) {
-    SpeciesReference specRef = null;
-    if (isSetListOfReactions()) {
-      for (int i = 0; i < getNumReactions(); i++) {
-        Reaction reaction = getReaction(i);
-        if (reaction.isSetListOfReactants()) {
-        	specRef = reaction.getReactant(id);
-        }
-        if (specRef != null) {
-          return specRef;
-        } else if (reaction.isSetListOfProducts()) {
-          specRef = reaction.getProduct(id);
-          if (specRef != null) { 
-        	  return specRef; 
-          }
-        }
-      }
+    SimpleSpeciesReference ssr = findSimpleSpeciesReference(id);
+    if ((ssr != null) && (ssr instanceof SpeciesReference)) {
+      return (SpeciesReference) ssr;
     }
-    return specRef;
+    return null;
   }
   
   /**
@@ -1597,9 +1637,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return nsb;
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
    */
   @Override
@@ -1631,9 +1669,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return getUnitDefinition(getAreaUnits());
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
    */
   @Override
@@ -1697,9 +1733,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       +((int) Math.min(pos, 0))));
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildCount()
    */
   @Override
@@ -1765,7 +1799,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         listOfCompartments is not set.
    */
   public Compartment getCompartment(String id) {
-    return getListOfCompartments().firstHit(new NameFilter(id));
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof Compartment)) {
+      return (Compartment) found;
+    }
+    return null;
   }
   
   /**
@@ -1786,13 +1824,17 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Gets the {@link CompartmentType} with the given <code>id</code>.
    * 
    * @param id
-   * @return the CompartmentType of the listOfCompartmentTypes which has 'id' as
+   * @return the CompartmentType of the {@link #listOfCompartmentTypes} which has 'id' as
    *         id (or name depending on the level and version). Null if the
-   *         listOfCompartmentTypes is not set or the id is not found.
+   *         {@link #listOfCompartmentTypes} is not set or the id is not found.
    */
   @Deprecated
   public CompartmentType getCompartmentType(String id) {
-    return getListOfCompartmentTypes().firstHit(new NameFilter(id));
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof CompartmentType)) {
+      return (CompartmentType) found;
+    }
+    return null;
   }
   
   /**
@@ -1842,12 +1884,16 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Gets the {@link Event} which as the given <code>id</code> as id.
    * 
    * @param id
-   * @return the Event of the listOfEvents which has 'id' as id (or name
-   *         depending on the level and version). Null if if the listOfEvents is
-   *         not set.
+   * @return the {@link Event} of the {@link #listOfEvents} which has 'id' as id
+   *         (or name depending on the level and version). Null if if the
+   *         {@link #listOfEvents} is not set.
    */
   public Event getEvent(String id) {
-    return getListOfEvents().firstHit(new NameFilter(id));
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof Event)) {
+      return (Event) found;
+    }
+    return null;
   }
   
   /**
@@ -1885,16 +1931,20 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the {@link FunctionDefinition} of the listOfFunstionDefinitions
+   * Returns the {@link FunctionDefinition} of the {@link #listOfFunctionDefinitions}
    * which has 'id' as id.
    * 
    * @param id
-   * @return the {@link FunctionDefinition} of the listOfFunstionDefinitions
+   * @return the {@link FunctionDefinition} of the {@link #listOfFunctionDefinitions}
    *         which has 'id' as id (or name depending on the level and version).
-   *         Null if if the listOfFunctionDefinitions is not set.
+   *         Null if if the {@link #listOfFunctionDefinitions} is not set.
    */
   public FunctionDefinition getFunctionDefinition(String id) {
-    return getListOfFunctionDefinitions().firstHit(new NameFilter(id));
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof FunctionDefinition)) {
+      return (FunctionDefinition) found;
+    }
+    return null;
   }
   
   /**
@@ -2536,9 +2586,7 @@ public int getNumLocalParameters() {
     return getListOfParameters().firstHit(new NameFilter(id));
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getParent()
    */
   @Override
@@ -2570,7 +2618,7 @@ public int getNumLocalParameters() {
     }
     return null;
   }
-  
+
   /**
    * Gets the n-th {@link Reaction} object in this Model.
    * 
@@ -2580,17 +2628,21 @@ public int getNumLocalParameters() {
   public Reaction getReaction(int n) {
     return getListOfReactions().get(n);
   }
-  
+
   /**
-   * Returns the {@link Reaction} of the listOfReactions which has 'id' as id.
+   * Returns the {@link Reaction} of the {@link #listOfReactions} which has 'id' as id.
    * 
    * @param id
-   * @return the {@link Reaction} of the listOfReactions which has 'id' as id
-   *         (or name depending on the level and version). Null if it doesn't
+   * @return the {@link Reaction} of the {@link #listOfReactions} which has 'id' as id
+   *         (or name depending on the level and version). <code>null</code> if it doesn't
    *         exist.
    */
   public Reaction getReaction(String id) {
-    return getListOfReactions().firstHit(new NameFilter(id));
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof Reaction)) {
+      return (Reaction) found;
+    }
+    return null;
   }
   
   /**
@@ -2638,27 +2690,10 @@ public int getNumLocalParameters() {
    *         name depending on the level and version). Null if it doesn't exist.
    */
   public Species getSpecies(String id) {
-      
-      SBase foundSBase = findUniqueNamedSBase(id);
-      
-      if (foundSBase != null && foundSBase instanceof Species) {
-          return (Species) foundSBase;
-      }
- 
-      /*     
-      ListOf<Species> ls = getListOfSpecies();
-      Species tmp = ls.firstHit(new NameFilter(id));
-      
-      Species speciesFound = null;
-      for (Species species : ls) {
-          if (species.isSetId() && species.getId().equals(id)) {
-              speciesFound = species;
-              break;
-          }
-      }
-      * 
-      */
-      
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof Species)) {
+      return (Species) found;
+    }
     return null;
   }
   
@@ -2677,17 +2712,21 @@ public int getNumLocalParameters() {
   }
   
   /**
-   * Returns the {@link SpeciesType} of the listOfSpeciesTypes which has 'id' as
+   * Returns the {@link SpeciesType} of the {@link #listOfSpeciesTypes} which has 'id' as
    * id.
    * 
    * @param id
-   * @return the {@link SpeciesType} of the listOfSpeciesTypes which has 'id' as
-   *         id (or name depending on the level and version). Null if it doesn't
+   * @return the {@link SpeciesType} of the {@link #listOfSpeciesTypes} which has 'id' as
+   *         id (or name depending on the level and version). <code>null</code> if it doesn't
    *         exist.
    */
   @Deprecated
   public SpeciesType getSpeciesType(String id) {
-    return getListOfSpeciesTypes().firstHit(new NameFilter(id));
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof SpeciesType)) {
+      return (SpeciesType) found;
+    }
+    return null;
   }
   
   /**
@@ -2766,14 +2805,11 @@ public int getNumLocalParameters() {
    *         exist.
    */
   public UnitDefinition getUnitDefinition(String id) {
-    UnitDefinition unitDefinition = getListOfUnitDefinitions().firstHit(
-      new NameFilter(id));
-    
+    UnitDefinition unitDefinition = mapOfUnitDefinitions != null ? mapOfUnitDefinitions.get(id) : null;
     // Checking if it is not one of the predefined default units.
     if (unitDefinition == null) {
       unitDefinition = getPredefinedUnitDefinition(id);
     }
-    
     return unitDefinition;
   }
   
@@ -2803,9 +2839,7 @@ public int getNumLocalParameters() {
     return getUnitDefinition(getVolumeUnits());
   }
   
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
    */
   @Override
@@ -3223,11 +3257,8 @@ public int getNumLocalParameters() {
     return getVolumeUnitsInstance() != null;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-   * String prefix, String value)
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
@@ -4429,9 +4460,7 @@ public int getNumLocalParameters() {
     setVolumeUnits((String) null);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
    */
   @Override
@@ -4440,7 +4469,7 @@ public int getNumLocalParameters() {
     
     if (getLevel() > 2) {
       if (isSetSubstanceUnits()) {
-        attributes.put("substanceUnitsID", getSubstanceUnits());
+        attributes.put("substanceUnits", getSubstanceUnits());
       }
       if (isSetTimeUnits()) {
         attributes.put("timeUnits", getTimeUnits());
