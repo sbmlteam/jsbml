@@ -295,13 +295,13 @@ public class MainWindow
         try
         {
             // Set System L&F
-            UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
-        catch ( UnsupportedLookAndFeelException e )
+        catch (UnsupportedLookAndFeelException e)
         {
             Log.warning("Unable to set look and feel. Proceeding anyway.");
         }
-        catch ( Exception e )
+        catch (Exception e)
         {
             Log.warning("Unexpected look & feel configuration failure -- "
                         + "something more serious may be wrong");
