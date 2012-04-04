@@ -320,13 +320,13 @@ public class MainWindow
 
         if (Config.runningMac())
         {
-            Log.note("Registering for Mac OS X events");
+            Log.note("Registering for Mac OS X GUI events");
             registerForMacOSXEvents();
         }
-        else if (Config.runningWindows())
+        else
         {
-            Log.note("Registering for Windows events");
-            registerForWindowsEvents();
+            Log.note("Registering for GUI events");
+            registerForEvents();
         }
 
         Log.note("Making main application window visible.");
@@ -364,7 +364,7 @@ public class MainWindow
     /**
      * Set up menus when running under Windows.
      */
-    public void registerForWindowsEvents()
+    public void registerForEvents()
     {
         Log.note("Setting up the Windows menus.");    
 
