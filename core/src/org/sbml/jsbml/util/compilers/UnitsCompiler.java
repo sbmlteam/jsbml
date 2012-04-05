@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml.util.compilers;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,7 +35,6 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.Maths;
-import org.sbml.jsbml.util.StringTools;
 
 /**
  * Derives the units from mathematical operations.
@@ -577,7 +577,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantAvogadro(java.lang.String)
 	 */
 	public ASTNodeValue getConstantAvogadro(String name) {
-		ASTNodeValue value = new ASTNodeValue(Maths.AVOGADRO, this);
+	    // TODO: If there is a different value in a later SBML specification, this must be checked here.
+		ASTNodeValue value = new ASTNodeValue(Maths.AVOGADRO_L3V1, this);
 		UnitDefinition perMole = new UnitDefinition(level, version);
 		perMole.setLevel(level);
 		perMole.setId("per_mole");
@@ -752,7 +753,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			compiledvalues[i++] = node.compile(this);
 		}
 		value.setValue(Integer.valueOf(0));
-		UnitDefinition ud = new UnitDefinition(this.level, this.version);
+		UnitDefinition ud = new UnitDefinition(level, version);
 		ud.addUnit(Unit.Kind.INVALID);
 		value.setUnits(ud);
 
@@ -869,7 +870,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		}
 
 		value.setValue(Integer.valueOf(0));
-		UnitDefinition ud = new UnitDefinition(this.level, this.version);
+		UnitDefinition ud = new UnitDefinition(level, version);
 		ud.addUnit(Unit.Kind.INVALID);
 		value.setUnits(ud);
 
@@ -916,8 +917,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 				for (int i = 0; i < left.getUnits().getUnitCount(); i++) {
 					Unit u1 = left.getUnits().getUnit(i);
 					Unit u2 = right.getUnits().getUnit(i);
-					if ((u1.getMultiplier() != 0d)
-							&& (u2.getMultiplier() != 0d)) {
+					if (((u1.getMultiplier() != u2.getMultiplier())
+					    && (u1.getScale() != u2.getScale()) && (u1.getExponent() != u2.getExponent()))
+					    && (u1.getMultiplier() != 0d) && (u2.getMultiplier() != 0d)) {
 
 						mean = (Math.abs(u1.getScale()) + Math.abs(u2.getScale())) / 2;
 
@@ -979,17 +981,12 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#pow(org.sbml.jsbml.ASTNodeValue, org.sbml.jsbml.ASTNodeValue)
 	 */
 	public ASTNodeValue pow(ASTNode base, ASTNode exponent)
-			throws SBMLException {
-		if (exponent.isSetUnits()) {
-			checkForDimensionlessOrInvalidUnits(exponent.getUnitsInstance());
-		}
-		if (exponent.isNumber()) {
-			if (!(exponent.isInteger() || exponent.isRational())) {
-				checkForDimensionlessOrInvalidUnits(base.getUnitsInstance());
-			}
-		}
+	    throws SBMLException {
+	  if (exponent.isSetUnits()) {
+	    checkForDimensionlessOrInvalidUnits(exponent.getUnitsInstance());
+	  }
 
-		return pow(base.compile(this), exponent.compile(this));
+	  return pow(base.compile(this), exponent.compile(this));
 	}
 
 	/**
@@ -1000,22 +997,22 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 * @throws SBMLException
 	 */
 	private ASTNodeValue pow(ASTNodeValue base, ASTNodeValue exponent)
-			throws SBMLException {
-		double exp = Double.NaN, v;
-		v = exponent.toDouble();
-		exp = v == 0 ? 0 : 1 / v;
-		if (exp == 0) {
-			UnitDefinition ud = new UnitDefinition(level, version);
-			ud.addUnit(Kind.DIMENSIONLESS);
-			ASTNodeValue value = new ASTNodeValue(ud, this);
-			value.setValue(Integer.valueOf(1));
-			return value;
-		}
-		if (!Double.isNaN(exp)) {
-			return root(exp, base);
-		}
+	    throws SBMLException {
+	  double exp = Double.NaN, v;
+	  v = exponent.toDouble();
+	  exp = v == 0d ? 0d : 1d / v;
+	  if (exp == 0d) {
+	    UnitDefinition ud = new UnitDefinition(level, version);
+	    ud.addUnit(Kind.DIMENSIONLESS);
+	    ASTNodeValue value = new ASTNodeValue(ud, this);
+	    value.setValue(Integer.valueOf(1));
+	    return value;
+	  }
+	  if (!Double.isNaN(exp)) {
+	    return root(exp, base);
+	  }
 
-		return new ASTNodeValue(this);
+	  return new ASTNodeValue(this);
 	}
 
 	/**
@@ -1025,27 +1022,26 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 * @param units
 	 */
 	private void checkForDimensionlessOrInvalidUnits(UnitDefinition units) {
-		units.simplify();
-		String illegal = null;
+	  units.simplify();
+	  String illegal = null;
 
-		if (units.getUnitCount() == 1) {
-			Kind kind = units.getUnit(0).getKind();
+	  if (units.getUnitCount() == 1) {
+	    Kind kind = units.getUnit(0).getKind();
 
-			if ((kind != Kind.DIMENSIONLESS) && (kind != Kind.ITEM)
-					&& (kind != Kind.RADIAN) && (kind != Kind.STERADIAN)
-					&& (kind != Kind.INVALID)) {
-				illegal = kind.toString();
-			}
-		} else {
-			illegal = units.toString();
-		}
-		if (illegal != null) {
-			throw new IllegalArgumentException(
-					new UnitException(
-							String.format(
-									"An invalid or dimensionless unit is required but given is %s.",
-									illegal)));
-		}
+	    if ((kind != Kind.DIMENSIONLESS) && (kind != Kind.ITEM)
+	        && (kind != Kind.RADIAN) && (kind != Kind.STERADIAN)
+	        && (kind != Kind.INVALID)) {
+	      illegal = kind.toString();
+	    }
+	  } else {
+	    illegal = units.toString();
+	  }
+	  if (illegal != null) {
+	    throw new IllegalArgumentException(
+	      new UnitException(MessageFormat.format(
+	        "An invalid or dimensionless unit is required but given is {0}.",
+	        illegal)));
+	  }
 	}
 
 	/* (non-Javadoc)
@@ -1086,24 +1082,24 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 * @throws SBMLException
 	 */
 	private ASTNodeValue root(double rootExponent, ASTNodeValue radiant)
-			throws SBMLException {
-		UnitDefinition ud = radiant.getUnits().clone();
-		for (Unit u : ud.getListOfUnits()) {
-			if ((((u.getExponent() / rootExponent) % 1d) != 0d) && !u.isDimensionless() && !u.isInvalid()) {
-				throw new IllegalArgumentException(
-						new UnitException(String.format(
-										"Cannot perform power or root operation due to incompatibility with a unit exponent. Given are %s and %s.",
-										StringTools.toString(u.getExponent()), StringTools.toString(rootExponent))));
-			}
-			
-			if (!(u.isDimensionless() || u.isInvalid())) {
-				u.setExponent(u.getExponent() / rootExponent);
-			}
+	    throws SBMLException {
+	  UnitDefinition ud = radiant.getUnits().clone();
+	  for (Unit u : ud.getListOfUnits()) {
+	    if ((((u.getExponent() / rootExponent) % 1d) != 0d) && !u.isDimensionless() && !u.isInvalid()) {
+	      throw new IllegalArgumentException(
+	        new UnitException(MessageFormat.format(
+	          "Cannot perform power or root operation due to incompatibility with a unit exponent. Given are {0,number} and {1,number}.",
+	          u.getExponent(), rootExponent)));
+	    }
 
-		}
-		ASTNodeValue value = new ASTNodeValue(ud, this);
-		value.setValue(Double.valueOf(Math.pow(radiant.toDouble(), 1d / rootExponent)));
-		return value;
+	    if (!(u.isDimensionless() || u.isInvalid())) {
+	      u.setExponent(u.getExponent() / rootExponent);
+	    }
+
+	  }
+	  ASTNodeValue value = new ASTNodeValue(ud, this);
+	  value.setValue(Double.valueOf(Math.pow(radiant.toDouble(), 1d / rootExponent)));
+	  return value;
 	}
 
 	/* (non-Javadoc)

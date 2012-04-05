@@ -31,6 +31,13 @@ Version 1.0-rc1 (xx-xx-2012)
 
   - A new JUnitTestClass helps to check if simplification and merging
     of Units and UnitDefinitions works correctly.
+    
+  - The userObject in ASTNode has been replaced by a more general map
+    of userObjects that is located in AbstractTreeNode. In this way, any
+    JSBML object that is part of the SBML tree can now be attached with
+    user-defined additional objects for in-memory manipulation. These
+    will not be written to SBML later on.
+
 
 * Bug Fixes:
 
@@ -60,6 +67,12 @@ Version 1.0-rc1 (xx-xx-2012)
     always 0 and multiplier was 1. Now, if some unit cancel, but a number
     of non-dimensionless units remain, the simplify method checks again
     the listOfUnits and tries to merge as many units as possible.
+    
+  - Scales of units could not be merged correctly if one of both scales
+    was different from zero.
+    
+  - When unifying units in addition or subtraction within an ASTNode
+    the scales were sometimes incorrectly merged.
     
   - Removed old note comment from the SubModel class.
 

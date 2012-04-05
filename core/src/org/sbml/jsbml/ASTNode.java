@@ -21,6 +21,7 @@
 package org.sbml.jsbml;
 
 import java.io.StringReader;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -34,6 +35,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
@@ -1228,12 +1230,6 @@ public class ASTNode extends AbstractTreeNode {
 	private String unitId;
 
 	/**
-	 * Any kind of {@link Object} that can be stored in addition to all other
-	 * features of this {@link ASTNode}.
-	 */
-	private Object userObject;
-
-	/**
 	 * A direct pointer to a referenced variable. This can save a lot of
 	 * computation time because it will then not be necessary to query the
 	 * corresponding model again and again for this variable.
@@ -2306,8 +2302,11 @@ public class ASTNode extends AbstractTreeNode {
 	 *             if this node is not of type real.
 	 */
 	public double getReal() {
-		if (isReal() || type == Type.CONSTANT_E || type == Type.CONSTANT_PI) {
+		if (isReal() || (type == Type.CONSTANT_E) || (type == Type.CONSTANT_PI) || (type == Type.NAME_AVOGADRO)) {
 			switch (type) {
+			case NAME_AVOGADRO:
+			  // TODO: in case that there will be different values for this constant in later versions, we will need a LV check here.
+			  return Maths.AVOGADRO_L3V1;
 			case REAL:
 				return mantissa;
 			case REAL_E:{
@@ -2402,28 +2401,31 @@ public class ASTNode extends AbstractTreeNode {
 	 * {@link Kind}, the created {@link UnitDefinition} will not be part of the
 	 * model, it is just a container for the {@link Kind}.
 	 * 
-	 * @return A {@link UnitDefinition} or null.
+	 * @return A {@link UnitDefinition} or <code>null</code>.
 	 */
 	public UnitDefinition getUnitsInstance() {
-		if (!isSetUnits() || (getParentSBMLObject() == null)) {
-			return null;
-		}
-		int level = getParentSBMLObject().getLevel();
-		int version = getParentSBMLObject().getVersion();
-		if (Unit.Kind.isValidUnitKindString(getUnits(), level, version)) {
-			UnitDefinition ud = new UnitDefinition(getUnits(), level, version);
-			ud.addUnit(Unit.Kind.valueOf(getUnits().toUpperCase()));
-		} else if (getParentSBMLObject().getModel() == null) {
-			return null;
-		}
-		return getParentSBMLObject().getModel().getUnitDefinition(getUnits());
-	}
-
-	/**
-	 * @return the userObject
-	 */
-	public Object getUserObject() {
-		return userObject;
+	  MathContainer parent = getParentSBMLObject();
+	  int level = parent != null ? parent.getLevel() : -1;
+	  int version = parent != null ? parent.getVersion() : -1;
+	  if (!isSetUnits() || (getParentSBMLObject() == null)) {
+	    if (isName()) {
+	      CallableSBase variable = getVariable();
+	      if (variable != null) {
+	        return variable.getDerivedUnitDefinition();
+	      } else if (isConstant()) {
+	        UnitDefinition ud = new UnitDefinition(level, level);
+	        ud.addUnit(Unit.Kind.DIMENSIONLESS);
+	        return ud;
+	      }
+	    }
+	    return null;
+	  }
+	  if (Unit.Kind.isValidUnitKindString(getUnits(), level, version)) {
+	    return UnitDefinition.getPredefinedUnit(getUnits(), level, version);
+	  } else if (getParentSBMLObject().getModel() == null) {
+	    return null;
+	  }
+	  return getParentSBMLObject().getModel().getUnitDefinition(getUnits());
 	}
 
 	/**
@@ -2883,14 +2885,6 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetUserObject() {
-		return userObject != null;
-	}
-
-	/**
 	 * Returns true if this node represents a square root function, false
 	 * otherwise.
 	 * 
@@ -3157,13 +3151,16 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public ASTNode raiseByThePowerOf(double exponent) {
 		if (exponent == 0d) {
-			setValue(1);
+		  // Clear list of nodes first because this won't notify any listeners.
+		  listOfNodes.clear();
+		  // This will notify listeners that will receive this ASTNode with an empty list of children.
+		  setValue(1);
+		  // The units of this ASTNode must be dimensionless now.
 			if (isSetParentSBMLObject() && (getParentSBMLObject().getLevel() > 2)) {
 			  setUnits(Unit.Kind.DIMENSIONLESS.toString().toLowerCase());
 			}
-			listOfNodes.clear();
 		} else if (exponent != 1d) {
-			raiseByThePowerOf(new ASTNode(exponent, getParentSBMLObject()));
+			return raiseByThePowerOf(new ASTNode(exponent, getParentSBMLObject()));
 		}
 		return this;
 	}
@@ -3515,42 +3512,31 @@ public class ASTNode extends AbstractTreeNode {
 	 * 
 	 * @param unitId
 	 * @throws IllegalArgumentException
-	 *             if the ASTNode is not a kind of numbers (<cn> in mathml) or
+	 *             if the ASTNode is not a kind of numbers (&lt;cn&gt; in mathml) or
 	 *             if the <code>unitId</code> is not a valid unit kind or the id
 	 *             of a unit definition.
 	 */
 	public void setUnits(String unitId) {
-		if (!isNumber()) {
-			throw new IllegalArgumentException(String.format(
-									"Unexpected attribute %s, only literal numbers can defined a unit.",
-									unitId));
-		}
-		if (parentSBMLObject != null) {
-			if (!Unit.isValidUnit(parentSBMLObject.getModel(), unitId)) {
-				throw new IllegalArgumentException(String.format(
-										"Unexpected attribute %s, only a valid unit kind or the identifier of a unit definition are allowed here.",
-										unitId));
-			}
-			if (parentSBMLObject.isSetLevel() && (parentSBMLObject.getLevel() < 3)) {
-				throw new IllegalArgumentException(String.format(
-										"Cannot set unit %s for a numbers in an ASTNode before SBML Level 3.",
-										unitId));
-			}
-		}
-		String oldValue = this.unitId;
-		this.unitId = unitId;
-		this.firePropertyChange(TreeNodeChangeEvent.units, oldValue, unitId);
-	}
-
-	/**
-	 * @param userObject
-	 *            the userObject to set
-	 */
-	public void setUserObject(Object userObject) {
-		Object oldObject = this.userObject;
-		this.userObject = userObject;
-		firePropertyChange(TreeNodeChangeEvent.userObject, oldObject,
-				this.userObject);
+	  if (!isNumber()) {
+	    throw new IllegalArgumentException(MessageFormat.format(
+	      "Unexpected attribute {0}, only literal numbers can defined a unit.",
+	      unitId));
+	  }
+	  if (parentSBMLObject != null) {
+	    if (!Unit.isValidUnit(parentSBMLObject.getModel(), unitId)) {
+	      throw new IllegalArgumentException(MessageFormat.format(
+	        "Unexpected attribute {0}, only a valid unit kind or the identifier of a unit definition are allowed here.",
+	        unitId));
+	    }
+	    if (parentSBMLObject.isSetLevel() && (parentSBMLObject.getLevel() < 3)) {
+	      throw new IllegalArgumentException(MessageFormat.format(
+	        "Cannot set unit {0} for a numbers in an ASTNode before SBML Level 3.",
+	        unitId));
+	    }
+	  }
+	  String oldValue = this.unitId;
+	  this.unitId = unitId;
+	  this.firePropertyChange(TreeNodeChangeEvent.units, oldValue, unitId);
 	}
 
 	/**
@@ -3773,13 +3759,6 @@ public class ASTNode extends AbstractTreeNode {
 		String oldValue = this.unitId;
 		unitId = null;
 		this.firePropertyChange(TreeNodeChangeEvent.units, oldValue, null);
-	}
-
-	/**
-	 * 
-	 */
-	public void unsetUserObject() {
-		setUserObject(null);
 	}
 
 	/**

@@ -532,10 +532,11 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				plugin.notifySBaseChanged(psb);
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.userObject)) {
-			ASTNode n = (ASTNode) eventsource;
-			n.setUserObject(event.getNewValue());
-			MathContainer mc = n.getParentSBMLObject();
-			plugin.notifySBaseChanged(getCorrespondingElementInJSBML(mc));
+		  // NO user objects in CellDesigner.
+//			ASTNode n = (ASTNode) eventsource;
+//			n.setUserObject(event.getNewValue());
+//			MathContainer mc = n.getParentSBMLObject();
+//			plugin.notifySBaseChanged(getCorrespondingElementInJSBML(mc));
 		} else if (prop.equals(TreeNodeChangeEvent.useValuesFromTriggerTime)) {
 			Event evt = (Event) event.getSource();
 			PluginEvent plugEvt = plugModel.getEvent(evt.getId());
