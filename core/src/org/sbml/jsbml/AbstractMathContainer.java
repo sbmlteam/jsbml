@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -177,8 +178,8 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 			      name += " in " + parent.toString();
 			    }
 			  }
-        logger.warn(String.format(
-          "Could not derive unit from syntax tree of %s: %s", name,
+        logger.warn(MessageFormat.format(
+          "Could not derive unit from syntax tree of {0}: {1}", name,
           exc.getLocalizedMessage()));
         logger.debug(exc.getLocalizedMessage(), exc);
 			}

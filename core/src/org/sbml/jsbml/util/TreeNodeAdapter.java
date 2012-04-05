@@ -120,7 +120,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 		if (equals) {
 			TreeNodeAdapter node = (TreeNodeAdapter) object;
 			equals &= node.isUserObjectRecursiveDataType() == isUserObjectRecursiveDataType();
-			if (equals && isSetUserObject() && !isUserObjectRecursiveDataType()) {
+			if (equals && isSetUserObjects() && !isUserObjectRecursiveDataType()) {
 				equals &= node.getUserObject().equals(getUserObject());
 			}
 		}
@@ -131,7 +131,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
 	 */
 	public boolean getAllowsChildren() {
-		if (isSetUserObject() && (userObject instanceof Collection<?>)) {
+		if (isSetUserObjects() && (userObject instanceof Collection<?>)) {
 			return true;
 		}
 		return false;
@@ -144,7 +144,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 		if (childIndex < 0) {
 			throw new IndexOutOfBoundsException(childIndex + " < 0");
 		}
-		if (isSetUserObject()) {
+		if (isSetUserObjects()) {
 			if (userObject instanceof TreeNode) {
 				return ((TreeNode) userObject).getChildAt(childIndex);
 			}
@@ -180,7 +180,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	 * @see javax.swing.tree.TreeNode#getChildCount()
 	 */
 	public int getChildCount() {
-		if (isSetUserObject()) {
+		if (isSetUserObjects()) {
 			if (userObject instanceof Collection<?>) {
 				return ((Collection<?>) userObject).size();
 			}
@@ -219,23 +219,23 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	/**
 	 * @return
 	 */
-	public boolean isSetUserObject() {
+	public boolean isSetUserObjects() {
 		return userObject != null;
 	}
 
 	/**
 	 * Checks whether or not the user's object has been set (see
-	 * {@link #isSetUserObject()}) and if so if it belongs to those elements
+	 * {@link #isSetUserObjects()}) and if so if it belongs to those elements
 	 * returned by the method {@link #getChildAt(int)}.
 	 * 
 	 * @return <code>true</code> if the user's object has been defined and
 	 *         belongs to those classes that are returned by the method
 	 *         {@link #getChildAt(int)}.
 	 * @see #getChildAt(int)
-	 * @see #isSetUserObject()
+	 * @see #isSetUserObjects()
 	 */
 	public boolean isUserObjectRecursiveDataType() {
-		return isSetUserObject()
+		return isSetUserObjects()
 				&& ((userObject instanceof Collection<?>)
 						|| (userObject instanceof Map<?, ?>) || (userObject instanceof TreeNode));
 	}
@@ -253,7 +253,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	 */
 	@Override
 	public String toString() {
-		if (isSetUserObject()) {
+		if (isSetUserObjects()) {
 			if (userObject instanceof Collection<?>) {
 				Collection<?> collection = (Collection<?>) userObject;
 				if (ListOf.isDebugMode()) {
