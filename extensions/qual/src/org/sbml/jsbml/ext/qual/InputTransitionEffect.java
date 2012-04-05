@@ -21,17 +21,21 @@ package org.sbml.jsbml.ext.qual;
 
 /**
  * @author Nicolas Rodriguez
+ * @author Clemens Wrzodek
  * @version $Rev$
  * @since 1.0
  * @date $Date$
  */
 public enum InputTransitionEffect {
   /**
-   * 
+   * The level of the {@link QualitativeSpecies} is decreased by the resultLevel
+   * of the selected term possibly modified by the thresholdLevel of the
+   * {@link Input}.
    */
   consumption,
   /**
-   * 
+   * Neither the level nor the symbol associated to the
+   * {@link QualitativeSpecies} is modified.
    */
   none
 }
