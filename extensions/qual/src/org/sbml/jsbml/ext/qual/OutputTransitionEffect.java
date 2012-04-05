@@ -21,21 +21,25 @@ package org.sbml.jsbml.ext.qual;
 
 /**
  * @author Nicolas Rodriguez
+ * @author Clemens Wrzodek
  * @version $Rev$
  * @since 1.0
  * @date $Date$
  */
 public enum OutputTransitionEffect {
   /**
-   * 
+   * The level of the {@link QualitativeSpecies} is set to the resultLevel of the
+   * selected term.
    */
   assignmentLevel,
   /**
-   * 
+   * The symbol associated to the {@link QualitativeSpecies} is set to the resultSymbol
+   * of the selected term.
    */
   assignmentSymbol,
   /**
-   * 
+   * The level of the {@link QualitativeSpecies} is increased by the resultLevel of the
+   * selected term possibly modified by the level of the {@link Output}.
    */
   production
 }
