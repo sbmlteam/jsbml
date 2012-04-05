@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml.util;
 
+import java.text.MessageFormat;
+
 /**
  * This class provides several static methods for mathematical operations such
  * as faculty, logarithms and several trigonometric functions, which are not
@@ -34,13 +36,18 @@ package org.sbml.jsbml.util;
  */
 public class Maths {
 
-	/**
-	 * Avogadro's constant of 6.02214199 &#8901; 10<sup>23</sup>
-	 * mol<sup>-1</sup>. The standard deviation of this constant is 36 &#8901;
-	 * 10<sup>16</sup> mol<sup>-1</sup>. See D. R. Linde, CRC Handbook of
-	 * Chemistry and Physics, 81st ed., CRC Press, Boca Raton, Florida, 2000.
-	 */
-	public static final double AVOGADRO = 6.02214199 * Math.pow(10, 23);
+  /**
+   * Avogadro's constant of 6.02214179 &#8901; 10<sup>23</sup>
+   * mol<sup>-1</sup>. The standard deviation of this constant is approximately
+   * 36 &#8901;
+   * 10<sup>16</sup> mol<sup>-1</sup>. See Mohr, P. J., Taylor, B. N., and
+   * Newell, D. B. (2008). CODATA Recommended Values of the Fundamental
+   * 22 Physical Constants: 2006. Reviews of Modern Physics, 80:633-731. Note
+   * that in SBML this number is treated as a dimensionless quantity.
+   * The suffix of the variable's name (L3V1) suggests that in later SBML values
+   * new experimentally determined values for this constant could be determined.
+   */
+	public static final double AVOGADRO_L3V1 = 6.02214179 * Math.pow(10, 23);
 
 	/**
 	 * Universal gas constant of 8.314472 J &#8901; mol<sup>-1</sup> &#8901;
@@ -93,8 +100,7 @@ public class Maths {
 	 */
 	public static final double arccsc(double x) {
 	  if (x == 0) {
-      throw new ArithmeticException(String.format("arccsc(%s) undefined",
-          StringTools.toString(x)));
+      throw new ArithmeticException(MessageFormat.format("arccsc({0,number}) undefined", x));
     }
     double asin = Math.asin(1d / x);
     return asin;
@@ -121,8 +127,7 @@ public class Maths {
 	 */
 	public static final double arcsec(double x) {
 	  if (x == 0) {
-      throw new ArithmeticException(String.format("arccsc(%s) undefined",
-          StringTools.toString(x)));
+      throw new ArithmeticException(MessageFormat.format("arccsc({0,number}) undefined", x));
     }
     double acos = Math.acos(1d / x);
     return acos;
@@ -170,8 +175,7 @@ public class Maths {
 	public static final double cot(double n) {
 		double sin = Math.sin(n);
 		if (sin == 0) {
-			throw new ArithmeticException(String.format("cot(%s) undefined",
-					StringTools.toString(n)));
+			throw new ArithmeticException(String.format("cot({0,number}) undefined", n));
 		}
 		return Math.cos(n) / sin;
 	}
@@ -185,8 +189,7 @@ public class Maths {
 	public static final double coth(double n) {
 		double sinh = Math.sinh(n);
 		if (sinh == 0) {
-			throw new ArithmeticException(String.format("coth(%s) undefined",
-					StringTools.toString(n)));
+			throw new ArithmeticException(MessageFormat.format("coth({0,number}) undefined", n));
 		}
 		return Math.cosh(n) / sinh;
 	}
@@ -200,8 +203,7 @@ public class Maths {
 	public static final double csc(double n) {
 		double sin = Math.sin(n);
 		if (sin == 0) {
-			throw new ArithmeticException(String.format("csc(%s) undefined",
-					StringTools.toString(n)));
+			throw new ArithmeticException(MessageFormat.format("csc({0,number}) undefined", n));
 		}
 		return 1 / sin;
 	}
@@ -215,8 +217,7 @@ public class Maths {
 	public static final double csch(double n) {
 		double sinh = Math.sinh(n);
 		if (sinh == 0) {
-			throw new ArithmeticException(String.format("csch(%s) undefined",
-					StringTools.toString(n)));
+			throw new ArithmeticException(MessageFormat.format("csch({0,number}) undefined", n));
 		}
 		return 1 / sinh;
 	}
@@ -229,9 +230,8 @@ public class Maths {
 	 */
 	public static final long factorial(int n) {
 		if (n < 0) {
-			throw new IllegalArgumentException(String.format(
-					"Cannot compute factorial for values %s < 0", StringTools
-							.toString(n)));
+			throw new IllegalArgumentException(MessageFormat.format(
+					"Cannot compute factorial for values {0,number,integer} < 0", n));
 		}
 		if ((n == 0) || (n == 1)) {
 			return 1;
@@ -271,8 +271,7 @@ public class Maths {
 	public static final double log(double number, double base) {
 		double denominator = Math.log(base);
 		if (denominator == 0) {
-			throw new ArithmeticException(String.format("log_e(%s) undefined",
-					StringTools.toString(base)));
+			throw new ArithmeticException(MessageFormat.format("log_e({0,number}) undefined", base));
 		}
 		return Math.log(number) / denominator;
 	}
@@ -288,7 +287,7 @@ public class Maths {
 		if (rootExponent != 0) {
 			return Math.pow(radiant, 1 / rootExponent);
 		}
-		throw new ArithmeticException("root exponent must not be zero");
+		throw new ArithmeticException("Root exponent must not be zero.");
 	}
 
 	/**
@@ -310,8 +309,7 @@ public class Maths {
 	public static final double sech(double n) {
 		double cosh = Math.cosh(n);
 		if (cosh == 0) {
-			throw new ArithmeticException(String.format("sech(%s) undefined",
-					StringTools.toString(n)));
+			throw new ArithmeticException(MessageFormat.format("sech({0,number}) undefined", n));
 		}
 		return 1 / cosh;
 	}
@@ -322,4 +320,5 @@ public class Maths {
 	 */
 	private Maths() {
 	}
+
 }

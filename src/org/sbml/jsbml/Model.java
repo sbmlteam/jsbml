@@ -2991,19 +2991,21 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param n
    *        an index
-   * @return the {@link Species} with the given index if it exists, null
-   *         otherwise.
+   * @return the {@link Species} with the given index if it exists, 
+   *         <code>null</code> otherwise.
    */
   public Species getSpecies(int n) {
     return getListOfSpecies().get(n);
   }
   
   /**
-   * Gets the {@link Species} of the listOfSpecies which has 'id' as id.
+   * Gets the {@link Species} of the {@link #listOfSpecies} which has 'id' as
+   * id.
    * 
    * @param id
    * @return the {@link Species} of the listOfSpecies which has 'id' as id (or
-   *         name depending on the level and version). Null if it doesn't exist.
+   *         name depending on the level and version). <code>null</code> if 
+   *         it doesn't exist.
    */
   public Species getSpecies(String id) {
     UniqueNamedSBase found = findUniqueNamedSBase(id);
@@ -4552,7 +4554,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Sets the substanceUnitsID of this {@link Model} to 'substanceUnitsID'
+   * Sets the {@link #substanceUnitsID} of this {@link Model} to 'substanceUnitsID'
    * 
    * @param substanceUnitsID
    * @throws PropertyNotAvailableException
@@ -4590,8 +4592,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *             if Level < 3.
    */
   public void setTimeUnits(String timeUnitsID) {
-	  if (getLevel() < 3) { throw new PropertyNotAvailableException(
-			  TreeNodeChangeEvent.timeUnits, this); }
+	  if (getLevel() < 3) { 
+	    throw new PropertyNotAvailableException(
+			  TreeNodeChangeEvent.timeUnits, this);
+	  }
 	  String oldTimeUnitsID = this.timeUnitsID;
 	  this.timeUnitsID = timeUnitsID;
 	  firePropertyChange(TreeNodeChangeEvent.timeUnits, oldTimeUnitsID,

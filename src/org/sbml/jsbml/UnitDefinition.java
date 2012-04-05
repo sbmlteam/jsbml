@@ -418,11 +418,12 @@ public class UnitDefinition extends AbstractNamedSBase {
 	  }
 	}
 
-	/**
-	 * 
-	 * @param ud
-	 * @return
-	 */
+  /**
+   * @param ud
+   * @return a simplified version of the given {@link UnitDefinition}. In order
+   *         to make sure that the original {@link UnitDefinition} is not
+   *         changed, it is cloned before the simplification.
+   */
 	public static UnitDefinition simplify(UnitDefinition ud) {
 		return ud.clone().simplify();
 	}
@@ -1033,23 +1034,24 @@ public class UnitDefinition extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Removes the nth Unit object from this UnitDefinition object and returns a
+	 * Removes the nth {@link Unit} object from this {@link UnitDefinition} object and returns a
 	 * pointer to it.
 	 * 
 	 * The caller owns the returned object and is responsible for deleting it.
 	 * 
 	 * @param i
 	 *            the index of the Unit object to remove
-	 * @return the Unit object removed. As mentioned above, the caller owns the
-	 *         returned item. NULL is returned if the given index is out of
+	 * @return the {@link Unit} object removed. As mentioned above, the caller owns the
+	 *         returned item. <code>null</code> is returned if the given index is out of
 	 *         range.
 	 */
 	public Unit removeUnit(int i) {
-		if (isSetListOfUnits()) {
-			Unit u = listOfUnits.remove(i);
-			return u;
-		}
-		return null;
+	  if (isSetListOfUnits()) {
+	    // Note that ListOf will already notify listeners.
+	    Unit u = listOfUnits.remove(i);
+	    return u;
+	  }
+	  return null;
 	}
 
 	/* (non-Javadoc)
