@@ -35,12 +35,17 @@ package org.sbml.jsbml.util;
 public class Maths {
 
 	/**
-	 * Avogadro's constant of 6.02214199 &#8901; 10<sup>23</sup>
-	 * mol<sup>-1</sup>. The standard deviation of this constant is 36 &#8901;
-	 * 10<sup>16</sup> mol<sup>-1</sup>. See D. R. Linde, CRC Handbook of
-	 * Chemistry and Physics, 81st ed., CRC Press, Boca Raton, Florida, 2000.
+	 * Avogadro's constant of 6.02214179 &#8901; 10<sup>23</sup>
+	 * mol<sup>-1</sup>. The standard deviation of this constant is approximately
+	 * 36 &#8901;
+	 * 10<sup>16</sup> mol<sup>-1</sup>. See Mohr, P. J., Taylor, B. N., and
+	 * Newell, D. B. (2008). CODATA Recommended Values of the Fundamental
+	 * 22 Physical Constants: 2006. Reviews of Modern Physics, 80:633-731. Note
+	 * that in SBML this number is treated as a dimensionless quantity.
+	 * The suffix of the variable's name (L3V1) suggests that in later SBML values
+	 * new experimentally determined values for this constant could be determined.
 	 */
-	public static final double AVOGADRO = 6.02214199 * Math.pow(10, 23);
+	public static final double AVOGADRO_L3V1 = 6.02214179 * Math.pow(10, 23);
 
 	/**
 	 * Universal gas constant of 8.314472 J &#8901; mol<sup>-1</sup> &#8901;

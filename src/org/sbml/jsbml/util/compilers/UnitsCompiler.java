@@ -659,7 +659,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#getConstantAvogadro(java.lang.String)
 	 */
 	public ASTNodeValue getConstantAvogadro(String name) {
-		ASTNodeValue value = new ASTNodeValue(Maths.AVOGADRO, this);
+		// TODO: If there is a different value in a later SBML specification, this must be checked here.
+		ASTNodeValue value = new ASTNodeValue(Maths.AVOGADRO_L3V1, this);
 		UnitDefinition perMole = new UnitDefinition(level, version);
 		perMole.setLevel(level);
 		perMole.setId("per_mole");
@@ -1050,8 +1051,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 				for (int i = 0; i < left.getUnits().getNumUnits(); i++) {
 					Unit u1 = left.getUnits().getUnit(i);
 					Unit u2 = right.getUnits().getUnit(i);
-					if ((u1.getMultiplier() != 0d)
-							&& (u2.getMultiplier() != 0d)) {
+					if (((u1.getMultiplier() != u2.getMultiplier())
+				            && (u1.getScale() != u2.getScale()) && (u1.getExponent() != u2.getExponent()))
+				            && (u1.getMultiplier() != 0d) && (u2.getMultiplier() != 0d)) {
 
 						mean = (Math.abs(u1.getScale()) + Math.abs(u2
 								.getScale())) / 2;
@@ -1122,11 +1124,6 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			throws SBMLException {
 		if (exponent.isSetUnits()) {
 			checkForDimensionlessOrInvalidUnits(exponent.getUnitsInstance());
-		}
-		if (exponent.isNumber()) {
-			if (!(exponent.isInteger() || exponent.isRational())) {
-				checkForDimensionlessOrInvalidUnits(base.getUnitsInstance());
-			}
 		}
 
 		return pow(base.compile(this), exponent.compile(this));

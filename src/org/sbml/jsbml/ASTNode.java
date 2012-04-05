@@ -34,6 +34,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
@@ -2313,8 +2314,11 @@ public class ASTNode extends AbstractTreeNode {
 	 *             if this node is not of type real.
 	 */
 	public double getReal() {
-		if (isReal() || type == Type.CONSTANT_E || type == Type.CONSTANT_PI) {
+		if (isReal() || (type == Type.CONSTANT_E) || (type == Type.CONSTANT_PI) || (type == Type.NAME_AVOGADRO)) {
 			switch (type) {
+			case NAME_AVOGADRO:
+			  // TODO: in case that there will be different values for this constant in later versions, we will need a LV check here.
+			  return Maths.AVOGADRO_L3V1;
 			case REAL:
 				return mantissa;
 			case REAL_E:{
@@ -2412,14 +2416,24 @@ public class ASTNode extends AbstractTreeNode {
 	 * @return A {@link UnitDefinition} or null.
 	 */
 	public UnitDefinition getUnitsInstance() {
+		MathContainer parent = getParentSBMLObject();
+		int level = parent != null ? parent.getLevel() : -1;
+		int version = parent != null ? parent.getVersion() : -1;
 		if (!isSetUnits() || (getParentSBMLObject() == null)) {
+			if (isName()) {
+				CallableSBase variable = getVariable();
+				if (variable != null) {
+					return variable.getDerivedUnitDefinition();
+				} else if (isConstant()) {
+					UnitDefinition ud = new UnitDefinition(level, level);
+					ud.addUnit(Unit.Kind.DIMENSIONLESS);
+					return ud;
+				}
+			}
 			return null;
 		}
-		int level = getParentSBMLObject().getLevel();
-		int version = getParentSBMLObject().getVersion();
 		if (Unit.Kind.isValidUnitKindString(getUnits(), level, version)) {
-			UnitDefinition ud = new UnitDefinition(getUnits(), level, version);
-			ud.addUnit(Unit.Kind.valueOf(getUnits().toUpperCase()));
+			return UnitDefinition.getPredefinedUnit(getUnits(), level, version);
 		} else if (getParentSBMLObject().getModel() == null) {
 			return null;
 		}
@@ -3164,13 +3178,16 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public ASTNode raiseByThePowerOf(double exponent) {
 		if (exponent == 0d) {
-			setValue(1);
+		  // Clear list of nodes first because this won't notify any listeners.
+		  listOfNodes.clear();
+		  // This will notify listeners that will receive this ASTNode with an empty list of children.
+		  setValue(1);
+		  // The units of this ASTNode must be dimensionless now.
 			if (isSetParentSBMLObject() && (getParentSBMLObject().getLevel() > 2)) {
-				  setUnits(Unit.Kind.DIMENSIONLESS.toString().toLowerCase());
+			  setUnits(Unit.Kind.DIMENSIONLESS.toString().toLowerCase());
 			}
-			listOfNodes.clear();
 		} else if (exponent != 1d) {
-			raiseByThePowerOf(new ASTNode(exponent, getParentSBMLObject()));
+			return raiseByThePowerOf(new ASTNode(exponent, getParentSBMLObject()));
 		}
 		return this;
 	}

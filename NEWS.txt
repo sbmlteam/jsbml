@@ -52,6 +52,12 @@ Version 0.8-rc2 (xx-xx-2012)
     re-scaling and merging of units and also when determining the actual
     unit of a species.
 
+  - Scales of units could not be merged correctly if one of both scales
+    was different from zero.
+    
+  - When unifying units in addition or subtraction within an ASTNode
+    the scales were sometimes incorrectly merged.
+
 -- end of unit improvements
     
   - There was a bug in KineticLaw that prevented a correct iteration

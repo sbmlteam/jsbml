@@ -329,24 +329,18 @@ public class Unit extends AbstractSBase {
 		 *         particular SBML level and version, false otherwise.
 		 * @see Unit#isPredefined(String, int)
 		 */
-		public static boolean isValidUnitKindString(String unitKind, int level,
-				int version) {
-			Logger logger = Logger.getLogger(Unit.class);
-			Kind uk = null;
+		public static boolean isValidUnitKindString(String unitKind, int level, int version) {
 			if ((unitKind != null) && (unitKind.length() > 0)) {
 				try {
 					// We need to do that as our enum is upper case and sbml
 					// kind are lower case in the SBML XML representation.
-					uk = Kind.valueOf(unitKind.toUpperCase());
+				  Kind uk = Kind.valueOf(unitKind.toUpperCase());
+					return uk.isDefinedIn(level, version);
 				} catch (IllegalArgumentException exc) {
 					logger.debug("isValidUnitKindString exception : " + exc.getMessage());
 				}
 			}
-
-			if (uk == null) {
-				return false;
-			}
-			return uk.isDefinedIn(level, version);
+			return false;
 		}
 
 		/**
@@ -1060,6 +1054,30 @@ public class Unit extends AbstractSBase {
 			double newMultiplier = m1;
 			double newExponent = e1 + e2;
 			boolean removeScale = false;
+		    
+		    /*
+		     * Note how we combine units:
+		     * ==========================
+		     * 
+		     * We have (m_1 * 10^{s_1} * u)^e_1 and (m_2 * 10^{s_2} * u)^e_2
+		     * 
+		     * m, s, e denoting multiplier, scale and exponent for each unit.
+		     * u is either of identical kind or dimensionless or invalid.
+		     * 
+		     * The merged unit is:
+		     * 
+		     * (m_1^{e_1/(e_1 + e_2)} * m_2^{e_2/(e_1 + e_2)} * 10^{(s_1 * e_1 + s_2 * e_2)/(e_1 + e_2)} * u)^{e_1 + e_2}
+		     * 
+		     * Special cases occur if s_1 or s_2 equal 0.
+		     * 
+		     * It is important to know that the scale must be an integer. Hence, if the
+		     * fraction (s_1 * e_1 + s_2 * e_2)/(e_1 + e_2) is not exactly an integer,
+		     * we have to merge the scale with the multiplier and set the scale to 0.
+		     * 
+		     * Also note that the exponent of a dimensionless unit must be one,
+		     * even if it is the result of a cancelation of two other units, i.e.,
+		     * it should actually be 0.
+		     */
 
 			if (newExponent != 0d) {
 
@@ -1099,7 +1117,8 @@ public class Unit extends AbstractSBase {
 							removeScale = true;
 						}
 					} else if ((e1 != 0d) && (1 + e2 != 0d)) {
-						newScale = (s1 + e2 * s2 / e1) / (1 + e2);
+						// factored out e_1 from (s_1 * e_1 + s_2 * e_2)/(e_1 + e_2) for a simpler computation:
+						newScale = (s1 + e2 * s2 / e1) / (1 + e2 / e1);
 					} else {
 						removeScale = true;
 					}

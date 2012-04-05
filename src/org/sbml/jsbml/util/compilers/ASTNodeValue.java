@@ -638,7 +638,11 @@ public class ASTNodeValue {
 				e.printStackTrace();
 			}
 		}
-		return (value != null) ? value.toString() : super.toString();
+		String val = (value != null) ? value.toString() : super.toString();
+		if (isSetUnit()) {
+		  val += ' ' + UnitDefinition.printUnits(getUnits(), true);
+		}
+		return val;
 	}
 
 	/**

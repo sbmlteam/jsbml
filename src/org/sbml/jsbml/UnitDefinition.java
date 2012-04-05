@@ -416,7 +416,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 	/**
 	 * 
 	 * @param ud
-	 * @return
+	 * @return a simplified version of the given {@link UnitDefinition}. In order
+	 *         to make sure that the original {@link UnitDefinition} is not
+	 *         changed, it is cloned before the simplification.
 	 */
 	public static UnitDefinition simplify(UnitDefinition ud) {
 		return ud.clone().simplify();
