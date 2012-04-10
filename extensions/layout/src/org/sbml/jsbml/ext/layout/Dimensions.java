@@ -54,7 +54,7 @@ public class Dimensions extends AbstractNamedSBase {
 	 * 
 	 */
 	public Dimensions() {
-		addNamespace(LayoutConstant.namespaceURI);
+	  addNamespace(LayoutConstant.namespaceURI);
 	}
 	
 	/**
@@ -74,10 +74,32 @@ public class Dimensions extends AbstractNamedSBase {
 		}
 	}
 
-
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
+	 * @param level
+	 * @param version
+	 */
+  public Dimensions(int level, int version) {
+	  super(level, version);
+	  addNamespace(LayoutConstant.namespaceURI);
+	}
+  
+  /**
+   * 
+   * @param width
+   * @param height
+   * @param depth
+   * @param level
+   * @param version
+   */
+  public Dimensions(double width, double height, double depth, int level, int version) {
+    this(level, version);
+    this.width = width;
+    this.height = height;
+    this.depth = depth;
+  }
+	
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	@Override
@@ -85,8 +107,8 @@ public class Dimensions extends AbstractNamedSBase {
 		return new Dimensions(this);
 	}
 
-	/*
-	 * (non-Javadoc)
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
@@ -109,7 +131,7 @@ public class Dimensions extends AbstractNamedSBase {
 		}
 		return equals;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -117,7 +139,7 @@ public class Dimensions extends AbstractNamedSBase {
 	public double getDepth() {
 		return depth;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -134,8 +156,7 @@ public class Dimensions extends AbstractNamedSBase {
 		return width;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
 	@Override
@@ -176,12 +197,8 @@ public class Dimensions extends AbstractNamedSBase {
 		return !Double.isNaN(width);
 	}
 
-	/**
-	 * 
-	 * @param attributeName
-	 * @param prefix
-	 * @param value
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -246,6 +263,9 @@ public class Dimensions extends AbstractNamedSBase {
 		firePropertyChange(LayoutConstant.width, oldWidth, this.width);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
@@ -270,6 +290,5 @@ public class Dimensions extends AbstractNamedSBase {
 
 		return attributes;
 	}
-
 
 }
