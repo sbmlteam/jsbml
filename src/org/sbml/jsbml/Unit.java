@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
@@ -1037,7 +1038,25 @@ public class Unit extends AbstractSBase {
 		boolean equivalent = Kind.areEquivalent(k1, k2);
 		if (equivalent || unit1.isDimensionless() || unit2.isDimensionless()) {
 			int s1 = unit1.getScale(), s2 = unit2.getScale();
-			// let's get rid of this offset if there is any...
+		    /* 
+		     * Let's get rid of this offset if there is any...
+		     * 
+		     * We remove the offset by expressing it within a new multiplier, 
+		     * m-prime.
+		     * 
+		     * m-prime = offset / 10^scale + multiplier
+		     * 
+		     * When inserting this again into the unit formula, the offset 
+		     * vanishes:
+		     * 
+		     * ((offset + multiplier * 10^scale) * unit)^exponent 
+		     * 
+		     * then becomes
+		     * 
+		     * (m-prime * 10^scale * unit)^exponent
+		     * 
+		     * This is possible because offset and multiplier are real double numbers.
+		     */
 			double m1 = unit1.getOffset() / Math.pow(10, s1)
 					+ unit1.getMultiplier();
 			double m2 = unit2.getOffset() / Math.pow(10, s2)
@@ -1053,7 +1072,6 @@ public class Unit extends AbstractSBase {
 			double newScale = s1;
 			double newMultiplier = m1;
 			double newExponent = e1 + e2;
-			boolean removeScale = false;
 		    
 		    /*
 		     * Note how we combine units:
@@ -1096,34 +1114,29 @@ public class Unit extends AbstractSBase {
 				if (m1 != m2) {
 					newMultiplier = Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1d / newExponent);
 				}
+				
 				if (s1 != s2) {
+
+					double ns = Double.NaN;
+
 					if (s1 == 0) {
-						double ns = s2 * e2 / newExponent;
-						if (ns - ((int) ns) == 0d) {
-							newScale = ns;
-						} else {
-							/*
-							 * If rounding fails, we have to remove the scale and shift it to
-							 * the multiplier. Otherwise, it would be too inaccurate.
-							 */
-							removeScale = true;
-						}
+						ns = s2 * e2 / newExponent;
 					} else if (s2 == 0) {
-						double ns = s1 * e1 / newExponent;
-						if (ns - ((int) ns) == 0d) {
-							newScale = ns;
-						} else {
-							// Rounding failed, so we have to remove the scale and use multipliers.
-							removeScale = true;
-						}
+						ns = s1 * e1 / newExponent;
 					} else if ((e1 != 0d) && (1 + e2 != 0d)) {
-						// factored out e_1 from (s_1 * e_1 + s_2 * e_2)/(e_1 + e_2) for a simpler computation:
-						newScale = (s1 + e2 * s2 / e1) / (1 + e2 / e1);
-					} else {
-						removeScale = true;
+						// factored out e_1 from (s_1 * e_1 + s_2 * e_2)/(e_1 + e_2) 
+						// for a simpler computation:
+						ns = (s1 + e2 * s2 / e1) / (1 + e2 / e1);
 					}
-					if (removeScale) {
+
+					if (Maths.isInt(ns)) {
+						newScale = ns;
+					} else {
 						/*
+						 * If rounding fails, we have to remove the scale and shift it to
+						 * the multiplier. Otherwise, it would be too inaccurate.
+						 *
+						 *
 						 * This is a bit ugly, but there's no other choice,
 						 * because the scale can only be an integer number. This
 						 * is the method from libSBML:

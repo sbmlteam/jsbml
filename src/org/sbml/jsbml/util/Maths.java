@@ -257,6 +257,17 @@ public class Maths {
 	}
 
 	/**
+	 * Checks if the given argument represents an integer number, i.e., if it can
+	 * be casted to int without loosing information.
+	 * 
+	 * @param x
+	 * @return
+	 */
+	public static final boolean isInt(double x) {
+		return x - ((int) x) == 0d;
+	}
+
+	/**
 	 * This method computes the log of n to the base 10
 	 * 
 	 * @param n
