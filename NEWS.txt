@@ -16,49 +16,8 @@ Version 0.8-rc2 (xx-xx-2012)
   - In the Reaction class, the setReversible method only accepted Boolean,
     no boolean.
   
--- unit improvements
-  
-  - The Compartment class did not override the getDerivedUnitDefinition
-    method from its superclass. Hence, it was not possible to inherit
-    Level 3 units from the model.
-    
-  - The Species class did not take inherited Level 3 units from the
-    Model into account. The getDerivedUnitDefinition method now has been
-    corrected.
-        
-  - The simplify and the merge method of UnitDefinition and Unit did not
-    yield correct results and had to be updated as well as the 
-    getDerivedUnitDefinition() method in Species.
-
-  - Merging of Units was not correct: In cases that scales of two units 
-    could not be evenly merged, just one of both was used, the second scale
-    was ignored. In these cases, however, the scales must be removed and
-    the double-valued multiplier must be used for representation. This is
-    now implemented.
-    
-  - If during the simplification of UnitDefinitions a dimensionless unit
-    was created by canceling terms, scale and multiplier were not merged
-    correctly with other units because in dimensionless units scale was
-    always 0 and multiplier was 1. Now, if some unit cancel, but a number
-    of non-dimensionless units remain, the simplify method checks again
-    the listOfUnits and tries to merge as many units as possible.
-    
-  - The units of formulae containing Advogadro's number could not
-    be derived because in the UnitsCompiler a UnitDefinition object 
-    was created with undefined level/version configuration. Furthermore,
-    there was a bug in the method containsUndeclaredUnits() in ASTNode.
-    
-  - Improved the units derivation: There were multiple problems in 
-    re-scaling and merging of units and also when determining the actual
-    unit of a species.
-
-  - Scales of units could not be merged correctly if one of both scales
-    was different from zero.
-    
-  - When unifying units in addition or subtraction within an ASTNode
-    the scales were sometimes incorrectly merged.
-
--- end of unit improvements
+  - several bug fixes and improvements to units derivation, merging and
+    simplifying.
     
   - There was a bug in KineticLaw that prevented a correct iteration
     through all child elements.
@@ -80,11 +39,24 @@ Version 0.8-rc2 (xx-xx-2012)
   - Meike Aichele detected and fixed the problem that some Listeners were 
     set too soon in the Model class, so that no Event was detected.
   
-  - TODO : 
-  - rdf namespace missing (when starting from scratch) 
-  - Model.getSpeciesReference(String) corrected
-  - annotation in the sbml namespace correctly read.
+  - One rdf namespace declaration was missing when creating an History 
+    element from scratch.
+     
+  - [Tracker item #3511439] : Model.getSpeciesType(String) was 
+    corrected and it's speed improved. Thanks to Thomas Bernard who noticed
+    and reported the problem.
   
+  - Annotation elements that are missing a proper namespace declaration will
+    be correctly read and not considered as improper SBML elements.
+  
+  - [Tracker item #3487517] : If one empty rdf Bag element was present in an
+    annotation read by jsbml, an XML element was not closed properly, 
+    resulting in an invalid generated SBML. Thanks to Anna Zhukova to report
+    this problem.
+  
+  - [Tracker item #3434930] : The parsing of a Message as an XML String was
+    incorrect as the method was expecting only a notes element to enclose
+    the HTML.
   
   * Known issues :
 
@@ -93,7 +65,7 @@ Version 0.8-rc2 (xx-xx-2012)
     moment. Planned for the next major release. 
   - The RDF block at the top level of the annotation is considered to be the
     official SBML annotation.
-    
+  - SBML L3 packages are not supported and not kept.  
     
 ======================================================================
 Version 0.8-rc1 (08-12-2011)
