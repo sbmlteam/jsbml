@@ -1,6 +1,6 @@
 /*
- * $Id:  HashCodeTest.java 14:08:02 draeger $
- * $URL: HashCodeTest.java $
+ * $Id$
+ * $URL$
  *
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 

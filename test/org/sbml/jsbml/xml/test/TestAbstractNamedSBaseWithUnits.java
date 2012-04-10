@@ -1,6 +1,6 @@
 /*
- * $Id:  TestUnits.java 11:33:05 draeger $
- * $URL: TestUnits.java $
+ * $Id$
+ * $URL$
  *
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 

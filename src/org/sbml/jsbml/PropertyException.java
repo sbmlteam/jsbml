@@ -1,6 +1,6 @@
 /*
- * $Id:  PropertyError.java 08:54:39 draeger $
- * $URL: PropertyError.java $
+ * $Id$
+ * $URL$
  *
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 

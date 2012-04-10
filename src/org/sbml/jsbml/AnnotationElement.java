@@ -1,6 +1,6 @@
 /*
- * $Id:  AnnotationElement.java 17:34:10 draeger $
- * $URL: AnnotationElement.java $
+ * $Id$
+ * $URL$
  *
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
