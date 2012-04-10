@@ -59,8 +59,45 @@ public class Point extends AbstractNamedSBase {
 		addNamespace(LayoutConstant.namespaceURI);
 		x = y = z = Double.NaN;
 	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public Point(double x, double y, double z) {
+		this();
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param level
+	 * @param version
+	 */
+	public Point(double x, double y, double z, int level, int version) {
+	  this(level, version);
+	  this.x = x;
+	  this.y = y;
+	  this.z = z;
+	}
 
-
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public Point(int level, int version) {
+	  super(level, version);
+	  addNamespace(LayoutConstant.namespaceURI);
+    x = y = z = Double.NaN;
+	}
 
 	/**
 	 * 
@@ -71,26 +108,19 @@ public class Point extends AbstractNamedSBase {
 		clonePointAttributes(point, this);
 	}
 
-	public Point(double x, double y, double z) {
-		this();
-		setX(x);
-		setY(y);
-		setZ(z);
-	}
-
-
-
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	public Point clone() {
 		return new Point(this);
 	}
 	
+	/**
+	 * 
+	 * @param point
+	 * @param cloned
+	 */
 	protected void clonePointAttributes(Point point, Point cloned) {
-
 		if (point.isSetX()) {
 			cloned.setX(point.getX());
 		}
@@ -102,8 +132,7 @@ public class Point extends AbstractNamedSBase {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
@@ -151,8 +180,7 @@ public class Point extends AbstractNamedSBase {
 		return z;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
 	@Override
@@ -163,6 +191,13 @@ public class Point extends AbstractNamedSBase {
 		hashCode += prime * Double.valueOf(y).hashCode();
 		hashCode += prime * Double.valueOf(z).hashCode();
 		return hashCode;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+	 */
+	public boolean isIdMandatory() {
+		return false;
 	}
 
 	/**
@@ -186,12 +221,8 @@ public class Point extends AbstractNamedSBase {
 		return !Double.isNaN(z);
 	}
 
-	/**
-	* 
-	 * @param attributeName
-	 * @param prefix
-	 * @param value
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -221,7 +252,7 @@ public class Point extends AbstractNamedSBase {
 		
 		return isAttributeRead;
 	}
-
+	
 	/**
 	 * 
 	 * @param x
@@ -231,8 +262,8 @@ public class Point extends AbstractNamedSBase {
 		this.x = x;
 		firePropertyChange(LayoutConstant.x, oldX, this.x);
 	}
-	
-	/**
+
+  /**
 	 * 
 	 * @param y
 	 */
@@ -242,7 +273,7 @@ public class Point extends AbstractNamedSBase {
 		firePropertyChange(LayoutConstant.y, oldY, this.y);
 	}
 
-  /**
+	/**
 	 * 
 	 * @param z
 	 */
@@ -252,13 +283,17 @@ public class Point extends AbstractNamedSBase {
 		firePropertyChange(LayoutConstant.z, oldZ, this.z);
 	}
 
-
-
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Point [" + x + ", " + y + ", " + z + "]";
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
@@ -283,12 +318,5 @@ public class Point extends AbstractNamedSBase {
 
 		return attributes;
 	}
-
-
-
-	public boolean isIdMandatory() {
-		return false;
-	}
-
 
 }

@@ -175,7 +175,7 @@ public class Maths {
 	public static final double cot(double n) {
 		double sin = Math.sin(n);
 		if (sin == 0) {
-			throw new ArithmeticException(String.format("cot({0,number}) undefined", n));
+			throw new ArithmeticException(MessageFormat.format("cot({0,number}) undefined", n));
 		}
 		return Math.cos(n) / sin;
 	}
@@ -237,6 +237,17 @@ public class Maths {
 			return 1;
 		}
 		return n * factorial(n - 1);
+	}
+	
+  /**
+   * Checks if the given argument represents an integer number, i.e., if it can
+   * be casted to int without loosing information.
+   * 
+   * @param x
+   * @return
+   */
+	public static final boolean isInt(double x) {
+	  return x - ((int) x) == 0d;
 	}
 
 	// TODO: implement Gamma function for non-integer cases.

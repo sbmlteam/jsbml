@@ -115,10 +115,10 @@ public class LayoutParser implements ReadingParser, WritingParser {
         sbmlLayoutElements);
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.WritingParser#getListOfSBMLElementsToWrite(java.lang.Object)
    */
+  @SuppressWarnings("unchecked")
   public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
     log4jLogger.debug(String.format("%s : getListOfSBMLElementsToWrite\n",
         getClass().getSimpleName()));
@@ -196,8 +196,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
     return listOfElementsToWrite;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.WritingParser#writeAttributes(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
    */
   public void writeAttributes(SBMLObjectForXML xmlObject,
@@ -208,18 +207,15 @@ public class LayoutParser implements ReadingParser, WritingParser {
     }
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.WritingParser#writeCharacters(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
    */
   public void writeCharacters(SBMLObjectForXML xmlObject,
       Object sbmlElementToWrite) {
     // TODO Auto-generated method stub
-
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
    */
   public void writeElement(SBMLObjectForXML xmlObject,
@@ -246,18 +242,15 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.WritingParser#writeNamespaces(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
    */
   public void writeNamespaces(SBMLObjectForXML xmlObject,
       Object sbmlElementToWrite) {
     // TODO Auto-generated method stub
-
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.Object)
    */
   public void processAttribute(String elementName, String attributeName,
@@ -296,18 +289,15 @@ public class LayoutParser implements ReadingParser, WritingParser {
     }
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.ReadingParser#processCharactersOf(java.lang.String, java.lang.String, java.lang.Object)
    */
   public void processCharactersOf(String elementName, String characters,
       Object contextObject) {
     // TODO Auto-generated method stub
-
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndDocument(org.sbml.jsbml.SBMLDocument)
    */
   public void processEndDocument(SBMLDocument sbmlDocument) {
@@ -315,8 +305,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.ReadingParser#processNamespace(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
    */
   public void processNamespace(String elementName, String URI, String prefix,
@@ -326,10 +315,10 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
    */
+  @SuppressWarnings("unchecked")
   public Object processStartElement(String elementName, String prefix,
       boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
     if (elementName.equals("basePoint1")) {
@@ -679,12 +668,8 @@ public class LayoutParser implements ReadingParser, WritingParser {
     return contextObject;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * org.sbml.jsbml.xml.parsers.ReadingParser#processEndElement(java.lang.
-   * String, java.lang.String, boolean, java.lang.Object)
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndElement(java.lang.String, java.lang.String, boolean, java.lang.Object)
    */
   public boolean processEndElement(String elementName, String prefix,
       boolean isNested, Object contextObject) {
