@@ -9,7 +9,6 @@
 
     <!-- We need to define two species types to be able to describe all the reactions. -->
     <!-- There is not species type for the kinase, that is not used in selectors. -->
-    
     <multi:listOfSpeciesTypes>
       <multi:speciesType xmlns:multi="http://www.sbml.org/sbml/level3/version1/multi/version1"
 			 xmlns:xhtml="http://www.w3.org/1999/xhtml"
@@ -140,5 +139,202 @@
 	</multi:listOfBonds>
       </multi:selector>
     </multi:listOfSelectors>
+    <listOfSpecies>
+      <species id="kinase" compartment="cell" boundaryCondition="false"
+	       hasOnlySubstanceUnits="false" constant="false" initialAmount="100" />
+      <species id="recept" compartment="cell" multi:speciesType="st_recept"
+	       boundaryCondition="false" hasOnlySubstanceUnits="false"
+	       constant="false" initialAmount="100" >
+	<multi:listOfSpeciesTypeInstances>
+	  <multi:speciesTypeInstance multi:id="freereceptor_nonP"
+				     multi:initialAmount="100">
+	    <multi:listOfSelectorReferences>
+	      <multi:selectorReference multi:selector="sel_freereceptor_nonP" />
+	    </multi:listOfSelectorReferences>
+	  </multi:speciesTypeInstance>
+	  <multi:speciesTypeInstance multi:id="freereceptor_P"
+				     multi:initialAmount="0">
+	    <multi:listOfSelectorReferences>
+	      <multi:selectorReference multi:selector="sel_freereceptor_P" />
+	    </multi:listOfSelectorReferences>
+	  </multi:speciesTypeInstance>
+	  <multi:speciesTypeInstance multi:id="boundreceptor">
+	    <multi:listOfSelectorReferences>
+	      <multi:selectorReference multi:selector="sel_complex"/>
+	    </multi:listOfSelectorReferences>
+	  </multi:speciesTypeInstance>
+	</multi:listOfSpeciesTypeInstances>
+      </species>
+      <species id="lig" compartment="cell" multi:speciesType="st_lig"
+	       boundaryCondition="false"
+	       hasOnlySubstanceUnits="false" constant="false" initialAmount="1000" >
+	<multi:listOfSpeciesTypeInstances>
+	  <multi:speciesTypeInstance multi:id="freeligand" multi:initialAmount="1000">
+	    <multi:listOfSelectorReferences>
+	      <multi:selectorReference multi:selector="sel_freeligand" />
+	    </multi:listOfSelectorReferences>
+	  </multi:speciesTypeInstance>
+	  <multi:speciesTypeInstance multi:id="boundligand" multi:initialAmount="0">
+	    <multi:listOfSelectorReferences>
+	      <multi:selectorReference multi:selector="sel_complex"/>
+	    </multi:listOfSelectorReferences>
+	  </multi:speciesTypeInstance>
+	</multi:listOfSpeciesTypeInstances>
+      </species>
+    </listOfSpecies>
+
+    <listOfReactions>
+      <!-- **************************************************************** -->
+      <!-- Phosphorylation of the receptor by the kinase when unbound -->
+      <!-- **************************************************************** -->
+      <reaction id="phosphorylation" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference species="recept" stoichiometry="1">
+	    <multi:listOfSpeciesRestriction>
+	      <multi:speciesRestriction multi:id="freeRnonP"
+					multi:speciesTypeInstance="freereceptor_nonP" />
+	    </multi:listOfSpeciesRestriction>
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <multi:productSpeciesReference species="recept" stoichiometry="1">
+	    <multi:listOfSpeciesRestriction>
+	      <multi:speciesRestriction multi:id="freeRP"
+					multi:speciesTypeInstance="freereceptor_P" />
+	    </multi:listOfSpeciesRestriction>
+	  </multi:productSpeciesReference>
+	</listOfProducts>
+	<listOfModifiers>
+	  <modifierSpeciesReference species="kinase" />
+	</listOfModifiers>
+	<kineticLaw>
+	  <math xmlns="http://www.w3.org/1998/Math/MathML" />
+	</kineticLaw>
+	<multi:listOfReactionRules>
+	  <multi:reactionRule multi:id="PhosphorylationUnbound">
+	    <multi:listOfConditions>
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="freeRnonP"/>
+	    </multi:listOfConditions>
+	    <multi:listOfResults>
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="freeRP"/>
+	    </multi:listOfResults>
+	    <kineticLaw>
+	      <math xmlns="http://www.w3.org/1998/Math/MathML" >
+		<apply>
+		  <times />
+		  <ci> cell </ci>
+		  <ci> Vm </ci>
+		  <apply>
+		    <divide />
+		    <ci> recept </ci>
+		    <apply>
+		      <plus />
+		      <ci> recept </ci>
+		      <ci> Km </ci>
+		    </apply>
+		  </apply>
+		</apply>
+	      </math>
+	      <listOfLocalParameters>
+		<localParameter id="Km" value="1" />
+		<localParameter id="Vm" value="1" />
+	      </listOfLocalParameters>
+	    </kineticLaw>
+	  </multi:reactionRule>
+	</multi:listOfReactionRules>
+      </reaction>
+      
+      <!-- **************************************************************** -->
+      <!-- Ligand binding, when the receptor is phosphorylated or not -->
+      <!-- **************************************************************** -->
+      <reaction id="receptLigBinding" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference id="react_recept" species="recept" stoichiometry="1">
+	    <multi:listOfSpeciesRestriction>
+	      <multi:speciesRestriction multi:id="freeRnonP"
+					multi:speciesTypeInstance="freereceptor_nonP" />
+	      <multi:speciesRestriction multi:id="freeRP"
+					multi:speciesTypeInstance="freereceptor_P" />
+	    </multi:listOfSpeciesRestriction>
+	  </speciesReference>
+	  <speciesReference id="react_lig" species="lig" stoichiometry="1">
+	    <multi:listOfSpeciesRestriction>
+	      <multi:speciesRestriction multi:id="freeL"
+					multi:speciesTypeInstance="freeligand" />
+	    </multi:listOfSpeciesRestriction>
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <multi:productSpeciesReference species="recept" stoichiometry="1"
+					 correspondingReactant="react_recept">
+	    <multi:listOfSpeciesRestriction>
+	      <multi:speciesRestriction multi:id="boundR"
+					multi:speciesTypeInstance="boundreceptor" />
+	    </multi:listOfSpeciesRestriction>
+	  </multi:productSpeciesReference>
+	  <multi:productSpeciesReference species="lig" stoichiometry="1"
+					 correspondingReactant="react_lig">
+	    <multi:listOfSpeciesRestriction>
+	      <multi:speciesRestriction multi:id="boundL"
+					multi:speciesTypeInstance="boundligand" />
+	    </multi:listOfSpeciesRestriction>
+	  </multi:productSpeciesReference>
+	</listOfProducts>
+	<kineticLaw>
+	  <math xmlns="http://www.w3.org/1998/Math/MathML" />
+	</kineticLaw>
+	<multi:listOfReactionRules>
+	  <multi:reactionRule multi:id="bindingNonPhospho">
+	    <multi:listOfConditions>
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="freeRnonP" />
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="freeL" />
+	    </multi:listOfConditions>
+	    <multi:listOfResults>
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="boundR" />
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="boundL" />
+	    </multi:listOfResults>
+	    <kineticLaw>
+	      <math xmlns="http://www.w3.org/1998/Math/MathML" >
+		<apply>
+		  <times />
+		  <ci> cell </ci>
+		  <ci> kon_nonphos </ci>
+		  <ci> recept </ci>
+		  <ci> lig </ci>
+		</apply>
+	      </math>
+	      <listOfLocalParameters>
+		<localParameter id="kon_nonphos" value="1"/>
+	      </listOfLocalParameters>
+	    </kineticLaw>
+	  </multi:reactionRule>
+	  <multi:reactionRule multi:id="bindingPhospho">
+	    <multi:listOfConditions>
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="freeRP" />
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="freeL" />
+	    </multi:listOfConditions>
+	    <multi:listOfResults>
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="boundR" />
+	      <multi:speciesTypeRestrictionReference multi:speciesTypeRestriction="boundL" />
+	    </multi:listOfResults>
+	    <kineticLaw>
+	      <math xmlns="http://www.w3.org/1998/Math/MathML" >
+		<apply>
+		  <times />
+		  <ci> cell </ci>
+		  <ci> kon_phos </ci>
+		  <ci> recept </ci>
+		  <ci> lig </ci>
+		</apply>
+	      </math>
+	      <listOfLocalParameters>
+		<localParameter id="kon_phos" value="10"/>
+	      </listOfLocalParameters>
+	    </kineticLaw>
+	  </multi:reactionRule>
+	</multi:listOfReactionRules>
+      </reaction>
+    </listOfReactions>
+
   </model>
 </sbml>
