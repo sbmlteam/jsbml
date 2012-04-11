@@ -1254,7 +1254,9 @@ public class ASTNode extends AbstractTreeNode {
 	 *            the ASTNode to be copied.
 	 */
 	public ASTNode(ASTNode astNode) {
-		this(astNode.getParentSBMLObject());
+		super(astNode);
+		this.parentSBMLObject = null;
+		this.initDefaults();
 		
 		logger.debug("Clone constructor : Origin type = " + astNode.type);
 		

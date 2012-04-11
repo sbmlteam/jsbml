@@ -115,9 +115,9 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	public KineticLaw(KineticLaw kineticLaw) {
 		super(kineticLaw);
 
-		if (kineticLaw.isSetListOfParameters()) {
+		if (kineticLaw.isSetListOfLocalParameters()) {
 			setListOfLocalParameters((ListOf<LocalParameter>) kineticLaw
-					.getListOfParameters().clone());
+					.getListOfLocalParameters().clone());
 		}
 		if (kineticLaw.isSetTimeUnits()) {
 			this.timeUnitsID = new String(kineticLaw.getTimeUnits());
