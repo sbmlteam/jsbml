@@ -41,6 +41,10 @@ Version 1.0-rc1 (xx-xx-2012)
 
 * Bug Fixes:
 
+  - Cloning of models did not work correctly in case that of ASTNodes or 
+    Annotation elements that were to be cloned contained references to
+    TreeNodeChangeListeners.
+    
   - It was forgotten to implement an unsetSubstanceUnits method on the Model
     class. Thanks to Robert Byrnes for reporting this problem.
   

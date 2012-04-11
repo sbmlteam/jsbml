@@ -1254,25 +1254,27 @@ public class ASTNode extends AbstractTreeNode {
 	 *            the ASTNode to be copied.
 	 */
 	public ASTNode(ASTNode astNode) {
-		this(astNode.getParentSBMLObject());
-		
-		logger.debug("Clone constructor : Origin type = " + astNode.type);
-		
-		setType(astNode.getType());		
-		this.denominator = astNode.denominator;
-		this.exponent = astNode.exponent;
-		this.mantissa = astNode.mantissa;
-		this.name = astNode.name == null ? null : new String(astNode.name);
-		this.variable = astNode.variable;
-		this.numerator = astNode.numerator;
-		this.parent = astNode.getParent();
-		this.unitId = astNode.unitId == null ? null : new String(astNode.unitId);
-		
-		for (ASTNode child : astNode.listOfNodes) {
-			ASTNode c = child.clone();
-			c.parent = this;
-			this.listOfNodes.add(c);
-		}
+	  super(astNode);
+	  this.parentSBMLObject = null;
+	  this.initDefaults();
+
+	  logger.debug("Clone constructor : Origin type = " + astNode.type);
+
+	  setType(astNode.getType());		
+	  this.denominator = astNode.denominator;
+	  this.exponent = astNode.exponent;
+	  this.mantissa = astNode.mantissa;
+	  this.name = astNode.name == null ? null : new String(astNode.name);
+	  this.variable = astNode.variable;
+	  this.numerator = astNode.numerator;
+	  this.parent = astNode.getParent();
+	  this.unitId = astNode.unitId == null ? null : new String(astNode.unitId);
+
+	  for (ASTNode child : astNode.listOfNodes) {
+	    ASTNode c = child.clone();
+	    c.parent = this;
+	    this.listOfNodes.add(c);
+	  }
 	}
 
 	/**

@@ -145,6 +145,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		 */
 		if (node instanceof AbstractTreeNode) {
 		  AbstractTreeNode anode = (AbstractTreeNode) node;
+		  // Do not clone listeners!
 		  //   this.listOfListeners.addAll(anode.listOfListeners);
 		  if (anode.isSetUserObjects()) {
 		    this.userObjects = new HashMap<Object, Object>();
