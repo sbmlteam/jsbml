@@ -139,7 +139,9 @@ public class SBMLWriter {
 		if (file.isDirectory()) {
 			for (File f : file.listFiles(new FilenameFilter() {
 
-				@Override
+				/* (non-Javadoc)
+				 * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
+				 */
 				public boolean accept(File dir, String name) {					
 					return name.endsWith(".xml") && (!name.endsWith("-jsbml.xml"));
 				}
