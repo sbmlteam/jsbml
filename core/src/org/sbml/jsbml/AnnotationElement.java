@@ -52,11 +52,7 @@ public abstract class AnnotationElement extends AbstractTreeNode {
 	 * @param annotation
 	 */
 	public AnnotationElement(AnnotationElement annotation) {
-		this();
-		if (annotation.isSetParent()) {
-			this.parent = annotation.getParent();
-		}
-		listOfListeners.addAll(annotation.listOfListeners);
+		super(annotation);
 	}
 
 }
