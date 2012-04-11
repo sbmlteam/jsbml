@@ -10,10 +10,6 @@ Version 0.8-rc2 (xx-xx-2012)
 
 * Bug Fixes:
 
-  - Cloning of models did not work correctly in case that of ASTNodes or 
-    Annotation elements that were to be cloned contained references to
-    TreeNodeChangeListeners.
-
   - It was forgotten to implement an unsetSubstanceUnits method on the Model
     class. Thanks to Robert Byrnes for reporting this problem.
   
@@ -26,8 +22,9 @@ Version 0.8-rc2 (xx-xx-2012)
   - There was a bug in KineticLaw that prevented a correct iteration
     through all child elements.
     
-  - When cloning JSBML wrongly assigned the same 
-    TreeNodeChangeListeners to the new data structure.
+  - When cloning JSBML wrongly assigned the same TreeNodeChangeListeners
+    to the new data structure. Now, the TreeNodeChangeListeners are not
+    copied when cloning a JSBML object.
     
   - The clone methods were corrected to register properly all entities
   	with an id.
