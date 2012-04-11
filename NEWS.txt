@@ -6,7 +6,7 @@ Version 0.8-rc2 (xx-xx-2012)
 
 * User visible changes :
 
-  - major improvements of the reading and writing speed for large models.
+  - Major improvements of the reading and writing speed for large models.
 
 * Bug Fixes:
 
@@ -16,7 +16,7 @@ Version 0.8-rc2 (xx-xx-2012)
   - In the Reaction class, the setReversible method only accepted Boolean,
     no boolean.
   
-  - several bug fixes and improvements to units derivation, merging and
+  - Several bug fixes and improvements to units derivation, merging and
     simplifying.
     
   - There was a bug in KineticLaw that prevented a correct iteration

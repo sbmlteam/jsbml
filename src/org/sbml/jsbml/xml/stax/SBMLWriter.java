@@ -26,6 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
@@ -38,9 +39,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import javax.swing.JOptionPane;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -65,13 +67,13 @@ import org.sbml.jsbml.History;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.ListOf.Type;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
@@ -119,29 +121,90 @@ public class SBMLWriter {
 	 */
 	public static void main(String[] args) throws SBMLException {
 
+		int nbRepetitions = 5;
+		
 		if (args.length < 1) {
 			System.out.println(
 			  "Usage : java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
 			System.exit(0);
 		}
 
-		String fileName = args[0];
-		String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
+		// this JOptionPane is added here to be able to start visualVM profiling
+		// before the reading or writing is started.
+		JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");
+		
+		File file = new File(args[0]);
+		ArrayList<String> fileNames = new ArrayList<String>();
+		
+		if (file.isDirectory()) {
+			for (File f : file.listFiles(new FilenameFilter() {
 
-		System.out.printf("Reading %s and writing %s\n", 
-		  fileName, jsbmlWriteFileName);
+				@Override
+				public boolean accept(File dir, String name) {					
+					return name.endsWith(".xml") && (!name.endsWith("-jsbml.xml"));
+				}
+			})) 
+			{
+				fileNames.add(f.getAbsolutePath());
+			}
+		} else {
+			fileNames.add(args[0]);
+		}
 
-		SBMLDocument testDocument;
-		try {
-			testDocument = new SBMLReader().readSBMLFile(fileName);
-			
-			// testDocument.checkConsistency(); 
-			
-			new SBMLWriter().write(testDocument, jsbmlWriteFileName);
-		} catch (XMLStreamException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		for (String fileName : fileNames) {
+
+			long totalReadingTime= 0;
+			long totalWritingTime= 0;
+
+			String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
+
+			System.out.printf("Reading %s and writing %s\n", 
+					fileName, jsbmlWriteFileName);
+
+			for (int i = 0; i < nbRepetitions; i++) {
+				long init = Calendar.getInstance().getTimeInMillis();
+				System.out.println(Calendar.getInstance().getTime());
+
+				SBMLDocument testDocument;
+				long afterRead = 0;
+				try {
+					testDocument = new SBMLReader().readSBMLFile(fileName);
+					System.out.printf("Reading done\n");
+					System.out.println(Calendar.getInstance().getTime());
+					afterRead = Calendar.getInstance().getTimeInMillis();
+
+
+					// testDocument.checkConsistency(); 
+
+					new SBMLWriter().write(testDocument, jsbmlWriteFileName);
+				} catch (XMLStreamException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				System.out.println(Calendar.getInstance().getTime());
+				long end = Calendar.getInstance().getTimeInMillis();
+				long nbSecondes = (end - init)/1000;
+				long nbSecondesRead = (afterRead - init)/1000;
+				long nbSecondesWrite = (end - afterRead)/1000;
+				totalReadingTime += (afterRead - init);
+				totalWritingTime += (end - afterRead);
+
+				if (nbSecondes > 120) {
+					System.out.println("It took " + nbSecondes/60 + " minutes.");
+				} else if (nbSecondes > 2) {
+					System.out.println("It took " + nbSecondes + " secondes.");			
+				} else {
+					System.out.println("It took " + (end - init) + " millisecondes.");
+				}
+				System.out.println("Reading : " + nbSecondesRead + " secondes.");
+				System.out.println("Writing : " + nbSecondesWrite + " secondes.");
+			}
+
+			if (nbRepetitions > 1) {
+				System.out.println("Average Reading : " + totalReadingTime/nbRepetitions + " millisecondes.");
+				System.out.println("Average Writing : " + totalWritingTime/nbRepetitions + " millisecondes.");			
+			}
 		}
 	}
 

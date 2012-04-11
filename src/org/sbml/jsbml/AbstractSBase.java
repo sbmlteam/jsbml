@@ -1303,18 +1303,18 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jsbml.SBase#setMetaId(java.lang.String)
 	 */
 	public void setMetaId(String metaId) {
-    if ((metaId != null) && (getLevel() == 1)) {
-      throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId, this);
-    }
-    SBMLDocument doc = getSBMLDocument();
-    if ((doc != null) && doc.containsMetaId(metaId)) {
-      throw new IdentifierException(this, metaId);
-    }
-    String oldMetaId = this.metaId;
-    this.metaId = metaId;
-    if (doc != null) {
-      doc.registerMetaId(this, true);
-    }
+		if ((metaId != null) && (getLevel() == 1)) {
+			throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId, this);
+		}
+		SBMLDocument doc = getSBMLDocument();
+		if ((doc != null) && doc.containsMetaId(metaId)) {
+			throw new IdentifierException(this, metaId);
+		}
+		String oldMetaId = this.metaId;
+		this.metaId = metaId;
+		if (doc != null) {
+			doc.registerMetaId(this, true);
+		}
 		firePropertyChange(TreeNodeChangeEvent.metaId, oldMetaId, metaId);
 	}
 
@@ -1555,26 +1555,29 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jsbml.SBase#writeXMLAttributes()
 	 */
 	public Map<String, String> writeXMLAttributes() {
-	  Map<String, String> attributes = new TreeMap<String, String>();
+		Map<String, String> attributes = new TreeMap<String, String>();
 
 		if (1 < getLevel()) {
-		  /* This ensures that the metaid of this element is always defined if
-       * there is an annotation present.
-       */
-      if (isSetAnnotation() && getAnnotation().isSetRDFannotation()
-        && !isSetMetaId()) {
-        SBMLDocument doc = getSBMLDocument();
-        if (doc != null) {
-          setMetaId(doc.nextMetaId());
-          logger.info(String.format(
-            "Some annotations would get lost because there was no metaid defined on %s. To avoid this, automatic metaid '%s' as been generated.",
-            getElementName(), getMetaId()));
-        } else {
-          logger.warn(String.format(
-            "Some annotations can get lost because no metaid is defined on %s.",
-            getElementName()));
-        }
-      }
+			/* This ensures that the metaid of this element is always defined if
+			 * there is an annotation present.
+			 */
+			if (isSetAnnotation() && getAnnotation().isSetRDFannotation()
+					&& !isSetMetaId()) {
+				SBMLDocument doc = getSBMLDocument();
+				if (doc != null) {
+					setMetaId(doc.nextMetaId());
+					logger.info(String.format(
+							"Some annotations would get lost because there was no metaid defined on %s. " +
+							"To avoid this, an automatic metaid '%s' as been generated.",
+							getElementName(), getMetaId()));
+					// Setting the new metaid in the RDF about attribute.
+					getAnnotation().setAbout("#" + getMetaId());
+				} else {
+					logger.warn(String.format(
+							"Some annotations can get lost because no metaid is defined on %s.",
+							getElementName()));
+				}
+			}
 			if (isSetMetaId()) {
 				attributes.put("metaid", getMetaId());
 			}
