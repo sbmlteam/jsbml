@@ -46,9 +46,9 @@
 		<property name="build.dest" value="${basedir}/build/classes"/>
 		<property name="build.javadocs" value="${basedir}/build/apidocs"/>
 		<property name="jars.dir" value="${basedir}/lib"/>
-		<property name="jsbml.jars.dir" value="${basedir}/../../lib"/>
-		<property name="jsbml.build.dir" value="${basedir}/../../build"/>
-		<property name="jsbml.build.src" value="${basedir}/../../build/src"/>
+		<property name="jsbml.jars.dir" value="${basedir}/../../core/lib"/>
+		<property name="jsbml.build.dir" value="${basedir}/../../core/build"/>
+		<property name="jsbml.build.src" value="${basedir}/../../core/build/src"/>
 		<property name="dist.root" value="${basedir}/dist"/>
 		<property name="dist.dir" value="${dist.root}/${name}-${version}"/>
 		<property name="package.dir" value="${basedir}/build/package"/>
