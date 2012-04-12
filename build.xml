@@ -103,8 +103,6 @@
 		<mkdir dir="${build.dest}"/>
 		<mkdir dir="${build.dest}/META-INF"/>
 		<mkdir dir="${package.dir}"/>
-		<mkdir dir="${dist.root}"/>
-		<mkdir dir="${dist.dir}"/>
 
 		<!-- copy src files -->
 		<copy todir="${build.src}" overwrite="yes">
@@ -196,6 +194,15 @@
 			</fileset>
 		</copy>
 		<jar jarfile="${build.dir}/${name}-${version}.jar" basedir="${build.dest}" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Creates the source jar package                                      -->
+	<!-- =================================================================== -->
+	<target name="jar-src" depends="prepare-src">
+
+		<jar jarfile="${build.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java"/>
+		
 	</target>
 
 	<!-- =================================================================== -->
@@ -353,16 +360,30 @@
 	</target>
 
 	<!-- =================================================================== -->
+	<!-- Creates the javadocs jar package                                      -->
+	<!-- =================================================================== -->
+	<target name="jar-javadoc" depends="javadoc">
+
+		<jar jarfile="${build.dir}/${name}-${version}-javadoc.jar" basedir="${build.javadocs}" />
+		
+	</target>
+
+	<!-- =================================================================== -->
 	<!-- Creates the distribution                                            -->
 	<!-- =================================================================== -->
 	<target name="dist" depends="prepare-src">
+
+		<mkdir dir="${dist.root}"/>
+		<mkdir dir="${dist.dir}"/>
 
 		<!-- Creates the standard jar file -->
 
 		<antcall target="clean"/>
 
 		<antcall target="jar"/>
-
+		<antcall target="jar-src"/>
+		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-src.jar"/>
+		
 		<antcall target="test"/>
 
 		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}.jar"/>
@@ -382,7 +403,9 @@
 			<fileset dir="${build.javadocs}/" includes="**/*">
 			</fileset>
 		</copy>
-
+		<antcall target="jar-javadoc"/>
+		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-javadoc.jar"/>
+		
 		<!-- Copy the source files -->
 		<copy todir="${dist.dir}/src">
 			<fileset dir="${build.src}/" includes="**/*">
@@ -413,8 +436,9 @@
 
 		<!-- Creates the archives to be distributed -->
 		<zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.zip" includes="${name}-${version}/**"/>
-		<tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip">
-		</tar>
+		
+		<!-- Not generating a tar.gz a having only a zip file should be enough -->
+		<!-- <tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip"/> -->		
 
 	</target>
 
