@@ -9,17 +9,16 @@ applications.
 This is the top-level directory of the JSBML 0.8-rc2 release. Here you
 will find the following:
 
-  stable       -- subdirectory for the stable release of libSBML-5.4.1
+  jsbml-0.8-rc2.jar  -- jar file containing the classes of JSBML-0.8-rc2
   
-  experimental -- subdirectory for libSBML-5.4.1 with beta package code
+  jsbml-0.8-rc2-with-dependencies.jar  -- jar file containing the classes of
+  JSBML-0.8-rc2 including any needed dependencies libraries classes.
+  
+  jsbml-0.8-rc2.zip  -- full distribution of JSBML-0.8-rc2 containing the 
+  two jars file described above plus the sources and documentation along
+  with the build script to be able to compile the library.
 
-The "stable" directory contains the fully tested source, documentation
-and binary installers that reflect the current stable libSBML core.
-
-The "experimental" directory contains source code for packages still in
-development, as well as binaries containing libSBML core
-together with all the packages included. It should be noted that these
-may be untested and undocumented, and are supplied as-is.
+  jsbml-0.8-rc2.tar.gz  -- same content as jsbml-0.8-rc2.zip
 
 For more information about JSBML, please visit the JSBML website at
                    http://sbml.org/Software/JSBML
