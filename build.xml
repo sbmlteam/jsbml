@@ -46,6 +46,9 @@
 		<property name="package.dir" value="${basedir}/build/package"/>
 		<property name="resource.dir" value="${basedir}/resources"/>
 
+		<property name="cellDesigner.module.base.dir" value="${basedir}/../celldesigner-module-jsbml-0.8"/>
+		<property name="libSBMLio.module.base.dir" value="${basedir}/../libSBMLio-module-jsbml-0.8-libsbml-5.4"/>
+		
 		<filter token="year" value="${year}"/>
 		<filter token="version" value="${version}"/>
 		<filter token="date" value="${TODAY}"/>
@@ -434,6 +437,9 @@
 			</fileset>
 		</copy>
 
+		<!-- create the modules files -->
+		<antcall target="module-dist"/>
+		
 		<!-- Creates the archives to be distributed -->
 		<zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.zip" includes="${name}-${version}/**"/>
 		
@@ -446,7 +452,7 @@
 	<!-- =================================================================== -->
 	<!-- Build the jsbml modules                                             -->
 	<!-- =================================================================== -->
-	<target name="module">
+	<target name="module" depends="init">
 
 		<!-- TODO : we need to add a dist target for each modules 
 			then, we need to inherit a property that give us the name of the dist folder
@@ -454,28 +460,42 @@
 			Or if we cannot get a property from a sub ant task, just copy everything that is
 			on the dist folder of the module.
 		-->
-		<ant dir="${basedir}/../modules/cellDesigner" target="clean" />
-		<ant dir="${basedir}/../modules/cellDesigner" target="jar" />
-		<ant dir="${basedir}/../modules/cellDesigner" target="javadoc"/>
+				
+		<ant dir="${cellDesigner.module.base.dir}" inheritAll="false" inheritRefs="false">
+			<target name="clean"/>
+			<target name="jar"/>
+			<target name="javadoc"/>
+		</ant>
 
-		<ant dir="${basedir}/../modules/libSBMLio" target="clean" />
-		<ant dir="${basedir}/../modules/libSBMLio" target="jar" />
-		<ant dir="${basedir}/../modules/libSBMLio" target="javadoc"/>
+		<ant dir="${libSBMLio.module.base.dir}"  inheritAll="false" inheritRefs="false">
+			<target name="clean"/>
+			<target name="jar"/>
+			<target name="javadoc"/>
+		</ant>
 
 	</target>
 
 	<!-- =================================================================== -->
 	<!-- Copy the jsbml modules to the dist folder                           -->
 	<!-- =================================================================== -->
-	<target name="module-dist">
+	<target name="module-dist" depends="module">
 
 		<mkdir dir="${dist.dir}/modules"/>
 
+		<copy todir="${dist.dir}/modules">
+			<fileset dir="${cellDesigner.module.base.dir}/build" includes="*.jar"/>
+		</copy>
+		
+		<copy todir="${dist.dir}/modules">
+			<fileset dir="${libSBMLio.module.base.dir}/build" includes="*.jar"/>
+		</copy>
+		
+		<!-- TODO : copy all the necessary files from the modules 
+		
 		<mkdir dir="${dist.dir}/modules/cellDesigner"/>
 
-		<mkdir dir="${dist.dir}/modules/libSBMLio" />
+		<mkdir dir="${dist.dir}/modules/libSBMLio" /> -->
 
-		<!-- TODO : copy all the necessary files from the modules -->
 		
 	</target>
 
