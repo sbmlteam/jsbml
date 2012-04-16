@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <!-- $Id$ -->
 
-<project default ="usage" basedir=".">
+<project default ="usage" basedir=".">	
+
+	
 	<!-- =================================================================== -->
 	<!-- Initialization target                                               -->
 	<!-- =================================================================== -->
@@ -46,6 +48,9 @@
 		<property name="package.dir" value="${basedir}/build/package"/>
 		<property name="resource.dir" value="${basedir}/resources"/>
 
+		<property name="cellDesigner.module.base.dir" value="${basedir}/../modules/celldesigner"/>
+		<property name="libSBMLio.module.base.dir" value="${basedir}/../modules/libSBMLio"/>
+
 		<filter token="year" value="${year}"/>
 		<filter token="version" value="${version}"/>
 		<filter token="date" value="${TODAY}"/>
@@ -57,7 +62,8 @@
 		<path id="classpath">
 			<fileset dir="${jars.dir}" includes="*.jar *.zip">
 			</fileset>
-		</path>
+		</path>	
+
 	</target>
 
 	<!-- =================================================================== -->
@@ -202,6 +208,16 @@
 	<!-- Creates the class package and include all the dependencies jars     -->
 	<!-- into a big jsbml jar file.                                          -->
 	<!-- =================================================================== -->
+	<target name="jar-src" depends="prepare-src">
+
+		<jar jarfile="${build.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java"/>
+
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Creates the class package and include all the dependencies jars      -->
+	<!-- into a big jsbml jar file.                                                                    -->
+	<!-- =================================================================== -->
 	<target name="bigjar" depends="compile">
 
 		<!-- we use the ${build.src} to include the sources of jsbml in the resulting jar -->
@@ -309,8 +325,8 @@
 		</junit>
 		<echo message=""/>
 	</target>
-		
-	
+
+
 	<!-- =================================================================== -->
 	<!-- Updates the SBO Ontology file                                       -->
 	<!-- =================================================================== -->
@@ -353,6 +369,15 @@
 	</target>
 
 	<!-- =================================================================== -->
+	<!-- Creates the javadocs jar package                                      -->
+	<!-- =================================================================== -->
+	<target name="jar-javadoc" depends="javadoc">
+
+		<jar jarfile="${build.dir}/${name}-${version}-javadoc.jar" basedir="${build.javadocs}" />
+
+	</target>
+
+	<!-- =================================================================== -->
 	<!-- Creates the distribution                                            -->
 	<!-- =================================================================== -->
 	<target name="dist" depends="prepare-src">
@@ -362,6 +387,8 @@
 		<antcall target="clean"/>
 
 		<antcall target="jar"/>
+		<antcall target="jar-src"/>
+		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-src.jar"/>
 
 		<antcall target="test"/>
 
@@ -376,12 +403,13 @@
 		<copy todir="${dist.root}" file="${build.dir}/${name}-${version}-with-dependencies.jar"/>
 
 		<!-- Creates and copy the generated javadoc -->
-		<antcall target="javadoc"/>
+		<antcall target="jar-javadoc"/>
 
 		<copy todir="${dist.dir}/doc/api">
 			<fileset dir="${build.javadocs}/" includes="**/*">
 			</fileset>
 		</copy>
+		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-javadoc.jar"/>
 
 		<!-- Copy the source files -->
 		<copy todir="${dist.dir}/src">
@@ -397,7 +425,7 @@
 
 
 		<copy todir="${dist.dir}">
-			<fileset dir="${basedir}/" includes="LICENSE.txt NEWS.txt README AUTHORS.txt">
+			<fileset dir="${basedir}/" includes="LICENSE.txt NEWS.txt README AUTHORS.txt build.xml">
 			</fileset>
 		</copy>
 		<copy todir="${dist.dir}/licenses">
@@ -411,10 +439,15 @@
 			</fileset>
 		</copy>
 
+		<!-- create the modules files -->
+		<antcall target="module-dist"/>
+
 		<!-- Creates the archives to be distributed -->
 		<zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.zip" includes="${name}-${version}/**"/>
-		<tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip">
-		</tar>
+
+		<!-- Not generating a tar.gz a having only a zip file should be enough -->
+		<!-- <tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip"/> -->
+
 
 	</target>
 
@@ -422,38 +455,58 @@
 	<!-- =================================================================== -->
 	<!-- Build the jsbml modules                                             -->
 	<!-- =================================================================== -->
-	<target name="module">
+	<target name="module" depends="init">
 
-		<!-- TODO : we need to add a dist target for each modules 
-			then, we need to inherit a property that give us the name of the dist folder
-			and copy it to the jsbml dist folder under the modules sub-folder.
-			Or if we cannot get a property from a sub ant task, just copy everything that is
-			on the dist folder of the module.
-		-->
-		<ant dir="${basedir}/../modules/cellDesigner" target="clean" />
-		<ant dir="${basedir}/../modules/cellDesigner" target="jar" />
-		<ant dir="${basedir}/../modules/cellDesigner" target="javadoc"/>
 
-		<ant dir="${basedir}/../modules/libSBMLio" target="clean" />
-		<ant dir="${basedir}/../modules/libSBMLio" target="jar" />
-		<ant dir="${basedir}/../modules/libSBMLio" target="javadoc"/>
+		<ant dir="${cellDesigner.module.base.dir}" inheritAll="false" inheritRefs="false">
+			<target name="clean"/>
+			<target name="jar"/>
+			<target name="javadoc"/>
+		</ant>
+
+		<ant dir="${libSBMLio.module.base.dir}"  inheritAll="false" inheritRefs="false">
+			<target name="clean"/>
+			<target name="jar"/>
+			<target name="javadoc"/>
+		</ant>
 
 	</target>
 
+
 	<!-- =================================================================== -->
-	<!-- Copy the jsbml modules to the dist folder                           -->
+	<!-- Build the jsbml modules                                             -->
 	<!-- =================================================================== -->
-	<target name="module-dist">
+	<target name="module-dist" depends="init">
 
 		<mkdir dir="${dist.dir}/modules"/>
 
-		<mkdir dir="${dist.dir}/modules/cellDesigner"/>
+		<property file="${cellDesigner.module.base.dir}/celldesigner-build.properties"/>  		
+		<property file="${libSBMLio.module.base.dir}/libSBMLio-build.properties"/>  		
 
-		<mkdir dir="${dist.dir}/modules/libSBMLio" />
+		<!--
+	    <echo message="Value read from celldesigner properties file = ${celldesigner.name}" />
+		<echo message="Value read from celldesigner properties file = ${celldesigner.version}" />
+	    <echo message="Value read from libSBMLio properties file = ${libSBMLio.name}" />
+		-->
+		
+		<ant dir="${cellDesigner.module.base.dir}" inheritAll="false" inheritRefs="false">
+			<target name="dist"/>
+		</ant>
 
-		<!-- TODO : copy all the necessary files from the modules -->
+		<copy todir="${dist.dir}/modules/${celldesigner.name}-${celldesigner.version}">
+			<fileset dir="${cellDesigner.module.base.dir}/dist/${celldesigner.name}-${celldesigner.version}" includes="*.jar"/>
+		</copy>
+
+		<ant dir="${libSBMLio.module.base.dir}" inheritAll="false" inheritRefs="true">
+			<target name="dist" />
+		</ant>
+
+		<copy todir="${dist.dir}/modules/${libSBMLio.name}-${libSBMLio.version}">
+			<fileset dir="${libSBMLio.module.base.dir}/dist/${libSBMLio.name}-${libSBMLio.version}"  includes="*.jar"/>
+		</copy>
 		
 	</target>
+
 
 	<!-- =================================================================== -->
 	<!-- Cleans everything                                                   -->
