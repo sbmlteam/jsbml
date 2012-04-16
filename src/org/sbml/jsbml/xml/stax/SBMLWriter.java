@@ -131,7 +131,7 @@ public class SBMLWriter {
 
 		// this JOptionPane is added here to be able to start visualVM profiling
 		// before the reading or writing is started.
-		JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");
+		// JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");
 		
 		File file = new File(args[0]);
 		ArrayList<String> fileNames = new ArrayList<String>();
@@ -1255,7 +1255,9 @@ public class SBMLWriter {
 		// Checking if all the necessary namespaces are defined 
 		// TODO : In fact, we could remove the rdfNamespaces map ?
 
-		if (rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS) == null) {
+		if (rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS) == null 
+				|| rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS).equals("xmlns")) 
+		{
 			// writer.writeNamespace("rdf", Annotation.URI_RDF_SYNTAX_NS); // already registered previously
 			rdfNamespaces.put(Annotation.URI_RDF_SYNTAX_NS, "rdf");
 		}
