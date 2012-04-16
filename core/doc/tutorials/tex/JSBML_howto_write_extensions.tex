@@ -21,8 +21,8 @@ interest are defined. The extension folder should also contain an ant script
 file \texttt{build.xml} to facilitate compilation of the package.
 In addition, there are also the folders
 \begin{itemize}
-  \item \texttt{doc} for implementation documentation of the SBML package, 
-  \item \texttt{lib} for package-specific third-party libraries, 
+  \item \texttt{doc} for implementation documentation of the SBML package,
+  \item \texttt{lib} for package-specific third-party libraries,
   \item \texttt{resources} for non-source files that are required for
   parsing/writing or more complex operations,
   \item \texttt{test} for JUnit testing of the package.
@@ -41,7 +41,7 @@ structure.
 In most cases, you probably want to extend a \Model.
 Listing~\vref{lst:ModelExtClass} shows the beginning of the class
 \texttt{ExampleModel} that is an extension to the standard Model of the SBML core.
-\begin{lstlisting}[language=Java,caption={Extending \texttt{AbstractSBasePlugin}},label={lst:ModelExtClass}]
+\begin{lstlisting}[language=Java,float,caption={Extending \texttt{AbstractSBasePlugin}},label={lst:ModelExtClass}]
 public class ExampleModel extends AbstractSBasePlugin {
 
   public ExampleModel(Model model) {
@@ -57,8 +57,8 @@ In this example, the constructor accepts an object that is a \Model, because tha
 The call to the super constructor will save the given model as the
 \SBase{} that is being extended in the \texttt{extendedSBase} attribute.
 For convenience, a \texttt{getModel()} method to retrieve the extended model
-should also be added 
-\begin{lstlisting}[language=Java,caption={Convenience method to retrieve the extended model},label={lst:ModelExtGetModel}]
+should also be added
+\begin{lstlisting}[language=Java,float,caption={Convenience method to retrieve the extended model},label={lst:ModelExtGetModel}]
   public Model getModel() {
     return (Model) getExtendedSBase();
   }
@@ -79,7 +79,7 @@ shown here for the \emph{bar} attribute, which is an integer:
 should be created for each \texttt{Foo} class attribute},label={lst:ModelExtFooBar}]
   public int getBar();
   public boolean isSetBar();
-  public void setBar(int value);
+  public void setBar(int bar);
   public boolean unsetBar();
 
   // if the attribute is a boolean type, additionally
@@ -91,7 +91,7 @@ In this special case, \emph{id} and \emph{name} should be unique, so it also
 implements the \texttt{UniqueNamedSBase} interface.
 Because of that, you will be required to implement the above mentioned methods
 for \emph{id} anyway, those for \emph{name} are already present in the abstract super class.
-Listing~\vref{lst:DefaultModelExtFooBar} show how those methods should be
+Listing~\ref{lst:DefaultModelExtFooBar} show how those methods should be
 implemented in general. It is very important to call the
 \texttt{firePropertyChange} method within the set and unset
 methods in order to notify all registered listener about changes. In cases that
@@ -107,7 +107,7 @@ label={lst:DefaultModelExtFooBar}]
 
   public int getBar() {
     if (isSetBar()) {
-      return bar.intValue();
+      return bar;
     }
     // This is necessary because we cannot return null here.
     throw new PropertyUndefinedError(ExampleConstant.bar, this);
@@ -117,7 +117,7 @@ label={lst:DefaultModelExtFooBar}]
     return this.bar != null;
   }
 
-  public void setBar(int value) {
+  public void setBar(int bar) {
     Integer oldBar = this.bar;
     this.bar = bar;
     firePropertyChange(ExampleConstant.bar, oldBar, this.bar);
@@ -212,7 +212,7 @@ defined \texttt{ListOfFoos}. For this, the methods \texttt{isSetListOfFoos()},
 Listing~\vref{lst:ModelExtListOfFoosBasic}).
 
 \begin{lstlisting}[language=Java,caption={Implementation of the \texttt{ListOf}
-methods: \texttt{isSetListOfFoos()}, \texttt{getListOfFoos()}, 
+methods: \texttt{isSetListOfFoos()}, \texttt{getListOfFoos()},
 \texttt{setListOfFoos()}},label={lst:ModelExtListOfFoosBasic}]
   public boolean isSetListOfFoos() {
     if ((listOfFoos == null) || listOfFoos.isEmpty()) {
@@ -223,19 +223,18 @@ methods: \texttt{isSetListOfFoos()}, \texttt{getListOfFoos()},
 
   public ListOf<Foo> getListOfFoos() {
     if (!isSetListOfFoos()) {
-      Model m = getModel();
-      listOfFoos = new ListOf<Foo>(m.getLevel(), m.getVersion());
+      listOfFoos = new ListOf<Foo>(getLevel(), getVersion());
       listOfFoos.addNamespace(ExampleConstants.namespaceURI);
       listOfFoos.setSBaseListType(ListOf.Type.other);
-      m.registerChild(listOfFoos);
+      registerChild(listOfFoos);
     }
-    return ListOfFoos;
+    return listOfFoos;
   }
 
   public void setListOfFoos(ListOf<Foo> listOfFoos) {
     unsetListOfFoos();
     this.listOfFoos = listOfFoos;
-    getModel().registerChild(this.listOfFoos);
+    registerChild(this.listOfFoos);
   }
 
   public boolean unsetListOfFoos() {
@@ -275,7 +274,7 @@ additional consistency checking (Listing ~\vref{lst:ModelExtAddRemoveFoos}).
 
   // if the ID is mandatory for Foo objects, one should also add
   public void removeFoo(String id) {
-    return getListOfFoos().removeFirst(new NameFilter(id));
+    getListOfFoos().removeFirst(new NameFilter(id));
   }
 \end{lstlisting}
 
@@ -336,7 +335,7 @@ public class ExampleModel extends AbstractSBasePlugin {
   }
 
   public Foo createFoo(String id) {
-    Foo foo = new Foo(id, getModel().getLevel(), getModel().getVersion());
+    Foo foo = new Foo(id, getLevel(), getVersion());
     addFoo(foo);
     return foo;
   }
@@ -397,8 +396,8 @@ super class of \texttt{AbstractSBase}.
 
 \begin{lstlisting}[language=Java,caption={Example of the \texttt{hashCode}
 method. The variable \texttt{prime} should be a large prime number to prevent
-collisions},label={lst:ModelExtHashCode}] 
-  @Override 
+collisions},label={lst:ModelExtHashCode}]
+  @Override
   public int hashCode() {
     final int prime = 491;
     int hashCode = super.hashCode();    // recursively checks all children
@@ -417,7 +416,7 @@ constructor of that class that takes an instance of itself as argument.
 There, all the elements of the class must be copied, which may require recursive cloning.
 
 \begin{lstlisting}[language=Java,caption={Example of the \texttt{clone} method
-for the \texttt{ExampleModel} class},label={lst:ModelExtClone}] 
+for the \texttt{ExampleModel} class},label={lst:ModelExtClone}]
   public ExampleModel clone() {
     return new ExampleModel(this);
   }
@@ -432,7 +431,7 @@ for the \texttt{ExampleModel} class},label={lst:ModelExtClone}]
 \end{lstlisting}
 
 \begin{lstlisting}[language=Java,caption={Example of the \texttt{clone} method
-for the \texttt{Foo} class},label={lst:ModelExtCloneFoo}] 
+for the \texttt{Foo} class},label={lst:ModelExtCloneFoo}]
   public Foo clone() {
     return new Foo(this);
   }
@@ -579,6 +578,8 @@ public class Foo extends AbstractNamedSBase {
 
     // ...
     // further class attributes
+    
+    return attributes;
   }
 }
 \end{lstlisting}
@@ -679,6 +680,7 @@ An example is shown in Listing \ref{lst:ModelExtReadAttributes} for the class
     if (!isAttributeRead) {
       isAttributeRead = true;
 
+      // this must be done for each attribute
       if (attributeName.equals(ExampleConstant.bar)) {
         setBar(StringTools.parseSBMLInt(value));
       } else {
