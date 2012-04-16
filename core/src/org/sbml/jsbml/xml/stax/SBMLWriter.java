@@ -1219,7 +1219,9 @@ public class SBMLWriter {
 		// Checking if all the necessary namespaces are defined 
 		// TODO : In fact, we could remove the rdfNamespaces map ?
 
-		if (rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS) == null) {
+		if (rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS) == null 
+				|| rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS).equals("xmlns")) 
+		{
 			// writer.writeNamespace("rdf", Annotation.URI_RDF_SYNTAX_NS); // already registered previously
 			rdfNamespaces.put(Annotation.URI_RDF_SYNTAX_NS, "rdf");
 		}
