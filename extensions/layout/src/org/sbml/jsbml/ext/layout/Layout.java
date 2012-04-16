@@ -337,7 +337,13 @@ public class Layout extends AbstractNamedSBase {
 	 * @return
 	 */
 	public ListOf<CompartmentGlyph> getListOfCompartmentGlyphs() {
-		return listOfCompartmentGlyphs;
+		if (!isSetListOfCompartmentGlyphs()) {
+		  listOfCompartmentGlyphs = new ListOf<CompartmentGlyph>(getLevel(), getVersion());
+		  listOfCompartmentGlyphs.addNamespace(LayoutConstant.namespaceURI);
+		  listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
+	    registerChild(listOfCompartmentGlyphs);
+	  }
+	  return listOfCompartmentGlyphs;
 	}
 
 	/**
@@ -345,6 +351,12 @@ public class Layout extends AbstractNamedSBase {
 	 * @return
 	 */
 	public ListOf<ReactionGlyph> getListOfReactionGlyphs() {
+	  if (!isSetListOfReactionGlyphs()) {
+	    listOfReactionGlyphs = new ListOf<ReactionGlyph>(getLevel(), getVersion());
+	    listOfReactionGlyphs.addNamespace(LayoutConstant.namespaceURI);
+	    listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfCompartmentGlyphs);
+    }
 		return listOfReactionGlyphs;
 	}
 
@@ -353,6 +365,12 @@ public class Layout extends AbstractNamedSBase {
 	 * @return
 	 */
 	public ListOf<SpeciesGlyph> getListOfSpeciesGlyphs() {
+    if (!isSetListOfSpeciesGlyphs()) {
+      listOfSpeciesGlyphs = new ListOf<SpeciesGlyph>(getLevel(), getVersion());
+      listOfSpeciesGlyphs.addNamespace(LayoutConstant.namespaceURI);
+      listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfSpeciesGlyphs);
+    }
 		return listOfSpeciesGlyphs;
 	}
 
@@ -361,6 +379,12 @@ public class Layout extends AbstractNamedSBase {
 	 * @return
 	 */
 	public ListOf<TextGlyph> getListOfTextGlyphs() {
+	  if (!isSetListOfTextGlyphs()) {
+	    listOfTextGlyphs = new ListOf<TextGlyph>(getLevel(), getVersion());
+	    listOfTextGlyphs.addNamespace(LayoutConstant.namespaceURI);
+	    listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfTextGlyphs);
+    }
 		return listOfTextGlyphs;
 	}
 	
