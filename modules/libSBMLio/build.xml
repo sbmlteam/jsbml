@@ -11,9 +11,11 @@
   	    <format property="YEAR" pattern="yyyy"/>
 	</tstamp>
 
-    <property name="Name" value="libSBMLio"/>
-    <property name="name" value="jsbml-libSBMLio"/>
-    <property name="version" value="0.8.15"/>
+  	<property file="${basedir}/libSBMLio-build.properties"/>  		
+  		
+    <property name="Name" value="${libSBMLio.Name}"/>
+    <property name="name" value="${libSBMLio.name}"/>
+    <property name="version" value="${libSBMLio.version}"/>
 
     <property name="year" value="${YEAR}"/>
   	
@@ -44,6 +46,9 @@
     <property name="dist.dir" value="${dist.root}/${name}-${version}"/>
     <property name="package.dir" value="${basedir}/build/package"/>
   	
+  	<property name="jsbml.build.dest" value="${basedir}/../../core/build"/>
+  	<property name="jsbml.jars.dir" value="${basedir}/../../core/lib"/>
+
     <filter token="year" value="${year}"/>
     <filter token="version" value="${version}"/>
     <filter token="date" value="${TODAY}"/>
@@ -53,8 +58,9 @@
     <!-- add everything needed to the classpath -->
     <!-- adjust the settings to your local environment -->
     <path id="classpath">
-      <fileset dir="${jars.dir}" includes="*.jar *.zip">
-      </fileset>
+      <fileset dir="${jars.dir}" includes="*.jar *.zip"/>
+  	  <dirset dir="${jsbml.build.dest}" includes="classes"/>
+      <fileset dir="${jsbml.jars.dir}" includes="*.jar *.zip"/>
     </path>
   </target>
 
@@ -175,6 +181,79 @@
          basedir="${build.dest}"/>
   </target>
 
+	<!-- =================================================================== -->
+	<!-- Creates the source jar package                                      -->
+	<!-- =================================================================== -->
+	<target name="jar-src" depends="prepare-src">
+
+		<jar jarfile="${build.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java"/>
+
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Creates the distribution                                            -->
+	<!-- =================================================================== -->
+	<target name="dist" depends="prepare-src">
+
+		<mkdir dir="${dist.root}"/>
+		<mkdir dir="${dist.dir}"/>
+
+		<!-- Creates the standard jar file -->
+
+		<antcall target="clean"/>
+
+		<antcall target="jar"/>
+		<antcall target="jar-src"/>
+		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-src.jar"/>
+
+		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}.jar"/>
+		<copy todir="${dist.root}" file="${build.dir}/${name}-${version}.jar"/>
+
+
+		<!-- Creates and copy the generated javadoc -->
+		<antcall target="jar-javadoc"/>
+
+		<copy todir="${dist.dir}/doc/api">
+			<fileset dir="${build.javadocs}/" includes="**/*">
+			</fileset>
+		</copy>
+		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-javadoc.jar"/>
+
+		<!-- Copy the source files -->
+		<copy todir="${dist.dir}/src">
+			<fileset dir="${build.src}/" includes="**/*">
+			</fileset>
+		</copy>
+
+		<!-- Copy all the dependencies jar files -->
+		<copy todir="${dist.dir}/lib">
+			<fileset dir="${jars.dir}/" includes="*.jar" excludes="jsbml*.jar">
+			</fileset>
+		</copy>
+
+
+		<copy todir="${dist.dir}">
+			<fileset dir="${basedir}/" includes="LICENSE.txt NEWS.txt README AUTHORS.txt build.xml">
+			</fileset>
+		</copy>
+		<copy todir="${dist.dir}/licenses">
+			<fileset dir="${basedir}/licenses" includes="**/*">
+			</fileset>
+		</copy>
+
+		<copy todir="${dist.dir}/doc">
+			<fileset dir="${basedir}/doc" includes="**/*.pdf **/*.jpg **/*.java">
+
+			</fileset>
+		</copy>
+
+		<!-- Creates the archives to be distributed -->
+		<zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.zip" includes="${name}-${version}/**"/>
+
+		<!-- Not generating a tar.gz a having only a zip file should be enough -->
+		<!-- <tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip"/> -->
+
+	</target>
 
 
   <!-- =================================================================== -->
@@ -201,6 +280,15 @@
 		<link href="http://sbml.org/Special/Software/JSBML/build/apidocs/index.html"/>
    </javadoc> 	
   </target>
+
+	<!-- =================================================================== -->
+	<!-- Creates the javadocs jar package                                      -->
+	<!-- =================================================================== -->
+	<target name="jar-javadoc" depends="javadoc">
+
+		<jar jarfile="${build.dir}/${name}-${version}-javadoc.jar" basedir="${build.javadocs}" />
+
+	</target>
 
   <!-- =================================================================== -->
   <!-- Cleans everything                                                   -->
