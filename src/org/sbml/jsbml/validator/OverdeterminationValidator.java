@@ -45,6 +45,7 @@ import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.ASTNode.Type;
 
 /**
  * This class creates a bipartite graph and a matching for the given model using
@@ -865,7 +866,7 @@ public class OverdeterminationValidator {
 	private void getVariables(ListOf<LocalParameter> param, ASTNode node,
 			List<SBase> variables, int level) {
 		// found node with species	
-		if (node.getChildCount() == 0 && node.isString()) {
+		if ((node.getChildCount() == 0) && (node.isString()) && (node.getType() != Type.NAME_TIME) && (node.getType() != Type.NAME_AVOGADRO)) {
 			if (!node.isConstant()) {				
 				if (param == null) {
 				  SBase variable=node.getVariable();
