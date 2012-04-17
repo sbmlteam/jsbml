@@ -866,7 +866,7 @@ public class OverdeterminationValidator {
 	private void getVariables(ListOf<LocalParameter> param, ASTNode node,
 			List<SBase> variables, int level) {
 		// found node with species	
-		if (node.getChildCount() == 0 && node.isString() && node.getType() != Type.NAME_TIME) {
+		if ((node.getChildCount() == 0) && (node.isString()) && (node.getType() != Type.NAME_TIME) && (node.getType() != Type.NAME_AVOGADRO)) {
 			if (!node.isConstant()) {				
 				if (param == null) {
 				  SBase variable=node.getVariable();
