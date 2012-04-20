@@ -23,7 +23,6 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.SBMLException;
 
 /**
@@ -33,7 +32,7 @@ import org.sbml.jsbml.SBMLException;
  * @since 1.0
  * @version $Rev$
  */
-public class SpeciesReferenceGlyph extends AbstractNamedSBase {
+public class SpeciesReferenceGlyph extends GraphicalObject {
 
 	/**
 	 * Generated serial version identifier.
@@ -67,6 +66,7 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 		super();
 		addNamespace(LayoutConstant.namespaceURI);
 	}
+
 	/**
 	 * 
 	 * @param speciesReferencesGlyph
@@ -85,17 +85,15 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 		addNamespace(LayoutConstant.namespaceURI);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
 	 */
+	@Override
 	public SpeciesReferenceGlyph clone() {
 		return new SpeciesReferenceGlyph(this);
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
@@ -119,9 +117,8 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 		return equals;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildAt(int)
 	 */
 	@Override
 	public TreeNode getChildAt(int index) {
@@ -145,9 +142,8 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 				index, +((int) Math.min(pos, 0))));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildCount()
 	 */
 	@Override
 	public int getChildCount() {
@@ -190,8 +186,7 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 		return role;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
 	@Override
@@ -213,14 +208,6 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 
 		return hashCode;
 	}
-
-	/* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-   */
-  public boolean isIdMandatory() {
-    return false;
-  }
-
 
 	/**
 	 * @return
@@ -250,8 +237,7 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 		return role != null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -296,6 +282,7 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 		this.role = valueOf;
 		firePropertyChange(LayoutConstant.role, oldRole, this.role);
 	}
+	
 	/**
 	 * 
 	 * @param curve
@@ -327,7 +314,9 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 		firePropertyChange(LayoutConstant.speciesReference, oldSpeciesReference, this.speciesReference);
 	}
 
-	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
+	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
@@ -347,4 +336,5 @@ public class SpeciesReferenceGlyph extends AbstractNamedSBase {
 
 		return attributes;
 	}
+
 }

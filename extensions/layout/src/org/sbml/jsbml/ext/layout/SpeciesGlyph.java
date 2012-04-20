@@ -62,9 +62,7 @@ public class SpeciesGlyph extends GraphicalObject {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
 	 */
 	@Override
@@ -72,8 +70,7 @@ public class SpeciesGlyph extends GraphicalObject {
 		return new SpeciesGlyph(this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
@@ -99,8 +96,7 @@ public class SpeciesGlyph extends GraphicalObject {
 		return speciesId;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
 	@Override
@@ -120,8 +116,7 @@ public class SpeciesGlyph extends GraphicalObject {
 		return speciesId != null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -143,6 +138,9 @@ public class SpeciesGlyph extends GraphicalObject {
 			return true;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
+	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 	  Map<String, String> attributes = super.writeXMLAttributes();
@@ -158,7 +156,6 @@ public class SpeciesGlyph extends GraphicalObject {
 	  return attributes;
 	}
 
-	
 	/**
 	 * 
 	 * @param species
@@ -168,9 +165,8 @@ public class SpeciesGlyph extends GraphicalObject {
 		this.speciesId = species;
 		firePropertyChange(TreeNodeChangeEvent.species, oldSpecies, this.speciesId);
 	}
-	/*
-	 * (non-Javadoc)
-	 * 
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
 	 */
 	@Override

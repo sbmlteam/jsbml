@@ -66,7 +66,6 @@ public class ReactionGlyph extends GraphicalObject {
 	  registerChild(listOfSpeciesReferencesGlyph);
 	}
 
-
 	/**
 	 * 
 	 * @param reactionGlyph
@@ -85,9 +84,7 @@ public class ReactionGlyph extends GraphicalObject {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
 	 */
 	@Override
@@ -96,8 +93,7 @@ public class ReactionGlyph extends GraphicalObject {
 	}
 
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
@@ -118,8 +114,7 @@ public class ReactionGlyph extends GraphicalObject {
 		return equals;
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildAt(int)
 	 */
 	@Override
@@ -149,8 +144,7 @@ public class ReactionGlyph extends GraphicalObject {
 				index, +((int) Math.min(pos, 0))));
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildCount()
 	 */
 	@Override
@@ -189,8 +183,7 @@ public class ReactionGlyph extends GraphicalObject {
 		return reaction;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
 	@Override
@@ -224,8 +217,7 @@ public class ReactionGlyph extends GraphicalObject {
 		return reaction != null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -284,9 +276,7 @@ public class ReactionGlyph extends GraphicalObject {
 		firePropertyChange(LayoutConstant.reaction, oldReaction, this.reaction);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
 	 */
 	@Override
@@ -294,6 +284,9 @@ public class ReactionGlyph extends GraphicalObject {
 		return super.toString();
 	}
 
+	/**
+	 * 
+	 */
 	private void unsetListOfSpeciesReferencesGlyph() {
 		if(this.listOfSpeciesReferencesGlyph != null){
 			ListOf<SpeciesReferenceGlyph> oldValue = this.listOfSpeciesReferencesGlyph;
@@ -302,6 +295,9 @@ public class ReactionGlyph extends GraphicalObject {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
+	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
@@ -313,7 +309,5 @@ public class ReactionGlyph extends GraphicalObject {
 
 		return attributes;
 	}
-
-
 
 }

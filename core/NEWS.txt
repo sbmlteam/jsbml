@@ -51,6 +51,11 @@ Version 1.0-rc1 (xx-xx-2012)
 
 * Bug Fixes:
 
+  - In the Layout Extension the id attribute on GraphicalObject has to be
+    mandatory. Furthermore, SpeciesReferenceGlyph has to be derived from
+    GraphicalObject as well. Thanks to Matthias Kšnig for pointing this
+    out.
+
   - Cloning of models did not work correctly in case that of ASTNodes or 
     Annotation elements that were to be cloned contained references to
     TreeNodeChangeListeners.

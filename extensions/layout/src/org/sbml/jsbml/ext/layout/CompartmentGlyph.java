@@ -59,8 +59,7 @@ public class CompartmentGlyph extends GraphicalObject {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
 	 */
 	@Override
@@ -68,8 +67,7 @@ public class CompartmentGlyph extends GraphicalObject {
 		return new CompartmentGlyph(this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
@@ -93,8 +91,7 @@ public class CompartmentGlyph extends GraphicalObject {
 		return compartment;
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
 	@Override
@@ -124,12 +121,8 @@ public class CompartmentGlyph extends GraphicalObject {
 		firePropertyChange(TreeNodeChangeEvent.compartment, oldCompartment, this.compartment);
 	}
 	
-	/**
-	 * 
-	 * @param attributeName
-	 * @param prefix
-	 * @param value
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -155,7 +148,9 @@ public class CompartmentGlyph extends GraphicalObject {
 		return isAttributeRead;
 	}
 
-	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
+	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
