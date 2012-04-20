@@ -70,9 +70,7 @@ public class GraphicalObject extends AbstractNamedSBase {
 		addNamespace(LayoutConstant.namespaceURI);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	@Override
@@ -96,8 +94,7 @@ public class GraphicalObject extends AbstractNamedSBase {
 		return boundingBox;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
@@ -121,9 +118,7 @@ public class GraphicalObject extends AbstractNamedSBase {
 				index, +((int) Math.min(pos, 0))));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
 	 */
 	@Override
@@ -139,7 +134,8 @@ public class GraphicalObject extends AbstractNamedSBase {
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   public boolean isIdMandatory() {
-    return false;
+    // See Layout Extension (April 25, 2005) page 9, SId use="required"
+    return true;
   }
 	
 	/**
@@ -170,6 +166,9 @@ public class GraphicalObject extends AbstractNamedSBase {
 		}		
 	}
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
@@ -229,6 +228,5 @@ public class GraphicalObject extends AbstractNamedSBase {
 	  bb.createPosition(x, y, z);
 	  return bb;
 	}
-	
 
 }

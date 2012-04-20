@@ -76,17 +76,14 @@ public class LineSegment extends AbstractNamedSBase {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	public LineSegment clone() {
 		return new LineSegment(this);
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
@@ -116,8 +113,7 @@ public class LineSegment extends AbstractNamedSBase {
 				index, +((int) Math.min(pos, 0))));
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
 	 */
 	@Override
@@ -239,7 +235,6 @@ public class LineSegment extends AbstractNamedSBase {
 		return p;
 
 	}
-	
 
 	/**
 	 * Creates, sets and returns a {@link Point} based on the

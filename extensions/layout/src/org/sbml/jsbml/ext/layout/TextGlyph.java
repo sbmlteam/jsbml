@@ -59,7 +59,6 @@ public class TextGlyph extends GraphicalObject {
 		super();
 		addNamespace(LayoutConstant.namespaceURI);
 	}
-	
 
 	/**
 	 * 
@@ -69,7 +68,7 @@ public class TextGlyph extends GraphicalObject {
 		super(id);
 		addNamespace(LayoutConstant.namespaceURI);
 	}
-	
+
 	/**
 	 * 
 	 * @param textGlyph
@@ -84,9 +83,7 @@ public class TextGlyph extends GraphicalObject {
 		this.text = new String(textGlyph.getText());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	@Override
@@ -94,8 +91,7 @@ public class TextGlyph extends GraphicalObject {
 		return new TextGlyph(this);
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
@@ -118,7 +114,6 @@ public class TextGlyph extends GraphicalObject {
 		}
 		return equals;
 	}
-	
 	
 	/**
 	 * 
@@ -144,8 +139,7 @@ public class TextGlyph extends GraphicalObject {
 		return text;
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
 	@Override
@@ -215,13 +209,9 @@ public class TextGlyph extends GraphicalObject {
 		this.text = text;
 		firePropertyChange(LayoutConstant.text, oldText, this.text);
 	}
-	
-	/**
-	 * 
-	 * @param attributeName
-	 * @param prefix
-	 * @param value
-	 * @return
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -255,7 +245,9 @@ public class TextGlyph extends GraphicalObject {
 		return isAttributeRead;
 	}
 
-	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
+	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
@@ -275,6 +267,5 @@ public class TextGlyph extends GraphicalObject {
 
 		return attributes;
 	}
-
 
 }
