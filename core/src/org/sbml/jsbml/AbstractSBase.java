@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -842,9 +843,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			
 		}
 		
-		throw new IndexOutOfBoundsException(isLeaf() ? String.format(
-				"Node %s has no children.", getElementName()) : String.format(
-				"Index %d >= %d", childIndex, +((int) Math.min(pos, 0))));
+    throw new IndexOutOfBoundsException(isLeaf() ? MessageFormat.format(
+      "Node {0} has no children.", getElementName()) : MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}", childIndex,
+      +((int) Math.min(pos, 0))));
 	}
 
 	/* (non-Javadoc)
@@ -873,8 +875,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		if (isSetAnnotation()) {
 			return annotation.getCVTerm(index);
 		}
-		throw new IndexOutOfBoundsException(String.format(
-				"No such controlled vocabulary term with index %d.", index));
+		throw new IndexOutOfBoundsException(MessageFormat.format(
+				"No such controlled vocabulary term with index {0,number,integer}.", index));
 	}
 
 	/* (non-Javadoc)
@@ -1274,7 +1276,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	      }
 	      sbase.addAllChangeListeners(listeners);
 
-	      throw new IllegalArgumentException(String.format("Cannot register %s.",
+	      throw new IllegalArgumentException(MessageFormat.format("Cannot register {0}.",
 	        sbase.getElementName()));
 	    }
 
@@ -1311,7 +1313,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			// If possible, recursively unregister all ids of the SBase in our model:
 			if ((model != null)
 					&& !model.registerIds(this, sbase, true, true)) {
-				throw new IllegalArgumentException(String.format("Cannot unregister %s.",
+				throw new IllegalArgumentException(MessageFormat.format("Cannot unregister {0}.",
 						sbase.getElementName()));
 			}
 
@@ -1320,7 +1322,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 	}
 
-	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setAnnotation(org.sbml.jsbml.Annotation)
 	 */
@@ -1466,8 +1467,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			throw new PropertyNotAvailableException(TreeNodeChangeEvent.sboTerm, this);
 		}
 		if (!SBO.checkTerm(term)) {
-			throw new IllegalArgumentException(String.format(
-					"Cannot set invalid SBO term %d because it must not be smaller than zero or larger than 9999999.", term));
+			throw new IllegalArgumentException(MessageFormat.format(
+					"Cannot set invalid SBO term {0,number,integer} because it must not be smaller than zero or larger than 9999999.", 
+					term));
 		}
 		Integer oldTerm = Integer.valueOf(sboTerm);
 		sboTerm = term;
@@ -1580,8 +1582,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = new TreeMap<String, String>();
-
-		if (1 < getLevel()) {
+		int level = getLevel();
+		
+		if (1 < level) {
 			/* This ensures that the metaid of this element is always defined if
 			 * there is an annotation present.
 			 */
@@ -1590,19 +1593,19 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				SBMLDocument doc = getSBMLDocument();
 				if (doc != null) {
 					setMetaId(doc.nextMetaId());
-					logger.info(String.format(
-							"Some annotations would get lost because there was no metaid defined on %s. To avoid this, automatic metaid '%s' as been generated.",
+					logger.info(MessageFormat.format(
+							"Some annotations would get lost because there was no metaid defined on {0}. To avoid this, automatic metaid '{0}' as been generated.",
 							getElementName(), getMetaId()));
 				} else {
-					logger.warn(String.format(
-							"Some annotations can get lost because no metaid is defined on %s.",
+					logger.warn(MessageFormat.format(
+							"Some annotations can get lost because no metaid is defined on {0}.",
 							getElementName()));
 				}
 			}
 			if (isSetMetaId()) {
 				attributes.put("metaid", getMetaId());
 			}
-			if (((getLevel() == 2) && (getVersion() >= 2)) || (getLevel() == 3)) {
+			if (((level == 2) && (getVersion() >= 2)) || (level == 3)) {
 				if (isSetSBOTerm()) {
 					attributes.put("sboTerm", getSBOTermID());
 				}

@@ -266,7 +266,9 @@ public class AboutPane
             KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
         
         Action closeWindowAction = new AbstractAction("Close Window") {
-            @Override
+            /* (non-Javadoc)
+             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
             public void actionPerformed(ActionEvent e) 
             {
                 Log.note("Got keyboard window-close event.");

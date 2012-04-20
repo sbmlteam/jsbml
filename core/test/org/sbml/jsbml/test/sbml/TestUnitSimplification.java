@@ -113,8 +113,8 @@ public class TestUnitSimplification {
    */
   @Test
   public void testDivideBy() {
-    assertTrue(UnitDefinition.printUnits(ud1.clone().divideBy(ud1), true).equals("mol*l^(-1)*mol^(-1)*l"));
-    assertTrue(UnitDefinition.printUnits(ud1.clone().divideBy(ud2), true).equals("mol*l^(-1)*\u03BCl^(-1)"));
+    assertTrue(UnitDefinition.printUnits(ud1.clone().divideBy(ud1), true).equals("dimensionless*dimensionless"));
+    assertTrue(UnitDefinition.printUnits(ud1.clone().divideBy(ud2), true).equals("mol*ml^(-2)"));
     assertTrue(UnitDefinition.printUnits(ud1.clone().divideBy(ud3), true).equals("mol*l^(-1)*(3600*s)^(-1)"));
   }
 
@@ -125,7 +125,7 @@ public class TestUnitSimplification {
   @Test
   public void testMultiplyWith() {
     assertTrue(UnitDefinition.printUnits(ud1.clone().multiplyWith(ud1), true).equals("mol^2*l^(-2)"));
-    assertTrue(UnitDefinition.printUnits(ud1.clone().multiplyWith(ud2), true).equals("mol*l^(-1)*\u03BCl"));
+    assertTrue(UnitDefinition.printUnits(ud1.clone().multiplyWith(ud2), true).equals("mol*10^(-6)*dimensionless"));
     assertTrue(UnitDefinition.printUnits(ud1.clone().multiplyWith(ud3), true).equals("mol*l^(-1)*3600*s"));
   }
 
@@ -140,6 +140,20 @@ public class TestUnitSimplification {
     assertTrue(UnitDefinition.printUnits(ud3.clone().raiseByThePowerOf(3.4d), true).equals("(3600*s)^3.4"));
   }
 
+  /**
+   * Test method for {@link Unit#removeMultiplier()}.
+   */
+  @Test
+  public void testRemoveMultiplier() {
+    UnitDefinition uuu = new UnitDefinition("energy", level, version);
+    int scale = 12;
+    double multiplier = 10E-10d;
+    double noise = 1E-23d;
+    double exp = 1d;
+    uuu.addUnit(new Unit(multiplier + noise, scale, Kind.JOULE, exp, level, version));
+    uuu.getUnit(0).removeMultiplier();
+    assertTrue(UnitDefinition.printUnits(uuu, true).equals("kJ"));
+  }
 
   /**
    * Test method for {@link UnitDefinition#simplify()}.
@@ -159,7 +173,9 @@ public class TestUnitSimplification {
     printTask('*', ud1, ud2, udef);
     assertTrue(UnitDefinition.printUnits(udef, true).equals("\u03BCmol"));
     
-    udef = ud1.clone().multiplyWith(ud2).divideBy(ud3).simplify();
+    udef = ud1.clone().multiplyWith(ud2);
+    udef = udef.simplify();
+    udef = udef.divideBy(ud3);
     System.out.println(c(ud1) + '*' + c(ud2) + '/' + c(ud3) + " = " + c(udef));
     assertTrue(UnitDefinition.printUnits(udef, true).equals("\u03BCmol*(3600*s)^(-1)"));
     
@@ -187,9 +203,14 @@ public class TestUnitSimplification {
     printTask('*', ud5, u3, udef);
     assertTrue(UnitDefinition.printUnits(udef, true).equals("hmol^(-3)*s^(-1)"));
     
-    u1 = ud5.clone().raiseByThePowerOf(5d).divideBy(ud6.clone().raiseByThePowerOf(5d));
-    u2 = ud5.clone().raiseByThePowerOf(-4d).multiplyWith(ud6.clone().raiseByThePowerOf(5d)).divideBy(ud7.clone());
-    udef = u1.clone().multiplyWith(u2).simplify();
+    u1 = ud5.clone().raiseByThePowerOf(5d);
+    u1 = u1.divideBy(ud6.clone().raiseByThePowerOf(5d));
+    u2 = ud5.clone().raiseByThePowerOf(-4d);
+    u2 = u2.multiplyWith(ud6.clone().raiseByThePowerOf(5d));
+    u2 = u2.divideBy(ud7.clone());
+    udef = u1.clone();
+    udef = udef.multiplyWith(u2);
+    udef.simplify();
     printTask('*', u1, u2, udef);
     assertTrue(UnitDefinition.printUnits(udef, true).equals("\u03BCmol*s^(-1)"));
   }

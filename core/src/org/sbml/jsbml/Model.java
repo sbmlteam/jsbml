@@ -3883,17 +3883,18 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return mapOfUnitDefinitions.remove(ud.getId()) != null;    
   }
-  
+
   /**
-   * Registers the given element in this model.
+   * Registers the given element in this {@link Model}.
+   * 
    * @param parent
    * @param newElem
    * @param recursively
    * @param delete
-   * @return
+   * @return <code>true</code> if this operation was successfully performed,
+   *         <code>false</code> otherwise.
    */
-  boolean registerIds(SBase parent, SBase newElem, boolean recursively,
-                      boolean delete) {
+  boolean registerIds(SBase parent, SBase newElem, boolean recursively, boolean delete) {
     if (newElem instanceof NamedSBase) {
       NamedSBase newNsb = (NamedSBase) newElem;
       if (newNsb.isSetId()) {
@@ -3928,7 +3929,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       }
       return success;
     }
-    return true;
+    return false;
   }
   
   /**
