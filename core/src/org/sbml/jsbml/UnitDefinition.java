@@ -605,32 +605,34 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @param definition
 	 */
 	public UnitDefinition divideBy(UnitDefinition definition) {
-		ListOf<Unit> listOfUnits = getListOfUnits();
-		Unit twinunit;
-	    // Avoid creation of not needed empty list:
-	    if (definition.isSetListOfUnits()) {
-		  for (Unit unit1 : definition.getListOfUnits()) {
-		    Unit unit = unit1.clone();
-		    if (!(unit.isDimensionless() || unit.isInvalid())) {
-		      unit.setExponent(-unit1.getExponent());
-
-		      // can not add the same unit twice to the list, raise exponent
-		      // instead
-		      // TODO: Instead of a simple contains, look for units of same kind and perform merge!
-		      if (listOfUnits.contains(unit)) {
-
-		        twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
-
-		        twinunit.setExponent(twinunit.getExponent()
-		          + unit.getExponent());
-
-		      } else {
-		        addUnit(unit.clone());
-		      }
-		    }
-		  }
-		}
-		return this;
+	  // Avoid creation of not needed empty list:
+	  if (definition.isSetListOfUnits()) {
+	    for (Unit unit1 : definition.getListOfUnits()) {
+	      Unit unit = unit1.clone();
+	      if (!(unit.isDimensionless() || unit.isInvalid())) {
+	        unit.setExponent(-unit1.getExponent());
+	      }
+	      boolean contains = false;
+	      for (int i = getUnitCount() - 1; (i >= 0) && !contains; i--) {
+	        Unit u = getUnit(i);
+	        if (Unit.Kind.areEquivalent(u.getKind(), unit.getKind())
+	            || u.isDimensionless() || unit.isDimensionless()
+	            || u.isInvalid() || unit.isInvalid()) {
+	          if (u.isDimensionless()) {
+	            Unit.merge(unit, removeUnit(i));
+	            break;
+	          } else {
+	            Unit.merge(u, unit);
+	            contains = true;
+	          }
+	        }
+	      }
+	      if (!contains) {
+	        addUnit(unit);
+	      }
+	    }
+	  }
+	  return this;
 	}
 
 	/* (non-Javadoc)
@@ -661,8 +663,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 			}
 			pos++;
 		}
-		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-				index, +((int) Math.min(pos, 0))));
+		throw new IndexOutOfBoundsException(MessageFormat.format(
+		  "Index {0,number,integer} >= {1,number,integer}", index,
+		  + ((int) Math.min(pos, 0))));
 	}
 
 	/* (non-Javadoc)
@@ -984,31 +987,31 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * @return
 	 */
 	public UnitDefinition multiplyWith(UnitDefinition definition) {
-		ListOf<Unit> listOfUnits = getListOfUnits();
-		Unit twinunit;
-	    // Avoid creation of not needed empty list:
-	    if (definition.isSetListOfUnits()) {
-		  for (Unit unit : definition.getListOfUnits()) {
-
-		    // can not add the same unit twice to the list, raise exponent
-		    // instead
-		    // TODO: Instead of a simple contains, look for units of same kind and perform merge!
-		    if (listOfUnits.contains(unit)) {
-
-		      twinunit = listOfUnits.get(listOfUnits.getIndex(unit));
-
-		      if (!(twinunit.isDimensionless() || twinunit.isInvalid())) {
-		        twinunit.setExponent(twinunit.getExponent()
-		          + unit.getExponent());
-		      }
-
-		    } else {
-		      addUnit(unit.clone());
-		    }
-
-		  }
-		}
-		return this;
+	  // Avoid creation of not needed empty list:
+	  if (definition.isSetListOfUnits()) {
+	    for (Unit unit : definition.getListOfUnits()) {
+	      boolean contains = false;
+	      for (int i = getUnitCount() - 1; (i >= 0) && !contains; i--) {
+	        Unit u = getUnit(i);
+	        if (Unit.Kind.areEquivalent(u.getKind(), unit.getKind())
+	            || u.isDimensionless() || unit.isDimensionless()
+	            || u.isInvalid() || unit.isInvalid()) {
+	          if (u.isDimensionless()) {
+	            unit = unit.clone();
+	            Unit.merge(unit, removeUnit(i));
+	            break;
+	          } else {
+	            Unit.merge(u, unit);
+	            contains = true;
+	          }
+	        }
+	      }
+	      if (!contains) {
+	        addUnit(unit.clone());
+	      }
+	    }
+	  }
+	  return this;
 	}
 
 	/**

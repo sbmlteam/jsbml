@@ -5,6 +5,16 @@ Version 1.0-rc1 (xx-xx-2012)
 ======================================================================
 
 * New Features:
+
+  - The Unit class has two new methods: removeOffset and
+    removeMultiplier. The first one computes a new multiplier from
+    the old offset, the old multiplier, and the scale and then sets
+    the offset to 0. The second method tries to remove the multiplier
+    by combining it with the scale. If this is not possible without
+    loosing accuracy, the method does nothing.
+    
+  - The multiplyWith and divideBy methods in UnitDefinition have been
+    improved to better combine units by using the merge method.
   
   - Filter method on TreeNodeWithChangeSupport, which allows for
     recursive queries in the entire data structure.

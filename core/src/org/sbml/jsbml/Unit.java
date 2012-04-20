@@ -589,14 +589,14 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -6335465287728562136L;
-	
-	/**
 	 * A {@link Logger} for this class.
 	 */
 	private static final transient Logger logger = Logger.getLogger(Unit.class);
+	
+	/**
+	 * Generated serial version identifier.
+	 */
+	private static final long serialVersionUID = -6335465287728562136L;
 
 	/**
 	 * Checks whether the given {@link Unit} and the {@link Unit} represented by
@@ -1064,7 +1064,7 @@ public class Unit extends AbstractSBase {
 	    double e2 = k2 == Kind.DIMENSIONLESS
 	        && unit2.getExponent() != 0d ? 0d : unit2.getExponent();
 	    if (unit1.getOffset() != 0d) {
-	      unit1.setOffset(0);
+	      unit1.setOffset(0d);
 	    }
 
 	    double newScale = s1;
@@ -1187,6 +1187,7 @@ public class Unit extends AbstractSBase {
 	      unit1.setScale(unit2.getScale());
 	      unit1.setKind(k2);
 	      unit1.setExponent(unit2.getExponent());
+	      unit1.removeMultiplier();
 	    }
 	  } else {
 	    throw new IllegalArgumentException(MessageFormat.format(
@@ -1349,10 +1350,10 @@ public class Unit extends AbstractSBase {
 	 */
 	public Unit(Kind kind, int level, int version) {
 		super(level, version);
-		if (!isUnitKind(kind, level, version) && (kind != Kind.INVALID)) {
-			throw new IllegalArgumentException(String.format(
-					"Unit kind %s is undefined for level %s version %s.", kind,
-					level, version));
+		if ((kind == null) || !isUnitKind(kind, level, version) && (kind != Kind.INVALID)) {
+			throw new IllegalArgumentException(MessageFormat.format(
+					"Unit kind {0} is undefined for SBML Level {1,number,integer} Version {2,number,integer}.", 
+					kind != null ? kind.toString() : "null", level, version));
 		}
 		initDefaults();
 		setKind(kind);
@@ -2125,6 +2126,67 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
+   * This method tries to remove the {@link #multiplier} of this unit.
+   * Nothing will happen in the case that there is no {@link #multiplier}.
+   * Otherwise, it first computes the decadic logarithm of the
+   * {@link #multiplier}.
+   * If this logarithm is either an integer or nearly an integer (with an
+   * accepted
+   * error of 10<sup>-24</sup>), it is added to the {@link #scale} and the
+   * {@link #multiplier} is set to 1.
+   * Note that it is not always possible to remove the {@link #multiplier}
+   * without loosing information. In order to avoid computational errors,
+   * nothing is done if the rounding error would be too large.
+   * 
+   * @return a pointer to this {@link Unit}.
+   */
+	public Unit removeMultiplier() {
+	  if (isSetMultiplier() && (getMultiplier() != 1d)) {
+	    double exp = Math.log10(getMultiplier());
+	    if (Maths.isInt(exp)) {
+	      setScale(getScale() + ((int) exp));
+	      setMultiplier(1d);
+	    } else if (Math.round(exp) - exp < 1E-15) {
+	      // 1E-15 is an acceptable noise range due to the limitation of doubles to 17 decimal positions.
+	      setScale(getScale() + ((int) Math.round(exp)));
+        setMultiplier(1d);
+	    }
+	  }
+	  return this;
+	}
+
+  /**
+   * We remove the offset by expressing it within a new {@link #multiplier},
+   * m':
+   * <p>
+   * m' = {@link #offset} / 10^{@link #scale} + {@link #multiplier}
+   * <p>
+   * When inserting this again into the unit formula, the offset vanishes:
+   * <p>
+   * (({@link #offset} + {@link #multiplier} * 10^{@link #scale}) *
+   * {@link #kind})^{@link #exponent}
+   * <p>
+   * then becomes
+   * <p>
+   * (0 + ({@link #offset} / 10^{@link #scale} + {@link #multiplier}) * 10^{@link #scale} * {@link #kind})^{@link #exponent} =
+   * <p> 
+   * (m' * 10^{@link #scale} * {@link #kind})^{@link #exponent}
+   * <p>
+   * This is possible because offset and multiplier are real double numbers.
+   * 
+   * @return this {@link Unit} whose {@link #offset} and {@link #multiplier}
+   *         might have been changed in case that there was an {@link #offset}
+   *         defined that was different to zero.
+   */
+	public Unit removeOffset() {
+	  if (isSetOffset() && (getOffset() != 0d)) {
+	    setMultiplier(getOffset() / Math.pow(10, getScale()) + getMultiplier());
+	    setOffset(0d);
+	  }
+	  return this;
+	}
+
+	/**
 	 * Manipulates the attributes of the Unit to express the unit with the value
 	 * of the scale attribute reduced to zero.
 	 * 
@@ -2307,29 +2369,28 @@ public class Unit extends AbstractSBase {
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 	  Map<String, String> attributes = super.writeXMLAttributes();
-		
+		int level = getLevel(), version = getVersion();
 		Locale en = Locale.ENGLISH;
+		
 		if (isSetKind()) {
 			attributes.put("kind", getKind().toString().toLowerCase());
 		}
 		if (isSetScale()) {
 			attributes.put("scale", Integer.toString(getScale()));
 		}
-		if (1 < getLevel()) {
+		if (1 < level) {
 			if (isSetMultiplier()) {
-				attributes.put("multiplier", StringTools.toString(en,
-						getMultiplier()));
+				attributes.put("multiplier", StringTools.toString(en, getMultiplier()));
 			}
 		}
-		if ((getLevel() == 2) && (getVersion() == 1)) {
+		if ((level == 2) && (version == 1)) {
 			if (isSetOffset()) {
 				attributes.put("offset", StringTools.toString(en, getOffset()));
 			}
 		}
 		if (isSetExponent()) {
-			if (2 < getLevel()) {
-				attributes.put("exponent", StringTools.toString(en,
-						getExponent()));
+			if (2 < level) {
+				attributes.put("exponent", StringTools.toString(en, getExponent()));
 			} else {
 				int exponent = (int) getExponent();
 				attributes.put("exponent", Integer.toString((int) getExponent()));
@@ -2342,4 +2403,5 @@ public class Unit extends AbstractSBase {
 		}
 		return attributes;
 	}
+
 }
