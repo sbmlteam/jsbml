@@ -3439,12 +3439,14 @@ public int getNumLocalParameters() {
   }
   
   /**
-   * Registers the given element in this model.
+   * Registers the given element in this {@link Model}.
+   * 
    * @param parent
    * @param newElem
    * @param recursively
    * @param delete
-   * @return
+   * @return <code>true</code> if this operation was successfully performed,
+   *         <code>false</code> otherwise.
    */
   boolean registerIds(SBase parent, SBase newElem, boolean recursively,
                       boolean delete) {
@@ -3479,7 +3481,7 @@ public int getNumLocalParameters() {
       }
       return success;
     }
-    return true;
+    return false;
   }
   
   /**

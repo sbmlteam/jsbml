@@ -1066,7 +1066,7 @@ public class Unit extends AbstractSBase {
 			double e2 = k2 == Kind.DIMENSIONLESS
 					&& unit2.getExponent() != 0d ? 0d : unit2.getExponent();
 			if (unit1.getOffset() != 0d) {
-				unit1.setOffset(0);
+				unit1.setOffset(0d);
 			}
 
 			double newScale = s1;
