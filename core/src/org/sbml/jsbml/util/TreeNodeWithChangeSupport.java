@@ -77,7 +77,7 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    *         criterion of the given {@link Filter}.
    * @see #filter(Filter, boolean)
    */
-  public List<TreeNode> filter(Filter filter);
+  public List<? extends TreeNode> filter(Filter filter);
   
   /**
    * Filters this tree data structure recursively and returns a list of all
