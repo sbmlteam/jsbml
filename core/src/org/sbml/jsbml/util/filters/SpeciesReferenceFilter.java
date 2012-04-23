@@ -54,45 +54,45 @@ public class SpeciesReferenceFilter extends NameFilter {
 		super();
 	}
 
-  /**
-   * Creates a new {@link SpeciesReferenceFilter} that only accepts instances of
-   * {@link SpeciesReference} pointing to the id of the given {@link Species}.
-   * 
-   * @param species
-   *        the {@link Species} of interest.
-   */
+	/**
+	 * Creates a new {@link SpeciesReferenceFilter} that only accepts instances of
+	 * {@link SpeciesReference} pointing to the id of the given {@link Species}.
+	 * 
+	 * @param species
+	 *        the {@link Species} of interest.
+	 */
 	public SpeciesReferenceFilter(Species species) {
-    this(species.getId(), species.getName());
-    setFilterForSpecies(true);
-  }
+		this(species.getId(), species.getName());
+		setFilterForSpecies(true);
+	}
 
-  /**
-   * @param id
-   *        the identifier of a {@link Species} or {@link SpeciesReference} we
-   *        are interested in. Whether we accept the id of a {@link Species} or
-   *        a {@link SpeciesReference} depends on the flag that can be defined
-   *        with {@link #setFilterForSpecies(boolean)}.
-   * @see #setFilterForSpecies(boolean)
-   */
+	/**
+	 * @param id
+	 *        the identifier of a {@link Species} or {@link SpeciesReference} we
+	 *        are interested in. Whether we accept the id of a {@link Species} or
+	 *        a {@link SpeciesReference} depends on the flag that can be defined
+	 *        with {@link #setFilterForSpecies(boolean)}.
+	 * @see #setFilterForSpecies(boolean)
+	 */
 	public SpeciesReferenceFilter(String id) {
 		super(id);
 	}
 
-  /**
-   * @param id
-   *        the identifier of a {@link Species} or {@link SpeciesReference} we
-   *        are interested in. Whether we accept the id of a {@link Species} or
-   *        a {@link SpeciesReference} depends on the flag that can be defined
-   *        with {@link #setFilterForSpecies(boolean)}.
-   * @param name
-   *        the name of the element we are interested in.
-   * @see #setFilterForSpecies(boolean)
-   */
+	/**
+	 * @param id
+	 *        the identifier of a {@link Species} or {@link SpeciesReference} we
+	 *        are interested in. Whether we accept the id of a {@link Species} or
+	 *        a {@link SpeciesReference} depends on the flag that can be defined
+	 *        with {@link #setFilterForSpecies(boolean)}.
+	 * @param name
+	 *        the name of the element we are interested in.
+	 * @see #setFilterForSpecies(boolean)
+	 */
 	public SpeciesReferenceFilter(String id, String name) {
 		super(id, name);
 	}
 
-  /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.filters.Filter#accepts(java.lang.Object)
 	 */
 	@Override

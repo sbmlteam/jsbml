@@ -21,6 +21,7 @@ package org.sbml.jsbml.ext.layout;
 
 import java.util.Map;
 
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
@@ -31,7 +32,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @version $Rev$
  */
-public class SpeciesGlyph extends GraphicalObject {
+public class SpeciesGlyph extends NamedSBaseGlyph {
 
 	/**
 	 * Generated serial version identifier.
@@ -39,16 +40,20 @@ public class SpeciesGlyph extends GraphicalObject {
 	private static final long serialVersionUID = 1077785483575936434L;
 	
 	/**
-	 * Reference to species id, described by this {@link SpeciesGlyph}.
-	 */
-	private String speciesId;
-	
-	/**
 	 * 
 	 */
 	public SpeciesGlyph() {
-		addNamespace(LayoutConstant.namespaceURI);
-	}	
+		super();
+	}
+	
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public SpeciesGlyph(int level, int version) {
+		super(level, version);
+	}
 	
 	/**
 	 * 
@@ -56,64 +61,62 @@ public class SpeciesGlyph extends GraphicalObject {
 	 */
 	public SpeciesGlyph(SpeciesGlyph speciesGlyph) {
 		super(speciesGlyph);
-
-		if (speciesGlyph.isSetSpecies()) {
-			this.speciesId = new String(speciesGlyph.getSpecies());
-		}
 	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
+	
+	/**
+	 * 
+	 * @param id
 	 */
-	@Override
+	public SpeciesGlyph(String id) {
+		super(id);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public SpeciesGlyph(String id, int level, int version) {
+		super(id, level, version);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.NamedSBaseGlyph#clone()
+	 */
 	public SpeciesGlyph clone() {
 		return new SpeciesGlyph(this);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 * @see org.sbml.jsbml.ext.layout.NamedSBaseGlyph#getNamedSBaseInstance()
 	 */
 	@Override
-	public boolean equals(Object object) {
-		boolean equals = super.equals(object);
-		if (equals) {
-			SpeciesGlyph s = (SpeciesGlyph) object;
-
-			 equals &= s.isSetSpecies() == isSetSpecies();
-			 if (equals && isSetSpecies()) {
-			 equals &= s.getSpecies().equals(getSpecies());
-			 }
-		}
-		return equals;
+	public Species getNamedSBaseInstance() {
+		return (Species) getNamedSBaseInstance();
 	}
-	
 	
 	/**
 	 * 
 	 * @return
 	 */
 	public String getSpecies() {
-		return speciesId;
+		return getNamedSBase();
 	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+	
+	/**
+	 * 
+	 * @return
 	 */
-	@Override
-	public int hashCode() {
-		final int prime = 977;
-		int hashCode = super.hashCode();
-		if (isSetSpecies()) {
-			hashCode += prime * getSpecies().hashCode();
-		}
-		return hashCode;
+	public Species getSpeciesInstance() {
+		return getNamedSBaseInstance();
 	}
-
+	
 	/**
 	 * @return the {@link #speciesId}
 	 */
 	public boolean isSetSpecies() {
-		return speciesId != null;
+		return isSetNamedSBase();
 	}
 
 	/* (non-Javadoc)
@@ -137,7 +140,30 @@ public class SpeciesGlyph extends GraphicalObject {
 		}
 			return true;
 	}
+
+	/**
+	 * 
+	 * @param species
+	 */
+	public void setSpecies(Species species) {
+		setSpecies(species.getId());
+	}
 	
+	/**
+	 * 
+	 * @param species
+	 */
+	public void setSpecies(String species) {
+		setNamedSBase(species, TreeNodeChangeEvent.species);
+	}
+	
+	/**
+	 * 
+	 */
+	public void unsetSpecies() {
+		unsetNamedSBase();
+	}
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
 	 */
@@ -154,24 +180,6 @@ public class SpeciesGlyph extends GraphicalObject {
 	  } 
 	  
 	  return attributes;
-	}
-
-	/**
-	 * 
-	 * @param species
-	 */
-	public void setSpecies(String species) {
-		String oldSpecies = this.speciesId;
-		this.speciesId = species;
-		firePropertyChange(TreeNodeChangeEvent.species, oldSpecies, this.speciesId);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		return "speciesGlyph [" + (isSetSpecies() ? getSpecies() : "") + "]";
 	}
 
 }

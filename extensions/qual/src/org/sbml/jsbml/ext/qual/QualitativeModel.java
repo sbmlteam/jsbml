@@ -78,7 +78,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * @param transition
    */
   public void addTransition(Transition transition) {
-	  if(!getListOfTransitions().contains(transition)){
+	  if (!getListOfTransitions().contains(transition)){
 		  getListOfTransitions().add(transition);
 	  }
   }
@@ -324,7 +324,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * no {@link QualitativeSpecies} are found that match <code>id</code>.
    */
   public QualitativeSpecies getQualitativeSpecies(String id){
-	  if(isSetListOfQualitativeSpecies()) {
+	  if (isSetListOfQualitativeSpecies()) {
 		  return listOfQualitativeSpecies.firstHit(new NameFilter(id));	    
 	  } 
 	  return null;
@@ -359,11 +359,15 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * @return the {@link Transition} that has the given id or null if
    * no {@link Transition} are found that match <code>id</code>.
    */
-  public SBase getTransition(String id) {
-    if(isSetListOfTransitions()) {
-      return listOfTransitions.firstHit(new NameFilter(id));     
-    } 
-    return null;
+  public Transition getTransition(String id) {
+	  if (isSetListOfTransitions()) {
+		  Model m = getModel();
+		  if (m != null) {
+			  return (Transition) m.findNamedSBase(id);
+		  }
+		  return listOfTransitions.firstHit(new NameFilter(id));     
+	  } 
+	  return null;
   }
 
   /**
@@ -430,7 +434,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * @return true is successful
    */
   public boolean unsetListOfTransitions(){
-	  if(isSetListOfTransitions()) {
+	  if (isSetListOfTransitions()) {
 		  // unregister the ids.
 		  listOfTransitions.unregister(this.listOfTransitions);
 		  this.listOfTransitions = null;
@@ -444,7 +448,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * @return true is successful
    */
   public boolean unsetListOfQualitativeSpecies() {
-	  if(isSetListOfQualitativeSpecies()) {
+	  if (isSetListOfQualitativeSpecies()) {
 		  // unregister the ids
 		  listOfQualitativeSpecies.unregister(listOfQualitativeSpecies);
 		  this.listOfQualitativeSpecies = null;

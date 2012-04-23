@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SimpleSpeciesReference;
 
 /**
  * @author Nicolas Rodriguez
@@ -32,7 +33,7 @@ import org.sbml.jsbml.SBMLException;
  * @since 1.0
  * @version $Rev$
  */
-public class SpeciesReferenceGlyph extends GraphicalObject {
+public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 
 	/**
 	 * Generated serial version identifier.
@@ -43,12 +44,12 @@ public class SpeciesReferenceGlyph extends GraphicalObject {
 	 * 
 	 */
 	private Curve curve;
-
+	
 	/**
 	 * 
 	 */
 	private SpeciesReferenceRole role;
-	
+
 	/**
 	 * 
 	 */
@@ -57,38 +58,57 @@ public class SpeciesReferenceGlyph extends GraphicalObject {
 	/**
 	 * 
 	 */
-	private String speciesReference;
+	public SpeciesReferenceGlyph() {
+		super();
+	}
 	
 	/**
 	 * 
+	 * @param level
+	 * @param version
 	 */
-	public SpeciesReferenceGlyph() {
-		super();
-		addNamespace(LayoutConstant.namespaceURI);
+	public SpeciesReferenceGlyph(int level, int version) {
+		super(level, version);
 	}
 
 	/**
 	 * 
-	 * @param speciesReferencesGlyph
+	 * @param speciesReferenceGlyph
 	 */
-	public SpeciesReferenceGlyph(SpeciesReferenceGlyph speciesReferencesGlyph) {
-		super(speciesReferencesGlyph);
-		// TODO 
+	public SpeciesReferenceGlyph(SpeciesReferenceGlyph speciesReferenceGlyph) {
+		super(speciesReferenceGlyph);
+		if (speciesReferenceGlyph.isSetCurve()) {
+			this.curve = speciesReferenceGlyph.getCurve().clone();
+		}
+		if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
+			this.role = SpeciesReferenceRole.valueOf(speciesReferenceGlyph.getSpeciesReferenceRole().toString());
+		}
+		if (speciesReferenceGlyph.isSetSpeciesGlyph()) {
+			this.speciesGlyph = new String(speciesReferenceGlyph.getSpeciesGlyph());
+		}
 	}
-
+	
 	/**
 	 * 
 	 * @param id
 	 */
 	public SpeciesReferenceGlyph(String id) {
 		super(id);
-		addNamespace(LayoutConstant.namespaceURI);
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public SpeciesReferenceGlyph(String id, int level, int version) {
+		super(id, level, version);
+	}
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
 	 */
-	@Override
 	public SpeciesReferenceGlyph clone() {
 		return new SpeciesReferenceGlyph(this);
 	}
@@ -104,10 +124,6 @@ public class SpeciesReferenceGlyph extends GraphicalObject {
 			equals &= s.isSetSpeciesReferenceRole() && isSetSpeciesReferenceRole();
 			if (equals && isSetSpeciesReferenceRole()) {
 				equals &= s.getSpeciesReferenceRole().equals(getSpeciesReferenceRole());
-			}
-			equals &= s.isSetSpeciesReference() == isSetSpeciesReference();
-			if (equals && isSetSpeciesReference()) {
-				equals &= s.getSpeciesReference().equals(getSpeciesReference());
 			}
 			equals &= s.isSetSpeciesGlyph() == isSetSpeciesGlyph();
 			if (equals && isSetSpeciesGlyph()) {
@@ -141,7 +157,7 @@ public class SpeciesReferenceGlyph extends GraphicalObject {
 		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
 				index, +((int) Math.min(pos, 0))));
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildCount()
 	 */
@@ -163,6 +179,14 @@ public class SpeciesReferenceGlyph extends GraphicalObject {
 		return curve;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.NamedSBaseGlyph#getNamedSBaseInstance()
+	 */
+	@Override
+	public SimpleSpeciesReference getNamedSBaseInstance() {
+		return (SimpleSpeciesReference) getNamedSBaseInstance();
+	}
+
 	/**
 	 * 
 	 * @return
@@ -176,9 +200,17 @@ public class SpeciesReferenceGlyph extends GraphicalObject {
 	 * @return
 	 */
 	public String getSpeciesReference() {
-		return speciesReference;
+		return getNamedSBase();
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public SimpleSpeciesReference getSpeciesReferenceInstance() {
+		return getNamedSBaseInstance();
+	}
+	
 	/**
 	 * @return
 	 */
@@ -193,19 +225,12 @@ public class SpeciesReferenceGlyph extends GraphicalObject {
 	public int hashCode() {
 		final int prime = 953;
 		int hashCode = super.hashCode();
-		if (isSetId()) {
-			hashCode += prime * getId().hashCode();
-		}
 		if (isSetSpeciesReferenceRole()) {
 			hashCode += prime * getSpeciesReferenceRole().hashCode();
-		}
-		if (isSetSpeciesReference()) {
-			hashCode += prime * getSpeciesReference().hashCode();
 		}
 		if (isSetSpeciesGlyph()) {
 			hashCode += prime * getSpeciesGlyph().hashCode();
 		}
-
 		return hashCode;
 	}
 
@@ -215,19 +240,19 @@ public class SpeciesReferenceGlyph extends GraphicalObject {
 	public boolean isSetCurve() {
 		return curve != null;
 	}
-	
+
 	/**
 	 * @return
 	 */
 	public boolean isSetSpeciesGlyph() {
 		return speciesGlyph != null;
 	}
-
+	
 	/**
 	 * @return
 	 */
 	public boolean isSetSpeciesReference() {
-		return speciesReference != null;
+		return isSetNamedSBase();
 	}
 
 	/**
@@ -276,13 +301,7 @@ public class SpeciesReferenceGlyph extends GraphicalObject {
 		
 		return isAttributeRead;
 	}
-	
-	public void setRole(SpeciesReferenceRole valueOf) {
-		SpeciesReferenceRole oldRole = this.role;
-		this.role = valueOf;
-		firePropertyChange(LayoutConstant.role, oldRole, this.role);
-	}
-	
+
 	/**
 	 * 
 	 * @param curve
@@ -296,6 +315,16 @@ public class SpeciesReferenceGlyph extends GraphicalObject {
 	
 	/**
 	 * 
+	 * @param valueOf
+	 */
+	public void setRole(SpeciesReferenceRole valueOf) {
+		SpeciesReferenceRole oldRole = this.role;
+		this.role = valueOf;
+		firePropertyChange(LayoutConstant.role, oldRole, this.role);
+	}
+	
+	/**
+	 * 
 	 * @param speciesGlyph
 	 */
 	public void setSpeciesGlyph(String speciesGlyph) {
@@ -303,15 +332,28 @@ public class SpeciesReferenceGlyph extends GraphicalObject {
 		this.speciesGlyph = speciesGlyph;
 		firePropertyChange(LayoutConstant.speciesGlyph, oldValue, this.speciesGlyph);
 	}
+	
+	/**
+	 * 
+	 * @param speciesReference
+	 */
+	public void setSpeciesReference(SimpleSpeciesReference speciesReference) {
+		setSpeciesReference(speciesReference.getId());
+	}
 
-  /**
+	/**
 	 * 
 	 * @param speciesReference
 	 */
 	public void setSpeciesReference(String speciesReference) {
-		String oldSpeciesReference = this.speciesReference;
-		this.speciesReference = speciesReference;
-		firePropertyChange(LayoutConstant.speciesReference, oldSpeciesReference, this.speciesReference);
+		setNamedSBase(speciesReference, LayoutConstant.speciesReference);
+	}
+	
+	/**
+	 * 
+	 */
+	public void unsetSpeciesReference() {
+		unsetNamedSBase();
 	}
 
 	/* (non-Javadoc)
@@ -327,7 +369,7 @@ public class SpeciesReferenceGlyph extends GraphicalObject {
 		}
 		if (isSetSpeciesReference()) {
 			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.speciesReference, speciesReference);
+					+ LayoutConstant.speciesReference, getSpeciesReference());
 		}
 		if (isSetSpeciesReferenceRole()) {
 			attributes.put(LayoutConstant.shortLabel + ":"

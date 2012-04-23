@@ -21,6 +21,7 @@ package org.sbml.jsbml.ext.layout;
 
 import java.util.Map;
 
+import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
@@ -30,57 +31,60 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @version $Rev$
  */
-public class CompartmentGlyph extends GraphicalObject {
+public class CompartmentGlyph extends NamedSBaseGlyph {
 
 	/**
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -831178362695634919L;
-	/**
-	 * 
-	 */
-	private String compartment;
 
 	/**
 	 * 
 	 */
 	public CompartmentGlyph() {
-		addNamespace(LayoutConstant.namespaceURI);
+		super();
 	}
-
+	
 	/**
 	 * 
 	 * @param compartmentGlyph
 	 */
 	public CompartmentGlyph(CompartmentGlyph compartmentGlyph) {
 		super(compartmentGlyph);
-		if (compartmentGlyph.isSetCompartment()) {
-			this.compartment = new String(compartmentGlyph.getCompartment());
-		}
+	}
+	
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public CompartmentGlyph(int level, int version) {
+		super(level, version);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public CompartmentGlyph(String id) {
+		super(id);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public CompartmentGlyph(String id, int level, int version) {
+		super(id, level, version);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
 	 */
-	@Override
 	public CompartmentGlyph clone() {
 		return new CompartmentGlyph(this);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-		boolean equals = super.equals(object);
-		if (equals) {
-			CompartmentGlyph cg = (CompartmentGlyph) object;
-			equals &= isSetCompartment() && cg.isSetCompartment();
-			if (equals && isSetCompartment()) {
-				equals &= getCompartment().equals(cg.getCompartment());
-			}
-		}
-		return equals;
 	}
 	
 	/**
@@ -88,37 +92,30 @@ public class CompartmentGlyph extends GraphicalObject {
 	 * @return
 	 */
 	public String getCompartment() {
-		return compartment;
+		return getNamedSBase();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Compartment getCompartmentInstance() {
+		return getNamedSBaseInstance();
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+	 * @see org.sbml.jsbml.ext.layout.NamedSBaseGlyph#getNamedSBaseInstance()
 	 */
 	@Override
-	public int hashCode() {
-		final int prime = 983;
-		int hashCode = super.hashCode();
-		if (isSetCompartment()) {
-			hashCode += prime * getCompartment().hashCode();
-		}
-		return hashCode;
+	public Compartment getNamedSBaseInstance() {
+		return (Compartment) getNamedSBaseInstance();
 	}
 
 	/**
 	 * @return
 	 */
 	public boolean isSetCompartment() {
-		return (compartment != null) && (compartment.length() > 0);
-	}
-	
-	/**
-	 * 
-	 * @param compartment
-	 */
-	public void setCompartment(String compartment) {
-		String oldCompartment = this.compartment;
-		this.compartment = compartment;
-		firePropertyChange(TreeNodeChangeEvent.compartment, oldCompartment, this.compartment);
+		return isSetNamedSBase();
 	}
 	
 	/* (non-Javadoc)
@@ -130,15 +127,11 @@ public class CompartmentGlyph extends GraphicalObject {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 		
-		if(!isAttributeRead)
-		{
+		if (!isAttributeRead) {
 		
-			if(attributeName.equals(LayoutConstant.compartment))
-			{	
+			if (attributeName.equals(LayoutConstant.compartment)) {	
 				setCompartment(value);
-			}
-			else
-			{
+			} else {
 				return false;
 			}
 		
@@ -146,6 +139,29 @@ public class CompartmentGlyph extends GraphicalObject {
 		}
 		
 		return isAttributeRead;
+	}
+	
+	/**
+	 * 
+	 * @param compartment
+	 */
+	public void setCompartment(Compartment compartment) {
+		setCompartment(compartment.getId());
+	}
+	
+	/**
+	 * 
+	 * @param compartment
+	 */
+	public void setCompartment(String compartment) {
+		setNamedSBase(compartment, TreeNodeChangeEvent.compartment);
+	}
+	
+	/**
+	 * 
+	 */
+	public void unsetCompartment() {
+		unsetNamedSBase();
 	}
 
 	/* (non-Javadoc)
@@ -157,11 +173,10 @@ public class CompartmentGlyph extends GraphicalObject {
 		
 		if (isSetCompartment()) {
 			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.compartment, compartment);
+					+ LayoutConstant.compartment, getCompartment());
 		}
 
 		return attributes;
 	}
-
 
 }

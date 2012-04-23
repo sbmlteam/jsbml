@@ -47,13 +47,25 @@ Version 1.0-rc1 (xx-xx-2012)
     JSBML object that is part of the SBML tree can now be attached with
     user-defined additional objects for in-memory manipulation. These
     will not be written to SBML later on.
+    
+  - The new class NamedSBaeGlyph in the layout package supports accessing
+    the referenced element from a glyph. To further improve the access to
+    referenced objects from the Layout class, several new and improved methods
+    have been implemented, including a new Filter for NamedSBaseReferences.
+    Thanks to Matthias König for this suggestion.
 
 
 * Bug Fixes:
 
+  - There is now a rounding correction for multipliers when merging units
+    that tries to shift multipliers to the scale of a unit. This can only
+    be done if the logarithm to the base 10 of the multiplier is nearly
+    an integer number. Nearly means that the distance to the next integer
+    is not larger than the ensured double precision.
+
   - In the Layout Extension the id attribute on GraphicalObject has to be
     mandatory. Furthermore, SpeciesReferenceGlyph has to be derived from
-    GraphicalObject as well. Thanks to Matthias K�nig for pointing this
+    GraphicalObject as well. Thanks to Matthias König for pointing this
     out.
 
   - Cloning of models did not work correctly in case that of ASTNodes or 
@@ -211,7 +223,7 @@ Version 0.8-rc1 (xx-xx-2011)
     they are always called in the same order. The management of these
     listeners is now performed in AbstractTreeNode, the new super 
     class for all recursive elements in JSBML. Thanks to Sarah Rachel
-    Müller vom Hagen to support this effort.
+    MÃ¼ller vom Hagen to support this effort.
   
   - Notes, annotations, and extension packages are now part of the tree
     representation of the JSBML data structure.
@@ -242,14 +254,14 @@ Version 0.8-rc1 (xx-xx-2011)
     history that is not a ListOf object, or the list of CVTerms in an
     annotation in the hierarchy.
     
-  - Sebastian Fröhlich provided some contributions to the parser for the 
+  - Sebastian FrÃ¶hlich provided some contributions to the parser for the 
     SBML level 3 layout extension package. JSBML now  supports experimental
     reading for this package. The full stable API for reading/writing of
     SBML level 3 packages is planned for the next release of JSBML.
 
   - The SBMLReader now follows the factory pattern by providing static
     methods to directly read SBML content from Files, InputStreams, or
-    Strings. Thanks to Martin Gräßlin for this idea in tracker issue 
+    Strings. Thanks to Martin GrÃ¤ÃŸlin for this idea in tracker issue 
     #3300433.
 
   - JSBML now provides a Maven script file. Thanks to Igor Rodchenkov
@@ -297,7 +309,7 @@ Version 0.8-rc1 (xx-xx-2011)
     a LocalParameter as its only argument, a call to setConstant(true)
     was always performed, irrespective of the fact that for Level = 1
     models this method throws a PropertyNotAvailableError. Thanks to
-    Sarah R. Müller vom Hagen for reporting this problem.
+    Sarah R. MÃ¼ller vom Hagen for reporting this problem.
 
   - [Tracker issue #3323886]: The units of Species were not derived
     correctly because if the units were not explicitly defined, the method
@@ -401,11 +413,11 @@ Version 0.8-b2 (18-04-2011)
   - [Tracker issue #3208887] : When trying to access the previously
     set value for  UseValuesFromTriggerTime it was possible that a
     NullPointerException could occur due to the attempt to clone this
-    element. This has been fixed. Thanks to Sebastian Fröhlich for 
+    element. This has been fixed. Thanks to Sebastian FrÃ¶hlich for 
     reporting this.
 
   - [Tracker issue #3208903] : Priority elements were 
-    properly read and written. Thanks to Sebastian Fröhlich for 
+    properly read and written. Thanks to Sebastian FrÃ¶hlich for 
     reporting this.
 
   - [Tracker issue #3204275] : It was impossible to set the size of a 

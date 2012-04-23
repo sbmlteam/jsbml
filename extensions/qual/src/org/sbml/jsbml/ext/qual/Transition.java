@@ -39,7 +39,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * @since 1.0
  * @date $Date$
  */
-public class Transition extends AbstractNamedSBase implements UniqueNamedSBase{
+public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.

@@ -63,10 +63,31 @@ public class GraphicalObject extends AbstractNamedSBase {
 	}
 
 	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public GraphicalObject(int level, int version) {
+		super(level, version);
+		addNamespace(LayoutConstant.namespaceURI);
+	}
+	
+	/**
 	 * @param id
 	 */
 	public GraphicalObject(String id) {
 		super(id);
+		addNamespace(LayoutConstant.namespaceURI);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public GraphicalObject(String id, int level, int version) {
+		super(id, level, version);
 		addNamespace(LayoutConstant.namespaceURI);
 	}
 
@@ -78,6 +99,59 @@ public class GraphicalObject extends AbstractNamedSBase {
 		return new GraphicalObject(this);
 	}
 
+	/**
+	 * Creates and sets a {@link BoundingBox} for this object.
+	 * @return {@link BoundingBox}.
+	 */
+	public BoundingBox createBoundingBox() {
+	  BoundingBox bb = new BoundingBox();
+	  setBoundingBox(bb);
+	  return bb;
+	}
+		
+	/**
+	 * 
+	 * @param dimensions
+	 * @return
+	 */
+	public BoundingBox createBoundingBox(Dimensions dimensions) {
+	  BoundingBox bb = createBoundingBox();
+	  bb.setDimensions(dimensions);
+	  return bb;
+	}
+
+	/**
+	 * Creates and sets a {@link BoundingBox} for this object, with the
+	 * given parameters for {@link Dimensions}.
+	 * @param width
+	 * @param height
+	 * @param depth
+	 * @return {@link BoundingBox}.
+	 */
+	public BoundingBox createBoundingBox(double width, double height, double depth) {
+		BoundingBox bb = createBoundingBox();
+		bb.createDimensions(width, height, depth);
+		return bb;
+	}
+
+	/**
+	 * Creates and sets a {@link BoundingBox} for this object, with the
+	 * given parameters for {@link Dimensions} and {@link Point}.
+	 * @param width
+	 * @param height
+	 * @param depth
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return {@link BoundingBox}.
+	 */
+	public BoundingBox createBoundingBox(double width, double height, double depth,
+	  double x, double y, double z) {
+	  BoundingBox bb = createBoundingBox(width, height, depth);
+	  bb.createPosition(x, y, z);
+	  return bb;
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
 	 */
@@ -85,7 +159,7 @@ public class GraphicalObject extends AbstractNamedSBase {
 	public boolean getAllowsChildren() {
 		return true;
 	}
-		
+	
 	/**
 	 * 
 	 * @return
@@ -93,7 +167,7 @@ public class GraphicalObject extends AbstractNamedSBase {
 	public BoundingBox getBoundingBox() {
 		return boundingBox;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
@@ -129,14 +203,14 @@ public class GraphicalObject extends AbstractNamedSBase {
 		}
 		return count;
 	}
-	
+
 	/* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-   */
-  public boolean isIdMandatory() {
-    // See Layout Extension (April 25, 2005) page 9, SId use="required"
-    return true;
-  }
+	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+	 */
+	public boolean isIdMandatory() {
+		// See Layout Extension (April 25, 2005) page 9, SId use="required"
+		return true;
+	}
 	
 	/**
 	 * @return
@@ -154,21 +228,21 @@ public class GraphicalObject extends AbstractNamedSBase {
 		this.boundingBox = boundingBox;
 		registerChild(this.boundingBox);
 	}
-
+	
 	/**
 	 * 
 	 */
-  public void unsetBoundingBox(){
+	public void unsetBoundingBox() {
 		if(isSetBoundingBox()){
 			BoundingBox oldValue = this.boundingBox;
 			this.boundingBox = null;
 			oldValue.fireNodeRemovedEvent();
-		}		
+		}
 	}
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
-   */
+  
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
@@ -179,54 +253,6 @@ public class GraphicalObject extends AbstractNamedSBase {
 		}
 		
 		return attributes;
-	}
-	
-	/**
-	 * Creates and sets a {@link BoundingBox} for this object.
-	 * @return {@link BoundingBox}.
-	 */
-	public BoundingBox createBoundingBox() {
-	  BoundingBox bb = new BoundingBox();
-	  setBoundingBox(bb);
-	  return bb;
-	}
-	
-	public BoundingBox createBoundingBox(Dimensions dimensions) {
-	  BoundingBox bb = createBoundingBox();
-	  bb.setDimensions(dimensions);
-	  return bb;
-	}
-	
-	 /**
-   * Creates and sets a {@link BoundingBox} for this object, with the
-   * given parameters for {@link Dimensions}.
-   * @param width
-   * @param height
-   * @param depth
-   * @return {@link BoundingBox}.
-   */
-  public BoundingBox createBoundingBox(double width, double height, double depth) {
-    BoundingBox bb = createBoundingBox();
-    bb.createDimensions(width, height, depth);
-    return bb;
-  }
-  
-	/**
-	 * Creates and sets a {@link BoundingBox} for this object, with the
-	 * given parameters for {@link Dimensions} and {@link Point}.
-	 * @param width
-	 * @param height
-	 * @param depth
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return {@link BoundingBox}.
-	 */
-	public BoundingBox createBoundingBox(double width, double height, double depth,
-	  double x, double y, double z) {
-	  BoundingBox bb = createBoundingBox(width, height, depth);
-	  bb.createPosition(x, y, z);
-	  return bb;
 	}
 
 }
