@@ -3929,7 +3929,12 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       }
       return success;
     }
-    return false;
+    /*
+     * the default return value is true to be able to register successfully objects that are
+     * not NamedSBase when the recursive boolean is set to false (happen with listOf objects for example).
+     * For these, the AbstractSBase.registerChild(SBase) method was throwing an exception although there was no problem.
+     */
+    return true;
   }
   
   /**
