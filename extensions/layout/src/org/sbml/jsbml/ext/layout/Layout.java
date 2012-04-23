@@ -663,8 +663,8 @@ public class Layout extends AbstractNamedSBase {
    * @param compartment
    * @return
    */
-  public boolean refersTo(Compartment compartment) {
-	  return refersTo(listOfCompartmentGlyphs, compartment);
+  public boolean containsGlyph(Compartment compartment) {
+	  return containsGlyph(listOfCompartmentGlyphs, compartment);
   }
   
   /**
@@ -673,9 +673,9 @@ public class Layout extends AbstractNamedSBase {
    * @param nsb
    * @return
    */
-  private <T extends NamedSBaseGlyph> boolean refersTo(ListOf<T> listOfGlyphs,
+  private <T extends NamedSBaseGlyph> boolean containsGlyph(ListOf<T> listOfGlyphs,
 		  NamedSBase nsb) {
-	  if ((listOfGlyphs != null) && !listOfGlyphs.isEmpty()) {
+	  if ((nsb != null) && (listOfGlyphs != null) && !listOfGlyphs.isEmpty()) {
 		  NamedSBaseReferenceFilter filter = new NamedSBaseReferenceFilter(nsb.getId());
 		  filter.setFilterForReference(true);
 		  return listOfGlyphs.firstHit(filter) != null;
@@ -688,8 +688,8 @@ public class Layout extends AbstractNamedSBase {
    * @param reaction
    * @return
    */
-  public boolean refersTo(Reaction reaction) {
-	  return refersTo(listOfReactionGlyphs, reaction);
+  public boolean containsGlyph(Reaction reaction) {
+	  return containsGlyph(listOfReactionGlyphs, reaction);
   }
   
   /**
@@ -697,8 +697,8 @@ public class Layout extends AbstractNamedSBase {
    * @param species
    * @return
    */
-  public boolean refersTo(Species species) {
-	  return refersTo(listOfSpeciesGlyphs, species);
+  public boolean containsGlyph(Species species) {
+	  return containsGlyph(listOfSpeciesGlyphs, species);
   }
 	
   /**
