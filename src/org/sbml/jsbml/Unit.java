@@ -1195,6 +1195,17 @@ public class Unit extends AbstractSBase {
 					"Cannot merge units with different kind properties %s and %s. Units can only be merged if both have the same kind attribute or if one of them is dimensionless.",
 					k1, k2));
 		}
+		if (unit1.isSetMultiplier() && (unit1.getMultiplier() != 1d)) {
+			double exp = Math.log10(unit1.getMultiplier());
+			if (Maths.isInt(exp)) {
+				unit1.setScale(unit1.getScale() + ((int) exp));
+				unit1.setMultiplier(1d);
+			} else if (Math.round(exp) - exp < 1E-15) {
+				// 1E-15 is an acceptable noise range due to the limitation of doubles to 17 decimal positions.
+				unit1.setScale(unit1.getScale() + ((int) Math.round(exp)));
+				unit1.setMultiplier(1d);
+			}
+		}
 	}
 
 	/**

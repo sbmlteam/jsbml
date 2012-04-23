@@ -1,6 +1,18 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ======================================================================
+Version 0.8.0 (xx-xx-2012)
+======================================================================
+
+* Bug Fixes:
+	       
+  - There is now a rounding correction for multipliers when merging units
+    that tries to shift multipliers to the scale of a unit. This can only
+    be done if the logarithm to the base 10 of the multiplier is nearly
+    an integer number. Nearly means that the distance to the next integer
+    is not larger than the ensured double precision.
+    
+======================================================================
 Version 0.8-rc2 (xx-xx-2012)
 ======================================================================
 
