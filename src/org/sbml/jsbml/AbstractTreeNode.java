@@ -279,7 +279,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#filter(org.sbml.jsbml.util.filters.Filter)
 	 */
-	public List<TreeNode> filter(Filter filter) {
+	public List<? extends TreeNode> filter(Filter filter) {
 		return filter(filter, false);
 	}
 

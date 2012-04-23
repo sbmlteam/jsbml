@@ -1187,13 +1187,14 @@ public class Unit extends AbstractSBase {
 	      unit1.setScale(unit2.getScale());
 	      unit1.setKind(k2);
 	      unit1.setExponent(unit2.getExponent());
-	      unit1.removeMultiplier();
 	    }
 	  } else {
 	    throw new IllegalArgumentException(MessageFormat.format(
 	      "Cannot merge units with different kind properties {0} and {1}. Units can only be merged if both have the same kind attribute or if one of them is dimensionless.",
 	      k1, k2));
 	  }
+	  // Try to shift multipliers into the scale for easier mathematical treatment of the units:
+	  unit1.removeMultiplier();
 	}
 
 	/**
@@ -2149,7 +2150,7 @@ public class Unit extends AbstractSBase {
 	    } else if (Math.round(exp) - exp < 1E-15) {
 	      // 1E-15 is an acceptable noise range due to the limitation of doubles to 17 decimal positions.
 	      setScale(getScale() + ((int) Math.round(exp)));
-        setMultiplier(1d);
+	      setMultiplier(1d);
 	    }
 	  }
 	  return this;
