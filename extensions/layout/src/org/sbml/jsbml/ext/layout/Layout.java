@@ -769,5 +769,22 @@ public class Layout extends AbstractNamedSBase {
     addTextGlyph(glyph);
     return glyph;
   }
+  
+  /**
+   * Creates, sets and returns {@link Dimensions} based on the
+   * given values.
+   * @param width
+   * @param height
+   * @param depth
+   * @return new {@link Dimensions} object.
+   */
+  public Dimensions createDimensions(double width, double height, double depth) {
+    Dimensions d = new Dimensions();
+    d.setWidth(width);
+    d.setHeight(height);
+    d.setDepth(depth);
+    setDimensions(d);
+    return d;
+  }
 
 }
