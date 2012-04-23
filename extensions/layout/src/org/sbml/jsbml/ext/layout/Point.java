@@ -19,6 +19,7 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
@@ -305,15 +306,15 @@ public class Point extends AbstractNamedSBase {
 		
 		if (isSetX()) {
 			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.x, StringTools.toString(x));
+					+ LayoutConstant.x, StringTools.toString(Locale.ENGLISH, x));
 		}
 		if (isSetY()) {
 			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.y, StringTools.toString(y));
+					+ LayoutConstant.y, StringTools.toString(Locale.ENGLISH, y));
 		}
 		if (isSetZ()) {
 			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.z, StringTools.toString(z));
+					+ LayoutConstant.z, StringTools.toString(Locale.ENGLISH, z));
 		}
 
 		return attributes;

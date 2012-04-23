@@ -101,11 +101,11 @@ public class NamedSBaseReferenceFilter extends NameFilter {
 		if (!filterForReference) {
 			return super.accepts(o);
 		}
-		if (o instanceof SimpleSpeciesReference) {
-			SimpleSpeciesReference specRef = (SimpleSpeciesReference) o;
+		if (o instanceof NamedSBaseGlyph) {
+		  NamedSBaseGlyph specRef = (NamedSBaseGlyph) o;
 			String id = getId();
-			if (specRef.isSetSpecies() && (id != null)
-					&& specRef.getSpecies().equals(id)) {
+			if (specRef.isSetNamedSBase() && (id != null)
+					&& specRef.getNamedSBase().equals(id)) {
 				return true;
 			}
 		}
