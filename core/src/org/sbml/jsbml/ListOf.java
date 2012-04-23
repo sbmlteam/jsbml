@@ -482,8 +482,15 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 *         criterion.
 	 */
 	public ListOf<T> filterList(Filter f) {
-	  ListOf<T> list = ListOf.initListOf(getParentSBMLObject(), 
-	    new ListOf<T>(getLevel(), getVersion()), getSBaseListType());
+		/*
+		 * The new list should not be linked to the model or SBMLDocument
+		 * as otherwise, it will try to register elements that are 
+		 * already registered and send an exception instead doing any
+		 * filtering
+		 */
+	  ListOf<T> list = new ListOf<T>(getLevel(), getVersion());
+	  list.setSBaseListType(getSBaseListType());
+	  
 	  for (T sbase : this) {
 	    if (f.accepts(sbase)) {
 	      list.add(sbase);
