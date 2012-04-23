@@ -110,7 +110,7 @@ public class SpeciesGlyph extends GraphicalObject {
 	}
 
 	/**
-	 * @return
+	 * @return the {@link #speciesId}
 	 */
 	public boolean isSetSpecies() {
 		return speciesId != null;
