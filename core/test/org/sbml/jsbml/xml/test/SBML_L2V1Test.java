@@ -41,6 +41,7 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 import org.xml.sax.SAXException;
@@ -326,7 +327,22 @@ public class SBML_L2V1Test {
 		assertTrue(microM.getUnit(0).getScale() == -6);
 		assertTrue(microM.getUnit(0).getKind().getName().equals("mole"));
 		
+		int nbSpecies = model.getListOfSpecies().filterList(new Filter() {
+			
+			  /*
+			   * (non-Javadoc)
+			   * @see org.sbml.jsbml.util.filters.Filter#accepts(java.lang.Object)
+			   */
+				public boolean accepts(Object o) {
+					if (o instanceof Species) {
+						return true;
+					}
+					
+					return false;
+				}
+			}).size();
 		
+		assertTrue(nbSpecies == model.getNumSpecies());
 	}
 
 	/**
