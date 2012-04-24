@@ -698,10 +698,22 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Output createOutput(String id, QualitativeSpecies qualitativeSpecies,
       OutputTransitionEffect transitionEffect) {
-    Output output = createOutput(id);
-    output.setQualitativeSpecies(qualitativeSpecies.getId());
-    output.setTransitionEffect(transitionEffect);
-    return output;
+    return createOutput(id, qualitativeSpecies.getId(), transitionEffect);
+  }
+  
+  /**
+   * 
+   * @param id
+   * @param output_species_id
+   * @param transitionEffect
+   * @return
+   */
+  public Output createOutput(String id, String output_species_id,
+    OutputTransitionEffect transitionEffect) {
+    Output Output = createOutput(id);
+    Output.setQualitativeSpecies(output_species_id);
+    Output.setTransitionEffect(transitionEffect);
+    return Output;
   }
 
   /**
@@ -732,8 +744,20 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Input createInput(String id, QualitativeSpecies qualitativeSpecies,
     InputTransitionEffect transitionEffect) {
+    return createInput(id, qualitativeSpecies.getId(), transitionEffect);
+  }
+
+  /**
+   * 
+   * @param id
+   * @param input_species_id
+   * @param transitionEffect
+   * @return
+   */
+  public Input createInput(String id, String input_species_id,
+    InputTransitionEffect transitionEffect) {
     Input input = createInput(id);
-    input.setQualitativeSpecies(qualitativeSpecies.getId());
+    input.setQualitativeSpecies(input_species_id);
     input.setTransitionEffect(transitionEffect);
     return input;
   }
