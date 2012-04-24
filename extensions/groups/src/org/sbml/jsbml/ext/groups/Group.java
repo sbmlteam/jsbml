@@ -66,8 +66,10 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	 */
 	public Group(Group group) {
 		super(group);
-		for (Member m : group.listOfMembers) {
-			listOfMembers.add(m.clone());
+		if (group.isSetListOfMembers()) {
+		  for (Member m : group.listOfMembers) {
+			  addMember(m.clone());
+		  }
 		}
 	}
 	

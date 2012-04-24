@@ -26,6 +26,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.filters.NameFilter;
 import org.sbml.jsbml.xml.parsers.GroupsParser;
 
 /**
@@ -80,8 +81,7 @@ public class GroupModel extends AbstractSBasePlugin {
 	 * @param group
 	 */
 	public void addGroup(Group group) {
-		model.registerChild(group);
-		listOfGroups.add(group);		
+		listOfGroups.add(group);
 	}
 
 	/**
@@ -220,13 +220,40 @@ public class GroupModel extends AbstractSBasePlugin {
    * @param symbol_of_members
    * @return
    */
-  public Group createGroup(String... symbol_of_members) {
+  public Group createGroup() {
     Group g = new Group();
-    for (String s_member: symbol_of_members) {
-      g.createMember(s_member);
-    }
     addGroup(g);
     return g;
+  }
+  
+  /**
+   * @param symbol_of_members
+   * @return
+   */
+  public Group createGroup(String... symbol_of_members) {
+    Group g = createGroup();
+    
+    if (symbol_of_members!=null) {
+      for (String s_member: symbol_of_members) {
+        g.createMember(s_member);
+      }
+    }
+    
+    return g;
+  }
+
+  /**
+   * Gets the {@link Group} that has the given id.
+   * 
+   * @param sbmlID
+   * @return the {@link Group} that has the given id or <code>NULL</code> if no
+   *         {@link Group} is found that matches <code>sbmlID</code>.
+   */
+  public SBase getGroup(String sbmlID) {
+    if (isSetListOfGroups()) {
+      return listOfGroups.firstHit(new NameFilter(sbmlID));     
+    } 
+    return null;
   }
   
 }
