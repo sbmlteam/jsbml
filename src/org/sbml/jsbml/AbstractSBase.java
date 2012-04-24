@@ -1593,7 +1593,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				SBMLDocument doc = getSBMLDocument();
 				if (doc != null) {
 					setMetaId(doc.nextMetaId());
-					logger.info(MessageFormat.format(
+					logger.debug(MessageFormat.format(
 							"Some annotations would get lost because there was no metaid defined on {0}. To avoid this, an automatic metaid '{0}' as been generated.",
 							getElementName(), getMetaId()));
 					// Setting the new metaid in the RDF about attribute.
