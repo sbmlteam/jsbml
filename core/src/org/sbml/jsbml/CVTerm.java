@@ -309,7 +309,7 @@ public class CVTerm extends AnnotationElement {
 			break;
 		}
 		resourceURIs = new LinkedList<String>();
-		for (int i = 0; i < term.getNumResources(); i++) {
+		for (int i = 0; i < term.getResourceCount(); i++) {
 			String resource = term.getResourceURI(i);
 			if (resource != null) {
 				resourceURIs.add(new String(term.getResourceURI(i)));
