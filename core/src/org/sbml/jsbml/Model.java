@@ -21,6 +21,7 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -191,7 +192,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   
   /**
    * Creates a Model instance. By default, all the listOfxxx and xxxUnitsID are
-   * null.
+   * <code>null</code>.
    */
   public Model() {
     super();
@@ -276,7 +277,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   
   /**
    * Creates a Model instance from an id, level and version. By default, all the
-   * listOfxxx and xxxUnitsID are null.
+   * listOfxxx and xxxUnitsID are <code>null</code>.
    * 
    * @param id
    * @param level
@@ -578,11 +579,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if this model contains a reference to a {@link Compartment}
+   * Returns <code>true</code> if this model contains a reference to a {@link Compartment}
    * with the given identifier.
    * 
    * @param id
-   * @return true if this model contains a reference to a {@link Compartment}
+   * @return <code>true</code> if this model contains a reference to a {@link Compartment}
    *         with the given identifier.
    */
   public boolean containsCompartment(String id) {
@@ -590,11 +591,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Returns true if this model contains a reference to a
+   * Returns <code>true</code> if this model contains a reference to a
    * {@link FunctionDefinition} with the given identifier.
    * 
    * @param id
-   * @return true if this model contains a reference to a
+   * @return <code>true</code> if this model contains a reference to a
    *         {@link FunctionDefinition} with the given identifier.
    */
   public boolean containsFunctionDefinition(String id) {
@@ -602,11 +603,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if this model contains a reference to a {@link Parameter} with
+   * Returns <code>true</code> if this model contains a reference to a {@link Parameter} with
    * the given identifier.
    * 
    * @param id
-   * @return true if this model contains a reference to a {@link Parameter} with
+   * @return <code>true</code> if this model contains a reference to a {@link Parameter} with
    *         the given identifier.
    */
   public boolean containsParameter(String id) {
@@ -780,7 +781,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * created is not significant. It could have been created in a variety of
    * ways, for example by using createEvent(). If no {@link Event} object exists
    * in this {@link Model} object, a new {@link Delay} is <em>not</em> created
-   * and NULL is returned instead.
+   * and <code>null</code> is returned instead.
    * <p>
    * 
    * @return the {@link Delay} object created
@@ -820,7 +821,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * created is not significant. It could have been created in a variety of
    * ways, for example by using createEvent(). If no {@link Event} object exists
    * in this {@link Model} object, a new {@link EventAssignment} is <em>not</em>
-   * created and NULL is returned instead.
+   * created and <code>null</code> is returned instead.
    * <p>
    * 
    * @return the {@link EventAssignment} object created
@@ -897,7 +898,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * in a variety of ways, for example using createReaction(). If a
    * {@link Reaction} does not exist for this model, or a {@link Reaction}
    * exists but already has a {@link KineticLaw}, a new {@link KineticLaw} is
-   * <em>not</em> created and NULL is returned instead.
+   * <em>not</em> created and <code>null</code> is returned instead.
    * <p>
    * 
    * @return the {@link KineticLaw} object created
@@ -928,7 +929,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Reaction.createKineticLaw() on the {@link Reaction} object created by a
    * createReaction(). If a {@link Reaction} does not exist for this model, or
    * the last {@link Reaction} does not contain a {@link KineticLaw} object, a
-   * new {@link LocalParameter} is <em>not</em> created and NULL is returned
+   * new {@link LocalParameter} is <em>not</em> created and <code>null</code> is returned
    * instead.
    * <p>
    * 
@@ -977,7 +978,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * added to this {@link Model} is not significant. It could have been created
    * in a variety of ways, for example using createReaction(). If a
    * {@link Reaction} does not exist for this model, a new
-   * {@link ModifierSpeciesReference} is <em>not</em> created and NULL is
+   * {@link ModifierSpeciesReference} is <em>not</em> created and <code>null</code> is
    * returned instead.
    * <p>
    * 
@@ -997,7 +998,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public ModifierSpeciesReference createModifier(String id) {
     Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
     
-    if (lastReaction == null) { return null; }
+    if (lastReaction == null) {
+    	return null;
+    }
     
     ModifierSpeciesReference modifier = lastReaction.createModifier(id);
     
@@ -1037,7 +1040,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * added to this {@link Model} is not significant. It could have been created
    * in a variety of ways, for example using createReaction(). If a
    * {@link Reaction} does not exist for this model, a new
-   * {@link SpeciesReference} is <em>not</em> created and NULL is returned
+   * {@link SpeciesReference} is <em>not</em> created and <code>null</code> is returned
    * instead.
    * <p>
    * 
@@ -1092,7 +1095,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * added to this {@link Model} is not significant. It could have been created
    * in a variety of ways, for example using createReaction(). If a
    * {@link Reaction} does not exist for this model, a new
-   * {@link SpeciesReference} is <em>not</em> created and NULL is returned
+   * {@link SpeciesReference} is <em>not</em> created and <code>null</code> is returned
    * instead.
    * <p>
    * 
@@ -1244,7 +1247,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * created is not significant. It could have been created in a variety of
    * ways, for example by using createEvent(). If no {@link Event} object exists
    * in this {@link Model} object, a new {@link Trigger} is <em>not</em> created
-   * and NULL is returned instead.
+   * and <code>null</code> is returned instead.
    * <p>
    * 
    * @return the {@link Trigger} object created
@@ -1259,7 +1262,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * <p>
    * The mechanism by which the {@link UnitDefinition} was created is not
    * significant. If a {@link UnitDefinition} object does not exist in this
-   * model, a new {@link Unit} is <em>not</em> created and NULL is returned
+   * model, a new {@link Unit} is <em>not</em> created and <code>null</code> is returned
    * instead.
    * <p>
    * 
@@ -1365,12 +1368,12 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   
   /**
    * Returns a {@link CallableSBase} element of the {@link Model} that has the
-   * given 'id' as identifier or null if no element is found.
+   * given 'id' as identifier or <code>null</code> if no element is found.
    * 
    * @param id
    *        an identifier indicating an element of the {@link Model}.
    * @return a {@link CallableSBase} element of the {@link Model} that has the
-   *         given 'id' as id or null if no element is found.
+   *         given 'id' as id or <code>null</code> if no element is found.
    */
   public CallableSBase findCallableSBase(String id) {
     UniqueNamedSBase found = findUniqueNamedSBase(id);
@@ -1407,7 +1410,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param id
    * @return A {@link List} of all {@link LocalParameter} instances with the
    *         given name or identifier. This {@link List} can be empty, but never
-   *         null.
+   *         <code>null</code>.
    */
   public List<LocalParameter> findLocalParameters(String id) {
     List<LocalParameter> list = new LinkedList<LocalParameter>();
@@ -1452,7 +1455,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   
   /**
    * Returns a {@link NamedSBase} element of the model that has the given 'id'
-   * as id or null if no element is found.
+   * as id or <code>null</code> if no element is found.
    * 
    * @param id
    *        an id indicating an element of the model.
@@ -1469,7 +1472,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Returns a {@link NamedSBaseWithDerivedUnit} element of the {@link Model}
-   * that has the given 'id' as id or null if no element is found. It first
+   * that has the given 'id' as id or <code>null</code> if no element is found. It first
    * tries to find a {@link CallableSBase} with the given identifier and, if
    * this is not successful, it searches for an instance of {@link Event} with
    * the given id.
@@ -1477,7 +1480,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param id
    *        an id indicating an element of the {@link Model}.
    * @return a {@link NamedSBaseWithDerivedUnit} element of the {@link Model}
-   *         that has the given 'id' as id or null if no element is found.
+   *         that has the given 'id' as id or <code>null</code> if no element is found.
    * @see #findCallableSBase(String)
    */
   public NamedSBaseWithDerivedUnit findNamedSBaseWithDerivedUnit(String id) {
@@ -1603,7 +1606,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * {@link Parameter}s for the element with the given identifier.
    * 
    * @param id
-   * @return a {@link Symbol} element with the given identifier or null if there
+   * @return a {@link Symbol} element with the given identifier or <code>null</code> if there
    *         is no such element.
    */
   public Symbol findSymbol(String id) {
@@ -1834,7 +1837,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param n
    * @return the nth {@link Compartment} instance of the listOfCompartments.
-   *         Null if if the listOfCompartments is not set.
+   *         <code>null</code> if if the listOfCompartments is not set.
    */
   public Compartment getCompartment(int n) {
     return getListOfCompartments().get(n);
@@ -1846,7 +1849,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param id
    * @return the {@link Compartment} of the listOfCompartments which has 'id' as
-   *         id (or name depending on the version and level). Null if if the
+   *         id (or name depending on the version and level). <code>null</code> if if the
    *         listOfCompartments is not set.
    */
   public Compartment getCompartment(String id) {
@@ -1871,7 +1874,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param n
    *        index
-   * @return the nth CompartmentType of this Model. Returns null if there are no
+   * @return the nth CompartmentType of this Model. Returns <code>null</code> if there are no
    *         compartmentType defined or if the index n is too big or lower than
    *         zero.
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
@@ -1886,7 +1889,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param id
    * @return the CompartmentType of the {@link #listOfCompartmentTypes} which has 'id' as
-   *         id (or name depending on the level and version). Null if the
+   *         id (or name depending on the level and version). <code>null</code> if the
    *         {@link #listOfCompartmentTypes} is not set or the id is not found.
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
@@ -1916,7 +1919,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Gets the nth Constraint object in this Model.
    * 
    * @param n
-   * @return the nth Constraint of this Model. Returns null if there are no
+   * @return the nth Constraint of this Model. Returns <code>null</code> if there are no
    *         constraint defined or if the index n is too big or lower than zero.
    */
   public Constraint getConstraint(int n) {
@@ -1947,7 +1950,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Model as id.
    * 
    * @return the Parameter instance which has the conversionFactorID of this
-   *         Model as id. Null if it doesn't exist
+   *         Model as id. <code>null</code> if it doesn't exist
    */
   public Parameter getConversionFactorInstance() {
     return getParameter(this.conversionFactorID);
@@ -1972,7 +1975,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Gets the nth Event object in this Model.
    * 
    * @param n
-   * @return the nth Event of this Model. Returns null if there are no event
+   * @return the nth Event of this Model. Returns <code>null</code> if there are no event
    *         defined or if the index n is too big or lower than zero.
    */
   public Event getEvent(int n) {
@@ -1984,7 +1987,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param id
    * @return the {@link Event} of the {@link #listOfEvents} which has 'id' as id
-   *         (or name depending on the level and version). Null if if the
+   *         (or name depending on the level and version). <code>null</code> if if the
    *         {@link #listOfEvents} is not set.
    */
   public Event getEvent(String id) {
@@ -2032,7 +2035,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * of this Model as id.
    * 
    * @return the {@link UnitDefinition} instance which has the extent units ID
-   *         of this Model as id. Null if it doesn't exist
+   *         of this Model as id. <code>null</code> if it doesn't exist
    */
   public UnitDefinition getExtentUnitsInstance() {
     return getUnitDefinition(getExtentUnits());
@@ -2044,7 +2047,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param n
    * @return the nth {@link FunctionDefinition} instance of the
-   *         listOfFunstionDefinitions. Null if if the listOfFunctionDefinitions
+   *         listOfFunstionDefinitions. <code>null</code> if if the listOfFunctionDefinitions
    *         is not set.
    */
   public FunctionDefinition getFunctionDefinition(int n) {
@@ -2058,7 +2061,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param id
    * @return the {@link FunctionDefinition} of the {@link #listOfFunctionDefinitions}
    *         which has 'id' as id (or name depending on the level and version).
-   *         Null if if the {@link #listOfFunctionDefinitions} is not set.
+   *         <code>null</code> if if the {@link #listOfFunctionDefinitions} is not set.
    */
   public FunctionDefinition getFunctionDefinition(String id) {
     UniqueNamedSBase found = findUniqueNamedSBase(id);
@@ -2082,7 +2085,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Gets the nth {@link InitialAssignment} object in this {@link Model}.
    * 
    * @param n
-   * @return the nth {@link InitialAssignment} of this {@link Model}. Null if
+   * @return the nth {@link InitialAssignment} of this {@link Model}. <code>null</code> if
    *         the listOfInitialAssignments is not set.
    */
   public InitialAssignment getInitialAssignment(int n) {
@@ -2101,7 +2104,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the first {@link InitialAssignment} of the
    *         {@link #listOfInitialAssignments}, whose {@link Variable} has the
    *         <code>variable</code> as identifier (or name depending on the level
-   *         and version). Null if it doesn't exist.
+   *         and version). <code>null</code> if it doesn't exist.
    */
   public InitialAssignment getInitialAssignment(String variable) {
     return getListOfInitialAssignments().firstHit(
@@ -2137,7 +2140,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the last element added in the given list.
    * 
    * @return the last element added in the model, corresponding to the last
-   *         element of the list of these elements, or null is no element exist
+   *         element of the list of these elements, or <code>null</code> is no element exist
    *         for this type.
    */
   private <T> T getLastElementOf(ListOf<? extends T> listOf) {
@@ -2816,7 +2819,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param id
    * @return the {@link Parameter} of the listOfParameters which has 'id' as id
-   *         (or name depending on the level and version). Null if it doesn't
+   *         (or name depending on the level and version). <code>null</code> if it doesn't
    *         exist.
    */
   public Parameter getParameter(String id) {
@@ -2842,14 +2845,14 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   
   /**
    * Returns a UnitDefinition representing one of the predefined units of SBML,
-   * returns null if the given unit kind is not a valid one for the SBML level
+   * returns <code>null</code> if the given unit kind is not a valid one for the SBML level
    * and version of this {@link Model}.
    * 
    * @param unitKind
    *        a unit kind for one of the predefined units from the SBML
    *        Specifications
    * @return a UnitDefinition representing one of the predefined units of SBML,
-   *         null if the unitKind is invalid.
+   *         <code>null</code> if the unitKind is invalid.
    */
   public UnitDefinition getPredefinedUnitDefinition(String unitKind) {
     // TODO: This might be more efficient than ALWAYS storing ALL base units in the listOfPredefinedUnits:
@@ -2932,7 +2935,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param n
    *        an index
-   * @return the nth {@link Rule} of the listOfRules. Null if it doesn't exist.
+   * @return the nth {@link Rule} of the listOfRules. <code>null</code> if it doesn't exist.
    */
   public Rule getRule(int n) {
     return getListOfRules().get(n);
@@ -2944,7 +2947,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * the value passed to this method.
    * 
    * @param variable
-   * @return Null if no element with the required property exists.
+   * @return <code>null</code> if no element with the required property exists.
    */
   public ExplicitRule getRule(String variable) {
     Rule rule = listOfRules.firstHit(new AssignmentVariableFilter(variable));
@@ -3042,7 +3045,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param n
    *        index
-   * @return the nth {@link SpeciesType} of this Model. Returns null if there
+   * @return the nth {@link SpeciesType} of this Model. Returns <code>null</code> if there
    *         are no speciesType defined or if the index n is too big or lower
    *         than zero.
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
@@ -3230,7 +3233,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param id
    * @return the {@link UnitDefinition} of the {@link #listOfUnitDefinitions}s
    *         which has 'id' as id (or name depending on the level and version). 
-   *         Null if it doesn't exist.
+   *         <code>null</code> if it doesn't exist.
    */
   public UnitDefinition getUnitDefinition(String id) {
     UnitDefinition unitDefinition = mapOfUnitDefinitions != null ? mapOfUnitDefinitions.get(id) : null;
@@ -3317,12 +3320,12 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if this model has a reference to the unit with the given
+   * Returns <code>true</code> if this model has a reference to the unit with the given
    * identifier.
    * 
    * @param id
-   * @return true if this model has a reference to the unit with the given
-   *         identifier, false otherwise.
+   * @return <code>true</code> if this model has a reference to the unit with the given
+   *         identifier, <code>false</code> otherwise.
    */
   public boolean hasUnit(String id) {
     return getUnitDefinition(id) != null;
@@ -3418,90 +3421,90 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if the area units ID of this Model is not null.
+   * Returns <code>true</code> if the area units ID of this Model is not <code>null</code>.
    * 
-   * @return true if the area units ID of this Model is not null.
+   * @return <code>true</code> if the area units ID of this Model is not <code>null</code>.
    */
   public boolean isSetAreaUnits() {
     return this.areaUnitsID != null;
   }
   
   /**
-   * Returns true if the UnitDefinition which has the area units ID of this
-   * Model as id is not null.
+   * Returns <code>true</code> if the UnitDefinition which has the area units ID of this
+   * Model as id is not <code>null</code>.
    * 
-   * @return true if the UnitDefinition which has the area units ID of this
-   *         Model as id is not null.
+   * @return <code>true</code> if the UnitDefinition which has the area units ID of this
+   *         Model as id is not <code>null</code>.
    */
   public boolean isSetAreaUnitsInstance() {
     return getAreaUnitsInstance() != null;
   }
   
   /**
-   * Returns true if the conversionFactorID of this Model is not null.
+   * Returns <code>true</code> if the conversionFactorID of this Model is not <code>null</code>.
    * 
-   * @return true if the conversionFactorID of this Model is not null.
+   * @return <code>true</code> if the conversionFactorID of this Model is not <code>null</code>.
    */
   public boolean isSetConversionFactor() {
     return this.conversionFactorID != null;
   }
   
   /**
-   * Returns true if the Parameter which has the conversionFactorID of this
-   * Model as id is not null.
+   * Returns <code>true</code> if the Parameter which has the conversionFactorID of this
+   * Model as id is not <code>null</code>.
    * 
-   * @return true if the Parameter which has the conversionFactorID of this
-   *         Model as id is not null.
+   * @return <code>true</code> if the Parameter which has the conversionFactorID of this
+   *         Model as id is not <code>null</code>.
    */
   public boolean isSetConversionFactorInstance() {
     return getParameter(this.conversionFactorID) != null;
   }
   
   /**
-   * Returns true if the extentUnitsID of this Model is not null.
+   * Returns <code>true</code> if the extentUnitsID of this Model is not <code>null</code>.
    * 
-   * @return true if the extentUnitsID of this Model is not null.
+   * @return <code>true</code> if the extentUnitsID of this Model is not <code>null</code>.
    */
   public boolean isSetExtentUnits() {
     return this.extentUnitsID != null;
   }
   
   /**
-   * Returns true if the UnitDefinition which has the extentUnitsID of this
-   * Model as id is not null.
+   * Returns <code>true</code> if the UnitDefinition which has the extentUnitsID of this
+   * Model as id is not <code>null</code>.
    * 
-   * @return true if the UnitDefinition which has the extentUnitsID of this
-   *         Model as id is not null.
+   * @return <code>true</code> if the UnitDefinition which has the extentUnitsID of this
+   *         Model as id is not <code>null</code>.
    */
   public boolean isSetExtentUnitsInstance() {
     return getExtentUnitsInstance() != null;
   }
   
   /**
-   * Returns true if the lengthUnitsID of this Model is not null.
+   * Returns <code>true</code> if the lengthUnitsID of this Model is not <code>null</code>.
    * 
-   * @return true if the lengthUnitsID of this Model is not null.
+   * @return <code>true</code> if the lengthUnitsID of this Model is not <code>null</code>.
    */
   public boolean isSetLengthUnits() {
     return this.lengthUnitsID != null;
   }
   
   /**
-   * Returns true if the UnitDefinition which has the lengthUnitsID of this
-   * Model as id is not null.
+   * Returns <code>true</code> if the UnitDefinition which has the lengthUnitsID of this
+   * Model as id is not <code>null</code>.
    * 
-   * @return true if the UnitDefinition which has the lengthUnitsID of this
-   *         Model as id is not null.
+   * @return <code>true</code> if the UnitDefinition which has the lengthUnitsID of this
+   *         Model as id is not <code>null</code>.
    */
   public boolean isSetLengthUnitsInstance() {
     return getLengthUnitsInstance() != null;
   }
   
   /**
-   * Returns true if the listOfCompartments of this Model is not null and not
+   * Returns <code>true</code> if the listOfCompartments of this Model is not <code>null</code> and not
    * empty.
    * 
-   * @return true if the listOfCompartments of this Model is not null and not
+   * @return <code>true</code> if the listOfCompartments of this Model is not <code>null</code> and not
    *         empty.
    */
   public boolean isSetListOfCompartments() {
@@ -3509,10 +3512,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if the listOfCompartmentTypes of this Model is not null and
+   * Returns <code>true</code> if the listOfCompartmentTypes of this Model is not <code>null</code> and
    * not empty.
    * 
-   * @return true if the listOfCompartmentTypes of this Model is not null and
+   * @return <code>true</code> if the listOfCompartmentTypes of this Model is not <code>null</code> and
    *         not empty.
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
@@ -3523,10 +3526,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if the listOfConstraints of this Model is not null and not
+   * Returns <code>true</code> if the listOfConstraints of this Model is not <code>null</code> and not
    * empty.
    * 
-   * @return true if the listOfConstraints of this Model is not null and not
+   * @return <code>true</code> if the listOfConstraints of this Model is not <code>null</code> and not
    *         empty.
    */
   public boolean isSetListOfConstraints() {
@@ -3534,19 +3537,19 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if the listOfEvents of this Model is not null and not empty.
+   * Returns <code>true</code> if the listOfEvents of this Model is not <code>null</code> and not empty.
    * 
-   * @return true if the listOfEvents of this Model is not null and not empty.
+   * @return <code>true</code> if the listOfEvents of this Model is not <code>null</code> and not empty.
    */
   public boolean isSetListOfEvents() {
     return (listOfEvents != null) && (listOfEvents.size() > 0);
   }
   
   /**
-   * Returns true if the listOfFunctionDefinitions of this Model is not null and
+   * Returns <code>true</code> if the listOfFunctionDefinitions of this Model is not <code>null</code> and
    * not empty.
    * 
-   * @return true if the listOfFunctionDefinitions of this Model is not null and
+   * @return <code>true</code> if the listOfFunctionDefinitions of this Model is not <code>null</code> and
    *         not empty.
    */
   public boolean isSetListOfFunctionDefinitions() {
@@ -3555,10 +3558,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if the listOfInitialAssignments of this Model is not null and
+   * Returns <code>true</code> if the listOfInitialAssignments of this Model is not <code>null</code> and
    * not empty.
    * 
-   * @return true if the listOfInitialAssignments of this Model is not null and
+   * @return <code>true</code> if the listOfInitialAssignments of this Model is not <code>null</code> and
    *         not empty.
    */
   public boolean isSetListOfInitialAssignments() {
@@ -3567,10 +3570,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if the listOfParameters of this Model is not null and not
+   * Returns <code>true</code> if the listOfParameters of this Model is not <code>null</code> and not
    * empty.
    * 
-   * @return true if the listOfParameters of this Model is not null and not
+   * @return <code>true</code> if the listOfParameters of this Model is not <code>null</code> and not
    *         empty.
    */
   public boolean isSetListOfParameters() {
@@ -3578,10 +3581,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if the listOfReactions of this Model is not null and not
+   * Returns <code>true</code> if the listOfReactions of this Model is not <code>null</code> and not
    * empty.
    * 
-   * @return true if the listOfReactions of this Model is not null and not
+   * @return <code>true</code> if the listOfReactions of this Model is not <code>null</code> and not
    *         empty.
    */
   public boolean isSetListOfReactions() {
@@ -3589,28 +3592,28 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if the listOfRules of this Model is not null and not empty.
+   * Returns <code>true</code> if the listOfRules of this Model is not <code>null</code> and not empty.
    * 
-   * @return true if the listOfRules of this Model is not null and not empty.
+   * @return <code>true</code> if the listOfRules of this Model is not <code>null</code> and not empty.
    */
   public boolean isSetListOfRules() {
     return (listOfRules != null) && (listOfRules.size() > 0);
   }
   
   /**
-   * Returns true if the listOfSpecies of this Model is not null and not empty.
+   * Returns <code>true</code> if the listOfSpecies of this Model is not <code>null</code> and not empty.
    * 
-   * @return true if the listOfSpecies of this Model is not null and not empty.
+   * @return <code>true</code> if the listOfSpecies of this Model is not <code>null</code> and not empty.
    */
   public boolean isSetListOfSpecies() {
     return (listOfSpecies != null) && (listOfSpecies.size() > 0);
   }
   
   /**
-   * Returns true if the listOfSpeciesTypes of this Model is not null and not
+   * Returns <code>true</code> if the listOfSpeciesTypes of this Model is not <code>null</code> and not
    * empty.
    * 
-   * @return true if the listOfSpeciesTypes of this Model is not null and not
+   * @return <code>true</code> if the listOfSpeciesTypes of this Model is not <code>null</code> and not
    *         empty.
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
@@ -3620,10 +3623,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if the listOfUnitDefinitions of this Model is not null and not
+   * Returns <code>true</code> if the listOfUnitDefinitions of this Model is not <code>null</code> and not
    * empty.
    * 
-   * @return true if the listOfUnitDefinitions of this Model is not null and not
+   * @return <code>true</code> if the listOfUnitDefinitions of this Model is not <code>null</code> and not
    *         empty.
    */
   public boolean isSetListOfUnitDefinitions() {
@@ -3644,20 +3647,20 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if the substanceUnitsID of this Model is not null.
+   * Returns <code>true</code> if the substanceUnitsID of this Model is not <code>null</code>.
    * 
-   * @return true if the substanceUnitsID of this Model is not null.
+   * @return <code>true</code> if the substanceUnitsID of this Model is not <code>null</code>.
    */
   public boolean isSetSubstanceUnits() {
     return this.substanceUnitsID != null;
   }
   
   /**
-   * Returns true if the UnitDefinition which has the substanceUnitsID of this
-   * Model as id is not null.
+   * Returns <code>true</code> if the UnitDefinition which has the substanceUnitsID of this
+   * Model as id is not <code>null</code>.
    * 
-   * @return true if the UnitDefinition which has the substanceUnitsID of this
-   *         Model as id is not null.
+   * @return <code>true</code> if the UnitDefinition which has the substanceUnitsID of this
+   *         Model as id is not <code>null</code>.
    */
   public boolean isSetSubstanceUnitsInstance() {
     return getSubstanceUnitsInstance() != null;
@@ -3673,31 +3676,31 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns true if the UnitsDefinition which has the timeUnistID of this Model
-   * as id is not null.
+   * Returns <code>true</code> if the UnitsDefinition which has the timeUnistID of this Model
+   * as id is not <code>null</code>.
    * 
-   * @return true if the UnitsDefinition which has the timeUnistID of this Model
-   *         as id is not null.
+   * @return <code>true</code> if the UnitsDefinition which has the timeUnistID of this Model
+   *         as id is not <code>null</code>.
    */
   public boolean isSetTimeUnitsInstance() {
     return getTimeUnitsInstance() != null;
   }
   
   /**
-   * Returns true if the volumeUnitsID of this Model is not null.
+   * Returns <code>true</code> if the volumeUnitsID of this Model is not <code>null</code>.
    * 
-   * @return true if the volumeUnitsID of this Model is not null.
+   * @return <code>true</code> if the volumeUnitsID of this Model is not <code>null</code>.
    */
   public boolean isSetVolumeUnits() {
     return this.volumeUnitsID != null;
   }
   
   /**
-   * Returns true if the UnitDefinition which has the volumeUnitsID of this
-   * Model as id is not null.
+   * Returns <code>true</code> if the UnitDefinition which has the volumeUnitsID of this
+   * Model as id is not <code>null</code>.
    * 
-   * @return true if the UnitDefinition which has the volumeUnitsID of this
-   *         Model as id is not null.
+   * @return <code>true</code> if the UnitDefinition which has the volumeUnitsID of this
+   *         Model as id is not <code>null</code>.
    */
   public boolean isSetVolumeUnitsInstance() {
     return getVolumeUnitsInstance() != null;
@@ -3760,6 +3763,14 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       String pId = lp.getId();
       if ((r != null) && r.isSetId()) {
         if (delete) {
+          // Check if this method was called by some cloned object.
+          // In this case we must not delete the references to the objects
+          // within this model.
+          Reaction rTest = getReaction(r.getId());
+          if ((rTest == null) || (rTest != r) || !rTest.isSetKineticLaw()
+            || (rTest.getKineticLaw().getLocalParameter(lp.getId()) == null)) {
+            return false;
+          }
           if (mapOfLocalParameters != null) {
             SortedSet<String> reactionSet = mapOfLocalParameters.get(pId);
             if (reactionSet != null) {
@@ -3785,7 +3796,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * Registers the identifier of a {@link NamedSBase} and its associated object
    * in this {@link Model}.
@@ -3796,6 +3807,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *        If <code>true</code> the identifier of the given {@link NamedSBase}
    *        will be registered in this {@link Model} Otherwise, the given
    *        identifier will be removed from this {@link Model}'s hash.
+   * @return <code>true</code> if this operation was successfully performed,
+   *         <code>false</code> otherwise.
    */
   boolean registerId(NamedSBase nsb, boolean add) {
     return registerIds(nsb.getParentSBMLObject(), nsb, true, !add);
@@ -3811,9 +3824,13 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   private boolean registerId(UniqueNamedSBase unsb, boolean recursively, boolean delete) {
     String id = unsb.getId();
     if (delete && (mapOfUniqueNamedSBases != null)) {
+      // Check if this method was called from some cloned element that is not part of this model:
+      if (mapOfUniqueNamedSBases.get(id) != unsb) {
+        return false;
+      }
       mapOfUniqueNamedSBases.remove(id);
       if (logger.isDebugEnabled()) {
-    	  logger.debug(String.format("removed id=%s from model%s",
+    	  logger.debug(MessageFormat.format("removed id={0} from model{1}",
     			  id, (isSetId() ? " " + getId() : "")));
       }
     } else if (unsb.isSetId()) {
@@ -3881,6 +3898,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     if (add) {
       return mapOfUnitDefinitions.put(ud.getId(), ud) == null;
     }
+    // Check if the element to be removed is part of this model or maybe a clone:
+    UnitDefinition unitDef = mapOfUnitDefinitions.get(ud);
+    if ((unitDef != null) && (unitDef != ud)) {
+      return false;
+    }
     return mapOfUnitDefinitions.remove(ud.getId()) != null;    
   }
 
@@ -3900,8 +3922,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       if (newNsb.isSetId()) {
         if (newNsb instanceof UniqueNamedSBase) {
           return registerId((UniqueNamedSBase) newNsb, recursively, delete);
-        } else if ((newNsb instanceof LocalParameter)
-                   && (parent.getParent() != null)) {
+        } else if ((newNsb instanceof LocalParameter) && (parent.getParent() != null)) {
           return registerId((KineticLaw) parent.getParent(),
                             (LocalParameter) newNsb, delete);
         } else if (newNsb instanceof UnitDefinition) {
@@ -4058,7 +4079,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Removes the Parameter 'parameter' from this Model.
    * 
    * @param parameter
-   * @return true if the {@link Parameter} was found and removed.
+   * @return <code>true</code> if the {@link Parameter} was found and removed.
    */
   public boolean removeParameter(Parameter parameter) {
     return getListOfParameters().remove(parameter);
@@ -4088,7 +4109,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Removes a reaction from the model.
    * 
    * @param reac
-   * @return true if the {@link Reaction} was found and removed.
+   * @return <code>true</code> if the {@link Reaction} was found and removed.
    */
   public boolean removeReaction(Reaction reac) {
     return getListOfReactions().remove(reac);
@@ -4140,7 +4161,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Removes a species from the model.
    * 
    * @param spec
-   * @return true if the {@link Species} was found and removed.
+   * @return <code>true</code> if the {@link Species} was found and removed.
    */
   public boolean removeSpecies(Species spec) {
     return getListOfSpecies().remove(spec);
@@ -4204,7 +4225,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Removes a {@link UnitDefinition} of the {@link Model}.
    * 
    * @param unitDefininition
-   * @return true if the UnitDefinition 'unitDefinition' has been removed from
+   * @return <code>true</code> if the UnitDefinition 'unitDefinition' has been removed from
    *         the Model.
    */
   public boolean removeUnitDefinition(UnitDefinition unitDefininition) {

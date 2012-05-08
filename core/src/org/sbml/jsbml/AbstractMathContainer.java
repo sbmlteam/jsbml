@@ -186,13 +186,10 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 		}
 		if (ud != null) {
 			Model m = getModel();
-			if (m != null)
-				for (UnitDefinition u : m.getListOfUnitDefinitions()) {
-					if (UnitDefinition.areEquivalent(u, ud)) {
-						ud = u;
-						break;
-					}
-				}
+			if (m != null) {
+			  UnitDefinition u = m.findIdentical(ud);
+			  return (u != null) ? u : ud;
+			}
 		} else {
 			ud = new UnitDefinition(getLevel(), getVersion());
 			ud.addUnit(ud.createUnit());

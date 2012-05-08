@@ -620,18 +620,14 @@ public class ASTNodeValue {
 		return Double.valueOf(Double.NaN);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		if (isNode()) {
 			try {
-				return MathMLParser.toMathML(MathMLParser
-						.createMathMLDocumentFor(toNode(), getLevel()), true,
-						true, 2);
+				return MathMLParser.toMathML(MathMLParser.createMathMLDocumentFor(toNode(), getLevel()), true, true, 2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (SBMLException e) {
@@ -651,4 +647,5 @@ public class ASTNodeValue {
 	public void unsetUnit() {
 		unitDef = null;
 	}
+
 }

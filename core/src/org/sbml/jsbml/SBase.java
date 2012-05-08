@@ -100,11 +100,11 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	public SBase clone();
 
 	/**
-	 * Returns true if and only if the given {@link SBase} has exactly the same
+	 * Returns <code>true</code> if and only if the given {@link SBase} has exactly the same
 	 * properties like this {@link SBase} instance.
 	 * 
 	 * @param sbase
-	 * @return true if and only if the given {@link Object} is an instance of
+	 * @return <code>true</code> if and only if the given {@link Object} is an instance of
 	 *         {@link SBase} that has exactly the same properties like this
 	 *         SBase instance.
 	 */
@@ -140,7 +140,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 * @param recursive
 	 *            decides whether or not considering all child elements of this
 	 *            {@link SBase} and collecting the matching {@link CVTerm}s of
-	 *            all children recursively. If this argument is false, the
+	 *            all children recursively. If this argument is <code>false</false>, the
 	 *            behavior of the method will be equivalent to calling
 	 *            {@link #filterCVTerms(Qualifier, String)}.
 	 * @return
@@ -230,7 +230,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 * 
 	 * @return A {@link ValuePair} with the Level and Version of this
 	 *         {@link SBase}. Note that the returned {@link ValuePair} is never
-	 *         null, but if undeclared it may contain elements set to -1.
+	 *         <code>null</false>, but if undeclared it may contain elements set to -1.
 	 */
 	public ValuePair<Integer, Integer> getLevelAndVersion();
 
@@ -351,13 +351,13 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
 	/**
 	 * 
-	 * @return true if the {@link Annotation} 'about' {@link String} of this
+	 * @return <code>true</code> if the {@link Annotation} 'about' {@link String} of this
 	 *         object matches the metaid of this object.
 	 */
 	public boolean hasValidAnnotation();
 
 	/**
-	 * Predicate returning <code>true</code> or false depending on whether this object's
+	 * Predicate returning <code>true</code> or <code>false</false> depending on whether this object's
 	 * level/version and name space values correspond to a valid SBML
 	 * specification.
 	 * 
@@ -367,16 +367,16 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
 	/**
 	 * 
-	 * @return true if this object is extended by other packages.
+	 * @return <code>true</code> if this object is extended by other packages.
 	 */
 	public boolean isExtendedByOtherPackages();
 
 	/**
-	 * Predicate returning true or false depending on whether this object's
+	 * Predicate returning <code>true</code> or <code>false</false> depending on whether this object's
 	 * 'annotation' sub-element exists and has content.
 	 * 
-	 * @return true if the {@link Annotation} instance of this object is not
-	 *         null and contains at least one {@link CVTerm} or one
+	 * @return <code>true</code> if the {@link Annotation} instance of this object is not
+	 *         <code>null</false> and contains at least one {@link CVTerm} or one
 	 *         {@link String} containing other annotations than RDF or a
 	 *         {@link History} instance.
 	 */
@@ -384,13 +384,13 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
 	/**
 	 * 
-	 * @return true if the {@link Annotation} instance of this object
+	 * @return <code>true</code> if the {@link Annotation} instance of this object
 	 */
 	public boolean isSetHistory();
 
 	/**
 	 * 
-	 * @return true if the level is not null.
+	 * @return <code>true</code> if the level is not <code>null</false>.
 	 */
 	public boolean isSetLevel();
 
@@ -404,18 +404,18 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	public boolean isSetLevelAndVersion();
 
 	/**
-	 * Predicate returning true or false depending on whether this object's
+	 * Predicate returning <code>true</code> or <code>false</false> depending on whether this object's
 	 * 'metaid' attribute has been set.
 	 * 
-	 * @return true if the metaid is not null.
+	 * @return <code>true</code> if the metaid is not <code>null</false>.
 	 */
 	public boolean isSetMetaId();
 
 	/**
-	 * Predicate returning true or false depending on whether this object's
+	 * Predicate returning <code>true</code> or <code>false</false> depending on whether this object's
 	 * 'notes' sub-element exists and has content.
 	 * 
-	 * @return true if the notes {@link String} is not null.
+	 * @return <code>true</code> if the notes {@link String} is not <code>null</false>.
 	 */
 	public boolean isSetNotes();
 
@@ -431,14 +431,14 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
 	/**
 	 * 
-	 * @return true if the SBOTerm is not -1.
+	 * @return <code>true</code> if the SBOTerm is not -1.
 	 * @see SBO
 	 */
 	public boolean isSetSBOTerm();
 
 	/**
 	 * 
-	 * @return true if the version is not null.
+	 * @return <code>true</code> if the version is not <code>null</false>.
 	 */
 	public boolean isSetVersion();
 
@@ -452,7 +452,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 *            : prefix of the XML attribute
 	 * @param value
 	 *            : value of the XML attribute
-	 * @return true if the attribute has been successfully read.
+	 * @return <code>true</code> if the attribute has been successfully read.
 	 */
 	public boolean readAttribute(String attributeName, String prefix,
 			String value);

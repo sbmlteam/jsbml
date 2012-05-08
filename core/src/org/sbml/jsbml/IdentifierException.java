@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -45,7 +47,7 @@ public class IdentifierException extends SBMLException {
   /**
    * 
    */
-  public static final String DUPLICATE_IDENTIFIER_MSG = "Cannot set duplicate %sidentifier '%s' for %s.";
+  public static final String DUPLICATE_IDENTIFIER_MSG = "Cannot set duplicate {0}identifier {1} for {2}.";
 
   /**
    * 
@@ -53,9 +55,9 @@ public class IdentifierException extends SBMLException {
    * @param id
    */
   public IdentifierException(NamedSBase sb, String id) {
-    super(String.format(DUPLICATE_IDENTIFIER_MSG, "", id, sb.getElementName()));
-    logger.error(String.format(
-      "An element with the id '%s' is already present in the SBML model. The identifier of %s will not be set to this value.",
+    super(MessageFormat.format(DUPLICATE_IDENTIFIER_MSG, "", id, sb.getElementName()));
+    logger.error(MessageFormat.format(
+      "An element with the id \"{0}\" is already present in the SBML model. The identifier of {1} will not be set to this value.",
       id, sb.getElementName()));
   }
 
@@ -64,9 +66,9 @@ public class IdentifierException extends SBMLException {
    * @param metaId
    */
   public IdentifierException(SBase sb, String metaId) {
-    super(String.format(DUPLICATE_IDENTIFIER_MSG, "meta ", metaId, sb.getElementName()));
-    logger.error(String.format(
-      "An element with the metaid '%s' is already present in the SBML document. The element %s will not be annotated with it.",
+    super(MessageFormat.format(DUPLICATE_IDENTIFIER_MSG, "meta ", metaId, sb.getElementName()));
+    logger.error(MessageFormat.format(
+      "An element with the metaid \"{0}\" is already present in the SBML document. The element {1} will not be annotated with it.",
       metaId, sb.getElementName()));
   }
 
