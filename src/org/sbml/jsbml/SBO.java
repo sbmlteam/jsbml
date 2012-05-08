@@ -917,6 +917,14 @@ public class SBO {
 	}
 
 	/**
+	 * Returns the SBO term id for macromolecule.
+	 * @return
+	 */
+	public static int getMacromolecule() {
+	  return 245;
+	}
+	  
+	/**
 	 * 
 	 * @return
 	 */
@@ -2165,6 +2173,6 @@ public class SBO {
 	 */
 	public static int stringToInt(String sboTerm) {
 		return checkTerm(sboTerm) ? Integer.parseInt(sboTerm.substring(4)) : -1;
-	}		
+	}
 
 }

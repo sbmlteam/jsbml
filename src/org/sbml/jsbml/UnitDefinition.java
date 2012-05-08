@@ -628,6 +628,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	        }
 	      }
 	      if (!contains) {
+	        unit.unsetMetaId();
 	        addUnit(unit);
 	      }
 	    }
@@ -1007,7 +1008,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 	        }
 	      }
 	      if (!contains) {
-	        addUnit(unit.clone());
+	        Unit u = unit.clone();
+	        u.unsetMetaId();
+	        addUnit(u);
 	      }
 	    }
 	  }
@@ -1068,10 +1071,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if ((0 <= lv.compareTo(Integer.valueOf(2), Integer.valueOf(3)))
 				&& Unit.Kind.isValidUnitKindString(id, lv.getL().intValue(), lv
 						.getV().intValue())) {
-			throw new IllegalArgumentException(
-					MessageFormat.format(
-							"Cannot use the name {0} of a unit base kind as an identifier for a UnitDefinition.",
-							id));
+			throw new IllegalArgumentException(MessageFormat.format(
+			  "Cannot use the name {0} of a unit base kind as an identifier for a UnitDefinition.",
+			  id));
 		}
 		super.setId(id);
 	}
@@ -1170,7 +1172,15 @@ public class UnitDefinition extends AbstractNamedSBase {
 	  return this;
 	}
 
-	/**
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
+	 */
+	@Override
+	public String toString() {
+	  return isSetListOfUnits() ? printUnits(this, true) : super.toString();
+	}
+
+  /**
 	 * Removes the {@link #listOfUnits} from this {@link UnitDefinition} and
 	 * notifies all registered instances of {@link TreeNodeChangeListener}.
 	 * 

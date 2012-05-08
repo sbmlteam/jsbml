@@ -414,7 +414,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 			return m.getUnitDefinition(substanceUnitsID);
 		}
 		if (unitsID != null) {
-			UnitDefinition def = new UnitDefinition("substance", getLevel(),
+			UnitDefinition def = new UnitDefinition(UnitDefinition.SUBSTANCE, getLevel(),
 					getVersion());
 			for (Unit unit : getUnitsInstance().getListOfUnits()) {
 				if (unit.isVariantOfSubstance()) {
@@ -448,7 +448,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 			return m.getUnitDefinition(timeUnitsID);
 		}
 		if (unitsID != null) {
-			UnitDefinition def = new UnitDefinition("time", getLevel(), getVersion());
+			UnitDefinition def = new UnitDefinition(UnitDefinition.TIME, getLevel(), getVersion());
 			Unit time;
 			for (Unit unit : getUnitsInstance().getListOfUnits()) {
 				time = unit.clone();

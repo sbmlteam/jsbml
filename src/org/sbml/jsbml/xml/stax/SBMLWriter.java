@@ -794,7 +794,7 @@ public class SBMLWriter {
 			if (sbase.isSetMetaId()) {
 				if (!annotation.isSetAbout()) {
 					// add required missing tag
-					annotation.setAbout("#" + sbase.getMetaId());
+					annotation.setAbout('#' + sbase.getMetaId());
 				}
 				writeRDFAnnotation(annotation, annotationElement, writer, indent
 						+ indentCount);

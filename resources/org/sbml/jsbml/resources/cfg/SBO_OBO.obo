@@ -1,6 +1,6 @@
 format-version: 1.2
-date: 27:02:2012 07:00
-data-version: 09:02:2012 16:47
+date: 05:05:2012 07:00
+data-version: 30:03:2012 11:02
 saved-by: SBO community
 auto-generated-by: SBO Browser (http://www.ebi.ac.uk/sbo/)
 default-namespace: sbo
@@ -3653,6 +3653,18 @@ id: SBO:0000586
 name: model time
 def: "A conceptualisation of time which is intrinsic to a mathematical model\, and which can be used to describe other variables or parameters of the model." [src_code:NR]
 is_a: SBO:0000346 ! temporal measure
+
+[Term]
+id: SBO:0000587
+name: transcellular membrane influx reaction
+def: "A transport reaction which results in the entry of the transported entity\, into the cell." [src_code:NR]
+is_a: SBO:0000185 ! transport reaction
+
+[Term]
+id: SBO:0000588
+name: transcellular membrane efflux reaction
+def: "A transport reaction which results in the removal of the transported entity from the cell." [src_code:NR]
+is_a: SBO:0000185 ! transport reaction
 
 [Typedef]
 id: is_a
