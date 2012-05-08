@@ -11,6 +11,11 @@ Version 0.8.0 (xx-xx-2012)
     be done if the logarithm to the base 10 of the multiplier is nearly
     an integer number. Nearly means that the distance to the next integer
     is not larger than the ensured double precision.
+
+  - It was sometimes possible to unregister elements from a model that were
+    the result of cloning, removal of the original entry and linking the clone
+    to the model. When altering the previous element, pointers were deleted
+    in SBMLDocument and Model.
     
 ======================================================================
 Version 0.8-rc2 (xx-xx-2012)

@@ -622,6 +622,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 								+ unit.getExponent());
 
 					} else {
+						unit.unsetMetaId();
 						addUnit(unit.clone());
 					}
 				}
@@ -1000,7 +1001,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 					}
 
 				} else {
-					addUnit(unit.clone());
+			        Unit u = unit.clone();
+			        u.unsetMetaId();
+			        addUnit(u);
 				}
 			}
 		}
@@ -1164,6 +1167,14 @@ public class UnitDefinition extends AbstractNamedSBase {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
+	 */
+	@Override
+	public String toString() {
+	  return isSetListOfUnits() ? printUnits(this, true) : super.toString();
+	}
+	
 	/**
 	 * Removes the {@link #listOfUnits} from this {@link UnitDefinition} and
 	 * notifies all registered instances of {@link TreeNodeChangeListener}.

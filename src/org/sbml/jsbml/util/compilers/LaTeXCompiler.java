@@ -1419,13 +1419,16 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 			throws SBMLException {
 		StringBuilder value = new StringBuilder();
 		value.append(base.compile(this));
-		if (!(base.getChildCount() < 2)) {
-			value = brackets(value);
+		String exp = exponent.compile(this).toString();
+		if (!exp.equals("1")) {
+	    if (!(base.getChildCount() < 2)) {
+	      value = brackets(value);
+	    }
+		  value.append('^');
+		  value.append('{');
+		  value.append(exp);
+		  value.append('}');
 		}
-		value.append('^');
-		value.append('{');
-		value.append(exponent.compile(this));
-		value.append('}');
 		return new ASTNodeValue(value.toString(), this);
 	}
 

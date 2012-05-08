@@ -3314,15 +3314,23 @@ public int getNumLocalParameters() {
       String pId = lp.getId();
       if ((r != null) && r.isSetId()) {
         if (delete) {
-          if (mapOfLocalParameters != null) {
-            SortedSet<String> reactionSet = mapOfLocalParameters.get(pId);
-            if (reactionSet != null) {
-              reactionSet.remove(r.getId());
-              if (reactionSet.isEmpty()) {
-                mapOfLocalParameters.remove(pId);
-              }
-            }
-          }
+        	// Check if this method was called by some cloned object.
+        	// In this case we must not delete the references to the objects
+        	// within this model.
+        	Reaction rTest = getReaction(r.getId());
+        	if ((rTest == null) || (rTest != r) || !rTest.isSetKineticLaw()
+        			|| (rTest.getKineticLaw().getLocalParameter(lp.getId()) == null)) {
+        		return false;
+        	}
+        	if (mapOfLocalParameters != null) {
+        		SortedSet<String> reactionSet = mapOfLocalParameters.get(pId);
+        		if (reactionSet != null) {
+        			reactionSet.remove(r.getId());
+        			if (reactionSet.isEmpty()) {
+        				mapOfLocalParameters.remove(pId);
+        			}
+        		}
+        	}
           return true;
         } else {
           // add new key or reaction for this local parameter.
@@ -3350,6 +3358,8 @@ public int getNumLocalParameters() {
    *        If <code>true</code> the identifier of the given {@link NamedSBase}
    *        will be registered in this {@link Model} Otherwise, the given
    *        identifier will be removed from this {@link Model}'s hash.
+   * @return <code>true</code> if this operation was successfully performed,
+   *         <code>false</code> otherwise.
    */
   boolean registerId(NamedSBase nsb, boolean add) {
     return registerIds(nsb.getParentSBMLObject(), nsb, true, !add);
@@ -3365,6 +3375,10 @@ public int getNumLocalParameters() {
   private boolean registerId(UniqueNamedSBase unsb, boolean recursively, boolean delete) {
     String id = unsb.getId();
     if (delete && (mapOfUniqueNamedSBases != null)) {
+    	// Check if this method was called from some cloned element that is not part of this model:
+    	if (mapOfUniqueNamedSBases.get(id) != unsb) {
+    		return false;
+    	}
       mapOfUniqueNamedSBases.remove(id);
       if (logger.isDebugEnabled()) {
     	  logger.debug(String.format("removed id=%s from model%s",
@@ -3434,6 +3448,11 @@ public int getNumLocalParameters() {
     }
     if (add) {
       return mapOfUnitDefinitions.put(ud.getId(), ud) == null;
+    }
+    // Check if the element to be removed is part of this model or maybe a clone:
+    UnitDefinition unitDef = mapOfUnitDefinitions.get(ud);
+    if ((unitDef != null) && (unitDef != ud)) {
+      return false;
     }
     return mapOfUnitDefinitions.remove(ud.getId()) != null;    
   }

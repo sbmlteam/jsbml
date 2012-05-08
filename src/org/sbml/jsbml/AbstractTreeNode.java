@@ -145,8 +145,8 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		Enumeration<TreeNode> children = children();
 		while (children.hasMoreElements()) {
 			TreeNode node = children.nextElement();
-			if (node instanceof AbstractTreeNode) {
-				success &= ((AbstractTreeNode) node)
+			if (node instanceof TreeNodeWithChangeSupport) {
+				success &= ((TreeNodeWithChangeSupport) node)
 						.addAllChangeListeners(listeners);
 			}
 		}
@@ -165,8 +165,8 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		Enumeration<TreeNode> children = children();
 		while (children.hasMoreElements()) {
 			TreeNode node = children.nextElement();
-			if (node instanceof AbstractTreeNode) {
-				((AbstractTreeNode) node).addTreeNodeChangeListener(listener);
+			if (node instanceof TreeNodeWithChangeSupport) {
+				((TreeNodeWithChangeSupport) node).addTreeNodeChangeListener(listener);
 			}
 		}
 	}
@@ -294,12 +294,12 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 				changeType = 2; // real property change
 			}
 			if (-1 < changeType) {
-				boolean newValTreeNode = newValue instanceof AbstractTreeNode;
-				boolean oldValTreeNode = oldValue instanceof AbstractTreeNode;
+				boolean newValTreeNode = newValue instanceof TreeNodeWithChangeSupport;
+				boolean oldValTreeNode = oldValue instanceof TreeNodeWithChangeSupport;
 				if ((changeType == 0) && newValTreeNode) {
-					((AbstractTreeNode) newValue).fireNodeAddedEvent();
+					((TreeNodeWithChangeSupport) newValue).fireNodeAddedEvent();
 				} else if ((changeType == 1) && oldValTreeNode) {
-					((AbstractTreeNode) oldValue).fireNodeRemovedEvent();
+					((TreeNodeWithChangeSupport) oldValue).fireNodeRemovedEvent();
 				} else {
 					// TODO: check if notifying and updating the metaId is necessary
 					// because of the method AbstractSBase.setThisAsParentSBMLObject
@@ -454,8 +454,8 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		Enumeration<TreeNode> children = children();
 		while (children.hasMoreElements()) {
 			TreeNode node = children.nextElement();
-			if (node instanceof AbstractTreeNode) {
-				((AbstractTreeNode) node).removeTreeNodeChangeListener(l);
+			if (node instanceof TreeNodeWithChangeSupport) {
+				((TreeNodeWithChangeSupport) node).removeTreeNodeChangeListener(l);
 			}
 		}
 	}
