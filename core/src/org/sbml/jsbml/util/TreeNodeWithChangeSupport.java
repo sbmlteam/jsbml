@@ -23,6 +23,8 @@ package org.sbml.jsbml.util;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
@@ -65,6 +67,20 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
   public void addTreeNodeChangeListener(TreeNodeChangeListener listener); 
   
   /**
+   * Removes all of the mappings from the map of user objects (optional operation). The map
+   * will be empty after this call returns.
+   * @see Map#clear()
+   */
+  public abstract void clearUserObjects();
+  
+  /**
+   * @param key
+   * @return
+   * @see Map#containsKey(java.lang.Object)
+   */
+  public abstract boolean containsUserObjectKey(Object key);
+
+  /**
    * Filters this tree data structure recursively and returns a list of all
    * {@link TreeNode}s that are accepted by the {@link Filter}. Although
    * internal nodes that do not satisfy the filter criterion by themselves
@@ -96,7 +112,7 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * @see #filter(Filter)
    */
   public List<TreeNode> filter(Filter filter, boolean retainInternalNodes);
-
+  
   /**
    * All {@link TreeNodeChangeListener} instances linked to this
    * {@link TreeNode} are informed about the adding of this {@link Object} to
@@ -135,17 +151,51 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * element.
    */
   public List<TreeNodeChangeListener> getListOfTreeNodeChangeListeners();
-  
+
   /**
-   * Removes all SBase change listeners from this element.
+   * @return the userObject
+   */
+  public abstract Object getUserObject(Object key);
+
+  /**
+   * Checks whether any user-defined key-value pairs have been attached
+   * to this object.
+   * 
+   * @return <code>true</code> if at least one user-defined key-value pair has
+   *         been attached to this object.
+   */
+  public abstract boolean isSetUserObjects();
+
+  /**
+   * @param key some user-defined key under which the given userObject can be found.
+   * @param userObject
+   *            the userObject to set
+   */
+  public abstract void putUserObject(Object key, Object userObject);
+
+  /**
+   * Removes all tree node change listeners from this element.
    */
   public void removeAllTreeNodeChangeListeners();
-  
+
   /**
    * Removes recursively the given change listener from this element.
    * 
    * @param l the listener to remove.
    */
   public void removeTreeNodeChangeListener(TreeNodeChangeListener l);
+
+  /**
+   * 
+   * @param key
+   * @return
+   */
+  public abstract Object removeUserObject(Object key);
+
+  /**
+   * @return
+   * @see Map#keySet()
+   */
+  public abstract Set<Object> userObjectKeySet();
 
 }

@@ -215,8 +215,8 @@
 	</target>
 
 	<!-- =================================================================== -->
-	<!-- Creates the class package and include all the dependencies jars      -->
-	<!-- into a big jsbml jar file.                                                                    -->
+	<!-- Creates the class package and include all the dependencies jars     -->
+	<!-- into a big jsbml jar file.                                          -->
 	<!-- =================================================================== -->
 	<target name="bigjar" depends="compile">
 
@@ -334,7 +334,6 @@
 
 		<get src="http://www.ebi.ac.uk/sbo/exports/Main/SBO_OBO.obo" dest="${basedir}/resources/org/sbml/jsbml/resources/cfg/SBO_OBO.obo" verbose="on"/>
 
-
 	</target>
 
 	<!-- =================================================================== -->
@@ -423,7 +422,6 @@
 			</fileset>
 		</copy>
 
-
 		<copy todir="${dist.dir}">
 			<fileset dir="${basedir}/" includes="LICENSE.txt NEWS.txt README AUTHORS.txt build.xml">
 			</fileset>
@@ -448,7 +446,6 @@
 		<!-- Not generating a tar.gz a having only a zip file should be enough -->
 		<!-- <tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip"/> -->
 
-
 	</target>
 
 
@@ -456,7 +453,6 @@
 	<!-- Build the jsbml modules                                             -->
 	<!-- =================================================================== -->
 	<target name="module" depends="init">
-
 
 		<ant dir="${cellDesigner.module.base.dir}" inheritAll="false" inheritRefs="false">
 			<target name="clean"/>
@@ -518,6 +514,7 @@
 		<delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes">
 		</delete>
 	</target>
+
 </project>
 
 <!-- End of file -->

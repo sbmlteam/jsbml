@@ -79,6 +79,7 @@ strict digraph G{
      GraphicalObject    -> CompartmentGlyph       [dir=back,arrowtail=empty];
      GraphicalObject    -> ReactionGlyph          [dir=back,arrowtail=empty];
      GraphicalObject    -> SpeciesGlyph           [dir=back,arrowtail=empty];
+     GraphicalObject    -> SpeciesReferencesGlyph [dir=back,arrowtail=empty];
      GraphicalObject    -> TextGlyph              [dir=back,arrowtail=empty];
      LineSegment        -> CubicBezier            [dir=back,arrowtail=empty];
    }
@@ -91,7 +92,6 @@ strict digraph G{
    AbstractNamedSBase -> Curve                  [dir=back,arrowtail=empty];
    AbstractNamedSBase -> Dimensions             [dir=back,arrowtail=empty];
    AbstractNamedSBase -> GraphicalObject        [dir=back,arrowtail=empty];
-   AbstractNamedSBase -> SpeciesReferencesGlyph [dir=back,arrowtail=empty];
    AbstractNamedSBase -> Layout                 [dir=back,arrowtail=empty];
    AbstractNamedSBase -> LineSegment            [dir=back,arrowtail=empty];
    AbstractNamedSBase -> Point                  [dir=back,arrowtail=empty];

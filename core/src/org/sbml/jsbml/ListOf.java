@@ -432,8 +432,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	public void clear() {
 		List<T> removedElements = listOf;
 		listOf.clear();
-		for( T element : removedElements){
-			((AbstractTreeNode) element).fireNodeRemovedEvent();
+		for (T element : removedElements) {
+		  ((TreeNodeWithChangeSupport) element).fireNodeRemovedEvent();
 		}
 	}
 
@@ -684,8 +684,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
-			String value) 
-	{
+			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 		if (!isAttributeRead) {
@@ -699,7 +698,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public T remove(int index) {
 		T t = listOf.remove(index);
-		((AbstractTreeNode) t).fireNodeRemovedEvent();
+		((TreeNodeWithChangeSupport) t).fireNodeRemovedEvent();
 		return t;
 	}
 
@@ -743,7 +742,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		}
 		SBase sbase = (SBase) o;
 		if (listOf.remove(sbase)) {
-			((AbstractTreeNode) o).fireNodeRemovedEvent();
+			((TreeNodeWithChangeSupport) o).fireNodeRemovedEvent();
 			return true;
 		}
 		return false;
@@ -771,7 +770,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 			}
 			if (pos >= 0) {
 				T element = listOf.remove(pos);
-				((AbstractTreeNode) element).fireNodeRemovedEvent();
+				((TreeNodeWithChangeSupport) element).fireNodeRemovedEvent();
 				return (T) sbase;
 			}
 		}
@@ -785,7 +784,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		boolean success = listOf.removeAll(c);
 		if(success){
 			 for(Iterator<?> i = c.iterator(); i.hasNext();){
-				 AbstractTreeNode element = (AbstractTreeNode) i.next();
+				 TreeNodeWithChangeSupport element = (TreeNodeWithChangeSupport) i.next();
 				 element.fireNodeRemovedEvent();
 			 }
 		}
@@ -825,7 +824,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		for(T element : listOf){
 			if (!c.contains(element)) {
 				listOf.remove(element);
-				((AbstractTreeNode) element).fireNodeRemovedEvent();
+				((TreeNodeWithChangeSupport) element).fireNodeRemovedEvent();
 				modified = true;
 			}
 		}
@@ -840,7 +839,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		// TODO: this should rather be a firePropertyChangedEvent, as the 
 		// element is first removed and then added again. But the method
 		// registerChild fires a NodeAddedEvent
-		((AbstractTreeNode) element).fireNodeRemovedEvent();
+		((TreeNodeWithChangeSupport) element).fireNodeRemovedEvent();
 		registerChild(element);
 		return prevElem;
 	}

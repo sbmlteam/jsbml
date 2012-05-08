@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
@@ -163,8 +164,8 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		Enumeration<TreeNode> children = children();
 		while (children.hasMoreElements()) {
 			TreeNode node = children.nextElement();
-			if (node instanceof AbstractTreeNode) {
-				success &= ((AbstractTreeNode) node)
+			if (node instanceof TreeNodeWithChangeSupport) {
+				success &= ((TreeNodeWithChangeSupport) node)
 						.addAllChangeListeners(listeners);
 			}
 		}
@@ -181,8 +182,8 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		Enumeration<TreeNode> children = children();
 		while (children.hasMoreElements()) {
 			TreeNode node = children.nextElement();
-			if (node instanceof AbstractTreeNode) {
-				((AbstractTreeNode) node).addTreeNodeChangeListener(listener);
+			if (node instanceof TreeNodeWithChangeSupport) {
+				((TreeNodeWithChangeSupport) node).addTreeNodeChangeListener(listener);
 			}
 		}
 	}
@@ -222,10 +223,9 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		};
 	}
 
-	/**
-   * Removes all of the mappings from the map of user objects (optional operation). The map
-   * will be empty after this call returns.
-   */
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#clearUserObjects()
+	 */
   public void clearUserObjects() {
     if (isSetUserObjects()) {
       userObjects.clear();
@@ -237,6 +237,13 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 	 */
 	@Override
 	public abstract TreeNode clone();
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#containsUserObjectKey(java.lang.Object)
+	 */
+  public boolean containsUserObjectKey(Object key) {
+    return userObjects.containsKey(key);
+  }	
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
@@ -274,7 +281,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 			return equal;
 		}
 		return false;
-	}	
+	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#filter(org.sbml.jsbml.util.filters.Filter)
@@ -341,12 +348,12 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 				changeType = 2; // real property change
 			}
 			if (-1 < changeType) {
-				boolean newValTreeNode = newValue instanceof AbstractTreeNode;
-				boolean oldValTreeNode = oldValue instanceof AbstractTreeNode;
+				boolean newValTreeNode = newValue instanceof TreeNodeWithChangeSupport;
+				boolean oldValTreeNode = oldValue instanceof TreeNodeWithChangeSupport;
 				if ((changeType == 0) && newValTreeNode) {
-					((AbstractTreeNode) newValue).fireNodeAddedEvent();
+					((TreeNodeWithChangeSupport) newValue).fireNodeAddedEvent();
 				} else if ((changeType == 1) && oldValTreeNode) {
-					((AbstractTreeNode) oldValue).fireNodeRemovedEvent();
+					((TreeNodeWithChangeSupport) oldValue).fireNodeRemovedEvent();
 				} else {
 					// TODO: check if notifying and updating the metaId is necessary
 					// because of the method AbstractSBase.setThisAsParentSBMLObject
@@ -369,7 +376,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 			}
 		}
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
 	 */
@@ -383,7 +390,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 	public List<TreeNodeChangeListener> getListOfTreeNodeChangeListeners() {
 		return listOfListeners;
 	}
-	
+
 	/**
 	 * Returns the number of child elements of this {@link TreeNode}.
 	 * 
@@ -394,17 +401,17 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 	public int getNumChildren() {
 		return getChildCount();
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getParent()
 	 */
 	public TreeNode getParent() {
 		return parent;
 	}
-	
-	/**
-   * @return the userObject
-   */
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getUserObject(java.lang.Object)
+	 */
   public Object getUserObject(Object key) {
     if (userObjects == null) {
       userObjects = new HashMap<Object, Object>();
@@ -441,7 +448,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		
 		return hashCode;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#isLeaf()
 	 */
@@ -472,13 +479,9 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		return parent != null;
 	}
 	
-	/**
-   * Checks whether any user-defined key-value pairs have been attached
-   * to this object.
-   * 
-   * @return <code>true</code> if at least one user-defined key-value pair has
-   *         been attached to this object.
-   */
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#isSetUserObjects()
+	 */
   public boolean isSetUserObjects() {
     return (userObjects != null) && !userObjects.isEmpty();
   }
@@ -496,12 +499,10 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 	protected void notifyChildChange(TreeNode oldChild, TreeNode newChild) {
 		// default: empty body, nothing to do.
 	}
-	
-	/**
-   * @param key some user-defined key under which the given userObject can be found.
-   * @param userObject
-   *            the userObject to set
-   */
+
+  /* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#putUserObject(java.lang.Object, java.lang.Object)
+	 */
   public void putUserObject(Object key, Object userObject) {
     if (userObjects == null) {
       userObjects = new HashMap<Object, Object>();
@@ -509,15 +510,15 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
     Object oldObject = userObjects.put(key, userObject);
     firePropertyChange(key.toString(), oldObject, userObject);
   }
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeAllTreeNodeChangeListeners()
 	 */
 	public void removeAllTreeNodeChangeListeners() {
 		listOfListeners.clear();
 	}
-
-	/* (non-Javadoc)
+	
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener)
 	 */
 	public void removeTreeNodeChangeListener(TreeNodeChangeListener l) {
@@ -525,16 +526,14 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		Enumeration<TreeNode> children = children();
 		while (children.hasMoreElements()) {
 			TreeNode node = children.nextElement();
-			if (node instanceof AbstractTreeNode) {
-				((AbstractTreeNode) node).removeTreeNodeChangeListener(l);
+			if (node instanceof TreeNodeWithChangeSupport) {
+				((TreeNodeWithChangeSupport) node).removeTreeNodeChangeListener(l);
 			}
 		}
 	}
 	
-	/**
-   * 
-   * @param key
-   * @return
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeUserObject(java.lang.Object)
    */
   public Object removeUserObject(Object key) {
     if (userObjects != null) {
@@ -542,8 +541,8 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
     }
     return null;
   }
-	
-	/**
+
+  /**
 	 * @param parent
 	 *            the parent to set
 	 */
@@ -553,12 +552,19 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		this.firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldValue, this.parent);
 	}
 
-	/* (non-Javadoc)
+  /* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return StringTools.firstLetterLowerCase(getClass().getSimpleName());
 	}
+
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#userObjectKeySet()
+   */
+  public Set<Object> userObjectKeySet() {
+    return userObjects.keySet();
+  }
 
 }

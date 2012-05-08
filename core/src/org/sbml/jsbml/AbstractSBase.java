@@ -1390,19 +1390,34 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jsbml.SBase#setMetaId(java.lang.String)
 	 */
 	public void setMetaId(String metaId) {
-    if ((metaId != null) && (getLevel() == 1)) {
-      throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId, this);
-    }
-    SBMLDocument doc = getSBMLDocument();
-    if ((doc != null) && doc.containsMetaId(metaId)) {
-      throw new IdentifierException(this, metaId);
-    }
-    String oldMetaId = this.metaId;
-    this.metaId = metaId;
-    if (doc != null) {
-      doc.registerMetaId(this, true);
-    }
-		firePropertyChange(TreeNodeChangeEvent.metaId, oldMetaId, metaId);
+	  if ((metaId != null) && (getLevel() == 1)) {
+	    throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId, this);
+	  }
+	  SBMLDocument doc = getSBMLDocument();
+	  String oldMetaId = this.metaId;
+	  if (doc != null) {
+	    // We have to first remove the pointer from the old metaId to this SBase
+	    if (oldMetaId != null) {
+	      doc.registerMetaId(this, false);
+	    }
+	    // Now we can register the new metaId if necessary.
+	    if (metaId != null) {
+	      this.metaId = metaId;
+	      if (!doc.registerMetaId(this, true)) {
+	        // register failed. Revert the change and throw an exception:
+	        this.metaId = oldMetaId;
+	        throw new IdentifierException(this, metaId);
+	      }
+	    }
+	  } else {
+	    // If the document is null, we don't have to register anything. Simply change:
+	    this.metaId = metaId;
+	  }
+	  if (isSetAnnotation()) {
+	    // Propagate the change also to the annotation:
+	    getAnnotation().setAbout('#' + metaId);
+	  }
+	  firePropertyChange(TreeNodeChangeEvent.metaId, oldMetaId, metaId);
 	}
 
 	/* (non-Javadoc)

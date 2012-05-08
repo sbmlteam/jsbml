@@ -43,9 +43,9 @@ Version 1.0-rc1 (xx-xx-2012)
     of Units and UnitDefinitions works correctly.
     
   - The userObject in ASTNode has been replaced by a more general map
-    of userObjects that is located in AbstractTreeNode. In this way, any
-    JSBML object that is part of the SBML tree can now be attached with
-    user-defined additional objects for in-memory manipulation. These
+    of userObjects that is located in TreeNodeWithChangeSupport. In this 
+    way, any JSBML object that is part of the SBML tree can now be attached
+    with user-defined additional objects for in-memory manipulation. These
     will not be written to SBML later on.
     
   - The new class NamedSBaeGlyph in the layout package supports accessing
@@ -56,6 +56,11 @@ Version 1.0-rc1 (xx-xx-2012)
 
 
 * Bug Fixes:
+
+  - It was sometimes possible to unregister elements from a model that were
+    the result of cloning, removal of the original entry and linking the clone
+    to the model. When altering the previous element, pointers were deleted
+    in SBMLDocument and Model.
 
   - There is now a rounding correction for multipliers when merging units
     that tries to shift multipliers to the scale of a unit. This can only

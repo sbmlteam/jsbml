@@ -777,9 +777,17 @@ public class SBMLDocument extends AbstractSBase {
 			if (add) {
 				return mappingFromMetaId2SBase.put(sbase.getMetaId(), sbase) == null;
 			} else {
-				return mappingFromMetaId2SBase.remove(sbase.getMetaId()) != null;
+			  SBase old = mappingFromMetaId2SBase.get(sbase.getMetaId());
+			  if ((old != null) && (old != sbase)) {
+			    /* This check is needed because the given SBase might originate from a 
+			     * different Document or could be a clone of some other SBase registered
+			     * here.
+			     */
+			    return mappingFromMetaId2SBase.remove(sbase.getMetaId()) != null;
+			  }
 			}
-		} return false;
+		}
+		return false;
 	}
 
 
