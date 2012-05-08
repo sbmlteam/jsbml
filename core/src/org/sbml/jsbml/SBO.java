@@ -779,11 +779,13 @@ public class SBO {
 	public static int getDrug() {
 		return convertAlias2SBO("DRUG");
 	}
-
-	/**
-	 * 
-	 * @return
-	 */
+	
+  /**
+   * Empty set is used to represent the source of a creation process or the
+   * result of a degradation process.
+   * 
+   * @return
+   */
 	public static int getEmptySet() {
 		return convertAlias2SBO("DEGRADED");
 	}
@@ -837,7 +839,14 @@ public class SBO {
 	}
 
 	/**
+	 * A gene is an informational molecule segment.
 	 * 
+   * The Nucleic acid feature construct in SBGN is meant to represent a fragment
+   * of a macro- molecule carrying genetic information. A common use for this
+   * construct is to represent a gene or transcript. The label of this EPN and
+   * its units of information are often important for making the purpose clear
+   * to the reader of a map.
+   * 
 	 * @return
 	 */
 	public static int getGene() {
@@ -972,6 +981,14 @@ public class SBO {
 		return 207;
 	}
 
+	/**
+   * 
+   * @return
+   */
+  public static int getNonCovalentComplex() {
+    return 253;
+  }
+  
 	/**
 	 * 
 	 * @return
