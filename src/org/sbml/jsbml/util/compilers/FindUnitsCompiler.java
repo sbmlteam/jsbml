@@ -55,6 +55,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue abs(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -62,6 +63,9 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#and(java.util.List)
 	 */
 	public ASTNodeValue and(List<ASTNode> values) throws SBMLException {
+		for (ASTNode value : values) {
+			value.compile(this);
+		}
 		return dummyValue;
 	}
 
@@ -69,6 +73,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccos(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arccos(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -76,6 +81,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccosh(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arccosh(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -83,6 +89,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccot(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arccot(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -90,6 +97,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccoth(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arccoth(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -97,6 +105,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccsc(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arccsc(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -104,6 +113,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccsch(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arccsch(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -111,6 +121,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsec(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arcsec(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -118,6 +129,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsech(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arcsech(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -125,6 +137,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsin(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arcsin(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -132,6 +145,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsinh(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arcsinh(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -139,6 +153,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arctan(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arctan(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -146,6 +161,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arctanh(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arctanh(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -153,6 +169,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#ceiling(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue ceiling(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -220,6 +237,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#cos(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue cos(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -227,6 +245,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#cosh(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue cosh(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -234,6 +253,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#cot(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue cot(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -241,6 +261,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#coth(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue coth(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -248,6 +269,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#csc(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue csc(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -255,6 +277,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#csch(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue csch(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -266,6 +289,8 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 		
 		// TODO : to check but I don't think that units are allowed in this case.
 		// There are allowed only on the cn elements.
+		x.compile(this);
+		delay.compile(this);
 		
 		return dummyValue;
 	}
@@ -274,6 +299,8 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#eq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue eq(ASTNode left, ASTNode right) throws SBMLException {
+		left.compile(this);
+		right.compile(this);
 		return dummyValue;
 	}
 
@@ -281,6 +308,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#exp(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue exp(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -288,6 +316,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#factorial(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue factorial(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -295,6 +324,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#floor(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue floor(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -303,6 +333,8 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue frac(ASTNode numerator, ASTNode denominator)
 			throws SBMLException {
+		numerator.compile(this);
+		denominator.compile(this);
 		return dummyValue;
 	}
 
@@ -319,6 +351,9 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue function(FunctionDefinition functionDefinition,
 			List<ASTNode> args) throws SBMLException {
+		for (ASTNode value : args) {
+			value.compile(this);
+		}
 		return dummyValue;
 	}
 
@@ -327,6 +362,9 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue function(String functionDefinitionName,
 			List<ASTNode> args) throws SBMLException {
+		for (ASTNode value : args) {
+			value.compile(this);
+		}
 		return dummyValue;
 	}
 
@@ -334,6 +372,8 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#geq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue geq(ASTNode left, ASTNode right) throws SBMLException {
+		left.compile(this);
+		right.compile(this);
 		return dummyValue;
 	}
 
@@ -390,6 +430,8 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#gt(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue gt(ASTNode left, ASTNode right) throws SBMLException {
+		left.compile(this);
+		right.compile(this);
 		return dummyValue;
 	}
 
@@ -397,6 +439,9 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#lambda(java.util.List)
 	 */
 	public ASTNodeValue lambda(List<ASTNode> values) throws SBMLException {
+		for (ASTNode value : values) {
+			value.compile(this);
+		}
 		return dummyValue;
 	}
 
@@ -404,6 +449,8 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#leq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue leq(ASTNode left, ASTNode right) throws SBMLException {
+		left.compile(this);
+		right.compile(this);
 		return dummyValue;
 	}
 
@@ -411,6 +458,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#ln(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue ln(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -418,6 +466,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue log(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -425,6 +474,8 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue log(ASTNode base, ASTNode value) throws SBMLException {
+		value.compile(this);
+		base.compile(this);
 		return dummyValue;
 	}
 
@@ -432,6 +483,8 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#lt(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue lt(ASTNode left, ASTNode right) throws SBMLException {
+		left.compile(this);
+		right.compile(this);
 		return dummyValue;
 	}
 
@@ -439,6 +492,9 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#minus(java.util.List)
 	 */
 	public ASTNodeValue minus(List<ASTNode> values) throws SBMLException {
+		for (ASTNode value : values) {
+			value.compile(this);
+		}
 		return dummyValue;
 	}
 
@@ -446,6 +502,8 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#neq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue neq(ASTNode left, ASTNode right) throws SBMLException {
+		left.compile(this);
+		right.compile(this);
 		return dummyValue;
 	}
 
@@ -453,6 +511,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#not(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue not(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -460,6 +519,9 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#or(java.util.List)
 	 */
 	public ASTNodeValue or(List<ASTNode> values) throws SBMLException {
+		for (ASTNode value : values) {
+			value.compile(this);
+		}
 		return dummyValue;
 	}
 
@@ -467,6 +529,9 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#piecewise(java.util.List)
 	 */
 	public ASTNodeValue piecewise(List<ASTNode> values) throws SBMLException {
+		for (ASTNode value : values) {
+			value.compile(this);
+		}
 		return dummyValue;
 	}
 
@@ -474,6 +539,9 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#plus(java.util.List)
 	 */
 	public ASTNodeValue plus(List<ASTNode> values) throws SBMLException {
+		for (ASTNode value : values) {
+			value.compile(this);
+		}
 		return dummyValue;
 	}
 
@@ -482,6 +550,8 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue pow(ASTNode base, ASTNode exponent)
 			throws SBMLException {
+		base.compile(this);
+		exponent.compile(this);
 		return dummyValue;
 	}
 
@@ -490,6 +560,8 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant)
 			throws SBMLException {
+		rootExponent.compile(this);
+		radiant.compile(this);
 		return dummyValue;
 	}
 
@@ -498,6 +570,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue root(double rootExponent, ASTNode radiant)
 			throws SBMLException {
+		radiant.compile(this);
 		return dummyValue;
 	}
 
@@ -505,6 +578,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#sec(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue sec(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -512,6 +586,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#sech(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue sech(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -519,6 +594,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#sin(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue sin(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -526,6 +602,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#sinh(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue sinh(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -533,6 +610,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#sqrt(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue sqrt(ASTNode radiant) throws SBMLException {
+		radiant.compile(this);
 		return dummyValue;
 	}
 
@@ -547,6 +625,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#tan(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue tan(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -554,6 +633,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#tanh(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue tanh(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -561,6 +641,9 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#times(java.util.List)
 	 */
 	public ASTNodeValue times(List<ASTNode> values) throws SBMLException {
+		for (ASTNode value : values) {
+			value.compile(this);
+		}
 		return dummyValue;
 	}
 
@@ -568,6 +651,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#uMinus(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue uMinus(ASTNode value) throws SBMLException {
+		value.compile(this);
 		return dummyValue;
 	}
 
@@ -582,6 +666,9 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#xor(java.util.List)
 	 */
 	public ASTNodeValue xor(List<ASTNode> values) throws SBMLException {
+		for (ASTNode value : values) {
+			value.compile(this);
+		}
 		return dummyValue;
 	}
 
