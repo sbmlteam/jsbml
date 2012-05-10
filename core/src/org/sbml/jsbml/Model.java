@@ -3751,14 +3751,12 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param delete
    * @return <code>true</code> in case of success, otherwise <code>false</code>.
    */
-  private boolean registerId(KineticLaw kl, LocalParameter lp, boolean delete) {
-    // Register local parameter within its kinetic law first.
-    if (kl.registerLocalParameter(lp, delete)) {
-      /*
-       * If this works, register the local parameter and its reaction also
-       * in the model. This is necessary because of the restriction that the 
-       * ids local parameters may not override the ids of UnitDefinitions.
-       */
+  private boolean registerId(KineticLaw kl, LocalParameter lp, boolean delete, boolean alreadyRegisteredInKL) {
+    if (!alreadyRegisteredInKL) {
+        // Register local parameter within its kinetic law first.
+    	kl.registerLocalParameter(lp, delete);
+    }
+    if (lp.isSetId()) {
       Reaction r = kl.getParentSBMLObject();
       String pId = lp.getId();
       if ((r != null) && r.isSetId()) {
@@ -3917,32 +3915,35 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         <code>false</code> otherwise.
    */
   boolean registerIds(SBase parent, SBase newElem, boolean recursively, boolean delete) {
-    if (newElem instanceof NamedSBase) {
+      boolean success = true;
+
+      if (newElem instanceof NamedSBase) {
       NamedSBase newNsb = (NamedSBase) newElem;
       if (newNsb.isSetId()) {
         if (newNsb instanceof UniqueNamedSBase) {
-          return registerId((UniqueNamedSBase) newNsb, recursively, delete);
+        	success &= registerId((UniqueNamedSBase) newNsb, recursively, delete);
         } else if ((newNsb instanceof LocalParameter) && (parent.getParent() != null)) {
-          return registerId((KineticLaw) parent.getParent(),
-                            (LocalParameter) newNsb, delete);
+        	success &= registerId((KineticLaw) parent.getParent(),
+                            (LocalParameter) newNsb, delete, false);
         } else if (newNsb instanceof UnitDefinition) {
-          return registerId((UnitDefinition) newNsb, !delete);
+        	success &= registerId((UnitDefinition) newNsb, !delete);
         } else {
         	// in L3 packages we might have different id namespaces
         	logger.error("registerIds : the object " + newNsb.getClass().getCanonicalName() + " is neither " +
         			"a UniqueNamedSBase, a LocalParameter or a UnitDefinition so it's id will not be registered in the Model.");
         }
       } else if (!newNsb.isIdMandatory()) {
-        return true;
+        // do nothing
       }
     } 
     if (recursively) {
-      boolean success = true;
       for (int i = 0; (i < newElem.getChildCount()) && success; i++) {
         TreeNode child = newElem.getChildAt(i);
         if (child instanceof SBase) {
           if ((parent instanceof KineticLaw) && (child instanceof LocalParameter)) {
-            success &= registerId((KineticLaw) parent, (LocalParameter) child, delete);
+        	  // The local parameter have already been registered in the KineticLaw in this case
+            success &= registerId((KineticLaw) parent, (LocalParameter) child, delete, true);
+            // TODO : we still need to register recursively the children of a LocalParameter
           } else {
             success &= registerIds(newElem, (SBase) child, recursively, delete);
           }
@@ -3955,7 +3956,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
      * not NamedSBase when the recursive boolean is set to false (happen with listOf objects for example).
      * For these, the AbstractSBase.registerChild(SBase) method was throwing an exception although there was no problem.
      */
-    return true;
+    return success;
   }
   
   /**
