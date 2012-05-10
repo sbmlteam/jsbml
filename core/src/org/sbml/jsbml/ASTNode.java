@@ -1508,6 +1508,7 @@ public class ASTNode extends AbstractTreeNode {
 				swap.name = name;
 				swap.numerator = numerator;
 				swap.variable = variable;
+				swap.unitId = unitId;
 				swapChildren(swap);
 				setType(operator);
 				if (operator == Type.FUNCTION_ROOT) {
