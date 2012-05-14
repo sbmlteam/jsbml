@@ -20,22 +20,15 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
-import java.util.Map;
-
-import javax.swing.tree.TreeNode;
-
-import org.sbml.jsbml.ext.AbstractSBasePlugin;
-import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.PropertyUndefinedError;
 
 
 /**
- * @author Eugen Netz
- * @author Alexander Diamantikos
- * @author Jakob Matthes
- * @author Jan Rudolph
+ * @author ???
  * @version $Rev$
  * @since 1.0
- * @date 08.05.2012
+ * @date 14.05.2012
  */
-public class GradientBase extends AbstractSBase {
-}
+public class GlobalStyle extends Style {
+  
+ }
