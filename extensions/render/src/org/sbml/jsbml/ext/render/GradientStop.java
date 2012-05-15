@@ -20,12 +20,7 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
-import java.util.Map;
-
-import javax.swing.tree.TreeNode;
-
-import org.sbml.jsbml.ext.AbstractSBasePlugin;
-import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.AbstractSBase;
 
 
 /**
@@ -38,4 +33,17 @@ import org.sbml.jsbml.ext.SBasePlugin;
  * @date 08.05.2012
  */
 public class GradientStop extends AbstractSBase {
+	
+	private Integer offset;
+	private ColorDefinition stopColor;
+	
+	public AbstractSBase clone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -31,4 +31,8 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class Group extends GraphicalPrimitive2D {
+	protected Integer iD;
+	protected Text text;
+	protected LineEnding startHead;
+	protected LineEnding endHead;
 }

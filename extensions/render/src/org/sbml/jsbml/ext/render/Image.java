@@ -31,4 +31,7 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class Image extends Transformation2D {
+	protected Integer x, y, z, widht, height;
+	protected Boolean positionAbsolute, sizeAbsolute;
+	protected String href;
 }

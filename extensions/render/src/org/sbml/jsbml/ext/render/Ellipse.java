@@ -31,4 +31,5 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class Ellipse extends GraphicalPrimitive2D {
+	protected Integer cx, cy, cz, rx, ry; 
 }

@@ -20,7 +20,6 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
-import org.sbml.jsbml.PropertyUndefinedError;
 
 
 /**

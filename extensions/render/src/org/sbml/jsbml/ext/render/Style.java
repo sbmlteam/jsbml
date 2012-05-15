@@ -20,12 +20,9 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
-import java.util.Map;
+import java.util.ArrayList;
 
-import javax.swing.tree.TreeNode;
-
-import org.sbml.jsbml.ext.AbstractSBasePlugin;
-import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.AbstractSBase;
 
 /**
  * @author Eugen Netz
@@ -37,4 +34,18 @@ import org.sbml.jsbml.ext.SBasePlugin;
  * @date 08.05.2012
  */
 public class Style extends AbstractSBase {
+	// TODO add serial ID
+	protected ArrayList<String> typeList;
+	protected ArrayList<String> roleList;
+	protected Group group;
+	
+	public AbstractSBase clone() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public String toString() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

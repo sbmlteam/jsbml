@@ -20,13 +20,9 @@
  */
 package org.sbml.jsbml.ext.render;
 
-import java.util.Map;
-
-import javax.swing.tree.TreeNode;
-
+import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.ext.AbstractSBasePlugin;
-import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ListOf;
 
 /**
  * @author Eugen Netz
@@ -37,5 +33,31 @@ import org.sbml.jsbml.ext.SBasePlugin;
  * @since 1.0
  * @date 04.05.2012
  */
-public class RenderInformationBase  extends AbstractSBase {
+public class RenderInformationBase  extends AbstractNamedSBase {
+
+  String programName;
+  String programVersion; //TODO int better?
+  String referenceRenderInformation;
+  //TODO null -> "none", rgba , default 0xFFFFFFFF
+  Integer backgroundColor = 0xFFFFFFFF; 
+  ListOf<ColorDefinition> listOfColorDefinitions;
+  // TODO maybe wrong class for linear and radial gradients
+  ListOf<GradientBase> listOfGradientDefinitions;
+  ListOf<LineEnding> listofLineEndings;
+  
+  public AbstractSBase clone() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public String toString() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public boolean isIdMandatory() {
+    // TODO Auto-generated method stub
+    return false;
+  }
 }

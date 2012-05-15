@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import org.sbml.jsbml.ext.layout.BoundingBox;
+
 
 /**
  * @author Eugen Netz
@@ -31,4 +33,7 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class LineEnding extends GraphicalPrimitive2D {
+	protected Boolean enableRotationMapping;
+	protected BoundingBox boundingBox;
+	protected Group group;
 }
