@@ -184,7 +184,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	 */
 	@Override
 	public SimpleSpeciesReference getNamedSBaseInstance() {
-		return (SimpleSpeciesReference) getNamedSBaseInstance();
+		return (SimpleSpeciesReference) super.getNamedSBaseInstance();
 	}
 
 	/**

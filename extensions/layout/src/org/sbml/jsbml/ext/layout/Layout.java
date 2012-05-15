@@ -54,11 +54,11 @@ public class Layout extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
-	private ListOf<GraphicalObject> listOfAdditionalGraphicalObjects = new ListOf<GraphicalObject>();
+	private Dimensions dimensions;
 	/**
 	 * 
 	 */
-	private Dimensions dimensions;
+	private ListOf<GraphicalObject> listOfAdditionalGraphicalObjects = new ListOf<GraphicalObject>();
 	/**
 	 * 
 	 */
@@ -94,7 +94,8 @@ public class Layout extends AbstractNamedSBase {
 		initDefault();
 	}
 	
-	/**
+	 
+  /**
 	 * @param layout 
 	 * 
 	 */
@@ -121,7 +122,19 @@ public class Layout extends AbstractNamedSBase {
     }
 
 	}
+	
 	/**
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public Layout(String id, int level, int version) {
+    super(id, level, version);
+    initDefault();
+  }
+
+  /**
    * 
    * @param reactionGlyph
    */
@@ -202,6 +215,49 @@ public class Layout extends AbstractNamedSBase {
   }
 
   /**
+   * 
+   * @param compartment
+   * @return
+   */
+  public boolean containsGlyph(Compartment compartment) {
+	  return containsGlyph(listOfCompartmentGlyphs, compartment);
+  }
+
+  /**
+   * 
+   * @param listOfGlyphs
+   * @param nsb
+   * @return
+   */
+  private <T extends NamedSBaseGlyph> boolean containsGlyph(ListOf<T> listOfGlyphs,
+		  NamedSBase nsb) {
+	  if ((nsb != null) && (listOfGlyphs != null) && !listOfGlyphs.isEmpty()) {
+		  NamedSBaseReferenceFilter filter = new NamedSBaseReferenceFilter(nsb.getId());
+		  filter.setFilterForReference(true);
+		  return listOfGlyphs.firstHit(filter) != null;
+	  }
+	  return false;
+  }
+
+  /**
+   * 
+   * @param reaction
+   * @return
+   */
+  public boolean containsGlyph(Reaction reaction) {
+	  return containsGlyph(listOfReactionGlyphs, reaction);
+  }
+
+  /**
+   * 
+   * @param species
+   * @return
+   */
+  public boolean containsGlyph(Species species) {
+	  return containsGlyph(listOfSpeciesGlyphs, species);
+  }
+
+  /**
    * Creates and adds a new {@link CompartmentGlyph}.
    * @param compartment {@link Compartment} ID.
    * @return new {@link CompartmentGlyph}.
@@ -241,7 +297,7 @@ public class Layout extends AbstractNamedSBase {
 	  addReactionGlyph(glyph);
 	  return glyph;
   }
-
+  
   /**
    * Creates and adds a new {@link SpeciesGlyph}.
    * @param species {@link Species} ID.
@@ -293,7 +349,7 @@ public class Layout extends AbstractNamedSBase {
 	  }
 	  return new ArrayList<T>(0);
   }
-  
+	
   /**
    * Searches all instances of {@link ReactionGlyph} within this {@link Layout} that
    * refer to the {@link Reaction} with the given id.
@@ -317,7 +373,7 @@ public class Layout extends AbstractNamedSBase {
   public List<SpeciesGlyph> findSpeciesGlyphs(String speciesID) {
 	 return findGlyphs(listOfSpeciesGlyphs, speciesID);
   }
-
+  
   /**
    * 
    * @param i
@@ -330,7 +386,7 @@ public class Layout extends AbstractNamedSBase {
 	  }
 	  return null;
   }
-
+	
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
    */
@@ -383,7 +439,7 @@ public class Layout extends AbstractNamedSBase {
 	  throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
 			  index, +((int) Math.min(pos, 0))));
   }
-	
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildCount()
    */
@@ -423,7 +479,7 @@ public class Layout extends AbstractNamedSBase {
 	  }
 	  return null;
   }
-  
+	
   /**
    * 
    * @param id
@@ -435,7 +491,7 @@ public class Layout extends AbstractNamedSBase {
 	  }
 	  return null;
   }
-	
+  
   /**
    * 
    * @return
@@ -451,7 +507,7 @@ public class Layout extends AbstractNamedSBase {
   public ListOf<GraphicalObject> getListOfAdditionalGraphicalObjects() {
 	  return listOfAdditionalGraphicalObjects;
   }
-
+  
   /**
    * 
    * @return
@@ -465,7 +521,8 @@ public class Layout extends AbstractNamedSBase {
 	  }
 	  return listOfCompartmentGlyphs;
   }
-	
+ 
+
   /**
    * 
    * @return
@@ -479,7 +536,7 @@ public class Layout extends AbstractNamedSBase {
 	  }
 	  return listOfReactionGlyphs;
   }
-  
+	
   /**
    * 
    * @return
@@ -493,7 +550,7 @@ public class Layout extends AbstractNamedSBase {
 	  }
 	  return listOfSpeciesGlyphs;
   }
-  
+
   /**
    * 
    * @return
@@ -507,7 +564,7 @@ public class Layout extends AbstractNamedSBase {
 	  }
 	  return listOfTextGlyphs;
   }
-  
+
   /**
    * 
    * @param i
@@ -520,7 +577,6 @@ public class Layout extends AbstractNamedSBase {
 	  }
 	  return null;
   }
- 
 
   /**
    * 
@@ -533,7 +589,7 @@ public class Layout extends AbstractNamedSBase {
 	  }
 	  return null;
   }
-	
+
   /**
    * 
    * @param i
@@ -560,32 +616,34 @@ public class Layout extends AbstractNamedSBase {
 	  }
 	  return null;
   }
-
+  
+  /**
+   * 
+   */
   private void initDefault() {
-	addNamespace(LayoutConstant.namespaceURI);
+    addNamespace(LayoutConstant.namespaceURI);
 
-	listOfCompartmentGlyphs.addNamespace(LayoutConstant.namespaceURI);
-	listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
-	registerChild(listOfCompartmentGlyphs);
+    listOfCompartmentGlyphs.addNamespace(LayoutConstant.namespaceURI);
+    listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
+    registerChild(listOfCompartmentGlyphs);
+
+    listOfSpeciesGlyphs.addNamespace(LayoutConstant.namespaceURI);
+    listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
+    registerChild(listOfSpeciesGlyphs);
+
+    listOfReactionGlyphs.addNamespace(LayoutConstant.namespaceURI);
+    listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
+    registerChild(listOfReactionGlyphs);
+
+    listOfTextGlyphs.addNamespace(LayoutConstant.namespaceURI);
+    listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
+    registerChild(listOfTextGlyphs);
+
+    listOfAdditionalGraphicalObjects.addNamespace(LayoutConstant.namespaceURI);
+    listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
+    registerChild(listOfAdditionalGraphicalObjects);
+  }
 	
-	listOfSpeciesGlyphs.addNamespace(LayoutConstant.namespaceURI);
-	listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
-	registerChild(listOfSpeciesGlyphs);
-
-	listOfReactionGlyphs.addNamespace(LayoutConstant.namespaceURI);
-	listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
-	registerChild(listOfReactionGlyphs);
-
-	listOfTextGlyphs.addNamespace(LayoutConstant.namespaceURI);
-	listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
-	registerChild(listOfTextGlyphs);
-
-	listOfAdditionalGraphicalObjects.addNamespace(LayoutConstant.namespaceURI);
-	listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
-	registerChild(listOfAdditionalGraphicalObjects);
-
-}
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
@@ -600,14 +658,14 @@ public class Layout extends AbstractNamedSBase {
   public boolean isSetAddGraphicalObjects() {
 	  return (listOfAdditionalGraphicalObjects != null) && (listOfAdditionalGraphicalObjects.size() > 0);
   }
-
+	
   /**
    * @return
    */
   public boolean isSetDimensions() {
 	  return dimensions != null;
   }
-  
+
   /**
    * @return
    */
@@ -628,7 +686,7 @@ public class Layout extends AbstractNamedSBase {
   public boolean isSetListOfReactionGlyphs() {
 	  return (listOfReactionGlyphs != null) && (listOfReactionGlyphs.size() > 0);
   }
-	
+  
   /**
    * 
    * @return
@@ -643,7 +701,7 @@ public class Layout extends AbstractNamedSBase {
   public boolean isSetListOfTextGlyphs() {
 	  return (listOfTextGlyphs != null) && (listOfTextGlyphs.size() > 0);
   }
-	
+  
   /**
    * @param attributeName
    * @param prefix
@@ -656,49 +714,6 @@ public class Layout extends AbstractNamedSBase {
 	  boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 			  value);
 	  return isAttributeRead;
-  }
-
-  /**
-   * 
-   * @param compartment
-   * @return
-   */
-  public boolean containsGlyph(Compartment compartment) {
-	  return containsGlyph(listOfCompartmentGlyphs, compartment);
-  }
-  
-  /**
-   * 
-   * @param listOfGlyphs
-   * @param nsb
-   * @return
-   */
-  private <T extends NamedSBaseGlyph> boolean containsGlyph(ListOf<T> listOfGlyphs,
-		  NamedSBase nsb) {
-	  if ((nsb != null) && (listOfGlyphs != null) && !listOfGlyphs.isEmpty()) {
-		  NamedSBaseReferenceFilter filter = new NamedSBaseReferenceFilter(nsb.getId());
-		  filter.setFilterForReference(true);
-		  return listOfGlyphs.firstHit(filter) != null;
-	  }
-	  return false;
-  }
-
-  /**
-   * 
-   * @param reaction
-   * @return
-   */
-  public boolean containsGlyph(Reaction reaction) {
-	  return containsGlyph(listOfReactionGlyphs, reaction);
-  }
-  
-  /**
-   * 
-   * @param species
-   * @return
-   */
-  public boolean containsGlyph(Species species) {
-	  return containsGlyph(listOfSpeciesGlyphs, species);
   }
 	
   /**

@@ -3541,6 +3541,22 @@ public class ASTNode extends AbstractTreeNode {
 	  this.unitId = unitId;
 	  this.firePropertyChange(TreeNodeChangeEvent.units, oldValue, unitId);
 	}
+	
+	/**
+	 * 
+	 * @param unit
+	 */
+	public void setUnits(Unit.Kind unit) {
+	  setUnits(unit.toString().toLowerCase());
+	}
+	
+	/**
+	 * 
+	 * @param ud
+	 */
+	public void setUnits(UnitDefinition ud) {
+	  setUnits(ud.getId());
+	}
 
 	/**
 	 * Sets the value of this ASTNode to the given double number and sets the

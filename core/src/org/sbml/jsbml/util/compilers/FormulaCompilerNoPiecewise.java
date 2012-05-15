@@ -55,14 +55,11 @@ public class FormulaCompilerNoPiecewise extends FormulaCompiler {
 	 * 
 	 */
 	private String orReplacement = " | ";
-	
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.compilers.ASTNodeCompiler#piecewise(java.util.List)
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#piecewise(java.util.List)
 	 */
+	@Override
 	public ASTNodeValue piecewise(List<ASTNode> nodes) throws SBMLException {
 		
 		// create the piecewise output with if/then/else

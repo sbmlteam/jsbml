@@ -57,6 +57,10 @@ Version 1.0-rc1 (xx-xx-2012)
 
 * Bug Fixes:
 
+  - SBML Layout extension contained bugs that caused endless recursion when
+    trying to access referenced instances of NamedSBase from a glyph (such
+    as CompartmentGlyph, SpeciesGlyph etc.).
+
   - It was sometimes possible to unregister elements from a model that were
     the result of cloning, removal of the original entry and linking the clone
     to the model. When altering the previous element, pointers were deleted

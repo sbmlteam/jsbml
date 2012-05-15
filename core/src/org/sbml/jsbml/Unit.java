@@ -1005,7 +1005,7 @@ public class Unit extends AbstractSBase {
 	public static boolean isValidUnit(Model model, String unit) {
 		boolean isValidUnit = false;
 
-		if (unit != null && model != null) {
+		if ((unit != null) && (model != null)) {
 			unit = unit.trim();
 			if (unit.length() > 0) {
 				if (Kind.isValidUnitKindString(unit, model.getLevel(), model
@@ -1015,7 +1015,7 @@ public class Unit extends AbstractSBase {
 					isValidUnit = true;
 				}
 			}
-		} else if (model == null && unit != null) {
+		} else if ((model == null) && (unit != null)) {
 			isValidUnit = true;
 		}
 

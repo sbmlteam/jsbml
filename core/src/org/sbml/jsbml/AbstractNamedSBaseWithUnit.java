@@ -20,6 +20,8 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
+
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -262,7 +264,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 		if ((units != null) && (units.trim().length() == 0)) {
 			units = null; // If we pass the empty String or null, the value is reset.
 		}
-		
+		// TODO: Use the method Units.isValidUnit here!
 		String oldUnits = this.unitsID;
 		if (units == null) {
 			unitsID = null;
@@ -284,7 +286,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 				}
 			}
 			if (illegalArgument) {
-				throw new IllegalArgumentException(String.format(
+				throw new IllegalArgumentException(MessageFormat.format(
 						JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
 			}
 		}

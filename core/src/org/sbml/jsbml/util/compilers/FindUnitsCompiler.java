@@ -185,7 +185,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue compile(double mantissa, int exponent, String units) {
 
-		if (units != null && units.length() > 0) {
+		if ((units != null) && (units.length() > 0)) {
 			isUnitsDefined  = true;
 			throw new SBMLException("Stopping the recursion, a units has been found and the SBML namespace is needed.");
 		}
@@ -198,7 +198,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue compile(double real, String units) {
 
-		if (units != null && units.length() > 0) {
+		if ((units != null) && (units.length() > 0)) {
 			isUnitsDefined  = true;
 			throw new SBMLException("Stopping the recursion, a units has been found and the SBML namespace is needed.");
 		}
@@ -211,7 +211,7 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue compile(int integer, String units) {
 
-		if (units != null && units.length() > 0) {
+		if ((units != null) && (units.length() > 0)) {
 			isUnitsDefined  = true;
 			throw new SBMLException("Stopping the recursion, a units has been found and the SBML namespace is needed.");
 		}

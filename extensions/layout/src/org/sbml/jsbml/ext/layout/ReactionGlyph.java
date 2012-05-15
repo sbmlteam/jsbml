@@ -210,7 +210,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	 */
 	@Override
 	public Reaction getNamedSBaseInstance() {
-		return (Reaction) getNamedSBaseInstance();
+		return (Reaction) super.getNamedSBaseInstance();
 	}
 
 	/**
