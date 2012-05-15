@@ -453,9 +453,13 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * @throws SBMLException
 	 */
 	private String checkDenominatorBrackets(ASTNode nodes) throws SBMLException {
+		if ((nodes.getType() == Type.POWER) && (nodes.getChildCount() > 1)
+				&& nodes.getRightChild().toString().equals("1")) {
+			return checkDenominatorBrackets(nodes.getLeftChild());
+		}
 		String term = nodes.compile(this).toString();
 		if (nodes.isSum() || nodes.isDifference() || nodes.isUMinus()
-				|| nodes.getType() == Type.TIMES) {
+				|| (nodes.getType() == Type.TIMES)) {
 			term = brackets(term).toString();
 		}
 		return term;
@@ -1010,18 +1014,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 * org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue pow(ASTNode left, ASTNode right) throws SBMLException {
-		
-		// Adding brackets all the time for the exponent/right ASTNode
-		
-		if (left.getChildCount() < 2) {
-			return new ASTNodeValue(StringTools.concat(left.compile(this), "^", "(",
-					right.compile(this), ")").toString(), this);
-		} else {
-			return new ASTNodeValue(StringTools.concat(Character.valueOf('('),
-					left.compile(this), Character.valueOf(')'), "^", "(",
-					right.compile(this), ")").toString(), this);
-		}
-	
+		return new ASTNodeValue(pow(left.compile(this), right.compile(this)).toString(), this);
 	}
 
 	/**
