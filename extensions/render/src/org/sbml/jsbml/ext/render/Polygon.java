@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.util.ArrayList;
+
 
 /**
  * @author Eugen Netz
@@ -31,4 +33,6 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class Polygon extends GraphicalPrimitive2D {
+	// FIXME auch RenderCubicBezier erlaubt?
+	private ArrayList<RenderPoint> ListOfElements;
 }

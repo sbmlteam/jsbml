@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.util.ArrayList;
+
 
 /**
  * @author Eugen Netz
@@ -31,4 +33,9 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class Curve extends GraphicalPrimitive1D {
+	protected LineEnding startHead;
+	protected LineEnding endHead;
+	// FIXME sollte auch für RenderCubicBezier funktionieren
+	protected ArrayList<RenderPoint> listOfElements;
+	
 }

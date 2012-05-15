@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.util.ArrayList;
+
 
 /**
  * @author Eugen Netz
@@ -31,4 +33,8 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class GraphicalPrimitive1D extends Transformation2D {
+	protected ColorDefinition stroke;
+	protected Integer strokeWidth;
+	protected ArrayList<Integer> strokeDashArray;
+	
 }

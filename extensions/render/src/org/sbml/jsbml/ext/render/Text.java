@@ -31,4 +31,26 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class Text extends GraphicalPrimitive1D {
+	// TODO warum kann man hier keinen Text speichern?
+	protected Integer x, y, z;
+	protected FontFamily fontFamily;
+	protected Integer fontSize;
+	protected Boolean fontWeightBold, fontStyleItalic;
+	protected TextAnchor textAnchor;
+	protected VTextAnchor vTextAnchor;
+	protected enum TextAnchor {
+		START,
+		MIDDLE,
+		END,
+	}
+	protected enum VTextAnchor {
+		TOP,
+		MIDDLE,
+		BOTTOM,
+	}
+	protected enum FontFamily {
+		SERIF,
+		SANS_SERIF,
+		MONOSPACE,
+	}
 }

@@ -28,7 +28,6 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
-import org.sbml.jsbml.ext.layout.Layout;
 
 
 /**
@@ -46,6 +45,9 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
    */
   protected ListOf<LocalRenderInformation> listOfLocalRenderInformation;
   protected ListOf<GlobalRenderInformation> listOfGlobalRenderInformation;
+  // TODO unclear if Integer or int
+  protected int versionMajor;
+  protected int versionMinor;
 
   /**
    * 

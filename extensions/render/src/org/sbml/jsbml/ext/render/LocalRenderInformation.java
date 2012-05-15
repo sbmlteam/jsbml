@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import org.sbml.jsbml.ListOf;
+
 
 /**
  * @author Eugen Netz
@@ -31,4 +33,5 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class LocalRenderInformation extends RenderInformationBase {
+  protected ListOf<LocalStyle> listOfLocalStyles;
 }

@@ -31,4 +31,7 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class RadialGradient extends GradientBase {
+	// FIXME absolut vs. relativ
+	private Boolean absolute;
+	private Integer cx, cy, cz, r, fx, fy, fz;
 }
