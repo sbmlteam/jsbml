@@ -67,9 +67,7 @@ public class NameFilter implements Filter {
 		this.name = name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.Filter#fulfilsProperty(java.lang.Object)
 	 */
 	public boolean accepts(Object o) {

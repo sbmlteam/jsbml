@@ -108,7 +108,7 @@ public class CompartmentGlyph extends NamedSBaseGlyph {
 	 */
 	@Override
 	public Compartment getNamedSBaseInstance() {
-		return (Compartment) getNamedSBaseInstance();
+		return (Compartment) super.getNamedSBaseInstance();
 	}
 
 	/**

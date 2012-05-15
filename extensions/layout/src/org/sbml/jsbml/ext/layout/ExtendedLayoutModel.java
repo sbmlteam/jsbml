@@ -55,26 +55,6 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	
 	/**
 	 * 
-	 */
-	public ExtendedLayoutModel(Model model) {
-		super(model);
-
-		this.model = model;
-		createListOfLayout();
-	}
-
-  /**
-   * Creates a new list of layout
-   */
-  private void createListOfLayout() {
-    listOfLayouts = new ListOf<Layout>();
-		listOfLayouts.addNamespace(LayoutConstant.namespaceURI);
-		listOfLayouts.setSBaseListType(ListOf.Type.other);
-		model.registerChild(listOfLayouts);
-  }
-
-	/**
-	 * 
 	 * @param elm
 	 */
 	public ExtendedLayoutModel(ExtendedLayoutModel elm) {
@@ -84,6 +64,15 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		}
 	}
 
+  /**
+	 * 
+	 */
+	public ExtendedLayoutModel(Model model) {
+		super(model);
+
+		this.model = model;
+		createListOfLayout();
+	}
 
 	/**
 	 * 
@@ -111,8 +100,36 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		return new ExtendedLayoutModel(this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+   * Creates a new layout and adds it to the current list of layouts.
+   * @return new layout.
+   */
+  public Layout createLayout() {
+    return createLayout(null);
+  }
+
+	/**
+   * 
+   * @param id
+   * @return
+   */
+  public Layout createLayout(String id) {
+    Layout layout = new Layout(id, model.getLevel(), model.getVersion());
+    addLayout(layout);
+    return layout;
+  }
+
+	/**
+   * Creates a new list of layout
+   */
+  private void createListOfLayout() {
+    listOfLayouts = new ListOf<Layout>();
+		listOfLayouts.addNamespace(LayoutConstant.namespaceURI);
+		listOfLayouts.setSBaseListType(ListOf.Type.other);
+		model.registerChild(listOfLayouts);
+  }
+
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.Model#equals(java.lang.Object)
 	 */
 	@Override
@@ -131,16 +148,15 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		}
 		return equals;
 	}
-
+	
 	/* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
   public boolean getAllowsChildren() {
     return true;
   }
-
-  /*
-   * (non-Javadoc)
+	
+	/* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
    */
 	public SBase getChildAt(int index) {
@@ -149,9 +165,9 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		}
 		return null;
 	}
-	
-	/*
-	 * (non-Javadoc)
+
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildCount()
 	 */
 	public int getChildCount() {
@@ -162,6 +178,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		return count;
 	}
 	
+	
 	/**
 	 * 
 	 * @param i
@@ -170,8 +187,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	public Layout getLayout(int i) {
 		return listOfLayouts.get(i);
 	}
-
-
+	
 	/**
 	 * 
 	 * @return
@@ -182,12 +198,19 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	  }
 	  return listOfLayouts;
 	}
-	
-	
+
+	/**
+   * 
+   * @return
+   */
+  public Model getModel() {
+    return (Model) extendedSBase;
+  }
+
 	public Model getParent() {
 		return model;
 	}
-	
+
 	public Model getParentSBMLObject() {
 		return model;
 	}
@@ -223,8 +246,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		model.registerChild(listOfLayouts);
 	}
 
-	/*
-	 * (non-Javadoc)
+  /* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -233,7 +255,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		return null;
 	}
 
-	/**
+  /**
 	 * Removes the {@link #listOfLayouts} from this {@link Model} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
@@ -249,33 +271,12 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		}
 		return false;
 	}
-
-	/*
-	 * (non-Javadoc)
+  
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
 	 */
   public Map<String, String> writeXMLAttributes() {
 		return null;
 	}
-  
-
-  /**
-   * 
-   * @return
-   */
-  public Model getModel() {
-    return (Model) extendedSBase;
-  }
-
-
-  /**
-   * Creates a new layout and adds it to the current list of layouts.
-   * @return new layout.
-   */
-  public Layout createLayout() {
-    Layout layout = new Layout(model.getLevel(), model.getVersion());
-    addLayout(layout);
-    return layout;
-  }	
 
 }

@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -856,6 +857,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	@Deprecated
 	public void setUnits(String units) {
 		String oldUnits = this.unitsID;
+		// TODO: Use the method Units.isValidUnit here!
 		if (units == null) {
 			unitsID = null;
 		} else {
@@ -874,7 +876,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 				}
 			}
 			if (illegalArgument) {
-				throw new IllegalArgumentException(String.format(
+				throw new IllegalArgumentException(MessageFormat.format(
 						JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
 			}
 		}

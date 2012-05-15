@@ -17,6 +17,7 @@
 package org.sbml.jsbml.cdplugin;
 
 import java.beans.PropertyChangeEvent;
+import java.text.MessageFormat;
 import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
@@ -498,7 +499,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				pKlaw.setTimeUnits(klaw.getTimeUnits());
 				plugin.notifySBaseChanged(pKlaw);
 			} else if (eventsource instanceof Model){
-				logger.log(Level.DEBUG, String.format("Changing %s in the Model only supported with SBML version > 3.", eventsource.getClass().getSimpleName()));
+				logger.log(Level.DEBUG, MessageFormat.format("Changing {0} in the Model only supported with SBML version > 3.", eventsource.getClass().getSimpleName()));
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.type)) {
 			ASTNode n = (ASTNode) eventsource;

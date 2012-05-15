@@ -145,7 +145,7 @@ public class MathMLXMLStreamCompiler {
 
 		SBase sbase = astNode.getParentSBMLObject();
 		
-		if (sbase != null && sbase.getLevel() < 3) {
+		if ((sbase != null) && (sbase.getLevel() < 3)) {
 			return false;
 		}
 

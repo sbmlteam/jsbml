@@ -93,7 +93,7 @@ public class SpeciesGlyph extends NamedSBaseGlyph {
 	 */
 	@Override
 	public Species getNamedSBaseInstance() {
-		return (Species) getNamedSBaseInstance();
+		return (Species) super.getNamedSBaseInstance();
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class SpeciesGlyph extends NamedSBaseGlyph {
 	public Species getSpeciesInstance() {
 		return getNamedSBaseInstance();
 	}
-	
+
 	/**
 	 * @return the {@link #speciesId}
 	 */
