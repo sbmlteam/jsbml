@@ -49,7 +49,7 @@ public class JSBML {
 	 * Error message for the case that an invalid unit identifier is to be added
 	 * to this object.
 	 */
-	public static final String ILLEGAL_UNIT_EXCEPTION_MSG = "Cannot identify unit %s in the model. Only a valid unit kind or the identifier of an existing unit definition are allowed.";
+	public static final String ILLEGAL_UNIT_EXCEPTION_MSG = "Cannot identify unit {0} in the model. Only a valid unit kind or the identifier of an existing unit definition are allowed.";
 	public static final int INDEX_EXCEEDS_SIZE = -1;
 	public static final int INVALID_ATTRIBUTE_VALUE = -4;
 	public static final int INVALID_OBJECT = -5;
@@ -57,7 +57,7 @@ public class JSBML {
 	/**
 	 * The current version number of JSBML.
 	 */
-	private static final String jsbmlVersion = "0.8-rc1"; // TODO : replace automatically this version number with [BUILD.NUMBER]
+	private static final String jsbmlVersion = "1.0-rc1"; // TODO : replace automatically this version number with [BUILD.NUMBER]
 	
 	public static final int LEVEL_MISMATCH = -7;
 	public static final int OPERATION_FAILED = -3;
