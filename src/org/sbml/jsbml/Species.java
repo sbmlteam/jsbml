@@ -158,6 +158,9 @@ public class Species extends Symbol {
 		if (species.isSetConversionFactor()) {
 			setConversionFactor(species.conversionFactorID);
 		}
+		if (species.isSetSpeciesType()) {
+			setSpeciesType(species.getSpeciesType());
+		}
 	}
 
 	/**
