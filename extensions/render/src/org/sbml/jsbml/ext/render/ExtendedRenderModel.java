@@ -40,9 +40,13 @@ import org.sbml.jsbml.ext.SBasePlugin;
  * @date 14.05.2012
  */
 public class ExtendedRenderModel extends AbstractSBasePlugin {
+   
   /**
    * 
    */
+  private static final long serialVersionUID = 7654047378880104537L;
+  
+  
   protected ListOf<LocalRenderInformation> listOfLocalRenderInformation;
   protected ListOf<GlobalRenderInformation> listOfGlobalRenderInformation;
   // TODO unclear if Integer or int
@@ -53,64 +57,68 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
    * 
    */
   private Model model;
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
-   */
   
-  @Override
+  public ExtendedRenderModel(Model model) {
+    super(model);
+
+    this.model = model;
+    createListOfLocalRenderInformation();
+    createListOfGlobalRenderInformation();
+  }
+  
+  private void createListOfLocalRenderInformation() {
+    listOfLocalRenderInformation = new ListOf<LocalRenderInformation>();
+    //TODO
+    //listOfLocalRenderInformation.addNamespace(RenderConstant.namespaceURI);
+    listOfLocalRenderInformation.setSBaseListType(ListOf.Type.other);
+    model.registerChild(listOfLocalRenderInformation);
+  }
+  
+  private void createListOfGlobalRenderInformation(){
+    listOfGlobalRenderInformation = new ListOf<GlobalRenderInformation>();
+    //TODO
+    //listOfGlobalRenderInformation.addNamespace(RenderConstant.namespaceURI);
+    listOfGlobalRenderInformation.setSBaseListType(ListOf.Type.other);
+    model.registerChild(listOfGlobalRenderInformation);
+  }
+
+  public static final int MIN_SBML_LEVEL = 3;
+  public static final int MIN_SBML_VERSION = 1;
+
+  //TODO
   public SBasePlugin clone() {
     // TODO Auto-generated method stub
     return null;
   }
 
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getAllowsChildren()
-   */
-  @Override
+  //TODO
   public boolean getAllowsChildren() {
     // TODO Auto-generated method stub
     return false;
   }
 
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
-   */
-  @Override
+  //TODO
   public TreeNode getChildAt(int childIndex) {
     // TODO Auto-generated method stub
     return null;
   }
 
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getChildCount()
-   */
-  @Override
+  //TODO
   public int getChildCount() {
     // TODO Auto-generated method stub
     return 0;
   }
 
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-   */
-  @Override
+  //TODO
   public boolean readAttribute(String attributeName, String prefix, String value) {
     // TODO Auto-generated method stub
     return false;
   }
 
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
-   */
-  @Override
+  //TODO
   public Map<String, String> writeXMLAttributes() {
     // TODO Auto-generated method stub
     return null;
   }
+
 }

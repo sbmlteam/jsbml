@@ -33,5 +33,14 @@ import org.sbml.jsbml.ListOf;
  * @date 08.05.2012
  */
 public class GlobalRenderInformation extends RenderInformationBase {
-	ListOf<Style> listOfStyles;
+	/**
+   * 
+   */
+  private static final long serialVersionUID = 855680727119080659L;
+  
+  //TODO The same as LocalRenderInformation, but with class GlobalStyle
+  //GlobalStyle equals Style?
+  ListOf<Style> listOfStyles;
+  
+  
 }

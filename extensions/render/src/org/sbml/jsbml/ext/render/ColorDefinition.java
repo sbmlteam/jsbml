@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render;
 
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.LevelVersionError;
 
 
 /**
@@ -33,13 +34,135 @@ import org.sbml.jsbml.AbstractSBase;
  * @date 08.05.2012
  */
 public class ColorDefinition extends AbstractSBase {
-	// TODO insert serialID
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 8904459123022343452L;
+  
+  String id;
 	Integer value;
 	
-	public AbstractSBase clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+  /**
+   * Creates a ColorDefinition instance with an id and a color value 
+   * 
+   * @param id
+   * @param value
+   */
+  public ColorDefinition(String id, int value) {
+    this.id = id;
+    this.value = value;
+  }
+
+
+  /**
+   * Creates a ColorDefinition instance with an id, color value, level, and version. 
+   * 
+   * @param id
+   * @param value
+   * @param level
+   * @param version
+   */
+  public ColorDefinition(String id, int value, int level, int version) {
+    super(level, version);
+    if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
+      Integer.valueOf(MIN_SBML_VERSION)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    this.id = id;
+    this.value = value;
+  }
+
+
+  /**
+   * Clone constructor
+   */
+  public ColorDefinition(ColorDefinition obj) {
+    super(obj);
+    // TODO: copy all class attributes, e.g.:
+    // bar = obj.bar;
+    this.id = obj.id;
+    this.value = obj.value;
+  }
+
+
+  /**
+   * clones this class
+   */
+  public ColorDefinition clone() {
+    return new ColorDefinition(this);
+  }
+  
+  /**
+   * @return the value of id
+   */
+  public String getId(){
+    return this.id;
+  }
+  
+  /**
+   * Set the value of id
+   */
+  public void setId(String id){
+    //String oldId = this.id;
+    this.id = id;
+    //TODO
+    //firePropertyChange(constant_class.id, oldId, this.id);
+  }
+  
+  
+  /**
+   * @return the value of value
+   */
+  public Integer getValue() {
+    if (isSetValue()) {
+      int val = value;
+      return val;
+    } else {
+      return null;
+    }
+  }
+
+
+  /**
+   * @return whether value is set 
+   */
+  public boolean isSetValue() {
+    return this.value != null;
+  }
+
+
+  /**
+   * Set the value of value
+   */
+  public void setValue(int value) {
+    //Integer oldValue = this.value;
+    this.value = value;
+    //TODO
+    //firePropertyChange(constant_class.value, oldValue, this.value);
+  }
+
+
+  /**
+   * Unsets the variable value 
+   * @return <code>true</code>, if value was set before, 
+   *         otherwise <code>false</code>
+   */
+  public boolean unsetValue() {
+    if (isSetValue()) {
+      //Integer oldValue = this.value;
+      this.value = null;
+      //TODO
+      //firePropertyChange(constant_class.value, oldValue, this.value);
+      return true;
+    }
+    return false;
+  }
+  
+
+  public static final int MIN_SBML_LEVEL = 3;
+  public static final int MIN_SBML_VERSION = 1;
 
 	public String toString() {
 		// TODO Auto-generated method stub

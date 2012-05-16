@@ -33,6 +33,65 @@ import java.util.ArrayList;
  * @date 08.05.2012
  */
 public class LocalStyle extends Style {
-	// TODO for idList used type of generated serial id's
-	ArrayList<Long> idList;
+	/**
+   * 
+   */
+  private static final long serialVersionUID = 4976081641247006722L;
+  
+  // TODO List of ids or layouts? Type, setters and getters, add, remove
+	ArrayList<String> idList;
+	
+	/**
+   * Creates a LocalStyle instance with a group
+   * 
+   * @param group
+   */
+	public LocalStyle(Group group){
+	  super(group);
+	  this.idList = new ArrayList<String>();
+	}
+	
+	/**
+   * Creates a LocalStyle instance with a level and version. 
+   * 
+   * @param level
+   * @param version
+   */
+  public LocalStyle(int level, int version, Group group) {
+    super(null, level, version, group);
+    this.idList = new ArrayList<String>();
+  }
+	
+	
+	 /**
+   * Creates a LocalStyle instance with an id, name, level, and version. 
+   * 
+   * @param id
+   * @param level
+   * @param version
+   * @param group
+   */
+	public LocalStyle(String id, int level, int version, Group group){
+	  super(id, level, version, group);
+	  this.idList = new ArrayList<String>();
+	}
+	
+
+  /**
+   * @return the value of idList
+   */
+  public ArrayList<String> getIdList(){
+    return this.idList;
+  }
+  
+  /**
+   * Set the value of idList
+   */
+  public void setIdList(ArrayList<String> idList){
+    //ArrayList<String> oldIdList = this.idList;
+    this.idList = idList;
+    //TODO
+    //firePropertyChange(constant_class.idList, oldIdList, this.idList);  
+  }
+		
 }
