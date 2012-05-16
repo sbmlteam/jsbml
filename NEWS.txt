@@ -1,7 +1,7 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ======================================================================
-Version 0.8.0 (xx-xx-2012)
+Version 0.8.0 (15-05-2012)
 ======================================================================
 
 * Bug Fixes:
@@ -12,13 +12,24 @@ Version 0.8.0 (xx-xx-2012)
     an integer number. Nearly means that the distance to the next integer
     is not larger than the ensured double precision.
 
-  - It was sometimes possible to unregister elements from a model that were
-    the result of cloning, removal of the original entry and linking the clone
-    to the model. When altering the previous element, pointers were deleted
-    in SBMLDocument and Model.
-    
+  - [Tracker item #3511439] : The cloning of a Species was not copying the
+    speciesType attribute. Thanks to Thomas Bernard who noticed and reported
+    the problem.
+
+  - The units attribute on ASTNode was sometime not written out and the sbml
+    namespace was sometime missing from the mathML. It should be fine now.
+
+* Known issues :
+
+  - Reading of more than one RDF Description elements in the RDF annotation 
+    block (the official SBML annotation scheme) is not supported at the 
+    moment. Planned for the next major release. 
+  - The RDF block at the top level of the annotation is considered to be the
+    official SBML annotation.
+  - SBML L3 packages are not supported and not kept.  
+  
 ======================================================================
-Version 0.8-rc2 (xx-xx-2012)
+Version 0.8-rc2 (12-04-2012)
 ======================================================================
 
 * User visible changes :

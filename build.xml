@@ -443,10 +443,10 @@
 		<antcall target="module-dist"/>
 
 		<!-- Creates the archives to be distributed -->
-		<zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.zip" includes="${name}-${version}/**"/>
+		<zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}-full.zip" includes="${name}-${version}/**"/>
 
 		<!-- Not generating a tar.gz a having only a zip file should be enough -->
-		<!-- <tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip"/> -->
+		<tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}-full.tar.gz" includes="${name}-${version}/**" compression="gzip"/>
 
 	</target>
 

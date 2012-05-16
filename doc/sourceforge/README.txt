@@ -1,4 +1,4 @@
-                        J S B M L   0.8-rc2
+                        J S B M L   0.8
 
 JSBML is a free, open-source programming library to help you read,
 write, manipulate, translate, and validate SBML files and data
@@ -6,19 +6,19 @@ streams. It is not an application itself (though it does come with
 example programs), but rather a library you can embed in your own
 applications.
 
-This is the top-level directory of the JSBML 0.8-rc2 release. Here you
+This is the top-level directory of the JSBML 0.8 final release. Here you
 will find the following:
 
-  jsbml-0.8-rc2.jar  -- jar file containing the classes of JSBML-0.8-rc2
+  jsbml-0.8.jar  -- jar file containing the classes of JSBML-0.8
   
-  jsbml-0.8-rc2-with-dependencies.jar  -- jar file containing the classes of
-  JSBML-0.8-rc2 including any needed dependencies libraries classes.
+  jsbml-0.8-with-dependencies.jar  -- jar file containing the classes of
+  JSBML-0.8 including any needed dependencies libraries classes.
   
-  jsbml-0.8-rc2.zip  -- full distribution of JSBML-0.8-rc2 containing the 
+  jsbml-0.8-full.zip  -- full distribution of JSBML-0.8 containing the 
   two jars file described above plus the sources and documentation along
   with the build script to be able to compile the library.
 
-  jsbml-0.8-rc2.tar.gz  -- same content as jsbml-0.8-rc2.zip
+  jsbml-0.8-full.tar.gz  -- same content as jsbml-0.8-full.zip
 
 For more information about JSBML, please visit the JSBML website at
                    http://sbml.org/Software/JSBML

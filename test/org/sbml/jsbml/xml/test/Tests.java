@@ -31,7 +31,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @version $Rev$
  */
 @RunWith(value=Suite.class)
-@SuiteClasses(value={SBML_L1VxTests.class, SBML_L2V1Test.class, CheckConsistencyTests.class, GetNotesStringTests.class})
+@SuiteClasses(value={SBML_L1VxTests.class, SBML_L2V1Test.class, CheckConsistencyTests.class, GetNotesStringTests.class, UnregisterTests.class})
 public class Tests {
 
 }
