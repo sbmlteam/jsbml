@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.IdentifierException;
+import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
@@ -184,6 +185,29 @@ public class UnregisterTests {
 			// success
 		}
 	}
+
+	/**
+	 * 
+	 */
+	@Test public void testRegister3() {
+		
+		Reaction r2 = new Reaction(2,4);
+		KineticLaw k = r2.createKineticLaw();
+		
+		k.createLocalParameter("LP1");
+		
+		// We should not be allowed to register an other local parameter with the same id
+		try {
+			k.createLocalParameter("LP1");
+			// fail("We should not be able to add a local parameter with the same id as an other local parameter in the same kineticLaw.");
+		} catch (IdentifierException e) {
+			// success
+		}
+
+		assertTrue(k.getLocalParameterCount() == 1);
+		
+	}
+
 	
 	/**
 	 * 
