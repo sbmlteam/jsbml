@@ -1230,7 +1230,12 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		  }
 		}
 		registerChild(this.kineticLaw);
-	}
+        if (this.kineticLaw.isSetListOfLocalParameters()) {
+          for (LocalParameter lp : this.kineticLaw.getListOfLocalParameters()) {
+            this.kineticLaw.registerLocalParameter(lp, false);
+          }
+        }
+	 }
 
 	/**
 	 * Sets the listOfModifiers of this {@link Reaction}. Automatically sets the
