@@ -1224,7 +1224,12 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 				this.kineticLaw.registerLocalParameter(lp, true);
 			}
 		}
-		setThisAsParentSBMLObject(this.kineticLaw);
+		registerChild(this.kineticLaw);
+		if (this.kineticLaw.isSetListOfLocalParameters()) {
+	          for (LocalParameter lp : this.kineticLaw.getListOfLocalParameters()) {
+	            this.kineticLaw.registerLocalParameter(lp, false);
+	          }
+	        }
 	}
 
 	/**
