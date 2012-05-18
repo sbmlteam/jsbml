@@ -20,6 +20,8 @@
  */
 package org.sbml.jsbml.ext.render;
 
+import java.awt.Color;
+
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
@@ -45,8 +47,7 @@ public class RenderInformationBase  extends AbstractNamedSBase {
   protected String programName;
   protected String programVersion; //TODO int better?
   protected String referenceRenderInformation;
-  //TODO null -> "none", rgba , default 0xFFFFFFFF
-  protected Integer backgroundColor; 
+  protected Color backgroundColor; 
   protected ListOf<ColorDefinition> listOfColorDefinitions;
   // TODO maybe wrong class for linear and radial gradients
   protected ListOf<GradientBase> listOfGradientBases;

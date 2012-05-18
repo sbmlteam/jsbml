@@ -31,8 +31,8 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class Group extends GraphicalPrimitive2D {
-	protected Integer iD;
-	protected Text text;
-	protected LineEnding startHead;
-	protected LineEnding endHead;
+	protected String iD;
+	protected FontRenderStyle text; //FIXME text hast to many fields (coordinates)
+	protected String startHead;
+	protected String endHead;
 }

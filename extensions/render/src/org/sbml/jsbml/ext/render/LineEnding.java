@@ -33,7 +33,7 @@ import org.sbml.jsbml.ext.layout.BoundingBox;
  * @date 08.05.2012
  */
 public class LineEnding extends GraphicalPrimitive2D {
-	protected Boolean enableRotationMapping;
+	protected Boolean enableRotationMapping = true;
 	protected BoundingBox boundingBox;
 	protected Group group;
 }

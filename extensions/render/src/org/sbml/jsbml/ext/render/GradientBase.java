@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.util.List;
+
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
@@ -43,14 +45,14 @@ public class GradientBase extends AbstractSBase {
 
 
   protected enum Spread {
-		PAD,
-		REFLECT,
-		REPEAT,
+		pad,
+		reflect,
+		repeat,
 	}
 	
 	protected String id;
 	protected Spread spreadMethod;
-	protected ListOf<GradientStop> listOfGradientStops;
+	protected List<GradientStop> listOfGradientStops;
 	
 	/**
    * Creates an GradientBase instance 

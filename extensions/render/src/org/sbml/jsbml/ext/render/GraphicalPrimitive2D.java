@@ -31,11 +31,10 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
-	//FIXME sollte auch gradient unterstützen
-	protected ColorDefinition fill;
+	protected String fill; 
 	protected enum FillRule {
-		NONZERO,
-		EVENODD,
+		nonzero,
+		evenodd,
 	}
 	protected FillRule fillRule;
 }
