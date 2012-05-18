@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.LevelVersionError;
@@ -43,8 +44,8 @@ public class Style extends AbstractSBase {
   
   protected String id;
   //TODO right List class? setters, getters for List or elements?  add, remove  for Lists
-	protected ArrayList<String> typeList;
-	protected ArrayList<String> roleList;
+	protected List<String> typeList;
+	protected List<String> roleList;
 	protected Group group;
 	
 
@@ -170,7 +171,7 @@ public class Style extends AbstractSBase {
    * @return the value of typeList
    */
   //TODO Whole list or elements?
-  public ArrayList<String> getTypeList(){
+  public List<String> getTypeList(){
     return this.typeList;    
   }
   
@@ -187,7 +188,7 @@ public class Style extends AbstractSBase {
   /**
    * @return the value of roleList
    */
-  public ArrayList<String> getRoleList(){
+  public List<String> getRoleList(){
     return this.roleList;
   }
   

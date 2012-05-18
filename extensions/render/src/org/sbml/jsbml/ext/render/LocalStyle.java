@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -39,7 +40,7 @@ public class LocalStyle extends Style {
   private static final long serialVersionUID = 4976081641247006722L;
   
   // TODO List of ids or layouts? Type, setters and getters, add, remove
-	ArrayList<String> idList;
+	private List<String> idList;
 	
 	/**
    * Creates a LocalStyle instance with a group

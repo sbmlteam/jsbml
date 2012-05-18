@@ -39,8 +39,8 @@ public class GradientStop extends AbstractSBase {
    */
   private static final long serialVersionUID = 7400974339251884133L;
   
-  private int offset;
-	private ColorDefinition stopColor;
+  private Double offset;
+  private ColorDefinition stopColor;
 
 
   /**
@@ -49,7 +49,7 @@ public class GradientStop extends AbstractSBase {
    * @param offset
    * @param color
    */
-  public GradientStop(int offset, ColorDefinition stopColor) {
+  public GradientStop(Double offset, ColorDefinition stopColor) {
     this.offset = offset;
     this.stopColor = stopColor;
   }
@@ -63,7 +63,7 @@ public class GradientStop extends AbstractSBase {
    * @param level
    * @param version
    */
-  public GradientStop(int offset, ColorDefinition stopColor, int level, int version) {
+  public GradientStop(Double offset, ColorDefinition stopColor, int level, int version) {
     super(level, version);
     if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
       Integer.valueOf(MIN_SBML_VERSION)) < 0) {
@@ -95,7 +95,7 @@ public class GradientStop extends AbstractSBase {
   /**
    * @return the value of offset
    */
-  public int getOffset() {
+  public Double getOffset() {
       return offset;
   }
 
@@ -103,7 +103,7 @@ public class GradientStop extends AbstractSBase {
   /**
    * Set the value of offset
    */
-  public void setOffset(int offset) {
+  public void setOffset(Double offset) {
     //int oldOffset = this.offset;
     this.offset = offset;
     //TODO

@@ -33,8 +33,8 @@ import org.sbml.jsbml.AbstractSBase;
  * @date 08.05.2012
  */
 public class RenderPoint extends AbstractSBase {
-	// TODO Punkte als eigene Klasse? Point aus Layout?
-	private Integer x, y, z;
+	private Double x, y, z;
+	// booleans abs or relative
 	
 	public AbstractSBase clone() {
 		// TODO Auto-generated method stub

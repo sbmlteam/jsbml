@@ -20,6 +20,7 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 
 
@@ -34,6 +35,97 @@ import org.sbml.jsbml.ListOf;
  */
 public class GlobalRenderInformation extends RenderInformationBase {
 	/**
+   * Creates an GlobalRenderInformation instance 
+   */
+  public GlobalRenderInformation() {
+    super();
+    initDefaults();
+  }
+
+
+  /**
+   * Creates a GlobalRenderInformation instance with an id. 
+   * 
+   * @param id
+   */
+  public GlobalRenderInformation(String id) {
+    super(id);
+    initDefaults();
+  }
+
+
+  /**
+   * Creates a GlobalRenderInformation instance with a level and version. 
+   * 
+   * @param level
+   * @param version
+   */
+  public GlobalRenderInformation(int level, int version) {
+    this(null, null, level, version);
+  }
+
+
+  /**
+   * Creates a GlobalRenderInformation instance with an id, level, and version. 
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public GlobalRenderInformation(String id, int level, int version) {
+    this(id, null, level, version);
+  }
+
+
+  /**
+   * Creates a GlobalRenderInformation instance with an id, name, level, and version. 
+   * 
+   * @param id
+   * @param name
+   * @param level
+   * @param version
+   */
+  public GlobalRenderInformation(String id, String name, int level, int version) {
+    super(id, name, level, version);
+    if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
+      Integer.valueOf(MIN_SBML_VERSION)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
+  }
+
+
+  /**
+   * Clone constructor
+   */
+  public GlobalRenderInformation(GlobalRenderInformation obj) {
+    super(obj);
+    // TODO: copy all class attributes, e.g.:
+    // bar = obj.bar;
+  }
+
+
+  /**
+   * clones this class
+   */
+  public GlobalRenderInformation clone() {
+    return new GlobalRenderInformation(this);
+  }
+
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    addNamespace(RenderConstants.namespaceURI);
+    // TODO: init default values here if necessary, e.g.:
+    // bar = null;
+  }
+
+  public static final int MIN_SBML_LEVEL = 3;
+  public static final int MIN_SBML_VERSION = 1;
+
+  /**
    * 
    */
   private static final long serialVersionUID = 855680727119080659L;

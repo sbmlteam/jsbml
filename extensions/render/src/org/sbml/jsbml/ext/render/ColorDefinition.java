@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.awt.Color;
+
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.LevelVersionError;
 
@@ -40,8 +42,8 @@ public class ColorDefinition extends AbstractSBase {
    */
   private static final long serialVersionUID = 8904459123022343452L;
   
-  String id;
-	Integer value;
+  private String id;
+  private Color value;
 	
 
   /**
@@ -50,7 +52,7 @@ public class ColorDefinition extends AbstractSBase {
    * @param id
    * @param value
    */
-  public ColorDefinition(String id, int value) {
+  public ColorDefinition(String id, Color value) {
     this.id = id;
     this.value = value;
   }
@@ -64,7 +66,7 @@ public class ColorDefinition extends AbstractSBase {
    * @param level
    * @param version
    */
-  public ColorDefinition(String id, int value, int level, int version) {
+  public ColorDefinition(String id, Color value, int level, int version) {
     super(level, version);
     if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
       Integer.valueOf(MIN_SBML_VERSION)) < 0) {
@@ -115,9 +117,9 @@ public class ColorDefinition extends AbstractSBase {
   /**
    * @return the value of value
    */
-  public Integer getValue() {
+  public Color getValue() {
     if (isSetValue()) {
-      int val = value;
+      Color val = value;
       return val;
     } else {
       return null;
@@ -136,7 +138,7 @@ public class ColorDefinition extends AbstractSBase {
   /**
    * Set the value of value
    */
-  public void setValue(int value) {
+  public void setValue(Color value) {
     //Integer oldValue = this.value;
     this.value = value;
     //TODO
