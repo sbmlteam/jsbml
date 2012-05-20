@@ -33,8 +33,8 @@ import org.sbml.jsbml.AbstractSBase;
  * @date 08.05.2012
  */
 public class RenderPoint extends AbstractSBase {
-	private Double x, y, z;
-	// booleans abs or relative
+  private Double x, y, z;
+	private Boolean absoluteX, absoluteY, absoluteZ;
 	
 	public AbstractSBase clone() {
 		// TODO Auto-generated method stub

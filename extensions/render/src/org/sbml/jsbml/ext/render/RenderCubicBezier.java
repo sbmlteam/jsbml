@@ -31,7 +31,8 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class RenderCubicBezier extends RenderPoint {
-	private Double x1, y1, z1, x2, y2, z2;
-	// abs or relative
-	
+  private Double x1, y1, z1;
+  private Double x2, y2, z2;
+  private Boolean absoluteX1, absoluteY1, absoluteZ1;
+  private Boolean absoluteX2, absoluteY2, absoluteZ2;
 }

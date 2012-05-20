@@ -22,7 +22,10 @@ package org.sbml.jsbml.ext.render;
 
 
 /**
+ * @author Eugen Netz
+ * @author Alexander Diamantikos
  * @author Jakob Matthes
+ * @author Jan Rudolph
  * @version $Rev$
  * @since 1.0
  * @date 16.05.2012

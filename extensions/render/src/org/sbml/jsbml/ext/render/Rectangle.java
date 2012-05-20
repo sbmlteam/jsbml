@@ -31,6 +31,10 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class Rectangle extends GraphicalPrimitive2D {
-	private Double x, y, z, width, height, rx, ry;
-	private Boolean sizeAbsolute; //FIXME more booleans needed
+  private Double x, y, z;
+  private Double width, height;
+  private Boolean absoluteX, absoluteY, absoluteZ;
+  private Boolean absoluteWidth, absoluteHeight;
+  private Double rx, ry;
+  private Boolean absoluteRx, absoluteRy;
 }
