@@ -20,7 +20,7 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -35,6 +35,6 @@ import java.util.ArrayList;
 public class GraphicalPrimitive1D extends Transformation2D {
 	protected ColorDefinition stroke;
 	protected Integer strokeWidth;
-	protected ArrayList<Integer> strokeDashArray;
+	protected List<Integer> strokeDashArray;
 	
 }

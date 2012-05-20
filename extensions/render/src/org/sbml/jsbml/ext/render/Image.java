@@ -31,7 +31,9 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class Image extends Transformation2D {
-	protected Double x, y, z, width, height;
-	protected Boolean positionAbsolute, sizeAbsolute; // FIXME booleans for rel or abs
-	protected String href;
+	private Double x, y, z;
+	private Double width, height;
+	private Boolean absoluteX, absoluteY, absoluteZ;
+	private Boolean absoluteWidth, absoluteHeight;
+	private String href;
 }
