@@ -33,14 +33,23 @@ import org.sbml.jsbml.AbstractSBase;
  * @date 08.05.2012
  */
 public class Transformation extends AbstractSBase {
-	protected Double[] transform; //initialize with size 12
-	public AbstractSBase clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  protected Double[] transform = new Double[12];
 
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
+  @Override
+  public AbstractSBase clone() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#toString()
+   */
+  @Override
+  public String toString() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

@@ -31,5 +31,5 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class Transformation2D extends Transformation {
-	protected Double[] transform; //use first 6 fields of superclass
+	protected Double[] transform = new Double[6];
 }
