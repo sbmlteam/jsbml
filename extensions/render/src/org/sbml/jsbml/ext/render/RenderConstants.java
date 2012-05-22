@@ -31,7 +31,6 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public interface RenderConstants {
-
   public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/render/version1";
   public static final String fontFamily = "font-family";
   public static final String fontSize = "font-size";
@@ -45,4 +44,29 @@ public interface RenderConstants {
   public static final String absoluteX = "absolute-x";
   public static final String absoluteY = "absolute-y";
   public static final String absoluteZ = "absolute-z";
+  public static final String absoluteX1 = "absolute-x1";
+  public static final String absoluteY1 = "absolute-y1";
+  public static final String absoluteZ1 = "absolute-z1";
+  public static final String absoluteX2 = "absolute-x2";
+  public static final String absoluteY2 = "absolute-y2";
+  public static final String absoluteZ2 = "absolute-z2";
+  public static final String x1 = "x1";
+  public static final String y1 = "y1";
+  public static final String z1 = "z1";
+  public static final String x2 = "x2";
+  public static final String y2 = "y2";
+  public static final String z2 = "z2";
+  public static final String width = "width";
+  public static final String height = "height";
+  public static final String ry = "ry";
+  public static final String rx = "rx";
+  public static final String absoluteWidth = "absolute-width";
+  public static final String absoluteHeight = "absolute-height";
+  public static final String absoluteRx = "absolute-rx";
+  public static final String absoluteRy = "absolute-ry";
+  public static final String fill = "fill";
+  public static final String fillRule = "fill-rule";
+  public static final String stroke = "stroke";
+  public static final String strokeWidth = "stroke-width";
+  public static final String strokeDashArray = "stroke-dasharray";
 }

@@ -47,30 +47,6 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
 
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#isAbsoluteY()
-   */
-  public boolean isAbsoluteY() {
-    if (isSetAbsoluteY()) {
-      return absoluteY;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteY, this);
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#isAbsoluteZ()
-   */
-  public boolean isAbsoluteZ() {
-    if (isSetAbsoluteZ()) {
-      return absoluteZ;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteZ, this);
-  }
-
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#getFontFamily()
    */
   public FontFamily getFontFamily() {
@@ -80,6 +56,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.fontFamily, this);
   }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#getFontSize()
@@ -104,7 +81,6 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     throw new PropertyUndefinedError(RenderConstants.textAnchor, this);
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#getVTextAnchor()
    */
@@ -115,6 +91,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.vTextAnchor, this);
   }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#getX()
@@ -139,7 +116,6 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     throw new PropertyUndefinedError(RenderConstants.y, this);
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#getZ()
    */
@@ -161,6 +137,30 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     }
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.absoluteX, this);
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Point3D#isAbsoluteY()
+   */
+  public boolean isAbsoluteY() {
+    if (isSetAbsoluteY()) {
+      return absoluteY;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.absoluteY, this);
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Point3D#isAbsoluteZ()
+   */
+  public boolean isAbsoluteZ() {
+    if (isSetAbsoluteZ()) {
+      return absoluteZ;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.absoluteZ, this);
   }
 
 

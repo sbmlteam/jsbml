@@ -43,7 +43,6 @@ public class Style extends AbstractSBase {
   
   
   protected String id;
-  //TODO right List class? setters, getters for List or elements?  add, remove  for Lists
 	protected List<String> typeList;
 	protected List<String> roleList;
 	protected Group group;
