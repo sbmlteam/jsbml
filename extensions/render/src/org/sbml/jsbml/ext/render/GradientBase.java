@@ -20,9 +20,12 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.text.MessageFormat;
+
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBase;
 
 
 /**
@@ -51,6 +54,9 @@ public class GradientBase extends AbstractSBase {
 	protected String id;
 	protected Spread spreadMethod;
 	protected ListOf<GradientStop> listOfGradientStops;
+	
+	
+	
 	
 	/**
    * Creates an GradientBase instance 
@@ -90,6 +96,39 @@ public class GradientBase extends AbstractSBase {
     this.listOfGradientStops.add(stop);
   }
 
+  
+  @Override
+  public boolean getAllowsChildren() {
+    return false;
+  }
+
+
+  @Override
+  public int getChildCount() {
+    int count = 0;
+    if (isSetListOfGradientStops()) {
+      count++;
+    }
+    return count;
+  }
+
+
+  @Override
+  public SBase getChildAt(int childIndex) {
+    if (childIndex < 0) {
+      throw new IndexOutOfBoundsException(childIndex + " < 0");
+    }
+    int pos = 0;
+    if (isSetListOfGradientStops()) {
+      if (pos == childIndex) {
+        return getListOfGradientStops();
+      }
+      pos++;
+    }
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}", childIndex,
+      +((int) Math.min(pos, 0))));
+  }
 
   /**
    * Clone constructor

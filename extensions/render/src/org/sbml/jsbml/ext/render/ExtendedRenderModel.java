@@ -151,7 +151,7 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	public void setVersionMinor(int versionMinor) {
 		int oldVersionMinor = this.versionMinor;
 		this.versionMinor = versionMinor;
-		//FIXME firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
+		// FIXME firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	public boolean unsetVersionMinor() {
 		if (isSetVersionMinor()) {
 			int oldVersionMinor = this.versionMinor;
-			//FIME firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
+			//FIXME firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
 			return true;
 		}
 		return false;

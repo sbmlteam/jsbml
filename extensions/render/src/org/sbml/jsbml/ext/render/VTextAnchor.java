@@ -1,6 +1,6 @@
 /*
- * $Id:  VTextAnchor.java 16:27:35 jakob $
- * $URL: VTextAnchor.java $
+ * $Id$
+ * $URL$
  *
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 

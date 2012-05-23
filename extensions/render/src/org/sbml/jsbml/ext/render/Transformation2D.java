@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import org.sbml.jsbml.PropertyUndefinedError;
+
 
 /**
  * @author Eugen Netz
@@ -31,5 +33,91 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class Transformation2D extends Transformation {
-	protected Double[] transform = new Double[6];
+	/**
+   * 
+   */
+  private static final long serialVersionUID = -1737694519381619398L;
+
+
+  public static final int MIN_SBML_LEVEL = 3;
+	
+	
+  public static final int MIN_SBML_VERSION = 1;
+
+  protected Double[] transform = new Double[6];
+
+  /**
+   * Creates an Transformation2D instance 
+   */
+  public Transformation2D() {
+    super();
+    initDefaults();
+  }
+  
+  /**
+   * Clone constructor
+   */
+  public Transformation2D(Transformation2D obj) {
+    super(obj);
+    transform = obj.transform;
+  }
+
+
+  /**
+   * clones this class
+   */
+  public Transformation2D clone() {
+    return new Transformation2D(this);
+  }
+
+
+  /**
+   * @return the value of transform
+   */
+  public Double[] getTransform() {
+    if (isSetTransform()) {
+      return transform;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.transform, this);
+  }
+
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    addNamespace(RenderConstants.namespaceURI);
+  }
+
+
+  /**
+   * @return whether transform is set 
+   */
+  public boolean isSetTransform() {
+    return this.transform != null;
+  }
+
+  /**
+   * Set the value of transform
+   */
+  public void setTransform(Double[] transform) {
+    Double[] oldTransform = this.transform;
+    this.transform = transform;
+    firePropertyChange(RenderConstants.transform, oldTransform, this.transform);
+  }
+  /**
+   * Unsets the variable transform 
+   * @return <code>true</code>, if transform was set before, 
+   *         otherwise <code>false</code>
+   */
+  public boolean unsetTransform() {
+    if (isSetTransform()) {
+      Double[] oldTransform = this.transform;
+      this.transform = null;
+      firePropertyChange(RenderConstants.transform, oldTransform, this.transform);
+      return true;
+    }
+    return false;
+  }
 }
