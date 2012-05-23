@@ -20,8 +20,6 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
-import java.util.List;
-
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
