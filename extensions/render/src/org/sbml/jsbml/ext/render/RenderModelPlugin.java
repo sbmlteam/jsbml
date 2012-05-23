@@ -55,7 +55,7 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
    * Creates an RenderModelPlugin instance 
    */
   public RenderModelPlugin(ListOf<Layout> listOfLayouts) {
-    super(listOfLayouts);
+    super();
     initDefaults();
   }
 
@@ -64,8 +64,6 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
    */
   public RenderModelPlugin(RenderModelPlugin obj) {
     super(obj);
-    // TODO: copy all class attributes, e.g.:
-    // bar = obj.bar;
   }
 
 

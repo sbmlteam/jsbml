@@ -81,7 +81,7 @@ public class LocalStyle extends Style {
   /**
    * @return the value of idList
    */
-  public ArrayList<String> getIdList(){
+  public List<String> getIdList(){
     return this.idList;
   }
   

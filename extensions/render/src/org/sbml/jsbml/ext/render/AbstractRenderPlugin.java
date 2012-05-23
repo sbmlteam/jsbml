@@ -26,7 +26,6 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
-import org.sbml.jsbml.ext.SBasePlugin;
 
 
 /**
@@ -36,105 +35,248 @@ import org.sbml.jsbml.ext.SBasePlugin;
  * @date 16.05.2012
  */
 public class AbstractRenderPlugin extends AbstractSBasePlugin {
-  /**
-   * 
-   */
-  private static final long serialVersionUID = -4225426173177528441L;
-  Short versionMajor;
-  Short versionMinor;
-  GlobalRenderInformation renderInformation;
-  
-  /**
-   * Creates an AbstractRenderPlugin instance 
-   */
-  public AbstractRenderPlugin() {
-    super();
-    initDefaults();
-  }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4225426173177528441L;
+	private Short versionMajor;
+	private Short versionMinor;
+	private GlobalRenderInformation renderInformation;
 
-  public AbstractRenderPlugin(SBase extendedElement) {
-    super(extendedElement);
-    initDefaults();
-  }
+	/**
+	 * Creates an AbstractRenderPlugin instance 
+	 */
+	public AbstractRenderPlugin() {
+		super();
+		initDefaults();
+	}
 
-  /**
-   * Clone constructor
-   */
-  public AbstractRenderPlugin(AbstractRenderPlugin obj) {
-    super();
-    // TODO: copy all class attributes, e.g.:
-    // bar = obj.bar;
-  }
+	/**
+	 * Creates a AbstractRenderPlugin instance with a level and version. 
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public AbstractRenderPlugin(int level, int version) {
+		this(null, null, level, version);
+	}
 
+	/**
+	 * Creates a AbstractRenderPlugin instance with an id, level, and version. 
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public AbstractRenderPlugin(String id, int level, int version) {
+		this(id, null, level, version);
+	}
 
-  /**
-   * Initializes the default values using the namespace.
-   */
-  public void initDefaults() {
-//    addNamespace(RenderConstants.namespaceURI);
-    // TODO: init default values here if necessary, e.g.:
-    // bar = null;
-  }
+	/**
+	 * Creates a AbstractRenderPlugin instance with an id, name, level, and version. 
+	 * 
+	 * @param id
+	 * @param name
+	 * @param level
+	 * @param version
+	 */
+	public AbstractRenderPlugin(String id, String name, int level, int version) {
+		super();
+		// FIXME getLevelAndVersion, getElementName
+		/*if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
+			Integer.valueOf(MIN_SBML_VERSION)) < 0) {
+		throw new LevelVersionError(getElementName(), level, version);
+	} */
+		initDefaults();
+	}
 
-  public static final int MIN_SBML_LEVEL = 3;
-                                              public static final int MIN_SBML_VERSION = 1;
-  
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-   */
-  @Override
-  public boolean readAttribute(String attributeName, String prefix, String value) {
-    // TODO Auto-generated method stub
-    return false;
-  }
+	/**
+	 * Clone constructor
+	 */
+	public AbstractRenderPlugin(AbstractRenderPlugin obj) {
+		super((SBase) obj);
 
+		// TODO: copy all class attributes, e.g.:
+		// bar = obj.bar;
+	}
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
-   */
-  @Override
-  public TreeNode getChildAt(int childIndex) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	/**
+	 * clones this class
+	 */
+	public AbstractRenderPlugin clone() {
+		return new AbstractRenderPlugin(this);
+	}
 
+	/**
+	 * Initializes the default values using the namespace.
+	 */
+	public void initDefaults() {
+		//addNamespace(RenderConstants.namespaceURI);
+		versionMajor = 0;
+		versionMinor = 0;
+	}
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getChildCount()
-   */
-  @Override
-  public int getChildCount() {
-    // TODO Auto-generated method stub
-    return 0;
-  }
+	public static final int MIN_SBML_LEVEL = 3;
+	public static final int MIN_SBML_VERSION = 1;
 
+	/**
+	 * @return the value of versionMinor
+	 */
+	public Short getVersionMinor() {
+		if (isSetVersionMinor()) {
+			return versionMinor;
+		}
+		return null;
+		//FIXME throw new PropertyUndefinedError(RenderConstants.versionMinor, this);
+	}
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getAllowsChildren()
-   */
-  @Override
-  public boolean getAllowsChildren() {
-    // TODO Auto-generated method stub
-    return false;
-  }
+	/**
+	 * @return whether versionMinor is set 
+	 */
+	public boolean isSetVersionMinor() {
+		return this.versionMinor != null;
+	}
 
+	/**
+	 * Set the value of versionMinor
+	 */
+	public void setVersionMinor(Short versionMinor) {
+		Short oldVersionMinor = this.versionMinor;
+		this.versionMinor = versionMinor;
+		//FIXME firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
+	}
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
-   */
-  @Override
-  public Map<String, String> writeXMLAttributes() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	/**
+	 * Unsets the variable versionMinor 
+	 * @return <code>true</code>, if versionMinor was set before, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetVersionMinor() {
+		if (isSetVersionMinor()) {
+			Short oldVersionMinor = this.versionMinor;
+			this.versionMinor = null;
+			//FIXME firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * @return the value of versionMajor
+	 */
+	public Short getVersionMajor() {
+		if (isSetVersionMajor()) {
+			return versionMajor;
+		}
+		// This is necessary if we cannot return null here.
+		return null;
+		//FIXME throw new PropertyUndefinedError(RenderConstants.versionMajor, this);
+	}
 
+	/**
+	 * @return whether versionMajor is set 
+	 */
+	public boolean isSetVersionMajor() {
+		return this.versionMajor != null;
+	}
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
-   */
-  @Override
-  public SBasePlugin clone() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	/**
+	 * Set the value of versionMajor
+	 */
+	public void setVersionMajor(short versionMajor) {
+		Short oldVersionMajor = this.versionMajor;
+		this.versionMajor = versionMajor;
+		//FIXME firePropertyChange(RenderConstants.versionMajor, oldVersionMajor, this.versionMajor);
+	}
+
+	/**
+	 * Unsets the variable versionMajor 
+	 * @return <code>true</code>, if versionMajor was set before, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetVersionMajor() {
+		if (isSetVersionMajor()) {
+			Short oldVersionMajor = this.versionMajor;
+			this.versionMajor = null;
+			//FIXME firePropertyChange(RenderConstants.versionMajor, oldVersionMajor, this.versionMajor);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * @return the value of renderInformation
+	 */
+	public GlobalRenderInformation getRenderInformation() {
+		if (isSetRenderInformation()) {
+			return renderInformation;
+		}
+		// This is necessary if we cannot return null here.
+		return null;
+		//FIXME throw new PropertyUndefinedError(RenderConstants.renderInformation, this);
+	}
+
+	/**
+	 * @return whether renderInformation is set 
+	 */
+	public boolean isSetRenderInformation() {
+		return this.renderInformation != null;
+	}
+
+	/**
+	 * Set the value of renderInformation
+	 */
+	public void setRenderInformation(GlobalRenderInformation renderInformation) {
+		GlobalRenderInformation oldRenderInformation = this.renderInformation;
+		this.renderInformation = renderInformation;
+		//FIXME firePropertyChange(RenderConstants.renderInformation, oldRenderInformation, this.renderInformation);
+	}
+
+	/**
+	 * Unsets the variable renderInformation 
+	 * @return <code>true</code>, if renderInformation was set before, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetRenderInformation() {
+		if (isSetRenderInformation()) {
+			GlobalRenderInformation oldRenderInformation = this.renderInformation;
+			this.renderInformation = null;
+			//FIXME OfirePropertyChange(RenderConstants.renderInformation, oldRenderInformation, this.renderInformation);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public TreeNode getChildAt(int childIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getChildCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean getAllowsChildren() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
