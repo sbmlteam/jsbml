@@ -273,6 +273,7 @@ public class QualParser extends AbstractReaderWriter {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
 	 */
+	@Override
 	public void writeElement(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) 
 	{
@@ -282,7 +283,7 @@ public class QualParser extends AbstractReaderWriter {
 			logger.debug("writeElement : " + sbmlElementToWrite.getClass().getSimpleName());
 		}
 
-		if (sbmlElementToWrite instanceof FunctionTerm &&
+		if ((sbmlElementToWrite instanceof FunctionTerm) &&
 				((FunctionTerm) sbmlElementToWrite).isDefaultTerm())
 		{
 			xmlObject.setName("defaultTerm");

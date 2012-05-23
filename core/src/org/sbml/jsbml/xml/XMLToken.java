@@ -30,7 +30,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * Representation of a token in an XML stream.
  * <p>
  * <em style='color: #555'>
- * This class of objects is defined by jsbml only and has no direct
+ * This class of objects is defined by JSBML only and has no direct
  * equivalent in terms of SBML components.  This class is not prescribed by
  * the SBML specifications, although it is used to implement features
  * defined in SBML.
@@ -542,16 +542,14 @@ public abstract class XMLToken extends AbstractTreeNode {
 	}
 
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
 	public abstract XMLToken clone();
 
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
 	@Override
@@ -1524,8 +1522,7 @@ public abstract class XMLToken extends AbstractTreeNode {
 	}
 
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

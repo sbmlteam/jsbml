@@ -42,9 +42,9 @@ public class Position extends Point {
 	  clonePointAttributes(point, this);
 	}
 
-@Override
+  @Override
   public Position clone() {
-	return new Position(this);
+    return new Position(this);
   }
   
 }

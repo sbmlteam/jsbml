@@ -35,6 +35,7 @@ import org.sbml.jsbml.ext.layout.Layout;
  */
 public class RenderModelPlugin extends AbstractRenderPlugin {
 
+  // TODO: Move to RenderConstants
   public static final int MIN_SBML_LEVEL = 3;
   public static final int MIN_SBML_VERSION = 1;
   

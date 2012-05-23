@@ -108,6 +108,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
   /**
    * clones this class
    */
+  @Override
   public GlobalRenderInformation clone() {
     return new GlobalRenderInformation(this);
   }
@@ -116,12 +117,14 @@ public class GlobalRenderInformation extends RenderInformationBase {
   /**
    * Initializes the default values using the namespace.
    */
+  @Override
   public void initDefaults() {
     addNamespace(RenderConstants.namespaceURI);
     // TODO: init default values here if necessary, e.g.:
     // bar = null;
   }
 
+  // TODO: Move to RenderConstants
   public static final int MIN_SBML_LEVEL = 3;
   public static final int MIN_SBML_VERSION = 1;
 

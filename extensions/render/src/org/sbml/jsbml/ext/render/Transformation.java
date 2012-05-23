@@ -33,6 +33,7 @@ import org.sbml.jsbml.AbstractSBase;
  * @date 08.05.2012
  */
 public class Transformation extends AbstractSBase {
+
   protected Double[] transform = new Double[12];
 
   /* (non-Javadoc)
@@ -52,4 +53,5 @@ public class Transformation extends AbstractSBase {
     // TODO Auto-generated method stub
     return null;
   }
+
 }

@@ -746,19 +746,29 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     ry = 0d;
   }
 
+  // TODO: Move to RenderConstants
   public static final int MIN_SBML_LEVEL = 3;
   public static final int MIN_SBML_VERSION = 1;
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildCount()
+   */
   @Override
   public int getChildCount() {
     return 0;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildAt(int)
+   */
   @Override
   public SBase getChildAt(int childIndex) {
     if (childIndex < 0) {

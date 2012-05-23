@@ -37,8 +37,11 @@ import org.sbml.jsbml.SBase;
  * @date 08.05.2012
  */
 public class RenderPoint extends AbstractSBase implements Point3D {
+  
+  // TODO: Move to RenderConstants
   public static final int MIN_SBML_LEVEL = 3;
   public static final int MIN_SBML_VERSION = 1;
+
 	/**
    * 
    */
