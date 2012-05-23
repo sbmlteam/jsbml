@@ -33,7 +33,11 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @date 08.05.2012
  */
 public class Ellipse extends GraphicalPrimitive2D {
-	protected Double cx, cy, cz, rx, ry; 
+	/**
+   * 
+   */
+  private static final long serialVersionUID = -7679215241987476130L;
+  protected Double cx, cy, cz, rx, ry; 
 	protected Boolean absoluteCx, absoluteCy, absoluteCz, absoluteRx, absoluteRy;
 
 	

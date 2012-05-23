@@ -33,7 +33,11 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @date 08.05.2012
  */
 public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
-	protected String fill; 
+	/**
+   * 
+   */
+  private static final long serialVersionUID = -5666416071124784541L;
+  protected String fill; 
 	protected enum FillRule {
 		nonzero,
 		evenodd,

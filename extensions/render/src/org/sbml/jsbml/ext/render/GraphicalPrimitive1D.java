@@ -36,7 +36,11 @@ import org.sbml.jsbml.SBase;
  * @date 08.05.2012
  */
 public class GraphicalPrimitive1D extends Transformation2D {
-	public static final int MIN_SBML_LEVEL = 3;
+	/**
+   * 
+   */
+  private static final long serialVersionUID = 3705246334810811216L;
+  public static final int MIN_SBML_LEVEL = 3;
 	public static final int MIN_SBML_VERSION = 1;
 	protected ColorDefinition stroke;
 	protected Short[] strokeDashArray;

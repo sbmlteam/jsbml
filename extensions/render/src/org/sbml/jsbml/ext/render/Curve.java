@@ -34,7 +34,11 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @date 08.05.2012
  */
 public class Curve extends GraphicalPrimitive1D {
-	protected String startHead;
+	/**
+   * 
+   */
+  private static final long serialVersionUID = -1941713884972334826L;
+  protected String startHead;
 	protected String endHead;
 	protected ListOf<RenderPoint> listOfElements;
 	
