@@ -20,9 +20,12 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.text.MessageFormat;
+
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBase;
 
 
 /**
@@ -40,11 +43,14 @@ public class GradientStop extends AbstractSBase {
 	 */
 	private static final long serialVersionUID = 7400974339251884133L;
 
+
 	private Double offset;
-	private ColorDefinition stopColor;
+
+	
+  private ColorDefinition stopColor;
 
 
-	/**
+  /**
 	 * Creates a GradientStop instance with an offset and a color. 
 	 * 
 	 * @param offset
@@ -55,8 +61,7 @@ public class GradientStop extends AbstractSBase {
 		this.stopColor = stopColor;
 	}
 
-
-	/**
+  /**
 	 * Creates a GradientStop instance with an offset, color, level, and version. 
 	 * 
 	 * @param offset
@@ -73,7 +78,6 @@ public class GradientStop extends AbstractSBase {
 		this.offset = offset;
 		this.stopColor = stopColor;
 	}
-
 
 	/**
 	 * Clone constructor
@@ -93,7 +97,29 @@ public class GradientStop extends AbstractSBase {
 	}
 
 
+	@Override
+  public boolean getAllowsChildren() {
+    return false;
+  }
+
+
 	
+	@Override
+  public SBase getChildAt(int childIndex) {
+    if (childIndex < 0) {
+      throw new IndexOutOfBoundsException(childIndex + " < 0");
+    }
+    int pos = 0;
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}", childIndex,
+      +((int) Math.min(pos, 0))));
+  }
+
+	@Override
+  public int getChildCount() {
+    return 0;
+  }
+
 	/**
 	 * @return the value of offset
 	 */
@@ -106,10 +132,29 @@ public class GradientStop extends AbstractSBase {
 	}
 
 	/**
+	 * @return the value of stopColor
+	 */
+	public ColorDefinition getStopColor() {
+		if (isSetStopColor()) {
+			return stopColor;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(RenderConstants.stopColor, this);
+	}
+	
+	
+	/**
 	 * @return whether offset is set 
 	 */
 	public boolean isSetOffset() {
 		return this.offset != null;
+	}
+
+	/**
+	 * @return whether stopColor is set 
+	 */
+	public boolean isSetStopColor() {
+		return this.stopColor != null;
 	}
 
 	/**
@@ -119,6 +164,15 @@ public class GradientStop extends AbstractSBase {
 		Double oldOffset = this.offset;
 		this.offset = offset;
 		firePropertyChange(RenderConstants.offset, oldOffset, this.offset);
+	}
+
+	/**
+	 * Set the value of stopColor
+	 */
+	public void setStopColor(ColorDefinition stopColor) {
+		ColorDefinition oldStopColor = this.stopColor;
+		this.stopColor = stopColor;
+		firePropertyChange(RenderConstants.stopColor, oldStopColor, this.stopColor);
 	}
 
 	/**
@@ -135,34 +189,7 @@ public class GradientStop extends AbstractSBase {
 		}
 		return false;
 	}
-	
-	
-	/**
-	 * @return the value of stopColor
-	 */
-	public ColorDefinition getStopColor() {
-		if (isSetStopColor()) {
-			return stopColor;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.stopColor, this);
-	}
 
-	/**
-	 * @return whether stopColor is set 
-	 */
-	public boolean isSetStopColor() {
-		return this.stopColor != null;
-	}
-
-	/**
-	 * Set the value of stopColor
-	 */
-	public void setStopColor(ColorDefinition stopColor) {
-		ColorDefinition oldStopColor = this.stopColor;
-		this.stopColor = stopColor;
-		firePropertyChange(RenderConstants.stopColor, oldStopColor, this.stopColor);
-	}
 
 	/**
 	 * Unsets the variable stopColor 

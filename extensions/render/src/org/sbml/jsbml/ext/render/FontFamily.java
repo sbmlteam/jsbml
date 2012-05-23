@@ -1,6 +1,6 @@
 /*
- * $Id:  FontFamily.java 16:25:26 jakob $
- * $URL: FontFamily.java $
+ * $Id$
+ * $URL$
  *
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 

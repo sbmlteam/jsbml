@@ -1,6 +1,6 @@
 /*
- * $Id: FontRenderStyle.java 16:51:02 jakob $
- * $URL: FontRenderStyle.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.

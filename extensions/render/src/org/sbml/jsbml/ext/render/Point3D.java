@@ -1,6 +1,6 @@
 /*
- * $Id: Point3D.java 17:06:27 jakob $
- * $URL: Point3D.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.

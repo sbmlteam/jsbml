@@ -74,10 +74,9 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
   /**
    * Initializes the default values using the namespace.
    */
+  @Override
   public void initDefaults() {
     addNamespace(RenderConstants.namespaceURI);
-    // TODO: init default values here if necessary, e.g.:
-    // bar = null;
   }
 
   

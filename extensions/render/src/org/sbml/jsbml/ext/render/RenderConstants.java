@@ -74,15 +74,26 @@ public interface RenderConstants {
   public static final String cx = "cx";
   public static final String cy = "cy";
   public static final String cz = "cz";
+  public static final String fx = "fx";
+  public static final String fy = "fy";
+  public static final String fz = "fz";
+  public static final String r = "r";
   public static final String absoluteCy = "absolute-cx";
   public static final String absoluteCx = "absolute-cy";
   public static final String absoluteCz = "absolute-cz";
   public static final String stopColor = "stop-color";
   public static final String offset = "offset";
+  public static final String absoluteR = "absolute-r";
+  public static final String absoluteFx = "absolute-fx";
+  public static final String absoluteFy = "absolute-fy";
+  public static final String absoluteFz = "absolute-fz";
+  public static final String listOfElements = "list-of-elements";
   public static final String id = "SId";
   public static final String href = "href";
   public static final String enableRotationMapping = "enable-rotation-mapping";
   public static final String group = "g";
   public static final String boundingBox = "bounding-box";
-
+  public static final String transform = "trasform";
+  public static final Object versionMinor = "version-minor";
+  public static final Object versionMajor = "version-major";
 }
