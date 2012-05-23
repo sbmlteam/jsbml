@@ -101,7 +101,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
    * Clone constructor
    */
   public GraphicalPrimitive1D(GraphicalPrimitive1D obj) {
-    super(obj);
+    super();
     stroke = obj.stroke;
     strokeWidth = obj.strokeWidth;
     strokeDashArray = obj.strokeDashArray;

@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.PropertyUndefinedError;
 
 
 /**
@@ -35,7 +36,220 @@ import org.sbml.jsbml.ListOf;
 public class Curve extends GraphicalPrimitive1D {
 	protected String startHead;
 	protected String endHead;
-	// FIXME sollte auch für RenderCubicBezier funktionieren
 	protected ListOf<RenderPoint> listOfElements;
 	
+	/**
+	 * Creates an Curve instance 
+	 */
+	public Curve() {
+		super();
+		initDefaults();
+	}
+
+	/**
+	 * Clone constructor
+	 */
+	public Curve(Curve obj) {
+		super();
+		startHead = obj.startHead;
+		endHead = obj.endHead;
+		listOfElements = obj.listOfElements;
+	}
+
+	/**
+	 * clones this class
+	 */
+	public Curve clone() {
+		return new Curve(this);
+	}
+
+	/**
+	 * Initializes the default values using the namespace.
+	 */
+	public void initDefaults() {
+		addNamespace(RenderConstants.namespaceURI);
+	}
+
+	public static final int MIN_SBML_LEVEL = 3;
+	public static final int MIN_SBML_VERSION = 1;
+	
+	
+	/**
+	 * @return the value of startHead
+	 */
+	public String getStartHead() {
+		if (isSetStartHead()) {
+			return startHead;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(RenderConstants.startHead, this);
+	}
+
+	/**
+	 * @return whether startHead is set 
+	 */
+	public boolean isSetStartHead() {
+		return this.startHead != null;
+	}
+
+	/**
+	 * Set the value of startHead
+	 */
+	public void setStartHead(String startHead) {
+		String oldStartHead = this.startHead;
+		this.startHead = startHead;
+		firePropertyChange(RenderConstants.startHead, oldStartHead, this.startHead);
+	}
+
+	/**
+	 * Unsets the variable startHead 
+	 * @return <code>true</code>, if startHead was set before, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetStartHead() {
+		if (isSetStartHead()) {
+			String oldStartHead = this.startHead;
+			this.startHead = null;
+			firePropertyChange(RenderConstants.startHead, oldStartHead, this.startHead);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * @return the value of endHead
+	 */
+	public String getEndHead() {
+		if (isSetEndHead()) {
+			return endHead;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(RenderConstants.endHead, this);
+	}
+
+	/**
+	 * @return whether endHead is set 
+	 */
+	public boolean isSetEndHead() {
+		return this.endHead != null;
+	}
+
+	/**
+	 * Set the value of endHead
+	 */
+	public void setEndHead(String endHead) {
+		String oldEndHead = this.endHead;
+		this.endHead = endHead;
+		firePropertyChange(RenderConstants.endHead, oldEndHead, this.endHead);
+	}
+
+	/**
+	 * Unsets the variable endHead 
+	 * @return <code>true</code>, if endHead was set before, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetEndHead() {
+		if (isSetEndHead()) {
+			String oldEndHead = this.endHead;
+			this.endHead = null;
+			firePropertyChange(RenderConstants.endHead, oldEndHead, this.endHead);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * @return <code>true</code>, if listOfElements contains at least one element, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean isSetListOfElements() {
+		if ((listOfElements == null) || listOfElements.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @return the listOfElements
+	 */
+	public ListOf<RenderPoint> getListOfElements() {
+		if (!isSetListOfElements()) {
+			listOfElements = new ListOf<RenderPoint>(getLevel(), getVersion());
+			listOfElements.addNamespace(RenderConstants.namespaceURI);
+			listOfElements.setSBaseListType(ListOf.Type.other);
+			registerChild(listOfElements);
+		}
+		return listOfElements;
+	}
+
+	/**
+	 * @param listOfElements
+	 */
+	public void setListOfElements(ListOf<RenderPoint> listOfElements) {
+		unsetListOfElements();
+		this.listOfElements = listOfElements;
+		registerChild(this.listOfElements);
+	}
+
+	/**
+	 * @return <code>true</code>, if listOfElements contained at least one element, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetListOfElements() {
+		if (isSetListOfElements()) {
+			ListOf<RenderPoint> oldElements = this.listOfElements;
+			this.listOfElements = null;
+			oldElements.fireNodeRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @param element
+	 */
+	public boolean addElement(RenderPoint element) {
+		return getListOfElements().add(element);
+	}
+
+	/**
+	 * @param element
+	 */
+	public boolean removeElement(RenderPoint element) {
+		if (isSetListOfElements()) {
+			return getListOfElements().remove(element);
+		}
+		return false;
+	}
+
+	/**
+	 * @param i
+	 */
+	public void removeElement(int i) {
+		if (!isSetListOfElements()) {
+			throw new IndexOutOfBoundsException(Integer.toString(i));
+		}
+		getListOfElements().remove(i);
+	}
+
+	/**
+	 * create a new Element element and adds it to the ListOfElements list
+	 * <p><b>NOTE:</b>
+	 * only use this method, if ID is not mandatory in Element
+	 * otherwise use @see createElement(String id)!</p>
+	 */
+	public RenderPoint createElement() {
+		return createElement(null);
+	}
+
+	/**
+	 * create a new Element element and adds it to the ListOfElements list
+	 */
+	public RenderPoint createElement(String id) {
+		RenderPoint element = new RenderPoint();
+		addElement(element);
+		return element;
+	}
 }

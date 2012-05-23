@@ -52,7 +52,7 @@ public class GradientBase extends AbstractSBase {
 	
 	protected String id;
 	protected Spread spreadMethod;
-	protected List<GradientStop> listOfGradientStops;
+	protected ListOf<GradientStop> listOfGradientStops;
 	
 	/**
    * Creates an GradientBase instance 
@@ -117,7 +117,7 @@ public class GradientBase extends AbstractSBase {
    */
   public void initDefaults() {
     //addNamespace(constant_class.namespaceURI);
-    this.spreadMethod = Spread.PAD;
+    this.spreadMethod = Spread.pad;
     this.listOfGradientStops = new ListOf<GradientStop>();
   }
   
@@ -133,10 +133,8 @@ public class GradientBase extends AbstractSBase {
    * Set the value of id
    */
   public void setId(String id){
-    //String oldId = this.id;
     this.id = id;
-    //TODO
-    //firePropertyChange(constant_class.id, oldId, this.id);
+    //TODO firePropertyChange(constant_class.id, oldId, this.id);
   }
   
   
@@ -144,8 +142,6 @@ public class GradientBase extends AbstractSBase {
    * @return the value of spreadMethod
    */
   public Spread getSpreadMethod() {
-    //TODO: if variable is boolean, create an additional "isVar"
-    //TODO: return primitive data type if possible (e.g. int instead of Integer)
     if (isSetSpreadMethod()) {
       return spreadMethod;
     } else {
@@ -166,10 +162,8 @@ public class GradientBase extends AbstractSBase {
    * Set the value of spreadMethod
    */
   public void setSpreadMethod(Spread spreadMethod) {
-    //Spread oldSpreadMethod = this.spreadMethod;
     this.spreadMethod = spreadMethod;
-    //TODO
-    //firePropertyChange(constant_class.spreadMethod, oldSpreadMethod, this.spreadMethod);
+    //TODO firePropertyChange(constant_class.spreadMethod, oldSpreadMethod, this.spreadMethod);
   }
 
 
@@ -180,10 +174,8 @@ public class GradientBase extends AbstractSBase {
    */
   public boolean unsetSpreadMethod() {
     if (isSetSpreadMethod()) {
-      //Spread oldSpreadMethod = this.spreadMethod;
       this.spreadMethod = null;
-      //TODO
-      //firePropertyChange(constant_class.spreadMethod, oldSpreadMethod, this.spreadMethod);
+      //TODO firePropertyChange(constant_class.spreadMethod, oldSpreadMethod, this.spreadMethod);
       return true;
     }
     return false;
@@ -216,10 +208,9 @@ public class GradientBase extends AbstractSBase {
   public ListOf<GradientStop> getListOfGradientStops() {
     if (!isSetListOfGradientStops()) {
       listOfGradientStops = new ListOf<GradientStop>(getLevel(), getVersion());
-      //TODO
-      //listOfGradientStops.addNamespace(constant_class.namespaceURI);
+      //TODO listOfGradientStops.addNamespace(constant_class.namespaceURI);
       listOfGradientStops.setSBaseListType(ListOf.Type.other);
-      registerChild(listOfGradientStops);
+      //TODO registerChild(listOfGradientStops);
     }
     return listOfGradientStops;
   }
@@ -283,7 +274,7 @@ public class GradientBase extends AbstractSBase {
   /**
    * create a new GradientStop element and adds it to the ListOfGradientStops list
    */
-  public GradientStop createGradientStop(int offset, ColorDefinition stopColor) {
+  public GradientStop createGradientStop(double offset, ColorDefinition stopColor) {
     GradientStop field = new GradientStop(offset, stopColor, getLevel(), getVersion());
     addGradientStop(field);
     return field;

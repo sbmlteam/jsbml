@@ -69,4 +69,15 @@ public interface RenderConstants {
   public static final String stroke = "stroke";
   public static final String strokeWidth = "stroke-width";
   public static final String strokeDashArray = "stroke-dasharray";
+  public static final String endHead = "endHead";
+  public static final String startHead = "startHead";
+  public static final String cx = "cx";
+  public static final String cy = "cy";
+  public static final String cz = "cz";
+  public static final String absoluteCy = "cx";
+  public static final String absoluteCx = "cy";
+  public static final String absoluteCz = "cz";
+  public static final String stopColor = "stop-color";
+  public static final String offset = "offset";
+
 }
