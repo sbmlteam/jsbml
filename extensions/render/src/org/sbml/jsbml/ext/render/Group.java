@@ -20,6 +20,12 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.text.MessageFormat;
+
+import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBase;
+
 
 /**
  * @author Eugen Netz
@@ -31,8 +37,516 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public class Group extends GraphicalPrimitive2D {
-	protected String iD;
-	protected FontRenderStyle text; //FIXME text hast to many fields (coordinates)
-	protected String startHead;
-	protected String endHead;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2302368129571619877L;
+	private String id;
+	private FontFamily fontFamily;
+	private Short fontSize;
+	private Boolean fontWeightBold, fontStyleItalic;
+	private TextAnchor textAnchor;
+	private VTextAnchor vTextAnchor;
+	private String startHead;
+	private String endHead;
+	
+	/**
+	 * Creates an Group instance 
+	 */
+	public Group() {
+		super();
+		initDefaults();
+	}
+
+	/**
+	 * Creates a Group instance with an id. 
+	 * 
+	 * @param id
+	 */
+	public Group(String id) {
+		super();
+		this.id = id;
+		initDefaults();
+	}
+
+	/**
+	 * Creates a Group instance with a level and version. 
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public Group(int level, int version) {
+		this(null, null, level, version);
+	}
+
+	/**
+	 * Creates a Group instance with an id, level, and version. 
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public Group(String id, int level, int version) {
+		this(id, null, level, version);
+	}
+
+	/**
+	 * Creates a Group instance with an id, name, level, and version. 
+	 * 
+	 * @param id
+	 * @param name
+	 * @param level
+	 * @param version
+	 */
+	public Group(String id, String name, int level, int version) {
+		super();
+		this.id = id;
+		if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
+				Integer.valueOf(MIN_SBML_VERSION)) < 0) {
+			throw new LevelVersionError(getElementName(), level, version);
+		}
+		initDefaults();
+	}
+
+	/**
+	 * Clone constructor
+	 */
+	public Group(Group obj) {
+		super(obj);
+		this.id = obj.id;
+		this.fontFamily = obj.fontFamily;
+		this.fontSize = obj.fontSize;
+		this.fontStyleItalic = obj.fontStyleItalic;
+		this.fontWeightBold = obj.fontWeightBold;
+		this.textAnchor = obj.textAnchor;
+		this.vTextAnchor = obj.vTextAnchor;
+		this.startHead = obj.startHead;
+		this.endHead = obj.endHead;
+	}
+
+	/**
+	 * clones this class
+	 */
+	public Group clone() {
+		return new Group(this);
+	}
+
+	/**
+	 * Initializes the default values using the namespace.
+	 */
+	public void initDefaults() {
+		addNamespace(RenderConstants.namespaceURI);
+	}
+
+	public static final int MIN_SBML_LEVEL = 3;
+	public static final int MIN_SBML_VERSION = 1;
+	
+	
+
+	@Override
+	public boolean getAllowsChildren() {
+		return false;
+	}
+
+	public int getChildCount() {
+		int count = 0;
+		return count;
+	}
+
+	public SBase getChildAt(int childIndex) {
+		if (childIndex < 0) {
+			throw new IndexOutOfBoundsException(childIndex + " < 0");
+		}
+		int pos = 0;
+		throw new IndexOutOfBoundsException(MessageFormat.format(
+				"Index {0,number,integer} >= {1,number,integer}", childIndex,
+				+((int) Math.min(pos, 0))));
+	}
+
+	
+	/**
+	 * @return the value of id
+	 */
+	public String getId() {
+		if (isSetId()) {
+			return id;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(RenderConstants.id, this);
+	}
+
+	/**
+	 * @return whether id is set 
+	 */
+	public boolean isSetId() {
+		return this.id != null;
+	}
+
+	/**
+	 * Set the value of id
+	 */
+	public void setId(String id) {
+		String oldId = this.id;
+		this.id = id;
+		firePropertyChange(RenderConstants.id, oldId, this.id);
+	}
+
+	/**
+	 * Unsets the variable id 
+	 * @return <code>true</code>, if id was set before, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetId() {
+		if (isSetId()) {
+			String oldId = this.id;
+			this.id = null;
+			firePropertyChange(RenderConstants.id, oldId, this.id);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * @return the value of fontFamily
+	 */
+	public FontFamily getFontFamily() {
+		if (isSetFontFamily()) {
+			return fontFamily;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(RenderConstants.fontFamily, this);
+	}
+
+	/**
+	 * @return whether fontFamily is set 
+	 */
+	public boolean isSetFontFamily() {
+		return this.fontFamily != null;
+	}
+
+	/**
+	 * Set the value of fontFamily
+	 */
+	public void setFontFamily(FontFamily fontFamily) {
+		FontFamily oldFontFamily = this.fontFamily;
+		this.fontFamily = fontFamily;
+		firePropertyChange(RenderConstants.fontFamily, oldFontFamily, this.fontFamily);
+	}
+
+	/**
+	 * Unsets the variable fontFamily 
+	 * @return <code>true</code>, if fontFamily was set before, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetFontFamily() {
+		if (isSetFontFamily()) {
+			FontFamily oldFontFamily = this.fontFamily;
+			this.fontFamily = null;
+			firePropertyChange(RenderConstants.fontFamily, oldFontFamily, this.fontFamily);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * @return the value of fontSize
+	 */
+	public Short getFontSize() {
+		if (isSetFontSize()) {
+			return fontSize;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(RenderConstants.fontSize, this);
+	}
+
+	/**
+	 * @return whether fontSize is set 
+	 */
+	public boolean isSetFontSize() {
+		return this.fontSize != null;
+	}
+
+	/**
+	 * Set the value of fontSize
+	 */
+	public void setFontSize(Short fontSize) {
+		Short oldFontSize = this.fontSize;
+		this.fontSize = fontSize;
+		firePropertyChange(RenderConstants.fontSize, oldFontSize, this.fontSize);
+	}
+
+	/**
+	 * Unsets the variable fontSize 
+	 * @return <code>true</code>, if fontSize was set before, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetFontSize() {
+		if (isSetFontSize()) {
+			short oldFontSize = this.fontSize;
+			this.fontSize = null;
+			firePropertyChange(RenderConstants.fontSize, oldFontSize, this.fontSize);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * @return the value of fontWeightBold
+	 */
+	public boolean isFontWeightBold() {
+		if (isSetFontWeightBold()) {
+			return fontWeightBold;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(RenderConstants.fontWeightBold, this);
+	}
+
+	/**
+	 * @return whether fontWeightBold is set 
+	 */
+	public boolean isSetFontWeightBold() {
+		return this.fontWeightBold != null;
+	}
+
+	/**
+	 * Set the value of fontWeightBold
+	 */
+	public void setFontWeightBold(Boolean fontWeightBold) {
+		Boolean oldFontWeightBold = this.fontWeightBold;
+		this.fontWeightBold = fontWeightBold;
+		firePropertyChange(RenderConstants.fontWeightBold, oldFontWeightBold, this.fontWeightBold);
+	}
+
+	/**
+	 * Unsets the variable fontWeightBold 
+	 * @return <code>true</code>, if fontWeightBold was set before, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetFontWeightBold() {
+		if (isSetFontWeightBold()) {
+			Boolean oldFontWeightBold = this.fontWeightBold;
+			this.fontWeightBold = null;
+			firePropertyChange(RenderConstants.fontWeightBold, oldFontWeightBold, this.fontWeightBold);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * @return the value of fontStyleItalic
+	 */
+	public boolean isFontStyleItalic() {
+		if (isSetFontStyleItalic()) {
+			return fontStyleItalic;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(RenderConstants.fontStyleItalic, this);
+	}
+
+	/**
+	 * @return whether fontStyleItalic is set 
+	 */
+	public boolean isSetFontStyleItalic() {
+		return this.fontStyleItalic != null;
+	}
+
+	/**
+	 * Set the value of fontStyleItalic
+	 */
+	public void setFontStyleItalic(Boolean fontStyleItalic) {
+		Boolean oldFontStyleItalic = this.fontStyleItalic;
+		this.fontStyleItalic = fontStyleItalic;
+		firePropertyChange(RenderConstants.fontStyleItalic, oldFontStyleItalic, this.fontStyleItalic);
+	}
+
+	/**
+	 * Unsets the variable fontStyleItalic 
+	 * @return <code>true</code>, if fontStyleItalic was set before, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetFontStyleItalic() {
+		if (isSetFontStyleItalic()) {
+			Boolean oldFontStyleItalic = this.fontStyleItalic;
+			this.fontStyleItalic = null;
+			firePropertyChange(RenderConstants.fontStyleItalic, oldFontStyleItalic, this.fontStyleItalic);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * @return the value of startHead
+	 */
+	public String getStartHead() {
+		if (isSetStartHead()) {
+			return startHead;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(RenderConstants.startHead, this);
+	}
+
+	/**
+	 * @return whether startHead is set 
+	 */
+	public boolean isSetStartHead() {
+		return this.startHead != null;
+	}
+
+	/**
+	 * Set the value of startHead
+	 */
+	public void setStartHead(String startHead) {
+		String oldStartHead = this.startHead;
+		this.startHead = startHead;
+		firePropertyChange(RenderConstants.startHead, oldStartHead, this.startHead);
+	}
+
+	/**
+	 * Unsets the variable startHead 
+	 * @return <code>true</code>, if startHead was set before, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetStartHead() {
+		if (isSetStartHead()) {
+			String oldStartHead = this.startHead;
+			this.startHead = null;
+			firePropertyChange(RenderConstants.startHead, oldStartHead, this.startHead);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * @return the value of endHead
+	 */
+	public String getEndHead() {
+		if (isSetEndHead()) {
+			return endHead;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(RenderConstants.endHead, this);
+	}
+
+	/**
+	 * @return whether endHead is set 
+	 */
+	public boolean isSetEndHead() {
+		return this.endHead != null;
+	}
+
+	/**
+	 * Set the value of endHead
+	 */
+	public void setEndHead(String endHead) {
+		String oldEndHead = this.endHead;
+		this.endHead = endHead;
+		firePropertyChange(RenderConstants.endHead, oldEndHead, this.endHead);
+	}
+
+	/**
+	 * Unsets the variable endHead 
+	 * @return <code>true</code>, if endHead was set before, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetEndHead() {
+		if (isSetEndHead()) {
+			String oldEndHead = this.endHead;
+			this.endHead = null;
+			firePropertyChange(RenderConstants.endHead, oldEndHead, this.endHead);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * @return the value of textAnchor
+	 */
+	public TextAnchor getTextAnchor() {
+		if (isSetTextAnchor()) {
+			return textAnchor;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(RenderConstants.textAnchor, this);
+	}
+
+	/**
+	 * @return whether textAnchor is set 
+	 */
+	public boolean isSetTextAnchor() {
+		return this.textAnchor != null;
+	}
+
+	/**
+	 * Set the value of textAnchor
+	 */
+	public void setTextAnchor(TextAnchor textAnchor) {
+		TextAnchor oldTextAnchor = this.textAnchor;
+		this.textAnchor = textAnchor;
+		firePropertyChange(RenderConstants.textAnchor, oldTextAnchor, this.textAnchor);
+	}
+
+	/**
+	 * Unsets the variable textAnchor 
+	 * @return <code>true</code>, if textAnchor was set before, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetTextAnchor() {
+		if (isSetTextAnchor()) {
+			TextAnchor oldTextAnchor = this.textAnchor;
+			this.textAnchor = null;
+			firePropertyChange(RenderConstants.textAnchor, oldTextAnchor, this.textAnchor);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * @return the value of vTextAnchor
+	 */
+	public VTextAnchor getVTextAnchor() {
+		if (isSetVTextAnchor()) {
+			return vTextAnchor;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(RenderConstants.vTextAnchor, this);
+	}
+
+	/**
+	 * @return whether vTextAnchor is set 
+	 */
+	public boolean isSetVTextAnchor() {
+		return this.vTextAnchor != null;
+	}
+
+	/**
+	 * Set the value of vTextAnchor
+	 */
+	public void setVTextAnchor(VTextAnchor vTextAnchor) {
+		VTextAnchor oldVTextAnchor = this.vTextAnchor;
+		this.vTextAnchor = vTextAnchor;
+		firePropertyChange(RenderConstants.vTextAnchor, oldVTextAnchor, this.vTextAnchor);
+	}
+
+	/**
+	 * Unsets the variable vTextAnchor 
+	 * @return <code>true</code>, if vTextAnchor was set before, 
+	 *         otherwise <code>false</code>
+	 */
+	public boolean unsetVTextAnchor() {
+		if (isSetVTextAnchor()) {
+			VTextAnchor oldVTextAnchor = this.vTextAnchor;
+			this.vTextAnchor = null;
+			firePropertyChange(RenderConstants.vTextAnchor, oldVTextAnchor, this.vTextAnchor);
+			return true;
+		}
+		return false;
+	}
 }

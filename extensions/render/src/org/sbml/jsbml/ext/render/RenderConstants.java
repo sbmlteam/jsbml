@@ -79,5 +79,10 @@ public interface RenderConstants {
   public static final String absoluteCz = "absolute-cz";
   public static final String stopColor = "stop-color";
   public static final String offset = "offset";
+  public static final String id = "SId";
+  public static final String href = "href";
+  public static final String enableRotationMapping = "enable-rotation-mapping";
+  public static final String group = "g";
+  public static final String boundingBox = "bounding-box";
 
 }
