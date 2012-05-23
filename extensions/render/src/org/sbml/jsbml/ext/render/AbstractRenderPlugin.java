@@ -116,6 +116,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 		versionMinor = 0;
 	}
 
+	// TODO: Move to RenderConstants
 	public static final int MIN_SBML_LEVEL = 3;
 	public static final int MIN_SBML_VERSION = 1;
 
@@ -249,34 +250,50 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 		return false;
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
+  // @Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
+	 */
+  // @Override
 	public TreeNode getChildAt(int childIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildCount()
+	 */
+  // @Override
 	public int getChildCount() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#getAllowsChildren()
+	 */
+  // @Override
 	public boolean getAllowsChildren() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+	 */
+  // @Override
 	public Map<String, String> writeXMLAttributes() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

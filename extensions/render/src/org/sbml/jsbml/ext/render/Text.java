@@ -562,4 +562,5 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     }
     return false;
   }
+
 }

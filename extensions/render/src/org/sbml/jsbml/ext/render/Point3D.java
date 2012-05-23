@@ -26,6 +26,7 @@ package org.sbml.jsbml.ext.render;
  * @since 1.0
  * @date 16.05.2012
  */
+//TODO: Set SVN properties.
 public interface Point3D {
 
   /**
@@ -182,4 +183,5 @@ public interface Point3D {
    *         otherwise <code>false</code>
    */
   public abstract boolean unsetZ();
+
 }

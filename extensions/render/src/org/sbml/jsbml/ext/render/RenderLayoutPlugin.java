@@ -76,6 +76,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     // bar = null;
   }
 
+  // TODO: Move to RenderConstants
   public static final int MIN_SBML_LEVEL = 3;
   public static final int MIN_SBML_VERSION = 1;
   

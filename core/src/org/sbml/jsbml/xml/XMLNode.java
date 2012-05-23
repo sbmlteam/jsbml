@@ -262,7 +262,7 @@ public class XMLNode extends XMLToken {
 	 * @param orig the {@link XMLNode} instance to copy.
 	 */
 	public XMLNode(XMLNode orig) {
-		super((XMLToken) orig);
+		super(orig);
 		
 		if (orig.childrenElements.size() > 0) {
 			for (XMLNode origchildren : orig.childrenElements) {
@@ -454,8 +454,7 @@ public class XMLNode extends XMLToken {
 		return OPERATION_SUCCESS;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.XMLToken#clone()
 	 */
 	public XMLNode clone() {
