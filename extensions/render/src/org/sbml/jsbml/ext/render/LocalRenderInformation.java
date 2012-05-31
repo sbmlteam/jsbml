@@ -222,20 +222,4 @@ public class LocalRenderInformation extends RenderInformationBase {
     return field;
   }
   */
-
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public LocalStyle createLocalStyle(String id, int bar) {
-  //   LocalStyle field = createLocalStyle(id);
-  //   field.setBar(bar);
-  //   return field;
-  // }
-  /**
-   * 
-   */
-  // TODO: Move to RenderConstants
-  public static final int MIN_SBML_LEVEL = 3;
-  public static final int MIN_SBML_VERSION = 1;
 }

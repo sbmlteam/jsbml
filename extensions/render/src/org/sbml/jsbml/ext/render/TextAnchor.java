@@ -30,7 +30,6 @@ package org.sbml.jsbml.ext.render;
  * @since 1.0
  * @date 16.05.2012
  */
-// TODO: Set SVN properties.
 public enum TextAnchor {
     start,
     middle,

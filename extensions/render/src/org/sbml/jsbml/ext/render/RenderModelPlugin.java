@@ -35,10 +35,6 @@ import org.sbml.jsbml.ext.layout.Layout;
  */
 public class RenderModelPlugin extends AbstractRenderPlugin {
 
-  // TODO: Move to RenderConstants
-  public static final int MIN_SBML_LEVEL = 3;
-  public static final int MIN_SBML_VERSION = 1;
-  
   /**
    * 
    */
@@ -223,14 +219,4 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
     }
     return false;
   }
-
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public GlobalRenderInformation createGlobalRenderInformation(String id, int bar) {
-  //   GlobalRenderInformation field = createGlobalRenderInformation(id);
-  //   field.setBar(bar);
-  //   return field;
-  // }
 }

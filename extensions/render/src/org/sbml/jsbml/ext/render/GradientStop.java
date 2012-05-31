@@ -71,8 +71,8 @@ public class GradientStop extends AbstractSBase {
 	 */
 	public GradientStop(Double offset, ColorDefinition stopColor, int level, int version) {
 		super(level, version);
-		if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
-				Integer.valueOf(MIN_SBML_VERSION)) < 0) {
+		if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
+				Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
 			throw new LevelVersionError(getElementName(), level, version);
 		}
 		this.offset = offset;
@@ -205,11 +205,6 @@ public class GradientStop extends AbstractSBase {
 		}
 		return false;
 	}
-
-	 // TODO: Move to RenderConstants
-	public static final int MIN_SBML_LEVEL = 3;
-	public static final int MIN_SBML_VERSION = 1;
-
 
 	@Override
 	public String toString() {

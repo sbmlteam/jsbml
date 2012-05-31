@@ -37,9 +37,6 @@ import org.sbml.jsbml.SBase;
  */
 public class RenderCubicBezier extends RenderPoint {
   
-  // TODO: Move to RenderConstants
-  public static final int MIN_SBML_LEVEL = 3;
-  public static final int MIN_SBML_VERSION = 1;
   /**
    * 
    */
@@ -118,7 +115,7 @@ public class RenderCubicBezier extends RenderPoint {
     throw new PropertyUndefinedError(RenderConstants.x1, this);
   }
   
-  
+    
   /**
    * @return the value of x2
    */

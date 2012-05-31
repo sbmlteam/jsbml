@@ -74,10 +74,6 @@ public class Curve extends GraphicalPrimitive1D {
 		addNamespace(RenderConstants.namespaceURI);
 	}
 
-	public static final int MIN_SBML_LEVEL = 3;
-	public static final int MIN_SBML_VERSION = 1;
-	
-	
 	/**
 	 * @return the value of startHead
 	 */

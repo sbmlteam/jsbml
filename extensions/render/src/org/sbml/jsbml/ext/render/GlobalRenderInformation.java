@@ -33,6 +33,7 @@ import org.sbml.jsbml.ListOf;
  * @since 1.0
  * @date 08.05.2012
  */
+// TODO getter, setter, isset
 public class GlobalRenderInformation extends RenderInformationBase {
 	/**
    * Creates an GlobalRenderInformation instance 
@@ -100,8 +101,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
    */
   public GlobalRenderInformation(GlobalRenderInformation obj) {
     super(obj);
-    // TODO: copy all class attributes, e.g.:
-    // bar = obj.bar;
+    listOfStyles = obj.listOfStyles;
   }
 
 
@@ -120,21 +120,13 @@ public class GlobalRenderInformation extends RenderInformationBase {
   @Override
   public void initDefaults() {
     addNamespace(RenderConstants.namespaceURI);
-    // TODO: init default values here if necessary, e.g.:
-    // bar = null;
   }
-
-  // TODO: Move to RenderConstants
-  public static final int MIN_SBML_LEVEL = 3;
-  public static final int MIN_SBML_VERSION = 1;
 
   /**
    * 
    */
   private static final long serialVersionUID = 855680727119080659L;
   
-  //TODO The same as LocalRenderInformation, but with class GlobalStyle
-  //GlobalStyle equals Style?
   ListOf<Style> listOfStyles;
   
   

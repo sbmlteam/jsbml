@@ -39,11 +39,6 @@ public class Transformation2D extends Transformation {
   private static final long serialVersionUID = -1737694519381619398L;
 
 
-  public static final int MIN_SBML_LEVEL = 3;
-	
-	
-  public static final int MIN_SBML_VERSION = 1;
-
   protected Double[] transform = new Double[6];
 
   /**

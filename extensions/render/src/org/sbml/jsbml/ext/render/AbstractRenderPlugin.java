@@ -24,6 +24,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
@@ -111,14 +112,10 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		//addNamespace(RenderConstants.namespaceURI);
+		// TODO addNamespace(RenderConstants.namespaceURI);
 		versionMajor = 0;
 		versionMinor = 0;
 	}
-
-	// TODO: Move to RenderConstants
-	public static final int MIN_SBML_LEVEL = 3;
-	public static final int MIN_SBML_VERSION = 1;
 
 	/**
 	 * @return the value of versionMinor
@@ -128,7 +125,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 			return versionMinor;
 		}
 		return null;
-		//FIXME throw new PropertyUndefinedError(RenderConstants.versionMinor, this);
+		// TODO throw new PropertyUndefinedError(RenderConstants.versionMinor, this);
 	}
 
 	/**
@@ -144,7 +141,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	public void setVersionMinor(Short versionMinor) {
 		Short oldVersionMinor = this.versionMinor;
 		this.versionMinor = versionMinor;
-		//FIXME firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
+		// TODO firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
 	}
 
 	/**

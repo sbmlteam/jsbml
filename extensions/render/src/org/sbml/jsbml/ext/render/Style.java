@@ -35,6 +35,7 @@ import org.sbml.jsbml.LevelVersionError;
  * @since 1.0
  * @date 08.05.2012
  */
+// TODO Getter, Setter, isSet
 public class Style extends AbstractSBase {  
   /**
    * 
@@ -82,8 +83,8 @@ public class Style extends AbstractSBase {
    */
   public Style(String id, int level, int version, Group group) {
     super(level, version);
-    if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
-      Integer.valueOf(MIN_SBML_VERSION)) < 0) {
+    if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
+      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
     }
     this.id = id;
@@ -116,17 +117,11 @@ public class Style extends AbstractSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    //TODO
-    //addNamespace(constant_class.namespaceURI);
+    addNamespace(RenderConstants.namespaceURI);
     this.roleList = null;
     this.typeList = null;
   }
 
-  // TODO: Move to RenderConstants
-  public static final int MIN_SBML_LEVEL = 3;
-  public static final int MIN_SBML_VERSION = 1;
- 
-  
   public String toString() {
     // TODO Auto-generated method stub
     return null;
@@ -144,61 +139,56 @@ public class Style extends AbstractSBase {
    * Set the value of id
    */
   public void setId(String id) {
-    //String oldId = this.id;
+    String oldId = this.id;
     this.id = id;
-    //TODO
-    //firePropertyChange(constant_class.id, oldId, this.id);
+    firePropertyChange(RenderConstants.id, oldId, this.id);
   }
   
   /**
    * @return the value of group
    */
-  public Group getGroup(){
+  public Group getGroup() {
     return this.group;
   }
   
   /**
    * Set the value of group
    */
-  public void setGroup(Group group){
-    //Group olGroup = this.group;
+  public void setGroup(Group group) {
+    Group oldGroup = this.group;
     this.group = group;
-    //TODO
-    //firePropertyChange(constant_class.group, oldGroup, this.Group);
+    firePropertyChange(RenderConstants .group, oldGroup, this.group);
   }
   
   /**
    * @return the value of typeList
    */
-  //TODO Whole list or elements?
-  public List<String> getTypeList(){
+  public List<String> getTypeList() {
     return this.typeList;    
   }
   
   /**
    * Set the value of typeList
    */
-  public void setTypeList(ArrayList<String> typeList){
-    //ArrayList<String> oldTypeList = this.typeList;
+  public void setTypeList(List<String> typeList) {
+    List<String> oldTypeList = this.typeList;
     this.typeList = typeList;
-    //TODO
-    //firePropertyChange(constant_class.typeList, oldTypeList, this.typeList);
+    firePropertyChange(RenderConstants.typeList, oldTypeList, this.typeList);
   }
   
   /**
    * @return the value of roleList
    */
-  public List<String> getRoleList(){
+  public List<String> getRoleList() {
     return this.roleList;
   }
   
   /**
    * Set the value of roleList
    */
-  public void setRoleList(ArrayList<String> roleList){
-    //ArrayList<String> oldRoleList = this.roleList;
+  public void setRoleList(ArrayList<String> roleList) {
+    List<String> oldRoleList = this.roleList;
     this.roleList = roleList;
-    //TODO
-    //firePropertyChange(constant_class.roleList, oldRoleList, this.roleList);  
+    firePropertyChange(RenderConstants.roleList, oldRoleList, this.roleList);  
   }
 }
