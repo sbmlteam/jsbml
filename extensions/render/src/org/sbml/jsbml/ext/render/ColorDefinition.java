@@ -68,8 +68,8 @@ public class ColorDefinition extends AbstractSBase {
    */
   public ColorDefinition(String id, Color value, int level, int version) {
     super(level, version);
-    if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
-      Integer.valueOf(MIN_SBML_VERSION)) < 0) {
+    if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
+      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
     }
     this.id = id;
@@ -82,8 +82,6 @@ public class ColorDefinition extends AbstractSBase {
    */
   public ColorDefinition(ColorDefinition obj) {
     super(obj);
-    // TODO: copy all class attributes, e.g.:
-    // bar = obj.bar;
     this.id = obj.id;
     this.value = obj.value;
   }
@@ -107,10 +105,9 @@ public class ColorDefinition extends AbstractSBase {
    * Set the value of id
    */
   public void setId(String id){
-    //String oldId = this.id;
+    String oldId = this.id;
     this.id = id;
-    //TODO
-    //firePropertyChange(constant_class.id, oldId, this.id);
+    firePropertyChange(RenderConstants.id, oldId, this.id);
   }
   
   
@@ -139,10 +136,9 @@ public class ColorDefinition extends AbstractSBase {
    * Set the value of value
    */
   public void setValue(Color value) {
-    //Integer oldValue = this.value;
+    Color oldValue = this.value;
     this.value = value;
-    //TODO
-    //firePropertyChange(constant_class.value, oldValue, this.value);
+    firePropertyChange(RenderConstants.value, oldValue, this.value);
   }
 
 
@@ -153,19 +149,14 @@ public class ColorDefinition extends AbstractSBase {
    */
   public boolean unsetValue() {
     if (isSetValue()) {
-      //Integer oldValue = this.value;
+      Color oldValue = this.value;
       this.value = null;
-      //TODO
-      //firePropertyChange(constant_class.value, oldValue, this.value);
+      firePropertyChange(RenderConstants.value, oldValue, this.value);
       return true;
     }
     return false;
   }
   
-  // TODO: Move to RenderConstants
-  public static final int MIN_SBML_LEVEL = 3;
-  public static final int MIN_SBML_VERSION = 1;
-
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;

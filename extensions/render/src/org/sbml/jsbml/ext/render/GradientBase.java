@@ -88,8 +88,8 @@ public class GradientBase extends AbstractSBase {
    */
   public GradientBase(String id, GradientStop stop, int level, int version) {
     super(level, version);
-    if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
-      Integer.valueOf(MIN_SBML_VERSION)) < 0) {
+    if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
+      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
     }
     initDefaults();
@@ -170,8 +170,9 @@ public class GradientBase extends AbstractSBase {
    * Set the value of id
    */
   public void setId(String id){
+    String oldId = this.id;
     this.id = id;
-    //TODO firePropertyChange(constant_class.id, oldId, this.id);
+    firePropertyChange(RenderConstants.id, oldId, this.id);
   }
   
   
@@ -199,8 +200,9 @@ public class GradientBase extends AbstractSBase {
    * Set the value of spreadMethod
    */
   public void setSpreadMethod(Spread spreadMethod) {
+    Spread oldSpreadMethod = this.spreadMethod;
     this.spreadMethod = spreadMethod;
-    //TODO firePropertyChange(constant_class.spreadMethod, oldSpreadMethod, this.spreadMethod);
+    firePropertyChange(RenderConstants.spreadMethod, oldSpreadMethod, this.spreadMethod);
   }
 
 
@@ -211,16 +213,14 @@ public class GradientBase extends AbstractSBase {
    */
   public boolean unsetSpreadMethod() {
     if (isSetSpreadMethod()) {
+      Spread oldSpreadMethod = this.spreadMethod;
       this.spreadMethod = null;
-      //TODO firePropertyChange(constant_class.spreadMethod, oldSpreadMethod, this.spreadMethod);
+      firePropertyChange(RenderConstants.spreadMethod, oldSpreadMethod, this.spreadMethod);
       return true;
     }
     return false;
   }
 
-  public static final int MIN_SBML_LEVEL = 3;
-  public static final int MIN_SBML_VERSION = 1;
-	
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;
@@ -245,9 +245,9 @@ public class GradientBase extends AbstractSBase {
   public ListOf<GradientStop> getListOfGradientStops() {
     if (!isSetListOfGradientStops()) {
       listOfGradientStops = new ListOf<GradientStop>(getLevel(), getVersion());
-      //TODO listOfGradientStops.addNamespace(constant_class.namespaceURI);
+      listOfGradientStops.addNamespace(RenderConstants.namespaceURI);
       listOfGradientStops.setSBaseListType(ListOf.Type.other);
-      //TODO registerChild(listOfGradientStops);
+      registerChild(listOfGradientStops);
     }
     return listOfGradientStops;
   }

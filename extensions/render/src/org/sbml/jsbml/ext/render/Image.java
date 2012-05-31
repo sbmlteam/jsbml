@@ -94,8 +94,7 @@ public class Image extends Transformation2D {
 	 */
 	public void initDefaults() {
 		addNamespace(RenderConstants.namespaceURI);
-		// TODO: init default values here if necessary, e.g.:
-		// bar = null;
+		z = 0d;
 	}
 
 	public static final int MIN_SBML_LEVEL = 3;

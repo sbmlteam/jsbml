@@ -38,10 +38,6 @@ import org.sbml.jsbml.SBase;
  */
 public class RenderPoint extends AbstractSBase implements Point3D {
   
-  // TODO: Move to RenderConstants
-  public static final int MIN_SBML_LEVEL = 3;
-  public static final int MIN_SBML_VERSION = 1;
-
 	/**
    * 
    */
@@ -64,8 +60,12 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    */
   public RenderPoint(RenderPoint obj) {
     super(obj);
-    // TODO: copy all class attributes, e.g.:
-    // bar = obj.bar;
+    absoluteX = obj.absoluteX;
+    absoluteY = obj.absoluteY;
+    absoluteZ = obj.absoluteZ;
+    x = obj.x;
+    y = obj.y;
+    z = obj.z;
   }
 
 

@@ -76,9 +76,6 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     // bar = null;
   }
 
-  // TODO: Move to RenderConstants
-  public static final int MIN_SBML_LEVEL = 3;
-  public static final int MIN_SBML_VERSION = 1;
   
   @Override
   public boolean getAllowsChildren() {
@@ -230,15 +227,4 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     addLocalRenderInformation(field);
     return field;
   }
-
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public LocalRenderInformation createLocalRenderInformation(String id, int bar) {
-  //   LocalRenderInformation field = createLocalRenderInformation(id);
-  //   field.setBar(bar);
-  //   return field;
-  // }
-  
 }

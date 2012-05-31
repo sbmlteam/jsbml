@@ -31,6 +31,8 @@ package org.sbml.jsbml.ext.render;
  * @date 08.05.2012
  */
 public interface RenderConstants {
+  public static final int MIN_SBML_LEVEL = 3;
+  public static final int MIN_SBML_VERSION = 1;
   public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/render/version1";
   public static final String fontFamily = "font-family";
   public static final String fontSize = "font-size";
@@ -96,4 +98,8 @@ public interface RenderConstants {
   public static final String transform = "trasform";
   public static final Object versionMinor = "version-minor";
   public static final Object versionMajor = "version-major";
+  public static final String spreadMethod = "spreadMethod";
+  public static final String typeList = "typeList";
+  public static final String roleList = "roleList";
+  public static final String value = "value";
 }
