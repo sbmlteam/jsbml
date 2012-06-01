@@ -21,11 +21,13 @@
 package org.sbml.jsbml.ext.render;
 
 import java.awt.Color;
+import java.text.MessageFormat;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
@@ -37,7 +39,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @since 1.0
  * @date 04.05.2012
  */
-public class RenderInformationBase  extends AbstractNamedSBase {
+public class RenderInformationBase extends AbstractNamedSBase {
 
 	/**
 	 * 
@@ -45,13 +47,12 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	private static final long serialVersionUID = -9096154126197866584L;
 
 	protected String programName;
-	protected String programVersion; //TODO int better?
+	protected String programVersion;
 	protected String referenceRenderInformation;
 	protected Color backgroundColor; 
 	protected ListOf<ColorDefinition> listOfColorDefinitions;
-	// TODO maybe wrong class for linear and radial gradients
-	protected ListOf<GradientBase> listOfGradientBases;
-	protected ListOf<LineEnding> listofLineEndings;
+	protected ListOf<GradientBase> listOfGradientDefintions;
+	protected ListOf<LineEnding> listOfLineEndings;
 
 	/**
 	 * Creates an RenderInformationBase instance 
@@ -102,8 +103,8 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	 */
 	public RenderInformationBase(String id, String name, int level, int version) {
 		super(id, name, level, version);
-		if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
-				Integer.valueOf(MIN_SBML_VERSION)) < 0) {
+		if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
+				Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
 			throw new LevelVersionError(getElementName(), level, version);
 		}
 		initDefaults();
@@ -119,8 +120,8 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		this.referenceRenderInformation = obj.referenceRenderInformation;
 		this.backgroundColor = obj.backgroundColor; 
 		this.listOfColorDefinitions = obj.listOfColorDefinitions;
-		this.listOfGradientBases = obj.listOfGradientBases;
-		this.listofLineEndings = obj.listofLineEndings;
+		this.listOfGradientDefintions = obj.listOfGradientDefintions;
+		this.listOfLineEndings = obj.listOfLineEndings;
 	}
 
 	/* (non-Javadoc)
@@ -135,14 +136,14 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		//TODO addNamespace(.namespaceURI);
+		addNamespace(RenderConstants.namespaceURI);
 		this.backgroundColor = new Color(0, 0, 0);
 		this.programName = null;
 		this.programVersion = null;
 		this.referenceRenderInformation = null;
 		this.listOfColorDefinitions = null;
-		this.listOfGradientBases = null;
-		this.listofLineEndings = null;
+		this.listOfGradientDefintions = null;
+		this.listOfLineEndings = null;
 	}
 
 	/**
@@ -152,12 +153,8 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 
 		if (isSetProgramName()) {
 			return this.programName;
-		} else {
-			return null;
 		}
-		//TODO Create a Constants class?
-		// This is necessary if we cannot return null here.
-		//throw new PropertyUndefinedError("programmName", this);
+		throw new PropertyUndefinedError(RenderConstants.programName, this);
 	}
 
 	/**
@@ -173,7 +170,7 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	public void setProgramName(String programName) {
 		String oldProgramName = this.programName;
 		this.programName = programName;
-		firePropertyChange("programName", oldProgramName, this.programName);
+		firePropertyChange(RenderConstants.programName, oldProgramName, this.programName);
 	}
 
 	/**
@@ -185,7 +182,7 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		if (isSetProgramName()) {
 			String oldProgramName = this.programName;
 			this.programName = null;
-			firePropertyChange("programmName", oldProgramName, this.programName);
+			firePropertyChange(RenderConstants.programName, oldProgramName, this.programName);
 			return true;
 		}
 		return false;
@@ -195,12 +192,11 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	 * @return the value of programVersion
 	 */
 	public String getProgramVersion() {
-		//TODO: return primitive data type if possible (e.g. int instead of Integer)
 		if (isSetProgramVersion()) {
 			return programVersion;
 		}
 		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError("programVersion", this);
+		throw new PropertyUndefinedError(RenderConstants.programVersion, this);
 	}
 
 	/**
@@ -216,7 +212,7 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	public void setProgramVersion(String programVersion) {
 		String oldProgramVersion = this.programVersion;
 		this.programVersion = programVersion;
-		firePropertyChange("programVersion", oldProgramVersion, this.programVersion);
+		firePropertyChange(RenderConstants.programVersion, oldProgramVersion, this.programVersion);
 	}
 
 	/**
@@ -228,7 +224,7 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		if (isSetProgramVersion()) {
 			String oldProgramVersion = this.programVersion;
 			this.programVersion = null;
-			firePropertyChange("programVersion", oldProgramVersion, this.programVersion);
+			firePropertyChange(RenderConstants.programVersion, oldProgramVersion, this.programVersion);
 			return true;
 		}
 		return false;
@@ -238,13 +234,11 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	 * @return the value of referenceRenderInformation
 	 */
 	public String getReferenceRenderInformation() {
-		//TODO: if variable is boolean, create an additional "isVar"
-		//TODO: return primitive data type if possible (e.g. int instead of Integer)
 		if (isSetReferenceRenderInformation()) {
 			return referenceRenderInformation;
 		}
 		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError("referenceRenderInformation", this);
+		throw new PropertyUndefinedError(RenderConstants.referenceRenderInformation, this);
 	}
 
 	/**
@@ -260,7 +254,7 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	public void setReferenceRenderInformation(String referenceRenderInformation) {
 		String oldReferenceRenderInformation = this.referenceRenderInformation;
 		this.referenceRenderInformation = referenceRenderInformation;
-		firePropertyChange("referenceRenderInformation", oldReferenceRenderInformation, this.referenceRenderInformation);
+		firePropertyChange(RenderConstants.referenceRenderInformation, oldReferenceRenderInformation, this.referenceRenderInformation);
 	}
 
 	/**
@@ -272,7 +266,7 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		if (isSetReferenceRenderInformation()) {
 			String oldReferenceRenderInformation = this.referenceRenderInformation;
 			this.referenceRenderInformation = null;
-			firePropertyChange("referenceRenderInformation", oldReferenceRenderInformation, this.referenceRenderInformation);
+			firePropertyChange(RenderConstants.referenceRenderInformation, oldReferenceRenderInformation, this.referenceRenderInformation);
 			return true;
 		}
 		return false;
@@ -282,14 +276,11 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	 * @return the value of backgroundColor
 	 */
 	public Color getBackgroundColor() {
-		//TODO: return primitive data type if possible (e.g. int instead of Integer)
 		if (isSetBackgroundColor()) {
 			return backgroundColor;
-		} else {
-			return null;
 		}
 		// This is necessary if we cannot return null here.
-		//throw new PropertyUndefinedError("backgroundColor", this);
+		throw new PropertyUndefinedError(RenderConstants.backgroundColor, this);
 	}
 
 	/**
@@ -305,7 +296,7 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	public void setBackgroundColor(Color backgroundColor) {
 		Color oldBackgroundColor = this.backgroundColor;
 		this.backgroundColor = backgroundColor;
-		firePropertyChange("backgroundColor", oldBackgroundColor, this.backgroundColor);
+		firePropertyChange(RenderConstants.backgroundColor, oldBackgroundColor, this.backgroundColor);
 	}
 
 	/**
@@ -317,7 +308,7 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		if (isSetBackgroundColor()) {
 			Color oldBackgroundColor = this.backgroundColor;
 			this.backgroundColor = null;
-			firePropertyChange("backgroundColor", oldBackgroundColor, this.backgroundColor);
+			firePropertyChange(RenderConstants.backgroundColor, oldBackgroundColor, this.backgroundColor);
 			return true;
 		}
 		return false;
@@ -340,8 +331,7 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	public ListOf<ColorDefinition> getListOfColorDefinitions() {
 		if (!isSetListOfColorDefinitions()) {
 			listOfColorDefinitions = new ListOf<ColorDefinition>(getLevel(), getVersion());
-			//TODO
-			//listOfColorDefinitions.addNamespace(constant_class.namespaceURI);
+			listOfColorDefinitions.addNamespace(RenderConstants.namespaceURI);
 			listOfColorDefinitions.setSBaseListType(ListOf.Type.other);
 			registerChild(listOfColorDefinitions);
 		}
@@ -399,8 +389,8 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	}
 
 	/**
-	 * TODO: if the ID is mandatory for ColorDefinition objects, 
-	 * one should also add this methods
+	 * 
+	 * @param id
 	 */
 	public void removeColorDefinition(String id) {
 		getListOfColorDefinitions().removeFirst(new NameFilter(id));
@@ -416,47 +406,46 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	}
 
 	/**
-	 * @return <code>true</code>, if listOfGradientBases contains at least one element, 
+	 * @return <code>true</code>, if listOfGradientDefintions contains at least one element, 
 	 *         otherwise <code>false</code>
 	 */
-	public boolean isSetListOfGradientBases() {
-		if ((listOfGradientBases == null) || listOfGradientBases.isEmpty()) {
+	public boolean isSetListOfGradientDefintions() {
+		if ((listOfGradientDefintions == null) || listOfGradientDefintions.isEmpty()) {
 			return false;
 		}
 		return true;
 	}
 
 	/**
-	 * @return the listOfGradientBases
+	 * @return the listOfGradientDefintions
 	 */
-	public ListOf<GradientBase> getListOfGradientBases() {
-		if (!isSetListOfGradientBases()) {
-			listOfGradientBases = new ListOf<GradientBase>(getLevel(), getVersion());
-			//TODO
-			//listOfGradientBases.addNamespace(constant_class.namespaceURI);
-			listOfGradientBases.setSBaseListType(ListOf.Type.other);
-			registerChild(listOfGradientBases);
+	public ListOf<GradientBase> getListOfGradientDefintions() {
+		if (!isSetListOfGradientDefintions()) {
+			listOfGradientDefintions = new ListOf<GradientBase>(getLevel(), getVersion());
+			listOfGradientDefintions.addNamespace(RenderConstants.namespaceURI);
+			listOfGradientDefintions.setSBaseListType(ListOf.Type.other);
+			registerChild(listOfGradientDefintions);
 		}
-		return listOfGradientBases;
+		return listOfGradientDefintions;
 	}
 
 	/**
-	 * @param listOfGradientBases
+	 * @param listOfGradientDefintions
 	 */
-	public void setListOfGradientBases(ListOf<GradientBase> listOfGradientBases) {
-		unsetListOfGradientBases();
-		this.listOfGradientBases = listOfGradientBases;
-		registerChild(this.listOfGradientBases);
+	public void setListOfGradientDefintions(ListOf<GradientBase> listOfGradientDefintions) {
+		unsetListOfGradientDefintions();
+		this.listOfGradientDefintions = listOfGradientDefintions;
+		registerChild(this.listOfGradientDefintions);
 	}
 
 	/**
-	 * @return <code>true</code>, if listOfGradientBases contained at least one element, 
+	 * @return <code>true</code>, if listOfGradientDefintions contained at least one element, 
 	 *         otherwise <code>false</code>
 	 */
-	public boolean unsetListOfGradientBases() {
-		if (isSetListOfGradientBases()) {
-			ListOf<GradientBase> oldGradientBases = this.listOfGradientBases;
-			this.listOfGradientBases = null;
+	public boolean unsetListOfGradientDefintions() {
+		if (isSetListOfGradientDefintions()) {
+			ListOf<GradientBase> oldGradientBases = this.listOfGradientDefintions;
+			this.listOfGradientDefintions = null;
 			oldGradientBases.fireNodeRemovedEvent();
 			return true;
 		}
@@ -467,15 +456,15 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	 * @param field
 	 */
 	public boolean addGradientBase(GradientBase field) {
-		return getListOfGradientBases().add(field);
+		return getListOfGradientDefintions().add(field);
 	}
 
 	/**
 	 * @param field
 	 */
 	public boolean removeGradientBase(GradientBase field) {
-		if (isSetListOfGradientBases()) {
-			return getListOfGradientBases().remove(field);
+		if (isSetListOfGradientDefintions()) {
+			return getListOfGradientDefintions().remove(field);
 		}
 		return false;
 	}
@@ -484,23 +473,150 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	 * @param i
 	 */
 	public void removeGradientBase(int i) {
-		if (!isSetListOfGradientBases()) {
+		if (!isSetListOfGradientDefintions()) {
 			throw new IndexOutOfBoundsException(Integer.toString(i));
 		}
-		getListOfGradientBases().remove(i);
+		getListOfGradientDefintions().remove(i);
 	}
-
-  // TODO: Move to RenderConstants
-	public static final int MIN_SBML_LEVEL = 3;
-	public static final int MIN_SBML_VERSION = 1;
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
 	 */
   //@Override
 	public boolean isIdMandatory() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
+	
+  @Override
+  public boolean getAllowsChildren() {
+    return false;
+  }
+
+
+  @Override
+  public int getChildCount() {
+    int count = 0;
+     if (isSetListOfColorDefinitions()) {
+      count++;
+     }
+     if (isSetListOfGradientDefintions()) {
+       count++;
+      }
+     if (isSetListOfLineEndings()) {
+       count++;
+      }
+    return count;
+  }
+
+  
+  @Override
+  public SBase getChildAt(int childIndex) {
+    if (childIndex < 0) {
+      throw new IndexOutOfBoundsException(childIndex + " < 0");
+    }
+    int pos = 0;
+    if (isSetListOfColorDefinitions()) {
+      if (pos == childIndex) {
+        return getListOfColorDefinitions();
+      }
+      pos++;
+    }
+    if (isSetListOfGradientDefintions()) {
+      if (pos == childIndex) {
+        return getListOfGradientDefintions();
+      }
+      pos++;
+    }
+    if (isSetListOfLineEndings()) {
+      if (pos == childIndex) {
+        return getListOfLineEndings();
+      }
+      pos++;
+    }
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}", childIndex,
+      +Math.min(pos, 0)));
+  }
+  
+  
+  /**
+   * @return <code>true</code>, if listOfLineEndings contains at least one element, 
+   *         otherwise <code>false</code>
+   */
+  public boolean isSetListOfLineEndings() {
+    if ((listOfLineEndings == null) || listOfLineEndings.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
+
+  /**
+   * @return the listOfLineEndings
+   */
+  public ListOf<LineEnding> getListOfLineEndings() {
+    if (!isSetListOfLineEndings()) {
+      listOfLineEndings = new ListOf<LineEnding>(getLevel(), getVersion());
+      listOfLineEndings.addNamespace(RenderConstants.namespaceURI);
+      listOfLineEndings.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfLineEndings);
+    }
+    return listOfLineEndings;
+  }
+
+
+  /**
+   * @param listOfLineEndings
+   */
+  public void setListOfLineEndings(ListOf<LineEnding> listOfLineEndings) {
+    unsetListOfLineEndings();
+    this.listOfLineEndings = listOfLineEndings;
+    registerChild(this.listOfLineEndings);
+  }
+
+
+  /**
+   * @return <code>true</code>, if listOfLineEndings contained at least one element, 
+   *         otherwise <code>false</code>
+   */
+  public boolean unsetListOfLineEndings() {
+    if (isSetListOfLineEndings()) {
+      ListOf<LineEnding> oldLineEndings = this.listOfLineEndings;
+      this.listOfLineEndings = null;
+      oldLineEndings.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * @param lineEnding
+   */
+  public boolean addLineEnding(LineEnding lineEnding) {
+    return getListOfLineEndings().add(lineEnding);
+  }
+
+
+  /**
+   * @param lineEnding
+   */
+  public boolean removeLineEnding(LineEnding lineEnding) {
+    if (isSetListOfLineEndings()) {
+      return getListOfLineEndings().remove(lineEnding);
+    }
+    return false;
+  }
+
+
+  /**
+   * @param i
+   */
+  public void removeLineEnding(int i) {
+    if (!isSetListOfLineEndings()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    getListOfLineEndings().remove(i);
+  }
 }

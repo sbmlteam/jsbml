@@ -2,22 +2,22 @@
  * $Id$
  * $URL$
  *
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
- * 
- * Copyright (C) 2009-2012 jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
- * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
- */ 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ *
+ * Copyright (C) 2009-2012 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
@@ -26,6 +26,7 @@ import java.util.Map;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.util.filters.NameFilter;
 
 
 /**
@@ -39,18 +40,17 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  */
 public class ExtendedRenderModel extends AbstractSBasePlugin {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -7046023464349980639L;
-	
-	protected ListOf<LocalRenderInformation> listOfLocalRenderInformation;
-	protected ListOf<GlobalRenderInformation> listOfGlobalRenderInformation;
-	// TODO unclear if Integer or int
-	protected int versionMajor;
-	protected int versionMinor;
+
+	private ListOf<LocalRenderInformation> listOfLocalRenderInformation;
+	private ListOf<GlobalRenderInformation> listOfGlobalRenderInformation;
+	private Integer versionMajor;
+	private Integer versionMinor;
 
 	/**
-	 * Creates an ExtendedRenderModel instance 
+	 * Creates an ExtendedRenderModel instance
 	 */
 	public ExtendedRenderModel() {
 		super();
@@ -58,8 +58,8 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * Creates a ExtendedRenderModel instance with a level and version. 
-	 * 
+	 * Creates a ExtendedRenderModel instance with a level and version.
+	 *
 	 * @param level
 	 * @param version
 	 */
@@ -68,8 +68,8 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * Creates a ExtendedRenderModel instance with an id, level, and version. 
-	 * 
+	 * Creates a ExtendedRenderModel instance with an id, level, and version.
+	 *
 	 * @param id
 	 * @param level
 	 * @param version
@@ -79,8 +79,8 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * Creates a ExtendedRenderModel instance with an id, name, level, and version. 
-	 * 
+	 * Creates a ExtendedRenderModel instance with an id, name, level, and version.
+	 *
 	 * @param id
 	 * @param name
 	 * @param level
@@ -109,7 +109,8 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	/**
 	 * clones this class
 	 */
-	public ExtendedRenderModel clone() {
+	@Override
+  public ExtendedRenderModel clone() {
 		return new ExtendedRenderModel(this);
 	}
 
@@ -122,11 +123,6 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 		versionMinor = 0;
 	}
 
-	 // TODO: Move to RenderConstants
-	public static final int MIN_SBML_LEVEL = 3;
-	public static final int MIN_SBML_VERSION = 1;
-
-
 	/**
 	 * @return the value of versionMinor
 	 */
@@ -134,7 +130,7 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 		return versionMinor;
 	}
 	/**
-	 * @return whether versionMinor is set 
+	 * @return whether versionMinor is set
 	 */
 	public boolean isSetVersionMinor() {
 		return true;
@@ -150,8 +146,8 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * Unsets the variable versionMinor 
-	 * @return <code>true</code>, if versionMinor was set before, 
+	 * Unsets the variable versionMinor
+	 * @return <code>true</code>, if versionMinor was set before,
 	 *         otherwise <code>false</code>
 	 */
 	public boolean unsetVersionMinor() {
@@ -172,7 +168,7 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * @return whether versionMajor is set 
+	 * @return whether versionMajor is set
 	 */
 	public boolean isSetVersionMajor() {
 		return true;
@@ -188,8 +184,8 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * Unsets the variable versionMajor 
-	 * @return <code>true</code>, if versionMajor was set before, 
+	 * Unsets the variable versionMajor
+	 * @return <code>true</code>, if versionMajor was set before,
 	 *         otherwise <code>false</code>
 	 */
 	public boolean unsetVersionMajor() {
@@ -203,7 +199,7 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 
 
 	/**
-	 * @return <code>true</code>, if listOfGlobalRenderInformation contains at least one element, 
+	 * @return <code>true</code>, if listOfGlobalRenderInformation contains at least one element,
 	 *         otherwise <code>false</code>
 	 */
 	public boolean isSetListOfGlobalRenderInformation() {
@@ -236,7 +232,7 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * @return <code>true</code>, if listOfGlobalRenderInformation contained at least one element, 
+	 * @return <code>true</code>, if listOfGlobalRenderInformation contained at least one element,
 	 *         otherwise <code>false</code>
 	 */
 	public boolean unsetListOfGlobalRenderInformation() {
@@ -277,12 +273,12 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * TODO: if the ID is mandatory for GlobalRenderInformation objects, 
-	 * one should also add this methods
+	 *
+	 * @param id
 	 */
-	//public void removeGlobalRenderInformation(String id) {
-	//  getListOfGlobalRenderInformation().removeFirst(new NameFilter(id));
-	//}
+	public void removeGlobalRenderInformation(String id) {
+	  getListOfGlobalRenderInformation().removeFirst(new NameFilter(id));
+	}
 
 	/**
 	 * create a new GlobalRenderInformation element and adds it to the ListOfGlobalRenderInformation list
@@ -304,7 +300,7 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * @return <code>true</code>, if listOfLocalRenderInformation contains at least one element, 
+	 * @return <code>true</code>, if listOfLocalRenderInformation contains at least one element,
 	 *         otherwise <code>false</code>
 	 */
 	public boolean isSetListOfLocalRenderInformation() {
@@ -337,7 +333,7 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * @return <code>true</code>, if listOfLocalRenderInformation contained at least one element, 
+	 * @return <code>true</code>, if listOfLocalRenderInformation contained at least one element,
 	 *         otherwise <code>false</code>
 	 */
 	public boolean unsetListOfLocalRenderInformation() {
@@ -446,7 +442,7 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 
 		throw new IndexOutOfBoundsException(MessageFormat.format(
 				"Index {0,number,integer} >= {1,number,integer}", childIndex,
-				+((int) Math.min(pos, 0))));
+				+Math.min(pos, 0)));
 	}
 
 	/* (non-Javadoc)

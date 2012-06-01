@@ -20,8 +20,11 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.text.MessageFormat;
+
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBase;
 
 
 /**
@@ -33,7 +36,6 @@ import org.sbml.jsbml.ListOf;
  * @since 1.0
  * @date 08.05.2012
  */
-// TODO getter, setter, isset
 public class GlobalRenderInformation extends RenderInformationBase {
 	/**
    * 
@@ -102,8 +104,8 @@ public class GlobalRenderInformation extends RenderInformationBase {
    */
   public GlobalRenderInformation(String id, String name, int level, int version) {
     super(id, name, level, version);
-    if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
-      Integer.valueOf(MIN_SBML_VERSION)) < 0) {
+    if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
+      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
     }
     initDefaults();
@@ -123,6 +125,133 @@ public class GlobalRenderInformation extends RenderInformationBase {
   @Override
   public void initDefaults() {
     addNamespace(RenderConstants.namespaceURI);
+  }
+  
+  
+  /**
+   * @return <code>true</code>, if listOfStyles contains at least one element, 
+   *         otherwise <code>false</code>
+   */
+  public boolean isSetListOfStyles() {
+    if ((listOfStyles == null) || listOfStyles.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
+
+  /**
+   * @return the listOfStyles
+   */
+  public ListOf<Style> getListOfStyles() {
+    if (!isSetListOfStyles()) {
+      listOfStyles = new ListOf<Style>(getLevel(), getVersion());
+      listOfStyles.addNamespace(RenderConstants.namespaceURI);
+      listOfStyles.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfStyles);
+    }
+    return listOfStyles;
+  }
+
+
+  /**
+   * @param listOfStyles
+   */
+  public void setListOfStyles(ListOf<Style> listOfStyles) {
+    unsetListOfStyles();
+    this.listOfStyles = listOfStyles;
+    registerChild(this.listOfStyles);
+  }
+
+
+  /**
+   * @return <code>true</code>, if listOfStyles contained at least one element, 
+   *         otherwise <code>false</code>
+   */
+  public boolean unsetListOfStyles() {
+    if (isSetListOfStyles()) {
+      ListOf<Style> oldStyles = this.listOfStyles;
+      this.listOfStyles = null;
+      oldStyles.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * @param style
+   */
+  public boolean addStyle(Style style) {
+    return getListOfStyles().add(style);
+  }
+
+
+  /**
+   * @param style
+   */
+  public boolean removeStyle(Style style) {
+    if (isSetListOfStyles()) {
+      return getListOfStyles().remove(style);
+    }
+    return false;
+  }
+
+
+  /**
+   * @param i
+   */
+  public void removeStyle(int i) {
+    if (!isSetListOfStyles()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    getListOfStyles().remove(i);
+  }
+
+
+  @Override
+  public int getChildCount() {
+    int count = super.getChildCount();
+    if (isSetListOfStyles()) {
+      count++;
+    }
+    return count;
+  }
+
+
+  @Override
+  public SBase getChildAt(int childIndex) {
+    if (childIndex < 0) {
+      throw new IndexOutOfBoundsException(childIndex + " < 0");
+    }
+    int pos = 0;
+    if (isSetListOfColorDefinitions()) {
+      if (pos == childIndex) {
+        return getListOfColorDefinitions();
+      }
+      pos++;
+    }
+    if (isSetListOfGradientDefintions()) {
+      if (pos == childIndex) {
+        return getListOfGradientDefintions();
+      }
+      pos++;
+    }
+    if (isSetListOfLineEndings()) {
+      if (pos == childIndex) {
+        return getListOfLineEndings();
+      }
+      pos++;
+    }
+    if (isSetListOfStyles()) {
+      if (pos == childIndex) {
+        return getListOfStyles();
+      }
+      pos++;
+    }
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}", childIndex,
+      +Math.min(pos, 0)));
   }
   
 }

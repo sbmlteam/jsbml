@@ -20,8 +20,11 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.text.MessageFormat;
+
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBase;
 
 
 /**
@@ -90,8 +93,8 @@ public class LocalRenderInformation extends RenderInformationBase {
    */
   public LocalRenderInformation(String id, String name, int level, int version) {
     super(id, name, level, version);
-    if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
-      Integer.valueOf(MIN_SBML_VERSION)) < 0) {
+    if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
+      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
     }
     initDefaults();
@@ -118,8 +121,7 @@ public class LocalRenderInformation extends RenderInformationBase {
    */
   @Override
   public void initDefaults() {
-    //TODO
-    //addNamespace(constant_class.namespaceURI);
+    addNamespace(RenderConstants.namespaceURI);
     this.listOfLocalStyles = null;
   }
   
@@ -140,8 +142,7 @@ public class LocalRenderInformation extends RenderInformationBase {
   public ListOf<LocalStyle> getListOfLocalStyles() {
     if (!isSetListOfLocalStyles()) {
       listOfLocalStyles = new ListOf<LocalStyle>(getLevel(), getVersion());
-      //TODO
-      //listOfLocalStyles.addNamespace(constant_class.namespaceURI);
+      listOfLocalStyles.addNamespace(RenderConstants.namespaceURI);
       listOfLocalStyles.setSBaseListType(ListOf.Type.other);
       registerChild(listOfLocalStyles);
     }
@@ -197,17 +198,51 @@ public class LocalRenderInformation extends RenderInformationBase {
     }
     getListOfLocalStyles().remove(i);
   }
-
-  //**
-   //* create a new LocalStyle element and adds it to the ListOfLocalStyles list
-   //*/
-  //TODO A Style needs a group
-  /*
-  public LocalStyle createLocalStyle(String id) {
-    LocalStyle field = new LocalStyle(id, getLevel(), getVersion());
-    addLocalStyle(field);
-    return field;
+  
+  
+  @Override
+  public int getChildCount() {
+    int count = super.getChildCount();
+     if (isSetListOfLocalStyles()) {
+      count++;
+     }
+    return count;
   }
-  */
+
+
+  @Override
+  public SBase getChildAt(int childIndex) {
+    if (childIndex < 0) {
+      throw new IndexOutOfBoundsException(childIndex + " < 0");
+    }
+    int pos = 0;
+    if (isSetListOfColorDefinitions()) {
+      if (pos == childIndex) {
+        return getListOfColorDefinitions();
+      }
+      pos++;
+    }
+    if (isSetListOfGradientDefintions()) {
+      if (pos == childIndex) {
+        return getListOfGradientDefintions();
+      }
+      pos++;
+    }
+    if (isSetListOfLineEndings()) {
+      if (pos == childIndex) {
+        return getListOfLineEndings();
+      }
+      pos++;
+    }
+    if (isSetListOfLocalStyles()) {
+      if (pos == childIndex) {
+        return getListOfLocalStyles();
+      }
+      pos++;
+    }
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}", childIndex,
+      +Math.min(pos, 0)));
+  }
 
 }
