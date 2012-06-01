@@ -38,8 +38,6 @@ public class RadialGradient extends GradientBase {
    * 
    */
   private static final long serialVersionUID = -6976786676644704255L;
-  public static final int MIN_SBML_LEVEL = 3;
-	public static final int MIN_SBML_VERSION = 1;
 	private Boolean absoluteCx, absoluteCy, absoluteCz, absoluteR;
 	
 	private Boolean absoluteFx, absoluteFy, absoluteFz;
@@ -54,7 +52,6 @@ public class RadialGradient extends GradientBase {
     super();
     initDefaults();
   }
-
 
   /**
    * Clone constructor
@@ -77,14 +74,13 @@ public class RadialGradient extends GradientBase {
     absoluteFz = obj.absoluteFz;
   }
   
-  
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GradientBase#clone()
    */
+  @Override
   public RadialGradient clone() {
     return new RadialGradient(this);
   }
-
 
   /**
    * @return the value of cx
@@ -97,7 +93,6 @@ public class RadialGradient extends GradientBase {
     throw new PropertyUndefinedError(RenderConstants.cx, this);
   }
 
-
   /**
    * @return the value of cy
    */
@@ -108,7 +103,6 @@ public class RadialGradient extends GradientBase {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.cy, this);
   }
-
 
   /**
    * @return the value of cz
@@ -121,7 +115,6 @@ public class RadialGradient extends GradientBase {
     throw new PropertyUndefinedError(RenderConstants.cz, this);
   }
   
-  
   /**
    * @return the value of fx
    */
@@ -132,7 +125,6 @@ public class RadialGradient extends GradientBase {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.fx, this);
   }
-
 
   /**
    * @return the value of fy
@@ -145,7 +137,6 @@ public class RadialGradient extends GradientBase {
     throw new PropertyUndefinedError(RenderConstants.fy, this);
   }
 
-
   /**
    * @return the value of fz
    */
@@ -156,7 +147,6 @@ public class RadialGradient extends GradientBase {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.fz, this);
   }
-
 
   /**
    * @return the value of r
@@ -169,10 +159,10 @@ public class RadialGradient extends GradientBase {
     throw new PropertyUndefinedError(RenderConstants.r, this);
   }
   
-  
-  /**
-   * Initializes the default values using the namespace.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GradientBase#initDefaults()
    */
+  @Override
   public void initDefaults() {
     addNamespace(RenderConstants.namespaceURI);
     cx = 0.5d;
@@ -191,7 +181,6 @@ public class RadialGradient extends GradientBase {
     absoluteFz = false;
   }
 
-
   /**
    * @return the value of absoluteCx
    */
@@ -202,7 +191,6 @@ public class RadialGradient extends GradientBase {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.absoluteCx, this);
   }
-
 
   /**
    * @return the value of absoluteCy
@@ -215,7 +203,6 @@ public class RadialGradient extends GradientBase {
     throw new PropertyUndefinedError(RenderConstants.absoluteCy, this);
   }
 
-
   /**
    * @return the value of absoluteCz
    */
@@ -226,7 +213,6 @@ public class RadialGradient extends GradientBase {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.absoluteCz, this);
   }
-  
   
   /**
    * @return the value of absoluteFx
@@ -239,7 +225,6 @@ public class RadialGradient extends GradientBase {
     throw new PropertyUndefinedError(RenderConstants.absoluteFx, this);
   }
 
-
   /**
    * @return the value of absoluteFy
    */
@@ -250,7 +235,6 @@ public class RadialGradient extends GradientBase {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.absoluteFy, this);
   }
-
 
   /**
    * @return the value of absoluteFz
@@ -263,7 +247,6 @@ public class RadialGradient extends GradientBase {
     throw new PropertyUndefinedError(RenderConstants.absoluteFz, this);
   }
 
-
   /**
    * @return the value of absoluteR
    */
@@ -275,14 +258,12 @@ public class RadialGradient extends GradientBase {
     throw new PropertyUndefinedError(RenderConstants.absoluteR, this);
   }
   
-  
   /**
    * @return whether absoluteCx is set 
    */
   public boolean isSetAbsoluteCx() {
     return this.absoluteCx != null;
   }
-
 
   /**
    * @return whether absoluteCy is set 
@@ -291,14 +272,12 @@ public class RadialGradient extends GradientBase {
     return this.absoluteCy != null;
   }
 
-
   /**
    * @return whether absoluteCz is set 
    */
   public boolean isSetAbsoluteCz() {
     return this.absoluteCz != null;
   }
-
 
   /**
    * @return whether absoluteFx is set 
@@ -307,14 +286,12 @@ public class RadialGradient extends GradientBase {
     return this.absoluteFx != null;
   }
   
-  
   /**
    * @return whether absoluteFy is set 
    */
   public boolean isSetAbsoluteFy() {
     return this.absoluteFy != null;
   }
-
 
   /**
    * @return whether absoluteFz is set 
@@ -323,7 +300,6 @@ public class RadialGradient extends GradientBase {
     return this.absoluteFz != null;
   }
 
-
   /**
    * @return whether absoluteR is set 
    */
@@ -331,22 +307,19 @@ public class RadialGradient extends GradientBase {
     return this.absoluteR != null;
   }
 
-
   /**
    * @return whether cx is set 
    */
   public boolean isSetCx() {
     return this.cx != null;
   }
-  
-  
+
   /**
    * @return whether cy is set 
    */
   public boolean isSetCy() {
     return this.cy != null;
   }
-
 
   /**
    * @return whether cz is set 
@@ -355,14 +328,12 @@ public class RadialGradient extends GradientBase {
     return this.cz != null;
   }
 
-
   /**
    * @return whether fx is set 
    */
   public boolean isSetFx() {
     return this.fx != null;
   }
-
 
   /**
    * @return whether fy is set 
@@ -371,7 +342,6 @@ public class RadialGradient extends GradientBase {
     return this.fy != null;
   }
   
-  
   /**
    * @return whether fz is set 
    */
@@ -379,14 +349,12 @@ public class RadialGradient extends GradientBase {
     return this.fz != null;
   }
 
-
   /**
    * @return whether r is set 
    */
   public boolean isSetR() {
     return this.r != null;
   }
-
 
   /**
    * Set the value of absoluteCx
@@ -397,7 +365,6 @@ public class RadialGradient extends GradientBase {
     firePropertyChange(RenderConstants.absoluteCx, oldAbsoluteCx, this.absoluteCx);
   }
 
-
   /**
    * Set the value of absoluteCy
    */
@@ -406,8 +373,7 @@ public class RadialGradient extends GradientBase {
     this.absoluteCy = absoluteCy;
     firePropertyChange(RenderConstants.absoluteCy, oldAbsoluteCy, this.absoluteCy);
   }
-  
-  
+
   /**
    * Set the value of absoluteCz
    */
@@ -416,7 +382,6 @@ public class RadialGradient extends GradientBase {
     this.absoluteCz = absoluteCz;
     firePropertyChange(RenderConstants.absoluteCz, oldAbsoluteCz, this.absoluteCz);
   }
-
 
   /**
    * Set the value of absoluteFx
@@ -427,7 +392,6 @@ public class RadialGradient extends GradientBase {
     firePropertyChange(RenderConstants.absoluteFx, oldAbsoluteFx, this.absoluteFx);
   }
 
-
   /**
    * Set the value of absoluteFy
    */
@@ -437,7 +401,6 @@ public class RadialGradient extends GradientBase {
     firePropertyChange(RenderConstants.absoluteFy, oldAbsoluteFy, this.absoluteFy);
   }
 
-
   /**
    * Set the value of absoluteFz
    */
@@ -446,8 +409,7 @@ public class RadialGradient extends GradientBase {
     this.absoluteFz = absoluteFz;
     firePropertyChange(RenderConstants.absoluteFz, oldAbsoluteFz, this.absoluteFz);
   }
-  
-  
+
   /**
    * Set the value of absoluteR
    */
@@ -456,7 +418,6 @@ public class RadialGradient extends GradientBase {
     this.absoluteR = absoluteR;
     firePropertyChange(RenderConstants.absoluteR, oldAbsoluteR, this.absoluteR);
   }
-
 
   /**
    * Set the value of cx
@@ -467,7 +428,6 @@ public class RadialGradient extends GradientBase {
     firePropertyChange(RenderConstants.cx, oldCx, this.cx);
   }
 
-
   /**
    * Set the value of cy
    */
@@ -476,7 +436,6 @@ public class RadialGradient extends GradientBase {
     this.cy = cy;
     firePropertyChange(RenderConstants.cy, oldCy, this.cy);
   }
-
 
   /**
    * Set the value of cz
@@ -487,7 +446,6 @@ public class RadialGradient extends GradientBase {
     firePropertyChange(RenderConstants.cz, oldCz, this.cz);
   }
   
-  
   /**
    * Set the value of fx
    */
@@ -496,7 +454,6 @@ public class RadialGradient extends GradientBase {
     this.fx = fx;
     firePropertyChange(RenderConstants.fx, oldFx, this.fx);
   }
-
 
   /**
    * Set the value of fy
@@ -507,7 +464,6 @@ public class RadialGradient extends GradientBase {
     firePropertyChange(RenderConstants.fy, oldFy, this.fy);
   }
 
-
   /**
    * Set the value of fz
    */
@@ -517,7 +473,6 @@ public class RadialGradient extends GradientBase {
     firePropertyChange(RenderConstants.fz, oldFz, this.fz);
   }
 
-
   /**
    * Set the value of r
    */
@@ -526,7 +481,6 @@ public class RadialGradient extends GradientBase {
     this.r = r;
     firePropertyChange(RenderConstants.r, oldR, this.r);
   }
-  
   
   /**
    * Unsets the variable absoluteCx 
@@ -543,7 +497,6 @@ public class RadialGradient extends GradientBase {
     return false;
   }
 
-
   /**
    * Unsets the variable absoluteCy 
    * @return <code>true</code>, if absoluteCy was set before, 
@@ -558,7 +511,6 @@ public class RadialGradient extends GradientBase {
     }
     return false;
   }
-
 
   /**
    * Unsets the variable absoluteCz 
@@ -575,7 +527,6 @@ public class RadialGradient extends GradientBase {
     return false;
   }
 
-
   /**
    * Unsets the variable absoluteFx 
    * @return <code>true</code>, if absoluteFx was set before, 
@@ -590,7 +541,6 @@ public class RadialGradient extends GradientBase {
     }
     return false;
   }
-  
   
   /**
    * Unsets the variable absoluteFy 
@@ -607,7 +557,6 @@ public class RadialGradient extends GradientBase {
     return false;
   }
 
-
   /**
    * Unsets the variable absoluteFz 
    * @return <code>true</code>, if absoluteFz was set before, 
@@ -622,7 +571,6 @@ public class RadialGradient extends GradientBase {
     }
     return false;
   }
-
 
   /**
    * Unsets the variable absoluteR 
@@ -639,7 +587,6 @@ public class RadialGradient extends GradientBase {
     return false;
   }
 
-
   /**
    * Unsets the variable cx 
    * @return <code>true</code>, if cx was set before, 
@@ -654,7 +601,6 @@ public class RadialGradient extends GradientBase {
     }
     return false;
   }
-  
   
   /**
    * Unsets the variable cy 
@@ -671,7 +617,6 @@ public class RadialGradient extends GradientBase {
     return false;
   }
 
-
   /**
    * Unsets the variable cz 
    * @return <code>true</code>, if cz was set before, 
@@ -687,7 +632,6 @@ public class RadialGradient extends GradientBase {
     return false;
   }
 
-
   /**
    * Unsets the variable fx 
    * @return <code>true</code>, if fx was set before, 
@@ -702,7 +646,6 @@ public class RadialGradient extends GradientBase {
     }
     return false;
   }
-
 
   /**
    * Unsets the variable fy 
@@ -733,6 +676,7 @@ public class RadialGradient extends GradientBase {
     }
     return false;
   }
+
   /**
    * Unsets the variable r 
    * @return <code>true</code>, if r was set before, 
@@ -747,4 +691,5 @@ public class RadialGradient extends GradientBase {
     }
     return false;
   }
+
 }

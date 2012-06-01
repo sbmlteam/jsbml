@@ -87,9 +87,10 @@ public class ColorDefinition extends AbstractSBase {
   }
 
 
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
    */
+  //@Override
   public ColorDefinition clone() {
     return new ColorDefinition(this);
   }
@@ -157,6 +158,10 @@ public class ColorDefinition extends AbstractSBase {
     return false;
   }
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#toString()
+   */
+   //@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;

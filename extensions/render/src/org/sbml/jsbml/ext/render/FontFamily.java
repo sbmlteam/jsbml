@@ -28,7 +28,16 @@ package org.sbml.jsbml.ext.render;
  * @date 16.05.2012
  */
 public enum FontFamily {
-    serif,
-    sans_serif,
-    monospace,
+  /**
+   * 
+   */
+  serif,
+  /**
+   * 
+   */
+  sans_serif,
+  /**
+   * 
+   */
+  monospace;
 }

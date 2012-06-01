@@ -40,14 +40,11 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
    */
   private static final long serialVersionUID = -4727110538908666931L;
   
-  
-  
   /**
    * 
    */
   private ListOf<GlobalRenderInformation> listOfGlobalRenderInformation;
 
-  
   /**
    * Creates an RenderModelPlugin instance 
    */
@@ -63,7 +60,6 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
     super(obj);
   }
 
-
   /**
    * @param field
    */
@@ -71,13 +67,13 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
     return getListOfGlobalRenderInformation().add(field);
   }
 
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.AbstractRenderPlugin#clone()
    */
+  @Override
   public RenderModelPlugin clone() {
     return new RenderModelPlugin(this);
   }
-
 
   /**
    * create a new GlobalRenderInformation element and adds it to the ListOfGlobalRenderInformation list
@@ -98,11 +94,19 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
     addGlobalRenderInformation(field);
     return field;
   }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.AbstractRenderPlugin#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.AbstractRenderPlugin#getChildAt(int)
+   */
+  @Override
   public SBase getChildAt(int childIndex) {
     if (childIndex < 0) {
       throw new IndexOutOfBoundsException(childIndex + " < 0");
@@ -119,7 +123,9 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
       +((int) Math.min(pos, 0))));
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.AbstractRenderPlugin#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
@@ -128,7 +134,6 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
      }
     return count;
   }
-
 
   /**
    * @return the listOfGlobalRenderInformation
@@ -144,16 +149,15 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
     return listOfGlobalRenderInformation;
   }
 
-
-  /**
-   * Initializes the default values using the namespace.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.AbstractRenderPlugin#initDefaults()
    */
+  @Override
   public void initDefaults() {
 //    addNamespace(RenderConstants.namespaceURI);
     // TODO: init default values here if necessary, e.g.:
     // bar = null;
   }
-
 
   /**
    * @return <code>true</code>, if listOfGlobalRenderInformation contains at least one element, 
@@ -166,7 +170,6 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
     return true;
   }
 
-
   /**
    * @param field
    */
@@ -177,7 +180,6 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
     return false;
   }
 
-
   /**
    * @param i
    */
@@ -187,7 +189,6 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
     }
     getListOfGlobalRenderInformation().remove(i);
   }
-
 
   /**
    * TODO: if the ID is mandatory for GlobalRenderInformation objects, 
@@ -205,7 +206,6 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
     getExtendedSBase().registerChild(this.listOfGlobalRenderInformation);
   }
 
-
   /**
    * @return <code>true</code>, if listOfGlobalRenderInformation contained at least one element, 
    *         otherwise <code>false</code>
@@ -219,4 +219,5 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
     }
     return false;
   }
+
 }

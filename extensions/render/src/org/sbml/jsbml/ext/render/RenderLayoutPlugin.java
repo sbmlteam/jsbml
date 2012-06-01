@@ -58,30 +58,35 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     // bar = obj.bar;
   }
 
-
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.AbstractRenderPlugin#clone()
    */
+  @Override
   public RenderLayoutPlugin clone() {
     return new RenderLayoutPlugin(this);
   }
 
-
-  /**
-   * Initializes the default values using the namespace.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.AbstractRenderPlugin#initDefaults()
    */
+  @Override
   public void initDefaults() {
 //    addNamespace(RenderConstants.namespaceURI);
     // TODO: init default values here if necessary, e.g.:
     // bar = null;
   }
 
-  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.AbstractRenderPlugin#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.AbstractRenderPlugin#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
@@ -91,6 +96,9 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     return count;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.AbstractRenderPlugin#getChildAt(int)
+   */
   @Override
   public SBase getChildAt(int childIndex) {
     if (childIndex < 0) {
@@ -107,8 +115,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
       "Index {0,number,integer} >= {1,number,integer}", childIndex,
       +((int) Math.min(pos, 0))));
   }
-  
-  
+
   /**
    * @return <code>true</code>, if listOfLocalRenderInformation contains at least one element, 
    *         otherwise <code>false</code>
@@ -119,7 +126,6 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     }
     return true;
   }
-
 
   /**
    * @return the listOfLocalRenderInformation
@@ -144,7 +150,6 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     return getListOfLocalRenderInformation().get(i);
   }
 
-
   /**
    * @param listOfLocalRenderInformation
    */
@@ -153,7 +158,6 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     this.listOfLocalRenderInformation = listOfLocalRenderInformation;
     getExtendedSBase().registerChild(this.listOfLocalRenderInformation);
   }
-
 
   /**
    * @return <code>true</code>, if listOfLocalRenderInformation contained at least one element, 
@@ -169,14 +173,12 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     return false;
   }
 
-
   /**
    * @param field
    */
   public boolean addLocalRenderInformation(LocalRenderInformation field) {
     return getListOfLocalRenderInformation().add(field);
   }
-
 
   /**
    * @param field
@@ -188,7 +190,6 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     return false;
   }
 
-
   /**
    * @param i
    */
@@ -198,7 +199,6 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     }
     getListOfLocalRenderInformation().remove(i);
   }
-
 
   /**
    * TODO: if the ID is mandatory for LocalRenderInformation objects, 
@@ -217,7 +217,6 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     return createLocalRenderInformation(null);
   }
 
-
   /**
    * create a new LocalRenderInformation element and adds it to the ListOfLocalRenderInformation list
    */
@@ -227,4 +226,5 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     addLocalRenderInformation(field);
     return field;
   }
+
 }

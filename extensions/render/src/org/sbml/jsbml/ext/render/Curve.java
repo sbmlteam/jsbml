@@ -60,16 +60,18 @@ public class Curve extends GraphicalPrimitive1D {
 		listOfElements = obj.listOfElements;
 	}
 
-	/**
-	 * clones this class
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#clone()
 	 */
+	@Override
 	public Curve clone() {
 		return new Curve(this);
 	}
 
-	/**
-	 * Initializes the default values using the namespace.
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#initDefaults()
 	 */
+	@Override
 	public void initDefaults() {
 		addNamespace(RenderConstants.namespaceURI);
 	}
@@ -252,4 +254,5 @@ public class Curve extends GraphicalPrimitive1D {
 		addElement(element);
 		return element;
 	}
+
 }

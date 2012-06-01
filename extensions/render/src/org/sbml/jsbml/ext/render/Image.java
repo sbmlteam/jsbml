@@ -82,37 +82,43 @@ public class Image extends Transformation2D {
 		z = obj.z;
 	}
 
-	/**
-	 * clones this class
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.Transformation2D#clone()
 	 */
+	@Override
 	public Image clone() {
 		return new Image(this);
 	}
 
-	/**
-	 * Initializes the default values using the namespace.
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.Transformation2D#initDefaults()
 	 */
+	@Override
 	public void initDefaults() {
 		addNamespace(RenderConstants.namespaceURI);
 		z = 0d;
 	}
 
-	public static final int MIN_SBML_LEVEL = 3;
-	public static final int MIN_SBML_VERSION = 1;
-	
-	
-
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.Transformation#getAllowsChildren()
+	 */
 	@Override
 	public boolean getAllowsChildren() {
 		return false;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.Transformation#getChildCount()
+	 */
 	@Override
 	public int getChildCount() {
 		int count = 0;
 		return count;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.Transformation#getChildAt(int)
+	 */
 	@Override
 	public SBase getChildAt(int childIndex) {
 		if (childIndex < 0) {
@@ -123,7 +129,6 @@ public class Image extends Transformation2D {
 				"Index {0,number,integer} >= {1,number,integer}", childIndex,
 				+((int) Math.min(pos, 0))));
 	}
-	
 	
 	/**
 	 * @return the value of absoluteHeight
@@ -208,8 +213,7 @@ public class Image extends Transformation2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of absoluteX
 	 */
@@ -251,8 +255,7 @@ public class Image extends Transformation2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of absoluteY
 	 */
@@ -294,8 +297,7 @@ public class Image extends Transformation2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of absoluteZ
 	 */
@@ -337,8 +339,7 @@ public class Image extends Transformation2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of height
 	 */
@@ -380,8 +381,7 @@ public class Image extends Transformation2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of href
 	 */
@@ -423,8 +423,7 @@ public class Image extends Transformation2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of width
 	 */
@@ -466,8 +465,7 @@ public class Image extends Transformation2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of x
 	 */
@@ -509,8 +507,7 @@ public class Image extends Transformation2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of y
 	 */
@@ -552,8 +549,7 @@ public class Image extends Transformation2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of z
 	 */
@@ -595,4 +591,5 @@ public class Image extends Transformation2D {
 		}
 		return false;
 	}
+
 }

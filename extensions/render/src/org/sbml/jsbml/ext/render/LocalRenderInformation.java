@@ -49,7 +49,6 @@ public class LocalRenderInformation extends RenderInformationBase {
     initDefaults();
   }
 
-
   /**
    * Creates a LocalRenderInformation instance with an id. 
    * 
@@ -59,7 +58,6 @@ public class LocalRenderInformation extends RenderInformationBase {
     super(id);
     initDefaults();
   }
-
 
   /**
    * Creates a LocalRenderInformation instance with a level and version. 
@@ -71,7 +69,6 @@ public class LocalRenderInformation extends RenderInformationBase {
     this(null, null, level, version);
   }
 
-
   /**
    * Creates a LocalRenderInformation instance with an id, level, and version. 
    * 
@@ -82,7 +79,6 @@ public class LocalRenderInformation extends RenderInformationBase {
   public LocalRenderInformation(String id, int level, int version) {
     this(id, null, level, version);
   }
-
 
   /**
    * Creates a LocalRenderInformation instance with an id, name, level, and version. 
@@ -101,7 +97,6 @@ public class LocalRenderInformation extends RenderInformationBase {
     initDefaults();
   }
 
-
   /**
    * Clone constructor
    */
@@ -110,24 +105,23 @@ public class LocalRenderInformation extends RenderInformationBase {
     this.listOfLocalStyles = obj.listOfLocalStyles;
   }
 
-
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.RenderInformationBase#clone()
    */
+  @Override
   public LocalRenderInformation clone() {
     return new LocalRenderInformation(this);
   }
 
-
-  /**
-   * Initializes the default values using the namespace.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.RenderInformationBase#initDefaults()
    */
+  @Override
   public void initDefaults() {
     //TODO
     //addNamespace(constant_class.namespaceURI);
     this.listOfLocalStyles = null;
   }
-  
   
   /**
    * @return <code>true</code>, if listOfLocalStyles contains at least one element, 
@@ -139,7 +133,6 @@ public class LocalRenderInformation extends RenderInformationBase {
     }
     return true;
   }
-
 
   /**
    * @return the listOfLocalStyles
@@ -155,7 +148,6 @@ public class LocalRenderInformation extends RenderInformationBase {
     return listOfLocalStyles;
   }
 
-
   /**
    * @param listOfLocalStyles
    */
@@ -164,7 +156,6 @@ public class LocalRenderInformation extends RenderInformationBase {
     this.listOfLocalStyles = listOfLocalStyles;
     registerChild(this.listOfLocalStyles);
   }
-
 
   /**
    * @return <code>true</code>, if listOfLocalStyles contained at least one element, 
@@ -180,14 +171,12 @@ public class LocalRenderInformation extends RenderInformationBase {
     return false;
   }
 
-
   /**
    * @param localStyle
    */
   public boolean addLocalStyle(LocalStyle localStyle) {
     return getListOfLocalStyles().add(localStyle);
   }
-
 
   /**
    * @param localStyle
@@ -199,7 +188,6 @@ public class LocalRenderInformation extends RenderInformationBase {
     return false;
   }
 
-
   /**
    * @param index
    */
@@ -210,10 +198,9 @@ public class LocalRenderInformation extends RenderInformationBase {
     getListOfLocalStyles().remove(i);
   }
 
-
-  /**
-   * create a new LocalStyle element and adds it to the ListOfLocalStyles list
-   */
+  //**
+   //* create a new LocalStyle element and adds it to the ListOfLocalStyles list
+   //*/
   //TODO A Style needs a group
   /*
   public LocalStyle createLocalStyle(String id) {
@@ -222,4 +209,5 @@ public class LocalRenderInformation extends RenderInformationBase {
     return field;
   }
   */
+
 }

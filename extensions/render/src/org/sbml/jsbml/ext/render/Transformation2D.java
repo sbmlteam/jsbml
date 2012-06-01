@@ -57,14 +57,13 @@ public class Transformation2D extends Transformation {
     transform = obj.transform;
   }
 
-
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Transformation#clone()
    */
+  @Override
   public Transformation2D clone() {
     return new Transformation2D(this);
   }
-
 
   /**
    * @return the value of transform
@@ -77,14 +76,13 @@ public class Transformation2D extends Transformation {
     throw new PropertyUndefinedError(RenderConstants.transform, this);
   }
 
-
-  /**
-   * Initializes the default values using the namespace.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Transformation#initDefaults()
    */
+  @Override
   public void initDefaults() {
     addNamespace(RenderConstants.namespaceURI);
   }
-
 
   /**
    * @return whether transform is set 
@@ -101,6 +99,7 @@ public class Transformation2D extends Transformation {
     this.transform = transform;
     firePropertyChange(RenderConstants.transform, oldTransform, this.transform);
   }
+
   /**
    * Unsets the variable transform 
    * @return <code>true</code>, if transform was set before, 
@@ -115,4 +114,5 @@ public class Transformation2D extends Transformation {
     }
     return false;
   }
+
 }

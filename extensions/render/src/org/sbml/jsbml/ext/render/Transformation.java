@@ -50,7 +50,6 @@ public class Transformation extends AbstractSBase {
     initDefaults();
   }
 
-
   /**
    * Clone constructor
    */
@@ -59,18 +58,25 @@ public class Transformation extends AbstractSBase {
     transform = obj.transform;
   }
 
-
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
    */
+  //@Override
   public Transformation clone() {
     return new Transformation(this);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return false;
   }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
   @Override
   public SBase getChildAt(int childIndex) {
     if (childIndex < 0) {
@@ -82,6 +88,9 @@ public class Transformation extends AbstractSBase {
       +((int) Math.min(pos, 0))));
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     return 0;
@@ -97,7 +106,7 @@ public class Transformation extends AbstractSBase {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#toString()
    */
-  @Override
+  //@Override
   public String toString() {
     // TODO Auto-generated method stub
     return null;

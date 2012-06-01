@@ -63,16 +63,16 @@ public class LinearGradient extends GradientBase {
 		z2 = obj.z2;
 	}
 
-	/**
-	 * clones this class
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GradientBase#clone()
 	 */
 	@Override
 	public LinearGradient clone() {
 		return new LinearGradient(this);
 	}
 
-	/**
-	 * Initializes the default values using the namespace.
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GradientBase#initDefaults()
 	 */
 	@Override
 	public void initDefaults() {
@@ -85,22 +85,26 @@ public class LinearGradient extends GradientBase {
 		z2 = 1d;
 	}
 
-	public static final int MIN_SBML_LEVEL = 3;
-	public static final int MIN_SBML_VERSION = 1;
-	
-	
-
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GradientBase#getAllowsChildren()
+	 */
 	@Override
 	public boolean getAllowsChildren() {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GradientBase#getChildCount()
+	 */
 	@Override
 	public int getChildCount() {
 		int count = 0;
 		return count;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GradientBase#getChildAt(int)
+	 */
 	@Override
 	public SBase getChildAt(int childIndex) {
 		if (childIndex < 0) {
@@ -111,7 +115,6 @@ public class LinearGradient extends GradientBase {
 				"Index {0,number,integer} >= {1,number,integer}", childIndex,
 				+((int) Math.min(pos, 0))));
 	}
-	
 	
 	/**
 	 * @return the value of x1
@@ -154,8 +157,7 @@ public class LinearGradient extends GradientBase {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of x2
 	 */
@@ -197,8 +199,7 @@ public class LinearGradient extends GradientBase {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of y1
 	 */
@@ -241,7 +242,6 @@ public class LinearGradient extends GradientBase {
 		return false;
 	}
 	
-	
 	/**
 	 * @return the value of y2
 	 */
@@ -283,8 +283,7 @@ public class LinearGradient extends GradientBase {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of z1
 	 */
@@ -326,8 +325,7 @@ public class LinearGradient extends GradientBase {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of z2
 	 */
@@ -369,4 +367,5 @@ public class LinearGradient extends GradientBase {
 		}
 		return false;
 	}
+
 }

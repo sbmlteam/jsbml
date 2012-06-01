@@ -73,20 +73,25 @@ public class RenderCubicBezier extends RenderPoint {
     z2 = obj.z2;
   }
 
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.RenderPoint#clone()
    */
+  @Override
   public RenderCubicBezier clone() {
     return new RenderCubicBezier(this);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.RenderPoint#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.RenderPoint#getChildAt(int)
+   */
   @Override
   public SBase getChildAt(int childIndex) {
     if (childIndex < 0) {
@@ -98,11 +103,13 @@ public class RenderCubicBezier extends RenderPoint {
       +((int) Math.min(pos, 0))));
   }
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.RenderPoint#getChildCount()
+   */
   @Override
   public int getChildCount() {
     return 0;
   }
-
 
   /**
    * @return the value of x1
@@ -114,7 +121,6 @@ public class RenderCubicBezier extends RenderPoint {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.x1, this);
   }
-  
     
   /**
    * @return the value of x2
@@ -127,7 +133,6 @@ public class RenderCubicBezier extends RenderPoint {
     throw new PropertyUndefinedError(RenderConstants.x2, this);
   }
 
-
   /**
    * @return the value of y1
    */
@@ -138,7 +143,6 @@ public class RenderCubicBezier extends RenderPoint {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.y1, this);
   }
-
 
   /**
    * @return the value of y2
@@ -151,7 +155,6 @@ public class RenderCubicBezier extends RenderPoint {
     throw new PropertyUndefinedError(RenderConstants.y2, this);
   }
 
-
   /**
    * @return the value of z1
    */
@@ -162,8 +165,7 @@ public class RenderCubicBezier extends RenderPoint {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.z1, this);
   }
-  
-  
+
   /**
    * @return the value of z2
    */
@@ -175,16 +177,15 @@ public class RenderCubicBezier extends RenderPoint {
     throw new PropertyUndefinedError(RenderConstants.z2, this);
   }
 
-
-  /**
-   * Initializes the default values using the namespace.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.RenderPoint#initDefaults()
    */
+  @Override
   public void initDefaults() {
     addNamespace(RenderConstants.namespaceURI);
     z1 = 0d;
     z2 = 0d;
   }
-
 
   /**
    * @return the value of absoluteX1
@@ -197,7 +198,6 @@ public class RenderCubicBezier extends RenderPoint {
     throw new PropertyUndefinedError(RenderConstants.absoluteX1, this);
   }
 
-
   /**
    * @return the value of absoluteX2
    */
@@ -208,8 +208,7 @@ public class RenderCubicBezier extends RenderPoint {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.absoluteX2, this);
   }
-  
-  
+
   /**
    * @return the value of absoluteY1
    */
@@ -220,7 +219,6 @@ public class RenderCubicBezier extends RenderPoint {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.absoluteY1, this);
   }
-
 
   /**
    * @return the value of absoluteY2
@@ -233,7 +231,6 @@ public class RenderCubicBezier extends RenderPoint {
     throw new PropertyUndefinedError(RenderConstants.absoluteY2, this);
   }
 
-
   /**
    * @return the value of absoluteZ1
    */
@@ -244,7 +241,6 @@ public class RenderCubicBezier extends RenderPoint {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.absoluteZ1, this);
   }
-
 
   /**
    * @return the value of absoluteZ2
@@ -257,14 +253,12 @@ public class RenderCubicBezier extends RenderPoint {
     throw new PropertyUndefinedError(RenderConstants.absoluteZ2, this);
   }
   
-  
   /**
    * @return whether absoluteX1 is set 
    */
   public boolean isSetAbsoluteX1() {
     return this.absoluteX1 != null;
   }
-
 
   /**
    * @return whether absoluteX2 is set 
@@ -273,7 +267,6 @@ public class RenderCubicBezier extends RenderPoint {
     return this.absoluteX2 != null;
   }
 
-
   /**
    * @return whether absoluteY1 is set 
    */
@@ -281,22 +274,19 @@ public class RenderCubicBezier extends RenderPoint {
     return this.absoluteY1 != null;
   }
 
-
   /**
    * @return whether absoluteY2 is set 
    */
   public boolean isSetAbsoluteY2() {
     return this.absoluteY2 != null;
   }
-  
-  
+
   /**
    * @return whether absoluteZ1 is set 
    */
   public boolean isSetAbsoluteZ1() {
     return this.absoluteZ1 != null;
   }
-
 
   /**
    * @return whether absoluteZ2 is set 
@@ -305,14 +295,12 @@ public class RenderCubicBezier extends RenderPoint {
     return this.absoluteZ2 != null;
   }
 
-
   /**
    * @return whether x1 is set 
    */
   public boolean isSetX1() {
     return this.x1 != null;
   }
-
 
   /**
    * @return whether x2 is set 
@@ -321,14 +309,12 @@ public class RenderCubicBezier extends RenderPoint {
     return this.x2 != null;
   }
   
-  
   /**
    * @return whether y1 is set 
    */
   public boolean isSetY1() {
     return this.y1 != null;
   }
-
 
   /**
    * @return whether y2 is set 
@@ -337,7 +323,6 @@ public class RenderCubicBezier extends RenderPoint {
     return this.y2 != null;
   }
 
-
   /**
    * @return whether z1 is set 
    */
@@ -345,14 +330,12 @@ public class RenderCubicBezier extends RenderPoint {
     return this.z1 != null;
   }
 
-
   /**
    * @return whether z2 is set 
    */
   public boolean isSetZ2() {
     return this.z2 != null;
   }
-  
   
   /**
    * Set the value of absoluteX1
@@ -363,7 +346,6 @@ public class RenderCubicBezier extends RenderPoint {
     firePropertyChange(RenderConstants.absoluteX1, oldAbsoluteX1, this.absoluteX1);
   }
 
-
   /**
    * Set the value of absoluteX2
    */
@@ -372,7 +354,6 @@ public class RenderCubicBezier extends RenderPoint {
     this.absoluteX2 = absoluteX2;
     firePropertyChange(RenderConstants.absoluteX2, oldAbsoluteX2, this.absoluteX2);
   }
-
 
   /**
    * Set the value of absoluteY1
@@ -383,7 +364,6 @@ public class RenderCubicBezier extends RenderPoint {
     firePropertyChange(RenderConstants.absoluteY1, oldAbsoluteY1, this.absoluteY1);
   }
 
-
   /**
    * Set the value of absoluteY2
    */
@@ -392,7 +372,6 @@ public class RenderCubicBezier extends RenderPoint {
     this.absoluteY2 = absoluteY2;
     firePropertyChange(RenderConstants.absoluteY2, oldAbsoluteY2, this.absoluteY2);
   }
-  
   
   /**
    * Set the value of absoluteZ1
@@ -403,7 +382,6 @@ public class RenderCubicBezier extends RenderPoint {
     firePropertyChange(RenderConstants.absoluteZ1, oldAbsoluteZ1, this.absoluteZ1);
   }
 
-
   /**
    * Set the value of absoluteZ2
    */
@@ -412,7 +390,6 @@ public class RenderCubicBezier extends RenderPoint {
     this.absoluteZ2 = absoluteZ2;
     firePropertyChange(RenderConstants.absoluteZ2, oldAbsoluteZ2, this.absoluteZ2);
   }
-
 
   /**
    * Set the value of x1
@@ -423,7 +400,6 @@ public class RenderCubicBezier extends RenderPoint {
     firePropertyChange(RenderConstants.x1, oldX1, this.x1);
   }
 
-
   /**
    * Set the value of x2
    */
@@ -432,8 +408,7 @@ public class RenderCubicBezier extends RenderPoint {
     this.x2 = x2;
     firePropertyChange(RenderConstants.x2, oldX2, this.x2);
   }
-  
-  
+
   /**
    * Set the value of y1
    */
@@ -442,7 +417,6 @@ public class RenderCubicBezier extends RenderPoint {
     this.y1 = y1;
     firePropertyChange(RenderConstants.y1, oldY1, this.y1);
   }
-
 
   /**
    * Set the value of y2
@@ -453,7 +427,6 @@ public class RenderCubicBezier extends RenderPoint {
     firePropertyChange(RenderConstants.y2, oldY2, this.y2);
   }
 
-
   /**
    * Set the value of z1
    */
@@ -463,7 +436,6 @@ public class RenderCubicBezier extends RenderPoint {
     firePropertyChange(RenderConstants.z1, oldZ1, this.z1);
   }
 
-
   /**
    * Set the value of z2
    */
@@ -472,8 +444,7 @@ public class RenderCubicBezier extends RenderPoint {
     this.z2 = z2;
     firePropertyChange(RenderConstants.z2, oldZ2, this.z2);
   }
-  
-  
+
   /**
    * Unsets the variable absoluteX1 
    * @return <code>true</code>, if absoluteX1 was set before, 
@@ -488,7 +459,6 @@ public class RenderCubicBezier extends RenderPoint {
     }
     return false;
   }
-
 
   /**
    * Unsets the variable absoluteX2 
@@ -505,7 +475,6 @@ public class RenderCubicBezier extends RenderPoint {
     return false;
   }
 
-
   /**
    * Unsets the variable absoluteY1 
    * @return <code>true</code>, if absoluteY1 was set before, 
@@ -521,7 +490,6 @@ public class RenderCubicBezier extends RenderPoint {
     return false;
   }
 
-
   /**
    * Unsets the variable absoluteY2 
    * @return <code>true</code>, if absoluteY2 was set before, 
@@ -536,8 +504,7 @@ public class RenderCubicBezier extends RenderPoint {
     }
     return false;
   }
-  
-  
+
   /**
    * Unsets the variable absoluteZ1 
    * @return <code>true</code>, if absoluteZ1 was set before, 
@@ -552,7 +519,6 @@ public class RenderCubicBezier extends RenderPoint {
     }
     return false;
   }
-
 
   /**
    * Unsets the variable absoluteZ2 
@@ -569,7 +535,6 @@ public class RenderCubicBezier extends RenderPoint {
     return false;
   }
 
-
   /**
    * Unsets the variable x1 
    * @return <code>true</code>, if x1 was set before, 
@@ -584,7 +549,6 @@ public class RenderCubicBezier extends RenderPoint {
     }
     return false;
   }
-
 
   /**
    * Unsets the variable x2 
@@ -601,7 +565,6 @@ public class RenderCubicBezier extends RenderPoint {
     return false;
   }
   
-  
   /**
    * Unsets the variable y1 
    * @return <code>true</code>, if y1 was set before, 
@@ -616,7 +579,6 @@ public class RenderCubicBezier extends RenderPoint {
     }
     return false;
   }
-
 
   /**
    * Unsets the variable y2 
@@ -633,7 +595,6 @@ public class RenderCubicBezier extends RenderPoint {
     return false;
   }
 
-
   /**
    * Unsets the variable z1 
    * @return <code>true</code>, if z1 was set before, 
@@ -649,7 +610,6 @@ public class RenderCubicBezier extends RenderPoint {
     return false;
   }
 
-
   /**
    * Unsets the variable z2 
    * @return <code>true</code>, if z2 was set before, 
@@ -664,4 +624,5 @@ public class RenderCubicBezier extends RenderPoint {
     }
     return false;
   }
+
 }

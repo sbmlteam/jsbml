@@ -36,6 +36,16 @@ import org.sbml.jsbml.ListOf;
 // TODO getter, setter, isset
 public class GlobalRenderInformation extends RenderInformationBase {
 	/**
+   * 
+   */
+  private static final long serialVersionUID = 855680727119080659L;
+
+  /**
+   * 
+   */
+  private ListOf<Style> listOfStyles;
+
+  /**
    * Creates an GlobalRenderInformation instance 
    */
   public GlobalRenderInformation() {
@@ -43,17 +53,13 @@ public class GlobalRenderInformation extends RenderInformationBase {
     initDefaults();
   }
 
-
   /**
-   * Creates a GlobalRenderInformation instance with an id. 
-   * 
-   * @param id
+   * Clone constructor
    */
-  public GlobalRenderInformation(String id) {
-    super(id);
-    initDefaults();
+  public GlobalRenderInformation(GlobalRenderInformation obj) {
+    super(obj);
+    listOfStyles = obj.listOfStyles;
   }
-
 
   /**
    * Creates a GlobalRenderInformation instance with a level and version. 
@@ -65,9 +71,18 @@ public class GlobalRenderInformation extends RenderInformationBase {
     this(null, null, level, version);
   }
 
+  /**
+   * Creates a {@link GlobalRenderInformation} instance with an id. 
+   * 
+   * @param id
+   */
+  public GlobalRenderInformation(String id) {
+    super(id);
+    initDefaults();
+  }
 
   /**
-   * Creates a GlobalRenderInformation instance with an id, level, and version. 
+   * Creates a {@link GlobalRenderInformation} instance with an id, level, and version. 
    * 
    * @param id
    * @param level
@@ -77,9 +92,8 @@ public class GlobalRenderInformation extends RenderInformationBase {
     this(id, null, level, version);
   }
 
-
   /**
-   * Creates a GlobalRenderInformation instance with an id, name, level, and version. 
+   * Creates a {@link GlobalRenderInformation} instance with an id, name, level, and version. 
    * 
    * @param id
    * @param name
@@ -95,39 +109,20 @@ public class GlobalRenderInformation extends RenderInformationBase {
     initDefaults();
   }
 
-
-  /**
-   * Clone constructor
-   */
-  public GlobalRenderInformation(GlobalRenderInformation obj) {
-    super(obj);
-    listOfStyles = obj.listOfStyles;
-  }
-
-
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.RenderInformationBase#clone()
    */
   @Override
   public GlobalRenderInformation clone() {
     return new GlobalRenderInformation(this);
   }
-
-
-  /**
-   * Initializes the default values using the namespace.
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.RenderInformationBase#initDefaults()
    */
   @Override
   public void initDefaults() {
     addNamespace(RenderConstants.namespaceURI);
   }
-
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 855680727119080659L;
-  
-  ListOf<Style> listOfStyles;
-  
   
 }
