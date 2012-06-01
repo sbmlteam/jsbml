@@ -194,6 +194,13 @@ public class StringParser implements ReadingParser {
 	{
 		logger.debug("processStartElement : element name = " + elementName);
 		
+		if (elementName.equals("notes")
+				&& (contextObject instanceof SBase)) {
+			SBase sbase = (SBase) contextObject;
+			sbase.setNotes(new XMLNode(new XMLTriple("notes", null, null), new XMLAttributes()));
+			return contextObject;
+		}
+		
 		// Creating a StartElement XMLNode !!	
 		XMLNode xmlNode = new XMLNode(new XMLTriple(elementName, null, prefix), new XMLAttributes(), new XMLNamespaces());
 		
