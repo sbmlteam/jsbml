@@ -2,22 +2,22 @@
  * $Id$
  * $URL$
  *
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
- * 
- * Copyright (C) 2009-2012 jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
- * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
- */ 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ *
+ * Copyright (C) 2009-2012 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
 package org.sbml.jsbml.ext.render;
 
 import java.util.Map;
@@ -36,7 +36,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  */
 public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -4225426173177528441L;
 	private Short versionMajor;
@@ -44,7 +44,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	private GlobalRenderInformation renderInformation;
 
 	/**
-	 * Creates an AbstractRenderPlugin instance 
+	 * Creates an AbstractRenderPlugin instance
 	 */
 	public AbstractRenderPlugin() {
 		super();
@@ -52,8 +52,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * Creates a AbstractRenderPlugin instance with a level and version. 
-	 * 
+	 * Creates a AbstractRenderPlugin instance with a level and version.
+	 *
 	 * @param level
 	 * @param version
 	 */
@@ -62,8 +62,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * Creates a AbstractRenderPlugin instance with an id, level, and version. 
-	 * 
+	 * Creates a AbstractRenderPlugin instance with an id, level, and version.
+	 *
 	 * @param id
 	 * @param level
 	 * @param version
@@ -73,8 +73,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * Creates a AbstractRenderPlugin instance with an id, name, level, and version. 
-	 * 
+	 * Creates a AbstractRenderPlugin instance with an id, name, level, and version.
+	 *
 	 * @param id
 	 * @param name
 	 * @param level
@@ -96,14 +96,16 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	public AbstractRenderPlugin(AbstractRenderPlugin obj) {
 		super((SBase) obj);
 
-		// TODO: copy all class attributes, e.g.:
-		// bar = obj.bar;
+		versionMinor = obj.versionMinor;
+		versionMajor = obj.versionMajor;
+		renderInformation = obj.renderInformation.clone();
 	}
 
 	/**
 	 * clones this class
 	 */
-	public AbstractRenderPlugin clone() {
+	@Override
+  public AbstractRenderPlugin clone() {
 		return new AbstractRenderPlugin(this);
 	}
 
@@ -128,7 +130,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * @return whether versionMinor is set 
+	 * @return whether versionMinor is set
 	 */
 	public boolean isSetVersionMinor() {
 		return this.versionMinor != null;
@@ -144,8 +146,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * Unsets the variable versionMinor 
-	 * @return <code>true</code>, if versionMinor was set before, 
+	 * Unsets the variable versionMinor
+	 * @return <code>true</code>, if versionMinor was set before,
 	 *         otherwise <code>false</code>
 	 */
 	public boolean unsetVersionMinor() {
@@ -157,8 +159,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 		}
 		return false;
 	}
-	
-	
+
+
 	/**
 	 * @return the value of versionMajor
 	 */
@@ -172,7 +174,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * @return whether versionMajor is set 
+	 * @return whether versionMajor is set
 	 */
 	public boolean isSetVersionMajor() {
 		return this.versionMajor != null;
@@ -188,8 +190,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * Unsets the variable versionMajor 
-	 * @return <code>true</code>, if versionMajor was set before, 
+	 * Unsets the variable versionMajor
+	 * @return <code>true</code>, if versionMajor was set before,
 	 *         otherwise <code>false</code>
 	 */
 	public boolean unsetVersionMajor() {
@@ -201,8 +203,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 		}
 		return false;
 	}
-	
-	
+
+
 	/**
 	 * @return the value of renderInformation
 	 */
@@ -216,7 +218,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * @return whether renderInformation is set 
+	 * @return whether renderInformation is set
 	 */
 	public boolean isSetRenderInformation() {
 		return this.renderInformation != null;
@@ -232,8 +234,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * Unsets the variable renderInformation 
-	 * @return <code>true</code>, if renderInformation was set before, 
+	 * Unsets the variable renderInformation
+	 * @return <code>true</code>, if renderInformation was set before,
 	 *         otherwise <code>false</code>
 	 */
 	public boolean unsetRenderInformation() {
@@ -261,7 +263,6 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 */
   // @Override
 	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -270,7 +271,6 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 */
   // @Override
 	public int getChildCount() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -279,7 +279,6 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 */
   // @Override
 	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
