@@ -63,8 +63,7 @@ public class LocalStyle extends Style {
     this.idList = new ArrayList<String>();
   }
 	
-	
-	 /**
+  /**
    * Creates a LocalStyle instance with an id, name, level, and version. 
    * 
    * @param id
@@ -77,14 +76,13 @@ public class LocalStyle extends Style {
 	  this.idList = new ArrayList<String>();
 	}
 	
-
   /**
    * @return the value of idList
    */
   public List<String> getIdList(){
     return this.idList;
   }
-  
+ 
   /**
    * Set the value of idList
    */
@@ -94,5 +92,5 @@ public class LocalStyle extends Style {
     //TODO
     //firePropertyChange(constant_class.idList, oldIdList, this.idList);  
   }
-		
+
 }

@@ -24,7 +24,6 @@ import java.text.MessageFormat;
 import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
@@ -49,11 +48,6 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	// TODO unclear if Integer or int
 	protected int versionMajor;
 	protected int versionMinor;
-
-	/**
-	 * 
-	 */
-	private Model model;
 
 	/**
 	 * Creates an ExtendedRenderModel instance 
@@ -128,6 +122,7 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 		versionMinor = 0;
 	}
 
+	 // TODO: Move to RenderConstants
 	public static final int MIN_SBML_LEVEL = 3;
 	public static final int MIN_SBML_VERSION = 1;
 
@@ -401,13 +396,18 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 		return localRenderInformation;
 	}
 
-
-
-	@Override
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getAllowsChildren()
+   */
+  //@Override
 	public boolean getAllowsChildren() {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildCount()
+	 */
+	//@Override
 	public int getChildCount() {
 		int count = 0;
 
@@ -421,6 +421,10 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 		return count;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
+	 */
+  //@Override
 	public SBase getChildAt(int childIndex) {
 		if (childIndex < 0) {
 			throw new IndexOutOfBoundsException(childIndex + " < 0");
@@ -445,16 +449,23 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 				+((int) Math.min(pos, 0))));
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
+  //@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+	 */
+  //@Override
 	public Map<String, String> writeXMLAttributes() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

@@ -61,7 +61,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		initDefaults();
 	}
 
-
 	/**
 	 * Creates a RenderInformationBase instance with an id. 
 	 * 
@@ -71,7 +70,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		super(id);
 		initDefaults();
 	}
-
 
 	/**
 	 * Creates a RenderInformationBase instance with a level and version. 
@@ -83,7 +81,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		this(null, null, level, version);
 	}
 
-
 	/**
 	 * Creates a RenderInformationBase instance with an id, level, and version. 
 	 * 
@@ -94,8 +91,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	public RenderInformationBase(String id, int level, int version) {
 		this(id, null, level, version);
 	}
-
-
 
 	/**
 	 * Creates a RenderInformationBase instance with an id, name, level, and version. 
@@ -114,7 +109,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		initDefaults();
 	}
 
-
 	/**
 	 * Clone constructor
 	 */
@@ -129,14 +123,13 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		this.listofLineEndings = obj.listofLineEndings;
 	}
 
-
-	/**
-	 * clones this class
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
+	@Override
 	public RenderInformationBase clone() {
 		return new RenderInformationBase(this);
 	}
-
 
 	/**
 	 * Initializes the default values using the namespace.
@@ -151,8 +144,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		this.listOfGradientBases = null;
 		this.listofLineEndings = null;
 	}
-
-
 
 	/**
 	 * @return the value of programName
@@ -169,14 +160,12 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		//throw new PropertyUndefinedError("programmName", this);
 	}
 
-
 	/**
 	 * @return whether programmName is set 
 	 */
 	public boolean isSetProgramName() {
 		return this.programName != null;
 	}
-
 
 	/**
 	 * Set the value of programmName
@@ -186,7 +175,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		this.programName = programName;
 		firePropertyChange("programName", oldProgramName, this.programName);
 	}
-
 
 	/**
 	 * Unsets the variable programmName 
@@ -203,7 +191,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		return false;
 	}
 
-
 	/**
 	 * @return the value of programVersion
 	 */
@@ -216,14 +203,12 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		throw new PropertyUndefinedError("programVersion", this);
 	}
 
-
 	/**
 	 * @return whether programVersion is set 
 	 */
 	public boolean isSetProgramVersion() {
 		return this.programVersion != null;
 	}
-
 
 	/**
 	 * Set the value of programVersion
@@ -233,7 +218,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		this.programVersion = programVersion;
 		firePropertyChange("programVersion", oldProgramVersion, this.programVersion);
 	}
-
 
 	/**
 	 * Unsets the variable programVersion 
@@ -250,7 +234,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		return false;
 	}
 
-
 	/**
 	 * @return the value of referenceRenderInformation
 	 */
@@ -264,14 +247,12 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		throw new PropertyUndefinedError("referenceRenderInformation", this);
 	}
 
-
 	/**
 	 * @return whether referenceRenderInformation is set 
 	 */
 	public boolean isSetReferenceRenderInformation() {
 		return this.referenceRenderInformation != null;
 	}
-
 
 	/**
 	 * Set the value of referenceRenderInformation
@@ -281,7 +262,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		this.referenceRenderInformation = referenceRenderInformation;
 		firePropertyChange("referenceRenderInformation", oldReferenceRenderInformation, this.referenceRenderInformation);
 	}
-
 
 	/**
 	 * Unsets the variable referenceRenderInformation 
@@ -298,7 +278,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		return false;
 	}
 
-
 	/**
 	 * @return the value of backgroundColor
 	 */
@@ -313,14 +292,12 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		//throw new PropertyUndefinedError("backgroundColor", this);
 	}
 
-
 	/**
 	 * @return whether backgroundColor is set 
 	 */
 	public boolean isSetBackgroundColor() {
 		return this.backgroundColor != null;
 	}
-
 
 	/**
 	 * Set the value of backgroundColor
@@ -330,7 +307,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		this.backgroundColor = backgroundColor;
 		firePropertyChange("backgroundColor", oldBackgroundColor, this.backgroundColor);
 	}
-
 
 	/**
 	 * Unsets the variable backgroundColor 
@@ -347,7 +323,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		return false;
 	}
 
-
 	/**
 	 * @return <code>true</code>, if listOfColorDefinitions contains at least one element, 
 	 *         otherwise <code>false</code>
@@ -358,7 +333,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		}
 		return true;
 	}
-
 
 	/**
 	 * @return the listOfColorDefinitions
@@ -374,7 +348,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		return listOfColorDefinitions;
 	}
 
-
 	/**
 	 * @param listOfColorDefinitions
 	 */
@@ -383,7 +356,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		this.listOfColorDefinitions = listOfColorDefinitions;
 		registerChild(this.listOfColorDefinitions);
 	}
-
 
 	/**
 	 * @return <code>true</code>, if listOfColorDefinitions contained at least one element, 
@@ -399,14 +371,12 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		return false;
 	}
 
-
 	/**
 	 * @param field
 	 */
 	public boolean addColorDefinition(ColorDefinition field) {
 		return getListOfColorDefinitions().add(field);
 	}
-
 
 	/**
 	 * @param field
@@ -418,7 +388,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		return false;
 	}
 
-
 	/**
 	 * @param i
 	 */
@@ -429,7 +398,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		getListOfColorDefinitions().remove(i);
 	}
 
-
 	/**
 	 * TODO: if the ID is mandatory for ColorDefinition objects, 
 	 * one should also add this methods
@@ -437,7 +405,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 	public void removeColorDefinition(String id) {
 		getListOfColorDefinitions().removeFirst(new NameFilter(id));
 	}
-
 
 	/**
 	 * create a new ColorDefinition element and adds it to the ListOfColorDefinitions list
@@ -459,7 +426,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		return true;
 	}
 
-
 	/**
 	 * @return the listOfGradientBases
 	 */
@@ -474,7 +440,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		return listOfGradientBases;
 	}
 
-
 	/**
 	 * @param listOfGradientBases
 	 */
@@ -483,7 +448,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		this.listOfGradientBases = listOfGradientBases;
 		registerChild(this.listOfGradientBases);
 	}
-
 
 	/**
 	 * @return <code>true</code>, if listOfGradientBases contained at least one element, 
@@ -499,14 +463,12 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		return false;
 	}
 
-
 	/**
 	 * @param field
 	 */
 	public boolean addGradientBase(GradientBase field) {
 		return getListOfGradientBases().add(field);
 	}
-
 
 	/**
 	 * @param field
@@ -518,7 +480,6 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		return false;
 	}
 
-
 	/**
 	 * @param i
 	 */
@@ -529,13 +490,17 @@ public class RenderInformationBase  extends AbstractNamedSBase {
 		getListOfGradientBases().remove(i);
 	}
 
-
   // TODO: Move to RenderConstants
 	public static final int MIN_SBML_LEVEL = 3;
 	public static final int MIN_SBML_VERSION = 1;
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+	 */
+  //@Override
 	public boolean isIdMandatory() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 }

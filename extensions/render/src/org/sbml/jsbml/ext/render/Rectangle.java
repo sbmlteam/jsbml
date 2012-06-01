@@ -46,9 +46,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   private Boolean absoluteWidth, absoluteHeight;
   private Double rx, ry;
   private Boolean absoluteRx, absoluteRy;
-  
-  
-  
+
   /**
    * @return the value of rx
    */
@@ -60,14 +58,12 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     throw new PropertyUndefinedError(RenderConstants.rx, this);
   }
 
-
   /**
    * @return whether rx is set 
    */
   public boolean isSetRx() {
     return this.rx != null;
   }
-
 
   /**
    * Set the value of rx
@@ -77,7 +73,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     this.rx = rx;
     firePropertyChange(RenderConstants.rx, oldRx, this.rx);
   }
-
 
   /**
    * Unsets the variable rx 
@@ -94,7 +89,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return false;
   }
   
-  
   /**
    * @return the value of ry
    */
@@ -106,14 +100,12 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     throw new PropertyUndefinedError(RenderConstants.ry, this);
   }
 
-
   /**
    * @return whether ry is set 
    */
   public boolean isSetRy() {
     return this.ry != null;
   }
-
 
   /**
    * Set the value of ry
@@ -124,9 +116,10 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     firePropertyChange(RenderConstants.ry, oldRy, this.ry);
   }
 
-  /**
-   * @return the value of absoluteX
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Point3D#isAbsoluteX()
    */
+  //@Override
   public boolean isAbsoluteX() {
     if (isSetAbsoluteX()) {
       return absoluteX;
@@ -135,30 +128,30 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     throw new PropertyUndefinedError(RenderConstants.absoluteX, this);
   }
 
-
   /**
    * @return whether absoluteX is set 
    */
+  //@Override
   public boolean isSetAbsoluteX() {
     return this.absoluteX != null;
   }
 
-
   /**
    * Set the value of absoluteX
    */
+  //@Override
   public void setAbsoluteX(Boolean absoluteX) {
     Boolean oldAbsoluteX = this.absoluteX;
     this.absoluteX = absoluteX;
     firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
   }
 
-
   /**
    * Unsets the variable absoluteX 
    * @return <code>true</code>, if absoluteX was set before, 
    *         otherwise <code>false</code>
    */
+  //@Override
   public boolean unsetAbsoluteX() {
     if (isSetAbsoluteX()) {
       Boolean oldAbsoluteX = this.absoluteX;
@@ -169,10 +162,10 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return false;
   }
 
-  
   /**
    * @return the value of absoluteY
    */
+  //@Override
   public boolean isAbsoluteY() {
     if (isSetAbsoluteY()) {
       return absoluteY;
@@ -181,30 +174,30 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     throw new PropertyUndefinedError(RenderConstants.absoluteY, this);
   }
 
-
   /**
    * @return whether absoluteY is set 
    */
+  //@Override
   public boolean isSetAbsoluteY() {
     return this.absoluteY != null;
   }
 
-
   /**
    * Set the value of absoluteY
    */
+  //@Override
   public void setAbsoluteY(Boolean absoluteY) {
     Boolean oldAbsoluteY = this.absoluteY;
     this.absoluteY = absoluteY;
     firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
   }
 
-
   /**
    * Unsets the variable absoluteY 
    * @return <code>true</code>, if absoluteY was set before, 
    *         otherwise <code>false</code>
    */
+  //@Override
   public boolean unsetAbsoluteY() {
     if (isSetAbsoluteY()) {
       Boolean oldAbsoluteY = this.absoluteY;
@@ -215,10 +208,10 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return false;
   }
 
-  
   /**
    * @return the value of absoluteZ
    */
+  //@Override
   public boolean isAbsoluteZ() {
     if (isSetAbsoluteZ()) {
       return absoluteZ;
@@ -227,30 +220,30 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     throw new PropertyUndefinedError(RenderConstants.absoluteZ, this);
   }
 
-
   /**
    * @return whether absoluteZ is set 
    */
+  //@Override
   public boolean isSetAbsoluteZ() {
     return this.absoluteZ != null;
   }
 
-
   /**
    * Set the value of absoluteZ
    */
+  //@Override
   public void setAbsoluteZ(Boolean absoluteZ) {
     Boolean oldAbsoluteZ = this.absoluteZ;
     this.absoluteZ = absoluteZ;
     firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
   }
 
-
   /**
    * Unsets the variable absoluteZ 
    * @return <code>true</code>, if absoluteZ was set before, 
    *         otherwise <code>false</code>
    */
+  //@Override
   public boolean unsetAbsoluteZ() {
     if (isSetAbsoluteZ()) {
       Boolean oldAbsoluteZ = this.absoluteZ;
@@ -260,8 +253,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     }
     return false;
   }
-
-  
   
   /**
    * @return the value of absoluteRx
@@ -274,14 +265,12 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     throw new PropertyUndefinedError(RenderConstants.absoluteRx, this);
   }
 
-
   /**
    * @return whether absoluteRx is set 
    */
   public boolean isSetAbsoluteRx() {
     return this.absoluteRx != null;
   }
-
 
   /**
    * Set the value of absoluteRx
@@ -291,7 +280,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     this.absoluteRx = absoluteRx;
     firePropertyChange(RenderConstants.absoluteRx, oldAbsoluteRx, this.absoluteRx);
   }
-
 
   /**
    * Unsets the variable absoluteRx 
@@ -308,8 +296,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return false;
   }
 
-  
-  
   /**
    * @return the value of absoluteRy
    */
@@ -321,14 +307,12 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     throw new PropertyUndefinedError(RenderConstants.absoluteRy, this);
   }
 
-
   /**
    * @return whether absoluteRy is set 
    */
   public boolean isSetAbsoluteRy() {
     return this.absoluteRy != null;
   }
-
 
   /**
    * Set the value of absoluteRy
@@ -338,7 +322,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     this.absoluteRy = absoluteRy;
     firePropertyChange(RenderConstants.absoluteRy, oldAbsoluteRy, this.absoluteRy);
   }
-
 
   /**
    * Unsets the variable absoluteRy 
@@ -354,8 +337,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     }
     return false;
   }
-
-  
   
   /**
    * @return the value of absoluteHeight
@@ -368,14 +349,12 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     throw new PropertyUndefinedError(RenderConstants.absoluteHeight, this);
   }
 
-
   /**
    * @return whether absoluteHeight is set 
    */
   public boolean isSetAbsoluteHeight() {
     return this.absoluteHeight != null;
   }
-
 
   /**
    * Set the value of absoluteHeight
@@ -385,7 +364,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     this.absoluteHeight = absoluteHeight;
     firePropertyChange(RenderConstants.absoluteHeight, oldAbsoluteHeight, this.absoluteHeight);
   }
-
 
   /**
    * Unsets the variable absoluteHeight 
@@ -401,7 +379,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     }
     return false;
   }
-
   
   /**
    * @return the value of absoluteWidth
@@ -414,14 +391,12 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     throw new PropertyUndefinedError(RenderConstants.absoluteWidth, this);
   }
 
-
   /**
    * @return whether absoluteWidth is set 
    */
   public boolean isSetAbsoluteWidth() {
     return this.absoluteWidth != null;
   }
-
 
   /**
    * Set the value of absoluteWidth
@@ -431,7 +406,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     this.absoluteWidth = absoluteWidth;
     firePropertyChange(RenderConstants.absoluteWidth, oldAbsoluteWidth, this.absoluteWidth);
   }
-
 
   /**
    * Unsets the variable absoluteWidth 
@@ -462,11 +436,11 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     }
     return false;
   }
-  
-  
+
   /**
    * @return the value of x
    */
+  //@Override
   public double getX() {
     if (isSetX()) {
       return x;
@@ -475,30 +449,30 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     throw new PropertyUndefinedError(RenderConstants.x, this);
   }
 
-
   /**
    * @return whether x is set 
    */
+  //@Override
   public boolean isSetX() {
     return this.x != null;
   }
 
-
   /**
    * Set the value of x
    */
+  //@Override
   public void setX(Double x) {
     Double oldX = this.x;
     this.x = x;
     firePropertyChange(RenderConstants.x, oldX, this.x);
   }
 
-
   /**
    * Unsets the variable x 
    * @return <code>true</code>, if x was set before, 
    *         otherwise <code>false</code>
    */
+  //@Override
   public boolean unsetX() {
     if (isSetX()) {
       Double oldX = this.x;
@@ -509,10 +483,10 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return false;
   }
   
-  
   /**
    * @return the value of y
    */
+  //@Override
   public double getY() {
     if (isSetY()) {
       return y;
@@ -521,30 +495,30 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     throw new PropertyUndefinedError(RenderConstants.y, this);
   }
 
-
   /**
    * @return whether y is set 
    */
+  //@Override
   public boolean isSetY() {
     return this.y != null;
   }
 
-
   /**
    * Set the value of y
    */
+  //@Override
   public void setY(Double y) {
     Double oldY = this.y;
     this.y = y;
     firePropertyChange(RenderConstants.y, oldY, this.y);
   }
 
-
   /**
    * Unsets the variable y 
    * @return <code>true</code>, if y was set before, 
    *         otherwise <code>false</code>
    */
+  //@Override
   public boolean unsetY() {
     if (isSetY()) {
       Double oldY = this.y;
@@ -555,10 +529,10 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return false;
   }
   
-  
   /**
    * @return the value of z
    */
+  //@Override
   public double getZ() {
     if (isSetZ()) {
       return z;
@@ -567,30 +541,30 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     throw new PropertyUndefinedError(RenderConstants.z, this);
   }
 
-
   /**
    * @return whether z is set 
    */
+  //@Override
   public boolean isSetZ() {
     return this.z != null;
   }
 
-
   /**
    * Set the value of z
    */
+  //@Override
   public void setZ(Double z) {
     Double oldZ = this.z;
     this.z = z;
     firePropertyChange(RenderConstants.z, oldZ, this.z);
   }
 
-
   /**
    * Unsets the variable z 
    * @return <code>true</code>, if z was set before, 
    *         otherwise <code>false</code>
    */
+  //@Override
   public boolean unsetZ() {
     if (isSetZ()) {
       Double oldZ = this.z;
@@ -600,8 +574,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     }
     return false;
   }
-  
-  
+
   /**
    * @return the value of height
    */
@@ -613,14 +586,12 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     throw new PropertyUndefinedError(RenderConstants.height, this);
   }
 
-
   /**
    * @return whether height is set 
    */
   public boolean isSetHeight() {
     return this.height != null;
   }
-
 
   /**
    * Set the value of height
@@ -630,7 +601,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     this.height = height;
     firePropertyChange(RenderConstants.height, oldHeight, this.height);
   }
-
 
   /**
    * Unsets the variable height 
@@ -647,7 +617,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return false;
   }
   
-  
   /**
    * @return the value of width
    */
@@ -659,14 +628,12 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     throw new PropertyUndefinedError(RenderConstants.width, this);
   }
 
-
   /**
    * @return whether width is set 
    */
   public boolean isSetWidth() {
     return this.width != null;
   }
-
 
   /**
    * Set the value of width
@@ -676,7 +643,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     this.width = width;
     firePropertyChange(RenderConstants.width, oldWidth, this.width);
   }
-
 
   /**
    * Unsets the variable width 
@@ -693,9 +659,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return false;
   }
   
-  
-  
-  
   /**
    * Creates an Rectangle instance 
    */
@@ -703,8 +666,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     super();
     initDefaults();
   }
-
-
 
   /**
    * Clone constructor
@@ -727,18 +688,18 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     absoluteRy = obj.absoluteRy;
   }
 
-
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive2D#clone()
    */
+  @Override
   public Rectangle clone() {
     return new Rectangle(this);
   }
 
-
-  /**
-   * Initializes the default values using the namespace.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive2D#initDefaults()
    */
+  @Override
   public void initDefaults() {
     addNamespace(RenderConstants.namespaceURI);
     z = 0d;

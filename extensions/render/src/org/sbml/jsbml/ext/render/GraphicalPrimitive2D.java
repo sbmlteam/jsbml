@@ -60,26 +60,23 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
     fill = obj.fill;
     fillRule = obj.fillRule;
   }
-
   
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#clone()
    */
   @Override
   public GraphicalPrimitive2D clone() {
     return new GraphicalPrimitive2D(this);
   }
 
-
-  /**
-   * Initializes the default values using the namespace.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#initDefaults()
    */
   @Override
   public void initDefaults() {
     addNamespace(RenderConstants.namespaceURI);
   }
 
-  
   /**
    * @return the value of fill
    */
@@ -91,14 +88,12 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
     throw new PropertyUndefinedError(RenderConstants.fill, this);
   }
 
-
   /**
    * @return whether fill is set 
    */
   public boolean isSetFill() {
     return this.fill != null;
   }
-
 
   /**
    * Set the value of fill
@@ -108,7 +103,6 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
     this.fill = fill;
     firePropertyChange(RenderConstants.fill, oldFill, this.fill);
   }
-
 
   /**
    * Unsets the variable fill 
@@ -124,9 +118,7 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
     }
     return false;
   }
-  
-  
-  
+
   /**
    * @return the value of fillRule
    */
@@ -138,14 +130,12 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
     throw new PropertyUndefinedError(RenderConstants.fillRule, this);
   }
 
-
   /**
    * @return whether fillRule is set 
    */
   public boolean isSetFillRule() {
     return this.fillRule != null;
   }
-
 
   /**
    * Set the value of fillRule
@@ -155,7 +145,6 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
     this.fillRule = fillRule;
     firePropertyChange(RenderConstants.fillRule, oldFillRule, this.fillRule);
   }
-
 
   /**
    * Unsets the variable fillRule 
@@ -171,10 +160,5 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
     }
     return false;
   }
-  
 
-  
-  
-  public static final int MIN_SBML_LEVEL = 3;
-  public static final int MIN_SBML_VERSION = 1;
 }

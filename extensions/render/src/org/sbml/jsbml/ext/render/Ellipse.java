@@ -462,4 +462,5 @@ public class Ellipse extends GraphicalPrimitive2D {
 		}
 		return false;
 	}
+
 }

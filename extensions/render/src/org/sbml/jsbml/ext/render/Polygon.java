@@ -42,12 +42,10 @@ public class Polygon extends GraphicalPrimitive2D {
    */
   private static final long serialVersionUID = 9207043017589271103L;
 
-  public static final int MIN_SBML_LEVEL = 3;
-	
-	public static final int MIN_SBML_VERSION = 1;
-  
+  /**
+   * 
+   */
   private ListOf<RenderPoint> listOfElements;
-
 
   /**
    * 
@@ -63,7 +61,6 @@ public class Polygon extends GraphicalPrimitive2D {
     initDefaults();
   }
   
-  
   /**
    * Clone constructor
    */
@@ -72,7 +69,6 @@ public class Polygon extends GraphicalPrimitive2D {
     listOfElements = obj.listOfElements;
   }
 
-  
   /**
    * @param renderPoint
    */
@@ -80,21 +76,26 @@ public class Polygon extends GraphicalPrimitive2D {
     return getListOfRenderPoints().add(renderPoint);
   }
 
-
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive2D#clone()
    */
+  @Override
   public Polygon clone() {
     return new Polygon(this);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildAt(int)
+   */
+  @Override
   public SBase getChildAt(int childIndex) {
     if (childIndex < 0) {
       throw new IndexOutOfBoundsException(childIndex + " < 0");
@@ -111,7 +112,10 @@ public class Polygon extends GraphicalPrimitive2D {
       +((int) Math.min(pos, 0))));
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildCount()
+   */
+  @Override
   public int getChildCount() {
     int count = 0;
     if (isSetListOfElements()) {
@@ -119,7 +123,6 @@ public class Polygon extends GraphicalPrimitive2D {
     }
     return count;
   }
-
 
   /**
    * @return the value of listOfElements
@@ -131,7 +134,6 @@ public class Polygon extends GraphicalPrimitive2D {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.listOfElements, this);
   }
-
 
   /**
    * @return the listOfRenderPoints
@@ -146,14 +148,13 @@ public class Polygon extends GraphicalPrimitive2D {
     return listOfRenderPoints;
   }
 
-  
-  /**
-   * Initializes the default values using the namespace.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive2D#initDefaults()
    */
+  @Override
   public void initDefaults() {
     addNamespace(RenderConstants.namespaceURI);
   }
-
 
   /**
    * @return whether listOfElements is set 
@@ -161,7 +162,6 @@ public class Polygon extends GraphicalPrimitive2D {
   public boolean isSetListOfElements() {
     return this.listOfElements != null;
   }
-
 
   /**
    * @return <code>true</code>, if listOfRenderPoints contains at least one element, 
@@ -173,7 +173,6 @@ public class Polygon extends GraphicalPrimitive2D {
     }
     return true;
   }
-
 
   /**
    * @param i
@@ -204,7 +203,6 @@ public class Polygon extends GraphicalPrimitive2D {
     firePropertyChange(RenderConstants.listOfElements, oldListOfElements, this.listOfElements);
   }
 
-
   /**
    * @param listOfRenderPoints
    */
@@ -228,6 +226,7 @@ public class Polygon extends GraphicalPrimitive2D {
     }
     return false;
   }
+
   /**
    * @return <code>true</code>, if listOfRenderPoints contained at least one element, 
    *         otherwise <code>false</code>
@@ -241,4 +240,5 @@ public class Polygon extends GraphicalPrimitive2D {
     }
     return false;
   }
+
 }

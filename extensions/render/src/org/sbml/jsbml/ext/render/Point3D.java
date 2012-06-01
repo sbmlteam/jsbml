@@ -33,108 +33,90 @@ public interface Point3D {
    */
   public abstract boolean isAbsoluteY();
 
-
   /**
    * @return the value of absoluteZ
    */
   public abstract boolean isAbsoluteZ();
-
 
   /**
    * @return the value of x
    */
   public abstract double getX();
 
-
   /**
    * @return the value of y
    */
   public abstract double getY();
-
 
   /**
    * @return the value of z
    */
   public abstract double getZ();
 
-
   /**
    * @return the value of absoluteX
    */
   public abstract boolean isAbsoluteX();
-
 
   /**
    * @return whether absoluteX is set 
    */
   public abstract boolean isSetAbsoluteX();
 
-
   /**
    * @return whether absoluteY is set 
    */
   public abstract boolean isSetAbsoluteY();
-
 
   /**
    * @return whether absoluteZ is set 
    */
   public abstract boolean isSetAbsoluteZ();
 
-
   /**
    * @return whether x is set 
    */
   public abstract boolean isSetX();
-
 
   /**
    * @return whether y is set 
    */
   public abstract boolean isSetY();
 
-
   /**
    * @return whether z is set 
    */
   public abstract boolean isSetZ();
-
 
   /**
    * Set the value of absoluteX
    */
   public abstract void setAbsoluteX(Boolean absoluteX);
 
-
   /**
    * Set the value of absoluteY
    */
   public abstract void setAbsoluteY(Boolean absoluteY);
-
 
   /**
    * Set the value of absoluteZ
    */
   public abstract void setAbsoluteZ(Boolean absoluteZ);
 
-
   /**
    * Set the value of x
    */
   public abstract void setX(Double x);
-
 
   /**
    * Set the value of y
    */
   public abstract void setY(Double y);
 
-
   /**
    * Set the value of z
    */
   public abstract void setZ(Double z);
-
 
   /**
    * Unsets the variable absoluteX 
@@ -143,14 +125,12 @@ public interface Point3D {
    */
   public abstract boolean unsetAbsoluteX();
 
-
   /**
    * Unsets the variable absoluteY 
    * @return <code>true</code>, if absoluteY was set before, 
    *         otherwise <code>false</code>
    */
   public abstract boolean unsetAbsoluteY();
-
 
   /**
    * Unsets the variable absoluteZ 
@@ -159,7 +139,6 @@ public interface Point3D {
    */
   public abstract boolean unsetAbsoluteZ();
 
-
   /**
    * Unsets the variable x 
    * @return <code>true</code>, if x was set before, 
@@ -167,14 +146,12 @@ public interface Point3D {
    */
   public abstract boolean unsetX();
 
-
   /**
    * Unsets the variable y 
    * @return <code>true</code>, if y was set before, 
    *         otherwise <code>false</code>
    */
   public abstract boolean unsetY();
-
 
   /**
    * Unsets the variable z 

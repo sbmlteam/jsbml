@@ -63,16 +63,16 @@ public class LineEnding extends GraphicalPrimitive2D {
 		group = obj.group;
 	}
 
-	/**
-	 * clones this class
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive2D#clone()
 	 */
 	@Override
 	public LineEnding clone() {
 		return new LineEnding(this);
 	}
 
-	/**
-	 * Initializes the default values using the namespace.
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive2D#initDefaults()
 	 */
 	@Override
 	public void initDefaults() {
@@ -80,20 +80,26 @@ public class LineEnding extends GraphicalPrimitive2D {
 		enableRotationMapping = true;
 	}
 
-	public static final int MIN_SBML_LEVEL = 3;
-	public static final int MIN_SBML_VERSION = 1;
-	
-	
-
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getAllowsChildren()
+	 */
 	@Override
 	public boolean getAllowsChildren() {
 		return false;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildCount()
+	 */
 	@Override
 	public int getChildCount() {
 		int count = 0;
 		return count;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildAt(int)
+	 */
 	@Override
 	public SBase getChildAt(int childIndex) {
 		if (childIndex < 0) {
@@ -104,8 +110,7 @@ public class LineEnding extends GraphicalPrimitive2D {
 				"Index {0,number,integer} >= {1,number,integer}", childIndex,
 				+((int) Math.min(pos, 0))));
 	}
-	
-	
+
 	/**
 	 * @return the value of boundingBox
 	 */
@@ -147,8 +152,7 @@ public class LineEnding extends GraphicalPrimitive2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of group
 	 */
@@ -190,8 +194,7 @@ public class LineEnding extends GraphicalPrimitive2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of enableRotationMapping
 	 */
@@ -220,7 +223,7 @@ public class LineEnding extends GraphicalPrimitive2D {
 	}
 
 	/**
-	 * Unsets the variable enableRotationMapping 
+	 * Unsets the variable {@link #enableRotationMapping} 
 	 * @return <code>true</code>, if enableRotationMapping was set before, 
 	 *         otherwise <code>false</code>
 	 */
@@ -233,4 +236,5 @@ public class LineEnding extends GraphicalPrimitive2D {
 		}
 		return false;
 	}
+
 }

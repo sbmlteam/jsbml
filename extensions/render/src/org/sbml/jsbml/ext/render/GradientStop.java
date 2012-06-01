@@ -88,22 +88,25 @@ public class GradientStop extends AbstractSBase {
 		this.stopColor = obj.stopColor;
 	}
 
-
-	/**
-	 * clones this class
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
+  //@Override
 	public GradientStop clone() {
 		return new GradientStop(this);
 	}
 
-
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
+	 */
 	@Override
   public boolean getAllowsChildren() {
     return false;
   }
 
-
-	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
 	@Override
   public SBase getChildAt(int childIndex) {
     if (childIndex < 0) {
@@ -115,6 +118,9 @@ public class GradientStop extends AbstractSBase {
       +((int) Math.min(pos, 0))));
   }
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	 */
 	@Override
   public int getChildCount() {
     return 0;
@@ -141,7 +147,6 @@ public class GradientStop extends AbstractSBase {
 		// This is necessary if we cannot return null here.
 		throw new PropertyUndefinedError(RenderConstants.stopColor, this);
 	}
-	
 	
 	/**
 	 * @return whether offset is set 
@@ -190,7 +195,6 @@ public class GradientStop extends AbstractSBase {
 		return false;
 	}
 
-
 	/**
 	 * Unsets the variable stopColor 
 	 * @return <code>true</code>, if stopColor was set before, 
@@ -206,7 +210,10 @@ public class GradientStop extends AbstractSBase {
 		return false;
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#toString()
+	 */
+	//@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;

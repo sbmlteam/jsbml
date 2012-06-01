@@ -31,7 +31,16 @@ package org.sbml.jsbml.ext.render;
  * @date 16.05.2012
  */
 public enum TextAnchor {
-    start,
-    middle,
-    end,
+  /**
+   * 
+   */
+  start,
+  /**
+   * 
+   */
+  middle,
+  /**
+   * 
+   */
+  end;
 }

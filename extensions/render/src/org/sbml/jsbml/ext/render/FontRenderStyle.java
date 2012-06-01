@@ -33,18 +33,15 @@ public interface FontRenderStyle {
    */
   public abstract FontFamily getFontFamily();
 
-
   /**
    * @return whether fontFamily is set 
    */
   public abstract boolean isSetFontFamily();
 
-
   /**
    * Set the value of fontFamily
    */
   public abstract void setFontFamily(FontFamily fontFamily);
-
 
   /**
    * Unsets the variable fontFamily 
@@ -53,24 +50,20 @@ public interface FontRenderStyle {
    */
   public abstract boolean unsetFontFamily();
 
-
   /**
    * @return the value of fontSize
    */
   public abstract short getFontSize();
-
 
   /**
    * @return whether fontSize is set 
    */
   public abstract boolean isSetFontSize();
 
-
   /**
    * Set the value of fontSize
    */
   public abstract void setFontSize(short fontSize);
-
 
   /**
    * Unsets the variable fontSize 
@@ -79,24 +72,20 @@ public interface FontRenderStyle {
    */
   public abstract boolean unsetFontSize();
 
-
   /**
    * @return the value of fontWeightBold
    */
   public abstract boolean isFontWeightBold();
-
 
   /**
    * @return whether fontWeightBold is set 
    */
   public abstract boolean isSetFontWeightBold();
 
-
   /**
    * Set the value of fontWeightBold
    */
   public abstract void setFontWeightBold(boolean fontWeightBold);
-
 
   /**
    * Unsets the variable fontWeightBold 
@@ -105,24 +94,20 @@ public interface FontRenderStyle {
    */
   public abstract boolean unsetFontWeightBold();
 
-
   /**
    * @return the value of fontStyleItalic
    */
   public abstract boolean isFontStyleItalic();
-
 
   /**
    * @return whether fontStyleItalic is set 
    */
   public abstract boolean isSetFontStyleItalic();
 
-
   /**
    * Set the value of fontStyleItalic
    */
   public abstract void setFontStyleItalic(boolean fontStyleItalic);
-
 
   /**
    * Unsets the variable fontStyleItalic 
@@ -131,24 +116,20 @@ public interface FontRenderStyle {
    */
   public abstract boolean unsetFontStyleItalic();
 
-
   /**
    * @return the value of textAnchor
    */
   public abstract TextAnchor getTextAnchor();
-
 
   /**
    * @return whether textAnchor is set 
    */
   public abstract boolean isSetTextAnchor();
 
-
   /**
    * Set the value of textAnchor
    */
   public abstract void setTextAnchor(TextAnchor textAnchor);
-
 
   /**
    * Unsets the variable textAnchor 
@@ -157,24 +138,20 @@ public interface FontRenderStyle {
    */
   public abstract boolean unsetTextAnchor();
 
-
   /**
    * @return the value of VTextAnchor
    */
   public abstract VTextAnchor getVTextAnchor();
-
 
   /**
    * @return whether VTextAnchor is set 
    */
   public abstract boolean isSetVTextAnchor();
 
-
   /**
    * Set the value of VTextAnchor
    */
   public abstract void setVTextAnchor(VTextAnchor vTextAnchor);
-
 
   /**
    * Unsets the variable VTextAnchor 

@@ -44,7 +44,16 @@ public class GradientBase extends AbstractSBase {
    */
   private static final long serialVersionUID = -3921074024567604440L;
 
-
+  /**
+   * 
+   * @author Eugen Netz
+   * @author Alexander Diamantikos
+   * @author Jakob Matthes
+   * @author Jan Rudolph
+   * @version $Rev$
+   * @since 1.0
+   * @date 08.05.2012
+   */
   protected enum Spread {
 		pad,
 		reflect,
@@ -54,9 +63,7 @@ public class GradientBase extends AbstractSBase {
 	protected String id;
 	protected Spread spreadMethod;
 	protected ListOf<GradientStop> listOfGradientStops;
-	
-	
-	
+
 	
 	/**
    * Creates an GradientBase instance 
@@ -65,7 +72,6 @@ public class GradientBase extends AbstractSBase {
     super();
     initDefaults();
   }
-
 
   /**
    * Creates a GradientBase instance with an id. 
@@ -76,7 +82,7 @@ public class GradientBase extends AbstractSBase {
     this.id = id;
     initDefaults();
     this.listOfGradientStops.add(stop);
-    }
+  }
 
   /**
    * Creates a GradientBase instance with an id, name, level, and version. 
@@ -96,13 +102,17 @@ public class GradientBase extends AbstractSBase {
     this.listOfGradientStops.add(stop);
   }
 
-  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = 0;
@@ -112,7 +122,9 @@ public class GradientBase extends AbstractSBase {
     return count;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
   @Override
   public SBase getChildAt(int childIndex) {
     if (childIndex < 0) {
@@ -140,14 +152,13 @@ public class GradientBase extends AbstractSBase {
     this.listOfGradientStops = obj.listOfGradientStops;
   }
 
-
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
    */
+  //@Override
   public GradientBase clone() {
     return new GradientBase(this);
   }
-
 
   /**
    * Initializes the default values using the namespace.
@@ -157,7 +168,6 @@ public class GradientBase extends AbstractSBase {
     this.spreadMethod = Spread.pad;
     this.listOfGradientStops = new ListOf<GradientStop>();
   }
-  
   
   /**
    * @return the value of id
@@ -175,7 +185,6 @@ public class GradientBase extends AbstractSBase {
     firePropertyChange(RenderConstants.id, oldId, this.id);
   }
   
-  
   /**
    * @return the value of spreadMethod
    */
@@ -187,14 +196,12 @@ public class GradientBase extends AbstractSBase {
     }
   }
 
-
   /**
    * @return whether spreadMethod is set 
    */
   public boolean isSetSpreadMethod() {
     return this.spreadMethod != null;
   }
-
 
   /**
    * Set the value of spreadMethod
@@ -204,7 +211,6 @@ public class GradientBase extends AbstractSBase {
     this.spreadMethod = spreadMethod;
     firePropertyChange(RenderConstants.spreadMethod, oldSpreadMethod, this.spreadMethod);
   }
-
 
   /**
    * Unsets the variable spreadMethod 
@@ -221,12 +227,15 @@ public class GradientBase extends AbstractSBase {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#toString()
+   */
+  //@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
+
   /**
    * @return <code>true</code>, if listOfGradientStops contains at least one element, 
    *         otherwise <code>false</code>
@@ -237,7 +246,6 @@ public class GradientBase extends AbstractSBase {
     }
     return true;
   }
-
 
   /**
    * @return the listOfGradientStops
@@ -252,7 +260,6 @@ public class GradientBase extends AbstractSBase {
     return listOfGradientStops;
   }
 
-
   /**
    * @param listOfGradientStops
    */
@@ -261,7 +268,6 @@ public class GradientBase extends AbstractSBase {
     this.listOfGradientStops = listOfGradientStops;
     registerChild(this.listOfGradientStops);
   }
-
 
   /**
    * @return <code>true</code>, if listOfGradientStops contained at least one element, 
@@ -277,14 +283,12 @@ public class GradientBase extends AbstractSBase {
     return false;
   }
 
-
   /**
    * @param field
    */
   public boolean addGradientStop(GradientStop field) {
     return getListOfGradientStops().add(field);
   }
-
 
   /**
    * @param field
@@ -296,7 +300,6 @@ public class GradientBase extends AbstractSBase {
     return false;
   }
 
-
   /**
    * @param i
    */
@@ -307,7 +310,6 @@ public class GradientBase extends AbstractSBase {
     getListOfGradientStops().remove(i);
   }
 
-
   /**
    * create a new GradientStop element and adds it to the ListOfGradientStops list
    */
@@ -316,4 +318,5 @@ public class GradientBase extends AbstractSBase {
     addGradientStop(field);
     return field;
   }
+
 }

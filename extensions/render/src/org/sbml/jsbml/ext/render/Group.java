@@ -101,8 +101,8 @@ public class Group extends GraphicalPrimitive2D {
 	public Group(String id, String name, int level, int version) {
 		super();
 		this.id = id;
-		if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
-				Integer.valueOf(MIN_SBML_VERSION)) < 0) {
+		if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
+				Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
 			throw new LevelVersionError(getElementName(), level, version);
 		}
 		initDefaults();
@@ -124,35 +124,43 @@ public class Group extends GraphicalPrimitive2D {
 		this.endHead = obj.endHead;
 	}
 
-	/**
-	 * clones this class
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive2D#clone()
 	 */
+	@Override
 	public Group clone() {
 		return new Group(this);
 	}
 
-	/**
-	 * Initializes the default values using the namespace.
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive2D#initDefaults()
 	 */
+	@Override
 	public void initDefaults() {
 		addNamespace(RenderConstants.namespaceURI);
 	}
 
-	public static final int MIN_SBML_LEVEL = 3;
-	public static final int MIN_SBML_VERSION = 1;
-	
-	
-
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getAllowsChildren()
+	 */
 	@Override
 	public boolean getAllowsChildren() {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildCount()
+	 */
+	@Override
 	public int getChildCount() {
 		int count = 0;
 		return count;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildAt(int)
+	 */
+	@Override
 	public SBase getChildAt(int childIndex) {
 		if (childIndex < 0) {
 			throw new IndexOutOfBoundsException(childIndex + " < 0");
@@ -162,7 +170,6 @@ public class Group extends GraphicalPrimitive2D {
 				"Index {0,number,integer} >= {1,number,integer}", childIndex,
 				+((int) Math.min(pos, 0))));
 	}
-
 	
 	/**
 	 * @return the value of id
@@ -205,8 +212,7 @@ public class Group extends GraphicalPrimitive2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of fontFamily
 	 */
@@ -248,8 +254,7 @@ public class Group extends GraphicalPrimitive2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of fontSize
 	 */
@@ -291,8 +296,7 @@ public class Group extends GraphicalPrimitive2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of fontWeightBold
 	 */
@@ -334,8 +338,7 @@ public class Group extends GraphicalPrimitive2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of fontStyleItalic
 	 */
@@ -377,8 +380,7 @@ public class Group extends GraphicalPrimitive2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of startHead
 	 */
@@ -420,8 +422,7 @@ public class Group extends GraphicalPrimitive2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of endHead
 	 */
@@ -464,7 +465,6 @@ public class Group extends GraphicalPrimitive2D {
 		return false;
 	}
 	
-	
 	/**
 	 * @return the value of textAnchor
 	 */
@@ -506,8 +506,7 @@ public class Group extends GraphicalPrimitive2D {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * @return the value of vTextAnchor
 	 */
@@ -549,4 +548,5 @@ public class Group extends GraphicalPrimitive2D {
 		}
 		return false;
 	}
+
 }

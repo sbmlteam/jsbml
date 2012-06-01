@@ -40,8 +40,6 @@ public class GraphicalPrimitive1D extends Transformation2D {
    * 
    */
   private static final long serialVersionUID = 3705246334810811216L;
-  public static final int MIN_SBML_LEVEL = 3;
-	public static final int MIN_SBML_VERSION = 1;
 	protected ColorDefinition stroke;
 	protected Short[] strokeDashArray;
   protected Integer strokeWidth;
@@ -100,7 +98,6 @@ public class GraphicalPrimitive1D extends Transformation2D {
     initDefaults();
   }
 
-
   /**
    * Clone constructor
    */
@@ -111,21 +108,25 @@ public class GraphicalPrimitive1D extends Transformation2D {
     strokeDashArray = obj.strokeDashArray;
   }
 
-
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Transformation2D#clone()
    */
+  @Override
   public GraphicalPrimitive1D clone() {
     return new GraphicalPrimitive1D(this);
   }
-
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Transformation#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Transformation#getChildAt(int)
+   */
   @Override
   public SBase getChildAt(int childIndex) {
     if (childIndex < 0) {
@@ -137,12 +138,13 @@ public class GraphicalPrimitive1D extends Transformation2D {
       +((int) Math.min(pos, 0))));
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Transformation#getChildCount()
+   */
   @Override
   public int getChildCount() {
     return 0;
   }
-
 
   /**
    * @return the value of stroke
@@ -166,14 +168,13 @@ public class GraphicalPrimitive1D extends Transformation2D {
     throw new PropertyUndefinedError(RenderConstants.strokeWidth, this);
   }
 
-
-  /**
-   * Initializes the default values using the namespace.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Transformation2D#initDefaults()
    */
+  @Override
   public void initDefaults() {
     addNamespace(RenderConstants.namespaceURI);
   }
-
 
   /**
    * @return whether stroke is set 

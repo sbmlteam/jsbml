@@ -60,7 +60,6 @@ public class Style extends AbstractSBase {
     initDefaults();
   }
 
-
   /**
    * Creates a Style instance with a level and version. 
    * 
@@ -70,8 +69,6 @@ public class Style extends AbstractSBase {
   public Style(int level, int version, Group group) {
     this(null, level, version, group);
   }
-
-
 
   /**
    * Creates a Style instance with an id, name, level, and version. 
@@ -92,7 +89,6 @@ public class Style extends AbstractSBase {
     initDefaults();
   }
 
-
   /**
    * Clone constructor
    */
@@ -104,14 +100,13 @@ public class Style extends AbstractSBase {
     this.group = obj.group;
   }
 
-
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
    */
+  //@Override
   public Style clone() {
     return new Style(this);
   }
-
 
   /**
    * Initializes the default values using the namespace.
@@ -122,11 +117,14 @@ public class Style extends AbstractSBase {
     this.typeList = null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#toString()
+   */
+  //@Override
   public String toString() {
     // TODO Auto-generated method stub
     return null;
   }
-  
   
   /**
    * @return the value of id
@@ -191,4 +189,5 @@ public class Style extends AbstractSBase {
     this.roleList = roleList;
     firePropertyChange(RenderConstants.roleList, oldRoleList, this.roleList);  
   }
+
 }
