@@ -20,13 +20,10 @@
  */ 
 package org.sbml.jsbml.ext;
 
-import java.io.Serializable;
-import java.util.Enumeration;
 import java.util.Map;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 
 /**
  * Defines the methods necessary for an SBase Plugin. When a SBML level 3 is extending 
@@ -38,9 +35,42 @@ import org.sbml.jsbml.SBase;
  * @version $Rev$
  * @since 1.0
  */
-public interface SBasePlugin extends Cloneable, Serializable {
+public interface SBasePlugin extends TreeNodeWithChangeSupport {
 
 	/**
+	 * 
+	 * @return
+	 */
+	public SBasePlugin clone();
+  
+  /**
+	 * 
+	 * @param obj
+	 * @return
+	 */
+	public boolean equals(Object obj);
+	
+	/**
+   * Returns the SBase object that is extended by this plug-in.
+   * 
+   * @return the SBase object that is extended by this plug-in.
+   */
+  public SBase getExtendedSBase();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int hashCode();
+
+	/**
+	 * Check whether an extended SBase has been set.
+	 * 
+	 * @return
+	 */
+  public boolean isSetExtendedSBase();
+
+  /**
 	 * Reads and sets the attribute if it is know from this {@link SBasePlugin}.
 	 * 
 	 * @param attributeName
@@ -51,53 +81,13 @@ public interface SBasePlugin extends Cloneable, Serializable {
 	 *            : value of the XML attribute
 	 * @return true if the attribute has been successfully read.
 	 */
-	public boolean readAttribute(String attributeName, String prefix,
-			String value);
+	public boolean readAttribute(String attributeName, String prefix, String value);
 
-	/**
-   * Returns the child <code>TreeNode</code> at index 
-   * <code>childIndex</code>.
-   */
-  public TreeNode getChildAt(int childIndex);
-	
-  /**
-   * Returns the number of children <code>TreeNode</code>s the receiver
-   * contains.
-   */
-  public int getChildCount();
-  
-  /**
-   * Returns the index of <code>node</code> in the receivers children.
-   * If the receiver does not contain <code>node</code>, -1 will be
-   * returned.
-   */
-  public int getIndex(SBase node);
-  
-  /**
-   * Returns true if the receiver allows children.
-   */
-  public boolean getAllowsChildren();
-
-  /**
-   * Returns true if the receiver is a leaf.
-   */
-  public boolean isLeaf();
-
-  /**
-   * Returns the children of the receiver as an <code>Enumeration</code>.
-   */
-  public Enumeration<TreeNode> children();
-	
 	/**
 	 * Returns a {@link Map} containing the XML attributes of this object.
 	 * 
 	 * @return a {@link Map} containing the XML attributes of this object.
 	 */
 	public Map<String, String> writeXMLAttributes();
-	
-	public boolean equals(Object obj);
-	
-	public int hashCode();
-	
-	public SBasePlugin clone();
+
 }

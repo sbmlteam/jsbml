@@ -99,6 +99,7 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.TreeNodeRemovedEvent;
 import org.sbml.jsbml.xml.XMLToken;
 import org.sbml.libsbml.XMLNode;
 import org.sbml.libsbml.libsbml;
@@ -144,14 +145,10 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		}
 	}
 
-	/**
-	 * This method updates the Model on propertyChanges. It follows the TreeNodeChangeEvent order in a lexicographic way.
-	 * 
-	 * (non-Javadoc)
-	 * 
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
-	 * PropertyChangeEvent)
+	/* (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
+	//@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		Object eventsource = event.getSource();
 		String prop = event.getPropertyName();
@@ -192,12 +189,12 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			mc.setMath((ASTNode) event.getNewValue());
 			plugin.notifySBaseChanged(getCorrespondingElementInJSBML(mc));
 		} else if (prop.equals(TreeNodeChangeEvent.compartment)) {
-			if (eventsource instanceof Species){
+			if (eventsource instanceof Species) {
 				Species spec = (Species) eventsource;
 				PluginSpecies plugSpecies = plugModel.getSpecies(spec.getId());
 				plugSpecies.setCompartment(spec.getCompartment());
 				plugin.notifySBaseChanged(plugSpecies);
-			} else if(eventsource instanceof Reaction){
+			} else if(eventsource instanceof Reaction) {
 				logger.log(Level.DEBUG, String.format("Changing %s in the Model only supported with SBML version > 3.", eventsource.getClass().getSimpleName()));
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.compartmentType)) {
@@ -206,20 +203,20 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			pc.setCompartmentType(c.getCompartmentType());
 			plugin.notifySBaseChanged(pc);
 		} else if (prop.equals(TreeNodeChangeEvent.constant)) {
-			if (event.getSource() instanceof SpeciesReference){
+			if (event.getSource() instanceof SpeciesReference) {
 				logger.log(Level.DEBUG, String.format("Changing %s in the Model only supported with SBML version > 3.", eventsource.getClass().getSimpleName()));
-			} else if (event.getSource() instanceof Symbol){
-				if (eventsource instanceof Compartment){
+			} else if (event.getSource() instanceof Symbol) {
+				if (eventsource instanceof Compartment) {
 					Compartment c = (Compartment) eventsource;
 					PluginCompartment pc = plugModel.getCompartment(c.getId());
 					pc.setConstant(c.getConstant());
 					plugin.notifySBaseChanged(pc);
-				} else if (eventsource instanceof Parameter){
+				} else if (eventsource instanceof Parameter) {
 					Parameter p = (Parameter) eventsource;
 					PluginParameter pp = plugModel.getParameter(p.getId());
 					pp.setConstant(p.getConstant());
 					plugin.notifySBaseChanged(pp);
-				} else if (eventsource instanceof Species){
+				} else if (eventsource instanceof Species) {
 					Species sp = (Species) eventsource;
 					PluginSpecies pspec = plugModel.getSpecies(sp.getId());
 					pspec.setConstant(sp.getConstant());
@@ -242,7 +239,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			currNode.setDefinitionURL((String) event.getNewValue());
 			plugin.notifySBaseChanged(getCorrespondingElementInJSBML(mc));
 		} else if (prop.equals(TreeNodeChangeEvent.denominator)) {
-			if (eventsource instanceof SpeciesReference){
+			if (eventsource instanceof SpeciesReference) {
 				//PluginSpeciesReference does not allow the setting of a Denominator
 			} else {
 				logger.log(Level.DEBUG, String.format("Couldn't change %s in the model.", event.getClass().getSimpleName()));
@@ -255,12 +252,12 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			n.setEncoding((String) event.getNewValue());
 			plugin.notifySBaseChanged(getCorrespondingElementInJSBML(mc));
 		} else if (prop.equals(TreeNodeChangeEvent.exponent)) {
-			if (event.getSource() instanceof ASTNode){
+			if (event.getSource() instanceof ASTNode) {
 				ASTNode node = (ASTNode) eventsource;
 				MathContainer mc = node.getParentSBMLObject();
 				mc.setMath((ASTNode) event.getNewValue());
 				plugin.notifySBaseChanged(getCorrespondingElementInJSBML(mc));
-			} else if (event.getSource() instanceof Unit){
+			} else if (event.getSource() instanceof Unit) {
 				Unit ut = (Unit) event.getSource();
 				UnitDefinition put = (UnitDefinition) ut.getParent().getParentSBMLObject();
 				PluginUnitDefinition plugUt = plugModel.getUnitDefinition(put.getId());
@@ -297,9 +294,9 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			plugSpec.setInitialAmount(spec.getInitialAmount());
 			plugSpec.setInitialConcentration(spec.getInitialConcentration());
 		} else if (prop.equals(TreeNodeChangeEvent.initialValue)) {
-			if (eventsource instanceof Trigger){
+			if (eventsource instanceof Trigger) {
 				logger.log(Level.DEBUG, String.format("Changing %s in the Model only supported with SBML version > 3.", eventsource.getClass().getSimpleName()));
-			} else if (eventsource instanceof ASTNode){
+			} else if (eventsource instanceof ASTNode) {
 				logger.log(Level.DEBUG, String.format("Changing %s in the Model only supported with SBML version > 3.", eventsource.getClass().getSimpleName()));
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.isEOF)) {
@@ -322,7 +319,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			PluginUnitDefinition plugUnDef = plugModel.getUnitDefinition(unitDef.getId());
 			PluginUnit plugUnit = plugUnDef.getUnit(index);
 			//the new value can be either a string or an integer ==> therefore this separation is necessary
-			if(event.getNewValue() instanceof String){
+			if(event.getNewValue() instanceof String) {
 				plugUnit.setKind((String) event.getNewValue());
 			} else {
 				plugUnit.setKind((Integer) event.getNewValue());
@@ -364,7 +361,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			u.setMultiplier((Double) event.getNewValue());
 			plugin.notifySBaseChanged(pud);
 		} else if (prop.equals(TreeNodeChangeEvent.name)) {
-			if (event.getSource() instanceof FunctionDefinition){
+			if (event.getSource() instanceof FunctionDefinition) {
 				FunctionDefinition funcDef = (FunctionDefinition) event.getSource();
 				PluginFunctionDefinition plugFuncDef = plugModel.getFunctionDefinition(funcDef.getId());
 				plugFuncDef.setName(funcDef.getName());
@@ -452,12 +449,12 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			plugSpec.setSpatialSizeUnits(spec.getSpatialSizeUnits());
 			plugin.notifySBaseChanged(plugSpec);
 		} else if (prop.equals(TreeNodeChangeEvent.species)) {
-			if (event.getSource() instanceof SpeciesReference){
+			if (event.getSource() instanceof SpeciesReference) {
 				SpeciesReference specRef = (SpeciesReference) event.getSource();
 				specRef.setSpecies((Species) event.getNewValue());
 				PluginSpeciesReference pSpecRef = (PluginSpeciesReference) getCorrespondingElementInJSBML(specRef);
 				plugin.notifySBaseChanged(pSpecRef);
-			} else if (event.getSource() instanceof ModifierSpeciesReference){
+			} else if (event.getSource() instanceof ModifierSpeciesReference) {
 				ModifierSpeciesReference modspecRef = (ModifierSpeciesReference) event.getSource();
 				modspecRef.setSpecies((Species) event.getNewValue());
 				PluginModifierSpeciesReference pmodspecRef = (PluginModifierSpeciesReference) getCorrespondingElementInJSBML(modspecRef);
@@ -487,18 +484,18 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		} else if (prop.equals(TreeNodeChangeEvent.text)) {
 			logger.log(Level.DEBUG, String.format("Cannot fire propertychange %s", event.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.timeUnits)) {
-			if (eventsource instanceof Event){
+			if (eventsource instanceof Event) {
 				Event evt = (Event) eventsource;
 				PluginEvent pEvt = plugModel.getEvent(evt.getId());
 				pEvt.setTimeUnits(evt.getTimeUnits());
 				plugin.notifySBaseChanged(pEvt);
-			} else if (eventsource instanceof KineticLaw){
+			} else if (eventsource instanceof KineticLaw) {
 				KineticLaw klaw = (KineticLaw) eventsource;
 				PluginReaction pReac = plugModel.getReaction(klaw.getParent().getId());
 				PluginKineticLaw pKlaw = pReac.getKineticLaw();
 				pKlaw.setTimeUnits(klaw.getTimeUnits());
 				plugin.notifySBaseChanged(pKlaw);
-			} else if (eventsource instanceof Model){
+			} else if (eventsource instanceof Model) {
 				logger.log(Level.DEBUG, MessageFormat.format("Changing {0} in the Model only supported with SBML version > 3.", eventsource.getClass().getSimpleName()));
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.type)) {
@@ -507,26 +504,26 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			MathContainer mc = n.getParentSBMLObject();
 			plugin.notifySBaseChanged(getCorrespondingElementInJSBML(mc));
 		} else if (prop.equals(TreeNodeChangeEvent.units)) {
-			if (eventsource instanceof KineticLaw){
+			if (eventsource instanceof KineticLaw) {
 				KineticLaw klaw = (KineticLaw) event.getSource();
 				klaw.setUnits((Unit) event.getNewValue());
 				PluginKineticLaw pklaw = (PluginKineticLaw) getCorrespondingElementInJSBML(klaw);
 				plugin.notifySBaseChanged(pklaw);
-			} else if (eventsource instanceof ExplicitRule){
+			} else if (eventsource instanceof ExplicitRule) {
 				ExplicitRule er = (ExplicitRule) eventsource;
 				er.setUnits((Unit) event.getNewValue());
 				PluginRule pr = (PluginRule) getCorrespondingElementInJSBML(er);
 				plugin.notifySBaseChanged(pr);
-			} else if (eventsource instanceof ASTNode){
+			} else if (eventsource instanceof ASTNode) {
 				ASTNode n = (ASTNode) eventsource;
 				n.setUnits((String) event.getNewValue());
 				MathContainer mc = n.getParentSBMLObject();
 				plugin.notifySBaseChanged(getCorrespondingElementInJSBML(mc));
-			} else if (eventsource instanceof Model){
+			} else if (eventsource instanceof Model) {
 				//TODO This can be potentially ignored, since we're not able to change the model in CellDesigner anyway.
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.unsetCVTerms)) {
-			if (eventsource instanceof AbstractSBase){
+			if (eventsource instanceof AbstractSBase) {
 				AbstractSBase abs = (AbstractSBase) eventsource;
 				abs.unsetCVTerms();
 				PluginSBase psb = getCorrespondingElementInJSBML(abs);
@@ -550,17 +547,17 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			plugin.notifySBaseChanged(getCorrespondingElementInJSBML(mc));
 		} else if (prop.equals(TreeNodeChangeEvent.variable)) {
 			Object evtSrc = event.getSource();
-			if (evtSrc instanceof EventAssignment){
+			if (evtSrc instanceof EventAssignment) {
 				EventAssignment ea = (EventAssignment) eventsource;
 				ea.setVariable((Variable) event.getNewValue());
 				PluginSBase base = getCorrespondingElementInJSBML(ea);
 				plugin.notifySBaseChanged(base);
-			} else if (evtSrc instanceof ExplicitRule){
+			} else if (evtSrc instanceof ExplicitRule) {
 				ExplicitRule er = (ExplicitRule) eventsource;
 				er.setVariable((Variable) event.getNewValue());
 				PluginSBase base = getCorrespondingElementInJSBML(er);
 				plugin.notifySBaseChanged(base);
-			} else if (evtSrc instanceof InitialAssignment){
+			} else if (evtSrc instanceof InitialAssignment) {
 				InitialAssignment ia = (InitialAssignment) evtSrc;
 				ia.setVariable((Variable) event.getNewValue());
 				PluginSBase base = getCorrespondingElementInJSBML(ia);
@@ -589,8 +586,8 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 	 * @param mathcontainer
 	 */
 
-	private void saveMathContainerProperties(MathContainer mathcontainer){
-		if (mathcontainer instanceof FunctionDefinition){
+	private void saveMathContainerProperties(MathContainer mathcontainer) {
+		if (mathcontainer instanceof FunctionDefinition) {
 			FunctionDefinition funcDef = (FunctionDefinition) mathcontainer;
 			PluginFunctionDefinition plugFuncDef = plugModel.getFunctionDefinition(funcDef.getId());
 			boolean equals = (plugFuncDef.getMath() != null) && funcDef.isSetMath() && PluginUtils.equal(funcDef.getMath(), plugFuncDef.getMath());
@@ -609,49 +606,49 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			} else {
 				logger.log(Level.DEBUG, String.format("Couldn't save math properties of %s", r.getClass().getSimpleName()));
 			}
-		} else if (mathcontainer instanceof InitialAssignment){
+		} else if (mathcontainer instanceof InitialAssignment) {
 			InitialAssignment initAss = (InitialAssignment) mathcontainer;
 			PluginInitialAssignment pluginit = plugModel.getInitialAssignment(initAss.getSymbol());
 			boolean equals = (initAss.getMath() != null) && initAss.isSetMath() && PluginUtils.equal(initAss.getMath(), libsbml.parseFormula(pluginit.getMath()));
-			if (initAss.isSetMath() && !equals){
+			if (initAss.isSetMath() && !equals) {
 				pluginit.setMath(libsbml.formulaToString(PluginUtils.convert(initAss.getMath())));
 				plugin.notifySBaseChanged(pluginit);
 			} else {
 				logger.log(Level.DEBUG, String.format("Couldn't save math properties of %s", initAss.getClass().getSimpleName()));
 			}
-		} else if (mathcontainer instanceof EventAssignment){
+		} else if (mathcontainer instanceof EventAssignment) {
 			EventAssignment ea = (EventAssignment) mathcontainer;
 			Event e = (Event) ea.getParent().getParent();
 			PluginEvent pe = (PluginEvent) plugModel.getEvent(e.getId());
 			int eaindex = getEventAssignmentIndex(e, ea);
 			PluginEventAssignment plea = pe.getEventAssignment(eaindex);
 			boolean equals = (ea.getMath() != null) && ea.isSetMath();
-			if (ea.isSetMath() && !equals){
+			if (ea.isSetMath() && !equals) {
 				plea.setMath(PluginUtils.convert(ea.getMath()));
 				plugin.notifySBaseChanged(plea);
 			} else {
 				logger.log(Level.DEBUG, String.format("Couldn't save math properties of %s", ea.getClass().getSimpleName()));
 			}
-		} else if (mathcontainer instanceof StoichiometryMath){
+		} else if (mathcontainer instanceof StoichiometryMath) {
 			//TODO This does not exist in CellDesigner and therefore can be ignored.
-		} else if (mathcontainer instanceof Trigger){
+		} else if (mathcontainer instanceof Trigger) {
 			Trigger trig = (Trigger) mathcontainer;
 			PluginEvent plugEvent = plugModel.getEvent(trig.getParent().getId());
 			boolean equals = plugEvent.getTrigger().isSetMath() && trig.isSetMath() && PluginUtils.equal(trig.getMath(), plugEvent.getTrigger().getMath());
-			if (trig.isSetMath() && !equals){
+			if (trig.isSetMath() && !equals) {
 				plugEvent.getTrigger().setMath(PluginUtils.convert(trig.getMath()));
 				plugin.notifySBaseChanged(plugEvent);
 			} else {
 				logger.log(Level.DEBUG, String.format("Couldn't save math properties of %s", trig.getClass().getSimpleName()));
 			}
-		} else if (mathcontainer instanceof Rule){
-			if (mathcontainer instanceof AlgebraicRule){
+		} else if (mathcontainer instanceof Rule) {
+			if (mathcontainer instanceof AlgebraicRule) {
 				//TODO AlgebraicRules are not accessible that easily. How to do that ?
 				
-			} else if (mathcontainer instanceof ExplicitRule){
-				if (mathcontainer instanceof RateRule){
+			} else if (mathcontainer instanceof ExplicitRule) {
+				if (mathcontainer instanceof RateRule) {
 					//TODO RateRules are not accessible that easily. How to do that ?
-				}else if (mathcontainer instanceof AssignmentRule){
+				}else if (mathcontainer instanceof AssignmentRule) {
 					//TODO AssignmentRules are not accessible that easily. How to do that ?
 				}
 			}
@@ -659,26 +656,26 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			Constraint c = (Constraint) mathcontainer;
 			PluginConstraint plugC  = plugModel.getConstraint(c.getMathMLString());
 			boolean equals = (plugC.getMath() != null) && c.isSetMath() && PluginUtils.equal(c.getMath(), libsbml.parseFormula(plugC.getMath()));
-			if (c.isSetMath() && !equals){
+			if (c.isSetMath() && !equals) {
 				logger.log(Level.DEBUG, String.format("Couldn't save math properties of %s", c.getClass().getSimpleName()));
 			}
-		} else if (mathcontainer instanceof Delay){
+		} else if (mathcontainer instanceof Delay) {
 			Delay d = (Delay) mathcontainer;
 			PluginEvent plugEvent = plugModel.getEvent(d.getParent().getId());
 			org.sbml.libsbml.Delay plugDelay = plugEvent.getDelay();
 			boolean equals = (plugDelay.getMath() != null && d.isSetMath() && PluginUtils.equal(d.getMath(), plugDelay.getMath()));
-			if (d.isSetMath() && !equals){
+			if (d.isSetMath() && !equals) {
 				plugDelay.setMath(PluginUtils.convert(d.getMath()));
 				plugin.notifySBaseChanged(plugEvent);
 			} else {
 				logger.log(Level.DEBUG, String.format("Couldn't save math properties of %s", d.getClass().getSimpleName()));
 			}
-		} else if (mathcontainer instanceof Priority){
+		} else if (mathcontainer instanceof Priority) {
 			Priority p = (Priority) mathcontainer;
 			PluginEvent plugEvent = plugModel.getEvent(p.getParent().getId());
 			org.sbml.libsbml.Delay plugPriority = plugEvent.getDelay();
 			boolean equals = (plugPriority.getMath() != null && p.isSetMath() && PluginUtils.equal(p.getMath(), plugPriority.getMath()));
-			if (p.isSetMath() && !equals){
+			if (p.isSetMath() && !equals) {
 				plugPriority.setMath(PluginUtils.convert(p.getMath()));
 				plugin.notifySBaseChanged(plugEvent);
 			} else {
@@ -687,15 +684,10 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		}
 	}
 
-	/**
-	 * This method is called when a TreeNode has been Added. It calls the plugin.notifySBaseAdded method for this specificially added element, to notify our model from the change
-	 * in Celldesigner.
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree
-	 * .TreeNode)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree.TreeNode)
 	 */
+	//@Override
 	public void nodeAdded(TreeNode node) {
 		if (node instanceof AbstractSBase) {
 			if (node instanceof AbstractNamedSBase) {
@@ -1201,28 +1193,23 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		}
 	}
 
-	/**
-	 * This method is called whenever an element has been removed from our tree, and removes it from our model respectively.
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(javax.swing.tree
-	 * .TreeNode)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(org.sbml.jsbml.util.TreeNodeRemovedEvent)
 	 */
-
-	public void nodeRemoved(TreeNode node) {
+	//@Override
+	public void nodeRemoved(TreeNodeRemovedEvent evt) {
+	  TreeNode node = evt.getSource();
+	  TreeNode parent = evt.getPreviosParent();
 		if (node instanceof AbstractSBase) {
 			if (node instanceof AbstractNamedSBase) {
 				if (node instanceof CompartmentType) {
 					CompartmentType ct = (CompartmentType) node;
-					PluginCompartmentType pt = plugModel.getCompartmentType(ct
-							.getId());
+					PluginCompartmentType pt = plugModel.getCompartmentType(ct.getId());
 					plugModel.removeCompartmentType(ct.getId());
 					plugin.notifySBaseDeleted(pt);
 				} else if (node instanceof UnitDefinition) {
 					UnitDefinition undef = (UnitDefinition) node;
-					PluginUnitDefinition plugUndef = plugModel
-							.getUnitDefinition(undef.getId());
+					PluginUnitDefinition plugUndef = plugModel.getUnitDefinition(undef.getId());
 					plugModel.removeUnitDefinition(undef.getId());
 					plugin.notifySBaseDeleted(plugUndef);
 				} else if (node instanceof Reaction) {
@@ -1355,7 +1342,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 					plugin.notifySBaseDeleted(plugFuncdef);
 				} else if (node instanceof KineticLaw) {
 					KineticLaw klaw = (KineticLaw) node;
-					Reaction parentreaction = klaw.getParentSBMLObject();
+					Reaction parentreaction = (Reaction) parent;
 					PluginReaction plugReac = plugModel
 							.getReaction(parentreaction.getId());
 					PluginKineticLaw plugklaw = plugReac.getKineticLaw();
@@ -1369,7 +1356,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 					plugin.notifySBaseDeleted(plugiAssign);
 				} else if (node instanceof EventAssignment) {
 					EventAssignment eAssign = (EventAssignment) node;
-					ListOf<EventAssignment> elist = eAssign.getParent();
+					ListOf<EventAssignment> elist = (ListOf<EventAssignment>) parent;
 					Event e = (Event) elist.getParentSBMLObject();
 					PluginEventAssignment plugEventAssignment = plugModel
 							.getEvent(e.getId()).getEventAssignment(
@@ -1381,8 +1368,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 									.getClass().getSimpleName()));
 				} else if (node instanceof Trigger) {
 					Trigger trig = (Trigger) node;
-					PluginEvent plugEvent = plugModel.getEvent(trig.getParent()
-							.getId());
+					PluginEvent plugEvent = plugModel.getEvent(((Event) parent).getId());
 					logger.log(
 							Level.DEBUG,
 							String.format(
@@ -1398,8 +1384,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 					plugin.notifySBaseDeleted(plugct);
 				} else if (node instanceof Delay) {
 					Delay dl = (Delay) node;
-					PluginEvent plugEvent = plugModel.getEvent(dl.getParent()
-							.getId());
+					PluginEvent plugEvent = plugModel.getEvent(((Event) parent).getId());
 					Delay dlnew = new Delay();
 					plugEvent.setDelay(PluginUtils.convert(dlnew.getMath()));
 					plugin.notifySBaseChanged(plugEvent);
@@ -1480,7 +1465,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 					} else if (evtSrc instanceof SpeciesReference) {
 						SpeciesReference specRef = (SpeciesReference) evtSrc;
 						
-						if (specRef.isSetParent() &&specRef.getParentSBMLObject().isSetParentSBMLObject()){
+						if (specRef.isSetParent() &&specRef.getParentSBMLObject().isSetParentSBMLObject()) {
 							String rID = ((Reaction) specRef.getParentSBMLObject().getParentSBMLObject()).getId();
 						}
 					}
@@ -1517,7 +1502,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				}
 			} else if (evtSrc instanceof Unit) {
 				Unit u = (Unit) evtSrc;
-				if (u.isSetParent()){
+				if (u.isSetParent()) {
 					UnitDefinition ut = (UnitDefinition) u.getParent().getParent();
 					return plugModel.getUnitDefinition(ut.getId()).getUnit(getUnitIndex(ut, u));
 				}
@@ -1694,12 +1679,12 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 	 * @param n
 	 * @return
 	 */
-	public int searchMathContainerASTNode(MathContainer c, ASTNode n){
+	public int searchMathContainerASTNode(MathContainer c, ASTNode n) {
 		int counter = 0;
 		Enumeration<TreeNode> e = c.children();
 		TreeNode currNode = null;
-		while ((currNode = e.nextElement()) != null){
-			if(n.equals(currNode)){
+		while ((currNode = e.nextElement()) != null) {
+			if(n.equals(currNode)) {
 				return counter;
 			} else {
 				counter++;
@@ -1714,12 +1699,12 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 	 * @param p
 	 * @return
 	 */
-	public int searchKineticLaw(KineticLaw k, LocalParameter p){
+	public int searchKineticLaw(KineticLaw k, LocalParameter p) {
 		ListOf<LocalParameter> lp = k.getListOfParameters();
 		int temp = 0;
-		for (int i = 0; i < lp.size(); i++){
+		for (int i = 0; i < lp.size(); i++) {
 			LocalParameter locp = lp.get(i);
-			if (locp.equals(p)){
+			if (locp.equals(p)) {
 				temp = i;
 				return temp;
 			} else {
@@ -1735,12 +1720,12 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 	 * @param m
 	 * @return
 	 */
-	public int getModifier(Reaction r, ModifierSpeciesReference m){
+	public int getModifier(Reaction r, ModifierSpeciesReference m) {
 		ListOf<ModifierSpeciesReference> lmod = r.getListOfModifiers();
 		int temp = 0;
-		for (int i = 0; i < lmod.size(); i++){
+		for (int i = 0; i < lmod.size(); i++) {
 			ModifierSpeciesReference mod = lmod.get(i);
-			if (mod.equals(m)){
+			if (mod.equals(m)) {
 				temp = i;
 				return temp;
 			} else {
@@ -1757,11 +1742,11 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 	 * @param u
 	 * @return
 	 */
-	public int getUnitIndex(UnitDefinition ud, Unit u){
+	public int getUnitIndex(UnitDefinition ud, Unit u) {
 		ListOf<Unit> lu = ud.getListOfUnits();
 		int temp = 0;
-		for (int i = 0; i < lu.size(); i++){
-			if (lu.get(i).equals(u)){
+		for (int i = 0; i < lu.size(); i++) {
+			if (lu.get(i).equals(u)) {
 				temp = i;
 				return temp;
 			} else {
@@ -1770,25 +1755,29 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		}
 		return temp;
 	}
-	
-	/**
-	 * Searches through an Event's ListOf<EventAssignments> and returns the index of an EventAssignment ea
-	 * @param e
-	 * @param ea
-	 * @return
-	 */
-	public int getEventAssignmentIndex(Event e, EventAssignment ea){
+
+  /**
+   * Searches through an {@link Event}'s {@link ListOf}&lt;
+   * {@link EventAssignment}&gt; and returns the index of an
+   * {@link EventAssignment} ea
+   * 
+   * @param e
+   * @param ea
+   * @return
+   */
+	public int getEventAssignmentIndex(Event e, EventAssignment ea) {
 		ListOf<EventAssignment> lea = e.getListOfEventAssignments();
 		int temp = 0;
-		for (int i = 0; i < lea.size(); i++){
+		for (int i = 0; i < lea.size(); i++) {
 			EventAssignment checkme = lea.get(i);
-			if (checkme.isSetMath() && ea.isSetMath()){
-				if (checkme.getMathMLString().equals(ea.getMathMLString())){
+			if (checkme.isSetMath() && ea.isSetMath()) {
+				if (checkme.getMathMLString().equals(ea.getMathMLString())) {
 					temp = i;
 					break;
 				}
 			}
-		}return temp;
-		
+		}
+		return temp;		
 	}
+
 }

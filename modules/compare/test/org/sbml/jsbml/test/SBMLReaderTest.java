@@ -83,16 +83,14 @@ import com.topologi.diffx.DiffXException;
 import com.topologi.diffx.config.DiffXConfig;
 
 /**
- * Compares recursively a libSBML SBMLDocument with a jsbml SBMLDocument to find
+ * Compares recursively a libSBML SBMLDocument with a jsbml {@link SBMLDocument} to find
  * any differences in the manner they read SBML files.
  * 
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @version $Rev$
  *
  */
-
-
 @SuppressWarnings("deprecation")
 public class SBMLReaderTest {
 

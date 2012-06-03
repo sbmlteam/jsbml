@@ -21,6 +21,7 @@
 package org.sbml.jsbml.util;
 
 import java.beans.PropertyChangeEvent;
+import java.text.MessageFormat;
 
 import javax.swing.tree.TreeNode;
 
@@ -38,7 +39,7 @@ import org.apache.log4j.Logger;
 public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 
   /**
-   * 
+   * A {@link Logger} for this class. 
    */
 	private Logger logger;
 
@@ -58,34 +59,34 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 		return logger;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree.TreeNode)
 	 */
+	//@Override
 	public void nodeAdded(TreeNode sb) {
-            if (logger.isDebugEnabled()) {
-		logger.debug(String.format("[ADD]\t%s", sb));		
-            }
+	  if (logger.isDebugEnabled()) {
+	    logger.debug(MessageFormat.format("[ADD]\t{0}", sb));		
+	  }
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(javax.swing.tree.TreeNode)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(org.sbml.jsbml.util.TreeNodeRemovedEvent)
 	 */
-	public void nodeRemoved(TreeNode sb) {
-            if (logger.isDebugEnabled()) {
-		logger.debug(String.format("[DEL]\t%s", sb));
-            }
+	//@Override
+	public void nodeRemoved(TreeNodeRemovedEvent evt) {
+	  if (logger.isDebugEnabled()) {
+	    logger.debug(MessageFormat.format("[DEL]\t{0}", evt.getSource()));
+	  }
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
+	//@Override
 	public void propertyChange(PropertyChangeEvent ev) {		
-            if (logger.isDebugEnabled()) {
-		logger.debug(String.format("[CHG]\t%s", ev));
-            }
+	  if (logger.isDebugEnabled()) {
+	    logger.debug(MessageFormat.format("[CHG]\t{0}", ev));
+	  }
 	}
 
 }

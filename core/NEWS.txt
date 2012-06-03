@@ -6,6 +6,9 @@ Version 1.0-rc1 (xx-xx-2012)
 
 * New Features:
 
+  - SBasePlugin has now also become a TreeNodeWithChangeSupport and
+    AbstractSBasePlugin in turn extends AbstractTreeNode. 
+
   - The Unit class has two new methods: removeOffset and
     removeMultiplier. The first one computes a new multiplier from
     the old offset, the old multiplier, and the scale and then sets
@@ -167,6 +170,110 @@ Version 1.0-rc1 (xx-xx-2012)
     element (this could be null). Furthermore, when trying to unregister 
     local parameters in a kinetic law, the put method was called on the
     map between ids and local parameters, instead of the remove method.
+
+======================================================================
+Version 0.8.0 (15-05-2012)
+======================================================================
+
+* New Features:
+  
+  - The new specialized EventObject TreeNodeRemovedEvent has been
+    implemented in order to make sure that deleted nodes do no longer
+    have a pointer to their previous parent within the tree. At the
+    same time, it is still possible to identify their previous
+    location using the field in the new EventObject.
+
+* Bug Fixes:
+	       
+  - There is now a rounding correction for multipliers when merging units
+    that tries to shift multipliers to the scale of a unit. This can only
+    be done if the logarithm to the base 10 of the multiplier is nearly
+    an integer number. Nearly means that the distance to the next integer
+    is not larger than the ensured double precision.
+
+  - [Tracker item #3511439] : The cloning of a Species was not copying the
+    speciesType attribute. Thanks to Thomas Bernard who noticed and reported
+    the problem.
+
+  - The units attribute on ASTNode was sometime not written out and the sbml
+    namespace was sometime missing from the mathML. It should be fine now.
+
+* Known issues :
+
+  - Reading of more than one RDF Description elements in the RDF annotation 
+    block (the official SBML annotation scheme) is not supported at the 
+    moment. Planned for the next major release. 
+  - The RDF block at the top level of the annotation is considered to be the
+    official SBML annotation.
+  - SBML L3 packages are not supported and not kept.  
+  
+======================================================================
+Version 0.8-rc2 (12-04-2012)
+======================================================================
+
+* User visible changes :
+
+  - Major improvements of the reading and writing speed for large models.
+
+* Bug Fixes:
+
+  - It was forgotten to implement an unsetSubstanceUnits method on the Model
+    class. Thanks to Robert Byrnes for reporting this problem.
+  
+  - In the Reaction class, the setReversible method only accepted Boolean,
+    no boolean.
+  
+  - Several bug fixes and improvements to units derivation, merging and
+    simplifying.
+    
+  - There was a bug in KineticLaw that prevented a correct iteration
+    through all child elements.
+    
+  - When cloning JSBML wrongly assigned the same TreeNodeChangeListeners
+    to the new data structure. Now, the TreeNodeChangeListeners are not
+    copied when cloning a JSBML object.
+    
+  - The clone methods were corrected to register properly all entities
+  	with an id.
+    
+  - QuantityWithUnit did not fire update events when changing its value
+    because of an incorrect comparison between the previous and the new
+    value.
+    
+  - Corrected a bug that made it impossible to set a kinetic law with an 
+    existing list of local parameters as the new kinetic law in a 
+    different reaction.
+    
+  - Meike Aichele detected and fixed the problem that some Listeners were 
+    set too soon in the Model class, so that no Event was detected.
+  
+  - One rdf namespace declaration was missing when creating an History 
+    element from scratch.
+     
+  - [Tracker item #3511439] : Model.getSpeciesType(String) was 
+    corrected and it's speed improved. Thanks to Thomas Bernard who noticed
+    and reported the problem.
+  
+  - Annotation elements that are missing a proper namespace declaration will
+    be correctly read and not considered as improper SBML elements.
+  
+  - [Tracker item #3487517] : If one empty rdf Bag element was present in an
+    annotation read by jsbml, an XML element was not closed properly, 
+    resulting in an invalid generated SBML. Thanks to Anna Zhukova to report
+    this problem.
+  
+  - [Tracker item #3434930] : The parsing of a Message as an XML String was
+    incorrect as the method was expecting only a notes element to enclose
+    the HTML.
+  
+  * Known issues :
+
+  - Reading of more than one RDF Description elements in the RDF annotation 
+    block (the official SBML annotation scheme) is not supported at the 
+    moment. Planned for the next major release. 
+  - The RDF block at the top level of the annotation is considered to be the
+    official SBML annotation.
+  - SBML L3 packages are not supported and not kept.  
 
 ======================================================================
 Version 0.8-rc1 (xx-xx-2011)

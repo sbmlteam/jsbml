@@ -20,11 +20,7 @@
  */ 
 package org.sbml.jsbml.ext;
 
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
-
-import javax.swing.tree.TreeNode;
-
+import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.SBase;
 
 
@@ -35,7 +31,7 @@ import org.sbml.jsbml.SBase;
  * @since 1.0
  * @date 28.10.2011
  */
-public abstract class AbstractSBasePlugin implements SBasePlugin {
+public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SBasePlugin {
 
   /**
    * Generated serial version identifier.
@@ -63,150 +59,58 @@ public abstract class AbstractSBasePlugin implements SBasePlugin {
     this.extendedSBase = extendedSBase;
   }
 
-  /**
-   * Returns the SBase object that is extended by this plug-in.
-   * 
-   * @return the SBase object that is extended by this plug-in.
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getExtendedSBase()
    */
+  //@Override
   public SBase getExtendedSBase() {
     return extendedSBase;
   }
-  
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#children()
-   */
-  public Enumeration<TreeNode> children() {
-    return new Enumeration<TreeNode>() {
-      /**
-       * Total number of children in this enumeration.
-       */
-      private int childCount = getChildCount();
-      /**
-       * Current position in the list of children.
-       */
-      private int index;
 
-      /*
-       * (non-Javadoc)
-       * 
-       * @see java.util.Enumeration#hasMoreElements()
-       */
-      public boolean hasMoreElements() {
-        return index < childCount;
-      }
-
-      /*
-       * (non-Javadoc)
-       * 
-       * @see java.util.Enumeration#nextElement()
-       */
-      public TreeNode nextElement() {
-        synchronized (this) {
-          if (index < childCount) {
-            return getChildAt(index++);
-          }
-        }
-        throw new NoSuchElementException("Enumeration");
-      }
-    };
-  }
-
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see java.lang.Object#clone()
    */
   @Override
-  public abstract SBasePlugin clone();
+  public abstract AbstractSBasePlugin clone();
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
   public boolean equals(Object object) {
-    // Check if the given object is a pointer to precisely the same object:
-    if (super.equals(object)) {
-      return true;
-    }
-    // Check if the given object is of identical class and not null: 
-    if ((object == null) || (!getClass().equals(object.getClass()))) {
-      return false;
-    }
+    boolean equal = super.equals(object);
+    
     // Check all child nodes recursively:
-    if (object instanceof SBase) {
-      SBase stn = (SBase) object;
-      int childCount = getChildCount();
-      boolean equal = stn.isLeaf() == isLeaf();
-      /*
-       * This is not good because cloned SBase may not point
-       * to the same parent as the original and would hence not be equal
-       * to the cloned object.
-       */
-            //  equal &= ((stn.getParent() == null) && isRoot())
-            //           || (stn.getParent() == getParent());
-      equal &= stn.getChildCount() == childCount;
-      if (equal && (childCount > 0)) {
-        for (int i = 0; i < childCount; i++) {
-          if (!stn.getChildAt(i).equals(getChildAt(i))) {
-            return false;
-          }
-        }
+    if (equal && (object instanceof SBasePlugin)) {
+      SBasePlugin stn = (SBasePlugin) object;
+      equal &= stn.isSetExtendedSBase() == isSetExtendedSBase();
+      if (equal && isSetExtendedSBase()) {
+        equal &= stn.getExtendedSBase().equals(getExtendedSBase());
       }
-      return equal;
     }
-    return false;
+    return equal;
   }
 
-
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getIndex(org.sbml.jsbml.SBase)
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#isSetExtendedSBase()
    */
-  public int getIndex(SBase node) {
-    // TODO Auto-generated method stub
-    return 0;
+  //@Override
+  public boolean isSetExtendedSBase() {
+    return extendedSBase != null;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   @Override
   public int hashCode() {
     // A constant and arbitrary, sufficiently large prime number:
     final int prime = 769;
-    /*
-     * This method is implemented as suggested in the JavaDoc API
-     * documentation of the List interface.
-     */
-    
-    // Compute the initial hashCode based on the name of the actual class.
-    int hashCode = getClass().getName().hashCode();
-    /*
-     * The following start wouldn't work because it will compute the
-     * hashCode from the address in memory of the object.
-     */
-    // int hashCode = super.hashCode();
-    
-    // Recursively compute the hashCode for each child node:
-    TreeNode child;
-    for (int i = 0; i < getChildCount(); i++) {
-      child = getChildAt(i);
-      hashCode = prime * hashCode + (child == null ? 0 : child.hashCode());
+    int hashCode = super.hashCode();
+    if (isSetExtendedSBase()) {
+      hashCode += prime * getExtendedSBase().hashCode();
     }
-    
     return hashCode;
   }
-
-
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#isLeaf()
-   */
-  public boolean isLeaf() {    
-    return getChildCount() == 0;
-  }
-
 
 }

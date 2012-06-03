@@ -50,7 +50,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * listXXX is a SBML package extension, the SBaseListType value to set would
 	 * be 'other'.
 	 * 
-	 * @author marine
+	 * @author Marine Dumousseau
 	 * 
 	 */
 	public static enum Type {
