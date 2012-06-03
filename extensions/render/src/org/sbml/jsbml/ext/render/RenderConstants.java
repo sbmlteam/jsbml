@@ -41,7 +41,11 @@ public interface RenderConstants {
   public static final String fontFamily = "font-family";
   public static final String fontSize = "font-size";
   public static final String fontWeightBold = "font-weight";
+  public static final String fontWeightBoldTrue = "bold";
+  public static final String fontWeightBoldFalse = "normal";
   public static final String fontStyleItalic = "font-style";
+  public static final String fontStyleItalicTrue = "italic";
+  public static final String fontStyleItalicFalse = "normal";
   public static final String textAnchor = "text-anchor";
   public static final String vTextAnchor = "vtext-anchor";
   public static final String x = "x";
@@ -100,8 +104,8 @@ public interface RenderConstants {
   public static final String group = "g";
   public static final String boundingBox = "bounding-box";
   public static final String transform = "trasform";
-  public static final Object versionMinor = "version-minor";
-  public static final Object versionMajor = "version-major";
+  public static final String versionMinor = "version-minor";
+  public static final String versionMajor = "version-major";
   public static final String spreadMethod = "spreadMethod";
   public static final String typeList = "typeList";
   public static final String roleList = "roleList";

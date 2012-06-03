@@ -2,23 +2,25 @@
  * $Id$
  * $URL$
  *
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
- * 
- * Copyright (C) 2009-2012 jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
- * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
- */ 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ *
+ * Copyright (C) 2009-2012 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
 package org.sbml.jsbml.ext.render;
+
+import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
 
@@ -34,7 +36,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  */
 public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point3D {
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -7468181076596795203L;
   private Boolean absoluteX, absoluteY, absoluteZ;
@@ -228,7 +230,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   public boolean isSetFontSize() {
     return this.fontSize != null;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#isSetFontStyleItalic()
    */
@@ -236,7 +238,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   public boolean isSetFontStyleItalic() {
     return this.fontStyleItalic != null;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#isSetFontWeightBold()
    */
@@ -260,7 +262,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   public boolean isSetVTextAnchor() {
     return this.vTextAnchor != null;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#isSetX()
    */
@@ -571,6 +573,108 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
       return true;
     }
     return false;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetFontFamily()) {
+      attributes.remove(RenderConstants.fontFamily);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fontFamily,
+        getFontFamily().toString().toLowerCase());
+    }
+    if (isSetTextAnchor()) {
+      attributes.remove(RenderConstants.textAnchor);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.textAnchor,
+        getTextAnchor().toString().toLowerCase());
+    }
+    if (isSetVTextAnchor()) {
+      attributes.remove(RenderConstants.vTextAnchor);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.vTextAnchor,
+        getVTextAnchor().toString().toLowerCase());
+    }
+    if (isSetFontSize()) {
+      attributes.remove(RenderConstants.fontSize);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fontSize,
+        Short.toString(getFontSize()));
+    }
+    if (isSetX()) {
+      attributes.remove(RenderConstants.x);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.x,
+        XMLTools.positioningToString(getX(), isAbsoluteX()));
+    }
+    if (isSetY()) {
+      attributes.remove(RenderConstants.y);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.y,
+        XMLTools.positioningToString(getY(), isAbsoluteY()));
+    }
+    if (isSetZ()) {
+      attributes.remove(RenderConstants.z);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.z,
+        XMLTools.positioningToString(getZ(), isAbsoluteZ()));
+    }
+    if (isSetFontStyleItalic()) {
+      attributes.remove(RenderConstants.fontStyleItalic);
+      attributes.put(RenderConstants.fontStyleItalic,
+        XMLTools.fontStyleItalicToString(isFontStyleItalic()));
+    }
+    if (isSetFontWeightBold()) {
+      attributes.remove(RenderConstants.fontWeightBold);
+      attributes.put(RenderConstants.fontWeightBold,
+        XMLTools.fontWeightBoldToString(isFontWeightBold()));
+    }
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      // TODO: catch Exception if Enum.valueOf fails, generate logger output
+      if (attributeName.equals(RenderConstants.fontFamily)) {
+        setFontFamily(FontFamily.valueOf(value.toUpperCase()));
+      }
+      else if (attributeName.equals(RenderConstants.textAnchor)) {
+        setTextAnchor(TextAnchor.valueOf(value.toUpperCase()));
+      }
+      else if (attributeName.equals(RenderConstants.vTextAnchor)) {
+        setVTextAnchor(VTextAnchor.valueOf(value.toUpperCase()));
+      }
+      else if (attributeName.equals(RenderConstants.fontSize)) {
+        setFontSize(Short.valueOf(value));
+      }
+      else if (attributeName.equals(RenderConstants.x)) {
+        setX(XMLTools.parsePosition(value));
+        setAbsoluteX(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.y)) {
+        setY(XMLTools.parsePosition(value));
+        setAbsoluteY(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.z)) {
+        setZ(XMLTools.parsePosition(value));
+        setAbsoluteZ(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.fontStyleItalic)) {
+        setFontStyleItalic(XMLTools.parseFontStyleItalic(value));
+      }
+      else if (attributeName.equals(RenderConstants.fontWeightBold)) {
+        setFontWeightBold(XMLTools.parseFontWeightBold(value));
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
   }
 
 }

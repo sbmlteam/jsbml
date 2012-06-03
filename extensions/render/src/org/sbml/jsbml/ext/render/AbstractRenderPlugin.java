@@ -142,7 +142,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	public void setVersionMinor(Short versionMinor) {
 		Short oldVersionMinor = this.versionMinor;
 		this.versionMinor = versionMinor;
-		// TODO firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
+		firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 		if (isSetVersionMinor()) {
 			Short oldVersionMinor = this.versionMinor;
 			this.versionMinor = null;
-			//FIXME firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
+			firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
 			return true;
 		}
 		return false;
