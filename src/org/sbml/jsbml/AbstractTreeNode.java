@@ -31,6 +31,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.TreeNodeRemovedEvent;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 
 /**
@@ -273,8 +274,10 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#fireNodeRemovedEvent()
 	 */
 	public void fireNodeRemovedEvent() {
+		TreeNode previousParent = getParent();
+		parent = null;
 		for (TreeNodeChangeListener listener : listOfListeners) {
-			listener.nodeRemoved(this);
+			listener.nodeRemoved(new TreeNodeRemovedEvent(this, previousParent));
 		}
 	}
 

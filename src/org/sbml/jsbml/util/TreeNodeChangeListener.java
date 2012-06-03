@@ -37,8 +37,8 @@ import org.sbml.jsbml.SBMLDocument;
 public interface TreeNodeChangeListener extends PropertyChangeListener {
 
 	/**
-	 * The {@link T} passed to this method has just been added to the
-	 * {@link SBMLDocument} or another containing element.
+	 * The {@link TreeNode} passed to this method has just been added to the
+	 * a containing element.
 	 * 
 	 * @param node
 	 *            This element is now part of the {@link SBMLDocument}.
@@ -46,13 +46,16 @@ public interface TreeNodeChangeListener extends PropertyChangeListener {
 	public void nodeAdded(TreeNode node);
 
 	/**
-	 * The {@link T} passed to this method has been removed from a
+	 * The {@link TreeNodeRemovedEvent} passed to this method provides information
+	 * about the node that has been removed from a
 	 * containing parent and does hence no longer belong to the
-	 * {@link SBMLDocument} anymore.
+	 * {@link SBMLDocument} anymore. In addition, a pointer to its previous parent
+	 * is also provided. In this way, an implementing class
+	 * can identify the location within the tree where it was before.
 	 * 
 	 * @param node
-	 *            This element is not longer part of the {@link SBMLDocument}.
+	 *        This element is not longer part of the {@link SBMLDocument}.
 	 */
-	public void nodeRemoved(TreeNode node);
+	public void nodeRemoved(TreeNodeRemovedEvent evt);
 	
 }

@@ -33,6 +33,7 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.TreeNodeRemovedEvent;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 /**
@@ -92,12 +93,11 @@ public class ListenerTest implements TreeNodeChangeListener {
 		System.out.printf("Added:\t%s\n", node);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(javax.swing.tree.TreeNode)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(org.sbml.jsbml.util.TreeNodeRemovedEvent)
 	 */
-	public void nodeRemoved(TreeNode node) {
-		System.out.printf("Removed:\t%s\n", node);
+	public void nodeRemoved(TreeNodeRemovedEvent evt) {
+		System.out.printf("Removed:\t%s\n", evt.getSource());
 	}
 
 }

@@ -68,14 +68,14 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
             }
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(javax.swing.tree.TreeNode)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(org.sbml.jsbml.util.TreeNodeRemovedEvent)
 	 */
-	public void nodeRemoved(TreeNode sb) {
-            if (logger.isDebugEnabled()) {
-		logger.debug(String.format("[DEL]\t%s", sb));
-            }
+	//@Override
+	public void nodeRemoved(TreeNodeRemovedEvent evt) {
+	  if (logger.isDebugEnabled()) {
+	    logger.debug(String.format("[DEL]\t%s", evt.getSource()));
+	  }
 	}
 
 	/*
