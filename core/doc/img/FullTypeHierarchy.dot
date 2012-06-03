@@ -160,6 +160,7 @@ strict digraph G{
   AbstractMathContainer      -> StoichiometryMath            [dir=back,arrowtail=empty];
   AbstractMathContainer      -> Trigger                      [dir=back,arrowtail=empty];
   AbstractTreeNode           -> AbstractSBase                [dir=back,arrowtail=empty];
+  AbstractTreeNode           -> AbstractSBasePlugin          [dir=back,arrowtail=empty];
   AbstractTreeNode           -> AnnotationElement            [dir=back,arrowtail=empty];
   AbstractTreeNode           -> ASTNode                      [dir=back,arrowtail=empty];
   AbstractTreeNode           -> TreeNodeAdapter              [dir=back,arrowtail=empty];
@@ -174,7 +175,6 @@ strict digraph G{
   CallableSBase              -> Quantity                     [dir=back,arrowtail=empty,style=dashed];
   CallableSBase              -> FunctionDefinition           [dir=back,arrowtail=empty,style=dashed];
   CallableSBase              -> Reaction                     [dir=back,arrowtail=empty,style=dashed];
-  Cloneable                  -> SBasePlugin                  [dir=back,arrowtail=empty,style=dashed];
   Cloneable                  -> TreeNodeWithChangeSupport    [dir=back,arrowtail=empty,style=dashed];
   ExplicitRule               -> AssignmentRule               [dir=back,arrowtail=empty];
   ExplicitRule               -> RateRule                     [dir=back,arrowtail=empty];
@@ -207,7 +207,6 @@ strict digraph G{
   SBaseWithUnit              -> KineticLaw                   [dir=back,arrowtail=empty,style=dashed];
   SimpleSpeciesReference     -> ModifierSpeciesReference     [dir=back,arrowtail=empty];
   SimpleSpeciesReference     -> SpeciesReference             [dir=back,arrowtail=empty];
-  Serializable               -> SBasePlugin                  [dir=back,arrowtail=empty,style=dashed];
   Serializable               -> TreeNodeWithChangeSupport    [dir=back,arrowtail=empty,style=dashed];
   Symbol                     -> Compartment                  [dir=back,arrowtail=empty];
   Symbol                     -> Parameter                    [dir=back,arrowtail=empty];
@@ -216,6 +215,7 @@ strict digraph G{
   TreeNodeChangeListener     -> SimpleTreeNodeChangeListener [dir=back,arrowtail=empty,style=dashed];
   TreeNodeWithChangeSupport  -> AbstractTreeNode             [dir=back,arrowtail=empty,style=dashed];
   TreeNodeWithChangeSupport  -> SBase                        [dir=back,arrowtail=empty,style=dashed];
+  TreeNodeWithChangeSupport  -> SBasePlugin                  [dir=back,arrowtail=empty,style=dashed];
   UniqueNamedSBase           -> CompartmentType              [dir=back,arrowtail=empty,style=dashed];
   UniqueNamedSBase           -> Event                        [dir=back,arrowtail=empty,style=dashed];
   UniqueNamedSBase           -> FunctionDefinition           [dir=back,arrowtail=empty,style=dashed];

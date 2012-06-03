@@ -33,6 +33,7 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.TreeNodeRemovedEvent;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 /**
@@ -76,28 +77,28 @@ public class ListenerTest implements TreeNodeChangeListener {
 		new ListenerTest();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
+	//@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		System.out.printf("Change:\t%s\n", evt.toString());
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree.TreeNode)
 	 */
+	//@Override
 	public void nodeAdded(TreeNode node) {
 		System.out.printf("Added:\t%s\n", node);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(javax.swing.tree.TreeNode)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(org.sbml.jsbml.util.TreeNodeRemovedEvent)
 	 */
-	public void nodeRemoved(TreeNode node) {
-		System.out.printf("Removed:\t%s\n", node);
+	//@Override
+	public void nodeRemoved(TreeNodeRemovedEvent evt) {
+		System.out.printf("Removed:\t%s\n", evt.getSource());
 	}
 
 }

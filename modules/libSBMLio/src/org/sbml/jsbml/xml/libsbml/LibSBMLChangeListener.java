@@ -73,6 +73,7 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.TreeNodeAdapter;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.TreeNodeRemovedEvent;
 import org.sbml.jsbml.xml.XMLToken;
 import org.sbml.libsbml.ModelCreator;
 import org.sbml.libsbml.SBMLDocument;
@@ -113,10 +114,10 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 	}
 
 
-	/* 
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree.TreeNode)
 	 */
+	//@Override
 	public void nodeAdded(TreeNode node) {
 		if (node instanceof AbstractSBase) {
 			if (node instanceof org.sbml.jsbml.AbstractNamedSBase) {
@@ -560,9 +561,12 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 
 
 	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(javax.swing.tree.TreeNode)
+	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(org.sbml.jsbml.util.TreeNodeRemovedEvent)
 	 */
-	public void nodeRemoved(TreeNode node) {
+	//@Override
+	public void nodeRemoved(TreeNodeRemovedEvent evt) {
+	  TreeNode node = evt.getSource();
+	  TreeNode parent = evt.getPreviosParent();
 		org.sbml.libsbml.Model libModel = libDoc.getModel();
 		if (node instanceof AbstractSBase) {
 			if (node instanceof org.sbml.jsbml.AbstractNamedSBase) {
@@ -579,17 +583,18 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				} else if (node instanceof SimpleSpeciesReference) {
 					if (node instanceof ModifierSpeciesReference) {
 						//get the corresponding reaction-ID
-						String reacID =((Reaction) ((ModifierSpeciesReference)node).getParentSBMLObject().getParentSBMLObject()).getId();
+						String reacID = ((Reaction) ((ListOf<ModifierSpeciesReference>) parent).getParentSBMLObject()).getId();
 						// search the corresponding reaction and remove the modifier
 						libModel.getReaction(reacID).removeModifier(((ModifierSpeciesReference) node).getId());
 					}
 					if (node instanceof SpeciesReference) {
 						SpeciesReference specRef = (SpeciesReference) node;
-						String reacID = ((Reaction)specRef.getParentSBMLObject().getParentSBMLObject()).getId();
-						if (specRef.getParentSBMLObject().equals(Type.listOfProducts)) {
+						ListOf<SpeciesReference> parentSBML = (ListOf<SpeciesReference>) parent;
+						String reacID = ((Reaction) parentSBML.getParentSBMLObject()).getId();
+						if (parentSBML.getSBaseListType().equals(Type.listOfProducts)) {
 							//search reaction and remove the product
 							libModel.getReaction(reacID).removeProduct(specRef.getId());
-						} else if (specRef.getParentSBMLObject().equals(Type.listOfReactants)) {
+						} else if (parentSBML.getSBaseListType().equals(Type.listOfReactants)) {
 							// search reaction and remove the reactant
 							libModel.getReaction(reacID).removeReactant(specRef.getId());
 						}
@@ -617,7 +622,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 			} else if (node instanceof Unit) {
 				// search corresponding UnitDefinition and remove the unit
 				Unit unit = (Unit) node;
-				UnitDefinition udef = (UnitDefinition) unit.getParentSBMLObject().getParentSBMLObject();
+				UnitDefinition udef = (UnitDefinition) ((ListOf<Unit>) parent).getParentSBMLObject();
 				// search the index of this Unit object and remove it
 				int index = LibSBMLUtils.getUnitIndex(unit, udef);
 				libModel.getUnitDefinition(udef.getId()).removeUnit(index);
@@ -635,7 +640,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				}
 				else if (node instanceof KineticLaw) {
 					// get the corresponding reaction and unset the kinetikLaw in there
-					Reaction corresreac = ((KineticLaw) node).getParentSBMLObject();
+					Reaction corresreac = (Reaction) parent;
 					libModel.getReaction(corresreac.getId()).unsetKineticLaw();
 				}
 				else if (node instanceof InitialAssignment) {
@@ -645,17 +650,17 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				}
 				else if (node instanceof EventAssignment) {
 					// search corresponding event and remove the EventAssignment indicated by the variable
-					Event event = (Event) (((EventAssignment) node).getParentSBMLObject().getParentSBMLObject());
+					Event event = (Event) (((ListOf<EventAssignment>) parent).getParentSBMLObject();
 					libModel.getEvent(event.getId()).removeEventAssignment(((EventAssignment) node).getVariable());
 				}
 				else if (node instanceof StoichiometryMath) {
 					// search corresponding SpeciesReference and unset the StoichiometryMath of it
-					SpeciesReference specRef = (SpeciesReference) ((StoichiometryMath) node).getParentSBMLObject();
+					SpeciesReference specRef = (SpeciesReference) parent;
 					libModel.getSpeciesReference(specRef.getId()).unsetStoichiometryMath();
 				}
 				else if (node instanceof Trigger) {
 					//get corresponding event and delete it's trigger
-					Event trigEvent = (Event) ((Trigger) node).getParentSBMLObject();
+					Event trigEvent = (Event) parent;
 					libModel.getEvent(trigEvent.getId()).unsetTrigger();
 				}
 				else if (node instanceof Rule) {
@@ -675,8 +680,9 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				}
 				else if (node instanceof Constraint) {
 					Constraint con = (Constraint) node;
+					ListOf<Constraint> parentSBML = (ListOf<Constraint>) parent;
 					// find the index of this Constraint
-					for (int k=0; k<con.getParent().size(); k++) {
+					for (int k = 0; k < parentSBML.size(); k++) {
 						Constraint c = con.getParent().get(k);
 						if (con.equals(c)) {
 							libModel.removeConstraint(k);
@@ -687,12 +693,13 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				else if (node instanceof Delay) {
 					// find corresponding Event and delete it's Delay
 					Delay delay = (Delay) node;
-					libModel.getEvent(delay.getParent().getId()).unsetDelay();
+					Event parentSBML = (Event) parent;
+					libModel.getEvent(parentSBML.getId()).unsetDelay();
 				}
 				else if (node instanceof Priority) {
 					//find the corresponding Event and delete it's Priority
 					Priority prio = (Priority) node;
-					Event prioEvent = prio.getParent();
+					Event prioEvent = (Event) parent;
 					libModel.getEvent(prioEvent.getId()).unsetPriority();		
 				}
 			}
@@ -729,10 +736,10 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 	}
 
 
-	/* 
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
+	//@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		Object evtSrc = evt.getSource();
 		String prop = evt.getPropertyName();
