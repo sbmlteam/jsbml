@@ -34,13 +34,13 @@ public enum VTextAnchor {
   /**
    * 
    */
-  top,
+  TOP,
   /**
    * 
    */
-  middle,
+  MIDDLE,
   /**
    * 
    */
-  bottom;
+  BOTTOM;
 }

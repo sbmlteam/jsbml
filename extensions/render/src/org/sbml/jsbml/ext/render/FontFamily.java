@@ -31,13 +31,13 @@ public enum FontFamily {
   /**
    * 
    */
-  serif,
+  SERIF,
   /**
    * 
    */
-  sans_serif,
+  SANS_SERIF,
   /**
    * 
    */
-  monospace;
+  MONOSPACE;
 }
