@@ -34,13 +34,13 @@ public enum TextAnchor {
   /**
    * 
    */
-  start,
+  START,
   /**
    * 
    */
-  middle,
+  MIDDLE,
   /**
    * 
    */
-  end;
+  END;
 }

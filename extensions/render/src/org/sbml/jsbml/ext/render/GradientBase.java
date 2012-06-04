@@ -55,9 +55,9 @@ public class GradientBase extends AbstractSBase {
    * @date 08.05.2012
    */
   protected enum Spread {
-		pad,
-		reflect,
-		repeat,
+		PAD,
+		REFLECT,
+		REPEAT,
 	}
 	
 	protected String id;
@@ -164,8 +164,8 @@ public class GradientBase extends AbstractSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    //addNamespace(constant_class.namespaceURI);
-    this.spreadMethod = Spread.pad;
+    addNamespace(RenderConstants.namespaceURI);
+    this.spreadMethod = Spread.PAD;
     this.listOfGradientStops = new ListOf<GradientStop>();
   }
   
