@@ -20,6 +20,8 @@
  */
 package org.sbml.jsbml.ext.render;
 
+import java.awt.Color;
+
 import org.sbml.jsbml.util.StringTools;
 
 
@@ -103,5 +105,21 @@ public class XMLTools {
    */
   public static boolean parseFontWeightBold(String value) {
     return (value.equals(RenderConstants.fontWeightBoldTrue));
+  }
+
+  /**
+   * @param value
+   * @return
+   */
+  /**
+   * @param value
+   * @return
+   */
+  public static String decodeColorToString(Color value) {
+    int r = value.getRed();
+    int g = value.getGreen();
+    int b = value.getBlue();
+    return ("#" + Integer.toHexString(r) +
+        Integer.toHexString(g) + Integer.toHexString(b)).toUpperCase();
   }
 }
