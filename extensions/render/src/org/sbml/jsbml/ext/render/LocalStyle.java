@@ -20,8 +20,7 @@
  */
 package org.sbml.jsbml.ext.render;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
 
@@ -41,7 +40,7 @@ public class LocalStyle extends Style {
    */
   private static final long serialVersionUID = 4976081641247006722L;
 
-	private List<String> idList;
+	private String[] idList;
 
 	/**
    * Creates a LocalStyle instance with a group
@@ -50,7 +49,6 @@ public class LocalStyle extends Style {
    */
 	public LocalStyle(Group group){
 	  super(group);
-	  this.idList = new ArrayList<String>();
 	}
 
 	/**
@@ -61,7 +59,6 @@ public class LocalStyle extends Style {
    */
   public LocalStyle(int level, int version, Group group) {
     super(null, level, version, group);
-    this.idList = new ArrayList<String>();
   }
 
   /**
@@ -74,15 +71,14 @@ public class LocalStyle extends Style {
    */
 	public LocalStyle(String id, int level, int version, Group group){
 	  super(id, level, version, group);
-	  this.idList = new ArrayList<String>();
 	}
-
-
+	
+	
   /**
    * @return the value of idList
    */
-  public List<String> getIdList() {
-    if (isSetIdList()) {
+  public String[] getIDList() {
+    if (isSetIDList()) {
       return idList;
     }
     // This is necessary if we cannot return null here.
@@ -91,9 +87,9 @@ public class LocalStyle extends Style {
 
 
   /**
-   * @return whether idList is set
+   * @return whether idList is set 
    */
-  public boolean isSetIdList() {
+  public boolean isSetIDList() {
     return this.idList != null;
   }
 
@@ -101,26 +97,60 @@ public class LocalStyle extends Style {
   /**
    * Set the value of idList
    */
-  public void setIdList(List<String> idList) {
-    List<String> oldIdList = this.idList;
+  public void setIDList(String[] idList) {
+    String[] oldIDList = this.idList;
     this.idList = idList;
-    firePropertyChange(RenderConstants.idList, oldIdList, this.idList);
+    firePropertyChange(RenderConstants.idList, oldIDList, this.idList);
   }
 
 
   /**
-   * Unsets the variable idList
-   * @return <code>true</code>, if idList was set before,
+   * Unsets the variable idList 
+   * @return <code>true</code>, if idList was set before, 
    *         otherwise <code>false</code>
    */
-  public boolean unsetIdList() {
-    if (isSetIdList()) {
-      List<String> oldIdList = this.idList;
+  public boolean unsetIDList() {
+    if (isSetIDList()) {
+      String[] oldIDList = this.idList;
       this.idList = null;
-      firePropertyChange(RenderConstants.idList, oldIdList, this.idList);
+      firePropertyChange(RenderConstants.idList, oldIDList, this.idList);
       return true;
     }
     return false;
+  }
+  
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Style#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetIDList()) {
+      attributes.remove(RenderConstants.idList);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.idList,
+        XMLTools.arrayToWhitespaceSeparatedString(getIDList()));
+    }
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Style#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(RenderConstants.idList)) {
+        setIDList(value.split(" "));
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
   }
 
 }

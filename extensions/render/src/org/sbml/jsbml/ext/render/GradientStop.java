@@ -20,7 +20,9 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.awt.Color;
 import java.text.MessageFormat;
+import java.util.Map;
 
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.LevelVersionError;
@@ -45,9 +47,7 @@ public class GradientStop extends AbstractSBase {
 
 
 	private Double offset;
-
-	
-  private ColorDefinition stopColor;
+  private Color stopColor;
 
 
   /**
@@ -56,7 +56,7 @@ public class GradientStop extends AbstractSBase {
 	 * @param offset
 	 * @param color
 	 */
-	public GradientStop(Double offset, ColorDefinition stopColor) {
+	public GradientStop(Double offset, Color stopColor) {
 		this.offset = offset;
 		this.stopColor = stopColor;
 	}
@@ -69,7 +69,7 @@ public class GradientStop extends AbstractSBase {
 	 * @param level
 	 * @param version
 	 */
-	public GradientStop(Double offset, ColorDefinition stopColor, int level, int version) {
+	public GradientStop(Double offset, Color stopColor, int level, int version) {
 		super(level, version);
 		if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
 				Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
@@ -140,7 +140,7 @@ public class GradientStop extends AbstractSBase {
 	/**
 	 * @return the value of stopColor
 	 */
-	public ColorDefinition getStopColor() {
+	public Color getStopColor() {
 		if (isSetStopColor()) {
 			return stopColor;
 		}
@@ -174,8 +174,8 @@ public class GradientStop extends AbstractSBase {
 	/**
 	 * Set the value of stopColor
 	 */
-	public void setStopColor(ColorDefinition stopColor) {
-		ColorDefinition oldStopColor = this.stopColor;
+	public void setStopColor(Color stopColor) {
+		Color oldStopColor = this.stopColor;
 		this.stopColor = stopColor;
 		firePropertyChange(RenderConstants.stopColor, oldStopColor, this.stopColor);
 	}
@@ -202,7 +202,7 @@ public class GradientStop extends AbstractSBase {
 	 */
 	public boolean unsetStopColor() {
 		if (isSetStopColor()) {
-			ColorDefinition oldStopColor = this.stopColor;
+			Color oldStopColor = this.stopColor;
 			this.stopColor = null;
 			firePropertyChange(RenderConstants.stopColor, oldStopColor, this.stopColor);
 			return true;
@@ -217,6 +217,48 @@ public class GradientStop extends AbstractSBase {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
+	@Override
+  public Map<String, String> writeXMLAttributes() {
+	  Map<String, String> attributes = super.writeXMLAttributes();
+	  if (isSetOffset()) {
+	    attributes.remove(RenderConstants.offset);
+	    attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.offset,
+	      XMLTools.positioningToString(getOffset(), false));
+	  }
+	  if (isSetStopColor()) {
+	    attributes.remove(RenderConstants.stopColor);
+	    attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.stopColor,
+	      XMLTools.decodeColorToString(getStopColor()));
+	  }
+	  return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix, String value) {
+	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+	  if (!isAttributeRead) {
+	    isAttributeRead = true;
+	    if (attributeName.equals(RenderConstants.offset)) {
+	      setOffset(XMLTools.parsePosition(value));
+	    }
+	    else if (attributeName.equals(RenderConstants.stopColor)) {
+	      setStopColor(Color.decode(value));
+	    }
+	    else {
+	      isAttributeRead = false;
+	    }
+	  }
+	  return isAttributeRead;
 	}
 
 }

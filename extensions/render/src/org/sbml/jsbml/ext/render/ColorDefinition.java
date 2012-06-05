@@ -21,9 +21,12 @@
 package org.sbml.jsbml.ext.render;
 
 import java.awt.Color;
+import java.util.Map;
 
-import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBase;
 
 
 /**
@@ -35,45 +38,73 @@ import org.sbml.jsbml.LevelVersionError;
  * @since 1.0
  * @date 08.05.2012
  */
-public class ColorDefinition extends AbstractSBase {
+public class ColorDefinition extends AbstractNamedSBase {
 
   /**
    * 
    */
   private static final long serialVersionUID = 8904459123022343452L;
   
-  private String id;
   private Color value;
 	
-
   /**
-   * Creates a ColorDefinition instance with an id and a color value 
-   * 
-   * @param id
-   * @param value
+   * Creates an ColorDefinition instance 
    */
-  public ColorDefinition(String id, Color value) {
-    this.id = id;
-    this.value = value;
+  public ColorDefinition() {
+    super();
+    initDefaults();
   }
 
 
   /**
-   * Creates a ColorDefinition instance with an id, color value, level, and version. 
+   * Creates a ColorDefinition instance with an id. 
    * 
    * @param id
-   * @param value
+   */
+  public ColorDefinition(String id) {
+    super(id);
+    initDefaults();
+  }
+
+
+  /**
+   * Creates a ColorDefinition instance with a level and version. 
+   * 
    * @param level
    * @param version
    */
-  public ColorDefinition(String id, Color value, int level, int version) {
-    super(level, version);
+  public ColorDefinition(int level, int version) {
+    this(null, null, level, version);
+  }
+
+
+  /**
+   * Creates a ColorDefinition instance with an id, level, and version. 
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public ColorDefinition(String id, int level, int version) {
+    this(id, null, level, version);
+  }
+
+
+  /**
+   * Creates a ColorDefinition instance with an id, name, level, and version. 
+   * 
+   * @param id
+   * @param name
+   * @param level
+   * @param version
+   */
+  public ColorDefinition(String id, String name, int level, int version) {
+    super(id, name, level, version);
     if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
       Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
     }
-    this.id = id;
-    this.value = value;
+    initDefaults();
   }
 
 
@@ -82,34 +113,60 @@ public class ColorDefinition extends AbstractSBase {
    */
   public ColorDefinition(ColorDefinition obj) {
     super(obj);
-    this.id = obj.id;
-    this.value = obj.value;
+    value = obj.value;
+  }
+
+
+  /**
+   * clones this class
+   */
+  public ColorDefinition clone() {
+    return new ColorDefinition(this);
+  }
+
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    addNamespace(RenderConstants.namespaceURI);
   }
 
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#clone()
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
-  //@Override
-  public ColorDefinition clone() {
-    return new ColorDefinition(this);
+  public boolean isIdMandatory() {
+    return true;
   }
   
-  /**
-   * @return the value of id
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
    */
-  public String getId(){
-    return this.id;
+  @Override
+  public boolean getAllowsChildren() {
+    return false;
+  }
+
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    int count = 0;
+    return count;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
+  @Override
+  public SBase getChildAt(int childIndex) {
+    return null;
   }
   
-  /**
-   * Set the value of id
-   */
-  public void setId(String id){
-    String oldId = this.id;
-    this.id = id;
-    firePropertyChange(RenderConstants.id, oldId, this.id);
-  }
   
   
   /**
@@ -117,11 +174,10 @@ public class ColorDefinition extends AbstractSBase {
    */
   public Color getValue() {
     if (isSetValue()) {
-      Color val = value;
-      return val;
-    } else {
-      return null;
+      return value;
     }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.value, this);
   }
 
 
@@ -157,14 +213,40 @@ public class ColorDefinition extends AbstractSBase {
     }
     return false;
   }
+
   
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#toString()
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */
-   //@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetValue()) {
+      attributes.remove(RenderConstants.value);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.value,
+        XMLTools.decodeColorToString(getValue()));
+    }
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(RenderConstants.value)) {
+        setValue(Color.decode(value));
+      }
+      // END TODO
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
 
 }

@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+import java.util.Map;
 
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
@@ -385,6 +386,59 @@ public class RenderPoint extends AbstractSBase implements Point3D {
       return true;
     }
     return false;
+  }
+  
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetX()) {
+      attributes.remove(RenderConstants.x);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.x,
+        XMLTools.positioningToString(getX(), isAbsoluteX()));
+    }
+    if (isSetY()) {
+      attributes.remove(RenderConstants.y);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.y,
+        XMLTools.positioningToString(getY(), isAbsoluteY()));
+    }
+    if (isSetZ()) {
+      attributes.remove(RenderConstants.z);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.z,
+        XMLTools.positioningToString(getZ(), isAbsoluteZ()));
+    }
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(RenderConstants.x)) {
+        setX(XMLTools.parsePosition(value));
+        setAbsoluteX(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.y)) {
+        setY(XMLTools.parsePosition(value));
+        setAbsoluteY(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.z)) {
+        setZ(XMLTools.parsePosition(value));
+        setAbsoluteZ(XMLTools.isAbsolutePosition(value));
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
   }
 
 }

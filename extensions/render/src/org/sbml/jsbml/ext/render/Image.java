@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
@@ -592,4 +593,83 @@ public class Image extends Transformation2D {
 		return false;
 	}
 
+	
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
+	@Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetHref()) {
+      attributes.remove(RenderConstants.href);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.href,
+        getHref());
+    }
+    if (isSetX()) {
+      attributes.remove(RenderConstants.x);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.x,
+        XMLTools.positioningToString(getX(), isAbsoluteX()));
+    }
+    if (isSetY()) {
+      attributes.remove(RenderConstants.y);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.y,
+        XMLTools.positioningToString(getY(), isAbsoluteY()));
+    }
+    if (isSetZ()) {
+      attributes.remove(RenderConstants.z);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.z,
+        XMLTools.positioningToString(getZ(), isAbsoluteZ()));
+    }
+    if (isSetWidth()) {
+      attributes.remove(RenderConstants.width);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.width,
+        XMLTools.positioningToString(getWidth(), isAbsoluteWidth()));
+    }
+    if (isSetHeight()) {
+      attributes.remove(RenderConstants.height);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.height,
+        XMLTools.positioningToString(getHeight(), isAbsoluteHeight()));
+    }
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+	@Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(RenderConstants.href)) {
+        setHref(value);
+      }
+      else if (attributeName.equals(RenderConstants.x)) {
+        setX(XMLTools.parsePosition(value));
+        setAbsoluteX(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.y)) {
+        setY(XMLTools.parsePosition(value));
+        setAbsoluteY(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.z)) {
+        setZ(XMLTools.parsePosition(value));
+        setAbsoluteZ(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.width)) {
+        setWidth(XMLTools.parsePosition(value));
+        setAbsoluteWidth(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.height)) {
+        setHeight(XMLTools.parsePosition(value));
+        setAbsoluteHeight(XMLTools.isAbsolutePosition(value));
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
+	
 }
