@@ -83,10 +83,10 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	public AbstractRenderPlugin(String id, String name, int level, int version) {
 		super();
 		// FIXME getLevelAndVersion, getElementName
-		/*if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
-			Integer.valueOf(MIN_SBML_VERSION)) < 0) {
-		throw new LevelVersionError(getElementName(), level, version);
-	} */
+//		if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
+//		  Integer.valueOf(MIN_SBML_VERSION)) < 0) {
+//		  throw new LevelVersionError(getElementName(), level, version);
+//		}
 		initDefaults();
 	}
 
@@ -126,7 +126,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 			return versionMinor;
 		}
 		return null;
-		// TODO throw new PropertyUndefinedError(RenderConstants.versionMinor, this);
+		// TODO new PropertyUndefinedError(RenderConstants.versionMinor, this);
 	}
 
 	/**
@@ -186,7 +186,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	public void setVersionMajor(short versionMajor) {
 		Short oldVersionMajor = this.versionMajor;
 		this.versionMajor = versionMajor;
-		//FIXME firePropertyChange(RenderConstants.versionMajor, oldVersionMajor, this.versionMajor);
+		firePropertyChange(RenderConstants.versionMajor, oldVersionMajor, this.versionMajor);
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 		if (isSetVersionMajor()) {
 			Short oldVersionMajor = this.versionMajor;
 			this.versionMajor = null;
-			//FIXME firePropertyChange(RenderConstants.versionMajor, oldVersionMajor, this.versionMajor);
+			firePropertyChange(RenderConstants.versionMajor, oldVersionMajor, this.versionMajor);
 			return true;
 		}
 		return false;
@@ -230,7 +230,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	public void setRenderInformation(GlobalRenderInformation renderInformation) {
 		GlobalRenderInformation oldRenderInformation = this.renderInformation;
 		this.renderInformation = renderInformation;
-		//FIXME firePropertyChange(RenderConstants.renderInformation, oldRenderInformation, this.renderInformation);
+		firePropertyChange(RenderConstants.renderInformation, oldRenderInformation, this.renderInformation);
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 		if (isSetRenderInformation()) {
 			GlobalRenderInformation oldRenderInformation = this.renderInformation;
 			this.renderInformation = null;
-			//FIXME OfirePropertyChange(RenderConstants.renderInformation, oldRenderInformation, this.renderInformation);
+			firePropertyChange(RenderConstants.renderInformation, oldRenderInformation, this.renderInformation);
 			return true;
 		}
 		return false;
@@ -252,10 +252,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
   // @Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean readAttribute(String attributeName, String prefix, String value) {
+	  return false;
 	}
 
 	/* (non-Javadoc)
@@ -287,8 +285,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 */
   // @Override
 	public Map<String, String> writeXMLAttributes() {
-		// TODO Auto-generated method stub
-		return null;
+	  return null;
 	}
 
 }

@@ -140,7 +140,7 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	 * Set the value of versionMinor
 	 */
 	public void setVersionMinor(int versionMinor) {
-		int oldVersionMinor = this.versionMinor;
+//		int oldVersionMinor = this.versionMinor;
 		this.versionMinor = versionMinor;
 		// FIXME firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
 	}
@@ -152,7 +152,7 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	 */
 	public boolean unsetVersionMinor() {
 		if (isSetVersionMinor()) {
-			int oldVersionMinor = this.versionMinor;
+//			int oldVersionMinor = this.versionMinor;
 			//FIXME firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
 			return true;
 		}
@@ -178,7 +178,7 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	 * Set the value of versionMajor
 	 */
 	public void setVersionMajor(int versionMajor) {
-		int oldVersionMajor = this.versionMajor;
+//		int oldVersionMajor = this.versionMajor;
 		this.versionMajor = versionMajor;
 		//firePropertyChange(RenderConstants.versionMajor, oldVersionMajor, this.versionMajor);
 	}
@@ -190,7 +190,7 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	 */
 	public boolean unsetVersionMajor() {
 		if (isSetVersionMajor()) {
-			int oldVersionMajor = this.versionMajor;
+//			int oldVersionMajor = this.versionMajor;
 			//firePropertyChange(RenderConstants.versionMajor, oldVersionMajor, this.versionMajor);
 			return true;
 		}
@@ -451,7 +451,6 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
   //@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -460,7 +459,6 @@ public class ExtendedRenderModel extends AbstractSBasePlugin {
 	 */
   //@Override
 	public Map<String, String> writeXMLAttributes() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
@@ -625,4 +626,84 @@ public class RenderCubicBezier extends RenderPoint {
     return false;
   }
 
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.RenderPoint#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetX1()) {
+      attributes.remove(RenderConstants.x1);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.x1,
+        XMLTools.positioningToString(getX1(), isAbsoluteX1()));
+    }
+    if (isSetX2()) {
+      attributes.remove(RenderConstants.x2);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.x2,
+        XMLTools.positioningToString(getX2(), isAbsoluteX2()));
+    }
+    if (isSetY1()) {
+      attributes.remove(RenderConstants.y1);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.y1,
+        XMLTools.positioningToString(getY1(), isAbsoluteY1()));
+    }
+    if (isSetY2()) {
+      attributes.remove(RenderConstants.y2);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.y2,
+        XMLTools.positioningToString(getY2(), isAbsoluteY2()));
+    }
+    if (isSetZ1()) {
+      attributes.remove(RenderConstants.z1);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.z1,
+        XMLTools.positioningToString(getZ1(), isAbsoluteZ1()));
+    }
+    if (isSetZ2()) {
+      attributes.remove(RenderConstants.z2);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.z2,
+        XMLTools.positioningToString(getZ2(), isAbsoluteZ2()));
+    }
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.RenderPoint#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(RenderConstants.x1)) {
+        setX1(XMLTools.parsePosition(value));
+        setAbsoluteX1(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.x2)) {
+        setX2(XMLTools.parsePosition(value));
+        setAbsoluteX2(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.y1)) {
+        setY1(XMLTools.parsePosition(value));
+        setAbsoluteY1(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.y2)) {
+        setY2(XMLTools.parsePosition(value));
+        setAbsoluteY2(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.z1)) {
+        setZ1(XMLTools.parsePosition(value));
+        setAbsoluteZ1(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.z2)) {
+        setZ2(XMLTools.parsePosition(value));
+        setAbsoluteZ2(XMLTools.isAbsolutePosition(value));
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
+  
 }

@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.util.Map;
+
 import org.sbml.jsbml.PropertyUndefinedError;
 
 
@@ -690,6 +692,95 @@ public class RadialGradient extends GradientBase {
       return true;
     }
     return false;
+  }
+  
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GradientBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetR()) {
+      attributes.remove(RenderConstants.r);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.r,
+        XMLTools.positioningToString(getR(), isAbsoluteR()));
+    }
+    if (isSetCx()) {
+      attributes.remove(RenderConstants.cx);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.cx,
+        XMLTools.positioningToString(getCx(), isAbsoluteCx()));
+    }
+    if (isSetCy()) {
+      attributes.remove(RenderConstants.cy);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.cy,
+        XMLTools.positioningToString(getCy(), isAbsoluteCy()));
+    }
+    if (isSetCz()) {
+      attributes.remove(RenderConstants.cz);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.cz,
+        XMLTools.positioningToString(getCz(), isAbsoluteCz()));
+    }
+    if (isSetFx()) {
+      attributes.remove(RenderConstants.fx);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fx,
+        XMLTools.positioningToString(getFx(), isAbsoluteFx()));
+    }
+    if (isSetFy()) {
+      attributes.remove(RenderConstants.fy);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fy,
+        XMLTools.positioningToString(getFy(), isAbsoluteFy()));
+    }
+    if (isSetFz()) {
+      attributes.remove(RenderConstants.fz);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fz,
+        XMLTools.positioningToString(getFz(), isAbsoluteFz()));
+    }
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GradientBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(RenderConstants.r)) {
+        setR(XMLTools.parsePosition(value));
+        setAbsoluteR(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.cx)) {
+        setCx(XMLTools.parsePosition(value));
+        setAbsoluteCx(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.cy)) {
+        setCy(XMLTools.parsePosition(value));
+        setAbsoluteCy(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.cz)) {
+        setCz(XMLTools.parsePosition(value));
+        setAbsoluteCz(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.fx)) {
+        setFx(XMLTools.parsePosition(value));
+        setAbsoluteFx(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.fy)) {
+        setFy(XMLTools.parsePosition(value));
+        setAbsoluteFy(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.fz)) {
+        setFz(XMLTools.parsePosition(value));
+        setAbsoluteFz(XMLTools.isAbsolutePosition(value));
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
   }
 
 }

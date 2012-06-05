@@ -103,7 +103,7 @@ public interface RenderConstants {
   public static final String enableRotationMapping = "enable-rotation-mapping";
   public static final String group = "g";
   public static final String boundingBox = "bounding-box";
-  public static final String transform = "trasform";
+  public static final String transform = "transform";
   public static final String versionMinor = "version-minor";
   public static final String versionMajor = "version-major";
   public static final String spreadMethod = "spreadMethod";
@@ -115,4 +115,5 @@ public interface RenderConstants {
   public static final String referenceRenderInformation = "referenceRenderInformation";
   public static final String backgroundColor = "backgroundColor";
   public static final String idList = "idList";
+  public static final String renderInformation = "renderInformation";
 }

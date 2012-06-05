@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
@@ -368,4 +369,77 @@ public class LinearGradient extends GradientBase {
 		return false;
 	}
 
+	
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GradientBase#writeXMLAttributes()
+   */
+	@Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetX1()) {
+      attributes.remove(RenderConstants.x1);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.x1,
+        XMLTools.positioningToString(getX1(), false));
+    }
+    if (isSetX2()) {
+      attributes.remove(RenderConstants.x2);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.x2,
+        XMLTools.positioningToString(getX1(), false));
+    }
+    if (isSetY1()) {
+      attributes.remove(RenderConstants.y1);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.y1,
+        XMLTools.positioningToString(getX1(), false));
+    }
+    if (isSetY2()) {
+      attributes.remove(RenderConstants.y2);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.y2,
+        XMLTools.positioningToString(getX1(), false));
+    }
+    if (isSetZ1()) {
+      attributes.remove(RenderConstants.z1);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.z1,
+        XMLTools.positioningToString(getX1(), false));
+    }
+    if (isSetZ2()) {
+      attributes.remove(RenderConstants.z2);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.z2,
+        XMLTools.positioningToString(getX1(), false));
+    }
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GradientBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+	@Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(RenderConstants.x1)) {
+        setX1(XMLTools.parsePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.x2)) {
+        setX2(XMLTools.parsePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.y1)) {
+        setY1(XMLTools.parsePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.y2)) {
+        setY2(XMLTools.parsePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.z1)) {
+        setZ1(XMLTools.parsePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.z2)) {
+        setZ2(XMLTools.parsePosition(value));
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
 }

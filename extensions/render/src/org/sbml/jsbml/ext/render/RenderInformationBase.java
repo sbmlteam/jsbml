@@ -22,6 +22,7 @@ package org.sbml.jsbml.ext.render;
 
 import java.awt.Color;
 import java.text.MessageFormat;
+import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
@@ -396,14 +397,6 @@ public class RenderInformationBase extends AbstractNamedSBase {
 		getListOfColorDefinitions().removeFirst(new NameFilter(id));
 	}
 
-	/**
-	 * create a new ColorDefinition element and adds it to the ListOfColorDefinitions list
-	 */
-	public ColorDefinition createColorDefinition(String id, Color value) {
-		ColorDefinition field = new ColorDefinition(id, value, getLevel(), getVersion());
-		addColorDefinition(field);
-		return field;
-	}
 
 	/**
 	 * @return <code>true</code>, if listOfGradientDefintions contains at least one element, 
@@ -618,5 +611,63 @@ public class RenderInformationBase extends AbstractNamedSBase {
       throw new IndexOutOfBoundsException(Integer.toString(i));
     }
     getListOfLineEndings().remove(i);
+  }
+  
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetProgramName()) {
+      attributes.remove(RenderConstants.programName);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.programName,
+        getProgramName());
+    }
+    if (isSetProgramVersion()) {
+      attributes.remove(RenderConstants.programVersion);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.programVersion,
+        getProgramVersion());
+    }
+    if (isSetReferenceRenderInformation()) {
+      attributes.remove(RenderConstants.referenceRenderInformation);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.referenceRenderInformation,
+        getReferenceRenderInformation());
+    }
+    if (isSetBackgroundColor()) {
+      attributes.remove(RenderConstants.backgroundColor);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.backgroundColor,
+        XMLTools.decodeColorToString(getBackgroundColor()));
+    }
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(RenderConstants.programName)) {
+        setProgramName(value);
+      }
+      else if (attributeName.equals(RenderConstants.programVersion)) {
+        setProgramVersion(value);
+      }
+      else if (attributeName.equals(RenderConstants.referenceRenderInformation)) {
+        setReferenceRenderInformation(value);
+      }
+      else if (attributeName.equals(RenderConstants.backgroundColor)) {
+        setBackgroundColor(Color.decode(value));
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
   }
 }

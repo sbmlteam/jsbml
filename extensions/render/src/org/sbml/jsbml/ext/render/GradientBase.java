@@ -20,9 +20,11 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.awt.Color;
 import java.text.MessageFormat;
+import java.util.Map;
 
-import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
@@ -37,7 +39,7 @@ import org.sbml.jsbml.SBase;
  * @since 1.0
  * @date 08.05.2012
  */
-public class GradientBase extends AbstractSBase {  
+public class GradientBase extends AbstractNamedSBase {  
 
   /**
    * 
@@ -60,7 +62,6 @@ public class GradientBase extends AbstractSBase {
 		REPEAT,
 	}
 	
-	protected String id;
 	protected Spread spreadMethod;
 	protected ListOf<GradientStop> listOfGradientStops;
 
@@ -79,7 +80,6 @@ public class GradientBase extends AbstractSBase {
    * @param id
    */
   public GradientBase(String id, GradientStop stop) {
-    this.id = id;
     initDefaults();
     this.listOfGradientStops.add(stop);
   }
@@ -147,7 +147,6 @@ public class GradientBase extends AbstractSBase {
    */
   public GradientBase(GradientBase obj) {
     super(obj);
-    this.id = obj.id;
     this.spreadMethod = obj.spreadMethod;
     this.listOfGradientStops = obj.listOfGradientStops;
   }
@@ -167,22 +166,6 @@ public class GradientBase extends AbstractSBase {
     addNamespace(RenderConstants.namespaceURI);
     this.spreadMethod = Spread.PAD;
     this.listOfGradientStops = new ListOf<GradientStop>();
-  }
-  
-  /**
-   * @return the value of id
-   */
-  public String getId(){
-    return this.id;
-  }
-  
-  /**
-   * Set the value of id
-   */
-  public void setId(String id){
-    String oldId = this.id;
-    this.id = id;
-    firePropertyChange(RenderConstants.id, oldId, this.id);
   }
   
   /**
@@ -313,10 +296,51 @@ public class GradientBase extends AbstractSBase {
   /**
    * create a new GradientStop element and adds it to the ListOfGradientStops list
    */
-  public GradientStop createGradientStop(double offset, ColorDefinition stopColor) {
+  public GradientStop createGradientStop(double offset, Color stopColor) {
     GradientStop field = new GradientStop(offset, stopColor, getLevel(), getVersion());
     addGradientStop(field);
     return field;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    return true;
+  }
+  
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetSpreadMethod()) {
+      attributes.remove(RenderConstants.spreadMethod);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.spreadMethod,
+        getSpreadMethod().toString().toLowerCase());
+    }
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(RenderConstants.spreadMethod)) {
+        setSpreadMethod(Spread.valueOf(value.toUpperCase()));
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
   }
 
 }
