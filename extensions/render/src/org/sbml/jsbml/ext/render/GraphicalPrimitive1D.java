@@ -21,9 +21,11 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.StringTools;
 
 
 /**
@@ -160,7 +162,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
   /**
    * @return the value of strokeWidth
    */
-  public int getStrokeWidth() {
+  public Integer getStrokeWidth() {
     if (isSetStrokeWidth()) {
       return strokeWidth;
     }
@@ -236,5 +238,54 @@ public class GraphicalPrimitive1D extends Transformation2D {
     }
     return false;
   }
-	
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetStroke()) {
+    	attributes.remove(RenderConstants.stroke);
+    	attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.strokeWidth,
+    			XMLTools.encodeColorDefintionToString(getStroke()));
+    }
+    if (isSetStrokeDashArray()){
+    	attributes.remove(RenderConstants.strokeDashArray);
+        attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.strokeWidth,
+        		XMLTools.encodeArrayShortToString(getStrokeDashArray()));
+    }
+    if (isSetStrokeWidth()){
+    	attributes.remove(RenderConstants.strokeWidth);
+        attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.strokeWidth,
+          getStrokeWidth().toString().toLowerCase());
+    }
+    return attributes;
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      // TODO: catch Exception if Enum.valueOf fails, generate logger output
+      if (attributeName.equals(RenderConstants.stroke)) {
+          setStroke(XMLTools.decodeStringToColorDefintion(value));
+      }
+      else if (attributeName.equals(RenderConstants.strokeDashArray)) {
+    	  setStrokeDashArray(XMLTools.decodeStringToArrayShort(value));
+      }
+      else if (attributeName.equals(RenderConstants.strokeWidth)) {
+    	  setStrokeWidth(StringTools.parseSBMLInt(value));
+      }
+      else {
+          isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
+  
 }
