@@ -351,10 +351,10 @@ public class Style extends AbstractNamedSBase {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(RenderConstants.roleList)) {
-        setRoleList(value.split(":"));
+        setRoleList(value.split(" "));
       }
       else if (attributeName.equals(RenderConstants.typeList)) {
-        setTypeList(value.split(":"));
+        setTypeList(value.split(" "));  
       }
       else {
         isAttributeRead = false;
