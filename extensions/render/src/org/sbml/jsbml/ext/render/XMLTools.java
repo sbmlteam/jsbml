@@ -112,16 +112,27 @@ public class XMLTools {
    * @param value
    * @return
    */
-  /**
-   * @param value
-   * @return
-   */
   public static String decodeColorToString(Color value) {
     int r = value.getRed();
     int g = value.getGreen();
     int b = value.getBlue();
     return ("#" + Integer.toHexString(r) +
         Integer.toHexString(g) + Integer.toHexString(b)).toUpperCase();
+  }
+
+  /**
+   * @param roleList
+   * @return
+   */
+  public static String arrayToWhitespaceSeparatedString(String[] list) {
+    String output = "";
+    for (int i = 0; i < list.length; i++) {
+      output += list[i];
+      if (i != (list.length - 1)) {
+        output += " ";
+      }
+    }
+    return output;
   }
  
   
