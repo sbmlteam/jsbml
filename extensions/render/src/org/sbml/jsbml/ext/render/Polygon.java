@@ -47,11 +47,6 @@ public class Polygon extends GraphicalPrimitive2D {
    */
   private ListOf<RenderPoint> listOfElements;
 
-  /**
-   * 
-   */
-  private ListOf<RenderPoint> listOfRenderPoints;
-
 
   /**
    * Creates an Polygon instance 
@@ -72,8 +67,8 @@ public class Polygon extends GraphicalPrimitive2D {
   /**
    * @param renderPoint
    */
-  public boolean addRenderPoint(RenderPoint renderPoint) {
-    return getListOfRenderPoints().add(renderPoint);
+  public boolean addElement(RenderPoint element) {
+    return getListOfElements().add(element);
   }
 
   /* (non-Javadoc)
@@ -117,7 +112,7 @@ public class Polygon extends GraphicalPrimitive2D {
    */
   @Override
   public int getChildCount() {
-    int count = 0;
+    int count = super.getChildCount();
     if (isSetListOfElements()) {
       count++;
     }
@@ -133,19 +128,6 @@ public class Polygon extends GraphicalPrimitive2D {
     }
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.listOfElements, this);
-  }
-
-  /**
-   * @return the listOfRenderPoints
-   */
-  public ListOf<RenderPoint> getListOfRenderPoints() {
-    if (!isSetListOfRenderPoints()) {
-      listOfRenderPoints = new ListOf<RenderPoint>(getLevel(), getVersion());
-      listOfRenderPoints.addNamespace(RenderConstants.namespaceURI);
-      listOfRenderPoints.setSBaseListType(ListOf.Type.other);
-      registerChild(listOfRenderPoints);
-    }
-    return listOfRenderPoints;
   }
 
   /* (non-Javadoc)
@@ -164,52 +146,12 @@ public class Polygon extends GraphicalPrimitive2D {
   }
 
   /**
-   * @return <code>true</code>, if listOfRenderPoints contains at least one element, 
-   *         otherwise <code>false</code>
-   */
-  public boolean isSetListOfRenderPoints() {
-    if ((listOfRenderPoints == null) || listOfRenderPoints.isEmpty()) {
-      return false;
-    }
-    return true;
-  }
-
-  /**
-   * @param i
-   */
-  public void removeRenderPoint(int i) {
-    if (!isSetListOfRenderPoints()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    getListOfRenderPoints().remove(i);
-  }
-
-  /**
-   * @param renderPoint
-   */
-  public boolean removeRenderPoint(RenderPoint renderPoint) {
-    if (isSetListOfRenderPoints()) {
-      return getListOfRenderPoints().remove(renderPoint);
-    }
-    return false;
-  }
-
-  /**
    * Set the value of listOfElements
    */
   public void setListOfElements(ListOf<RenderPoint> listOfElements) {
     ListOf<RenderPoint> oldListOfElements = this.listOfElements;
     this.listOfElements = listOfElements;
     firePropertyChange(RenderConstants.listOfElements, oldListOfElements, this.listOfElements);
-  }
-
-  /**
-   * @param listOfRenderPoints
-   */
-  public void setListOfRenderPoints(ListOf<RenderPoint> listOfRenderPoints) {
-    unsetListOfRenderPoints();
-    this.listOfRenderPoints = listOfRenderPoints;
-    registerChild(this.listOfRenderPoints);
   }
 
   /**
@@ -222,20 +164,6 @@ public class Polygon extends GraphicalPrimitive2D {
       ListOf<RenderPoint> oldListOfElements = this.listOfElements;
       this.listOfElements = null;
       firePropertyChange(RenderConstants.listOfElements, oldListOfElements, this.listOfElements);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return <code>true</code>, if listOfRenderPoints contained at least one element, 
-   *         otherwise <code>false</code>
-   */
-  public boolean unsetListOfRenderPoints() {
-    if (isSetListOfRenderPoints()) {
-      ListOf<RenderPoint> oldRenderPoints = this.listOfRenderPoints;
-      this.listOfRenderPoints = null;
-      oldRenderPoints.fireNodeRemovedEvent();
       return true;
     }
     return false;
