@@ -62,11 +62,32 @@ public class TextGlyph extends GraphicalObject {
 
 	/**
 	 * 
+	 * @param level
+	 * @param version
+	 */
+	public TextGlyph(int level, int version) {
+	  super(level, version);
+	  addNamespace(LayoutConstant.namespaceURI);
+	}
+	
+	/**
+	 * 
 	 * @param id
 	 */
 	public TextGlyph(String id) {
 		super(id);
 		addNamespace(LayoutConstant.namespaceURI);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public TextGlyph(String id, int level, int version) {
+	  super(id, level, version);
+	  addNamespace(LayoutConstant.namespaceURI);
 	}
 
 	/**
@@ -180,36 +201,6 @@ public class TextGlyph extends GraphicalObject {
 		return text != null;
 	}
 
-	/**
-	 * 
-	 * @param graphicalObject
-	 */
-	public void setGraphicalObject(String graphicalObject) {
-		String oldValue = this.graphicalObject;
-		this.graphicalObject = graphicalObject;
-		firePropertyChange(LayoutConstant.graphicalObject, oldValue, this.graphicalObject);
-	}
-
-	/**
-	 * 
-	 * @param originOfText
-	 */
-	public void setOriginOfText(String originOfText) {
-		String oldOriginOfText = this.originOfText;
-		this.originOfText = originOfText;
-		firePropertyChange(LayoutConstant.originOfText, oldOriginOfText, this.originOfText);
-	}
-
-	/**
-	 * 
-	 * @param text
-	 */
-	public void setText(String text) {
-		String oldText = this.text;
-		this.text = text;
-		firePropertyChange(LayoutConstant.text, oldText, this.text);
-	}
-
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
@@ -243,6 +234,36 @@ public class TextGlyph extends GraphicalObject {
 		}
 		
 		return isAttributeRead;
+	}
+
+	/**
+	 * 
+	 * @param graphicalObject
+	 */
+	public void setGraphicalObject(String graphicalObject) {
+		String oldValue = this.graphicalObject;
+		this.graphicalObject = graphicalObject;
+		firePropertyChange(LayoutConstant.graphicalObject, oldValue, this.graphicalObject);
+	}
+
+	/**
+	 * 
+	 * @param originOfText
+	 */
+	public void setOriginOfText(String originOfText) {
+		String oldOriginOfText = this.originOfText;
+		this.originOfText = originOfText;
+		firePropertyChange(LayoutConstant.originOfText, oldOriginOfText, this.originOfText);
+	}
+
+	/**
+	 * 
+	 * @param text
+	 */
+	public void setText(String text) {
+		String oldText = this.text;
+		this.text = text;
+		firePropertyChange(LayoutConstant.text, oldText, this.text);
 	}
 
 	/* (non-Javadoc)
