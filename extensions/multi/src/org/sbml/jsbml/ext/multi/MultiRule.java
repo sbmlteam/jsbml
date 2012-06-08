@@ -42,8 +42,8 @@ public class MultiRule extends AbstractSBasePlugin  {
 		return null;
 	}
 
-	@Override
-	public SBasePlugin clone() {
+	//@Override
+	public MultiRule clone() {
 		// TODO Auto-generated method stub
 		return null;
 	}

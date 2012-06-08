@@ -38,8 +38,8 @@ public class MultiEventAssignment extends AbstractSBasePlugin {
 		return null;
 	}
 
-	@Override
-	public SBasePlugin clone() {
+	//@Override
+	public MultiEventAssignment clone() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -75,16 +75,6 @@ public class Dimensions extends AbstractNamedSBase {
 	}
 
 	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-  public Dimensions(int level, int version) {
-	  super(level, version);
-	  addNamespace(LayoutConstant.namespaceURI);
-	}
-  
-  /**
    * 
    * @param width
    * @param height
@@ -97,6 +87,27 @@ public class Dimensions extends AbstractNamedSBase {
     this.width = width;
     this.height = height;
     this.depth = depth;
+  }
+  
+  /**
+	 * 
+	 * @param level
+	 * @param version
+	 */
+  public Dimensions(int level, int version) {
+	  super(level, version);
+	  addNamespace(LayoutConstant.namespaceURI);
+	}
+  
+  /**
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public Dimensions(String id, int level, int version) {
+    super(id, level, version);
+    addNamespace(LayoutConstant.namespaceURI);
   }
 	
 	/* (non-Javadoc)

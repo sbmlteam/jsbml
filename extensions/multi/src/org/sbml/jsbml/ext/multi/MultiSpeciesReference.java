@@ -61,8 +61,8 @@ public class MultiSpeciesReference extends AbstractSBasePlugin {
 		return null;
 	}
 
-	@Override
-	public SBasePlugin clone() {
+	//@Override
+	public MultiSpeciesReference clone() {
 		// TODO Auto-generated method stub
 		return null;
 	}

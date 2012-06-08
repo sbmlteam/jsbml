@@ -58,23 +58,23 @@ public class Layout extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
-	private ListOf<GraphicalObject> listOfAdditionalGraphicalObjects = new ListOf<GraphicalObject>();
+	private ListOf<GraphicalObject> listOfAdditionalGraphicalObjects;
 	/**
 	 * 
 	 */
-	private ListOf<CompartmentGlyph> listOfCompartmentGlyphs = new ListOf<CompartmentGlyph>();
+	private ListOf<CompartmentGlyph> listOfCompartmentGlyphs;
 	/**
 	 * 
 	 */
-	private ListOf<ReactionGlyph> listOfReactionGlyphs = new ListOf<ReactionGlyph>();
+	private ListOf<ReactionGlyph> listOfReactionGlyphs;
 	/**
 	 * 
 	 */
-	private ListOf<SpeciesGlyph> listOfSpeciesGlyphs = new ListOf<SpeciesGlyph>();
+	private ListOf<SpeciesGlyph> listOfSpeciesGlyphs;
 	/**
 	 * 
 	 */
-	private ListOf<TextGlyph> listOfTextGlyphs = new ListOf<TextGlyph>();
+	private ListOf<TextGlyph> listOfTextGlyphs;
 	
 	/**
 	 * 
@@ -168,7 +168,7 @@ public class Layout extends AbstractNamedSBase {
   public void addCompartmentGlyph(CompartmentGlyph compartmentGlyph) {
     if (compartmentGlyph != null) {
       registerChild(compartmentGlyph);
-      listOfCompartmentGlyphs.add(compartmentGlyph);
+      getListOfCompartmentGlyphs().add(compartmentGlyph);
     }
   }
 	
@@ -259,67 +259,149 @@ public class Layout extends AbstractNamedSBase {
 
   /**
    * Creates and adds a new {@link CompartmentGlyph}.
-   * @param compartment {@link Compartment} ID.
-   * @return new {@link CompartmentGlyph}.
+   * 
+   * @param id
+   *        the identifier of the {@link CompartmentGlyph} to be created.
+   * @param compartment
+   *        {@link Compartment} ID.
+   * @return a new {@link CompartmentGlyph}.
    */
-  public CompartmentGlyph createCompartmentGlyph(String compartment) {
-	  CompartmentGlyph glyph = new CompartmentGlyph();
+  public CompartmentGlyph createCompartmentGlyph(String id, String compartment) {
+	  CompartmentGlyph glyph = new CompartmentGlyph(id, getLevel(), getVersion());
 	  glyph.setCompartment(compartment);
 	  addCompartmentGlyph(glyph);
 	  return glyph;
   }
 
   /**
+   * Creates and adds a new {@link CompartmentGlyph}.
+   * 
+   * @param id
+   *        the identifier of the {@link CompartmentGlyph} to be created.
+   * @return a new {@link CompartmentGlyph}.
+   * @see #createCompartmentGlyph(String, String)
+   */
+  public CompartmentGlyph createCompartmentGlyph(String id) {
+    return createCompartmentGlyph(id, null);
+  }
+
+  /**
    * Creates, sets and returns {@link Dimensions} based on the
    * given values.
+   * 
    * @param width
    * @param height
    * @param depth
-   * @return new {@link Dimensions} object.
+   * @return a new {@link Dimensions} object.
+   * @see #createDimensions(String, double, double, double)
    */
   public Dimensions createDimensions(double width, double height, double depth) {
-    Dimensions d = new Dimensions();
+    return createDimensions(null, width, height, depth);
+  }
+
+  /**
+   * Creates, sets and returns {@link Dimensions} based on the
+   * given values.
+   * 
+   * @param id
+   *        the identifier of the {@link Dimensions} to be created.
+   * @param width
+   * @param height
+   * @param depth
+   * @return a new {@link Dimensions} object.
+   */
+  public Dimensions createDimensions(String id, double width,
+    double height, double depth) {
+    Dimensions d = new Dimensions(id, getLevel(), getVersion());
     d.setWidth(width);
     d.setHeight(height);
     d.setDepth(depth);
     setDimensions(d);
     return d;
   }
-
+  
   /**
    * Creates and adds a new {@link ReactionGlyph}.
-   * @param reaction {@link Reaction} ID.
-   * @return new {@link ReactionGlyph}.
+   * 
+   * @param id
+   *        the identifier of the {@link ReactionGlyph} to be created.
+   * @param reaction
+   *        {@link Reaction} ID.
+   * @return a new {@link ReactionGlyph}.
    */
-  public ReactionGlyph createReactionGlyph(String reaction) {
-	  ReactionGlyph glyph = new ReactionGlyph();
+  public ReactionGlyph createReactionGlyph(String id, String reaction) {
+	  ReactionGlyph glyph = new ReactionGlyph(id, getLevel(), getVersion());
 	  glyph.setReaction(reaction);
 	  addReactionGlyph(glyph);
 	  return glyph;
   }
+
+  /**
+   * Creates and adds a new {@link ReactionGlyph}.
+   * 
+   * @param id
+   *        the identifier of the {@link ReactionGlyph} to be created.
+   * @return a new {@link ReactionGlyph}.
+   * @see #createReactionGlyph(String, String)
+   */
+  public ReactionGlyph createReactionGlyph(String id) {
+    return createReactionGlyph(id, null);
+  }
   
   /**
    * Creates and adds a new {@link SpeciesGlyph}.
-   * @param species {@link Species} ID.
-   * @return new {@link SpeciesGlyph}.
+   * 
+   * @param id
+   *        the identifier for the {@link SpeciesGlyph} to be created.
+   * @param species
+   *        {@link Species} ID.
+   * @return a new {@link SpeciesGlyph}.
    */
-  public SpeciesGlyph createSpeciesGlyph(String species) {
-	  SpeciesGlyph glyph = new SpeciesGlyph();
+  public SpeciesGlyph createSpeciesGlyph(String id, String species) {
+	  SpeciesGlyph glyph = new SpeciesGlyph(id, getLevel(), getVersion());
 	  glyph.setSpecies(species);
 	  addSpeciesGlyph(glyph);
 	  return glyph;
   }
 
   /**
-   * Creates and adds a new {@link TextGlyph}.
-   * @param text the text for the new glyph
-   * @return new {@link TextGlyph}.
+   * Creates and adds a new {@link SpeciesGlyph} with the given identifier.
+   * 
+   * @param id
+   *        the identifier for the {@link SpeciesGlyph} to be created.
+   * @return a new {@link SpeciesGlyph}.
+   * @see #createSpeciesGlyph(String, String)
    */
-  public TextGlyph createTextGlyph(String text) {
-	  TextGlyph glyph = new TextGlyph();
+  public SpeciesGlyph createSpeciesGlyph(String id) {
+    return createSpeciesGlyph(id, null);
+  }
+  
+  /**
+   * Creates and adds a new {@link TextGlyph}.
+   * 
+   * @param id
+   *        the identifier for the {@link TextGlyph} to be created.
+   * @param text
+   *        the text for the new glyph
+   * @return a new {@link TextGlyph}.
+   */
+  public TextGlyph createTextGlyph(String id, String text) {
+	  TextGlyph glyph = new TextGlyph(id, getLevel(), getVersion());
 	  glyph.setText(text);
 	  addTextGlyph(glyph);
 	  return glyph;
+  }
+
+  /**
+   * Creates and adds a new {@link TextGlyph}.
+   * 
+   * @param id
+   *        the identifier for the {@link TextGlyph} to be created.
+   * @return a new {@link TextGlyph}.
+   * @see #createTextGlyph(String, String)
+   */
+  public TextGlyph createTextGlyph(String id) {
+    return createTextGlyph(id, null);
   }
 
   /**
@@ -473,11 +555,7 @@ public class Layout extends AbstractNamedSBase {
    * @return
    */
   public CompartmentGlyph getCompartmentGlyph(int i) {
-	  if (isSetListOfCompartmentGlyphs()) {
-		  // No checks for index correctness! Throw IndexOutOfBoundsExceptions!
-		  return listOfCompartmentGlyphs.get(i);
-	  }
-	  return null;
+    return getListOfCompartmentGlyphs().get(i);
   }
 	
   /**
@@ -487,7 +565,7 @@ public class Layout extends AbstractNamedSBase {
    */
   public CompartmentGlyph getCompartmentGlyph(String id) {
 	  if (isSetListOfCompartmentGlyphs()) {
-		  return listOfCompartmentGlyphs.firstHit(new NameFilter(id));
+		  return getListOfCompartmentGlyphs().firstHit(new NameFilter(id));
 	  }
 	  return null;
   }
@@ -505,6 +583,10 @@ public class Layout extends AbstractNamedSBase {
    * @return
    */
   public ListOf<GraphicalObject> getListOfAdditionalGraphicalObjects() {
+    if (!isSetListOfAdditionalGraphicalObjects()) {
+      listOfAdditionalGraphicalObjects = ListOf.newInstance(this, GraphicalObject.class);
+      listOfAdditionalGraphicalObjects.addNamespace(LayoutConstant.namespaceURI);
+    }
 	  return listOfAdditionalGraphicalObjects;
   }
   
@@ -514,10 +596,8 @@ public class Layout extends AbstractNamedSBase {
    */
   public ListOf<CompartmentGlyph> getListOfCompartmentGlyphs() {
 	  if (!isSetListOfCompartmentGlyphs()) {
-		  listOfCompartmentGlyphs = new ListOf<CompartmentGlyph>(getLevel(), getVersion());
+		  listOfCompartmentGlyphs = ListOf.newInstance(this, CompartmentGlyph.class);
 		  listOfCompartmentGlyphs.addNamespace(LayoutConstant.namespaceURI);
-		  listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
-		  registerChild(listOfCompartmentGlyphs);
 	  }
 	  return listOfCompartmentGlyphs;
   }
@@ -529,10 +609,8 @@ public class Layout extends AbstractNamedSBase {
    */
   public ListOf<ReactionGlyph> getListOfReactionGlyphs() {
 	  if (!isSetListOfReactionGlyphs()) {
-		  listOfReactionGlyphs = new ListOf<ReactionGlyph>(getLevel(), getVersion());
+		  listOfReactionGlyphs = ListOf.newInstance(this, ReactionGlyph.class);
 		  listOfReactionGlyphs.addNamespace(LayoutConstant.namespaceURI);
-		  listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
-		  registerChild(listOfCompartmentGlyphs);
 	  }
 	  return listOfReactionGlyphs;
   }
@@ -543,10 +621,8 @@ public class Layout extends AbstractNamedSBase {
    */
   public ListOf<SpeciesGlyph> getListOfSpeciesGlyphs() {
 	  if (!isSetListOfSpeciesGlyphs()) {
-		  listOfSpeciesGlyphs = new ListOf<SpeciesGlyph>(getLevel(), getVersion());
+		  listOfSpeciesGlyphs = ListOf.newInstance(this, SpeciesGlyph.class);
 		  listOfSpeciesGlyphs.addNamespace(LayoutConstant.namespaceURI);
-		  listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
-		  registerChild(listOfSpeciesGlyphs);
 	  }
 	  return listOfSpeciesGlyphs;
   }
@@ -557,10 +633,8 @@ public class Layout extends AbstractNamedSBase {
    */
   public ListOf<TextGlyph> getListOfTextGlyphs() {
 	  if (!isSetListOfTextGlyphs()) {
-		  listOfTextGlyphs = new ListOf<TextGlyph>(getLevel(), getVersion());
+		  listOfTextGlyphs = ListOf.newInstance(this, TextGlyph.class);
 		  listOfTextGlyphs.addNamespace(LayoutConstant.namespaceURI);
-		  listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
-		  registerChild(listOfTextGlyphs);
 	  }
 	  return listOfTextGlyphs;
   }
@@ -571,11 +645,7 @@ public class Layout extends AbstractNamedSBase {
    * @return
    */
   public ReactionGlyph getReactionGlyph(int i) {
-	  if (isSetListOfReactionGlyphs()) {
-		  // No check for index correctness! IndexOutOfBoundsExceptions!
-		  return listOfReactionGlyphs.get(i);
-	  }
-	  return null;
+    return getListOfReactionGlyphs().get(i);
   }
 
   /**
@@ -596,13 +666,7 @@ public class Layout extends AbstractNamedSBase {
    * @return
    */
   public SpeciesGlyph getSpeciesGlyph(int i) {
-	  if (isSetListOfSpeciesGlyphs()) {
-		  // Do not check && i >= 0 && i < listOfSpeciesGlyphs.size() here!
-		  // The expected behavior will be an IndexOutOfBoundsBxception!
-		  // This is much better for finding bugs!
-		  return listOfSpeciesGlyphs.get(i);
-	  }
-	  return null;
+    return getListOfSpeciesGlyphs().get(i);
   }
 
   /**
@@ -622,26 +686,6 @@ public class Layout extends AbstractNamedSBase {
    */
   private void initDefault() {
     addNamespace(LayoutConstant.namespaceURI);
-
-    listOfCompartmentGlyphs.addNamespace(LayoutConstant.namespaceURI);
-    listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
-    registerChild(listOfCompartmentGlyphs);
-
-    listOfSpeciesGlyphs.addNamespace(LayoutConstant.namespaceURI);
-    listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
-    registerChild(listOfSpeciesGlyphs);
-
-    listOfReactionGlyphs.addNamespace(LayoutConstant.namespaceURI);
-    listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
-    registerChild(listOfReactionGlyphs);
-
-    listOfTextGlyphs.addNamespace(LayoutConstant.namespaceURI);
-    listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
-    registerChild(listOfTextGlyphs);
-
-    listOfAdditionalGraphicalObjects.addNamespace(LayoutConstant.namespaceURI);
-    listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
-    registerChild(listOfAdditionalGraphicalObjects);
   }
 	
   /* (non-Javadoc)
@@ -721,7 +765,7 @@ public class Layout extends AbstractNamedSBase {
    * @param listOfAdditionalGraphicalObjects
    */
   public void setAddGraphicalObjects(ListOf<GraphicalObject> addGraphicalObjects) {
-	  if(this.listOfAdditionalGraphicalObjects != null){
+	  if (this.listOfAdditionalGraphicalObjects != null) {
 		  this.listOfAdditionalGraphicalObjects.fireNodeRemovedEvent();
 	  }
 	  this.listOfAdditionalGraphicalObjects = addGraphicalObjects;
@@ -733,7 +777,7 @@ public class Layout extends AbstractNamedSBase {
    * @param dimensions
    */
   public void setDimensions(Dimensions dimensions) {
-	  if(this.dimensions != null){
+	  if (this.dimensions != null) {
 		  this.dimensions.fireNodeRemovedEvent();
 	  }
 	  this.dimensions = dimensions;
