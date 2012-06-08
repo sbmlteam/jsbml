@@ -76,6 +76,10 @@ public class CVTerm extends AnnotationElement {
 		 */
 		BQB_HAS_PROPERTY,
 		/**
+		 * Represents the MIRIAM biological qualifier 'hasTaxon'.
+		 */
+		BQB_HAS_TAXON,
+		/**
 		 * Represents the MIRIAM biological qualifier 'hasVersion'.
 		 */
 		BQB_HAS_VERSION,
@@ -147,6 +151,8 @@ public class CVTerm extends AnnotationElement {
 				return "hasVersion";
 			case BQB_HAS_PROPERTY:
 				return "hasProperty";
+			case BQB_HAS_TAXON:
+				return "hasTaxon";
 			case BQB_IS_PROPERTY_OF:
 				return "isPropertyOf";
 			case BQB_IS:
