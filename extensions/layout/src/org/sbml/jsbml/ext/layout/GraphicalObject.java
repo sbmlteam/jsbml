@@ -51,7 +51,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 	 */
 	public GraphicalObject() {
 		super();
-		addNamespace(LayoutConstant.namespaceURI);
+		addNamespace(LayoutConstants.namespaceURI);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 	 */
 	public GraphicalObject(int level, int version) {
 		super(level, version);
-		addNamespace(LayoutConstant.namespaceURI);
+		addNamespace(LayoutConstants.namespaceURI);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 	 */
 	public GraphicalObject(String id) {
 		super(id);
-		addNamespace(LayoutConstant.namespaceURI);
+		addNamespace(LayoutConstants.namespaceURI);
 	}
 	
 	/**
@@ -89,7 +89,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 	 */
 	public GraphicalObject(String id, int level, int version) {
 		super(id, level, version);
-		addNamespace(LayoutConstant.namespaceURI);
+		addNamespace(LayoutConstants.namespaceURI);
 	}
 
 	/* (non-Javadoc)
@@ -250,7 +250,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(LayoutConstant.shortLabel + ":id", getId());
+			attributes.put(LayoutConstants.shortLabel + ":id", getId());
 		}
 		
 		return attributes;

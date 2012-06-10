@@ -19,30 +19,30 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
-import static org.sbml.jsbml.ext.layout.LayoutConstant.basePoint1;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.basePoint2;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.boundingBox;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.compartmentGlyph;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.curve;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.curveSegment;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.dimensions;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.end;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.layout;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.listOfAdditionalGraphicalObjects;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.listOfCompartmentGlyphs;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.listOfCurveSegments;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.listOfLayouts;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.listOfReactionGlyphs;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.listOfSpeciesGlyphs;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.listOfSpeciesReferenceGlyphs;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.listOfTextGlyphs;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.namespaceURI;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.position;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.reactionGlyph;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.speciesGlyph;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.speciesReferenceGlyph;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.start;
-import static org.sbml.jsbml.ext.layout.LayoutConstant.textGlyph;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.basePoint1;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.basePoint2;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.boundingBox;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.compartmentGlyph;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.curve;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.curveSegment;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.dimensions;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.end;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.layout;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfAdditionalGraphicalObjects;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfCompartmentGlyphs;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfCurveSegments;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfLayouts;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfReactionGlyphs;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfSpeciesGlyphs;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfSpeciesReferenceGlyphs;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfTextGlyphs;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.namespaceURI;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.position;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.reactionGlyph;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.speciesGlyph;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.speciesReferenceGlyph;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.start;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.textGlyph;
 
 import java.util.ArrayList;
 
@@ -62,7 +62,7 @@ import org.sbml.jsbml.ext.layout.End;
 import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
-import org.sbml.jsbml.ext.layout.LayoutConstant;
+import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.Position;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
@@ -90,11 +90,11 @@ public class L3LayoutParser extends AbstractReaderWriter {
 	 * @return the namespaceURI of this parser.
 	 */
 	public String getNamespaceURI() {
-		return LayoutConstant.namespaceURI;
+		return LayoutConstants.namespaceURI;
 	}
 	
 	public String getShortLabel() {
-		return LayoutConstant.shortLabel;
+		return LayoutConstants.shortLabel;
 	}
 
 	private Logger logger = Logger.getLogger(L3LayoutParser.class);

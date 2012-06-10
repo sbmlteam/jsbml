@@ -184,7 +184,7 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	 * 
 	 */
 	public void unsetNamedSBase() {
-		setNamedSBase(null);
+		setNamedSBase((String) null);
 	}
 
 }

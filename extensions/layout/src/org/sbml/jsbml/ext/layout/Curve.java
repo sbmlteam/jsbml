@@ -61,9 +61,9 @@ public class Curve extends AbstractNamedSBase {
 	 */
 	public Curve() {
 		super();
-		addNamespace(LayoutConstant.namespaceURI);
+		addNamespace(LayoutConstants.namespaceURI);
 		
-		listOfCurveSegments.addNamespace(LayoutConstant.namespaceURI);
+		listOfCurveSegments.addNamespace(LayoutConstants.namespaceURI);
 		listOfCurveSegments.setSBaseListType(ListOf.Type.other);
 		registerChild(listOfCurveSegments);
 	}

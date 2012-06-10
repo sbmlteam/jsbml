@@ -267,21 +267,21 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 		
 			isAttributeRead = true;
 			
-			if(attributeName.equals(LayoutConstant.speciesReference))
+			if(attributeName.equals(LayoutConstants.speciesReference))
 			{				
 				setSpeciesReference(value);
 			}
-			else if(attributeName.equals(LayoutConstant.speciesGlyph))
+			else if(attributeName.equals(LayoutConstants.speciesGlyph))
 			{
 				setSpeciesGlyph(value);
 			}
-			else if(attributeName.equals(LayoutConstant.role))
+			else if(attributeName.equals(LayoutConstants.role))
 			{
 		    	  try {
 		    		  setRole(SpeciesReferenceRole.valueOf(value.toUpperCase()));
 		    	  } catch (Exception e) {
 		    		  throw new SBMLException("Could not recognized the value '" + value
-		    				  + "' for the attribute " + LayoutConstant.role
+		    				  + "' for the attribute " + LayoutConstants.role
 		    				  + " on the 'SpeciesReferenceGlyph' element.");
 		    	  }
 			}
@@ -301,7 +301,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	public void setCurve(Curve curve) {
 		Curve oldCurve = this.curve;
 		this.curve = curve;
-		firePropertyChange(LayoutConstant.curve, oldCurve, this.role);
+		firePropertyChange(LayoutConstants.curve, oldCurve, this.role);
 		registerChild(this.curve);
 	}
 	
@@ -312,7 +312,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	public void setRole(SpeciesReferenceRole valueOf) {
 		SpeciesReferenceRole oldRole = this.role;
 		this.role = valueOf;
-		firePropertyChange(LayoutConstant.role, oldRole, this.role);
+		firePropertyChange(LayoutConstants.role, oldRole, this.role);
 	}
 	
 	/**
@@ -322,7 +322,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	public void setSpeciesGlyph(String speciesGlyph) {
 		String oldValue = this.speciesGlyph;
 		this.speciesGlyph = speciesGlyph;
-		firePropertyChange(LayoutConstant.speciesGlyph, oldValue, this.speciesGlyph);
+		firePropertyChange(LayoutConstants.speciesGlyph, oldValue, this.speciesGlyph);
 	}
 	
 	/**
@@ -338,7 +338,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	 * @param speciesReference
 	 */
 	public void setSpeciesReference(String speciesReference) {
-		setNamedSBase(speciesReference, LayoutConstant.speciesReference);
+		setNamedSBase(speciesReference, LayoutConstants.speciesReference);
 	}
 	
 	/**
@@ -356,16 +356,16 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 		Map<String, String> attributes = super.writeXMLAttributes();
 		
 		if (isSetSpeciesGlyph()) {
-			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.speciesGlyph, speciesGlyph);
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.speciesGlyph, speciesGlyph);
 		}
 		if (isSetSpeciesReference()) {
-			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.speciesReference, getSpeciesReference());
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.speciesReference, getSpeciesReference());
 		}
 		if (isSetSpeciesReferenceRole()) {
-			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.role, role.toString().toLowerCase());
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.role, role.toString().toLowerCase());
 		}
 
 		return attributes;

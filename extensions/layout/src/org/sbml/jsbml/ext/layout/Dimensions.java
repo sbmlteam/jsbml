@@ -54,7 +54,7 @@ public class Dimensions extends AbstractNamedSBase {
 	 * 
 	 */
 	public Dimensions() {
-	  addNamespace(LayoutConstant.namespaceURI);
+	  addNamespace(LayoutConstants.namespaceURI);
 	}
 	
 	/**
@@ -96,7 +96,7 @@ public class Dimensions extends AbstractNamedSBase {
 	 */
   public Dimensions(int level, int version) {
 	  super(level, version);
-	  addNamespace(LayoutConstant.namespaceURI);
+	  addNamespace(LayoutConstants.namespaceURI);
 	}
   
   /**
@@ -107,7 +107,7 @@ public class Dimensions extends AbstractNamedSBase {
    */
   public Dimensions(String id, int level, int version) {
     super(id, level, version);
-    addNamespace(LayoutConstant.namespaceURI);
+    addNamespace(LayoutConstants.namespaceURI);
   }
 	
 	/* (non-Javadoc)
@@ -221,15 +221,15 @@ public class Dimensions extends AbstractNamedSBase {
 		{
 		
 			//isAttributeRead = true;			
-			if(attributeName.equals(LayoutConstant.width))
+			if(attributeName.equals(LayoutConstants.width))
 			{	
 				setWidth(StringTools.parseSBMLDouble(value));
 			}
-			else if(attributeName.equals(LayoutConstant.height))
+			else if(attributeName.equals(LayoutConstants.height))
 			{	
 				setHeight(StringTools.parseSBMLDouble(value));
 			}
-			else if(attributeName.equals(LayoutConstant.depth))
+			else if(attributeName.equals(LayoutConstants.depth))
 			{	
 				setDepth(StringTools.parseSBMLDouble(value));
 			} 
@@ -251,7 +251,7 @@ public class Dimensions extends AbstractNamedSBase {
 	public void setDepth(double depth) {
 		Double oldDepth = this.depth;
 		this.depth = depth;
-		firePropertyChange(LayoutConstant.depth, oldDepth, this.depth);
+		firePropertyChange(LayoutConstants.depth, oldDepth, this.depth);
 	}
 	
 	/**
@@ -261,7 +261,7 @@ public class Dimensions extends AbstractNamedSBase {
 	public void setHeight(double height) {
 		Double oldHeight = this.height;
 		this.height = height;
-		firePropertyChange(LayoutConstant.height, oldHeight, this.height);
+		firePropertyChange(LayoutConstants.height, oldHeight, this.height);
 	}
 
   /**
@@ -271,7 +271,7 @@ public class Dimensions extends AbstractNamedSBase {
 	public void setWidth(double width) {
 		Double oldWidth = this.width;
 		this.width = width;
-		firePropertyChange(LayoutConstant.width, oldWidth, this.width);
+		firePropertyChange(LayoutConstants.width, oldWidth, this.width);
 	}
 	
 	/* (non-Javadoc)
@@ -283,20 +283,20 @@ public class Dimensions extends AbstractNamedSBase {
 
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(LayoutConstant.shortLabel + ":id", getId());
+			attributes.put(LayoutConstants.shortLabel + ":id", getId());
 		}
 		
 		if (isSetDepth()) {
-			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.depth, StringTools.toString(depth));
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.depth, StringTools.toString(depth));
 		}
 		if (isSetHeight()) {
-			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.height, StringTools.toString(height));
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.height, StringTools.toString(height));
 		}
 		if (isSetWidth()) {
-			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.width, StringTools.toString(width));
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.width, StringTools.toString(width));
 		}
 
 		return attributes;

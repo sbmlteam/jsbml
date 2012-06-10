@@ -55,7 +55,7 @@ public class BoundingBox extends AbstractNamedSBase {
 	 * 
 	 */
 	public BoundingBox() {
-		addNamespace(LayoutConstant.namespaceURI);
+		addNamespace(LayoutConstants.namespaceURI);
 	}
 
 	/**
@@ -248,7 +248,7 @@ public class BoundingBox extends AbstractNamedSBase {
 
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(LayoutConstant.shortLabel + ":id", getId());
+			attributes.put(LayoutConstants.shortLabel + ":id", getId());
 		}
 		if (isSetName()) {
 			// Problem !!! no name defined officially
