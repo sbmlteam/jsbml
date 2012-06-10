@@ -103,14 +103,6 @@ public class SpeciesGlyph extends NamedSBaseGlyph {
 	public String getSpecies() {
 		return getNamedSBase();
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Species getSpeciesInstance() {
-		return getNamedSBaseInstance();
-	}
 
 	/**
 	 * @return the {@link #speciesId}

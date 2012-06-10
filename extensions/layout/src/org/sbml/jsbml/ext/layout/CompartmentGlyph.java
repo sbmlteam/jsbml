@@ -95,14 +95,6 @@ public class CompartmentGlyph extends NamedSBaseGlyph {
 		return getNamedSBase();
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public Compartment getCompartmentInstance() {
-		return getNamedSBaseInstance();
-	}
-	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.NamedSBaseGlyph#getNamedSBaseInstance()
 	 */

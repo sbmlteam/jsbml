@@ -204,14 +204,6 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	}
 	
 	/**
-	 * 
-	 * @return
-	 */
-	public SimpleSpeciesReference getSpeciesReferenceInstance() {
-		return getNamedSBaseInstance();
-	}
-	
-	/**
 	 * @return
 	 */
 	public SpeciesReferenceRole getSpeciesReferenceRole() {

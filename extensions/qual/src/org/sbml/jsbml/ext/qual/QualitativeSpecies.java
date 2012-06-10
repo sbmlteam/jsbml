@@ -40,7 +40,7 @@ import org.sbml.jsbml.util.StringTools;
  * @since 1.0
  * @date $Date$
  */
-public class QualitativeSpecies extends AbstractNamedSBase implements UniqueNamedSBase{
+public class QualitativeSpecies extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.

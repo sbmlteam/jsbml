@@ -144,6 +144,14 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	public boolean isSetNamedSBase() {
 		return (sbaseID != null) && (sbaseID.length() > 0);
 	}
+	
+	/**
+	 * 
+	 * @param namedSBase
+	 */
+	public void setNamedSBase(NamedSBase namedSBase) {
+	  setNamedSBase(namedSBase.getId());
+	}
 
 	/**
 	 * 

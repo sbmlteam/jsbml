@@ -35,7 +35,7 @@ import org.sbml.jsbml.util.StringTools;
  * @since 1.0
  * @date $Date$
  */
-public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBase{
+public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.
@@ -210,6 +210,7 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
+  @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
 
 	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
@@ -230,6 +231,7 @@ public class SymbolicValue extends AbstractNamedSBase implements UniqueNamedSBas
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */
+  @Override
   public Map<String, String> writeXMLAttributes() {
 	  Map<String, String> attributes = super.writeXMLAttributes();
 
