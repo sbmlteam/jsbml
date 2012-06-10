@@ -237,12 +237,20 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 * 
 	 * @param graphicalObject
 	 */
+  public void setGraphicalObject(GraphicalObject graphicalObject) {
+    setGraphicalObject(graphicalObject.getId());
+  }
+
+	/**
+	 * 
+	 * @param graphicalObject
+	 */
 	public void setGraphicalObject(String graphicalObject) {
 		String oldValue = this.graphicalObject;
 		this.graphicalObject = graphicalObject;
 		firePropertyChange(LayoutConstants.graphicalObject, oldValue, this.graphicalObject);
 	}
-
+	
 	/**
 	 * 
 	 * @param originOfText
@@ -250,7 +258,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	public void setOriginOfText(NamedSBase originOfText) {
 	  setNamedSBase(originOfText);
 	}
-	
+
 	/**
 	 * 
 	 * @param originOfText
