@@ -5,7 +5,11 @@ import org.sbml.jsbml.AbstractSBase;
 
 public class SpeciesTypeRestriction extends AbstractNamedSBase {
 
-	private String speciesTypeInstance;
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -6703552149441215128L;
+  private String speciesTypeInstance;
 	
 	/**
 	 * Returns the speciesTypeInstance.
@@ -25,11 +29,17 @@ public class SpeciesTypeRestriction extends AbstractNamedSBase {
 		this.speciesTypeInstance = speciesTypeInstance;
 	}
 	
-	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+	 */
+	//@Override
 	public boolean isIdMandatory() {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	 */
 	@Override
 	public AbstractSBase clone() {
 		// TODO

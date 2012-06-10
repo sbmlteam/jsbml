@@ -222,14 +222,6 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	}
 	
 	/**
-	 * 
-	 * @return
-	 */
-	public Reaction getReactionInstance() {
-		return getNamedSBaseInstance();
-	}
-	
-	/**
 	 * @return
 	 */
 	public boolean isSetCurve() {

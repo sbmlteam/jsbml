@@ -26,6 +26,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * @author Eugen Netz
@@ -36,7 +37,7 @@ import org.sbml.jsbml.SBase;
  * @since 1.0
  * @date 08.05.2012
  */
-public class Style extends AbstractNamedSBase {
+public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    *

@@ -15,6 +15,11 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedSBase {
 
 	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 7110790636241167977L;
+
+  /**
 	 * 
 	 */
 	private String speciesType;	

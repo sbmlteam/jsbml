@@ -8,7 +8,12 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 public class ReactionRule extends AbstractNamedSBase {
 
-	ListOf<SpeciesTypeRestrictionReference> listOfConditions;
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 7757296070294814156L;
+  
+  ListOf<SpeciesTypeRestrictionReference> listOfConditions;
 	ListOf<SpeciesTypeRestrictionReference> listOfResults;
 	
 	// TODO : add a kineticLaw
@@ -113,10 +118,17 @@ public class ReactionRule extends AbstractNamedSBase {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+	 */
+	//@Override
 	public boolean isIdMandatory() {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	 */
 	@Override
 	public AbstractSBase clone() {
 		// TODO

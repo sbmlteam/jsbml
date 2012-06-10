@@ -21,6 +21,8 @@ package org.sbml.jsbml.ext.layout;
 
 import java.util.Map;
 
+import org.sbml.jsbml.NamedSBase;
+
 
 
 /**
@@ -30,7 +32,7 @@ import java.util.Map;
  * @since 1.0
  * @version $Rev$
  */
-public class TextGlyph extends GraphicalObject {
+public class TextGlyph extends NamedSBaseGlyph {
 
 	/**
 	 * Generated serial version identifier.
@@ -41,11 +43,6 @@ public class TextGlyph extends GraphicalObject {
 	 * 
 	 */
 	private String graphicalObject;
-
-	/**
-	 * 
-	 */
-	private String originOfText;
 
 	/**
 	 * 
@@ -96,12 +93,12 @@ public class TextGlyph extends GraphicalObject {
 	 */
 	public TextGlyph(TextGlyph textGlyph) {
 		super(textGlyph);
-
-		// TODO : use the iSet methods
-		
-		this.graphicalObject = new String(textGlyph.getGraphicalObject());
-		this.originOfText = new String(textGlyph.getOriginOfText());
-		this.text = new String(textGlyph.getText());
+		if (textGlyph.isSetGraphicalObject()) {
+		  this.graphicalObject = new String(textGlyph.getGraphicalObject());
+		}
+		if (textGlyph.isSetText()) {
+		  this.text = new String(textGlyph.getText());
+		}
 	}
 
 	/* (non-Javadoc)
@@ -149,7 +146,7 @@ public class TextGlyph extends GraphicalObject {
 	 * @return
 	 */
 	public String getOriginOfText() {
-		return originOfText;
+		return getNamedSBase();
 	}
 	
 	/**
@@ -191,7 +188,7 @@ public class TextGlyph extends GraphicalObject {
 	 * @return
 	 */
 	public boolean isSetOriginOfText() {
-		return originOfText != null;
+		return isSetNamedSBase();
 	}
 
 	/**
@@ -250,10 +247,16 @@ public class TextGlyph extends GraphicalObject {
 	 * 
 	 * @param originOfText
 	 */
+	public void setOriginOfText(NamedSBase originOfText) {
+	  setNamedSBase(originOfText);
+	}
+	
+	/**
+	 * 
+	 * @param originOfText
+	 */
 	public void setOriginOfText(String originOfText) {
-		String oldOriginOfText = this.originOfText;
-		this.originOfText = originOfText;
-		firePropertyChange(LayoutConstant.originOfText, oldOriginOfText, this.originOfText);
+		setNamedSBase(originOfText);
 	}
 
 	/**
@@ -283,7 +286,7 @@ public class TextGlyph extends GraphicalObject {
 		}
 		if (isSetOriginOfText()) {
 			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.originOfText, originOfText);
+					+ LayoutConstant.originOfText, getOriginOfText());
 		}
 
 		return attributes;

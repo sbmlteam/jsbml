@@ -31,6 +31,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.NameFilter;
 
@@ -43,7 +44,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @since 1.0
  * @version $Rev$
  */
-public class Layout extends AbstractNamedSBase {
+public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 
 	/**
 	 * Generated serial version identifier.
@@ -58,6 +59,7 @@ public class Layout extends AbstractNamedSBase {
 	/**
 	 * 
 	 */
+	// TODO: Why are there methods called addGraphicalObjects and additionalGraphicalObjects?
 	private ListOf<GraphicalObject> listOfAdditionalGraphicalObjects;
 	/**
 	 * 
@@ -157,7 +159,7 @@ public class Layout extends AbstractNamedSBase {
 	  public void addAdditionalGraphical(GraphicalObject object) {
 	    if (object != null) {
 	      registerChild(object);
-	      listOfAdditionalGraphicalObjects.add(object);
+	      getListOfAdditionalGraphicalObjects().add(object);
 	    }
 	  }
 
@@ -179,7 +181,7 @@ public class Layout extends AbstractNamedSBase {
   public void addReactionGlyph(ReactionGlyph reactionGlyph) {
 	  if (reactionGlyph != null) {
 		  registerChild(reactionGlyph);
-		  listOfReactionGlyphs.add(reactionGlyph);
+		  getListOfReactionGlyphs().add(reactionGlyph);
 	  }
   }
 	
@@ -190,7 +192,7 @@ public class Layout extends AbstractNamedSBase {
   public void addSpeciesGlyph(SpeciesGlyph speciesGlyph) {
 	  if (speciesGlyph != null) {
 		  registerChild(speciesGlyph);
-		  listOfSpeciesGlyphs.add(speciesGlyph);
+		  getListOfSpeciesGlyphs().add(speciesGlyph);
 	  }
   }
 	
@@ -201,7 +203,7 @@ public class Layout extends AbstractNamedSBase {
   public void addTextGlyph(TextGlyph TextGlyph) {
     if (TextGlyph != null) {
       registerChild(TextGlyph);
-      listOfTextGlyphs.add(TextGlyph);
+      getListOfTextGlyphs().add(TextGlyph);
     }
   }
   
@@ -262,6 +264,18 @@ public class Layout extends AbstractNamedSBase {
    * 
    * @param id
    *        the identifier of the {@link CompartmentGlyph} to be created.
+   * @return a new {@link CompartmentGlyph}.
+   * @see #createCompartmentGlyph(String, String)
+   */
+  public CompartmentGlyph createCompartmentGlyph(String id) {
+    return createCompartmentGlyph(id, null);
+  }
+
+  /**
+   * Creates and adds a new {@link CompartmentGlyph}.
+   * 
+   * @param id
+   *        the identifier of the {@link CompartmentGlyph} to be created.
    * @param compartment
    *        {@link Compartment} ID.
    * @return a new {@link CompartmentGlyph}.
@@ -271,18 +285,6 @@ public class Layout extends AbstractNamedSBase {
 	  glyph.setCompartment(compartment);
 	  addCompartmentGlyph(glyph);
 	  return glyph;
-  }
-
-  /**
-   * Creates and adds a new {@link CompartmentGlyph}.
-   * 
-   * @param id
-   *        the identifier of the {@link CompartmentGlyph} to be created.
-   * @return a new {@link CompartmentGlyph}.
-   * @see #createCompartmentGlyph(String, String)
-   */
-  public CompartmentGlyph createCompartmentGlyph(String id) {
-    return createCompartmentGlyph(id, null);
   }
 
   /**
@@ -325,6 +327,18 @@ public class Layout extends AbstractNamedSBase {
    * 
    * @param id
    *        the identifier of the {@link ReactionGlyph} to be created.
+   * @return a new {@link ReactionGlyph}.
+   * @see #createReactionGlyph(String, String)
+   */
+  public ReactionGlyph createReactionGlyph(String id) {
+    return createReactionGlyph(id, null);
+  }
+
+  /**
+   * Creates and adds a new {@link ReactionGlyph}.
+   * 
+   * @param id
+   *        the identifier of the {@link ReactionGlyph} to be created.
    * @param reaction
    *        {@link Reaction} ID.
    * @return a new {@link ReactionGlyph}.
@@ -335,19 +349,19 @@ public class Layout extends AbstractNamedSBase {
 	  addReactionGlyph(glyph);
 	  return glyph;
   }
-
+  
   /**
-   * Creates and adds a new {@link ReactionGlyph}.
+   * Creates and adds a new {@link SpeciesGlyph} with the given identifier.
    * 
    * @param id
-   *        the identifier of the {@link ReactionGlyph} to be created.
-   * @return a new {@link ReactionGlyph}.
-   * @see #createReactionGlyph(String, String)
+   *        the identifier for the {@link SpeciesGlyph} to be created.
+   * @return a new {@link SpeciesGlyph}.
+   * @see #createSpeciesGlyph(String, String)
    */
-  public ReactionGlyph createReactionGlyph(String id) {
-    return createReactionGlyph(id, null);
+  public SpeciesGlyph createSpeciesGlyph(String id) {
+    return createSpeciesGlyph(id, null);
   }
-  
+
   /**
    * Creates and adds a new {@link SpeciesGlyph}.
    * 
@@ -363,19 +377,19 @@ public class Layout extends AbstractNamedSBase {
 	  addSpeciesGlyph(glyph);
 	  return glyph;
   }
-
+  
   /**
-   * Creates and adds a new {@link SpeciesGlyph} with the given identifier.
+   * Creates and adds a new {@link TextGlyph}.
    * 
    * @param id
-   *        the identifier for the {@link SpeciesGlyph} to be created.
-   * @return a new {@link SpeciesGlyph}.
-   * @see #createSpeciesGlyph(String, String)
+   *        the identifier for the {@link TextGlyph} to be created.
+   * @return a new {@link TextGlyph}.
+   * @see #createTextGlyph(String, String)
    */
-  public SpeciesGlyph createSpeciesGlyph(String id) {
-    return createSpeciesGlyph(id, null);
+  public TextGlyph createTextGlyph(String id) {
+    return createTextGlyph(id, null);
   }
-  
+
   /**
    * Creates and adds a new {@link TextGlyph}.
    * 
@@ -390,18 +404,6 @@ public class Layout extends AbstractNamedSBase {
 	  glyph.setText(text);
 	  addTextGlyph(glyph);
 	  return glyph;
-  }
-
-  /**
-   * Creates and adds a new {@link TextGlyph}.
-   * 
-   * @param id
-   *        the identifier for the {@link TextGlyph} to be created.
-   * @return a new {@link TextGlyph}.
-   * @see #createTextGlyph(String, String)
-   */
-  public TextGlyph createTextGlyph(String id) {
-    return createTextGlyph(id, null);
   }
 
   /**
@@ -424,14 +426,14 @@ public class Layout extends AbstractNamedSBase {
    */
   @SuppressWarnings("unchecked")
   private <T> List<T> findGlyphs(ListOf<? extends T> listOfGlyphs, String id) {
-	  if (isSetListOfReactionGlyphs()) {
+	  if (isSetListOfReactionGlyphs() && (listOfGlyphs != null) && (!listOfGlyphs.isEmpty())) {
 		  NamedSBaseReferenceFilter filter = new NamedSBaseReferenceFilter(id);
 		  filter.setFilterForReference(true);
 		  return (List<T>) listOfReactionGlyphs.filter(filter);
 	  }
 	  return new ArrayList<T>(0);
   }
-	
+  
   /**
    * Searches all instances of {@link ReactionGlyph} within this {@link Layout} that
    * refer to the {@link Reaction} with the given id.
@@ -443,7 +445,7 @@ public class Layout extends AbstractNamedSBase {
   public List<ReactionGlyph> findReactionGlyphs(String reactionID) {
 	  return findGlyphs(listOfReactionGlyphs, reactionID);
   }
-
+	
   /**
    * Searches all instances of {@link SpeciesGlyph} within this {@link Layout} that
    * refer to the {@link Species} with the given id.
@@ -454,6 +456,19 @@ public class Layout extends AbstractNamedSBase {
    */
   public List<SpeciesGlyph> findSpeciesGlyphs(String speciesID) {
 	 return findGlyphs(listOfSpeciesGlyphs, speciesID);
+  }
+
+  /**
+   * Searches within the {@link #listOfTextGlyphs} for {@link TextGlyph}s whose
+   * {@link TextGlyph#getOriginOfText()} points to the given id.
+   * 
+   * @param id
+   *        the identifier of the element for which {@link TextGlyph}s are to be
+   *        found.
+   * @return all {@link TextGlyph}s associated to an element with the given id.
+   */
+  public List<TextGlyph> findTextGlyphs(String id) {
+    return findGlyphs(listOfTextGlyphs, id);
   }
   
   /**
@@ -679,6 +694,27 @@ public class Layout extends AbstractNamedSBase {
 		  return listOfSpeciesGlyphs.firstHit(new NameFilter(id));
 	  }
 	  return null;
+  }
+  
+  /**
+   * 
+   * @param i
+   * @return
+   */
+  public TextGlyph getTextGlyph(int i) {
+    return getListOfTextGlyphs().get(i);
+  }
+  
+  /**
+   * 
+   * @param id
+   * @return
+   */
+  public TextGlyph getTextGlyph(String id) {
+    if (isSetListOfTextGlyphs()) {
+      return listOfTextGlyphs.firstHit(new NameFilter(id));
+    }
+    return null;
   }
   
   /**

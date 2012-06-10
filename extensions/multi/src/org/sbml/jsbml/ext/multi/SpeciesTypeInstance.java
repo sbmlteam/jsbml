@@ -6,7 +6,12 @@ import org.sbml.jsbml.ListOf;
 
 public class SpeciesTypeInstance extends AbstractNamedSBase {
 
-	private double initialAmount;
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 1775590492963078468L;
+
+  private double initialAmount;
 	
 	private double initialConcentration;
 	

@@ -29,6 +29,7 @@ import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
@@ -40,7 +41,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @since 1.0
  * @date 04.05.2012
  */
-public class RenderInformationBase extends AbstractNamedSBase {
+public class RenderInformationBase extends AbstractNamedSBase implements UniqueNamedSBase {
 
 	/**
 	 * 

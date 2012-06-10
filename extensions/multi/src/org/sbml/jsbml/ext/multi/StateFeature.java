@@ -23,6 +23,10 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class StateFeature extends AbstractNamedSBase implements UniqueNamedSBase {
 
 	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -1796119514784158560L;
+  /**
 	 * 
 	 */
 	ListOf<PossibleValue> listOfPossibleValues;

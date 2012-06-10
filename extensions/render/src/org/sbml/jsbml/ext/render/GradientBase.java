@@ -28,6 +28,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.UniqueNamedSBase;
 
 
 /**
@@ -39,7 +40,7 @@ import org.sbml.jsbml.SBase;
  * @since 1.0
  * @date 08.05.2012
  */
-public class GradientBase extends AbstractNamedSBase {  
+public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase {  
 
   /**
    * 
