@@ -3483,7 +3483,7 @@ public int getNumLocalParameters() {
         } else {                                                                                                                                                              
                 // in L3 packages we might have different id namespaces                                                                                                        
                 logger.error("registerIds : the object " + newNsb.getClass().getCanonicalName() + " is neither " +                                                             
-                                "a UniqueNamedSBase, a LocalParameter or a UnitDefinition so it's id will not be registered in the Model.");                                   
+                                "a UniqueNamedSBase, a LocalParameter or a UnitDefinition so its id will not be registered in the Model.");                                   
          } 
       } else if (!newNsb.isIdMandatory()) {
         // do nothing
