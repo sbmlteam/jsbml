@@ -171,9 +171,6 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 				return listOfModifiers;
 			} else if (type.equals(Parameter.class)) {
 				return listOfParameters;
-			} else if (type.equals(SpeciesReference.class)) {
-				// Can be reactant or product!
-				return other;
 			} else if (type.equals(Reaction.class)) {
 				return listOfReactions;
 			} else if (type.equals(Rule.class)) {
@@ -187,7 +184,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 			} else if (type.equals(Unit.class)) {
 				return listOfUnits;
 			}
-			return none;
+			return other;
 		}
 		
 		/**
