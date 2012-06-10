@@ -56,7 +56,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	 */
 	public ReactionGlyph() {
 	  super();
-	  addNamespace(LayoutConstant.namespaceURI);
+	  addNamespace(LayoutConstants.namespaceURI);
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	public ListOf<SpeciesReferenceGlyph> getListOfSpeciesReferenceGlyphs() {
 		if (!isSetListOfSpeciesReferencesGlyph()) {
 			listOfSpeciesReferencesGlyph = new ListOf<SpeciesReferenceGlyph>();
-			listOfSpeciesReferencesGlyph.addNamespace(LayoutConstant.namespaceURI);
+			listOfSpeciesReferencesGlyph.addNamespace(LayoutConstants.namespaceURI);
 			listOfSpeciesReferencesGlyph.setSBaseListType(ListOf.Type.other);
 			registerChild(listOfSpeciesReferencesGlyph);
 		}
@@ -302,7 +302,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	 * @param reaction
 	 */
 	public void setReaction(String reaction) {
-		setNamedSBase(reaction, LayoutConstant.reaction);
+		setNamedSBase(reaction, LayoutConstants.reaction);
 	}
 	
 	/**
@@ -331,8 +331,8 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 		Map<String, String> attributes = super.writeXMLAttributes();
 		
 		if (isSetReaction()) {
-			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.reaction, getReaction());
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.reaction, getReaction());
 		}
 
 		return attributes;

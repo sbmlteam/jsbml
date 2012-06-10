@@ -124,7 +124,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
    */
   private void createListOfLayout() {
     listOfLayouts = new ListOf<Layout>();
-		listOfLayouts.addNamespace(LayoutConstant.namespaceURI);
+		listOfLayouts.addNamespace(LayoutConstants.namespaceURI);
 		listOfLayouts.setSBaseListType(ListOf.Type.other);
 		model.registerChild(listOfLayouts);
   }

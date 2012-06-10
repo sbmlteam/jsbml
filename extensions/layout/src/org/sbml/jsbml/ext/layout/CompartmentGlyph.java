@@ -121,7 +121,7 @@ public class CompartmentGlyph extends NamedSBaseGlyph {
 		
 		if (!isAttributeRead) {
 		
-			if (attributeName.equals(LayoutConstant.compartment)) {	
+			if (attributeName.equals(LayoutConstants.compartment)) {	
 				setCompartment(value);
 			} else {
 				return false;
@@ -164,8 +164,8 @@ public class CompartmentGlyph extends NamedSBaseGlyph {
 		Map<String, String> attributes = super.writeXMLAttributes();
 		
 		if (isSetCompartment()) {
-			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.compartment, getCompartment());
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.compartment, getCompartment());
 		}
 
 		return attributes;

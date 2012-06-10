@@ -165,10 +165,10 @@ public class SpeciesGlyph extends NamedSBaseGlyph {
 	  
 	  if (isSetId()) {
 	    attributes.remove("id");
-	    attributes.put(LayoutConstant.shortLabel + ":id", getId());
+	    attributes.put(LayoutConstants.shortLabel + ":id", getId());
 	  }
 	  if (isSetSpecies()) {
-	    attributes.put(LayoutConstant.shortLabel + ":species", getSpecies());
+	    attributes.put(LayoutConstants.shortLabel + ":species", getSpecies());
 	  } 
 	  
 	  return attributes;

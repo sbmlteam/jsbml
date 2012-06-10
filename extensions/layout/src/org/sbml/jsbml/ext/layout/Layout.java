@@ -600,7 +600,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<GraphicalObject> getListOfAdditionalGraphicalObjects() {
     if (!isSetListOfAdditionalGraphicalObjects()) {
       listOfAdditionalGraphicalObjects = ListOf.newInstance(this, GraphicalObject.class);
-      listOfAdditionalGraphicalObjects.addNamespace(LayoutConstant.namespaceURI);
+      listOfAdditionalGraphicalObjects.addNamespace(LayoutConstants.namespaceURI);
     }
 	  return listOfAdditionalGraphicalObjects;
   }
@@ -612,7 +612,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<CompartmentGlyph> getListOfCompartmentGlyphs() {
 	  if (!isSetListOfCompartmentGlyphs()) {
 		  listOfCompartmentGlyphs = ListOf.newInstance(this, CompartmentGlyph.class);
-		  listOfCompartmentGlyphs.addNamespace(LayoutConstant.namespaceURI);
+		  listOfCompartmentGlyphs.addNamespace(LayoutConstants.namespaceURI);
 	  }
 	  return listOfCompartmentGlyphs;
   }
@@ -625,7 +625,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<ReactionGlyph> getListOfReactionGlyphs() {
 	  if (!isSetListOfReactionGlyphs()) {
 		  listOfReactionGlyphs = ListOf.newInstance(this, ReactionGlyph.class);
-		  listOfReactionGlyphs.addNamespace(LayoutConstant.namespaceURI);
+		  listOfReactionGlyphs.addNamespace(LayoutConstants.namespaceURI);
 	  }
 	  return listOfReactionGlyphs;
   }
@@ -637,7 +637,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<SpeciesGlyph> getListOfSpeciesGlyphs() {
 	  if (!isSetListOfSpeciesGlyphs()) {
 		  listOfSpeciesGlyphs = ListOf.newInstance(this, SpeciesGlyph.class);
-		  listOfSpeciesGlyphs.addNamespace(LayoutConstant.namespaceURI);
+		  listOfSpeciesGlyphs.addNamespace(LayoutConstants.namespaceURI);
 	  }
 	  return listOfSpeciesGlyphs;
   }
@@ -649,7 +649,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<TextGlyph> getListOfTextGlyphs() {
 	  if (!isSetListOfTextGlyphs()) {
 		  listOfTextGlyphs = ListOf.newInstance(this, TextGlyph.class);
-		  listOfTextGlyphs.addNamespace(LayoutConstant.namespaceURI);
+		  listOfTextGlyphs.addNamespace(LayoutConstants.namespaceURI);
 	  }
 	  return listOfTextGlyphs;
   }
@@ -721,7 +721,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    */
   private void initDefault() {
-    addNamespace(LayoutConstant.namespaceURI);
+    addNamespace(LayoutConstants.namespaceURI);
   }
 	
   /* (non-Javadoc)

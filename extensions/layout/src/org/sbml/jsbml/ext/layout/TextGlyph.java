@@ -54,7 +54,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 */
 	public TextGlyph() {
 		super();
-		addNamespace(LayoutConstant.namespaceURI);
+		addNamespace(LayoutConstants.namespaceURI);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 */
 	public TextGlyph(int level, int version) {
 	  super(level, version);
-	  addNamespace(LayoutConstant.namespaceURI);
+	  addNamespace(LayoutConstants.namespaceURI);
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 */
 	public TextGlyph(String id) {
 		super(id);
-		addNamespace(LayoutConstant.namespaceURI);
+		addNamespace(LayoutConstants.namespaceURI);
 	}
 	
 	/**
@@ -84,7 +84,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 */
 	public TextGlyph(String id, int level, int version) {
 	  super(id, level, version);
-	  addNamespace(LayoutConstant.namespaceURI);
+	  addNamespace(LayoutConstants.namespaceURI);
 	}
 
 	/**
@@ -210,15 +210,15 @@ public class TextGlyph extends NamedSBaseGlyph {
 		if(!isAttributeRead)
 		{
 		
-			if(attributeName.equals(LayoutConstant.graphicalObject))
+			if(attributeName.equals(LayoutConstants.graphicalObject))
 			{	
 				setGraphicalObject(value);
 			}
-			else if(attributeName.equals(LayoutConstant.text))
+			else if(attributeName.equals(LayoutConstants.text))
 			{	
 				setText(value);
 			}
-			else if(attributeName.equals(LayoutConstant.originOfText))
+			else if(attributeName.equals(LayoutConstants.originOfText))
 			{	
 				setOriginOfText(value);
 			}
@@ -240,7 +240,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	public void setGraphicalObject(String graphicalObject) {
 		String oldValue = this.graphicalObject;
 		this.graphicalObject = graphicalObject;
-		firePropertyChange(LayoutConstant.graphicalObject, oldValue, this.graphicalObject);
+		firePropertyChange(LayoutConstants.graphicalObject, oldValue, this.graphicalObject);
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	public void setText(String text) {
 		String oldText = this.text;
 		this.text = text;
-		firePropertyChange(LayoutConstant.text, oldText, this.text);
+		firePropertyChange(LayoutConstants.text, oldText, this.text);
 	}
 
 	/* (non-Javadoc)
@@ -277,16 +277,16 @@ public class TextGlyph extends NamedSBaseGlyph {
 		Map<String, String> attributes = super.writeXMLAttributes();
 		
 		if (isSetGraphicalObject()) {
-			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.graphicalObject, graphicalObject);
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.graphicalObject, graphicalObject);
 		}
 		if (isSetText()) {
-			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.text, text);
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.text, text);
 		}
 		if (isSetOriginOfText()) {
-			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.originOfText, getOriginOfText());
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.originOfText, getOriginOfText());
 		}
 
 		return attributes;

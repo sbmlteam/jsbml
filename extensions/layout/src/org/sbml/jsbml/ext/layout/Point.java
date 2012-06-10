@@ -57,7 +57,7 @@ public class Point extends AbstractNamedSBase {
 	 */
 	public Point() {
 		super();
-		addNamespace(LayoutConstant.namespaceURI);
+		addNamespace(LayoutConstants.namespaceURI);
 		x = y = z = Double.NaN;
 	}
 	
@@ -96,7 +96,7 @@ public class Point extends AbstractNamedSBase {
 	 */
 	public Point(int level, int version) {
 	  super(level, version);
-	  addNamespace(LayoutConstant.namespaceURI);
+	  addNamespace(LayoutConstants.namespaceURI);
     x = y = z = Double.NaN;
 	}
 
@@ -235,14 +235,14 @@ public class Point extends AbstractNamedSBase {
 			
 			isAttributeRead = true;
 		
-			if (attributeName.equals(LayoutConstant.x)) {
+			if (attributeName.equals(LayoutConstants.x)) {
 				setX(StringTools.parseSBMLDouble(value));
 			}
-			else if(attributeName.equals(LayoutConstant.y))
+			else if(attributeName.equals(LayoutConstants.y))
 			{
 				setY(StringTools.parseSBMLDouble(value));
 			}
-			else if(attributeName.equals(LayoutConstant.z))
+			else if(attributeName.equals(LayoutConstants.z))
 			{
 				setZ(StringTools.parseSBMLDouble(value));
 			}
@@ -261,7 +261,7 @@ public class Point extends AbstractNamedSBase {
 	public void setX(double x) {
 		Double oldX = this.x;
 		this.x = x;
-		firePropertyChange(LayoutConstant.x, oldX, this.x);
+		firePropertyChange(LayoutConstants.x, oldX, this.x);
 	}
 
   /**
@@ -271,7 +271,7 @@ public class Point extends AbstractNamedSBase {
 	public void setY(double y) {
 		Double oldY = this.y;
 		this.y = y;
-		firePropertyChange(LayoutConstant.y, oldY, this.y);
+		firePropertyChange(LayoutConstants.y, oldY, this.y);
 	}
 
 	/**
@@ -281,7 +281,7 @@ public class Point extends AbstractNamedSBase {
 	public void setZ(double z) {
 		Double oldZ = this.z;
 		this.z = z;
-		firePropertyChange(LayoutConstant.z, oldZ, this.z);
+		firePropertyChange(LayoutConstants.z, oldZ, this.z);
 	}
 
 	/* (non-Javadoc)
@@ -301,20 +301,20 @@ public class Point extends AbstractNamedSBase {
 
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(LayoutConstant.shortLabel + ":id", getId());
+			attributes.put(LayoutConstants.shortLabel + ":id", getId());
 		}
 		
 		if (isSetX()) {
-			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.x, StringTools.toString(Locale.ENGLISH, x));
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.x, StringTools.toString(Locale.ENGLISH, x));
 		}
 		if (isSetY()) {
-			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.y, StringTools.toString(Locale.ENGLISH, y));
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.y, StringTools.toString(Locale.ENGLISH, y));
 		}
 		if (isSetZ()) {
-			attributes.put(LayoutConstant.shortLabel + ":"
-					+ LayoutConstant.z, StringTools.toString(Locale.ENGLISH, z));
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.z, StringTools.toString(Locale.ENGLISH, z));
 		}
 
 		return attributes;

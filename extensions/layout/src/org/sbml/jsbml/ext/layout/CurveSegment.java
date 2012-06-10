@@ -51,7 +51,7 @@ public class CurveSegment extends CubicBezier {
 	 */
 	public CurveSegment() {
 	  super();
-	  addNamespace(LayoutConstant.namespaceURI);
+	  addNamespace(LayoutConstants.namespaceURI);
 	}
 
 	/**

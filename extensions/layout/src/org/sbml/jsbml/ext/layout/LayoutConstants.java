@@ -19,7 +19,13 @@
  */
 package org.sbml.jsbml.ext.layout;
 
-public class LayoutConstant {
+/**
+ * 
+ * @author 
+ * @version $Rev$
+ * @since 1.0
+ */
+public class LayoutConstants {
 
 	/**
 	 * The namespace URI of this parser.
@@ -81,7 +87,5 @@ public class LayoutConstant {
 	public static final String basePoint1 = "basePoint1";
 	public static final String basePoint2 = "basePoint2";
 	public static final String reaction = "reaction";
-	
 
-	
 }
