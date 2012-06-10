@@ -3929,8 +3929,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
         	success &= registerId((UnitDefinition) newNsb, !delete);
         } else {
         	// in L3 packages we might have different id namespaces
-        	logger.error("registerIds : the object " + newNsb.getClass().getCanonicalName() + " is neither " +
-        			"a UniqueNamedSBase, a LocalParameter or a UnitDefinition so it's id will not be registered in the Model.");
+          logger.error(MessageFormat.format(
+            "registerIds: the object {0} is neither a UniqueNamedSBase, a LocalParameter or a UnitDefinition so its id will not be registered in the Model.",
+            newNsb.getClass().getCanonicalName()));
         }
       } else if (!newNsb.isIdMandatory()) {
         // do nothing
