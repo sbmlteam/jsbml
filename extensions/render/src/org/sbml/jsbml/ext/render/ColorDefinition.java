@@ -65,6 +65,17 @@ public class ColorDefinition extends AbstractNamedSBase {
     super(id);
     initDefaults();
   }
+  
+  /**
+   * Creates a ColorDefinition instance with an id. 
+   * 
+   * @param id
+   */
+  public ColorDefinition(String id, Color value) {
+    super(id);
+    this.value = value;
+    initDefaults();
+  }
 
 
   /**
@@ -224,7 +235,7 @@ public class ColorDefinition extends AbstractNamedSBase {
     if (isSetValue()) {
       attributes.remove(RenderConstants.value);
       attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.value,
-        XMLTools.decodeColorToString(getValue()));
+        XMLTools.encodeColorToString(getValue()));
     }
     return attributes;
   }
@@ -239,7 +250,7 @@ public class ColorDefinition extends AbstractNamedSBase {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(RenderConstants.value)) {
-        setValue(Color.decode(value));
+        setValue(XMLTools.decodeStringToColor(value));
       }
       // END TODO
       else {

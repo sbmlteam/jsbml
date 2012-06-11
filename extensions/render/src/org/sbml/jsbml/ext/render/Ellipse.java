@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.util.Map;
+
 import org.sbml.jsbml.PropertyUndefinedError;
 
 
@@ -462,5 +464,78 @@ public class Ellipse extends GraphicalPrimitive2D {
 		}
 		return false;
 	}
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetCx()) {
+      attributes.remove(RenderConstants.cx);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.cx,
+        XMLTools.positioningToString(getCx(), isAbsoluteCx()));
+    }
+    if (isSetCy()) {
+      attributes.remove(RenderConstants.cy);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.cy,
+        XMLTools.positioningToString(getCy(), isAbsoluteCy()));
+    }
+    if (isSetCz()) {
+      attributes.remove(RenderConstants.cz);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.cz,
+        XMLTools.positioningToString(getCz(), isAbsoluteCz()));
+    }
+    if (isSetRx()) {
+      attributes.remove(RenderConstants.rx);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.rx,
+        XMLTools.positioningToString(getRx(), isAbsoluteRx()));
+    }
+    if (isSetRy()) {
+      attributes.remove(RenderConstants.ry);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.ry,
+        XMLTools.positioningToString(getRy(), isAbsoluteRy()));
+    }
+    
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      // TODO: catch Exception if Enum.valueOf fails, generate logger output
+      if (attributeName.equals(RenderConstants.cx)) {
+        setCx(XMLTools.parsePosition(value));
+        setAbsoluteCx(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.cy)) {
+        setCy(XMLTools.parsePosition(value));
+        setAbsoluteCy(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.cz)) {
+        setCz(XMLTools.parsePosition(value));
+        setAbsoluteCz(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.rx)) {
+        setRx(XMLTools.parsePosition(value));
+        setAbsoluteRx(XMLTools.isAbsolutePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.ry)) {
+        setRy(XMLTools.parsePosition(value));
+        setAbsoluteRy(XMLTools.isAbsolutePosition(value));
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
 
 }

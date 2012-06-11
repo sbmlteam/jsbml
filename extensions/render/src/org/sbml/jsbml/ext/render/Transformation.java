@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+import java.util.Map;
 
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.SBase;
@@ -110,6 +111,46 @@ public class Transformation extends AbstractSBase {
   public String toString() {
     // TODO Auto-generated method stub
     return null;
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetTransform()) {
+    	attributes.remove(RenderConstants.transform);
+        attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.transform,
+        	XMLTools.encodeArrayDoubleToString(transform)); 
+    }
+    return attributes;
+  }
+  
+  private boolean isSetTransform() {
+	  return this.transform != null;
+}
+
+/* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      // TODO: catch Exception if Enum.valueOf fails, generate logger output
+      if (attributeName.equals(RenderConstants.transform)) {
+    	  setTransform(XMLTools.decodeStringToArrayDouble(value));
+      }
+    }
+    return isAttributeRead;
+  }
+
+  private void setTransform(Double[] transform) {
+	Double[] oldTransform = this.transform;
+    this.transform = transform;
+    firePropertyChange(RenderConstants.transform, oldTransform, this.transform);
   }
 
 }

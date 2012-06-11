@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.util.Map;
+
 import org.sbml.jsbml.PropertyUndefinedError;
 
 
@@ -159,6 +161,47 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
       return true;
     }
     return false;
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetFill()) {
+      attributes.remove(RenderConstants.fill);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fill,
+          getFill());
+    }
+    if (isSetFillRule()) {
+      attributes.remove(RenderConstants.fillRule);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fillRule,
+          getFillRule().toString().toLowerCase());
+    }
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(RenderConstants.fill)) {
+        setFill(value);
+      }
+      else if (attributeName.equals(RenderConstants.fillRule)) {
+        setFillRule(FillRule.valueOf(value));
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
   }
 
 }

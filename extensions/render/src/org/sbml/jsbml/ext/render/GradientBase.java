@@ -20,7 +20,6 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
-import java.awt.Color;
 import java.text.MessageFormat;
 import java.util.Map;
 
@@ -297,7 +296,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   /**
    * create a new GradientStop element and adds it to the ListOfGradientStops list
    */
-  public GradientStop createGradientStop(double offset, Color stopColor) {
+  public GradientStop createGradientStop(double offset, String stopColor) {
     GradientStop field = new GradientStop(offset, stopColor, getLevel(), getVersion());
     addGradientStop(field);
     return field;
