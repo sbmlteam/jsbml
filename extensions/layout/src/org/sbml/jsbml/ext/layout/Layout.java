@@ -158,7 +158,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	   */
 	  public void addAdditionalGraphical(GraphicalObject object) {
 	    if (object != null) {
-	      registerChild(object);
 	      getListOfAdditionalGraphicalObjects().add(object);
 	    }
 	  }
@@ -169,7 +168,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public void addCompartmentGlyph(CompartmentGlyph compartmentGlyph) {
     if (compartmentGlyph != null) {
-      registerChild(compartmentGlyph);
       getListOfCompartmentGlyphs().add(compartmentGlyph);
     }
   }
@@ -180,7 +178,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public void addReactionGlyph(ReactionGlyph reactionGlyph) {
 	  if (reactionGlyph != null) {
-		  registerChild(reactionGlyph);
 		  getListOfReactionGlyphs().add(reactionGlyph);
 	  }
   }
@@ -191,7 +188,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public void addSpeciesGlyph(SpeciesGlyph speciesGlyph) {
 	  if (speciesGlyph != null) {
-		  registerChild(speciesGlyph);
 		  getListOfSpeciesGlyphs().add(speciesGlyph);
 	  }
   }
@@ -202,7 +198,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public void addTextGlyph(TextGlyph TextGlyph) {
     if (TextGlyph != null) {
-      registerChild(TextGlyph);
       getListOfTextGlyphs().add(TextGlyph);
     }
   }

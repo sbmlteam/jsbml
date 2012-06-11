@@ -87,5 +87,18 @@ public class LayoutConstants {
 	public static final String basePoint1 = "basePoint1";
 	public static final String basePoint2 = "basePoint2";
 	public static final String reaction = "reaction";
+	
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 * @return
+	 */
+  public static String getNamespaceURI(int level, int version) {
+    if (level < 3) {
+      return namespaceURI_L2;
+    }
+    return namespaceURI;
+  }
 
 }

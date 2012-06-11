@@ -19,6 +19,7 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
@@ -287,16 +288,16 @@ public class Dimensions extends AbstractNamedSBase {
 		}
 		
 		if (isSetDepth()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
-					+ LayoutConstants.depth, StringTools.toString(depth));
+			attributes.put(LayoutConstants.shortLabel + ':'
+					+ LayoutConstants.depth, StringTools.toString(Locale.ENGLISH, depth));
 		}
 		if (isSetHeight()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
-					+ LayoutConstants.height, StringTools.toString(height));
+			attributes.put(LayoutConstants.shortLabel + ':'
+					+ LayoutConstants.height, StringTools.toString(Locale.ENGLISH, height));
 		}
 		if (isSetWidth()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
-					+ LayoutConstants.width, StringTools.toString(width));
+			attributes.put(LayoutConstants.shortLabel + ':'
+					+ LayoutConstants.width, StringTools.toString(Locale.ENGLISH, width));
 		}
 
 		return attributes;
