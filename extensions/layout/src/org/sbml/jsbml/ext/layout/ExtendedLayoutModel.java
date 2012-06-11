@@ -189,6 +189,14 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	}
 	
 	/**
+   * 
+   * @return
+   */
+  public int getLayoutCount() {
+    return isSetListOfLayouts() ? listOfLayouts.size() : 0;
+  }
+
+	/**
 	 * 
 	 * @return
 	 */
@@ -229,7 +237,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		return false;
 	}
 
-	/**
+  /**
 	 * 
 	 * @param listOfLayouts
 	 */
@@ -254,7 +262,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+  
   /**
 	 * Removes the {@link #listOfLayouts} from this {@link Model} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
@@ -271,7 +279,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		}
 		return false;
 	}
-  
+
   /* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
 	 */

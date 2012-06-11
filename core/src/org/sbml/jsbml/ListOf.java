@@ -268,9 +268,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 			list.setVersion(parent.getVersion());
 		}
 		list.setSBaseListType(type);
-		if (parent instanceof AbstractSBase) {
-			((AbstractSBase) parent).registerChild(list);
-		}
+		parent.registerChild(list);
 		return list;
 	}
 

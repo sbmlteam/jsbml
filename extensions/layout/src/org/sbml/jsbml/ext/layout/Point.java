@@ -289,7 +289,7 @@ public class Point extends AbstractNamedSBase {
 	 */
 	@Override
 	public String toString() {
-		return "Point [" + x + ", " + y + ", " + z + "]";
+		return "Point [" + x + ", " + y + ", " + z + ']';
 	}
 
 	/* (non-Javadoc)
@@ -305,15 +305,15 @@ public class Point extends AbstractNamedSBase {
 		}
 		
 		if (isSetX()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
+			attributes.put(LayoutConstants.shortLabel + ':'
 					+ LayoutConstants.x, StringTools.toString(Locale.ENGLISH, x));
 		}
 		if (isSetY()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
+			attributes.put(LayoutConstants.shortLabel + ':'
 					+ LayoutConstants.y, StringTools.toString(Locale.ENGLISH, y));
 		}
 		if (isSetZ()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
+			attributes.put(LayoutConstants.shortLabel + ':'
 					+ LayoutConstants.z, StringTools.toString(Locale.ENGLISH, z));
 		}
 
