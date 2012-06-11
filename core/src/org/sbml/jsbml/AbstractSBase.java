@@ -232,11 +232,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			this.metaId = new String(sb.getMetaId());
 		}
 		if (sb.isSetNotes()) {
-			this.notesXMLNode = sb.getNotes().clone();
+			setNotes(sb.getNotes().clone());
 		}
 		if (sb.isSetAnnotation()) {
-			this.annotation = sb.getAnnotation().clone();
-			this.annotation.parent = this;
+			setAnnotation(sb.getAnnotation().clone());
 		}
 		// TODO : we need to clone these extensions objects !!
 		if (sb.isExtendedByOtherPackages()) {
