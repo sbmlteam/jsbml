@@ -162,7 +162,7 @@ public class Annotation extends AnnotationElement {
 			getListOfCVTerms().add(term.clone());
 		}
 		if (annotation.isSetHistory()) {
-			this.history = annotation.getHistory().clone();
+			setHistory(annotation.getHistory().clone());
 		}
 	}
 
