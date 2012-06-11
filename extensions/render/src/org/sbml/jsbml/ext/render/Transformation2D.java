@@ -20,8 +20,6 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
-import java.util.Map;
-
 import org.sbml.jsbml.PropertyUndefinedError;
 
 
@@ -116,36 +114,4 @@ public class Transformation2D extends Transformation {
     }
     return false;
   }
-  
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
-   */
-  @Override
-  public Map<String, String> writeXMLAttributes() {
-    Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetTransform()) {
-    	
-        attributes.remove(RenderConstants.transform);
-        attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.transform,
-        	XMLTools.encodeArrayDoubleToString(transform)); 
-    }
-    return attributes;
-  }
-  
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-   */
-  @Override
-  public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    if (!isAttributeRead) {
-      isAttributeRead = true;
-      // TODO: catch Exception if Enum.valueOf fails, generate logger output
-      if (attributeName.equals(RenderConstants.transform)) {
-    	  setTransform(XMLTools.decodeStringToArrayDouble(value, 6));
-      }
-    }
-    return isAttributeRead;
-  }
-
 }

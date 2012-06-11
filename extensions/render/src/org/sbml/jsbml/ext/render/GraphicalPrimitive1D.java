@@ -42,7 +42,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
    * 
    */
   private static final long serialVersionUID = 3705246334810811216L;
-	protected ColorDefinition stroke;
+	protected String stroke;
 	protected Short[] strokeDashArray;
   protected Integer strokeWidth;
 
@@ -151,7 +151,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
   /**
    * @return the value of stroke
    */
-  public ColorDefinition getStroke() {
+  public String getStroke() {
     if (isSetStroke()) {
       return stroke;
     }
@@ -194,8 +194,8 @@ public class GraphicalPrimitive1D extends Transformation2D {
   /**
    * Set the value of stroke
    */
-  public void setStroke(ColorDefinition stroke) {
-    ColorDefinition oldStroke = this.stroke;
+  public void setStroke(String stroke) {
+    String oldStroke = this.stroke;
     this.stroke = stroke;
     firePropertyChange(RenderConstants.stroke, oldStroke, this.stroke);
   }
@@ -216,7 +216,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
    */
   public boolean unsetStroke() {
     if (isSetStroke()) {
-      ColorDefinition oldStroke = this.stroke;
+      String oldStroke = this.stroke;
       this.stroke = null;
       firePropertyChange(RenderConstants.stroke, oldStroke, this.stroke);
       return true;
@@ -248,7 +248,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
     if (isSetStroke()) {
     	attributes.remove(RenderConstants.stroke);
     	attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.strokeWidth,
-    			XMLTools.encodeColorDefintionToString(getStroke()));
+    			getStroke());
     }
     if (isSetStrokeDashArray()){
     	attributes.remove(RenderConstants.strokeDashArray);
@@ -273,7 +273,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
       isAttributeRead = true;
       // TODO: catch Exception if Enum.valueOf fails, generate logger output
       if (attributeName.equals(RenderConstants.stroke)) {
-          setStroke(XMLTools.decodeStringToColorDefintion(value));
+          setStroke(value);
       }
       else if (attributeName.equals(RenderConstants.strokeDashArray)) {
     	  setStrokeDashArray(XMLTools.decodeStringToArrayShort(value));

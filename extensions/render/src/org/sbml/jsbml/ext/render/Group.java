@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+import java.util.Map;
 
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
@@ -548,5 +549,103 @@ public class Group extends GraphicalPrimitive2D {
 		}
 		return false;
 	}
+	
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if(isSetId()){
+      attributes.remove(RenderConstants.id);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.id,
+        getId());
+    }
+    if (isSetFontFamily()) {
+      attributes.remove(RenderConstants.fontFamily);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fontFamily,
+        getFontFamily().toString().toLowerCase());
+    }
+    if (isSetTextAnchor()) {
+      attributes.remove(RenderConstants.textAnchor);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.textAnchor,
+        getTextAnchor().toString().toLowerCase());
+    }
+    if (isSetVTextAnchor()) {
+      attributes.remove(RenderConstants.vTextAnchor);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.vTextAnchor,
+        getVTextAnchor().toString().toLowerCase());
+    }
+    if (isSetFontSize()) {
+      attributes.remove(RenderConstants.fontSize);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fontSize,
+        Short.toString(getFontSize()));
+    }
+    if (isSetStartHead()) {
+      attributes.remove(RenderConstants.startHead);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.startHead,
+        getStartHead());
+    }
+    if (isSetEndHead()) {
+      attributes.remove(RenderConstants.endHead);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.endHead,
+        getEndHead());
+    }
+    if (isSetFontStyleItalic()) {
+      attributes.remove(RenderConstants.fontStyleItalic);
+      attributes.put(RenderConstants.fontStyleItalic,
+        XMLTools.fontStyleItalicToString(isFontStyleItalic()));
+    }
+    if (isSetFontWeightBold()) {
+      attributes.remove(RenderConstants.fontWeightBold);
+      attributes.put(RenderConstants.fontWeightBold,
+        XMLTools.fontWeightBoldToString(isFontWeightBold()));
+    }
+    return attributes;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      // TODO: catch Exception if Enum.valueOf fails, generate logger output
+      if (attributeName.equals(RenderConstants.id)) {
+        setId(value);
+      }
+      else if (attributeName.equals(RenderConstants.fontFamily)) {
+        setFontFamily(FontFamily.valueOf(value.toUpperCase()));
+      }
+      else if (attributeName.equals(RenderConstants.fontSize)) {
+        setFontSize(Short.valueOf(value));
+      }
+      else if (attributeName.equals(RenderConstants.fontWeightBold)) {
+        setFontWeightBold(XMLTools.parseFontWeightBold(value));
+      }
+      else if (attributeName.equals(RenderConstants.fontStyleItalic)) {
+        setFontStyleItalic(XMLTools.parseFontStyleItalic(value));
+      }
+      else if (attributeName.equals(RenderConstants.textAnchor)) {
+        setTextAnchor(TextAnchor.valueOf(value.toUpperCase()));
+      }
+      else if (attributeName.equals(RenderConstants.vTextAnchor)) {
+        setVTextAnchor(VTextAnchor.valueOf(value.toUpperCase()));
+      }
+      else if (attributeName.equals(RenderConstants.startHead)) {
+        setStartHead(value);
+      }
+      else if (attributeName.equals(RenderConstants.endHead)) {
+        setEndHead(value);
+      }     
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
 
 }

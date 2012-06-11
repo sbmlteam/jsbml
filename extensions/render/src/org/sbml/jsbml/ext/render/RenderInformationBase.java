@@ -639,7 +639,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
     if (isSetBackgroundColor()) {
       attributes.remove(RenderConstants.backgroundColor);
       attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.backgroundColor,
-        XMLTools.decodeColorToString(getBackgroundColor()));
+        XMLTools.encodeColorToString(getBackgroundColor()));
     }
     return attributes;
   }
@@ -663,7 +663,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
         setReferenceRenderInformation(value);
       }
       else if (attributeName.equals(RenderConstants.backgroundColor)) {
-        setBackgroundColor(Color.decode(value));
+        setBackgroundColor(XMLTools.decodeStringToColor(value));
       }
       else {
         isAttributeRead = false;

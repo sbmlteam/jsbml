@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml.ext.render;
 
+import java.util.Map;
+
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 
@@ -253,6 +255,46 @@ public class Curve extends GraphicalPrimitive1D {
 		RenderPoint element = new RenderPoint();
 		addElement(element);
 		return element;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+	 */
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+	  Map<String, String> attributes = super.writeXMLAttributes();
+	  if (isSetStartHead()) {
+	    attributes.remove(RenderConstants.startHead);
+	    attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.startHead,
+	        getStartHead());
+	  }
+	  if (isSetEndHead()) {
+	    attributes.remove(RenderConstants.endHead);
+	    attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.endHead,
+	        getEndHead());
+	  }
+	  return attributes;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean readAttribute(String attributeName, String prefix, String value) {
+	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+	  if (!isAttributeRead) {
+	    isAttributeRead = true;
+	    if (attributeName.equals(RenderConstants.startHead)) {
+	      setStartHead(value);
+	    }
+	    else if (attributeName.equals(RenderConstants.endHead)) {
+	      setEndHead(value);
+	    }
+	    else {
+	      isAttributeRead = false;
+	    }
+	  }
+	  return isAttributeRead;
 	}
 
 }

@@ -21,7 +21,7 @@
 package org.sbml.jsbml.ext.render;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.util.Locale;
 
 import org.sbml.jsbml.util.StringTools;
 
@@ -44,10 +44,10 @@ public class XMLTools {
    */
   public static String positioningToString(double x, boolean absoluteX) {
     if (absoluteX) {
-      return StringTools.toString(x);
+      return StringTools.toString(Locale.ENGLISH, x);
     }
     else {
-      return StringTools.toString(x * 100d) + "%";
+      return StringTools.toString(Locale.ENGLISH, x) + "%";
     }
   }
 
@@ -55,6 +55,7 @@ public class XMLTools {
    * @param fontStyleItalic
    * @return
    */
+  // Returns "italic" if fontStyleItalic is true, else "normal"
   public static String fontStyleItalicToString(boolean fontStyleItalic) {
     return (fontStyleItalic ?
       RenderConstants.fontStyleItalicTrue : RenderConstants.fontStyleItalicFalse);
@@ -64,6 +65,7 @@ public class XMLTools {
    * @param fontWeightBold
    * @return
    */
+//Returns "italic" if fontStyleBold is true, else "normal"
   public static String fontWeightBoldToString(boolean fontWeightBold) {
     return (fontWeightBold ?
       RenderConstants.fontWeightBoldTrue : RenderConstants.fontWeightBoldFalse);
@@ -86,8 +88,7 @@ public class XMLTools {
       return StringTools.parseSBMLDouble(value);
     }
     else {
-      return (StringTools.parseSBMLDouble(value.substring(0, value.length() - 1))
-          / 100d);
+      return StringTools.parseSBMLDouble(value.substring(0, value.length() - 1));
     }
   }
 
@@ -112,12 +113,25 @@ public class XMLTools {
    * @param value
    * @return
    */
-  public static String decodeColorToString(Color value) {
+  public static String encodeColorToString(Color value) {
     int r = value.getRed();
     int g = value.getGreen();
     int b = value.getBlue();
+    int a = value.getAlpha();
     return ("#" + Integer.toHexString(r) +
-        Integer.toHexString(g) + Integer.toHexString(b)).toUpperCase();
+        Integer.toHexString(g) + Integer.toHexString(b) + Integer.toHexString(a)).toUpperCase();
+  }
+  
+  public static Color decodeStringToColor(String value) {
+	int r = Integer.parseInt(value.substring(1, 3));
+	int g = Integer.parseInt(value.substring(3, 5));
+	int b = Integer.parseInt(value.substring(5, 7));
+	int a = 255;
+	if(value.length() == 9) {
+		a = Integer.parseInt(value.substring(7, 9));
+	}
+	  
+	return new Color(r, g, b, a); 
   }
 
   /**
@@ -134,80 +148,37 @@ public class XMLTools {
     }
     return output;
   }
- 
-  
-  public static String encodeColorToString(Color value){
-	  int r = value.getRed();
-	  int g = value.getGreen();
-	  int b = value.getBlue();
-	  int a = value.getAlpha();
-	  return ("#" + Integer.toHexString(r) + Integer.toHexString(g) + 
-			  		Integer.toHexString(b) + Integer.toHexString(a)).toUpperCase();
-  }
-  
-  public static Color decodeStringToColor(String string){
-	  int r = Integer.parseInt(string.substring(1, 3), 16);
-	  int g = Integer.parseInt(string.substring(3, 5), 16);
-	  int b = Integer.parseInt(string.substring(5, 7), 16);
-	  int a = 255;
-	  if (string.length() == 9){
-		  a = Integer.parseInt(string.substring(7, 9), 16);
-	  }
-	  
-	  return new Color(r,g,b,a);
-  }
-  
-  public static String encodeColorDefintionToString(ColorDefinition cd){
-	  return cd.getId() + "," + encodeColorToString(cd.getValue());
-  }
-  
-  public static ColorDefinition decodeStringToColorDefintion(String value){
-	  String id = value.substring(0, value.indexOf(","));
-	  Color color = decodeStringToColor(value.substring(value.indexOf(",") + 1));
-	  return new ColorDefinition(id, color);
-  }
-
+   
   public static String encodeArrayDoubleToString(Double[] array) {
 	
 	  String s = "";
 	  
 	  for (int i = 0; i < array.length; i++) {
 		  if(!s.isEmpty()){
-			  s+=",";
+			  s+=", ";
 		  }
-		  s+= Double.toString(array[i]);
+		  s+= StringTools.toString(Locale.ENGLISH, array[i]);
 	  }
 	  return s;
   }
 
-  public static Double[] decodeStringToArrayDouble(String value, int length) {
+  public static Double[] decodeStringToArrayDouble(String value) {
 	
-	  Double[] array = new Double[length];
-	  String sub = "";
-	  
-	  for (int i = 0; i < length; i++) {
-		  int index = value.indexOf(",");
-		  if(index == -1) {
-			  sub = value.substring(0);
-		  }
-		  else{
-			  sub = value.substring(0, index);
-			  value = value.substring(index+1);
-		  }
-		  
-		  array[i] = StringTools.parseSBMLDouble(sub);
-	  }
-	  return array;
+	  String[] array = value.split(", ");
+	  Double[] temp = new Double[array.length];
+	  for (int i = 0; i < array.length; i++) {
+		  temp[i] = StringTools.parseSBMLDouble(array[i]);
+	  }	  
+	  return temp;
   }
 
   
   public static String encodeArrayShortToString(Short[] array) {
-		
 	  String s = "";
 	  
 	  for (int i = 0; i < array.length; i++) {
 		  if(!s.isEmpty()){
-			  s+=",";
+			  s+=", ";
 		  }
 		  s+= Short.toString(array[i]);
 	  }
@@ -216,25 +187,12 @@ public class XMLTools {
   
   public static Short[] decodeStringToArrayShort(String value) {
 	
-	  ArrayList<Short> list = new ArrayList<Short>();
-	  String sub = "";
-	  int index;
-	  
-	  while(!value.isEmpty()) {
-		  index = value.indexOf(",");
-		  if(index == -1) {
-			  list.add(Short.valueOf(value.substring(0)));
-			  return (Short[]) list.toArray();
-		  }
-		  else{
-			  sub = value.substring(0, index);
-			  value = value.substring(index+1);
-		  }
-		  
-		  //array[i] = StringTools.parseSBMLShort(sub);
-		  list.add(Short.valueOf(sub));
-	  }
-	  return (Short[]) list.toArray();
+	  String[] array = value.split(", ");
+	  Short[] temp = new Short[array.length];
+	  for (int i = 0; i < array.length; i++) {
+		  temp[i] = StringTools.parseSBMLShort(array[i]);
+	  }	  
+	  return temp;
   }
  
 }
