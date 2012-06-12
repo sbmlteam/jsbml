@@ -280,7 +280,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public void addExtension(String namespace, SBasePlugin sbase) {
 		this.extensions.put(namespace, sbase);
-		addNamespace(namespace);
 		firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbase);
 	}
 
