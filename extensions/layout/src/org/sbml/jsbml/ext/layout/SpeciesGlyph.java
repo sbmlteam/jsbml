@@ -87,14 +87,6 @@ public class SpeciesGlyph extends NamedSBaseGlyph {
 	public SpeciesGlyph clone() {
 		return new SpeciesGlyph(this);
 	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.NamedSBaseGlyph#getNamedSBaseInstance()
-	 */
-	@Override
-	public Species getNamedSBaseInstance() {
-		return (Species) super.getNamedSBaseInstance();
-	}
 	
 	/**
 	 * 

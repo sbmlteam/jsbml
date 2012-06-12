@@ -205,14 +205,6 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 		return listOfSpeciesReferencesGlyph;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.NamedSBaseGlyph#getNamedSBaseInstance()
-	 */
-	@Override
-	public Reaction getNamedSBaseInstance() {
-		return (Reaction) super.getNamedSBaseInstance();
-	}
-
 	/**
 	 * 
 	 * @return
@@ -331,7 +323,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 		Map<String, String> attributes = super.writeXMLAttributes();
 		
 		if (isSetReaction()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
+			attributes.put(LayoutConstants.shortLabel + ':'
 					+ LayoutConstants.reaction, getReaction());
 		}
 

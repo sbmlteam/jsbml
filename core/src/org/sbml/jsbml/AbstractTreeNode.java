@@ -61,6 +61,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    * @return the index of the child in the parent's list of children or -1 if no
    *         such child can be found.
    */
+  @SuppressWarnings("unchecked")
   public static int indexOf(TreeNode parent, TreeNode child) {
     if (child == null) {
       throw new IllegalArgumentException("Argument is null.");
@@ -249,7 +250,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    */
   //@Override
   public boolean containsUserObjectKey(Object key) {
-    return userObjects.containsKey(key);
+    return isSetUserObjects() ? userObjects.containsKey(key) : false;
   }	
 
   /* (non-Javadoc)

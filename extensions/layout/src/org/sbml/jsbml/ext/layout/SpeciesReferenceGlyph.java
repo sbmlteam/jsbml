@@ -179,14 +179,6 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 		return curve;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.NamedSBaseGlyph#getNamedSBaseInstance()
-	 */
-	@Override
-	public SimpleSpeciesReference getNamedSBaseInstance() {
-		return (SimpleSpeciesReference) super.getNamedSBaseInstance();
-	}
-
 	/**
 	 * 
 	 * @return
@@ -356,15 +348,15 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 		Map<String, String> attributes = super.writeXMLAttributes();
 		
 		if (isSetSpeciesGlyph()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
+			attributes.put(LayoutConstants.shortLabel + ':'
 					+ LayoutConstants.speciesGlyph, speciesGlyph);
 		}
 		if (isSetSpeciesReference()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
+			attributes.put(LayoutConstants.shortLabel + ':'
 					+ LayoutConstants.speciesReference, getSpeciesReference());
 		}
 		if (isSetSpeciesReferenceRole()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
+			attributes.put(LayoutConstants.shortLabel + ':'
 					+ LayoutConstants.role, role.toString().toLowerCase());
 		}
 
