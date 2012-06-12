@@ -171,7 +171,31 @@ public class SubModel {
 
         // SBMLDocument object for submodel
         SBMLDocument subModelSbmlDocument = new SBMLDocument(modelLevel, modelVersion);
-
+        SBMLDocument originalDocument = model.getSBMLDocument();
+        
+        if (originalDocument != null) {
+        	
+        	// Copying namespaces
+        	if (originalDocument.getSBMLDocumentNamespaces() != null && originalDocument.getSBMLDocumentNamespaces().size() > 0)
+        	{
+        		for (String prefix : originalDocument.getSBMLDocumentNamespaces().keySet()) {
+        			String namespaceURI = originalDocument.getSBMLDocumentNamespaces().get(prefix);
+        			
+        			subModelSbmlDocument.addNamespace(prefix, null, namespaceURI);
+        		}
+        	}
+        	
+        	// Copying attributes
+        	if (originalDocument.getSBMLDocumentAttributes() != null && originalDocument.getSBMLDocumentAttributes().size() > 0)
+        	{
+        		for (String attributeName : originalDocument.getSBMLDocumentAttributes().keySet()) {
+        			String attributeValue = originalDocument.getSBMLDocumentAttributes().get(attributeName);
+        			
+        			subModelSbmlDocument.readAttribute(attributeName, null, attributeValue);
+        		}
+        	}
+        }
+		
         // creating submodel object
         Model subModel = subModelSbmlDocument.createModel(subModelId);
         subModel.setMetaId(subModelId);
@@ -196,22 +220,6 @@ public class SubModel {
 
         // TODO : the added rules or events can contain some species, compartment or speciesReferences (for L3) that could
         // not be present in the list of included elements !!!
-
-        //
-        // annotations
-        //
-
-        // TODO : set annotations
-        
-//        setAnnotations(subModel,
-//                null,
-//                null,
-//                new ArrayList(),
-//                DatetimeProcessor.instance.convertToGMT(current.getTime()),
-//                DatetimeProcessor.instance.convertToGMT(current.getTime()),
-//                null,
-//                Publication.UNPUBL);
-
 
         //
         // Reactions.
@@ -288,6 +296,7 @@ public class SubModel {
                   subModel.addRule(modelRule.clone());
                   if (modelRule.getMath() != null) {
                     getRelatedFunctionsId(relatedFunctionsIdSet, allFunctionsIdSet, modelRule.getMath());
+                    // TODO : analyze the math to add missing Species, ...
                   }
                 }
               }
@@ -345,9 +354,6 @@ public class SubModel {
         //
         // FunctionDefinition
         //
-        // TODO : if a function need an other function that in turn need an other function, the generated model will be invalid
-        // with the current code
-
         for (String functionDefinitionId : relatedFunctionsIdSet) {
             FunctionDefinition func = model.getFunctionDefinition(functionDefinitionId);
             getRelatedFunctionsId(relatedFunctionsIdSet, allFunctionsIdSet, func.getMath());
@@ -631,7 +637,7 @@ public class SubModel {
         	}
         }
         
-        // TODO : check the math of rule to check if we need to add any more species or compartment
+        // TODO : check the math of rule to check if we need to add any more species, compartment or other
         
         // convert to array
         if ((selectedRules == null) || selectedRules.isEmpty()) {
@@ -661,7 +667,7 @@ public class SubModel {
             Model model,
             String[] eventsIds,
             String[] compartmentsIds,
-            String[] speciesIds) 
+            String[] speciesIds)
     {
     	Logger debugLogger = Logger.getLogger(SubModel.class);
     	debugLogger.debug("getRelatedEvents ");
@@ -685,25 +691,24 @@ public class SubModel {
         	
         	for (EventAssignment eventAssigment : event.getListOfEventAssignments()) {
         		
-        		String variableId = null; eventAssigment.getVariable();
+        		String variableId = eventAssigment.getVariable();
         		
         		for (String speciesId : speciesIds) {
-        			if (speciesId.equals(variableId)) {
+        			if (speciesId.equals(variableId) && !selectedEvents.contains(event.getMetaId())) {
         				selectedEvents.add(event.getMetaId());
         			}
         		}
         		for (String compartmentId : compartmentsIds) {
-        			if (compartmentId.equals(variableId)) {
+        			if (compartmentId.equals(variableId) && !selectedEvents.contains(event.getMetaId())) {
         				selectedEvents.add(event.getMetaId());
         			}
         		}
         		for (Parameter parameter : model.getListOfParameters()) {
-        			if (parameter.getId().equals(variableId)) {
+        			if (parameter.getId().equals(variableId) && !selectedEvents.contains(event.getMetaId())) {
         				selectedEvents.add(event.getMetaId());
         			}
         		}
         	}
-
         }
         
         // convert to array
@@ -755,7 +760,7 @@ public class SubModel {
       debugLogger.debug("getRelatedReactions : selected speciesIds : " + Arrays.toString(speciesIds) + "\n");
 
       // get all related reactions
-      List<String> relatedReactsList = new ArrayList<String>(reactsIds.length);
+      List<String> relatedReactsList = new ArrayList<String>();
 
       if ((reactsIds != null) || (speciesIds != null)) {
 
@@ -847,6 +852,15 @@ public class SubModel {
      */
     private static void getRelatedFunctions(Set<String> relatedFunctionsSet, Set<String> allFunctionsIdSet, ASTNode mathNode) {
 
+    	Logger debugLogger = Logger.getLogger(SubModel.class);
+
+        debugLogger.debug("getRelatedFunctions ");
+        debugLogger.debug("getRelatedFunctions : math = " + mathNode);
+        
+    	if (mathNode == null) {
+    		return;
+    	}
+    	
       if ((mathNode.isName() || mathNode.isFunction())
           && allFunctionsIdSet.contains(mathNode.getName().trim())
           && !relatedFunctionsSet.contains(mathNode.getName().trim())) {
