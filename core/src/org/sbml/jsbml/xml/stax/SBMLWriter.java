@@ -290,7 +290,7 @@ public class SBMLWriter {
 
 		if (object instanceof SBase) {
 			SBase sbase = (SBase) object;
-			packageNamespaces = sbase.getNamespaces();
+			packageNamespaces = sbase.getExtensionPackages().keySet();
 		} else if (object instanceof Annotation) {
 			Annotation annotation = (Annotation) object;
 			packageNamespaces = annotation.getNamespaces();
