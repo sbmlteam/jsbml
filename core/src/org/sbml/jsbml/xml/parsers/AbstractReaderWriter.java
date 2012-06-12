@@ -175,6 +175,9 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 			listOfElementsToWrite.add(children.nextElement());
 		}
 
+		logger.debug("getListOfSBMLElementsToWrite :  nb children = " + listOfElementsToWrite.size());
+		logger.debug("getListOfSBMLElementsToWrite :  children = " + listOfElementsToWrite);
+
 		if (listOfElementsToWrite.isEmpty()) {
 			listOfElementsToWrite = null;
 		} 
@@ -222,6 +225,14 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
+
+			logger.debug("writeElement : sbase.namespaces size = " + sbase.getNamespaces().size());
+			logger.debug("writeElement : sbase.namespaces = " + sbase.getNamespaces());
+			
+		      if (!sbase.getNamespaces().contains(getNamespaceURI())) {
+		    	  logger.debug("writeElement : rejected element");
+		    	  return;
+		      }
 
 			if (!xmlObject.isSetName()) {
 				if (sbase instanceof ListOf<?>) {

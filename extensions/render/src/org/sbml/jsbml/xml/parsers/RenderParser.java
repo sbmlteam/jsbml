@@ -58,66 +58,6 @@ public class RenderParser extends AbstractReaderWriter {
    */
   private Logger logger = Logger.getLogger(RenderParser.class);
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getListOfSBMLElementsToWrite(java.lang.Object)
-   */
-  @Override
-  public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
-
-    if (logger.isDebugEnabled()) {
-      logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
-    }
-    
-    ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
-
-    if (sbase instanceof SBMLDocument) {
-      // nothing to do
-      // TODO : the 'required' attribute is written even if there is no plugin class for the SBMLDocument, so I am not totally sure how this is done.
-    } 
-    else if (sbase instanceof ListOf<?>) {
-      // if the sbase is a ListOf, we could have a RenderModelPlugin attached to it
-      ListOf<?> listOf = (ListOf<?>)sbase;
-      if (listOf.getSBaseListType() == Type.other) {
-        
-        SBasePlugin plugin = listOf.getExtension(RenderConstants.namespaceURI);
-        
-        if (plugin != null) {
-          RenderModelPlugin rmp = (RenderModelPlugin) plugin;
-
-          // then add its extension children to the list of elements to write
-          Enumeration<TreeNode> children = rmp.children();
-          while (children.hasMoreElements()) {
-            listOfElementsToWrite.add(children.nextElement());
-          }           
-        }
-      }
-    } 
-    else if (sbase instanceof Layout) {
-      // if the sbase is a Layout get its extension
-      RenderLayoutPlugin rlp = (RenderLayoutPlugin)((Layout)sbase).getExtension(RenderConstants.namespaceURI);
-      
-      // then add its extension children to the list of elements to write
-      Enumeration<TreeNode> children = rlp.children();
-      while (children.hasMoreElements()) {
-        listOfElementsToWrite.add(children.nextElement());
-      }           
-    } 
-    else if (sbase instanceof TreeNode) {
-      Enumeration<TreeNode> children = ((TreeNode) sbase).children();
-      
-      while (children.hasMoreElements()) {
-        listOfElementsToWrite.add(children.nextElement());
-      }
-    }
-    
-    if (listOfElementsToWrite.isEmpty()) {
-      listOfElementsToWrite = null;
-    } else if (logger.isDebugEnabled()) {
-      logger.debug("getListOfSBMLElementsToWrite size = " + listOfElementsToWrite.size());
-    }
-
-    return listOfElementsToWrite;
-  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processStartElement(java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
