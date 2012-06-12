@@ -410,7 +410,7 @@ public class StringTools {
 	 * @return the {@link String} as an short. If the {@link String} is not a
 	 *         valid short number, 0 is returned.
 	 */
-	public static int parseSBMLShort(String value) {
+	public static short parseSBMLShort(String value) {
 		short v = 0;
 		try {
 			v = Short.parseShort(value.trim());

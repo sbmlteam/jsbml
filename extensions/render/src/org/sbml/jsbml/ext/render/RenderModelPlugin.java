@@ -50,7 +50,7 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
    * Creates an RenderModelPlugin instance
    */
   public RenderModelPlugin(ListOf<Layout> listOfLayouts) {
-    super();
+    super(listOfLayouts);
     initDefaults();
   }
 

@@ -923,7 +923,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		if (listType.equals(Type.other) && size() > 0) {
 			String className = get(0).getClass().getSimpleName();
 			
-			return "listOf" + className + (className.endsWith("s") ? "" : "s");
+      return "listOf" + className
+        + ((className.endsWith("s") || className.toLowerCase().endsWith(
+          "information")) ? "" : "s");
 		}
 		
 		return listType.toString();

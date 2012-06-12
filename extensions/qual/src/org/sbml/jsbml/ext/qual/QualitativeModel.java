@@ -62,7 +62,6 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	  super(model);
   }
 
-
   /**
    * Adds a {@link QualitativeSpecies} to the model.
    * 

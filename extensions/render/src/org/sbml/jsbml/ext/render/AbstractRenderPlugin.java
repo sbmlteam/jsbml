@@ -43,13 +43,14 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	private Short versionMinor;
 	private GlobalRenderInformation renderInformation;
 
-	/**
-	 * Creates an AbstractRenderPlugin instance
-	 */
-	public AbstractRenderPlugin() {
-		super();
-		initDefaults();
-	}
+
+	 /**
+   * Creates an AbstractRenderPlugin instance
+   */
+  public AbstractRenderPlugin(SBase extendedElement) {
+    super(extendedElement);
+    initDefaults();
+  }
 
 	/**
 	 * Creates a AbstractRenderPlugin instance with a level and version.
