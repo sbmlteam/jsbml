@@ -700,6 +700,15 @@ public class SBO {
 		return 534;
 	}
 
+  /**
+   * Physical compartment.
+   * 
+   * @return
+   */
+  public static int getCompartment() {
+    return 290;
+  }
+	
 	/**
 	 * 
 	 * @return

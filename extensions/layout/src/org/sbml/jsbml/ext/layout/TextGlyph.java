@@ -285,15 +285,15 @@ public class TextGlyph extends NamedSBaseGlyph {
 		Map<String, String> attributes = super.writeXMLAttributes();
 		
 		if (isSetGraphicalObject()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
+			attributes.put(LayoutConstants.shortLabel + ':'
 					+ LayoutConstants.graphicalObject, graphicalObject);
 		}
 		if (isSetText()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
+			attributes.put(LayoutConstants.shortLabel + ':'
 					+ LayoutConstants.text, text);
 		}
 		if (isSetOriginOfText()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
+			attributes.put(LayoutConstants.shortLabel + ':'
 					+ LayoutConstants.originOfText, getOriginOfText());
 		}
 

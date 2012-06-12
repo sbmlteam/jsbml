@@ -479,6 +479,14 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  return null;
   }
 	
+  /**
+   * 
+   * @return
+   */
+  public int getAdditionalGraphicalObjectCount() {
+    return isSetListOfAdditionalGraphicalObjects() ? listOfAdditionalGraphicalObjects.size() : 0;
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
    */
@@ -531,7 +539,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
 			  index, +((int) Math.min(pos, 0))));
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildCount()
    */
@@ -558,7 +566,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  return count;
   }
-
+	
   /**
    * 
    * @param i
@@ -567,7 +575,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public CompartmentGlyph getCompartmentGlyph(int i) {
     return getListOfCompartmentGlyphs().get(i);
   }
-	
+  
   /**
    * 
    * @param id
@@ -584,10 +592,19 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return
    */
+  public int getCompartmentGlyphCount() {
+    return isSetListOfCompartmentGlyphs() ? listOfCompartmentGlyphs.size() : 0;
+  }
+  
+  /**
+   * 
+   * @return
+   */
   public Dimensions getDimensions() {
 	  return dimensions;
   }
-  
+ 
+
   /**
    * 
    * @return
@@ -599,7 +616,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     }
 	  return listOfAdditionalGraphicalObjects;
   }
-  
+	
   /**
    * 
    * @return
@@ -611,7 +628,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  return listOfCompartmentGlyphs;
   }
- 
 
   /**
    * 
@@ -624,7 +640,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  return listOfReactionGlyphs;
   }
-	
+
   /**
    * 
    * @return
@@ -669,7 +685,15 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  return null;
   }
-
+  
+  /**
+   * 
+   * @return
+   */
+  public int getReactionGlyphCount() {
+    return isSetListOfReactionGlyphs() ? listOfReactionGlyphs.size() : 0;
+  }
+  
   /**
    * 
    * @param i
@@ -678,7 +702,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public SpeciesGlyph getSpeciesGlyph(int i) {
     return getListOfSpeciesGlyphs().get(i);
   }
-
+  
   /**
    * 
    * @param id
@@ -690,7 +714,15 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  return null;
   }
-  
+	
+  /**
+   * 
+   * @return
+   */
+  public int getSpeciesGlyphCount() {
+    return isSetListOfSpeciesGlyphs() ? listOfSpeciesGlyphs.size() : 0;
+  }
+
   /**
    * 
    * @param i
@@ -699,7 +731,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public TextGlyph getTextGlyph(int i) {
     return getListOfTextGlyphs().get(i);
   }
-  
+	
   /**
    * 
    * @param id
@@ -711,14 +743,22 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return null;
   }
-  
+
+  /**
+   * 
+   * @return
+   */
+  public int getTextGlyphCount() {
+    return isSetListOfTextGlyphs() ? listOfTextGlyphs.size() : 0;
+  }
+	
   /**
    * 
    */
   private void initDefault() {
     addNamespace(LayoutConstants.namespaceURI);
   }
-	
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
@@ -726,21 +766,21 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  // See "Including Layout Information in SBML Files" Version 2.2, p. 6
     return true;
   }
-
+  
   /**
    * @return
    */
   public boolean isSetAddGraphicalObjects() {
 	  return (listOfAdditionalGraphicalObjects != null) && (listOfAdditionalGraphicalObjects.size() > 0);
   }
-	
+
   /**
    * @return
    */
   public boolean isSetDimensions() {
 	  return dimensions != null;
   }
-
+  
   /**
    * @return
    */
@@ -769,14 +809,14 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetListOfSpeciesGlyphs() {
 	  return (listOfSpeciesGlyphs != null) && (listOfSpeciesGlyphs.size() > 0);
   }
-
+	
   /**
    * @return
    */
   public boolean isSetListOfTextGlyphs() {
 	  return (listOfTextGlyphs != null) && (listOfTextGlyphs.size() > 0);
   }
-  
+	
   /**
    * @param attributeName
    * @param prefix
@@ -814,7 +854,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  this.dimensions = dimensions;
 	  registerChild(this.dimensions);
   }
-  
+
   /**
    * 
    * @param AdditionalGraphicalObjects
@@ -827,7 +867,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 		  registerChild(this.listOfAdditionalGraphicalObjects);
 	  }
   }
-	
+  
   /**
    * 
    * @param compartmentGlyphs
@@ -840,7 +880,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  registerChild(this.listOfCompartmentGlyphs);
   }
-	
+  
   /**
    * 
    * @param reactionGlyphs
@@ -853,7 +893,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 		  registerChild(this.listOfReactionGlyphs);
 	  }
   }
-	
+  
   /**
    * 
    * @param speciesGlyphs
@@ -870,7 +910,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 		  registerChild(this.listOfSpeciesGlyphs);
 	  }
   }
-
+  
   /**
    * 
    * @param textGlyphs
@@ -883,7 +923,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 		  registerChild(this.listOfTextGlyphs);
 	  }
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#toString()
    */
@@ -891,7 +931,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public String toString() {
 	  return getElementName();
   }
-  
+
   /**
    * Removes the {@link #listOfAdditionalGraphicalObjects} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
@@ -925,7 +965,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  return false;
   }
-  
+
   /**
    * Removes the {@link #listOfReactionGlyphs} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
@@ -959,7 +999,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  return false;
   }
-  
+
   /**
    * Removes the {@link #listOfTextGlyphs} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
