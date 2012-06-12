@@ -45,7 +45,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
    * Creates an RenderLayoutPlugin instance
    */
   public RenderLayoutPlugin(Layout layout) {
-    super();
+    super(layout);
     initDefaults();
   }
 
