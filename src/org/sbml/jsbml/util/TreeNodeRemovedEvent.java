@@ -39,7 +39,7 @@ import javax.swing.tree.TreeNode;
  * {@link TreeNodeChangeListener} wants to, e.g., undo this change,
  * it is necessary to identify the previous position of the node within the
  * tree. That's why this class has two important
- * methods, namely {@link #getSource()} and {@link #getPreviosParent()}.
+ * methods, namely {@link #getSource()} and {@link #getPreviousParent()}.
  * 
  * @author Andreas Dr&auml;ger
  * @version $Rev$
@@ -81,7 +81,7 @@ public class TreeNodeRemovedEvent extends EventObject {
    * @param treeNodeRemovedEvent
    */
   public TreeNodeRemovedEvent(TreeNodeRemovedEvent treeNodeRemovedEvent) {
-    this(treeNodeRemovedEvent.getSource(), treeNodeRemovedEvent.getPreviosParent());
+    this(treeNodeRemovedEvent.getSource(), treeNodeRemovedEvent.getPreviousParent());
   }
 
   /* (non-Javadoc)
@@ -99,7 +99,7 @@ public class TreeNodeRemovedEvent extends EventObject {
    * @return the previosParent
    * @see #getSource()
    */
-  public TreeNode getPreviosParent() {
+  public TreeNode getPreviousParent() {
     return previosParent;
   }
 
