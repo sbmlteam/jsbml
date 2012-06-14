@@ -89,7 +89,12 @@ public class CheckConsistencyTests {
 		
 		int nbErrors = doc.checkConsistency();
 
-		System.out.println("Found " + nbErrors + " errors on Biomodels 025 with the unit checking turned on.");
+		int numRealErrors = doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR); 
+	    if (numRealErrors > 0) {
+	    	System.out.println("# Found " + numRealErrors + " VALIDATION ERRORS !!!");
+	    }
+	    
+		System.out.println("Found " + nbErrors + " errors/warnings on Biomodels 025 with the unit checking turned on.");
 		assertTrue(nbErrors > 0);
 		
 		assertTrue(doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR) == 0);
