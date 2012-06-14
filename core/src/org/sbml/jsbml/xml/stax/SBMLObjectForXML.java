@@ -185,8 +185,7 @@ public class SBMLObjectForXML {
 		this.prefix = prefix;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

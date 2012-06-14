@@ -240,8 +240,8 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 					
 					if (listOf.size() > 0) {
 						String listOfName = "listOf" + listOf.get(0).getClass().getSimpleName();
-						if (!listOfName.endsWith("s")) {
-							listOfName += "s";
+						if (!listOfName.endsWith("s") && !listOfName.toLowerCase().endsWith("information")) {
+							listOfName += 's';
 						}
 						xmlObject.setName(listOfName);
 					}

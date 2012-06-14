@@ -51,7 +51,7 @@ public class RenderWriteTest {
     ExtendedLayoutModel elm = new ExtendedLayoutModel(m);
     m.addExtension(LayoutConstants.getNamespaceURI(m.getLevel(), m.getVersion()), elm);
     Layout l1 = elm.createLayout("l1");
-    
+    l1.createCompartmentGlyph("test");
     RenderLayoutPlugin rlp = new RenderLayoutPlugin(l1);
     rlp.createLocalRenderInformation("info1");
     l1.addExtension(RenderConstants.namespaceURI, rlp);
