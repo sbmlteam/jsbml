@@ -333,8 +333,9 @@ public class History extends AnnotationElement {
 	 *         </ul>
 	 */
 	public boolean isEmpty() {
-		return !isSetCreatedDate() && (getCreatorCount() == 0)
-				&& (getModifiedDateCount() == 0) && !isSetModifiedDate();
+		return !isSetCreatedDate() && !isSetListOfCreators()
+				&& !isSetListOfModification() && !isSetModifiedDate();
+		
 	}
 
 	/**
@@ -353,7 +354,7 @@ public class History extends AnnotationElement {
 	 * @return
 	 */
 	public boolean isSetListOfCreators() {
-		return listOfCreators != null;
+		return listOfCreators != null && listOfCreators.size() > 0;
 	}
 
 	/**
@@ -361,7 +362,7 @@ public class History extends AnnotationElement {
 	 * @return
 	 */
 	public boolean isSetListOfModification() {
-		return listOfModification != null;
+		return listOfModification != null && listOfModification.size() > 0;
 	}
 
 	/**
@@ -469,6 +470,22 @@ public class History extends AnnotationElement {
 			Date oldValue = this.creation;
 			creation = null;
 			firePropertyChange(TreeNodeChangeEvent.created, oldValue, creation);
+		}
+	}
+
+	/**
+	 * Sets the created of this {@link History} to null.
+	 */
+	public void unsetListOfModifiedDates() {
+		if(this.modified != null){
+			modified = null;
+		}
+		if (listOfModification != null) {			
+			for (Date date : listOfModification) {
+				firePropertyChange(TreeNodeChangeEvent.modified, date, null);
+			}
+			
+			listOfModification = null;
 		}
 	}
 

@@ -670,11 +670,11 @@ public class Annotation extends AnnotationElement {
 	 */
 	public boolean isSetAnnotation() {
 		if ((getNonRDFannotation() == null) && getListOfCVTerms().isEmpty()
-				&& (!isSetHistory())) 
+				&& getHistory().isEmpty()) 
 		{
 			return false;
 			
-		} else if ((getNonRDFannotation() == null) && (!isSetHistory())
+		} else if ((getNonRDFannotation() == null) && getHistory().isEmpty()
 				&& !getListOfCVTerms().isEmpty()) 
 		{
 
@@ -693,7 +693,7 @@ public class Annotation extends AnnotationElement {
 	 * @return true if the {@link History} is initialised
 	 */
 	public boolean isSetHistory() {
-		return history != null;
+		return history != null && !history.isEmpty();
 	}
 
 	
