@@ -566,7 +566,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 	//@Override
 	public void nodeRemoved(TreeNodeRemovedEvent evt) {
 	  TreeNode node = evt.getSource();
-	  TreeNode parent = evt.getPreviosParent();
+	  TreeNode parent = evt.getPreviousParent();
 		org.sbml.libsbml.Model libModel = libDoc.getModel();
 		if (node instanceof AbstractSBase) {
 			if (node instanceof org.sbml.jsbml.AbstractNamedSBase) {
@@ -632,7 +632,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				// make recursion and remove all elements in the list
 				for(Object o : (ListOf<?>)node ) {
 					TreeNode newNode = new DefaultMutableTreeNode(o);
-					nodeRemoved(newNode);
+					nodeRemoved(new TreeNodeRemovedEvent(newNode, node));
 				}
 			} else if (node instanceof AbstractMathContainer) {
 				if (node instanceof FunctionDefinition) {
@@ -650,7 +650,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				}
 				else if (node instanceof EventAssignment) {
 					// search corresponding event and remove the EventAssignment indicated by the variable
-					Event event = (Event) (((ListOf<EventAssignment>) parent).getParentSBMLObject();
+					Event event = (Event) (((ListOf<EventAssignment>) parent).getParentSBMLObject());
 					libModel.getEvent(event.getId()).removeEventAssignment(((EventAssignment) node).getVariable());
 				}
 				else if (node instanceof StoichiometryMath) {
