@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,6 +73,7 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
@@ -121,7 +123,7 @@ public class SBMLWriter {
 
 		if (args.length < 1) {
 			System.out.println(
-			  "Usage : java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
+			  "Usage: java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
 			System.exit(0);
 		}
 
@@ -167,8 +169,8 @@ public class SBMLWriter {
 		} else {
 			System.out.println("It took " + nbSecondes + " secondes.");			
 		}
-		System.out.println("Reading : " + nbSecondesRead + " secondes.");
-		System.out.println("Writing : " + nbSecondesWrite + " secondes.");
+		System.out.println("Reading: " + nbSecondesRead + " secondes.");
+		System.out.println("Writing: " + nbSecondesWrite + " secondes.");
 	}
 
 	/**
@@ -286,7 +288,7 @@ public class SBMLWriter {
 		
 		Set<String> packageNamespaces = null;
 
-		// logger.debug("getInitializedParsers : name space, object = " + name space + ", " + object);
+		// logger.debug("getInitializedParsers: name space, object = " + name space + ", " + object);
 
 		if (object instanceof SBase) {
 			SBase sbase = (SBase) object;
@@ -295,7 +297,7 @@ public class SBMLWriter {
 			Annotation annotation = (Annotation) object;
 			packageNamespaces = annotation.getNamespaces();
 		} else {
-			logger.warn("getInitializedParsers : I don't know what to do with " + object);
+			logger.warn("getInitializedParsers: I don't know what to do with " + object);
 		}
 		
 		ArrayList<WritingParser> sbmlParsers = new ArrayList<WritingParser>();
@@ -380,8 +382,8 @@ public class SBMLWriter {
 	 */
 	public void setIndentationChar(char indentSymbol) {
 		if ((indentSymbol != ' ') && (indentSymbol != '\t')) {
-			throw new IllegalArgumentException(String.format(
-									"Invalid argument '%s'. Only the blank symbols '\\t' and ' ' are allowed for indentation.",
+			throw new IllegalArgumentException(MessageFormat.format(
+									"Invalid argument \"{0}\". Only the blank symbols '\\t' and ' ' are allowed for indentation.",
 									indentSymbol));
 		}
 		this.indentChar = indentSymbol;
@@ -401,8 +403,8 @@ public class SBMLWriter {
 	 */
 	public void setIndentationCount(short indentCount) {
 		if (indentCount < 0) {
-			throw new IllegalArgumentException(String.format(
-					"Indent count must be non-negative. Invalid argument %d.",
+			throw new IllegalArgumentException(MessageFormat.format(
+					"Indent count must be non-negative. Invalid argument {0,number}.",
 					indentCount));
 		}
 		this.indentCount = indentCount;
@@ -447,9 +449,9 @@ public class SBMLWriter {
 	 * Writes the SBMLDocument in a SBML file.
 	 * 
 	 * @param sbmlDocument
-	 *            : the SBMLDocument to write
+	 *          the SBMLDocument to write
 	 * @param stream
-	 *            : a stream where to write the content of the model to.
+	 *          a stream where to write the content of the model to.
 	 * @throws XMLStreamException
 	 * @throws SBMLException
 	 * @throws IOException
@@ -513,11 +515,10 @@ public class SBMLWriter {
 		 * which version of JSBML was used for this purpose.
 		 */
 		if ((programName != null) && (programName.length() > 0)) {
-			String date = String.format("%1$tY-%1$tm-%1$td %1$tR", Calendar
-					.getInstance().getTime());
-			String msg = " Created by %s version %s on %s with jsbml version %s. ";
+			String date = String.format("%1$tY-%1$tm-%1$td %1$tR", Calendar.getInstance().getTime());
+			String msg = " Created by {0} version {1} on {2} with JSBML version {3}. ";
 			outputDocument.addComment(
-			  String.format(msg, programName, (programVersion != null)
+			  MessageFormat.format(msg, programName, (programVersion != null)
 							&& (programVersion.length() > 0) ? programVersion
 							: "?", date, JSBML.getJSBMLDottedVersion()));
 			outputDocument.addCharacters("\n");
@@ -542,14 +543,14 @@ public class SBMLWriter {
 			Map.Entry<String, String> entry = it.next();
 			if (!entry.getKey().equals("xmlns")) {
 
-				logger.debug(" SBML name spaces : " + entry.getKey() + " = "
+				logger.debug(" SBML name spaces: " + entry.getKey() + " = "
 						+ entry.getValue());
 
 				String namespacePrefix = entry.getKey().substring(
 						entry.getKey().indexOf(":") + 1);
 				streamWriter.setPrefix(namespacePrefix, entry.getValue());
 
-				logger.debug(" SBML namespaces : " + namespacePrefix + " = "
+				logger.debug(" SBML namespaces: " + namespacePrefix + " = "
 						+ entry.getValue());
 
 			}
@@ -582,9 +583,9 @@ public class SBMLWriter {
 	 * Writes the XML representation of an {@link SBMLDocument} in a SBML file.
 	 * 
 	 * @param sbmlDocument
-	 *            : the SBMLDocument to write
+	 *          the SBMLDocument to write
 	 * @param fileName
-	 *            : the name of the file where to write the {@link SBMLDocument}
+	 *          the name of the file where to write the {@link SBMLDocument}
 	 *            
 	 * 
 	 * @throws XMLStreamException
@@ -666,13 +667,13 @@ public class SBMLWriter {
 	 * Writes the annotation of this sbase component.
 	 * 
 	 * @param sbase
-	 *            : the sbase component
+	 *          the sbase component
 	 * @param element
-	 *            : the matching SMOutputElement
+	 *          the matching SMOutputElement
 	 * @param writer
-	 *            : the XMLStreamWriter2
+	 *          the XMLStreamWriter2
 	 * @param sbmlNamespace
-	 *            : the SBML namespace.
+	 *          the SBML namespace.
 	 * @param indent
 	 *            the number of indent white spaces of this annotation.
 	 * @throws XMLStreamException
@@ -737,7 +738,7 @@ public class SBMLWriter {
 				// that is not  yet linked to a SBMLDocument.
 				allNamespacesDefined = false;
 			}
-			// TODO : to be able to write broken annotations where the namespace declaration is missing
+			// TODO: to be able to write broken annotations where the namespace declaration is missing
 			// we need to add dummy namespace here !! Or remove the namespace awareness on the writer !!
 				
 			StringTools.append(annotationBeginning, Character.valueOf('>'),
@@ -758,7 +759,7 @@ public class SBMLWriter {
 				domConversionDone = true;
 			} catch (SAXException e) {
 				e.printStackTrace();
-				// TODO : log error or send SBMLException
+				// TODO: log error or send SBMLException
 
 				logger.warn("Cannot parse the following XML\n@" + annotationString + "@");
 				logger.warn("NonRDFannotation =\n@" + annotation.getNonRDFannotation() + "@");
@@ -773,7 +774,7 @@ public class SBMLWriter {
 						domConversionDone = true;
 					} catch (SAXException e2) {
 						e.printStackTrace();
-						// TODO : log error or send SBMLException
+						// TODO: log error or send SBMLException
 					}
 				}
 			} finally {
@@ -805,8 +806,8 @@ public class SBMLWriter {
 				 * or the SBase is derived from a different SBase implementation, it 
 				 * could fail.
 				 */
-				logger.info(String.format(
-						"Could not write RDF annotation of %s due to missing metaid.",
+				logger.info(MessageFormat.format(
+						"Could not write RDF annotation of {0} due to missing metaid.",
 						sbase.getElementName()));
 			}
 		}
@@ -819,11 +820,11 @@ public class SBMLWriter {
 	 * Writes the listOfCVTerms.
 	 * 
 	 * @param listOfCVTerms
-	 *            : the list of CVTerms to write
+	 *          the list of CVTerms to write
 	 * @param rdfNamespaces
-	 *            : the RDF name spaces and prefixes
+	 *          the RDF name spaces and prefixes
 	 * @param writer
-	 *            : the XMLStreamWriter2
+	 *          the XMLStreamWriter2
 	 * @param indent
 	 * @throws XMLStreamException
 	 */
@@ -902,11 +903,11 @@ public class SBMLWriter {
 	 * Writes the history represented by this History instance.
 	 * 
 	 * @param history
-	 *            : the history to write
+	 *          the history to write
 	 * @param rdfNamespaces
-	 *            : contains the RDF namespaces and their prefixes.
+	 *          contains the RDF namespaces and their prefixes.
 	 * @param writer
-	 *            : the XMLStreamWriter2
+	 *          the XMLStreamWriter2
 	 * @param indent
 	 * @throws XMLStreamException
 	 */
@@ -1039,7 +1040,7 @@ public class SBMLWriter {
 
 		// Writing the current modified dates.
 		if (history.isSetModifiedDate()) {
-			for (int i = 0; i < history.getNumModifiedDates(); i++) {
+			for (int i = 0; i < history.getModifiedDateCount(); i++) {
 				writeW3CDate(writer, indent,
 						DateParser.getIsoDateNoMillis(history
 								.getModifiedDate(i)), "modified", dctermPrefix,
@@ -1057,11 +1058,11 @@ public class SBMLWriter {
 	 * component.
 	 * 
 	 * @param m
-	 *            : the sbase component
+	 *          the sbase component
 	 * @param element
-	 *            : the matching SMOutputElement
+	 *          the matching SMOutputElement
 	 * @param writer
-	 *            : the XMLStreamWriter
+	 *          the XMLStreamWriter
 	 * @param indent
 	 * @throws XMLStreamException
 	 * 
@@ -1083,7 +1084,7 @@ public class SBMLWriter {
 					writer, createIndentationString(indent + indentCount));
 			boolean isSBMLNamespaceNeeded = compiler.isSBMLNamespaceNeeded(m.getMath());
 
-			// TODO : add all other namespaces !!
+			// TODO: add all other namespaces !!
 
 			if (isSBMLNamespaceNeeded) {
 				// writing the SBML namespace
@@ -1096,7 +1097,7 @@ public class SBMLWriter {
 					sbmlNamespace = doc.getSBMLDocumentNamespaces().get("xmlns");
 					
 					if (sbmlNamespace == null) {
-						logger.warn("writeMathML : the SBML namespace of this SBMLDocument" +
+						logger.warn("writeMathML: the SBML namespace of this SBMLDocument" +
 								" could not be found, using the default namespace (" +
 								SBMLDocument.URI_NAMESPACE_L3V1Core + ") instead.");
 						sbmlNamespace = SBMLDocument.URI_NAMESPACE_L3V1Core;
@@ -1120,13 +1121,13 @@ public class SBMLWriter {
 	 * Writes the message of this Constraint.
 	 * 
 	 * @param sbase
-	 *            : the Constraint component
+	 *          the Constraint component
 	 * @param element
-	 *            : the matching SMOUtputElement
+	 *          the matching SMOUtputElement
 	 * @param writer
-	 *            : the XMLStreamWriter2
+	 *          the XMLStreamWriter2
 	 * @param sbmlNamespace
-	 *            : the SBML namespace
+	 *          the SBML namespace
 	 * @throws XMLStreamException
 	 */
 	private void writeMessage(Constraint sbase, SMOutputElement element,
@@ -1158,13 +1159,13 @@ public class SBMLWriter {
 	 * Writes the notes of this sbase component.
 	 * 
 	 * @param sbase
-	 *            : the SBase component
+	 *          the SBase component
 	 * @param element
-	 *            : the matching SMOUtputElement
+	 *          the matching SMOUtputElement
 	 * @param writer
-	 *            : the XMLStreamWriter2
+	 *          the XMLStreamWriter2
 	 * @param sbmlNamespace
-	 *            : the SBML namespace
+	 *          the SBML namespace
 	 * @param indent
 	 * @throws XMLStreamException
 	 */
@@ -1181,11 +1182,11 @@ public class SBMLWriter {
 	 * Writes the RDF annotation contained in 'annotation'.
 	 * 
 	 * @param annotation
-	 *            : the annotation to write
+	 *          the annotation to write
 	 * @param annotationElement
-	 *            : the matching SMOutputElement
+	 *          the matching SMOutputElement
 	 * @param writer
-	 *            : the XMLStreamWriter.
+	 *          the XMLStreamWriter.
 	 * @param indent
 	 * @throws XMLStreamException
 	 */
@@ -1217,7 +1218,7 @@ public class SBMLWriter {
 		}
 
 		// Checking if all the necessary namespaces are defined 
-		// TODO : In fact, we could remove the rdfNamespaces map ?
+		// TODO: In fact, we could remove the rdfNamespaces map ?
 
 		if (rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS) == null 
 				|| rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS).equals("xmlns")) 
@@ -1286,21 +1287,21 @@ public class SBMLWriter {
 		rdfElement.addCharacters(whiteSpace);
 		annotationElement.addCharacters("\n");
 	}
-
+	
 	/**
 	 * Writes the SBML elements.
 	 * 
 	 * @param parentXmlObject
-	 *            : contains the XML information of the parentElement.
+	 *          contains the XML information of the parentElement.
 	 * @param smOutputParentElement
-	 *            : SMOutputElement of the parentElement.
+	 *          SMOutputElement of the parentElement.
 	 * @param streamWriter
 	 * @param objectToWrite
-	 *            : the Object to write.
+	 *          the Object to write.
 	 * @param notesParser
-	 *            : the WritingParser to parse the notes.
+	 *          the WritingParser to parse the notes.
 	 * @param MathMLparser
-	 *            : the WritingParser to parse the MathML expressions.
+	 *          the WritingParser to parse the MathML expressions.
 	 * @param indent
 	 *            The number of white spaces to indent this element.
 	 * @throws XMLStreamException
@@ -1315,16 +1316,16 @@ public class SBMLWriter {
 		String whiteSpaces = createIndentationString(indent);
 
 		// Get the list of parsers to use.
-		ArrayList<WritingParser> listOfPackages = getWritingParsers(
+		List<WritingParser> listOfPackages = getWritingParsers(
 				objectToWrite, smOutputParentElement.getNamespace().getURI());
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("writeSBMLElements : xmlObject = " + parentXmlObject);
-			logger.debug("writeSBMLElements : parentElement = "
+			logger.debug("writeSBMLElements: xmlObject = " + parentXmlObject);
+			logger.debug("writeSBMLElements: parentElement = "
 					+ smOutputParentElement.getLocalName() + ", "
 					+ smOutputParentElement.getNamespace().getURI());
-			logger.debug("writeSBMLElements : objectToWrite = "	+ objectToWrite + '\n');
-			logger.debug("writeSBMLElements : listOfPackages = " + listOfPackages + '\n');
+			logger.debug("writeSBMLElements: objectToWrite = "	+ objectToWrite + '\n');
+			logger.debug("writeSBMLElements: listOfPackages = " + listOfPackages + '\n');
 		}
 		
 		Iterator<WritingParser> iterator = listOfPackages.iterator();
@@ -1334,12 +1335,12 @@ public class SBMLWriter {
 					.getListOfSBMLElementsToWrite(objectToWrite);
 
 			if (logger.isDebugEnabled()) {
-				logger.debug("writeSBMLElements : parser = " + parser);
-				logger.debug("writeSBMLElements : elementsToWrite = " + sbmlElementsToWrite);
+				logger.debug("writeSBMLElements: parser = " + parser);
+				logger.debug("writeSBMLElements: elementsToWrite = " + sbmlElementsToWrite);
 			}
 			
 			if (sbmlElementsToWrite == null) {
-				// TODO : test if there are some characters to write ?
+				// TODO: test if there are some characters to write ?
 				
 				// to allow the XML parser to prune empty elements, this indent should not be added.
 				// streamWriter.writeCharacters(whiteSpaces.substring(0,
@@ -1388,8 +1389,8 @@ public class SBMLWriter {
 						if (listType == Type.none) {
 							// Prevent writing invalid SBML if list types are
 							// not set appropriately.
-							throw new SBMLException(String.format(
-									"Unknown ListOf type \"%s\".",
+							throw new SBMLException(MessageFormat.format(
+									"Unknown ListOf type \"{0}\".",
 									toTest.getElementName()));
 						}
 						if (listType.equals(ListOf.Type.listOfReactants)
@@ -1416,7 +1417,7 @@ public class SBMLWriter {
 					if (parentXmlObject.isSetName()) {
 						boolean isClosedMathContainer = false, isClosedAnnotation = false;
 						
-						// TODO : problem here as a children does not have the same namespace as his parent all the time !!
+						// TODO: problem here as a children does not have the same namespace as his parent all the time !!
 						// use ((SBase) nextObjectToWrite).getNamespaces(); ??
 						
 						if (parentXmlObject.isSetNamespace()) {
@@ -1539,7 +1540,16 @@ public class SBMLWriter {
 		return stream.toString();
 	}
 
-	
+	/**
+	 * 
+	 * @param writer
+	 * @param indent
+	 * @param dateISO
+	 * @param dcterm
+	 * @param dctermPrefix
+	 * @param rdfPrefix
+	 * @throws XMLStreamException
+	 */
 	private void writeW3CDate(XMLStreamWriter writer, int indent,
 			String dateISO, String dcterm, String dctermPrefix, String rdfPrefix)
 			throws XMLStreamException {
@@ -1560,7 +1570,7 @@ public class SBMLWriter {
 		writer.writeCharacters("\n");
 	}
 	
-	// TODO : test a bit more Xstream and using Qname to see how it
+	// TODO: test a bit more Xstream and using Qname to see how it
 	// can deal with math or rdf bloc
 
 }

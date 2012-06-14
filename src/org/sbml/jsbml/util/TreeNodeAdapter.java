@@ -107,6 +107,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractTreeNode#clone()
 	 */
+	//@Override
 	public TreeNode clone() {
 		return new TreeNodeAdapter(this);
 	}
@@ -120,7 +121,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 		if (equals) {
 			TreeNodeAdapter node = (TreeNodeAdapter) object;
 			equals &= node.isUserObjectRecursiveDataType() == isUserObjectRecursiveDataType();
-			if (equals && isSetUserObjects() && !isUserObjectRecursiveDataType()) {
+			if (equals && isSetUserObject() && !isUserObjectRecursiveDataType()) {
 				equals &= node.getUserObject().equals(getUserObject());
 			}
 		}
@@ -130,8 +131,9 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
 	 */
+	//@Override
 	public boolean getAllowsChildren() {
-		if (isSetUserObjects() && (userObject instanceof Collection<?>)) {
+		if (isSetUserObject() && (userObject instanceof Collection<?>)) {
 			return true;
 		}
 		return false;
@@ -140,11 +142,12 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildAt(int)
 	 */
+	//@Override
 	public TreeNode getChildAt(int childIndex) {
 		if (childIndex < 0) {
 			throw new IndexOutOfBoundsException(childIndex + " < 0");
 		}
-		if (isSetUserObjects()) {
+		if (isSetUserObject()) {
 			if (userObject instanceof TreeNode) {
 				return ((TreeNode) userObject).getChildAt(childIndex);
 			}
@@ -179,8 +182,9 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildCount()
 	 */
+	//@Override
 	public int getChildCount() {
-		if (isSetUserObjects()) {
+		if (isSetUserObject()) {
 			if (userObject instanceof Collection<?>) {
 				return ((Collection<?>) userObject).size();
 			}
@@ -219,23 +223,23 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	/**
 	 * @return
 	 */
-	public boolean isSetUserObjects() {
+	public boolean isSetUserObject() {
 		return userObject != null;
 	}
 
 	/**
 	 * Checks whether or not the user's object has been set (see
-	 * {@link #isSetUserObjects()}) and if so if it belongs to those elements
+	 * {@link #isSetUserObject()}) and if so if it belongs to those elements
 	 * returned by the method {@link #getChildAt(int)}.
 	 * 
 	 * @return <code>true</code> if the user's object has been defined and
 	 *         belongs to those classes that are returned by the method
 	 *         {@link #getChildAt(int)}.
 	 * @see #getChildAt(int)
-	 * @see #isSetUserObjects()
+	 * @see #isSetUserObject()
 	 */
 	public boolean isUserObjectRecursiveDataType() {
-		return isSetUserObjects()
+		return isSetUserObject()
 				&& ((userObject instanceof Collection<?>)
 						|| (userObject instanceof Map<?, ?>) || (userObject instanceof TreeNode));
 	}
@@ -253,7 +257,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	 */
 	@Override
 	public String toString() {
-		if (isSetUserObjects()) {
+		if (isSetUserObject()) {
 			if (userObject instanceof Collection<?>) {
 				Collection<?> collection = (Collection<?>) userObject;
 				if (ListOf.isDebugMode()) {
@@ -262,11 +266,10 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 					if (collection.size() > 0) {
 						String name = collection.iterator().next().getClass()
 								.getSimpleName();
-						if (!name.endsWith("s")) {
-							name += "s";
+						if (!name.endsWith("s") && !name.toLowerCase().endsWith("information")) {
+							name += 's';
 						}
-						String type = collection instanceof List<?> ? "listOf"
-								: "collectionOf";
+						String type = collection instanceof List<?> ? "listOf" : "collectionOf";
 						return type + name;
 					}
 					return collection.getClass().getSimpleName();
