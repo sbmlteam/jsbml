@@ -1199,7 +1199,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 	//@Override
 	public void nodeRemoved(TreeNodeRemovedEvent evt) {
 	  TreeNode node = evt.getSource();
-	  TreeNode parent = evt.getPreviosParent();
+	  TreeNode parent = evt.getPreviousParent();
 		if (node instanceof AbstractSBase) {
 			if (node instanceof AbstractNamedSBase) {
 				if (node instanceof CompartmentType) {
